@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49A4324D350
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 12:55:08 +0200 (CEST)
-Received: from localhost ([::1]:42928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE10324D30B
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 12:45:59 +0200 (CEST)
+Received: from localhost ([::1]:53272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k94hP-0004QZ-BL
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 06:55:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60272)
+	id 1k94YY-0002Yc-N8
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 06:45:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k94Dt-0002KM-Uq
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:24:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30134)
+ id 1k94Dq-00029x-9Y
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:24:34 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40583
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k94Di-0001c7-Dk
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:24:37 -0400
+ id 1k94Di-0001dj-EB
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:24:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598005460;
+ s=mimecast20190719; t=1598005464;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hUTtPjz0RQX1uKHqOtO3ibfj19vElnl5FHESxeJTzj4=;
- b=ha0Iqb0H45YoPI/rZW6lDeFysOPruEoiOmaMcndIwMz29f1WOWhB+FKLNYibFRVz9PT3DS
- Y3iglafX/Yg4Nk+bKyjbXatw5RkUIVbw9LC9/ZooK4t9olHhDtvQEgIwyTppqPm7xE60DT
- xFLkSin5WU76by+Ne5AemZN62yxltPw=
+ bh=ZcK/OK1U9snkcexXe9BBq4xUAun5+M9vyzt2qGTCAX8=;
+ b=d2PvtDPUTctrbJOZKJ6X7nBiXgNFkZWe6KUaC13ioyXkQ6VcOjROrUSkeSi4ju21RuNISd
+ wJ4CBVxYWoMz13R4W1Rf9OsKnUN7NSXAJHny/M92Ic0/0WBhvx4B7h6rnisxaBrWh0odHi
+ ApbMeGMT70r5hO5ZSqQSBlo0o3qTz2k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-77-FwGvm3XPPLeW9hhBEMkWLA-1; Fri, 21 Aug 2020 06:24:18 -0400
-X-MC-Unique: FwGvm3XPPLeW9hhBEMkWLA-1
+ us-mta-83-JODVx4ZMNT6q0Z3iUILdag-1; Fri, 21 Aug 2020 06:24:18 -0400
+X-MC-Unique: JODVx4ZMNT6q0Z3iUILdag-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B61D88030D1
- for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:24:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F233100CF71
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:24:18 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 743EA60BF1
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D1A9E60BF1
  for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:24:17 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v8 055/152] meson: convert tests/fp and check-softfloat
-Date: Fri, 21 Aug 2020 06:21:52 -0400
-Message-Id: <20200821102329.29777-56-pbonzini@redhat.com>
+Subject: [PULL v8 056/152] meson: convert check-qapi-schema
+Date: Fri, 21 Aug 2020 06:21:53 -0400
+Message-Id: <20200821102329.29777-57-pbonzini@redhat.com>
 In-Reply-To: <20200821102329.29777-1-pbonzini@redhat.com>
 References: <20200821102329.29777-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,18 +59,17 @@ X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 04:26:32
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 04:55:47
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
 X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,1478 +87,517 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure              |   2 +-
- tests/Makefile.include | 158 +---------
- tests/fp/Makefile      | 600 --------------------------------------
- tests/fp/meson.build   | 636 +++++++++++++++++++++++++++++++++++++++++
- tests/meson.build      |   4 +
- 5 files changed, 643 insertions(+), 757 deletions(-)
- delete mode 100644 tests/fp/Makefile
- create mode 100644 tests/fp/meson.build
+ tests/Makefile.include        | 218 +-------------------------------
+ tests/meson.build             |   2 +
+ tests/qapi-schema/meson.build | 225 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 229 insertions(+), 216 deletions(-)
+ create mode 100644 tests/qapi-schema/meson.build
 
-diff --git a/configure b/configure
-index d3d022c3b4..96b1f7a2db 100755
---- a/configure
-+++ b/configure
-@@ -8374,7 +8374,7 @@ DIRS="$DIRS pc-bios/optionrom pc-bios/s390-ccw"
- DIRS="$DIRS roms/seabios"
- LINKS="Makefile"
- LINKS="$LINKS tests/tcg/lm32/Makefile po/Makefile"
--LINKS="$LINKS tests/tcg/Makefile.target tests/fp/Makefile"
-+LINKS="$LINKS tests/tcg/Makefile.target"
- LINKS="$LINKS tests/plugin/Makefile"
- LINKS="$LINKS pc-bios/optionrom/Makefile pc-bios/keymaps"
- LINKS="$LINKS pc-bios/s390-ccw/Makefile"
 diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 12b0316a72..8fb6baa0a1 100644
+index 8fb6baa0a1..02d31fbe0c 100644
 --- a/tests/Makefile.include
 +++ b/tests/Makefile.include
-@@ -437,9 +437,6 @@ tests/test-bufferiszero$(EXESUF): tests/test-bufferiszero.o $(test-util-obj-y)
- tests/atomic_add-bench$(EXESUF): tests/atomic_add-bench.o $(test-util-obj-y)
- tests/atomic64-bench$(EXESUF): tests/atomic64-bench.o $(test-util-obj-y)
+@@ -161,201 +161,6 @@ check-unit-y += tests/test-qapi-util$(EXESUF)
  
--tests/fp/%:
--	$(MAKE) -C $(dir $@) $(notdir $@)
--
- tests/test-qdev-global-props$(EXESUF): tests/test-qdev-global-props.o \
- 	hw/core/qdev.o hw/core/qdev-properties.o hw/core/hotplug.o\
- 	hw/core/bus.o \
-@@ -675,157 +672,6 @@ check-report-unit.tap: $(check-unit-y)
+ check-block-$(call land,$(CONFIG_POSIX),$(CONFIG_SOFTMMU)) += tests/check-block.sh
  
- check-report.tap: $(patsubst %,check-report-qtest-%.tap, $(QTEST_TARGETS)) check-report-unit.tap
+-qapi-schema += alternate-any.json
+-qapi-schema += alternate-array.json
+-qapi-schema += alternate-base.json
+-qapi-schema += alternate-branch-if-invalid.json
+-qapi-schema += alternate-clash.json
+-qapi-schema += alternate-conflict-dict.json
+-qapi-schema += alternate-conflict-enum-bool.json
+-qapi-schema += alternate-conflict-enum-int.json
+-qapi-schema += alternate-conflict-string.json
+-qapi-schema += alternate-conflict-bool-string.json
+-qapi-schema += alternate-conflict-num-string.json
+-qapi-schema += alternate-empty.json
+-qapi-schema += alternate-invalid-dict.json
+-qapi-schema += alternate-nested.json
+-qapi-schema += alternate-unknown.json
+-qapi-schema += args-alternate.json
+-qapi-schema += args-any.json
+-qapi-schema += args-array-empty.json
+-qapi-schema += args-array-unknown.json
+-qapi-schema += args-bad-boxed.json
+-qapi-schema += args-boxed-anon.json
+-qapi-schema += args-boxed-string.json
+-qapi-schema += args-int.json
+-qapi-schema += args-invalid.json
+-qapi-schema += args-member-array-bad.json
+-qapi-schema += args-member-case.json
+-qapi-schema += args-member-unknown.json
+-qapi-schema += args-name-clash.json
+-qapi-schema += args-union.json
+-qapi-schema += args-unknown.json
+-qapi-schema += bad-base.json
+-qapi-schema += bad-data.json
+-qapi-schema += bad-ident.json
+-qapi-schema += bad-if.json
+-qapi-schema += bad-if-empty.json
+-qapi-schema += bad-if-empty-list.json
+-qapi-schema += bad-if-list.json
+-qapi-schema += bad-type-bool.json
+-qapi-schema += bad-type-dict.json
+-qapi-schema += bad-type-int.json
+-qapi-schema += base-cycle-direct.json
+-qapi-schema += base-cycle-indirect.json
+-qapi-schema += command-int.json
+-qapi-schema += comments.json
+-qapi-schema += doc-bad-alternate-member.json
+-qapi-schema += doc-bad-boxed-command-arg.json
+-qapi-schema += doc-bad-command-arg.json
+-qapi-schema += doc-bad-enum-member.json
+-qapi-schema += doc-bad-event-arg.json
+-qapi-schema += doc-bad-feature.json
+-qapi-schema += doc-bad-section.json
+-qapi-schema += doc-bad-symbol.json
+-qapi-schema += doc-bad-union-member.json
+-qapi-schema += doc-before-include.json
+-qapi-schema += doc-before-pragma.json
+-qapi-schema += doc-duplicated-arg.json
+-qapi-schema += doc-duplicated-return.json
+-qapi-schema += doc-duplicated-since.json
+-qapi-schema += doc-empty-arg.json
+-qapi-schema += doc-empty-section.json
+-qapi-schema += doc-empty-symbol.json
+-qapi-schema += doc-good.json
+-qapi-schema += doc-interleaved-section.json
+-qapi-schema += doc-invalid-end.json
+-qapi-schema += doc-invalid-end2.json
+-qapi-schema += doc-invalid-return.json
+-qapi-schema += doc-invalid-section.json
+-qapi-schema += doc-invalid-start.json
+-qapi-schema += doc-missing-colon.json
+-qapi-schema += doc-missing-expr.json
+-qapi-schema += doc-missing-space.json
+-qapi-schema += doc-missing.json
+-qapi-schema += doc-no-symbol.json
+-qapi-schema += doc-undoc-feature.json
+-qapi-schema += double-type.json
+-qapi-schema += duplicate-key.json
+-qapi-schema += empty.json
+-qapi-schema += enum-bad-member.json
+-qapi-schema += enum-bad-name.json
+-qapi-schema += enum-bad-prefix.json
+-qapi-schema += enum-clash-member.json
+-qapi-schema += enum-dict-member-unknown.json
+-qapi-schema += enum-if-invalid.json
+-qapi-schema += enum-int-member.json
+-qapi-schema += enum-member-case.json
+-qapi-schema += enum-missing-data.json
+-qapi-schema += enum-wrong-data.json
+-qapi-schema += event-boxed-empty.json
+-qapi-schema += event-case.json
+-qapi-schema += event-member-invalid-dict.json
+-qapi-schema += event-nest-struct.json
+-qapi-schema += features-bad-type.json
+-qapi-schema += features-deprecated-type.json
+-qapi-schema += features-duplicate-name.json
+-qapi-schema += features-if-invalid.json
+-qapi-schema += features-missing-name.json
+-qapi-schema += features-name-bad-type.json
+-qapi-schema += features-no-list.json
+-qapi-schema += features-unknown-key.json
+-qapi-schema += flat-union-array-branch.json
+-qapi-schema += flat-union-bad-base.json
+-qapi-schema += flat-union-bad-discriminator.json
+-qapi-schema += flat-union-base-any.json
+-qapi-schema += flat-union-base-union.json
+-qapi-schema += flat-union-clash-member.json
+-qapi-schema += flat-union-discriminator-bad-name.json
+-qapi-schema += flat-union-empty.json
+-qapi-schema += flat-union-inline.json
+-qapi-schema += flat-union-inline-invalid-dict.json
+-qapi-schema += flat-union-int-branch.json
+-qapi-schema += flat-union-invalid-branch-key.json
+-qapi-schema += flat-union-invalid-discriminator.json
+-qapi-schema += flat-union-invalid-if-discriminator.json
+-qapi-schema += flat-union-no-base.json
+-qapi-schema += flat-union-optional-discriminator.json
+-qapi-schema += flat-union-string-discriminator.json
+-qapi-schema += funny-char.json
+-qapi-schema += funny-word.json
+-qapi-schema += ident-with-escape.json
+-qapi-schema += include-before-err.json
+-qapi-schema += include-cycle.json
+-qapi-schema += include-extra-junk.json
+-qapi-schema += include-nested-err.json
+-qapi-schema += include-no-file.json
+-qapi-schema += include-non-file.json
+-qapi-schema += include-repetition.json
+-qapi-schema += include-self-cycle.json
+-qapi-schema += include-simple.json
+-qapi-schema += indented-expr.json
+-qapi-schema += leading-comma-list.json
+-qapi-schema += leading-comma-object.json
+-qapi-schema += missing-colon.json
+-qapi-schema += missing-comma-list.json
+-qapi-schema += missing-comma-object.json
+-qapi-schema += missing-type.json
+-qapi-schema += nested-struct-data.json
+-qapi-schema += nested-struct-data-invalid-dict.json
+-qapi-schema += non-objects.json
+-qapi-schema += oob-test.json
+-qapi-schema += allow-preconfig-test.json
+-qapi-schema += pragma-doc-required-crap.json
+-qapi-schema += pragma-extra-junk.json
+-qapi-schema += pragma-name-case-whitelist-crap.json
+-qapi-schema += pragma-non-dict.json
+-qapi-schema += pragma-unknown.json
+-qapi-schema += pragma-returns-whitelist-crap.json
+-qapi-schema += qapi-schema-test.json
+-qapi-schema += quoted-structural-chars.json
+-qapi-schema += redefined-builtin.json
+-qapi-schema += redefined-command.json
+-qapi-schema += redefined-event.json
+-qapi-schema += redefined-type.json
+-qapi-schema += reserved-command-q.json
+-qapi-schema += reserved-enum-q.json
+-qapi-schema += reserved-member-has.json
+-qapi-schema += reserved-member-q.json
+-qapi-schema += reserved-member-u.json
+-qapi-schema += reserved-member-underscore.json
+-qapi-schema += reserved-type-kind.json
+-qapi-schema += reserved-type-list.json
+-qapi-schema += returns-alternate.json
+-qapi-schema += returns-array-bad.json
+-qapi-schema += returns-dict.json
+-qapi-schema += returns-unknown.json
+-qapi-schema += returns-whitelist.json
+-qapi-schema += string-code-point-31.json
+-qapi-schema += string-code-point-127.json
+-qapi-schema += struct-base-clash-deep.json
+-qapi-schema += struct-base-clash.json
+-qapi-schema += struct-data-invalid.json
+-qapi-schema += struct-member-if-invalid.json
+-qapi-schema += struct-member-invalid-dict.json
+-qapi-schema += struct-member-invalid.json
+-qapi-schema += trailing-comma-list.json
+-qapi-schema += trailing-comma-object.json
+-qapi-schema += type-bypass-bad-gen.json
+-qapi-schema += unclosed-list.json
+-qapi-schema += unclosed-object.json
+-qapi-schema += unclosed-string.json
+-qapi-schema += union-base-empty.json
+-qapi-schema += union-base-no-discriminator.json
+-qapi-schema += union-branch-case.json
+-qapi-schema += union-branch-if-invalid.json
+-qapi-schema += union-branch-invalid-dict.json
+-qapi-schema += union-clash-branches.json
+-qapi-schema += union-empty.json
+-qapi-schema += union-invalid-base.json
+-qapi-schema += union-optional-branch.json
+-qapi-schema += union-unknown.json
+-qapi-schema += unknown-escape.json
+-qapi-schema += unknown-expr-key.json
+-
+-
+-check-qapi-schema-y := $(addprefix tests/qapi-schema/, $(qapi-schema))
+-
+ generated-files-y += tests/test-qapi-types.h
+ generated-files-y += tests/include/test-qapi-types-sub-module.h
+ generated-files-y += tests/test-qapi-types-sub-sub-module.h
+@@ -501,13 +306,6 @@ tests/test-qapi-gen-timestamp: \
+ 	@rm -f tests/test-qapi-doc.texi
+ 	@>$@
  
--# FPU Emulation tests (aka softfloat)
--#
--# As we still have some places that need fixing the rules are a little
--# more complex than they need to be and have to override some of the
--# generic Makefile expansions. Once we are cleanly passing all
--# the tests we can simplify the make syntax.
+-tests/qapi-schema/doc-good.test.texi: $(SRC_PATH)/tests/qapi-schema/doc-good.json $(qapi-py)
+-	$(call quiet-command,$(PYTHON) $(SRC_PATH)/scripts/qapi-gen.py \
+-		-o tests/qapi-schema -p "doc-good-" $<, \
+-		"GEN","$@")
+-	@mv tests/qapi-schema/doc-good-qapi-doc.texi $@
+-	@rm -f tests/qapi-schema/doc-good-qapi-*.[ch] tests/qapi-schema/doc-good-qmp-*.[ch]
 -
--FP_TEST_BIN=$(BUILD_DIR)/tests/fp/fp-test
+ tests/qtest/dbus-vmstate1.h tests/qtest/dbus-vmstate1.c: tests/qtest/dbus-vmstate1-gen-timestamp ;
+ tests/qtest/dbus-vmstate1-gen-timestamp: $(SRC_PATH)/tests/qtest/dbus-vmstate1.xml
+ 	$(call quiet-command,$(GDBUS_CODEGEN) $< \
+@@ -720,7 +518,6 @@ check-tcg: $(RUN_TCG_TARGET_RULES)
+ .PHONY: clean-tcg
+ clean-tcg: $(CLEAN_TCG_TARGET_RULES)
+ 
+-# Other tests
+ 
+ QEMU_IOTESTS_HELPERS-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_LINUX)) = tests/qemu-iotests/socket_scm_helper$(EXESUF)
+ 
+@@ -730,16 +527,6 @@ check-tests/check-block.sh: tests/check-block.sh qemu-img$(EXESUF) \
+ 		$(patsubst %,%/all,$(filter %-softmmu,$(TARGET_DIRS)))
+ 	@$<
+ 
+-.PHONY: check-tests/qapi-schema/frontend
+-check-tests/qapi-schema/frontend: $(addprefix $(SRC_PATH)/, $(check-qapi-schema-y))
+-	$(call quiet-command, PYTHONPATH=$(SRC_PATH)/scripts \
+-	  PYTHONIOENCODING=utf-8 $(PYTHON) $(SRC_PATH)/tests/qapi-schema/test-qapi.py $^, \
+-	  TEST, check-qapi-schema)
 -
--# the build dir is created by configure
--$(FP_TEST_BIN): config-host.h $(test-util-obj-y)
--	$(call quiet-command, \
--	 	$(MAKE) $(SUBDIR_MAKEFLAGS) -C $(dir $@) V="$(V)" $(notdir $@), \
--	         "BUILD", "$(notdir $@)")
+-.PHONY: check-tests/qapi-schema/doc-good.texi
+-check-tests/qapi-schema/doc-good.texi: tests/qapi-schema/doc-good.test.texi
+-	@diff -u $(SRC_PATH)/tests/qapi-schema/doc-good.texi $<
 -
--# The full test suite can take a bit of time, default to a quick run
--# "-l 2 -r all" can take more than a day for some operations and is best
--# run manually
--FP_TL=-l 1 -r all
--
--# $1 = tests, $2 = description, $3 = test flags
--test-softfloat = $(call quiet-command, \
--			cd $(BUILD_DIR)/tests/fp && \
--			./fp-test -s $(if $3,$3,$(FP_TL)) $1 > $2.out 2>&1 || \
--			(cat $2.out && exit 1;), \
--			"FLOAT TEST", $2)
--
--# Conversion Routines: Float to Float
--# FIXME: f32_to_f128 (broken), f64_to_f128 (broken)
--# FIXME: f128_to_f32(broken), f128_to_f64 (broken)
--# FIXME: f128_to_extF80 (broken)
--check-softfloat-conv-f2f: $(FP_TEST_BIN)
--	$(call test-softfloat, \
--		f16_to_f32 f16_to_f64 \
--		f16_to_extF80 f16_to_f128 \
--		f32_to_f16 f32_to_f64 \
--		f32_to_extF80 \
--		f64_to_f16 f64_to_f32 \
--		extF80_to_f16 extF80_to_f32 \
--		extF80_to_f64 extF80_to_f128 \
--		f128_to_f16, \
--		float-to-float)
--
--# Conversion Routines: Int and Uint to Float
--# FIXME: i32_to_extF80 (broken), i64_to_extF80 (broken)
--#        ui32_to_f128 (not implemented)
--check-softfloat-conv-to-float: $(FP_TEST_BIN)
--	$(call test-softfloat, \
--		i32_to_f16 i64_to_f16 \
--		i32_to_f32 i64_to_f32 \
--		i32_to_f64 i64_to_f64 \
--		i32_to_f128 i64_to_f128, int-to-float)
--	$(call test-softfloat, \
--		ui32_to_f16 ui64_to_f16 \
--		ui32_to_f32 ui64_to_f32 \
--		ui32_to_f64 ui64_to_f64 \
--		ui32_to_extF80 ui64_to_extF80 \
--		ui64_to_f128, uint-to-float)
--
--# Conversion Routines: Float to integers
--# FIXME: extF80_roundToInt (broken)
--check-softfloat-conv-to-int: $(FP_TEST_BIN)
--	$(call test-softfloat, \
--		f16_to_i32 f16_to_i32_r_minMag \
--		f32_to_i32 f32_to_i32_r_minMag \
--		f64_to_i32 f64_to_i32_r_minMag \
--		extF80_to_i32 extF80_to_i32_r_minMag \
--		f128_to_i32 f128_to_i32_r_minMag \
--		f16_to_i64 f16_to_i64_r_minMag \
--		f32_to_i64 f32_to_i64_r_minMag \
--		f64_to_i64 f64_to_i64_r_minMag \
--		extF80_to_i64 extF80_to_i64_r_minMag \
--		f128_to_i64 f128_to_i64_r_minMag, \
--		float-to-int)
--	$(call test-softfloat, \
--		f16_to_ui32 f16_to_ui32_r_minMag \
--		f32_to_ui32 f32_to_ui32_r_minMag \
--		f64_to_ui32 f64_to_ui32_r_minMag \
--		extF80_to_ui32 extF80_to_ui32_r_minMag \
--		f128_to_ui32 f128_to_ui32_r_minMag \
--		f16_to_ui64 f16_to_ui64_r_minMag \
--		f32_to_ui64 f32_to_ui64_r_minMag \
--		f64_to_ui64 f64_to_ui64_r_minMag \
--		extF80_to_ui64 extF80_to_ui64_r_minMag \
--		f128_to_ui64 f128_to_ui64_r_minMag, \
--		float-to-uint)
--	$(call test-softfloat, \
--		f16_roundToInt f32_roundToInt \
--		f64_roundToInt f128_roundToInt, \
--		round-to-integer)
--
--.PHONY: check-softfloat-conv
--check-softfloat-conv: check-softfloat-conv-f2f
--check-softfloat-conv: check-softfloat-conv-to-float
--check-softfloat-conv: check-softfloat-conv-to-int
--
--# Generic rule for all float operations
--#
--# Some patterns are overridden due to broken or missing tests.
--# Hopefully these can be removed over time.
--
--check-softfloat-%: $(FP_TEST_BIN)
--	$(call test-softfloat, f16_$* f32_$* f64_$* extF80_$* f128_$*, $*)
--
--# Float Compare routines
--SF_COMPARE_OPS=eq eq_signaling le le_quiet lt_quiet
--SF_COMPARE_RULES=$(patsubst %,check-softfloat-%, $(SF_COMPARE_OPS))
--
--# FIXME: extF80_lt_quiet (broken)
--check-softfloat-lt_quiet: $(FP_TEST_BIN)
--	$(call test-softfloat, 				\
--		f16_lt_quiet f32_lt_quiet f64_lt_quiet  \
--		f128_lt_quiet, 				\
--		lt_quiet)
--
--.PHONY: check-softfloat-compare
--check-softfloat-compare: $(SF_COMPARE_RULES)
--
--# Math Operations
--
--# FIXME: extF80_mulAdd (missing)
--check-softfloat-mulAdd: $(FP_TEST_BIN)
--	$(call test-softfloat, \
--		f16_mulAdd f32_mulAdd f64_mulAdd f128_mulAdd, \
--		mulAdd,-l 1)
--
--# FIXME: extF80_rem (broken)
--check-softfloat-rem: $(FP_TEST_BIN)
--	$(call test-softfloat, \
--		f16_rem f32_rem f64_rem f128_rem, \
--		rem)
--
--SF_MATH_OPS=add sub mul mulAdd div rem sqrt
--SF_MATH_RULES=$(patsubst %,check-softfloat-%, $(SF_MATH_OPS))
--
--.PHONY: check-softfloat-ops
--check-softfloat-ops: $(SF_MATH_RULES)
--
--# Finally a generic rule to test all of softfoat. If TCG isnt't
--# enabled we define a null operation which skips the tests.
--
--.PHONY: check-softfloat
--ifeq ($(CONFIG_TCG),y)
--build-softfloat: $(FP_TEST_BIN)
--check-softfloat: build-softfloat check-softfloat-conv check-softfloat-compare check-softfloat-ops
--else
--build-softfloat check-softfloat:
--	$(call quiet-command, /bin/true, "FLOAT TEST", \
--		"SKIPPED for non-TCG builds")
--endif
--
- # Plugins
- ifeq ($(CONFIG_PLUGIN),y)
- .PHONY: plugins
-@@ -953,7 +799,7 @@ check-qtest: $(patsubst %,check-qtest-%, $(QTEST_TARGETS))
+ # Python venv for running tests
+ 
+ .PHONY: check-venv check-acceptance
+@@ -793,8 +580,7 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
+ 
+ # Consolidated targets
+ 
+-.PHONY: check-block check-qapi-schema check-qtest check-unit check check-clean get-vm-images
+-check-qapi-schema: check-tests/qapi-schema/frontend check-tests/qapi-schema/doc-good.texi
++.PHONY: check-block check-qtest check-unit check check-clean get-vm-images
+ check-qtest: $(patsubst %,check-qtest-%, $(QTEST_TARGETS))
  ifeq ($(CONFIG_TOOLS),y)
  check-block: $(patsubst %,check-%, $(check-block-y))
- endif
--check-build: build-unit build-softfloat build-qtest
-+check-build: build-unit build-qtest
- 
- check-clean:
- 	rm -rf $(check-unit-y) tests/*.o tests/*/*.o $(QEMU_IOTESTS_HELPERS-y)
-@@ -962,7 +808,7 @@ check-clean:
+@@ -808,7 +594,7 @@ check-clean:
  	rm -f tests/qtest/dbus-vmstate1-gen-timestamp
  	rm -rf $(TESTS_VENV_DIR) $(TESTS_RESULTS_DIR)
  
--check: check-block check-qapi-schema check-unit check-softfloat check-qtest
-+check: check-block check-qapi-schema check-unit check-qtest
+-check: check-block check-qapi-schema check-unit check-qtest
++check: check-block check-unit check-qtest
  
  clean: check-clean
  
-diff --git a/tests/fp/Makefile b/tests/fp/Makefile
-deleted file mode 100644
-index 56768ecfd2..0000000000
---- a/tests/fp/Makefile
-+++ /dev/null
-@@ -1,600 +0,0 @@
--BUILD_DIR := $(CURDIR)/../..
--
--include $(BUILD_DIR)/config-host.mak
--include $(SRC_PATH)/rules.mak
--
--SOFTFLOAT_DIR := $(SRC_PATH)/tests/fp/berkeley-softfloat-3
--TESTFLOAT_DIR := $(SRC_PATH)/tests/fp/berkeley-testfloat-3
--
--SF_SOURCE_DIR  := $(SOFTFLOAT_DIR)/source
--SF_INCLUDE_DIR := $(SOFTFLOAT_DIR)/source/include
--# we could use any specialize here, it doesn't matter
--SF_SPECIALIZE := 8086-SSE
--SF_SPECIALIZE_DIR := $(SF_SOURCE_DIR)/$(SF_SPECIALIZE)
--
--TF_SOURCE_DIR := $(TESTFLOAT_DIR)/source
--
--$(call set-vpath, $(SRC_PATH)/fpu $(SRC_PATH)/tests/fp)
--
--LIBQEMUUTIL := $(BUILD_DIR)/libqemuutil.a
--
--# Use this variable to be clear when we pull in our own implementation
--# We build the object with a default rule thanks to the vpath above
--QEMU_SOFTFLOAT_OBJ := softfloat.o
--
--QEMU_INCLUDES += -I$(SRC_PATH)/tests/fp
--QEMU_INCLUDES += -I$(SF_INCLUDE_DIR)
--QEMU_INCLUDES += -I$(SF_SPECIALIZE_DIR)
--QEMU_INCLUDES += -I$(TF_SOURCE_DIR)
--
--# work around TARGET_* poisoning
--QEMU_CFLAGS += -DHW_POISON_H
--# define a target to match testfloat's implementation-defined choices, such as
--# whether to raise the invalid flag when dealing with NaNs in muladd.
--QEMU_CFLAGS += -DTARGET_ARM
--
--# capstone has a platform.h file that clashes with softfloat's
--QEMU_CFLAGS := $(filter-out %capstone, $(QEMU_CFLAGS))
--
--# softfloat defines
--SF_OPTS :=
--SF_OPTS += -DSOFTFLOAT_ROUND_ODD
--SF_OPTS += -DINLINE_LEVEL=5
--SF_OPTS += -DSOFTFLOAT_FAST_DIV32TO16
--SF_OPTS += -DSOFTFLOAT_FAST_DIV64TO32
--SF_OPTS += -DSOFTFLOAT_FAST_INT64
--QEMU_CFLAGS += $(SF_OPTS)
--
--# silence the build of softfloat objects
--SF_CFLAGS += -Wno-missing-prototypes
--SF_CFLAGS += -Wno-redundant-decls
--SF_CFLAGS += -Wno-return-type
--SF_CFLAGS += -Wno-error
--
--# testfloat defines
--TF_OPTS :=
--TF_OPTS += -DFLOAT16
--TF_OPTS += -DFLOAT64
--TF_OPTS += -DEXTFLOAT80
--TF_OPTS += -DFLOAT128
--TF_OPTS += -DFLOAT_ROUND_ODD
--TF_OPTS += -DLONG_DOUBLE_IS_EXTFLOAT80
--QEMU_CFLAGS += $(TF_OPTS)
--
--# silence the build of testfloat objects
--TF_CFLAGS :=
--TF_CFLAGS += -Wno-strict-prototypes
--TF_CFLAGS += -Wno-unknown-pragmas
--TF_CFLAGS += -Wno-uninitialized
--TF_CFLAGS += -Wno-missing-prototypes
--TF_CFLAGS += -Wno-return-type
--TF_CFLAGS += -Wno-unused-function
--TF_CFLAGS += -Wno-error
--
--# softfloat objects
--SF_OBJS_PRIMITIVES :=
--SF_OBJS_PRIMITIVES += s_eq128.o
--SF_OBJS_PRIMITIVES += s_le128.o
--SF_OBJS_PRIMITIVES += s_lt128.o
--SF_OBJS_PRIMITIVES += s_shortShiftLeft128.o
--SF_OBJS_PRIMITIVES += s_shortShiftRight128.o
--SF_OBJS_PRIMITIVES += s_shortShiftRightJam64.o
--SF_OBJS_PRIMITIVES += s_shortShiftRightJam64Extra.o
--SF_OBJS_PRIMITIVES += s_shortShiftRightJam128.o
--SF_OBJS_PRIMITIVES += s_shortShiftRightJam128Extra.o
--SF_OBJS_PRIMITIVES += s_shiftRightJam32.o
--SF_OBJS_PRIMITIVES += s_shiftRightJam64.o
--SF_OBJS_PRIMITIVES += s_shiftRightJam64Extra.o
--SF_OBJS_PRIMITIVES += s_shiftRightJam128.o
--SF_OBJS_PRIMITIVES += s_shiftRightJam128Extra.o
--SF_OBJS_PRIMITIVES += s_shiftRightJam256M.o
--SF_OBJS_PRIMITIVES += s_countLeadingZeros8.o
--SF_OBJS_PRIMITIVES += s_countLeadingZeros16.o
--SF_OBJS_PRIMITIVES += s_countLeadingZeros32.o
--SF_OBJS_PRIMITIVES += s_countLeadingZeros64.o
--SF_OBJS_PRIMITIVES += s_add128.o
--SF_OBJS_PRIMITIVES += s_add256M.o
--SF_OBJS_PRIMITIVES += s_sub128.o
--SF_OBJS_PRIMITIVES += s_sub256M.o
--SF_OBJS_PRIMITIVES += s_mul64ByShifted32To128.o
--SF_OBJS_PRIMITIVES += s_mul64To128.o
--SF_OBJS_PRIMITIVES += s_mul128By32.o
--SF_OBJS_PRIMITIVES += s_mul128To256M.o
--SF_OBJS_PRIMITIVES += s_approxRecip_1Ks.o
--SF_OBJS_PRIMITIVES += s_approxRecip32_1.o
--SF_OBJS_PRIMITIVES += s_approxRecipSqrt_1Ks.o
--SF_OBJS_PRIMITIVES += s_approxRecipSqrt32_1.o
--
--SF_OBJS_SPECIALIZE :=
--SF_OBJS_SPECIALIZE += softfloat_raiseFlags.o
--SF_OBJS_SPECIALIZE += s_f16UIToCommonNaN.o
--SF_OBJS_SPECIALIZE += s_commonNaNToF16UI.o
--SF_OBJS_SPECIALIZE += s_propagateNaNF16UI.o
--SF_OBJS_SPECIALIZE += s_f32UIToCommonNaN.o
--SF_OBJS_SPECIALIZE += s_commonNaNToF32UI.o
--SF_OBJS_SPECIALIZE += s_propagateNaNF32UI.o
--SF_OBJS_SPECIALIZE += s_f64UIToCommonNaN.o
--SF_OBJS_SPECIALIZE += s_commonNaNToF64UI.o
--SF_OBJS_SPECIALIZE += s_propagateNaNF64UI.o
--SF_OBJS_SPECIALIZE += extF80M_isSignalingNaN.o
--SF_OBJS_SPECIALIZE += s_extF80UIToCommonNaN.o
--SF_OBJS_SPECIALIZE += s_commonNaNToExtF80UI.o
--SF_OBJS_SPECIALIZE += s_propagateNaNExtF80UI.o
--SF_OBJS_SPECIALIZE += f128M_isSignalingNaN.o
--SF_OBJS_SPECIALIZE += s_f128UIToCommonNaN.o
--SF_OBJS_SPECIALIZE += s_commonNaNToF128UI.o
--SF_OBJS_SPECIALIZE += s_propagateNaNF128UI.o
--
--SF_OBJS_OTHERS :=
--SF_OBJS_OTHERS += s_roundToUI32.o
--SF_OBJS_OTHERS += s_roundToUI64.o
--SF_OBJS_OTHERS += s_roundToI32.o
--SF_OBJS_OTHERS += s_roundToI64.o
--SF_OBJS_OTHERS += s_normSubnormalF16Sig.o
--SF_OBJS_OTHERS += s_roundPackToF16.o
--SF_OBJS_OTHERS += s_normRoundPackToF16.o
--SF_OBJS_OTHERS += s_addMagsF16.o
--SF_OBJS_OTHERS += s_subMagsF16.o
--SF_OBJS_OTHERS += s_mulAddF16.o
--SF_OBJS_OTHERS += s_normSubnormalF32Sig.o
--SF_OBJS_OTHERS += s_roundPackToF32.o
--SF_OBJS_OTHERS += s_normRoundPackToF32.o
--SF_OBJS_OTHERS += s_addMagsF32.o
--SF_OBJS_OTHERS += s_subMagsF32.o
--SF_OBJS_OTHERS += s_mulAddF32.o
--SF_OBJS_OTHERS += s_normSubnormalF64Sig.o
--SF_OBJS_OTHERS += s_roundPackToF64.o
--SF_OBJS_OTHERS += s_normRoundPackToF64.o
--SF_OBJS_OTHERS += s_addMagsF64.o
--SF_OBJS_OTHERS += s_subMagsF64.o
--SF_OBJS_OTHERS += s_mulAddF64.o
--SF_OBJS_OTHERS += s_normSubnormalExtF80Sig.o
--SF_OBJS_OTHERS += s_roundPackToExtF80.o
--SF_OBJS_OTHERS += s_normRoundPackToExtF80.o
--SF_OBJS_OTHERS += s_addMagsExtF80.o
--SF_OBJS_OTHERS += s_subMagsExtF80.o
--SF_OBJS_OTHERS += s_normSubnormalF128Sig.o
--SF_OBJS_OTHERS += s_roundPackToF128.o
--SF_OBJS_OTHERS += s_normRoundPackToF128.o
--SF_OBJS_OTHERS += s_addMagsF128.o
--SF_OBJS_OTHERS += s_subMagsF128.o
--SF_OBJS_OTHERS += s_mulAddF128.o
--SF_OBJS_OTHERS += softfloat_state.o
--SF_OBJS_OTHERS += ui32_to_f16.o
--SF_OBJS_OTHERS += ui32_to_f32.o
--SF_OBJS_OTHERS += ui32_to_f64.o
--SF_OBJS_OTHERS += ui32_to_extF80.o
--SF_OBJS_OTHERS += ui32_to_extF80M.o
--SF_OBJS_OTHERS += ui32_to_f128.o
--SF_OBJS_OTHERS += ui32_to_f128M.o
--SF_OBJS_OTHERS += ui64_to_f16.o
--SF_OBJS_OTHERS += ui64_to_f32.o
--SF_OBJS_OTHERS += ui64_to_f64.o
--SF_OBJS_OTHERS += ui64_to_extF80.o
--SF_OBJS_OTHERS += ui64_to_extF80M.o
--SF_OBJS_OTHERS += ui64_to_f128.o
--SF_OBJS_OTHERS += ui64_to_f128M.o
--SF_OBJS_OTHERS += i32_to_f16.o
--SF_OBJS_OTHERS += i32_to_f32.o
--SF_OBJS_OTHERS += i32_to_f64.o
--SF_OBJS_OTHERS += i32_to_extF80.o
--SF_OBJS_OTHERS += i32_to_extF80M.o
--SF_OBJS_OTHERS += i32_to_f128.o
--SF_OBJS_OTHERS += i32_to_f128M.o
--SF_OBJS_OTHERS += i64_to_f16.o
--SF_OBJS_OTHERS += i64_to_f32.o
--SF_OBJS_OTHERS += i64_to_f64.o
--SF_OBJS_OTHERS += i64_to_extF80.o
--SF_OBJS_OTHERS += i64_to_extF80M.o
--SF_OBJS_OTHERS += i64_to_f128.o
--SF_OBJS_OTHERS += i64_to_f128M.o
--SF_OBJS_OTHERS += f16_to_ui32.o
--SF_OBJS_OTHERS += f16_to_ui64.o
--SF_OBJS_OTHERS += f16_to_i32.o
--SF_OBJS_OTHERS += f16_to_i64.o
--SF_OBJS_OTHERS += f16_to_ui32_r_minMag.o
--SF_OBJS_OTHERS += f16_to_ui64_r_minMag.o
--SF_OBJS_OTHERS += f16_to_i32_r_minMag.o
--SF_OBJS_OTHERS += f16_to_i64_r_minMag.o
--SF_OBJS_OTHERS += f16_to_f32.o
--SF_OBJS_OTHERS += f16_to_f64.o
--SF_OBJS_OTHERS += f16_to_extF80.o
--SF_OBJS_OTHERS += f16_to_extF80M.o
--SF_OBJS_OTHERS += f16_to_f128.o
--SF_OBJS_OTHERS += f16_to_f128M.o
--SF_OBJS_OTHERS += f16_roundToInt.o
--SF_OBJS_OTHERS += f16_add.o
--SF_OBJS_OTHERS += f16_sub.o
--SF_OBJS_OTHERS += f16_mul.o
--SF_OBJS_OTHERS += f16_mulAdd.o
--SF_OBJS_OTHERS += f16_div.o
--SF_OBJS_OTHERS += f16_rem.o
--SF_OBJS_OTHERS += f16_sqrt.o
--SF_OBJS_OTHERS += f16_eq.o
--SF_OBJS_OTHERS += f16_le.o
--SF_OBJS_OTHERS += f16_lt.o
--SF_OBJS_OTHERS += f16_eq_signaling.o
--SF_OBJS_OTHERS += f16_le_quiet.o
--SF_OBJS_OTHERS += f16_lt_quiet.o
--SF_OBJS_OTHERS += f16_isSignalingNaN.o
--SF_OBJS_OTHERS += f32_to_ui32.o
--SF_OBJS_OTHERS += f32_to_ui64.o
--SF_OBJS_OTHERS += f32_to_i32.o
--SF_OBJS_OTHERS += f32_to_i64.o
--SF_OBJS_OTHERS += f32_to_ui32_r_minMag.o
--SF_OBJS_OTHERS += f32_to_ui64_r_minMag.o
--SF_OBJS_OTHERS += f32_to_i32_r_minMag.o
--SF_OBJS_OTHERS += f32_to_i64_r_minMag.o
--SF_OBJS_OTHERS += f32_to_f16.o
--SF_OBJS_OTHERS += f32_to_f64.o
--SF_OBJS_OTHERS += f32_to_extF80.o
--SF_OBJS_OTHERS += f32_to_extF80M.o
--SF_OBJS_OTHERS += f32_to_f128.o
--SF_OBJS_OTHERS += f32_to_f128M.o
--SF_OBJS_OTHERS += f32_roundToInt.o
--SF_OBJS_OTHERS += f32_add.o
--SF_OBJS_OTHERS += f32_sub.o
--SF_OBJS_OTHERS += f32_mul.o
--SF_OBJS_OTHERS += f32_mulAdd.o
--SF_OBJS_OTHERS += f32_div.o
--SF_OBJS_OTHERS += f32_rem.o
--SF_OBJS_OTHERS += f32_sqrt.o
--SF_OBJS_OTHERS += f32_eq.o
--SF_OBJS_OTHERS += f32_le.o
--SF_OBJS_OTHERS += f32_lt.o
--SF_OBJS_OTHERS += f32_eq_signaling.o
--SF_OBJS_OTHERS += f32_le_quiet.o
--SF_OBJS_OTHERS += f32_lt_quiet.o
--SF_OBJS_OTHERS += f32_isSignalingNaN.o
--SF_OBJS_OTHERS += f64_to_ui32.o
--SF_OBJS_OTHERS += f64_to_ui64.o
--SF_OBJS_OTHERS += f64_to_i32.o
--SF_OBJS_OTHERS += f64_to_i64.o
--SF_OBJS_OTHERS += f64_to_ui32_r_minMag.o
--SF_OBJS_OTHERS += f64_to_ui64_r_minMag.o
--SF_OBJS_OTHERS += f64_to_i32_r_minMag.o
--SF_OBJS_OTHERS += f64_to_i64_r_minMag.o
--SF_OBJS_OTHERS += f64_to_f16.o
--SF_OBJS_OTHERS += f64_to_f32.o
--SF_OBJS_OTHERS += f64_to_extF80.o
--SF_OBJS_OTHERS += f64_to_extF80M.o
--SF_OBJS_OTHERS += f64_to_f128.o
--SF_OBJS_OTHERS += f64_to_f128M.o
--SF_OBJS_OTHERS += f64_roundToInt.o
--SF_OBJS_OTHERS += f64_add.o
--SF_OBJS_OTHERS += f64_sub.o
--SF_OBJS_OTHERS += f64_mul.o
--SF_OBJS_OTHERS += f64_mulAdd.o
--SF_OBJS_OTHERS += f64_div.o
--SF_OBJS_OTHERS += f64_rem.o
--SF_OBJS_OTHERS += f64_sqrt.o
--SF_OBJS_OTHERS += f64_eq.o
--SF_OBJS_OTHERS += f64_le.o
--SF_OBJS_OTHERS += f64_lt.o
--SF_OBJS_OTHERS += f64_eq_signaling.o
--SF_OBJS_OTHERS += f64_le_quiet.o
--SF_OBJS_OTHERS += f64_lt_quiet.o
--SF_OBJS_OTHERS += f64_isSignalingNaN.o
--SF_OBJS_OTHERS += extF80_to_ui32.o
--SF_OBJS_OTHERS += extF80_to_ui64.o
--SF_OBJS_OTHERS += extF80_to_i32.o
--SF_OBJS_OTHERS += extF80_to_i64.o
--SF_OBJS_OTHERS += extF80_to_ui32_r_minMag.o
--SF_OBJS_OTHERS += extF80_to_ui64_r_minMag.o
--SF_OBJS_OTHERS += extF80_to_i32_r_minMag.o
--SF_OBJS_OTHERS += extF80_to_i64_r_minMag.o
--SF_OBJS_OTHERS += extF80_to_f16.o
--SF_OBJS_OTHERS += extF80_to_f32.o
--SF_OBJS_OTHERS += extF80_to_f64.o
--SF_OBJS_OTHERS += extF80_to_f128.o
--SF_OBJS_OTHERS += extF80_roundToInt.o
--SF_OBJS_OTHERS += extF80_add.o
--SF_OBJS_OTHERS += extF80_sub.o
--SF_OBJS_OTHERS += extF80_mul.o
--SF_OBJS_OTHERS += extF80_div.o
--SF_OBJS_OTHERS += extF80_rem.o
--SF_OBJS_OTHERS += extF80_sqrt.o
--SF_OBJS_OTHERS += extF80_eq.o
--SF_OBJS_OTHERS += extF80_le.o
--SF_OBJS_OTHERS += extF80_lt.o
--SF_OBJS_OTHERS += extF80_eq_signaling.o
--SF_OBJS_OTHERS += extF80_le_quiet.o
--SF_OBJS_OTHERS += extF80_lt_quiet.o
--SF_OBJS_OTHERS += extF80_isSignalingNaN.o
--SF_OBJS_OTHERS += extF80M_to_ui32.o
--SF_OBJS_OTHERS += extF80M_to_ui64.o
--SF_OBJS_OTHERS += extF80M_to_i32.o
--SF_OBJS_OTHERS += extF80M_to_i64.o
--SF_OBJS_OTHERS += extF80M_to_ui32_r_minMag.o
--SF_OBJS_OTHERS += extF80M_to_ui64_r_minMag.o
--SF_OBJS_OTHERS += extF80M_to_i32_r_minMag.o
--SF_OBJS_OTHERS += extF80M_to_i64_r_minMag.o
--SF_OBJS_OTHERS += extF80M_to_f16.o
--SF_OBJS_OTHERS += extF80M_to_f32.o
--SF_OBJS_OTHERS += extF80M_to_f64.o
--SF_OBJS_OTHERS += extF80M_to_f128M.o
--SF_OBJS_OTHERS += extF80M_roundToInt.o
--SF_OBJS_OTHERS += extF80M_add.o
--SF_OBJS_OTHERS += extF80M_sub.o
--SF_OBJS_OTHERS += extF80M_mul.o
--SF_OBJS_OTHERS += extF80M_div.o
--SF_OBJS_OTHERS += extF80M_rem.o
--SF_OBJS_OTHERS += extF80M_sqrt.o
--SF_OBJS_OTHERS += extF80M_eq.o
--SF_OBJS_OTHERS += extF80M_le.o
--SF_OBJS_OTHERS += extF80M_lt.o
--SF_OBJS_OTHERS += extF80M_eq_signaling.o
--SF_OBJS_OTHERS += extF80M_le_quiet.o
--SF_OBJS_OTHERS += extF80M_lt_quiet.o
--SF_OBJS_OTHERS += f128_to_ui32.o
--SF_OBJS_OTHERS += f128_to_ui64.o
--SF_OBJS_OTHERS += f128_to_i32.o
--SF_OBJS_OTHERS += f128_to_i64.o
--SF_OBJS_OTHERS += f128_to_ui32_r_minMag.o
--SF_OBJS_OTHERS += f128_to_ui64_r_minMag.o
--SF_OBJS_OTHERS += f128_to_i32_r_minMag.o
--SF_OBJS_OTHERS += f128_to_i64_r_minMag.o
--SF_OBJS_OTHERS += f128_to_f16.o
--SF_OBJS_OTHERS += f128_to_f32.o
--SF_OBJS_OTHERS += f128_to_extF80.o
--SF_OBJS_OTHERS += f128_to_f64.o
--SF_OBJS_OTHERS += f128_roundToInt.o
--SF_OBJS_OTHERS += f128_add.o
--SF_OBJS_OTHERS += f128_sub.o
--SF_OBJS_OTHERS += f128_mul.o
--SF_OBJS_OTHERS += f128_mulAdd.o
--SF_OBJS_OTHERS += f128_div.o
--SF_OBJS_OTHERS += f128_rem.o
--SF_OBJS_OTHERS += f128_sqrt.o
--SF_OBJS_OTHERS += f128_eq.o
--SF_OBJS_OTHERS += f128_le.o
--SF_OBJS_OTHERS += f128_lt.o
--SF_OBJS_OTHERS += f128_eq_signaling.o
--SF_OBJS_OTHERS += f128_le_quiet.o
--SF_OBJS_OTHERS += f128_lt_quiet.o
--SF_OBJS_OTHERS += f128_isSignalingNaN.o
--SF_OBJS_OTHERS += f128M_to_ui32.o
--SF_OBJS_OTHERS += f128M_to_ui64.o
--SF_OBJS_OTHERS += f128M_to_i32.o
--SF_OBJS_OTHERS += f128M_to_i64.o
--SF_OBJS_OTHERS += f128M_to_ui32_r_minMag.o
--SF_OBJS_OTHERS += f128M_to_ui64_r_minMag.o
--SF_OBJS_OTHERS += f128M_to_i32_r_minMag.o
--SF_OBJS_OTHERS += f128M_to_i64_r_minMag.o
--SF_OBJS_OTHERS += f128M_to_f16.o
--SF_OBJS_OTHERS += f128M_to_f32.o
--SF_OBJS_OTHERS += f128M_to_extF80M.o
--SF_OBJS_OTHERS += f128M_to_f64.o
--SF_OBJS_OTHERS += f128M_roundToInt.o
--SF_OBJS_OTHERS += f128M_add.o
--SF_OBJS_OTHERS += f128M_sub.o
--SF_OBJS_OTHERS += f128M_mul.o
--SF_OBJS_OTHERS += f128M_mulAdd.o
--SF_OBJS_OTHERS += f128M_div.o
--SF_OBJS_OTHERS += f128M_rem.o
--SF_OBJS_OTHERS += f128M_sqrt.o
--SF_OBJS_OTHERS += f128M_eq.o
--SF_OBJS_OTHERS += f128M_le.o
--SF_OBJS_OTHERS += f128M_lt.o
--SF_OBJS_OTHERS += f128M_eq_signaling.o
--SF_OBJS_OTHERS += f128M_le_quiet.o
--SF_OBJS_OTHERS += f128M_lt_quiet.o
--
--SF_OBJS_ALL_NOSPEC :=
--SF_OBJS_ALL_NOSPEC += $(SF_OBJS_PRIMITIVES)
--SF_OBJS_ALL_NOSPEC += $(SF_OBJS_OTHERS)
--
--SF_OBJS_ALL :=
--SF_OBJS_ALL += $(SF_OBJS_ALL_NOSPEC)
--SF_OBJS_ALL += $(SF_OBJS_SPECIALIZE)
--
--# testfloat objects
--TF_OBJS_GENCASES :=
--TF_OBJS_GENCASES += genCases_ui32.o
--TF_OBJS_GENCASES += genCases_ui64.o
--TF_OBJS_GENCASES += genCases_i32.o
--TF_OBJS_GENCASES += genCases_i64.o
--TF_OBJS_GENCASES += genCases_f16.o
--TF_OBJS_GENCASES += genCases_f32.o
--TF_OBJS_GENCASES += genCases_f64.o
--TF_OBJS_GENCASES += genCases_extF80.o
--TF_OBJS_GENCASES += genCases_f128.o
--
--TF_OBJS_WRITECASE :=
--TF_OBJS_WRITECASE += writeCase_a_ui32.o
--TF_OBJS_WRITECASE += writeCase_a_ui64.o
--TF_OBJS_WRITECASE += writeCase_a_f16.o
--TF_OBJS_WRITECASE += writeCase_ab_f16.o
--TF_OBJS_WRITECASE += writeCase_abc_f16.o
--TF_OBJS_WRITECASE += writeCase_a_f32.o
--TF_OBJS_WRITECASE += writeCase_ab_f32.o
--TF_OBJS_WRITECASE += writeCase_abc_f32.o
--TF_OBJS_WRITECASE += writeCase_a_f64.o
--TF_OBJS_WRITECASE += writeCase_ab_f64.o
--TF_OBJS_WRITECASE += writeCase_abc_f64.o
--TF_OBJS_WRITECASE += writeCase_a_extF80M.o
--TF_OBJS_WRITECASE += writeCase_ab_extF80M.o
--TF_OBJS_WRITECASE += writeCase_a_f128M.o
--TF_OBJS_WRITECASE += writeCase_ab_f128M.o
--TF_OBJS_WRITECASE += writeCase_abc_f128M.o
--TF_OBJS_WRITECASE += writeCase_z_bool.o
--TF_OBJS_WRITECASE += writeCase_z_ui32.o
--TF_OBJS_WRITECASE += writeCase_z_ui64.o
--TF_OBJS_WRITECASE += writeCase_z_f16.o
--TF_OBJS_WRITECASE += writeCase_z_f32.o
--TF_OBJS_WRITECASE += writeCase_z_f64.o
--TF_OBJS_WRITECASE += writeCase_z_extF80M.o
--TF_OBJS_WRITECASE += writeCase_z_f128M.o
--
--TF_OBJS_TEST :=
--TF_OBJS_TEST += test_a_ui32_z_f16.o
--TF_OBJS_TEST += test_a_ui32_z_f32.o
--TF_OBJS_TEST += test_a_ui32_z_f64.o
--TF_OBJS_TEST += test_a_ui32_z_extF80.o
--TF_OBJS_TEST += test_a_ui32_z_f128.o
--TF_OBJS_TEST += test_a_ui64_z_f16.o
--TF_OBJS_TEST += test_a_ui64_z_f32.o
--TF_OBJS_TEST += test_a_ui64_z_f64.o
--TF_OBJS_TEST += test_a_ui64_z_extF80.o
--TF_OBJS_TEST += test_a_ui64_z_f128.o
--TF_OBJS_TEST += test_a_i32_z_f16.o
--TF_OBJS_TEST += test_a_i32_z_f32.o
--TF_OBJS_TEST += test_a_i32_z_f64.o
--TF_OBJS_TEST += test_a_i32_z_extF80.o
--TF_OBJS_TEST += test_a_i32_z_f128.o
--TF_OBJS_TEST += test_a_i64_z_f16.o
--TF_OBJS_TEST += test_a_i64_z_f32.o
--TF_OBJS_TEST += test_a_i64_z_f64.o
--TF_OBJS_TEST += test_a_i64_z_extF80.o
--TF_OBJS_TEST += test_a_i64_z_f128.o
--TF_OBJS_TEST += test_a_f16_z_ui32_rx.o
--TF_OBJS_TEST += test_a_f16_z_ui64_rx.o
--TF_OBJS_TEST += test_a_f16_z_i32_rx.o
--TF_OBJS_TEST += test_a_f16_z_i64_rx.o
--TF_OBJS_TEST += test_a_f16_z_ui32_x.o
--TF_OBJS_TEST += test_a_f16_z_ui64_x.o
--TF_OBJS_TEST += test_a_f16_z_i32_x.o
--TF_OBJS_TEST += test_a_f16_z_i64_x.o
--TF_OBJS_TEST += test_a_f16_z_f32.o
--TF_OBJS_TEST += test_a_f16_z_f64.o
--TF_OBJS_TEST += test_a_f16_z_extF80.o
--TF_OBJS_TEST += test_a_f16_z_f128.o
--TF_OBJS_TEST += test_az_f16.o
--TF_OBJS_TEST += test_az_f16_rx.o
--TF_OBJS_TEST += test_abz_f16.o
--TF_OBJS_TEST += test_abcz_f16.o
--TF_OBJS_TEST += test_ab_f16_z_bool.o
--TF_OBJS_TEST += test_a_f32_z_ui32_rx.o
--TF_OBJS_TEST += test_a_f32_z_ui64_rx.o
--TF_OBJS_TEST += test_a_f32_z_i32_rx.o
--TF_OBJS_TEST += test_a_f32_z_i64_rx.o
--TF_OBJS_TEST += test_a_f32_z_ui32_x.o
--TF_OBJS_TEST += test_a_f32_z_ui64_x.o
--TF_OBJS_TEST += test_a_f32_z_i32_x.o
--TF_OBJS_TEST += test_a_f32_z_i64_x.o
--TF_OBJS_TEST += test_a_f32_z_f16.o
--TF_OBJS_TEST += test_a_f32_z_f64.o
--TF_OBJS_TEST += test_a_f32_z_extF80.o
--TF_OBJS_TEST += test_a_f32_z_f128.o
--TF_OBJS_TEST += test_az_f32.o
--TF_OBJS_TEST += test_az_f32_rx.o
--TF_OBJS_TEST += test_abz_f32.o
--TF_OBJS_TEST += test_abcz_f32.o
--TF_OBJS_TEST += test_ab_f32_z_bool.o
--TF_OBJS_TEST += test_a_f64_z_ui32_rx.o
--TF_OBJS_TEST += test_a_f64_z_ui64_rx.o
--TF_OBJS_TEST += test_a_f64_z_i32_rx.o
--TF_OBJS_TEST += test_a_f64_z_i64_rx.o
--TF_OBJS_TEST += test_a_f64_z_ui32_x.o
--TF_OBJS_TEST += test_a_f64_z_ui64_x.o
--TF_OBJS_TEST += test_a_f64_z_i32_x.o
--TF_OBJS_TEST += test_a_f64_z_i64_x.o
--TF_OBJS_TEST += test_a_f64_z_f16.o
--TF_OBJS_TEST += test_a_f64_z_f32.o
--TF_OBJS_TEST += test_a_f64_z_extF80.o
--TF_OBJS_TEST += test_a_f64_z_f128.o
--TF_OBJS_TEST += test_az_f64.o
--TF_OBJS_TEST += test_az_f64_rx.o
--TF_OBJS_TEST += test_abz_f64.o
--TF_OBJS_TEST += test_abcz_f64.o
--TF_OBJS_TEST += test_ab_f64_z_bool.o
--TF_OBJS_TEST += test_a_extF80_z_ui32_rx.o
--TF_OBJS_TEST += test_a_extF80_z_ui64_rx.o
--TF_OBJS_TEST += test_a_extF80_z_i32_rx.o
--TF_OBJS_TEST += test_a_extF80_z_i64_rx.o
--TF_OBJS_TEST += test_a_extF80_z_ui32_x.o
--TF_OBJS_TEST += test_a_extF80_z_ui64_x.o
--TF_OBJS_TEST += test_a_extF80_z_i32_x.o
--TF_OBJS_TEST += test_a_extF80_z_i64_x.o
--TF_OBJS_TEST += test_a_extF80_z_f16.o
--TF_OBJS_TEST += test_a_extF80_z_f32.o
--TF_OBJS_TEST += test_a_extF80_z_f64.o
--TF_OBJS_TEST += test_a_extF80_z_f128.o
--TF_OBJS_TEST += test_az_extF80.o
--TF_OBJS_TEST += test_az_extF80_rx.o
--TF_OBJS_TEST += test_abz_extF80.o
--TF_OBJS_TEST += test_ab_extF80_z_bool.o
--TF_OBJS_TEST += test_a_f128_z_ui32_rx.o
--TF_OBJS_TEST += test_a_f128_z_ui64_rx.o
--TF_OBJS_TEST += test_a_f128_z_i32_rx.o
--TF_OBJS_TEST += test_a_f128_z_i64_rx.o
--TF_OBJS_TEST += test_a_f128_z_ui32_x.o
--TF_OBJS_TEST += test_a_f128_z_ui64_x.o
--TF_OBJS_TEST += test_a_f128_z_i32_x.o
--TF_OBJS_TEST += test_a_f128_z_i64_x.o
--TF_OBJS_TEST += test_a_f128_z_f16.o
--TF_OBJS_TEST += test_a_f128_z_f32.o
--TF_OBJS_TEST += test_a_f128_z_f64.o
--TF_OBJS_TEST += test_a_f128_z_extF80.o
--TF_OBJS_TEST += test_az_f128.o
--TF_OBJS_TEST += test_az_f128_rx.o
--TF_OBJS_TEST += test_abz_f128.o
--TF_OBJS_TEST += test_abcz_f128.o
--TF_OBJS_TEST += test_ab_f128_z_bool.o
--
--TF_OBJS_LIB :=
--TF_OBJS_LIB += uint128_inline.o
--TF_OBJS_LIB += uint128.o
--TF_OBJS_LIB += fail.o
--TF_OBJS_LIB += functions_common.o
--TF_OBJS_LIB += functionInfos.o
--TF_OBJS_LIB += standardFunctionInfos.o
--TF_OBJS_LIB += random.o
--TF_OBJS_LIB += genCases_common.o
--TF_OBJS_LIB += $(TF_OBJS_GENCASES)
--TF_OBJS_LIB += genCases_writeTestsTotal.o
--TF_OBJS_LIB += verCases_inline.o
--TF_OBJS_LIB += verCases_common.o
--TF_OBJS_LIB += verCases_writeFunctionName.o
--TF_OBJS_LIB += readHex.o
--TF_OBJS_LIB += writeHex.o
--TF_OBJS_LIB += $(TF_OBJS_WRITECASE)
--TF_OBJS_LIB += testLoops_common.o
--TF_OBJS_LIB += $(TF_OBJS_TEST)
--
--BINARIES := fp-test$(EXESUF) fp-bench$(EXESUF)
--
--# We require artefacts from the main build including config-host.h
--# because platform.h includes it. Rather than re-invoking the main
--# build we just error out if things aren't there.
--$(LIBQEMUUTIL) $(BUILD_DIR)/config-host.h:
--	$(error $@ missing, re-run parent build)
--
--all: $(BUILD_DIR)/config-host.h $(BINARIES)
--
--# libtestfloat.a depends on libsoftfloat.a, so specify it first
--FP_TEST_LIBS := libtestfloat.a libsoftfloat.a $(LIBQEMUUTIL)
--
--fp-test$(EXESUF): fp-test.o slowfloat.o $(QEMU_SOFTFLOAT_OBJ) $(FP_TEST_LIBS)
--
--# Custom rule to build with SF_CFLAGS
--SF_BUILD = $(call quiet-command,$(CC) $(QEMU_LOCAL_INCLUDES) $(QEMU_INCLUDES) \
--		$(QEMU_CFLAGS) $(SF_CFLAGS) $(QEMU_DGFLAGS) $(CFLAGS) \
--		$($@-cflags) -c -o $@ $<,"CC","$(TARGET_DIR)$@")
--
--$(SF_OBJS_ALL_NOSPEC): %.o: $(SF_SOURCE_DIR)/%.c
--	$(SF_BUILD)
--$(SF_OBJS_SPECIALIZE): %.o: $(SF_SPECIALIZE_DIR)/%.c
--	$(SF_BUILD)
--
--libsoftfloat.a: $(SF_OBJS_ALL)
--
--# Custom rule to build with TF_CFLAGS
--$(TF_OBJS_LIB) slowfloat.o: %.o: $(TF_SOURCE_DIR)/%.c
--	$(call quiet-command,$(CC) $(QEMU_LOCAL_INCLUDES) $(QEMU_INCLUDES) \
--		$(QEMU_CFLAGS) $(TF_CFLAGS) $(QEMU_DGFLAGS) $(CFLAGS) \
--		$($@-cflags) -c -o $@ $<,"CC","$(TARGET_DIR)$@")
--
--libtestfloat.a: $(TF_OBJS_LIB)
--
--fp-bench$(EXESUF): fp-bench.o $(QEMU_SOFTFLOAT_OBJ) $(LIBQEMUUTIL)
--
--clean:
--	rm -f *.o *.d $(BINARIES)
--	rm -f *.gcno *.gcda *.gcov
--	rm -f fp-test$(EXESUF)
--	rm -f fp-bench$(EXESUF)
--	rm -f libsoftfloat.a
--	rm -f libtestfloat.a
--
---include $(wildcard *.d)
-diff --git a/tests/fp/meson.build b/tests/fp/meson.build
-new file mode 100644
-index 0000000000..8779a17aab
---- /dev/null
-+++ b/tests/fp/meson.build
-@@ -0,0 +1,636 @@
-+# There are namespace pollution issues on Windows, due to osdep.h
-+# bringing in Windows headers that define a FLOAT128 type.
-+if targetos == 'windows'
-+  subdir_done()
-+endif
-+
-+fpcflags = [
-+  # softfloat defines
-+  '-DSOFTFLOAT_ROUND_ODD',
-+  '-DINLINE_LEVEL=5',
-+  '-DSOFTFLOAT_FAST_DIV32TO16',
-+  '-DSOFTFLOAT_FAST_DIV64TO32',
-+  '-DSOFTFLOAT_FAST_INT64',
-+  # testfloat defines
-+  '-DFLOAT16',
-+  '-DFLOAT64',
-+  '-DEXTFLOAT80',
-+  '-DFLOAT128',
-+  '-DFLOAT_ROUND_ODD',
-+  '-DLONG_DOUBLE_IS_EXTFLOAT80',
-+]
-+
-+sfdir = 'berkeley-softfloat-3/source'
-+sfspedir = sfdir / '8086-SSE'
-+tfdir = 'berkeley-testfloat-3/source'
-+
-+sfinc = include_directories(sfdir / 'include', sfspedir)
-+
-+tfcflags = [
-+  '-Wno-strict-prototypes',
-+  '-Wno-unknown-pragmas',
-+  '-Wno-uninitialized',
-+  '-Wno-missing-prototypes',
-+  '-Wno-return-type',
-+  '-Wno-unused-function',
-+  '-Wno-error',
-+]
-+
-+tfgencases = [
-+  tfdir / 'genCases_ui32.c',
-+  tfdir / 'genCases_ui64.c',
-+  tfdir / 'genCases_i32.c',
-+  tfdir / 'genCases_i64.c',
-+  tfdir / 'genCases_f16.c',
-+  tfdir / 'genCases_f32.c',
-+  tfdir / 'genCases_f64.c',
-+  tfdir / 'genCases_extF80.c',
-+  tfdir / 'genCases_f128.c',
-+]
-+
-+tfwritecase = [
-+  tfdir / 'writeCase_a_ui32.c',
-+  tfdir / 'writeCase_a_ui64.c',
-+  tfdir / 'writeCase_a_f16.c',
-+  tfdir / 'writeCase_ab_f16.c',
-+  tfdir / 'writeCase_abc_f16.c',
-+  tfdir / 'writeCase_a_f32.c',
-+  tfdir / 'writeCase_ab_f32.c',
-+  tfdir / 'writeCase_abc_f32.c',
-+  tfdir / 'writeCase_a_f64.c',
-+  tfdir / 'writeCase_ab_f64.c',
-+  tfdir / 'writeCase_abc_f64.c',
-+  tfdir / 'writeCase_a_extF80M.c',
-+  tfdir / 'writeCase_ab_extF80M.c',
-+  tfdir / 'writeCase_a_f128M.c',
-+  tfdir / 'writeCase_ab_f128M.c',
-+  tfdir / 'writeCase_abc_f128M.c',
-+  tfdir / 'writeCase_z_bool.c',
-+  tfdir / 'writeCase_z_ui32.c',
-+  tfdir / 'writeCase_z_ui64.c',
-+  tfdir / 'writeCase_z_f16.c',
-+  tfdir / 'writeCase_z_f32.c',
-+  tfdir / 'writeCase_z_f64.c',
-+  tfdir / 'writeCase_z_extF80M.c',
-+  tfdir / 'writeCase_z_f128M.c',
-+]
-+
-+tftest = [
-+  tfdir / 'test_a_ui32_z_f16.c',
-+  tfdir / 'test_a_ui32_z_f32.c',
-+  tfdir / 'test_a_ui32_z_f64.c',
-+  tfdir / 'test_a_ui32_z_extF80.c',
-+  tfdir / 'test_a_ui32_z_f128.c',
-+  tfdir / 'test_a_ui64_z_f16.c',
-+  tfdir / 'test_a_ui64_z_f32.c',
-+  tfdir / 'test_a_ui64_z_f64.c',
-+  tfdir / 'test_a_ui64_z_extF80.c',
-+  tfdir / 'test_a_ui64_z_f128.c',
-+  tfdir / 'test_a_i32_z_f16.c',
-+  tfdir / 'test_a_i32_z_f32.c',
-+  tfdir / 'test_a_i32_z_f64.c',
-+  tfdir / 'test_a_i32_z_extF80.c',
-+  tfdir / 'test_a_i32_z_f128.c',
-+  tfdir / 'test_a_i64_z_f16.c',
-+  tfdir / 'test_a_i64_z_f32.c',
-+  tfdir / 'test_a_i64_z_f64.c',
-+  tfdir / 'test_a_i64_z_extF80.c',
-+  tfdir / 'test_a_i64_z_f128.c',
-+  tfdir / 'test_a_f16_z_ui32_rx.c',
-+  tfdir / 'test_a_f16_z_ui64_rx.c',
-+  tfdir / 'test_a_f16_z_i32_rx.c',
-+  tfdir / 'test_a_f16_z_i64_rx.c',
-+  tfdir / 'test_a_f16_z_ui32_x.c',
-+  tfdir / 'test_a_f16_z_ui64_x.c',
-+  tfdir / 'test_a_f16_z_i32_x.c',
-+  tfdir / 'test_a_f16_z_i64_x.c',
-+  tfdir / 'test_a_f16_z_f32.c',
-+  tfdir / 'test_a_f16_z_f64.c',
-+  tfdir / 'test_a_f16_z_extF80.c',
-+  tfdir / 'test_a_f16_z_f128.c',
-+  tfdir / 'test_az_f16.c',
-+  tfdir / 'test_az_f16_rx.c',
-+  tfdir / 'test_abz_f16.c',
-+  tfdir / 'test_abcz_f16.c',
-+  tfdir / 'test_ab_f16_z_bool.c',
-+  tfdir / 'test_a_f32_z_ui32_rx.c',
-+  tfdir / 'test_a_f32_z_ui64_rx.c',
-+  tfdir / 'test_a_f32_z_i32_rx.c',
-+  tfdir / 'test_a_f32_z_i64_rx.c',
-+  tfdir / 'test_a_f32_z_ui32_x.c',
-+  tfdir / 'test_a_f32_z_ui64_x.c',
-+  tfdir / 'test_a_f32_z_i32_x.c',
-+  tfdir / 'test_a_f32_z_i64_x.c',
-+  tfdir / 'test_a_f32_z_f16.c',
-+  tfdir / 'test_a_f32_z_f64.c',
-+  tfdir / 'test_a_f32_z_extF80.c',
-+  tfdir / 'test_a_f32_z_f128.c',
-+  tfdir / 'test_az_f32.c',
-+  tfdir / 'test_az_f32_rx.c',
-+  tfdir / 'test_abz_f32.c',
-+  tfdir / 'test_abcz_f32.c',
-+  tfdir / 'test_ab_f32_z_bool.c',
-+  tfdir / 'test_a_f64_z_ui32_rx.c',
-+  tfdir / 'test_a_f64_z_ui64_rx.c',
-+  tfdir / 'test_a_f64_z_i32_rx.c',
-+  tfdir / 'test_a_f64_z_i64_rx.c',
-+  tfdir / 'test_a_f64_z_ui32_x.c',
-+  tfdir / 'test_a_f64_z_ui64_x.c',
-+  tfdir / 'test_a_f64_z_i32_x.c',
-+  tfdir / 'test_a_f64_z_i64_x.c',
-+  tfdir / 'test_a_f64_z_f16.c',
-+  tfdir / 'test_a_f64_z_f32.c',
-+  tfdir / 'test_a_f64_z_extF80.c',
-+  tfdir / 'test_a_f64_z_f128.c',
-+  tfdir / 'test_az_f64.c',
-+  tfdir / 'test_az_f64_rx.c',
-+  tfdir / 'test_abz_f64.c',
-+  tfdir / 'test_abcz_f64.c',
-+  tfdir / 'test_ab_f64_z_bool.c',
-+  tfdir / 'test_a_extF80_z_ui32_rx.c',
-+  tfdir / 'test_a_extF80_z_ui64_rx.c',
-+  tfdir / 'test_a_extF80_z_i32_rx.c',
-+  tfdir / 'test_a_extF80_z_i64_rx.c',
-+  tfdir / 'test_a_extF80_z_ui32_x.c',
-+  tfdir / 'test_a_extF80_z_ui64_x.c',
-+  tfdir / 'test_a_extF80_z_i32_x.c',
-+  tfdir / 'test_a_extF80_z_i64_x.c',
-+  tfdir / 'test_a_extF80_z_f16.c',
-+  tfdir / 'test_a_extF80_z_f32.c',
-+  tfdir / 'test_a_extF80_z_f64.c',
-+  tfdir / 'test_a_extF80_z_f128.c',
-+  tfdir / 'test_az_extF80.c',
-+  tfdir / 'test_az_extF80_rx.c',
-+  tfdir / 'test_abz_extF80.c',
-+  tfdir / 'test_ab_extF80_z_bool.c',
-+  tfdir / 'test_a_f128_z_ui32_rx.c',
-+  tfdir / 'test_a_f128_z_ui64_rx.c',
-+  tfdir / 'test_a_f128_z_i32_rx.c',
-+  tfdir / 'test_a_f128_z_i64_rx.c',
-+  tfdir / 'test_a_f128_z_ui32_x.c',
-+  tfdir / 'test_a_f128_z_ui64_x.c',
-+  tfdir / 'test_a_f128_z_i32_x.c',
-+  tfdir / 'test_a_f128_z_i64_x.c',
-+  tfdir / 'test_a_f128_z_f16.c',
-+  tfdir / 'test_a_f128_z_f32.c',
-+  tfdir / 'test_a_f128_z_f64.c',
-+  tfdir / 'test_a_f128_z_extF80.c',
-+  tfdir / 'test_az_f128.c',
-+  tfdir / 'test_az_f128_rx.c',
-+  tfdir / 'test_abz_f128.c',
-+  tfdir / 'test_abcz_f128.c',
-+  tfdir / 'test_ab_f128_z_bool.c',
-+]
-+
-+libtestfloat = static_library(
-+  'testfloat',
-+  files(
-+    tfdir / 'uint128_inline.c',
-+    tfdir / 'uint128.c',
-+    tfdir / 'fail.c',
-+    tfdir / 'functions_common.c',
-+    tfdir / 'functionInfos.c',
-+    tfdir / 'standardFunctionInfos.c',
-+    tfdir / 'random.c',
-+    tfdir / 'genCases_common.c',
-+    tfgencases,
-+    tfdir / 'genCases_writeTestsTotal.c',
-+    tfdir / 'verCases_inline.c',
-+    tfdir / 'verCases_common.c',
-+    tfdir / 'verCases_writeFunctionName.c',
-+    tfdir / 'readHex.c',
-+    tfdir / 'writeHex.c',
-+    tfwritecase,
-+    tfdir / 'testLoops_common.c',
-+    tftest,
-+  ),
-+  include_directories: sfinc,
-+  c_args: tfcflags + fpcflags,
-+)
-+
-+sfcflags = [
-+  '-Wno-missing-prototypes',
-+  '-Wno-redundant-decls',
-+  '-Wno-return-type',
-+  '-Wno-error',
-+]
-+
-+libsoftfloat = static_library(
-+  'softfloat',
-+  files(
-+    # primitives
-+    sfdir / 's_eq128.c',
-+    sfdir / 's_le128.c',
-+    sfdir / 's_lt128.c',
-+    sfdir / 's_shortShiftLeft128.c',
-+    sfdir / 's_shortShiftRight128.c',
-+    sfdir / 's_shortShiftRightJam64.c',
-+    sfdir / 's_shortShiftRightJam64Extra.c',
-+    sfdir / 's_shortShiftRightJam128.c',
-+    sfdir / 's_shortShiftRightJam128Extra.c',
-+    sfdir / 's_shiftRightJam32.c',
-+    sfdir / 's_shiftRightJam64.c',
-+    sfdir / 's_shiftRightJam64Extra.c',
-+    sfdir / 's_shiftRightJam128.c',
-+    sfdir / 's_shiftRightJam128Extra.c',
-+    sfdir / 's_shiftRightJam256M.c',
-+    sfdir / 's_countLeadingZeros8.c',
-+    sfdir / 's_countLeadingZeros16.c',
-+    sfdir / 's_countLeadingZeros32.c',
-+    sfdir / 's_countLeadingZeros64.c',
-+    sfdir / 's_add128.c',
-+    sfdir / 's_add256M.c',
-+    sfdir / 's_sub128.c',
-+    sfdir / 's_sub256M.c',
-+    sfdir / 's_mul64ByShifted32To128.c',
-+    sfdir / 's_mul64To128.c',
-+    sfdir / 's_mul128By32.c',
-+    sfdir / 's_mul128To256M.c',
-+    sfdir / 's_approxRecip_1Ks.c',
-+    sfdir / 's_approxRecip32_1.c',
-+    sfdir / 's_approxRecipSqrt_1Ks.c',
-+    sfdir / 's_approxRecipSqrt32_1.c',
-+    # others
-+    sfdir / 's_roundToUI32.c',
-+    sfdir / 's_roundToUI64.c',
-+    sfdir / 's_roundToI32.c',
-+    sfdir / 's_roundToI64.c',
-+    sfdir / 's_normSubnormalF16Sig.c',
-+    sfdir / 's_roundPackToF16.c',
-+    sfdir / 's_normRoundPackToF16.c',
-+    sfdir / 's_addMagsF16.c',
-+    sfdir / 's_subMagsF16.c',
-+    sfdir / 's_mulAddF16.c',
-+    sfdir / 's_normSubnormalF32Sig.c',
-+    sfdir / 's_roundPackToF32.c',
-+    sfdir / 's_normRoundPackToF32.c',
-+    sfdir / 's_addMagsF32.c',
-+    sfdir / 's_subMagsF32.c',
-+    sfdir / 's_mulAddF32.c',
-+    sfdir / 's_normSubnormalF64Sig.c',
-+    sfdir / 's_roundPackToF64.c',
-+    sfdir / 's_normRoundPackToF64.c',
-+    sfdir / 's_addMagsF64.c',
-+    sfdir / 's_subMagsF64.c',
-+    sfdir / 's_mulAddF64.c',
-+    sfdir / 's_normSubnormalExtF80Sig.c',
-+    sfdir / 's_roundPackToExtF80.c',
-+    sfdir / 's_normRoundPackToExtF80.c',
-+    sfdir / 's_addMagsExtF80.c',
-+    sfdir / 's_subMagsExtF80.c',
-+    sfdir / 's_normSubnormalF128Sig.c',
-+    sfdir / 's_roundPackToF128.c',
-+    sfdir / 's_normRoundPackToF128.c',
-+    sfdir / 's_addMagsF128.c',
-+    sfdir / 's_subMagsF128.c',
-+    sfdir / 's_mulAddF128.c',
-+    sfdir / 'softfloat_state.c',
-+    sfdir / 'ui32_to_f16.c',
-+    sfdir / 'ui32_to_f32.c',
-+    sfdir / 'ui32_to_f64.c',
-+    sfdir / 'ui32_to_extF80.c',
-+    sfdir / 'ui32_to_extF80M.c',
-+    sfdir / 'ui32_to_f128.c',
-+    sfdir / 'ui32_to_f128M.c',
-+    sfdir / 'ui64_to_f16.c',
-+    sfdir / 'ui64_to_f32.c',
-+    sfdir / 'ui64_to_f64.c',
-+    sfdir / 'ui64_to_extF80.c',
-+    sfdir / 'ui64_to_extF80M.c',
-+    sfdir / 'ui64_to_f128.c',
-+    sfdir / 'ui64_to_f128M.c',
-+    sfdir / 'i32_to_f16.c',
-+    sfdir / 'i32_to_f32.c',
-+    sfdir / 'i32_to_f64.c',
-+    sfdir / 'i32_to_extF80.c',
-+    sfdir / 'i32_to_extF80M.c',
-+    sfdir / 'i32_to_f128.c',
-+    sfdir / 'i32_to_f128M.c',
-+    sfdir / 'i64_to_f16.c',
-+    sfdir / 'i64_to_f32.c',
-+    sfdir / 'i64_to_f64.c',
-+    sfdir / 'i64_to_extF80.c',
-+    sfdir / 'i64_to_extF80M.c',
-+    sfdir / 'i64_to_f128.c',
-+    sfdir / 'i64_to_f128M.c',
-+    sfdir / 'f16_to_ui32.c',
-+    sfdir / 'f16_to_ui64.c',
-+    sfdir / 'f16_to_i32.c',
-+    sfdir / 'f16_to_i64.c',
-+    sfdir / 'f16_to_ui32_r_minMag.c',
-+    sfdir / 'f16_to_ui64_r_minMag.c',
-+    sfdir / 'f16_to_i32_r_minMag.c',
-+    sfdir / 'f16_to_i64_r_minMag.c',
-+    sfdir / 'f16_to_f32.c',
-+    sfdir / 'f16_to_f64.c',
-+    sfdir / 'f16_to_extF80.c',
-+    sfdir / 'f16_to_extF80M.c',
-+    sfdir / 'f16_to_f128.c',
-+    sfdir / 'f16_to_f128M.c',
-+    sfdir / 'f16_roundToInt.c',
-+    sfdir / 'f16_add.c',
-+    sfdir / 'f16_sub.c',
-+    sfdir / 'f16_mul.c',
-+    sfdir / 'f16_mulAdd.c',
-+    sfdir / 'f16_div.c',
-+    sfdir / 'f16_rem.c',
-+    sfdir / 'f16_sqrt.c',
-+    sfdir / 'f16_eq.c',
-+    sfdir / 'f16_le.c',
-+    sfdir / 'f16_lt.c',
-+    sfdir / 'f16_eq_signaling.c',
-+    sfdir / 'f16_le_quiet.c',
-+    sfdir / 'f16_lt_quiet.c',
-+    sfdir / 'f16_isSignalingNaN.c',
-+    sfdir / 'f32_to_ui32.c',
-+    sfdir / 'f32_to_ui64.c',
-+    sfdir / 'f32_to_i32.c',
-+    sfdir / 'f32_to_i64.c',
-+    sfdir / 'f32_to_ui32_r_minMag.c',
-+    sfdir / 'f32_to_ui64_r_minMag.c',
-+    sfdir / 'f32_to_i32_r_minMag.c',
-+    sfdir / 'f32_to_i64_r_minMag.c',
-+    sfdir / 'f32_to_f16.c',
-+    sfdir / 'f32_to_f64.c',
-+    sfdir / 'f32_to_extF80.c',
-+    sfdir / 'f32_to_extF80M.c',
-+    sfdir / 'f32_to_f128.c',
-+    sfdir / 'f32_to_f128M.c',
-+    sfdir / 'f32_roundToInt.c',
-+    sfdir / 'f32_add.c',
-+    sfdir / 'f32_sub.c',
-+    sfdir / 'f32_mul.c',
-+    sfdir / 'f32_mulAdd.c',
-+    sfdir / 'f32_div.c',
-+    sfdir / 'f32_rem.c',
-+    sfdir / 'f32_sqrt.c',
-+    sfdir / 'f32_eq.c',
-+    sfdir / 'f32_le.c',
-+    sfdir / 'f32_lt.c',
-+    sfdir / 'f32_eq_signaling.c',
-+    sfdir / 'f32_le_quiet.c',
-+    sfdir / 'f32_lt_quiet.c',
-+    sfdir / 'f32_isSignalingNaN.c',
-+    sfdir / 'f64_to_ui32.c',
-+    sfdir / 'f64_to_ui64.c',
-+    sfdir / 'f64_to_i32.c',
-+    sfdir / 'f64_to_i64.c',
-+    sfdir / 'f64_to_ui32_r_minMag.c',
-+    sfdir / 'f64_to_ui64_r_minMag.c',
-+    sfdir / 'f64_to_i32_r_minMag.c',
-+    sfdir / 'f64_to_i64_r_minMag.c',
-+    sfdir / 'f64_to_f16.c',
-+    sfdir / 'f64_to_f32.c',
-+    sfdir / 'f64_to_extF80.c',
-+    sfdir / 'f64_to_extF80M.c',
-+    sfdir / 'f64_to_f128.c',
-+    sfdir / 'f64_to_f128M.c',
-+    sfdir / 'f64_roundToInt.c',
-+    sfdir / 'f64_add.c',
-+    sfdir / 'f64_sub.c',
-+    sfdir / 'f64_mul.c',
-+    sfdir / 'f64_mulAdd.c',
-+    sfdir / 'f64_div.c',
-+    sfdir / 'f64_rem.c',
-+    sfdir / 'f64_sqrt.c',
-+    sfdir / 'f64_eq.c',
-+    sfdir / 'f64_le.c',
-+    sfdir / 'f64_lt.c',
-+    sfdir / 'f64_eq_signaling.c',
-+    sfdir / 'f64_le_quiet.c',
-+    sfdir / 'f64_lt_quiet.c',
-+    sfdir / 'f64_isSignalingNaN.c',
-+    sfdir / 'extF80_to_ui32.c',
-+    sfdir / 'extF80_to_ui64.c',
-+    sfdir / 'extF80_to_i32.c',
-+    sfdir / 'extF80_to_i64.c',
-+    sfdir / 'extF80_to_ui32_r_minMag.c',
-+    sfdir / 'extF80_to_ui64_r_minMag.c',
-+    sfdir / 'extF80_to_i32_r_minMag.c',
-+    sfdir / 'extF80_to_i64_r_minMag.c',
-+    sfdir / 'extF80_to_f16.c',
-+    sfdir / 'extF80_to_f32.c',
-+    sfdir / 'extF80_to_f64.c',
-+    sfdir / 'extF80_to_f128.c',
-+    sfdir / 'extF80_roundToInt.c',
-+    sfdir / 'extF80_add.c',
-+    sfdir / 'extF80_sub.c',
-+    sfdir / 'extF80_mul.c',
-+    sfdir / 'extF80_div.c',
-+    sfdir / 'extF80_rem.c',
-+    sfdir / 'extF80_sqrt.c',
-+    sfdir / 'extF80_eq.c',
-+    sfdir / 'extF80_le.c',
-+    sfdir / 'extF80_lt.c',
-+    sfdir / 'extF80_eq_signaling.c',
-+    sfdir / 'extF80_le_quiet.c',
-+    sfdir / 'extF80_lt_quiet.c',
-+    sfdir / 'extF80_isSignalingNaN.c',
-+    sfdir / 'extF80M_to_ui32.c',
-+    sfdir / 'extF80M_to_ui64.c',
-+    sfdir / 'extF80M_to_i32.c',
-+    sfdir / 'extF80M_to_i64.c',
-+    sfdir / 'extF80M_to_ui32_r_minMag.c',
-+    sfdir / 'extF80M_to_ui64_r_minMag.c',
-+    sfdir / 'extF80M_to_i32_r_minMag.c',
-+    sfdir / 'extF80M_to_i64_r_minMag.c',
-+    sfdir / 'extF80M_to_f16.c',
-+    sfdir / 'extF80M_to_f32.c',
-+    sfdir / 'extF80M_to_f64.c',
-+    sfdir / 'extF80M_to_f128M.c',
-+    sfdir / 'extF80M_roundToInt.c',
-+    sfdir / 'extF80M_add.c',
-+    sfdir / 'extF80M_sub.c',
-+    sfdir / 'extF80M_mul.c',
-+    sfdir / 'extF80M_div.c',
-+    sfdir / 'extF80M_rem.c',
-+    sfdir / 'extF80M_sqrt.c',
-+    sfdir / 'extF80M_eq.c',
-+    sfdir / 'extF80M_le.c',
-+    sfdir / 'extF80M_lt.c',
-+    sfdir / 'extF80M_eq_signaling.c',
-+    sfdir / 'extF80M_le_quiet.c',
-+    sfdir / 'extF80M_lt_quiet.c',
-+    sfdir / 'f128_to_ui32.c',
-+    sfdir / 'f128_to_ui64.c',
-+    sfdir / 'f128_to_i32.c',
-+    sfdir / 'f128_to_i64.c',
-+    sfdir / 'f128_to_ui32_r_minMag.c',
-+    sfdir / 'f128_to_ui64_r_minMag.c',
-+    sfdir / 'f128_to_i32_r_minMag.c',
-+    sfdir / 'f128_to_i64_r_minMag.c',
-+    sfdir / 'f128_to_f16.c',
-+    sfdir / 'f128_to_f32.c',
-+    sfdir / 'f128_to_extF80.c',
-+    sfdir / 'f128_to_f64.c',
-+    sfdir / 'f128_roundToInt.c',
-+    sfdir / 'f128_add.c',
-+    sfdir / 'f128_sub.c',
-+    sfdir / 'f128_mul.c',
-+    sfdir / 'f128_mulAdd.c',
-+    sfdir / 'f128_div.c',
-+    sfdir / 'f128_rem.c',
-+    sfdir / 'f128_sqrt.c',
-+    sfdir / 'f128_eq.c',
-+    sfdir / 'f128_le.c',
-+    sfdir / 'f128_lt.c',
-+    sfdir / 'f128_eq_signaling.c',
-+    sfdir / 'f128_le_quiet.c',
-+    sfdir / 'f128_lt_quiet.c',
-+    sfdir / 'f128_isSignalingNaN.c',
-+    sfdir / 'f128M_to_ui32.c',
-+    sfdir / 'f128M_to_ui64.c',
-+    sfdir / 'f128M_to_i32.c',
-+    sfdir / 'f128M_to_i64.c',
-+    sfdir / 'f128M_to_ui32_r_minMag.c',
-+    sfdir / 'f128M_to_ui64_r_minMag.c',
-+    sfdir / 'f128M_to_i32_r_minMag.c',
-+    sfdir / 'f128M_to_i64_r_minMag.c',
-+    sfdir / 'f128M_to_f16.c',
-+    sfdir / 'f128M_to_f32.c',
-+    sfdir / 'f128M_to_extF80M.c',
-+    sfdir / 'f128M_to_f64.c',
-+    sfdir / 'f128M_roundToInt.c',
-+    sfdir / 'f128M_add.c',
-+    sfdir / 'f128M_sub.c',
-+    sfdir / 'f128M_mul.c',
-+    sfdir / 'f128M_mulAdd.c',
-+    sfdir / 'f128M_div.c',
-+    sfdir / 'f128M_rem.c',
-+    sfdir / 'f128M_sqrt.c',
-+    sfdir / 'f128M_eq.c',
-+    sfdir / 'f128M_le.c',
-+    sfdir / 'f128M_lt.c',
-+    sfdir / 'f128M_eq_signaling.c',
-+    sfdir / 'f128M_le_quiet.c',
-+    sfdir / 'f128M_lt_quiet.c',
-+    # spe
-+    sfspedir / 'softfloat_raiseFlags.c',
-+    sfspedir / 's_f16UIToCommonNaN.c',
-+    sfspedir / 's_commonNaNToF16UI.c',
-+    sfspedir / 's_propagateNaNF16UI.c',
-+    sfspedir / 's_f32UIToCommonNaN.c',
-+    sfspedir / 's_commonNaNToF32UI.c',
-+    sfspedir / 's_propagateNaNF32UI.c',
-+    sfspedir / 's_f64UIToCommonNaN.c',
-+    sfspedir / 's_commonNaNToF64UI.c',
-+    sfspedir / 's_propagateNaNF64UI.c',
-+    sfspedir / 'extF80M_isSignalingNaN.c',
-+    sfspedir / 's_extF80UIToCommonNaN.c',
-+    sfspedir / 's_commonNaNToExtF80UI.c',
-+    sfspedir / 's_propagateNaNExtF80UI.c',
-+    sfspedir / 'f128M_isSignalingNaN.c',
-+    sfspedir / 's_f128UIToCommonNaN.c',
-+    sfspedir / 's_commonNaNToF128UI.c',
-+    sfspedir / 's_propagateNaNF128UI.c',
-+  ),
-+  include_directories: sfinc,
-+  c_args: sfcflags + fpcflags,
-+)
-+
-+fpcflags += [
-+  # work around TARGET_* poisoning
-+  '-DHW_POISON_H',
-+  # define a target to match testfloat's implementation-defined choices, such as
-+  # whether to raise the invalid flag when dealing with NaNs in muladd.
-+  '-DTARGET_ARM',
-+  # FIXME: uiZ may be used uninitialized in this function
-+  '-Wno-uninitialized',
-+]
-+
-+fptest = executable(
-+  'fp-test',
-+  ['fp-test.c', tfdir / 'slowfloat.c', '../../fpu/softfloat.c'],
-+  build_by_default: false,
-+  link_with: [libtestfloat, libsoftfloat],
-+  dependencies: [qemuutil],
-+  include_directories: [sfinc, include_directories(tfdir)],
-+  c_args: fpcflags,
-+)
-+softfloat_conv_tests = {
-+    'float-to-float': 'f16_to_f32 f16_to_f64 f16_to_extF80 f16_to_f128 ' +
-+                      'f32_to_f16 f32_to_f64 f32_to_extF80 ' +
-+                      'f64_to_f16 f64_to_f32 ' +
-+                      'extF80_to_f16 extF80_to_f32 ' +
-+                      'extF80_to_f64 extF80_to_f128 ' +
-+                      'f128_to_f16',
-+    'int-to-float': 'i32_to_f16 i64_to_f16 i32_to_f32 i64_to_f32 ' +
-+                    'i32_to_f64 i64_to_f64 i32_to_f128 i64_to_f128',
-+    'uint-to-float': 'ui32_to_f16 ui64_to_f16 ui32_to_f32 ui64_to_f32 ' +
-+                     'ui32_to_f64 ui64_to_f64 ui64_to_f128 ' +
-+                     'ui32_to_extF80 ui64_to_extF80',
-+    'float-to-int': 'f16_to_i32 f16_to_i32_r_minMag ' +
-+                    'f32_to_i32 f32_to_i32_r_minMag ' +
-+                    'f64_to_i32 f64_to_i32_r_minMag ' +
-+                    'extF80_to_i32 extF80_to_i32_r_minMag ' +
-+                    'f128_to_i32 f128_to_i32_r_minMag ' +
-+                    'f16_to_i64 f16_to_i64_r_minMag ' +
-+                    'f32_to_i64 f32_to_i64_r_minMag ' +
-+                    'f64_to_i64 f64_to_i64_r_minMag ' +
-+                    'extF80_to_i64 extF80_to_i64_r_minMag ' +
-+                    'f128_to_i64 f128_to_i64_r_minMag',
-+    'float-to-uint': 'f16_to_ui32 f16_to_ui32_r_minMag ' +
-+                     'f32_to_ui32 f32_to_ui32_r_minMag ' +
-+                     'f64_to_ui32 f64_to_ui32_r_minMag ' +
-+                     'extF80_to_ui32 extF80_to_ui32_r_minMag ' +
-+                     'f128_to_ui32 f128_to_ui32_r_minMag ' +
-+                     'f16_to_ui64 f16_to_ui64_r_minMag ' +
-+                     'f32_to_ui64 f32_to_ui64_r_minMag ' +
-+                     'f64_to_ui64 f64_to_ui64_r_minMag ' +
-+                     'extF80_to_ui64 extF80_to_ui64_r_minMag ' +
-+                     'f128_to_ui64 f128_to_ui64_r_minMag',
-+    'round-to-integer': 'f16_roundToInt f32_roundToInt ' +
-+                        'f64_roundToInt f128_roundToInt'
-+}
-+softfloat_tests = {
-+    'eq_signaling' : 'compare',
-+    'le' : 'compare',
-+    'le_quiet' : 'compare',
-+    'lt_quiet' : 'compare',
-+    'add': 'ops',
-+    'sub': 'ops',
-+    'mul': 'ops',
-+    'div': 'ops',
-+    'rem': 'ops',
-+    'sqrt': 'ops'
-+}
-+# The full test suite can take a bit of time, default to a quick run
-+# "-l 2 -r all" can take more than a day for some operations and is best
-+# run manually
-+fptest_args = ['-s', '-l', '1']
-+fptest_rounding_args = ['-r', 'all']
-+
-+# Conversion Routines:
-+# FIXME: i32_to_extF80 (broken), i64_to_extF80 (broken)
-+#        extF80_roundToInt (broken)
-+foreach k, v : softfloat_conv_tests
-+  test('fp-test:' + k, fptest,
-+       args: fptest_args + fptest_rounding_args + v.split(),
-+       suite: ['softfloat', 'softfloat-conv'])
-+endforeach
-+
-+# FIXME: extF80_{lt_quiet, rem} (broken),
-+#        extF80_{mulAdd} (missing)
-+foreach k, v : softfloat_tests
-+  extF80_broken = ['lt_quiet', 'rem'].contains(k)
-+  test('fp-test:' + k, fptest,
-+       args: fptest_args + fptest_rounding_args +
-+             ['f16_' + k, 'f32_' + k, 'f64_' + k, 'f128_' + k] +
-+             (extF80_broken ? [] : ['extF80_' + k]),
-+       suite: ['softfloat', 'softfloat-' + v])
-+endforeach
-+test('fp-test:mulAdd', fptest,
-+     # no fptest_rounding_args
-+     args: fptest_args +
-+           ['f16_mulAdd', 'f32_mulAdd', 'f64_mulAdd', 'f128_mulAdd'],
-+     suite: ['softfloat-slow', 'softfloat-ops-slow'], timeout: 60)
-+
-+fpbench = executable(
-+  'fp-bench',
-+  ['fp-bench.c', '../../fpu/softfloat.c'],
-+  build_by_default: false,
-+  link_with: [libtestfloat, libsoftfloat],
-+  dependencies: [qemuutil],
-+  include_directories: [sfinc, include_directories(tfdir)],
-+  c_args: fpcflags,
-+)
 diff --git a/tests/meson.build b/tests/meson.build
-index 5c52021dc9..ec26f92937 100644
+index ec26f92937..8be9c2233c 100644
 --- a/tests/meson.build
 +++ b/tests/meson.build
-@@ -2,3 +2,7 @@ test('decodetree', sh,
-      args: [ files('decode/check.sh'), config_host['PYTHON'], files('../scripts/decodetree.py') ],
-      workdir: meson.current_source_dir() / 'decode',
-      suite: 'decodetree')
+@@ -6,3 +6,5 @@ test('decodetree', sh,
+ if 'CONFIG_TCG' in config_host
+   subdir('fp')
+ endif
 +
-+if 'CONFIG_TCG' in config_host
-+  subdir('fp')
-+endif
++subdir('qapi-schema')
+diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
+new file mode 100644
+index 0000000000..c87d141417
+--- /dev/null
++++ b/tests/qapi-schema/meson.build
+@@ -0,0 +1,225 @@
++test_env = environment()
++test_env.set('PYTHONPATH', meson.source_root() / 'scripts')
++test_env.set('PYTHONIOENCODING', 'utf-8')
++
++schemas = [
++  'alternate-any.json',
++  'alternate-array.json',
++  'alternate-base.json',
++  'alternate-branch-if-invalid.json',
++  'alternate-clash.json',
++  'alternate-conflict-dict.json',
++  'alternate-conflict-enum-bool.json',
++  'alternate-conflict-enum-int.json',
++  'alternate-conflict-string.json',
++  'alternate-conflict-bool-string.json',
++  'alternate-conflict-num-string.json',
++  'alternate-empty.json',
++  'alternate-invalid-dict.json',
++  'alternate-nested.json',
++  'alternate-unknown.json',
++  'args-alternate.json',
++  'args-any.json',
++  'args-array-empty.json',
++  'args-array-unknown.json',
++  'args-bad-boxed.json',
++  'args-boxed-anon.json',
++  'args-boxed-string.json',
++  'args-int.json',
++  'args-invalid.json',
++  'args-member-array-bad.json',
++  'args-member-case.json',
++  'args-member-unknown.json',
++  'args-name-clash.json',
++  'args-union.json',
++  'args-unknown.json',
++  'bad-base.json',
++  'bad-data.json',
++  'bad-ident.json',
++  'bad-if.json',
++  'bad-if-empty.json',
++  'bad-if-empty-list.json',
++  'bad-if-list.json',
++  'bad-type-bool.json',
++  'bad-type-dict.json',
++  'bad-type-int.json',
++  'base-cycle-direct.json',
++  'base-cycle-indirect.json',
++  'command-int.json',
++  'comments.json',
++  'doc-bad-alternate-member.json',
++  'doc-bad-boxed-command-arg.json',
++  'doc-bad-command-arg.json',
++  'doc-bad-enum-member.json',
++  'doc-bad-event-arg.json',
++  'doc-bad-feature.json',
++  'doc-bad-section.json',
++  'doc-bad-symbol.json',
++  'doc-bad-union-member.json',
++  'doc-before-include.json',
++  'doc-before-pragma.json',
++  'doc-duplicated-arg.json',
++  'doc-duplicated-return.json',
++  'doc-duplicated-since.json',
++  'doc-empty-arg.json',
++  'doc-empty-section.json',
++  'doc-empty-symbol.json',
++  'doc-good.json',
++  'doc-interleaved-section.json',
++  'doc-invalid-end.json',
++  'doc-invalid-end2.json',
++  'doc-invalid-return.json',
++  'doc-invalid-section.json',
++  'doc-invalid-start.json',
++  'doc-missing-colon.json',
++  'doc-missing-expr.json',
++  'doc-missing-space.json',
++  'doc-missing.json',
++  'doc-no-symbol.json',
++  'doc-undoc-feature.json',
++  'double-type.json',
++  'duplicate-key.json',
++  'empty.json',
++  'enum-bad-member.json',
++  'enum-bad-name.json',
++  'enum-bad-prefix.json',
++  'enum-clash-member.json',
++  'enum-dict-member-unknown.json',
++  'enum-if-invalid.json',
++  'enum-int-member.json',
++  'enum-member-case.json',
++  'enum-missing-data.json',
++  'enum-wrong-data.json',
++  'event-boxed-empty.json',
++  'event-case.json',
++  'event-member-invalid-dict.json',
++  'event-nest-struct.json',
++  'features-bad-type.json',
++  'features-deprecated-type.json',
++  'features-duplicate-name.json',
++  'features-if-invalid.json',
++  'features-missing-name.json',
++  'features-name-bad-type.json',
++  'features-no-list.json',
++  'features-unknown-key.json',
++  'flat-union-array-branch.json',
++  'flat-union-bad-base.json',
++  'flat-union-bad-discriminator.json',
++  'flat-union-base-any.json',
++  'flat-union-base-union.json',
++  'flat-union-clash-member.json',
++  'flat-union-discriminator-bad-name.json',
++  'flat-union-empty.json',
++  'flat-union-inline.json',
++  'flat-union-inline-invalid-dict.json',
++  'flat-union-int-branch.json',
++  'flat-union-invalid-branch-key.json',
++  'flat-union-invalid-discriminator.json',
++  'flat-union-invalid-if-discriminator.json',
++  'flat-union-no-base.json',
++  'flat-union-optional-discriminator.json',
++  'flat-union-string-discriminator.json',
++  'funny-char.json',
++  'funny-word.json',
++  'ident-with-escape.json',
++  'include-before-err.json',
++  'include-cycle.json',
++  'include-extra-junk.json',
++  'include-nested-err.json',
++  'include-no-file.json',
++  'include-non-file.json',
++  'include-repetition.json',
++  'include-self-cycle.json',
++  'include-simple.json',
++  'indented-expr.json',
++  'leading-comma-list.json',
++  'leading-comma-object.json',
++  'missing-colon.json',
++  'missing-comma-list.json',
++  'missing-comma-object.json',
++  'missing-type.json',
++  'nested-struct-data.json',
++  'nested-struct-data-invalid-dict.json',
++  'non-objects.json',
++  'oob-test.json',
++  'allow-preconfig-test.json',
++  'pragma-doc-required-crap.json',
++  'pragma-extra-junk.json',
++  'pragma-name-case-whitelist-crap.json',
++  'pragma-non-dict.json',
++  'pragma-unknown.json',
++  'pragma-returns-whitelist-crap.json',
++  'qapi-schema-test.json',
++  'quoted-structural-chars.json',
++  'redefined-builtin.json',
++  'redefined-command.json',
++  'redefined-event.json',
++  'redefined-type.json',
++  'reserved-command-q.json',
++  'reserved-enum-q.json',
++  'reserved-member-has.json',
++  'reserved-member-q.json',
++  'reserved-member-u.json',
++  'reserved-member-underscore.json',
++  'reserved-type-kind.json',
++  'reserved-type-list.json',
++  'returns-alternate.json',
++  'returns-array-bad.json',
++  'returns-dict.json',
++  'returns-unknown.json',
++  'returns-whitelist.json',
++  'string-code-point-31.json',
++  'string-code-point-127.json',
++  'struct-base-clash-deep.json',
++  'struct-base-clash.json',
++  'struct-data-invalid.json',
++  'struct-member-if-invalid.json',
++  'struct-member-invalid-dict.json',
++  'struct-member-invalid.json',
++  'trailing-comma-list.json',
++  'trailing-comma-object.json',
++  'type-bypass-bad-gen.json',
++  'unclosed-list.json',
++  'unclosed-object.json',
++  'unclosed-string.json',
++  'union-base-empty.json',
++  'union-base-no-discriminator.json',
++  'union-branch-case.json',
++  'union-branch-if-invalid.json',
++  'union-branch-invalid-dict.json',
++  'union-clash-branches.json',
++  'union-empty.json',
++  'union-invalid-base.json',
++  'union-optional-branch.json',
++  'union-unknown.json',
++  'unknown-escape.json',
++  'unknown-expr-key.json',
++]
++
++# Because people may want to use test-qapi.py from the command line, we
++# are not using the "#! /usr/bin/env python3" trick here.  See
++# docs/devel/build-system.txt
++test('QAPI schema regression tests', python, args: files('test-qapi.py', schemas),
++     env: test_env, suite: ['qapi-schema', 'qapi-frontend'])
++
++diff = find_program('diff')
++
++qapi_doc = custom_target('QAPI doc',
++                         output: ['doc-good-qapi-doc.texi',
++                                  'doc-good-qapi-commands.c', 'doc-good-qapi-commands.h',
++                                  'doc-good-qapi-emit-events.c', 'doc-good-qapi-emit-events.h',
++                                  'doc-good-qapi-events.c', 'doc-good-qapi-events.h',
++                                  'doc-good-qapi-init-commands.c', 'doc-good-qapi-init-commands.h',
++                                  'doc-good-qapi-introspect.c', 'doc-good-qapi-introspect.h',
++                                  'doc-good-qapi-types.c', 'doc-good-qapi-types.h',
++                                  'doc-good-qapi-visit.c', 'doc-good-qapi-visit.h' ],
++                         input: files('doc-good.json'),
++                         command: [ qapi_gen, '-o', meson.current_build_dir(),
++                                    '-p', 'doc-good-', '@INPUT0@' ],
++                         depend_files: qapi_gen_depends)
++
++# "full_path()" needed here to work around
++# https://github.com/mesonbuild/meson/issues/7585
++test('QAPI doc', diff, args: ['-u', files('doc-good.texi'), qapi_doc[0].full_path()],
++     depends: qapi_doc,
++     suite: ['qapi-schema', 'qapi-doc'])
 -- 
 2.26.2
 
