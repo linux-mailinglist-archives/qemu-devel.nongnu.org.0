@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2EED24DFEB
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 20:47:21 +0200 (CEST)
-Received: from localhost ([::1]:37470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 629D924DFC9
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 20:38:33 +0200 (CEST)
+Received: from localhost ([::1]:55292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9C4O-000570-TE
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 14:47:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50644)
+	id 1k9Bvs-0008Uf-AU
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 14:38:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1k9C3A-00048x-Ld; Fri, 21 Aug 2020 14:46:04 -0400
-Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:37664)
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1k9Buh-00082h-N6
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 14:37:19 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:43787)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1k9C38-00034E-Rn; Fri, 21 Aug 2020 14:46:04 -0400
-Received: by mail-io1-xd43.google.com with SMTP id b16so2713725ioj.4;
- Fri, 21 Aug 2020 11:46:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1k9BuX-0001sy-6L
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 14:37:19 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id y6so1260417plk.10
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 11:37:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=z5aWo09n3Q8ekEgF0lgavQRLE2LoBW6o6Ace2isOne0=;
- b=M8syaC6GqLCeXgy8xW4iOggNYh57nRWWiLAnkPoGliRAgaE3kSc/xuLuXXJzFxjok6
- UpMAmEVLIAsFFr81rOh0xprc04IC+b1A4hjEmDmzlhrVOOy7Pmlo8MwXzKhKbYrPF5yU
- yv4t8W4Wog4bbO6GZgSoJmNeCg20OEGUxVcFqSR0XQPxMHqlaq5XxDDe0EZ3xr693xcT
- 31taWO2E04L/7ZFZKYfQUkzyg1eaTux+w9TC9zwmSNiqHmut/49tr7WPQxuDhyODel4Y
- 4GpQNGs5A9U0YO29LGH0LgiN9E54JmMMFzeHs6wnSCrIXqgWJwOwYWnFyewppcO8TCG+
- W/eg==
+ :cc; bh=hWPSDZbrALUsdFFYuo4XuK5muFON9NJRMBxldZ7I/Gw=;
+ b=G630MZP988CIgGyNdC7jySYR5wLAHlvx9WaayLDkxaLoV0qbI8u1Fa8DtijltstU1s
+ GXbuZV+WClZiQPpv3RGn4OgKXVJHSRaPc5Ya4unquRm+1Qfp5ghxm4rxtpuUwCZ71DC/
+ O8ul2Uoi+TQmadiNhhmf8/yMTREki9prFmtCBTB+1Wa+4H98dowSfDmtexS/+/v7K+B6
+ s4NBVvDD2hE3VULU7lEE+6ZzD8TN/il6y224x81XCNAPtlKr790oegU6xaGt6B9XO0CM
+ 3BuXGYt+Yhdv8+KbFyO/YQuyRd/fr9LWWYUXF/jUnlES8F5JGHjVzTE+Ff38d8FNR7Wd
+ fHxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=z5aWo09n3Q8ekEgF0lgavQRLE2LoBW6o6Ace2isOne0=;
- b=IDAFdtA8F7EX+Jvbn6bL/LodhXuGN9zjWZD9ghU3jbPhE9jjt38XnFhMocRQvFKR56
- a7kHDODZoT7WTQjcnknCjwoMNudM2z/1LMVo7LMU/rN++XEZTsAVl5ZxJm5Qnlp2IJ0Q
- WoUk6uFwlN+0gv4fL88JJS8XzYXvxwTLfgBXgX8nertD+D/GuTmIFNJ38WbS1KPcwBYx
- 6T9P4xa2h4D1rQIQ/HzWWwfn2XlQ5f9E0VqhO+WC1NpWS7l4EfhEJeFERAt2L1y1EvIT
- 41kcGlBNtf9RF2Y4mCVMucTxV3I4CVQBjFgMbjihCFyh2oXxMQrWaVqmKINnZ09UPPJM
- hTyQ==
-X-Gm-Message-State: AOAM533yPIZlBwTW1XR5TLYFu/Uj6HcOW6oRn4g4GyYf6eXAaX4pSg0p
- VLCLevCGS+LTJECfZI+o5Vog8OKFP9/DFv6efsk=
-X-Google-Smtp-Source: ABdhPJyTyQ6nfwyl3J98Lec2GMmnPEIFGaxPAXb3EBUnSLaJtRkwflQDi9goEnpnd4YwORcTYz7/hE6qzli/RJ9k2D0=
-X-Received: by 2002:a6b:6016:: with SMTP id r22mr3411692iog.42.1598035561307; 
- Fri, 21 Aug 2020 11:46:01 -0700 (PDT)
+ bh=hWPSDZbrALUsdFFYuo4XuK5muFON9NJRMBxldZ7I/Gw=;
+ b=irw6VqLGrWqwWctO3Ff3f4Baz7XsAfDvqKc/SsMmSto3foQ+lA9o5hGja4jYy8B5pN
+ s7DqBac/nBRH6Ptw9qEhiTfF/UGWdgqIp6wj/eChndWp4Uz16VpaATxtNgfPyNLsVe88
+ Moc0idkezbCrq0MhZgGSCA28Jj1BqXz1TLNn5Wv1OSXfFxrI+khIhI04zkYj5lpSm+B1
+ 1yt5gGJdJuyeJgF6fHfF8WFLdNBOqXZRZd4jW7NDZzq3vV13VSkE9qfw9O6PmAl+fo99
+ oJ2HCSqa33wPYC9uDSs+wgQtKe5CGGyo3VHW3mVd4Eko+PZEloN3PjbPpEB4jIlmf8+d
+ 2O9A==
+X-Gm-Message-State: AOAM530aRWGXV9mgTXYv8Ro1dgl3bBhYZiGdnpRnR9ce2+0fMDYOX+UB
+ Q4qwOTYXHQ6JcC9Vl/WCQrkSjq81JedRx6PNykg=
+X-Google-Smtp-Source: ABdhPJxp6Rbmuu02NfKzkuqbYO8ZvpAKxn+p04zPzGaMjzfY3912Tr4IMYdfxe17RlbzthYDcHzpBKpdl5sahIiL37Y=
+X-Received: by 2002:a17:902:82c1:: with SMTP id
+ u1mr3395592plz.224.1598035027454; 
+ Fri, 21 Aug 2020 11:37:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200309100009.17624-1-kraxel@redhat.com>
- <CAKmqyKNZfhkTxmcGx6iAU3b1Nom2Zd5dKSeSmBrBDEfe=nAJbQ@mail.gmail.com>
-In-Reply-To: <CAKmqyKNZfhkTxmcGx6iAU3b1Nom2Zd5dKSeSmBrBDEfe=nAJbQ@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 21 Aug 2020 11:35:24 -0700
-Message-ID: <CAKmqyKODqOF8s45tkLAh5c==hbsPdv4UMG3ouN=cS5J=mQw2QA@mail.gmail.com>
-Subject: Re: [PATCH v2] stdvga+bochs-display: add dummy mmio handler
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-stable@nongnu.org
+References: <20200812232439.20153-1-jcmvbkbc@gmail.com>
+ <CAFEAcA_CMuZbJqEi8sv3f1tJomkSB-3kpA48T0AZL8U2WhbpUw@mail.gmail.com>
+In-Reply-To: <CAFEAcA_CMuZbJqEi8sv3f1tJomkSB-3kpA48T0AZL8U2WhbpUw@mail.gmail.com>
+From: Max Filippov <jcmvbkbc@gmail.com>
+Date: Fri, 21 Aug 2020 11:36:56 -0700
+Message-ID: <CAMo8BfJ412TP4=Z7E5tNxCC2QkSdGt=f6a355M8Wn-ixk=UupQ@mail.gmail.com>
+Subject: Re: [PULL 00/24] target/xtensa updates for 5.2
+To: Peter Maydell <peter.maydell@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd43.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-pl1-x62f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+X-Spam_score_int: -5
+X-Spam_score: -0.6
+X-Spam_bar: /
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,89 +81,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 21, 2020 at 11:33 AM Alistair Francis <alistair23@gmail.com> wrote:
+On Fri, Aug 21, 2020 at 9:24 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+> On Thu, 13 Aug 2020 at 00:24, Max Filippov <jcmvbkbc@gmail.com> wrote:
+> > please pull the following batch of updates for target/xtensa.
 >
-> On Mon, Mar 9, 2020 at 3:00 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
-> >
-> > The bochs-display mmio bar has some sub-regions with the actual hardware
-> > registers.  What happens when the guest access something outside those
-> > regions depends on the archirecture.  On x86 those reads succeed (and
-> > return 0xff I think).  On risc-v qemu aborts.
-> >
-> > This patch adds handlers for the parent region, to make the wanted
-> > behavior explicit and to make things consistent across architectures.
-> >
-> > v2:
-> >  - use existing unassigned_io_ops.
-> >  - also cover stdvga.
-> >
-> > Cc: Alistair Francis <alistair23@gmail.com>
-> > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
->
-> + QEMU stable.
->
-> Can this be back ported to 5.0?
+> Hi; this conflicts with the meson buildsystem merge, I'm
+> afraid -- can you rebase and resend, please?
 
-Sorry, I meant 4.2
+Sure.
 
-Alistair
-
->
-> Without this patch the bochs device doesn't work with RISC-V.
->
-> Alistair
->
-> > ---
-> >  hw/display/bochs-display.c | 4 ++--
-> >  hw/display/vga-pci.c       | 8 ++++----
-> >  2 files changed, 6 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/hw/display/bochs-display.c b/hw/display/bochs-display.c
-> > index 62085f9fc063..70eb619ef424 100644
-> > --- a/hw/display/bochs-display.c
-> > +++ b/hw/display/bochs-display.c
-> > @@ -284,8 +284,8 @@ static void bochs_display_realize(PCIDevice *dev, Error **errp)
-> >      memory_region_init_io(&s->qext, obj, &bochs_display_qext_ops, s,
-> >                            "qemu extended regs", PCI_VGA_QEXT_SIZE);
-> >
-> > -    memory_region_init(&s->mmio, obj, "bochs-display-mmio",
-> > -                       PCI_VGA_MMIO_SIZE);
-> > +    memory_region_init_io(&s->mmio, obj, &unassigned_io_ops, NULL,
-> > +                          "bochs-display-mmio", PCI_VGA_MMIO_SIZE);
-> >      memory_region_add_subregion(&s->mmio, PCI_VGA_BOCHS_OFFSET, &s->vbe);
-> >      memory_region_add_subregion(&s->mmio, PCI_VGA_QEXT_OFFSET, &s->qext);
-> >
-> > diff --git a/hw/display/vga-pci.c b/hw/display/vga-pci.c
-> > index b34632467399..6b9db86e363c 100644
-> > --- a/hw/display/vga-pci.c
-> > +++ b/hw/display/vga-pci.c
-> > @@ -249,8 +249,8 @@ static void pci_std_vga_realize(PCIDevice *dev, Error **errp)
-> >
-> >      /* mmio bar for vga register access */
-> >      if (d->flags & (1 << PCI_VGA_FLAG_ENABLE_MMIO)) {
-> > -        memory_region_init(&d->mmio, NULL, "vga.mmio",
-> > -                           PCI_VGA_MMIO_SIZE);
-> > +        memory_region_init_io(&d->mmio, OBJECT(dev), &unassigned_io_ops, NULL,
-> > +                              "vga.mmio", PCI_VGA_MMIO_SIZE);
-> >
-> >          if (d->flags & (1 << PCI_VGA_FLAG_ENABLE_QEXT)) {
-> >              qext = true;
-> > @@ -285,8 +285,8 @@ static void pci_secondary_vga_realize(PCIDevice *dev, Error **errp)
-> >      s->con = graphic_console_init(DEVICE(dev), 0, s->hw_ops, s);
-> >
-> >      /* mmio bar */
-> > -    memory_region_init(&d->mmio, OBJECT(dev), "vga.mmio",
-> > -                       PCI_VGA_MMIO_SIZE);
-> > +    memory_region_init_io(&d->mmio, OBJECT(dev), &unassigned_io_ops, NULL,
-> > +                          "vga.mmio", PCI_VGA_MMIO_SIZE);
-> >
-> >      if (d->flags & (1 << PCI_VGA_FLAG_ENABLE_QEXT)) {
-> >          qext = true;
-> > --
-> > 2.18.2
-> >
+-- 
+Thanks.
+-- Max
 
