@@ -2,100 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CCD524E30C
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Aug 2020 00:15:27 +0200 (CEST)
-Received: from localhost ([::1]:38370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BBF924E30A
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Aug 2020 00:14:11 +0200 (CEST)
+Received: from localhost ([::1]:33054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9FJm-0007TX-5m
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 18:15:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36038)
+	id 1k9FIY-0005KG-2p
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 18:14:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
- id 1k9FHL-0003uz-F9
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 18:12:55 -0400
-Received: from mail-eopbgr770079.outbound.protection.outlook.com
- ([40.107.77.79]:39278 helo=NAM02-SN1-obe.outbound.protection.outlook.com)
+ id 1k9FHS-00046j-Fl
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 18:13:02 -0400
+Received: from mail-eopbgr770078.outbound.protection.outlook.com
+ ([40.107.77.78]:21363 helo=NAM02-SN1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
- id 1k9FHJ-00027D-Vb
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 18:12:55 -0400
+ id 1k9FHQ-00027k-V6
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 18:13:02 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aR3QyxsahycDNEBj83Zl/WxSJhQavgnvENqm0p7sioEzIwPaM5hnvj7RiKkdeVR9GGfiSzUPjy0SeEDvVkbOv+igO7Kz0F5aMXH6MepR9z6BQKdf7M2r9Ra+pC5KNt9KyVcEFEPn0k6cGcnaQg2FLAmJ4QwkKWUUusmE5uECaatrJuHv0AQ7v9zJDPYJvW6cbvkJ7GRQGpZMlgaPnAFMUmFMcBJEoLk2hZkIjv5KQUhtlBwFdI3EaNkp8Zy1dqkB31JkYpOogx3DR7OS938c63+BebCeViX8cPxz+a6r/wVZIkszBKzt/583pI3uQhUvN9+cOZHlr/lSZPD2zooMHA==
+ b=CywvoWnv64u+7sblI70mETPGHlOSm9n3xaJb/4MD5sjJEHvbfX2nHZvXh+0Y+vCxD2pbh91+7i7FxvMC1TZnsujvrLojboelRAIfjzccG8khclMqY8Sl0iujXLGKDS9tTfMN4JG/Uh7pew+A+ShAbzbeJLJpMRTm3IT2G7EwyaAG3OB4FsJBV6drrkAecqMTaoQzyoUQXzsiEWMpy45lnbwq+Uq+LwcKuKGgEUhvRrJrR/vm6MvXO2r+p9kEJaPjW5lnvAe+AGxBrB38Dh1x1VFu6spG/wEtWyRnDoeP05W1rjDDxj+o03b9LisYaBMq58gLdt44DGkFZc4WYT950w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4nY66Q6E0+u4nlcfBduANiuFue7ktD4Eg/ps+SWWevo=;
- b=Mlaoob7wR/EZ+uv5DeCT+oBG84TB8tQMOOjn+vJBzxNrTw5HIKBUyA5Be6LB3e+RwEFJaEHU3KCzUWgRSH1UBWNLLWKdYNZyatWBIe6F7YNKgKLu4YSGD9yHzShUWhZTq77vXUDxSMYlTlCu+vnXvUWWyd4J/GzxS7MN3+xz1iZsVaYKWByU6I8rJnGnIrmQgI7rOT0p4sa4AoO+/5riCMR3QGXut+krJydpcazl2w7qNa95WM6ODJHO08FuoxbDOGtfHYfiTLwLBh1AGsGbL0OJMaIOnYOt2aNF0dhYYzDQpKyjq1SOWwKaKc+uzkem11Nb22eO56HGP4scZVB06Q==
+ bh=DqeDoUw2ATwU+l1GtZvpMYQ2cs1HefxOr3fZQp6qa0U=;
+ b=bIFMfn+jBTG9J4/o3TadoqQvb3QjNTWABTZP9pnDiPooSt+KvbrKRXwARFGbMV9ZMmSZ5qXL+dhu94+szQiClWXhgUJ/xYhWWBoDC6FXmMexWLjIhCtAT6GgWLPfmqPy3wzAFsA14gCxFhhMR5gqTpUPQ5uEXV5spnzDjvZE4Tqh5GNuEkRH82+ZhyRelbh1HvQO2AyUnxFUBAsKFv/j3gnM7o0pin/MvGoW+IxnqQlaYJBXk2i4WDBSSV9VDT3oOrPTiCAftSgfY08Ha6Xs6cWDWNdybYPbW6+L2RwW9oQZ7h/L0bhO677uaFjA5TeIWF0mGuYgmKQvyUffhVaPzA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4nY66Q6E0+u4nlcfBduANiuFue7ktD4Eg/ps+SWWevo=;
- b=tGeUCdusoIVhhijMhuocv5YnOLkVZIdES5f428ZAQamjHdymRjmV1JCpxjdIpKyXX/AeRIMZqYxvCzTaD+6D1HTXiMbQnie1ozOw1qP/NZOafy+NGCNE1wcM9M9Lir3GTNL1eeQbsoOKCYrN/nfAlOqueB+79WFwFR3N6SMelYQ=
+ bh=DqeDoUw2ATwU+l1GtZvpMYQ2cs1HefxOr3fZQp6qa0U=;
+ b=tOPYNnMX0SQXuym7YP2fZYcDDkbgS2JIPkxryMaGywmXbfBeStcGLervfunsTxOEOXIfsWkOpdqYozsh2uU88BKNZ82j4LUZC7A3Tl2kZ5JGHM3Cv5Oahk3icMfEPnSrIhU+rEIfnQ6McLN4x5Sk3Kas9uMlYgnQbYiw7ygyvhw=
 Authentication-Results: redhat.com; dkim=none (message not signed)
  header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
 Received: from SN1PR12MB2560.namprd12.prod.outlook.com (2603:10b6:802:26::19)
  by SN6PR12MB2670.namprd12.prod.outlook.com (2603:10b6:805:6b::31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.26; Fri, 21 Aug
- 2020 22:12:51 +0000
+ 2020 22:12:58 +0000
 Received: from SN1PR12MB2560.namprd12.prod.outlook.com
  ([fe80::ccd9:728:9577:200d]) by SN1PR12MB2560.namprd12.prod.outlook.com
  ([fe80::ccd9:728:9577:200d%4]) with mapi id 15.20.3305.024; Fri, 21 Aug 2020
- 22:12:51 +0000
-Subject: [PATCH v5 5/8] Revert "i386: Introduce use_epyc_apic_id_encoding in
- X86CPUDefinition"
+ 22:12:58 +0000
+Subject: [PATCH v5 6/8] Revert "hw/i386: Introduce apicid functions inside
+ X86MachineState"
 From: Babu Moger <babu.moger@amd.com>
 To: pbonzini@redhat.com, rth@twiddle.net, ehabkost@redhat.com,
  imammedo@redhat.com
-Date: Fri, 21 Aug 2020 17:12:50 -0500
-Message-ID: <159804797021.39954.773444808887474448.stgit@naples-babu.amd.com>
+Date: Fri, 21 Aug 2020 17:12:56 -0500
+Message-ID: <159804797689.39954.15208502866023220930.stgit@naples-babu.amd.com>
 In-Reply-To: <159804762216.39954.15502128500494116468.stgit@naples-babu.amd.com>
 References: <159804762216.39954.15502128500494116468.stgit@naples-babu.amd.com>
 User-Agent: StGit/unknown-version
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN4PR0701CA0042.namprd07.prod.outlook.com
- (2603:10b6:803:2d::16) To SN1PR12MB2560.namprd12.prod.outlook.com
+X-ClientProxiedBy: SN4PR0501CA0029.namprd05.prod.outlook.com
+ (2603:10b6:803:40::42) To SN1PR12MB2560.namprd12.prod.outlook.com
  (2603:10b6:802:26::19)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from 255.255.255.255 (255.255.255.255) by
- SN4PR0701CA0042.namprd07.prod.outlook.com (2603:10b6:803:2d::16) with
+ SN4PR0501CA0029.namprd05.prod.outlook.com (2603:10b6:803:40::42) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.24 via Frontend
- Transport; Fri, 21 Aug 2020 22:12:50 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.10 via Frontend
+ Transport; Fri, 21 Aug 2020 22:12:57 +0000
 X-Originating-IP: [165.204.78.2]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: ef2f307c-5d9b-4138-c908-08d8461f5841
+X-MS-Office365-Filtering-Correlation-Id: 7623b940-6965-488b-68b4-08d8461f5c19
 X-MS-TrafficTypeDiagnostic: SN6PR12MB2670:
-X-Microsoft-Antispam-PRVS: <SN6PR12MB267044BF3533326265BB9067955B0@SN6PR12MB2670.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:346;
+X-Microsoft-Antispam-PRVS: <SN6PR12MB267070B2003875887C3362B1955B0@SN6PR12MB2670.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:175;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: tLG8w6eWbPTUIMqotwhP7e8kj4m9mVpzJKdIoh+FSnp2WyFzXUu/g0WHvRcHRwz3njmWgHq/vw1Pw3W+9jv70yZy1LBv/ARJ93S9UiH1ky/qMZXwT1yZXYSEDpuTuaRj6kBrm8/A5pUTl5gObSu4f+ciASPmC58VWqZWg368GWMIhmQaKxWkMQKxv68Qz7l1p8MC2BXwESrhW1OtRmJ/QTQIcg5achUlQ7TgY+l+u4Ai7+/91QtrQQNmXsxzBGgv1yFSZ6Sj5F2hQLTFVvrqgWtYjktZrMYu23uaSu3jFCJLnunytx3PJe39ZobA/Yjy+NCoJd+QIjepCQM3HMM6YQ35vNUx9yJNN3pXD7P0swsjg40xqri2Yuu+g0rIsxvV
+X-Microsoft-Antispam-Message-Info: RI0TQ5img1zPMtrDmo68dMIWGVR9gKrbDy7pOGql2n0UElY4wj9ygqfFhskOF6ZLmzrSZ8NSrG1jVlrZe2N4NUq2qBVNDExZdHLObEfNg2E9fd7AkLKgNilp0z4frRh3cxa09eefJjDl1CQBtw1rVCGhyTsRwltscrmF82WCXIH9+Z4cweVtpFDzVdeMfLZUdGm5MNFPZXjRivN7D0w2boV6fi9SKoK4dAIABhEW9eGWyUA4J+NZvRSDS8rayYKH8dVi2Yi4pBRnjq3WV4mTtNr+4fkLe3zDRbyKw92DxHnVMDkQST9FYjj0aMU8ShBVnvi3Tj6UQNvQdwgIPGBbPkM+WvhhnM5OSzDZVLfB0m6G7Av4OtsiqgaorYqw6KZt
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN1PR12MB2560.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(376002)(366004)(39860400002)(136003)(346002)(396003)(4326008)(5660300002)(83380400001)(86362001)(52116002)(110011004)(8676002)(316002)(26005)(186003)(956004)(478600001)(6486002)(66946007)(66476007)(66556008)(8936002)(44832011)(16576012)(2906002)(103116003);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: b8QvrEvQIUZ9rs00FRRB+CTlbdC3AYUJvtGr+JWvGHRtZxqXIH/50q5AVOJN6TWtLfpblNakjsdQNQDffrFVO51iRnmRDWYPMHMcivrnGYpX+JverBHQLh92jrfz30HISxr0sYwFsyLpj5iuzuvjYMmyRLnwmPE/R5l0rBq88rgicklUf6I7lczl24Yo9RG9BRynZGQ8S06k5XGjVYQIdR6AkEVnARh6U1SAjFRY1IA5KM5SeS3suAwRPtgihzS5EIocIxMMU/qPw4oojFsnPfTi/oU0ZmoCeDkYNIq6cVM2cvIBpBIAEJBqxb6ruz0307ydth1noK7/11sc8d0cXRni5FLoNubj90WUHjKCQzDdYdejMrw2GIDvwE+PUOlPBQYikISkp0PBY5iXWTbVb70wdEiOVhPO4dmvHAo6yh8wsdi3CIxwbW8wz8VKvmoKPyQ4mbwlm5yImVwyvWvxG+MaUwsLQXYmXCH79PvR37+aruDsu4iP+Y7+Hksa1NtkGfy+izXUZETDuKDThMeWpWlv9Hg5d+dFAyFkTjDzVtIQm+epPZ4xfNULkPRQiojeOXLuxRgbWdDFNooKhjYv7y3ONZW1tyh+aUbd7djMQ8AhTKJhSN2HO3P9ZXuMZqLkG/yZMFnm3tzBEi1+HHX/tg==
+X-MS-Exchange-AntiSpam-MessageData: 24w69tlpkJvAGHFuxVbkL/DfBbOkeC8hEa2OUSWCkBkXFrpXFDPka7zjWejeus1SlJQB9nrDZtwRoFc81cu3DN4WOALI/0Kc+7SCgtcH8OJjfwCmVWyoDtbHS1qFkoVNnISBXobuZH1tG41mFreT8bjECUlddh8wALNjRfNb8XdeD35K5EjWGZ4Ep+dy9yiO9AVUOUDPkLNE9de7vo7LfOYdLf75wxLTNiWLCTxUAGqNOgKdbAwmQiVkNGEN1zhji2m2USe49BXisPyqZxUMrs5viJYGQeHDpvYhoO5skw97BSj7b0R0Y6FOYRu9PJNlZGEnq2NO/+M4GT3ZptHSWOK2dNki1XALfOnJX12pODsPn6GHjkM6k2mJ6ONnT5Y5yUsOD0aoxLLxvKZJnhUgSwzguXGR+LxBZB9Pw3duEhnteC42mIbDn6RwfhX5yzripWd8HEdAqTJsKNN0xBzgwwh1iDpp7fqCh2+ApdjgXpqQ37wWLxHcwJZpf32XxbbELO209nn9CcBxt0aFNqxHLn0ip6W3ALTxqFvvkgCcrRCviqDLoDu2o2abXWBvdbrOvnzDp0oLoVrP3Tlzq8C0pjUfQE1y5I0kJPIQkk3gnZ9D/YW55tADS5wZzhMwzuKArWL+9dpwx58mVlARvFoNAw==
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef2f307c-5d9b-4138-c908-08d8461f5841
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7623b940-6965-488b-68b4-08d8461f5c19
 X-MS-Exchange-CrossTenant-AuthSource: SN1PR12MB2560.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2020 22:12:51.7238 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2020 22:12:57.9392 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DaKJAEInc5d/ztHS2810Q9eB8D6HZJJNyJ3RVXYhXxq8bnFPnq2838QCFEv+ooob
+X-MS-Exchange-CrossTenant-UserPrincipalName: r7EBLLQY/qA0Yub71BOvD0/F25A8kb425wzXzLz65wX9IC7yXYTNYbGNa4e0r+zt
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2670
-Received-SPF: none client-ip=40.107.77.79; envelope-from=Babu.Moger@amd.com;
+Received-SPF: none client-ip=40.107.77.78; envelope-from=Babu.Moger@amd.com;
  helo=NAM02-SN1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 18:12:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 18:12:59
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -5
 X-Spam_score: -0.6
@@ -123,59 +123,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Remove the EPYC specific apicid decoding and use the generic
 default decoding.
 
-This reverts commit 0c1538cb1a26287c072645f4759b9872b1596d79.
+This reverts commit 6121c7fbfd98dbc3af1b00b56ff2eef66df87828.
 
 Signed-off-by: Babu Moger <babu.moger@amd.com>
 ---
- target/i386/cpu.c |   16 ----------------
- target/i386/cpu.h |    1 -
- 2 files changed, 17 deletions(-)
+ hw/i386/x86.c         |    5 -----
+ include/hw/i386/x86.h |    9 ---------
+ 2 files changed, 14 deletions(-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 567d864051..19198e3e7f 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -1636,10 +1636,6 @@ typedef struct X86CPUDefinition {
-     FeatureWordArray features;
-     const char *model_id;
-     CPUCaches *cache_info;
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index 0a7cf8336c..c9dba0811a 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -895,11 +895,6 @@ static void x86_machine_initfn(Object *obj)
+     x86ms->smm = ON_OFF_AUTO_AUTO;
+     x86ms->acpi = ON_OFF_AUTO_AUTO;
+     x86ms->smp_dies = 1;
 -
--    /* Use AMD EPYC encoding for apic id */
--    bool use_epyc_apic_id_encoding;
--
-     /*
-      * Definitions for alternative versions of CPU model.
-      * List is terminated by item with version == 0.
-@@ -1681,18 +1677,6 @@ static const X86CPUVersionDefinition *x86_cpu_def_get_versions(X86CPUDefinition
-     return def->versions ?: default_version_list;
+-    x86ms->apicid_from_cpu_idx = x86_apicid_from_cpu_idx;
+-    x86ms->topo_ids_from_apicid = x86_topo_ids_from_apicid;
+-    x86ms->apicid_from_topo_ids = x86_apicid_from_topo_ids;
+-    x86ms->apicid_pkg_offset = apicid_pkg_offset;
  }
  
--bool cpu_x86_use_epyc_apic_id_encoding(const char *cpu_type)
--{
--    X86CPUClass *xcc = X86_CPU_CLASS(object_class_by_name(cpu_type));
--
--    assert(xcc);
--    if (xcc->model && xcc->model->cpudef) {
--        return xcc->model->cpudef->use_epyc_apic_id_encoding;
--    } else {
--        return false;
--    }
--}
--
- static CPUCaches epyc_cache_info = {
-     .l1d_cache = &(CPUCacheInfo) {
-         .type = DATA_CACHE,
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index a345172afd..d3097be6a5 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1917,7 +1917,6 @@ void cpu_clear_apic_feature(CPUX86State *env);
- void host_cpuid(uint32_t function, uint32_t count,
-                 uint32_t *eax, uint32_t *ebx, uint32_t *ecx, uint32_t *edx);
- void host_vendor_fms(char *vendor, int *family, int *model, int *stepping);
--bool cpu_x86_use_epyc_apic_id_encoding(const char *cpu_type);
+ static void x86_machine_class_init(ObjectClass *oc, void *data)
+diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+index b79f24e285..4d9a26326d 100644
+--- a/include/hw/i386/x86.h
++++ b/include/hw/i386/x86.h
+@@ -63,15 +63,6 @@ typedef struct {
+     OnOffAuto smm;
+     OnOffAuto acpi;
  
- /* helper.c */
- bool x86_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+-    /* Apic id specific handlers */
+-    uint32_t (*apicid_from_cpu_idx)(X86CPUTopoInfo *topo_info,
+-                                    unsigned cpu_index);
+-    void (*topo_ids_from_apicid)(apic_id_t apicid, X86CPUTopoInfo *topo_info,
+-                                 X86CPUTopoIDs *topo_ids);
+-    apic_id_t (*apicid_from_topo_ids)(X86CPUTopoInfo *topo_info,
+-                                      const X86CPUTopoIDs *topo_ids);
+-    uint32_t (*apicid_pkg_offset)(X86CPUTopoInfo *topo_info);
+-
+     /*
+      * Address space used by IOAPIC device. All IOAPIC interrupts
+      * will be translated to MSI messages in the address space.
 
 
