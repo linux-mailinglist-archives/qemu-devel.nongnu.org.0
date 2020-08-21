@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3932324DE7A
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 19:31:38 +0200 (CEST)
-Received: from localhost ([::1]:45390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55E5A24DE7F
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 19:33:13 +0200 (CEST)
+Received: from localhost ([::1]:52698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9At7-0003t8-3d
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 13:31:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57176)
+	id 1k9Aue-0006qk-Dc
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 13:33:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k9Ar0-0000zD-5G; Fri, 21 Aug 2020 13:29:26 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:36655)
+ id 1k9Ar1-00013T-Kb; Fri, 21 Aug 2020 13:29:27 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45583)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k9Aqy-00019C-Kx; Fri, 21 Aug 2020 13:29:25 -0400
-Received: by mail-wr1-x430.google.com with SMTP id 88so2660981wrh.3;
- Fri, 21 Aug 2020 10:29:23 -0700 (PDT)
+ id 1k9Ar0-00019S-43; Fri, 21 Aug 2020 13:29:27 -0400
+Received: by mail-wr1-x442.google.com with SMTP id z18so2625650wrm.12;
+ Fri, 21 Aug 2020 10:29:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xUpjhtTxpzUTDOloVL0txBsx/e4JrhuPXdmZU+sQCYU=;
- b=ItaX6zxwiYGbYVQZh+rDu7WGLAUUqU648AnuWIat1pItXko/TB3zJtO45hVTbMqeD8
- C36idWBjhnKjLkct9P/sxhdZxPbBPnJCThFY41Q0GeQyvFbtYW1Cy4xG5yjE7csP8NST
- B73KWwgGWwyL2JwLXTMEoyecCd8o0Qc26QHFdXZ1opJuEMdY2RtSG3V7aYYisXhCPFA5
- FuAViNbuEynGO2QTT2AtE844XlHgqLY30t1vl/2KBQzA3jUKrYlKnirx3/JlnATTcCWB
- JgbSNpGSnMavorjHg9TOeu8a0V5pGqOjFEnWOoVwS9vTRXmMu3Fz1mzUOjTsKX3aaoZ7
- SuUQ==
+ bh=MF7ZA/p+idAn4SvK+rkvL+g7qzoSAv8079JD7F/Jx7o=;
+ b=XOs8EEQS24hJnGKjsNLLt8hx5jXjk/iGXAXjELZKOc0BR4jj/ndRvgYlgvkOTEv85O
+ lXVeA53QdFaoQKNzDmceb0x/u0Us4qujZZQA2Vzmu9iyn6ONPxMZbesA6VfiM1dvPwjv
+ EEb+sa6FgiPFtlS/yt5dlVSsq+b11eJD60cAGLo0ecgxNzB/MqkRxPkrfOpebNZpIr+u
+ NftgaWQTI0vpoGjiGDj0CqCviyFEprEGByhVQ419p5ZbtnnvnNeysNODm7xoHu6aY5QQ
+ NA6ttHw5Tbq8nZ5ebEbsqsbwEvufXTQj0LRoN0RqPLKSXdHAbkNUxSFUKo+BpUmLjiUI
+ EDpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=xUpjhtTxpzUTDOloVL0txBsx/e4JrhuPXdmZU+sQCYU=;
- b=r6Q1zvJ0n12hwWiBHu4T2lHwRPKr8LyzN+rMPoJDNuT7y8DBCGOYczYJUup5PvUG+g
- jdA1RD3qRQIoVnK7LbciRa973Cenp3vWvx6HTGpeWttaRfVnlxKTz5sYXD9sszi7hGsU
- Vv/w5qwjjeRI5mJg75hi1KxDWfKPocfMJ8Dt03hCs5KSj0JDlDtt2jDZ6JKq8zA2bdBa
- YdYVNru7jTXMe7CQtEDq7gXSwz6Z7Dgp4ftjdh6ZuPVIeGMVGjNdh/HCCOyQ/3BUjiTv
- geJU/YQ3nXxBL7mJV9B70T9qgMStnwfJ4OJYw/AUhp1MxYztwuShvzHACVepzwr/NCnx
- Xp+g==
-X-Gm-Message-State: AOAM532JRJMN88mwukrHJsbt113PJQtSYlzlleZu0EC/yoxZlwFgqfNw
- D38sOqM4Kdy2yS4XcNslQrbKJBEIwTg=
-X-Google-Smtp-Source: ABdhPJzMzy4VWt6szX+Hhwqj5xqFQEB7hSgYPD3BQiIeWy/mPcHKzVZHbU80nfp3sq8gC8doIqezYQ==
-X-Received: by 2002:adf:90d1:: with SMTP id i75mr3489277wri.278.1598030962138; 
- Fri, 21 Aug 2020 10:29:22 -0700 (PDT)
+ bh=MF7ZA/p+idAn4SvK+rkvL+g7qzoSAv8079JD7F/Jx7o=;
+ b=pgDf7/CU/Wz3XS7ZQ3s5DVVnyiqUYAL0llf6DtZ7yOMIit/oApcvqGv5Nfmk+C9EEN
+ 9EegfkwHhXm8EZ5/t9gYlWYSCV3kToNO8F2PssnA/ZkxWwpBAsQ2/RZVNm/IubgOHG2G
+ jZ9xntsMlrDXNP3hNbwWv0wHGVmhu06hQDxQ2sFOJNBiaUfSHwE0NZAvvWQR/bbhFH0M
+ SwZH5JssfuVcUe69qrOWUmQTlqiK8HL9GQDPRrZ/QUddGhiXsEqIaPg5zUJlW6ke2BRU
+ dwtiK/otuX7ni3O/fdrmKJBNbkAUTHzEua+dQ0omfPco/7z8jfDC17vd9ZNIht2OK24g
+ lD+Q==
+X-Gm-Message-State: AOAM530VNrSPX38oy0gA1/Ag81smVD3GEKO2PCTOc55n1VC1a/HjcWue
+ RLTDRjvfQ3EfAO6HTKtkSgfCrZ1bCXE=
+X-Google-Smtp-Source: ABdhPJx/I0FfIcQOeH2n2r5e8UHBb21Kr0xxpzEu1Lz4X3Uu7bc57tHiSaO0j2jte138CJSMThnX3w==
+X-Received: by 2002:adf:c401:: with SMTP id v1mr3481858wrf.379.1598030963449; 
+ Fri, 21 Aug 2020 10:29:23 -0700 (PDT)
 Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id 32sm5315471wrn.86.2020.08.21.10.29.20
+ by smtp.gmail.com with ESMTPSA id 32sm5315471wrn.86.2020.08.21.10.29.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Aug 2020 10:29:21 -0700 (PDT)
+ Fri, 21 Aug 2020 10:29:22 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/23] hw/sd/pxa2xx_mmci: Trivial simplification
-Date: Fri, 21 Aug 2020 19:28:55 +0200
-Message-Id: <20200821172916.1260954-3-f4bug@amsat.org>
+Subject: [PULL 03/23] hw/lm32/milkymist: Un-inline milkymist_memcard_create()
+Date: Fri, 21 Aug 2020 19:28:56 +0200
+Message-Id: <20200821172916.1260954-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200821172916.1260954-1-f4bug@amsat.org>
 References: <20200821172916.1260954-1-f4bug@amsat.org>
@@ -62,8 +62,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -86,51 +86,68 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
- "open list:Trivial patches" <qemu-trivial@nongnu.org>,
- Michael Tokarev <mjt@tls.msk.ru>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Laurent Vivier <laurent@vivier.eu>, Beniamino Galvani <b.galvani@gmail.com>,
- Michael Walle <michael@walle.cc>, qemu-arm@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>
+ Beniamino Galvani <b.galvani@gmail.com>, Michael Walle <michael@walle.cc>,
+ qemu-arm@nongnu.org, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Avoid declaring PXA2xxMMCIState local variable, return it directly.
+As we will modify milkymist_memcard_create(), move it first
+to the source file where it is used.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Acked-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20200705213350.24725-3-f4bug@amsat.org>
+Message-Id: <20200705211016.15241-2-f4bug@amsat.org>
 ---
- hw/sd/pxa2xx_mmci.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ hw/lm32/milkymist-hw.h | 11 -----------
+ hw/lm32/milkymist.c    | 11 +++++++++++
+ 2 files changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/hw/sd/pxa2xx_mmci.c b/hw/sd/pxa2xx_mmci.c
-index 9482b9212dd..2996a2ef177 100644
---- a/hw/sd/pxa2xx_mmci.c
-+++ b/hw/sd/pxa2xx_mmci.c
-@@ -480,10 +480,8 @@ PXA2xxMMCIState *pxa2xx_mmci_init(MemoryRegion *sysmem,
- {
-     DeviceState *dev;
-     SysBusDevice *sbd;
--    PXA2xxMMCIState *s;
- 
-     dev = qdev_new(TYPE_PXA2XX_MMCI);
--    s = PXA2XX_MMCI(dev);
-     sbd = SYS_BUS_DEVICE(dev);
-     sysbus_mmio_map(sbd, 0, base);
-     sysbus_connect_irq(sbd, 0, irq);
-@@ -491,7 +489,7 @@ PXA2xxMMCIState *pxa2xx_mmci_init(MemoryRegion *sysmem,
-     qdev_connect_gpio_out_named(dev, "tx-dma", 0, tx_dma);
-     sysbus_realize_and_unref(sbd, &error_fatal);
- 
--    return s;
-+    return PXA2XX_MMCI(dev);
+diff --git a/hw/lm32/milkymist-hw.h b/hw/lm32/milkymist-hw.h
+index 05e2c2a5a75..5dca5d52f57 100644
+--- a/hw/lm32/milkymist-hw.h
++++ b/hw/lm32/milkymist-hw.h
+@@ -31,17 +31,6 @@ static inline DeviceState *milkymist_hpdmc_create(hwaddr base)
+     return dev;
  }
  
- static void pxa2xx_mmci_set_inserted(DeviceState *dev, bool inserted)
+-static inline DeviceState *milkymist_memcard_create(hwaddr base)
+-{
+-    DeviceState *dev;
+-
+-    dev = qdev_new("milkymist-memcard");
+-    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+-    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
+-
+-    return dev;
+-}
+-
+ static inline DeviceState *milkymist_vgafb_create(hwaddr base,
+         uint32_t fb_offset, uint32_t fb_mask)
+ {
+diff --git a/hw/lm32/milkymist.c b/hw/lm32/milkymist.c
+index 85913bb68b6..469e3c43225 100644
+--- a/hw/lm32/milkymist.c
++++ b/hw/lm32/milkymist.c
+@@ -80,6 +80,17 @@ static void main_cpu_reset(void *opaque)
+     env->deba = reset_info->flash_base;
+ }
+ 
++static DeviceState *milkymist_memcard_create(hwaddr base)
++{
++    DeviceState *dev;
++
++    dev = qdev_new("milkymist-memcard");
++    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
++    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
++
++    return dev;
++}
++
+ static void
+ milkymist_init(MachineState *machine)
+ {
 -- 
 2.26.2
 
