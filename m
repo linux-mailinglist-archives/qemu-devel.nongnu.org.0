@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D95424D39C
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 13:13:53 +0200 (CEST)
-Received: from localhost ([::1]:45434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2332824D38A
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 13:09:19 +0200 (CEST)
+Received: from localhost ([::1]:53724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k94zY-0006ek-Jj
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 07:13:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60762)
+	id 1k94v8-0006gf-5a
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 07:09:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k94EI-0003B9-R9
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:25:02 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27042
- helo=us-smtp-1.mimecast.com)
+ id 1k94EG-00039g-Dh
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:25:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59174)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k94E9-0001jn-DI
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:25:01 -0400
+ id 1k94EE-0001kd-4E
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:25:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598005492;
+ s=mimecast20190719; t=1598005496;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Sg9YVJRv6wW6cfJ0v4OQv28WxAZBM0uAS+h3Qkeg40s=;
- b=bqLAr2esdcGHIk7Iwwym7PM0POI5UFh1XmjQy343oiFdkNRxLvHNojHTzwTWW1HjioZcWt
- A+0YoCu2yaeEJzzrD80kRlu8DW1HofP8BJ9w8nouA4K5Qiry63vceVyan6VIPydk7RWcHB
- 9PZ4qqI5ar4s1k+u0NXnz7TnJlDO8yo=
+ bh=R9q1KgmDfLOVgzy6SPL2YsMS59wd78HyOGj+ayBblnc=;
+ b=gboypxTec/hORffULso5JwZ4GWf6Ywxe5VLNk7/qTylNyQ2kGJzmFxC2w6rnRuNPNu1Edp
+ oVBukJT/iB7GHrwEU4vLbY5lGqVzfKZcYKUNV8E3u+z3O0kYP6avqSFlDbvXJ3vM+712va
+ tIc/PF3sPEMOIAsJOW8BqkAoQDBnUXE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-45-MLnnaFKROcawbDLbNdiS_w-1; Fri, 21 Aug 2020 06:24:51 -0400
-X-MC-Unique: MLnnaFKROcawbDLbNdiS_w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-6-Y8vpbMpVOrGWKyG8mLndIA-1; Fri, 21 Aug 2020 06:24:55 -0400
+X-MC-Unique: Y8vpbMpVOrGWKyG8mLndIA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 475F5100CF74
- for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:24:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39EBD100CF6F
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:24:54 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 067447C52D;
- Fri, 21 Aug 2020 10:24:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B119C60BF1;
+ Fri, 21 Aug 2020 10:24:50 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v8 099/152] meson: convert hw/ssi
-Date: Fri, 21 Aug 2020 06:22:36 -0400
-Message-Id: <20200821102329.29777-100-pbonzini@redhat.com>
+Subject: [PULL v8 100/152] meson: convert hw/sd
+Date: Fri, 21 Aug 2020 06:22:37 -0400
+Message-Id: <20200821102329.29777-101-pbonzini@redhat.com>
 In-Reply-To: <20200821102329.29777-1-pbonzini@redhat.com>
 References: <20200821102329.29777-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 04:55:47
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 02:43:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
 X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,78 +82,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/Makefile.objs     |  1 -
- hw/meson.build       |  1 +
- hw/ssi/Makefile.objs | 10 ----------
- hw/ssi/meson.build   |  9 +++++++++
- 4 files changed, 10 insertions(+), 11 deletions(-)
- delete mode 100644 hw/ssi/Makefile.objs
- create mode 100644 hw/ssi/meson.build
+ hw/Makefile.objs    |  1 -
+ hw/meson.build      |  1 +
+ hw/sd/Makefile.objs | 12 ------------
+ hw/sd/meson.build   | 12 ++++++++++++
+ 4 files changed, 13 insertions(+), 13 deletions(-)
+ delete mode 100644 hw/sd/Makefile.objs
+ create mode 100644 hw/sd/meson.build
 
 diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index f60fd019ac..e50eb04635 100644
+index e50eb04635..6f9c0b7983 100644
 --- a/hw/Makefile.objs
 +++ b/hw/Makefile.objs
-@@ -26,7 +26,6 @@ devices-dirs-$(CONFIG_PCI) += pci-bridge/ pci-host/
+@@ -25,7 +25,6 @@ devices-dirs-y += pci/
+ devices-dirs-$(CONFIG_PCI) += pci-bridge/ pci-host/
  devices-dirs-y += pcmcia/
  devices-dirs-$(CONFIG_SCSI) += scsi/
- devices-dirs-y += sd/
--devices-dirs-y += ssi/
+-devices-dirs-y += sd/
  endif
  
  common-obj-y += $(devices-dirs-y)
 diff --git a/hw/meson.build b/hw/meson.build
-index 1fb1687e1e..75644266f2 100644
+index 75644266f2..a73f4aebde 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
-@@ -4,6 +4,7 @@ subdir('nubus')
+@@ -2,6 +2,7 @@ subdir('core')
+ subdir('mem')
+ subdir('nubus')
  subdir('rtc')
++subdir('sd')
  subdir('semihosting')
  subdir('smbios')
-+subdir('ssi')
- subdir('timer')
- subdir('tpm')
- subdir('usb')
-diff --git a/hw/ssi/Makefile.objs b/hw/ssi/Makefile.objs
+ subdir('ssi')
+diff --git a/hw/sd/Makefile.objs b/hw/sd/Makefile.objs
 deleted file mode 100644
-index 07a85f1967..0000000000
---- a/hw/ssi/Makefile.objs
+index 0d1df1721c..0000000000
+--- a/hw/sd/Makefile.objs
 +++ /dev/null
-@@ -1,10 +0,0 @@
--common-obj-$(CONFIG_PL022) += pl022.o
--common-obj-$(CONFIG_SSI) += ssi.o
--common-obj-$(CONFIG_XILINX_SPI) += xilinx_spi.o
--common-obj-$(CONFIG_XILINX_SPIPS) += xilinx_spips.o
--common-obj-$(CONFIG_ASPEED_SOC) += aspeed_smc.o
--common-obj-$(CONFIG_STM32F2XX_SPI) += stm32f2xx_spi.o
--common-obj-$(CONFIG_MSF2) += mss-spi.o
+@@ -1,12 +0,0 @@
+-common-obj-$(CONFIG_PL181) += pl181.o
+-common-obj-$(CONFIG_SSI_SD) += ssi-sd.o
+-common-obj-$(CONFIG_SD) += sd.o core.o sdmmc-internal.o
+-common-obj-$(CONFIG_SDHCI) += sdhci.o
+-common-obj-$(CONFIG_SDHCI_PCI) += sdhci-pci.o
 -
--common-obj-$(CONFIG_OMAP) += omap_spi.o
--common-obj-$(CONFIG_IMX) += imx_spi.o
-diff --git a/hw/ssi/meson.build b/hw/ssi/meson.build
+-common-obj-$(CONFIG_ALLWINNER_H3) += allwinner-sdhost.o
+-common-obj-$(CONFIG_MILKYMIST) += milkymist-memcard.o
+-common-obj-$(CONFIG_OMAP) += omap_mmc.o
+-common-obj-$(CONFIG_PXA2XX) += pxa2xx_mmci.o
+-common-obj-$(CONFIG_RASPI) += bcm2835_sdhost.o
+-common-obj-$(CONFIG_ASPEED_SOC) += aspeed_sdhci.o
+diff --git a/hw/sd/meson.build b/hw/sd/meson.build
 new file mode 100644
-index 0000000000..f1f5c287d0
+index 0000000000..b43e59bd00
 --- /dev/null
-+++ b/hw/ssi/meson.build
-@@ -0,0 +1,9 @@
-+softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_smc.c'))
-+softmmu_ss.add(when: 'CONFIG_MSF2', if_true: files('mss-spi.c'))
-+softmmu_ss.add(when: 'CONFIG_PL022', if_true: files('pl022.c'))
-+softmmu_ss.add(when: 'CONFIG_SSI', if_true: files('ssi.c'))
-+softmmu_ss.add(when: 'CONFIG_STM32F2XX_SPI', if_true: files('stm32f2xx_spi.c'))
-+softmmu_ss.add(when: 'CONFIG_XILINX_SPI', if_true: files('xilinx_spi.c'))
-+softmmu_ss.add(when: 'CONFIG_XILINX_SPIPS', if_true: files('xilinx_spips.c'))
-+softmmu_ss.add(when: 'CONFIG_IMX', if_true: files('imx_spi.c'))
-+softmmu_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_spi.c'))
++++ b/hw/sd/meson.build
+@@ -0,0 +1,12 @@
++softmmu_ss.add(when: 'CONFIG_PL181', if_true: files('pl181.c'))
++softmmu_ss.add(when: 'CONFIG_SD', if_true: files('sd.c', 'core.c', 'sdmmc-internal.c'))
++softmmu_ss.add(when: 'CONFIG_SDHCI', if_true: files('sdhci.c'))
++softmmu_ss.add(when: 'CONFIG_SDHCI_PCI', if_true: files('sdhci-pci.c'))
++softmmu_ss.add(when: 'CONFIG_SSI_SD', if_true: files('ssi-sd.c'))
++
++softmmu_ss.add(when: 'CONFIG_MILKYMIST', if_true: files('milkymist-memcard.c'))
++softmmu_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_mmc.c'))
++softmmu_ss.add(when: 'CONFIG_PXA2XX', if_true: files('pxa2xx_mmci.c'))
++softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_sdhost.c'))
++softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_sdhci.c'))
++softmmu_ss.add(when: 'CONFIG_ALLWINNER_H3', if_true: files('allwinner-sdhost.c'))
 -- 
 2.26.2
 
