@@ -2,66 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F7B224D360
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 12:59:06 +0200 (CEST)
-Received: from localhost ([::1]:37188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA3E524D2FD
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 12:44:31 +0200 (CEST)
+Received: from localhost ([::1]:45720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k94lF-0005Af-BC
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 06:59:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60532)
+	id 1k94X9-0007sL-0X
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 06:44:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k94E6-0002pf-Ct
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:24:50 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:32485
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1k94DU-0001fe-VK
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:24:12 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60138
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k94E1-0001hy-2A
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:24:50 -0400
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1k94DO-0001XC-FS
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:24:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598005484;
+ s=mimecast20190719; t=1598005445;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vjZj0bDom7PpYauXnuxUduUJ8DfIPmXLnJUDYXk86fI=;
- b=KxW5qLfCSdCsF/S0AWhToTOz3iJ77AZI4AR5UL+SsdaNa6kKAwKI4LQ4VH0KlXmS6vN1mk
- U9OIOCIoEbJGS4vgZSHBvVbewxgaqHk5+hPdXPIPFzPTdQFrPjqz7b9564Y8PDbPiBONmO
- bzp6rQjaxK7B/lt4Qyb0utq1RJsGFtg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-150-N8k1bgLzNa6aIyGqlNBC5A-1; Fri, 21 Aug 2020 06:24:42 -0400
-X-MC-Unique: N8k1bgLzNa6aIyGqlNBC5A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E5E7756B2C
- for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:24:41 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 969BE7E31F;
- Fri, 21 Aug 2020 10:24:41 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL v8 087/152] meson: convert hw/core
-Date: Fri, 21 Aug 2020 06:22:24 -0400
-Message-Id: <20200821102329.29777-88-pbonzini@redhat.com>
-In-Reply-To: <20200821102329.29777-1-pbonzini@redhat.com>
-References: <20200821102329.29777-1-pbonzini@redhat.com>
+ bh=ZejmnbZ15jPkdA6DilS17pNMVEFhImwbB7OYg8dEuWw=;
+ b=dbvRKvj4n0OzUQO06mt7dv7lWBoJ0UlUswRNBt0psDW375VkqlxsdBu1YvkbDpMLAqIATA
+ RlrwsP8uB0F3VaUCAyDtjJBnxNOwKglDubUnDAiUIEwvfJaEcMgs+Q9bwnjpm9wdF/SP+d
+ J5pjo3s8dKoHHM5L65RAhWM0lTIic7M=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-410-DB0aW_0MPdO4-APCZD92qw-1; Fri, 21 Aug 2020 06:24:04 -0400
+X-MC-Unique: DB0aW_0MPdO4-APCZD92qw-1
+Received: by mail-wr1-f72.google.com with SMTP id 89so411997wrr.15
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 03:24:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=QZRGaUfDp1IKr6Kru7sK9Zzdub+FNd3y+jD4LYTrtEo=;
+ b=NsovsCNoIzW0IipobqMtZTzo4bFR2qqdi48NE24yj0DOe1v58gwUp1TmQUWRA5fhmH
+ k2wevUW041KrUvLq8nlyRUCvIkBYmdnNSSBbgFI1sRMemsOLzbcbMoEHnsbE8X9LirSC
+ RcMk/Qxm2a+frxDwE2wz8B1g9m1xH15OxcrynlDETkulXtmq59q0yuN6ffbAp6ODmbWy
+ YiA3vBfOy60m8U9ecHvXt1euHUHZt806R255SU9EEmCqKWfZytAJ9E+UPoxgFg8fO73G
+ 67TXNdLvEAbyVJHV0a3NHRCpdsOm2iOF0pQ0PKTB/WoNakUJlKiUQlP08uSyBxTiAL37
+ wwfg==
+X-Gm-Message-State: AOAM532WtY5dMDQmakrAsBXGMQU9diWYUqIfeKLzIk0A5B0t4V+lmrjG
+ dVPwFxE0cYJy1KywYIJNco8f4QxP89o3+5AkV+PrzLfImWXqf7nf9h1cBwvWG9iUNfMreMdWE1Y
+ wedmmsFeC3Fvv4SU=
+X-Received: by 2002:a1c:9d85:: with SMTP id g127mr2447591wme.162.1598005442960; 
+ Fri, 21 Aug 2020 03:24:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzMpcxhZG/1Zoz2X0UKV/8g9SVEcj350h9FIhrLIzDnT0scwS24gTvZs+zwvh9bYclZBRfZiA==
+X-Received: by 2002:a1c:9d85:: with SMTP id g127mr2447572wme.162.1598005442739; 
+ Fri, 21 Aug 2020 03:24:02 -0700 (PDT)
+Received: from steredhat (host-79-33-191-244.retail.telecomitalia.it.
+ [79.33.191.244])
+ by smtp.gmail.com with ESMTPSA id u6sm3847399wmc.12.2020.08.21.03.23.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Aug 2020 03:24:02 -0700 (PDT)
+Date: Fri, 21 Aug 2020 12:23:53 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v5 14/15] block/nvme: Extract nvme_poll_queue()
+Message-ID: <20200821102353.pi4jk4phmqmzrhir@steredhat>
+References: <20200820165901.1139109-1-philmd@redhat.com>
+ <20200820165901.1139109-15-philmd@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20200820165901.1139109-15-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.003
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 01:00:15
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 23:41:39
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -69,7 +87,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,158 +100,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On Thu, Aug 20, 2020 at 06:59:00PM +0200, Philippe Mathieu-Daudé wrote:
+> As we want to do per-queue polling, extract the nvme_poll_queue()
+> method which operates on a single queue.
+> 
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  block/nvme.c | 44 +++++++++++++++++++++++++++-----------------
+>  1 file changed, 27 insertions(+), 17 deletions(-)
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- hw/Makefile.objs       |  1 -
- hw/core/Makefile.objs  | 34 -----------------------------
- hw/core/meson.build    | 49 ++++++++++++++++++++++++++++++++++++++++++
- hw/meson.build         |  1 +
- tests/Makefile.include | 10 +--------
- 5 files changed, 51 insertions(+), 44 deletions(-)
- delete mode 100644 hw/core/Makefile.objs
- create mode 100644 hw/core/meson.build
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
-diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index d204a906af..bdf8bdf256 100644
---- a/hw/Makefile.objs
-+++ b/hw/Makefile.objs
-@@ -1,4 +1,3 @@
--devices-dirs-y = core/
- ifeq ($(CONFIG_SOFTMMU), y)
- devices-dirs-$(call lor,$(CONFIG_VIRTIO_9P),$(call land,$(CONFIG_VIRTFS),$(CONFIG_XEN))) += 9pfs/
- devices-dirs-y += acpi/
-diff --git a/hw/core/Makefile.objs b/hw/core/Makefile.objs
-deleted file mode 100644
-index d8fee8effe..0000000000
---- a/hw/core/Makefile.objs
-+++ /dev/null
-@@ -1,34 +0,0 @@
--# core qdev-related obj files, also used by *-user:
--common-obj-y += qdev.o qdev-properties.o
--common-obj-y += bus.o
--common-obj-y += cpu.o
--common-obj-y += resettable.o
--common-obj-y += hotplug.o
--common-obj-y += vmstate-if.o
--# irq.o needed for qdev GPIO handling:
--common-obj-y += irq.o
--common-obj-y += clock.o qdev-clock.o
--
--common-obj-$(CONFIG_SOFTMMU) += reset.o
--common-obj-$(CONFIG_SOFTMMU) += qdev-fw.o
--common-obj-$(CONFIG_SOFTMMU) += fw-path-provider.o
--common-obj-$(CONFIG_SOFTMMU) += nmi.o
--common-obj-$(CONFIG_SOFTMMU) += vm-change-state-handler.o
--common-obj-$(CONFIG_SOFTMMU) += qdev-properties-system.o
--common-obj-$(CONFIG_SOFTMMU) += sysbus.o
--common-obj-$(CONFIG_SOFTMMU) += machine.o
--common-obj-$(CONFIG_SOFTMMU) += null-machine.o
--common-obj-$(CONFIG_SOFTMMU) += loader.o
--common-obj-$(CONFIG_SOFTMMU) += machine-hmp-cmds.o
--common-obj-$(CONFIG_SOFTMMU) += numa.o
--common-obj-$(CONFIG_SOFTMMU) += clock-vmstate.o
--obj-$(CONFIG_SOFTMMU) += machine-qmp-cmds.o
--
--common-obj-$(CONFIG_XILINX_AXI) += stream.o
--common-obj-$(CONFIG_PTIMER) += ptimer.o
--common-obj-$(CONFIG_FITLOADER) += loader-fit.o
--common-obj-$(CONFIG_REGISTER) += register.o
--common-obj-$(CONFIG_OR_IRQ) += or-irq.o
--common-obj-$(CONFIG_SPLIT_IRQ) += split-irq.o
--common-obj-$(CONFIG_PLATFORM_BUS) += platform-bus.o
--common-obj-$(CONFIG_GENERIC_LOADER) += generic-loader.o
-diff --git a/hw/core/meson.build b/hw/core/meson.build
-new file mode 100644
-index 0000000000..fc91f98075
---- /dev/null
-+++ b/hw/core/meson.build
-@@ -0,0 +1,49 @@
-+# core qdev-related obj files, also used by *-user and unit tests
-+hwcore_files = files(
-+  'bus.c',
-+  'fw-path-provider.c',
-+  'hotplug.c',
-+  'qdev-properties.c',
-+  'qdev.c',
-+  'reset.c',
-+  'resettable.c',
-+  'vmstate-if.c',
-+  # irq.c needed for qdev GPIO handling:
-+  'irq.c',
-+  'clock.c',
-+  'qdev-clock.c',
-+)
-+
-+libhwcore = static_library('hwcore', sources: hwcore_files + genh,
-+                           name_suffix: 'fa',
-+                           build_by_default: false)
-+hwcore = declare_dependency(link_whole: libhwcore)
-+common_ss.add(hwcore)
-+
-+common_ss.add(files('cpu.c'))
-+common_ss.add(when: 'CONFIG_FITLOADER', if_true: files('loader-fit.c'))
-+common_ss.add(when: 'CONFIG_GENERIC_LOADER', if_true: files('generic-loader.c'))
-+common_ss.add(when: 'CONFIG_OR_IRQ', if_true: files('or-irq.c'))
-+common_ss.add(when: 'CONFIG_PLATFORM_BUS', if_true: files('platform-bus.c'))
-+common_ss.add(when: 'CONFIG_PTIMER', if_true: files('ptimer.c'))
-+common_ss.add(when: 'CONFIG_REGISTER', if_true: files('register.c'))
-+common_ss.add(when: 'CONFIG_SPLIT_IRQ', if_true: files('split-irq.c'))
-+common_ss.add(when: 'CONFIG_XILINX_AXI', if_true: files('stream.c'))
-+
-+softmmu_ss.add(files(
-+  'loader.c',
-+  'machine-hmp-cmds.c',
-+  'machine.c',
-+  'nmi.c',
-+  'null-machine.c',
-+  'qdev-fw.c',
-+  'qdev-properties-system.c',
-+  'sysbus.c',
-+  'vm-change-state-handler.c',
-+  'clock-vmstate.c',
-+))
-+
-+specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: files(
-+  'machine-qmp-cmds.c',
-+  'numa.c',
-+))
-diff --git a/hw/meson.build b/hw/meson.build
-index 08112a5e4b..fe7c466460 100644
---- a/hw/meson.build
-+++ b/hw/meson.build
-@@ -1 +1,2 @@
-+subdir('core')
- subdir('xen')
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 8ac9c68f04..609a40c6e5 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -244,15 +244,7 @@ tests/test-bufferiszero$(EXESUF): tests/test-bufferiszero.o $(test-util-obj-y)
- tests/atomic_add-bench$(EXESUF): tests/atomic_add-bench.o $(test-util-obj-y)
- tests/atomic64-bench$(EXESUF): tests/atomic64-bench.o $(test-util-obj-y)
- 
--tests/test-qdev-global-props$(EXESUF): tests/test-qdev-global-props.o \
--	hw/core/qdev.o hw/core/qdev-properties.o hw/core/hotplug.o\
--	hw/core/bus.o \
--	hw/core/resettable.o \
--	hw/core/irq.o \
--	hw/core/fw-path-provider.o \
--	hw/core/reset.o \
--	hw/core/vmstate-if.o \
--	hw/core/clock.o hw/core/qdev-clock.o \
-+tests/test-qdev-global-props$(EXESUF): tests/test-qdev-global-props.o hw/core/libhwcore.fa \
- 	$(test-qapi-obj-y)
- tests/test-vmstate$(EXESUF): tests/test-vmstate.o migration/libmigration.fa \
- 	$(test-io-obj-y)
--- 
-2.26.2
-
+> 
+> diff --git a/block/nvme.c b/block/nvme.c
+> index 1f67e888c84..a61e86a83eb 100644
+> --- a/block/nvme.c
+> +++ b/block/nvme.c
+> @@ -590,31 +590,41 @@ out:
+>      qemu_vfree(id);
+>  }
+>  
+> +static bool nvme_poll_queue(NVMeQueuePair *q)
+> +{
+> +    bool progress = false;
+> +
+> +    const size_t cqe_offset = q->cq.head * NVME_CQ_ENTRY_BYTES;
+> +    NvmeCqe *cqe = (NvmeCqe *)&q->cq.queue[cqe_offset];
+> +
+> +    /*
+> +     * Do an early check for completions. q->lock isn't needed because
+> +     * nvme_process_completion() only runs in the event loop thread and
+> +     * cannot race with itself.
+> +     */
+> +    if ((le16_to_cpu(cqe->status) & 0x1) == q->cq_phase) {
+> +        return false;
+> +    }
+> +
+> +    qemu_mutex_lock(&q->lock);
+> +    while (nvme_process_completion(q)) {
+> +        /* Keep polling */
+> +        progress = true;
+> +    }
+> +    qemu_mutex_unlock(&q->lock);
+> +
+> +    return progress;
+> +}
+> +
+>  static bool nvme_poll_queues(BDRVNVMeState *s)
+>  {
+>      bool progress = false;
+>      int i;
+>  
+>      for (i = 0; i < s->nr_queues; i++) {
+> -        NVMeQueuePair *q = s->queues[i];
+> -        const size_t cqe_offset = q->cq.head * NVME_CQ_ENTRY_BYTES;
+> -        NvmeCqe *cqe = (NvmeCqe *)&q->cq.queue[cqe_offset];
+> -
+> -        /*
+> -         * Do an early check for completions. q->lock isn't needed because
+> -         * nvme_process_completion() only runs in the event loop thread and
+> -         * cannot race with itself.
+> -         */
+> -        if ((le16_to_cpu(cqe->status) & 0x1) == q->cq_phase) {
+> -            continue;
+> -        }
+> -
+> -        qemu_mutex_lock(&q->lock);
+> -        while (nvme_process_completion(q)) {
+> -            /* Keep polling */
+> +        if (nvme_poll_queue(s->queues[i])) {
+>              progress = true;
+>          }
+> -        qemu_mutex_unlock(&q->lock);
+>      }
+>      return progress;
+>  }
+> -- 
+> 2.26.2
+> 
+> 
 
 
