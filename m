@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA8AC24D310
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 12:47:36 +0200 (CEST)
-Received: from localhost ([::1]:34222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6015924D31C
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 12:48:37 +0200 (CEST)
+Received: from localhost ([::1]:41004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k94a7-0006Gk-VS
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 06:47:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59952)
+	id 1k94b6-0000Zo-Bk
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 06:48:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k94DY-0001ie-3M
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:24:16 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47727
- helo=us-smtp-1.mimecast.com)
+ id 1k94DZ-0001lU-CN
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:24:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32519)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k94DV-0001aM-6L
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:24:15 -0400
+ id 1k94DW-0001ac-8o
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:24:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1598005452;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=S++sMXlk4ZbdRPKitxI0XFdZlmXCAv7kx45kPYA6yNU=;
- b=dS4cI/0TukWDtYbhGnrcKWXIqaO6T7HY7dinWR+eMa2tOAHfcE3ScCKhaagxJ+wb5qLqp/
- K6LBZNcxjhLElSHqipnAtV43x7E1vcWN1kAn18fOXQxQ3jmS0qi654JR3IJFAEpQdRUO/r
- ybgzHV1KmjguCCsda1F+trf0gFvxvNk=
+ bh=0CiGmGsqWM1Sdrw1/fjjkI3KDefPbgWPcYThw40kIek=;
+ b=SG2zbsZY0ZE02NOWzV+9SK6tzrPpJyey99b5Mz6Vv1tTgcmHOV/cthxvbD7slYZATT1tWH
+ SERcC+82RHaOOsgt3NHZ7c3sS/qGiPp82rB8A3ONIfKIOrR80ownrdVdcOaAWE+1Qz3gYh
+ aruQiSMP+IcusdQaYsfYLpCCatq2JCQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-386-UM59yB9TPCijPbFnOOCKWQ-1; Fri, 21 Aug 2020 06:24:10 -0400
-X-MC-Unique: UM59yB9TPCijPbFnOOCKWQ-1
+ us-mta-416-iNEAZbHcNUid9UPIa5-uXQ-1; Fri, 21 Aug 2020 06:24:11 -0400
+X-MC-Unique: iNEAZbHcNUid9UPIa5-uXQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CEFA380EFBD
- for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:24:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B7D1100CF76
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:24:10 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6688B5C1D0;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F02325C1D0;
  Fri, 21 Aug 2020 10:24:09 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v8 045/152] meson: add qemu-bridge-helper
-Date: Fri, 21 Aug 2020 06:21:42 -0400
-Message-Id: <20200821102329.29777-46-pbonzini@redhat.com>
+Subject: [PULL v8 046/152] meson: add qemu-keymap
+Date: Fri, 21 Aug 2020 06:21:43 -0400
+Message-Id: <20200821102329.29777-47-pbonzini@redhat.com>
 In-Reply-To: <20200821102329.29777-1-pbonzini@redhat.com>
 References: <20200821102329.29777-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -59,17 +58,18 @@ X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 23:41:39
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 02:43:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
 X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,70 +82,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile    | 4 ----
- meson.build | 9 ++++++++-
- 2 files changed, 8 insertions(+), 5 deletions(-)
+ Makefile    |  5 -----
+ configure   |  4 +---
+ meson.build | 10 ++++++++++
+ 3 files changed, 11 insertions(+), 8 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 8d3c8d8fbd..3addf50636 100644
+index 3addf50636..b0a261bdc7 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -197,8 +197,6 @@ LIBS+=-lz $(LIBS_TOOLS)
- 
- HELPERS-y = $(HELPERS)
- 
--HELPERS-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_LINUX)) += qemu-bridge-helper$(EXESUF)
--
- # Sphinx does not allow building manuals into the same directory as
- # the source files, so if we're doing an in-tree QEMU build we must
- # build the manuals into a subdirectory (and then install them from
-@@ -431,8 +429,6 @@ qemu-nbd$(EXESUF): qemu-nbd.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io
+@@ -429,8 +429,6 @@ qemu-nbd$(EXESUF): qemu-nbd.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io
  qemu-io$(EXESUF): qemu-io.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
  qemu-storage-daemon$(EXESUF): qemu-storage-daemon.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(chardev-obj-y) $(io-obj-y) $(qom-obj-y) $(storage-daemon-obj-y) $(COMMON_LDADDS)
  
--qemu-bridge-helper$(EXESUF): qemu-bridge-helper.o $(COMMON_LDADDS)
+-qemu-keymap$(EXESUF): qemu-keymap.o ui/input-keymap.o $(COMMON_LDADDS)
 -
- qemu-keymap$(EXESUF): qemu-keymap.o ui/input-keymap.o $(COMMON_LDADDS)
- 
  qemu-edid$(EXESUF): qemu-edid.o hw/display/edid-generate.o $(COMMON_LDADDS)
+ 
+ fsdev/virtfs-proxy-helper$(EXESUF): fsdev/virtfs-proxy-helper.o fsdev/9p-marshal.o fsdev/9p-iov-marshal.o $(COMMON_LDADDS)
+@@ -443,9 +441,6 @@ endif
+ qemu-img-cmds.h: $(SRC_PATH)/qemu-img-cmds.hx $(SRC_PATH)/scripts/hxtool
+ 	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -h < $< > $@,"GEN","$@")
+ 
+-qemu-keymap$(EXESUF): LIBS += $(XKBCOMMON_LIBS)
+-qemu-keymap$(EXESUF): QEMU_CFLAGS += $(XKBCOMMON_CFLAGS)
+-
+ module_block.h: $(SRC_PATH)/scripts/modules/module_block.py config-host.mak
+ 	$(call quiet-command,$(PYTHON) $< $@ \
+ 	$(addprefix $(SRC_PATH)/,$(patsubst %.mo,%.c,$(block-obj-m))), \
+diff --git a/configure b/configure
+index 86a30d0e6d..62f1bcf9ba 100755
+--- a/configure
++++ b/configure
+@@ -6748,9 +6748,6 @@ if test "$softmmu" = yes ; then
+     fi
+     mpath=no
+   fi
+-  if test "$xkbcommon" = "yes"; then
+-    tools="qemu-keymap\$(EXESUF) $tools"
+-  fi
+ fi
+ 
+ # Probe for guest agent support/options
+@@ -7067,6 +7064,7 @@ if test "$vnc_png" = "yes" ; then
+   echo "CONFIG_VNC_PNG=y" >> $config_host_mak
+ fi
+ if test "$xkbcommon" = "yes" ; then
++  echo "CONFIG_XKBCOMMON=y" >> $config_host_mak
+   echo "XKBCOMMON_CFLAGS=$xkbcommon_cflags" >> $config_host_mak
+   echo "XKBCOMMON_LIBS=$xkbcommon_libs" >> $config_host_mak
+ fi
 diff --git a/meson.build b/meson.build
-index 5cd8ee0298..3568b4816e 100644
+index 3568b4816e..9ec7dd9ddc 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -297,7 +297,6 @@ qemuutil = declare_dependency(link_with: libqemuutil,
-                               sources: genh + version_res)
- 
- # Other build targets
--
- if 'CONFIG_GUEST_AGENT' in config_host
-   subdir('qga')
+@@ -111,6 +111,11 @@ libcap_ng = not_found
+ if 'CONFIG_LIBCAP_NG' in config_host
+   libcap_ng = declare_dependency(link_args: config_host['LIBCAP_NG_LIBS'].split())
  endif
-@@ -315,6 +314,14 @@ if have_tools
-     subdir('contrib/vhost-user-input')
-     subdir('contrib/vhost-user-scsi')
-   endif
-+
-+  if targetos == 'linux'
-+    executable('qemu-bridge-helper', files('qemu-bridge-helper.c'),
-+               dependencies: [qemuutil, libcap_ng],
-+               install: true,
-+               install_dir: get_option('libexecdir'))
++xkbcommon = not_found
++if 'CONFIG_XKBCOMMON' in config_host
++  xkbcommon = declare_dependency(compile_args: config_host['XKBCOMMON_CFLAGS'].split(),
++                                 link_args: config_host['XKBCOMMON_LIBS'].split())
++endif
+ rt = cc.find_library('rt', required: false)
+ libiscsi = not_found
+ if 'CONFIG_LIBISCSI' in config_host
+@@ -305,6 +310,11 @@ if have_tools
+   subdir('contrib/rdmacm-mux')
+   subdir('contrib/elf2dmp')
+ 
++  if 'CONFIG_XKBCOMMON' in config_host
++    executable('qemu-keymap', files('qemu-keymap.c', 'ui/input-keymap.c'),
++               dependencies: [qemuutil, xkbcommon], install: true)
 +  endif
 +
-   if 'CONFIG_IVSHMEM' in config_host
-     subdir('contrib/ivshmem-client')
-     subdir('contrib/ivshmem-server')
+   if 'CONFIG_VHOST_USER' in config_host
+     subdir('contrib/libvhost-user')
+     subdir('contrib/vhost-user-blk')
 -- 
 2.26.2
 
