@@ -2,66 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FD4824DF10
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 20:06:22 +0200 (CEST)
-Received: from localhost ([::1]:56294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E60924DF29
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 20:14:52 +0200 (CEST)
+Received: from localhost ([::1]:35866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9BQi-00030j-Ji
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 14:06:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40642)
+	id 1k9BYx-0006j8-Ee
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 14:14:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k9BQ4-0002bN-5o
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 14:05:40 -0400
-Received: from indium.canonical.com ([91.189.90.7]:50216)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1k9BXj-0005vq-17
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 14:13:35 -0400
+Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:32957)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k9BQ2-0006JD-72
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 14:05:39 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k9BQ0-0003fk-2u
- for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 18:05:36 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 00FBC2E80E8
- for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 18:05:36 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1k9BXh-0007JL-Ed
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 14:13:34 -0400
+Received: by mail-il1-x142.google.com with SMTP id r13so2188710iln.0
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 11:13:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=btY2JI8o2pfdV8o8ETokBB0wymY/gZ0SoZL41ZRpJpY=;
+ b=TJOq0nSBx7N1Fq/khXhNcrtD73yVNM7ZKUdseuUARadoL5lEAPWu4ayLalP4b9aGib
+ JfzX1MuOEqB/gI5jZwpEmdIFH8usPmg/cBFswecUJ0sevZaUOdxTBaCDArn3eRuMx+er
+ oLv+3gxNxegEymH7o/A2EIyqA42PgdunMc6kRHkUhEeLzWIVAHk3EaNnmcuKIKH6RGLT
+ hyrAmNWjJIHa6I9KspPmXXQLHRVHDWGER/8zvj7Nbhq/tvP4sRissWvnwtMnzJW8CAl8
+ EcH5OheKXW5NGOa9Ai2suPrMJRYdhC6PfHHCC9RxlK9nkrJJHChV3FntfypqiT3eSr24
+ VLow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=btY2JI8o2pfdV8o8ETokBB0wymY/gZ0SoZL41ZRpJpY=;
+ b=fZimZQ0f1pyV7N7wk3pXxaMkfOg3jprnrZrn5E+cqMrc1waRMZUlWtgmiMoBnKQC8M
+ aKmuqXE8ABw1L0RfquURCwi+xfqAVpfdHO6T+gu98RbqnB6NgjaavZ1f6e17LNgKVsru
+ GIFsjkY0SL9XWNNHOokeRKPzKw+l2ovY2aoszfFLSG/UKVQaU9SMz8AQDghjfASSOuHT
+ znBHxFSxdJiccds4NnMvGcxR55q/exdOq9T6c2PifTSXTTrq15udOueBGWBM4KpKVf3r
+ jiVcF7XhS8q9R++2qyXUHcOwH7mNu5Bx7WL0+2Wxcw4vHduZV5qW22F0Rr/GoEb7TEkJ
+ 5nsg==
+X-Gm-Message-State: AOAM532+pKJEuAYFNPtlcbRTVWRy3R4D92qBh8Sdqqs8MLM1znCVvVtd
+ FDUM9qx92D5s9a4/ItW4vEYCc/6lvKPd/wc/PBQ=
+X-Google-Smtp-Source: ABdhPJyuPnTsryFbReJjIVl8FY9MLrDd4nd1slawQdf+IRPxaCVPoa9GQVJYflbLV2TfzkySyAtDbjzOx/kEQTEnr+Q=
+X-Received: by 2002:a92:9117:: with SMTP id t23mr3660449ild.177.1598033612228; 
+ Fri, 21 Aug 2020 11:13:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+References: <20200821174604.1264321-1-f4bug@amsat.org>
+In-Reply-To: <20200821174604.1264321-1-f4bug@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 21 Aug 2020 11:02:54 -0700
+Message-ID: <CAKmqyKMZs=AWWfDXQQ6qD20=uTGo7NsNOXLGqfFn2wUztyBK5w@mail.gmail.com>
+Subject: Re: [PATCH] hw/ssi/ssi: Set abstract TYPE_SSI_SLAVE instance size
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 21 Aug 2020 17:57:42 -0000
-From: Xavier Claessens <1892533@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bonzini zdra
-X-Launchpad-Bug-Reporter: Xavier Claessens (zdra)
-X-Launchpad-Bug-Modifier: Xavier Claessens (zdra)
-References: <159803097267.15754.2795655095121321664.malonedeb@soybean.canonical.com>
-Message-Id: <159803266213.4383.14604483710799529546.malone@gac.canonical.com>
-Subject: [Bug 1892533] Re: Meson: Missing config-host.mak
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="99c2d833c8d727fd05148486920aca032e908071"; Instance="production"
-X-Launchpad-Hash: 86ce724f028eb9fb3b45eacd5ee4a049f9014304
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 13:35:28
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::142;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x142.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,34 +81,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1892533 <1892533@bugs.launchpad.net>
+Cc: Alistair Francis <alistair@alistair23.me>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-btw, I'm surprised README does not mention meson, shouldn't you instruct
-that it's a build-dep? Maybe suggest pip install command?
+On Fri, Aug 21, 2020 at 10:46 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
+rg> wrote:
+>
+> Set the abstract TYPE_SSI_SLAVE instance size in case an
+> implementation forgot to set it.
+>
+> Reported-by: Eduardo Habkost <ehabkost@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
--- =
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1892533
+Alistair
 
-Title:
-  Meson: Missing config-host.mak
-
-Status in QEMU:
-  New
-
-Bug description:
-  Wanted to give a try to the new build system, but a simple "meson
-  build" gives that error:
-
-  meson.build:15:0: ERROR: Failed to load
-  /home/xclaesse/programmation/qemu/build/config-host.mak: [Errno 2] No
-  such file or directory: '/home/xclaesse/programmation/qemu/build
-  /config-host.mak'
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1892533/+subscriptions
+> ---
+> See:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg731954.html
+> ---
+>  hw/ssi/ssi.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/hw/ssi/ssi.c b/hw/ssi/ssi.c
+> index a35d7ebb266..b3e82470381 100644
+> --- a/hw/ssi/ssi.c
+> +++ b/hw/ssi/ssi.c
+> @@ -85,6 +85,7 @@ static void ssi_slave_class_init(ObjectClass *klass, vo=
+id *data)
+>  static const TypeInfo ssi_slave_info =3D {
+>      .name =3D TYPE_SSI_SLAVE,
+>      .parent =3D TYPE_DEVICE,
+> +    .instance_size =3D sizeof(SSISlave),
+>      .class_init =3D ssi_slave_class_init,
+>      .class_size =3D sizeof(SSISlaveClass),
+>      .abstract =3D true,
+> --
+> 2.26.2
+>
+>
 
