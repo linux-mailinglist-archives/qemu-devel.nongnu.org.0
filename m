@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D247B24DFE1
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 20:44:54 +0200 (CEST)
-Received: from localhost ([::1]:32944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2EED24DFEB
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 20:47:21 +0200 (CEST)
+Received: from localhost ([::1]:37470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9C21-000331-Fv
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 14:44:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50204)
+	id 1k9C4O-000570-TE
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 14:47:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1k9C17-0002BJ-JS; Fri, 21 Aug 2020 14:43:57 -0400
-Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:45260)
+ id 1k9C3A-00048x-Ld; Fri, 21 Aug 2020 14:46:04 -0400
+Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:37664)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1k9C15-0002hD-10; Fri, 21 Aug 2020 14:43:57 -0400
-Received: by mail-il1-x144.google.com with SMTP id k4so2214373ilr.12;
- Fri, 21 Aug 2020 11:43:54 -0700 (PDT)
+ id 1k9C38-00034E-Rn; Fri, 21 Aug 2020 14:46:04 -0400
+Received: by mail-io1-xd43.google.com with SMTP id b16so2713725ioj.4;
+ Fri, 21 Aug 2020 11:46:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Z/pSIID7MeYqTmRb5WrFEVnXzWrEubCRpIyJ/RVCMS0=;
- b=ibghg2sllob56Ep7LtrNyuFFGZcs3QF+zVeuV1CoN3M4m6JYQ6wN4fHtHUItidTsHv
- PN98rznlb/7bzN/cumEhoyXVXKg7NHL3Xf/30rxu/Dux+ix2Oun9bv1AITcJY3jMYGsK
- iHfRU1VHvjIDpF7t2cedIqqCOPnEW1dcwePRgUGjH4ng7byMa3gK9Ir6hroctQ/v++oC
- dTIT7kLENqaugMcTiMLJ6+G/Ut9qvC6AxAyniQOywyYTifQJUABJURsfqEPTnTaCkJAL
- kQXNJ+fCSDnl8QlONt6++c7YK/lotjpkDPskt2ED9rNCG/wU2vbll4i55igAb8sUYGbV
- EsPw==
+ :cc; bh=z5aWo09n3Q8ekEgF0lgavQRLE2LoBW6o6Ace2isOne0=;
+ b=M8syaC6GqLCeXgy8xW4iOggNYh57nRWWiLAnkPoGliRAgaE3kSc/xuLuXXJzFxjok6
+ UpMAmEVLIAsFFr81rOh0xprc04IC+b1A4hjEmDmzlhrVOOy7Pmlo8MwXzKhKbYrPF5yU
+ yv4t8W4Wog4bbO6GZgSoJmNeCg20OEGUxVcFqSR0XQPxMHqlaq5XxDDe0EZ3xr693xcT
+ 31taWO2E04L/7ZFZKYfQUkzyg1eaTux+w9TC9zwmSNiqHmut/49tr7WPQxuDhyODel4Y
+ 4GpQNGs5A9U0YO29LGH0LgiN9E54JmMMFzeHs6wnSCrIXqgWJwOwYWnFyewppcO8TCG+
+ W/eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Z/pSIID7MeYqTmRb5WrFEVnXzWrEubCRpIyJ/RVCMS0=;
- b=Lwnf+d7fIi1coiq95O7nUmLUSUk/HVVRXTepLiUD9D9AtD3I/Nf/XP8t6GqvEvg39k
- v38bRh+iB8TEs9HUJ6g7CylYu+oTDCi9L5VVwRSdmQSzMl5A/9f3Y2Qe8gak7gpkCBUJ
- KP7PEO+McSiycC8yggWmUQFFH6S62rowUwpHlEv8lCp3iFybJXuRwlZdA54THdJIzuJP
- yzJ5zAHQI0FpxPdoadXs80qamOCgWovfVLA5jEVTI3m0G5QNOmjJdzhZlk8TsnDELU3X
- IpMl8BrfNQU+4thnYgGlYDswCxcN2C9k48QpMArcvrVNmdG8K5h5ZdwqDOHYahwvWj2y
- K3lQ==
-X-Gm-Message-State: AOAM530OtQ90R7GQuSRdLbgp587uy9cWB5NnxwRMMM0T1z5FKfHqjL5Y
- MYhiNnqzsIsI2X5KxD2edfN9ZvHYgUykazATgQE=
-X-Google-Smtp-Source: ABdhPJy3xAC38Z3R6IVXaRgtKppvZHleeQTOhKUkjIiPGYPBdr8ym0eLWBn9FNA1EWPCAevkpyQqS3wqIoXJktxWCFs=
-X-Received: by 2002:a05:6e02:ed4:: with SMTP id
- i20mr3606283ilk.267.1598035433356; 
- Fri, 21 Aug 2020 11:43:53 -0700 (PDT)
+ bh=z5aWo09n3Q8ekEgF0lgavQRLE2LoBW6o6Ace2isOne0=;
+ b=IDAFdtA8F7EX+Jvbn6bL/LodhXuGN9zjWZD9ghU3jbPhE9jjt38XnFhMocRQvFKR56
+ a7kHDODZoT7WTQjcnknCjwoMNudM2z/1LMVo7LMU/rN++XEZTsAVl5ZxJm5Qnlp2IJ0Q
+ WoUk6uFwlN+0gv4fL88JJS8XzYXvxwTLfgBXgX8nertD+D/GuTmIFNJ38WbS1KPcwBYx
+ 6T9P4xa2h4D1rQIQ/HzWWwfn2XlQ5f9E0VqhO+WC1NpWS7l4EfhEJeFERAt2L1y1EvIT
+ 41kcGlBNtf9RF2Y4mCVMucTxV3I4CVQBjFgMbjihCFyh2oXxMQrWaVqmKINnZ09UPPJM
+ hTyQ==
+X-Gm-Message-State: AOAM533yPIZlBwTW1XR5TLYFu/Uj6HcOW6oRn4g4GyYf6eXAaX4pSg0p
+ VLCLevCGS+LTJECfZI+o5Vog8OKFP9/DFv6efsk=
+X-Google-Smtp-Source: ABdhPJyTyQ6nfwyl3J98Lec2GMmnPEIFGaxPAXb3EBUnSLaJtRkwflQDi9goEnpnd4YwORcTYz7/hE6qzli/RJ9k2D0=
+X-Received: by 2002:a6b:6016:: with SMTP id r22mr3411692iog.42.1598035561307; 
+ Fri, 21 Aug 2020 11:46:01 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200309100009.17624-1-kraxel@redhat.com>
-In-Reply-To: <20200309100009.17624-1-kraxel@redhat.com>
+ <CAKmqyKNZfhkTxmcGx6iAU3b1Nom2Zd5dKSeSmBrBDEfe=nAJbQ@mail.gmail.com>
+In-Reply-To: <CAKmqyKNZfhkTxmcGx6iAU3b1Nom2Zd5dKSeSmBrBDEfe=nAJbQ@mail.gmail.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 21 Aug 2020 11:33:15 -0700
-Message-ID: <CAKmqyKNZfhkTxmcGx6iAU3b1Nom2Zd5dKSeSmBrBDEfe=nAJbQ@mail.gmail.com>
+Date: Fri, 21 Aug 2020 11:35:24 -0700
+Message-ID: <CAKmqyKODqOF8s45tkLAh5c==hbsPdv4UMG3ouN=cS5J=mQw2QA@mail.gmail.com>
 Subject: Re: [PATCH v2] stdvga+bochs-display: add dummy mmio handler
 To: Gerd Hoffmann <kraxel@redhat.com>, qemu-stable@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::144;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x144.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd43.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -82,78 +82,85 @@ Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 9, 2020 at 3:00 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
+On Fri, Aug 21, 2020 at 11:33 AM Alistair Francis <alistair23@gmail.com> wrote:
 >
-> The bochs-display mmio bar has some sub-regions with the actual hardware
-> registers.  What happens when the guest access something outside those
-> regions depends on the archirecture.  On x86 those reads succeed (and
-> return 0xff I think).  On risc-v qemu aborts.
+> On Mon, Mar 9, 2020 at 3:00 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
+> >
+> > The bochs-display mmio bar has some sub-regions with the actual hardware
+> > registers.  What happens when the guest access something outside those
+> > regions depends on the archirecture.  On x86 those reads succeed (and
+> > return 0xff I think).  On risc-v qemu aborts.
+> >
+> > This patch adds handlers for the parent region, to make the wanted
+> > behavior explicit and to make things consistent across architectures.
+> >
+> > v2:
+> >  - use existing unassigned_io_ops.
+> >  - also cover stdvga.
+> >
+> > Cc: Alistair Francis <alistair23@gmail.com>
+> > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 >
-> This patch adds handlers for the parent region, to make the wanted
-> behavior explicit and to make things consistent across architectures.
+> + QEMU stable.
 >
-> v2:
->  - use existing unassigned_io_ops.
->  - also cover stdvga.
->
-> Cc: Alistair Francis <alistair23@gmail.com>
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> Can this be back ported to 5.0?
 
-+ QEMU stable.
-
-Can this be back ported to 5.0?
-
-Without this patch the bochs device doesn't work with RISC-V.
+Sorry, I meant 4.2
 
 Alistair
 
-> ---
->  hw/display/bochs-display.c | 4 ++--
->  hw/display/vga-pci.c       | 8 ++++----
->  2 files changed, 6 insertions(+), 6 deletions(-)
 >
-> diff --git a/hw/display/bochs-display.c b/hw/display/bochs-display.c
-> index 62085f9fc063..70eb619ef424 100644
-> --- a/hw/display/bochs-display.c
-> +++ b/hw/display/bochs-display.c
-> @@ -284,8 +284,8 @@ static void bochs_display_realize(PCIDevice *dev, Error **errp)
->      memory_region_init_io(&s->qext, obj, &bochs_display_qext_ops, s,
->                            "qemu extended regs", PCI_VGA_QEXT_SIZE);
+> Without this patch the bochs device doesn't work with RISC-V.
 >
-> -    memory_region_init(&s->mmio, obj, "bochs-display-mmio",
-> -                       PCI_VGA_MMIO_SIZE);
-> +    memory_region_init_io(&s->mmio, obj, &unassigned_io_ops, NULL,
-> +                          "bochs-display-mmio", PCI_VGA_MMIO_SIZE);
->      memory_region_add_subregion(&s->mmio, PCI_VGA_BOCHS_OFFSET, &s->vbe);
->      memory_region_add_subregion(&s->mmio, PCI_VGA_QEXT_OFFSET, &s->qext);
+> Alistair
 >
-> diff --git a/hw/display/vga-pci.c b/hw/display/vga-pci.c
-> index b34632467399..6b9db86e363c 100644
-> --- a/hw/display/vga-pci.c
-> +++ b/hw/display/vga-pci.c
-> @@ -249,8 +249,8 @@ static void pci_std_vga_realize(PCIDevice *dev, Error **errp)
->
->      /* mmio bar for vga register access */
->      if (d->flags & (1 << PCI_VGA_FLAG_ENABLE_MMIO)) {
-> -        memory_region_init(&d->mmio, NULL, "vga.mmio",
-> -                           PCI_VGA_MMIO_SIZE);
-> +        memory_region_init_io(&d->mmio, OBJECT(dev), &unassigned_io_ops, NULL,
-> +                              "vga.mmio", PCI_VGA_MMIO_SIZE);
->
->          if (d->flags & (1 << PCI_VGA_FLAG_ENABLE_QEXT)) {
->              qext = true;
-> @@ -285,8 +285,8 @@ static void pci_secondary_vga_realize(PCIDevice *dev, Error **errp)
->      s->con = graphic_console_init(DEVICE(dev), 0, s->hw_ops, s);
->
->      /* mmio bar */
-> -    memory_region_init(&d->mmio, OBJECT(dev), "vga.mmio",
-> -                       PCI_VGA_MMIO_SIZE);
-> +    memory_region_init_io(&d->mmio, OBJECT(dev), &unassigned_io_ops, NULL,
-> +                          "vga.mmio", PCI_VGA_MMIO_SIZE);
->
->      if (d->flags & (1 << PCI_VGA_FLAG_ENABLE_QEXT)) {
->          qext = true;
-> --
-> 2.18.2
->
+> > ---
+> >  hw/display/bochs-display.c | 4 ++--
+> >  hw/display/vga-pci.c       | 8 ++++----
+> >  2 files changed, 6 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/hw/display/bochs-display.c b/hw/display/bochs-display.c
+> > index 62085f9fc063..70eb619ef424 100644
+> > --- a/hw/display/bochs-display.c
+> > +++ b/hw/display/bochs-display.c
+> > @@ -284,8 +284,8 @@ static void bochs_display_realize(PCIDevice *dev, Error **errp)
+> >      memory_region_init_io(&s->qext, obj, &bochs_display_qext_ops, s,
+> >                            "qemu extended regs", PCI_VGA_QEXT_SIZE);
+> >
+> > -    memory_region_init(&s->mmio, obj, "bochs-display-mmio",
+> > -                       PCI_VGA_MMIO_SIZE);
+> > +    memory_region_init_io(&s->mmio, obj, &unassigned_io_ops, NULL,
+> > +                          "bochs-display-mmio", PCI_VGA_MMIO_SIZE);
+> >      memory_region_add_subregion(&s->mmio, PCI_VGA_BOCHS_OFFSET, &s->vbe);
+> >      memory_region_add_subregion(&s->mmio, PCI_VGA_QEXT_OFFSET, &s->qext);
+> >
+> > diff --git a/hw/display/vga-pci.c b/hw/display/vga-pci.c
+> > index b34632467399..6b9db86e363c 100644
+> > --- a/hw/display/vga-pci.c
+> > +++ b/hw/display/vga-pci.c
+> > @@ -249,8 +249,8 @@ static void pci_std_vga_realize(PCIDevice *dev, Error **errp)
+> >
+> >      /* mmio bar for vga register access */
+> >      if (d->flags & (1 << PCI_VGA_FLAG_ENABLE_MMIO)) {
+> > -        memory_region_init(&d->mmio, NULL, "vga.mmio",
+> > -                           PCI_VGA_MMIO_SIZE);
+> > +        memory_region_init_io(&d->mmio, OBJECT(dev), &unassigned_io_ops, NULL,
+> > +                              "vga.mmio", PCI_VGA_MMIO_SIZE);
+> >
+> >          if (d->flags & (1 << PCI_VGA_FLAG_ENABLE_QEXT)) {
+> >              qext = true;
+> > @@ -285,8 +285,8 @@ static void pci_secondary_vga_realize(PCIDevice *dev, Error **errp)
+> >      s->con = graphic_console_init(DEVICE(dev), 0, s->hw_ops, s);
+> >
+> >      /* mmio bar */
+> > -    memory_region_init(&d->mmio, OBJECT(dev), "vga.mmio",
+> > -                       PCI_VGA_MMIO_SIZE);
+> > +    memory_region_init_io(&d->mmio, OBJECT(dev), &unassigned_io_ops, NULL,
+> > +                          "vga.mmio", PCI_VGA_MMIO_SIZE);
+> >
+> >      if (d->flags & (1 << PCI_VGA_FLAG_ENABLE_QEXT)) {
+> >          qext = true;
+> > --
+> > 2.18.2
+> >
 
