@@ -2,78 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6656524DEDB
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 19:48:00 +0200 (CEST)
-Received: from localhost ([::1]:54868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1945F24DEF9
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 19:57:12 +0200 (CEST)
+Received: from localhost ([::1]:45824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9B8x-0005r0-Fc
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 13:47:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33650)
+	id 1k9BHr-000629-55
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 13:57:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k9B7H-0004LK-G2
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 13:46:15 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:34035)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k9B7E-0003Xv-5V
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 13:46:15 -0400
-Received: by mail-wr1-x443.google.com with SMTP id f7so2726278wrw.1
- for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:46:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=JJh19wKWhpGRMYR48TCz0u7CP2SwdWq6MznAfKm/N0Q=;
- b=lejooW60ejQ7m6N6DRC4BdE/9CbLe4x90ppZf5biz8Cv7OuAoBPZimneFYkpKsg8v2
- yHCWTsfRXcmGLv8F9yDAB94aJYRcDifaygFqpTdwkddey5k/7R7IEXJoNNchWUlBrp2O
- Yijhsu14OO1IgDG5eBpgVgi2wtCBZf6PDlSJ6Qb/keW+X2z8zYP0k5QYVYVCrX6Dofaq
- 4UQ8Z6125RKy4KxuqZHCReF7nbf2oXqSEdDxxV/P7anogqCwjh7A60jPIZHzos+/W2Zw
- mo6NwXmoHknLtyoSBNyFRAitH/IQWFV/vVP8b2jiT2T17om7zGkhtqqxC4G694dB/jrP
- 3Tmg==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1k9B8W-0006Pi-1A
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 13:47:32 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36956
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1k9B8T-0003jR-Qn
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 13:47:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598032045;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=86gKNecevr/rTg0ofF7Oy5+/RD0VjGTMr49Qav1l8IQ=;
+ b=K/bOXZziuCXMz2AakCSnUIHLo2o6r4Loo/Z1bqjq+k3can54B5CJBQB3JFuvNRGCfQljyK
+ eYJJN/F9Fj5PthzUTWDiZuL6CG8ovlW8ARxKp19Tci+k9ydxrp7FGwJXwar0jFxU2n7IEM
+ 6kOjmsKRK/KcqoAieK6Rz9apx4i2PkQ=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-542-Ex10VGMPMgS1G9QaJFnBjQ-1; Fri, 21 Aug 2020 13:47:22 -0400
+X-MC-Unique: Ex10VGMPMgS1G9QaJFnBjQ-1
+Received: by mail-wr1-f69.google.com with SMTP id f7so782647wrs.8
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:47:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=JJh19wKWhpGRMYR48TCz0u7CP2SwdWq6MznAfKm/N0Q=;
- b=mylWkYJtCw3ATdOrvPUocItc/winFAxW1Y0gFaimSf8v+rOYtHtqNZGR1G8JsEyC0a
- 1/N11sVpGc8CSjek2k06bWCOxtkHlGdcJlhvqUUieVPyG+M4yur/onNK3T2RN8nZHQy1
- P2kdoQtHqB2bgxirenrHDoOSwG5ICSVOdmjiorzOuK53h0iZrfFR4kC+SCreWQU81Reu
- XaVjw3lkvT8E5/OaHyLcx5YkE5bABbeYQacAGlDb/OLBHeKhnP8SLavyr0IvbKtPe8/F
- yTmjeJawtlMzZG7jYFtEqvE/TdnTlcso9Krv4mwSmJDiLlMEq0xm73rx3G7riFxda5Pd
- Y/qA==
-X-Gm-Message-State: AOAM533nKfbXJOt/a7suNwHjrqsj/9U9W5nSHaAMz2o3RDtGqDidGU/X
- S9w60W9gfe8QhR9XuOq0Cy4YV0FrJrE=
-X-Google-Smtp-Source: ABdhPJzHM3cn67cqpPdK0KF/+dEtMz+P/Opk42YLgHubu+eE038Ai67pUhR3jretKFq16ebyGKyrGw==
-X-Received: by 2002:adf:f149:: with SMTP id y9mr3570753wro.93.1598031967835;
- Fri, 21 Aug 2020 10:46:07 -0700 (PDT)
-Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id n124sm7017713wmn.29.2020.08.21.10.46.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Aug 2020 10:46:06 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/ssi/ssi: Set abstract TYPE_SSI_SLAVE instance size
-Date: Fri, 21 Aug 2020 19:46:04 +0200
-Message-Id: <20200821174604.1264321-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=86gKNecevr/rTg0ofF7Oy5+/RD0VjGTMr49Qav1l8IQ=;
+ b=e99/mZPwfXtWR4jDFvM3mibDi6OXdEWygWHaYQxRSLt28mxU0k+aZ7QevxAA9paOuh
+ dwvDRRKBGGZXWBavD9NW6BdRqdTwUBFUxv4Q3xFEASz1kHYbFUgP/hzOqq6VNbpn1yQQ
+ e9gERgMCdIgXZPrF7MYgUMvvJ864R06oV8l0nuL+/P+Rnj/L6FVroReL+ESsAo0fs8+N
+ N2QNZnrZem94sxroMyp9vg78EafnZJqx3ujd28atSEPW9fISzzVmYqx2kEgZDkCpwdUn
+ Kcbgh3lRj5okTRn1XK1jaVv7LEeC5dvw81+p5S6qJH9waGVYAX8CwczvIisXvAEDoAkV
+ Pffw==
+X-Gm-Message-State: AOAM532SlqqTiLZrKZR7J5HqU5DssyUPpZUo4hO8dyg3M4/O7zhQUtQM
+ pTDqwhPi8RD3mqizKkbyLgvNL7uYCqCnqva9oFNGZ1koj304UO/er0NfJjfr5qw0UvVr2v6Aj1u
+ 2pwkCljVZOz/e0co=
+X-Received: by 2002:a7b:c258:: with SMTP id b24mr4830513wmj.122.1598032041574; 
+ Fri, 21 Aug 2020 10:47:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy6hyzEVjvYcjzgknJFfQaLADgrykfWwHJzDRY+758tk33z5jcPWKbuU32L49QtJTyyIdubLw==
+X-Received: by 2002:a7b:c258:: with SMTP id b24mr4830493wmj.122.1598032041290; 
+ Fri, 21 Aug 2020 10:47:21 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:d51:8db6:e10d:b5ef?
+ ([2001:b07:6468:f312:d51:8db6:e10d:b5ef])
+ by smtp.gmail.com with ESMTPSA id g14sm6898811wme.16.2020.08.21.10.47.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 21 Aug 2020 10:47:20 -0700 (PDT)
+Subject: Re: [PATCH v8 1/1] audio/jack: fix use after free segfault
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
+References: <20200821134554.101397-1-geoff@hostfission.com>
+ <20200821134554.101397-2-geoff@hostfission.com> <3291053.UyeazdVyI9@silver>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <0f297508-2b27-9303-002b-2eaa9983cabc@redhat.com>
+Date: Fri, 21 Aug 2020 19:47:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+In-Reply-To: <3291053.UyeazdVyI9@silver>
+Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 23:41:39
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,37 +102,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair@alistair23.me>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Geoffrey McRae <geoff@hostfission.com>, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Set the abstract TYPE_SSI_SLAVE instance size in case an
-implementation forgot to set it.
+On 21/08/20 19:34, Christian Schoenebeck wrote:
+>>
+>>  static void qjack_fini_out(HWVoiceOut *hw)
+>>  {
+>>      QJackOut *jo = (QJackOut *)hw;
+>>      qjack_client_fini(&jo->c);
+>> +
+>> +    qemu_bh_delete(jo->c.shutdown_bh);
+> Paolo wrapped that qemu_bh_delete() call inside the lock as well. So I guess 
+> it makes a difference for the BH API?
 
-Reported-by: Eduardo Habkost <ehabkost@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-See:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg731954.html
----
- hw/ssi/ssi.c | 1 +
- 1 file changed, 1 insertion(+)
+It is not a problem as long as qjack_client_fini is idempotent.
 
-diff --git a/hw/ssi/ssi.c b/hw/ssi/ssi.c
-index a35d7ebb266..b3e82470381 100644
---- a/hw/ssi/ssi.c
-+++ b/hw/ssi/ssi.c
-@@ -85,6 +85,7 @@ static void ssi_slave_class_init(ObjectClass *klass, void *data)
- static const TypeInfo ssi_slave_info = {
-     .name = TYPE_SSI_SLAVE,
-     .parent = TYPE_DEVICE,
-+    .instance_size = sizeof(SSISlave),
-     .class_init = ssi_slave_class_init,
-     .class_size = sizeof(SSISlaveClass),
-     .abstract = true,
--- 
-2.26.2
+>> +    qemu_mutex_destroy(&jo->c.shutdown_lock);
+>>  }
+> 
+> Hmmm, is this qemu_mutex_destroy() safe at this point?
+
+Perhaps make the mutex global and not destroy it at all.
+
+Paolo
 
 
