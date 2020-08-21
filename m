@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAABA24E27B
+	by mail.lfdr.de (Postfix) with ESMTPS id ECB8924E27C
 	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 23:15:50 +0200 (CEST)
-Received: from localhost ([::1]:51330 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:51382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9EO5-0002QE-BF
+	id 1k9EO5-0002RO-PJ
 	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 17:15:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53304)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k9EMe-0001Cc-HN
+ id 1k9EMe-0001Ca-H6
  for qemu-devel@nongnu.org; Fri, 21 Aug 2020 17:14:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53835)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28140)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k9EMc-0003r9-A9
+ id 1k9EMc-0003rC-I0
  for qemu-devel@nongnu.org; Fri, 21 Aug 2020 17:14:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598044456;
+ s=mimecast20190719; t=1598044457;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WT6M0kV2WEpDX6M+DA14YNo5y+C6gskroS4aUud5BiM=;
- b=hte6Vtlb1MRX3IUKZ9x0SQjjI2PGg6szJxFGYJGbth7MSQhfwVo7iVyqZAQ7JtahogpBYk
- kKfZjf+2TeuXEjb7XASRSXh5ZlvE+wDA7eaC6rRkWb3k+6n7oJbIbTriWirFD6zAPjOS8v
- L3kgqweSSTjmF6Ih/WhfKX7+pEISwOo=
+ bh=fJ+D+OofnlaL/VVAsUmcGDGdBaAKcHF2G3ULnVaUy4Q=;
+ b=esWTOWx39oosNs5Xygt6us6uJD/bjVmwi00o5AYh4u/Oe1NRbUyt4kfYo5NxlYBHLk7uXU
+ lzixo3XvwNRUKwj4Z+SKvYTwTiXSbzn8FZ6p//ytgLiacq1LE18bpbe9s+p2NeTXWAlYHp
+ qnoC7pFQeSWWhcoZpQABrfp9C8gRVt4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-280-99YkCtTOMTSndIooUP0d-w-1; Fri, 21 Aug 2020 17:14:15 -0400
-X-MC-Unique: 99YkCtTOMTSndIooUP0d-w-1
+ us-mta-409-ieEbzHhXOmWqa8irm1H95Q-1; Fri, 21 Aug 2020 17:14:15 -0400
+X-MC-Unique: ieEbzHhXOmWqa8irm1H95Q-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 091D81007469
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8ACC356BE3
  for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 21:14:14 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9BFDC5C1D0;
- Fri, 21 Aug 2020 21:14:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 29C515C1D0;
+ Fri, 21 Aug 2020 21:14:14 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/6] util/meson.build: fix fdmon-io_uring build
-Date: Fri, 21 Aug 2020 17:14:08 -0400
-Message-Id: <20200821211412.17321-3-pbonzini@redhat.com>
+Subject: [PULL 3/6] configure: silence 'shift' error message in version_ge()
+Date: Fri, 21 Aug 2020 17:14:09 -0400
+Message-Id: <20200821211412.17321-4-pbonzini@redhat.com>
 In-Reply-To: <20200821211412.17321-1-pbonzini@redhat.com>
 References: <20200821211412.17321-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 02:43:55
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 04:26:32
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -68,8 +68,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,51 +81,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, Stefano Garzarella <sgarzare@redhat.com>
+Cc: Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefano Garzarella <sgarzare@redhat.com>
 
-libqemuutil.a build fails with this error:
+If there are less than 2 arguments in version_ge(), the second
+'shift' prints this error:
+    ../configure: line 232: shift: shift count out of range
 
-  /usr/bin/ld: libqemuutil.a(util_fdmon-io_uring.c.o): in function `get_sqe':
-  qemu/build/../util/fdmon-io_uring.c:83: undefined reference to `io_uring_get_sqe'
-  /usr/bin/ld: qemu/build/../util/fdmon-io_uring.c:92: undefined reference to `io_uring_submit'
-  /usr/bin/ld: qemu/build/../util/fdmon-io_uring.c:96: undefined reference to `io_uring_get_sqe'
-  /usr/bin/ld: libqemuutil.a(util_fdmon-io_uring.c.o): in function `fdmon_io_uring_wait':
-  qemu/build/../util/fdmon-io_uring.c:289: undefined reference to `io_uring_submit_and_wait'
-  /usr/bin/ld: libqemuutil.a(util_fdmon-io_uring.c.o): in function `fdmon_io_uring_setup':
-  qemu/build/../util/fdmon-io_uring.c:328: undefined reference to `io_uring_queue_init'
-  /usr/bin/ld: libqemuutil.a(util_fdmon-io_uring.c.o): in function `fdmon_io_uring_destroy':
-  qemu/build/../util/fdmon-io_uring.c:343: undefined reference to `io_uring_queue_exit'
-  collect2: error: ld returned 1 exit status
+As Eric suggested, we can use 'shift ${2:+2}' which works out to
+'shift 2' if $2 is set, or 'shift' (implicitly shift 1) if $2
+is not set.
 
-This patch fix the issue adding 'linux_io_uring' dependency for
-fdmon-io_uring.c
+This patch replaces both 'shift; shift' occurrences in version_ge()
+with 'shift ${2:+2}'.
 
-Fixes: a81df1b68b ("libqemuutil, qapi, trace: convert to meson")
-Cc: pbonzini@redhat.com
+Suggested-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-Message-Id: <20200821154853.94379-1-sgarzare@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20200821203558.10338-1-sgarzare@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ configure | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/util/meson.build b/util/meson.build
-index 23b8ad459b..e6b207a99e 100644
---- a/util/meson.build
-+++ b/util/meson.build
-@@ -4,7 +4,7 @@ util_ss.add(when: 'CONFIG_ATOMIC64', if_false: files('atomic64.c'))
- util_ss.add(when: 'CONFIG_POSIX', if_true: files('aio-posix.c'))
- util_ss.add(when: 'CONFIG_POSIX', if_true: files('fdmon-poll.c'))
- util_ss.add(when: 'CONFIG_EPOLL_CREATE1', if_true: files('fdmon-epoll.c'))
--util_ss.add(when: 'CONFIG_LINUX_IO_URING', if_true: files('fdmon-io_uring.c'))
-+util_ss.add(when: ['CONFIG_LINUX_IO_URING', linux_io_uring], if_true: files('fdmon-io_uring.c'))
- util_ss.add(when: 'CONFIG_POSIX', if_true: files('compatfd.c'))
- util_ss.add(when: 'CONFIG_POSIX', if_true: files('event_notifier-posix.c'))
- util_ss.add(when: 'CONFIG_POSIX', if_true: files('mmap-alloc.c'))
+diff --git a/configure b/configure
+index 4e5fe33211..d9ca87fbbb 100755
+--- a/configure
++++ b/configure
+@@ -228,15 +228,15 @@ version_ge () {
+     while true; do
+         set x $local_ver1
+         local_first=${2-0}
+-        # shift 2 does nothing if there are less than 2 arguments
+-        shift; shift
++        # 'shift 2' if $2 is set, or 'shift' if $2 is not set
++        shift ${2:+2}
+         local_ver1=$*
+         set x $local_ver2
+         # the second argument finished, the first must be greater or equal
+         test $# = 1 && return 0
+         test $local_first -lt $2 && return 1
+         test $local_first -gt $2 && return 0
+-        shift; shift
++        shift ${2:+2}
+         local_ver2=$*
+     done
+ }
 -- 
 2.26.2
 
