@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E7AF24E1A5
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 22:00:20 +0200 (CEST)
-Received: from localhost ([::1]:59816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B8F924E18A
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 21:58:53 +0200 (CEST)
+Received: from localhost ([::1]:52610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9DD1-00018K-A7
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 16:00:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36590)
+	id 1k9DBc-0006UR-5u
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 15:58:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k9D7r-0007jZ-Iw
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 15:54:59 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:22212
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k9D85-00085j-94
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 15:55:13 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:23340
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k9D7p-0002m5-UU
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 15:54:59 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k9D82-0002nN-Qd
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 15:55:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598039697;
+ s=mimecast20190719; t=1598039710;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=y47Rdgq2E7ETUgE+8WKfJU6kiExsJ3jsfjk0oBdiMjg=;
- b=TJ64AV0FaDSDhIjX/pMdz3rLfOWxGJO9vv7QH7Gj+oR7hTXSSM5jmsvDVAbkL0jMEV+BVk
- gdDW/H7DGMQ6NK7NVwLBbwqXi7S73xcSE8iSbugnKAoSeRlLjkaAC2co2qcTlkGs9gQP1p
- czof4O23uf9L+gizQr39ThvyodvMHJM=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-172-nHx7pFaTP42wJU8jJIPdOQ-1; Fri, 21 Aug 2020 15:54:55 -0400
-X-MC-Unique: nHx7pFaTP42wJU8jJIPdOQ-1
-Received: by mail-wr1-f70.google.com with SMTP id f7so900439wrs.8
- for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 12:54:55 -0700 (PDT)
+ bh=4QkeIEuTWWrDAk5fgLztw4p0UNTKf91orUMJW2LVbIY=;
+ b=HFXNIgwNdhxxot8bqmav4vf0xzOJlkGpDrLbCN70GHEELVOU4suDOJQAcmnxIJ79l2NO0j
+ i7inN8G4GdsHnhcofSWSm5qMubeBWXwLTKK/DdkCEH/BB2K8Fkde9tUtwohC3yMz/ctvFX
+ 0tGXwCW1PWXvglKQ2smYgMkkjuSekzU=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-347-bXcHSh7tMnOjHvcpF9y6xg-1; Fri, 21 Aug 2020 15:55:06 -0400
+X-MC-Unique: bXcHSh7tMnOjHvcpF9y6xg-1
+Received: by mail-wm1-f71.google.com with SMTP id k204so1375559wmb.3
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 12:55:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=y47Rdgq2E7ETUgE+8WKfJU6kiExsJ3jsfjk0oBdiMjg=;
- b=X8kBhiy/gjJRtK0BXXVUD1+LFqTmqz3G9dUILARY4Gi+lwrokVRSDsCwSsu5ilS2Hi
- 3eAmZEnk+64U81oGgq7Zoe7OD+2C1kkTREImIOpBQ/MGB94DANFbDfAozvEM90+7XB8V
- xBpowBxEbJKr1l2+THvBS/zHPsU+OK+p3WWALg8eVUMR0/Q3/umIRhv8WmZGFTLvQEXA
- pvJInXQMPF0t7//zYJVorlWoF9DDR3//jOFQhbWGy0AfT8iEfjJaFqNjh1wpwg8WpYoj
- 78F6+IbkD5znaREq41Y5t2y7xPl93mLtTtNs5whjTyCYqtbDv0jkdwr5nFBmwLHXMPHj
- ARnw==
-X-Gm-Message-State: AOAM531Gi/x+FqZSBuUARB3zahpkyf0p5e+jPTmZmKBJNuhwWsKZI9iO
- +WZUyJr5i0fZ/bTkiv0n7vmep9tGcPEFOZ4giRKGhUn8Hsc1Xk8DlXHz06orj3M7W6EXOR9Fnav
- Cp80WYCfRIFqZruc=
-X-Received: by 2002:adf:fecc:: with SMTP id q12mr4209767wrs.374.1598039694245; 
- Fri, 21 Aug 2020 12:54:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzioq88rRY1lsto/f0vK6mEJOfEKayI8VG4T5ieTqOXLbkNG36iLjFInRQfyeieUbNVwqsYGA==
-X-Received: by 2002:adf:fecc:: with SMTP id q12mr4209751wrs.374.1598039694016; 
- Fri, 21 Aug 2020 12:54:54 -0700 (PDT)
+ bh=4QkeIEuTWWrDAk5fgLztw4p0UNTKf91orUMJW2LVbIY=;
+ b=DUSUO9hX2kIY7Vq3mgnIhk5EBKU5B08j72dlejLrTPEyDzfiNjYCXQjHgQkzYe9aby
+ au0EhY2XUFEKSmLRFnuRpJkntrHMjTnqY3zmvamBJrIlpNuAiCI/AY7c0ue3w3DVFviz
+ Ju6/RR5kjmvGUQNYhfbjz5jduAX7+IT1kXoUm5QMYPBfDsdxAQx44yeoP8KXXM1EUFAs
+ hDogS+w5JvIT7mOQoMOr8wZQ0ienNDkoYlTCjR3aA+tLzUILnzpdcqVW1tgLCqw/u6PD
+ C1QaARJcogffV0zldy49Xdx45miiU09yFLH+8wJ9uMXYo63uHoSjQ5OmDsp5Vov9MPiz
+ qNbw==
+X-Gm-Message-State: AOAM531+jvZm2xPyW1T3bNobJ9A0tq5h5JLCss4NoEUsHPjbIQcfbwNi
+ tl2ydIfJ00QT11d/8UM5GvGE6gLzIOImzjxOpeplk0WgysthVWCsmRcQFuhQ+6pl60hY/CVSJRA
+ d2X/zsOVHqSQ7xz4=
+X-Received: by 2002:a5d:4241:: with SMTP id s1mr4065586wrr.411.1598039704635; 
+ Fri, 21 Aug 2020 12:55:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwMpajGP4WqfXOkZJv+j1i7lAsCAEl2/lVIVd6XTuoWAbxhQbxnoz07ynKNkJ1+tBrnBVAeeQ==
+X-Received: by 2002:a5d:4241:: with SMTP id s1mr4065564wrr.411.1598039704477; 
+ Fri, 21 Aug 2020 12:55:04 -0700 (PDT)
 Received: from x1w.redhat.com (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id o124sm6607073wmb.2.2020.08.21.12.54.52
+ by smtp.gmail.com with ESMTPSA id z12sm6514659wrp.20.2020.08.21.12.55.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Aug 2020 12:54:53 -0700 (PDT)
+ Fri, 21 Aug 2020 12:55:03 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 10/15] block/nvme: Replace qemu_try_blockalign(bs) by
- qemu_try_memalign(pg_sz)
-Date: Fri, 21 Aug 2020 21:53:54 +0200
-Message-Id: <20200821195359.1285345-11-philmd@redhat.com>
+Subject: [PATCH v6 12/15] block/nvme: Replace BDRV_POLL_WHILE by AIO_WAIT_WHILE
+Date: Fri, 21 Aug 2020 21:53:56 +0200
+Message-Id: <20200821195359.1285345-13-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200821195359.1285345-1-philmd@redhat.com>
 References: <20200821195359.1285345-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.003
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 01:00:15
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 05:15:56
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -106,71 +105,44 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qemu_try_blockalign() is a generic API that call back to the
-block driver to return its page alignment. As we call from
-within the very same driver, we already know to page alignment
-stored in our state. Remove indirections and use the value from
-BDRVNVMeState.
-This change is required to later remove the BlockDriverState
-argument, to make nvme_init_queue() per hardware, and not per
-block driver.
+BDRV_POLL_WHILE() is defined as:
+
+  #define BDRV_POLL_WHILE(bs, cond) ({          \
+      BlockDriverState *bs_ = (bs);             \
+      AIO_WAIT_WHILE(bdrv_get_aio_context(bs_), \
+                     cond); })
+
+As we will remove the BlockDriverState use in the next commit,
+start by using the exploded version of BDRV_POLL_WHILE().
 
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- block/nvme.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ block/nvme.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/block/nvme.c b/block/nvme.c
-index 7e21a2d7ece..3742e0535aa 100644
+index f98ca067144..3d49ff81fb7 100644
 --- a/block/nvme.c
 +++ b/block/nvme.c
-@@ -174,7 +174,7 @@ static void nvme_init_queue(BlockDriverState *bs, NVMeQueue *q,
- 
-     bytes = ROUND_UP(nentries * entry_bytes, s->page_size);
-     q->head = q->tail = 0;
--    q->queue = qemu_try_blockalign(bs, bytes);
-+    q->queue = qemu_try_memalign(s->page_size, bytes);
-     if (!q->queue) {
-         error_setg(errp, "Cannot allocate queue");
-         return;
-@@ -223,7 +223,7 @@ static NVMeQueuePair *nvme_create_queue_pair(BlockDriverState *bs,
-     if (!q) {
-         return NULL;
+@@ -493,6 +493,7 @@ static void nvme_cmd_sync_cb(void *opaque, int ret)
+ static int nvme_cmd_sync(BlockDriverState *bs, NVMeQueuePair *q,
+                          NvmeCmd *cmd)
+ {
++    AioContext *aio_context = bdrv_get_aio_context(bs);
+     NVMeRequest *req;
+     int ret = -EINPROGRESS;
+     req = nvme_get_free_req(q);
+@@ -501,7 +502,7 @@ static int nvme_cmd_sync(BlockDriverState *bs, NVMeQueuePair *q,
      }
--    q->prp_list_pages = qemu_try_blockalign(bs,
-+    q->prp_list_pages = qemu_try_memalign(s->page_size,
-                                           s->page_size * NVME_NUM_REQS);
-     if (!q->prp_list_pages) {
-         goto fail;
-@@ -522,7 +522,7 @@ static void nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
-         .cdw10 = cpu_to_le32(0x1),
-     };
+     nvme_submit_command(q, req, cmd, nvme_cmd_sync_cb, &ret);
  
--    id = qemu_try_blockalign(bs, sizeof(*id));
-+    id = qemu_try_memalign(s->page_size, sizeof(*id));
-     if (!id) {
-         error_setg(errp, "Cannot allocate buffer for identify response");
-         goto out;
-@@ -1141,7 +1141,7 @@ static int nvme_co_prw(BlockDriverState *bs, uint64_t offset, uint64_t bytes,
-         return nvme_co_prw_aligned(bs, offset, bytes, qiov, is_write, flags);
-     }
-     trace_nvme_prw_buffered(s, offset, bytes, qiov->niov, is_write);
--    buf = qemu_try_blockalign(bs, bytes);
-+    buf = qemu_try_memalign(s->page_size, bytes);
+-    BDRV_POLL_WHILE(bs, ret == -EINPROGRESS);
++    AIO_WAIT_WHILE(aio_context, ret == -EINPROGRESS);
+     return ret;
+ }
  
-     if (!buf) {
-         return -ENOMEM;
-@@ -1285,7 +1285,7 @@ static int coroutine_fn nvme_co_pdiscard(BlockDriverState *bs,
- 
-     assert(s->nr_queues > 1);
- 
--    buf = qemu_try_blockalign(bs, s->page_size);
-+    buf = qemu_try_memalign(s->page_size, s->page_size);
-     if (!buf) {
-         return -ENOMEM;
-     }
 -- 
 2.26.2
 
