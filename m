@@ -2,70 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A40C724DA2C
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 18:19:09 +0200 (CEST)
-Received: from localhost ([::1]:59074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B043224D967
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 18:09:05 +0200 (CEST)
+Received: from localhost ([::1]:35034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k99ky-0004OW-OM
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 12:19:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57312)
+	id 1k99bE-00027j-9k
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 12:09:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1k99jR-00037s-SF; Fri, 21 Aug 2020 12:17:33 -0400
-Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:43684)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1k99jQ-0005Fo-7n; Fri, 21 Aug 2020 12:17:33 -0400
-Received: by mail-io1-xd44.google.com with SMTP id s1so2242876iot.10;
- Fri, 21 Aug 2020 09:17:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qLDh8XVkGea4uB8QZaVh8OdtptdFsOpXTmCURYKOR4c=;
- b=MkZ6C6tlpWVaXIjZc3xxDr90IDZWLEVcxoHcejXrHLfu9ITj74F+Ok/10ahQWY5U98
- NsF4cYYwEvMiqdiCap3nOCEtCaL+UjDTlOCjTyAiDCBlpoLjisNSRELo37+BrT4v3mIu
- oiHQPPcC/tWolo+VRWjXLI2Lt1jZIH0hejbGPRwojsqtURmzaccWTbAmLlyIhARULPqM
- IkDCNxA0r5bD6vIzWXHFXD5PvjViwIBoy/K34XA6BdDPpsK+9GwSRAAtgrZFwsd+FLcG
- FKlNtKtlXEBx/g346Sw1m2D2/0U8J2L9mO/KO+ZqWhjelxFUZidoD8RsZrNZehLhYNid
- Dmdg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k99aG-0000vB-2N
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 12:08:04 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21481
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k99aC-0003cG-Kc
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 12:08:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598026079;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=wss4PuFuftaUGSiEsj4ZhHDH2Wc88qjKeJrLN5JbRXc=;
+ b=Lk9IexiLQAidQTY2EdDJmshKq/zAVW6GMsVUftSujPNQkklABI+G6+00HqpG3QEUwJ5+xC
+ 6Ru1LgfYMVUXAy5pkHIoPuZ2nLqG2PkeIFQ+PZ+i36fpW8refiyrrlAVqZIIIqwS7shYew
+ j4lMQ08NhcyGRsd8lV7B/3Fb5Twy2T0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-573-7y2WepvNNzKfp-W1jPw1XQ-1; Fri, 21 Aug 2020 12:07:57 -0400
+X-MC-Unique: 7y2WepvNNzKfp-W1jPw1XQ-1
+Received: by mail-wm1-f69.google.com with SMTP id z10so960990wmi.8
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 09:07:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qLDh8XVkGea4uB8QZaVh8OdtptdFsOpXTmCURYKOR4c=;
- b=SLfLNQoSsFc7H7hkJvworWIT8BKdUBJZTe2i9zonaXqS+USKCtOWSKKt9akYV9MsnL
- BclvdYIDRxh9LW7ph8B3hRZv1t3PQjiweRaeOqt9F2XghXFYwYkEeStrmOckMBG/ffNG
- due64CltIvmkouQYDSGif0PpgJvDh8aHmjUv50qrEDl4OOiiEwveUyVlvC16x93IeyTx
- IiWDBOMKbh0IsfXri01R8kSf96OcV+hllbr3QqtWa8ZTHQPTeS/J2PRDlwiq+APUESa0
- s50hpMjTvOT5VFSKqeX0cIsGmrxwhokQTbDNa3Lsm3vGH3DvHSy9wrVMnGYmkDqZy122
- nnRg==
-X-Gm-Message-State: AOAM5319gFsOH8/pvEcowRVpqGpf5SwLIfrJzlrOO/i2lVxNAOVuLd3L
- D1M+bpI4Gil9OyDUahJ0WiGgRYXfv2Oy3yk4wHA=
-X-Google-Smtp-Source: ABdhPJxmuAlxpv66stO/k3WT03HGllgsmQJsz6XUmswMnr9m5ROs2kdP4UtU3aRwd1KVq6a3q4auX30R3FbCesDF11c=
-X-Received: by 2002:a05:6638:248e:: with SMTP id
- x14mr3156151jat.135.1598026649601; 
- Fri, 21 Aug 2020 09:17:29 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wss4PuFuftaUGSiEsj4ZhHDH2Wc88qjKeJrLN5JbRXc=;
+ b=rKDO8lfu0Hd1SvoSgPdhZJ7fp0zbHszh9vBTvLbYozI+vcbCuuDcPP4q8aPhq5FCqx
+ wcD01S7YddAKMEn9dr8g+u9mmSZ6IvpMXCcedtnHSUd+9aO+zsEFjj5ymJFWagGpCXVY
+ yYv+XU7qO6Dial+x24JAlVZpL9lUP0cw9oOFMNIfdDEV11fBGHvjLN8Tjuwe29Wu8pag
+ XcGvpvf1MSiwOYofKlG5/mtCSv+9CB8AofJaDmZwLrsRZ3BIJ6pGhV0rbohWmPJFBXSv
+ qR9sAs/R+k9N0bTAirtUSeCPF+wTuF02tsrNt19lMFk48NK+06MLDLnQeoUQ747Bi1BG
+ 214w==
+X-Gm-Message-State: AOAM531j2XD8DAdDyYesFcUI0y12xWVsvNgjWa6ZXALtUQXSZvcebr0m
+ 9PEnostDqi/1LsmYp0N88drr+Wh5IvHmG5FsbiMZw4ZNgG1h2E/WM9svu8Ze0LyePSGaa1nNLfR
+ sDvf572gEKUrxaX0=
+X-Received: by 2002:a1c:1fd1:: with SMTP id f200mr2900082wmf.53.1598026075918; 
+ Fri, 21 Aug 2020 09:07:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJznHPD8Rs6+Hk+d229OCWyTs0vuuvAnm620mS7Ms1K53kveJMdT9pctIG5LfBYo/Xxj4KeIpQ==
+X-Received: by 2002:a1c:1fd1:: with SMTP id f200mr2900056wmf.53.1598026075650; 
+ Fri, 21 Aug 2020 09:07:55 -0700 (PDT)
+Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.121])
+ by smtp.gmail.com with ESMTPSA id g7sm5350957wrv.82.2020.08.21.09.07.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Aug 2020 09:07:54 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/2] meson: Build qemu-keymap when configured using
+ --disable-tools
+Date: Fri, 21 Aug 2020 18:07:50 +0200
+Message-Id: <20200821160752.1254102-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20200820215529.GH642093@habkost.net>
-In-Reply-To: <20200820215529.GH642093@habkost.net>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 21 Aug 2020 09:06:51 -0700
-Message-ID: <CAKmqyKO2z3XMeA9-_hMp0ebdSG03db5FtmbUk3uF-rA9Qi1FaA@mail.gmail.com>
-Subject: Re: Suspicious QOM types without instance/class size
-To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd44.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 04:55:47
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,50 +94,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- David Gibson <david@gibson.dropbear.id.au>, Thomas Huth <thuth@redhat.com>,
- Alistair Francis <alistair@alistair23.me>, Cameron Esfahani <dirty@apple.com>,
- qemu-s390x <qemu-s390x@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- Richard Henderson <rth@twiddle.net>,
- "Daniel P. Berrange" <berrange@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- "open list:New World" <qemu-ppc@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 20, 2020 at 2:56 PM Eduardo Habkost <ehabkost@redhat.com> wrote:
->
-> While trying to convert TypeInfo declarations to the new
-> OBJECT_DECLARE* macros, I've stumbled on a few suspicious cases
-> where instance_size or class_size is not set, despite having type
-> checker macros that use a specific type.
->
-> The ones with "WARNING" are abstract types (maybe not serious if
-> subclasses set the appropriate sizes).  The ones with "ERROR"
-> don't seem to be abstract types.
->
+Fix --enable-system --disable-tools builds.
 
-> ERROR: hw/core/register.c:328:1: instance_size should be set to sizeof(RegisterInfo)?
+Marc-André Lureau (1):
+  meson: convert pc-bios/keymaps/Makefile
 
-I'll send a patch out for this one today.
+Philippe Mathieu-Daudé (1):
+  meson: Do not consider qemu-keymap a 'tool'
 
-If you are fixing all of these as part of a series I'm also happy to
-just let you do that.
+ Makefile                    |  8 ------
+ meson.build                 | 11 ++++----
+ pc-bios/keymaps/Makefile    | 56 -------------------------------------
+ pc-bios/keymaps/meson.build | 56 +++++++++++++++++++++++++++++++++++++
+ pc-bios/meson.build         |  1 +
+ ui/meson.build              |  2 +-
+ 6 files changed, 64 insertions(+), 70 deletions(-)
+ delete mode 100644 pc-bios/keymaps/Makefile
+ create mode 100644 pc-bios/keymaps/meson.build
 
-Alistair
+-- 
+2.26.2
 
->
-> --
-> Eduardo
->
->
 
