@@ -2,69 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB1AE24DA4A
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 18:19:44 +0200 (CEST)
-Received: from localhost ([::1]:59968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBD3D24D9E2
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 18:17:00 +0200 (CEST)
+Received: from localhost ([::1]:52038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k99lX-0004kt-Oo
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 12:19:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56674)
+	id 1k99it-0001PS-V8
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 12:16:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k99ge-00084k-6D
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 12:14:40 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:58711
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k99hH-0000B1-OD
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 12:15:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38194)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k99gc-0004kn-0G
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 12:14:39 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k99hG-0004qn-0K
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 12:15:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598026477;
+ s=mimecast20190719; t=1598026517;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Kw4iRv82SX96zP42TOMG4Y9OsrNBp208ag9J2U+t+Dc=;
- b=OL4aOTF9S+7EJYRQLhpJ+Y82tjTWPWtdRs0qO/GM4EZV7PDsA9ZIKVKVO0kSlpUHMOcwo/
- XZmuGWZPvS9IjN61CGTJm+TC0WiuZDdajbt40sRUY44I4jBpLU17Hxm648dY4HHmvssD9X
- pT26RecbjjgB5AIryv2ZnMwVSXZa8EY=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-126-LrtQnxDKNbyPFGm_7gP7SA-1; Fri, 21 Aug 2020 12:14:29 -0400
-X-MC-Unique: LrtQnxDKNbyPFGm_7gP7SA-1
-Received: by mail-wm1-f71.google.com with SMTP id q15so973202wmj.6
- for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 09:14:29 -0700 (PDT)
+ bh=eUgoO24hS+D6zjzqUvY62NzTgMyiy1iDv24lMut+jR4=;
+ b=dL3LSmpFFgv3SOxal+2Hb99QdM0hSJixy+xBmGc48qyjVhMTXRhVjtshkr4J9qjy2sL1Km
+ 6Irqggy7ZUKYS3lIsUQchxUfLG4Kf0gYKaKtPR+I75f3vHYdoluCnpjnvd3lNsBOrsBxVt
+ qE6DhJXmzblfWkWHzYB8GTzEiR2Q6xQ=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-64-5LGuF1yGNZKQHVAKyKeyZQ-1; Fri, 21 Aug 2020 12:15:15 -0400
+X-MC-Unique: 5LGuF1yGNZKQHVAKyKeyZQ-1
+Received: by mail-wr1-f72.google.com with SMTP id r29so693442wrr.10
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 09:15:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=Kw4iRv82SX96zP42TOMG4Y9OsrNBp208ag9J2U+t+Dc=;
- b=U8I1XXx8XW/ArFAUviJhZR+XH51NvmWnUgsCRtXKAW7YFf5O5GUcA4BLLeeEekO5cb
- vZOI1FNL+1KT1gqWpZx+DqXBydDUOENNcVeSMfXjFbLvRLt8R9O7rSibZ/M0bkdGBxdp
- RiT1pPkStpnVCqz7LiT8toT7Pk3fF3o9c46JPyGNa+HyK1142eIVmZ87jLdzAIOOyEzz
- PZViEzZ2kSfGrKS7oj3ggNTp1tSma/lw4Wz5tp7FgPPlDDkrrPmuMYGjqsPSG8zWx6la
- 445BX2PRl6aYD3XSSVbpQIQOW82cSpbrJFHORXjuiTWQScxau1BzLjZwH1i92Ijsn5DR
- 8fzg==
-X-Gm-Message-State: AOAM530A3L2M4/MTlzZpoxaDyJ0S4GGUuARzycupjgZUQP4lZWz7bgEt
- zqpdMnsXsAfSA3i/p12Lc2dRAEVT5wAh0oTTku3fTFvJV99qsjzzU0j/qOA9qGDJ1vk4ne1Q3G6
- shSoZWPJZHJA1FUM=
-X-Received: by 2002:a1c:540c:: with SMTP id i12mr3679137wmb.96.1598026467607; 
- Fri, 21 Aug 2020 09:14:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwNET8Z/sKqfDUrk9ECDgrUjRq9z+oPtFI+ahXDyMDdD0bsn7R5yqvil4P2T4q1zFmi+FTGrQ==
-X-Received: by 2002:a1c:540c:: with SMTP id i12mr3679110wmb.96.1598026467326; 
- Fri, 21 Aug 2020 09:14:27 -0700 (PDT)
+ bh=eUgoO24hS+D6zjzqUvY62NzTgMyiy1iDv24lMut+jR4=;
+ b=JYg8bqNFSgrOEDjlILPXiRzJhsjTD5769cPRrDyKHLCIZ/9OdyPdHH2V1Y2fjXgmvn
+ Gp1SdWpiqFrWsoYNN3lLZlBwh7d5JPRCfg/XNoOAGbEg0zBTX6j3RYg7n3h42WgIRiS7
+ XHw44yP4Z8m++j2d+ttQ/Lyl0PPol/5qHvAaxm4WafGSBz6NSXNchcBeWuZS3fI6aowt
+ eMA3L8o4T4yvXsUDnGbRDH3Tc2UuQda2cZ6z+YW+tHqbkQi5s+aV+aRSD/wFX+a9DzY5
+ w60jih4ZvQqhcAEXU/IxIXEtqE8CTXpJxgDQsoDarD995Ry9icbeK+jpPotSBl+4v/E7
+ ohJQ==
+X-Gm-Message-State: AOAM533cTj82bPWm3d1nyi5DI6prhYBtjuR3ViCHoSoB46jPQnObwb6W
+ B7zbVxZpHHjCT1eugYzQUl+i2UwevtHaXtMoISGWYuJqa2McVRK1myJo+TlNHlHv+9XW3RQ8SrR
+ cDomGAbdq/w5oCqw=
+X-Received: by 2002:a1c:770c:: with SMTP id t12mr4188575wmi.65.1598026514238; 
+ Fri, 21 Aug 2020 09:15:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwGIehxxQAFYL6xRhiI7wrpmMdYq9F8CjQ+bKqniyTq0imgfHPr+lDccWiiCVSg6czwPAmkSQ==
+X-Received: by 2002:a1c:770c:: with SMTP id t12mr4188562wmi.65.1598026514078; 
+ Fri, 21 Aug 2020 09:15:14 -0700 (PDT)
 Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id a10sm5219310wro.35.2020.08.21.09.14.26
+ by smtp.gmail.com with ESMTPSA id h5sm3296731wrt.31.2020.08.21.09.15.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Aug 2020 09:14:26 -0700 (PDT)
-Subject: Re: [PATCH] configure: silence 'shift' error message in version_ge()
-To: Stefano Garzarella <sgarzare@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20200821150014.42461-1-sgarzare@redhat.com>
- <CAFEAcA9zUDeig8TB4JDd_48v2AXcr7HGyjGq6r7KVx=sQyrjXA@mail.gmail.com>
- <20200821152627.trreokf3ly24thrs@steredhat>
+ Fri, 21 Aug 2020 09:15:13 -0700 (PDT)
+Subject: Re: [PATCH] configure: Silence shift warning in version_ge()
+To: qemu-devel@nongnu.org
+References: <20200821151416.1240494-1-philmd@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -89,30 +85,30 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <7ac1a133-8b60-226d-4358-231f4b6b29a1@redhat.com>
-Date: Fri, 21 Aug 2020 18:14:25 +0200
+Message-ID: <a70425ae-734e-325f-8a06-72b3829d8b37@redhat.com>
+Date: Fri, 21 Aug 2020 18:15:12 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200821152627.trreokf3ly24thrs@steredhat>
+In-Reply-To: <20200821151416.1240494-1-philmd@redhat.com>
 Content-Language: en-US
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 01:00:15
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 02:43:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
 X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -125,53 +121,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/21/20 5:26 PM, Stefano Garzarella wrote:
-> On Fri, Aug 21, 2020 at 04:21:10PM +0100, Peter Maydell wrote:
->> On Fri, 21 Aug 2020 at 16:00, Stefano Garzarella <sgarzare@redhat.com> wrote:
->>>
->>> If there are less than 2 arguments in version_ge(), the second shift
->>> prints this error:
->>>     ../configure: line 232: shift: shift count out of range
->>>
->>> Let's shut it up, since we're expecting this situation.
-
-Maybe s/shut up/silence/?
-
->>>
->>> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
->>> ---
->>>  configure | 2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/configure b/configure
->>> index 4e5fe33211..de4bd0df36 100755
->>> --- a/configure
->>> +++ b/configure
->>> @@ -229,7 +229,7 @@ version_ge () {
->>>          set x $local_ver1
->>>          local_first=${2-0}
->>>          # shift 2 does nothing if there are less than 2 arguments
->>> -        shift; shift
->>> +        shift; shift 2>/dev/null
->>
->> POSIX says
->> https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#shift
->>
->> "If the n operand is invalid or is greater than "$#", this may be
->> considered a syntax error and a non-interactive shell may exit"
->>
->> so I think that we need to actually avoid the excess shift,
+On 8/21/20 5:14 PM, Philippe Mathieu-Daudé wrote:
+> As we might expect less than 2 argument, only shift again
+> if there is arguments to shift.
 > 
-> Maybe something like this:
+> This fixes:
+> 
+>     ../configure: line 232: shift: shift count out of range
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  configure | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/configure b/configure
-> index de4bd0df36..5f5f370e2c 100755
+> index 4e5fe332110..cf044ad2d25 100755
 > --- a/configure
 > +++ b/configure
 > @@ -229,7 +229,7 @@ version_ge () {
@@ -179,28 +148,14 @@ Maybe s/shut up/silence/?
 >          local_first=${2-0}
 >          # shift 2 does nothing if there are less than 2 arguments
 > -        shift; shift
-> +        shift; test $# -gt 0 && shift
+> +        shift || shift
 
-This looks better that mine indeed.
+As Stefano noted, this does not work as intended, so please discard
+this invalid patch.
 
 >          local_ver1=$*
 >          set x $local_ver2
 >          # the second argument finished, the first must be greater or equal
-> 
->> not just suppress any warning it might print. (I'm not sure
->> Philippe's "shift || shift" patch can work for that, though,
->> as the exit status doesn't distinguish "valid shift but don't
->> do it again" from "valid shift and more args to come".)
-> 
-> I tried and also if I have meson 0.55.0, with the Philippe's patch
-> applied it tries to download our internal meson, so maybe it is not
-> working as expected.
-
-=)
-
-> 
-> Thanks,
-> Stefano
 > 
 
 
