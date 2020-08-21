@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5231824D3FA
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 13:31:03 +0200 (CEST)
-Received: from localhost ([::1]:32926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1C5B24D40E
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 13:34:48 +0200 (CEST)
+Received: from localhost ([::1]:53494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k95GA-0005DV-Cs
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 07:31:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33354)
+	id 1k95Jo-0005HN-0p
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 07:34:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k94F4-0004CY-BQ
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:25:50 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46108
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1k94KM-0007x2-9Q
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:31:18 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:21311
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k94Ej-000206-PL
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:25:50 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1k94KJ-0002vD-VD
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:31:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598005528;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1598005874;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zLEGI0Pc2+VviirpEb13pI07/x5FH7EtQpf+MKxLR/A=;
- b=eTxOY6YQEBRHQ9F7Wnfz+7IbH4XKY14UIhODtlPFBrkuPNb2xVEvSp9gBJ9U7r5epAa1aS
- TiYbwFd/HDcYV7K49in5L8thTVtWxtr2+58w8YeK2wi3r55+ExRQMYEfbDzREN26hySUZ3
- VzbX3AEvR6Om6wXhZCa1i3mBKbHNBZM=
+ bh=Fa3ZE2viBRz5vzvmvDpSQbVXv8jRGMA4oktFM+AV9fA=;
+ b=Tkp+OQowXKj++M6slVxqV80umsCw5YMY/9ormoVd6qTWunJboXadBhxqtfSB7+Lh3gE35k
+ 8dg8k271YywZRlkT2yVHKBH7b7Rt66sMPgrxW4FcuQp6oWFnoiSDI9uF0WOsYwCCg+2HjD
+ txOJP930N8sc0revCRAYMjJoHOyuUeQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-18-QYWg83uQNqmYiSYSRIG3_Q-1; Fri, 21 Aug 2020 06:25:26 -0400
-X-MC-Unique: QYWg83uQNqmYiSYSRIG3_Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-411-HH_2FoxNO-GhaIJyEpN2NA-1; Fri, 21 Aug 2020 06:31:11 -0400
+X-MC-Unique: HH_2FoxNO-GhaIJyEpN2NA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20D461009442
- for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:25:26 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E20DD60BF1
- for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:25:25 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL v8 150/152] meson: avoid unstable module warning with Meson
- 0.56.0 or newer
-Date: Fri, 21 Aug 2020 06:23:27 -0400
-Message-Id: <20200821102329.29777-151-pbonzini@redhat.com>
-In-Reply-To: <20200821102329.29777-1-pbonzini@redhat.com>
-References: <20200821102329.29777-1-pbonzini@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E1EA80733A;
+ Fri, 21 Aug 2020 10:31:10 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 43F027A431;
+ Fri, 21 Aug 2020 10:31:08 +0000 (UTC)
+Date: Fri, 21 Aug 2020 11:31:05 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v2] configure: add support for pseudo-"in source tree"
+ builds
+Message-ID: <20200821103105.GI251583@redhat.com>
+References: <20200820173124.243984-1-berrange@redhat.com>
+ <20200821101753.GC5153@linux.fritz.box>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20200821101753.GC5153@linux.fritz.box>
+User-Agent: Mutt/1.14.5 (2020-06-23)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.0
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 23:41:39
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 05:15:56
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -83,33 +86,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- meson.build | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+On Fri, Aug 21, 2020 at 12:17:53PM +0200, Kevin Wolf wrote:
+> Am 20.08.2020 um 19:31 hat Daniel P. BerrangÃÂ© geschrieben:
+> > Meson requires the build dir to be separate from the source tree. Many
+> > people are used to just running "./configure && make" though and the
+> > meson conversion breaks that.
+> > 
+> > This introduces some backcompat support to make it appear as if an
+> > "in source tree" build is being done, but with the the results in the
+> > "build/" directory. This allows "./configure && make" to work as it
+> > did historically, albeit with the output binaries staying under build/.
+> > 
+> > Signed-off-by: Daniel P. BerrangÃÂ© <berrange@redhat.com>
+> > ---
+> > 
+> > This is a simple integration of Eric's proposal from
+> > 
+> >   https://lists.gnu.org/archive/html/qemu-devel/2020-03/msg07290.html
+> > 
+> > with a bit of configure magic. It is enough to enable
+> > 
+> >    ./configure
+> >    make
+> >    make check
+> > 
+> > I've not tested it beyond that. Note it blows away the "build/"
+> > dir each time ./configure is run so it is pristine each time.
+> 
+> I guess "make install" is the only other one that normal users would
+> care about. We shoud make sure that it works (I don't see why it
+> wouldn't, but worth testing anyway).
 
-diff --git a/meson.build b/meson.build
-index 62bf8a51c2..808f50b07e 100644
---- a/meson.build
-+++ b/meson.build
-@@ -3,7 +3,11 @@ project('qemu', ['c'], meson_version: '>=0.55.0',
-         version: run_command('head', meson.source_root() / 'VERSION').stdout().strip())
- 
- not_found = dependency('', required: false)
--keyval = import('unstable-keyval')
-+if meson.version().version_compare('>=0.56.0')
-+  keyval = import('keyval')
-+else
-+  keyval = import('unstable-keyval')
-+endif
- ss = import('sourceset')
- 
- sh = find_program('sh')
+I've just tested  "make instal DESTDIR=`pwd`/vroot" in order to
+validate that variables are passed through too, and it appears to
+be succesful.
+
+$  make install DESTDIR=`pwd`/vroot
+...snip...
+$ find vroot/ | head -30
+vroot/
+vroot/usr
+vroot/usr/local
+vroot/usr/local/bin
+vroot/usr/local/bin/qemu-nbd
+vroot/usr/local/bin/qemu-keymap
+vroot/usr/local/bin/qemu-pr-helper
+vroot/usr/local/bin/qemu-storage-daemon
+vroot/usr/local/bin/elf2dmp
+vroot/usr/local/bin/qemu-img
+vroot/usr/local/bin/qemu-edid
+vroot/usr/local/bin/qemu-system-x86_64
+vroot/usr/local/bin/qemu-ga
+vroot/usr/local/bin/qemu-io
+vroot/usr/local/var
+vroot/usr/local/var/run
+vroot/usr/local/libexec
+vroot/usr/local/libexec/vhost-user-gpu
+vroot/usr/local/libexec/qemu-bridge-helper
+vroot/usr/local/libexec/virtfs-proxy-helper
+vroot/usr/local/libexec/virtiofsd
+vroot/usr/local/share
+vroot/usr/local/share/icons
+vroot/usr/local/share/icons/hicolor
+vroot/usr/local/share/icons/hicolor/256x256
+vroot/usr/local/share/icons/hicolor/256x256/apps
+vroot/usr/local/share/icons/hicolor/256x256/apps/qemu.png
+vroot/usr/local/share/icons/hicolor/48x48
+vroot/usr/local/share/icons/hicolor/48x48/apps
+vroot/usr/local/share/icons/hicolor/48x48/apps/qemu.png
+...snip...
+
+Regards,
+Daniel
 -- 
-2.26.2
-
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
