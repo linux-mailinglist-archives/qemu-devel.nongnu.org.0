@@ -2,62 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4115324D437
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 13:40:22 +0200 (CEST)
-Received: from localhost ([::1]:52034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1A6824D446
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 13:42:26 +0200 (CEST)
+Received: from localhost ([::1]:32972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k95PB-0007kV-4A
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 07:40:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40490)
+	id 1k95RB-00039Z-LT
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 07:42:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1k94rd-0001Jl-DT
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 07:05:41 -0400
-Resent-Date: Fri, 21 Aug 2020 07:05:41 -0400
-Resent-Message-Id: <E1k94rd-0001Jl-DT@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21743)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1k94ua-0007ZQ-BG
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 07:08:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38327)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1k94ra-0006hQ-V6
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 07:05:41 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1598007923; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=b6Rrsxhh90iPWzn3AmFLhgM/VnT/h4RBxCyUoF6gCNcKGbZIru40TH5iiyuPoC3gcU+mr0eH+GVdEMDadT/OV6caYE6eBLq01YCHxU06VD8F5O2vFXZymvqcVn474tk49fTeHhQiHSrp/1uk4or9Jp/XHHiW9ExUYZNcSe5GASk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1598007923;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=N2ZQeY/uo772hBw72gqGECHBHW6JrWA/xVfF8tmOd2s=; 
- b=m99GMMeNl7PlepjFY8vnUZg9RFPi1rCGyIrsaLxeXC4ny1/0Y3ZofkzczQSn1aoc+mKes/aTGElSaigRkddpJWLM2PzuDV1DIgZUusetVK9mFDeIvia5jWfpfOmf/Khnb9l16516uA+yLAfopBnnCf4v2Pzinhd/opxDDuz/5SU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1598007918253942.5074027906261;
- Fri, 21 Aug 2020 04:05:18 -0700 (PDT)
-Subject: Re: [PATCH v3] configure: add support for pseudo-"in source tree"
- builds
-Message-ID: <159800791695.18714.9366770186838501573@66eaa9a8a123>
-In-Reply-To: <20200821102204.337859-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1k94uY-00070i-36
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 07:08:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598008119;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=HPT91OStJ7xaQQnCY/LD0gBIVyZinn4YDdhSPg0Yn7U=;
+ b=HDCNfUYYBBAzioX0OqkcOt+ed/oBFsrz27O5Ja270tsHkVNmK/5MQpnto0FbsFKoOOl4Kx
+ 2uI5o+CpJ6h5toZTnaM7THeTPWqG5sVA+dYfWqkkIWxv0/HYaza0c1cWLP1BHtryFnWMfq
+ E0fmVBVEESVI4dOf27ruJAjJdTTZiCg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-48-vYQGiLzFPUum6hAcDGmvqA-1; Fri, 21 Aug 2020 07:08:37 -0400
+X-MC-Unique: vYQGiLzFPUum6hAcDGmvqA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C84F41007469;
+ Fri, 21 Aug 2020 11:08:35 +0000 (UTC)
+Received: from localhost (ovpn-113-166.ams2.redhat.com [10.36.113.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A5C5E7C533;
+ Fri, 21 Aug 2020 11:08:23 +0000 (UTC)
+Date: Fri, 21 Aug 2020 12:08:22 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Maxime Coquelin <maxime.coquelin@redhat.com>
+Subject: VHOST_USER_PROTOCOL_F_VDPA
+Message-ID: <20200821110822.GA205318@stefanha-x1.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: berrange@redhat.com
-Date: Fri, 21 Aug 2020 04:05:18 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 05:08:41
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0.326
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="3MwIy2ne0vdjdPXF"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 02:43:55
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,47 +77,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, berrange@redhat.com,
- stefanha@gmail.com, qemu-devel@nongnu.org, pbonzini@redhat.com,
- philmd@redhat.com
+Cc: Tiwei Bie <tiwei.bie@intel.com>, Cindy Lu <lulu@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, jasowang@redhat.com,
+ qemu-devel@nongnu.org, Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ kraxel@redhat.com,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Changpeng Liu <changpeng.liu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDgyMTEwMjIwNC4zMzc4
-NTktMS1iZXJyYW5nZUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUg
-ZG9ja2VyLXF1aWNrQGNlbnRvczcgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3Rpbmcg
-Y29tbWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3Rh
-bGxlZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFND
-UklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtY2VudG9zNyBWPTEg
-TkVUV09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1xdWlja0BjZW50b3M3IFNIT1dfRU5WPTEg
-Sj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgVEVTVCAgICBjaGVjay11
-bml0OiB0ZXN0cy90ZXN0LWNoYXIKVW5leHBlY3RlZCBlcnJvciBpbiBvYmplY3RfcHJvcGVydHlf
-dHJ5X2FkZCgpIGF0IC90bXAvcWVtdS10ZXN0L3NyYy9xb20vb2JqZWN0LmM6MTE4MToKYXR0ZW1w
-dCB0byBhZGQgZHVwbGljYXRlIHByb3BlcnR5ICdzZXJpYWwtaWQnIHRvIG9iamVjdCAodHlwZSAn
-Y29udGFpbmVyJykKRVJST1IgdGVzdC1jaGFyIC0gdG9vIGZldyB0ZXN0cyBydW4gKGV4cGVjdGVk
-IDM4LCBnb3QgOSkKbWFrZTogKioqIFtjaGVjay11bml0XSBFcnJvciAxCm1ha2U6ICoqKiBXYWl0
-aW5nIGZvciB1bmZpbmlzaGVkIGpvYnMuLi4uCiAgVEVTVCAgICBpb3Rlc3QtcWNvdzI6IDAyNwog
-IFRFU1QgICAgaW90ZXN0LXFjb3cyOiAwMjkKLS0tCiAgICByYWlzZSBDYWxsZWRQcm9jZXNzRXJy
-b3IocmV0Y29kZSwgY21kKQpzdWJwcm9jZXNzLkNhbGxlZFByb2Nlc3NFcnJvcjogQ29tbWFuZCAn
-WydzdWRvJywgJy1uJywgJ2RvY2tlcicsICdydW4nLCAnLS1sYWJlbCcsICdjb20ucWVtdS5pbnN0
-YW5jZS51dWlkPTliY2Q5MWZmOGZlZTQ3NjQ5MzljNjdhZjUyMDZiMGNhJywgJy11JywgJzEwMDMn
-LCAnLS1zZWN1cml0eS1vcHQnLCAnc2VjY29tcD11bmNvbmZpbmVkJywgJy0tcm0nLCAnLWUnLCAn
-VEFSR0VUX0xJU1Q9JywgJy1lJywgJ0VYVFJBX0NPTkZJR1VSRV9PUFRTPScsICctZScsICdWPScs
-ICctZScsICdKPTE0JywgJy1lJywgJ0RFQlVHPScsICctZScsICdTSE9XX0VOVj0xJywgJy1lJywg
-J0NDQUNIRV9ESVI9L3Zhci90bXAvY2NhY2hlJywgJy12JywgJy9ob21lL3BhdGNoZXcyLy5jYWNo
-ZS9xZW11LWRvY2tlci1jY2FjaGU6L3Zhci90bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAv
-cGF0Y2hldy10ZXN0ZXItdG1wLWxyc3JvYXphL3NyYy9kb2NrZXItc3JjLjIwMjAtMDgtMjEtMDYu
-NDkuMzYuMjI5MDU6L3Zhci90bXAvcWVtdTp6LHJvJywgJ3FlbXUvY2VudG9zNycsICcvdmFyL3Rt
-cC9xZW11L3J1bicsICd0ZXN0LXF1aWNrJ10nIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVz
-IDIuCmZpbHRlcj0tLWZpbHRlcj1sYWJlbD1jb20ucWVtdS5pbnN0YW5jZS51dWlkPTliY2Q5MWZm
-OGZlZTQ3NjQ5MzljNjdhZjUyMDZiMGNhCm1ha2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3Ig
-MQptYWtlWzFdOiBMZWF2aW5nIGRpcmVjdG9yeSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1w
-LWxyc3JvYXphL3NyYycKbWFrZTogKioqIFtkb2NrZXItcnVuLXRlc3QtcXVpY2tAY2VudG9zN10g
-RXJyb3IgMgoKcmVhbCAgICAxNW0zNi42NjRzCnVzZXIgICAgMG04LjU0OHMKCgpUaGUgZnVsbCBs
-b2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwODIxMTAyMjA0
-LjMzNzg1OS0xLWJlcnJhbmdlQHJlZGhhdC5jb20vdGVzdGluZy5kb2NrZXItcXVpY2tAY2VudG9z
-Ny8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0
-Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRv
-IHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+--3MwIy2ne0vdjdPXF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+The first vDPA ioctls have been added to the vhost-user protocol and I
+wonder if it's time to fully change the vhost-user protocol's focus to
+providing a full VIRTIO device model like vDPA does.
+
+Initially vhost-user was just used for vhost-net. As a result it didn't
+need the full VIRTIO device model including the configuration space and
+device status register.
+
+Over the years device-specific messages were added to extend vhost-user
+to cover more of the VIRTIO device model. vhost-user-blk needed
+configuration space support, for example.
+
+The problem for VMMs and device backend implementors is that the
+protocol is currently positioned halfway between the original vhost-net
+approach and the full VIRTIO device model. Even if a VMM implements
+VHOST_USER_GET_CONFIG, it can only expect it to work with
+vhost-user-blk, not vhost-user-net. Similarly, a vhost-user-net device
+backend cannot implement VHOST_USER_GET_CONFIG and expect all VMMs to
+allow it to participate in configuration space emulation because
+existing VMMs won't send that message.
+
+The current approach where each device type uses a undocumented subset
+of vhost-user messages is really messy. VMM and device backend
+implementors have to look at existing implementations to know what is
+expected for a given device type. It would be nice to switch to the
+VIRTIO device model so that the VIRTIO specification can be used as the
+reference for how device types work.
+
+Now that vDPA is here and extends the kernel vhost ioctls with a full
+VIRTIO device model, it might be a good time to revise the vhost-user
+protocol.
+
+A vdpa-user protocol (or vhost-user 2.0) would replace the current mess
+with a full VIRTIO device model. Both VMMs and device backends would
+require changes to support this, but it would be a cleaner path forward
+for the vhost-user protocol.
+
+One way of doing this would be a new VHOST_USER_PROTOCOL_F_VDPA feature
+bit that indicates all the currently existing Linux vDPA ioctl messages
+are available. Legacy vhost-user messages with overlapping functionality
+must not be used when this bit is set. Most importantly, device backends
+need to implement the full VIRTIO device model, regardless of device
+type (net, blk, scsi, etc).
+
+The device type most affected by this change would be virtio-net. The
+other device types are already closer to the full VIRTIO device model.
+
+I wanted to share this idea in case someone is currently trying to
+figure out how to add more VIRTIO device model functionality to
+vhost-user.
+
+Stefan
+
+--3MwIy2ne0vdjdPXF
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl8/qx8ACgkQnKSrs4Gr
+c8hLsgf+KnFJ3i15fHU4n6xO69ow1wGoU86OAje1BS15wejsMrpwnwNL+hcX6W93
+KXGRAqaQHeUwIXaQMIe05RourPl1A0H4IIQNenReWnKDKnoV8qqEN2OG2Q9WxX9q
+W8lvXZ8JFmbma2zTotG4teTB558dHwrE++FljudTjWUN0wjVQLA7JHYcGr1561J2
+KeVF11Z/a0yDXrEPvc6dIjZqEpmtcR6f8shGRLgcvaOmeugdse1J5tV13MWA9Dv1
+g4qPlxlwLHpblEeuUnfpjTYlchIkcdSfu5mGnGgQGS77SIkezqQnBUkZ+wqLwnxM
+9Xy+CuAX+wiJXWH4XkkcsXoVLv6BUQ==
+=wZNX
+-----END PGP SIGNATURE-----
+
+--3MwIy2ne0vdjdPXF--
+
 
