@@ -2,78 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1CF724DEE2
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 19:49:27 +0200 (CEST)
-Received: from localhost ([::1]:59918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DA3224DEB9
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 19:41:31 +0200 (CEST)
+Received: from localhost ([::1]:60872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9BAM-00081C-PM
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 13:49:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57606)
+	id 1k9B2g-0004uY-2t
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 13:41:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k9ArX-0001vT-Bx; Fri, 21 Aug 2020 13:29:59 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:40002)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k9ArV-0001H4-14; Fri, 21 Aug 2020 13:29:58 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id k20so2553034wmi.5;
- Fri, 21 Aug 2020 10:29:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=l6Svpz1zFgu3rW3hNJEs7xxdWfxftjayMdaBJY3QTHs=;
- b=b/bdVI6BmoT9zR6l2THzuwd6jo381NwqczDg7GfTuRvYrwWr4j5s6PDlgurFxwAKu1
- h4KX5KuoOe6CCGkTryy4UDrKPAQPvWCtYmHw9IYCFNJRzfornJce1HMfnjus9us2YM+q
- KBAHWqZVwQ98C5bzfLk+sGlTyXg0T0nNB6czmQV2ygH08Y/07D+bp0KezGBpnXNHDIwS
- nFvaCRwKoio/AFFyMbBltmLC4BiKkUQzNMfFY+tS9xlIXP1NfF6oOVb1/VYNaYdV2X1/
- rVyZzxTUobirV1SStB+YoaJg48PfQfYbJSoU7FNW7YdbG4TwLeM5J0Da2WhisOQu0Btr
- Avtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=l6Svpz1zFgu3rW3hNJEs7xxdWfxftjayMdaBJY3QTHs=;
- b=SQXxrk6dYAdejlIMRFYrSY+4au400bb9GG7Dh7whOVmE4xaNFoFyjKjtKMPY/x+Zbw
- /TuozJYjc1aFkkULwAktAc6Ir/49Kb6cBdoNJsqKPPBSglIJ+xEYUVx6/oIMijFyzziM
- d1AtTnFqPLvlG4cWtRd078Ty6UWn8FNJt21r/VRef1LpBW1dp24IlQgXT1ukEtYSrzkr
- nvFmDv7BPTXEzFr20/BKn53YDz9ydGd5lGHiEjOaTsaaa3oVL6yuhw/vEmAXMX5ebWxl
- BpYIQu2dcjdtvif2Hf/uGhGQw9eDlEJD+nGmA0+XbCqRCx9vYxOEcJn4NaA7hBvb67LI
- ykxg==
-X-Gm-Message-State: AOAM532V0f466mDNUikHfUUxQx3viHn0VsMXVX67q0y9HXDad7grJhrA
- cBXmyCNo963Cw0al+U+EAwAOEvv8DXU=
-X-Google-Smtp-Source: ABdhPJwQpHIg1LMSejO2yqn/omEVev3KClz0r5g/zOycenPE+TllxFDPy9t4oYUgBGuX7Uz7TELGmg==
-X-Received: by 2002:a7b:c40b:: with SMTP id k11mr4208451wmi.19.1598030994911; 
- Fri, 21 Aug 2020 10:29:54 -0700 (PDT)
-Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id 32sm5315471wrn.86.2020.08.21.10.29.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Aug 2020 10:29:54 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 23/23] hw/sd: Correct the maximum size of a Standard Capacity
- SD Memory Card
-Date: Fri, 21 Aug 2020 19:29:16 +0200
-Message-Id: <20200821172916.1260954-24-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200821172916.1260954-1-f4bug@amsat.org>
-References: <20200821172916.1260954-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1k9ArM-0001hd-B8
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 13:29:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60690)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1k9ArJ-0001EK-0E
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 13:29:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598030984;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=b4Xxm8p6lEZCoBxrAS8NOpJ/hwlUtUBCvYH8v2IUDTk=;
+ b=dE7r6Nz0xAhUwnzVZNj5ebw6JYENftbx1uRJ8p/Q3nO4QAAVyXkAF4wlaZBphFl/VxrIUu
+ KyXni6AjdeOytsDaaMj05V8RjaoIRnd4Fic/m3XFhUnDo7GVoxRIwwvkRptgyx57+rLIhc
+ nw197bUheCfYyna9we3/TLs/V3EvQq0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-296-LbqOqPDuNp2NFh-tep-Z1A-1; Fri, 21 Aug 2020 13:29:41 -0400
+X-MC-Unique: LbqOqPDuNp2NFh-tep-Z1A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6239480F055;
+ Fri, 21 Aug 2020 17:29:38 +0000 (UTC)
+Received: from localhost (unknown [10.10.67.254])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C81B17AECB;
+ Fri, 21 Aug 2020 17:29:27 +0000 (UTC)
+Date: Fri, 21 Aug 2020 13:29:27 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Roman Bolshakov <r.bolshakov@yadro.com>
+Subject: Re: Suspicious QOM types without instance/class size
+Message-ID: <20200821172927.GJ642093@habkost.net>
+References: <20200820215529.GH642093@habkost.net>
+ <20200821105352.GA89922@SPB-NB-133.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20200821105352.GA89922@SPB-NB-133.local>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 02:43:55
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,64 +80,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
- Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Beniamino Galvani <b.galvani@gmail.com>, Michael Walle <michael@walle.cc>,
- qemu-arm@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org,
+ David Hildenbrand <david@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Thomas Huth <thuth@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>, Cameron Esfahani <dirty@apple.com>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Richard Henderson <rth@twiddle.net>,
+ "Daniel P. Berrange" <berrange@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+On Fri, Aug 21, 2020 at 01:53:52PM +0300, Roman Bolshakov wrote:
+> On Thu, Aug 20, 2020 at 05:55:29PM -0400, Eduardo Habkost wrote:
+> > While trying to convert TypeInfo declarations to the new
+> > OBJECT_DECLARE* macros, I've stumbled on a few suspicious cases
+> > where instance_size or class_size is not set, despite having type
+> > checker macros that use a specific type.
+> > 
+> > The ones with "WARNING" are abstract types (maybe not serious if
+> > subclasses set the appropriate sizes).  The ones with "ERROR"
+> > don't seem to be abstract types.
+> > 
+> 
+> > ERROR: target/i386/hvf/hvf.c:908:1: instance_size should be set to sizeof(HVFState)?
+> 
+> Hi Eduardo,
+> 
+> How do you get the error?
 
-Per the SD spec, Standard Capacity SD Memory Card (SDSC) supports
-capacity up to and including 2 GiB.
+My script looks for corresponding type checking macros, and check
+if instance_size is set to sizeof(T) with the right type from the
+type checking macro.
 
-Fixes: 2d7adea4fe ("hw/sd: Support SDHC size cards")
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Tested-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-Message-Id: <1598021136-49525-2-git-send-email-bmeng.cn@gmail.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/sd/sd.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+The code is here:
+https://github.com/ehabkost/qemu-hacks/blob/920b2c521ad2a29fa663256854e24ed2059ba9cd/scripts/codeconverter/codeconverter/qom_type_info.py#L136
 
-diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 805e21fc883..483c4f17204 100644
---- a/hw/sd/sd.c
-+++ b/hw/sd/sd.c
-@@ -51,6 +51,8 @@
- 
- //#define DEBUG_SD 1
- 
-+#define SDSC_MAX_CAPACITY   (2 * GiB)
-+
- typedef enum {
-     sd_r0 = 0,    /* no response */
-     sd_r1,        /* normal response command */
-@@ -314,7 +316,7 @@ static void sd_ocr_powerup(void *opaque)
-     /* card power-up OK */
-     sd->ocr = FIELD_DP32(sd->ocr, OCR, CARD_POWER_UP, 1);
- 
--    if (sd->size > 1 * GiB) {
-+    if (sd->size > SDSC_MAX_CAPACITY) {
-         sd->ocr = FIELD_DP32(sd->ocr, OCR, CARD_CAPACITY, 1);
-     }
- }
-@@ -386,7 +388,7 @@ static void sd_set_csd(SDState *sd, uint64_t size)
-     uint32_t sectsize = (1 << (SECTOR_SHIFT + 1)) - 1;
-     uint32_t wpsize = (1 << (WPGROUP_SHIFT + 1)) - 1;
- 
--    if (size <= 1 * GiB) { /* Standard Capacity SD */
-+    if (size <= SDSC_MAX_CAPACITY) { /* Standard Capacity SD */
-         sd->csd[0] = 0x00;	/* CSD structure */
-         sd->csd[1] = 0x26;	/* Data read access-time-1 */
-         sd->csd[2] = 0x00;	/* Data read access-time-2 */
+
+> 
+> Given your changes, instance size should really be sizeof(HVFState).
+> 
+
+The changes I've made shouldn't make any difference (if there's
+an issue, it is there before or after my series).
+
+> BTW, the object definition for hvf seems different from KVM (and perhaps
+> wrong?), e.g. HVFState is allocated within init_machine handler and then
+> assigned to a global variable:
+
+Interesting.  It looks like hvf_state is _not_ the actual QOM
+object instance.  The actual TYPE_HVF_ACCEL instance is created
+by do_configure_accelerator().  That would explain why the lack
+of instance_init never caused any problems.
+
+Luckily, no code ever used the HVF_STATE macro.  If
+HVF_STATE(hvf_state) got called, it would crash because of
+uninitialized object instance data.  If HVF_STATE(machine->accel)
+got called, it would return an invalid HVFState pointer (not
+hvf_state).
+
+I believe the simplest short term solution here is to just delete
+the HVF_STATE macro and HVFState::parent field.  We can worry
+about actually moving hvf_state to the machine->accel QOM object
+later.
+
+> 
+> static int hvf_accel_init(MachineState *ms)
+> {
+>     int x;
+>     hv_return_t ret;
+>     HVFState *s;
+> 
+>     ret = hv_vm_create(HV_VM_DEFAULT);
+>     assert_hvf_ok(ret);
+> 
+>     s = g_new0(HVFState, 1);
+>  
+>     s->num_slots = 32;
+>     for (x = 0; x < s->num_slots; ++x) {
+>         s->slots[x].size = 0;
+>         s->slots[x].slot_id = x;
+>     }
+>   
+>     hvf_state = s;
+>     cpu_interrupt_handler = hvf_handle_interrupt;
+>     memory_listener_register(&hvf_memory_listener, &address_space_memory);
+>     return 0;
+> }
+> 
+> static void hvf_accel_class_init(ObjectClass *oc, void *data)
+> {
+>     AccelClass *ac = ACCEL_CLASS(oc);
+>     ac->name = "HVF";
+>     ac->init_machine = hvf_accel_init;
+>     ac->allowed = &hvf_allowed;
+> }
+> 
+> static const TypeInfo hvf_accel_type = {
+>     .name = TYPE_HVF_ACCEL,
+>     .parent = TYPE_ACCEL,
+>     .class_init = hvf_accel_class_init,
+> };
+> 
+> Thanks,
+> Roman
+> 
+
 -- 
-2.26.2
+Eduardo
 
 
