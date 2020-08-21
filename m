@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98AB224DEC3
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 19:42:53 +0200 (CEST)
-Received: from localhost ([::1]:38814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16C0624DEA5
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 19:36:56 +0200 (CEST)
+Received: from localhost ([::1]:44380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9B40-0007Ya-Mj
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 13:42:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57342)
+	id 1k9AyF-0006ZO-3M
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 13:36:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k9ArF-0001Yz-9t; Fri, 21 Aug 2020 13:29:41 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:53850)
+ id 1k9ArG-0001aj-PL; Fri, 21 Aug 2020 13:29:42 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:37745)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k9ArD-0001DC-MZ; Fri, 21 Aug 2020 13:29:40 -0400
-Received: by mail-wm1-x336.google.com with SMTP id u18so2637013wmc.3;
- Fri, 21 Aug 2020 10:29:38 -0700 (PDT)
+ id 1k9ArF-0001DO-9A; Fri, 21 Aug 2020 13:29:42 -0400
+Received: by mail-wm1-x331.google.com with SMTP id k8so2576481wma.2;
+ Fri, 21 Aug 2020 10:29:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=t2AXewhSqJh0kBZThS6xJGNW5Vas7WuOoZOyr5gsCOA=;
- b=rb3jWaYbqU5x2TEg+8pRIeXF7iFkU/pWYrnxC1Rqn+Y9K+t0VJiNjO+wg2M+bm9jri
- i+O1f9ANL/aiNVv+4LXoKl6M/IkDwaXoD0lC6OwFuKpVpxCae7t3337DiX7KHj5j3j3Y
- uQJcAS+K6t/cW6OhfCiprUR18+9zxxKMkpk1R0uIQ+xGWERSge3nKGf9vQAuqfP8s4iV
- 1IyWYLzCXn8M8pk+kC+wXchjQcAYRc7+IRYEs24rcr1lQ7DQoLiBR7jApxWifx1B6iqR
- kCUYeN4OrrBald7pj90JXCGHObN86BIP39G+27cgAFk78W8ptCcnqzQAD3ILIgz+tV3z
- D0hQ==
+ bh=ArJcEdqJX+vmqubLA63riTsSiUZwEENuCNY6yovraRY=;
+ b=Htm26PR3I+xSImMZ+2D5dPBeSWaQvQgzPuKkTiSIZuaeUTlV0FGpc6j7sYDmOPv1GP
+ B/O2qWhIKbPgoE9K3QCnpzE75gJj9R7w1Sr9Fd45b62nFDwKhJz18Vw88Jt8CJuArmGe
+ zpOtCVmm6pqRZlhVD9MwaAC3nQdhrTJN9HENpfIguK8uVtOYUVo9zsZ7yNQERhhyrOlD
+ TAzucIqmUK25X57KlzLIxLw1w2XH3pyl2l6qoDJr9hP6vszpiq8TyMKTNt1dT5gUevzA
+ y9jSmkQ663R06kVc2Czw7HSsUVOYpG+hvilQ7VSjo6C0qeTLQoa3rqpNeJoYG4PisUeA
+ ydZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=t2AXewhSqJh0kBZThS6xJGNW5Vas7WuOoZOyr5gsCOA=;
- b=jxN3NOnNOYJP+xT3MehoggxwmamOYrd+J0YISrqdDrxZSalf/MeEvxY3BjcoAAVKMF
- hbGNOur2v52mY0P4QRJWGazJbxSJios9JsbEYaez/xFZ9QImJT/vIskI6hcJedvpti1Z
- jyybzMH5vQOX7hr7HcpAAyYsduJPcjgSNjT22k3sIne7vVTnmiR9FReQwlyb1327jikF
- EMV9oJjInhdoMlHj9Zn0dxRacE8MAtAePAbN0BSMTw4MHDXVz3oeBFVO8uQk0aLyn/+I
- fnwCe8s8FoVhLQYQfMchxEw8hUE0C1yvtEGsnxuWRBydiO7uUVzpupgPXpBof3ibI15M
- LSjg==
-X-Gm-Message-State: AOAM530J5ZHzi2QIUFkuuODRcpzJEd+geQMKlBOAFdhRDEcGH1VMlCrb
- 3VLYOXcdbAUjdZUftPxumOC8rd8JCrM=
-X-Google-Smtp-Source: ABdhPJwk5l/PemqQCGVeDNc80kLtrrN3zqvVc9OVi7Fzv56o9/FDWT4GkyVlWwVHyo5u0KNcDMUlaQ==
-X-Received: by 2002:a1c:7203:: with SMTP id n3mr4348800wmc.149.1598030977295; 
- Fri, 21 Aug 2020 10:29:37 -0700 (PDT)
+ bh=ArJcEdqJX+vmqubLA63riTsSiUZwEENuCNY6yovraRY=;
+ b=G0pSXNqLmQ2PAb1t62I8DeDJBLdwwWEommUiEsUE/cZRtl7JjvlxsMzHIP9I2+ZC0+
+ n5HMyGVMAkyO3SY/m1wEMYj/f+UAC8qaTgq+r3yKAM6WGSj2csII7lBILns/XgkFX9B4
+ X57ya9spSNmDFpGyjoQ+DCXoqhv8iK98+K+0DpdQFoxX4fq00w0IHC+BKpuKbqdPO/YR
+ +yeJNcJPI+WASSYEZomv2thTWBDPE6nkLjNyt+qWs999RL1oILttT9Q3b09XtLNqFaG9
+ Uf0XTdf1/7/tpzQpPPMnPZ+ybhdrBQccJn/zdPpd33BSzFNz8redxfnVp8nCvFmjwgtX
+ TXjA==
+X-Gm-Message-State: AOAM532E6LlTH32vhmSM3LpsyBPTAj/vZ9VSPXtK+XfJO5CwBpnIGtmU
+ ee2LqhajcQh2DaVZfKSpIgQlorz4euM=
+X-Google-Smtp-Source: ABdhPJyljEwfRG8mMFpdG2S9PmkHKqJ6NS2f3dmboL4emFFyg7z2Fj469HX9DY6Eh/+bJ18+xDZEvQ==
+X-Received: by 2002:a1c:1d92:: with SMTP id d140mr3993892wmd.157.1598030978727; 
+ Fri, 21 Aug 2020 10:29:38 -0700 (PDT)
 Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id 32sm5315471wrn.86.2020.08.21.10.29.35
+ by smtp.gmail.com with ESMTPSA id 32sm5315471wrn.86.2020.08.21.10.29.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Aug 2020 10:29:36 -0700 (PDT)
+ Fri, 21 Aug 2020 10:29:38 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/23] hw/sd/pl181: Replace disabled fprintf()s by trace events
-Date: Fri, 21 Aug 2020 19:29:05 +0200
-Message-Id: <20200821172916.1260954-13-f4bug@amsat.org>
+Subject: [PULL 13/23] hw/sd/sdcard: Make sd_data_ready() static
+Date: Fri, 21 Aug 2020 19:29:06 +0200
+Message-Id: <20200821172916.1260954-14-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200821172916.1260954-1-f4bug@amsat.org>
 References: <20200821172916.1260954-1-f4bug@amsat.org>
@@ -62,8 +62,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -86,124 +86,52 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Alistair Francis <alistair.francis@xilinx.com>,
  Beniamino Galvani <b.galvani@gmail.com>, Michael Walle <michael@walle.cc>,
- qemu-arm@nongnu.org, Alistair Francis <alistair.francis@wdc.com>
+ qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert disabled DPRINTF() to trace events and remove ifdef'ry.
+sd_data_ready() belongs to the legacy API. As its last user has
+been converted to the SDBus API, make it static.
 
+Reviewed-by: Alistair Francis <alistair.francis@xilinx.com>
+Message-Id: <20180216022933.10945-7-f4bug@amsat.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Acked-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20200705204630.4133-9-f4bug@amsat.org>
 ---
- hw/sd/pl181.c      | 26 +++++++++-----------------
- hw/sd/trace-events | 10 ++++++++++
- 2 files changed, 19 insertions(+), 17 deletions(-)
+ include/hw/sd/sd.h | 1 -
+ hw/sd/sd.c         | 2 +-
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/hw/sd/pl181.c b/hw/sd/pl181.c
-index f69488ebac3..574500ce600 100644
---- a/hw/sd/pl181.c
-+++ b/hw/sd/pl181.c
-@@ -17,15 +17,7 @@
- #include "qemu/module.h"
- #include "qemu/error-report.h"
- #include "qapi/error.h"
--
--//#define DEBUG_PL181 1
--
--#ifdef DEBUG_PL181
--#define DPRINTF(fmt, ...) \
--do { printf("pl181: " fmt , ## __VA_ARGS__); } while (0)
--#else
--#define DPRINTF(fmt, ...) do {} while(0)
--#endif
-+#include "trace.h"
- 
- #define PL181_FIFO_LEN 16
- 
-@@ -158,7 +150,7 @@ static void pl181_fifo_push(PL181State *s, uint32_t value)
-     n = (s->fifo_pos + s->fifo_len) & (PL181_FIFO_LEN - 1);
-     s->fifo_len++;
-     s->fifo[n] = value;
--    DPRINTF("FIFO push %08x\n", (int)value);
-+    trace_pl181_fifo_push(value);
+diff --git a/include/hw/sd/sd.h b/include/hw/sd/sd.h
+index a84b8e274a3..ace350e0e83 100644
+--- a/include/hw/sd/sd.h
++++ b/include/hw/sd/sd.h
+@@ -143,7 +143,6 @@ int sd_do_command(SDState *sd, SDRequest *req,
+ void sd_write_data(SDState *sd, uint8_t value);
+ uint8_t sd_read_data(SDState *sd);
+ void sd_set_cb(SDState *sd, qemu_irq readonly, qemu_irq insert);
+-bool sd_data_ready(SDState *sd);
+ /* sd_enable should not be used -- it is only used on the nseries boards,
+  * where it is part of a broken implementation of the MMC card slot switch
+  * (there should be two card slots which are multiplexed to a single MMC
+diff --git a/hw/sd/sd.c b/hw/sd/sd.c
+index fad9cf1ee7a..a5ae5dccbe5 100644
+--- a/hw/sd/sd.c
++++ b/hw/sd/sd.c
+@@ -2082,7 +2082,7 @@ uint8_t sd_read_data(SDState *sd)
+     return ret;
  }
  
- static uint32_t pl181_fifo_pop(PL181State *s)
-@@ -172,7 +164,7 @@ static uint32_t pl181_fifo_pop(PL181State *s)
-     value = s->fifo[s->fifo_pos];
-     s->fifo_len--;
-     s->fifo_pos = (s->fifo_pos + 1) & (PL181_FIFO_LEN - 1);
--    DPRINTF("FIFO pop %08x\n", (int)value);
-+    trace_pl181_fifo_pop(value);
-     return value;
+-bool sd_data_ready(SDState *sd)
++static bool sd_data_ready(SDState *sd)
+ {
+     return sd->state == sd_sendingdata_state;
  }
- 
-@@ -184,7 +176,7 @@ static void pl181_do_command(PL181State *s)
- 
-     request.cmd = s->cmd & PL181_CMD_INDEX;
-     request.arg = s->cmdarg;
--    DPRINTF("Command %d %08x\n", request.cmd, request.arg);
-+    trace_pl181_command_send(request.cmd, request.arg);
-     rlen = sdbus_do_command(&s->sdbus, &request, response);
-     if (rlen < 0)
-         goto error;
-@@ -201,16 +193,16 @@ static void pl181_do_command(PL181State *s)
-             s->response[2] = ldl_be_p(&response[8]);
-             s->response[3] = ldl_be_p(&response[12]) & ~1;
-         }
--        DPRINTF("Response received\n");
-+        trace_pl181_command_response_pending();
-         s->status |= PL181_STATUS_CMDRESPEND;
-     } else {
--        DPRINTF("Command sent\n");
-+        trace_pl181_command_sent();
-         s->status |= PL181_STATUS_CMDSENT;
-     }
-     return;
- 
- error:
--    DPRINTF("Timeout\n");
-+    trace_pl181_command_timeout();
-     s->status |= PL181_STATUS_CMDTIMEOUT;
- }
- 
-@@ -262,11 +254,11 @@ static void pl181_fifo_run(PL181State *s)
-         s->status |= PL181_STATUS_DATAEND;
-         /* HACK: */
-         s->status |= PL181_STATUS_DATABLOCKEND;
--        DPRINTF("Transfer Complete\n");
-+        trace_pl181_fifo_transfer_complete();
-     }
-     if (s->datacnt == 0 && s->fifo_len == 0) {
-         s->datactrl &= ~PL181_DATA_ENABLE;
--        DPRINTF("Data engine idle\n");
-+        trace_pl181_data_engine_idle();
-     } else {
-         /* Update FIFO bits.  */
-         bits = PL181_STATUS_TXACTIVE | PL181_STATUS_RXACTIVE;
-diff --git a/hw/sd/trace-events b/hw/sd/trace-events
-index 5f09d32eb2c..a87d7355fb8 100644
---- a/hw/sd/trace-events
-+++ b/hw/sd/trace-events
-@@ -62,3 +62,13 @@ milkymist_memcard_memory_write(uint32_t addr, uint32_t value) "addr 0x%08x value
- # pxa2xx_mmci.c
- pxa2xx_mmci_read(uint8_t size, uint32_t addr, uint32_t value) "size %d addr 0x%02x value 0x%08x"
- pxa2xx_mmci_write(uint8_t size, uint32_t addr, uint32_t value) "size %d addr 0x%02x value 0x%08x"
-+
-+# pl181.c
-+pl181_command_send(uint8_t cmd, uint32_t arg) "sending CMD%02d arg 0x%08" PRIx32
-+pl181_command_sent(void) "command sent"
-+pl181_command_response_pending(void) "response received"
-+pl181_command_timeout(void) "command timeouted"
-+pl181_fifo_push(uint32_t data) "FIFO push 0x%08" PRIx32
-+pl181_fifo_pop(uint32_t data) "FIFO pop 0x%08" PRIx32
-+pl181_fifo_transfer_complete(void) "FIFO transfer complete"
-+pl181_data_engine_idle(void) "data engine idle"
 -- 
 2.26.2
 
