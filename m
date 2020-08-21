@@ -2,116 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F25A624D72C
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 16:18:30 +0200 (CEST)
-Received: from localhost ([::1]:50984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F027624D732
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 16:20:00 +0200 (CEST)
+Received: from localhost ([::1]:59424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k97sE-0000sD-1K
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 10:18:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55602)
+	id 1k97tg-0004GI-0c
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 10:20:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k97m7-00067X-I7
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 10:12:11 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57925
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1k97mt-0007CH-3y
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 10:12:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40133)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k97m5-0005Ch-Js
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 10:12:11 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1k97mq-0005Hv-NG
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 10:12:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598019129;
+ s=mimecast20190719; t=1598019175;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=TyVYAVN9ZNRXEXadD4rnDB9gzJxiVaVyrTyJrTmEq7g=;
- b=LKRMLjAwCJbvY7Qd2EOyKklyNw+WmkACmwLxO1gUfjFXp0b/5Xo5Ec/kTz5QIuo2hYzCap
- hmpJUidug0bhNhE/GKQwfwU/RLZ9phuJiJt8YzhtKHd58FuLMnn0D58096N2f3cWD3HSnk
- W+5k4Op4FwSyoNaBrU2FwWM1SVm0zlw=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-542-W2Nw7jbNOAiJpQzjdvCRrA-1; Fri, 21 Aug 2020 10:12:07 -0400
-X-MC-Unique: W2Nw7jbNOAiJpQzjdvCRrA-1
-Received: by mail-wm1-f71.google.com with SMTP id z1so856090wmf.9
- for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 07:12:06 -0700 (PDT)
+ in-reply-to:in-reply-to:references:references;
+ bh=cnu3faAQWyl+e8A6UIKuXR4sQSq+t2oRuGotuy3z5Tg=;
+ b=a1/gNEp1GggpSIkre4qB0BYZpmuDSgK1QuMgg4fMadLZf1gJXDcUlZ4lkcS+k7jnCLTKXc
+ BOXxyzXpREAeLJ8fLrbTE8GUolfVci4UH47S2yiSMzc3yQAwBjMMZWALE3uX8RYzMbSeHV
+ 24H+iLcQIih3/g9NEHVM+6HSSEpMAP8=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-298-skL5kW-gMJ21bMJ0_NQoJw-1; Fri, 21 Aug 2020 10:12:54 -0400
+X-MC-Unique: skL5kW-gMJ21bMJ0_NQoJw-1
+Received: by mail-qt1-f197.google.com with SMTP id m88so1321121qtd.15
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 07:12:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=TyVYAVN9ZNRXEXadD4rnDB9gzJxiVaVyrTyJrTmEq7g=;
- b=QoYo9dY+4lNyOhSgE5iC+7bfnBnucvrG1u9a5MhoP9LTmW+QiiYS1Ckxhr7eZjE0D2
- actQo9B9lQCv90TISIey6xCSjAfK9yUgN0/FTNoJ+QI2+/Yx19aMV5d6xFU93T79JVND
- xo88yrRhZ+S7X71fFFOXxchHXyGwGtOrHMnkEEbnojFab3Tpxa/dDVNAdl0I+w1ZDU7o
- G9kuMAV6HYPFNTAOEErodUttp+axvnAvfcNmgdqKRBJK2KHDx+sqNINHDavuG6XABD65
- Y0u6ziKxX+sbcXm7o7MX9QJWp6ppJMXRF+HIOvmkN72CYhsEeAG0yCpyvTiG+rnvaMz2
- M/ig==
-X-Gm-Message-State: AOAM531PXw/+jfEzw/yQ2czNOD5TQcVn6QSz/mpEAyRgGWOn3VdCoiZL
- mdDGXjmH5brYVH5RWHPyp6eYsGa3lYkCHucKE7oaDFnrsi6AseBZS0KgUdFhKqygHDBfSw6f65s
- gkLafsE9gk/I85io=
-X-Received: by 2002:a5d:4b0c:: with SMTP id v12mr2889304wrq.199.1598019125742; 
- Fri, 21 Aug 2020 07:12:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzFCl8L9d68FO7yxEFT8s5MfS58KGACbHXHW3+lEtIcdbEgoEOKX549TM/vVbT7CgR8RVoEbA==
-X-Received: by 2002:a5d:4b0c:: with SMTP id v12mr2889257wrq.199.1598019125287; 
- Fri, 21 Aug 2020 07:12:05 -0700 (PDT)
-Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id l18sm4765480wrm.52.2020.08.21.07.12.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Aug 2020 07:12:04 -0700 (PDT)
-Subject: Re: [PATCH 1/1] spapr_vscsi: do not allow device hotplug
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-References: <20200820190635.379657-1-danielhb413@gmail.com>
- <7f6ab4e6-42b1-3de4-5893-2ef09fc9dd26@redhat.com>
- <e9b2ce95-d920-24e3-14f7-cb41a5ce3caf@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <f2580f8a-2028-9bf3-0695-beea3cb8e4c0@redhat.com>
-Date: Fri, 21 Aug 2020 16:12:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=cnu3faAQWyl+e8A6UIKuXR4sQSq+t2oRuGotuy3z5Tg=;
+ b=ItZRaj+kzJVZ11JVpdnNbirS7sWq8Vt3YSrap9bYprbHKiOSO8+J9kuHXqPJc6Edtv
+ iJV+HpB0AId6tBHE/a+qTou9RocvF6RkL+2p8WHcNUw3W3X69O8g/sSFNewBSGrJ05mS
+ /Ri75RaFZKLYLvuofIl087bIa3mJayuYCojIXWU6jN0VGdazU4dvHda5LIFlh9pZXquC
+ iccuJbYiADhMmu/5edRgN9tYlhVKiW0v44URKgdz1LpuwFHyoAg5MmjLSwzBtMczYkWm
+ zBZ0+I2s55HZGT7lEpQUaLhOSxSTC1kwo4KgdHuzglzkuSYxQH1qMNHEGynSLWzSRKTN
+ SBJw==
+X-Gm-Message-State: AOAM530dbWEGJ7a6Po3wFUXxjpM3+4a9zVeay5lMiSlwLFRw5ATlZkJK
+ jsYJnpHORsytKJvrKK63ny++NWBflWUOz88gAGUZtjrAQcj1iXLtxu5P/7Y5VfXkL2BW2aIlbho
+ KkZ09XMT5iWjF/lM=
+X-Received: by 2002:a0c:d98d:: with SMTP id y13mr2595322qvj.203.1598019173579; 
+ Fri, 21 Aug 2020 07:12:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxUYA6SsM09K1c47H5Xwm/C6fq2Lv7D1/cDKf7zjPMNlMkr+Gda8ruVFbDg5aGyQEHOhsiddw==
+X-Received: by 2002:a0c:d98d:: with SMTP id y13mr2595300qvj.203.1598019173319; 
+ Fri, 21 Aug 2020 07:12:53 -0700 (PDT)
+Received: from xz-x1 (bras-vprn-toroon474qw-lp130-11-70-53-122-15.dsl.bell.ca.
+ [70.53.122.15])
+ by smtp.gmail.com with ESMTPSA id p189sm1839139qkb.61.2020.08.21.07.12.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Aug 2020 07:12:52 -0700 (PDT)
+Date: Fri, 21 Aug 2020 10:12:50 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [RFC v3 1/1] memory: Skip bad range assertion if notifier
+ supports arbitrary masks
+Message-ID: <20200821141250.GC358043@xz-x1>
+References: <20200626064122.9252-1-eperezma@redhat.com>
+ <20200811175533.7359-1-eperezma@redhat.com>
+ <20200811175533.7359-2-eperezma@redhat.com>
+ <2443886f-2109-e048-b47f-886c896613ab@redhat.com>
+ <CAJaqyWe0_wcXHgbAVAVNCTpG7O4YKF6FMkgKsf6SfW4dEZ4A5g@mail.gmail.com>
+ <CAJaqyWe+KgnVegtprpRmVvXo7kFVFDL_erK_5Nyp4K=gTUcN=Q@mail.gmail.com>
+ <eb26c5d7-465a-34ed-3f8f-bad11eda5bee@redhat.com>
+ <20200819155051.GA275003@xz-x1>
+ <f010e8c0-6713-a2bc-ce6b-98af5e4638be@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <e9b2ce95-d920-24e3-14f7-cb41a5ce3caf@gmail.com>
-Content-Language: en-US
+In-Reply-To: <f010e8c0-6713-a2bc-ce6b-98af5e4638be@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 01:00:15
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 02:43:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
 X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -124,120 +105,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- david@gibson.dropbear.id.au
+Cc: Peter Maydell <peter.maydell@linaro.org>, Yan Zhao <yan.y.zhao@intel.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, Eugenio Perez Martin <eperezma@redhat.com>,
+ Avi Kivity <avi@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/21/20 4:08 PM, Daniel Henrique Barboza wrote:
+On Thu, Aug 20, 2020 at 10:28:00AM +0800, Jason Wang wrote:
 > 
+> On 2020/8/19 下午11:50, Peter Xu wrote:
+> > On Wed, Aug 19, 2020 at 03:15:26PM +0800, Jason Wang wrote:
+> > > Yes, actually, I feel confused after reading the codes. Is notifier->start
+> > > IOVA or GPA?
+> > > 
+> > > In vfio.c, we did:
+> > > 
+> > >          iommu_notifier_init(&giommu->n, vfio_iommu_map_notify,
+> > >                              IOMMU_NOTIFIER_ALL,
+> > >                              section->offset_within_region,
+> > >                              int128_get64(llend),
+> > >                              iommu_idx);
+> > > 
+> > > So it looks to me the start and end are GPA, but the assertion above check
+> > > it against IOVA which seems to be wrong ....
+> > It should be iova; both section->offset_within_region and llend are for the
+> > device's iova address space.  Thanks,
+> > 
 > 
-> On 8/21/20 8:08 AM, Philippe Mathieu-Daudé wrote:
->> Cc'ing Markus
->>
->> On 8/20/20 9:06 PM, Daniel Henrique Barboza wrote:
->>> We do not implement hotplug in the vscsi bus, but we forgot to
->>> tell qdev about it. The result is that users are able to hotplug
->>> devices in the vscsi bus, the devices appear in qdev, but they
->>> aren't usable by the guest OS unless the user reboots it first.
->>>
->>> Setting qbus hotplug_handler to NULL will tell qdev-monitor, via
->>> qbus_is_hotpluggable(), that we do not support hotplug operations
->>> in spapr_vscsi.
->>>
->>> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1862059
->>>
->>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->>> ---
->>>   hw/scsi/spapr_vscsi.c | 3 +++
->>>   1 file changed, 3 insertions(+)
->>>
->>> diff --git a/hw/scsi/spapr_vscsi.c b/hw/scsi/spapr_vscsi.c
->>> index d17dc03c73..57f0a1336f 100644
->>> --- a/hw/scsi/spapr_vscsi.c
->>> +++ b/hw/scsi/spapr_vscsi.c
->>> @@ -1219,6 +1219,9 @@ static void spapr_vscsi_realize(SpaprVioDevice
->>> *dev, Error **errp)
->>>         scsi_bus_new(&s->bus, sizeof(s->bus), DEVICE(dev),
->>>                    &vscsi_scsi_info, NULL);
->>> +
->>> +    /* ibmvscsi SCSI bus does not allow hotplug. */
->>> +    qbus_set_hotplug_handler(BUS(&s->bus), NULL);
->>
->> Can't this be a problem later in DeviceClass::unrealize()?
-> 
-> Not as far as I've tested. A call to qbus_set_hotplug_handler(bus,NULL)
-> after setting it to NULL isn't breaking anything either (just tested).
-> 
-> I verified before sending the patch that setting hotplug_handler to
-> NULL is done in some unrealize() calls in buses, but not on devices.
-> And I'm not sure which instance would cause an unrealize() in the
-> device to fail if the hotplug_handler of the bus is NULL. As far as
-> I'm concerned this shouldn't be happening in our case here, where we're
-> not dealing with hotplug devices in the bus at all.
-> 
-> Which potential problems are you referring to?
+> Interesting, how can memory region know which IOVA is used by guest?
 
-I was wondering if qdev_unrealize() runs similar checks than
-qdev_realize().
+Does it need to know? :)
 
-> 
->>
->> I was expecting something like, overwriting the parent bus type:
->>
->> -- >8 --
->> @@ -1271,6 +1271,7 @@ static void spapr_vscsi_class_init(ObjectClass
->> *klass, void *data)
->>       DeviceClass *dc = DEVICE_CLASS(klass);
->>       SpaprVioDeviceClass *k = VIO_SPAPR_DEVICE_CLASS(klass);
->>
->> +    k->bus_type = NULL; /* ibmvscsi SCSI bus does not allow hotplug. */
->>       k->realize = spapr_vscsi_realize;
->>       k->reset = spapr_vscsi_reset;
->>       k->devnode = spapr_vscsi_devnode;
->> ---
-> 
-> spapr_vscsi is not a bus, is an interface. Setting NULL to bus_type in
-> spapr_vio
-> breaks guest init:
-> 
-> 
-> qemu-system-ppc64: /home/danielhb/qemu/hw/core/qdev.c:102:
-> qdev_set_parent_bus: Assertion `dc->bus_type &&
-> object_dynamic_cast(OBJECT(bus), dc->bus_type)' failed.
-> Aborted
-> 
-> 
-> I'm not so sure this would be better than what I'm doing either.
-> qdev_device_add()
-> calls qbus_is_hotpluggable() to see if the chosen bus allows hotplug. This
-> function verifies if bus->hotplug_handler is NULL. What I'm doing is simply
-> setting hotplug_handler to NULL in the SCSI bus instance that belongs to
-> spapr_vscsi. As far as I understand this is a valid use of the qdev API - I
-> should be able to set hotplug_handler to NULL if I don't want devices being
-> hotplugged in the bus I'm instantiating. Either that, or
-> qbus_is_hotpluggable()
-> must check for something else that I can safely turn off.
+AFAICT what we do here is only register with the whole possible IOVA address
+space (e.g., across the whole 64bit address space).  Then vfio will get
+notifications when there're new iova ranges mapped into it.
 
-I'm not saying I know the correct way to do that, this is why I added
-Markus in the loop :) I'm wondering from an API point of view what is
-the best way to achieve what you want. I'm glad this works this way.
-
-> 
-> 
-> Thanks,
-> 
-> 
-> DHB
-> 
-> 
-> 
-> 
->>
->>>   }
->>>     void spapr_vscsi_create(SpaprVioBus *bus)
->>>
->>
-> 
+-- 
+Peter Xu
 
 
