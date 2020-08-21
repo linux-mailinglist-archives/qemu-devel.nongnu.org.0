@@ -2,50 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC5B424D1E5
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 12:01:52 +0200 (CEST)
-Received: from localhost ([::1]:58636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FE6924D1EB
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 12:03:50 +0200 (CEST)
+Received: from localhost ([::1]:36692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k93rr-0001yw-R6
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 06:01:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54388)
+	id 1k93tl-0004Yd-DJ
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 06:03:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1k93qD-0000f6-GJ
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:00:09 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:4263 helo=huawei.com)
+ id 1k93qL-0000m7-HH
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:00:17 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:49268 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1k93qB-00070t-H5
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:00:09 -0400
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 56555A07D81680628B15;
- Fri, 21 Aug 2020 18:00:05 +0800 (CST)
-Received: from [127.0.0.1] (10.174.186.4) by DGGEMS402-HUB.china.huawei.com
- (10.3.19.202) with Microsoft SMTP Server id 14.3.487.0; Fri, 21 Aug 2020
- 17:59:58 +0800
+ id 1k93qJ-000715-7w
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:00:17 -0400
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id E30201C186803CAA649A;
+ Fri, 21 Aug 2020 18:00:10 +0800 (CST)
+Received: from [127.0.0.1] (10.174.186.4) by DGGEMS413-HUB.china.huawei.com
+ (10.3.19.213) with Microsoft SMTP Server id 14.3.487.0; Fri, 21 Aug 2020
+ 18:00:03 +0800
 From: Zheng Chuan <zhengchuan@huawei.com>
-Subject: Re: [PATCH v3 09/10] migration/dirtyrate: Implement
- calculate_dirtyrate() function
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v3 10/10] migration/dirtyrate: Implement
+ qmp_cal_dirty_rate()/qmp_get_dirty_rate() function
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Eric Blake
+ <eblake@redhat.com>
 References: <1597634433-18809-1-git-send-email-zhengchuan@huawei.com>
- <1597634433-18809-10-git-send-email-zhengchuan@huawei.com>
- <20200820175722.GR2664@work-vm>
-Message-ID: <b5edce1e-4237-b7f3-8ea3-61474da3e98c@huawei.com>
-Date: Fri, 21 Aug 2020 17:59:58 +0800
+ <1597634433-18809-11-git-send-email-zhengchuan@huawei.com>
+ <81958147-04dc-5edf-7bd4-97c3ebc3a037@redhat.com>
+ <20200820180032.GS2664@work-vm>
+Message-ID: <81073f7b-7a27-6332-31ee-838e6cf9737c@huawei.com>
+Date: Fri, 21 Aug 2020 18:00:03 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200820175722.GR2664@work-vm>
+In-Reply-To: <20200820180032.GS2664@work-vm>
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Originating-IP: [10.174.186.4]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191;
- envelope-from=zhengchuan@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 05:59:52
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=zhengchuan@huawei.com;
+ helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 05:59:57
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -73,96 +75,87 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 2020/8/21 1:57, Dr. David Alan Gilbert wrote:
-> * Chuan Zheng (zhengchuan@huawei.com) wrote:
->> Implement calculate_dirtyrate() function.
+On 2020/8/21 2:00, Dr. David Alan Gilbert wrote:
+> * Eric Blake (eblake@redhat.com) wrote:
+>> On 8/16/20 10:20 PM, Chuan Zheng wrote:
+>>> Implement qmp_cal_dirty_rate()/qmp_get_dirty_rate() function which could be called
+>>>
+>>> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
+>>> ---
 >>
->> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
->> Signed-off-by: YanYing Zhuang <ann.zhuangyanying@huawei.com>
->> ---
->>  migration/dirtyrate.c | 46 ++++++++++++++++++++++++++++++++++++++++++++--
->>  1 file changed, 44 insertions(+), 2 deletions(-)
+>>> +++ b/qapi/migration.json
+>>> @@ -1621,3 +1621,45 @@
+>>>   ##
+>>>   { 'event': 'UNPLUG_PRIMARY',
+>>>     'data': { 'device-id': 'str' } }
+>>> +
+>>> +##
+>>> +# @DirtyRateInfo:
+>>> +#
+>>> +# Information about current dirty page rate of vm.
+>>> +#
+>>> +# @dirty-rate: @dirtyrate describing the dirty page rate of vm
+>>> +#          in units of MB/s.
+>>> +#          If this field return '-1', it means querying is not
+>>> +#          start or not complete.
+>>> +#
+>>> +# @status: @status containing dirtyrate query status includes
+>>> +#       status with 'not start measuring' or
+>>> +#       'Still measuring' or 'measured'(since 5.2)
 >>
->> diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
->> index 4bbfcc3..041d0c6 100644
->> --- a/migration/dirtyrate.c
->> +++ b/migration/dirtyrate.c
->> @@ -184,6 +184,21 @@ static void get_ramblock_dirty_info(RAMBlock *block,
->>      strcpy(info->idstr, qemu_ram_get_idstr(block));
->>  }
->>  
->> +static void free_ramblock_dirty_info(struct RamblockDirtyInfo *infos, int count)
->> +{
->> +    int i;
->> +
->> +    if (!infos) {
->> +        return;
->> +    }
->> +
->> +    for (i = 0; i < count; i++) {
->> +        g_free(infos[i].sample_page_vfn);
->> +        g_free(infos[i].hash_result);
->> +    }
->> +    g_free(infos);
->> +}
->> +
->>  static struct RamblockDirtyInfo *
->>  alloc_ramblock_dirty_info(int *block_index,
->>                            struct RamblockDirtyInfo *block_dinfo)
->> @@ -341,8 +356,35 @@ static int compare_page_hash_info(struct RamblockDirtyInfo *info,
->>  
->>  static void calculate_dirtyrate(struct DirtyRateConfig config)
->>  {
->> -    /* todo */
->> -    return;
->> +    struct RamblockDirtyInfo *block_dinfo = NULL;
->> +    int block_index = 0;
->> +    int64_t msec = 0;
->> +    int64_t initial_time;
->> +
->> +    rcu_register_thread();
->> +    reset_dirtyrate_stat();
->> +    initial_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
->> +    rcu_read_lock();
->> +    if (record_ramblock_hash_info(&block_dinfo, config, &block_index) < 0) {
->> +        goto out;
->> +    }
->> +    rcu_read_unlock();
->> +
->> +    msec = config.sample_period_seconds * 1000;
->> +    msec = set_sample_page_period(msec, initial_time);
->> +
->> +    rcu_read_lock();
->> +    if (compare_page_hash_info(block_dinfo, block_index) < 0) {
->> +        goto out;
->> +    }
->> +
->> +    update_dirtyrate(msec);
+>> Missing space before (
+>>
+>>> +##
+>>> +{ 'struct': 'DirtyRateInfo',
+>>> +  'data': {'dirty-rate': 'int64',
+>>> +           'status': 'str'} }
+>>
+>> Based on your description, this should be an enum type rather than an
+>> open-coded string.  Something like:
+>>
+>> { 'enum': 'DirtyRateStatus', 'data': [ 'unstarted', 'measuring', 'measured'
+>> ] }
+>> { 'struct': 'DirtyRateInfo', 'data': { 'dirty-rate': 'int64', 'status':
+>> 'DirtyRateStatus' } }
 > 
-> I think this is OK, so:
-> 
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> 
-> However, please try the following test,  set it to 60 seconds,
-> start the dirty rate check, and in that time, shut the guest down
-> (e.g. shutdown -h now in the guest) - what happens?
+> Yes, and if you do that I think you'll find qmp would automatically
+> define a C enum type for you, so you don't need to define the
+> CalculatingDirtyRateStage yourself;   see how MigrationStatus works.
 > 
 > Dave
 > 
-It is ok when shutdown corcurrent with query dirtyrate, the get_dirtyrate
-thread is terminated by qemu.
-
->> +
->> +out:
->> +    rcu_read_unlock();
->> +    free_ramblock_dirty_info(block_dinfo, block_index + 1);
->> +    rcu_unregister_thread();
->> +
->>  }
->>  
->>  void *get_dirtyrate_thread(void *arg)
->> -- 
->> 1.8.3.1
+Sure, it could be better，will fix it in V4:)
+> 
 >>
+>>> +
+>>> +##
+>>> +# @calc-dirty-rate:
+>>> +#
+>>> +# start calculating dirty page rate for vm
+>>> +#
+>>> +# @calc-time: time in units of second for sample dirty pages
+>>> +#
+>>> +# Since: 5.2
+>>> +#
+>>> +# Example:
+>>> +#   {"command": "cal-dirty-rate", "data": {"calc-time": 1} }
+>>> +#
+>>> +##
+>>> +{ 'command': 'calc-dirty-rate', 'data': {'calc-time': 'int64'} }
+>>> +
+>>> +##
+>>> +# @query-dirty-rate:
+>>> +#
+>>> +# query dirty page rate in units of MB/s for vm
+>>> +#
+>>> +# Since: 5.2
+>>> +##
+>>> +{ 'command': 'query-dirty-rate', 'returns': 'DirtyRateInfo' }
+>>>
+>>
+>> -- 
+>> Eric Blake, Principal Software Engineer
+>> Red Hat, Inc.           +1-919-301-3226
+>> Virtualization:  qemu.org | libvirt.org
 
 
