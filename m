@@ -2,65 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20A5924D46A
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 13:47:38 +0200 (CEST)
-Received: from localhost ([::1]:51768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1524E24D454
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 13:44:12 +0200 (CEST)
+Received: from localhost ([::1]:40620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k95WD-0002Vu-55
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 07:47:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44596)
+	id 1k95St-0006GH-2i
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 07:44:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <geoff@hostfission.com>)
- id 1k95E4-0001jB-3t
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 07:28:52 -0400
-Received: from mail1.hostfission.com ([139.99.139.48]:44010)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <geoff@hostfission.com>) id 1k95E2-00011g-4s
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 07:28:51 -0400
-Received: from www1.hostfission.com (www1.hostfission.com [139.99.139.52])
- by mail1.hostfission.com (Postfix) with ESMTP id D7883405E8;
- Fri, 21 Aug 2020 21:28:44 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hostfission.com;
- s=mail; t=1598009324;
- bh=2pTHj+PCws8Rq30Y9j4PZL3rmeVtYANvCBCqBgWcCSM=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=ROhp0wa9RRaKGx29IDXOa5gDd/4dbVk4+zOia4Kmk+RxOONK5H6WGRhFpoBY2ut/q
- y350JE35zmZrgjBWrdyAlu2p3xThQQ1es7bJtVdTkEjNAiFR/rpv0JWmdin8BKnoxb
- n8UFAxrIQTyqmXJIRLoFGj4paTXgty7BU08WAWjg=
-Received: from mail.hostfission.com (www1.hostfission.com [127.0.0.1])
- by www1.hostfission.com (Postfix) with ESMTP id C5E5087E5A;
- Fri, 21 Aug 2020 21:28:44 +1000 (AEST)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1k95M7-0003XW-Pf; Fri, 21 Aug 2020 07:37:11 -0400
+Received: from mail-vi1eur05on2130.outbound.protection.outlook.com
+ ([40.107.21.130]:30071 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1k95M3-0001vv-8k; Fri, 21 Aug 2020 07:37:10 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Pccpsj78NhnN9Ug+mIuHZuQ1/ehyWScIjLfV2anDlUVgDPhQxLHMjFhSFaCgsAE+3ruBJGRuxxLLd/CtBL/pJiIH0ggT6afL5nB/lRcMa4BvwRk5tlsj58hCAcSqF1pyr9vuGXgC8g2Ww8t+0oHLx+r8+0BqLiQ/8+iGI3d0ZBoI4FYcr+XU279StUDugOt9/sC+U4m35+6ljaKykLNGKmiq2nGOmNSwluUN8Q681lWRU3pbaIf/xgaZ6DAIoPpQONOomqAsjWaht7uXkzMftAGwd7idlrSzsYOyMRtqPcooajE00cl9yCux3JJANNDSUZsV4Jmy14J3N+W+rYTIFA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dpdM8wJ8fcFMbJTNORYMnZR1//giCGOTk4yGom46qFk=;
+ b=WUI6+Ke1IU8CS2pldc0Ev+s4WsuLgApqh0iqe51f70k0uHFvfeK90WL0rvkCRkn8RidS38stqJThlRNv+QbkojS4S/AK9QdUP1BY3DUiHq0sfMOD/JO3VVO0XYoosvi9nXnXXlrymVyae0qHasrVj6G7Xsrj7/LcuwwhJAx41i2ZxwgE38eb8g2jzhMeBMp1FoyO5UqJtx+DrmG0jzIGyWKwC3TABlifeMHav7B06RBlFrw/4z63UEN/aM9/IlG3QWjTT7AFbsRZLQ2YKbtWb8qTg1V4vxNYrpCJUoN3hEm4PcdgttD9kBu35SKNKai1XTwtJaizATs+NMuGfj4pDg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dpdM8wJ8fcFMbJTNORYMnZR1//giCGOTk4yGom46qFk=;
+ b=s21ggCi5ryVeEc0V3Q99CqzM/t0yhud+X0jkq8ECAjSCg4PTG476Iu3Duqo/lFLyxUZr/wUhHBY+kmyztKC76F0zdu5TO89Asv92tsn1wX9pDk26JtbBPkF9CwcwcKkDgVjAUp4ZfWo0MEIy5QHz3LHfGmgFKYf0DNwOzwe/jYg=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB4849.eurprd08.prod.outlook.com (2603:10a6:20b:c3::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.24; Fri, 21 Aug
+ 2020 11:36:59 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::8c0c:c056:97a5:484a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::8c0c:c056:97a5:484a%3]) with mapi id 15.20.3283.027; Fri, 21 Aug 2020
+ 11:36:59 +0000
+Subject: Re: [PATCH v4 4/4] iotests: Test node/bitmap aliases during migration
+To: Eric Blake <eblake@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ qemu-block@nongnu.org
+References: <20200818133240.195840-1-mreitz@redhat.com>
+ <20200818133240.195840-5-mreitz@redhat.com>
+ <b1ab8e28-f5ad-1cde-a706-02e4b32e1a0a@virtuozzo.com>
+ <d5800911-0068-8810-f7e0-ab2b10f949b2@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <b3d1c4ca-66ee-d79d-1079-91838f3f814d@virtuozzo.com>
+Date: Fri, 21 Aug 2020 14:36:57 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
+In-Reply-To: <d5800911-0068-8810-f7e0-ab2b10f949b2@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AM3PR05CA0126.eurprd05.prod.outlook.com
+ (2603:10a6:207:2::28) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Fri, 21 Aug 2020 21:28:44 +1000
-From: Geoffrey McRae <geoff@hostfission.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v5 1/1] audio/jack: fix use after free segfault
-In-Reply-To: <c84d95de-c71d-3272-6b41-95753634482a@redhat.com>
-References: <20200819062940.52774-1-geoff@hostfission.com>
- <5029913.bOW1W81TKx@silver>
- <20200820053728.kv7pngxqzp32uky3@sirius.home.kraxel.org>
- <3140676.b1PlGooJ8z@silver>
- <c84d95de-c71d-3272-6b41-95753634482a@redhat.com>
-Message-ID: <a165417b4d27c7fbce404e81f6c38cda@hostfission.com>
-X-Sender: geoff@hostfission.com
-User-Agent: Roundcube Webmail/1.3.8
-Received-SPF: pass client-ip=139.99.139.48; envelope-from=geoff@hostfission.com;
- helo=mail1.hostfission.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 07:28:45
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.5] (185.215.60.171) by
+ AM3PR05CA0126.eurprd05.prod.outlook.com (2603:10a6:207:2::28) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3305.24 via Frontend Transport; Fri, 21 Aug 2020 11:36:58 +0000
+X-Originating-IP: [185.215.60.171]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8df21eb5-4a26-477f-2647-08d845c683a5
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4849:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB48497F0F31F9F762A8DAAF94C15B0@AM6PR08MB4849.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 4+csnJFdNiJCwu37AfMXaa2QnpaztvHKSngk8HX3f6OxHr3mKPB8lfAun7DeddvvPc+pS09xzj001rvFMIsGakUq6zOnsgwQJqNANNuqWqNthCnRKZzYCv+nHRJZ7BmK5xmKq0ozPYdeAvYZZ2A4NPILknszemSchVe3Lcwcl28zwpguMsbup3+urG/WPdZ1Xpke8MI5URllCUf5Iyle5Y7UtKIjZaCmGDjsqDRsOkArrzB3nwAKMJpYZUwaWhNxy0h3BlqCVoG3Zet5YBtOyxDaKMGnDQ/10yg6g3uE4LtKUbepnFBLNsce1JvasBhLlbPRtz9Sc9LrzgcA8t/tcsOE4z8jxSKkOH8tehIUysB803o/ez1PSLYKg3Wnve0N
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(396003)(376002)(39840400004)(366004)(136003)(53546011)(6486002)(5660300002)(66946007)(8936002)(66556008)(66476007)(16526019)(36756003)(83380400001)(8676002)(956004)(26005)(186003)(2616005)(2906002)(52116002)(478600001)(31696002)(54906003)(31686004)(110136005)(4326008)(16576012)(86362001)(316002)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: eZBtTuTPT5pn1qg/tYo0KPg1LPBvFoU9UCnP0tKNlrMFKLjolPbOTvNMX6kSTX6OBQGjaN7cDHLoDxtq1hvQ3FxzSToH15WviH/xewWlD/KWmFYZEDPtvc1dJ+zv35wti5nMCuw1WrsXgVEaf7ClbKVERQo64r2yP7i2aXmBIDqcjTlr6bL4jT9uY1SB/la2l0e42ExMLaAAA3RBk/odlFqLW2lpd3h5Gm9nPZBUmfTXtIaN0tqAC4bfdAmp2/p5DpQEOjGKYFtBgsKoy1x89T59uKgEiBdmpr1txYi8zY/PeATlMXHniWEiYNxobXyeP3gRneuiztWjMqeowgG4qV7gT4I/tOPSWAF84r9okLQJbu+4/i2lhGCGi++2PtCQzuiu0AkGe2igwsR0PlrVP7z3BJU2f3+WHzdnsa/T3XkehTgps8Irh+flWC5I5fbBMv/sasnYF6EdjRbzCrl5mMoIg/KVt1sCnz1Oyu5t4BkdRyXbFTrbsKVQCf9FO+OxCiUrKoxnB5EeRbM0Q3/ig5OeKCx1BCIptwULBgCOmSV9YBVIOKg6WSsG0b6CFQAHCfBG+oZVzBOviD6jVAnR+/QbWC+7puuN6dwHj2HjGp4iJ//RURE1SZ/Hx+1hwhBFBZHQ0u2+2r8tG3kDn9n8XQ==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8df21eb5-4a26-477f-2647-08d845c683a5
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2020 11:36:59.0192 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: G/+8kynbLIWHzmZi7Rgya+Q4W2K7n9akdLQDU9ag+7KxDBwRhm6tB4Trg2C5U5ZvTh4nedb4Wf05JU6le3cTxAt8HTubu45k0q3BTVA+244=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4849
+Received-SPF: pass client-ip=40.107.21.130;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 07:37:00
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,25 +118,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-> My suggestion is to work towards protecting the audio code with its own
-> mutex(es) and ignore the existence of the BQL for subsystems that can 
-> do
-> so (audio is a prime candidate).  Also please add comments to
-> audio_int.h about which functions are called from other threads than 
-> the
-> QEMU main thread.
-
-Ok, so to get back on topic, what exactly is the best way forward to fix 
-this issue in this patchset? Should I be managing a local mutex instead?
-
+21.08.2020 03:44, Eric Blake wrote:
+> On 8/20/20 10:49 AM, Vladimir Sementsov-Ogievskiy wrote:
+>> # MYPYPATH=../../python/ mypy 300
+>> 300:154: error: Item "None" of "Optional[Match[Any]]" has no attribute "group"
+>> Found 1 error in 1 file (checked 1 source file)
+>>
+>> - the only complain. Suggest a fix:
+>>
+>> diff --git a/tests/qemu-iotests/300 b/tests/qemu-iotests/300
+>> index c6d86b1dbc..0241903743 100755
+>> --- a/tests/qemu-iotests/300
+>> +++ b/tests/qemu-iotests/300
+>> @@ -148,11 +148,11 @@ class TestDirtyBitmapMigration(iotests.QMPTestCase):
+>>               result = vm.qmp('human-monitor-command',
+>>                               command_line='info migrate_parameters')
+>>
+>> -            hmp_mapping = re.search(r'^block-bitmap-mapping:\r?(\n .*)*\n',
+>> -                                    result['return'], flags=re.MULTILINE)
+>> +            m = re.search(r'^block-bitmap-mapping:\r?(\n  .*)*\n',
+>> +                          result['return'], flags=re.MULTILINE)
+>> +            hmp_mapping = m.group(0).replace('\r', '') if m else None
+>>
+>> -            self.assertEqual(hmp_mapping.group(0).replace('\r', ''),
+>> -                             self.to_hmp_mapping(mapping))
+>> +            self.assertEqual(hmp_mapping, self.to_hmp_mapping(mapping))
+>>           else:
+>>               self.assert_qmp(result, 'error/desc', error)
 > 
-> Thanks,
+> Thanks; I'll fold that in to v5.
 > 
-> Paolo
+>>
+>> ===
+>>
+>> # flake8 300
+>> 300:24:1: F401 'time' imported but unused
+>> 300:34:1: E302 expected 2 blank lines, found 1
+>> 300:42:67: E502 the backslash is redundant between brackets
+>> 300:47:67: E502 the backslash is redundant between brackets
+>> 300:67:53: E502 the backslash is redundant between brackets
+>> 300:122:9: E125 continuation line with same indent as next logical line
+>> 300:134:9: E125 continuation line with same indent as next logical line
+>> 300:185:52: E502 the backslash is redundant between brackets
+>> 300:186:72: E502 the backslash is redundant between brackets
+>> 300:285:77: E502 the backslash is redundant between brackets
+>> 300:305:77: E502 the backslash is redundant between brackets
+>> 300:306:78: E502 the backslash is redundant between brackets
+>> 300:330:77: E502 the backslash is redundant between brackets
+>> 300:350:77: E502 the backslash is redundant between brackets
+>> 300:385:57: E502 the backslash is redundant between brackets
+>> 300:386:59: E502 the backslash is redundant between brackets
+>> 300:387:67: E502 the backslash is redundant between brackets
+>> 300:412:78: E502 the backslash is redundant between brackets
+>> 300:425:78: E502 the backslash is redundant between brackets
+>> 300:435:78: E502 the backslash is redundant between brackets
+>> 300:436:76: E502 the backslash is redundant between brackets
+>> 300:451:66: E502 the backslash is redundant between brackets
+>> 300:473:78: E502 the backslash is redundant between brackets
+>> 300:474:79: E502 the backslash is redundant between brackets
+>> 300:488:78: E502 the backslash is redundant between brackets
+>> 300:489:77: E502 the backslash is redundant between brackets
+>>
+>> - I post it just because ALE plugin in vim highlights all these things for me. Up to you, I don't ask you to fix it.
 > 
-> [1] https://lamport.azurewebsites.net/pubs/teaching-concurrency.pdf
+> Seems like an easy enough touchup to make.
+> 
+> 
+>>> +    def test_alias_on_both_migration(self) -> None:
+>>> +        src_map = self.mapping(self.src_node_name, 'node-alias',
+>>> +                               self.src_bmap_name, 'bmap-alias')
+>>> +
+>>> +        dst_map = self.mapping(self.dst_node_name, 'node-alias',
+>>> +                               self.dst_bmap_name, 'bmap-alias')
+>>> +
+>>> +        self.set_mapping(self.vm_a, src_map)
+>>> +        self.set_mapping(self.vm_b, dst_map)
+>>> +        self.migrate()
+>>> +        self.verify_dest_error(None)
+>>
+>> Hmm, probably verify_dest_error() should be called from migrate(), as you call it (almost) always after migrate()
+> 
+> This one I did not touch; it can be a followup patch if desired.
+> 
+>>
+>>> +
+>>> +
+>>
+>> [..]
+>>
+>>> +    def test_unused_mapping_on_dst(self) -> None:
+>>> +        # Let the source not send any bitmaps
+>>> +        self.set_mapping(self.vm_a, [])
+>>> +
+>>> +        # Establish some mapping on the destination
+>>> +        self.set_mapping(self.vm_b, [])
+>>
+>> Seems, you wanted to specify non-empty mapping for vm_b, yes?
+>> With any non-empty mapping here, just to better correspond to the comments:
+>> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>
+>> (or keep this case with both mappings empty, and add one similar with empty mapping only on src)
+> 
+> Adding another case will now have to be a separate patch.  At any rate, I've taken the liberty of including your R-b in my staging tree for the pending pull request, let me know if I should drop it.
+> 
+
+OK, thanks, no objections.
+
+-- 
+Best regards,
+Vladimir
 
