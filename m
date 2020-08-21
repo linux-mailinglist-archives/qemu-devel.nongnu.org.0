@@ -2,74 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E73724D43F
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 13:41:59 +0200 (CEST)
-Received: from localhost ([::1]:58240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D23D24D42A
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 13:39:10 +0200 (CEST)
+Received: from localhost ([::1]:45548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k95Qk-0001wh-3T
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 07:41:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41622)
+	id 1k95O1-00055r-AH
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 07:39:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k94x7-00020e-NY
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 07:11:21 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33900)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k94x4-0007ad-IX
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 07:11:21 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k94x2-0004h6-78
- for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 11:11:16 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 26BA92E80EA
- for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 11:11:16 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <bfoster@redhat.com>)
+ id 1k94rJ-0000Qk-FZ
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 07:05:21 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:42504
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <bfoster@redhat.com>)
+ id 1k94rF-0006aA-K8
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 07:05:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598007915;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=5Tdf/vUuROfLOvM6j/aHdAtEkvfWUiPiHasSj+DyrRA=;
+ b=NGzZjLRtibhvwqrRkcY/JgJkmHIJQyO8puJXvHQOSuk88gtZZzVA6MqIpeXQkpAH0TaYA6
+ mlSCXo6ncVwmQ5utf+sBSe3QvRUZzuE1TC33h+PIqUtPsu6C1PX3/pDCjbZuOr871XrqNH
+ yRFSEhM8poj65e8AlQ/y0kqwbZVYph8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-234-vo0kiTZNMkyI94lWtl2uFw-1; Fri, 21 Aug 2020 07:05:11 -0400
+X-MC-Unique: vo0kiTZNMkyI94lWtl2uFw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D2C980EF8B;
+ Fri, 21 Aug 2020 11:05:10 +0000 (UTC)
+Received: from bfoster (ovpn-112-11.rdu2.redhat.com [10.10.112.11])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 983FD5DA78;
+ Fri, 21 Aug 2020 11:05:08 +0000 (UTC)
+Date: Fri, 21 Aug 2020 07:05:06 -0400
+From: Brian Foster <bfoster@redhat.com>
+To: Dave Chinner <david@fromorbit.com>
+Subject: Re: [PATCH 0/1] qcow2: Skip copy-on-write when allocating a zero
+ cluster
+Message-ID: <20200821110506.GB212879@bfoster>
+References: <cover.1597416317.git.berto@igalia.com>
+ <20200817101019.GD11402@linux.fritz.box>
+ <w518sedz3td.fsf@maestria.local.igalia.com>
+ <20200817155307.GS11402@linux.fritz.box>
+ <w51pn7memr7.fsf@maestria.local.igalia.com>
+ <20200819150711.GE10272@linux.fritz.box>
+ <20200819175300.GA141399@bfoster>
+ <w51v9hdultt.fsf@maestria.local.igalia.com>
+ <20200820215811.GC7941@dread.disaster.area>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 21 Aug 2020 11:04:51 -0000
-From: Timo Aaltonen <1883984@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Fix Released; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu; 
- component=main; status=Fix Committed; importance=Medium;
- assignee=None; 
-X-Launchpad-Bug-Tags: verification-needed verification-needed-focal
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bruno-clisp janitor nhfbeebe paelzer rth tjaalton
-X-Launchpad-Bug-Reporter: Nelson H F Beebe (nhfbeebe)
-X-Launchpad-Bug-Modifier: Timo Aaltonen (tjaalton)
-References: <159243063748.16697.11009205973276249282.malonedeb@chaenomeles.canonical.com>
-Message-Id: <159800789106.15943.476832359053141600.malone@soybean.canonical.com>
-Subject: [Bug 1883984] Re: QEMU S/390x sqxbr (128-bit IEEE 754 square root)
- crashes qemu-system-s390x
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="99c2d833c8d727fd05148486920aca032e908071"; Instance="production"
-X-Launchpad-Hash: 6beac7bec2c452c1995544328e7a45770750bbd5
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 07:11:16
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200820215811.GC7941@dread.disaster.area>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=bfoster@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 01:00:15
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,147 +85,210 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1883984 <1883984@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ linux-xfs@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Nelson, or anyone else affected,
+On Fri, Aug 21, 2020 at 07:58:11AM +1000, Dave Chinner wrote:
+> On Thu, Aug 20, 2020 at 10:03:10PM +0200, Alberto Garcia wrote:
+> > Cc: linux-xfs
+> > 
+> > On Wed 19 Aug 2020 07:53:00 PM CEST, Brian Foster wrote:
+> > > In any event, if you're seeing unclear or unexpected performance
+> > > deltas between certain XFS configurations or other fs', I think the
+> > > best thing to do is post a more complete description of the workload,
+> > > filesystem/storage setup, and test results to the linux-xfs mailing
+> > > list (feel free to cc me as well). As it is, aside from the questions
+> > > above, it's not really clear to me what the storage stack looks like
+> > > for this test, if/how qcow2 is involved, what the various
+> > > 'preallocation=' modes actually mean, etc.
+> > 
+> > (see [1] for a bit of context)
+> > 
+> > I repeated the tests with a larger (125GB) filesystem. Things are a bit
+> > faster but not radically different, here are the new numbers:
+> > 
+> > |----------------------+-------+-------|
+> > | preallocation mode   |   xfs |  ext4 |
+> > |----------------------+-------+-------|
+> > | off                  |  8139 | 11688 |
+> > | off (w/o ZERO_RANGE) |  2965 |  2780 |
+> > | metadata             |  7768 |  9132 |
+> > | falloc               |  7742 | 13108 |
+> > | full                 | 41389 | 16351 |
+> > |----------------------+-------+-------|
+> > 
+> > The numbers are I/O operations per second as reported by fio, running
+> > inside a VM.
+> > 
+> > The VM is running Debian 9.7 with Linux 4.9.130 and the fio version is
+> > 2.16-1. I'm using QEMU 5.1.0.
+> > 
+> > fio is sending random 4KB write requests to a 25GB virtual drive, this
+> > is the full command line:
+> > 
+> > fio --filename=/dev/vdb --direct=1 --randrepeat=1 --eta=always
+> >     --ioengine=libaio --iodepth=32 --numjobs=1 --name=test --size=25G
+> >     --io_limit=25G --ramp_time=5 --rw=randwrite --bs=4k --runtime=60
+> >   
+> > The virtual drive (/dev/vdb) is a freshly created qcow2 file stored on
+> > the host (on an xfs or ext4 filesystem as the table above shows), and
+> > it is attached to QEMU using a virtio-blk-pci device:
+> > 
+> >    -drive if=virtio,file=image.qcow2,cache=none,l2-cache-size=200M
+> 
+> You're not using AIO on this image file, so it can't do
+> concurrent IO? what happens when you add "aio=native" to this?
+> 
+> > cache=none means that the image is opened with O_DIRECT and
+> > l2-cache-size is large enough so QEMU is able to cache all the
+> > relevant qcow2 metadata in memory.
+> 
+> What happens when you just use a sparse file (i.e. a raw image) with
+> aio=native instead of using qcow2? XFS, ext4, btrfs, etc all support
+> sparse files so using qcow2 to provide sparse image file support is
+> largely an unnecessary layer of indirection and overhead...
+> 
+> And with XFS, you don't need qcow2 for snapshots either because you
+> can use reflink copies to take an atomic copy-on-write snapshot of
+> the raw image file... (assuming you made the xfs filesystem with
+> reflink support (which is the TOT default now)).
+> 
+> I've been using raw sprase files on XFS for all my VMs for over a
+> decade now, and using reflink to create COW copies of golden
+> image files iwhen deploying new VMs for a couple of years now...
+> 
+> > The host is running Linux 4.19.132 and has an SSD drive.
+> > 
+> > About the preallocation modes: a qcow2 file is divided into clusters
+> > of the same size (64KB in this case). That is the minimum unit of
+> > allocation, so when writing 4KB to an unallocated cluster QEMU needs
+> > to fill the other 60KB with zeroes. So here's what happens with the
+> > different modes:
+> 
+> Which is something that sparse files on filesystems do not need to
+> do. If, on XFS, you really want 64kB allocation clusters, use an
+> extent size hint of 64kB. Though for image files, I highly recommend
+> using 1MB or larger extent size hints.
+> 
+> 
+> > 1) off: for every write request QEMU initializes the cluster (64KB)
+> >         with fallocate(ZERO_RANGE) and then writes the 4KB of data.
+> > 
+> > 2) off w/o ZERO_RANGE: QEMU writes the 4KB of data and fills the rest
+> >         of the cluster with zeroes.
+> > 
+> > 3) metadata: all clusters were allocated when the image was created
+> >         but they are sparse, QEMU only writes the 4KB of data.
+> > 
+> > 4) falloc: all clusters were allocated with fallocate() when the image
+> >         was created, QEMU only writes 4KB of data.
+> > 
+> > 5) full: all clusters were allocated by writing zeroes to all of them
+> >         when the image was created, QEMU only writes 4KB of data.
+> > 
+> > As I said in a previous message I'm not familiar with xfs, but the
+> > parts that I don't understand are
+> > 
+> >    - Why is (4) slower than (1)?
+> 
+> Because fallocate() is a full IO serialisation barrier at the
+> filesystem level. If you do:
+> 
+> fallocate(whole file)
+> <IO>
+> <IO>
+> <IO>
+> .....
+> 
+> The IO can run concurrent and does not serialise against anything in
+> the filesysetm except unwritten extent conversions at IO completion
+> (see answer to next question!)
+> 
+> However, if you just use (4) you get:
+> 
+> falloc(64k)
+>   <wait for inflight IO to complete>
+>   <allocates 64k as unwritten>
+> <4k io>
+>   ....
+> falloc(64k)
+>   <wait for inflight IO to complete>
+>   ....
+>   <4k IO completes, converts 4k to written>
+>   <allocates 64k as unwritten>
+> <4k io>
+> falloc(64k)
+>   <wait for inflight IO to complete>
+>   ....
+>   <4k IO completes, converts 4k to written>
+>   <allocates 64k as unwritten>
+> <4k io>
+>   ....
+> 
 
-Accepted qemu into focal-proposed. The package will build now and be
-available at https://launchpad.net/ubuntu/+source/qemu/1:4.2-3ubuntu6.5
-in a few hours, and then in the -proposed repository.
+Option 4 is described above as initial file preallocation whereas option
+1 is per 64k cluster prealloc. Prealloc mode mixup aside, Berto is
+reporting that the initial file preallocation mode is slower than the
+per cluster prealloc mode. Berto, am I following that right?
 
-Please help us by testing this new package.  See
-https://wiki.ubuntu.com/Testing/EnableProposed for documentation on how
-to enable and use -proposed.  Your feedback will aid us getting this
-update out to other Ubuntu users.
+Brian
 
-If this package fixes the bug for you, please add a comment to this bug,
-mentioning the version of the package you tested, what testing has been
-performed on the package and change the tag from verification-needed-
-focal to verification-done-focal. If it does not fix the bug for you,
-please add a comment stating that, and change the tag to verification-
-failed-focal. In either case, without details of your testing we will
-not be able to proceed.
+> until all the clusters in the qcow2 file are intialised. IOWs, each
+> fallocate() call serialises all IO in flight. Compare that to using
+> extent size hints on a raw sparse image file for the same thing:
+> 
+> <set 64k extent size hint>
+> <4k IO>
+>   <allocates 64k as unwritten>
+>   ....
+> <4k IO>
+>   <allocates 64k as unwritten>
+>   ....
+> <4k IO>
+>   <allocates 64k as unwritten>
+>   ....
+> ...
+>   <4k IO completes, converts 4k to written>
+>   <4k IO completes, converts 4k to written>
+>   <4k IO completes, converts 4k to written>
+> ....
+> 
+> See the difference in IO pipelining here? You get the same "64kB
+> cluster initialised at a time" behaviour as qcow2, but you don't get
+> the IO pipeline stalls caused by fallocate() having to drain all the
+> IO in flight before it does the allocation.
+> 
+> >    - Why is (5) so much faster than everything else?
+> 
+> The full file allocation in (5) means the IO doesn't have to modify
+> the extent map hence all extent mapping is uses shared locking and
+> the entire IO path can run concurrently without serialisation at
+> all.
+> 
+> Thing is, once your writes into sprase image files regularly start
+> hitting written extents, the performance of (1), (2) and (4) will
+> trend towards (5) as writes hit already allocated ranges of the file
+> and the serialisation of extent mapping changes goes away. This
+> occurs with guest filesystems that perform overwrite in place (such
+> as XFS) and hence overwrites of existing data will hit allocated
+> space in the image file and not require further allocation.
+> 
+> IOWs, typical "write once" benchmark testing indicates the *worst*
+> performance you are going to see. As the guest filesytsem ages and
+> initialises more of the underlying image file, it will get faster,
+> not slower.
+> 
+> Cheers,
+> 
+> Dave.
+> -- 
+> Dave Chinner
+> david@fromorbit.com
+> 
 
-Further information regarding the verification process can be found at
-https://wiki.ubuntu.com/QATeam/PerformingSRUVerification .  Thank you in
-advance for helping!
-
-N.B. The updated package will be released to -updates after the bug(s)
-fixed by this package have been verified and the package has been in
--proposed for a minimum of 7 days.
-
-** Changed in: qemu (Ubuntu Focal)
-       Status: Triaged =3D> Fix Committed
-
-** Tags added: verification-needed verification-needed-focal
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1883984
-
-Title:
-  QEMU S/390x sqxbr (128-bit IEEE 754 square root) crashes qemu-system-
-  s390x
-
-Status in QEMU:
-  Fix Released
-Status in qemu package in Ubuntu:
-  Fix Released
-Status in qemu source package in Focal:
-  Fix Committed
-
-Bug description:
-  [Impact]
-
-   * An instruction was described wrong so that on usage the program would =
-
-     crash.
-
-  [Test Case]
-
-   * Run s390x in emulation and there use this program:
-     For simplicity and speed you can use KVM guest as usual on s390x, that =
-
-     after prep&install&compile of the test you run in qemu-tcg like:
-
-     $ sudo qemu-system-s390x -machine s390-ccw-virtio,accel=3Dtcg -cpu max=
-,zpci=3Don -serial mon:stdio -display none -m 4096 -nic user,model=3Dvirtio=
-,hostfwd=3Dtcp::2222-:22 -drive file=3D/var/lib/uvtool/libvirt/images/focal=
--sqxbr.qcow,if=3Dnone,id=3Ddrive-virtio-disk0,format=3Dqcow2,cache=3Dnone -=
-device virtio-blk-ccw,devno=3Dfe.0.0001,drive=3Ddrive-virtio-disk0,id=3Dvir=
-tio-disk0,bootindex=3D1,scsi=3Doff
-     Obviously is you have no s390x access you need to use emulation right =
-
-     away.
-
-   * Build and run failing program
-     $ sudo apt install clang
-     $ cat > bug-sqrtl-one-line.c << EOF
-  int main(void) { volatile long double x, r; x =3D 4.0L; __asm__ =
-
-  __volatile__("sqxbr %0, %1" : "=3Df" (r) : "f" (x)); return (0);}
-  EOF
-     $ cc bug-sqrtl-one-line.c
-     $ ./a.out
-     Segmentation fault (core dumped)
-
-     qemu is dead by now as long as the bug is present
-
-  [Regression Potential]
-
-   * The change only modifies 128 bit square root on s390x so regressions
-     should be limited to exactly that - which formerly before this fix was =
-
-     a broken instruction.
-
-  [Other Info]
-   =
-
-   * n/a
-
-  ---
-
-  In porting software to guest Ubuntu 18.04 and 20.04 VMs for S/390x, I dis=
-covered
-  that some of my own numerical programs, and also a GNU configure script f=
-or at
-  least one package with CC=3Dclang, would cause an instant crash of the VM=
-, sometimes
-  also destroying recently opened files, and producing long strings of NUL =
-characters
-  in /var/log/syslog in the S/390 guest O/S.
-
-  Further detective work narrowed the cause of the crash down to a single I=
-BM S/390
-  instruction: sqxbr (128-bit IEEE 754 square root).  Here is a one-line pr=
-ogram
-  that when compiled and run on a VM hosted on QEMUcc emulator version 4.2.0
-  (Debian 1:4.2-3ubuntu6.1) [hosted on Ubuntu 20.04 on a Dell Precision 7920
-  workstation with an Intel Xeon Platinum 8253 CPU],  and also on QEMU emul=
-ator
-  version 5.0.0, reproducibly produces a VM crash under qemu-system-s390x.
-
-  % cat bug-sqrtl-one-line.c
-  int main(void) { volatile long double x, r; x =3D 4.0L; __asm__ __volatil=
-e__("sqxbr %0, %1" : "=3Df" (r) : "f" (x)); return (0);}
-
-  % cc bug-sqrtl-one-line.c && ./a.out
-  Segmentation fault (core dumped)
-
-  The problem code may be the function float128_sqrt() defined in qemu-5.0.=
-0/fpu/softfloat.c
-  starting at line 7619.  I have NOT attempted to run the qemu-system-s390x=
- executable
-  under a debugger.  However, I observe that S/390 is the only CPU family t=
-hat I know of,
-  except possibly for a Fujitsu SPARC-64, that has a 128-bit square root in=
- hardware.
-  Thus, this instruction bug may not have been seen before.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1883984/+subscriptions
 
