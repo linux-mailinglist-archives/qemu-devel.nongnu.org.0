@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35B8A24D70A
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 16:11:04 +0200 (CEST)
-Received: from localhost ([::1]:41878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D59324D72B
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 16:18:23 +0200 (CEST)
+Received: from localhost ([::1]:50214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k97l1-0002Oh-5W
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 10:11:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54544)
+	id 1k97s6-0000Yt-D8
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 10:18:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k97j0-0007Md-42
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 10:08:58 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:21958
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k97j1-0007RV-Uf
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 10:08:59 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:57049)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k97ix-0004Xd-5j
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 10:08:57 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k97iz-0004Yt-Mr
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 10:08:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598018934;
+ s=mimecast20190719; t=1598018937;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dFTJI66gXbHFJpiFeUt37MLvYmD4RYoxQkVSz55LzJM=;
- b=CQJ2hNUcIdQ79whHcWqgGE46c5FfKLQ23u9LgJ1LKumdPqKvRzkvoqJClDRZV34uAPYpaA
- PQYO6I6anwl++yclR3lqWgGXFWfuWA6jmvtJX7WuPkDBokHKfK16sClFadLj6RW0ry69DB
- 75kZoP12wayCvvPUKdu6cO8ixHdM3yQ=
+ bh=OKTiWydU/nqR2BLF9AhL3+Bno7cgn33+guhRB4DEWZc=;
+ b=DDRR6x00S3QsrpqYm/qRWHo+8kXWEPQ3i4b2hQmsyqRH0Vxq6l6gnGk1rcfmpD9RZ9A348
+ erNB0FLDIf7MHdzH6dfMxJTlEW5JSQWMFetB45TxRSDlJXb3wXHNacOfDLOewQWRAR8uJA
+ dKRKAKbW4uaGxkzzpNYBUwiHL1ItqTQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-467-co64W7f9MSOUk9jMUFP85Q-1; Fri, 21 Aug 2020 10:08:37 -0400
-X-MC-Unique: co64W7f9MSOUk9jMUFP85Q-1
+ us-mta-17-uv-TMDEWNaePRDHmLWbE_w-1; Fri, 21 Aug 2020 10:08:38 -0400
+X-MC-Unique: uv-TMDEWNaePRDHmLWbE_w-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65B1B101962B;
- Fri, 21 Aug 2020 14:08:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0465364081;
+ Fri, 21 Aug 2020 14:08:37 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-113-220.phx2.redhat.com [10.3.113.220])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ED4D07AEC9;
- Fri, 21 Aug 2020 14:08:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8F49D7AEC9;
+ Fri, 21 Aug 2020 14:08:36 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/14] qcow2_format.py: Dump bitmap table serialized entries
-Date: Fri, 21 Aug 2020 09:08:19 -0500
-Message-Id: <20200821140826.194322-8-eblake@redhat.com>
+Subject: [PULL 08/14] qcow2.py: Introduce '-j' key to dump in JSON format
+Date: Fri, 21 Aug 2020 09:08:20 -0500
+Message-Id: <20200821140826.194322-9-eblake@redhat.com>
 In-Reply-To: <20200821140826.194322-1-eblake@redhat.com>
 References: <20200821140826.194322-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +56,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
+ helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 05:15:56
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
@@ -66,7 +65,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,112 +88,93 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 
-Add bitmap table information to the QCOW2 metadata dump.
-
-Bitmap name               bitmap-1
-...
-Bitmap table   type            size         offset
-0              serialized      65536        10092544
-1              all-zeroes      0            0
-2              all-zeroes      0            0
+Add the command key to the qcow2.py arguments list to dump QCOW2
+metadata in JSON format. Here is the suggested way to do that. The
+implementation of the dump in JSON format is in the patch that follows.
 
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <1596742557-320265-8-git-send-email-andrey.shinkevich@virtuozzo.com>
+Message-Id: <1596742557-320265-9-git-send-email-andrey.shinkevich@virtuozzo.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- tests/qemu-iotests/303.out         |  4 +++
- tests/qemu-iotests/qcow2_format.py | 50 ++++++++++++++++++++++++++++++
- 2 files changed, 54 insertions(+)
+ tests/qemu-iotests/qcow2.py        | 18 ++++++++++++++----
+ tests/qemu-iotests/qcow2_format.py |  4 ++--
+ 2 files changed, 16 insertions(+), 6 deletions(-)
 
-diff --git a/tests/qemu-iotests/303.out b/tests/qemu-iotests/303.out
-index 038ba93a87d7..70828e05f11f 100644
---- a/tests/qemu-iotests/303.out
-+++ b/tests/qemu-iotests/303.out
-@@ -66,6 +66,8 @@ type                      1
- granularity_bits          15
- name_size                 8
- extra_data_size           0
-+Bitmap table   type            size         offset
-+0              serialized      65536        10092544
+diff --git a/tests/qemu-iotests/qcow2.py b/tests/qemu-iotests/qcow2.py
+index 0910e6ac0705..77ca59cc663d 100755
+--- a/tests/qemu-iotests/qcow2.py
++++ b/tests/qemu-iotests/qcow2.py
+@@ -26,16 +26,19 @@ from qcow2_format import (
+ )
 
- Bitmap name               bitmap-2
- bitmap_table_offset       0x9c0000
-@@ -75,4 +77,6 @@ type                      1
- granularity_bits          16
- name_size                 8
- extra_data_size           0
-+Bitmap table   type            size         offset
-+0              all-zeroes      0            0
 
++is_json = False
++
++
+ def cmd_dump_header(fd):
+     h = QcowHeader(fd)
+-    h.dump()
++    h.dump(is_json)
+     print()
+-    h.dump_extensions()
++    h.dump_extensions(is_json)
+
+
+ def cmd_dump_header_exts(fd):
+     h = QcowHeader(fd)
+-    h.dump_extensions()
++    h.dump_extensions(is_json)
+
+
+ def cmd_set_header(fd, name, value):
+@@ -151,11 +154,14 @@ def main(filename, cmd, args):
+
+
+ def usage():
+-    print("Usage: %s <file> <cmd> [<arg>, ...]" % sys.argv[0])
++    print("Usage: %s <file> <cmd> [<arg>, ...] [<key>, ...]" % sys.argv[0])
+     print("")
+     print("Supported commands:")
+     for name, handler, num_args, desc in cmds:
+         print("    %-20s - %s" % (name, desc))
++    print("")
++    print("Supported keys:")
++    print("    %-20s - %s" % ('-j', 'Dump in JSON format'))
+
+
+ if __name__ == '__main__':
+@@ -163,4 +169,8 @@ if __name__ == '__main__':
+         usage()
+         sys.exit(1)
+
++    is_json = '-j' in sys.argv
++    if is_json:
++        sys.argv.remove('-j')
++
+     main(sys.argv[1], sys.argv[2], sys.argv[3:])
 diff --git a/tests/qemu-iotests/qcow2_format.py b/tests/qemu-iotests/qcow2_format.py
-index ca0d3501e0a2..574249bc463c 100644
+index 574249bc463c..de0adcbf9db0 100644
 --- a/tests/qemu-iotests/qcow2_format.py
 +++ b/tests/qemu-iotests/qcow2_format.py
-@@ -175,6 +175,10 @@ class Qcow2BitmapDirEntry(Qcow2Struct):
-         entry_raw_size = self.bitmap_dir_entry_raw_size()
-         padding = ((entry_raw_size + 7) & ~7) - entry_raw_size
-         fd.seek(padding, 1)
-+        self.bitmap_table = Qcow2BitmapTable(fd=fd,
-+                                             offset=self.bitmap_table_offset,
-+                                             nb_entries=self.bitmap_table_size,
-+                                             cluster_size=self.cluster_size)
+@@ -109,7 +109,7 @@ class Qcow2Struct(metaclass=Qcow2StructMeta):
+         self.__dict__ = dict((field[2], values[i])
+                              for i, field in enumerate(self.fields))
 
-     def bitmap_dir_entry_raw_size(self):
-         return struct.calcsize(self.fmt) + self.name_size + \
-@@ -183,6 +187,52 @@ class Qcow2BitmapDirEntry(Qcow2Struct):
-     def dump(self):
-         print(f'{"Bitmap name":<25} {self.name}')
-         super(Qcow2BitmapDirEntry, self).dump()
-+        self.bitmap_table.dump()
-+
-+
-+class Qcow2BitmapTableEntry(Qcow2Struct):
-+
-+    fields = (
-+        ('u64',  '{}', 'entry'),
-+    )
-+
-+    BME_TABLE_ENTRY_RESERVED_MASK = 0xff000000000001fe
-+    BME_TABLE_ENTRY_OFFSET_MASK = 0x00fffffffffffe00
-+    BME_TABLE_ENTRY_FLAG_ALL_ONES = 1
-+
-+    def __init__(self, fd):
-+        super().__init__(fd=fd)
-+        self.reserved = self.entry & self.BME_TABLE_ENTRY_RESERVED_MASK
-+        self.offset = self.entry & self.BME_TABLE_ENTRY_OFFSET_MASK
-+        if self.offset:
-+            if self.entry & self.BME_TABLE_ENTRY_FLAG_ALL_ONES:
-+                self.type = 'invalid'
-+            else:
-+                self.type = 'serialized'
-+        elif self.entry & self.BME_TABLE_ENTRY_FLAG_ALL_ONES:
-+            self.type = 'all-ones'
-+        else:
-+            self.type = 'all-zeroes'
-+
-+
-+class Qcow2BitmapTable:
-+
-+    def __init__(self, fd, offset, nb_entries, cluster_size):
-+        self.cluster_size = cluster_size
-+        position = fd.tell()
-+        fd.seek(offset)
-+        self.entries = [Qcow2BitmapTableEntry(fd) for _ in range(nb_entries)]
-+        fd.seek(position)
-+
-+    def dump(self):
-+        bitmap_table = enumerate(self.entries)
-+        print(f'{"Bitmap table":<14} {"type":<15} {"size":<12} {"offset"}')
-+        for i, entry in bitmap_table:
-+            if entry.type == 'serialized':
-+                size = self.cluster_size
-+            else:
-+                size = 0
-+            print(f'{i:<14} {entry.type:<15} {size:<12} {entry.offset}')
+-    def dump(self):
++    def dump(self, is_json=False):
+         for f in self.fields:
+             value = self.__dict__[f[2]]
+             if isinstance(f[1], str):
+@@ -408,7 +408,7 @@ class QcowHeader(Qcow2Struct):
+         buf = buf[0:header_bytes-1]
+         fd.write(buf)
 
-
- QCOW2_EXT_MAGIC_BITMAPS = 0x23852875
+-    def dump_extensions(self):
++    def dump_extensions(self, is_json=False):
+         for ex in self.extensions:
+             print('Header extension:')
+             ex.dump()
 -- 
 2.28.0
 
