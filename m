@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D067F24D698
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 15:51:36 +0200 (CEST)
-Received: from localhost ([::1]:39212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2075B24D6A1
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 15:53:14 +0200 (CEST)
+Received: from localhost ([::1]:42764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k97SB-0005PT-VE
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 09:51:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50088)
+	id 1k97Tl-0006uc-5w
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 09:53:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k97Qr-0004YC-B7
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 09:50:14 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:46795)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1k97Su-000630-VK
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 09:52:20 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:32862)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1k97Qp-0001zo-3v
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 09:50:12 -0400
-Received: by mail-ej1-x635.google.com with SMTP id d11so2136654ejt.13
- for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 06:50:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=2idNJ5PAVGixfFsscDzSmFwpwPmPNc8GVJD2qT7sHnQ=;
- b=Z624dX1019N1RDb+M0vNFe5+QdhqxGYF8rEjlFWxRnePHt0Q0xJ8hL9IbvVNWjZ/NQ
- IOT9gBxYmtqvdbM52JS7PKR4k7eUtAVbfguX9y8omWz39pCF3BWyg5daqG4B0e4i5dCL
- 6BDy8LD6ZsXVJaMbLEuRwasci4fr7ymKBqxkyeuO47C+1l1PvGftch5Dqo6Skoo7+vJO
- oWnkw9ksYTI4/VYNNSrTPBipoWgnhzkadO223jPKw8jAdYt3YEmBttni5hZ9eGunat3S
- Ko6haf2DHF7wuEvjcLFsKP5XlAcIJKkHHsMZ7qwCcvH3qq+Ema5h6zl8fnnhu6NOSjG8
- /G/A==
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1k97Sq-0002O3-Ij
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 09:52:20 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id h2so912966plr.0
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 06:52:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id;
+ bh=dBomfi7Ud4DvD+h0PJFT4P7iNgEP8T7pa8cGLitJwIA=;
+ b=GcDiJw/vhndIRV8bJLA4lbHnXx0R9xMmg5Jj4P5vZG+axIz1TkANZ2VACAj5p/Mac1
+ hCzAj+GNfbGHRLjHjVUJaCdz3zgYJpatrp0OQBMaXIqb7B5bwwYkbayb/ki2DtEtXq30
+ MglkRlnZMMWXLheSBaISp1lqo0EaucUXeLKzBigNi5cfnjBEyZRMRNJwWhEovqhHhJK8
+ hsjVK7GlGSAo7wbgGs+gq5inVSzdqT10pFD98eU78NF/D6r3mGJ33cUcSUAhoYY95Sxj
+ 3YdLCl09TIPlnNDqLW+bGfJC+6yRcqY+TeassGlZ9SjFdSAoItLcakyvlXYrLB264IwC
+ PXvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=2idNJ5PAVGixfFsscDzSmFwpwPmPNc8GVJD2qT7sHnQ=;
- b=GI3988rQEQVIlQPuiU4PEnHemBai1+UDrnLUhfBloQ0j1tK+e7z0WqInY2F1ojPMrV
- Maj23SiXfm/tziQnwJKsJNraHQSq9OxSkrh1S+bCbExP4SFKeBvs+nWiJvig/bMAiEWp
- AMMapaRNy6i9OmrW4J5fZEJ0wYOWy1C1phsHwD7RLwkYEOmdDBqsxAFQPjAy+FY5ONM/
- I3RxdlgrNkqjRJsjXKgK3XWxs0CGXleDo796yoW6M2Of+1MEH15Vc+J8ruxfh7doAGXF
- KHSVR/YQ/UsxwemoRXJ2g39u6HwhhZKwcazq43x+GnmUJ3f6NjXwnlmbtUM68SOpYKnD
- LzAA==
-X-Gm-Message-State: AOAM5338m/QIa5FpEfBXgSYYgvvxTODkEilU7WCX5eilZiHEljUXVVD3
- XB1/aCGlJELzcOCud2s5Mhh7kGFtaAFUwU6/35bSnfwLgdfZU+dG
-X-Google-Smtp-Source: ABdhPJwDjO6FdOVpFYy3ItSiH8/1YCFIKfmLlUooKuMTMcnPVxX2QnAPVCFhJDHiOmNBviZ87YUB5mia1AYV6K+x3iU=
-X-Received: by 2002:a17:906:59b:: with SMTP id 27mr3171113ejn.56.1598017807645; 
- Fri, 21 Aug 2020 06:50:07 -0700 (PDT)
-MIME-Version: 1.0
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 21 Aug 2020 14:49:56 +0100
-Message-ID: <CAFEAcA-87BcmoPjY9BCodx9+m6QmhfikHv5sLVJ8w20cszDvDA@mail.gmail.com>
-Subject: ANNOUNCE: build system conversion to Meson has landed
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=dBomfi7Ud4DvD+h0PJFT4P7iNgEP8T7pa8cGLitJwIA=;
+ b=XLbhKq6ckisx/ZaPWppoB8V0AW/XOvRMbq6Dw+I2sM+UfGDtnV+ie4boj1k2R1/aHw
+ /xKhyBnsNlBai7ugSj86m0CZWvPp6IOWb5KUhpu8rqp2CSMp19DmybXruLMoe2vAvHj8
+ Pa2KkKeqHxKR9UIoDO5K/8ya7kBgccfAVBJKUuDQzBI0+JwepONP8VR2GGc7KVX81Oii
+ xjRsVqhSKqXtJ76tHv0gNFA0dzLNqoLjiQPojfXgy0P+dSxdjpvgEDmU5rsguk6T+qDB
+ acpglz6GnONrV75JWPv+uRVP4v+OWEUCwdRhllYpCnZRNSywJB6A0sv2jNAxmkOF5M10
+ jfNA==
+X-Gm-Message-State: AOAM532CDlgLVMO6AFmJhrScDfLYAuHrlqy5zVVRKriTNCLoFBlDv4gp
+ VscVFYXVuHCjKcTH6bIZj238j1NIPZxAEFyP
+X-Google-Smtp-Source: ABdhPJzzMOkG4h5r91i1as5zCfJDEzJ7enYlqMZk+sMQFbhcjZVl8/DasWWMD2xH7IbK+fAIp+8BwQ==
+X-Received: by 2002:a17:90a:1862:: with SMTP id
+ r89mr2511465pja.59.1598017934281; 
+ Fri, 21 Aug 2020 06:52:14 -0700 (PDT)
+Received: from localhost.localdomain ([115.96.123.214])
+ by smtp.googlemail.com with ESMTPSA id p20sm2070570pjz.49.2020.08.21.06.52.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Aug 2020 06:52:13 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+To: qemu-devel@nongnu.org
+Subject: [PATCH V7] Introduce a new flag for i440fx to disable PCI hotplug on
+ the root bus
+Date: Fri, 21 Aug 2020 19:21:29 +0530
+Message-Id: <20200821135129.5240-1-ani@anisinha.ca>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: none client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=ani@anisinha.ca; helo=mail-pl1-x62a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,45 +78,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi; we've just merged Paolo's patchset that converts the build system
-to use Meson. This should mostly be fairly seamless for the average
-developer (we hope) but there are a few things to be aware of:
+We introduce a new global flag 'acpi-root-pci-hotplug' for i440fx with which
+we can turn on or off PCI device hotplug on the root bus. This flag can be
+used to prevent all PCI devices from getting hotplugged or unplugged from the
+root PCI bus.
+This feature is targetted mostly towards Windows VMs. It is useful in cases
+where some hypervisor admins want to deploy guest VMs in a way so that the
+users of the guest OSes are not able to hot-eject certain PCI devices from
+the Windows system tray. Laine has explained the use case here in detail:
+https://www.redhat.com/archives/libvir-list/2020-February/msg00110.html
 
- * you probably want to do a distclean or otherwise do a clean build
-   when you first update your git tree to a version of master with Meson
-   (especially if you do in-tree builds)
- * out-of-tree builds should continue to work basically normally
- * we have retained compatibility for an "in-tree build" workflow where
-   you run configure/make in the source tree, but this is now implemented
-   by having configure create a build tree for you under-the-hood
-   (but do consider switching to just doing out-of-tree builds)
- * you will need at least GNU Make 3.82 (everybody probably has this
-   already unless you're on OSX, in which case install a make from
-   homebrew or similar as the Apple-supplied system make is too old)
- * you need the Python 'setuptools' installed
- * we provide meson itself as a submodule, so you don't need to install
-   that yourself
- * if you have patches in flight that made build-system related changes
-   (eg adding new files) then you'll probably need to update them to
-   work with meson; fingers crossed this should be straightforward
- * I will continue to work through the outstanding pullreqs on the
-   list, but probably a bunch of them conflict with the meson switchover
-   and submaintainers will need to respin them. Sorry about that.
-   (I'll work through them and send out the usual "please fix" emails,
-   but feel free to actively re-spin before I get to your pullreq if
-   you know it's going to need work.)
+Julia has resolved this issue for PCIE buses with the following commit:
+530a0963184e57e71a5b538 ("pcie_root_port: Add hotplug disabling option")
 
-https://wiki.qemu.org/Features/Meson/Next has a summary of changes
-and is worth a quick scan through.
+This commit attempts to introduce similar behavior for PCI root buses used in
+i440fx machine types (although in this case, we do not have a per-slot
+capability to turn hotplug on or off).
 
-We've tested this as best as we could, but there are probably going
-to be a few teething troubles -- please let us know if something
-seems to be broken.
+Usage:
+   -global PIIX4_PM.acpi-root-pci-hotplug=off
 
-thanks
--- PMM
+By default, this option is enabled which means that hotplug is turned on for
+the PCI root bus.
+
+The previously existing flag 'acpi-pci-hotplug-with-bridge-support' for PCI-PCI
+bridges remain as is and can be used along with this new flag to control PCI
+hotplug on PCI bridges.
+
+This change has been tested using a Windows 2012R2 server guest image and also
+with a Windows 2019 server guest image on a Ubuntu 18.04 host using the latest
+master qemu from upstream (v5.1.0 tag).
+
+Signed-off-by: Ani Sinha <ani@anisinha.ca>
+---
+ hw/acpi/pcihp.c         | 24 +++++++++++++++++++++++-
+ hw/acpi/piix4.c         |  5 ++++-
+ include/hw/acpi/pcihp.h |  2 +-
+ 3 files changed, 28 insertions(+), 3 deletions(-)
+
+Change Log:
+V6..V7: Code reorgs to make use of bsel to indicate whether the root PCI
+bus is hot pluggable or not.
+
+diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+index 9e31ab2da4..a686413327 100644
+--- a/hw/acpi/pcihp.c
++++ b/hw/acpi/pcihp.c
+@@ -104,6 +104,25 @@ static void acpi_set_pci_info(void)
+     }
+ }
+ 
++static void acpi_pcihp_disable_root_bus(void)
++{
++    static bool root_hp_disabled;
++    PCIBus *bus;
++
++    if (root_hp_disabled) {
++        return;
++    }
++
++    bus = find_i440fx();
++    if (bus) {
++        /* setting the hotplug handler to NULL makes the bus non-hotpluggable */
++        qbus_set_hotplug_handler(BUS(bus), NULL);
++    }
++    root_hp_disabled = true;
++    return;
++}
++
++
+ static void acpi_pcihp_test_hotplug_bus(PCIBus *bus, void *opaque)
+ {
+     AcpiPciHpFind *find = opaque;
+@@ -209,8 +228,11 @@ static void acpi_pcihp_update(AcpiPciHpState *s)
+     }
+ }
+ 
+-void acpi_pcihp_reset(AcpiPciHpState *s)
++void acpi_pcihp_reset(AcpiPciHpState *s, bool acpihp_root_off)
+ {
++    if (acpihp_root_off) {
++        acpi_pcihp_disable_root_bus();
++    }
+     acpi_set_pci_info();
+     acpi_pcihp_update(s);
+ }
+diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+index 26bac4f16c..e6163bb6ce 100644
+--- a/hw/acpi/piix4.c
++++ b/hw/acpi/piix4.c
+@@ -78,6 +78,7 @@ typedef struct PIIX4PMState {
+ 
+     AcpiPciHpState acpi_pci_hotplug;
+     bool use_acpi_hotplug_bridge;
++    bool use_acpi_root_pci_hotplug;
+ 
+     uint8_t disable_s3;
+     uint8_t disable_s4;
+@@ -324,7 +325,7 @@ static void piix4_pm_reset(DeviceState *dev)
+         pci_conf[0x5B] = 0x02;
+     }
+     pm_io_space_update(s);
+-    acpi_pcihp_reset(&s->acpi_pci_hotplug);
++    acpi_pcihp_reset(&s->acpi_pci_hotplug, !s->use_acpi_root_pci_hotplug);
+ }
+ 
+ static void piix4_pm_powerdown_req(Notifier *n, void *opaque)
+@@ -635,6 +636,8 @@ static Property piix4_pm_properties[] = {
+     DEFINE_PROP_UINT8(ACPI_PM_PROP_S4_VAL, PIIX4PMState, s4_val, 2),
+     DEFINE_PROP_BOOL("acpi-pci-hotplug-with-bridge-support", PIIX4PMState,
+                      use_acpi_hotplug_bridge, true),
++    DEFINE_PROP_BOOL("acpi-root-pci-hotplug", PIIX4PMState,
++                     use_acpi_root_pci_hotplug, true),
+     DEFINE_PROP_BOOL("memory-hotplug-support", PIIX4PMState,
+                      acpi_memory_hotplug.is_enabled, true),
+     DEFINE_PROP_END_OF_LIST(),
+diff --git a/include/hw/acpi/pcihp.h b/include/hw/acpi/pcihp.h
+index 8bc4a4c01d..02f4665767 100644
+--- a/include/hw/acpi/pcihp.h
++++ b/include/hw/acpi/pcihp.h
+@@ -67,7 +67,7 @@ void acpi_pcihp_device_unplug_request_cb(HotplugHandler *hotplug_dev,
+                                          Error **errp);
+ 
+ /* Called on reset */
+-void acpi_pcihp_reset(AcpiPciHpState *s);
++void acpi_pcihp_reset(AcpiPciHpState *s, bool acpihp_root_off);
+ 
+ extern const VMStateDescription vmstate_acpi_pcihp_pci_status;
+ 
+-- 
+2.17.1
+
 
