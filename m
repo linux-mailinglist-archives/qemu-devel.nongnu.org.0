@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBD3824D345
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 12:54:07 +0200 (CEST)
-Received: from localhost ([::1]:39100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39F1A24D35D
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 12:58:14 +0200 (CEST)
+Received: from localhost ([::1]:59624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k94gQ-0002sC-TW
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 06:54:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60438)
+	id 1k94kP-0002q9-7Q
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 06:58:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k94E1-0002bY-AB
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:24:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22979)
+ id 1k94Dw-0002RY-FT
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:24:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39565)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k94Dt-0001gC-JB
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:24:44 -0400
+ id 1k94Dr-0001fg-Sw
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:24:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598005476;
+ s=mimecast20190719; t=1598005475;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6SCqAi82ObMhl1SJg7t3ay/JMkiOBP7HjkklKHmVHYc=;
- b=PI3jvaAUgJZo0iSkPI5hb9BS+rJDsXsEQmhi1eZbdCZfijDsviYcxQblc1sT3WStAcYaVh
- KVzc6u5+NCcN6AhNGk5aAY9LbcsvmWjzM+XSkSQcu0q4Z4C4XrKDOrDIw27NNWLa6Qm7vz
- s9JHdmqZ0ASicG4UZv0Ky7H58cwZo1o=
+ bh=XdOea1RoH5d4nhhixD494WEpFCwDWcplIBSQ3ZM7CFI=;
+ b=T+XNJENsHs6HUS1nQAk3ChGTbzZNe9vlA+JV1ScrGGX+7Bjv8Xj4kLX5c1l96oCJ5DHrpe
+ QCmyTGXECJYiMCAPzn+a+YuLf1l2GjP1rFv0coADKbViFw3Nzg+4yfw5OEgtZNSwwVTuw8
+ hp2qXlXQz+MA3jEIoJ21TiKHyd9GIhI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-363-abe-wyPSMV-AV3CgqFqs-A-1; Fri, 21 Aug 2020 06:24:32 -0400
-X-MC-Unique: abe-wyPSMV-AV3CgqFqs-A-1
+ us-mta-239-T3gzzReHM92DC29jhr8W6A-1; Fri, 21 Aug 2020 06:24:33 -0400
+X-MC-Unique: T3gzzReHM92DC29jhr8W6A-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8802D191E2A0
- for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:24:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 78946191E2A2
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:24:32 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 702195C1D7;
- Fri, 21 Aug 2020 10:24:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 292325C1D0;
+ Fri, 21 Aug 2020 10:24:32 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v8 071/152] meson: convert audio directory to Meson
-Date: Fri, 21 Aug 2020 06:22:08 -0400
-Message-Id: <20200821102329.29777-72-pbonzini@redhat.com>
+Subject: [PULL v8 073/152] meson: convert root directory to Meson
+Date: Fri, 21 Aug 2020 06:22:10 -0400
+Message-Id: <20200821102329.29777-74-pbonzini@redhat.com>
 In-Reply-To: <20200821102329.29777-1-pbonzini@redhat.com>
 References: <20200821102329.29777-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -89,240 +89,159 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile.objs       |  7 +++++--
- Makefile.target     |  3 ++-
- audio/Makefile.objs | 35 -----------------------------------
- audio/meson.build   | 30 ++++++++++++++++++++++++++++++
- configure           | 16 ++++++++++++++++
- meson.build         | 27 +++++++++++++++++++++++++++
- 6 files changed, 80 insertions(+), 38 deletions(-)
- delete mode 100644 audio/Makefile.objs
- create mode 100644 audio/meson.build
+ Makefile.objs   | 21 ++-------------------
+ Makefile.target |  2 +-
+ configure       |  2 ++
+ meson.build     | 33 +++++++++++++++++++++++++++++++++
+ 4 files changed, 38 insertions(+), 20 deletions(-)
 
 diff --git a/Makefile.objs b/Makefile.objs
-index e43526fe5f..ec7627a4c6 100644
+index 72e935023d..ec15ebc4b4 100644
 --- a/Makefile.objs
 +++ b/Makefile.objs
-@@ -63,6 +63,11 @@ common-obj-$(CONFIG_LINUX) += fsdev/
+@@ -48,16 +48,9 @@ storage-daemon-obj-$(CONFIG_POSIX) += os-posix.o
+ # single QEMU executable should support all CPUs and machines.
+ 
+ ifeq ($(CONFIG_SOFTMMU),y)
+-common-obj-y = blockdev.o blockdev-nbd.o
+-common-obj-y += bootdevice.o iothread.o
+-common-obj-y += dump/
+-common-obj-y += job-qmp.o
++common-obj-y = dump/
+ common-obj-y += monitor/
+ common-obj-y += net/
+-common-obj-y += qdev-monitor.o
+-common-obj-$(CONFIG_WIN32) += os-win32.o
+-common-obj-$(CONFIG_POSIX) += os-posix.o
+-
+ common-obj-$(CONFIG_LINUX) += fsdev/
+ 
  common-obj-y += accel/
- common-obj-y += migration/
- 
-+common-obj-$(CONFIG_AUDIO_ALSA) += audio-alsa$(DSOSUF)
-+common-obj-$(CONFIG_AUDIO_OSS) += audio-oss$(DSOSUF)
-+common-obj-$(CONFIG_AUDIO_PA) += audio-pa$(DSOSUF)
-+common-obj-$(CONFIG_AUDIO_SDL) += audio-sdl$(DSOSUF)
-+
- common-obj-$(if $(CONFIG_CURL),m) += block-curl$(DSOSUF)
- common-obj-$(if $(CONFIG_GLUSTERFS),m) += block-gluster$(DSOSUF)
- common-obj-$(if $(CONFIG_LIBISCSI),m) += block-iscsi$(DSOSUF)
-@@ -73,8 +78,6 @@ common-obj-$(if $(CONFIG_RBD),m) += block-rbd$(DSOSUF)
- common-obj-$(if $(CONFIG_LZFSE),m) += block-dmg-lzfse$(DSOSUF)
- common-obj-$(if $(and $(CONFIG_BZIP2),$(CONFIG_DMG)),m) += block-dmg-bz2$(DSOSUF)
- 
--common-obj-y += audio/
--common-obj-m += audio/
- common-obj-y += hw/
+@@ -87,25 +80,15 @@ common-obj-y += hw/
  common-obj-m += hw/
  
+ common-obj-y += replay/
+-
+-common-obj-y += dma-helpers.o
+-common-obj-$(CONFIG_TPM) += tpm.o
+-
+ common-obj-y += backends/
+ 
+-common-obj-$(CONFIG_SECCOMP) += qemu-seccomp.o
+-qemu-seccomp.o-cflags := $(SECCOMP_CFLAGS)
+-qemu-seccomp.o-libs := $(SECCOMP_LIBS)
+-
+-common-obj-$(CONFIG_FDT) += device_tree.o
+-
+ common-obj-y += qapi/
+ 
+ endif # CONFIG_SOFTMMU
+ 
+ #######################################################################
+ # Target-independent parts used in system and user emulation
+-common-obj-y += cpus-common.o
++
+ common-obj-y += hw/
+ common-obj-y += qom/
+ common-obj-y += disas/
 diff --git a/Makefile.target b/Makefile.target
-index c8c4b70162..ff0e1b2d10 100644
+index 16f1e781e9..5f926e5bfa 100644
 --- a/Makefile.target
 +++ b/Makefile.target
-@@ -166,9 +166,10 @@ LIBS := $(libs_softmmu) $(LIBS)
- # Temporary until emulators are linked by Meson
- LIBS := $(LIBS) @../block.syms @../qemu.syms
- ifneq ($(CONFIG_MODULES),y)
--LIBS := $(LIBS)
-+LIBS := $(LIBS) $(ALSA_LIBS) $(OSS_LIBS) $(PULSE_LIBS) $(SDL_LIBS)
+@@ -169,7 +169,7 @@ ifneq ($(CONFIG_MODULES),y)
+ LIBS := $(LIBS) $(ALSA_LIBS) $(OSS_LIBS) $(PULSE_LIBS) $(SDL_LIBS)
+ LIBS := $(LIBS) $(GTK_LIBS) $(VTE_LIBS) $(X11_LIBS) $(CURSES_LIBS) $(ICONV_LIBS) $(GIO_LIBS)
  endif
- LIBS := $(LIBS) $(BRLAPI_LIBS) $(SDL_LIBS) $(SPICE_LIBS)
-+LIBS := $(LIBS) $(COREAUDIO_LIBS) $(DSOUND_LIBS)
+-LIBS := $(LIBS) $(BRLAPI_LIBS) $(SDL_LIBS) $(SPICE_LIBS) $(OPENGL_LIBS)
++LIBS := $(LIBS) $(BRLAPI_LIBS) $(SDL_LIBS) $(SPICE_LIBS) $(OPENGL_LIBS) $(SECCOMP_LIBS)
+ LIBS := $(LIBS) $(COREAUDIO_LIBS) $(DSOUND_LIBS)
  
  # Hardware support
- ifeq ($(TARGET_NAME), sparc64)
-diff --git a/audio/Makefile.objs b/audio/Makefile.objs
-deleted file mode 100644
-index b4a4c11f31..0000000000
---- a/audio/Makefile.objs
-+++ /dev/null
-@@ -1,35 +0,0 @@
--common-obj-y = audio.o audio_legacy.o noaudio.o wavaudio.o mixeng.o
--common-obj-$(CONFIG_SPICE) += spiceaudio.o
--common-obj-$(CONFIG_AUDIO_COREAUDIO) += coreaudio.o
--common-obj-$(CONFIG_AUDIO_DSOUND) += dsoundaudio.o
--common-obj-$(CONFIG_AUDIO_WIN_INT) += audio_win_int.o
--common-obj-y += wavcapture.o
--
--coreaudio.o-libs := $(COREAUDIO_LIBS)
--dsoundaudio.o-libs := $(DSOUND_LIBS)
--
--# alsa module
--common-obj-$(CONFIG_AUDIO_ALSA) += alsa.mo
--alsa.mo-objs = alsaaudio.o
--alsa.mo-libs := $(ALSA_LIBS)
--
--# oss module
--common-obj-$(CONFIG_AUDIO_OSS) += oss.mo
--oss.mo-objs = ossaudio.o
--oss.mo-libs := $(OSS_LIBS)
--
--# pulseaudio module
--common-obj-$(CONFIG_AUDIO_PA) += pa.mo
--pa.mo-objs = paaudio.o
--pa.mo-libs := $(PULSE_LIBS)
--
--# sdl module
--common-obj-$(CONFIG_AUDIO_SDL) += sdl.mo
--sdl.mo-objs = sdlaudio.o
--sdl.mo-cflags := $(SDL_CFLAGS)
--sdl.mo-libs := $(SDL_LIBS)
--
--# jack module
--common-obj-$(CONFIG_AUDIO_JACK) += jack.mo
--jack.mo-objs = jackaudio.o
--jack.mo-libs := $(JACK_LIBS)
-diff --git a/audio/meson.build b/audio/meson.build
-new file mode 100644
-index 0000000000..15c06ba045
---- /dev/null
-+++ b/audio/meson.build
-@@ -0,0 +1,30 @@
-+softmmu_ss.add(files(
-+  'audio.c',
-+  'audio_legacy.c',
-+  'mixeng.c',
-+  'noaudio.c',
-+  'wavaudio.c',
-+  'wavcapture.c',
-+))
-+
-+softmmu_ss.add(when: [spice, 'CONFIG_SPICE'], if_true: files('spiceaudio.c'))
-+softmmu_ss.add(when: [coreaudio, 'CONFIG_AUDIO_COREAUDIO'], if_true: files('coreaudio.c'))
-+softmmu_ss.add(when: [dsound, 'CONFIG_AUDIO_DSOUND'], if_true: files('dsoundaudio.c'))
-+softmmu_ss.add(when: ['CONFIG_AUDIO_WIN_INT'], if_true: files('audio_win_int.c'))
-+
-+audio_modules = {}
-+foreach m : [
-+  ['CONFIG_AUDIO_ALSA', 'alsa', alsa, 'alsaaudio.c'],
-+  ['CONFIG_AUDIO_OSS', 'oss', oss, 'ossaudio.c'],
-+  ['CONFIG_AUDIO_PA', 'pa', pulse, 'paaudio.c'],
-+  ['CONFIG_AUDIO_SDL', 'sdl', sdl, 'sdlaudio.c'],
-+  ['CONFIG_AUDIO_JACK', 'jack', jack, 'jackaudio.c']
-+]
-+  if config_host.has_key(m[0])
-+    module_ss = ss.source_set()
-+    module_ss.add(when: m[2], if_true: files(m[3]))
-+    audio_modules += {m[1] : module_ss}
-+  endif
-+endforeach
-+
-+modules += {'audio': audio_modules}
 diff --git a/configure b/configure
-index 8109ac027e..396472b332 100755
+index 98252ca38a..a90dfc964b 100755
 --- a/configure
 +++ b/configure
-@@ -3763,6 +3763,8 @@ for drv in $audio_drv_list; do
-     alsa | try-alsa)
-     if $pkg_config alsa --exists; then
-         alsa_libs=$($pkg_config alsa --libs)
-+        alsa_cflags=$($pkg_config alsa --cflags)
-+        alsa=yes
-         if test "$drv" = "try-alsa"; then
-             audio_drv_list=$(echo "$audio_drv_list" | sed -e 's/try-alsa/alsa/')
-         fi
-@@ -3778,7 +3780,9 @@ for drv in $audio_drv_list; do
- 
-     pa | try-pa)
-     if $pkg_config libpulse --exists; then
-+        libpulse=yes
-         pulse_libs=$($pkg_config libpulse --libs)
-+        pulse_cflags=$($pkg_config libpulse --cflags)
-         if test "$drv" = "try-pa"; then
-             audio_drv_list=$(echo "$audio_drv_list" | sed -e 's/try-pa/pa/')
-         fi
-@@ -3821,6 +3825,7 @@ for drv in $audio_drv_list; do
- 
-     jack | try-jack)
-     if $pkg_config jack --exists; then
-+        libjack=yes
-         jack_libs=$($pkg_config jack --libs)
-         if test "$drv" = "try-jack"; then
-             audio_drv_list=$(echo "$audio_drv_list" | sed -e 's/try-jack/jack/')
-@@ -7032,11 +7037,22 @@ for drv in $audio_drv_list; do
- 	    echo "$def=y" >> $config_host_mak ;;
-     esac
- done
-+if test "$alsa" = "yes" ; then
-+    echo "CONFIG_ALSA=y" >> $config_host_mak
-+fi
- echo "ALSA_LIBS=$alsa_libs" >> $config_host_mak
-+echo "ALSA_CFLAGS=$alsa_cflags" >> $config_host_mak
-+if test "$libpulse" = "yes" ; then
-+    echo "CONFIG_LIBPULSE=y" >> $config_host_mak
-+fi
- echo "PULSE_LIBS=$pulse_libs" >> $config_host_mak
-+echo "PULSE_CFLAGS=$pulse_cflags" >> $config_host_mak
- echo "COREAUDIO_LIBS=$coreaudio_libs" >> $config_host_mak
- echo "DSOUND_LIBS=$dsound_libs" >> $config_host_mak
- echo "OSS_LIBS=$oss_libs" >> $config_host_mak
-+if test "$libjack" = "yes" ; then
-+    echo "CONFIG_LIBJACK=y" >> $config_host_mak
-+fi
- echo "JACK_LIBS=$jack_libs" >> $config_host_mak
- if test "$audio_win_int" = "yes" ; then
-   echo "CONFIG_AUDIO_WIN_INT=y" >> $config_host_mak
+@@ -7376,6 +7376,8 @@ if test "$preadv" = "yes" ; then
+ fi
+ if test "$fdt" != "no" ; then
+   echo "CONFIG_FDT=y" >> $config_host_mak
++  echo "FDT_CFLAGS=$fdt_cflags" >> $config_host_mak
++  echo "FDT_LIBS=$fdt_ldflags $fdt_libs" >> $config_host_mak
+ fi
+ if test "$membarrier" = "yes" ; then
+   echo "CONFIG_MEMBARRIER=y" >> $config_host_mak
 diff --git a/meson.build b/meson.build
-index 99daa91666..e1e70d4b48 100644
+index ca1e6906b7..ff200900ed 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -147,6 +147,20 @@ if 'CONFIG_XKBCOMMON' in config_host
-   xkbcommon = declare_dependency(compile_args: config_host['XKBCOMMON_CFLAGS'].split(),
-                                  link_args: config_host['XKBCOMMON_LIBS'].split())
+@@ -51,6 +51,7 @@ targetos = host_machine.system()
+ 
+ m = cc.find_library('m', required: false)
+ util = cc.find_library('util', required: false)
++winmm = []
+ socket = []
+ version_res = []
+ coref = []
+@@ -59,6 +60,7 @@ cocoa = []
+ hvf = []
+ if targetos == 'windows'
+   socket = cc.find_library('ws2_32')
++  winmm = cc.find_library('winmm')
+ 
+   win = import('windows')
+   version_res = win.compile_resources('version.rc',
+@@ -293,6 +295,11 @@ if 'CONFIG_VNC_SASL' in config_host
+   sasl = declare_dependency(compile_args: config_host['SASL_CFLAGS'].split(),
+                             link_args: config_host['SASL_LIBS'].split())
  endif
-+pulse = not_found
-+if 'CONFIG_LIBPULSE' in config_host
-+  pulse = declare_dependency(compile_args: config_host['PULSE_CFLAGS'].split(),
-+                             link_args: config_host['PULSE_LIBS'].split())
-+endif
-+alsa = not_found
-+if 'CONFIG_ALSA' in config_host
-+  alsa = declare_dependency(compile_args: config_host['ALSA_CFLAGS'].split(),
-+                            link_args: config_host['ALSA_LIBS'].split())
-+endif
-+jack = not_found
-+if 'CONFIG_LIBJACK' in config_host
-+  jack = declare_dependency(link_args: config_host['JACK_LIBS'].split())
-+endif
- spice = not_found
- if 'CONFIG_SPICE' in config_host
-   spice = declare_dependency(compile_args: config_host['SPICE_CFLAGS'].split(),
-@@ -217,6 +231,18 @@ liblzfse = not_found
- if 'CONFIG_LZFSE' in config_host
-   liblzfse = declare_dependency(link_args: config_host['LZFSE_LIBS'].split())
- endif
-+oss = not_found
-+if 'CONFIG_AUDIO_OSS' in config_host
-+  oss = declare_dependency(link_args: config_host['OSS_LIBS'].split())
-+endif
-+dsound = not_found
-+if 'CONFIG_AUDIO_DSOUND' in config_host
-+  dsound = declare_dependency(link_args: config_host['DSOUND_LIBS'].split())
-+endif
-+coreaudio = not_found
-+if 'CONFIG_AUDIO_COREAUDIO' in config_host
-+  coreaudio = declare_dependency(link_args: config_host['COREAUDIO_LIBS'].split())
++fdt = not_found
++if 'CONFIG_FDT' in config_host
++  fdt = declare_dependency(compile_args: config_host['FDT_CFLAGS'].split(),
++                           link_args: config_host['FDT_LIBS'].split())
 +endif
  
  create_config = find_program('scripts/create_config')
  minikconf = find_program('scripts/minikconf.py')
-@@ -518,6 +544,7 @@ libqemuutil = static_library('qemuutil',
- qemuutil = declare_dependency(link_with: libqemuutil,
-                               sources: genh + version_res)
+@@ -459,6 +466,7 @@ util_ss = ss.source_set()
+ stub_ss = ss.source_set()
+ trace_ss = ss.source_set()
+ block_ss = ss.source_set()
++blockdev_ss = ss.source_set()
+ common_ss = ss.source_set()
+ softmmu_ss = ss.source_set()
+ user_ss = ss.source_set()
+@@ -612,6 +620,31 @@ subdir('nbd')
+ subdir('scsi')
+ subdir('block')
  
-+subdir('audio')
- subdir('io')
- subdir('chardev')
- subdir('fsdev')
++blockdev_ss.add(files(
++  'blockdev.c',
++  'blockdev-nbd.c',
++  'iothread.c',
++  'job-qmp.c',
++))
++
++# os-posix.c contains POSIX-specific functions used by qemu-storage-daemon,
++# os-win32.c does not
++blockdev_ss.add(when: 'CONFIG_POSIX', if_true: files('os-posix.c'))
++softmmu_ss.add(when: 'CONFIG_WIN32', if_true: [files('os-win32.c')])
++
++softmmu_ss.add_all(blockdev_ss)
++softmmu_ss.add(files(
++  'bootdevice.c',
++  'dma-helpers.c',
++  'qdev-monitor.c',
++), sdl)
++
++softmmu_ss.add(when: 'CONFIG_TPM', if_true: files('tpm.c'))
++softmmu_ss.add(when: 'CONFIG_SECCOMP', if_true: [files('qemu-seccomp.c'), seccomp])
++softmmu_ss.add(when: ['CONFIG_FDT', fdt],  if_true: [files('device_tree.c')])
++
++common_ss.add(files('cpus-common.c'))
++
+ # needed for fuzzing binaries
+ subdir('tests/qtest/libqos')
+ 
 -- 
 2.26.2
 
