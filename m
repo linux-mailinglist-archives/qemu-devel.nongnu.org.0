@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1CD224D1E4
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 12:01:49 +0200 (CEST)
-Received: from localhost ([::1]:58418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A013224D1EA
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 12:03:00 +0200 (CEST)
+Received: from localhost ([::1]:34588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k93ro-0001tX-MD
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 06:01:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54354)
+	id 1k93sx-0003gT-Nj
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 06:02:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1k93q7-0000ba-NX
+ id 1k93q7-0000bg-VS
  for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:00:03 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:4261 helo=huawei.com)
+Received: from szxga05-in.huawei.com ([45.249.212.191]:4262 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1k93q5-0006xu-6R
+ id 1k93q5-0006xt-SX
  for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:00:03 -0400
 Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id DFEE79EABA96FE4E3528;
+ by Forcepoint Email with ESMTP id E4B4C5E6C4C136CFB5FA;
  Fri, 21 Aug 2020 17:59:51 +0800 (CST)
 Received: from [127.0.0.1] (10.174.186.4) by DGGEMS409-HUB.china.huawei.com
  (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0; Fri, 21 Aug 2020
- 17:59:42 +0800
+ 17:59:45 +0800
 From: Zheng Chuan <zhengchuan@huawei.com>
-Subject: Re: [PATCH v3 01/10] migration/dirtyrate: Add get_dirtyrate_thread()
- function
+Subject: Re: [PATCH v3 02/10] migration/dirtyrate: Add RamlockDirtyInfo to
+ store sampled page info
 To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 References: <1597634433-18809-1-git-send-email-zhengchuan@huawei.com>
- <1597634433-18809-2-git-send-email-zhengchuan@huawei.com>
- <20200820161137.GI2664@work-vm>
-Message-ID: <64065388-5a72-f0d7-e1b8-af18631b2dfb@huawei.com>
-Date: Fri, 21 Aug 2020 17:59:42 +0800
+ <1597634433-18809-3-git-send-email-zhengchuan@huawei.com>
+ <20200820162047.GJ2664@work-vm>
+Message-ID: <3f5ad1f2-59ab-6efd-c18e-2123dc771af8@huawei.com>
+Date: Fri, 21 Aug 2020 17:59:45 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200820161137.GI2664@work-vm>
+In-Reply-To: <20200820162047.GJ2664@work-vm>
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -73,171 +73,69 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 2020/8/21 0:11, Dr. David Alan Gilbert wrote:
+On 2020/8/21 0:20, Dr. David Alan Gilbert wrote:
 > * Chuan Zheng (zhengchuan@huawei.com) wrote:
->> Add get_dirtyrate_thread() functions
+>> Add RamlockDirtyInfo to store sampled page info of each ramblock.
 >>
 >> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
 >> Signed-off-by: YanYing Zhuang <ann.zhuangyanying@huawei.com>
 >> ---
->>  migration/Makefile.objs |  1 +
->>  migration/dirtyrate.c   | 64 +++++++++++++++++++++++++++++++++++++++++++++++++
->>  migration/dirtyrate.h   | 44 ++++++++++++++++++++++++++++++++++
->>  3 files changed, 109 insertions(+)
->>  create mode 100644 migration/dirtyrate.c
->>  create mode 100644 migration/dirtyrate.h
+>>  migration/dirtyrate.h | 18 ++++++++++++++++++
+>>  1 file changed, 18 insertions(+)
 >>
->> diff --git a/migration/Makefile.objs b/migration/Makefile.objs
->> index 0fc619e..12ae98c 100644
->> --- a/migration/Makefile.objs
->> +++ b/migration/Makefile.objs
->> @@ -6,6 +6,7 @@ common-obj-y += qemu-file.o global_state.o
->>  common-obj-y += qemu-file-channel.o
->>  common-obj-y += xbzrle.o postcopy-ram.o
->>  common-obj-y += qjson.o
->> +common-obj-y += dirtyrate.o
->>  common-obj-y += block-dirty-bitmap.o
->>  common-obj-y += multifd.o
->>  common-obj-y += multifd-zlib.o
->> diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
->> new file mode 100644
->> index 0000000..bb0ebe9
->> --- /dev/null
->> +++ b/migration/dirtyrate.c
->> @@ -0,0 +1,64 @@
->> +/*
->> + * Dirtyrate implement code
->> + *
->> + * Copyright (c) 2017-2020 HUAWEI TECHNOLOGIES CO.,LTD.
->> + *
->> + * Authors:
->> + *  Chuan Zheng <zhengchuan@huawei.com>
->> + *
->> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
->> + * See the COPYING file in the top-level directory.
->> + */
->> +
->> +#include "qemu/osdep.h"
->> +#include "qapi/error.h"
->> +#include "crypto/hash.h"
->> +#include "crypto/random.h"
->> +#include "qemu/config-file.h"
->> +#include "exec/memory.h"
->> +#include "exec/ramblock.h"
->> +#include "exec/target_page.h"
->> +#include "qemu/rcu_queue.h"
->> +#include "qapi/qapi-commands-migration.h"
->> +#include "migration.h"
->> +#include "dirtyrate.h"
->> +
->> +CalculatingDirtyRateState CalculatingState = CAL_DIRTY_RATE_INIT;
->> +
->> +static int dirty_rate_set_state(int new_state)
->> +{
->> +    int old_state = CalculatingState;
->> +
->> +    if (new_state == old_state) {
->> +        return -1;
->> +    }
->> +
->> +    if (atomic_cmpxchg(&CalculatingState, old_state, new_state) != old_state) {
->> +        return -1;
->> +    }
-> 
-> This is a little unusual; this has removed your comment from v1 about
-> what you're trying to protect; but not quite being clear about what it's
-> doing.
-> 
-> I think what you want here is closer to migrate_set_state, ie you
-> pass what you think the old state is, and the state you want to go to.
-> 
-Hi, Dave.
-Thank you for your review.
-
-Yes, what I want to do is to protect concurrent scene lockless, i'll rewrite
-according to migrate_set_state().
-
-
->> +    return 0;
->> +}
->> +
->> +static void calculate_dirtyrate(struct DirtyRateConfig config)
->> +{
->> +    /* todo */
->> +    return;
->> +}
->> +
->> +void *get_dirtyrate_thread(void *arg)
->> +{
->> +    struct DirtyRateConfig config = *(struct DirtyRateConfig *)arg;
->> +    int ret;
->> +
->> +    ret = dirty_rate_set_state(CAL_DIRTY_RATE_ACTIVE);
-> 
-> so this would become:
->     ret = dirty_rate_set_state(CAL_DIRTY_RATE_INIT,
->               CAL_DIRTY_RATE_ACTIVE);
-> 
->> +    if (ret == -1) {
->> +        return NULL;
->> +    }
->> +
->> +    calculate_dirtyrate(config);
->> +
->> +    ret = dirty_rate_set_state(CAL_DIRTY_RATE_END);
->> +
->> +    return NULL;
->> +}
 >> diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
->> new file mode 100644
->> index 0000000..914c363
->> --- /dev/null
+>> index 914c363..9650566 100644
+>> --- a/migration/dirtyrate.h
 >> +++ b/migration/dirtyrate.h
->> @@ -0,0 +1,44 @@
+>> @@ -19,6 +19,11 @@
+>>   */
+>>  #define DIRTYRATE_DEFAULT_SAMPLE_PAGES            256
+>>  
 >> +/*
->> + *  Dirtyrate common functions
->> + *
->> + *  Copyright (c) 2020 HUAWEI TECHNOLOGIES CO., LTD.
->> + *
->> + *  Authors:
->> + *  Chuan Zheng <zhengchuan@huawei.com>
->> + *
->> + *  This work is licensed under the terms of the GNU GPL, version 2 or later.
->> + *  See the COPYING file in the top-level directory.
+>> + * Record ramblock idstr
 >> + */
+>> +#define RAMBLOCK_INFO_MAX_LEN                     256
 >> +
->> +#ifndef QEMU_MIGRATION_DIRTYRATE_H
->> +#define QEMU_MIGRATION_DIRTYRATE_H
->> +
+>>  /* Take 1s as default for calculation duration */
+>>  #define DEFAULT_FETCH_DIRTYRATE_TIME_SEC          1
+>>  
+>> @@ -39,6 +44,19 @@ typedef enum {
+>>      CAL_DIRTY_RATE_END,
+>>  } CalculatingDirtyRateState;
+>>  
 >> +/*
->> + * Sample 256 pages per GB as default.
->> + * TODO: Make it configurable.
+>> + * Store dirtypage info for each ramblock.
 >> + */
->> +#define DIRTYRATE_DEFAULT_SAMPLE_PAGES            256
->> +
->> +/* Take 1s as default for calculation duration */
->> +#define DEFAULT_FETCH_DIRTYRATE_TIME_SEC          1
->> +
->> +struct DirtyRateConfig {
->> +    uint64_t sample_pages_per_gigabytes; /* sample pages per GB */
->> +    int64_t sample_period_seconds; /* time duration between two sampling */
+>> +struct RamblockDirtyInfo {
+>> +    char idstr[RAMBLOCK_INFO_MAX_LEN]; /* idstr for each ramblock */
+>> Can you remind me; why not just use RAMBlock* here of the block you're
+> interested in, rather than storing the name?
+>
+idstr is used to store which ramblock is sampled page in, we test it in
+find_page_matched().
+so you mean we just RAMBlock*, and take idstr out of RAMBlock* when it need to
+find matched page?
+
+>> +    uint8_t *ramblock_addr; /* base address of ramblock we measure */
+>> +    size_t ramblock_pages; /* sum of dividation by 4K pages for ramblock */
+> 
+> 'dividation' is the wrong word, and 'sum' is only needed where you're
+> adding things together.  I think this is 'ramblock size in TARGET_PAGEs'
+> 
+>> +    size_t *sample_page_vfn; /* relative offset address for sampled page */
+>> +    unsigned int sample_pages_count; /* sum of sampled pages */
+>> +    unsigned int sample_dirty_count; /* sum of dirty pages we measure */
+> 
+> These are both 'count' rather than 'sum'
+> 
+OK, will be fixed in V4:)
+
+>> +    uint8_t *hash_result; /* array of hash result for sampled pages */
 >> +};
 >> +
->> +/*
->> + *  To record calculate dirty_rate status:
->> + *  0: initial status, calculating thread is not be created here.
->> + *  1: calculating thread is created.
->> + *  2: calculating thread is end, we can get result.
->> + */
->> +typedef enum {
->> +    CAL_DIRTY_RATE_INIT = 0,
->> +    CAL_DIRTY_RATE_ACTIVE,
->> +    CAL_DIRTY_RATE_END,
->> +} CalculatingDirtyRateState;
->> +
->> +void *get_dirtyrate_thread(void *arg);
->> +#endif
->> +
+>>  void *get_dirtyrate_thread(void *arg);
+>>  #endif
+>>  
 >> -- 
 >> 1.8.3.1
 >>
