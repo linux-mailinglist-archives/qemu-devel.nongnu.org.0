@@ -2,78 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 721C824DE9C
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 19:36:25 +0200 (CEST)
-Received: from localhost ([::1]:40928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89A1424DE7E
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 19:33:05 +0200 (CEST)
+Received: from localhost ([::1]:52368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9Axk-0005AS-Fh
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 13:36:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57258)
+	id 1k9AuW-0006ig-JW
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 13:33:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k9Ar7-0001MO-Mq; Fri, 21 Aug 2020 13:29:33 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:53007)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k9Ar6-0001Ao-02; Fri, 21 Aug 2020 13:29:33 -0400
-Received: by mail-wm1-x343.google.com with SMTP id x5so2641302wmi.2;
- Fri, 21 Aug 2020 10:29:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=2uqKLIwnsolMGUBAKKhtdES03ym0NQX3Xf3uXXgGuNI=;
- b=GOFJCEte6vgw1DpRYWrf+Q0HHyQ6jO6cdeleJDLpiiak/0YzCONV0KKBNnURzWG8fQ
- Noa1jHIdqpTidGIrnVlHoS+AxzTt7HWna4Mp7/bHy27Z0rZ/Wq+3NdFXWUtOMDXIVqay
- RJ9sMD5FQ1lIdBFC6Vuy4rQVkfx43hWUxnZUMiz0NR9bWYv55JXYYPSoMJujEuu8L0yu
- eGX+MeJ3dsymOQRTyNySkvi4Iy1FZDZQe+mkRl3OtjtqjteEkZEInHN9XN2eVvDOmELB
- iu8M7ZsBpLQ3q3lHtnU8Sh9pdKlaVbnl/cPwSTGOK7KyASmv1QWx+zCU6e0QlV/IksAM
- JfFA==
+ (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
+ id 1k9Aqy-0000x2-CY
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 13:29:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45590)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
+ id 1k9Aqw-00018t-2x
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 13:29:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598030960;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=yssBjCFkhYJVn7rBgQ1cqCi+A+IaGus95z6duwo+VdQ=;
+ b=f5M+udPsWos56C/unxZHrKKTTE8rxguwJwiqKNte+xvi8sp1pek0rv/QA4HMm/p/o0hi4f
+ lOr1a4NyJ3fX2PNwqtXYNoSjZqCyCK44PcaRA9S2f+bZJobpMD+NaQwB/+SalDc18tMCRi
+ jzfolWdNcc1vm1nLzToOgkdOHVrSpUQ=
+Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
+ [209.85.161.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-484-3ykJWb4NOO65Ocwgcj9N-Q-1; Fri, 21 Aug 2020 13:29:17 -0400
+X-MC-Unique: 3ykJWb4NOO65Ocwgcj9N-Q-1
+Received: by mail-oo1-f69.google.com with SMTP id j9so1272711oom.9
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:29:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=2uqKLIwnsolMGUBAKKhtdES03ym0NQX3Xf3uXXgGuNI=;
- b=lSJeGsRFVadnf3H2L1ZB0zxcD/w8uu5bVvb03Y5fj1uYtmSEmfuHoPaUrVW/ECCtXQ
- TqOTdUoYbiGS3orI4aCYO/9NW9FkR2QTc2G9Id8JOijKhzIb9us9ZbD5g7FpJkDWGvNo
- 4i6isE2qzpprD8RLNftT0ThNS05NXBl/phopiRz5s+hnJFoXERt3HutWpLk6lwmdR4vX
- JOpnE5bENWHzU+6HHjaG5Fnqfy5gLML2uEr6it/m32vj2hdlLXmrZQ5zN+9co1Nxbbsh
- E9UDxJ8tv/BWFgE0oza4+KdHeohxgJzB9/+TrlJanLH8fdS9hOisL3NKYzdWcQALqjbr
- YUUQ==
-X-Gm-Message-State: AOAM533eKjun2ctbFAEX0gtSDJk8jIySuO6rQw7WS4vB4TYHzUsK9BRH
- 3vIG+/9IhsNGm7FMjC7FGXxI2BQDc5Q=
-X-Google-Smtp-Source: ABdhPJw8bSU0cDBYdXqx/w2ehEAFcH9OK9YmzU55s8zc4gGZ4LsyDpqb9+azdLjq7uzK77ZngB1fYA==
-X-Received: by 2002:a7b:cf22:: with SMTP id m2mr5009939wmg.46.1598030969538;
- Fri, 21 Aug 2020 10:29:29 -0700 (PDT)
-Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id 32sm5315471wrn.86.2020.08.21.10.29.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Aug 2020 10:29:28 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 07/23] hw/sd/pl181: Rename pl181_send_command() as
- pl181_do_command()
-Date: Fri, 21 Aug 2020 19:29:00 +0200
-Message-Id: <20200821172916.1260954-8-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200821172916.1260954-1-f4bug@amsat.org>
-References: <20200821172916.1260954-1-f4bug@amsat.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=yssBjCFkhYJVn7rBgQ1cqCi+A+IaGus95z6duwo+VdQ=;
+ b=DM+Nlpb2s3VB77q0d9y7tceko6u2QUTMD80mKsn7p2Eslor81w8ye+GWtJiMWm/o4W
+ mtzZxSsX+4aKG7fkhvDGmZ6tkMW/lVKcy0uXLxj5lfRpRWcvO2dgqhPVgcTsdWwG0ZCS
+ +lL0+/qcApX8mLNYIyBqYyC4I03DGOdOCyBaMLXhUR8qgy1NIYEEmTU7y4iXChMn6YUh
+ KnUPNfiTkSPo2qVFsA1Tywjv0elzgbYC9wB27MA/ppTQVlwosdhfkaFxkGUELTW8MKJq
+ 3hy4OMgJ6B1+4uBTC32WENyToQjqIbSuz8r4TYem3iXWDLmYTtsrDIbXxKVIYjB3WeD7
+ j7jQ==
+X-Gm-Message-State: AOAM5336YbF9RREV+VYgzTdiJQXV48GA/eKn9f6kM6PVawVCTMiaA8Th
+ etWBsiSi9C4WPIEF7Sd0+PcyAsp2MR3ytVPduGkus5JT3/9ioVxTbsDZdRMu55lMxJFz9HGOeCM
+ qxoDrwCUqghQ+cwwOra6Zdzufnyum0rE=
+X-Received: by 2002:a4a:101:: with SMTP id 1mr3071544oor.16.1598030956409;
+ Fri, 21 Aug 2020 10:29:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz1SBhbbTSVTB8M3JSZG9PbOhVQnAOOGPNo9SgbLdm2yDn2aO2ruHMlWX1uARmEu3f5bcyMTeTeMQCZTvfiplM=
+X-Received: by 2002:a4a:101:: with SMTP id 1mr3071524oor.16.1598030956158;
+ Fri, 21 Aug 2020 10:29:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20200821141123.28538-1-vsementsov@virtuozzo.com>
+ <20200821141123.28538-9-vsementsov@virtuozzo.com>
+In-Reply-To: <20200821141123.28538-9-vsementsov@virtuozzo.com>
+From: Nir Soffer <nsoffer@redhat.com>
+Date: Fri, 21 Aug 2020 20:29:00 +0300
+Message-ID: <CAMRbyyvdbxJj_PZVKMLepH0m97sCtp-AMX7RLXw-czBJuayfFg@mail.gmail.com>
+Subject: Re: [PATCH v5 08/10] iotests.py: add verify_o_direct helper
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=nsoffer@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=nsoffer@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 02:43:55
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,48 +91,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Beniamino Galvani <b.galvani@gmail.com>, Michael Walle <michael@walle.cc>,
- qemu-arm@nongnu.org, Alistair Francis <alistair.francis@wdc.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block <qemu-block@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ den@openvz.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-pl181_send_command() do a bus transaction (send or receive),
-rename it as pl181_do_command().
+On Fri, Aug 21, 2020 at 5:12 PM Vladimir Sementsov-Ogievskiy
+<vsementsov@virtuozzo.com> wrote:
+>
+> Add python notrun-helper similar to _check_o_direct for bash tests.
+> To be used in the following commit.
+>
+> Suggested-by: Nir Soffer <nsoffer@redhat.com>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  tests/qemu-iotests/iotests.py | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+>
+> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+> index 717b5b652c..7f1aa187a9 100644
+> --- a/tests/qemu-iotests/iotests.py
+> +++ b/tests/qemu-iotests/iotests.py
+> @@ -29,6 +29,7 @@ import struct
+>  import subprocess
+>  import sys
+>  import time
+> +import errno
+>  from typing import (Any, Callable, Dict, Iterable,
+>                      List, Optional, Sequence, Tuple, TypeVar)
+>  import unittest
+> @@ -1083,6 +1084,17 @@ def _verify_aio_mode(supported_aio_modes: Sequence[str] = ()) -> None:
+>      if supported_aio_modes and (aiomode not in supported_aio_modes):
+>          notrun('not suitable for this aio mode: %s' % aiomode)
+>
+> +def verify_o_direct() -> None:
+> +    with FilePath('test_o_direct') as f:
+> +        try:
+> +            fd = os.open(f, os.O_DIRECT | os.O_CREAT | os.O_RDWR)
+> +        except OSError as e:
+> +            if e.errno != errno.EINVAL:
+> +                raise
+> +            notrun(f'file system at {test_dir} does not support O_DIRECT')
+> +        else:
+> +            os.close(fd)
+> +
+>  def supports_quorum():
+>      return 'quorum' in qemu_img_pipe('--help')
+>
+> --
+> 2.21.3
+>
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Acked-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20200705204630.4133-3-f4bug@amsat.org>
----
- hw/sd/pl181.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/hw/sd/pl181.c b/hw/sd/pl181.c
-index 649386ec3d1..3fc2cdd71a1 100644
---- a/hw/sd/pl181.c
-+++ b/hw/sd/pl181.c
-@@ -173,7 +173,7 @@ static uint32_t pl181_fifo_pop(PL181State *s)
-     return value;
- }
- 
--static void pl181_send_command(PL181State *s)
-+static void pl181_do_command(PL181State *s)
- {
-     SDRequest request;
-     uint8_t response[16];
-@@ -402,7 +402,7 @@ static void pl181_write(void *opaque, hwaddr offset,
-                 qemu_log_mask(LOG_UNIMP,
-                               "pl181: Pending commands not implemented\n");
-             } else {
--                pl181_send_command(s);
-+                pl181_do_command(s);
-                 pl181_fifo_run(s);
-             }
-             /* The command has completed one way or the other.  */
--- 
-2.26.2
+Reviewed-by: Nir Soffer <nsoffer@redhat.com>
 
 
