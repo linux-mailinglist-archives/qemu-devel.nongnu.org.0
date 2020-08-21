@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F88D24D24F
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 12:29:08 +0200 (CEST)
-Received: from localhost ([::1]:54088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1561324D248
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 12:27:50 +0200 (CEST)
+Received: from localhost ([::1]:45812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k94IF-00026v-Ht
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 06:29:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59348)
+	id 1k94Gz-0007CW-2L
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 06:27:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k94D3-0000T3-Cs
+ id 1k94D3-0000SX-5H
  for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:23:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47073)
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52315
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k94D1-0001QU-Ei
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:23:45 -0400
+ id 1k94Cz-0001QN-N3
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:23:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1598005421;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dVGF3E7lJx6P6MKIaUk/hhZTTCuLXFQFlFFNyp8bJj4=;
- b=c7LM9AATke7QS33QntnK76v3Rma8DDFTd+utM9POvqsKmDtxSl1RSdM44uvd4ms1NYGxd+
- oUOm1Yzr+2Jp1AnTGqPTYTOYaVFnG9EIhWGzvl0NezS6iBsjNkXfM1DI/M+c+BQ27sv8T3
- +VZMN2qfNh/bfwMmDQs3swf7onn2/0c=
+ bh=0a0pdxj8URCPTrQRCRURzIJ/7kye+CS6zcsdxJWquRA=;
+ b=ZcbcshrnM6kEEBPvnvb9rEs7N4TB5SYCSyCu4v9nSDAeYJDGtyyIW4pVEMRH9IkY02C78u
+ NmdESxKid5xF/PxBjMYWbp7zUIiaP2bnnEKxlvDuxbDVaM3XRUuELn1/kv1GzszKyI2M6P
+ wkpaY8YA9usdA6p95g4wJQlFs+0120M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-303--OSF2e7WPhObF1C6GH5qBg-1; Fri, 21 Aug 2020 06:23:38 -0400
-X-MC-Unique: -OSF2e7WPhObF1C6GH5qBg-1
+ us-mta-525-qxQr2sRaOr2AlJ25p2dLVA-1; Fri, 21 Aug 2020 06:23:39 -0400
+X-MC-Unique: qxQr2sRaOr2AlJ25p2dLVA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80052191E2A1
- for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:23:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76BDC10082E0
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:23:38 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3D79E19C78;
- Fri, 21 Aug 2020 10:23:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4548A19C78
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:23:38 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v8 003/152] pc-bios/s390-ccw: do not use rules.mak
-Date: Fri, 21 Aug 2020 06:21:00 -0400
-Message-Id: <20200821102329.29777-4-pbonzini@redhat.com>
+Subject: [PULL v8 006/152] meson: rename .inc.h files to .h.inc
+Date: Fri, 21 Aug 2020 06:21:03 -0400
+Message-Id: <20200821102329.29777-7-pbonzini@redhat.com>
 In-Reply-To: <20200821102329.29777-1-pbonzini@redhat.com>
 References: <20200821102329.29777-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 04:26:32
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 04:55:47
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
 X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,49 +82,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+Make it consistent with '.c.inc' and '.rst.inc'.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- pc-bios/s390-ccw/Makefile | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+ include/exec/cpu-all.h                               | 10 +++++-----
+ include/exec/memory.h                                | 12 ++++++------
+ .../exec/{memory_ldst.inc.h => memory_ldst.h.inc}    |  0
+ ...ry_ldst_cached.inc.h => memory_ldst_cached.h.inc} |  0
+ ...memory_ldst_phys.inc.h => memory_ldst_phys.h.inc} |  0
+ target/s390x/cpu_features.c                          |  2 +-
+ target/s390x/cpu_features_def.h                      |  2 +-
+ ...cpu_features_def.inc.h => cpu_features_def.h.inc} |  0
+ 8 files changed, 13 insertions(+), 13 deletions(-)
+ rename include/exec/{memory_ldst.inc.h => memory_ldst.h.inc} (100%)
+ rename include/exec/{memory_ldst_cached.inc.h => memory_ldst_cached.h.inc} (100%)
+ rename include/exec/{memory_ldst_phys.inc.h => memory_ldst_phys.h.inc} (100%)
+ rename target/s390x/{cpu_features_def.inc.h => cpu_features_def.h.inc} (100%)
 
-diff --git a/pc-bios/s390-ccw/Makefile b/pc-bios/s390-ccw/Makefile
-index 50bc880272..cc0f77baa6 100644
---- a/pc-bios/s390-ccw/Makefile
-+++ b/pc-bios/s390-ccw/Makefile
-@@ -3,10 +3,26 @@ all: build-all
- 	@true
+diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
+index fc403d456b..f6439c4705 100644
+--- a/include/exec/cpu-all.h
++++ b/include/exec/cpu-all.h
+@@ -189,13 +189,13 @@ extern unsigned long reserved_va;
+ #define ARG1         as
+ #define ARG1_DECL    AddressSpace *as
+ #define TARGET_ENDIANNESS
+-#include "exec/memory_ldst.inc.h"
++#include "exec/memory_ldst.h.inc"
  
- include ../../config-host.mak
--include $(SRC_PATH)/rules.mak
+ #define SUFFIX       _cached_slow
+ #define ARG1         cache
+ #define ARG1_DECL    MemoryRegionCache *cache
+ #define TARGET_ENDIANNESS
+-#include "exec/memory_ldst.inc.h"
++#include "exec/memory_ldst.h.inc"
  
-+quiet-command = $(if $(V),$1,$(if $(2),@printf "  %-7s %s\n" $2 $3 && $1, @$1))
-+cc-option = $(if $(shell $(CC) $1 -S -o /dev/null -xc /dev/null > /dev/null \
-+	      2>&1 && echo OK), $1, $2)
-+
-+VPATH_SUFFIXES = %.c %.h %.S %.m %.mak %.sh %.rc Kconfig% %.json.in
-+set-vpath = $(if $1,$(foreach PATTERN,$(VPATH_SUFFIXES),$(eval vpath $(PATTERN) $1)))
- $(call set-vpath, $(SRC_PATH)/pc-bios/s390-ccw)
+ static inline void stl_phys_notdirty(AddressSpace *as, hwaddr addr, uint32_t val)
+ {
+@@ -207,17 +207,17 @@ static inline void stl_phys_notdirty(AddressSpace *as, hwaddr addr, uint32_t val
+ #define ARG1         as
+ #define ARG1_DECL    AddressSpace *as
+ #define TARGET_ENDIANNESS
+-#include "exec/memory_ldst_phys.inc.h"
++#include "exec/memory_ldst_phys.h.inc"
  
-+# Flags for dependency generation
-+QEMU_DGFLAGS = -MMD -MP -MT $@ -MF $(@D)/$(*F).d
-+
-+%.o: %.c
-+	$(call quiet-command,$(CC) $(QEMU_CFLAGS) $(QEMU_DGFLAGS) $(CFLAGS) \
-+	       -c -o $@ $<,"CC","$(TARGET_DIR)$@")
-+
-+%.o: %.S
-+	$(call quiet-command,$(CCAS) $(QEMU_CFLAGS) $(QEMU_DGFLAGS) $(CFLAGS) \
-+	       -c -o $@ $<,"CCAS","$(TARGET_DIR)$@")
-+
- .PHONY : all clean build-all
+ /* Inline fast path for direct RAM access.  */
+ #define ENDIANNESS
+-#include "exec/memory_ldst_cached.inc.h"
++#include "exec/memory_ldst_cached.h.inc"
  
- OBJECTS = start.o main.o bootmap.o jump2ipl.o sclp.o menu.o \
+ #define SUFFIX       _cached
+ #define ARG1         cache
+ #define ARG1_DECL    MemoryRegionCache *cache
+ #define TARGET_ENDIANNESS
+-#include "exec/memory_ldst_phys.inc.h"
++#include "exec/memory_ldst_phys.h.inc"
+ #endif
+ 
+ /* page related stuff */
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 307e527835..0cfe987ab4 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -2133,12 +2133,12 @@ MemTxResult address_space_write_rom(AddressSpace *as, hwaddr addr,
+ #define SUFFIX
+ #define ARG1         as
+ #define ARG1_DECL    AddressSpace *as
+-#include "exec/memory_ldst.inc.h"
++#include "exec/memory_ldst.h.inc"
+ 
+ #define SUFFIX
+ #define ARG1         as
+ #define ARG1_DECL    AddressSpace *as
+-#include "exec/memory_ldst_phys.inc.h"
++#include "exec/memory_ldst_phys.h.inc"
+ 
+ struct MemoryRegionCache {
+     void *ptr;
+@@ -2179,7 +2179,7 @@ struct MemoryRegionCache {
+ #define SUFFIX       _cached_slow
+ #define ARG1         cache
+ #define ARG1_DECL    MemoryRegionCache *cache
+-#include "exec/memory_ldst.inc.h"
++#include "exec/memory_ldst.h.inc"
+ 
+ /* Inline fast path for direct RAM access.  */
+ static inline uint8_t address_space_ldub_cached(MemoryRegionCache *cache,
+@@ -2205,15 +2205,15 @@ static inline void address_space_stb_cached(MemoryRegionCache *cache,
+ }
+ 
+ #define ENDIANNESS   _le
+-#include "exec/memory_ldst_cached.inc.h"
++#include "exec/memory_ldst_cached.h.inc"
+ 
+ #define ENDIANNESS   _be
+-#include "exec/memory_ldst_cached.inc.h"
++#include "exec/memory_ldst_cached.h.inc"
+ 
+ #define SUFFIX       _cached
+ #define ARG1         cache
+ #define ARG1_DECL    MemoryRegionCache *cache
+-#include "exec/memory_ldst_phys.inc.h"
++#include "exec/memory_ldst_phys.h.inc"
+ 
+ /* address_space_cache_init: prepare for repeated access to a physical
+  * memory region
+diff --git a/include/exec/memory_ldst.inc.h b/include/exec/memory_ldst.h.inc
+similarity index 100%
+rename from include/exec/memory_ldst.inc.h
+rename to include/exec/memory_ldst.h.inc
+diff --git a/include/exec/memory_ldst_cached.inc.h b/include/exec/memory_ldst_cached.h.inc
+similarity index 100%
+rename from include/exec/memory_ldst_cached.inc.h
+rename to include/exec/memory_ldst_cached.h.inc
+diff --git a/include/exec/memory_ldst_phys.inc.h b/include/exec/memory_ldst_phys.h.inc
+similarity index 100%
+rename from include/exec/memory_ldst_phys.inc.h
+rename to include/exec/memory_ldst_phys.h.inc
+diff --git a/target/s390x/cpu_features.c b/target/s390x/cpu_features.c
+index 9f817e3cfa..31ea8df246 100644
+--- a/target/s390x/cpu_features.c
++++ b/target/s390x/cpu_features.c
+@@ -23,7 +23,7 @@
+         .desc = _DESC,                             \
+     },
+ static const S390FeatDef s390_features[S390_FEAT_MAX] = {
+-    #include "cpu_features_def.inc.h"
++    #include "cpu_features_def.h.inc"
+ };
+ #undef DEF_FEAT
+ 
+diff --git a/target/s390x/cpu_features_def.h b/target/s390x/cpu_features_def.h
+index 412d356feb..87df31848e 100644
+--- a/target/s390x/cpu_features_def.h
++++ b/target/s390x/cpu_features_def.h
+@@ -17,7 +17,7 @@
+ 
+ #define DEF_FEAT(_FEAT, ...) S390_FEAT_##_FEAT,
+ typedef enum {
+-    #include "cpu_features_def.inc.h"
++    #include "cpu_features_def.h.inc"
+     S390_FEAT_MAX,
+ } S390Feat;
+ #undef DEF_FEAT
+diff --git a/target/s390x/cpu_features_def.inc.h b/target/s390x/cpu_features_def.h.inc
+similarity index 100%
+rename from target/s390x/cpu_features_def.inc.h
+rename to target/s390x/cpu_features_def.h.inc
 -- 
 2.26.2
 
