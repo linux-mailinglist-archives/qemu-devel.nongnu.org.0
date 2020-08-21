@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DDEC24D36B
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 13:01:01 +0200 (CEST)
-Received: from localhost ([::1]:45650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35C2124D398
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 13:12:48 +0200 (CEST)
+Received: from localhost ([::1]:39668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k94n6-00009D-21
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 07:01:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60648)
+	id 1k94yV-0004H1-8K
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 07:12:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k94EA-00030F-L2
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:24:54 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42361
- helo=us-smtp-1.mimecast.com)
+ id 1k94Ec-0003Ss-5I
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:25:22 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53284
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k94E7-0001j7-EA
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:24:54 -0400
+ id 1k94EO-0001qB-8S
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:25:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598005490;
+ s=mimecast20190719; t=1598005505;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EqxqYSBV7uEMenTXBSHXyP24ul4XVhFr0o+0x9l/sqA=;
- b=NqTPVwbOR/W11+j8g3Cr/oQdVYFJFB1FaVsxrk+z8TI8ezuQnAVlpNhQ05hBdtRGpT0dL2
- JBbHtQzdD8yAFvnzJ3YToazSiGaZT/977pwyn/oABc/R+KHz+KV5HEw8u6THHhOf5a8TRz
- qxOjeLhKX9PcPGJafUaZp4UaIDuEsVk=
+ bh=Zph8b3o0acW1hqgMdUrd8CqQt9M1Q9Sg6LBnXV8UIfQ=;
+ b=Dlc3omhzen/XLYI7Z6hDsEMSU5p4ZG1BU3doTemIXj3U+q6eDUOO6wsTHHV6eZIa78zOlf
+ o+lrdWlxfsCLAT7AgM/UqmyT/4GpzGxuNcuqqW6Xc3DUZ462RbV/WuYzAPhU36STWZS3Kf
+ bzw3jPXwIqCt0MN59gjF9uAAz3fllFs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-350-s5S1fR9WMgKlOVBQ21Omgw-1; Fri, 21 Aug 2020 06:24:49 -0400
-X-MC-Unique: s5S1fR9WMgKlOVBQ21Omgw-1
+ us-mta-194-Mlbw3i57NCuozj4R2otREw-1; Fri, 21 Aug 2020 06:25:03 -0400
+X-MC-Unique: Mlbw3i57NCuozj4R2otREw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 405CA100CF71
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD5F51009440
  for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:24:47 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F3B0A795AE;
- Fri, 21 Aug 2020 10:24:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5B33C795AE;
+ Fri, 21 Aug 2020 10:24:47 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v8 091/152] meson: convert hw/mem
-Date: Fri, 21 Aug 2020 06:22:28 -0400
-Message-Id: <20200821102329.29777-92-pbonzini@redhat.com>
+Subject: [PULL v8 092/152] meson: convert hw/watchdog
+Date: Fri, 21 Aug 2020 06:22:29 -0400
+Message-Id: <20200821102329.29777-93-pbonzini@redhat.com>
 In-Reply-To: <20200821102329.29777-1-pbonzini@redhat.com>
 References: <20200821102329.29777-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 23:41:39
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 01:00:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -82,76 +82,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/Makefile.objs     | 1 -
- hw/mem/Kconfig       | 1 +
- hw/mem/Makefile.objs | 3 ---
- hw/mem/meson.build   | 6 ++++++
- hw/meson.build       | 1 +
- 5 files changed, 8 insertions(+), 4 deletions(-)
- delete mode 100644 hw/mem/Makefile.objs
- create mode 100644 hw/mem/meson.build
+ hw/Makefile.objs          | 1 -
+ hw/meson.build            | 1 +
+ hw/watchdog/Makefile.objs | 7 -------
+ hw/watchdog/meson.build   | 7 +++++++
+ 4 files changed, 8 insertions(+), 8 deletions(-)
+ delete mode 100644 hw/watchdog/Makefile.objs
+ create mode 100644 hw/watchdog/meson.build
 
 diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index 73c49ddd3b..df72b25a64 100644
+index df72b25a64..9ebd13d7cd 100644
 --- a/hw/Makefile.objs
 +++ b/hw/Makefile.objs
-@@ -34,7 +34,6 @@ devices-dirs-y += usb/
+@@ -33,7 +33,6 @@ devices-dirs-$(CONFIG_TPM) += tpm/
+ devices-dirs-y += usb/
  devices-dirs-$(CONFIG_VFIO) += vfio/
  devices-dirs-y += virtio/
- devices-dirs-y += watchdog/
--devices-dirs-$(CONFIG_MEM_DEVICE) += mem/
+-devices-dirs-y += watchdog/
  endif
  
  common-obj-y += $(devices-dirs-y)
-diff --git a/hw/mem/Kconfig b/hw/mem/Kconfig
-index c27844900d..a0ef2cf648 100644
---- a/hw/mem/Kconfig
-+++ b/hw/mem/Kconfig
-@@ -9,3 +9,4 @@ config NVDIMM
-     bool
-     default y
-     depends on (PC || PSERIES || ARM_VIRT)
-+    select MEM_DEVICE
-diff --git a/hw/mem/Makefile.objs b/hw/mem/Makefile.objs
-deleted file mode 100644
-index 56345befd0..0000000000
---- a/hw/mem/Makefile.objs
-+++ /dev/null
-@@ -1,3 +0,0 @@
--common-obj-$(CONFIG_DIMM) += pc-dimm.o
--common-obj-y += memory-device.o
--common-obj-$(CONFIG_NVDIMM) += nvdimm.o
-diff --git a/hw/mem/meson.build b/hw/mem/meson.build
-new file mode 100644
-index 0000000000..ba424622bb
---- /dev/null
-+++ b/hw/mem/meson.build
-@@ -0,0 +1,6 @@
-+mem_ss = ss.source_set()
-+mem_ss.add(files('memory-device.c'))
-+mem_ss.add(when: 'CONFIG_DIMM', if_true: files('pc-dimm.c'))
-+mem_ss.add(when: 'CONFIG_NVDIMM', if_true: files('nvdimm.c'))
-+
-+softmmu_ss.add_all(when: 'CONFIG_MEM_DEVICE', if_true: mem_ss)
 diff --git a/hw/meson.build b/hw/meson.build
-index dccc2d19a6..542d675618 100644
+index 542d675618..f2209d900c 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
-@@ -1,4 +1,5 @@
- subdir('core')
-+subdir('mem')
+@@ -3,4 +3,5 @@ subdir('mem')
  subdir('nubus')
  subdir('semihosting')
  subdir('smbios')
++subdir('watchdog')
+ subdir('xen')
+diff --git a/hw/watchdog/Makefile.objs b/hw/watchdog/Makefile.objs
+deleted file mode 100644
+index 631b711d86..0000000000
+--- a/hw/watchdog/Makefile.objs
++++ /dev/null
+@@ -1,7 +0,0 @@
+-common-obj-y += watchdog.o
+-common-obj-$(CONFIG_CMSDK_APB_WATCHDOG) += cmsdk-apb-watchdog.o
+-common-obj-$(CONFIG_WDT_IB6300ESB) += wdt_i6300esb.o
+-common-obj-$(CONFIG_WDT_IB700) += wdt_ib700.o
+-common-obj-$(CONFIG_WDT_DIAG288) += wdt_diag288.o
+-common-obj-$(CONFIG_ASPEED_SOC) += wdt_aspeed.o
+-common-obj-$(CONFIG_WDT_IMX2) += wdt_imx2.o
+diff --git a/hw/watchdog/meson.build b/hw/watchdog/meson.build
+new file mode 100644
+index 0000000000..9b8725e642
+--- /dev/null
++++ b/hw/watchdog/meson.build
+@@ -0,0 +1,7 @@
++softmmu_ss.add(files('watchdog.c'))
++softmmu_ss.add(when: 'CONFIG_CMSDK_APB_WATCHDOG', if_true: files('cmsdk-apb-watchdog.c'))
++softmmu_ss.add(when: 'CONFIG_WDT_IB6300ESB', if_true: files('wdt_i6300esb.c'))
++softmmu_ss.add(when: 'CONFIG_WDT_IB700', if_true: files('wdt_ib700.c'))
++softmmu_ss.add(when: 'CONFIG_WDT_DIAG288', if_true: files('wdt_diag288.c'))
++softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('wdt_aspeed.c'))
++softmmu_ss.add(when: 'CONFIG_WDT_IMX2', if_true: files('wdt_imx2.c'))
 -- 
 2.26.2
 
