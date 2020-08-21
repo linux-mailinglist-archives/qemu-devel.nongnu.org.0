@@ -2,107 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E43C724DFEA
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 20:46:31 +0200 (CEST)
-Received: from localhost ([::1]:35064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA84B24E033
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 20:58:43 +0200 (CEST)
+Received: from localhost ([::1]:42132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9C3b-00045I-1J
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 14:46:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50552)
+	id 1k9CFO-0007zS-F7
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 14:58:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1k9C2Q-0003bY-Q5
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 14:45:18 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:36167)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1k9C2O-0002pd-Pc
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 14:45:18 -0400
-Received: from [192.168.100.1] ([82.252.135.186]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1N8nrc-1kfrIP3782-015oSW; Fri, 21 Aug 2020 20:45:11 +0200
-Subject: Re: [PULL 00/14] Linux user for 5.2 patches
-References: <20200813064923.263565-1-laurent@vivier.eu>
- <CAFEAcA9NUR6jzCypJv4pC-ghvzjk2ErfFJ65j6A=r1LUbzp6cw@mail.gmail.com>
-To: Filip Bozuta <Filip.Bozuta@syrmia.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <e7074486-fa9f-48e5-5cd1-61cb499d17f1@vivier.eu>
-Date: Fri, 21 Aug 2020 20:45:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1k9CDt-0007QP-Vg; Fri, 21 Aug 2020 14:57:10 -0400
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:46969)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1k9CDs-0004Ig-5o; Fri, 21 Aug 2020 14:57:09 -0400
+Received: by mail-io1-xd41.google.com with SMTP id 4so2712772ion.13;
+ Fri, 21 Aug 2020 11:57:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/7TCHOUJN5psz1qKuB5aTkaFDEXQBiISdiUA2hpBvVo=;
+ b=aKabJKGaH60pRdfMNqGWVl8YIOjQcwvvkQ2UWZdb++nVtNtE8iA6LP4hUquIlLtKWC
+ Jgu2+scpzmfHcwTSUfZg0ykleJEyRx5Gr09pFH8nmnkHX6AffALK3ie7Y6L9wp1KKiTF
+ ENRZmFUPbtoqdvpGAY7d+F54AZMvaOQikHEaQPjF0bv0RSptNf2Rcc7LiS72zLxqMvBA
+ d5BA0Np+fH0GKRwKAwCBGetcnLpu2X+IfwNcfFR5c5+NW4uVXoYx2Zg+ZTo+6CXz21Sj
+ eOzO53F40KbrgKCxHcq2LIlArqgVD7uazwb30sXY4AmPMlINLNVI9NJNp5BSqZ3duUWK
+ SrGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/7TCHOUJN5psz1qKuB5aTkaFDEXQBiISdiUA2hpBvVo=;
+ b=EJHMvh2JIgX6Bu854mPYHI4wfdQqHCgvResS8mFebwCGu/t/rFZFuVF3Jgrsr7gjH1
+ gifQ/+rjWIcndZ/k26T0RxNj/TONkoIFcvNOCHNt8i9qYbwGuW/BOQRbFyq0AMWX6OD5
+ VPbWOmV9t6chWaJboRnPH1HhffbLa17Irr+5Z5k2p2vB4MRCMCPWnEW4jJP84vEOLOCR
+ axZwhFFDRinewtoUKqRHWUUi13ECyCUbNfxPo/XDdWUfoTJZtgjzbz6I38/QUbdPn7or
+ sCWjMjRB5L8TIhlOTcmCoUmXaXTHRyKfW3Vg/VCt588gLLAUsXWNFRSzKmsQvO433IbM
+ xkWA==
+X-Gm-Message-State: AOAM530SknYVZrJ9V+FjpbWOZKJ98AhSGXtkszzOdFaicESJNSfJi3Rr
+ Fs2TS1ggEmezzt0mQAsVySwcVizd9fzmULZY3cE=
+X-Google-Smtp-Source: ABdhPJzjf8PiKtGJGk1VVHuHCsdhiEA809LtQK2XLoyqvJM5CJvGZtWAku5Ioxewsn5+cFo7avjPYVZJHdSozJuumCo=
+X-Received: by 2002:a02:84c1:: with SMTP id f59mr3845481jai.106.1598036226512; 
+ Fri, 21 Aug 2020 11:57:06 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9NUR6jzCypJv4pC-ghvzjk2ErfFJ65j6A=r1LUbzp6cw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:mADKE0IhAC8A5MzdJTyZD+w2pYaXHpUlJUeJRw0MYteJCkUjhdY
- QMYy2oIBCRh/5BdClKdjDOMSjpZ7oPQ66z2uCg0e4T42/4hxbgeNh7hwPBTEnwx57kqxPnG
- CDXBdbmlOHH9SkSquSl9xLhkpst/em4bmuhTNxFqb/v1QQnuHGwk0B9IEgYink6LCgkRHrK
- 7g5/rVlUWxPk2E05SBbFQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:kB3V+dPV2E8=:ce4cNaqXz7W2gKr8Rem+G1
- znPBveRKBdjcNKVU4Yk0bmIl0HKtE0RVI24zZSLFoLlbo6ZZQAhKJsd08UvkcegyjhLTUBKoK
- /iB8nuouAgCM3n4eAmj2Ikxi1WM5ehLRJ2PQFJB6+30WI/4BvaLRJICx8+zvjDfNt0xDqubyd
- 3mza1gU29XinRZ0qbViinbUMowN0E3eP3B1LPj5fMwNBUzTStiHVqvG7xhx/TkDFyezZIMkWS
- k/RAVz5a7+QUoJy/HhO2+9m8S0fkaJMzoJuBfcJm9A+EE9/oQevJJxQUrR2IZyJaKq9vdO22L
- uB/HDaFcLlODky+r8YgWDOczVr1YVtg0OY6LJjB+LHheegMuJzba5CL4zQSbKbyTytDLrULoh
- 4XaYuGF5Cs6cn79U1DgFTY8gS4gSHgDCZ4d/t8yEipFic6yC+x/VlMuuAoh65Ja/4iUPtyWUw
- w0hwKbJkyR0mFkF7QabvxQAPz6OhaoUTRdCHURs+dFoeeCk1avV5cHdrmje7p70wBwVsgP9O8
- oT/n1fJfysXmZbSRKOs2gXB3fR/8NdYJv2Pnl3W9mG3kAxUQdgpv+TSEfOzJnmTNIn9A8gysc
- gvNu+TTc/BM0jXSzcRmhS850xdpPip6HRA8qEFxWT0S3qwsWDXiY3ZE+A0gTlVLeLEo6VWmXx
- 2PVvUABQiz0le+a709quP1JK5xuTVnCJlVkZWkcsAXBEh8OTQ2RZgVKu1rRa4pnBibibZf4Sa
- DI8B05svXKMhJRlq13kUqeNE8qhVLTmhZ2Wyir2c31jUt14mqXWlzd/satwwX+gSLkVOCVBD9
- TcRmkIs4OUfoK6j9JMkslM7UpqyosW5yBSNoX6Bslvm1+r3A6QSxC0dmdm81bI/NcvFfGZq
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 14:45:13
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <1597423256-14847-1-git-send-email-bmeng.cn@gmail.com>
+ <1597423256-14847-16-git-send-email-bmeng.cn@gmail.com>
+In-Reply-To: <1597423256-14847-16-git-send-email-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 21 Aug 2020 11:46:29 -0700
+Message-ID: <CAKmqyKNV02XKsf4oGS8cguC7=+mofj-EpEmsHG6a73BR_6YqMA@mail.gmail.com>
+Subject: Re: [PATCH 15/18] hw/riscv: microchip_pfsoc: Connect 2 Cadence GEMs
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd41.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -115,63 +78,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Filip,
+On Fri, Aug 14, 2020 at 9:51 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> From: Bin Meng <bin.meng@windriver.com>
+>
+> Microchip PolarFire SoC integrates 2 Candence GEMs to provide
+> IEEE 802.3 standard-compliant 10/100/1000 Mbps ethernet interface.
+>
+> On the Icicle Kit board, GEM0 connects to a PHY at address 8 while
+> GEM1 connects to a PHY at address 9.
+>
+> The 2nd stage bootloader (U-Boot) is using GEM1 by default, so we
+> must specify 2 '-nic' options from the command line in order to get
+> a working ethernet.
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-could you have a look to see what's going wrong?
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Thanks,
-LAurent
+Alistair
 
-Le 21/08/2020 à 18:23, Peter Maydell a écrit :
-> On Thu, 13 Aug 2020 at 07:51, Laurent Vivier <laurent@vivier.eu> wrote:
->>
->> The following changes since commit d0ed6a69d399ae193959225cdeaa9382746c91cc:
->>
->>   Update version for v5.1.0 release (2020-08-11 17:07:03 +0100)
->>
->> are available in the Git repository at:
->>
->>   git://github.com/vivier/qemu.git tags/linux-user-for-5.2-pull-request
->>
->> for you to fetch changes up to 04275cad60c8f99e0dd7f56aecda68ceac926da8:
->>
->>   linux-user: Fix 'utimensat()' implementation (2020-08-12 10:09:58 +0200)
->>
->> ----------------------------------------------------------------
->> Add btrfs ioctls
->> Add clock_getres_time64, timer_gettime64, timer_settime64,
->>     timerfd_gettime64, timerfd_settime64
->> Some fixes (page protection, print_fdset, timerspec, itimerspec)
->>
->> ----------------------------------------------------------------
-> 
-> Fails to compile:
-> 
-> ../../linux-user/syscall_types.h:407:28: error:
-> ‘BTRFS_INO_LOOKUP_USER_PATH_MAX’ undeclared here (not in a function);
-> did you mean ‘BTRFS_INO_LOOKUP_PATH_MAX’?
->         MK_ARRAY(TYPE_CHAR, BTRFS_INO_LOOKUP_USER_PATH_MAX)) /* path */
->                             ^
-> 
-> ../../linux-user/syscall_types.h:451:17: error:
-> ‘BTRFS_MAX_ROOTREF_BUFFER_NUM’ undeclared here (not in a function)
->                  BTRFS_MAX_ROOTREF_BUFFER_NUM), /* rootref */
->                  ^
-> 
-> On PPC, even more errors, relating to not having
-> BTRFS_PATH_NAME_MAX, PTRFS_VOL_NAME_MAX, etc.
-> 
-> Not sure if this was a semantic conflict with the meson
-> conversion, or just an assumption of a newer btrfs.h
-> than some systems have.
-> 
-> thanks
-> -- PMM
-> 
-
+> ---
+>
+>  hw/riscv/microchip_pfsoc.c         | 39 ++++++++++++++++++++++++++++++++++++++
+>  include/hw/riscv/microchip_pfsoc.h |  7 +++++++
+>  2 files changed, 46 insertions(+)
+>
+> diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
+> index 1c67cbc..625b511 100644
+> --- a/hw/riscv/microchip_pfsoc.c
+> +++ b/hw/riscv/microchip_pfsoc.c
+> @@ -14,6 +14,7 @@
+>   * 3) MMUARTs (Multi-Mode UART)
+>   * 4) Cadence eMMC/SDHC controller and an SD card connected to it
+>   * 5) DMA (Direct Memory Access Controller)
+> + * 6) GEM (Gigabit Ethernet MAC Controller)
+>   *
+>   * This board currently generates devicetree dynamically that indicates at least
+>   * two harts and up to five harts.
+> @@ -59,6 +60,9 @@
+>  #define BIOS_FILENAME   "hss.bin"
+>  #define RESET_VECTOR    0x20220000
+>
+> +/* GEM version */
+> +#define GEM_REVISION    0x0107010c
+> +
+>  static const struct MemmapEntry {
+>      hwaddr base;
+>      hwaddr size;
+> @@ -83,6 +87,8 @@ static const struct MemmapEntry {
+>      [MICROCHIP_PFSOC_MMUART2] =         { 0x20102000,     0x1000 },
+>      [MICROCHIP_PFSOC_MMUART3] =         { 0x20104000,     0x1000 },
+>      [MICROCHIP_PFSOC_MMUART4] =         { 0x20106000,     0x1000 },
+> +    [MICROCHIP_PFSOC_GEM0] =            { 0x20110000,     0x2000 },
+> +    [MICROCHIP_PFSOC_GEM1] =            { 0x20112000,     0x2000 },
+>      [MICROCHIP_PFSOC_ENVM_CFG] =        { 0x20200000,     0x1000 },
+>      [MICROCHIP_PFSOC_ENVM_DATA] =       { 0x20220000,    0x20000 },
+>      [MICROCHIP_PFSOC_IOSCB_CFG] =       { 0x37080000,     0x1000 },
+> @@ -119,6 +125,9 @@ static void microchip_pfsoc_soc_instance_init(Object *obj)
+>      object_initialize_child(obj, "dma-controller", &s->dma,
+>                              TYPE_MCHP_PFSOC_DMA);
+>
+> +    object_initialize_child(obj, "gem0", &s->gem0, TYPE_CADENCE_GEM);
+> +    object_initialize_child(obj, "gem1", &s->gem1, TYPE_CADENCE_GEM);
+> +
+>      object_initialize_child(obj, "sd-controller", &s->sdhci,
+>                              TYPE_CADENCE_SDHCI);
+>      object_initialize_child(OBJECT(&s->sdhci), "sd-controller.sdhci",
+> @@ -136,6 +145,7 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
+>      MemoryRegion *envm_data = g_new(MemoryRegion, 1);
+>      char *plic_hart_config;
+>      size_t plic_hart_config_len;
+> +    NICInfo *nd;
+>      int i;
+>
+>      sysbus_realize(SYS_BUS_DEVICE(&s->e_cpus), &error_abort);
+> @@ -269,6 +279,35 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
+>          qdev_get_gpio_in(DEVICE(s->plic), MICROCHIP_PFSOC_MMUART4_IRQ),
+>          serial_hd(4));
+>
+> +    /* GEMs */
+> +
+> +    nd = &nd_table[0];
+> +    if (nd->used) {
+> +        qemu_check_nic_model(nd, TYPE_CADENCE_GEM);
+> +        qdev_set_nic_properties(DEVICE(&s->gem0), nd);
+> +    }
+> +    nd = &nd_table[1];
+> +    if (nd->used) {
+> +        qemu_check_nic_model(nd, TYPE_CADENCE_GEM);
+> +        qdev_set_nic_properties(DEVICE(&s->gem1), nd);
+> +    }
+> +
+> +    object_property_set_int(OBJECT(&s->gem0), "revision", GEM_REVISION, errp);
+> +    object_property_set_int(OBJECT(&s->gem0), "phy-addr", 8, errp);
+> +    sysbus_realize(SYS_BUS_DEVICE(&s->gem0), errp);
+> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->gem0), 0,
+> +                    memmap[MICROCHIP_PFSOC_GEM0].base);
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->gem0), 0,
+> +        qdev_get_gpio_in(DEVICE(s->plic), MICROCHIP_PFSOC_GEM0_IRQ));
+> +
+> +    object_property_set_int(OBJECT(&s->gem1), "revision", GEM_REVISION, errp);
+> +    object_property_set_int(OBJECT(&s->gem1), "phy-addr", 9, errp);
+> +    sysbus_realize(SYS_BUS_DEVICE(&s->gem1), errp);
+> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->gem1), 0,
+> +                    memmap[MICROCHIP_PFSOC_GEM1].base);
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->gem1), 0,
+> +        qdev_get_gpio_in(DEVICE(s->plic), MICROCHIP_PFSOC_GEM1_IRQ));
+> +
+>      /* eNVM */
+>      memory_region_init_rom(envm_data, OBJECT(dev), "microchip.pfsoc.envm.data",
+>                             memmap[MICROCHIP_PFSOC_ENVM_DATA].size,
+> diff --git a/include/hw/riscv/microchip_pfsoc.h b/include/hw/riscv/microchip_pfsoc.h
+> index 7825935..60f994c 100644
+> --- a/include/hw/riscv/microchip_pfsoc.h
+> +++ b/include/hw/riscv/microchip_pfsoc.h
+> @@ -24,6 +24,7 @@
+>
+>  #include "hw/char/mchp_pfsoc_mmuart.h"
+>  #include "hw/dma/mchp_pfsoc_dma.h"
+> +#include "hw/net/cadence_gem.h"
+>  #include "hw/sd/cadence_sdhci.h"
+>
+>  typedef struct MicrochipPFSoCState {
+> @@ -42,6 +43,8 @@ typedef struct MicrochipPFSoCState {
+>      MchpPfSoCMMUartState *serial3;
+>      MchpPfSoCMMUartState *serial4;
+>      MchpPfSoCDMAState dma;
+> +    CadenceGEMState gem0;
+> +    CadenceGEMState gem1;
+>      CadenceSDHCIState sdhci;
+>  } MicrochipPFSoCState;
+>
+> @@ -84,6 +87,8 @@ enum {
+>      MICROCHIP_PFSOC_MMUART2,
+>      MICROCHIP_PFSOC_MMUART3,
+>      MICROCHIP_PFSOC_MMUART4,
+> +    MICROCHIP_PFSOC_GEM0,
+> +    MICROCHIP_PFSOC_GEM1,
+>      MICROCHIP_PFSOC_ENVM_CFG,
+>      MICROCHIP_PFSOC_ENVM_DATA,
+>      MICROCHIP_PFSOC_IOSCB_CFG,
+> @@ -91,6 +96,8 @@ enum {
+>  };
+>
+>  enum {
+> +    MICROCHIP_PFSOC_GEM0_IRQ = 64,
+> +    MICROCHIP_PFSOC_GEM1_IRQ = 70,
+>      MICROCHIP_PFSOC_EMMC_SD_IRQ = 88,
+>      MICROCHIP_PFSOC_MMUART0_IRQ = 90,
+>      MICROCHIP_PFSOC_MMUART1_IRQ = 91,
+> --
+> 2.7.4
+>
+>
 
