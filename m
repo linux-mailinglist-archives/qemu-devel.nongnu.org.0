@@ -2,73 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD14C24DEEB
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 19:52:14 +0200 (CEST)
-Received: from localhost ([::1]:37606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DDAC24DEF6
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 19:56:55 +0200 (CEST)
+Received: from localhost ([::1]:44188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9BD3-0002GE-Vt
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 13:52:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35612)
+	id 1k9BHa-0005I7-K8
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 13:56:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhangjiachen.jaycee@bytedance.com>)
- id 1k9BCF-0001id-Pe
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 13:51:23 -0400
-Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:40499)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <zhangjiachen.jaycee@bytedance.com>)
- id 1k9BCA-0004K4-8V
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 13:51:20 -0400
-Received: by mail-qk1-x743.google.com with SMTP id 62so2105309qkj.7
- for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:51:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tR4r51tFLMgm80llW/On5qVfqJkcL+L5lLJ6jEbmEoU=;
- b=oUU4E9cxAKM8rZPauN8QXmssuFcMwIrCzSoaTmMktpiMRItqHvb6MlO0RtAP8KMQ8j
- YCJ3TBYIpoUMcxauooUJGQvYKsTUIsXhBKkDA5fVRq6mxCwBpdNQtd/UeNQ1mleIwssG
- 5sRqKp5rjhW7HnOfOzdldTyysVD9Xs9zgG0hFDl9tXQyk2Q3QMbz6EWo0LDanxfHt9YL
- yNApzgbDT2toeZGKM+Z6hta4RFQUwUKPu8aWqUZRUrc9St5iBb2cDfc1RKSxIqQIoGkz
- RKmpW5Xg98AfRLinnZlm+wXobHR0Lj3PJ6IqbVxb/6zMl92hvgOcJ4iZbKf9Jvetsyu7
- c6HA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k9BFw-00047R-JK
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 13:55:12 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35272
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k9BFt-0004iV-Dm
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 13:55:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598032507;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=D/wzNG7qOM6TY3kaSyFv6y6JAoDm6Hav/HE3L7XYty8=;
+ b=HEb/xiWYqfOT35kR5vaPX9Rm5XC9tS4dNEYt8rrG4iPLNHE238mjzAZVdQDQFyH5cslnAU
+ Z4GoNbAzWOxekFRwSI7SVLwh+Tx4/A2el/e6CfsKQtJHvLi5ljRK+SsAzub6aK/KeK0eHO
+ 45F1xs4DbwIkB5CLo3KXBOLlQ1LxozE=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-572-1BsB7XEEMNGTnLLF4DvfJw-1; Fri, 21 Aug 2020 13:55:06 -0400
+X-MC-Unique: 1BsB7XEEMNGTnLLF4DvfJw-1
+Received: by mail-wr1-f72.google.com with SMTP id o10so790567wrs.21
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:55:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tR4r51tFLMgm80llW/On5qVfqJkcL+L5lLJ6jEbmEoU=;
- b=ogdRWL1ccBy4EpY/AenxbMsiG4ZiYp/dByizvZNv12nskHDUG2XXb+2xyW3LBJFA0s
- wVWdb76d79PrN7Xz0c14k5eEeHZuyvPgU0n21b3CGOOVa2234htXWzGpegNSchjKFy47
- i3gEEkK5kKzuhde5r23wRuaBkY8sj+T7ggoAivYmGRzPXc5CYYOfHIffWFYzeqa1nxj9
- 5MSlslhfewF6gIexU9Qx0cTix6vNMgrK+JsA32Ezl2lF0YRVdb3FwChDFpVOGi0JRUQP
- 1/aSkMTLAafRAXmKcd+f95hxyWi1S5jW7WKCgc5hWCH3UVlrKgM+MuuglOd05Si3BS+o
- gUuQ==
-X-Gm-Message-State: AOAM532om1sjc8lEIC0i0kJP87mcHXmsdeM7331Ag21KXfeUMVVlmI3s
- 7mgYwYyEbKuZR0SB8F1Eo5JQQWTg+UUHmM6QBYwAhA==
-X-Google-Smtp-Source: ABdhPJya8LC6N0a7MEOiEuiSLtwzPUZvaaSqH76uJ7GVy4ryWVYIW0jmc2B7EoW/4un2kPc/4YvMysKRkPH70M1XM9Y=
-X-Received: by 2002:a37:2d42:: with SMTP id t63mr3402420qkh.99.1598032276040; 
- Fri, 21 Aug 2020 10:51:16 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=D/wzNG7qOM6TY3kaSyFv6y6JAoDm6Hav/HE3L7XYty8=;
+ b=RRX0NgsBMdnU5tHc2aaleU9rJw3LhZNDkXj6JtZgduXszsHh0A2CMdbZ8GnfWIIrHf
+ e/Zt+l04KD+Uoxr/hth4x77cmGcKiO8BZdyn3UYRu6gM/SzGq4CLFQzwRH+lMtMMO039
+ yGr2bZurqnBkb+wBr8zwJTWWFVMlTA4ZBRe7zGr9dbGdjprBWsQiHVTYIxPEQHMC6l9c
+ KJ0p5Mwjzjm+kUuFWO4v9D6EfDpZFPET4k+ySMRrimETyTuWXexnOaVE6Mb/7O7NwirO
+ kIKD+DAgX9rYZ462ckSKIBIjcIDIBYZ285o+13ITCHlyePOSmSpE3h/GE4Mfzbj13aGo
+ C1Tg==
+X-Gm-Message-State: AOAM530dJ0obyRA9L4v8CXW9POAEdlLaZpj/dcSoMsh1GQeub55KXLXl
+ ulBm8Z0a3qhxmn1rD+vliFceLCE2dAOvzLMJwlj4Dmpay6cTTPqydYLlJ7tFvuG3PQbe/IXBurI
+ QAc9UiKyb6h6W1KQ=
+X-Received: by 2002:a05:600c:514:: with SMTP id
+ i20mr4991507wmc.102.1598032504910; 
+ Fri, 21 Aug 2020 10:55:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwb97Y51Joz3AcG1AIaFL05ew3C6d3Z99igeYmNYm2wtJ34dItGvbWZiSPoDNEvDJMf+keYDA==
+X-Received: by 2002:a05:600c:514:: with SMTP id
+ i20mr4991489wmc.102.1598032504710; 
+ Fri, 21 Aug 2020 10:55:04 -0700 (PDT)
+Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.121])
+ by smtp.gmail.com with ESMTPSA id y16sm5661408wrr.83.2020.08.21.10.55.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 21 Aug 2020 10:55:03 -0700 (PDT)
+Subject: Re: [PATCH] tests/docker: add liburing-devel to the Fedora image
+To: Stefano Garzarella <sgarzare@redhat.com>, qemu-devel@nongnu.org
+References: <20200821165458.100591-1-sgarzare@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <e5fdb193-952a-2bed-a1c7-4eb8bb0bbff7@redhat.com>
+Date: Fri, 21 Aug 2020 19:55:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-References: <20200821034126.8004-1-zhangjiachen.jaycee@bytedance.com>
- <20200821115829.GJ348677@redhat.com>
-In-Reply-To: <20200821115829.GJ348677@redhat.com>
-From: =?UTF-8?B?5byg5L2z6L6w?= <zhangjiachen.jaycee@bytedance.com>
-Date: Sat, 22 Aug 2020 01:51:04 +0800
-Message-ID: <CAFQAk7hqGxNdQJCRn2xsKnyuasPJnHS1hq3azkVc54U2VyDm3Q@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH] virtiofsd: add -o
- allow_directio|no_directio option
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000275ad805ad66e2b6"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::743;
- envelope-from=zhangjiachen.jaycee@bytedance.com; helo=mail-qk1-x743.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200821165458.100591-1-sgarzare@redhat.com>
+Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 01:00:15
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,193 +124,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yongji Xie <xieyongji@bytedance.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000275ad805ad66e2b6
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 8/21/20 6:54 PM, Stefano Garzarella wrote:
+> Install liburing-devel dependencies to get better coverage on
+> io-uring stuff (block/io_uring.c and util/fdmon-io_uring.c).
+> 
+> Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+> ---
+>  tests/docker/dockerfiles/fedora.docker | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+> index 70b6186bd3..9650d324fa 100644
+> --- a/tests/docker/dockerfiles/fedora.docker
+> +++ b/tests/docker/dockerfiles/fedora.docker
+> @@ -38,6 +38,7 @@ ENV PACKAGES \
+>      libssh-devel \
+>      libubsan \
+>      libudev-devel \
+> +    liburing-devel \
+>      libusbx-devel \
+>      libxml2-devel \
+>      libzstd-devel \
+> 
 
-On Fri, Aug 21, 2020 at 7:58 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m>
-wrote:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-> On Fri, Aug 21, 2020 at 11:41:26AM +0800, Jiachen Zhang wrote:
-> > Due to the commit 65da4539803373ec4eec97ffc49ee90083e56efd, the O_DIREC=
-T
-> > open flag of guest applications will be discarded by virtiofsd. While
-> > this behavior makes it consistent with the virtio-9p scheme when guest
-> > applications using direct I/O, we no longer have any chance to bypass
-> > the host page cache.
-> >
-> > Therefore, we add a flag 'allow_directio' to lo_data. If '-o no_directi=
-o'
-> > option is added, or none of '-o no_directio' or '-o allow_directio' is
-> > added, the 'allow_directio' will be set to 0, and virtiofsd discards
-> > O_DIRECT as before. If '-o allow_directio' is added to the stariting
-> > command-line, 'allow_directio' will be set to 1, so that the O_DIRECT
-> > flags will be retained and host page cache can be bypassed.
-> >
-> > Signed-off-by: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
-> > ---
-> >  tools/virtiofsd/helper.c         |  4 ++++
-> >  tools/virtiofsd/passthrough_ll.c | 20 ++++++++++++++------
-> >  2 files changed, 18 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
-> > index 3105b6c23a..534ff52c64 100644
-> > --- a/tools/virtiofsd/helper.c
-> > +++ b/tools/virtiofsd/helper.c
-> > @@ -180,6 +180,10 @@ void fuse_cmdline_help(void)
-> >             "                               (0 leaves rlimit
-> unchanged)\n"
-> >             "                               default: min(1000000,
-> fs.file-max - 16384)\n"
-> >             "                                        if the current
-> rlimit is lower\n"
-> > +           "    -o allow_directio|no_directio\n"
-> > +           "                               retain/discard O_DIRECT
-> flags passed down\n"
-> > +           "                               to virtiofsd from guest
-> applications.\n"
-> > +           "                               default: no_directio\n"
-> >             );
->
-> The standard naming convention from existing options is to use
-> $OPTNAME and no_$OPTNAME.
->
-> IOW, don't use the "allow_" prefix. The options should be just
-> "directio" and "no_directio"
->
-> Thanks, Daniel. I did consider using "directio" instead of "allow_directi=
-o"
-before I send out this patch. Although "-o directio" makes it consistent
-with other option names, it may confuse the users of virtiofsd.
-Because currently, virtiofsd will not add an O_DIRECT to the open flag,
-it will just retain or discard the O_DIRECT added by guest applications.
-But "-o direct" may make the users think that virtiofsd will do direct IO
-all
-the time.
+../util/fdmon-io_uring.c:106:17: error: address argument to atomic
+operation must be a pointer to _Atomic type ('unsigned int *' invalid)
+    old_flags = atomic_fetch_or(&node->flags, FDMON_IO_URING_PENDING |
+flags);
+                ^               ~~~~~~~~~~~~
+/usr/lib64/clang/10.0.0/include/stdatomic.h:138:42: note: expanded from
+macro 'atomic_fetch_or'
+#define atomic_fetch_or(object, operand) __c11_atomic_fetch_or(object,
+operand, __ATOMIC_SEQ_CST)
+                                         ^                     ~~~~~~
+../util/fdmon-io_uring.c:130:14: error: address argument to atomic
+operation must be a pointer to _Atomic type ('unsigned int *' invalid)
+    *flags = atomic_fetch_and(&node->flags, ~(FDMON_IO_URING_PENDING |
+             ^                ~~~~~~~~~~~~
 
-Jiachen
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
->
-> Regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-
-> https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-
-> https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-
-> https://www.instagram.com/dberrange :|
->
-
---000000000000275ad805ad66e2b6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Fri, Aug 21, 2020 at 7:58 PM Daniel P.=
- Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@redhat.c=
-om</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
-4,204,204);padding-left:1ex">On Fri, Aug 21, 2020 at 11:41:26AM +0800, Jiac=
-hen Zhang wrote:<br>
-&gt; Due to the commit 65da4539803373ec4eec97ffc49ee90083e56efd, the O_DIRE=
-CT<br>
-&gt; open flag of guest applications will be discarded by virtiofsd. While<=
-br>
-&gt; this behavior makes it consistent with the virtio-9p scheme when guest=
-<br>
-&gt; applications using direct I/O, we no longer have any chance to bypass<=
-br>
-&gt; the host page cache.<br>
-&gt; <br>
-&gt; Therefore, we add a flag &#39;allow_directio&#39; to lo_data. If &#39;=
--o no_directio&#39;<br>
-&gt; option is added, or none of &#39;-o no_directio&#39; or &#39;-o allow_=
-directio&#39; is<br>
-&gt; added, the &#39;allow_directio&#39; will be set to 0, and virtiofsd di=
-scards<br>
-&gt; O_DIRECT as before. If &#39;-o allow_directio&#39; is added to the sta=
-riting<br>
-&gt; command-line, &#39;allow_directio&#39; will be set to 1, so that the O=
-_DIRECT<br>
-&gt; flags will be retained and host page cache can be bypassed.<br>
-&gt; <br>
-&gt; Signed-off-by: Jiachen Zhang &lt;<a href=3D"mailto:zhangjiachen.jaycee=
-@bytedance.com" target=3D"_blank">zhangjiachen.jaycee@bytedance.com</a>&gt;=
-<br>
-&gt; ---<br>
-&gt;=C2=A0 tools/virtiofsd/helper.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
-=A0 4 ++++<br>
-&gt;=C2=A0 tools/virtiofsd/passthrough_ll.c | 20 ++++++++++++++------<br>
-&gt;=C2=A0 2 files changed, 18 insertions(+), 6 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c<br>
-&gt; index 3105b6c23a..534ff52c64 100644<br>
-&gt; --- a/tools/virtiofsd/helper.c<br>
-&gt; +++ b/tools/virtiofsd/helper.c<br>
-&gt; @@ -180,6 +180,10 @@ void fuse_cmdline_help(void)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0(0 leaves rlimit unchanged)\n&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0default: min(1000000, fs.file-max - 16384)\n&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if the current rlimit is l=
-ower\n&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;=C2=A0 =C2=A0 -o allow=
-_directio|no_directio\n&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0retain/discard O_DIRECT flags passed down\n&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0to virtiofsd from guest applications.\n&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0default: no_directio\n&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0);<br>
-<br>
-The standard naming convention from existing options is to use<br>
-$OPTNAME and no_$OPTNAME.<br>
-<br>
-IOW, don&#39;t use the &quot;allow_&quot; prefix. The options should be jus=
-t<br>
-&quot;directio&quot; and &quot;no_directio&quot;<br>
-<br></blockquote><div>Thanks, Daniel. I did consider using=C2=A0&quot;direc=
-tio&quot; instead of &quot;allow_directio&quot;</div><div>before I=C2=A0sen=
-d out this patch. Although &quot;-o directio&quot; makes it consistent</div=
-><div>with other option names, it may confuse the users of virtiofsd.</div>=
-<div>Because currently,=C2=A0virtiofsd will not add an O_DIRECT to the open=
- flag,</div><div>it will just retain=C2=A0or discard the O_DIRECT added by =
-guest applications.</div><div>But &quot;-o direct&quot; may=C2=A0make the u=
-sers think that virtiofsd=C2=A0will do direct IO all</div><div>the time.</d=
-iv><div><br></div><div>Jiachen</div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">
-<br>
-Regards,<br>
-Daniel<br>
--- <br>
-|: <a href=3D"https://berrange.com" rel=3D"noreferrer" target=3D"_blank">ht=
-tps://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D"http=
-s://www.flickr.com/photos/dberrange" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://www.flickr.com/photos/dberrange</a> :|<br>
-|: <a href=3D"https://libvirt.org" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138.berrange.com" rel=3D"n=
-oreferrer" target=3D"_blank">https://fstop138.berrange.com</a> :|<br>
-|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer" target=3D"_bla=
-nk">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D=
-"https://www.instagram.com/dberrange" rel=3D"noreferrer" target=3D"_blank">=
-https://www.instagram.com/dberrange</a> :|<br></blockquote></div></div>
-
---000000000000275ad805ad66e2b6--
 
