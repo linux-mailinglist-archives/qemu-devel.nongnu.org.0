@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40ECA24D718
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 16:14:13 +0200 (CEST)
-Received: from localhost ([::1]:57166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BC1224D705
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 16:09:49 +0200 (CEST)
+Received: from localhost ([::1]:35868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k97o4-0000HG-7R
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 10:14:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54438)
+	id 1k97jo-0008Oj-A9
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 10:09:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k97iv-00079z-Pk
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 10:08:53 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:55937
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k97ih-0006gl-W1
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 10:08:40 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57901
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k97it-0004WG-To
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 10:08:53 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k97ig-0004Ul-3v
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 10:08:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598018930;
+ s=mimecast20190719; t=1598018916;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XOclbXnZE4kY6hOS/0TCAiAkVWRtcrn3Emkrekd17sQ=;
- b=A6lJs0ojhyPQG0XpaxJ9tml4K5+NFSVdsCeNbwP8y99n1lbvo316esKNBwCPFXPaDrsXSi
- TATB9bRXGhB/UEMihslvvfgkXUvC+RxbZ1K47Kv7OXsjbXpygenJGkdRzD/wIDLvR87T6Y
- ycSg39AAHajEwGpHPPhj9ZjckEtm9+A=
+ bh=iSUl++kbgd9oEPboS2uSlV/VLy8nf/lhIZru0Q/wXH0=;
+ b=a9Abb/Ni0SYRNSqjCRHxYeZk/fOoYb2UXdMVamQf/EFew5BOdx5SkA9WB9CWUVf7AmzfF4
+ NfV8PBErvEe0NcTz8ROslzvrmr5MKYm9UXX2eENHUJjEr3//SXCiGUY8vayTcgAzLtybnK
+ TRo2ocUeeKUZeYbaIRi6hPET+yZ6mRM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-398-1pq0FeeePj2s11Vrpbwwpg-1; Fri, 21 Aug 2020 10:08:32 -0400
-X-MC-Unique: 1pq0FeeePj2s11Vrpbwwpg-1
+ us-mta-298-RZKeFV5hPbaC-CtbQTFpCQ-1; Fri, 21 Aug 2020 10:08:32 -0400
+X-MC-Unique: RZKeFV5hPbaC-CtbQTFpCQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0984A18A2245;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2EE780EFBD;
  Fri, 21 Aug 2020 14:08:31 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-113-220.phx2.redhat.com [10.3.113.220])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 930A67A40B;
- Fri, 21 Aug 2020 14:08:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3A5F47A40B;
+ Fri, 21 Aug 2020 14:08:31 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/14] qcow2_format.py: change Qcow2BitmapExt initialization
- method
-Date: Fri, 21 Aug 2020 09:08:15 -0500
-Message-Id: <20200821140826.194322-4-eblake@redhat.com>
+Subject: [PULL 04/14] qcow2_format.py: dump bitmap flags in human readable way.
+Date: Fri, 21 Aug 2020 09:08:16 -0500
+Message-Id: <20200821140826.194322-5-eblake@redhat.com>
 In-Reply-To: <20200821140826.194322-1-eblake@redhat.com>
 References: <20200821140826.194322-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 01:00:15
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 23:41:39
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -67,7 +66,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,76 +89,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 
-There are two ways to initialize a class derived from Qcow2Struct:
-1. Pass a block of binary data to the constructor.
-2. Pass the file descriptor to allow reading the file from constructor.
-Let's change the Qcow2BitmapExt initialization method from 1 to 2 to
-support a scattered reading in the initialization chain.
-The implementation comes with the patch that follows.
+Introduce the class BitmapFlags that parses a bitmap flags mask.
 
 Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <1596742557-320265-4-git-send-email-andrey.shinkevich@virtuozzo.com>
+Message-Id: <1596742557-320265-5-git-send-email-andrey.shinkevich@virtuozzo.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- tests/qemu-iotests/qcow2_format.py | 34 ++++++++++++++++++------------
- 1 file changed, 21 insertions(+), 13 deletions(-)
+ tests/qemu-iotests/qcow2_format.py | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
 diff --git a/tests/qemu-iotests/qcow2_format.py b/tests/qemu-iotests/qcow2_format.py
-index 2f3681bb5f7c..d4a997453758 100644
+index d4a997453758..b4473442c9d4 100644
 --- a/tests/qemu-iotests/qcow2_format.py
 +++ b/tests/qemu-iotests/qcow2_format.py
-@@ -113,6 +113,11 @@ class Qcow2BitmapExt(Qcow2Struct):
-         ('u64', '{:#x}', 'bitmap_directory_offset')
-     )
+@@ -40,6 +40,22 @@ class Flags64(Qcow2Field):
+         return str(bits)
 
-+    def __init__(self, fd):
-+        super().__init__(fd=fd)
-+        tail = struct.calcsize(self.fmt) % 8
-+        if tail:
-+            fd.seek(8 - tail, 1)
 
- QCOW2_EXT_MAGIC_BITMAPS = 0x23852875
++class BitmapFlags(Qcow2Field):
++
++    flags = {
++        0x1: 'in-use',
++        0x2: 'auto'
++    }
++
++    def __str__(self):
++        bits = []
++        for bit in range(64):
++            flag = self.value & (1 << bit)
++            if flag:
++                bits.append(self.flags.get(flag, f'bit-{bit}'))
++        return f'{self.value:#x} ({bits})'
++
++
+ class Enum(Qcow2Field):
 
-@@ -161,21 +166,24 @@ class QcowHeaderExtension(Qcow2Struct):
-         else:
-             assert all(v is None for v in (magic, length, data))
-             super().__init__(fd=fd)
--            padded = (self.length + 7) & ~7
--            self.data = fd.read(padded)
--            assert self.data is not None
-+            if self.magic == QCOW2_EXT_MAGIC_BITMAPS:
-+                self.obj = Qcow2BitmapExt(fd=fd)
-+                self.data = None
-+            else:
-+                padded = (self.length + 7) & ~7
-+                self.data = fd.read(padded)
-+                assert self.data is not None
-+                self.obj = None
-
--        data_str = self.data[:self.length]
--        if all(c in string.printable.encode('ascii') for c in data_str):
--            data_str = f"'{ data_str.decode('ascii') }'"
--        else:
--            data_str = '<binary>'
--        self.data_str = data_str
-+        if self.data is not None:
-+            data_str = self.data[:self.length]
-+            if all(c in string.printable.encode(
-+                'ascii') for c in data_str):
-+                data_str = f"'{ data_str.decode('ascii') }'"
-+            else:
-+                data_str = '<binary>'
-+            self.data_str = data_str
-
--        if self.magic == QCOW2_EXT_MAGIC_BITMAPS:
--            self.obj = Qcow2BitmapExt(data=self.data)
--        else:
--            self.obj = None
-
-     def dump(self):
-         super().dump()
+     def __str__(self):
 -- 
 2.28.0
 
