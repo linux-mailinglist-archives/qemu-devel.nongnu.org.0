@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85E6D24D413
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 13:36:06 +0200 (CEST)
-Received: from localhost ([::1]:33550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3C6724D409
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 13:33:53 +0200 (CEST)
+Received: from localhost ([::1]:47320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k95L3-0000Df-GX
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 07:36:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35986)
+	id 1k95Iu-0002pw-SO
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 07:33:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1k94TV-0000oq-2G
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:40:45 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:21995
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1k94TS-00044v-Sb
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:40:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598006441;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OJZ9FsH3chA9j6O/OLigpCHlZ7Xyd+hU4t3/uxb/C7I=;
- b=Tzps8UCIeOhSja8/xxOXt9TT+Efr4lw9oBfgqeWzns/2qnCg94ZJsJk2PTAQ6FyccGzARp
- tO53crFo8bx3xuqdXEoHvU0EKOVO9Bp58DVLg1Rh1z9tRbua/ZaGOeIGnReII5AdgGISIm
- NTeGTSLlGQvekDIboXLsnW3mBgH3aTM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-133-_zEe0EPiN9WG3BLTenEMPQ-1; Fri, 21 Aug 2020 06:40:37 -0400
-X-MC-Unique: _zEe0EPiN9WG3BLTenEMPQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85B6281F02C;
- Fri, 21 Aug 2020 10:40:36 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5335E19D6C;
- Fri, 21 Aug 2020 10:40:27 +0000 (UTC)
-Date: Fri, 21 Aug 2020 12:40:26 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
-Subject: Re: [PATCH V6] Introduce a new flag for i440fx to disable PCI
- hotplug on the root bus
-Message-ID: <20200821124026.656d5a81@redhat.com>
-In-Reply-To: <20200821111612.5b04bc5e@redhat.com>
-References: <CAARzgwyuL_joY_4wq8=WY7U=E67F2roPJ36kaQLJFRVqLgpGXg@mail.gmail.com>
- <96C3BCCD-7A5E-439D-8EDD-927D188C0946@anisinha.ca>
- <20200821111612.5b04bc5e@redhat.com>
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1k94VE-0004jU-Ki
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:42:32 -0400
+Received: from mail-oo1-xc41.google.com ([2607:f8b0:4864:20::c41]:39718)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1k94VC-0004C2-OK
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:42:32 -0400
+Received: by mail-oo1-xc41.google.com with SMTP id x1so244313oox.6
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 03:42:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ltZqhKAUXZnkwbO9/e7U3hbKFlziArzkfgZic8ZWlwc=;
+ b=MIh2z4r03G8wqu1pOlph85mzmOT1808VWa1ym2UNEKjSumYXn05xcjgT+MwlHExm4C
+ HtcF/BJby4dWymbJv0CI7v8oVf6KrfmGD0wSjPyedYWzKBHNzAUuhc1cdUr94bW8cf8r
+ N1Y/skJRWDqDAW5dLzek69+r8xv0dSI5HZV+TSTETGRlDgp0iX3lh74f/Je2+ORA/lH0
+ N2ZHQN4DF/ZoeSEORQ/PSorvonaOceyK/OvM8+hP/yGZfsKkFJ3OIPWCBQoiH6LlwvG1
+ nSdS8FKBXY1v2HDG3Zt0zBj0aTV5OjdpILPH4S51jPaRPGnvIjGyEmSzCYkOKuCe4Bxc
+ TXeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ltZqhKAUXZnkwbO9/e7U3hbKFlziArzkfgZic8ZWlwc=;
+ b=SmKVFWLuHHus4KopvKIcpycozgECpikCfbwdAAClny9t+8XpFnpcstZDd3nu3w4mzW
+ 7ZkCxqfngsHaxE5aANsSKip3QRiSbGznR7mAk5hpypv0qJg81NZ16GnKuniiDsLvvo2l
+ MXHosdMWFKip5PYlCp8eTgVx0WOnokTTFTfYN4wXpDFXdK93NNZV7L3e0SS/PHhZs0M6
+ QtNmqCJ4yFq/Q2hXjE6aQAOMHqjkMam0/wFmMXl8e52tAuwRpTTq3Y2VMeKDVyWINOC/
+ vqGu2qBIdE2DwV1kmY8jeL+WAGlMXimG9j8joufLAOZtXo9fIFT6QKHQLKt0gO1Zszg7
+ DIIQ==
+X-Gm-Message-State: AOAM532m6MXwyFMBfsuU1HXXdz3lMcpgIsWREU8u74neXRJ/fZMZyZ23
+ HSAmhGB8v963pmlkpdnSN3Uptn62lTet2K8FT18=
+X-Google-Smtp-Source: ABdhPJxhZKG7MGr848n5YXyH/pTE/AwiVSPWUwENXdu3Ju5LCiDo4nzQAx+SR2pllSxHEnL97uG0Rc/ara223rJndF8=
+X-Received: by 2002:a4a:be0c:: with SMTP id l12mr1649168oop.22.1598006549397; 
+ Fri, 21 Aug 2020 03:42:29 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+References: <20200821082622.7169-1-kraxel@redhat.com>
+In-Reply-To: <20200821082622.7169-1-kraxel@redhat.com>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Fri, 21 Aug 2020 18:41:53 +0800
+Message-ID: <CAKXe6SKZuuCnzAF2uwHO=sh=o2XdAU1+dG6OO-eLYnubX9KikA@mail.gmail.com>
+Subject: Re: [PATCH] cirrus: handle wraparound in cirrus_invalidate_region
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 05:15:56
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c41;
+ envelope-from=liq3ea@gmail.com; helo=mail-oo1-xc41.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,177 +78,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Julia Suvorova <jusual@redhat.com>,
- qemu-devel@nongnu.org, Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: Alexander Bulekov <alxndr@bu.edu>, Li Qiang <liq3ea@163.com>,
+ Qemu Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 21 Aug 2020 11:16:12 +0200
-Igor Mammedov <imammedo@redhat.com> wrote:
+Gerd Hoffmann <kraxel@redhat.com> =E4=BA=8E2020=E5=B9=B48=E6=9C=8821=E6=97=
+=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=884:27=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Code simply asserts that there is no wraparound instead of handling
+> it properly.  The assert() can be triggered by the guest (must be
+> privilidged inside the guest though).  Fix it.
+>
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1880189
+> Cc: Li Qiang <liq3ea@163.com>
+> Reported-by: Alexander Bulekov <alxndr@bu.edu>
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  hw/display/cirrus_vga.c | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/display/cirrus_vga.c b/hw/display/cirrus_vga.c
+> index 212d6f5e6145..b91b64347473 100644
+> --- a/hw/display/cirrus_vga.c
+> +++ b/hw/display/cirrus_vga.c
+> @@ -640,10 +640,15 @@ static void cirrus_invalidate_region(CirrusVGAState=
+ * s, int off_begin,
+>      }
+>
+>      for (y =3D 0; y < lines; y++) {
+> -        off_cur =3D off_begin;
+> +        off_cur =3D off_begin & s->cirrus_addr_mask;
+>          off_cur_end =3D ((off_cur + bytesperline - 1) & s->cirrus_addr_m=
+ask) + 1;
+> -        assert(off_cur_end >=3D off_cur);
+> -        memory_region_set_dirty(&s->vga.vram, off_cur, off_cur_end - off=
+_cur);
+> +        if (off_cur_end >=3D off_cur) {
+> +            memory_region_set_dirty(&s->vga.vram, off_cur, off_cur_end -=
+ off_cur);
+> +        } else {
+> +            /* wraparound */
+> +            memory_region_set_dirty(&s->vga.vram, off_cur, s->cirrus_add=
+r_mask - off_cur);
 
-> On Thu, 20 Aug 2020 22:11:41 +0530
-> Ani Sinha <ani@anisinha.ca> wrote:
->=20
-> > > On Aug 20, 2020, at 9:11 PM, Ani Sinha <ani@anisinha.ca> wrote:
-> > >=20
-> > > =EF=BB=BFOn Thu, Aug 20, 2020 at 7:37 PM Igor Mammedov <imammedo@redh=
-at.com> wrote:   =20
-> > >>    =20
-> > >>> On Thu, 20 Aug 2020 14:51:56 +0530
-> > >>> Ani Sinha <ani@anisinha.ca> wrote:
-> > >>>=20
-> > >>> We introduce a new global flag 'acpi-root-pci-hotplug' for i440fx w=
-ith which
-> > >>> we can turn on or off PCI device hotplug on the root bus. This flag=
- can be
-> > >>> used to prevent all PCI devices from getting hotplugged or unplugge=
-d from the
-> > >>> root PCI bus.
-> > >>> This feature is targetted mostly towards Windows VMs. It is useful =
-in cases
-> > >>> where some hypervisor admins want to deploy guest VMs in a way so t=
-hat the
-> > >>> users of the guest OSes are not able to hot-eject certain PCI devic=
-es from
-> > >>> the Windows system tray. Laine has explained the use case here in d=
-etail:
-> > >>> https://www.redhat.com/archives/libvir-list/2020-February/msg00110.=
-html
-> > >>>=20
-> > >>> Julia has resolved this issue for PCIE buses with the following com=
-mit:
-> > >>> 530a0963184e57e71a5b538 ("pcie_root_port: Add hotplug disabling opt=
-ion")
-> > >>>=20
-> > >>> This commit attempts to introduce similar behavior for PCI root bus=
-es used in
-> > >>> i440fx machine types (although in this case, we do not have a per-s=
-lot
-> > >>> capability to turn hotplug on or off).
-> > >>>=20
-> > >>> Usage:
-> > >>>   -global PIIX4_PM.acpi-root-pci-hotplug=3Doff
-> > >>>=20
-> > >>> By default, this option is enabled which means that hotplug is turn=
-ed on for
-> > >>> the PCI root bus.
-> > >>>=20
-> > >>> The previously existing flag 'acpi-pci-hotplug-with-bridge-support'=
- for PCI-PCI
-> > >>> bridges remain as is and can be used along with this new flag to co=
-ntrol PCI
-> > >>> hotplug on PCI bridges.
-> > >>>=20
-> > >>> This change has been tested using a Windows 2012R2 server guest ima=
-ge and also
-> > >>> with a Windows 2019 server guest image on a Ubuntu 18.04 host using=
- the latest
-> > >>> master qemu from upstream (v5.1.0 tag).
-> > >>>=20
-> > >>> Signed-off-by: Ani Sinha <ani@anisinha.ca>
-> > >>> ---
-> > >>> hw/acpi/piix4.c      |  8 ++++++--
-> > >>> hw/i386/acpi-build.c | 26 +++++++++++++++++++-------
-> > >>> 2 files changed, 25 insertions(+), 9 deletions(-)
-> > >>>=20
-> > >>> Change Log:
-> > >>> V5..V6: specified upstream master tag information off which this pa=
-tch is
-> > >>> based off of.
-> > >>>=20
-> > >>> diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-> > >>> index 26bac4f16c..4f436e5bf3 100644
-> > >>> --- a/hw/acpi/piix4.c
-> > >>> +++ b/hw/acpi/piix4.c
-> > >>> @@ -78,6 +78,7 @@ typedef struct PIIX4PMState {
-> > >>>=20
-> > >>>     AcpiPciHpState acpi_pci_hotplug;
-> > >>>     bool use_acpi_hotplug_bridge;
-> > >>> +    bool use_acpi_root_pci_hotplug;
-> > >>>=20
-> > >>>     uint8_t disable_s3;
-> > >>>     uint8_t disable_s4;   =20
-> > >>    =20
-> > >>> @@ -595,8 +596,9 @@ static void piix4_acpi_system_hot_add_init(Memo=
-ryRegion *parent,
-> > >>>                           "acpi-gpe0", GPE_LEN);
-> > >>>     memory_region_add_subregion(parent, GPE_BASE, &s->io_gpe);
-> > >>>=20
-> > >>> -    acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, parent,
-> > >>> -                    s->use_acpi_hotplug_bridge);
-> > >>> +    if (s->use_acpi_hotplug_bridge || s->use_acpi_root_pci_hotplug=
-)
-> > >>> +        acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, pare=
-nt,
-> > >>> +                        s->use_acpi_hotplug_bridge);   =20
-> > >> If intent was to disable hardware part of ACPI hotplug,
-> > >> then this hunk is not enough. I'd say it introduces bug since you ar=
-e leaving
-> > >> device_add/del route open and "_E01" AML code around trying to acces=
-s no longer
-> > >> described/present io ports.
-> > >>=20
-> > >> Without this hunk patch is fine, as a means to hide hotplug from Win=
-dows.
-> > >>=20
-> > >> If you'd like to disable hw part, you will need to consider case whe=
-re hotplug is
-> > >> disabled completly and block all related AML and block device_add|de=
-l.
-> > >> So it would be a bit more than above hunk.   =20
-> > >=20
-> > > Ok maybe I will just remove it.
+Should here be 's->cirrus_addr_mask + 1 - off_cur'
 
-That's what I'd do, so that mostly AML part will be merged first and
-then work on properly disabling hw parts as a separate patch.
+> +            memory_region_set_dirty(&s->vga.vram, 0, off_cur_end);
 
-Also Julia might borrow "acpi-root-pci-hotplug" for here q35 work.
+And here be 'off_cur_end -1'
 
-> > >    =20
-> > >>=20
-> > >>    =20
-> > >>>     s->cpu_hotplug_legacy =3D true;
-> > >>>     object_property_add_bool(OBJECT(s), "cpu-hotplug-legacy",
-> > >>> @@ -635,6 +637,8 @@ static Property piix4_pm_properties[] =3D {
-> > >>>     DEFINE_PROP_UINT8(ACPI_PM_PROP_S4_VAL, PIIX4PMState, s4_val, 2)=
-,
-> > >>>     DEFINE_PROP_BOOL("acpi-pci-hotplug-with-bridge-support", PIIX4P=
-MState,
-> > >>>                      use_acpi_hotplug_bridge, true),
-> > >>> +    DEFINE_PROP_BOOL("acpi-root-pci-hotplug", PIIX4PMState,
-> > >>> +                     use_acpi_root_pci_hotplug, true),
-> > >>>     DEFINE_PROP_BOOL("memory-hotplug-support", PIIX4PMState,
-> > >>>                      acpi_memory_hotplug.is_enabled, true),
-> > >>>     DEFINE_PROP_END_OF_LIST(),
-> > >>> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> > >>> index b7bcbbbb2a..19a1702ad1 100644
-> > >>> --- a/hw/i386/acpi-build.c
-> > >>> +++ b/hw/i386/acpi-build.c
-> > >>> @@ -95,6 +95,7 @@ typedef struct AcpiPmInfo {
-> > >>>     bool s3_disabled;
-> > >>>     bool s4_disabled;
-> > >>>     bool pcihp_bridge_en;
-> > >>> +    bool pcihp_root_en;
-> > >>>     uint8_t s4_val;
-> > >>>     AcpiFadtData fadt;
-> > >>>     uint16_t cpu_hp_io_base;
-> > >>> @@ -245,6 +246,9 @@ static void acpi_get_pm_info(MachineState *mach=
-ine, AcpiPmInfo *pm)
-> > >>>     pm->pcihp_bridge_en =3D
-> > >>>         object_property_get_bool(obj, "acpi-pci-hotplug-with-bridge=
--support",
-> > >>>                                  NULL);
-> > >>> +    pm->pcihp_root_en =3D
-> > >>> +        object_property_get_bool(obj, "acpi-root-pci-hotplug", NUL=
-L);
-> > >>> +
-> > >>> }
-> > >>>=20
+Thanks,
+Li Qiang
 
-[...]
-
+> +        }
+>          off_begin +=3D off_pitch;
+>      }
+>  }
+> --
+> 2.27.0
+>
+>
 
