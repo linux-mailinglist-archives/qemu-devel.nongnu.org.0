@@ -2,60 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D5E624DE9A
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 19:36:08 +0200 (CEST)
-Received: from localhost ([::1]:39100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ADFB24DEF4
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 19:55:24 +0200 (CEST)
+Received: from localhost ([::1]:40948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9AxT-0004RY-7r
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 13:36:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58570)
+	id 1k9BG7-0003rc-Fv
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 13:55:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1k9AwE-0002dH-LS
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 13:34:50 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:40293)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1k9AwC-0001se-AS
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 13:34:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=J1ilFJOxYvVYcefj0wsxykyOcvukBanOEpKQEzYo0lM=; b=pKSo1JlaATA7z/10G2VPysZME2
- GWs886YaAtwFGh5q90nbgAGe4YT9IXWn1fairDXXNfK6RNBWwmgOz0VWq12i0ha4hBTjPjSFAuwdz
- w907LuoOZj/muf0j1feUhTjFpw+dYSkoHYzlTxN/8hx8GKSlcEWg4W7mxOpQ2Rj/F2Wua/2WaEDGA
- DtvWCKHmxnFQVsrbCwLzGhyAu8Z3LEXtdTjnR27cRJyEUH2tQ/TK3pwCray3g+3wwjbPTQ8XrVbOC
- T1eliNLeYFMEh4Fzzf/F7ObXIujrV0cxErC1jIRN3NZPrTBmjiml0/ynD8i8uv/BlwYGKz9VOiEJR
- xqlsXL0Q==;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Geoffrey McRae <geoff@hostfission.com>, kraxel@redhat.com,
- pbonzini@redhat.com
-Subject: Re: [PATCH v8 1/1] audio/jack: fix use after free segfault
-Date: Fri, 21 Aug 2020 19:34:44 +0200
-Message-ID: <3291053.UyeazdVyI9@silver>
-In-Reply-To: <20200821134554.101397-2-geoff@hostfission.com>
-References: <20200821134554.101397-1-geoff@hostfission.com>
- <20200821134554.101397-2-geoff@hostfission.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k9B20-0005Xf-Hb
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 13:40:48 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46532)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k9B1y-0002p1-FW
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 13:40:48 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1k9B1w-0001FC-Ph
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 17:40:44 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A731D2E80E8
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 17:40:44 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 13:34:46
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 21 Aug 2020 17:35:13 -0000
+From: Xavier Claessens <1892533@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: zdra
+X-Launchpad-Bug-Reporter: Xavier Claessens (zdra)
+X-Launchpad-Bug-Modifier: Xavier Claessens (zdra)
+References: <159803097267.15754.2795655095121321664.malonedeb@soybean.canonical.com>
+Message-Id: <159803131361.16102.761847810402575379.malone@soybean.canonical.com>
+Subject: [Bug 1892533] Re: Meson: Missing config-host.mak
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="99c2d833c8d727fd05148486920aca032e908071"; Instance="production"
+X-Launchpad-Hash: 175eb345d743cda5483b0250689f6d4df1f8b01d
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 13:35:28
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,181 +70,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1892533 <1892533@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Freitag, 21. August 2020 15:45:54 CEST Geoffrey McRae wrote:
-> This change registers a bottom handler to close the JACK client
-> connection when a server shutdown signal is recieved. Without this
-> libjack2 attempts to "clean up" old clients and causes a use after free
-> segfault.
-> 
-> Signed-off-by: Geoffrey McRae <geoff@hostfission.com>
-> ---
->  audio/jackaudio.c | 55 ++++++++++++++++++++++++++++++++++++-----------
->  1 file changed, 42 insertions(+), 13 deletions(-)
-> 
-> diff --git a/audio/jackaudio.c b/audio/jackaudio.c
-> index 72ed7c4929..572ebea208 100644
-> --- a/audio/jackaudio.c
-> +++ b/audio/jackaudio.c
-> @@ -25,6 +25,7 @@
->  #include "qemu/osdep.h"
->  #include "qemu/module.h"
->  #include "qemu/atomic.h"
-> +#include "qemu/main-loop.h"
->  #include "qemu-common.h"
->  #include "audio.h"
-> 
-> @@ -63,6 +64,8 @@ typedef struct QJackClient {
->      QJackState      state;
->      jack_client_t  *client;
->      jack_nframes_t  freq;
-> +    QemuMutex       shutdown_lock;
-> +    QEMUBH         *shutdown_bh;
-> 
->      struct QJack   *j;
->      int             nchannels;
-> @@ -306,21 +309,27 @@ static int qjack_xrun(void *arg)
->      return 0;
->  }
-> 
-> +static void qjack_shutdown_bh(void *opaque)
-> +{
-> +    QJackClient *c = (QJackClient *)opaque;
-> +    qjack_client_fini(c);
-> +}
-> +
->  static void qjack_shutdown(void *arg)
->  {
->      QJackClient *c = (QJackClient *)arg;
->      c->state = QJACK_STATE_SHUTDOWN;
-> +    qemu_bh_schedule(c->shutdown_bh);
->  }
-> 
->  static void qjack_client_recover(QJackClient *c)
->  {
-> -    if (c->state == QJACK_STATE_SHUTDOWN) {
-> -        qjack_client_fini(c);
-> +    if (c->state != QJACK_STATE_DISCONNECTED) {
-> +        return;
->      }
-> 
->      /* packets is used simply to throttle this */
-> -    if (c->state == QJACK_STATE_DISCONNECTED &&
-> -        c->packets % 100 == 0) {
-> +    if (c->packets % 100 == 0) {
-> 
->          /* if enabled then attempt to recover */
->          if (c->enabled) {
-> @@ -489,15 +498,18 @@ static int qjack_init_out(HWVoiceOut *hw, struct
-> audsettings *as, QJackOut *jo  = (QJackOut *)hw;
->      Audiodev *dev = (Audiodev *)drv_opaque;
-> 
-> -    qjack_client_fini(&jo->c);
-> -
->      jo->c.out       = true;
->      jo->c.enabled   = false;
->      jo->c.nchannels = as->nchannels;
->      jo->c.opt       = dev->u.jack.out;
-> 
-> +    jo->c.shutdown_bh = qemu_bh_new(qjack_shutdown_bh, &jo->c);
-> +    qemu_mutex_init(&jo->c.shutdown_lock);
-> +
->      int ret = qjack_client_init(&jo->c);
->      if (ret != 0) {
-> +        qemu_bh_delete(jo->c.shutdown_bh);
-> +        qemu_mutex_destroy(&jo->c.shutdown_lock);
->          return ret;
->      }
-> 
-> @@ -525,15 +537,18 @@ static int qjack_init_in(HWVoiceIn *hw, struct
-> audsettings *as, QJackIn  *ji  = (QJackIn *)hw;
->      Audiodev *dev = (Audiodev *)drv_opaque;
-> 
-> -    qjack_client_fini(&ji->c);
-> -
->      ji->c.out       = false;
->      ji->c.enabled   = false;
->      ji->c.nchannels = as->nchannels;
->      ji->c.opt       = dev->u.jack.in;
-> 
-> +    ji->c.shutdown_bh = qemu_bh_new(qjack_shutdown_bh, &ji->c);
-> +    qemu_mutex_init(&ji->c.shutdown_lock);
-> +
->      int ret = qjack_client_init(&ji->c);
->      if (ret != 0) {
-> +        qemu_bh_delete(ji->c.shutdown_bh);
-> +        qemu_mutex_destroy(&ji->c.shutdown_lock);
->          return ret;
->      }
-> 
-> @@ -555,7 +570,7 @@ static int qjack_init_in(HWVoiceIn *hw, struct
-> audsettings *as, return 0;
->  }
-> 
-> -static void qjack_client_fini(QJackClient *c)
-> +static void qjack_client_fini_locked(QJackClient *c)
->  {
->      switch (c->state) {
->      case QJACK_STATE_RUNNING:
-> @@ -564,28 +579,42 @@ static void qjack_client_fini(QJackClient *c)
-> 
->      case QJACK_STATE_SHUTDOWN:
->          jack_client_close(c->client);
-> +        c->client = NULL;
-> +
-> +        qjack_buffer_free(&c->fifo);
-> +        g_free(c->port);
-> +
-> +        c->state = QJACK_STATE_DISCONNECTED;
->          /* fallthrough */
-> 
->      case QJACK_STATE_DISCONNECTED:
->          break;
->      }
-> +}
-> 
-> -    qjack_buffer_free(&c->fifo);
-> -    g_free(c->port);
-> -
-> -    c->state = QJACK_STATE_DISCONNECTED;
-> +static void qjack_client_fini(QJackClient *c)
-> +{
-> +    qemu_mutex_lock(&c->shutdown_lock);
-> +    qjack_client_fini_locked(c);
-> +    qemu_mutex_unlock(&c->shutdown_lock);
->  }
-> 
->  static void qjack_fini_out(HWVoiceOut *hw)
->  {
->      QJackOut *jo = (QJackOut *)hw;
->      qjack_client_fini(&jo->c);
-> +
-> +    qemu_bh_delete(jo->c.shutdown_bh);
+configure does not seems to work better:
 
-Paolo wrapped that qemu_bh_delete() call inside the lock as well. So I guess 
-it makes a difference for the BH API?
+build$ ../configure =
 
-> +    qemu_mutex_destroy(&jo->c.shutdown_lock);
->  }
+../configure: 232: shift: can't shift that many
 
-Hmmm, is this qemu_mutex_destroy() safe at this point?
+-- =
 
-> 
->  static void qjack_fini_in(HWVoiceIn *hw)
->  {
->      QJackIn *ji = (QJackIn *)hw;
->      qjack_client_fini(&ji->c);
-> +
-> +    qemu_bh_delete(ji->c.shutdown_bh);
-> +    qemu_mutex_destroy(&ji->c.shutdown_lock);
->  }
-> 
->  static void qjack_enable_out(HWVoiceOut *hw, bool enable)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1892533
 
-Best regards,
-Christian Schoenebeck
+Title:
+  Meson: Missing config-host.mak
 
+Status in QEMU:
+  New
 
+Bug description:
+  Wanted to give a try to the new build system, but a simple "meson
+  build" gives that error:
+
+  meson.build:15:0: ERROR: Failed to load
+  /home/xclaesse/programmation/qemu/build/config-host.mak: [Errno 2] No
+  such file or directory: '/home/xclaesse/programmation/qemu/build
+  /config-host.mak'
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1892533/+subscriptions
 
