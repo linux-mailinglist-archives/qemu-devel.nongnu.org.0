@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAFEC24DB09
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 18:32:49 +0200 (CEST)
-Received: from localhost ([::1]:34006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80A2E24DB1C
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 18:34:47 +0200 (CEST)
+Received: from localhost ([::1]:41846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k99yC-0001fY-Qb
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 12:32:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59668)
+	id 1k9A06-0005UO-Gi
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 12:34:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1k99vx-0007tc-Rp
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 12:30:30 -0400
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:32796)
+ id 1k99vz-0007u9-3w
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 12:30:31 -0400
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:33843)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1k99vt-0006na-KE
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 12:30:29 -0400
-Received: by mail-ej1-x644.google.com with SMTP id u21so2335586ejz.0
- for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 09:30:25 -0700 (PDT)
+ id 1k99vv-0006nm-K8
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 12:30:30 -0400
+Received: by mail-ej1-x643.google.com with SMTP id o23so3030129ejr.1
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 09:30:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OuI8xnJndStSpo+ETjU3EU4hq5mCXR/FiYpus8sMWls=;
- b=RtBd0+/tA0QB1kHWt9+BsloshL2hCQZsnr/oWm+0HJJVwqLPFyn6AT+SofxvLmuImX
- PsAfS3QcpNvxXPTTMzY3cg6GuW96O0nt20YxLWuOGab+e7ycvFO3onzdsygv0zXeSGCm
- gYk+MvS8rqcGAYFuVDwVYaUqZk7juHUkq9QcyCJc/eXlChsskoDjukYCLbfPuTNafalP
- QDS9V8yzFoUdYxgtAC7XBfW5fVgxkgfXSNcj86Ohb4gMrHsqlCCf0qhOsxs6Lr3MgLT4
- cfYA588+j0y5p9YHHNgRaceedtGSBwmhCMKDLafRTMjagMg3ykvVBSqTwK/dVu4jpvJe
- a1rQ==
+ bh=cfGEtVcjgxqVubuTMIgt6HrOoNGCRwyjjLNrvoUWZIE=;
+ b=FcVI/YAV+PBNs/h35+luBqIu5MBgP4JC3OJUnM+kHCHF8ZyBBS5CkJCszjSsrW53QR
+ YY3GkGj2Lf01ntsQIcD/7onmQKw9EeGyAjZX4BjlVFjH7m44yVGxOyu0OYcdsrCop0Wv
+ 1Z16aIRw/4al5FceE09chtSY4OibYq+/HOsq0oZuuIn2gW6w+CAcIUs+jbGb2731gsyS
+ DtcrE4QQmJ8v00DC7ktgUZHN4ORb1qjBh+GRrAVFhusNI1ZZfQBiDfNI+OLxxLu7dex4
+ SP5gdCu7ykqhNMW2y9C/uShqtv48zYfuvxd20DThCDj2EJKLHtdceZtLiLUpPoVkgi9n
+ uHvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OuI8xnJndStSpo+ETjU3EU4hq5mCXR/FiYpus8sMWls=;
- b=g7gt+i2CVTcVEBdcaLTOciHqx772YhugYi5iJGHkeAv/TIeA8apiy/tlEwK3dRew31
- CulBLMaaVYPi3YB9om0gjl4Ty7/vmjjc7vEgVPd6AH/vgrws9r5kVnzbd3f9c7/OFlgT
- YxJZB2GCGwrxBiJs8V6zhV7SsYuX4MHVKRNnyOJ0PLIHhvhgAcZsm51fy/mtoSvKr3L6
- wZoLWnJv1pMtcG8mFpDtdGvdmmqYmONmiVtJUXaQWHEhDxvohvXfChq3Zze4hcMmw/7e
- OpwEbQvwzMs6NcKLB4MfTauGa0zwKJ2L0OJrrgOKUWGJxikdVR7vJuVMPPxKp/1BTOVl
- XYvw==
-X-Gm-Message-State: AOAM531w/oJan7q+fqTM7IAebVer3In/B0U80jcRzbK0JEfADOVrotkY
- zweDQG5BDud5kddDALoD0yXElw==
-X-Google-Smtp-Source: ABdhPJwMXGGsR4gh8umR9SklPbRw5s4nq1puTvleMsU70gLFRDo151sSV9Us4kSCKKUpuk9waTQ+KQ==
-X-Received: by 2002:a17:906:3e06:: with SMTP id
- k6mr3616203eji.37.1598027423946; 
- Fri, 21 Aug 2020 09:30:23 -0700 (PDT)
+ bh=cfGEtVcjgxqVubuTMIgt6HrOoNGCRwyjjLNrvoUWZIE=;
+ b=V1d6EOLKxsGU3fYrsEfOf3rca15dB0auuYZwoZcbF43yZqDziy3tbxri8+CsYUgHxP
+ Qc2qONwpyc1yyN1kqOn2TPj/PyyXuXiJjbQYsvjtLZrtNCdWOQqy9FiXp//eoR5NS2Cv
+ ISWM4ukqmS6JFJJPQuXSfhCTCHl6V3mP0odpyY/l0LqDPds1pDKGiKWnyGqo52nNPxxt
+ LTAk21Pe6/fhFxAINK4NP/gAkWiym8Ll6e9o/ulHigGdZpHdt+qnER98kGER5Gsh1Wb/
+ XubsnMRWRAhStjeTOYpPpSZiffIU2SB5SEnnynxXalQUN8fL1TLJhzFONvm42NuOvIYl
+ 9miw==
+X-Gm-Message-State: AOAM53242XsuR8tTmNhY3arFv4nsFQCxehhHztPUtJEEt7a5rzEGF7pi
+ BBp2JoZgrxQbXxHZKNkx5WJ7Jw==
+X-Google-Smtp-Source: ABdhPJz6ycDFGslYAKVe3XafSFgwZH19GNj3LKMVVzVuLVIv+62GHiDvGCjt/XSNwnDm4w8RB8P1cg==
+X-Received: by 2002:a17:906:9989:: with SMTP id
+ af9mr3498328ejc.385.1598027425104; 
+ Fri, 21 Aug 2020 09:30:25 -0700 (PDT)
 Received: from localhost.localdomain
  ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id dk28sm1398030edb.90.2020.08.21.09.30.23
+ by smtp.gmail.com with ESMTPSA id dk28sm1398030edb.90.2020.08.21.09.30.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Aug 2020 09:30:23 -0700 (PDT)
+ Fri, 21 Aug 2020 09:30:24 -0700 (PDT)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 1/5] virtio-iommu: Default to bypass during boot
-Date: Fri, 21 Aug 2020 18:28:35 +0200
-Message-Id: <20200821162839.3182051-2-jean-philippe@linaro.org>
+Subject: [PATCH 2/5] linux headers: Import virtio-iommu header from Linux
+Date: Fri, 21 Aug 2020 18:28:36 +0200
+Message-Id: <20200821162839.3182051-3-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200821162839.3182051-1-jean-philippe@linaro.org>
 References: <20200821162839.3182051-1-jean-philippe@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=jean-philippe@linaro.org; helo=mail-ej1-x644.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=jean-philippe@linaro.org; helo=mail-ej1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -93,81 +93,83 @@ Cc: peter.maydell@linaro.org, ehabkost@redhat.com, mst@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When a virtio-iommu is present, we currently require the guest to
-configure it before it can use DMA in any other PCI device. This
-prevents, for example, a bootloader that doesn't know how to drive
-virtio-iommu from loading an OS from storage.
-
-Add the "boot-bypass" option, defaulting to true, to let DMA bypass the
-virtio-iommu during boot similarly to the other vIOMMUs. It makes the
-system vulnerable to malicious endpoints during boot, but that isn't
-much of a concern in virtual systems.
+Import virtio-iommu topology definitions from Linux. These changes
+haven't been upstreamed yet.
 
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
- include/hw/virtio/virtio-iommu.h |  1 +
- hw/virtio/virtio-iommu.c         | 22 ++++++++++++++++++++--
- 2 files changed, 21 insertions(+), 2 deletions(-)
+ include/standard-headers/linux/virtio_iommu.h | 44 +++++++++++++++++++
+ 1 file changed, 44 insertions(+)
 
-diff --git a/include/hw/virtio/virtio-iommu.h b/include/hw/virtio/virtio-iommu.h
-index 49eb105cd84..ae57efab1f3 100644
---- a/include/hw/virtio/virtio-iommu.h
-+++ b/include/hw/virtio/virtio-iommu.h
-@@ -58,6 +58,7 @@ typedef struct VirtIOIOMMU {
-     GTree *domains;
-     QemuMutex mutex;
-     GTree *endpoints;
-+    bool boot_bypass;
- } VirtIOIOMMU;
+diff --git a/include/standard-headers/linux/virtio_iommu.h b/include/standard-headers/linux/virtio_iommu.h
+index b9443b83a13..ee158c37c36 100644
+--- a/include/standard-headers/linux/virtio_iommu.h
++++ b/include/standard-headers/linux/virtio_iommu.h
+@@ -16,6 +16,7 @@
+ #define VIRTIO_IOMMU_F_BYPASS			3
+ #define VIRTIO_IOMMU_F_PROBE			4
+ #define VIRTIO_IOMMU_F_MMIO			5
++#define VIRTIO_IOMMU_F_TOPOLOGY			6
  
- #endif
-diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-index 5d56865e569..3b821fc005d 100644
---- a/hw/virtio/virtio-iommu.c
-+++ b/hw/virtio/virtio-iommu.c
-@@ -595,6 +595,24 @@ static void virtio_iommu_report_fault(VirtIOIOMMU *viommu, uint8_t reason,
- 
- }
- 
-+static bool virtio_iommu_bypass_is_allowed(VirtIOIOMMU *s)
-+{
-+    VirtIODevice *vdev = &s->parent_obj;
-+    /*
-+     * Allow bypass if:
-+     * - boot_bypass is enabled and the BYPASS feature hasn't yet been
-+     *   acknowledged.
-+     * - the BYPASS feature has been negotiated.
-+     */
-+    if (s->boot_bypass && !(vdev->status & VIRTIO_CONFIG_S_FEATURES_OK)) {
-+        return true;
-+    }
-+    if (virtio_vdev_has_feature(vdev, VIRTIO_IOMMU_F_BYPASS)) {
-+        return true;
-+    }
-+    return false;
-+}
-+
- static IOMMUTLBEntry virtio_iommu_translate(IOMMUMemoryRegion *mr, hwaddr addr,
-                                             IOMMUAccessFlags flag,
-                                             int iommu_idx)
-@@ -621,8 +639,7 @@ static IOMMUTLBEntry virtio_iommu_translate(IOMMUMemoryRegion *mr, hwaddr addr,
-         .perm = IOMMU_NONE,
-     };
- 
--    bypass_allowed = virtio_vdev_has_feature(&s->parent_obj,
--                                             VIRTIO_IOMMU_F_BYPASS);
-+    bypass_allowed = virtio_iommu_bypass_is_allowed(s);
- 
-     sid = virtio_iommu_get_bdf(sdev);
- 
-@@ -947,6 +964,7 @@ static const VMStateDescription vmstate_virtio_iommu = {
- 
- static Property virtio_iommu_properties[] = {
-     DEFINE_PROP_LINK("primary-bus", VirtIOIOMMU, primary_bus, "PCI", PCIBus *),
-+    DEFINE_PROP_BOOL("boot-bypass", VirtIOIOMMU, boot_bypass, true),
-     DEFINE_PROP_END_OF_LIST(),
+ struct virtio_iommu_range_64 {
+ 	uint64_t					start;
+@@ -27,6 +28,17 @@ struct virtio_iommu_range_32 {
+ 	uint32_t					end;
  };
  
++struct virtio_iommu_topo_config {
++	/* Number of topology description structures */
++	uint16_t					count;
++	/*
++	 * Offset to the first topology description structure
++	 * (virtio_iommu_topo_*) from the start of the virtio_iommu config
++	 * space. Aligned on 8 bytes.
++	 */
++	uint16_t					offset;
++};
++
+ struct virtio_iommu_config {
+ 	/* Supported page sizes */
+ 	uint64_t					page_size_mask;
+@@ -36,6 +48,38 @@ struct virtio_iommu_config {
+ 	struct virtio_iommu_range_32		domain_range;
+ 	/* Probe buffer size */
+ 	uint32_t					probe_size;
++	struct virtio_iommu_topo_config		topo_config;
++};
++
++#define VIRTIO_IOMMU_TOPO_PCI_RANGE		0x1
++#define VIRTIO_IOMMU_TOPO_MMIO			0x2
++
++struct virtio_iommu_topo_pci_range {
++	/* VIRTIO_IOMMU_TOPO_PCI_RANGE */
++	uint8_t					type;
++	uint8_t					reserved;
++	/* Length of this structure */
++	uint16_t					length;
++	/* First endpoint ID in the range */
++	uint32_t					endpoint_start;
++	/* PCI domain number */
++	uint16_t					segment;
++	/* PCI Bus:Device.Function range */
++	uint16_t					bdf_start;
++	uint16_t					bdf_end;
++	uint16_t					padding;
++};
++
++struct virtio_iommu_topo_mmio {
++	/* VIRTIO_IOMMU_TOPO_MMIO */
++	uint8_t					type;
++	uint8_t					reserved;
++	/* Length of this structure */
++	uint16_t					length;
++	/* Endpoint ID */
++	uint32_t					endpoint;
++	/* Address of the first MMIO region */
++	uint64_t					address;
+ };
+ 
+ /* Request types */
 -- 
 2.28.0
 
