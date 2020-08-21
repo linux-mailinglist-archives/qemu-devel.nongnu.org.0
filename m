@@ -2,95 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98FAD24D3EB
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 13:27:38 +0200 (CEST)
-Received: from localhost ([::1]:41282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8CE824D3F5
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 13:30:21 +0200 (CEST)
+Received: from localhost ([::1]:59032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k95Cr-0005hK-KW
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 07:27:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34004)
+	id 1k95FU-0004NH-KX
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 07:30:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k94IM-0003YV-BP
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:29:14 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:55509
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1k94J1-0005HS-OU
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:29:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41858)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k94IJ-0002WQ-29
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:29:13 -0400
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1k94Iz-0002cG-VU
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:29:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598005750;
+ s=mimecast20190719; t=1598005793;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AOuvQ7ydBI/j8k8Y+LjiGayS/9+HRQxHvTiG3KKuJAU=;
- b=PSztzcDmCW5OjgtpS9QYYNblRhqBk6Zsv0jaUNASUYIo/WiDmFiYbamDHKG7ve2Dgd+X8O
- w+H9zzYJVGamtz+Ma2jNbdifOytpF7XVkFq8xCdQH8jlkpp4Owl5LE1uHQvqqwOMc/JL0x
- LL2a3zyajBSl6eMPa2RRjj8fmXl5Aqk=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-301-Mt8LcoErNGyuzdwWoybdUA-1; Fri, 21 Aug 2020 06:29:08 -0400
-X-MC-Unique: Mt8LcoErNGyuzdwWoybdUA-1
-Received: by mail-wm1-f71.google.com with SMTP id p184so782616wmp.7
- for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 03:29:08 -0700 (PDT)
+ bh=+4pnbSrDnlxCt/KbRjsiXp4SKG8HWNOhQT+5aGwvJLE=;
+ b=HqddCTD/wU0JlxWi0jKfiPx/ljosFKtsNR2Oo0DFbW3nllH2196ddtuC3FHGrA3Cf555qC
+ q2evJ3OSdtDPnBMVbnKe5vgcd+crSnvjUHcsiO8Op/BC+RwPRWahLfxWDYUCVlqotICTP5
+ 2g6o2X4fCD6g6OMzZzm5O4UNUu5Isro=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-468-cZXfWzkKOkmz-senmdTyiQ-1; Fri, 21 Aug 2020 06:29:49 -0400
+X-MC-Unique: cZXfWzkKOkmz-senmdTyiQ-1
+Received: by mail-wm1-f72.google.com with SMTP id h7so649440wmm.7
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 03:29:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=AOuvQ7ydBI/j8k8Y+LjiGayS/9+HRQxHvTiG3KKuJAU=;
- b=Jggeqln4TA+IxTuE15qBAT4PSbe86waEzvOyzOyvP7SrOkMHTJPuR9r9e5SrB4Hk0w
- 6U8PPOWJ7K9gTL1uKN6+f0FAxYtnh7wSp3BKp3vs7R8hI/g/Sje40aUNSfpOvSbpHlK1
- loE4sOROLKjwkt1AZKsFWRpo4w3gGE3zzDngtUWny1uVrbNRoBu2u+SKo1iWMM1l7KO0
- QAJzI+RfilDISjAE8JzfYLaMkR/R6lGbs1+WejkeK7Abw9cu+4ayhPlRbBRfRZA+rCo6
- L3KdYs8lV/tWIvyuZhbwP/saSwoPscqbTk2ILm21+E3THCUkOc1rqZ4gDKkQiOYNRyjx
- GORw==
-X-Gm-Message-State: AOAM531CXtNC8ib1xnwdOwp1+5LhitgnsqEyMwhQ6lHoW+yPcLdVLPNt
- pptVSkpnvUZLTo/CDAL+C0D6AlEPYwyaTRMycP8oo3YLhKyJEIwZvoc+c1o969/Rts7GJRhyeFA
- GufTNWp4+cZ94HWQ=
-X-Received: by 2002:a5d:5383:: with SMTP id d3mr2121785wrv.42.1598005747342;
- Fri, 21 Aug 2020 03:29:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyYAY5OJ6GsryQrVLfc7e2zpCBMtMpH8xhPc1o3JWe1NkVngd8Bk+tfV5K95zDiqUmLAIgctw==
-X-Received: by 2002:a5d:5383:: with SMTP id d3mr2121765wrv.42.1598005747058;
- Fri, 21 Aug 2020 03:29:07 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:1cc0:4e4e:f1a9:1745?
- ([2001:b07:6468:f312:1cc0:4e4e:f1a9:1745])
- by smtp.gmail.com with ESMTPSA id h7sm4273563wmf.43.2020.08.21.03.29.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Aug 2020 03:29:06 -0700 (PDT)
-Subject: Re: [PATCH v3] configure: add support for pseudo-"in source tree"
- builds
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200821102204.337859-1-berrange@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <e3d24024-d25e-7286-482d-0146404afbab@redhat.com>
-Date: Fri, 21 Aug 2020 12:29:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=Tb60Up/BUBy/IR/p7cv54uNslKqKIns3yFa/SV4TQBs=;
+ b=ftCzC6zWP0wEssXUUbaq1R/ngrqyrkS8tMtnEpSErupLepyyAnofoPxGYRFJVatBrK
+ FMcUIh51LI2w+dZXG3gG4Q8xfkkDXA/xa2qMpW5QK6Nu51HcEHhpAjHfDgxBaLUmIo4E
+ K7nm024nSwozxoWYkbo25bMWuUIwDJuefAjxnxnRHdwYCgme/8d8SkTOy2Jl3m6wzPv0
+ GNK0HTSCEMVWEZgnR0aM+iXMf4RYPhloDESLfC2yQS7T6C1vp8Nf0dQN3frAydmkpMHK
+ fxpTMnpygs8WclwbVzslMC6pkgDC+4NLznrKEEkFARW41tEYsepJ+BWxuNYhBl4T7+Nm
+ 5MzQ==
+X-Gm-Message-State: AOAM531wg04K/2CSLEsiEo20G/iK5q5SloLaUitd8+mXYtQNwwhWbWIw
+ v+VaKEFn4wkkuK/TGdDy0qjX51gvs2ZYFv8sjpajcvep6EoU9VSlY8rSqLJwgho7J3wmnE9xXbW
+ SkSbqn7aJDaMYkuM=
+X-Received: by 2002:a1c:2646:: with SMTP id m67mr3255545wmm.137.1598005788466; 
+ Fri, 21 Aug 2020 03:29:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyMB3DFWY6UyjEMn+SE/g+0d/YSurueZ30CAvkwJBlv3Vr5A8UtAz9T8IFjG+kF4M8FGKGSjg==
+X-Received: by 2002:a1c:2646:: with SMTP id m67mr3255520wmm.137.1598005788187; 
+ Fri, 21 Aug 2020 03:29:48 -0700 (PDT)
+Received: from steredhat (host-79-33-191-244.retail.telecomitalia.it.
+ [79.33.191.244])
+ by smtp.gmail.com with ESMTPSA id x11sm3449636wrl.28.2020.08.21.03.29.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Aug 2020 03:29:47 -0700 (PDT)
+Date: Fri, 21 Aug 2020 12:29:37 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v5 15/15] block/nvme: Use an array of EventNotifier
+Message-ID: <20200821102937.bartqudtcfesdmzr@steredhat>
+References: <20200820165901.1139109-1-philmd@redhat.com>
+ <20200820165901.1139109-16-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200821102204.337859-1-berrange@redhat.com>
-Content-Language: en-US
+In-Reply-To: <20200820165901.1139109-16-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.001
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 05:15:56
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 02:43:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
 X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,122 +99,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/08/20 12:22, Daniel P. Berrangé wrote:
-> Meson requires the build dir to be separate from the source tree. Many
-> people are used to just running "./configure && make" though and the
-> meson conversion breaks that.
+On Thu, Aug 20, 2020 at 06:59:01PM +0200, Philippe Mathieu-Daudé wrote:
+> In preparation of using multiple IRQ (thus multiple eventfds)
+> make BDRVNVMeState::irq_notifier an array (for now of a single
+> element, the admin queue notifier).
 > 
-> This introduces some backcompat support to make it appear as if an
-> "in source tree" build is being done, but with the results in the
-> "build/" directory. This allows "./configure && make" to work as it
-> did historically, albeit with the output binaries staying under build/.
-> 
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
+>  block/nvme.c | 31 +++++++++++++++++++++----------
+>  1 file changed, 21 insertions(+), 10 deletions(-)
 > 
-> Changed in v3:
-> 
->  - remove bashism  ==
->  - avoid need for quoting when generating GNUmakefile
->  - change line breaks in GNUmakefile for clarity
-> 
->  .gitignore |  2 ++
->  configure  | 52 +++++++++++++++++++++++++++++++++++++++++++++++++---
->  2 files changed, 51 insertions(+), 3 deletions(-)
-> 
-> diff --git a/.gitignore b/.gitignore
-> index 92311284ef..4ccb9ed975 100644
-> --- a/.gitignore
-> +++ b/.gitignore
-> @@ -1,3 +1,5 @@
-> +/GNUmakefile
-> +/build/
->  /.doctrees
->  /config-devices.*
->  /config-all-devices.*
-> diff --git a/configure b/configure
-> index cc5f58f31a..4e5fe33211 100755
-> --- a/configure
-> +++ b/configure
-> @@ -11,6 +11,55 @@ unset CLICOLOR_FORCE GREP_OPTIONS
->  # Don't allow CCACHE, if present, to use cached results of compile tests!
->  export CCACHE_RECACHE=yes
+> diff --git a/block/nvme.c b/block/nvme.c
+> index a61e86a83eb..fe8a40b7ede 100644
+> --- a/block/nvme.c
+> +++ b/block/nvme.c
+> @@ -106,6 +106,12 @@ QEMU_BUILD_BUG_ON(offsetof(NVMeRegs, doorbells) != 0x1000);
+>  #define INDEX_ADMIN     0
+>  #define INDEX_IO(n)     (1 + n)
 >  
-> +# make source path absolute
-> +source_path=$(cd "$(dirname -- "$0")"; pwd)
+> +/* This driver shares a single MSIX IRQ for the admin and I/O queues */
+> +enum {
+> +    MSIX_SHARED_IRQ_IDX = 0,
+> +    MSIX_IRQ_COUNT = 1
+> +};
 > +
-> +if test "$PWD" = "$source_path"
-> +then
-> +    echo "Using './build' as the directory for build output"
-> +
-> +    MARKER=build/auto-created-by-configure
-> +
-> +    if test -e build
-> +    then
-> +        if test -f $MARKER
-> +        then
-> +           rm -rf build
-> +        else
-> +            echo "ERROR: ./build dir already exists and was not previously created by configure"
-> +            exit 1
-> +        fi
-> +    fi
-> +
-> +    mkdir build
-> +    touch $MARKER
-> +
-> +    cat > GNUmakefile <<'EOF'
-> +# This file is auto-generated by configure to support in-source tree
-> +# 'make' command invocation
-> +
-> +ifeq ($(MAKECMDGOALS),)
-> +recurse: all
-> +endif
-> +
-> +.NOTPARALLEL: %
-> +%: force
-> +	@echo 'changing dir to build for $(MAKE) "$(MAKECMDGOALS)"...'
-> +	@$(MAKE) -C build -f Makefile $(MAKECMDGOALS)
-> +	@if test "$(MAKECMDGOALS)" = "distclean" && \
-> +	    test -e build/auto-created-by-configure ; \
-> +	then \
-> +	    rm -rf build GNUmakefile ; \
-> +	fi
-> +force: ;
-> +.PHONY: force
-> +GNUmakefile: ;
-> +
-> +EOF
-> +    cd build
-> +    exec $source_path/configure "$@"
-> +fi
-> +
->  # Temporary directory used for files created while
->  # configure runs. Since it is in the build directory
->  # we can safely blow away any previous version of it
-> @@ -297,9 +346,6 @@ ld_has() {
->      $ld --help 2>/dev/null | grep ".$1" >/dev/null 2>&1
+>  struct BDRVNVMeState {
+>      AioContext *aio_context;
+>      QEMUVFIOState *vfio;
+> @@ -120,7 +126,7 @@ struct BDRVNVMeState {
+>      /* How many uint32_t elements does each doorbell entry take. */
+>      size_t doorbell_scale;
+>      bool write_cache_supported;
+> -    EventNotifier irq_notifier;
+> +    EventNotifier irq_notifier[MSIX_IRQ_COUNT];
+>  
+>      uint64_t nsze; /* Namespace size reported by identify command */
+>      int nsid;      /* The namespace id to read/write data. */
+> @@ -631,7 +637,8 @@ static bool nvme_poll_queues(BDRVNVMeState *s)
+>  
+>  static void nvme_handle_event(EventNotifier *n)
+>  {
+> -    BDRVNVMeState *s = container_of(n, BDRVNVMeState, irq_notifier);
+> +    BDRVNVMeState *s = container_of(n, BDRVNVMeState,
+> +                                    irq_notifier[MSIX_SHARED_IRQ_IDX]);
+>  
+>      trace_nvme_handle_event(s);
+>      event_notifier_test_and_clear(n);
+> @@ -683,7 +690,8 @@ out_error:
+>  static bool nvme_poll_cb(void *opaque)
+>  {
+>      EventNotifier *e = opaque;
+> -    BDRVNVMeState *s = container_of(e, BDRVNVMeState, irq_notifier);
+> +    BDRVNVMeState *s = container_of(e, BDRVNVMeState,
+> +                                    irq_notifier[MSIX_SHARED_IRQ_IDX]);
+>  
+>      trace_nvme_poll_cb(s);
+>      return nvme_poll_queues(s);
+> @@ -705,7 +713,7 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
+>      s->device = g_strdup(device);
+>      s->nsid = namespace;
+>      s->aio_context = bdrv_get_aio_context(bs);
+> -    ret = event_notifier_init(&s->irq_notifier, 0);
+> +    ret = event_notifier_init(&s->irq_notifier[MSIX_SHARED_IRQ_IDX], 0);
+>      if (ret) {
+>          error_setg(errp, "Failed to init event notifier");
+>          return ret;
+> @@ -784,12 +792,13 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
+>          }
+>      }
+>  
+> -    ret = qemu_vfio_pci_init_irq(s->vfio, &s->irq_notifier,
+> +    ret = qemu_vfio_pci_init_irq(s->vfio, s->irq_notifier,
+
+Maybe we can use '&s->irq_notifier[MSIX_SHARED_IRQ_IDX]' to match the other
+changes.
+
+>                                   VFIO_PCI_MSIX_IRQ_INDEX, errp);
+>      if (ret) {
+>          goto out;
+>      }
+> -    aio_set_event_notifier(bdrv_get_aio_context(bs), &s->irq_notifier,
+> +    aio_set_event_notifier(bdrv_get_aio_context(bs),
+> +                           &s->irq_notifier[MSIX_SHARED_IRQ_IDX],
+>                             false, nvme_handle_event, nvme_poll_cb);
+>  
+>      nvme_identify(bs, namespace, &local_err);
+> @@ -872,9 +881,10 @@ static void nvme_close(BlockDriverState *bs)
+>          nvme_free_queue_pair(s->queues[i]);
+>      }
+>      g_free(s->queues);
+> -    aio_set_event_notifier(bdrv_get_aio_context(bs), &s->irq_notifier,
+> +    aio_set_event_notifier(bdrv_get_aio_context(bs),
+> +                           &s->irq_notifier[MSIX_SHARED_IRQ_IDX],
+>                             false, NULL, NULL);
+> -    event_notifier_cleanup(&s->irq_notifier);
+> +    event_notifier_cleanup(&s->irq_notifier[MSIX_SHARED_IRQ_IDX]);
+>      qemu_vfio_pci_unmap_bar(s->vfio, 0, (void *)s->regs, 0, NVME_BAR_SIZE);
+>      qemu_vfio_close(s->vfio);
+>  
+> @@ -1381,7 +1391,8 @@ static void nvme_detach_aio_context(BlockDriverState *bs)
+>          q->completion_bh = NULL;
+>      }
+>  
+> -    aio_set_event_notifier(bdrv_get_aio_context(bs), &s->irq_notifier,
+> +    aio_set_event_notifier(bdrv_get_aio_context(bs),
+> +                           &s->irq_notifier[MSIX_SHARED_IRQ_IDX],
+>                             false, NULL, NULL);
 >  }
 >  
-> -# make source path absolute
-> -source_path=$(cd "$(dirname -- "$0")"; pwd)
-> -
->  if printf %s\\n "$source_path" "$PWD" | grep -q "[[:space:]:]";
->  then
->    error_exit "main directory cannot contain spaces nor colons"
+> @@ -1391,7 +1402,7 @@ static void nvme_attach_aio_context(BlockDriverState *bs,
+>      BDRVNVMeState *s = bs->opaque;
+>  
+>      s->aio_context = new_context;
+> -    aio_set_event_notifier(new_context, &s->irq_notifier,
+> +    aio_set_event_notifier(new_context, &s->irq_notifier[MSIX_SHARED_IRQ_IDX],
+>                             false, nvme_handle_event, nvme_poll_cb);
+>  
+>      for (int i = 0; i < s->nr_queues; i++) {
+> -- 
+> 2.26.2
 > 
-
-v9, here I come :)
-
-Paolo
+> 
 
 
