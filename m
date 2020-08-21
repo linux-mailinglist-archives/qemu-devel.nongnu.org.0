@@ -2,74 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DB1224D46F
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 13:48:57 +0200 (CEST)
-Received: from localhost ([::1]:57468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20A5924D46A
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 13:47:38 +0200 (CEST)
+Received: from localhost ([::1]:51768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k95XU-0004pl-Et
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 07:48:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43820)
+	id 1k95WD-0002Vu-55
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 07:47:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1k959M-0006eL-VY
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 07:24:01 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:59424 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1k959L-0000Lz-5w
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 07:24:00 -0400
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 3AE8E56774;
- Fri, 21 Aug 2020 11:23:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-transfer-encoding:content-disposition
- :content-type:content-type:mime-version:references:message-id
- :subject:subject:from:from:date:date:received:received:received;
- s=mta-01; t=1598009036; x=1599823437; bh=8IS/00VtCUA9BCDC4FUtY0
- BvBTW6Mt7QKwHWtZ50nxI=; b=K5I+qVLaIG0D0X+uqJR19EGjWg2iRMhaEgCOnA
- 7mLJUqfaK1RHhCmG0XE46NIUBj0hdGl66y2UWR9oV8rvR8K6MECa+CYm6/NcuQAd
- KMmNQlacknEEhaS3oxTJPjzMiORG2rABME0wQWdm38CvWvqndOJF/dzTYu0FTytp
- sXsu8=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id nn3RSQpny8Sb; Fri, 21 Aug 2020 14:23:56 +0300 (MSK)
-Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
- [172.17.10.102])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id B1F5F56264;
- Fri, 21 Aug 2020 14:23:55 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
- (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Fri, 21
- Aug 2020 14:23:55 +0300
-Date: Fri, 21 Aug 2020 14:23:55 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH v2 19/58] hvf: Move HVFState typedef to hvf.h
-Message-ID: <20200821112355.GC89922@SPB-NB-133.local>
-References: <20200820001236.1284548-1-ehabkost@redhat.com>
- <20200820001236.1284548-20-ehabkost@redhat.com>
+ (Exim 4.90_1) (envelope-from <geoff@hostfission.com>)
+ id 1k95E4-0001jB-3t
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 07:28:52 -0400
+Received: from mail1.hostfission.com ([139.99.139.48]:44010)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <geoff@hostfission.com>) id 1k95E2-00011g-4s
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 07:28:51 -0400
+Received: from www1.hostfission.com (www1.hostfission.com [139.99.139.52])
+ by mail1.hostfission.com (Postfix) with ESMTP id D7883405E8;
+ Fri, 21 Aug 2020 21:28:44 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hostfission.com;
+ s=mail; t=1598009324;
+ bh=2pTHj+PCws8Rq30Y9j4PZL3rmeVtYANvCBCqBgWcCSM=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=ROhp0wa9RRaKGx29IDXOa5gDd/4dbVk4+zOia4Kmk+RxOONK5H6WGRhFpoBY2ut/q
+ y350JE35zmZrgjBWrdyAlu2p3xThQQ1es7bJtVdTkEjNAiFR/rpv0JWmdin8BKnoxb
+ n8UFAxrIQTyqmXJIRLoFGj4paTXgty7BU08WAWjg=
+Received: from mail.hostfission.com (www1.hostfission.com [127.0.0.1])
+ by www1.hostfission.com (Postfix) with ESMTP id C5E5087E5A;
+ Fri, 21 Aug 2020 21:28:44 +1000 (AEST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200820001236.1284548-20-ehabkost@redhat.com>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-02.corp.yadro.com (172.17.10.102)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 06:53:56
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Fri, 21 Aug 2020 21:28:44 +1000
+From: Geoffrey McRae <geoff@hostfission.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v5 1/1] audio/jack: fix use after free segfault
+In-Reply-To: <c84d95de-c71d-3272-6b41-95753634482a@redhat.com>
+References: <20200819062940.52774-1-geoff@hostfission.com>
+ <5029913.bOW1W81TKx@silver>
+ <20200820053728.kv7pngxqzp32uky3@sirius.home.kraxel.org>
+ <3140676.b1PlGooJ8z@silver>
+ <c84d95de-c71d-3272-6b41-95753634482a@redhat.com>
+Message-ID: <a165417b4d27c7fbce404e81f6c38cda@hostfission.com>
+X-Sender: geoff@hostfission.com
+User-Agent: Roundcube Webmail/1.3.8
+Received-SPF: pass client-ip=139.99.139.48; envelope-from=geoff@hostfission.com;
+ helo=mail1.hostfission.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 07:28:45
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,69 +74,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, "Daniel P.
- Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 19, 2020 at 08:11:57PM -0400, Eduardo Habkost wrote:
-> Move typedef closer to the type check macros, to make it easier
-> to convert the code to OBJECT_DEFINE_TYPE() in the future.
-> 
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> ---
-> Changes v1 -> v2: none
-> 
-> ---
-> Cc: Cameron Esfahani <dirty@apple.com>
-> Cc: Roman Bolshakov <r.bolshakov@yadro.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Richard Henderson <rth@twiddle.net>
-> Cc: Eduardo Habkost <ehabkost@redhat.com>
-> Cc: qemu-devel@nongnu.org
-> ---
->  include/sysemu/hvf.h       | 1 +
->  target/i386/hvf/hvf-i386.h | 4 ++--
->  2 files changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/sysemu/hvf.h b/include/sysemu/hvf.h
-> index d3bed80ea8..760d6c79a2 100644
-> --- a/include/sysemu/hvf.h
-> +++ b/include/sysemu/hvf.h
-> @@ -35,6 +35,7 @@ void hvf_vcpu_destroy(CPUState *);
->  
->  #define TYPE_HVF_ACCEL ACCEL_CLASS_NAME("hvf")
->  
-> +typedef struct HVFState HVFState;
 
-Forward declaration of HVFState is missed before the typedef.
+> My suggestion is to work towards protecting the audio code with its own
+> mutex(es) and ignore the existence of the BQL for subsystems that can 
+> do
+> so (audio is a prime candidate).  Also please add comments to
+> audio_int.h about which functions are called from other threads than 
+> the
+> QEMU main thread.
 
->  #define HVF_STATE(obj) \
->      OBJECT_CHECK(HVFState, (obj), TYPE_HVF_ACCEL)
->  
-> diff --git a/target/i386/hvf/hvf-i386.h b/target/i386/hvf/hvf-i386.h
-> index ef20c73eca..e0edffd077 100644
-> --- a/target/i386/hvf/hvf-i386.h
-> +++ b/target/i386/hvf/hvf-i386.h
-> @@ -57,13 +57,13 @@ typedef struct hvf_vcpu_caps {
->      uint64_t vmx_cap_preemption_timer;
->  } hvf_vcpu_caps;
->  
-> -typedef struct HVFState {
-> +struct HVFState {
->      AccelState parent;
->      hvf_slot slots[32];
->      int num_slots;
->  
->      hvf_vcpu_caps *hvf_caps;
-> -} HVFState;
-> +};
->  extern HVFState *hvf_state;
->  
->  void hvf_set_phys_mem(MemoryRegionSection *, bool);
-> -- 
-> 2.26.2
+Ok, so to get back on topic, what exactly is the best way forward to fix 
+this issue in this patchset? Should I be managing a local mutex instead?
+
 > 
+> Thanks,
+> 
+> Paolo
+> 
+> [1] https://lamport.azurewebsites.net/pubs/teaching-concurrency.pdf
 
