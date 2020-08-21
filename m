@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D59324D72B
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 16:18:23 +0200 (CEST)
-Received: from localhost ([::1]:50214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC9D824D724
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 16:16:26 +0200 (CEST)
+Received: from localhost ([::1]:41296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k97s6-0000Yt-D8
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 10:18:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54582)
+	id 1k97qD-0005LK-UD
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 10:16:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k97j1-0007RV-Uf
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 10:08:59 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:57049)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k97j0-0007OT-RF
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 10:08:58 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51482
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k97iz-0004Yt-Mr
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 10:08:59 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k97iy-0004YK-G8
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 10:08:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598018937;
+ s=mimecast20190719; t=1598018935;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OKTiWydU/nqR2BLF9AhL3+Bno7cgn33+guhRB4DEWZc=;
- b=DDRR6x00S3QsrpqYm/qRWHo+8kXWEPQ3i4b2hQmsyqRH0Vxq6l6gnGk1rcfmpD9RZ9A348
- erNB0FLDIf7MHdzH6dfMxJTlEW5JSQWMFetB45TxRSDlJXb3wXHNacOfDLOewQWRAR8uJA
- dKRKAKbW4uaGxkzzpNYBUwiHL1ItqTQ=
+ bh=bb4fvTMSCItB9jUwQLJKgqwZGCl+g+KP57d0VMWcbPo=;
+ b=JjwoGtLbAlU82lLk6X0OwibPL7l9ROUwSR5PRbvjCeoch9ve6I/B2HVGri64SmLwk8UkCy
+ 6pg1jUqpfp1GuWjmpnSygHa668dpkYzhJi3oSxICcc3OBixhoLmPGvRgc6USJIauTl1hMr
+ 7uerL2ol7FuEMyMA3a9sEWsllnTw/9c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-17-uv-TMDEWNaePRDHmLWbE_w-1; Fri, 21 Aug 2020 10:08:38 -0400
-X-MC-Unique: uv-TMDEWNaePRDHmLWbE_w-1
+ us-mta-69-FSEnJA6-NSu7NVfGIRUuPg-1; Fri, 21 Aug 2020 10:08:38 -0400
+X-MC-Unique: FSEnJA6-NSu7NVfGIRUuPg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0465364081;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D69781F03E;
  Fri, 21 Aug 2020 14:08:37 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-113-220.phx2.redhat.com [10.3.113.220])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8F49D7AEC9;
- Fri, 21 Aug 2020 14:08:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2E1067AEC9;
+ Fri, 21 Aug 2020 14:08:37 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/14] qcow2.py: Introduce '-j' key to dump in JSON format
-Date: Fri, 21 Aug 2020 09:08:20 -0500
-Message-Id: <20200821140826.194322-9-eblake@redhat.com>
+Subject: [PULL 09/14] qcow2_format.py: collect fields to dump in JSON format
+Date: Fri, 21 Aug 2020 09:08:21 -0500
+Message-Id: <20200821140826.194322-10-eblake@redhat.com>
 In-Reply-To: <20200821140826.194322-1-eblake@redhat.com>
 References: <20200821140826.194322-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +57,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
+ helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 05:15:56
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
@@ -65,7 +66,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,93 +89,110 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 
-Add the command key to the qcow2.py arguments list to dump QCOW2
-metadata in JSON format. Here is the suggested way to do that. The
-implementation of the dump in JSON format is in the patch that follows.
+As __dict__ is being extended with class members we do not want to
+print, add the to_json() method to classes that returns a json-dumpable
+object with desired fields and their values. Extend it in subclass when
+necessary to print the final dictionary in the JSON output which
+follows.
 
+Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Message-Id: <1596742557-320265-10-git-send-email-andrey.shinkevich@virtuozzo.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <1596742557-320265-9-git-send-email-andrey.shinkevich@virtuozzo.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- tests/qemu-iotests/qcow2.py        | 18 ++++++++++++++----
- tests/qemu-iotests/qcow2_format.py |  4 ++--
- 2 files changed, 16 insertions(+), 6 deletions(-)
+ tests/qemu-iotests/qcow2_format.py | 36 ++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
-diff --git a/tests/qemu-iotests/qcow2.py b/tests/qemu-iotests/qcow2.py
-index 0910e6ac0705..77ca59cc663d 100755
---- a/tests/qemu-iotests/qcow2.py
-+++ b/tests/qemu-iotests/qcow2.py
-@@ -26,16 +26,19 @@ from qcow2_format import (
- )
-
-
-+is_json = False
-+
-+
- def cmd_dump_header(fd):
-     h = QcowHeader(fd)
--    h.dump()
-+    h.dump(is_json)
-     print()
--    h.dump_extensions()
-+    h.dump_extensions(is_json)
-
-
- def cmd_dump_header_exts(fd):
-     h = QcowHeader(fd)
--    h.dump_extensions()
-+    h.dump_extensions(is_json)
-
-
- def cmd_set_header(fd, name, value):
-@@ -151,11 +154,14 @@ def main(filename, cmd, args):
-
-
- def usage():
--    print("Usage: %s <file> <cmd> [<arg>, ...]" % sys.argv[0])
-+    print("Usage: %s <file> <cmd> [<arg>, ...] [<key>, ...]" % sys.argv[0])
-     print("")
-     print("Supported commands:")
-     for name, handler, num_args, desc in cmds:
-         print("    %-20s - %s" % (name, desc))
-+    print("")
-+    print("Supported keys:")
-+    print("    %-20s - %s" % ('-j', 'Dump in JSON format'))
-
-
- if __name__ == '__main__':
-@@ -163,4 +169,8 @@ if __name__ == '__main__':
-         usage()
-         sys.exit(1)
-
-+    is_json = '-j' in sys.argv
-+    if is_json:
-+        sys.argv.remove('-j')
-+
-     main(sys.argv[1], sys.argv[2], sys.argv[3:])
 diff --git a/tests/qemu-iotests/qcow2_format.py b/tests/qemu-iotests/qcow2_format.py
-index 574249bc463c..de0adcbf9db0 100644
+index de0adcbf9db0..5a298b2f1357 100644
 --- a/tests/qemu-iotests/qcow2_format.py
 +++ b/tests/qemu-iotests/qcow2_format.py
-@@ -109,7 +109,7 @@ class Qcow2Struct(metaclass=Qcow2StructMeta):
-         self.__dict__ = dict((field[2], values[i])
-                              for i, field in enumerate(self.fields))
+@@ -119,6 +119,9 @@ class Qcow2Struct(metaclass=Qcow2StructMeta):
 
--    def dump(self):
-+    def dump(self, is_json=False):
-         for f in self.fields:
-             value = self.__dict__[f[2]]
-             if isinstance(f[1], str):
-@@ -408,7 +408,7 @@ class QcowHeader(Qcow2Struct):
-         buf = buf[0:header_bytes-1]
-         fd.write(buf)
+             print('{:<25} {}'.format(f[2], value_str))
 
--    def dump_extensions(self):
-+    def dump_extensions(self, is_json=False):
-         for ex in self.extensions:
-             print('Header extension:')
-             ex.dump()
++    def to_json(self):
++        return dict((f[2], self.__dict__[f[2]]) for f in self.fields)
++
+
+ class Qcow2BitmapExt(Qcow2Struct):
+
+@@ -151,6 +154,11 @@ class Qcow2BitmapExt(Qcow2Struct):
+             print()
+             entry.dump()
+
++    def to_json(self):
++        fields_dict = super().to_json()
++        fields_dict['bitmap_directory'] = self.bitmap_directory
++        return fields_dict
++
+
+ class Qcow2BitmapDirEntry(Qcow2Struct):
+
+@@ -189,6 +197,14 @@ class Qcow2BitmapDirEntry(Qcow2Struct):
+         super(Qcow2BitmapDirEntry, self).dump()
+         self.bitmap_table.dump()
+
++    def to_json(self):
++        # Put the name ahead of the dict
++        return {
++            'name': self.name,
++            **super().to_json(),
++            'bitmap_table': self.bitmap_table
++        }
++
+
+ class Qcow2BitmapTableEntry(Qcow2Struct):
+
+@@ -214,6 +230,10 @@ class Qcow2BitmapTableEntry(Qcow2Struct):
+         else:
+             self.type = 'all-zeroes'
+
++    def to_json(self):
++        return {'type': self.type, 'offset': self.offset,
++                'reserved': self.reserved}
++
+
+ class Qcow2BitmapTable:
+
+@@ -234,6 +254,9 @@ class Qcow2BitmapTable:
+                 size = 0
+             print(f'{i:<14} {entry.type:<15} {size:<12} {entry.offset}')
+
++    def to_json(self):
++        return self.entries
++
+
+ QCOW2_EXT_MAGIC_BITMAPS = 0x23852875
+
+@@ -249,6 +272,9 @@ class QcowHeaderExtension(Qcow2Struct):
+             0x44415441: 'Data file'
+         }
+
++        def to_json(self):
++            return self.mapping.get(self.value, "<unknown>")
++
+     fields = (
+         ('u32', Magic, 'magic'),
+         ('u32', '{}', 'length')
+@@ -311,6 +337,16 @@ class QcowHeaderExtension(Qcow2Struct):
+         else:
+             self.obj.dump()
+
++    def to_json(self):
++        # Put the name ahead of the dict
++        res = {'name': self.Magic(self.magic), **super().to_json()}
++        if self.obj is not None:
++            res['data'] = self.obj
++        else:
++            res['data_str'] = self.data_str
++
++        return res
++
+     @classmethod
+     def create(cls, magic, data):
+         return QcowHeaderExtension(magic, len(data), data)
 -- 
 2.28.0
 
