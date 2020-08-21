@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A8E624DEA8
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 19:38:24 +0200 (CEST)
-Received: from localhost ([::1]:52954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD06524DED2
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 19:45:20 +0200 (CEST)
+Received: from localhost ([::1]:47250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9Azf-0001c0-FN
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 13:38:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57374)
+	id 1k9B6N-0002ea-QY
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 13:45:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k9ArI-0001dX-Ic; Fri, 21 Aug 2020 13:29:44 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:37750)
+ id 1k9ArL-0001h1-GD; Fri, 21 Aug 2020 13:29:47 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:44716)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k9ArG-0001Dl-Kx; Fri, 21 Aug 2020 13:29:44 -0400
-Received: by mail-wm1-x336.google.com with SMTP id k8so2576569wma.2;
- Fri, 21 Aug 2020 10:29:41 -0700 (PDT)
+ id 1k9ArI-0001E4-Py; Fri, 21 Aug 2020 13:29:47 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id c15so2627108wrs.11;
+ Fri, 21 Aug 2020 10:29:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KQ/YEfF3Ypebl8yU3qCopOrUVOQmWJtB56JKVnwwg3E=;
- b=t/umYr00SyZcPvvEfQ9/PS4lw/KPvOAaaDQkO6c4VVF4ah7sFI+HK5KuFC4tJV/Y/+
- bFuGPdFmu2rt63cYiKprjOkfWMwxA+dSV/8mLI2R73S97z2EfxS9Aa09VTDf9cfIMeBg
- jwNHJPysyvNGz7wLOZakFnzF/W5NqsOUzeSAk2zJTf9EeXMq7MdS/thvgTBqCHXAxqUk
- j2H2xO0aLmmoYYvy+7N7nsg/pRwQSmWmrsZl58rccz/feMYS/DRXbOgYrr5suu61FLl7
- 5P9iJ7dhxFuBaD6bV1N2o6LfuXJCaNSz4XJMHV6jDQV/7zmsY1TxUzYtuD/LBd0EK4oz
- /fUg==
+ bh=slnS/GfxccZ/mD5eYQpI17Cum8OBadJc/KQdBJcV6Z4=;
+ b=SdhJIdyZbJfQAuEFNAWAe5NO/u6ToD7rXzZJsmCfiNKZ8/+kki6Gz2GVLGcUh7CwPz
+ vByRGycfCJTK6t6u96KgnZ+89fqcgzR/i/HvF7EHWzpboNvwh+zMF0E2Eb9BXL6b6kce
+ gTbe9NtaCSj3yPzXPOwh5SH72VVUAvqD+Vgd7LGXeDh9j/u+6l3/3D9JnviQK9zXHJpq
+ ywNOgdiHECIhIPyJna1P5zMID3M+qsPFk3O9nQqLM3c7bAVfBljsm3Ljiiguplk7Z09q
+ NpXr2VDPJHcAOHmCkBeQFGPIWQyteuVvErahIbaAtThyjM4jWgR6Zo8b01ABtrmxFHVT
+ 9Cnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=KQ/YEfF3Ypebl8yU3qCopOrUVOQmWJtB56JKVnwwg3E=;
- b=KESNqKOc92oEZ0Qc7uSPTOgdRagPLI3XmK2dGl2gwUbQV2qVjTQ4OBvR3rH2vkJWXc
- c41iH8aAVwdKDVY7LYm4jowtgdXF5E8pSTXIW6GpUHh9XekdRryGW84ReJMXW9SpGXT/
- RE2EPPB0XQO0p3B5AdaL383Keh1QfNjeA+HUt7BuLIN6Sm+Pp+e40bcpBatywhxp+zXE
- KkilafB1at1URSF+Bis6rcYkwqor2FeuNx2L3XCwd9yDDeBjoOPt5jyFqF9tVog7dWmd
- 8YKMHuNc4EiGU/fdG84RYiBsLNQHq54qrBV88L2j6wuGb9vhh3LWkcrfsDc/KhiNeq/c
- NeWw==
-X-Gm-Message-State: AOAM530RsNPEwhgmscYkMdyP1n29Oaevx+FfbSEmi2eNEsoeXEw/9Lzr
- KB4ptQBt0INpRyWUoUbbvrVuEIHZZHI=
-X-Google-Smtp-Source: ABdhPJzi0jFhRFlC6uo5DLtMd3+yqg+wk7XMBhJR0LLSpD4gBoL3rMmdzM8zAI6vhoOoEEwMjBBX6A==
-X-Received: by 2002:a05:600c:21d6:: with SMTP id
- x22mr3995114wmj.112.1598030980285; 
- Fri, 21 Aug 2020 10:29:40 -0700 (PDT)
+ bh=slnS/GfxccZ/mD5eYQpI17Cum8OBadJc/KQdBJcV6Z4=;
+ b=FwBtgwWTjQ5tqjD1kO85xpTsXi0l8U5NxQLzaqAKT+MqpLyxnZwCqVyi73WYZMmCLU
+ oD1etMOJD7K2p6Lj1/Wr2fI05cToN24i1D+BZ2oV7H9G9djm3AxalBBs/y8DjYMaVYT6
+ EGsnhS3YUfXDaquu1ijf4JsXY9KW0xjPkOrcdscclN3iEST/Vjob5EEMd8X0+1ah5fET
+ NIWhl4xPPnkSE7vqKn4HqZCq2pDvS2H1EMCmGN7w9nbMZ2K8JHPujjKs2M5+2PsJcIy2
+ aj5xyhjWeaoD1ZibnJF+pXRInGnkgMn/gCOLPyvzCY5IzNGKxg6a338p0B6aiPqakvtS
+ ZaCA==
+X-Gm-Message-State: AOAM530mO2a+LYXSXppMP2D8amRec5GKIIvoRv7kydx9lSAN3pt4xMjy
+ DEfCQUbR9UEWhIUOr4UrS99Z+M8j9bM=
+X-Google-Smtp-Source: ABdhPJwky+N09B5oo+mbFer6eatQ6NZCW51d0NhgPjQEE65pvr9P1d0NsSqptDO6+mXKj5emPsg09w==
+X-Received: by 2002:a5d:4e02:: with SMTP id p2mr3687252wrt.399.1598030982364; 
+ Fri, 21 Aug 2020 10:29:42 -0700 (PDT)
 Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id 32sm5315471wrn.86.2020.08.21.10.29.38
+ by smtp.gmail.com with ESMTPSA id 32sm5315471wrn.86.2020.08.21.10.29.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Aug 2020 10:29:39 -0700 (PDT)
+ Fri, 21 Aug 2020 10:29:41 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/23] hw/sd: Move sdcard legacy API to 'hw/sd/sdcard_legacy.h'
-Date: Fri, 21 Aug 2020 19:29:07 +0200
-Message-Id: <20200821172916.1260954-15-f4bug@amsat.org>
+Subject: [PULL 15/23] hw/sd: Rename read/write_data() as read/write_byte()
+Date: Fri, 21 Aug 2020 19:29:08 +0200
+Message-Id: <20200821172916.1260954-16-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200821172916.1260954-1-f4bug@amsat.org>
 References: <20200821172916.1260954-1-f4bug@amsat.org>
@@ -63,8 +62,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -88,138 +87,196 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Alistair Francis <alistair.francis@xilinx.com>,
  Beniamino Galvani <b.galvani@gmail.com>, Michael Walle <michael@walle.cc>,
  qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-omap_mmc.c is the last device left using the legacy sdcard API.
-Move the prototype declarations into a separate header, to
-make it clear this is a legacy API.
+The read/write_data() methods write do a single byte access
+on the data line of a SD card. Rename them as read/write_byte().
+Add some documentation (not in "hw/sd/sdcard_legacy.h" which we
+are going to remove soon).
 
-Reviewed-by: Alistair Francis <alistair.francis@xilinx.com>
-Message-Id: <20180216022933.10945-8-f4bug@amsat.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Acked-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200814092346.21825-2-f4bug@amsat.org>
 ---
- include/hw/sd/sd.h            | 16 -----------
- include/hw/sd/sdcard_legacy.h | 50 +++++++++++++++++++++++++++++++++++
- hw/sd/omap_mmc.c              |  2 +-
- hw/sd/sd.c                    |  1 +
- 4 files changed, 52 insertions(+), 17 deletions(-)
- create mode 100644 include/hw/sd/sdcard_legacy.h
+ include/hw/sd/sd.h            | 19 +++++++++++++++++--
+ include/hw/sd/sdcard_legacy.h |  4 ++--
+ hw/sd/core.c                  |  4 ++--
+ hw/sd/omap_mmc.c              |  8 ++++----
+ hw/sd/sd.c                    | 16 ++++++++--------
+ 5 files changed, 33 insertions(+), 18 deletions(-)
 
 diff --git a/include/hw/sd/sd.h b/include/hw/sd/sd.h
-index ace350e0e83..8767ab817c1 100644
+index 8767ab817c1..b58b5a19afe 100644
 --- a/include/hw/sd/sd.h
 +++ b/include/hw/sd/sd.h
-@@ -136,22 +136,6 @@ typedef struct {
-     void (*set_readonly)(DeviceState *dev, bool readonly);
- } SDBusClass;
+@@ -104,8 +104,23 @@ typedef struct {
+     /*< public >*/
  
--/* Legacy functions to be used only by non-qdevified callers */
--SDState *sd_init(BlockBackend *bs, bool is_spi);
--int sd_do_command(SDState *sd, SDRequest *req,
--                  uint8_t *response);
--void sd_write_data(SDState *sd, uint8_t value);
--uint8_t sd_read_data(SDState *sd);
--void sd_set_cb(SDState *sd, qemu_irq readonly, qemu_irq insert);
--/* sd_enable should not be used -- it is only used on the nseries boards,
-- * where it is part of a broken implementation of the MMC card slot switch
-- * (there should be two card slots which are multiplexed to a single MMC
-- * controller, but instead we model it with one card and controller and
-- * disable the card when the second slot is selected, so it looks like the
-- * second slot is always empty).
-- */
--void sd_enable(SDState *sd, bool enable);
--
- /* Functions to be used by qdevified callers (working via
-  * an SDBus rather than directly with SDState)
-  */
+     int (*do_command)(SDState *sd, SDRequest *req, uint8_t *response);
+-    void (*write_data)(SDState *sd, uint8_t value);
+-    uint8_t (*read_data)(SDState *sd);
++    /**
++     * Write a byte to a SD card.
++     * @sd: card
++     * @value: byte to write
++     *
++     * Write a byte on the data lines of a SD card.
++     */
++    void (*write_byte)(SDState *sd, uint8_t value);
++    /**
++     * Read a byte from a SD card.
++     * @sd: card
++     *
++     * Read a byte from the data lines of a SD card.
++     *
++     * Return: byte value read
++     */
++    uint8_t (*read_byte)(SDState *sd);
+     bool (*data_ready)(SDState *sd);
+     void (*set_voltage)(SDState *sd, uint16_t millivolts);
+     uint8_t (*get_dat_lines)(SDState *sd);
 diff --git a/include/hw/sd/sdcard_legacy.h b/include/hw/sd/sdcard_legacy.h
-new file mode 100644
-index 00000000000..8681f8089ba
---- /dev/null
+index 8681f8089ba..0dc38895551 100644
+--- a/include/hw/sd/sdcard_legacy.h
 +++ b/include/hw/sd/sdcard_legacy.h
-@@ -0,0 +1,50 @@
-+/*
-+ * SD Memory Card emulation (deprecated legacy API)
-+ *
-+ * Copyright (c) 2006 Andrzej Zaborowski  <balrog@zabor.org>
-+ *
-+ * Redistribution and use in source and binary forms, with or without
-+ * modification, are permitted provided that the following conditions
-+ * are met:
-+ *
-+ * 1. Redistributions of source code must retain the above copyright
-+ *    notice, this list of conditions and the following disclaimer.
-+ * 2. Redistributions in binary form must reproduce the above copyright
-+ *    notice, this list of conditions and the following disclaimer in
-+ *    the documentation and/or other materials provided with the
-+ *    distribution.
-+ *
-+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS''
-+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
-+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-+ * PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR
-+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
-+ * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-+ */
-+#ifndef HW_SDCARD_LEGACY_H
-+#define HW_SDCARD_LEGACY_H
-+
-+#include "hw/sd/sd.h"
-+
-+/* Legacy functions to be used only by non-qdevified callers */
-+SDState *sd_init(BlockBackend *blk, bool is_spi);
-+int sd_do_command(SDState *card, SDRequest *request, uint8_t *response);
-+void sd_write_data(SDState *card, uint8_t value);
-+uint8_t sd_read_data(SDState *card);
-+void sd_set_cb(SDState *card, qemu_irq readonly, qemu_irq insert);
-+
-+/* sd_enable should not be used -- it is only used on the nseries boards,
-+ * where it is part of a broken implementation of the MMC card slot switch
-+ * (there should be two card slots which are multiplexed to a single MMC
-+ * controller, but instead we model it with one card and controller and
-+ * disable the card when the second slot is selected, so it looks like the
-+ * second slot is always empty).
-+ */
-+void sd_enable(SDState *card, bool enable);
-+
-+#endif /* HW_SDCARD_LEGACY_H */
+@@ -34,8 +34,8 @@
+ /* Legacy functions to be used only by non-qdevified callers */
+ SDState *sd_init(BlockBackend *blk, bool is_spi);
+ int sd_do_command(SDState *card, SDRequest *request, uint8_t *response);
+-void sd_write_data(SDState *card, uint8_t value);
+-uint8_t sd_read_data(SDState *card);
++void sd_write_byte(SDState *card, uint8_t value);
++uint8_t sd_read_byte(SDState *card);
+ void sd_set_cb(SDState *card, qemu_irq readonly, qemu_irq insert);
+ 
+ /* sd_enable should not be used -- it is only used on the nseries boards,
+diff --git a/hw/sd/core.c b/hw/sd/core.c
+index abec48bccb8..79d96576ead 100644
+--- a/hw/sd/core.c
++++ b/hw/sd/core.c
+@@ -110,7 +110,7 @@ void sdbus_write_data(SDBus *sdbus, uint8_t value)
+     if (card) {
+         SDCardClass *sc = SD_CARD_GET_CLASS(card);
+ 
+-        sc->write_data(card, value);
++        sc->write_byte(card, value);
+     }
+ }
+ 
+@@ -122,7 +122,7 @@ uint8_t sdbus_read_data(SDBus *sdbus)
+     if (card) {
+         SDCardClass *sc = SD_CARD_GET_CLASS(card);
+ 
+-        value = sc->read_data(card);
++        value = sc->read_byte(card);
+     }
+     trace_sdbus_read(sdbus_name(sdbus), value);
+ 
 diff --git a/hw/sd/omap_mmc.c b/hw/sd/omap_mmc.c
-index 4088a8a80bc..7d33c59226a 100644
+index 7d33c59226a..1f946908fe1 100644
 --- a/hw/sd/omap_mmc.c
 +++ b/hw/sd/omap_mmc.c
-@@ -23,7 +23,7 @@
- #include "qemu/log.h"
- #include "hw/irq.h"
- #include "hw/arm/omap.h"
--#include "hw/sd/sd.h"
-+#include "hw/sd/sdcard_legacy.h"
+@@ -232,10 +232,10 @@ static void omap_mmc_transfer(struct omap_mmc_s *host)
+             if (host->fifo_len > host->af_level)
+                 break;
  
- struct omap_mmc_s {
-     qemu_irq irq;
+-            value = sd_read_data(host->card);
++            value = sd_read_byte(host->card);
+             host->fifo[(host->fifo_start + host->fifo_len) & 31] = value;
+             if (-- host->blen_counter) {
+-                value = sd_read_data(host->card);
++                value = sd_read_byte(host->card);
+                 host->fifo[(host->fifo_start + host->fifo_len) & 31] |=
+                         value << 8;
+                 host->blen_counter --;
+@@ -247,10 +247,10 @@ static void omap_mmc_transfer(struct omap_mmc_s *host)
+                 break;
+ 
+             value = host->fifo[host->fifo_start] & 0xff;
+-            sd_write_data(host->card, value);
++            sd_write_byte(host->card, value);
+             if (-- host->blen_counter) {
+                 value = host->fifo[host->fifo_start] >> 8;
+-                sd_write_data(host->card, value);
++                sd_write_byte(host->card, value);
+                 host->blen_counter --;
+             }
+ 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index a5ae5dccbe5..5c6f5c94f3d 100644
+index 5c6f5c94f3d..7c9d956f113 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -37,6 +37,7 @@
- #include "hw/registerfields.h"
- #include "sysemu/block-backend.h"
- #include "hw/sd/sd.h"
-+#include "hw/sd/sdcard_legacy.h"
- #include "migration/vmstate.h"
- #include "qapi/error.h"
- #include "qemu/bitmap.h"
+@@ -1809,7 +1809,7 @@ static void sd_blk_write(SDState *sd, uint64_t addr, uint32_t len)
+ #define APP_READ_BLOCK(a, len)	memset(sd->data, 0xec, len)
+ #define APP_WRITE_BLOCK(a, len)
+ 
+-void sd_write_data(SDState *sd, uint8_t value)
++void sd_write_byte(SDState *sd, uint8_t value)
+ {
+     int i;
+ 
+@@ -1818,7 +1818,7 @@ void sd_write_data(SDState *sd, uint8_t value)
+ 
+     if (sd->state != sd_receivingdata_state) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+-                      "sd_write_data: not in Receiving-Data state\n");
++                      "%s: not in Receiving-Data state\n", __func__);
+         return;
+     }
+ 
+@@ -1940,7 +1940,7 @@ void sd_write_data(SDState *sd, uint8_t value)
+         break;
+ 
+     default:
+-        qemu_log_mask(LOG_GUEST_ERROR, "sd_write_data: unknown command\n");
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: unknown command\n", __func__);
+         break;
+     }
+ }
+@@ -1959,7 +1959,7 @@ static const uint8_t sd_tuning_block_pattern[SD_TUNING_BLOCK_SIZE] = {
+     0xbb, 0xff, 0xf7, 0xff,         0xf7, 0x7f, 0x7b, 0xde,
+ };
+ 
+-uint8_t sd_read_data(SDState *sd)
++uint8_t sd_read_byte(SDState *sd)
+ {
+     /* TODO: Append CRCs */
+     uint8_t ret;
+@@ -1970,7 +1970,7 @@ uint8_t sd_read_data(SDState *sd)
+ 
+     if (sd->state != sd_sendingdata_state) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+-                      "sd_read_data: not in Sending-Data state\n");
++                      "%s: not in Sending-Data state\n", __func__);
+         return 0x00;
+     }
+ 
+@@ -2076,7 +2076,7 @@ uint8_t sd_read_data(SDState *sd)
+         break;
+ 
+     default:
+-        qemu_log_mask(LOG_GUEST_ERROR, "sd_read_data: unknown command\n");
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: unknown command\n", __func__);
+         return 0x00;
+     }
+ 
+@@ -2192,8 +2192,8 @@ static void sd_class_init(ObjectClass *klass, void *data)
+     sc->get_dat_lines = sd_get_dat_lines;
+     sc->get_cmd_line = sd_get_cmd_line;
+     sc->do_command = sd_do_command;
+-    sc->write_data = sd_write_data;
+-    sc->read_data = sd_read_data;
++    sc->write_byte = sd_write_byte;
++    sc->read_byte = sd_read_byte;
+     sc->data_ready = sd_data_ready;
+     sc->enable = sd_enable;
+     sc->get_inserted = sd_get_inserted;
 -- 
 2.26.2
 
