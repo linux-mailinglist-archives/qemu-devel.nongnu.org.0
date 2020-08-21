@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0558724DDCF
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 19:23:34 +0200 (CEST)
-Received: from localhost ([::1]:56372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CFE924DE07
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 19:26:09 +0200 (CEST)
+Received: from localhost ([::1]:35936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9AlJ-0003nn-3K
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 13:23:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54416)
+	id 1k9Ano-0007Ht-Ca
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 13:26:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1k9AjF-0000fz-Gb
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 13:21:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39910)
+ id 1k9AjK-0000tb-55
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 13:21:30 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21313
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1k9AjC-0008Pb-RZ
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 13:21:25 -0400
+ id 1k9AjI-0008Qn-Ep
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 13:21:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598030481;
+ s=mimecast20190719; t=1598030487;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6A4RKJTXZTxGB/kuD2qnGKrmwRYHKnweh7ANeOeMpTk=;
- b=WL2Xba6zRUuosCbNGpgZS5RuBmL8jI8AP1QJNWH2uSBCeZLTlhRZPAeboMbjHfJyCrYyL/
- e84MHz2XEAjiZPRs+DR1hB5cWl3B7wnp49/RR1eh+L7Q8+i75TkfHNpREIJhc0sp2h30mX
- uO/mQI5aRDwNFOXDD1r8GsGbax3EJ28=
+ bh=25DfPV+B9U+ja5hn8kQuVsOtB+UX5eUec8epW7TjHTI=;
+ b=My8ES9Jfy7iA0nG3tyYSgIC7RFwWcwcN1W/iQAxeaf54RbJnFcKez7aUQSto9m+wh7w4hs
+ bgxmY+cAuGZnGfmvndb/lAPTgM6NgnB+yPQXjuBfIL+1rXXmjbws594Yq1y7BEf3QiUgbh
+ QgX3ySN0h8dfZu2sTWraLvU0fA1xFZ8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-490-q7prIdohMSm7YlhREj8jtA-1; Fri, 21 Aug 2020 13:21:17 -0400
-X-MC-Unique: q7prIdohMSm7YlhREj8jtA-1
+ us-mta-89--1zsK2SbPf6pGxiabSSNGA-1; Fri, 21 Aug 2020 13:21:20 -0400
+X-MC-Unique: -1zsK2SbPf6pGxiabSSNGA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A47B873155;
- Fri, 21 Aug 2020 17:21:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20E9051B7;
+ Fri, 21 Aug 2020 17:21:19 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.36.110.21])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5169260CD0;
- Fri, 21 Aug 2020 17:21:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B890C60CD0;
+ Fri, 21 Aug 2020 17:21:16 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 3/6] util: add Error object for qemu_open_internal error
+Subject: [PATCH v4 4/6] util: introduce qemu_open and qemu_create with error
  reporting
-Date: Fri, 21 Aug 2020 18:21:02 +0100
-Message-Id: <20200821172105.608752-4-berrange@redhat.com>
+Date: Fri, 21 Aug 2020 18:21:03 +0100
+Message-Id: <20200821172105.608752-5-berrange@redhat.com>
 In-Reply-To: <20200821172105.608752-1-berrange@redhat.com>
 References: <20200821172105.608752-1-berrange@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 02:43:55
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 04:55:47
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
 X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,85 +90,85 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of relying on the limited information from errno, we can now
-also provide detailed error messages.
+qemu_open_old() works like open(): set errno and return -1 on failure.
+It has even more failure modes, though.  Reporting the error clearly
+to users is basically impossible for many of them.
+
+Our standard cure for "errno is too coarse" is the Error object.
+Introduce two new helper methods:
+
+  int qemu_open(const char *name, int flags, Error **errp);
+  int qemu_create(const char *name, int flags, mode_t mode, Error **errp);
+
+Note that with this design we no longer require or even accept the
+O_CREAT flag. Avoiding overloading the two distinct operations
+means we can avoid variable arguments which would prevent 'errp' from
+being the last argument. It also gives us a guarantee that the 'mode' is
+given when creating files, avoiding a latent security bug.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- util/osdep.c | 21 +++++++++++++++++++--
- 1 file changed, 19 insertions(+), 2 deletions(-)
+ include/qemu/osdep.h |  6 ++++++
+ util/osdep.c         | 21 +++++++++++++++++----
+ 2 files changed, 23 insertions(+), 4 deletions(-)
 
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index 18333e9006..13a821845b 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -497,7 +497,13 @@ int qemu_madvise(void *addr, size_t len, int advice);
+ int qemu_mprotect_rwx(void *addr, size_t size);
+ int qemu_mprotect_none(void *addr, size_t size);
+ 
++/*
++ * Don't introduce new usage of this function, prefer the following
++ * qemu_open/qemu_create that take an "Error **errp"
++ */
+ int qemu_open_old(const char *name, int flags, ...);
++int qemu_open(const char *name, int flags, Error **errp);
++int qemu_create(const char *name, int flags, mode_t mode, Error **errp);
+ int qemu_close(int fd);
+ int qemu_unlink(const char *name);
+ #ifndef _WIN32
 diff --git a/util/osdep.c b/util/osdep.c
-index 9ff92551e7..9c7118d3cb 100644
+index 9c7118d3cb..a4956fbf6b 100644
 --- a/util/osdep.c
 +++ b/util/osdep.c
-@@ -284,7 +284,7 @@ int qemu_lock_fd_test(int fd, int64_t start, int64_t len, bool exclusive)
-  * Opens a file with FD_CLOEXEC set
-  */
- static int
--qemu_open_internal(const char *name, int flags, mode_t mode)
-+qemu_open_internal(const char *name, int flags, mode_t mode, Error **errp)
- {
-     int ret;
- 
-@@ -298,24 +298,31 @@ qemu_open_internal(const char *name, int flags, mode_t mode)
- 
-         fdset_id = qemu_parse_fdset(fdset_id_str);
-         if (fdset_id == -1) {
-+            error_setg(errp, "Could not parse fdset %s", name);
-             errno = EINVAL;
-             return -1;
-         }
- 
-         fd = monitor_fdset_get_fd(fdset_id, flags);
-         if (fd < 0) {
-+            error_setg_errno(errp, -fd, "Could not acquire FD for %s flags %x",
-+                             name, flags);
-             errno = -fd;
-             return -1;
-         }
- 
-         dupfd = qemu_dup_flags(fd, flags);
-         if (dupfd == -1) {
-+            error_setg_errno(errp, errno, "Could not dup FD for %s flags %x",
-+                             name, flags);
-             return -1;
-         }
- 
-         ret = monitor_fdset_dup_fd_add(fdset_id, dupfd);
-         if (ret == -1) {
-             close(dupfd);
-+            error_setg(errp, "Could not save FD for %s flags %x",
-+                       name, flags);
-             errno = EINVAL;
-             return -1;
-         }
-@@ -336,6 +343,16 @@ qemu_open_internal(const char *name, int flags, mode_t mode)
-     }
+@@ -344,10 +344,7 @@ qemu_open_internal(const char *name, int flags, mode_t mode, Error **errp)
  #endif /* ! O_CLOEXEC */
  
-+    if (ret == -1) {
-+        const char *action = "open";
-+        if (flags & O_CREAT) {
-+            action = "create";
-+        }
-+        error_setg_errno(errp, errno, "Could not %s '%s' flags 0x%x",
-+                         action, name, flags);
-+    }
-+
-+
-     return ret;
+     if (ret == -1) {
+-        const char *action = "open";
+-        if (flags & O_CREAT) {
+-            action = "create";
+-        }
++        const char *action = flags & O_CREAT ? "create" : "open";
+         error_setg_errno(errp, errno, "Could not %s '%s' flags 0x%x",
+                          action, name, flags);
+     }
+@@ -357,6 +354,22 @@ qemu_open_internal(const char *name, int flags, mode_t mode, Error **errp)
  }
  
-@@ -352,7 +369,7 @@ int qemu_open_old(const char *name, int flags, ...)
-     }
-     va_end(ap);
  
--    ret = qemu_open_internal(name, flags, mode);
-+    ret = qemu_open_internal(name, flags, mode, NULL);
- 
- #ifdef O_DIRECT
-     if (ret == -1 && errno == EINVAL && (flags & O_DIRECT)) {
++int qemu_open(const char *name, int flags, Error **errp)
++{
++    assert(!(flags & O_CREAT));
++
++    return qemu_open_internal(name, flags, 0, errp);
++}
++
++
++int qemu_create(const char *name, int flags, mode_t mode, Error **errp)
++{
++    assert(!(flags & O_CREAT));
++
++    return qemu_open_internal(name, flags | O_CREAT, mode, errp);
++}
++
++
+ int qemu_open_old(const char *name, int flags, ...)
+ {
+     va_list ap;
 -- 
 2.26.2
 
