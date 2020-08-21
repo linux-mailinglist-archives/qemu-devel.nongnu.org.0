@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE60324D3C2
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 13:19:38 +0200 (CEST)
-Received: from localhost ([::1]:50550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C061E24D3BA
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 13:17:05 +0200 (CEST)
+Received: from localhost ([::1]:34010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9557-0003LG-Sh
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 07:19:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32946)
+	id 1k952e-00058p-NR
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 07:17:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k94Ee-0003Zz-Hr
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:25:24 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40963
- helo=us-smtp-1.mimecast.com)
+ id 1k94EY-0003RT-2g
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:25:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43340)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k94EO-0001nZ-Uj
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:25:24 -0400
+ id 1k94EO-0001mw-AE
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:25:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598005503;
+ s=mimecast20190719; t=1598005502;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jOIdmTH1CYl8LnZvB8zBwKIw7Tiq/rsBYfxJzBvBBYc=;
- b=BBP6BCCYmpQjP/VdmWAEZNjLc09wAPwJpTT/pdHh24P0WHX3aDeBwuEdqDD1fxsPIc3ndz
- +NHTE8uZ7cAfK0bKh80trvb1yKkV2HVO7/Uep5Hxzxa6CwAMxGfKb5gO2ln2z7vL5PjJnn
- MCQ7GGqQeLNmpXTpasgI9NYQUfF1qWM=
+ bh=NfyB9OFP3NC+XP2rys2fAFHGh1rpKodm28QmEjGLxY8=;
+ b=PKAsgZpzbzOOKi6TrLqXB76Kdw0tdoZrOC7UncnIj5iaPStSGcDkmf8O4C9ONKp4sx7vUe
+ 5q2R0Uy0yvhUwLtPlSFyQQg1YGnN9O1/ia5huVN4yVT7PWwLK89GB+07cCRB+OBeg2/RT0
+ 6PKi17hnysuDFsEQ7n/uMyQ2iRuEcLU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-187-XJd3qz7YNUmBqMn5wqBrDQ-1; Fri, 21 Aug 2020 06:25:00 -0400
-X-MC-Unique: XJd3qz7YNUmBqMn5wqBrDQ-1
+ us-mta-389-a2MtuIigPAekIUCj-b4foQ-1; Fri, 21 Aug 2020 06:25:01 -0400
+X-MC-Unique: a2MtuIigPAekIUCj-b4foQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3801191E2A2;
- Fri, 21 Aug 2020 10:24:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 61C12191E2A1
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:25:00 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8DF1B60BF1;
- Fri, 21 Aug 2020 10:24:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1B90960BF1;
+ Fri, 21 Aug 2020 10:25:00 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v8 111/152] meson: convert hw/ipmi
-Date: Fri, 21 Aug 2020 06:22:48 -0400
-Message-Id: <20200821102329.29777-112-pbonzini@redhat.com>
+Subject: [PULL v8 112/152] meson: convert hw/ipack
+Date: Fri, 21 Aug 2020 06:22:49 -0400
+Message-Id: <20200821102329.29777-113-pbonzini@redhat.com>
 In-Reply-To: <20200821102329.29777-1-pbonzini@redhat.com>
 References: <20200821102329.29777-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -59,17 +58,18 @@ X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 04:55:47
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 04:26:32
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
 X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,78 +82,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Corey Minyard <cminyard@mvista.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Corey Minyard <cminyard@mvista.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/Makefile.objs      |  1 -
- hw/ipmi/Makefile.objs |  8 --------
- hw/ipmi/meson.build   | 11 +++++++++++
- hw/meson.build        |  1 +
- 4 files changed, 12 insertions(+), 9 deletions(-)
- delete mode 100644 hw/ipmi/Makefile.objs
- create mode 100644 hw/ipmi/meson.build
+ hw/Makefile.objs       | 1 -
+ hw/ipack/Makefile.objs | 2 --
+ hw/ipack/meson.build   | 1 +
+ hw/meson.build         | 1 +
+ 4 files changed, 2 insertions(+), 3 deletions(-)
+ delete mode 100644 hw/ipack/Makefile.objs
+ create mode 100644 hw/ipack/meson.build
 
 diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index a28e211e78..f136377866 100644
+index f136377866..76d9305959 100644
 --- a/hw/Makefile.objs
 +++ b/hw/Makefile.objs
-@@ -15,7 +15,6 @@ devices-dirs-y += ide/
+@@ -14,7 +14,6 @@ devices-dirs-$(CONFIG_I2C) += i2c/
+ devices-dirs-y += ide/
  devices-dirs-y += input/
  devices-dirs-y += intc/
- devices-dirs-$(CONFIG_IPACK) += ipack/
--devices-dirs-$(CONFIG_IPMI) += ipmi/
+-devices-dirs-$(CONFIG_IPACK) += ipack/
  endif
  
  common-obj-y += $(devices-dirs-y)
-diff --git a/hw/ipmi/Makefile.objs b/hw/ipmi/Makefile.objs
+diff --git a/hw/ipack/Makefile.objs b/hw/ipack/Makefile.objs
 deleted file mode 100644
-index 3cca10bc50..0000000000
---- a/hw/ipmi/Makefile.objs
+index 8b9bdcb549..0000000000
+--- a/hw/ipack/Makefile.objs
 +++ /dev/null
-@@ -1,8 +0,0 @@
--common-obj-$(CONFIG_IPMI) += ipmi.o ipmi_kcs.o ipmi_bt.o
--common-obj-$(CONFIG_IPMI_LOCAL) += ipmi_bmc_sim.o
--common-obj-$(CONFIG_IPMI_EXTERN) += ipmi_bmc_extern.o
--common-obj-$(CONFIG_ISA_IPMI_KCS) += isa_ipmi_kcs.o
--common-obj-$(CONFIG_PCI_IPMI_KCS) += pci_ipmi_kcs.o
--common-obj-$(CONFIG_ISA_IPMI_BT) += isa_ipmi_bt.o
--common-obj-$(CONFIG_PCI_IPMI_BT) += pci_ipmi_bt.o
--common-obj-$(CONFIG_IPMI_SSIF) += smbus_ipmi.o
-diff --git a/hw/ipmi/meson.build b/hw/ipmi/meson.build
+@@ -1,2 +0,0 @@
+-common-obj-$(CONFIG_IPACK) += ipack.o
+-common-obj-$(CONFIG_IPACK) += tpci200.o
+diff --git a/hw/ipack/meson.build b/hw/ipack/meson.build
 new file mode 100644
-index 0000000000..9622ea2a2c
+index 0000000000..3f8138b6f2
 --- /dev/null
-+++ b/hw/ipmi/meson.build
-@@ -0,0 +1,11 @@
-+ipmi_ss = ss.source_set()
-+ipmi_ss.add(when: 'CONFIG_IPMI', if_true: files('ipmi.c', 'ipmi_kcs.c', 'ipmi_bt.c'))
-+ipmi_ss.add(when: 'CONFIG_IPMI_LOCAL', if_true: files('ipmi_bmc_sim.c'))
-+ipmi_ss.add(when: 'CONFIG_IPMI_EXTERN', if_true: files('ipmi_bmc_extern.c'))
-+ipmi_ss.add(when: 'CONFIG_ISA_IPMI_KCS', if_true: files('isa_ipmi_kcs.c'))
-+ipmi_ss.add(when: 'CONFIG_PCI_IPMI_KCS', if_true: files('pci_ipmi_kcs.c'))
-+ipmi_ss.add(when: 'CONFIG_ISA_IPMI_BT', if_true: files('isa_ipmi_bt.c'))
-+ipmi_ss.add(when: 'CONFIG_PCI_IPMI_BT', if_true: files('pci_ipmi_bt.c'))
-+ipmi_ss.add(when: 'CONFIG_IPMI_SSIF', if_true: files('smbus_ipmi.c'))
-+
-+softmmu_ss.add_all(when: 'CONFIG_IPMI', if_true: ipmi_ss)
++++ b/hw/ipack/meson.build
+@@ -0,0 +1 @@
++softmmu_ss.add(when: 'CONFIG_IPACK', if_true: files('ipack.c', 'tpci200.c'))
 diff --git a/hw/meson.build b/hw/meson.build
-index 86598544e6..9796f95e5c 100644
+index 9796f95e5c..ec4bb48a0f 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
 @@ -1,4 +1,5 @@
  subdir('core')
-+subdir('ipmi')
++subdir('ipack')
+ subdir('ipmi')
  subdir('isa')
  subdir('mem')
- subdir('misc')
 -- 
 2.26.2
 
