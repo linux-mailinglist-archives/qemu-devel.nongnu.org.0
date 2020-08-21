@@ -2,115 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D026224D41F
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 13:38:13 +0200 (CEST)
-Received: from localhost ([::1]:42944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23B9D24D436
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 13:40:20 +0200 (CEST)
+Received: from localhost ([::1]:51450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k95N6-00042b-PF
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 07:38:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38220)
+	id 1k95P9-0007WO-22
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 07:40:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k94fm-0002yM-UV
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:53:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53063)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k94fj-0005F5-I3
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:53:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598007202;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=+9F4xNLVAKKsOWtZbOuVT7aIWPj/15or+wQ69QWejEE=;
- b=Ro0DeB8zdZXwf+Brs3wiCC2sp2i7EHdn21qevGdOTaWMSH2P6sgP/snO+kSehrAmdDPJwT
- mvrbqcGdJ5Ez3kIhs7IM1JVqPzMwBS1YTE3tslfwIXddllLBsGkHhkxs2XLwdoOM5taLs0
- aRgL1froOMDZPqWwDUgFl+nHXoyh4Sg=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-399-V1qAGcv1P1Cozwej0xAcUQ-1; Fri, 21 Aug 2020 06:53:20 -0400
-X-MC-Unique: V1qAGcv1P1Cozwej0xAcUQ-1
-Received: by mail-wr1-f69.google.com with SMTP id r14so438330wrq.3
- for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 03:53:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=+9F4xNLVAKKsOWtZbOuVT7aIWPj/15or+wQ69QWejEE=;
- b=lS2l9zZ48WI1DOzhT5JkBmmfujACgz2mUeNWcm2y4unej8UgwT+HaRn5xxQjOlvFk8
- 8BhorUn0FeBxVawzPTG2Tm34hm3qI1zikloMV6T2TLTrKSSA25tyK/wv02Omzg8Q6KmY
- RQIIfvmU8sElB5DUUH9pMJVkL3hP2YSld505lSZ3sCPlLJWUlnE1SKOXkIFBtsuTM0/y
- z6pjsozHSnPbp/PjsoOVWmxiFqxeqrt9OMyIg9ovrg3XIu/iwlNO1RWwKPD/u7vtBh9F
- xA+K/niLcYFRXzmu1BsWKdHQZOpNc6rgZIFNuXWG+pgrgDrGC5hMMEU/BgEn+1xC996C
- F7Lg==
-X-Gm-Message-State: AOAM533UqdMawRtj0jbXNxHL6u1TlkJ3yLSvwwgpOw4ZgtuInDBrvGvw
- 9TuR67cvh7rRxqzrJNFvpx3vYh0crMDSNk7el6evlp97vpReIxYdVsBRn3SCMJYWFcHPbN33TT0
- EGlyUAuGOfW1Wom8=
-X-Received: by 2002:adf:f248:: with SMTP id b8mr2319507wrp.247.1598007199406; 
- Fri, 21 Aug 2020 03:53:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJycQmIoVwRkV8VuNBWHYHusppBvEWG3dtREBDiRRn8D42Fe7m1fvXxuHE19ysX0EMDqFucPYQ==
-X-Received: by 2002:adf:f248:: with SMTP id b8mr2319494wrp.247.1598007199166; 
- Fri, 21 Aug 2020 03:53:19 -0700 (PDT)
-Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id z207sm4930173wmc.2.2020.08.21.03.53.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Aug 2020 03:53:18 -0700 (PDT)
-Subject: Re: [PATCH] virtiofsd: add -o allow_directio|no_directio option
-To: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
-References: <20200821034126.8004-1-zhangjiachen.jaycee@bytedance.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <f2f9d81a-29d8-038b-5a1c-d88eb9115a33@redhat.com>
-Date: Fri, 21 Aug 2020 12:53:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1k94gR-00043f-6K; Fri, 21 Aug 2020 06:54:07 -0400
+Received: from mta-02.yadro.com ([89.207.88.252]:57210 helo=mta-01.yadro.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1k94gK-0005II-U5; Fri, 21 Aug 2020 06:54:06 -0400
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 23706574ED;
+ Fri, 21 Aug 2020 10:53:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-disposition:content-type:content-type
+ :mime-version:references:message-id:subject:subject:from:from
+ :date:date:received:received:received; s=mta-01; t=1598007235;
+ x=1599821636; bh=aDNQCIk4AbizCxvc3FytHfG88CXeatRS0JwlmnDZoHs=; b=
+ MNbyrsFr49PxjVn0azynTz0LtCXzOsncJaDtYNMCoWaMNNaVCRvHPdUcWKI0QVU+
+ A6PkaenRzP8XIwO/jWnpq/0zxh7Gg5uuy/aC9569bjjJWFRzTAPgs3i0c8IS93JZ
+ dHfaZhV2pJYVfYWL/nbiczQic1cvhkLVx+o8Z9reyAg=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id p9pgP2Uiji3Y; Fri, 21 Aug 2020 13:53:55 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
+ [172.17.10.102])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id DC9BA52195;
+ Fri, 21 Aug 2020 13:53:53 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
+ (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Fri, 21
+ Aug 2020 13:53:53 +0300
+Date: Fri, 21 Aug 2020 13:53:52 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: Suspicious QOM types without instance/class size
+Message-ID: <20200821105352.GA89922@SPB-NB-133.local>
+References: <20200820215529.GH642093@habkost.net>
 MIME-Version: 1.0
-In-Reply-To: <20200821034126.8004-1-zhangjiachen.jaycee@bytedance.com>
-Content-Language: en-US
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 04:26:32
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20200820215529.GH642093@habkost.net>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-02.corp.yadro.com (172.17.10.102)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 06:53:56
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -123,125 +77,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yongji Xie <xieyongji@bytedance.com>, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org,
+ David Hildenbrand <david@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Thomas Huth <thuth@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>, Cameron Esfahani <dirty@apple.com>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Richard Henderson <rth@twiddle.net>,
+ "Daniel P. Berrange" <berrange@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/21/20 5:41 AM, Jiachen Zhang wrote:
-> Due to the commit 65da4539803373ec4eec97ffc49ee90083e56efd, the O_DIRECT
-> open flag of guest applications will be discarded by virtiofsd. While
-> this behavior makes it consistent with the virtio-9p scheme when guest
-> applications using direct I/O, we no longer have any chance to bypass
-> the host page cache.
+On Thu, Aug 20, 2020 at 05:55:29PM -0400, Eduardo Habkost wrote:
+> While trying to convert TypeInfo declarations to the new
+> OBJECT_DECLARE* macros, I've stumbled on a few suspicious cases
+> where instance_size or class_size is not set, despite having type
+> checker macros that use a specific type.
 > 
-> Therefore, we add a flag 'allow_directio' to lo_data. If '-o no_directio'
-> option is added, or none of '-o no_directio' or '-o allow_directio' is
-> added, the 'allow_directio' will be set to 0, and virtiofsd discards
-> O_DIRECT as before. If '-o allow_directio' is added to the stariting
-> command-line, 'allow_directio' will be set to 1, so that the O_DIRECT
-> flags will be retained and host page cache can be bypassed.
-> 
-> Signed-off-by: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
-> ---
->  tools/virtiofsd/helper.c         |  4 ++++
->  tools/virtiofsd/passthrough_ll.c | 20 ++++++++++++++------
->  2 files changed, 18 insertions(+), 6 deletions(-)
-> 
-> diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
-> index 3105b6c23a..534ff52c64 100644
-> --- a/tools/virtiofsd/helper.c
-> +++ b/tools/virtiofsd/helper.c
-> @@ -180,6 +180,10 @@ void fuse_cmdline_help(void)
->             "                               (0 leaves rlimit unchanged)\n"
->             "                               default: min(1000000, fs.file-max - 16384)\n"
->             "                                        if the current rlimit is lower\n"
-> +           "    -o allow_directio|no_directio\n"
-> +           "                               retain/discard O_DIRECT flags passed down\n"
-> +           "                               to virtiofsd from guest applications.\n"
-> +           "                               default: no_directio\n"
->             );
->  }
->  
-> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> index 94e0de2d2b..1c5ea27821 100644
-> --- a/tools/virtiofsd/passthrough_ll.c
-> +++ b/tools/virtiofsd/passthrough_ll.c
-> @@ -151,6 +151,7 @@ struct lo_data {
->      int timeout_set;
->      int readdirplus_set;
->      int readdirplus_clear;
-> +    int allow_directio;
-
-Can we use 'allow_direct_io'?
-
->      struct lo_inode root;
->      GHashTable *inodes; /* protected by lo->mutex */
->      struct lo_map ino_map; /* protected by lo->mutex */
-> @@ -179,6 +180,8 @@ static const struct fuse_opt lo_opts[] = {
->      { "cache=always", offsetof(struct lo_data, cache), CACHE_ALWAYS },
->      { "readdirplus", offsetof(struct lo_data, readdirplus_set), 1 },
->      { "no_readdirplus", offsetof(struct lo_data, readdirplus_clear), 1 },
-> +    { "allow_directio", offsetof(struct lo_data, allow_directio), 1 },
-> +    { "no_directio", offsetof(struct lo_data, allow_directio), 0 },
-
-Here too, split 'direct_io'?
-
->      FUSE_OPT_END
->  };
->  static bool use_syslog = false;
-> @@ -1516,7 +1519,8 @@ static void lo_releasedir(fuse_req_t req, fuse_ino_t ino,
->      fuse_reply_err(req, 0);
->  }
->  
-> -static void update_open_flags(int writeback, struct fuse_file_info *fi)
-> +static void update_open_flags(int writeback, int allow_directio,
-> +                              struct fuse_file_info *fi)
->  {
->      /*
->       * With writeback cache, kernel may send read requests even
-> @@ -1541,10 +1545,13 @@ static void update_open_flags(int writeback, struct fuse_file_info *fi)
->  
->      /*
->       * O_DIRECT in guest should not necessarily mean bypassing page
-> -     * cache on host as well. If somebody needs that behavior, it
-> -     * probably should be a configuration knob in daemon.
-> +     * cache on host as well. Therefore, we discard it by default
-> +     * ('-o no_directio'). If somebody needs that behavior, the
-> +     * '-o allow_directio' option should be set.
->       */
-> -    fi->flags &= ~O_DIRECT;
-> +    if (!allow_directio) {
-> +        fi->flags &= ~O_DIRECT;
-> +    }
->  }
->  
->  static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
-> @@ -1576,7 +1583,7 @@ static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
->          goto out;
->      }
->  
-> -    update_open_flags(lo->writeback, fi);
-> +    update_open_flags(lo->writeback, lo->allow_directio, fi);
->  
->      fd = openat(parent_inode->fd, name, (fi->flags | O_CREAT) & ~O_NOFOLLOW,
->                  mode);
-> @@ -1786,7 +1793,7 @@ static void lo_open(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi)
->      fuse_log(FUSE_LOG_DEBUG, "lo_open(ino=%" PRIu64 ", flags=%d)\n", ino,
->               fi->flags);
->  
-> -    update_open_flags(lo->writeback, fi);
-> +    update_open_flags(lo->writeback, lo->allow_directio, fi);
->  
->      sprintf(buf, "%i", lo_fd(req, ino));
->      fd = openat(lo->proc_self_fd, buf, fi->flags & ~O_NOFOLLOW);
-> @@ -2824,6 +2831,7 @@ int main(int argc, char *argv[])
->          .debug = 0,
->          .writeback = 0,
->          .posix_lock = 1,
-> +        .allow_directio = 0,
->          .proc_self_fd = -1,
->      };
->      struct lo_map_elem *root_elem;
+> The ones with "WARNING" are abstract types (maybe not serious if
+> subclasses set the appropriate sizes).  The ones with "ERROR"
+> don't seem to be abstract types.
 > 
 
+> ERROR: target/i386/hvf/hvf.c:908:1: instance_size should be set to sizeof(HVFState)?
+
+Hi Eduardo,
+
+How do you get the error?
+
+Given your changes, instance size should really be sizeof(HVFState).
+
+BTW, the object definition for hvf seems different from KVM (and perhaps
+wrong?), e.g. HVFState is allocated within init_machine handler and then
+assigned to a global variable:
+
+static int hvf_accel_init(MachineState *ms)
+{
+    int x;
+    hv_return_t ret;
+    HVFState *s;
+
+    ret = hv_vm_create(HV_VM_DEFAULT);
+    assert_hvf_ok(ret);
+
+    s = g_new0(HVFState, 1);
+ 
+    s->num_slots = 32;
+    for (x = 0; x < s->num_slots; ++x) {
+        s->slots[x].size = 0;
+        s->slots[x].slot_id = x;
+    }
+  
+    hvf_state = s;
+    cpu_interrupt_handler = hvf_handle_interrupt;
+    memory_listener_register(&hvf_memory_listener, &address_space_memory);
+    return 0;
+}
+
+static void hvf_accel_class_init(ObjectClass *oc, void *data)
+{
+    AccelClass *ac = ACCEL_CLASS(oc);
+    ac->name = "HVF";
+    ac->init_machine = hvf_accel_init;
+    ac->allowed = &hvf_allowed;
+}
+
+static const TypeInfo hvf_accel_type = {
+    .name = TYPE_HVF_ACCEL,
+    .parent = TYPE_ACCEL,
+    .class_init = hvf_accel_class_init,
+};
+
+Thanks,
+Roman
 
