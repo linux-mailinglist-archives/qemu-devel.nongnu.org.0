@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2962524DDD1
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 19:25:01 +0200 (CEST)
-Received: from localhost ([::1]:60902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A196624DE24
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 19:27:11 +0200 (CEST)
+Received: from localhost ([::1]:38062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9Ami-0005gL-6r
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 13:25:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54446)
+	id 1k9Aoo-000074-Nv
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 13:27:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1k9AjI-0000oA-3J
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 13:21:28 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52494
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1k9AjN-00011q-2N
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 13:21:33 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59510
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1k9AjG-0008QR-F8
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 13:21:27 -0400
+ id 1k9AjK-0008RC-Ad
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 13:21:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598030485;
+ s=mimecast20190719; t=1598030489;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/QuZfkY3yvVKyRzZi+LIvn6MXCpAkfpRrgdaJOhA/vE=;
- b=BgvGLgtb/febPY+2YUeOXA/IN6vxpHQAeju/cmDWLgkYtsciHsDlSHdcB8cNqpOp9Pysec
- zrt3byj8o2nof6O5De/+nAOLLZ4JI6jf4US1ahIuF41TlIOGAwG0lmv2dpxUyG99czIoDn
- nFrq+Xe/ytuE0UPrRgFFO3XA1RpTM4A=
+ bh=EzZ16f/7r+EFjW0GrbgNn/04vYD6FnRftoTLrfPmc20=;
+ b=df2FS4gromjcVmAOgct+V8c4GJnOMaXg00aNHTtjSApN5p0FXKwWt3dVvDX8ZAfWfCH2oM
+ Kbe3hRjIyU8Jc3WHJBNE6rZbRkr2gMjDO1JHcADglaQQyWrr+/1kqvk02Jc/m/3qbA6yNG
+ Ton+qTSSassoP73TB+83Dgsm2TK0kLM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-245-j13wBqvsMrWuk0WCPZ2G-w-1; Fri, 21 Aug 2020 13:21:22 -0400
-X-MC-Unique: j13wBqvsMrWuk0WCPZ2G-w-1
+ us-mta-318-7-ypoomHNLeLWzXNNY0zUw-1; Fri, 21 Aug 2020 13:21:27 -0400
+X-MC-Unique: 7-ypoomHNLeLWzXNNY0zUw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8036C1074655;
- Fri, 21 Aug 2020 17:21:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C81D5801AB0;
+ Fri, 21 Aug 2020 17:21:26 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.36.110.21])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8371560CD0;
- Fri, 21 Aug 2020 17:21:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DAE2160CD0;
+ Fri, 21 Aug 2020 17:21:21 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 5/6] util: give a specific error message when O_DIRECT
- doesn't work
-Date: Fri, 21 Aug 2020 18:21:04 +0100
-Message-Id: <20200821172105.608752-6-berrange@redhat.com>
+Subject: [PATCH v4 6/6] block/fileb: switch to use qemu_open/qemu_create for
+ improved errors
+Date: Fri, 21 Aug 2020 18:21:05 +0100
+Message-Id: <20200821172105.608752-7-berrange@redhat.com>
 In-Reply-To: <20200821172105.608752-1-berrange@redhat.com>
 References: <20200821172105.608752-1-berrange@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 05:15:56
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 23:41:39
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -69,7 +69,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,45 +85,336 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Kevin Wolf <kwolf@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  qemu-block@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A common error scenario is to tell QEMU to use O_DIRECT in combination
-with a filesystem that doesn't support it. To aid users to diagnosing
-their mistake we want to provide a clear error message when this happens.
+Currently at startup if using cache=none on a filesystem lacking
+O_DIRECT such as tmpfs, at startup QEMU prints
+
+qemu-system-x86_64: -drive file=/tmp/foo.img,cache=none: file system may not support O_DIRECT
+qemu-system-x86_64: -drive file=/tmp/foo.img,cache=none: Could not open '/tmp/foo.img': Invalid argument
+
+while at QMP level the hint is missing, so QEMU reports just
+
+  "error": {
+      "class": "GenericError",
+      "desc": "Could not open '/tmp/foo.img': Invalid argument"
+  }
+
+which is close to useless for the end user trying to figure out what
+they did wrong.
+
+With this change at startup QEMU prints
+
+qemu-system-x86_64: -drive file=/tmp/foo.img,cache=none: Unable to open '/tmp/foo.img' flags 0x4000: filesystem does not support O_DIRECT
+
+while at the QMP level QEMU reports a massively more informative
+
+  "error": {
+     "class": "GenericError",
+     "desc": "Unable to open '/tmp/foo.img' flags 0x4002: filesystem does not support O_DIRECT"
+  }
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- util/osdep.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ block/file-posix.c            | 18 +++++++-----------
+ block/file-win32.c            |  6 ++----
+ tests/qemu-iotests/051.out    |  4 ++--
+ tests/qemu-iotests/051.pc.out |  4 ++--
+ tests/qemu-iotests/061.out    |  2 +-
+ tests/qemu-iotests/069.out    |  2 +-
+ tests/qemu-iotests/082.out    |  4 ++--
+ tests/qemu-iotests/111.out    |  2 +-
+ tests/qemu-iotests/226.out    |  6 +++---
+ tests/qemu-iotests/232.out    | 12 ++++++------
+ tests/qemu-iotests/244.out    |  6 +++---
+ 11 files changed, 30 insertions(+), 36 deletions(-)
 
-diff --git a/util/osdep.c b/util/osdep.c
-index a4956fbf6b..6c24985f7a 100644
---- a/util/osdep.c
-+++ b/util/osdep.c
-@@ -345,6 +345,19 @@ qemu_open_internal(const char *name, int flags, mode_t mode, Error **errp)
+diff --git a/block/file-posix.c b/block/file-posix.c
+index bac2566f10..c63926d592 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -630,11 +630,10 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
+     raw_parse_flags(bdrv_flags, &s->open_flags, false);
  
-     if (ret == -1) {
-         const char *action = flags & O_CREAT ? "create" : "open";
-+#ifdef O_DIRECT
-+        if (errno == EINVAL && (flags & O_DIRECT)) {
-+            ret = open(name, flags & ~O_DIRECT, mode);
-+            if (ret != -1) {
-+                close(ret);
-+                error_setg(errp, "Could not %s '%s' flags 0x%x: "
-+                           "filesystem does not support O_DIRECT",
-+                           action, name, flags);
-+                errno = EINVAL; /* close() clobbered earlier errno */
-+                return -1;
-+            }
-+        }
-+#endif /* O_DIRECT */
-         error_setg_errno(errp, errno, "Could not %s '%s' flags 0x%x",
-                          action, name, flags);
+     s->fd = -1;
+-    fd = qemu_open_old(filename, s->open_flags, 0644);
++    fd = qemu_open(filename, s->open_flags, errp);
+     ret = fd < 0 ? -errno : 0;
+ 
+     if (ret < 0) {
+-        error_setg_file_open(errp, -ret, filename);
+         if (ret == -EROFS) {
+             ret = -EACCES;
+         }
+@@ -1032,15 +1031,13 @@ static int raw_reconfigure_getfd(BlockDriverState *bs, int flags,
+         }
      }
+ 
+-    /* If we cannot use fcntl, or fcntl failed, fall back to qemu_open_old() */
++    /* If we cannot use fcntl, or fcntl failed, fall back to qemu_open() */
+     if (fd == -1) {
+         const char *normalized_filename = bs->filename;
+         ret = raw_normalize_devicepath(&normalized_filename, errp);
+         if (ret >= 0) {
+-            assert(!(*open_flags & O_CREAT));
+-            fd = qemu_open_old(normalized_filename, *open_flags);
++            fd = qemu_open(normalized_filename, *open_flags, errp);
+             if (fd == -1) {
+-                error_setg_errno(errp, errno, "Could not reopen file");
+                 return -1;
+             }
+         }
+@@ -2411,10 +2408,9 @@ raw_co_create(BlockdevCreateOptions *options, Error **errp)
+     }
+ 
+     /* Create file */
+-    fd = qemu_open_old(file_opts->filename, O_RDWR | O_CREAT | O_BINARY, 0644);
++    fd = qemu_create(file_opts->filename, O_RDWR | O_BINARY, 0644, errp);
+     if (fd < 0) {
+         result = -errno;
+-        error_setg_errno(errp, -result, "Could not create file");
+         goto out;
+     }
+ 
+@@ -3335,7 +3331,7 @@ static bool setup_cdrom(char *bsd_path, Error **errp)
+     for (index = 0; index < num_of_test_partitions; index++) {
+         snprintf(test_partition, sizeof(test_partition), "%ss%d", bsd_path,
+                  index);
+-        fd = qemu_open_old(test_partition, O_RDONLY | O_BINARY | O_LARGEFILE);
++        fd = qemu_open(test_partition, O_RDONLY | O_BINARY | O_LARGEFILE, NULL);
+         if (fd >= 0) {
+             partition_found = true;
+             qemu_close(fd);
+@@ -3653,7 +3649,7 @@ static int cdrom_probe_device(const char *filename)
+     int prio = 0;
+     struct stat st;
+ 
+-    fd = qemu_open_old(filename, O_RDONLY | O_NONBLOCK);
++    fd = qemu_open(filename, O_RDONLY | O_NONBLOCK, NULL);
+     if (fd < 0) {
+         goto out;
+     }
+@@ -3787,7 +3783,7 @@ static int cdrom_reopen(BlockDriverState *bs)
+      */
+     if (s->fd >= 0)
+         qemu_close(s->fd);
+-    fd = qemu_open_old(bs->filename, s->open_flags, 0644);
++    fd = qemu_open(bs->filename, s->open_flags, NULL);
+     if (fd < 0) {
+         s->fd = -1;
+         return -EIO;
+diff --git a/block/file-win32.c b/block/file-win32.c
+index 8c1845830e..1a31f8a5ba 100644
+--- a/block/file-win32.c
++++ b/block/file-win32.c
+@@ -576,11 +576,9 @@ static int raw_co_create(BlockdevCreateOptions *options, Error **errp)
+         return -EINVAL;
+     }
+ 
+-    fd = qemu_open_old(file_opts->filename,
+-                       O_WRONLY | O_CREAT | O_TRUNC | O_BINARY,
+-                       0644);
++    fd = qemu_create(file_opts->filename, O_WRONLY | O_TRUNC | O_BINARY,
++                     0644, errp);
+     if (fd < 0) {
+-        error_setg_errno(errp, errno, "Could not create file");
+         return -EIO;
+     }
+     set_sparse(fd);
+diff --git a/tests/qemu-iotests/051.out b/tests/qemu-iotests/051.out
+index de4771bcb3..242dcfe08d 100644
+--- a/tests/qemu-iotests/051.out
++++ b/tests/qemu-iotests/051.out
+@@ -363,7 +363,7 @@ Testing: -drive file=foo:bar
+ QEMU_PROG: -drive file=foo:bar: Unknown protocol 'foo'
+ 
+ Testing: -drive file.filename=foo:bar
+-QEMU_PROG: -drive file.filename=foo:bar: Could not open 'foo:bar': No such file or directory
++QEMU_PROG: -drive file.filename=foo:bar: Could not open 'foo:bar' flags 0x08000: No such file or directory
+ 
+ Testing: -hda file:TEST_DIR/t.qcow2
+ QEMU X.Y.Z monitor - type 'help' for more information
+@@ -374,7 +374,7 @@ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) quit
+ 
+ Testing: -drive file.filename=file:TEST_DIR/t.qcow2
+-QEMU_PROG: -drive file.filename=file:TEST_DIR/t.qcow2: Could not open 'file:TEST_DIR/t.qcow2': No such file or directory
++QEMU_PROG: -drive file.filename=file:TEST_DIR/t.qcow2: Could not open 'file:TEST_DIR/t.qcow2' flags 0x80000: No such file or directory
+ 
+ 
+ === Snapshot mode ===
+diff --git a/tests/qemu-iotests/051.pc.out b/tests/qemu-iotests/051.pc.out
+index f707471fb0..4c41b46986 100644
+--- a/tests/qemu-iotests/051.pc.out
++++ b/tests/qemu-iotests/051.pc.out
+@@ -463,7 +463,7 @@ Testing: -drive file=foo:bar
+ QEMU_PROG: -drive file=foo:bar: Unknown protocol 'foo'
+ 
+ Testing: -drive file.filename=foo:bar
+-QEMU_PROG: -drive file.filename=foo:bar: Could not open 'foo:bar': No such file or directory
++QEMU_PROG: -drive file.filename=foo:bar: Could not open 'foo:bar' flags 0x80000: No such file or directory
+ 
+ Testing: -hda file:TEST_DIR/t.qcow2
+ QEMU X.Y.Z monitor - type 'help' for more information
+@@ -474,7 +474,7 @@ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) quit
+ 
+ Testing: -drive file.filename=file:TEST_DIR/t.qcow2
+-QEMU_PROG: -drive file.filename=file:TEST_DIR/t.qcow2: Could not open 'file:TEST_DIR/t.qcow2': No such file or directory
++QEMU_PROG: -drive file.filename=file:TEST_DIR/t.qcow2: Could not open 'file:TEST_DIR/t.qcow2' flags 0x80000: No such file or directory
+ 
+ 
+ === Snapshot mode ===
+diff --git a/tests/qemu-iotests/061.out b/tests/qemu-iotests/061.out
+index b2d2dfed04..a533b0d416 100644
+--- a/tests/qemu-iotests/061.out
++++ b/tests/qemu-iotests/061.out
+@@ -538,7 +538,7 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
+ qemu-img: data-file can only be set for images that use an external data file
+ 
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864 data_file=TEST_DIR/t.IMGFMT.data
+-qemu-img: Could not open 'TEST_DIR/t.IMGFMT': Could not open 'foo': No such file or directory
++qemu-img: Could not open 'TEST_DIR/t.IMGFMT': Could not open 'foo' flags 0x80000: No such file or directory
+ image: TEST_DIR/t.IMGFMT
+ file format: IMGFMT
+ virtual size: 64 MiB (67108864 bytes)
+diff --git a/tests/qemu-iotests/069.out b/tests/qemu-iotests/069.out
+index 126b4d2d51..ffb95c965f 100644
+--- a/tests/qemu-iotests/069.out
++++ b/tests/qemu-iotests/069.out
+@@ -4,5 +4,5 @@ QA output created by 069
+ 
+ Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=131072
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=131072 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=IMGFMT
+-qemu-io: can't open device TEST_DIR/t.IMGFMT: Could not open backing file: Could not open 'TEST_DIR/t.IMGFMT.base': No such file or directory
++qemu-io: can't open device TEST_DIR/t.IMGFMT: Could not open backing file: Could not open 'TEST_DIR/t.IMGFMT.base' flags 0x80000: No such file or directory
+ *** done
+diff --git a/tests/qemu-iotests/082.out b/tests/qemu-iotests/082.out
+index 1728aff1e0..5a718ac1b5 100644
+--- a/tests/qemu-iotests/082.out
++++ b/tests/qemu-iotests/082.out
+@@ -544,10 +544,10 @@ Supported options:
+   size=<size>            - Virtual disk size
+ 
+ Testing: convert -O qcow2 -o backing_fmt=qcow2,backing_file=TEST_DIR/t.qcow2,,help TEST_DIR/t.qcow2 TEST_DIR/t.qcow2.base
+-qemu-img: Could not open 'TEST_DIR/t.qcow2.base': Could not open backing file: Could not open 'TEST_DIR/t.qcow2,help': No such file or directory
++qemu-img: Could not open 'TEST_DIR/t.qcow2.base': Could not open backing file: Could not open 'TEST_DIR/t.qcow2,help' flags 0x80000: No such file or directory
+ 
+ Testing: convert -O qcow2 -o backing_fmt=qcow2,backing_file=TEST_DIR/t.qcow2,,? TEST_DIR/t.qcow2 TEST_DIR/t.qcow2.base
+-qemu-img: Could not open 'TEST_DIR/t.qcow2.base': Could not open backing file: Could not open 'TEST_DIR/t.qcow2,?': No such file or directory
++qemu-img: Could not open 'TEST_DIR/t.qcow2.base': Could not open backing file: Could not open 'TEST_DIR/t.qcow2,?' flags 0x80000: No such file or directory
+ 
+ Testing: convert -O qcow2 -o backing_file=TEST_DIR/t.qcow2, -o help TEST_DIR/t.qcow2 TEST_DIR/t.qcow2.base
+ qemu-img: Invalid option list: backing_file=TEST_DIR/t.qcow2,
+diff --git a/tests/qemu-iotests/111.out b/tests/qemu-iotests/111.out
+index ba034e5c58..90255ea653 100644
+--- a/tests/qemu-iotests/111.out
++++ b/tests/qemu-iotests/111.out
+@@ -1,4 +1,4 @@
+ QA output created by 111
+-qemu-img: TEST_DIR/t.IMGFMT: Could not open 'TEST_DIR/t.IMGFMT.inexistent': No such file or directory
++qemu-img: TEST_DIR/t.IMGFMT: Could not open 'TEST_DIR/t.IMGFMT.inexistent' flags 0x80000: No such file or directory
+ Could not open backing image.
+ *** done
+diff --git a/tests/qemu-iotests/226.out b/tests/qemu-iotests/226.out
+index 42be973ff2..353fc4c799 100644
+--- a/tests/qemu-iotests/226.out
++++ b/tests/qemu-iotests/226.out
+@@ -6,7 +6,7 @@ QA output created by 226
+ qemu-io: can't open: A regular file was expected by the 'file' driver, but something else was given
+ qemu-io: warning: Opening a character device as a file using the 'file' driver is deprecated
+ == Testing RW ==
+-qemu-io: can't open: Could not open 'TEST_DIR/t.IMGFMT': Is a directory
++qemu-io: can't open: Could not open 'TEST_DIR/t.IMGFMT' flags 0x80002: Is a directory
+ qemu-io: warning: Opening a character device as a file using the 'file' driver is deprecated
+ 
+ === Testing with driver:host_device ===
+@@ -14,13 +14,13 @@ qemu-io: warning: Opening a character device as a file using the 'file' driver i
+ == Testing RO ==
+ qemu-io: can't open: 'host_device' driver expects either a character or block device
+ == Testing RW ==
+-qemu-io: can't open: Could not open 'TEST_DIR/t.IMGFMT': Is a directory
++qemu-io: can't open: Could not open 'TEST_DIR/t.IMGFMT' flags 0x80002: Is a directory
+ 
+ === Testing with driver:host_cdrom ===
+ 
+ == Testing RO ==
+ qemu-io: can't open: 'host_cdrom' driver expects either a character or block device
+ == Testing RW ==
+-qemu-io: can't open: Could not open 'TEST_DIR/t.IMGFMT': Is a directory
++qemu-io: can't open: Could not open 'TEST_DIR/t.IMGFMT' flags 0x80802: Is a directory
+ 
+ *** done
+diff --git a/tests/qemu-iotests/232.out b/tests/qemu-iotests/232.out
+index 3bd1a920af..bfa3f20172 100644
+--- a/tests/qemu-iotests/232.out
++++ b/tests/qemu-iotests/232.out
+@@ -21,11 +21,11 @@ NODE_NAME: TEST_DIR/t.IMGFMT (file, read-only)
+ NODE_NAME: TEST_DIR/t.IMGFMT (file, read-only)
+ NODE_NAME: TEST_DIR/t.IMGFMT (file, read-only)
+ 
+-QEMU_PROG: -drive driver=file,file=TEST_DIR/t.IMGFMT,if=none,read-only=off,auto-read-only=off: Could not open 'TEST_DIR/t.IMGFMT': Permission denied
++QEMU_PROG: -drive driver=file,file=TEST_DIR/t.IMGFMT,if=none,read-only=off,auto-read-only=off: Could not open 'TEST_DIR/t.IMGFMT' flags 0x80002: Permission denied
+ NODE_NAME: TEST_DIR/t.IMGFMT (file)
+ NODE_NAME: TEST_DIR/t.IMGFMT (file)
+ 
+-QEMU_PROG: -drive driver=file,file=TEST_DIR/t.IMGFMT,if=none,auto-read-only=off: Could not open 'TEST_DIR/t.IMGFMT': Permission denied
++QEMU_PROG: -drive driver=file,file=TEST_DIR/t.IMGFMT,if=none,auto-read-only=off: Could not open 'TEST_DIR/t.IMGFMT' flags 0x80002: Permission denied
+ NODE_NAME: TEST_DIR/t.IMGFMT (file)
+ NODE_NAME: TEST_DIR/t.IMGFMT (file)
+ 
+@@ -49,11 +49,11 @@ node0: TEST_DIR/t.IMGFMT (file, read-only)
+ node0: TEST_DIR/t.IMGFMT (file, read-only)
+ node0: TEST_DIR/t.IMGFMT (file, read-only)
+ 
+-QEMU_PROG: -blockdev driver=file,filename=TEST_DIR/t.IMGFMT,node-name=node0,read-only=off,auto-read-only=off: Could not open 'TEST_DIR/t.IMGFMT': Permission denied
++QEMU_PROG: -blockdev driver=file,filename=TEST_DIR/t.IMGFMT,node-name=node0,read-only=off,auto-read-only=off: Could not open 'TEST_DIR/t.IMGFMT' flags 0x80002: Permission denied
+ node0: TEST_DIR/t.IMGFMT (file)
+-QEMU_PROG: -blockdev driver=file,filename=TEST_DIR/t.IMGFMT,node-name=node0,read-only=off: Could not open 'TEST_DIR/t.IMGFMT': Permission denied
++QEMU_PROG: -blockdev driver=file,filename=TEST_DIR/t.IMGFMT,node-name=node0,read-only=off: Could not open 'TEST_DIR/t.IMGFMT' flags 0x80002: Permission denied
+ 
+-QEMU_PROG: -blockdev driver=file,filename=TEST_DIR/t.IMGFMT,node-name=node0,auto-read-only=off: Could not open 'TEST_DIR/t.IMGFMT': Permission denied
++QEMU_PROG: -blockdev driver=file,filename=TEST_DIR/t.IMGFMT,node-name=node0,auto-read-only=off: Could not open 'TEST_DIR/t.IMGFMT' flags 0x80002: Permission denied
+ node0: TEST_DIR/t.IMGFMT (file)
+-QEMU_PROG: -blockdev driver=file,filename=TEST_DIR/t.IMGFMT,node-name=node0: Could not open 'TEST_DIR/t.IMGFMT': Permission denied
++QEMU_PROG: -blockdev driver=file,filename=TEST_DIR/t.IMGFMT,node-name=node0: Could not open 'TEST_DIR/t.IMGFMT' flags 0x80002: Permission denied
+ *** done
+diff --git a/tests/qemu-iotests/244.out b/tests/qemu-iotests/244.out
+index dbab7359a9..34daec97f2 100644
+--- a/tests/qemu-iotests/244.out
++++ b/tests/qemu-iotests/244.out
+@@ -9,7 +9,7 @@ read 65536/65536 bytes at offset 0
+ 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ read 65536/65536 bytes at offset 0
+ 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-qemu-io: can't open device TEST_DIR/t.qcow2: Could not open 'inexistent': No such file or directory
++qemu-io: can't open device TEST_DIR/t.qcow2: Could not open 'inexistent' flags 0x80002: No such file or directory
+ no file open, try 'help open'
+ 
+ Data file required, but without data file name in the image:
+@@ -17,14 +17,14 @@ qemu-io: can't open device TEST_DIR/t.qcow2: 'data-file' is required for this im
+ no file open, try 'help open'
+ read 65536/65536 bytes at offset 0
+ 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-qemu-io: can't open device TEST_DIR/t.qcow2: Could not open 'inexistent': No such file or directory
++qemu-io: can't open device TEST_DIR/t.qcow2: Could not open 'inexistent' flags 0x80002: No such file or directory
+ no file open, try 'help open'
+ 
+ Setting data-file for an image with internal data:
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
+ qemu-io: can't open device TEST_DIR/t.qcow2: 'data-file' can only be set for images with an external data file
+ no file open, try 'help open'
+-qemu-io: can't open device TEST_DIR/t.qcow2: Could not open 'inexistent': No such file or directory
++qemu-io: can't open device TEST_DIR/t.qcow2: Could not open 'inexistent' flags 0x80002: No such file or directory
+ no file open, try 'help open'
+ 
+ === Conflicting features ===
 -- 
 2.26.2
 
