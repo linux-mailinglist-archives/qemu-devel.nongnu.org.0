@@ -2,109 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FB9A24D428
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 13:38:49 +0200 (CEST)
-Received: from localhost ([::1]:43838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E73724D43F
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 13:41:59 +0200 (CEST)
+Received: from localhost ([::1]:58240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k95Ng-0004Ot-8S
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 07:38:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40006)
+	id 1k95Qk-0001wh-3T
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 07:41:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k94p6-0005Nk-LP; Fri, 21 Aug 2020 07:03:04 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:53623)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k94x7-00020e-NY
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 07:11:21 -0400
+Received: from indium.canonical.com ([91.189.90.7]:33900)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k94p4-0006SC-S1; Fri, 21 Aug 2020 07:03:04 -0400
-Received: by mail-wm1-x341.google.com with SMTP id u18so1427862wmc.3;
- Fri, 21 Aug 2020 04:03:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:autocrypt:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=BqyZ7CAmD63t7T22Vj5I6SXpsad92zDeG6KVd4AtduU=;
- b=t6SJI0Ef5qaWA2of06HMPP4Sc7bzs4aAFbjUzdxS6r5JCARQBnPXVVD3ttKZq/4gZl
- saKIAQN2hbTl/Hs9FEc0Z4rolXTYWyjLDkPhqCOeRi5eHhoVz1qYg2wwVGymz2yZIlv9
- ZKRCuYvfEO9S4qA+sJLfyPJ2x8JmFjq2tznr5oK2LdEIP0RVm2seOIzazSaP2+T3UUYe
- pw12/CHTosKVlITXHVG0Zc17XlM8BacoXM81VRZlEnLTRIZcDDQTyAUdamNhQ/v2sY4e
- o9LPrXMHv/x/5xWEMzVmz4A9p2TBkgbZNGr5SzK1vOt7+NdZ2cg38ih9/vCp7+B87/4W
- yeeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=BqyZ7CAmD63t7T22Vj5I6SXpsad92zDeG6KVd4AtduU=;
- b=L9o0wIxcHs/F2kcmGj4VxFiq8NLtcW8kQI06EfyJBP5tiMNpGjDTTbVYtUPKUrFYY9
- eafyZntRXFc99Jzt83IY9r4DrMsYeig05xlfXx99FDZaLAlV2nrvcfcbhy1OHPt5it3y
- JGSqV+wEeOZQ1C+t7l62qhjjglbI00fQ6qxP2if6sbQDzQ1xbflSeWzYQxeNhUAuL7F5
- 9OvIbxoKh9ts5Bkl/OJ+Nwd/+MrNFJnyLr3XIvfG3Fu5+kFNghZxJnfh1attq1Sd9U7/
- RqcHufpPvJR4XjbjqV2PklrhyUeLw4RoZeEZWs+mkLhAyqPs28QMUGgqLEA8YhOKENAy
- K/vA==
-X-Gm-Message-State: AOAM533ACGLormLtiIRvL9zsVQh3UWX3wrwOhCYfA75Y9uhdXyvTRl9G
- MxH516qVmv2qeOad+G+AFyY=
-X-Google-Smtp-Source: ABdhPJy8i6FabpK97eSy+VdpccWPI2Uzhk8lxRf0spSft19OiQEHIxzfeRnKA3ki3hS1gkCnw/4byg==
-X-Received: by 2002:a7b:c5d0:: with SMTP id n16mr3138037wmk.7.1598007781188;
- Fri, 21 Aug 2020 04:03:01 -0700 (PDT)
-Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id d21sm4613628wmd.41.2020.08.21.04.02.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Aug 2020 04:03:00 -0700 (PDT)
-Subject: Re: [PATCH v1 0/2] pc-bios: petalogix: Re-generate DTB and add DTS
- files
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-devel@nongnu.org
-References: <20200820194342.1292611-1-edgar.iglesias@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <59239d83-7d52-897a-95cd-5916531461b3@amsat.org>
-Date: Fri, 21 Aug 2020 13:02:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k94x4-0007ad-IX
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 07:11:21 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1k94x2-0004h6-78
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 11:11:16 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 26BA92E80EA
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 11:11:16 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200820194342.1292611-1-edgar.iglesias@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 21 Aug 2020 11:04:51 -0000
+From: Timo Aaltonen <1883984@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Fix Released; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu; 
+ component=main; status=Fix Committed; importance=Medium;
+ assignee=None; 
+X-Launchpad-Bug-Tags: verification-needed verification-needed-focal
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: bruno-clisp janitor nhfbeebe paelzer rth tjaalton
+X-Launchpad-Bug-Reporter: Nelson H F Beebe (nhfbeebe)
+X-Launchpad-Bug-Modifier: Timo Aaltonen (tjaalton)
+References: <159243063748.16697.11009205973276249282.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159800789106.15943.476832359053141600.malone@soybean.canonical.com>
+Subject: [Bug 1883984] Re: QEMU S/390x sqxbr (128-bit IEEE 754 square root)
+ crashes qemu-system-s390x
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="99c2d833c8d727fd05148486920aca032e908071"; Instance="production"
+X-Launchpad-Hash: 6beac7bec2c452c1995544328e7a45770750bbd5
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 07:11:16
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -113,53 +78,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: figlesia@xilinx.com, peter.maydell@linaro.org, sstabellini@kernel.org,
- edgar.iglesias@xilinx.com, sai.pavan.boddu@xilinx.com,
- frasse.iglesias@gmail.com, alistair@alistair23.me,
- richard.henderson@linaro.org, frederic.konrad@adacore.com, qemu-arm@nongnu.org,
- luc.michel@greensocs.com
+Reply-To: Bug 1883984 <1883984@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Edgar,
+Hello Nelson, or anyone else affected,
 
-On 8/20/20 9:43 PM, Edgar E. Iglesias wrote:
-> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
-> 
-> This adds missing device-tree source files for the petalogix boards
-> with recompiled DTBs.
-> 
-> Cheers,
-> Edgar
-> 
-> Edgar E. Iglesias (2):
->   microblaze: petalogix-ml605: Add device-tree source
->   microblaze: petalogix-s3adsp1800: Add device-tree source
-> 
->  pc-bios/petalogix-ml605.dtb      | Bin 9982 -> 9882 bytes
->  pc-bios/petalogix-ml605.dts      | 350 +++++++++++++++++++++++++++++++
->  pc-bios/petalogix-s3adsp1800.dtb | Bin 8259 -> 8161 bytes
->  pc-bios/petalogix-s3adsp1800.dts | 282 +++++++++++++++++++++++++
->  4 files changed, 632 insertions(+)
->  create mode 100644 pc-bios/petalogix-ml605.dts
->  create mode 100644 pc-bios/petalogix-s3adsp1800.dts
-> 
+Accepted qemu into focal-proposed. The package will build now and be
+available at https://launchpad.net/ubuntu/+source/qemu/1:4.2-3ubuntu6.5
+in a few hours, and then in the -proposed repository.
 
-I suppose the test_microblaze_s3adsp1800() test in
-tests/acceptance/boot_linux_console.py has the dtb embedded after the
-kernel.
+Please help us by testing this new package.  See
+https://wiki.ubuntu.com/Testing/EnableProposed for documentation on how
+to enable and use -proposed.  Your feedback will aid us getting this
+update out to other Ubuntu users.
 
-Do you mind adding another test explicitly using this dtb?
-That would cover any further changes in these files.
+If this package fixes the bug for you, please add a comment to this bug,
+mentioning the version of the package you tested, what testing has been
+performed on the package and change the tag from verification-needed-
+focal to verification-done-focal. If it does not fix the bug for you,
+please add a comment stating that, and change the tag to verification-
+failed-focal. In either case, without details of your testing we will
+not be able to proceed.
 
-Also, can you add a test for the kc705 EVB (and previous)
-boards as you suggested here?
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg605124.html
+Further information regarding the verification process can be found at
+https://wiki.ubuntu.com/QATeam/PerformingSRUVerification .  Thank you in
+advance for helping!
 
-I already added a test for the cris/etraxfs board, will send
-it soon. Well you might wait for it and use it as template too.
+N.B. The updated package will be released to -updates after the bug(s)
+fixed by this package have been verified and the package has been in
+-proposed for a minimum of 7 days.
 
-Anyway,
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+** Changed in: qemu (Ubuntu Focal)
+       Status: Triaged =3D> Fix Committed
 
+** Tags added: verification-needed verification-needed-focal
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1883984
+
+Title:
+  QEMU S/390x sqxbr (128-bit IEEE 754 square root) crashes qemu-system-
+  s390x
+
+Status in QEMU:
+  Fix Released
+Status in qemu package in Ubuntu:
+  Fix Released
+Status in qemu source package in Focal:
+  Fix Committed
+
+Bug description:
+  [Impact]
+
+   * An instruction was described wrong so that on usage the program would =
+
+     crash.
+
+  [Test Case]
+
+   * Run s390x in emulation and there use this program:
+     For simplicity and speed you can use KVM guest as usual on s390x, that =
+
+     after prep&install&compile of the test you run in qemu-tcg like:
+
+     $ sudo qemu-system-s390x -machine s390-ccw-virtio,accel=3Dtcg -cpu max=
+,zpci=3Don -serial mon:stdio -display none -m 4096 -nic user,model=3Dvirtio=
+,hostfwd=3Dtcp::2222-:22 -drive file=3D/var/lib/uvtool/libvirt/images/focal=
+-sqxbr.qcow,if=3Dnone,id=3Ddrive-virtio-disk0,format=3Dqcow2,cache=3Dnone -=
+device virtio-blk-ccw,devno=3Dfe.0.0001,drive=3Ddrive-virtio-disk0,id=3Dvir=
+tio-disk0,bootindex=3D1,scsi=3Doff
+     Obviously is you have no s390x access you need to use emulation right =
+
+     away.
+
+   * Build and run failing program
+     $ sudo apt install clang
+     $ cat > bug-sqrtl-one-line.c << EOF
+  int main(void) { volatile long double x, r; x =3D 4.0L; __asm__ =
+
+  __volatile__("sqxbr %0, %1" : "=3Df" (r) : "f" (x)); return (0);}
+  EOF
+     $ cc bug-sqrtl-one-line.c
+     $ ./a.out
+     Segmentation fault (core dumped)
+
+     qemu is dead by now as long as the bug is present
+
+  [Regression Potential]
+
+   * The change only modifies 128 bit square root on s390x so regressions
+     should be limited to exactly that - which formerly before this fix was =
+
+     a broken instruction.
+
+  [Other Info]
+   =
+
+   * n/a
+
+  ---
+
+  In porting software to guest Ubuntu 18.04 and 20.04 VMs for S/390x, I dis=
+covered
+  that some of my own numerical programs, and also a GNU configure script f=
+or at
+  least one package with CC=3Dclang, would cause an instant crash of the VM=
+, sometimes
+  also destroying recently opened files, and producing long strings of NUL =
+characters
+  in /var/log/syslog in the S/390 guest O/S.
+
+  Further detective work narrowed the cause of the crash down to a single I=
+BM S/390
+  instruction: sqxbr (128-bit IEEE 754 square root).  Here is a one-line pr=
+ogram
+  that when compiled and run on a VM hosted on QEMUcc emulator version 4.2.0
+  (Debian 1:4.2-3ubuntu6.1) [hosted on Ubuntu 20.04 on a Dell Precision 7920
+  workstation with an Intel Xeon Platinum 8253 CPU],  and also on QEMU emul=
+ator
+  version 5.0.0, reproducibly produces a VM crash under qemu-system-s390x.
+
+  % cat bug-sqrtl-one-line.c
+  int main(void) { volatile long double x, r; x =3D 4.0L; __asm__ __volatil=
+e__("sqxbr %0, %1" : "=3Df" (r) : "f" (x)); return (0);}
+
+  % cc bug-sqrtl-one-line.c && ./a.out
+  Segmentation fault (core dumped)
+
+  The problem code may be the function float128_sqrt() defined in qemu-5.0.=
+0/fpu/softfloat.c
+  starting at line 7619.  I have NOT attempted to run the qemu-system-s390x=
+ executable
+  under a debugger.  However, I observe that S/390 is the only CPU family t=
+hat I know of,
+  except possibly for a Fujitsu SPARC-64, that has a 128-bit square root in=
+ hardware.
+  Thus, this instruction bug may not have been seen before.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1883984/+subscriptions
 
