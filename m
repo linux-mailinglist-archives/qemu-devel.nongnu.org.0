@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A345D24D256
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 12:30:39 +0200 (CEST)
-Received: from localhost ([::1]:34206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3B5B24D29B
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 12:36:28 +0200 (CEST)
+Received: from localhost ([::1]:60158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k94Ji-0005Qr-Lu
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 06:30:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59378)
+	id 1k94PL-0007gp-UD
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 06:36:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k94D4-0000WC-QP
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:23:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33368)
+ id 1k94D7-0000e1-PE
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:23:49 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37738
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k94D1-0001Qf-S1
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:23:46 -0400
+ id 1k94D5-0001Ri-2h
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:23:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598005421;
+ s=mimecast20190719; t=1598005426;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tjOVdeZdU8flg52xFPrCav0JQnR66QHJMCvoKZaLbqI=;
- b=CHhD4IMTGSeew80Vk81InNxkywuDCfAaI50CYgHAzfNOSHHRkiRIiG0N8jxrlKNNLzsH0X
- EF9zdg+P7eO3sAvwiecSjRJKin+Ns2d+mP/SLR3KqKEhyZX9dzh2HPlmO8YhJ7dpjQHsVu
- QfhZOa/IQtWhQ/6IMqC74TpLX314JIg=
+ bh=pyogagIogekxmBEBJdMiIgfbzL4q1hqCl4ySl4yEPBY=;
+ b=EZyhjK8mWVw0fMcnoQGDMGGL4ALhf1k6MDT6BoJMyNgieBbRHdNZVvPDtv/HGVibw3PzaT
+ 2IeISB3JaF3ONEjPIIYBleZtc1vKbJl8xPRw8hM9kDu/RP/0Qrocb0Vn3RAGMyQFoiwpes
+ AgXRIDq+WgQlvZ4R9s/5EJc2Pn0Hqfs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-375-bfN9wXosODiMIE_W86N50g-1; Fri, 21 Aug 2020 06:23:40 -0400
-X-MC-Unique: bfN9wXosODiMIE_W86N50g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-372-_mQYiIYgOLChbPuFpXm2Pw-1; Fri, 21 Aug 2020 06:23:44 -0400
+X-MC-Unique: _mQYiIYgOLChbPuFpXm2Pw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C8228030C4
- for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:23:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2C3B873081
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:23:43 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F038319C78;
- Fri, 21 Aug 2020 10:23:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A02465DA78;
+ Fri, 21 Aug 2020 10:23:43 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v8 008/152] tests/vm: do not pollute configure with
- --efi-aarch64
-Date: Fri, 21 Aug 2020 06:21:05 -0400
-Message-Id: <20200821102329.29777-9-pbonzini@redhat.com>
+Subject: [PULL v8 012/152] configure: do not include $(...) variables in
+ config-host.mak
+Date: Fri, 21 Aug 2020 06:21:09 -0400
+Message-Id: <20200821102329.29777-13-pbonzini@redhat.com>
 In-Reply-To: <20200821102329.29777-1-pbonzini@redhat.com>
 References: <20200821102329.29777-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 04:26:32
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 23:41:39
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
 X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,88 +87,104 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just make EFI_AARCH64 a variable in the makefile that defaults to the efi
-firmware included with QEMU.  It can be redefined on the "make" command
-line.
+This ensures that Meson will be able to reuse the results of
+the tests that are performed in the configure script.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure                 | 19 -------------------
- tests/vm/Makefile.include |  2 ++
- 2 files changed, 2 insertions(+), 19 deletions(-)
+ configure | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
 diff --git a/configure b/configure
-index 2acc4d1465..1c17a0f27f 100755
+index 625c14c500..606c327cca 100755
 --- a/configure
 +++ b/configure
-@@ -418,7 +418,6 @@ prefix="/usr/local"
- mandir="\${prefix}/share/man"
- datadir="\${prefix}/share"
- firmwarepath="\${prefix}/share/qemu-firmware"
--efi_aarch64=""
- qemu_docdir="\${prefix}/share/doc/qemu"
- bindir="\${prefix}/bin"
- libdir="\${prefix}/lib"
-@@ -1109,8 +1108,6 @@ for opt do
-   ;;
-   --firmwarepath=*) firmwarepath="$optarg"
-   ;;
--  --efi-aarch64=*) efi_aarch64="$optarg"
--  ;;
-   --host=*|--build=*|\
-   --disable-dependency-tracking|\
-   --sbindir=*|--sharedstatedir=*|\
-@@ -3650,20 +3647,6 @@ EOF
-   fi
+@@ -610,8 +610,8 @@ QEMU_CFLAGS="-fno-strict-aliasing -fno-common -fwrapv -std=gnu99 $QEMU_CFLAGS"
+ QEMU_CFLAGS="-Wall -Wundef -Wwrite-strings -Wmissing-prototypes $QEMU_CFLAGS"
+ QEMU_CFLAGS="-Wstrict-prototypes -Wredundant-decls $QEMU_CFLAGS"
+ QEMU_CFLAGS="-D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $QEMU_CFLAGS"
+-QEMU_INCLUDES="-iquote . -iquote \$(SRC_PATH) -iquote \$(SRC_PATH)/accel/tcg -iquote \$(SRC_PATH)/include"
+-QEMU_INCLUDES="$QEMU_INCLUDES -iquote \$(SRC_PATH)/disas/libvixl"
++QEMU_INCLUDES="-iquote . -iquote ${source_path} -iquote ${source_path}/accel/tcg -iquote ${source_path}/include"
++QEMU_INCLUDES="$QEMU_INCLUDES -iquote ${source_path}/disas/libvixl"
+ if test "$debug_info" = "yes"; then
+     CFLAGS="-g $CFLAGS"
+ fi
+@@ -911,7 +911,7 @@ Linux)
+   linux="yes"
+   linux_user="yes"
+   kvm="yes"
+-  QEMU_INCLUDES="-isystem \$(SRC_PATH)/linux-headers -isystem $PWD/linux-headers $QEMU_INCLUDES"
++  QEMU_INCLUDES="-isystem ${source_path}/linux-headers -I$PWD/linux-headers $QEMU_INCLUDES"
+   supported_os="yes"
+   libudev="yes"
+ ;;
+@@ -4397,8 +4397,8 @@ EOF
+           if [ "$pwd_is_source_path" != "y" ] ; then
+               symlink "$source_path/dtc/Makefile" "dtc/Makefile"
+           fi
+-          fdt_cflags="-I\$(SRC_PATH)/dtc/libfdt"
+-          fdt_ldflags="-L\$(BUILD_DIR)/dtc/libfdt"
++          fdt_cflags="-I${source_path}/dtc/libfdt"
++          fdt_ldflags="-L$PWD/dtc/libfdt"
+           fdt_libs="$fdt_libs"
+       elif test "$fdt" = "yes" ; then
+           # Not a git build & no libfdt found, prompt for system install
+@@ -5385,13 +5385,13 @@ case "$capstone" in
+       git_submodules="${git_submodules} capstone"
+     fi
+     mkdir -p capstone
+-    QEMU_CFLAGS="$QEMU_CFLAGS -I\$(SRC_PATH)/capstone/include"
++    QEMU_CFLAGS="$QEMU_CFLAGS -I${source_path}/capstone/include"
+     if test "$mingw32" = "yes"; then
+       LIBCAPSTONE=capstone.lib
+     else
+       LIBCAPSTONE=libcapstone.a
+     fi
+-    libs_cpu="-L\$(BUILD_DIR)/capstone -lcapstone $libs_cpu"
++    libs_cpu="-L$PWD/capstone -lcapstone $libs_cpu"
+     ;;
+ 
+   system)
+@@ -6414,8 +6414,8 @@ case "$slirp" in
+       git_submodules="${git_submodules} slirp"
+     fi
+     mkdir -p slirp
+-    slirp_cflags="-I\$(SRC_PATH)/slirp/src -I\$(BUILD_DIR)/slirp/src"
+-    slirp_libs="-L\$(BUILD_DIR)/slirp -lslirp"
++    slirp_cflags="-I${source_path}/slirp/src -I$PWD/slirp/src"
++    slirp_libs="-L$PWD/slirp -lslirp"
+     if test "$mingw32" = "yes" ; then
+       slirp_libs="$slirp_libs -lws2_32 -liphlpapi"
+     fi
+@@ -7909,19 +7909,19 @@ if test "$secret_keyring" = "yes" ; then
  fi
  
--############################################
--# efi-aarch64 probe
--# Check for efi files needed by aarch64 VMs.
--# By default we will use the efi included with QEMU.
--# Allow user to override the path for efi also.
--if ! test -f "$efi_aarch64"; then
--  if test -f $source_path/pc-bios/edk2-aarch64-code.fd.bz2; then
--    # valid after build
--    efi_aarch64=$PWD/pc-bios/edk2-aarch64-code.fd
--  else
--    efi_aarch64=""
--  fi
--fi
--
- ##########################################
- # libcap-ng library probe
- if test "$cap_ng" != "no" ; then
-@@ -6861,7 +6844,6 @@ if test "$docs" != "no"; then
-     echo "sphinx-build      $sphinx_build"
+ if test "$tcg_interpreter" = "yes"; then
+-  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/tci $QEMU_INCLUDES"
++  QEMU_INCLUDES="-iquote ${source_path}/tcg/tci $QEMU_INCLUDES"
+ elif test "$ARCH" = "sparc64" ; then
+-  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/sparc $QEMU_INCLUDES"
++  QEMU_INCLUDES="-iquote ${source_path}/tcg/sparc $QEMU_INCLUDES"
+ elif test "$ARCH" = "s390x" ; then
+-  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/s390 $QEMU_INCLUDES"
++  QEMU_INCLUDES="-iquote ${source_path}/tcg/s390 $QEMU_INCLUDES"
+ elif test "$ARCH" = "x86_64" || test "$ARCH" = "x32" ; then
+-  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/i386 $QEMU_INCLUDES"
++  QEMU_INCLUDES="-iquote ${source_path}/tcg/i386 $QEMU_INCLUDES"
+ elif test "$ARCH" = "ppc64" ; then
+-  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/ppc $QEMU_INCLUDES"
++  QEMU_INCLUDES="-iquote ${source_path}/tcg/ppc $QEMU_INCLUDES"
+ elif test "$ARCH" = "riscv32" || test "$ARCH" = "riscv64" ; then
+-  QEMU_INCLUDES="-I\$(SRC_PATH)/tcg/riscv $QEMU_INCLUDES"
++  QEMU_INCLUDES="-I${source_path}/tcg/riscv $QEMU_INCLUDES"
+ else
+-  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/\$(ARCH) $QEMU_INCLUDES"
++  QEMU_INCLUDES="-iquote ${source_path}/tcg/${ARCH} $QEMU_INCLUDES"
  fi
- echo "genisoimage       $genisoimage"
--echo "efi_aarch64       $efi_aarch64"
- echo "python_yaml       $python_yaml"
- echo "slirp support     $slirp $(echo_version $slirp $slirp_version)"
- if test "$slirp" != "no" ; then
-@@ -7963,7 +7945,6 @@ echo "PYTHON=$python" >> $config_host_mak
- echo "SPHINX_BUILD=$sphinx_build" >> $config_host_mak
- echo "SPHINX_WERROR=$sphinx_werror" >> $config_host_mak
- echo "GENISOIMAGE=$genisoimage" >> $config_host_mak
--echo "EFI_AARCH64=$efi_aarch64" >> $config_host_mak
- echo "PYTHON_YAML=$python_yaml" >> $config_host_mak
- echo "CC=$cc" >> $config_host_mak
- if $iasl -h > /dev/null 2>&1; then
-diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
-index f21948c46a..a599d1994d 100644
---- a/tests/vm/Makefile.include
-+++ b/tests/vm/Makefile.include
-@@ -2,6 +2,8 @@
  
- .PHONY: vm-build-all vm-clean-all
- 
-+EFI_AARCH64 = $(wildcard $(BUILD_DIR)/pc-bios/edk2-aarch64-code.fd)
-+
- IMAGES := freebsd netbsd openbsd centos fedora
- ifneq ($(GENISOIMAGE),)
- IMAGES += ubuntu.i386 centos
+ echo "HELPERS=$helpers" >> $config_host_mak
 -- 
 2.26.2
 
