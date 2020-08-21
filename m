@@ -2,68 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DDAC24DEF6
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 19:56:55 +0200 (CEST)
-Received: from localhost ([::1]:44188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 848FF24DEFE
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 19:58:05 +0200 (CEST)
+Received: from localhost ([::1]:50446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9BHa-0005I7-K8
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 13:56:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36936)
+	id 1k9BIi-00083i-JK
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 13:58:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k9BFw-00047R-JK
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 13:55:12 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35272
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k9BHQ-0005vs-Iz
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 13:56:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38749)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k9BFt-0004iV-Dm
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 13:55:11 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k9BHO-00051o-Fk
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 13:56:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598032507;
+ s=mimecast20190719; t=1598032601;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=D/wzNG7qOM6TY3kaSyFv6y6JAoDm6Hav/HE3L7XYty8=;
- b=HEb/xiWYqfOT35kR5vaPX9Rm5XC9tS4dNEYt8rrG4iPLNHE238mjzAZVdQDQFyH5cslnAU
- Z4GoNbAzWOxekFRwSI7SVLwh+Tx4/A2el/e6CfsKQtJHvLi5ljRK+SsAzub6aK/KeK0eHO
- 45F1xs4DbwIkB5CLo3KXBOLlQ1LxozE=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-572-1BsB7XEEMNGTnLLF4DvfJw-1; Fri, 21 Aug 2020 13:55:06 -0400
-X-MC-Unique: 1BsB7XEEMNGTnLLF4DvfJw-1
-Received: by mail-wr1-f72.google.com with SMTP id o10so790567wrs.21
- for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:55:05 -0700 (PDT)
+ bh=+9Se6hxBLJ7lRfgMnKAHVexggB4fM10BtGsA9g4RXNY=;
+ b=Seb+7YB0HTbf47IQqf5jhsY+0oRF5DRwtbeGSgwt0GqjCtZ1zh93awfChlJm/0IxHrp4aQ
+ G7z5jBJd8f4szFV0hFwBPElu2GRj4GNDF99WDgnBPwzzgFWk98k9e1bICBomXwNqKEg0Gk
+ ZAqA7qhHLKrC4H7OUeEV2yrNilA7v24=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-265-sFvClEtJMUGFqj-l85cpEg-1; Fri, 21 Aug 2020 13:56:39 -0400
+X-MC-Unique: sFvClEtJMUGFqj-l85cpEg-1
+Received: by mail-wr1-f71.google.com with SMTP id m7so788938wrb.20
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:56:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=D/wzNG7qOM6TY3kaSyFv6y6JAoDm6Hav/HE3L7XYty8=;
- b=RRX0NgsBMdnU5tHc2aaleU9rJw3LhZNDkXj6JtZgduXszsHh0A2CMdbZ8GnfWIIrHf
- e/Zt+l04KD+Uoxr/hth4x77cmGcKiO8BZdyn3UYRu6gM/SzGq4CLFQzwRH+lMtMMO039
- yGr2bZurqnBkb+wBr8zwJTWWFVMlTA4ZBRe7zGr9dbGdjprBWsQiHVTYIxPEQHMC6l9c
- KJ0p5Mwjzjm+kUuFWO4v9D6EfDpZFPET4k+ySMRrimETyTuWXexnOaVE6Mb/7O7NwirO
- kIKD+DAgX9rYZ462ckSKIBIjcIDIBYZ285o+13ITCHlyePOSmSpE3h/GE4Mfzbj13aGo
- C1Tg==
-X-Gm-Message-State: AOAM530dJ0obyRA9L4v8CXW9POAEdlLaZpj/dcSoMsh1GQeub55KXLXl
- ulBm8Z0a3qhxmn1rD+vliFceLCE2dAOvzLMJwlj4Dmpay6cTTPqydYLlJ7tFvuG3PQbe/IXBurI
- QAc9UiKyb6h6W1KQ=
-X-Received: by 2002:a05:600c:514:: with SMTP id
- i20mr4991507wmc.102.1598032504910; 
- Fri, 21 Aug 2020 10:55:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwb97Y51Joz3AcG1AIaFL05ew3C6d3Z99igeYmNYm2wtJ34dItGvbWZiSPoDNEvDJMf+keYDA==
-X-Received: by 2002:a05:600c:514:: with SMTP id
- i20mr4991489wmc.102.1598032504710; 
- Fri, 21 Aug 2020 10:55:04 -0700 (PDT)
+ bh=+9Se6hxBLJ7lRfgMnKAHVexggB4fM10BtGsA9g4RXNY=;
+ b=KHw0LZM5W/cZ1/VwwwyDPhUU+WIOMvonIEBFmnEBFOWLfTz7jzYLhuU/7ktmEJOa5W
+ 4t9QMnbi2/BvHvrYrufdbM0Uw2ZItrnhsr5SxiOS2E9zhCGa3j5kNOIz5SoXoCF/5XNO
+ YrPMO2nGDgWjKwQCoF3mFfqBrtku4VybRl8LN5/I0S2F45uzxQWIAWo9REGjh9kd+nH4
+ 0GO3mnlVsQYJyxffUlCa1rnPbSPPZSLdFMyJGJU3P/7tAVr2E2ztP1w790BQjkQwO9Lt
+ 9GSmlZ1gkSCk3AXZ295ywI5mcTXOmXULe17CJ4+/llgsL+hjj4ztz87AYLUc6qkQlSCL
+ 307w==
+X-Gm-Message-State: AOAM533Wz097pVxtAghoe8Ut4kKinab2uC0L60Ofj51HIp+r8iAOuV+l
+ E7I+/xHNFahn8IZhEm1KMiOHIoFG9GoBbnknfby4W5xIVfPF0dkxzoc0qgGONgTAvoI9GafHwe8
+ f4FcUUew8vBojPF0=
+X-Received: by 2002:adf:e550:: with SMTP id z16mr2565089wrm.360.1598032598329; 
+ Fri, 21 Aug 2020 10:56:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyKi+mxXRdO4x6+N0qWhIRGwos5imRz4x/Tq7YtRbCy9/S8/3RQf0ZK0j1Wkp9jiWVSIqoP8Q==
+X-Received: by 2002:adf:e550:: with SMTP id z16mr2565071wrm.360.1598032598063; 
+ Fri, 21 Aug 2020 10:56:38 -0700 (PDT)
 Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id y16sm5661408wrr.83.2020.08.21.10.55.03
+ by smtp.gmail.com with ESMTPSA id w132sm7303888wma.32.2020.08.21.10.56.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Aug 2020 10:55:03 -0700 (PDT)
-Subject: Re: [PATCH] tests/docker: add liburing-devel to the Fedora image
-To: Stefano Garzarella <sgarzare@redhat.com>, qemu-devel@nongnu.org
-References: <20200821165458.100591-1-sgarzare@redhat.com>
+ Fri, 21 Aug 2020 10:56:37 -0700 (PDT)
+Subject: Re: [PATCH] keymaps: update
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20200821161415.25341-1-pbonzini@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -88,30 +85,30 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <e5fdb193-952a-2bed-a1c7-4eb8bb0bbff7@redhat.com>
-Date: Fri, 21 Aug 2020 19:55:02 +0200
+Message-ID: <8ed9a66b-c868-42bc-7d97-14e52ae60088@redhat.com>
+Date: Fri, 21 Aug 2020 19:56:36 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200821165458.100591-1-sgarzare@redhat.com>
+In-Reply-To: <20200821161415.25341-1-pbonzini@redhat.com>
 Content-Language: en-US
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 01:00:15
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 04:26:32
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
 X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -124,52 +121,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: berrange@redhat.com, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/21/20 6:54 PM, Stefano Garzarella wrote:
-> Install liburing-devel dependencies to get better coverage on
-> io-uring stuff (block/io_uring.c and util/fdmon-io_uring.c).
+On 8/21/20 6:14 PM, Paolo Bonzini wrote:
+> Looks like update-keymaps has not been run in a while.
 > 
-> Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  tests/docker/dockerfiles/fedora.docker | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-> index 70b6186bd3..9650d324fa 100644
-> --- a/tests/docker/dockerfiles/fedora.docker
-> +++ b/tests/docker/dockerfiles/fedora.docker
-> @@ -38,6 +38,7 @@ ENV PACKAGES \
->      libssh-devel \
->      libubsan \
->      libudev-devel \
-> +    liburing-devel \
->      libusbx-devel \
->      libxml2-devel \
->      libzstd-devel \
-> 
+>  pc-bios/keymaps/ar    | 242 +++++++++++++++++++++++++++++++++++++++++-
+>  pc-bios/keymaps/bepo  | 242 +++++++++++++++++++++++++++++++++++++++++-
+>  pc-bios/keymaps/cz    | 242 +++++++++++++++++++++++++++++++++++++++++-
+>  pc-bios/keymaps/da    | 242 +++++++++++++++++++++++++++++++++++++++++-
+>  pc-bios/keymaps/de    | 242 +++++++++++++++++++++++++++++++++++++++++-
+>  pc-bios/keymaps/de-ch | 242 +++++++++++++++++++++++++++++++++++++++++-
+>  pc-bios/keymaps/en-gb | 242 +++++++++++++++++++++++++++++++++++++++++-
+>  pc-bios/keymaps/en-us | 242 +++++++++++++++++++++++++++++++++++++++++-
+>  pc-bios/keymaps/es    | 242 +++++++++++++++++++++++++++++++++++++++++-
+>  pc-bios/keymaps/et    | 242 +++++++++++++++++++++++++++++++++++++++++-
+>  pc-bios/keymaps/fi    | 242 +++++++++++++++++++++++++++++++++++++++++-
+>  pc-bios/keymaps/fo    | 242 +++++++++++++++++++++++++++++++++++++++++-
+>  pc-bios/keymaps/fr    | 242 +++++++++++++++++++++++++++++++++++++++++-
+>  pc-bios/keymaps/fr-be | 242 +++++++++++++++++++++++++++++++++++++++++-
+>  pc-bios/keymaps/fr-ca | 242 +++++++++++++++++++++++++++++++++++++++++-
+>  pc-bios/keymaps/fr-ch | 242 +++++++++++++++++++++++++++++++++++++++++-
+>  pc-bios/keymaps/hr    | 242 +++++++++++++++++++++++++++++++++++++++++-
+>  pc-bios/keymaps/hu    | 242 +++++++++++++++++++++++++++++++++++++++++-
+>  pc-bios/keymaps/is    | 242 +++++++++++++++++++++++++++++++++++++++++-
+>  pc-bios/keymaps/it    | 242 +++++++++++++++++++++++++++++++++++++++++-
+>  pc-bios/keymaps/ja    | 242 +++++++++++++++++++++++++++++++++++++++++-
+>  pc-bios/keymaps/lt    | 242 +++++++++++++++++++++++++++++++++++++++++-
+>  pc-bios/keymaps/lv    | 242 +++++++++++++++++++++++++++++++++++++++++-
+>  pc-bios/keymaps/mk    | 242 +++++++++++++++++++++++++++++++++++++++++-
+>  pc-bios/keymaps/nl    | 242 +++++++++++++++++++++++++++++++++++++++++-
+>  pc-bios/keymaps/no    | 242 +++++++++++++++++++++++++++++++++++++++++-
+>  pc-bios/keymaps/pl    | 242 +++++++++++++++++++++++++++++++++++++++++-
+>  pc-bios/keymaps/pt    | 242 +++++++++++++++++++++++++++++++++++++++++-
+>  pc-bios/keymaps/pt-br | 242 +++++++++++++++++++++++++++++++++++++++++-
+>  pc-bios/keymaps/ru    | 242 +++++++++++++++++++++++++++++++++++++++++-
+>  pc-bios/keymaps/th    | 242 +++++++++++++++++++++++++++++++++++++++++-
+>  pc-bios/keymaps/tr    | 242 +++++++++++++++++++++++++++++++++++++++++-
+>  32 files changed, 7680 insertions(+), 64 deletions(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-../util/fdmon-io_uring.c:106:17: error: address argument to atomic
-operation must be a pointer to _Atomic type ('unsigned int *' invalid)
-    old_flags = atomic_fetch_or(&node->flags, FDMON_IO_URING_PENDING |
-flags);
-                ^               ~~~~~~~~~~~~
-/usr/lib64/clang/10.0.0/include/stdatomic.h:138:42: note: expanded from
-macro 'atomic_fetch_or'
-#define atomic_fetch_or(object, operand) __c11_atomic_fetch_or(object,
-operand, __ATOMIC_SEQ_CST)
-                                         ^                     ~~~~~~
-../util/fdmon-io_uring.c:130:14: error: address argument to atomic
-operation must be a pointer to _Atomic type ('unsigned int *' invalid)
-    *flags = atomic_fetch_and(&node->flags, ~(FDMON_IO_URING_PENDING |
-             ^                ~~~~~~~~~~~~
-
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Typical pre-release CI job.
 
 
