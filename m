@@ -2,76 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D48824DABE
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 18:26:11 +0200 (CEST)
-Received: from localhost ([::1]:44560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 645BC24DACF
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 18:28:21 +0200 (CEST)
+Received: from localhost ([::1]:50696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k99rm-00026t-Bz
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 12:26:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58622)
+	id 1k99tr-0004st-HS
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 12:28:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <michael@amarulasolutions.com>)
- id 1k99qI-0000qO-2D
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 12:24:38 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:38359)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <michael@amarulasolutions.com>)
- id 1k99qF-0005yC-IP
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 12:24:37 -0400
-Received: by mail-wm1-x329.google.com with SMTP id t14so2399315wmi.3
- for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 09:24:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PHfRZX3prAYtPK3l2FA0/Cvl6nMMk2xejrvYxhSyBlo=;
- b=EIlqTsgv/wtEMwZzZU9aIR1RV+WiW9HVgpT/8fBVfKpxAXxqOrpCEuCnohlnF8Rdwa
- OjqTYa/kaqRkzCKGB1oHMeE7acusUMx/bowpHgxy7G1ne+HLCHormsf8qKvu+Brso8Cy
- zZ2mQ1pp8D0IQXMoJAhPGn9dV3MsuuV9T661o=
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1k99r6-00029w-Si
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 12:25:28 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:60618
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1k99r4-0006Ho-89
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 12:25:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598027125;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9WCRMozm3Lkxhk3Wzj43wTDSxHtQLaRWPWVleKpbfHg=;
+ b=RJiXqHhnTnFtzWYhUiI5QDlahuySY/YPdLOv3QkDDRnRGDu2KUUC/Y54YrumvtYvute00m
+ rKsipB/WKBrgsgEdReMdYlhOIB6/ChRRJ/oPut6XZPWh15uY+EgP3+2Nf+kpBcDmfE/hft
+ XaHw6x96We7yPvh5JIC86ANCQNfjugE=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-302-foNNxGxaNc2FmSAIfrpPGw-1; Fri, 21 Aug 2020 12:25:23 -0400
+X-MC-Unique: foNNxGxaNc2FmSAIfrpPGw-1
+Received: by mail-wm1-f69.google.com with SMTP id k204so1179002wmb.3
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 09:25:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PHfRZX3prAYtPK3l2FA0/Cvl6nMMk2xejrvYxhSyBlo=;
- b=L5gaO8X90A8kOTGphJqK4wRzpq1/Yebcn5NI9ClodVJvGTZfMPm3jXtGptLq3blWGH
- U1q+kubMa3SkkNWJd/f1wAemZJY0ZSQUJKCGadrQfLvqpa2Toug9cVqkipB4zUSwtDQO
- FOztc7vRwyY5ClTiTbbvY4/jLBaLdqtLTzZUYLguNGrMLldyLw0mdecErxye27oAq44h
- u2ozsG55y6rLPonqCA1Yi2Gl0M5Y+QyKomnzly9Szm9CObEiYRJ/xBbNKXeahziBSqvx
- fTpl7rzKUAPUb6fKxoYCsoHSfM88dXKCbPBZVyV9dLbg2RrERMnVtsFQY1dDr4TP4igW
- jRgg==
-X-Gm-Message-State: AOAM533Mvru1405AVZJuRAy2YPh5wrn4lqmbPioNKSzBrcqov5Jz/yMI
- DyWNMQFC34uDBJ856aaqYTthOJavTjPjRCpZJPZvjA==
-X-Google-Smtp-Source: ABdhPJyL8DAp12lOxui74JNb3/FIpSncMpLLUmVJ4FtuDMUBI+Om99Zd+2/h3gyMSaWB48z/VVfIkc2wBWJXiYCJUNI=
-X-Received: by 2002:a1c:2646:: with SMTP id m67mr4814746wmm.137.1598027072870; 
- Fri, 21 Aug 2020 09:24:32 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=TMMvwQz4TzoMeXxDD9hGX5Nqr4z8RlAuaftPRpSPoE0=;
+ b=N6jfyqPEwjhDO1Qzm2uusg7a7YR9tuwztQTe1/1Xb73aue7iBzXIUxuGRI7yq4PKGj
+ stIGd64huiCjHWmQygpXunzekPKmVrHBd3VnkblFIvb2w6fz1BrY4izstkuQQnmBfG9y
+ PNycLAaQ7oWPQJDSnR5f/tsPptIP0QDuYgJ3t8LpNFXUSbnqo10UQzBxPNWgIoxQCa3C
+ JCJh69/eNovvrk0kWQqm1FGP1Pq3M1RNFTa2oz02Sxcq7K5ps7iL1XC43zfF+ZrWDT3/
+ YsJ3TvqDOh2x1YhVrxvPjSB14i9lY6B0zv+jXloeFGglV3BWkyeyPN+Tf1EQfiDyr7VL
+ cJGg==
+X-Gm-Message-State: AOAM533h8GddObFGKcVocnUxf+gVNhWwsmUSe5Hg6wLZgy3Ek1jnDf53
+ EZsjUzayXrH5wX64un4oMeNFc2VXsjlfvmDRrDqQzlW596qeT1YqMgxJCHwo3dVao6E5tsxfH/8
+ /IZppsku1GGNqjxM=
+X-Received: by 2002:a7b:c011:: with SMTP id c17mr4502257wmb.63.1598027121442; 
+ Fri, 21 Aug 2020 09:25:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxQ0MNKJyoBwsGIA79hlLrq2FRoe2We5MNGwDPgRi6dqUnI3ACxDs7gdr3eVSy2oCTAoLME9A==
+X-Received: by 2002:a7b:c011:: with SMTP id c17mr4502241wmb.63.1598027121202; 
+ Fri, 21 Aug 2020 09:25:21 -0700 (PDT)
+Received: from steredhat (host-79-33-191-244.retail.telecomitalia.it.
+ [79.33.191.244])
+ by smtp.gmail.com with ESMTPSA id x14sm6057839wmc.5.2020.08.21.09.25.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Aug 2020 09:25:20 -0700 (PDT)
+Date: Fri, 21 Aug 2020 18:25:18 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH] configure: silence 'shift' error message in version_ge()
+Message-ID: <20200821162518.qr2jq72maxpnwst5@steredhat>
+References: <20200821150014.42461-1-sgarzare@redhat.com>
+ <CAFEAcA9zUDeig8TB4JDd_48v2AXcr7HGyjGq6r7KVx=sQyrjXA@mail.gmail.com>
+ <20200821152627.trreokf3ly24thrs@steredhat>
+ <7ac1a133-8b60-226d-4358-231f4b6b29a1@redhat.com>
 MIME-Version: 1.0
-References: <20200812152149.260163-1-michael@amarulasolutions.com>
- <20200817064701.o3q3plnjhzyz3s42@sirius.home.kraxel.org>
- <CAOf5uwn94gZPZXChFDXWZ-1w0jOY_SxRqzF4Mk8hrtLq-r3yCg@mail.gmail.com>
- <20200817072841.lvbco4k7hzzimxsb@sirius.home.kraxel.org>
- <CAOf5uwn2KAajFo7oXYkZg5q3jbJyRC50hJafcoWCVzrdvkqXMw@mail.gmail.com>
- <20200818060214.z2irps623upmbe2w@sirius.home.kraxel.org>
- <CAOf5uwmKuRGf1F6SouBXcGTmErgCL=CL2RwL=CBbK0SkvOSH2Q@mail.gmail.com>
- <20200819055211.bo4xim6cai7qzf2j@sirius.home.kraxel.org>
-In-Reply-To: <20200819055211.bo4xim6cai7qzf2j@sirius.home.kraxel.org>
-From: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
-Date: Fri, 21 Aug 2020 18:24:21 +0200
-Message-ID: <CAOf5uw=OH0VY==sru_J3er3kFTGKYh0Pnu_QW0RHfbda=8sPbg@mail.gmail.com>
-Subject: Re: [PATCH] hw: dev-wacom: Support wacom tablet emulation in linux
- qemu
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=michael@amarulasolutions.com; helo=mail-wm1-x329.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <7ac1a133-8b60-226d-4358-231f4b6b29a1@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 01:00:15
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,59 +102,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+On Fri, Aug 21, 2020 at 06:14:25PM +0200, Philippe Mathieu-Daudé wrote:
+> On 8/21/20 5:26 PM, Stefano Garzarella wrote:
+> > On Fri, Aug 21, 2020 at 04:21:10PM +0100, Peter Maydell wrote:
+> >> On Fri, 21 Aug 2020 at 16:00, Stefano Garzarella <sgarzare@redhat.com> wrote:
+> >>>
+> >>> If there are less than 2 arguments in version_ge(), the second shift
+> >>> prints this error:
+> >>>     ../configure: line 232: shift: shift count out of range
+> >>>
+> >>> Let's shut it up, since we're expecting this situation.
+> 
+> Maybe s/shut up/silence/?
 
+Yeah, less aggressive ;-)
 
-On Wed, Aug 19, 2020 at 7:52 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
->
->   Hi,
->
-> > > > Have another small question. Do you know how force show cursor working
-> > > > in this case?
-> > >
-> > > Which display and which vga do you use?
-> >
-> > -vga std \
->
-> So stdvga (has no hardware cursor support).
->
-> display not specified, so it is the default.
-> i.e. gtk or sdl depending on what configure finds.
->
-> > But I need to use the framebuffer. So what happens for instance in
-> > software like ts_calibrate you can not see the cursor
->
-> Does -vga virtio work better?
+> 
+> >>>
+> >>> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+> >>> ---
+> >>>  configure | 2 +-
+> >>>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/configure b/configure
+> >>> index 4e5fe33211..de4bd0df36 100755
+> >>> --- a/configure
+> >>> +++ b/configure
+> >>> @@ -229,7 +229,7 @@ version_ge () {
+> >>>          set x $local_ver1
+> >>>          local_first=${2-0}
+> >>>          # shift 2 does nothing if there are less than 2 arguments
+> >>> -        shift; shift
+> >>> +        shift; shift 2>/dev/null
+> >>
+> >> POSIX says
+> >> https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#shift
+> >>
+> >> "If the n operand is invalid or is greater than "$#", this may be
+> >> considered a syntax error and a non-interactive shell may exit"
+> >>
+> >> so I think that we need to actually avoid the excess shift,
+> > 
+> > Maybe something like this:
+> > 
+> > diff --git a/configure b/configure
+> > index de4bd0df36..5f5f370e2c 100755
+> > --- a/configure
+> > +++ b/configure
+> > @@ -229,7 +229,7 @@ version_ge () {
+> >          set x $local_ver1
+> >          local_first=${2-0}
+> >          # shift 2 does nothing if there are less than 2 arguments
+> > -        shift; shift
+> > +        shift; test $# -gt 0 && shift
+> 
+> This looks better that mine indeed.
 
-pen("/dev/fb0", O_RDWR|O_LARGEFILE)    = 5
-ioctl(5, FBIOGET_FSCREENINFO, 0x8055e40) = 0
-ioctl(5, FBIOGET_VSCREENINFO, 0x8055da0) = 0
-mmap2(NULL, 0, PROT_READ|PROT_WRITE, MAP_SHARED, 5, 0) = -1 EINVAL
-(Invalid argument)
-write(2, "mmap framebuffer", 16mmap framebuffer)        = 16
-write(2, ": ", 2: )                       = 2
-write(2, "Invalid argument", 16Invalid argument)        = 16
-write(2, "\n", 1
-)                       = 1
+Okay, I'll send a v2 with this change.
 
-Michael
+Thanks,
+Stefano
 
->
-> take care,
->   Gerd
->
+> 
+> >          local_ver1=$*
+> >          set x $local_ver2
+> >          # the second argument finished, the first must be greater or equal
+> > 
+> >> not just suppress any warning it might print. (I'm not sure
+> >> Philippe's "shift || shift" patch can work for that, though,
+> >> as the exit status doesn't distinguish "valid shift but don't
+> >> do it again" from "valid shift and more args to come".)
+> > 
+> > I tried and also if I have meson 0.55.0, with the Philippe's patch
+> > applied it tries to download our internal meson, so maybe it is not
+> > working as expected.
+> 
+> =)
+> 
+> > 
+> > Thanks,
+> > Stefano
+> > 
+> 
 
-
---
-Michael Nazzareno Trimarchi
-Amarula Solutions BV
-COO Co-Founder
-Cruquiuskade 47 Amsterdam 1018 AM NL
-T. +31(0)851119172
-M. +39(0)3479132170
-[`as] https://www.amarulasolutions.com
 
