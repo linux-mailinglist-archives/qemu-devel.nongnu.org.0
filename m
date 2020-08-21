@@ -2,82 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C3BE24D6FA
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 16:09:10 +0200 (CEST)
-Received: from localhost ([::1]:60084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78F9A24D70F
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 16:11:54 +0200 (CEST)
+Received: from localhost ([::1]:46506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k97jA-0006fb-HR
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 10:09:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54168)
+	id 1k97lp-0004KY-Hk
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 10:11:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1k97iG-00068u-GR; Fri, 21 Aug 2020 10:08:12 -0400
-Received: from mail-qv1-xf44.google.com ([2607:f8b0:4864:20::f44]:33266)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1k97iE-0004SA-Q6; Fri, 21 Aug 2020 10:08:12 -0400
-Received: by mail-qv1-xf44.google.com with SMTP id dd12so679198qvb.0;
- Fri, 21 Aug 2020 07:08:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=mMda8VSRHgdNRw751/JUh8T8arFMhUNr8BPRqbkx/3I=;
- b=N+VrqfgV0Ln8MyPzhySQV4zvuO70hXcVAOeF+DfaFsZkauvFR0bIDa7lBOiIuMejrU
- FpI6tlY4nIF9dhTUUV0hnXIm4+s6g+Aq8YZy4PMmGg0yXrBFebAz7R9ZwhEvwjRB8Jn1
- h+dlMge+NOF4ciIn/AzLLdX+EGJgH0phWDvJz+Wev1w+bO1HLyMsIKzf5qXeABkhH/DQ
- 4LMACmB/DcjneD/9F2AGx9/NzODvbIiQsti5zz29Bq3lvyRbRcjk8iTOJhZo3yJroLHe
- 5SkgFs6N/fAsnVo0MpnBYDV9qriopMxhXciAMEuF0EH7Lppn81KodHRLGRYfPvT5Xvyf
- bvzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=mMda8VSRHgdNRw751/JUh8T8arFMhUNr8BPRqbkx/3I=;
- b=cp8CADRJEFgOEtf+yg7HekOSnp4rSKOkBCArMrRqH9MoY0xTqsNYt/rsRuLV3FAQHd
- jKpfQqBSr0kM6pxfaGWC1B8dZbiceYfLaA8fbrA99YTxxHeeTxEXGdeVD0vYSrEw6YBL
- +8tYBEgsAlnpQFIUT9mXRqgWc+CQuq/XAzvfWgkRDUnR5nGJLOuHn+37BG8uObEh4R+e
- b8dIioV2VWeDD8M1l5oSRA1keJJHoAA3c70FVvw7b2qzxhe9KsubJIqxnM/MH8mlUWud
- bCCz17mFNVYJ4ItDqGszdjPZnyuY7rzPyyeVsmQTbQmAS7FR4xvQf4KyQIjKXV7V5zpL
- jeKQ==
-X-Gm-Message-State: AOAM531SZcCJKwLxt9pSycXVaeimixgU2OkHmvY3p4BQVqQX2k3JvRsG
- aw+tYdD3ASM7P0G6bJEikc8=
-X-Google-Smtp-Source: ABdhPJyIybMGaB9+5dnG2RmgLnWTZ8Z/JlNKkyKrMPkeXJaxCyYUh0OlPpAHz6oxHUVyAZUQun/mFg==
-X-Received: by 2002:a0c:f4d0:: with SMTP id o16mr2460448qvm.225.1598018889363; 
- Fri, 21 Aug 2020 07:08:09 -0700 (PDT)
-Received: from ?IPv6:2804:431:c7c7:c152:6ea6:a44d:671e:88f?
- ([2804:431:c7c7:c152:6ea6:a44d:671e:88f])
- by smtp.gmail.com with ESMTPSA id x137sm1821503qkb.47.2020.08.21.07.08.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Aug 2020 07:08:08 -0700 (PDT)
-Subject: Re: [PATCH 1/1] spapr_vscsi: do not allow device hotplug
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200820190635.379657-1-danielhb413@gmail.com>
- <7f6ab4e6-42b1-3de4-5893-2ef09fc9dd26@redhat.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-ID: <e9b2ce95-d920-24e3-14f7-cb41a5ce3caf@gmail.com>
-Date: Fri, 21 Aug 2020 11:08:04 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k97iu-000750-6b
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 10:08:52 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:37642
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1k97iq-0004Vm-7W
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 10:08:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598018927;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=TJk+cO4vCXrgKyAzZSSTC8ZmGTjFhu1hEJnG5JapE7w=;
+ b=emWA1EYy96BIXZNmQTa5vz25FDJ/UnPFhkPPTkAPysCr9YcZLAxdzHeygjQiSgtNn8gDdG
+ sjs8EIzqDp3uRTsiVoCKR4jRiz9AbiniPQp25xBfKggm5UN6kEU9EOIcrRidSl7EkrDVEA
+ 0pJoROvtPwsEwO21Yf4q7EMM1UUHwns=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-217-PyASLVMuNd6YxEUxZ7ncFg-1; Fri, 21 Aug 2020 10:08:30 -0400
+X-MC-Unique: PyASLVMuNd6YxEUxZ7ncFg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A6861074665
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 14:08:29 +0000 (UTC)
+Received: from blue.redhat.com (ovpn-113-220.phx2.redhat.com [10.3.113.220])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 00ADB7B92A
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 14:08:28 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/14] bitmaps patches for 2020-08-21
+Date: Fri, 21 Aug 2020 09:08:12 -0500
+Message-Id: <20200821140826.194322-1-eblake@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <7f6ab4e6-42b1-3de4-5893-2ef09fc9dd26@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f44;
- envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf44.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 05:15:56
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,104 +76,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The following changes since commit 7fd51e68c34fcefdb4d6fd646ed3346f780f89f4:
 
+  Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2020-08-21 12:42:49 +0100)
 
-On 8/21/20 8:08 AM, Philippe Mathieu-Daudé wrote:
-> Cc'ing Markus
-> 
-> On 8/20/20 9:06 PM, Daniel Henrique Barboza wrote:
->> We do not implement hotplug in the vscsi bus, but we forgot to
->> tell qdev about it. The result is that users are able to hotplug
->> devices in the vscsi bus, the devices appear in qdev, but they
->> aren't usable by the guest OS unless the user reboots it first.
->>
->> Setting qbus hotplug_handler to NULL will tell qdev-monitor, via
->> qbus_is_hotpluggable(), that we do not support hotplug operations
->> in spapr_vscsi.
->>
->> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1862059
->>
->> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->> ---
->>   hw/scsi/spapr_vscsi.c | 3 +++
->>   1 file changed, 3 insertions(+)
->>
->> diff --git a/hw/scsi/spapr_vscsi.c b/hw/scsi/spapr_vscsi.c
->> index d17dc03c73..57f0a1336f 100644
->> --- a/hw/scsi/spapr_vscsi.c
->> +++ b/hw/scsi/spapr_vscsi.c
->> @@ -1219,6 +1219,9 @@ static void spapr_vscsi_realize(SpaprVioDevice *dev, Error **errp)
->>   
->>       scsi_bus_new(&s->bus, sizeof(s->bus), DEVICE(dev),
->>                    &vscsi_scsi_info, NULL);
->> +
->> +    /* ibmvscsi SCSI bus does not allow hotplug. */
->> +    qbus_set_hotplug_handler(BUS(&s->bus), NULL);
-> 
-> Can't this be a problem later in DeviceClass::unrealize()?
+are available in the Git repository at:
 
-Not as far as I've tested. A call to qbus_set_hotplug_handler(bus,NULL)
-after setting it to NULL isn't breaking anything either (just tested).
+  https://repo.or.cz/qemu/ericb.git tags/pull-bitmaps-2020-08-21
 
-I verified before sending the patch that setting hotplug_handler to
-NULL is done in some unrealize() calls in buses, but not on devices.
-And I'm not sure which instance would cause an unrealize() in the
-device to fail if the hotplug_handler of the bus is NULL. As far as
-I'm concerned this shouldn't be happening in our case here, where we're
-not dealing with hotplug devices in the bus at all.
+for you to fetch changes up to cb5c6cd2dc984812f560fbe41f57a6bfc34d8708:
 
-Which potential problems are you referring to?
+  iotests: Test node/bitmap aliases during migration (2020-08-21 08:56:09 -0500)
 
-> 
-> I was expecting something like, overwriting the parent bus type:
-> 
-> -- >8 --
-> @@ -1271,6 +1271,7 @@ static void spapr_vscsi_class_init(ObjectClass
-> *klass, void *data)
->       DeviceClass *dc = DEVICE_CLASS(klass);
->       SpaprVioDeviceClass *k = VIO_SPAPR_DEVICE_CLASS(klass);
-> 
-> +    k->bus_type = NULL; /* ibmvscsi SCSI bus does not allow hotplug. */
->       k->realize = spapr_vscsi_realize;
->       k->reset = spapr_vscsi_reset;
->       k->devnode = spapr_vscsi_devnode;
-> ---
+----------------------------------------------------------------
+bitmaps patches for 2020-08-21
 
-spapr_vscsi is not a bus, is an interface. Setting NULL to bus_type in spapr_vio
-breaks guest init:
+- Andrey Shinkevich: Enhance qcow2.py for iotest inspection of qcow2 images
+- Max Reitz: Add block-bitmap-mapping migration parameter
 
+----------------------------------------------------------------
+Andrey Shinkevich (11):
+      iotests: add test for QCOW2 header dump
+      qcow2_format.py: make printable data an extension class member
+      qcow2_format.py: change Qcow2BitmapExt initialization method
+      qcow2_format.py: dump bitmap flags in human readable way.
+      qcow2_format.py: Dump bitmap directory information
+      qcow2_format.py: pass cluster size to substructures
+      qcow2_format.py: Dump bitmap table serialized entries
+      qcow2.py: Introduce '-j' key to dump in JSON format
+      qcow2_format.py: collect fields to dump in JSON format
+      qcow2_format.py: support dumping metadata in JSON format
+      iotests: dump QCOW2 header in JSON in #303
 
-qemu-system-ppc64: /home/danielhb/qemu/hw/core/qdev.c:102: qdev_set_parent_bus: Assertion `dc->bus_type && object_dynamic_cast(OBJECT(bus), dc->bus_type)' failed.
-Aborted
+Max Reitz (3):
+      migration: Add block-bitmap-mapping parameter
+      iotests.py: Let wait_migration() return on failure
+      iotests: Test node/bitmap aliases during migration
 
+ qapi/migration.json                | 104 ++++++-
+ migration/migration.h              |   3 +
+ migration/block-dirty-bitmap.c     | 410 +++++++++++++++++++++----
+ migration/migration.c              |  30 ++
+ monitor/hmp-cmds.c                 |  30 ++
+ tests/qemu-iotests/300             | 593 +++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/300.out         |   5 +
+ tests/qemu-iotests/303             |  63 ++++
+ tests/qemu-iotests/303.out         | 158 ++++++++++
+ tests/qemu-iotests/group           |   2 +
+ tests/qemu-iotests/iotests.py      |  18 +-
+ tests/qemu-iotests/qcow2.py        |  18 +-
+ tests/qemu-iotests/qcow2_format.py | 215 ++++++++++++--
+ 13 files changed, 1566 insertions(+), 83 deletions(-)
+ create mode 100755 tests/qemu-iotests/300
+ create mode 100644 tests/qemu-iotests/300.out
+ create mode 100755 tests/qemu-iotests/303
+ create mode 100644 tests/qemu-iotests/303.out
 
-I'm not so sure this would be better than what I'm doing either. qdev_device_add()
-calls qbus_is_hotpluggable() to see if the chosen bus allows hotplug. This
-function verifies if bus->hotplug_handler is NULL. What I'm doing is simply
-setting hotplug_handler to NULL in the SCSI bus instance that belongs to
-spapr_vscsi. As far as I understand this is a valid use of the qdev API - I
-should be able to set hotplug_handler to NULL if I don't want devices being
-hotplugged in the bus I'm instantiating. Either that, or qbus_is_hotpluggable()
-must check for something else that I can safely turn off.
+Andrey Shinkevich (11):
+  iotests: add test for QCOW2 header dump
+  qcow2_format.py: make printable data an extension class member
+  qcow2_format.py: change Qcow2BitmapExt initialization method
+  qcow2_format.py: dump bitmap flags in human readable way.
+  qcow2_format.py: Dump bitmap directory information
+  qcow2_format.py: pass cluster size to substructures
+  qcow2_format.py: Dump bitmap table serialized entries
+  qcow2.py: Introduce '-j' key to dump in JSON format
+  qcow2_format.py: collect fields to dump in JSON format
+  qcow2_format.py: support dumping metadata in JSON format
+  iotests: dump QCOW2 header in JSON in #303
 
+Max Reitz (3):
+  migration: Add block-bitmap-mapping parameter
+  iotests.py: Let wait_migration() return on failure
+  iotests: Test node/bitmap aliases during migration
 
-Thanks,
+ qapi/migration.json                | 104 ++++-
+ migration/migration.h              |   3 +
+ migration/block-dirty-bitmap.c     | 410 +++++++++++++++++---
+ migration/migration.c              |  30 ++
+ monitor/hmp-cmds.c                 |  30 ++
+ tests/qemu-iotests/300             | 593 +++++++++++++++++++++++++++++
+ tests/qemu-iotests/300.out         |   5 +
+ tests/qemu-iotests/303             |  63 +++
+ tests/qemu-iotests/303.out         | 158 ++++++++
+ tests/qemu-iotests/group           |   2 +
+ tests/qemu-iotests/iotests.py      |  18 +-
+ tests/qemu-iotests/qcow2.py        |  18 +-
+ tests/qemu-iotests/qcow2_format.py | 215 ++++++++++-
+ 13 files changed, 1566 insertions(+), 83 deletions(-)
+ create mode 100755 tests/qemu-iotests/300
+ create mode 100644 tests/qemu-iotests/300.out
+ create mode 100755 tests/qemu-iotests/303
+ create mode 100644 tests/qemu-iotests/303.out
 
+-- 
+2.28.0
 
-DHB
-
-
-
-
-> 
->>   }
->>   
->>   void spapr_vscsi_create(SpaprVioBus *bus)
->>
-> 
 
