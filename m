@@ -2,79 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D55F424D407
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 13:33:31 +0200 (CEST)
-Received: from localhost ([::1]:44920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3FA024D40F
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 13:34:52 +0200 (CEST)
+Received: from localhost ([::1]:53826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k95IY-0001mq-TM
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 07:33:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37098)
+	id 1k95Jr-0005Qc-Vt
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 07:34:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k94aE-0007jy-Pp; Fri, 21 Aug 2020 06:47:42 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:32854)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k94aD-0004iA-1z; Fri, 21 Aug 2020 06:47:42 -0400
-Received: by mail-wr1-x444.google.com with SMTP id p20so1535892wrf.0;
- Fri, 21 Aug 2020 03:47:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=gTUXUYJh9r4NpY0TQpnZlz7xsFLACmEn8LbRCqPweZg=;
- b=M50H4+1wCfZUO/nLeJXh/oW1ntMenEGD5KwbAGlbcRdmvQW/dtj3bv2UQRxUXYrcMf
- XCLmPe546BmU6MXVm9WNHZx4varVQkxfl+68IDxmNzUhVsQrrqsyA2H1/twsxOzTIDvJ
- HcRbTQ8Pr7fV9p3+m2rLKw8xJFj/noIn/FqwWqgkVG+wLJVMMoGyfZUtD/wVEcIdJQNk
- 31jMQpi6KDkqAsWjC3+rOtLNOkoScZCJ5qN4IuMimeKdOzhcInhxRzLMnOOz47pfck7G
- 5xQov1A9iRtTcnEbDfZpHNbztwKMn6Y2OtZ4nslUfCIRtJB20RCHSKZUyHw5L4/7O+w1
- NINg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k94dj-0007Ld-V7
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:51:20 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21452
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k94dg-00056k-HW
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:51:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598007075;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=gDjoGraokWvDw6WeO/Ilabe6thW/R3AW97b5+0TZ3BM=;
+ b=csLI32PNDVPjakQyXgho13jyDRSyKdveqbV5s32G8L+h0aPTfPdUGvUnMOYZnItGTmvU43
+ xpGXqRSvtN/pfZzBDzyVoZCGR0TlH+fgZwLa7TbnQO/vCRu3m6O275LVv5MEs1EiTXz3QA
+ /BBWoxQUvyzU1TUsyIWp031fGE9nIJA=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-428-iw8xGmkgPQaAwXDeMnr75w-1; Fri, 21 Aug 2020 06:51:11 -0400
+X-MC-Unique: iw8xGmkgPQaAwXDeMnr75w-1
+Received: by mail-wm1-f71.google.com with SMTP id c186so800762wmd.9
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 03:51:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=gTUXUYJh9r4NpY0TQpnZlz7xsFLACmEn8LbRCqPweZg=;
- b=Zj4C3NiOo/s+jF9I/058zvs0E7Dn07Pl4Yv1Uah88GHvyRYp6C7xn3nSYnzJK1Gwqp
- LHW61un3PMTxXYqzr0f0S/Aj2khRRHs4TBFn9lMizAZeiLLqmhoCmvgA1is6WIcK4sUP
- 8dAVmLrhDWIgDGlz8TxlJLI7ymjxOToo82/kNZyCLqH8UwzaNo5dm1jmak6l2hYz4BY+
- 86MVu9JqC+ZWKig6KYtAYsiB0ukHV3I3ladLI/0QkQWIBpsn96ZrXZBbudUI9mdzcV5T
- EsY38GU48zSJjm9P6jum8In3jX0QhgqKaCxQ0EiDIvxyHlSA4X7jUfK+hDaps8MApAZg
- 101A==
-X-Gm-Message-State: AOAM530fMf6c1/MGFnOH5TwcmXZ8qbga//7y9rCOKd8cTYYOR5UE3HWW
- N/w5b2dqxvr/cVjx/NiRDGY=
-X-Google-Smtp-Source: ABdhPJyUDp55eiiqTOBX+xmasYIONalpawGIno97y0IAWGss143KQhjRnDnK0wPdi698sz3kgcUSDA==
-X-Received: by 2002:adf:e84d:: with SMTP id d13mr2161132wrn.126.1598006857111; 
- Fri, 21 Aug 2020 03:47:37 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=gDjoGraokWvDw6WeO/Ilabe6thW/R3AW97b5+0TZ3BM=;
+ b=KxQDn/EyiuuHxxf0jktEri9vG/qeQbWPteJX7TZaeRCqzNJMfyav0Vm3CD/C6vd8/C
+ 8lNT6YNoHeOwA5stWWDG9ZkeiC+KZ9uSxj0YAiop9Fb+8077Dk4RU+fWzlqNBRZxN2B/
+ tFI3lBb7I62HBpX6TTPMUsyMnOnNNsrHA2UkSHw19KmhR9LLAAkZCbsN0FK+6skYP40S
+ 60LzZ4FSftCk2IKRTaQHsXoT9eIJo1u4mrtiXD8ritDFCpc9HjkCOh6Phc3tCucMtHtZ
+ r9+pWr7O6HCKknq87Z8YZXK578SznE8tPMxydD52qfNRsTZjBsC7Euu0dTlYrRxSVyD8
+ Lthw==
+X-Gm-Message-State: AOAM530gmIfiwTepeIaRoi0p1u864ou9MeYc9XHu6paGOb9Hga0Jd8HI
+ LhRPGUe4PyUuIUHUdKxn+Oyz/aNBCJ9m7VA+ZkFRmbzj83diQ0Dlh5Yorz5b6ME/P4g+uisFit3
+ 9KRXT77WcmEEOWR4=
+X-Received: by 2002:adf:b302:: with SMTP id j2mr2172531wrd.294.1598007070186; 
+ Fri, 21 Aug 2020 03:51:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyXG60OZPiAbWPAAf5z6w4TetreHSPc4aGjoeWSBehmhOicYDnWCZ0ynQw9k10IWwnZyrHj3A==
+X-Received: by 2002:adf:b302:: with SMTP id j2mr2172517wrd.294.1598007069922; 
+ Fri, 21 Aug 2020 03:51:09 -0700 (PDT)
 Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id 202sm4758012wmb.10.2020.08.21.03.47.35
+ by smtp.gmail.com with ESMTPSA id f6sm5376635wme.32.2020.08.21.03.51.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Aug 2020 03:47:36 -0700 (PDT)
-Subject: Re: [PATCH] hw/arm/sbsa-ref: fix typo breaking PCIe IRQs
-To: Graeme Gregory <graeme@nuviainc.com>, qemu-arm@nongnu.org
-References: <20200821083853.356490-1-graeme@nuviainc.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <e90ca59f-91ea-aa6a-94b7-f0bf9160b2f8@amsat.org>
-Date: Fri, 21 Aug 2020 12:47:35 +0200
+ Fri, 21 Aug 2020 03:51:09 -0700 (PDT)
+Subject: Re: [PATCH] cirrus: handle wraparound in cirrus_invalidate_region
+To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+References: <20200821082622.7169-1-kraxel@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <0fb2b10e-320f-9b33-6812-f1c5d06b0563@redhat.com>
+Date: Fri, 21 Aug 2020 12:51:08 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200821083853.356490-1-graeme@nuviainc.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200821082622.7169-1-kraxel@redhat.com>
 Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 23:41:39
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,39 +122,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, leif@nuviainc.com, rad@semihalf.com,
- qemu-devel@nongnu.org
+Cc: Alexander Bulekov <alxndr@bu.edu>, Li Qiang <liq3ea@163.com>,
+ Prasad J Pandit <pjp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/21/20 10:38 AM, Graeme Gregory wrote:
-> Fixing a typo in a previous patch that translated an "i" to a 1
-> and therefore breaking the allocation of PCIe interrupts. This was
-> discovered when virtio-net-pci devices ceased to function correctly.
-> 
-> Fixes: 48ba18e6d3f3 ("hw/arm/sbsa-ref: Simplify by moving the gic in the machine state")
-> Signed-off-by: Graeme Gregory <graeme@nuviainc.com>
+On 8/21/20 10:26 AM, Gerd Hoffmann wrote:
+> Code simply asserts that there is no wraparound instead of handling
+> it properly.  The assert() can be triggered by the guest (must be
+> privilidged inside the guest though).  Fix it.
+
+Thanks for fixing this!
+
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1880189
+> Cc: Li Qiang <liq3ea@163.com>
+> Reported-by: Alexander Bulekov <alxndr@bu.edu>
+
+Well, I reported this one 3 months ago to secalert, not Alex.
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 > ---
->  hw/arm/sbsa-ref.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/display/cirrus_vga.c | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
 > 
-> diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-> index 570faac6e2..48c7cea291 100644
-> --- a/hw/arm/sbsa-ref.c
-> +++ b/hw/arm/sbsa-ref.c
-> @@ -565,7 +565,7 @@ static void create_pcie(SBSAMachineState *sms)
->  
->      for (i = 0; i < GPEX_NUM_IRQS; i++) {
->          sysbus_connect_irq(SYS_BUS_DEVICE(dev), i,
-> -                           qdev_get_gpio_in(sms->gic, irq + 1));
-> +                           qdev_get_gpio_in(sms->gic, irq + i));
-
-Oops...
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
->          gpex_set_irq_num(GPEX_HOST(dev), i, irq + i);
+> diff --git a/hw/display/cirrus_vga.c b/hw/display/cirrus_vga.c
+> index 212d6f5e6145..b91b64347473 100644
+> --- a/hw/display/cirrus_vga.c
+> +++ b/hw/display/cirrus_vga.c
+> @@ -640,10 +640,15 @@ static void cirrus_invalidate_region(CirrusVGAState * s, int off_begin,
 >      }
 >  
+>      for (y = 0; y < lines; y++) {
+> -        off_cur = off_begin;
+> +        off_cur = off_begin & s->cirrus_addr_mask;
+>          off_cur_end = ((off_cur + bytesperline - 1) & s->cirrus_addr_mask) + 1;
+> -        assert(off_cur_end >= off_cur);
+> -        memory_region_set_dirty(&s->vga.vram, off_cur, off_cur_end - off_cur);
+> +        if (off_cur_end >= off_cur) {
+> +            memory_region_set_dirty(&s->vga.vram, off_cur, off_cur_end - off_cur);
+> +        } else {
+> +            /* wraparound */
+> +            memory_region_set_dirty(&s->vga.vram, off_cur, s->cirrus_addr_mask - off_cur);
+> +            memory_region_set_dirty(&s->vga.vram, 0, off_cur_end);
+> +        }
+>          off_begin += off_pitch;
+>      }
+>  }
 > 
 
 
