@@ -2,75 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65E3124E308
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Aug 2020 00:12:55 +0200 (CEST)
-Received: from localhost ([::1]:56958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7641024E35F
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Aug 2020 00:28:26 +0200 (CEST)
+Received: from localhost ([::1]:48146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9FHK-0003Wv-1f
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 18:12:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35886)
+	id 1k9FWL-0003yB-52
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 18:28:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1k9FGN-00037E-2j
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 18:11:55 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55927
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1k9FGJ-00024N-U9
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 18:11:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598047910;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vFOz6dZbOBMAjSeMGlM1XFPLgzA0gUK5ylk8Vcs3OtQ=;
- b=JSV6gG+ZPCfG0uyq5+SO6wiA/dSXezUfmcxiNWYXgJ5FnSrDFgyHpkxMSRVTVpMoKOoEis
- ejxlTyHQTKV425Qvz6Jg0nawNZDA4xXhfWXhJ4v/o/ohkR4gsiwhdokUeUTWyNdv9D9lzr
- +dKd6QIcpp2laDteC6qxmoocQZXlir0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-355-52ErADTyMC2LnmagFk8C5Q-1; Fri, 21 Aug 2020 18:11:46 -0400
-X-MC-Unique: 52ErADTyMC2LnmagFk8C5Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 967191DE12;
- Fri, 21 Aug 2020 22:11:45 +0000 (UTC)
-Received: from localhost (unknown [10.10.67.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 445635DA7E;
- Fri, 21 Aug 2020 22:11:42 +0000 (UTC)
-Date: Fri, 21 Aug 2020 18:11:41 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH] hw/isa/isa-superio: Set abstract TYPE_ISA_SUPERIO
- instance size
-Message-ID: <20200821221141.GO642093@habkost.net>
-References: <20200821173831.1262979-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
+ id 1k9FVR-0003XW-MO
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 18:27:29 -0400
+Received: from mail-dm6nam10on2064.outbound.protection.outlook.com
+ ([40.107.93.64]:59862 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
+ id 1k9FVP-0003jw-DM
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 18:27:29 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UWbvWiDL2Wj3wkK0QM2aelVCKSWy+QbngHVLB1fmuYBAf8i8jg4x2CknyzRAxYlBNpyP9Uj/+tXAOcIe7/toQnaR2kThLaRUSnqgt+dl8PrdmkDr9tEVycibVAjRaWJlS5SZWmocaEHm1gPDZXEDfn3nqCL5l9s2Hg+qkQyG0gQfj3WQUWoSV6hhoetGe/xxGRpg6QFNQ0QBqlMrGEHH38MHjOBCTOy7+tj/lEbV9yzDiZxEOJOfSM+jQv8VxFjC1MFQjierOBEv/uBHaZOqK70mReOEQ/eDS2P1et3wyQkicYF2+HHnh81pbc8JZN+rWGNI5JqhT+gh5f+khwiKjg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6ulk/Y7nr5R6uh+cNOZU+I5rxwWHo8iLLPfV9X1poRA=;
+ b=dPVgfoawC6auZfHiUGC17Pb5B/dMAUvseFotM+BRBZrXNOMvmtRQRhFwAcblr9sKXw6not5F4at37q82PY5Apde1+PPhYWlVOGR7CvW3RV7w+UXYOSyuESEG8vW3uwlNQO2vYak6/bs0+AtQ88VGRjXfSG+LaJ8MSwdeodlvZfyIl8imh6WRizmbenOaIT7JIL0rswqCVdRVA6EbrH0ydELsUJRfbD8l4mJLI5A9MTWM7SqQcUtTl4eath1AxxOPYYOuRY8otC/fGDFpxrl0q6KvX41EN/jDXcpzGcbZ1kHbvyE1irp/USyrFzm1SSyfWFKpLLevwSDh/RxrmQU0Ig==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6ulk/Y7nr5R6uh+cNOZU+I5rxwWHo8iLLPfV9X1poRA=;
+ b=Q4YvclHxq5nlDZiToCqIBL6xEdNox0XjUyblC65fd/UDjkrWipJaN6PyGD0FPVvLIkcqmC4y0YjRdWXhyrrC8VfUEQCo3Uw4BoDIuB5VkrFNOGBY3qhXLwS0cKMbirU7iE0PTZO6Y1oDQayZFjZh2hRLYREBOwivdMaDynunZ8Q=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
+Received: from SN1PR12MB2560.namprd12.prod.outlook.com (2603:10b6:802:26::19)
+ by SN1PR12MB2383.namprd12.prod.outlook.com (2603:10b6:802:26::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.26; Fri, 21 Aug
+ 2020 22:12:20 +0000
+Received: from SN1PR12MB2560.namprd12.prod.outlook.com
+ ([fe80::ccd9:728:9577:200d]) by SN1PR12MB2560.namprd12.prod.outlook.com
+ ([fe80::ccd9:728:9577:200d%4]) with mapi id 15.20.3305.024; Fri, 21 Aug 2020
+ 22:12:20 +0000
+Subject: [PATCH v5 0/8] Remove EPYC mode apicid decode and use generic decode
+From: Babu Moger <babu.moger@amd.com>
+To: pbonzini@redhat.com, rth@twiddle.net, ehabkost@redhat.com,
+ imammedo@redhat.com
+Date: Fri, 21 Aug 2020 17:12:19 -0500
+Message-ID: <159804762216.39954.15502128500494116468.stgit@naples-babu.amd.com>
+User-Agent: StGit/unknown-version
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SN1PR12CA0113.namprd12.prod.outlook.com
+ (2603:10b6:802:21::48) To SN1PR12MB2560.namprd12.prod.outlook.com
+ (2603:10b6:802:26::19)
 MIME-Version: 1.0
-In-Reply-To: <20200821173831.1262979-1-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 04:55:47
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from 255.255.255.255 (255.255.255.255) by
+ SN1PR12CA0113.namprd12.prod.outlook.com (2603:10b6:802:21::48) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3305.25 via Frontend Transport; Fri, 21 Aug 2020 22:12:19 +0000
+X-Originating-IP: [165.204.78.2]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 14345aec-81da-4d97-34d6-08d8461f458e
+X-MS-TrafficTypeDiagnostic: SN1PR12MB2383:
+X-Microsoft-Antispam-PRVS: <SN1PR12MB2383DB2667C43B456D88F86F955B0@SN1PR12MB2383.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: u+YpCCD3WIs1cRTZJa9/tB+EOCc6BZtSsNU6XXAFC4ndkSTLGBRDGu0mDNqXimi+V7TIjGJoD0Ytq+AOjCyWnwk8Np7UNSXWbRzrsMocmeR/UhailhJZnHcne1XpaJgcgRbt3P27AeE0kRueAPz1yBjgC4Zxs+zPsDZ6z8WW9ESXA4ITbsr1Qx0XQB7QgkF74xoYMSgk2Mj9wh199FW3mppoLnqSSoI/kJ/QFI0Tq8/4pIv5vmM9qkAlp9fMz1opm3Nvd64NoNGz5gY7BKM1xqeMC8p2GB/+FSIijMfeAVlWpiiQs2Pmz27lbh84Kl2k2zO6a044fLaiPM5McbbTi6kxiLXDOEGU9j5ETEvkODvMwgY0cRTEcVhTaQ8RdAAsnSV2t6LMV2WaHVibT5CP8/B3/BpSY08ZpvR7j8KdWHDVM5SbZc9N62wt0UIPFPZn/EtVQgqDBt0ZwlvGB15mzoWwAiR1uJ45dwkPpDO+16E=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN1PR12MB2560.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(136003)(346002)(376002)(366004)(396003)(83380400001)(6486002)(2906002)(8676002)(103116003)(956004)(8936002)(44832011)(110011004)(26005)(478600001)(86362001)(966005)(16576012)(316002)(52116002)(66946007)(186003)(66556008)(66476007)(4326008)(5660300002)(41533002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: 8hd+KJFpPy9EOKhynBTR3tU+N148on1RDe8yXB/A6ybifNJCFLPfT4plhdC6b2X81yx5YyzFwnaPd2SSnfCFEXRV85L7BqhEZZHe6HmCJog74P6gQtSIGmTbakYFkYKfRkHr+qVAMe6hAWVlRC6oe51tsUJsHG6lGNWq+SJxPZPEyQQS3sMfLHRe4Tm0u1js4oFPG88G/KnoTtyJnyNhBj8LrWoNn7WuSQ+YSLKnPxg4Blp0ANcE1cXBZ3EmXChSPuzX8kpPT30o/FQi3Lee895zpUGyj8zV7BD1R5br+HgzFxIs77PDto8S1+DKoqs1KVa1G6TLNhVjjMzxQerWlmS5uBlPvOlV6pKAxQAsyEd0C8i9Pa7xkCp24YzKKiKKh/eogGy60iTxQuNBGCoua6jV6Awwrpt8F9s5+w8R8i+80kF3TI92U+u/5sCtk/4WhGRp/010mOk1i1xxAC22qmGizbfd4MK5uICrScy58jazL5vyq4gdrkEwEE7Jta1MYi4Kjx8aOIu1jT1Yu5+OT0If76wl75tmKqrocJDqOgJB374O72pm6cLqJihOPY/izdQT32hN5RDDBNSE2OnW97wNOCMFfZmJhWFP39kOCu70eRyBQQNq6TX7wW1GTzAIVZln1lrNYt258OwNvN6MLg==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 14345aec-81da-4d97-34d6-08d8461f458e
+X-MS-Exchange-CrossTenant-AuthSource: SN1PR12MB2560.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2020 22:12:19.9732 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TNHSEh0Nik3B1jsMLonRxIxYe70wLNrQjXJ0vV7Lo0SDdUQQ29HJzV52QwiXFwKb
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2383
+Received-SPF: none client-ip=40.107.93.64; envelope-from=Babu.Moger@amd.com;
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 18:27:25
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -5
+X-Spam_score: -0.6
+X-Spam_bar: /
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FORGED_SPF_HELO=1, MSGID_FROM_MTA_HEADER=0.001,
+ RCVD_ILLEGAL_IP=1.3, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,112 +112,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Huacai Chen <chenhc@lemote.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 21, 2020 at 07:38:31PM +0200, Philippe Mathieu-Daudé wrote:
-> Instead of setting the instance size on each implementations,
-> set it on the abstract parent, so we are sure no implementation
-> will forget to set it.
-> 
-> Reported-by: Eduardo Habkost <ehabkost@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+To support some of the complex topology, we introduced EPYC mode apicid decode.
+But, EPYC mode decode is running into problems. Also it can become quite a
+maintenance problem in the future. So, it was decided to remove that code and
+use the generic decode which works for majority of the topology. Most of the
+SPECed configuration would work just fine. With some non-SPECed user inputs,
+it will create some sub-optimal configuration.
+Here is the discussion thread.
+https://lore.kernel.org/qemu-devel/c0bcc1a6-1d84-a6e7-e468-d5b437c1b254@amd.com/
 
-Thanks!
+This series removes all the EPYC mode specific apicid changes and use the generic
+apicid decode.
 
-The changes look good, but while we are at it we could also clear
-class_size at smc37c669_type_info and via_superio_info.
-
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-diff --git a/hw/isa/smc37c669-superio.c b/hw/isa/smc37c669-superio.c
-index a988c55330..2dab9d90bf 100644
---- a/hw/isa/smc37c669-superio.c
-+++ b/hw/isa/smc37c669-superio.c
-@@ -103,7 +103,6 @@ static void smc37c669_class_init(ObjectClass *klass, void *data)
- static const TypeInfo smc37c669_type_info = {
-     .name          = TYPE_SMC37C669_SUPERIO,
-     .parent        = TYPE_ISA_SUPERIO,
--    .class_size    = sizeof(ISASuperIOClass),
-     .class_init    = smc37c669_class_init,
- };
- TYPE_INFO(smc37c669_type_info)
-diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index 4a9f8954a9..4fd3550cbb 100644
---- a/hw/isa/vt82c686.c
-+++ b/hw/isa/vt82c686.c
-@@ -542,7 +542,6 @@ static void vt82c686b_superio_class_init(ObjectClass *klass, void *data)
- static const TypeInfo via_superio_info = {
-     .name          = TYPE_VT82C686B_SUPERIO,
-     .parent        = TYPE_ISA_SUPERIO,
--    .class_size    = sizeof(ISASuperIOClass),
-     .class_init    = vt82c686b_superio_class_init,
- };
- TYPE_INFO(via_superio_info)
+v5:
+ Revert EPYC specific decode.
+ Simplify CPUID_8000_001E
 
-> ---
-> See:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg731954.html
-> ---
->  hw/isa/isa-superio.c       | 2 +-
->  hw/isa/smc37c669-superio.c | 1 -
->  hw/isa/vt82c686.c          | 1 -
->  3 files changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/hw/isa/isa-superio.c b/hw/isa/isa-superio.c
-> index e2e47d8fd99..83eb21ebb2a 100644
-> --- a/hw/isa/isa-superio.c
-> +++ b/hw/isa/isa-superio.c
-> @@ -182,6 +182,7 @@ static const TypeInfo isa_superio_type_info = {
->      .name = TYPE_ISA_SUPERIO,
->      .parent = TYPE_ISA_DEVICE,
->      .abstract = true,
-> +    .instance_size = sizeof(ISASuperIODevice),
->      .class_size = sizeof(ISASuperIOClass),
->      .class_init = isa_superio_class_init,
->  };
-> @@ -200,7 +201,6 @@ static void fdc37m81x_class_init(ObjectClass *klass, void *data)
->  static const TypeInfo fdc37m81x_type_info = {
->      .name          = TYPE_FDC37M81X_SUPERIO,
->      .parent        = TYPE_ISA_SUPERIO,
-> -    .instance_size = sizeof(ISASuperIODevice),
->      .class_init    = fdc37m81x_class_init,
->  };
->  
-> diff --git a/hw/isa/smc37c669-superio.c b/hw/isa/smc37c669-superio.c
-> index 18287741cb4..9e59dc16039 100644
-> --- a/hw/isa/smc37c669-superio.c
-> +++ b/hw/isa/smc37c669-superio.c
-> @@ -103,7 +103,6 @@ static void smc37c669_class_init(ObjectClass *klass, void *data)
->  static const TypeInfo smc37c669_type_info = {
->      .name          = TYPE_SMC37C669_SUPERIO,
->      .parent        = TYPE_ISA_SUPERIO,
-> -    .instance_size = sizeof(ISASuperIODevice),
->      .class_size    = sizeof(ISASuperIOClass),
->      .class_init    = smc37c669_class_init,
->  };
-> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-> index 18160ca445d..a4b84d405d0 100644
-> --- a/hw/isa/vt82c686.c
-> +++ b/hw/isa/vt82c686.c
-> @@ -533,7 +533,6 @@ static void vt82c686b_superio_class_init(ObjectClass *klass, void *data)
->  static const TypeInfo via_superio_info = {
->      .name          = TYPE_VT82C686B_SUPERIO,
->      .parent        = TYPE_ISA_SUPERIO,
-> -    .instance_size = sizeof(ISASuperIODevice),
->      .class_size    = sizeof(ISASuperIOClass),
->      .class_init    = vt82c686b_superio_class_init,
->  };
-> -- 
-> 2.26.2
-> 
+v4:
+  https://lore.kernel.org/qemu-devel/159744083536.39197.13827776633866601278.stgit@naples-babu.amd.com/
+  Not much of a change. Just added few text changes.
+  Error out configuration instead of warning if dies are not configured in EPYC.
+  Few other text changes to clarify the removal of node_id, nr_nodes and nodes_per_pkg.
 
--- 
-Eduardo
+v3:
+  https://lore.kernel.org/qemu-devel/159681772267.9679.1334429994189974662.stgit@naples-babu.amd.com/#r
+  Added a new check to pass the dies for EPYC numa configuration.
+  Added Simplify CPUID_8000_001E patch with some changes suggested by Igor.
+  Dropped the patch to build the topology from CpuInstanceProperties.
+  TODO: Not sure if we still need the Autonuma changes Igor mentioned.
+  Needs more clarity on that.
 
+v2:
+  https://lore.kernel.org/qemu-devel/159362436285.36204.986406297373871949.stgit@naples-babu.amd.com/
+  Used the numa information from CpuInstanceProperties for building
+  the apic_id suggested by Igor.
+  Also did some minor code re-aarangement to take care of changes.
+  Dropped the patch "Simplify CPUID_8000_001E" from v1. Will send
+  it later.
+
+v1:
+ https://lore.kernel.org/qemu-devel/159164739269.20543.3074052993891532749.stgit@naples-babu.amd.com
+
+Babu Moger (8):
+      hw/i386: Remove node_id, nr_nodes and nodes_per_pkg from topology
+      Revert "i386: Fix pkg_id offset for EPYC cpu models"
+      Revert "target/i386: Enable new apic id encoding for EPYC based cpus models"
+      Revert "hw/i386: Move arch_id decode inside x86_cpus_init"
+      Revert "i386: Introduce use_epyc_apic_id_encoding in X86CPUDefinition"
+      Revert "hw/i386: Introduce apicid functions inside X86MachineState"
+      Revert "hw/386: Add EPYC mode topology decoding functions"
+      i386: Simplify CPUID_8000_001E for AMD
+
+
+ hw/i386/pc.c               |    8 +--
+ hw/i386/x86.c              |   43 +++-------------
+ include/hw/i386/topology.h |  101 ---------------------------------------
+ include/hw/i386/x86.h      |    9 ---
+ target/i386/cpu.c          |  115 ++++++++++++++++----------------------------
+ target/i386/cpu.h          |    3 -
+ tests/test-x86-cpuid.c     |   40 ++++++++-------
+ 7 files changed, 73 insertions(+), 246 deletions(-)
+
+--
+Signature
 
