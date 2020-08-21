@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE17824D20E
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 12:14:49 +0200 (CEST)
-Received: from localhost ([::1]:33404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E328E24D214
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 12:16:06 +0200 (CEST)
+Received: from localhost ([::1]:38804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k944O-0006Zu-Ot
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 06:14:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57314)
+	id 1k945d-0000OI-W2
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 06:16:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1k942w-0005DP-PW
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:13:18 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57389
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1k944E-00074E-1G
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:14:38 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:60863
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1k942t-0000JT-8B
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:13:18 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1k944C-0000Qe-1G
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:14:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598004791;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1598004875;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vWr0Zb/P5tn5lmfDrRNkAndUcbgT7XDOpIOik5d1buk=;
- b=BqMhfkrVAZiWM1x0ka5lTPukC15qNqjAMuvaRbH94ZPLMvpx/pG0V1cFZYiPz+pcjBLpmd
- +/xianpfchgNqW1Jm5PoH7WOT0BsRlVsrkaVm7cutXeMyW/D0bXaVjIx7jiUPMV6P3D7lU
- 6jYfXk3oFOdztRL+VYnDyhFEQ+xi4Tg=
+ bh=+eGlWmMhlbmanAEpUpUVV4Yymq2nECqPTA8XAE3mm5I=;
+ b=h6RlaScytWvDMbjqaMhojcbKDHcqmYPMux6VzgZsMg5y179ISLvtSaznKqzK7neRC8S4nm
+ fB+81gohxmufKPNvJVCH+mNfRtZBqtQcR0t1LSBKcX3Xwd5WNoMMCeC7jGt2FWtIsquwh4
+ R5kzimkIPsGg2lD3628A/ETuGO/Avz8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-244-WygTYZrNOyWtC_gIuIo4IQ-1; Fri, 21 Aug 2020 06:13:08 -0400
-X-MC-Unique: WygTYZrNOyWtC_gIuIo4IQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-377-FGiBtiDHPgOSr4P7LDUskw-1; Fri, 21 Aug 2020 06:14:26 -0400
+X-MC-Unique: FGiBtiDHPgOSr4P7LDUskw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 97B8F107464F;
- Fri, 21 Aug 2020 10:13:07 +0000 (UTC)
-Received: from localhost (ovpn-113-166.ams2.redhat.com [10.36.113.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 60EB37E318;
- Fri, 21 Aug 2020 10:13:04 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] tests: add test-fdmon-epoll
-Date: Fri, 21 Aug 2020 11:12:52 +0100
-Message-Id: <20200821101252.203056-3-stefanha@redhat.com>
-In-Reply-To: <20200821101252.203056-1-stefanha@redhat.com>
-References: <20200821101252.203056-1-stefanha@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B8BC393B4;
+ Fri, 21 Aug 2020 10:14:25 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 803E7795AE;
+ Fri, 21 Aug 2020 10:14:20 +0000 (UTC)
+Date: Fri, 21 Aug 2020 11:14:17 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH] configure: add support for psuedo-"in source tree" builds
+Message-ID: <20200821101417.GG251583@redhat.com>
+References: <20200820165543.215372-1-berrange@redhat.com>
+ <938bfa57-01f9-a50a-6439-0965c91dce1b@redhat.com>
+ <20200821095821.GA5153@linux.fritz.box>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20200821095821.GA5153@linux.fritz.box>
+User-Agent: Mutt/1.14.5 (2020-06-23)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=stefanha@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/20 23:41:39
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 05:15:56
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_BASE64_TEXT=1.741, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,87 +86,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org, qemu-stable@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-VGVzdCBhaW9fZGlzYWJsZV9leHRlcm5hbCgpLCB3aGljaCBzd2l0Y2hlcyBmcm9tIGZkbW9uLWVw
-b2xsIGJhY2sgdG8KZmRtb24tcG9sbC4gVGhpcyByZXN1bHRlZCBpbiBhbiBhc3NlcnRpb24gZmFp
-bHVyZSB0aGF0IHdhcyBmaXhlZCBpbiB0aGUKcHJldmlvdXMgcGF0Y2guCgpTaWduZWQtb2ZmLWJ5
-OiBTdGVmYW4gSGFqbm9jemkgPHN0ZWZhbmhhQHJlZGhhdC5jb20+Ci0tLQogTUFJTlRBSU5FUlMg
-ICAgICAgICAgICAgIHwgIDEgKwogdGVzdHMvTWFrZWZpbGUuaW5jbHVkZSAgIHwgIDQgKysrCiB0
-ZXN0cy90ZXN0LWZkbW9uLWVwb2xsLmMgfCA3MyArKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrCiAzIGZpbGVzIGNoYW5nZWQsIDc4IGluc2VydGlvbnMoKykKIGNyZWF0ZSBt
-b2RlIDEwMDY0NCB0ZXN0cy90ZXN0LWZkbW9uLWVwb2xsLmMKCmRpZmYgLS1naXQgYS9NQUlOVEFJ
-TkVSUyBiL01BSU5UQUlORVJTCmluZGV4IDA4ODZlYjNkMmIuLjZkMmU5OWI5NGYgMTAwNjQ0Ci0t
-LSBhL01BSU5UQUlORVJTCisrKyBiL01BSU5UQUlORVJTCkBAIC0yMTA5LDYgKzIxMDksNyBAQCBG
-OiBtaWdyYXRpb24vYmxvY2sqCiBGOiBpbmNsdWRlL2Jsb2NrL2Fpby5oCiBGOiBpbmNsdWRlL2Js
-b2NrL2Fpby13YWl0LmgKIEY6IHNjcmlwdHMvcWVtdWdkYi9haW8ucHkKK0Y6IHRlc3RzL3Rlc3Qt
-ZmRtb24tZXBvbGwuYwogVDogZ2l0IGh0dHBzOi8vZ2l0aHViLmNvbS9zdGVmYW5oYS9xZW11Lmdp
-dCBibG9jawogCiBCbG9jayBTQ1NJIHN1YnN5c3RlbQpkaWZmIC0tZ2l0IGEvdGVzdHMvTWFrZWZp
-bGUuaW5jbHVkZSBiL3Rlc3RzL01ha2VmaWxlLmluY2x1ZGUKaW5kZXggYzdlNDY0NmRlZC4uYjc4
-NWU0ODdiNyAxMDA2NDQKLS0tIGEvdGVzdHMvTWFrZWZpbGUuaW5jbHVkZQorKysgYi90ZXN0cy9N
-YWtlZmlsZS5pbmNsdWRlCkBAIC03OCw2ICs3OCw5IEBAIGNoZWNrLXVuaXQtJChDT05GSUdfU09G
-VE1NVSkgKz0gdGVzdHMvdGVzdC1pb3YkKEVYRVNVRikKIGNoZWNrLXVuaXQteSArPSB0ZXN0cy90
-ZXN0LWJpdG1hcCQoRVhFU1VGKQogY2hlY2stdW5pdC0kKENPTkZJR19CTE9DSykgKz0gdGVzdHMv
-dGVzdC1haW8kKEVYRVNVRikKIGNoZWNrLXVuaXQtJChDT05GSUdfQkxPQ0spICs9IHRlc3RzL3Rl
-c3QtYWlvLW11bHRpdGhyZWFkJChFWEVTVUYpCitpZmVxICgkKENPTkZJR19FUE9MTF9DUkVBVEUx
-KSx5KQorY2hlY2stdW5pdC0kKENPTkZJR19CTE9DSykgKz0gdGVzdHMvdGVzdC1mZG1vbi1lcG9s
-bCQoRVhFU1VGKQorZW5kaWYKIGNoZWNrLXVuaXQtJChDT05GSUdfQkxPQ0spICs9IHRlc3RzL3Rl
-c3QtdGhyb3R0bGUkKEVYRVNVRikKIGNoZWNrLXVuaXQtJChDT05GSUdfQkxPQ0spICs9IHRlc3Rz
-L3Rlc3QtdGhyZWFkLXBvb2wkKEVYRVNVRikKIGNoZWNrLXVuaXQtJChDT05GSUdfQkxPQ0spICs9
-IHRlc3RzL3Rlc3QtaGJpdG1hcCQoRVhFU1VGKQpAQCAtNDA4LDYgKzQxMSw3IEBAIHRlc3RzL3Rl
-c3QtY2hhciQoRVhFU1VGKTogdGVzdHMvdGVzdC1jaGFyLm8gJCh0ZXN0LXV0aWwtb2JqLXkpICQo
-dGVzdC1pby1vYmoteSkKIHRlc3RzL3Rlc3QtY29yb3V0aW5lJChFWEVTVUYpOiB0ZXN0cy90ZXN0
-LWNvcm91dGluZS5vICQodGVzdC1ibG9jay1vYmoteSkKIHRlc3RzL3Rlc3QtYWlvJChFWEVTVUYp
-OiB0ZXN0cy90ZXN0LWFpby5vICQodGVzdC1ibG9jay1vYmoteSkKIHRlc3RzL3Rlc3QtYWlvLW11
-bHRpdGhyZWFkJChFWEVTVUYpOiB0ZXN0cy90ZXN0LWFpby1tdWx0aXRocmVhZC5vICQodGVzdC1i
-bG9jay1vYmoteSkKK3Rlc3RzL3Rlc3QtZmRtb24tZXBvbGwkKEVYRVNVRik6IHRlc3RzL3Rlc3Qt
-ZmRtb24tZXBvbGwubyAkKHRlc3QtYmxvY2stb2JqLXkpCiB0ZXN0cy90ZXN0LXRocm90dGxlJChF
-WEVTVUYpOiB0ZXN0cy90ZXN0LXRocm90dGxlLm8gJCh0ZXN0LWJsb2NrLW9iai15KQogdGVzdHMv
-dGVzdC1iZHJ2LWRyYWluJChFWEVTVUYpOiB0ZXN0cy90ZXN0LWJkcnYtZHJhaW4ubyAkKHRlc3Qt
-YmxvY2stb2JqLXkpICQodGVzdC11dGlsLW9iai15KQogdGVzdHMvdGVzdC1iZHJ2LWdyYXBoLW1v
-ZCQoRVhFU1VGKTogdGVzdHMvdGVzdC1iZHJ2LWdyYXBoLW1vZC5vICQodGVzdC1ibG9jay1vYmot
-eSkgJCh0ZXN0LXV0aWwtb2JqLXkpCmRpZmYgLS1naXQgYS90ZXN0cy90ZXN0LWZkbW9uLWVwb2xs
-LmMgYi90ZXN0cy90ZXN0LWZkbW9uLWVwb2xsLmMKbmV3IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXgg
-MDAwMDAwMDAwMC4uMTFmZDhhMmZhOQotLS0gL2Rldi9udWxsCisrKyBiL3Rlc3RzL3Rlc3QtZmRt
-b24tZXBvbGwuYwpAQCAtMCwwICsxLDczIEBACisvKiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjog
-R1BMLTIuMC1vci1sYXRlciAqLworLyoKKyAqIGZkbW9uLWVwb2xsIHRlc3RzCisgKgorICogQ29w
-eXJpZ2h0IChjKSAyMDIwIFJlZCBIYXQsIEluYy4KKyAqLworCisjaW5jbHVkZSAicWVtdS9vc2Rl
-cC5oIgorI2luY2x1ZGUgImJsb2NrL2Fpby5oIgorI2luY2x1ZGUgInFhcGkvZXJyb3IuaCIKKyNp
-bmNsdWRlICJxZW11L21haW4tbG9vcC5oIgorCitzdGF0aWMgQWlvQ29udGV4dCAqY3R4OworCitz
-dGF0aWMgdm9pZCBkdW1teV9mZF9oYW5kbGVyKEV2ZW50Tm90aWZpZXIgKm5vdGlmaWVyKQorewor
-ICAgIGV2ZW50X25vdGlmaWVyX3Rlc3RfYW5kX2NsZWFyKG5vdGlmaWVyKTsKK30KKworc3RhdGlj
-IHZvaWQgYWRkX2V2ZW50X25vdGlmaWVycyhFdmVudE5vdGlmaWVyICpub3RpZmllcnMsIHNpemVf
-dCBuKQoreworICAgIGZvciAoc2l6ZV90IGkgPSAwOyBpIDwgbjsgaSsrKSB7CisgICAgICAgIGV2
-ZW50X25vdGlmaWVyX2luaXQoJm5vdGlmaWVyc1tpXSwgZmFsc2UpOworICAgICAgICBhaW9fc2V0
-X2V2ZW50X25vdGlmaWVyKGN0eCwgJm5vdGlmaWVyc1tpXSwgZmFsc2UsCisgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgZHVtbXlfZmRfaGFuZGxlciwgTlVMTCk7CisgICAgfQorfQorCitz
-dGF0aWMgdm9pZCByZW1vdmVfZXZlbnRfbm90aWZpZXJzKEV2ZW50Tm90aWZpZXIgKm5vdGlmaWVy
-cywgc2l6ZV90IG4pCit7CisgICAgZm9yIChzaXplX3QgaSA9IDA7IGkgPCBuOyBpKyspIHsKKyAg
-ICAgICAgYWlvX3NldF9ldmVudF9ub3RpZmllcihjdHgsICZub3RpZmllcnNbaV0sIGZhbHNlLCBO
-VUxMLCBOVUxMKTsKKyAgICAgICAgZXZlbnRfbm90aWZpZXJfY2xlYW51cCgmbm90aWZpZXJzW2ld
-KTsKKyAgICB9Cit9CisKKy8qIENoZWNrIHRoYXQgZmQgaGFuZGxlcnMgd29yayB3aGVuIGV4dGVy
-bmFsIGNsaWVudHMgYXJlIGRpc2FibGVkICovCitzdGF0aWMgdm9pZCB0ZXN0X2V4dGVybmFsX2Rp
-c2FibGVkKHZvaWQpCit7CisgICAgRXZlbnROb3RpZmllciBub3RpZmllcnNbMTAwXTsKKworICAg
-IC8qIGZkbW9uLWVwb2xsIGlzIG9ubHkgZW5hYmxlZCB3aGVuIG1hbnkgZmQgaGFuZGxlcnMgYXJl
-IHJlZ2lzdGVyZWQgKi8KKyAgICBhZGRfZXZlbnRfbm90aWZpZXJzKG5vdGlmaWVycywgR19OX0VM
-RU1FTlRTKG5vdGlmaWVycykpOworCisgICAgZXZlbnRfbm90aWZpZXJfc2V0KCZub3RpZmllcnNb
-MF0pOworICAgIGFzc2VydChhaW9fcG9sbChjdHgsIHRydWUpKTsKKworICAgIGFpb19kaXNhYmxl
-X2V4dGVybmFsKGN0eCk7CisgICAgZXZlbnRfbm90aWZpZXJfc2V0KCZub3RpZmllcnNbMF0pOwor
-ICAgIGFzc2VydChhaW9fcG9sbChjdHgsIHRydWUpKTsKKyAgICBhaW9fZW5hYmxlX2V4dGVybmFs
-KGN0eCk7CisKKyAgICByZW1vdmVfZXZlbnRfbm90aWZpZXJzKG5vdGlmaWVycywgR19OX0VMRU1F
-TlRTKG5vdGlmaWVycykpOworfQorCitpbnQgbWFpbihpbnQgYXJnYywgY2hhciAqKmFyZ3YpCit7
-CisgICAgLyoKKyAgICAgKiBUaGlzIGNvZGUgcmVsaWVzIG9uIHRoZSBmYWN0IHRoYXQgZmRtb24t
-aW9fdXJpbmcgZGlzYWJsZXMgaXRzZWxmIHdoZW4KKyAgICAgKiB0aGUgZ2xpYiBtYWluIGxvb3Ag
-aXMgaW4gdXNlLiBUaGUgbWFpbiBsb29wIHVzZXMgZmRtb24tcG9sbCBhbmQgdXBncmFkZXMKKyAg
-ICAgKiB0byBmZG1vbi1lcG9sbCB3aGVuIHRoZSBudW1iZXIgb2YgZmRzIGV4Y2VlZHMgYSB0aHJl
-c2hvbGQuCisgICAgICovCisgICAgcWVtdV9pbml0X21haW5fbG9vcCgmZXJyb3JfZmF0YWwpOwor
-ICAgIGN0eCA9IHFlbXVfZ2V0X2Fpb19jb250ZXh0KCk7CisKKyAgICB3aGlsZSAoZ19tYWluX2Nv
-bnRleHRfaXRlcmF0aW9uKE5VTEwsIGZhbHNlKSkgeworICAgICAgICAvKiBEbyBub3RoaW5nICov
-CisgICAgfQorCisgICAgZ190ZXN0X2luaXQoJmFyZ2MsICZhcmd2LCBOVUxMKTsKKyAgICBnX3Rl
-c3RfYWRkX2Z1bmMoIi9mZG1vbi1lcG9sbC9leHRlcm5hbC1kaXNhYmxlZCIsIHRlc3RfZXh0ZXJu
-YWxfZGlzYWJsZWQpOworICAgIHJldHVybiBnX3Rlc3RfcnVuKCk7Cit9Ci0tIAoyLjI2LjIKCg==
+On Fri, Aug 21, 2020 at 11:58:21AM +0200, Kevin Wolf wrote:
+> Am 20.08.2020 um 19:42 hat Eric Blake geschrieben:
+> > On 8/20/20 11:55 AM, Daniel P. BerrangÃÂ© wrote:
+> > > Meson requires the build dir to be separate from the source tree. Many
+> > > people are used to just running "./configure && make" though and the
+> > > meson conversion breaks that.
+> > > 
+> > > This introduces some backcompat support to make it appear as if an
+> > > "in source tree" build is being done, but with the the results in the
+> > > "build/" directory. This allows "./configure && make" to work as it
+> > > did historically, albeit with the output binaries staying under build/.
+> > > 
+> > > Signed-off-by: Daniel P. BerrangÃÂ© <berrange@redhat.com>
+> > > ---
+> > 
+> > In addition to reviews you already have,
+> > 
+> > 
+> > > I've not tested it beyond that. Note it blows away the "build/"
+> > > dir each time ./configure is run so it is pristine each time.
+> > 
+> > I definitely like the idea of only blowing away what we created - but if we
+> > created build, then recreating it for each new configure run is nice.
+> 
+> I think I actually wouldn't automatically remove anything on configure.
+> It can be surprising behaviour for configure to delete directories, and
+> the old setup didn't do an automatic "make clean" either. By having a
+> separate build directory, manually emptying as needed has already become
+> easier.
+
+The issue is that previously you could do
+
+  ./configure
+  make
+  ./configure
+  make
+
+This isn't possible with the new system because meson will refuse
+to use the "build/" directory if it already contains a previous
+configured build.
+
+Doing "rm -rf build" in configure lets the above sequence work.
+
+I can remove the "rm -rf biuld" in configure if we are happy
+to require
+
+
+  ./configure
+  make
+  make distclean
+  ./configure
+  make
+
+because the "GNUmakefile" wires up "distclean" to purge the
+build/ directory.
+
+> > > We could optionally symlink binaries from build/ into $PWD
+> > > if poeople think that is important, eg by changing GNUmakefile
+> > > to have:
+> > > 
+> > > recurse: all
+> > > 	for bin in `find build -maxdepth 1 -type f -executable | grep -v -E '(ninjatool|config.status)'`; \
+> > 
+> > Using -maxdepth gets rid of the need to pre-create empty directories for
+> > nested binaries, but also loses out on binaries such as
+> > x86_64-softmmu/qemu-system-x86_64.  Oh, it looks like meson creates
+> > qemu-system-x86_64 as a binary in the top level, then a symlink in its old
+> > location.  Populating symlinks to ALL old locations is thus trickier than
+> > what you are proposing here, so it is fine to save that for a followup patch
+> > (let's get the bare minimum in first, so that at least ./configure && make
+> > works, before we worry about back-compat symlinks).
+> 
+> Having the system emulator symlinks in the top level would be a change,
+> but even more convenient than the original places. I'd vote for adding
+> the auto-symlinking at least for the tools; if the top-level symlinks
+> for system emulators get also symlinked by this, that's fine, too.
+> 
+> I was actually surprised that Dan reports "make check" from the source
+> tree to be working without the symlinks. Some code must be cleverer than
+> I thought!
+
+That's because "make check" is not actually running from the source
+tree. When you run "make check" in the source tree, what's acutally
+happening is
+
+  cd build
+  make check
+
+so it is actually running from build-dir context.
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
