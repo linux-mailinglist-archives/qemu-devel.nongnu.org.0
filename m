@@ -2,87 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA2B824DEB8
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 19:41:27 +0200 (CEST)
-Received: from localhost ([::1]:60510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6656524DEDB
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 19:48:00 +0200 (CEST)
+Received: from localhost ([::1]:54868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9B2c-0004lb-Mr
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 13:41:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59866)
+	id 1k9B8x-0005r0-Fc
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 13:47:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k9B01-00034K-DX
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 13:38:46 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46917
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k9Azy-0002SW-Lo
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 13:38:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598031521;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=QQoARLZDJ9kJvgGBNB/TMfNiWwlKNFqv3ZziP5ASBD0=;
- b=dYIUpMEOxUHm3+9VumHFOAh9auBdAXGxPwAdvEmB8zB2eaJqKWYh9oxH65qBG0xYd99WuP
- vTWnrdAfVb43jt807uNPFn2ftgYK2CjDIjlhNRusCoESkSz19Vzh15L8AwXSWIWOWLeW7L
- mHjXsAJ8NQN3WAADVgPmevVgCS2/YoA=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-378-VllLD-jnM6yWiiSvbFF3yA-1; Fri, 21 Aug 2020 13:38:35 -0400
-X-MC-Unique: VllLD-jnM6yWiiSvbFF3yA-1
-Received: by mail-wr1-f72.google.com with SMTP id r11so632633wrj.0
- for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:38:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1k9B7H-0004LK-G2
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 13:46:15 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:34035)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1k9B7E-0003Xv-5V
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 13:46:15 -0400
+Received: by mail-wr1-x443.google.com with SMTP id f7so2726278wrw.1
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:46:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JJh19wKWhpGRMYR48TCz0u7CP2SwdWq6MznAfKm/N0Q=;
+ b=lejooW60ejQ7m6N6DRC4BdE/9CbLe4x90ppZf5biz8Cv7OuAoBPZimneFYkpKsg8v2
+ yHCWTsfRXcmGLv8F9yDAB94aJYRcDifaygFqpTdwkddey5k/7R7IEXJoNNchWUlBrp2O
+ Yijhsu14OO1IgDG5eBpgVgi2wtCBZf6PDlSJ6Qb/keW+X2z8zYP0k5QYVYVCrX6Dofaq
+ 4UQ8Z6125RKy4KxuqZHCReF7nbf2oXqSEdDxxV/P7anogqCwjh7A60jPIZHzos+/W2Zw
+ mo6NwXmoHknLtyoSBNyFRAitH/IQWFV/vVP8b2jiT2T17om7zGkhtqqxC4G694dB/jrP
+ 3Tmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=QQoARLZDJ9kJvgGBNB/TMfNiWwlKNFqv3ZziP5ASBD0=;
- b=XLHsYN5ENibMgiQi84+ZcOYkObd9ibxwhZIjG4zV3Bak0JJA5IIbsoxjpXmGOKwc9Q
- JI5uXx1B8N0ohBybTOgs1PSW+9tJHN7FQgQn8UR0G1UJXhacuSPtDq+AET2Nj3az+zAr
- B41yBWk12IjJeIyQef5LIrjdL9HWBe15qFNSl4gyHKTutbqgv5w5/AgUI2KM/iIzU0px
- +QHcLFbumP7NLlKH6tN9g2K71HKMf92J7kCkd99rbtehhJa0eHhUNdvsnzTkBtkWaj3o
- MRIEzj3ilKmZBqaabuJrFLE7w4ek1EqUEhG5PNEIHKfOZwt/ecRX/ojXtyrP6B/bt5+b
- dqZw==
-X-Gm-Message-State: AOAM531/UKU/h4XCmNigXWxsH+NJhUqRzqr0yY3v+oNNO3Ig2+Za/CV8
- yWWGpGgxC928WKDD5wsRtl85SuEXtDfhzUDh0DZVuKq8iMHFJSUs1uPgWF9hxJW/7AlJOy3vNfT
- TRMj9Pvka82ely+4=
-X-Received: by 2002:a5d:4d87:: with SMTP id b7mr3948661wru.170.1598031514382; 
- Fri, 21 Aug 2020 10:38:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyyG3EuRNn1WklIbg5C5hbBPkL9HJiaEObcqBUHm2hvxiZ8sP2LqlmHhZTeyC7CY5NnVDRtGw==
-X-Received: by 2002:a5d:4d87:: with SMTP id b7mr3948630wru.170.1598031514130; 
- Fri, 21 Aug 2020 10:38:34 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=JJh19wKWhpGRMYR48TCz0u7CP2SwdWq6MznAfKm/N0Q=;
+ b=mylWkYJtCw3ATdOrvPUocItc/winFAxW1Y0gFaimSf8v+rOYtHtqNZGR1G8JsEyC0a
+ 1/N11sVpGc8CSjek2k06bWCOxtkHlGdcJlhvqUUieVPyG+M4yur/onNK3T2RN8nZHQy1
+ P2kdoQtHqB2bgxirenrHDoOSwG5ICSVOdmjiorzOuK53h0iZrfFR4kC+SCreWQU81Reu
+ XaVjw3lkvT8E5/OaHyLcx5YkE5bABbeYQacAGlDb/OLBHeKhnP8SLavyr0IvbKtPe8/F
+ yTmjeJawtlMzZG7jYFtEqvE/TdnTlcso9Krv4mwSmJDiLlMEq0xm73rx3G7riFxda5Pd
+ Y/qA==
+X-Gm-Message-State: AOAM533nKfbXJOt/a7suNwHjrqsj/9U9W5nSHaAMz2o3RDtGqDidGU/X
+ S9w60W9gfe8QhR9XuOq0Cy4YV0FrJrE=
+X-Google-Smtp-Source: ABdhPJzHM3cn67cqpPdK0KF/+dEtMz+P/Opk42YLgHubu+eE038Ai67pUhR3jretKFq16ebyGKyrGw==
+X-Received: by 2002:adf:f149:: with SMTP id y9mr3570753wro.93.1598031967835;
+ Fri, 21 Aug 2020 10:46:07 -0700 (PDT)
 Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id c10sm5922687wro.84.2020.08.21.10.38.32
+ by smtp.gmail.com with ESMTPSA id n124sm7017713wmn.29.2020.08.21.10.46.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Aug 2020 10:38:33 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ Fri, 21 Aug 2020 10:46:06 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/isa/isa-superio: Set abstract TYPE_ISA_SUPERIO instance
- size
-Date: Fri, 21 Aug 2020 19:38:31 +0200
-Message-Id: <20200821173831.1262979-1-philmd@redhat.com>
+Subject: [PATCH] hw/ssi/ssi: Set abstract TYPE_SSI_SLAVE instance size
+Date: Fri, 21 Aug 2020 19:46:04 +0200
+Message-Id: <20200821174604.1264321-1-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 01:00:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,74 +86,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Huacai Chen <chenhc@lemote.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Alistair Francis <alistair@alistair23.me>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of setting the instance size on each implementations,
-set it on the abstract parent, so we are sure no implementation
-will forget to set it.
+Set the abstract TYPE_SSI_SLAVE instance size in case an
+implementation forgot to set it.
 
 Reported-by: Eduardo Habkost <ehabkost@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
 See:
 https://www.mail-archive.com/qemu-devel@nongnu.org/msg731954.html
 ---
- hw/isa/isa-superio.c       | 2 +-
- hw/isa/smc37c669-superio.c | 1 -
- hw/isa/vt82c686.c          | 1 -
- 3 files changed, 1 insertion(+), 3 deletions(-)
+ hw/ssi/ssi.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/isa/isa-superio.c b/hw/isa/isa-superio.c
-index e2e47d8fd99..83eb21ebb2a 100644
---- a/hw/isa/isa-superio.c
-+++ b/hw/isa/isa-superio.c
-@@ -182,6 +182,7 @@ static const TypeInfo isa_superio_type_info = {
-     .name = TYPE_ISA_SUPERIO,
-     .parent = TYPE_ISA_DEVICE,
+diff --git a/hw/ssi/ssi.c b/hw/ssi/ssi.c
+index a35d7ebb266..b3e82470381 100644
+--- a/hw/ssi/ssi.c
++++ b/hw/ssi/ssi.c
+@@ -85,6 +85,7 @@ static void ssi_slave_class_init(ObjectClass *klass, void *data)
+ static const TypeInfo ssi_slave_info = {
+     .name = TYPE_SSI_SLAVE,
+     .parent = TYPE_DEVICE,
++    .instance_size = sizeof(SSISlave),
+     .class_init = ssi_slave_class_init,
+     .class_size = sizeof(SSISlaveClass),
      .abstract = true,
-+    .instance_size = sizeof(ISASuperIODevice),
-     .class_size = sizeof(ISASuperIOClass),
-     .class_init = isa_superio_class_init,
- };
-@@ -200,7 +201,6 @@ static void fdc37m81x_class_init(ObjectClass *klass, void *data)
- static const TypeInfo fdc37m81x_type_info = {
-     .name          = TYPE_FDC37M81X_SUPERIO,
-     .parent        = TYPE_ISA_SUPERIO,
--    .instance_size = sizeof(ISASuperIODevice),
-     .class_init    = fdc37m81x_class_init,
- };
- 
-diff --git a/hw/isa/smc37c669-superio.c b/hw/isa/smc37c669-superio.c
-index 18287741cb4..9e59dc16039 100644
---- a/hw/isa/smc37c669-superio.c
-+++ b/hw/isa/smc37c669-superio.c
-@@ -103,7 +103,6 @@ static void smc37c669_class_init(ObjectClass *klass, void *data)
- static const TypeInfo smc37c669_type_info = {
-     .name          = TYPE_SMC37C669_SUPERIO,
-     .parent        = TYPE_ISA_SUPERIO,
--    .instance_size = sizeof(ISASuperIODevice),
-     .class_size    = sizeof(ISASuperIOClass),
-     .class_init    = smc37c669_class_init,
- };
-diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index 18160ca445d..a4b84d405d0 100644
---- a/hw/isa/vt82c686.c
-+++ b/hw/isa/vt82c686.c
-@@ -533,7 +533,6 @@ static void vt82c686b_superio_class_init(ObjectClass *klass, void *data)
- static const TypeInfo via_superio_info = {
-     .name          = TYPE_VT82C686B_SUPERIO,
-     .parent        = TYPE_ISA_SUPERIO,
--    .instance_size = sizeof(ISASuperIODevice),
-     .class_size    = sizeof(ISASuperIOClass),
-     .class_init    = vt82c686b_superio_class_init,
- };
 -- 
 2.26.2
 
