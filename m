@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D153F24E288
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 23:18:17 +0200 (CEST)
-Received: from localhost ([::1]:60518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 693DC24E280
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 23:17:15 +0200 (CEST)
+Received: from localhost ([::1]:57082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9EQS-0006M8-Ui
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 17:18:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53354)
+	id 1k9EPS-0004vN-GD
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 17:17:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k9EMf-0001Cs-T7
+ id 1k9EMf-0001Cr-Pl
  for qemu-devel@nongnu.org; Fri, 21 Aug 2020 17:14:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37676)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45713)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k9EMc-0003rN-SL
+ id 1k9EMd-0003rP-Eg
  for qemu-devel@nongnu.org; Fri, 21 Aug 2020 17:14:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1598044458;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=TpWbhUyXkt3LakPn/SludUGkFwKrG9hjWPw3DGhCPHE=;
- b=hFYqjkWhRN6jjvUFiKZxZa1vtI8a7ibP+b9eY+7jSxEmEHgVYCIcNICfoaL1p4Vvy4VAnV
- vQA5Zh9Otre2fyVNRLLDJUsMuQtVpOMmpYGiApsVSpumtTO1oVZ0qCu3/MUONW/OBSTxLJ
- lrKMRKOjJeqA29h/g48G6hILl0W4CxA=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YyBdC6DrWxEOcaTmWBsVX06MBfedxztPrbNHOuoUEjY=;
+ b=NgVHN2Dd5AzFSGOsG6nAYbs2Bjf6sPUkksJ51o3QeX6HqP3QdME3WlD0y5oSlK42wlhGqg
+ cKNlht7ZcxTvoqy3wicfBxBXXM3DxCBc3NWyzzr/rXP/+/OXPy28Au44ANGhQ0rHdRxOC/
+ KAlp8iG3UtJcpztfnSyS3vcmRDhO/e0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-499-Le0zxH00Nq-pC3OuW3Eb4g-1; Fri, 21 Aug 2020 17:14:14 -0400
-X-MC-Unique: Le0zxH00Nq-pC3OuW3Eb4g-1
+ us-mta-10-QnevI2CzP-S9UaeS7chJTQ-1; Fri, 21 Aug 2020 17:14:14 -0400
+X-MC-Unique: QnevI2CzP-S9UaeS7chJTQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E6821074657
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B8B056BE2
  for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 21:14:13 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D6C045C1D0
- for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 21:14:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3F1365C1D0
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 21:14:13 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/6] Meson build system fixes
-Date: Fri, 21 Aug 2020 17:14:06 -0400
-Message-Id: <20200821211412.17321-1-pbonzini@redhat.com>
+Subject: [PULL 1/6] target/s390x: fix meson.build issue
+Date: Fri, 21 Aug 2020 17:14:07 -0400
+Message-Id: <20200821211412.17321-2-pbonzini@redhat.com>
+In-Reply-To: <20200821211412.17321-1-pbonzini@redhat.com>
+References: <20200821211412.17321-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 04:26:32
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 02:43:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -82,88 +85,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit d6f83a72a7db94a3ede9f5cc4fb39f9c8e89f954:
+files() is needed to avoid
 
-  Merge remote-tracking branch 'remotes/philmd-gitlab/tags/acceptance-testing-20200812' into staging (2020-08-21 14:51:43 +0100)
+../meson.build:977:2: ERROR: File tcg-stub.c does not exist.
 
-are available in the Git repository at:
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ target/s390x/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
-
-for you to fetch changes up to 460b4664c6ad2b88ccfb2d69ab4cbb7d6c9165a0:
-
-  keymaps: update (2020-08-21 17:06:17 -0400)
-
-----------------------------------------------------------------
-meson fixes:
-
-* --disable-tools --enable-system build
-* s390 no-TCG build
-* fdmon-io_uring
-* 'shift' error message in version_ge()
-
-----------------------------------------------------------------
-Marc-André Lureau (1):
-      meson: convert pc-bios/keymaps/Makefile
-
-Paolo Bonzini (2):
-      target/s390x: fix meson.build issue
-      keymaps: update
-
-Philippe Mathieu-Daudé (1):
-      meson: Fix --disable-tools --enable-system builds
-
-Stefano Garzarella (2):
-      util/meson.build: fix fdmon-io_uring build
-      configure: silence 'shift' error message in version_ge()
-
- Makefile                    |   8 --
- configure                   |   6 +-
- meson.build                 |  14 +--
- pc-bios/keymaps/.gitignore  |   1 +
- pc-bios/keymaps/Makefile    |  56 ----------
- pc-bios/keymaps/ar          | 242 +++++++++++++++++++++++++++++++++++++++++++-
- pc-bios/keymaps/bepo        | 242 +++++++++++++++++++++++++++++++++++++++++++-
- pc-bios/keymaps/cz          | 242 +++++++++++++++++++++++++++++++++++++++++++-
- pc-bios/keymaps/da          | 242 +++++++++++++++++++++++++++++++++++++++++++-
- pc-bios/keymaps/de          | 242 +++++++++++++++++++++++++++++++++++++++++++-
- pc-bios/keymaps/de-ch       | 242 +++++++++++++++++++++++++++++++++++++++++++-
- pc-bios/keymaps/en-gb       | 242 +++++++++++++++++++++++++++++++++++++++++++-
- pc-bios/keymaps/en-us       | 242 +++++++++++++++++++++++++++++++++++++++++++-
- pc-bios/keymaps/es          | 242 +++++++++++++++++++++++++++++++++++++++++++-
- pc-bios/keymaps/et          | 242 +++++++++++++++++++++++++++++++++++++++++++-
- pc-bios/keymaps/fi          | 242 +++++++++++++++++++++++++++++++++++++++++++-
- pc-bios/keymaps/fo          | 242 +++++++++++++++++++++++++++++++++++++++++++-
- pc-bios/keymaps/fr          | 242 +++++++++++++++++++++++++++++++++++++++++++-
- pc-bios/keymaps/fr-be       | 242 +++++++++++++++++++++++++++++++++++++++++++-
- pc-bios/keymaps/fr-ca       | 242 +++++++++++++++++++++++++++++++++++++++++++-
- pc-bios/keymaps/fr-ch       | 242 +++++++++++++++++++++++++++++++++++++++++++-
- pc-bios/keymaps/hr          | 242 +++++++++++++++++++++++++++++++++++++++++++-
- pc-bios/keymaps/hu          | 242 +++++++++++++++++++++++++++++++++++++++++++-
- pc-bios/keymaps/is          | 242 +++++++++++++++++++++++++++++++++++++++++++-
- pc-bios/keymaps/it          | 242 +++++++++++++++++++++++++++++++++++++++++++-
- pc-bios/keymaps/ja          | 242 +++++++++++++++++++++++++++++++++++++++++++-
- pc-bios/keymaps/lt          | 242 +++++++++++++++++++++++++++++++++++++++++++-
- pc-bios/keymaps/lv          | 242 +++++++++++++++++++++++++++++++++++++++++++-
- pc-bios/keymaps/meson.build |  56 ++++++++++
- pc-bios/keymaps/mk          | 242 +++++++++++++++++++++++++++++++++++++++++++-
- pc-bios/keymaps/nl          | 242 +++++++++++++++++++++++++++++++++++++++++++-
- pc-bios/keymaps/no          | 242 +++++++++++++++++++++++++++++++++++++++++++-
- pc-bios/keymaps/pl          | 242 +++++++++++++++++++++++++++++++++++++++++++-
- pc-bios/keymaps/pt          | 242 +++++++++++++++++++++++++++++++++++++++++++-
- pc-bios/keymaps/pt-br       | 242 +++++++++++++++++++++++++++++++++++++++++++-
- pc-bios/keymaps/ru          | 242 +++++++++++++++++++++++++++++++++++++++++++-
- pc-bios/keymaps/th          | 242 +++++++++++++++++++++++++++++++++++++++++++-
- pc-bios/keymaps/tr          | 242 +++++++++++++++++++++++++++++++++++++++++++-
- pc-bios/meson.build         |   1 +
- target/s390x/meson.build    |   2 +-
- ui/meson.build              |   2 +-
- util/meson.build            |   2 +-
- 42 files changed, 7752 insertions(+), 140 deletions(-)
- create mode 100644 pc-bios/keymaps/.gitignore
- delete mode 100644 pc-bios/keymaps/Makefile
- create mode 100644 pc-bios/keymaps/meson.build
+diff --git a/target/s390x/meson.build b/target/s390x/meson.build
+index d2a3315903..c42eadb7d2 100644
+--- a/target/s390x/meson.build
++++ b/target/s390x/meson.build
+@@ -21,7 +21,7 @@ s390x_ss.add(when: 'CONFIG_TCG', if_true: files(
+   'vec_helper.c',
+   'vec_int_helper.c',
+   'vec_string_helper.c',
+-), if_false: 'tcg-stub.c')
++), if_false: files('tcg-stub.c'))
+ 
+ s390x_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'), if_false: files('kvm-stub.c'))
+ 
 -- 
 2.26.2
+
 
 
