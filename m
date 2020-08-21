@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 209ED24D29A
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 12:36:28 +0200 (CEST)
-Received: from localhost ([::1]:60030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D93924D276
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 12:34:33 +0200 (CEST)
+Received: from localhost ([::1]:51914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k94PL-0007dg-1y
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 06:36:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59612)
+	id 1k94NU-0004Ew-E6
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 06:34:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k94DI-00017o-WF
+ id 1k94DJ-00019e-MW
  for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:24:01 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55925
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50236)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k94DG-0001UL-3n
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:24:00 -0400
+ id 1k94DG-0001UN-6V
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:24:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1598005437;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Jnt5uKu4kBTWpAPO0AzOsG/lDWm1TEp2iP/8NdnruOw=;
- b=DFaf/46lFckNg3BNN/L+YekwJYYpro3h52RO/x5G3xcD2QCA8O9MYKDsqIb39l31iOeFlW
- AnW4bmqg09Y4iDYsAnj20S6cjcuQMptez+Od7idteceh0Gis2dZMyvZO1oBkhwQZqXDRBA
- odmfGUwUB9Xa9K2PNTtnWcD10h+OxGc=
+ bh=PtV7VLP3ii69wiqNVBJxmBFeD723UgNJUixvpYytDdQ=;
+ b=Q6+RUYIHS62RBRRmbcSs+DZn9hAb1vVhJNg40eNmChOATrRK0Si35+rxluamCz78c3i3Wk
+ vbGznkssInRNyXks7I/1Te4R4o3b3gRKssAOCuhciMng/Cb9Cj7tEfkejMcHseM10IBTud
+ j2NK5N6/IVcRwAviBmW2uABqrsPXAlA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-57-WYS5qWY_PR--vaxsR7ACHw-1; Fri, 21 Aug 2020 06:23:55 -0400
-X-MC-Unique: WYS5qWY_PR--vaxsR7ACHw-1
+ us-mta-54-VLpqcKKWPgiEVqvGFvcxmw-1; Fri, 21 Aug 2020 06:23:55 -0400
+X-MC-Unique: VLpqcKKWPgiEVqvGFvcxmw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 837561DE0D
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF43E191E2A8
  for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:23:54 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 527537AED2
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9E1727AECF
  for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:23:54 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v8 024/152] meson: add sparse support
-Date: Fri, 21 Aug 2020 06:21:21 -0400
-Message-Id: <20200821102329.29777-25-pbonzini@redhat.com>
+Subject: [PULL v8 025/152] meson: add testsuite Makefile generator
+Date: Fri, 21 Aug 2020 06:21:22 -0400
+Message-Id: <20200821102329.29777-26-pbonzini@redhat.com>
 In-Reply-To: <20200821102329.29777-1-pbonzini@redhat.com>
 References: <20200821102329.29777-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -59,17 +58,18 @@ X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 04:55:47
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 02:43:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
 X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,105 +85,170 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do not use cgcc; instead, extract compilation commands from compile_commands.json
-and invoke sparse directly.
+Rules to execute tests are generated by a simple Python program
+that integrates into the existing "make check" mechanism.  This
+provides familiarity for developers, and also allows piecewise
+conversion of the testsuite Makefiles to meson.
+
+The generated rules are based on QEMU's existing test harness
+Makefile and TAP parser.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile                |  1 +
- configure               |  8 ++------
- meson.build             |  7 +++++++
- scripts/check_sparse.py | 25 +++++++++++++++++++++++++
- 4 files changed, 35 insertions(+), 6 deletions(-)
- create mode 100644 scripts/check_sparse.py
+ Makefile               |  10 +++-
+ scripts/mtest2make.py  | 102 +++++++++++++++++++++++++++++++++++++++++
+ tests/Makefile.include |   1 -
+ 3 files changed, 111 insertions(+), 2 deletions(-)
+ create mode 100644 scripts/mtest2make.py
 
 diff --git a/Makefile b/Makefile
-index ba8413d809..81c9642a30 100644
+index 81c9642a30..5f9aae6e3e 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -1261,6 +1261,7 @@ endif
- 	$(call print-help,install,Install QEMU, documentation and tools)
- 	$(call print-help,ctags/TAGS,Generate tags file for editors)
- 	$(call print-help,cscope,Generate cscope index)
-+	$(call print-help,sparse,Run sparse on the QEMU source)
- 	@echo  ''
- 	@$(if $(TARGET_DIRS), \
- 		echo 'Architecture specific targets:'; \
-diff --git a/configure b/configure
-index b2c498a0bf..e23b2f616f 100755
---- a/configure
-+++ b/configure
-@@ -3054,7 +3054,7 @@ fi
- ##########################################
- # Sparse probe
- if test "$sparse" != "no" ; then
--  if has cgcc; then
-+  if has sparse; then
-     sparse=yes
-   else
-     if test "$sparse" = "yes" ; then
-@@ -7855,11 +7855,7 @@ echo "QEMU_CFLAGS=$QEMU_CFLAGS" >> $config_host_mak
- echo "QEMU_CXXFLAGS=$QEMU_CXXFLAGS" >> $config_host_mak
- echo "QEMU_INCLUDES=$QEMU_INCLUDES" >> $config_host_mak
- if test "$sparse" = "yes" ; then
--  echo "CC           := REAL_CC=\"\$(CC)\" cgcc"       >> $config_host_mak
--  echo "CPP          := REAL_CC=\"\$(CPP)\" cgcc"      >> $config_host_mak
--  echo "CXX          := REAL_CC=\"\$(CXX)\" cgcc"      >> $config_host_mak
--  echo "HOST_CC      := REAL_CC=\"\$(HOST_CC)\" cgcc"  >> $config_host_mak
--  echo "QEMU_CFLAGS  += -Wbitwise -Wno-transparent-union -Wno-old-initializer -Wno-non-pointer-null" >> $config_host_mak
-+  echo "SPARSE_CFLAGS = -Wbitwise -Wno-transparent-union -Wno-old-initializer -Wno-non-pointer-null" >> $config_host_mak
- fi
- echo "QEMU_LDFLAGS=$QEMU_LDFLAGS" >> $config_host_mak
- echo "LDFLAGS_NOPIE=$LDFLAGS_NOPIE" >> $config_host_mak
-diff --git a/meson.build b/meson.build
-index 1a56ac8b26..86219e500a 100644
---- a/meson.build
-+++ b/meson.build
-@@ -25,6 +25,13 @@ if host_machine.system() == 'darwin'
-   add_languages('objc', required: false, native: false)
- endif
+@@ -68,6 +68,14 @@ Makefile.ninja: build.ninja ninjatool
  
-+if 'SPARSE_CFLAGS' in config_host
-+  run_target('sparse',
-+             command: [find_program('scripts/check_sparse.py'),
-+                       config_host['SPARSE_CFLAGS'].split(),
-+                       'compile_commands.json'])
+ ${ninja-targets-c_COMPILER} ${ninja-targets-cpp_COMPILER}: .var.command += -MP
+ 
++# If MESON is empty, the rule will be re-evaluated after Makefiles are
++# reread (and MESON won't be empty anymore).
++ifneq ($(MESON),)
++Makefile.mtest: build.ninja scripts/mtest2make.py
++	$(MESON) introspect --tests | $(PYTHON) scripts/mtest2make.py > $@
++-include Makefile.mtest
 +endif
 +
- configure_file(input: files('scripts/ninjatool.py'),
-                output: 'ninjatool',
-                configuration: config_host)
-diff --git a/scripts/check_sparse.py b/scripts/check_sparse.py
+ .git-submodule-status: git-submodule-update config-host.mak
+ 
+ # Check that we're not trying to do an out-of-tree build from
+@@ -825,7 +833,7 @@ distclean: clean ninja-distclean
+ 	rm -f roms/seabios/config.mak roms/vgabios/config.mak
+ 	rm -f qemu-plugins-ld.symbols qemu-plugins-ld64.symbols
+ 	rm -rf meson-private meson-logs meson-info compile_commands.json
+-	rm -f Makefile.ninja ninjatool ninjatool.stamp
++	rm -f Makefile.ninja ninjatool ninjatool.stamp Makefile.mtest
+ 	rm -f config.log
+ 	rm -f linux-headers/asm
+ 	rm -f docs/version.texi
+diff --git a/scripts/mtest2make.py b/scripts/mtest2make.py
 new file mode 100644
-index 0000000000..0de7aa55d9
+index 0000000000..bdb257bbd9
 --- /dev/null
-+++ b/scripts/check_sparse.py
-@@ -0,0 +1,25 @@
++++ b/scripts/mtest2make.py
+@@ -0,0 +1,102 @@
 +#! /usr/bin/env python3
 +
-+# Invoke sparse based on the contents of compile_commands.json
++# Create Makefile targets to run tests, from Meson's test introspection data.
++#
++# Author: Paolo Bonzini <pbonzini@redhat.com>
 +
++from collections import defaultdict
 +import json
-+import subprocess
-+import sys
++import os
 +import shlex
++import sys
 +
-+def extract_cflags(shcmd):
-+    cflags = shlex.split(shcmd)
-+    return [x for x in cflags
-+            if x.startswith('-D') or x.startswith('-I') or x.startswith('-W')
-+               or x.startswith('-std=')]
++class Suite(object):
++    def __init__(self):
++        self.tests = list()
++        self.slow_tests = list()
++        self.executables = set()
 +
-+cflags = sys.argv[1:-1]
-+with open(sys.argv[-1], 'r') as fd:
-+    compile_commands = json.load(fd)
++print('''
++SPEED = quick
 +
-+for cmd in compile_commands:
-+    cmd = ['sparse'] + cflags + extract_cflags(cmd['command']) + [cmd['file']]
-+    print(' '.join((shlex.quote(x) for x in cmd)))
-+    r = subprocess.run(cmd)
-+    if r.returncode != 0:
-+        sys.exit(r.returncode)
++# $1 = test command, $2 = test name
++.test-human-tap = $1 < /dev/null | ./scripts/tap-driver.pl --test-name="$2" $(if $(V),,--show-failures-only)
++.test-human-exitcode = $1 < /dev/null
++.test-tap-tap = $1 < /dev/null | sed "s/^[a-z][a-z]* [0-9]*/& $2/" || true
++.test-tap-exitcode = printf "%s\\n" 1..1 "`$1 < /dev/null > /dev/null || echo "not "`ok 1 $2"
++.test.print = echo $(if $(V),'$1','Running test $2') >&3
++.test.env = MALLOC_PERTURB_=$${MALLOC_PERTURB_:-$$(( $${RANDOM:-0} % 255 + 1))}
++
++# $1 = test name, $2 = test target (human or tap)
++.test.run = $(call .test.print,$(.test.cmd.$1),$(.test.name.$1)) && $(call .test-$2-$(.test.driver.$1),$(.test.cmd.$1),$(.test.name.$1))
++
++define .test.human_k
++        @exec 3>&1; rc=0; $(foreach TEST, $1, $(call .test.run,$(TEST),human) || rc=$$?;) \\
++              exit $$rc
++endef
++define .test.human_no_k
++        $(foreach TEST, $1, @exec 3>&1; $(call .test.run,$(TEST),human)
++)
++endef
++.test.human = \\
++        $(if $(findstring k, $(MAKEFLAGS)), $(.test.human_k), $(.test.human_no_k))
++
++define .test.tap
++        @exec 3>&1; { $(foreach TEST, $1, $(call .test.run,$(TEST),tap); ) } \\
++              | ./scripts/tap-merge.pl | tee "$@" \\
++              | ./scripts/tap-driver.pl $(if $(V),, --show-failures-only)
++endef
++''')
++
++suites = defaultdict(Suite)
++i = 0
++for test in json.load(sys.stdin):
++    env = ' '.join(('%s=%s' % (shlex.quote(k), shlex.quote(v))
++                    for k, v in test['env'].items()))
++    executable = os.path.relpath(test['cmd'][0])
++    if test['workdir'] is not None:
++        test['cmd'][0] = os.path.relpath(test['cmd'][0], test['workdir'])
++    else:
++        test['cmd'][0] = executable
++    cmd = '$(.test.env) %s %s' % (env, ' '.join((shlex.quote(x) for x in test['cmd'])))
++    if test['workdir'] is not None:
++        cmd = '(cd %s && %s)' % (shlex.quote(test['workdir']), cmd)
++    driver = test['protocol'] if 'protocol' in test else 'exitcode'
++
++    i += 1
++    print('.test.name.%d := %s' % (i, test['name']))
++    print('.test.driver.%d := %s' % (i, driver))
++    print('.test.cmd.%d := %s' % (i, cmd))
++
++    test_suites = test['suite'] or ['default']
++    is_slow = any(s.endswith('-slow') for s in test_suites)
++    for s in test_suites:
++        # The suite name in the introspection info is "PROJECT:SUITE"
++        s = s.split(':')[1]
++        if s.endswith('-slow'):
++            s = s[:-5]
++        if is_slow:
++            suites[s].slow_tests.append(i)
++        else:
++            suites[s].tests.append(i)
++        suites[s].executables.add(executable)
++
++print('.PHONY: check check-report.tap')
++print('check:')
++print('check-report.tap:')
++print('\t@cat $^ | scripts/tap-merge.pl >$@')
++for name, suite in suites.items():
++    executables = ' '.join(suite.executables)
++    slow_test_numbers = ' '.join((str(x) for x in suite.slow_tests))
++    test_numbers = ' '.join((str(x) for x in suite.tests))
++    print('.test.suite-quick.%s := %s' % (name, test_numbers))
++    print('.test.suite-slow.%s := $(.test.suite-quick.%s) %s' % (name, name, slow_test_numbers))
++    print('check-build: %s' % executables)
++    print('.PHONY: check-%s' % name)
++    print('.PHONY: check-report-%s.tap' % name)
++    print('check: check-%s' % name)
++    print('check-%s: all %s' % (name, executables))
++    print('\t$(call .test.human, $(.test.suite-$(SPEED).%s))' % (name, ))
++    print('check-report.tap: check-report-%s.tap' % name)
++    print('check-report-%s.tap: %s' % (name, executables))
++    print('\t$(call .test.tap, $(.test.suite-$(SPEED).%s))' % (name, ))
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index c7e4646ded..ad54100369 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -674,7 +674,6 @@ check-report-unit.tap: $(check-unit-y)
+ # Reports and overall runs
+ 
+ check-report.tap: $(patsubst %,check-report-qtest-%.tap, $(QTEST_TARGETS)) check-report-unit.tap
+-	$(call quiet-command, cat $^ | scripts/tap-merge.pl >$@,"GEN","$@")
+ 
+ # FPU Emulation tests (aka softfloat)
+ #
 -- 
 2.26.2
 
