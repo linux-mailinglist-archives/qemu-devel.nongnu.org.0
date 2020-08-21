@@ -2,113 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBD3D24D9E2
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 18:17:00 +0200 (CEST)
-Received: from localhost ([::1]:52038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2075B24D9FD
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 18:17:41 +0200 (CEST)
+Received: from localhost ([::1]:55214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k99it-0001PS-V8
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 12:16:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56884)
+	id 1k99jY-0002jU-5Z
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 12:17:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k99hH-0000B1-OD
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 12:15:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38194)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1k99iN-0001c9-Q5
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 12:16:29 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31565
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k99hG-0004qn-0K
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 12:15:19 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1k99iM-00058c-7J
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 12:16:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598026517;
+ s=mimecast20190719; t=1598026585;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=eUgoO24hS+D6zjzqUvY62NzTgMyiy1iDv24lMut+jR4=;
- b=dL3LSmpFFgv3SOxal+2Hb99QdM0hSJixy+xBmGc48qyjVhMTXRhVjtshkr4J9qjy2sL1Km
- 6Irqggy7ZUKYS3lIsUQchxUfLG4Kf0gYKaKtPR+I75f3vHYdoluCnpjnvd3lNsBOrsBxVt
- qE6DhJXmzblfWkWHzYB8GTzEiR2Q6xQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-64-5LGuF1yGNZKQHVAKyKeyZQ-1; Fri, 21 Aug 2020 12:15:15 -0400
-X-MC-Unique: 5LGuF1yGNZKQHVAKyKeyZQ-1
-Received: by mail-wr1-f72.google.com with SMTP id r29so693442wrr.10
- for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 09:15:15 -0700 (PDT)
+ in-reply-to:in-reply-to:references:references;
+ bh=ejhXrNgEGhg6X8u1WS3IkAlnZQH2dsUUtTAmtVdqqWE=;
+ b=LgItejJGKz/IV70xoKKrq8X51FVSo86kRYP3E6a9ALsW4QHwAcUgx2Xt1Ql0a114uLuXoS
+ BEtgUAYH/yCUQbOVcASKM5ayN3BDh6coxsiw+4MZRxAon1MSlhmuVD+SKxODOf5cG/zta/
+ iHrxHlJP7aZP0nicATAeiD2U8BWZo8Q=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-209-rRUNag_zNFeGNxW8LRbeQQ-1; Fri, 21 Aug 2020 12:16:23 -0400
+X-MC-Unique: rRUNag_zNFeGNxW8LRbeQQ-1
+Received: by mail-wr1-f70.google.com with SMTP id 5so687156wrc.17
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 09:16:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=eUgoO24hS+D6zjzqUvY62NzTgMyiy1iDv24lMut+jR4=;
- b=JYg8bqNFSgrOEDjlILPXiRzJhsjTD5769cPRrDyKHLCIZ/9OdyPdHH2V1Y2fjXgmvn
- Gp1SdWpiqFrWsoYNN3lLZlBwh7d5JPRCfg/XNoOAGbEg0zBTX6j3RYg7n3h42WgIRiS7
- XHw44yP4Z8m++j2d+ttQ/Lyl0PPol/5qHvAaxm4WafGSBz6NSXNchcBeWuZS3fI6aowt
- eMA3L8o4T4yvXsUDnGbRDH3Tc2UuQda2cZ6z+YW+tHqbkQi5s+aV+aRSD/wFX+a9DzY5
- w60jih4ZvQqhcAEXU/IxIXEtqE8CTXpJxgDQsoDarD995Ry9icbeK+jpPotSBl+4v/E7
- ohJQ==
-X-Gm-Message-State: AOAM533cTj82bPWm3d1nyi5DI6prhYBtjuR3ViCHoSoB46jPQnObwb6W
- B7zbVxZpHHjCT1eugYzQUl+i2UwevtHaXtMoISGWYuJqa2McVRK1myJo+TlNHlHv+9XW3RQ8SrR
- cDomGAbdq/w5oCqw=
-X-Received: by 2002:a1c:770c:: with SMTP id t12mr4188575wmi.65.1598026514238; 
- Fri, 21 Aug 2020 09:15:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwGIehxxQAFYL6xRhiI7wrpmMdYq9F8CjQ+bKqniyTq0imgfHPr+lDccWiiCVSg6czwPAmkSQ==
-X-Received: by 2002:a1c:770c:: with SMTP id t12mr4188562wmi.65.1598026514078; 
- Fri, 21 Aug 2020 09:15:14 -0700 (PDT)
-Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id h5sm3296731wrt.31.2020.08.21.09.15.13
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ejhXrNgEGhg6X8u1WS3IkAlnZQH2dsUUtTAmtVdqqWE=;
+ b=Jr2lWnBeJcsKNpRXeM9FwmXWZhL8w0epVZS0TtxRI0fl4L0m4IaHgju4NSI3VfHQni
+ /bHJ8j37GK5lWBINRSJ3XLEsUHeb9LyvULHPsT951IfU93A+DLACoC+/E/5InqWG6gNI
+ fPK/RSKJfd/lojNO/l/HVychBVAj7jQA0PWBHVfm0NN2j3bVPZJf3Nz9+Jbvk5TDmPxz
+ /mv2jdj+JhACHUyKOY1uXbx0pIw3dGiCeZy+x/W4yLiuVAAG3sgnd7DnJtz+JV9OFDIn
+ NcXfWo8/3iOus86xG9A/klA1SOFHxkBweluoMYXZ4+OlzorzG299p+KUJol6A/MFEchN
+ tF6A==
+X-Gm-Message-State: AOAM533BW1S1se8kzHOzWCIWynwn98ASWHwKlZ6LACi5sF5u8SeZyX79
+ C2gkRh+7Z+d2x2673S4WchWFGrZMbmVjmmT2xyiFeC39El9dNhc4lXuY/0zpF43amDYhoJM5hgY
+ C9xZ0n4s78wvsncQ=
+X-Received: by 2002:a5d:6910:: with SMTP id t16mr3610494wru.178.1598026579788; 
+ Fri, 21 Aug 2020 09:16:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyZw5Rkq4MQK6txYZtDNovyXMxxeB07IvN2emKuca7zou7Z15UVGWP6Q/YiQzKI19pOkgHY6A==
+X-Received: by 2002:a5d:6910:: with SMTP id t16mr3610479wru.178.1598026579529; 
+ Fri, 21 Aug 2020 09:16:19 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:d51:8db6:e10d:b5ef?
+ ([2001:b07:6468:f312:d51:8db6:e10d:b5ef])
+ by smtp.gmail.com with ESMTPSA id k4sm5611218wrd.72.2020.08.21.09.16.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Aug 2020 09:15:13 -0700 (PDT)
-Subject: Re: [PATCH] configure: Silence shift warning in version_ge()
-To: qemu-devel@nongnu.org
-References: <20200821151416.1240494-1-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <a70425ae-734e-325f-8a06-72b3829d8b37@redhat.com>
-Date: Fri, 21 Aug 2020 18:15:12 +0200
+ Fri, 21 Aug 2020 09:16:19 -0700 (PDT)
+Subject: Re: [PULL v7 000/151] Meson-based build system
+To: Howard Spoelstra <hsp.cat7@gmail.com>
+References: <20200819213203.17876-1-pbonzini@redhat.com>
+ <CABLmASFno04tFBRTq=V8AO7dj1d67-SNpugUJMVVa4yzrPq03Q@mail.gmail.com>
+ <CABLmASECM5tVVw3TMJn+0bCT7O4H_guy5TJd9YQKYYx+QUKBKQ@mail.gmail.com>
+ <dd66cee7-c6d2-a81e-2e53-eca34ed78be8@redhat.com>
+ <CABLmASG_VtxD6L=RWotVJZ+C6KxPwoYCQ-K=1TbL8XqF7S5piA@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <8e4ced4e-5532-9806-e6b3-31bedbdfb80b@redhat.com>
+Date: Fri, 21 Aug 2020 18:16:17 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200821151416.1240494-1-philmd@redhat.com>
+In-Reply-To: <CABLmASG_VtxD6L=RWotVJZ+C6KxPwoYCQ-K=1TbL8XqF7S5piA@mail.gmail.com>
 Content-Language: en-US
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 02:43:55
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 04:55:47
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
 X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -121,41 +105,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/21/20 5:14 PM, Philippe Mathieu-Daudé wrote:
-> As we might expect less than 2 argument, only shift again
-> if there is arguments to shift.
+On 21/08/20 18:11, Howard Spoelstra wrote:
 > 
-> This fixes:
 > 
->     ../configure: line 232: shift: shift count out of range
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  configure | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/configure b/configure
-> index 4e5fe332110..cf044ad2d25 100755
-> --- a/configure
-> +++ b/configure
-> @@ -229,7 +229,7 @@ version_ge () {
->          set x $local_ver1
->          local_first=${2-0}
->          # shift 2 does nothing if there are less than 2 arguments
-> -        shift; shift
-> +        shift || shift
+> Found ninjatool-1.8 at /home/hsp/src/qemu-master/build/ninjatool
+> WARNING: custom_target 'shared QAPI source files' has more than one
+> output! Using the first one.
+> WARNING: custom_target 'QGA QAPI files' has more than one output! Using
+> the first one.
+> WARNING: custom_target 'QAPI files for qemu-storage-daemon' has more
+> than one output! Using the first one.
+> WARNING: custom_target 'QAPI doc' has more than one output! Using the
+> first one.
+> Command line for building ['libcommon.fa'] is long, using a response file
+> [hsp@localhost build]$ make -j4
+> ....
+> [hsp@localhost build]$ ldd qemu-system-ppc.exe
+> not a dynamic executable
 
-As Stefano noted, this does not work as intended, so please discard
-this invalid patch.
+ldd is a Linux tool, a Windows .exe is just a junk file to it.  "Not a
+dynamic executable" does not mean "it's a static executable", it means
+"I cannot do anything with it".
 
->          local_ver1=$*
->          set x $local_ver2
->          # the second argument finished, the first must be greater or equal
-> 
+Paolo
+
+> [hsp@localhost build]$ which ldd
+> /usr/bin/ldd
+> [hsp@localhost build]$
 
 
