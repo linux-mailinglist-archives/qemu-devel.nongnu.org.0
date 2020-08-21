@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A665B24D30D
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 12:46:11 +0200 (CEST)
-Received: from localhost ([::1]:54056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB1B324D340
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Aug 2020 12:53:46 +0200 (CEST)
+Received: from localhost ([::1]:37930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k94Yk-0002uZ-Lc
-	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 06:46:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60128)
+	id 1k94g4-0002O7-U4
+	for lists+qemu-devel@lfdr.de; Fri, 21 Aug 2020 06:53:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k94Dn-00020I-0v
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:24:31 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:22611
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1k94Dp-00027U-FX
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:24:33 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52535
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1k94Dc-0001c2-Vv
- for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:24:30 -0400
+ id 1k94Di-0001cJ-F7
+ for qemu-devel@nongnu.org; Fri, 21 Aug 2020 06:24:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598005459;
+ s=mimecast20190719; t=1598005461;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=k9HTeGilyaI7wJRI+sU9G7H/jdDDHwvS3kZ8oUXnhBM=;
- b=KCQbb7A5oO/NGLqI3bFTCRdg7O8XUbDhccauwRtvJ1aA4iGKRLrfrlENtrwX+mCR081KXh
- QNTJfk/ZYe5BCVqN01O5VpKhC+kb5gEYwyG8Fq58OXkbK4JiiAz+p7iQXRFu7b3XVuPjMP
- z5vSlmvGXv9sZ1YKi3mC1lr4wHPTVlw=
+ bh=VAFFa6LAWojcnWkLqgzMEvTlBzRUtkY1bdsnLGTnVpA=;
+ b=H7skdF+pyB0rxCgPd3EmZPkjpaJBpTplyV4XkFWAybBZupOUXqj9lwfkrIfyKfdG5MgxS9
+ Yu4bhlCdjVBeDeXCdoui3whWqKT8+fYlClvePbaLdT6RsjSxE4lzLgzwnPR3MVeL+Ibdto
+ IoaumLLBMSAG91vjDV1wn89f3GFwXDM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-101-43mEPy-JMwqyLfWQ63W4fw-1; Fri, 21 Aug 2020 06:24:17 -0400
-X-MC-Unique: 43mEPy-JMwqyLfWQ63W4fw-1
+ us-mta-171-5xkhiG6iMHusxZhw_9Fa4Q-1; Fri, 21 Aug 2020 06:24:18 -0400
+X-MC-Unique: 5xkhiG6iMHusxZhw_9Fa4Q-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C6A2191E2A0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5873C56B2B
  for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:24:17 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AD4B660BF1;
- Fri, 21 Aug 2020 10:24:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2671F60BF1
+ for <qemu-devel@nongnu.org>; Fri, 21 Aug 2020 10:24:17 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v8 053/152] meson: handle edk2 bios and descriptors
-Date: Fri, 21 Aug 2020 06:21:50 -0400
-Message-Id: <20200821102329.29777-54-pbonzini@redhat.com>
+Subject: [PULL v8 054/152] meson: convert check-decodetree
+Date: Fri, 21 Aug 2020 06:21:51 -0400
+Message-Id: <20200821102329.29777-55-pbonzini@redhat.com>
 In-Reply-To: <20200821102329.29777-1-pbonzini@redhat.com>
 References: <20200821102329.29777-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 05:15:56
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/21 04:55:47
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -82,167 +82,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
-
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile                        | 29 -----------------------------
- meson.build                     |  1 +
- pc-bios/descriptors/meson.build | 14 ++++++++++++++
- pc-bios/meson.build             | 27 +++++++++++++++++++++++++++
- 4 files changed, 42 insertions(+), 29 deletions(-)
- create mode 100644 pc-bios/descriptors/meson.build
- create mode 100644 pc-bios/meson.build
+ meson.build            | 2 ++
+ tests/Makefile.include | 9 +--------
+ tests/meson.build      | 4 ++++
+ 3 files changed, 7 insertions(+), 8 deletions(-)
+ create mode 100644 tests/meson.build
 
-diff --git a/Makefile b/Makefile
-index 13df463e33..bc7647d37b 100644
---- a/Makefile
-+++ b/Makefile
-@@ -127,10 +127,6 @@ generated-files-y += module_block.h
- 
- generated-files-y += .git-submodule-status
- 
--edk2-decompressed = $(basename $(wildcard pc-bios/edk2-*.fd.bz2))
--pc-bios/edk2-%.fd: pc-bios/edk2-%.fd.bz2
--	$(call quiet-command,bzip2 -d -c $< > $@,"BUNZIP2",$<)
--
- # Don't try to regenerate Makefile or configure
- # We don't generate any of them
- Makefile: ;
-@@ -274,9 +270,6 @@ $(SOFTMMU_ALL_RULES): $(chardev-obj-y)
- $(SOFTMMU_ALL_RULES): $(crypto-obj-y)
- $(SOFTMMU_ALL_RULES): $(io-obj-y)
- $(SOFTMMU_ALL_RULES): config-all-devices.mak
--ifdef DECOMPRESS_EDK2_BLOBS
--$(SOFTMMU_ALL_RULES): $(edk2-decompressed)
--endif
- 
- SOFTMMU_FUZZ_RULES=$(filter %-softmmu/fuzz, $(TARGET_DIRS_RULES))
- $(SOFTMMU_FUZZ_RULES): $(authz-obj-y)
-@@ -384,7 +377,6 @@ clean: recurse-clean ninja-clean clean-ctlist
- 		! -path ./roms/edk2/ArmPkg/Library/GccLto/liblto-arm.a \
- 		! -path ./roms/edk2/BaseTools/Source/Python/UPT/Dll/sqlite3.dll \
- 		-exec rm {} +
--	rm -f $(edk2-decompressed)
- 	rm -f $(filter-out %.tlb,$(TOOLS)) $(HELPERS-y) TAGS cscope.* *.pod *~ */*~
- 	rm -f fsdev/*.pod scsi/*.pod
- 	rm -f $(foreach f,$(generated-files-y),$(f) $(f)-timestamp)
-@@ -461,13 +453,8 @@ edk2-licenses.txt \
- hppa-firmware.img \
- opensbi-riscv32-sifive_u-fw_jump.bin opensbi-riscv32-virt-fw_jump.bin \
- opensbi-riscv64-sifive_u-fw_jump.bin opensbi-riscv64-virt-fw_jump.bin
--
--
--DESCS=50-edk2-i386-secure.json 50-edk2-x86_64-secure.json \
--60-edk2-aarch64.json 60-edk2-arm.json 60-edk2-i386.json 60-edk2-x86_64.json
- else
- BLOBS=
--DESCS=
- endif
- 
- # Note that we manually filter-out the non-Sphinx documentation which
-@@ -544,7 +531,6 @@ install-includedir:
- export DESTDIR
- install: all $(if $(BUILD_DOCS),install-doc) \
- 	install-datadir install-localstatedir install-includedir \
--	$(if $(INSTALL_BLOBS),$(edk2-decompressed)) \
- 	recurse-install
- ifneq ($(TOOLS),)
- 	$(call install-prog,$(TOOLS),$(DESTDIR)$(bindir))
-@@ -567,21 +553,6 @@ ifneq ($(BLOBS),)
- 	set -e; for x in $(BLOBS); do \
- 		$(INSTALL_DATA) $(SRC_PATH)/pc-bios/$$x "$(DESTDIR)$(qemu_datadir)"; \
- 	done
--endif
--ifdef INSTALL_BLOBS
--	set -e; for x in $(edk2-decompressed); do \
--		$(INSTALL_DATA) $$x "$(DESTDIR)$(qemu_datadir)"; \
--	done
--endif
--ifneq ($(DESCS),)
--	$(INSTALL_DIR) "$(DESTDIR)$(qemu_datadir)/firmware"
--	set -e; tmpf=$$(mktemp); trap 'rm -f -- "$$tmpf"' EXIT; \
--	for x in $(DESCS); do \
--		sed -e 's,@DATADIR@,$(qemu_datadir),' \
--			"$(SRC_PATH)/pc-bios/descriptors/$$x" > "$$tmpf"; \
--		$(INSTALL_DATA) "$$tmpf" \
--			"$(DESTDIR)$(qemu_datadir)/firmware/$$x"; \
--	done
- endif
- 	for s in $(ICON_SIZES); do \
- 		mkdir -p "$(DESTDIR)$(qemu_icondir)/hicolor/$${s}/apps"; \
 diff --git a/meson.build b/meson.build
-index 222b0d0e77..528198b6bd 100644
+index 528198b6bd..6384401e9f 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -383,6 +383,7 @@ if have_tools
- endif
+@@ -6,6 +6,7 @@ not_found = dependency('', required: false)
+ keyval = import('unstable-keyval')
+ ss = import('sourceset')
+ 
++sh = find_program('sh')
+ cc = meson.get_compiler('c')
+ config_host = keyval.load(meson.current_build_dir() / 'config-host.mak')
+ 
+@@ -384,6 +385,7 @@ endif
  
  subdir('tools')
-+subdir('pc-bios')
+ subdir('pc-bios')
++subdir('tests')
  
  summary_info = {}
  summary_info += {'Install prefix':    config_host['prefix']}
-diff --git a/pc-bios/descriptors/meson.build b/pc-bios/descriptors/meson.build
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index f277d238fb..12b0316a72 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -894,13 +894,6 @@ check-tests/qapi-schema/frontend: $(addprefix $(SRC_PATH)/, $(check-qapi-schema-
+ check-tests/qapi-schema/doc-good.texi: tests/qapi-schema/doc-good.test.texi
+ 	@diff -u $(SRC_PATH)/tests/qapi-schema/doc-good.texi $<
+ 
+-.PHONY: check-decodetree
+-check-decodetree:
+-	$(call quiet-command, \
+-	  cd $(SRC_PATH)/tests/decode && \
+-          ./check.sh "$(PYTHON)" "$(SRC_PATH)/scripts/decodetree.py", \
+-          TEST, decodetree.py)
+-
+ # Python venv for running tests
+ 
+ .PHONY: check-venv check-acceptance
+@@ -969,7 +962,7 @@ check-clean:
+ 	rm -f tests/qtest/dbus-vmstate1-gen-timestamp
+ 	rm -rf $(TESTS_VENV_DIR) $(TESTS_RESULTS_DIR)
+ 
+-check: check-block check-qapi-schema check-unit check-softfloat check-qtest check-decodetree
++check: check-block check-qapi-schema check-unit check-softfloat check-qtest
+ 
+ clean: check-clean
+ 
+diff --git a/tests/meson.build b/tests/meson.build
 new file mode 100644
-index 0000000000..7c715bace8
+index 0000000000..5c52021dc9
 --- /dev/null
-+++ b/pc-bios/descriptors/meson.build
-@@ -0,0 +1,14 @@
-+foreach f: [
-+  '50-edk2-i386-secure.json',
-+  '50-edk2-x86_64-secure.json',
-+  '60-edk2-aarch64.json',
-+  '60-edk2-arm.json',
-+  '60-edk2-i386.json',
-+  '60-edk2-x86_64.json'
-+]
-+  configure_file(input: files(f),
-+                 output: f,
-+                 configuration: {'DATADIR': config_host['qemu_datadir']},
-+                 install: install_blobs,
-+                 install_dir: config_host['qemu_datadir'] / 'firmware')
-+endforeach
-diff --git a/pc-bios/meson.build b/pc-bios/meson.build
-new file mode 100644
-index 0000000000..6e3bfe3ca4
---- /dev/null
-+++ b/pc-bios/meson.build
-@@ -0,0 +1,27 @@
-+bzip2 = find_program('bzip2')
-+
-+install_blobs = 'INSTALL_BLOBS' in config_host
-+if 'DECOMPRESS_EDK2_BLOBS' in config_host
-+  fds = [
-+    'edk2-aarch64-code.fd',
-+    'edk2-arm-code.fd',
-+    'edk2-arm-vars.fd',
-+    'edk2-i386-code.fd',
-+    'edk2-i386-secure-code.fd',
-+    'edk2-i386-vars.fd',
-+    'edk2-x86_64-code.fd',
-+    'edk2-x86_64-secure-code.fd',
-+  ]
-+
-+  foreach f : fds
-+    custom_target(f,
-+                  output: f,
-+                  input: '@0@.bz2'.format(f),
-+                  capture: true,
-+                  install: install_blobs,
-+                  install_dir: config_host['qemu_datadir'],
-+                  command: [ bzip2, '-dc', '@INPUT0@' ])
-+  endforeach
-+endif
-+
-+subdir('descriptors')
++++ b/tests/meson.build
+@@ -0,0 +1,4 @@
++test('decodetree', sh,
++     args: [ files('decode/check.sh'), config_host['PYTHON'], files('../scripts/decodetree.py') ],
++     workdir: meson.current_source_dir() / 'decode',
++     suite: 'decodetree')
 -- 
 2.26.2
 
