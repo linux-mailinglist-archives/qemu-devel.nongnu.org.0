@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8DFF24E7C4
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Aug 2020 16:07:22 +0200 (CEST)
-Received: from localhost ([::1]:46032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8B7624E7C3
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Aug 2020 16:06:28 +0200 (CEST)
+Received: from localhost ([::1]:43888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9UAz-0001bC-W0
-	for lists+qemu-devel@lfdr.de; Sat, 22 Aug 2020 10:07:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54272)
+	id 1k9UA7-0000i5-Hb
+	for lists+qemu-devel@lfdr.de; Sat, 22 Aug 2020 10:06:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k9U9K-0000HD-4k
- for qemu-devel@nongnu.org; Sat, 22 Aug 2020 10:05:38 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47700)
+ id 1k9U9K-0000HF-JZ
+ for qemu-devel@nongnu.org; Sat, 22 Aug 2020 10:05:39 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47728)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k9U9I-0000uk-7e
- for qemu-devel@nongnu.org; Sat, 22 Aug 2020 10:05:37 -0400
+ id 1k9U9I-0000uo-SG
+ for qemu-devel@nongnu.org; Sat, 22 Aug 2020 10:05:38 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k9U9H-0007U8-5u
+ id 1k9U9H-0007Us-PY
  for <qemu-devel@nongnu.org>; Sat, 22 Aug 2020 14:05:35 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 164A92E8079
+ by loganberry.canonical.com (Postfix) with ESMTP id B6AF22E8072
  for <qemu-devel@nongnu.org>; Sat, 22 Aug 2020 14:05:35 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 22 Aug 2020 13:59:35 -0000
+Date: Sat, 22 Aug 2020 13:59:58 -0000
 From: Diego Viola <1892581@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -41,7 +41,7 @@ X-Launchpad-Bug-Commenters: diego-viola
 X-Launchpad-Bug-Reporter: Diego Viola (diego-viola)
 X-Launchpad-Bug-Modifier: Diego Viola (diego-viola)
 References: <159810419955.15369.6411904597131705076.malonedeb@soybean.canonical.com>
-Message-Id: <159810477530.4319.2276363754385058119.malone@gac.canonical.com>
+Message-Id: <159810479835.2034.9889159706004746233.malone@chaenomeles.canonical.com>
 Subject: [Bug 1892581] Re: QEMU 5.1 no longer says anything about inaccessible
  devices
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -49,7 +49,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="99c2d833c8d727fd05148486920aca032e908071"; Instance="production"
-X-Launchpad-Hash: 3f59d7f3aa2d8a92a5c5d44e007dcb4be2c9a949
+X-Launchpad-Hash: b02890c99a83a224874b10c648f889ca99dffff8
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/22 10:00:50
@@ -75,16 +75,7 @@ Reply-To: Bug 1892581 <1892581@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The previous commit is fine, it displays the USB errors:
-
-libusb: error [_get_usbfs_fd] libusb couldn't open USB device /dev/bus/usb/=
-002/004: Permission denied
-libusb: error [_get_usbfs_fd] libusb requires write access to USB device no=
-des.
-libusb: error [_get_usbfs_fd] libusb couldn't open USB device /dev/bus/usb/=
-002/004: Permission denied
-libusb: error [_get_usbfs_fd] libusb requires write access to USB device no=
-des.
+My system is Arch Linux.
 
 -- =
 
