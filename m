@@ -2,93 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F4C424E7E0
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Aug 2020 16:30:18 +0200 (CEST)
-Received: from localhost ([::1]:32916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4324624E7E3
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Aug 2020 16:31:54 +0200 (CEST)
+Received: from localhost ([::1]:36188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9UXB-0000k6-51
-	for lists+qemu-devel@lfdr.de; Sat, 22 Aug 2020 10:30:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58628)
+	id 1k9UYj-0002Dv-BW
+	for lists+qemu-devel@lfdr.de; Sat, 22 Aug 2020 10:31:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k9UVU-0007tu-8C
- for qemu-devel@nongnu.org; Sat, 22 Aug 2020 10:28:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47289)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1k9UVS-0003E1-Ji
- for qemu-devel@nongnu.org; Sat, 22 Aug 2020 10:28:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598106509;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5N1TvfeN9sguGH6fYWdtTuciXS7DxS//XoBqhXVC5YM=;
- b=DwaIV3I2xDJaUB+4N2CNn8Petdcg4LJbzBxLJoyc7tGZ7fZHLwrMzQfVX6FVIRv+itKR49
- mvL+Lf/abnXtTZeN8mQdT3q5nHRZAk1eHKDnPG9GNw3uJZ91lHqFw4RMkjQ/5SPOyQ37af
- eO4ntq/EiVFuVsAAAklpE9Qrm9EHILM=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-11-cA3jFe3ZNOOEl6f0fC69sw-1; Sat, 22 Aug 2020 10:28:25 -0400
-X-MC-Unique: cA3jFe3ZNOOEl6f0fC69sw-1
-Received: by mail-wr1-f70.google.com with SMTP id m7so1751252wrb.20
- for <qemu-devel@nongnu.org>; Sat, 22 Aug 2020 07:28:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=5N1TvfeN9sguGH6fYWdtTuciXS7DxS//XoBqhXVC5YM=;
- b=Ypv9p2yDrYFMYWtqox26Jf2iUUDAyaTk4Sa1MlpG/WU9J0o2zM7GUEmZr910j//CDJ
- bECqa8mcLdkDme484hMAIQ1i4gix1L2XcjtkiMyvawV9a/zTIAPG5Us6AjF2pq8l99a1
- fHBIsT4/LSkDHGKwvQlSNPklIPJdXnLVWE/7ydz0dwZ/9tc/Y6gKVqpYrvh/TYoZyWDl
- JqPKKTPI6QgEeXaCjSTjY5hrAHrv3ZY9oJnnZ1WozHQHo7KTGWV4S8IG1e2LfQwRs/k+
- TX340/pfyub2JJycmJpFUUcHElB4tcOdE83Q0AAO5d/yv6cWsLiErBa5TxMgBrJ6i+uy
- LcTg==
-X-Gm-Message-State: AOAM5307vOvOkXK0gw8U2FHFerOCwFZrQv2SthzjTDC3OtM2UOvc2IOk
- DcqudQU/fHR0cRZRAVBh8b8JYjyKF+UuxvnvQr1+4QuJhAaB9Iu6HhLuYn2TzxDfH4Jzg2IlSIR
- s2reiPGARd84a7F8=
-X-Received: by 2002:a1c:4c17:: with SMTP id z23mr8981653wmf.49.1598106504403; 
- Sat, 22 Aug 2020 07:28:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyc6BPGcRPVr66IVWJ6fOki+xcWb8V8BjD9BRgqnRX+s3OxQFiw+8mncA00FT8qWqk806OZuA==
-X-Received: by 2002:a1c:4c17:: with SMTP id z23mr8981637wmf.49.1598106504205; 
- Sat, 22 Aug 2020 07:28:24 -0700 (PDT)
-Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id z203sm10504145wmc.31.2020.08.22.07.28.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Aug 2020 07:28:23 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/2] hw/isa/superio: Set abstract TYPE_ISA_SUPERIO instance
- size
-Date: Sat, 22 Aug 2020 16:28:15 +0200
-Message-Id: <20200822142816.1318214-2-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200822142816.1318214-1-philmd@redhat.com>
-References: <20200822142816.1318214-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k9UXZ-0001O1-Oz
+ for qemu-devel@nongnu.org; Sat, 22 Aug 2020 10:30:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49554)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1k9UXX-0003XZ-2P
+ for qemu-devel@nongnu.org; Sat, 22 Aug 2020 10:30:41 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1k9UXV-0000nv-MG
+ for <qemu-devel@nongnu.org>; Sat, 22 Aug 2020 14:30:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 897172E807B
+ for <qemu-devel@nongnu.org>; Sat, 22 Aug 2020 14:30:37 +0000 (UTC)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/22 10:28:29
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 22 Aug 2020 14:21:27 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1892540@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: gson laurent-vivier philmd
+X-Launchpad-Bug-Reporter: Andreas Gustafsson (gson)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <159803735569.2614.10182276398047269277.malonedeb@chaenomeles.canonical.com>
+Message-Id: <20200822142127.1316231-1-f4bug@amsat.org>
+Subject: [Bug 1892540] [RFC PATCH v2] hw/display/tcx: Allow 64-bit accesses to
+ framebuffer stippler and blitter
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="99c2d833c8d727fd05148486920aca032e908071"; Instance="production"
+X-Launchpad-Hash: 87d7272661c968c9e74f7c2d4e5032a2dfc78732
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/22 10:00:50
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ URIBL_BLOCKED=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -97,72 +73,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Huacai Chen <chenhc@lemote.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Reply-To: Bug 1892540 <1892540@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of setting the instance size on each implementations,
-set it on the abstract parent, so we are sure no implementation
-will forget to set it.
+The S24/TCX datasheet is listed as "Unable to locate" on [1].
 
-Reported-by: Eduardo Habkost <ehabkost@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+However the NetBSD revision 1.32 of the driver introduced
+64-bit accesses to the stippler and blitter [2]. It is safe
+to assume these memory regions are 64-bit accessible.
+QEMU implementation is 32-bit, so fill the 'impl' fields.
+
+[1] http://web.archive.org/web/20111209011516/http://wikis.sun.com/display/=
+FOSSdocs/Home
+[2] http://cvsweb.netbsd.org/bsdweb.cgi/src/sys/dev/sbus/tcx.c.diff?r1=3D1.=
+31&r2=3D1.32
+
+Reported-by: Andreas Gustafsson <gson@gson.org>
+Buglink: https://bugs.launchpad.net/bugs/1892540
+Fixes: 55d7bfe2293 ("tcx: Implement hardware acceleration")
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 ---
- hw/isa/isa-superio.c       | 2 +-
- hw/isa/smc37c669-superio.c | 1 -
- hw/isa/vt82c686.c          | 1 -
- 3 files changed, 1 insertion(+), 3 deletions(-)
+Since v1:
+- added missing uncommitted staged changes... (tcx_blit_ops)
+---
+ hw/display/tcx.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/hw/isa/isa-superio.c b/hw/isa/isa-superio.c
-index e2e47d8fd99..83eb21ebb2a 100644
---- a/hw/isa/isa-superio.c
-+++ b/hw/isa/isa-superio.c
-@@ -182,6 +182,7 @@ static const TypeInfo isa_superio_type_info = {
-     .name = TYPE_ISA_SUPERIO,
-     .parent = TYPE_ISA_DEVICE,
-     .abstract = true,
-+    .instance_size = sizeof(ISASuperIODevice),
-     .class_size = sizeof(ISASuperIOClass),
-     .class_init = isa_superio_class_init,
+diff --git a/hw/display/tcx.c b/hw/display/tcx.c
+index 1fb45b1aab8..96c6898b149 100644
+--- a/hw/display/tcx.c
++++ b/hw/display/tcx.c
+@@ -548,20 +548,28 @@ static const MemoryRegionOps tcx_stip_ops =3D {
+     .read =3D tcx_stip_readl,
+     .write =3D tcx_stip_writel,
+     .endianness =3D DEVICE_NATIVE_ENDIAN,
+-    .valid =3D {
++    .impl =3D {
+         .min_access_size =3D 4,
+         .max_access_size =3D 4,
+     },
++    .valid =3D {
++        .min_access_size =3D 4,
++        .max_access_size =3D 8,
++    },
  };
-@@ -200,7 +201,6 @@ static void fdc37m81x_class_init(ObjectClass *klass, void *data)
- static const TypeInfo fdc37m81x_type_info = {
-     .name          = TYPE_FDC37M81X_SUPERIO,
-     .parent        = TYPE_ISA_SUPERIO,
--    .instance_size = sizeof(ISASuperIODevice),
-     .class_init    = fdc37m81x_class_init,
+ =
+
+ static const MemoryRegionOps tcx_rstip_ops =3D {
+     .read =3D tcx_stip_readl,
+     .write =3D tcx_rstip_writel,
+     .endianness =3D DEVICE_NATIVE_ENDIAN,
+-    .valid =3D {
++    .impl =3D {
+         .min_access_size =3D 4,
+         .max_access_size =3D 4,
+     },
++    .valid =3D {
++        .min_access_size =3D 4,
++        .max_access_size =3D 8,
++    },
  };
- 
-diff --git a/hw/isa/smc37c669-superio.c b/hw/isa/smc37c669-superio.c
-index 18287741cb4..9e59dc16039 100644
---- a/hw/isa/smc37c669-superio.c
-+++ b/hw/isa/smc37c669-superio.c
-@@ -103,7 +103,6 @@ static void smc37c669_class_init(ObjectClass *klass, void *data)
- static const TypeInfo smc37c669_type_info = {
-     .name          = TYPE_SMC37C669_SUPERIO,
-     .parent        = TYPE_ISA_SUPERIO,
--    .instance_size = sizeof(ISASuperIODevice),
-     .class_size    = sizeof(ISASuperIOClass),
-     .class_init    = smc37c669_class_init,
+ =
+
+ static uint64_t tcx_blit_readl(void *opaque, hwaddr addr,
+@@ -650,10 +658,14 @@ static const MemoryRegionOps tcx_rblit_ops =3D {
+     .read =3D tcx_blit_readl,
+     .write =3D tcx_rblit_writel,
+     .endianness =3D DEVICE_NATIVE_ENDIAN,
+-    .valid =3D {
++    .impl =3D {
+         .min_access_size =3D 4,
+         .max_access_size =3D 4,
+     },
++    .valid =3D {
++        .min_access_size =3D 4,
++        .max_access_size =3D 8,
++    },
  };
-diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index 18160ca445d..a4b84d405d0 100644
---- a/hw/isa/vt82c686.c
-+++ b/hw/isa/vt82c686.c
-@@ -533,7 +533,6 @@ static void vt82c686b_superio_class_init(ObjectClass *klass, void *data)
- static const TypeInfo via_superio_info = {
-     .name          = TYPE_VT82C686B_SUPERIO,
-     .parent        = TYPE_ISA_SUPERIO,
--    .instance_size = sizeof(ISASuperIODevice),
-     .class_size    = sizeof(ISASuperIOClass),
-     .class_init    = vt82c686b_superio_class_init,
- };
--- 
+ =
+
+ static void tcx_invalidate_cursor_position(TCXState *s)
+-- =
+
 2.26.2
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1892540
+
+Title:
+  qemu can no longer boot NetBSD/sparc
+
+Status in QEMU:
+  New
+
+Bug description:
+  Booting NetBSD/sparc in qemu no longer works.  It broke between qemu
+  version 5.0.0 and 5.1.0, and a bisection identified the following as
+  the offending commit:
+
+    [5d971f9e672507210e77d020d89e0e89165c8fc9] memory: Revert "memory:
+  accept mismatching sizes in memory_region_access_valid"
+
+  It's still broken as of 7fd51e68c34fcefdb4d6fd646ed3346f780f89f4.
+
+  To reproduce, run
+
+    wget http://ftp.netbsd.org/pub/NetBSD/NetBSD-9.0/images/NetBSD-9.0-spar=
+c.iso
+    qemu-system-sparc -nographic -cdrom NetBSD-9.0-sparc.iso -boot d
+
+  The expected behavior is that the guest boots to the prompt
+
+    Installation medium to load the additional utilities from:
+
+  The observed behavior is a panic:
+
+    [   1.0000050] system[0]: trap 0x29: pc=3D0xf0046b14 sfsr=3D0xb6 sfva=
+=3D0x54000000
+    [   1.0000050] cpu0: data fault: pc=3D0xf0046b14 addr=3D0x54000000 sfsr=
+=3D0xb6<PERR=3D0x0,LVL=3D0x0,AT=3D0x5,FT=3D0x5,FAV,OW>
+    [   1.0000050] panic: kernel fault
+    [   1.0000050] halted
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1892540/+subscriptions
 
