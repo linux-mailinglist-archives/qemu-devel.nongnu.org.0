@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18E1024E5AC
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Aug 2020 07:56:15 +0200 (CEST)
-Received: from localhost ([::1]:36284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8A8924E5A3
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Aug 2020 07:52:55 +0200 (CEST)
+Received: from localhost ([::1]:47866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9MVi-0001e9-4V
-	for lists+qemu-devel@lfdr.de; Sat, 22 Aug 2020 01:56:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33988)
+	id 1k9MSU-0003Ny-Na
+	for lists+qemu-devel@lfdr.de; Sat, 22 Aug 2020 01:52:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=49637c5a7=alistair.francis@wdc.com>)
- id 1k9MR6-0001uT-46
- for qemu-devel@nongnu.org; Sat, 22 Aug 2020 01:51:28 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:62896)
+ id 1k9MQz-0001go-4S
+ for qemu-devel@nongnu.org; Sat, 22 Aug 2020 01:51:21 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:26625)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=49637c5a7=alistair.francis@wdc.com>)
- id 1k9MR3-0000E7-Se
- for qemu-devel@nongnu.org; Sat, 22 Aug 2020 01:51:27 -0400
+ id 1k9MQw-0000Cq-Fo
+ for qemu-devel@nongnu.org; Sat, 22 Aug 2020 01:51:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1598075503; x=1629611503;
+ t=1598075478; x=1629611478;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=sFvFvjNjpUCti0g6dQBNn6K8GaHBoa/jE4d+xGvVp5E=;
- b=ojjbGnRHZVNFu5mOVT0Q7bS74anThPSpcL4rOCFF6baa0A8JXeKEHAAG
- pMGGUOFQm7yIUPGnBFm4J46JVRVeTKuldbX/h5X+VsuqX88RyKR1tHFUA
- PA0q3XtkNkRAzbJp7gIYXgMnv3Il4SiJJ/pj6FWPENMIUBFUzyozw9VsS
- NjEIif8sDGak8WVOMn0J0Nueo+TeEsmvYJcMpWW5ew8fSd6bZz5ZzSowp
- U2Q/vypPBAQjjYh3STbml7dcyUauc1pauwVuueIfaJhdbZYZ7WMKg0INI
- Nq31eOps7d+EcNjxqiGO4D77eIeaezHOCIXbHPDb5gsDFUb82RoOwIIdU g==;
-IronPort-SDR: FVO892yeTC7NCK3hgV8WIbEfAl9xBxkIJykZEdBCU6z26Y2pdLggDIEq8xdeqmCdBiuJo3YeZD
- 3UiRe3jmZ6capucll/+VNBzyyRJvYqzvdyJKLSpa6bMgW8OKz1ZMNqE8SgCo6n4/AjTH/8/yla
- pbYFxcC5NVKBo/lFVpIOXmcZmZHeS/wC/BYWfQ2/Or+V2UC0lzYCW+FBf5BfaGOYOWKZKZacTs
- iEcX3LkBGUYXafxBQZ4VJuGsA74FGPkbVz55lPc7xUgI6mKY+Sc7NfXtjOiSLVnKSf4+wNg4Kj
- sfI=
-X-IronPort-AV: E=Sophos;i="5.76,339,1592841600"; d="scan'208";a="248764773"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ bh=QOEvjCXdTrn+yzhxdiLzckYSauafsPy96xz9Wgxo0EQ=;
+ b=gek9GKaq/E5FJxRBO7mkqV/a7G/AmAFUfLpNapasIxnt1Iir/HaNaGP/
+ gKGYxxPsvV2NmWua3zIkd92yBl2jljHhjMvrFsPEkgbW40BO+mO4bAtF7
+ r4GJSWn43S1IUdR8y0PKoIM4vzv+u1+vuZljj5Uupiigo2kt7PoHQxdHa
+ Ie7UnEwmABBUk96G3NJJaq9DFlnr/6doDJrCyt1jwCMHbsSX9xpAIfzhd
+ hEWAa0eEMI3R7U/3CQQIoo5J7BhrLTvAKEwEUtbAwhUEX3JboPgOO849o
+ JC8oDDRaeJlI1Q828TWNb1JU8cqsETs2o6vLM8SIKeB+6sdMo73ZJQcVu g==;
+IronPort-SDR: ChaYnD1e+X9zyQuNi5IhmiJz6l19oSVgFb5JK26WjhwLUPWXKX645c5aSdB4Ku6JtPO3nd8Yt9
+ 3TPB0B//+01XoSqjVLTdLHTnwiQHjUGeC29NqMHLBN/Q9C1pUB2St7cUPnexJoXVvl0P57XYou
+ Fz212JJFA8mU6F0kv+gwYWppDUmZ+EQbcX55Xr2JlTb6H8qCSqr8kVsQwSZR6203G/vyECPrIZ
+ JCreKl98G0Imtj8nRqpNJsnZFhn2O17kwYiXYh/M9c2dkQ8pgsqQUSg5QiJ70ob88z+dDAZKop
+ 9uQ=
+X-IronPort-AV: E=Sophos;i="5.76,339,1592841600"; d="scan'208";a="145571951"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 22 Aug 2020 13:51:29 +0800
-IronPort-SDR: qK+6Utd7VEpRT0Eb3N+sKtjRBrsYtcqrV2g8Q+FoJ/hOJNorZHGl91EPOD994bInVx5ihE3QYe
- R85zxlvGPoXQ==
+ by ob1.hgst.iphmx.com with ESMTP; 22 Aug 2020 13:51:17 +0800
+IronPort-SDR: 2hye634TuW8w0QOVO8nVQQxYJahC8oHTTnDEmM7+eT/7xHo0P9XmJvkn1CBTzTOu5pQ1iveK69
+ 46VIx6GaZs1w==
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Aug 2020 22:38:56 -0700
-IronPort-SDR: OTO316WXzKiZTHzemN+SHnREg48czRNP8JgcBzXYQqje9kM0PwYYV0bgcAWebJ5tCg+jiABtEH
- 2L3tRhSRPEGA==
+ 21 Aug 2020 22:38:57 -0700
+IronPort-SDR: FpjkWDG6VDJug1jG0HTBdB8XmLWFODg5Fh3sR7mFr9H7eZpziHsKXlij6YIcZ+WrvZ7GmIXkNL
+ zwg1G89pEdvw==
 WDCIronportException: Internal
 Received: from 5zn13g2.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.59.90])
  by uls-op-cesaip02.wdc.com with ESMTP; 21 Aug 2020 22:51:17 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 04/20] target/riscv: Check nanboxed inputs to fp helpers
-Date: Fri, 21 Aug 2020 22:40:45 -0700
-Message-Id: <20200822054101.1202175-5-alistair.francis@wdc.com>
+Subject: [PULL v3 05/20] target/riscv: Check nanboxed inputs in trans_rvf.inc.c
+Date: Fri, 21 Aug 2020 22:40:46 -0700
+Message-Id: <20200822054101.1202175-6-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200822054101.1202175-1-alistair.francis@wdc.com>
 References: <20200822054101.1202175-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=68.232.143.124;
+Received-SPF: pass client-ip=216.71.153.144;
  envelope-from=prvs=49637c5a7=alistair.francis@wdc.com;
- helo=esa2.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/22 01:51:23
+ helo=esa5.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/22 01:43:18
 X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -94,190 +94,155 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-If a 32-bit input is not properly nanboxed, then the input is
-replaced with the default qnan.
+If a 32-bit input is not properly nanboxed, then the input is replaced
+with the default qnan.  The only inline expansion is for the sign-changing
+set of instructions: FSGNJ.S, FSGNJX.S, FSGNJN.S.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-Id: <20200724002807.441147-5-richard.henderson@linaro.org>
+Message-Id: <20200724002807.441147-6-richard.henderson@linaro.org>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/internals.h  | 11 +++++++
- target/riscv/fpu_helper.c | 64 ++++++++++++++++++++++++++++-----------
- 2 files changed, 57 insertions(+), 18 deletions(-)
+ target/riscv/translate.c                | 18 +++++++
+ target/riscv/insn_trans/trans_rvf.c.inc | 71 +++++++++++++++++++------
+ 2 files changed, 73 insertions(+), 16 deletions(-)
 
-diff --git a/target/riscv/internals.h b/target/riscv/internals.h
-index 9f4ba7d617..f1a546dba6 100644
---- a/target/riscv/internals.h
-+++ b/target/riscv/internals.h
-@@ -43,4 +43,15 @@ static inline uint64_t nanbox_s(float32 f)
-     return f | MAKE_64BIT_MASK(32, 32);
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 1290faddda..3919f570f7 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -101,6 +101,24 @@ static void gen_nanbox_s(TCGv_i64 out, TCGv_i64 in)
+     tcg_gen_ori_i64(out, in, MAKE_64BIT_MASK(32, 32));
  }
  
-+static inline float32 check_nanbox_s(uint64_t f)
++/*
++ * A narrow n-bit operation, where n < FLEN, checks that input operands
++ * are correctly Nan-boxed, i.e., all upper FLEN - n bits are 1.
++ * If so, the least-significant bits of the input are used, otherwise the
++ * input value is treated as an n-bit canonical NaN (v2.2 section 9.2).
++ *
++ * Here, the result is always nan-boxed, even the canonical nan.
++ */
++static void gen_check_nanbox_s(TCGv_i64 out, TCGv_i64 in)
 +{
-+    uint64_t mask = MAKE_64BIT_MASK(32, 32);
++    TCGv_i64 t_max = tcg_const_i64(0xffffffff00000000ull);
++    TCGv_i64 t_nan = tcg_const_i64(0xffffffff7fc00000ull);
 +
-+    if (likely((f & mask) == mask)) {
-+        return (uint32_t)f;
-+    } else {
-+        return 0x7fc00000u; /* default qnan */
-+    }
++    tcg_gen_movcond_i64(TCG_COND_GEU, out, in, t_max, in, t_nan);
++    tcg_temp_free_i64(t_max);
++    tcg_temp_free_i64(t_nan);
 +}
 +
- #endif
-diff --git a/target/riscv/fpu_helper.c b/target/riscv/fpu_helper.c
-index 72541958a7..bb346a8249 100644
---- a/target/riscv/fpu_helper.c
-+++ b/target/riscv/fpu_helper.c
-@@ -81,9 +81,12 @@ void helper_set_rounding_mode(CPURISCVState *env, uint32_t rm)
-     set_float_rounding_mode(softrm, &env->fp_status);
- }
- 
--static uint64_t do_fmadd_s(CPURISCVState *env, uint64_t frs1, uint64_t frs2,
--                           uint64_t frs3, int flags)
-+static uint64_t do_fmadd_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2,
-+                           uint64_t rs3, int flags)
+ static void generate_exception(DisasContext *ctx, int excp)
  {
-+    float32 frs1 = check_nanbox_s(rs1);
-+    float32 frs2 = check_nanbox_s(rs2);
-+    float32 frs3 = check_nanbox_s(rs3);
-     return nanbox_s(float32_muladd(frs1, frs2, frs3, flags, &env->fp_status));
- }
- 
-@@ -139,74 +142,97 @@ uint64_t helper_fnmadd_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2,
-                           float_muladd_negate_product, &env->fp_status);
- }
- 
--uint64_t helper_fadd_s(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
-+uint64_t helper_fadd_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
+     tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next);
+diff --git a/target/riscv/insn_trans/trans_rvf.c.inc b/target/riscv/insn_trans/trans_rvf.c.inc
+index 264d3139f1..832f01db6f 100644
+--- a/target/riscv/insn_trans/trans_rvf.c.inc
++++ b/target/riscv/insn_trans/trans_rvf.c.inc
+@@ -161,47 +161,86 @@ static bool trans_fsgnj_s(DisasContext *ctx, arg_fsgnj_s *a)
  {
-+    float32 frs1 = check_nanbox_s(rs1);
-+    float32 frs2 = check_nanbox_s(rs2);
-     return nanbox_s(float32_add(frs1, frs2, &env->fp_status));
+     REQUIRE_FPU;
+     REQUIRE_EXT(ctx, RVF);
++
+     if (a->rs1 == a->rs2) { /* FMOV */
+-        tcg_gen_mov_i64(cpu_fpr[a->rd], cpu_fpr[a->rs1]);
++        gen_check_nanbox_s(cpu_fpr[a->rd], cpu_fpr[a->rs1]);
+     } else { /* FSGNJ */
+-        tcg_gen_deposit_i64(cpu_fpr[a->rd], cpu_fpr[a->rs2], cpu_fpr[a->rs1],
+-                            0, 31);
++        TCGv_i64 rs1 = tcg_temp_new_i64();
++        TCGv_i64 rs2 = tcg_temp_new_i64();
++
++        gen_check_nanbox_s(rs1, cpu_fpr[a->rs1]);
++        gen_check_nanbox_s(rs2, cpu_fpr[a->rs2]);
++
++        /* This formulation retains the nanboxing of rs2. */
++        tcg_gen_deposit_i64(cpu_fpr[a->rd], rs2, rs1, 0, 31);
++        tcg_temp_free_i64(rs1);
++        tcg_temp_free_i64(rs2);
+     }
+-    gen_nanbox_s(cpu_fpr[a->rd], cpu_fpr[a->rd]);
+     mark_fs_dirty(ctx);
+     return true;
  }
  
--uint64_t helper_fsub_s(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
-+uint64_t helper_fsub_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
+ static bool trans_fsgnjn_s(DisasContext *ctx, arg_fsgnjn_s *a)
  {
-+    float32 frs1 = check_nanbox_s(rs1);
-+    float32 frs2 = check_nanbox_s(rs2);
-     return nanbox_s(float32_sub(frs1, frs2, &env->fp_status));
++    TCGv_i64 rs1, rs2, mask;
++
+     REQUIRE_FPU;
+     REQUIRE_EXT(ctx, RVF);
++
++    rs1 = tcg_temp_new_i64();
++    gen_check_nanbox_s(rs1, cpu_fpr[a->rs1]);
++
+     if (a->rs1 == a->rs2) { /* FNEG */
+-        tcg_gen_xori_i64(cpu_fpr[a->rd], cpu_fpr[a->rs1], INT32_MIN);
++        tcg_gen_xori_i64(cpu_fpr[a->rd], rs1, MAKE_64BIT_MASK(31, 1));
+     } else {
+-        TCGv_i64 t0 = tcg_temp_new_i64();
+-        tcg_gen_not_i64(t0, cpu_fpr[a->rs2]);
+-        tcg_gen_deposit_i64(cpu_fpr[a->rd], t0, cpu_fpr[a->rs1], 0, 31);
+-        tcg_temp_free_i64(t0);
++        rs2 = tcg_temp_new_i64();
++        gen_check_nanbox_s(rs2, cpu_fpr[a->rs2]);
++
++        /*
++         * Replace bit 31 in rs1 with inverse in rs2.
++         * This formulation retains the nanboxing of rs1.
++         */
++        mask = tcg_const_i64(~MAKE_64BIT_MASK(31, 1));
++        tcg_gen_nor_i64(rs2, rs2, mask);
++        tcg_gen_and_i64(rs1, mask, rs1);
++        tcg_gen_or_i64(cpu_fpr[a->rd], rs1, rs2);
++
++        tcg_temp_free_i64(mask);
++        tcg_temp_free_i64(rs2);
+     }
+-    gen_nanbox_s(cpu_fpr[a->rd], cpu_fpr[a->rd]);
++    tcg_temp_free_i64(rs1);
++
+     mark_fs_dirty(ctx);
+     return true;
  }
  
--uint64_t helper_fmul_s(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
-+uint64_t helper_fmul_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
+ static bool trans_fsgnjx_s(DisasContext *ctx, arg_fsgnjx_s *a)
  {
-+    float32 frs1 = check_nanbox_s(rs1);
-+    float32 frs2 = check_nanbox_s(rs2);
-     return nanbox_s(float32_mul(frs1, frs2, &env->fp_status));
++    TCGv_i64 rs1, rs2;
++
+     REQUIRE_FPU;
+     REQUIRE_EXT(ctx, RVF);
++
++    rs1 = tcg_temp_new_i64();
++    gen_check_nanbox_s(rs1, cpu_fpr[a->rs1]);
++
+     if (a->rs1 == a->rs2) { /* FABS */
+-        tcg_gen_andi_i64(cpu_fpr[a->rd], cpu_fpr[a->rs1], ~INT32_MIN);
++        tcg_gen_andi_i64(cpu_fpr[a->rd], rs1, ~MAKE_64BIT_MASK(31, 1));
+     } else {
+-        TCGv_i64 t0 = tcg_temp_new_i64();
+-        tcg_gen_andi_i64(t0, cpu_fpr[a->rs2], INT32_MIN);
+-        tcg_gen_xor_i64(cpu_fpr[a->rd], cpu_fpr[a->rs1], t0);
+-        tcg_temp_free_i64(t0);
++        rs2 = tcg_temp_new_i64();
++        gen_check_nanbox_s(rs2, cpu_fpr[a->rs2]);
++
++        /*
++         * Xor bit 31 in rs1 with that in rs2.
++         * This formulation retains the nanboxing of rs1.
++         */
++        tcg_gen_andi_i64(rs2, rs2, MAKE_64BIT_MASK(31, 1));
++        tcg_gen_xor_i64(cpu_fpr[a->rd], rs1, rs2);
++
++        tcg_temp_free_i64(rs2);
+     }
+-    gen_nanbox_s(cpu_fpr[a->rd], cpu_fpr[a->rd]);
++    tcg_temp_free_i64(rs1);
++
+     mark_fs_dirty(ctx);
+     return true;
  }
- 
--uint64_t helper_fdiv_s(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
-+uint64_t helper_fdiv_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
- {
-+    float32 frs1 = check_nanbox_s(rs1);
-+    float32 frs2 = check_nanbox_s(rs2);
-     return nanbox_s(float32_div(frs1, frs2, &env->fp_status));
- }
- 
--uint64_t helper_fmin_s(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
-+uint64_t helper_fmin_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
- {
-+    float32 frs1 = check_nanbox_s(rs1);
-+    float32 frs2 = check_nanbox_s(rs2);
-     return nanbox_s(float32_minnum(frs1, frs2, &env->fp_status));
- }
- 
--uint64_t helper_fmax_s(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
-+uint64_t helper_fmax_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
- {
-+    float32 frs1 = check_nanbox_s(rs1);
-+    float32 frs2 = check_nanbox_s(rs2);
-     return nanbox_s(float32_maxnum(frs1, frs2, &env->fp_status));
- }
- 
--uint64_t helper_fsqrt_s(CPURISCVState *env, uint64_t frs1)
-+uint64_t helper_fsqrt_s(CPURISCVState *env, uint64_t rs1)
- {
-+    float32 frs1 = check_nanbox_s(rs1);
-     return nanbox_s(float32_sqrt(frs1, &env->fp_status));
- }
- 
--target_ulong helper_fle_s(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
-+target_ulong helper_fle_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
- {
-+    float32 frs1 = check_nanbox_s(rs1);
-+    float32 frs2 = check_nanbox_s(rs2);
-     return float32_le(frs1, frs2, &env->fp_status);
- }
- 
--target_ulong helper_flt_s(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
-+target_ulong helper_flt_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
- {
-+    float32 frs1 = check_nanbox_s(rs1);
-+    float32 frs2 = check_nanbox_s(rs2);
-     return float32_lt(frs1, frs2, &env->fp_status);
- }
- 
--target_ulong helper_feq_s(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
-+target_ulong helper_feq_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
- {
-+    float32 frs1 = check_nanbox_s(rs1);
-+    float32 frs2 = check_nanbox_s(rs2);
-     return float32_eq_quiet(frs1, frs2, &env->fp_status);
- }
- 
--target_ulong helper_fcvt_w_s(CPURISCVState *env, uint64_t frs1)
-+target_ulong helper_fcvt_w_s(CPURISCVState *env, uint64_t rs1)
- {
-+    float32 frs1 = check_nanbox_s(rs1);
-     return float32_to_int32(frs1, &env->fp_status);
- }
- 
--target_ulong helper_fcvt_wu_s(CPURISCVState *env, uint64_t frs1)
-+target_ulong helper_fcvt_wu_s(CPURISCVState *env, uint64_t rs1)
- {
-+    float32 frs1 = check_nanbox_s(rs1);
-     return (int32_t)float32_to_uint32(frs1, &env->fp_status);
- }
- 
- #if defined(TARGET_RISCV64)
--uint64_t helper_fcvt_l_s(CPURISCVState *env, uint64_t frs1)
-+uint64_t helper_fcvt_l_s(CPURISCVState *env, uint64_t rs1)
- {
-+    float32 frs1 = check_nanbox_s(rs1);
-     return float32_to_int64(frs1, &env->fp_status);
- }
- 
--uint64_t helper_fcvt_lu_s(CPURISCVState *env, uint64_t frs1)
-+uint64_t helper_fcvt_lu_s(CPURISCVState *env, uint64_t rs1)
- {
-+    float32 frs1 = check_nanbox_s(rs1);
-     return float32_to_uint64(frs1, &env->fp_status);
- }
- #endif
-@@ -233,8 +259,9 @@ uint64_t helper_fcvt_s_lu(CPURISCVState *env, uint64_t rs1)
- }
- #endif
- 
--target_ulong helper_fclass_s(uint64_t frs1)
-+target_ulong helper_fclass_s(uint64_t rs1)
- {
-+    float32 frs1 = check_nanbox_s(rs1);
-     return fclass_s(frs1);
- }
- 
-@@ -275,7 +302,8 @@ uint64_t helper_fcvt_s_d(CPURISCVState *env, uint64_t rs1)
- 
- uint64_t helper_fcvt_d_s(CPURISCVState *env, uint64_t rs1)
- {
--    return float32_to_float64(rs1, &env->fp_status);
-+    float32 frs1 = check_nanbox_s(rs1);
-+    return float32_to_float64(frs1, &env->fp_status);
- }
- 
- uint64_t helper_fsqrt_d(CPURISCVState *env, uint64_t frs1)
 -- 
 2.28.0
 
