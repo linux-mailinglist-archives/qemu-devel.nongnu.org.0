@@ -2,88 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 619D824EA08
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Aug 2020 23:42:05 +0200 (CEST)
-Received: from localhost ([::1]:47826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37F9324EA0E
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 Aug 2020 00:12:31 +0200 (CEST)
+Received: from localhost ([::1]:54272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9bH2-0007oB-0o
-	for lists+qemu-devel@lfdr.de; Sat, 22 Aug 2020 17:42:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52168)
+	id 1k9bkT-0004jQ-Pt
+	for lists+qemu-devel@lfdr.de; Sat, 22 Aug 2020 18:12:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k9bFg-00070W-53; Sat, 22 Aug 2020 17:40:41 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:33888)
+ (Exim 4.90_1)
+ (envelope-from <bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com>)
+ id 1k9bjk-0004KJ-Bl
+ for qemu-devel@nongnu.org; Sat, 22 Aug 2020 18:11:44 -0400
+Received: from do158-143.mg.gitlab.com ([192.237.158.143]:28334)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k9bFd-00057x-Rr; Sat, 22 Aug 2020 17:40:39 -0400
-Received: by mail-wm1-x343.google.com with SMTP id c19so3542235wmd.1;
- Sat, 22 Aug 2020 14:40:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Fv5box83k12mdUQDPoBRjIvFUAI8sC/U8NXckL9zSGQ=;
- b=psoQbN0bohZPR3v3Ho5MQ1B3R82cJXugJS6dVLGnF3X/2L4tXYFcQPkg+v2iRtHDcR
- Cly2mLLety9DfmfZ9NxnkilW3W2bruaocp0F/okv2Q38r8KzQtUZoQwCCql2BJJn/GqL
- rH9dAIo9uXRXOU7AKPxiaaQoFVo64wTS4f4qttcHcuI0Eshfl7SrFKUNavOB1ED+IZt5
- Etur/s/NxiJYnPTogOEYN2Um+C6DChtvi71gN8jr/ce2upDK9B9pLoGzZKeY6pGPPHvb
- s6PUbEzt5kiTyPL4P/uHPOGPlNhbIK2j+rPKkrAjEpOyrPdFic/Jj2TT1HSmhsHtEmtC
- QtUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Fv5box83k12mdUQDPoBRjIvFUAI8sC/U8NXckL9zSGQ=;
- b=lQGbu9mdFn4DvhYpjgJfDYRS+gv24qvlobq26wVCujbuzY2hjjUF9B40uoXFfJ4+xa
- L+0KNHcdR769b4fXZaoJOvSGLfMCM5tMjU3VlW0J8jW+GAdzbfxtUn4I2XIAj0uf7c/9
- xQqZyvuJh2jmg/nIYMxgDhQF59G8tURzvg7RiAN69+UvqoVIj7ipufcCJ5rvf8j2OlaW
- xhV1dIXIOZgIJN3vhi8IolkxJGaz7AnLcjrQKlGxDHn6ArxcY+0pUeeoWvc2sMdRs02S
- 65UvSMTmk+uvucdc4PAzDQ2mmfb2bRov2PgKwSzMDBcKmo3jgO6ba4yWNyuRB2hHXrLD
- vZaQ==
-X-Gm-Message-State: AOAM530/KqBeo41o4xWUjMPo1nbvsjMIsKP0NpyxT8oLTdF9p/5HHGD4
- RU99zVXon3oocrou3LZxWFY=
-X-Google-Smtp-Source: ABdhPJxBn934NvjgRNsYdxFC8KBENE93HFnlynAzYOIKEjHY3zJ/UwlACtcP/DvBXNbFEXGMZXRTKA==
-X-Received: by 2002:a1c:ed15:: with SMTP id l21mr83023wmh.56.1598132435242;
- Sat, 22 Aug 2020 14:40:35 -0700 (PDT)
-Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id s2sm12830084wrr.55.2020.08.22.14.40.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 22 Aug 2020 14:40:34 -0700 (PDT)
-Subject: Re: [PATCH v7 13/13] tests/acceptance: console boot tests for
- quanta-gsj
-To: Havard Skinnemoen <hskinnemoen@google.com>
-References: <20200811004607.2133149-1-hskinnemoen@google.com>
- <20200811004607.2133149-14-hskinnemoen@google.com>
- <64f8cd56-306e-4961-488b-36c666894a54@amsat.org>
- <CAFQmdRbvSKYJ00tE_79Eh+gW_ge8kEco=1gqFtvMcoJGraozdw@mail.gmail.com>
- <CAFQmdRZCk5Rqb1C2TRCEUMaKmF608g2_Or8mLCTSG03nCQ1Ygg@mail.gmail.com>
- <28a30c64-7cc5-4b4f-2be2-b3d3af511cb1@amsat.org>
- <CAFQmdRYFLUdbs5mj3zHzNN1y+bvQXCrtGhY_iOLVfnydGxM0Jw@mail.gmail.com>
- <6a23375f-64ec-cfdd-10cf-272eef719dd6@amsat.org>
- <CAFQmdRY9GSqjW+wcbRzsC6dEB9KMibnxWAp+F6jpmf2_9iBEFw@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <9fb5dbf1-f3bb-08a0-9758-a1d2e742a3d9@amsat.org>
-Date: Sat, 22 Aug 2020 23:40:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-MIME-Version: 1.0
-In-Reply-To: <CAFQmdRY9GSqjW+wcbRzsC6dEB9KMibnxWAp+F6jpmf2_9iBEFw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1)
+ (envelope-from <bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com>)
+ id 1k9bji-0008Pr-A5
+ for qemu-devel@nongnu.org; Sat, 22 Aug 2020 18:11:44 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.gitlab.com;
+ q=dns/txt; 
+ s=mailo; t=1598134300; h=List-Id: Content-Transfer-Encoding:
+ Content-Type: Mime-Version: Subject: Message-ID: Reply-To: From: Date:
+ Sender; bh=/h8aYa/p2ZXCt4NEW8itBXJsASIKaXP8VGuOKC7AIFo=;
+ b=QB0P8obTo3HfXoPujiOvFzpHgnbvUZnAooAeoZWKg7zWNXQ9XAKrmEVQpXsCnQ//QNAPn4wL
+ dtrm6bMt35sfSBv2tKUtB4xA8StqYJvMxps1PeGBf03P8nsiqFCc3uT25w4agJkGc9XYYotu
+ ubwDiNU0Wulu7WvxPMmjif7ac+8=
+X-Mailgun-Sending-Ip: 192.237.158.143
+X-Mailgun-Sid: WyI3MWYzYSIsICJxZW11LWRldmVsQG5vbmdudS5vcmciLCAiOTQ3YjQiXQ==
+Received: from mg.gitlab.com (64.90.74.34.bc.googleusercontent.com
+ [34.74.90.64]) by smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
+ 5f41981b0c97c4532aa11a8d (version=TLS1.3, cipher=TLS_AES_128_GCM_SHA256);
+ Sat, 22 Aug 2020 22:11:39 GMT
+Date: Sat, 22 Aug 2020 22:11:38 +0000
+Message-ID: <5f41981a85020_e413ff23f57b1bc3768c@sidekiq-catchall-07-sv-gprd.mail>
+Subject: QEMU | Pipeline #180896236 has failed for master | 66e01f1c
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="--==_mimepart_5f41981a5771e_e413ff23f57b1bc37520";
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-GitLab-Project: QEMU
+X-GitLab-Project-Id: 11167699
+X-GitLab-Project-Path: qemu-project/qemu
+X-GitLab-Pipeline-Id: 180896236
+X-GitLab-Pipeline-Ref: master
+X-GitLab-Pipeline-Status: failed
+Auto-Submitted: auto-generated
+X-Auto-Response-Suppress: All
+Received-SPF: pass client-ip=192.237.158.143;
+ envelope-from=bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com;
+ helo=do158-143.mg.gitlab.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/22 16:29:35
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HTML_FONT_LOW_CONTRAST=0.001, HTML_MESSAGE=0.001, MISSING_HEADERS=1.021,
+ RCVD_IN_DNSWL_MED=-2.3, REPLYTO_WITHOUT_TO_CC=1.552, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,206 +76,522 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>, Andrew Jeffery <andrew@aj.id.au>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Joel Stanley <joel@jms.id.au>, CS20 KFTing <kfting@nuvoton.com>,
- qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goate?= =?UTF-8?Q?r?= <clg@kaod.org>,
- Cleber Rosa <crosa@redhat.com>, Richard Henderson <rth@twiddle.net>,
- IS20 Avi Fishman <Avi.Fishman@nuvoton.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: GitLab <noreply@gitlab.com>, GitLab <gitlab@mg.gitlab.com>
+From: GitLab via <qemu-devel@nongnu.org>
 
-Hi Havard,
 
-On 8/20/20 10:30 PM, Havard Skinnemoen wrote:
-> On Thu, Aug 20, 2020 at 10:46 AM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> On 8/20/20 6:24 PM, Havard Skinnemoen wrote:
->>> On Wed, Aug 19, 2020 at 10:29 PM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>>>
->>>> +Eric / Richard for compiler optimizations.
->>>>
->>>> On 8/20/20 3:53 AM, Havard Skinnemoen wrote:
->>>>> On Tue, Aug 11, 2020 at 8:26 PM Havard Skinnemoen
->>>>> <hskinnemoen@google.com> wrote:
->>>>>>
->>>>>> On Tue, Aug 11, 2020 at 1:48 AM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>>>>>> INTERRUPTED: Test interrupted by SIGTERM
->>>>>>> Runner error occurred: Timeout reached
->>>>>>> (240.45 s)
->>>>>>>
->>>>>>> Is that expected?
->>>>>>
->>>>>> I'm not sure why it only happens when running direct kernel boot with
->>>>>> unoptimized qemu, but it seems a little happier if I enable a few more
->>>>>> peripherals that I have queued up (sd, ehci, ohci and rng), though not
->>>>>> enough.
->>>>>>
->>>>>> It still stalls for an awfully long time on "console: Run /init as
->>>>>> init process" though. I'm not sure what it's doing there. With -O2 it
->>>>>> only takes a couple of seconds to move on.
->>>>>
->>>>> So it turns out that the kernel gets _really_ sluggish when skipping
->>>>> the clock initialization normally done by the boot loader.
->>>>>
->>>>> I changed the reset value of CLKSEL like this:
->>>>>
->>>>> diff --git a/hw/misc/npcm7xx_clk.c b/hw/misc/npcm7xx_clk.c
->>>>> index 21ab4200d1..5e9849410f 100644
->>>>> --- a/hw/misc/npcm7xx_clk.c
->>>>> +++ b/hw/misc/npcm7xx_clk.c
->>>>> @@ -67,7 +67,7 @@ enum NPCM7xxCLKRegisters {
->>>>>   */
->>>>>  static const uint32_t cold_reset_values[NPCM7XX_CLK_NR_REGS] = {
->>>>>      [NPCM7XX_CLK_CLKEN1]        = 0xffffffff,
->>>>> -    [NPCM7XX_CLK_CLKSEL]        = 0x004aaaaa,
->>>>> +    [NPCM7XX_CLK_CLKSEL]        = 0x004aaba9,
->>>>>      [NPCM7XX_CLK_CLKDIV1]       = 0x5413f855,
->>>>>      [NPCM7XX_CLK_PLLCON0]       = 0x00222101 | PLLCON_LOKI,
->>>>>      [NPCM7XX_CLK_PLLCON1]       = 0x00202101 | PLLCON_LOKI,
->>>>>
->>>>> which switches the CPU core and UART to run from PLL2 instead of
->>>>> CLKREF (25 MHz).
->>>>>
->>>>> With this change, the test passes without optimization:
->>>>>
->>>>>  (02/19) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_quanta_gsj_initrd:
->>>>> PASS (39.62 s)
->>>>>
->>>>> It doesn't look like this change hurts booting from the bootrom (IIUC
->>>>> the nuvoton bootblock overwrites CLKSEL anyway), but it's not super
->>>>> clean.
->>>>>
->>>>> Perhaps I should make it conditional on kernel_filename being set? Or
->>>>> would it be better to provide a write_board_setup hook for this?
->>>>
->>>> QEMU prefers to avoid ifdef'ry at all cost. However I find this
->>>> approach acceptable (anyway up to the maintainer):
->>>>
->>>> +static void npcm7xx_clk_cold_reset_fixup(NPCM7xxCLKState *s)
->>>> +{
->>>> +#ifndef __OPTIMIZE__
->>>> +    /*
->>>> +     * When built without optimization, ...
->>>> +     * so run CPU core and UART from PLL2 instead of CLKREF.
->>>> +     */
->>>> +    s->regs[NPCM7XX_CLK_CLKSEL] |= 0x103,
->>>> +#endif
->>>> +}
->>>
->>> I think this is actually a problem regardless of optimization level.
->>> Turning optimization off amplifies the problem, but the problem is
->>> still there with optimization on.
->>
->> OK, this reminds me few more details about the problem I had with the
->> raspi3 when adding the ClockPowerResetManager block.
->> Found the branch. A bit bitter/sad it was more than 1 year ago.
->>
->> So if ARM_FEATURE_GENERIC_TIMER is available, Linux polls the CNTFRQ_EL0
->> register. At that time this register were using a fixed frequency:
->>
->> #define ARM_CPU_FREQ 1000000000 /* FIXME: 1 GHz, should be configurable */
->>
->> Xilinx' fork does it this way:
->> https://github.com/Xilinx/qemu/commit/9e939b54e2d
->>
->> Now I see Andrew Jeffery fixed that in 96eec6b2b38
->> ("target/arm: Prepare generic timer for per-platform CNTFRQ")
->> adding a 'cntfrq' property, which he then sets in the Aspeed
->> machine in commit 058d095532d ("ast2600: Configure CNTFRQ at 1125MHz").
->>
->> Maybe your SoC is simply missing this property?
-> 
-> Hmm, it doesn't look like Cortex-A9 has this property...
-> 
-> Unexpected error in object_property_find() at
-> /usr/local/google/home/hskinnemoen/qemu/upstream/qom/object.c:1254:
-> qemu-system-arm: Property '.cntfrq' not found
-> 
-> However, I did notice there are a lot of constraints on input
-> frequencies to the CPU and various peripherals, and many of these are
-> not met by the power-on reset values.
+----==_mimepart_5f41981a5771e_e413ff23f57b1bc37520
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Oh OK.
 
-> 
-> For example, the UART needs a 24 MHz input clock, but there's no way
-> to generate this from the default 25 MHz reference clock. However,
-> PLL2 is set up to run at 960 MHz by default (as soon as it's locked),
-> with a fixed /2 divider. The UART uses a /20 divider by default, so it
-> gets a 25 MHz / 20 = 1.25 MHz clock with power-on defaults. However,
-> switching the source to PLL2 results in 960 MHz / 2 / 20 = 24 MHz.
 
-Yes, thanks to Damien's work we can now use the Clock API to model
-that correctly. This API is very recent, and very few devices use
-it. We need to adapt them one by one.
+Your pipeline has failed.
 
-I started with the serial:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg727975.html
+Project: QEMU ( https://gitlab.com/qemu-project/qemu )
+Branch: master ( https://gitlab.com/qemu-project/qemu/-/commits/master )
 
-> Similarly, the CPU is supposed to run at 800 MHz, but it runs at 25
-> MHz with power-on defaults. PLL1 runs at 800 MHz by default, with a
-> fixed /2 divider. The boot loader doubles the feedback divider so it
-> turns into 1600 MHz / 2 = 800 MHz.
+Commit: 66e01f1c ( https://gitlab.com/qemu-project/qemu/-/commit/66e01f1c=
+dc9663660201cced4df8ec0a28937919 )
+Commit Message: Merge remote-tracking branch 'remotes/ericb/tag...
+Commit Author: Peter Maydell ( https://gitlab.com/pm215 )
 
-I noticed in my projects is that the Clock API lacks something
-like a FixedDividerClock. qdev_init_clock_in() expects a callback,
-but with fixed divisor we could have the divisor in a state and
-use a generic callback, but the callback doesn't take pointer to
-state.
+Pipeline #180896236 ( https://gitlab.com/qemu-project/qemu/-/pipelines/18=
+0896236 ) triggered by Alex Benn=C3=A9e ( https://gitlab.com/stsquad )
+had 1 failed build.
 
-Maybe that can be a new field in NamedClockList. I didn't had time
-to write patches tests and ping Damien/Peter about it, but will do
-during Sept.
+Job #698992740 ( https://gitlab.com/qemu-project/qemu/-/jobs/698992740/ra=
+w )
 
-> 
-> Turns out I was wrong above, the patch snippet routes PLL1, not PLL2,
-> to the CPU. But it will only result in half the recommended speed, so
-> a patch to PLLCON1 is needed as well.
-> 
-> It seems like the cleanest solution would be to add a
-> write_board_setup hook to fix up these registers so clocks are within
-> normal ranges when bypassing the boot loader. In particular:
-> 
->   - Switch UART to PLL2 for a 24 MHz input clock.
->   - Set up PLL1 to run at 1600 MHz.
->   - Switch the CPU core to PLL1 / 2 for a 800 MHz input clock.
-> 
-> Does that make sense? It should be just three simple register writes,
-> which is doable with hand-edited machine code.
+Stage: test
+Name: acceptance-system-fedora
+Trace: 21:56:11 ERROR| =
 
-It makes sense but since (I guess) we could properly model that using
-the Clock API, this hook is a temporary kludge...
-I'm not against it however, since except this detail, this series is
-almost perfect, and you already spent enough time.
-IOW IMHO this kludge is acceptable for now, and modelling the missing
-parts to use the Clock API can be done on top (or not...).
+21:56:11 ERROR| Reproduced traceback from: /builds/qemu-project/qemu/buil=
+d/tests/venv/lib64/python3.8/site-packages/avocado/core/test.py:846
+21:56:11 ERROR| Traceback (most recent call last):
+21:56:11 ERROR|   File "/builds/qemu-project/qemu/build/tests/acceptance/=
+avocado_qemu/__init__.py", line 171, in setUp
+21:56:11 ERROR|     self.cancel("No QEMU binary defined or found in the b=
+uild tree")
+21:56:11 ERROR|   File "/builds/qemu-project/qemu/build/tests/venv/lib64/=
+python3.8/site-packages/avocado/core/test.py", line 1081, in cancel
+21:56:11 ERROR|     raise exceptions.TestCancel(message)
+21:56:11 ERROR| avocado.core.exceptions.TestCancel: No QEMU binary define=
+d or found in the build tree
+21:56:11 ERROR| =
 
-> 
-> I'll add this as a separate patch (right before the acceptance test)
-> so it's clear what's happening.
-> 
-> Unfortunately, I haven't been able to make the flash boot test pass
-> without optimization. U-boot seems to have a tiny buffer for the
-> command line, so I can only disable two or three systemd services
-> before it gets truncated. I might try to create a reduced openbmc
-> image instead.
+21:56:11 ERROR| CANCEL 31-tests/acceptance/vnc.py:Vnc.test_change_passwor=
+d_requires_a_password -> TestCancel: No QEMU binary defined or found in t=
+he build tree
+21:56:11 INFO | =
 
-I haven't think of that limitation. I rather prefer we test the
-original OpenBMC image. Simply disable the 3 longest services,
-and we'll adjust the test time.
+21:56:11 DEBUG| PARAMS (key=3Darch, path=3D*, default=3DNone) =3D> None
+21:56:11 DEBUG| PARAMS (key=3Dmachine, path=3D*, default=3DNone) =3D> Non=
+e
+21:56:11 DEBUG| PARAMS (key=3Dqemu_bin, path=3D*, default=3DNone) =3D> No=
+ne
+21:56:11 ERROR| =
 
-Thanks for the detailed info you provided.
+21:56:11 ERROR| Reproduced traceback from: /builds/qemu-project/qemu/buil=
+d/tests/venv/lib64/python3.8/site-packages/avocado/core/test.py:846
+21:56:11 ERROR| Traceback (most recent call last):
+21:56:11 ERROR|   File "/builds/qemu-project/qemu/build/tests/acceptance/=
+avocado_qemu/__init__.py", line 171, in setUp
+21:56:11 ERROR|     self.cancel("No QEMU binary defined or found in the b=
+uild tree")
+21:56:11 ERROR|   File "/builds/qemu-project/qemu/build/tests/venv/lib64/=
+python3.8/site-packages/avocado/core/test.py", line 1081, in cancel
+21:56:11 ERROR|     raise exceptions.TestCancel(message)
+21:56:11 ERROR| avocado.core.exceptions.TestCancel: No QEMU binary define=
+d or found in the build tree
+21:56:11 ERROR| =
 
-Regards,
+21:56:11 ERROR| CANCEL 32-tests/acceptance/vnc.py:Vnc.test_change_passwor=
+d -> TestCancel: No QEMU binary defined or found in the build tree
+21:56:11 INFO | =
 
-Phil.
+=1B[32;1m$ du -chs ${CI_PROJECT_DIR}/avocado-cache=1B[0;m
+323M	/builds/qemu-project/qemu/avocado-cache
+323M	total
+section_end:1598133373:after_script
+=1B[0K=1B[31;1mERROR: Job failed: exit code 1
+=1B[0;m
 
-> 
-> Havard
-> 
+
+-- =
+
+You're receiving this email because of your account on gitlab.com.
+
+
+
+
+----==_mimepart_5f41981a5771e_e413ff23f57b1bc37520
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://ww=
+w.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns=3D"http://www.w3.org/1999/xhtml" lang=3D"en" xml:lang=3D"en">=
+
+<head>
+<meta content=3D"text/html; charset=3DUTF-8" http-equiv=3D"Content-Type" =
+/>
+<meta content=3D"width=3Ddevice-width, initial-scale=3D1" name=3D"viewpor=
+t" />
+<meta content=3D"IE=3Dedge" http-equiv=3D"X-UA-Compatible" />
+<title>QEMU | Pipeline #180896236 has failed for master | 66e01f1c</title=
+>
+<style data-premailer=3D"ignore" type=3D"text/css">
+body,table,td,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}t=
+able,td{mso-table-lspace:0pt;mso-table-rspace:0pt}img{-ms-interpolation-m=
+ode:bicubic}.hidden{display:none !important;visibility:hidden !important}=
+a[x-apple-data-detectors]{color:inherit !important;text-decoration:none !=
+important;font-size:inherit !important;font-family:inherit !important;fon=
+t-weight:inherit !important;line-height:inherit !important}div[style*=3D'=
+margin: 16px 0']{margin:0 !important}@media only screen and (max-width: 6=
+39px){body,#body{min-width:320px !important}table.wrapper{width:100% !imp=
+ortant;min-width:320px !important}table.wrapper td.wrapper-cell{border-le=
+ft:0 !important;border-right:0 !important;border-radius:0 !important;padd=
+ing-left:10px !important;padding-right:10px !important}}
+
+</style>
+
+<style>body {
+margin: 0 !important; background-color: #fafafa; padding: 0; text-align: =
+center; min-width: 640px; width: 100%; height: 100%; font-family: "Helvet=
+ica Neue", Helvetica, Arial, sans-serif;
+}
+</style></head>
+<body style=3D"text-align: center; min-width: 640px; width: 100%; height:=
+ 100%; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-se=
+rif; margin: 0; padding: 0;" bgcolor=3D"#fafafa">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" id=3D"body" style=
+=3D"text-align: center; min-width: 640px; width: 100%; margin: 0; padding=
+: 0;" bgcolor=3D"#fafafa">
+<tbody>
+<tr class=3D"line">
+<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
+ans-serif; height: 4px; font-size: 4px; line-height: 4px;" bgcolor=3D"#6b=
+4fbb"></td>
+</tr>
+<tr class=3D"header">
+<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
+ans-serif; font-size: 13px; line-height: 1.6; color: #5c5c5c; padding: 25=
+px 0;">
+
+<img alt=3D"GitLab" src=3D"https://gitlab.com/assets/mailers/gitlab_heade=
+r_logo-153749eaa7ea6fafcb995161abd3247bc4c4500f31498b0c4024f50093983ac0.g=
+if" width=3D"55" height=3D"50" />
+</td>
+</tr>
+<tr>
+<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
+ans-serif;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"wrapper"=
+ style=3D"width: 640px; border-collapse: separate; border-spacing: 0; mar=
+gin: 0 auto;">
+<tbody>
+<tr>
+<td class=3D"wrapper-cell" style=3D"font-family: &quot;Helvetica Neue&quo=
+t;, Helvetica, Arial, sans-serif; border-radius: 3px; overflow: hidden; p=
+adding: 18px 25px; border: 1px solid #ededed;" align=3D"left" bgcolor=3D"=
+#fff">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"content"=
+ style=3D"width: 100%; border-collapse: separate; border-spacing: 0;">
+<tbody>
+<tr class=3D"alert">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
+rder-radius: 3px; font-size: 14px; line-height: 1.3; overflow: hidden; co=
+lor: #ffffff; padding: 10px;" align=3D"center" bgcolor=3D"#d22f57">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse; margin: 0 auto;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #ffffff; padding-right: 5px; line-height: 1;" align=3D"center" valig=
+n=3D"middle">
+<img alt=3D"&#10006;" height=3D"13" src=3D"https://gitlab.com/assets/mail=
+ers/ci_pipeline_notif_v1/icon-x-red-inverted-06edddd39ba2a7f9a32f6201e420=
+175db85a4b6ac0348203fdc069001b440149.gif" style=3D"display: block;" width=
+=3D"13" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #ffffff;" align=3D"center" valign=3D"middle">
+Your pipeline has failed.
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class=3D"spacer">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; he=
+ight: 18px; font-size: 18px; line-height: 18px;">
+&#160;
+</td>
+</tr>
+<tr class=3D"section">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
+rder-radius: 3px; overflow: hidden; padding: 0 15px; border: 1px solid #e=
+deded;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"table-in=
+fo" style=3D"width: 100%;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; margin=
+: 0; padding: 14px 0;">Project</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
+ 75%; margin: 0; padding: 14px 0 14px 5px;">
+<a class=3D"muted" href=3D"https://gitlab.com/qemu-project" style=3D"colo=
+r: #333333; text-decoration: none;">
+QEMU
+</a>
+/
+<a class=3D"muted" href=3D"https://gitlab.com/qemu-project/qemu" style=3D=
+"color: #333333; text-decoration: none;">
+QEMU
+</a>
+</td>
+</tr>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
+-top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
+in: 0; padding: 14px 0;">Branch</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
+ 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
+ solid; margin: 0; padding: 14px 0 14px 5px;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
+<img alt=3D"" height=3D"13" src=3D"https://gitlab.com/assets/mailers/ci_p=
+ipeline_notif_v1/icon-branch-gray-53618a7fc19d4d32ccbabac2f6d59bebe67202a=
+9f2f1255e3f72c69756c0dd9c.gif" style=3D"display: block;" width=3D"13" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4;" valign=3D"middle">
+<a class=3D"muted" href=3D"https://gitlab.com/qemu-project/qemu/-/commits=
+/master" style=3D"color: #333333; text-decoration: none;">
+master
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
+-top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
+in: 0; padding: 14px 0;">Commit</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; font-weight: 400; color: #333333; width:=
+ 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
+ solid; margin: 0; padding: 14px 0 14px 5px;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
+<img alt=3D"" height=3D"13" src=3D"https://gitlab.com/assets/mailers/ci_p=
+ipeline_notif_v1/icon-commit-gray-c10243ac24cde64b549aec91de35e6b49c8739b=
+506b86472b54614c10d8b4aac.gif" style=3D"display: block;" width=3D"13" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4;" valign=3D"middle">
+<a href=3D"https://gitlab.com/qemu-project/qemu/-/commit/66e01f1cdc966366=
+0201cced4df8ec0a28937919" style=3D"color: #3777b0; text-decoration: none;=
+">
+66e01f1c
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+<div class=3D"commit" style=3D"color: #5c5c5c; font-weight: 300;">
+Merge remote-tracking branch 'remotes/ericb/tag...
+</div>
+</td>
+</tr>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
+-top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
+in: 0; padding: 14px 0;">Commit Author</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
+ 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
+ solid; margin: 0; padding: 14px 0 14px 5px;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
+<img alt=3D"" class=3D"avatar" height=3D"24" src=3D"https://secure.gravat=
+ar.com/avatar/98261ce19b4e9da714d577154686723a?s=3D48&amp;d=3Didenticon" =
+style=3D"display: block; border-radius: 12px; margin: -2px 0;" width=3D"2=
+4" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4;" valign=3D"middle">
+<a class=3D"muted" href=3D"https://gitlab.com/pm215" style=3D"color: #333=
+333; text-decoration: none;">
+Peter Maydell
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class=3D"spacer">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; he=
+ight: 18px; font-size: 18px; line-height: 18px;">
+&#160;
+</td>
+</tr>
+<tr class=3D"pre-section">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #333333; font-size: 15px; font-weight: 400; line-height: 1.4; paddin=
+g: 15px 5px 0;" align=3D"center">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse; margin: 0 auto;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; font-weight: 500; line-height: 1.4;" valign=3D"baseline">
+Pipeline
+<a href=3D"https://gitlab.com/qemu-project/qemu/-/pipelines/180896236" st=
+yle=3D"color: #3777b0; text-decoration: none;">
+#180896236
+</a>
+triggered by
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; padding-right: 5px; padding-left: 5px;" =
+width=3D"24" valign=3D"middle">
+<img alt=3D"" class=3D"avatar" height=3D"24" src=3D"https://secure.gravat=
+ar.com/avatar/a7d7f408c0b3370bbbeb98833d6c50e4?s=3D48&amp;d=3Didenticon" =
+style=3D"display: block; border-radius: 12px; margin: -2px 0;" width=3D"2=
+4" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; font-weight: 500; line-height: 1.4;" valign=3D"baseline">
+<a class=3D"muted" href=3D"https://gitlab.com/stsquad" style=3D"color: #3=
+33333; text-decoration: none;">
+Alex Benn&#233;e
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td colspan=3D"2" style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,=
+sans-serif; color: #333333; font-size: 14px; font-weight: 400; line-heigh=
+t: 1.4; padding: 0 8px 16px;" align=3D"center">
+had
+1
+failed
+build.
+</td>
+</tr>
+<tr class=3D"table-warning">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
+rder-radius: 4px 4px 0 0; overflow: hidden; color: #d22852; font-size: 14=
+px; line-height: 1.4; padding: 8px 16px; border-color: #ededed; border-st=
+yle: solid; border-width: 1px 1px 0;" align=3D"center" bgcolor=3D"#fdf4f6=
+">
+Logs may contain sensitive data. Please consider before forwarding this e=
+mail.
+</td>
+</tr>
+<tr class=3D"section">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; ov=
+erflow: hidden; border-radius: 0 0 4px 4px; padding: 0 16px; border-color=
+: #ededed; border-style: solid; border-width: 0 1px 1px;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"builds" =
+style=3D"width: 100%; border-collapse: collapse;">
+<tbody>
+<tr class=3D"build-state">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #8c8c8c; font-weight: 500; font-size: 14px; padding: 16px 0;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #d22f57; font-weight: 500; font-size: 16px; padding-right: 8px; line=
+-height: 10px;" valign=3D"middle">
+<img alt=3D"&#10006;" height=3D"10" src=3D"https://gitlab.com/assets/mail=
+ers/ci_pipeline_notif_v1/icon-x-red-67056b7b99899e30453df79abfbe16162f6a2=
+6ed789d8236f81afcaea216ffe6.gif" style=3D"display: block;" width=3D"10" /=
+>
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #8c8c8c; font-weight: 500; font-size: 14px;" valign=3D"middle">
+test
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+<td align=3D"right" style=3D"font-family: 'Helvetica Neue',Helvetica,Aria=
+l,sans-serif; color: #8c8c8c; font-weight: 500; font-size: 14px; padding:=
+ 16px 0;">
+<a href=3D"https://gitlab.com/qemu-project/qemu/-/jobs/698992740" style=3D=
+"color: #3777b0; text-decoration: none;">
+acceptance-system-fedora
+</a>
+
+</td>
+</tr>
+<tr class=3D"build-log">
+<td colspan=3D"2" style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,=
+sans-serif; padding: 0 0 16px;">
+<pre style=3D"font-family: Monaco,'Lucida Console','Courier New',Courier,=
+monospace; background-color: #fafafa; border-radius: 4px; overflow: hidde=
+n; white-space: pre-wrap; word-break: break-all; font-size: 13px; line-he=
+ight: 1.4; color: #333333; margin: 0; padding: 16px 8px;"><span>21:56:11 =
+ERROR| <br />21:56:11 ERROR| Reproduced traceback from: /builds/qemu-proj=
+ect/qemu/build/tests/venv/lib64/python3.8/site-packages/avocado/core/test=
+.py:846<br />21:56:11 ERROR| Traceback (most recent call last):<br />21:5=
+6:11 ERROR|   File "/builds/qemu-project/qemu/build/tests/acceptance/avoc=
+ado_qemu/__init__.py", line 171, in setUp<br />21:56:11 ERROR|     self.c=
+ancel("No QEMU binary defined or found in the build tree")<br />21:56:11 =
+ERROR|   File "/builds/qemu-project/qemu/build/tests/venv/lib64/python3.8=
+/site-packages/avocado/core/test.py", line 1081, in cancel<br />21:56:11 =
+ERROR|     raise exceptions.TestCancel(message)<br />21:56:11 ERROR| avoc=
+ado.core.exceptions.TestCancel: No QEMU binary defined or found in the bu=
+ild tree<br />21:56:11 ERROR| <br />21:56:11 ERROR| CANCEL 31-tests/accep=
+tance/vnc.py:Vnc.test_change_password_requires_a_password -&gt; TestCance=
+l: No QEMU binary defined or found in the build tree<br />21:56:11 INFO |=
+ <br />21:56:11 DEBUG| PARAMS (key=3Darch, path=3D*, default=3DNone) =3D&=
+gt; None<br />21:56:11 DEBUG| PARAMS (key=3Dmachine, path=3D*, default=3D=
+None) =3D&gt; None<br />21:56:11 DEBUG| PARAMS (key=3Dqemu_bin, path=3D*,=
+ default=3DNone) =3D&gt; None<br />21:56:11 ERROR| <br />21:56:11 ERROR| =
+Reproduced traceback from: /builds/qemu-project/qemu/build/tests/venv/lib=
+64/python3.8/site-packages/avocado/core/test.py:846<br />21:56:11 ERROR| =
+Traceback (most recent call last):<br />21:56:11 ERROR|   File "/builds/q=
+emu-project/qemu/build/tests/acceptance/avocado_qemu/__init__.py", line 1=
+71, in setUp<br />21:56:11 ERROR|     self.cancel("No QEMU binary defined=
+ or found in the build tree")<br />21:56:11 ERROR|   File "/builds/qemu-p=
+roject/qemu/build/tests/venv/lib64/python3.8/site-packages/avocado/core/t=
+est.py", line 1081, in cancel<br />21:56:11 ERROR|     raise exceptions.T=
+estCancel(message)<br />21:56:11 ERROR| avocado.core.exceptions.TestCance=
+l: No QEMU binary defined or found in the build tree<br />21:56:11 ERROR|=
+ <br />21:56:11 ERROR| CANCEL 32-tests/acceptance/vnc.py:Vnc.test_change_=
+password -&gt; TestCancel: No QEMU binary defined or found in the build t=
+ree<br />21:56:11 INFO | <br /></span><span class=3D"term-fg-l-green term=
+-bold">$ du -chs ${CI_PROJECT_DIR}/avocado-cache</span><span><br />323M	/=
+builds/qemu-project/qemu/avocado-cache<br />323M	total<br /></span><span =
+class=3D"term-fg-l-red term-bold">ERROR: Job failed: exit code 1<br /></s=
+pan></pre>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+
+
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+
+<tr class=3D"footer">
+<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
+ans-serif; font-size: 13px; line-height: 1.6; color: #5c5c5c; padding: 25=
+px 0;">
+<img alt=3D"GitLab" height=3D"33" src=3D"https://gitlab.com/assets/mailer=
+s/gitlab_footer_logo-078860f148cc9596195e6bb3fa7db31c30538355576c5c3b569c=
+414902e3d095.gif" width=3D"90" style=3D"display: block; margin: 0 auto 1e=
+m;" />
+<div>
+You're receiving this email because of your account on gitlab.com. <a cla=
+ss=3D"mng-notif-link" href=3D"https://gitlab.com/profile/notifications" s=
+tyle=3D"color: #3777b0; text-decoration: none;">Manage all notifications<=
+/a> &#183; <a class=3D"help-link" href=3D"https://gitlab.com/help" style=3D=
+"color: #3777b0; text-decoration: none;">Help</a>
+</div>
+</td>
+</tr>
+
+<tr>
+<td class=3D"footer-message" style=3D"font-family: &quot;Helvetica Neue&q=
+uot;, Helvetica, Arial, sans-serif; font-size: 13px; line-height: 1.6; co=
+lor: #5c5c5c; padding: 25px 0;">
+
+</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>
+
+----==_mimepart_5f41981a5771e_e413ff23f57b1bc37520--
 
