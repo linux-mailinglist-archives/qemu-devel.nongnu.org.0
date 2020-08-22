@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33D8A24E5A2
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Aug 2020 07:52:55 +0200 (CEST)
-Received: from localhost ([::1]:47884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBAEC24E5A8
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Aug 2020 07:54:19 +0200 (CEST)
+Received: from localhost ([::1]:56320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9MSU-0003OI-8X
-	for lists+qemu-devel@lfdr.de; Sat, 22 Aug 2020 01:52:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33846)
+	id 1k9MTq-0006kI-OH
+	for lists+qemu-devel@lfdr.de; Sat, 22 Aug 2020 01:54:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=49637c5a7=alistair.francis@wdc.com>)
- id 1k9MQz-0001gx-QH
- for qemu-devel@nongnu.org; Sat, 22 Aug 2020 01:51:21 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:12936)
+ id 1k9MR0-0001hT-Jw
+ for qemu-devel@nongnu.org; Sat, 22 Aug 2020 01:51:22 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:25955)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=49637c5a7=alistair.francis@wdc.com>)
- id 1k9MQx-0000D0-Dd
- for qemu-devel@nongnu.org; Sat, 22 Aug 2020 01:51:21 -0400
+ id 1k9MQy-0000D6-Lw
+ for qemu-devel@nongnu.org; Sat, 22 Aug 2020 01:51:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1598075479; x=1629611479;
+ t=1598075481; x=1629611481;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=tfWFqJrLLp6C99unGM7CbZlimOiv1wfjzla0dCVOMts=;
- b=IM4DcbIRhYu8z5v0Efc9ONLGOWjbRrIYgcVlll/WsNmFQDGRG1PIbTUp
- KTfInNce03NMH6A1VzC5faSAN7+kSmxjyBzIJl6jCn6eiFbYbaRWcfTRZ
- +ylRRKvbCfB8m288V3oXVe8D9jFI/1frGSvYOgCZ1QgruLLldzPbjNfng
- S0R48nZ/GEdfG6fsYsFVeXtwQKwBFMtGNF6aGVboTQlIzoSWHkcAIfjR8
- 88W44+4qBn70w9glpMdP2oPjbmFUizYDybYTa0fyEd97n4DKa6CKUlDVL
- M8ZprWngAWT8ntTuviSq4RdAerJ/qJbgn4NmkZfQzMOXf1TULGPAuGfz9 w==;
-IronPort-SDR: zmAjV72mhze8Wx2duckXHyooggva4Dq5AjhglnqEIlnX88F4rLfFs3zyF02tDkIsLe6nGfBsEM
- ZKnZwAUYy0QwJCyQzyQflpxXJxDMJMMKDOyLiAlHq4RlW91t4vtgk7fKWBHKOwCDH5BYLjuReC
- Rjn9GhZEYdhE42XvDQf/e4L1qXLZTPq3BalLIW/ZvT1uYsxWh/uMZz3TUwZSOptWas8whkyDel
- kVH7JLjCryLL9DVR9jewMZvQstoyCdGcq9DlbiCfaV//kr7dKUNtnnU2fvmY7WF08soCaDTcmz
- DRI=
-X-IronPort-AV: E=Sophos;i="5.76,339,1592841600"; d="scan'208";a="145571952"
+ bh=vTnePgWdDP3adD/A2jk3D6rXyA+0VmfRRZXLDJMDk28=;
+ b=NSIQlbWIjqRyNgFLSbi+DmoOVW9gzivC/ANHYwCdBXgEE84GIN+Wr06X
+ dnxV1ncCtlk8TxM62RgiGKEn50uA7Ycro4W7wbndyWL5M1WZ1NVSL6KY9
+ 6sZXA7gs23mlwbzSvGBD9x5yFuMQ52RwgYUwbmU19k+nTlTpGOf9VFD64
+ VF2HLmBWx1BziNDqceF3Klzqmx1xrNE5lo84LmPUfugIw8ldVPzRZZAbd
+ Z1xFngbqGMqZtBH6uu8usCvcXTMqi+44F/v2tmU7djvXvIxxgChCp3RPK
+ 0cIE4epXSR/232mJGuCD7iCsXKK9n6AFq4FT0WdbvThQshQOf7w9suwGn Q==;
+IronPort-SDR: DO92VTFlNcuJXNcyGUI30IMRzOv8pvYboxS7XRxQYrLQrwkutW/YZWnQcB6nMppzCw/n05MvkJ
+ 6d9mjYCoFkO+NqxAiz+HC0zCf6dj3hjyfed9NalDqHpha5grNOW6FkXudQZuXD6GW610xEfFwS
+ i8lP11L+Rd7MWJhI+9w1uCQo/8r3cujx6V3FzxFX7nnhM/9+OFTh5WDpxIYofIMY0gQk85aKFk
+ ztq4VJMpnCbyBZwh5TjEXTitF5ig5trWqvxywRnBqUWqmrTuXDJ76amvNnEZyscP1L1r7p7o6w
+ Vtw=
+X-IronPort-AV: E=Sophos;i="5.76,339,1592841600"; d="scan'208";a="145571954"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 22 Aug 2020 13:51:17 +0800
-IronPort-SDR: AtYemhvaVSERlmmINXr2ChaGG2Y5u443iQcEKXkoRa+S9jV9CiDu4COd8Cdrvr/PXEKOIqOqat
- PZzhVlar+sOA==
+IronPort-SDR: WqlKCPTu6k0mfiH6ccwgoBmNuR+JJgqRjGmUfaqSXSSTquIRwY9hapDsNno4t6I8fUapgXJQLF
+ RWaMV/Wbw9Rw==
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  21 Aug 2020 22:38:57 -0700
-IronPort-SDR: lRA6W0ftKK0qzQETO7ldNsI5Hjr930OCaj7HnFrRMB+vrdVzlMXnINNrjjrV/Z/BGB5CFMyOdn
- cReD2wOFSm+w==
+IronPort-SDR: 7hpu2yYF3E8Q+hUPRbVcYUyYLQsxCDVfXeoyig4WScAvV9vu84bDFsGJ2hrPgtCO/zBh5o/u0/
+ OX4aqcb/DKpA==
 WDCIronportException: Internal
 Received: from 5zn13g2.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.59.90])
  by uls-op-cesaip02.wdc.com with ESMTP; 21 Aug 2020 22:51:18 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 06/20] target/riscv: Clean up fmv.w.x
-Date: Fri, 21 Aug 2020 22:40:47 -0700
-Message-Id: <20200822054101.1202175-7-alistair.francis@wdc.com>
+Subject: [PULL v3 07/20] target/riscv: check before allocating TCG temps
+Date: Fri, 21 Aug 2020 22:40:48 -0700
+Message-Id: <20200822054101.1202175-8-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200822054101.1202175-1-alistair.francis@wdc.com>
 References: <20200822054101.1202175-1-alistair.francis@wdc.com>
@@ -94,35 +94,78 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
-Use tcg_gen_extu_tl_i64 to avoid the ifdef.
-
 Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200626205917.4545-7-zhiwei_liu@c-sky.com>
+Message-Id: <20200626205917.4545-5-zhiwei_liu@c-sky.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200724002807.441147-7-richard.henderson@linaro.org>
+Message-Id: <20200724002807.441147-8-richard.henderson@linaro.org>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn_trans/trans_rvf.c.inc | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ target/riscv/insn_trans/trans_rvd.c.inc | 8 ++++----
+ target/riscv/insn_trans/trans_rvf.c.inc | 8 ++++----
+ 2 files changed, 8 insertions(+), 8 deletions(-)
 
+diff --git a/target/riscv/insn_trans/trans_rvd.c.inc b/target/riscv/insn_trans/trans_rvd.c.inc
+index ea1044f13b..4f832637fa 100644
+--- a/target/riscv/insn_trans/trans_rvd.c.inc
++++ b/target/riscv/insn_trans/trans_rvd.c.inc
+@@ -20,10 +20,10 @@
+ 
+ static bool trans_fld(DisasContext *ctx, arg_fld *a)
+ {
+-    TCGv t0 = tcg_temp_new();
+-    gen_get_gpr(t0, a->rs1);
+     REQUIRE_FPU;
+     REQUIRE_EXT(ctx, RVD);
++    TCGv t0 = tcg_temp_new();
++    gen_get_gpr(t0, a->rs1);
+     tcg_gen_addi_tl(t0, t0, a->imm);
+ 
+     tcg_gen_qemu_ld_i64(cpu_fpr[a->rd], t0, ctx->mem_idx, MO_TEQ);
+@@ -35,10 +35,10 @@ static bool trans_fld(DisasContext *ctx, arg_fld *a)
+ 
+ static bool trans_fsd(DisasContext *ctx, arg_fsd *a)
+ {
+-    TCGv t0 = tcg_temp_new();
+-    gen_get_gpr(t0, a->rs1);
+     REQUIRE_FPU;
+     REQUIRE_EXT(ctx, RVD);
++    TCGv t0 = tcg_temp_new();
++    gen_get_gpr(t0, a->rs1);
+     tcg_gen_addi_tl(t0, t0, a->imm);
+ 
+     tcg_gen_qemu_st_i64(cpu_fpr[a->rs2], t0, ctx->mem_idx, MO_TEQ);
 diff --git a/target/riscv/insn_trans/trans_rvf.c.inc b/target/riscv/insn_trans/trans_rvf.c.inc
-index 832f01db6f..138e317723 100644
+index 138e317723..3dfec8211d 100644
 --- a/target/riscv/insn_trans/trans_rvf.c.inc
 +++ b/target/riscv/insn_trans/trans_rvf.c.inc
-@@ -406,11 +406,7 @@ static bool trans_fmv_w_x(DisasContext *ctx, arg_fmv_w_x *a)
+@@ -25,10 +25,10 @@
+ 
+ static bool trans_flw(DisasContext *ctx, arg_flw *a)
+ {
+-    TCGv t0 = tcg_temp_new();
+-    gen_get_gpr(t0, a->rs1);
+     REQUIRE_FPU;
+     REQUIRE_EXT(ctx, RVF);
++    TCGv t0 = tcg_temp_new();
++    gen_get_gpr(t0, a->rs1);
+     tcg_gen_addi_tl(t0, t0, a->imm);
+ 
+     tcg_gen_qemu_ld_i64(cpu_fpr[a->rd], t0, ctx->mem_idx, MO_TEUL);
+@@ -41,11 +41,11 @@ static bool trans_flw(DisasContext *ctx, arg_flw *a)
+ 
+ static bool trans_fsw(DisasContext *ctx, arg_fsw *a)
+ {
++    REQUIRE_FPU;
++    REQUIRE_EXT(ctx, RVF);
      TCGv t0 = tcg_temp_new();
      gen_get_gpr(t0, a->rs1);
  
--#if defined(TARGET_RISCV64)
--    tcg_gen_mov_i64(cpu_fpr[a->rd], t0);
--#else
--    tcg_gen_extu_i32_i64(cpu_fpr[a->rd], t0);
--#endif
-+    tcg_gen_extu_tl_i64(cpu_fpr[a->rd], t0);
-     gen_nanbox_s(cpu_fpr[a->rd], cpu_fpr[a->rd]);
+-    REQUIRE_FPU;
+-    REQUIRE_EXT(ctx, RVF);
+     tcg_gen_addi_tl(t0, t0, a->imm);
  
-     mark_fs_dirty(ctx);
+     tcg_gen_qemu_st_i64(cpu_fpr[a->rs2], t0, ctx->mem_idx, MO_TEUL);
 -- 
 2.28.0
 
