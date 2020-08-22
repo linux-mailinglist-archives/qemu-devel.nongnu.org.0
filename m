@@ -2,71 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85D3E24EA01
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Aug 2020 23:23:52 +0200 (CEST)
-Received: from localhost ([::1]:35472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 619D824EA08
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Aug 2020 23:42:05 +0200 (CEST)
+Received: from localhost ([::1]:47826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9azP-00015F-Jy
-	for lists+qemu-devel@lfdr.de; Sat, 22 Aug 2020 17:23:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49138)
+	id 1k9bH2-0007oB-0o
+	for lists+qemu-devel@lfdr.de; Sat, 22 Aug 2020 17:42:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k9axx-0007n3-0q; Sat, 22 Aug 2020 17:22:21 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:46976)
+ id 1k9bFg-00070W-53; Sat, 22 Aug 2020 17:40:41 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:33888)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k9axu-0002vN-IM; Sat, 22 Aug 2020 17:22:20 -0400
-Received: by mail-wr1-x441.google.com with SMTP id r15so5030488wrp.13;
- Sat, 22 Aug 2020 14:22:17 -0700 (PDT)
+ id 1k9bFd-00057x-Rr; Sat, 22 Aug 2020 17:40:39 -0400
+Received: by mail-wm1-x343.google.com with SMTP id c19so3542235wmd.1;
+ Sat, 22 Aug 2020 14:40:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:message-id:date:user-agent
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Ur4kEdLENyNVsVl2FfyvPvoLjFRyubV/iHk8dJkHCgU=;
- b=L1zrPGithky/Rkb76dLjBJwjAfF8JbPuab+gLTthxCEQW02Rds7wrwqbSATND1v6Bi
- ZeEOJfzr3/37EphVgOKtPIT+0Q7HxgHsDs+t+GqAqdpzUfHVYzzpA745rAQIio2IKdBJ
- 2gRro43dbVX3+7Tb5bRX6uVUJvazlOTkP9cZk/EFWazzThKvtACmxz4noMmEmfzeidXv
- hoV5se6O3Wy78Ejjs1C2P2sdtVNcCtj7tazhXpiVIvPt6RrYBEYb8HfaAW1sO7R/jeK8
- lVIusH9Ra9aPqGKZBYajP4/0clFdR5w/eVwiSYZ1XXMjB6SON179GRAlyTMjqjd5IY5j
- P7PQ==
+ bh=Fv5box83k12mdUQDPoBRjIvFUAI8sC/U8NXckL9zSGQ=;
+ b=psoQbN0bohZPR3v3Ho5MQ1B3R82cJXugJS6dVLGnF3X/2L4tXYFcQPkg+v2iRtHDcR
+ Cly2mLLety9DfmfZ9NxnkilW3W2bruaocp0F/okv2Q38r8KzQtUZoQwCCql2BJJn/GqL
+ rH9dAIo9uXRXOU7AKPxiaaQoFVo64wTS4f4qttcHcuI0Eshfl7SrFKUNavOB1ED+IZt5
+ Etur/s/NxiJYnPTogOEYN2Um+C6DChtvi71gN8jr/ce2upDK9B9pLoGzZKeY6pGPPHvb
+ s6PUbEzt5kiTyPL4P/uHPOGPlNhbIK2j+rPKkrAjEpOyrPdFic/Jj2TT1HSmhsHtEmtC
+ QtUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Ur4kEdLENyNVsVl2FfyvPvoLjFRyubV/iHk8dJkHCgU=;
- b=lArYjWFDG4IOdoOMdAd7N58lA9QgiNMzIHaGnMJrdq05357MSlcKgyU4w/rLdqZ7wB
- vlzKZR/+KQBWxAyLrfUidkD/g5vyrtbMj/lYruGmzGf3nz87PmUZQLPDIrwrOjbDYnBm
- suRYeoLU14xYVUjsdXhj3TNYCrlx1QZ3fYsJNIyyC44dUwdIi0Kn6dPeuxX08nHYhUhH
- FfmNMxgABREJt8rVEV6+LG8IUDhkJk5ElNE3/JkJD1Puo8botqMXELCE7y+k63rPRTVP
- wWpYs/9/ObOsnZjmn7wtW3rrwpN7rD8kP0I1+JmePdZjL64SE37csUxajHAH2He2Ff15
- u8kQ==
-X-Gm-Message-State: AOAM533lad6IEDITVsf1Kp3hYDpEN7h1tfbEquFsy6ljdOOIfpgqE6uZ
- EvS7nmX8Yef+Kr7V6pEskZMh1SCG/zU=
-X-Google-Smtp-Source: ABdhPJxvGBwM5uWJzRE0AQgmo3WQHBbgTfdiScEQ3tYrJXKngWRTzvH9dohsdjPHrD/+TasRiykU1g==
-X-Received: by 2002:adf:9ed1:: with SMTP id b17mr8026745wrf.227.1598131336269; 
- Sat, 22 Aug 2020 14:22:16 -0700 (PDT)
+ bh=Fv5box83k12mdUQDPoBRjIvFUAI8sC/U8NXckL9zSGQ=;
+ b=lQGbu9mdFn4DvhYpjgJfDYRS+gv24qvlobq26wVCujbuzY2hjjUF9B40uoXFfJ4+xa
+ L+0KNHcdR769b4fXZaoJOvSGLfMCM5tMjU3VlW0J8jW+GAdzbfxtUn4I2XIAj0uf7c/9
+ xQqZyvuJh2jmg/nIYMxgDhQF59G8tURzvg7RiAN69+UvqoVIj7ipufcCJ5rvf8j2OlaW
+ xhV1dIXIOZgIJN3vhi8IolkxJGaz7AnLcjrQKlGxDHn6ArxcY+0pUeeoWvc2sMdRs02S
+ 65UvSMTmk+uvucdc4PAzDQ2mmfb2bRov2PgKwSzMDBcKmo3jgO6ba4yWNyuRB2hHXrLD
+ vZaQ==
+X-Gm-Message-State: AOAM530/KqBeo41o4xWUjMPo1nbvsjMIsKP0NpyxT8oLTdF9p/5HHGD4
+ RU99zVXon3oocrou3LZxWFY=
+X-Google-Smtp-Source: ABdhPJxBn934NvjgRNsYdxFC8KBENE93HFnlynAzYOIKEjHY3zJ/UwlACtcP/DvBXNbFEXGMZXRTKA==
+X-Received: by 2002:a1c:ed15:: with SMTP id l21mr83023wmh.56.1598132435242;
+ Sat, 22 Aug 2020 14:40:35 -0700 (PDT)
 Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id r206sm15095844wma.6.2020.08.22.14.22.15
+ by smtp.gmail.com with ESMTPSA id s2sm12830084wrr.55.2020.08.22.14.40.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 22 Aug 2020 14:22:15 -0700 (PDT)
-Subject: Re: [PATCH v2 3/3] hw/sd: Add Cadence SDHCI emulation
-To: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <1597658722-12922-1-git-send-email-bin.meng@windriver.com>
- <1597658722-12922-4-git-send-email-bin.meng@windriver.com>
+ Sat, 22 Aug 2020 14:40:34 -0700 (PDT)
+Subject: Re: [PATCH v7 13/13] tests/acceptance: console boot tests for
+ quanta-gsj
+To: Havard Skinnemoen <hskinnemoen@google.com>
+References: <20200811004607.2133149-1-hskinnemoen@google.com>
+ <20200811004607.2133149-14-hskinnemoen@google.com>
+ <64f8cd56-306e-4961-488b-36c666894a54@amsat.org>
+ <CAFQmdRbvSKYJ00tE_79Eh+gW_ge8kEco=1gqFtvMcoJGraozdw@mail.gmail.com>
+ <CAFQmdRZCk5Rqb1C2TRCEUMaKmF608g2_Or8mLCTSG03nCQ1Ygg@mail.gmail.com>
+ <28a30c64-7cc5-4b4f-2be2-b3d3af511cb1@amsat.org>
+ <CAFQmdRYFLUdbs5mj3zHzNN1y+bvQXCrtGhY_iOLVfnydGxM0Jw@mail.gmail.com>
+ <6a23375f-64ec-cfdd-10cf-272eef719dd6@amsat.org>
+ <CAFQmdRY9GSqjW+wcbRzsC6dEB9KMibnxWAp+F6jpmf2_9iBEFw@mail.gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <dc1a2f26-be0d-3662-abb4-343e09037e20@amsat.org>
-Date: Sat, 22 Aug 2020 23:22:14 +0200
+Message-ID: <9fb5dbf1-f3bb-08a0-9758-a1d2e742a3d9@amsat.org>
+Date: Sat, 22 Aug 2020 23:40:33 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <1597658722-12922-4-git-send-email-bin.meng@windriver.com>
+In-Reply-To: <CAFQmdRY9GSqjW+wcbRzsC6dEB9KMibnxWAp+F6jpmf2_9iBEFw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -88,346 +96,206 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>, Andrew Jeffery <andrew@aj.id.au>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Joel Stanley <joel@jms.id.au>, CS20 KFTing <kfting@nuvoton.com>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goate?= =?UTF-8?Q?r?= <clg@kaod.org>,
+ Cleber Rosa <crosa@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ IS20 Avi Fishman <Avi.Fishman@nuvoton.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/17/20 12:05 PM, Bin Meng wrote:
-> Cadence SD/SDIO/eMMC Host Controller (SD4HC) is an SDHCI compatible
-> controller. The SDHCI compatible registers start from offset 0x200,
-> which are called Slot Register Set (SRS) in its datasheet.
+Hi Havard,
+
+On 8/20/20 10:30 PM, Havard Skinnemoen wrote:
+> On Thu, Aug 20, 2020 at 10:46 AM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>
+>> On 8/20/20 6:24 PM, Havard Skinnemoen wrote:
+>>> On Wed, Aug 19, 2020 at 10:29 PM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>>>
+>>>> +Eric / Richard for compiler optimizations.
+>>>>
+>>>> On 8/20/20 3:53 AM, Havard Skinnemoen wrote:
+>>>>> On Tue, Aug 11, 2020 at 8:26 PM Havard Skinnemoen
+>>>>> <hskinnemoen@google.com> wrote:
+>>>>>>
+>>>>>> On Tue, Aug 11, 2020 at 1:48 AM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>>>>>> INTERRUPTED: Test interrupted by SIGTERM
+>>>>>>> Runner error occurred: Timeout reached
+>>>>>>> (240.45 s)
+>>>>>>>
+>>>>>>> Is that expected?
+>>>>>>
+>>>>>> I'm not sure why it only happens when running direct kernel boot with
+>>>>>> unoptimized qemu, but it seems a little happier if I enable a few more
+>>>>>> peripherals that I have queued up (sd, ehci, ohci and rng), though not
+>>>>>> enough.
+>>>>>>
+>>>>>> It still stalls for an awfully long time on "console: Run /init as
+>>>>>> init process" though. I'm not sure what it's doing there. With -O2 it
+>>>>>> only takes a couple of seconds to move on.
+>>>>>
+>>>>> So it turns out that the kernel gets _really_ sluggish when skipping
+>>>>> the clock initialization normally done by the boot loader.
+>>>>>
+>>>>> I changed the reset value of CLKSEL like this:
+>>>>>
+>>>>> diff --git a/hw/misc/npcm7xx_clk.c b/hw/misc/npcm7xx_clk.c
+>>>>> index 21ab4200d1..5e9849410f 100644
+>>>>> --- a/hw/misc/npcm7xx_clk.c
+>>>>> +++ b/hw/misc/npcm7xx_clk.c
+>>>>> @@ -67,7 +67,7 @@ enum NPCM7xxCLKRegisters {
+>>>>>   */
+>>>>>  static const uint32_t cold_reset_values[NPCM7XX_CLK_NR_REGS] = {
+>>>>>      [NPCM7XX_CLK_CLKEN1]        = 0xffffffff,
+>>>>> -    [NPCM7XX_CLK_CLKSEL]        = 0x004aaaaa,
+>>>>> +    [NPCM7XX_CLK_CLKSEL]        = 0x004aaba9,
+>>>>>      [NPCM7XX_CLK_CLKDIV1]       = 0x5413f855,
+>>>>>      [NPCM7XX_CLK_PLLCON0]       = 0x00222101 | PLLCON_LOKI,
+>>>>>      [NPCM7XX_CLK_PLLCON1]       = 0x00202101 | PLLCON_LOKI,
+>>>>>
+>>>>> which switches the CPU core and UART to run from PLL2 instead of
+>>>>> CLKREF (25 MHz).
+>>>>>
+>>>>> With this change, the test passes without optimization:
+>>>>>
+>>>>>  (02/19) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_quanta_gsj_initrd:
+>>>>> PASS (39.62 s)
+>>>>>
+>>>>> It doesn't look like this change hurts booting from the bootrom (IIUC
+>>>>> the nuvoton bootblock overwrites CLKSEL anyway), but it's not super
+>>>>> clean.
+>>>>>
+>>>>> Perhaps I should make it conditional on kernel_filename being set? Or
+>>>>> would it be better to provide a write_board_setup hook for this?
+>>>>
+>>>> QEMU prefers to avoid ifdef'ry at all cost. However I find this
+>>>> approach acceptable (anyway up to the maintainer):
+>>>>
+>>>> +static void npcm7xx_clk_cold_reset_fixup(NPCM7xxCLKState *s)
+>>>> +{
+>>>> +#ifndef __OPTIMIZE__
+>>>> +    /*
+>>>> +     * When built without optimization, ...
+>>>> +     * so run CPU core and UART from PLL2 instead of CLKREF.
+>>>> +     */
+>>>> +    s->regs[NPCM7XX_CLK_CLKSEL] |= 0x103,
+>>>> +#endif
+>>>> +}
+>>>
+>>> I think this is actually a problem regardless of optimization level.
+>>> Turning optimization off amplifies the problem, but the problem is
+>>> still there with optimization on.
+>>
+>> OK, this reminds me few more details about the problem I had with the
+>> raspi3 when adding the ClockPowerResetManager block.
+>> Found the branch. A bit bitter/sad it was more than 1 year ago.
+>>
+>> So if ARM_FEATURE_GENERIC_TIMER is available, Linux polls the CNTFRQ_EL0
+>> register. At that time this register were using a fixed frequency:
+>>
+>> #define ARM_CPU_FREQ 1000000000 /* FIXME: 1 GHz, should be configurable */
+>>
+>> Xilinx' fork does it this way:
+>> https://github.com/Xilinx/qemu/commit/9e939b54e2d
+>>
+>> Now I see Andrew Jeffery fixed that in 96eec6b2b38
+>> ("target/arm: Prepare generic timer for per-platform CNTFRQ")
+>> adding a 'cntfrq' property, which he then sets in the Aspeed
+>> machine in commit 058d095532d ("ast2600: Configure CNTFRQ at 1125MHz").
+>>
+>> Maybe your SoC is simply missing this property?
 > 
-> This creates a Cadence SDHCI model built on top of the existing
-> generic SDHCI model. Cadence specific Host Register Set (HRS) is
-> implemented to make guest software happy.
+> Hmm, it doesn't look like Cortex-A9 has this property...
 > 
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> Unexpected error in object_property_find() at
+> /usr/local/google/home/hskinnemoen/qemu/upstream/qom/object.c:1254:
+> qemu-system-arm: Property '.cntfrq' not found
 > 
-> ---
+> However, I did notice there are a lot of constraints on input
+> frequencies to the CPU and various peripherals, and many of these are
+> not met by the power-on reset values.
+
+Oh OK.
+
 > 
-> Changes in v2:
-> - use 's' for the model state
-> - call device_cold_reset() in cadence_sdhci_reset()
-> - add .impl in cadence_sdhci_ops
-> - move Cadence specific register defines to cadence_sdhci.c
-> - use 'sdhci' instead of 'slot' to represent SDHCIState
-> - use sysbus_mmio_get_region() to access SDHCI model's memory region
-> - initialize TYPE_SYSBUS_SDHCI in the instance_init() so that users
->   of Cadence SDHCI do not have to do that themselves
-> - propergate irq and 'sd-bus' from generic-sdhci
+> For example, the UART needs a 24 MHz input clock, but there's no way
+> to generate this from the default 25 MHz reference clock. However,
+> PLL2 is set up to run at 960 MHz by default (as soon as it's locked),
+> with a fixed /2 divider. The UART uses a /20 divider by default, so it
+> gets a 25 MHz / 20 = 1.25 MHz clock with power-on defaults. However,
+> switching the source to PLL2 results in 960 MHz / 2 / 20 = 24 MHz.
+
+Yes, thanks to Damien's work we can now use the Clock API to model
+that correctly. This API is very recent, and very few devices use
+it. We need to adapt them one by one.
+
+I started with the serial:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg727975.html
+
+> Similarly, the CPU is supposed to run at 800 MHz, but it runs at 25
+> MHz with power-on defaults. PLL1 runs at 800 MHz by default, with a
+> fixed /2 divider. The boot loader doubles the feedback divider so it
+> turns into 1600 MHz / 2 = 800 MHz.
+
+I noticed in my projects is that the Clock API lacks something
+like a FixedDividerClock. qdev_init_clock_in() expects a callback,
+but with fixed divisor we could have the divisor in a state and
+use a generic callback, but the callback doesn't take pointer to
+state.
+
+Maybe that can be a new field in NamedClockList. I didn't had time
+to write patches tests and ping Damien/Peter about it, but will do
+during Sept.
+
 > 
->  hw/sd/Kconfig                 |   4 +
->  hw/sd/Makefile.objs           |   1 +
->  hw/sd/cadence_sdhci.c         | 200 ++++++++++++++++++++++++++++++++++++++++++
->  include/hw/sd/cadence_sdhci.h |  46 ++++++++++
->  4 files changed, 251 insertions(+)
->  create mode 100644 hw/sd/cadence_sdhci.c
->  create mode 100644 include/hw/sd/cadence_sdhci.h
-
-Consider using scripts/git.orderfile ;)
+> Turns out I was wrong above, the patch snippet routes PLL1, not PLL2,
+> to the CPU. But it will only result in half the recommended speed, so
+> a patch to PLLCON1 is needed as well.
 > 
-> diff --git a/hw/sd/Kconfig b/hw/sd/Kconfig
-> index c5e1e55..633b9af 100644
-> --- a/hw/sd/Kconfig
-> +++ b/hw/sd/Kconfig
-> @@ -19,3 +19,7 @@ config SDHCI_PCI
->      default y if PCI_DEVICES
->      depends on PCI
->      select SDHCI
-> +
-> +config CADENCE_SDHCI
-> +    bool
-> +    select SDHCI
-> diff --git a/hw/sd/Makefile.objs b/hw/sd/Makefile.objs
-> index 0d1df17..4d500a6 100644
-> --- a/hw/sd/Makefile.objs
-> +++ b/hw/sd/Makefile.objs
-> @@ -10,3 +10,4 @@ common-obj-$(CONFIG_OMAP) += omap_mmc.o
->  common-obj-$(CONFIG_PXA2XX) += pxa2xx_mmci.o
->  common-obj-$(CONFIG_RASPI) += bcm2835_sdhost.o
->  common-obj-$(CONFIG_ASPEED_SOC) += aspeed_sdhci.o
-> +common-obj-$(CONFIG_CADENCE_SDHCI) += cadence_sdhci.o
-> diff --git a/hw/sd/cadence_sdhci.c b/hw/sd/cadence_sdhci.c
-> new file mode 100644
-> index 0000000..4f01d63
-> --- /dev/null
-> +++ b/hw/sd/cadence_sdhci.c
-> @@ -0,0 +1,200 @@
-> +/*
-> + * Cadence SDHCI emulation
-> + *
-> + * Copyright (c) 2020 Wind River Systems, Inc.
-> + *
-> + * Author:
-> + *   Bin Meng <bin.meng@windriver.com>
-> + *
-> + * This program is free software; you can redistribute it and/or
-> + * modify it under the terms of the GNU General Public License as
-> + * published by the Free Software Foundation; either version 2 or
-> + * (at your option) version 3 of the License.
-> + *
-> + * This program is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> + * GNU General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU General Public License along
-> + * with this program; if not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu/bitops.h"
-> +#include "qemu/error-report.h"
-> +#include "qemu/log.h"
-> +#include "qapi/error.h"
-> +#include "migration/vmstate.h"
-> +#include "hw/irq.h"
-> +#include "hw/sd/cadence_sdhci.h"
-> +#include "sdhci-internal.h"
-> +
-> +/* HRS - Host Register Set (specific to Cadence) */
-> +
-> +#define CADENCE_SDHCI_HRS00             0x00    /* general information */
-> +#define CADENCE_SDHCI_HRS00_SWR             BIT(0)
-> +#define CADENCE_SDHCI_HRS00_POR_VAL         0x00010000
-> +
-> +#define CADENCE_SDHCI_HRS04             0x10    /* PHY access port */
-> +#define CADENCE_SDHCI_HRS04_WR              BIT(24)
-> +#define CADENCE_SDHCI_HRS04_RD              BIT(25)
-> +#define CADENCE_SDHCI_HRS04_ACK             BIT(26)
-> +
-> +#define CADENCE_SDHCI_HRS06             0x18    /* eMMC control */
-> +#define CADENCE_SDHCI_HRS06_TUNE_UP         BIT(15)
-> +
-> +/* SRS - Slot Register Set (SDHCI-compatible) */
-> +
-> +#define CADENCE_SDHCI_SRS_BASE          0x200
-> +
-> +#define TO_REG(addr)    ((addr) / sizeof(uint32_t))
-> +
-> +static void cadence_sdhci_instance_init(Object *obj)
-> +{
-> +    CadenceSDHCIState *s = CADENCE_SDHCI(obj);
-> +
-> +    object_initialize_child(OBJECT(s), "cadence-sdhci.sdhci",
+> It seems like the cleanest solution would be to add a
+> write_board_setup hook to fix up these registers so clocks are within
+> normal ranges when bypassing the boot loader. In particular:
+> 
+>   - Switch UART to PLL2 for a 24 MHz input clock.
+>   - Set up PLL1 to run at 1600 MHz.
+>   - Switch the CPU core to PLL1 / 2 for a 800 MHz input clock.
+> 
+> Does that make sense? It should be just three simple register writes,
+> which is doable with hand-edited machine code.
 
-"generic-sdhci"?
+It makes sense but since (I guess) we could properly model that using
+the Clock API, this hook is a temporary kludge...
+I'm not against it however, since except this detail, this series is
+almost perfect, and you already spent enough time.
+IOW IMHO this kludge is acceptable for now, and modelling the missing
+parts to use the Clock API can be done on top (or not...).
 
-> +                            &s->sdhci, TYPE_SYSBUS_SDHCI);
-> +}
-> +
-> +static void cadence_sdhci_reset(DeviceState *dev)
-> +{
-> +    CadenceSDHCIState *s = CADENCE_SDHCI(dev);
-> +
-> +    memset(s->regs, 0, CADENCE_SDHCI_REG_SIZE);
-> +    s->regs[TO_REG(CADENCE_SDHCI_HRS00)] = CADENCE_SDHCI_HRS00_POR_VAL;
-> +
-> +    device_cold_reset(DEVICE(&s->sdhci));
-> +}
-> +
-> +static uint64_t cadence_sdhci_read(void *opaque, hwaddr addr, unsigned int size)
-> +{
-> +    uint32_t val = 0;
-> +    CadenceSDHCIState *s = opaque;
-> +
-> +    if (addr < CADENCE_SDHCI_REG_SIZE) {
-> +        val = s->regs[TO_REG(addr)];
-> +    } else {
-> +        qemu_log_mask(LOG_GUEST_ERROR,
-> +                      "%s: Out-of-bounds read at 0x%" HWADDR_PRIx "\n",
-> +                      __func__, addr);
-> +    }
-> +
-> +    return (uint64_t)val;
-> +}
-> +
-> +static void cadence_sdhci_write(void *opaque, hwaddr addr, uint64_t val,
-> +                                unsigned int size)
-> +{
-> +    CadenceSDHCIState *s = opaque;
-> +    uint32_t val32 = (uint32_t)val;
-> +
-> +    switch (addr) {
-> +    case CADENCE_SDHCI_HRS00:
-> +        /*
-> +         * The only writable bit is SWR (software reset) and it automatically
-> +         * clears to zero, so essentially this register remains unchanged.
-> +         */
-> +        if (val32 & CADENCE_SDHCI_HRS00_SWR) {
-> +            cadence_sdhci_reset(DEVICE(s));
-> +        }
-> +
-> +        break;
-> +    case CADENCE_SDHCI_HRS04:
-> +        /*
-> +         * Only emulate the ACK bit behavior when read or write transaction
-> +         * are requested.
-> +         */
-> +        if (val32 & (CADENCE_SDHCI_HRS04_WR | CADENCE_SDHCI_HRS04_RD)) {
-> +            val32 |= CADENCE_SDHCI_HRS04_ACK;
-> +        } else {
-> +            val32 &= ~CADENCE_SDHCI_HRS04_ACK;
-> +        }
-> +
-> +        s->regs[TO_REG(addr)] = val32;
-> +        break;
-> +    case CADENCE_SDHCI_HRS06:
-> +        if (val32 & CADENCE_SDHCI_HRS06_TUNE_UP) {
-> +            val32 &= ~CADENCE_SDHCI_HRS06_TUNE_UP;
-> +        }
-> +
-> +        s->regs[TO_REG(addr)] = val32;
-> +        break;
-> +    default:
-> +        if (addr < CADENCE_SDHCI_REG_SIZE) {
-> +            s->regs[TO_REG(addr)] = val32;
-> +        } else {
-> +            qemu_log_mask(LOG_GUEST_ERROR,
-> +                          "%s: Out-of-bounds write at 0x%" HWADDR_PRIx "\n",
-> +                          __func__, addr);
-> +        }
-> +    }
-> +}
-> +
-> +static const MemoryRegionOps cadence_sdhci_ops = {
-> +    .read = cadence_sdhci_read,
-> +    .write = cadence_sdhci_write,
-> +    .endianness = DEVICE_NATIVE_ENDIAN,
-> +    .impl = {
-> +        .min_access_size = 4,
-> +        .max_access_size = 4,
-> +    },
-> +    .valid = {
-> +        .min_access_size = 4,
-> +        .max_access_size = 4,
-> +    }
-> +};
-> +
-> +static void cadence_sdhci_realize(DeviceState *dev, Error **errp)
-> +{
-> +    CadenceSDHCIState *s = CADENCE_SDHCI(dev);
-> +    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
-> +    SysBusDevice *sbd_sdhci = SYS_BUS_DEVICE(&s->sdhci);
-> +
-> +    memory_region_init_io(&s->iomem, OBJECT(s), &cadence_sdhci_ops,
-> +                          s, TYPE_CADENCE_SDHCI, 0x1000);
+> 
+> I'll add this as a separate patch (right before the acceptance test)
+> so it's clear what's happening.
+> 
+> Unfortunately, I haven't been able to make the flash boot test pass
+> without optimization. U-boot seems to have a tiny buffer for the
+> command line, so I can only disable two or three systemd services
+> before it gets truncated. I might try to create a reduced openbmc
+> image instead.
 
-I/O Region of 0x1000 but you only uses 0x100 for the Cadence part
-and 0x100 for the generic part.
+I haven't think of that limitation. I rather prefer we test the
+original OpenBMC image. Simply disable the 3 longest services,
+and we'll adjust the test time.
 
-Consider creating a container of 0x1000, and map 2 subregions?
+Thanks for the detailed info you provided.
 
-  memory_region_init(&s->container, OBJECT(s), 0x1000);
-  memory_region_init_io(&s->iomem, OBJECT(s), &cadence_sdhci_ops,
-                         s, TYPE_CADENCE_SDHCI, CADENCE_SDHCI_REG_SIZE);
-  memory_region_add_subregion(&s->container, 0x000, &s->iomem);
+Regards,
 
-You can then simplify your out-of-bounds access checks for
-cadence_sdhci_ops's read/write.
+Phil.
 
-> +    sysbus_init_mmio(sbd, &s->iomem);
-
-Replace by:
-
-  sysbus_init_mmio(sbd, &s->container);
-
-Using a container seems cleaner, but your patch is fine:
-Acked-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-> +
-> +    sysbus_realize(sbd_sdhci, errp);
-> +    memory_region_add_subregion(&s->iomem, CADENCE_SDHCI_SRS_BASE,
-> +                                sysbus_mmio_get_region(sbd_sdhci, 0));
-> +
-> +    /* propagate irq and "sd-bus" from generic-sdhci */
-> +    sysbus_pass_irq(sbd, sbd_sdhci);
-> +    s->bus = qdev_get_child_bus(DEVICE(sbd_sdhci), "sd-bus");
-> +}
-> +
-> +static const VMStateDescription vmstate_cadence_sdhci = {
-> +    .name = TYPE_CADENCE_SDHCI,
-> +    .version_id = 1,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_UINT32_ARRAY(regs, CadenceSDHCIState, CADENCE_SDHCI_NUM_REGS),
-> +        VMSTATE_END_OF_LIST(),
-> +    },
-> +};
-> +
-> +static void cadence_sdhci_class_init(ObjectClass *classp, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(classp);
-> +
-> +    dc->desc = "Cadence SD/SDIO/eMMC Host Controller (SD4HC)";
-> +    dc->realize = cadence_sdhci_realize;
-> +    dc->reset = cadence_sdhci_reset;
-> +    dc->vmsd = &vmstate_cadence_sdhci;
-> +}
-> +
-> +static TypeInfo cadence_sdhci_info = {
-> +    .name          = TYPE_CADENCE_SDHCI,
-> +    .parent        = TYPE_SYS_BUS_DEVICE,
-> +    .instance_size = sizeof(CadenceSDHCIState),
-> +    .instance_init = cadence_sdhci_instance_init,
-> +    .class_init    = cadence_sdhci_class_init,
-> +};
-> +
-> +static void cadence_sdhci_register_types(void)
-> +{
-> +    type_register_static(&cadence_sdhci_info);
-> +}
-> +
-> +type_init(cadence_sdhci_register_types)
-> diff --git a/include/hw/sd/cadence_sdhci.h b/include/hw/sd/cadence_sdhci.h
-> new file mode 100644
-> index 0000000..9b52115
-> --- /dev/null
-> +++ b/include/hw/sd/cadence_sdhci.h
-> @@ -0,0 +1,46 @@
-> +/*
-> + * Cadence SDHCI emulation
-> + *
-> + * Copyright (c) 2020 Wind River Systems, Inc.
-> + *
-> + * Author:
-> + *   Bin Meng <bin.meng@windriver.com>
-> + *
-> + * This program is free software; you can redistribute it and/or
-> + * modify it under the terms of the GNU General Public License as
-> + * published by the Free Software Foundation; either version 2 or
-> + * (at your option) version 3 of the License.
-> + *
-> + * This program is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> + * GNU General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU General Public License along
-> + * with this program; if not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#ifndef CADENCE_SDHCI_H
-> +#define CADENCE_SDHCI_H
-> +
-> +#include "hw/sd/sdhci.h"
-> +
-> +#define CADENCE_SDHCI_REG_SIZE  0x100
-> +#define CADENCE_SDHCI_NUM_REGS  (CADENCE_SDHCI_REG_SIZE / sizeof(uint32_t))
-> +
-> +typedef struct CadenceSDHCIState {
-> +    SysBusDevice parent;
-> +
-> +    MemoryRegion iomem;
-> +    BusState *bus;
-> +
-> +    uint32_t regs[CADENCE_SDHCI_NUM_REGS];
-> +
-> +    SDHCIState sdhci;
-> +} CadenceSDHCIState;
-> +
-> +#define TYPE_CADENCE_SDHCI  "cadence.sdhci"
-> +#define CADENCE_SDHCI(obj)  OBJECT_CHECK(CadenceSDHCIState, (obj), \
-> +                                         TYPE_CADENCE_SDHCI)
-> +
-> +#endif /* CADENCE_SDHCI_H */
+> 
+> Havard
 > 
 
