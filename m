@@ -2,67 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8B7624E7C3
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Aug 2020 16:06:28 +0200 (CEST)
-Received: from localhost ([::1]:43888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C59F24E7CB
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Aug 2020 16:17:00 +0200 (CEST)
+Received: from localhost ([::1]:49206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9UA7-0000i5-Hb
-	for lists+qemu-devel@lfdr.de; Sat, 22 Aug 2020 10:06:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54274)
+	id 1k9UKJ-0003eG-9N
+	for lists+qemu-devel@lfdr.de; Sat, 22 Aug 2020 10:16:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k9U9K-0000HF-JZ
- for qemu-devel@nongnu.org; Sat, 22 Aug 2020 10:05:39 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47728)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1k9UJE-0003Dl-Ni
+ for qemu-devel@nongnu.org; Sat, 22 Aug 2020 10:15:56 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:39154)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1k9U9I-0000uo-SG
- for qemu-devel@nongnu.org; Sat, 22 Aug 2020 10:05:38 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1k9U9H-0007Us-PY
- for <qemu-devel@nongnu.org>; Sat, 22 Aug 2020 14:05:35 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B6AF22E8072
- for <qemu-devel@nongnu.org>; Sat, 22 Aug 2020 14:05:35 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 22 Aug 2020 13:59:58 -0000
-From: Diego Viola <1892581@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1k9UJC-0001zI-5j
+ for qemu-devel@nongnu.org; Sat, 22 Aug 2020 10:15:52 -0400
+Received: by mail-wr1-x443.google.com with SMTP id a5so4470880wrm.6
+ for <qemu-devel@nongnu.org>; Sat, 22 Aug 2020 07:15:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tthNWqNKiRI8yjia+C25buQpPNf0kP/fcyPzE0FdcZA=;
+ b=hGxNGSVxHFR9R33V9ATVEwIhed88l6pKrk+GYrMQWBKSEJ2uLFIqwF+96/pG80KV5d
+ THPrUFhH5qOLnvrgeG9FqAt1ZM3xzRrMimABNh5HD1WE3zFmUgHI8TTQbK1lNVzHAGCk
+ Fa4ZusxYqVSIE1x/xBFGRUYRE5TSp8L/VPilAlKTxg0pIHPnm0tznd+3DJoqFq6C0uvb
+ 8knnYr2UXzuz42XY19cVFjiDe+fOcMDTnZBtIxQz3/Swbar35zerr50qLer+h0btTv/Y
+ od2ZJ7mOvOuSjLo5cj6hTUDSvkOo1CjNPsPTei0imvT9DjLEAuhADd2/qfkQn1bXAfQy
+ QQfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=tthNWqNKiRI8yjia+C25buQpPNf0kP/fcyPzE0FdcZA=;
+ b=G2QnwcVA/CI31ssVLpbNLblpGcOv7IhobhiebsnSnuRRQfU+Pm7VsRuYFS7jhD+EvK
+ UhXOeFS5mH68t4TL0RTNqzf8JSI/U3Lejg/K9ZxrwFdsow5a7RuYlrMqqSimYCML/unb
+ yDJUghsvLP8t8zVZWijI8S0HzAaJ2GLOdYAspPJbfFdFk3+nBKdwvBLFBoxWyXyqFLNr
+ ukjqRij6wDQkJJsI4H52L4qFq4K6e0qdJDrx3zw9VIqBU1Hz6Ksbl06d7+BZKPOeJSYd
+ 5HiJqSjuhugQPciBr0tszk7yhFJ9ETDqW9idKbN2rba08vgxIv7ur9P0yY2fmPQ+6EAy
+ US0A==
+X-Gm-Message-State: AOAM533KrSRrwrL0INrtFhHVPdA+djaaE8S8w4W8mkf+Cmq89BvLAIb/
+ TBkCZXSwRr6xAEMKpzqUReQdBcMeJwU=
+X-Google-Smtp-Source: ABdhPJz22xDOM50+VnIQQnv3snRb00aTfmfZ8FI9IOgxFtQZCrJdft5pfihc43vWcWaAdb71m+JPkA==
+X-Received: by 2002:a5d:4a8a:: with SMTP id o10mr6823213wrq.327.1598105748101; 
+ Sat, 22 Aug 2020 07:15:48 -0700 (PDT)
+Received: from localhost.localdomain (121.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.121])
+ by smtp.gmail.com with ESMTPSA id o128sm12353270wmo.39.2020.08.22.07.15.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 22 Aug 2020 07:15:47 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: diego-viola
-X-Launchpad-Bug-Reporter: Diego Viola (diego-viola)
-X-Launchpad-Bug-Modifier: Diego Viola (diego-viola)
-References: <159810419955.15369.6411904597131705076.malonedeb@soybean.canonical.com>
-Message-Id: <159810479835.2034.9889159706004746233.malone@chaenomeles.canonical.com>
-Subject: [Bug 1892581] Re: QEMU 5.1 no longer says anything about inaccessible
- devices
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="99c2d833c8d727fd05148486920aca032e908071"; Instance="production"
-X-Launchpad-Hash: b02890c99a83a224874b10c648f889ca99dffff8
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/22 10:00:50
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [RFC PATCH] hw/display/tcx: Allow 64-bit accesses to framebuffer
+ stippler and blitter
+Date: Sat, 22 Aug 2020 16:15:45 +0200
+Message-Id: <20200822141545.1314296-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,76 +87,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1892581 <1892581@bugs.launchpad.net>
+Cc: Michael Lorenz <macallan@NetBSD.org>, 1892540@bugs.launchpad.net,
+ Andreas Gustafsson <gson@gson.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-My system is Arch Linux.
+The S24/TCX datasheet is listed as "Unable to locate" on [1].
 
--- =
+However the NetBSD revision 1.32 of the driver introduced
+64-bit accesses to the stippler and blitter [2]. It is safe
+to assume these memory regions are 64-bit accessible.
+QEMU implementation is 32-bit, so fill the 'impl' fields.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1892581
+[1] http://web.archive.org/web/20111209011516/http://wikis.sun.com/display/FOSSdocs/Home
+[2] http://cvsweb.netbsd.org/bsdweb.cgi/src/sys/dev/sbus/tcx.c.diff?r1=1.31&r2=1.32
 
-Title:
-  QEMU 5.1 no longer says anything about inaccessible devices
+Reported-by: Andreas Gustafsson <gson@gson.org>
+Buglink: https://bugs.launchpad.net/bugs/1892540
+Fixes: 55d7bfe2293 ("tcx: Implement hardware acceleration")
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/display/tcx.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
-Status in QEMU:
-  New
+diff --git a/hw/display/tcx.c b/hw/display/tcx.c
+index 1fb45b1aab8..96c6898b149 100644
+--- a/hw/display/tcx.c
++++ b/hw/display/tcx.c
+@@ -548,20 +548,28 @@ static const MemoryRegionOps tcx_stip_ops = {
+     .read = tcx_stip_readl,
+     .write = tcx_stip_writel,
+     .endianness = DEVICE_NATIVE_ENDIAN,
+-    .valid = {
++    .impl = {
+         .min_access_size = 4,
+         .max_access_size = 4,
+     },
++    .valid = {
++        .min_access_size = 4,
++        .max_access_size = 8,
++    },
+ };
+ 
+ static const MemoryRegionOps tcx_rstip_ops = {
+     .read = tcx_stip_readl,
+     .write = tcx_rstip_writel,
+     .endianness = DEVICE_NATIVE_ENDIAN,
+-    .valid = {
++    .impl = {
+         .min_access_size = 4,
+         .max_access_size = 4,
+     },
++    .valid = {
++        .min_access_size = 4,
++        .max_access_size = 8,
++    },
+ };
+ 
+ static uint64_t tcx_blit_readl(void *opaque, hwaddr addr,
+@@ -650,10 +658,14 @@ static const MemoryRegionOps tcx_rblit_ops = {
+     .read = tcx_blit_readl,
+     .write = tcx_rblit_writel,
+     .endianness = DEVICE_NATIVE_ENDIAN,
+-    .valid = {
++    .impl = {
+         .min_access_size = 4,
+         .max_access_size = 4,
+     },
++    .valid = {
++        .min_access_size = 4,
++        .max_access_size = 8,
++    },
+ };
+ 
+ static void tcx_invalidate_cursor_position(TCXState *s)
+-- 
+2.26.2
 
-Bug description:
-  Previously, with QEMU 5.0.0 running a VM with the following command:
-
-  $ qemu-system-x86_64 -enable-kvm -hda arch-zoom.qcow2 -m 4G -device
-  usb-ehci,id=3Dehci -device usb-
-  host,bus=3Dehci.0,vendorid=3D0x04f2,productid=3D0xb449 -device intel-hda
-  -device hda-duplex -vga virtio
-
-  Would display something like the following:
-
-  libusb: error [_get_usbfs_fd] libusb couldn't open USB device /dev/bus/us=
-b/002/004: Permission denied
-  libusb: error [_get_usbfs_fd] libusb requires write access to USB device =
-nodes.
-  libusb: error [_get_usbfs_fd] libusb couldn't open USB device /dev/bus/us=
-b/002/004: Permission denied
-  libusb: error [_get_usbfs_fd] libusb requires write access to USB device =
-nodes.
-
-  With insufficient permissions.
-
-  QEMU 5.1.0 no longer displays anything.
-
-  I did a git bisect and this is the result:
-
-  [diego@thinkpad qemu]$ git bisect bad
-  9f815e83e983d247a3cd67579d2d9c1765adc644 is the first bad commit
-  commit 9f815e83e983d247a3cd67579d2d9c1765adc644
-  Author: Gerd Hoffmann <kraxel@redhat.com>
-  Date:   Fri Jun 5 14:59:52 2020 +0200
-
-      usb: add hostdevice property to usb-host
-
-      The new property allows to specify usb host device name.  Uses standa=
-rd
-      qemu_open(), so both file system path (/dev/bus/usb/$bus/$dev on linu=
-x)
-      and file descriptor passing can be used.
-
-      Requires libusb 1.0.23 or newer.  The hostdevice property is only
-      present in case qemu is compiled against a new enough library version,
-      so the presence of the property can be used for feature detection.
-
-      Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-      Message-Id: <20200605125952.13113-1-kraxel@redhat.com>
-
-   hw/usb/host-libusb.c | 75 ++++++++++++++++++++++++++++++++++++++++++----=
-------
-   hw/usb/trace-events  |  1 +
-   2 files changed, 62 insertions(+), 14 deletions(-)
-  [diego@thinkpad qemu]$
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1892581/+subscriptions
 
