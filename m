@@ -2,55 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D52A24E9FE
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Aug 2020 23:22:48 +0200 (CEST)
-Received: from localhost ([::1]:59390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 343D124EA02
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Aug 2020 23:24:33 +0200 (CEST)
+Received: from localhost ([::1]:37500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9ayM-0007kq-Ve
-	for lists+qemu-devel@lfdr.de; Sat, 22 Aug 2020 17:22:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49020)
+	id 1k9b04-0001yE-Aj
+	for lists+qemu-devel@lfdr.de; Sat, 22 Aug 2020 17:24:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1k9axH-0006Yg-6b
+ id 1k9axH-0006Yf-6A
  for qemu-devel@nongnu.org; Sat, 22 Aug 2020 17:21:39 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:55272 helo=mta-01.yadro.com)
+Received: from mta-02.yadro.com ([89.207.88.252]:55278 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1k9axF-0002sC-F9
+ id 1k9axF-0002sD-FC
  for qemu-devel@nongnu.org; Sat, 22 Aug 2020 17:21:38 -0400
 Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 3AD4C574FF
+ by mta-01.yadro.com (Postfix) with ESMTP id 4F24E5604F
  for <qemu-devel@nongnu.org>; Sat, 22 Aug 2020 21:21:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
  content-type:content-type:content-transfer-encoding:mime-version
- :x-mailer:message-id:date:date:subject:subject:from:from
- :received:received:received; s=mta-01; t=1598131292; x=
- 1599945693; bh=1iC9vP5PrDCESFkXMTSEysJ9BME3aI7lD78NFneJLY4=; b=f
- QO/RvvXmymQwrgIwBtjGPOgjt1rSzxD4Kvgl2onIvpOPn9p2EehTfqeSk2gq4rfE
- UgNlid5G50aBhZhr6NzrhQr9nFePCd5LfPTyxz3s1Hydf2+hCUu3+tadPt+GilHz
- +G8QPQlKk54luDP06TaTfzayAj63wnOIAhZMaMIA4I=
+ :references:in-reply-to:x-mailer:message-id:date:date:subject
+ :subject:from:from:received:received:received; s=mta-01; t=
+ 1598131293; x=1599945694; bh=BqgzoMCid9ojGf6fIEty6qj4pgzcFFR1Rd2
+ kQlnOsx0=; b=J+jL68p3XWAcuZxVysdThZsYfolCwkKyGqBlBlBoFelQdmT6gXX
+ 8aomqbiLHbb6lKVxm+z9Bic8a2O1ePEd71m/mw6GF9zXM9+6StKKI/UoiPEKXSvv
+ OqGbRkIJwg4MdRj7/F9lF0zMgO7huWqRJXenkpTaRC1yTi0U/WDhM4KU=
 X-Virus-Scanned: amavisd-new at yadro.com
 Received: from mta-01.yadro.com ([127.0.0.1])
  by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id g51y9LGCy6fn for <qemu-devel@nongnu.org>;
- Sun, 23 Aug 2020 00:21:32 +0300 (MSK)
+ with ESMTP id AQkc4fLGQILB for <qemu-devel@nongnu.org>;
+ Sun, 23 Aug 2020 00:21:33 +0300 (MSK)
 Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
  [172.17.10.102])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id AEE885604F
- for <qemu-devel@nongnu.org>; Sun, 23 Aug 2020 00:21:32 +0300 (MSK)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 35194574F4
+ for <qemu-devel@nongnu.org>; Sun, 23 Aug 2020 00:21:33 +0300 (MSK)
 Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
  (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Sun, 23
- Aug 2020 00:21:32 +0300
+ Aug 2020 00:21:33 +0300
 From: Roman Bolshakov <r.bolshakov@yadro.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH 0/4] Compatibility make fixes for meson
-Date: Sun, 23 Aug 2020 00:21:25 +0300
-Message-ID: <20200822212129.97758-1-r.bolshakov@yadro.com>
+Subject: [PATCH 1/4] configure: Use discovered make for in-source build
+Date: Sun, 23 Aug 2020 00:21:26 +0300
+Message-ID: <20200822212129.97758-2-r.bolshakov@yadro.com>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200822212129.97758-1-r.bolshakov@yadro.com>
+References: <20200822212129.97758-1-r.bolshakov@yadro.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -83,20 +85,30 @@ Cc: Roman Bolshakov <r.bolshakov@yadro.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The set of changes addresses "Diagnose "make is too old" in configure
-(or in the makefile?)" from https://wiki.qemu.org/Features/Meson#Easy.
-It also provides cleaner backwards compatible build invocation on macOS.
+A recursive make is inovked if in-source build is used but $(MAKE) is
+the same as the one used in the original make invocaton.
 
-Roman Bolshakov (4):
-  configure: Use discovered make for in-source build
-  Makefile: Require GNU make 3.82+
-  configure: Prefer gmake on darwin
-  configure: Test if $make actually exists
+Some platforms have preference to use gmake, or a make passed as an
+option to "configure". Honor the choice.
 
- Makefile  |  5 +++++
- configure | 28 ++++++++++++++++++++++++++++
- 2 files changed, 33 insertions(+)
+Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
+---
+ configure | 2 ++
+ 1 file changed, 2 insertions(+)
 
+diff --git a/configure b/configure
+index 4e5fe33211..9e0d505067 100755
+--- a/configure
++++ b/configure
+@@ -38,6 +38,8 @@ then
+ # This file is auto-generated by configure to support in-source tree
+ # 'make' command invocation
+ 
++include build/config-host.mak
++
+ ifeq ($(MAKECMDGOALS),)
+ recurse: all
+ endif
 -- 
 2.28.0
 
