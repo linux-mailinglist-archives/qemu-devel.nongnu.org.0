@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E025824E98C
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Aug 2020 22:01:54 +0200 (CEST)
-Received: from localhost ([::1]:50358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECCB124E98D
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Aug 2020 22:03:03 +0200 (CEST)
+Received: from localhost ([::1]:53458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9Zi5-0003Jh-Vj
-	for lists+qemu-devel@lfdr.de; Sat, 22 Aug 2020 16:01:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35012)
+	id 1k9ZjD-0004f4-1k
+	for lists+qemu-devel@lfdr.de; Sat, 22 Aug 2020 16:03:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k9Zh5-0002q3-R0
- for qemu-devel@nongnu.org; Sat, 22 Aug 2020 16:00:51 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:41463)
+ id 1k9Zi7-0003hv-Ay; Sat, 22 Aug 2020 16:01:55 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:41527)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1k9Zh4-0002R8-D2
- for qemu-devel@nongnu.org; Sat, 22 Aug 2020 16:00:51 -0400
-Received: by mail-wr1-x430.google.com with SMTP id r2so4960847wrs.8
- for <qemu-devel@nongnu.org>; Sat, 22 Aug 2020 13:00:49 -0700 (PDT)
+ id 1k9Zi5-0002UY-UJ; Sat, 22 Aug 2020 16:01:55 -0400
+Received: by mail-wr1-x441.google.com with SMTP id r2so4962665wrs.8;
+ Sat, 22 Aug 2020 13:01:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=vpB/+pBx/MDiJ6iQHtMpCskZQntkyIsfKEWBmxV6svQ=;
- b=NNd7T7j9bXN+BA0jSoT9BZGxx7Hvklmdi3rSt+jl+9vf/OaO6X5F6Ptd3poejSbJGN
- gxTj7uaNwt1yo6triqxRkpIE/h7TMpLT3cUwKbZecF6GJ2GZaE/ukshtsCqrSvYOmxrv
- +d9odRTilL8PtY10KrZBRih338n1AzkNC0obHCH4sLfNd/CCCRlOHALDUstRvH6yLjb6
- AL3u4BepIgHzC9RtAhCV5r9P+2MJ0w+5Trf3CHTDxyR2kvU251cwgOxx5UuG3bTS+dmJ
- Pdb2JFdwp83p97ClY/zfAtEZJXPZHGC5tdxNCYNWG64d+8uPUGzX8I5FjedpuHi6RXl1
- Rsgw==
+ bh=IPbzWS1Lf8WQ58PA0cE2M9IiJQnSkZctlSfQKGn0nxQ=;
+ b=FEj97eSMC8VwZc6V4eeV/ZdtXckmGKG6DMmL8Wh/z8MHs9afkNmdH7hxp0bRB0vhr+
+ pCZ6uUxNOpYziWhYiL+juHS1BjUNghXpft/5wx3KEUuXWSD/C3+qDc8Zzqbsom5FTGSh
+ AJpztgdu1IEFJR/OKo4fxiZEIURHJqbTpENPFaIrqs851FoXZM33AP5Xp48Dg/EJKVyG
+ YY0E9Ro7dGkxvAaQoye9x61awOew0jJ6kpyrfMg0giAgAcbs6YHQYeIVmUXRRVSXCbxJ
+ oJprB9/0sG9wcD80vWT4bWTQcZrb/dNKet5WP3/CW+b4XkuGZw+XO09g4fCMJ4i4laHv
+ guNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=vpB/+pBx/MDiJ6iQHtMpCskZQntkyIsfKEWBmxV6svQ=;
- b=RNRDoVk8KJVzfZQ0OdU/KVehWY16yoe9JB9s3s3V9AdTCvNO20PxzI6Kf7D4zmLOm7
- /DtEC6rbnM1fPqFzAbjbAY3MN3E1rEjD1RJ+iqTsPfFkx3ZWx6znnjz/5+bXtwON7M4/
- DbM2yvLTGWKv6wX2yTLLvIsYc62SHnun3TAKrFM3SkZnGglxxFdXRAAGc0tGR/kVHolh
- nYI+HxO8jzSCNMs/FZ/jO9Yt+rY7bv/rkCvwXt077eIXCmuMxyx2Yw7SrG6P1REF0Xde
- kFm4dXWQxJeO5LMeMX7YOPLTy5xtWEW/IALQsMdfwVGcWiDi1QG/eMB2pwexUaF+v6D+
- dJ+A==
-X-Gm-Message-State: AOAM533uWsXe5pjNnFmGbXG2EJCdALHNHKyroHrDANqAXIsGPYTwt2nA
- tsJZvCvMCgd7iuZBLn9Wv0CgcBtLTI8=
-X-Google-Smtp-Source: ABdhPJyc/pcfNgiM7e2qPeMtnn3PPOUhWcaBnFAXJrG5jcf2w5YUuYlT316319Hb7J/wYJj+telUzw==
-X-Received: by 2002:adf:e290:: with SMTP id v16mr8011593wri.259.1598126448979; 
- Sat, 22 Aug 2020 13:00:48 -0700 (PDT)
+ bh=IPbzWS1Lf8WQ58PA0cE2M9IiJQnSkZctlSfQKGn0nxQ=;
+ b=QLLTt4NHjFZzT4TdEvsFhW63Ztovw7WqoSS69fKUg9pvE1r0J8vom4raSTX8z0eiYp
+ NWEkeC3CTStM2lrvK5EOcVn48WjqxVzDxe216nh48PjUZLfDmLJ6SB2UEHAMKCXzfs9p
+ dbfytBBt8K+F5a2+32wugtxP1mxqUtE+/vtypkHpQf2bunIbtUgugvLAKbvIMbpNac/b
+ DVP/QjCmuzgjtkIlWlXswIVaQxJaXPdMXrQNIeEUHq1UMgcSquoAuZTVW60cwbLV4vuo
+ sbPcUU4KNyrGSWpWlIicxeqaohx0JHIRAa4ieHc50wI3WmdKGNgPDpYew0CiR6VG+ntR
+ QjAQ==
+X-Gm-Message-State: AOAM533s79F+Gf6GiP8FY4zyLLpgR750HLzHf6XQSfztmzrqD4B1G8fB
+ GmJ8XI/wFkCqj61H+gQO1ZgX9wxIXdk=
+X-Google-Smtp-Source: ABdhPJx93Oq12ViR6ZQ1t0JiLUSF5pu9uu4pDY7y1nW2QcP/Q/98Ivh1llJgc6U3Ch+PU1h1qq0wYw==
+X-Received: by 2002:adf:c552:: with SMTP id s18mr7882642wrf.209.1598126511989; 
+ Sat, 22 Aug 2020 13:01:51 -0700 (PDT)
 Received: from [192.168.1.36] (121.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.121])
- by smtp.gmail.com with ESMTPSA id n24sm13140976wmi.36.2020.08.22.13.00.47
+ by smtp.gmail.com with ESMTPSA id 5sm1988039wmg.32.2020.08.22.13.01.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 22 Aug 2020 13:00:48 -0700 (PDT)
-Subject: Re: [PATCH-for-5.2 0/4] hw/char/serial: Use the Clock API to feed the
- UART reference clock
+ Sat, 22 Aug 2020 13:01:51 -0700 (PDT)
+Subject: Re: [PATCH-for-5.2 0/2] hw/core/sysbus: Trivial cleanup patches
 To: qemu-devel@nongnu.org
-References: <20200806130340.17316-1-f4bug@amsat.org>
+References: <20200806130945.21629-1-f4bug@amsat.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <bc283986-6f08-fb1c-2219-9b4af64eaaa0@amsat.org>
-Date: Sat, 22 Aug 2020 22:00:47 +0200
+Message-ID: <11f9df38-3bd8-3360-a13d-b91fcc7cb86a@amsat.org>
+Date: Sat, 22 Aug 2020 22:01:50 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200806130340.17316-1-f4bug@amsat.org>
+In-Reply-To: <20200806130945.21629-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -90,32 +87,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Peter Maydell <peter.maydell@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-trivial@nongnu.org,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/6/20 3:03 PM, Philippe Mathieu-Daudé wrote:
-> This series improve tracing of multiple UART device in the same
-> chipset, and allow to use the Clock API to feed each device with
-> an (updatable) input clock.
+On 8/6/20 3:09 PM, Philippe Mathieu-Daudé wrote:
+> Fix a typo and assert sysbus_mmio_get_region() is called
+> with correct index.
 > 
-> Based-on: <20200730165900.7030-1-philmd@redhat.com>
-> "hw/char: Remove TYPE_SERIAL_IO"
+> Philippe Mathieu-Daudé (2):
+>   hw/core/sysbus: Fix a typo
+>   hw/core/sysbus: Assert memory region index is in range
 > 
-> Philippe Mathieu-Daudé (4):
->   hw/char/serial: Replace commented DPRINTF() by trace event
->   hw/char/serial: Remove old DEBUG_SERIAL commented code
->   hw/char/serial: Let SerialState have an 'id' field
->   hw/char/serial: Use the Clock API to feed the UART reference clock
-> 
->  include/hw/char/serial.h |  4 +++
->  hw/char/serial.c         | 55 +++++++++++++++++++++++-----------------
->  hw/char/trace-events     |  5 ++--
->  3 files changed, 39 insertions(+), 25 deletions(-)
+>  hw/core/sysbus.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
 
-ping? Should I resend with the typo from patch 4 fixed?
+ping?
 
