@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D3F624E5AB
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Aug 2020 07:56:12 +0200 (CEST)
-Received: from localhost ([::1]:35972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6C0E24E5B9
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Aug 2020 07:59:36 +0200 (CEST)
+Received: from localhost ([::1]:47148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9MVf-0001VC-BC
-	for lists+qemu-devel@lfdr.de; Sat, 22 Aug 2020 01:56:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34000)
+	id 1k9MYy-0006Lw-0K
+	for lists+qemu-devel@lfdr.de; Sat, 22 Aug 2020 01:59:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=49637c5a7=alistair.francis@wdc.com>)
- id 1k9MR7-0001y4-HR
- for qemu-devel@nongnu.org; Sat, 22 Aug 2020 01:51:29 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:25955)
+ id 1k9MRN-0002G0-E8
+ for qemu-devel@nongnu.org; Sat, 22 Aug 2020 01:51:45 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:12936)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=49637c5a7=alistair.francis@wdc.com>)
- id 1k9MR5-0000D6-HZ
- for qemu-devel@nongnu.org; Sat, 22 Aug 2020 01:51:29 -0400
+ id 1k9MRL-0000D0-9g
+ for qemu-devel@nongnu.org; Sat, 22 Aug 2020 01:51:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1598075487; x=1629611487;
+ t=1598075503; x=1629611503;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=fuvZIk9VuvyiTai3ieMFQLTQavvAVmwSdtldSrMJcuQ=;
- b=JNWO4pv7mjPSx1Ai3A19vHxP6tTBhJ8mUt3mvCovLjW/0FbEc+skVp4E
- mnHArbCOXzFYKBH/h5TLhKbrGuWYqLm62AGd7E8JSfOsBLhZvY5ckDxPB
- s9+kC7oK58IdPLtawaaq4Do8PD0gtBmsf/64j/oONUYktcAZm5TNAbufe
- UG+vk+Ui3fgDBGsGLLjJ1DjGyefoULYHZIZdlWKIyYKE3+2zDOfTz+3EG
- Jc1yxBqvMJhxCAg3GU/9761cC6p1aeoXjPw7gPZgeGNZvR2uMdoWnsiQ6
- BLQlGS0tcTHzzMQABVAAdqepD+SnkaSUiql7InEJeay971socL0ycou+K w==;
-IronPort-SDR: w0D7g5AO+YKmw0DwP9CzU0z3G4iLXZBWKyKlRPbVa76FrN8KuAtvQ5tpZq5TSXZrcUrJBWgXs/
- wxYc4kEmKpLEUeKLiDqglxsvHvUW6FWK2n96aJRFMakE5VgEeCp7HlsphIYEOx7r9tb3ePN1BX
- lg8tNKrrEjN4EzQZXvTNAFNmkMPT/yxhFcpHep+b89hegnaXyrRKHDIg+GFXlwBZ4r1mAYkJXS
- q71Ogmar0n7Ln92xRqwvnnxbzycYEvs7K/miO9U28RwppGa7O1Afn2wJ+SPVjgiDhplYDVSMh5
- pNg=
-X-IronPort-AV: E=Sophos;i="5.76,339,1592841600"; d="scan'208";a="145571968"
+ bh=YmSIJh6vlvG3yq8+l6R6dA4Np/mPZmUlDtmcWGm/swM=;
+ b=FptaG5FfeYg6kZy3urfSspcBa3lbwhbHEjUpOyTCl3hiPmdzedVZ9p+8
+ ChI1l5awPYj8XZlIPbea2z6HVGKWezgKtn/6qR3vxynepT5lQ+1agELRE
+ s04f5zAexKXLh6GXOPzZapicWztVnujSssWrbsCL/BmdTl6x35o7d1lAp
+ HJ44AuJxAu9KcLWqb837S+5TSTRq13hCGtEwl7VRjKIQHPZjFTSQuefae
+ RmBtA1dSxB4Psqx98irh5xr3RKbMTD4/pxWmzsjV89rHfbf3lfhOlZZ30
+ u3pa2YhnJgF0y8U5ML2fMKvVZaKz7iLwTpT6BKE7PtofHUmOqZCrcWC/X A==;
+IronPort-SDR: +TE5sVSaO0yNy774yIifZTX/KAnnjFAf+ub2tzCYlBMpLi6WzZqdXkwKRZ6vPj7VmYMoXs5KFp
+ h0lvZrAbe5PdbUt1+2GnPsgM28iFjrVhESrmO08cU6bir1CrJ5Q9Ed16zXI5qyAORm1y7X1tv9
+ mBhN7KO69WAxeimH/vNmzzkB6O3NwHTX0RfCkn3IWaSNMh1M0lTh86UFiZ441CKbLULAuAV5YB
+ B733oDERDoaii89bOwFWDs/S57v4cHEMjmywjPD+cts72GlGOKwXEL+6Oq7YK4Z/6vu+7W6aUR
+ 6R8=
+X-IronPort-AV: E=Sophos;i="5.76,339,1592841600"; d="scan'208";a="145571970"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
  by ob1.hgst.iphmx.com with ESMTP; 22 Aug 2020 13:51:21 +0800
-IronPort-SDR: aY7QQnIAGBeQfOXEHZ6JNAz2XBi3AYke7HWFzDSftW6nfaqTVO0ykHFfOf/hlMJwfq9Yz8AfUl
- JBgjXVTFQULg==
+IronPort-SDR: WGwq5BbDWCVkaWgl8a13MFpn4aQ5xoVnH7wDTOQ4fBKqlpNR7v40v5AQBPledl7f/4iz8VClCB
+ HLpFnY9JilGA==
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  21 Aug 2020 22:38:14 -0700
-IronPort-SDR: g6aX3EUXHAuXzg6f34kZwFVO1NkPLGTAQckdd2yIsR7qvbNxAUxv17lPL5hrPZYrn6bMd2FLKN
- HsqSTCohxNWg==
+IronPort-SDR: LcMV737BALoDIVNE0HqqbhBI9zxO3xmt6au8usz8Y4IzgJaWmxANPKSgaZ9KY95iw78LzXbt8A
+ vPOVEgyu+y5A==
 WDCIronportException: Internal
 Received: from 5zn13g2.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.59.90])
- by uls-op-cesaip02.wdc.com with ESMTP; 21 Aug 2020 22:51:21 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 21 Aug 2020 22:51:22 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 15/20] gitlab-ci/opensbi: Update GitLab CI to build generic
- platform
-Date: Fri, 21 Aug 2020 22:40:56 -0700
-Message-Id: <20200822054101.1202175-16-alistair.francis@wdc.com>
+Subject: [PULL v3 17/20] target/riscv: Change the TLB page size depends on PMP
+ entries.
+Date: Fri, 21 Aug 2020 22:40:58 -0700
+Message-Id: <20200822054101.1202175-18-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200822054101.1202175-1-alistair.francis@wdc.com>
 References: <20200822054101.1202175-1-alistair.francis@wdc.com>
@@ -88,69 +88,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Bin Meng <bin.meng@windriver.com>,
- alistair.francis@wdc.com, Anup Patel <anup@brainfault.org>
+Cc: alistair23@gmail.com, alistair.francis@wdc.com,
+ Zong Li <zong.li@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+From: Zong Li <zong.li@sifive.com>
 
-This updates the GitLab CI opensbi job to build opensbi bios images
-for the generic platform.
+The minimum granularity of PMP is 4 bytes, it is small than 4KB page
+size, therefore, the pmp checking would be ignored if its range doesn't
+start from the alignment of one page. This patch detects the pmp entries
+and sets the small page size to TLB if there is a PMP entry which cover
+the page size.
 
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Anup Patel <anup@brainfault.org>
+Signed-off-by: Zong Li <zong.li@sifive.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <1596439832-29238-7-git-send-email-bmeng.cn@gmail.com>
+Message-Id: <6b0bf48662ef26ab4c15381a08e78a74ebd7ca79.1595924470.git.zong.li@sifive.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- .gitlab-ci.d/opensbi.yml | 28 ++++++++++------------------
- 1 file changed, 10 insertions(+), 18 deletions(-)
+ target/riscv/pmp.h        |  2 ++
+ target/riscv/cpu_helper.c | 10 ++++++--
+ target/riscv/pmp.c        | 52 +++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 62 insertions(+), 2 deletions(-)
 
-diff --git a/.gitlab-ci.d/opensbi.yml b/.gitlab-ci.d/opensbi.yml
-index 62088ec5ec..5b13047e2a 100644
---- a/.gitlab-ci.d/opensbi.yml
-+++ b/.gitlab-ci.d/opensbi.yml
-@@ -35,18 +35,14 @@ build-opensbi:
-    when: always
-  artifacts:
-    paths: # 'artifacts.zip' will contains the following files:
--   - pc-bios/opensbi-riscv32-sifive_u-fw_jump.bin
--   - pc-bios/opensbi-riscv32-virt-fw_jump.bin
--   - pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin
--   - pc-bios/opensbi-riscv64-virt-fw_jump.bin
--   - opensbi32-virt-stdout.log
--   - opensbi32-virt-stderr.log
--   - opensbi64-virt-stdout.log
--   - opensbi64-virt-stderr.log
--   - opensbi32-sifive_u-stdout.log
--   - opensbi32-sifive_u-stderr.log
--   - opensbi64-sifive_u-stdout.log
--   - opensbi64-sifive_u-stderr.log
-+   - pc-bios/opensbi-riscv32-generic-fw_dynamic.bin
-+   - pc-bios/opensbi-riscv32-generic-fw_dynamic.elf
-+   - pc-bios/opensbi-riscv64-generic-fw_dynamic.bin
-+   - pc-bios/opensbi-riscv64-generic-fw_dynamic.elf
-+   - opensbi32-generic-stdout.log
-+   - opensbi32-generic-stderr.log
-+   - opensbi64-generic-stdout.log
-+   - opensbi64-generic-stderr.log
-  image: $CI_REGISTRY_IMAGE:opensbi-cross-build
-  variables:
-    GIT_DEPTH: 3
-@@ -55,10 +51,6 @@ build-opensbi:
-  - export JOBS=$(($(getconf _NPROCESSORS_ONLN) + 1))
-  - echo "=== Using ${JOBS} simultaneous jobs ==="
-  - make -j${JOBS} -C roms/opensbi clean
-- - make -j${JOBS} -C roms opensbi32-virt 2>&1 1>opensbi32-virt-stdout.log | tee -a opensbi32-virt-stderr.log >&2
-+ - make -j${JOBS} -C roms opensbi32-generic 2>&1 1>opensbi32-generic-stdout.log | tee -a opensbi32-generic-stderr.log >&2
-  - make -j${JOBS} -C roms/opensbi clean
-- - make -j${JOBS} -C roms opensbi64-virt 2>&1 1>opensbi64-virt-stdout.log | tee -a opensbi64-virt-stderr.log >&2
-- - make -j${JOBS} -C roms/opensbi clean
-- - make -j${JOBS} -C roms opensbi32-sifive_u 2>&1 1>opensbi32-sifive_u-stdout.log | tee -a opensbi32-sifive_u-stderr.log >&2
-- - make -j${JOBS} -C roms/opensbi clean
-- - make -j${JOBS} -C roms opensbi64-sifive_u 2>&1 1>opensbi64-sifive_u-stdout.log | tee -a opensbi64-sifive_u-stderr.log >&2
-+ - make -j${JOBS} -C roms opensbi64-generic 2>&1 1>opensbi64-generic-stdout.log | tee -a opensbi64-generic-stderr.log >&2
+diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
+index 8e19793132..6a8f072871 100644
+--- a/target/riscv/pmp.h
++++ b/target/riscv/pmp.h
+@@ -60,5 +60,7 @@ void pmpaddr_csr_write(CPURISCVState *env, uint32_t addr_index,
+ target_ulong pmpaddr_csr_read(CPURISCVState *env, uint32_t addr_index);
+ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+     target_ulong size, pmp_priv_t priv, target_ulong mode);
++bool pmp_is_range_in_tlb(CPURISCVState *env, hwaddr tlb_sa,
++                         target_ulong *tlb_size);
+ 
+ #endif
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 2f337e418c..fd1d373b6f 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -693,6 +693,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     bool first_stage_error = true;
+     int ret = TRANSLATE_FAIL;
+     int mode = mmu_idx;
++    target_ulong tlb_size = 0;
+ 
+     env->guest_phys_fault_addr = 0;
+ 
+@@ -784,8 +785,13 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     }
+ 
+     if (ret == TRANSLATE_SUCCESS) {
+-        tlb_set_page(cs, address & TARGET_PAGE_MASK, pa & TARGET_PAGE_MASK,
+-                     prot, mmu_idx, TARGET_PAGE_SIZE);
++        if (pmp_is_range_in_tlb(env, pa & TARGET_PAGE_MASK, &tlb_size)) {
++            tlb_set_page(cs, address & ~(tlb_size - 1), pa & ~(tlb_size - 1),
++                         prot, mmu_idx, tlb_size);
++        } else {
++            tlb_set_page(cs, address & TARGET_PAGE_MASK, pa & TARGET_PAGE_MASK,
++                         prot, mmu_idx, TARGET_PAGE_SIZE);
++        }
+         return true;
+     } else if (probe) {
+         return false;
+diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+index b14feeb7da..c394e867f8 100644
+--- a/target/riscv/pmp.c
++++ b/target/riscv/pmp.c
+@@ -383,3 +383,55 @@ target_ulong pmpaddr_csr_read(CPURISCVState *env, uint32_t addr_index)
+ 
+     return val;
+ }
++
++/*
++ * Calculate the TLB size if the start address or the end address of
++ * PMP entry is presented in thie TLB page.
++ */
++static target_ulong pmp_get_tlb_size(CPURISCVState *env, int pmp_index,
++                                     target_ulong tlb_sa, target_ulong tlb_ea)
++{
++    target_ulong pmp_sa = env->pmp_state.addr[pmp_index].sa;
++    target_ulong pmp_ea = env->pmp_state.addr[pmp_index].ea;
++
++    if (pmp_sa >= tlb_sa && pmp_ea <= tlb_ea) {
++        return pmp_ea - pmp_sa + 1;
++    }
++
++    if (pmp_sa >= tlb_sa && pmp_sa <= tlb_ea && pmp_ea >= tlb_ea) {
++        return tlb_ea - pmp_sa + 1;
++    }
++
++    if (pmp_ea <= tlb_ea && pmp_ea >= tlb_sa && pmp_sa <= tlb_sa) {
++        return pmp_ea - tlb_sa + 1;
++    }
++
++    return 0;
++}
++
++/*
++ * Check is there a PMP entry which range covers this page. If so,
++ * try to find the minimum granularity for the TLB size.
++ */
++bool pmp_is_range_in_tlb(CPURISCVState *env, hwaddr tlb_sa,
++                         target_ulong *tlb_size)
++{
++    int i;
++    target_ulong val;
++    target_ulong tlb_ea = (tlb_sa + TARGET_PAGE_SIZE - 1);
++
++    for (i = 0; i < MAX_RISCV_PMPS; i++) {
++        val = pmp_get_tlb_size(env, i, tlb_sa, tlb_ea);
++        if (val) {
++            if (*tlb_size == 0 || *tlb_size > val) {
++                *tlb_size = val;
++            }
++        }
++    }
++
++    if (*tlb_size != 0) {
++        return true;
++    }
++
++    return false;
++}
 -- 
 2.28.0
 
