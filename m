@@ -2,60 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1AC324ED06
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 Aug 2020 13:21:21 +0200 (CEST)
-Received: from localhost ([::1]:36588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5D5624ED03
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 Aug 2020 13:19:38 +0200 (CEST)
+Received: from localhost ([::1]:57944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9o3s-0002P0-Rb
-	for lists+qemu-devel@lfdr.de; Sun, 23 Aug 2020 07:21:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45210)
+	id 1k9o2D-0007z7-U5
+	for lists+qemu-devel@lfdr.de; Sun, 23 Aug 2020 07:19:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k9o0z-0006Gr-4d
- for qemu-devel@nongnu.org; Sun, 23 Aug 2020 07:18:21 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36616
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k9o11-0006LQ-Fo
+ for qemu-devel@nongnu.org; Sun, 23 Aug 2020 07:18:23 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:48618
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k9o0x-0001gc-Lo
- for qemu-devel@nongnu.org; Sun, 23 Aug 2020 07:18:20 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1k9o0z-0001gj-TS
+ for qemu-devel@nongnu.org; Sun, 23 Aug 2020 07:18:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598181499;
+ s=mimecast20190719; t=1598181500;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=J+CitJfPbt2EThF7a0J0F0eHAT8/w+MaREbR+uKJZjs=;
- b=OXoeS4BUDmtx6uCV8XkahjsOf59yOmfCn6KPmyzrFBZItYS/c3bEc9ZviVBI0rCLjNBwpB
- fPWnaO8JHi5xz1FS+YXfEDrCmGY7OZHMEYsow/LhQSNz7ab+2lO6TwfUEebKH988froNc+
- rm1Mj9VqLW2rk4buVtf4b+Gr0dx/aOU=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=u/HDIqoOetQWfztR3CWGeOl4fwR5rSj/TVaSoFlR52w=;
+ b=YUpiy6/epya35zOpg7m1NgMJS+k2IIlyaJq5oHjLKx0SLl69IwPFRZ5krQZbB8n5N7FKP4
+ OE54LY3zp/h9ChpdgwHEo/fCkLZUiA+l+id5DoBeeYqkZNAO6bVxEAPgkuFxCog+VKFHQn
+ vmEdd4X7IQ8/tuZNDe9U6DKvco7XLbs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-449-DuV3rvNfPKuoxh2BZeSsMw-1; Sun, 23 Aug 2020 07:18:13 -0400
-X-MC-Unique: DuV3rvNfPKuoxh2BZeSsMw-1
+ us-mta-285-Ju3lkwv4PFGaLv9eRAf8Ow-1; Sun, 23 Aug 2020 07:18:15 -0400
+X-MC-Unique: Ju3lkwv4PFGaLv9eRAf8Ow-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 521CB1885D9C;
- Sun, 23 Aug 2020 11:18:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B87A2801AB3;
+ Sun, 23 Aug 2020 11:18:14 +0000 (UTC)
 Received: from thuth.com (ovpn-112-57.ams2.redhat.com [10.36.112.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 836385BAC3;
- Sun, 23 Aug 2020 11:18:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C11EA5BAC3;
+ Sun, 23 Aug 2020 11:18:12 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v2 3/7] tests/Makefile: test-image-locking needs CONFIG_POSIX
-Date: Sun, 23 Aug 2020 13:17:53 +0200
-Message-Id: <20200823111757.72002-4-thuth@redhat.com>
+Subject: [PATCH v2 4/7] tests/Makefile: test-replication needs CONFIG_POSIX
+Date: Sun, 23 Aug 2020 13:17:54 +0200
+Message-Id: <20200823111757.72002-5-thuth@redhat.com>
 In-Reply-To: <20200823111757.72002-1-thuth@redhat.com>
 References: <20200823111757.72002-1-thuth@redhat.com>
+MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/23 07:18:14
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/23 07:18:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -84,30 +88,35 @@ Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-test-image-locking.c uses the qemu_lock_fd_test() function which is
-only available on POSIX-like systems.
+test-replication uses sigaction() and friends which are only available
+on POSIX-like systems.
 
-Reviewed-by: John Snow <jsnow@redhat.com>
-Message-Id: <20200804170055.2851-4-thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200804170055.2851-5-thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/Makefile.include | 2 ++
- 1 file changed, 2 insertions(+)
+ tests/Makefile.include | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 9ac8f5b86a..497f1f21ff 100644
+index 497f1f21ff..a9746c2ecb 100644
 --- a/tests/Makefile.include
 +++ b/tests/Makefile.include
-@@ -87,7 +87,9 @@ check-unit-$(CONFIG_BLOCK) += tests/test-blockjob$(EXESUF)
- check-unit-$(CONFIG_BLOCK) += tests/test-blockjob-txn$(EXESUF)
- check-unit-$(CONFIG_BLOCK) += tests/test-block-backend$(EXESUF)
- check-unit-$(CONFIG_BLOCK) += tests/test-block-iothread$(EXESUF)
-+ifeq ($(CONFIG_POSIX),y)
- check-unit-$(CONFIG_BLOCK) += tests/test-image-locking$(EXESUF)
+@@ -156,11 +156,13 @@ check-unit-$(CONFIG_BLOCK)  += tests/test-crypto-afsplit$(EXESUF)
+ check-unit-$(call land,$(CONFIG_BLOCK),$(CONFIG_QEMU_PRIVATE_XTS)) += tests/test-crypto-xts$(EXESUF)
+ check-unit-$(CONFIG_BLOCK)  += tests/test-crypto-block$(EXESUF)
+ check-unit-y += tests/test-logging$(EXESUF)
+-check-unit-$(call land,$(CONFIG_BLOCK),$(CONFIG_REPLICATION)) += tests/test-replication$(EXESUF)
+ check-unit-$(CONFIG_SOFTMMU) += tests/test-bufferiszero$(EXESUF)
+ check-unit-y += tests/test-uuid$(EXESUF)
+ check-unit-y += tests/ptimer-test$(EXESUF)
+ check-unit-y += tests/test-qapi-util$(EXESUF)
++ifeq ($(CONFIG_BLOCK)$(CONFIG_REPLICATION)$(CONFIG_POSIX),yyy)
++check-unit-y += tests/test-replication$(EXESUF)
 +endif
- check-unit-y += tests/test-x86-cpuid$(EXESUF)
- # all code tested by test-x86-cpuid is inside topology.h
- ifeq ($(CONFIG_SOFTMMU),y)
+ 
+ generated-files-y += tests/test-qapi-types.h
+ generated-files-y += tests/include/test-qapi-types-sub-module.h
 -- 
 2.18.2
 
