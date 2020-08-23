@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94BB624EF93
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 Aug 2020 21:53:23 +0200 (CEST)
-Received: from localhost ([::1]:58648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F94724EF90
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 Aug 2020 21:52:07 +0200 (CEST)
+Received: from localhost ([::1]:51314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9w3O-0007LO-LS
-	for lists+qemu-devel@lfdr.de; Sun, 23 Aug 2020 15:53:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39404)
+	id 1k9w2A-0004Ou-EZ
+	for lists+qemu-devel@lfdr.de; Sun, 23 Aug 2020 15:52:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1k9w0x-0002rS-Ad
- for qemu-devel@nongnu.org; Sun, 23 Aug 2020 15:50:51 -0400
+ id 1k9w0z-0002s4-LG
+ for qemu-devel@nongnu.org; Sun, 23 Aug 2020 15:50:53 -0400
 Received: from mail-eopbgr80121.outbound.protection.outlook.com
  ([40.107.8.121]:48453 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1k9w0v-0006Ij-TD
- for qemu-devel@nongnu.org; Sun, 23 Aug 2020 15:50:51 -0400
+ id 1k9w0x-0006Ij-T3
+ for qemu-devel@nongnu.org; Sun, 23 Aug 2020 15:50:53 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AvihsU0oWiPM8l/isp5z8eqm/Wn23wsIrlyC+3MUUkpYfZIYqI1joDp29tNKL0JFWU4sWjYZfugOU7quNhLOoP+ddiDCXvnCBxYs2RLTdpjMqynC3jx7BMSBVnHuPGvvZMFWZuL7FWzICoPOWJeH0G9An7yy51x3fMhl2avjBeok9cpycQOzbnq6HrVv63ZYe89cX12qpgC6Bg45TNXQMhXqgup1UdGoya4d1TYrnN6XtnuBM6asCMdZUUdbnqh8HYoUxu1gNu066CghZxOFDIuBccWDZHLOu9JV4g/mRYADF25znFLo/0ziYtPHsIm41Um9Y5Zj6s5vy0P4FKHwAQ==
+ b=NpIHLPfERzjFnEgWrvol4uPTUjo/JOSCPcv7UVdILPC4aOn0b88ZMw1OgcWLlLu2JpXTp0LVsRvd9VTkiYJ5WrF2S+Uo1txf5VoJ3H/ZZbyP2R5i9uFXJkUK0dgUL0amBnMyPEHXINbfcjCtpQIL8MIyzRwb24h+s7Gq3ibZXCzNIf2Y6Ha698hFpUoIGk1lfj6sZFwizV7kUnOKDMDqMxljgRlZQFjpx4kfK6Ayw8A2jBtaN2hawLDqFy7f0JWlcL8wPGEdAIuUWAyb/8HP+uDmDswPJhDoodsIwfvCYMnWkRKyHKuZ7t54jayNZbj0HnKwa9fyTkQ5dMxf5r9cqg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A3K1Hw13tM0eU4oMXNfO5F/khM0Chg60kBr/6nHp6Lo=;
- b=PRBjXb287o+hDdUb8v4ihKvj4MH7xwIru4ZhwYNdVhGNnveV8y+uj+42ed2dsNL6mzVQ8hYCV457NDRf2DhAdFMYTYe0vfLgev2lTYerxwCt4mRLtjsN3BFjoCkXRIw/q+Eq2AZS3W/NrDKbkZVWAvV7uTbk09WoyIv99+lfInPM3XdxoPWd5pf7dczZ09Qc/+6kR9rNwUl54D5w2duWqvb+OxYyXksSVooKcB9S6HanmIDBrcwZzsW8RZhGdKkiFnnk+sciU8psAJ01R4so6qM7hzC9jHMCVSSOcUaIlCEjkwCiAjrK61EoUNY48draE1wjYXBvm6nLegCk3x3y8w==
+ bh=tR7rYUwbD0fTgYdVBGZFraa9m49V8b234KyFjXJT+j8=;
+ b=FA8fVs7GNFAqSM8XJssN/mjqsnPM818MbzbRo5/jO7/9fFar4gJfUXZ8DhlWgtt2vqjpJ6ohX6YqveEqvITdckgP4Znh9EKB48OLdtJtCxWWcJro5G+//hflTMLTcv2rhmrkRAuO43suBHt9ZxieOyQw5/gGDhHBd5cFUxVR2jVQBrHvNVc3cPZX5D9PPG76fRLYcc5G17noOJlAoCQpSkgZNvtijIItwYAJ1DbyxNJF/H40ELALe60+jHwDD3BRUW765+Uu+d/fbu2jEcHSlhejrgnARPDn5ohUTVUjVfJ1mJrlY245SMJYLOKaXU2I8oIoHfBuWwC72UmStReQEQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
  dkim=pass header.d=syrmia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A3K1Hw13tM0eU4oMXNfO5F/khM0Chg60kBr/6nHp6Lo=;
- b=VSwGuuLM2DAHsjJmTyDbpYLTTbt4DVupZVOARgpY7Pe6KrHe+Hnp4dTMPOdjvsY1WEGEPxHjFDu3m2P6Hj49T3pLJdxI717rsfQI5C8qyui1fK02IjQ4JbtD+mcvlejM3WI5Wx9v+4A++egqWNmg7nI28I+TY2zunpuaV5I0GTM=
+ bh=tR7rYUwbD0fTgYdVBGZFraa9m49V8b234KyFjXJT+j8=;
+ b=NUiQcr6nWsmu1o2bbGPvwfjQMto864uPGswy9cNLBV/ruhOixjT0mHBRxXL+prPceTES5loBho7InxkBKcRzkmyG3Oo8QuJ4lZMy1Cl5pEwVheHWVVani54nAS5DpoQ/zOPDJcAxHtGgKzXLN76FgE2k+evDNcivPIdsB3U4BN4=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=syrmia.com;
 Received: from VE1PR03MB5246.eurprd03.prod.outlook.com (2603:10a6:802:a1::22)
  by VI1PR03MB6143.eurprd03.prod.outlook.com (2603:10a6:800:131::7)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.24; Sun, 23 Aug
- 2020 19:50:35 +0000
+ 2020 19:50:36 +0000
 Received: from VE1PR03MB5246.eurprd03.prod.outlook.com
  ([fe80::3568:5b4f:ab6b:e362]) by VE1PR03MB5246.eurprd03.prod.outlook.com
  ([fe80::3568:5b4f:ab6b:e362%6]) with mapi id 15.20.3261.026; Sun, 23 Aug 2020
- 19:50:35 +0000
+ 19:50:36 +0000
 From: Filip Bozuta <Filip.Bozuta@syrmia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/8] linux-user: Add support for a group of btrfs ioctls
- used for snapshots
-Date: Sun, 23 Aug 2020 21:50:08 +0200
-Message-Id: <20200823195014.116226-3-Filip.Bozuta@syrmia.com>
+Subject: [PATCH v3 3/8] linux-user: Add support for btrfs ioctls used to
+ manipulate with devices
+Date: Sun, 23 Aug 2020 21:50:09 +0200
+Message-Id: <20200823195014.116226-4-Filip.Bozuta@syrmia.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200823195014.116226-1-Filip.Bozuta@syrmia.com>
 References: <20200823195014.116226-1-Filip.Bozuta@syrmia.com>
@@ -65,32 +65,32 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (147.91.217.235) by
  LO2P265CA0172.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:a::16) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3305.24 via Frontend Transport; Sun, 23 Aug 2020 19:50:34 +0000
+ 15.20.3305.24 via Frontend Transport; Sun, 23 Aug 2020 19:50:35 +0000
 X-Mailer: git-send-email 2.25.1
 X-Originating-IP: [147.91.217.235]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8611fd6b-a492-4f07-0788-08d8479dcd08
+X-MS-Office365-Filtering-Correlation-Id: fa7903a4-8305-4ad4-c9cb-08d8479dcd8b
 X-MS-TrafficTypeDiagnostic: VI1PR03MB6143:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR03MB6143859F7ED6B3635BFE9E43EB590@VI1PR03MB6143.eurprd03.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <VI1PR03MB614386C0AF3D892697EF7DF8EB590@VI1PR03MB6143.eurprd03.prod.outlook.com>
 X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0Dqp3DZb9OBEjvU0wzI4CbUR8ZWDWc4Ar8RRHIIgdo+ExRQmZRbVD9xTllWWO+8cV5T2vzdMDpXjJvy25lIigQME1aB+aPIE5yaq9Xf2LvepM5FM6801fbYY2hLDVb8vJNH5h8OZykU+BS8pAblG3dB4mUh1FZVt5oYuqmOB7gkX0Oj2hnkS8EWutl+gaM1SB+Pyb1G79GY3mTPVjOrwZRdAXD8FdI/sFkYIbi61mdU54x7Jn6qJpqMoBsyOHW6SGLhi80KZEwMn9yIARE5OnAbdP/m0LYDQL0gqliM2uXtFXbVasZgBDNilSCGZsBpfXNwNefvrCn9Z74bof2wdHWrEETlU+fB9ETAsGI5jpv7lLRgzC/rfueU8prYO0YbF
+X-Microsoft-Antispam-Message-Info: 7GkeGXSVSuPzxzQoIwT7yVfv6V8FY/R2d7mCEssVyfrsNA+SBQS5QhciSmT9LAIxn9zBRtwtlU8UpqZR+801OhXk0u8DoBAbV+xT9c6ajYAaRpXISKOfq0P514slYI6BZRw+fHfx5FA6weZW+AR9tc4b83gZpcNS2BjXUBlF5xNIK5LXQjyqSl3XWWBX3Lrz/gTtdn7p6azNI1Lldy4VQc9cjcgDkfpr79/HOarMaMOtrWNlGjD2MdG/UT3e0vgYqYPhURXBncW3xfcg5knvGZV14iYMyRp1jKajCyYnPby+BJMVQuohqxwAyQigwQlT+ZJmG4EQIhqdnLkplpcsj6JR3vaTfViEzce3ofV73qmYu41OOebjCWV1E+xvwZLM
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VE1PR03MB5246.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(346002)(376002)(39830400003)(136003)(366004)(396003)(6916009)(8676002)(8936002)(6486002)(4326008)(66556008)(2616005)(107886003)(6666004)(66476007)(316002)(956004)(6512007)(66946007)(36756003)(54906003)(5660300002)(186003)(26005)(52116002)(6506007)(478600001)(2906002)(86362001)(69590400007)(16526019)(1076003)(83380400001);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: K+I+lT/E2nNllKC6jNerULmtJalFg9jySfUgg7GY1D4+yS9MIi3i4prD8F85UZD48q/VNWwPSI0dmSWkWB1qC+7jXI1JMiH+G4px9qNZPDNs2Bce4dLX/v6SqCkgQgsCDOsLUSM2LMHJKuEUPrhBTvQXlKznvB06+NRxA1zDZ1EMkU40zBnaSH3QzIhyH9iHp6gXOVgCX4edjv5bn+cPFpx0sMOFf43GkTQ9N6GuWzuC3byjHa9/krexV2e+fIEAMqrWwet66NwSfPHpYJ4SvvdF8YU4xKoYTssGa+E+l2m1UwSgfodQCGK3C4kso6OMx6Z1SIeBSQpzoWgcOs8es1UAvnukTUFT1Zpdx9Is7roLWCQc64D/bBegBSAerJLI49mmkj/cZ8w9qrOwxI7b2e4ss/pHvL1H2OTawgK4XgZ6QymLRtsR+ZE6yCVs+8v7zdSjTVfbCSVgJ7WBDl2/fEOZnDfggO8huZ/A/CRg3kqhlw0hFf0aMaGfcQH4cS6orJMarF8TQ0ZvqJSUizc7noAjtfHfuoXSb1ZkFD+bZ/U1A0DD8pq7w8nLgCKBcHmeC0B27ykto7gUyyYzk0xpfoqvXQYy6X0F4u9PILTUiSRfVPd1jgFsI9kU/RZaL3YSmYCCcNuZT5ea0e5I7KTHSA==
+X-MS-Exchange-AntiSpam-MessageData: AgbqRLKZTFVT92Tz32mZ4l/1SrrPS3IDMSms6Zr0xJGnwtSBZMvc984SHS8qcGhTAn+YSp+9kFCT83kg13CZBD6aXF04xC67k3Mh081Iv5RKt9f6e5jXP8Rx45L9ZU78u1j5SPfmxsDicJFz1FzvAgetCzUoifrh8a8N9nNkFlN6I7A23MTcNFJfMCYunt4++yse9Gcjn4hAWw9rWFBn/B8pB21TJujC87PhWYbzsOgSTQrAoXGNpQqCDoPZNd56+GbnpZpf+rET9LL/WBZEfI+7HqlRweWHnrGJ2Pj+C+5PaUPu8DOFjzSGNYAgIcus4gIQsT0RtEij8c0Y1bXHYr7JoybxloQhaC84LY6hAN+U86hNskW43n7WD2kbSwKbFvzhemtiBDaVjYgDcjnojdH7KgSFT/z+AoYMeUd4ovP8cTNo/7roB9yEfCcw+bihIb/kH2tA4uocD5yoK16ZAhN2Mg/ZPv90UR4NYOdMG0kIP0+mD9rMEVTB/lJtfmUP1OMkNzQ7M4lsOPP/aKrz7jILP04UAz7zhzrIdXqtb1f5TcqGRuRKNHbLwx3Xlx0LY4ypRE5IWQT737fTCG1d2Esz8yhi8EqfL899fZ1FUNiL9ChXH/TZRmzQtFdmyfJHKLbxZip8Ktz/hHOQh7iKHA==
 X-OriginatorOrg: syrmia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8611fd6b-a492-4f07-0788-08d8479dcd08
+X-MS-Exchange-CrossTenant-Network-Message-Id: fa7903a4-8305-4ad4-c9cb-08d8479dcd8b
 X-MS-Exchange-CrossTenant-AuthSource: VE1PR03MB5246.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2020 19:50:35.0646 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2020 19:50:35.9191 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kSOHJYcRDaapj9t++2SGUKg6/h/QCGE/frj2/2SPuCdpPqEjm0s1/7s5qB4JdFHa42m0N7jKA1/5lfO9sz9bIw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: B0mrjt/T1q1l7F8stMVEkpCLXt2IFyavm//bMyUOTooJwOjYPxGrkrVqWTD7WTs2ViiSKADnHZYONx0GAjIpVA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR03MB6143
 Received-SPF: pass client-ip=40.107.8.121;
  envelope-from=Filip.Bozuta@syrmia.com;
@@ -123,87 +123,211 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This patch implements functionality for following ioctls:
 
-BTRFS_IOC_SNAP_CREATE - Creating a subvolume snapshot
+BTRFS_IOC_SCAN_DEV - Scanning device for a btrfs filesystem
 
-    Create a snapshot of a btrfs subvolume. The snapshot is created using the
-    ioctl's third argument that is a pointer to a 'struct btrfs_ioctl_vol_args'
-    (which was mentioned in the previous patch). Before calling this ioctl,
-    the fields of the structure should be filled with aproppriate values for
-    the file descriptor and path of the subvolume for which the snapshot is to
-    be created.
+    Scan a device for a btrfs filesystem. The device that is to
+    be scanned is passed in the ioctl's third argument which
+    represents a pointer to a 'struct ioc_vol_args' (which was
+    mentioned in a previous patch). Before calling this ioctl,
+    the name field of this structure should be filled with the
+    aproppriate name value which represents a path for the device.
+    If the device contains a btrfs filesystem, the ioctl returns 0,
+    otherwise a negative value is returned.
 
-BTRFS_IOC_SNAP_DESTROY - Removing a subvolume snapshot
+BTRFS_IOC_ADD_DEV - Adding a device to a btrfs filesystem
 
-    Delete a snapshot of a btrfs subvolume. The snapshot is deleted using the
-    ioctl's third argument that is a pointer to a 'struct btrfs_ioctl_vol_args'
-    (which was mentioned in the previous patch). Before calling this ioctl,
-    the fields of the structure should be filled with aproppriate values for
-    the file descriptor and path of the subvolume for which the snapshot is to
-    be deleted.
+    Add a device to a btrfs filesystem. The device that is to be
+    added is passed in the ioctl's third argument which represents
+    a pointer to a 'struct ioc_vol_args' (which was mentioned in
+    a previous patch). Before calling this ioctl, the name field of
+    this structure should be filled with the aproppriate name value
+    which represents a path for the device.
+
+BTRFS_IOC_RM_DEV - Removing a device from a btrfs filesystem
+
+    Remove a device from a btrfs filesystem. The device that is to be
+    removed is passed in the ioctl's third argument which represents
+    a pointer to a 'struct ioc_vol_args' (which was mentioned in
+    a previous patch). Before calling this ioctl, the name field of
+    this structure should be filled with the aproppriate name value
+    which represents a path for the device.
+
+BTRFS_IOC_DEV_INFO - Getting information about a device
+
+    Obtain information for device in a btrfs filesystem. The information
+    is gathered in the ioctl's third argument which represents a pointer
+    to a following structure type:
+
+    struct btrfs_ioctl_dev_info_args {
+	__u64 devid;				/* in/out */
+	__u8 uuid[BTRFS_UUID_SIZE];		/* in/out */
+	__u64 bytes_used;			/* out */
+	__u64 total_bytes;			/* out */
+	__u64 unused[379];			/* pad to 4k */
+	__u8 path[BTRFS_DEVICE_PATH_NAME_MAX];	/* out */
+    };
+
+    Before calling this ioctl, field "devid" should be set with the id value
+    for the device for which the information is to be obtained. If this field
+    is not aproppriately set, the errno ENODEV ("No such device") is returned.
+
+BTRFS_IOC_GET_DEV_STATS - Getting device statistics
+
+    Obtain stats informatin for device in a btrfs filesystem. The information
+    is gathered in the ioctl's third argument which represents a pointer to
+    a following structure type:
+
+    struct btrfs_ioctl_get_dev_stats {
+	__u64 devid;				/* in */
+	__u64 nr_items;				/* in/out */
+	__u64 flags;				/* in/out */
+
+	/* out values: */
+	__u64 values[BTRFS_DEV_STAT_VALUES_MAX];
+
+	/*
+	 * This pads the struct to 1032 bytes. It was originally meant to pad to
+	 * 1024 bytes, but when adding the flags field, the padding calculation
+	 * was not adjusted.
+	 */
+	__u64 unused[128 - 2 - BTRFS_DEV_STAT_VALUES_MAX];
+    };
+
+    Before calling this ioctl, field "devid" should be set with the id value
+    for the device for which the information is to be obtained. If this field
+    is not aproppriately set, the errno ENODEV ("No such device") is returned.
+
+BTRFS_IOC_FORGET_DEV - Remove unmounted devices
+
+    Search and remove all stale devices (devices which are not mounted).
+    The third ioctl argument is a pointer to a 'struct btrfs_ioctl_vol_args'.
+    The ioctl call will release all unmounted devices which match the path
+    which is specified in the "name" field of the structure. If an empty
+    path ("") is specified, all unmounted devices will be released.
 
 Implementation notes:
 
-    Since the thunk type 'struct btrfs_ioctl_vol_args' is defined in the
-    previous patch, the implementation for these ioctls was straightforward.
+    Ioctls BTRFS_IOC_DEV_INFO and BTRFS_IOC_GET_DEV_STATS use types
+    'struct btrfs_ioctl_dev_info_args' and ' struct btrfs_ioctl_get_dev_stats'
+    as third argument types. That is the reason why corresponding structure
+    definitions were added in file 'linux-user/syscall_types.h'.
+    Since the thunk type for 'struct ioc_vol_args' was already added in a
+    previous patch, the rest of the implementation was straightforward.
 
 Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
 ---
- linux-user/ioctls.h        | 8 ++++++++
- linux-user/syscall_defs.h  | 2 ++
- linux-user/syscall_types.h | 3 ++-
- 3 files changed, 12 insertions(+), 1 deletion(-)
+ linux-user/ioctls.h        | 24 ++++++++++++++++++++++++
+ linux-user/syscall_defs.h  |  6 ++++++
+ linux-user/syscall_types.h | 24 +++++++++++++++++++++++-
+ 3 files changed, 53 insertions(+), 1 deletion(-)
 
 diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index 12d1444224..f33a99f8b6 100644
+index f33a99f8b6..55a6cbeca5 100644
 --- a/linux-user/ioctls.h
 +++ b/linux-user/ioctls.h
-@@ -174,10 +174,18 @@
-      IOCTL(FS_IOC32_GETVERSION, IOC_R, MK_PTR(TYPE_INT))
-      IOCTL(FS_IOC32_SETVERSION, IOC_W, MK_PTR(TYPE_INT))
- 
-+#ifdef BTRFS_IOC_SNAP_CREATE
-+     IOCTL(BTRFS_IOC_SNAP_CREATE, IOC_W,
+@@ -178,6 +178,22 @@
+      IOCTL(BTRFS_IOC_SNAP_CREATE, IOC_W,
+            MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_vol_args)))
+ #endif
++#ifdef BTRFS_IOC_SCAN_DEV
++     IOCTL(BTRFS_IOC_SCAN_DEV, IOC_W,
++           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_vol_args)))
++#endif
++#ifdef BTRFS_IOC_FORGET_DEV
++     IOCTL(BTRFS_IOC_FORGET_DEV, IOC_W,
++           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_vol_args)))
++#endif
++#ifdef BTRFS_IOC_ADD_DEV
++     IOCTL(BTRFS_IOC_ADD_DEV, IOC_W,
++           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_vol_args)))
++#endif
++#ifdef BTRFS_IOC_RM_DEV
++     IOCTL(BTRFS_IOC_RM_DEV, IOC_W,
 +           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_vol_args)))
 +#endif
  #ifdef BTRFS_IOC_SUBVOL_CREATE
       IOCTL(BTRFS_IOC_SUBVOL_CREATE, IOC_W,
             MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_vol_args)))
+@@ -192,6 +208,14 @@
+ #ifdef BTRFS_IOC_SUBVOL_SETFLAGS
+      IOCTL(BTRFS_IOC_SUBVOL_SETFLAGS, IOC_W, MK_PTR(TYPE_ULONGLONG))
  #endif
-+#ifdef BTRFS_IOC_SNAP_DESTROY
-+     IOCTL(BTRFS_IOC_SNAP_DESTROY, IOC_W,
-+           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_vol_args)))
++#ifdef BTRFS_IOC_DEV_INFO
++     IOCTL(BTRFS_IOC_DEV_INFO, IOC_RW,
++           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_dev_info_args)))
 +#endif
- #ifdef BTRFS_IOC_SUBVOL_GETFLAGS
-      IOCTL(BTRFS_IOC_SUBVOL_GETFLAGS, IOC_R, MK_PTR(TYPE_ULONGLONG))
- #endif
++#ifdef BTRFS_IOC_GET_DEV_STATS
++     IOCTL(BTRFS_IOC_GET_DEV_STATS, IOC_RW,
++           MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_get_dev_stats)))
++#endif
+ #ifdef BTRFS_IOC_GET_SUBVOL_INFO
+      IOCTL(BTRFS_IOC_GET_SUBVOL_INFO, IOC_R,
+            MK_PTR(MK_STRUCT(STRUCT_btrfs_ioctl_get_subvol_info_args)))
 diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 2757956dfa..a945e12547 100644
+index a945e12547..4c7bfa0391 100644
 --- a/linux-user/syscall_defs.h
 +++ b/linux-user/syscall_defs.h
-@@ -968,7 +968,9 @@ struct target_rtc_pll_info {
- #define TARGET_FS_IOC32_SETVERSION TARGET_IOW('v', 2, int)
+@@ -969,12 +969,18 @@ struct target_rtc_pll_info {
  
  /* btrfs ioctls */
-+#define TARGET_BTRFS_IOC_SNAP_CREATE            TARGET_IOWU(BTRFS_IOCTL_MAGIC, 1)
+ #define TARGET_BTRFS_IOC_SNAP_CREATE            TARGET_IOWU(BTRFS_IOCTL_MAGIC, 1)
++#define TARGET_BTRFS_IOC_SCAN_DEV               TARGET_IOWU(BTRFS_IOCTL_MAGIC, 4)
++#define TARGET_BTRFS_IOC_FORGET_DEV             TARGET_IOWU(BTRFS_IOCTL_MAGIC, 5)
++#define TARGET_BTRFS_IOC_ADD_DEV                TARGET_IOWU(BTRFS_IOCTL_MAGIC, 10)
++#define TARGET_BTRFS_IOC_RM_DEV                 TARGET_IOWU(BTRFS_IOCTL_MAGIC, 11)
  #define TARGET_BTRFS_IOC_SUBVOL_CREATE          TARGET_IOWU(BTRFS_IOCTL_MAGIC, 14)
-+#define TARGET_BTRFS_IOC_SNAP_DESTROY           TARGET_IOWU(BTRFS_IOCTL_MAGIC, 15)
+ #define TARGET_BTRFS_IOC_SNAP_DESTROY           TARGET_IOWU(BTRFS_IOCTL_MAGIC, 15)
  #define TARGET_BTRFS_IOC_SUBVOL_GETFLAGS        TARGET_IOR(BTRFS_IOCTL_MAGIC, 25,\
                                                             abi_ullong)
  #define TARGET_BTRFS_IOC_SUBVOL_SETFLAGS        TARGET_IOW(BTRFS_IOCTL_MAGIC, 26,\
+                                                            abi_ullong)
++#define TARGET_BTRFS_IOC_DEV_INFO               TARGET_IOWRU(BTRFS_IOCTL_MAGIC, 30)
++#define TARGET_BTRFS_IOC_GET_DEV_STATS          TARGET_IOWRU(BTRFS_IOCTL_MAGIC, 52)
+ #define TARGET_BTRFS_IOC_GET_SUBVOL_INFO        TARGET_IORU(BTRFS_IOCTL_MAGIC, 60)
+ 
+ /* usb ioctls */
 diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
-index db61dbc1b3..038cd7869b 100644
+index 038cd7869b..ea6898979b 100644
 --- a/linux-user/syscall_types.h
 +++ b/linux-user/syscall_types.h
-@@ -354,7 +354,8 @@ STRUCT(blkpg_partition,
-        MK_ARRAY(TYPE_CHAR, BLKPG_DEVNAMELTH), /* devname */
+@@ -355,7 +355,9 @@ STRUCT(blkpg_partition,
         MK_ARRAY(TYPE_CHAR, BLKPG_VOLNAMELTH)) /* volname */
  
--#ifdef BTRFS_IOC_SUBVOL_CREATE
-+#if defined(BTRFS_IOC_SUBVOL_CREATE) || defined(BTRFS_IOC_SNAP_CREATE) || \
-+    defined(BTRFS_IOC_SNAP_DESTROY)
+ #if defined(BTRFS_IOC_SUBVOL_CREATE) || defined(BTRFS_IOC_SNAP_CREATE) || \
+-    defined(BTRFS_IOC_SNAP_DESTROY)
++    defined(BTRFS_IOC_SNAP_DESTROY)  || defined(BTRFS_IOC_SCAN_DEV)  || \
++    defined(BTRFS_IOC_FORGET_DEV)    || defined(BTRFS_IOC_ADD_DEV) || \
++    defined(BTRFS_IOC_RM_DEV)        || defined(BTRFS_IOC_DEV_INFO)
  STRUCT(btrfs_ioctl_vol_args,
         TYPE_LONGLONG, /* fd */
         MK_ARRAY(TYPE_CHAR, BTRFS_PATH_NAME_MAX + 1)) /* name */
+@@ -387,6 +389,26 @@ STRUCT(btrfs_ioctl_get_subvol_info_args,
+        MK_ARRAY(TYPE_ULONGLONG, 8)) /* reserved */
+ #endif
+ 
++#ifdef BTRFS_IOC_DEV_INFO
++STRUCT(btrfs_ioctl_dev_info_args,
++       TYPE_ULONGLONG, /* devid */
++       MK_ARRAY(TYPE_CHAR, BTRFS_UUID_SIZE), /* uuid */
++       TYPE_ULONGLONG, /* bytes_used */
++       TYPE_ULONGLONG, /* total_bytes */
++       MK_ARRAY(TYPE_ULONGLONG, 379), /* unused */
++       MK_ARRAY(TYPE_CHAR, BTRFS_DEVICE_PATH_NAME_MAX)) /* path */
++#endif
++
++#ifdef BTRFS_IOC_GET_DEV_STATS
++STRUCT(btrfs_ioctl_get_dev_stats,
++       TYPE_ULONGLONG, /* devid */
++       TYPE_ULONGLONG, /* nr_items */
++       TYPE_ULONGLONG, /* flags */
++       MK_ARRAY(TYPE_ULONGLONG, BTRFS_DEV_STAT_VALUES_MAX), /* values */
++       MK_ARRAY(TYPE_ULONGLONG,
++                128 - 2 - BTRFS_DEV_STAT_VALUES_MAX)) /* unused */
++#endif
++
+ STRUCT(rtc_time,
+        TYPE_INT, /* tm_sec */
+        TYPE_INT, /* tm_min */
 -- 
 2.25.1
 
