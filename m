@@ -2,63 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB85624EFF6
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 00:00:40 +0200 (CEST)
-Received: from localhost ([::1]:56070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 758B624F004
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 00:03:20 +0200 (CEST)
+Received: from localhost ([::1]:58554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9y2Z-0003Ad-Al
-	for lists+qemu-devel@lfdr.de; Sun, 23 Aug 2020 18:00:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59982)
+	id 1k9y59-0004Qx-JB
+	for lists+qemu-devel@lfdr.de; Sun, 23 Aug 2020 18:03:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@fromorbit.com>)
- id 1k9y1O-0002ex-Qs; Sun, 23 Aug 2020 17:59:26 -0400
-Received: from mail104.syd.optusnet.com.au ([211.29.132.246]:55519)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@fromorbit.com>)
- id 1k9y1M-0002vs-9J; Sun, 23 Aug 2020 17:59:26 -0400
-Received: from dread.disaster.area (pa49-181-146-199.pa.nsw.optusnet.com.au
- [49.181.146.199])
- by mail104.syd.optusnet.com.au (Postfix) with ESMTPS id 0FDD58235D1;
- Mon, 24 Aug 2020 07:59:08 +1000 (AEST)
-Received: from dave by dread.disaster.area with local (Exim 4.92.3)
- (envelope-from <david@fromorbit.com>)
- id 1k9y15-0000V5-Em; Mon, 24 Aug 2020 07:59:07 +1000
-Date: Mon, 24 Aug 2020 07:59:07 +1000
-From: Dave Chinner <david@fromorbit.com>
-To: Alberto Garcia <berto@igalia.com>
-Subject: Re: [PATCH 0/1] qcow2: Skip copy-on-write when allocating a zero
- cluster
-Message-ID: <20200823215907.GH7941@dread.disaster.area>
-References: <w518sedz3td.fsf@maestria.local.igalia.com>
- <20200817155307.GS11402@linux.fritz.box>
- <w51pn7memr7.fsf@maestria.local.igalia.com>
- <20200819150711.GE10272@linux.fritz.box>
- <20200819175300.GA141399@bfoster>
- <w51v9hdultt.fsf@maestria.local.igalia.com>
- <20200820215811.GC7941@dread.disaster.area>
- <20200821110506.GB212879@bfoster>
- <w51364gjkcj.fsf@maestria.local.igalia.com>
- <w51zh6oi4en.fsf@maestria.local.igalia.com>
+ (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
+ id 1k9y4G-0003tl-HN
+ for qemu-devel@nongnu.org; Sun, 23 Aug 2020 18:02:24 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:51241)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
+ id 1k9y4E-0003J5-PU
+ for qemu-devel@nongnu.org; Sun, 23 Aug 2020 18:02:24 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id s20so1542053wmj.1
+ for <qemu-devel@nongnu.org>; Sun, 23 Aug 2020 15:02:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=message-id:mime-version:from:to:date:subject;
+ bh=EZmyqYw/qy2S6hzK17HVXUf8IP+GEqjAPhQzL4RiHkA=;
+ b=nvN09JSocDUndyEMmM9Xa5D8Z+PCtsVLUY+wJsXs6SSC635U8tTmrWvGCRoLCr1pVF
+ o2uwVSaQP4gy1C7XqxBqCebd34igrGgAYnJf658XWH5ZGjrCLPYSXKflKdcGYB+XWNjj
+ IIWb/ty1Aue0/46j9f3PQmbltrxuIH1UT2ygmt5/I70UnI8xpk6Z1GOcJZB3qaR7QGkA
+ WQ84aZhVruPxisv8SB0tdA/p6SSUyrnJHFgaRI4/WNTh7cUQfxlQ8Qgw3ayT4g3sB20p
+ 72OjQZ/AFY8ha1/0VY/xLVJRWk7aBALIYDEdsp9hRc6kww4epkwwuWw2IB2x07mgBT4X
+ h+Rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:mime-version:from:to:date:subject;
+ bh=EZmyqYw/qy2S6hzK17HVXUf8IP+GEqjAPhQzL4RiHkA=;
+ b=lSpXJplhvfyp2nM2pEUMidxvDCKpEmHwFPFCGJ4OWSzQnioH6wXmSnWyTeliih72I5
+ SOLe9901OVVI3vwGY/bw6ZEsTGng5v0Y//nrf3ZROhSmL1Gazzszs6rzuUFNgaKanh22
+ r4wVz71dScuDS8a09BrKGhM/MdIkxEegF/2dLjktXkNVhGrcbgNQP0mSUAYBcGCL68mK
+ cu4aU9PTr1yv4XdaXlgqsRRU49R2n0laioyJNl2IEkxqxKga150qIL1W1StuXWb0jTU1
+ 9MuvMxmPI2bNcpBILCjEZw3RChpNduCkS7p/2A+k/cOHOB5MOQqwfrSjVWdrUPSkl7Aj
+ +k7g==
+X-Gm-Message-State: AOAM532wzhXyZuCJxCOPazUwwki9yY++S8XQxLihzuxFkvKUrwMEU/Yc
+ g9LEumUbbOLk9CvfdplDIWB+bmDIid0JFQ==
+X-Google-Smtp-Source: ABdhPJxX2nhBqEAq5t6VNQGF+Dt81+p/DF+0Kkw84xHAc3CLWnZUUzjQGEvenAG/oO7bAdXokC5GGw==
+X-Received: by 2002:a1c:f207:: with SMTP id s7mr2789292wmc.22.1598220140255;
+ Sun, 23 Aug 2020 15:02:20 -0700 (PDT)
+Received: from [127.0.1.1] ([41.40.228.169])
+ by smtp.gmail.com with ESMTPSA id o2sm18859859wrj.21.2020.08.23.15.02.18
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 23 Aug 2020 15:02:19 -0700 (PDT)
+Message-ID: <5f42e76b.1c69fb81.c5c4f.9a40@mx.google.com>
+Content-Type: multipart/alternative;
+ boundary="===============1268039215053859817=="
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <w51zh6oi4en.fsf@maestria.local.igalia.com>
-X-Optus-CM-Score: 0
-X-Optus-CM-Analysis: v=2.3 cv=LPwYv6e9 c=1 sm=1 tr=0 cx=a_idp_d
- a=GorAHYkI+xOargNMzM6qxQ==:117 a=GorAHYkI+xOargNMzM6qxQ==:17
- a=kj9zAlcOel0A:10 a=y4yBn9ojGxQA:10 a=20KFwNOVAAAA:8 a=7-415B0cAAAA:8
- a=KKWFYgnz2FB2mNuqyY4A:9 a=CjuIK1q_8ugA:10 a=biEYGPWJfzWAr4FL6Ov7:22
-Received-SPF: none client-ip=211.29.132.246; envelope-from=david@fromorbit.com;
- helo=mail104.syd.optusnet.com.au
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/23 17:59:18
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_BL=0.01, RCVD_IN_MSPIKE_L5=2.5, SPF_HELO_PASS=-0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+From: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
+To: qemu-devel@nongnu.org
+Date: Mon, 24 Aug 2020 00:02:16 +0200
+Subject: [REPORT] Nightly Performance Tests - Sunday, August 23, 2020
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=ahmedkhaledkaraman@gmail.com; helo=mail-wm1-x32e.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, MIME_HTML_ONLY=0.1, MIME_HTML_ONLY_MULTI=0.001,
+ MPART_ALT_DIFF=0.79, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,139 +82,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- Brian Foster <bfoster@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, linux-xfs@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 21, 2020 at 02:12:32PM +0200, Alberto Garcia wrote:
-> On Fri 21 Aug 2020 01:42:52 PM CEST, Alberto Garcia wrote:
-> > On Fri 21 Aug 2020 01:05:06 PM CEST, Brian Foster <bfoster@redhat.com> wrote:
-> >>> > 1) off: for every write request QEMU initializes the cluster (64KB)
-> >>> >         with fallocate(ZERO_RANGE) and then writes the 4KB of data.
-> >>> > 
-> >>> > 2) off w/o ZERO_RANGE: QEMU writes the 4KB of data and fills the rest
-> >>> >         of the cluster with zeroes.
-> >>> > 
-> >>> > 3) metadata: all clusters were allocated when the image was created
-> >>> >         but they are sparse, QEMU only writes the 4KB of data.
-> >>> > 
-> >>> > 4) falloc: all clusters were allocated with fallocate() when the image
-> >>> >         was created, QEMU only writes 4KB of data.
-> >>> > 
-> >>> > 5) full: all clusters were allocated by writing zeroes to all of them
-> >>> >         when the image was created, QEMU only writes 4KB of data.
-> >>> > 
-> >>> > As I said in a previous message I'm not familiar with xfs, but the
-> >>> > parts that I don't understand are
-> >>> > 
-> >>> >    - Why is (4) slower than (1)?
-> >>> 
-> >>> Because fallocate() is a full IO serialisation barrier at the
-> >>> filesystem level. If you do:
-> >>> 
-> >>> fallocate(whole file)
-> >>> <IO>
-> >>> <IO>
-> >>> <IO>
-> >>> .....
-> >>> 
-> >>> The IO can run concurrent and does not serialise against anything in
-> >>> the filesysetm except unwritten extent conversions at IO completion
-> >>> (see answer to next question!)
-> >>> 
-> >>> However, if you just use (4) you get:
-> >>> 
-> >>> falloc(64k)
-> >>>   <wait for inflight IO to complete>
-> >>>   <allocates 64k as unwritten>
-> >>> <4k io>
-> >>>   ....
-> >>> falloc(64k)
-> >>>   <wait for inflight IO to complete>
-> >>>   ....
-> >>>   <4k IO completes, converts 4k to written>
-> >>>   <allocates 64k as unwritten>
-> >>> <4k io>
-> >>> falloc(64k)
-> >>>   <wait for inflight IO to complete>
-> >>>   ....
-> >>>   <4k IO completes, converts 4k to written>
-> >>>   <allocates 64k as unwritten>
-> >>> <4k io>
-> >>>   ....
-> >>> 
-> >>
-> >> Option 4 is described above as initial file preallocation whereas
-> >> option 1 is per 64k cluster prealloc. Prealloc mode mixup aside, Berto
-> >> is reporting that the initial file preallocation mode is slower than
-> >> the per cluster prealloc mode. Berto, am I following that right?
-> 
-> After looking more closely at the data I can see that there is a peak of
-> ~30K IOPS during the first 5 or 6 seconds and then it suddenly drops to
-> ~7K for the rest of the test.
+--===============1268039215053859817==
+Content-Type: text/html; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-How big is the filesystem, how big is the log? (xfs_info output,
-please!)
+<html><body><pre>
+Host CPU         : Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz
+Host Memory      : 15.49 GB
 
-In general, there are three typical causes of this. The first is
-typical of the initial burst of allocations running on an empty
-journal, then allocation transactions getting throttling back to the
-speed at which metadata can be flushed once the journal fills up. If
-you have a small filesystem and a default sized log, this is quite
-likely to happen.
+Start Time (UTC) : 2020-08-23 21:30:02
+End Time (UTC)   : 2020-08-23 22:02:16
+Execution Time   : 0:32:14.028460
 
-The second is that have large logs and you are running on hardware
-where device cache flushes and FUA writes hammer overall device
-performance. Hence when the CIL initially fills up and starts
-flushing (journal writes are pre-flush + FUA so do both) device
-performance goes way down because now it has to write it's cached
-data to physical media rather than just cache it in volatile device
-RAM. IOWs, journal writes end up forcing all volatile data to stable
-media and so that can slow the device down. ALso, cache flushes
-might not be queued commands, hence journal writes will also create IO
-pipeline stalls...
+Status           : FAILURE
 
-The third is the hardware capability.  Consumer hardware is designed
-to have extremely fast bursty behaviour, but then steady state
-performance is much lower (think "SLC" burst caches in TLC SSDs). I
-have isome consumer SSDs here that can sustain 400MB/s random 4kB
-write for about 10-15s, then they drop to about 50MB/s once the
-burst buffer is full. OTOH, I have enterprise SSDs that will sustain
-a _much_ higher rate of random 4kB writes indefinitely than the
-consumer SSDs burst at.  However, most consumer workloads don't move
-this sort of data around, so this sort of design tradeoff is fine
-for that market (Benchmarketing 101 stuff :).
 
-IOWs, this behaviour could be filesystem config, it could be cache
-flush behaviour, it could simply be storage device design
-capability. Or it could be a combination of all three things.
-Watching a set of fast sampling metrics that tell you what the
-device and filesytem are doing in real time (e.g. I use PCP for this
-and visualise ithe behaviour in real time via pmchart) gives a lot
-of insight into exactly what is changing during transient workload
-changes liek starting a benchmark...
+--------------------------------------------------------
+                  ERROR LOGS
+--------------------------------------------------------
+2020-08-23T21:30:03.149828 - Verifying executables of 8 benchmarks for 17 targets
+2020-08-23T21:30:03.256787 - Verifying results of reference version v5.1.0
+2020-08-23T21:30:03.522675 - Checking out master
+2020-08-23T21:30:07.340980 - Pulling the latest changes from QEMU master
+error: RPC failed; curl 56 GnuTLS recv error (-54): Error in the pull function.
+fatal: The remote end hung up unexpectedly
+fatal: protocol error: bad pack header
+2020-08-23T21:43:32.047625 - Trial 1/10: Failed to pull QEMU ... retrying again in a minute!
+fatal: unable to access 'https://git.qemu.org/git/qemu.git/': Could not resolve host: git.qemu.org
+2020-08-23T21:44:52.183570 - Trial 2/10: Failed to pull QEMU ... retrying again in a minute!
+fatal: unable to access 'https://git.qemu.org/git/qemu.git/': Could not resolve host: git.qemu.org
+2020-08-23T21:46:12.285963 - Trial 3/10: Failed to pull QEMU ... retrying again in a minute!
+fatal: unable to access 'https://git.qemu.org/git/qemu.git/': Could not resolve host: git.qemu.org
+2020-08-23T21:47:32.368841 - Trial 4/10: Failed to pull QEMU ... retrying again in a minute!
+fatal: unable to access 'https://git.qemu.org/git/qemu.git/': Could not resolve host: git.qemu.org
+2020-08-23T21:48:52.473741 - Trial 5/10: Failed to pull QEMU ... retrying again in a minute!
+fatal: unable to access 'https://git.qemu.org/git/qemu.git/': Could not resolve host: git.qemu.org
+2020-08-23T21:50:12.584987 - Trial 6/10: Failed to pull QEMU ... retrying again in a minute!
+fatal: unable to access 'https://git.qemu.org/git/qemu.git/': Could not resolve host: git.qemu.org
+2020-08-23T21:51:32.688082 - Trial 7/10: Failed to pull QEMU ... retrying again in a minute!
+fatal: unable to access 'https://git.qemu.org/git/qemu.git/': GnuTLS recv error (-110): The TLS connection was non-properly terminated.
+2020-08-23T21:53:03.538585 - Trial 8/10: Failed to pull QEMU ... retrying again in a minute!
+fatal: unable to access 'https://git.qemu.org/git/qemu.git/': Could not resolve host: git.qemu.org
+2020-08-23T21:54:23.661134 - Trial 9/10: Failed to pull QEMU ... retrying again in a minute!
+fatal: unable to access 'https://git.qemu.org/git/qemu.git/': GnuTLS recv error (-54): Error in the pull function.
+2020-08-23T22:02:16.671699 - Trial 10/10: Failed to pull QEMU
 
-> I was running fio with --ramp_time=5 which ignores the first 5 seconds
-> of data in order to let performance settle, but if I remove that I can
-> see the effect more clearly. I can observe it with raw files (in 'off'
-> and 'prealloc' modes) and qcow2 files in 'prealloc' mode. With qcow2 and
-> preallocation=off the performance is stable during the whole test.
 
-What does "preallocation=off" mean again? Is that using
-fallocate(ZERO_RANGE) prior to the data write rather than
-preallocating the metadata/entire file? If so, I would expect the
-limiting factor is the rate at which IO can be issued because of the
-fallocate() triggered pipeline bubbles. That leaves idle device time
-so you're not pushing the limits of the hardware and hence none of
-the behaviours above will be evident...
 
-Cheers,
+</pre></body></html>
 
-Dave.
--- 
-Dave Chinner
-david@fromorbit.com
+--===============1268039215053859817==--
 
