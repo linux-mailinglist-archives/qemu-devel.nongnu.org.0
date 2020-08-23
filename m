@@ -2,78 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4569F24EF39
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 Aug 2020 20:18:48 +0200 (CEST)
-Received: from localhost ([::1]:51512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CAB524EF8A
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 Aug 2020 21:45:26 +0200 (CEST)
+Received: from localhost ([::1]:42454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9uZr-0000Mj-Bt
-	for lists+qemu-devel@lfdr.de; Sun, 23 Aug 2020 14:18:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53022)
+	id 1k9vvg-0000Pz-ST
+	for lists+qemu-devel@lfdr.de; Sun, 23 Aug 2020 15:45:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <viktor.prutyanov@phystech.edu>)
- id 1k9uZC-0008OL-1X
- for qemu-devel@nongnu.org; Sun, 23 Aug 2020 14:18:06 -0400
-Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:39038)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <viktor.prutyanov@phystech.edu>)
- id 1k9uZA-0004zX-B8
- for qemu-devel@nongnu.org; Sun, 23 Aug 2020 14:18:05 -0400
-Received: by mail-lj1-x244.google.com with SMTP id v9so7152117ljk.6
- for <qemu-devel@nongnu.org>; Sun, 23 Aug 2020 11:18:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=phystech-edu.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :organization:mime-version:content-transfer-encoding;
- bh=mva65Oq5LuhrzbOZn7DUZL599O1RNxpdrYcFYJECt1U=;
- b=FpZ9FcLqG0d9+TSxduZLoByGQjQ4xhnx1B94bEHzpJHSnr5MUFeyp5OhjfTIl9/MuO
- o2hBafPdodb24RknioBLFGFXkb1pZK9mXptVSaQA8sN3Uimi7ViZNYWMC3aIQdZwd/kr
- JqprwOJHPp3ByEopTykBvp9+ZI5jyV8hbfcJDI1TBrbUUNfJH0VIU4DDMNTZKRgdbxPN
- b2ZH2mheBJwuukO9uYwMdGuS0kelPywhW96c3t0qGF3TCVfl035w9D0wDo2KzClbB29G
- EED3oywsLgLyAAPwtLfoYoPe690XBDwMdRe1K7Qe/BpRJpR8o3vF0BE9CV0vSEOi7XRo
- GtMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:organization:mime-version:content-transfer-encoding;
- bh=mva65Oq5LuhrzbOZn7DUZL599O1RNxpdrYcFYJECt1U=;
- b=h/KNpSfrhwNlWUff9gNfp3BBB4oDefYhNtkD+dvaUqYXt38KD90PKPNngwt2UAgT4l
- dglC+J4U0UEFGbMSTK37Q3dfRMgCcqAkCyhMKjSe55+fmQ1ad1DzkWCkzTHgYj97vnOR
- XBVnb6w/mv42gNm0RL2Vdfji0MGBNx3HqsSKhgRXXr6uv1Kv7zfqqIO4dXOFhKj31zrT
- SwTSbuiu4vCsbwjx4+dBW9La0XAW77G5B15h7cfugn2sDxH2oj2B5S8Np/ZUQW7c/xus
- 9NbUFmuBNhCvDDjlWSPZMEooSkb1I5jOOHDLusMUKF6FtKo/gLWfWfASXm2r9zpH2AYq
- ly2g==
-X-Gm-Message-State: AOAM531k+Bud69pAqErow3dClJNgrZVMM6tFabOPXx2mGh9J7Zg72fpi
- ORE+yuCoqK8hm5L5iCt0dTzFMQ==
-X-Google-Smtp-Source: ABdhPJxfUH3+jnfDfBIis3HxGQTw+z8vrbX5vox98JTgNwHmvZuY9TRFGrq6i4psHPAAQpUJjwZbFw==
-X-Received: by 2002:a2e:9196:: with SMTP id f22mr1015359ljg.435.1598206682079; 
- Sun, 23 Aug 2020 11:18:02 -0700 (PDT)
-Received: from localhost ([178.176.74.168])
- by smtp.gmail.com with ESMTPSA id r9sm1729109ljj.41.2020.08.23.11.18.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Aug 2020 11:18:01 -0700 (PDT)
-Date: Sun, 23 Aug 2020 21:17:59 +0300
-From: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
-To: Pan Nengyuan <pannengyuan@huawei.com>
-Subject: Re: [PATCH 04/12] elf2dmp/pdb: Plug memleak in pdb_init_from_file
-Message-ID: <20200823211759.374c413c@phystech.edu>
-In-Reply-To: <20200814160241.7915-5-pannengyuan@huawei.com>
-References: <20200814160241.7915-1-pannengyuan@huawei.com>
- <20200814160241.7915-5-pannengyuan@huawei.com>
-Organization: MIPT
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1k9vuU-0008EB-HQ; Sun, 23 Aug 2020 15:44:10 -0400
+Received: from mail-am6eur05on2128.outbound.protection.outlook.com
+ ([40.107.22.128]:19808 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1k9vuQ-0005Xe-U3; Sun, 23 Aug 2020 15:44:09 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CfHF+oPREJAbG61Qt8lgbFH4LnnYoEB3W/70wEpS1blVdJN8BM1wOq2pIdGgwFGkdBhtaa82YOhmfchtktw4TyZNPQdFYHdctL9E9X+TNNRt27YkeOqiUDFxeBm7PY8cpl/uMD6+ehw9sdbzfJWyPupn/lJpt+xPdttRyEQmIdM9W3FmDi0GHavONus7FEqZtqPi2Cwthfe4q8vS4sAmlPtk2iv3UwQl6+UJwDUWeWWp0+ly1X/9UMKkzunRBtwYEnv3DsuhJd0XiZNC3AVAWuGLPTo3jiYRIqtrmvUbyCM6ESmzun8U462oEJsDm1tm2pmt2pM1rUHmDxsonTDZyQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rwZDrzHxjDm5LBrmZHXbZ3HnHSzZmnzYl17fxbiMwCM=;
+ b=nD0QFhfOyRgYqJhu6P79JzT6WK3fmqqohawPi5XzOghVqq5VNEno7M0t7LL1O5FG4upjDm3I8MzloUiI7lQffOD6Qq9P0QWU1r8/jfczJvJc5obC2dbFbHDXUEpjclVa8RQjPmA5yJQY3irUz8TTTsguzSt0PbMn7ZGySKfY1UilD6Tg4kPpqzbTPUGw1wbP4PscJEhf2CwKgS4Oleu8++bXTa/N6mxj5MIKKzs3Doo4EAt74kYrgb/ATOkWA9hKzG1MTYXDI2boc4rnWdQYx3qZCIyHvkgwVqGVYaDNiv9nFM7UCSUOE8n7sGlufEouR31OSUuMDtdaE10BMP6QkA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rwZDrzHxjDm5LBrmZHXbZ3HnHSzZmnzYl17fxbiMwCM=;
+ b=OA4R0ddHNeMIC8QfaC3CNcCdU+r8DL4mwJYDoR5HSXj7nzPkmG9GnpiugKp8UiqGd0U5aUVvGue1io/S3mu8vkKWgDKcJ5MS0U5rHiftjj1USrkD1IbWes2V+tFS9WWebdIXn2K6/J2olsVQJUuNlCZy8JjQP+FVOPaEj4O2dRs=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from HE1PR0801MB2124.eurprd08.prod.outlook.com (2603:10a6:3:89::22)
+ by HE1PR0802MB2521.eurprd08.prod.outlook.com (2603:10a6:3:df::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.24; Sun, 23 Aug
+ 2020 19:28:54 +0000
+Received: from HE1PR0801MB2124.eurprd08.prod.outlook.com
+ ([fe80::b5e5:e4d:ed88:5a3a]) by HE1PR0801MB2124.eurprd08.prod.outlook.com
+ ([fe80::b5e5:e4d:ed88:5a3a%9]) with mapi id 15.20.3305.026; Sun, 23 Aug 2020
+ 19:28:54 +0000
+Subject: Re: [PATCH v6 4/4] block: apply COR-filter to block-stream jobs
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <1597785880-431103-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1597785880-431103-5-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <6bb4c66e-fb52-c947-1ef2-64a060a92db3@virtuozzo.com>
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Message-ID: <103d5732-7812-17d3-82d0-effa76325c50@virtuozzo.com>
+Date: Sun, 23 Aug 2020 22:28:49 +0300
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.9.0
+In-Reply-To: <6bb4c66e-fb52-c947-1ef2-64a060a92db3@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-GB
+X-ClientProxiedBy: AM0PR04CA0045.eurprd04.prod.outlook.com
+ (2603:10a6:208:1::22) To HE1PR0801MB2124.eurprd08.prod.outlook.com
+ (2603:10a6:3:89::22)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::244;
- envelope-from=viktor.prutyanov@phystech.edu; helo=mail-lj1-x244.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from Admins-MacBook-Pro.local (109.252.114.22) by
+ AM0PR04CA0045.eurprd04.prod.outlook.com (2603:10a6:208:1::22) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3305.24 via Frontend Transport; Sun, 23 Aug 2020 19:28:52 +0000
+X-Originating-IP: [109.252.114.22]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b2b2a7c4-1bed-4976-468e-08d8479ac575
+X-MS-TrafficTypeDiagnostic: HE1PR0802MB2521:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <HE1PR0802MB2521B20759D0EBD5F9E3AA77F4590@HE1PR0802MB2521.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 02KgrORwJwhQTIx/k1wYajzEAo1jfEUk95XUhxyPMT+RWsjSCfxwQWqZG0KtCtUpS3OEO/PYR3xMXQociFX3KAvFhGLaOO47fOhaIycKN+ij0y7IQGb+Xe6156P7+WDMKSHpepWEvUAcOO9c+GseSdNAogf+4YaEwn4qe4H7y1eJtDzGJLaNF9W7GeEmwG/2kCsSwHZvFhnCkIrdXtI5x/2hv0wFS1kZ9IOQYcXp4H5D5pnQ/BsWbR8eU3D5L8yRH2Ol/KrPWQRp0qyG4aySlybQQU6T4wpUTt1rC/NqyOdJk2GiPbEvv465l82SvMpBGqqwGfTcaxQfQm91yW4JlUapWgW4BusNeBHe2vX5jQPZx7+VqPULrc/NDhaVQ3zA
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:HE1PR0801MB2124.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(366004)(376002)(39830400003)(346002)(136003)(2616005)(956004)(36756003)(44832011)(83380400001)(2906002)(31686004)(52116002)(8676002)(6506007)(53546011)(8936002)(478600001)(6512007)(5660300002)(31696002)(66476007)(86362001)(186003)(6666004)(107886003)(4326008)(66556008)(26005)(316002)(6486002)(16526019)(66946007)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: S7Uq8igmOAVtY5K0h7jc108FYHrtZ+rLQH6RgCZ70DmJXk2wSG+o482cmw+djWobkibHMJit7L4Imh5niDjajRvYafDYDHgIhpp7mZwZQ81dg0oFbQ3rOyMGgbLZPeVDPjEMreT13IJ2Yy73prUWu83vkxMKs4AfP+3cEBC2CkvU99XGMsq5VfxnrSOosoW+LMrvXFDWKI3m3Phn705DJX0enMS99IluxUl5TTRPJYx6/eMpieNIfKbbb7BC0QgNtoYA7oMVSAjF7ox0p/+G1vdird07210tWSmp3L/C8ym1eiMYhKqY3ajiHOiNVp1f+DcYoVvkj5f6NiyWhEtnw1SE6mUgd5RKf8gjxDmNCpV5kqYU9cvvsupNMZJWXCWTpKs+1IlqO4pc0Pggd+OWgDMgFw5WERbCjWCvVPnVeMQ2OAhETKCcYZDn+PfrMcEulY3e7uM2DCBSX0u3cjLtShw5Sdk8IaouRqfUDVoPVoaz8swcGZsCaYC5Dw4Rf6qgEH07N4OFLgaKj2sIXix/3uawry3GDtaMu7rEIbJAJ1+/6OgPYNBc+t/HHht8Ar5fq5PPtQcHE1EOgiK2ynykXRcAaLLcRULfjhk3+eqRr7MSdttbStKAG7vzYYqRrJBcnxSeYYW5YTktzxj0RjexLQ==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b2b2a7c4-1bed-4976-468e-08d8479ac575
+X-MS-Exchange-CrossTenant-AuthSource: HE1PR0801MB2124.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2020 19:28:53.9186 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: emWH1E5Kt+tHNxID6pe2trSIOcnDcbWEJxWfAg90JA1+WoRjBQvGuCjn46WJn9lWtKzvqxpalsHZ8dcj3Z+62MfOOcPHdXVBrhP7tBeWbGo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0802MB2521
+Received-SPF: pass client-ip=40.107.22.128;
+ envelope-from=andrey.shinkevich@virtuozzo.com;
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/23 15:44:04
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-1.381, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,39 +118,222 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kuhn.chenqun@huawei.com, euler.robot@huawei.com, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, zhang.zhanghailiang@huawei.com
+Cc: kwolf@redhat.com, armbru@redhat.com, qemu-devel@nongnu.org, den@openvz.org,
+ mreitz@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 14 Aug 2020 12:02:33 -0400
-Pan Nengyuan <pannengyuan@huawei.com> wrote:
+On 19.08.2020 13:46, Vladimir Sementsov-Ogievskiy wrote:
+> 19.08.2020 00:24, Andrey Shinkevich wrote:
+>> The patch completes the series with the COR-filter insertion to any
+>> block-stream operation. It also makes changes to the iotests 030.
+>> The test case 'test_stream_parallel' was deleted due to multiple
+>> errors.
+>
+...
+>
+>>
+>> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+>> ---
+>>   block/stream.c             | 76 
+>> ++++++++++++++++++++++++++++++++--------------
+>>   tests/qemu-iotests/030     | 50 +++---------------------------
+>>   tests/qemu-iotests/030.out |  4 +--
+>>   3 files changed, 61 insertions(+), 69 deletions(-)
+>>
+>> diff --git a/block/stream.c b/block/stream.c
+>> index 8bf6b6d..0b11979 100644
+>> --- a/block/stream.c
+>> +++ b/block/stream.c
+>> @@ -19,6 +19,7 @@
+>>   #include "qapi/qmp/qerror.h"
+>>   #include "qemu/ratelimit.h"
+>>   #include "sysemu/block-backend.h"
+>> +#include "block/copy-on-read.h"
+>>     enum {
+>>       /*
+>> @@ -33,8 +34,11 @@ typedef struct StreamBlockJob {
+>>       BlockJob common;
+>>       BlockDriverState *base_overlay; /* COW overlay (stream from 
+>> this) */
+>>       BlockDriverState *above_base;   /* Node directly above the base */
+>> +    BlockDriverState *cor_filter_bs;
+>> +    BlockDriverState *target_bs;
+>>       BlockdevOnError on_error;
+>>       char *backing_file_str;
+>> +    char *base_fmt;
+>>       bool bs_read_only;
+>>       bool chain_frozen;
+>>   } StreamBlockJob;
+>> @@ -53,34 +57,26 @@ static void stream_abort(Job *job)
+>>       StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
+>>         if (s->chain_frozen) {
+>> -        BlockJob *bjob = &s->common;
+>> -        bdrv_unfreeze_backing_chain(blk_bs(bjob->blk), s->above_base);
+>> +        bdrv_unfreeze_backing_chain(s->cor_filter_bs, s->above_base);
+>>       }
+>>   }
+>>     static int stream_prepare(Job *job)
+>>   {
+>>       StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
+>> -    BlockJob *bjob = &s->common;
+>> -    BlockDriverState *bs = blk_bs(bjob->blk);
+>> +    BlockDriverState *bs = s->target_bs;
+>>       BlockDriverState *unfiltered_bs = bdrv_skip_filters(bs);
+>>       BlockDriverState *base = bdrv_filter_or_cow_bs(s->above_base);
+>>       Error *local_err = NULL;
+>>       int ret = 0;
+>>   -    bdrv_unfreeze_backing_chain(bs, s->above_base);
+>> +    bdrv_unfreeze_backing_chain(s->cor_filter_bs, s->above_base);
+>>       s->chain_frozen = false;
+>>         if (bdrv_cow_child(unfiltered_bs)) {
+>> -        const char *base_id = NULL, *base_fmt = NULL;
+>> -        if (base) {
+>> -            base_id = s->backing_file_str;
+>> -            if (base->drv) {
+>> -                base_fmt = base->drv->format_name;
+>> -            }
+>> -        }
+>>           bdrv_set_backing_hd(unfiltered_bs, base, &local_err);
+>> -        ret = bdrv_change_backing_file(unfiltered_bs, base_id, 
+>> base_fmt);
+>> +        ret = bdrv_change_backing_file(unfiltered_bs, 
+>> s->backing_file_str,
+>> +                                       s->base_fmt);
+>>           if (local_err) {
+>>               error_report_err(local_err);
+>>               return -EPERM;
+>> @@ -94,7 +90,9 @@ static void stream_clean(Job *job)
+>>   {
+>>       StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
+>>       BlockJob *bjob = &s->common;
+>> -    BlockDriverState *bs = blk_bs(bjob->blk);
+>> +    BlockDriverState *bs = s->target_bs;
+>> +
+>> +    bdrv_cor_filter_drop(s->cor_filter_bs);
+>>         /* Reopen the image back in read-only mode if necessary */
+>>       if (s->bs_read_only) {
+>> @@ -104,13 +102,14 @@ static void stream_clean(Job *job)
+>>       }
+>>         g_free(s->backing_file_str);
+>> +    g_free(s->base_fmt);
+>>   }
+>>     static int coroutine_fn stream_run(Job *job, Error **errp)
+>>   {
+>>       StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
+>>       BlockBackend *blk = s->common.blk;
+>> -    BlockDriverState *bs = blk_bs(blk);
+>> +    BlockDriverState *bs = s->target_bs;
+>>       BlockDriverState *unfiltered_bs = bdrv_skip_filters(bs);
+>>       bool enable_cor = !bdrv_cow_child(s->base_overlay);
+>>       int64_t len;
+>> @@ -231,6 +230,12 @@ void stream_start(const char *job_id, 
+>> BlockDriverState *bs,
+>>       int basic_flags = BLK_PERM_CONSISTENT_READ | 
+>> BLK_PERM_WRITE_UNCHANGED;
+>>       BlockDriverState *base_overlay = bdrv_find_overlay(bs, base);
+>>       BlockDriverState *above_base;
+>> +    BlockDriverState *cor_filter_bs = NULL;
+>> +    char *base_fmt = NULL;
+>> +
+>> +    if (base && base->drv) {
+>> +        base_fmt = g_strdup(base->drv->format_name);
+>> +    }
+>>         if (!base_overlay) {
+>>           error_setg(errp, "'%s' is not in the backing chain of '%s'",
+>> @@ -264,17 +269,36 @@ void stream_start(const char *job_id, 
+>> BlockDriverState *bs,
+>>           }
+>>       }
+>>   -    /* Prevent concurrent jobs trying to modify the graph 
+>> structure here, we
+>> -     * already have our own plans. Also don't allow resize as the 
+>> image size is
+>> -     * queried only at the job start and then cached. */
+>> -    s = block_job_create(job_id, &stream_job_driver, NULL, bs,
+>> -                         basic_flags | BLK_PERM_GRAPH_MOD,
+>> -                         basic_flags | BLK_PERM_WRITE,
+>> +    cor_filter_bs = bdrv_cor_filter_append(bs, filter_node_name, errp);
+>> +    if (cor_filter_bs == NULL) {
+>> +        goto fail;
+>> +    }
+>> +
+>> +    if (bdrv_freeze_backing_chain(cor_filter_bs, bs, errp) < 0) {
+>> +        bdrv_cor_filter_drop(cor_filter_bs);
+>> +        cor_filter_bs = NULL;
+>> +        goto fail;
+>> +    }
+>> +
+>> +    s = block_job_create(job_id, &stream_job_driver, NULL, 
+>> cor_filter_bs,
+>> +                         BLK_PERM_CONSISTENT_READ,
+>> +                         basic_flags | BLK_PERM_WRITE | 
+>> BLK_PERM_GRAPH_MOD,
+>>                            speed, creation_flags, NULL, NULL, errp);
+>>       if (!s) {
+>>           goto fail;
+>>       }
+>>   +    /*
+>> +     * Prevent concurrent jobs trying to modify the graph structure 
+>> here, we
+>> +     * already have our own plans. Also don't allow resize as the 
+>> image size is
+>> +     * queried only at the job start and then cached.
+>> +     */
+>> +    if (block_job_add_bdrv(&s->common, "active node", bs,
+>> +                           basic_flags | BLK_PERM_GRAPH_MOD,
+>> +                           basic_flags | BLK_PERM_WRITE, 
+>> &error_abort)) {
+>> +        goto fail;
+>> +    }
+>> +
+>>       /* Block all intermediate nodes between bs and base, because 
+>> they will
+>>        * disappear from the chain after this operation. The streaming 
+>> job reads
+>>        * every block only once, assuming that it doesn't change, so 
+>> forbid writes
+>> @@ -294,6 +318,9 @@ void stream_start(const char *job_id, 
+>> BlockDriverState *bs,
+>>         s->base_overlay = base_overlay;
+>>       s->above_base = above_base;
+>> +    s->cor_filter_bs = cor_filter_bs;
+>> +    s->target_bs = bs;
+>> +    s->base_fmt = base_fmt;
+>
+> it's wrong to keep base_fmt during the job, as base may change
 
-> Missing g_error_free in pdb_init_from_file() error path. Fix that.
-> 
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-> ---
-> Cc: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
-> ---
->  contrib/elf2dmp/pdb.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/contrib/elf2dmp/pdb.c b/contrib/elf2dmp/pdb.c
-> index a5bd40c99d..b3a6547068 100644
-> --- a/contrib/elf2dmp/pdb.c
-> +++ b/contrib/elf2dmp/pdb.c
-> @@ -285,6 +285,7 @@ int pdb_init_from_file(const char *name, struct
-> pdb_reader *reader) reader->gmf = g_mapped_file_new(name, TRUE,
-> &gerr); if (gerr) {
->          eprintf("Failed to map PDB file \'%s\'\n", name);
-> +        g_error_free(gerr);
->          return 1;
->      }
->  
 
-Reviewed-by: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+So, the format can differ from that of the backing_file_str given as the 
+input parameter of the stream_start()...
 
--- 
-Viktor Prutyanov
+...while the backing_file_str path is written to the QCOW2 header on a disk.
+
+Andrey
+
+
+>
+>>       s->backing_file_str = g_strdup(backing_file_str);
+>>       s->bs_read_only = bs_read_only;
+>>       s->chain_frozen = true;
+>> @@ -307,5 +334,10 @@ fail:
+>>       if (bs_read_only) {
+>>           bdrv_reopen_set_read_only(bs, true, NULL);
+>>       }
+>> -    bdrv_unfreeze_backing_chain(bs, above_base);
+>> +    if (cor_filter_bs) {
+>> +        bdrv_unfreeze_backing_chain(cor_filter_bs, above_base);
+>> +        bdrv_cor_filter_drop(cor_filter_bs);
+>> +    } else {
+>> +        bdrv_unfreeze_backing_chain(bs, above_base);
+>> +    }
+>>   }
+>> diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
+>> index 1cdd7e2..fec9d89 100755
+>> --- a/tests/qemu-iotests/030
+>> +++ b/tests/qemu-iotests/030
+>> @@ -221,60 +221,20 @@ class TestParallelOps(iotests.QMPTestCase):
+>>           for img in self.imgs:
+>>               os.remove(img)
+...
 
