@@ -2,61 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F6A724EDCB
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 Aug 2020 17:02:15 +0200 (CEST)
-Received: from localhost ([::1]:45852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E14C24EDCF
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 Aug 2020 17:03:40 +0200 (CEST)
+Received: from localhost ([::1]:50204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1k9rVe-00018I-As
-	for lists+qemu-devel@lfdr.de; Sun, 23 Aug 2020 11:02:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50842)
+	id 1k9rX1-00031n-HF
+	for lists+qemu-devel@lfdr.de; Sun, 23 Aug 2020 11:03:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1k9rSs-0004s2-G3
- for qemu-devel@nongnu.org; Sun, 23 Aug 2020 10:59:22 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:51897)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1k9rSq-0006eB-7D
- for qemu-devel@nongnu.org; Sun, 23 Aug 2020 10:59:22 -0400
-Received: from localhost.localdomain ([82.252.135.186]) by
- mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MJn8J-1juocW3R85-00K4of; Sun, 23 Aug 2020 16:59:18 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PULL 6/6] linux-user: Fix 'utimensat()' implementation
-Date: Sun, 23 Aug 2020 16:59:12 +0200
-Message-Id: <20200823145912.1171738-7-laurent@vivier.eu>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200823145912.1171738-1-laurent@vivier.eu>
-References: <20200823145912.1171738-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
+ id 1k9rVj-0001vD-Ke
+ for qemu-devel@nongnu.org; Sun, 23 Aug 2020 11:02:19 -0400
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:37455)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
+ id 1k9rVh-0007PY-JV
+ for qemu-devel@nongnu.org; Sun, 23 Aug 2020 11:02:18 -0400
+Received: by mail-io1-xd42.google.com with SMTP id b16so6190523ioj.4
+ for <qemu-devel@nongnu.org>; Sun, 23 Aug 2020 08:02:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Wl1v7yks1EYxKyvHpSMP9pYPn5zKIdcVIjJpgqd3QsA=;
+ b=u8jI6Z1E8J9WFDv7Q1pTge8dQSVbKa1elJkAE8+TIcX5a3T6vVtW4Inz+NUNxKD3gF
+ Ai8VPUK8SbyGO1rDoHsAdaC3yMOxUzNLmn9yez5A2iuzwBdhMBfpTvRJHzfVU/jZeJzW
+ YqA1/zW6oG5Y+xpmjE0v2Rv+hAEr7cr/EaVqR1ZXNCWbAqyBwE5RSBuv1fTKCHrNbI97
+ Ij/RaFLhKhKo8cW6hOI7LGWbf8iWcCO4k/wR7ogJv1cksMVwa6GWuzr+saNuYgYfCRvO
+ W5UL9FxSnWeS7ndMElUBdtdOyw8dQP2J384Q2i9ntO++KyfCzATNQAN3nn8hg2yGcMni
+ vGew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Wl1v7yks1EYxKyvHpSMP9pYPn5zKIdcVIjJpgqd3QsA=;
+ b=aucSRIK1QegZNEK1pwtyQ099oAiT6rdbYPHT/io7OH5WUHV8XQnR/QFu8ATCSmc2SR
+ gefbypJB2+9Dpp3Sjim73Mkr3lbxuJv20gMC/3liaFb3fcKx81/uls6cNraoxIxfRuOS
+ AqBsZ8B98IiRDmTPS/u9seKktXcO7wUjUq5QrnMqu+p9WoZY5MLUHdAdw5mMOMABUY7n
+ K2EZDLEgyQBwlurRF4R3oySs1oyYNM5KSv3TKBFWKbr8WKbvS5kKjLON93+PbwQtj/fl
+ kOwg1azUB2jut8ytR3kb0Agqc92bwwBX3w7Enu5uERQA+nkcysonobno7yhK967Qm1D2
+ 82GA==
+X-Gm-Message-State: AOAM532QEIuSdcuNwi5Qf/E5r6OCjxfkpsySjL4aph9pAt1pYvYf7OV+
+ RxS1Z4SfUX9AFwwCuPYcHsDNskH09PG0U9wwNFubCg==
+X-Google-Smtp-Source: ABdhPJzGCW2ne1C+fzGrA6lLN+GmHs5j6Ier9pPU8upCAAARb8FtIadvkWGjmNS0oYeb0YCdcwp+GGEYstfbxi+kyyc=
+X-Received: by 2002:a05:6602:58:: with SMTP id
+ z24mr1384804ioz.76.1598194935908; 
+ Sun, 23 Aug 2020 08:02:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:n5vp6WaM/sVewsc4RZmh7Lyl7IvAgtl3tE6ukSGIg3/QHihDSIJ
- MwKaWLhRVKWhbKMVPe/wgFBN2A7OjKsWpxMI2MIRhd9jmjMT8qSbyXGdJ+7HZWCKAcSQC+A
- 3qTDCIL7gaQ3nxcEUdVlowKcFeSMucHsI1KsOIBpJhLlXtO/QsoO2bfDdDlsUrD8E2E6rmJ
- WpCl9FkFeng4jRP1/8q+w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:eO/moa8BGRk=:dnfDGZAAdOKdLY80ZjTjZ2
- lFNu1f1gKl+UnJnQBuEOHDBqg3HUAlYjZzYU23cxU9VwTmLJbEjvddH65kdm5ES7qV6h/Qotc
- XgLniILwoqT4sG7XTw/1GUV39K8lpr/Twmu0Vkt71bfM0NuV4GqS5of9CXPlpDovHPumEqHqq
- 2iEOWQ8qGtF9n62lV2mK8zaWFBBF54M0m5VtieiiMuPJnw0gQ9NTp6V8hXKH2Dv6511U2Ehg8
- 6U7Qry9nM43m4uFr63s+6JXUCFrnJbQpW+vO6fc6PVa6xHhl2HYAu0lI9++lGU4nMiFgRP0YR
- kL1bMkN7NBceo+g6Wi0UbmW5WpPtKxaRDKdUU42wrRUy+2VLKvnlV1YF8P3vX2Kn9+pYFCzuA
- A30Z7fUmkXAdi+ON9Y0BbK6jnDN3Zaw+Y1NEtkqsHev147Ukk1Q+fxbtsd/bpzReNKwSctj8t
- 9dl0PC3u542uPXSHXhf5XSwTQpXgzhDnprJGayi3if3efD3iCdQebe2vSWO6TleniPjRXWDtL
- KH6quW7TjcoeWSVNuKUFxFRXMObbmXV1A+wtkKwh0vv70iocEHkb46L1lUjqq98eN7/6y0dGw
- vyMycD+WECBpzkhkQst17OHODyBHxQiJcYuR740DJ2uNfIcexn4vKM0sF5DZEIaMvCDJGDoU5
- G31WHIfXkomeYsxNMcC7gXlqOFz9XefB5P5QGexoQTdoBE7whqgC5X2H/rniM2vV814MDjECL
- bGZljGfi4VGGJoKgilV/+2NOX/4yxJrAm8N4U9bxh7C9+UKWoVKyNoJCCiI2z6RM2ks1/tUFj
- mTCxzsqh16txGt7tP130T5cjdwTfMLuIxh2oVLFVi3gJHj1cbDwpPRaD1Pz8gGYkTQDLyvH
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/23 10:59:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20200806150726.962-1-philmd@redhat.com>
+ <20200807100256.GC600298@stefanha-x1.localdomain>
+ <451a50f0-d0ce-5d3b-a38d-e1ca6c0f882f@redhat.com>
+ <a3a263ba-68e1-2fd8-22ab-93e2cafdcdfd@redhat.com>
+In-Reply-To: <a3a263ba-68e1-2fd8-22ab-93e2cafdcdfd@redhat.com>
+From: Robert Foley <robert.foley@linaro.org>
+Date: Sun, 23 Aug 2020 11:02:43 -0400
+Message-ID: <CAEyhzFtAssGdRHxDBnYgeWaJdM02Yby+SRvgm5wSuzi4Dvxo8Q@mail.gmail.com>
+Subject: Re: [PATCH-for-5.2] exec: Remove MemoryRegion::global_locking field
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
+ envelope-from=robert.foley@linaro.org; helo=mail-io1-xd42.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,52 +84,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>, Filip Bozuta <Filip.Bozuta@syrmia.com>
+Cc: David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Alexander Bulekov <alxndr@bu.edu>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Filip Bozuta <Filip.Bozuta@syrmia.com>
+On Sat, 22 Aug 2020 at 16:13, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
+>
+> +Robert
+>
+> On 8/7/20 12:16 PM, Paolo Bonzini wrote:
+> > On 07/08/20 12:02, Stefan Hajnoczi wrote:
+> >> On Thu, Aug 06, 2020 at 05:07:26PM +0200, Philippe Mathieu-Daud=C3=83=
+=C2=A9 wrote:
+> >>> Last uses of memory_region_clear_global_locking() have been
+> >>> removed in commit 7070e085d4 ("acpi: mark PMTIMER as unlocked")
+> >>> and commit 08565552f7 ("cputlb: Move NOTDIRTY handling from I/O
+> >>> path to TLB path").
+> >>> Remove memory_region_clear_global_locking() and the now unused
+> >>> 'global_locking' field in MemoryRegion.
+> >>>
+> >>> Reported-by: Alexander Bulekov <alxndr@bu.edu>
+> >>> Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
+> >>> Signed-off-by: Philippe Mathieu-Daud=C3=83=C2=A9 <philmd@redhat.com>
+> >>> ---
+> >>>  include/exec/memory.h | 14 --------------
+> >>>  accel/tcg/cputlb.c    |  4 ++--
+> >>>  exec.c                |  2 +-
+> >>>  softmmu/memory.c      |  6 ------
+> >>>  4 files changed, 3 insertions(+), 23 deletions(-)
+> >>
+> >> It can be added back in later, if necessary. For now let's drop the de=
+ad
+> >> code.
+> >>
+> >> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> >>
+> >
+> > I expect it will come back since Linaro is working on BQL-free interrup=
+t
+> > handling for TCG, but no objections.
+>
+> Robert, any comment on this patch?
+>
+> Thanks,
+>
+> Phil.
+>
+Phil, Thanks for the heads up on this !
 
-Implementation of syscall 'utimensat()' in 'syscall.c' uses functions
-target_to_host/host_to_target_timespec() to convert values of
-'struct timespec' between host and target. However, the implementation
-doesn't check whether the conversion succeeds and thus can cause an
-inappropriate error or succeed unappropriately instead of setting errno
-EFAULT ('Bad address') which is supposed to be set in these cases.
+No objections to removing this.  We can easily re-add it if/when needed.
 
-This was confirmed with the LTP test for utimensat ('testcases/utimensat')
-which fails for test cases when the errno EFAULT is expected. After changes
-from this patch, the test passes for all test cases.
-
-Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200811113101.6636-1-Filip.Bozuta@syrmia.com>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- linux-user/syscall.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
-
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index bbb61a59c72f..b4a7b605f3d4 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -11919,8 +11919,13 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-             if (!arg3) {
-                 tsp = NULL;
-             } else {
--                target_to_host_timespec(ts, arg3);
--                target_to_host_timespec(ts+1, arg3+sizeof(struct target_timespec));
-+                if (target_to_host_timespec(ts, arg3)) {
-+                    return -TARGET_EFAULT;
-+                }
-+                if (target_to_host_timespec(ts + 1, arg3 +
-+                                            sizeof(struct target_timespec))) {
-+                    return -TARGET_EFAULT;
-+                }
-                 tsp = ts;
-             }
-             if (!arg2)
--- 
-2.26.2
-
+Thanks,
+-Rob
 
