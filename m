@@ -2,77 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 192AA250005
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 16:41:45 +0200 (CEST)
-Received: from localhost ([::1]:33128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6511924FFFB
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 16:40:00 +0200 (CEST)
+Received: from localhost ([::1]:52988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kADfM-0003vO-31
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 10:41:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43536)
+	id 1kADdf-0000N4-E0
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 10:39:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kADU9-0000OY-3R
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 10:30:10 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:34927)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kADU4-0002mt-RW
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 10:30:08 -0400
-Received: by mail-wr1-x442.google.com with SMTP id b17so8125978wru.2
- for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 07:30:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=pd01uxw/z+OGFpmWpo0tpfZAh/qZHgIvhk5c35++C1s=;
- b=I+SE297L0XUSzXiduKOfJSXy6OtZVdpqbwk6m9A8fBTwIo18wOfcSqEZ4CemjrbMHy
- samsrqj+kROvIeDPhtu5/6ncpxVN8lITAh4Iz17UBhMejGf2oz7LEvCp7nwwmhLK5Hyl
- ZA8+SBGgHsjXj1jGr8CmBloRzLJqjI9uTNKXDbNm5GsiqCFLLNwgMK7htFC54JV9nTXJ
- GCWBWO3ods+bVe1TpFseDEFoBE+Cv4bmO1p6dlfx3TpNb+06Dt0sEPWPTZ2wjyXmP1Ny
- NnyI5SsweE06+Wuvau2is8waQPCRqgcR21EjMEixuf/BY8h4O3iq804eGUqiGdX4s6H/
- r/IA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=pd01uxw/z+OGFpmWpo0tpfZAh/qZHgIvhk5c35++C1s=;
- b=g6ZE1PbvPoh+sX66D9oj6klUugROq7ePEXXUaB7irNKUde7p07thxATBPHsL3F4uMw
- jesjrmxI3p/N7kOcoDntGs/VoD8FdFZVZF67856pXlxAR5ynbraYiBZzozd5goFRWyMk
- HF7BfeSeohZezUYuK16xOubNYnKYMRGjIClkxM6Mhso6xipVZFHLLgUsTaswmbaOCcPh
- 4cYjaaPZYp3TIbI7hvX0oYegQ2p1yJdOX41XethgPCcFeEJ/GbuhjMXDxGEi+c/FZC2u
- KZtGA7PnNWLp+kdAJjKIfmI79zbfrUIA0Y9BCwPmL+6mEyQr5+7SA7bVAcY2EB18DTsH
- WfTQ==
-X-Gm-Message-State: AOAM531F8cFGRlzTWtbYrdkRuGnjbYi3ilT1gcz2R3xRIE4AEQbVWLZC
- HafVdwa2EaeeecJHWJY/y6VUYQ==
-X-Google-Smtp-Source: ABdhPJyGprRtOB+3xH7ptABh0mOi9uA82xHm09a3/UeUepp/CDFj+EJqQW7o+kVCAC3CBConTY4Ejw==
-X-Received: by 2002:adf:f847:: with SMTP id d7mr5813070wrq.328.1598279400140; 
- Mon, 24 Aug 2020 07:30:00 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id b14sm24499091wrj.93.2020.08.24.07.29.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Aug 2020 07:29:59 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH 22/22] target/arm: Enable FP16 in '-cpu max'
-Date: Mon, 24 Aug 2020 15:29:34 +0100
-Message-Id: <20200824142934.20850-23-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200824142934.20850-1-peter.maydell@linaro.org>
-References: <20200824142934.20850-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kADTy-0000Iy-VF
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 10:30:00 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26389
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kADTw-0002kU-Tw
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 10:29:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598279395;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=4+8xjLSNaiV6eRfBfi/Ntqs6O3lKjF284ztUu3sNY7c=;
+ b=PAVgkRrWE5r8EUhycNTwVVqVeZzi7QLBFxeQByYbVeGcQwpTUMl1wbXdAqzL1N5yNqJllb
+ 3vCbCv6ZR6jeboHnqdu3jqjrRoBimXt17isSkU/FbvcDHvuYYcx4RrVdK6SdOyK1zNlKkY
+ 4NPqHW0AuwDnNqcH/sdRi0Jyrr8Cuac=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-86-jKtr6d5iOoyxmi72RzMkEg-1; Mon, 24 Aug 2020 10:29:53 -0400
+X-MC-Unique: jKtr6d5iOoyxmi72RzMkEg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68AD5100CEC3;
+ Mon, 24 Aug 2020 14:29:52 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-112-171.ams2.redhat.com
+ [10.36.112.171])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 32CD270891;
+ Mon, 24 Aug 2020 14:29:48 +0000 (UTC)
+Subject: Re: [PATCH v7 41/47] block: Leave BDS.backing_file constant
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20200625152215.941773-1-mreitz@redhat.com>
+ <20200625152215.941773-42-mreitz@redhat.com>
+ <20200824131412.GA10708@linux.fritz.box>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <280f4c43-e4c5-f29e-54be-91374ed80574@redhat.com>
+Date: Mon, 24 Aug 2020 16:29:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200824131412.GA10708@linux.fritz.box>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0.003
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="xTxzeU5HvFJ9GgM4mPPQVjSQZ9SU9G3Hj"
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/24 06:40:32
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -52
+X-Spam_score: -5.3
+X-Spam_bar: -----
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.956,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.25, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,56 +108,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Set the MVFR1 ID register FPHP and SIMDHP fields to indicate
-that our "-cpu max" has v8.2-FP16.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--xTxzeU5HvFJ9GgM4mPPQVjSQZ9SU9G3Hj
+Content-Type: multipart/mixed; boundary="7kp97mCrU9SO8HbchdEWAvbSAGtq2W59Q"
 
-TODO: this patch needs to go at the end of the series.
+--7kp97mCrU9SO8HbchdEWAvbSAGtq2W59Q
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/cpu.c   |  3 ++-
- target/arm/cpu64.c | 10 ++++------
- 2 files changed, 6 insertions(+), 7 deletions(-)
+On 24.08.20 15:14, Kevin Wolf wrote:
+> Am 25.06.2020 um 17:22 hat Max Reitz geschrieben:
+>> Parts of the block layer treat BDS.backing_file as if it were whatever
+>> the image header says (i.e., if it is a relative path, it is relative to
+>> the overlay), other parts treat it like a cache for
+>> bs->backing->bs->filename (relative paths are relative to the CWD).
+>> Considering bs->backing->bs->filename exists, let us make it mean the
+>> former.
+>>
+>> Among other things, this now allows the user to specify a base when
+>> using qemu-img to commit an image file in a directory that is not the
+>> CWD (assuming, everything uses relative filenames).
+>>
+>> Before this patch:
+>>
+>> $ ./qemu-img create -f qcow2 foo/bot.qcow2 1M
+>> $ ./qemu-img create -f qcow2 -b bot.qcow2 foo/mid.qcow2
+>> $ ./qemu-img create -f qcow2 -b mid.qcow2 foo/top.qcow2
+>> $ ./qemu-img commit -b mid.qcow2 foo/top.qcow2
+>> qemu-img: Did not find 'mid.qcow2' in the backing chain of 'foo/top.qcow=
+2'
+>> $ ./qemu-img commit -b foo/mid.qcow2 foo/top.qcow2
+>> qemu-img: Did not find 'foo/mid.qcow2' in the backing chain of 'foo/top.=
+qcow2'
+>> $ ./qemu-img commit -b $PWD/foo/mid.qcow2 foo/top.qcow2
+>> qemu-img: Did not find '[...]/foo/mid.qcow2' in the backing chain of 'fo=
+o/top.qcow2'
+>>
+>> After this patch:
+>>
+>> $ ./qemu-img commit -b mid.qcow2 foo/top.qcow2
+>> Image committed.
+>> $ ./qemu-img commit -b foo/mid.qcow2 foo/top.qcow2
+>> qemu-img: Did not find 'foo/mid.qcow2' in the backing chain of 'foo/top.=
+qcow2'
+>> $ ./qemu-img commit -b $PWD/foo/mid.qcow2 foo/top.qcow2
+>> Image committed.
+>>
+>> With this change, bdrv_find_backing_image() must look at whether the
+>> user has overridden a BDS's backing file.  If so, it can no longer use
+>> bs->backing_file, but must instead compare the given filename against
+>> the backing node's filename directly.
+>>
+>> Note that this changes the QAPI output for a node's backing_file.  We
+>> had very inconsistent output there (sometimes what the image header
+>> said, sometimes the actual filename of the backing image).  This
+>> inconsistent output was effectively useless, so we have to decide one
+>> way or the other.  Considering that bs->backing_file usually at runtime
+>> contained the path to the image relative to qemu's CWD (or absolute),
+>> this patch changes QAPI's backing_file to always report the
+>> bs->backing->bs->filename from now on.  If you want to receive the image
+>> header information, you have to refer to full-backing-filename.
+>>
+>> This necessitates a change to iotest 228.  The interesting information
+>> it really wanted is the image header, and it can get that now, but it
+>> has to use full-backing-filename instead of backing_file.  Because of
+>> this patch's changes to bs->backing_file's behavior, we also need some
+>> reference output changes.
+>>
+>> Along with the changes to bs->backing_file, stop updating
+>> BDS.backing_format in bdrv_backing_attach() as well.  In order not to
+>> change our externally visible behavior (incompatibly), we have to let
+>> bdrv_query_image_info() try to get the image format from bs->backing if
+>> bs->backing_format is unset.  (The QAPI schema describes
+>> backing-filename-format as "the format of the backing file", so it is
+>> not necessarily what the image header says, but just the format of the
+>> file referenced by backing-filename (if known).)
+>=20
+> Why is it okay to change backing-filename incompatibly, but not
+> backing-filename-format?
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 6b382fcd60e..c179e0752da 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -2143,7 +2143,8 @@ static void arm_max_initfn(Object *obj)
-             cpu->isar.id_isar6 = t;
- 
-             t = cpu->isar.mvfr1;
--            t = FIELD_DP32(t, MVFR1, FPHP, 2);     /* v8.0 FP support */
-+            t = FIELD_DP32(t, MVFR1, FPHP, 3);     /* v8.2-FP16 */
-+            t = FIELD_DP32(t, MVFR1, SIMDHP, 2);   /* v8.2-FP16 */
-             cpu->isar.mvfr1 = t;
- 
-             t = cpu->isar.mvfr2;
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index dd696183dfb..3c2b3d95993 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -704,12 +704,10 @@ static void aarch64_max_initfn(Object *obj)
-         u = FIELD_DP32(u, ID_DFR0, PERFMON, 5); /* v8.4-PMU */
-         cpu->isar.id_dfr0 = u;
- 
--        /*
--         * FIXME: We do not yet support ARMv8.2-fp16 for AArch32 yet,
--         * so do not set MVFR1.FPHP.  Strictly speaking this is not legal,
--         * but it is also not legal to enable SVE without support for FP16,
--         * and enabling SVE in system mode is more useful in the short term.
--         */
-+        u = cpu->isar.mvfr1;
-+        u = FIELD_DP32(u, MVFR1, FPHP, 3);      /* v8.2-FP16 */
-+        u = FIELD_DP32(u, MVFR1, SIMDHP, 2);    /* v8.2-FP16 */
-+        cpu->isar.mvfr1 = u;
- 
- #ifdef CONFIG_USER_ONLY
-         /* For usermode -cpu max we can use a larger and more efficient DCZ
--- 
-2.20.1
+I hope you=E2=80=99re asking the reverse, i.e. why I don=E2=80=99t change
+backing-filename-format, too.  The answer to that is yeah, why not. :)
+
+> I would find it much more consistent if
+> ImageInfo reported the value from the header in both fields, and
+> BlockDeviceInfo reported the values actually in use.
+>=20
+> The QAPI schema described ImageInfo as "Information about a QEMU image
+> file" and runtime state really isn't information about an image file.
+>=20
+> If you want to know the probed image format, you can still look at
+> backing-image.format. I don't think this change is much different from
+> what you described above for BlockDeviceInfo.backing_file.
+
+Well, OK then.
+
+Max
+
+
+--7kp97mCrU9SO8HbchdEWAvbSAGtq2W59Q--
+
+--xTxzeU5HvFJ9GgM4mPPQVjSQZ9SU9G3Hj
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl9DztoACgkQ9AfbAGHV
+z0B2mQgAgbE7JFb+AsLcOGo6ErokdyKOurWpT9HphancJ+I/5UerImw90B64FtmA
+NR3Ujf6SP9wSy8+HR2NXTbMKzHe7g5MO0RBAwdGxRqYL2T00h8CSHCfntrneNnEl
+AW5/NEw9dInDp5+yx0nzDHRKV9V6NgcQyQkNEb6VVuYoblG8a4DUkrTuYW0TMa9y
+vNqcYOEBP14DRU/mZJeaFVnzn8cIkyX7S6KtXUD8Sx3JJU2Dlnymog5J+aEryPIs
+aeWNU18/rfFXEZZ4ANa7yVYAgTHJsXtavvbu72VArWoKgtpi8TcNisFvkLJuyvpZ
+4hUZVFrnBpd9H3ZmVs8dEyq/j5MAqw==
+=MAj5
+-----END PGP SIGNATURE-----
+
+--xTxzeU5HvFJ9GgM4mPPQVjSQZ9SU9G3Hj--
 
 
