@@ -2,57 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64978250984
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 21:39:23 +0200 (CEST)
-Received: from localhost ([::1]:49606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A6D525097F
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 21:39:14 +0200 (CEST)
+Received: from localhost ([::1]:49314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAIJO-0005Hz-FT
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 15:39:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47426)
+	id 1kAIJF-0005AT-8t
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 15:39:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1kAIIL-0004O8-VF
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 15:38:17 -0400
+ id 1kAIII-0004Li-Da
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 15:38:14 -0400
 Received: from mail-eopbgr10113.outbound.protection.outlook.com
  ([40.107.1.113]:60643 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1kAIIK-0000YT-7l
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 15:38:17 -0400
+ id 1kAIIG-0000YT-6i
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 15:38:14 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OU3D4g1qWwS2RteV0OvU0gD4ZdPLwrZtsDB3sMsuiMEe1didCW089zsFrI+yePwMHv+c7kG2tLc2MOgqKH5MJOVq35i961fPv/H6ja0VlKGlV6pSNOxJ0EYOgmP7JzP9W4nqD61HA4x5dJw49ENnNOWxVNrkZoZs40qpVEHhJU5Ef5K4zeHgKjySjpJ3afa1OcNw9T0x2z30ahfcsl8PbtjkvZxV3OHQm367TVy6kFeicgwGTJgLSFDGdX58DKG2DM29HmC426tAWI+bdh48JBEAvSr3wUVukMn5w8KTdZxAs3de/48gI++4aF9rjQHlMRMsO4Ucd/7clLT4mVRL5A==
+ b=ThSjU5WgaG3vhH0OWGuj2uF7H251SsHQ6k5UhnS4TQfiu8hFyKeTFLancAsCwFEYM23GN/b1wgCYmaEWBqHyGr0Yc/WDVcwXLCbhSOCA/M6i5T/JR+cLDPyq+wD/9ioBZcUC+ibxMXTQITKvnq0/9lczv5OZXEhaPjkMm3YnKGIYBNTBrsEfmIzX51DVC6eVYxFSZMFLM49gMVDarcubQQ1DD9lYKWj3z0DLo0dkWj8kppaZfaIOYJz0yXHWoq+wmM6B0TBYBg7u6k+64oaPaq6/A/wIT9exdpqvPzGdYqXQe6NryxKSXDFM/how6woRm8ExCZzUFXkuUZy2m14VzQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lzN00aksv++d+Uz333s5RLSVnbrFkRA8Oln9GXS3br8=;
- b=AW0qojEspwM6jqNTwKgYnC89sbRqbRhYgaIVMvi+02vWKTqEVUR3Pu40542kaTRJFgI3b+ea27p48l9dDhJOMi/RzUNk+Nq/0xnvIpLFr932oNTfTDOQ3bP2CNKCqL0jIGboUdseOvadqwMABEZGfF2It7IW8Krdh7OepdY8s5OQ36etVwzYU34nXgyL/OAZkUNlwyyFl6NXCHbOxNbtNZrFSECUmtm8UnsgMqv33YzU/IesGEL2cUbNz7PTyRAZ1e+LbkVABDdQVVGGe4n3wLWm1qS7PL3YXx7P9KS7dhvz8QYGHHqB0ZqMW0Srk/wgf2BB7kcP2iImePbpY1mImA==
+ bh=L73sbuiC7bnu+oJjs8tKLD0o+bknCPalISJpmNd5ujw=;
+ b=af+ppQ9ufixWyoo4DP0jpzNHWeRPGG67u3V/GxYnE35lwJiCeP90ABo0IT/MMSFa0TWmbRCoogYBtlPhoSYdSjLw7VSCLSL+BhZpSu6LFGAvVjVAuqber9y3SFxN8zY6Lxtww0MzNoqgkQhcK39srqBhIfU4HRFVTCWJH5Aez3YMKojyiNZnJr7rybXNZe+aiOBoUxIbIRVLMgAOgUj9CBmN3rK0e2kmI+PM4NjibMSxPV/lFQV0EJsA4h2x6tn1RFqzTrhg8wDVV/wEZCgGLck0yD0NHWj0onJL0x8/8mUWg9lFtj24Sd9Whked1y4tlOg30W/QsQJ1haB+XUDf3w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
  dkim=pass header.d=syrmia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lzN00aksv++d+Uz333s5RLSVnbrFkRA8Oln9GXS3br8=;
- b=T6NBtfI5gg7SbIlKnxhTQ3DPVWetmLEDYfEotAV+awzBLO053+Z/zy1PaTiHc0vDYFAefbGTOst96fdXRmThkCaQLfDvEEIcer7zGZadVgj7ylpTwBuR3SmCHSwZt2FDRRGJ/4t5Il0xeVwnRSo9qN6cqmLaUPQsPr8iomMMbL8=
+ bh=L73sbuiC7bnu+oJjs8tKLD0o+bknCPalISJpmNd5ujw=;
+ b=t+SduMhpiCG9UsotgKHECE1XpOz1n2xGv5gEmcck+CYCOpw++sLr0fR7bZ89bQyR4c4ZN5/5jHXcKipP1h4KUSgA+eep3tRnNBJJU72VamcSZFGYFlrper+SWDXXCzrnuFQxOiMlOoEIFcHIda12Bia17pYIewCkuq6ebuoen9Y=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=syrmia.com;
 Received: from VE1PR03MB5246.eurprd03.prod.outlook.com (2603:10a6:802:a1::22)
  by VE1PR03MB6047.eurprd03.prod.outlook.com (2603:10a6:803:114::30)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.26; Mon, 24 Aug
- 2020 19:38:05 +0000
+ 2020 19:38:06 +0000
 Received: from VE1PR03MB5246.eurprd03.prod.outlook.com
  ([fe80::3568:5b4f:ab6b:e362]) by VE1PR03MB5246.eurprd03.prod.outlook.com
  ([fe80::3568:5b4f:ab6b:e362%6]) with mapi id 15.20.3261.026; Mon, 24 Aug 2020
- 19:38:05 +0000
+ 19:38:06 +0000
 From: Filip Bozuta <Filip.Bozuta@syrmia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/2] linux-user: Introducing functionality for two time64
- syscalls
-Date: Mon, 24 Aug 2020 21:37:50 +0200
-Message-Id: <20200824193752.67950-1-Filip.Bozuta@syrmia.com>
+Subject: [PATCH v3 1/2] linux-user: Fix 'mq_timedsend()' and
+ 'mq_timedreceive()'
+Date: Mon, 24 Aug 2020 21:37:51 +0200
+Message-Id: <20200824193752.67950-2-Filip.Bozuta@syrmia.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200824193752.67950-1-Filip.Bozuta@syrmia.com>
+References: <20200824193752.67950-1-Filip.Bozuta@syrmia.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: LO2P265CA0251.GBRP265.PROD.OUTLOOK.COM
@@ -67,28 +69,28 @@ Received: from localhost.localdomain (147.91.217.242) by
 X-Mailer: git-send-email 2.25.1
 X-Originating-IP: [147.91.217.242]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ad5d5787-ec67-4fa7-628c-08d8486538d7
+X-MS-Office365-Filtering-Correlation-Id: cbe02542-c594-4eeb-4304-08d84865395f
 X-MS-TrafficTypeDiagnostic: VE1PR03MB6047:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VE1PR03MB6047C57C56CEE62991390AA8EB560@VE1PR03MB6047.eurprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-Microsoft-Antispam-PRVS: <VE1PR03MB60476A147AE16521824AB669EB560@VE1PR03MB6047.eurprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: IXfWGal8taCL3dYXlMc4YANTZkBIrlLmtdQIoka4AGq358N8mACmiZbborAOIMJAxOyHCQXDvEk9f1oVwaJnRo0yLsQ4T2wF2YTOUCv+XBkYl7csas41jotn9Xnw0hvtHKUAtiWdjUxcgrpS/+B5c/2ad6heFrW/T/cctN1l5+7ofnJuNSR9+Xpg526emPwbyU9Kx54EVHWM14W2OfWPLOnGNaV0RTQIUo2zcg3SAlo0+QaxVa/pAzBlgnPPSrhs4NcdZ6wj+SwmcrTcHrO+h6Am0ds5j0VEKRa40FgllaGAT1REEsBxSP8+09qZWgPqDbX4ZUPJAG+G359yHMriHuY5hgDG/BDLr/nd9UVZ51p2TQXnw7y59aI/e8GU6ftc
+X-Microsoft-Antispam-Message-Info: JOwhk+2U+D8BI5sWbzC4JjpVRRq/H69VLi+jNzBGTpzzIQZ5HWe0jq3Fb8YfhYdmz4S2RVwbnXZFej3wEwrYTthgQAK2LKz0br+ywoiqnfeoy+Rsdly7eHQh0zKJ3B1dMt5OwV9B6ZLccbkpDc/5H4vmbaOJanIUWMH82VXmoIzC0y4jSdY8OQ/fQCMgajVIaMrd4YnPfquae8cbLHjwIl79XNKsMf7npXtVIL4bwO8wBy3fsasPcGuPQvqhmA0Zss7AEkklvwW5Lvzmfo/5uy4f5+Z+wTONJcHkselWIzWj1Yt/J9SngieoxwFaxlEj6eKqAEcFVNzX5Jwn1b0ZPTSjdkS4/DDEvL+Vov+tJDN0NDY68OeqJV5yqxTHkPNecV1bv1YeOzbZGEw+dhB4uJtBYxRk4fHCwoHhFYA3fDQP4MnW/18mIvx1lL9FtL46e9NGBmsg+vuB9LwCsQ9OwA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VE1PR03MB5246.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(346002)(136003)(366004)(39830400003)(376002)(396003)(4744005)(16526019)(8936002)(66556008)(83380400001)(26005)(107886003)(2616005)(956004)(6916009)(86362001)(66476007)(5660300002)(1076003)(6512007)(186003)(6666004)(316002)(6506007)(66946007)(6486002)(8676002)(36756003)(69590400007)(4326008)(52116002)(2906002)(478600001)(54906003);
+ SFS:(346002)(136003)(366004)(39830400003)(376002)(396003)(16526019)(8936002)(66556008)(83380400001)(26005)(107886003)(2616005)(956004)(6916009)(86362001)(66476007)(5660300002)(1076003)(6512007)(186003)(6666004)(316002)(966005)(6506007)(66946007)(6486002)(8676002)(36756003)(69590400007)(4326008)(52116002)(2906002)(478600001)(54906003);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: u12yTIpebnMIgfnYXGgHUU5uGTReWLWxYkyRZ1V8UHSthsj2BoGLQdDnIC8IVhxJBwg5GrYhtradqxkSRbsLGeHXxdl0AjP0Ln06AWfny+T4QB0qS6mg9sgiDdG6AUfJJa2qFGEvECWk252BKYI3w2X3whZdoRILOZuBeDSI5yNGSmNxj2eVLfI6Hjfb3PIOzrGtqMC7OCz/w1xWjqMkIYVcgFXrOGPTU+6831BgJEHgDa0iA2sYF9SqM5V5KkHlj8BCwSLqUenOgZFp6/IoFNEGX6My0OO27d/Gd91KJ2ETqcuYzNZZ2LVGa3u7yFWYXzTVinAlyTfHE+g+yUop+hBIa5llEwGj0mqpxhXYRJQXeSEm4520a/Wt8vg6B1ocls46fKjX/qVLnKQQeF/sXbFoKjQUB6rykXn36QbOwrGrzBZgJYCezVXqGQJO3IFulaxNtrmYI/J6m9SN1Xy7/SmVSKKYBrQ2w1RB1sBR4rsW3VNBJeBFDfN8KpefLOX8fi64gikWkHo6jjk2cWvdLRX3xrJPHLFglzPsWk1IrxG+LqqEoZ+zY9Ifry6A0bX6sTxEL+ot1sAPuWlSUZq+KD1XBEaYSNJmbKYnDfgbT81apJE67dvvQ4VGJJh0NAIqo0+e1P5gC6YmsK35GhO6SQ==
+X-MS-Exchange-AntiSpam-MessageData: 4a+tmOJlh8BiviDpZvET0u/q3cAwwkD9iNqhJrLJhoD7IJesxaoIIH+YUGtawqE0Yjlxj9YufAZXMvxU7X++bwS1Fm0jTE5X34SwCDRhnYscLKnJdgha/dEB4V1iyKCJQNSZ0LITA5GdkeXqTuYqAioRJJYZypZmLUcfCo7nBNMePOmdyBpMG+YiflEQ/1Qf/BM6ZpasQoGsWBdB+tsfEallqi7DwzjrpyctZZOkHDWljKHDawKPXKQQBLhG3CmYlCcD7CPjG6YId/1Km/jKmIV8WewXQGaN80nHB7SO2VjlE0Ya3MKNitUMmE4UnzpfjM7A5412c4aosLMOa5r9L67BKZ1HgAl2JOe9NIoDXo5Z+2oTNKYC6ronV3oZFJQuTNQqoiz7+4d/aCl5gGss42j+niNZ/dgLh3nighomFWvJFHi4kxyE5doubLvdtPIDQi1x0WmZV3n9gPC7AiTaaEJ9dGHOFlK2ijHAEqZfCogEZReMuilEAcprJiH/ufTpCHY8Xpp8gEbyZjaBFYiJl3RVNz2V9cccrMsB/Xye8juuRFN9gGfn4JQPPM5CZlnpxOpTKALd/rScb1TAAUykNCsyTnowVuhnB3KIgT8I6Rw8REphXjBbiYyqsCzJOG8/DU2nLozPd7x5J0L0tMP64A==
 X-OriginatorOrg: syrmia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ad5d5787-ec67-4fa7-628c-08d8486538d7
+X-MS-Exchange-CrossTenant-Network-Message-Id: cbe02542-c594-4eeb-4304-08d84865395f
 X-MS-Exchange-CrossTenant-AuthSource: VE1PR03MB5246.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2020 19:38:05.6860 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2020 19:38:06.5885 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3Gv8UM1ZtJA9PQcZA7sNUaNfO/AGzLmiSetgwEvZFp6gOxCiMcgjUlqA3jHLZrZZBCbUjKHbtbimkS3kr7rdMA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8MNljHT2C6s6BHXOryG+33g6e59c4X8ibiAbr5FqGA01P54JUd6L6lD0KEMsdBeQa4xkg0Ac0Dqr1hR9esdRQg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR03MB6047
 Received-SPF: pass client-ip=40.107.1.113;
  envelope-from=Filip.Bozuta@syrmia.com;
@@ -120,33 +122,75 @@ Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This two patch series introduces functionality for two year
-2038 safe syscalls.
+Implementations of syscalls 'mq_timedsend()' and 'mq_timedreceive()'
+in 'syscall.c' use functions 'target_to_host_timespec()' and
+'host_to_target_timespec()' to transfer the value of 'struct timespec'
+between target and host. However, the implementations don't check whether
+this conversion succeeds and thus can cause an unaproppriate error instead
+of the 'EFAULT (Bad address)' which is supposed to be set if the conversion
+from target to host fails. This was confirmed with the modified LTP
+test suite where test cases with a bad adress for 'timespec' were
+added. This modified test suite can be found at:
+https://github.com/bozutaf/ltp
 
-The first patch introduces a little correction for already
-implemented normal (32-bit) variants of implemented syscalls.
+Without the changes from this patch the bad adress testcase for 'mq_timedsend()'
+succeds unexpectedly, while the test returns errno 'ETIMEOUT' for
+'mq_timedreceive()':
 
-The second patch introduces the implementation of the
-syscalls.
+mq_timedsend01.c:190: FAIL: mq_timedsend() returned 0, expected -1: SUCCESS (0)
+mq_timedreceive01.c:178: FAIL: mq_timedreceive() failed unexpectedly,
+expected EFAULT: ETIMEDOUT (110)
 
-Testing method:
+After the changes from this patch, testcases for both syscalls fail with EFAULT
+as expected, which is the same test result that is received with native execution:
 
-    The implementation of the implemented syscalls was tested
-    using recently added time64 test in the LTP test suite.
+mq_timedsend01.c:187: PASS: mq_timedsend() failed expectedly: EFAULT (14)
+mq_timedreceive01.c:180: PASS: mq_timedreceive() failed expectedly: EFAULT (14)
 
-v3:
+(Patch with this new test case will be sent to LTP mailing list soon)
 
-    -Added an error check before converting back the value
-     of 'struct timespec/timespec64' from host to target
+Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
+---
+ linux-user/syscall.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
-Filip Bozuta (2):
-  linux-user: Fix 'mq_timedsend()' and 'mq_timedreceive()'
-  linux-user: Add support for 'mq_timedsend_time64()' and
-    'mq_timedreceive_time64()'
-
- linux-user/syscall.c | 74 +++++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 67 insertions(+), 7 deletions(-)
-
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 05f03919ff..4ee1de6e65 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -11817,9 +11817,13 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+ 
+             p = lock_user (VERIFY_READ, arg2, arg3, 1);
+             if (arg5 != 0) {
+-                target_to_host_timespec(&ts, arg5);
++                if (target_to_host_timespec(&ts, arg5)) {
++                    return -TARGET_EFAULT;
++                }
+                 ret = get_errno(safe_mq_timedsend(arg1, p, arg3, arg4, &ts));
+-                host_to_target_timespec(arg5, &ts);
++                if (!is_error(ret) && host_to_target_timespec(arg5, &ts)) {
++                    return -TARGET_EFAULT;
++                }
+             } else {
+                 ret = get_errno(safe_mq_timedsend(arg1, p, arg3, arg4, NULL));
+             }
+@@ -11836,10 +11840,14 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+ 
+             p = lock_user (VERIFY_READ, arg2, arg3, 1);
+             if (arg5 != 0) {
+-                target_to_host_timespec(&ts, arg5);
++                if (target_to_host_timespec(&ts, arg5)) {
++                    return -TARGET_EFAULT;
++                }
+                 ret = get_errno(safe_mq_timedreceive(arg1, p, arg3,
+                                                      &prio, &ts));
+-                host_to_target_timespec(arg5, &ts);
++                if (!is_error(ret) && host_to_target_timespec(arg5, &ts)) {
++                    return -TARGET_EFAULT;
++                }
+             } else {
+                 ret = get_errno(safe_mq_timedreceive(arg1, p, arg3,
+                                                      &prio, NULL));
 -- 
 2.25.1
 
