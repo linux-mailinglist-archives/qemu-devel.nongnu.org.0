@@ -2,61 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D943725010A
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 17:26:11 +0200 (CEST)
-Received: from localhost ([::1]:47336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FDDC25011F
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 17:28:20 +0200 (CEST)
+Received: from localhost ([::1]:54006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAEMM-00062Q-SN
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 11:26:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34718)
+	id 1kAEOR-0000PJ-Lu
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 11:28:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kAEKx-0004UY-Kk
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 11:24:43 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:36437)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kAEKv-0003e8-6B
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 11:24:43 -0400
-Received: from localhost.localdomain ([82.252.135.186]) by
- mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MWitM-1k7yDj2z2O-00X2gF; Mon, 24 Aug 2020 17:24:35 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] meson: avoid compiling qemu-keymap by default
-Date: Mon, 24 Aug 2020 17:24:30 +0200
-Message-Id: <20200824152430.1844159-3-laurent@vivier.eu>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200824152430.1844159-1-laurent@vivier.eu>
-References: <20200824152430.1844159-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kAENN-0007wA-IV
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 11:27:13 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39906
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kAENK-00045f-S4
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 11:27:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598282829;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3cKIyacX1Y1vEDM5g9IGByt/b+KSXgHQgwLQ2hLbqwY=;
+ b=TW3pNfvfnwaDl/HIsy8zVRidBVm6BmT1QVF5AfcQMMVQDTT8Ox0ox3IxmEEepuurg2IwkP
+ 7W34WG3/dOM1EzKbv8Z6AkiFJi1jAfMXvOUMXxXXkjWeaEhyY7aJXudAFeDJTRIyrhMPJE
+ 7YD/94uVevc9c4qQ1OKS5KzsjqnBJj4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-375-iTWCQIb9Ojq4oYitJjqNrg-1; Mon, 24 Aug 2020 11:27:07 -0400
+X-MC-Unique: iTWCQIb9Ojq4oYitJjqNrg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E7B89800FFF;
+ Mon, 24 Aug 2020 15:27:05 +0000 (UTC)
+Received: from localhost (ovpn-112-178.ams2.redhat.com [10.36.112.178])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 98A4860C11;
+ Mon, 24 Aug 2020 15:27:01 +0000 (UTC)
+Date: Mon, 24 Aug 2020 16:26:59 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: wanghonghao <wanghonghao@bytedance.com>
+Subject: Re: [PATCH 1/2] QSLIST: add atomic replace operation
+Message-ID: <20200824152659.GA7124@stefanha-x1.localdomain>
+References: <20200824043121.13421-1-wanghonghao@bytedance.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:w0PNymbRYVT/DGV+LFxT2+L1XvNtUGU7gd1rfc07X8J9DTZ4rmf
- KFcYmcQkUfQYj3CnqBRqePuK5M793Z818M/blggJ9vTZ7c03q3aGlugoADooZswl9MBx1wo
- VuifzAyd6CPGl6LcqQuAHAmtSzXBnu5EtUTM089hIBs1ghT5RAkOGCzmlLgKXff41lEeXwz
- aFEySU3aQK182wqToUjYA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Oz3VMNszdZg=:zM7gCogZyZ/wtsSOOnEQtm
- oFDHB2G2M0azhaEjac8IB0XLJL/Yr2kpS0Q7bTnjlLPZTrAHfU3JbWmtkD1A6cZDvSTWKTLGE
- MdRQpoqtzbgPfg80vgtGcQ6LyCdUFNouD89fzdaBI9Cdwi/oYnIVN81wAos+QGSym/gQrXxfT
- 3Ar5g+XO75tz3JxJZXQIhXuG8SrlfCE656whA76I3diAbVWoSYc3r5E7JXz/SASb54FyV9Rhl
- UIQY1EHWmrMMeHAejmjuOOsEpOb7qhd5STNJzPwH+eyNF5Qholw8Acm6jEWahfg8xe9hfjIZh
- RwJm/6Jcgyxv6mXb+jOx+BCoL+F4nL6x1Uf6I627JioS4RfQi++et5LsqfYwfhL+LY9zDtIKz
- ZE9cj1AlEl7BKfGoBKZ/tqYTcQ+uBU5qx47MtMSUbk45FZynaLzGNDRxK2c7DV6nl3abStdNT
- BjSryMT5bU8tcOHbD0rhl0xL5XZ6N3rz4usxtON00FG8sL6gIZ+YmxNcmhtraprBJKMnr+kk+
- HxahicIz4PGy2z2qqunSIMxqBOXdzZrvL66avUgeeiDLU2C60Nz5x+Rb4bexcsyTL9XkpGas2
- 3sW8Zeku21n7Yzbn+qQpDit6qwgZE0aSH2tjqoelUud5bcqCTmr7P1mnwGyA84LBrMlr0Imbp
- wttHdNjhpdFO1CBj0WiWj750VEDovFKE1bIDKXTmF5RORm8VtUBuijdQJh0giCO1Ff2Hjv7i6
- 0vVyVyq9jfw4KtJea4yWDbqB00Cc+0Elr+lDscoOZfmyNKtV7fOwlq5fLc1okxjU+HlQ39o1s
- UEdIbGfQJiV/JtCakdie0qxV5H/HFtB6/91v1nsWaKcGBRqa1w71BlEtfwEJqnSRulrplfn
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/24 11:24:39
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200824043121.13421-1-wanghonghao@bytedance.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="TB36FDmn/VVEgNH/"
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/24 08:00:54
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.956,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,43 +81,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: kwolf@redhat.com, pbonzini@redhat.com, fam@euphon.net,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qemu-keymap is not needed with linux-user, so disable it by default if
-tools and system are disabled (tools are disabled by default with linux-user).
+--TB36FDmn/VVEgNH/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Avoid this error with statically linked binaries:
+On Mon, Aug 24, 2020 at 12:31:20PM +0800, wanghonghao wrote:
+> Replace a queue with another atomicly. It's useful when we need to transf=
+er
+> queues between threads.
+>=20
+> Signed-off-by: wanghonghao <wanghonghao@bytedance.com>
+> ---
+>  include/qemu/queue.h | 4 ++++
+>  1 file changed, 4 insertions(+)
+>=20
+> diff --git a/include/qemu/queue.h b/include/qemu/queue.h
+> index 456a5b01ee..a3ff544193 100644
+> --- a/include/qemu/queue.h
+> +++ b/include/qemu/queue.h
+> @@ -226,6 +226,10 @@ struct {                                            =
+                    \
+>          (dest)->slh_first =3D atomic_xchg(&(src)->slh_first, NULL);     =
+   \
+>  } while (/*CONSTCOND*/0)
+> =20
+> +#define QSLIST_REPLACE_ATOMIC(dest, src) do {                           =
+      \
+> +        (src)->slh_first =3D atomic_xchg(&(dest)->slh_first, (src)->slh_=
+first); \
+> +} while (/*CONSTCOND*/0)
 
-    Linking target qemu-keymap
-    /usr/bin/ld: cannot find -lxkbcommon
+This is atomic for dest but not src.
 
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- meson.build | 5 +++++
- 1 file changed, 5 insertions(+)
+Maybe the name should make this clear: QSLIST_REPLACE_ATOMIC_DEST().
 
-diff --git a/meson.build b/meson.build
-index f6e346af1a69..f0fe5f8799e0 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1063,6 +1063,11 @@ if 'CONFIG_GUEST_AGENT' in config_host
-   subdir('qga')
- endif
- 
-+# Don't build qemu-keymap if xkbcommon is not explicitly enabled
-+# when we don't build tools or system
-+if get_option('xkbcommon').auto() and not have_system and not have_tools
-+  xkbcommon = not_found
-+endif
- if xkbcommon.found()
-   # used for the update-keymaps target, so include rules even if !have_tools
-   qemu_keymap = executable('qemu-keymap', files('qemu-keymap.c', 'ui/input-keymap.c') + genh,
--- 
-2.26.2
+Please also add a doc comment mentioning that the modification to src is
+not atomic.
+
+Stefan
+
+--TB36FDmn/VVEgNH/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9D3EEACgkQnKSrs4Gr
+c8heswgAjaX93OcnqW+/VCPTErhl3qvTPXFwzxwxRmpsBS2mPq+KTZWpQfGS05KD
+dwZjP0RT2et8Dz+MKr3TVazwu8Vfcq5MRe8wypiQ/49ESqRq7bqgHvfvmBgSyhFJ
+4rKJXKkxdF4WHMbq7cZw4wSCKUZZWBgrcPgo38ivSv3SHal2Jzfd1IOGJnCVLzEF
+y897FhYJg5RAMysogAFKyOGHhDsjjKeydhFyNlaY2zmEv7ncGpCHirbK41UrHEnZ
+HjNxUNGem7wQ23msOMRXTRTCkQx4Di9sBN66cBn+EW1eWNcxjOj/ykW8rvJldvW3
+3eVDSeL6IW+DoROIc18EONCfwNFsVA==
+=nOHN
+-----END PGP SIGNATURE-----
+
+--TB36FDmn/VVEgNH/--
 
 
