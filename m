@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3D0624FAA0
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 11:58:32 +0200 (CEST)
-Received: from localhost ([::1]:50200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DF0D24FAC0
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 11:59:46 +0200 (CEST)
+Received: from localhost ([::1]:55988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kA9FI-0008Kd-1V
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 05:58:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46936)
+	id 1kA9GT-0002JJ-6q
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 05:59:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kA95n-0005We-5t
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 05:48:43 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:35177)
+ id 1kA95o-0005a4-AT
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 05:48:44 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:36417)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kA95l-0004pb-E7
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 05:48:42 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id o21so7551440wmc.0
- for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 02:48:41 -0700 (PDT)
+ id 1kA95m-0004pl-JD
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 05:48:43 -0400
+Received: by mail-wr1-x435.google.com with SMTP id x7so1932707wro.3
+ for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 02:48:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=986a+dtrAGXDxkRArhjNYo7MkVjUW9PLQfZ9R0W5SLo=;
- b=jkGWnS8vCYIXlavTZRWs9aQi7tvOTdls7bgm+3BLuUbI18fxWzHeICnvajm1AH2sau
- PpMa3MkZVRJzBb+vY3m95Xv9v3mbU8MNj+TsTeXV/4zNDjG3ugdud09Wgei29PH+u8jM
- R+LLQ5a0Hi6dNzpUAJCw5UkYracmHyTlkLnG29U8J6o6nrPhUomF3vdnRlw31eO2fmQ8
- EYDoO9fdGqWX62W0FvbUwcP+MFzGLrIMlSz+Lc5G2I7R1HgkuSkCSJiWkB7bohgfrUUJ
- s0JYH+I5JeGedJV6xh+qw5kvVAlmpKCon6NShRz+U0w8ftX+oY8tVbekryA7Nj78Zove
- qf3A==
+ bh=4SpG6X894Q08xJg7KSl0Dqp09v2NXNEz0pss3dMzgp4=;
+ b=SDryJzrrqIRbdWqq1fnufgMPdIvdmsoR6/eXYe4fwhicUkA5/3KCzT4WIfgpnxySbg
+ 8s5wwD12s/GvXKpYQbfVaMXdWGjTneq7wWZ1eJfanUdBh9w5J+cjCvPzXYDLLIK3G2lU
+ bNvep2MduoAIjG1pLrBJlJwFxpq0oOKN4i8+DvptDYEgJkeEptgAGqOwxlb3tFFswFko
+ h+g4HRjsAluHXjLDN9yfqCrClO5Mr8ysc1ccnGCZ3y0akGqSBrKH3IqSjmwRsjyNGXP7
+ ZduMk2I/nlO2NA91xzEB0brTIC6xjJdJANiiLab4LFK8pDHscb6pZt/EH5kF8TgZH9Gw
+ 3I0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=986a+dtrAGXDxkRArhjNYo7MkVjUW9PLQfZ9R0W5SLo=;
- b=a82gAAXNrtTlJ0Ck7n8yPgobtqkxmvlWCAGb/DVGRr1xf4dt3w7/kYGkBVXdIMlVxq
- JiMGj/yhknRvIqxjdbEIVSef/jH8yJniY0huuXXwKorwWt6gc8VO4cpLv2fR8fO/wwGQ
- 17+HX1vKbMA0dkfZ/vV/NOoWA+/LmvjsBlneMX9t6/VOHZsCORfHrU37dGa5msJw7fAn
- sieqO+G4ByML9t1gE4FAOQaNYWpp4cggIhAqbVkhJQEpio/iXpoQGrTJg3+HHxsWiXR1
- IwRfA5rgD3LstQBqEZoV5yeFq7To2wo1OrpzYGLhaq6Q5W1pwJEoL1hqT93GTgp/d9Bl
- t6EQ==
-X-Gm-Message-State: AOAM532WDNOQDrovSHoCY9Yk6RJwzR/Mv/fIcsQk4RgLf5TMSUlKv3Io
- +S5z1N6Ywa2B9zxDfSJwfqQ1DKx22kC/Wls8
-X-Google-Smtp-Source: ABdhPJxfDZeQR37FDhKcKbvNbCN3cDX/SqgFpcJ5qxWO7kHci8v8cp4nsA6NxN1pv90M1590olOcLQ==
-X-Received: by 2002:a1c:1b43:: with SMTP id b64mr5051161wmb.6.1598262519894;
- Mon, 24 Aug 2020 02:48:39 -0700 (PDT)
+ bh=4SpG6X894Q08xJg7KSl0Dqp09v2NXNEz0pss3dMzgp4=;
+ b=eDc1TIWKOWSQtw9rMQPSJvUgxGaRQRdI6zmgbBI1ZerV7bAxhqTioxn3fgEDz0XdLO
+ TFCfPUtKuXI2NCjyxqHJr/69b4yrO1UrSl020uIyMn+cGbLkT8UzXU5jTW4QPsePlLPf
+ flz/KdwFaU6f9qzYdbViodOXinvJY4sZtlMguen4LRH3L4LD+WTnO/uGyT0lfIGj0fxR
+ z56Cw08JJIHu7MjIXaQe7Rbua2KG2df655c+YR4VZb5haIsrZZVGgd87GLawTyEcU9g9
+ 1rQXr+arG/q1nsM8nsfFEV4C0TkXL3m47c1I3WC7tIySzz2J4rerMCVH2JJW6wti11dP
+ bR/Q==
+X-Gm-Message-State: AOAM533ZZzVBEjDbWkvbLgvH5btnSk9m4aOjyt7LFUcF/Ox1/pLB3w7c
+ W5919DPG4/AP+VpUBr/t+LDT/9K73x1k4+bO
+X-Google-Smtp-Source: ABdhPJza1kiL+5sRTQdw5IezXmTA94KzD0yX/RVTkDgkXr8vGiISXqDfm0h3bG3pyZxs/ihD+ne3Vw==
+X-Received: by 2002:adf:f007:: with SMTP id j7mr4746688wro.195.1598262520893; 
+ Mon, 24 Aug 2020 02:48:40 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q6sm24877057wma.22.2020.08.24.02.48.38
+ by smtp.gmail.com with ESMTPSA id q6sm24877057wma.22.2020.08.24.02.48.40
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Aug 2020 02:48:39 -0700 (PDT)
+ Mon, 24 Aug 2020 02:48:40 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 22/27] target/arm/translate.c: Delete/amend incorrect comments
-Date: Mon, 24 Aug 2020 10:48:06 +0100
-Message-Id: <20200824094811.15439-23-peter.maydell@linaro.org>
+Subject: [PULL 23/27] target/arm: Delete unused ARM_FEATURE_CRC
+Date: Mon, 24 Aug 2020 10:48:07 +0100
+Message-Id: <20200824094811.15439-24-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200824094811.15439-1-peter.maydell@linaro.org>
 References: <20200824094811.15439-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,48 +89,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In arm_tr_init_disas_context() we have a FIXME comment that suggests
-"cpu_M0 can probably be the same as cpu_V0".  This isn't in fact
-possible: cpu_V0 is used as a temporary inside gen_iwmmxt_shift(),
-and that function is called in various places where cpu_M0 contains a
-live value (i.e.  between gen_op_iwmmxt_movq_M0_wRn() and
-gen_op_iwmmxt_movq_wRn_M0() calls).  Remove the comment.
-
-We also have a comment on the declarations of cpu_V0/V1/M0 which
-claims they're "for efficiency".  This isn't true with modern TCG, so
-replace this comment with one which notes that they're only used with
-the iwmmxt decode.
+In commit 962fcbf2efe57231a9f5df we converted the uses of the
+ARM_FEATURE_CRC bit to use the aa32_crc32 isar_feature test
+instead. However we forgot to remove the now-unused definition
+of the feature name in the enum. Delete it now.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200803132815.3861-1-peter.maydell@linaro.org
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20200805210848.6688-1-peter.maydell@linaro.org
 ---
- target/arm/translate.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/arm/cpu.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 4ffd8b1fbe5..dd25adcf402 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -57,8 +57,9 @@
- #define IS_USER(s) (s->user)
- #endif
- 
--/* We reuse the same 64-bit temporaries for efficiency.  */
-+/* These are TCG temporaries used only by the legacy iwMMXt decoder */
- static TCGv_i64 cpu_V0, cpu_V1, cpu_M0;
-+/* These are TCG globals which alias CPUARMState fields */
- static TCGv_i32 cpu_R[16];
- TCGv_i32 cpu_CF, cpu_NF, cpu_VF, cpu_ZF;
- TCGv_i64 cpu_exclusive_addr;
-@@ -8566,7 +8567,6 @@ static void arm_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
- 
-     cpu_V0 = tcg_temp_new_i64();
-     cpu_V1 = tcg_temp_new_i64();
--    /* FIXME: cpu_M0 can probably be the same as cpu_V0.  */
-     cpu_M0 = tcg_temp_new_i64();
- }
- 
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 9e8ed423ea1..9d2845c1797 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -1950,7 +1950,6 @@ enum arm_features {
+     ARM_FEATURE_V8,
+     ARM_FEATURE_AARCH64, /* supports 64 bit mode */
+     ARM_FEATURE_CBAR, /* has cp15 CBAR */
+-    ARM_FEATURE_CRC, /* ARMv8 CRC instructions */
+     ARM_FEATURE_CBAR_RO, /* has cp15 CBAR and it is read-only */
+     ARM_FEATURE_EL2, /* has EL2 Virtualization support */
+     ARM_FEATURE_EL3, /* has EL3 Secure monitor support */
 -- 
 2.20.1
 
