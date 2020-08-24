@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34CBB250493
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 19:04:53 +0200 (CEST)
-Received: from localhost ([::1]:58710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 135D92504B4
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 19:06:32 +0200 (CEST)
+Received: from localhost ([::1]:34510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAFts-0001YK-9d
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 13:04:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36144)
+	id 1kAFvT-0003GS-5I
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 13:06:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kAFrc-0007Sq-0o
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 13:02:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45494)
+ id 1kAFsj-0000fg-RI
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 13:03:41 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:46611
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kAFra-0003MN-AC
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 13:02:31 -0400
+ id 1kAFsg-0003Ur-Vy
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 13:03:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598288549;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BxySJVrnEnh7ML01Y3qGldicKlwFsU6fSDsmzi00OZ8=;
- b=imV7/iy7oZ8vFmCLP9wpqDBBXnTzs9/d3edulnDjMvBBDWo+c6ECaY2fbOu2gkhxCHieHl
- 1g5CCLIgwUzrS9buWcMawC0cmSZvN5v1LoT59/t/IA64GqFtNh9kLXhCcr5WVxi8ubW6UB
- /5xvhxKdPlL3heAt9ZAyX2ZLf7k3U1k=
+ s=mimecast20190719; t=1598288617;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=wR532ddwM5HY09GJiFNbUnmzjgcchauOu8vL2gsLRus=;
+ b=K0ql/CbDXHlwUtUDf/v+ZOVveLVwwNTWrIiVlx0ZytvP4GVEHzOI6JH0Njk1tqk7YyH6SJ
+ 1FVmEq3+o932WcZcRjNsg3yublw/oYqUCMcNzfxvMqH/a37MvwHXReGya/2TOIQc2xX0xC
+ wZFeduNe7wuZDOjMVo8KcGoCcCrAuOs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-488-I0uoE8YsOmCOIqKYN7chMQ-1; Mon, 24 Aug 2020 13:02:26 -0400
-X-MC-Unique: I0uoE8YsOmCOIqKYN7chMQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-509--dc6_-DCPPmjvNOvTzVoPQ-1; Mon, 24 Aug 2020 13:03:25 -0400
+X-MC-Unique: -dc6_-DCPPmjvNOvTzVoPQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6EA74801AC9;
- Mon, 24 Aug 2020 17:02:25 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-114-223.ams2.redhat.com
- [10.36.114.223])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C7DFC5C1BB;
- Mon, 24 Aug 2020 17:02:23 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] nbd: disable signals and forking on Windows builds
-Date: Mon, 24 Aug 2020 18:02:18 +0100
-Message-Id: <20200824170218.106255-3-berrange@redhat.com>
-In-Reply-To: <20200824170218.106255-1-berrange@redhat.com>
-References: <20200824170218.106255-1-berrange@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E972801AC9
+ for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 17:03:24 +0000 (UTC)
+Received: from redhat.com (ovpn-114-223.ams2.redhat.com [10.36.114.223])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1179962A27;
+ Mon, 24 Aug 2020 17:03:19 +0000 (UTC)
+Date: Mon, 24 Aug 2020 18:03:17 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH] meson: Build qemu-nbd on macOS again
+Message-ID: <20200824170317.GX10011@redhat.com>
+References: <20200823083215.14952-1-thuth@redhat.com>
+ <cc6c11a1-18af-b887-b597-6f2df431e872@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <cc6c11a1-18af-b887-b597-6f2df431e872@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0.003
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/24 06:48:00
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/24 05:21:34
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.956,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,95 +82,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Disabling these parts are sufficient to get the qemu-nbd program
-compiling in a Windows build.
+On Mon, Aug 24, 2020 at 09:29:21AM -0500, Eric Blake wrote:
+> On 8/23/20 3:32 AM, Thomas Huth wrote:
+> > Before switching to the meson build system, we used to compile qemu-nbd
+> > for macOS, too, which is especially important for running the iotests
+> > there. Commit b7c70bf2c5 disabled it by accident, since it did not take
+> > into consideration that the $bsd variable in the configure script was
+> > also set to "yes" on macOS. Fix it by enabling qemu-nbd on all systems
+> > but Windows now instead (which was likely the original intention of the
+> > old code in the configure script).
+> > 
+> > Fixes: b7c70bf2c5 ("meson: qemu-{img,io,nbd}")
+> > Signed-off-by: Thomas Huth <thuth@redhat.com>
+> > ---
+> >   meson.build | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> I can queue this through my NBD tree, although if there is a batch of meson
+> fixes going in sooner than that, I don't mind if it goes there.
+> 
+> Acked-by: Eric Blake <eblake@redhat.com>
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- meson.build |  7 ++-----
- qemu-nbd.c  | 10 +++++++++-
- 2 files changed, 11 insertions(+), 6 deletions(-)
+FYI, it is pretty trivial to enable building of qemu-nbd.exe on Windows,
+which eanbles the conditional to be removed from meson entirely. I've
+just CC you a series todo that.
 
-diff --git a/meson.build b/meson.build
-index df5bf728b5..1071871605 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1074,12 +1074,9 @@ if have_tools
-              dependencies: [authz, block, crypto, io, qom, qemuutil], install: true)
-   qemu_io = executable('qemu-io', files('qemu-io.c'),
-              dependencies: [block, qemuutil], install: true)
--  qemu_block_tools += [qemu_img, qemu_io]
--  if targetos == 'linux' or targetos == 'sunos' or targetos.endswith('bsd')
--    qemu_nbd = executable('qemu-nbd', files('qemu-nbd.c'),
-+  qemu_nbd = executable('qemu-nbd', files('qemu-nbd.c'),
-                dependencies: [block, qemuutil], install: true)
--    qemu_block_tools += [qemu_nbd]
--  endif
-+  qemu_block_tools += [qemu_img, qemu_io, qemu_nbd]
- 
-   subdir('storage-daemon')
-   subdir('contrib/rdmacm-mux')
-diff --git a/qemu-nbd.c b/qemu-nbd.c
-index b102874f0f..c6fd6524d3 100644
---- a/qemu-nbd.c
-+++ b/qemu-nbd.c
-@@ -155,12 +155,13 @@ QEMU_COPYRIGHT "\n"
-     , name);
- }
- 
-+#ifndef WIN32
- static void termsig_handler(int signum)
- {
-     atomic_cmpxchg(&state, RUNNING, TERMINATE);
-     qemu_notify_event();
- }
--
-+#endif
- 
- static int qemu_nbd_client_list(SocketAddress *saddr, QCryptoTLSCreds *tls,
-                                 const char *hostname)
-@@ -587,6 +588,7 @@ int main(int argc, char **argv)
-     unsigned socket_activation;
-     const char *pid_file_name = NULL;
- 
-+#ifndef WIN32
-     /* The client thread uses SIGTERM to interrupt the server.  A signal
-      * handler ensures that "qemu-nbd -v -c" exits with a nice status code.
-      */
-@@ -594,6 +596,7 @@ int main(int argc, char **argv)
-     memset(&sa_sigterm, 0, sizeof(sa_sigterm));
-     sa_sigterm.sa_handler = termsig_handler;
-     sigaction(SIGTERM, &sa_sigterm, NULL);
-+#endif
- 
- #ifdef CONFIG_POSIX
-     signal(SIGPIPE, SIG_IGN);
-@@ -896,6 +899,7 @@ int main(int argc, char **argv)
- #endif
- 
-     if ((device && !verbose) || fork_process) {
-+#ifndef WIN32
-         int stderr_fd[2];
-         pid_t pid;
-         int ret;
-@@ -959,6 +963,10 @@ int main(int argc, char **argv)
-              */
-             exit(errors);
-         }
-+#else /* WIN32 */
-+        error_report("Unable to fork into background on Windows hosts");
-+        exit(EXIT_FAILURE);
-+#endif /* WIN32 */
-     }
- 
-     if (device != NULL && sockpath == NULL) {
+> 
+> > 
+> > diff --git a/meson.build b/meson.build
+> > index df5bf728b5..d79f849768 100644
+> > --- a/meson.build
+> > +++ b/meson.build
+> > @@ -1075,7 +1075,7 @@ if have_tools
+> >     qemu_io = executable('qemu-io', files('qemu-io.c'),
+> >                dependencies: [block, qemuutil], install: true)
+> >     qemu_block_tools += [qemu_img, qemu_io]
+> > -  if targetos == 'linux' or targetos == 'sunos' or targetos.endswith('bsd')
+> > +  if targetos != 'windows'
+> >       qemu_nbd = executable('qemu-nbd', files('qemu-nbd.c'),
+> >                  dependencies: [block, qemuutil], install: true)
+> >       qemu_block_tools += [qemu_nbd]
+> > 
+> 
+> -- 
+> Eric Blake, Principal Software Engineer
+> Red Hat, Inc.           +1-919-301-3226
+> Virtualization:  qemu.org | libvirt.org
+> 
+> 
+
+Regards,
+Daniel
 -- 
-2.26.2
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
