@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20C2B250BD6
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 00:47:17 +0200 (CEST)
-Received: from localhost ([::1]:56386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61B3E250BB6
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 00:32:59 +0200 (CEST)
+Received: from localhost ([::1]:44336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kALFD-00045X-No
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 18:47:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58048)
+	id 1kAL1O-0006UV-EJ
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 18:32:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1kALEG-0003eK-Ea
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 18:46:16 -0400
-Received: from mail-eopbgr80129.outbound.protection.outlook.com
- ([40.107.8.129]:39006 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ id 1kAL0E-0005Go-LK
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 18:31:46 -0400
+Received: from mail-eopbgr10128.outbound.protection.outlook.com
+ ([40.107.1.128]:39578 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1kALED-00059D-JT
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 18:46:16 -0400
+ id 1kAL0B-0003by-G0
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 18:31:46 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nUjZVXlZpN7kKtX4QfGuf3KiPiBXpp5FcwsZQLA9gZkuobe3X1w2n6epxjZx3tXFImNweb/yCpm5d5dSzA7NVs0PbFdiE/6c/OfyPYdx/Tf42ZscYfG3nWSivazAYQCjr/t4O5SXIYeJ1R8j82JtIFRcrQxLbpbjlr3H0BamthncuEnMfbwb5AbaSFww3OfJOCpiSVdnUgIY88+5xJGvjw9PRfGDSsxss9AJThjNZbUjR/8mhCFSU1wrU2+1NDksgjE8msLSyPQPEUme39I1ZFlUslZqZ4g8J0MnDasJMtf2LLbCN6iD/CU9OTcuUiMRFHNkAt7IgO6aGgnrpCsNtg==
+ b=EJUC1yWNUbkCHX+Zwd5q7gljrCFEUqwzPxOjQVAquUWxPmHjPjkzh6BH9tRuqVKZ83TapAtLDDhvTHXQLrLIMnysOS6RtmdvpbSCnwQfib0iw7xG8jVIbl5fX5cxd8Q/ucRJ4zNoVcOVrERbFiMy+9WqTi2xiLVA/+NRorVEkhkH6KVlZKMm8GGHKrALo9SqUKs3quluP0zxniDmJzY1ceUSzt2kBR8xBf05R0AJNRLOXuFXCdEconP7u5XThLbqbJbNDbLYzY7OqmkCQMcdrIZTNSUCsJqnoPX1x4xs55huNd1w6PUVJmxMAtq0af39tL0eQaEC4n4mYKPERR6mKA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=N6KIZ9ZswSBlb7850B30zD/evIRLg7FGhAxFrLSo7EE=;
- b=aNwk80pOKMXC7vybH2kO3F53znKMFjwuPUxn1P82/9a2Yp9UFjwmOYeJ6j9TB16vQUAAdEceEc5xaVQVkwgZF1wTtY+smLXcE+E1nLO9+fGIGXhqWT0nnZBoBKJnhrVWqviB/vKEK63jHavtnAlCQ4Dwr3hpuEOXcwRgZtKPugZAfZfFlz138ZtDze4M1iOzjARINaCHqAQtqcDzeAPwHujXw8w5SpVrwLsQjz3g861kjAws5ydsJmE7V3bZOxTbMCrtIm7YCoBYT3CHfwRrRQ31DyAM5J8WaWaHiEa4DJEX6qlrlxIYfTmvP4uW+2d8yEGtoypNJR1qsR2JhtLBNQ==
+ bh=VpWUKwMHjkh1T/V+Ct2KD30TGl2imXue0l6/0vKi+pE=;
+ b=U8Dd5nEVvXlw/KiFQ9Fq7ncTtxbP0lwe67QBx6u06xg+UxP47+ie48g9OFsJleD9MLQZ1jGPqDaUcXwFn5fmCxi4Hk+xUqqd3peCjH03dPrity8G9II4vwNr22u1kA8p6XmGp/LN23ivJUfMqS9ARZJsQCGiC7/wafSR95siUugy13frcxj0wnBCGMF6rZqFF8LGQIE6WdAstWb1F+nD8WD7siLg7vNqIyaEpaldB4zatC7ztVuQuKnZycENXyV6IhRb24opBeUAXK6xxQadtRxKAmPwPUtrT8ACctvzr9Ewfyv191BK5FDCOhcX3f9JFcJJrFt9GBwI3k4k/BsMZg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
  dkim=pass header.d=syrmia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=N6KIZ9ZswSBlb7850B30zD/evIRLg7FGhAxFrLSo7EE=;
- b=P137ZK8UBN16tkH5hq4eilTh7C8lT9Zh48vE8xzKndrV7N768PV3HA6Rn/3w14IeaqXwF4NjVSP4UHZb0GVvabMxEuyANtUKpJkVBulr2T2sBi+i+qhst06fVJ4pfons5DDbdRBG3XCacb5WHjWKfP0zT0vj3Rypr1E6RV3SctM=
+ bh=VpWUKwMHjkh1T/V+Ct2KD30TGl2imXue0l6/0vKi+pE=;
+ b=NeZ6XY3H8tevdCcAcr08u+CpgvDF+F3YpAphDFDas6g6xuAK2/xbx5BBgjozT5t2J5blFp0xFJbv3XBSkxAfzgJKnhLAFAOisf6Tbn/W9ZYf3FKAl+Y1hMw0wMFaZPOT8bwbVywcUMNpy4Wy2Ccu/YR+NVDPOLz7Z/FeXzSIFDE=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=syrmia.com;
 Received: from VE1PR03MB5246.eurprd03.prod.outlook.com (2603:10a6:802:a1::22)
@@ -48,10 +48,10 @@ Received: from VE1PR03MB5246.eurprd03.prod.outlook.com
  22:31:07 +0000
 From: Filip Bozuta <Filip.Bozuta@syrmia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/2] linux-user: Add support for ppoll_time64() and
- pselect6_time64()
-Date: Tue, 25 Aug 2020 00:30:49 +0200
-Message-Id: <20200824223050.92032-2-Filip.Bozuta@syrmia.com>
+Subject: [PATCH v2 2/2] linux-user: Add support for utimensat_time64() and
+ semtimedop_time64()
+Date: Tue, 25 Aug 2020 00:30:50 +0200
+Message-Id: <20200824223050.92032-3-Filip.Bozuta@syrmia.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200824223050.92032-1-Filip.Bozuta@syrmia.com>
 References: <20200824223050.92032-1-Filip.Bozuta@syrmia.com>
@@ -65,37 +65,37 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (147.91.217.235) by
  LO2P265CA0070.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:60::34) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3305.25 via Frontend Transport; Mon, 24 Aug 2020 22:31:05 +0000
+ 15.20.3305.25 via Frontend Transport; Mon, 24 Aug 2020 22:31:06 +0000
 X-Mailer: git-send-email 2.25.1
 X-Originating-IP: [147.91.217.235]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8aab561a-66e9-49e1-ded9-08d8487d63da
+X-MS-Office365-Filtering-Correlation-Id: 8d8ce107-ebd7-4380-f3cc-08d8487d645c
 X-MS-TrafficTypeDiagnostic: VI1PR03MB4575:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR03MB4575BED66892D934505A482AEB560@VI1PR03MB4575.eurprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Microsoft-Antispam-PRVS: <VI1PR03MB4575B260735DEA08F54F4506EB560@VI1PR03MB4575.eurprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: m27K21jh7hE57PBO2/YaSStZbiG76O5S4dbNHq4GpRsK8bzHRhrJuEdIqFbaTYbUUhdev8ZdCp1ED74/d98VmkN/K+KLjCh0UA88O7NazRU4+QF7sgMUEp6ojuZIY9vZJh78Vw6Jy0ZGlmm8OCR2gZZwMHuFWf25M9CrEcxcgjd06T6WdVaYzyAJVu3X4wpAPJfB7883iV0zzNozgwuFuiVdIrDEnKQVm4Soww2rgbeiVbgL/NCDofXvDP6l223wLddieaDIrAO98UhQKErakoTFakwpasIaCNRYDz8gyu2vIxoqeBOZFTsu/a7YUI+ndA/J9aTrT5b8O/4CC8uCNrSdUaBJFu+itFeYjOmqyrHtycvAjFUetgO6PerYFeud7SftUP7O6NdK+KL9Jek1mmawm+e/j07lTGNrWbYBjlD4FZHleQi11nF+Zv55nC9BfCY/yhbZaVi2uQsQF7NWJQ==
+X-Microsoft-Antispam-Message-Info: +QT+H2LJxb20UUNOhgNula1/yfWzyQfjS21AgOanm5/CW6fISwraSwEWEiQFohA1FqI8ENjwk4Z7ws9YVlLOfe6RhJhkofDHQmjJJ9skJmlfJgEUY9qeL/WX1ySjX4SHqjBnmHkp6lPE4xqeEMZnF1Jam7Pjtn7YR9XWKTaE/w3rw8bqE1S7SW48aVxBgcxG92FuToQgBqiUnEYIe/OlvpChU7JMpgYQCtiiwubT4ekrWdWGRmWuWWHP3M9gxaRzS6R4FG81jqr/JLZjcUTJB0BvM/z8XQ2TpbY3e52jKuHE+3gE/p5nrdfpj8rQNRqYDvT7faobj55kW0AAQnSjsPON5NNZa2C/Jg9dI3x+3wYYLOj0NV46jC7mChGED5k1H/KXiiTvwUZXBeMWjQBVru8r70FZsnf4Vav5joPEUSSuzjwCSsPSfI1Ayh1HkUlrW8MnULM64dCyZjZKJP9Hng==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VE1PR03MB5246.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(376002)(136003)(346002)(366004)(396003)(39830400003)(6506007)(6486002)(6916009)(83380400001)(69590400007)(2906002)(956004)(8676002)(2616005)(8936002)(26005)(478600001)(36756003)(54906003)(316002)(966005)(66556008)(66946007)(186003)(16526019)(4326008)(66476007)(6666004)(30864003)(1076003)(52116002)(86362001)(107886003)(6512007)(5660300002);
+ SFS:(376002)(136003)(346002)(366004)(396003)(39830400003)(6506007)(6486002)(6916009)(83380400001)(69590400007)(2906002)(956004)(8676002)(2616005)(8936002)(26005)(478600001)(36756003)(54906003)(316002)(966005)(66556008)(66946007)(186003)(16526019)(4326008)(66476007)(6666004)(1076003)(52116002)(86362001)(107886003)(6512007)(5660300002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: ncCiCLWTX7hm7g/satjPnyep61k4jLlG9xVy+xX8b6+rdxC/AgtJspaa7uXSh3C8X5A6eJiGfV059hdVk2yLTPb9Ex0E5T/0tTXaxRd1HdXlRJKw3LMsAkKyp6AOf8U96aBDtsK4BAsZWz2WUocJ6UvKkkLX87PEBZJ1w/rKs+X08HBkNlr7G3vdQyfqmTDl3My0Ib7aq/ENsfnF7B9fs1dYFOhJ/9LQNot30tCP6cKx8mcaYDsPQ9jHbg+Bywvj4FwKukyykkLnj3sS0YmfYAV4Igkh2fo3xqFUOEgM/Uqm9vaKt5Y7xZ1pkC4X7zPNX1BY4w6HwBx7l/otDImXYSQJ20eOyR6KrZmZVXiIJoK/CXaE9IqCifdQekNb863QBzl9tFltN3E9pirKK0Ohm1X8Xmo0nGlScgOpqQiw3vPd+Y9WwfCGbYRQsC6nB2ZDrii4//zp4XH0Q0XdN7sBi5PfSzMZrEDw0yY0cUAPj4NfCd5xwOXPMnyJzL8yeZTbHPTOLSLzZlk8vSAL4zefswbFWzX8IyUdSHhSmWy4HXV/FzEFCsSUCanojfJbK0H8kREs9VJpRzeqWJ5nAa5eqfkAgQsn8L9AJAyzzS+0y4Cvt3U0adP+BanDBY3wWUQK/6WeC85+hiMtO5SzPzMp1A==
+X-MS-Exchange-AntiSpam-MessageData: qr7zUaRrpigeCv7aJQicGtssxw+sU60LfjLwGS4UCUdh2PjHKi1bS9GvGX/nwXQb7+DnwQYinszlH4s+9nUPBp9EuXk55cveJOLX1dO6VFQxBL1VFXCBWVxHp2iHLQI4l880dh+ZDk4TVvy0RRx3nvFnpKMRcH6XSOPBr9SpSQ9/27U07DfejLIEj0e3vIAHbIFJL1sW2KgZI05dq08HZty7WZvkki7lEGSHJ1cxDR6UWv/srEdg+IRF1tQ/7k8HF1DG7vkZReAd7Jkqy9q9QR1d1tZHKpreWIYPY5EXUAcPZELethlmEU0WUD8Z8rf+e2F7Hg3nfz0XoPurrk4Z/wJSENHgZ+cejx/tEhBZfVb1BAFxiPQGpOFIrTeMTVAZdI0O6VzLBiOSfQOVTJVr5uEA+IwOy3ez3y+o1fay59YWCYcQ7mShBgpHzc3MAy5p+9Nvzbo6ZP58Dz2rARduuhbSw1FOTDzlN4FUE84REo0+7wz01CkExBBgV/3/lGQJ6RnbeJGMpHoTX+RfG1qejZX8SzBGR0W/0foJMB0RN17OpRHYa9Haz+UgCY5cVNV33rNd0o4/fjuaO1pLjDyxy/fHohcLC9XmLkgx+zi8gHwrNJwXzVz6UCErpe8pCVEftic86UdfvZhWD0lDUaQ77A==
 X-OriginatorOrg: syrmia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8aab561a-66e9-49e1-ded9-08d8487d63da
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8d8ce107-ebd7-4380-f3cc-08d8487d645c
 X-MS-Exchange-CrossTenant-AuthSource: VE1PR03MB5246.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2020 22:31:05.8973 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2020 22:31:06.6479 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zMFsi/6IJRajUpPexEw+8nu0JvsJdHEuAgHAJepgfwEw02mYIOB1NxCmQDl8MFyuE1QKwFGTXqMFls8haDugeQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: ltIOt99Xf2kfOBK9jif/xsQdS0b3eS2NNpOrvNiU5ldzKEkLOpyqS7ML1m8mHwElqEXpsgtjCZDphAc5WELGKw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR03MB4575
-Received-SPF: pass client-ip=40.107.8.129;
+Received-SPF: pass client-ip=40.107.1.128;
  envelope-from=Filip.Bozuta@syrmia.com;
- helo=EUR04-VI1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/24 18:46:10
+ helo=EUR02-HE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/24 18:31:41
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -12
 X-Spam_score: -1.3
@@ -123,559 +123,163 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This patch introduces functionality for following time64 syscalls:
 
-*ppoll_time64
+*utimensat_time64()
 
-    This is a year 2038 safe variant of:
+    int utimensat(int dirfd, const char *pathname,
+                  const struct timespec times[2], int flags);
+    -- change file timestamps with nanosecond precision --
+    man page: https://man7.org/linux/man-pages/man2/utimensat.2.html
 
-    int poll(struct pollfd *fds, nfds_t nfds, int timeout)
-    -- wait for some event on a file descriptor --
-    man page: https://man7.org/linux/man-pages/man2/ppoll.2.html
+*semtimedop_time64()
 
-*pselect6_time64
-
-    This is a year 2038 safe variant of:
-
-    int pselect6(int nfds, fd_set *readfds, fd_set *writefds,
-                 fd_set *exceptfds, const struct timespec *timeout,
-                 const sigset_t *sigmask);
-    -- synchronous I/O multiplexing --
-    man page: https://man7.org/linux/man-pages/man2/pselect6.2.html
+    int semtimedop(int semid, struct sembuf *sops, size_t nsops,
+                   const struct timespec *timeout);
+    -- System V semaphore operations --
+    man page: https://www.man7.org/linux/man-pages/man2/semtimedop.2.html
 
 Implementation notes:
 
-    Year 2038 safe syscalls in this patch were implemented
-    with the same code as their regular variants (ppoll() and pselect()).
-    This code was moved to new functions ('do_ppoll()' and 'do_pselect6()')
-    that take a 'bool time64' from which a right 'struct timespec' converting
-    function is called.
-    (target_to_host/host_to_target_timespec() for regular and
-     target_to_host/host_to_target_timespec64() for time64 variants)
+   Syscall 'utimensat_time64()' is implemented in similar way as its
+   regular variants only difference being that time64 converting function
+   is used to convert values of 'struct timespec' between host and target
+   ('target_to_host_timespec64()').
+
+   For syscall 'semtimedop_time64()' and additional argument is added
+   in function 'do_semtimedop()' through which the aproppriate 'struct timespec'
+   converting function is called (false for regular target_to_host_timespec()
+   and true for target_to_host_timespec64()). For 'do_ipc()' a
+   check was added as that additional argument: 'TARGET_ABI_BITS == 64'.
 
 Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 462 +++++++++++++++++++++++--------------------
- 1 file changed, 251 insertions(+), 211 deletions(-)
+ linux-user/syscall.c | 60 ++++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 50 insertions(+), 10 deletions(-)
 
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 1211e759c2..fc6a6e32e4 100644
+index fc6a6e32e4..4d460af744 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -397,7 +397,7 @@ static int sys_getcwd1(char *buf, size_t size)
-   return strlen(buf)+1;
- }
- 
--#ifdef TARGET_NR_utimensat
-+#if defined(TARGET_NR_utimensat)
- #if defined(__NR_utimensat)
- #define __NR_sys_utimensat __NR_utimensat
- _syscall4(int,sys_utimensat,int,dirfd,const char *,pathname,
-@@ -763,11 +763,11 @@ safe_syscall5(int, waitid, idtype_t, idtype, id_t, id, siginfo_t *, infop, \
-               int, options, struct rusage *, rusage)
- safe_syscall3(int, execve, const char *, filename, char **, argv, char **, envp)
- #if defined(TARGET_NR_select) || defined(TARGET_NR__newselect) || \
--    defined(TARGET_NR_pselect6)
-+    defined(TARGET_NR_pselect6) || defined(TARGET_NR_pselect6_time64)
- safe_syscall6(int, pselect6, int, nfds, fd_set *, readfds, fd_set *, writefds, \
-               fd_set *, exceptfds, struct timespec *, timeout, void *, sig)
- #endif
--#if defined(TARGET_NR_ppoll) || defined(TARGET_NR_poll)
-+#if defined(TARGET_NR_ppoll) || defined(TARGET_NR_ppoll_time64)
- safe_syscall5(int, ppoll, struct pollfd *, ufds, unsigned int, nfds,
-               struct timespec *, tsp, const sigset_t *, sigmask,
-               size_t, sigsetsize)
-@@ -984,7 +984,7 @@ abi_long do_brk(abi_ulong new_brk)
- }
- 
- #if defined(TARGET_NR_select) || defined(TARGET_NR__newselect) || \
--    defined(TARGET_NR_pselect6)
-+    defined(TARGET_NR_pselect6) || defined(TARGET_NR_pselect6_time64)
- static inline abi_long copy_from_user_fdset(fd_set *fds,
-                                             abi_ulong target_fds_addr,
-                                             int n)
-@@ -1252,7 +1252,8 @@ static inline abi_long target_to_host_timespec(struct timespec *host_ts,
- }
+@@ -1253,7 +1253,8 @@ static inline abi_long target_to_host_timespec(struct timespec *host_ts,
  #endif
  
--#if defined(TARGET_NR_clock_settime64) || defined(TARGET_NR_futex_time64)
-+#if defined(TARGET_NR_clock_settime64) || defined(TARGET_NR_futex_time64) || \
-+    defined(TARGET_NR_pselect6_time64) || defined(TARGET_NR_ppoll_time64)
+ #if defined(TARGET_NR_clock_settime64) || defined(TARGET_NR_futex_time64) || \
+-    defined(TARGET_NR_pselect6_time64) || defined(TARGET_NR_ppoll_time64)
++    defined(TARGET_NR_pselect6_time64) || defined(TARGET_NR_ppoll_time64) || \
++    defined(TARGET_NR_utimensat_time64) || defined(TARGET_NR_semtimedop_time64)
  static inline abi_long target_to_host_timespec64(struct timespec *host_ts,
                                                   abi_ulong target_addr)
  {
-@@ -1458,6 +1459,237 @@ static abi_long do_old_select(abi_ulong arg1)
- #endif
- #endif
+@@ -4117,7 +4118,7 @@ static inline abi_long target_to_host_sembuf(struct sembuf *host_sembuf,
+ }
  
-+#if defined(TARGET_NR_pselect6) || defined(TARGET_NR_pselect6_time64)
-+static abi_long do_pselect6(abi_long arg1, abi_long arg2, abi_long arg3,
-+                            abi_long arg4, abi_long arg5, abi_long arg6,
-+                            bool time64)
-+{
-+    abi_long rfd_addr, wfd_addr, efd_addr, n, ts_addr;
-+    fd_set rfds, wfds, efds;
-+    fd_set *rfds_ptr, *wfds_ptr, *efds_ptr;
-+    struct timespec ts, *ts_ptr;
-+    abi_long ret;
-+
-+    /*
-+     * The 6th arg is actually two args smashed together,
-+     * so we cannot use the C library.
-+     */
-+    sigset_t set;
-+    struct {
-+        sigset_t *set;
-+        size_t size;
-+    } sig, *sig_ptr;
-+
-+    abi_ulong arg_sigset, arg_sigsize, *arg7;
-+    target_sigset_t *target_sigset;
-+
-+    n = arg1;
-+    rfd_addr = arg2;
-+    wfd_addr = arg3;
-+    efd_addr = arg4;
-+    ts_addr = arg5;
-+
-+    ret = copy_from_user_fdset_ptr(&rfds, &rfds_ptr, rfd_addr, n);
-+    if (ret) {
-+        return ret;
-+    }
-+    ret = copy_from_user_fdset_ptr(&wfds, &wfds_ptr, wfd_addr, n);
-+    if (ret) {
-+        return ret;
-+    }
-+    ret = copy_from_user_fdset_ptr(&efds, &efds_ptr, efd_addr, n);
-+    if (ret) {
-+        return ret;
-+    }
-+
-+    /*
-+     * This takes a timespec, and not a timeval, so we cannot
-+     * use the do_select() helper ...
-+     */
-+    if (ts_addr) {
-+        if (time64) {
-+            if (target_to_host_timespec64(&ts, ts_addr)) {
-+                return -TARGET_EFAULT;
-+            }
-+        } else {
-+            if (target_to_host_timespec(&ts, ts_addr)) {
-+                return -TARGET_EFAULT;
-+            }
-+        }
-+            ts_ptr = &ts;
-+    } else {
-+        ts_ptr = NULL;
-+    }
-+
-+    /* Extract the two packed args for the sigset */
-+    if (arg6) {
-+        sig_ptr = &sig;
-+        sig.size = SIGSET_T_SIZE;
-+
-+        arg7 = lock_user(VERIFY_READ, arg6, sizeof(*arg7) * 2, 1);
-+        if (!arg7) {
-+            return -TARGET_EFAULT;
-+        }
-+        arg_sigset = tswapal(arg7[0]);
-+        arg_sigsize = tswapal(arg7[1]);
-+        unlock_user(arg7, arg6, 0);
-+
-+        if (arg_sigset) {
-+            sig.set = &set;
-+            if (arg_sigsize != sizeof(*target_sigset)) {
-+                /* Like the kernel, we enforce correct size sigsets */
-+                return -TARGET_EINVAL;
-+            }
-+            target_sigset = lock_user(VERIFY_READ, arg_sigset,
-+                                      sizeof(*target_sigset), 1);
-+            if (!target_sigset) {
-+                return -TARGET_EFAULT;
-+            }
-+            target_to_host_sigset(&set, target_sigset);
-+            unlock_user(target_sigset, arg_sigset, 0);
-+        } else {
-+            sig.set = NULL;
-+        }
-+    } else {
-+        sig_ptr = NULL;
-+    }
-+
-+    ret = get_errno(safe_pselect6(n, rfds_ptr, wfds_ptr, efds_ptr,
-+                                  ts_ptr, sig_ptr));
-+
-+    if (!is_error(ret)) {
-+        if (rfd_addr && copy_to_user_fdset(rfd_addr, &rfds, n)) {
-+            return -TARGET_EFAULT;
-+        }
-+        if (wfd_addr && copy_to_user_fdset(wfd_addr, &wfds, n)) {
-+            return -TARGET_EFAULT;
-+        }
-+        if (efd_addr && copy_to_user_fdset(efd_addr, &efds, n)) {
-+            return -TARGET_EFAULT;
-+        }
-+        if (time64) {
-+            if (ts_addr && host_to_target_timespec(ts_addr, &ts)) {
-+                return -TARGET_EFAULT;
-+            }
-+        } else {
-+            if (ts_addr && host_to_target_timespec64(ts_addr, &ts)) {
-+                return -TARGET_EFAULT;
-+            }
-+        }
-+    }
-+    return ret;
-+}
-+#endif
-+
-+#if defined(TARGET_NR_poll) || defined(TARGET_NR_ppoll) || \
-+    defined(TARGET_NR_ppoll_time64)
-+static abi_long do_ppoll(abi_long arg1, abi_long arg2, abi_long arg3,
-+                         abi_long arg4, abi_long arg5, bool ppoll, bool time64)
-+{
-+    struct target_pollfd *target_pfd;
-+    unsigned int nfds = arg2;
-+    struct pollfd *pfd;
-+    unsigned int i;
-+    abi_long ret;
-+
-+    pfd = NULL;
-+    target_pfd = NULL;
-+    if (nfds) {
-+        if (nfds > (INT_MAX / sizeof(struct target_pollfd))) {
-+            return -TARGET_EINVAL;
-+        }
-+        target_pfd = lock_user(VERIFY_WRITE, arg1,
-+                               sizeof(struct target_pollfd) * nfds, 1);
-+        if (!target_pfd) {
-+            return -TARGET_EFAULT;
-+        }
-+
-+        pfd = alloca(sizeof(struct pollfd) * nfds);
-+        for (i = 0; i < nfds; i++) {
-+            pfd[i].fd = tswap32(target_pfd[i].fd);
-+            pfd[i].events = tswap16(target_pfd[i].events);
-+        }
-+    }
-+    if (ppoll) {
-+        struct timespec _timeout_ts, *timeout_ts = &_timeout_ts;
-+        target_sigset_t *target_set;
-+        sigset_t _set, *set = &_set;
-+
-+        if (arg3) {
-+            if (time64) {
-+                if (target_to_host_timespec64(timeout_ts, arg3)) {
-+                    unlock_user(target_pfd, arg1, 0);
-+                    return -TARGET_EFAULT;
-+                }
-+            } else {
-+                if (target_to_host_timespec(timeout_ts, arg3)) {
-+                    unlock_user(target_pfd, arg1, 0);
-+                    return -TARGET_EFAULT;
-+                }
-+            }
-+        } else {
-+            timeout_ts = NULL;
-+        }
-+
-+        if (arg4) {
-+            if (arg5 != sizeof(target_sigset_t)) {
-+                unlock_user(target_pfd, arg1, 0);
-+                return -TARGET_EINVAL;
-+            }
-+
-+            target_set = lock_user(VERIFY_READ, arg4,
-+                                   sizeof(target_sigset_t), 1);
-+            if (!target_set) {
-+                unlock_user(target_pfd, arg1, 0);
-+                return -TARGET_EFAULT;
-+            }
-+            target_to_host_sigset(set, target_set);
-+        } else {
-+            set = NULL;
-+        }
-+
-+        ret = get_errno(safe_ppoll(pfd, nfds, timeout_ts,
-+                                   set, SIGSET_T_SIZE));
-+
-+        if (!is_error(ret) && arg3) {
-+            if (time64) {
-+                if (host_to_target_timespec64(arg3, timeout_ts)) {
-+                    return -TARGET_EFAULT;
-+                }
-+            } else {
-+                if (host_to_target_timespec(arg3, timeout_ts)) {
-+                    return -TARGET_EFAULT;
-+                }
-+            }
-+        }
-+        if (arg4) {
-+            unlock_user(target_set, arg4, 0);
-+        }
-+    } else {
-+          struct timespec ts, *pts;
-+
-+          if (arg3 >= 0) {
-+              /* Convert ms to secs, ns */
-+              ts.tv_sec = arg3 / 1000;
-+              ts.tv_nsec = (arg3 % 1000) * 1000000LL;
-+              pts = &ts;
-+          } else {
-+              /* -ve poll() timeout means "infinite" */
-+              pts = NULL;
-+          }
-+          ret = get_errno(safe_ppoll(pfd, nfds, pts, NULL, 0));
-+    }
-+
-+    if (!is_error(ret)) {
-+        for (i = 0; i < nfds; i++) {
-+            target_pfd[i].revents = tswap16(pfd[i].revents);
-+        }
-+    }
-+    unlock_user(target_pfd, arg1, sizeof(struct target_pollfd) * nfds);
-+    return ret;
-+}
-+#endif
-+
- static abi_long do_pipe2(int host_pipe[], int flags)
+ #if defined(TARGET_NR_ipc) || defined(TARGET_NR_semop) || \
+-    defined(TARGET_NR_semtimedop)
++    defined(TARGET_NR_semtimedop) || defined(TARGET_NR_semtimedop_time64)
+ 
+ /*
+  * This macro is required to handle the s390 variants, which passes the
+@@ -4134,7 +4135,7 @@ static inline abi_long target_to_host_sembuf(struct sembuf *host_sembuf,
+ static inline abi_long do_semtimedop(int semid,
+                                      abi_long ptr,
+                                      unsigned nsops,
+-                                     abi_long timeout)
++                                     abi_long timeout, bool time64)
  {
- #ifdef CONFIG_PIPE2
-@@ -9045,106 +9277,11 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+     struct sembuf sops[nsops];
+     struct timespec ts, *pts = NULL;
+@@ -4142,8 +4143,14 @@ static inline abi_long do_semtimedop(int semid,
+ 
+     if (timeout) {
+         pts = &ts;
+-        if (target_to_host_timespec(pts, timeout)) {
+-            return -TARGET_EFAULT;
++        if (time64) {
++            if (target_to_host_timespec64(pts, timeout)) {
++                return -TARGET_EFAULT;
++            }
++        } else {
++            if (target_to_host_timespec(pts, timeout)) {
++                return -TARGET_EFAULT;
++            }
+         }
+     }
+ 
+@@ -4657,7 +4664,7 @@ static abi_long do_ipc(CPUArchState *cpu_env,
+ 
+     switch (call) {
+     case IPCOP_semop:
+-        ret = do_semtimedop(first, ptr, second, 0);
++        ret = do_semtimedop(first, ptr, second, 0, false);
+         break;
+     case IPCOP_semtimedop:
+     /*
+@@ -4667,9 +4674,9 @@ static abi_long do_ipc(CPUArchState *cpu_env,
+      * to a struct timespec where the generic variant uses fifth parameter.
+      */
+ #if defined(TARGET_S390X)
+-        ret = do_semtimedop(first, ptr, second, third);
++        ret = do_semtimedop(first, ptr, second, third, TARGET_ABI_BITS == 64);
+ #else
+-        ret = do_semtimedop(first, ptr, second, fifth);
++        ret = do_semtimedop(first, ptr, second, fifth, TARGET_ABI_BITS == 64);
  #endif
- #ifdef TARGET_NR_pselect6
-     case TARGET_NR_pselect6:
--        {
--            abi_long rfd_addr, wfd_addr, efd_addr, n, ts_addr;
--            fd_set rfds, wfds, efds;
--            fd_set *rfds_ptr, *wfds_ptr, *efds_ptr;
--            struct timespec ts, *ts_ptr;
--
--            /*
--             * The 6th arg is actually two args smashed together,
--             * so we cannot use the C library.
--             */
--            sigset_t set;
--            struct {
--                sigset_t *set;
--                size_t size;
--            } sig, *sig_ptr;
--
--            abi_ulong arg_sigset, arg_sigsize, *arg7;
--            target_sigset_t *target_sigset;
--
--            n = arg1;
--            rfd_addr = arg2;
--            wfd_addr = arg3;
--            efd_addr = arg4;
--            ts_addr = arg5;
--
--            ret = copy_from_user_fdset_ptr(&rfds, &rfds_ptr, rfd_addr, n);
--            if (ret) {
--                return ret;
--            }
--            ret = copy_from_user_fdset_ptr(&wfds, &wfds_ptr, wfd_addr, n);
--            if (ret) {
--                return ret;
--            }
--            ret = copy_from_user_fdset_ptr(&efds, &efds_ptr, efd_addr, n);
--            if (ret) {
--                return ret;
--            }
--
--            /*
--             * This takes a timespec, and not a timeval, so we cannot
--             * use the do_select() helper ...
--             */
--            if (ts_addr) {
--                if (target_to_host_timespec(&ts, ts_addr)) {
--                    return -TARGET_EFAULT;
--                }
--                ts_ptr = &ts;
--            } else {
--                ts_ptr = NULL;
--            }
--
--            /* Extract the two packed args for the sigset */
--            if (arg6) {
--                sig_ptr = &sig;
--                sig.size = SIGSET_T_SIZE;
--
--                arg7 = lock_user(VERIFY_READ, arg6, sizeof(*arg7) * 2, 1);
--                if (!arg7) {
--                    return -TARGET_EFAULT;
--                }
--                arg_sigset = tswapal(arg7[0]);
--                arg_sigsize = tswapal(arg7[1]);
--                unlock_user(arg7, arg6, 0);
--
--                if (arg_sigset) {
--                    sig.set = &set;
--                    if (arg_sigsize != sizeof(*target_sigset)) {
--                        /* Like the kernel, we enforce correct size sigsets */
--                        return -TARGET_EINVAL;
--                    }
--                    target_sigset = lock_user(VERIFY_READ, arg_sigset,
--                                              sizeof(*target_sigset), 1);
--                    if (!target_sigset) {
--                        return -TARGET_EFAULT;
--                    }
--                    target_to_host_sigset(&set, target_sigset);
--                    unlock_user(target_sigset, arg_sigset, 0);
--                } else {
--                    sig.set = NULL;
--                }
--            } else {
--                sig_ptr = NULL;
--            }
--
--            ret = get_errno(safe_pselect6(n, rfds_ptr, wfds_ptr, efds_ptr,
--                                          ts_ptr, sig_ptr));
--
--            if (!is_error(ret)) {
--                if (rfd_addr && copy_to_user_fdset(rfd_addr, &rfds, n))
--                    return -TARGET_EFAULT;
--                if (wfd_addr && copy_to_user_fdset(wfd_addr, &wfds, n))
--                    return -TARGET_EFAULT;
--                if (efd_addr && copy_to_user_fdset(efd_addr, &efds, n))
--                    return -TARGET_EFAULT;
--
--                if (ts_addr && host_to_target_timespec(ts_addr, &ts))
--                    return -TARGET_EFAULT;
--            }
--        }
--        return ret;
-+        return do_pselect6(arg1, arg2, arg3, arg4, arg5, arg6, false);
+         break;
+ 
+@@ -9887,11 +9894,15 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+ #endif
+ #ifdef TARGET_NR_semop
+     case TARGET_NR_semop:
+-        return do_semtimedop(arg1, arg2, arg3, 0);
++        return do_semtimedop(arg1, arg2, arg3, 0, false);
+ #endif
+ #ifdef TARGET_NR_semtimedop
+     case TARGET_NR_semtimedop:
+-        return do_semtimedop(arg1, arg2, arg3, arg4);
++        return do_semtimedop(arg1, arg2, arg3, arg4, false);
 +#endif
-+#ifdef TARGET_NR_pselect6_time64
-+    case TARGET_NR_pselect6_time64:
-+        return do_pselect6(arg1, arg2, arg3, arg4, arg5, arg6, true);
++#ifdef TARGET_NR_semtimedop_time64
++    case TARGET_NR_semtimedop_time64:
++        return do_semtimedop(arg1, arg2, arg3, arg4, true);
  #endif
- #ifdef TARGET_NR_symlink
-     case TARGET_NR_symlink:
-@@ -10076,114 +10213,17 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-     case TARGET_NR__newselect:
-         return do_select(arg1, arg2, arg3, arg4, arg5);
+ #ifdef TARGET_NR_semctl
+     case TARGET_NR_semctl:
+@@ -11938,6 +11949,35 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         }
+         return ret;
  #endif
--#if defined(TARGET_NR_poll) || defined(TARGET_NR_ppoll)
--# ifdef TARGET_NR_poll
-+#ifdef TARGET_NR_poll
-     case TARGET_NR_poll:
--# endif
--# ifdef TARGET_NR_ppoll
-+        return do_ppoll(arg1, arg2, arg3, arg4, arg5, false, false);
++#ifdef TARGET_NR_utimensat_time64
++    case TARGET_NR_utimensat_time64:
++        {
++            struct timespec *tsp, ts[2];
++            if (!arg3) {
++                tsp = NULL;
++            } else {
++                if (target_to_host_timespec64(ts, arg3)) {
++                    return -TARGET_EFAULT;
++                }
++                if (target_to_host_timespec64(ts + 1, arg3 +
++                                     sizeof(struct target__kernel_timespec))) {
++                    return -TARGET_EFAULT;
++                }
++                tsp = ts;
++            }
++            if (!arg2)
++                ret = get_errno(sys_utimensat(arg1, NULL, tsp, arg4));
++            else {
++                p = lock_user_string(arg2);
++                if (!p) {
++                    return -TARGET_EFAULT;
++                }
++                ret = get_errno(sys_utimensat(arg1, path(p), tsp, arg4));
++                unlock_user(p, arg2, 0);
++            }
++        }
++        return ret;
 +#endif
-+#ifdef TARGET_NR_ppoll
-     case TARGET_NR_ppoll:
--# endif
--        {
--            struct target_pollfd *target_pfd;
--            unsigned int nfds = arg2;
--            struct pollfd *pfd;
--            unsigned int i;
--
--            pfd = NULL;
--            target_pfd = NULL;
--            if (nfds) {
--                if (nfds > (INT_MAX / sizeof(struct target_pollfd))) {
--                    return -TARGET_EINVAL;
--                }
--
--                target_pfd = lock_user(VERIFY_WRITE, arg1,
--                                       sizeof(struct target_pollfd) * nfds, 1);
--                if (!target_pfd) {
--                    return -TARGET_EFAULT;
--                }
--
--                pfd = alloca(sizeof(struct pollfd) * nfds);
--                for (i = 0; i < nfds; i++) {
--                    pfd[i].fd = tswap32(target_pfd[i].fd);
--                    pfd[i].events = tswap16(target_pfd[i].events);
--                }
--            }
--
--            switch (num) {
--# ifdef TARGET_NR_ppoll
--            case TARGET_NR_ppoll:
--            {
--                struct timespec _timeout_ts, *timeout_ts = &_timeout_ts;
--                target_sigset_t *target_set;
--                sigset_t _set, *set = &_set;
--
--                if (arg3) {
--                    if (target_to_host_timespec(timeout_ts, arg3)) {
--                        unlock_user(target_pfd, arg1, 0);
--                        return -TARGET_EFAULT;
--                    }
--                } else {
--                    timeout_ts = NULL;
--                }
--
--                if (arg4) {
--                    if (arg5 != sizeof(target_sigset_t)) {
--                        unlock_user(target_pfd, arg1, 0);
--                        return -TARGET_EINVAL;
--                    }
--
--                    target_set = lock_user(VERIFY_READ, arg4, sizeof(target_sigset_t), 1);
--                    if (!target_set) {
--                        unlock_user(target_pfd, arg1, 0);
--                        return -TARGET_EFAULT;
--                    }
--                    target_to_host_sigset(set, target_set);
--                } else {
--                    set = NULL;
--                }
--
--                ret = get_errno(safe_ppoll(pfd, nfds, timeout_ts,
--                                           set, SIGSET_T_SIZE));
--
--                if (!is_error(ret) && arg3) {
--                    host_to_target_timespec(arg3, timeout_ts);
--                }
--                if (arg4) {
--                    unlock_user(target_set, arg4, 0);
--                }
--                break;
--            }
--# endif
--# ifdef TARGET_NR_poll
--            case TARGET_NR_poll:
--            {
--                struct timespec ts, *pts;
--
--                if (arg3 >= 0) {
--                    /* Convert ms to secs, ns */
--                    ts.tv_sec = arg3 / 1000;
--                    ts.tv_nsec = (arg3 % 1000) * 1000000LL;
--                    pts = &ts;
--                } else {
--                    /* -ve poll() timeout means "infinite" */
--                    pts = NULL;
--                }
--                ret = get_errno(safe_ppoll(pfd, nfds, pts, NULL, 0));
--                break;
--            }
--# endif
--            default:
--                g_assert_not_reached();
--            }
--
--            if (!is_error(ret)) {
--                for(i = 0; i < nfds; i++) {
--                    target_pfd[i].revents = tswap16(pfd[i].revents);
--                }
--            }
--            unlock_user(target_pfd, arg1, sizeof(struct target_pollfd) * nfds);
--        }
--        return ret;
-+        return do_ppoll(arg1, arg2, arg3, arg4, arg5, true, false);
-+#endif
-+#ifdef TARGET_NR_ppoll_time64
-+    case TARGET_NR_ppoll_time64:
-+        return do_ppoll(arg1, arg2, arg3, arg4, arg5, true, true);
- #endif
-     case TARGET_NR_flock:
-         /* NOTE: the flock constant seems to be the same for every
+ #ifdef TARGET_NR_futex
+     case TARGET_NR_futex:
+         return do_futex(arg1, arg2, arg3, arg4, arg5, arg6);
 -- 
 2.25.1
 
