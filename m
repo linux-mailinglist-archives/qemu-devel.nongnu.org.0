@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE9C925018A
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 17:56:59 +0200 (CEST)
-Received: from localhost ([::1]:56410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF9AF250192
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 17:58:47 +0200 (CEST)
+Received: from localhost ([::1]:59962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAEqA-00071B-NP
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 11:56:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44304)
+	id 1kAEru-00007J-TB
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 11:58:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kAEp4-0006DS-Iz
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 11:55:50 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:60452
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kAEp2-0000He-NK
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 11:55:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598284547;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KJEn5DTX3cHPdVC+AClq1vNLSDsLMDOs4NSSgbIJwNg=;
- b=VeWvLvzxuCcnmN6FBim4GWN0ABLDc2vYqv8hEM9RpuHqc7Wry/tuML8UQnFv+C9p3kX8f9
- 3/EC4OQhEfb4p8Jd82Axd5mdV53i5PO0H29QiwyDyg7GjWcKHvIiiIUVkx/+5FZr4iedEe
- 2+gQA9hXByLEjWng0L33BWbDbcEiMZA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-543-IFePE3hWOsiVyn1A6pAmAg-1; Mon, 24 Aug 2020 11:55:44 -0400
-X-MC-Unique: IFePE3hWOsiVyn1A6pAmAg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 61F57425CD;
- Mon, 24 Aug 2020 15:55:43 +0000 (UTC)
-Received: from [10.3.112.126] (ovpn-112-126.phx2.redhat.com [10.3.112.126])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 111BA50B44;
- Mon, 24 Aug 2020 15:55:42 +0000 (UTC)
-Subject: Re: [PATCH] meson: Fix shell script syntax in qemu-version.sh
-To: Bruce Rogers <brogers@suse.com>, qemu-devel@nongnu.org
-References: <20200824155111.789466-1-brogers@suse.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <bdf0d7f1-f48f-3a78-8c97-78b995ee780a@redhat.com>
-Date: Mon, 24 Aug 2020 10:55:42 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kAEqx-00081h-2z
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 11:57:47 -0400
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:38245)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kAEqv-0000Sn-8x
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 11:57:46 -0400
+Received: by mail-ej1-x642.google.com with SMTP id oz20so7629570ejb.5
+ for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 08:57:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=VmAkoT29ZnWev/xj9EW0V9grUUOdGXeFOk1b8rqmIbU=;
+ b=faEM13axFSi0iF+D1m+3RRfHC0vsdq89Y4HjKKrf75BaoOqsbesiD7VwVuwUdrhoiG
+ y8nre1EpDuYzYK87m8eI7hPSd1XTmXFd3mfe2U/M6Fki7ARvpBhUHQBbsBtiDQ+Slf2A
+ uS7NC4FCmucUA1hxV1YuY8t+pPryj+4JWez9DgQCPOlbtDeKrIauMLvk7KSv2kvkLpp+
+ o5/T+rCScW1vRg13s9LSN+mrDTdLf2nDTfZ+UrPYRiXcWCC5FexUiDseDiijnLvs9iHS
+ CY3nhHXLVjnRxupm5PNlox8yi0UBYZMg6h/7fcPma+yo7holDOPlgoUorXAznYIrPpuA
+ /uQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=VmAkoT29ZnWev/xj9EW0V9grUUOdGXeFOk1b8rqmIbU=;
+ b=pllIJ3dVyIlDV9glefqQonjVfkPD+iCnhJS5kTERmQJeXs0bZRpp+CYpSbdlQJpOJi
+ CNleH9Vyn5hJLpkI0rAeuGVpiv7peBI42WN5uW7MdJEUQzJjC3Nu0Eb7SFrozqZXi62p
+ l/+ZcpKbpp3aP5SPrBvzA5luhteX6KGBTzUh8g5huXPQy6hyuD5FK/3gnnWQ7XEqWZmt
+ v4x5X2IxMVEnmut/QUcqZF12fQmMNBmfbfLBymrT2IGkvzMXsEz/ggivNhAzVCSABZ+F
+ xIrHUV86t8p+AETrER3GMCiOOWMTUOfDM6kpvobUs2NWPXAu1eCC/cLNCcoehAEoEqVm
+ IpEg==
+X-Gm-Message-State: AOAM5302BqEShmYPdQ+IPW04rDxm6449dQY8bF32AY4PwQc8XVGwH3YH
+ L/xOcq+2/HUj2n6GrDUCPe9Az7HFxPBC3zQDrRR3vw==
+X-Google-Smtp-Source: ABdhPJwNtbzBK+W91HChMCwAwDeBtCZ4eBz/x1eLKcHsmQ58LAqHMNbOS4vVUyEo1+pKGoS4BXnCMRpY8KjILrGMkIQ=
+X-Received: by 2002:a17:906:68da:: with SMTP id
+ y26mr6019424ejr.250.1598284663010; 
+ Mon, 24 Aug 2020 08:57:43 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200824155111.789466-1-brogers@suse.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/24 05:21:34
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -52
-X-Spam_score: -5.3
-X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.956,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.25, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20200822212129.97758-1-r.bolshakov@yadro.com>
+ <20200822212129.97758-4-r.bolshakov@yadro.com>
+ <051b2296-f656-9488-f66a-1e74fdd53dc7@redhat.com>
+In-Reply-To: <051b2296-f656-9488-f66a-1e74fdd53dc7@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 24 Aug 2020 16:57:31 +0100
+Message-ID: <CAFEAcA_zB0quJkmgT_rEPzZ7knVB4WGkxzUSM7w0WSGqiHF1og@mail.gmail.com>
+Subject: Re: [PATCH 3/4] configure: Prefer gmake on darwin
+To: Eric Blake <eblake@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,40 +81,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, Thomas Huth <thuth@redhat.com>
+Cc: Roman Bolshakov <r.bolshakov@yadro.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/24/20 10:51 AM, Bruce Rogers wrote:
-> There needs to be a space before the closing bracket.
-> 
-> Signed-off-by: Bruce Rogers <brogers@suse.com>
-> ---
->   scripts/qemu-version.sh | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+On Mon, 24 Aug 2020 at 15:51, Eric Blake <eblake@redhat.com> wrote:
+>
+> On 8/22/20 4:21 PM, Roman Bolshakov wrote:
+> > New meson/make build requires GNU make 3.82+ but macOS ships 3.81 even
+> > on Big Sur while homebrew provides GNU make 4.3 as 'gmake' in $PATH.
+>
+> Does this line up with our development policies on supported platforms?
+> Should we be fixing the creation of Makefile.ninja to avoid constructs
+> not understood by older GNU make, if that is what is shipped out of the
+> box on MacOS as one of our supported platforms?  Or is MacOS on the
+> fringe for what counts as supported, where we are okay mandating that
+> users must install a separate newer GNU make than what comes by default?
 
-Duplicate of 
-https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg05549.html
+If it's easy to add back support for make 3.81 that would be the
+nicest thing, I think. But we already require the user to install
+a non-system python, for instance, so asking them to also install
+make from homebrew isn't a completely new thing. (The only awkward
+thing is that homebrew doesn't actually put the new make on the
+path as 'make', only as 'gmake', so you have to then manually
+fiddle the PATH.) At some point requiring some tools from homebrew
+or similar for QEMU compilation is just inevitable given
+Apple's apparent policy of never moving the system versions of
+tools beyond the last GPLv2 version.
 
-> 
-> diff --git a/scripts/qemu-version.sh b/scripts/qemu-version.sh
-> index 4847385e42..03128c56a2 100755
-> --- a/scripts/qemu-version.sh
-> +++ b/scripts/qemu-version.sh
-> @@ -6,7 +6,7 @@ dir="$1"
->   pkgversion="$2"
->   version="$3"
->   
-> -if [ -z "$pkgversion"]; then
-> +if [ -z "$pkgversion" ]; then
->       cd "$dir"
->       if [ -e .git ]; then
->           pkgversion=$(git describe --match 'v*' --dirty | echo "")
-> 
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+thanks
+-- PMM
 
