@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F40424FA5A
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 11:55:50 +0200 (CEST)
-Received: from localhost ([::1]:37036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A24EF24FA17
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 11:52:39 +0200 (CEST)
+Received: from localhost ([::1]:48826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kA9Cf-0002pw-DE
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 05:55:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46832)
+	id 1kA99a-0004ch-Kc
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 05:52:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kA95f-0005A4-9N
+ id 1kA95f-0005Ae-GJ
  for qemu-devel@nongnu.org; Mon, 24 Aug 2020 05:48:35 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:56226)
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:53880)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kA95c-0004o5-6e
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 05:48:34 -0400
-Received: by mail-wm1-x341.google.com with SMTP id a65so4085549wme.5
- for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 02:48:31 -0700 (PDT)
+ id 1kA95d-0004oE-L2
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 05:48:35 -0400
+Received: by mail-wm1-x344.google.com with SMTP id u18so7678332wmc.3
+ for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 02:48:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ENPtwkyypi5he8g9f/1mEPuk6rEdLo6yuawroe2Xk4k=;
- b=xbn2VoBYCVxWm5yx1MMTM96JTInDji+JjG8grJOLkMWlv4g0hnGONfupP9DeVW1bIN
- yxjVFdAwzotzGONnekQWwXVXRox6uuVMVaLSp+6Wu48TfXGt1ikgYJIu3ud1NGKBWpZS
- emJRSbU8lVXdXXwtdz38ZOZtKp19fbSLRHsEV74Zr5GAZpxiRATgKE18cUpv83KktOZv
- ybbM2a0XR4fPU5kViJgVPfctHYN1mohHRDDGmtos6CBr3J3X065fzaWtmGeQ76eB5INA
- xW2os708+Wnp2WbsAq0/Zia6DFuA6eTtsl96A62zhbdV+RIXkSxvIRHuYIvdPYNi+sdT
- DsuA==
+ bh=Ers+2j+PuXTXZBmM5L2AbHjg4xxB43Gsae3bEhiWv7U=;
+ b=GwOThDNJxE+MXtMBO/W6ShAW7d3zawWWujDY2vR7uiL8IICRgU4v4ViRwjgI9Gdz88
+ olB7u5KMEQ2o+9C4yuBt1xsJLpIv59Dy36WMqdhUkjsO4hw1renXLamuWTUfVKGbUkvM
+ 7SRAB2xAYr71hG5x8OuxJzCBDhGYVvLgGTIb3qsGXLW0soUIQ+67jqnl1jwihV1IUrUs
+ /w5SVxbuBZjXWtQlv2Mu5o/QhMQONNdC9dOL86zvG3qev8KVQzjoE2podWUZpFmAdzhr
+ 4fc8AV3JszUHa4SKuGUIHKT9U3DsG8Q1QC7F9AHkLgRi0uYtJQQv9JbFvXHkWEkppM7V
+ czYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ENPtwkyypi5he8g9f/1mEPuk6rEdLo6yuawroe2Xk4k=;
- b=dakbNIa3tm0gIimITZz9EFAnedR9pHuZGh8tvOgHHqvFS/LzK7yPrRbGiUGe0pOYh+
- zKeK378IZY8swIDm9NwSWKEmvc34HCZrJS81QwfpIj/XXkSqy8rjwiiWH6fNXF3t2VOi
- jxhhvHJemiVtOg4VicevSZTiNYAqikE61ykiNWq+RxIPdCtXMaRHB3gdJfkUBxXo/MQW
- UwadGMjWlCm2vnnhMDFUvD1BcDsiqfkjja/P9kBSxRTqG4zm06wdXf276nLICU135KoT
- gjoVzgdydVjJTI4U6Q3ghW16g0GVg0dtiAfhuOuJM9OrYmpW9E3xw8Mr4mjUJTGoIROJ
- 7JJQ==
-X-Gm-Message-State: AOAM531vhHCS2DZmJq7a8bk5McdkOhxd87oz2AIFvWwGKbvl1/1MjbPS
- gi0mQHXc4m6sJUl+I6uSBJr4bw9Vp5c+pDIa
-X-Google-Smtp-Source: ABdhPJzlQtpYTjfhrEad08FmCjj7F5AeaNYurLTSpGbILNUSW10oGEcGihVnpTDN4Dp7f41RD5dPjw==
-X-Received: by 2002:a1c:4c06:: with SMTP id z6mr4819145wmf.21.1598262510480;
- Mon, 24 Aug 2020 02:48:30 -0700 (PDT)
+ bh=Ers+2j+PuXTXZBmM5L2AbHjg4xxB43Gsae3bEhiWv7U=;
+ b=oQ/CQl1DcEmCahz1JwOJsMPkOYwFZIY1JZznN6oM9HUJO357antgX8nE/A008heLGt
+ ryPB65TnKrK9RwCiN3XD5sZ4ifonMdbtaPS1Dp44nlyAurNTQtDoYZpdOyF9FT47AwBF
+ hzgL8rHPyW5+kRz+Oe9OkQ8z9Nrs1v9VTMo/OfG/hlssktTh+zwbwyUcrAA7CnP4d531
+ 8tt42WIEih7x7toCq3g7pPrvBjrNZCUJpSRIv3CK+jlh0JPgDrE7GFDHMZeVlGYXMiUb
+ HMaSyDKUGbFMLZGkX8AQ7t8Q0QRQo9da/3SC6KJd4DPhtCfrEzIM8b9nRoLdATZFyOYj
+ HE7w==
+X-Gm-Message-State: AOAM5318AtwF5rC7nGD3ZYDWwp5ZgsA22gDwHOzjZiig5Co4NJOq8qUW
+ K88bpgq79G/StZhxoiqr8cwkWRppkTPMb9Zc
+X-Google-Smtp-Source: ABdhPJyCLH2nsnVGVsTlixf7UT7qUUaAESanCIIAEzEKQqmu8wlrgUIM/raNsfmGvf3eZixGCKRu2Q==
+X-Received: by 2002:a1c:81cb:: with SMTP id c194mr4985684wmd.45.1598262511754; 
+ Mon, 24 Aug 2020 02:48:31 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q6sm24877057wma.22.2020.08.24.02.48.28
+ by smtp.gmail.com with ESMTPSA id q6sm24877057wma.22.2020.08.24.02.48.30
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Aug 2020 02:48:29 -0700 (PDT)
+ Mon, 24 Aug 2020 02:48:30 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/27] target/arm: Pull handling of XScale insns out of
- disas_coproc_insn()
-Date: Mon, 24 Aug 2020 10:47:58 +0100
-Message-Id: <20200824094811.15439-15-peter.maydell@linaro.org>
+Subject: [PULL 15/27] target/arm: Separate decode from handling of coproc insns
+Date: Mon, 24 Aug 2020 10:47:59 +0100
+Message-Id: <20200824094811.15439-16-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200824094811.15439-1-peter.maydell@linaro.org>
 References: <20200824094811.15439-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,102 +88,150 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At the moment we check for XScale/iwMMXt insns inside
-disas_coproc_insn(): for CPUs with ARM_FEATURE_XSCALE all copro insns
-with cp 0 or 1 are handled specially.  This works, but is an odd
-place for this check, because disas_coproc_insn() is called from both
-the Arm and Thumb decoders but the XScale case never applies for
-Thumb (all the XScale CPUs were ARMv5, which has only Thumb1, not
-Thumb2 with the 32-bit coprocessor insn encodings).  It also makes it
-awkward to convert the real copro access insns to decodetree.
-
-Move the identification of XScale out to its own function
-which is only called from disas_arm_insn().
+As a prelude to making coproc insns use decodetree, split out the
+part of disas_coproc_insn() which does instruction decoding from the
+part which does the actual work, and make do_coproc_insn() handle the
+UNDEF-on-bad-permissions and similar cases itself rather than
+returning 1 to eventually percolate up to a callsite that calls
+unallocated_encoding() for it.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200803111849.13368-2-peter.maydell@linaro.org
+Message-id: 20200803111849.13368-3-peter.maydell@linaro.org
 ---
- target/arm/translate.c | 44 ++++++++++++++++++++++++++++--------------
- 1 file changed, 29 insertions(+), 15 deletions(-)
+ target/arm/translate.c | 76 ++++++++++++++++++++++++------------------
+ 1 file changed, 44 insertions(+), 32 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 556588d92fe..99663236aa9 100644
+index 99663236aa9..01591f0e325 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -4551,20 +4551,6 @@ static int disas_coproc_insn(DisasContext *s, uint32_t insn)
+@@ -4544,34 +4544,12 @@ void gen_gvec_uaba(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
+     tcg_gen_gvec_3(rd_ofs, rn_ofs, rm_ofs, opr_sz, max_sz, &ops[vece]);
+ }
  
-     cpnum = (insn >> 8) & 0xf;
+-static int disas_coproc_insn(DisasContext *s, uint32_t insn)
++static void do_coproc_insn(DisasContext *s, int cpnum, int is64,
++                           int opc1, int crn, int crm, int opc2,
++                           bool isread, int rt, int rt2)
+ {
+-    int cpnum, is64, crn, crm, opc1, opc2, isread, rt, rt2;
+     const ARMCPRegInfo *ri;
  
--    /* First check for coprocessor space used for XScale/iwMMXt insns */
--    if (arm_dc_feature(s, ARM_FEATURE_XSCALE) && (cpnum < 2)) {
--        if (extract32(s->c15_cpar, cpnum, 1) == 0) {
--            return 1;
--        }
--        if (arm_dc_feature(s, ARM_FEATURE_IWMMXT)) {
--            return disas_iwmmxt_insn(s, insn);
--        } else if (arm_dc_feature(s, ARM_FEATURE_XSCALE)) {
--            return disas_dsp_insn(s, insn);
--        }
+-    cpnum = (insn >> 8) & 0xf;
+-
+-    is64 = (insn & (1 << 25)) == 0;
+-    if (!is64 && ((insn & (1 << 4)) == 0)) {
+-        /* cdp */
 -        return 1;
 -    }
 -
--    /* Otherwise treat as a generic register access */
-     is64 = (insn & (1 << 25)) == 0;
-     if (!is64 && ((insn & (1 << 4)) == 0)) {
-         /* cdp */
-@@ -4823,6 +4809,23 @@ static int disas_coproc_insn(DisasContext *s, uint32_t insn)
-     return 1;
+-    crm = insn & 0xf;
+-    if (is64) {
+-        crn = 0;
+-        opc1 = (insn >> 4) & 0xf;
+-        opc2 = 0;
+-        rt2 = (insn >> 16) & 0xf;
+-    } else {
+-        crn = (insn >> 16) & 0xf;
+-        opc1 = (insn >> 21) & 7;
+-        opc2 = (insn >> 5) & 7;
+-        rt2 = 0;
+-    }
+-    isread = (insn >> 20) & 1;
+-    rt = (insn >> 12) & 0xf;
+-
+     ri = get_arm_cp_reginfo(s->cp_regs,
+             ENCODE_CP_REG(cpnum, is64, s->ns, crn, crm, opc1, opc2));
+     if (ri) {
+@@ -4579,7 +4557,8 @@ static int disas_coproc_insn(DisasContext *s, uint32_t insn)
+ 
+         /* Check access permissions */
+         if (!cp_access_ok(s->current_el, ri, isread)) {
+-            return 1;
++            unallocated_encoding(s);
++            return;
+         }
+ 
+         if (s->hstr_active || ri->accessfn ||
+@@ -4653,14 +4632,15 @@ static int disas_coproc_insn(DisasContext *s, uint32_t insn)
+         /* Handle special cases first */
+         switch (ri->type & ~(ARM_CP_FLAG_MASK & ~ARM_CP_SPECIAL)) {
+         case ARM_CP_NOP:
+-            return 0;
++            return;
+         case ARM_CP_WFI:
+             if (isread) {
+-                return 1;
++                unallocated_encoding(s);
++                return;
+             }
+             gen_set_pc_im(s, s->base.pc_next);
+             s->base.is_jmp = DISAS_WFI;
+-            return 0;
++            return;
+         default:
+             break;
+         }
+@@ -4720,7 +4700,7 @@ static int disas_coproc_insn(DisasContext *s, uint32_t insn)
+             /* Write */
+             if (ri->type & ARM_CP_CONST) {
+                 /* If not forbidden by access permissions, treat as WI */
+-                return 0;
++                return;
+             }
+ 
+             if (is64) {
+@@ -4786,7 +4766,7 @@ static int disas_coproc_insn(DisasContext *s, uint32_t insn)
+             gen_lookup_tb(s);
+         }
+ 
+-        return 0;
++        return;
+     }
+ 
+     /* Unknown register; this might be a guest error or a QEMU
+@@ -4806,7 +4786,39 @@ static int disas_coproc_insn(DisasContext *s, uint32_t insn)
+                       s->ns ? "non-secure" : "secure");
+     }
+ 
+-    return 1;
++    unallocated_encoding(s);
++    return;
++}
++
++static int disas_coproc_insn(DisasContext *s, uint32_t insn)
++{
++    int cpnum, is64, crn, crm, opc1, opc2, isread, rt, rt2;
++
++    cpnum = (insn >> 8) & 0xf;
++
++    is64 = (insn & (1 << 25)) == 0;
++    if (!is64 && ((insn & (1 << 4)) == 0)) {
++        /* cdp */
++        return 1;
++    }
++
++    crm = insn & 0xf;
++    if (is64) {
++        crn = 0;
++        opc1 = (insn >> 4) & 0xf;
++        opc2 = 0;
++        rt2 = (insn >> 16) & 0xf;
++    } else {
++        crn = (insn >> 16) & 0xf;
++        opc1 = (insn >> 21) & 7;
++        opc2 = (insn >> 5) & 7;
++        rt2 = 0;
++    }
++    isread = (insn >> 20) & 1;
++    rt = (insn >> 12) & 0xf;
++
++    do_coproc_insn(s, cpnum, is64, opc1, crn, crm, opc2, isread, rt, rt2);
++    return 0;
  }
  
-+/* Decode XScale DSP or iWMMXt insn (in the copro space, cp=0 or 1) */
-+static void disas_xscale_insn(DisasContext *s, uint32_t insn)
-+{
-+    int cpnum = (insn >> 8) & 0xf;
-+
-+    if (extract32(s->c15_cpar, cpnum, 1) == 0) {
-+        unallocated_encoding(s);
-+    } else if (arm_dc_feature(s, ARM_FEATURE_IWMMXT)) {
-+        if (disas_iwmmxt_insn(s, insn)) {
-+            unallocated_encoding(s);
-+        }
-+    } else if (arm_dc_feature(s, ARM_FEATURE_XSCALE)) {
-+        if (disas_dsp_insn(s, insn)) {
-+            unallocated_encoding(s);
-+        }
-+    }
-+}
- 
- /* Store a 64-bit value to a register pair.  Clobbers val.  */
- static void gen_storeq_reg(DisasContext *s, int rlow, int rhigh, TCGv_i64 val)
-@@ -8270,15 +8273,26 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
-     case 0xc:
-     case 0xd:
-     case 0xe:
--        if (((insn >> 8) & 0xe) == 10) {
-+    {
-+        /* First check for coprocessor space used for XScale/iwMMXt insns */
-+        int cpnum = (insn >> 8) & 0xf;
-+
-+        if (arm_dc_feature(s, ARM_FEATURE_XSCALE) && (cpnum < 2)) {
-+            disas_xscale_insn(s, insn);
-+            break;
-+        }
-+
-+        if ((cpnum & 0xe) == 10) {
-             /* VFP, but failed disas_vfp.  */
-             goto illegal_op;
-         }
-+
-         if (disas_coproc_insn(s, insn)) {
-             /* Coprocessor.  */
-             goto illegal_op;
-         }
-         break;
-+    }
-     default:
-     illegal_op:
-         unallocated_encoding(s);
+ /* Decode XScale DSP or iWMMXt insn (in the copro space, cp=0 or 1) */
 -- 
 2.20.1
 
