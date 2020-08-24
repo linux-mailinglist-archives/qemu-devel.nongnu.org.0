@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0320E24FA5C
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 11:55:52 +0200 (CEST)
-Received: from localhost ([::1]:37106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89B1E24FA8D
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 11:57:28 +0200 (CEST)
+Received: from localhost ([::1]:44304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kA9Ch-0002sQ-2b
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 05:55:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46748)
+	id 1kA9EF-0005qV-K4
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 05:57:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kA95Y-0004rN-SN
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 05:48:28 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:37880)
+ id 1kA95a-0004ur-26
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 05:48:30 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:34037)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kA95X-0004nG-4q
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 05:48:28 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id y3so7988249wrl.4
- for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 02:48:26 -0700 (PDT)
+ id 1kA95Y-0004nO-1r
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 05:48:29 -0400
+Received: by mail-wr1-x435.google.com with SMTP id f7so8030633wrw.1
+ for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 02:48:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=pJN8+LcfVLeFiNPeCoxtXt7wzipaKiTYfFygqw+Wy9M=;
- b=bqIFDoLY6ff7Tn9hEEB5b03CIQOA+hdM5kmN5qt083tFZRWOhHFpiTF/Z+xxbPkLl9
- Eioq0wzsBawH+hF5DyXp6n/uOLEAoFWefZCXC81nCS6MeNZx7dFvs+uo9z7w5RaEredW
- CcawJoUNXwRQclpAQUE18oGY0VDcID1kHJ9NxLBuOUCtbem1NY+nB5uL5l84EMja3piy
- Z57FbO05SR7kC09IblrOPJTthJrn9Z21lE1moHNd9DHRfrP7AkmQfJbKmIof5j9WPTAI
- cjNkFaW8BehckhfK+IN8datMBZazuwDgnRjAJOyYSJ8JDOR4b/nUt8BKz2DhOrImKlOF
- Z3UA==
+ bh=6kPWsc9hK5bWcqLb2sRsR3vabCpYIdyWe54DMmHZ/ow=;
+ b=PnYaNqnzqSE4MqGBwRowlNMbxvyRyxRfEFCpEHYKlK5xaWaXC7AwTYyDqgLG+RzduN
+ 80dxp0Y3HGOfnA2oY0L04FuTl/1Khx30SJOeaRYjxmL1phbBOkUod6zni5U1rtRpJp5U
+ k/G7fxnsSFhFWr9bDkrE6e7CQPu9MKWsjNkaxhu16aCp/mF4FaN8JGBU6nxKgJ97Uecg
+ LZ9h2EzMJSb33kgjWka+xBYFq3QRIeqSgM2PpayMrxCQziSVM+4fH+U6gITKQYATJhY/
+ 8L1WQE5bxTtUHBCvOPE8PwInxhfoJEeryHTQfVLq7LZ2O+yu9G+Dl4Rtqr8jqd6AD8h9
+ yL/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pJN8+LcfVLeFiNPeCoxtXt7wzipaKiTYfFygqw+Wy9M=;
- b=PoTuSK/TtzOqY49VSILgXtVq5AiI4kGv7JqQNNRQISFcO2taBptChZs4J3irxRCmKM
- 7mFvalL/rg67tguFDd+lhgFXcCqrb/MTu/CAeByUOYgBhzKMuqcIyZpFgmPjE/ndCvQp
- sNkTrtRUpBlOjVwjSk2DIsErzMP1UVuUvzfvUH76uARAZyQ5tSeC88wfF7iPKyMgiU7S
- m9xVAe7xadRuBRiVDD53B4fcksMPJAUJHYOzTng7H66sUtSgfK4zDd6dqdP+HLSn73x0
- IuexYUE2SlPTq5wjJ75k5AuEScy0Lf1eHGu5mcH+ehMUH/aU10H5zIp5JarFHFFdtqb2
- q4xA==
-X-Gm-Message-State: AOAM533gG+Nu/k5Yuvfo2LyunLCkAqFZJnCTsXgy9CHRSRWcpWtGYmMd
- SPvDBMPkc7PrBr+qnvaXzMKTyzohYoY1CezY
-X-Google-Smtp-Source: ABdhPJyByLPjwubt6ZfXK9r5DOUUjTFiHvB1LijTzr7kqm3v/rIvbC91g9eGqScUvHFm5ytgZL5fGw==
-X-Received: by 2002:adf:ec10:: with SMTP id x16mr4848405wrn.74.1598262505544; 
- Mon, 24 Aug 2020 02:48:25 -0700 (PDT)
+ bh=6kPWsc9hK5bWcqLb2sRsR3vabCpYIdyWe54DMmHZ/ow=;
+ b=UrZ5dkOuwVmW3DYSYav7g3aZLW+sFSakQ4sRGKhlDicS9SUamtH70SGvFz/sguqtEy
+ WhhiEUkpv9wAmBPuXs0LMd382An5RMIUFmSvXS5NgF6KK3D8oPBKp+bjKM+Bbc/1NRXt
+ Qr5EmFb5jatrRv2tru7CfmHD4QUmatf0s5KrVmppc843qKz4COFC9Fv+JI/WSvrPKB+H
+ mno+AYYqA/X0OqSL3J9jznc7mHwDwSVcPfdVAfbEY0eTaklNvEnIJ0wwTsrkCgAPntAv
+ 438A39eBgpzmIcuxFzdr5nMPAwBYxoelS2Rwr/2fGfYvMxbetCYVquUiY4XEVzxDTxD1
+ xnqA==
+X-Gm-Message-State: AOAM531y/FABMesMXsSMZD393kVryY0FB6hMGy1jhXECYg2FQpFranDS
+ 5QF18ksUz5n8jD5pOEVqWAjaQnzCd8q7ujov
+X-Google-Smtp-Source: ABdhPJzd9wWcGWTlAF7Mu5m2EMhL7xFpJOn7U/s2Mqv1MDcGQdiPqBE6bXH/B45zhmibMoJtsoX90g==
+X-Received: by 2002:adf:edc6:: with SMTP id v6mr4955796wro.221.1598262506471; 
+ Mon, 24 Aug 2020 02:48:26 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q6sm24877057wma.22.2020.08.24.02.48.24
+ by smtp.gmail.com with ESMTPSA id q6sm24877057wma.22.2020.08.24.02.48.25
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Aug 2020 02:48:24 -0700 (PDT)
+ Mon, 24 Aug 2020 02:48:25 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/27] hw/arm/smmuv3: Let AIDR advertise SMMUv3.0 support
-Date: Mon, 24 Aug 2020 10:47:54 +0100
-Message-Id: <20200824094811.15439-11-peter.maydell@linaro.org>
+Subject: [PULL 11/27] hw/arm/smmuv3: Support HAD and advertise SMMUv3.1 support
+Date: Mon, 24 Aug 2020 10:47:55 +0100
+Message-Id: <20200824094811.15439-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200824094811.15439-1-peter.maydell@linaro.org>
 References: <20200824094811.15439-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,57 +90,117 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eric Auger <eric.auger@redhat.com>
 
-Add the support for AIDR register. It currently advertises
-SMMU V3.0 spec.
+HAD is a mandatory features with SMMUv3.1 if S1P is set, which is
+our case. Other 3.1 mandatory features come with S2P which we don't
+have.
+
+So let's support HAD and advertise SMMUv3.1 support in AIDR.
+
+HAD support allows the CD to disable hierarchical attributes, ie.
+if the HAD0/1 bit is set, the APTable field of table descriptors
+walked through TTB0/1 is ignored.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20200728150815.11446-10-eric.auger@redhat.com
+Message-id: 20200728150815.11446-11-eric.auger@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/smmuv3-internal.h | 1 +
- include/hw/arm/smmuv3.h  | 1 +
- hw/arm/smmuv3.c          | 3 +++
- 3 files changed, 5 insertions(+)
+ hw/arm/smmuv3-internal.h     | 2 ++
+ include/hw/arm/smmu-common.h | 1 +
+ hw/arm/smmu-common.c         | 2 +-
+ hw/arm/smmuv3.c              | 6 +++++-
+ hw/arm/trace-events          | 2 +-
+ 5 files changed, 10 insertions(+), 3 deletions(-)
 
 diff --git a/hw/arm/smmuv3-internal.h b/hw/arm/smmuv3-internal.h
-index ef093eaff50..bd34a4f3300 100644
+index bd34a4f3300..9ae7d97fafd 100644
 --- a/hw/arm/smmuv3-internal.h
 +++ b/hw/arm/smmuv3-internal.h
-@@ -64,6 +64,7 @@ REG32(IDR5,                0x14)
- #define SMMU_IDR5_OAS 4
+@@ -54,6 +54,7 @@ REG32(IDR1,                0x4)
  
- REG32(IIDR,                0x18)
-+REG32(AIDR,                0x1c)
- REG32(CR0,                 0x20)
-     FIELD(CR0, SMMU_ENABLE,   0, 1)
-     FIELD(CR0, EVENTQEN,      2, 1)
-diff --git a/include/hw/arm/smmuv3.h b/include/hw/arm/smmuv3.h
-index 36b2f452539..68d7a963e0f 100644
---- a/include/hw/arm/smmuv3.h
-+++ b/include/hw/arm/smmuv3.h
-@@ -41,6 +41,7 @@ typedef struct SMMUv3State {
+ REG32(IDR2,                0x8)
+ REG32(IDR3,                0xc)
++     FIELD(IDR3, HAD,         2, 1);
+ REG32(IDR4,                0x10)
+ REG32(IDR5,                0x14)
+      FIELD(IDR5, OAS,         0, 3);
+@@ -578,6 +579,7 @@ static inline int pa_range(STE *ste)
+         lo = (x)->word[(sel) * 2 + 2] & ~0xfULL;            \
+         hi | lo;                                            \
+     })
++#define CD_HAD(x, sel)   extract32((x)->word[(sel) * 2 + 2], 1, 1)
  
-     uint32_t idr[6];
-     uint32_t iidr;
-+    uint32_t aidr;
-     uint32_t cr[3];
-     uint32_t cr0ack;
-     uint32_t statusr;
+ #define CD_TSZ(x, sel)   extract32((x)->word[0], (16 * (sel)) + 0, 6)
+ #define CD_TG(x, sel)    extract32((x)->word[0], (16 * (sel)) + 6, 2)
+diff --git a/include/hw/arm/smmu-common.h b/include/hw/arm/smmu-common.h
+index 4f6acf634cf..880dccd7c04 100644
+--- a/include/hw/arm/smmu-common.h
++++ b/include/hw/arm/smmu-common.h
+@@ -50,6 +50,7 @@ typedef struct SMMUTransTableInfo {
+     uint64_t ttb;              /* TT base address */
+     uint8_t tsz;               /* input range, ie. 2^(64 -tsz)*/
+     uint8_t granule_sz;        /* granule page shift */
++    bool had;                  /* hierarchical attribute disable */
+ } SMMUTransTableInfo;
+ 
+ typedef struct SMMUTLBEntry {
+diff --git a/hw/arm/smmu-common.c b/hw/arm/smmu-common.c
+index 8d89a86699a..3838db13952 100644
+--- a/hw/arm/smmu-common.c
++++ b/hw/arm/smmu-common.c
+@@ -316,7 +316,7 @@ static int smmu_ptw_64(SMMUTransCfg *cfg,
+         if (is_table_pte(pte, level)) {
+             ap = PTE_APTABLE(pte);
+ 
+-            if (is_permission_fault(ap, perm)) {
++            if (is_permission_fault(ap, perm) && !tt->had) {
+                 info->type = SMMU_PTW_ERR_PERMISSION;
+                 goto error;
+             }
 diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-index 89ab11fc36a..718f28462ea 100644
+index 718f28462ea..b262f0e4a74 100644
 --- a/hw/arm/smmuv3.c
 +++ b/hw/arm/smmuv3.c
-@@ -1251,6 +1251,9 @@ static MemTxResult smmu_readl(SMMUv3State *s, hwaddr offset,
-     case A_IIDR:
-         *data = s->iidr;
-         return MEMTX_OK;
-+    case A_AIDR:
-+        *data = s->aidr;
-+        return MEMTX_OK;
-     case A_CR0:
-         *data = s->cr[0];
-         return MEMTX_OK;
+@@ -254,6 +254,8 @@ static void smmuv3_init_regs(SMMUv3State *s)
+     s->idr[1] = FIELD_DP32(s->idr[1], IDR1, EVENTQS, SMMU_EVENTQS);
+     s->idr[1] = FIELD_DP32(s->idr[1], IDR1, CMDQS,   SMMU_CMDQS);
+ 
++    s->idr[3] = FIELD_DP32(s->idr[3], IDR3, HAD, 1);
++
+    /* 4K and 64K granule support */
+     s->idr[5] = FIELD_DP32(s->idr[5], IDR5, GRAN4K, 1);
+     s->idr[5] = FIELD_DP32(s->idr[5], IDR5, GRAN64K, 1);
+@@ -270,6 +272,7 @@ static void smmuv3_init_regs(SMMUv3State *s)
+ 
+     s->features = 0;
+     s->sid_split = 0;
++    s->aidr = 0x1;
+ }
+ 
+ static int smmu_get_ste(SMMUv3State *s, dma_addr_t addr, STE *buf,
+@@ -506,7 +509,8 @@ static int decode_cd(SMMUTransCfg *cfg, CD *cd, SMMUEventInfo *event)
+         if (tt->ttb & ~(MAKE_64BIT_MASK(0, cfg->oas))) {
+             goto bad_cd;
+         }
+-        trace_smmuv3_decode_cd_tt(i, tt->tsz, tt->ttb, tt->granule_sz);
++        tt->had = CD_HAD(cd, i);
++        trace_smmuv3_decode_cd_tt(i, tt->tsz, tt->ttb, tt->granule_sz, tt->had);
+     }
+ 
+     event->record_trans_faults = CD_R(cd);
+diff --git a/hw/arm/trace-events b/hw/arm/trace-events
+index 3d905e0f7d0..c8a4d80f6bd 100644
+--- a/hw/arm/trace-events
++++ b/hw/arm/trace-events
+@@ -39,7 +39,7 @@ smmuv3_translate_abort(const char *n, uint16_t sid, uint64_t addr, bool is_write
+ smmuv3_translate_success(const char *n, uint16_t sid, uint64_t iova, uint64_t translated, int perm) "%s sid=%d iova=0x%"PRIx64" translated=0x%"PRIx64" perm=0x%x"
+ smmuv3_get_cd(uint64_t addr) "CD addr: 0x%"PRIx64
+ smmuv3_decode_cd(uint32_t oas) "oas=%d"
+-smmuv3_decode_cd_tt(int i, uint32_t tsz, uint64_t ttb, uint32_t granule_sz) "TT[%d]:tsz:%d ttb:0x%"PRIx64" granule_sz:%d"
++smmuv3_decode_cd_tt(int i, uint32_t tsz, uint64_t ttb, uint32_t granule_sz, bool had) "TT[%d]:tsz:%d ttb:0x%"PRIx64" granule_sz:%d had:%d"
+ smmuv3_cmdq_cfgi_ste(int streamid) "streamid =%d"
+ smmuv3_cmdq_cfgi_ste_range(int start, int end) "start=0x%d - end=0x%d"
+ smmuv3_cmdq_cfgi_cd(uint32_t sid) "streamid = %d"
 -- 
 2.20.1
 
