@@ -2,109 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9CC72509A4
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 21:51:50 +0200 (CEST)
-Received: from localhost ([::1]:55076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 964D2250972
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 21:36:56 +0200 (CEST)
+Received: from localhost ([::1]:43828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAIVR-0000GN-NX
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 15:51:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49788)
+	id 1kAIH1-0002jK-6q
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 15:36:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
- id 1kAIUQ-0008CO-CP
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 15:50:46 -0400
-Received: from mail-co1nam11on2056.outbound.protection.outlook.com
- ([40.107.220.56]:7361 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kAIFw-0002DV-Pi
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 15:35:48 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:38217)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
- id 1kAIUO-00029T-59
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 15:50:46 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AF57gHwCF/7msiPhsr/ZcFn0yVKTOyntg4iIm2g56aMYmPK28SuOxI2sdeCy5Htao1+USSr9ryo6ZZRU2N5QDPw0nbTmaa9MiskwuNs+sf8MfZwZ2HcMu/gdIOVQ/TVA9+ZPlfFT46dzjPaHYHTv2pTu3ErqzlXd3Xg6QqLhSQTzvIud43M95gbOxEd9p1sS9x/166L3ztBArv5DLeUMjhjEuasnkmC6eaVjSTEGCirnqvE7gtLQRibzpB6eZanDWHrtKGuOAaSUe/xfxi/AUJZUFes/x2TPuV+ix228e1w+CkX0sdhuQC8XYBVM1wry+AIQFSsrG7X5E1yPfEIn+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=okGdH0Mftms+PGoGkjMZO42tZCBfQ9qM7kprtGl9kAo=;
- b=GKbYAOacl+bMbDIlYIDgK4Z1TJ1KJxEVYAUVeunRTmY8EEoKrg/PsRdZe9r30CifbNcIr41zxzhOBQ+4E2LjgqlLiqvUej+3shBpXpxZeFeQAfyymNy/2io3hFlcDOPSO+84xKYdzpbjANa8ynQKUdz+rHoDgZWoApPCY7Eq+bh24LaeyPCWdWA9U74eKSx1aoVjpC5YKCICm1QiavkQO/hlynIZK+iOMU2af4iH+eZcN1VKT9i1EmULSMQ3X+Y3TH/ByT3KKyk51XP+U0OWZxwjUTvzJIi6n85ZOkkdfaaqqOfKgYKXh7a+Tl3jvNNJvZQJoDhBFvSrtY1WXgD2jg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=okGdH0Mftms+PGoGkjMZO42tZCBfQ9qM7kprtGl9kAo=;
- b=LQnC/gdUaUcBLk0qpRGfxsIjMxmhSe0cGMQrGAKhclYmkpGFOYNHvb8K6SdLl9kDwx/ZN8PzerXIEjNdPUVtepXkftSuhjl8bxa5tbxJstxf+bxaoNPvy9/XxxzvKm4G1cLKuSGae4R3d2KHN92wqtavPZGP2P8+7dKiyNhU2fg=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
-Received: from SN1PR12MB2560.namprd12.prod.outlook.com (2603:10b6:802:26::19)
- by SN6PR12MB2670.namprd12.prod.outlook.com (2603:10b6:805:6b::31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.26; Mon, 24 Aug
- 2020 19:20:36 +0000
-Received: from SN1PR12MB2560.namprd12.prod.outlook.com
- ([fe80::ccd9:728:9577:200d]) by SN1PR12MB2560.namprd12.prod.outlook.com
- ([fe80::ccd9:728:9577:200d%4]) with mapi id 15.20.3305.026; Mon, 24 Aug 2020
- 19:20:36 +0000
-Subject: Re: [PATCH v5 0/8] Remove EPYC mode apicid decode and use generic
- decode
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <159804762216.39954.15502128500494116468.stgit@naples-babu.amd.com>
- <20200824184112.GB2688@work-vm>
-From: Babu Moger <babu.moger@amd.com>
-Message-ID: <f602852c-b6af-694e-3e32-47974722e144@amd.com>
-Date: Mon, 24 Aug 2020 14:20:33 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kAIFu-0000Cb-9U
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 15:35:48 -0400
+Received: from [192.168.100.1] ([82.252.135.186]) by mrelayeu.kundenserver.de
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MmlGg-1kruD32Ngk-00jsKx; Mon, 24 Aug 2020 21:35:35 +0200
+Subject: Re: [PATCH v3 1/2] linux-user: Add support for
+ 'clock_nanosleep_time64()' and 'clock_adjtime64()'
+To: Filip Bozuta <Filip.Bozuta@syrmia.com>, qemu-devel@nongnu.org
+References: <20200824192116.65562-1-Filip.Bozuta@syrmia.com>
+ <20200824192116.65562-2-Filip.Bozuta@syrmia.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <23c02108-6a5d-c4c2-db84-912799a278c5@vivier.eu>
+Date: Mon, 24 Aug 2020 21:35:34 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
-In-Reply-To: <20200824184112.GB2688@work-vm>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: DM5PR07CA0164.namprd07.prod.outlook.com
- (2603:10b6:3:ee::30) To SN1PR12MB2560.namprd12.prod.outlook.com
- (2603:10b6:802:26::19)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from 255.255.255.255 (255.255.255.255) by
- DM5PR07CA0164.namprd07.prod.outlook.com (2603:10b6:3:ee::30) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3305.24 via Frontend Transport; Mon, 24 Aug 2020 19:20:34 +0000
-X-Originating-IP: [165.204.77.1]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 7b13cdfe-c18b-4b57-4f00-08d84862c6fe
-X-MS-TrafficTypeDiagnostic: SN6PR12MB2670:
-X-Microsoft-Antispam-PRVS: <SN6PR12MB2670CF9484F83C1D844C32AF95560@SN6PR12MB2670.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MUT/XPWd4Bj6oq8NIN4vOd29qYP+91nX5l2n1DYBmFUtHoqIRFaczx5AwkWQMwErBltAFyQY/wd4wPHTrbuYVXFR5nuYpWyutf8nFFnV23tGDeYSWGODzr2rbq/o3cQi2/y3+921abxm1Go5oNTUwKy2wzDPTzx/VHs2pk6ONToSIvkhK08L9FzGZ80XH9+vgWpLSob4wplIs/IXEEkQQb/1NY6mB35iTDcuPv1bNEnwHScAlYCvFLDCYMDZ++t0eF6/rMzMyc4FF0RR0SoVuwounGX11M4szoh3RXftuOy3vDI9ZCOF8jbT97D4X6ciA61LUnkdVyWEf34Ij4RW0Db41kM4bkxIFtBPDlmtQZbO1bWHvqAQwrXQNMyMLvI4vvIYNq5VTNizC13A5TkpSORe5/jj5CkAtooXA5imTHvp1y9r85mhWViDoY1neJAjncsWXTMTkl/HKDRcfV0pKRd6pFFC4miiE9RcYHCD8X4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN1PR12MB2560.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(39860400002)(376002)(136003)(346002)(396003)(36756003)(4326008)(86362001)(5660300002)(53546011)(52116002)(8676002)(31696002)(956004)(26005)(186003)(6486002)(478600001)(66946007)(66476007)(66556008)(44832011)(45080400002)(2616005)(316002)(31686004)(966005)(2906002)(8936002)(6916009)(16576012)(41533002)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: 2uOfmief3eIWFSiyp7TuirSAzNQaE/Nfm5iDpWjVMibqP8AeBjf4INlOX6f2GlG5Smv+Gor0kv8frYrK15tu+5dzn7jfofDeKL+DL9a4YuFX7lfoFiwfjEw/I36dEe3CEna/yCbTBPy5Q75fkjvS76uT+DU/yiAxdb0c/Bzc8KY/1HKfl9rxSW2+es5bfvbencH0CRglxwx4klkk7M4WBfYKGbSUVg4ZU7olRIA39tLzpG7gig9sMzDR1vFMYEelGR6WH3xx8jk9Ylh9ime4ZYOQhbyvdSXZpEHQX1B0J6yKisVla527pDu11608Ku8JhHyj99AX99RhiPevnVF3uTRUilL3sjf0HQuWuw06KOGujBzYySB8DjjtHSWaCQ/Lu3Xygeajou7Xj7ksg457AN9OuYKNKszLkykjRYDKv/4quAmpyS6oNtRDTsXc3138dSKC16YmMXvV2PbCuHHGELGYI7ic2qr8ZJ/qtNVSNTUwz0o+cF11VvhwdicJM54PVlo9Gd7RbnJEzkKPMA5A2lwgVYmdpzzP4LryQ7eUdio8/Ct8Wee31wLkrVUdmrKz6yHBOcFd+qqcNMXFt+/KCXdjfyvZjmK0Qv1b334Oj3/0p9/+biRjZ+Ep2BnFWdOJhie45eLbLLcnDkmkeS8UGQ==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7b13cdfe-c18b-4b57-4f00-08d84862c6fe
-X-MS-Exchange-CrossTenant-AuthSource: SN1PR12MB2560.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2020 19:20:36.0982 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /NpKMmz9Izt/aHRNfBmZkmviU1tYAhSnFpoN3wQiKYrLlY/l19//Pl9TeBCYgFie
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2670
-Received-SPF: none client-ip=40.107.220.56; envelope-from=Babu.Moger@amd.com;
- helo=NAM11-CO1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/24 15:50:41
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FORGED_SPF_HELO=1, MSGID_FROM_MTA_HEADER=0.001,
- NICE_REPLY_A=-2.25, RCVD_ILLEGAL_IP=1.3, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+In-Reply-To: <20200824192116.65562-2-Filip.Bozuta@syrmia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:RSNOzfO1QNRY+lDaUr7HhCpD/9fDSpgDr2rdFYTsGe7a/UOyHxs
+ uCuVYFDYiEM7/MEe1616jkevXcETtULgGqK8RSlBtq0x9MONEdOKJdQqGjyaWzS9rZpATCh
+ tQtESz+W5rQoQ4DkjRe/MCow9Jk2m+RiguvQn4/r4B6PJSXKS9VzUUZ7DMxq1Ce2CnEJ891
+ mE3PdduijCjUWvxBdUxSw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:5/pgF5PK8/8=:miWyi7q0wQUST3BVfT0ysm
+ jEAHKuRjaKl4lAjGPRoNMFbHC5aW9JcTjghc4kzE0LOb/asDJj/BMExe/J0+kiYUyvgkYr/4n
+ CJt2h2sgQSyjcSz8rA9M4KYVwFAzJeVN+v6jWvxVK5qe+4ojlNdMYKL3VYwjyEjvrmwALk+ab
+ QaRBCjvhNzSFjxGCT2vM/tgxnqng3fRtouFcTFyHHR4vurGgffPp6NwI8cGDOweFkxVd7B+du
+ 1pTV56AJN3+okRxsI7wFG4JrgRBi5vj7Q/WoYgPxUarRN2PzYL0nI+6ec5fciV62ZiqWUcnQc
+ +Amuc8Zp6IoCuEf+M/hx96/wqk7IwmhwLw5a8fpApmYtOAIlGXDgV4gmCtskqVw6D460Ry4RI
+ i91BmI2Tk44fGbT+/+i/g56LkA/kdycN+ha1cjNo1ZvBewro4YAwIuW+HqO8FPI+tJ0jM9xnF
+ 6WULf9GQW+s/qfb0XuYLO67hL2+gFeWpNWzMe3Jv7/V5VuTBIcY/VkJNljcEablGW8pfeHOd5
+ OZ5mqsP8SvQyJvjE+vTM08QS7ZtOnk0TQo0Td1GMuBajxTl7XKEp+CoisyqOOh099CyFHHNoe
+ iQVHH1aq36B0wTrq1gkDprA+w6qy/wIFfmKefo3Cfo5JpycqyHeve4kerJ0FWGGV+vNjhJtVa
+ +iCEG7KbngL/bFwEDfbeXseRmZ55Us+fbqo2rm/HtPDC8HiXQsAsWWM2UBxQKxSziZxnZ3inm
+ WLP1kI1ybLViROHGFTqdCBA3t2iBYcXrnAVef26FFiiwyYnFHGp3ZRWblhwuQT6kN8ZvtI/+S
+ sjhE7u3CjDAKBVEiwLHVF9/j8JSauFzJu+9FWSpyh0zFvtQ7SA+L47NrY87pRQrkS05pZ/m
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/24 15:35:44
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -118,32 +116,272 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
- imammedo@redhat.com, pbonzini@redhat.com, rth@twiddle.net
+Cc: Riku Voipio <riku.voipio@iki.fi>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Dave,
-
-On 8/24/20 1:41 PM, Dr. David Alan Gilbert wrote:
-> * Babu Moger (babu.moger@amd.com) wrote:
->> To support some of the complex topology, we introduced EPYC mode apicid decode.
->> But, EPYC mode decode is running into problems. Also it can become quite a
->> maintenance problem in the future. So, it was decided to remove that code and
->> use the generic decode which works for majority of the topology. Most of the
->> SPECed configuration would work just fine. With some non-SPECed user inputs,
->> it will create some sub-optimal configuration.
->> Here is the discussion thread.
->> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fqemu-devel%2Fc0bcc1a6-1d84-a6e7-e468-d5b437c1b254%40amd.com%2F&amp;data=02%7C01%7Cbabu.moger%40amd.com%7C74d90724af9c4adcc75008d8485d4d16%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637338912853492167&amp;sdata=GTsMKcpeYXAA0CvpLTirPHKdNSdlJE3RuPjCtSyWtGQ%3D&amp;reserved=0
->>
->> This series removes all the EPYC mode specific apicid changes and use the generic
->> apicid decode.
+Le 24/08/2020 à 21:21, Filip Bozuta a écrit :
+> This patch implements functionality for following time64 syscall:
 > 
-> Hi Babu,
->   This does simplify things a lot!
-> One worry, what happens about a live migration of a VM from an old qemu
-> that was using the node-id to a qemu with this new scheme?
+> *clock_nanosleep_time64()
+> 
+>     This is a year 2038 safe vairant of syscall:
+>     int clock_nanosleep(clockid_t clockid, int flags,
+>                         const struct timespec *request,
+>                         struct timespec *remain)
+>     --high-resolution sleep with specifiable clock--
+>     man page: https://man7.org/linux/man-pages/man2/clock_nanosleep.2.html
+> 
+> *clock_adjtime64()
+> 
+>     This is a year 2038 safe variant of syscall:
+>     int clock_adjtime(clockid_t clk_id, struct timex *buf)
+>     --tune kernel clock--
+>     man page: https://man7.org/linux/man-pages/man2/clock_adjtime.2.html
+> 
+> Implementation notes:
+> 
+>     Syscall 'clock_nanosleep_time64()' was implemented similarly
+>     to syscall 'clock_nanosleep()' except that 'host_to_target_timespec64()'
+>     and 'target_to_host_timespec64()' were used instead of the regular
+>     'host_to_target_timespec()' and 'target_to_host_timespec()'.
+> 
+>     For 'clock_adjtime64()' a 64-bit target kernel version of 'struct timex'
+>     was defined in 'syscall_defs.h': 'struct target__kernel_timex'.
+>     This type was used to convert the values of 64-bit timex type between
+>     host and target. For this purpose a 64-bit timex converting functions
+>     'target_to_host_timex64()' and 'host_to_target_timex64()'. An existing
+>     function 'copy_to_user_timeval64()' was used to convert the field
+>     'time' which if of type 'struct timeval' from host to target.
+>     Function 'copy_from_user_timveal64()' was added in this patch and
+>     used to convert the 'time' field from target to host.
+> 
+> Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
+> ---
+>  linux-user/syscall.c      | 137 +++++++++++++++++++++++++++++++++++++-
+>  linux-user/syscall_defs.h |  31 +++++++++
+>  2 files changed, 166 insertions(+), 2 deletions(-)
+> 
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 05f03919ff..a359bd8620 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -809,7 +809,8 @@ safe_syscall4(int, accept4, int, fd, struct sockaddr *, addr, socklen_t *, len,
+>  safe_syscall2(int, nanosleep, const struct timespec *, req,
+>                struct timespec *, rem)
+>  #endif
+> -#ifdef TARGET_NR_clock_nanosleep
+> +#if defined(TARGET_NR_clock_nanosleep) || \
+> +    defined(TARGET_NR_clock_nanosleep_time64)
+>  safe_syscall4(int, clock_nanosleep, const clockid_t, clock, int, flags,
+>                const struct timespec *, req, struct timespec *, rem)
+>  #endif
+> @@ -1205,8 +1206,25 @@ static inline abi_long copy_to_user_timeval(abi_ulong target_tv_addr,
+>      return 0;
+>  }
+>  
+> +static inline abi_long copy_from_user_timeval64(struct timeval *tv,
+> +                                                abi_ulong target_tv_addr)
+> +{
+> +    struct target__kernel_sock_timeval *target_tv;
+> +
+> +    if (!lock_user_struct(VERIFY_READ, target_tv, target_tv_addr, 1)) {
+> +        return -TARGET_EFAULT;
+> +    }
+> +
+> +    __get_user(tv->tv_sec, &target_tv->tv_sec);
+> +    __get_user(tv->tv_usec, &target_tv->tv_usec);
+> +
+> +    unlock_user_struct(target_tv, target_tv_addr, 0);
+> +
+> +    return 0;
+> +}
+> +
+>  static inline abi_long copy_to_user_timeval64(abi_ulong target_tv_addr,
+> -                                             const struct timeval *tv)
+> +                                              const struct timeval *tv)
+>  {
+>      struct target__kernel_sock_timeval *target_tv;
+>  
+> @@ -6771,6 +6789,87 @@ static inline abi_long host_to_target_timex(abi_long target_addr,
+>  }
+>  #endif
+>  
+> +
+> +#if defined(TARGET_NR_clock_adjtime64) && defined(CONFIG_CLOCK_ADJTIME)
+> +static inline abi_long target_to_host_timex64(struct timex *host_tx,
+> +                                              abi_long target_addr)
+> +{
+> +    struct target__kernel_timex *target_tx;
+> +
+> +    if (copy_from_user_timeval64(&host_tx->time, target_addr +
+> +                                 offsetof(struct target__kernel_timex,
+> +                                          time))) {
+> +        return -TARGET_EFAULT;
+> +    }
+> +
+> +    if (!lock_user_struct(VERIFY_READ, target_tx, target_addr, 1)) {
+> +        return -TARGET_EFAULT;
+> +    }
+> +
+> +    __get_user(host_tx->modes, &target_tx->modes);
+> +    __get_user(host_tx->offset, &target_tx->offset);
+> +    __get_user(host_tx->freq, &target_tx->freq);
+> +    __get_user(host_tx->maxerror, &target_tx->maxerror);
+> +    __get_user(host_tx->esterror, &target_tx->esterror);
+> +    __get_user(host_tx->status, &target_tx->status);
+> +    __get_user(host_tx->constant, &target_tx->constant);
+> +    __get_user(host_tx->precision, &target_tx->precision);
+> +    __get_user(host_tx->tolerance, &target_tx->tolerance);
+> +    __get_user(host_tx->tick, &target_tx->tick);
+> +    __get_user(host_tx->ppsfreq, &target_tx->ppsfreq);
+> +    __get_user(host_tx->jitter, &target_tx->jitter);
+> +    __get_user(host_tx->shift, &target_tx->shift);
+> +    __get_user(host_tx->stabil, &target_tx->stabil);
+> +    __get_user(host_tx->jitcnt, &target_tx->jitcnt);
+> +    __get_user(host_tx->calcnt, &target_tx->calcnt);
+> +    __get_user(host_tx->errcnt, &target_tx->errcnt);
+> +    __get_user(host_tx->stbcnt, &target_tx->stbcnt);
+> +    __get_user(host_tx->tai, &target_tx->tai);
+> +
+> +    unlock_user_struct(target_tx, target_addr, 0);
+> +    return 0;
+> +}
+> +
+> +static inline abi_long host_to_target_timex64(abi_long target_addr,
+> +                                              struct timex *host_tx)
+> +{
+> +    struct target__kernel_timex *target_tx;
+> +
+> +   if (copy_to_user_timeval64(target_addr +
+> +                              offsetof(struct target__kernel_timex, time),
+> +                              &host_tx->time)) {
+> +        return -TARGET_EFAULT;
+> +    }
+> +
+> +    if (!lock_user_struct(VERIFY_WRITE, target_tx, target_addr, 0)) {
+> +        return -TARGET_EFAULT;
+> +    }
+> +
+> +    __put_user(host_tx->modes, &target_tx->modes);
+> +    __put_user(host_tx->offset, &target_tx->offset);
+> +    __put_user(host_tx->freq, &target_tx->freq);
+> +    __put_user(host_tx->maxerror, &target_tx->maxerror);
+> +    __put_user(host_tx->esterror, &target_tx->esterror);
+> +    __put_user(host_tx->status, &target_tx->status);
+> +    __put_user(host_tx->constant, &target_tx->constant);
+> +    __put_user(host_tx->precision, &target_tx->precision);
+> +    __put_user(host_tx->tolerance, &target_tx->tolerance);
+> +    __put_user(host_tx->tick, &target_tx->tick);
+> +    __put_user(host_tx->ppsfreq, &target_tx->ppsfreq);
+> +    __put_user(host_tx->jitter, &target_tx->jitter);
+> +    __put_user(host_tx->shift, &target_tx->shift);
+> +    __put_user(host_tx->stabil, &target_tx->stabil);
+> +    __put_user(host_tx->jitcnt, &target_tx->jitcnt);
+> +    __put_user(host_tx->calcnt, &target_tx->calcnt);
+> +    __put_user(host_tx->errcnt, &target_tx->errcnt);
+> +    __put_user(host_tx->stbcnt, &target_tx->stbcnt);
+> +    __put_user(host_tx->tai, &target_tx->tai);
+> +
+> +    unlock_user_struct(target_tx, target_addr, 1);
+> +    return 0;
+> +}
+> +#endif
+> +
+>  static inline abi_long target_to_host_sigevent(struct sigevent *host_sevp,
+>                                                 abi_ulong target_addr)
+>  {
+> @@ -9726,6 +9825,21 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+>              }
+>          }
+>          return ret;
+> +#endif
+> +#if defined(TARGET_NR_clock_adjtime64) && defined(CONFIG_CLOCK_ADJTIME)
+> +    case TARGET_NR_clock_adjtime64:
+> +        {
+> +            struct timex htx;
+> +
+> +            if (target_to_host_timex64(&htx, arg2) != 0) {
+> +                return -TARGET_EFAULT;
+> +            }
+> +            ret = get_errno(clock_adjtime(arg1, &htx));
+> +            if (!is_error(ret) && host_to_target_timex64(arg2, &htx)) {
+> +                    return -TARGET_EFAULT;
+> +            }
+> +        }
+> +        return ret;
+>  #endif
+>      case TARGET_NR_getpgid:
+>          return get_errno(getpgid(arg1));
+> @@ -11684,6 +11798,25 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+>          return ret;
+>      }
+>  #endif
+> +#ifdef TARGET_NR_clock_nanosleep_time64
+> +    case TARGET_NR_clock_nanosleep_time64:
+> +    {
+> +        struct timespec ts;
+> +
+> +        if (target_to_host_timespec64(&ts, arg3)) {
+> +            return -TARGET_EFAULT;
+> +        }
+> +
+> +        ret = get_errno(safe_clock_nanosleep(arg1, arg2,
+> +                                             &ts, arg4 ? &ts : NULL));
+> +
+> +        if (ret == -TARGET_EINTR && arg4 && arg2 != TIMER_ABSTIME &&
+> +            host_to_target_timespec64(arg4, &ts)) {
+> +            return -TARGET_EFAULT;
+> +        }
+> +        return ret;
+> +    }
+> +#endif
+>  
+>  #if defined(TARGET_NR_set_tid_address) && defined(__NR_set_tid_address)
+>      case TARGET_NR_set_tid_address:
+> diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+> index 152ec637cb..3783c5a07e 100644
+> --- a/linux-user/syscall_defs.h
+> +++ b/linux-user/syscall_defs.h
+> @@ -287,6 +287,37 @@ struct target_timex {
+>      abi_int:32; abi_int:32; abi_int:32;
+>  };
+>  
+> +struct target__kernel_timex {
+> +    abi_uint modes;               /* Mode selector */
+> +    abi_int: 32;                  /* pad */
+> +    abi_llong offset;             /* Time offset */
+> +    abi_llong freq;               /* Frequency offset */
+> +    abi_llong maxerror;           /* Maximum error (microseconds) */
+> +    abi_llong esterror;           /* Estimated error (microseconds) */
+> +    abi_int status;               /* Clock command/status */
+> +    abi_int: 32;                  /* pad */
+> +    abi_llong constant;           /* PLL (phase-locked loop) time constant */
+> +    abi_llong precision;          /* Clock precision (microseconds, ro) */
+> +    abi_llong tolerance;          /* Clock freq. tolerance (ppm, ro) */
+> +    struct target__kernel_sock_timeval time;  /* Current time */
+> +    abi_llong tick;               /* Microseconds between clock ticks */
+> +    abi_llong ppsfreq;            /* PPS (pulse per second) frequency */
+> +    abi_llong jitter;             /* PPS jitter (ro); nanoseconds */
+> +    abi_int shift;                /* PPS interval duration (seconds) */
+> +    abi_int: 32;                  /* pad */
+> +    abi_llong stabil;             /* PPS stability */
+> +    abi_llong jitcnt;             /* PPS jitter limit exceeded (ro) */
+> +    abi_llong calcnt;             /* PPS calibration intervals */
+> +    abi_llong errcnt;             /* PPS calibration errors */
+> +    abi_llong stbcnt;             /* PPS stability limit exceeded */
+> +    abi_int tai;                  /* TAI offset */
+> +
+> +    /* Further padding bytes to allow for future expansion */
+> +    abi_int:32; abi_int:32; abi_int:32; abi_int:32;
+> +    abi_int:32; abi_int:32; abi_int:32; abi_int:32;
+> +    abi_int:32; abi_int:32; abi_int:32;
+> +};
+> +
+>  typedef abi_long target_clock_t;
+>  
+>  #define TARGET_HZ 100
+> 
 
-The node_id which we introduced was only used internally. This wasn't
-exposed outside. I don't think live migration will be an issue.
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
