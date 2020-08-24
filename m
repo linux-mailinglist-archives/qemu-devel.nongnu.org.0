@@ -2,60 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2AF6250BB7
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 00:34:00 +0200 (CEST)
-Received: from localhost ([::1]:46866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1089A250BC0
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 00:38:48 +0200 (CEST)
+Received: from localhost ([::1]:51294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAL2N-0007YB-Sn
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 18:33:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55638)
+	id 1kAL71-0001LQ-68
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 18:38:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kAL0K-0005Rc-5A; Mon, 24 Aug 2020 18:31:52 -0400
-Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:34958)
+ id 1kAL6K-0000tj-P7
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 18:38:04 -0400
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:40947)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kAL0I-0003cT-8k; Mon, 24 Aug 2020 18:31:51 -0400
-Received: by mail-il1-x142.google.com with SMTP id q14so8753976ilm.2;
- Mon, 24 Aug 2020 15:31:49 -0700 (PDT)
+ id 1kAL6J-00048D-9C
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 18:38:04 -0400
+Received: by mail-io1-xd41.google.com with SMTP id q132so29795iod.7
+ for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 15:38:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6jhFcywO6Y8wq+zavJ0ww+xgsP8QGx5ARX43YJfFEg8=;
- b=PWTVQjo8JS5hJJXTGXcruPf8jjMrKL75jlMnFZVN/YcqkzkEa3mu7MLCwsMOZsaQdy
- y6q0LEMTMdW6/ow9+qy7ildRTuNoXQQkGvTCNPc88rzbk+CImxAPNvvjSp5TZmDsqc8T
- exmXJmujwN7bftkIq6bUisEmdkdGE5ls0e4lnwps1ViNrgQS80C0Muxsh9eOEKf7EDj9
- 4PVhxxIn2zQocoLwqYr8z5rQGUjLMn6ATaCw9HZ8uxa05zjpziuPQgekBWHCVj7ZQlZs
- Xa9LbhGZ61p2GvyIlwPXQTkYxa2XaPuGzkuFCX1RPquSS5dTqRZdHtbosI1q09jPz2Dn
- qh+A==
+ :cc; bh=Bg6HztGPQ4U2EEDTCgO64MwmUpeg6+z8BBLeSVoC1eU=;
+ b=m6Nrxxt4DdfBmKCbNs/kbBUqQ4Jm1qJw6hD3Ef+3m96sa+ZAQp4LEkf0MxxqazvRTd
+ XIVnM6peb99Im2SK/el3Q1XBohIHeLluPwDgElGFrhby/bPaWlS7o3f2YDJa2+c3BIUe
+ kZxA5/Rjo/pX5QeAs+SlPiIP2f2AXrfymhfGfMA1BQZu02RPwskK9WtqlTxEF8lZwdbq
+ GG1H6PAbrw1Dwo+UCejZyHrM9SqbzoW9Fn7p83LtbadDa79J74KKgoEWVXgK4cT8ViJY
+ SkV+5zIib7nI0FZ5uq6v36e+orHLVZrgJ4fH/pmY4A8ag9qwYmrd1SLMlQB2gGLtuW9o
+ hTBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=6jhFcywO6Y8wq+zavJ0ww+xgsP8QGx5ARX43YJfFEg8=;
- b=S27ZY7d/br/HSspnKe865au7F3Z7rXJOMeRQSXEV02jrBzbb7pV6MLJL1X3F3Vxfos
- 0wyftO0FIRZmIT8ZeJLkekFOkiq4L1JWScFIGRc78UX9nvn0fslpM68igu8AbaVOfi0a
- 1kQojm4ffUFqApq/j9oJRo+U0y0cnrsecEEQqs5QcIXeliUnlnoLk5Y20LLhJ09ImRHs
- K347Xz5DfJ92MUytgk4CpPU6i2Oc2IWhC7pmN3tf3ayy7n2NxuJ7ArB9wm4jJDGmtaVT
- xoCaG6y+tNvSENKT2JWwaDXWWhMkovN24Pca9YAM+SKwWf2ommxBh3fb61b5gY/YREvA
- vwqQ==
-X-Gm-Message-State: AOAM530kFjt4wuufFJrSkvUk91AmGimBCiWhJ2J1G5ktoaPTZEwy52xr
- ZvCsTbZ9jZjavhwJ4bhxEwWwA8vbfooQjqmgQLQ=
-X-Google-Smtp-Source: ABdhPJyEACNJVMDcKBeMH7Zj81skXLWGqZdzLtGxwEFe5Gw+cqXXeRq3g/A0z80iKhYQsEC2baVIWFMf585ZqcmhUIA=
-X-Received: by 2002:a92:9117:: with SMTP id t23mr7220673ild.177.1598308308419; 
- Mon, 24 Aug 2020 15:31:48 -0700 (PDT)
+ bh=Bg6HztGPQ4U2EEDTCgO64MwmUpeg6+z8BBLeSVoC1eU=;
+ b=gEZgZhoQ05c/o/HbyM9I4LZO+CoqNEJAOuqEoVQvmoyL6mLVM5ZPxlvWrbx9/YIDjJ
+ gHOouco4zhK/OOAqMXXULQwuzptbSSrDOC/qVJk92zr0fL0tBbRHJ3BbkSasJLBHRWTR
+ R0olVGsH0YhXCoy5GBl9/Uq1c0YYtKm6IUbGbXaQVhlIP8eKET5X5FjPpqlpF4J/k9m2
+ Lm1fwgtGgg98FQdUv+6xNPHA4MvTlubjK+S1AYPXTIqT8KBw167cIeuk70QY2vHf3Zux
+ 5UJhfzI+KT0SuQgs1GRjSIrEzkRknmnKEn0IE8Bekoyzw2z6gp5x7eAuj8Fx0WCPpDvo
+ a4aA==
+X-Gm-Message-State: AOAM533ecONHktQnJqKrwsho0P+GsA/oJ0Dc7PUsYTEQcxquWkRTq3De
+ V4jzPfMie5EXkh7XRb2locyDCVcVYwSDeabzta0=
+X-Google-Smtp-Source: ABdhPJwSgRQ6U9sbp4n4a+G+haT8wLrvpptD/3xAuMYD0Hny/2z51hSRj6fUGIHx5aAKCtifZeoztpb0+fKyTtAQlXc=
+X-Received: by 2002:a05:6638:1690:: with SMTP id
+ f16mr7791484jat.91.1598308682229; 
+ Mon, 24 Aug 2020 15:38:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200824215936.2961951-1-ehabkost@redhat.com>
- <20200824215936.2961951-5-ehabkost@redhat.com>
-In-Reply-To: <20200824215936.2961951-5-ehabkost@redhat.com>
+References: <20200824074057.3673-1-kraxel@redhat.com>
+In-Reply-To: <20200824074057.3673-1-kraxel@redhat.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 24 Aug 2020 15:21:07 -0700
-Message-ID: <CAKmqyKMeO96oAoKWFqV-TtN8HGnnfGKaNu4j4gE4HWcFuxgZBA@mail.gmail.com>
-Subject: Re: [PATCH 4/6] xilinx_axienet: Use typedef name for instance_size
-To: Eduardo Habkost <ehabkost@redhat.com>
+Date: Mon, 24 Aug 2020 15:27:21 -0700
+Message-ID: <CAKmqyKPdXii7P0EYh+2t9nX_S8-b8DCOdFLiGxfrHQAbcmeO8Q@mail.gmail.com>
+Subject: Re: [PATCH] meson: drop keymaps symlink
+To: Gerd Hoffmann <kraxel@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::142;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x142.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd41.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -78,63 +80,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 24, 2020 at 3:02 PM Eduardo Habkost <ehabkost@redhat.com> wrote:
+On Mon, Aug 24, 2020 at 12:42 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
 >
-> This makes the code consistent with the rest of QOM code in QEMU,
-> and will make automated conversion to type declaration macros
-> simpler.
+> We are building the keymaps by default now.  Drop the keymaps symlink
+> so the generated files are actually written to the build tree not the
+> source tree.
 >
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
 > ---
-> Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-> Cc: Alistair Francis <alistair@alistair23.me>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: Jason Wang <jasowang@redhat.com>
-> Cc: qemu-arm@nongnu.org
-> Cc: qemu-devel@nongnu.org
-> ---
->  hw/net/xilinx_axienet.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  configure | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/hw/net/xilinx_axienet.c b/hw/net/xilinx_axienet.c
-> index 1e48eb70c9..ceb4652938 100644
-> --- a/hw/net/xilinx_axienet.c
-> +++ b/hw/net/xilinx_axienet.c
-> @@ -1069,7 +1069,7 @@ static const TypeInfo xilinx_enet_info = {
->  static const TypeInfo xilinx_enet_data_stream_info = {
->      .name          = TYPE_XILINX_AXI_ENET_DATA_STREAM,
->      .parent        = TYPE_OBJECT,
-> -    .instance_size = sizeof(struct XilinxAXIEnetStreamSlave),
-> +    .instance_size = sizeof(XilinxAXIEnetStreamSlave),
->      .class_init    = xilinx_enet_data_stream_class_init,
->      .interfaces = (InterfaceInfo[]) {
->              { TYPE_STREAM_SLAVE },
-> @@ -1080,7 +1080,7 @@ static const TypeInfo xilinx_enet_data_stream_info = {
->  static const TypeInfo xilinx_enet_control_stream_info = {
->      .name          = TYPE_XILINX_AXI_ENET_CONTROL_STREAM,
->      .parent        = TYPE_OBJECT,
-> -    .instance_size = sizeof(struct XilinxAXIEnetStreamSlave),
-> +    .instance_size = sizeof(XilinxAXIEnetStreamSlave),
->      .class_init    = xilinx_enet_control_stream_class_init,
->      .interfaces = (InterfaceInfo[]) {
->              { TYPE_STREAM_SLAVE },
+> diff --git a/configure b/configure
+> index 67832e3bab76..428fa33be140 100755
+> --- a/configure
+> +++ b/configure
+> @@ -8119,7 +8119,7 @@ DIRS="$DIRS roms/seabios"
+>  LINKS="Makefile"
+>  LINKS="$LINKS tests/tcg/lm32/Makefile"
+>  LINKS="$LINKS tests/tcg/Makefile.target"
+> -LINKS="$LINKS pc-bios/optionrom/Makefile pc-bios/keymaps"
+> +LINKS="$LINKS pc-bios/optionrom/Makefile"
+>  LINKS="$LINKS pc-bios/s390-ccw/Makefile"
+>  LINKS="$LINKS roms/seabios/Makefile"
+>  LINKS="$LINKS pc-bios/qemu-icon.bmp"
 > --
-> 2.26.2
+> 2.27.0
 >
 >
 
