@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EDD824F6D7
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 11:06:20 +0200 (CEST)
-Received: from localhost ([::1]:49418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F4B724F71D
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 11:08:42 +0200 (CEST)
+Received: from localhost ([::1]:35384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kA8Ql-00041s-Ee
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 05:06:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35888)
+	id 1kA8T3-0001WV-Nt
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 05:08:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kA8OB-0007Jz-3e
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 05:03:39 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:4264 helo=huawei.com)
+ id 1kA8OG-0007XE-Ae
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 05:03:44 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:42090 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kA8O8-0007kh-Gp
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 05:03:38 -0400
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 9AEBB9B00A008CACAAF7;
+ id 1kA8OD-0007lk-5w
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 05:03:43 -0400
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 69D3FC0754952EF5D928;
  Mon, 24 Aug 2020 17:03:31 +0800 (CST)
 Received: from huawei.com (10.175.101.6) by DGGEMS401-HUB.china.huawei.com
  (10.3.19.201) with Microsoft SMTP Server id 14.3.487.0; Mon, 24 Aug 2020
- 17:03:22 +0800
+ 17:03:23 +0800
 From: Chuan Zheng <zhengchuan@huawei.com>
 To: <quintela@redhat.com>, <eblake@redhat.com>, <dgilbert@redhat.com>,
  <berrange@redhat.com>
-Subject: [PATCH v5 11/12] migration/dirtyrate: Implement
- qmp_cal_dirty_rate()/qmp_get_dirty_rate() function
-Date: Mon, 24 Aug 2020 17:14:39 +0800
-Message-ID: <1598260480-64862-12-git-send-email-zhengchuan@huawei.com>
+Subject: [PATCH v5 12/12] migration/dirtyrate: Add trace_calls to make it
+ easier to debug
+Date: Mon, 24 Aug 2020 17:14:40 +0800
+Message-ID: <1598260480-64862-13-git-send-email-zhengchuan@huawei.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1598260480-64862-1-git-send-email-zhengchuan@huawei.com>
 References: <1598260480-64862-1-git-send-email-zhengchuan@huawei.com>
@@ -39,9 +39,9 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.175.101.6]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191;
- envelope-from=zhengchuan@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/24 05:03:32
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=zhengchuan@huawei.com;
+ helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/24 05:03:27
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -67,126 +67,90 @@ Cc: zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement qmp_cal_dirty_rate()/qmp_get_dirty_rate() function which could be called
+Add trace_calls to  make it easier to debug
 
 Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
 ---
- migration/dirtyrate.c | 45 +++++++++++++++++++++++++++++++++++++++++++++
- qapi/migration.json   | 44 ++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 89 insertions(+)
+ migration/dirtyrate.c  | 7 +++++++
+ migration/trace-events | 8 ++++++++
+ 2 files changed, 15 insertions(+)
 
 diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index 9f52f5f..08c46d3 100644
+index 08c46d3..3513ef3 100644
 --- a/migration/dirtyrate.c
 +++ b/migration/dirtyrate.c
-@@ -62,6 +62,28 @@ static int dirtyrate_set_state(int *state, int old_state, int new_state)
-     }
+@@ -23,6 +23,7 @@
+ #include "qapi/qapi-commands-migration.h"
+ #include "migration.h"
+ #include "ram.h"
++#include "trace.h"
+ #include "dirtyrate.h"
+ 
+ static int CalculatingState = DIRTY_RATE_STATUS_UNSTARTED;
+@@ -55,6 +56,7 @@ static int64_t get_sample_page_period(int64_t sec)
+ static int dirtyrate_set_state(int *state, int old_state, int new_state)
+ {
+     assert(new_state < DIRTY_RATE_STATUS__MAX);
++    trace_dirtyrate_set_state(DirtyRateStatus_str(new_state));
+     if (atomic_cmpxchg(state, old_state, new_state) == old_state) {
+         return 0;
+     } else {
+@@ -78,6 +80,7 @@ static struct DirtyRateInfo *query_dirty_rate_info(void)
+      * Only support query once for each calculation,
+      * reset as DIRTY_RATE_STATUS_UNSTARTED after query
+      */
++    trace_query_dirty_rate_info(DirtyRateStatus_str(CalculatingState));
+     (void)dirtyrate_set_state(&CalculatingState, CalculatingState,
+                               DIRTY_RATE_STATUS_UNSTARTED);
+ 
+@@ -129,6 +132,7 @@ static uint32_t get_ramblock_vfn_hash(struct RamblockDirtyInfo *info,
+ 
+     crc = crc32(0, iov_array.iov_base, iov_array.iov_len);
+ 
++    trace_get_ramblock_vfn_hash(info->idstr, vfn, crc);
+     return crc;
  }
  
-+static struct DirtyRateInfo *query_dirty_rate_info(void)
-+{
-+    int64_t dirty_rate = DirtyStat.dirty_rate;
-+    struct DirtyRateInfo *info = g_malloc0(sizeof(DirtyRateInfo));
+@@ -246,6 +250,7 @@ static int skip_sample_ramblock(RAMBlock *block)
+      * want to sample.
+      */
+     if (ramblock_size < MIN_RAMBLOCK_SIZE) {
++        trace_skip_sample_ramblock(block->idstr, ramblock_size);
+         return -1;
+     }
+ 
+@@ -292,6 +297,7 @@ static int calc_page_dirty_rate(struct RamblockDirtyInfo *info)
+     for (i = 0; i < info->sample_pages_count; i++) {
+         crc = get_ramblock_vfn_hash(info, info->sample_page_vfn[i]);
+         if (crc != info->hash_result[i]) {
++            trace_calc_page_dirty_rate(info->idstr, crc, info->hash_result[i]);
+             info->sample_dirty_count++;
+         }
+     }
+@@ -317,6 +323,7 @@ static bool find_page_matched(RAMBlock *block, struct RamblockDirtyInfo *infos,
+     if (infos[i].ramblock_addr != qemu_ram_get_host_addr(block) ||
+         infos[i].ramblock_pages !=
+             (qemu_ram_get_used_length(block) >> DIRTYRATE_PAGE_SHIFT_KB)) {
++        trace_find_page_matched(block->idstr);
+         return false;
+     }
+ 
+diff --git a/migration/trace-events b/migration/trace-events
+index 4ab0a50..34569b9 100644
+--- a/migration/trace-events
++++ b/migration/trace-events
+@@ -312,3 +312,11 @@ dirty_bitmap_load_bits_zeroes(void) ""
+ dirty_bitmap_load_header(uint32_t flags) "flags 0x%x"
+ dirty_bitmap_load_enter(void) ""
+ dirty_bitmap_load_success(void) ""
 +
-+    if (CalculatingState == DIRTY_RATE_STATUS_MEASURED) {
-+        info->dirty_rate = dirty_rate;
-+    } else {
-+        info->dirty_rate = -1;
-+    }
-+
-+    info->status = CalculatingState;
-+    /*
-+     * Only support query once for each calculation,
-+     * reset as DIRTY_RATE_STATUS_UNSTARTED after query
-+     */
-+    (void)dirtyrate_set_state(&CalculatingState, CalculatingState,
-+                              DIRTY_RATE_STATUS_UNSTARTED);
-+
-+    return info;
-+}
-+
- static void reset_dirtyrate_stat(void)
- {
-     DirtyStat.total_dirty_samples = 0;
-@@ -378,3 +400,26 @@ void *get_dirtyrate_thread(void *arg)
-                               DIRTY_RATE_STATUS_MEASURED);
-     return NULL;
- }
-+
-+void qmp_calc_dirty_rate(int64_t calc_time, Error **errp)
-+{
-+    static struct DirtyRateConfig config;
-+    QemuThread thread;
-+
-+    /*
-+     * We don't begin calculating thread only when it's in calculating status.
-+     */
-+    if (CalculatingState == DIRTY_RATE_STATUS_MEASURING) {
-+        return;
-+    }
-+
-+    config.sample_period_seconds = get_sample_page_period(calc_time);
-+    config.sample_pages_per_gigabytes = DIRTYRATE_DEFAULT_SAMPLE_PAGES;
-+    qemu_thread_create(&thread, "get_dirtyrate", get_dirtyrate_thread,
-+                       (void *)&config, QEMU_THREAD_DETACHED);
-+}
-+
-+struct DirtyRateInfo *qmp_query_dirty_rate(Error **errp)
-+{
-+    return query_dirty_rate_info();
-+}
-diff --git a/qapi/migration.json b/qapi/migration.json
-index d640165..826bfd7 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1737,3 +1737,47 @@
- ##
- { 'enum': 'DirtyRateStatus',
-   'data': [ 'unstarted', 'measuring', 'measured'] }
-+
-+##
-+# @DirtyRateInfo:
-+#
-+# Information about current dirty page rate of vm.
-+#
-+# @dirty-rate: @dirtyrate describing the dirty page rate of vm
-+#          in units of MB/s.
-+#          If this field return '-1', it means querying is not
-+#          start or not complete.
-+#
-+# @status: status containing dirtyrate query status includes
-+#          'unstarted' or 'measuring' or 'measured'
-+#
-+# Since: 5.2
-+#
-+##
-+{ 'struct': 'DirtyRateInfo',
-+  'data': {'dirty-rate': 'int64',
-+           'status': 'DirtyRateStatus'} }
-+
-+##
-+# @calc-dirty-rate:
-+#
-+# start calculating dirty page rate for vm
-+#
-+# @calc-time: time in units of second for sample dirty pages
-+#
-+# Since: 5.2
-+#
-+# Example:
-+#   {"command": "cal-dirty-rate", "data": {"calc-time": 1} }
-+#
-+##
-+{ 'command': 'calc-dirty-rate', 'data': {'calc-time': 'int64'} }
-+
-+##
-+# @query-dirty-rate:
-+#
-+# query dirty page rate in units of MB/s for vm
-+#
-+# Since: 5.2
-+##
-+{ 'command': 'query-dirty-rate', 'returns': 'DirtyRateInfo' }
++# dirtyrate.c
++dirtyrate_set_state(const char *new_state) "new state %s"
++query_dirty_rate_info(const char *new_state) "current state %s"
++get_ramblock_vfn_hash(const char *idstr, uint64_t vfn, uint32_t crc) "ramblock name: %s, vfn: %"PRIu64 ", crc: %" PRIu32
++calc_page_dirty_rate(const char *idstr, uint32_t new_crc, uint32_t old_crc) "ramblock name: %s, new crc: %" PRIu32 ", old crc: %" PRIu32
++skip_sample_ramblock(const char *idstr, int64_t ramblock_size) "ramblock name: %s, ramblock size: %" PRIu64
++find_page_matched(const char *idstr) "ramblock %s addr or size changed"
 -- 
 1.8.3.1
 
