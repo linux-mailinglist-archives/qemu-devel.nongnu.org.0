@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B955C2503C6
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 18:50:58 +0200 (CEST)
-Received: from localhost ([::1]:40504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D0162503AB
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 18:49:11 +0200 (CEST)
+Received: from localhost ([::1]:34844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAFgP-0001WS-RI
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 12:50:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60256)
+	id 1kAFeg-0007TN-Hp
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 12:49:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kAFct-0005gh-Ps
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 12:47:20 -0400
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:41226)
+ id 1kAFdJ-0006AF-Ma
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 12:47:45 -0400
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:42609)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kAFcr-0000bd-Fq
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 12:47:19 -0400
-Received: by mail-ej1-x642.google.com with SMTP id b17so4487091ejq.8
- for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 09:47:17 -0700 (PDT)
+ id 1kAFdI-0000fS-7v
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 12:47:45 -0400
+Received: by mail-ed1-x541.google.com with SMTP id l63so5632239edl.9
+ for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 09:47:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=we7DWTsKaJs7xxQL4V3SZR8A6LK1d7yE7UlOoARrjjM=;
- b=yUcIXtQQt0K5HWmnRknpyi/ibzcmi0m4DcsouOriTS7bpF0Vt75afCtomLAHYrB0bO
- /BtyQVEZVKp4pC1oN5i0V8v1pD0eqeB5g2KE5a4AIdYgv2SVnC9A/SqXKD4c52CJtZl0
- X9s5yfYvSLKu/YC/k7osVJTVbEldFSyGCvhHN/tIhUUYVdYcX8phws/bq2stzXfsPd01
- 0pXvEONER+WIQEswRqQ4fL0u5CQWyPTRq2qV8h2frA5YChd+zXJsDdXjcPvbDcgFpuKg
- IvdGonuxOOzXupQClSS51rQcn0cWW8QjEstCir/zGSnWpF2I6zqsj+OZD+EkqafJVfOD
- kM2w==
+ :cc; bh=UrEu2309xWRZ6m60JKiwr/6CMxca/bepa4oix3KKf10=;
+ b=M2NjUxeJfkuaYdjJ8ur22eV6gnhurul8gUNrfGgBGCrg/HzY1u/be0UZiDDrnH9b3S
+ MiIRFjwY+xiuJbstdtqCbuZjE4Lk0y24nLaPb+e6/GasWoDNvfNlnCHd67+7CE3nmsBR
+ Uvx6bnxYE69po7HGkMKbNmnTZbooOGhYxJihvyDOXEJXO5ATv4j9Kd82cI1OZyMr5RnE
+ yjtVS6ovsUnUKpNBuvk71UCGeIEyPGxvmY614c2CVcYWqSQxyOUnnqQDxK09coMIRofb
+ juBCm/th27sclg2q/+ezMvTCBKOQQm5oouXtBZtIhoysW4bun+a+5qYqaxFeIZPpPkzU
+ teeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=we7DWTsKaJs7xxQL4V3SZR8A6LK1d7yE7UlOoARrjjM=;
- b=lO8ZgANa9Es9IvKB1nKoXjr6eM/Q+umHBXE5KaXc4/asXrsM9qp4dezBzgQFVrTMwH
- CVUh18FJ9KCRqIZBgiVEYA5R+C+LotZCD1tKBzPa+YqzkroY+Ub7Fhj/by74zrig5GSQ
- xImmmy+i99dxVHIazOpxilg19wemhodNj6UiszdZ/h/uty0IWqJWUy9RcDfT2+cueGHD
- SRSUkggDJXkEfVCQwYOpFIyILrAXBNP0yC8oIsTahfd3lCX4F19b1nIVYwznXAuHm4nJ
- sbTTHiPX1HlRHkZk1hU+VoT7gCDXpRM5gdUH4NTn1Gwd1HLy0/MuYzBpm5DwcW8t3edU
- PU8A==
-X-Gm-Message-State: AOAM530Du8DMcU0Qu8SYSppqsOaYkpUhXBiyxRw9jIG4Rl01MFrT/lkq
- Llw6O0iiS2Ga9rRHD60eziE2TOQY7+SVMtfbt5OgpQ==
-X-Google-Smtp-Source: ABdhPJy6QNT7jSpHoDcZD+asateZ+41gd1kQO0WeWWWBvpyELOHT1gNxBK8HPepXb7Zaajf/qKA/QSulQXwJUp1GZrA=
-X-Received: by 2002:a17:906:b248:: with SMTP id
- ce8mr6203960ejb.85.1598287636074; 
- Mon, 24 Aug 2020 09:47:16 -0700 (PDT)
+ bh=UrEu2309xWRZ6m60JKiwr/6CMxca/bepa4oix3KKf10=;
+ b=eS/bwYsSEhstyTAToZ3FQWNW8/SGJGRvueOUDUAm00q90F+NdOhxROM4yS+4QDiIsn
+ NZk65g32j2COTYxaJCw+tsW3vnbWfpgH28DD2Ip0+5D0pwgJshcr8ZEZ8SfULHr7WXhf
+ kHU/wXW3/kS9aXVlLo+/lTB8jN0rTaXzqzvbTGu5jCrsfhLfOFCDQ2kn3xjSJ3u78nwN
+ AC5W0sw+Bgv+LgNqhfZd6scLKQp1ysOSrUftPwOGTvrrmPAPSIAWj5nnrszdWyNklN7n
+ EH1Pkt2yuZuEU5GIsAhPvshIv8a8MQnRQjPc+DmeBRDp4ILScIEb6zI+QMIJq3lLrOhe
+ TQRg==
+X-Gm-Message-State: AOAM53062ZW0g1KFz7qngLOIOIyKWjcW/16ClBlC/FCvlMZFFXW++pcx
+ c+XgC8dsy2lACekuY7OACgW1p19vSIP6pDPEQXUs1w==
+X-Google-Smtp-Source: ABdhPJzbCDoV2wNsQktMO9+f1j6Dv8Ue5w4oBz9UvquA67yQOYXn92pB1VGaZyvhx2jDzXPGUyEE9EuGRzd9o89g8kk=
+X-Received: by 2002:aa7:de0e:: with SMTP id h14mr6075268edv.146.1598287662719; 
+ Mon, 24 Aug 2020 09:47:42 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200815013145.539409-1-richard.henderson@linaro.org>
- <20200815013145.539409-12-richard.henderson@linaro.org>
-In-Reply-To: <20200815013145.539409-12-richard.henderson@linaro.org>
+ <20200815013145.539409-13-richard.henderson@linaro.org>
+In-Reply-To: <20200815013145.539409-13-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 24 Aug 2020 17:47:05 +0100
-Message-ID: <CAFEAcA8zaJdadCqOZY_3Bdf_vvEykpgakTHnx6q58NhJVT0crg@mail.gmail.com>
-Subject: Re: [PATCH 11/20] target/arm: Split out gen_gvec_ool_zzz
+Date: Mon, 24 Aug 2020 17:47:31 +0100
+Message-ID: <CAFEAcA-6u5WdPJFBu7+MGt2FMF8C-nkBMjuU6ct4HMNdMbsRBw@mail.gmail.com>
+Subject: Re: [PATCH 12/20] target/arm: Split out gen_gvec_ool_zz
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::541;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,8 +88,9 @@ On Sat, 15 Aug 2020 at 02:32, Richard Henderson
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/arm/translate-sve.c | 53 +++++++++++++-------------------------
->  1 file changed, 18 insertions(+), 35 deletions(-)
+>  target/arm/translate-sve.c | 20 ++++++++++++--------
+>  1 file changed, 12 insertions(+), 8 deletions(-)
+
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
