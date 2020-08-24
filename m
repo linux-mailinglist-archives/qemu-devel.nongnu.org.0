@@ -2,29 +2,27 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B14BD250545
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 19:13:52 +0200 (CEST)
-Received: from localhost ([::1]:48316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53DD32505D0
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 19:21:57 +0200 (CEST)
+Received: from localhost ([::1]:55138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAG2Z-0000y7-Gv
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 13:13:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38846)
+	id 1kAGAN-0004cx-Tw
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 13:21:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kAG1m-00009A-34
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 13:13:02 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:45953)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kAG9N-0004Au-U1
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 13:20:53 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:58597)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kAG1j-0004pE-Dt
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 13:13:01 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kAG9L-00063f-OC
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 13:20:53 -0400
 Received: from [192.168.100.1] ([82.252.135.186]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MkEdF-1ku1301Q5J-00kgn1; Mon, 24 Aug 2020 19:12:55 +0200
-Subject: Re: [PATCH 1/2] linux-user: Add support for 'ppoll_time64()' and
- 'pselect6_time64()'
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1Mati7-1kkhYf0WOx-00cURv; Mon, 24 Aug 2020 19:20:42 +0200
 To: Filip Bozuta <Filip.Bozuta@syrmia.com>, qemu-devel@nongnu.org
 References: <20200812135703.39404-1-Filip.Bozuta@syrmia.com>
- <20200812135703.39404-2-Filip.Bozuta@syrmia.com>
+ <20200812135703.39404-3-Filip.Bozuta@syrmia.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -68,35 +66,37 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <df9fe823-26e9-c0a4-bf0d-c117dfe06e67@vivier.eu>
-Date: Mon, 24 Aug 2020 19:12:54 +0200
+Subject: Re: [PATCH 2/2] linux-user: Add support for 'utimensat_time64()' and
+ 'semtimedop_time64()'
+Message-ID: <09ef09fe-dd22-4b54-95a9-52f300b8eb4a@vivier.eu>
+Date: Mon, 24 Aug 2020 19:20:41 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200812135703.39404-2-Filip.Bozuta@syrmia.com>
+In-Reply-To: <20200812135703.39404-3-Filip.Bozuta@syrmia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:LWwLaADpdDM9Jz8nfYaKHBIyGYP775PLuGHHKl5VC3oUsRpTGy8
- gZtEHeuoYOu2SJiztm6Re28KrNrACCyw+cf6aXSdVi0fH0mA9K+NmA75LLWjtbeYxYkBiNH
- Bvfrt81xu4U0Sv0lmTMaOygyb+iTrmA1mhOjYYR7Oabma8cgU+o/1zuTNg31rvYquSKjDws
- RILNcPnj+mss+9BpyYm8w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+jD8oYVE+VA=:e3eGx4eQTg/xDvGDmj5Mxo
- 1jIR9SDSOPOLyVOZo3d1hrh04daf00+Woy4jmi7jE/Yu5GKL4Opmjf500UAmZKNl8JHhtx+13
- qjozczn+ZXfenIr+v00XLsDGE7zQTNo/4LxjXsH32rzr14CJFjgiJzFslPY/kjyVM3S+kFdwT
- uxVpDr6eJn5XaAa5GK+gXLyj/eaeazzXWJy9LtvC4NGTzgygonovvP7HkTYlhHa4+KaDOtrkr
- WevO7OWpOfqhZwp7ksjgxrgByEYXGKHzMggTxZSjTLgU7UTLKNfroIA9T3j7wMs7gA+smKfpm
- puempyQNTimrTVbTAWWn0pRiEdol3wH95wQmGQ+3lqn3tNRL+9JeBKnQAGocQ5/xuYCjZyhab
- ugrFaPB2F/ko4EZjK7IYAcao+Vc114rMbcABk6qQVAflma9codb/zGd/fL7H1BriAJ9mZwiwH
- aa6/D6+sR7id3l0YIROW2ua1844xy+cCZUvrO7w59NNpOqLva/IrGWreSQnXUVPwFXmpJjVFX
- sfR/j83xvbZw3VKcvVfljh55q8XC6hnkj79gwhEn4Mx7at8AHv8bt3Roc2S7dRAUnU3ha5NG0
- gZHCWhBxCupQvBAMFU1Yg79MzrG/fjMxBNdIMIzt12KslVf6CBXFgKjylAnv8WXiprZlJ+VCl
- boK9ycsu+nkrhrifYbLcKpEiJ5Ymih/O+dzV9iOM/snjRon3ZJDFPTTuHLM3/yzjuqWChJu1o
- EeVFg8fA2PSSQLvEBvEBqL9Kz4wKdX/wSnQf2yUN0tpEd+j0rBTtN3aFvRcK2PDXBnz27A9zT
- c9MYbrf8IXRYs2EgKR77E8UWc50S7lvzZJSc0fCtzcxW4sAXRWRyCQHpTBynDYDFLxds3ug
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:q23KCc7++VIKqgmsf/uLwKyVAs70IA8Y81LEN+AxpN/+MaMbpcH
+ k1lLmyDXuC5BA5GIG8boFQAF01gJ3WM0PNflfLHYTdsP4nMqVSfCkpIwzpQYTep371kAVJ9
+ zwNInOlmGENULRb++4q3esbYmV+04/EjZtX/cbnuVOOZD3Yio6dLDVrbLpitNm1CRoR/6Ok
+ TLa3r3cCLVJu07PkaFIew==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:k+S5mrr6tSQ=:+3SRqYL7idOafcZ1+Jn2pk
+ P+GC9TOqltXgMxdeynUbKoshNHFJPSfp31HxlNnntVAgb06nNQX/UsZUv2deloTWRMLxiOv+A
+ DMcXWhDFHv8VBfs5KmaCf6NfMh5k0rr0Gf3CCxH5s+ZzrQEgnwGl3GB6A/UzTLg5qEEyZR+Y+
+ 2Qv4erQyzI7Z5vepECtjAG6EndhSFUcUkn8eBbU1qxMUK2cGSVWSbSS8MXHmd/ObMTji5vV4j
+ MWBaio5Ghe9nVT6DpFmhE1xLiisW4v40tqk0a8WJ17jlnxt4ThtK0QZRcGpHc0yvLMZElFNmp
+ vvlc5jXd8jzH2NzLBkdoHQ1ZYZVYf6tcJBIDIGkJVVHmSirgl9NikbTg71rmZzRY9jGW3HPSR
+ BK78uYRSF9GqRvbYEXwsF1eaoEekG/YF/+6paStmuYLGOiEmGlESDbS5pBAVjt9jrII6kDETm
+ oBB24DYwNxKBwgni3jVu4RR+Puc40PhRAot3YakmD3hb180DlHrI33+v+DkE2AKz+yFGxI5gt
+ Ah+dib6ar+z3sJSZbedZepwugI4BEAoDBE5XcQv4+pbgHXOLUGrHTQZ7owCbAsz9Xe30BCEZh
+ fkRpE5oJznc1jB7nIa0jt9a7as4wLWNSDYhSUyx88pbW7UvcEIw84Sc2ayQc85IPtuivSraod
+ qwdNqzpyZJSaxnBpg+5QnnmtUcQ0IHpYQ9DoMtWfPwJsOLKFSW7IvH5JlNIDjB/fzztCVSqSO
+ qZHD3C3UNARUMor1L9MJMBllye+nsPi3zLsXD3L8MMda3SSF91F9XGLI876YvYiOAcWuX/zYP
+ 202xN96z966sgdCe7ipfj9LeaK3nNjQfQSAskdBrPB+0iwka+5F8kvpjWCDzSehfyMOhCD/
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/24 11:24:39
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/24 12:40:59
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -122,44 +122,100 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Le 12/08/2020 à 15:57, Filip Bozuta a écrit :
 > This patch introduces functionality for following time64 syscalls:
 > 
-> *ppoll_time64
+> *utimensat_time64()
 > 
->     This is a year 2038 safe variant of:
+>     int utimensat(int dirfd, const char *pathname,
+>                   const struct timespec times[2], int flags);
+>     -- change file timestamps with nanosecond precision --
+>     man page: https://man7.org/linux/man-pages/man2/utimensat.2.html
 > 
->     int poll(struct pollfd *fds, nfds_t nfds, int timeout)
->     -- wait for some event on a file descriptor --
->     man page: https://man7.org/linux/man-pages/man2/ppoll.2.html
+> *semtimedop_time64()
 > 
-> *pselect6_time64
-> 
->     This is a year 2038 safe variant of:
-> 
->     int pselect6(int nfds, fd_set *readfds, fd_set *writefds,
->                  fd_set *exceptfds, const struct timespec *timeout,
->                  const sigset_t *sigmask);
->     -- synchronous I/O multiplexing --
->     man page: https://man7.org/linux/man-pages/man2/pselect6.2.html
+>     int semtimedop(int semid, struct sembuf *sops, size_t nsops,
+>                    const struct timespec *timeout);
+>     -- System V semaphore operations --
+>     man page: https://www.man7.org/linux/man-pages/man2/semtimedop.2.html
 > 
 > Implementation notes:
 > 
->     Year 2038 safe syscalls in this patch were implemented
->     with the same code as their regular variants (ppoll() and pselect()).
->     A switch/case statement was used to call an apropriate converting
->     function for 'struct timespec' between target and host.
->     (target_to_host/host_to_target_timespec() for regular and
->      target_to_host/host_to_target_timespec64() for time64 variants)
+>    Syscall 'utimensat_time64()' is implemented in similar way as its
+>    regular variants only difference being that time64 converting function
+>    is used to convert values of 'struct timespec' between host and target
+>    ('target_to_host_timespec64()').
+> 
+>    For syscall 'semtimedop_time64()' and additional argument is added
+>    in function 'do_semtimedop()' through which the aproppriate 'struct timespec'
+>    converting function is called (0 for regular target_to_host_timespec()
+>    and anything else for target_to_host_timespec64()). For 'do_ipc()' an
+>    check was added as that additional argument: 'TARGET_ABI_BITS == 64'.
 > 
 > Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
 > ---
->  linux-user/syscall.c | 101 ++++++++++++++++++++++++++++++++++++-------
->  1 file changed, 86 insertions(+), 15 deletions(-)
+>  linux-user/syscall.c | 55 ++++++++++++++++++++++++++++++++++++--------
+>  1 file changed, 46 insertions(+), 9 deletions(-)
 > 
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 8f63a46f58..44a13c5ec2 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -1253,7 +1253,8 @@ static inline abi_long target_to_host_timespec(struct timespec *host_ts,
+>  #endif
+>  
+>  #if defined(TARGET_NR_clock_settime64) || defined(TARGET_NR_futex_time64) || \
+> -    defined(TARGET_NR_pselect6_time64) || defined(TARGET_NR_ppoll_time64)
+> +    defined(TARGET_NR_pselect6_time64) || defined(TARGET_NR_ppoll_time64) || \
+> +    defined(TARGET_NR_utimensat_time64) || defined(TARGET_NR_semtimedop_time64)
+>  static inline abi_long target_to_host_timespec64(struct timespec *host_ts,
+>                                                   abi_ulong target_addr)
+>  {
+> @@ -3886,7 +3887,7 @@ static inline abi_long target_to_host_sembuf(struct sembuf *host_sembuf,
+>  }
+>  
+>  #if defined(TARGET_NR_ipc) || defined(TARGET_NR_semop) || \
+> -    defined(TARGET_NR_semtimedop)
+> +    defined(TARGET_NR_semtimedop) || defined(TARGET_NR_semtimedop_time64)
+>  
+>  /*
+>   * This macro is required to handle the s390 variants, which passes the
+> @@ -3903,7 +3904,7 @@ static inline abi_long target_to_host_sembuf(struct sembuf *host_sembuf,
+>  static inline abi_long do_semtimedop(int semid,
+>                                       abi_long ptr,
+>                                       unsigned nsops,
+> -                                     abi_long timeout)
+> +                                     abi_long timeout, int time64)
 
-I think it would be cleaner if you move the code to new functions,
-do_ppoll() and do_pselect6() first, and then you introduce a new
-parameter "bool time64" to implement the time64 variant (rather than a
-switch()) as you do in PATCH 2.
+"bool time64" would be cleaner
 
-Thanks,
-Laurent
+>  {
+>      struct sembuf sops[nsops];
+>      struct timespec ts, *pts = NULL;
+> @@ -3911,7 +3912,10 @@ static inline abi_long do_semtimedop(int semid,
+>  
+>      if (timeout) {
+>          pts = &ts;
+> -        if (target_to_host_timespec(pts, timeout)) {
+> +        if (!time64 && target_to_host_timespec(pts, timeout)) {
+> +            return -TARGET_EFAULT;
+> +        }
+> +        if (time64 && target_to_host_timespec64(pts, timeout)) {
+>              return -TARGET_EFAULT;
+>          }
+
+why not:
+
+    if (time64) {
+        if (target_to_host_timespec64(pts, timeout)) {
+            return -TARGET_EFAULT;
+        }
+    } else {
+        if (target_to_host_timespec(pts, timeout)) {
+              return -TARGET_EFAULT;
+        }
+    }
+
+I think it's clearer.
+
+With that fixed:
+
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
