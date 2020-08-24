@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1B6124FFDD
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 16:34:25 +0200 (CEST)
-Received: from localhost ([::1]:54376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B838124FFD8
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 16:33:43 +0200 (CEST)
+Received: from localhost ([::1]:52992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kADYG-000610-JT
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 10:34:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42998)
+	id 1kADXa-0005Sx-OR
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 10:33:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kADTj-00085M-Tr
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 10:29:43 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:36501)
+ id 1kADTk-00086w-IH
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 10:29:44 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37065)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kADTh-0002fV-Nh
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 10:29:43 -0400
-Received: by mail-wr1-x443.google.com with SMTP id x7so2845608wro.3
- for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 07:29:41 -0700 (PDT)
+ id 1kADTi-0002fn-Jl
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 10:29:44 -0400
+Received: by mail-wr1-x444.google.com with SMTP id y3so8898448wrl.4
+ for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 07:29:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=V+kRX7a2XiYIEF+wLaciE51YCWSx382IErtFW6/uTrw=;
- b=PsSTm9OWXET7Nc3uzNAF0BTbBSrheTecNz/3OPaCdY5rSyGe4Cy0nOcgB4CNixafUX
- P6AaEW9ZqgnqQzoAiTAlVVmHRqCaYXbGPE8+Zori1J4xb8d7yhHu3VGrWsT2LRZqZ7Xe
- lA3ulvZXcXWLt0L8jSYcKZ3/yHy2RA9x6GzD1mMTqDIPIK53OYsn4Iqk0EK/anKJGZ6U
- skzkQWy7Od/6z0bKr1qdAkmVksWlJRXl3+KCAxkPFx6z5AgC6nWKJav73pJzbjHBe7u9
- PM2DVFFG8fTuUOd1SeidjRdv+apu812sHD/zg0GGbMYPj1tD0i/xh4jR4/C6U1KK1ogr
- OxBA==
+ bh=z0LweSzTMeWl7kBbeDzTSWVJVjJb29j+OfSsLTkCIBs=;
+ b=ZMBRPCEUQhQt9V+B3uHD7qRFP8dqUq1u44OCNuKwkz8DK4hQYsC1ZnM55e6Hf/7p5f
+ RvhlUYn6Kb54S0gfEgnbLjDWPHlHEbyQkJKLUtA2EEv0j1Y1+ifbyoa6LafuRublvwTf
+ dsBBUXwE94xSNTsLSPTteD2CTGVg3b98HDEPlJBpQ5oPOXUHheLlKNGCIzm5FAoaH1dD
+ w6Q1xf+4ngQsOK2DZMj2HCu6bl2anmuL+/iISI7Ts33wWONUuHxPWbU1mB79ncOAlBxV
+ hoyyDj0+RlyfbRQIttVuPH+RETvxDIWDMEXC6wxGtwmVjRa0do87wEthGdBhXCF1MJUC
+ Iqkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=V+kRX7a2XiYIEF+wLaciE51YCWSx382IErtFW6/uTrw=;
- b=VWzBHqKH8Jtgfu2OZEbv2WaTzZROxbpSPwT0XX8vGqJdo+ZH1ibPl7U/5zniw3kPwf
- U5s3+CxnWo+2vNJkB9fURqryXbvKU15vxYRR/cSfoOS68aemEwCr0ZBVyXoJJGUIKCtR
- LePGYEBx0Y3airDs7YKlqtoiY6Ck8tFgQ2a42d7ZpW29xxjFqL6ljy/hRbcKjM1u9+JQ
- cb+oeYRUiU1QpDppL1p/PRI7dAEXdc7MbDfOm0lQ41jtMhbp1LT8PvK1m8T7ZbQ77+ja
- 86ICH6px4JKghZY7xXBOdcfDnRBsjo3VnNqXUC5xzgEjHTw9TN7BhxcgCZX0A1m0SiqR
- 9l0Q==
-X-Gm-Message-State: AOAM530akm0AENFk66k4uzzgMA33JBGW0dJSBQYRcEGYEfOyi8wikppz
- wBknFFBxgNdFDXDU7CMuo2fMzDCXW2bEZ+VQ
-X-Google-Smtp-Source: ABdhPJxKM+Ha8lwhIwzr2pRjx/m5UoC52ZfYWKpygaq7KSGXOd3OT59QDRDCwwTwvdLkMh5p0jmDQg==
-X-Received: by 2002:a5d:5086:: with SMTP id a6mr6122933wrt.304.1598279380285; 
- Mon, 24 Aug 2020 07:29:40 -0700 (PDT)
+ bh=z0LweSzTMeWl7kBbeDzTSWVJVjJb29j+OfSsLTkCIBs=;
+ b=DZ6tQJ3Rx2wSTW/4eWy9v72IDCg6GQIk3BKQW+GQGM/53AtthyI+SwP+5Jy8H5CvLI
+ J5cFPL4I/zS/e09pdbGRYO3MFt1vr8aEjsBx8FkfNMKrzDxly4b1XmaYBsYdb9aylcgE
+ p9++aCowjKdoJO71p4T403oMeMMABVecpjh/pcstZRbFzQK9OApuGYnj/Mv/D9HcxfEA
+ bIW5dmkp9T0CvKi2HnFQB8DHUj9+SM9XuCY8PKYrw9rZ8OhLy+JRorC23TEp3c1V3AHo
+ NcyIq57CY5TUgxYo6q/5YFxPpkNCd2dVK98o5IYCDx9Snb4ZyK1zSw0a9V50ur4v4sEh
+ si/A==
+X-Gm-Message-State: AOAM5332q2k+kEKNXd9MDYxFn4uJWCXUgqj1qDh27t6KMV18zLjl1bGj
+ ZJK0eTy7EyQoxdvpIZSHufz6+w==
+X-Google-Smtp-Source: ABdhPJyJ5SrSdRunFIzuWWrOJ3mT9o8qmwnFv7k7JCEqPZe5GhwyKA0exWEZyP9MPkkQ0rSb1fOzOw==
+X-Received: by 2002:adf:d84c:: with SMTP id k12mr6107253wrl.250.1598279381215; 
+ Mon, 24 Aug 2020 07:29:41 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id b14sm24499091wrj.93.2020.08.24.07.29.39
+ by smtp.gmail.com with ESMTPSA id b14sm24499091wrj.93.2020.08.24.07.29.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Aug 2020 07:29:39 -0700 (PDT)
+ Mon, 24 Aug 2020 07:29:40 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 03/22] target/arm: Implement VFP fp16 for VFP_BINOP operations
-Date: Mon, 24 Aug 2020 15:29:15 +0100
-Message-Id: <20200824142934.20850-4-peter.maydell@linaro.org>
+Subject: [PATCH 04/22] target/arm: Implement VFP fp16 VMLA, VMLS, VNMLS, VNMLA,
+ VNMUL
+Date: Mon, 24 Aug 2020 15:29:16 +0100
+Message-Id: <20200824142934.20850-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200824142934.20850-1-peter.maydell@linaro.org>
 References: <20200824142934.20850-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,251 +89,201 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implmeent VFP fp16 support for simple binary-operator VFP insns VADD,
-VSUB, VMUL, VDIV, VMINNM and VMAXNM:
-
- * make the VFP_BINOP() macro generate float16 helpers as well as
-   float32 and float64
- * implement a do_vfp_3op_hp() function similar to the existing
-   do_vfp_3op_sp()
- * add decode for the half-precision insn patterns
-
-Note that the VFP_BINOP macro use creates a couple of unused helper
-functions vfp_maxh and vfp_minh, but they're small so it's not worth
-splitting the BINOP operations into "needs halfprec" and "no
-halfprec" groups.
+Implement fp16 versions of the VFP VMLA, VMLS, VNMLS, VNMLA, VNMUL
+instructions. (These are all the remaining ones which we implement
+via do_vfp_3op_[hsd]p().)
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.h            |  8 ++++
- target/arm/vfp-uncond.decode   |  3 ++
- target/arm/vfp.decode          |  4 ++
+ target/arm/helper.h            |  1 +
+ target/arm/vfp.decode          |  5 ++
  target/arm/vfp_helper.c        |  5 ++
- target/arm/translate-vfp.c.inc | 86 ++++++++++++++++++++++++++++++++++
- 5 files changed, 106 insertions(+)
+ target/arm/translate-vfp.c.inc | 84 ++++++++++++++++++++++++++++++++++
+ 4 files changed, 95 insertions(+)
 
 diff --git a/target/arm/helper.h b/target/arm/helper.h
-index 759639a63a2..2c0c89a34b6 100644
+index 2c0c89a34b6..662076d54a6 100644
 --- a/target/arm/helper.h
 +++ b/target/arm/helper.h
-@@ -101,20 +101,28 @@ DEF_HELPER_FLAGS_5(probe_access, TCG_CALL_NO_WG, void, env, tl, i32, i32, i32)
- DEF_HELPER_1(vfp_get_fpscr, i32, env)
- DEF_HELPER_2(vfp_set_fpscr, void, env, i32)
- 
-+DEF_HELPER_3(vfp_addh, f32, f32, f32, ptr)
- DEF_HELPER_3(vfp_adds, f32, f32, f32, ptr)
- DEF_HELPER_3(vfp_addd, f64, f64, f64, ptr)
-+DEF_HELPER_3(vfp_subh, f32, f32, f32, ptr)
- DEF_HELPER_3(vfp_subs, f32, f32, f32, ptr)
- DEF_HELPER_3(vfp_subd, f64, f64, f64, ptr)
-+DEF_HELPER_3(vfp_mulh, f32, f32, f32, ptr)
- DEF_HELPER_3(vfp_muls, f32, f32, f32, ptr)
- DEF_HELPER_3(vfp_muld, f64, f64, f64, ptr)
-+DEF_HELPER_3(vfp_divh, f32, f32, f32, ptr)
- DEF_HELPER_3(vfp_divs, f32, f32, f32, ptr)
- DEF_HELPER_3(vfp_divd, f64, f64, f64, ptr)
-+DEF_HELPER_3(vfp_maxh, f32, f32, f32, ptr)
- DEF_HELPER_3(vfp_maxs, f32, f32, f32, ptr)
- DEF_HELPER_3(vfp_maxd, f64, f64, f64, ptr)
-+DEF_HELPER_3(vfp_minh, f32, f32, f32, ptr)
- DEF_HELPER_3(vfp_mins, f32, f32, f32, ptr)
- DEF_HELPER_3(vfp_mind, f64, f64, f64, ptr)
-+DEF_HELPER_3(vfp_maxnumh, f32, f32, f32, ptr)
- DEF_HELPER_3(vfp_maxnums, f32, f32, f32, ptr)
- DEF_HELPER_3(vfp_maxnumd, f64, f64, f64, ptr)
-+DEF_HELPER_3(vfp_minnumh, f32, f32, f32, ptr)
+@@ -125,6 +125,7 @@ DEF_HELPER_3(vfp_maxnumd, f64, f64, f64, ptr)
+ DEF_HELPER_3(vfp_minnumh, f32, f32, f32, ptr)
  DEF_HELPER_3(vfp_minnums, f32, f32, f32, ptr)
  DEF_HELPER_3(vfp_minnumd, f64, f64, f64, ptr)
++DEF_HELPER_1(vfp_negh, f32, f32)
  DEF_HELPER_1(vfp_negs, f32, f32)
-diff --git a/target/arm/vfp-uncond.decode b/target/arm/vfp-uncond.decode
-index 34ca164266f..ee700e51972 100644
---- a/target/arm/vfp-uncond.decode
-+++ b/target/arm/vfp-uncond.decode
-@@ -49,6 +49,9 @@ VSEL        1111 1110 0. cc:2 .... .... 1010 .0.0 .... \
- VSEL        1111 1110 0. cc:2 .... .... 1011 .0.0 .... \
-             vm=%vm_dp vn=%vn_dp vd=%vd_dp dp=1
- 
-+VMAXNM_hp   1111 1110 1.00 .... .... 1001 .0.0 ....         @vfp_dnm_s
-+VMINNM_hp   1111 1110 1.00 .... .... 1001 .1.0 ....         @vfp_dnm_s
-+
- VMAXNM_sp   1111 1110 1.00 .... .... 1010 .0.0 ....         @vfp_dnm_s
- VMINNM_sp   1111 1110 1.00 .... .... 1010 .1.0 ....         @vfp_dnm_s
- 
+ DEF_HELPER_1(vfp_negd, f64, f64)
+ DEF_HELPER_1(vfp_abss, f32, f32)
 diff --git a/target/arm/vfp.decode b/target/arm/vfp.decode
-index 2c793e3e87f..1ecd5e28ca0 100644
+index 1ecd5e28ca0..e5545076a51 100644
 --- a/target/arm/vfp.decode
 +++ b/target/arm/vfp.decode
-@@ -115,18 +115,22 @@ VNMLS_dp     ---- 1110 0.01 .... .... 1011 .0.0 ....        @vfp_dnm_d
+@@ -103,15 +103,19 @@ VLDM_VSTM_dp ---- 1101 0.1 l:1 rn:4 .... 1011 imm:8 \
+              vd=%vd_dp p=1 u=0 w=1
+ 
+ # 3-register VFP data-processing; bits [23,21:20,6] identify the operation.
++VMLA_hp      ---- 1110 0.00 .... .... 1001 .0.0 ....        @vfp_dnm_s
+ VMLA_sp      ---- 1110 0.00 .... .... 1010 .0.0 ....        @vfp_dnm_s
+ VMLA_dp      ---- 1110 0.00 .... .... 1011 .0.0 ....        @vfp_dnm_d
+ 
++VMLS_hp      ---- 1110 0.00 .... .... 1001 .1.0 ....        @vfp_dnm_s
+ VMLS_sp      ---- 1110 0.00 .... .... 1010 .1.0 ....        @vfp_dnm_s
+ VMLS_dp      ---- 1110 0.00 .... .... 1011 .1.0 ....        @vfp_dnm_d
+ 
++VNMLS_hp     ---- 1110 0.01 .... .... 1001 .0.0 ....        @vfp_dnm_s
+ VNMLS_sp     ---- 1110 0.01 .... .... 1010 .0.0 ....        @vfp_dnm_s
+ VNMLS_dp     ---- 1110 0.01 .... .... 1011 .0.0 ....        @vfp_dnm_d
+ 
++VNMLA_hp     ---- 1110 0.01 .... .... 1001 .1.0 ....        @vfp_dnm_s
  VNMLA_sp     ---- 1110 0.01 .... .... 1010 .1.0 ....        @vfp_dnm_s
  VNMLA_dp     ---- 1110 0.01 .... .... 1011 .1.0 ....        @vfp_dnm_d
  
-+VMUL_hp      ---- 1110 0.10 .... .... 1001 .0.0 ....        @vfp_dnm_s
+@@ -119,6 +123,7 @@ VMUL_hp      ---- 1110 0.10 .... .... 1001 .0.0 ....        @vfp_dnm_s
  VMUL_sp      ---- 1110 0.10 .... .... 1010 .0.0 ....        @vfp_dnm_s
  VMUL_dp      ---- 1110 0.10 .... .... 1011 .0.0 ....        @vfp_dnm_d
  
++VNMUL_hp     ---- 1110 0.10 .... .... 1001 .1.0 ....        @vfp_dnm_s
  VNMUL_sp     ---- 1110 0.10 .... .... 1010 .1.0 ....        @vfp_dnm_s
  VNMUL_dp     ---- 1110 0.10 .... .... 1011 .1.0 ....        @vfp_dnm_d
  
-+VADD_hp      ---- 1110 0.11 .... .... 1001 .0.0 ....        @vfp_dnm_s
- VADD_sp      ---- 1110 0.11 .... .... 1010 .0.0 ....        @vfp_dnm_s
- VADD_dp      ---- 1110 0.11 .... .... 1011 .0.0 ....        @vfp_dnm_d
- 
-+VSUB_hp      ---- 1110 0.11 .... .... 1001 .1.0 ....        @vfp_dnm_s
- VSUB_sp      ---- 1110 0.11 .... .... 1010 .1.0 ....        @vfp_dnm_s
- VSUB_dp      ---- 1110 0.11 .... .... 1011 .1.0 ....        @vfp_dnm_d
- 
-+VDIV_hp      ---- 1110 1.00 .... .... 1001 .0.0 ....        @vfp_dnm_s
- VDIV_sp      ---- 1110 1.00 .... .... 1010 .0.0 ....        @vfp_dnm_s
- VDIV_dp      ---- 1110 1.00 .... .... 1011 .0.0 ....        @vfp_dnm_d
- 
 diff --git a/target/arm/vfp_helper.c b/target/arm/vfp_helper.c
-index 02ab8d7f2d8..38473315996 100644
+index 38473315996..410f0216db0 100644
 --- a/target/arm/vfp_helper.c
 +++ b/target/arm/vfp_helper.c
-@@ -236,6 +236,11 @@ void vfp_set_fpscr(CPUARMState *env, uint32_t val)
- #define VFP_HELPER(name, p) HELPER(glue(glue(vfp_,name),p))
+@@ -261,6 +261,11 @@ VFP_BINOP(minnum)
+ VFP_BINOP(maxnum)
+ #undef VFP_BINOP
  
- #define VFP_BINOP(name) \
-+float32 VFP_HELPER(name, h)(float32 a, float32 b, void *fpstp) \
-+{ \
-+    float_status *fpst = fpstp; \
-+    return float16_ ## name(a, b, fpst); \
-+} \
- float32 VFP_HELPER(name, s)(float32 a, float32 b, void *fpstp) \
- { \
-     float_status *fpst = fpstp; \
++float32 VFP_HELPER(neg, h)(float32 a)
++{
++    return float16_chs(a);
++}
++
+ float32 VFP_HELPER(neg, s)(float32 a)
+ {
+     return float32_chs(a);
 diff --git a/target/arm/translate-vfp.c.inc b/target/arm/translate-vfp.c.inc
-index 4eeafb494ad..01a5fd65115 100644
+index 01a5fd65115..15bb23688bd 100644
 --- a/target/arm/translate-vfp.c.inc
 +++ b/target/arm/translate-vfp.c.inc
-@@ -1266,6 +1266,54 @@ static bool do_vfp_3op_sp(DisasContext *s, VFPGen3OpSPFn *fn,
+@@ -1547,6 +1547,21 @@ static bool do_vfp_2op_dp(DisasContext *s, VFPGen2OpDPFn *fn, int vd, int vm)
      return true;
  }
  
-+static bool do_vfp_3op_hp(DisasContext *s, VFPGen3OpSPFn *fn,
-+                          int vd, int vn, int vm, bool reads_vd)
++static void gen_VMLA_hp(TCGv_i32 vd, TCGv_i32 vn, TCGv_i32 vm, TCGv_ptr fpst)
++{
++    /* Note that order of inputs to the add matters for NaNs */
++    TCGv_i32 tmp = tcg_temp_new_i32();
++
++    gen_helper_vfp_mulh(tmp, vn, vm, fpst);
++    gen_helper_vfp_addh(vd, vd, tmp, fpst);
++    tcg_temp_free_i32(tmp);
++}
++
++static bool trans_VMLA_hp(DisasContext *s, arg_VMLA_sp *a)
++{
++    return do_vfp_3op_hp(s, gen_VMLA_hp, a->vd, a->vn, a->vm, true);
++}
++
+ static void gen_VMLA_sp(TCGv_i32 vd, TCGv_i32 vn, TCGv_i32 vm, TCGv_ptr fpst)
+ {
+     /* Note that order of inputs to the add matters for NaNs */
+@@ -1577,6 +1592,25 @@ static bool trans_VMLA_dp(DisasContext *s, arg_VMLA_dp *a)
+     return do_vfp_3op_dp(s, gen_VMLA_dp, a->vd, a->vn, a->vm, true);
+ }
+ 
++static void gen_VMLS_hp(TCGv_i32 vd, TCGv_i32 vn, TCGv_i32 vm, TCGv_ptr fpst)
 +{
 +    /*
-+     * Do a half-precision operation. Functionally this is
-+     * the same as do_vfp_3op_sp(), except:
-+     *  - it uses the FPST_FPCR_F16
-+     *  - it doesn't need the VFP vector handling (fp16 is a
-+     *    v8 feature, and in v8 VFP vectors don't exist)
-+     *  - it does the aa32_fp16_arith feature test
++     * VMLS: vd = vd + -(vn * vm)
++     * Note that order of inputs to the add matters for NaNs.
 +     */
-+    TCGv_i32 f0, f1, fd;
-+    TCGv_ptr fpst;
++    TCGv_i32 tmp = tcg_temp_new_i32();
 +
-+    if (!dc_isar_feature(aa32_fp16_arith, s)) {
-+        return false;
-+    }
-+
-+    if (s->vec_len != 0 || s->vec_stride != 0) {
-+        return false;
-+    }
-+
-+    if (!vfp_access_check(s)) {
-+        return true;
-+    }
-+
-+    f0 = tcg_temp_new_i32();
-+    f1 = tcg_temp_new_i32();
-+    fd = tcg_temp_new_i32();
-+    fpst = fpstatus_ptr(FPST_FPCR_F16);
-+
-+    neon_load_reg32(f0, vn);
-+    neon_load_reg32(f1, vm);
-+
-+    if (reads_vd) {
-+        neon_load_reg32(fd, vd);
-+    }
-+    fn(fd, f0, f1, fpst);
-+    neon_store_reg32(fd, vd);
-+
-+    tcg_temp_free_i32(f0);
-+    tcg_temp_free_i32(f1);
-+    tcg_temp_free_i32(fd);
-+    tcg_temp_free_ptr(fpst);
-+
-+    return true;
++    gen_helper_vfp_mulh(tmp, vn, vm, fpst);
++    gen_helper_vfp_negh(tmp, tmp);
++    gen_helper_vfp_addh(vd, vd, tmp, fpst);
++    tcg_temp_free_i32(tmp);
 +}
 +
- static bool do_vfp_3op_dp(DisasContext *s, VFPGen3OpDPFn *fn,
-                           int vd, int vn, int vm, bool reads_vd)
++static bool trans_VMLS_hp(DisasContext *s, arg_VMLS_sp *a)
++{
++    return do_vfp_3op_hp(s, gen_VMLS_hp, a->vd, a->vn, a->vm, true);
++}
++
+ static void gen_VMLS_sp(TCGv_i32 vd, TCGv_i32 vn, TCGv_i32 vm, TCGv_ptr fpst)
  {
-@@ -1643,6 +1691,11 @@ static bool trans_VNMLA_dp(DisasContext *s, arg_VNMLA_dp *a)
-     return do_vfp_3op_dp(s, gen_VNMLA_dp, a->vd, a->vn, a->vm, true);
+     /*
+@@ -1615,6 +1649,27 @@ static bool trans_VMLS_dp(DisasContext *s, arg_VMLS_dp *a)
+     return do_vfp_3op_dp(s, gen_VMLS_dp, a->vd, a->vn, a->vm, true);
  }
  
-+static bool trans_VMUL_hp(DisasContext *s, arg_VMUL_sp *a)
++static void gen_VNMLS_hp(TCGv_i32 vd, TCGv_i32 vn, TCGv_i32 vm, TCGv_ptr fpst)
 +{
-+    return do_vfp_3op_hp(s, gen_helper_vfp_mulh, a->vd, a->vn, a->vm, false);
++    /*
++     * VNMLS: -fd + (fn * fm)
++     * Note that it isn't valid to replace (-A + B) with (B - A) or similar
++     * plausible looking simplifications because this will give wrong results
++     * for NaNs.
++     */
++    TCGv_i32 tmp = tcg_temp_new_i32();
++
++    gen_helper_vfp_mulh(tmp, vn, vm, fpst);
++    gen_helper_vfp_negh(vd, vd);
++    gen_helper_vfp_addh(vd, vd, tmp, fpst);
++    tcg_temp_free_i32(tmp);
 +}
 +
- static bool trans_VMUL_sp(DisasContext *s, arg_VMUL_sp *a)
++static bool trans_VNMLS_hp(DisasContext *s, arg_VNMLS_sp *a)
++{
++    return do_vfp_3op_hp(s, gen_VNMLS_hp, a->vd, a->vn, a->vm, true);
++}
++
+ static void gen_VNMLS_sp(TCGv_i32 vd, TCGv_i32 vn, TCGv_i32 vm, TCGv_ptr fpst)
  {
-     return do_vfp_3op_sp(s, gen_helper_vfp_muls, a->vd, a->vn, a->vm, false);
-@@ -1677,6 +1730,11 @@ static bool trans_VNMUL_dp(DisasContext *s, arg_VNMUL_dp *a)
-     return do_vfp_3op_dp(s, gen_VNMUL_dp, a->vd, a->vn, a->vm, false);
+     /*
+@@ -1657,6 +1712,23 @@ static bool trans_VNMLS_dp(DisasContext *s, arg_VNMLS_dp *a)
+     return do_vfp_3op_dp(s, gen_VNMLS_dp, a->vd, a->vn, a->vm, true);
  }
  
-+static bool trans_VADD_hp(DisasContext *s, arg_VADD_sp *a)
++static void gen_VNMLA_hp(TCGv_i32 vd, TCGv_i32 vn, TCGv_i32 vm, TCGv_ptr fpst)
 +{
-+    return do_vfp_3op_hp(s, gen_helper_vfp_addh, a->vd, a->vn, a->vm, false);
++    /* VNMLA: -fd + -(fn * fm) */
++    TCGv_i32 tmp = tcg_temp_new_i32();
++
++    gen_helper_vfp_mulh(tmp, vn, vm, fpst);
++    gen_helper_vfp_negh(tmp, tmp);
++    gen_helper_vfp_negh(vd, vd);
++    gen_helper_vfp_addh(vd, vd, tmp, fpst);
++    tcg_temp_free_i32(tmp);
 +}
 +
- static bool trans_VADD_sp(DisasContext *s, arg_VADD_sp *a)
++static bool trans_VNMLA_hp(DisasContext *s, arg_VNMLA_sp *a)
++{
++    return do_vfp_3op_hp(s, gen_VNMLA_hp, a->vd, a->vn, a->vm, true);
++}
++
+ static void gen_VNMLA_sp(TCGv_i32 vd, TCGv_i32 vn, TCGv_i32 vm, TCGv_ptr fpst)
  {
-     return do_vfp_3op_sp(s, gen_helper_vfp_adds, a->vd, a->vn, a->vm, false);
-@@ -1687,6 +1745,11 @@ static bool trans_VADD_dp(DisasContext *s, arg_VADD_dp *a)
-     return do_vfp_3op_dp(s, gen_helper_vfp_addd, a->vd, a->vn, a->vm, false);
+     /* VNMLA: -fd + -(fn * fm) */
+@@ -1706,6 +1778,18 @@ static bool trans_VMUL_dp(DisasContext *s, arg_VMUL_dp *a)
+     return do_vfp_3op_dp(s, gen_helper_vfp_muld, a->vd, a->vn, a->vm, false);
  }
  
-+static bool trans_VSUB_hp(DisasContext *s, arg_VSUB_sp *a)
++static void gen_VNMUL_hp(TCGv_i32 vd, TCGv_i32 vn, TCGv_i32 vm, TCGv_ptr fpst)
 +{
-+    return do_vfp_3op_hp(s, gen_helper_vfp_subh, a->vd, a->vn, a->vm, false);
++    /* VNMUL: -(fn * fm) */
++    gen_helper_vfp_mulh(vd, vn, vm, fpst);
++    gen_helper_vfp_negh(vd, vd);
 +}
 +
- static bool trans_VSUB_sp(DisasContext *s, arg_VSUB_sp *a)
++static bool trans_VNMUL_hp(DisasContext *s, arg_VNMUL_sp *a)
++{
++    return do_vfp_3op_hp(s, gen_VNMUL_hp, a->vd, a->vn, a->vm, false);
++}
++
+ static void gen_VNMUL_sp(TCGv_i32 vd, TCGv_i32 vn, TCGv_i32 vm, TCGv_ptr fpst)
  {
-     return do_vfp_3op_sp(s, gen_helper_vfp_subs, a->vd, a->vn, a->vm, false);
-@@ -1697,6 +1760,11 @@ static bool trans_VSUB_dp(DisasContext *s, arg_VSUB_dp *a)
-     return do_vfp_3op_dp(s, gen_helper_vfp_subd, a->vd, a->vn, a->vm, false);
- }
- 
-+static bool trans_VDIV_hp(DisasContext *s, arg_VDIV_sp *a)
-+{
-+    return do_vfp_3op_hp(s, gen_helper_vfp_divh, a->vd, a->vn, a->vm, false);
-+}
-+
- static bool trans_VDIV_sp(DisasContext *s, arg_VDIV_sp *a)
- {
-     return do_vfp_3op_sp(s, gen_helper_vfp_divs, a->vd, a->vn, a->vm, false);
-@@ -1707,6 +1775,24 @@ static bool trans_VDIV_dp(DisasContext *s, arg_VDIV_dp *a)
-     return do_vfp_3op_dp(s, gen_helper_vfp_divd, a->vd, a->vn, a->vm, false);
- }
- 
-+static bool trans_VMINNM_hp(DisasContext *s, arg_VMINNM_sp *a)
-+{
-+    if (!dc_isar_feature(aa32_vminmaxnm, s)) {
-+        return false;
-+    }
-+    return do_vfp_3op_hp(s, gen_helper_vfp_minnumh,
-+                         a->vd, a->vn, a->vm, false);
-+}
-+
-+static bool trans_VMAXNM_hp(DisasContext *s, arg_VMAXNM_sp *a)
-+{
-+    if (!dc_isar_feature(aa32_vminmaxnm, s)) {
-+        return false;
-+    }
-+    return do_vfp_3op_hp(s, gen_helper_vfp_maxnumh,
-+                         a->vd, a->vn, a->vm, false);
-+}
-+
- static bool trans_VMINNM_sp(DisasContext *s, arg_VMINNM_sp *a)
- {
-     if (!dc_isar_feature(aa32_vminmaxnm, s)) {
+     /* VNMUL: -(fn * fm) */
 -- 
 2.20.1
 
