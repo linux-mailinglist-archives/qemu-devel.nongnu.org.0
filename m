@@ -2,66 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DD262500C8
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 17:20:56 +0200 (CEST)
-Received: from localhost ([::1]:36534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B91FA2500D5
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 17:22:29 +0200 (CEST)
+Received: from localhost ([::1]:39004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAEHH-00018I-Hg
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 11:20:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33194)
+	id 1kAEIm-0002Jc-Rd
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 11:22:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kAEGK-0000gV-Sr
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 11:19:56 -0400
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:41037)
+ id 1kAEHd-0001j2-AL
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 11:21:17 -0400
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:45580)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kAEGJ-0002rv-3y
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 11:19:56 -0400
-Received: by mail-ej1-x642.google.com with SMTP id b17so4123690ejq.8
- for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 08:19:54 -0700 (PDT)
+ id 1kAEHb-0003AH-NV
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 11:21:17 -0400
+Received: by mail-ed1-x541.google.com with SMTP id di22so8400250edb.12
+ for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 08:21:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=vgGUKNCRiiB/LIaT6+hiI9qaLZZspUDzP5zz8bp0l8Q=;
- b=gcOxDxQ/BEq3dHnjvCljZ6ap0dsbZzp9QzzEKhd1Z1uapN/RzgM0+ZLX5cr7ob+WeR
- VDU/QPL572nJCKfgohsybffTD6VzZloTJDZL6SirkdboDDjb7a/SlUUInedsSipExODZ
- TJMyVh5dHqQGajYUwtAxKPNNwQCh8FDEgCj/5GXsSaGdNcgVuB8dZiQtEpyli7lpErYx
- GgANBdBnV7KppzwlkrbTKPzHcc/IzVVr4K8pcmiMCkXCG48avML+ztvXTeNnc50TIVjI
- hId8NxCLARdHCMbDCNai2+IujqwSfWSdU/g4+8+burR7FwjxW786aaFdtgvv0O7dIpj/
- 3zSA==
+ bh=2DSY9LxI4LrHoalgSGkJ/BeHmNyn6l8uUx13JEKQeXo=;
+ b=UPvTI3u7/i1W+EhMEA00UDVpQkAPFiSh3sIOnJFy4gsSF79iiSD+1HrE5iRiljjaN6
+ NLZAbCqXSwF0+MxdNkw1fnkj07MrxicUzuLkzdJ9NFxtQnp9y+K6CLyaSctFm2NGCiK5
+ Y+vqYak+rOLPJdvWSLcyt5jB1hkh10pPAij6y9Q/ypgfmdDmI9ZMMEMlwjoxhMCLmEmr
+ 5BTWB4qKSIjqqKVtXrlVXajt9Jgt62tmOjbQHLiysF7P19H1heEau+OL1W6/Azh1quWR
+ 7PwslStyFoOda6Hs2K0S4ZMJgET1LjInmIlctnubseBDvbtvOgGChJ4hsiKZhAlKbbfw
+ nxcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=vgGUKNCRiiB/LIaT6+hiI9qaLZZspUDzP5zz8bp0l8Q=;
- b=WyBEE5ztnR9GGrXdwyqmmDVFHJsjGWtSpnhaW7kqv2IkakEqNp3XgxeqLA0O/4x4ee
- JBDKE1TCaxHbjSPezi6cWXHvLQVKGY2i1arlXfSv/KYU/ltlG6iuRsQH79qznKxj6pO2
- FiATWO1kf6JTZ9HO+5TvMm6j71EStVUj/jxrKqCZwshazNGb4FwTCk4zVyl3noFgnjjT
- 9J4PSBXasgzQjIXQfC9cPMoeIz/Hvqh6rq5PBS8LoPhvPbDJJZRfk0/TImbGK0sQqxAQ
- NYvs1wxb9Z/acIhXnSFIDIeXpeIhqH8EvRMkNepjzaD4cqbypIwEJ/ACnVHGjEii7aRq
- S12Q==
-X-Gm-Message-State: AOAM53044dxj5BgD1k2xZ5oGFjWokwzXqk+Qwp3ewwgHs95JV/WVDuO7
- RPdSDxxN49ws9ehsHEHQW3/POcdE22MLwAAVVunxhQ==
-X-Google-Smtp-Source: ABdhPJxJlXP2zyTDD2nVzo01wuW/B0cK4X9zJWX55z7ijDr8dJlLR6rgPJT6InvDSiJV8IhamQQLLxu6HWQTOlfJjOI=
-X-Received: by 2002:a17:906:68da:: with SMTP id
- y26mr5884217ejr.250.1598282393097; 
- Mon, 24 Aug 2020 08:19:53 -0700 (PDT)
+ bh=2DSY9LxI4LrHoalgSGkJ/BeHmNyn6l8uUx13JEKQeXo=;
+ b=MLnnymCy5LwpMiAz+NBCdA4nM8WOJWHbmFDCMbcpbydYm3xRWNzTxw+dIcx0LWwwu+
+ zeqp96bym0QZtUp0Vhpo64gzeF3G6FcYO1F8SCwRWXMFca0aZjYKkdBtfe0+wtOItiFb
+ frP6FJskgIfUUkcEwicYE/IFT3Zj/TYccl9mv+I6n0vkaIbVWj55B44BMu9+XIY3wGfZ
+ YbTGZqBTATo3LhjnHcaTAC/nt9j/NMsFv3HQX7XnEYqGvLpm4AewLpb7BahfWJJCx/x0
+ GtSKUiBNzwmqB6OtS92HxJ/oAbyu9ojxaXQ9k0uykR6R/H5Z2mS5tf4k6NwF4fgPbcR2
+ Stug==
+X-Gm-Message-State: AOAM5312HofyTEFpqYrE51x5cOVw4/J6Rkg395rfbdz6XrATxraB5ckZ
+ 0q0mN02i2r98LnsSzbCeo7xrdIvae7ktLB3GhUJdaA==
+X-Google-Smtp-Source: ABdhPJylIFDsLu4ieTiJhXv14F8TUmbHB3stDboVmDiB+uKkOzfk65tdDXbIhlhUrqC/GT3rf6NEj121tUWkRXpJUuQ=
+X-Received: by 2002:a50:da44:: with SMTP id a4mr6048556edk.36.1598282471979;
+ Mon, 24 Aug 2020 08:21:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200806130340.17316-1-f4bug@amsat.org>
- <bc283986-6f08-fb1c-2219-9b4af64eaaa0@amsat.org>
-In-Reply-To: <bc283986-6f08-fb1c-2219-9b4af64eaaa0@amsat.org>
+References: <20200812111223.7787-1-f4bug@amsat.org>
+In-Reply-To: <20200812111223.7787-1-f4bug@amsat.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 24 Aug 2020 16:19:41 +0100
-Message-ID: <CAFEAcA_XP+XbsfE3XhyrB=yO7iaz69j_rydanao1abVz8jaPKg@mail.gmail.com>
-Subject: Re: [PATCH-for-5.2 0/4] hw/char/serial: Use the Clock API to feed the
- UART reference clock
+Date: Mon, 24 Aug 2020 16:21:00 +0100
+Message-ID: <CAFEAcA-mgTYGEaHPHe1Dx3aUcvXgNNuSFoSURyJzCijenxS_vw@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: Clarify HCR_EL2 ARMCPRegInfo type
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::541;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -83,40 +80,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 22 Aug 2020 at 21:00, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+On Wed, 12 Aug 2020 at 12:12, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
  wrote:
 >
-> On 8/6/20 3:03 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> > This series improve tracing of multiple UART device in the same
-> > chipset, and allow to use the Clock API to feed each device with
-> > an (updatable) input clock.
-> >
-> > Based-on: <20200730165900.7030-1-philmd@redhat.com>
-> > "hw/char: Remove TYPE_SERIAL_IO"
-> >
-> > Philippe Mathieu-Daud=C3=A9 (4):
-> >   hw/char/serial: Replace commented DPRINTF() by trace event
-> >   hw/char/serial: Remove old DEBUG_SERIAL commented code
-> >   hw/char/serial: Let SerialState have an 'id' field
-> >   hw/char/serial: Use the Clock API to feed the UART reference clock
-> >
-> >  include/hw/char/serial.h |  4 +++
-> >  hw/char/serial.c         | 55 +++++++++++++++++++++++-----------------
-> >  hw/char/trace-events     |  5 ++--
-> >  3 files changed, 39 insertions(+), 25 deletions(-)
-> >
+> In commit ce4afed839 ("target/arm: Implement AArch32 HCR and HCR2")
+> the HCR_EL2 register has been changed from type NO_RAW (no underlying
+> state and does not support raw access for state saving/loading) to
+> type CONST (TCG can assume the value to be constant), removing the
+> read/write accessors.
+> We forgot to remove the previous type ARM_CP_NO_RAW. This is not
+> really a problem since the field is overwritten. However it makes
+> code review confuse, so remove it.
 >
-> ping? Should I resend with the typo from patch 4 fixed?
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  target/arm/helper.c | 1 -
+>  1 file changed, 1 deletion(-)
 
-Which tree are you expecting the patches to go in via ?
 
-thanks
+
+Applied to target-arm.next, thanks.
+
 -- PMM
 
