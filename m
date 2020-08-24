@@ -2,106 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EFB224F6A6
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 11:02:34 +0200 (CEST)
-Received: from localhost ([::1]:35492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD17024F720
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 11:08:53 +0200 (CEST)
+Received: from localhost ([::1]:36478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kA8N7-0006UP-O0
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 05:02:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35188)
+	id 1kA8TE-0001xu-UT
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 05:08:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
- id 1kA8Lz-0005xL-J3; Mon, 24 Aug 2020 05:01:23 -0400
-Received: from mail-am6eur05on2106.outbound.protection.outlook.com
- ([40.107.22.106]:59744 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1kA8OC-0007Le-7y
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 05:03:40 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:41996 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
- id 1kA8Lu-0007Y1-EZ; Mon, 24 Aug 2020 05:01:21 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DkRYzIdiWNGLyMsEa++UwHf1X9gyaI5BLeGNjhWLhaJkffYrDzmDRSZAww6btQYtQTzdXo99vDC/LTH7PBFhNmFVpRVE9D/H5FHEb/zRmaAi/eLgGMO+hwmbmD+yY2K73edvNJcJ9FrteBG2eV2Qd5ztvH5jUUgOrsFzzlMgkh1r1zcZFGJMhmu+DCqy8trIHaE+uGI9rbUKjtPbw022f8ztfQk/sCmYEe+LwiKndnFh7/w68gkN6Ga7DM80T4CA9t9i6IwQbweAQSYHwoPLbtg2yGmejS920wLZqoVHxduUA6qopKZ+/yTIkeaKo7/5zooI/jILn1pBV5X/9K/2/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LSs0+t1Oom71RqGt17rnLEKhLrZhQa5x1iZ/4qea46U=;
- b=Kjy4kl/mx3vDOGSRXJkHuMxe6qCmi5A6Hd7L6BaREkTQ92tjgxLLWA7/CzgSc3rAoEghbTftPRo00iGQGrqv5OOI6suuN44leWlMwoJk7F+EpvTUyzx+RK0zqj98okqp/bJs9s4DD8Hw99yWSPLTRAeCoyjjLUzXWlp6iUHPM2eW/fF4qDJE9numC+VpjyK4Ddp/drOHMnB0KKBLTk2/om9xAOsZMJhKHGeGQktpAcdoTTl6O5fBI79d8/EbFPTJqZ/vFQtFo6dWZCa0THGrakMxAMuv+VcuhpjSTY8wHSzB2wbkw9o00FlPsuH46lEblmGdlUgcpk8fMb3N78Lecw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none header.from=openvz.org;
- dkim=pass header.d=openvz.org; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=openvz.org;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LSs0+t1Oom71RqGt17rnLEKhLrZhQa5x1iZ/4qea46U=;
- b=tXGvFHfzQ8ccicgp8mnxQ67FC61rpblx4KVhi7cW86DFHel6UXDaXDXeNnMy4Z7RvbBDk2SOxtxEZXrQLYU/Ter0ERWEzcGXA6/knlQCyWhWAHNa1YJ1kD4SOZ8LhAjxbDiu3xCxjuN23xK+x67dV/q7nnTOOoClusoypZoYtm4=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=openvz.org;
-Received: from AM6PR08MB4214.eurprd08.prod.outlook.com (2603:10a6:20b:8d::30)
- by AM5PR0802MB2531.eurprd08.prod.outlook.com (2603:10a6:203:a0::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.24; Mon, 24 Aug
- 2020 09:01:13 +0000
-Received: from AM6PR08MB4214.eurprd08.prod.outlook.com
- ([fe80::751c:fc78:625c:ea34]) by AM6PR08MB4214.eurprd08.prod.outlook.com
- ([fe80::751c:fc78:625c:ea34%4]) with mapi id 15.20.3305.026; Mon, 24 Aug 2020
- 09:01:13 +0000
-Subject: Re: [PATCH 2/3] block: add logging facility for long standing IO
- requests
-To: David Edmondson <dme@dme.org>, qemu-block@nongnu.org, qemu-devel@nongnu.org
-References: <20200810101447.7380-1-den@openvz.org>
- <20200810101447.7380-3-den@openvz.org> <m2tuwx217r.fsf@dme.org>
-From: "Denis V. Lunev" <den@openvz.org>
-Message-ID: <1e1c37ee-2e7f-278c-c8eb-741a62acae2c@openvz.org>
-Date: Mon, 24 Aug 2020 12:01:11 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <m2tuwx217r.fsf@dme.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-ClientProxiedBy: AM4PR05CA0012.eurprd05.prod.outlook.com (2603:10a6:205::25)
- To AM6PR08MB4214.eurprd08.prod.outlook.com
- (2603:10a6:20b:8d::30)
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1kA8O9-0007lA-Ul
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 05:03:39 -0400
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 7FDBB7FCB2553E41A3CD;
+ Mon, 24 Aug 2020 17:03:26 +0800 (CST)
+Received: from huawei.com (10.175.101.6) by DGGEMS401-HUB.china.huawei.com
+ (10.3.19.201) with Microsoft SMTP Server id 14.3.487.0; Mon, 24 Aug 2020
+ 17:03:15 +0800
+From: Chuan Zheng <zhengchuan@huawei.com>
+To: <quintela@redhat.com>, <eblake@redhat.com>, <dgilbert@redhat.com>,
+ <berrange@redhat.com>
+Subject: [PATCH v5 00/12] *** A Method for evaluating dirty page rate ***
+Date: Mon, 24 Aug 2020 17:14:28 +0800
+Message-ID: <1598260480-64862-1-git-send-email-zhengchuan@huawei.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.27] (31.148.204.195) by
- AM4PR05CA0012.eurprd05.prod.outlook.com (2603:10a6:205::25) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3305.24 via Frontend Transport; Mon, 24 Aug 2020 09:01:12 +0000
-X-Originating-IP: [31.148.204.195]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8a2cbd24-a82a-4db0-85eb-08d8480c4054
-X-MS-TrafficTypeDiagnostic: AM5PR0802MB2531:
-X-Microsoft-Antispam-PRVS: <AM5PR0802MB2531B974A63C2349F9BC86D4B6560@AM5PR0802MB2531.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:398;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HjstAchfsVcoWh8bMB9Y37uOH6U4M9Jk5Z6tucHA5uuG8BL6EwTrIUrsmrJPSclisVeTS8IasqRrJ/d6gvWbTIrEo6hJtNH4GxRO253wRwFgJf9Lk26sJcpNkO7KcKQCt6XyB2XyPyY3l30lBkiXhcRw07pIP8QS8S1pj4SRovT9XYBtw475ZMc+EMKXrmuwvlfpgUBuHXaMaJGBDvsY1a1R5rXJkHckI6pcXw7Jz13NMVFypcwGx3/eq+V44ZZsiXlURh4IKFWowANTJux19j8sRXWn9b5nnezKZBY/qvbg+lvVgIk6qyU5INMW1RHGGkTUdNlSQHDFHgCl9e8ppBg8qdUOdcFp8ZsGVo9KDrXEQfhtlhK79D9qjX3oT0MY
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM6PR08MB4214.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(366004)(39840400004)(376002)(346002)(136003)(8676002)(31686004)(66476007)(66946007)(66556008)(478600001)(2906002)(36756003)(42882007)(83380400001)(4744005)(16576012)(6486002)(31696002)(26005)(16526019)(53546011)(956004)(52116002)(8936002)(54906003)(83170400001)(4326008)(5660300002)(316002)(2616005)(186003)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: K51lxW743of4Z10L/gyxLL1+5QuvH9AMTLTEzr3G21qcSMv0P653+MmUdbJvAdiAsSstouMBi01d2zSAVOq4Yy4cbLeaton/lafT+dXnTGQ/Ex7/QO6BNXeJgDYNso8YHoA+pXJx+7ZRj0taXg2D3RJ1vlRjRhyor1fwZE0/E+wC2duMKEazmS9wEp5W5lbSaAXb8B/ihBlZ2yPL0eGb9JPOWr+RVqtFW9oEUXKMD3bMsY3zt/2WgZORvYJP6ku6faCvBeuLZeWlJwPw7IpK58/7s1VhviyYBRxWW3a5KUht/t6cmoAAEYkta+3CN4uHjTrBh+JJxfLlyzQ9mYDvJribAsLIbx7nMjGXKUjyiWItMgKyYIntRoQubW/mMM3GGwAudW/eo2qoaSFZ+etPpPxTAI9AEbwt/VRUCD1pq1X1g3/3NgtiRxK2rM3JCPyk/ebCEXt0ZqmLILkW3PZiOv4zh7jv+fWXS2SJIANPslmvfKuTdfYGfT9VUoAjE/iHZeBuq2o7n6O1Zq5y18y7j/w1vFd53Q9by5Fylo/rFsKAgHdOuFomyh2ueYPVK5ZI6RBUUu7nALQxpINWXbK6G03DgWvVDmhuE9GcswrUZBIA5a5wK5lwYxHuGxvgut6e4KnD5+1xp+QAQEP8Z8GxQA==
-X-OriginatorOrg: openvz.org
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8a2cbd24-a82a-4db0-85eb-08d8480c4054
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR08MB4214.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2020 09:01:13.3721 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LH+fiQaiT7n758nZ0AjilRY2xleDArDWauBa4s4OiUevsjEgvN8rfXtrJtzaNY7hOQMN83ioIgxwuOWAItbpGQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0802MB2531
-Received-SPF: pass client-ip=40.107.22.106; envelope-from=den@virtuozzo.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/24 05:01:14
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-1.381, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+Content-Type: text/plain
+X-Originating-IP: [10.175.101.6]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=zhengchuan@huawei.com;
+ helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/24 05:03:27
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -115,28 +58,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Max Reitz <mreitz@redhat.com>
+Cc: zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
+ xiexiangyou@huawei.com, alex.chen@huawei.com, ann.zhuangyanying@huawei.com,
+ fangying1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/20/20 11:03 AM, David Edmondson wrote:
-> On Monday, 2020-08-10 at 13:14:46 +03, Denis V. Lunev wrote:
->
->> +    strftime(buf, sizeof(buf), "%m-%d %H:%M:%S",
-> "%F %T" would include the year, which can be useful.
-ok
+v4 -> v5:
+    fix git apply failed due to meson-build
+    add review-by for patches in v3
 
->
->> +             localtime_r(&start_time_host_s, &t));
->> +
->> +    bs = blk_bs(blk_stats2blk(stats));
->> +    qemu_log("long %s[%ld] IO request: %d.03%d since %s.%03d bs: %s(%s, %s)\n",
->> +             block_account_type(cookie->type), cookie->bytes,
->> +             (int)(latency_ms / 1000), (int)(latency_ms % 1000), buf,
->> +             (int)((cookie->start_time_ns / 1000000) % 1000),
-> Is there a reason not to use %u rather than casting?
-no, we could use unsigned.
+v3 -> v4:
+    use crc32 to get hash result instead of md5
+    add DirtyRateStatus to denote calculation status
+    add some trace_calls to make it easier to debug
+    fix some comments accroding to review
 
-Will resend shortly.
+v2 -> v3:
+    fix size_t compile warning
+    fix codestyle checked by checkpatch.pl
+
+v1 -> v2:
+    use g_rand_new() to generate rand_buf
+    move RAMBLOCK_FOREACH_MIGRATABLE into migration/ram.h
+    add skip_sample_ramblock to filter sampled ramblock
+    fix multi-numa vm coredump when query dirtyrate
+    rename qapi interface and rename some structures and functions
+    succeed to compile by appling each patch
+    add test for migrating vm
+
+Sometimes it is neccessary to evaluate dirty page rate before migration.
+Users could decide whether to proceed migration based on the evaluation
+in case of vm performance loss due to heavy workload.
+Unlikey simulating dirtylog sync which could do harm on runnning vm,
+we provide a sample-hash method to compare hash results for samping page.
+In this way, it would have hardly no impact on vm performance.
+
+Evaluate the dirtypage rate both on running and migration vm.
+The VM specifications for migration are as follows:
+- VM use 4-K page;
+- the number of VCPU is 32;
+- the total memory is 32Gigabit;
+- use 'mempress' tool to pressurize VM(mempress 4096 1024);
+- migration bandwidth is 1GB/s
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+|                      |  running  |                  migrating                           |
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+| no mempress          |   4MB/s   |          8MB/s      (migrated success)               |
+-------------------------------------------------------------------------------------------
+| mempress 4096 1024   |  1060MB/s |     456MB/s ~ 1142MB/s (cpu throttle triggered)      |
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+| mempress 4096 4096   |  4114MB/s |     688MB/s ~ 4132MB/s (cpu throttle triggered)      |
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Test dirtyrate by qmp command like this:
+1.  virsh qemu-monitor-command [vmname] '{"execute":"calc-dirty-rate", "arguments": {"calc-time": [sleep-time]}}'; 
+2.  sleep specific time which is a bit larger than sleep-time
+3.  virsh qemu-monitor-command [vmname] '{"execute":"query-dirty-rate"}'
+
+Further test dirtyrate by libvirt api like this:
+virsh getdirtyrate [vmname] [sleep-time]
+
+Chuan Zheng (12):
+  migration/dirtyrate: setup up query-dirtyrate framwork
+  migration/dirtyrate: add DirtyRateStatus to denote calculation status
+  migration/dirtyrate: Add RamlockDirtyInfo to store sampled page info
+  migration/dirtyrate: Add dirtyrate statistics series functions
+  migration/dirtyrate: move RAMBLOCK_FOREACH_MIGRATABLE into ram.h
+  migration/dirtyrate: Record hash results for each sampled page
+  migration/dirtyrate: Compare page hash results for recorded sampled
+    page
+  migration/dirtyrate: skip sampling ramblock with size below
+    MIN_RAMBLOCK_SIZE
+  migration/dirtyrate: Implement get_sample_page_period() and
+    block_sample_page_period()
+  migration/dirtyrate: Implement calculate_dirtyrate() function
+  migration/dirtyrate: Implement
+    qmp_cal_dirty_rate()/qmp_get_dirty_rate() function
+  migration/dirtyrate: Add trace_calls to make it easier to debug
+
+ migration/dirtyrate.c  | 432 +++++++++++++++++++++++++++++++++++++++++++++++++
+ migration/dirtyrate.h  |  87 ++++++++++
+ migration/meson.build  |   1 +
+ migration/ram.c        |  11 +-
+ migration/ram.h        |  10 ++
+ migration/trace-events |   8 +
+ qapi/migration.json    |  61 +++++++
+ 7 files changed, 600 insertions(+), 10 deletions(-)
+ create mode 100644 migration/dirtyrate.c
+ create mode 100644 migration/dirtyrate.h
+
+-- 
+1.8.3.1
+
 
