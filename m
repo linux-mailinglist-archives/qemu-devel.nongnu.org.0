@@ -2,55 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50DF424F45E
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 10:35:43 +0200 (CEST)
-Received: from localhost ([::1]:54900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 960B824F48E
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 10:37:54 +0200 (CEST)
+Received: from localhost ([::1]:60710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kA7x8-0006Rx-D2
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 04:35:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57352)
+	id 1kA7zF-0000Vk-NU
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 04:37:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1kA7w7-0005XX-ML
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 04:34:39 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:55652)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1kA7w5-0003pW-Hn
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 04:34:39 -0400
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 04B66BF553;
- Mon, 24 Aug 2020 08:34:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=irrelevant.dk;
- s=default; t=1598258074;
- bh=Aj8/Q8Q+mA1d2aldDGG1Yghwvl0LJFSd3zY2mZZ9COQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=yhxrsUQlkik5BtLVkmG8I/N7NbLy5+BRviivRy3ktYmTOkFjcyhG5YvP1taufb1YO
- tdS9s/m5Q8gvDptilm7VI4vHboIAqFlUgMlPoR7+1prjnAdCpdlVGsh9yfPQXauZ9i
- bkEOiKp5ojSC+0E31DCGdPyDhfgvf47796MMA/yHTPSXOXfKyjO+MapUYPOahPU7/d
- Hmfpe51DfMI0rYjpuwwmEauL4jHRJ0RDSwUWtwYToHRquB02rYJDGHc5AYSoYBXe30
- RjLEmeUJqUcYHdMHgsKDfWRuY+q8u7PTNlnI+CJ8KKHQKfYokJWs6z8swVgFTrGaVs
- TCL/0+PlkWthg==
-Date: Mon, 24 Aug 2020 10:34:29 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH] meson: drop keymaps symlink
-Message-ID: <20200824083429.GA439541@apples.localdomain>
-References: <20200824074057.3673-1-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kA7yR-0008Cf-Rk
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 04:37:03 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:40054)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kA7yP-0004TV-Vv
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 04:37:03 -0400
+Received: by mail-ej1-x633.google.com with SMTP id o18so10789645eje.7
+ for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 01:37:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jc6NaVM19xN9+ux52ByDJ/zbCTsSU8iQx9lfrlnTC2A=;
+ b=XwrtDKoUyCUiGe3dLjDzyPZaDPS9LQ4ezlbzcGIKJIoKS9njN5AMZaKPCCNo7vP2Ue
+ oly8jQ6k4Cw1/6mftjJ+jsdkGy/HS0Nn/ajawCc0BUHP7Hu5+dXcu7sSaEWN3z+L+qhd
+ oOhkJgU25sLH+PvPZJrVj3l3XbWiqyupJHD3TMCVutoUs/TvOYFjhwZImlS6Yr1B74lr
+ kLonXQu8Qldlk1VrG3xbjUgnAJZy5RXMlB4w6+77sxWaDq44amIXsgnG0CJ+IbTAv6+M
+ 0tGM6VjJiSGK3W2MmDrSf5QjEvcT977owI2AtBPrtA4D8uZ14E7/0G3I0j0vNXmRNq8a
+ Mvug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jc6NaVM19xN9+ux52ByDJ/zbCTsSU8iQx9lfrlnTC2A=;
+ b=riLvPsdU6gJLl52lE4tEnZ15d9zAzOOHOB+adxDuTEaASwwh5eMIAPFsIUXkQdvPES
+ P4kbIDYMmTonNIkW9Uhmc4NqaiK8SHPJDrK697kFpkXeeP9Lt3P4431kEtypsKmfg2UQ
+ Z31rw9M+HQ2XhHu/9kejXRBoJwZMJ+YlbnH45OoUoQdAd8i5Y9ah51o6K5k1pLDg9x5Y
+ DbsHINvDtAQIQyl22reMpCUbCL3f3sx0VMvCEZpg4xsucDcaxDHhRNlWFwnzCzLB06dw
+ L7md9BoRCaBFnkkXmG29c6GYeJvBj6K+Carv2A8gz/W6KirGLXDXSKMo8TTMr8+a9TNm
+ zmWg==
+X-Gm-Message-State: AOAM533fHV1KsdXLGTwrlFljCfTPFphKhRb75oR5bphoOeqq2J1nmGk4
+ JD3ZrPBUFhIDVoG4f5Lc2vFdfHokMRlpV1ipif9fSg==
+X-Google-Smtp-Source: ABdhPJxU9R9RPU263uwGg4kwNRrz8AleR9tAoPOPwqBt+LT/pfSIsjydvm3ji0rLLB1IZ+7RUugyS29aEgLDnmJ9wuU=
+X-Received: by 2002:a17:906:b814:: with SMTP id
+ dv20mr4516063ejb.4.1598258219778; 
+ Mon, 24 Aug 2020 01:36:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="gKMricLos+KVdGMg"
-Content-Disposition: inline
-In-Reply-To: <20200824074057.3673-1-kraxel@redhat.com>
-Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
- helo=charlie.dont.surf
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/24 04:34:34
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20200818041922.251708-1-david@gibson.dropbear.id.au>
+ <CAFEAcA_=qV+B17Z=XZhaPK_dvhBOkGutNmCHYEP4xTYKnzukZw@mail.gmail.com>
+ <20200823232101.GD4734@yekko.fritz.box>
+In-Reply-To: <20200823232101.GD4734@yekko.fritz.box>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 24 Aug 2020 09:36:48 +0100
+Message-ID: <CAFEAcA-CFQ9Uw_exsasfm+cOY0ODov+APMY_M1VFQKXv84KnpQ@mail.gmail.com>
+Subject: Re: [PULL 00/40] ppc-for-5.2 queue 20200818
+To: David Gibson <david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,62 +81,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-ppc <qemu-ppc@nongnu.org>, Greg Kurz <groug@kaod.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, 24 Aug 2020 at 00:21, David Gibson <david@gibson.dropbear.id.au> wrote:
+>
+> On Sun, Aug 23, 2020 at 02:54:26PM +0100, Peter Maydell wrote:
+> > Hi -- it looks like you've updated the tag but I haven't seen
+> > a new cover letter. Do you want me to apply it?
+>
+> Um.. I've updated the branch, but the tag should still be the same.
+> I'd suggest merging the tag, since that's what I did my testing run
+> on.
 
---gKMricLos+KVdGMg
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Ah, I was confused because git is smart enough to apply
+the changes to foo.inc.c files in the pullreq to the
+renamed foo.c.inc files in master; I mistakenly assumed
+that you'd done a respin to handle the renaming. Anyway,
+I'll run the tag through the merge process.
 
-On Aug 24 09:40, Gerd Hoffmann wrote:
-> We are building the keymaps by default now.  Drop the keymaps symlink
-> so the generated files are actually written to the build tree not the
-> source tree.
->=20
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  configure | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/configure b/configure
-> index 67832e3bab76..428fa33be140 100755
-> --- a/configure
-> +++ b/configure
-> @@ -8119,7 +8119,7 @@ DIRS=3D"$DIRS roms/seabios"
->  LINKS=3D"Makefile"
->  LINKS=3D"$LINKS tests/tcg/lm32/Makefile"
->  LINKS=3D"$LINKS tests/tcg/Makefile.target"
-> -LINKS=3D"$LINKS pc-bios/optionrom/Makefile pc-bios/keymaps"
-> +LINKS=3D"$LINKS pc-bios/optionrom/Makefile"
->  LINKS=3D"$LINKS pc-bios/s390-ccw/Makefile"
->  LINKS=3D"$LINKS roms/seabios/Makefile"
->  LINKS=3D"$LINKS pc-bios/qemu-icon.bmp"
-> --=20
-> 2.27.0
->=20
-
-Tested-by: Klaus Jensen <k.jensen@samsung.com>
-
-Awesome! This fixes cluttering of the source tree with changed
-pc-bios/keymaps/ files for me.
-
---gKMricLos+KVdGMg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl9De5AACgkQTeGvMW1P
-Denq/wgAn/eONAi3+/R+idcoJ10502ePJLNX9f81lEJIVwKVxL+fJvZUjPt7Z5jr
-SdUSue5O4uGmB1EZkSNbwqqTChmpD0bBWj9Bk1ZQAbost/ntn9iHSrrtIgVlVSsI
-9MhF9D1NrMtv0nvjoZ1Z4RHqelEb4PaT0ijKTwCcC1fRIa2ZYvtb7DH79JwNNEER
-Fis3bVUWk/xlBHhPl4uLlG8/56d4S/vr5YlwhGK5NFWMCBtuL7QpBKT2H57QgqXn
-lNFLDh8wVeBHG+PJb6gI46Lvs0Lh9VJKjyKepCLy7zm+YSkR45sHVM8nCx+5Rndd
-iIl2nehruvN/gL9nffCFZ6FgXhD7oA==
-=mWO9
------END PGP SIGNATURE-----
-
---gKMricLos+KVdGMg--
+thanks
+-- PMM
 
