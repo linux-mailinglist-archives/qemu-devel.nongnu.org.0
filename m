@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A411824FA30
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 11:54:11 +0200 (CEST)
-Received: from localhost ([::1]:57128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0320E24FA5C
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 11:55:52 +0200 (CEST)
+Received: from localhost ([::1]:37106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kA9B4-0007yy-LF
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 05:54:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46726)
+	id 1kA9Ch-0002sQ-2b
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 05:55:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kA95X-0004o4-Nb
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 05:48:27 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:37093)
+ id 1kA95Y-0004rN-SN
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 05:48:28 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:37880)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kA95W-0004n9-0a
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 05:48:27 -0400
-Received: by mail-wm1-x335.google.com with SMTP id x9so3650509wmi.2
- for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 02:48:25 -0700 (PDT)
+ id 1kA95X-0004nG-4q
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 05:48:28 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id y3so7988249wrl.4
+ for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 02:48:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=apEmOXm4AQqmayGyw572zskFnVNsfChXfz8USNcN8vs=;
- b=dve8epIUfMeiNe1rf+TGWWGzxvIwkaB+f9e1jikEu8IGtNxpNWW6dc3tGXIkOPr2dw
- vgxpiYzDlSjUXRftVO/9Iq4k4Auh8dhtEsKGOlarMUdLE5KXdFxm3XcgtmofPShKXi6s
- 0QUKn1hBSypr4Y6zK41W0O5cmYT3wA2jyWFwPnvJW2C+cDlY6TNacrokQDz+4gY6/ADR
- XXwlR99lKWWijHITCJxPRtPWkR8oY0C5QZbbd8h2HO1N7xDmBPfJt4ktHR3OiyfJSA6L
- ZGub/NL2PrhzyQs4otIrfni2MvN0I05Jp6LuT0gSndLt4iE+0NY7ezfzH5igN69+F7qF
- ZNEw==
+ bh=pJN8+LcfVLeFiNPeCoxtXt7wzipaKiTYfFygqw+Wy9M=;
+ b=bqIFDoLY6ff7Tn9hEEB5b03CIQOA+hdM5kmN5qt083tFZRWOhHFpiTF/Z+xxbPkLl9
+ Eioq0wzsBawH+hF5DyXp6n/uOLEAoFWefZCXC81nCS6MeNZx7dFvs+uo9z7w5RaEredW
+ CcawJoUNXwRQclpAQUE18oGY0VDcID1kHJ9NxLBuOUCtbem1NY+nB5uL5l84EMja3piy
+ Z57FbO05SR7kC09IblrOPJTthJrn9Z21lE1moHNd9DHRfrP7AkmQfJbKmIof5j9WPTAI
+ cjNkFaW8BehckhfK+IN8datMBZazuwDgnRjAJOyYSJ8JDOR4b/nUt8BKz2DhOrImKlOF
+ Z3UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=apEmOXm4AQqmayGyw572zskFnVNsfChXfz8USNcN8vs=;
- b=nSjfjrR1BXu3OqHUlkJixX5Mm8PJFzxFQt66Cn3cjk6/XjBHgR1Dqe8695wsD1Wv7A
- FF4rROsPCKoxuE63zKhHM4YHxhsud1Mmfi7mNK4CnttigDV1NX0Q+iIKAWkt7J5chxI3
- bfOP+9E72QdgOIzxVlwcUIC4+gN4GtjGY5dyGiZFk8XE1wVfHIlBb7TJEiRA6i0UZL8/
- cDqZcp8fEE4zqbV8c92oRFNiDb04KklmeEpFd/HseFtPb2Fswd4BFJ0VzpzPtlj+O6KV
- g76yJ8aEfdm0bAuxTjttO3sX8IzpRGFz1Mo/JJoFWGd2OW4oHCzyLO2t7mEaPqZNXVmD
- OysQ==
-X-Gm-Message-State: AOAM532+x38f6+jektcU2pgcfnPI0+3YzdWMKWefR4HwdQKx43/smvlh
- 1YO9izG6oLjZSkNdfwajD34D5tKq566OqFsj
-X-Google-Smtp-Source: ABdhPJxu62EuD6hDwXGTiVyy8g5O1En38Etfpqr7YzEg2xHZUW7JQYtvuvo3kwlcl/JWQTurbQ+vzg==
-X-Received: by 2002:a1c:f30f:: with SMTP id q15mr4886402wmq.60.1598262504540; 
- Mon, 24 Aug 2020 02:48:24 -0700 (PDT)
+ bh=pJN8+LcfVLeFiNPeCoxtXt7wzipaKiTYfFygqw+Wy9M=;
+ b=PoTuSK/TtzOqY49VSILgXtVq5AiI4kGv7JqQNNRQISFcO2taBptChZs4J3irxRCmKM
+ 7mFvalL/rg67tguFDd+lhgFXcCqrb/MTu/CAeByUOYgBhzKMuqcIyZpFgmPjE/ndCvQp
+ sNkTrtRUpBlOjVwjSk2DIsErzMP1UVuUvzfvUH76uARAZyQ5tSeC88wfF7iPKyMgiU7S
+ m9xVAe7xadRuBRiVDD53B4fcksMPJAUJHYOzTng7H66sUtSgfK4zDd6dqdP+HLSn73x0
+ IuexYUE2SlPTq5wjJ75k5AuEScy0Lf1eHGu5mcH+ehMUH/aU10H5zIp5JarFHFFdtqb2
+ q4xA==
+X-Gm-Message-State: AOAM533gG+Nu/k5Yuvfo2LyunLCkAqFZJnCTsXgy9CHRSRWcpWtGYmMd
+ SPvDBMPkc7PrBr+qnvaXzMKTyzohYoY1CezY
+X-Google-Smtp-Source: ABdhPJyByLPjwubt6ZfXK9r5DOUUjTFiHvB1LijTzr7kqm3v/rIvbC91g9eGqScUvHFm5ytgZL5fGw==
+X-Received: by 2002:adf:ec10:: with SMTP id x16mr4848405wrn.74.1598262505544; 
+ Mon, 24 Aug 2020 02:48:25 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q6sm24877057wma.22.2020.08.24.02.48.23
+ by smtp.gmail.com with ESMTPSA id q6sm24877057wma.22.2020.08.24.02.48.24
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Aug 2020 02:48:23 -0700 (PDT)
+ Mon, 24 Aug 2020 02:48:24 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/27] hw/arm/smmuv3: Fix IIDR offset
-Date: Mon, 24 Aug 2020 10:47:53 +0100
-Message-Id: <20200824094811.15439-10-peter.maydell@linaro.org>
+Subject: [PULL 10/27] hw/arm/smmuv3: Let AIDR advertise SMMUv3.0 support
+Date: Mon, 24 Aug 2020 10:47:54 +0100
+Message-Id: <20200824094811.15439-11-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200824094811.15439-1-peter.maydell@linaro.org>
 References: <20200824094811.15439-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,30 +90,57 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eric Auger <eric.auger@redhat.com>
 
-The SMMU IIDR register is at 0x018 offset.
+Add the support for AIDR register. It currently advertises
+SMMU V3.0 spec.
 
-Fixes: 10a83cb9887 ("hw/arm/smmuv3: Skeleton")
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20200728150815.11446-9-eric.auger@redhat.com
+Message-id: 20200728150815.11446-10-eric.auger@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/smmuv3-internal.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/arm/smmuv3-internal.h | 1 +
+ include/hw/arm/smmuv3.h  | 1 +
+ hw/arm/smmuv3.c          | 3 +++
+ 3 files changed, 5 insertions(+)
 
 diff --git a/hw/arm/smmuv3-internal.h b/hw/arm/smmuv3-internal.h
-index 5babf72f7d5..ef093eaff50 100644
+index ef093eaff50..bd34a4f3300 100644
 --- a/hw/arm/smmuv3-internal.h
 +++ b/hw/arm/smmuv3-internal.h
-@@ -63,7 +63,7 @@ REG32(IDR5,                0x14)
- 
+@@ -64,6 +64,7 @@ REG32(IDR5,                0x14)
  #define SMMU_IDR5_OAS 4
  
--REG32(IIDR,                0x1c)
-+REG32(IIDR,                0x18)
+ REG32(IIDR,                0x18)
++REG32(AIDR,                0x1c)
  REG32(CR0,                 0x20)
      FIELD(CR0, SMMU_ENABLE,   0, 1)
      FIELD(CR0, EVENTQEN,      2, 1)
+diff --git a/include/hw/arm/smmuv3.h b/include/hw/arm/smmuv3.h
+index 36b2f452539..68d7a963e0f 100644
+--- a/include/hw/arm/smmuv3.h
++++ b/include/hw/arm/smmuv3.h
+@@ -41,6 +41,7 @@ typedef struct SMMUv3State {
+ 
+     uint32_t idr[6];
+     uint32_t iidr;
++    uint32_t aidr;
+     uint32_t cr[3];
+     uint32_t cr0ack;
+     uint32_t statusr;
+diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
+index 89ab11fc36a..718f28462ea 100644
+--- a/hw/arm/smmuv3.c
++++ b/hw/arm/smmuv3.c
+@@ -1251,6 +1251,9 @@ static MemTxResult smmu_readl(SMMUv3State *s, hwaddr offset,
+     case A_IIDR:
+         *data = s->iidr;
+         return MEMTX_OK;
++    case A_AIDR:
++        *data = s->aidr;
++        return MEMTX_OK;
+     case A_CR0:
+         *data = s->cr[0];
+         return MEMTX_OK;
 -- 
 2.20.1
 
