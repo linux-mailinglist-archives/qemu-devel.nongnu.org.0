@@ -2,85 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 638CA2501C8
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 18:11:35 +0200 (CEST)
-Received: from localhost ([::1]:51360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95A9C2501E1
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 18:19:56 +0200 (CEST)
+Received: from localhost ([::1]:34672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAF4H-0001xQ-1t
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 12:11:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49202)
+	id 1kAFCN-0007As-6l
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 12:19:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1kAF3M-0001OA-VP
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 12:10:37 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:31828
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kAFBU-0006k1-Ik
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 12:19:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30114)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1kAF3K-00031w-Cf
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 12:10:36 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kAFBR-0004ML-P6
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 12:18:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598285431;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=IKMfpR8LFFqXU42P7wLvK78ryt2+YbDSEEvXx+BdZHs=;
- b=VfUeDGFFtV5PC/vKa+ieKGvr+PNn/sIFNQAFFhGEs+5pUI/xccMGw5ZhW7awAV0EPyQmez
- GqcxIPuTd57HLpkkYgPUm8HFCWuezolw/WIBlSvc0b+0BS068CONHWT0UQNx/5ugbsnz2j
- ed7COz/Br1mXINe6mAnk9g9OW4hCjd4=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-534-xZi1OdlPNseSCEiX87CUnQ-1; Mon, 24 Aug 2020 12:10:21 -0400
-X-MC-Unique: xZi1OdlPNseSCEiX87CUnQ-1
-Received: by mail-qk1-f200.google.com with SMTP id x20so6735000qki.20
- for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 09:10:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=IKMfpR8LFFqXU42P7wLvK78ryt2+YbDSEEvXx+BdZHs=;
- b=ZYpJEtShxjEad9e2zsIZxI2fYZDXAJ2fPEyc7euM11M8aO8/6f+WN7wdL0ET8a0XBy
- N87PXCxVwMrriNUWJIciUGqA+fhPPASrprWsNTPEGuU3OAOZYj3yxGb4KYI2B5nowGU/
- AAwPSLVBfryF5dXS/VQ7O2eVcfVQSzIeor0rGVrhKUIpM8t40cAEu7YhLAMAxffp3AAG
- C6q1LO+RtokcIHEusDiTsNzic4qf4Cz+duPgn06O5QHAtP13xCkMO+KQ2qQCH5n8poSG
- pV4s0uOau7ObcCrdNg3qFs7vrFsX78/p18rHbNPDfDNVNouPbsX6quRqD0vDGuH3Z9Fc
- L/1w==
-X-Gm-Message-State: AOAM532snbwfQvYFX0zLbmVBXRy6f1ofkTK/4Y1B6krpY8+SET/MJl5T
- WTYv7nB6JQ1Btrs1Ly8UNjjsX0E61EGhH+S/a0Tdl2OKN1pL4FL13XFt55E68WcNQXzMi35o9Hq
- jo9VlbMhGVtV+vZs=
-X-Received: by 2002:a37:62cd:: with SMTP id w196mr5327932qkb.486.1598285417004; 
- Mon, 24 Aug 2020 09:10:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzN8CV4NFB0WNQkM6jKemZlzVt+4hb2PHQE9oi/BT8QvL30Knn7Zkhwzm3gqJWGEMkXvh0SPQ==
-X-Received: by 2002:a37:62cd:: with SMTP id w196mr5327906qkb.486.1598285416670; 
- Mon, 24 Aug 2020 09:10:16 -0700 (PDT)
-Received: from redhat.redhat.com (ip68-103-222-6.ks.ok.cox.net. [68.103.222.6])
- by smtp.gmail.com with ESMTPSA id o47sm11601361qtk.19.2020.08.24.09.10.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Aug 2020 09:10:15 -0700 (PDT)
-From: Connor Kuehl <ckuehl@redhat.com>
-To: pbonzini@redhat.com,
-	ehabkost@redhat.com
-Subject: [PATCH] doc: fix ioctl name MEMORY_ENCRYPT_OP -> KVM_MEMORY_ENCRYPT_OP
-Date: Mon, 24 Aug 2020 11:10:14 -0500
-Message-Id: <20200824161014.401882-1-ckuehl@redhat.com>
-X-Mailer: git-send-email 2.25.4
+ s=mimecast20190719; t=1598285935;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=6C9vnfy79FGkgHoTaahogAabhfhEp/MSbIbKa2fs+nA=;
+ b=UAWlQ2+gVhrlWRgcyxKC3DnQwSqBWNfCahrr0V08FHFoVpKqxeH50DeHDl3qScVbe8XH9D
+ qDIZjo0993JlT9h+fwkug7EcHl0yPaysZ5oiO9jSsge2KhYz5cFVL9IJsBsnVIJQFV1jEK
+ irZAJqZ7kf0sfcSEdb7G6fTXm7mf9Mc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-487-fALy6cfMNUu8WsfiqLfWSQ-1; Mon, 24 Aug 2020 12:18:53 -0400
+X-MC-Unique: fALy6cfMNUu8WsfiqLfWSQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 477471084C89;
+ Mon, 24 Aug 2020 16:18:52 +0000 (UTC)
+Received: from redhat.com (ovpn-114-223.ams2.redhat.com [10.36.114.223])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E90045C1BB;
+ Mon, 24 Aug 2020 16:18:50 +0000 (UTC)
+Date: Mon, 24 Aug 2020 17:18:48 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PULL v7 000/151] Meson-based build system
+Message-ID: <20200824161848.GW10011@redhat.com>
+References: <20200819213203.17876-1-pbonzini@redhat.com>
+ <CABLmASFno04tFBRTq=V8AO7dj1d67-SNpugUJMVVa4yzrPq03Q@mail.gmail.com>
+ <CABLmASECM5tVVw3TMJn+0bCT7O4H_guy5TJd9YQKYYx+QUKBKQ@mail.gmail.com>
+ <dd66cee7-c6d2-a81e-2e53-eca34ed78be8@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <dd66cee7-c6d2-a81e-2e53-eca34ed78be8@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=ckuehl@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/24 03:41:06
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/24 04:38:05
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.956,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,65 +83,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel qemu-devel <qemu-devel@nongnu.org>,
+ Howard Spoelstra <hsp.cat7@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just for precision's sake :-)
+On Fri, Aug 21, 2020 at 02:33:12PM +0200, Paolo Bonzini wrote:
+> On 21/08/20 12:58, Howard Spoelstra wrote:
+> > I investigated a bit further and saw:
+> > ldd in Fedora tells me the executable is "not a dynamic executable".
+> 
+> How are you executing ldd?  I cross built a mingw executable from Fedora
+> and it was definitely using system DLLs.
+> 
+> PIE builds and doesn't start (doesn't even reach main) but --disable-pie
+> works just fine.  I don't know if the same issue is present under
+> Windows or it's Wine-specific.
 
-While we're in there, fix some typos:
+I've just hit this problem too,  and can demo it without QEMU involved
 
-  - fix colon placement before a list
-  - "provides" -> "provide"
-  - "destroy's" -> "destroys"
-  - fix a broken link, it had a space where there should have been an
-    undescore
+$ cat e.c
+#include <stdio.h>
+#include <stdlib.h>
 
-Signed-off-by: Connor Kuehl <ckuehl@redhat.com>
----
- docs/amd-memory-encryption.txt | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+  int main(int argc, char **argv) {    fprintf(stderr, "Hello\n");    exit(EXIT_SUCCESS); }
 
-diff --git a/docs/amd-memory-encryption.txt b/docs/amd-memory-encryption.txt
-index 43bf3ee6a5..e4c3f19e6d 100644
---- a/docs/amd-memory-encryption.txt
-+++ b/docs/amd-memory-encryption.txt
-@@ -18,14 +18,14 @@ ioctls.
- Launching
- ---------
- Boot images (such as bios) must be encrypted before guest can be booted.
--MEMORY_ENCRYPT_OP ioctl provides commands to encrypt the images :LAUNCH_START,
-+KVM_MEMORY_ENCRYPT_OP ioctl provides commands to encrypt the images: LAUNCH_START,
- LAUNCH_UPDATE_DATA, LAUNCH_MEASURE and LAUNCH_FINISH. These four commands
- together generate a fresh memory encryption key for the VM, encrypt the boot
- images and provide a measurement than can be used as an attestation of the
- successful launch.
- 
- LAUNCH_START is called first to create a cryptographic launch context within
--the firmware. To create this context, guest owner must provides guest policy,
-+the firmware. To create this context, guest owner must provide guest policy,
- its public Diffie-Hellman key (PDH) and session parameters. These inputs
- should be treated as binary blob and must be passed as-is to the SEV firmware.
- 
-@@ -64,7 +64,7 @@ Since the guest owner knows the initial contents of the guest at boot, the
- attestation measurement can be verified by comparing it to what the guest owner
- expects.
- 
--LAUNCH_FINISH command finalizes the guest launch and destroy's the cryptographic
-+LAUNCH_FINISH command finalizes the guest launch and destroys the cryptographic
- context.
- 
- See SEV KM API Spec [1] 'Launching a guest' usage flow (Appendix A) for the
-@@ -98,7 +98,7 @@ AMD Memory Encryption whitepaper:
- http://amd-dev.wpengine.netdna-cdn.com/wordpress/media/2013/12/AMD_Memory_Encryption_Whitepaper_v7-Public.pdf
- 
- Secure Encrypted Virtualization Key Management:
--[1] http://support.amd.com/TechDocs/55766_SEV-KM API_Specification.pdf
-+[1] http://support.amd.com/TechDocs/55766_SEV-KM_API_Specification.pdf
- 
- KVM Forum slides:
- http://www.linux-kvm.org/images/7/74/02x08A-Thomas_Lendacky-AMDs_Virtualizatoin_Memory_Encryption_Technology.pdf
+$ x86_64-w64-mingw32-gcc -pie -o e.exe e.c 
+
+the resulting e.exe fails to run under *both* Wine and Windows 2008r2.
+
+Either there's some extra magic compiler flags we need to pass to make
+this work, or we need to just disable PIE on Windows. The original
+pre-meson build used -no-pie AFAICT.
+
+Regards,
+Daniel
 -- 
-2.25.4
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
