@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEF6E24F45B
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 10:35:31 +0200 (CEST)
-Received: from localhost ([::1]:54258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64A3E24F46D
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 10:36:26 +0200 (CEST)
+Received: from localhost ([::1]:57760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kA7wx-0006C6-03
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 04:35:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57032)
+	id 1kA7xp-0007hm-Fm
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 04:36:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kA7uJ-0003Ap-NR; Mon, 24 Aug 2020 04:32:47 -0400
-Received: from relay.sw.ru ([185.231.240.75]:37904 helo=relay3.sw.ru)
+ id 1kA7uW-0003TW-Ut; Mon, 24 Aug 2020 04:33:02 -0400
+Received: from relay.sw.ru ([185.231.240.75]:37972 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kA7uH-0003gP-Tw; Mon, 24 Aug 2020 04:32:47 -0400
+ id 1kA7uT-0003h3-QK; Mon, 24 Aug 2020 04:33:00 -0400
 Received: from [172.16.25.136] (helo=localhost.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.94)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kA7tv-000xK2-3V; Mon, 24 Aug 2020 11:32:23 +0300
+ id 1kA7u7-000xK2-07; Mon, 24 Aug 2020 11:32:35 +0300
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 3/4] qapi: add filter-node-name to block-stream
-Date: Mon, 24 Aug 2020 11:31:53 +0300
-Message-Id: <1598257914-887267-4-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH v7 4/4] block: apply COR-filter to block-stream jobs
+Date: Mon, 24 Aug 2020 11:31:54 +0300
+Message-Id: <1598257914-887267-5-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1598257914-887267-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 References: <1598257914-887267-1-git-send-email-andrey.shinkevich@virtuozzo.com>
@@ -56,120 +56,295 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, armbru@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Provide the possibility to pass the 'filter-node-name' parameter to the
-block-stream job as it is done for the commit block job.
+This patch completes the series with the COR-filter insertion for
+block-stream operations. Adding the filter makes it possible for copied
+regions to be discarded in backing files during the block-stream job,
+what will reduce the disk overuse.
+The COR-filter insertion incurs changes in the iotests case
+245:test_block_stream_4 that reopens the backing chain during a
+block-stream job. There are changes in the iotests #030 as well.
+The iotests case 030:test_stream_parallel was deleted due to multiple
+conflicts between the concurrent job operations over the same backing
+chain. The base backing node for one job is the top node for another
+job. It may change due to the filter node inserted into the backing
+chain while both jobs are running. Another issue is that the parts of
+the backing chain are being frozen by the running job and may not be
+changed by the concurrent job when needed. The concept of the parallel
+jobs with common nodes is considered vital no more.
 
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/monitor/block-hmp-cmds.c | 4 ++--
- block/stream.c                 | 4 +++-
- blockdev.c                     | 4 +++-
- include/block/block_int.h      | 7 ++++++-
- qapi/block-core.json           | 6 ++++++
- 5 files changed, 20 insertions(+), 5 deletions(-)
+ block/stream.c             | 58 +++++++++++++++++++++++++++++++++++-----------
+ tests/qemu-iotests/030     | 50 ++++-----------------------------------
+ tests/qemu-iotests/030.out |  4 ++--
+ tests/qemu-iotests/245     | 19 +++++++++++----
+ 4 files changed, 65 insertions(+), 66 deletions(-)
 
-diff --git a/block/monitor/block-hmp-cmds.c b/block/monitor/block-hmp-cmds.c
-index 4d3db5e..4e66775 100644
---- a/block/monitor/block-hmp-cmds.c
-+++ b/block/monitor/block-hmp-cmds.c
-@@ -507,8 +507,8 @@ void hmp_block_stream(Monitor *mon, const QDict *qdict)
- 
-     qmp_block_stream(true, device, device, base != NULL, base, false, NULL,
-                      false, NULL, qdict_haskey(qdict, "speed"), speed, true,
--                     BLOCKDEV_ON_ERROR_REPORT, false, false, false, false,
--                     &error);
-+                     BLOCKDEV_ON_ERROR_REPORT, false, NULL, false, false, false,
-+                     false, &error);
- 
-     hmp_handle_error(mon, error);
- }
 diff --git a/block/stream.c b/block/stream.c
-index b9c1141..8bf6b6d 100644
+index 8bf6b6d..e927fed 100644
 --- a/block/stream.c
 +++ b/block/stream.c
-@@ -221,7 +221,9 @@ static const BlockJobDriver stream_job_driver = {
- void stream_start(const char *job_id, BlockDriverState *bs,
-                   BlockDriverState *base, const char *backing_file_str,
-                   int creation_flags, int64_t speed,
--                  BlockdevOnError on_error, Error **errp)
-+                  BlockdevOnError on_error,
-+                  const char *filter_node_name,
-+                  Error **errp)
+@@ -19,6 +19,7 @@
+ #include "qapi/qmp/qerror.h"
+ #include "qemu/ratelimit.h"
+ #include "sysemu/block-backend.h"
++#include "block/copy-on-read.h"
+ 
+ enum {
+     /*
+@@ -33,6 +34,8 @@ typedef struct StreamBlockJob {
+     BlockJob common;
+     BlockDriverState *base_overlay; /* COW overlay (stream from this) */
+     BlockDriverState *above_base;   /* Node directly above the base */
++    BlockDriverState *cor_filter_bs;
++    BlockDriverState *target_bs;
+     BlockdevOnError on_error;
+     char *backing_file_str;
+     bool bs_read_only;
+@@ -53,22 +56,20 @@ static void stream_abort(Job *job)
+     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
+ 
+     if (s->chain_frozen) {
+-        BlockJob *bjob = &s->common;
+-        bdrv_unfreeze_backing_chain(blk_bs(bjob->blk), s->above_base);
++        bdrv_unfreeze_backing_chain(s->cor_filter_bs, s->above_base);
+     }
+ }
+ 
+ static int stream_prepare(Job *job)
  {
-     StreamBlockJob *s;
-     BlockDriverState *iter;
-diff --git a/blockdev.c b/blockdev.c
-index 237fffb..cc531cb 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -2476,6 +2476,7 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
-                       bool has_backing_file, const char *backing_file,
-                       bool has_speed, int64_t speed,
-                       bool has_on_error, BlockdevOnError on_error,
-+                      bool has_filter_node_name, const char *filter_node_name,
-                       bool has_auto_finalize, bool auto_finalize,
-                       bool has_auto_dismiss, bool auto_dismiss,
-                       Error **errp)
-@@ -2558,7 +2559,8 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
+     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
+-    BlockJob *bjob = &s->common;
+-    BlockDriverState *bs = blk_bs(bjob->blk);
++    BlockDriverState *bs = s->target_bs;
+     BlockDriverState *unfiltered_bs = bdrv_skip_filters(bs);
+     BlockDriverState *base = bdrv_filter_or_cow_bs(s->above_base);
+     Error *local_err = NULL;
+     int ret = 0;
+ 
+-    bdrv_unfreeze_backing_chain(bs, s->above_base);
++    bdrv_unfreeze_backing_chain(s->cor_filter_bs, s->above_base);
+     s->chain_frozen = false;
+ 
+     if (bdrv_cow_child(unfiltered_bs)) {
+@@ -94,7 +95,9 @@ static void stream_clean(Job *job)
+ {
+     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
+     BlockJob *bjob = &s->common;
+-    BlockDriverState *bs = blk_bs(bjob->blk);
++    BlockDriverState *bs = s->target_bs;
++
++    bdrv_cor_filter_drop(s->cor_filter_bs);
+ 
+     /* Reopen the image back in read-only mode if necessary */
+     if (s->bs_read_only) {
+@@ -110,7 +113,7 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
+ {
+     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
+     BlockBackend *blk = s->common.blk;
+-    BlockDriverState *bs = blk_bs(blk);
++    BlockDriverState *bs = s->target_bs;
+     BlockDriverState *unfiltered_bs = bdrv_skip_filters(bs);
+     bool enable_cor = !bdrv_cow_child(s->base_overlay);
+     int64_t len;
+@@ -231,6 +234,7 @@ void stream_start(const char *job_id, BlockDriverState *bs,
+     int basic_flags = BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE_UNCHANGED;
+     BlockDriverState *base_overlay = bdrv_find_overlay(bs, base);
+     BlockDriverState *above_base;
++    BlockDriverState *cor_filter_bs = NULL;
+ 
+     if (!base_overlay) {
+         error_setg(errp, "'%s' is not in the backing chain of '%s'",
+@@ -264,17 +268,36 @@ void stream_start(const char *job_id, BlockDriverState *bs,
+         }
      }
  
-     stream_start(has_job_id ? job_id : NULL, bs, base_bs, base_name,
--                 job_flags, has_speed ? speed : 0, on_error, &local_err);
-+                 job_flags, has_speed ? speed : 0, on_error,
-+                 filter_node_name, &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-         goto out;
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 465a601..3efde33 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -1122,6 +1122,9 @@ int is_windows_drive(const char *filename);
-  *                  See @BlockJobCreateFlags
-  * @speed: The maximum speed, in bytes per second, or 0 for unlimited.
-  * @on_error: The action to take upon error.
-+ * @filter_node_name: The node name that should be assigned to the filter
-+ * driver that the commit job inserts into the graph above @bs. NULL means
-+ * that a node name should be autogenerated.
-  * @errp: Error object.
-  *
-  * Start a streaming operation on @bs.  Clusters that are unallocated
-@@ -1134,7 +1137,9 @@ int is_windows_drive(const char *filename);
- void stream_start(const char *job_id, BlockDriverState *bs,
-                   BlockDriverState *base, const char *backing_file_str,
-                   int creation_flags, int64_t speed,
--                  BlockdevOnError on_error, Error **errp);
-+                  BlockdevOnError on_error,
-+                  const char *filter_node_name,
-+                  Error **errp);
+-    /* Prevent concurrent jobs trying to modify the graph structure here, we
+-     * already have our own plans. Also don't allow resize as the image size is
+-     * queried only at the job start and then cached. */
+-    s = block_job_create(job_id, &stream_job_driver, NULL, bs,
+-                         basic_flags | BLK_PERM_GRAPH_MOD,
+-                         basic_flags | BLK_PERM_WRITE,
++    cor_filter_bs = bdrv_cor_filter_append(bs, filter_node_name, errp);
++    if (cor_filter_bs == NULL) {
++        goto fail;
++    }
++
++    if (bdrv_freeze_backing_chain(cor_filter_bs, bs, errp) < 0) {
++        bdrv_cor_filter_drop(cor_filter_bs);
++        cor_filter_bs = NULL;
++        goto fail;
++    }
++
++    s = block_job_create(job_id, &stream_job_driver, NULL, cor_filter_bs,
++                         BLK_PERM_CONSISTENT_READ,
++                         basic_flags | BLK_PERM_WRITE | BLK_PERM_GRAPH_MOD,
+                          speed, creation_flags, NULL, NULL, errp);
+     if (!s) {
+         goto fail;
+     }
  
- /**
-  * commit_start:
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 0b8ccd3..1db6ce1 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -2524,6 +2524,11 @@
- #            'stop' and 'enospc' can only be used if the block device
- #            supports io-status (see BlockInfo).  Since 1.3.
- #
-+# @filter-node-name: the node name that should be assigned to the
-+#                    filter driver that the stream job inserts into the graph
-+#                    above @device. If this option is not given, a node name is
-+#                    autogenerated. (Since: 5.1)
-+#
- # @auto-finalize: When false, this job will wait in a PENDING state after it has
- #                 finished its work, waiting for @block-job-finalize before
- #                 making any block graph changes.
-@@ -2554,6 +2559,7 @@
-   'data': { '*job-id': 'str', 'device': 'str', '*base': 'str',
-             '*base-node': 'str', '*backing-file': 'str', '*speed': 'int',
-             '*on-error': 'BlockdevOnError',
-+            '*filter-node-name': 'str',
-             '*auto-finalize': 'bool', '*auto-dismiss': 'bool' } }
++    /*
++     * Prevent concurrent jobs trying to modify the graph structure here, we
++     * already have our own plans. Also don't allow resize as the image size is
++     * queried only at the job start and then cached.
++     */
++    if (block_job_add_bdrv(&s->common, "active node", bs,
++                           basic_flags | BLK_PERM_GRAPH_MOD,
++                           basic_flags | BLK_PERM_WRITE, &error_abort)) {
++        goto fail;
++    }
++
+     /* Block all intermediate nodes between bs and base, because they will
+      * disappear from the chain after this operation. The streaming job reads
+      * every block only once, assuming that it doesn't change, so forbid writes
+@@ -294,6 +317,8 @@ void stream_start(const char *job_id, BlockDriverState *bs,
  
- ##
+     s->base_overlay = base_overlay;
+     s->above_base = above_base;
++    s->cor_filter_bs = cor_filter_bs;
++    s->target_bs = bs;
+     s->backing_file_str = g_strdup(backing_file_str);
+     s->bs_read_only = bs_read_only;
+     s->chain_frozen = true;
+@@ -307,5 +332,10 @@ fail:
+     if (bs_read_only) {
+         bdrv_reopen_set_read_only(bs, true, NULL);
+     }
+-    bdrv_unfreeze_backing_chain(bs, above_base);
++    if (cor_filter_bs) {
++        bdrv_unfreeze_backing_chain(cor_filter_bs, above_base);
++        bdrv_cor_filter_drop(cor_filter_bs);
++    } else {
++        bdrv_unfreeze_backing_chain(bs, above_base);
++    }
+ }
+diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
+index 1cdd7e2..fec9d89 100755
+--- a/tests/qemu-iotests/030
++++ b/tests/qemu-iotests/030
+@@ -221,60 +221,20 @@ class TestParallelOps(iotests.QMPTestCase):
+         for img in self.imgs:
+             os.remove(img)
+ 
+-    # Test that it's possible to run several block-stream operations
+-    # in parallel in the same snapshot chain
+-    def test_stream_parallel(self):
+-        self.assert_no_active_block_jobs()
+-
+-        # Check that the maps don't match before the streaming operations
+-        for i in range(2, self.num_imgs, 2):
+-            self.assertNotEqual(qemu_io('-f', iotests.imgfmt, '-rU', '-c', 'map', self.imgs[i]),
+-                                qemu_io('-f', iotests.imgfmt, '-rU', '-c', 'map', self.imgs[i-1]),
+-                                'image file map matches backing file before streaming')
+-
+-        # Create all streaming jobs
+-        pending_jobs = []
+-        for i in range(2, self.num_imgs, 2):
+-            node_name = 'node%d' % i
+-            job_id = 'stream-%s' % node_name
+-            pending_jobs.append(job_id)
+-            result = self.vm.qmp('block-stream', device=node_name, job_id=job_id, base=self.imgs[i-2], speed=512*1024)
+-            self.assert_qmp(result, 'return', {})
+-
+-        for job in pending_jobs:
+-            result = self.vm.qmp('block-job-set-speed', device=job, speed=0)
+-            self.assert_qmp(result, 'return', {})
+-
+-        # Wait for all jobs to be finished.
+-        while len(pending_jobs) > 0:
+-            for event in self.vm.get_qmp_events(wait=True):
+-                if event['event'] == 'BLOCK_JOB_COMPLETED':
+-                    job_id = self.dictpath(event, 'data/device')
+-                    self.assertTrue(job_id in pending_jobs)
+-                    self.assert_qmp_absent(event, 'data/error')
+-                    pending_jobs.remove(job_id)
+-
+-        self.assert_no_active_block_jobs()
+-        self.vm.shutdown()
+-
+-        # Check that all maps match now
+-        for i in range(2, self.num_imgs, 2):
+-            self.assertEqual(qemu_io('-f', iotests.imgfmt, '-c', 'map', self.imgs[i]),
+-                             qemu_io('-f', iotests.imgfmt, '-c', 'map', self.imgs[i-1]),
+-                             'image file map does not match backing file after streaming')
+-
+     # Test that it's not possible to perform two block-stream
+     # operations if there are nodes involved in both.
+     def test_overlapping_1(self):
+         self.assert_no_active_block_jobs()
+ 
+         # Set a speed limit to make sure that this job blocks the rest
+-        result = self.vm.qmp('block-stream', device='node4', job_id='stream-node4', base=self.imgs[1], speed=1024*1024)
++        result = self.vm.qmp('block-stream', device='node4',
++                             job_id='stream-node4', base=self.imgs[1],
++                             filter_node_name='stream-filter', speed=1024*1024)
+         self.assert_qmp(result, 'return', {})
+ 
+         result = self.vm.qmp('block-stream', device='node5', job_id='stream-node5', base=self.imgs[2])
+         self.assert_qmp(result, 'error/desc',
+-            "Node 'node4' is busy: block device is in use by block job: stream")
++            "Node 'stream-filter' is busy: block device is in use by block job: stream")
+ 
+         result = self.vm.qmp('block-stream', device='node3', job_id='stream-node3', base=self.imgs[2])
+         self.assert_qmp(result, 'error/desc',
+@@ -287,7 +247,7 @@ class TestParallelOps(iotests.QMPTestCase):
+         # block-commit should also fail if it touches nodes used by the stream job
+         result = self.vm.qmp('block-commit', device='drive0', base=self.imgs[4], job_id='commit-node4')
+         self.assert_qmp(result, 'error/desc',
+-            "Node 'node4' is busy: block device is in use by block job: stream")
++            "Node 'stream-filter' is busy: block device is in use by block job: stream")
+ 
+         result = self.vm.qmp('block-commit', device='drive0', base=self.imgs[1], top=self.imgs[3], job_id='commit-node1')
+         self.assert_qmp(result, 'error/desc',
+diff --git a/tests/qemu-iotests/030.out b/tests/qemu-iotests/030.out
+index 6d9bee1..5eb508d 100644
+--- a/tests/qemu-iotests/030.out
++++ b/tests/qemu-iotests/030.out
+@@ -1,5 +1,5 @@
+-...........................
++..........................
+ ----------------------------------------------------------------------
+-Ran 27 tests
++Ran 26 tests
+ 
+ OK
+diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
+index 5035763..6c262a0 100755
+--- a/tests/qemu-iotests/245
++++ b/tests/qemu-iotests/245
+@@ -898,17 +898,26 @@ class TestBlockdevReopen(iotests.QMPTestCase):
+         # make hd1 read-only and block-stream requires it to be read-write
+         # (Which error message appears depends on whether the stream job is
+         # already done with copying at this point.)
+-        self.reopen(opts, {},
++        # As the COR-filter node is inserted into the backing chain with the
++        # 'block-stream' operation, we move the options to their proper nodes.
++        opts = hd_opts(1)
++        opts['backing'] = hd_opts(2)
++        opts['backing']['backing'] = None
++        self.reopen(opts, {'read-only': True},
+             ["Can't set node 'hd1' to r/o with copy-on-read enabled",
+              "Cannot make block node read-only, there is a writer on it"])
+ 
+         # We can't remove hd2 while the stream job is ongoing
+-        opts['backing']['backing'] = None
+-        self.reopen(opts, {'backing.read-only': False}, "Cannot change 'backing' link from 'hd1' to 'hd2'")
++        opts['backing'] = None
++        self.reopen(opts, {'read-only': False},
++                    "Cannot change 'backing' link from 'hd1' to 'hd2'")
+ 
+-        # We can detach hd1 from hd0 because it doesn't affect the stream job
++        # We can't detach hd1 from hd0 because there is the COR-filter implicit
++        # node in between.
++        opts = hd_opts(0)
+         opts['backing'] = None
+-        self.reopen(opts)
++        self.reopen(opts, {},
++                    "Cannot change backing link if 'hd0' has an implicit backing file")
+ 
+         self.vm.run_job('stream0', auto_finalize = False, auto_dismiss = True)
+ 
 -- 
 1.8.3.1
 
