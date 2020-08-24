@@ -2,108 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78485250A99
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 23:14:57 +0200 (CEST)
-Received: from localhost ([::1]:45684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E5B3250AA5
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 23:19:08 +0200 (CEST)
+Received: from localhost ([::1]:48796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAJnr-0002OI-DG
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 17:14:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39546)
+	id 1kAJrv-00045o-Jx
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 17:19:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kAJls-0001uZ-BF
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 17:12:52 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:38399)
+ (Exim 4.90_1) (envelope-from <kpiq@gmx.us>) id 1kAJqN-0003SW-BE
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 17:17:33 -0400
+Received: from mout.gmx.net ([212.227.17.20]:50621)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kAJlm-0003He-Uh
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 17:12:52 -0400
-Received: from [192.168.100.1] ([82.252.135.186]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MuDLZ-1kTU533vrh-00uXTI; Mon, 24 Aug 2020 23:12:37 +0200
-Subject: Re: [PATCH v3 2/2] linux-user: Add support for
- 'mq_timedsend_time64()' and 'mq_timedreceive_time64()'
-To: Filip Bozuta <Filip.Bozuta@syrmia.com>, qemu-devel@nongnu.org
-References: <20200824193752.67950-1-Filip.Bozuta@syrmia.com>
- <20200824193752.67950-3-Filip.Bozuta@syrmia.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <8219b84f-013c-4474-3cda-4daf9d1fd79c@vivier.eu>
-Date: Mon, 24 Aug 2020 23:12:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <kpiq@gmx.us>) id 1kAJqI-0003qw-By
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 17:17:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1598303841;
+ bh=qxaqM9IX77C9ZCEnucyxv91rwlf5uWodzP650rvxhJk=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=fxYziVrQXe4oY4brxNDCXlzJ4zj/QdGSwFay5czGQm9sNC/QXzDaKFIVEUyJim4+z
+ NYHQnjLZOa54eMn2/I8EVaqyjQwJXTzgIH48oqm9oWkHSv2iwQiJeBRvpVDe4rj3uc
+ 2fcIsEGU/YfLTvok6Sugy1/BbAM0LVxgsQqkKfDw=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [24.171.217.155] ([24.171.217.155]) by web-mail.gmx.net
+ (3c-app-mailcom-bs16.server.lan [172.19.170.184]) (via HTTP); Mon, 24 Aug
+ 2020 23:17:21 +0200
 MIME-Version: 1.0
-In-Reply-To: <20200824193752.67950-3-Filip.Bozuta@syrmia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:LpHjv7VrtxsdGIeVZVCFonw/fKteMG+j145Q5thxRewTcBHrW/9
- xJFdIoJbETDy39JkPvWsvUbvioB9kAdlxqplpruC6yrRLfiLwMW7SsqfNOqWNmxQjTYbHwO
- NvsbrDtTvrzWu9Yx+S9vQpbdGWTCGsQBBbXKgX3JjStVvhsHmLnei0kO+4j3rTqEG1LzNIa
- a8MEAy6BSno64dLKv7gVA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:TfV5bzTvTv0=:pl5qJ87Hi1vEc/zE+5c9Ju
- yBoqws2yxYTF+SJRehNOKbC/6A/NJaD0TOs+mJWC8dyMIfUNH+utyjPfOH2MP8yDYzH9XC+6X
- B4uqOE1S2xxfvUEDdn4EJv16pJY2rPmBUSS0vCPfnMGihVT1SWqQRmknR6p+2j5KdthkAMlGc
- jBU3QocZ3yS7ic5r9kwW+fTIwbtLkH4SL3M0gR4kDNGsnIb3DZ8wKuDWHiufoJCqKxi90GBg3
- yVGW4PE4dEkNEUx6cauKmutOFEoWXBSi1KpM0P5i+6Fc15RJs6xjF/Vu3MuVyxjuQgqy7o9IC
- OAplMMlbSvcC/oxw6bs6C501wEWtXdeXD1pfCapJ1b3kxODlWNQHH7xF9aYTG31+2YSiV+hJa
- 1h+TAEYmwp33bjQR2roFS7w1pr1afqvd287TpERXfjbN3h3yKBTbk0G460nkxkFEdFqDdxzYT
- RpZS042hgOkA+cQbnqM1PI6fVEtj24pSSpMS2eeIU6Wk0WOgxbloYN0Zi4d4YVR0jyaAbaLDn
- 8stKgawIUX6L03FRrCtcZ1fnoEhMLC6rFEzRJ0dihoY43jaHm0498lN/ShPu1pwaGcR1VY2oE
- ekiNg7t7757Nb0GVTod5TBWd4EgByy9o+TkFcCH220xmlBH5EYcur+nGC+uwz8ajilDWDedB0
- LpYGtaj/WhQxdx90/C7CeKSBIdKdl+QYEwWYn3Gpbd96ZnpB3aSadxojjTzgKrq53Z+8DKtmR
- fTPrvhpjURUf/AnKpo7vN/tIBfWUCVBkV3wGHrFmBSJTd3JWcE3oNrhvuMZozGTUE60Eq/llt
- lsR5SzRkRvTtlD8bgeifNqKWdgSScaA8NfFdizIjr0CplEajMIO4ejhasY7c0ycGC44XUtX
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/24 16:46:45
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.25,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Message-ID: <trinity-087afbfd-d8e2-4c15-9f55-f838a5f7e0e5-1598303841725@3c-app-mailcom-bs16>
+From: Pedro Serrano <kpiq@gmx.us>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: unknown fs driver type 'virtiofs'
+Content-Type: text/html; charset=UTF-8
+Date: Mon, 24 Aug 2020 23:17:21 +0200
+Importance: normal
+Sensitivity: Normal
+In-Reply-To: <20200824174521.GA2688@work-vm>
+References: <trinity-3bf6c693-675f-4587-a673-717b058ceb06-1598236839217@3c-app-mailcom-bs08>
+ <20200824174521.GA2688@work-vm>
+X-UI-Message-Type: mail
+X-Priority: 3
+X-Provags-ID: V03:K1:rIorv3QRqgCSoWIypYhnNzNvqVD8GPzB+SnmgTxIU74rj1Rdq5t7lncWuyHAKj7BwR8o2
+ lZ7o4TFGP02HR78I9Ev78Cup9WRHh+AFFMch7j4W5xDJHUnGrhW/E5hGmg8hB/zA4XPdPJXZm4K/
+ bjKzX8sDXULdZdrhsDAnhniGp7ZlQJGXQGdbEkcTiQJg9Yba5+M8cwt8NiW0M9MhhiIxMlHfjhxW
+ xeWeg2YfVQzPqsBlwZRQttFtZR89L+ZCU1uFTohB12+55s3hhf3S9MRfHssHpB+O9t6IKnX0rYxX
+ XI=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:LLP1dIlcZrw=:A4GN7ja0qR9ZSNDM7AgUcK
+ vdSHl3QJrDD9k2qxx7HXnmHJE9zIsnyN412dK5RXqrOyUuOW9mLzfA5s4aF1GSYa/j5/S5rkP
+ O/pseVpWQH7/82/kuOdA4GtCPByA2B30a4gfaLSVyhLeKxBWHfpS/AcA72U9u4NWbYBVrB9yk
+ 4sChq6J1nOJXhkA27Ln+KRpUiySX2Q35DWACJe397S4bB0ZSTwhlVK8OueekEICCwwnt6z6cH
+ MkZGskhiUBBRA1TDwQ9f5d4prff0JsDj26wHXmY+34mIj05m28Hbzi7Ebttc1Q52dRcL5h7KE
+ WlvS2+ehx5GnSpQ3aRxPu4vL3l6uxeDu0NxdyqcjWYaHbCEdT/aLPL+e+a2emiXpCiLQq8Sfz
+ lJCKRaJbA4CkoI1xWCXRjShiScMwf+xZ+WXOOuPSPCowlsY98rb7NJxTWC4qhqbj8kY4UeTjV
+ 2/9kVAVbwGfpS9gZYRTQN53yM8Gwmw7c6g+n/24CbGigIWPKOa+AN5XhlBLsU9zuFpvss+Cna
+ mTpW08CQhLDxWmHtNIkrRur9hwlaHgoTJtalSlxWliiF/GHTkVlXZQZsG/XLAuRAiiDOyadfh
+ vQ1yj30KQC7E24EqAzfhmmwQbO1QSRyQquwkPJY4WzYYd0qeh0yvoG1PhbLdzmHSkZfJxrILK
+ u0LuJ2ctxHGUcRqJc/yMAK84w2KIpP1rIX+pZ9rUNLRqzqw==
+Received-SPF: pass client-ip=212.227.17.20; envelope-from=kpiq@gmx.us;
+ helo=mout.gmx.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/24 17:17:24
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001, MIME_HTML_ONLY=0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -116,145 +81,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>
+Cc: stefanha@gmail.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 24/08/2020 à 21:37, Filip Bozuta a écrit :
-> This patch implements functionality for following time64 syscalls:
-> 
-> *mq_timedsend_time64()
-> 
->     This is a year 2038 safe vairant of syscall:
-> 
->     int mq_timedsend(mqd_t mqdes, const char *msg_ptr,
->                      size_t msg_len, unsigned int msg_prio,
->                      const struct timespec *abs_timeout)
->     --send a message to a message queue--
->     man page: https://www.man7.org/linux/man-pages/man2/mq_timedsend.2.html
-> 
-> *mq_timedreceive_time64()
-> 
->     This is a year 2038 safe variant of syscall:
-> 
->     ssize_t mq_timedreceive(mqd_t mqdes, char *msg_ptr,
->                             size_t msg_len, unsigned int *msg_prio,
->                             const struct timespec *abs_timeout)
->     --receive a message from a message queue--
->     man page: https://man7.org/linux/man-pages/man3/mq_receive.3.html
-> 
-> Implementation notes:
-> 
->     These syscalls were implemented in similar ways like
->     'mq_timedsend()' and 'mq_timedreceive' except that
->     functions 'target_to_host_timespec64()' and
->     'host_to_target_timespec64()' were used to convert
->     values of 'struct timespec' between host and target.
-> 
-> Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
-> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-> ---
->  linux-user/syscall.c | 58 +++++++++++++++++++++++++++++++++++++++++---
->  1 file changed, 55 insertions(+), 3 deletions(-)
-> 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 4ee1de6e65..3331ec9fea 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -829,11 +829,13 @@ safe_syscall5(int, msgrcv, int, msgid, void *, msgp, size_t, sz,
->  safe_syscall4(int, semtimedop, int, semid, struct sembuf *, tsops,
->                unsigned, nsops, const struct timespec *, timeout)
->  #endif
-> -#ifdef TARGET_NR_mq_timedsend
-> +#if defined(TARGET_NR_mq_timedsend) || \
-> +    defined(TARGET_NR_mq_timedsend_time64)
->  safe_syscall5(int, mq_timedsend, int, mqdes, const char *, msg_ptr,
->                size_t, len, unsigned, prio, const struct timespec *, timeout)
->  #endif
-> -#ifdef TARGET_NR_mq_timedreceive
-> +#if defined(TARGET_NR_mq_timedreceive) || \
-> +    defined(TARGET_NR_mq_timedreceive_time64)
->  safe_syscall5(int, mq_timedreceive, int, mqdes, char *, msg_ptr,
->                size_t, len, unsigned *, prio, const struct timespec *, timeout)
->  #endif
-> @@ -1243,7 +1245,9 @@ static inline abi_long target_to_host_timespec(struct timespec *host_ts,
->  }
->  #endif
->  
-> -#if defined(TARGET_NR_clock_settime64) || defined(TARGET_NR_futex_time64)
-> +#if defined(TARGET_NR_clock_settime64) || defined(TARGET_NR_futex_time64) || \
-> +    defined(TARGET_NR_mq_timedsend_time64) || \
-> +    defined(TARGET_NR_mq_timedreceive_time64)
->  static inline abi_long target_to_host_timespec64(struct timespec *host_ts,
->                                                   abi_ulong target_addr)
->  {
-> @@ -11831,6 +11835,27 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
->          }
->          return ret;
->  #endif
-> +#ifdef TARGET_NR_mq_timedsend_time64
-> +    case TARGET_NR_mq_timedsend_time64:
-> +        {
-> +            struct timespec ts;
-> +
-> +            p = lock_user(VERIFY_READ, arg2, arg3, 1);
-> +            if (arg5 != 0) {
-> +                if (target_to_host_timespec64(&ts, arg5)) {
-> +                    return -TARGET_EFAULT;
-> +                }
-> +                ret = get_errno(safe_mq_timedsend(arg1, p, arg3, arg4, &ts));
-> +                if (!is_error(ret) && host_to_target_timespec64(arg5, &ts)) {
-> +                    return -TARGET_EFAULT;
-> +                }
-> +            } else {
-> +                ret = get_errno(safe_mq_timedsend(arg1, p, arg3, arg4, NULL));
-> +            }
-> +            unlock_user(p, arg2, arg3);
-> +        }
-> +        return ret;
-> +#endif
->  
->  #ifdef TARGET_NR_mq_timedreceive
->      case TARGET_NR_mq_timedreceive:
-> @@ -11858,6 +11883,33 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
->          }
->          return ret;
->  #endif
-> +#ifdef TARGET_NR_mq_timedreceive_time64
-> +    case TARGET_NR_mq_timedreceive_time64:
-> +        {
-> +            struct timespec ts;
-> +            unsigned int prio;
-> +
-> +            p = lock_user(VERIFY_READ, arg2, arg3, 1);
-> +            if (arg5 != 0) {
-> +                if (target_to_host_timespec64(&ts, arg5)) {
-> +                    return -TARGET_EFAULT;
-> +                }
-> +                ret = get_errno(safe_mq_timedreceive(arg1, p, arg3,
-> +                                                     &prio, &ts));
-> +                if (!is_error(ret) && host_to_target_timespec64(arg5, &ts)) {
-> +                    return -TARGET_EFAULT;
-> +                }
-> +            } else {
-> +                ret = get_errno(safe_mq_timedreceive(arg1, p, arg3,
-> +                                                     &prio, NULL));
-> +            }
-> +            unlock_user(p, arg2, arg3);
-> +            if (arg4 != 0) {
-> +                put_user_u32(prio, arg4);
-> +            }
-> +        }
-> +        return ret;
-> +#endif
->  
->      /* Not implemented for now... */
->  /*     case TARGET_NR_mq_notify: */
-> 
+<html><head></head><body><div style="font-family: Verdana;font-size: 12.0px;"><div>Dave</div>
 
-Applied to my linux-user-for-5.2 branch.
+<div>&nbsp;</div>
 
-Thanks,
-Laurent
+<div>Thanks for your attention.&nbsp; &nbsp;I have gone as far forward upgrading qemu and libvirt packages without going beyond stable+backports.&nbsp; &nbsp;I believe it is now a waiting game for Debian Buster backports to catch up with the release of newer versions that work with QEMU 5.0.0.</div>
 
+<div>&nbsp;</div>
+
+<div>If you have any more suggestions they will be appreciated.&nbsp; &nbsp;And sorry for the HTML on the email.&nbsp; &nbsp;I&#39;m not using an email client, just my email provider&#39;s website.&nbsp; I&#39;ll install Thunderbird or Evolution to avoid this in the future.</div>
+
+<div>&nbsp;</div>
+
+<div>Best regards</div>
+
+<div>&nbsp;</div>
+
+<div>Pedro</div>
+
+<div>&nbsp;
+<div>&nbsp;
+<div style="margin: 10.0px 5.0px 5.0px 10.0px;padding: 10.0px 0 10.0px 10.0px;border-left: 2.0px solid rgb(195,217,229);">
+<div style="margin: 0 0 10.0px 0;"><b>Sent:</b>&nbsp;Monday, August 24, 2020 at 1:45 PM<br/>
+<b>From:</b>&nbsp;&quot;Dr. David Alan Gilbert&quot; &lt;dgilbert@redhat.com&gt;<br/>
+<b>To:</b>&nbsp;&quot;Pedro Serrano&quot; &lt;kpiq@gmx.us&gt;<br/>
+<b>Cc:</b>&nbsp;qemu-devel@nongnu.org, stefanha@gmail.com<br/>
+<b>Subject:</b>&nbsp;Re: unknown fs driver type &#39;virtiofs&#39;</div>
+
+<div>* Pedro Serrano (kpiq@gmx.us) wrote:<br/>
+&gt; &lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;div style=&quot;font-family: Verdana;font-size: 12.0px;&quot;&gt;&lt;pre&gt;Folks<br/>
+&gt;<br/>
+&gt; The instructions posted on &lt;a href=&quot;http://blog.vmsplice.net/2020/04/virtio-fs-has-landed-in-qemu-50.html&quot; target=&quot;_blank&quot;&gt;<a href="http://blog.vmsplice.net/2020/04/virtio-fs-has-landed-in-qemu-50.html" target="_blank">http://blog.vmsplice.net/2020/04/virtio-fs-has-landed-in-qemu-50.html</a>&lt;/a&gt; are simple and I followed them.<br/>
+&gt;<br/>
+&gt; I&amp;#39;ve updated my Debian Buster QEMU and LIBVIRT packages to all the newest buster-backports versions, and am running on:<br/>
+&gt;<br/>
+&gt; Linux ps01ubx 5.7.0-0.bpo.2-amd64 #1 SMP Debian 5.7.10-1~bpo10+1 (2020-07-30) x86_64 GNU/Linux<br/>
+&gt;<br/>
+&gt; lsmod&amp;#124;grep virtio<br/>
+&gt; virtiofs 32768 0<br/>
+&gt; virtio_ring 36864 1 virtiofs<br/>
+&gt; virtio 16384 1 virtiofs<br/>
+&gt; fuse 139264 4 virtiofs<br/>
+&gt;<br/>
+&gt; dpkg -l gir1.2-libvirt-glib-1.0:amd64 ipxe-qemu libvirglrenderer0:amd64 libvirt-clients libvirt-daemon libvirt-daemon-system libvirt-glib-1.0-0:amd64 libvirt0:amd64 python3-libvirt qemu qemu-block-extra qemu-system-common qemu-system-data qemu-system-gui:amd64 qemu-system-x86 qemu-utils<br/>
+&gt; Desired=Unknown/Install/Remove/Purge/Hold<br/>
+&gt; &amp;#124; Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend<br/>
+&gt; &amp;#124;/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)<br/>
+&gt; &amp;#124;&amp;#124;/ Name Version Architecture Desc<br/>
+&gt; +++-=============================-============================-============-====<br/>
+&gt; ii gir1.2-libvirt-glib-1.0:amd64 1.0.0-1 amd64 GObj<br/>
+&gt; ii ipxe-qemu 1.0.0+git-20190125.36a4c85-1 all PXE<br/>
+&gt; ii libvirglrenderer0:amd64 0.7.0-2 amd64 virt<br/>
+&gt; ii libvirt-clients 5.0.0-4+deb10u1 amd64 Prog<br/>
+&gt; ii libvirt-daemon 5.0.0-4+deb10u1 amd64 Virt<br/>
+&gt; ii libvirt-daemon-system 5.0.0-4+deb10u1 amd64 Libv<br/>
+&gt; ii libvirt-glib-1.0-0:amd64 1.0.0-1 amd64 libv<br/>
+&gt; ii libvirt0:amd64 5.0.0-4+deb10u1 amd64 libr<br/>
+&gt; ii python3-libvirt 5.0.0-1 amd64 libv<br/>
+&gt; ii qemu 1:5.0-14~bpo10+1 amd64 fast<br/>
+&gt; ii qemu-block-extra 1:5.0-14~bpo10+1 amd64 extr<br/>
+&gt; ii qemu-system-common 1:5.0-14~bpo10+1 amd64 QEMU<br/>
+&gt; ii qemu-system-data 1:5.0-14~bpo10+1 all QEMU<br/>
+&gt; ii qemu-system-gui:amd64 1:5.0-14~bpo10+1 amd64 QEMU<br/>
+&gt; ii qemu-system-x86 1:5.0-14~bpo10+1 amd64 QEMU<br/>
+&gt; ii qemu-utils 1:5.0-14~bpo10+1 amd64 QEMU<br/>
+&gt;<br/>
+&gt; Whenever I add a filesystem to the vm xml (virsh edit vm) virt-manager spits out an error message. Because virt-manager doesn&amp;#39;t have a &amp;quot;virtiofs&amp;quot; line in the drop-down choices I first choose &amp;quot;PATH&amp;quot; and then try to change the XML.<br/>
+&gt;<br/>
+&gt; &amp;lt;filesystem type=&amp;#39;mount&amp;#39; accessmode=&amp;#39;passthrough&amp;#39;&amp;gt;<br/>
+&gt; &amp;lt;driver type=&amp;#39;virtiofs&amp;#39;/&amp;gt;&lt;/pre&gt;<br/>
+&gt;<br/>
+&gt;<br/>
+&gt;<br/>
+&gt; The result is similar, whether I use virt-manager or virsh edit vm:<br/>
+&gt;<br/>
+<br/>
+I think your libvirt is too old; my reckoning is it went in v6.1.0 (or<br/>
+was it 6.2.0?)<br/>
+<br/>
+&gt; virtio-manager replies: unknown fs driver type &amp;#39;virtiofs&amp;#39;<br/>
+&gt;<br/>
+&gt; virsh edit vm does not let me save the file. It replies:<br/>
+&gt; error: XML document failed to validate against schema: Unable to validate doc against /usr/share/libvirt/schemas/domain.rng&lt;br/&gt;<br/>
+&gt; Extra element devices in interleave&lt;br/&gt;<br/>
+&gt; Element domain failed to validate content<br/>
+&gt;<br/>
+&gt; Failed. Try again? [y,n,i,f,?]:<br/>
+&gt;<br/>
+&gt;<br/>
+&gt; What am I doing wrong?<br/>
+<br/>
+You&#39;re also using HTML mail without plaintext!<br/>
+<br/>
+Dave<br/>
+<br/>
+&gt; Regards<br/>
+&gt;<br/>
+&gt; Pedro Serrano<br/>
+&gt;<br/>
+&gt;<br/>
+--<br/>
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK<br/>
+&nbsp;</div>
+</div>
+</div>
+</div></div></body></html>
 
