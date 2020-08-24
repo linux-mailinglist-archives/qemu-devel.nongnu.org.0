@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDC3425000D
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 16:43:11 +0200 (CEST)
-Received: from localhost ([::1]:40044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 778BD24FFFD
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 16:40:25 +0200 (CEST)
+Received: from localhost ([::1]:54402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kADgk-0006m9-Qr
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 10:43:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43508)
+	id 1kADe4-0000yG-GL
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 10:40:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kADU5-0000MY-O5
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 10:30:06 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:53432)
+ id 1kADUF-0000Vz-Fg
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 10:30:15 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36505)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kADTy-0002kz-6j
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 10:30:04 -0400
-Received: by mail-wm1-x343.google.com with SMTP id u18so8544369wmc.3
- for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 07:29:57 -0700 (PDT)
+ id 1kADUD-0002lc-Ma
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 10:30:15 -0400
+Received: by mail-wr1-x444.google.com with SMTP id x7so2846745wro.3
+ for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 07:29:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=0AGhW0MxhHcUCSNBSGpBK11L52+F5zOr0t2Vfz/+snY=;
- b=UJpkDfwkX7erAH9325bqppJ7xu97l0Y8+a5z4ihjHS9mD8xMApc+aci1tb1zqKbibQ
- 3DLdFuniFHMqDmPeFmnc2juAe46YZ1E4/RWuQWIzCSAgBWuaku+tX9ibHD8k9sPeSKCF
- /jVU3Z1vr/IHcgPdpMIpdooOEaTRWI767SQ9VIkICFHfYie0J+qdgPgLWZbeX9BaVKrG
- Tg4Ci2tNB+o86hDntYLbcbXRKWePct8IDAqhMShhAY2GC5byxHsDfc+m7aiwl4lFyd1H
- cQmNa5zohwNyw62uL9zRDfdYmpxNicnkEJqxN5dh9PHzyKwj4Qj3JAN3ht1H3QAVDY1x
- Xepw==
+ bh=m9CVuJMQutWMXochut4xWnb86c2y5GFee0Vhh2Rycx4=;
+ b=Bqme4U3e5Kedmkef6fegYSh99eLn+goTZLouJB3QEp5LEOSLLmElAGLHBWEp41q17U
+ YJ5fObPv6+avoe1IrMV26HyptLlrq/wWK+WPjPlJeykj6CBLXXsgX+Gp6267inc3I8hs
+ CDg+5r/xJ8wefhsaMnuRn3VE2pbxVul7R9iQYl8wpOC0KEsTUofmeS4X2Ckk0uheb0lO
+ tJaalP2eVVRDmtmvWNhsURY781bWLNdR+Wnk26X+bq4wx27h0YExPXcjDEmXj9dx0Xi5
+ KI+squk+4udCCLxa5T8Whc7Qfv08G4aH/IWywwL80aTN6jIiskMvPj2L+fQBgHA1rdnJ
+ cGkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0AGhW0MxhHcUCSNBSGpBK11L52+F5zOr0t2Vfz/+snY=;
- b=qONKaFqng/spcUWlpe5JZwH0TcxMx7atGCMxjnjWyReijdcZSBCyaOhsyDxjKJ5IMR
- T18yd0+oPYd6CKq46w350Q51A/Tv+XcobmFROQLna6Zv+2Kz1tQKXuQcO/zBwwNA6J4m
- W1gcL0GXNX2IqL1+hMmMIMPVhgwunZa9C7CvZKhacfOnn18xossnu/tMT2P0osatgntt
- Znv9FPsYD3B9ybtLWeHzOHxTmNtVTuovk+jVBEF5COdaykluFtC8ry6CeB2rxdzsgIWi
- zDFcdX/EaoacKTHHTh98Q/qhFIer41/QVJ0Y//5mwBxmfsXnBpTOOGOaOti/Fb9lD6Ap
- cKMQ==
-X-Gm-Message-State: AOAM532lBLeWCr+1q0Ujfik/qJxNfBEaEJhekkCJ0hEkHA7SgGGQnuoP
- gRS8F6lC/uHwyexKckwm6K+SK/qs5vQGWkeB
-X-Google-Smtp-Source: ABdhPJyTn+kydJnEzdtIF8s6AHIjtgJaKsDmxb9odAGBwDX8Z1Th+vT8qvmt5I7D3py9j5GdY44Zyg==
-X-Received: by 2002:a1c:283:: with SMTP id 125mr6262891wmc.12.1598279396899;
- Mon, 24 Aug 2020 07:29:56 -0700 (PDT)
+ bh=m9CVuJMQutWMXochut4xWnb86c2y5GFee0Vhh2Rycx4=;
+ b=ZNgPEpA8Y+ghOVUJeLdR6cmLBom4StDETWhrA4cQwRGoh71pvIDq/0hIoQu2VTQCoA
+ IqyPz4uIKy/HDBcufPeX8U7l+hX1AIBWQ44jEdwf4ARDmjto2V2gX93Wysz3a9aCNUtF
+ p8qDp4y80c1AVXt4zLByaEQ6yMUv7lTrsFB5O9qSqEGirC+IIVBtllNDFaOy4knZoErT
+ 6po5NLOoGnmKFrUpv3VFY054Ud4YABtzbyXCwzr4Y4/w9XAg+tDtcrztptT7o1TJpIoW
+ bQbNCplesZaBEi4rhQAdpajPZYpCj8AWtd0OD/erkQMCC3sA47OuiPbXz67XVuAYTPx5
+ cR3g==
+X-Gm-Message-State: AOAM5330OvBudxcjc24Gb09tYFfrCdRWjyXBUH8yKtwOFkQLBvKGa58I
+ doemwUFj5z6Fj2xRe+9uQI2kfPvcIjIa5Qcd
+X-Google-Smtp-Source: ABdhPJyeYxj0MJuHhqsGEraemlm4gHAksOpDGd5PP0tyughmyF21TDm5z+u4TqDSPGke8+X4uAx3yA==
+X-Received: by 2002:adf:d84c:: with SMTP id k12mr6108269wrl.250.1598279397884; 
+ Mon, 24 Aug 2020 07:29:57 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id b14sm24499091wrj.93.2020.08.24.07.29.55
+ by smtp.gmail.com with ESMTPSA id b14sm24499091wrj.93.2020.08.24.07.29.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Aug 2020 07:29:56 -0700 (PDT)
+ Mon, 24 Aug 2020 07:29:57 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 19/22] target/arm: Implement new VFP fp16 insn VINS
-Date: Mon, 24 Aug 2020 15:29:31 +0100
-Message-Id: <20200824142934.20850-20-peter.maydell@linaro.org>
+Subject: [PATCH 20/22] target/arm: Implement new VFP fp16 insn VMOVX
+Date: Mon, 24 Aug 2020 15:29:32 +0100
+Message-Id: <20200824142934.20850-21-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200824142934.20850-1-peter.maydell@linaro.org>
 References: <20200824142934.20850-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,39 +88,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The fp16 extension includes a new instruction VINS, which copies the
-lower 16 bits of a 32-bit source VFP register into the upper 16 bits
-of the destination.  Implement it.
+The fp16 extension includes a new instruction VMOVX, which copies the
+upper 16 bits of a 32-bit source VFP register into the lower 16
+bits of the destination and zeroes the high half of the destination.
+Implement it.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
  target/arm/vfp-uncond.decode   |  3 +++
- target/arm/translate-vfp.c.inc | 28 ++++++++++++++++++++++++++++
- 2 files changed, 31 insertions(+)
+ target/arm/translate-vfp.c.inc | 25 +++++++++++++++++++++++++
+ 2 files changed, 28 insertions(+)
 
 diff --git a/target/arm/vfp-uncond.decode b/target/arm/vfp-uncond.decode
-index 9615544623a..39dc8f6373a 100644
+index 39dc8f6373a..8891ab3d549 100644
 --- a/target/arm/vfp-uncond.decode
 +++ b/target/arm/vfp-uncond.decode
-@@ -74,3 +74,6 @@ VCVT        1111 1110 1.11 11 rm:2 .... 1010 op:1 1.0 .... \
-             vm=%vm_sp vd=%vd_sp sz=2
+@@ -75,5 +75,8 @@ VCVT        1111 1110 1.11 11 rm:2 .... 1010 op:1 1.0 .... \
  VCVT        1111 1110 1.11 11 rm:2 .... 1011 op:1 1.0 .... \
              vm=%vm_dp vd=%vd_sp sz=3
-+
-+VINS        1111 1110 1.11 0000 .... 1010 11 . 0 .... \
+ 
++VMOVX       1111 1110 1.11 0000 .... 1010 01 . 0 .... \
 +            vd=%vd_sp vm=%vm_sp
++
+ VINS        1111 1110 1.11 0000 .... 1010 11 . 0 .... \
+             vd=%vd_sp vm=%vm_sp
 diff --git a/target/arm/translate-vfp.c.inc b/target/arm/translate-vfp.c.inc
-index 7ce044fa896..bda3dd25136 100644
+index bda3dd25136..4b26156eccc 100644
 --- a/target/arm/translate-vfp.c.inc
 +++ b/target/arm/translate-vfp.c.inc
-@@ -3454,3 +3454,31 @@ static bool trans_NOCP(DisasContext *s, arg_NOCP *a)
- 
-     return false;
+@@ -3482,3 +3482,28 @@ static bool trans_VINS(DisasContext *s, arg_VINS *a)
+     tcg_temp_free_i32(rd);
+     return true;
  }
 +
-+static bool trans_VINS(DisasContext *s, arg_VINS *a)
++static bool trans_VMOVX(DisasContext *s, arg_VINS *a)
 +{
-+    TCGv_i32 rd, rm;
++    TCGv_i32 rm;
 +
 +    if (!dc_isar_feature(aa32_fp16_arith, s)) {
 +        return false;
@@ -134,15 +137,12 @@ index 7ce044fa896..bda3dd25136 100644
 +        return true;
 +    }
 +
-+    /* Insert low half of Vm into high half of Vd */
++    /* Set Vd to high half of Vm */
 +    rm = tcg_temp_new_i32();
-+    rd = tcg_temp_new_i32();
 +    neon_load_reg32(rm, a->vm);
-+    neon_load_reg32(rd, a->vd);
-+    tcg_gen_deposit_i32(rd, rd, rm, 16, 16);
-+    neon_store_reg32(rd, a->vd);
++    tcg_gen_shri_i32(rm, rm, 16);
++    neon_store_reg32(rm, a->vd);
 +    tcg_temp_free_i32(rm);
-+    tcg_temp_free_i32(rd);
 +    return true;
 +}
 -- 
