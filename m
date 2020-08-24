@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5309250B75
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 00:11:23 +0200 (CEST)
-Received: from localhost ([::1]:32902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 977C8250B63
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 00:05:45 +0200 (CEST)
+Received: from localhost ([::1]:47500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAKgU-0000DG-Ul
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 18:11:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48754)
+	id 1kAKb2-0002ZE-Lq
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 18:05:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kAKW0-00072t-BG
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 18:00:36 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:50596
+ id 1kAKWQ-0007Ca-Ge
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 18:00:58 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:56297
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kAKVt-0008Q8-N3
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 18:00:31 -0400
+ id 1kAKWO-00006L-MD
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 18:00:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598306423;
+ s=mimecast20190719; t=1598306455;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1U+dClw/h0ApCnAUxAlsTHny3irD95tCjrN2Z9jbHL8=;
- b=eDAqXFJwtelPm1wOnsNxBVlsjtf8cPaL4TNbt/nM3gCuy599pmgpHW0PZ8sKIg3bTn7PCT
- KU3NNraVo9HoCibfKDwXpMXV16GNVNpadSzGzbh1r1rskfJRdRk0VrUBaVCSje6B1RK2BB
- jeMLUlI5ukbVU5P0rZLqGGJPPMTLANs=
+ bh=x35caCXuOckWr0t/0QSl7Z1oGqEi1qLutXHP06QSpTE=;
+ b=WbS+GoCdplRMSWuIjHM6H1VMYdbSu4e1ixUweyoHhOuKZFwUgjvyxTd1kjgR8kVkrwGe6k
+ yXRV+/6YLWdSQNuqwtMZre7oEAQpvWDzTmOPzjj5/HWkGNFEWQipSlUvbqxwqPFCri9Wi5
+ jSaziu4KAVKmJytX36zpCf41avTfOBQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-193-X30bcuwkOaGSbtQ6eB2S-g-1; Mon, 24 Aug 2020 18:00:19 -0400
-X-MC-Unique: X30bcuwkOaGSbtQ6eB2S-g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-375-RqXHqp1-PZu48tR_cdJ9Ww-1; Mon, 24 Aug 2020 18:00:53 -0400
+X-MC-Unique: RqXHqp1-PZu48tR_cdJ9Ww-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1F8B1DDFE;
- Mon, 24 Aug 2020 22:00:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 754EF81F018;
+ Mon, 24 Aug 2020 22:00:52 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8CFA319D6C;
- Mon, 24 Aug 2020 22:00:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 85CD562A13;
+ Mon, 24 Aug 2020 22:00:18 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/6] vhost-user-vga: Use typedef name for instance_size
-Date: Mon, 24 Aug 2020 17:59:35 -0400
-Message-Id: <20200824215936.2961951-6-ehabkost@redhat.com>
+Subject: [PATCH 6/6] virtio-vga: Use typedef name for instance_size
+Date: Mon, 24 Aug 2020 17:59:36 -0400
+Message-Id: <20200824215936.2961951-7-ehabkost@redhat.com>
 In-Reply-To: <20200824215936.2961951-1-ehabkost@redhat.com>
 References: <20200824215936.2961951-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
@@ -97,24 +97,34 @@ simpler.
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: "Marc-André Lureau" <marcandre.lureau@redhat.com>
 Cc: Gerd Hoffmann <kraxel@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- hw/display/vhost-user-vga.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/display/virtio-vga.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/display/vhost-user-vga.c b/hw/display/vhost-user-vga.c
-index 1690f6b610..78f58bd340 100644
---- a/hw/display/vhost-user-vga.c
-+++ b/hw/display/vhost-user-vga.c
-@@ -39,7 +39,7 @@ static void vhost_user_vga_inst_initfn(Object *obj)
- static const VirtioPCIDeviceTypeInfo vhost_user_vga_info = {
-     .generic_name  = TYPE_VHOST_USER_VGA,
+diff --git a/hw/display/virtio-vga.c b/hw/display/virtio-vga.c
+index f533d7d1b4..7c995ddc81 100644
+--- a/hw/display/virtio-vga.c
++++ b/hw/display/virtio-vga.c
+@@ -194,8 +194,8 @@ static void virtio_vga_base_class_init(ObjectClass *klass, void *data)
+ static TypeInfo virtio_vga_base_info = {
+     .name          = TYPE_VIRTIO_VGA_BASE,
+     .parent        = TYPE_VIRTIO_PCI,
+-    .instance_size = sizeof(struct VirtIOVGABase),
+-    .class_size    = sizeof(struct VirtIOVGABaseClass),
++    .instance_size = sizeof(VirtIOVGABase),
++    .class_size    = sizeof(VirtIOVGABaseClass),
+     .class_init    = virtio_vga_base_class_init,
+     .abstract      = true,
+ };
+@@ -224,7 +224,7 @@ static void virtio_vga_inst_initfn(Object *obj)
+ static VirtioPCIDeviceTypeInfo virtio_vga_info = {
+     .generic_name  = TYPE_VIRTIO_VGA,
      .parent        = TYPE_VIRTIO_VGA_BASE,
--    .instance_size = sizeof(struct VhostUserVGA),
-+    .instance_size = sizeof(VhostUserVGA),
-     .instance_init = vhost_user_vga_inst_initfn,
+-    .instance_size = sizeof(struct VirtIOVGA),
++    .instance_size = sizeof(VirtIOVGA),
+     .instance_init = virtio_vga_inst_initfn,
  };
  
 -- 
