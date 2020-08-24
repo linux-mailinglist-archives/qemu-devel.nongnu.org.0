@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BEB624FA8C
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 11:57:28 +0200 (CEST)
-Received: from localhost ([::1]:44332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3D0624FAA0
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 11:58:32 +0200 (CEST)
+Received: from localhost ([::1]:50200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kA9EF-0005qz-9W
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 05:57:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46920)
+	id 1kA9FI-0008Kd-1V
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 05:58:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kA95l-0005TE-VK
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 05:48:41 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:34033)
+ id 1kA95n-0005We-5t
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 05:48:43 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:35177)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kA95k-0004pR-Br
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 05:48:41 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id f7so8031264wrw.1
- for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 02:48:39 -0700 (PDT)
+ id 1kA95l-0004pb-E7
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 05:48:42 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id o21so7551440wmc.0
+ for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 02:48:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=rXc1zd2h6n/7ieWiemihqkhV0rfIkaZUjYQ6Am+tbsw=;
- b=Bjivqb1F8zUa+4MCVxoESr4CnKxu5wBc2ps+Vnh3Nopyl/QE6jPFibz70VbcNjlTP0
- 7M7A5aOa6jPxN/CM5lpNilcRfNmPdVvetwOoQwHMCjDrEH9o6xDHaSObeARnS+BP4gsb
- UU9ewuyeJ7UQKXuPRQX79yqwO/7v0bGu07IKVLQBLGcx7qikxBsyYwCMHsj/KmXQRTPM
- uM87f+Y68GqEoJdhzNGOH6aTj8zuS5Baj4dYDmnjYulLs2NZoGYDTW+aQDBIt454dux2
- XTPHmgQt+8Pl/wwRXRvcTJ6SneVKQaBGGEbwNToGY0jn0KHOkaH5tZVOr4puBit/gQ9P
- /onw==
+ bh=986a+dtrAGXDxkRArhjNYo7MkVjUW9PLQfZ9R0W5SLo=;
+ b=jkGWnS8vCYIXlavTZRWs9aQi7tvOTdls7bgm+3BLuUbI18fxWzHeICnvajm1AH2sau
+ PpMa3MkZVRJzBb+vY3m95Xv9v3mbU8MNj+TsTeXV/4zNDjG3ugdud09Wgei29PH+u8jM
+ R+LLQ5a0Hi6dNzpUAJCw5UkYracmHyTlkLnG29U8J6o6nrPhUomF3vdnRlw31eO2fmQ8
+ EYDoO9fdGqWX62W0FvbUwcP+MFzGLrIMlSz+Lc5G2I7R1HgkuSkCSJiWkB7bohgfrUUJ
+ s0JYH+I5JeGedJV6xh+qw5kvVAlmpKCon6NShRz+U0w8ftX+oY8tVbekryA7Nj78Zove
+ qf3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rXc1zd2h6n/7ieWiemihqkhV0rfIkaZUjYQ6Am+tbsw=;
- b=kIAXhrRAJjW34Q0vYANp9NAOuT48F3hZUIiZg0OEVbMeu4zHSLdIUe/SxAvGjSmASI
- fUllKrzs7qX3rlaQL0YhODe/asMPh2Bf7uRHKs+Zp44ks2HlmSGhd5Bq1i/TijXR6LKY
- GtF5YCV/E8vEMN78wBOp57HpI+Vo/6aVVYhgPFg0N0Jacm80E93zpOIup4okRRZMODF4
- mHk2Jrapd5OQO1ayqbBOx/w5t61kbrcplU1UVM1SpIlyxyint6t7zMtDF5fSFPx/WWGO
- 6NUtDZXspREHguj7rS8h6RmZTQBksAVXhXyztxnN1Ksqc8pnnHOJ241Xc2iBaoWZ7VJS
- 54Tg==
-X-Gm-Message-State: AOAM533rAYPm2EPSFeXht/7nc/hQqlRzaeGfiO7puz6dZ5zZS+m7FdJ6
- BB2iiDoM1hsX3PbVQvmbfbvP9O5LHYYpVrW9
-X-Google-Smtp-Source: ABdhPJwb0LF9hYJAKYix13FJCk2P9wgXu8bZPOILGzZfwrUM1vPWsF+lNEO1K0hD7yJNF2wW7k4znA==
-X-Received: by 2002:adf:fed0:: with SMTP id q16mr5007840wrs.400.1598262518862; 
- Mon, 24 Aug 2020 02:48:38 -0700 (PDT)
+ bh=986a+dtrAGXDxkRArhjNYo7MkVjUW9PLQfZ9R0W5SLo=;
+ b=a82gAAXNrtTlJ0Ck7n8yPgobtqkxmvlWCAGb/DVGRr1xf4dt3w7/kYGkBVXdIMlVxq
+ JiMGj/yhknRvIqxjdbEIVSef/jH8yJniY0huuXXwKorwWt6gc8VO4cpLv2fR8fO/wwGQ
+ 17+HX1vKbMA0dkfZ/vV/NOoWA+/LmvjsBlneMX9t6/VOHZsCORfHrU37dGa5msJw7fAn
+ sieqO+G4ByML9t1gE4FAOQaNYWpp4cggIhAqbVkhJQEpio/iXpoQGrTJg3+HHxsWiXR1
+ IwRfA5rgD3LstQBqEZoV5yeFq7To2wo1OrpzYGLhaq6Q5W1pwJEoL1hqT93GTgp/d9Bl
+ t6EQ==
+X-Gm-Message-State: AOAM532WDNOQDrovSHoCY9Yk6RJwzR/Mv/fIcsQk4RgLf5TMSUlKv3Io
+ +S5z1N6Ywa2B9zxDfSJwfqQ1DKx22kC/Wls8
+X-Google-Smtp-Source: ABdhPJxfDZeQR37FDhKcKbvNbCN3cDX/SqgFpcJ5qxWO7kHci8v8cp4nsA6NxN1pv90M1590olOcLQ==
+X-Received: by 2002:a1c:1b43:: with SMTP id b64mr5051161wmb.6.1598262519894;
+ Mon, 24 Aug 2020 02:48:39 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q6sm24877057wma.22.2020.08.24.02.48.37
+ by smtp.gmail.com with ESMTPSA id q6sm24877057wma.22.2020.08.24.02.48.38
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Aug 2020 02:48:38 -0700 (PDT)
+ Mon, 24 Aug 2020 02:48:39 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/27] target/arm: Delete unused VFP_DREG macros
-Date: Mon, 24 Aug 2020 10:48:05 +0100
-Message-Id: <20200824094811.15439-22-peter.maydell@linaro.org>
+Subject: [PULL 22/27] target/arm/translate.c: Delete/amend incorrect comments
+Date: Mon, 24 Aug 2020 10:48:06 +0100
+Message-Id: <20200824094811.15439-23-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200824094811.15439-1-peter.maydell@linaro.org>
 References: <20200824094811.15439-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,44 +88,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As part of the Neon decodetree conversion we removed all
-the uses of the VFP_DREG macros, but forgot to remove the
-macro definitions. Do so now.
+In arm_tr_init_disas_context() we have a FIXME comment that suggests
+"cpu_M0 can probably be the same as cpu_V0".  This isn't in fact
+possible: cpu_V0 is used as a temporary inside gen_iwmmxt_shift(),
+and that function is called in various places where cpu_M0 contains a
+live value (i.e.  between gen_op_iwmmxt_movq_M0_wRn() and
+gen_op_iwmmxt_movq_wRn_M0() calls).  Remove the comment.
+
+We also have a comment on the declarations of cpu_V0/V1/M0 which
+claims they're "for efficiency".  This isn't true with modern TCG, so
+replace this comment with one which notes that they're only used with
+the iwmmxt decode.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-id: 20200803124848.18295-1-peter.maydell@linaro.org
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20200803132815.3861-1-peter.maydell@linaro.org
 ---
- target/arm/translate.c | 15 ---------------
- 1 file changed, 15 deletions(-)
+ target/arm/translate.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index b74a4350e39..4ffd8b1fbe5 100644
+index 4ffd8b1fbe5..dd25adcf402 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -2470,21 +2470,6 @@ static int disas_dsp_insn(DisasContext *s, uint32_t insn)
-     return 1;
+@@ -57,8 +57,9 @@
+ #define IS_USER(s) (s->user)
+ #endif
+ 
+-/* We reuse the same 64-bit temporaries for efficiency.  */
++/* These are TCG temporaries used only by the legacy iwMMXt decoder */
+ static TCGv_i64 cpu_V0, cpu_V1, cpu_M0;
++/* These are TCG globals which alias CPUARMState fields */
+ static TCGv_i32 cpu_R[16];
+ TCGv_i32 cpu_CF, cpu_NF, cpu_VF, cpu_ZF;
+ TCGv_i64 cpu_exclusive_addr;
+@@ -8566,7 +8567,6 @@ static void arm_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+ 
+     cpu_V0 = tcg_temp_new_i64();
+     cpu_V1 = tcg_temp_new_i64();
+-    /* FIXME: cpu_M0 can probably be the same as cpu_V0.  */
+     cpu_M0 = tcg_temp_new_i64();
  }
  
--#define VFP_REG_SHR(x, n) (((n) > 0) ? (x) >> (n) : (x) << -(n))
--#define VFP_DREG(reg, insn, bigbit, smallbit) do { \
--    if (dc_isar_feature(aa32_simd_r32, s)) { \
--        reg = (((insn) >> (bigbit)) & 0x0f) \
--              | (((insn) >> ((smallbit) - 4)) & 0x10); \
--    } else { \
--        if (insn & (1 << (smallbit))) \
--            return 1; \
--        reg = ((insn) >> (bigbit)) & 0x0f; \
--    }} while (0)
--
--#define VFP_DREG_D(reg, insn) VFP_DREG(reg, insn, 12, 22)
--#define VFP_DREG_N(reg, insn) VFP_DREG(reg, insn, 16,  7)
--#define VFP_DREG_M(reg, insn) VFP_DREG(reg, insn,  0,  5)
--
- static inline bool use_goto_tb(DisasContext *s, target_ulong dest)
- {
- #ifndef CONFIG_USER_ONLY
 -- 
 2.20.1
 
