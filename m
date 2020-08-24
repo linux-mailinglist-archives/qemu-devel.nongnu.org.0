@@ -2,78 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17F3424FAE7
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 12:01:29 +0200 (CEST)
-Received: from localhost ([::1]:59916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CC0224FAF6
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 12:03:03 +0200 (CEST)
+Received: from localhost ([::1]:39806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kA9I8-000428-3V
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 06:01:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47030)
+	id 1kA9Je-0007UN-BS
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 06:03:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kA95u-0005ro-Q4
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 05:48:50 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:46191)
+ (Exim 4.90_1) (envelope-from <zhangjiachen.jaycee@bytedance.com>)
+ id 1kA9GX-0002z1-Gk
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 05:59:49 -0400
+Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:37709)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kA95q-0004qE-CO
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 05:48:50 -0400
-Received: by mail-wr1-x444.google.com with SMTP id r15so7963123wrp.13
- for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 02:48:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=LAl/MClU8bQ+8K7XrIqILgs8EvZ3f66imhAW3H8aksA=;
- b=W693syUvpL+PtHq97ntok6Q89KZ5UPLzfpJrOwifAIMzug17uJ7ixcH1I00DImmHx5
- 7ioJLTn7wJAdM2xzbEovAfmnKO/+ok4ZxgbWDONRdkwkwtlhCezTDlS8t5dYJr7o47Vv
- kOpsxNUUgctDJcm2IbffSKoXkN9KR2dlXS3kqDjXLu6YmvEn46Oj7TCidg+tjTTMHwbP
- a2z23Gt/hXxtOx/QFP7STR90jlDkV4mS7ZNrtP6TI6WUGqrvaVmjY7OzH7mP1uXMf48I
- jTLnxPgIl5qKtQYXyNOnjnMxIA+WPq5S7JIFZGAIeEl93zW3i+1ahnejS8IM16tFvIXH
- bhVA==
+ (Exim 4.90_1) (envelope-from <zhangjiachen.jaycee@bytedance.com>)
+ id 1kA9GT-0006Ar-Di
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 05:59:47 -0400
+Received: by mail-qt1-x843.google.com with SMTP id d27so5706009qtg.4
+ for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 02:59:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=kqoJCd0JGX40MtyBp+cAcCNcbOZ5omndlK5DPyEk4XU=;
+ b=CKhGQ3BXiWobF9RIWPtQ+eYRqHaN+3/gIJAYmNiEZix481P9Sty3/QLKWHnvCZCUFK
+ xeM+HADhoboXmPaH+CAxXTe6zD+PXhoO29+myZe3H8k320ozvAsAQjEB1QCkps3s0UZp
+ DaGzf6DHagEiSwjPL+7947DDQ6eYDBLJHbjwAe8TxzhehC3uzxovkB/zlk+JYtkUC6BQ
+ cCOhyU2LpHVFjWJkr/+hBiKovVHU7NYpiKwuxHm3bTxVmAJXmmelF9edep1r8UtBCXff
+ HlGuwnjoyb2a50G7ufICRIVyCT4v5Z3X3wG+MI2CjW+On1NzEDyjg6JkYOwEKWB+BJww
+ uRrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=LAl/MClU8bQ+8K7XrIqILgs8EvZ3f66imhAW3H8aksA=;
- b=HMftP6r/Mo2fgz+RNOqhxwke4mP2E6MKXBzkfJrs18kHq5+aCsT9ceJrVsj5hdC0cA
- RNWN4KGdFuyfMflptj/00Ri+dktKz0NezCQoZZaPuuxQiOx0o3MeAsjr4bmUwTxC0bSR
- FxOCte30oB+3/rLJw3HazVqgutlBH2lXJcIxXG+qlsj0VX83XzqIcNZ6TOWD5FCobKtW
- htJljbIAV26lziGe/sf+mf7mkNhqco8Lo5ycAVa+0WH/HcSATsZlKRfClJgHRoRn+o/u
- Nm5UWM3HTNdlTt7RPM99BPBiRER6/ntTnMFnNq7qmMP6MDuNV4yZLpiiuX8+5kkxr5wT
- 2/lA==
-X-Gm-Message-State: AOAM530x1j4spagHmzfb21mW/25aJXBDPU0wnRfvRnRVr1BWhvLxh8mD
- o30B9UxPNqerkjy1y3peWhVlymQPHnLe9K9x
-X-Google-Smtp-Source: ABdhPJwy8SxikkvuJvK+IAq9aY3jf7gUSf7cbQleJ+Y1nE4zOr4hKpjUenaX8WGb9cD8bAHG/VxThw==
-X-Received: by 2002:a5d:5352:: with SMTP id t18mr4919353wrv.407.1598262524259; 
- Mon, 24 Aug 2020 02:48:44 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q6sm24877057wma.22.2020.08.24.02.48.43
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Aug 2020 02:48:43 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 26/27] target/arm: Implement FPST_STD_F16 fpstatus
-Date: Mon, 24 Aug 2020 10:48:10 +0100
-Message-Id: <20200824094811.15439-27-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200824094811.15439-1-peter.maydell@linaro.org>
-References: <20200824094811.15439-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kqoJCd0JGX40MtyBp+cAcCNcbOZ5omndlK5DPyEk4XU=;
+ b=Q5R2sKkj9i4R2inHR7atVePLlp8ZMipObsp4sNmkfwfqHpdcVPmJkz8EFPCLKtgos6
+ BHUimhxQRrmxnkb3mAlUH2JZfiySxIJyuL3Mo/huE5wREXa1+NXAgex9wP+sPjo/sqTt
+ GdmlPqB4vdQpj1FWrEsVM+R6VJytsPqSYK45qB3iUGKCs4aCDtp1bZK1NwpWiFuhcawG
+ fBqIfqeFfwAcG/5Gav5mbKV5z2TRs5L2MPWxDwC//riyrEbJ7Xj+BYu3fcmYFHFup+3c
+ 3mMcCBjqlzHzcDR3gZ5fUCPr6BY2VC+BIAcPCzKMeBKZwxAfCmhfEwHOXyecYw1jeeaE
+ 3fmQ==
+X-Gm-Message-State: AOAM532ahuj/T4DvUedN1pwu0TQHQFfmGfsw+Y365eP98R7p7Fw9ll87
+ FhZkdoHVlk3p6zeU/KchzD8L7oisLG0tx81L9+I6JA==
+X-Google-Smtp-Source: ABdhPJx4SA7l3lWT45Qs5RJ1fWZpCgRpWH1dCk8seQxpGnWyMs3HR3ioZk5VT+FunudhR1ntwF9lP1twZqEcF6xFR8I=
+X-Received: by 2002:ac8:12ca:: with SMTP id b10mr516268qtj.181.1598263183314; 
+ Mon, 24 Aug 2020 02:59:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
+References: <20200821034126.8004-1-zhangjiachen.jaycee@bytedance.com>
+ <20200821115829.GJ348677@redhat.com>
+ <CAFQAk7hqGxNdQJCRn2xsKnyuasPJnHS1hq3azkVc54U2VyDm3Q@mail.gmail.com>
+ <20200824093941.GD10011@redhat.com>
+In-Reply-To: <20200824093941.GD10011@redhat.com>
+From: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
+Date: Mon, 24 Aug 2020 17:59:32 +0800
+Message-ID: <CAFQAk7i7sOEv8htf80JTXc4qXO5MxNSpHVENuvCYpM1RNMJ5Eg@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH] virtiofsd: add -o
+ allow_directio|no_directio option
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000004cb46d05ad9ca50d"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::843;
+ envelope-from=zhangjiachen.jaycee@bytedance.com; helo=mail-qt1-x843.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,133 +82,244 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Yongji Xie <xieyongji@bytedance.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Architecturally, Neon FP16 operations use the "standard FPSCR" like
-all other Neon operations.  However, this is defined in the Arm ARM
-pseudocode as "a fixed value, except that FZ16 (and AHP) follow the
-FPSCR bits". In QEMU, the softfloat float_status doesn't include
-separate flush-to-zero for FP16 operations, so we must keep separate
-fp_status for "Neon non-FP16" and "Neon fp16" operations, in the
-same way we do already for the non-Neon "fp_status" vs "fp_status_f16".
+--0000000000004cb46d05ad9ca50d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add the extra float_status field to the CPU state structure,
-ensure it is correctly initialized and updated on FPSCR writes,
-and make fpstatus_ptr(FPST_STD_F16) return a pointer to it.
+On Mon, Aug 24, 2020 at 5:39 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m>
+wrote:
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-id: 20200806104453.30393-4-peter.maydell@linaro.org
----
- target/arm/cpu.h        | 9 ++++++++-
- target/arm/translate.h  | 3 ++-
- target/arm/cpu.c        | 3 +++
- target/arm/vfp_helper.c | 5 +++++
- 4 files changed, 18 insertions(+), 2 deletions(-)
+> On Sat, Aug 22, 2020 at 01:51:04AM +0800, =E5=BC=A0=E4=BD=B3=E8=BE=B0 wro=
+te:
+> > On Fri, Aug 21, 2020 at 7:58 PM Daniel P. Berrang=C3=A9 <berrange@redha=
+t.com>
+> > wrote:
+> >
+> > > On Fri, Aug 21, 2020 at 11:41:26AM +0800, Jiachen Zhang wrote:
+> > > > Due to the commit 65da4539803373ec4eec97ffc49ee90083e56efd, the
+> O_DIRECT
+> > > > open flag of guest applications will be discarded by virtiofsd. Whi=
+le
+> > > > this behavior makes it consistent with the virtio-9p scheme when
+> guest
+> > > > applications using direct I/O, we no longer have any chance to bypa=
+ss
+> > > > the host page cache.
+> > > >
+> > > > Therefore, we add a flag 'allow_directio' to lo_data. If '-o
+> no_directio'
+> > > > option is added, or none of '-o no_directio' or '-o allow_directio'
+> is
+> > > > added, the 'allow_directio' will be set to 0, and virtiofsd discard=
+s
+> > > > O_DIRECT as before. If '-o allow_directio' is added to the staritin=
+g
+> > > > command-line, 'allow_directio' will be set to 1, so that the O_DIRE=
+CT
+> > > > flags will be retained and host page cache can be bypassed.
+> > > >
+> > > > Signed-off-by: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
+> > > > ---
+> > > >  tools/virtiofsd/helper.c         |  4 ++++
+> > > >  tools/virtiofsd/passthrough_ll.c | 20 ++++++++++++++------
+> > > >  2 files changed, 18 insertions(+), 6 deletions(-)
+> > > >
+> > > > diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
+> > > > index 3105b6c23a..534ff52c64 100644
+> > > > --- a/tools/virtiofsd/helper.c
+> > > > +++ b/tools/virtiofsd/helper.c
+> > > > @@ -180,6 +180,10 @@ void fuse_cmdline_help(void)
+> > > >             "                               (0 leaves rlimit
+> > > unchanged)\n"
+> > > >             "                               default: min(1000000,
+> > > fs.file-max - 16384)\n"
+> > > >             "                                        if the current
+> > > rlimit is lower\n"
+> > > > +           "    -o allow_directio|no_directio\n"
+> > > > +           "                               retain/discard O_DIRECT
+> > > flags passed down\n"
+> > > > +           "                               to virtiofsd from guest
+> > > applications.\n"
+> > > > +           "                               default: no_directio\n"
+> > > >             );
+> > >
+> > > The standard naming convention from existing options is to use
+> > > $OPTNAME and no_$OPTNAME.
+> > >
+> > > IOW, don't use the "allow_" prefix. The options should be just
+> > > "directio" and "no_directio"
+> > >
+> > > Thanks, Daniel. I did consider using "directio" instead of
+> "allow_directio"
+> > before I send out this patch. Although "-o directio" makes it consisten=
+t
+> > with other option names, it may confuse the users of virtiofsd.
+> > Because currently, virtiofsd will not add an O_DIRECT to the open flag,
+> > it will just retain or discard the O_DIRECT added by guest applications=
+.
+> > But "-o direct" may make the users think that virtiofsd will do direct =
+IO
+> > all
+> > the time.
+>
+> Then -o allow_direct_io   and  -o no_allow_direct_io
+>
+>
+OK, thanks. I will use these names in the final version.
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 9d2845c1797..ac857bdc2c1 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -609,6 +609,8 @@ typedef struct CPUARMState {
-          *  fp_status: is the "normal" fp status.
-          *  fp_status_fp16: used for half-precision calculations
-          *  standard_fp_status : the ARM "Standard FPSCR Value"
-+         *  standard_fp_status_fp16 : used for half-precision
-+         *       calculations with the ARM "Standard FPSCR Value"
-          *
-          * Half-precision operations are governed by a separate
-          * flush-to-zero control bit in FPSCR:FZ16. We pass a separate
-@@ -619,15 +621,20 @@ typedef struct CPUARMState {
-          * Neon) which the architecture defines as controlled by the
-          * standard FPSCR value rather than the FPSCR.
-          *
-+         * The "standard FPSCR but for fp16 ops" is needed because
-+         * the "standard FPSCR" tracks the FPSCR.FZ16 bit rather than
-+         * using a fixed value for it.
-+         *
-          * To avoid having to transfer exception bits around, we simply
-          * say that the FPSCR cumulative exception flags are the logical
--         * OR of the flags in the three fp statuses. This relies on the
-+         * OR of the flags in the four fp statuses. This relies on the
-          * only thing which needs to read the exception flags being
-          * an explicit FPSCR read.
-          */
-         float_status fp_status;
-         float_status fp_status_f16;
-         float_status standard_fp_status;
-+        float_status standard_fp_status_f16;
- 
-         /* ZCR_EL[1-3] */
-         uint64_t zcr_el[4];
-diff --git a/target/arm/translate.h b/target/arm/translate.h
-index e3680e65479..6d6d4c0f425 100644
---- a/target/arm/translate.h
-+++ b/target/arm/translate.h
-@@ -436,7 +436,8 @@ static inline TCGv_ptr fpstatus_ptr(ARMFPStatusFlavour flavour)
-         offset = offsetof(CPUARMState, vfp.standard_fp_status);
-         break;
-     case FPST_STD_F16:
--        /* Not yet used or implemented: fall through to assert */
-+        offset = offsetof(CPUARMState, vfp.standard_fp_status_f16);
-+        break;
-     default:
-         g_assert_not_reached();
-     }
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 111579554fb..6b382fcd60e 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -391,12 +391,15 @@ static void arm_cpu_reset(DeviceState *dev)
-     set_flush_to_zero(1, &env->vfp.standard_fp_status);
-     set_flush_inputs_to_zero(1, &env->vfp.standard_fp_status);
-     set_default_nan_mode(1, &env->vfp.standard_fp_status);
-+    set_default_nan_mode(1, &env->vfp.standard_fp_status_f16);
-     set_float_detect_tininess(float_tininess_before_rounding,
-                               &env->vfp.fp_status);
-     set_float_detect_tininess(float_tininess_before_rounding,
-                               &env->vfp.standard_fp_status);
-     set_float_detect_tininess(float_tininess_before_rounding,
-                               &env->vfp.fp_status_f16);
-+    set_float_detect_tininess(float_tininess_before_rounding,
-+                              &env->vfp.standard_fp_status_f16);
- #ifndef CONFIG_USER_ONLY
-     if (kvm_enabled()) {
-         kvm_arm_reset_vcpu(cpu);
-diff --git a/target/arm/vfp_helper.c b/target/arm/vfp_helper.c
-index 60dcd4bf145..64266ece620 100644
---- a/target/arm/vfp_helper.c
-+++ b/target/arm/vfp_helper.c
-@@ -93,6 +93,8 @@ static uint32_t vfp_get_fpscr_from_host(CPUARMState *env)
-     /* FZ16 does not generate an input denormal exception.  */
-     i |= (get_float_exception_flags(&env->vfp.fp_status_f16)
-           & ~float_flag_input_denormal);
-+    i |= (get_float_exception_flags(&env->vfp.standard_fp_status_f16)
-+          & ~float_flag_input_denormal);
-     return vfp_exceptbits_from_host(i);
- }
- 
-@@ -124,7 +126,9 @@ static void vfp_set_fpscr_to_host(CPUARMState *env, uint32_t val)
-     if (changed & FPCR_FZ16) {
-         bool ftz_enabled = val & FPCR_FZ16;
-         set_flush_to_zero(ftz_enabled, &env->vfp.fp_status_f16);
-+        set_flush_to_zero(ftz_enabled, &env->vfp.standard_fp_status_f16);
-         set_flush_inputs_to_zero(ftz_enabled, &env->vfp.fp_status_f16);
-+        set_flush_inputs_to_zero(ftz_enabled, &env->vfp.standard_fp_status_f16);
-     }
-     if (changed & FPCR_FZ) {
-         bool ftz_enabled = val & FPCR_FZ;
-@@ -146,6 +150,7 @@ static void vfp_set_fpscr_to_host(CPUARMState *env, uint32_t val)
-     set_float_exception_flags(i, &env->vfp.fp_status);
-     set_float_exception_flags(0, &env->vfp.fp_status_f16);
-     set_float_exception_flags(0, &env->vfp.standard_fp_status);
-+    set_float_exception_flags(0, &env->vfp.standard_fp_status_f16);
- }
- 
- #else
--- 
-2.20.1
+Jiachen
 
+
+>
+> Regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-
+> https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-
+> https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-
+> https://www.instagram.com/dberrange :|
+>
+>
+
+--0000000000004cb46d05ad9ca50d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"></div><br><div class=3D"gmail_quote"><div=
+ dir=3D"ltr" class=3D"gmail_attr">On Mon, Aug 24, 2020 at 5:39 PM Daniel P.=
+ Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@redhat.c=
+om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+">On Sat, Aug 22, 2020 at 01:51:04AM +0800, =E5=BC=A0=E4=BD=B3=E8=BE=B0 wro=
+te:<br>
+&gt; On Fri, Aug 21, 2020 at 7:58 PM Daniel P. Berrang=C3=A9 &lt;<a href=3D=
+"mailto:berrange@redhat.com" target=3D"_blank">berrange@redhat.com</a>&gt;<=
+br>
+&gt; wrote:<br>
+&gt; <br>
+&gt; &gt; On Fri, Aug 21, 2020 at 11:41:26AM +0800, Jiachen Zhang wrote:<br=
+>
+&gt; &gt; &gt; Due to the commit 65da4539803373ec4eec97ffc49ee90083e56efd, =
+the O_DIRECT<br>
+&gt; &gt; &gt; open flag of guest applications will be discarded by virtiof=
+sd. While<br>
+&gt; &gt; &gt; this behavior makes it consistent with the virtio-9p scheme =
+when guest<br>
+&gt; &gt; &gt; applications using direct I/O, we no longer have any chance =
+to bypass<br>
+&gt; &gt; &gt; the host page cache.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; Therefore, we add a flag &#39;allow_directio&#39; to lo_data=
+. If &#39;-o no_directio&#39;<br>
+&gt; &gt; &gt; option is added, or none of &#39;-o no_directio&#39; or &#39=
+;-o allow_directio&#39; is<br>
+&gt; &gt; &gt; added, the &#39;allow_directio&#39; will be set to 0, and vi=
+rtiofsd discards<br>
+&gt; &gt; &gt; O_DIRECT as before. If &#39;-o allow_directio&#39; is added =
+to the stariting<br>
+&gt; &gt; &gt; command-line, &#39;allow_directio&#39; will be set to 1, so =
+that the O_DIRECT<br>
+&gt; &gt; &gt; flags will be retained and host page cache can be bypassed.<=
+br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; Signed-off-by: Jiachen Zhang &lt;<a href=3D"mailto:zhangjiac=
+hen.jaycee@bytedance.com" target=3D"_blank">zhangjiachen.jaycee@bytedance.c=
+om</a>&gt;<br>
+&gt; &gt; &gt; ---<br>
+&gt; &gt; &gt;=C2=A0 tools/virtiofsd/helper.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0|=C2=A0 4 ++++<br>
+&gt; &gt; &gt;=C2=A0 tools/virtiofsd/passthrough_ll.c | 20 ++++++++++++++--=
+----<br>
+&gt; &gt; &gt;=C2=A0 2 files changed, 18 insertions(+), 6 deletions(-)<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/help=
+er.c<br>
+&gt; &gt; &gt; index 3105b6c23a..534ff52c64 100644<br>
+&gt; &gt; &gt; --- a/tools/virtiofsd/helper.c<br>
+&gt; &gt; &gt; +++ b/tools/virtiofsd/helper.c<br>
+&gt; &gt; &gt; @@ -180,6 +180,10 @@ void fuse_cmdline_help(void)<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(0 leaves rlimit<br>
+&gt; &gt; unchanged)\n&quot;<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0default: min(1000000,<br>
+&gt; &gt; fs.file-max - 16384)\n&quot;<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if the current<=
+br>
+&gt; &gt; rlimit is lower\n&quot;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;=C2=A0 =C2=
+=A0 -o allow_directio|no_directio\n&quot;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0retain/discard O_DIRECT<br>
+&gt; &gt; flags passed down\n&quot;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0to virtiofsd from guest<br>
+&gt; &gt; applications.\n&quot;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0default: no_directio\n&quot;<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0);<br>
+&gt; &gt;<br>
+&gt; &gt; The standard naming convention from existing options is to use<br=
+>
+&gt; &gt; $OPTNAME and no_$OPTNAME.<br>
+&gt; &gt;<br>
+&gt; &gt; IOW, don&#39;t use the &quot;allow_&quot; prefix. The options sho=
+uld be just<br>
+&gt; &gt; &quot;directio&quot; and &quot;no_directio&quot;<br>
+&gt; &gt;<br>
+&gt; &gt; Thanks, Daniel. I did consider using &quot;directio&quot; instead=
+ of &quot;allow_directio&quot;<br>
+&gt; before I send out this patch. Although &quot;-o directio&quot; makes i=
+t consistent<br>
+&gt; with other option names, it may confuse the users of virtiofsd.<br>
+&gt; Because currently, virtiofsd will not add an O_DIRECT to the open flag=
+,<br>
+&gt; it will just retain or discard the O_DIRECT added by guest application=
+s.<br>
+&gt; But &quot;-o direct&quot; may make the users think that virtiofsd will=
+ do direct IO<br>
+&gt; all<br>
+&gt; the time.<br>
+<br>
+Then -o allow_direct_io=C2=A0 =C2=A0and=C2=A0 -o no_allow_direct_io<br>
+<br></blockquote><div><br></div><div>OK, thanks. I will use these names in =
+the final version.<div><br></div><div>Jiachen</div></div><div>=C2=A0</div><=
+blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
+eft:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Regards,<br>
+Daniel<br>
+-- <br>
+|: <a href=3D"https://berrange.com" rel=3D"noreferrer" target=3D"_blank">ht=
+tps://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D"http=
+s://www.flickr.com/photos/dberrange" rel=3D"noreferrer" target=3D"_blank">h=
+ttps://www.flickr.com/photos/dberrange</a> :|<br>
+|: <a href=3D"https://libvirt.org" rel=3D"noreferrer" target=3D"_blank">htt=
+ps://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138.berrange.com" rel=3D"n=
+oreferrer" target=3D"_blank">https://fstop138.berrange.com</a> :|<br>
+|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer" target=3D"_bla=
+nk">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D=
+"https://www.instagram.com/dberrange" rel=3D"noreferrer" target=3D"_blank">=
+https://www.instagram.com/dberrange</a> :|<br>
+<br>
+</blockquote></div></div>
+
+--0000000000004cb46d05ad9ca50d--
 
