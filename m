@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1563E25017D
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 17:52:15 +0200 (CEST)
-Received: from localhost ([::1]:45004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B375250185
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 17:53:13 +0200 (CEST)
+Received: from localhost ([::1]:47158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAElZ-00024b-KB
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 11:52:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42874)
+	id 1kAEmW-0002xj-MT
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 11:53:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brogers@suse.com>) id 1kAEkp-0001ei-AB
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 11:51:27 -0400
-Received: from mx2.suse.de ([195.135.220.15]:57956)
+ (Exim 4.90_1) (envelope-from <brogers@suse.com>) id 1kAElj-0002Wb-CO
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 11:52:23 -0400
+Received: from mx2.suse.de ([195.135.220.15]:58838)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brogers@suse.com>) id 1kAEkn-00080J-7R
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 11:51:26 -0400
+ (Exim 4.90_1) (envelope-from <brogers@suse.com>) id 1kAElh-00084M-5d
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 11:52:23 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 5E6ECAF0F;
- Mon, 24 Aug 2020 15:51:51 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 10F67AF0F;
+ Mon, 24 Aug 2020 15:52:50 +0000 (UTC)
 From: Bruce Rogers <brogers@suse.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] meson: Fix shell script syntax in qemu-version.sh
-Date: Mon, 24 Aug 2020 09:51:11 -0600
-Message-Id: <20200824155111.789466-1-brogers@suse.com>
+Subject: [PATCH] meson: Fix meson build with --enable-libdaxctl
+Date: Mon, 24 Aug 2020 09:52:12 -0600
+Message-Id: <20200824155212.789568-1-brogers@suse.com>
 X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -55,26 +55,51 @@ Cc: pbonzini@redhat.com, Bruce Rogers <brogers@suse.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There needs to be a space before the closing bracket.
+The daxctl library needs to be linked against when daxctl is asked for
+in configure.
 
 Signed-off-by: Bruce Rogers <brogers@suse.com>
 ---
- scripts/qemu-version.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ configure   | 1 +
+ meson.build | 6 +++++-
+ 2 files changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/qemu-version.sh b/scripts/qemu-version.sh
-index 4847385e42..03128c56a2 100755
---- a/scripts/qemu-version.sh
-+++ b/scripts/qemu-version.sh
-@@ -6,7 +6,7 @@ dir="$1"
- pkgversion="$2"
- version="$3"
+diff --git a/configure b/configure
+index 67832e3bab..15de7d10de 100755
+--- a/configure
++++ b/configure
+@@ -7488,6 +7488,7 @@ fi
  
--if [ -z "$pkgversion"]; then
-+if [ -z "$pkgversion" ]; then
-     cd "$dir"
-     if [ -e .git ]; then
-         pkgversion=$(git describe --match 'v*' --dirty | echo "")
+ if test "$libdaxctl" = "yes" ; then
+   echo "CONFIG_LIBDAXCTL=y" >> $config_host_mak
++  echo "LIBDAXCTL_LIBS=$libdaxctl_libs" >> $config_host_mak
+ fi
+ 
+ if test "$bochs" = "yes" ; then
+diff --git a/meson.build b/meson.build
+index df5bf728b5..0a24e5c31a 100644
+--- a/meson.build
++++ b/meson.build
+@@ -380,6 +380,10 @@ if 'CONFIG_LIBPMEM' in config_host
+   libpmem = declare_dependency(compile_args: config_host['LIBPMEM_CFLAGS'].split(),
+                                link_args: config_host['LIBPMEM_LIBS'].split())
+ endif
++libdaxctl = not_found
++if 'CONFIG_LIBDAXCTL' in config_host
++  libdaxctl = declare_dependency(link_args: config_host['LIBDAXCTL_LIBS'].split())
++endif
+ 
+ # Create config-host.h
+ 
+@@ -786,7 +790,7 @@ common_ss.add(files('cpus-common.c'))
+ 
+ subdir('softmmu')
+ 
+-specific_ss.add(files('disas.c', 'exec.c', 'gdbstub.c'), capstone, libpmem)
++specific_ss.add(files('disas.c', 'exec.c', 'gdbstub.c'), capstone, libpmem, libdaxctl)
+ specific_ss.add(files('exec-vary.c'))
+ specific_ss.add(when: 'CONFIG_TCG', if_true: files(
+   'fpu/softfloat.c',
 -- 
 2.28.0
 
