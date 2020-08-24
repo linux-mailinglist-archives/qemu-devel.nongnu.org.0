@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D354024FC13
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 12:57:01 +0200 (CEST)
-Received: from localhost ([::1]:51852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B876424FC34
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 13:02:22 +0200 (CEST)
+Received: from localhost ([::1]:56494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAA9s-000240-NW
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 06:57:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38302)
+	id 1kAAF3-0004G3-NN
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 07:02:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kAA9D-0001da-TK
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 06:56:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53580)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kAA9B-0005XL-5e
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 06:56:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598266575;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+THSd0x6Ze/oGp/k4Xvhx+cUvgTJPUPudvWsDf4OBmY=;
- b=eyw9Sc1jlPc7gfsaQLulBgZHH0piQ07eFec5gxS0jLTTMbvyciVC/in9Oi8efYRp8ykC4N
- sbEFqxo/7wi1KgHxmOXAS0oXakgJkXsZcjSEphaM7z6aVnUX9rHBVXPBgMxrIpadxsh1s/
- Dw9K5MW47wVOpkuCe+C8VJKAPmtspwc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-216-rv0-CNjKMxCCvU20xZwFCg-1; Mon, 24 Aug 2020 06:56:11 -0400
-X-MC-Unique: rv0-CNjKMxCCvU20xZwFCg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E65664087;
- Mon, 24 Aug 2020 10:56:10 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-112-186.ams2.redhat.com
- [10.36.112.186])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9BEF05D9DD;
- Mon, 24 Aug 2020 10:56:09 +0000 (UTC)
-Subject: Re: ANNOUNCE: build system conversion to Meson has landed
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
-References: <CAFEAcA-87BcmoPjY9BCodx9+m6QmhfikHv5sLVJ8w20cszDvDA@mail.gmail.com>
- <be069d22-510c-7c5f-7b57-00e8abd0ba41@redhat.com>
- <74116413-bd9d-b1a3-2364-26b7dcc7f105@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <706cd245-f5a5-9d3d-5ed9-fa7642534305@redhat.com>
-Date: Mon, 24 Aug 2020 12:56:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Firefox/52.0 Thunderbird/52.9.1
+ (Exim 4.90_1) (envelope-from <zhangjiachen.jaycee@bytedance.com>)
+ id 1kAADb-00031s-U9
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 07:00:52 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:38950)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <zhangjiachen.jaycee@bytedance.com>)
+ id 1kAADU-000630-7r
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 07:00:49 -0400
+Received: by mail-pl1-x642.google.com with SMTP id p15so488370pli.6
+ for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 04:00:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=sU/Kh8iXRyrB08qIeRaZSK9NbEbPtPjaRnwRZAPg+FQ=;
+ b=xuDUfWKFArUFUT027dSdDi8xXBsBMQpPY3jpgqREyDVV1PtkzrzFmOpSuK9Le1M9kJ
+ CqgXsiiKaAbDcrToIGP468O7UUJ8tav+Oo1oUo8IShw3Zi1wvo383Gzto6RO3Enm41mg
+ 6JdeCZv319GhexmNmiK9//+IXJHHvOXYnfIIE9lYmytQgfwHMki/+2ZyAk9jpy/Rh2r5
+ 2G0L5ILmK1zoBx1xVa0MirG94Exve4IOoGz+mtOE3XBlLzfXV3FxVSemixIsCYiJfkKc
+ tjtjngpw1p0OxR18TNx/pz1b04UaVDzAPE79l/yOV8ALnO7PVgOBs1J2dy2m4Jyu6dSY
+ Zmyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=sU/Kh8iXRyrB08qIeRaZSK9NbEbPtPjaRnwRZAPg+FQ=;
+ b=F3dbEnglEc5fWBrJNEuCSktMKnhJFNUFEOP2iOZKA4/NAGgl0D4Z2zwhZgJUO+1QEq
+ TR94AoStB4T6lvjj0uKJ37bouiyz6brT+cLkrxd/Mzp165n99Bf5sMPqjSmDROvACdhy
+ YRcA0o6YYjiGUvBlIQGqPkEEaECgPIxDWDyE7YDYyb+Pgu+pr80ME2IzymCWhz2fjrhq
+ YTTHoTUCGnABuqhoLgseQH28lPZ9n2ACLpuH6lF+Ez1D5KqGgqDy3O7jiNQBkgXLD9Qr
+ B2HCtbFwxuBqzlbaCmoHck+MHNO6kD1UeFB5T3q2slFbGxJwTwB21ZQgCay4Hop8xQR8
+ cpLQ==
+X-Gm-Message-State: AOAM5324UKUajA9adnvExbAlKwrp0Gh2NSxCtZOQiJGfEbPR8YG05Ny7
+ ZQNxy7l9sjs/FK8dYV1KwDATWQ==
+X-Google-Smtp-Source: ABdhPJzCcu4nmWt0u4z3CoeEKtU/VG5LUuemUpUGStZ6+DSDbQ2g8gVPAsZXalzp0HG8oqRKPD6ysA==
+X-Received: by 2002:a17:902:7c12:: with SMTP id
+ x18mr3384783pll.227.1598266841245; 
+ Mon, 24 Aug 2020 04:00:41 -0700 (PDT)
+Received: from C02CW2YLMD6R.bytedance.net ([61.120.150.73])
+ by smtp.gmail.com with ESMTPSA id q2sm11069995pff.107.2020.08.24.04.00.38
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 24 Aug 2020 04:00:40 -0700 (PDT)
+From: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
+To: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
+Subject: [PATCH v2] virtiofsd: Add -o allow_direct_io|no_allow_direct_io
+ options
+Date: Mon, 24 Aug 2020 18:59:57 +0800
+Message-Id: <20200824105957.61265-1-zhangjiachen.jaycee@bytedance.com>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
-In-Reply-To: <74116413-bd9d-b1a3-2364-26b7dcc7f105@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=lersek@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/24 06:48:00
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -52
-X-Spam_score: -5.3
-X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.956,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.25, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
+ envelope-from=zhangjiachen.jaycee@bytedance.com; helo=mail-pl1-x642.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,45 +85,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Yongji Xie <xieyongji@bytedance.com>,
+ Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/21/20 16:59, Paolo Bonzini wrote:
-> On 21/08/20 16:50, Laszlo Ersek wrote:
->> On 08/21/20 15:49, Peter Maydell wrote:
->>
->>> https://wiki.qemu.org/Features/Meson/Next has a summary of changes
->>> and is worth a quick scan through.
->>
->> I'd like to propose a wording clarification:
->>
->> """
->> For bisection: incremental builds work fine in the forward direction.
->> They probably don't work at all backwards. This is mitigated by the fact
->> that bisection usually starts at a release, and the patches should be
->> applied on top of the 5.1.0 tag.
->> """
->>
->> namely:
->>
->> - s/forward direction/forward direction, across the conversion/
->> - s/backwards/backwards, across the conversion/
->>
->> Because the way the paragraph is worded now, it suggests that *any*
->> individual bisection step that moves backwards in the git history will
->> not build. That would be of course catastrophic. We should clarify that
->> the symptom is limited to steps that straddle the conversion commit range.
->>
->> If the suggested replacements are OK, I can make the edit myself (if
->> that's preferred).
->>
->> (Not trying to be a busybody -- exactly because I contribute little to
->> QEMU, bisection is a comparatively large part of what I *do* do with QEMU.)
-> 
-> That's fine! I made a small adjustment and you're free to improve
-> further on the wording.
+Due to the commit 65da4539803373ec4eec97ffc49ee90083e56efd, the O_DIRECT
+open flag of guest applications will be discarded by virtiofsd. While
+this behavior makes it consistent with the virtio-9p scheme when guest
+applications use direct I/O, we no longer have any chance to bypass the
+host page cache.
 
-Thanks a lot, the new text reads great!
-Laszlo
+Therefore, we add a flag 'allow_direct_io' to lo_data. If '-o
+ no_allow_direct_io' option is added, or none of '-o allow_direct_io' or
+ '-o no_allow_direct_io' is added, the 'allow_direct_io' will be set to
+ 0, and virtiofsd discards O_DIRECT as before. If '-o allow_direct_io'
+is added to the starting command-line, 'allow_direct_io' will be set to
+1, so that the O_DIRECT flags will be retained and host page cache can
+be bypassed.
+
+Signed-off-by: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ tools/virtiofsd/helper.c         |  4 ++++
+ tools/virtiofsd/passthrough_ll.c | 20 ++++++++++++++------
+ 2 files changed, 18 insertions(+), 6 deletions(-)
+
+diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
+index 3105b6c23a..45b310ff3c 100644
+--- a/tools/virtiofsd/helper.c
++++ b/tools/virtiofsd/helper.c
+@@ -180,6 +180,10 @@ void fuse_cmdline_help(void)
+            "                               (0 leaves rlimit unchanged)\n"
+            "                               default: min(1000000, fs.file-max - 16384)\n"
+            "                                        if the current rlimit is lower\n"
++           "    -o allow_direct_io|no_allow_direct_io\n"
++           "                               retain/discard O_DIRECT flags passed down\n"
++           "                               to virtiofsd from guest applications.\n"
++           "                               default: no_allow_direct_io\n"
+            );
+ }
+ 
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+index 94e0de2d2b..c1ae897b77 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -151,6 +151,7 @@ struct lo_data {
+     int timeout_set;
+     int readdirplus_set;
+     int readdirplus_clear;
++    int allow_direct_io;
+     struct lo_inode root;
+     GHashTable *inodes; /* protected by lo->mutex */
+     struct lo_map ino_map; /* protected by lo->mutex */
+@@ -179,6 +180,8 @@ static const struct fuse_opt lo_opts[] = {
+     { "cache=always", offsetof(struct lo_data, cache), CACHE_ALWAYS },
+     { "readdirplus", offsetof(struct lo_data, readdirplus_set), 1 },
+     { "no_readdirplus", offsetof(struct lo_data, readdirplus_clear), 1 },
++    { "allow_direct_io", offsetof(struct lo_data, allow_direct_io), 1 },
++    { "no_allow_direct_io", offsetof(struct lo_data, allow_direct_io), 0 },
+     FUSE_OPT_END
+ };
+ static bool use_syslog = false;
+@@ -1516,7 +1519,8 @@ static void lo_releasedir(fuse_req_t req, fuse_ino_t ino,
+     fuse_reply_err(req, 0);
+ }
+ 
+-static void update_open_flags(int writeback, struct fuse_file_info *fi)
++static void update_open_flags(int writeback, int allow_direct_io,
++                              struct fuse_file_info *fi)
+ {
+     /*
+      * With writeback cache, kernel may send read requests even
+@@ -1541,10 +1545,13 @@ static void update_open_flags(int writeback, struct fuse_file_info *fi)
+ 
+     /*
+      * O_DIRECT in guest should not necessarily mean bypassing page
+-     * cache on host as well. If somebody needs that behavior, it
+-     * probably should be a configuration knob in daemon.
++     * cache on host as well. Therefore, we discard it by default
++     * ('-o no_allow_direct_io'). If somebody needs that behavior,
++     * the '-o allow_direct_io' option should be set.
+      */
+-    fi->flags &= ~O_DIRECT;
++    if (!allow_direct_io) {
++        fi->flags &= ~O_DIRECT;
++    }
+ }
+ 
+ static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
+@@ -1576,7 +1583,7 @@ static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
+         goto out;
+     }
+ 
+-    update_open_flags(lo->writeback, fi);
++    update_open_flags(lo->writeback, lo->allow_direct_io, fi);
+ 
+     fd = openat(parent_inode->fd, name, (fi->flags | O_CREAT) & ~O_NOFOLLOW,
+                 mode);
+@@ -1786,7 +1793,7 @@ static void lo_open(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi)
+     fuse_log(FUSE_LOG_DEBUG, "lo_open(ino=%" PRIu64 ", flags=%d)\n", ino,
+              fi->flags);
+ 
+-    update_open_flags(lo->writeback, fi);
++    update_open_flags(lo->writeback, lo->allow_direct_io, fi);
+ 
+     sprintf(buf, "%i", lo_fd(req, ino));
+     fd = openat(lo->proc_self_fd, buf, fi->flags & ~O_NOFOLLOW);
+@@ -2824,6 +2831,7 @@ int main(int argc, char *argv[])
+         .debug = 0,
+         .writeback = 0,
+         .posix_lock = 1,
++        .allow_direct_io = 0,
+         .proc_self_fd = -1,
+     };
+     struct lo_map_elem *root_elem;
+-- 
+2.11.0
 
 
