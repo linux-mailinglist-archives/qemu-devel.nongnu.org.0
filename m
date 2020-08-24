@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A6D525097F
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 21:39:14 +0200 (CEST)
-Received: from localhost ([::1]:49314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0044250988
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 21:40:43 +0200 (CEST)
+Received: from localhost ([::1]:52568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAIJF-0005AT-8t
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 15:39:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47386)
+	id 1kAIKg-0006bf-Q0
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 15:40:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1kAIII-0004Li-Da
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 15:38:14 -0400
+ id 1kAIIP-0004Sm-BY
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 15:38:21 -0400
 Received: from mail-eopbgr10113.outbound.protection.outlook.com
  ([40.107.1.113]:60643 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1kAIIG-0000YT-6i
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 15:38:14 -0400
+ id 1kAIIN-0000YT-6b
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 15:38:21 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ThSjU5WgaG3vhH0OWGuj2uF7H251SsHQ6k5UhnS4TQfiu8hFyKeTFLancAsCwFEYM23GN/b1wgCYmaEWBqHyGr0Yc/WDVcwXLCbhSOCA/M6i5T/JR+cLDPyq+wD/9ioBZcUC+ibxMXTQITKvnq0/9lczv5OZXEhaPjkMm3YnKGIYBNTBrsEfmIzX51DVC6eVYxFSZMFLM49gMVDarcubQQ1DD9lYKWj3z0DLo0dkWj8kppaZfaIOYJz0yXHWoq+wmM6B0TBYBg7u6k+64oaPaq6/A/wIT9exdpqvPzGdYqXQe6NryxKSXDFM/how6woRm8ExCZzUFXkuUZy2m14VzQ==
+ b=g/uPEYftRaO46Zi/pyxkTXeyqxLYj9y0l8KfD2ap2yOkFp7QJN4xSz9TH4dI9TyxbchZRgQ1D7MckUYt8bvu3BMZ4xQrHd9SOtyf7Yj7P+SU02gtYzeJMHEUDCFnW/l7qwxTM5PZxT5aJB7yg1O5C1BPrzFrOQweAZTQ8cy4NVAheNo8jSILp8K5D9DgD8DzXW8nSFjsysE+RTJPt7F+LlWNQDqoY9GzCV56gJ8wxF3Bry0vfxeqNBQH21fNFtfw15IuR6GP16HHciFEQYGf6pBzne86wr0vl50wxXLEn1dfBa5M+p9mAJpF7KBDjuhpZHi/+26MB6DSQyZvMKnMmQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=L73sbuiC7bnu+oJjs8tKLD0o+bknCPalISJpmNd5ujw=;
- b=af+ppQ9ufixWyoo4DP0jpzNHWeRPGG67u3V/GxYnE35lwJiCeP90ABo0IT/MMSFa0TWmbRCoogYBtlPhoSYdSjLw7VSCLSL+BhZpSu6LFGAvVjVAuqber9y3SFxN8zY6Lxtww0MzNoqgkQhcK39srqBhIfU4HRFVTCWJH5Aez3YMKojyiNZnJr7rybXNZe+aiOBoUxIbIRVLMgAOgUj9CBmN3rK0e2kmI+PM4NjibMSxPV/lFQV0EJsA4h2x6tn1RFqzTrhg8wDVV/wEZCgGLck0yD0NHWj0onJL0x8/8mUWg9lFtj24Sd9Whked1y4tlOg30W/QsQJ1haB+XUDf3w==
+ bh=D58k38h9xk9Nq28XHZi+jEvQTLchwClfkZEJ2V5IM1Q=;
+ b=QAcqPpXIEXCEbb4R6K8HM+VWO8wx1FbxKX7cL8L8Gd4zHMUn3AkLYmc67ynhnJr3+n1vf3sPj4pPfVOboBwKhJz3l4/ueimvGa43AmiS3aZGRh39XmyQMFiq7+mBWnHoYYIeCFle2VoB0m1Nd8tIeGIhmaUxA+7YFhAXB/JS8PVAbQG0KAyM+SaG8ZAxKzy5kxs/DMYIrSWhZC1FrbO2unjKsSgme4gCdo4RIgmkLYSeQlYVR8alikvMmB1gINrdyD4IQzF6xzgksQsBNiuQa0Mc5tO7nGJsqu9bp6GbgY8wMOn0QAqKAnDsKUKfaI0eu6NB2VwJFevnW+O9cL7ezw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
  dkim=pass header.d=syrmia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=L73sbuiC7bnu+oJjs8tKLD0o+bknCPalISJpmNd5ujw=;
- b=t+SduMhpiCG9UsotgKHECE1XpOz1n2xGv5gEmcck+CYCOpw++sLr0fR7bZ89bQyR4c4ZN5/5jHXcKipP1h4KUSgA+eep3tRnNBJJU72VamcSZFGYFlrper+SWDXXCzrnuFQxOiMlOoEIFcHIda12Bia17pYIewCkuq6ebuoen9Y=
+ bh=D58k38h9xk9Nq28XHZi+jEvQTLchwClfkZEJ2V5IM1Q=;
+ b=uba0B8yt8uSTanl5NHnwH7DtcgxARTBiqkMZesgd6geOr1NBRIIAkAn+eVmtKZxwZUhMPWUEXCj4nHGNeVWCACT5cQslpk81ToKfqXAmm8PyE1wx6UkTkA3i/foBD2vFddQ+vgEdFZPtmWJHxTUlB5vNjUKCZz7THX/SY4KCDVs=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=syrmia.com;
 Received: from VE1PR03MB5246.eurprd03.prod.outlook.com (2603:10a6:802:a1::22)
  by VE1PR03MB6047.eurprd03.prod.outlook.com (2603:10a6:803:114::30)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.26; Mon, 24 Aug
- 2020 19:38:06 +0000
+ 2020 19:38:07 +0000
 Received: from VE1PR03MB5246.eurprd03.prod.outlook.com
  ([fe80::3568:5b4f:ab6b:e362]) by VE1PR03MB5246.eurprd03.prod.outlook.com
  ([fe80::3568:5b4f:ab6b:e362%6]) with mapi id 15.20.3261.026; Mon, 24 Aug 2020
- 19:38:06 +0000
+ 19:38:07 +0000
 From: Filip Bozuta <Filip.Bozuta@syrmia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/2] linux-user: Fix 'mq_timedsend()' and
- 'mq_timedreceive()'
-Date: Mon, 24 Aug 2020 21:37:51 +0200
-Message-Id: <20200824193752.67950-2-Filip.Bozuta@syrmia.com>
+Subject: [PATCH v3 2/2] linux-user: Add support for 'mq_timedsend_time64()'
+ and 'mq_timedreceive_time64()'
+Date: Mon, 24 Aug 2020 21:37:52 +0200
+Message-Id: <20200824193752.67950-3-Filip.Bozuta@syrmia.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200824193752.67950-1-Filip.Bozuta@syrmia.com>
 References: <20200824193752.67950-1-Filip.Bozuta@syrmia.com>
@@ -65,32 +65,32 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (147.91.217.242) by
  LO2P265CA0251.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:8a::23) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3305.25 via Frontend Transport; Mon, 24 Aug 2020 19:38:05 +0000
+ 15.20.3305.25 via Frontend Transport; Mon, 24 Aug 2020 19:38:06 +0000
 X-Mailer: git-send-email 2.25.1
 X-Originating-IP: [147.91.217.242]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cbe02542-c594-4eeb-4304-08d84865395f
+X-MS-Office365-Filtering-Correlation-Id: cab737b7-fc58-4d53-418a-08d8486539eb
 X-MS-TrafficTypeDiagnostic: VE1PR03MB6047:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VE1PR03MB60476A147AE16521824AB669EB560@VE1PR03MB6047.eurprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-Microsoft-Antispam-PRVS: <VE1PR03MB60470445CEDB832FB317F4E9EB560@VE1PR03MB6047.eurprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3276;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: JOwhk+2U+D8BI5sWbzC4JjpVRRq/H69VLi+jNzBGTpzzIQZ5HWe0jq3Fb8YfhYdmz4S2RVwbnXZFej3wEwrYTthgQAK2LKz0br+ywoiqnfeoy+Rsdly7eHQh0zKJ3B1dMt5OwV9B6ZLccbkpDc/5H4vmbaOJanIUWMH82VXmoIzC0y4jSdY8OQ/fQCMgajVIaMrd4YnPfquae8cbLHjwIl79XNKsMf7npXtVIL4bwO8wBy3fsasPcGuPQvqhmA0Zss7AEkklvwW5Lvzmfo/5uy4f5+Z+wTONJcHkselWIzWj1Yt/J9SngieoxwFaxlEj6eKqAEcFVNzX5Jwn1b0ZPTSjdkS4/DDEvL+Vov+tJDN0NDY68OeqJV5yqxTHkPNecV1bv1YeOzbZGEw+dhB4uJtBYxRk4fHCwoHhFYA3fDQP4MnW/18mIvx1lL9FtL46e9NGBmsg+vuB9LwCsQ9OwA==
+X-Microsoft-Antispam-Message-Info: OUfroD0gBccWm2hQCWDTjeELfbtXk+FoTH+6Z97zGrUH8kAhYDOs50pkDJfURTigokvYOCHQ12xRr8I0crGeo+yBrVCDmPZGMKBmg18vYa4K8/QS2Ijp63OSZpZR+wFVz/g3nlmNuxUsaQ9roDOgtr3YkncsoEavEzoVsL0NR4/aZns+n9ntaivBUwhqe2aQ0mOb5XW2UGMaVCvQpSHa6H9cw0tiqEYf4XfMmXkD1o660UIjXRbxWPR45vewxF466q/Uq6Hqhvs3H2/J7dIQIhVD9nDlnawBqORYZVyEq/V+RwSMLc29kLGEs6MQyVTErLILLdoHxIx07l0qgBZbJdRYCYlVbL1eOc9LVfu4h/vIcWEvpQpRXd6BLpX4yx0VuSgrAE0055Cl471HxtM7yw+Ssp8OxCrlu19RQDBJ6RkaOh7lpsToknKDFlvjQCmAL0bLwY1jk3ji7/QXAX5S/A==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VE1PR03MB5246.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(346002)(136003)(366004)(39830400003)(376002)(396003)(16526019)(8936002)(66556008)(83380400001)(26005)(107886003)(2616005)(956004)(6916009)(86362001)(66476007)(5660300002)(1076003)(6512007)(186003)(6666004)(316002)(966005)(6506007)(66946007)(6486002)(8676002)(36756003)(69590400007)(4326008)(52116002)(2906002)(478600001)(54906003);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: 4a+tmOJlh8BiviDpZvET0u/q3cAwwkD9iNqhJrLJhoD7IJesxaoIIH+YUGtawqE0Yjlxj9YufAZXMvxU7X++bwS1Fm0jTE5X34SwCDRhnYscLKnJdgha/dEB4V1iyKCJQNSZ0LITA5GdkeXqTuYqAioRJJYZypZmLUcfCo7nBNMePOmdyBpMG+YiflEQ/1Qf/BM6ZpasQoGsWBdB+tsfEallqi7DwzjrpyctZZOkHDWljKHDawKPXKQQBLhG3CmYlCcD7CPjG6YId/1Km/jKmIV8WewXQGaN80nHB7SO2VjlE0Ya3MKNitUMmE4UnzpfjM7A5412c4aosLMOa5r9L67BKZ1HgAl2JOe9NIoDXo5Z+2oTNKYC6ronV3oZFJQuTNQqoiz7+4d/aCl5gGss42j+niNZ/dgLh3nighomFWvJFHi4kxyE5doubLvdtPIDQi1x0WmZV3n9gPC7AiTaaEJ9dGHOFlK2ijHAEqZfCogEZReMuilEAcprJiH/ufTpCHY8Xpp8gEbyZjaBFYiJl3RVNz2V9cccrMsB/Xye8juuRFN9gGfn4JQPPM5CZlnpxOpTKALd/rScb1TAAUykNCsyTnowVuhnB3KIgT8I6Rw8REphXjBbiYyqsCzJOG8/DU2nLozPd7x5J0L0tMP64A==
+X-MS-Exchange-AntiSpam-MessageData: A6BYmVdxr0qdnpIMAneX4lQZOJHNNbpHgn+QkcRyyDQid8psZrc7G9LWG+fGjrJzeBTM3vKa2NV0mUFOUa2upO6Lo9mE5Al15ZyrjClwjI/3eLaMfDns5IYh/BUilyR+FT4pr3rWWCHq9TwyG9XooQ8aCr1/j5ySe6gEueQjh7+26d6nzTEcdJ9aalwxqYov9+C/7FzKoS0K6VEEEJd/TOerj6j3F/iSfAjz5i9Oo8ox8d00MO2sJtHUY9MWfSkQoESwL6nt4ZAlTZPD/+cqDbAWAnlcZTb6SDG5kTBNT5rETbcsevLhqSbbkFztwmE48J/4oWAWw0J2giJAnqvB+MUPT6zAhSLEMQUv3MYJOt2FazkTFk7FE8+nu+vjpv67xAcmjWWUDMOWUGqWBoylM/b/hU9AzH+Ieirn0VQlcjUppw/cbFwpjDJYMreO5FQN02M9VTCJHueUsZZlz+FgQ+ugmRYNeDSEBBeMAkL2P66gCvM+KTREnT+2RGXkWW0YqrkvTLMq+IgaJUgjhuXfdWzLbL2lrYsUvXHPLY9dra+jzaq8/Fp9HP5464Ps63O3RY4irS4b1N/LDxRXyC6N2OS0MGgJWAcRo+rLWJmZXW4ppRHyJWfebnvfON6U1x8BSCVKWNsYN+utM/IkpIXg3g==
 X-OriginatorOrg: syrmia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cbe02542-c594-4eeb-4304-08d84865395f
+X-MS-Exchange-CrossTenant-Network-Message-Id: cab737b7-fc58-4d53-418a-08d8486539eb
 X-MS-Exchange-CrossTenant-AuthSource: VE1PR03MB5246.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2020 19:38:06.5885 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2020 19:38:07.4990 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8MNljHT2C6s6BHXOryG+33g6e59c4X8ibiAbr5FqGA01P54JUd6L6lD0KEMsdBeQa4xkg0Ac0Dqr1hR9esdRQg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: ozgM4d3R7v//wB5iX3XHtAB0XtwJx7zljzygsqH1rwWuDa9cWoHh3bbYj5FoKiZEPTshwqrWb39GRo5aeZgLkA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR03MB6047
 Received-SPF: pass client-ip=40.107.1.113;
  envelope-from=Filip.Bozuta@syrmia.com;
@@ -122,75 +122,135 @@ Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implementations of syscalls 'mq_timedsend()' and 'mq_timedreceive()'
-in 'syscall.c' use functions 'target_to_host_timespec()' and
-'host_to_target_timespec()' to transfer the value of 'struct timespec'
-between target and host. However, the implementations don't check whether
-this conversion succeeds and thus can cause an unaproppriate error instead
-of the 'EFAULT (Bad address)' which is supposed to be set if the conversion
-from target to host fails. This was confirmed with the modified LTP
-test suite where test cases with a bad adress for 'timespec' were
-added. This modified test suite can be found at:
-https://github.com/bozutaf/ltp
+This patch implements functionality for following time64 syscalls:
 
-Without the changes from this patch the bad adress testcase for 'mq_timedsend()'
-succeds unexpectedly, while the test returns errno 'ETIMEOUT' for
-'mq_timedreceive()':
+*mq_timedsend_time64()
 
-mq_timedsend01.c:190: FAIL: mq_timedsend() returned 0, expected -1: SUCCESS (0)
-mq_timedreceive01.c:178: FAIL: mq_timedreceive() failed unexpectedly,
-expected EFAULT: ETIMEDOUT (110)
+    This is a year 2038 safe vairant of syscall:
 
-After the changes from this patch, testcases for both syscalls fail with EFAULT
-as expected, which is the same test result that is received with native execution:
+    int mq_timedsend(mqd_t mqdes, const char *msg_ptr,
+                     size_t msg_len, unsigned int msg_prio,
+                     const struct timespec *abs_timeout)
+    --send a message to a message queue--
+    man page: https://www.man7.org/linux/man-pages/man2/mq_timedsend.2.html
 
-mq_timedsend01.c:187: PASS: mq_timedsend() failed expectedly: EFAULT (14)
-mq_timedreceive01.c:180: PASS: mq_timedreceive() failed expectedly: EFAULT (14)
+*mq_timedreceive_time64()
 
-(Patch with this new test case will be sent to LTP mailing list soon)
+    This is a year 2038 safe variant of syscall:
+
+    ssize_t mq_timedreceive(mqd_t mqdes, char *msg_ptr,
+                            size_t msg_len, unsigned int *msg_prio,
+                            const struct timespec *abs_timeout)
+    --receive a message from a message queue--
+    man page: https://man7.org/linux/man-pages/man3/mq_receive.3.html
+
+Implementation notes:
+
+    These syscalls were implemented in similar ways like
+    'mq_timedsend()' and 'mq_timedreceive' except that
+    functions 'target_to_host_timespec64()' and
+    'host_to_target_timespec64()' were used to convert
+    values of 'struct timespec' between host and target.
 
 Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+ linux-user/syscall.c | 58 +++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 55 insertions(+), 3 deletions(-)
 
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 05f03919ff..4ee1de6e65 100644
+index 4ee1de6e65..3331ec9fea 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -11817,9 +11817,13 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+@@ -829,11 +829,13 @@ safe_syscall5(int, msgrcv, int, msgid, void *, msgp, size_t, sz,
+ safe_syscall4(int, semtimedop, int, semid, struct sembuf *, tsops,
+               unsigned, nsops, const struct timespec *, timeout)
+ #endif
+-#ifdef TARGET_NR_mq_timedsend
++#if defined(TARGET_NR_mq_timedsend) || \
++    defined(TARGET_NR_mq_timedsend_time64)
+ safe_syscall5(int, mq_timedsend, int, mqdes, const char *, msg_ptr,
+               size_t, len, unsigned, prio, const struct timespec *, timeout)
+ #endif
+-#ifdef TARGET_NR_mq_timedreceive
++#if defined(TARGET_NR_mq_timedreceive) || \
++    defined(TARGET_NR_mq_timedreceive_time64)
+ safe_syscall5(int, mq_timedreceive, int, mqdes, char *, msg_ptr,
+               size_t, len, unsigned *, prio, const struct timespec *, timeout)
+ #endif
+@@ -1243,7 +1245,9 @@ static inline abi_long target_to_host_timespec(struct timespec *host_ts,
+ }
+ #endif
  
-             p = lock_user (VERIFY_READ, arg2, arg3, 1);
-             if (arg5 != 0) {
--                target_to_host_timespec(&ts, arg5);
-+                if (target_to_host_timespec(&ts, arg5)) {
+-#if defined(TARGET_NR_clock_settime64) || defined(TARGET_NR_futex_time64)
++#if defined(TARGET_NR_clock_settime64) || defined(TARGET_NR_futex_time64) || \
++    defined(TARGET_NR_mq_timedsend_time64) || \
++    defined(TARGET_NR_mq_timedreceive_time64)
+ static inline abi_long target_to_host_timespec64(struct timespec *host_ts,
+                                                  abi_ulong target_addr)
+ {
+@@ -11831,6 +11835,27 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         }
+         return ret;
+ #endif
++#ifdef TARGET_NR_mq_timedsend_time64
++    case TARGET_NR_mq_timedsend_time64:
++        {
++            struct timespec ts;
++
++            p = lock_user(VERIFY_READ, arg2, arg3, 1);
++            if (arg5 != 0) {
++                if (target_to_host_timespec64(&ts, arg5)) {
 +                    return -TARGET_EFAULT;
 +                }
-                 ret = get_errno(safe_mq_timedsend(arg1, p, arg3, arg4, &ts));
--                host_to_target_timespec(arg5, &ts);
-+                if (!is_error(ret) && host_to_target_timespec(arg5, &ts)) {
++                ret = get_errno(safe_mq_timedsend(arg1, p, arg3, arg4, &ts));
++                if (!is_error(ret) && host_to_target_timespec64(arg5, &ts)) {
 +                    return -TARGET_EFAULT;
 +                }
-             } else {
-                 ret = get_errno(safe_mq_timedsend(arg1, p, arg3, arg4, NULL));
-             }
-@@ -11836,10 +11840,14 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
++            } else {
++                ret = get_errno(safe_mq_timedsend(arg1, p, arg3, arg4, NULL));
++            }
++            unlock_user(p, arg2, arg3);
++        }
++        return ret;
++#endif
  
-             p = lock_user (VERIFY_READ, arg2, arg3, 1);
-             if (arg5 != 0) {
--                target_to_host_timespec(&ts, arg5);
-+                if (target_to_host_timespec(&ts, arg5)) {
+ #ifdef TARGET_NR_mq_timedreceive
+     case TARGET_NR_mq_timedreceive:
+@@ -11858,6 +11883,33 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         }
+         return ret;
+ #endif
++#ifdef TARGET_NR_mq_timedreceive_time64
++    case TARGET_NR_mq_timedreceive_time64:
++        {
++            struct timespec ts;
++            unsigned int prio;
++
++            p = lock_user(VERIFY_READ, arg2, arg3, 1);
++            if (arg5 != 0) {
++                if (target_to_host_timespec64(&ts, arg5)) {
 +                    return -TARGET_EFAULT;
 +                }
-                 ret = get_errno(safe_mq_timedreceive(arg1, p, arg3,
-                                                      &prio, &ts));
--                host_to_target_timespec(arg5, &ts);
-+                if (!is_error(ret) && host_to_target_timespec(arg5, &ts)) {
++                ret = get_errno(safe_mq_timedreceive(arg1, p, arg3,
++                                                     &prio, &ts));
++                if (!is_error(ret) && host_to_target_timespec64(arg5, &ts)) {
 +                    return -TARGET_EFAULT;
 +                }
-             } else {
-                 ret = get_errno(safe_mq_timedreceive(arg1, p, arg3,
-                                                      &prio, NULL));
++            } else {
++                ret = get_errno(safe_mq_timedreceive(arg1, p, arg3,
++                                                     &prio, NULL));
++            }
++            unlock_user(p, arg2, arg3);
++            if (arg4 != 0) {
++                put_user_u32(prio, arg4);
++            }
++        }
++        return ret;
++#endif
+ 
+     /* Not implemented for now... */
+ /*     case TARGET_NR_mq_notify: */
 -- 
 2.25.1
 
