@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9367250395
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 18:46:58 +0200 (CEST)
-Received: from localhost ([::1]:56334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA5742503A7
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 18:48:31 +0200 (CEST)
+Received: from localhost ([::1]:60566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAFcX-0004XL-Sw
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 12:46:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58970)
+	id 1kAFe2-0006OL-SF
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 12:48:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kAFZM-00013f-JU
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 12:43:40 -0400
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:46815)
+ id 1kAFah-0003A4-Q8
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 12:45:03 -0400
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:34584)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kAFZK-0008Ol-PX
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 12:43:40 -0400
-Received: by mail-ej1-x643.google.com with SMTP id d11so12557591ejt.13
- for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 09:43:38 -0700 (PDT)
+ id 1kAFag-0000A0-5I
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 12:45:03 -0400
+Received: by mail-ej1-x642.google.com with SMTP id d26so2663351ejr.1
+ for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 09:45:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=AUhijiFetrjVGCam9+t9oFw7bq1jPFam5zsjFC3v1Lg=;
- b=GqiCkcVdYZ3J8cT+Fcy5NyfHgsLr/MRh3QTkhQHRBUn1AG3GwyAnWLTyuSeLc9zUmg
- PtmI02dWzPH7fmreWEhjmCcujBuFJFvM30hrXoo32jA0mTJDxxkRAblipu/QVEkSUBbS
- ogZMuB1/pYlwzx5kBEpI4UInIlpkIapqBv50rHW65XmO7NNZFUxhn3u2EqQSMN3dUT12
- tmExDAuGs0I/+rkshe/JatnWIYSGy4YfWyH310Sj4rUlZ4wknYkUAoZP1VDwYa43vvXS
- PFFE47HR9mUtqNkLIhk8/4Bif8I8feYSMEFS1Oa7vkaBIfGRr60G7E0SlWRsoozmNYJj
- MkIQ==
+ :cc; bh=LSxnoA/X3E+s2dpXMDh0XSU4Wu44JJfCtlMzk4CBmNI=;
+ b=FhP1ngEHn/HOqGOcPs3J+DJ3gmPK+t4IHhwNfCQZmKVFYEJN7iYnJ3Cse4FLcrOarP
+ mnzzSmFn2mX/KQjrNhL/0bDlBsgn/RWtFCZ2bIV11Q+E8zzQMnuLfnZI4IDlZ7IprLTz
+ nU4xEFgmZIsB/4dZ/qkgSpGlmTsGBZfM/N7RbpS8HsaexK6y8QUPQEzDzAgn/jjJj0Od
+ 68XT527AE25ul9/sFzKj/l8otzFaebNLfGu5DHZkfHK0vIYvY7SGwgn+jSRoWY9bevYa
+ CB0M14hDiDBIotOQo7fYMB5lntrnsniU8OY12sauIOuifitpGabBKomoxdDm8U7UpQlc
+ EAgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=AUhijiFetrjVGCam9+t9oFw7bq1jPFam5zsjFC3v1Lg=;
- b=EJBB6KLOvRtuqysqae8gfwCrSPxphKYBOIQSdC7eBqbtTXY2EqsB9iFkp4ewGd2gnN
- RlAn3vtkeepypLGRKZd3kmNf8pF0HlVKj30Jn6ICfE5oqeiqeO7KQZnzvZzo8/GtD+yG
- siObzJErvPdkLOF5TnbnA/wpxfwQU+c20dt1+ONhoEhfug+fauWtfIS7cd6IZqzhwLoK
- ehuU7KaSfhubCfPfNIuV4JZeWjTDfOxxUsd44riRZRCKMHJl4vD8pDuWAXPXmxK9lK2q
- igPocXSd9M0Y+QMooGLGGT7X0GHTBIvDF52GtsGtDgjjIAak/+kgw0gToDiTYI/5r+da
- AKSg==
-X-Gm-Message-State: AOAM5321Z6PvBv4unrf6aoobd4JeD6iQVOk2HNrXcTkt7fRI+0oteqro
- G/w0s05PFqx3VYv/2MsJFOQQ4Ji/21jDOtNh7rjMrw==
-X-Google-Smtp-Source: ABdhPJxQNJg0csIOyAmtbYhTVnivjBD7h7f9gWnJuUSrdkXVl2S3I1REoVnUG+706XRmesda/bQ8+Z6S7IWrxvqZfE8=
-X-Received: by 2002:a17:906:b248:: with SMTP id
- ce8mr6188409ejb.85.1598287417310; 
- Mon, 24 Aug 2020 09:43:37 -0700 (PDT)
+ bh=LSxnoA/X3E+s2dpXMDh0XSU4Wu44JJfCtlMzk4CBmNI=;
+ b=H/wjIw5B/PKpQ+0Ix0mSShnS3sZeP6jxl8cMcO6fBGPr65OqcGXn6GAh6+xr32stUK
+ 57L+rh+MTiWbJOUVozrxfbjMvTi5Mt7hwxpatm+Tzb8tE7itK4URpM+HYWrt7zkIrR/S
+ q6VZZ5tEwUkLXrOahJHIDDlKjn/jjHY3NYfKuFi05nPTx4X9EOFkLPplqqqbacD2qyPe
+ tPMTX8+a6CSpOUm5TCti8eCXwFTPwBLxcThoKNmDtBJTYaz1k74cKrH/afH0bwzHpwq3
+ gfz3m5sxTaiLdguiS5kDAHNgJxtw1ICOsVqTmD2uuAFirCXlk/XRKaQJcXuhyg8PIQH8
+ UM7g==
+X-Gm-Message-State: AOAM533fvZUbJJyszyLKOFENO1Y6iazW+YGVIp5SvpfAL3+1iVWxcgiq
+ KrdMi+rWj0Mg7gs79khCEX+2SPvxpnXnpR2LdkLFaQ==
+X-Google-Smtp-Source: ABdhPJy3EqPWrGLTI97RF/eJAXAYmMlXs4AcW1WJxVAOr76RcwK4zN1J/EPXjKWnF1L7ZlxP6Ks8YNcPlQdgatNblPU=
+X-Received: by 2002:a17:906:68da:: with SMTP id
+ y26mr6219411ejr.250.1598287500456; 
+ Mon, 24 Aug 2020 09:45:00 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200815013145.539409-1-richard.henderson@linaro.org>
- <20200815013145.539409-9-richard.henderson@linaro.org>
-In-Reply-To: <20200815013145.539409-9-richard.henderson@linaro.org>
+ <20200815013145.539409-8-richard.henderson@linaro.org>
+In-Reply-To: <20200815013145.539409-8-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 24 Aug 2020 17:43:26 +0100
-Message-ID: <CAFEAcA8wwardBdLvi3iYeD5U2nyKHkt2jXzou5F8naVzTS14+Q@mail.gmail.com>
-Subject: Re: [PATCH 08/20] target/arm: Split out gen_gvec_ool_zzzp
+Date: Mon, 24 Aug 2020 17:44:49 +0100
+Message-ID: <CAFEAcA9RppugBZBiKh=FhG=4RwR0qMH6B7gV5sArat+0o_usgA@mail.gmail.com>
+Subject: Re: [PATCH 07/20] target/arm: Use tcg_gen_gvec_bitsel for
+ trans_SEL_pppp
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x643.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,9 +88,14 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Sat, 15 Aug 2020 at 02:31, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Model after gen_gvec_fn_zzz et al.
+> The gvec operation was added after the initial implementation
+> of the SEL instruction and was missed in the conversion.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/translate-sve.c | 31 ++++++++-----------------------
+>  1 file changed, 8 insertions(+), 23 deletions(-)
+>
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
