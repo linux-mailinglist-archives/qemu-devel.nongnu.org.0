@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AAF224FCFF
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 13:53:21 +0200 (CEST)
-Received: from localhost ([::1]:50016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FA4F24FCFE
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 13:53:19 +0200 (CEST)
+Received: from localhost ([::1]:49808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAB2O-00025i-Hk
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 07:53:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51442)
+	id 1kAB2M-00020T-6U
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 07:53:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <srs0=45nv=cc=lse.epita.fr=cesar.belley@cri.epita.fr>)
- id 1kAAyV-0002a8-Nk
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 07:49:19 -0400
-Received: from gate-2.cri.epita.net ([163.5.55.20]:54826
+ id 1kAAyW-0002cX-Pn
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 07:49:20 -0400
+Received: from gate-2.cri.epita.net ([163.5.55.20]:54836
  helo=mail-2.srv.cri.epita.fr)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <srs0=45nv=cc=lse.epita.fr=cesar.belley@cri.epita.fr>)
- id 1kAAyS-0003d3-VL
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 07:49:19 -0400
+ id 1kAAyV-0003da-B9
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 07:49:20 -0400
 Received: from MattGorko-Laptop.home
  (lfbn-idf1-1-1395-83.w90-79.abo.wanadoo.fr [90.79.87.83])
  (Authenticated sender: cesar.belley)
- by mail-2.srv.cri.epita.fr (Postfix) with ESMTPSA id CB551412D2;
- Mon, 24 Aug 2020 13:49:15 +0200 (CEST)
+ by mail-2.srv.cri.epita.fr (Postfix) with ESMTPSA id 18403410DA;
+ Mon, 24 Aug 2020 13:49:18 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=lse.epita.fr; s=cri;
- t=1598269755; bh=YJtgc+Umbt+HNWGt7tySLOgQt78fbDR8UyHC6rJlKIk=;
+ t=1598269758; bh=nQhKuNn3MwH4gOHTPOjyBvj9K5iVBhe1uEtgY1+8Dds=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=oTDC3NIVh6lhcVRM8AI0SaPnG2rVSlbJIdpYRmzefuWTmVRBHh2LDEBh5UeN6vw+6
- gQhMJc527zljiGCHnEqcxlGFXGFIkFdMDR2uB5FYjYTdsfN85gHO7xqf5qD9swOT7m
- nMJK31cMq5g7+I641C7grEVM58WQC0DTOkI7VlUc=
+ b=BMh2UdBDBRTCLH9JE6KNmq1jwO8SV/8t4zS41VqdiheLDoT2QwleB5IKfHVhNomiR
+ JF/r4PeYTYISVolDRbOwuYzDdA1e9zeaYqkU6kYMdJqIkFKuSD+o7M/Mz19DJ1dlVP
+ 6VlXTKGB18ydaxZhxW5DmV9vtid1YSjDkuZx9DT0=
 From: =?UTF-8?q?C=C3=A9sar=20Belley?= <cesar.belley@lse.epita.fr>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 08/13] configure: Add USB U2F key device
-Date: Mon, 24 Aug 2020 13:48:22 +0200
-Message-Id: <20200824114827.81623-9-cesar.belley@lse.epita.fr>
+Subject: [PATCH v2 09/13] docs/system: Add U2F key to the USB devices examples
+Date: Mon, 24 Aug 2020 13:48:23 +0200
+Message-Id: <20200824114827.81623-10-cesar.belley@lse.epita.fr>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200824114827.81623-1-cesar.belley@lse.epita.fr>
 References: <20200824114827.81623-1-cesar.belley@lse.epita.fr>
@@ -74,74 +74,23 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: César Belley <cesar.belley@lse.epita.fr>
 ---
- configure | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ docs/system/usb.rst | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/configure b/configure
-index 67832e3bab..75d38e5411 100755
---- a/configure
-+++ b/configure
-@@ -495,6 +495,7 @@ trace_file="trace"
- spice=""
- rbd=""
- smartcard=""
-+u2f=""
- libusb=""
- usb_redir=""
- opengl=""
-@@ -1411,6 +1412,10 @@ for opt do
-   ;;
-   --enable-smartcard) smartcard="yes"
-   ;;
-+  --disable-u2f) u2f="no"
-+  ;;
-+  --enable-u2f) u2f="yes"
-+  ;;
-   --disable-libusb) libusb="no"
-   ;;
-   --enable-libusb) libusb="yes"
-@@ -1940,6 +1945,7 @@ disabled with --disable-FEATURE, default is enabled if available:
-   libiscsi        iscsi support
-   libnfs          nfs support
-   smartcard       smartcard support (libcacard)
-+  u2f             U2F support (u2f-emu)
-   libusb          libusb (for usb passthrough)
-   live-block-migration   Block migration in the main migration stream
-   usb-redir       usb network redirection support
-@@ -5119,6 +5125,20 @@ if test "$smartcard" != "no"; then
-     fi
- fi
+diff --git a/docs/system/usb.rst b/docs/system/usb.rst
+index ddfa828d74..9a2f1927c4 100644
+--- a/docs/system/usb.rst
++++ b/docs/system/usb.rst
+@@ -81,6 +81,9 @@ option or the ``device_add`` monitor command. Available devices are:
+ ``usb-audio``
+    USB audio device
  
-+# check for u2f support
-+if test "$u2f" != "no"; then
-+    if $pkg_config --atleast-version=0.0.0 u2f-emu; then
-+        u2f_emu_cflags=$($pkg_config --cflags u2f-emu)
-+        u2f_emu_libs=$($pkg_config --libs u2f-emu)
-+        u2f="yes"
-+    else
-+        if test "$u2f" = "yes"; then
-+            feature_not_found "u2f" "Install u2f-emu"
-+        fi
-+        u2f="no"
-+    fi
-+fi
++``u2f-{emulated,passthru}``
++   Universal Second Factor device
 +
- # check for libusb
- if test "$libusb" != "no" ; then
-     if $pkg_config --atleast-version=1.0.13 libusb-1.0; then
-@@ -7166,6 +7186,12 @@ if test "$smartcard" = "yes" ; then
-   echo "SMARTCARD_LIBS=$libcacard_libs" >> $config_host_mak
- fi
+ .. _host_005fusb_005fdevices:
  
-+if test "$u2f" = "yes" ; then
-+  echo "CONFIG_U2F=y" >> $config_host_mak
-+  echo "U2F_CFLAGS=$u2f_emu_cflags" >> $config_host_mak
-+  echo "U2F_LIBS=$u2f_emu_libs" >> $config_host_mak
-+fi
-+
- if test "$libusb" = "yes" ; then
-   echo "CONFIG_USB_LIBUSB=y" >> $config_host_mak
-   echo "LIBUSB_CFLAGS=$libusb_cflags" >> $config_host_mak
+ Using host USB devices on a Linux host
 -- 
 2.28.0
 
