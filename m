@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C23F250104
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 17:26:00 +0200 (CEST)
-Received: from localhost ([::1]:46568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 587A6250113
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 17:27:01 +0200 (CEST)
+Received: from localhost ([::1]:50214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAEMA-0005j8-Rs
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 11:25:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34690)
+	id 1kAENA-0007Dh-Ah
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 11:27:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kAEKv-0004RU-JM
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 11:24:41 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:59143)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kAEKw-0004T6-VX
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 11:24:42 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:47905)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kAEKt-0003ds-Vx
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 11:24:41 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kAEKu-0003e6-O2
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 11:24:42 -0400
 Received: from localhost.localdomain ([82.252.135.186]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MGQWr-1kQSwX46gP-00GtPK; Mon, 24 Aug 2020 17:24:33 +0200
+ id 1Mi2eP-1knOdP1DI9-00e58E; Mon, 24 Aug 2020 17:24:34 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/2] meson: avoid compiling qemu-keymap by default
-Date: Mon, 24 Aug 2020 17:24:28 +0200
-Message-Id: <20200824152430.1844159-1-laurent@vivier.eu>
+Subject: [PATCH v2 1/2] meson: move xkbcommon to meson
+Date: Mon, 24 Aug 2020 17:24:29 +0200
+Message-Id: <20200824152430.1844159-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20200824152430.1844159-1-laurent@vivier.eu>
+References: <20200824152430.1844159-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:QE+3SrKPa3g76j+BLl2ZkmABC85r4N67qwfvPZI2tE5TiA26qgl
- c28hxHXHGPDb4Tzdt3YjjyPWdjvifaovk6rDqoG+6Ir6O/K4t/bmv6v+uo1n4ARCH2ILKiX
- FO56W/tYCmggOlTXkujAlwyERZtsbmX9GGqUw3a/QBIa52LEFQAa0Y7Wtu70ctq1UvYSNzW
- kTYTPRFqQQiYf6HFdvpZQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+KL5dZfqzfI=:edVeTjCXHtmt+O/oQEy2UE
- jmMMXunNBMUlmtN70kVlnJ3lPa3X9N2oGT4OWWYd9LoAd68jRarjQOTEtO98JSDKkK3+wRFMJ
- gR3+84wAzNIqXT2riUVngvp1CoVWXn29w/uyEH9098qXgWOfRu/sHjbJ7K59rni5g88k8HgmE
- 9DcruFNko6FLkE7CGlZuAqaPGC8hf5OIHloenpV4pGvKBtl5reu51oHlDCIwWufWE6LR0Wh5j
- OzVukcpwz//JFtdxzpXttQ4dq1isl1TsFso4jyia1zy3vfYgiYgmeVuTeexV65LxFaC1BRvlm
- 7qTgIyr3tdPwpqJDwnzREHsYiRUy03C6V7JAglYmUDuMduhLBt/fT4AxhOzNbigluGS+VLUo8
- Ndy8++oRO2/ILRylDJnqG1B3VUWJLEyNAoIy0rrOZpIzaTui3+XSkwUQ9DJSRKrBqcF4P7+NH
- W+OnMPOyQUqeMcVdTLeKrCs44v1sNXECuZc3/6/XA/dXJ82u9zPGwUNHUFNZZIhwQkePu6vSz
- JfywIBPglxFf4GH+EwgNv8cm8I6HdAD3JQaDrXy3Pfi9StUiUCiuEqp9Anyl43NyzfXgjCrZB
- UgF3NiPoW6flXJ/XtRHSCQebAEDwKRI9LqPA+L1HzngPNab+o6oDyQTFpC8+/bnHDykJLFFBA
- aDTVo07C8Oq9FjrxhZay/bsJqUCfoGHcyryEzEqRCoXyzHH6+DnZ6maJo+Sk/w8zYRQybtVPH
- cl823DZ21IqD71u+B8XdewwiLtvAvoyCbR16rI7ryy9x6rH1befzUW4ujzYfCsSmqM2CEqs06
- pYT7gYH+yRuMZLhj2HmkaBqCqfgv1vvox8g79Vu+8TJEIfCPFtI8vOanJojR3sDqvrnRCiO
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:k5i2OgnE//VPoIRxpa/RiHE+HJcOnXWLM2V8QV9O/H9eCeCq75q
+ 0QQYbRgh7pQVeOAYdZSvrv5b8rVnPMhtevbMWI8bZqWKlL/BRfyK62vtLrwkV2LMmYoxStF
+ BTWkwlqYC24xms893qpScXYDOWubP6AO7AmRJSRbrO158bdomFZghoGkzj5zBe6rVy2wg9O
+ AWUX1psORcmlu6cl7HFMA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:vbzckGlfBnY=:vpTigehA1EXSRWy9TJpDR3
+ dZZm/VjGxTu4BTvIq7d2aZkUzv9ibaaOTZzPoB2bfJGQNWqJabRuK/TlucYKI9A/g7kMCrT2d
+ 69CkxqFyi6ZJab6SQtF/jv5AR/XWM05NupO5XpzBRAB2FhswHIwqxMGBhmVYRphs2ypyCPlCh
+ 6rVLct8vI8Bne2yig3KKzuCxcSfsVzad8Tuvay3WRKLcYmrLw2ut/qyhp4IuD8MXzkoUJ7RuN
+ SWQHt9Uar5fQ+sF7wa+l+zwe3+TjaNJSczR+5wc2Y3jdS/uxmAgfidO9gv5obsaG7yAtWe9b4
+ fHAZHuX2fojc754w5Il0nrGjBywxMzkiyYh9rigcw0oCDcuNbrX7eHFkHVI2hm/0jeTWFfwZ5
+ fJ3Gw+8cqoTWTVP8LYjcHLd5mJFVDv/fucuTDbkzij5uY6UfbOyj99FIgSXVqTPXUgMMEjUAu
+ utFXpAH+gbiqwVAp2/5QJFhQdLxUoVCoWtsZsr2S9L4aZmIpFIcgRSfAb3M/K/mLfMGIzlVKk
+ syonLLyMwO1JKSZmjzadg68BEPWiIZGm1ZkagZ9K4kHv94H02ZrexC0m1KcchmUwbUSdORqLd
+ QNHmVd9CCR5RNL+GsFyOSwbFSmHez1LEvFRg4eaCPF3sxkwXAOJWpVXyNLkX1ZpA4gCNmJfqB
+ Etm4qcBl8b8yPXBMNiq8qt1/aZdPxvlayRsd3VQSBkZ+Ac0PNqVLumPRY7pF44nLv8QZqPJgi
+ DJl5eeQBNSf0W6P45nQ8NY7CsH44Skd7AC8WED9DEUTmE24B8Mkp2JBGyz5o3LoKBpc3DxCtW
+ r/j1EuK3S88A7NvIlGzHuk7MgkpXuwkeRy5E4Ei84CtDuQduYq1SyvR+tErRey47uW7ZeML
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/24 11:24:37
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/24 11:24:39
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -75,33 +76,142 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We don't need it with linux-user only build, and if xkbcommon dynamic=0D
-library is detected it can break the build of static only binaries.=0D
-=0D
-So disable it if it is no explicitly asked by the user when neither=0D
-system or tools are built.=0D
-=0D
-build qemu-keymap:=0D
-  configure --disable-system --disable-tools --disable-user --enable-xkbcom=
-mon=0D
-  configure --disable-system --enable-tools --disable-user=0D
-  configure --enable-system --disable-tools --disable-user=0D
-=0D
-don't build qemu-keymap:=0D
-  configure --disable-system --disable-tools --disable-user=0D
-  configure --disable-system --disable-tools --enable-user=0D
-=0D
-Laurent Vivier (2):=0D
-  meson: move xkbcommon to meson=0D
-  meson: avoid compiling qemu-keymap by default=0D
-=0D
- configure         | 29 ++++-------------------------=0D
- meson.build       | 16 +++++++++++-----=0D
- meson_options.txt |  1 +=0D
- ui/meson.build    |  2 +-=0D
- 4 files changed, 17 insertions(+), 31 deletions(-)=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ configure         | 29 ++++-------------------------
+ meson.build       | 11 ++++++-----
+ meson_options.txt |  1 +
+ ui/meson.build    |  2 +-
+ 4 files changed, 12 insertions(+), 31 deletions(-)
+
+diff --git a/configure b/configure
+index 67832e3bab76..dcc4bca5e42e 100755
+--- a/configure
++++ b/configure
+@@ -432,7 +432,7 @@ vde=""
+ vnc_sasl="auto"
+ vnc_jpeg="auto"
+ vnc_png="auto"
+-xkbcommon=""
++xkbcommon="auto"
+ xen=""
+ xen_ctrl_version=""
+ xen_pci_passthrough=""
+@@ -1631,9 +1631,9 @@ for opt do
+   ;;
+   --disable-libpmem) libpmem=no
+   ;;
+-  --enable-xkbcommon) xkbcommon=yes
++  --enable-xkbcommon) xkbcommon="enabled"
+   ;;
+-  --disable-xkbcommon) xkbcommon=no
++  --disable-xkbcommon) xkbcommon="disabled"
+   ;;
+   --enable-plugins) plugins="yes"
+   ;;
+@@ -3446,22 +3446,6 @@ EOF
+     fi
+ fi
+ 
+-##########################################
+-# xkbcommon probe
+-if test "$xkbcommon" != "no" ; then
+-  if $pkg_config xkbcommon --exists; then
+-    xkbcommon_cflags=$($pkg_config xkbcommon --cflags)
+-    xkbcommon_libs=$($pkg_config xkbcommon --libs)
+-    xkbcommon=yes
+-  else
+-    if test "$xkbcommon" = "yes" ; then
+-      feature_not_found "xkbcommon" "Install libxkbcommon-devel"
+-    fi
+-    xkbcommon=no
+-  fi
+-fi
+-
+-
+ ##########################################
+ # xfsctl() probe, used for file-posix.c
+ if test "$xfs" != "no" ; then
+@@ -6827,11 +6811,6 @@ if test "$audio_win_int" = "yes" ; then
+ fi
+ echo "CONFIG_BDRV_RW_WHITELIST=$block_drv_rw_whitelist" >> $config_host_mak
+ echo "CONFIG_BDRV_RO_WHITELIST=$block_drv_ro_whitelist" >> $config_host_mak
+-if test "$xkbcommon" = "yes" ; then
+-  echo "CONFIG_XKBCOMMON=y" >> $config_host_mak
+-  echo "XKBCOMMON_CFLAGS=$xkbcommon_cflags" >> $config_host_mak
+-  echo "XKBCOMMON_LIBS=$xkbcommon_libs" >> $config_host_mak
+-fi
+ if test "$xfs" = "yes" ; then
+   echo "CONFIG_XFS=y" >> $config_host_mak
+ fi
+@@ -8250,7 +8229,7 @@ NINJA=$PWD/ninjatool $meson setup \
+         -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
+ 	-Dsdl=$sdl -Dsdl_image=$sdl_image \
+ 	-Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
+-	-Dgettext=$gettext \
++	-Dgettext=$gettext -Dxkbcommon=$xkbcommon \
+         $cross_arg \
+         "$PWD" "$source_path"
+ 
+diff --git a/meson.build b/meson.build
+index df5bf728b57a..f6e346af1a69 100644
+--- a/meson.build
++++ b/meson.build
+@@ -152,10 +152,10 @@ libcap_ng = not_found
+ if 'CONFIG_LIBCAP_NG' in config_host
+   libcap_ng = declare_dependency(link_args: config_host['LIBCAP_NG_LIBS'].split())
+ endif
+-xkbcommon = not_found
+-if 'CONFIG_XKBCOMMON' in config_host
+-  xkbcommon = declare_dependency(compile_args: config_host['XKBCOMMON_CFLAGS'].split(),
+-                                 link_args: config_host['XKBCOMMON_LIBS'].split())
++xkbcommon = dependency('xkbcommon', required: get_option('xkbcommon'), static: enable_static,
++                       include_type: 'system')
++if xkbcommon.found()
++  xkbcommon = declare_dependency(dependencies: xkbcommon)
+ endif
+ slirp = not_found
+ if config_host.has_key('CONFIG_SLIRP')
+@@ -389,6 +389,7 @@ config_host_data.set('CONFIG_VNC', vnc.found())
+ config_host_data.set('CONFIG_VNC_JPEG', jpeg.found())
+ config_host_data.set('CONFIG_VNC_PNG', png.found())
+ config_host_data.set('CONFIG_VNC_SASL', sasl.found())
++config_host_data.set('CONFIG_XKBCOMMON', xkbcommon.found())
+ config_host_data.set('QEMU_VERSION', '"@0@"'.format(meson.project_version()))
+ config_host_data.set('QEMU_VERSION_MAJOR', meson.project_version().split('.')[0])
+ config_host_data.set('QEMU_VERSION_MINOR', meson.project_version().split('.')[1])
+@@ -1062,7 +1063,7 @@ if 'CONFIG_GUEST_AGENT' in config_host
+   subdir('qga')
+ endif
+ 
+-if 'CONFIG_XKBCOMMON' in config_host
++if xkbcommon.found()
+   # used for the update-keymaps target, so include rules even if !have_tools
+   qemu_keymap = executable('qemu-keymap', files('qemu-keymap.c', 'ui/input-keymap.c') + genh,
+                            dependencies: [qemuutil, xkbcommon], install: have_tools)
+diff --git a/meson_options.txt b/meson_options.txt
+index e5f45243ce78..c55f9cd94cb2 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -5,3 +5,4 @@ option('vnc', type : 'feature', value : 'enabled')
+ option('vnc_jpeg', type : 'feature', value : 'auto')
+ option('vnc_png', type : 'feature', value : 'auto')
+ option('vnc_sasl', type : 'feature', value : 'auto')
++option('xkbcommon', type : 'feature', value : 'auto')
+diff --git a/ui/meson.build b/ui/meson.build
+index 81fd393432a4..018c5698bf66 100644
+--- a/ui/meson.build
++++ b/ui/meson.build
+@@ -95,7 +95,7 @@ keymaps = [
+   ['osx', 'qcode'],
+ ]
+ 
+-if have_system or 'CONFIG_XKBCOMMON' in config_host
++if have_system or xkbcommon.found()
+   foreach e : keymaps
+     output = 'input-keymap-@0@-to-@1@.c.inc'.format(e[0], e[1])
+     genh += custom_target(output,
+-- 
+2.26.2
+
 
