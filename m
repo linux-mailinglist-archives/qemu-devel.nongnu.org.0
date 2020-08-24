@@ -2,73 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DA42250054
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 17:03:33 +0200 (CEST)
-Received: from localhost ([::1]:45132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BDA525005B
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 17:04:51 +0200 (CEST)
+Received: from localhost ([::1]:49352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAE0S-0008Mc-I5
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 11:03:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56028)
+	id 1kAE1i-00024O-51
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 11:04:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kADzM-00071l-97
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 11:02:24 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:33594)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kADzK-0008Kn-FV
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 11:02:23 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id w14so7857801eds.0
- for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 08:02:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=9t7GtwhJLZ1cQK6x7kDcPVNoaIrdfiWDtbK0fVwkdN0=;
- b=MA+LsCmN/gKXJVFtoNOS4ExA1194VZTcSeYcCAARJBjCyPgKsba68athXK6WLhagRy
- ZnhGti2GV4GldmMWolwkscXLnIsZEVIoGNtlFG7NJHNUGZiUKwXNA2Gnaqj3IV1LxTV+
- ln/rlv+m4VZLyIFebcfuTssNvPbmtbblmxRwkWyWQB9a10FvcNbCfgf6UgD7EhgByPub
- uelZVzkRGC1PpwCrZBVJLxlE7oU4dqcgesYfu8lu8wLDrGQnqVrdiryoO2RYV5Eb2lmu
- /sc4BdGXk0aW+1GQAt9L9arQgLTu/fZjDpE1LAN+F1WYOm8lKJRYJdrcHbyVqAxDmn5Z
- s+XQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=9t7GtwhJLZ1cQK6x7kDcPVNoaIrdfiWDtbK0fVwkdN0=;
- b=TeCjNi3TO1EFA30fX9cewqrBOo1ULK96MYcyHxLLwx+9W9OBnKGkXtSFybtNfXdX8x
- ZJCyiMyACmX/4Kjn4T9n2YGNRsmQtcDNYN8l8ilJrCDemfUcPpqsslyYBCPMIlFEdrMi
- tXp+CX7GTDSpdMZfuGV113yz+6np4fe3rPrDDayNC0TcaHq5k3yd2z1iGt706CMF6l5N
- pT8G8XY1JUY8XCIZpLpGysXqlmYPiirouO119yp+RQ6+qJEYduzJDr/cgPYNHUmuScAO
- SJQBPm4S1DFEY7jRDwyRwI1eVYuriUWLozmuIBIPDmxzDrPz89vnzyAypRYWL4EA5UJn
- aWYQ==
-X-Gm-Message-State: AOAM533sBFbU3QjFm6Rv7BPEjLrDVWTrYqGhfZgmyDr0QyR+mk08ahGP
- /Sq76M2jz0MrckF9cQ8Yq+IYLcBxt5RG0GSZPoToAPhqmgf1NA==
-X-Google-Smtp-Source: ABdhPJyZAX0G7eRJPhg2zaMS7IiSRZJrqyMPBqEV/vXhOmPCPluEyq5I1hwsBxLCbm/Lx4cia+jHLojkXwWnVlM2udw=
-X-Received: by 2002:a50:8f45:: with SMTP id 63mr5957941edy.52.1598281341076;
- Mon, 24 Aug 2020 08:02:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kAE0m-00013V-Gi
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 11:03:52 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46885
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kAE0i-00009B-DI
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 11:03:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598281426;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pTIKytunm/a2+K76EnRMoIlBsgvlTk4pOK4qKAOMmP4=;
+ b=D4qDbuGsfrqsVXbU7wYeoc2hOdGcuqa9YvpsS1c0pDu+Tdxd1edZFkm1DoXGj+4Vnf52uF
+ xAQuqyVZILtvqnyMARWzgXma/zepvom9qvc7CldwdwltOiucBTfTp1rOzfVfa5FwReBLVn
+ PsOYhW9v+QKYCKFAoigXt4lU1LmlUUI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-192-0xPKQKrOPACvm4a8VGdnlA-1; Mon, 24 Aug 2020 11:03:30 -0400
+X-MC-Unique: 0xPKQKrOPACvm4a8VGdnlA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 008AB18A2255;
+ Mon, 24 Aug 2020 15:03:29 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-112-186.ams2.redhat.com
+ [10.36.112.186])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9A73A5D9E2;
+ Mon, 24 Aug 2020 15:03:13 +0000 (UTC)
+Subject: Re: [RFC PATCH v2 0/4] Use ACPI PCI hot-plug for q35
+To: Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>
+References: <20200818215227.181654-1-jusual@redhat.com>
+ <20200821123007.3d390d51@redhat.com>
+ <2f874496-e9a2-d52f-2c6e-0595cc3ae9cb@redhat.com>
+ <20200824133541.0a5fe9a1@redhat.com>
+ <CAARzgwxLVgMtUR07f5eG45hQ0W9XK1A-SQb1Kvwx2JVS848hmA@mail.gmail.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <9e7d1a23-ec26-dbeb-3a84-e243f683a886@redhat.com>
+Date: Mon, 24 Aug 2020 17:03:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Firefox/52.0 Thunderbird/52.9.1
 MIME-Version: 1.0
-References: <20200806123858.30058-1-f4bug@amsat.org>
-In-Reply-To: <20200806123858.30058-1-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 24 Aug 2020 16:02:10 +0100
-Message-ID: <CAFEAcA975DsoqsPk+83B=ztf=73LaRYCR3nfVww51r=-0RcSBA@mail.gmail.com>
-Subject: Re: [PATCH-for-5.2 0/3] hw/clock: Only propagate clock changes if the
- clock is changed
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAARzgwxLVgMtUR07f5eG45hQ0W9XK1A-SQb1Kvwx2JVS848hmA@mail.gmail.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=lersek@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/24 06:40:32
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -52
+X-Spam_score: -5.3
+X-Spam_bar: -----
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.956,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.25, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,30 +87,187 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Julia Suvorova <jusual@redhat.com>,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Laine Stump <laine@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 6 Aug 2020 at 13:39, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
-wrote:
->
-> Trivial patches for the clock API:
-> - remove unused code
-> - only propagate clock update when a clock change
->
-> Philippe Mathieu-Daud=C3=A9 (3):
->   hw/clock: Remove unused clock_init*() functions
->   hw/clock: Let clock_set() return boolean value
->   hw/clock: Only propagate clock changes if the clock is changed
->
->  include/hw/clock.h | 30 ++++++++++--------------------
->  hw/core/clock.c    |  7 ++++++-
->  2 files changed, 16 insertions(+), 21 deletions(-)
+On 08/24/20 13:51, Ani Sinha wrote:
+> On Mon, Aug 24, 2020 at 5:06 PM Igor Mammedov <imammedo@redhat.com> wrote:
+>>
+>> On Sat, 22 Aug 2020 16:25:55 +0200
+>> Laszlo Ersek <lersek@redhat.com> wrote:
+>>
+>>> +Marcel, Laine, Daniel
+>>>
+>>> On 08/21/20 12:30, Igor Mammedov wrote:
+>>>> On Tue, 18 Aug 2020 23:52:23 +0200
+>>>> Julia Suvorova <jusual@redhat.com> wrote:
+>>>>
+>>>>> PCIe native hot-plug has numerous problems with racing events and
+>>>>> unpredictable guest behaviour (Windows).
+>>>> Documenting these misterious problems I've asked for  in previous
+>>>> review hasn't been addressed.
+>>>> Pls see v1 for comments and add requested info into cover letter at
+>>>> least or in a commit message.
+>>>
+>>> Igor, I assume you are referring to
+>>>
+>>>   http://mid.mail-archive.com/20200715153321.3495e62d@redhat.com
+>>>
+>>> and I couldn't agree more.
+>>>
+>>> I'd like to understand the specific motivation for this patch series.
+>>>
+>>> - I'm very concerned that it could regress various hotplug scenarios
+>>> with at least OVMF.
+>>>
+>>> So minimally I'm hoping that the work is being meticulously tested with
+>>> OVMF.
+>>>
+>>> - I don't recall testing native PCIe hot-*unplug*, but we had repeatedly
+>>> tested native PCIe plug with both Linux and Windows guests, and in the
+>>> end, it worked fine. (I recall working with at least Marcel on that; one
+>>> historical reference I can find now is
+>>> <https://bugzilla.tianocore.org/show_bug.cgi?id=75>.)
+>>>
+>>> I remember users confirming that native PCIe hotplug worked with
+>>> assigned physical devices even (e.g. GPUs), assuming they made use of
+>>> the resource reservation capability (e.g. they'd reserve large MMIO64
+>>> areas during initial enumeration).
+>>>
+>>> - I seem to remember that we had tested hotplug on extra root bridges
+>>> (PXB) too; regressing that -- per the pxb-pcie mention in the blurb,
+>>> quoted below -- wouldn't be great. At least, please don't flip the big
+>>> switch so soon (IIUC, there is a big switch being proposed).
+>>
+>> I'm suggesting to make ACPI hotplug on q35 opt-in,
+>> becasue it's only Windows guests that doesn't work well with unplug.
+>> Linux guests seems to be just fine with native hotplug.
+>>
+>>> - The documentation at "docs/pcie.txt" and "docs/pcie_pci_bridge.txt" is
+>>> chock-full of hotplug references; we had spent days if not weeks for
+>>> writing and reviewing those. I hope it's being evaluated how much of
+>>> that is going to need an update.
+>>>
+>>> In particular, do we know how this work is going to affect the resource
+>>> reservation capability?
+>> My hunch is that should not be affected (but I will not bet on it).
+>> ACPI hotplug just changes route hotplug event is delivered, and unplug
+>> happens via ACPI as well. That works around drivers offlining/onlining
+>> devices in rapid succession during native unplug (that's quite crude
+>> justification).
+>>
+>> So I'd like reasons to be well documented, including what ideas were
+>> tried to fix or workaround those issues (beside ACPI one), so the next
+>> time we look at it we don't have to start from ground up.
+>>
+>>
+>>> $ qemu-system-x86_64 -device pcie-root-port,\? | grep reserve
+>>>   bus-reserve=<uint32>   -  (default: 4294967295)
+>>>   io-reserve=<size>      -  (default: 18446744073709551615)
+>>>   mem-reserve=<size>     -  (default: 18446744073709551615)
+>>>   pref32-reserve=<size>  -  (default: 18446744073709551615)
+>>>   pref64-reserve=<size>  -  (default: 18446744073709551615)
+>>>
+>>> The OVMF-side code (OvmfPkg/PciHotPlugInitDxe) was tough to write. As
+>>> far as I remember, especially commit fe4049471bdf
+>>> ("OvmfPkg/PciHotPlugInitDxe: translate QEMU's resource reservation
+>>> hints", 2017-10-03) had taken a lot of navel-gazing. So the best answer
+>>> I'm looking for here is "this series does not affect resource
+>>> reservation at all".
+>>>
+>>> - If my message is suggesting that I'm alarmed: that's an
+>>> understatement. This stuff is a mine-field. A good example is Gerd's
+>>> (correct!) response "Oh no, please don't" to Igor's question in the v1
+>>> thread, as to whether the piix4 IO port range could be reused:
+>>>
+>>>   http://mid.mail-archive.com/20200715065751.ogchtdqmnn7cxsyi@sirius.home.kraxel.org
+>>>
+>>> That kind of "reuse" would have been a catastrophe, because for PCI IO
+>>> port aperture, OVMF uses [0xC000..0xFFFF] on i440fx, but
+>>> [0x6000..0xFFFF] on q35:
+>>>
+>>>   commit bba734ab4c7c9b4386d39420983bf61484f65dda
+>>>   Author: Laszlo Ersek <lersek@redhat.com>
+>>>   Date:   Mon May 9 22:54:36 2016 +0200
+>>>
+>>>       OvmfPkg/PlatformPei: provide 10 * 4KB of PCI IO Port space on Q35
+>>>
+>>>       This can accommodate 10 bridges (including root bridges, PCIe upstream and
+>>>       downstream ports, etc -- see
+>>>       <https://bugzilla.redhat.com/show_bug.cgi?id=1333238#c12> for more
+>>>       details).
+>>>
+>>>       10 is not a whole lot, but closer to the architectural limit of 15 than
+>>>       our current 4, so it can be considered a stop-gap solution until all
+>>>       guests manage to migrate to virtio-1.0, and no longer need PCI IO BARs
+>>>       behind PCIe downstream ports.
+>>>
+>>>       Cc: Gabriel Somlo <somlo@cmu.edu>
+>>>       Cc: Jordan Justen <jordan.l.justen@intel.com>
+>>>       Ref: https://bugzilla.redhat.com/show_bug.cgi?id=1333238
+>>>       Contributed-under: TianoCore Contribution Agreement 1.0
+>>>       Signed-off-by: Laszlo Ersek <lersek@redhat.com>
+>>>       Reviewed-by: Jordan Justen <jordan.l.justen@intel.com>
+>>>       Tested-by: Gabriel Somlo <somlo@cmu.edu>
+>>>
+>>> - If native PCIe hot-unplug is not working well (or at all) right now,
+>>> then I guess I can't just summarily say "we had better drop this like
+>>> hot potato".
+>>>
+>>> But then, if we are committed to *juggling* that potato, we should at
+>>> least document the use case / motivation / current issues meticulously,
+>>> please. Do we have a public BZ at least?
+>>>
+>>> - The other work, with regard to *disabling* unplug, which seems to be
+>>> progressing in parallel, is similarly in need of a good explanation, in
+>>> my opinion:
+>>>
+>>>   http://mid.mail-archive.com/20200820092157.17792-1-ani@anisinha.ca
+>>>
+>>> Yes, I have read Laine's long email, linked from the QEMU cover letter:
+>>>
+>>>   https://www.redhat.com/archives/libvir-list/2020-February/msg00110.html
+>>>
+>>> The whole use case "prevent guest admins from unplugging virtual
+>>> devices" still doesn't make any sense to me. How is "some cloud admins
+>>> don't want that" acceptable at face value, without further explanation?
+>> My take on it that, Windows always exposes unplug icon, and lets VM users
+>> to unplug PCI devices. Notably, user is able to click away the only NIC
+>> VM was configured with.
+> 
+> Correct. Also sometimes the admins may not want some other PCI devices
+> to be hot unpluggable such as the balloon device.
+> 
+>>
+>> Unfortunatly the 'feature' can't be fixed on guest side,
+> 
+> It can be using driver hacks but they are very operating system
+> specific and also needs to be applied per VM everytime they are
+> powered on.
+> 
+> that's why
+>> hypervisors implement such hack to disable ACPI hotplug. Which I guess
+>> is backed by demand from users deploying Windows virtual desktops.
+>>
+>> PS:
+>> I'd made PCI hotplug opt-in, since not everyone needs it.
+>> But that ship sailed long ago.
 
+Thank you both for explaining.
 
+All of these use cases seems justified to me.
 
-Applied to target-arm.next, thanks.
+Given that they are basically quirks, for addressing guest OS specific
+peculiarities, changing machine type defaults does not seem warranted.
+In my opinion, all of these bits should be opt-in. If we need to capture
+permanent recommendations, we can always document them, and/or libosinfo
+can expose them machine-readably.
 
--- PMM
+Thanks
+Laszlo
+
 
