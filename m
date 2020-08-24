@@ -2,100 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6511924FFFB
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 16:40:00 +0200 (CEST)
-Received: from localhost ([::1]:52988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59CA5250006
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 16:41:59 +0200 (CEST)
+Received: from localhost ([::1]:34472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kADdf-0000N4-E0
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 10:39:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43464)
+	id 1kADfa-0004T0-DJ
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 10:41:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kADTy-0000Iy-VF
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 10:30:00 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26389
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kADTw-0002kU-Tw
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 10:29:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598279395;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=4+8xjLSNaiV6eRfBfi/Ntqs6O3lKjF284ztUu3sNY7c=;
- b=PAVgkRrWE5r8EUhycNTwVVqVeZzi7QLBFxeQByYbVeGcQwpTUMl1wbXdAqzL1N5yNqJllb
- 3vCbCv6ZR6jeboHnqdu3jqjrRoBimXt17isSkU/FbvcDHvuYYcx4RrVdK6SdOyK1zNlKkY
- 4NPqHW0AuwDnNqcH/sdRi0Jyrr8Cuac=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-86-jKtr6d5iOoyxmi72RzMkEg-1; Mon, 24 Aug 2020 10:29:53 -0400
-X-MC-Unique: jKtr6d5iOoyxmi72RzMkEg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68AD5100CEC3;
- Mon, 24 Aug 2020 14:29:52 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-112-171.ams2.redhat.com
- [10.36.112.171])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 32CD270891;
- Mon, 24 Aug 2020 14:29:48 +0000 (UTC)
-Subject: Re: [PATCH v7 41/47] block: Leave BDS.backing_file constant
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20200625152215.941773-1-mreitz@redhat.com>
- <20200625152215.941773-42-mreitz@redhat.com>
- <20200824131412.GA10708@linux.fritz.box>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <280f4c43-e4c5-f29e-54be-91374ed80574@redhat.com>
-Date: Mon, 24 Aug 2020 16:29:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kADVW-0002oW-Vh
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 10:31:35 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:38113)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kADVT-0003EI-PS
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 10:31:34 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id w13so8593801wrk.5
+ for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 07:31:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=eUj8WJsMWaZA0d7mwrJMzwASqxSsQwup7y0SCLE/WH8=;
+ b=C9CcqrSuM3maAuY5PN7IbwG4k4FBY3IbzJoCbJoutnjgkuHQFRSitEaOCEVolFUbRR
+ d82KZnsUHivzWFVW8TtdJ3YrLlyILwDRYFXV6jPrFNvtWsITIcoKIEmoZJGYTcTFBr6v
+ 0h/T4cCWKgQDUMx4+2n8UPCIzv6aQlS2IdM7p//7/b4/+umqlt1V4NbqFNlSw2u7B0Ik
+ v2w4ZGn8CQCI3WkCX3kD5S2aWxfBGq7PuSPS4km5pLyyJF2Y0doE/sRzGzYU16HwVcf3
+ oOthpCRotYsr1haUfxicuzgYcwnZ/MDpkbEgegolK2KFS/OPVVESzH+tzqxiQOzU1g+g
+ wkaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=eUj8WJsMWaZA0d7mwrJMzwASqxSsQwup7y0SCLE/WH8=;
+ b=XB3x1PYZ5SZAAOjZt4XFOicppUnHmF3sHi7FbCbilJ6BsCdeQP86PlD/pO6vese/WU
+ QVNzye69lIxORTvVccebvXolEsgReyKAKXWYLpmiYyUAYBkeSp0ELJQNjyxaMQq5tBxu
+ rFiFQVG+c/4Z05MfOy2+vc0AfDRu6e909dSti0NJxIckMBPtan3bjj18Lkgo1yeJni85
+ LwNSnonxe4t6EC49ewkkPjq0UKqVzZRiPmJ++IKROgEOT+dT7BILx7/b6tAmq7dZMWr9
+ LQyibIFnp3DhsSjuY36NEkLmppTnnlrYK1/iDCsc0IZN5AIDZTLu5IkNeCMDrx1hdptq
+ shXg==
+X-Gm-Message-State: AOAM5326mwqOiVNbS/U+TY9R2WUhS6QO3gJtZRogmr3G9ez98OHqMW8j
+ XSoNFIWAk4Hh6xuGWQrPL9WFxQ==
+X-Google-Smtp-Source: ABdhPJyayGVVOIuvlhWOIuk9WzChcqk3iJx4Imb6T3mgAN2ke8pluGanEEb3eH8Kte+iIu6HunaXYg==
+X-Received: by 2002:adf:ba10:: with SMTP id o16mr6203646wrg.100.1598279489557; 
+ Mon, 24 Aug 2020 07:31:29 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id d11sm22574721wrw.77.2020.08.24.07.31.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Aug 2020 07:31:29 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH RISU] arm.risu: Add patterns for fp16 insns
+Date: Mon, 24 Aug 2020 15:31:27 +0100
+Message-Id: <20200824143127.23170-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20200824131412.GA10708@linux.fritz.box>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0.003
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="xTxzeU5HvFJ9GgM4mPPQVjSQZ9SU9G3Hj"
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/24 06:40:32
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -52
-X-Spam_score: -5.3
-X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.956,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.25, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,129 +83,356 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---xTxzeU5HvFJ9GgM4mPPQVjSQZ9SU9G3Hj
-Content-Type: multipart/mixed; boundary="7kp97mCrU9SO8HbchdEWAvbSAGtq2W59Q"
+Add patterns for the fp16 half-precision floating point extension.
+Where older pre-fp16 patterns used to include UNDEF encodings
+that now mean fp16, constrain them so that tests generated
+from those patterns will give the same results on CPUs both
+with and without fp16.
 
---7kp97mCrU9SO8HbchdEWAvbSAGtq2W59Q
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+This is what I've been testing my fp16 support patchset with.
+NB that if you have pre-built golden-reference files for the
+old patterns that wanted to see UNDEFs for fp16 insns you'll
+need to regenerate those at some point when the fp16 support
+lands for -cpu max.
 
-On 24.08.20 15:14, Kevin Wolf wrote:
-> Am 25.06.2020 um 17:22 hat Max Reitz geschrieben:
->> Parts of the block layer treat BDS.backing_file as if it were whatever
->> the image header says (i.e., if it is a relative path, it is relative to
->> the overlay), other parts treat it like a cache for
->> bs->backing->bs->filename (relative paths are relative to the CWD).
->> Considering bs->backing->bs->filename exists, let us make it mean the
->> former.
->>
->> Among other things, this now allows the user to specify a base when
->> using qemu-img to commit an image file in a directory that is not the
->> CWD (assuming, everything uses relative filenames).
->>
->> Before this patch:
->>
->> $ ./qemu-img create -f qcow2 foo/bot.qcow2 1M
->> $ ./qemu-img create -f qcow2 -b bot.qcow2 foo/mid.qcow2
->> $ ./qemu-img create -f qcow2 -b mid.qcow2 foo/top.qcow2
->> $ ./qemu-img commit -b mid.qcow2 foo/top.qcow2
->> qemu-img: Did not find 'mid.qcow2' in the backing chain of 'foo/top.qcow=
-2'
->> $ ./qemu-img commit -b foo/mid.qcow2 foo/top.qcow2
->> qemu-img: Did not find 'foo/mid.qcow2' in the backing chain of 'foo/top.=
-qcow2'
->> $ ./qemu-img commit -b $PWD/foo/mid.qcow2 foo/top.qcow2
->> qemu-img: Did not find '[...]/foo/mid.qcow2' in the backing chain of 'fo=
-o/top.qcow2'
->>
->> After this patch:
->>
->> $ ./qemu-img commit -b mid.qcow2 foo/top.qcow2
->> Image committed.
->> $ ./qemu-img commit -b foo/mid.qcow2 foo/top.qcow2
->> qemu-img: Did not find 'foo/mid.qcow2' in the backing chain of 'foo/top.=
-qcow2'
->> $ ./qemu-img commit -b $PWD/foo/mid.qcow2 foo/top.qcow2
->> Image committed.
->>
->> With this change, bdrv_find_backing_image() must look at whether the
->> user has overridden a BDS's backing file.  If so, it can no longer use
->> bs->backing_file, but must instead compare the given filename against
->> the backing node's filename directly.
->>
->> Note that this changes the QAPI output for a node's backing_file.  We
->> had very inconsistent output there (sometimes what the image header
->> said, sometimes the actual filename of the backing image).  This
->> inconsistent output was effectively useless, so we have to decide one
->> way or the other.  Considering that bs->backing_file usually at runtime
->> contained the path to the image relative to qemu's CWD (or absolute),
->> this patch changes QAPI's backing_file to always report the
->> bs->backing->bs->filename from now on.  If you want to receive the image
->> header information, you have to refer to full-backing-filename.
->>
->> This necessitates a change to iotest 228.  The interesting information
->> it really wanted is the image header, and it can get that now, but it
->> has to use full-backing-filename instead of backing_file.  Because of
->> this patch's changes to bs->backing_file's behavior, we also need some
->> reference output changes.
->>
->> Along with the changes to bs->backing_file, stop updating
->> BDS.backing_format in bdrv_backing_attach() as well.  In order not to
->> change our externally visible behavior (incompatibly), we have to let
->> bdrv_query_image_info() try to get the image format from bs->backing if
->> bs->backing_format is unset.  (The QAPI schema describes
->> backing-filename-format as "the format of the backing file", so it is
->> not necessarily what the image header says, but just the format of the
->> file referenced by backing-filename (if known).)
->=20
-> Why is it okay to change backing-filename incompatibly, but not
-> backing-filename-format?
+ arm.risu | 218 +++++++++++++++++++++++++++++++++++++++++++------------
+ 1 file changed, 170 insertions(+), 48 deletions(-)
 
-I hope you=E2=80=99re asking the reverse, i.e. why I don=E2=80=99t change
-backing-filename-format, too.  The answer to that is yeah, why not. :)
-
-> I would find it much more consistent if
-> ImageInfo reported the value from the header in both fields, and
-> BlockDeviceInfo reported the values actually in use.
->=20
-> The QAPI schema described ImageInfo as "Information about a QEMU image
-> file" and runtime state really isn't information about an image file.
->=20
-> If you want to know the probed image format, you can still look at
-> backing-image.format. I don't think this change is much different from
-> what you described above for BlockDeviceInfo.backing_file.
-
-Well, OK then.
-
-Max
-
-
---7kp97mCrU9SO8HbchdEWAvbSAGtq2W59Q--
-
---xTxzeU5HvFJ9GgM4mPPQVjSQZ9SU9G3Hj
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl9DztoACgkQ9AfbAGHV
-z0B2mQgAgbE7JFb+AsLcOGo6ErokdyKOurWpT9HphancJ+I/5UerImw90B64FtmA
-NR3Ujf6SP9wSy8+HR2NXTbMKzHe7g5MO0RBAwdGxRqYL2T00h8CSHCfntrneNnEl
-AW5/NEw9dInDp5+yx0nzDHRKV9V6NgcQyQkNEb6VVuYoblG8a4DUkrTuYW0TMa9y
-vNqcYOEBP14DRU/mZJeaFVnzn8cIkyX7S6KtXUD8Sx3JJU2Dlnymog5J+aEryPIs
-aeWNU18/rfFXEZZ4ANa7yVYAgTHJsXtavvbu72VArWoKgtpi8TcNisFvkLJuyvpZ
-4hUZVFrnBpd9H3ZmVs8dEyq/j5MAqw==
-=MAj5
------END PGP SIGNATURE-----
-
---xTxzeU5HvFJ9GgM4mPPQVjSQZ9SU9G3Hj--
+diff --git a/arm.risu b/arm.risu
+index 048215b..adebf37 100644
+--- a/arm.risu
++++ b/arm.risu
+@@ -456,6 +456,9 @@ VLDST_UNDEF A1c 1111 0100 1 x 0 0 any:8 11 any2:10
+ # space (table A7-9 in DDI0406B)
+ # We include UNDEF combinations here; there are no
+ # UNPREDICTABLE encodings we need to avoid.
++# We avoid size encodings that are fp16 under the v8.2-FP16 extension:
++# sz=1 for the float insns which have a 1-bit size field in bit 20,
++# and instead hard-wire that bit to 0.
+ ###########################################################
+ 
+ VHADD A1 1111 001 u 0 d sz:2 vn:4 vd:4 0000 n q m 0 vm:4
+@@ -471,9 +474,9 @@ VORN A1 1111 0010 0 d 11 vn:4 vd:4 0001 n q m 1 vm:4
+ VEOR_VBIT A1 1111 0011 0 d op:2 vn:4 vd:4 0001 n q m 1 vm:4
+ VQSUB A1 1111 001 u 0 d sz:2 vn:4 vd:4 0010 n q m 1 vm:4
+ VCGT A1 1111 001 u 0 d sz:2 vn:4 vd:4 0011 n q m 0 vm:4
+-VCGT A2 1111 0011 0 d 1 sz vn:4 vd:4 1110 n q m 0 vm:4
++VCGT A2 1111 0011 0 d 1 0 vn:4 vd:4 1110 n q m 0 vm:4
+ VCGE A1 1111 001 u 0 d sz:2 vn:4 vd:4 0011 n q m 1 vm:4
+-VCGE A2 1111 0011 0 d 0 sz vn:4 vd:4 1110 n q m 0 vm:4
++VCGE A2 1111 0011 0 d 0 0 vn:4 vd:4 1110 n q m 0 vm:4
+ VSHL A1 1111 001 u 0 d sz:2 vn:4 vd:4 0100 n q m 0 vm:4
+ VQSHL A1 1111 001 u 0 d sz:2 vn:4 vd:4 0100 n q m 1 vm:4
+ VRSHL A1 1111 001 u 0 d sz:2 vn:4 vd:4 0101 n q m 0 vm:4
+@@ -486,7 +489,7 @@ VADD A1 1111 0010 0 d sz:2 vn:4 vd:4 1000 n q m 0 vm:4
+ VSUB A1 1111 0011 0 d sz:2 vn:4 vd:4 1000 n q m 0 vm:4
+ VTST A1 1111 0010 0 d sz:2 vn:4 vd:4 1000 n q m 1 vm:4
+ VCEQ A1 1111 0011 0 d sz:2 vn:4 vd:4 1000 n q m 1 vm:4
+-VCEQ A2 1111 0010 0 d 0 sz vn:4 vd:4 1110 n q m 0 vm:4
++VCEQ A2 1111 0010 0 d 0 0 vn:4 vd:4 1110 n q m 0 vm:4
+ VMLA A1 1111 001 op 0 d sz:2 vn:4 vd:4 1001 n q m 0 vm:4
+ VMUL A1 1111 001 op 0 d sz:2 vn:4 vd:4 1001 n q m 1 vm:4
+ VPMAX A1 1111 001 u 0 d sz:2 vn:4 vd:4 1010 n q m 0 vm:4
+@@ -495,22 +498,22 @@ VQDMULH A1 1111 0010 0 d sz:2 vn:4 vd:4 1011 n q m 0 vm:4
+ VQRDMULH A1 1111 0011 0 d sz:2 vn:4 vd:4 1011 n q m 0 vm:4
+ VPADD A1 1111 0010 0 d sz:2 vn:4 vd:4 1011 n q m 1 vm:4
+ # NB: VFM is VFPv4 only. There is no Neon encoding for VFNM.
+-VFM A1 1111 0010 0 d op sz vn:4 vd:4 1100 n q m 1 vm:4
+-VADD_float A1 1111 0010 0 d 0 sz vn:4 vd:4 1101 n q m 0 vm:4
+-VSUB_float A1 1111 0010 0 d 1 sz vn:4 vd:4 1101 n q m 0 vm:4
+-VPADD_float A1 1111 0011 0 d 0 sz vn:4 vd:4 1101 n q m 0 vm:4
+-VABD_float A1 1111 0011 0 d 1 sz vn:4 vd:4 1101 n q m 0 vm:4
+-VMLA_float A1 1111 0010 0 d 0 sz vn:4 vd:4 1101 n q m 1 vm:4
+-VMLS_float A1 1111 0010 0 d 1 sz vn:4 vd:4 1101 n q m 1 vm:4
+-VMUL_float A1 1111 0011 0 d 0 sz vn:4 vd:4 1101 n q m 1 vm:4
+-VACGE A1 1111 0011 0 d 0 sz vn:4 vd:4 1110 n q m 1 vm:4
+-VACGT A1 1111 0011 0 d 1 sz vn:4 vd:4 1110 n q m 1 vm:4
+-VMAX_float A1 1111 0010 0 d 0 sz vn:4 vd:4 1111 n q m 0 vm:4
+-VMIN_float A1 1111 0010 0 d 1 sz vn:4 vd:4 1111 n q m 0 vm:4
+-VPMAX_float A1 1111 0011 0 d 0 sz vn:4 vd:4 1111 n q m 0 vm:4
+-VPMIN_float A1 1111 0011 0 d 1 sz vn:4 vd:4 1111 n q m 0 vm:4
+-VRECPS A1 1111 0010 0 d 0 sz vn:4 vd:4 1111 n q m 1 vm:4
+-VRSQRTS A1 1111 0010 0 d 1 sz vn:4 vd:4 1111 n q m 1 vm:4
++VFM A1 1111 0010 0 d op 0 vn:4 vd:4 1100 n q m 1 vm:4
++VADD_float A1 1111 0010 0 d 0 0 vn:4 vd:4 1101 n q m 0 vm:4
++VSUB_float A1 1111 0010 0 d 1 0 vn:4 vd:4 1101 n q m 0 vm:4
++VPADD_float A1 1111 0011 0 d 0 0 vn:4 vd:4 1101 n q m 0 vm:4
++VABD_float A1 1111 0011 0 d 1 0 vn:4 vd:4 1101 n q m 0 vm:4
++VMLA_float A1 1111 0010 0 d 0 0 vn:4 vd:4 1101 n q m 1 vm:4
++VMLS_float A1 1111 0010 0 d 1 0 vn:4 vd:4 1101 n q m 1 vm:4
++VMUL_float A1 1111 0011 0 d 0 0 vn:4 vd:4 1101 n q m 1 vm:4
++VACGE A1 1111 0011 0 d 0 0 vn:4 vd:4 1110 n q m 1 vm:4
++VACGT A1 1111 0011 0 d 1 0 vn:4 vd:4 1110 n q m 1 vm:4
++VMAX_float A1 1111 0010 0 d 0 0 vn:4 vd:4 1111 n q m 0 vm:4
++VMIN_float A1 1111 0010 0 d 1 0 vn:4 vd:4 1111 n q m 0 vm:4
++VPMAX_float A1 1111 0011 0 d 0 0 vn:4 vd:4 1111 n q m 0 vm:4
++VPMIN_float A1 1111 0011 0 d 1 0 vn:4 vd:4 1111 n q m 0 vm:4
++VRECPS A1 1111 0010 0 d 0 0 vn:4 vd:4 1111 n q m 1 vm:4
++VRSQRTS A1 1111 0010 0 d 1 0 vn:4 vd:4 1111 n q m 1 vm:4
+ 
+ ########### Neon 1 reg + modified immediate ###############
+ # Instructions from the Neon "1 reg + modified immediate"
+@@ -577,15 +580,19 @@ VQDMULL A1 1111 0010 1 d sz:2 vn:4 vd:4 1101 n 0 m 0 vm:4 { $sz != 3; }
+ # (table A7-11 in DDI0406B)
+ # UNDEF cases included.
+ # sz = 11 is in vext/vtbl/vtbx/vdup/2reg-misc space.
++# We avoid f=1 sz=01 which is v8.2-FP16
+ ###########################################################
+ # includes float variants
+-VMLA_scalar A1 1111 001 q 1  d sz:2 vn:4 vd:4 0 0 0 f n 1 m 0 vm:4 { $sz != 3; }
+-VMLS_scalar A1 1111 001 q 1  d sz:2 vn:4 vd:4 0 1 0 f n 1 m 0 vm:4 { $sz != 3; }
++VMLA_scalar A1 1111 001 q 1  d sz:2 vn:4 vd:4 0 0 0 f n 1 m 0 vm:4 \
++  { $sz != 3 && ($f == 0 || $sz != 1); }
++VMLS_scalar A1 1111 001 q 1  d sz:2 vn:4 vd:4 0 1 0 f n 1 m 0 vm:4 \
++  { $sz != 3 && ($f == 0 || $sz != 1); }
+ VMLAL_scalar A2 1111 001 u 1 d sz:2 vn:4 vd:4 0 0 1 0 n 1 m 0 vm:4 { $sz != 3; }
+ VMLSL_scalar A2 1111 001 u 1 d sz:2 vn:4 vd:4 0 1 1 0 n 1 m 0 vm:4 { $sz != 3; }
+ VQDMLAL_scalar A2 1111 0010 1 d sz:2 vn:4 vd:4 0 0 11 n 1 m 0 vm:4 { $sz != 3; }
+ VQDMLSL_scalar A2 1111 0010 1 d sz:2 vn:4 vd:4 0 1 11 n 1 m 0 vm:4 { $sz != 3; }
+-VMUL_scalar A1 1111 001 q 1 d sz:2 vn:4 vd:4 100 f n 1 m 0 vm:4 { $sz != 3; }
++VMUL_scalar A1 1111 001 q 1 d sz:2 vn:4 vd:4 100 f n 1 m 0 vm:4 \
++  { $sz != 3 && ($f == 0 || $sz != 1); }
+ VMULL_scalar A2 1111 001 u 1 d sz:2 vn:4 vd:4 1010 n 1 m 0 vm:4 { $sz != 3; }
+ VQDMULL_scalar A2 1111 0010 1 d sz:2 vn:4 vd:4 1011 n 1 m 0 vm:4 { $sz != 3; }
+ VQDMULH_scalar A2 1111 001 q 1 d sz:2 vn:4 vd:4 1100 n 1 m 0 vm:4 { $sz != 3; }
+@@ -595,6 +602,7 @@ VQRDMULH_scalar A2 1111 001 q 1 d sz:2 vn:4 vd:4 1101 n 1 m 0 vm:4 { $sz != 3; }
+ # Instructions from the Neon "2 regs miscellaneous" space
+ # (table A7-13 in DDI0406B)
+ # UNDEF cases included.
++# We avoid f=1 sz=01 which is v8.2-FP16
+ ###########################################################
+ VREV A1 1111 0011 1 d 11 sz:2 00 vd:4 000 op:2 q m 0 vm:4
+ VPADDL A1 1111 0011 1 d 11 sz:2 00 vd:4 0010 op q m 0 vm:4
+@@ -605,13 +613,13 @@ VMVN A1 1111 0011 1 d 11 sz:2 00 vd:4 0 1011 q m 0 vm:4
+ VPADAL A1 1111 0011 1 d 11 sz:2 00 vd:4 0110 op q m 0 vm:4
+ VQABS A1 1111 0011 1 d 11 sz:2 00 vd:4 0111 0 q m 0 vm:4
+ VQNEG A1 1111 0011 1 d 11 sz:2 00 vd:4 0111 1 q m 0 vm:4
+-VCGT0 A1 1111 0011 1 d 11 sz:2 01 vd:4 0 f 000 q m 0 vm:4
+-VCGE0 A1 1111 0011 1 d 11 sz:2 01 vd:4 0 f 001 q m 0 vm:4
+-VCEQ0 A1 1111 0011 1 d 11 sz:2 01 vd:4 0 f 010 q m 0 vm:4
+-VCLE0 A1 1111 0011 1 d 11 sz:2 01 vd:4 0 f 011 q m 0 vm:4
+-VCLT0 A1 1111 0011 1 d 11 sz:2 01 vd:4 0 f 100 q m 0 vm:4
+-VABS A1 1111 0011 1 d 11 sz:2 01 vd:4 0 f 110 q m 0 vm:4
+-VNEG A1 1111 0011 1 d 11 sz:2 01 vd:4 0 f 111 q m 0 vm:4
++VCGT0 A1 1111 0011 1 d 11 sz:2 01 vd:4 0 f 000 q m 0 vm:4 { $f == 0 || $sz != 1; }
++VCGE0 A1 1111 0011 1 d 11 sz:2 01 vd:4 0 f 001 q m 0 vm:4 { $f == 0 || $sz != 1; }
++VCEQ0 A1 1111 0011 1 d 11 sz:2 01 vd:4 0 f 010 q m 0 vm:4 { $f == 0 || $sz != 1; }
++VCLE0 A1 1111 0011 1 d 11 sz:2 01 vd:4 0 f 011 q m 0 vm:4 { $f == 0 || $sz != 1; }
++VCLT0 A1 1111 0011 1 d 11 sz:2 01 vd:4 0 f 100 q m 0 vm:4 { $f == 0 || $sz != 1; }
++VABS A1 1111 0011 1 d 11 sz:2 01 vd:4 0 f 110 q m 0 vm:4 { $f == 0 || $sz != 1; }
++VNEG A1 1111 0011 1 d 11 sz:2 01 vd:4 0 f 111 q m 0 vm:4 { $f == 0 || $sz != 1; }
+ VSWP A1 1111 0011 1 d 11 sz:2 10 vd:4 00000 q m 0 vm:4
+ # d == m gives UNKNOWN results, so avoid it
+ VTRN A1 1111 0011 1 d 11 sz:2 10 vd:4 00001 q m 0 vm:4 { ($d != $m) || ($vd != $vm); }
+@@ -624,10 +632,10 @@ VSHLL A2 1111 0011 1 d 11 sz:2 10 vd:4 0011 0 0 m 0 vm:4
+ # float-halfprec (A8.6.299)
+ # NB that half-precision needs at least an A9; A8 doesn't have it
+ VCVT_half A1 1111 0011 1 d 11 sz:2 10 vd:4 011 op 0 0 m 0 vm:4
+-VRECPE A1 1111 0011 1 d 11 sz:2 11 vd:4 010 f 0 q m 0 vm:4
+-VRSQRTE A1 1111 0011 1 d 11 sz:2 11 vd:4 010 f 1 q m 0 vm:4
+-# float to int, neon versions (A8.6.294)
+-VCVT_neon A1 1111 0011 1 d 11 sz:2 11 vd:4 0 11 op:2 q m 0 vm:4
++VRECPE A1 1111 0011 1 d 11 sz:2 11 vd:4 010 f 0 q m 0 vm:4 { $f == 0 || $sz != 1; }
++VRSQRTE A1 1111 0011 1 d 11 sz:2 11 vd:4 010 f 1 q m 0 vm:4 { $f == 0 || $sz != 1; }
++# float to int, neon versions (A8.6.294); avoid sz=01 which is FP16
++VCVT_neon A1 1111 0011 1 d 11 sz:2 11 vd:4 0 11 op:2 q m 0 vm:4 { $sz != 1; }
+ 
+ ########### Neon other ####################################
+ # Instructions which have their own entry in the top level
+@@ -649,6 +657,8 @@ VDUP_scalar A1 1111 0011 1 d 11 imm:4 vd:4 11000 q m 0 vm:4
+ # "VFP data-processing instructions" space
+ # as described in DDI0406B table A7-16 and the subtables
+ # it refers to.
++# These don't include fp16, which has [11:9] 0b100
++# (described in the Arm ARM as [11:9] 0b10 and a 2-bit size field)
+ ###########################################################
+ 
+ # VMLA, VMLS
+@@ -752,7 +762,7 @@ VLDM A2b cond:4 110 p 0 d w 1 rn:4 vd:4 1010 00 imm:6  \
+ # UNDEF cases for both A1 and A2:  P==U && W==1
+ VLDM A1c cond:4 110 p u d 1 1 rn:4 vd:4 101 x imm:8 !constraints { $p == $u; }
+ 
+-# VSTR
++# VSTR (no overlap with VSTR_f16)
+ # both A1 and A2 encodings, U = 1
+ VSTR A1a cond:4 1101 1 d 00 rn:4 vd:4 101 x imm:8 \
+  !memory { reg_plus_imm($rn, $imm * 4); }
+@@ -760,7 +770,7 @@ VSTR A1a cond:4 1101 1 d 00 rn:4 vd:4 101 x imm:8 \
+ VSTR A1b cond:4 1101 0 d 00 rn:4 vd:4 101 x imm:8 \
+  !memory { reg_minus_imm($rn, $imm * 4); }
+ 
+-# VLDR
++# VLDR (no overlap with VLDR_f16)
+ # both A1 and A2 encodings, U = 1
+ VLDR A1a cond:4 1101 1 d 01 rn:4 vd:4 101 x imm:8 \
+  !memory { reg_plus_imm($rn, $imm * 4); }
+@@ -799,9 +809,9 @@ VMOV_core_double A1 cond:4 1100 010 op:1 rt2:4 rt:4 1011 00 m:1 1 vm:4 { $op ==
+ # VSEL
+ VSEL A1 1111 11100 d cc:2 vn:4 vd:4 101 sz n 0 m 0 vm:4
+ # VMINNM and VMAXNM
+-# neon
+-VMINMAXNM A1 1111 00110 d op sz vn:4 vd:4 1111 n q m 1 vm:4
+-# vfp
++# neon: sz=0 (avoiding sz=1 which is FP16)
++VMINMAXNM A1 1111 00110 d op 0 vn:4 vd:4 1111 n q m 1 vm:4
++# vfp (does not overlap with FP16)
+ VMINMAXNM A2 1111 11101 d 00 vn:4 vd:4 101 sz n op m 0 vm:4
+ 
+ # Crypto
+@@ -842,8 +852,8 @@ VCVT_rm A1 1111 11101 d 1111 rm:2 vd:4 101 sz op 1 m 0 vm:4
+ # 64<->16 conversions (see also pattern earlier which is the sz==0 case)
+ VCVT_B_TT_64 A1 cond:4 1110 1 d 11 001 op vd:4 101 1 t 1 m 0 vm:4
+ 
+-# VCVT with rounding mode specified, neon
+-VCVT_rm_neon A1 1111 00111 d 11 size:2 11 vd:4 00 rm:2 op q m 0 vm:4
++# VCVT with rounding mode specified, neon; avoid sz=0b01 which is FP16
++VCVT_rm_neon A1 1111 00111 d 11 size:2 11 vd:4 00 rm:2 op q m 0 vm:4 { $size != 1; }
+ 
+ # CRC
+ # Note that sz == 0b11 is UNPREDICTABLE (either UNDEF, NOP or as if == 0b10)
+@@ -879,16 +889,128 @@ VFMSL       A1 1111110 01 d:1 10 vn:4 vd:4 1000 n:1 q:1 m:1 1 vm:4
+ VFMAL_s     A1 11111110 0 d:1 00 vn:4 vd:4 1000 n:1 q:1 m:1 1 vm:4
+ VFMSL_s     A1 11111110 1 d:1 00 vn:4 vd:4 1000 n:1 q:1 m:1 1 vm:4
+ 
++@v8_2_fp16
++
++# v8.2-FP16 adds a lot of "and 16-bit flavour" to existing insn encodings;
++# these patterns are arranged in the same order as the earlier v7 patterns.
++# Pattern names follow the non-fp16 names with a _f16 suffix.
++
++# FP16: neon 3-reg-same: bit 20 sz=1 for f16
++VCGT_f16          A2 1111 0011 0 d 1 1 vn:4 vd:4 1110 n q m 0 vm:4
++VCGE_f16          A2 1111 0011 0 d 0 1 vn:4 vd:4 1110 n q m 0 vm:4
++VCEQ_f16          A2 1111 0010 0 d 0 1 vn:4 vd:4 1110 n q m 0 vm:4
++VFM_f16           A1 1111 0010 0 d op 1 vn:4 vd:4 1100 n q m 1 vm:4
++VADD_float_f16    A1 1111 0010 0 d 0 1 vn:4 vd:4 1101 n q m 0 vm:4
++VSUB_float_f16    A1 1111 0010 0 d 1 1 vn:4 vd:4 1101 n q m 0 vm:4
++VPADD_float_f16   A1 1111 0011 0 d 0 1 vn:4 vd:4 1101 n q m 0 vm:4
++VABD_float_f16    A1 1111 0011 0 d 1 1 vn:4 vd:4 1101 n q m 0 vm:4
++VMLA_float_f16    A1 1111 0010 0 d 0 1 vn:4 vd:4 1101 n q m 1 vm:4
++VMLS_float_f16    A1 1111 0010 0 d 1 1 vn:4 vd:4 1101 n q m 1 vm:4
++VMUL_float_f16    A1 1111 0011 0 d 0 1 vn:4 vd:4 1101 n q m 1 vm:4
++VACGE_f16         A1 1111 0011 0 d 0 1 vn:4 vd:4 1110 n q m 1 vm:4
++VACGT_f16         A1 1111 0011 0 d 1 1 vn:4 vd:4 1110 n q m 1 vm:4
++VMAX_float_f16    A1 1111 0010 0 d 0 1 vn:4 vd:4 1111 n q m 0 vm:4
++VMIN_float_f16    A1 1111 0010 0 d 1 1 vn:4 vd:4 1111 n q m 0 vm:4
++VPMAX_float_f16   A1 1111 0011 0 d 0 1 vn:4 vd:4 1111 n q m 0 vm:4
++VPMIN_float_f16   A1 1111 0011 0 d 1 1 vn:4 vd:4 1111 n q m 0 vm:4
++VRECPS_f16        A1 1111 0010 0 d 0 1 vn:4 vd:4 1111 n q m 1 vm:4
++VRSQRTS_f16       A1 1111 0010 0 d 1 1 vn:4 vd:4 1111 n q m 1 vm:4
++
++# FP16: neon 2-reg-scalar : f=1 sz=01
++VMLA_scalar_f16   A1 1111 001 q 1  d 01 vn:4 vd:4 0 0 0 f n 1 m 0 vm:4
++VMLS_scalar_f16   A1 1111 001 q 1  d 01 vn:4 vd:4 0 1 0 f n 1 m 0 vm:4
++VMUL_scalar_f16   A1 1111 001 q 1 d 01 vn:4 vd:4 100 f n 1 m 0 vm:4
++
++# FP16: Neon 2-reg-shift
++# this doesn't overlap with the non-fp16 insn, which has 111 in [11:9]
++VCVT_f16 A1 1111 001 u 1 d imm:6 vd:4 110 op 0 q m 1 vm:4 { ($imm & 0x38) != 0; }
++
++# FP16: neon 2-reg-misc: f=1 sz=01
++VCGT0_f16        A1 1111 0011 1 d 11 01 01 vd:4 0 f 000 q m 0 vm:4
++VCGE0_f16        A1 1111 0011 1 d 11 01 01 vd:4 0 f 001 q m 0 vm:4
++VCEQ0_f16        A1 1111 0011 1 d 11 01 01 vd:4 0 f 010 q m 0 vm:4
++VCLE0_f16        A1 1111 0011 1 d 11 01 01 vd:4 0 f 011 q m 0 vm:4
++VCLT0_f16        A1 1111 0011 1 d 11 01 01 vd:4 0 f 100 q m 0 vm:4
++VABS_f16         A1 1111 0011 1 d 11 01 01 vd:4 0 f 110 q m 0 vm:4
++VNEG_f16         A1 1111 0011 1 d 11 01 01 vd:4 0 f 111 q m 0 vm:4
++VRECPE_f16       A1 1111 0011 1 d 11 01 11 vd:4 010 f 0 q m 0 vm:4
++VRSQRTE_f16      A1 1111 0011 1 d 11 01 11 vd:4 010 f 1 q m 0 vm:4
++VCVT_neon_f16    A1 1111 0011 1 d 11 01 11 vd:4 0 11 op:2 q m 0 vm:4
++
++# FP16: vfp: these have no overlap with non-fp16 patterns, where [11:9] is 101
++VMLA_f16         A2 cond:4 11100 d 00 vn:4 vd:4 1001 n op m 0 vm:4
++VNMLA_f16        A1 cond:4 11100 d 01 vn:4 vd:4 1001 n op m 0 vm:4
++VNMUL_f16        A2 cond:4 11100 d 10 vn:4 vd:4 1001 n 1 m 0 vm:4
++VMUL_f16         A2 cond:4 11100 d 10 vn:4 vd:4 1001 n 0 m 0 vm:4
++VADD_f16         A2 cond:4 11100 d 11 vn:4 vd:4 1001 n 0 m 0 vm:4
++VSUB_f16         A2 cond:4 11100 d 11 vn:4 vd:4 1001 n 1 m 0 vm:4
++VDIV_f16         A1 cond:4 11101 d 00 vn:4 vd:4 1001 n 0 m 0 vm:4
++VMOV_imm_f16     A2 cond:4 11101 d 11 immh:4 vd:4 1001 0000 imml:4
++VABS_f16         A2 cond:4 11101 d 11 0000 vd:4 1001 1 1 m 0 vm:4
++VNEG_f16         A2 cond:4 11101 d 11 0001 vd:4 1001 0 1 m 0 vm:4
++VSQRT_f16        A1 cond:4 11101 d 11 0001 vd:4 1001 1 1 m 0 vm:4
++VCMP_f16         A1 cond:4 11101 d 11 0100 vd:4 1001 e 1 m 0 vm:4
++VCMP_f16         A2 cond:4 11101 d 11 0101 vd:4 1001 e 1 0 0 0000
++VCVT_a_f16       A1 cond:4 11101 d 111 000 vd:4 1001 op 1 m 0 vm:4
++VCVT_b_f16       A1 cond:4 11101 d 111 10 x vd:4 1001 op 1 m 0 vm:4
++# VCVT between fp and fixed point (A.8.6.297); same UNPREDICTABLE as non-fp16
++# sx==1 case first:
++VCVT_c_f16       A1 cond:4 11101 d 111 op 1 u vd:4 1001 1 1 i 0 imm:4
++# sx==0, bit 3 == 0
++VCVT_d_f16       A1 cond:4 11101 d 111 op 1 u vd:4 1001 0 1 i 0 0 imm:3
++# sx==0, bit 3 == 1, bits 2..0 and 5 0
++VCVT_e_f16       A1 cond:4 11101 d 111 op 1 u vd:4 1001 0 1 0 0 1000
++VFM_f16          A2 cond:4 11101 d 10 vn:4 vd:4 1001 n op m 0 vm:4
++VFNM_f16         A1 cond:4 11101 d 01 vn:4 vd:4 1001 n op m 0 vm:4
++# both A1 and A2 encodings, U = 1
++VSTR_f16         A1a cond:4 1101 1 d 00 rn:4 vd:4 1001 imm:8 \
++                 !memory { reg_plus_imm($rn, $imm * 2); }
++# both A1 and A2 encodings, U = 0
++VSTR_f16         A1b cond:4 1101 0 d 00 rn:4 vd:4 1001 imm:8 \
++                 !memory { reg_minus_imm($rn, $imm * 2); }
++# both A1 and A2 encodings, U = 1
++VLDR_f16         A1a cond:4 1101 1 d 01 rn:4 vd:4 1001 imm:8 \
++                 !memory { reg_plus_imm($rn, $imm * 2); }
++# both A1 and A2 encodings, U = 0
++VLDR_f16         A1b cond:4 1101 0 d 01 rn:4 vd:4 1001 imm:8 \
++                 !memory { reg_minus_imm($rn, $imm * 2); }
++
++# FP16: v8-only insns
++# Neon insns with sz=0b01
++VCVT_rm_neon_f16   A1 1111 00111 d 11 01 11 vd:4 00 rm:2 op q m 0 vm:4
++VRINTX_neon_f16    A1 1111 00111 d 11 01 10 vd:4 01001 q m 0 vm:4
++VRINTZ_neon_f16    A1 1111 00111 d 11 01 10 vd:4 01011 q m 0 vm:4
++VRINTANPM_neon_f16 A1 1111 00111 d 11 01 10 vd:4 01 op:3 q m 0 vm:4
++# Neon insn with sz=1
++VMINMAXNM_f16    A1 1111 00110 d op 1 vn:4 vd:4 1111 n q m 1 vm:4
++# VFP insns which don't overlap non-fp16 rules (which have 101 in [11:9])
++VCVT_rm_f16      A1 1111 11101 d 1111 rm:2 vd:4 1001 op 1 m 0 vm:4
++VSEL_f16         A1 1111 11100 d cc:2 vn:4 vd:4 1001 n 0 m 0 vm:4
++VMINMAXNM_f16    A2 1111 11101 d 00 vn:4 vd:4 1001 n op m 0 vm:4
++VRINTX_f16       A1 cond:4 11101 d 110111 vd:4 1001 0 1 m 0 vm:4
++VRINTZR_f16      A1 cond:4 11101 d 110110 vd:4 1001 op 1 m 0 vm:4
++VRINTANPM_f16    A1 1111 11101 d 1110 rmode:2 vd:4 1001 0 1 m 0 vm:4
++
++# FP16: Insns which are new for v8.2 FP16:
++VINS_f16         A1 1111 11101 d 110000 vd:4 101011 m 0 vm:4
++VMOVX_f16        A1 1111 11101 d 110000 vd:4 101001 m 0 vm:4
++# VMOV between general-purpose register and half-precision
++VMOV_core_f16    A1 cond:4 1110000 op:1 vn:4 rt:4 1001 n 0010000
++
++@v8_2_fp16_v8_3_compnum
++# These are only present if both v8.2-FP16 and v8.3-CompNum are implemented
++# sz=0 for FP16
++VCADD_f16        A1 1111110 rot:1 1 d:1 0 0 vn:4 vd:4 1000 n:1 q:1 m:1 0 vm:4
++VCMLA_f16        A1 1111110 rot:2 d:1 1 0 vn:4 vd:4 1000 n:1 q:1 m:1 0 vm:4
++VCMLA_s_f16      A1 11111110 0 d:1 rot:2 vn:4 vd:4 1000 n:1 q:1 m:1 0 vm:4
++
+ #
+ # ARMv8.3 extensions
+ #
+ @v8_3_compnum
+ 
+-# Disable fp16 until qemu supports it.
+-VCADD       A1 1111110 rot:1 1 d:1 0 s:1 vn:4 vd:4 1000 n:1 q:1 m:1 0 vm:4 \
+-!constraints { $s != 0; }
+-
+-VCMLA       A1 1111110 rot:2 d:1 1 s:1 vn:4 vd:4 1000 n:1 q:1 m:1 0 vm:4 \
+-!constraints { $s != 0; }
+-VCMLA_s     A1 11111110 s:1 d:1 rot:2 vn:4 vd:4 1000 n:1 q:1 m:1 0 vm:4 \
+-!constraints { $s != 0; }
++# We avoid the FP16 parts of this, which are in @v8_2_fp16_v8_3_compnum,
++# so here s=1
++VCADD       A1 1111110 rot:1 1 d:1 0 1 vn:4 vd:4 1000 n:1 q:1 m:1 0 vm:4
++VCMLA       A1 1111110 rot:2 d:1 1 1 vn:4 vd:4 1000 n:1 q:1 m:1 0 vm:4
++VCMLA_s     A1 11111110 1 d:1 rot:2 vn:4 vd:4 1000 n:1 q:1 m:1 0 vm:4
+-- 
+2.20.1
 
 
