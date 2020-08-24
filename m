@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E682B250AF2
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 23:34:58 +0200 (CEST)
-Received: from localhost ([::1]:54436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 841C6250B2D
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 23:56:14 +0200 (CEST)
+Received: from localhost ([::1]:59370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAK7F-0007gw-Es
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 17:34:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43662)
+	id 1kAKRo-0003ad-UJ
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 17:56:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kAK5u-0007E0-8R
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 17:33:35 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:37372)
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1kAKQA-0002xy-N8
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 17:54:31 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:37532)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kAK5q-0005a3-Gg
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 17:33:33 -0400
-Received: by mail-ej1-x634.google.com with SMTP id dp2so8497441ejc.4
- for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 14:33:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1kAKQ7-0007fL-SB
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 17:54:29 -0400
+Received: by mail-pg1-x543.google.com with SMTP id g33so5320832pgb.4
+ for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 14:54:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=+1iIOyHvKiBVVGoei2jfvGUfehVaK5vXfMBJIT8LUCQ=;
- b=W5JPbpvZn6D0n1rupfH++iYjiG2ewQ34hmgzqSWV0oYZyvB6pHHVDb0NaE5V8FIlFv
- AfLakLm/zGWcgEggKA/8xvn1Cc/+XxRWY9toYCyEut+7a/DO4gCCvk51x/21OvGwh4Ud
- NlOpm8kotETmDL3MvtfnXVIWM6LTGZCQodJkX7jSudJg0VtxEefVO5I1hAHmRNv7e9jI
- r52jPEO75fTGT86e1wzUCAha1Nw3prTwjMBdy+Aje4z4GyZGlWwZ5vPfH7AUVWMvvkpB
- pGaU4SAUq9kSAUwV1bXz9fouk7zeNCLQtGI5AntwYBOJN8xI8NriLfHgcXkCaLkdB5ox
- wr9w==
+ bh=DbD1Z7uTPMI5FnmXOrmqtfJxcQFtBq6rPcoTFLfxrP4=;
+ b=cQ0+Fotk22qORmYLdgdHpywFBcg+Dm8pf1HG1ocHXb4NuagDNkf0LPfj/mG0alpirT
+ 5I8H0xfvdwcSicEMLJFuep17BpFLyxf35OFQypmzRbfb9MZ2o7AshIMcgi1dEEYNI03w
+ WAs4H5BlOh+tIWG53wFRk3SGtpkA4lqQWKIOh4oqh8EvRCCQKjyguP6YT1ITUMK/1/Av
+ 2wvf7h+JqN0s6OF6E5SMFvpQEQe8VXx6aPF3iQO1QcolUX0zSO55Wv2zsBG91VfwKTir
+ QiZp2byjGQrMQ2POjTT7n41Vif0Z3rdgEaTro4TxHMMMSYh3xhebogORqplM6DVCsp7V
+ hs5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=+1iIOyHvKiBVVGoei2jfvGUfehVaK5vXfMBJIT8LUCQ=;
- b=WONC/2yQI6Y0Z8bh2VJf/ghVJrsq8a5whmRMhrzhzXQAiKpxDmDrnyYgCVIhEPoslX
- blUoobMXK4s9z5vtypxjh8KnIoy57XUxigR7MfBErq/Amzdn51TSZm/P2SNgs0+essfL
- BG2O5jqIh6qtJQ9M5NfTOJkEATnCgBQv6j/YMqjQ0WVU3txSicjFKp/WghVnNTJY2DuV
- c1XZv0MTRXoZ3fmbS4qwkszUmqBnZ6s8VaALOaBrK4EXpE7AWg3pcXMbSP6FtzPieRD3
- G9/C9yNFOw/hB5M1q/q1v77guNh5qdvJQlWAehBSWAsyQsT4A/d802AzzyiS4xj+RI4V
- LsoA==
-X-Gm-Message-State: AOAM531+TYMDTGK4MXQJRUbJ5yvPYnK+lSLtgbsyHfJr+yvOW+WloFaU
- XOe84LcDmGdPu7134XOG56xbKrZA17QBIzrL2aZ6Og==
-X-Google-Smtp-Source: ABdhPJwZvtWcv24+DYfwxZZIm04mGi1Tar3dewH2mI2Uu1+HvBof9YWqt47k87R0zGY/r5VQ59+HaDt3nmmPn/cXtPM=
-X-Received: by 2002:a17:906:f28b:: with SMTP id
- gu11mr7232384ejb.407.1598304808848; 
- Mon, 24 Aug 2020 14:33:28 -0700 (PDT)
+ bh=DbD1Z7uTPMI5FnmXOrmqtfJxcQFtBq6rPcoTFLfxrP4=;
+ b=bH877SM8rsjA+1czeJ2gRkOzY6HYZ2aXkGn6MvVi501GnR9DdPoWsyb4pEIT186un8
+ 3O9L8QYyMgobC1gIfzNYLTKDC+32TZrf+eIcoE183FNASdrDkyNTQZEdXX7nTTtKHXD1
+ +EAe1R4WxvHjna1UqFdgWN7r7/ftdInFpBcadeiSQ7T+Iim6HXYIOiWUKgc7XRpQP/jf
+ 4rBTtL6NFu0N+ZydyIiuyH6eIine+CCX5n64N8dRoW9xMWjy3vCiEp72FTTZ0NMlRsU6
+ nmZnxGgw02dsnmBTkZo6PDvQK4HfWqj7y7xNYmaKX4TQXzwzIYolPwgQ/Wink6DdcYki
+ NCGA==
+X-Gm-Message-State: AOAM533CZQ3rWjjwV2GHE2xcZqgOIImbuph4t8SKHQnjG/NkCQg0iKvl
+ CqzeGCy+WHyUV/l3X28CS917B3EVfG03Ohh3AYQ=
+X-Google-Smtp-Source: ABdhPJw/GNnBdatiQIZDU4G8FLZQutJvJT2QyMQ3jQQBQ2Nvnrsy1i77yIwRv9YYDagfXvQFb1XCK4hxqptwHZcKsRw=
+X-Received: by 2002:a17:902:e906:: with SMTP id
+ k6mr5295991pld.333.1598306065708; 
+ Mon, 24 Aug 2020 14:54:25 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200821205050.29066-1-jcmvbkbc@gmail.com>
  <8b20adcd-97e9-0f8f-1854-b9809060d6cd@amsat.org>
  <CAMo8BfKnW7oEe76akdszPh46R1GVU2kuGfTg3T7ypVHQnzDzTQ@mail.gmail.com>
-In-Reply-To: <CAMo8BfKnW7oEe76akdszPh46R1GVU2kuGfTg3T7ypVHQnzDzTQ@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 24 Aug 2020 22:33:17 +0100
-Message-ID: <CAFEAcA8sY720+g9ms4EyrGEfHnZaDK-W81Jb=RS0J+V9kCc68g@mail.gmail.com>
+ <CAFEAcA8sY720+g9ms4EyrGEfHnZaDK-W81Jb=RS0J+V9kCc68g@mail.gmail.com>
+In-Reply-To: <CAFEAcA8sY720+g9ms4EyrGEfHnZaDK-W81Jb=RS0J+V9kCc68g@mail.gmail.com>
+From: Max Filippov <jcmvbkbc@gmail.com>
+Date: Mon, 24 Aug 2020 14:54:14 -0700
+Message-ID: <CAMo8BfK+LOyc+HSeBWWyJPEJKGzjJSVqAZ9ZE_XmC3bCfN60fA@mail.gmail.com>
 Subject: Re: [PULL v2 00/24] target/xtensa updates for 5.2
-To: Max Filippov <jcmvbkbc@gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-pg1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -5
+X-Spam_score: -0.6
+X-Spam_bar: /
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,23 +91,27 @@ Cc: Taylor Simpson <tsimpson@quicinc.com>, Richard Henderson <rth@twiddle.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 22 Aug 2020 at 20:48, Max Filippov <jcmvbkbc@gmail.com> wrote:
->
-> On Sat, Aug 22, 2020 at 3:20 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.=
-org> wrote:
-> > On 8/21/20 10:50 PM, Max Filippov wrote:
-> > > please pull the following batch of updates for target/xtensa.
+On Mon, Aug 24, 2020 at 2:33 PM Peter Maydell <peter.maydell@linaro.org> wr=
+ote:
+> On Sat, 22 Aug 2020 at 20:48, Max Filippov <jcmvbkbc@gmail.com> wrote:
+> > On Sat, Aug 22, 2020 at 3:20 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsa=
+t.org> wrote:
+> > >
+> > > Where does that come from?
 > >
-> > 3.12MiB of generated data...
-> >
-> > Where does that come from?
+> > Generated by xtensa processor generator, as one of many output artifact=
+s.
 >
-> Generated by xtensa processor generator, as one of many output artifacts.
+> Is there anything different with the source for these cores
+> compared to the ones we already have in the tree, or are
+> these just "more cores, generated the same way as the old ones" ?
 
-Is there anything different with the source for these cores
-compared to the ones we already have in the tree, or are
-these just "more cores, generated the same way as the old ones" ?
+They are generated the same way as the old ones, but they have different
+configurations: they support FPU2000 and DFPU opcodes implemented
+earlier in this series. I've added them to enable testing of these opcodes.
+de233_fpu is supposed to be a platform for further xtensa gcc development.
 
-thanks
--- PMM
+--=20
+Thanks.
+-- Max
 
