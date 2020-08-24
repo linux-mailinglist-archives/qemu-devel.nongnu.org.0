@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7704A25000F
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 16:43:38 +0200 (CEST)
-Received: from localhost ([::1]:42406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18C7F24FFF5
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 16:38:31 +0200 (CEST)
+Received: from localhost ([::1]:45108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kADhB-0007ua-Gh
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 10:43:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43568)
+	id 1kADcD-0005R3-Tr
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 10:38:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kADUC-0000RC-65
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 10:30:12 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:32775)
+ id 1kADU3-0000Ld-R5
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 10:30:05 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37050)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kADU8-0002kA-JW
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 10:30:11 -0400
-Received: by mail-wr1-x444.google.com with SMTP id o4so4874233wrn.0
- for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 07:29:55 -0700 (PDT)
+ id 1kADTx-0002kY-5V
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 10:30:02 -0400
+Received: by mail-wm1-x343.google.com with SMTP id x9so4445949wmi.2
+ for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 07:29:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=inJTXdydeioKk9+qU5p3iyt7UI/PdU5N/egNEICi6fM=;
- b=pGp7iNYF1mRXTiqxqfsmN2k7s9nzoT8n5AkG0/a4wYU3s5jVO99Vd/6dwvRXC0QCun
- ZClVhuFUlibjzlBOEHQxdsV6p8fGoAo5B3JvQFuemzuaV8xdFdNDXNoOd/+Xp1Z8++T5
- gpH35w43ror9qJBDbaHUJQ8a6MqKOvWpxlAKFJrioZHS0d+5ZNM/EmYhEU/Nz8lldAoi
- UEAtQrDbWUgbZzhlkg6fAwshdtdfw2esZPtSmhLlyWM2AqMMOEYdufBMJNZCFMbUPeOc
- 3TfVkY8aFBr0rUL3gZMU24Eytq2wtKz+1iv6d/h9maVuxMyn9JB6xST91yMIJX37BrzG
- 0vNw==
+ bh=lToFvDlw9oyjU7u0m49zZtnOxlYUPIttxS3GCs2ugGI=;
+ b=sWB3ujRs63dcMv22yWHQA0+ADdWEUx+c+4qTN1x6vbtBqdapnJtewLpXyRqb8IuPUs
+ K4KPuX2XbDi9piytby35hDKP76gd4PDxbpIwO+JkkF7mhgWu1qlMR6r1r2uC50dXhzGp
+ JgJyM+8I+BGXRTgRnuPVyNGlYciysNtJpanH/7ZYgB1QYAMWWeRbWMjkhx4x4jv/j/fu
+ P7l0gCmffEzUCQXN/UAWsePhFiGj1Qw8LtFkjBru912QOnrPqLq/EDW47Vd1A6GWrB2G
+ Yxj1BDHwbSXWQEEcgJlN3nTA+MmsF2yGVRSuHX6S4m49YEagG89NDpm83wwiFcfVszFz
+ XzNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=inJTXdydeioKk9+qU5p3iyt7UI/PdU5N/egNEICi6fM=;
- b=RDrLV6K2z9yx2HD2vJYXNwk5Cp211AfXXjF5oKH72JZqIH0LEyVZv0DwCTxVAM838v
- ynMwpENqavgxl0P5Y4GNl5X0kl111Dx84fE4vBZs8l+lM7NB4bbQp7MTKI+cHNTTuZcq
- a1mQF+/QNnl05We0ykiUXiJBxOn4ymkj0NyJCFJx3oJ7jx6jzOdc6qNp5aUknRFpXpYa
- tCamFTa3kKE/HhOm7EFP4GO9x+V5CgN9RhgPpiuDtOs2MfnFQJVjMSybXMtBsKlesuIz
- tiRzAZ64iYVPL1wyeyMDnWIUwuo8eoWM0mkt3xG0Ajwa8FSt1gyW0EjXR2C8631EzU1G
- 3lsA==
-X-Gm-Message-State: AOAM532J9hYyzZvoKlAwHhG1FEWC3W4aUkhc9zolNV6HTjV+WD/EDgH1
- TarLkSIE9dgD3RlBUIPL7c7CcGLvDQgLfVLb
-X-Google-Smtp-Source: ABdhPJzND5zJt4903rGotObbZ1wyShHXxexSP9fd+X/c7yd4lxF4L0BZBqHTCiOKKg9tdEwxVlGCXA==
-X-Received: by 2002:adf:9e90:: with SMTP id a16mr6569855wrf.40.1598279394722; 
- Mon, 24 Aug 2020 07:29:54 -0700 (PDT)
+ bh=lToFvDlw9oyjU7u0m49zZtnOxlYUPIttxS3GCs2ugGI=;
+ b=lIP/2vsK6bdd4eLYnziXMnZWBDPYdS4kecq68BTDTMI/SlBOumq9ebsF1ZYX+GJbNK
+ 45AXt0KNtcqkkw6tlK/LiAToWBAwPmr0yutg21KjTkU8Rwk9UKeiazmrxttJWSIKlGwI
+ a+DT161MpTeh5NbNLTAFshZbRTZr2vhqClRwk8EaiiDqhzmIXRGlrJBBgObZRRsAg+GY
+ rXW0Thu+4FwveyX3arw/HL6dwUxS8rmmv+B7vGsP/ZPBzB9Zjlk8PT81DmpjLAjOVN3A
+ pQaSi7cwahpeJKmV15lHmvTaHPAh5H/YetBYOGgVCPjs1+WKaAXvdnojQDsSmFaSPmV4
+ qRaA==
+X-Gm-Message-State: AOAM533/MTVRkyz/0kSPwJyE+hn0WDbGL0oqF9nLIm4e4zwCtlPCLVs4
+ EF3aqRgTFYisF4c6yIuDCzzScw==
+X-Google-Smtp-Source: ABdhPJzS/w7nci9XOxfM2hljgSNTh1IU6RehKiQzUfshivkjqeG4swfv8W6u5+5e5UDx53puKuA9TA==
+X-Received: by 2002:a7b:cb47:: with SMTP id v7mr5791186wmj.36.1598279395725;
+ Mon, 24 Aug 2020 07:29:55 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id b14sm24499091wrj.93.2020.08.24.07.29.53
+ by smtp.gmail.com with ESMTPSA id b14sm24499091wrj.93.2020.08.24.07.29.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Aug 2020 07:29:54 -0700 (PDT)
+ Mon, 24 Aug 2020 07:29:55 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 17/22] target/arm: Implement VFP fp16 VSEL
-Date: Mon, 24 Aug 2020 15:29:29 +0100
-Message-Id: <20200824142934.20850-18-peter.maydell@linaro.org>
+Subject: [PATCH 18/22] target/arm: Implement VFP fp16 VRINT*
+Date: Mon, 24 Aug 2020 15:29:30 +0100
+Message-Id: <20200824142934.20850-19-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200824142934.20850-1-peter.maydell@linaro.org>
 References: <20200824142934.20850-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -72,7 +72,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,45 +88,124 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the fp16 versions of the VFP VSEL instruction.
+Implement the fp16 version of the VFP VRINT* insns.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/vfp-uncond.decode   |  6 ++++--
- target/arm/translate-vfp.c.inc | 16 ++++++++++++----
- 2 files changed, 16 insertions(+), 6 deletions(-)
+ target/arm/helper.h            |  2 +
+ target/arm/vfp-uncond.decode   |  6 ++-
+ target/arm/vfp.decode          |  3 ++
+ target/arm/vfp_helper.c        | 21 ++++++++
+ target/arm/translate-vfp.c.inc | 98 +++++++++++++++++++++++++++++++---
+ 5 files changed, 122 insertions(+), 8 deletions(-)
 
+diff --git a/target/arm/helper.h b/target/arm/helper.h
+index eefd1ac2a72..d1315e0ef3e 100644
+--- a/target/arm/helper.h
++++ b/target/arm/helper.h
+@@ -242,8 +242,10 @@ DEF_HELPER_3(shr_cc, i32, env, i32, i32)
+ DEF_HELPER_3(sar_cc, i32, env, i32, i32)
+ DEF_HELPER_3(ror_cc, i32, env, i32, i32)
+ 
++DEF_HELPER_FLAGS_2(rinth_exact, TCG_CALL_NO_RWG, f32, f32, ptr)
+ DEF_HELPER_FLAGS_2(rints_exact, TCG_CALL_NO_RWG, f32, f32, ptr)
+ DEF_HELPER_FLAGS_2(rintd_exact, TCG_CALL_NO_RWG, f64, f64, ptr)
++DEF_HELPER_FLAGS_2(rinth, TCG_CALL_NO_RWG, f32, f32, ptr)
+ DEF_HELPER_FLAGS_2(rints, TCG_CALL_NO_RWG, f32, f32, ptr)
+ DEF_HELPER_FLAGS_2(rintd, TCG_CALL_NO_RWG, f64, f64, ptr)
+ 
 diff --git a/target/arm/vfp-uncond.decode b/target/arm/vfp-uncond.decode
-index b7cd9d11ed5..8ba7b1703e0 100644
+index 8ba7b1703e0..9615544623a 100644
 --- a/target/arm/vfp-uncond.decode
 +++ b/target/arm/vfp-uncond.decode
-@@ -44,10 +44,12 @@
- @vfp_dnm_s   ................................ vm=%vm_sp vn=%vn_sp vd=%vd_sp
- @vfp_dnm_d   ................................ vm=%vm_dp vn=%vn_dp vd=%vd_dp
+@@ -60,10 +60,12 @@ VMINNM_sp   1111 1110 1.00 .... .... 1010 .1.0 ....         @vfp_dnm_s
+ VMAXNM_dp   1111 1110 1.00 .... .... 1011 .0.0 ....         @vfp_dnm_d
+ VMINNM_dp   1111 1110 1.00 .... .... 1011 .1.0 ....         @vfp_dnm_d
  
-+VSEL        1111 1110 0. cc:2 .... .... 1001 .0.0 .... \
-+            vm=%vm_sp vn=%vn_sp vd=%vd_sp sz=1
- VSEL        1111 1110 0. cc:2 .... .... 1010 .0.0 .... \
--            vm=%vm_sp vn=%vn_sp vd=%vd_sp dp=0
-+            vm=%vm_sp vn=%vn_sp vd=%vd_sp sz=2
- VSEL        1111 1110 0. cc:2 .... .... 1011 .0.0 .... \
--            vm=%vm_dp vn=%vn_dp vd=%vd_dp dp=1
-+            vm=%vm_dp vn=%vn_dp vd=%vd_dp sz=3
++VRINT       1111 1110 1.11 10 rm:2 .... 1001 01.0 .... \
++            vm=%vm_sp vd=%vd_sp sz=1
+ VRINT       1111 1110 1.11 10 rm:2 .... 1010 01.0 .... \
+-            vm=%vm_sp vd=%vd_sp dp=0
++            vm=%vm_sp vd=%vd_sp sz=2
+ VRINT       1111 1110 1.11 10 rm:2 .... 1011 01.0 .... \
+-            vm=%vm_dp vd=%vd_dp dp=1
++            vm=%vm_dp vd=%vd_dp sz=3
  
- VMAXNM_hp   1111 1110 1.00 .... .... 1001 .0.0 ....         @vfp_dnm_s
- VMINNM_hp   1111 1110 1.00 .... .... 1001 .1.0 ....         @vfp_dnm_s
+ # VCVT float to int with specified rounding mode; Vd is always single-precision
+ VCVT        1111 1110 1.11 11 rm:2 .... 1001 op:1 1.0 .... \
+diff --git a/target/arm/vfp.decode b/target/arm/vfp.decode
+index a8f1137be1e..9a79e99f1b0 100644
+--- a/target/arm/vfp.decode
++++ b/target/arm/vfp.decode
+@@ -195,12 +195,15 @@ VCVT_f16_f32 ---- 1110 1.11 0011 .... 1010 t:1 1.0 .... \
+ VCVT_f16_f64 ---- 1110 1.11 0011 .... 1011 t:1 1.0 .... \
+              vd=%vd_sp vm=%vm_dp
+ 
++VRINTR_hp    ---- 1110 1.11 0110 .... 1001 01.0 ....        @vfp_dm_ss
+ VRINTR_sp    ---- 1110 1.11 0110 .... 1010 01.0 ....        @vfp_dm_ss
+ VRINTR_dp    ---- 1110 1.11 0110 .... 1011 01.0 ....        @vfp_dm_dd
+ 
++VRINTZ_hp    ---- 1110 1.11 0110 .... 1001 11.0 ....        @vfp_dm_ss
+ VRINTZ_sp    ---- 1110 1.11 0110 .... 1010 11.0 ....        @vfp_dm_ss
+ VRINTZ_dp    ---- 1110 1.11 0110 .... 1011 11.0 ....        @vfp_dm_dd
+ 
++VRINTX_hp    ---- 1110 1.11 0111 .... 1001 01.0 ....        @vfp_dm_ss
+ VRINTX_sp    ---- 1110 1.11 0111 .... 1010 01.0 ....        @vfp_dm_ss
+ VRINTX_dp    ---- 1110 1.11 0111 .... 1011 01.0 ....        @vfp_dm_dd
+ 
+diff --git a/target/arm/vfp_helper.c b/target/arm/vfp_helper.c
+index c88ace3c566..5b8b4219615 100644
+--- a/target/arm/vfp_helper.c
++++ b/target/arm/vfp_helper.c
+@@ -1018,6 +1018,11 @@ float64 VFP_HELPER(muladd, d)(float64 a, float64 b, float64 c, void *fpstp)
+ }
+ 
+ /* ARMv8 round to integral */
++float32 HELPER(rinth_exact)(float32 x, void *fp_status)
++{
++    return float16_round_to_int(x, fp_status);
++}
++
+ float32 HELPER(rints_exact)(float32 x, void *fp_status)
+ {
+     return float32_round_to_int(x, fp_status);
+@@ -1028,6 +1033,22 @@ float64 HELPER(rintd_exact)(float64 x, void *fp_status)
+     return float64_round_to_int(x, fp_status);
+ }
+ 
++float32 HELPER(rinth)(float32 x, void *fp_status)
++{
++    int old_flags = get_float_exception_flags(fp_status), new_flags;
++    float32 ret;
++
++    ret = float16_round_to_int(x, fp_status);
++
++    /* Suppress any inexact exceptions the conversion produced */
++    if (!(old_flags & float_flag_inexact)) {
++        new_flags = get_float_exception_flags(fp_status);
++        set_float_exception_flags(new_flags & ~float_flag_inexact, fp_status);
++    }
++
++    return ret;
++}
++
+ float32 HELPER(rints)(float32 x, void *fp_status)
+ {
+     int old_flags = get_float_exception_flags(fp_status), new_flags;
 diff --git a/target/arm/translate-vfp.c.inc b/target/arm/translate-vfp.c.inc
-index 583e7ccdb20..869b67b2b93 100644
+index 869b67b2b93..7ce044fa896 100644
 --- a/target/arm/translate-vfp.c.inc
 +++ b/target/arm/translate-vfp.c.inc
-@@ -190,18 +190,22 @@ static bool vfp_access_check(DisasContext *s)
- static bool trans_VSEL(DisasContext *s, arg_VSEL *a)
+@@ -341,7 +341,7 @@ static const uint8_t fp_decode_rm[] = {
+ static bool trans_VRINT(DisasContext *s, arg_VRINT *a)
  {
-     uint32_t rd, rn, rm;
+     uint32_t rd, rm;
 -    bool dp = a->dp;
 +    int sz = a->sz;
- 
-     if (!dc_isar_feature(aa32_vsel, s)) {
+     TCGv_ptr fpst;
+     TCGv_i32 tcg_rmode;
+     int rounding = fp_decode_rm[a->rm];
+@@ -350,12 +350,16 @@ static bool trans_VRINT(DisasContext *s, arg_VRINT *a)
          return false;
      }
  
@@ -142,29 +221,136 @@ index 583e7ccdb20..869b67b2b93 100644
      /* UNDEF accesses to D16-D31 if they don't exist */
 -    if (dp && !dc_isar_feature(aa32_simd_r32, s) &&
 +    if (sz == 3 && !dc_isar_feature(aa32_simd_r32, s) &&
-         ((a->vm | a->vn | a->vd) & 0x10)) {
+         ((a->vm | a->vd) & 0x10)) {
          return false;
      }
-@@ -214,7 +218,7 @@ static bool trans_VSEL(DisasContext *s, arg_VSEL *a)
+@@ -367,12 +371,16 @@ static bool trans_VRINT(DisasContext *s, arg_VRINT *a)
          return true;
      }
  
+-    fpst = fpstatus_ptr(FPST_FPCR);
++    if (sz == 1) {
++        fpst = fpstatus_ptr(FPST_FPCR_F16);
++    } else {
++        fpst = fpstatus_ptr(FPST_FPCR);
++    }
+ 
+     tcg_rmode = tcg_const_i32(arm_rmode_to_sf(rounding));
+     gen_helper_set_rmode(tcg_rmode, tcg_rmode, fpst);
+ 
 -    if (dp) {
 +    if (sz == 3) {
-         TCGv_i64 frn, frm, dest;
-         TCGv_i64 tmp, zero, zf, nf, vf;
- 
-@@ -307,6 +311,10 @@ static bool trans_VSEL(DisasContext *s, arg_VSEL *a)
-             tcg_temp_free_i32(tmp);
-             break;
-         }
-+        /* For fp16 the top half is always zeroes */
+         TCGv_i64 tcg_op;
+         TCGv_i64 tcg_res;
+         tcg_op = tcg_temp_new_i64();
+@@ -388,7 +396,11 @@ static bool trans_VRINT(DisasContext *s, arg_VRINT *a)
+         tcg_op = tcg_temp_new_i32();
+         tcg_res = tcg_temp_new_i32();
+         neon_load_reg32(tcg_op, rm);
+-        gen_helper_rints(tcg_res, tcg_op, fpst);
 +        if (sz == 1) {
-+            tcg_gen_andi_i32(dest, dest, 0xffff);
++            gen_helper_rinth(tcg_res, tcg_op, fpst);
++        } else {
++            gen_helper_rints(tcg_res, tcg_op, fpst);
 +        }
-         neon_store_reg32(dest, rd);
-         tcg_temp_free_i32(frn);
-         tcg_temp_free_i32(frm);
+         neon_store_reg32(tcg_res, rd);
+         tcg_temp_free_i32(tcg_op);
+         tcg_temp_free_i32(tcg_res);
+@@ -2638,6 +2650,29 @@ static bool trans_VCVT_f16_f64(DisasContext *s, arg_VCVT_f16_f64 *a)
+     return true;
+ }
+ 
++static bool trans_VRINTR_hp(DisasContext *s, arg_VRINTR_sp *a)
++{
++    TCGv_ptr fpst;
++    TCGv_i32 tmp;
++
++    if (!dc_isar_feature(aa32_fp16_arith, s)) {
++        return false;
++    }
++
++    if (!vfp_access_check(s)) {
++        return true;
++    }
++
++    tmp = tcg_temp_new_i32();
++    neon_load_reg32(tmp, a->vm);
++    fpst = fpstatus_ptr(FPST_FPCR_F16);
++    gen_helper_rinth(tmp, tmp, fpst);
++    neon_store_reg32(tmp, a->vd);
++    tcg_temp_free_ptr(fpst);
++    tcg_temp_free_i32(tmp);
++    return true;
++}
++
+ static bool trans_VRINTR_sp(DisasContext *s, arg_VRINTR_sp *a)
+ {
+     TCGv_ptr fpst;
+@@ -2693,6 +2728,34 @@ static bool trans_VRINTR_dp(DisasContext *s, arg_VRINTR_dp *a)
+     return true;
+ }
+ 
++static bool trans_VRINTZ_hp(DisasContext *s, arg_VRINTZ_sp *a)
++{
++    TCGv_ptr fpst;
++    TCGv_i32 tmp;
++    TCGv_i32 tcg_rmode;
++
++    if (!dc_isar_feature(aa32_fp16_arith, s)) {
++        return false;
++    }
++
++    if (!vfp_access_check(s)) {
++        return true;
++    }
++
++    tmp = tcg_temp_new_i32();
++    neon_load_reg32(tmp, a->vm);
++    fpst = fpstatus_ptr(FPST_FPCR_F16);
++    tcg_rmode = tcg_const_i32(float_round_to_zero);
++    gen_helper_set_rmode(tcg_rmode, tcg_rmode, fpst);
++    gen_helper_rinth(tmp, tmp, fpst);
++    gen_helper_set_rmode(tcg_rmode, tcg_rmode, fpst);
++    neon_store_reg32(tmp, a->vd);
++    tcg_temp_free_ptr(fpst);
++    tcg_temp_free_i32(tcg_rmode);
++    tcg_temp_free_i32(tmp);
++    return true;
++}
++
+ static bool trans_VRINTZ_sp(DisasContext *s, arg_VRINTZ_sp *a)
+ {
+     TCGv_ptr fpst;
+@@ -2758,6 +2821,29 @@ static bool trans_VRINTZ_dp(DisasContext *s, arg_VRINTZ_dp *a)
+     return true;
+ }
+ 
++static bool trans_VRINTX_hp(DisasContext *s, arg_VRINTX_sp *a)
++{
++    TCGv_ptr fpst;
++    TCGv_i32 tmp;
++
++    if (!dc_isar_feature(aa32_fp16_arith, s)) {
++        return false;
++    }
++
++    if (!vfp_access_check(s)) {
++        return true;
++    }
++
++    tmp = tcg_temp_new_i32();
++    neon_load_reg32(tmp, a->vm);
++    fpst = fpstatus_ptr(FPST_FPCR_F16);
++    gen_helper_rinth_exact(tmp, tmp, fpst);
++    neon_store_reg32(tmp, a->vd);
++    tcg_temp_free_ptr(fpst);
++    tcg_temp_free_i32(tmp);
++    return true;
++}
++
+ static bool trans_VRINTX_sp(DisasContext *s, arg_VRINTX_sp *a)
+ {
+     TCGv_ptr fpst;
 -- 
 2.20.1
 
