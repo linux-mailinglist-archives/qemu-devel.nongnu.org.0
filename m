@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4859824FAF4
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 12:02:23 +0200 (CEST)
-Received: from localhost ([::1]:35618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17B6824FAF9
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 12:03:37 +0200 (CEST)
+Received: from localhost ([::1]:43360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kA9J0-0005l8-9F
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 06:02:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50088)
+	id 1kA9KC-0000UN-46
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 06:03:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1kA9HU-000463-J9
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 06:00:48 -0400
-Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:38045)
+ id 1kA9Hb-0004Ex-2l
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 06:00:55 -0400
+Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:38870)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1kA9HT-0006UW-1S
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 06:00:48 -0400
-Received: by mail-lf1-x142.google.com with SMTP id k10so1168426lfm.5
- for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 03:00:46 -0700 (PDT)
+ id 1kA9HV-0006V7-Mt
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 06:00:54 -0400
+Received: by mail-lj1-x244.google.com with SMTP id m22so8911653ljj.5
+ for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 03:00:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PqHm69GgyLtMiUEuM+bi1ibVuXEct1ZgT4gQS/un0FM=;
- b=c7Ln1MSMX7NrzhfBXjwBYrWzvaHDtbM3Y3STk2Ko1Id3BiCgA+DXwM+sPaLXOhEcO4
- tEbXhzMyoF4tSkz3KmNPvwMw0DWlvdbYNt2YOq6yFTqY5UELfAsYaw9Q4fzqkfLxgq6D
- /sSgp/rr/c/7OTBBv6RrDnYAwYUKNx0mI0yZVBgvS9+Ocz4GupjmoUW88epB3cKNbgsN
- gwgTvZPuefiJ/JYROjuyuiE1/DjXAfg/TNE93wTcDPfFZPV7iflBUnCXpcpD6x3P9Myb
- KKq/3NHv5IXFVux7rgM+oYiIz1RQj7CaN7euffmIhThsSe75ncxAFtxImqDN/wsrctXa
- 88Cg==
+ bh=t3L8Z1SmwEHzDQ0NMcpyNGKg+ERouypWp63Pju5T3RM=;
+ b=OaJXk2ABkNrW6C4cUnqZXT0Xti2ZPCQPAqouRQAmtbFOStRqwlpmmU1M7vvj14U68c
+ PxAOsPtHtuoZQEfqShfeK75dGLxuNn1l8l8P8fACnxUVKqFkAnZfdipFcAiC0Zegub6t
+ msxFKGbrAYU9MGobwYZx9Ak2x1Zo6pbz5MlfN37aNCBYvrhMX32yT25GJX7UsjEHcO6K
+ EQPi9eeF5AZ9yUE9CedLfDoiXpTO10jDpKYIeHWn7aV22ealo0ooE8XHcvtBN+beQMnd
+ RBFZ7wm6RwxTc327GqbuXBeQ84M01r0//lTih24Qe62dhegJEW3xWQNAs4ds+kwzrp8O
+ GNog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PqHm69GgyLtMiUEuM+bi1ibVuXEct1ZgT4gQS/un0FM=;
- b=aRkjgvLzyspTB+DeMUnbacH2VSA+J1tp5K9bpmKzyMkA9t3MGsFY+fjt9t7XHBSWcA
- MEWmScUYTIUA+hSQFknxaRiYJtlJ+9evvbXkiSjqsKRF8vLXPEDZoHcjtRv29zicQGnb
- 8BtmDUMSNljzsNqKVu9XXmZxflBVVDFLv8TU2oNfhIMLEZjUNYBiE/Wkmwq+ciMxddRZ
- 6xwgvidLvjasag7SvDAZUCQiMHUpb0O635XbJCIzlEZLO+ddLNTg6LLMx5XZb00oXe4F
- 0K2VGANwogd1spPenWaZguauAyp3vDub6X4XYJG9jpv5m3+cuHvGsB7vhQGe/bnAvShs
- jDpw==
-X-Gm-Message-State: AOAM533MMUqP8o9WxSs6wyorK+oiVXFG2+qlNIL/deBd7lsEIJkF31kp
- NqkU1j4rhNCKfCiHH72/7o02sIHQBRw=
-X-Google-Smtp-Source: ABdhPJwtEn88dj2Cqrmf+iW8bANye9yZK7Rtxx7LzxCDWmYoxPYZliG4fAoAldUTylHAxLyQVzW/tg==
-X-Received: by 2002:a05:6512:3a5:: with SMTP id
- v5mr2253813lfp.138.1598263245079; 
- Mon, 24 Aug 2020 03:00:45 -0700 (PDT)
+ bh=t3L8Z1SmwEHzDQ0NMcpyNGKg+ERouypWp63Pju5T3RM=;
+ b=NFVhRGyn58y2eOBUGc/O45XIMkrGMlGCtpWcnv9qidhoIV0HemrApL+xbzd1NTMfGh
+ W17WPT23j2ANc03x0yL4E4QUWYFAI6C3NFZQO4WSbL9vS7y4GgVg56kOhb1S8AlSfiyW
+ e+43Vs0y8orKOjVNHK4Y1avWD+3ZzglEXP0YxzbfsLp7VJ6UYAoCHlR3NcOdtD3RRngH
+ J0qFuqcj2lAeVTGGW09v2vMobkC+jQyb+T3z0EgJsq0l3vNgN93FmghHjl4f0cwh3Xav
+ 7T1Pet+p9nFC0JX89NRnu6qboL+WNrJFdBCKjOVqngbH3hjIv7N0VS16Vd7dtE8Y5YOt
+ wh8g==
+X-Gm-Message-State: AOAM53245ExW3YU+hOpMASPw6zKIU83ek3rSZfvS2k9zEJUU0jZgPQZt
+ h85Ik53XKW2fl3EOHnzlZtq67nWJGYM=
+X-Google-Smtp-Source: ABdhPJzHgYsSqpDSAOZqrJuW6MujRYaMEswvlMgkx94rnJwpmT1T0a8vA44i/MyLBKeusPnE064QeA==
+X-Received: by 2002:a2e:2f16:: with SMTP id v22mr2256890ljv.39.1598263246241; 
+ Mon, 24 Aug 2020 03:00:46 -0700 (PDT)
 Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id u14sm2094383ljg.55.2020.08.24.03.00.44
+ by smtp.gmail.com with ESMTPSA id j4sm2075000ljc.116.2020.08.24.03.00.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Aug 2020 03:00:44 -0700 (PDT)
+ Mon, 24 Aug 2020 03:00:45 -0700 (PDT)
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v1 2/8] target/microblaze: mbar: Move LOG_DIS to before sleep
-Date: Mon, 24 Aug 2020 12:00:35 +0200
-Message-Id: <20200824100041.1864420-3-edgar.iglesias@gmail.com>
+Subject: [PULL v1 3/8] target/microblaze: mbar: Add support for data-access
+ barriers
+Date: Mon, 24 Aug 2020 12:00:36 +0200
+Message-Id: <20200824100041.1864420-4-edgar.iglesias@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200824100041.1864420-1-edgar.iglesias@gmail.com>
 References: <20200824100041.1864420-1-edgar.iglesias@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::142;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x142.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::244;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x244.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 16
@@ -91,37 +91,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-Move LOG_DIS log to before sleeping handling so that it logs
-for sleep instructions aswell.
+Add support for data-access barriers.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 ---
- target/microblaze/translate.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ target/microblaze/translate.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index 47637f152b..c1be76d4c8 100644
+index c1be76d4c8..c58f334a0f 100644
 --- a/target/microblaze/translate.c
 +++ b/target/microblaze/translate.c
-@@ -1231,6 +1231,8 @@ static void dec_br(DisasContext *dc)
-     if (mbar == 2 && dc->imm == 4) {
-         uint16_t mbar_imm = dc->rd;
+@@ -1233,6 +1233,11 @@ static void dec_br(DisasContext *dc)
  
-+        LOG_DIS("mbar %d\n", mbar_imm);
+         LOG_DIS("mbar %d\n", mbar_imm);
+ 
++        /* Data access memory barrier.  */
++        if ((mbar_imm & 2) == 0) {
++            tcg_gen_mb(TCG_BAR_SC | TCG_MO_ALL);
++        }
 +
          /* mbar IMM & 16 decodes to sleep.  */
          if (mbar_imm & 16) {
              TCGv_i32 tmp_hlt = tcg_const_i32(EXCP_HLT);
-@@ -1248,7 +1250,6 @@ static void dec_br(DisasContext *dc)
-             tcg_temp_free_i32(tmp_1);
-             return;
-         }
--        LOG_DIS("mbar %d\n", mbar_imm);
-         /* Break the TB.  */
-         dc->cpustate_changed = 1;
-         return;
 -- 
 2.25.1
 
