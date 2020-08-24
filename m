@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C22A24F19E
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 05:42:25 +0200 (CEST)
-Received: from localhost ([::1]:57414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC79B24F1A1
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 05:43:59 +0200 (CEST)
+Received: from localhost ([::1]:36560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kA3NG-000071-QP
-	for lists+qemu-devel@lfdr.de; Sun, 23 Aug 2020 23:42:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58690)
+	id 1kA3Oo-00036f-LY
+	for lists+qemu-devel@lfdr.de; Sun, 23 Aug 2020 23:43:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kA3Lw-0006vx-S5
- for qemu-devel@nongnu.org; Sun, 23 Aug 2020 23:41:00 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:4200 helo=huawei.com)
+ id 1kA3Lv-0006vE-O8
+ for qemu-devel@nongnu.org; Sun, 23 Aug 2020 23:40:59 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:4199 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kA3Ls-0005SC-Dc
- for qemu-devel@nongnu.org; Sun, 23 Aug 2020 23:41:00 -0400
+ id 1kA3Ls-0005SA-Dg
+ for qemu-devel@nongnu.org; Sun, 23 Aug 2020 23:40:59 -0400
 Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 04AD01999642FA915E74;
- Mon, 24 Aug 2020 11:40:45 +0800 (CST)
+ by Forcepoint Email with ESMTP id F40A46C9EAF4B7F24E0C;
+ Mon, 24 Aug 2020 11:40:44 +0800 (CST)
 Received: from huawei.com (10.175.101.6) by DGGEMS411-HUB.china.huawei.com
  (10.3.19.211) with Microsoft SMTP Server id 14.3.487.0; Mon, 24 Aug 2020
- 11:40:36 +0800
+ 11:40:37 +0800
 From: Chuan Zheng <zhengchuan@huawei.com>
 To: <quintela@redhat.com>, <eblake@redhat.com>, <dgilbert@redhat.com>,
  <berrange@redhat.com>
-Subject: [PATCH v4 01/12] migration/dirtyrate: setup up query-dirtyrate
- framwork
-Date: Mon, 24 Aug 2020 11:51:52 +0800
-Message-ID: <1598241123-118714-2-git-send-email-zhengchuan@huawei.com>
+Subject: [PATCH v4 02/12] migration/dirtyrate: add DirtyRateStatus to denote
+ calculation status
+Date: Mon, 24 Aug 2020 11:51:53 +0800
+Message-ID: <1598241123-118714-3-git-send-email-zhengchuan@huawei.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1598241123-118714-1-git-send-email-zhengchuan@huawei.com>
 References: <1598241123-118714-1-git-send-email-zhengchuan@huawei.com>
@@ -67,114 +67,81 @@ Cc: zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add get_dirtyrate_thread() functions to setup query-dirtyrate
-framework.
+add DirtyRateStatus to denote calculating status.
 
 Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
-Signed-off-by: YanYing Zhuang <ann.zhuangyanying@huawei.com>
 ---
- migration/Makefile.objs |  1 +
- migration/dirtyrate.c   | 39 +++++++++++++++++++++++++++++++++++++++
- migration/dirtyrate.h   | 32 ++++++++++++++++++++++++++++++++
- 3 files changed, 72 insertions(+)
- create mode 100644 migration/dirtyrate.c
- create mode 100644 migration/dirtyrate.h
+ migration/dirtyrate.c | 22 ++++++++++++++++++++++
+ qapi/migration.json   | 17 +++++++++++++++++
+ 2 files changed, 39 insertions(+)
 
-diff --git a/migration/Makefile.objs b/migration/Makefile.objs
-index 0fc619e..12ae98c 100644
---- a/migration/Makefile.objs
-+++ b/migration/Makefile.objs
-@@ -6,6 +6,7 @@ common-obj-y += qemu-file.o global_state.o
- common-obj-y += qemu-file-channel.o
- common-obj-y += xbzrle.o postcopy-ram.o
- common-obj-y += qjson.o
-+common-obj-y += dirtyrate.o
- common-obj-y += block-dirty-bitmap.o
- common-obj-y += multifd.o
- common-obj-y += multifd-zlib.o
 diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-new file mode 100644
-index 0000000..366f4e9
---- /dev/null
+index 366f4e9..91987c5 100644
+--- a/migration/dirtyrate.c
 +++ b/migration/dirtyrate.c
-@@ -0,0 +1,39 @@
-+/*
-+ * Dirtyrate implement code
-+ *
-+ * Copyright (c) 2017-2020 HUAWEI TECHNOLOGIES CO.,LTD.
-+ *
-+ * Authors:
-+ *  Chuan Zheng <zhengchuan@huawei.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
+@@ -23,6 +23,19 @@
+ #include "migration.h"
+ #include "dirtyrate.h"
+ 
++static int CalculatingState = DIRTY_RATE_STATUS_UNSTARTED;
 +
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "crypto/hash.h"
-+#include "crypto/random.h"
-+#include "qemu/config-file.h"
-+#include "exec/memory.h"
-+#include "exec/ramblock.h"
-+#include "exec/target_page.h"
-+#include "qemu/rcu_queue.h"
-+#include "qapi/qapi-commands-migration.h"
-+#include "migration.h"
-+#include "dirtyrate.h"
-+
-+static void calculate_dirtyrate(struct DirtyRateConfig config)
++static int dirtyrate_set_state(int *state, int old_state, int new_state)
 +{
-+    /* todo */
-+    return;
++    assert(new_state < DIRTY_RATE_STATUS__MAX);
++    if (atomic_cmpxchg(state, old_state, new_state) == old_state) {
++        return 0;
++    } else {
++        return -1;
++    }
 +}
 +
-+void *get_dirtyrate_thread(void *arg)
-+{
-+    struct DirtyRateConfig config = *(struct DirtyRateConfig *)arg;
 +
-+    calculate_dirtyrate(config);
+ static void calculate_dirtyrate(struct DirtyRateConfig config)
+ {
+     /* todo */
+@@ -32,8 +45,17 @@ static void calculate_dirtyrate(struct DirtyRateConfig config)
+ void *get_dirtyrate_thread(void *arg)
+ {
+     struct DirtyRateConfig config = *(struct DirtyRateConfig *)arg;
++    int ret;
 +
-+    return NULL;
-+}
-diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
-new file mode 100644
-index 0000000..33669b7
---- /dev/null
-+++ b/migration/dirtyrate.h
-@@ -0,0 +1,32 @@
-+/*
-+ *  Dirtyrate common functions
-+ *
-+ *  Copyright (c) 2020 HUAWEI TECHNOLOGIES CO., LTD.
-+ *
-+ *  Authors:
-+ *  Chuan Zheng <zhengchuan@huawei.com>
-+ *
-+ *  This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ *  See the COPYING file in the top-level directory.
-+ */
++    ret = dirtyrate_set_state(&CalculatingState, DIRTY_RATE_STATUS_UNSTARTED,
++                              DIRTY_RATE_STATUS_MEASURING);
++    if (ret == -1) {
++        return NULL;
++    }
+ 
+     calculate_dirtyrate(config);
+ 
++    ret = dirtyrate_set_state(&CalculatingState, DIRTY_RATE_STATUS_MEASURING,
++                              DIRTY_RATE_STATUS_MEASURED);
+     return NULL;
+ }
+diff --git a/qapi/migration.json b/qapi/migration.json
+index d500055..d1a7b2d 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -1621,3 +1621,20 @@
+ ##
+ { 'event': 'UNPLUG_PRIMARY',
+   'data': { 'device-id': 'str' } }
 +
-+#ifndef QEMU_MIGRATION_DIRTYRATE_H
-+#define QEMU_MIGRATION_DIRTYRATE_H
-+
-+/*
-+ * Sample 512 pages per GB as default.
-+ * TODO: Make it configurable.
-+ */
-+#define DIRTYRATE_DEFAULT_SAMPLE_PAGES            512
-+
-+/* Take 1s as default for calculation duration */
-+#define DEFAULT_FETCH_DIRTYRATE_TIME_SEC          1
-+
-+struct DirtyRateConfig {
-+    uint64_t sample_pages_per_gigabytes; /* sample pages per GB */
-+    int64_t sample_period_seconds; /* time duration between two sampling */
-+};
-+
-+void *get_dirtyrate_thread(void *arg);
-+#endif
-+
++##
++# @DirtyRateStatus:
++#
++# An enumeration of dirtyrate status.
++#
++# @unstarted: query-dirtyrate thread is not initial.
++#
++# @measuring: query-dirtyrate thread is created and start to measure.
++#
++# @measured:  query-dirtyrate thread is end, we can get result.
++#
++# Since: 5.2
++#
++##
++{ 'enum': 'DirtyRateStatus',
++  'data': [ 'unstarted', 'measuring', 'measured'] }
 -- 
 1.8.3.1
 
