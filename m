@@ -2,108 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45B8F250351
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 18:43:21 +0200 (CEST)
-Received: from localhost ([::1]:45312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F05F25036C
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 18:44:33 +0200 (CEST)
+Received: from localhost ([::1]:50374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAFZ2-00086A-Bh
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 12:43:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58292)
+	id 1kAFaC-0001q9-H7
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 12:44:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kAFWp-000509-Q7
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 12:41:03 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:59749)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kAFXW-0006L2-T9; Mon, 24 Aug 2020 12:41:46 -0400
+Received: from mta-02.yadro.com ([89.207.88.252]:54492 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kAFWn-00086J-9T
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 12:41:03 -0400
-Received: from [192.168.100.1] ([82.252.135.186]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MVv4X-1k2APH0dW9-00RnLR; Mon, 24 Aug 2020 18:40:50 +0200
-To: Filip Bozuta <Filip.Bozuta@syrmia.com>, qemu-devel@nongnu.org
-References: <20200727112307.343608-1-Filip.Bozuta@syrmia.com>
- <20200727112307.343608-2-Filip.Bozuta@syrmia.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Subject: Re: [PATCH v2 1/2] linux-user: Add support for two
- 'clock_nanosleep_time64()' and 'clock_adjtime64()'
-Message-ID: <f35b45d9-289b-75c1-c01f-7fabc59e2fa7@vivier.eu>
-Date: Mon, 24 Aug 2020 18:40:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kAFXT-0008B7-Hv; Mon, 24 Aug 2020 12:41:46 -0400
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id C53EB57505;
+ Mon, 24 Aug 2020 16:41:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-transfer-encoding:content-disposition
+ :content-type:content-type:mime-version:references:message-id
+ :subject:subject:from:from:date:date:received:received:received;
+ s=mta-01; t=1598287297; x=1600101698; bh=irJXQ06b6pDKOSNw6VJCoS
+ 6tou+SyWQOYbUw6wK4RNQ=; b=IABwcHceE7hMXxWlzHbu4ICB4q06vjGS6At3gz
+ DRCbgV7J5Di74EkwMnoN1hOCYLuxpQVBt9jcuWGVAqBTOSKKBhJUsQVzXGiaQ2jn
+ UQ7UI9Oy37SnYoX24PtcVIAWDT0zOdwSfy7IL4JAiEL7oaUfcQSzxeH1zUX9UPMX
+ EK0XU=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id mVX4MvzVPA0R; Mon, 24 Aug 2020 19:41:37 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
+ [172.17.10.102])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 243E25229A;
+ Mon, 24 Aug 2020 19:41:35 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
+ (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Mon, 24
+ Aug 2020 19:41:34 +0300
+Date: Mon, 24 Aug 2020 19:41:34 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: Suspicious QOM types without instance/class size
+Message-ID: <20200824164134.GA41106@SPB-NB-133.local>
+References: <20200820215529.GH642093@habkost.net>
+ <20200821105352.GA89922@SPB-NB-133.local>
+ <20200821172927.GJ642093@habkost.net>
+ <20200821174802.GK642093@habkost.net>
 MIME-Version: 1.0
-In-Reply-To: <20200727112307.343608-2-Filip.Bozuta@syrmia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:cuH5BftKjw66LVtOALPOMx837zwlNS0GMRN1aXohqGKzJR1qwk4
- ugO/o/hCYKKSt81xGnOKqPocJqVKHEc1610ULBWkQsHgEUzJB39O7IynZ39STSeMEwjj0Rt
- tlnUVJBNoY5+GB71e+5TObPFu+7yiMZQjWkCgni1JGJS2voU5P72M2w4NKaE4iLyc+7vAMt
- QaIBL64PPw+PYITs1TCjA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:9dWIrHxhppI=:tMdp4XWlqd7z90yCtTs+Te
- +Y03WgURnFoYW0BY/5Vfq4K6/+3ewZ/MivQCLYhHIbrEAj3CYi+nSUln2DtyjsYeJ0w7LZKJO
- oTp97K/otJnAc2q2pibAJs4K6uaxtyixofilS/EZrgiPvOAYfXT1FQ59DJBKd8H+9gKXM40X0
- o/JbxP/AATtnkA2LPQidXr9I+Ks01xF+lwSgNgcGH5ue3HAeveOdRgXe4RbIb6guFJBHUizZs
- USehs8C9fKiSUo48y4ZwQLYsz55vWIAXUhFohxL33BYavkdqV5x3w1AoyR3lfo9TVNOR4+t62
- Jcl71AcsFOPX6jQyiwPyo68IyPczr6uJIqATd8WLgbLcWoo6eyR8AWFyjaX6aiwB2HOsmzHC9
- 8vb5/us3mXQ0OyAsSoRHdH2Ah8SbmQiqE+dUWjmhyuBl06p3/DbvJUzEqXLyWqatSR8t0C1N6
- i/OmP1TvEE2NHrHDd7Fhy1QyiJowLBfhr/Zg/XlT1qRiOPWVT77Ccgk0+ssH5Pt4JQsaS55T5
- wlgJHzinIA49W6EG31iBdEjq5RkuD5PntppnnYwmJRQS2p41VJKEZWQUOcFWYFEF1OoIltvR/
- QTFHt9gxnR7WURp1/hupdnTlndR2E0y0Zxwki/bBxL8eS1OEXUZfnvCllJAjqMp3fFfkz/aJW
- PCKHkg1PNg2meM20uHXjj/qq5/3saf1LVgfAP8KtBdRol/cNIgdH9S5vZCTts3ZjoZMk2TU+N
- 9vT9Av4e4bTrStCd48LqumEu8Tay46x60ii13VHhA9yXTfpXUR+dSvDQsjndpDm63heWlg3bn
- 64qEc/orvZwbQNilMw0DQwdLu6vF/Eo5lMonTPXERRDZk8n0YseOvzm/ZEDYpxHW/4tdodS
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/24 12:40:59
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.25,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200821174802.GK642093@habkost.net>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-02.corp.yadro.com (172.17.10.102)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/24 12:41:38
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -116,213 +82,277 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org,
+ David Hildenbrand <david@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Thomas Huth <thuth@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>, Cameron Esfahani <dirty@apple.com>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Richard Henderson <rth@twiddle.net>,
+ "Daniel P. Berrange" <berrange@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 27/07/2020 à 13:23, Filip Bozuta a écrit :
-> This patch implements functionality for following time64 syscall:
+On Fri, Aug 21, 2020 at 01:48:02PM -0400, Eduardo Habkost wrote:
+> On Fri, Aug 21, 2020 at 01:29:38PM -0400, Eduardo Habkost wrote:
+> > On Fri, Aug 21, 2020 at 01:53:52PM +0300, Roman Bolshakov wrote:
+> > > On Thu, Aug 20, 2020 at 05:55:29PM -0400, Eduardo Habkost wrote:
+> > > > While trying to convert TypeInfo declarations to the new
+> > > > OBJECT_DECLARE* macros, I've stumbled on a few suspicious cases
+> > > > where instance_size or class_size is not set, despite having type
+> > > > checker macros that use a specific type.
+> > > > 
+> > > > The ones with "WARNING" are abstract types (maybe not serious if
+> > > > subclasses set the appropriate sizes).  The ones with "ERROR"
+> > > > don't seem to be abstract types.
+> > > > 
+> > > 
+> > > > ERROR: target/i386/hvf/hvf.c:908:1: instance_size should be set to sizeof(HVFState)?
+> > > 
+> > 
+> > > BTW, the object definition for hvf seems different from KVM (and perhaps
+> > > wrong?), e.g. HVFState is allocated within init_machine handler and then
+> > > assigned to a global variable:
+> > 
+> > Interesting.  It looks like hvf_state is _not_ the actual QOM
+> > object instance.  The actual TYPE_HVF_ACCEL instance is created
+> > by do_configure_accelerator().  That would explain why the lack
+> > of instance_init never caused any problems.
+> > 
+> > Luckily, no code ever used the HVF_STATE macro.  If
+> > HVF_STATE(hvf_state) got called, it would crash because of
+> > uninitialized object instance data.  If HVF_STATE(machine->accel)
+> > got called, it would return an invalid HVFState pointer (not
+> > hvf_state).
+> > 
+> > I believe the simplest short term solution here is to just delete
+> > the HVF_STATE macro and HVFState::parent field.  We can worry
+> > about actually moving hvf_state to the machine->accel QOM object
+> > later.
 > 
-> *clock_nanosleep_time64()
+> Actually, it might be easier to do the full QOM conversion in a
+> single patch instead of deleting the incomplete code.
 > 
->     This is a year 2038 safe vairant of syscall:
->     int clock_nanosleep(clockid_t clockid, int flags,
->                         const struct timespec *request,
->                         struct timespec *remain)
->     --high-resolution sleep with specifiable clock--
->     man page: https://man7.org/linux/man-pages/man2/clock_nanosleep.2.html
+
+I agree full QOM conversion is better, perhaps we can later move
+certains bits to accel/hvf.c like it's done for kvm/tcg/qtest.
+
+> Can you check if the following patch works?  I don't have a host
+> where I can test it.
 > 
-> *clock_adjtime64()
-> 
->     This is a year 2038 safe variant of syscall:
->     int clock_adjtime(clockid_t clk_id, struct timex *buf)
->     --tune kernel clock--
->     man page: https://man7.org/linux/man-pages/man2/clock_adjtime.2.html
-> 
-> Implementation notes:
-> 
->     Syscall 'clock_nanosleep_time64()' was implemented similarly
->     to syscall 'clock_nanosleep()' except that 'host_to_target_timespec64()'
->     and 'target_to_host_timespec64()' were used instead of the regular
->     'host_to_target_timespec()' and 'target_to_host_timespec()'.
-> 
->     For 'clock_adjtime64()' a 64-bit target kernel version of 'struct timex'
->     was defined in 'syscall_defs.h': 'struct target__kernel_timex'.
->     This type was used to convert the values of 64-bit timex type between
->     host and target. For this purpose a 64-bit timex converting functions
->     'target_to_host_timex64()' and 'host_to_target_timex64()'. An existing
->     function 'copy_to_user_timeval64()' was used to convert the field
->     'time' which if of type 'struct timeval' from host to target.
->     Function 'copy_from_user_timveal64()' was added in this patch and
->     used to convert the 'time' field from target to host.
-> 
-> Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
+
+Sure, thanks :)
+
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 > ---
->  linux-user/syscall.c      | 139 +++++++++++++++++++++++++++++++++++++-
->  linux-user/syscall_defs.h |  31 +++++++++
->  2 files changed, 168 insertions(+), 2 deletions(-)
-> 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 05f03919ff..c1b36ea698 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -809,7 +809,8 @@ safe_syscall4(int, accept4, int, fd, struct sockaddr *, addr, socklen_t *, len,
->  safe_syscall2(int, nanosleep, const struct timespec *, req,
->                struct timespec *, rem)
->  #endif
-> -#ifdef TARGET_NR_clock_nanosleep
-> +#if defined(TARGET_NR_clock_nanosleep) || \
-> +    defined(TARGET_NR_clock_nanosleep_time64)
->  safe_syscall4(int, clock_nanosleep, const clockid_t, clock, int, flags,
->                const struct timespec *, req, struct timespec *, rem)
->  #endif
-> @@ -1205,8 +1206,25 @@ static inline abi_long copy_to_user_timeval(abi_ulong target_tv_addr,
->      return 0;
->  }
->  
-> +static inline abi_long copy_from_user_timeval64(struct timeval *tv,
-> +                                                abi_ulong target_tv_addr)
-> +{
-> +    struct target__kernel_sock_timeval *target_tv;
-> +
-> +    if (!lock_user_struct(VERIFY_READ, target_tv, target_tv_addr, 1)) {
-> +        return -TARGET_EFAULT;
-> +    }
-> +
-> +    __get_user(tv->tv_sec, &target_tv->tv_sec);
-> +    __get_user(tv->tv_usec, &target_tv->tv_usec);
-> +
-> +    unlock_user_struct(target_tv, target_tv_addr, 0);
-> +
-> +    return 0;
-> +}
-> +
->  static inline abi_long copy_to_user_timeval64(abi_ulong target_tv_addr,
-> -                                             const struct timeval *tv)
-> +                                              const struct timeval *tv)
+> diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
+> index d81f569aed..81d1662d06 100644
+> --- a/target/i386/hvf/hvf.c
+> +++ b/target/i386/hvf/hvf.c
+> @@ -878,13 +878,11 @@ static int hvf_accel_init(MachineState *ms)
 >  {
->      struct target__kernel_sock_timeval *target_tv;
+>      int x;
+>      hv_return_t ret;
+> -    HVFState *s;
+> +    HVFState *s = HVF_STATE(ms->accelerator);
+
+The file also needs definition of MachineState:
+#include "hw/boards.h"
+
 >  
-> @@ -6771,6 +6789,87 @@ static inline abi_long host_to_target_timex(abi_long target_addr,
->  }
->  #endif
+>      ret = hv_vm_create(HV_VM_DEFAULT);
+>      assert_hvf_ok(ret);
 >  
-> +
-> +#if defined(TARGET_NR_clock_adjtime64) && defined(CONFIG_CLOCK_ADJTIME)
-> +static inline abi_long target_to_host_timex64(struct timex *host_tx,
-> +                                              abi_long target_addr)
-> +{
-> +    struct target__kernel_timex *target_tx;
-> +
-> +    if (copy_from_user_timeval64(&host_tx->time, target_addr +
-> +                                 offsetof(struct target__kernel_timex,
-> +                                          time))) {
-> +        return -TARGET_EFAULT;
-> +    }
-> +
-> +    if (!lock_user_struct(VERIFY_READ, target_tx, target_addr, 1)) {
-> +        return -TARGET_EFAULT;
-> +    }
-> +
-> +    __get_user(host_tx->modes, &target_tx->modes);
-> +    __get_user(host_tx->offset, &target_tx->offset);
-> +    __get_user(host_tx->freq, &target_tx->freq);
-> +    __get_user(host_tx->maxerror, &target_tx->maxerror);
-> +    __get_user(host_tx->esterror, &target_tx->esterror);
-> +    __get_user(host_tx->status, &target_tx->status);
-> +    __get_user(host_tx->constant, &target_tx->constant);
-> +    __get_user(host_tx->precision, &target_tx->precision);
-> +    __get_user(host_tx->tolerance, &target_tx->tolerance);
-> +    __get_user(host_tx->tick, &target_tx->tick);
-> +    __get_user(host_tx->ppsfreq, &target_tx->ppsfreq);
-> +    __get_user(host_tx->jitter, &target_tx->jitter);
-> +    __get_user(host_tx->shift, &target_tx->shift);
-> +    __get_user(host_tx->stabil, &target_tx->stabil);
-> +    __get_user(host_tx->jitcnt, &target_tx->jitcnt);
-> +    __get_user(host_tx->calcnt, &target_tx->calcnt);
-> +    __get_user(host_tx->errcnt, &target_tx->errcnt);
-> +    __get_user(host_tx->stbcnt, &target_tx->stbcnt);
-> +    __get_user(host_tx->tai, &target_tx->tai);
-> +
-> +    unlock_user_struct(target_tx, target_addr, 0);
-> +    return 0;
-> +}
-> +
-> +static inline abi_long host_to_target_timex64(abi_long target_addr,
-> +                                              struct timex *host_tx)
-> +{
-> +    struct target__kernel_timex *target_tx;
-> +
-> +   if (copy_to_user_timeval64(target_addr +
-> +                              offsetof(struct target__kernel_timex, time),
-> +                              &host_tx->time)) {
-> +        return -TARGET_EFAULT;
-> +    }
-> +
-> +    if (!lock_user_struct(VERIFY_WRITE, target_tx, target_addr, 0)) {
-> +        return -TARGET_EFAULT;
-> +    }
-> +
-> +    __put_user(host_tx->modes, &target_tx->modes);
-> +    __put_user(host_tx->offset, &target_tx->offset);
-> +    __put_user(host_tx->freq, &target_tx->freq);
-> +    __put_user(host_tx->maxerror, &target_tx->maxerror);
-> +    __put_user(host_tx->esterror, &target_tx->esterror);
-> +    __put_user(host_tx->status, &target_tx->status);
-> +    __put_user(host_tx->constant, &target_tx->constant);
-> +    __put_user(host_tx->precision, &target_tx->precision);
-> +    __put_user(host_tx->tolerance, &target_tx->tolerance);
-> +    __put_user(host_tx->tick, &target_tx->tick);
-> +    __put_user(host_tx->ppsfreq, &target_tx->ppsfreq);
-> +    __put_user(host_tx->jitter, &target_tx->jitter);
-> +    __put_user(host_tx->shift, &target_tx->shift);
-> +    __put_user(host_tx->stabil, &target_tx->stabil);
-> +    __put_user(host_tx->jitcnt, &target_tx->jitcnt);
-> +    __put_user(host_tx->calcnt, &target_tx->calcnt);
-> +    __put_user(host_tx->errcnt, &target_tx->errcnt);
-> +    __put_user(host_tx->stbcnt, &target_tx->stbcnt);
-> +    __put_user(host_tx->tai, &target_tx->tai);
-> +
-> +    unlock_user_struct(target_tx, target_addr, 1);
-> +    return 0;
-> +}
-> +#endif
-> +
->  static inline abi_long target_to_host_sigevent(struct sigevent *host_sevp,
->                                                 abi_ulong target_addr)
->  {
-> @@ -9726,6 +9825,23 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
->              }
->          }
->          return ret;
-> +#endif
-> +#if defined(TARGET_NR_clock_adjtime64) && defined(CONFIG_CLOCK_ADJTIME)
-> +    case TARGET_NR_clock_adjtime64:
-> +        {
-> +            struct timex htx, *phtx = &htx;
+> -    s = g_new0(HVFState, 1);
+> - 
+>      s->num_slots = 32;
+>      for (x = 0; x < s->num_slots; ++x) {
+>          s->slots[x].size = 0;
+> @@ -908,6 +906,7 @@ static void hvf_accel_class_init(ObjectClass *oc, void *data)
+>  static const TypeInfo hvf_accel_type = {
+>      .name = TYPE_HVF_ACCEL,
+>      .parent = TYPE_ACCEL,
+> +    .instance_size = sizeof(HVFState),
+>      .class_init = hvf_accel_class_init,
+>  };
+>  
+>  
 
-I know you have copied the code from TARGET_NR_clock_adjtime, but I
-think phtx is totally useless.
+Unfortunately it fails to start (even without the HVF patch):
+ERROR:../qom/object.c:314:type_initialize: assertion failed: (parent->class_size <= ti->class_size)
+Bail out! ERROR:../qom/object.c:314:type_initialize: assertion failed: (parent->class_size <= ti->class_size)
 
-> +
-> +            if (target_to_host_timex64(phtx, arg2) != 0) {
-> +                return -TARGET_EFAULT;
-> +            }
-> +            ret = get_errno(clock_adjtime(arg1, phtx));
-> +            if (!is_error(ret) && phtx) {
+(lldb) bt
+* thread #3, stop reason = signal SIGABRT
+  * frame #0: 0x00007fff6a75e33a libsystem_kernel.dylib`__pthread_kill + 10
+    frame #1: 0x00007fff6a81ae60 libsystem_pthread.dylib`pthread_kill + 430
+    frame #2: 0x00007fff6a6e5808 libsystem_c.dylib`abort + 120
+    frame #3: 0x0000000101289c36 libglib-2.0.0.dylib`g_assertion_message + 406
+    frame #4: 0x0000000101289c9e libglib-2.0.0.dylib`g_assertion_message_expr + 94
+    frame #5: 0x0000000100353c00 qemu-system-x86_64`type_initialize(ti=0x00000001032403e0) at object.c:314:9 [opt]
+    frame #6: 0x000000010035378b qemu-system-x86_64`type_initialize(ti=0x000000010323fd70) at object.c:310:9 [opt]
+    frame #7: 0x0000000100353de8 qemu-system-x86_64`object_class_foreach_tramp(key=<unavailable>, value=0x000000010323fd70, opaque=0x0000700005cb8d98) at object.c:1030:5 [opt]
+    frame #8: 0x000000010124b83d libglib-2.0.0.dylib`g_hash_table_foreach + 125
+    frame #9: 0x0000000100354079 qemu-system-x86_64`object_class_get_list [inlined] object_class_foreach(fn=<unavailable>, implements_type=<unavailable>, include_abstract=<unavailable>, opaque=0x0000700005cb8d90) at object.c:1052:5 [opt]
+    frame #10: 0x000000010035401e qemu-system-x86_64`object_class_get_list(implements_type=<unavailable>, include_abstract=<unavailable>) at object.c:1109 [opt]
+    frame #11: 0x000000010030875d qemu-system-x86_64`qemu_init [inlined] select_machine at vl.c:2438:24 [opt]
+    frame #12: 0x000000010030874c qemu-system-x86_64`qemu_init(argc=<unavailable>, argv=<unavailable>, envp=<unavailable>) at vl.c:3842 [opt]
+    frame #13: 0x0000000100008ef9 qemu-system-x86_64`qemu_main(argc=<unavailable>, argv=<unavailable>, envp=<unavailable>) at main.c:49:5 [opt]
+    frame #14: 0x00000001000386f6 qemu-system-x86_64`call_qemu_main(opaque=<unavailable>) at cocoa.m:1710:14 [opt]
+    frame #15: 0x000000010045f7ae qemu-system-x86_64`qemu_thread_start(args=<unavailable>) at qemu-thread-posix.c:521:9 [opt]
+    frame #16: 0x00007fff6a81b109 libsystem_pthread.dylib`_pthread_start + 148
+    frame #17: 0x00007fff6a816b8b libsystem_pthread.dylib`thread_start + 15
 
-value of phtx doesn't change. No need to check.
+(lldb) f 6
+frame #6: 0x000000010035378b qemu-system-x86_64`type_initialize(ti=0x000000010323fd70) at object.c:310:9 [opt]
+   307
+   308      parent = type_get_parent(ti);
+   309      if (parent) {
+-> 310          type_initialize(parent);
+   311          GSList *e;
+   312          int i;
+   313
+(lldb) p *ti
+(TypeImpl) $3 = {
+  name = 0x000000010323fee0 "tls-creds-anon"
+  class_size = 80
+  instance_size = 88
+  class_init = 0x0000000100365160 (qemu-system-x86_64`qcrypto_tls_creds_anon_class_init at tlscredsanon.c:186)
+  class_base_init = 0x0000000000000000
+  class_data = 0x0000000000000000
+  instance_init = 0x00000001003650d0 (qemu-system-x86_64`qcrypto_tls_creds_anon_init at tlscredsanon.c:199)
+  instance_post_init = 0x0000000000000000
+  instance_finalize = 0x00000001003650e0 (qemu-system-x86_64`qcrypto_tls_creds_anon_finalize at tlscredsanon.c:177)
+  abstract = false
+  parent = 0x000000010323fef0 "tls-creds"
+  parent_type = 0x00000001032403e0
+  class = 0x00000001032844f0
+  num_interfaces = 1
+  interfaces = {
+    [0] = (typename = "user-creatable")
+    [1] = (typename = 0x0000000000000000)
+    [2] = (typename = 0x0000000000000000)
+    [3] = (typename = 0x0000000000000000)
+    [4] = (typename = 0x0000000000000000)
+    [5] = (typename = 0x0000000000000000)
+    [6] = (typename = 0x0000000000000000)
+    [7] = (typename = 0x0000000000000000)
+    [8] = (typename = 0x0000000000000000)
+    [9] = (typename = 0x0000000000000000)
+    [10] = (typename = 0x0000000000000000)
+    [11] = (typename = 0x0000000000000000)
+    [12] = (typename = 0x0000000000000000)
+    [13] = (typename = 0x0000000000000000)
+    [14] = (typename = 0x0000000000000000)
+    [15] = (typename = 0x0000000000000000)
+    [16] = (typename = 0x0000000000000000)
+    [17] = (typename = 0x0000000000000000)
+    [18] = (typename = 0x0000000000000000)
+    [19] = (typename = 0x0000000000000000)
+    [20] = (typename = 0x0000000000000000)
+    [21] = (typename = 0x0000000000000000)
+    [22] = (typename = 0x0000000000000000)
+    [23] = (typename = 0x0000000000000000)
+    [24] = (typename = 0x0000000000000000)
+    [25] = (typename = 0x0000000000000000)
+    [26] = (typename = 0x0000000000000000)
+    [27] = (typename = 0x0000000000000000)
+    [28] = (typename = 0x0000000000000000)
+    [29] = (typename = 0x0000000000000000)
+    [30] = (typename = 0x0000000000000000)
+    [31] = (typename = 0x0000000000000000)
+  }
+}
 
-> +                if (host_to_target_timex64(arg2, phtx) != 0) {
-> +                    return -TARGET_EFAULT;
-> +                }
-> +            }
-> +        }
-> +        return ret;
->  #endif
->      case TARGET_NR_getpgid:
->          return get_errno(getpgid(arg1));
+(lldb) f 5 (NB, it's from the different run of lldb, so addresses can be
+different due to KASLR)
+qemu-system-x86_64 was compiled with optimization - stepping may behave oddly; variables may not be available.
+frame #5: 0x0000000100353c00 qemu-system-x86_64`type_initialize(ti=0x0000000101e409d0) at object.c:314:9 [opt]
+   311          GSList *e;
+   312          int i;
+   313
+-> 314          g_assert(parent->class_size <= ti->class_size);
+   315          g_assert(parent->instance_size <= ti->instance_size);
+   316          memcpy(ti->class, parent->class, parent->class_size);
+   317          ti->class->interfaces = NULL;
+(lldb) p *ti
+(TypeImpl) $0 = {
+  name = 0x0000000101e40b40 "tls-creds"
+  class_size = 40
+  instance_size = 80
+  class_init = 0x0000000100369740 (qemu-system-x86_64`qcrypto_tls_creds_class_init at tlscreds.c:229)
+  class_base_init = 0x0000000000000000
+  class_data = 0x0000000000000000
+  instance_init = 0x00000001003696d0 (qemu-system-x86_64`qcrypto_tls_creds_init at tlscreds.c:249)
+  instance_post_init = 0x0000000000000000
+  instance_finalize = 0x0000000100369700 (qemu-system-x86_64`qcrypto_tls_creds_finalize at tlscreds.c:258)
+  abstract = true
+  parent = 0x0000000101e40b50 "object"
+  parent_type = 0x0000000101e3f360
+  class = 0x0000000101e84b30
+  num_interfaces = 0
+  interfaces = {
+    [0] = (typename = 0x0000000000000000)
+    [1] = (typename = 0x0000000000000000)
+    [2] = (typename = 0x0000000000000000)
+    [3] = (typename = 0x0000000000000000)
+    [4] = (typename = 0x0000000000000000)
+    [5] = (typename = 0x0000000000000000)
+    [6] = (typename = 0x0000000000000000)
+    [7] = (typename = 0x0000000000000000)
+    [8] = (typename = 0x0000000000000000)
+    [9] = (typename = 0x0000000000000000)
+    [10] = (typename = 0x0000000000000000)
+    [11] = (typename = 0x0000000000000000)
+    [12] = (typename = 0x0000000000000000)
+    [13] = (typename = 0x0000000000000000)
+    [14] = (typename = 0x0000000000000000)
+    [15] = (typename = 0x0000000000000000)
+    [16] = (typename = 0x0000000000000000)
+    [17] = (typename = 0x0000000000000000)
+    [18] = (typename = 0x0000000000000000)
+    [19] = (typename = 0x0000000000000000)
+    [20] = (typename = 0x0000000000000000)
+    [21] = (typename = 0x0000000000000000)
+    [22] = (typename = 0x0000000000000000)
+    [23] = (typename = 0x0000000000000000)
+    [24] = (typename = 0x0000000000000000)
+    [25] = (typename = 0x0000000000000000)
+    [26] = (typename = 0x0000000000000000)
+    [27] = (typename = 0x0000000000000000)
+    [28] = (typename = 0x0000000000000000)
+    [29] = (typename = 0x0000000000000000)
+    [30] = (typename = 0x0000000000000000)
+    [31] = (typename = 0x0000000000000000)
+  }
+}
 
-Thanks,
-Laurent
+It doesn't seem related to HVF QOM changes 🤔
+
+Bisected it to:
+
+b717702de21461138ac0e1d6775da0bd0482c013 is the first bad commit
+commit b717702de21461138ac0e1d6775da0bd0482c013
+Author: Daniel P. Berrangé <berrange@redhat.com>
+Date:   Wed Aug 19 20:12:35 2020 -0400
+
+    crypto: use QOM macros for declaration/definition of secret types
+
+    This introduces the use of the OBJECT_DEFINE and OBJECT_DECLARE macro
+    families in the secret types, in order to eliminate boilerplate code.
+
+    Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+    Message-Id: <20200723181410.3145233-4-berrange@redhat.com>
+    [ehabkost: rebase, update to pass additional arguments to macro]
+    Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+    Message-Id: <20200820001236.1284548-58-ehabkost@redhat.com>
+
+Regards,
+Roman
 
