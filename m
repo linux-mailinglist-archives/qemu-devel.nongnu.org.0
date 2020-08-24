@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3F6824FA8B
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 11:57:26 +0200 (CEST)
-Received: from localhost ([::1]:44176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 193E924FA31
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 11:54:12 +0200 (CEST)
+Received: from localhost ([::1]:57160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kA9ED-0005n7-N3
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 05:57:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46856)
+	id 1kA9B5-0007zV-58
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 05:54:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kA95g-0005Ee-Vf
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 05:48:36 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:36867)
+ id 1kA95h-0005GE-FM
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 05:48:37 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:39168)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kA95e-0004oV-Ma
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 05:48:36 -0400
-Received: by mail-wr1-x434.google.com with SMTP id y3so7988706wrl.4
- for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 02:48:34 -0700 (PDT)
+ id 1kA95f-0004oh-Oo
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 05:48:37 -0400
+Received: by mail-wm1-x329.google.com with SMTP id g75so7525423wme.4
+ for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 02:48:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=zyrZv9ZwHPgzmB6CFFHtEKiJ8fWKyvVsLI46g+5LD/g=;
- b=JZn6WpwsAEvHvSfxNU4WJDA2cIPQZr1a6yHE0Ewb0QV1vSxHP2UisBDwidU7cZSCFi
- 7lLlQdvqi9PIDvbIHM2xRYRy7rlHrDsqlo/9VreeqnYwZ2TnERjIx8cPU+6VEkM61vEq
- zi/EZCUquGZtHHtIsl8LjLH70oeujGg6BIk6CujgpqbpWmh21JQ41LVDKbWzGCtkp01/
- oqbEe0QBCpwBkYEnIpcA7uzbHrwta//QGZWbAREiNxJfvyJMKaY6hrgZxVQWo9Z8B8bW
- rWz0CpZW+eUQHyiaYuymmDcp+Qm84CtxJT/RKbAuVickrmozKmPpSGnFK8MiQkf750n2
- n2Zw==
+ bh=zQb4tl+pl+QQR0fGrgrVlmupRVf20x7rz7QGSNEoC2Q=;
+ b=FO2o6tuIwP5vs5bt5twZZz05/tJukZ5wgONKegeSipg46qnPYSS0xU9glbW9EJxTq8
+ n+5PrIvWAr1sonLAoobbid/W063/svVS+5B5yTtpf/xmQLJ2SJ5g//7W1VQcr69bApYF
+ gYTYSvU59QggRe5Mbhcc7kqn2WFIjpjJyWTd1N4iIr55Oufew6gijeU1W6YUJ8f2YzdW
+ qt/YOSdj5RTZvRFbeXE833bRXmWAr8byGjTO2qleexMm5dpF6S6Y0/zdj54UrY5tG74r
+ t7aTUCL84gLwK/4c7ejr17SmPpq5SzZ+GJGrmOD6lxHZnqw6q3PAVH06gugsZ+L6gyr2
+ vkjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zyrZv9ZwHPgzmB6CFFHtEKiJ8fWKyvVsLI46g+5LD/g=;
- b=fS2Y8+JVOeTjmtWrk6Pf8Aa/YUqEpYwqIhA9XG3zyBlsRrfmK9KQlIKXWFM5EmPjD/
- DmSZnq6VvkGYZkPGgCSK6oIgaZx5b1b/eeJOq+55L+EYbJjFuLr+O/QoCQuPKTIfs9g6
- uzZvmxmCvRxEzfDPY5CLaFBbSBFsm7hpRIAPVG/cdO7nZjUQCXMeuRN2z8O7SrtovOIz
- se7CXKeidkB2xuS4z6WxWXNnnE9jv0FPC03NabF3owCFFcq7a/n7uW8NDicynOEW+KIp
- UTO9tcLfP5L57wigJHPdsOV1rZcZl16MFmtP9hJg4N6lie772rUo13IHuHmfAZI7/vT+
- sftw==
-X-Gm-Message-State: AOAM533+cmqI+RMuy9h74XOKGD077ugNNDcDsXaQO4e1gHL6QcbtpeQk
- g8MbA7tCgw4ZlJyaKXPVo+ZQoZBsvtHLbG2R
-X-Google-Smtp-Source: ABdhPJyb4MIhBHsrYpA4tUgBQ1h8IapAFU8ffaWxvj0WClgDaIOSOkpwa6CByTfsY8/Oqet05+t0AQ==
-X-Received: by 2002:a5d:45c8:: with SMTP id b8mr736132wrs.381.1598262512849;
- Mon, 24 Aug 2020 02:48:32 -0700 (PDT)
+ bh=zQb4tl+pl+QQR0fGrgrVlmupRVf20x7rz7QGSNEoC2Q=;
+ b=opxlJnXsgVJ9/ErRyjaN6whaNTFlSNZ+RJIvUnemOEy3y9cIO8ORyh4OIr0kGHufga
+ N0EmweooqS9K0ozKFfInne0ev3VNsYxFobG/MWCV3dXsCViGvA8Z+63ovKCD2FGxv1cz
+ /49G9zTXG+DuG/E8C99Be9ijyqh5ijgW9b9KTlEmWsKJ43b1HJHCEiAA4LcbWksF346f
+ moq7Cm5ke1MRmfRvHMnOwCFfJoYLr1o3xibmm0BftGOcTIF1uJPAIGc4SIiAnlZbVjdp
+ nTp9d1IGI5MYAqw4MjQMwAEAmB4Gn3/F1Q3c9og/QFkwV7zWFUuErm2L+3YgW+ypDw7B
+ HGOQ==
+X-Gm-Message-State: AOAM531Am2+HV1YCUdGlWeMAm+dYOOXNGW7go6yjsNypYAGrRuKEkGzP
+ h6VQgFpJ/0OJGyWJPpn/Apb12BqBNSa8Fchs
+X-Google-Smtp-Source: ABdhPJxf+L8allWN1Iepi1YJF20WSnIYkPcPmMZIv9a2vd9aDHBBk3iDta6gICGRF1wx8GcnT7XB3Q==
+X-Received: by 2002:a1c:5455:: with SMTP id p21mr1784156wmi.146.1598262514108; 
+ Mon, 24 Aug 2020 02:48:34 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q6sm24877057wma.22.2020.08.24.02.48.31
+ by smtp.gmail.com with ESMTPSA id q6sm24877057wma.22.2020.08.24.02.48.32
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Aug 2020 02:48:32 -0700 (PDT)
+ Mon, 24 Aug 2020 02:48:33 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/27] target/arm: Convert A32 coprocessor insns to decodetree
-Date: Mon, 24 Aug 2020 10:48:00 +0100
-Message-Id: <20200824094811.15439-17-peter.maydell@linaro.org>
+Subject: [PULL 17/27] target/arm: Tidy up disas_arm_insn()
+Date: Mon, 24 Aug 2020 10:48:01 +0100
+Message-Id: <20200824094811.15439-18-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200824094811.15439-1-peter.maydell@linaro.org>
 References: <20200824094811.15439-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,200 +88,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert the A32 coprocessor instructions to decodetree.
-
-Note that this corrects an underdecoding: for the 64-bit access case
-(MRRC/MCRR) we did not check that bits [24:21] were 0b0010, so we
-would incorrectly treat LDC/STC as MRRC/MCRR rather than UNDEFing
-them.
-
-The decodetree versions of these insns assume the coprocessor
-is in the range 0..7 or 14..15. This is architecturally sensible
-(as per the comments) and OK in practice for QEMU because the only
-uses of the ARMCPRegInfo infrastructure we have that aren't
-for coprocessors 14 or 15 are the pxa2xx use of coprocessor 6.
-We add an assertion to the define_one_arm_cp_reg_with_opaque()
-function to catch any accidental future attempts to use it to
-define coprocessor registers for invalid coprocessors.
+The only thing left in the "legacy decoder" is the handling
+of disas_xscale_insn(), and we can simplify the code.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200803111849.13368-4-peter.maydell@linaro.org
+Message-id: 20200803111849.13368-5-peter.maydell@linaro.org
 ---
- target/arm/a32.decode  | 19 +++++++++++
- target/arm/helper.c    | 29 +++++++++++++++++
- target/arm/translate.c | 74 +++++++++++++++++++++++++++++++++++-------
- 3 files changed, 111 insertions(+), 11 deletions(-)
+ target/arm/translate.c | 26 +++++++++-----------------
+ 1 file changed, 9 insertions(+), 17 deletions(-)
 
-diff --git a/target/arm/a32.decode b/target/arm/a32.decode
-index 0bd952c0692..4dfd9139bf3 100644
---- a/target/arm/a32.decode
-+++ b/target/arm/a32.decode
-@@ -47,6 +47,8 @@
- &bfi             rd rn lsb msb
- &sat             rd rn satimm imm sh
- &pkh             rd rn rm imm tb
-+&mcr             cp opc1 crn crm opc2 rt
-+&mcrr            cp opc1 crm rt rt2
- 
- # Data-processing (register)
- 
-@@ -529,6 +531,23 @@ LDM_a32          ---- 100 b:1 i:1 u:1 w:1 1 rn:4 list:16   &ldst_block
- B                .... 1010 ........................           @branch
- BL               .... 1011 ........................           @branch
- 
-+# Coprocessor instructions
-+
-+# We decode MCR, MCR, MRRC and MCRR only, because for QEMU the
-+# other coprocessor instructions always UNDEF.
-+# The trans_ functions for these will ignore cp values 8..13 for v7 or
-+# earlier, and 0..13 for v8 and later, because those areas of the
-+# encoding space may be used for other things, such as VFP or Neon.
-+
-+@mcr             ---- .... opc1:3 . crn:4 rt:4 cp:4 opc2:3 . crm:4 &mcr
-+@mcrr            ---- .... .... rt2:4 rt:4 cp:4 opc1:4 crm:4       &mcrr
-+
-+MCRR             .... 1100 0100 .... .... .... .... .... @mcrr
-+MRRC             .... 1100 0101 .... .... .... .... .... @mcrr
-+
-+MCR              .... 1110 ... 0 .... .... .... ... 1 .... @mcr
-+MRC              .... 1110 ... 1 .... .... .... ... 1 .... @mcr
-+
- # Supervisor call
- 
- SVC              ---- 1111 imm:24                             &i
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 455c92b8915..6b4f0eb5334 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -8462,6 +8462,35 @@ void define_one_arm_cp_reg_with_opaque(ARMCPU *cpu,
-     assert((r->state != ARM_CP_STATE_AA32) || (r->opc0 == 0));
-     /* AArch64 regs are all 64 bit so ARM_CP_64BIT is meaningless */
-     assert((r->state != ARM_CP_STATE_AA64) || !(r->type & ARM_CP_64BIT));
-+    /*
-+     * This API is only for Arm's system coprocessors (14 and 15) or
-+     * (M-profile or v7A-and-earlier only) for implementation defined
-+     * coprocessors in the range 0..7.  Our decode assumes this, since
-+     * 8..13 can be used for other insns including VFP and Neon. See
-+     * valid_cp() in translate.c.  Assert here that we haven't tried
-+     * to use an invalid coprocessor number.
-+     */
-+    switch (r->state) {
-+    case ARM_CP_STATE_BOTH:
-+        /* 0 has a special meaning, but otherwise the same rules as AA32. */
-+        if (r->cp == 0) {
-+            break;
-+        }
-+        /* fall through */
-+    case ARM_CP_STATE_AA32:
-+        if (arm_feature(&cpu->env, ARM_FEATURE_V8) &&
-+            !arm_feature(&cpu->env, ARM_FEATURE_M)) {
-+            assert(r->cp >= 14 && r->cp <= 15);
-+        } else {
-+            assert(r->cp < 8 || (r->cp >= 14 && r->cp <= 15));
-+        }
-+        break;
-+    case ARM_CP_STATE_AA64:
-+        assert(r->cp == 0 || r->cp == CP_REG_ARM64_SYSREG_CP);
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-     /* The AArch64 pseudocode CheckSystemAccess() specifies that op1
-      * encodes a minimum access level for the register. We roll this
-      * runtime check into our general permission check code, so check
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 01591f0e325..6ee920eec53 100644
+index 6ee920eec53..362d1cc50fb 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -5237,6 +5237,68 @@ static int t16_pop_list(DisasContext *s, int x)
- #include "decode-t32.c.inc"
- #include "decode-t16.c.inc"
- 
-+static bool valid_cp(DisasContext *s, int cp)
-+{
-+    /*
-+     * Return true if this coprocessor field indicates something
-+     * that's really a possible coprocessor.
-+     * For v7 and earlier, coprocessors 8..15 were reserved for Arm use,
-+     * and of those only cp14 and cp15 were used for registers.
-+     * cp10 and cp11 were used for VFP and Neon, whose decode is
-+     * dealt with elsewhere. With the advent of fp16, cp9 is also
-+     * now part of VFP.
-+     * For v8A and later, the encoding has been tightened so that
-+     * only cp14 and cp15 are valid, and other values aren't considered
-+     * to be in the coprocessor-instruction space at all. v8M still
-+     * permits coprocessors 0..7.
-+     */
-+    if (arm_dc_feature(s, ARM_FEATURE_V8) &&
-+        !arm_dc_feature(s, ARM_FEATURE_M)) {
-+        return cp >= 14;
-+    }
-+    return cp < 8 || cp >= 14;
-+}
-+
-+static bool trans_MCR(DisasContext *s, arg_MCR *a)
-+{
-+    if (!valid_cp(s, a->cp)) {
-+        return false;
-+    }
-+    do_coproc_insn(s, a->cp, false, a->opc1, a->crn, a->crm, a->opc2,
-+                   false, a->rt, 0);
-+    return true;
-+}
-+
-+static bool trans_MRC(DisasContext *s, arg_MRC *a)
-+{
-+    if (!valid_cp(s, a->cp)) {
-+        return false;
-+    }
-+    do_coproc_insn(s, a->cp, false, a->opc1, a->crn, a->crm, a->opc2,
-+                   true, a->rt, 0);
-+    return true;
-+}
-+
-+static bool trans_MCRR(DisasContext *s, arg_MCRR *a)
-+{
-+    if (!valid_cp(s, a->cp)) {
-+        return false;
-+    }
-+    do_coproc_insn(s, a->cp, true, a->opc1, 0, a->crm, 0,
-+                   false, a->rt, a->rt2);
-+    return true;
-+}
-+
-+static bool trans_MRRC(DisasContext *s, arg_MRRC *a)
-+{
-+    if (!valid_cp(s, a->cp)) {
-+        return false;
-+    }
-+    do_coproc_insn(s, a->cp, true, a->opc1, 0, a->crm, 0,
-+                   true, a->rt, a->rt2);
-+    return true;
-+}
-+
- /* Helpers to swap operands for reverse-subtract.  */
- static void gen_rsb(TCGv_i32 dst, TCGv_i32 a, TCGv_i32 b)
- {
-@@ -8293,17 +8355,7 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
-             disas_xscale_insn(s, insn);
-             break;
-         }
--
--        if ((cpnum & 0xe) == 10) {
--            /* VFP, but failed disas_vfp.  */
--            goto illegal_op;
--        }
--
--        if (disas_coproc_insn(s, insn)) {
--            /* Coprocessor.  */
--            goto illegal_op;
--        }
--        break;
-+        /* fall through */
+@@ -8342,26 +8342,18 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+         return;
      }
-     default:
-     illegal_op:
+     /* fall back to legacy decoder */
+-
+-    switch ((insn >> 24) & 0xf) {
+-    case 0xc:
+-    case 0xd:
+-    case 0xe:
+-    {
+-        /* First check for coprocessor space used for XScale/iwMMXt insns */
+-        int cpnum = (insn >> 8) & 0xf;
+-
+-        if (arm_dc_feature(s, ARM_FEATURE_XSCALE) && (cpnum < 2)) {
++    /* TODO: convert xscale/iwmmxt decoder to decodetree ?? */
++    if (arm_dc_feature(s, ARM_FEATURE_XSCALE)) {
++        if (((insn & 0x0c000e00) == 0x0c000000)
++            && ((insn & 0x03000000) != 0x03000000)) {
++            /* Coprocessor insn, coprocessor 0 or 1 */
+             disas_xscale_insn(s, insn);
+-            break;
++            return;
+         }
+-        /* fall through */
+-    }
+-    default:
+-    illegal_op:
+-        unallocated_encoding(s);
+-        break;
+     }
++
++illegal_op:
++    unallocated_encoding(s);
+ }
+ 
+ static bool thumb_insn_is_16bit(DisasContext *s, uint32_t pc, uint32_t insn)
 -- 
 2.20.1
 
