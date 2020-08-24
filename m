@@ -2,65 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F48125032B
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 18:40:27 +0200 (CEST)
-Received: from localhost ([::1]:35292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 724A3250338
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 18:41:31 +0200 (CEST)
+Received: from localhost ([::1]:38046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAFWE-0003hH-82
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 12:40:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57810)
+	id 1kAFXG-0004ww-HV
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 12:41:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kAFVU-0003Ad-2L
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 12:39:40 -0400
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:39894)
+ id 1kAFWB-00041C-R8
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 12:40:23 -0400
+Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:46582)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kAFVS-0007lb-Im
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 12:39:39 -0400
-Received: by mail-ej1-x62b.google.com with SMTP id md23so12000823ejb.6
- for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 09:39:37 -0700 (PDT)
+ id 1kAFWA-0007qn-E6
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 12:40:23 -0400
+Received: by mail-ed1-x544.google.com with SMTP id k25so8626506edj.13
+ for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 09:40:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=KUC5lQUeddxNURzwEfpyNte4kdBhJoq871krNkhUnvE=;
- b=iJQrFbsrvKACOJhPS0KLuglagXanIhT7Q3T/Z53ANU08keJFePwzublDmOi0HDwRl+
- l635nVJNw8ntx3C76yte14dqsfRHK1Xk9+cqFIgBkOrxLEA1u1mCa12dST6d23Rv42Bn
- 8+wiarJFreVZW8Udn18ZapD6+ckbWkHW0gSekkRAM952J5IaEAy50p+/OxuCIk2KdH8C
- ymNtuITGtiVekb4r+i7uu6vvRRCwOxeb7MWSeRrfoC/avkYm8ijWbDC4APURY+cTMwkf
- hTS5zuIkf29GHeLVirmtxc58qlNcQUmz1veFKNKRohxGQj5S7SSsIfps2dROmiLnA8M9
- P0bQ==
+ :cc; bh=lXhCOMMO86aujM29Ws2c7UaKdsmE01yGV+ahwpDBy1g=;
+ b=GGwCBKVI1u8tdVYhhW8lo8H4K7Y9EvziWaZeQvEmq8/B+lPiztGX7UlSaW/tOEBKcN
+ M44ENu15+BQ8iNPyCJck9oSXrU9FseTZR4XIgI/2H/pG8Pf6g3nQdv5sSWtyTVjyay/1
+ Hb0qvq5tg7S24H2Mf2M9BUBcmhnaoLcKActtd2DiSBmz6NRmFO+NNlFnLvZnDZATWkxZ
+ 3pLxG8ScW6jswQV6eps+1tBO6I1HZF4ojzMsuSNFXhIEoEDBTNMHRWRFevV1fJWS3lh7
+ 3hYdvBh0RxkH1K/eFnNIssCzOIVlkMRmNXJs+zFDaYR9ZnFs077EfMicPID5cnY6XSaY
+ T99g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=KUC5lQUeddxNURzwEfpyNte4kdBhJoq871krNkhUnvE=;
- b=dlVlPMrcZdCoD5Q0SDsO64tI8brX9fcVmhxeYYW+CpUGB3pvz8T/mV1RiL5y/22mP0
- DwyvxXd11I7iCsJs3p5zE2VnRTpJI2DzCDIQYgkLrO53IMFXlx8yEn79pMRQI0am4gQi
- bpns8wYNV4LaDXiOG5v1NPC+QmyqtbniraXhsRmx/2UT83mATJ9RtMQAZDwCqk/4wjnE
- U8eA2Bp9o0qbFBjFUKW07w3QpMPTF5VFTupOb6j01Ki9TV10cTGqOIyW+ywZjNS6/8aL
- +gQiFC3ILwPbN2jDnVKndsWrwxf8Ok492vmHM0jFxINowwZt9YZT2gaBm5+OWGjcHBxh
- AeLw==
-X-Gm-Message-State: AOAM5327mW0MnTn0RA4qQrYZVnvr9i7sUHzTphJM/uA/utjDbHtN8E7w
- yHqeM0VypkWBVdk93ERJoGqMvxtdKmP/7mjnm+4Glg==
-X-Google-Smtp-Source: ABdhPJxFSs05zvK/TxaoLPwfoARfIHM4C2M2Q7NZABkdipfYK00iXCkvDpvWRu8TAnBL9R4NEp/NSG+OHwntNBlPj84=
-X-Received: by 2002:a17:906:d8ca:: with SMTP id
- re10mr6116139ejb.382.1598287176846; 
- Mon, 24 Aug 2020 09:39:36 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=lXhCOMMO86aujM29Ws2c7UaKdsmE01yGV+ahwpDBy1g=;
+ b=DXLZWSvtog2gyv4sF+qFkR7Oq7SEVOofH7OgPdpI9groN0eIqrcvfJwwPZ/AbMQvXI
+ b+pE4TKNyXjZ5IMAocImXBJmlwgu1epmDVSvTz2Xkd/Qo4+WMdikoCwalz2Uz2n3r3ec
+ 1QqWS3f8rqB9pEugSrvdpj3IGxb6NZNVKRVndLTUAgF9fzOKkneMjnoxa19HsCfIQNYg
+ ta3uFJ5bM5yK7SWdagyo64Ouksjp/MtnGRH8nN78PDzaEX9DZJVgCfLt9qhlQsc3WWTp
+ momUxlbSruY/kqFR4RlvM64LuPBOfyLf4WhpJyVEnHm+m8TaxZnI5EFzyTTg828bx+xV
+ YeuQ==
+X-Gm-Message-State: AOAM530Ox7hV98i/MpFG4JcaQTZKXZARUtZsawpY4PQnlUesNRzYbCIL
+ rroE7TCg6VtbxbqXL093rDpL/5L31u9LNGQbP7ZoOQ==
+X-Google-Smtp-Source: ABdhPJxFFY6eHrcb2P66q0sc0rZ/QGzuxHeaXpsmQ+NBk9zeJ1owWzDpZfFr9Q3Ma44HWwlQz7Wu9HOHqO27zkI92bc=
+X-Received: by 2002:a50:8f45:: with SMTP id 63mr6401255edy.52.1598287221218;
+ Mon, 24 Aug 2020 09:40:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200803105647.22223-1-f4bug@amsat.org>
-In-Reply-To: <20200803105647.22223-1-f4bug@amsat.org>
+References: <20200815013145.539409-1-richard.henderson@linaro.org>
+ <20200815013145.539409-2-richard.henderson@linaro.org>
+In-Reply-To: <20200815013145.539409-2-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 24 Aug 2020 17:39:25 +0100
-Message-ID: <CAFEAcA-r5_iZQnj3JmWRYhUwuD6cr=PmJQKcUvbAiHm--ymWiQ@mail.gmail.com>
-Subject: Re: [PATCH-for-5.1? 0/4] hw/arm/xilinx_zynq: Call
- qdev_connect_clock_in() before DeviceRealize
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Mon, 24 Aug 2020 17:40:10 +0100
+Message-ID: <CAFEAcA8X3w4cgCQXJmg7XpmLRJj4H-TTrwXJs6Wz1PBjLyQ34A@mail.gmail.com>
+Subject: Re: [PATCH 01/20] qemu/int128: Add int128_lshift
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::544;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x544.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -82,36 +79,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 3 Aug 2020 at 11:56, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
-wrote:
+On Sat, 15 Aug 2020 at 02:31, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> This is not a critical issue, but still annoying if you use tracing.
+> Add left-shift to match the existing right-shift.
 >
-> Maybe it is worth fixing for forks that are based on release tags,
-> else consider it 5.2 material.
->
-> Anyway we can still discuss if qdev_connect_clock_in() is supposed to
-> be callable *after* DeviceRealize.
->
-> Philippe Mathieu-Daud=C3=A9 (4):
->   hw/arm/xilinx_zynq: Uninline cadence_uart_create()
->   hw/arm/xilinx_zynq: Call qdev_connect_clock_in() before DeviceRealize
->   hw/qdev-clock: Uninline qdev_connect_clock_in()
->   hw/qdev-clock: Avoid calling qdev_connect_clock_in after DeviceRealize
->
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
 
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Applied to target-arm.next, thanks.
-
+thanks
 -- PMM
 
