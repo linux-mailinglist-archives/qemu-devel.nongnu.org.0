@@ -2,75 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95A9C2501E1
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 18:19:56 +0200 (CEST)
-Received: from localhost ([::1]:34672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DC142501E5
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Aug 2020 18:22:21 +0200 (CEST)
+Received: from localhost ([::1]:38288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAFCN-0007As-6l
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 12:19:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51754)
+	id 1kAFEi-0000Pv-EG
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 12:22:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kAFBU-0006k1-Ik
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 12:19:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30114)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kAFBR-0004ML-P6
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 12:18:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598285935;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=6C9vnfy79FGkgHoTaahogAabhfhEp/MSbIbKa2fs+nA=;
- b=UAWlQ2+gVhrlWRgcyxKC3DnQwSqBWNfCahrr0V08FHFoVpKqxeH50DeHDl3qScVbe8XH9D
- qDIZjo0993JlT9h+fwkug7EcHl0yPaysZ5oiO9jSsge2KhYz5cFVL9IJsBsnVIJQFV1jEK
- irZAJqZ7kf0sfcSEdb7G6fTXm7mf9Mc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-487-fALy6cfMNUu8WsfiqLfWSQ-1; Mon, 24 Aug 2020 12:18:53 -0400
-X-MC-Unique: fALy6cfMNUu8WsfiqLfWSQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 477471084C89;
- Mon, 24 Aug 2020 16:18:52 +0000 (UTC)
-Received: from redhat.com (ovpn-114-223.ams2.redhat.com [10.36.114.223])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E90045C1BB;
- Mon, 24 Aug 2020 16:18:50 +0000 (UTC)
-Date: Mon, 24 Aug 2020 17:18:48 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PULL v7 000/151] Meson-based build system
-Message-ID: <20200824161848.GW10011@redhat.com>
-References: <20200819213203.17876-1-pbonzini@redhat.com>
- <CABLmASFno04tFBRTq=V8AO7dj1d67-SNpugUJMVVa4yzrPq03Q@mail.gmail.com>
- <CABLmASECM5tVVw3TMJn+0bCT7O4H_guy5TJd9YQKYYx+QUKBKQ@mail.gmail.com>
- <dd66cee7-c6d2-a81e-2e53-eca34ed78be8@redhat.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kAFDP-0007u8-3L
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 12:20:59 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:38747)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kAFDM-0004gx-TL
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 12:20:58 -0400
+Received: from [192.168.100.1] ([82.252.135.186]) by mrelayeu.kundenserver.de
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1N6bsM-1khZ910ORK-0183XZ; Mon, 24 Aug 2020 18:20:45 +0200
+To: Filip Bozuta <Filip.Bozuta@syrmia.com>, qemu-devel@nongnu.org
+References: <20200726235221.337529-1-Filip.Bozuta@syrmia.com>
+ <20200726235221.337529-2-Filip.Bozuta@syrmia.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Subject: Re: [PATCH v2 1/2] linux-user: Fix 'mq_timedsend()' and
+ 'mq_timedreceive()'
+Message-ID: <1b45a25e-3ddb-c09d-be52-8cadbce148d0@vivier.eu>
+Date: Mon, 24 Aug 2020 18:20:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <dd66cee7-c6d2-a81e-2e53-eca34ed78be8@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20200726235221.337529-2-Filip.Bozuta@syrmia.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/24 04:38:05
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.956,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:6jfHUOFk+Ywya6nI+Oas8Stg+Fvu8Lt0MAaes03aJE67xJ4ZAzV
+ xnnuU+YqMesxCn97JtKDTqZQUGS7hwGX8ODwtSrQ9CUJoY0jETCk5H88ZzBOT6lOFIOUzSL
+ DGKDEAUvPO71XsnnypjsaRgL3/BM+iCEgwtCBhDLyR7twGemrnT0/l9dWPoOJfsf5yNPhWS
+ 927vdxX5kTkQ1NYcodO8w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:uFOzNozFzN8=:IUYLoFr7PBiask91TGm4ob
+ odSYygBBbmlKY3unJmKAt6FgJwS6Khsl4xnQ8WPESAEGzXbKU8pvl3NhuogPd0bWDKX0d23A5
+ UYYlduHHGTggEFgJQEtckPbxwIzfBRsoTUzVr3gwUqn70vKi3WZYHVbf/I3fFMORcHJdoQCIS
+ C7W+cGKwMfEQzhKgKvtiU/lKhqXoidrqROhd7C9o58TuyJSU46bXfVnqzKDz+aSFbrxP/SWdy
+ JHW4QlV4sYyndlmD70H45nj26vFarqJWOnhXKuLqr185ez35ym52jj+E72+8LRP2zFW0iySQe
+ 6q+pRkGzhm9KrDbRmdhyxcfyh5k9UZnU3gftlqHTqlXdm2S8A3fiP/LeqCEr0OpJDE2G4ax8a
+ 0B4OzHrwJn05i05D2+mwTDsWXc7p0sRlHzSK/GkBfNsc+LjKT8fnnMOo6dqoL6CNGg1v2j7He
+ Pfkycoc1flcin1Y2FR8RKFG2Lgw2wXfLDZXgqrRywL65mgK99tA6mo8gzGFh8d0ONY2OWDvw5
+ 9EDwyN1VGdLU/r6nCg9l7tDZhUuyMy87cY2d+B972/KA00anTz60u/wzQcrrF3YF3eVJaGCmd
+ vCQgkZ31cwZZg68sVbODNA+xsD3kKhwOgn5c2Tcyc4mfevT2GCzvwYu9RxwLUCKl6PZHhDXf8
+ ibsrlHKPz+WCVHUgrpDrSkHaUsbL86JklIOFgGRtTz5ZPh5N+GFDPUQV7GSIqn+hiH0nvkJES
+ f5t/2TK1uGAelEHpGKC3zzyjzVqxW2WPOkPsZvvr1QI2PWFtoDgLwqlQyD1qZ3GTAXM1ZdbKU
+ +1g3DZo+hZ4aH5CDM3oRyrGY1XafqIv1iVixn5uA+tjxkxvTKQgPbGo629tQ4kHZ1watN1c
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/24 12:20:55
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,46 +116,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel qemu-devel <qemu-devel@nongnu.org>,
- Howard Spoelstra <hsp.cat7@gmail.com>
+Cc: Riku Voipio <riku.voipio@iki.fi>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 21, 2020 at 02:33:12PM +0200, Paolo Bonzini wrote:
-> On 21/08/20 12:58, Howard Spoelstra wrote:
-> > I investigated a bit further and saw:
-> > ldd in Fedora tells me the executable is "not a dynamic executable".
+Le 27/07/2020 à 01:52, Filip Bozuta a écrit :
+> Implementations of syscalls 'mq_timedsend()' and 'mq_timedreceive()'
+> in 'syscall.c' use functions 'target_to_host_timespec()' and
+> 'host_to_target_timespec()' to transfer the value of 'struct timespec'
+> between target and host. However, the implementations don't check whether
+> this conversion succeeds and thus can cause an unaproppriate error instead
+> of the 'EFAULT (Bad address)' which is supposed to be set if the conversion
+> from target to host fails. This was confirmed with the modified LTP
+> test suite where test cases with a bad adress for 'timespec' were
+> added. This modified test suite can be found at:
+> https://github.com/bozutaf/ltp
 > 
-> How are you executing ldd?  I cross built a mingw executable from Fedora
-> and it was definitely using system DLLs.
+> Without the changes from this patch the bad adress testcase for 'mq_timedsend()'
+> succeds unexpectedly, while the test returns errno 'ETIMEOUT' for
+> 'mq_timedreceive()':
 > 
-> PIE builds and doesn't start (doesn't even reach main) but --disable-pie
-> works just fine.  I don't know if the same issue is present under
-> Windows or it's Wine-specific.
+> mq_timedsend01.c:190: FAIL: mq_timedsend() returned 0, expected -1: SUCCESS (0)
+> mq_timedreceive01.c:178: FAIL: mq_timedreceive() failed unexpectedly,
+> expected EFAULT: ETIMEDOUT (110)
+> 
+> After the changes from this patch, testcases for both syscalls fail with EFAULT
+> as expected, which is the same test result that is received with native execution:
+> 
+> mq_timedsend01.c:187: PASS: mq_timedsend() failed expectedly: EFAULT (14)
+> mq_timedreceive01.c:180: PASS: mq_timedreceive() failed expectedly: EFAULT (14)
+> 
+> (Patch with this new test case will be sent to LTP mailing list soon)
+> 
+> Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
+> ---
+>  linux-user/syscall.c | 16 ++++++++++++----
+>  1 file changed, 12 insertions(+), 4 deletions(-)
+> 
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 05f03919ff..1f8d04934a 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -11817,9 +11817,13 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+>  
+>              p = lock_user (VERIFY_READ, arg2, arg3, 1);
+>              if (arg5 != 0) {
+> -                target_to_host_timespec(&ts, arg5);
+> +                if (target_to_host_timespec(&ts, arg5)) {
+> +                    return -TARGET_EFAULT;
+> +                }
+>                  ret = get_errno(safe_mq_timedsend(arg1, p, arg3, arg4, &ts));
+> -                host_to_target_timespec(arg5, &ts);
+> +                if (host_to_target_timespec(arg5, &ts)) {
 
-I've just hit this problem too,  and can demo it without QEMU involved
+If mq_timedsend() fails, you clear the error value and the structure.
 
-$ cat e.c
-#include <stdio.h>
-#include <stdlib.h>
+You need to check if there is an error:
 
-  int main(int argc, char **argv) {    fprintf(stderr, "Hello\n");    exit(EXIT_SUCCESS); }
+                   if (!is_error(ret) &&
+                       host_to_target_timespec(arg5, &ts)) {
 
-$ x86_64-w64-mingw32-gcc -pie -o e.exe e.c 
 
-the resulting e.exe fails to run under *both* Wine and Windows 2008r2.
+> +                    return -TARGET_EFAULT;
+> +                }
+>              } else {
+>                  ret = get_errno(safe_mq_timedsend(arg1, p, arg3, arg4, NULL));
+>              }
+> @@ -11836,10 +11840,14 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+>  
+>              p = lock_user (VERIFY_READ, arg2, arg3, 1);
+>              if (arg5 != 0) {
+> -                target_to_host_timespec(&ts, arg5);
+> +                if (target_to_host_timespec(&ts, arg5)) {
+> +                    return -TARGET_EFAULT;
+> +                }
+>                  ret = get_errno(safe_mq_timedreceive(arg1, p, arg3,
+>                                                       &prio, &ts));
+> -                host_to_target_timespec(arg5, &ts);
+> +                if (host_to_target_timespec(arg5, &ts)) {
 
-Either there's some extra magic compiler flags we need to pass to make
-this work, or we need to just disable PIE on Windows. The original
-pre-meson build used -no-pie AFAICT.
+ditto
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> +                    return -TARGET_EFAULT;
+> +                }
+>              } else {
+>                  ret = get_errno(safe_mq_timedreceive(arg1, p, arg3,
+>                                                       &prio, NULL));
+> 
 
+Thanks,
+Laurent
 
