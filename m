@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A28C825231A
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:50:27 +0200 (CEST)
-Received: from localhost ([::1]:43836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D40AF25230C
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:43:24 +0200 (CEST)
+Received: from localhost ([::1]:47294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAgpm-0005ZH-O2
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:50:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36736)
+	id 1kAgix-0003Vi-Tx
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:43:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kAg4Y-0000kG-Gq
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:01:38 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:41496)
+ id 1kAg4a-0000mK-9x
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:01:40 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:44061)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kAg4S-000259-J3
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:01:36 -0400
-Received: by mail-pf1-x442.google.com with SMTP id t9so4129329pfq.8
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 14:01:31 -0700 (PDT)
+ id 1kAg4U-00025G-DD
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:01:38 -0400
+Received: by mail-pf1-x441.google.com with SMTP id p11so5119538pfn.11
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 14:01:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XYFF+nRDeDk80M21qSEoaFQq0JFdLsE3apwlxbKB9OI=;
- b=Gz82VMtPCylrr8JFVL1kGAtjMTu69kceqQ4FTzs2dJP3TU6qcK7Im7ifVq3yorhbvu
- 31ckriXBTjR37pcZicbjrdPk16p5KdoRI8wi3F4TVdQ7zo8paYt+SDKNAso/tiX8Mm3z
- 2N87IZXOdai+oavqYjD0Ejj3afyS65kb7o/QWmzz4SKq7kNy0KrKUoznXUZjhOPRKX5R
- zfBpzz41BP/PsRMPYPj8IjCVfsfHvO7U9DtczzDuczJ/eUVKS7DTx8qCoIa2oLXBOqtK
- 9LA/9rjZpEGdZAKGephIjdyJcBihrjHaBllfItLSWTTgte6tEbNLIJybcGOOQ0KFV7/2
- qkkg==
+ bh=/v81xo2Oa10INQECM2V7ceku/8UgY141rA25N+r+rLA=;
+ b=D4ZrkdnaxpNIEXYGaEYEQO2PUhsKUhwAPDSR1eUtbNKdlXq3cYhDWDjB03coFV45Ry
+ fyI7EkdqoqK6xUU+Q5KSU//B0Xk+IH5oWKr+zJNXyA96k0bU2QtU0hVxQMR62/X9VDe/
+ S5AiiHfBzlgvim8oDvTDmgXWzKZlJzlLaa8vM2UFw3EPR5Yk5/lNcx2PYYeu05ZAwd1S
+ ENF+QdsMzAPB8zWMnFzyn/KL9q1dEzabasYoI69bgNwKe9SXiLohYWLvCmEC3Q08N+YK
+ Lm3K5xyp2M8LHsT4bjrjM+7y8y86IzLQWK1JksaTPa8QcnX6Z/+fwjO64JDBGvbZ3EpG
+ WwfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XYFF+nRDeDk80M21qSEoaFQq0JFdLsE3apwlxbKB9OI=;
- b=ZVW2wVdldodynm+xAPcSS672fgRDS1LNX1Rjgf5kadh6FxppGm/DIxTkHJxLt8Up+r
- KAKBTsmmL5rhLYcVNWzBCvRBFl920GeOAArVOdC6qS9E1mhQOAfka/rvvFlSapF6XxTl
- Y/32uAxbes7s43OFIzOX2Cp7u7LCq8kUxo/xAUvmeUOlAs8hQWo77SavhvTilE+4MCrW
- pdFFBkFpOQMFKMWuloYaQThgX3O6KmFJjl7IumxAicE9IBjixX5/V1iA7CI+uRSiBhxA
- 7TB1suEhDijy1z/Kr3kvdbL0RpvFDisK4wc2YT3Tw3vrScn4D4TE+N1kZJnmDBd/FSr6
- OWXQ==
-X-Gm-Message-State: AOAM533PinB90C8qMPltSaLooWD0rYNjBmbN7MQsp+mBPBSNw7yRoREf
- p3JpxybBsJHOEJTg72EJWgkkLsyKa4d68A==
-X-Google-Smtp-Source: ABdhPJwken8sRhLjmqROkJlkkNI2rwlNWIQir6xjuse2SKvOH4i0WqHDZvreqS1L/HK/h6ShLL0low==
-X-Received: by 2002:aa7:9467:: with SMTP id t7mr9245560pfq.64.1598389290523;
- Tue, 25 Aug 2020 14:01:30 -0700 (PDT)
+ bh=/v81xo2Oa10INQECM2V7ceku/8UgY141rA25N+r+rLA=;
+ b=j3NLPs7TSbs3KY2p3EuI7j4Pu0CmFhp2vxLYMJ5Dyo4g4n07MvryrGGGqJgwuR4e6y
+ DdTjaxv4zN2jeC+wWl2RN6ZSdfYC9JTCdtnzdo4VFgdey20WSgLsk5iTHqgs0a7JgtdH
+ c6vecGe8zTx6ZWpVGMM3F4NHtOufxnEUETvxB+Cig4pwvor/NbAj3NeHn2BUdp16ObJI
+ dLxZPH3hggl8QipX8OzDN/3s1h050khpFQGk+Q++na+7hiGSnhOpx19Qe6quck3lb15n
+ ZqoxmiJGR+yih8fwhEuWZhGB9EZEPT+7leU8//cCJek2hkxWvch7jBCa90LmjoRSX0Te
+ J22w==
+X-Gm-Message-State: AOAM531hT0VvyWed7uqvSK6l26A9qSy2i+TCMzyGeIJpEZoO+caZeWLL
+ 6SGUHrDmthGUlUs++4r65JY+ARwXfNp+9Q==
+X-Google-Smtp-Source: ABdhPJyEypa2GPtIaZR15xxg3c45j3PzdwH6MHCIdh4Tby8ITk/T1vH8gACo6S6y5hoRZi/W5DsT5g==
+X-Received: by 2002:aa7:9552:: with SMTP id w18mr9378716pfq.150.1598389291895; 
+ Tue, 25 Aug 2020 14:01:31 -0700 (PDT)
 Received: from localhost.localdomain
  (h216-228-167-147.bendor.dedicated.static.tds.net. [216.228.167.147])
- by smtp.gmail.com with ESMTPSA id k4sm16074pgr.87.2020.08.25.14.01.29
+ by smtp.gmail.com with ESMTPSA id k4sm16074pgr.87.2020.08.25.14.01.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Aug 2020 14:01:29 -0700 (PDT)
+ Tue, 25 Aug 2020 14:01:31 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 75/77] target/microblaze: Remove cpu_R[0]
-Date: Tue, 25 Aug 2020 13:59:48 -0700
-Message-Id: <20200825205950.730499-76-richard.henderson@linaro.org>
+Subject: [PATCH 76/77] target/microblaze: Add flags markup to some helpers
+Date: Tue, 25 Aug 2020 13:59:49 -0700
+Message-Id: <20200825205950.730499-77-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200825205950.730499-1-richard.henderson@linaro.org>
 References: <20200825205950.730499-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x442.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,33 +89,34 @@ Cc: edgar.iglesias@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do not initialize cpu_R[0], as this should be totally unused.
-The cpu_for_read and cpu_for_write functions use a local temp.
+The mmu_read, mmu_write, get, and put helpers do not touch the
+general registers, or any of the other variables managed by tcg.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/translate.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ target/microblaze/helper.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index 2df22e8c2a..c8eb68ce4b 100644
---- a/target/microblaze/translate.c
-+++ b/target/microblaze/translate.c
-@@ -1875,7 +1875,13 @@ void mb_tcg_init(void)
-     static const struct {
-         TCGv_i32 *var; int ofs; char name[8];
-     } i32s[] = {
--        R(0),  R(1),  R(2),  R(3),  R(4),  R(5),  R(6),  R(7),
-+        /*
-+         * Note that r0 is handled specially in reg_for_read
-+         * and reg_for_write.  Nothing should touch cpu_R[0].
-+         * Leave that element NULL, which will assert quickly
-+         * inside the tcg generator functions.
-+         */
-+               R(1),  R(2),  R(3),  R(4),  R(5),  R(6),  R(7),
-         R(8),  R(9),  R(10), R(11), R(12), R(13), R(14), R(15),
-         R(16), R(17), R(18), R(19), R(20), R(21), R(22), R(23),
-         R(24), R(25), R(26), R(27), R(28), R(29), R(30), R(31),
+diff --git a/target/microblaze/helper.h b/target/microblaze/helper.h
+index 3980fba797..f740835fcb 100644
+--- a/target/microblaze/helper.h
++++ b/target/microblaze/helper.h
+@@ -21,11 +21,11 @@ DEF_HELPER_FLAGS_3(fcmp_ge, TCG_CALL_NO_WG, i32, env, i32, i32)
+ 
+ DEF_HELPER_FLAGS_2(pcmpbf, TCG_CALL_NO_RWG_SE, i32, i32, i32)
+ #if !defined(CONFIG_USER_ONLY)
+-DEF_HELPER_3(mmu_read, i32, env, i32, i32)
+-DEF_HELPER_4(mmu_write, void, env, i32, i32, i32)
++DEF_HELPER_FLAGS_3(mmu_read, TCG_CALL_NO_RWG, i32, env, i32, i32)
++DEF_HELPER_FLAGS_4(mmu_write, TCG_CALL_NO_RWG, void, env, i32, i32, i32)
+ #endif
+ 
+ DEF_HELPER_FLAGS_2(stackprot, TCG_CALL_NO_WG, void, env, tl)
+ 
+-DEF_HELPER_2(get, i32, i32, i32)
+-DEF_HELPER_3(put, void, i32, i32, i32)
++DEF_HELPER_FLAGS_2(get, TCG_CALL_NO_RWG, i32, i32, i32)
++DEF_HELPER_FLAGS_3(put, TCG_CALL_NO_RWG, void, i32, i32, i32)
 -- 
 2.25.1
 
