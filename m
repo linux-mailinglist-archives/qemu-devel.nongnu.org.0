@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1072251798
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 13:30:50 +0200 (CEST)
-Received: from localhost ([::1]:46244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 506412517B2
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 13:33:11 +0200 (CEST)
+Received: from localhost ([::1]:55546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAXA9-0008Uq-1L
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 07:30:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46780)
+	id 1kAXCQ-0003zt-D6
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 07:33:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kAX5q-0000Vq-2s; Tue, 25 Aug 2020 07:26:22 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:40248 helo=huawei.com)
+ id 1kAX5r-0000Ya-QJ; Tue, 25 Aug 2020 07:26:24 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:40766 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kAX5k-0006eR-FU; Tue, 25 Aug 2020 07:26:21 -0400
+ id 1kAX5o-0006hs-K9; Tue, 25 Aug 2020 07:26:23 -0400
 Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id F0D982BDE2BAB82EB41A;
- Tue, 25 Aug 2020 19:26:03 +0800 (CST)
+ by Forcepoint Email with ESMTP id 246F057BE1E5EF3D7E58;
+ Tue, 25 Aug 2020 19:26:14 +0800 (CST)
 Received: from huawei.com (10.175.104.175) by DGGEMS414-HUB.china.huawei.com
  (10.3.19.214) with Microsoft SMTP Server id 14.3.487.0; Tue, 25 Aug 2020
- 19:25:57 +0800
+ 19:26:03 +0800
 From: Chen Qun <kuhn.chenqun@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH v2 02/10] hw/arm/omap1:Remove redundant statement in
- omap_clkdsp_read()
-Date: Tue, 25 Aug 2020 19:24:39 +0800
-Message-ID: <20200825112447.126308-3-kuhn.chenqun@huawei.com>
+Subject: [PATCH v2 06/10] hw/net/virtio-net:Remove redundant statement in
+ virtio_net_rsc_tcp_ctrl_check()
+Date: Tue, 25 Aug 2020 19:24:43 +0800
+Message-ID: <20200825112447.126308-7-kuhn.chenqun@huawei.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200825112447.126308-1-kuhn.chenqun@huawei.com>
 References: <20200825112447.126308-1-kuhn.chenqun@huawei.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-Originating-IP: [10.175.104.175]
 X-CFilter-Loop: Reflected
 Received-SPF: pass client-ip=45.249.212.35;
@@ -59,39 +59,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, zhang.zhanghailiang@huawei.com,
- pannengyuan@huawei.com, qemu-arm@nongnu.org,
- Euler Robot <euler.robot@huawei.com>, Chen Qun <kuhn.chenqun@huawei.com>
+Cc: zhang.zhanghailiang@huawei.com, "Michael S.
+ Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ pannengyuan@huawei.com, Euler Robot <euler.robot@huawei.com>,
+ Chen Qun <kuhn.chenqun@huawei.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Clang static code analyzer show warning:
-hw/arm/omap1.c:1760:15: warning: Value stored to 'cpu' during its
-initialization is never read
-    CPUState *cpu = CPU(s->cpu);
-              ^~~   ~~~~~~~~~~~
+hw/net/virtio-net.c:2077:5: warning: Value stored to 'tcp_flag' is never read
+    tcp_flag &= VIRTIO_NET_TCP_FLAG;
+    ^           ~~~~~~~~~~~~~~~~~~~
+
+The 'VIRTIO_NET_TCP_FLAG' is '0x3F'. The last ‘tcp_flag’ assignment statement is
+ the same as that of the first two statements.
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-arm@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>
 ---
- hw/arm/omap1.c | 1 -
+ hw/net/virtio-net.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/hw/arm/omap1.c b/hw/arm/omap1.c
-index 6ba0df6b6d..02c0f66431 100644
---- a/hw/arm/omap1.c
-+++ b/hw/arm/omap1.c
-@@ -1774,7 +1774,6 @@ static uint64_t omap_clkdsp_read(void *opaque, hwaddr addr,
-         return s->clkm.dsp_rstct2;
- 
-     case 0x18:	/* DSP_SYSST */
--        cpu = CPU(s->cpu);
-         return (s->clkm.clocking_scheme << 11) | s->clkm.cold_start |
-                 (cpu->halted << 6);      /* Quite useless... */
-     }
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index a1fe9e9285..cb0d27084c 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -2075,7 +2075,6 @@ static int virtio_net_rsc_tcp_ctrl_check(VirtioNetRscChain *chain,
+     tcp_flag = htons(tcp->th_offset_flags);
+     tcp_hdr = (tcp_flag & VIRTIO_NET_TCP_HDR_LENGTH) >> 10;
+     tcp_flag &= VIRTIO_NET_TCP_FLAG;
+-    tcp_flag = htons(tcp->th_offset_flags) & 0x3F;
+     if (tcp_flag & TH_SYN) {
+         chain->stat.tcp_syn++;
+         return RSC_BYPASS;
 -- 
 2.23.0
 
