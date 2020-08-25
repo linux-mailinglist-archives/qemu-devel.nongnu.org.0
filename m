@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2C92251DA3
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 18:55:12 +0200 (CEST)
-Received: from localhost ([::1]:57576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 326B1251DA6
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 18:56:16 +0200 (CEST)
+Received: from localhost ([::1]:34532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAcE3-0002Jm-MP
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 12:55:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58474)
+	id 1kAcF5-0004XH-7F
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 12:56:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kAcD1-00017Q-PT
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 12:54:07 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:40815)
+ id 1kAcD4-0001BJ-5J
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 12:54:10 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:39837)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kAcD0-0003fb-6Q
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 12:54:07 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id h12so7229681pgm.7
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 09:54:05 -0700 (PDT)
+ id 1kAcD2-0003g0-KY
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 12:54:09 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id j13so1535513pjd.4
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 09:54:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5EU+iN7Rjwb8vHvybFENyYEoG6wKKZBygxn/P8M+ZLw=;
- b=qL+3KK6vayAx6K/Q77UmCkwnlV98CpiYY87x4B0bLtt4pUsgn8B29N2MkFYizRYI2w
- f+IYMotUh9O3lpuhEfWWf5xaZz04tjioRkqxyRFM8lBmHrN3Adji0Kr0T/g0AzftdH9S
- uqy4VNhgyZUCI25BZNBXuEgi+t9EPnGKLPGTG4amKSGBVHWpMun2wAspKMeiPnGFH0aq
- IKbFz9zMD6eMdji1lsvhRFQWJDVBCF7OGN7eYNj3QQqeOwrBrVvWJjWVyRSeBGUcfUJg
- IgnaY1pdXjaSvGQf90b72S3xub6TKjU6mCumVa7K4JCo5BRqC7URJLkwn5309iPV0Yg/
- pz4w==
+ bh=XRpRfNQbgoJsRKfqSFaFNZt4aTrq25ysudP80W63BlA=;
+ b=UW0PYfH+4Do+KZru0RhDAA+O3sqo0zCdVS37UudBs67TdAPFOtT4hX/Iq61zYezTwx
+ /t1xRbeWNuwdBEzRSNbM1WhedDGt9gwhRyPOanrY1GU8e3Qqbvfa7mtDPYDc5F4Nv+B7
+ 2T3WgxAFDLKpVYKegC4sLSGWuKm++JFrqekSmtrVEzkTUoUi7V+66sFzH/dXErzxeX/e
+ fNyfKkGIV/MFlauEGwENu5HW6nJiOSfSUM72ffmnP4eTQBojtjbKHQqSO6XDWZ3E+L1b
+ ze5m0+RWlqaW91FufIkP6BtTEXpLzCFCKmIMAlQx/EQPgQ4rsSXnZiRn2dTx0Qttr8Po
+ HjKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5EU+iN7Rjwb8vHvybFENyYEoG6wKKZBygxn/P8M+ZLw=;
- b=N8gT3unX78ntFXiuNbDJseYlvImLfVXBByUyFk61crE7NCVKzyzuinxQJZpRVlD8Ah
- giNmu1d9YLQP6Za7TkKN7pEb6MtDSS1WD6rfaTlgTGmnde02VH4RW4JrlHf5Wot7BuJc
- FaFLWrXbdPEIXGAvs3Ty3HMmizGh6pk6PZsrPNIou1zgSIFituZsvmMWgXIz/cVo0+bm
- aJavkrnRYL6XDdgpkZLIQXoB8eB7S5Vi+Mvrs9uyS4S/isEP2NkdoXCEKSWC4i1xeg02
- k3DH7y2EtR4S0WVXqw3I8c473Uet+qdp1+C0CZkIGcQnpWWUjZTKeH8GpgVc128Zb4F+
- 3dSQ==
-X-Gm-Message-State: AOAM5314hmeGtGEYaYLJgw26cIHahjCR7tmy4ZZ/Y+qXpiuOo6Rr+5JL
- bY8S3knz8CYRFCZ1Y+tdh61MT5vnzNXruuACnqk=
-X-Google-Smtp-Source: ABdhPJxqwDwpHYF2VPB+TT8sCBC9YW7f4tqBjlFFpNbVkn4HbXTdEjDBQuyr9evHPWBD4ZaCdv8OGw==
-X-Received: by 2002:a17:902:d341:: with SMTP id
- l1mr7497165plk.36.1598374444231; 
- Tue, 25 Aug 2020 09:54:04 -0700 (PDT)
+ bh=XRpRfNQbgoJsRKfqSFaFNZt4aTrq25ysudP80W63BlA=;
+ b=uRnq+hV08IJlEs5r3l8S9IEB0VM0sz8bh61HSo8NftDOdPUlcaT1dOYZdwEB4FIViH
+ I6OYDKCtKTcMGDTot5y3LFotqFpGWNsveHZbStsfS4LU7DYS1DZfitt+jeUB6SZ/WM8T
+ 6gKB9tVbljjUoSyRPCyraZHxl8ilByyUJtbUO5md1I55po/3fNNaOZ0Kaw6QIOVtmeNC
+ xsXLTq6syK+xLZLaswb/Q+77faQCu+sWq41Y6LMxcUVdf/GLGWGVSUQNldTJ5KxA3wcM
+ v/Tl/bHuhE87WPfnxVyKZR1t/D9p4mhar7bjfoBN+gU9eBkdl3xYLGl5RxzP9woKV31w
+ ggog==
+X-Gm-Message-State: AOAM530Ns/CV0Fawh3j/oLfcGvfzCGfQCFAVix+iJgUGeCtI6RiMA9ZA
+ kOTvE+tCB7MmPTVwInEw0Ehb4OEblCLMFKueGiM=
+X-Google-Smtp-Source: ABdhPJxJLGxml9TkEdamMlVcmGc4DQuf8MMVUhQB0FGY41LxKOoG6TIBwhXHsLVmr5pK3OwwevZeHQ==
+X-Received: by 2002:a17:90a:a61:: with SMTP id
+ o88mr2369044pjo.201.1598374446648; 
+ Tue, 25 Aug 2020 09:54:06 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
  by smtp.googlemail.com with ESMTPSA id
- 193sm15988527pfu.169.2020.08.25.09.54.02
+ 193sm15988527pfu.169.2020.08.25.09.54.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Aug 2020 09:54:03 -0700 (PDT)
+ Tue, 25 Aug 2020 09:54:05 -0700 (PDT)
 From: luoyonggang@gmail.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/4] meson: fixes relpath may fail on win32.
-Date: Wed, 26 Aug 2020 00:53:39 +0800
-Message-Id: <20200825165341.520-2-luoyonggang@gmail.com>
+Subject: [PATCH 3/4] meson: Mingw64 gcc doesn't recognize system include_type
+ for sdl2
+Date: Wed, 26 Aug 2020 00:53:40 +0800
+Message-Id: <20200825165341.520-3-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.27.0.windows.1
 In-Reply-To: <20200825165341.520-1-luoyonggang@gmail.com>
 References: <20200825165341.520-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x1029.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -93,36 +94,25 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Yonggang Luo <luoyonggang@gmail.com>
 
-On win32, os.path.relpath would raise exception when do the following relpath:
-C:/msys64/mingw64/x.exe relative to E:/path/qemu-build would fail.
-So we try catch it for stopping it from raise exception on msys2
+Fixes this for msys2/mingw64 by remove the include_type for sdl2 discovery in meson
 ---
- scripts/mtest2make.py | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ meson.build | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/scripts/mtest2make.py b/scripts/mtest2make.py
-index bdb257bbd9..d7a51bf97e 100644
---- a/scripts/mtest2make.py
-+++ b/scripts/mtest2make.py
-@@ -53,9 +53,16 @@ i = 0
- for test in json.load(sys.stdin):
-     env = ' '.join(('%s=%s' % (shlex.quote(k), shlex.quote(v))
-                     for k, v in test['env'].items()))
--    executable = os.path.relpath(test['cmd'][0])
-+    executable = test['cmd'][0]
-+    try:
-+        executable = os.path.relpath(executable)
-+    except:
-+        pass
-     if test['workdir'] is not None:
--        test['cmd'][0] = os.path.relpath(test['cmd'][0], test['workdir'])
-+        try:
-+            test['cmd'][0] = os.path.relpath(executable, test['workdir'])
-+        except:
-+            test['cmd'][0] = executable
-     else:
-         test['cmd'][0] = executable
-     cmd = '$(.test.env) %s %s' % (env, ' '.join((shlex.quote(x) for x in test['cmd'])))
+diff --git a/meson.build b/meson.build
+index f0fe5f8799..1644bbd83c 100644
+--- a/meson.build
++++ b/meson.build
+@@ -224,8 +224,7 @@ if 'CONFIG_BRLAPI' in config_host
+   brlapi = declare_dependency(link_args: config_host['BRLAPI_LIBS'].split())
+ endif
+ 
+-sdl = dependency('sdl2', required: get_option('sdl'), static: enable_static,
+-                 include_type: 'system')
++sdl = dependency('sdl2', required: get_option('sdl'), static: enable_static)
+ sdl_image = not_found
+ if sdl.found()
+   # work around 2.0.8 bug
 -- 
 2.27.0.windows.1
 
