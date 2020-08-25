@@ -2,76 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA80A251B09
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 16:40:59 +0200 (CEST)
-Received: from localhost ([::1]:53208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E1E5251BA0
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 16:58:18 +0200 (CEST)
+Received: from localhost ([::1]:36812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAa8A-0001zM-WB
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 10:40:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43060)
+	id 1kAaOv-00031d-Ho
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 10:58:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kAa7H-00012M-Ih
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 10:40:03 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:60240
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kAa7G-0006cq-1i
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 10:40:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598366400;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DtZUDai+s7L6QNSMrmPh12MI6mIeUr/342AVDTJ+krw=;
- b=chGwryvbPubBmBxHr4LYjML87gyd0Cgn1Twt0TliVbwtr0I2HWKkGRcopwHOuaUBuTROjn
- 61d5zGNw/nYYCuATxsQq1M+86rdTJGjnHZvqQK34lE0WL9SwUlffiJuTYrn2KDBWZaxAND
- PeYmmQTXpRYS+0a4iCoizCssN+ZMmT0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-238--XibY0vnNqeGH-cAKH_TmA-1; Tue, 25 Aug 2020 10:39:58 -0400
-X-MC-Unique: -XibY0vnNqeGH-cAKH_TmA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA36E2FD03;
- Tue, 25 Aug 2020 14:39:57 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-74.ams2.redhat.com
- [10.36.112.74])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D03595D9CA;
- Tue, 25 Aug 2020 14:39:54 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 64C5E112D737; Tue, 25 Aug 2020 16:39:53 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Chen Qun <kuhn.chenqun@huawei.com>
-Subject: Re: [PATCH v2 08/10] usb/bus: Remove dead assignment in
- usb_get_fw_dev_path()
-References: <20200825112447.126308-1-kuhn.chenqun@huawei.com>
- <20200825112447.126308-9-kuhn.chenqun@huawei.com>
-Date: Tue, 25 Aug 2020 16:39:53 +0200
-In-Reply-To: <20200825112447.126308-9-kuhn.chenqun@huawei.com> (Chen Qun's
- message of "Tue, 25 Aug 2020 19:24:45 +0800")
-Message-ID: <87r1rudc1y.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
+ id 1kAaNz-00028f-0y
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 10:57:19 -0400
+Received: from mail-eopbgr750103.outbound.protection.outlook.com
+ ([40.107.75.103]:21762 helo=NAM02-BL2-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
+ id 1kAaNu-0001Zv-37
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 10:57:18 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BHZa8JyDf5QpVD7+rInQG94BUlL+/mXvmObxHa357TD4b/eHaRGSoHYcxH3cMznocUKjIkvRzdBifapEdC5oZODUVjr911X5eQPi74j9gXbJ2efS+DSwOWPDqNYUcT3Wlk8g57YgojPJQ0aVsd200nNYS9ZXBYKIL+BehK5sCPryIGS+DnS0iL7M4zwR8e4NpV6HtChg+lRCauCFLYBmG8tXuv7IjfwhH7ui9NYqkUR4d18QNDN1CnXbo72ixxquDrFa8ihUYY6+aqVmEi5Vcf9/tPrEsyWeuovMgwoEMYV7X46grfiG4BHuI4ech6OIFHn8MkYa3ccaZoNySOaM+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XYxU3ckPGD5Q9UxF9NkyYzNMdOXSqfWdPIalCIsD6mI=;
+ b=PvnZl8scixXV2fVNHVlSzeuemr50Oijx48aSvKFRuSSoz2uxn7A0bd+SzZSwgorZxgF4Fxa8kWg8NHIRM4El2vd3VSx8IamheTl1OXD4OfAhjc/IYyyrSwwmhnFz5Rt+9BHlxOEUM0/MziOf+imcVfhEPihGPW0I2/rgDu4vGZVUficjqX3QM9c/V+TJEW6KcDEjTOe0coAC2aq2Uf0+Fnigp5rHrDN3xBHys0kqxtsvC0KL/wTeyhWTZk01eUwaPrfdtlIL5teWcsgPkceLBdBejIQCJYc9cw8ftmmIDe/CBUO6lrKdNjEn+RO46PulqHhhFWxCJFvOcLY74Xa77A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XYxU3ckPGD5Q9UxF9NkyYzNMdOXSqfWdPIalCIsD6mI=;
+ b=bptGfYgfWBATq7U+0Z+JwdrEsXD8QVTS35ZJNe3crNhddoqKYeGT86J2xvGOkpP7vqpFOyLkGdkP0QbLxQgWxyPAjDe2GRqpFgFc7XHRFwCUWC9E6bGTTEx5NfzS0zDzOswp4osZ/1y9D28u801mIss5BXVPzzJu7wjl7GJtHWU=
+Authentication-Results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none
+ header.from=os.amperecomputing.com;
+Received: from SN6PR01MB4304.prod.exchangelabs.com (2603:10b6:805:a6::23) by
+ SN6PR01MB3790.prod.exchangelabs.com (2603:10b6:805:26::22) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3305.26; Tue, 25 Aug 2020 14:42:08 +0000
+Received: from SN6PR01MB4304.prod.exchangelabs.com
+ ([fe80::447c:afdb:2702:e275]) by SN6PR01MB4304.prod.exchangelabs.com
+ ([fe80::447c:afdb:2702:e275%5]) with mapi id 15.20.3305.032; Tue, 25 Aug 2020
+ 14:42:08 +0000
+Date: Tue, 25 Aug 2020 10:41:06 -0400
+From: Aaron Lindsay <aaron@os.amperecomputing.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
+Subject: Re: [PULL 39/49] target/arm: Filter cycle counter based on
+ PMCCFILTR_EL0
+Message-ID: <20200825144106.GI2714117@strawberry.localdomain>
+References: <20190118145805.6852-1-peter.maydell@linaro.org>
+ <20190118145805.6852-40-peter.maydell@linaro.org>
+ <CAFEAcA9jUpJF4FQirb3avWJAMjh+AdkimW3DgMyMjbDjBCQSvQ@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA9jUpJF4FQirb3avWJAMjh+AdkimW3DgMyMjbDjBCQSvQ@mail.gmail.com>
+X-ClientProxiedBy: MN2PR08CA0021.namprd08.prod.outlook.com
+ (2603:10b6:208:239::26) To SN6PR01MB4304.prod.exchangelabs.com
+ (2603:10b6:805:a6::23)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 01:35:36
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.958,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from 255.255.255.255 (255.255.255.255) by
+ MN2PR08CA0021.namprd08.prod.outlook.com (2603:10b6:208:239::26) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.25 via Frontend
+ Transport; Tue, 25 Aug 2020 14:42:08 +0000
+X-Originating-IP: [68.73.113.219]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: fd5f3865-9658-43c6-b27c-08d849050b35
+X-MS-TrafficTypeDiagnostic: SN6PR01MB3790:
+X-Microsoft-Antispam-PRVS: <SN6PR01MB379033474F4F8CAE5CF88FF58A570@SN6PR01MB3790.prod.exchangelabs.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: vmCFDiV6GOMggZ8tsYsaCOws3qL2sNHQAGSkc6ZV+wsfWyoVbXdELjxXjI1vTvEpFhy+UkcvKvPmWKe1SgKPhaER53t5HPPR6pYWSbkjqgd0QSlw8d+pKSwdqEZHaKSqxYpPbl++1KE4TW+tz2yx49evG7fl30aVOJWWqDge71Y4U1luJsn4v8aKn9c9XoTGbUIYZP2n3BOXHTIwu2kzLbf+JvUw0AHttJWUEdx08bgyaIG/DXvYjantTGJwrjl3lABD18/3pNpHJ5SCRKpe3kSPNDvMjbN/Ei8RuSdtWEJoAFglrGEX+yEMqyFkJRjiBQQwiYD6jIq4wIGMDYtB9w==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR01MB4304.prod.exchangelabs.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(136003)(346002)(39840400004)(366004)(396003)(186003)(6916009)(66556008)(66476007)(86362001)(6486002)(4326008)(83380400001)(26005)(33656002)(52116002)(66946007)(956004)(16576012)(19627235002)(8936002)(9686003)(1076003)(2906002)(478600001)(316002)(5660300002)(8676002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: PhyT5YM3RUCuO9SYMt0X+JKERojAcWMevHt77Wkfd/x0uAYCDDQ/ytXDAOqsabi69UuYcT9UxPZfS8OpTpRwavT4ohEkQGaIgy728yywHp+qv1nBP5RitMpXQB/MFO7wjjxZp///WSLcop174C1y9WR4YvfywSp9r0kArHilYNuG1zFEdWQH4I480wUWf0v0/NVoKfQkaxWmzC4gSvXl41wTdIAb9kRmwcOoHRa3omPxJMGDA2u9IsJhZ8Qi5zqSuAX7ciB5v9nb9di80YlO4XgeTQZk5HQ9VMXxeYJyEfUk9FjyNvUzL3rZ8DsVZI0nL8aSmlVUB/HZiMEwSD0X6eiMT7FM+udXz3tPyJ/BL6jTb9HSLKZIn0WulykL8Jqq6shD7PDoDywCv67O9nZbPhxB+nbcnBoQbOaRXk/TE9m3nLQZgX3N3dmK53tdrW2dg3OXCR4pkoko4I6NCtpNTIR2y9MndmvL81ShkXT9X/biCLR1Mf272ueYiBlujRj4ddxqT4NFxV6YgqCurSdtRQ/53PFWPx6h/h9YObC1VrwtZdHedxRCn2b0z17x5gli5aX4LcLQf7JZ/ArfDheZkxXwj41Xas6yENEgyXv+iOlUzlJqfU/Q+P1sWAg0ju3Up4SCh8Bddni2QFZl0SEnKg==
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fd5f3865-9658-43c6-b27c-08d849050b35
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR01MB4304.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2020 14:42:08.6476 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LPSqxOI7wxITrrrbJ6n/hrN64OVdIcgWJUCh7Y1SRo1PVapL6IBgETBOy83UcfyNlpayjqTkpyp50JhtqaODAgA4kW4/+FGSG/hSjxFOZds=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR01MB3790
+Received-SPF: pass client-ip=40.107.75.103;
+ envelope-from=aaron@os.amperecomputing.com;
+ helo=NAM02-BL2-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 10:57:12
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, MSGID_FROM_MTA_HEADER=0.001,
+ RCVD_ILLEGAL_IP=1.3, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,55 +118,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, qemu-trivial@nongnu.org,
- pannengyuan@huawei.com, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Chen Qun <kuhn.chenqun@huawei.com> writes:
+On Aug 24 17:33, Peter Maydell wrote:
+> On Fri, 18 Jan 2019 at 14:58, Peter Maydell <peter.maydell@linaro.org> wrote:
+> >
+> > From: Aaron Lindsay <aaron@os.amperecomputing.com>
+> >
+> > Rename arm_ccnt_enabled to pmu_counter_enabled, and add logic to only
+> > return 'true' if the specified counter is enabled and neither prohibited
+> > or filtered.
+> >
+> > Signed-off-by: Aaron Lindsay <alindsay@codeaurora.org>
+> > Signed-off-by: Aaron Lindsay <aclindsa@gmail.com>
+> > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> > Message-id: 20181211151945.29137-5-aaron@os.amperecomputing.com
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> 
+> Hi Aaron; I've just had somebody report what seems like a bug
+> in this code from last year:
+> 
+> > +/* Returns true if the counter (pass 31 for PMCCNTR) should count events using
+> > + * the current EL, security state, and register configuration.
+> > + */
+> > +static bool pmu_counter_enabled(CPUARMState *env, uint8_t counter)
+> >  {
+> > -    /* This does not support checking PMCCFILTR_EL0 register */
+> > +    uint64_t filter;
+> > +    bool e, p, u, nsk, nsu, nsh, m;
+> > +    bool enabled, prohibited, filtered;
+> > +    bool secure = arm_is_secure(env);
+> > +    int el = arm_current_el(env);
+> > +    uint8_t hpmn = env->cp15.mdcr_el2 & MDCR_HPMN;
+> >
+> > -    if (!(env->cp15.c9_pmcr & PMCRE) || !(env->cp15.c9_pmcnten & (1 << 31))) {
+> > -        return false;
+> > +    if (!arm_feature(env, ARM_FEATURE_EL2) ||
+> > +            (counter < hpmn || counter == 31)) {
+> > +        e = env->cp15.c9_pmcr & PMCRE;
+> > +    } else {
+> > +        e = env->cp15.mdcr_el2 & MDCR_HPME;
+> > +    }
+> > +    enabled = e && (env->cp15.c9_pmcnten & (1 << counter));
+> > +
+> > +    if (!secure) {
+> > +        if (el == 2 && (counter < hpmn || counter == 31)) {
+> > +            prohibited = env->cp15.mdcr_el2 & MDCR_HPMD;
+> > +        } else {
+> > +            prohibited = false;
+> > +        }
+> > +    } else {
+> > +        prohibited = arm_feature(env, ARM_FEATURE_EL3) &&
+> > +           (env->cp15.mdcr_el3 & MDCR_SPME);
+> 
+> The Arm ARM says that MDCR.SPME is 0 to prohibit secure-state
+> event counting, and 1 to enable it.  So shouldn't this test
+> be "!(env->cp15.mdcr_el3 & MDCR_SPME)" ?
+> 
+> (compare also the AArch32.CountEvents pseudocode, which has
+> a test "HaveEL3(EL3) && ISSecure() && spme == '0' &&...")
 
-> Clang static code analyzer show warning:
-> qemu/hw/usb/bus.c:615:13: warning: Value stored to 'pos' is never read
->             pos += snprintf(fw_path + pos, fw_len - pos, "%s@%lx",
->
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-> ---
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Markus Armbruster <armbru@redhat.com>
-> ---
->  hw/usb/bus.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/usb/bus.c b/hw/usb/bus.c
-> index b17bda3b29..7bab0499ad 100644
-> --- a/hw/usb/bus.c
-> +++ b/hw/usb/bus.c
-> @@ -612,8 +612,8 @@ static char *usb_get_fw_dev_path(DeviceState *qdev)
-           if (in[0] == '.') {
-               /* some hub between root port and device */
-               pos += snprintf(fw_path + pos, fw_len - pos, "hub@%lx/", nr);
->              in++;
->          } else {
->              /* the device itself */
-> -            pos += snprintf(fw_path + pos, fw_len - pos, "%s@%lx",
-> -                            qdev_fw_name(qdev), nr);
-> +            snprintf(fw_path + pos, fw_len - pos, "%s@%lx", qdev_fw_name(qdev),
-> +                     nr);
->              break;
->          }
->      }
+I agree my original patch was incorrect. My guess is that I overlooked
+the trailing D changing to an E and got caught assuming MDCR_HPMD and
+MDCR_SPME both prohibited counting when set. Sending a fix separately.
 
-I'd prefer to keep the line break where it is:
-
-            snprintf(fw_path + pos, fw_len - pos, "%s@%lx",
-                     qdev_fw_name(qdev), nr);
-
-The patch is safe, so
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-
-The loss of symmetry betwen the two arms of the if is a bit sad.  Up to
-Gerd.
-
+-Aaron
 
