@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 179482520DF
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 21:45:41 +0200 (CEST)
-Received: from localhost ([::1]:39610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D034252006
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 21:32:56 +0200 (CEST)
+Received: from localhost ([::1]:53050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAet2-0006vj-42
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 15:45:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40228)
+	id 1kAegh-0003a0-9j
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 15:32:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kAeWl-0000wj-RJ
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:22:39 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:57844
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1kAeWn-000126-VO
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:22:42 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45223
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kAeWk-0006GG-5K
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:22:39 -0400
+ id 1kAeWm-0006GV-6f
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:22:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598383357;
+ s=mimecast20190719; t=1598383359;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FKzNexuEKRGmv8jDFpbBZMTEQ7p81HwsDJ1ZruYjsio=;
- b=MwmSCJ7jZSj5uFllaP7vv6rSOZCBIMNzakt7IeFhmhOfb4IjadJP8iJdc8nWGMNNIf6lkD
- nAD1jF9pRACk/yUNinE628bPSi1TWL+14mqrO1hC9y5nP14XZoTrUx3OznGbQ6mrZREIZo
- L/4IJn8HrZZ7Q+5vUBwN6mRFnpcJ0c8=
+ bh=j7jxWsd+4Vv1z1kMVpfwSu0v0+QLEqdE31XUalig0dM=;
+ b=HX2GVgMPu7+E5GQZSUnu6ZByxqMeKk9uXaOgydj/38SzWNrEzdWUZR5EVms6z+AMtu0u1y
+ +WaKL1/oqImiCFQ0RvDGQtvDJCBgGB2SUe3GBiwGCvN0T77FZTYzKgsXZHOGiYGEeBTP5x
+ pTQqObj6IMopAqPH1efZoGNrddrs6qQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-343-ky5-Van1OpaEGheFFNgpoQ-1; Tue, 25 Aug 2020 15:22:35 -0400
-X-MC-Unique: ky5-Van1OpaEGheFFNgpoQ-1
+ us-mta-499-F-ylC1sLNFKZw3b9l6sY6A-1; Tue, 25 Aug 2020 15:22:37 -0400
+X-MC-Unique: F-ylC1sLNFKZw3b9l6sY6A-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ADD001895A26;
- Tue, 25 Aug 2020 19:22:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5350D800475;
+ Tue, 25 Aug 2020 19:22:36 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5BFA210013C2;
- Tue, 25 Aug 2020 19:22:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A9FD51002D49;
+ Tue, 25 Aug 2020 19:22:35 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 35/74] virtio-serial-bus: Move QOM macros to header
-Date: Tue, 25 Aug 2020 15:20:31 -0400
-Message-Id: <20200825192110.3528606-36-ehabkost@redhat.com>
+Subject: [PATCH v3 36/74] piix: Move QOM macros to header
+Date: Tue, 25 Aug 2020 15:20:32 -0400
+Message-Id: <20200825192110.3528606-37-ehabkost@redhat.com>
 In-Reply-To: <20200825192110.3528606-1-ehabkost@redhat.com>
 References: <20200825192110.3528606-1-ehabkost@redhat.com>
 MIME-Version: 1.0
@@ -58,17 +58,17 @@ X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 15:21:30
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 01:37:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.958,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,16 +81,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Amit Shah <amit@kernel.org>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This will make future conversion to OBJECT_DECLARE* easier.
 
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
@@ -98,49 +102,48 @@ Changes v2 -> v3: none
 
 Changes series v1 -> v2: new patch in series v2
 
-Cc: Laurent Vivier <lvivier@redhat.com>
-Cc: Amit Shah <amit@kernel.org>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: "Marc-André Lureau" <marcandre.lureau@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Cc: "Hervé Poussineau" <hpoussin@reactos.org>
+Cc: "Philippe Mathieu-Daudé" <philmd@redhat.com>
+Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Cc: Aurelien Jarno <aurelien@aurel32.net>
 Cc: qemu-devel@nongnu.org
 ---
- include/hw/virtio/virtio-serial.h | 5 +++++
- hw/char/virtio-serial-bus.c       | 4 ----
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ include/hw/southbridge/piix.h | 4 ++++
+ hw/isa/piix3.c                | 4 ----
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/virtio/virtio-serial.h b/include/hw/virtio/virtio-serial.h
-index ed3e916b68..448615a6b3 100644
---- a/include/hw/virtio/virtio-serial.h
-+++ b/include/hw/virtio/virtio-serial.h
-@@ -33,7 +33,12 @@ struct virtio_serial_conf {
-      OBJECT_GET_CLASS(VirtIOSerialPortClass, (obj), TYPE_VIRTIO_SERIAL_PORT)
+diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
+index 02bd741209..ac1d04ddc2 100644
+--- a/include/hw/southbridge/piix.h
++++ b/include/hw/southbridge/piix.h
+@@ -64,6 +64,10 @@ typedef struct PIIXState {
+     MemoryRegion rcr_mem;
+ } PIIX3State;
  
- typedef struct VirtIOSerial VirtIOSerial;
++#define TYPE_PIIX3_PCI_DEVICE "pci-piix3"
++#define PIIX3_PCI_DEVICE(obj) \
++    OBJECT_CHECK(PIIX3State, (obj), TYPE_PIIX3_PCI_DEVICE)
 +
-+#define TYPE_VIRTIO_SERIAL_BUS "virtio-serial-bus"
- typedef struct VirtIOSerialBus VirtIOSerialBus;
-+#define VIRTIO_SERIAL_BUS(obj) \
-+      OBJECT_CHECK(VirtIOSerialBus, (obj), TYPE_VIRTIO_SERIAL_BUS)
-+
- typedef struct VirtIOSerialPort VirtIOSerialPort;
+ extern PCIDevice *piix4_dev;
  
- typedef struct VirtIOSerialPortClass {
-diff --git a/hw/char/virtio-serial-bus.c b/hw/char/virtio-serial-bus.c
-index f9a4428bd6..cf08ef9728 100644
---- a/hw/char/virtio-serial-bus.c
-+++ b/hw/char/virtio-serial-bus.c
-@@ -843,10 +843,6 @@ static Property virtser_props[] = {
-     DEFINE_PROP_END_OF_LIST()
- };
+ PIIX3State *piix3_create(PCIBus *pci_bus, ISABus **isa_bus);
+diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
+index 1a5267e19f..587850b888 100644
+--- a/hw/isa/piix3.c
++++ b/hw/isa/piix3.c
+@@ -36,10 +36,6 @@
  
--#define TYPE_VIRTIO_SERIAL_BUS "virtio-serial-bus"
--#define VIRTIO_SERIAL_BUS(obj) \
--      OBJECT_CHECK(VirtIOSerialBus, (obj), TYPE_VIRTIO_SERIAL_BUS)
+ #define XEN_PIIX_NUM_PIRQS      128ULL
+ 
+-#define TYPE_PIIX3_PCI_DEVICE "pci-piix3"
+-#define PIIX3_PCI_DEVICE(obj) \
+-    OBJECT_CHECK(PIIX3State, (obj), TYPE_PIIX3_PCI_DEVICE)
 -
- static void virtser_bus_class_init(ObjectClass *klass, void *data)
- {
-     BusClass *k = BUS_CLASS(klass);
+ #define TYPE_PIIX3_DEVICE "PIIX3"
+ #define TYPE_PIIX3_XEN_DEVICE "PIIX3-xen"
+ 
 -- 
 2.26.2
 
