@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC42A251F20
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 20:37:24 +0200 (CEST)
-Received: from localhost ([::1]:47330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79988251F39
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 20:46:28 +0200 (CEST)
+Received: from localhost ([::1]:54862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAdox-0007ys-9q
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 14:37:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56646)
+	id 1kAdxj-0003E4-IN
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 14:46:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kAdoC-0007E7-6R; Tue, 25 Aug 2020 14:36:36 -0400
-Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:39977)
+ id 1kAdw6-0002Dx-U8; Tue, 25 Aug 2020 14:44:46 -0400
+Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:44162)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kAdoA-0000NH-D9; Tue, 25 Aug 2020 14:36:35 -0400
-Received: by mail-il1-x141.google.com with SMTP id p18so11293393ilm.7;
- Tue, 25 Aug 2020 11:36:32 -0700 (PDT)
+ id 1kAdw4-0001B8-LS; Tue, 25 Aug 2020 14:44:46 -0400
+Received: by mail-il1-x144.google.com with SMTP id j9so11292515ilc.11;
+ Tue, 25 Aug 2020 11:44:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=nNMGJ8xTfGTyUXEn2oN8kj031o1bG+MC1KAomMk8Uz0=;
- b=dSquWVgftCLT5TdH9VB2eMvW92bDuJkVmmWgwXGxxSjLRbx2sU168l2CxrxW/DWoQd
- NA23Gc1Ehs7Ye3IK4DDyZj24J60S9/ZKSvjCFEesM+BCV7ru9Z6kMHoso6XYn0N3gVdX
- pU/lr2eVFQ9NCxB2HGss+/dZsfAgIl6UlYWVkKfxy1Et4Y3Ez4zzdyY5dYPq3AtwrKXn
- uAQsO2gF7mvtQkiN4OmaONllQzadRFFZUbgJ7CXKjyDxPI7LBdN789PUPJMWNb1RKHyz
- lhpZ/R0canrqm6MtUUWJT+4JeoiOc7I36O8pMhtQElOSaUwqeUT1mrZ0wEBHhrwwIuYF
- wyTg==
+ :cc; bh=3qo1IZB0HbtcHNu/D/DGyqQmqFzRH59VFpvpYDxcmyk=;
+ b=HYJTO9ss9OA3Hn+AdJLSX9Tr9vuOEHrVUt//FWSwjJnaQv4TO8XyDzp9cvpjXHHxPu
+ atl4Im7YhAHP7EDuwXEAsy73J1oWvfGmsKlQoZZcYlNNSPFV1S/cP7ALyJjtfH4fnKU6
+ EauYPv1iP7m52rwOYDCfGwV34FZssbdzt6AuwP6GVrE4vAeu7Y6/th+cBPL96CBx+oXW
+ yhlkIfvf1TO1J4q74LgRNSfpmvA9ajfj2NUrxO2GAHNHGlEBHF+Vhw5R7z95+DA6UCYB
+ ngV0S7dLAJ05LGUmkvRJELH2RNuPLhf0QS+XenH4MSlddrnguoxK6m4S8jDF5YzjJPmT
+ zJOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=nNMGJ8xTfGTyUXEn2oN8kj031o1bG+MC1KAomMk8Uz0=;
- b=e+b2D9lql5YGHrCigLFg11Mo4K/HX0L4uDssoCLSXhXgW6huWfPmsyjUJPuZd7IFrV
- pVWzOsIOe78VweRfY2B+UVsHDgAXKMyLfcvTMOMHtDQ1t8IIeMZ0FnGyRX3ziTP8L8/4
- QkRnE2fGm6AynpKluTInwYa4hkjlzSyeRhBvSl4Nh9iYuc/G/AsKj4y2jNMIxz8DpiMS
- LE8hLMsKtat/vJFJL/LACcpxaGrbABD+8vGs/59y67adb6YdCieEbEqqOct+DNndKdE2
- c43xUWEDBfKQqu5qb6AHSm/aq4VmNZecaMPJ/K/jAoB4/lvdJzwuSoh9yq/K4lwEAY+z
- OZJQ==
-X-Gm-Message-State: AOAM531DlAuVOzDHeSBUlD4k2ljGCi4NuyZtskeoL88ZXkTzIVemzqCr
- RbFUrpTObSClDjLqN6FyVM95mTEJb+OV8+uWNOY=
-X-Google-Smtp-Source: ABdhPJxcZIvmex0pn0y3n40Uf9SDD92svEIJ0iFRWdC3GD1RM8XDIyxUkGkPJAbiafBVpO/qA2tZWqJlLfC8sxRB+Dg=
+ :message-id:subject:to:cc;
+ bh=3qo1IZB0HbtcHNu/D/DGyqQmqFzRH59VFpvpYDxcmyk=;
+ b=cZ4YkSzJ+X4QrX7bssH/cJVJ5kTxUfKf/G7+TmkPloVbdMY1ojmetNP1KdWLFEolz9
+ sXsCfE1CugHAuqfLELsbQrQgaU6DnCeRYpqYHDXeBlsMJAiYWx9CrosKmAR6syWBdQGa
+ eEA9ry6hwTVrwbpRpH+ZQ4C/ZJWYSRg5IgnMYGHTZxDKwOlUnAKsdCUr/1X6Ec1ZlPsL
+ vcXPHpJ1511vuDRxraLCbjW1E0OycfH26fFd2z3BRzDAgF2bFRpZK+8dYM49rrzi+Z0S
+ oWRIp0crWFpU95Q9oOa4d/dNxG0gsNcWmI2wtn/US3Bgs5ogo+3eLh6KzhRNmQgXTcFu
+ ZazA==
+X-Gm-Message-State: AOAM532A696/jid5+V6jBVSGd1WcSphJysKiL1S5lDSPOoG6Dqj9IWLi
+ tP5f43Jl/3m9uoTrL+U273wLGryJ8Tue2XAayOQ=
+X-Google-Smtp-Source: ABdhPJzToXorCr9fTsQVbf9CywBuyRxPBJe+CXIHKG10KHHyUW43qvTuAz9mKl9P3CllMKBcJGOTObSfS9KmQOZCBzs=
 X-Received: by 2002:a05:6e02:ef3:: with SMTP id
- j19mr10754695ilk.227.1598380591762; 
- Tue, 25 Aug 2020 11:36:31 -0700 (PDT)
+ j19mr10782405ilk.227.1598381083181; 
+ Tue, 25 Aug 2020 11:44:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200822180950.1343963-1-f4bug@amsat.org>
- <20200822180950.1343963-2-f4bug@amsat.org>
-In-Reply-To: <20200822180950.1343963-2-f4bug@amsat.org>
+References: <1597423256-14847-1-git-send-email-bmeng.cn@gmail.com>
+ <1597423256-14847-18-git-send-email-bmeng.cn@gmail.com>
+In-Reply-To: <1597423256-14847-18-git-send-email-bmeng.cn@gmail.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 25 Aug 2020 11:25:49 -0700
-Message-ID: <CAKmqyKNXCFS1fBFJ=j4rk7_xds0BU1hdTGCJVZ3KV4AH-e7APw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] util/hexdump: Convert to take a void pointer
- argument
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Tue, 25 Aug 2020 11:33:59 -0700
+Message-ID: <CAKmqyKMQ29BA2r7-CGnG+40voFCAOseec4A-HWV0CPwivgsGEw@mail.gmail.com>
+Subject: Re: [PATCH 17/18] hw/riscv: clint: Avoid using hard-coded timebase
+ frequency
+To: Bin Meng <bmeng.cn@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x141.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::144;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x144.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -82,201 +80,314 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Qemu-block <qemu-block@nongnu.org>, Li Zhijian <lizhijian@cn.fujitsu.com>,
- QEMU Trivial <qemu-trivial@nongnu.org>, Jason Wang <jasowang@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
+Cc: Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Zhang Chen <chen.zhang@intel.com>, qemu-arm <qemu-arm@nongnu.org>,
- "open list:New World" <qemu-ppc@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Aug 22, 2020 at 11:10 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
-rg> wrote:
+On Fri, Aug 14, 2020 at 9:54 AM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-> Most uses of qemu_hexdump() do not take an array of char
-> as input, forcing use of cast. Since we can use this
-> helper to dump any kind of buffer, use a pointer to void
-> argument instead.
+> From: Bin Meng <bin.meng@windriver.com>
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> At present the CLINT timestamp is using a hard-coded timebase
+> frequency value SIFIVE_CLINT_TIMEBASE_FREQ. This might not be
+> true for all boards.
+>
+> Add a new 'timebase-freq' property to the CLINT device, and
+> update various functions to accept this as a parameter.
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
 > ---
-> Since v1:
-> - renamed argument 'bufptr' (Peter Maydell)
-> ---
->  include/qemu-common.h    |  3 ++-
->  hw/dma/xlnx_dpdma.c      |  2 +-
->  hw/net/fsl_etsec/etsec.c |  2 +-
->  hw/sd/sd.c               |  2 +-
->  hw/usb/redirect.c        |  2 +-
->  net/colo-compare.c       | 12 ++++++------
->  net/net.c                |  2 +-
->  util/hexdump.c           |  4 +++-
->  8 files changed, 16 insertions(+), 13 deletions(-)
 >
-> diff --git a/include/qemu-common.h b/include/qemu-common.h
-> index bb9496bd80f..6834883822f 100644
-> --- a/include/qemu-common.h
-> +++ b/include/qemu-common.h
-> @@ -138,7 +138,8 @@ int os_parse_cmd_args(int index, const char *optarg);
->   * Hexdump a buffer to a file. An optional string prefix is added to eve=
-ry line
+>  hw/riscv/microchip_pfsoc.c      |  6 +++++-
+>  hw/riscv/sifive_clint.c         | 25 ++++++++++++++-----------
+>  hw/riscv/sifive_e.c             |  3 ++-
+>  hw/riscv/sifive_u.c             |  3 ++-
+>  hw/riscv/spike.c                |  2 +-
+>  hw/riscv/virt.c                 |  3 ++-
+>  include/hw/riscv/sifive_clint.h |  3 ++-
+>  target/riscv/cpu.h              |  6 ++++--
+>  target/riscv/cpu_helper.c       |  4 +++-
+>  target/riscv/csr.c              |  4 ++--
+>  10 files changed, 37 insertions(+), 22 deletions(-)
+>
+> diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
+> index 139284a..e8b7f86 100644
+> --- a/hw/riscv/microchip_pfsoc.c
+> +++ b/hw/riscv/microchip_pfsoc.c
+> @@ -60,6 +60,9 @@
+>  #define BIOS_FILENAME   "hss.bin"
+>  #define RESET_VECTOR    0x20220000
+>
+> +/* CLINT timebase frequency */
+> +#define CLINT_TIMEBASE_FREQ 1000000
+> +
+>  /* GEM version */
+>  #define GEM_REVISION    0x0107010c
+>
+> @@ -189,7 +192,8 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
+>      /* CLINT */
+>      sifive_clint_create(memmap[MICROCHIP_PFSOC_CLINT].base,
+>          memmap[MICROCHIP_PFSOC_CLINT].size, ms->smp.cpus,
+> -        SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE, false);
+> +        SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE,
+> +        CLINT_TIMEBASE_FREQ, false);
+>
+>      /* L2 cache controller */
+>      create_unimplemented_device("microchip.pfsoc.l2cc",
+> diff --git a/hw/riscv/sifive_clint.c b/hw/riscv/sifive_clint.c
+> index 669c21a..a568568 100644
+> --- a/hw/riscv/sifive_clint.c
+> +++ b/hw/riscv/sifive_clint.c
+> @@ -29,22 +29,23 @@
+>  #include "hw/riscv/sifive_clint.h"
+>  #include "qemu/timer.h"
+>
+> -static uint64_t cpu_riscv_read_rtc(void)
+> +static uint64_t cpu_riscv_read_rtc(uint32_t timebase_freq)
+>  {
+>      return muldiv64(qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
+> -        SIFIVE_CLINT_TIMEBASE_FREQ, NANOSECONDS_PER_SECOND);
+> +        timebase_freq, NANOSECONDS_PER_SECOND);
+>  }
+>
+>  /*
+>   * Called when timecmp is written to update the QEMU timer or immediately
+>   * trigger timer interrupt if mtimecmp <= current timer value.
 >   */
->
-> -void qemu_hexdump(const char *buf, FILE *fp, const char *prefix, size_t =
-size);
-> +void qemu_hexdump(const void *bufptr, FILE *fp,
-> +                  const char *prefix, size_t size);
->
->  /*
->   * helper to parse debug environment variables
-> diff --git a/hw/dma/xlnx_dpdma.c b/hw/dma/xlnx_dpdma.c
-> index b40c897de2c..d75a8069426 100644
-> --- a/hw/dma/xlnx_dpdma.c
-> +++ b/hw/dma/xlnx_dpdma.c
-> @@ -388,7 +388,7 @@ static void xlnx_dpdma_dump_descriptor(DPDMADescripto=
-r *desc)
+> -static void sifive_clint_write_timecmp(RISCVCPU *cpu, uint64_t value)
+> +static void sifive_clint_write_timecmp(RISCVCPU *cpu, uint64_t value,
+> +                                       uint32_t timebase_freq)
 >  {
->      if (DEBUG_DPDMA) {
->          qemu_log("DUMP DESCRIPTOR:\n");
-> -        qemu_hexdump((char *)desc, stdout, "", sizeof(DPDMADescriptor));
-> +        qemu_hexdump(desc, stdout, "", sizeof(DPDMADescriptor));
->      }
+>      uint64_t next;
+>      uint64_t diff;
+>
+> -    uint64_t rtc_r = cpu_riscv_read_rtc();
+> +    uint64_t rtc_r = cpu_riscv_read_rtc(timebase_freq);
+>
+>      cpu->env.timecmp = value;
+>      if (cpu->env.timecmp <= rtc_r) {
+> @@ -59,7 +60,7 @@ static void sifive_clint_write_timecmp(RISCVCPU *cpu, uint64_t value)
+>      diff = cpu->env.timecmp - rtc_r;
+>      /* back to ns (note args switched in muldiv64) */
+>      next = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
+> -        muldiv64(diff, NANOSECONDS_PER_SECOND, SIFIVE_CLINT_TIMEBASE_FREQ);
+> +        muldiv64(diff, NANOSECONDS_PER_SECOND, timebase_freq);
+>      timer_mod(cpu->env.timer, next);
 >  }
 >
-> diff --git a/hw/net/fsl_etsec/etsec.c b/hw/net/fsl_etsec/etsec.c
-> index 7035cf4eb97..c817a28decd 100644
-> --- a/hw/net/fsl_etsec/etsec.c
-> +++ b/hw/net/fsl_etsec/etsec.c
-> @@ -357,7 +357,7 @@ static ssize_t etsec_receive(NetClientState *nc,
->
->  #if defined(HEX_DUMP)
->      fprintf(stderr, "%s receive size:%zd\n", nc->name, size);
-> -    qemu_hexdump((void *)buf, stderr, "", size);
-> +    qemu_hexdump(buf, stderr, "", size);
->  #endif
->      /* Flush is unnecessary as are already in receiving path */
->      etsec->need_flush =3D false;
-> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-> index fad9cf1ee7a..190e4cf1232 100644
-> --- a/hw/sd/sd.c
-> +++ b/hw/sd/sd.c
-> @@ -1781,7 +1781,7 @@ send_response:
+> @@ -111,10 +112,10 @@ static uint64_t sifive_clint_read(void *opaque, hwaddr addr, unsigned size)
+>          }
+>      } else if (addr == clint->time_base) {
+>          /* time_lo */
+> -        return cpu_riscv_read_rtc() & 0xFFFFFFFF;
+> +        return cpu_riscv_read_rtc(clint->timebase_freq) & 0xFFFFFFFF;
+>      } else if (addr == clint->time_base + 4) {
+>          /* time_hi */
+> -        return (cpu_riscv_read_rtc() >> 32) & 0xFFFFFFFF;
+> +        return (cpu_riscv_read_rtc(clint->timebase_freq) >> 32) & 0xFFFFFFFF;
 >      }
 >
->  #ifdef DEBUG_SD
-> -    qemu_hexdump((const char *)response, stderr, "Response", rsplen);
-> +    qemu_hexdump(response, stderr, "Response", rsplen);
->  #endif
+>      error_report("clint: invalid read: %08x", (uint32_t)addr);
+> @@ -151,13 +152,13 @@ static void sifive_clint_write(void *opaque, hwaddr addr, uint64_t value,
+>              /* timecmp_lo */
+>              uint64_t timecmp_hi = env->timecmp >> 32;
+>              sifive_clint_write_timecmp(RISCV_CPU(cpu),
+> -                timecmp_hi << 32 | (value & 0xFFFFFFFF));
+> +                timecmp_hi << 32 | (value & 0xFFFFFFFF), clint->timebase_freq);
+>              return;
+>          } else if ((addr & 0x7) == 4) {
+>              /* timecmp_hi */
+>              uint64_t timecmp_lo = env->timecmp;
+>              sifive_clint_write_timecmp(RISCV_CPU(cpu),
+> -                value << 32 | (timecmp_lo & 0xFFFFFFFF));
+> +                value << 32 | (timecmp_lo & 0xFFFFFFFF), clint->timebase_freq);
+>          } else {
+>              error_report("clint: invalid timecmp write: %08x", (uint32_t)addr);
+>          }
+> @@ -191,6 +192,7 @@ static Property sifive_clint_properties[] = {
+>      DEFINE_PROP_UINT32("timecmp-base", SiFiveCLINTState, timecmp_base, 0),
+>      DEFINE_PROP_UINT32("time-base", SiFiveCLINTState, time_base, 0),
+>      DEFINE_PROP_UINT32("aperture-size", SiFiveCLINTState, aperture_size, 0),
+> +    DEFINE_PROP_UINT32("timebase-freq", SiFiveCLINTState, timebase_freq, 0),
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
 >
->      return rsplen;
-> diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
-> index 417a60a2e68..09edb0d81c0 100644
-> --- a/hw/usb/redirect.c
-> +++ b/hw/usb/redirect.c
-> @@ -240,7 +240,7 @@ static void usbredir_log_data(USBRedirDevice *dev, co=
-nst char *desc,
->      if (dev->debug < usbredirparser_debug_data) {
+> @@ -229,7 +231,7 @@ type_init(sifive_clint_register_types)
+>   */
+>  DeviceState *sifive_clint_create(hwaddr addr, hwaddr size, uint32_t num_harts,
+>      uint32_t sip_base, uint32_t timecmp_base, uint32_t time_base,
+> -    bool provide_rdtime)
+> +    uint32_t timebase_freq, bool provide_rdtime)
+>  {
+>      int i;
+>      for (i = 0; i < num_harts; i++) {
+> @@ -239,7 +241,7 @@ DeviceState *sifive_clint_create(hwaddr addr, hwaddr size, uint32_t num_harts,
+>              continue;
+>          }
+>          if (provide_rdtime) {
+> -            riscv_cpu_set_rdtime_fn(env, cpu_riscv_read_rtc);
+> +            riscv_cpu_set_rdtime_fn(env, cpu_riscv_read_rtc, timebase_freq);
+>          }
+>          env->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
+>                                    &sifive_clint_timer_cb, cpu);
+> @@ -252,6 +254,7 @@ DeviceState *sifive_clint_create(hwaddr addr, hwaddr size, uint32_t num_harts,
+>      qdev_prop_set_uint32(dev, "timecmp-base", timecmp_base);
+>      qdev_prop_set_uint32(dev, "time-base", time_base);
+>      qdev_prop_set_uint32(dev, "aperture-size", size);
+> +    qdev_prop_set_uint32(dev, "timebase-freq", timebase_freq);
+>      sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+>      sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, addr);
+>      return dev;
+> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+> index c84d407..e7f6460 100644
+> --- a/hw/riscv/sifive_e.c
+> +++ b/hw/riscv/sifive_e.c
+> @@ -213,7 +213,8 @@ static void sifive_e_soc_realize(DeviceState *dev, Error **errp)
+>          memmap[SIFIVE_E_PLIC].size);
+>      sifive_clint_create(memmap[SIFIVE_E_CLINT].base,
+>          memmap[SIFIVE_E_CLINT].size, ms->smp.cpus,
+> -        SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE, false);
+> +        SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE,
+> +        SIFIVE_CLINT_TIMEBASE_FREQ, false);
+>      create_unimplemented_device("riscv.sifive.e.aon",
+>          memmap[SIFIVE_E_AON].base, memmap[SIFIVE_E_AON].size);
+>      sifive_e_prci_create(memmap[SIFIVE_E_PRCI].base);
+> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+> index e256da2..5ec9fca 100644
+> --- a/hw/riscv/sifive_u.c
+> +++ b/hw/riscv/sifive_u.c
+> @@ -706,7 +706,8 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
+>          serial_hd(1), qdev_get_gpio_in(DEVICE(s->plic), SIFIVE_U_UART1_IRQ));
+>      sifive_clint_create(memmap[SIFIVE_U_CLINT].base,
+>          memmap[SIFIVE_U_CLINT].size, ms->smp.cpus,
+> -        SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE, false);
+> +        SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE,
+> +        SIFIVE_CLINT_TIMEBASE_FREQ, false);
+>
+>      if (!sysbus_realize(SYS_BUS_DEVICE(&s->prci), errp)) {
 >          return;
->      }
-> -    qemu_hexdump((char *)data, stderr, desc, len);
-> +    qemu_hexdump(data, stderr, desc, len);
+> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+> index 13958bd..ae8593a 100644
+> --- a/hw/riscv/spike.c
+> +++ b/hw/riscv/spike.c
+> @@ -235,7 +235,7 @@ static void spike_board_init(MachineState *machine)
+>      /* Core Local Interruptor (timer and IPI) */
+>      sifive_clint_create(memmap[SPIKE_CLINT].base, memmap[SPIKE_CLINT].size,
+>          smp_cpus, SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE,
+> -        false);
+> +        SIFIVE_CLINT_TIMEBASE_FREQ, false);
 >  }
 >
->  /*
-> diff --git a/net/colo-compare.c b/net/colo-compare.c
-> index 2c20de1537d..550272b3baa 100644
-> --- a/net/colo-compare.c
-> +++ b/net/colo-compare.c
-> @@ -494,9 +494,9 @@ sec:
->          g_queue_push_head(&conn->secondary_list, spkt);
+>  static void spike_machine_init(MachineClass *mc)
+> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> index 6e91cf1..af0d06a 100644
+> --- a/hw/riscv/virt.c
+> +++ b/hw/riscv/virt.c
+> @@ -572,7 +572,8 @@ static void virt_machine_init(MachineState *machine)
+>          memmap[VIRT_PLIC].size);
+>      sifive_clint_create(memmap[VIRT_CLINT].base,
+>          memmap[VIRT_CLINT].size, smp_cpus,
+> -        SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE, true);
+> +        SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE,
+> +        SIFIVE_CLINT_TIMEBASE_FREQ, true);
+>      sifive_test_create(memmap[VIRT_TEST].base);
 >
->          if (trace_event_get_state_backends(TRACE_COLO_COMPARE_MISCOMPARE=
-)) {
-> -            qemu_hexdump((char *)ppkt->data, stderr,
-> +            qemu_hexdump(ppkt->data, stderr,
->                          "colo-compare ppkt", ppkt->size);
-> -            qemu_hexdump((char *)spkt->data, stderr,
-> +            qemu_hexdump(spkt->data, stderr,
->                          "colo-compare spkt", spkt->size);
->          }
+>      for (i = 0; i < VIRTIO_COUNT; i++) {
+> diff --git a/include/hw/riscv/sifive_clint.h b/include/hw/riscv/sifive_clint.h
+> index 4a720bf..eb8577a 100644
+> --- a/include/hw/riscv/sifive_clint.h
+> +++ b/include/hw/riscv/sifive_clint.h
+> @@ -38,11 +38,12 @@ typedef struct SiFiveCLINTState {
+>      uint32_t timecmp_base;
+>      uint32_t time_base;
+>      uint32_t aperture_size;
+> +    uint32_t timebase_freq;
+>  } SiFiveCLINTState;
 >
-> @@ -535,9 +535,9 @@ static int colo_packet_compare_udp(Packet *spkt, Pack=
-et *ppkt)
->          trace_colo_compare_udp_miscompare("primary pkt size", ppkt->size=
-);
->          trace_colo_compare_udp_miscompare("Secondary pkt size", spkt->si=
-ze);
->          if (trace_event_get_state_backends(TRACE_COLO_COMPARE_MISCOMPARE=
-)) {
-> -            qemu_hexdump((char *)ppkt->data, stderr, "colo-compare pri p=
-kt",
-> +            qemu_hexdump(ppkt->data, stderr, "colo-compare pri pkt",
->                           ppkt->size);
-> -            qemu_hexdump((char *)spkt->data, stderr, "colo-compare sec p=
-kt",
-> +            qemu_hexdump(spkt->data, stderr, "colo-compare sec pkt",
->                           spkt->size);
->          }
->          return -1;
-> @@ -578,9 +578,9 @@ static int colo_packet_compare_icmp(Packet *spkt, Pac=
-ket *ppkt)
->          trace_colo_compare_icmp_miscompare("Secondary pkt size",
->                                             spkt->size);
->          if (trace_event_get_state_backends(TRACE_COLO_COMPARE_MISCOMPARE=
-)) {
-> -            qemu_hexdump((char *)ppkt->data, stderr, "colo-compare pri p=
-kt",
-> +            qemu_hexdump(ppkt->data, stderr, "colo-compare pri pkt",
->                           ppkt->size);
-> -            qemu_hexdump((char *)spkt->data, stderr, "colo-compare sec p=
-kt",
-> +            qemu_hexdump(spkt->data, stderr, "colo-compare sec pkt",
->                           spkt->size);
->          }
->          return -1;
-> diff --git a/net/net.c b/net/net.c
-> index bbaedb3c7a6..f3e5d533fd7 100644
-> --- a/net/net.c
-> +++ b/net/net.c
-> @@ -636,7 +636,7 @@ static ssize_t qemu_send_packet_async_with_flags(NetC=
-lientState *sender,
+>  DeviceState *sifive_clint_create(hwaddr addr, hwaddr size, uint32_t num_harts,
+>      uint32_t sip_base, uint32_t timecmp_base, uint32_t time_base,
+> -    bool provide_rdtime);
+> +    uint32_t timebase_freq, bool provide_rdtime);
 >
->  #ifdef DEBUG_NET
->      printf("qemu_send_packet_async:\n");
-> -    qemu_hexdump((const char *)buf, stdout, "net", size);
-> +    qemu_hexdump(buf, stdout, "net", size);
+>  enum {
+>      SIFIVE_SIP_BASE     = 0x0,
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index d34bcfa..02486c3 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -219,7 +219,8 @@ struct CPURISCVState {
+>      pmp_table_t pmp_state;
+>
+>      /* machine specific rdtime callback */
+> -    uint64_t (*rdtime_fn)(void);
+> +    uint64_t (*rdtime_fn)(uint32_t);
+> +    uint32_t rdtime_fn_arg;
+>
+>      /* True if in debugger mode.  */
+>      bool debugger;
+> @@ -347,7 +348,8 @@ void riscv_cpu_swap_hypervisor_regs(CPURISCVState *env);
+>  int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint32_t interrupts);
+>  uint32_t riscv_cpu_update_mip(RISCVCPU *cpu, uint32_t mask, uint32_t value);
+>  #define BOOL_TO_MASK(x) (-!!(x)) /* helper for riscv_cpu_update_mip value */
+> -void riscv_cpu_set_rdtime_fn(CPURISCVState *env, uint64_t (*fn)(void));
+> +void riscv_cpu_set_rdtime_fn(CPURISCVState *env, uint64_t (*fn)(uint32_t),
+> +                             uint32_t arg);
 >  #endif
+>  void riscv_cpu_set_mode(CPURISCVState *env, target_ulong newpriv);
 >
->      if (sender->link_down || !sender->peer) {
-> diff --git a/util/hexdump.c b/util/hexdump.c
-> index f879ff0ad6b..053f05d4160 100644
-> --- a/util/hexdump.c
-> +++ b/util/hexdump.c
-> @@ -16,8 +16,10 @@
->  #include "qemu/osdep.h"
->  #include "qemu-common.h"
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index fd1d373..c82a521 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -258,9 +258,11 @@ uint32_t riscv_cpu_update_mip(RISCVCPU *cpu, uint32_t mask, uint32_t value)
+>      return old;
+>  }
 >
-> -void qemu_hexdump(const char *buf, FILE *fp, const char *prefix, size_t =
-size)
-> +void qemu_hexdump(const void *bufptr, FILE *fp,
-> +                  const char *prefix, size_t size)
+> -void riscv_cpu_set_rdtime_fn(CPURISCVState *env, uint64_t (*fn)(void))
+> +void riscv_cpu_set_rdtime_fn(CPURISCVState *env, uint64_t (*fn)(uint32_t),
+> +                             uint32_t arg)
 >  {
-> +    const char *buf =3D bufptr;
->      unsigned int b, len, i, c;
+>      env->rdtime_fn = fn;
+> +    env->rdtime_fn_arg = arg;
+>  }
 >
->      for (b =3D 0; b < size; b +=3D 16) {
+>  void riscv_cpu_set_mode(CPURISCVState *env, target_ulong newpriv)
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 6a96a01..6cef1ac 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -294,7 +294,7 @@ static int read_time(CPURISCVState *env, int csrno, target_ulong *val)
+>          return -1;
+>      }
+>
+> -    *val = env->rdtime_fn() + delta;
+> +    *val = env->rdtime_fn(env->rdtime_fn_arg) + delta;
+>      return 0;
+>  }
+>
+> @@ -307,7 +307,7 @@ static int read_timeh(CPURISCVState *env, int csrno, target_ulong *val)
+>          return -1;
+>      }
+>
+> -    *val = (env->rdtime_fn() + delta) >> 32;
+> +    *val = (env->rdtime_fn(env->rdtime_fn_arg) + delta) >> 32;
+>      return 0;
+>  }
+>  #endif
 > --
-> 2.26.2
+> 2.7.4
 >
 >
 
