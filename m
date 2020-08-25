@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCDE42520C3
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 21:40:12 +0200 (CEST)
-Received: from localhost ([::1]:36802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AD77252153
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 21:53:21 +0200 (CEST)
+Received: from localhost ([::1]:48716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAenj-0002r8-T1
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 15:40:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41314)
+	id 1kAf0S-0005ZT-NP
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 15:53:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kAeZ5-0006Uz-BX
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:25:03 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:32168
+ id 1kAeZ9-0006f9-Ds
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:25:07 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:38962
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kAeZ2-0006Wi-AG
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:25:02 -0400
+ id 1kAeZ5-0006XP-P4
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:25:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598383499;
+ s=mimecast20190719; t=1598383502;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=A0GQIvreJFv18GeOHvceQ5h3iH7RI9UkG3JIRgmwiK4=;
- b=AAzh9Z9//7CEjCc1hUGYw8Lo62GGM7YhDE36D+opBN3+tc1/1z4r/WVvW+mzv79vtyi3RN
- ZZuQhkw+3OqzN66Bikrs+NUbdmfRkyffk1wFrjSz+aXXByyW281uHh6nrTesZ+SIHOIxvK
- FvKTPJ+TRb2X3B7g2b0CPTKpxUQt1LI=
+ bh=50GQ3zLoG3fJzfMgn8rxx1xmjkUpFLb6p1DIS1Q5Ens=;
+ b=V7nBPcboRvYe/Lemk4/Qu50mXcLrvAn41MQ2di9V3w3igOc+KeWUY53jVEapcvtuSwtB/G
+ KDSnKxtmLmjSK7MUnlVK8R8Tco0XX5yST1giFs9/+0JvqeBaUrhOUOpzLk4dSiPOmey6dY
+ 3VuPr1ykxlVUyzkTkNmS4bm8RL2TAys=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-262-wKrw6dV7MyKzb2rJBO8ccg-1; Tue, 25 Aug 2020 15:24:57 -0400
-X-MC-Unique: wKrw6dV7MyKzb2rJBO8ccg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-89-TKU7SJ4JN1qmOy881oKPCQ-1; Tue, 25 Aug 2020 15:25:01 -0400
+X-MC-Unique: TKU7SJ4JN1qmOy881oKPCQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9E3F1DDE0;
- Tue, 25 Aug 2020 19:24:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C9A21DDE0;
+ Tue, 25 Aug 2020 19:24:59 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C1A5C756B1;
- Tue, 25 Aug 2020 19:24:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A53BF709C4;
+ Tue, 25 Aug 2020 19:24:56 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 67/74] [automated] Use DECLARE_*CHECKER* macros (pass 2)
-Date: Tue, 25 Aug 2020 15:21:03 -0400
-Message-Id: <20200825192110.3528606-68-ehabkost@redhat.com>
+Subject: [PATCH v3 68/74] [semi-automated] Use DECLARE_*CHECKER* when possible
+ (--force mode)
+Date: Tue, 25 Aug 2020 15:21:04 -0400
+Message-Id: <20200825192110.3528606-69-ehabkost@redhat.com>
 In-Reply-To: <20200825192110.3528606-1-ehabkost@redhat.com>
 References: <20200825192110.3528606-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 01:35:36
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 15:21:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -81,423 +82,280 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-ppc@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Laurent Vivier <laurent@vivier.eu>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, Peter Chubb <peter.chubb@nicta.com.au>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Beniamino Galvani <b.galvani@gmail.com>, qemu-arm@nongnu.org,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
- $ ./scripts/codeconverter/converter.py -i \
+Separate run of the TypeCheckMacro converter using the --force
+flag, for the cases where typedefs weren't found in the same
+header nor in typedefs.h.
+
+Generated initially using:
+
+ $ ./scripts/codeconverter/converter.py --force -i \
    --pattern=TypeCheckMacro $(git grep -l '' -- '*.[ch]')
 
+Then each case was manually reviewed, and a comment was added
+indicating what's unusual about those type checking
+macros/functions.  Despite not following the usual pattern, the
+changes in this patch were found to be safe.
+
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-Changes series v2 -> v3: this is a new patch added in series v3
+Changes v2 -> v3: none
 
-The script was re-run after rebase and after additional patches
-were added to this series.
-
-This is being submitted as a separate patch to make review
-easier, but it can be squashed into the previous patch once it
-gets reviewed.
+Changes v1 -> v2:
+* Most of the old changes in this patch are now being handled by
+  the regular TypeCheckMacro patch (without --force mode)
+* Added comments added explaining why these unusual changes
+  remain
 
 ---
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: Laurent Vivier <laurent@vivier.eu>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Cc: Peter Chubb <peter.chubb@nicta.com.au>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Beniamino Galvani <b.galvani@gmail.com>
+Cc: Andrew Baumann <Andrew.Baumann@microsoft.com>
+Cc: "Philippe Mathieu-Daudé" <philmd@redhat.com>
+Cc: Andrzej Zaborowski <balrogg@gmail.com>
 Cc: David Gibson <david@gibson.dropbear.id.au>
-Cc: "Cédric Le Goater" <clg@kaod.org>
-Cc: Cornelia Huck <cohuck@redhat.com>
-Cc: Halil Pasic <pasic@linux.ibm.com>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>
-Cc: Thomas Huth <thuth@redhat.com>
-Cc: Juan Quintela <quintela@redhat.com>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
-Cc: qemu-arm@nongnu.org
 Cc: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org
+Cc: qemu-block@nongnu.org
 Cc: qemu-ppc@nongnu.org
-Cc: qemu-s390x@nongnu.org
 ---
- include/hw/block/swim.h            |  3 ++-
- include/hw/display/macfb.h         |  8 ++-----
- include/hw/i386/x86-iommu.h        |  8 ++-----
- include/hw/misc/imx_ccm.h          |  8 ++-----
- include/hw/misc/mos6522.h          |  7 ++----
- include/hw/ppc/xive.h              | 36 ++++++++++++------------------
- include/hw/rdma/rdma.h             |  6 +----
- include/hw/s390x/s390-virtio-ccw.h |  6 ++---
- migration/migration.h              |  8 ++-----
- target/arm/cpu-qom.h               |  6 ++---
- target/rx/cpu-qom.h                |  8 ++-----
- hw/arm/integratorcp.c              | 12 +++++-----
- hw/arm/versatilepb.c               |  4 ++--
- hw/sd/pl181.c                      |  3 ++-
- 14 files changed, 43 insertions(+), 80 deletions(-)
+ include/hw/intc/arm_gic.h       | 9 +++------
+ include/hw/intc/arm_gicv3.h     | 8 +++-----
+ include/hw/ppc/xics_spapr.h     | 4 +++-
+ include/hw/virtio/virtio-mmio.h | 9 +++------
+ hw/intc/apic.c                  | 5 +++--
+ hw/intc/arm_gic_kvm.c           | 9 +++------
+ hw/intc/arm_gicv3_its_kvm.c     | 8 +++-----
+ hw/intc/arm_gicv3_kvm.c         | 9 +++------
+ hw/sd/allwinner-sdhost.c        | 5 +++--
+ hw/sd/bcm2835_sdhost.c          | 5 +++--
+ hw/sd/pxa2xx_mmci.c             | 4 +++-
+ hw/sd/sdhci.c                   | 4 +++-
+ 12 files changed, 36 insertions(+), 43 deletions(-)
 
-diff --git a/include/hw/block/swim.h b/include/hw/block/swim.h
-index 29fccb41f1..8287da7c30 100644
---- a/include/hw/block/swim.h
-+++ b/include/hw/block/swim.h
-@@ -71,7 +71,8 @@ struct SWIMCtrl {
+diff --git a/include/hw/intc/arm_gic.h b/include/hw/intc/arm_gic.h
+index 704ef2b751..116ccbb5a9 100644
+--- a/include/hw/intc/arm_gic.h
++++ b/include/hw/intc/arm_gic.h
+@@ -74,12 +74,9 @@
  
- #define TYPE_SWIM "swim"
- typedef struct Swim Swim;
--#define SWIM(obj) OBJECT_CHECK(Swim, (obj), TYPE_SWIM)
-+DECLARE_INSTANCE_CHECKER(Swim, SWIM,
-+                         TYPE_SWIM)
+ #define TYPE_ARM_GIC "arm_gic"
+ typedef struct ARMGICClass ARMGICClass;
+-#define ARM_GIC(obj) \
+-     OBJECT_CHECK(GICState, (obj), TYPE_ARM_GIC)
+-#define ARM_GIC_CLASS(klass) \
+-     OBJECT_CLASS_CHECK(ARMGICClass, (klass), TYPE_ARM_GIC)
+-#define ARM_GIC_GET_CLASS(obj) \
+-     OBJECT_GET_CLASS(ARMGICClass, (obj), TYPE_ARM_GIC)
++/* This is reusing the GICState typedef from TYPE_ARM_GIC_COMMON */
++DECLARE_OBJ_CHECKERS(GICState, ARMGICClass,
++                     ARM_GIC, TYPE_ARM_GIC)
  
- struct Swim {
+ struct ARMGICClass {
+     /*< private >*/
+diff --git a/include/hw/intc/arm_gicv3.h b/include/hw/intc/arm_gicv3.h
+index 58e9131a33..a81a6ae7ec 100644
+--- a/include/hw/intc/arm_gicv3.h
++++ b/include/hw/intc/arm_gicv3.h
+@@ -17,11 +17,9 @@
+ 
+ #define TYPE_ARM_GICV3 "arm-gicv3"
+ typedef struct ARMGICv3Class ARMGICv3Class;
+-#define ARM_GICV3(obj) OBJECT_CHECK(GICv3State, (obj), TYPE_ARM_GICV3)
+-#define ARM_GICV3_CLASS(klass) \
+-     OBJECT_CLASS_CHECK(ARMGICv3Class, (klass), TYPE_ARM_GICV3)
+-#define ARM_GICV3_GET_CLASS(obj) \
+-     OBJECT_GET_CLASS(ARMGICv3Class, (obj), TYPE_ARM_GICV3)
++/* This is reusing the GICState typedef from TYPE_ARM_GICV3_COMMON */
++DECLARE_OBJ_CHECKERS(GICv3State, ARMGICv3Class,
++                     ARM_GICV3, TYPE_ARM_GICV3)
+ 
+ struct ARMGICv3Class {
+     /*< private >*/
+diff --git a/include/hw/ppc/xics_spapr.h b/include/hw/ppc/xics_spapr.h
+index 09e428de4e..0b8182e40b 100644
+--- a/include/hw/ppc/xics_spapr.h
++++ b/include/hw/ppc/xics_spapr.h
+@@ -31,7 +31,9 @@
+ #include "qom/object.h"
+ 
+ #define TYPE_ICS_SPAPR "ics-spapr"
+-#define ICS_SPAPR(obj) OBJECT_CHECK(ICSState, (obj), TYPE_ICS_SPAPR)
++/* This is reusing the ICSState typedef from TYPE_ICS */
++DECLARE_INSTANCE_CHECKER(ICSState, ICS_SPAPR,
++                         TYPE_ICS_SPAPR)
+ 
+ int xics_kvm_connect(SpaprInterruptController *intc, uint32_t nr_servers,
+                      Error **errp);
+diff --git a/include/hw/virtio/virtio-mmio.h b/include/hw/virtio/virtio-mmio.h
+index dca651fd14..6a1c2c20d4 100644
+--- a/include/hw/virtio/virtio-mmio.h
++++ b/include/hw/virtio/virtio-mmio.h
+@@ -28,12 +28,9 @@
+ /* QOM macros */
+ /* virtio-mmio-bus */
+ #define TYPE_VIRTIO_MMIO_BUS "virtio-mmio-bus"
+-#define VIRTIO_MMIO_BUS(obj) \
+-        OBJECT_CHECK(VirtioBusState, (obj), TYPE_VIRTIO_MMIO_BUS)
+-#define VIRTIO_MMIO_BUS_GET_CLASS(obj) \
+-        OBJECT_GET_CLASS(VirtioBusClass, (obj), TYPE_VIRTIO_MMIO_BUS)
+-#define VIRTIO_MMIO_BUS_CLASS(klass) \
+-        OBJECT_CLASS_CHECK(VirtioBusClass, (klass), TYPE_VIRTIO_MMIO_BUS)
++/* This is reusing the VirtioBusState typedef from TYPE_VIRTIO_BUS */
++DECLARE_OBJ_CHECKERS(VirtioBusState, VirtioBusClass,
++                     VIRTIO_MMIO_BUS, TYPE_VIRTIO_MMIO_BUS)
+ 
+ /* virtio-mmio */
+ #define TYPE_VIRTIO_MMIO "virtio-mmio"
+diff --git a/hw/intc/apic.c b/hw/intc/apic.c
+index afbb653497..dadbfd9a75 100644
+--- a/hw/intc/apic.c
++++ b/hw/intc/apic.c
+@@ -40,8 +40,9 @@
+ static APICCommonState *local_apics[MAX_APICS + 1];
+ 
+ #define TYPE_APIC "apic"
+-#define APIC(obj) \
+-    OBJECT_CHECK(APICCommonState, (obj), TYPE_APIC)
++/*This is reusing the APICCommonState typedef from APIC_COMMON */
++DECLARE_INSTANCE_CHECKER(APICCommonState, APIC,
++                         TYPE_APIC)
+ 
+ static void apic_set_irq(APICCommonState *s, int vector_num, int trigger_mode);
+ static void apic_update_irq(APICCommonState *s);
+diff --git a/hw/intc/arm_gic_kvm.c b/hw/intc/arm_gic_kvm.c
+index 8bc90aa65d..28a1fb9a0d 100644
+--- a/hw/intc/arm_gic_kvm.c
++++ b/hw/intc/arm_gic_kvm.c
+@@ -33,12 +33,9 @@
+ 
+ #define TYPE_KVM_ARM_GIC "kvm-arm-gic"
+ typedef struct KVMARMGICClass KVMARMGICClass;
+-#define KVM_ARM_GIC(obj) \
+-     OBJECT_CHECK(GICState, (obj), TYPE_KVM_ARM_GIC)
+-#define KVM_ARM_GIC_CLASS(klass) \
+-     OBJECT_CLASS_CHECK(KVMARMGICClass, (klass), TYPE_KVM_ARM_GIC)
+-#define KVM_ARM_GIC_GET_CLASS(obj) \
+-     OBJECT_GET_CLASS(KVMARMGICClass, (obj), TYPE_KVM_ARM_GIC)
++/* This is reusing the GICState typedef from ARM_GIC_COMMON */
++DECLARE_OBJ_CHECKERS(GICState, KVMARMGICClass,
++                     KVM_ARM_GIC, TYPE_KVM_ARM_GIC)
+ 
+ struct KVMARMGICClass {
+     ARMGICCommonClass parent_class;
+diff --git a/hw/intc/arm_gicv3_its_kvm.c b/hw/intc/arm_gicv3_its_kvm.c
+index 198be30cf5..96850ac414 100644
+--- a/hw/intc/arm_gicv3_its_kvm.c
++++ b/hw/intc/arm_gicv3_its_kvm.c
+@@ -31,11 +31,9 @@
+ 
+ #define TYPE_KVM_ARM_ITS "arm-its-kvm"
+ typedef struct KVMARMITSClass KVMARMITSClass;
+-#define KVM_ARM_ITS(obj) OBJECT_CHECK(GICv3ITSState, (obj), TYPE_KVM_ARM_ITS)
+-#define KVM_ARM_ITS_CLASS(klass) \
+-     OBJECT_CLASS_CHECK(KVMARMITSClass, (klass), TYPE_KVM_ARM_ITS)
+-#define KVM_ARM_ITS_GET_CLASS(obj) \
+-     OBJECT_GET_CLASS(KVMARMITSClass, (obj), TYPE_KVM_ARM_ITS)
++/* This is reusing the GICv3ITSState typedef from ARM_GICV3_ITS_COMMON */
++DECLARE_OBJ_CHECKERS(GICv3ITSState, KVMARMITSClass,
++                     KVM_ARM_ITS, TYPE_KVM_ARM_ITS)
+ 
+ struct KVMARMITSClass {
+     GICv3ITSCommonClass parent_class;
+diff --git a/hw/intc/arm_gicv3_kvm.c b/hw/intc/arm_gicv3_kvm.c
+index 87092795e6..ab1b3e39ed 100644
+--- a/hw/intc/arm_gicv3_kvm.c
++++ b/hw/intc/arm_gicv3_kvm.c
+@@ -43,12 +43,9 @@
+ 
+ #define TYPE_KVM_ARM_GICV3 "kvm-arm-gicv3"
+ typedef struct KVMARMGICv3Class KVMARMGICv3Class;
+-#define KVM_ARM_GICV3(obj) \
+-     OBJECT_CHECK(GICv3State, (obj), TYPE_KVM_ARM_GICV3)
+-#define KVM_ARM_GICV3_CLASS(klass) \
+-     OBJECT_CLASS_CHECK(KVMARMGICv3Class, (klass), TYPE_KVM_ARM_GICV3)
+-#define KVM_ARM_GICV3_GET_CLASS(obj) \
+-     OBJECT_GET_CLASS(KVMARMGICv3Class, (obj), TYPE_KVM_ARM_GICV3)
++/* This is reusing the GICv3State typedef from ARM_GICV3_ITS_COMMON */
++DECLARE_OBJ_CHECKERS(GICv3State, KVMARMGICv3Class,
++                     KVM_ARM_GICV3, TYPE_KVM_ARM_GICV3)
+ 
+ #define   KVM_DEV_ARM_VGIC_SYSREG(op0, op1, crn, crm, op2)         \
+                              (ARM64_SYS_REG_SHIFT_MASK(op0, OP0) | \
+diff --git a/hw/sd/allwinner-sdhost.c b/hw/sd/allwinner-sdhost.c
+index c8dae27083..795e7e89eb 100644
+--- a/hw/sd/allwinner-sdhost.c
++++ b/hw/sd/allwinner-sdhost.c
+@@ -29,8 +29,9 @@
+ #include "qom/object.h"
+ 
+ #define TYPE_AW_SDHOST_BUS "allwinner-sdhost-bus"
+-#define AW_SDHOST_BUS(obj) \
+-    OBJECT_CHECK(SDBus, (obj), TYPE_AW_SDHOST_BUS)
++/* This is reusing the SDBus typedef from SD_BUS */
++DECLARE_INSTANCE_CHECKER(SDBus, AW_SDHOST_BUS,
++                         TYPE_AW_SDHOST_BUS)
+ 
+ /* SD Host register offsets */
+ enum {
+diff --git a/hw/sd/bcm2835_sdhost.c b/hw/sd/bcm2835_sdhost.c
+index bcf9e27e76..1e9f6ddfa0 100644
+--- a/hw/sd/bcm2835_sdhost.c
++++ b/hw/sd/bcm2835_sdhost.c
+@@ -22,8 +22,9 @@
+ #include "qom/object.h"
+ 
+ #define TYPE_BCM2835_SDHOST_BUS "bcm2835-sdhost-bus"
+-#define BCM2835_SDHOST_BUS(obj) \
+-    OBJECT_CHECK(SDBus, (obj), TYPE_BCM2835_SDHOST_BUS)
++/* This is reusing the SDBus typedef from SD_BUS */
++DECLARE_INSTANCE_CHECKER(SDBus, BCM2835_SDHOST_BUS,
++                         TYPE_BCM2835_SDHOST_BUS)
+ 
+ #define SDCMD  0x00 /* Command to SD card              - 16 R/W */
+ #define SDARG  0x04 /* Argument to SD card             - 32 R/W */
+diff --git a/hw/sd/pxa2xx_mmci.c b/hw/sd/pxa2xx_mmci.c
+index 4ef76290c6..0a9d8a72d7 100644
+--- a/hw/sd/pxa2xx_mmci.c
++++ b/hw/sd/pxa2xx_mmci.c
+@@ -24,7 +24,9 @@
+ #include "qom/object.h"
+ 
+ #define TYPE_PXA2XX_MMCI_BUS "pxa2xx-mmci-bus"
+-#define PXA2XX_MMCI_BUS(obj) OBJECT_CHECK(SDBus, (obj), TYPE_PXA2XX_MMCI_BUS)
++/* This is reusing the SDBus typedef from SD_BUS */
++DECLARE_INSTANCE_CHECKER(SDBus, PXA2XX_MMCI_BUS,
++                         TYPE_PXA2XX_MMCI_BUS)
+ 
+ struct PXA2xxMMCIState {
      SysBusDevice parent_obj;
-diff --git a/include/hw/display/macfb.h b/include/hw/display/macfb.h
-index f317fe93d9..0960480b75 100644
---- a/include/hw/display/macfb.h
-+++ b/include/hw/display/macfb.h
-@@ -45,10 +45,8 @@ struct MacfbSysBusState {
- #define TYPE_NUBUS_MACFB "nubus-macfb"
- typedef struct MacfbNubusDeviceClass MacfbNubusDeviceClass;
- typedef struct MacfbNubusState MacfbNubusState;
--#define NUBUS_MACFB_CLASS(class) \
--    OBJECT_CLASS_CHECK(MacfbNubusDeviceClass, (class), TYPE_NUBUS_MACFB)
--#define NUBUS_MACFB_GET_CLASS(obj) \
--    OBJECT_GET_CLASS(MacfbNubusDeviceClass, (obj), TYPE_NUBUS_MACFB)
-+DECLARE_OBJ_CHECKERS(MacfbNubusState, MacfbNubusDeviceClass,
-+                     NUBUS_MACFB, TYPE_NUBUS_MACFB)
+diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
+index b7d91e7598..118e7533df 100644
+--- a/hw/sd/sdhci.c
++++ b/hw/sd/sdhci.c
+@@ -40,7 +40,9 @@
+ #include "qom/object.h"
  
- struct MacfbNubusDeviceClass {
-     DeviceClass parent_class;
-@@ -56,8 +54,6 @@ struct MacfbNubusDeviceClass {
-     DeviceRealize parent_realize;
- };
+ #define TYPE_SDHCI_BUS "sdhci-bus"
+-#define SDHCI_BUS(obj) OBJECT_CHECK(SDBus, (obj), TYPE_SDHCI_BUS)
++/* This is reusing the SDBus typedef from SD_BUS */
++DECLARE_INSTANCE_CHECKER(SDBus, SDHCI_BUS,
++                         TYPE_SDHCI_BUS)
  
--#define NUBUS_MACFB(obj) \
--    OBJECT_CHECK(MacfbNubusState, (obj), TYPE_NUBUS_MACFB)
- 
- struct MacfbNubusState {
-     NubusDevice busdev;
-diff --git a/include/hw/i386/x86-iommu.h b/include/hw/i386/x86-iommu.h
-index dae2eab800..bbfaf44e79 100644
---- a/include/hw/i386/x86-iommu.h
-+++ b/include/hw/i386/x86-iommu.h
-@@ -28,12 +28,8 @@
- #define  TYPE_X86_IOMMU_DEVICE  ("x86-iommu")
- typedef struct X86IOMMUClass X86IOMMUClass;
- typedef struct X86IOMMUState X86IOMMUState;
--#define  X86_IOMMU_DEVICE(obj) \
--    OBJECT_CHECK(X86IOMMUState, (obj), TYPE_X86_IOMMU_DEVICE)
--#define  X86_IOMMU_DEVICE_CLASS(klass) \
--    OBJECT_CLASS_CHECK(X86IOMMUClass, (klass), TYPE_X86_IOMMU_DEVICE)
--#define  X86_IOMMU_DEVICE_GET_CLASS(obj) \
--    OBJECT_GET_CLASS(X86IOMMUClass, obj, TYPE_X86_IOMMU_DEVICE)
-+DECLARE_OBJ_CHECKERS(X86IOMMUState, X86IOMMUClass,
-+                     X86_IOMMU_DEVICE, TYPE_X86_IOMMU_DEVICE)
- 
- #define X86_IOMMU_SID_INVALID             (0xffff)
- 
-diff --git a/include/hw/misc/imx_ccm.h b/include/hw/misc/imx_ccm.h
-index 174248e5df..e9d82a2a50 100644
---- a/include/hw/misc/imx_ccm.h
-+++ b/include/hw/misc/imx_ccm.h
-@@ -30,12 +30,8 @@
- #define TYPE_IMX_CCM "imx.ccm"
- typedef struct IMXCCMClass IMXCCMClass;
- typedef struct IMXCCMState IMXCCMState;
--#define IMX_CCM(obj) \
--     OBJECT_CHECK(IMXCCMState, (obj), TYPE_IMX_CCM)
--#define IMX_CCM_CLASS(klass) \
--     OBJECT_CLASS_CHECK(IMXCCMClass, (klass), TYPE_IMX_CCM)
--#define IMX_CCM_GET_CLASS(obj) \
--     OBJECT_GET_CLASS(IMXCCMClass, (obj), TYPE_IMX_CCM)
-+DECLARE_OBJ_CHECKERS(IMXCCMState, IMXCCMClass,
-+                     IMX_CCM, TYPE_IMX_CCM)
- 
- struct IMXCCMState {
-     /* <private> */
-diff --git a/include/hw/misc/mos6522.h b/include/hw/misc/mos6522.h
-index b099814879..f73271ba67 100644
---- a/include/hw/misc/mos6522.h
-+++ b/include/hw/misc/mos6522.h
-@@ -126,7 +126,8 @@ typedef struct MOS6522State MOS6522State;
- 
- #define TYPE_MOS6522 "mos6522"
- typedef struct MOS6522DeviceClass MOS6522DeviceClass;
--#define MOS6522(obj) OBJECT_CHECK(MOS6522State, (obj), TYPE_MOS6522)
-+DECLARE_OBJ_CHECKERS(MOS6522State, MOS6522DeviceClass,
-+                     MOS6522, TYPE_MOS6522)
- 
- struct MOS6522DeviceClass {
-     DeviceClass parent_class;
-@@ -143,10 +144,6 @@ struct MOS6522DeviceClass {
-     uint64_t (*get_timer2_load_time)(MOS6522State *dev, MOS6522Timer *ti);
- };
- 
--#define MOS6522_CLASS(cls) \
--    OBJECT_CLASS_CHECK(MOS6522DeviceClass, (cls), TYPE_MOS6522)
--#define MOS6522_GET_CLASS(obj) \
--    OBJECT_GET_CLASS(MOS6522DeviceClass, (obj), TYPE_MOS6522)
- 
- extern const VMStateDescription vmstate_mos6522;
- 
-diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-index 8ef9af1969..48595ab641 100644
---- a/include/hw/ppc/xive.h
-+++ b/include/hw/ppc/xive.h
-@@ -155,10 +155,8 @@ typedef struct XiveNotifier XiveNotifier;
- #define XIVE_NOTIFIER(obj)                                     \
-     INTERFACE_CHECK(XiveNotifier, (obj), TYPE_XIVE_NOTIFIER)
- typedef struct XiveNotifierClass XiveNotifierClass;
--#define XIVE_NOTIFIER_CLASS(klass)                                     \
--    OBJECT_CLASS_CHECK(XiveNotifierClass, (klass), TYPE_XIVE_NOTIFIER)
--#define XIVE_NOTIFIER_GET_CLASS(obj)                                   \
--    OBJECT_GET_CLASS(XiveNotifierClass, (obj), TYPE_XIVE_NOTIFIER)
-+DECLARE_CLASS_CHECKERS(XiveNotifierClass, XIVE_NOTIFIER,
-+                       TYPE_XIVE_NOTIFIER)
- 
- struct XiveNotifierClass {
-     InterfaceClass parent;
-@@ -171,7 +169,8 @@ struct XiveNotifierClass {
- 
- #define TYPE_XIVE_SOURCE "xive-source"
- typedef struct XiveSource XiveSource;
--#define XIVE_SOURCE(obj) OBJECT_CHECK(XiveSource, (obj), TYPE_XIVE_SOURCE)
-+DECLARE_INSTANCE_CHECKER(XiveSource, XIVE_SOURCE,
-+                         TYPE_XIVE_SOURCE)
- 
- /*
-  * XIVE Interrupt Source characteristics, which define how the ESB are
-@@ -308,7 +307,8 @@ void xive_source_set_irq(void *opaque, int srcno, int val);
- 
- #define TYPE_XIVE_TCTX "xive-tctx"
- typedef struct XiveTCTX XiveTCTX;
--#define XIVE_TCTX(obj) OBJECT_CHECK(XiveTCTX, (obj), TYPE_XIVE_TCTX)
-+DECLARE_INSTANCE_CHECKER(XiveTCTX, XIVE_TCTX,
-+                         TYPE_XIVE_TCTX)
- 
- /*
-  * XIVE Thread interrupt Management register rings :
-@@ -349,12 +349,8 @@ typedef struct XiveRouter XiveRouter;
- 
- #define TYPE_XIVE_ROUTER "xive-router"
- typedef struct XiveRouterClass XiveRouterClass;
--#define XIVE_ROUTER(obj)                                \
--    OBJECT_CHECK(XiveRouter, (obj), TYPE_XIVE_ROUTER)
--#define XIVE_ROUTER_CLASS(klass)                                        \
--    OBJECT_CLASS_CHECK(XiveRouterClass, (klass), TYPE_XIVE_ROUTER)
--#define XIVE_ROUTER_GET_CLASS(obj)                              \
--    OBJECT_GET_CLASS(XiveRouterClass, (obj), TYPE_XIVE_ROUTER)
-+DECLARE_OBJ_CHECKERS(XiveRouter, XiveRouterClass,
-+                     XIVE_ROUTER, TYPE_XIVE_ROUTER)
- 
- struct XiveRouterClass {
-     SysBusDeviceClass parent;
-@@ -398,10 +394,8 @@ typedef struct XiveTCTXMatch {
- #define XIVE_PRESENTER(obj)                                     \
-     INTERFACE_CHECK(XivePresenter, (obj), TYPE_XIVE_PRESENTER)
- typedef struct XivePresenterClass XivePresenterClass;
--#define XIVE_PRESENTER_CLASS(klass)                                     \
--    OBJECT_CLASS_CHECK(XivePresenterClass, (klass), TYPE_XIVE_PRESENTER)
--#define XIVE_PRESENTER_GET_CLASS(obj)                                   \
--    OBJECT_GET_CLASS(XivePresenterClass, (obj), TYPE_XIVE_PRESENTER)
-+DECLARE_CLASS_CHECKERS(XivePresenterClass, XIVE_PRESENTER,
-+                       TYPE_XIVE_PRESENTER)
- 
- struct XivePresenterClass {
-     InterfaceClass parent;
-@@ -425,10 +419,8 @@ int xive_presenter_tctx_match(XivePresenter *xptr, XiveTCTX *tctx,
- #define XIVE_FABRIC(obj)                                     \
-     INTERFACE_CHECK(XiveFabric, (obj), TYPE_XIVE_FABRIC)
- typedef struct XiveFabricClass XiveFabricClass;
--#define XIVE_FABRIC_CLASS(klass)                                     \
--    OBJECT_CLASS_CHECK(XiveFabricClass, (klass), TYPE_XIVE_FABRIC)
--#define XIVE_FABRIC_GET_CLASS(obj)                                   \
--    OBJECT_GET_CLASS(XiveFabricClass, (obj), TYPE_XIVE_FABRIC)
-+DECLARE_CLASS_CHECKERS(XiveFabricClass, XIVE_FABRIC,
-+                       TYPE_XIVE_FABRIC)
- 
- struct XiveFabricClass {
-     InterfaceClass parent;
-@@ -444,8 +436,8 @@ struct XiveFabricClass {
- 
- #define TYPE_XIVE_END_SOURCE "xive-end-source"
- typedef struct XiveENDSource XiveENDSource;
--#define XIVE_END_SOURCE(obj) \
--    OBJECT_CHECK(XiveENDSource, (obj), TYPE_XIVE_END_SOURCE)
-+DECLARE_INSTANCE_CHECKER(XiveENDSource, XIVE_END_SOURCE,
-+                         TYPE_XIVE_END_SOURCE)
- 
- struct XiveENDSource {
-     DeviceState parent;
-diff --git a/include/hw/rdma/rdma.h b/include/hw/rdma/rdma.h
-index aef82e58db..e77e43a170 100644
---- a/include/hw/rdma/rdma.h
-+++ b/include/hw/rdma/rdma.h
-@@ -20,12 +20,8 @@
- #define INTERFACE_RDMA_PROVIDER "rdma"
- 
- typedef struct RdmaProviderClass RdmaProviderClass;
--#define RDMA_PROVIDER_CLASS(klass) \
--    OBJECT_CLASS_CHECK(RdmaProviderClass, (klass), \
-+DECLARE_CLASS_CHECKERS(RdmaProviderClass, RDMA_PROVIDER,
-                        INTERFACE_RDMA_PROVIDER)
--#define RDMA_PROVIDER_GET_CLASS(obj) \
--    OBJECT_GET_CLASS(RdmaProviderClass, (obj), \
--                     INTERFACE_RDMA_PROVIDER)
- #define RDMA_PROVIDER(obj) \
-     INTERFACE_CHECK(RdmaProvider, (obj), \
-                     INTERFACE_RDMA_PROVIDER)
-diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-virtio-ccw.h
-index f20c503b19..54d14da0a6 100644
---- a/include/hw/s390x/s390-virtio-ccw.h
-+++ b/include/hw/s390x/s390-virtio-ccw.h
-@@ -18,11 +18,9 @@
- 
- typedef struct S390CcwMachineClass S390CcwMachineClass;
- typedef struct S390CcwMachineState S390CcwMachineState;
--#define S390_CCW_MACHINE(obj) \
--    OBJECT_CHECK(S390CcwMachineState, (obj), TYPE_S390_CCW_MACHINE)
-+DECLARE_OBJ_CHECKERS(S390CcwMachineState, S390CcwMachineClass,
-+                     S390_CCW_MACHINE, TYPE_S390_CCW_MACHINE)
- 
--#define S390_CCW_MACHINE_CLASS(klass) \
--    OBJECT_CLASS_CHECK(S390CcwMachineClass, (klass), TYPE_S390_CCW_MACHINE)
- 
- struct S390CcwMachineState {
-     /*< private >*/
-diff --git a/migration/migration.h b/migration/migration.h
-index 4103e549bb..bdc7450da3 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -116,12 +116,8 @@ void fill_destination_postcopy_migration_info(MigrationInfo *info);
- #define TYPE_MIGRATION "migration"
- 
- typedef struct MigrationClass MigrationClass;
--#define MIGRATION_OBJ_CLASS(klass) \
--    OBJECT_CLASS_CHECK(MigrationClass, (klass), TYPE_MIGRATION)
--#define MIGRATION_OBJ(obj) \
--    OBJECT_CHECK(MigrationState, (obj), TYPE_MIGRATION)
--#define MIGRATION_OBJ_GET_CLASS(obj) \
--    OBJECT_GET_CLASS(MigrationClass, (obj), TYPE_MIGRATION)
-+DECLARE_OBJ_CHECKERS(MigrationState, MigrationClass,
-+                     MIGRATION_OBJ, TYPE_MIGRATION)
- 
- struct MigrationClass {
-     /*< private >*/
-diff --git a/target/arm/cpu-qom.h b/target/arm/cpu-qom.h
-index f12ca3a44c..92d58f84fe 100644
---- a/target/arm/cpu-qom.h
-+++ b/target/arm/cpu-qom.h
-@@ -63,10 +63,8 @@ struct ARMCPUClass {
- 
- #define TYPE_AARCH64_CPU "aarch64-cpu"
- typedef struct AArch64CPUClass AArch64CPUClass;
--#define AARCH64_CPU_CLASS(klass) \
--    OBJECT_CLASS_CHECK(AArch64CPUClass, (klass), TYPE_AARCH64_CPU)
--#define AARCH64_CPU_GET_CLASS(obj) \
--    OBJECT_GET_CLASS(AArch64CPUClass, (obj), TYPE_AARCH64_CPU)
-+DECLARE_CLASS_CHECKERS(AArch64CPUClass, AARCH64_CPU,
-+                       TYPE_AARCH64_CPU)
- 
- struct AArch64CPUClass {
-     /*< private >*/
-diff --git a/target/rx/cpu-qom.h b/target/rx/cpu-qom.h
-index dd96469e04..05f5773ab1 100644
---- a/target/rx/cpu-qom.h
-+++ b/target/rx/cpu-qom.h
-@@ -28,12 +28,8 @@
- 
- typedef struct RXCPU RXCPU;
- typedef struct RXCPUClass RXCPUClass;
--#define RX_CPU_CLASS(klass) \
--    OBJECT_CLASS_CHECK(RXCPUClass, (klass), TYPE_RX_CPU)
--#define RX_CPU(obj) \
--    OBJECT_CHECK(RXCPU, (obj), TYPE_RX_CPU)
--#define RX_CPU_GET_CLASS(obj) \
--    OBJECT_GET_CLASS(RXCPUClass, (obj), TYPE_RX_CPU)
-+DECLARE_OBJ_CHECKERS(RXCPU, RXCPUClass,
-+                     RX_CPU, TYPE_RX_CPU)
- 
- /*
-  * RXCPUClass:
-diff --git a/hw/arm/integratorcp.c b/hw/arm/integratorcp.c
-index 16c575c341..93fab86cb4 100644
---- a/hw/arm/integratorcp.c
-+++ b/hw/arm/integratorcp.c
-@@ -30,8 +30,8 @@
- 
- #define TYPE_INTEGRATOR_CM "integrator_core"
- typedef struct IntegratorCMState IntegratorCMState;
--#define INTEGRATOR_CM(obj) \
--    OBJECT_CHECK(IntegratorCMState, (obj), TYPE_INTEGRATOR_CM)
-+DECLARE_INSTANCE_CHECKER(IntegratorCMState, INTEGRATOR_CM,
-+                         TYPE_INTEGRATOR_CM)
- 
- struct IntegratorCMState {
-     /*< private >*/
-@@ -329,8 +329,8 @@ static void integratorcm_realize(DeviceState *d, Error **errp)
- 
- #define TYPE_INTEGRATOR_PIC "integrator_pic"
- typedef struct icp_pic_state icp_pic_state;
--#define INTEGRATOR_PIC(obj) \
--   OBJECT_CHECK(icp_pic_state, (obj), TYPE_INTEGRATOR_PIC)
-+DECLARE_INSTANCE_CHECKER(icp_pic_state, INTEGRATOR_PIC,
-+                         TYPE_INTEGRATOR_PIC)
- 
- struct icp_pic_state {
-     /*< private >*/
-@@ -469,8 +469,8 @@ static void icp_pic_init(Object *obj)
- 
- #define TYPE_ICP_CONTROL_REGS "icp-ctrl-regs"
- typedef struct ICPCtrlRegsState ICPCtrlRegsState;
--#define ICP_CONTROL_REGS(obj) \
--    OBJECT_CHECK(ICPCtrlRegsState, (obj), TYPE_ICP_CONTROL_REGS)
-+DECLARE_INSTANCE_CHECKER(ICPCtrlRegsState, ICP_CONTROL_REGS,
-+                         TYPE_ICP_CONTROL_REGS)
- 
- struct ICPCtrlRegsState {
-     /*< private >*/
-diff --git a/hw/arm/versatilepb.c b/hw/arm/versatilepb.c
-index 091ad34ac3..ab4251dcc1 100644
---- a/hw/arm/versatilepb.c
-+++ b/hw/arm/versatilepb.c
-@@ -36,8 +36,8 @@
- 
- #define TYPE_VERSATILE_PB_SIC "versatilepb_sic"
- typedef struct vpb_sic_state vpb_sic_state;
--#define VERSATILE_PB_SIC(obj) \
--    OBJECT_CHECK(vpb_sic_state, (obj), TYPE_VERSATILE_PB_SIC)
-+DECLARE_INSTANCE_CHECKER(vpb_sic_state, VERSATILE_PB_SIC,
-+                         TYPE_VERSATILE_PB_SIC)
- 
- struct vpb_sic_state {
-     SysBusDevice parent_obj;
-diff --git a/hw/sd/pl181.c b/hw/sd/pl181.c
-index f44817c654..f58b947e89 100644
---- a/hw/sd/pl181.c
-+++ b/hw/sd/pl181.c
-@@ -24,7 +24,8 @@
- 
- #define TYPE_PL181 "pl181"
- typedef struct PL181State PL181State;
--#define PL181(obj) OBJECT_CHECK(PL181State, (obj), TYPE_PL181)
-+DECLARE_INSTANCE_CHECKER(PL181State, PL181,
-+                         TYPE_PL181)
- 
- #define TYPE_PL181_BUS "pl181-bus"
+ #define MASKED_WRITE(reg, mask, val)  (reg = (reg & (mask)) | (val))
  
 -- 
 2.26.2
