@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5121B2522B2
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:22:42 +0200 (CEST)
-Received: from localhost ([::1]:44238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 791922522C3
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:25:56 +0200 (CEST)
+Received: from localhost ([::1]:32910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAgOv-0001Cj-9z
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:22:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36352)
+	id 1kAgS3-00080X-Fg
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:25:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kAg43-000099-6a
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:01:08 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:56102)
+ id 1kAg4E-0000Q1-C1
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:01:18 -0400
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:55654)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kAg3z-0001zq-6t
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:01:06 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id 2so118328pjx.5
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 14:01:02 -0700 (PDT)
+ id 1kAg4C-00021h-3g
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:01:17 -0400
+Received: by mail-pj1-x1044.google.com with SMTP id 2so118661pjx.5
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 14:01:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8b0bp9mk+1WbNfIATZBmVlR2NfvcC4JEryF82Ik81YY=;
- b=r2HUuPvhKirChEZkUK4KJtTJepETf/6ibKth2j7LthDaibAOMUyHDGPttbFvSVoPrm
- C0u4l7nJDt9e5WaFlon9bNzBC5mL1dBYmxYTo4zQFDo+hOIZ63CdVSMgw4+IgCqeHg8Q
- dHQ5Dwz2kgkL7sS0vviy/r/P++szwMibw0unNxk7Sev5vB168PtNMTGgiV1VBe9Upczl
- PCOpcxCmih2CZGa4451c/HsrSO6qOJE8EpaJsqs7BMvyXh/slnfTGHtBqKdjId9cOxfl
- M2bxTAdJm4JYMxuQeLpOz7fMFDf24dz3t1/auM6jX+GX2usLaw/my3g/lw6EeGeM/MHH
- nO+g==
+ bh=ulBZsejW2MG0+XvkBxJ405c+w3o2ybsU7Ko1+l3VylQ=;
+ b=ouP3GNpws10kfQdVvOrwNLcPphAdXPOKqL+5zPovlIaEbwdO2MNHWHG7o+NkDz9k55
+ gmKxf2I23v/uU2kYDf/Y9+IgkRsTkX6tTqZ2dktEKRP8al2bej0CeNjdkXLDkSS8G4CL
+ goRbB00kxg7VHSbQiYJeIxOyeaeC9+Co57nZ/CgKda4kgYxJ48yrouJxbWpLV9YubiYL
+ fKvcaLpDh8yNF9pAk5lMVMwQc98DDsdQJveb7N8l5rj6V1ef4ypFnGZApk0grxdB2e+B
+ uK+BHu9VJyopinTtt19X+rMqk49Bubjc4ZFq3VZ0h6AmKHRxPyIE3jBG5DxPejh7/2vg
+ cSZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8b0bp9mk+1WbNfIATZBmVlR2NfvcC4JEryF82Ik81YY=;
- b=k4fApancvQgYrGJLGOOz++2EILUGM12nabdmu5MKpygOSxgPzzReQf9fah2QAe6BzA
- mTuZTy/nwDKbefPDUiij4QtAbqRRuhCEkwgRLqLErDyg3UEPalRGvVSGW91YkyFlSRxW
- 6dAvsdj1qC7CrB3YHlzdwbh2QSkowdNva2BARcdFZVfbIEFvn3H+0l0NZDHyVBRCnhBi
- UHfxU4syo0ivluJF3n0b/FElzv7QLWN1sW6LKsWC+enZfS+FoHjtmdny9uwdKU3oyqCt
- 3eTZjYHtnTWNtI/NYgw1roUfLjsZZPBQbo0Ubm2L3ntuycULqxpjTqsnATYFtPb+1gvP
- fasg==
-X-Gm-Message-State: AOAM533ai1pF4B3UlRzCvj1JllW2UwgkrJsBdL+OqlK5R69yx5zAytr1
- DBU/Hkloe+hClpHtbFW7GzJV6XaAlkYNmA==
-X-Google-Smtp-Source: ABdhPJy92C8yJUoJLSw6lQRCe3zrFRjRsaL+lsk2+yuHn9MS+isRdn0E/lV+eGfmnF5k32i78bnSNQ==
-X-Received: by 2002:a17:90b:40cb:: with SMTP id
- hj11mr3227959pjb.67.1598389260896; 
- Tue, 25 Aug 2020 14:01:00 -0700 (PDT)
+ bh=ulBZsejW2MG0+XvkBxJ405c+w3o2ybsU7Ko1+l3VylQ=;
+ b=sT93v3fCMieAtp5WhEmPZFgEAXzHUtRCfZDlCmFpnPOHL/Cv1P4Hd4Kl9OCT9VZsK8
+ 9SwqpeadzVy3ZMZem136z3Fizkt3WyW+D6v4tk4oUlK14eRqX12FxdqwIx54x1Z2JqD8
+ snV86/6ikvsL2y1x6qwbaaDMzO6xxKMdy6uShNAOcz8BX5UENMTv2Lpg+ap64k90FBvv
+ TgHnCLQ/DQw5HVg3EKD6Vl3YO/IDHwUtWQj+k44mGEsH41hPhgDJorslz5r4tX4eVIKD
+ Z5VV/Mi8/U5AvNXGtUreUnNzBs3CCB4/AVU1NpbzRYP1gL7yzfQ0uyRu6bdOlz0gF2JP
+ kiXA==
+X-Gm-Message-State: AOAM531erSUPrcWn2eSlyjTdgKVHKQuHFB3j5ZO4+qLwQU5L/LMP99Od
+ ELZreCoMNl5nunZo/T4qVaTxPdjboSfX4A==
+X-Google-Smtp-Source: ABdhPJwzmYVJHTh+ZG7U+5WPLuwqasVsUl81thLd/BHqyWYQQpaxz6sy3srKwZeETHx2VNL+yehpbg==
+X-Received: by 2002:a17:90a:fd82:: with SMTP id
+ cx2mr3102172pjb.20.1598389274338; 
+ Tue, 25 Aug 2020 14:01:14 -0700 (PDT)
 Received: from localhost.localdomain
  (h216-228-167-147.bendor.dedicated.static.tds.net. [216.228.167.147])
- by smtp.gmail.com with ESMTPSA id k4sm16074pgr.87.2020.08.25.14.00.59
+ by smtp.gmail.com with ESMTPSA id k4sm16074pgr.87.2020.08.25.14.01.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Aug 2020 14:01:00 -0700 (PDT)
+ Tue, 25 Aug 2020 14:01:13 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 55/77] target/microblaze: Move bimm to BIMM_FLAG
-Date: Tue, 25 Aug 2020 13:59:28 -0700
-Message-Id: <20200825205950.730499-56-richard.henderson@linaro.org>
+Subject: [PATCH 62/77] target/microblaze: Try to keep imm and delay slot
+ together
+Date: Tue, 25 Aug 2020 13:59:35 -0700
+Message-Id: <20200825205950.730499-63-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200825205950.730499-1-richard.henderson@linaro.org>
 References: <20200825205950.730499-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1044.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,78 +91,135 @@ Cc: edgar.iglesias@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It makes sense to keep BIMM with D_FLAG, as they can be written
-back to iflags at the same time.  BIMM_FLAG does not need to be
-added to IFLAGS_TB_MASK because it does not affect the next TB,
-only the exception path out of the current TB.  Renumber IMM_FLAG,
-as the value 4 holds no particular significance; pack these two
-flags at the bottom of the bitfield.
+If the last insn on a page is imm, or a branch with delay slot,
+then end a tb early if this has not begun the tb.  If it has
+begun the tb, then we can allow the tb to span two pages as if
+the imm plus its consumer, or branch plus delay, or imm plus
+branch plus delay, are a single insn.
+
+If the insn in the delay slot faults, then the exception handler
+will have reset the PC to the beginning of this sequence anyway,
+via the stored D_FLAG and BIMM_FLAG bits.
+
+Disable all of this when single-stepping.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/cpu.h       |  4 ++--
- target/microblaze/helper.c    |  2 +-
- target/microblaze/translate.c | 12 +++++-------
- 3 files changed, 8 insertions(+), 10 deletions(-)
+ target/microblaze/translate.c | 65 ++++++++++++++++++++++++++++++-----
+ 1 file changed, 56 insertions(+), 9 deletions(-)
 
-diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
-index 2fc7cf26f1..a5df1fa28f 100644
---- a/target/microblaze/cpu.h
-+++ b/target/microblaze/cpu.h
-@@ -231,7 +231,6 @@ typedef struct CPUMBState CPUMBState;
- struct CPUMBState {
-     uint32_t btaken;
-     uint32_t btarget;
--    uint32_t bimm;
- 
-     uint32_t imm;
-     uint32_t regs[32];
-@@ -253,7 +252,8 @@ struct CPUMBState {
-     uint32_t res_val;
- 
-     /* Internal flags.  */
--#define IMM_FLAG	4
-+#define IMM_FLAG        (1 << 0)
-+#define BIMM_FLAG       (1 << 1)
- /* MSR_EE               (1 << 8)  */
- /* MSR_UM               (1 << 11) */
- /* MSR_VM               (1 << 13) */
-diff --git a/target/microblaze/helper.c b/target/microblaze/helper.c
-index f8e2ca12a9..06f4322e09 100644
---- a/target/microblaze/helper.c
-+++ b/target/microblaze/helper.c
-@@ -166,7 +166,7 @@ void mb_cpu_do_interrupt(CPUState *cs)
-                 /* Reexecute the branch.  */
-                 env->regs[17] -= 4;
-                 /* was the branch immprefixed?.  */
--                if (env->bimm) {
-+                if (env->iflags & BIMM_FLAG) {
-                     env->regs[17] -= 4;
-                     log_cpu_state_mask(CPU_LOG_INT, cs, 0);
-                 }
 diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index 42d6d2a593..7fd1efd3fb 100644
+index 4675326083..fcfc1ac184 100644
 --- a/target/microblaze/translate.c
 +++ b/target/microblaze/translate.c
-@@ -1337,13 +1337,11 @@ static void eval_cond_jmp(DisasContext *dc, TCGv_i32 pc_true, TCGv_i32 pc_false)
+@@ -530,11 +530,50 @@ static void gen_idivu(TCGv_i32 out, TCGv_i32 ina, TCGv_i32 inb)
+ DO_TYPEA_CFG(idiv, use_div, true, gen_idiv)
+ DO_TYPEA_CFG(idivu, use_div, true, gen_idivu)
  
- static void dec_setup_dslot(DisasContext *dc)
- {
--        TCGv_i32 tmp = tcg_const_i32(dc->type_b && (dc->tb_flags & IMM_FLAG));
--
--        dc->delayed_branch = 2;
--        dc->tb_flags |= D_FLAG;
--
--        tcg_gen_st_i32(tmp, cpu_env, offsetof(CPUMBState, bimm));
--        tcg_temp_free_i32(tmp);
-+    dc->delayed_branch = 2;
-+    dc->tb_flags |= D_FLAG;
-+    if (dc->type_b && (dc->tb_flags & IMM_FLAG)) {
-+        dc->tb_flags |= BIMM_FLAG;
++/*
++ * Try to keep the current instruction with the one following.
++ * So if this insn is the last in the TB, and is not the first
++ * in the TB, and we are not singlestepping, then back up and
++ * exit the current TB.
++ */
++static bool wait_for_next_tb(DisasContext *dc)
++{
++    if (dc->base.num_insns >= dc->base.max_insns
++        && !dc->base.singlestep_enabled) {
++        /* Also consider if this insn (e.g. brid) itself uses an imm. */
++        int ninsns = (dc->tb_flags & IMM_FLAG ? 2 : 1);
++
++        /*
++         * If this is not the first insn in the TB, back up and
++         * start again with a new TB.
++         */
++        if (dc->base.num_insns > ninsns) {
++            dc->base.pc_next -= ninsns * 4;
++            dc->base.num_insns -= ninsns;
++            dc->base.is_jmp = DISAS_TOO_MANY;
++            return true;
++        }
++
++        /*
++         * Correspondingly, if this is the first insn of the TB,
++         * then extend the TB as necessary to keep it with the
++         * next insn.  Do this by *reducing* the number of insns
++         * processed by this TB so that icount does fail an assertion.
++         */
++        if (dc->base.num_insns == ninsns) {
++            dc->base.num_insns = 0;
++        }
 +    }
++    return false;
++}
++
+ static bool trans_imm(DisasContext *dc, arg_imm *arg)
+ {
+-    dc->ext_imm = arg->imm << 16;
+-    tcg_gen_movi_i32(cpu_imm, dc->ext_imm);
+-    dc->tb_flags_to_set = IMM_FLAG;
++    if (!wait_for_next_tb(dc)) {
++        dc->ext_imm = arg->imm << 16;
++        tcg_gen_movi_i32(cpu_imm, dc->ext_imm);
++        dc->tb_flags_to_set = IMM_FLAG;
++    }
+     return true;
+ }
+ 
+@@ -1311,12 +1350,17 @@ static void eval_cond_jmp(DisasContext *dc, TCGv_i32 pc_true, TCGv_i32 pc_false)
+     tcg_temp_free_i32(zero);
+ }
+ 
+-static void dec_setup_dslot(DisasContext *dc)
++static bool dec_setup_dslot(DisasContext *dc)
+ {
++    if (wait_for_next_tb(dc)) {
++        return true;
++    }
++
+     dc->tb_flags_to_set |= D_FLAG;
+     if (dc->type_b && (dc->tb_flags & IMM_FLAG)) {
+         dc->tb_flags_to_set |= BIMM_FLAG;
+     }
++    return false;
  }
  
  static void dec_bcc(DisasContext *dc)
+@@ -1327,8 +1371,8 @@ static void dec_bcc(DisasContext *dc)
+     cc = EXTRACT_FIELD(dc->ir, 21, 23);
+     dslot = dc->ir & (1 << 25);
+ 
+-    if (dslot) {
+-        dec_setup_dslot(dc);
++    if (dslot && dec_setup_dslot(dc)) {
++        return;
+     }
+ 
+     if (dc->type_b) {
+@@ -1402,9 +1446,10 @@ static void dec_br(DisasContext *dc)
+         }
+     }
+ 
+-    if (dslot) {
+-        dec_setup_dslot(dc);
++    if (dslot && dec_setup_dslot(dc)) {
++        return;
+     }
++
+     if (link && dc->rd) {
+         tcg_gen_movi_i32(cpu_R[dc->rd], dc->base.pc_next);
+     }
+@@ -1513,7 +1558,9 @@ static void dec_rts(DisasContext *dc)
+         return;
+     }
+ 
+-    dec_setup_dslot(dc);
++    if (dec_setup_dslot(dc)) {
++        return;
++    }
+ 
+     if (i_bit) {
+         dc->tb_flags |= DRTI_FLAG;
 -- 
 2.25.1
 
