@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E0F32520CF
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 21:44:03 +0200 (CEST)
-Received: from localhost ([::1]:57748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 098D72520C7
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 21:41:50 +0200 (CEST)
+Received: from localhost ([::1]:45838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAerS-0002sK-Ey
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 15:44:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40540)
+	id 1kAepJ-0006Yc-1t
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 15:41:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kAeXF-0002G6-Ik
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:23:09 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:36116
+ id 1kAeXH-0002Ml-Ue
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:23:11 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:26070
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kAeXD-0006Jz-T7
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:23:09 -0400
+ id 1kAeXG-0006Kc-9C
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:23:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598383387;
+ s=mimecast20190719; t=1598383389;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VjxeJ9BzGMkGV1SE9TDzsM2n1mANptvL9g+g5D4ipE4=;
- b=e3GHLY4A95uwqQCiDceMw8vBH75oKOjpRfH/exsQfkdX1ermaiH+45YbonifcEWhKoRGc0
- cR7e0NTUKBKK/xH/aQaVP3GGKLU57cN8zVn6KOM96CihbgR/XmzJEDutgiEytcNKeRCzca
- 0qLS+qFWXlPGwVoTyHy3OU+/sW/0Ss8=
+ bh=tnPkPywknZThwcy5hE+qExHNKvieeAP0ovslwzk0UWw=;
+ b=C4YZLThwvUrBj4luJ9z1S2fP2LPT48F3sYaIt23rbcvj6Jvfwp/1EOwdPWVjGN3i+mi1/F
+ H+HAuadKpTKboOj6/mPtrN6IOhQAv7dxBB9pdnYLab8Px4bBhFsecI/A7Tfg3198WBgYc4
+ JTjH5AnenmFnJibjUGxF2pvufKoitw4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-102-ybcLCmRVPcapeTx3tYjqmg-1; Tue, 25 Aug 2020 15:23:03 -0400
-X-MC-Unique: ybcLCmRVPcapeTx3tYjqmg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-240-aO_CWl9kPVuCuuNVsr4DMw-1; Tue, 25 Aug 2020 15:23:05 -0400
+X-MC-Unique: aO_CWl9kPVuCuuNVsr4DMw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 544BD807330;
- Tue, 25 Aug 2020 19:23:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4709085B685;
+ Tue, 25 Aug 2020 19:23:04 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5A6DA709C4;
- Tue, 25 Aug 2020 19:22:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 31D666198B;
+ Tue, 25 Aug 2020 19:23:03 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 48/74] s390-virtio-ccw: Rename S390_MACHINE_CLASS macro
-Date: Tue, 25 Aug 2020 15:20:44 -0400
-Message-Id: <20200825192110.3528606-49-ehabkost@redhat.com>
+Subject: [PATCH v3 49/74] swim: Rename struct SWIM to Swim
+Date: Tue, 25 Aug 2020 15:20:45 -0400
+Message-Id: <20200825192110.3528606-50-ehabkost@redhat.com>
 In-Reply-To: <20200825192110.3528606-1-ehabkost@redhat.com>
 References: <20200825192110.3528606-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.001
@@ -81,117 +81,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
+ qemu-block@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
+ Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename it to be consistent with S390_CCW_MACHINE and
-TYPE_S390_CCW_MACHINE.
+Currently we have a SWIM typedef and a SWIM type checking macro,
+but OBJECT_DECLARE* would transform the SWIM macro into a
+function, and the function name would conflict with the SWIM
+typedef name.
 
-This will make future conversion to OBJECT_DECLARE* easier.
+Rename the struct and typedef to "Swim". This will make future
+conversion to OBJECT_DECLARE* easier.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
 Changes series v2 -> v3: new patch added to series v3
 
 ---
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Cornelia Huck <cohuck@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>
-Cc: Halil Pasic <pasic@linux.ibm.com>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>
-Cc: qemu-s390x@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: Kevin Wolf <kwolf@redhat.com>
+Cc: Max Reitz <mreitz@redhat.com>
+Cc: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org
+
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/hw/s390x/s390-virtio-ccw.h |  2 +-
- hw/s390x/s390-virtio-ccw.c         | 14 +++++++-------
+ include/hw/block/swim.h |  6 +++---
+ hw/block/swim.c         | 10 +++++-----
  2 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-virtio-ccw.h
-index cd1dccc6e3..caf4962d29 100644
---- a/include/hw/s390x/s390-virtio-ccw.h
-+++ b/include/hw/s390x/s390-virtio-ccw.h
-@@ -18,7 +18,7 @@
- #define S390_CCW_MACHINE(obj) \
-     OBJECT_CHECK(S390CcwMachineState, (obj), TYPE_S390_CCW_MACHINE)
+diff --git a/include/hw/block/swim.h b/include/hw/block/swim.h
+index 6add3499d0..9d8b65c561 100644
+--- a/include/hw/block/swim.h
++++ b/include/hw/block/swim.h
+@@ -67,10 +67,10 @@ struct SWIMCtrl {
+ };
  
--#define S390_MACHINE_CLASS(klass) \
-+#define S390_CCW_MACHINE_CLASS(klass) \
-     OBJECT_CLASS_CHECK(S390CcwMachineClass, (klass), TYPE_S390_CCW_MACHINE)
+ #define TYPE_SWIM "swim"
+-#define SWIM(obj) OBJECT_CHECK(SWIM, (obj), TYPE_SWIM)
++#define SWIM(obj) OBJECT_CHECK(Swim, (obj), TYPE_SWIM)
  
- typedef struct S390CcwMachineState {
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index f4ea6a9545..3106bbea33 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -596,7 +596,7 @@ static void ccw_machine_class_init(ObjectClass *oc, void *data)
-     MachineClass *mc = MACHINE_CLASS(oc);
-     NMIClass *nc = NMI_CLASS(oc);
-     HotplugHandlerClass *hc = HOTPLUG_HANDLER_CLASS(oc);
--    S390CcwMachineClass *s390mc = S390_MACHINE_CLASS(mc);
-+    S390CcwMachineClass *s390mc = S390_CCW_MACHINE_CLASS(mc);
+-typedef struct SWIM {
++typedef struct Swim {
+     SysBusDevice parent_obj;
+     SWIMCtrl     ctrl;
+-} SWIM;
++} Swim;
+ #endif
+diff --git a/hw/block/swim.c b/hw/block/swim.c
+index 74f56e8f46..20133a814c 100644
+--- a/hw/block/swim.c
++++ b/hw/block/swim.c
+@@ -387,7 +387,7 @@ static const MemoryRegionOps swimctrl_mem_ops = {
  
-     s390mc->ri_allowed = true;
-     s390mc->cpu_model_allowed = true;
-@@ -677,7 +677,7 @@ static S390CcwMachineClass *get_machine_class(void)
-         * be called for the 'none' machine. The properties will
-         * have their after-initialization values.
-         */
--        current_mc = S390_MACHINE_CLASS(
-+        current_mc = S390_CCW_MACHINE_CLASS(
-                      object_class_by_name(TYPE_S390_CCW_MACHINE));
+ static void sysbus_swim_reset(DeviceState *d)
+ {
+-    SWIM *sys = SWIM(d);
++    Swim *sys = SWIM(d);
+     SWIMCtrl *ctrl = &sys->ctrl;
+     int i;
+ 
+@@ -408,7 +408,7 @@ static void sysbus_swim_reset(DeviceState *d)
+ static void sysbus_swim_init(Object *obj)
+ {
+     SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
+-    SWIM *sbs = SWIM(obj);
++    Swim *sbs = SWIM(obj);
+     SWIMCtrl *swimctrl = &sbs->ctrl;
+ 
+     memory_region_init_io(&swimctrl->iomem, obj, &swimctrl_mem_ops, swimctrl,
+@@ -418,7 +418,7 @@ static void sysbus_swim_init(Object *obj)
+ 
+ static void sysbus_swim_realize(DeviceState *dev, Error **errp)
+ {
+-    SWIM *sys = SWIM(dev);
++    Swim *sys = SWIM(dev);
+     SWIMCtrl *swimctrl = &sys->ctrl;
+ 
+     qbus_create_inplace(&swimctrl->bus, sizeof(SWIMBus), TYPE_SWIM_BUS, dev,
+@@ -460,7 +460,7 @@ static const VMStateDescription vmstate_sysbus_swim = {
+     .name = "SWIM",
+     .version_id = 1,
+     .fields = (VMStateField[]) {
+-        VMSTATE_STRUCT(ctrl, SWIM, 0, vmstate_swim, SWIMCtrl),
++        VMSTATE_STRUCT(ctrl, Swim, 0, vmstate_swim, SWIMCtrl),
+         VMSTATE_END_OF_LIST()
      }
-     return current_mc;
-@@ -786,7 +786,7 @@ bool css_migration_enabled(void)
-     static void ccw_machine_##suffix##_instance_init(Object *obj)             \
-     {                                                                         \
-         MachineState *machine = MACHINE(obj);                                 \
--        current_mc = S390_MACHINE_CLASS(MACHINE_GET_CLASS(machine));          \
-+        current_mc = S390_CCW_MACHINE_CLASS(MACHINE_GET_CLASS(machine));          \
-         ccw_machine_##suffix##_instance_options(machine);                     \
-     }                                                                         \
-     static const TypeInfo ccw_machine_##suffix##_info = {                     \
-@@ -898,7 +898,7 @@ static void ccw_machine_3_0_instance_options(MachineState *machine)
- 
- static void ccw_machine_3_0_class_options(MachineClass *mc)
- {
--    S390CcwMachineClass *s390mc = S390_MACHINE_CLASS(mc);
-+    S390CcwMachineClass *s390mc = S390_CCW_MACHINE_CLASS(mc);
- 
-     s390mc->hpage_1m_allowed = false;
-     ccw_machine_3_1_class_options(mc);
-@@ -965,7 +965,7 @@ static void ccw_machine_2_9_instance_options(MachineState *machine)
- 
- static void ccw_machine_2_9_class_options(MachineClass *mc)
- {
--    S390CcwMachineClass *s390mc = S390_MACHINE_CLASS(mc);
-+    S390CcwMachineClass *s390mc = S390_CCW_MACHINE_CLASS(mc);
-     static GlobalProperty compat[] = {
-         { TYPE_S390_STATTRIB, "migration-enabled", "off", },
-     };
-@@ -1001,7 +1001,7 @@ static void ccw_machine_2_7_instance_options(MachineState *machine)
- 
- static void ccw_machine_2_7_class_options(MachineClass *mc)
- {
--    S390CcwMachineClass *s390mc = S390_MACHINE_CLASS(mc);
-+    S390CcwMachineClass *s390mc = S390_CCW_MACHINE_CLASS(mc);
- 
-     s390mc->cpu_model_allowed = false;
-     ccw_machine_2_8_class_options(mc);
-@@ -1016,7 +1016,7 @@ static void ccw_machine_2_6_instance_options(MachineState *machine)
- 
- static void ccw_machine_2_6_class_options(MachineClass *mc)
- {
--    S390CcwMachineClass *s390mc = S390_MACHINE_CLASS(mc);
-+    S390CcwMachineClass *s390mc = S390_CCW_MACHINE_CLASS(mc);
-     static GlobalProperty compat[] = {
-         { TYPE_S390_IPL, "iplbext_migration", "off", },
-          { TYPE_VIRTUAL_CSS_BRIDGE, "css_dev_path", "off", },
+ };
+@@ -477,7 +477,7 @@ static void sysbus_swim_class_init(ObjectClass *oc, void *data)
+ static const TypeInfo sysbus_swim_info = {
+     .name          = TYPE_SWIM,
+     .parent        = TYPE_SYS_BUS_DEVICE,
+-    .instance_size = sizeof(SWIM),
++    .instance_size = sizeof(Swim),
+     .instance_init = sysbus_swim_init,
+     .class_init    = sysbus_swim_class_init,
+ };
 -- 
 2.26.2
 
