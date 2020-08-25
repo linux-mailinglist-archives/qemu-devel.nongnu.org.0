@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 350DE251FE6
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 21:23:54 +0200 (CEST)
-Received: from localhost ([::1]:38408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 291E7251FD8
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 21:22:39 +0200 (CEST)
+Received: from localhost ([::1]:58730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAeXx-000314-7V
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 15:23:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39148)
+	id 1kAeWk-00085D-2n
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 15:22:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kAeVZ-0006Hq-6Z
+ id 1kAeVZ-0006JU-9D
  for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:21:25 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37824
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28698)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kAeVW-000619-KL
+ id 1kAeVX-00061L-Dl
  for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:21:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598383281;
+ s=mimecast20190719; t=1598383282;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XO8DB7emv4BcDl67hxa2wyRpaTGxlAYk6xpPzT/Q1NM=;
- b=TW0zPIxJn8YezhqBBIV+z1eusp/V9qEUq0kkRP236ZWicViGzFFjv8SQCPZBkBopjQVOZL
- d8+lVvSvAQ3/mQLGD7G1ZIfxVu6me2i7IxEDZL8bJXSXBVCHDXvP4naYOgdxC6h+ePavDW
- lMNoMJz2FXw+CT3w1JsQbLu8z94zdKc=
+ bh=UFVSPpKNsJ4GtROn1SjP6U6WtnAWBNC+GV8OVQyPMUs=;
+ b=eoDBhvnZFeU55COfU6SKSegoFw1Ll2CqMwIDn5c90y49zmb2wRL+LxAtaWgyHrObBOqS6g
+ 1swKiR4Tnwa8I0mdACVymUAuDqaQ88vrHejrnj5+uSGb7SD9Kr9xId0sbGia6v+UsUQF1Q
+ Ev6NXiaYlFqYCM94bDiMQtYulADXALY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-365-7WBqXtngPMecdN6-DfKpxA-1; Tue, 25 Aug 2020 15:21:18 -0400
-X-MC-Unique: 7WBqXtngPMecdN6-DfKpxA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-511-3emnBBR3Ma-j_634wDHCyA-1; Tue, 25 Aug 2020 15:21:20 -0400
+X-MC-Unique: 3emnBBR3Ma-j_634wDHCyA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1DBB64087
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 19:21:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C57D3FD1;
+ Tue, 25 Aug 2020 19:21:19 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 96C7310013C2;
- Tue, 25 Aug 2020 19:21:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DAEC319C58;
+ Tue, 25 Aug 2020 19:21:18 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 01/74] e1000: Rename QOM class cast macros
-Date: Tue, 25 Aug 2020 15:19:57 -0400
-Message-Id: <20200825192110.3528606-2-ehabkost@redhat.com>
+Subject: [PATCH v3 02/74] megasas: Rename QOM class cast macros
+Date: Tue, 25 Aug 2020 15:19:58 -0400
+Message-Id: <20200825192110.3528606-3-ehabkost@redhat.com>
 In-Reply-To: <20200825192110.3528606-1-ehabkost@redhat.com>
 References: <20200825192110.3528606-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 01:37:44
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 02:03:58
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.958,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,13 +80,14 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jason Wang <jasowang@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Hannes Reinecke <hare@suse.com>, "Daniel P. Berrange" <berrange@redhat.com>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename the E1000_DEVICE_CLASS() and E1000_DEVICE_GET_CLASS()
-macros to be consistent with the E1000() instance cast macro.
+Rename the MEGASAS_DEVICE_CLASS() and MEGASAS_DEVICE_GET_CLASS()
+macros to be consistent with the MEGASAS() instance cast macro.
 
 This will allow us to register the type cast macros using
 OBJECT_DECLARE_TYPE later.
@@ -100,46 +100,67 @@ Changes v2 -> v3: none
 Changes v1 -> v2: none
 
 ---
-Cc: Jason Wang <jasowang@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>
+Cc: Hannes Reinecke <hare@suse.com>
+Cc: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org
 ---
- hw/net/e1000.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ hw/scsi/megasas.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/hw/net/e1000.c b/hw/net/e1000.c
-index a18f80e369..c4d896a9e6 100644
---- a/hw/net/e1000.c
-+++ b/hw/net/e1000.c
-@@ -151,9 +151,9 @@ typedef struct E1000BaseClass {
- #define E1000(obj) \
-     OBJECT_CHECK(E1000State, (obj), TYPE_E1000_BASE)
+diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
+index 5cfd1bf22e..390c2f2edb 100644
+--- a/hw/scsi/megasas.c
++++ b/hw/scsi/megasas.c
+@@ -134,9 +134,9 @@ typedef struct MegasasBaseClass {
+ #define MEGASAS(obj) \
+     OBJECT_CHECK(MegasasState, (obj), TYPE_MEGASAS_BASE)
  
--#define E1000_DEVICE_CLASS(klass) \
-+#define E1000_CLASS(klass) \
-      OBJECT_CLASS_CHECK(E1000BaseClass, (klass), TYPE_E1000_BASE)
--#define E1000_DEVICE_GET_CLASS(obj) \
-+#define E1000_GET_CLASS(obj) \
-     OBJECT_GET_CLASS(E1000BaseClass, (obj), TYPE_E1000_BASE)
+-#define MEGASAS_DEVICE_CLASS(oc) \
++#define MEGASAS_CLASS(oc) \
+     OBJECT_CLASS_CHECK(MegasasBaseClass, (oc), TYPE_MEGASAS_BASE)
+-#define MEGASAS_DEVICE_GET_CLASS(oc) \
++#define MEGASAS_GET_CLASS(oc) \
+     OBJECT_GET_CLASS(MegasasBaseClass, (oc), TYPE_MEGASAS_BASE)
  
- static void
-@@ -365,7 +365,7 @@ e1000_autoneg_timer(void *opaque)
- static void e1000_reset(void *opaque)
+ #define MEGASAS_INTR_DISABLED_MASK 0xFFFFFFFF
+@@ -733,7 +733,7 @@ static int megasas_ctrl_get_info(MegasasState *s, MegasasCmd *cmd)
  {
-     E1000State *d = opaque;
--    E1000BaseClass *edc = E1000_DEVICE_GET_CLASS(d);
-+    E1000BaseClass *edc = E1000_GET_CLASS(d);
-     uint8_t *macaddr = d->conf.macaddr.a;
- 
-     timer_del(d->autoneg_timer);
-@@ -1751,7 +1751,7 @@ static void e1000_class_init(ObjectClass *klass, void *data)
+     PCIDevice *pci_dev = PCI_DEVICE(s);
+     PCIDeviceClass *pci_class = PCI_DEVICE_GET_CLASS(pci_dev);
+-    MegasasBaseClass *base_class = MEGASAS_DEVICE_GET_CLASS(s);
++    MegasasBaseClass *base_class = MEGASAS_GET_CLASS(s);
+     struct mfi_ctrl_info info;
+     size_t dcmd_size = sizeof(info);
+     BusChild *kid;
+@@ -1999,7 +1999,7 @@ static uint64_t megasas_mmio_read(void *opaque, hwaddr addr,
  {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
--    E1000BaseClass *e = E1000_DEVICE_CLASS(klass);
-+    E1000BaseClass *e = E1000_CLASS(klass);
-     const E1000Info *info = data;
+     MegasasState *s = opaque;
+     PCIDevice *pci_dev = PCI_DEVICE(s);
+-    MegasasBaseClass *base_class = MEGASAS_DEVICE_GET_CLASS(s);
++    MegasasBaseClass *base_class = MEGASAS_GET_CLASS(s);
+     uint32_t retval = 0;
  
-     k->realize = pci_e1000_realize;
+     switch (addr) {
+@@ -2322,7 +2322,7 @@ static const struct SCSIBusInfo megasas_scsi_info = {
+ static void megasas_scsi_realize(PCIDevice *dev, Error **errp)
+ {
+     MegasasState *s = MEGASAS(dev);
+-    MegasasBaseClass *b = MEGASAS_DEVICE_GET_CLASS(s);
++    MegasasBaseClass *b = MEGASAS_GET_CLASS(s);
+     uint8_t *pci_conf;
+     int i, bar_type;
+     Error *err = NULL;
+@@ -2506,7 +2506,7 @@ static void megasas_class_init(ObjectClass *oc, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(oc);
+     PCIDeviceClass *pc = PCI_DEVICE_CLASS(oc);
+-    MegasasBaseClass *e = MEGASAS_DEVICE_CLASS(oc);
++    MegasasBaseClass *e = MEGASAS_CLASS(oc);
+     const MegasasInfo *info = data;
+ 
+     pc->realize = megasas_scsi_realize;
 -- 
 2.26.2
 
