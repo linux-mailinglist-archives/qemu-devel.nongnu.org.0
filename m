@@ -2,73 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FA4C251EC6
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 20:02:40 +0200 (CEST)
-Received: from localhost ([::1]:57322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BDBC251ED9
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 20:06:06 +0200 (CEST)
+Received: from localhost ([::1]:37548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAdHL-000436-8D
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 14:02:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46460)
+	id 1kAdKf-0007WH-9v
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 14:06:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kAdE4-0000Vg-OP
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 13:59:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45221)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kAdE2-0003Tr-CT
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 13:59:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598378353;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9Yht4X/+ViXbgjzJlQR/gjv+vQ6cj6WUvGJ0e7LvyYw=;
- b=dGvztryYVqi+WnbkYA4OfiFoANQlGOdYsDOrgKDrpHMChvydeOH/ELY3DMeG0Bw0Ysqj9A
- R+m1GFHlpKjECL0FOnTcc86/7GNtiNXU951vPBdAv/M/Ik3Z2hQyYIA3UxwO6OHh/Nkop5
- RaDq5Dc1SGPpD+jLyyyBrMrvJd334BU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-551-mVcP5CXUNDSF1TXhXeoDSA-1; Tue, 25 Aug 2020 13:59:09 -0400
-X-MC-Unique: mVcP5CXUNDSF1TXhXeoDSA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DDB9D10082E7;
- Tue, 25 Aug 2020 17:59:08 +0000 (UTC)
-Received: from localhost (unknown [10.36.110.43])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9918A1002D48;
- Tue, 25 Aug 2020 17:59:07 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/5] meson: add NSIS building
-Date: Tue, 25 Aug 2020 21:58:27 +0400
-Message-Id: <20200825175827.355940-6-marcandre.lureau@redhat.com>
-In-Reply-To: <20200825175827.355940-1-marcandre.lureau@redhat.com>
-References: <20200825175827.355940-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kAdJG-0006pV-SP
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 14:04:38 -0400
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:39015)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kAdJE-0004Mj-Di
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 14:04:38 -0400
+Received: by mail-pj1-x1042.google.com with SMTP id j13so1630238pjd.4
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 11:04:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=yU5E4M+tA8tTOIPkvrFpnPiIdUTYXojJGIEhZtlETKU=;
+ b=x9kxAt8FuMMvI/qQ6XQaHD8KCWH3F0UVg5l0ZhMkWTbVr0TwkeGwYqjrTyGZSsDNzc
+ /1PEeos5TGmWMjyuQFPsfAvqBy4ig3cJDuTvFCeXwt/DML6aOV0kaX+fIsbm44A6H2wM
+ 0TZq55Xp3ReENNlEpI3NVl/VXzI3cMYY9ElqbGroYGW9zx6+zl/zb4Bnci3FWUnD67Fv
+ +8e5L0VsLrtjqb69teD6vVK/K3PPR67frWkTRDJtTZtEbm/fldOt4R16ZBxzeuLPvLPZ
+ TFT9Cgl7xKV13aINE67uXuQlZMp9vLgvOCuXwm1GewOKJ8ekhhBi+d7TuRE0W+qcifQj
+ 7aPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=yU5E4M+tA8tTOIPkvrFpnPiIdUTYXojJGIEhZtlETKU=;
+ b=BgDfOXvHjF+sRhIS7f6q2fTARfUiSwFQgnnpF4LpzZueub/z1IbvMubn3TIje2TJ/D
+ bMUfSZ1TiK8NDbWTJ9ODPr9AxRMW1VWJDFjuF1ovXyucYqBHPbNlZ/PvBFOSz7GUJ/OM
+ mOIq52dctyWmKEL3uf5HjFbo/xInz9BeK4IjAx8KHY5AYetWzbh/XxTC9q82rdmdjTNd
+ EkYCvD9EOVcqm/xoAjjDKFobz4+AB4Wj4KkDfMO5VZq+SQNmrmFOWPVgYcVRXGa/i/Es
+ U6dwYa0CWFnInNmWDQ62MNb5evvGEjKB6aqn82KU7Dd6+MIDrxarZr8ytyS2zxTeY7gR
+ 1IUw==
+X-Gm-Message-State: AOAM532EOtiNfMJGIekVrh+VddH3jwnOjZEOLV/KHbQ5bfUCZ6f/EDIl
+ vQQz2h0P7tP73TI0AlpfpMfErypwaZLFlg==
+X-Google-Smtp-Source: ABdhPJwnVgeTc09++gr485SKiLK+N2Bk2pHLwWIE0IGtB5n8FbTy4/nBsHA314MXhrBgXaj/vPZD6g==
+X-Received: by 2002:a17:90a:eb15:: with SMTP id
+ j21mr2639683pjz.83.1598378674509; 
+ Tue, 25 Aug 2020 11:04:34 -0700 (PDT)
+Received: from [192.168.81.79]
+ (h216-228-167-147.bendor.dedicated.static.tds.net. [216.228.167.147])
+ by smtp.gmail.com with ESMTPSA id q18sm15811112pfn.106.2020.08.25.11.04.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Aug 2020 11:04:33 -0700 (PDT)
+Subject: Re: [PATCH 01/22] target/arm: Remove local definitions of float
+ constants
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20200824142934.20850-1-peter.maydell@linaro.org>
+ <20200824142934.20850-2-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <4773cee0-4b3a-e308-1b4e-8d9ff5a09707@linaro.org>
+Date: Tue, 25 Aug 2020 11:04:32 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 02:03:58
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.958,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200824142934.20850-2-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1042.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.602,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,210 +93,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sw@weilnetz.de, berrange@redhat.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On 8/24/20 7:29 AM, Peter Maydell wrote:
+> In several places the target/arm code defines local float constants
+> for 2, 3 and 1.5, which are also provided by include/fpu/softfloat.h.
+> Remove the unnecessary local duplicate versions.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  target/arm/helper-a64.c    | 11 -----------
+>  target/arm/translate-sve.c |  4 ----
+>  target/arm/vfp_helper.c    |  4 ----
+>  3 files changed, 19 deletions(-)
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- Makefile        | 56 -----------------------------------
- meson.build     | 25 ++++++++++++++++
- scripts/nsis.py | 78 +++++++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 103 insertions(+), 56 deletions(-)
- create mode 100644 scripts/nsis.py
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/Makefile b/Makefile
-index 81794d5c34..3ebd6929b4 100644
---- a/Makefile
-+++ b/Makefile
-@@ -294,62 +294,6 @@ endif
- 		"$(DESTDIR)$(qemu_desktopdir)/qemu.desktop"
- 	$(INSTALL_DIR) "$(DESTDIR)$(qemu_datadir)/keymaps"
- 
--ifdef CONFIG_WIN32
--
--INSTALLER = qemu-setup-$(VERSION)$(EXESUF)
--
--nsisflags = -V2 -NOCD
--
--ifneq ($(wildcard $(SRC_PATH)/dll),)
--ifeq ($(ARCH),x86_64)
--# 64 bit executables
--DLL_PATH = $(SRC_PATH)/dll/w64
--nsisflags += -DW64
--else
--# 32 bit executables
--DLL_PATH = $(SRC_PATH)/dll/w32
--endif
--endif
--
--.PHONY: installer
--installer: $(INSTALLER)
--
--INSTDIR=/tmp/qemu-nsis
--
--$(INSTALLER): $(SRC_PATH)/qemu.nsi
--	$(MAKE) install DESTDIR=${INSTDIR}
--ifdef SIGNCODE
--	(cd ${INSTDIR}/${bindir}; \
--         for i in *.exe; do \
--           $(SIGNCODE) $${i}; \
--         done \
--        )
--endif # SIGNCODE
--	(cd ${INSTDIR}/${bindir}; \
--         for i in qemu-system-*.exe; do \
--           arch=$${i%.exe}; \
--           arch=$${arch#qemu-system-}; \
--           echo Section \"$$arch\" Section_$$arch; \
--           echo SetOutPath \"\$$INSTDIR\"; \
--           echo File \"\$${BINDIR}\\$$i\"; \
--           echo SectionEnd; \
--         done \
--        ) >${INSTDIR}/${bindir}/system-emulations.nsh
--	makensis $(nsisflags) \
--                $(if $(BUILD_DOCS),-DCONFIG_DOCUMENTATION="y") \
--                $(if $(CONFIG_GTK),-DCONFIG_GTK="y") \
--                -DBINDIR="${INSTDIR}/${bindir}" \
--                $(if $(DLL_PATH),-DDLLDIR="$(DLL_PATH)") \
--                -DSRCDIR="$(SRC_PATH)" \
--                -DOUTFILE="$(INSTALLER)" \
--                -DDISPLAYVERSION="$(VERSION)" \
--                $(SRC_PATH)/qemu.nsi
--	rm -r ${INSTDIR}
--ifdef SIGNCODE
--	$(SIGNCODE) $(INSTALLER)
--endif # SIGNCODE
--endif # CONFIG_WIN
--
- # Add a dependency on the generated files, so that they are always
- # rebuilt before other object files
- ifneq ($(wildcard config-host.mak),)
-diff --git a/meson.build b/meson.build
-index 0720a7d684..bc2bea23b2 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1217,6 +1217,31 @@ if build_docs
-   endif
- endif
- 
-+if host_machine.system() == 'windows'
-+  nsis_cmd = [
-+    find_program('scripts/nsis.py'),
-+    '@OUTPUT@',
-+    get_option('prefix'),
-+    meson.current_source_dir(),
-+    host_machine.cpu_family(),
-+    '--',
-+    '-DDISPLAYVERSION=' + meson.project_version(),
-+  ]
-+  if build_docs
-+    nsis_cmd += '-DCONFIG_DOCUMENTATION=y'
-+  endif
-+  if 'CONFIG_GTK' in config_host
-+    nsis_cmd += '-DCONFIG_GTK=y'
-+  endif
-+
-+  nsis = custom_target('nsis',
-+                       output: 'qemu-setup-' + meson.project_version() + '.exe',
-+                       input: files('qemu.nsi'),
-+                       build_always_stale: true,
-+                       command: nsis_cmd + ['@INPUT@'])
-+  alias_target('installer', nsis)
-+endif
-+
- summary_info = {}
- summary_info += {'Install prefix':    config_host['prefix']}
- summary_info += {'BIOS directory':    config_host['qemu_datadir']}
-diff --git a/scripts/nsis.py b/scripts/nsis.py
-new file mode 100644
-index 0000000000..e1c409344e
---- /dev/null
-+++ b/scripts/nsis.py
-@@ -0,0 +1,78 @@
-+#!/usr/bin/env python3
-+#
-+# Copyright (C) 2020 Red Hat, Inc.
-+#
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+
-+import argparse
-+import glob
-+import os
-+import shutil
-+import subprocess
-+import tempfile
-+
-+
-+def signcode(path):
-+    cmd = os.environ.get("SIGNCODE")
-+    if not cmd:
-+        return
-+    subprocess.run([cmd, path])
-+
-+
-+def main():
-+    parser = argparse.ArgumentParser(description="QEMU NSIS build helper.")
-+    parser.add_argument("outfile")
-+    parser.add_argument("prefix")
-+    parser.add_argument("srcdir")
-+    parser.add_argument("cpu")
-+    parser.add_argument("nsisargs", nargs="*")
-+    args = parser.parse_args()
-+
-+    destdir = tempfile.mkdtemp()
-+    try:
-+        subprocess.run(["make", "install", "DESTDIR=" + destdir + os.path.sep])
-+        with open(
-+            os.path.join(destdir + args.prefix, "system-emulations.nsh"), "w"
-+        ) as nsh:
-+            for exe in glob.glob(
-+                os.path.join(destdir + args.prefix, "qemu-system-*.exe")
-+            ):
-+                exe = os.path.basename(exe)
-+                arch = exe[12:-4]
-+                nsh.write(
-+                    """
-+                Section "{0}" Section_{0}
-+                SetOutPath "$INSTDIR"
-+                File "${{BINDIR}}\\{1}"
-+                SectionEnd
-+                """.format(
-+                        arch, exe
-+                    )
-+                )
-+
-+        for exe in glob.glob(os.path.join(destdir + args.prefix, "*.exe")):
-+            signcode(exe)
-+
-+        makensis = [
-+            "makensis",
-+            "-V2",
-+            "-NOCD",
-+            "-DSRCDIR=" + args.srcdir,
-+            "-DBINDIR=" + destdir + args.prefix,
-+        ]
-+        dlldir = "w32"
-+        if args.cpu == "x86_64":
-+            dlldir = "w64"
-+            makensis += ["-DW64"]
-+        if os.path.exists(os.path.join(args.srcdir, "dll")):
-+            makensis += "-DDLLDIR={0}/dll/{1}".format(args.srcdir, dlldir)
-+
-+        makensis += ["-DOUTFILE=" + args.outfile] + args.nsisargs
-+        subprocess.run(makensis)
-+        signcode(args.outfile)
-+    finally:
-+        shutil.rmtree(destdir)
-+
-+
-+if __name__ == "__main__":
-+    main()
--- 
-2.26.2
-
+r~
 
