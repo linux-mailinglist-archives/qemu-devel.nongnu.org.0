@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51318251495
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 10:48:13 +0200 (CEST)
-Received: from localhost ([::1]:51890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C36925147B
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 10:43:19 +0200 (CEST)
+Received: from localhost ([::1]:54002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAUcm-00083K-Bs
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 04:48:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60668)
+	id 1kAUY2-0005Rf-Dq
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 04:43:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kAUPS-00054w-5l
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 04:34:26 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:40739
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kAUPU-00058C-Kh
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 04:34:28 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:20310
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kAUPG-0000gg-2G
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 04:34:25 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kAUPG-0000gb-5C
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 04:34:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598344453;
+ s=mimecast20190719; t=1598344452;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=klujxK9D+Mr9JXLoXGjW0jniQVNLJUlgofzq09zndso=;
- b=K7BlKys3xlanOjj93GHUMJE+PctyKTm15VDee1HLb+nTiPrLxN//FaHQD8wu63iHlC6mlz
- OqnlPKmD1y4zHJyddQC8nZ+Xg+MLZt4hSudBjmL7OMe3Vtukq1p2T2s7RNjAe+Ckk9QtaE
- bUgznIRNfIS9WPytbsnNMOsANyxUlxo=
+ bh=Oo5bAV2uAzDaBjBb4hYGQWIO0cuVTr/ye2fx1mDnnwI=;
+ b=aovwVDf+SZ0izg8xi8E+kMBKh3Y9PbbUNXJc4QJe1nnxwQ5lqUCDZczPtpa+FTYMZKvbib
+ cwxGltZjgFF/LiRjtP7MyvETFre4G/RcrLgKeXNo3N5ZbBVPs+V+wtomKIrblRR14GFrup
+ gZB1Q79SmUuzivp/al3Q1v6+ah0Uhvs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-429-3gLsUHOZMkCW3IsQcm6kVQ-1; Tue, 25 Aug 2020 04:34:09 -0400
-X-MC-Unique: 3gLsUHOZMkCW3IsQcm6kVQ-1
+ us-mta-395-83Pbj0wEMGaiGiAU5YNwZA-1; Tue, 25 Aug 2020 04:34:10 -0400
+X-MC-Unique: 83Pbj0wEMGaiGiAU5YNwZA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E06B780732F;
- Tue, 25 Aug 2020 08:34:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E70618A2250;
+ Tue, 25 Aug 2020 08:34:09 +0000 (UTC)
 Received: from localhost (ovpn-113-72.ams2.redhat.com [10.36.113.72])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 801457D939;
- Tue, 25 Aug 2020 08:34:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C425A808AB;
+ Tue, 25 Aug 2020 08:34:08 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 23/34] qcow2: Add subcluster support to discard_in_l2_slice()
-Date: Tue, 25 Aug 2020 10:33:00 +0200
-Message-Id: <20200825083311.1098442-24-mreitz@redhat.com>
+Subject: [PULL 24/34] qcow2: Add subcluster support to check_refcounts_l2()
+Date: Tue, 25 Aug 2020 10:33:01 +0200
+Message-Id: <20200825083311.1098442-25-mreitz@redhat.com>
 In-Reply-To: <20200825083311.1098442-1-mreitz@redhat.com>
 References: <20200825083311.1098442-1-mreitz@redhat.com>
 MIME-Version: 1.0
@@ -66,7 +66,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.956,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,112 +86,78 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alberto Garcia <berto@igalia.com>
 
-Two things need to be taken into account here:
+The offset field of an uncompressed cluster's L2 entry must be aligned
+to the cluster size, otherwise it is invalid. If the cluster has no
+data then it means that the offset points to a preallocation, so we
+can clear the offset field without affecting the guest-visible data.
+This is what 'qemu-img check' does when run in repair mode.
 
-1) With full_discard == true the L2 entry must be cleared completely.
-   This also includes the L2 bitmap if the image has extended L2
-   entries.
+On traditional qcow2 images this can only happen when QCOW_OFLAG_ZERO
+is set, and repairing such entries turns the clusters from ZERO_ALLOC
+into ZERO_PLAIN.
 
-2) With full_discard == false we have to make the discarded cluster
-   read back as zeroes. With normal L2 entries this is done with the
-   QCOW_OFLAG_ZERO bit, whereas with extended L2 entries this is done
-   with the individual 'all zeroes' bits for each subcluster.
-
-   Note however that QCOW_OFLAG_ZERO is not supported in v2 qcow2
-   images so, if there is a backing file, discard cannot guarantee
-   that the image will read back as zeroes. If this is important for
-   the caller it should forbid it as qcow2_co_pdiscard() does (see
-   80f5c01183 for more details).
+Extended L2 entries have no ZERO_ALLOC clusters and no QCOW_OFLAG_ZERO
+but the idea is the same: if none of the subclusters are allocated
+then we can clear the offset field and leave the bitmap untouched.
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <5ef8274e628aa3ab559bfac467abf488534f2b76.1594396418.git.berto@igalia.com>
+Message-Id: <9f4ed1d0a34b0a545b032c31ecd8c14734065342.1594396418.git.berto@igalia.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qcow2-cluster.c | 52 +++++++++++++++++++------------------------
- 1 file changed, 23 insertions(+), 29 deletions(-)
+ block/qcow2-refcount.c     | 16 +++++++++++-----
+ tests/qemu-iotests/060.out |  2 +-
+ 2 files changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-index 5afcd72f5a..a41351aba5 100644
---- a/block/qcow2-cluster.c
-+++ b/block/qcow2-cluster.c
-@@ -1848,11 +1848,17 @@ static int discard_in_l2_slice(BlockDriverState *bs, uint64_t offset,
-     assert(nb_clusters <= INT_MAX);
+diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
+index 770c5dbc83..aae52607eb 100644
+--- a/block/qcow2-refcount.c
++++ b/block/qcow2-refcount.c
+@@ -1669,12 +1669,18 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
  
-     for (i = 0; i < nb_clusters; i++) {
--        uint64_t old_l2_entry;
--
--        old_l2_entry = get_l2_entry(s, l2_slice, l2_index + i);
-+        uint64_t old_l2_entry = get_l2_entry(s, l2_slice, l2_index + i);
-+        uint64_t old_l2_bitmap = get_l2_bitmap(s, l2_slice, l2_index + i);
-+        uint64_t new_l2_entry = old_l2_entry;
-+        uint64_t new_l2_bitmap = old_l2_bitmap;
-+        QCow2ClusterType cluster_type =
-+            qcow2_get_cluster_type(bs, old_l2_entry);
+             /* Correct offsets are cluster aligned */
+             if (offset_into_cluster(s, offset)) {
++                bool contains_data;
+                 res->corruptions++;
  
-         /*
-+         * If full_discard is true, the cluster should not read back as zeroes,
-+         * but rather fall through to the backing file.
-+         *
-          * If full_discard is false, make sure that a discarded area reads back
-          * as zeroes for v3 images (we cannot do it for v2 without actually
-          * writing a zero-filled buffer). We can skip the operation if the
-@@ -1861,40 +1867,28 @@ static int discard_in_l2_slice(BlockDriverState *bs, uint64_t offset,
-          *
-          * TODO We might want to use bdrv_block_status(bs) here, but we're
-          * holding s->lock, so that doesn't work today.
--         *
--         * If full_discard is true, the sector should not read back as zeroes,
--         * but rather fall through to the backing file.
-          */
--        switch (qcow2_get_cluster_type(bs, old_l2_entry)) {
--        case QCOW2_CLUSTER_UNALLOCATED:
--            if (full_discard || !bs->backing) {
--                continue;
--            }
--            break;
--
--        case QCOW2_CLUSTER_ZERO_PLAIN:
--            if (!full_discard) {
--                continue;
-+        if (full_discard) {
-+            new_l2_entry = new_l2_bitmap = 0;
-+        } else if (bs->backing || qcow2_cluster_is_allocated(cluster_type)) {
-+            if (has_subclusters(s)) {
-+                new_l2_entry = 0;
-+                new_l2_bitmap = QCOW_L2_BITMAP_ALL_ZEROES;
-+            } else {
-+                new_l2_entry = s->qcow_version >= 3 ? QCOW_OFLAG_ZERO : 0;
-             }
--            break;
--
--        case QCOW2_CLUSTER_ZERO_ALLOC:
--        case QCOW2_CLUSTER_NORMAL:
--        case QCOW2_CLUSTER_COMPRESSED:
--            break;
-+        }
+-                if (qcow2_get_cluster_type(bs, l2_entry) ==
+-                    QCOW2_CLUSTER_ZERO_ALLOC)
+-                {
+-                    fprintf(stderr, "%s offset=%" PRIx64 ": Preallocated zero "
++                if (has_subclusters(s)) {
++                    uint64_t l2_bitmap = get_l2_bitmap(s, l2_table, i);
++                    contains_data = (l2_bitmap & QCOW_L2_BITMAP_ALL_ALLOC);
++                } else {
++                    contains_data = !(l2_entry & QCOW_OFLAG_ZERO);
++                }
++
++                if (!contains_data) {
++                    fprintf(stderr, "%s offset=%" PRIx64 ": Preallocated "
+                             "cluster is not properly aligned; L2 entry "
+                             "corrupted.\n",
+                             fix & BDRV_FIX_ERRORS ? "Repairing" : "ERROR",
+@@ -1686,7 +1692,7 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
+                         int ign = active ? QCOW2_OL_ACTIVE_L2 :
+                                            QCOW2_OL_INACTIVE_L2;
  
--        default:
--            abort();
-+        if (old_l2_entry == new_l2_entry && old_l2_bitmap == new_l2_bitmap) {
-+            continue;
-         }
+-                        l2_entry = QCOW_OFLAG_ZERO;
++                        l2_entry = has_subclusters(s) ? 0 : QCOW_OFLAG_ZERO;
+                         set_l2_entry(s, l2_table, i, l2_entry);
+                         ret = qcow2_pre_write_overlap_check(bs, ign,
+                                 l2e_offset, l2_entry_size(s), false);
+diff --git a/tests/qemu-iotests/060.out b/tests/qemu-iotests/060.out
+index e574c38797..b2804a0d07 100644
+--- a/tests/qemu-iotests/060.out
++++ b/tests/qemu-iotests/060.out
+@@ -320,7 +320,7 @@ discard 65536/65536 bytes at offset 0
+ qcow2: Marking image as corrupt: Preallocated zero cluster offset 0x2a00 unaligned (guest offset: 0); further corruption events will be suppressed
+ write failed: Input/output error
+ --- Repairing ---
+-Repairing offset=2a00: Preallocated zero cluster is not properly aligned; L2 entry corrupted.
++Repairing offset=2a00: Preallocated cluster is not properly aligned; L2 entry corrupted.
+ The following inconsistencies were found and repaired:
  
-         /* First remove L2 entries */
-         qcow2_cache_entry_mark_dirty(s->l2_table_cache, l2_slice);
--        if (!full_discard && s->qcow_version >= 3) {
--            set_l2_entry(s, l2_slice, l2_index + i, QCOW_OFLAG_ZERO);
--        } else {
--            set_l2_entry(s, l2_slice, l2_index + i, 0);
-+        set_l2_entry(s, l2_slice, l2_index + i, new_l2_entry);
-+        if (has_subclusters(s)) {
-+            set_l2_bitmap(s, l2_slice, l2_index + i, new_l2_bitmap);
-         }
--
-         /* Then decrease the refcount */
-         qcow2_free_any_clusters(bs, old_l2_entry, 1, type);
-     }
+     0 leaked clusters
 -- 
 2.26.2
 
