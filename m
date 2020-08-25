@@ -2,75 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 517F0252345
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 00:04:01 +0200 (CEST)
-Received: from localhost ([::1]:42110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12121252371
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 00:16:18 +0200 (CEST)
+Received: from localhost ([::1]:46978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAh2b-0000Xd-2y
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 18:03:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49820)
+	id 1kAhEm-0003KG-St
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 18:16:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
- id 1kAh1k-0008W0-Fl
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 18:02:48 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:54911)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
- id 1kAh1i-0001Gs-JC
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 18:02:48 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id s13so136075wmh.4
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 15:02:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=message-id:mime-version:from:to:date:subject;
- bh=d/YxWag1dkN1y1X124P1IHaGuPiMb8c23km7y+PLUho=;
- b=e8y+4lBFlLvrIdUBTTZEVge64lUnHdCIPupwOp6M6IDDGBo+LgqqAnsDk9X8h4PUpq
- 37Mw9Zw1mNrXPUZIGJitgqZtVdQgMOMFpv2OHEwey4anACOxge1IotWNm25x0+yb0T7P
- dNzSdUzHvh79QXfMYqA0Nv7mWPbj4jMHyfW70IYw8dcOZ/ktZ1OrskTbFRoJHfde20Mf
- Chyzj1KEGyvy+/tYy1awCPoOIHYZsX+aOgkv+cewyxQYNefPmDJyUSvKGmXRadUzGFVy
- qsXOND+aXg3cpbUDBudWkV+Zokqvpz8RB7ANEk0LwzvuEsdxvedkPhb151/cRhzNUD4D
- eklQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:mime-version:from:to:date:subject;
- bh=d/YxWag1dkN1y1X124P1IHaGuPiMb8c23km7y+PLUho=;
- b=PKmA63LDKiZ3b/66g9pw+g8xT/81IiT7llsvhcD3v/1caTtzCvCedsLolKaTAHhzlN
- gBJeD5Kd6Zp2vdiNdmHfOlD4y2F2lSHuGrHqOI68cPDpqrODZFWykIKig0M3EVST3eFW
- 46TaDLxiUWrBe+WVFweGuD+xjByDyB16jpT1olQUs0lkuA1/IX60/om8SnCVLu8gAUTb
- OcYf5s4a66tOb7j1AVXUnPSLkyWcj+k5Cl+xb9wVun7625yQp9YVzNMQL4rWMhjmy9+U
- UtYrAUHlW7HxBrkJkZe13agv1i3icFuJuNqG4cpZfvUQuDU5BevNDYh49Q+rV2CktV4W
- WKpg==
-X-Gm-Message-State: AOAM531asZ1n0o89U8WudjM/s9YwwnFvoGnUvowePk+jl8AtetoZSRKT
- 1u6RgKaNT5eU8Qi7Eq6m61SNiG//y/o=
-X-Google-Smtp-Source: ABdhPJwFPFNq0CKBS/hInezb8JrZDp1hSiA5Gaqt7Kt4TFDm9EQ0yEPbRW+Z3qISjHa8h4HrHmGtyg==
-X-Received: by 2002:a05:600c:214e:: with SMTP id
- v14mr3929161wml.118.1598392963798; 
- Tue, 25 Aug 2020 15:02:43 -0700 (PDT)
-Received: from [127.0.1.1] ([197.58.67.125])
- by smtp.gmail.com with ESMTPSA id x133sm77397wmg.39.2020.08.25.15.02.42
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Aug 2020 15:02:43 -0700 (PDT)
-Message-ID: <5f458a83.1c69fb81.8ee7d.01bd@mx.google.com>
-Content-Type: multipart/alternative;
- boundary="===============5648243765428175282=="
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kAhDZ-0002pA-Sj
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 18:15:01 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:36118
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kAhDX-0002XP-3d
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 18:15:01 -0400
+Received: from host217-42-19-185.range217-42.btcentralplus.com
+ ([217.42.19.185] helo=[192.168.1.65])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kAhDy-0002al-Kz; Tue, 25 Aug 2020 23:15:27 +0100
+To: Paolo Bonzini <pbonzini@redhat.com>, luoyonggang@gmail.com
+References: <d3adbbd0-fb9e-7f7f-8eaf-857c1d14d233@ilande.co.uk>
+ <20200824113729.a3yfnllxep4kjfwc@sirius.home.kraxel.org>
+ <09b683be-0a13-00cc-9398-285385ea290d@ilande.co.uk>
+ <CABgObfZBW6Zvd4CXAjghAqo4yfyH2RukkW0yDuFE09P+46MwmA@mail.gmail.com>
+ <CAE2XoE_265qKQ=BMOaSF6uC=Yo=Y2V=u=eGfbbckX08eL5VAfw@mail.gmail.com>
+ <CABgObfZ6j1PGBq7X44H7a3pnS=7h9G1xFQ9P==DE+39xRbmPew@mail.gmail.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
+ mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
+ 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
+ E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
+ PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
+ PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
+ AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
+ OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
+ NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
+ mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
+ z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
+ T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
+ DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
+ y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
+ 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
+ 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
+ YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
+ Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
+ BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
+ opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
+ NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
+ Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
+ KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
+ imgcU9TTGC5qd9g=
+Message-ID: <5ae18146-7a8a-c0e6-0b25-c5d0408392e7@ilande.co.uk>
+Date: Tue, 25 Aug 2020 23:14:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-From: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 26 Aug 2020 00:02:37 +0200
-Subject: [REPORT] Nightly Performance Tests - Tuesday, August 25, 2020
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=ahmedkhaledkaraman@gmail.com; helo=mail-wm1-x32f.google.com
+In-Reply-To: <CABgObfZ6j1PGBq7X44H7a3pnS=7h9G1xFQ9P==DE+39xRbmPew@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 217.42.19.185
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: meson: problems building under msys2/mingw-w64 native
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, MIME_HTML_ONLY=0.1, MIME_HTML_ONLY_MULTI=0.001,
- MPART_ALT_DIFF=0.79, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.602,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,241 +94,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---===============5648243765428175282==
-Content-Type: text/html; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+On 25/08/2020 09:34, Paolo Bonzini wrote:
 
-<html><body><pre>
-Host CPU         : Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz
-Host Memory      : 15.49 GB
+> I saw it, thanks. I would like to have someone else (like Mark) test it and then I
+> will include it.
+> 
+> Paolo
 
-Start Time (UTC) : 2020-08-25 21:30:01
-End Time (UTC)   : 2020-08-25 22:02:37
-Execution Time   : 0:32:35.896990
+Yonggang Luo, thank you for this patchset which helped enable me to build QEMU on
+Windows with the new meson build.
 
-Status           : SUCCESS
+I've replied to individual patches on the basis of my tests - there are some minor
+issues with the patches themselves, a couple of things that need to be clarified, and
+also a cover letter and SoB tags are missing as pointed out by Eric.
 
-Note:
-Changes denoted by '-----' are less than 0.01%.
+There is one more thing I noticed - in my tests I passed
+--prefix=/home/Mark/rel-qemu-git into configure and ran "make install". This worked,
+but it flattened the output directory tree i.e. /home/Mark/rel-qemu-git in MSYS2
+looked like this:
 
---------------------------------------------------------
-            SUMMARY REPORT - COMMIT d1a2b51f
---------------------------------------------------------
-                    AVERAGE RESULTS
---------------------------------------------------------
-Target              Instructions      Latest      v5.1.0
-----------  --------------------  ----------  ----------
-aarch64            2 158 355 274       -----     +1.693%
-alpha              1 914 967 171       -----     +3.524%
-arm                8 076 402 940       -----     +2.304%
-hppa               4 261 685 987     -0.182%     +3.164%
-m68k               2 690 273 044       -----     +7.131%
-mips               1 862 033 667       -----     +2.494%
-mipsel             2 008 211 069       -----     +2.674%
-mips64             1 918 635 565       -----     +2.818%
-mips64el           2 051 565 677       -----     +3.026%
-ppc                2 480 141 217       -----     +3.107%
-ppc64              2 576 713 959       -----     +3.143%
-ppc64le            2 558 853 539       -----     +3.173%
-riscv64            1 406 704 050       -----      +2.65%
-s390x              3 158 140 046       -----     +3.118%
-sh4                2 364 449 748       -----      +3.33%
-sparc64            3 318 544 783       -----     +3.851%
-x86_64             1 775 844 158       -----     +2.156%
---------------------------------------------------------
-
-                   DETAILED RESULTS
---------------------------------------------------------
-Test Program: dijkstra_double
---------------------------------------------------------
-Target              Instructions      Latest      v5.1.0
-----------  --------------------  ----------  ----------
-aarch64            3 062 583 464       -----     +1.424%
-alpha              3 191 864 698       -----     +3.696%
-arm               16 357 157 526       -----     +2.347%
-hppa               7 228 376 315     -0.139%     +3.086%
-m68k               4 294 016 587       -----     +9.692%
-mips               3 051 419 166       -----     +2.427%
-mipsel             3 231 509 618       -----     +2.869%
-mips64             3 245 837 754       -----     +2.596%
-mips64el           3 414 195 796       -----     +3.021%
-ppc                4 914 520 972     -0.041%      +4.74%
-ppc64              5 098 154 311       -----     +4.565%
-ppc64le            5 082 419 054       -----      +4.58%
-riscv64            2 192 294 915       -----     +1.955%
-s390x              4 584 503 977       -----     +2.896%
-sh4                3 949 036 447       -----     +3.464%
-sparc64            4 586 203 546       -----     +4.237%
-x86_64             2 484 092 105       -----      +1.75%
---------------------------------------------------------
---------------------------------------------------------
-Test Program: dijkstra_int32
---------------------------------------------------------
-Target              Instructions      Latest      v5.1.0
-----------  --------------------  ----------  ----------
-aarch64            2 210 194 577       -----     +1.493%
-alpha              1 494 133 274       -----      +2.15%
-arm                8 262 935 967       -----     +2.665%
-hppa               5 207 318 306       -----     +3.047%
-m68k               1 725 856 962       -----     +2.527%
-mips               1 495 227 032       -----     +1.492%
-mipsel             1 497 147 869       -----     +1.479%
-mips64             1 715 388 570       -----     +1.892%
-mips64el           1 695 276 864       -----     +1.913%
-ppc                2 014 557 389       -----     +1.819%
-ppc64              2 206 267 901       -----     +2.139%
-ppc64le            2 197 998 781       -----     +2.146%
-riscv64            1 354 912 745       -----     +2.396%
-s390x              2 916 247 062       -----     +1.241%
-sh4                1 990 532 533       -----     +2.669%
-sparc64            2 872 231 051       -----     +3.758%
-x86_64             1 553 981 241       -----      +2.12%
---------------------------------------------------------
---------------------------------------------------------
-Test Program: matmult_double
---------------------------------------------------------
-Target              Instructions      Latest      v5.1.0
-----------  --------------------  ----------  ----------
-aarch64            1 412 273 223       -----     +0.302%
-alpha              3 233 991 649       -----     +7.473%
-arm                8 545 173 979       -----     +1.088%
-hppa               3 483 597 802     -1.267%     +4.468%
-m68k               3 919 065 529       -----    +18.431%
-mips               2 344 774 894       -----     +4.091%
-mipsel             3 329 886 464       -----     +5.177%
-mips64             2 359 046 988       -----     +4.076%
-mips64el           3 343 664 785       -----     +5.167%
-ppc                3 209 457 051       -----     +3.246%
-ppc64              3 287 503 981       -----     +3.173%
-ppc64le            3 287 189 065       -----     +3.173%
-riscv64            1 221 603 682       -----     +0.277%
-s390x              2 874 199 923       -----     +5.827%
-sh4                3 543 943 634       -----     +6.416%
-sparc64            3 426 150 004       -----     +7.139%
-x86_64             1 248 917 276       -----     +0.322%
---------------------------------------------------------
---------------------------------------------------------
-Test Program: matmult_int32
---------------------------------------------------------
-Target              Instructions      Latest      v5.1.0
-----------  --------------------  ----------  ----------
-aarch64              598 681 621       -----     +0.585%
-alpha                372 437 418       -----     +0.677%
-arm                  746 583 193       -----     +1.462%
-hppa                 674 278 359       -----     +1.183%
-m68k                 410 495 553       -----       +0.9%
-mips                 499 698 837       -----     +0.531%
-mipsel               499 500 429       -----     +0.497%
-mips64               481 554 664       -----     +0.599%
-mips64el             465 057 054       -----     +0.619%
-ppc                  341 334 603       -----     +0.944%
-ppc64                393 796 203       -----     +0.966%
-ppc64le              393 977 298       -----     +0.965%
-riscv64              351 709 769       -----     +0.785%
-s390x                494 427 384       -----     +0.599%
-sh4                  402 668 444       -----     +0.899%
-sparc64              495 952 959       -----     +1.192%
-x86_64               402 928 461       -----     +0.833%
---------------------------------------------------------
---------------------------------------------------------
-Test Program: qsort_double
---------------------------------------------------------
-Target              Instructions      Latest      v5.1.0
-----------  --------------------  ----------  ----------
-aarch64            2 709 683 624       -----     +2.417%
-alpha              1 969 460 172       -----      +3.68%
-arm                8 322 998 390       -----     +2.587%
-hppa               3 188 301 995     -0.047%       +2.9%
-m68k               4 953 930 065       -----    +15.153%
-mips               2 123 919 587       -----     +3.055%
-mipsel             2 124 212 187       -----     +3.048%
-mips64             1 999 047 826       -----     +3.405%
-mips64el           1 996 426 772       -----     +3.409%
-ppc                2 819 267 902     -0.021%     +5.435%
-ppc64              2 768 186 548       -----     +5.513%
-ppc64le            2 724 803 772     -0.011%     +5.603%
-riscv64            1 638 328 937       -----     +4.021%
-s390x              2 519 081 708       -----     +3.362%
-sh4                2 595 545 154       -----     +2.994%
-sparc64            3 988 986 587       -----     +2.747%
-x86_64             2 033 468 588       -----     +3.234%
---------------------------------------------------------
---------------------------------------------------------
-Test Program: qsort_int32
---------------------------------------------------------
-Target              Instructions      Latest      v5.1.0
-----------  --------------------  ----------  ----------
-aarch64            2 193 392 565       -----     +2.916%
-alpha              1 521 291 933       -----     +4.193%
-arm                3 465 445 043       -----     +2.756%
-hppa               2 280 034 340       -----     +3.821%
-m68k               1 843 189 041       -----     +3.583%
-mips               1 558 024 873       -----     +3.863%
-mipsel             1 560 583 980       -----     +3.846%
-mips64             1 563 415 749       -----     +4.412%
-mips64el           1 542 677 320       -----     +4.474%
-ppc                1 728 698 880       -----     +3.665%
-ppc64              1 842 444 545       -----     +3.555%
-ppc64le            1 791 822 067       -----     +3.661%
-riscv64            1 348 866 430       -----     +4.654%
-s390x              2 184 073 151       -----     +3.319%
-sh4                1 946 492 539       -----     +3.624%
-sparc64            3 452 215 585       -----     +2.937%
-x86_64             1 813 544 414       -----     +3.537%
---------------------------------------------------------
---------------------------------------------------------
-Test Program: qsort_string
---------------------------------------------------------
-Target              Instructions      Latest      v5.1.0
-----------  --------------------  ----------  ----------
-aarch64            2 592 218 418       -----     +2.468%
-alpha              1 855 834 626       -----     +3.487%
-arm                7 347 721 165       -----     +2.682%
-hppa               4 758 753 926       -----     +3.543%
-m68k               2 376 811 462       -----     +3.567%
-mips               2 166 608 045       -----     +2.532%
-mipsel             2 163 392 541       -----     +2.528%
-mips64             2 029 251 969       -----     +3.117%
-mips64el           2 011 628 621       -----     +3.145%
-ppc                2 492 942 463       -----     +2.673%
-ppc64              2 464 702 554       -----     +2.488%
-ppc64le            2 445 253 307       -----     +2.505%
-riscv64            1 625 053 328       -----     +3.953%
-s390x              4 194 608 798       -----     +6.623%
-sh4                2 164 142 539       -----     +3.166%
-sparc64            4 299 516 539       -----     +4.065%
-x86_64             2 940 456 780       -----     +2.649%
---------------------------------------------------------
---------------------------------------------------------
-Test Program: search_string
---------------------------------------------------------
-Target              Instructions      Latest      v5.1.0
-----------  --------------------  ----------  ----------
-aarch64            2 487 814 704       -----      +1.94%
-alpha              1 680 723 605       -----     +2.835%
-arm               11 563 208 260       -----     +2.848%
-hppa               7 272 826 858       -----     +3.263%
-m68k               1 998 819 159       -----     +3.198%
-mips               1 656 596 909       -----     +1.959%
-mipsel             1 659 455 464       -----     +1.947%
-mips64             1 955 541 001       -----     +2.447%
-mips64el           1 943 598 207       -----     +2.462%
-ppc                2 320 350 477       -----     +2.332%
-ppc64              2 552 655 634       -----     +2.742%
-ppc64le            2 547 364 971       -----     +2.748%
-riscv64            1 520 862 601       -----     +3.159%
-s390x              5 497 978 370       -----     +1.078%
-sh4                2 323 236 696       -----      +3.41%
-sparc64            3 427 101 999       -----      +4.73%
-x86_64             1 729 364 402       -----     +2.806%
---------------------------------------------------------
+$ ls -l /home/Mark/rel-qemu-git/
+total 40440
+drwxr-xr-x 1 Mark None        0 Aug 25 20:43 applications
+-rw-r--r-- 1 Mark None     3211 Aug 25 20:43 bamboo.dtb
+-rw-r--r-- 1 Mark None   131072 Aug 25 20:43 bios.bin
+-rw-r--r-- 1 Mark None   262144 Aug 25 20:43 bios-256k.bin
+-rw-r--r-- 1 Mark None    65536 Aug 25 20:43 bios-microvm.bin
+-rw-r--r-- 1 Mark None     9779 Aug 25 20:43 canyonlands.dtb
+-rw-r--r-- 1 Mark None    42903 Aug 25 20:43 edk2-licenses.txt
+-rw-r--r-- 1 Mark None   240128 Aug 25 20:43 efi-e1000.rom
+-rw-r--r-- 1 Mark None   240128 Aug 25 20:43 efi-e1000e.rom
+-rw-r--r-- 1 Mark None   240128 Aug 25 20:43 efi-eepro100.rom
+-rw-r--r-- 1 Mark None   238592 Aug 25 20:43 efi-ne2k_pci.rom
+-rw-r--r-- 1 Mark None   238592 Aug 25 20:43 efi-pcnet.rom
+-rw-r--r-- 1 Mark None   242688 Aug 25 20:43 efi-rtl8139.rom
+-rw-r--r-- 1 Mark None   242688 Aug 25 20:43 efi-virtio.rom
+-rw-r--r-- 1 Mark None   236032 Aug 25 20:43 efi-vmxnet3.rom
+-rw-r--r-- 1 Mark None   766136 Aug 25 20:43 hppa-firmware.img
+drwxr-xr-x 1 Mark None        0 Aug 25 20:43 icons
+drwxr-xr-x 1 Mark None        0 Aug 25 20:43 keymaps
+-rw-r--r-- 1 Mark None     9216 Aug 25 20:43 kvmvapic.bin
+-rw-r--r-- 1 Mark None     1024 Aug 25 20:43 linuxboot.bin
+-rw-r--r-- 1 Mark None     1536 Aug 25 20:43 linuxboot_dma.bin
+-rw-r--r-- 1 Mark None     1024 Aug 25 20:43 multiboot.bin
+-rw-r--r-- 1 Mark None   696912 Aug 25 20:43 openbios-ppc
+-rw-r--r-- 1 Mark None   382048 Aug 25 20:43 openbios-sparc32
+-rw-r--r-- 1 Mark None  1593408 Aug 25 20:43 openbios-sparc64
+-rw-r--r-- 1 Mark None    62144 Aug 25 20:43 opensbi-riscv32-generic-fw_dynamic.bin
+-rw-r--r-- 1 Mark None   558668 Aug 25 20:43 opensbi-riscv32-generic-fw_dynamic.elf
+-rw-r--r-- 1 Mark None    70792 Aug 25 20:43 opensbi-riscv64-generic-fw_dynamic.bin
+-rw-r--r-- 1 Mark None   620424 Aug 25 20:43 opensbi-riscv64-generic-fw_dynamic.elf
+-rw-r--r-- 1 Mark None   156328 Aug 25 20:43 palcode-clipper
+-rw-r--r-- 1 Mark None     9882 Aug 25 20:43 petalogix-ml605.dtb
+-rw-r--r-- 1 Mark None     8161 Aug 25 20:43 petalogix-s3adsp1800.dtb
+-rw-r--r-- 1 Mark None     1536 Aug 25 20:43 pvh.bin
+-rw-r--r-- 1 Mark None    67072 Aug 25 20:43 pxe-e1000.rom
+-rw-r--r-- 1 Mark None    61440 Aug 25 20:43 pxe-eepro100.rom
+-rw-r--r-- 1 Mark None    61440 Aug 25 20:43 pxe-ne2k_pci.rom
+-rw-r--r-- 1 Mark None    61440 Aug 25 20:43 pxe-pcnet.rom
+-rw-r--r-- 1 Mark None    61440 Aug 25 20:43 pxe-rtl8139.rom
+-rw-r--r-- 1 Mark None    60416 Aug 25 20:43 pxe-virtio.rom
+-rw-r--r-- 1 Mark None      850 Aug 25 20:43 QEMU,cgthree.bin
+-rw-r--r-- 1 Mark None     1402 Aug 25 20:43 QEMU,tcx.bin
+-rw-r--r-- 1 Mark None    18752 Aug 25 20:43 qemu_vga.ndrv
+-rwxr-xr-x 1 Mark None    84992 Aug 25 20:43 qemu-edid.exe
+-rwxr-xr-x 1 Mark None   468480 Aug 25 20:43 qemu-ga.exe
+-rwxr-xr-x 1 Mark None  1643520 Aug 25 20:43 qemu-img.exe
+-rwxr-xr-x 1 Mark None  1590272 Aug 25 20:43 qemu-io.exe
+-rw-r--r-- 1 Mark None   154542 Aug 25 20:43 qemu-nsis.bmp
+-rwxr-xr-x 1 Mark None  1994240 Aug 25 20:43 qemu-storage-daemon.exe
+-rwxr-xr-x 1 Mark None 11815424 Aug 25 20:43 qemu-system-ppc.exe
+-rwxr-xr-x 1 Mark None 11815424 Aug 25 20:43 qemu-system-ppcw.exe
+-rw-r--r-- 1 Mark None    42608 Aug 25 20:43 s390-ccw.img
+-rw-r--r-- 1 Mark None    67232 Aug 25 20:43 s390-netboot.img
+-rw-r--r-- 1 Mark None     4096 Aug 25 20:43 sgabios.bin
+drwxr-xr-x 1 Mark None        0 Aug 25 20:43 share
+-rw-r--r-- 1 Mark None  1667280 Aug 25 20:43 skiboot.lid
+-rw-r--r-- 1 Mark None   968368 Aug 25 20:43 slof.bin
+-rw-r--r-- 1 Mark None   349148 Aug 25 20:43 u-boot.e500
+-rw-r--r-- 1 Mark None   524288 Aug 25 20:43 u-boot-sam460-20100605.bin
+-rw-r--r-- 1 Mark None    38912 Aug 25 20:43 vgabios.bin
+-rw-r--r-- 1 Mark None    39424 Aug 25 20:43 vgabios-ati.bin
+-rw-r--r-- 1 Mark None    28672 Aug 25 20:43 vgabios-bochs-display.bin
+-rw-r--r-- 1 Mark None    38912 Aug 25 20:43 vgabios-cirrus.bin
+-rw-r--r-- 1 Mark None    39424 Aug 25 20:43 vgabios-qxl.bin
+-rw-r--r-- 1 Mark None    28672 Aug 25 20:43 vgabios-ramfb.bin
+-rw-r--r-- 1 Mark None    39424 Aug 25 20:43 vgabios-stdvga.bin
+-rw-r--r-- 1 Mark None    39424 Aug 25 20:43 vgabios-virtio.bin
+-rw-r--r-- 1 Mark None    39424 Aug 25 20:43 vgabios-vmware.bin
 
 
-</pre></body></html>
+I would expect the majority of these files to be in share/ or bin/ subdirectories as
+they are in Linux.
 
---===============5648243765428175282==--
+
+ATB,
+
+Mark.
 
