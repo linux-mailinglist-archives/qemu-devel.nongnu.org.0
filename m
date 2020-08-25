@@ -2,64 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DFA8252310
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:45:23 +0200 (CEST)
-Received: from localhost ([::1]:55980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFD8625231D
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:50:49 +0200 (CEST)
+Received: from localhost ([::1]:45042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAgks-00076m-Np
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:45:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44880)
+	id 1kAgq9-00065t-0n
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:50:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kAgjC-0004nJ-5j
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:43:38 -0400
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:39355)
+ id 1kAgol-0004yH-CB
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:49:23 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:35470)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kAgjA-00071X-E8
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:43:37 -0400
-Received: by mail-ej1-x642.google.com with SMTP id md23so73235ejb.6
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 14:43:35 -0700 (PDT)
+ id 1kAgoj-0007kc-IF
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:49:22 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id a26so112739ejc.2
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 14:49:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=h1FVVkrFbpNV/8y6G4wjzVwaJ8iV8BwBwU+88+xv9yE=;
- b=AcbOGWz51d4ijeP11gt5V3TIoDJn6xn2rnQjG1UyzIJ3EjQrWsbXKDluQiKZZJi59d
- WTl4X6YLuuh6kxMhdMFvfUxrJ8A4MxnxfoxjGfAOPhDSFeYRUXERrW0SRl+DN0RIVQlO
- Bf7lkVbFHIX7/7Iy8JKlFR9APNtv0gUGZJnVwW7KD4dc2uPAyAkio9nMX3wrPseRpcAb
- 36Awy3YhBDR4/kaOoCJWvUlA/S6X7GOrWzFPbfELT0CBHG6OYA2FSffARrSoZH2uk/+X
- je+U++93lnHOMzZnCSu5+bSbfrXie3Y7d1LAnYV/oLrkYefZYb8zXhOpD0E+MFr9Wrzr
- hiCQ==
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=2VAjiLHBglPzWdiCUkz0klBcv54Rvek+r+LYPAkM/4I=;
+ b=Stq/50qmzhXjhh7aMNF/85jsEFsTMeV00K7UgCDv8eCATYpwln8wGrMBdCbSA8CKXc
+ r+RxWd7DISS3owqrRhqXsueB1qRDk7MmUu3RYohi1uyJidbOttPM3QFz9RSSBJ8rHf//
+ EkIFDjHF5fmlriI7mqT0Vg+YDztW0BZu6hI2xo9MjER2UcvBtZH7EIXs02otci41Ef0k
+ IJOyW6mXBKiW6yLBEJLcmk50IL6eK8IQ/Ke61EjjgjYAjZwHdBexbYTrumpkq1Wf3fXZ
+ cKb22NE1F/CrIln3mxsucIrQ1BH+h5kPWS6Nw3Aas8uHPJhZ8jvZs1eTniedKnfl4nxC
+ m1MA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=h1FVVkrFbpNV/8y6G4wjzVwaJ8iV8BwBwU+88+xv9yE=;
- b=P67+cDn9Tnk7nWAGImxS8UXEjyaP0Smp4+N8OZdBS8LYi1BRy6ogGsnXiiaekonFDq
- GjGzD1mnCGRgYfFKxIhrPU0M8BID0vv9IZn5kGBNdWVHej573JvWPO9hW1PQgQ03+YYE
- SzewNIxPX9DGWjm+jB7gVPcoNclYsCG0nEDtdP5PyDatANkkH7qN/PD1zPaqBx3CVnj0
- gq8IDjm6zIFhQu8rNXKN7EFzQzMhZY7S+hWHKDnLiVM2schEmHaX827YRTcFLjewINWG
- HSthNlUtgBhVmXm/fF50AT1uMgLT/Ko0Rqy8jsnV6hR+oxr6DoaCdPZ/I5PBthQ/rKcf
- Fbpw==
-X-Gm-Message-State: AOAM533f3zkWtkjQXPmNBYfPmECfbGBozG2uy3DE7hoAPrbtzOnFwSjJ
- dgCfCLcu2/e9QNaBWbZfrdsZgjQv7RxdWEMFAC/3FA==
-X-Google-Smtp-Source: ABdhPJxwva7WeoJy1zF4O/HqBOQrxTPplqX71I4gIRaw9l5GLUTWWAHJI8rP5MBt+1vPRJns5z17s9Zoy4tb6xhTOLI=
-X-Received: by 2002:a17:906:2b0b:: with SMTP id
- a11mr2967219ejg.250.1598391814620; 
- Tue, 25 Aug 2020 14:43:34 -0700 (PDT)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=2VAjiLHBglPzWdiCUkz0klBcv54Rvek+r+LYPAkM/4I=;
+ b=FzZO5zxOEC/5DacbAH81Vb/84r9IRcr0aCbSLA9WUY4gJUeFgzkIM5cRabwxMtu5ax
+ LOBzXuMqFCrVUJkXJDvG0bqRUiK0O/Qg//DwEMtezBF/MzuDRnio7S3odBCVKVhbmzls
+ qP4n3w9A2Wr+9Zfy7pVeLxMZFuL/WZVOrwMJE0tBSFfCnCGH5AcHPwtCVLYFqHwarO0i
+ mpC0gccIVF9unlTpehNBjPTMCAlvyCrWZKneg5vGeBXvN+0YCqeTVgYkNOLUd6rVVAE8
+ 2e73RV0Qui28DeU/K1vMjxDVQGqbS45HUkTivqcqO0otc9l9LxneqRIxWpxmCYyV7Mvg
+ uf8w==
+X-Gm-Message-State: AOAM531pUfbeBD72zGWgRuVOJ5AJ9HtiUIr9fRprwiaBESA2OWIFPeNo
+ NdTv/BSSL9YgbNCBTh68rwDGrfQAYtDnoLBrSkhOO/u8ahgrJD34
+X-Google-Smtp-Source: ABdhPJyF0PgARQleve+DvDpIihm16J+3WZGwpLtHzWDoW0mgC+g2qtpnQDbWeQ8t38Qa9Eeu3GT1Ak66E18neBIcW8o=
+X-Received: by 2002:a17:906:f28b:: with SMTP id
+ gu11mr12277603ejb.407.1598392159726; 
+ Tue, 25 Aug 2020 14:49:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200819192240.GA25305@dhcp-10-100-145-180.wdl.wdc.com>
- <CAFEAcA8-VgEDTZ7+T9ZgB2LR9KWRrejBtZN=iwy2GGPcuFuz2Q@mail.gmail.com>
- <20200825201242.GA20971@redsun51.ssa.fujisawa.hgst.com>
-In-Reply-To: <20200825201242.GA20971@redsun51.ssa.fujisawa.hgst.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 25 Aug 2020 22:43:23 +0100
-Message-ID: <CAFEAcA-SD1WMODNzZpJkq_39bk72Gf+XFhCKWEDjTb0Lvdfe9g@mail.gmail.com>
-Subject: Re: [PULL] nvme updates
-To: Keith Busch <kbusch@kernel.org>
+Date: Tue, 25 Aug 2020 22:49:08 +0100
+Message-ID: <CAFEAcA9Z6V4ZkUfnpu-YY9AqU=YUK1Tb8cF-+4_CSPbGLbVHtQ@mail.gmail.com>
+Subject: better file/line info for format string errors in trace events
+To: QEMU Developers <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -81,30 +76,12 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Klaus Jensen <k.jensen@samsung.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Klaus Jensen <its@irrelevant.dk>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 25 Aug 2020 at 21:12, Keith Busch <kbusch@kernel.org> wrote:
->
-> On Sun, Aug 23, 2020 at 02:56:12PM +0100, Peter Maydell wrote:
-> > Hi; it looks like this isn't a gpg-signed tag?
-> >
-> > error: remotes/nvme/nvme-next: cannot verify a non-tag object of type commit.
->
-> Oops, sorry I forgot about that part of the procedure here. The repo should
-> have a signed tag now:
-
-Thanks; the gpg key setup looks ok.
-
-I notice that all the commits in the repo have Klaus's signed-off-by.
-Usually the expectation is that the person who sends the pull req
-is the one who's curated the tree and added their signed-off-by,
-but are you doing a jointly-administered tree here ?
-
-The build has a format string issue that shows up on OSX, Windows,
-and 32-bit builds:
+If you have a format string error in a trace event it fails
+like this:
 
 In file included from ../../hw/block/trace.h:1:0,
                  from ../../hw/block/fdc.c:48:
@@ -115,6 +92,19 @@ argument of type 'long long unsigned int', but argument 6 has type
          qemu_log("%d@%zu.%06zu:pci_nvme_err_mdts " "cid %"PRIu16" len
 %"PRIu64"" "\n",
                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/peter.maydell/qemu/include/qemu/osdep.h:89:0,
+                 from ../../hw/block/fdc.c:30:
+/usr/include/inttypes.h:105:34: note: format string is defined here
+ # define PRIu64  __PRI64_PREFIX "u"
+
+
+which doesn't anywhere give the filename where the format
+string is actually defined (hw/block/trace-events in this case),
+let alone the line number in that file of the trace event.
+
+Bit of a long shot, but I don't suppose it's possible for the
+tracing subsystem to give more targeted error messages in this
+situation ?
 
 thanks
 -- PMM
