@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1AD625227A
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:08:55 +0200 (CEST)
-Received: from localhost ([::1]:42888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E59422522B3
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:23:17 +0200 (CEST)
+Received: from localhost ([::1]:47468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAgBa-0002iL-Sv
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:08:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35902)
+	id 1kAgPU-0002W3-Ru
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:23:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kAg3b-0007rY-2Y
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:00:39 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:44497)
+ id 1kAg3a-0007r1-Qq
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:00:38 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:40288)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kAg3V-0001qC-PM
+ id 1kAg3W-0001qK-UY
  for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:00:38 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id p11so5117211pfn.11
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 14:00:33 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id k18so8289934pfp.7
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 14:00:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Vc1/n0PAMq2ruFSCbPStrg/chGbNzuC4FGRX/oeXBs0=;
- b=R5oQvlbFGAfKmjmyBRfa6J9mJ8voFzS6uaYAEiBegjF8Ybm7zmrxb++6oXBTPpUGIS
- X3rnFDOQg0svTG2ch4+QjHK/6gyOLWYsmfG+4Koe5MYmWf1onPhO+sZ0LSBbfufAQlmK
- 24RS8NJiO/efhbino9FMm3xrJ4WjjwONRX3Ej+ITXCtF5O3e7nJp3HfqW4SfYDiycyu6
- OqCbMtnAWdVrv1P7hvM1zMzYz27Njk/11O2N8l1CgugTc479c+NGaeaaPttqWoVwOf6f
- Glu/WYDU3lXE9Pw6Hv6MJF6u+3RsPo+J/OxTOxYNUk/7koIS4kHYw3NaP3XboT4eYZDe
- yr1Q==
+ bh=b/4g1T+WE9RDnuv3IAKyPSAVgdbvulTxnio8bcXmxqI=;
+ b=B0twTuksnwz7HZ+KtuQhPiyv5xfA0oLn/CccM6Ql26TDaoQWI2B8eWPlsWtpbhecey
+ uSA172Q6JQ9m1HLO/CGWZF4n6anl6yCUL3HnGqppFtwsKobmxcpDRVfo71h1WlxdDOIl
+ SbIqBY9iXZuCMxL5TsvZaigVz3/3/go12CEBXwVF6C5xSbMKUWZDYauqtEa9SHwSAW0Y
+ 7szCyjEzMk10FcKwBlkznELjrBIyF91Ce7zFI8B3SKf1fBS+Xe8LpX9R1iu/o4KDnHFG
+ KmUGqcfcVs3UehoiCqG3p4YWcWss4HGTs7dWZ8nUe4MXgbg8OK5uh4BWgtJUKR4rcsOK
+ 01Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Vc1/n0PAMq2ruFSCbPStrg/chGbNzuC4FGRX/oeXBs0=;
- b=XZ3cayprUTLALxYymjI+rkm3PdaFfhlhD/XUDD9z6Jp0Cv0f+0Otp72Q34gRMZvMv2
- dWgGJ8rSooS5xyXs4puQsKRSzaLbpRw0dbC5ZXR/T4xmnmi+RiB1CbB1AZXT8uNXzp9X
- 8jCTGqx1UJw57RkDB9m9qoD/ujWKcUFIaGjFz3E31TfK18pQH/QuYTVgKHBN6sAfrfZ8
- O5qVa66krui1zmdzqkC35gwYn27Z76EYMr357vQKH6a4GkDHuXG0yBpG5cK8//kSQ724
- w4jjMP2zCJ7jEksLaGOc6o2inG+R6yH7W3LGKfaXqFG+aRcyKuku84GeOvdG245Zy4xe
- Saxg==
-X-Gm-Message-State: AOAM530FD+tXWFj78v4mHem7+8puMLRnzPByirJFXOKc1a21yRO5bV6F
- M80PNdrreFOggaBpgAPs3NohQQnZQAzI4A==
-X-Google-Smtp-Source: ABdhPJzwZtwd0+ohHQI0l/0Jyk+Pf+OGnFMDMuJYcaEOQUttTSHF2QXQxrf6bHyF5wWQSjsnUlc7aw==
-X-Received: by 2002:a17:902:8685:: with SMTP id
- g5mr9295390plo.201.1598389231778; 
- Tue, 25 Aug 2020 14:00:31 -0700 (PDT)
+ bh=b/4g1T+WE9RDnuv3IAKyPSAVgdbvulTxnio8bcXmxqI=;
+ b=UMQag2IZEN2qeSPXh6Qe0KLKflByGiYkBaooyAmZQMgh80crEL71WbgkI4DOkI0qaS
+ R3f/gieRv3U9XRC1W5S7tHljc71+N6fUTkwJ5AfKkDl0W1kVmUvacwnCaGUJt27b6d/0
+ 3zxCnlPwgFZMqkDHwMPU/GuEpBoTPiW+3+hGpYaxmSJJvOsnUPk4xtGmuG+6QPIBpCZN
+ YAZMZgsjuQYGarz/x/D/vB0tWnDEYGHbCJs1bnnABEO6tspnTOvgwLaQrMSQW04VQiK1
+ yRQIaFbmuKyu+3RBTeselA74NqWnmvCvc9VIZE1ZoVGRQq3Je2JpvaHA2zVoW8Fdu0da
+ s/Ow==
+X-Gm-Message-State: AOAM531Qhtjshj8b0xHK5Ij4U7kuZbF9fugVrLyPPO8C+mp0qn/BLVfQ
+ V6idvKC3wCsmr+TeXO1LDZsa8YdQQ/Volg==
+X-Google-Smtp-Source: ABdhPJy4ITh0mGPprZXHrELKExwI8yMYm9RSrajy26YrksYkcVmC1hJ24xL4EsqpkYKw5nKkkETN7g==
+X-Received: by 2002:a17:902:343:: with SMTP id
+ 61mr8991627pld.274.1598389233135; 
+ Tue, 25 Aug 2020 14:00:33 -0700 (PDT)
 Received: from localhost.localdomain
  (h216-228-167-147.bendor.dedicated.static.tds.net. [216.228.167.147])
- by smtp.gmail.com with ESMTPSA id k4sm16074pgr.87.2020.08.25.14.00.30
+ by smtp.gmail.com with ESMTPSA id k4sm16074pgr.87.2020.08.25.14.00.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Aug 2020 14:00:30 -0700 (PDT)
+ Tue, 25 Aug 2020 14:00:32 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 31/77] target/microblaze: Remove DISAS_GNU
-Date: Tue, 25 Aug 2020 13:59:04 -0700
-Message-Id: <20200825205950.730499-32-richard.henderson@linaro.org>
+Subject: [PATCH 32/77] target/microblaze: Remove empty D macros
+Date: Tue, 25 Aug 2020 13:59:05 -0700
+Message-Id: <20200825205950.730499-33-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200825205950.730499-1-richard.henderson@linaro.org>
 References: <20200825205950.730499-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,25 +90,86 @@ Cc: edgar.iglesias@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is never used.
+This is never used in op_helper.c and translate.c.  There are
+two trivial uses in helper.c which can be improved by always
+logging MMU_EXCP to CPU_LOG_INT.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/translate.c | 1 -
- 1 file changed, 1 deletion(-)
+ target/microblaze/helper.c    | 11 ++++-------
+ target/microblaze/op_helper.c |  2 --
+ target/microblaze/translate.c |  2 --
+ 3 files changed, 4 insertions(+), 11 deletions(-)
 
-diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index a90e56a17f..6757720776 100644
---- a/target/microblaze/translate.c
-+++ b/target/microblaze/translate.c
-@@ -34,7 +34,6 @@
+diff --git a/target/microblaze/helper.c b/target/microblaze/helper.c
+index 9a95456401..f8e2ca12a9 100644
+--- a/target/microblaze/helper.c
++++ b/target/microblaze/helper.c
+@@ -24,8 +24,6 @@
+ #include "qemu/host-utils.h"
  #include "exec/log.h"
  
+-#define D(x)
+-
+ #if defined(CONFIG_USER_ONLY)
  
--#define DISAS_GNU 1
- #define DISAS_MB 1
- #if DISAS_MB
- #  define LOG_DIS(...) qemu_log_mask(CPU_LOG_TB_IN_ASM, ## __VA_ARGS__)
+ void mb_cpu_do_interrupt(CPUState *cs)
+@@ -155,10 +153,13 @@ void mb_cpu_do_interrupt(CPUState *cs)
+         case EXCP_MMU:
+             env->regs[17] = env->pc;
+ 
++            qemu_log_mask(CPU_LOG_INT,
++                          "MMU exception at pc=%x iflags=%x ear=%" PRIx64 "\n",
++                          env->pc, env->iflags, env->ear);
++
+             env->esr &= ~(1 << 12);
+             /* Exception breaks branch + dslot sequence?  */
+             if (env->iflags & D_FLAG) {
+-                D(qemu_log("D_FLAG set at exception bimm=%d\n", env->bimm));
+                 env->esr |= 1 << 12 ;
+                 env->btr = env->btarget;
+ 
+@@ -166,14 +167,10 @@ void mb_cpu_do_interrupt(CPUState *cs)
+                 env->regs[17] -= 4;
+                 /* was the branch immprefixed?.  */
+                 if (env->bimm) {
+-                    qemu_log_mask(CPU_LOG_INT,
+-                                  "bimm exception at pc=%x iflags=%x\n",
+-                                  env->pc, env->iflags);
+                     env->regs[17] -= 4;
+                     log_cpu_state_mask(CPU_LOG_INT, cs, 0);
+                 }
+             } else if (env->iflags & IMM_FLAG) {
+-                D(qemu_log("IMM_FLAG set at exception\n"));
+                 env->regs[17] -= 4;
+             }
+ 
+diff --git a/target/microblaze/op_helper.c b/target/microblaze/op_helper.c
+index d79202c3f8..decdca0fd8 100644
+--- a/target/microblaze/op_helper.c
++++ b/target/microblaze/op_helper.c
+@@ -26,8 +26,6 @@
+ #include "exec/cpu_ldst.h"
+ #include "fpu/softfloat.h"
+ 
+-#define D(x)
+-
+ void helper_put(uint32_t id, uint32_t ctrl, uint32_t data)
+ {
+     int test = ctrl & STREAM_TEST;
+diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
+index 6757720776..860859324a 100644
+--- a/target/microblaze/translate.c
++++ b/target/microblaze/translate.c
+@@ -41,8 +41,6 @@
+ #  define LOG_DIS(...) do { } while (0)
+ #endif
+ 
+-#define D(x)
+-
+ #define EXTRACT_FIELD(src, start, end) \
+             (((src) >> start) & ((1 << (end - start + 1)) - 1))
+ 
 -- 
 2.25.1
 
