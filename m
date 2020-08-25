@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3EA7252266
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:04:23 +0200 (CEST)
-Received: from localhost ([::1]:54448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 614A02522A7
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:20:13 +0200 (CEST)
+Received: from localhost ([::1]:59260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAg7C-0004EO-T0
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:04:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35826)
+	id 1kAgMW-00047v-Cl
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:20:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kAg3V-0007iz-2Q
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:00:34 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:41480)
+ id 1kAg3X-0007kU-3v
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:00:36 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:42052)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kAg3Q-0001ml-JH
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:00:32 -0400
-Received: by mail-pf1-x444.google.com with SMTP id t9so4126902pfq.8
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 14:00:26 -0700 (PDT)
+ id 1kAg3Q-0001nR-Ks
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:00:33 -0400
+Received: by mail-pg1-x541.google.com with SMTP id g1so3877987pgm.9
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 14:00:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qXpLGSkTUh0l6cihbLBx2yxjRuaY4I2Cb0zQBnRmSlQ=;
- b=Xt5JE9G85i3eZDXw3qRDWezs0DmH9p+/MSYAdzrtej6Sg6TLoDd4707qXx5UoZq95y
- 1uB+WZ/v+7ywlZbL8AB9+InqkWeGIRjlMOWvaVoj482u83u/uokVxXWUQw8xAGAgQE68
- BIZ+IJ8et30Jiq+DAsFAiEZsVQcnzXmjw6+pSZ5DKaVIktlPGLJ8dWfeSbBJ8ALgfR1N
- PSBkAhuNjFi4n/bfQORYAcYwjbr4j7iX7PHmp8tUZFarszV8AjSSpMfCt8RDVN1hViNx
- MtCu6k4gqNHZRD5RsHtrTLOjwyHFR4JcdzyKaqmSWyeUdZIT0mlFeWUnQX9CsOJBlUTy
- E5tw==
+ bh=vRHfeWYe4t2JOdjOnGDnZu1tFFPEQawCvJ5AdLU8/XA=;
+ b=B8Uu8iDoxOG0+lWySO7Vk2GvwdOBihkCDODrs9X9UigfE4Vv0JHSggtZGBbSCYZexa
+ w5AqSeJSQWg1CcRuZRI5naiMxdfY9MrJOVLe+DX8/1JiLWkkTUp55Se7GFTlO+ROPXM3
+ UJvVvDF81tPiMVO1m7odPomrnssmnd9RJ9QlGHgtOYl3WW6of41q5ECbyz7pcmy1hPUL
+ gEpZWK2upfkYY+R6mVNSqOEB2w3z7nUtZEEZPvkEqJ+LAK63pvh4BngYyBUq2J+4HdvZ
+ kaapqEnoP3pIz96euGL1+bglT7bAQRWd0apfClM4MT1P1sf6SgqWnrztbJQKS/CNw12b
+ EiQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qXpLGSkTUh0l6cihbLBx2yxjRuaY4I2Cb0zQBnRmSlQ=;
- b=D4PTx6+DL2ZrMQvX0tR0PkZHxmxEDGHJ45ortiMe7/lAZlZzzxZUQKdu5b+jIpzfFR
- sS8cs9dLcOMc721OK0XJ5G2I1AavcdM1XPIxH5ojd9r77rfUorhRGz7MjoZP8ESXaQ26
- YTLW+Iiidbg88P5kxxHM4DZQzs2DjEahZpo7O3HUnduwbUP/ENQqaPcH48pWCqp+DNzV
- z29S6pSEjP+z8MDQORWX00mhfxy2upBj2IgXh6flInbtI1A9/R1F5XFRFh6y0oPXqfeh
- Z/SwwBxY2KPwDrW62H0B/utn8/FzIM5XNEUwF8hA4HKdC4HpDBinlLBJTQOsTYJKKo5D
- EimA==
-X-Gm-Message-State: AOAM530gGeXx6i6+bUEcR3IQ7REBLGua+8msBMoIzsjXWIgnO0kiYVx/
- RJbhEhJE47pKM2tvg9JewpLMRTLbB8CqDA==
-X-Google-Smtp-Source: ABdhPJyP0OS146Fbsadw8dr3iWkNmKoCpvC9i0GmzAsFx/0gnZoPIr3BBS183sgbliJoGKH7d6cROA==
-X-Received: by 2002:a17:902:c212:: with SMTP id
- 18mr9018374pll.250.1598389225716; 
- Tue, 25 Aug 2020 14:00:25 -0700 (PDT)
+ bh=vRHfeWYe4t2JOdjOnGDnZu1tFFPEQawCvJ5AdLU8/XA=;
+ b=mqtLwGG9blg7fIFyxGJ/vXQK2oCX4bhlTWUyKaSXWsg+19B4bWipCiKxLZt9KJRD8W
+ /i0JXW1xu5brCoWU5J/zw27zwKBcBd9i/V7Mi81UGAAsqljHsaFD3Mbm290PG6igamj/
+ WYHkQR81o/1X3rDOP+s91rhYosCeGnm84er/aj2c2ODh9xjXadKeEvivO7r31Tg8kZ5w
+ LoDwP5oSC68I7/MuAjtGU64zFyIr92QJgjAzqsmcDV6w5OPFvG0jpmjYGw7y/AhmLRlz
+ yC3SMf6nZaZHhATiS0ReyTha5kkfDK3Dp464XQlStnll5ZizufMQsjmQDaZeoAYFlTUf
+ EwNA==
+X-Gm-Message-State: AOAM532sbC9e+NII1Q+CVEaqeKODnSixMoCr+jFxbGFLAyrsEmApk18B
+ HTRS6dJth7LvYuDF8EmXaqeyd2dDWm315g==
+X-Google-Smtp-Source: ABdhPJw9V17b6eydCwKxrg3p7YnuUnuRDWWIegdCFgcNGFMjeACimgbU9XifywY6F3behHrJAoTkuQ==
+X-Received: by 2002:a63:4859:: with SMTP id x25mr8122986pgk.422.1598389226851; 
+ Tue, 25 Aug 2020 14:00:26 -0700 (PDT)
 Received: from localhost.localdomain
  (h216-228-167-147.bendor.dedicated.static.tds.net. [216.228.167.147])
- by smtp.gmail.com with ESMTPSA id k4sm16074pgr.87.2020.08.25.14.00.24
+ by smtp.gmail.com with ESMTPSA id k4sm16074pgr.87.2020.08.25.14.00.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Aug 2020 14:00:25 -0700 (PDT)
+ Tue, 25 Aug 2020 14:00:26 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 26/77] target/microblaze: Use DISAS_NORETURN
-Date: Tue, 25 Aug 2020 13:58:59 -0700
-Message-Id: <20200825205950.730499-27-richard.henderson@linaro.org>
+Subject: [PATCH 27/77] target/microblaze: Check singlestep_enabled in
+ gen_goto_tb
+Date: Tue, 25 Aug 2020 13:59:00 -0700
+Message-Id: <20200825205950.730499-28-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200825205950.730499-1-richard.henderson@linaro.org>
 References: <20200825205950.730499-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x541.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,91 +90,31 @@ Cc: edgar.iglesias@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Both exceptions and gen_goto_tb do not return.  Use the
-official DISAS_NORETURN enumerator for this case.
-This eliminates all use of DISAS_TB_JUMP.
+Do not use goto_tb if we're single-stepping.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/translate.c | 17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
+ target/microblaze/translate.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index 0c9b4ffa5a..53ca0bfb38 100644
+index 53ca0bfb38..7d5b96c38b 100644
 --- a/target/microblaze/translate.c
 +++ b/target/microblaze/translate.c
-@@ -51,7 +51,6 @@
- /* is_jmp field values */
- #define DISAS_JUMP    DISAS_TARGET_0 /* only pc was modified dynamically */
- #define DISAS_UPDATE  DISAS_TARGET_1 /* cpu state was modified dynamically */
--#define DISAS_TB_JUMP DISAS_TARGET_2 /* only pc was modified statically */
+@@ -140,7 +140,12 @@ static inline bool use_goto_tb(DisasContext *dc, target_ulong dest)
  
- static TCGv_i32 cpu_R[32];
- static TCGv_i32 cpu_pc;
-@@ -111,7 +110,7 @@ static void gen_raise_exception(DisasContext *dc, uint32_t index)
- 
-     gen_helper_raise_exception(cpu_env, tmp);
-     tcg_temp_free_i32(tmp);
--    dc->is_jmp = DISAS_UPDATE;
-+    dc->is_jmp = DISAS_NORETURN;
- }
- 
- static void gen_raise_exception_sync(DisasContext *dc, uint32_t index)
-@@ -149,6 +148,7 @@ static void gen_goto_tb(DisasContext *dc, int n, target_ulong dest)
+ static void gen_goto_tb(DisasContext *dc, int n, target_ulong dest)
+ {
+-    if (use_goto_tb(dc, dest)) {
++    if (dc->singlestep_enabled) {
++        TCGv_i32 tmp = tcg_const_i32(EXCP_DEBUG);
++        tcg_gen_movi_i64(cpu_SR[SR_PC], dest);
++        gen_helper_raise_exception(cpu_env, tmp);
++        tcg_temp_free_i32(tmp);
++    } else if (use_goto_tb(dc, dest)) {
+         tcg_gen_goto_tb(n);
          tcg_gen_movi_i32(cpu_pc, dest);
-         tcg_gen_exit_tb(NULL, 0);
-     }
-+    dc->is_jmp = DISAS_NORETURN;
- }
- 
- /*
-@@ -1675,7 +1675,6 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
-                 } else if (dc->jmp == JMP_DIRECT) {
-                     t_sync_flags(dc);
-                     gen_goto_tb(dc, 0, dc->jmp_pc);
--                    dc->is_jmp = DISAS_TB_JUMP;
-                 } else if (dc->jmp == JMP_DIRECT_CC) {
-                     TCGLabel *l1 = gen_new_label();
-                     t_sync_flags(dc);
-@@ -1684,8 +1683,6 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
-                     gen_goto_tb(dc, 1, dc->pc);
-                     gen_set_label(l1);
-                     gen_goto_tb(dc, 0, dc->jmp_pc);
--
--                    dc->is_jmp = DISAS_TB_JUMP;
-                 }
-                 break;
-             }
-@@ -1717,7 +1714,9 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
-     }
-     t_sync_flags(dc);
- 
--    if (unlikely(cs->singlestep_enabled)) {
-+    if (dc->is_jmp == DISAS_NORETURN) {
-+        /* nothing more to generate */
-+    } else if (unlikely(cs->singlestep_enabled)) {
-         TCGv_i32 tmp = tcg_const_i32(EXCP_DEBUG);
- 
-         if (dc->is_jmp != DISAS_JUMP) {
-@@ -1730,16 +1729,14 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
-             case DISAS_NEXT:
-                 gen_goto_tb(dc, 1, npc);
-                 break;
--            default:
-             case DISAS_JUMP:
-             case DISAS_UPDATE:
-                 /* indicate that the hash table must be used
-                    to find the next TB */
-                 tcg_gen_exit_tb(NULL, 0);
-                 break;
--            case DISAS_TB_JUMP:
--                /* nothing more to generate */
--                break;
-+            default:
-+                g_assert_not_reached();
-         }
-     }
-     gen_tb_end(tb, num_insns);
+         tcg_gen_exit_tb(dc->tb, n);
 -- 
 2.25.1
 
