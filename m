@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A9972522AB
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:21:22 +0200 (CEST)
-Received: from localhost ([::1]:36312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5121B2522B2
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:22:42 +0200 (CEST)
+Received: from localhost ([::1]:44238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAgNd-0006Ob-Ja
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:21:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36276)
+	id 1kAgOv-0001Cj-9z
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:22:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kAg40-00006c-Cp
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:01:04 -0400
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:37182)
+ id 1kAg43-000099-6a
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:01:08 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:56102)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kAg3y-0001zi-74
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:01:04 -0400
-Received: by mail-pj1-x1042.google.com with SMTP id mw10so125102pjb.2
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 14:01:01 -0700 (PDT)
+ id 1kAg3z-0001zq-6t
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:01:06 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id 2so118328pjx.5
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 14:01:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=50E0hW76gnTgLCYM21b2+hcWFagS0hoFg/XoJTnl9H8=;
- b=qQpzcyXPHl5M2j5TPXNFFdiSYbAEmQ3fn4o0rqJKPi2ReviyKR89mQP3kQC8ZmUse6
- 6pWzET3aU3LrOT58ZejZZ//AqmjVl57MhjNpNzkBUSF2WWp60YlFzBtSmdYASTv1oD5O
- lRrWQXIP2qZzG6HUTHnoqFNd31uoW3nHCkK3zzl5Acyye7ZhUdX+7rsauxeyxHs3gTAf
- oYb4zQmYgMeBUtNcCMZ0qeLXn4QQ65Po3dniUrwTOFgKI2TpcKLijihXDQQMUHJb5eEi
- GHLFMVvpcx7v88HN9AtKj3spm4lnj5OcjAv7meCPAKBHmyTtvjr7UtlOSa41AQzvBdOE
- et0Q==
+ bh=8b0bp9mk+1WbNfIATZBmVlR2NfvcC4JEryF82Ik81YY=;
+ b=r2HUuPvhKirChEZkUK4KJtTJepETf/6ibKth2j7LthDaibAOMUyHDGPttbFvSVoPrm
+ C0u4l7nJDt9e5WaFlon9bNzBC5mL1dBYmxYTo4zQFDo+hOIZ63CdVSMgw4+IgCqeHg8Q
+ dHQ5Dwz2kgkL7sS0vviy/r/P++szwMibw0unNxk7Sev5vB168PtNMTGgiV1VBe9Upczl
+ PCOpcxCmih2CZGa4451c/HsrSO6qOJE8EpaJsqs7BMvyXh/slnfTGHtBqKdjId9cOxfl
+ M2bxTAdJm4JYMxuQeLpOz7fMFDf24dz3t1/auM6jX+GX2usLaw/my3g/lw6EeGeM/MHH
+ nO+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=50E0hW76gnTgLCYM21b2+hcWFagS0hoFg/XoJTnl9H8=;
- b=ugJTGPKSeCQkGnmSGWQUf9rRto9dmg70cJ8SS6WYxaBiGg8F7SzcWwPO4mAfzpf/Je
- YZ4J9XL9k3OKPg8ff2RqQlDyqd6d+RxsJxAIRe9hnGL5+cxlBbdP+zusLawepMsAKzjc
- ZW4LcPxKyF98K/6wq0llLOD33WVglJGW3G9pO2qJKnHVoQ4zI7Ns8xAtDsu64BzPhORc
- URaVAbYKsAVp7ncFovTwhl1vP3x5cM2Dn+h4D55HYVoREK78NTRBWw1+ytK5fu+kt/9O
- +CY7pZyBPMZpXfPkRHlXrmTa+p3J6ueb5/UwcUxZSmhfF8FQH2XVVvpxtBx2+KifPVhI
- aQSg==
-X-Gm-Message-State: AOAM533UNKC/EjxvmdN0Y5WQyjugTaehcv26N6qFvr4NjPhrehlKAL4J
- 9Kwyen8+6ZzfhFfYQkitf5kWYoZxyaXrCA==
-X-Google-Smtp-Source: ABdhPJyw8+AdkWYQCVGur+z4KFmsCkuFJrprta2T019tMcFqehLZttCj5o21jVn5WTi3JEeB4iXZIQ==
-X-Received: by 2002:a17:90b:110a:: with SMTP id
- gi10mr3107685pjb.104.1598389259764; 
- Tue, 25 Aug 2020 14:00:59 -0700 (PDT)
+ bh=8b0bp9mk+1WbNfIATZBmVlR2NfvcC4JEryF82Ik81YY=;
+ b=k4fApancvQgYrGJLGOOz++2EILUGM12nabdmu5MKpygOSxgPzzReQf9fah2QAe6BzA
+ mTuZTy/nwDKbefPDUiij4QtAbqRRuhCEkwgRLqLErDyg3UEPalRGvVSGW91YkyFlSRxW
+ 6dAvsdj1qC7CrB3YHlzdwbh2QSkowdNva2BARcdFZVfbIEFvn3H+0l0NZDHyVBRCnhBi
+ UHfxU4syo0ivluJF3n0b/FElzv7QLWN1sW6LKsWC+enZfS+FoHjtmdny9uwdKU3oyqCt
+ 3eTZjYHtnTWNtI/NYgw1roUfLjsZZPBQbo0Ubm2L3ntuycULqxpjTqsnATYFtPb+1gvP
+ fasg==
+X-Gm-Message-State: AOAM533ai1pF4B3UlRzCvj1JllW2UwgkrJsBdL+OqlK5R69yx5zAytr1
+ DBU/Hkloe+hClpHtbFW7GzJV6XaAlkYNmA==
+X-Google-Smtp-Source: ABdhPJy92C8yJUoJLSw6lQRCe3zrFRjRsaL+lsk2+yuHn9MS+isRdn0E/lV+eGfmnF5k32i78bnSNQ==
+X-Received: by 2002:a17:90b:40cb:: with SMTP id
+ hj11mr3227959pjb.67.1598389260896; 
+ Tue, 25 Aug 2020 14:01:00 -0700 (PDT)
 Received: from localhost.localdomain
  (h216-228-167-147.bendor.dedicated.static.tds.net. [216.228.167.147])
- by smtp.gmail.com with ESMTPSA id k4sm16074pgr.87.2020.08.25.14.00.58
+ by smtp.gmail.com with ESMTPSA id k4sm16074pgr.87.2020.08.25.14.00.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Aug 2020 14:00:59 -0700 (PDT)
+ Tue, 25 Aug 2020 14:01:00 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 54/77] target/microblaze: Assert no overlap in flags making up
- tb_flags
-Date: Tue, 25 Aug 2020 13:59:27 -0700
-Message-Id: <20200825205950.730499-55-richard.henderson@linaro.org>
+Subject: [PATCH 55/77] target/microblaze: Move bimm to BIMM_FLAG
+Date: Tue, 25 Aug 2020 13:59:28 -0700
+Message-Id: <20200825205950.730499-56-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200825205950.730499-1-richard.henderson@linaro.org>
 References: <20200825205950.730499-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1042.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,47 +90,78 @@ Cc: edgar.iglesias@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Create MSR_TB_MASK.  Use it in cpu_get_tb_cpu_state, and check
-that IFLAGS_TB_MASK does not overlap.
+It makes sense to keep BIMM with D_FLAG, as they can be written
+back to iflags at the same time.  BIMM_FLAG does not need to be
+added to IFLAGS_TB_MASK because it does not affect the next TB,
+only the exception path out of the current TB.  Renumber IMM_FLAG,
+as the value 4 holds no particular significance; pack these two
+flags at the bottom of the bitfield.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/cpu.h | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ target/microblaze/cpu.h       |  4 ++--
+ target/microblaze/helper.c    |  2 +-
+ target/microblaze/translate.c | 12 +++++-------
+ 3 files changed, 8 insertions(+), 10 deletions(-)
 
 diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
-index 594501e4e7..2fc7cf26f1 100644
+index 2fc7cf26f1..a5df1fa28f 100644
 --- a/target/microblaze/cpu.h
 +++ b/target/microblaze/cpu.h
-@@ -261,8 +261,11 @@ struct CPUMBState {
- #define DRTE_FLAG	(1 << 17)
- #define DRTB_FLAG	(1 << 18)
- #define D_FLAG		(1 << 19)  /* Bit in ESR.  */
-+
- /* TB dependent CPUMBState.  */
- #define IFLAGS_TB_MASK  (D_FLAG | IMM_FLAG | DRTI_FLAG | DRTE_FLAG | DRTB_FLAG)
-+#define MSR_TB_MASK     (MSR_UM | MSR_VM | MSR_EE)
-+
-     uint32_t iflags;
+@@ -231,7 +231,6 @@ typedef struct CPUMBState CPUMBState;
+ struct CPUMBState {
+     uint32_t btaken;
+     uint32_t btarget;
+-    uint32_t bimm;
  
- #if !defined(CONFIG_USER_ONLY)
-@@ -372,12 +375,14 @@ typedef MicroBlazeCPU ArchCPU;
+     uint32_t imm;
+     uint32_t regs[32];
+@@ -253,7 +252,8 @@ struct CPUMBState {
+     uint32_t res_val;
  
- #include "exec/cpu-all.h"
+     /* Internal flags.  */
+-#define IMM_FLAG	4
++#define IMM_FLAG        (1 << 0)
++#define BIMM_FLAG       (1 << 1)
+ /* MSR_EE               (1 << 8)  */
+ /* MSR_UM               (1 << 11) */
+ /* MSR_VM               (1 << 13) */
+diff --git a/target/microblaze/helper.c b/target/microblaze/helper.c
+index f8e2ca12a9..06f4322e09 100644
+--- a/target/microblaze/helper.c
++++ b/target/microblaze/helper.c
+@@ -166,7 +166,7 @@ void mb_cpu_do_interrupt(CPUState *cs)
+                 /* Reexecute the branch.  */
+                 env->regs[17] -= 4;
+                 /* was the branch immprefixed?.  */
+-                if (env->bimm) {
++                if (env->iflags & BIMM_FLAG) {
+                     env->regs[17] -= 4;
+                     log_cpu_state_mask(CPU_LOG_INT, cs, 0);
+                 }
+diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
+index 42d6d2a593..7fd1efd3fb 100644
+--- a/target/microblaze/translate.c
++++ b/target/microblaze/translate.c
+@@ -1337,13 +1337,11 @@ static void eval_cond_jmp(DisasContext *dc, TCGv_i32 pc_true, TCGv_i32 pc_false)
  
-+/* Ensure there is no overlap between the two masks. */
-+QEMU_BUILD_BUG_ON(MSR_TB_MASK & IFLAGS_TB_MASK);
-+
- static inline void cpu_get_tb_cpu_state(CPUMBState *env, target_ulong *pc,
-                                         target_ulong *cs_base, uint32_t *flags)
+ static void dec_setup_dslot(DisasContext *dc)
  {
-     *pc = env->pc;
--    *flags = (env->iflags & IFLAGS_TB_MASK) |
--             (env->msr & (MSR_UM | MSR_VM | MSR_EE));
-+    *flags = (env->iflags & IFLAGS_TB_MASK) | (env->msr & MSR_TB_MASK);
-     *cs_base = (*flags & IMM_FLAG ? env->imm : 0);
+-        TCGv_i32 tmp = tcg_const_i32(dc->type_b && (dc->tb_flags & IMM_FLAG));
+-
+-        dc->delayed_branch = 2;
+-        dc->tb_flags |= D_FLAG;
+-
+-        tcg_gen_st_i32(tmp, cpu_env, offsetof(CPUMBState, bimm));
+-        tcg_temp_free_i32(tmp);
++    dc->delayed_branch = 2;
++    dc->tb_flags |= D_FLAG;
++    if (dc->type_b && (dc->tb_flags & IMM_FLAG)) {
++        dc->tb_flags |= BIMM_FLAG;
++    }
  }
  
+ static void dec_bcc(DisasContext *dc)
 -- 
 2.25.1
 
