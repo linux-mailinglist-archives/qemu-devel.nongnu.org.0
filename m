@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3122E2522E1
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:33:05 +0200 (CEST)
-Received: from localhost ([::1]:60912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 641AA2522E9
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:35:12 +0200 (CEST)
+Received: from localhost ([::1]:40614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAgYy-0002hW-6L
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:33:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36100)
+	id 1kAgb1-00060N-Cy
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:35:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kAg3p-0008Kk-DJ
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:00:53 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:41484)
+ id 1kAg3s-0008Pc-30
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:00:56 -0400
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:35621)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kAg3n-0001vP-Dz
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:00:53 -0400
-Received: by mail-pf1-x441.google.com with SMTP id t9so4127755pfq.8
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 14:00:50 -0700 (PDT)
+ id 1kAg3p-0001xE-Rh
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:00:55 -0400
+Received: by mail-pj1-x1044.google.com with SMTP id g6so130096pjl.0
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 14:00:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=W2BW1I6HkGHTMtHfmJz96M6DpNmBNEMsH2Tt6EuxiQM=;
- b=dk1uiILb8BTy8RHzHra9B1Jw4LAAEAOUMir09XvE2eYsTA3WUn/vfLM65I2KFftma5
- T07iAKmJn0gHcbddm1oHczPmmD3JEeJgAjutrA+KTCkKhKBLvjptt0SvUMe+xdioQs9/
- 4kFyBYm2NPHcXWqheqHO0jHM1U6nP1WMv8boubBeUdgulNdDyzuTwkf7hR+tfJ5wNQsK
- nQ9XPp2Ad1y+XgFNHYO+ZN4V2jtGTCxwvDg7ExnTL48Lgsj8wnYpTYGHePbDGUHbm0NQ
- N4aaUrdOBQuY4xOuTm/2iowV9SaNA5iH4LEOSBWM3r+T1ZSTYEByrl19eQ9vQKvxkMPq
- 4gjQ==
+ bh=5Gx/7ND2enUqh97byGs4EhjEjQPx9quOoqiJMUHgOSo=;
+ b=O45yb+jxuepWiNX5iiTN2suhFZOkV76zhEejPcjLvzeHyaVFUSeSxgEwonQrOcKn4I
+ JCyknw1yiV2Bp+kMpEf7Zntqj6WS5A3CWj8YbHZdKw9t4VUJcds10QixF6qqPvj1Dz9c
+ 77/99j8JjurUYt7vVd1S/aTG6BNR1dscG8Fj7SLnfa/spZFaoOzJ/eLFvf0Wyt3Bflv9
+ zwFnnqUaFVc9w3PKr+v5RcxKUJPtpjacoF29693NiCovODOxhqC5LkvCfl6rsWtZMQ7d
+ FK+Vd2O7XewHG+2IGrwmqE5lNRIdaU+CDkCEzWUkampH8Bjtx4i1wC18EYRjT/4Vva3q
+ 39dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=W2BW1I6HkGHTMtHfmJz96M6DpNmBNEMsH2Tt6EuxiQM=;
- b=dGlKPwGPuXFdVUhpAqSrtFZ/B5now13ekC5sVgGjHa7Vi5xvn+JHVKyNJhXjtzl1W2
- 1yYuZ2n+vo3O7/KQfTSKG6qa9lV9JCsS6c6QNDv/8m0SLHey/+ogxj2vgc+3macklJdH
- 31jm3hLMb3sNzfTDonJhnmcbQR/89QNbVoyojWCn0VoUiPjxTjq7w8hh/K0bKNBw9Atf
- bnzshdnyL3JiqLD8stzDo3Y5DK89Kyi3yqnFRFIxJAOeJxgPcU0/b/c/wz1P3nAdTR3a
- GqgbQ8KY6GiINFA16xwdUXD+PB3g7yqqKaVpqhHEg2NFmlzLnu7w8s4PtkrxnKxFNpDL
- IuuA==
-X-Gm-Message-State: AOAM533UKGf/vuzeZoTzOjO8scTzG7mAhZh2EvVC4ruZZQDW5WTKAcGj
- YpDk/Qq85j8lJFDQmyQ183QWLjIdECnMig==
-X-Google-Smtp-Source: ABdhPJxIZ/FwoiRv9socCH2Soi1rHc1bisT+Dd7z/8niwstovSZSbuDnx22UJ3XCENYM6zT6w0cO9A==
-X-Received: by 2002:a63:c62:: with SMTP id 34mr7894863pgm.377.1598389249660;
- Tue, 25 Aug 2020 14:00:49 -0700 (PDT)
+ bh=5Gx/7ND2enUqh97byGs4EhjEjQPx9quOoqiJMUHgOSo=;
+ b=YMc7i0xNGARQ/gyzAo+v7YyjCX6nFqq8NnbXsWGAbnyZFH1zhqVKlVB+4WkWtwn0nd
+ fEcQMM+REYoukXV9bwdiHa7GNoVWwLGC9g2jbIbOTBqgdyYSs7wE/07zXYwgtxoeiEvM
+ e4lYxXVpAzR6R/4g9hLWPqRXDIpxPCQgCl98IqwrWBpsFqr6a50tyRT89XAVUNxzBu91
+ nm6ghrXQMo9mCSdQ12Ce1vjgOP+YaEaZUGouCybkxWMggEIpM3JeD72A3pwPNsdlkMsL
+ yRhXVavkNH8JjfCa35RdZZ1xyG1cDY5KpNHEXCOLLbPPr1q6yF1Lo84oKnMd0HlJqSA8
+ dftQ==
+X-Gm-Message-State: AOAM5317IoWv0/OKlgJZoLgCJqM7GZNe2SXM1Hx78wnCgGLw9vpS1fAE
+ ynGDqxDzmGRaub5yWqPFPmtWBPWTlurVPw==
+X-Google-Smtp-Source: ABdhPJyR/3RaPEK4HODR48MbmQrXXnFNYbdBkFLTm7FOxHZV9DHzDV8kamZj0/y9eoBmmUMDw932Bg==
+X-Received: by 2002:a17:90a:de10:: with SMTP id
+ m16mr3098906pjv.34.1598389252138; 
+ Tue, 25 Aug 2020 14:00:52 -0700 (PDT)
 Received: from localhost.localdomain
  (h216-228-167-147.bendor.dedicated.static.tds.net. [216.228.167.147])
- by smtp.gmail.com with ESMTPSA id k4sm16074pgr.87.2020.08.25.14.00.48
+ by smtp.gmail.com with ESMTPSA id k4sm16074pgr.87.2020.08.25.14.00.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Aug 2020 14:00:49 -0700 (PDT)
+ Tue, 25 Aug 2020 14:00:51 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 46/77] target/microblaze: Convert dec_imm to decodetree
-Date: Tue, 25 Aug 2020 13:59:19 -0700
-Message-Id: <20200825205950.730499-47-richard.henderson@linaro.org>
+Subject: [PATCH 48/77] target/microblaze: Fix cpu unwind for fpu exceptions
+Date: Tue, 25 Aug 2020 13:59:21 -0700
+Message-Id: <20200825205950.730499-49-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200825205950.730499-1-richard.henderson@linaro.org>
 References: <20200825205950.730499-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x441.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1044.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,68 +90,163 @@ Cc: edgar.iglesias@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Restore the correct PC when an exception must be raised.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/insns.decode |  2 ++
- target/microblaze/translate.c  | 18 +++++++++---------
- 2 files changed, 11 insertions(+), 9 deletions(-)
+ target/microblaze/op_helper.c | 37 +++++++++++++++++++----------------
+ 1 file changed, 20 insertions(+), 17 deletions(-)
 
-diff --git a/target/microblaze/insns.decode b/target/microblaze/insns.decode
-index 31e50549ea..a7eb7d4e6f 100644
---- a/target/microblaze/insns.decode
-+++ b/target/microblaze/insns.decode
-@@ -76,6 +76,8 @@ cmpu            000101 ..... ..... ..... 000 0000 0011  @typea
- idiv            010010 ..... ..... ..... 000 0000 0000  @typea
- idivu           010010 ..... ..... ..... 000 0000 0010  @typea
+diff --git a/target/microblaze/op_helper.c b/target/microblaze/op_helper.c
+index d99d98051a..2c59d4492d 100644
+--- a/target/microblaze/op_helper.c
++++ b/target/microblaze/op_helper.c
+@@ -104,13 +104,16 @@ uint32_t helper_divu(CPUMBState *env, uint32_t a, uint32_t b)
+ }
  
-+imm             101100 00000 00000 imm:16
-+
- mul             010000 ..... ..... ..... 000 0000 0000  @typea
- mulh            010000 ..... ..... ..... 000 0000 0001  @typea
- mulhu           010000 ..... ..... ..... 000 0000 0011  @typea
-diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index 8fdd03fb5a..c1d19f4678 100644
---- a/target/microblaze/translate.c
-+++ b/target/microblaze/translate.c
-@@ -477,6 +477,15 @@ static void gen_idivu(TCGv_i32 out, TCGv_i32 ina, TCGv_i32 inb)
- DO_TYPEA_CFG(idiv, use_div, true, gen_idiv)
- DO_TYPEA_CFG(idivu, use_div, true, gen_idivu)
- 
-+static bool trans_imm(DisasContext *dc, arg_imm *arg)
-+{
-+    dc->ext_imm = arg->imm << 16;
-+    tcg_gen_movi_i32(cpu_imm, dc->ext_imm);
-+    dc->tb_flags |= IMM_FLAG;
-+    dc->clear_imm = 0;
-+    return true;
-+}
-+
- static void gen_mulh(TCGv_i32 out, TCGv_i32 ina, TCGv_i32 inb)
+ /* raise FPU exception.  */
+-static void raise_fpu_exception(CPUMBState *env)
++static void raise_fpu_exception(CPUMBState *env, uintptr_t ra)
  {
-     TCGv_i32 tmp = tcg_temp_new_i32();
-@@ -834,14 +843,6 @@ static inline void sync_jmpstate(DisasContext *dc)
++    CPUState *cs = env_cpu(env);
++
+     env->esr = ESR_EC_FPU;
+-    helper_raise_exception(env, EXCP_HW_EXCP);
++    cs->exception_index = EXCP_HW_EXCP;
++    cpu_loop_exit_restore(cs, ra);
+ }
+ 
+-static void update_fpu_flags(CPUMBState *env, int flags)
++static void update_fpu_flags(CPUMBState *env, int flags, uintptr_t ra)
+ {
+     int raise = 0;
+ 
+@@ -133,7 +136,7 @@ static void update_fpu_flags(CPUMBState *env, int flags)
+     if (raise
+         && (env->pvr.regs[2] & PVR2_FPU_EXC_MASK)
+         && (env->msr & MSR_EE)) {
+-        raise_fpu_exception(env);
++        raise_fpu_exception(env, ra);
      }
  }
  
--static void dec_imm(DisasContext *dc)
--{
--    dc->ext_imm = dc->imm << 16;
--    tcg_gen_movi_i32(cpu_imm, dc->ext_imm);
--    dc->tb_flags |= IMM_FLAG;
--    dc->clear_imm = 0;
--}
--
- static inline void compute_ldst_addr(DisasContext *dc, bool ea, TCGv t)
- {
-     /* Should be set to true if r1 is used by loadstores.  */
-@@ -1547,7 +1548,6 @@ static struct decoder_info {
- } decinfo[] = {
-     {DEC_LD, dec_load},
-     {DEC_ST, dec_store},
--    {DEC_IMM, dec_imm},
-     {DEC_BR, dec_br},
-     {DEC_BCC, dec_bcc},
-     {DEC_RTS, dec_rts},
+@@ -148,7 +151,7 @@ uint32_t helper_fadd(CPUMBState *env, uint32_t a, uint32_t b)
+     fd.f = float32_add(fa.f, fb.f, &env->fp_status);
+ 
+     flags = get_float_exception_flags(&env->fp_status);
+-    update_fpu_flags(env, flags);
++    update_fpu_flags(env, flags, GETPC());
+     return fd.l;
+ }
+ 
+@@ -162,7 +165,7 @@ uint32_t helper_frsub(CPUMBState *env, uint32_t a, uint32_t b)
+     fb.l = b;
+     fd.f = float32_sub(fb.f, fa.f, &env->fp_status);
+     flags = get_float_exception_flags(&env->fp_status);
+-    update_fpu_flags(env, flags);
++    update_fpu_flags(env, flags, GETPC());
+     return fd.l;
+ }
+ 
+@@ -176,7 +179,7 @@ uint32_t helper_fmul(CPUMBState *env, uint32_t a, uint32_t b)
+     fb.l = b;
+     fd.f = float32_mul(fa.f, fb.f, &env->fp_status);
+     flags = get_float_exception_flags(&env->fp_status);
+-    update_fpu_flags(env, flags);
++    update_fpu_flags(env, flags, GETPC());
+ 
+     return fd.l;
+ }
+@@ -191,7 +194,7 @@ uint32_t helper_fdiv(CPUMBState *env, uint32_t a, uint32_t b)
+     fb.l = b;
+     fd.f = float32_div(fb.f, fa.f, &env->fp_status);
+     flags = get_float_exception_flags(&env->fp_status);
+-    update_fpu_flags(env, flags);
++    update_fpu_flags(env, flags, GETPC());
+ 
+     return fd.l;
+ }
+@@ -206,7 +209,7 @@ uint32_t helper_fcmp_un(CPUMBState *env, uint32_t a, uint32_t b)
+ 
+     if (float32_is_signaling_nan(fa.f, &env->fp_status) ||
+         float32_is_signaling_nan(fb.f, &env->fp_status)) {
+-        update_fpu_flags(env, float_flag_invalid);
++        update_fpu_flags(env, float_flag_invalid, GETPC());
+         r = 1;
+     }
+ 
+@@ -229,7 +232,7 @@ uint32_t helper_fcmp_lt(CPUMBState *env, uint32_t a, uint32_t b)
+     fb.l = b;
+     r = float32_lt(fb.f, fa.f, &env->fp_status);
+     flags = get_float_exception_flags(&env->fp_status);
+-    update_fpu_flags(env, flags & float_flag_invalid);
++    update_fpu_flags(env, flags & float_flag_invalid, GETPC());
+ 
+     return r;
+ }
+@@ -245,7 +248,7 @@ uint32_t helper_fcmp_eq(CPUMBState *env, uint32_t a, uint32_t b)
+     fb.l = b;
+     r = float32_eq_quiet(fa.f, fb.f, &env->fp_status);
+     flags = get_float_exception_flags(&env->fp_status);
+-    update_fpu_flags(env, flags & float_flag_invalid);
++    update_fpu_flags(env, flags & float_flag_invalid, GETPC());
+ 
+     return r;
+ }
+@@ -261,7 +264,7 @@ uint32_t helper_fcmp_le(CPUMBState *env, uint32_t a, uint32_t b)
+     set_float_exception_flags(0, &env->fp_status);
+     r = float32_le(fa.f, fb.f, &env->fp_status);
+     flags = get_float_exception_flags(&env->fp_status);
+-    update_fpu_flags(env, flags & float_flag_invalid);
++    update_fpu_flags(env, flags & float_flag_invalid, GETPC());
+ 
+ 
+     return r;
+@@ -277,7 +280,7 @@ uint32_t helper_fcmp_gt(CPUMBState *env, uint32_t a, uint32_t b)
+     set_float_exception_flags(0, &env->fp_status);
+     r = float32_lt(fa.f, fb.f, &env->fp_status);
+     flags = get_float_exception_flags(&env->fp_status);
+-    update_fpu_flags(env, flags & float_flag_invalid);
++    update_fpu_flags(env, flags & float_flag_invalid, GETPC());
+     return r;
+ }
+ 
+@@ -291,7 +294,7 @@ uint32_t helper_fcmp_ne(CPUMBState *env, uint32_t a, uint32_t b)
+     set_float_exception_flags(0, &env->fp_status);
+     r = !float32_eq_quiet(fa.f, fb.f, &env->fp_status);
+     flags = get_float_exception_flags(&env->fp_status);
+-    update_fpu_flags(env, flags & float_flag_invalid);
++    update_fpu_flags(env, flags & float_flag_invalid, GETPC());
+ 
+     return r;
+ }
+@@ -306,7 +309,7 @@ uint32_t helper_fcmp_ge(CPUMBState *env, uint32_t a, uint32_t b)
+     set_float_exception_flags(0, &env->fp_status);
+     r = !float32_lt(fa.f, fb.f, &env->fp_status);
+     flags = get_float_exception_flags(&env->fp_status);
+-    update_fpu_flags(env, flags & float_flag_invalid);
++    update_fpu_flags(env, flags & float_flag_invalid, GETPC());
+ 
+     return r;
+ }
+@@ -330,7 +333,7 @@ uint32_t helper_fint(CPUMBState *env, uint32_t a)
+     fa.l = a;
+     r = float32_to_int32(fa.f, &env->fp_status);
+     flags = get_float_exception_flags(&env->fp_status);
+-    update_fpu_flags(env, flags);
++    update_fpu_flags(env, flags, GETPC());
+ 
+     return r;
+ }
+@@ -344,7 +347,7 @@ uint32_t helper_fsqrt(CPUMBState *env, uint32_t a)
+     fa.l = a;
+     fd.l = float32_sqrt(fa.f, &env->fp_status);
+     flags = get_float_exception_flags(&env->fp_status);
+-    update_fpu_flags(env, flags);
++    update_fpu_flags(env, flags, GETPC());
+ 
+     return fd.l;
+ }
 -- 
 2.25.1
 
