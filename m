@@ -2,65 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42AFE250CEF
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 02:26:11 +0200 (CEST)
-Received: from localhost ([::1]:60466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77E01250E3A
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 03:32:16 +0200 (CEST)
+Received: from localhost ([::1]:50740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAMmw-0002Bq-BY
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 20:26:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45940)
+	id 1kANos-0006RO-T4
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 21:32:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1kAMhj-0002VH-IV
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 20:20:47 -0400
-Received: from mga03.intel.com ([134.134.136.65]:38951)
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1kANnm-0004tB-Vl
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 21:31:07 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:4212 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1kAMhg-0006VY-Fb
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 20:20:46 -0400
-IronPort-SDR: 7OCV7ttYnJ0ZF/Fo1xy3BQ/t5HFaCdu5UfBqeb9YpUzTkOsqgk+GeM0r5Vs7jsdCPYUUtWMkAH
- O6vEk8Q855Ag==
-X-IronPort-AV: E=McAfee;i="6000,8403,9723"; a="156004880"
-X-IronPort-AV: E=Sophos;i="5.76,350,1592895600"; d="scan'208";a="156004880"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2020 17:20:39 -0700
-IronPort-SDR: 7AaJtVBCdXvxN2V09PpWCIOn/PjxcKjhiHfr6lNdMOj3FPp4f/zQBbi+Flxkn9LaBW/hQZjywQ
- 8kcGc/RuDbUg==
-X-IronPort-AV: E=Sophos;i="5.76,350,1592895600"; d="scan'208";a="474133045"
-Received: from jliu69-mobl.ccr.corp.intel.com (HELO [10.255.31.15])
- ([10.255.31.15])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2020 17:20:37 -0700
-Subject: Re: [PATCH 2/2] target/i386: Add missed features to Cooperlake CPU
- model
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20191225063018.20038-1-xiaoyao.li@intel.com>
- <20191225063018.20038-3-xiaoyao.li@intel.com>
- <20200824220759.GS642093@habkost.net>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-Message-ID: <9cdaaa8d-4ce2-88c7-2400-eed62ffe779b@intel.com>
-Date: Tue, 25 Aug 2020 08:20:35 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1kANnj-0005pg-G8
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 21:31:06 -0400
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 4A19171E63CBD9DB9C41;
+ Tue, 25 Aug 2020 09:30:57 +0800 (CST)
+Received: from huawei.com (10.175.101.6) by DGGEMS405-HUB.china.huawei.com
+ (10.3.19.205) with Microsoft SMTP Server id 14.3.487.0; Tue, 25 Aug 2020
+ 09:30:48 +0800
+From: Chuan Zheng <zhengchuan@huawei.com>
+To: <quintela@redhat.com>, <eblake@redhat.com>, <dgilbert@redhat.com>,
+ <berrange@redhat.com>
+Subject: [PATCH v5 00/12] *** A Method for evaluating dirty page rate ***
+Date: Tue, 25 Aug 2020 09:40:38 +0800
+Message-ID: <1598319650-36762-1-git-send-email-zhengchuan@huawei.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-In-Reply-To: <20200824220759.GS642093@habkost.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=134.134.136.65; envelope-from=xiaoyao.li@intel.com;
- helo=mga03.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/24 20:20:39
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -81
-X-Spam_score: -8.2
-X-Spam_bar: --------
-X-Spam_report: (-8.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.999, NICE_REPLY_A=-2.25, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [10.175.101.6]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190;
+ envelope-from=zhengchuan@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/24 21:30:58
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,52 +58,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Cathy Zhang <cathy.zhang@intel.com>, Richard Henderson <rth@twiddle.net>
+Cc: zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
+ xiexiangyou@huawei.com, alex.chen@huawei.com, ann.zhuangyanying@huawei.com,
+ fangying1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/25/2020 6:07 AM, Eduardo Habkost wrote:
-> On Wed, Dec 25, 2019 at 02:30:18PM +0800, Xiaoyao Li wrote:
->> It lacks VMX features and two security feature bits (disclosed recently) in
->> MSR_IA32_ARCH_CAPABILITIES in current Cooperlake CPU model, so add them.
->>
->> Fixes: 22a866b6166d ("i386: Add new CPU model Cooperlake")
->> Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
->> ---
->>   target/i386/cpu.c | 51 ++++++++++++++++++++++++++++++++++++++++++++++-
->>   1 file changed, 50 insertions(+), 1 deletion(-)
->>
->> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
->> index e1eb9f473989..c9798ac8652b 100644
->> --- a/target/i386/cpu.c
->> +++ b/target/i386/cpu.c
->> @@ -3198,7 +3198,8 @@ static X86CPUDefinition builtin_x86_defs[] = {
->>               CPUID_7_0_EDX_SPEC_CTRL_SSBD | CPUID_7_0_EDX_ARCH_CAPABILITIES,
->>           .features[FEAT_ARCH_CAPABILITIES] =
->>               MSR_ARCH_CAP_RDCL_NO | MSR_ARCH_CAP_IBRS_ALL |
->> -            MSR_ARCH_CAP_SKIP_L1DFL_VMENTRY | MSR_ARCH_CAP_MDS_NO,
->> +            MSR_ARCH_CAP_SKIP_L1DFL_VMENTRY | MSR_ARCH_CAP_MDS_NO |
->> +            MSR_ARCH_CAP_PSCHANGE_MC_NO | MSR_ARCH_CAP_TAA_NO,
-> 
-> This seems to break on some Cooperlake hosts, see:
-> 
-> https://bugzilla.redhat.com/show_bug.cgi?id=1860743
-> 
-> Are all Cooperlake hosts supposed to have TAA_NO set?  Are there
-> hosts where this requires a microcode update to be installed?
-> 
+v4 -> v5:
+    fix git apply failed due to meson-build
+    add review-by for patches in v3
 
-All the production CPX in market should have IAA_NO bit. We can check it 
-directly with rdmsr(0x10a).
+v3 -> v4:
+    use crc32 to get hash result instead of md5
+    add DirtyRateStatus to denote calculation status
+    add some trace_calls to make it easier to debug
+    fix some comments accroding to review
 
-The problem of this issue is due to commit db616173d787 ("x86/tsx: Add 
-config options to set tsx=on|off|auto"), which sets the default to "off" 
-for 100% safety. However, default to off may cause noticeable 
-regressions on TSX safe platform, e.g., CPX.
+v2 -> v3:
+    fix size_t compile warning
+    fix codestyle checked by checkpatch.pl
 
-Maybe we need to set CONFIG_X86_INTEL_TSX_MODE_AUTO=y for OSV released 
-kernel?
+v1 -> v2:
+    use g_rand_new() to generate rand_buf
+    move RAMBLOCK_FOREACH_MIGRATABLE into migration/ram.h
+    add skip_sample_ramblock to filter sampled ramblock
+    fix multi-numa vm coredump when query dirtyrate
+    rename qapi interface and rename some structures and functions
+    succeed to compile by appling each patch
+    add test for migrating vm
 
+Sometimes it is neccessary to evaluate dirty page rate before migration.
+Users could decide whether to proceed migration based on the evaluation
+in case of vm performance loss due to heavy workload.
+Unlikey simulating dirtylog sync which could do harm on runnning vm,
+we provide a sample-hash method to compare hash results for samping page.
+In this way, it would have hardly no impact on vm performance.
+
+Evaluate the dirtypage rate both on running and migration vm.
+The VM specifications for migration are as follows:
+- VM use 4-K page;
+- the number of VCPU is 32;
+- the total memory is 32Gigabit;
+- use 'mempress' tool to pressurize VM(mempress 4096 1024);
+- migration bandwidth is 1GB/s
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+|                      |  running  |                  migrating                           |
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+| no mempress          |   4MB/s   |          8MB/s      (migrated success)               |
+-------------------------------------------------------------------------------------------
+| mempress 4096 1024   |  1060MB/s |     456MB/s ~ 1142MB/s (cpu throttle triggered)      |
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+| mempress 4096 4096   |  4114MB/s |     688MB/s ~ 4132MB/s (cpu throttle triggered)      |
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Test dirtyrate by qmp command like this:
+1.  virsh qemu-monitor-command [vmname] '{"execute":"calc-dirty-rate", "arguments": {"calc-time": [sleep-time]}}'; 
+2.  sleep specific time which is a bit larger than sleep-time
+3.  virsh qemu-monitor-command [vmname] '{"execute":"query-dirty-rate"}'
+
+Further test dirtyrate by libvirt api like this:
+virsh getdirtyrate [vmname] [sleep-time]
+
+Chuan Zheng (12):
+  migration/dirtyrate: setup up query-dirtyrate framwork
+  migration/dirtyrate: add DirtyRateStatus to denote calculation status
+  migration/dirtyrate: Add RamlockDirtyInfo to store sampled page info
+  migration/dirtyrate: Add dirtyrate statistics series functions
+  migration/dirtyrate: move RAMBLOCK_FOREACH_MIGRATABLE into ram.h
+  migration/dirtyrate: Record hash results for each sampled page
+  migration/dirtyrate: Compare page hash results for recorded sampled
+    page
+  migration/dirtyrate: skip sampling ramblock with size below
+    MIN_RAMBLOCK_SIZE
+  migration/dirtyrate: Implement get_sample_page_period() and
+    block_sample_page_period()
+  migration/dirtyrate: Implement calculate_dirtyrate() function
+  migration/dirtyrate: Implement
+    qmp_cal_dirty_rate()/qmp_get_dirty_rate() function
+  migration/dirtyrate: Add trace_calls to make it easier to debug
+
+ migration/dirtyrate.c  | 432 +++++++++++++++++++++++++++++++++++++++++++++++++
+ migration/dirtyrate.h  |  87 ++++++++++
+ migration/meson.build  |   1 +
+ migration/ram.c        |  11 +-
+ migration/ram.h        |  10 ++
+ migration/trace-events |   8 +
+ qapi/migration.json    |  61 +++++++
+ 7 files changed, 600 insertions(+), 10 deletions(-)
+ create mode 100644 migration/dirtyrate.c
+ create mode 100644 migration/dirtyrate.h
+
+-- 
+1.8.3.1
 
 
