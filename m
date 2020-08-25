@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0EE3252204
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 22:29:22 +0200 (CEST)
-Received: from localhost ([::1]:53842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A001E252203
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 22:29:14 +0200 (CEST)
+Received: from localhost ([::1]:53228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAfZJ-0006dw-Lt
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 16:29:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55904)
+	id 1kAfZB-0006NG-60
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 16:29:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kAfY6-0005VA-Rg
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 16:28:06 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:35296 helo=mta-01.yadro.com)
+ id 1kAfY7-0005WV-Tz
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 16:28:07 -0400
+Received: from mta-02.yadro.com ([89.207.88.252]:35306 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kAfY4-0006Nf-P9
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 16:28:06 -0400
+ id 1kAfY5-0006Nx-0l
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 16:28:07 -0400
 Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 8A4C3574FC;
- Tue, 25 Aug 2020 20:28:01 +0000 (UTC)
+ by mta-01.yadro.com (Postfix) with ESMTP id 8906E574E9;
+ Tue, 25 Aug 2020 20:28:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
  content-transfer-encoding:content-type:content-type:mime-version
- :x-mailer:message-id:date:date:subject:subject:from:from
- :received:received:received; s=mta-01; t=1598387280; x=
- 1600201681; bh=NJx4LFEH2kbZvVESZK68iv8jHpkFyXzFsQGvSbVkTmg=; b=T
- fnRv7uCXQWzcDZqfLuKrI23H3RLc5svTtMi6J+14v89Q72ujDI5TbCunme6pYPOA
- cZmFVGenzLETqHNizlbg4OuXjyvzFTwma3FVLYxsxVk7rO7Zo+SJUhrBdJQX6ahK
- cfPYwsS11bC5RMfnlI9dk8cMyLRkMx6mfNHI6XvNhk=
+ :references:in-reply-to:x-mailer:message-id:date:date:subject
+ :subject:from:from:received:received:received; s=mta-01; t=
+ 1598387281; x=1600201682; bh=mmJ/dT2Mse58phPOjXVCrsjbijaIJyvPfGG
+ wzIZFk+M=; b=V1TVkKKHOZBig5toUV+jvF0YTqR6HExrE1au4O+wFuIGt0djUvs
+ VbvnZVeibTlwHrwIyUZDvv2HSh39Jo75Y19EEnFlPLc69Plx3+Bp6uvPzh5XeqFq
+ EKY6w//w5uiVfzbsVRzsIlUGCZuDz9MIaan969dnojiaKwnIRS8Uczwk=
 X-Virus-Scanned: amavisd-new at yadro.com
 Received: from mta-01.yadro.com ([127.0.0.1])
  by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id bc84zkjZ0E8N; Tue, 25 Aug 2020 23:28:00 +0300 (MSK)
+ with ESMTP id S3hJVS0Zs4Ke; Tue, 25 Aug 2020 23:28:01 +0300 (MSK)
 Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
  [172.17.10.102])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 6D3BD57057;
- Tue, 25 Aug 2020 23:27:59 +0300 (MSK)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 8CAB057501;
+ Tue, 25 Aug 2020 23:28:00 +0300 (MSK)
 Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
  (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Tue, 25
- Aug 2020 23:27:59 +0300
+ Aug 2020 23:28:00 +0300
 From: Roman Bolshakov <r.bolshakov@yadro.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v2 0/4] Compatibility make fixes for meson
-Date: Tue, 25 Aug 2020 23:27:51 +0300
-Message-ID: <20200825202755.50626-1-r.bolshakov@yadro.com>
+Subject: [PATCH v2 2/4] Makefile: Require GNU make 3.82+
+Date: Tue, 25 Aug 2020 23:27:53 +0300
+Message-ID: <20200825202755.50626-3-r.bolshakov@yadro.com>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200825202755.50626-1-r.bolshakov@yadro.com>
+References: <20200825202755.50626-1-r.bolshakov@yadro.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
@@ -84,25 +86,35 @@ Cc: Roman Bolshakov <r.bolshakov@yadro.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The set of changes addresses "Diagnose "make is too old" in configure
-(or in the makefile?)" from https://wiki.qemu.org/Features/Meson#Easy.
-It also provides cleaner backwards compatible build invocation on macOS.
+QEMU build fails with cryptic messages if make is too old:
 
-Changes since v1:
- - Added explicit error for partially-completed configure (Eric B.)
- - Added an empty rule for config-host.mak to avoid second call of
-   recursive make (which happened because of implicit force rule)
+  Makefile.ninja:2655: *** multiple target patterns.  Stop.
 
-Roman Bolshakov (4):
-  configure: Use discovered make for in-source build
-  Makefile: Require GNU make 3.82+
-  configure: Prefer gmake on darwin
-  configure: Test if $make actually exists
+To avoid the confusion it's worth to fail the build right away and print
+a friendly error message.
 
- Makefile  |  5 +++++
- configure | 36 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 41 insertions(+)
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
+---
+ Makefile | 5 +++++
+ 1 file changed, 5 insertions(+)
 
+diff --git a/Makefile b/Makefile
+index 81794d5c34..b4ebf3e30f 100644
+--- a/Makefile
++++ b/Makefile
+@@ -4,6 +4,11 @@ ifneq ($(words $(subst :, ,$(CURDIR))), 1)
+   $(error main directory cannot contain spaces nor colons)
+ endif
+ 
++ifeq ($(filter undefine,$(value .FEATURES)),)
++$(error Unsupported Make version: $(MAKE_VERSION). \
++        Please use GNU Make 3.82 or above)
++endif
++
+ # Always point to the root of the build tree (needs GNU make).
+ BUILD_DIR=$(CURDIR)
+ 
 -- 
 2.28.0
 
