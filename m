@@ -2,86 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2C6525149C
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 10:50:54 +0200 (CEST)
-Received: from localhost ([::1]:33312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A795A25148D
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 10:46:55 +0200 (CEST)
+Received: from localhost ([::1]:44244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAUfN-0003hc-PG
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 04:50:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60836)
+	id 1kAUbW-0004q5-Lv
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 04:46:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kAUPb-0005K1-Ak
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 04:34:35 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51733
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kAUPU-0000is-5P
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 04:34:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598344467;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ehiedqTNRyLsLwOh+puLPuEtfUt5op6NnbGBalsnv/Q=;
- b=IUCphzVuV7kGqj+Bc+nO5EMRur9qcbSZIiQwYu0xLDrb2FksTdqEvqY3eynP7ZSBzLZAty
- 0u5rwM8HdhsRumKEFV4kxI9creqw3fMJwgBK71iL+QkTtuDpKWfmwSO/sJECACEEzJB321
- dD3aMmzDkGMseZuYRSGZqAvjLw7/Qi0=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-562-sKRCfx-gPUCa7k1kTVDzWw-1; Tue, 25 Aug 2020 04:34:25 -0400
-X-MC-Unique: sKRCfx-gPUCa7k1kTVDzWw-1
-Received: by mail-ed1-f72.google.com with SMTP id x68so4314565ede.21
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 01:34:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kAUQR-0007NV-IQ
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 04:35:27 -0400
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:44876)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kAUQP-0000vz-Np
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 04:35:27 -0400
+Received: by mail-pg1-x529.google.com with SMTP id m34so6312140pgl.11
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 01:35:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xSa+lKrzpAxZpfbmVv/lwbN7oH6G4GxEh8xRVQQ8Z/A=;
+ b=LAxygP3KPu5ccm2WqUqL7j9A9bug2PsQCac6/0FabO6ypidONU9c52EFjHB8Zqr0p2
+ kfR5SGd73frAIjgzFwx57nC7m480UlAo2i3Nwdac7H0ro++AVjMa/KYqiOa+fGMXOagG
+ wzP905EsSyIp4JQFRMU3ctsN9vh5cNW89OCTkHJc/aJs/E61W5Dm+vPgApQAXZSSiXDX
+ vsNflBol9z8oIiuFzPsp5jh8/r4es4ur2F4L8N/5TT/7fi2Bxev57bDZC1FIJM4x82Z5
+ RkbBPanvWMZDJUHSGc4UQwZ600h4Ay5L3ZbMl9maNZtaMFrujSaSeVszty/+HM5qwrtt
+ jaSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ehiedqTNRyLsLwOh+puLPuEtfUt5op6NnbGBalsnv/Q=;
- b=EdMuLRxOkI2LP7om6RsxzpRIGO2B4eIkeTBwfVD2LnYE8JujHjzffPajy2Hy9ChRcy
- ubJFu9RwIOkvrbXZ6VyZNP4GissuGmlX+C5aY3i4P8KJ8XDZ66xwuoFgOgsJHa99CJz9
- 1SQesYLmmsgcWi2V+Qk0WgSNm4TIAITbvBjWpj49fG/OfqZ4G5vcosdLaGbXRrbTJpLJ
- KRH7mWudhpS5nzdPxZ6ksEcu6h6nzW4zShFxrCptuFlhAkPGToLAl06GK85DNhSpnAaD
- oX5ngKSQ+UhVy1MwPNE6DHUk6w2dZeY/lv36zxmHJiBa9qBKOsVtwFynN0ef8v97WHJy
- o4hQ==
-X-Gm-Message-State: AOAM53166JLAfo71wnaQhhpwk0d4O4PpoQThQ0VDdfe2N9aaXFWtaTUE
- AgX6mafZp2G8hgpfPm5v/6vWulT7v08T/qCbiVk4BdP4q7daXnEtbCQZT96nwyAYPRZSQ+FShvw
- yqO9kOkTWywP1paWkeaDLZjECAQ4qAI4=
-X-Received: by 2002:a50:fb94:: with SMTP id e20mr9208643edq.103.1598344463847; 
- Tue, 25 Aug 2020 01:34:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyvcujtPyIK6noq+02JXW3Lz3XncNhbbyA96/URhVTeuof1qMwd/jHYDGAh+B5npGxMTWr9WkKCQgmOr1jj4o4=
-X-Received: by 2002:a50:fb94:: with SMTP id e20mr9208634edq.103.1598344463669; 
- Tue, 25 Aug 2020 01:34:23 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xSa+lKrzpAxZpfbmVv/lwbN7oH6G4GxEh8xRVQQ8Z/A=;
+ b=hZ8K92qgqQ8ADGLtsHiXnEv6oDpp7nSjFQg26yLg/MXl7Ak+QEc1XPQ7mzYO5ZLFIb
+ 0/bgKO6ISfhhL5Dnw/6l72Wm1AV+NedatZLYM0uzyfOTXEp21vRJ37im68x/Ph+PX3Ge
+ X86loNJSZ8HtIoE3V8AvWQxQlAcvnE11lTyKZ0hafzXQT7etA/lotFsJFWJzBMGeW6OY
+ oaLLX6kCUBYjDlxHcWpyhwIo5S01UJlJxDzlQBFyW7zqbWrUXGYMHMGSk3sb2Pwp3R2S
+ j2+unyxmEmWpBUHX5Ox/myjhSf/42hRk85PcmI5Eabopn26+5u//B+bSCeDCjUUAtW7N
+ 7NVQ==
+X-Gm-Message-State: AOAM531+tKz38NXjOfA6jfRFIf8OrLBTcl35xblCGa04dj9ve4FZFjRR
+ PhUcbdGpONsTNzXRBH+X51/+3j+IECWVVfeK
+X-Google-Smtp-Source: ABdhPJxhSpeK580wP94VnW0fXEe22qFKcduMg/NDYvLOJ8xxLIyuMp9hnh8Gaww03RB2UqedK0000w==
+X-Received: by 2002:a65:60ce:: with SMTP id r14mr6174044pgv.85.1598344523557; 
+ Tue, 25 Aug 2020 01:35:23 -0700 (PDT)
+Received: from localhost.localdomain ([222.95.248.6])
+ by smtp.googlemail.com with ESMTPSA id bn14sm1146683pjb.0.2020.08.25.01.35.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Aug 2020 01:35:22 -0700 (PDT)
+From: luoyonggang@gmail.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH 1/5] meson: SIMPLE_PATH_RE should match the full path token.
+ Or the $ and : contained in path would not matched. if the path are start
+ with C:/ and E:/
+Date: Tue, 25 Aug 2020 16:34:56 +0800
+Message-Id: <20200825083500.359-1-luoyonggang@gmail.com>
+X-Mailer: git-send-email 2.27.0.windows.1
 MIME-Version: 1.0
-References: <d3adbbd0-fb9e-7f7f-8eaf-857c1d14d233@ilande.co.uk>
- <20200824113729.a3yfnllxep4kjfwc@sirius.home.kraxel.org>
- <09b683be-0a13-00cc-9398-285385ea290d@ilande.co.uk>
- <CABgObfZBW6Zvd4CXAjghAqo4yfyH2RukkW0yDuFE09P+46MwmA@mail.gmail.com>
- <CAE2XoE_265qKQ=BMOaSF6uC=Yo=Y2V=u=eGfbbckX08eL5VAfw@mail.gmail.com>
-In-Reply-To: <CAE2XoE_265qKQ=BMOaSF6uC=Yo=Y2V=u=eGfbbckX08eL5VAfw@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Tue, 25 Aug 2020 10:34:12 +0200
-Message-ID: <CABgObfZ6j1PGBq7X44H7a3pnS=7h9G1xFQ9P==DE+39xRbmPew@mail.gmail.com>
-Subject: Re: meson: problems building under msys2/mingw-w64 native
-To: luoyonggang@gmail.com
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000fc74de05adaf9104"
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 02:05:08
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.956,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x529.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,208 +84,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Gerd Hoffmann <kraxel@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000fc74de05adaf9104
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Yonggang Luo <luoyonggang@gmail.com>
 
-I saw it, thanks. I would like to have someone else (like Mark) test it and
-then I will include it.
+---
+ scripts/ninjatool.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Paolo
-
-Il mar 25 ago 2020, 10:24 =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) <luoyon=
-ggang@gmail.com> ha
-scritto:
-
-> Hi Paolo Bonzini,
-> I've already sent a series of fixes for msys, do you have a look at that?
->
->
-> On Tue, Aug 25, 2020 at 3:55 PM Paolo Bonzini <pbonzini@redhat.com> wrote=
-:
->
->> Great, thanks! Can you send it as a patch? I am collecting Meson fixes
->> and I should be able to send a pull request this week.
->>
->> Also if you can please test the msys fixes that were sent on the list
->> that would be great.
->>
->> Paolo
->>
->> Il mar 25 ago 2020, 09:52 Mark Cave-Ayland <mark.cave-ayland@ilande.co.u=
-k>
->> ha scritto:
->>
->>> On 24/08/2020 12:37, Gerd Hoffmann wrote:
->>>
->>> >> 2) GTK UI now depends on CONFIG_VTE
->>> >>
->>> >> This one I spotted on my local Linux setup as I didn't have the
->>> libvte-dev package
->>> >> installed and couldn't understand why I couldn't run QEMU with the
->>> GTK UI as I always
->>> >> do, even though configure reported that it found the GTK library and
->>> headers.
->>> >>
->>> >> A quick search showed that the GTK UI was being guarded by "if
->>> >> config_host.has_key('CONFIG_GTK') and
->>> config_host.has_key('CONFIG_VTE')" in
->>> >> ui/meson.build.
->>> >
->>> > That is not correct.  vte is intentionally not a hard dependency ...
->>> >
->>> >> For me the easy solution was to install libvte-dev, but since there
->>> are no VTE
->>> >> packages for Windows my guess is this will now make the GTK UI
->>> unavailable for
->>> >> Windows users.
->>> >
->>> > .. because we don't have that on windows.
->>> >
->>> > I think simply dropping the "and config_host.has_key('CONFIG_VTE')"
->>> > should work, can you try that?
->>>
->>> Hi Gerd,
->>>
->>> I can't get the native Windows build to complete yet, however I've
->>> removed the
->>> libvte-dev headers again on my Linux setup and confirmed that GTK works
->>> once again
->>> with the below diff:
->>>
->>> diff --git a/ui/meson.build b/ui/meson.build
->>> index 81fd393432..cc71f51f37 100644
->>> --- a/ui/meson.build
->>> +++ b/ui/meson.build
->>> @@ -42,7 +42,7 @@ if config_host.has_key('CONFIG_CURSES')
->>>    ui_modules +=3D {'curses' : curses_ss}
->>>  endif
->>>
->>> -if config_host.has_key('CONFIG_GTK') and
->>> config_host.has_key('CONFIG_VTE')
->>> +if config_host.has_key('CONFIG_GTK')
->>>    softmmu_ss.add(when: 'CONFIG_WIN32', if_true:
->>> files('win32-kbd-hook.c'))
->>>
->>>    gtk_ss =3D ss.source_set()
->>>
->>>
->>> ATB,
->>>
->>> Mark.
->>>
->>>
->
-> --
->          =E6=AD=A4=E8=87=B4
-> =E7=A4=BC
-> =E7=BD=97=E5=8B=87=E5=88=9A
-> Yours
->     sincerely,
-> Yonggang Luo
->
-
---000000000000fc74de05adaf9104
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">I saw it, thanks. I would like to have someone else (like=
- Mark) test it and then I will include it.<div dir=3D"auto"><br></div><div =
-dir=3D"auto">Paolo</div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r" class=3D"gmail_attr">Il mar 25 ago 2020, 10:24 =E7=BD=97=E5=8B=87=E5=88=
-=9A(Yonggang Luo) &lt;<a href=3D"mailto:luoyonggang@gmail.com">luoyonggang@=
-gmail.com</a>&gt; ha scritto:<br></div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div =
-dir=3D"ltr"><div>Hi Paolo Bonzini,</div>I&#39;ve already sent a series of f=
-ixes for msys, do you have a look at that?<div><br></div></div><br><div cla=
-ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Aug 25, 20=
-20 at 3:55 PM Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" targ=
-et=3D"_blank" rel=3D"noreferrer">pbonzini@redhat.com</a>&gt; wrote:<br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"auto">Great=
-, thanks! Can you send it as a patch? I am collecting Meson fixes and I sho=
-uld be able to send a pull request this week.<div dir=3D"auto"><br></div><d=
-iv dir=3D"auto">Also if you can please test the msys fixes that were sent o=
-n the list that would be great.</div><div dir=3D"auto"><br></div><div dir=
-=3D"auto">Paolo</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Il mar 25 ago 2020, 09:52 Mark Cave-Ayland &lt;<a href=
-=3D"mailto:mark.cave-ayland@ilande.co.uk" target=3D"_blank" rel=3D"noreferr=
-er">mark.cave-ayland@ilande.co.uk</a>&gt; ha scritto:<br></div><blockquote =
-class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
-id rgb(204,204,204);padding-left:1ex">On 24/08/2020 12:37, Gerd Hoffmann wr=
-ote:<br>
-<br>
-&gt;&gt; 2) GTK UI now depends on CONFIG_VTE<br>
-&gt;&gt;<br>
-&gt;&gt; This one I spotted on my local Linux setup as I didn&#39;t have th=
-e libvte-dev package<br>
-&gt;&gt; installed and couldn&#39;t understand why I couldn&#39;t run QEMU =
-with the GTK UI as I always<br>
-&gt;&gt; do, even though configure reported that it found the GTK library a=
-nd headers.<br>
-&gt;&gt;<br>
-&gt;&gt; A quick search showed that the GTK UI was being guarded by &quot;i=
-f<br>
-&gt;&gt; config_host.has_key(&#39;CONFIG_GTK&#39;) and config_host.has_key(=
-&#39;CONFIG_VTE&#39;)&quot; in<br>
-&gt;&gt; ui/meson.build.<br>
-&gt; <br>
-&gt; That is not correct.=C2=A0 vte is intentionally not a hard dependency =
-...<br>
-&gt; <br>
-&gt;&gt; For me the easy solution was to install libvte-dev, but since ther=
-e are no VTE<br>
-&gt;&gt; packages for Windows my guess is this will now make the GTK UI una=
-vailable for<br>
-&gt;&gt; Windows users.<br>
-&gt; <br>
-&gt; .. because we don&#39;t have that on windows.<br>
-&gt; <br>
-&gt; I think simply dropping the &quot;and config_host.has_key(&#39;CONFIG_=
-VTE&#39;)&quot;<br>
-&gt; should work, can you try that?<br>
-<br>
-Hi Gerd,<br>
-<br>
-I can&#39;t get the native Windows build to complete yet, however I&#39;ve =
-removed the<br>
-libvte-dev headers again on my Linux setup and confirmed that GTK works onc=
-e again<br>
-with the below diff:<br>
-<br>
-diff --git a/ui/meson.build b/ui/meson.build<br>
-index 81fd393432..cc71f51f37 100644<br>
---- a/ui/meson.build<br>
-+++ b/ui/meson.build<br>
-@@ -42,7 +42,7 @@ if config_host.has_key(&#39;CONFIG_CURSES&#39;)<br>
-=C2=A0 =C2=A0ui_modules +=3D {&#39;curses&#39; : curses_ss}<br>
-=C2=A0endif<br>
-<br>
--if config_host.has_key(&#39;CONFIG_GTK&#39;) and config_host.has_key(&#39;=
-CONFIG_VTE&#39;)<br>
-+if config_host.has_key(&#39;CONFIG_GTK&#39;)<br>
-=C2=A0 =C2=A0softmmu_ss.add(when: &#39;CONFIG_WIN32&#39;, if_true: files(&#=
-39;win32-kbd-hook.c&#39;))<br>
-<br>
-=C2=A0 =C2=A0gtk_ss =3D ss.source_set()<br>
-<br>
-<br>
-ATB,<br>
-<br>
-Mark.<br>
-<br>
-</blockquote></div>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
->=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 =E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=
-=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=A0 sincerely,<br>Yonggang L=
-uo<br></div>
-</blockquote></div>
-
---000000000000fc74de05adaf9104--
+diff --git a/scripts/ninjatool.py b/scripts/ninjatool.py
+index cc77d51aa8..6ca8be6f10 100755
+--- a/scripts/ninjatool.py
++++ b/scripts/ninjatool.py
+@@ -55,7 +55,7 @@ else:
+ 
+ PATH_RE = r"[^$\s:|]+|\$[$ :]|\$[a-zA-Z0-9_-]+|\$\{[a-zA-Z0-9_.-]+\}"
+ 
+-SIMPLE_PATH_RE = re.compile(r"[^$\s:|]+")
++SIMPLE_PATH_RE = re.compile(r"^[^$\s:|]+$")
+ IDENT_RE = re.compile(r"[a-zA-Z0-9_.-]+$")
+ STRING_RE = re.compile(r"(" + PATH_RE + r"|[\s:|])(?:\r?\n)?|.")
+ TOPLEVEL_RE = re.compile(r"([=:#]|\|\|?|^ +|(?:" + PATH_RE + r")+)\s*|.")
+-- 
+2.27.0.windows.1
 
 
