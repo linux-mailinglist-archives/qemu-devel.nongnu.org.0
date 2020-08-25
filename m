@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 940E0251E45
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 19:28:22 +0200 (CEST)
-Received: from localhost ([::1]:52810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 946CB251E8D
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 19:41:12 +0200 (CEST)
+Received: from localhost ([::1]:33190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAck9-0005ch-Mc
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 13:28:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38528)
+	id 1kAcwZ-0001Vh-LI
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 13:41:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kAcjF-0005BJ-Cg
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 13:27:25 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:43070)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kAcvb-0000pr-Ja
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 13:40:11 -0400
+Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:36929)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kAcjD-0007rw-E9
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 13:27:24 -0400
-Received: by mail-wr1-x443.google.com with SMTP id 2so2414472wrj.10
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 10:27:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jFGBpg8QTM0wW80ptrMfB2TplDyv41drpm/PS9njFvg=;
- b=KcMHmPSKgSEAPjB1+sxGjRYJCZRpwXj2tf/eDofwt6GKWt50t4h6XQiuV8loVjUIQG
- kConbJ3QDURTzYr7c4GZ78f3wBZ2UrKmATqp6chMrX+pap7jw+qU9SESx9Av4wM335UB
- 7CeyezW6Arhi6uhlznIdM0/cG9kiNlDt0i2u8n3D+Hf7dzOTBz3XkedBoL5KrWbN5GTh
- a46Uh3bMx551yb04oFy2LjOITQKgXHCq2K2AKrxws3UzjkF8KIL7c14CE6eKC0PkpuHo
- yRFWBIaxw9B6UiGw9hd2r9TRYS7KNV4h2d3/+PARIGXlG6kUM6GYQ64h68EOTEpvAewz
- DlFw==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kAcvZ-0000v8-Rn
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 13:40:11 -0400
+Received: by mail-il1-x143.google.com with SMTP id v2so11152979ilq.4
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 10:40:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=9ZcFLiin5cTi7A6p4hhWdoY2yjOWJyW/2e2mlQiZT3Y=;
+ b=D/ttGUfvYILYRyi6sP9XLjDRppsfzxNF8B1fS3xl8ubaWLMFZp2Mplz+OrKyOHDYQi
+ REUenpHSTNiEORDkp9riEkEXRPPVekV6xQTJ0iXNzhUmH54S0EAscLBSc66ubE9/t8pk
+ 1Hdjwg3E12x+gKDINl5y3Skgbd7DYGkl7IPH1DcyNpIWjnY6tW750ZzzLun+bSDjKAzH
+ UGKccmcD5g4wIE6Q3iqkVzKrcPsx9dTmd6e9+doigHfsGfK+XJ3FJeh/fqpm+dCNNJXL
+ ySqEqACGW1TchkAOCisN1KBFT7TbUE8o7CLgEj25GJGEhRqpG+Z14rkDMLodDvevCZS0
+ eq1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jFGBpg8QTM0wW80ptrMfB2TplDyv41drpm/PS9njFvg=;
- b=eBgmUZ+1yJH/IT6NprgSA9eyLiMPTbOi3Q3JyzuiP9kBuqEpep5Ph06NhybhZHJTIz
- RaqrCQbHHzquD7uBNAi9MxnIeFmS3kX42I2s130obRC+7tDqe9OSb+A0ggViMG2n2u+2
- wz5uDBChyLS7qy9oBjVoUS4a4FeySlJfBbt1aULodlV6dS3YQbOyiAu5H8QbkPyi2/2/
- PZEzV/we532d3rUqYNQM77HGcIWqQF7NaBZBqBBUyVCKt62a1w3LMU9FTA7JNO0y/4M4
- Z0nMSSRbQ53KJgdawkgc+zyr+3IvUNJvmq6U0DqedojggsE7aPtlcmo5koen0hn1y361
- mo7Q==
-X-Gm-Message-State: AOAM5307NWlbqrQhvpmOrDg5Io33mttnvoyPvLXd934gdRcSmh26U1Kf
- TVurrWjeFKDyhD1Vns2Ki8UBIRRehC8fZc3k
-X-Google-Smtp-Source: ABdhPJyh6Qn7z/ETTQs21UEUuo3/vRtohgi5Q/1LoP+FwrdeGdQDv742hpT4CYYqRAUQARDJ04xSeQ==
-X-Received: by 2002:adf:f691:: with SMTP id v17mr655847wrp.344.1598376441495; 
- Tue, 25 Aug 2020 10:27:21 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 8sm33457529wrl.7.2020.08.25.10.27.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Aug 2020 10:27:20 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] Deprecate Unicore32 port
-Date: Tue, 25 Aug 2020 18:27:19 +0100
-Message-Id: <20200825172719.19422-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=9ZcFLiin5cTi7A6p4hhWdoY2yjOWJyW/2e2mlQiZT3Y=;
+ b=t9obCDJCyOOhi5H7xyVBKaUFtZ+6DSKKgqZzuAI8rVIIHQNeTDT12guUMm/wObUvrk
+ Q0jtl4eMUpuZQYdXTQhlCGmDl72WDV4Ekj0AVFqI8AaMYDa0qxX9PNDmbh9+o/E5iZh8
+ FJREDZBuaCvz8a9FuB4+6Jpl3Hpl3fnhsIWR/k0y9jK6f4THguP9BLrgRTnpPeGE0cwt
+ iFKEG5xo9nb61VOxCz07AYQ6o8EKQVIXjmzgyOSvqfnlelyncOgjJ3VQJdh5Mc/lLFP/
+ AAWAqPV95Cgmp4+pqG7qLe2wgfow2gYS7L/ruBVxXnZOW/TxSiIh9TCIzxbTLtQJvBZ5
+ qSqQ==
+X-Gm-Message-State: AOAM532x2AUGbuFMxKlM3Kv5VhwygGODS3GaOHtksAvZG+MbufV4Xgv5
+ s2j6/BwvJwEGhMAuEWE3nIgGIO2KCuP0oW2bVOw=
+X-Google-Smtp-Source: ABdhPJyl75oYdDc4Wu0aY032rXQMqOs4hAzwftnfVWn4r9x4qccILYUNFiUncJ7LrBDyY3krFwlLTEY8ref+8Z4y4RA=
+X-Received: by 2002:a05:6e02:13f1:: with SMTP id
+ w17mr10346314ilj.131.1598377208123; 
+ Tue, 25 Aug 2020 10:40:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x443.google.com
+References: <87a2da602785bce972a6a6b4502769f4fee58a2d.1598074333.git.alistair.francis@wdc.com>
+ <63024ede-9d19-7292-29d6-a33da6a7177e@amsat.org>
+In-Reply-To: <63024ede-9d19-7292-29d6-a33da6a7177e@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 25 Aug 2020 10:29:25 -0700
+Message-ID: <CAKmqyKPEcVj98S_Jg3xc8-QAhEj_HOOZq1+VaibmGqkbe1H8-g@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] core/register: Specify instance_size in the
+ TypeInfo
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -82,52 +84,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Guan Xuetao <gxt@mprc.pku.edu.cn>, Guan Xuetao <gxt@pku.edu.cn>
+Cc: ehabkost@redhat.comg, Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Deprecate our Unicore32 target support:
- * the Linux kernel dropped support for unicore32 in commit
-   05119217a9bd199c for its 5.9 release (with rationale in the
-   cover letter: https://lkml.org/lkml/2020/8/3/232 )
- * there is apparently no upstream toolchain that can create unicore32
-   binaries
- * the maintainer doesn't seem to have made any contributions to
-   QEMU since the port first landed in 2012
- * nobody else seems to have made changes to the unicore code except
-   for generic cleanups either
+On Sat, Aug 22, 2020 at 3:25 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> Hi Alistair,
+>
+> On 8/22/20 7:33 AM, Alistair Francis wrote:
+> > Reported-by: Eduardo Habkost <ehabkost@redhat.com>
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> >  hw/core/register.c | 14 +++++++++-----
+> >  1 file changed, 9 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/hw/core/register.c b/hw/core/register.c
+> > index ddf91eb445..5e8e8199d0 100644
+> > --- a/hw/core/register.c
+> > +++ b/hw/core/register.c
+> > @@ -180,11 +180,7 @@ void register_init(RegisterInfo *reg)
+> >  {
+> >      assert(reg);
+> >
+> > -    if (!reg->data || !reg->access) {
+> > -        return;
+> > -    }
+> >
+> > -    object_initialize((void *)reg, sizeof(*reg), TYPE_REGISTER);
+>
+> Can we remove register_init()? Are concerned is it is declared
+> publicly in "hw/register.h"?
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-We last considered this back in 2018, but in the end both QEMU
-and the kernel gave the port a stay of execution; the maintenance
-situation doesn't seem to have improved, and now the kernel has
-dropped support and especially given the lack of a toolchain
-I think it's time to start the deprecation process here.
----
- docs/system/deprecated.rst | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Argh, I just missed this. Fixed in v2.
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 851dbdeb8ab..4c52098c707 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -416,6 +416,14 @@ The above, converted to the current supported format::
- linux-user mode CPUs
- --------------------
- 
-+``unicore32`` CPUs (since 5.2.0)
-+''''''''''''''''''''''''''''''''
-+
-+The ``unicore32`` guest CPU support is deprecated and will be removed in
-+a future version of QEMU. Support for this CPU was removed from the
-+upstream Linux kernel, and there is no available upstream toolchain
-+to build binaries for it.
-+
- ``tilegx`` CPUs (since 5.1.0)
- '''''''''''''''''''''''''''''
- 
--- 
-2.20.1
+Alistair
 
+>
+> >  }
+> >
+> >  void register_write_memory(void *opaque, hwaddr addr,
+> > @@ -269,13 +265,20 @@ static RegisterInfoArray *register_init_block(Dev=
+iceState *owner,
+> >          int index =3D rae[i].addr / data_size;
+> >          RegisterInfo *r =3D &ri[index];
+> >
+> > +        if (data + data_size * index =3D=3D 0 || !&rae[i]) {
+> > +            continue;
+> > +        }
+> > +
+> > +        /* Init the register, this will zero it. */
+> > +        object_initialize((void *)r, sizeof(*r), TYPE_REGISTER);
+> > +
+> > +        /* Set the properties of the register */
+> >          *r =3D (RegisterInfo) {
+> >              .data =3D data + data_size * index,
+> >              .data_size =3D data_size,
+> >              .access =3D &rae[i],
+> >              .opaque =3D owner,
+> >          };
+> > -        register_init(r);
+> >
+> >          r_array->r[i] =3D r;
+> >      }
+> > @@ -329,6 +332,7 @@ static const TypeInfo register_info =3D {
+> >      .name  =3D TYPE_REGISTER,
+> >      .parent =3D TYPE_DEVICE,
+> >      .class_init =3D register_class_init,
+> > +    .instance_size =3D sizeof(RegisterInfo),
+> >  };
+> >
+> >  static void register_register_types(void)
+> >
+>
 
