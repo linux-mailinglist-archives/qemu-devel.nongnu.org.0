@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE014250CD6
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 02:18:44 +0200 (CEST)
-Received: from localhost ([::1]:55700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D72C250CD9
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 02:20:22 +0200 (CEST)
+Received: from localhost ([::1]:35884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAMfk-0005Zw-0J
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 20:18:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45100)
+	id 1kAMhJ-0000X3-4b
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 20:20:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3k1hEXwsKClY5G86BB2AC2B4CC492.0CAE2AI-12J29BCB4BI.CF4@flex--hskinnemoen.bounces.google.com>)
- id 1kAMeX-0003lx-7r
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 20:17:29 -0400
-Received: from mail-pf1-x44a.google.com ([2607:f8b0:4864:20::44a]:42107)
+ <3llhEXwsKClk8JB9EE5DF5E7FF7C5.3FDH5DL-45M5CEFE7EL.FI7@flex--hskinnemoen.bounces.google.com>)
+ id 1kAMeZ-0003qQ-6V
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 20:17:31 -0400
+Received: from mail-pg1-x54a.google.com ([2607:f8b0:4864:20::54a]:37950)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3k1hEXwsKClY5G86BB2AC2B4CC492.0CAE2AI-12J29BCB4BI.CF4@flex--hskinnemoen.bounces.google.com>)
- id 1kAMeU-00066T-4A
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 20:17:28 -0400
-Received: by mail-pf1-x44a.google.com with SMTP id b142so7152150pfb.9
- for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 17:17:25 -0700 (PDT)
+ <3llhEXwsKClk8JB9EE5DF5E7FF7C5.3FDH5DL-45M5CEFE7EL.FI7@flex--hskinnemoen.bounces.google.com>)
+ id 1kAMeW-00066f-Ql
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 20:17:30 -0400
+Received: by mail-pg1-x54a.google.com with SMTP id 78so1429160pgf.5
+ for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 17:17:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=sender:date:in-reply-to:message-id:mime-version:references:subject
  :from:to:cc:content-transfer-encoding;
- bh=K4419BP+6vI7tyG+lJ5WOiKHB0WZfwY2gV6M8yysefs=;
- b=k6rmbR4Uw3IRUMsOyoLDzJ/QJ32LYpe4Lps7XT7gNWHfsRDQ4hXd7MBPZegAD2VODs
- ZwLBEs2JqdXzJju+nSY93rqrjdF29ehXAr1U0RUy+SZ/RsAWYBg4yK43alf1x2HBnieD
- f6gXh0zazg5gVnu6XaqflBbDzxw42dy+0UPJOc665IRsQ91fEcVncLeimGXeL9DrlvmE
- OU4b7nxxEKG9+8hTh58U6hZTN7aORL25DdfyYSph7rGXudNQ4nPYZN/VIwm0r9LqbLRv
- vrKbSspwXOknWVLFpvD7m2dfQywXyoEpdn1fSrF3C/YEDgXmY/sCcOfTBNFONyDkZKBD
- kECA==
+ bh=m/ayDG00qMRIUpleuYo4aKp7Q1JphS2n6/ujInOccCs=;
+ b=R/P2v5Q9O7jwD4krZnLhn1MXF2KRh3jYd0eHuU+msIBtTDr27ocXdnIx39GWTOq5XP
+ Ze+Z2QyPx7AzpMj7ygG/Yz/X2CzIGyr8NlpVZetKMqfjqZGNIYmPBJG3ShpiLgDczFmf
+ e7HqTDeoBb2MLmHxbGZb6LBVadKWCOT4T0bFCSi4xjHocHh24RlVRWNFZl8BH8bkyF8N
+ rK1D7mC96b6R96C8637M2TPcGOWT5f6v3qCoYnlMZhM3fpKV2wvhkE12xzMbmxywDc6C
+ 6QjAJJqOp6rtpFVzl8tYzubQ7+hbiPKiRjAgwv4rBlnZ70VSDmQ97fsBwSzGHruOyjkw
+ X7Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
  :references:subject:from:to:cc:content-transfer-encoding;
- bh=K4419BP+6vI7tyG+lJ5WOiKHB0WZfwY2gV6M8yysefs=;
- b=B/e0rmosEVwhiutqOtP1+IYGJSz6MEMJ6j8G5ZEx8ifAmWmi3CHLm66uu+NdGcUCfz
- oGRaHVUaQ5P32ZaqtADZ1EiraeHx3+6mtkVuR+/p8Ufm4woeCOp4QsZ6kqumhkortdJQ
- 1NON040MObqpEzp9IhqNgPY1ZD5nCwfUZ8e9nJRAIhqn2+CuAVMe4mKcfq1kBoChHMZB
- Ww9KBUDAxg4FA9U3u5t/vh22zQMJfHyC+boGPquGfv3I3B3l8JGTi9LXo1GZfPhDEqAi
- 4MPhY+1A8lcbOvr2nlECft1rYFPC/B3e1jj6CJKmKiGK2X+jHnb3emTpAYH84KTRis29
- g8Nw==
-X-Gm-Message-State: AOAM531GbgTXDgWnURORsQHHLf1ekrBqqZ8VUkZs03NTzNi1CM49qAr6
- E4k0th72/3RskdHOGmJMsw9VbfZTtE1Cx0fJVA==
-X-Google-Smtp-Source: ABdhPJyw4E8kL3lCCFRDN3pSLO8AL0+xhLrjWGnM2PYkApn7bYpQvmTs+2G/CYb3ViZUW9ozhQ3k4/1wz7exHi2V1Q==
+ bh=m/ayDG00qMRIUpleuYo4aKp7Q1JphS2n6/ujInOccCs=;
+ b=tmIUK+ZzNEYzLoFvlGJIyFQ4gd+ZDvwGwOcyqxfI81qtiMl+H+tS9za5AoqKWKguRO
+ JXpTiAvvpLmFK6ZqtYlj9fR65fVlb6VA/0d1JxW6cznBEgnFnfb7aI+WlN7/IXFTSr0B
+ i4Hkp5BHtHx7MGgpa0L/3bQSzyYx0Kw+SVGdWrxKARy+tgKXltb97rcqZft1/XeK/hzS
+ 6zWkdaOZG4cpSo8GRd1DIxujt6ljC5etZk2cW6zTiuIn7ZcGjWSa/N5mdc0c6IrlYXY4
+ 9cR+FEuSXCH+R4U40Aa0yRg/f0dojc0JrS48QgmZt0WgyFo4FCaHoq4KDkhd5ystajCH
+ cyEw==
+X-Gm-Message-State: AOAM530oJ2yCerCaGrjhVI6XHuzhGy64lNgusfi1dGKWwYevYutnOzg4
+ NybcueOEO9okPCBFxLfVg1tgH6Lu83oQaRpa4w==
+X-Google-Smtp-Source: ABdhPJzt4nIx+iM7SVj6mliAA0zC1GBGufIJtGAlUN8h/VVgRn7awzzgUqIvhvYxnVSfJc6GriysdR+D+bURGlZkSg==
 X-Received: from skybert.c.googlers.com ([fda3:e722:ac3:10:24:72f4:c0a8:3107])
- (user=hskinnemoen job=sendgmr) by 2002:a17:90a:8c8f:: with SMTP id
- b15mr1428358pjo.84.1598314643795;
- Mon, 24 Aug 2020 17:17:23 -0700 (PDT)
-Date: Mon, 24 Aug 2020 17:16:58 -0700
+ (user=hskinnemoen job=sendgmr) by 2002:a17:90a:5b:: with SMTP id
+ 27mr1326455pjb.188.1598314646036; Mon, 24 Aug 2020 17:17:26 -0700 (PDT)
+Date: Mon, 24 Aug 2020 17:16:59 -0700
 In-Reply-To: <20200825001711.1340443-1-hskinnemoen@google.com>
-Message-Id: <20200825001711.1340443-2-hskinnemoen@google.com>
+Message-Id: <20200825001711.1340443-3-hskinnemoen@google.com>
 Mime-Version: 1.0
 References: <20200825001711.1340443-1-hskinnemoen@google.com>
 X-Mailer: git-send-email 2.28.0.297.g1956fa8f8d-goog
-Subject: [PATCH v8 01/14] hw/misc: Add NPCM7xx System Global Control Registers
- device model
+Subject: [PATCH v8 02/14] hw/misc: Add NPCM7xx Clock Controller device model
 To: peter.maydell@linaro.org, f4bug@amsat.org
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, Avi.Fishman@nuvoton.com, 
  kfting@nuvoton.com, Havard Skinnemoen <hskinnemoen@google.com>,
@@ -66,9 +64,9 @@ Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, Avi.Fishman@nuvoton.com,
  "=?UTF-8?q?C=C3=A9dric=20Le=20Goater?=" <clg@kaod.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::44a;
- envelope-from=3k1hEXwsKClY5G86BB2AC2B4CC492.0CAE2AI-12J29BCB4BI.CF4@flex--hskinnemoen.bounces.google.com;
- helo=mail-pf1-x44a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::54a;
+ envelope-from=3llhEXwsKClk8JB9EE5DF5E7FF7C5.3FDH5DL-45M5CEFE7EL.FI7@flex--hskinnemoen.bounces.google.com;
+ helo=mail-pg1-x54a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -95
@@ -77,7 +75,7 @@ X-Spam_bar: ---------
 X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,39 +93,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Havard Skinnemoen <hskinnemoen@google.com>
 From: Havard Skinnemoen via <qemu-devel@nongnu.org>
 
-Implement a device model for the System Global Control Registers in the
-NPCM730 and NPCM750 BMC SoCs.
+Enough functionality to boot the Linux kernel has been implemented. This
+includes:
 
-This is primarily used to enable SMP boot (the boot ROM spins reading
-the SCRPAD register) and DDR memory initialization; other registers are
-best effort for now.
+  - Correct power-on reset values so the various clock rates can be
+    accurately calculated.
+  - Clock enables stick around when written.
 
-The reset values of the MDLR and PWRON registers are determined by the
-SoC variant (730 vs 750) and board straps respectively.
+In addition, a best effort attempt to implement SECCNT and CNTR25M was
+made even though I don't think the kernel needs them.
 
+Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
 Reviewed-by: Joel Stanley <joel@jms.id.au>
 Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
 ---
- include/hw/misc/npcm7xx_gcr.h |  43 ++++++
- hw/misc/npcm7xx_gcr.c         | 269 ++++++++++++++++++++++++++++++++++
- MAINTAINERS                   |   8 +
- hw/arm/Kconfig                |   3 +
- hw/misc/meson.build           |   3 +
+ include/hw/misc/npcm7xx_clk.h |  48 ++++++
+ hw/misc/npcm7xx_clk.c         | 266 ++++++++++++++++++++++++++++++++++
+ hw/misc/meson.build           |   1 +
  hw/misc/trace-events          |   4 +
- 6 files changed, 330 insertions(+)
- create mode 100644 include/hw/misc/npcm7xx_gcr.h
- create mode 100644 hw/misc/npcm7xx_gcr.c
+ 4 files changed, 319 insertions(+)
+ create mode 100644 include/hw/misc/npcm7xx_clk.h
+ create mode 100644 hw/misc/npcm7xx_clk.c
 
-diff --git a/include/hw/misc/npcm7xx_gcr.h b/include/hw/misc/npcm7xx_gcr.h
+diff --git a/include/hw/misc/npcm7xx_clk.h b/include/hw/misc/npcm7xx_clk.h
 new file mode 100644
-index 0000000000..13109d9d32
+index 0000000000..cdcc9e8534
 --- /dev/null
-+++ b/include/hw/misc/npcm7xx_gcr.h
-@@ -0,0 +1,43 @@
++++ b/include/hw/misc/npcm7xx_clk.h
+@@ -0,0 +1,48 @@
 +/*
-+ * Nuvoton NPCM7xx System Global Control Registers.
++ * Nuvoton NPCM7xx Clock Control Registers.
 + *
 + * Copyright 2020 Google LLC
 + *
@@ -142,44 +138,50 @@ HOUT
 + * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
 + * for more details.
 + */
-+#ifndef NPCM7XX_GCR_H
-+#define NPCM7XX_GCR_H
++#ifndef NPCM7XX_CLK_H
++#define NPCM7XX_CLK_H
 +
 +#include "exec/memory.h"
 +#include "hw/sysbus.h"
++
++/*
++ * The reference clock frequency for the timer modules, and the SECCNT and
++ * CNTR25M registers in this module, is always 25 MHz.
++ */
++#define NPCM7XX_TIMER_REF_HZ            (25000000)
 +
 +/*
 + * Number of registers in our device state structure. Don't change this wi=
 thout
 + * incrementing the version_id in the vmstate.
 + */
-+#define NPCM7XX_GCR_NR_REGS (0x148 / sizeof(uint32_t))
++#define NPCM7XX_CLK_NR_REGS             (0x70 / sizeof(uint32_t))
 +
-+typedef struct NPCM7xxGCRState {
++typedef struct NPCM7xxCLKState {
 +    SysBusDevice parent;
 +
 +    MemoryRegion iomem;
 +
-+    uint32_t regs[NPCM7XX_GCR_NR_REGS];
++    uint32_t regs[NPCM7XX_CLK_NR_REGS];
 +
-+    uint32_t reset_pwron;
-+    uint32_t reset_mdlr;
-+    uint32_t reset_intcr3;
-+} NPCM7xxGCRState;
++    /* Time reference for SECCNT and CNTR25M, initialized by power on rese=
+t */
++    int64_t ref_ns;
++} NPCM7xxCLKState;
 +
-+#define TYPE_NPCM7XX_GCR "npcm7xx-gcr"
-+#define NPCM7XX_GCR(obj) OBJECT_CHECK(NPCM7xxGCRState, (obj), TYPE_NPCM7XX=
-_GCR)
++#define TYPE_NPCM7XX_CLK "npcm7xx-clk"
++#define NPCM7XX_CLK(obj) OBJECT_CHECK(NPCM7xxCLKState, (obj), TYPE_NPCM7XX=
+_CLK)
 +
-+#endif /* NPCM7XX_GCR_H */
-diff --git a/hw/misc/npcm7xx_gcr.c b/hw/misc/npcm7xx_gcr.c
++#endif /* NPCM7XX_CLK_H */
+diff --git a/hw/misc/npcm7xx_clk.c b/hw/misc/npcm7xx_clk.c
 new file mode 100644
-index 0000000000..745f690809
+index 0000000000..21ab4200d1
 --- /dev/null
-+++ b/hw/misc/npcm7xx_gcr.c
-@@ -0,0 +1,269 @@
++++ b/hw/misc/npcm7xx_clk.c
+@@ -0,0 +1,266 @@
 +/*
-+ * Nuvoton NPCM7xx System Global Control Registers.
++ * Nuvoton NPCM7xx Clock Control Registers.
 + *
 + * Copyright 2020 Google LLC
 + *
@@ -197,102 +199,140 @@ HOUT
 +
 +#include "qemu/osdep.h"
 +
-+#include "hw/misc/npcm7xx_gcr.h"
-+#include "hw/qdev-properties.h"
++#include "hw/misc/npcm7xx_clk.h"
 +#include "migration/vmstate.h"
-+#include "qapi/error.h"
-+#include "qemu/cutils.h"
++#include "qemu/error-report.h"
 +#include "qemu/log.h"
 +#include "qemu/module.h"
++#include "qemu/timer.h"
 +#include "qemu/units.h"
-+
 +#include "trace.h"
 +
-+#define NPCM7XX_GCR_MIN_DRAM_SIZE   (128 * MiB)
-+#define NPCM7XX_GCR_MAX_DRAM_SIZE   (2 * GiB)
++#define PLLCON_LOKI     BIT(31)
++#define PLLCON_LOKS     BIT(30)
++#define PLLCON_PWDEN    BIT(12)
 +
-+enum NPCM7xxGCRRegisters {
-+    NPCM7XX_GCR_PDID,
-+    NPCM7XX_GCR_PWRON,
-+    NPCM7XX_GCR_MFSEL1          =3D 0x0c / sizeof(uint32_t),
-+    NPCM7XX_GCR_MFSEL2,
-+    NPCM7XX_GCR_MISCPE,
-+    NPCM7XX_GCR_SPSWC           =3D 0x038 / sizeof(uint32_t),
-+    NPCM7XX_GCR_INTCR,
-+    NPCM7XX_GCR_INTSR,
-+    NPCM7XX_GCR_HIFCR           =3D 0x050 / sizeof(uint32_t),
-+    NPCM7XX_GCR_INTCR2          =3D 0x060 / sizeof(uint32_t),
-+    NPCM7XX_GCR_MFSEL3,
-+    NPCM7XX_GCR_SRCNT,
-+    NPCM7XX_GCR_RESSR,
-+    NPCM7XX_GCR_RLOCKR1,
-+    NPCM7XX_GCR_FLOCKR1,
-+    NPCM7XX_GCR_DSCNT,
-+    NPCM7XX_GCR_MDLR,
-+    NPCM7XX_GCR_SCRPAD3,
-+    NPCM7XX_GCR_SCRPAD2,
-+    NPCM7XX_GCR_DAVCLVLR        =3D 0x098 / sizeof(uint32_t),
-+    NPCM7XX_GCR_INTCR3,
-+    NPCM7XX_GCR_VSINTR          =3D 0x0ac / sizeof(uint32_t),
-+    NPCM7XX_GCR_MFSEL4,
-+    NPCM7XX_GCR_CPBPNTR         =3D 0x0c4 / sizeof(uint32_t),
-+    NPCM7XX_GCR_CPCTL           =3D 0x0d0 / sizeof(uint32_t),
-+    NPCM7XX_GCR_CP2BST,
-+    NPCM7XX_GCR_B2CPNT,
-+    NPCM7XX_GCR_CPPCTL,
-+    NPCM7XX_GCR_I2CSEGSEL,
-+    NPCM7XX_GCR_I2CSEGCTL,
-+    NPCM7XX_GCR_VSRCR,
-+    NPCM7XX_GCR_MLOCKR,
-+    NPCM7XX_GCR_SCRPAD          =3D 0x013c / sizeof(uint32_t),
-+    NPCM7XX_GCR_USB1PHYCTL,
-+    NPCM7XX_GCR_USB2PHYCTL,
-+    NPCM7XX_GCR_REGS_END,
++enum NPCM7xxCLKRegisters {
++    NPCM7XX_CLK_CLKEN1,
++    NPCM7XX_CLK_CLKSEL,
++    NPCM7XX_CLK_CLKDIV1,
++    NPCM7XX_CLK_PLLCON0,
++    NPCM7XX_CLK_PLLCON1,
++    NPCM7XX_CLK_SWRSTR,
++    NPCM7XX_CLK_IPSRST1         =3D 0x20 / sizeof(uint32_t),
++    NPCM7XX_CLK_IPSRST2,
++    NPCM7XX_CLK_CLKEN2,
++    NPCM7XX_CLK_CLKDIV2,
++    NPCM7XX_CLK_CLKEN3,
++    NPCM7XX_CLK_IPSRST3,
++    NPCM7XX_CLK_WD0RCR,
++    NPCM7XX_CLK_WD1RCR,
++    NPCM7XX_CLK_WD2RCR,
++    NPCM7XX_CLK_SWRSTC1,
++    NPCM7XX_CLK_SWRSTC2,
++    NPCM7XX_CLK_SWRSTC3,
++    NPCM7XX_CLK_SWRSTC4,
++    NPCM7XX_CLK_PLLCON2,
++    NPCM7XX_CLK_CLKDIV3,
++    NPCM7XX_CLK_CORSTC,
++    NPCM7XX_CLK_PLLCONG,
++    NPCM7XX_CLK_AHBCKFI,
++    NPCM7XX_CLK_SECCNT,
++    NPCM7XX_CLK_CNTR25M,
++    NPCM7XX_CLK_REGS_END,
 +};
 +
-+static const uint32_t cold_reset_values[NPCM7XX_GCR_NR_REGS] =3D {
-+    [NPCM7XX_GCR_PDID]          =3D 0x04a92750,   /* Poleg A1 */
-+    [NPCM7XX_GCR_MISCPE]        =3D 0x0000ffff,
-+    [NPCM7XX_GCR_SPSWC]         =3D 0x00000003,
-+    [NPCM7XX_GCR_INTCR]         =3D 0x0000035e,
-+    [NPCM7XX_GCR_HIFCR]         =3D 0x0000004e,
-+    [NPCM7XX_GCR_INTCR2]        =3D (1U << 19),   /* DDR initialized */
-+    [NPCM7XX_GCR_RESSR]         =3D 0x80000000,
-+    [NPCM7XX_GCR_DSCNT]         =3D 0x000000c0,
-+    [NPCM7XX_GCR_DAVCLVLR]      =3D 0x5a00f3cf,
-+    [NPCM7XX_GCR_SCRPAD]        =3D 0x00000008,
-+    [NPCM7XX_GCR_USB1PHYCTL]    =3D 0x034730e4,
-+    [NPCM7XX_GCR_USB2PHYCTL]    =3D 0x034730e4,
++/*
++ * These reset values were taken from version 0.91 of the NPCM750R data sh=
+eet.
++ *
++ * All are loaded on power-up reset. CLKENx and SWRSTR should also be load=
+ed on
++ * core domain reset, but this reset type is not yet supported by QEMU.
++ */
++static const uint32_t cold_reset_values[NPCM7XX_CLK_NR_REGS] =3D {
++    [NPCM7XX_CLK_CLKEN1]        =3D 0xffffffff,
++    [NPCM7XX_CLK_CLKSEL]        =3D 0x004aaaaa,
++    [NPCM7XX_CLK_CLKDIV1]       =3D 0x5413f855,
++    [NPCM7XX_CLK_PLLCON0]       =3D 0x00222101 | PLLCON_LOKI,
++    [NPCM7XX_CLK_PLLCON1]       =3D 0x00202101 | PLLCON_LOKI,
++    [NPCM7XX_CLK_IPSRST1]       =3D 0x00001000,
++    [NPCM7XX_CLK_IPSRST2]       =3D 0x80000000,
++    [NPCM7XX_CLK_CLKEN2]        =3D 0xffffffff,
++    [NPCM7XX_CLK_CLKDIV2]       =3D 0xaa4f8f9f,
++    [NPCM7XX_CLK_CLKEN3]        =3D 0xffffffff,
++    [NPCM7XX_CLK_IPSRST3]       =3D 0x03000000,
++    [NPCM7XX_CLK_WD0RCR]        =3D 0xffffffff,
++    [NPCM7XX_CLK_WD1RCR]        =3D 0xffffffff,
++    [NPCM7XX_CLK_WD2RCR]        =3D 0xffffffff,
++    [NPCM7XX_CLK_SWRSTC1]       =3D 0x00000003,
++    [NPCM7XX_CLK_PLLCON2]       =3D 0x00c02105 | PLLCON_LOKI,
++    [NPCM7XX_CLK_CORSTC]        =3D 0x04000003,
++    [NPCM7XX_CLK_PLLCONG]       =3D 0x01228606 | PLLCON_LOKI,
++    [NPCM7XX_CLK_AHBCKFI]       =3D 0x000000c8,
 +};
 +
-+static uint64_t npcm7xx_gcr_read(void *opaque, hwaddr offset, unsigned siz=
++static uint64_t npcm7xx_clk_read(void *opaque, hwaddr offset, unsigned siz=
 e)
 +{
 +    uint32_t reg =3D offset / sizeof(uint32_t);
-+    NPCM7xxGCRState *s =3D opaque;
++    NPCM7xxCLKState *s =3D opaque;
++    int64_t now_ns;
++    uint32_t value =3D 0;
 +
-+    if (reg >=3D NPCM7XX_GCR_NR_REGS) {
++    if (reg >=3D NPCM7XX_CLK_NR_REGS) {
 +        qemu_log_mask(LOG_GUEST_ERROR,
 +                      "%s: offset 0x%04" HWADDR_PRIx " out of range\n",
 +                      __func__, offset);
 +        return 0;
 +    }
 +
-+    trace_npcm7xx_gcr_read(offset, s->regs[reg]);
++    switch (reg) {
++    case NPCM7XX_CLK_SWRSTR:
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: register @ 0x%04" HWADDR_PRIx " is write-only\n=
+",
++                      __func__, offset);
++        break;
 +
-+    return s->regs[reg];
++    case NPCM7XX_CLK_SECCNT:
++        now_ns =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++        value =3D (now_ns - s->ref_ns) / NANOSECONDS_PER_SECOND;
++        break;
++
++    case NPCM7XX_CLK_CNTR25M:
++        now_ns =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++        /*
++         * This register counts 25 MHz cycles, updating every 640 ns. It r=
+olls
++         * over to zero every second.
++         *
++         * The 4 LSBs are always zero: (1e9 / 640) << 4 =3D 25000000.
++         */
++        value =3D (((now_ns - s->ref_ns) / 640) << 4) % NPCM7XX_TIMER_REF_=
+HZ;
++        break;
++
++    default:
++        value =3D s->regs[reg];
++        break;
++    };
++
++    trace_npcm7xx_clk_read(offset, value);
++
++    return value;
 +}
 +
-+static void npcm7xx_gcr_write(void *opaque, hwaddr offset,
++static void npcm7xx_clk_write(void *opaque, hwaddr offset,
 +                              uint64_t v, unsigned size)
 +{
 +    uint32_t reg =3D offset / sizeof(uint32_t);
-+    NPCM7xxGCRState *s =3D opaque;
++    NPCM7xxCLKState *s =3D opaque;
 +    uint32_t value =3D v;
 +
-+    trace_npcm7xx_gcr_write(offset, value);
++    trace_npcm7xx_clk_write(offset, value);
 +
-+    if (reg >=3D NPCM7XX_GCR_NR_REGS) {
++    if (reg >=3D NPCM7XX_CLK_NR_REGS) {
 +        qemu_log_mask(LOG_GUEST_ERROR,
 +                      "%s: offset 0x%04" HWADDR_PRIx " out of range\n",
 +                      __func__, offset);
@@ -300,34 +340,46 @@ e)
 +    }
 +
 +    switch (reg) {
-+    case NPCM7XX_GCR_PDID:
-+    case NPCM7XX_GCR_PWRON:
-+    case NPCM7XX_GCR_INTSR:
++    case NPCM7XX_CLK_SWRSTR:
++        qemu_log_mask(LOG_UNIMP, "%s: SW reset not implemented: 0x%02x\n",
++                      __func__, value);
++        value =3D 0;
++        break;
++
++    case NPCM7XX_CLK_PLLCON0:
++    case NPCM7XX_CLK_PLLCON1:
++    case NPCM7XX_CLK_PLLCON2:
++    case NPCM7XX_CLK_PLLCONG:
++        if (value & PLLCON_PWDEN) {
++            /* Power down -- clear lock and indicate loss of lock */
++            value &=3D ~PLLCON_LOKI;
++            value |=3D PLLCON_LOKS;
++        } else {
++            /* Normal mode -- assume always locked */
++            value |=3D PLLCON_LOKI;
++            /* Keep LOKS unchanged unless cleared by writing 1 */
++            if (value & PLLCON_LOKS) {
++                value &=3D ~PLLCON_LOKS;
++            } else {
++                value |=3D (value & PLLCON_LOKS);
++            }
++        }
++        break;
++
++    case NPCM7XX_CLK_CNTR25M:
 +        qemu_log_mask(LOG_GUEST_ERROR,
 +                      "%s: register @ 0x%04" HWADDR_PRIx " is read-only\n"=
 ,
 +                      __func__, offset);
 +        return;
-+
-+    case NPCM7XX_GCR_RESSR:
-+    case NPCM7XX_GCR_CP2BST:
-+        /* Write 1 to clear */
-+        value =3D s->regs[reg] & ~value;
-+        break;
-+
-+    case NPCM7XX_GCR_RLOCKR1:
-+    case NPCM7XX_GCR_MDLR:
-+        /* Write 1 to set */
-+        value |=3D s->regs[reg];
-+        break;
-+    };
++    }
 +
 +    s->regs[reg] =3D value;
 +}
 +
-+static const struct MemoryRegionOps npcm7xx_gcr_ops =3D {
-+    .read       =3D npcm7xx_gcr_read,
-+    .write      =3D npcm7xx_gcr_write,
++static const struct MemoryRegionOps npcm7xx_clk_ops =3D {
++    .read       =3D npcm7xx_clk_read,
++    .write      =3D npcm7xx_clk_write,
 +    .endianness =3D DEVICE_LITTLE_ENDIAN,
 +    .valid      =3D {
 +        .min_access_size        =3D 4,
@@ -336,182 +388,88 @@ e)
 +    },
 +};
 +
-+static void npcm7xx_gcr_enter_reset(Object *obj, ResetType type)
++static void npcm7xx_clk_enter_reset(Object *obj, ResetType type)
 +{
-+    NPCM7xxGCRState *s =3D NPCM7XX_GCR(obj);
++    NPCM7xxCLKState *s =3D NPCM7XX_CLK(obj);
 +
 +    QEMU_BUILD_BUG_ON(sizeof(s->regs) !=3D sizeof(cold_reset_values));
 +
 +    switch (type) {
 +    case RESET_TYPE_COLD:
-+        memcpy(s->regs, cold_reset_values, sizeof(s->regs));
-+        s->regs[NPCM7XX_GCR_PWRON] =3D s->reset_pwron;
-+        s->regs[NPCM7XX_GCR_MDLR] =3D s->reset_mdlr;
-+        s->regs[NPCM7XX_GCR_INTCR3] =3D s->reset_intcr3;
-+        break;
-+    }
-+}
-+
-+static void npcm7xx_gcr_realize(DeviceState *dev, Error **errp)
-+{
-+    ERRP_GUARD();
-+    NPCM7xxGCRState *s =3D NPCM7XX_GCR(dev);
-+    uint64_t dram_size;
-+    Object *obj;
-+
-+    obj =3D object_property_get_link(OBJECT(dev), "dram-mr", errp);
-+    if (!obj) {
-+        error_prepend(errp, "%s: required dram-mr link not found: ", __fun=
-c__);
++        memcpy(s->regs, cold_reset_values, sizeof(cold_reset_values));
++        s->ref_ns =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
 +        return;
 +    }
-+    dram_size =3D memory_region_size(MEMORY_REGION(obj));
-+    if (!is_power_of_2(dram_size) ||
-+        dram_size < NPCM7XX_GCR_MIN_DRAM_SIZE ||
-+        dram_size > NPCM7XX_GCR_MAX_DRAM_SIZE) {
-+        g_autofree char *sz =3D size_to_str(dram_size);
-+        g_autofree char *min_sz =3D size_to_str(NPCM7XX_GCR_MIN_DRAM_SIZE)=
-;
-+        g_autofree char *max_sz =3D size_to_str(NPCM7XX_GCR_MAX_DRAM_SIZE)=
-;
-+        error_setg(errp, "%s: unsupported DRAM size %s", __func__, sz);
-+        error_append_hint(errp,
-+                          "DRAM size must be a power of two between %s and=
- %s,"
-+                          " inclusive.\n", min_sz, max_sz);
-+        return;
-+    }
-+
-+    /* Power-on reset value */
-+    s->reset_intcr3 =3D 0x00001002;
 +
 +    /*
-+     * The GMMAP (Graphics Memory Map) field is used by u-boot to detect t=
-he
-+     * DRAM size, and is normally initialized by the boot block as part of=
- DRAM
-+     * training. However, since we don't have a complete emulation of the
-+     * memory controller and try to make it look like it has already been
-+     * initialized, the boot block will skip this initialization, and we n=
-eed
-+     * to make sure this field is set correctly up front.
-+     *
-+     * WARNING: some versions of u-boot only looks at bits 8 and 9, so 2 G=
-iB of
-+     * DRAM will be interpreted as 128 MiB.
-+     *
-+     * https://github.com/Nuvoton-Israel/u-boot/blob/2aef993bd2aafeb5408db=
-aad0f3ce099ee40c4aa/board/nuvoton/poleg/poleg.c#L244
++     * A small number of registers need to be reset on a core domain reset=
+,
++     * but no such reset type exists yet.
 +     */
-+    s->reset_intcr3 |=3D ctz64(dram_size / NPCM7XX_GCR_MIN_DRAM_SIZE) << 8=
-;
++    qemu_log_mask(LOG_UNIMP, "%s: reset type %d not implemented.",
++                  __func__, type);
 +}
 +
-+static void npcm7xx_gcr_init(Object *obj)
++static void npcm7xx_clk_init(Object *obj)
 +{
-+    NPCM7xxGCRState *s =3D NPCM7XX_GCR(obj);
++    NPCM7xxCLKState *s =3D NPCM7XX_CLK(obj);
 +
-+    memory_region_init_io(&s->iomem, obj, &npcm7xx_gcr_ops, s,
-+                          TYPE_NPCM7XX_GCR, 4 * KiB);
++    memory_region_init_io(&s->iomem, obj, &npcm7xx_clk_ops, s,
++                          TYPE_NPCM7XX_CLK, 4 * KiB);
 +    sysbus_init_mmio(&s->parent, &s->iomem);
 +}
 +
-+static const VMStateDescription vmstate_npcm7xx_gcr =3D {
-+    .name =3D "npcm7xx-gcr",
++static const VMStateDescription vmstate_npcm7xx_clk =3D {
++    .name =3D "npcm7xx-clk",
 +    .version_id =3D 0,
 +    .minimum_version_id =3D 0,
 +    .fields =3D (VMStateField[]) {
-+        VMSTATE_UINT32_ARRAY(regs, NPCM7xxGCRState, NPCM7XX_GCR_NR_REGS),
++        VMSTATE_UINT32_ARRAY(regs, NPCM7xxCLKState, NPCM7XX_CLK_NR_REGS),
++        VMSTATE_INT64(ref_ns, NPCM7xxCLKState),
 +        VMSTATE_END_OF_LIST(),
 +    },
 +};
 +
-+static Property npcm7xx_gcr_properties[] =3D {
-+    DEFINE_PROP_UINT32("disabled-modules", NPCM7xxGCRState, reset_mdlr, 0)=
-,
-+    DEFINE_PROP_UINT32("power-on-straps", NPCM7xxGCRState, reset_pwron, 0)=
-,
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void npcm7xx_gcr_class_init(ObjectClass *klass, void *data)
++static void npcm7xx_clk_class_init(ObjectClass *klass, void *data)
 +{
 +    ResettableClass *rc =3D RESETTABLE_CLASS(klass);
 +    DeviceClass *dc =3D DEVICE_CLASS(klass);
 +
-+    QEMU_BUILD_BUG_ON(NPCM7XX_GCR_REGS_END > NPCM7XX_GCR_NR_REGS);
++    QEMU_BUILD_BUG_ON(NPCM7XX_CLK_REGS_END > NPCM7XX_CLK_NR_REGS);
 +
-+    dc->desc =3D "NPCM7xx System Global Control Registers";
-+    dc->realize =3D npcm7xx_gcr_realize;
-+    dc->vmsd =3D &vmstate_npcm7xx_gcr;
-+    rc->phases.enter =3D npcm7xx_gcr_enter_reset;
-+
-+    device_class_set_props(dc, npcm7xx_gcr_properties);
++    dc->desc =3D "NPCM7xx Clock Control Registers";
++    dc->vmsd =3D &vmstate_npcm7xx_clk;
++    rc->phases.enter =3D npcm7xx_clk_enter_reset;
 +}
 +
-+static const TypeInfo npcm7xx_gcr_info =3D {
-+    .name               =3D TYPE_NPCM7XX_GCR,
++static const TypeInfo npcm7xx_clk_info =3D {
++    .name               =3D TYPE_NPCM7XX_CLK,
 +    .parent             =3D TYPE_SYS_BUS_DEVICE,
-+    .instance_size      =3D sizeof(NPCM7xxGCRState),
-+    .instance_init      =3D npcm7xx_gcr_init,
-+    .class_init         =3D npcm7xx_gcr_class_init,
++    .instance_size      =3D sizeof(NPCM7xxCLKState),
++    .instance_init      =3D npcm7xx_clk_init,
++    .class_init         =3D npcm7xx_clk_class_init,
 +};
 +
-+static void npcm7xx_gcr_register_type(void)
++static void npcm7xx_clk_register_type(void)
 +{
-+    type_register_static(&npcm7xx_gcr_info);
++    type_register_static(&npcm7xx_clk_info);
 +}
-+type_init(npcm7xx_gcr_register_type);
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5a22c8be42..3f72250630 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -749,6 +749,14 @@ S: Odd Fixes
- F: hw/arm/musicpal.c
- F: docs/system/arm/musicpal.rst
-=20
-+Nuvoton NPCM7xx
-+M: Havard Skinnemoen <hskinnemoen@google.com>
-+M: Tyrone Ting <kfting@nuvoton.com>
-+L: qemu-arm@nongnu.org
-+S: Supported
-+F: hw/*/npcm7xx*
-+F: include/hw/*/npcm7xx*
-+
- nSeries
- M: Andrzej Zaborowski <balrogg@gmail.com>
- M: Peter Maydell <peter.maydell@linaro.org>
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index bc3a423940..4aec9c63f8 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -355,6 +355,9 @@ config XLNX_VERSAL
-     select VIRTIO_MMIO
-     select UNIMP
-=20
-+config NPCM7XX
-+    bool
-+
- config FSL_IMX25
-     bool
-     select IMX
++type_init(npcm7xx_clk_register_type);
 diff --git a/hw/misc/meson.build b/hw/misc/meson.build
-index 84fed0494d..99ffb9f9e8 100644
+index 99ffb9f9e8..531cc31dcc 100644
 --- a/hw/misc/meson.build
 +++ b/hw/misc/meson.build
-@@ -50,6 +50,9 @@ softmmu_ss.add(when: 'CONFIG_IMX', if_true: files(
- ))
+@@ -51,6 +51,7 @@ softmmu_ss.add(when: 'CONFIG_IMX', if_true: files(
  softmmu_ss.add(when: 'CONFIG_MILKYMIST', if_true: files('milkymist-hpdmc.c=
 ', 'milkymist-pfpu.c'))
  softmmu_ss.add(when: 'CONFIG_MAINSTONE', if_true: files('mst_fpga.c'))
-+softmmu_ss.add(when: 'CONFIG_NPCM7XX', if_true: files(
-+  'npcm7xx_gcr.c',
-+))
+ softmmu_ss.add(when: 'CONFIG_NPCM7XX', if_true: files(
++  'npcm7xx_clk.c',
+   'npcm7xx_gcr.c',
+ ))
  softmmu_ss.add(when: 'CONFIG_OMAP', if_true: files(
-   'omap_clk.c',
-   'omap_gpmc.c',
 diff --git a/hw/misc/trace-events b/hw/misc/trace-events
-index 066752aa90..dbf90db8ed 100644
+index dbf90db8ed..a010699b4f 100644
 --- a/hw/misc/trace-events
 +++ b/hw/misc/trace-events
 @@ -111,6 +111,10 @@ mos6522_set_sr_int(void) "set sr_int"
@@ -519,16 +477,17 @@ index 066752aa90..dbf90db8ed 100644
 RIx64
  mos6522_read(uint64_t addr, unsigned val) "reg=3D0x%"PRIx64 " val=3D0x%x"
 =20
-+# npcm7xx_gcr.c
-+npcm7xx_gcr_read(uint64_t offset, uint32_t value) " offset: 0x%04" PRIx64 =
++# npcm7xx_clk.c
++npcm7xx_clk_read(uint64_t offset, uint32_t value) " offset: 0x%04" PRIx64 =
 " value: 0x%08" PRIx32
-+npcm7xx_gcr_write(uint64_t offset, uint32_t value) "offset: 0x%04" PRIx64 =
++npcm7xx_clk_write(uint64_t offset, uint32_t value) "offset: 0x%04" PRIx64 =
 " value: 0x%08" PRIx32
 +
- # stm32f4xx_syscfg
- stm32f4xx_syscfg_set_irq(int gpio, int line, int level) "Interupt: GPIO: %=
-d, Line: %d; Level: %d"
- stm32f4xx_pulse_exti(int irq) "Pulse EXTI: %d"
+ # npcm7xx_gcr.c
+ npcm7xx_gcr_read(uint64_t offset, uint32_t value) " offset: 0x%04" PRIx64 =
+" value: 0x%08" PRIx32
+ npcm7xx_gcr_write(uint64_t offset, uint32_t value) "offset: 0x%04" PRIx64 =
+" value: 0x%08" PRIx32
 --=20
 2.28.0.297.g1956fa8f8d-goog
 
