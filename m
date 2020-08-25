@@ -2,57 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 081792523A1
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 00:29:08 +0200 (CEST)
-Received: from localhost ([::1]:53160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 771EF2523BB
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 00:41:59 +0200 (CEST)
+Received: from localhost ([::1]:56938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAhRD-0006ef-3y
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 18:29:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55024)
+	id 1kAhde-0000Va-2m
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 18:41:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>) id 1kAhQN-0006E8-6y
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 18:28:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38512)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>) id 1kAhQL-00049O-8L
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 18:28:14 -0400
-Received: from redsun51.ssa.fujisawa.hgst.com (unknown [129.253.182.57])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 10E2C2075E;
- Tue, 25 Aug 2020 22:28:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1598394491;
- bh=11PlzHXEG75kRjlL+PHq1+tOM7Ods96wocSFW6weJR0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=vdcfXxU335vq/e61b8S7vpT2VePmm/++6SJV9iTtb5ZwVOc4MDXJIMsgUHQ3qHrau
- 0NV8aDfyPg5CqKLwxsMW63KJXffKI7gaLyDx3gUT3ibOTYnVhb1VfpDAMQHh/M4UMv
- Muome3iKcVq+EjSoe9oqI+b+BQovMHGQrhsmH81s=
-Date: Wed, 26 Aug 2020 07:28:04 +0900
-From: Keith Busch <kbusch@kernel.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL] nvme updates
-Message-ID: <20200825222804.GB20971@redsun51.ssa.fujisawa.hgst.com>
-References: <20200819192240.GA25305@dhcp-10-100-145-180.wdl.wdc.com>
- <CAFEAcA8-VgEDTZ7+T9ZgB2LR9KWRrejBtZN=iwy2GGPcuFuz2Q@mail.gmail.com>
- <20200825201242.GA20971@redsun51.ssa.fujisawa.hgst.com>
- <CAFEAcA-SD1WMODNzZpJkq_39bk72Gf+XFhCKWEDjTb0Lvdfe9g@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kAhcq-00004x-Ak
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 18:41:08 -0400
+Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:35477)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kAhcl-0005nx-3m
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 18:41:07 -0400
+Received: by mail-io1-xd43.google.com with SMTP id s2so198940ioo.2
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 15:41:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=unK95Z2M491TLUQEjef2+HJLGHlOl+N6VB1ICEcb8kQ=;
+ b=RlHRaODZJFSJyQQZpqcp1jAnkBfQ1lmgMx1QX2TVMUI1Wv2MbJC/EwBqDBOpzSM2AM
+ lg5yWv8ixx2Uv5TT4eeIYgqEvm+Z1i02wreQC0Eo9S+CbM75ApivyXCwEsPmSJjNvRpn
+ AZziUl2WQtHdRMD7Fmm/kimW40AJWGK65sVfWw0wLXmr6sjO7GK+42rGVMqPp72T0tDu
+ cyefdyMuyDGJkAbmFAykSF0zEWG9qJO9/y9cBoMscSs+5GFxGnxRhM1pMYbQo/dxwk3X
+ 1aoJKNh1YddQifia2jqHnqOhd1IU2LEQEzadDiD11PRPVOGwFu5UGZmQiUcULq9LTAGT
+ a/nQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=unK95Z2M491TLUQEjef2+HJLGHlOl+N6VB1ICEcb8kQ=;
+ b=e8cijMAdFEjV92kNrsKTU6TDViAeNoBMg+1PoLA4YBqvbwidAtCpd5gQgThGaLF/ah
+ Nj8LUjxJ/IRRBjvOyok4vE0hk6cahG8pT5Q7mA19XzG/483ispLijLtCRi35EtuGsAqr
+ DxxT7rh4wSc/EVR5ts8Zdc/3W5IVZt/b33ytWATUp36MLQoWvzBBtg972oReGSAxkeRc
+ SbCTEB/IJrPhZx37kxRdzFhPy07blEG4jJwipHFpWcLVHY3C6Y01ye0qj7Sb6rIjY4uC
+ hVB2VXXHTp614YOXK4Ty/N6z54Ok/JcpwSBIfPiII0uakVGNfdW5vQPQrEPDlTz0l5e1
+ CcGw==
+X-Gm-Message-State: AOAM532W1K77/Hqyj00/1uOcICgvaklbLxMiMNYVNJVhA8C1HX/m1/Ng
+ eHHXyRu7Uyike0j3RbArQ9n9ci4MnZzcJLOVLkU=
+X-Google-Smtp-Source: ABdhPJzfQbiTHRZqTSkRrM2yaOZtpwzq/+kDIdy/btHtRn86KlyQvNyRCwN0SDZAfRQlrkyG0XXqok2YTEZ6LnHYkGw=
+X-Received: by 2002:a02:950e:: with SMTP id y14mr12545293jah.106.1598395261458; 
+ Tue, 25 Aug 2020 15:41:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA-SD1WMODNzZpJkq_39bk72Gf+XFhCKWEDjTb0Lvdfe9g@mail.gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
- helo=mail.kernel.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 18:28:11
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -80
-X-Spam_score: -8.1
-X-Spam_bar: --------
-X-Spam_report: (-8.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.958,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+References: <20200825184836.1282371-1-alistair.francis@wdc.com>
+ <CAFEAcA8=Mf=EPh__tNhJyGv8+ouD-HH+MuMb+HhtTFes+XqUSQ@mail.gmail.com>
+ <CAKmqyKNxURXyNSEePPU1jY7FzcZjRThr2qAvwR393+nqUXBxJQ@mail.gmail.com>
+ <CAFEAcA8x=ck1mmJ8Y8o-0NQXWhRgOg5Gp7GvHNkNnLb6rDxygg@mail.gmail.com>
+In-Reply-To: <CAFEAcA8x=ck1mmJ8Y8o-0NQXWhRgOg5Gp7GvHNkNnLb6rDxygg@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 25 Aug 2020 15:30:18 -0700
+Message-ID: <CAKmqyKP6OUoaR6iZ6SD6qZPvYF0bKqpB_rRNeQOteg8BtcqKeQ@mail.gmail.com>
+Subject: Re: [PULL 00/18] riscv-to-apply queue
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd43.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,50 +82,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Klaus Jensen <k.jensen@samsung.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Klaus Jensen <its@irrelevant.dk>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 25, 2020 at 10:43:23PM +0100, Peter Maydell wrote:
-> On Tue, 25 Aug 2020 at 21:12, Keith Busch <kbusch@kernel.org> wrote:
+On Tue, Aug 25, 2020 at 2:50 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Tue, 25 Aug 2020 at 22:32, Alistair Francis <alistair23@gmail.com> wrote:
 > >
-> > On Sun, Aug 23, 2020 at 02:56:12PM +0100, Peter Maydell wrote:
-> > > Hi; it looks like this isn't a gpg-signed tag?
-> > >
-> > > error: remotes/nvme/nvme-next: cannot verify a non-tag object of type commit.
+> > On Tue, Aug 25, 2020 at 2:24 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+> > > The hypervisor related patches don't seem to have any
+> > > reviewed-by tags, which seems a shame for a fairly significant
+> > > chunk of work. Is there really nobody who can review them
+> > > for you ?
 > >
-> > Oops, sorry I forgot about that part of the procedure here. The repo should
-> > have a signed tag now:
-> 
-> Thanks; the gpg key setup looks ok.
-> 
-> I notice that all the commits in the repo have Klaus's signed-off-by.
-> Usually the expectation is that the person who sends the pull req
-> is the one who's curated the tree and added their signed-off-by,
-> but are you doing a jointly-administered tree here ?
+> > Unfortunately not. They have been on the list since April and haven't
+> > received any feedback.
+> >
+> > There isn't a lot of people reviewing the RISC-V patches unfortunately.
+>
+> :-(   I'd hoped it was a more active target than that.
 
-Right, Klaus is the primary committer for our joint repository, and I
-added his info to the MAINTAINERS file in the first commit of this pull.
-Since he's not currently listed upstream, I thought it made sense to
-make the introduction here. We'll coordinate pull requests as you've
-described going forward.
- 
-> The build has a format string issue that shows up on OSX, Windows,
-> and 32-bit builds:
+There are lots of active contributors, we are just short on reviewers.
 
-Sorry about that, we'll fix it up ASAP.
+Richard and Philippe review patches and some of the RISC-V patches get
+reviewed by the RISC-V community. The main problem (which is a common
+problem in open source) is that large technical patch series just get
+ignored.
 
-> In file included from ../../hw/block/trace.h:1:0,
->                  from ../../hw/block/fdc.c:48:
-> ./trace/trace-hw_block.h: In function '_nocheck__trace_pci_nvme_err_mdts':
-> ./trace/trace-hw_block.h:2162:18: error: format '%llu' expects
-> argument of type 'long long unsigned int', but argument 6 has type
-> 'size_t {aka unsigned int}' [-Werror=format=]
->          qemu_log("%d@%zu.%06zu:pci_nvme_err_mdts " "cid %"PRIu16" len
-> %"PRIu64"" "\n",
->                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
-> thanks
+Alistair
+
+>
 > -- PMM
 
