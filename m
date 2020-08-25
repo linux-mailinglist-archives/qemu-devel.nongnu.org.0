@@ -2,67 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF5692511E2
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 08:04:50 +0200 (CEST)
-Received: from localhost ([::1]:57864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BEDF2511FD
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 08:22:10 +0200 (CEST)
+Received: from localhost ([::1]:41484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAS4g-0006LH-23
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 02:04:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33352)
+	id 1kASLR-0003i8-GI
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 02:22:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kAS3t-0005i3-SC
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 02:04:01 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:56920
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kASJj-0002Mc-0n
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 02:20:23 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:21655
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kAS3s-0000ti-6X
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 02:04:01 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kASJe-0002a7-EH
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 02:20:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598335439;
+ s=mimecast20190719; t=1598336417;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hileqYC8/RVBiqefMX381AkDKqA/jyGsHB4ewOii3gM=;
- b=ZWlJ5iafwcyJYQnrzpqb3VJ0aw2A9VEqEURZ2nshKdu2bA4K0nIEvh+Hs8KdAAEtQdF5p+
- TnOSjHjt+doZTQJbrOABYk3ckvp8lB1wH8/P3CIQp6Bcc33+9Y74AGwQI0jkSbusJPVnum
- crv7OA2+00SXrvLnMM3mX7rv6ma50d4=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=kpphaskQWrYI+TodXTkjAYOmWfYI2YftHxISCa3D2dw=;
+ b=LJh1LyHCxqRHUG0OXMFfWC7Un4SW1MNuBuLByD0POVTdbxYozzOyAd5ATNoDu3zWfpVzk5
+ mg1uUdwgQxy0WiUk9LFOhjzqPVzeFKzxDyPUCMGWp+UzkOtfTlxCl1q7V99lGGCMFYzxW3
+ MweR0ibG35JUvm4ogwvHXIHOwziO0Fs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-131-mo40i8j7P02XhM-NjT_GzQ-1; Tue, 25 Aug 2020 02:03:55 -0400
-X-MC-Unique: mo40i8j7P02XhM-NjT_GzQ-1
+ us-mta-458-ZHD1IrziOJm-X4f5cffAXw-1; Tue, 25 Aug 2020 02:20:13 -0400
+X-MC-Unique: ZHD1IrziOJm-X4f5cffAXw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1683F801AEA;
- Tue, 25 Aug 2020 06:03:54 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-74.ams2.redhat.com
- [10.36.112.74])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DA346100239B;
- Tue, 25 Aug 2020 06:03:53 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5CD34112D737; Tue, 25 Aug 2020 08:03:52 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Rohit Shinde <rohit.shinde12194@gmail.com>
-Subject: Re: [PATCH v5] qapi/opts-visitor: Added missing fallthrough
- annotations
-References: <20200818105021.4998-1-rohit.shinde12194@gmail.com>
-Date: Tue, 25 Aug 2020 08:03:52 +0200
-In-Reply-To: <20200818105021.4998-1-rohit.shinde12194@gmail.com> (Rohit
- Shinde's message of "Tue, 18 Aug 2020 06:50:21 -0400")
-Message-ID: <87o8mzjm7r.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2EBE6425D1;
+ Tue, 25 Aug 2020 06:20:12 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-54.ams2.redhat.com
+ [10.36.112.54])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 37C5010098A5;
+ Tue, 25 Aug 2020 06:20:09 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 4F0201753B; Tue, 25 Aug 2020 08:20:08 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/3] Fixes 20200825 patches
+Date: Tue, 25 Aug 2020 08:20:05 +0200
+Message-Id: <20200825062008.6502-1-kraxel@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 01:36:47
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 01:35:36
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -70,7 +66,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.956,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,36 +79,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org, mdroth@linux.vnet.ibm.com
+Cc: laurent@vivier.eu, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rohit Shinde <rohit.shinde12194@gmail.com> writes:
-
-> Added fallthrough comment on line 270 to prevent the compiler from
-> throwing an error while compiling with the -Wimplicit-fallthrough flag
-
-None of the compilers I know warns there.  Which one are you using?
-
-Commit message style tip: use the imperative mood
-https://chris.beams.io/posts/git-commit/#imperative
-
-> Signed-off-by: Rohit Shinde <rohit.shinde12194@gmail.com>
-> ---
->  qapi/opts-visitor.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/qapi/opts-visitor.c b/qapi/opts-visitor.c
-> index 7781c23a42..3422ff265e 100644
-> --- a/qapi/opts-visitor.c
-> +++ b/qapi/opts-visitor.c
-> @@ -266,6 +266,7 @@ opts_next_list(Visitor *v, GenericList *tail, size_t size)
->          }
->          ov->list_mode = LM_IN_PROGRESS;
->          /* range has been completed, fall through in order to pop option */
-> +        /* fallthrough */
->  
->      case LM_IN_PROGRESS: {
->          const QemuOpt *opt;
+The following changes since commit 30aa19446d82358a30eac3b556b4d6641e00b7c1=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/cschoenebeck/tags/pull-9p-20200812'=
+ into staging (2020-08-24 16:39:53 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://git.kraxel.org/qemu tags/fixes-20200825-pull-request=0D
+=0D
+for you to fetch changes up to 9755c94a50c8b845ad133a6e660f55ca131b9c7a:=0D
+=0D
+  meson: avoid compiling qemu-keymap by default (2020-08-25 08:12:19 +0200)=
+=0D
+=0D
+----------------------------------------------------------------=0D
+meson: keymap fixes=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Gerd Hoffmann (1):=0D
+  meson: drop keymaps symlink=0D
+=0D
+Laurent Vivier (2):=0D
+  meson: move xkbcommon to meson=0D
+  meson: avoid compiling qemu-keymap by default=0D
+=0D
+ configure         | 31 +++++--------------------------=0D
+ meson_options.txt |  1 +=0D
+ meson.build       | 16 +++++++++++-----=0D
+ ui/meson.build    |  2 +-=0D
+ 4 files changed, 18 insertions(+), 32 deletions(-)=0D
+=0D
+--=20=0D
+2.27.0=0D
+=0D
 
 
