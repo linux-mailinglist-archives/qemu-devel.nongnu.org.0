@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC5ED2522AA
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:21:11 +0200 (CEST)
-Received: from localhost ([::1]:35270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 893B52522AF
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:22:36 +0200 (CEST)
+Received: from localhost ([::1]:43524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAgNS-0005xL-RF
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:21:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35854)
+	id 1kAgOp-0000v2-Jk
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:22:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kAg3X-0007ko-6t
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:00:36 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:45920)
+ id 1kAg3Z-0007na-Al
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:00:37 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:39575)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kAg3S-0001om-KW
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:00:34 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id 67so4561378pgd.12
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 14:00:30 -0700 (PDT)
+ id 1kAg3U-0001pl-KF
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:00:36 -0400
+Received: by mail-pg1-x541.google.com with SMTP id v15so7668439pgh.6
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 14:00:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kv9Q2CNP0xNdIj9IWSGlA1oMnFfXI9CS46hFWNSGG9w=;
- b=NERN6mRcxfwog3EP6b888jsaQ3Q9PdbsaAsQ6LOu4XGCTHhwdt69lQcy4Nz9g8t1zF
- gbMSXIdOaSnRW8SKtAo0lnLLd18gD6ViikiL4MQhJltg5VjpEXSxN9tLuwsM9SBNRNAt
- 8Bfbwj4o4JqU03coJb3CEYUCpy+GaQU1B10c92KNvHj/2+rT2CcSSYdf1X354uU17mJ3
- F2Ma3YGEbj6g7wM2R0/mOHn6jnpos1NW25D3FIGh8UMD7CS0JKF+UzLO0r1u/EUxBLEy
- rnrCnKJLpiHN0YGMJuu8tokzJL6+nbxPCQbEVsd9gyeCaolPf7Pb3b4+OPjESztKnwet
- if4g==
+ bh=M605GjYj/TsAqS9LhAzYjh6MlBkWbkHJca8j+nbMmp4=;
+ b=jcvqyZnThZ/3ASU91duPjcaQ7BdUAPmcwiKJovm/prHu5wf2MepgTAbmV6egLNARHE
+ 8t29ZrUtBnhTNE4tdanV1o+IkBO55oPTUERBp/j1CjiPdiYzsNreLUH8UiMPKkQHyRh2
+ lSpyTxhdVA6fwVYS+SvrL5RY6h62/l9UzcLxO6FhOlcZkZEa1iNPCEsIzP94LD+mbu3i
+ u8UEy5pKY8j4MaBfi64Hdzu14yBu6iHxGTQYa8lW5iWzG7PJVN0EguWNqrGDAOe8Vgv9
+ b6zw2UzodXn2BdanjCBOBSo97P7B6A8kzj7+BUbBf0mlpW5wWYPTShwjF01SpxdR3tEb
+ d+LA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kv9Q2CNP0xNdIj9IWSGlA1oMnFfXI9CS46hFWNSGG9w=;
- b=mXzlAMJymeS7ZSkrW6e2MoPyMvUHGzDIs22sxtAdeHAWX8L5fAPRdAY+/97pj3cCl7
- +9wUc27X9OVwKbMBdhscfJYQZVjE5NO1PRQ66fSFV0VOHZv1uKax3cyjnCIDBnELf+9p
- dX42eJRry///Q23NO1vW7QWG2Kx5Mh18dzoQ7iYXLVv1gRXB22LUd6MJq3uQNdQNOZs9
- pi7uX/46zlFzzozJbJWRTtcxQjJml2OtLTJJYdyv1Rib/UhlgsSo3R0GUiFvtm0CvoIk
- HyZOVy7n+LYVWH7KSlAc1ddxQwg4AvbQtk2iyamyBH7rRTVMUClV/jYCC9h0Xp0LjzPb
- 2i4A==
-X-Gm-Message-State: AOAM530qKMCCVTVtmqrQl1zDrpJuqcR93YMh/nb6lZY7PqKnbRi0LuzC
- BpNoqvqqZOAUCD540KDDXcMivJjRJ8yf6g==
-X-Google-Smtp-Source: ABdhPJzz7HS6gekNaWNfeAWW2C03W5Luo7TM6mtSl6+7H7ZMmeIZ4ZJY0j8P/2HLW4MhfUn5LAo9Ew==
-X-Received: by 2002:a63:5961:: with SMTP id j33mr8057262pgm.130.1598389228413; 
- Tue, 25 Aug 2020 14:00:28 -0700 (PDT)
+ bh=M605GjYj/TsAqS9LhAzYjh6MlBkWbkHJca8j+nbMmp4=;
+ b=a75wgPiUfXzi+2SpCDkVRcI3aBHuX+Yr+MjCXUw0JqJAoeWPuB1jnMnTv52A+wU9+F
+ +Em/d+rzWM6RQfoLHRatlWnmK4Qgp9i8iBlIQ3YoN5I7TVTFhtrTDgjm4a0a+9LKiVYF
+ NtLUeTp9zlW9MmfstD0CevzcyN4ayTQI1HqD1eheTvKCG1LEEx6lGYIxlXHDdcXithSJ
+ MKupOeUQ2Z+xUTMmxLD+wJJapjIE0CUx0PEbOoZOIjHwIrb+Af/frySUhVMEEiBIzvIW
+ Tl5q0XmvytUUabMeBujt6R/Ojr1YPGAVGomsF1RPhFmWuneKE08F43G8eY84zQvsG5Qw
+ fo5Q==
+X-Gm-Message-State: AOAM5326DKWgyNS7Gre7yzfWj4T7p+LRh3k/1KFoCtgT38sinqiSB7BF
+ enRkJAHcxp1doJziotBZ2fVQp0KWVhlCdA==
+X-Google-Smtp-Source: ABdhPJw/Moh5vxoSlhVdWC1DXqJPoH5MIWmlkNClwi8E39OayFE4i966A7kwPz+T6CMC8FgYVRMjnw==
+X-Received: by 2002:aa7:9552:: with SMTP id w18mr9374849pfq.150.1598389229530; 
+ Tue, 25 Aug 2020 14:00:29 -0700 (PDT)
 Received: from localhost.localdomain
  (h216-228-167-147.bendor.dedicated.static.tds.net. [216.228.167.147])
- by smtp.gmail.com with ESMTPSA id k4sm16074pgr.87.2020.08.25.14.00.27
+ by smtp.gmail.com with ESMTPSA id k4sm16074pgr.87.2020.08.25.14.00.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Aug 2020 14:00:27 -0700 (PDT)
+ Tue, 25 Aug 2020 14:00:28 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 28/77] target/microblaze: Convert to DisasContextBase
-Date: Tue, 25 Aug 2020 13:59:01 -0700
-Message-Id: <20200825205950.730499-29-richard.henderson@linaro.org>
+Subject: [PATCH 29/77] target/microblaze: Convert to translator_loop
+Date: Tue, 25 Aug 2020 13:59:02 -0700
+Message-Id: <20200825205950.730499-30-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200825205950.730499-1-richard.henderson@linaro.org>
 References: <20200825205950.730499-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x541.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,376 +89,339 @@ Cc: edgar.iglesias@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Part one of conversion to the generic translator_loop is to
-use the DisasContextBase and the members therein.
+Part two of conversion to the generic translator_loop.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/translate.c | 104 +++++++++++++++++-----------------
- 1 file changed, 52 insertions(+), 52 deletions(-)
+ target/microblaze/translate.c | 289 ++++++++++++++++++----------------
+ 1 file changed, 149 insertions(+), 140 deletions(-)
 
 diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index 7d5b96c38b..45b1555f85 100644
+index 45b1555f85..6a9710d76d 100644
 --- a/target/microblaze/translate.c
 +++ b/target/microblaze/translate.c
-@@ -67,8 +67,8 @@ static TCGv_i32 cpu_res_val;
- 
- /* This is the state at translation time.  */
- typedef struct DisasContext {
-+    DisasContextBase base;
-     MicroBlazeCPU *cpu;
--    uint32_t pc;
- 
-     /* Decoder.  */
-     int type_b;
-@@ -81,7 +81,6 @@ typedef struct DisasContext {
-     unsigned int delayed_branch;
-     unsigned int tb_flags, synced_flags; /* tb dependent flags.  */
-     unsigned int clear_imm;
--    int is_jmp;
- 
- #define JMP_NOJMP     0
- #define JMP_DIRECT    1
-@@ -91,8 +90,6 @@ typedef struct DisasContext {
-     uint32_t jmp_pc;
- 
-     int abort_at_next_insn;
--    struct TranslationBlock *tb;
--    int singlestep_enabled;
- } DisasContext;
- 
- static inline void t_sync_flags(DisasContext *dc)
-@@ -110,13 +107,13 @@ static void gen_raise_exception(DisasContext *dc, uint32_t index)
- 
-     gen_helper_raise_exception(cpu_env, tmp);
-     tcg_temp_free_i32(tmp);
--    dc->is_jmp = DISAS_NORETURN;
-+    dc->base.is_jmp = DISAS_NORETURN;
+@@ -1595,172 +1595,181 @@ static inline void decode(DisasContext *dc, uint32_t ir)
+     }
  }
  
- static void gen_raise_exception_sync(DisasContext *dc, uint32_t index)
+-/* generate intermediate code for basic block 'tb'.  */
+-void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
++static void mb_tr_init_disas_context(DisasContextBase *dcb, CPUState *cs)
  {
-     t_sync_flags(dc);
--    tcg_gen_movi_i32(cpu_pc, dc->pc);
-+    tcg_gen_movi_i32(cpu_pc, dc->base.pc_next);
-     gen_raise_exception(dc, index);
- }
+-    CPUMBState *env = cs->env_ptr;
+-    MicroBlazeCPU *cpu = env_archcpu(env);
+-    uint32_t pc_start;
+-    struct DisasContext ctx;
+-    struct DisasContext *dc = &ctx;
+-    uint32_t page_start, org_flags;
+-    uint32_t npc;
+-    int num_insns;
++    DisasContext *dc = container_of(dcb, DisasContext, base);
++    MicroBlazeCPU *cpu = MICROBLAZE_CPU(cs);
++    int bound;
  
-@@ -132,7 +129,7 @@ static void gen_raise_hw_excp(DisasContext *dc, uint32_t esr_ec)
- static inline bool use_goto_tb(DisasContext *dc, target_ulong dest)
- {
- #ifndef CONFIG_USER_ONLY
--    return (dc->tb->pc & TARGET_PAGE_MASK) == (dest & TARGET_PAGE_MASK);
-+    return (dc->base.pc_first & TARGET_PAGE_MASK) == (dest & TARGET_PAGE_MASK);
- #else
-     return true;
- #endif
-@@ -140,20 +137,20 @@ static inline bool use_goto_tb(DisasContext *dc, target_ulong dest)
- 
- static void gen_goto_tb(DisasContext *dc, int n, target_ulong dest)
- {
--    if (dc->singlestep_enabled) {
-+    if (dc->base.singlestep_enabled) {
-         TCGv_i32 tmp = tcg_const_i32(EXCP_DEBUG);
--        tcg_gen_movi_i64(cpu_SR[SR_PC], dest);
-+        tcg_gen_movi_i32(cpu_pc, dest);
-         gen_helper_raise_exception(cpu_env, tmp);
-         tcg_temp_free_i32(tmp);
-     } else if (use_goto_tb(dc, dest)) {
-         tcg_gen_goto_tb(n);
-         tcg_gen_movi_i32(cpu_pc, dest);
--        tcg_gen_exit_tb(dc->tb, n);
-+        tcg_gen_exit_tb(dc->base.tb, n);
-     } else {
-         tcg_gen_movi_i32(cpu_pc, dest);
-         tcg_gen_exit_tb(NULL, 0);
-     }
--    dc->is_jmp = DISAS_NORETURN;
-+    dc->base.is_jmp = DISAS_NORETURN;
- }
- 
- /*
-@@ -468,8 +465,8 @@ static void dec_msr(DisasContext *dc)
-         msr_write(dc, t0);
-         tcg_temp_free_i32(t0);
-         tcg_temp_free_i32(t1);
--        tcg_gen_movi_i32(cpu_pc, dc->pc + 4);
--        dc->is_jmp = DISAS_UPDATE;
-+        tcg_gen_movi_i32(cpu_pc, dc->base.pc_next + 4);
-+        dc->base.is_jmp = DISAS_UPDATE;
-         return;
-     }
- 
-@@ -546,7 +543,7 @@ static void dec_msr(DisasContext *dc)
- 
-         switch (sr) {
-             case SR_PC:
--                tcg_gen_movi_i32(cpu_R[dc->rd], dc->pc);
-+                tcg_gen_movi_i32(cpu_R[dc->rd], dc->base.pc_next);
-                 break;
-             case SR_MSR:
-                 msr_read(dc, cpu_R[dc->rd]);
-@@ -813,7 +810,7 @@ static void dec_bit(DisasContext *dc)
-             break;
-         default:
-             cpu_abort(cs, "unknown bit oc=%x op=%x rd=%d ra=%d rb=%d\n",
--                      dc->pc, op, dc->rd, dc->ra, dc->rb);
-+                      (uint32_t)dc->base.pc_next, op, dc->rd, dc->ra, dc->rb);
-             break;
-     }
- }
-@@ -994,7 +991,7 @@ static void dec_load(DisasContext *dc)
-         TCGv_i32 treg = tcg_const_i32(dc->rd);
-         TCGv_i32 tsize = tcg_const_i32(size - 1);
- 
--        tcg_gen_movi_i32(cpu_pc, dc->pc);
-+        tcg_gen_movi_i32(cpu_pc, dc->base.pc_next);
-         gen_helper_memalign(cpu_env, addr, treg, t0, tsize);
- 
-         tcg_temp_free_i32(t0);
-@@ -1114,7 +1111,7 @@ static void dec_store(DisasContext *dc)
-         TCGv_i32 treg = tcg_const_i32(dc->rd);
-         TCGv_i32 tsize = tcg_const_i32(size - 1);
- 
--        tcg_gen_movi_i32(cpu_pc, dc->pc);
-+        tcg_gen_movi_i32(cpu_pc, dc->base.pc_next);
-         /* FIXME: if the alignment is wrong, we should restore the value
-          *        in memory. One possible way to achieve this is to probe
-          *        the MMU prior to the memaccess, thay way we could put
-@@ -1201,12 +1198,12 @@ static void dec_bcc(DisasContext *dc)
-     if (dec_alu_op_b_is_small_imm(dc)) {
-         int32_t offset = (int32_t)((int16_t)dc->imm); /* sign-extend.  */
- 
--        tcg_gen_movi_i32(cpu_btarget, dc->pc + offset);
-+        tcg_gen_movi_i32(cpu_btarget, dc->base.pc_next + offset);
-         dc->jmp = JMP_DIRECT_CC;
--        dc->jmp_pc = dc->pc + offset;
-+        dc->jmp_pc = dc->base.pc_next + offset;
-     } else {
-         dc->jmp = JMP_INDIRECT;
--        tcg_gen_addi_i32(cpu_btarget, *dec_alu_op_b(dc), dc->pc);
-+        tcg_gen_addi_i32(cpu_btarget, *dec_alu_op_b(dc), dc->base.pc_next);
-     }
-     eval_cc(dc, cc, cpu_btaken, cpu_R[dc->ra]);
- }
-@@ -1250,7 +1247,7 @@ static void dec_br(DisasContext *dc)
-                            +offsetof(CPUState, halted));
-             tcg_temp_free_i32(tmp_1);
- 
--            tcg_gen_movi_i32(cpu_pc, dc->pc + 4);
-+            tcg_gen_movi_i32(cpu_pc, dc->base.pc_next + 4);
- 
-             gen_raise_exception(dc, EXCP_HLT);
-             return;
-@@ -1270,7 +1267,7 @@ static void dec_br(DisasContext *dc)
-         dec_setup_dslot(dc);
-     }
-     if (link && dc->rd)
--        tcg_gen_movi_i32(cpu_R[dc->rd], dc->pc);
-+        tcg_gen_movi_i32(cpu_R[dc->rd], dc->base.pc_next);
- 
-     dc->jmp = JMP_INDIRECT;
-     if (abs) {
-@@ -1291,10 +1288,10 @@ static void dec_br(DisasContext *dc)
-     } else {
-         if (dec_alu_op_b_is_small_imm(dc)) {
-             dc->jmp = JMP_DIRECT;
--            dc->jmp_pc = dc->pc + (int32_t)((int16_t)dc->imm);
-+            dc->jmp_pc = dc->base.pc_next + (int32_t)((int16_t)dc->imm);
-         } else {
-             tcg_gen_movi_i32(cpu_btaken, 1);
--            tcg_gen_addi_i32(cpu_btarget, *dec_alu_op_b(dc), dc->pc);
-+            tcg_gen_addi_i32(cpu_btarget, *dec_alu_op_b(dc), dc->base.pc_next);
-         }
-     }
- }
-@@ -1459,7 +1456,8 @@ static void dec_fpu(DisasContext *dc)
-                     qemu_log_mask(LOG_UNIMP,
-                                   "unimplemented fcmp fpu_insn=%x pc=%x"
-                                   " opc=%x\n",
--                                  fpu_insn, dc->pc, dc->opcode);
-+                                  fpu_insn, (uint32_t)dc->base.pc_next,
-+                                  dc->opcode);
-                     dc->abort_at_next_insn = 1;
-                     break;
-             }
-@@ -1489,7 +1487,7 @@ static void dec_fpu(DisasContext *dc)
-         default:
-             qemu_log_mask(LOG_UNIMP, "unimplemented FPU insn fpu_insn=%x pc=%x"
-                           " opc=%x\n",
--                          fpu_insn, dc->pc, dc->opcode);
-+                          fpu_insn, (uint32_t)dc->base.pc_next, dc->opcode);
-             dc->abort_at_next_insn = 1;
-             break;
-     }
-@@ -1500,7 +1498,8 @@ static void dec_null(DisasContext *dc)
-     if (trap_illegal(dc, true)) {
-         return;
-     }
--    qemu_log_mask(LOG_GUEST_ERROR, "unknown insn pc=%x opc=%x\n", dc->pc, dc->opcode);
-+    qemu_log_mask(LOG_GUEST_ERROR, "unknown insn pc=%x opc=%x\n",
-+                  (uint32_t)dc->base.pc_next, dc->opcode);
-     dc->abort_at_next_insn = 1;
- }
- 
-@@ -1610,19 +1609,20 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
- 
-     pc_start = tb->pc;
+-    pc_start = tb->pc;
      dc->cpu = cpu;
--    dc->tb = tb;
-     org_flags = dc->synced_flags = dc->tb_flags = tb->flags;
- 
--    dc->is_jmp = DISAS_NEXT;
-     dc->jmp = 0;
+-    org_flags = dc->synced_flags = dc->tb_flags = tb->flags;
+-
+-    dc->jmp = 0;
++    dc->synced_flags = dc->tb_flags = dc->base.tb->flags;
      dc->delayed_branch = !!(dc->tb_flags & D_FLAG);
-     if (dc->delayed_branch) {
-         dc->jmp = JMP_INDIRECT;
-     }
--    dc->pc = pc_start;
--    dc->singlestep_enabled = cs->singlestep_enabled;
-+    dc->base.pc_first = pc_start;
-+    dc->base.pc_next = pc_start;
-+    dc->base.singlestep_enabled = cs->singlestep_enabled;
+-    if (dc->delayed_branch) {
+-        dc->jmp = JMP_INDIRECT;
+-    }
+-    dc->base.pc_first = pc_start;
+-    dc->base.pc_next = pc_start;
+-    dc->base.singlestep_enabled = cs->singlestep_enabled;
++    dc->jmp = dc->delayed_branch ? JMP_INDIRECT : JMP_NOJMP;
      dc->cpustate_changed = 0;
      dc->abort_at_next_insn = 0;
-+    dc->base.is_jmp = DISAS_NEXT;
-+    dc->base.tb = tb;
+-    dc->base.is_jmp = DISAS_NEXT;
+-    dc->base.tb = tb;
  
-     if (pc_start & 3) {
-         cpu_abort(cs, "Microblaze: unaligned PC=%x\n", pc_start);
-@@ -1634,31 +1634,31 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
-     gen_tb_start(tb);
-     do
-     {
--        tcg_gen_insn_start(dc->pc);
-+        tcg_gen_insn_start(dc->base.pc_next);
-         num_insns++;
- 
--        if (unlikely(cpu_breakpoint_test(cs, dc->pc, BP_ANY))) {
-+        if (unlikely(cpu_breakpoint_test(cs, dc->base.pc_next, BP_ANY))) {
-             gen_raise_exception_sync(dc, EXCP_DEBUG);
-             /* The address covered by the breakpoint must be included in
-                [tb->pc, tb->pc + tb->size) in order to for it to be
-                properly cleared -- thus we increment the PC here so that
-                the logic setting tb->size below does the right thing.  */
--            dc->pc += 4;
-+            dc->base.pc_next += 4;
-             break;
-         }
- 
-         /* Pretty disas.  */
--        LOG_DIS("%8.8x:\t", dc->pc);
-+        LOG_DIS("%8.8x:\t", (uint32_t)dc->base.pc_next);
- 
-         if (num_insns == max_insns && (tb_cflags(tb) & CF_LAST_IO)) {
-             gen_io_start();
-         }
- 
-         dc->clear_imm = 1;
--        decode(dc, cpu_ldl_code(env, dc->pc));
-+        decode(dc, cpu_ldl_code(env, dc->base.pc_next));
-         if (dc->clear_imm)
-             dc->tb_flags &= ~IMM_FLAG;
--        dc->pc += 4;
-+        dc->base.pc_next += 4;
- 
-         if (dc->delayed_branch) {
-             dc->delayed_branch--;
-@@ -1673,10 +1673,10 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
-                 dc->tb_flags &= ~D_FLAG;
-                 /* If it is a direct jump, try direct chaining.  */
-                 if (dc->jmp == JMP_INDIRECT) {
--                    TCGv_i32 tmp_pc = tcg_const_i32(dc->pc);
-+                    TCGv_i32 tmp_pc = tcg_const_i32(dc->base.pc_next);
-                     eval_cond_jmp(dc, cpu_btarget, tmp_pc);
-                     tcg_temp_free_i32(tmp_pc);
--                    dc->is_jmp = DISAS_JUMP;
-+                    dc->base.is_jmp = DISAS_JUMP;
-                 } else if (dc->jmp == JMP_DIRECT) {
-                     t_sync_flags(dc);
-                     gen_goto_tb(dc, 0, dc->jmp_pc);
-@@ -1685,26 +1685,26 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
-                     t_sync_flags(dc);
-                     /* Conditional jmp.  */
-                     tcg_gen_brcondi_i32(TCG_COND_NE, cpu_btaken, 0, l1);
--                    gen_goto_tb(dc, 1, dc->pc);
-+                    gen_goto_tb(dc, 1, dc->base.pc_next);
-                     gen_set_label(l1);
-                     gen_goto_tb(dc, 0, dc->jmp_pc);
-                 }
-                 break;
-             }
-         }
--        if (cs->singlestep_enabled) {
-+        if (dc->base.singlestep_enabled) {
-             break;
-         }
--    } while (!dc->is_jmp && !dc->cpustate_changed
-+    } while (!dc->base.is_jmp && !dc->cpustate_changed
-              && !tcg_op_buf_full()
-              && !singlestep
--             && (dc->pc - page_start < TARGET_PAGE_SIZE)
-+             && (dc->base.pc_next - page_start < TARGET_PAGE_SIZE)
-              && num_insns < max_insns);
- 
--    npc = dc->pc;
-+    npc = dc->base.pc_next;
-     if (dc->jmp == JMP_DIRECT || dc->jmp == JMP_DIRECT_CC) {
-         if (dc->tb_flags & D_FLAG) {
--            dc->is_jmp = DISAS_UPDATE;
-+            dc->base.is_jmp = DISAS_UPDATE;
-             tcg_gen_movi_i32(cpu_pc, npc);
-             sync_jmpstate(dc);
-         } else
-@@ -1712,25 +1712,25 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+-    if (pc_start & 3) {
+-        cpu_abort(cs, "Microblaze: unaligned PC=%x\n", pc_start);
++    bound = -(dc->base.pc_first | TARGET_PAGE_MASK) / 4;
++    dc->base.max_insns = MIN(dc->base.max_insns, bound);
++}
++
++static void mb_tr_tb_start(DisasContextBase *dcb, CPUState *cs)
++{
++}
++
++static void mb_tr_insn_start(DisasContextBase *dcb, CPUState *cs)
++{
++    tcg_gen_insn_start(dcb->pc_next);
++}
++
++static bool mb_tr_breakpoint_check(DisasContextBase *dcb, CPUState *cs,
++                                   const CPUBreakpoint *bp)
++{
++    DisasContext *dc = container_of(dcb, DisasContext, base);
++
++    gen_raise_exception_sync(dc, EXCP_DEBUG);
++
++    /*
++     * The address covered by the breakpoint must be included in
++     * [tb->pc, tb->pc + tb->size) in order to for it to be
++     * properly cleared -- thus we increment the PC here so that
++     * the logic setting tb->size below does the right thing.
++     */
++    dc->base.pc_next += 4;
++    return true;
++}
++
++static void mb_tr_translate_insn(DisasContextBase *dcb, CPUState *cs)
++{
++    DisasContext *dc = container_of(dcb, DisasContext, base);
++    CPUMBState *env = cs->env_ptr;
++
++    /* TODO: This should raise an exception, not terminate qemu. */
++    if (dc->base.pc_next & 3) {
++        cpu_abort(cs, "Microblaze: unaligned PC=%x\n",
++                  (uint32_t)dc->base.pc_next);
      }
  
-     /* Force an update if the per-tb cpu state has changed.  */
--    if (dc->is_jmp == DISAS_NEXT
-+    if (dc->base.is_jmp == DISAS_NEXT
-         && (dc->cpustate_changed || org_flags != dc->tb_flags)) {
--        dc->is_jmp = DISAS_UPDATE;
-+        dc->base.is_jmp = DISAS_UPDATE;
-         tcg_gen_movi_i32(cpu_pc, npc);
-     }
-     t_sync_flags(dc);
+-    page_start = pc_start & TARGET_PAGE_MASK;
+-    num_insns = 0;
++    dc->clear_imm = 1;
++    decode(dc, cpu_ldl_code(env, dc->base.pc_next));
++    if (dc->clear_imm) {
++        dc->tb_flags &= ~IMM_FLAG;
++    }
++    dc->base.pc_next += 4;
  
--    if (dc->is_jmp == DISAS_NORETURN) {
-+    if (dc->base.is_jmp == DISAS_NORETURN) {
-         /* nothing more to generate */
-     } else if (unlikely(cs->singlestep_enabled)) {
-         TCGv_i32 tmp = tcg_const_i32(EXCP_DEBUG);
- 
--        if (dc->is_jmp != DISAS_JUMP) {
-+        if (dc->base.is_jmp != DISAS_JUMP) {
-             tcg_gen_movi_i32(cpu_pc, npc);
+-    gen_tb_start(tb);
+-    do
+-    {
+-        tcg_gen_insn_start(dc->base.pc_next);
+-        num_insns++;
+-
+-        if (unlikely(cpu_breakpoint_test(cs, dc->base.pc_next, BP_ANY))) {
+-            gen_raise_exception_sync(dc, EXCP_DEBUG);
+-            /* The address covered by the breakpoint must be included in
+-               [tb->pc, tb->pc + tb->size) in order to for it to be
+-               properly cleared -- thus we increment the PC here so that
+-               the logic setting tb->size below does the right thing.  */
+-            dc->base.pc_next += 4;
+-            break;
++    if (dc->delayed_branch && --dc->delayed_branch == 0) {
++        if (dc->tb_flags & DRTI_FLAG) {
++            do_rti(dc);
          }
-         gen_helper_raise_exception(cpu_env, tmp);
-         tcg_temp_free_i32(tmp);
-     } else {
--        switch(dc->is_jmp) {
-+        switch (dc->base.is_jmp) {
-             case DISAS_NEXT:
-                 gen_goto_tb(dc, 1, npc);
-                 break;
-@@ -1746,7 +1746,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+-
+-        /* Pretty disas.  */
+-        LOG_DIS("%8.8x:\t", (uint32_t)dc->base.pc_next);
+-
+-        if (num_insns == max_insns && (tb_cflags(tb) & CF_LAST_IO)) {
+-            gen_io_start();
++        if (dc->tb_flags & DRTB_FLAG) {
++            do_rtb(dc);
+         }
+-
+-        dc->clear_imm = 1;
+-        decode(dc, cpu_ldl_code(env, dc->base.pc_next));
+-        if (dc->clear_imm)
+-            dc->tb_flags &= ~IMM_FLAG;
+-        dc->base.pc_next += 4;
+-
+-        if (dc->delayed_branch) {
+-            dc->delayed_branch--;
+-            if (!dc->delayed_branch) {
+-                if (dc->tb_flags & DRTI_FLAG)
+-                    do_rti(dc);
+-                 if (dc->tb_flags & DRTB_FLAG)
+-                    do_rtb(dc);
+-                if (dc->tb_flags & DRTE_FLAG)
+-                    do_rte(dc);
+-                /* Clear the delay slot flag.  */
+-                dc->tb_flags &= ~D_FLAG;
+-                /* If it is a direct jump, try direct chaining.  */
+-                if (dc->jmp == JMP_INDIRECT) {
+-                    TCGv_i32 tmp_pc = tcg_const_i32(dc->base.pc_next);
+-                    eval_cond_jmp(dc, cpu_btarget, tmp_pc);
+-                    tcg_temp_free_i32(tmp_pc);
+-                    dc->base.is_jmp = DISAS_JUMP;
+-                } else if (dc->jmp == JMP_DIRECT) {
+-                    t_sync_flags(dc);
+-                    gen_goto_tb(dc, 0, dc->jmp_pc);
+-                } else if (dc->jmp == JMP_DIRECT_CC) {
+-                    TCGLabel *l1 = gen_new_label();
+-                    t_sync_flags(dc);
+-                    /* Conditional jmp.  */
+-                    tcg_gen_brcondi_i32(TCG_COND_NE, cpu_btaken, 0, l1);
+-                    gen_goto_tb(dc, 1, dc->base.pc_next);
+-                    gen_set_label(l1);
+-                    gen_goto_tb(dc, 0, dc->jmp_pc);
+-                }
+-                break;
+-            }
++        if (dc->tb_flags & DRTE_FLAG) {
++            do_rte(dc);
+         }
+-        if (dc->base.singlestep_enabled) {
+-            break;
+-        }
+-    } while (!dc->base.is_jmp && !dc->cpustate_changed
+-             && !tcg_op_buf_full()
+-             && !singlestep
+-             && (dc->base.pc_next - page_start < TARGET_PAGE_SIZE)
+-             && num_insns < max_insns);
+-
+-    npc = dc->base.pc_next;
+-    if (dc->jmp == JMP_DIRECT || dc->jmp == JMP_DIRECT_CC) {
+-        if (dc->tb_flags & D_FLAG) {
+-            dc->base.is_jmp = DISAS_UPDATE;
+-            tcg_gen_movi_i32(cpu_pc, npc);
+-            sync_jmpstate(dc);
+-        } else
+-            npc = dc->jmp_pc;
++        /* Clear the delay slot flag.  */
++        dc->tb_flags &= ~D_FLAG;
++        dc->base.is_jmp = DISAS_JUMP;
      }
-     gen_tb_end(tb, num_insns);
  
--    tb->size = dc->pc - pc_start;
-+    tb->size = dc->base.pc_next - pc_start;
-     tb->icount = num_insns;
+-    /* Force an update if the per-tb cpu state has changed.  */
+-    if (dc->base.is_jmp == DISAS_NEXT
+-        && (dc->cpustate_changed || org_flags != dc->tb_flags)) {
++    /* Force an exit if the per-tb cpu state has changed.  */
++    if (dc->base.is_jmp == DISAS_NEXT && dc->cpustate_changed) {
+         dc->base.is_jmp = DISAS_UPDATE;
+-        tcg_gen_movi_i32(cpu_pc, npc);
++        tcg_gen_movi_i32(cpu_pc, dc->base.pc_next);
+     }
+-    t_sync_flags(dc);
++}
++
++static void mb_tr_tb_stop(DisasContextBase *dcb, CPUState *cs)
++{
++    DisasContext *dc = container_of(dcb, DisasContext, base);
++
++    assert(!dc->abort_at_next_insn);
  
+     if (dc->base.is_jmp == DISAS_NORETURN) {
+-        /* nothing more to generate */
+-    } else if (unlikely(cs->singlestep_enabled)) {
+-        TCGv_i32 tmp = tcg_const_i32(EXCP_DEBUG);
+-
+-        if (dc->base.is_jmp != DISAS_JUMP) {
+-            tcg_gen_movi_i32(cpu_pc, npc);
+-        }
+-        gen_helper_raise_exception(cpu_env, tmp);
+-        tcg_temp_free_i32(tmp);
+-    } else {
+-        switch (dc->base.is_jmp) {
+-            case DISAS_NEXT:
+-                gen_goto_tb(dc, 1, npc);
+-                break;
+-            case DISAS_JUMP:
+-            case DISAS_UPDATE:
+-                /* indicate that the hash table must be used
+-                   to find the next TB */
+-                tcg_gen_exit_tb(NULL, 0);
+-                break;
+-            default:
+-                g_assert_not_reached();
+-        }
++        /* We have already exited the TB. */
++        return;
+     }
+-    gen_tb_end(tb, num_insns);
+ 
+-    tb->size = dc->base.pc_next - pc_start;
+-    tb->icount = num_insns;
++    t_sync_flags(dc);
++    if (dc->tb_flags & D_FLAG) {
++        sync_jmpstate(dc);
++        dc->jmp = JMP_NOJMP;
++    }
+ 
++    switch (dc->base.is_jmp) {
++    case DISAS_TOO_MANY:
++        assert(dc->jmp == JMP_NOJMP);
++        gen_goto_tb(dc, 0, dc->base.pc_next);
++        return;
++
++    case DISAS_UPDATE:
++        assert(dc->jmp == JMP_NOJMP);
++        if (unlikely(cs->singlestep_enabled)) {
++            gen_raise_exception(dc, EXCP_DEBUG);
++        } else {
++            tcg_gen_exit_tb(NULL, 0);
++        }
++        return;
++
++    case DISAS_JUMP:
++        switch (dc->jmp) {
++        case JMP_INDIRECT:
++            {
++                TCGv_i32 tmp_pc = tcg_const_i32(dc->base.pc_next);
++                eval_cond_jmp(dc, cpu_btarget, tmp_pc);
++                tcg_temp_free_i32(tmp_pc);
++
++                if (unlikely(cs->singlestep_enabled)) {
++                    gen_raise_exception(dc, EXCP_DEBUG);
++                } else {
++                    tcg_gen_exit_tb(NULL, 0);
++                }
++            }
++            return;
++
++        case JMP_DIRECT_CC:
++            {
++                TCGLabel *l1 = gen_new_label();
++                tcg_gen_brcondi_i32(TCG_COND_NE, cpu_btaken, 0, l1);
++                gen_goto_tb(dc, 1, dc->base.pc_next);
++                gen_set_label(l1);
++            }
++            /* fall through */
++
++        case JMP_DIRECT:
++            gen_goto_tb(dc, 0, dc->jmp_pc);
++            return;
++        }
++        /* fall through */
++
++    default:
++        g_assert_not_reached();
++    }
++}
++
++static void mb_tr_disas_log(const DisasContextBase *dcb, CPUState *cs)
++{
  #ifdef DEBUG_DISAS
-@@ -1755,7 +1755,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
-         && qemu_log_in_addr_range(pc_start)) {
-         FILE *logfile = qemu_log_lock();
-         qemu_log("--------------\n");
--        log_target_disas(cs, pc_start, dc->pc - pc_start);
-+        log_target_disas(cs, pc_start, dc->base.pc_next - pc_start);
-         qemu_log_unlock(logfile);
-     }
+ #if !SIM_COMPAT
+-    if (qemu_loglevel_mask(CPU_LOG_TB_IN_ASM)
+-        && qemu_log_in_addr_range(pc_start)) {
+-        FILE *logfile = qemu_log_lock();
+-        qemu_log("--------------\n");
+-        log_target_disas(cs, pc_start, dc->base.pc_next - pc_start);
+-        qemu_log_unlock(logfile);
+-    }
++    qemu_log("IN: %s\n", lookup_symbol(dcb->pc_first));
++    log_target_disas(cs, dcb->pc_first, dcb->tb->size);
  #endif
+ #endif
+-    assert(!dc->abort_at_next_insn);
++}
++
++static const TranslatorOps mb_tr_ops = {
++    .init_disas_context = mb_tr_init_disas_context,
++    .tb_start           = mb_tr_tb_start,
++    .insn_start         = mb_tr_insn_start,
++    .breakpoint_check   = mb_tr_breakpoint_check,
++    .translate_insn     = mb_tr_translate_insn,
++    .tb_stop            = mb_tr_tb_stop,
++    .disas_log          = mb_tr_disas_log,
++};
++
++void gen_intermediate_code(CPUState *cpu, TranslationBlock *tb, int max_insns)
++{
++    DisasContext dc;
++    translator_loop(&mb_tr_ops, &dc.base, cpu, tb, max_insns);
+ }
+ 
+ void mb_cpu_dump_state(CPUState *cs, FILE *f, int flags)
 -- 
 2.25.1
 
