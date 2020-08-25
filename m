@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 733BD252152
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 21:53:01 +0200 (CEST)
-Received: from localhost ([::1]:47410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E33AD2520E7
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 21:47:33 +0200 (CEST)
+Received: from localhost ([::1]:49774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAf08-00050o-Fp
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 15:53:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40886)
+	id 1kAeuq-0002dR-R7
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 15:47:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kAeXt-00042T-QV
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:23:49 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:35778)
+ id 1kAedS-0006Et-ND
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:29:34 -0400
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:39641)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kAeXs-0006PN-BT
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:23:49 -0400
-Received: by mail-pf1-x441.google.com with SMTP id k1so1269811pfu.2
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 12:23:47 -0700 (PDT)
+ id 1kAedR-00078u-02
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:29:34 -0400
+Received: by mail-pj1-x1041.google.com with SMTP id j13so3996pjd.4
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 12:29:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=gwUMg//wgrjXwTQ9kMa/PPluoqP399CBrBsdMzkVKAE=;
- b=JTmkS1Hx9tNj1TOyhiG8OQK/izPhFW9XeKztqLWhP6r8lsoWf+XkVVKNEgK9CP4750
- SYwQdp94GhW12AFh5rPvKk+98B3aQsLVdXmvdtMckE/dLesSdLOIMqr8SXk4tXOjxF/v
- hInaMda2gJBdMldA1j8S8rPpktv8KiBY7zw0Nb6JFUuEwoMbtBw6FQLWTd9in2tAbQYA
- bWETLy8c6g3C4S6F8p4pdFiIoZXvaEleHqFnPXw25WC+cvUzvhaBRHnFfVrmaLYTbFk0
- /OY2g2SQJj5wHNgwNh89dkMZT1hoqj2qxL5y+XgXi1y0rsHCdlfuzP+qOK6jExsFxco/
- b3OA==
+ bh=+/P7QJvPvgwPmPuqawkAWI/JesMR0w1aiFyilNYkSbI=;
+ b=sbLwQXhekuiqAqEc3sHZnamf/hYojs0QyZY4tM1hOBtWwRRHM776bf+gHA+95ycwEy
+ 6OsBbD0YKLqzZdRDJfLxwq2Ln2zDVvEF3O6PpBia2N2zJTNEIwspT0UCEF/TwRyMqsh1
+ WKqqsZ77BrlUKEeLl2qFC1jM6MTz3FQUv4WJOzeVVL6CK6ywP5/8voPx2p0BHM3A6gy8
+ JRXelxGXXPeYNMFEuyvuIPflZldwSsKNgJDcy5PcR1qGnGlyuHrTwdk/zTG5Nmug82SI
+ xynWlj1AsJ8Ci2D4UrYcqbmf3X1E/u2uOilBqo7xujOGNwgWf9K3HOcdo7qFPKvbdyuk
+ RT9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=gwUMg//wgrjXwTQ9kMa/PPluoqP399CBrBsdMzkVKAE=;
- b=HTu5LyUkXDgNOVeZIwkCsSFL7T7PvBAKmQ+zEwh9dUJS55nd8dVOqp54oax3MF19VD
- JcdnNXLwlf/vtZKp3jwClO1HHUVZDgnrosZDNI/rIizh571HOdpzJWOjWNn2gWXIRT1a
- jrjmdJl92ANGDrvIcTtAcaq5XiaHLrd5YZna5TIB+xdJejGDOgVTYq2lkdUaWS3SxXTC
- hpx+bxh/9WrlPMhSPdt/j7tuJLLKL/xdQBxlhif83u6xx7dcUnA5udtpSbuzGN6AaQ9g
- XExLt/i68vqSBwkIiJ2XvMhb4PuMh7BHtojfMdVCPygTskKZz8A54nUdBZNKtwcTVa0e
- /Y3A==
-X-Gm-Message-State: AOAM530SMGa+aqqBGdC0ECKhwpK6h6EeN0vrijUa7LAm0Inpgf/JPYO3
- JXedWxSF6TJJfmsOE2oo0khfJ71S/HdXKA==
-X-Google-Smtp-Source: ABdhPJxczoEL6hQWLQZlKB6Z1sK3iKFk/q3FqUzpQAhbv3Rz0MSs6D8zspcYvR2tLm2J5Ml3nC5Bow==
-X-Received: by 2002:a63:1262:: with SMTP id 34mr7963859pgs.37.1598383426160;
- Tue, 25 Aug 2020 12:23:46 -0700 (PDT)
+ bh=+/P7QJvPvgwPmPuqawkAWI/JesMR0w1aiFyilNYkSbI=;
+ b=Ht0eRIDgIWtFt29602qwf5buZ1meikFRX4sqaMaWM7rIIbxcNZpBGdHU5bCDwQeR4O
+ n8m/gpKTWIXnWNzrvA59+UJe9sIADGtBt6gYqXqm+o1oDx64LG5ue0U3GWANvERztZFU
+ c6c/Ae5Lhp0r79qpMBVLeDtwY5YH9jUDvoxgsJKQFduN+yLorVkrZy6SgcDXkB27YG/W
+ 2LiXFsNw1CioJ8rZq7lKVWcNsbW+3mBahuq4/HmaYuDOyiwAMSJkOZcu8d4V790so16o
+ I9urbEuYgAuiXwEWeU0+4l1h2zkzw85E3irdHGJ2MdA0Mv91SIJX5bqL3YXs/BMcHSqa
+ oNhw==
+X-Gm-Message-State: AOAM532qAUs1sZQnt8Do1TOKahcyjukJjdU8KnI50Ej+5BT9IkzFvF1Z
+ QkU0Fm+VpvVldPsmsYQLs17BM/g8ixHPPw==
+X-Google-Smtp-Source: ABdhPJxI23Kb3TbRIF9EhyvMuQIrdGGS3oNBYOx3S7xMlPWeAH0srVWmxHJVpRwjEqhXbcCxo+RrHw==
+X-Received: by 2002:a17:90b:4a0a:: with SMTP id
+ kk10mr2836352pjb.30.1598383771011; 
+ Tue, 25 Aug 2020 12:29:31 -0700 (PDT)
 Received: from [192.168.81.79]
  (h216-228-167-147.bendor.dedicated.static.tds.net. [216.228.167.147])
- by smtp.gmail.com with ESMTPSA id p11sm3343pfn.109.2020.08.25.12.23.44
+ by smtp.gmail.com with ESMTPSA id fv21sm13172pjb.16.2020.08.25.12.29.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Aug 2020 12:23:45 -0700 (PDT)
-Subject: Re: [PATCH 19/22] target/arm: Implement new VFP fp16 insn VINS
+ Tue, 25 Aug 2020 12:29:30 -0700 (PDT)
+Subject: Re: [PATCH 21/22] target/arm: Implement VFP fp16 VMOV between gp and
+ halfprec registers
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20200824142934.20850-1-peter.maydell@linaro.org>
- <20200824142934.20850-20-peter.maydell@linaro.org>
+ <20200824142934.20850-22-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <863f1d23-1002-ca2b-60fe-2f6e4721ff33@linaro.org>
-Date: Tue, 25 Aug 2020 12:23:43 -0700
+Message-ID: <18ecf3fd-0100-7fc4-18d5-631e62a3b4dc@linaro.org>
+Date: Tue, 25 Aug 2020 12:29:28 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200824142934.20850-20-peter.maydell@linaro.org>
+In-Reply-To: <20200824142934.20850-22-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x441.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1041.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -46
@@ -78,7 +80,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.602,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,15 +97,18 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/24/20 7:29 AM, Peter Maydell wrote:
-> The fp16 extension includes a new instruction VINS, which copies the
-> lower 16 bits of a 32-bit source VFP register into the upper 16 bits
-> of the destination.  Implement it.
+> Implement the VFP fp16 variant of VMOV that transfers a 16-bit
+> value between a general purpose register and a VFP register.
+> 
+> Note that Rt == 15 is UNPREDICTABLE; since this insn is v8 and later
+> only we have no need to replicate the old "updates CPSR.NZCV"
+> behaviour that the singleprec version of this insn does.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  target/arm/vfp-uncond.decode   |  3 +++
->  target/arm/translate-vfp.c.inc | 28 ++++++++++++++++++++++++++++
->  2 files changed, 31 insertions(+)
+>  target/arm/vfp.decode          |  1 +
+>  target/arm/translate-vfp.c.inc | 34 ++++++++++++++++++++++++++++++++++
+>  2 files changed, 35 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
