@@ -2,66 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 946CB251E8D
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 19:41:12 +0200 (CEST)
-Received: from localhost ([::1]:33190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7BDD251E8F
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 19:42:06 +0200 (CEST)
+Received: from localhost ([::1]:34408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAcwZ-0001Vh-LI
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 13:41:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41444)
+	id 1kAcxR-0001zj-QM
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 13:42:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kAcvb-0000pr-Ja
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 13:40:11 -0400
-Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:36929)
+ id 1kAcvr-00015L-JC
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 13:40:27 -0400
+Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:36932)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kAcvZ-0000v8-Rn
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 13:40:11 -0400
-Received: by mail-il1-x143.google.com with SMTP id v2so11152979ilq.4
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 10:40:09 -0700 (PDT)
+ id 1kAcvp-00017K-Rx
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 13:40:27 -0400
+Received: by mail-il1-x142.google.com with SMTP id v2so11153784ilq.4
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 10:40:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=9ZcFLiin5cTi7A6p4hhWdoY2yjOWJyW/2e2mlQiZT3Y=;
- b=D/ttGUfvYILYRyi6sP9XLjDRppsfzxNF8B1fS3xl8ubaWLMFZp2Mplz+OrKyOHDYQi
- REUenpHSTNiEORDkp9riEkEXRPPVekV6xQTJ0iXNzhUmH54S0EAscLBSc66ubE9/t8pk
- 1Hdjwg3E12x+gKDINl5y3Skgbd7DYGkl7IPH1DcyNpIWjnY6tW750ZzzLun+bSDjKAzH
- UGKccmcD5g4wIE6Q3iqkVzKrcPsx9dTmd6e9+doigHfsGfK+XJ3FJeh/fqpm+dCNNJXL
- ySqEqACGW1TchkAOCisN1KBFT7TbUE8o7CLgEj25GJGEhRqpG+Z14rkDMLodDvevCZS0
- eq1w==
+ :cc; bh=i1UX9gkEqTCNVBmRSj7rrtA21I63htnwUdQZV06gX2M=;
+ b=PqeKajzKgR42Q+BVuSizWKlvMIcpK96On3xxvwFPkTrjRhr/dPBQTIwb3YcLs/sY3v
+ RuQ4PjWfgZ7yGcNVGHMFqZ33PBsztNCf0si7kMYyTpa8pHL+Lke7IRjH5SJVcakdIm/E
+ yl2ttGxtl+R5DpyuAAhJwQK8hs4Wi+VPw4aWsqwwFnQc54tqOWZK6abz7WWUNm4/XNvB
+ jCUuUPtKS/AyHzi2RnGE6PfoDADIaxhLomyonwA+szC38Qla26GyErC3o4lJpc7Xkumf
+ BW5x0dfkdKa4qczfaAawLdpAmF5fMcWc6ppYQtsmLuLZ5Vw1rrWf4hTAE6pCKKGt6IVw
+ yFag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=9ZcFLiin5cTi7A6p4hhWdoY2yjOWJyW/2e2mlQiZT3Y=;
- b=t9obCDJCyOOhi5H7xyVBKaUFtZ+6DSKKgqZzuAI8rVIIHQNeTDT12guUMm/wObUvrk
- Q0jtl4eMUpuZQYdXTQhlCGmDl72WDV4Ekj0AVFqI8AaMYDa0qxX9PNDmbh9+o/E5iZh8
- FJREDZBuaCvz8a9FuB4+6Jpl3Hpl3fnhsIWR/k0y9jK6f4THguP9BLrgRTnpPeGE0cwt
- iFKEG5xo9nb61VOxCz07AYQ6o8EKQVIXjmzgyOSvqfnlelyncOgjJ3VQJdh5Mc/lLFP/
- AAWAqPV95Cgmp4+pqG7qLe2wgfow2gYS7L/ruBVxXnZOW/TxSiIh9TCIzxbTLtQJvBZ5
- qSqQ==
-X-Gm-Message-State: AOAM532x2AUGbuFMxKlM3Kv5VhwygGODS3GaOHtksAvZG+MbufV4Xgv5
- s2j6/BwvJwEGhMAuEWE3nIgGIO2KCuP0oW2bVOw=
-X-Google-Smtp-Source: ABdhPJyl75oYdDc4Wu0aY032rXQMqOs4hAzwftnfVWn4r9x4qccILYUNFiUncJ7LrBDyY3krFwlLTEY8ref+8Z4y4RA=
-X-Received: by 2002:a05:6e02:13f1:: with SMTP id
- w17mr10346314ilj.131.1598377208123; 
- Tue, 25 Aug 2020 10:40:08 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=i1UX9gkEqTCNVBmRSj7rrtA21I63htnwUdQZV06gX2M=;
+ b=mrMU6+3pjwBOTBc4voCHer6WmZayVlOipjC2zXFGuM9feJRJXXLN4tID1FcX4TAfUP
+ BBfzV0FzR41p3avo05nz/VQ/AilgaJOznBlsDH6WseOKlg/gShWwUlsTo36i307fKRXD
+ ZSDnF0vhmIQavXV/pYNsWi8JyjbrqpE9nzRn0NdWMpFoXPfW6kbx+L1OrMgQA8CMco8j
+ Fe0dYpONxsy2BGGqTCOT13yxsxv2Wswh9KCMQ9MhgPo08WZRbN1vf5+MRjJxPhnLMcJN
+ mAviY2bXiUv2RsvDl5fKLfoFE2EaXG2JR17omGEQZcyr4vZ5aYqBK1Yh5kA4jEj7t39e
+ /k4A==
+X-Gm-Message-State: AOAM531YPQf6mA+AXNXTNI/ilOJ+1I4s/SP/mf6Z9s6KXzDx3Ry2ScmT
+ IMDlvqxyG4RyishvugAfh40+hkt0V6CVJwXmQ80=
+X-Google-Smtp-Source: ABdhPJwhvvtfd5CbI7W421kHrBLZVHxls1Pu8l+qiDIACnjvj9jHJKVEjq2hj5ytQpvBrSnWqNYF8+i+fPaKPwC+EjY=
+X-Received: by 2002:a92:c7d4:: with SMTP id g20mr10248966ilk.40.1598377224805; 
+ Tue, 25 Aug 2020 10:40:24 -0700 (PDT)
 MIME-Version: 1.0
 References: <87a2da602785bce972a6a6b4502769f4fee58a2d.1598074333.git.alistair.francis@wdc.com>
- <63024ede-9d19-7292-29d6-a33da6a7177e@amsat.org>
-In-Reply-To: <63024ede-9d19-7292-29d6-a33da6a7177e@amsat.org>
+ <20200824203540.GR642093@habkost.net>
+In-Reply-To: <20200824203540.GR642093@habkost.net>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 25 Aug 2020 10:29:25 -0700
-Message-ID: <CAKmqyKPEcVj98S_Jg3xc8-QAhEj_HOOZq1+VaibmGqkbe1H8-g@mail.gmail.com>
+Date: Tue, 25 Aug 2020 10:29:42 -0700
+Message-ID: <CAKmqyKMmQro2mFwMHUtwPHFS__6LvtBygOWPv4WNLj06ji8jsg@mail.gmail.com>
 Subject: Re: [PATCH v1 1/1] core/register: Specify instance_size in the
  TypeInfo
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+To: Eduardo Habkost <ehabkost@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::142;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x142.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -84,17 +81,14 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.comg, Alistair Francis <alistair.francis@wdc.com>,
+Cc: Alistair Francis <alistair.francis@wdc.com>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Aug 22, 2020 at 3:25 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
+On Mon, Aug 24, 2020 at 2:59 PM Eduardo Habkost <ehabkost@redhat.com> wrote:
 >
-> Hi Alistair,
->
-> On 8/22/20 7:33 AM, Alistair Francis wrote:
+> On Fri, Aug 21, 2020 at 10:33:06PM -0700, Alistair Francis wrote:
 > > Reported-by: Eduardo Habkost <ehabkost@redhat.com>
 > > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 > > ---
@@ -114,24 +108,14 @@ g> wrote:
 > > -    }
 > >
 > > -    object_initialize((void *)reg, sizeof(*reg), TYPE_REGISTER);
->
-> Can we remove register_init()? Are concerned is it is declared
-> publicly in "hw/register.h"?
-
-Argh, I just missed this. Fixed in v2.
-
-Alistair
-
->
 > >  }
 > >
 > >  void register_write_memory(void *opaque, hwaddr addr,
-> > @@ -269,13 +265,20 @@ static RegisterInfoArray *register_init_block(Dev=
-iceState *owner,
-> >          int index =3D rae[i].addr / data_size;
-> >          RegisterInfo *r =3D &ri[index];
+> > @@ -269,13 +265,20 @@ static RegisterInfoArray *register_init_block(DeviceState *owner,
+> >          int index = rae[i].addr / data_size;
+> >          RegisterInfo *r = &ri[index];
 > >
-> > +        if (data + data_size * index =3D=3D 0 || !&rae[i]) {
+> > +        if (data + data_size * index == 0 || !&rae[i]) {
 > > +            continue;
 > > +        }
 > > +
@@ -139,24 +123,39 @@ iceState *owner,
 > > +        object_initialize((void *)r, sizeof(*r), TYPE_REGISTER);
 > > +
 > > +        /* Set the properties of the register */
-> >          *r =3D (RegisterInfo) {
-> >              .data =3D data + data_size * index,
-> >              .data_size =3D data_size,
-> >              .access =3D &rae[i],
-> >              .opaque =3D owner,
+> >          *r = (RegisterInfo) {
+> >              .data = data + data_size * index,
+> >              .data_size = data_size,
+> >              .access = &rae[i],
+> >              .opaque = owner,
 > >          };
+>
+> This doesn't look right.  Won't this wipe out all DeviceState
+> data in r->parent_obj?
+
+Yep, it will. Fixed in v2.
+
+Alistair
+
+>
 > > -        register_init(r);
 > >
-> >          r_array->r[i] =3D r;
+> >          r_array->r[i] = r;
 > >      }
-> > @@ -329,6 +332,7 @@ static const TypeInfo register_info =3D {
-> >      .name  =3D TYPE_REGISTER,
-> >      .parent =3D TYPE_DEVICE,
-> >      .class_init =3D register_class_init,
-> > +    .instance_size =3D sizeof(RegisterInfo),
+> > @@ -329,6 +332,7 @@ static const TypeInfo register_info = {
+> >      .name  = TYPE_REGISTER,
+> >      .parent = TYPE_DEVICE,
+> >      .class_init = register_class_init,
+> > +    .instance_size = sizeof(RegisterInfo),
 > >  };
 > >
 > >  static void register_register_types(void)
+> > --
+> > 2.28.0
 > >
+> >
+>
+> --
+> Eduardo
 >
 
