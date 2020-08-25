@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BF162522FA
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:39:11 +0200 (CEST)
-Received: from localhost ([::1]:60268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4642B252318
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:48:54 +0200 (CEST)
+Received: from localhost ([::1]:39524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAges-0005am-EG
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:39:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42676)
+	id 1kAgoH-0003iF-At
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:48:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kAgYI-0002rX-U3
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:32:22 -0400
-Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:44241)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kAgOj-0001ps-MZ
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:22:29 -0400
+Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:37736)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kAgYG-0005cT-WF
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:32:22 -0400
-Received: by mail-il1-x143.google.com with SMTP id j9so11328ilc.11
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 14:32:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kAgOh-0004UR-L7
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:22:29 -0400
+Received: by mail-ed1-x544.google.com with SMTP id u1so2342859edi.4
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 14:22:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yQPkC1ZKIRjNb+zN90dXj/UbX0XRcMf7WmndBhDbVxI=;
- b=kc9G8OukMAhjpQ5J2KxcCuaclK3lvWbHapwaOpw0lPbD/No//7DQJHJrwwBmkpfW5q
- 4Y5kONanrTAeVQMQNP4EKZnLxMaEgE3OOCt/ruKs3274gVdaZp8Z3d6UEY/XI/88ENii
- c4te5C4ZYmhNx051UBJS/4wjZCJHKutVVMap8rMQJTP4mIrIbkixy0n0upoRT0XLklny
- wSSQqyeoyPK66nmZXO2VT0oYkH0pFvWSU2v0SkAm7kW3jPMYi9ybKf8h9tqIhJd4oNtb
- Z99wHuG7vc4y84roYumSI6klfDZmUszXAgmKllJBxy+O5JsL6d8Mj3hOTCBROqtPolMy
- SVNg==
+ :cc; bh=z+R4DS5qegSGsq8ZI8BxMYOvvF3kH3UXpp/f4rqf5HQ=;
+ b=qt31tN8VFm33RKcvnxPXRsbBdESSyxNy0QOETF0XYHN2pGKkeUJzmDHw18802bdgsj
+ Zi8rLwNfSJxunn0pxiVZ0pECJZbL4piS2eANmy2FGZQR0E2TCzs7b46umVXa3zfpwsBN
+ 43HUm2w+F9c5vsCTx0RIk3IzsR8ryU7dBT2H26Qv2yJv7YkIdyvVEO7owaQXzOqAhfER
+ wvJ9p0XMI4SEMDBf+gCdFgB+H7ZrA4n1UbsRHvj/dF7xHkBLA91AZvSxffpUPrklRIdP
+ QtBsruBwX8rXsbzqXYEbbd9U0FRTIaRy0llPAJJQIrPgEs4cwUXmxVAI3c+Tv3XH0k4N
+ 6YmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=yQPkC1ZKIRjNb+zN90dXj/UbX0XRcMf7WmndBhDbVxI=;
- b=kT89wMLbTC6FaWe1t3JCs4UjxiF/q988SOCyBteZsg5Ol4D4/cntbQd4vpURZwXNsV
- ltx5d2BMn0H3ZFCUmE7WdF498Ez9mI7bJCCZPTiXNTSQsgO6iUAyRSX3d/8541DMO9Tt
- PQ3aFFGoCQnFAg69jtD+/bflo3x0nZPh3WE08ycW/34MYAT4FLxuQPetAnipPFqJWgLk
- WGRdQW28curXmN417m9jCAp10fqThaFn6xd+eaDW/h3OOogA6lAMDIORy8RCkIYIJ7Vl
- 9FMcYhr7OS18hB06xBYC6+Cj1rPZog5qVmjro2+racdUTGEaWbHGZbclhER/3cEs/wIu
- 4TwQ==
-X-Gm-Message-State: AOAM533G8VTejOy1bfvQI1j4mVlIor6TGvtBTLYnfLDEJcEDqbixUwti
- 3wyPHk/IwNrhlkOXRHirCC6c0Cbplrep/vDA2Z4=
-X-Google-Smtp-Source: ABdhPJx5IfRgw/WG4P4YAo0ND4ok8Bte84pMt0tEvKA4S29YT0w1obx8MrwVAKRCh0hnsINJHmHIqru68YdtK8vWYt4=
-X-Received: by 2002:a05:6e02:ed4:: with SMTP id
- i20mr11014371ilk.267.1598391137048; 
- Tue, 25 Aug 2020 14:32:17 -0700 (PDT)
+ bh=z+R4DS5qegSGsq8ZI8BxMYOvvF3kH3UXpp/f4rqf5HQ=;
+ b=dqRlFveAA0eGJltbwzaJyA0DyQ+FJCL5cy8mdrAR2CPD8yXaKuVwxCrv4pwnFKyA7f
+ XK9qN4ha8faTMly4kzd2zfdffR5b5ikib7etpWhOy5BRxFkjyhbTx2OD5kdtzDNFsUhs
+ dqRvQHh4WUdrPHp8bYcHc5PRpEBbsvy01CTSwj0U30Fb6QeiGCSskgrh6Noc5SouJ0AY
+ I+W0hhGq/N/j5dAyFACDV9l7L9zc6SafiAYJKY3kIG7REs2RAqzyeR6IqUljlsd9mRyd
+ WPcJmLW1kFqygW/IwAm+yW1k3SIApDyJUDSf//deyF1l0rmTyNGpS5WU16TUn1Wv0Vdh
+ vtmQ==
+X-Gm-Message-State: AOAM531vaWUWSs6LDN1X8eZh/sPy06yP2Znr1knQGtSM3eT4uz/iDfNd
+ hnJ7H4H1JdmX+vm+gT8+0JwtvWzl9K+xHyApTt89jQ==
+X-Google-Smtp-Source: ABdhPJwZflkzIOmXmwxaVvSMt5+S99NfrzCnAzNAmXI5jvDnVWySzwzush22wJlJp00O2CK/pNft69ysPJVJGOBn/5w=
+X-Received: by 2002:a50:da44:: with SMTP id a4mr12538993edk.36.1598390545579; 
+ Tue, 25 Aug 2020 14:22:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200825184836.1282371-1-alistair.francis@wdc.com>
- <CAFEAcA8=Mf=EPh__tNhJyGv8+ouD-HH+MuMb+HhtTFes+XqUSQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA8=Mf=EPh__tNhJyGv8+ouD-HH+MuMb+HhtTFes+XqUSQ@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 25 Aug 2020 14:21:34 -0700
-Message-ID: <CAKmqyKNxURXyNSEePPU1jY7FzcZjRThr2qAvwR393+nqUXBxJQ@mail.gmail.com>
-Subject: Re: [PULL 00/18] riscv-to-apply queue
-To: Peter Maydell <peter.maydell@linaro.org>
+References: <40710b94-094f-f91a-6ddb-94e51199a8c3@vivier.eu>
+In-Reply-To: <40710b94-094f-f91a-6ddb-94e51199a8c3@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 25 Aug 2020 22:22:14 +0100
+Message-ID: <CAFEAcA-X-Z9adXzxunTJ=4Qu5wq7_oBreRVmO_T9nQSi=f4+rQ@mail.gmail.com>
+Subject: Re: linux-user static build broken
+To: Laurent Vivier <laurent@vivier.eu>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::544;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x544.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -81,49 +78,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 25, 2020 at 2:24 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+On Tue, 25 Aug 2020 at 21:37, Laurent Vivier <laurent@vivier.eu> wrote:
 >
-> On Tue, 25 Aug 2020 at 20:01, Alistair Francis <alistair.francis@wdc.com> wrote:
-> >
-> > The following changes since commit 7774e403f2ac58b3e87bfe8d2f77676501ba893e:
-> >
-> >   Merge remote-tracking branch 'remotes/kraxel/tags/fixes-20200825-pull-request' into staging (2020-08-25 10:54:51 +0100)
-> >
-> > are available in the Git repository at:
-> >
-> >   git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20200825
-> >
-> > for you to fetch changes up to e39a8320b088dd5efc9ebaafe387e52b3d962665:
-> >
-> >   target/riscv: Support the Virtual Instruction fault (2020-08-25 09:11:36 -0700)
-> >
-> > ----------------------------------------------------------------
-> > This pull request first adds support for multi-socket NUMA RISC-V
-> > machines. The Spike and Virt machines both support NUMA sockets.
-> >
-> > This PR also updates the current experimental Hypervisor support to the
-> > v0.6.1 spec.
-> >
-> > ----------------------------------------------------------------
+> Hi,
 >
-> The hypervisor related patches don't seem to have any
-> reviewed-by tags, which seems a shame for a fairly significant
-> chunk of work. Is there really nobody who can review them
-> for you ?
-
-Unfortunately not. They have been on the list since April and haven't
-received any feedback.
-
-There isn't a lot of people reviewing the RISC-V patches unfortunately.
-
-Alistair
-
+> since we have switched to meson, the statically linked binaries of qemu
+> linux-user are broken:
 >
-> thanks
-> -- PMM
+> cd $OBJ
+> $SRC/configure --static --target-list=m68k-linux-user
+> make
+> ./qemu-m68k
+> Segmentation fault (core dumped)
+
+It can't be all static binaries, because part of my merge
+tests is a config with
+'../../configure' '--cc=ccache gcc' '--enable-debug' '--static'
+'--disable-system' '--disable-gnutls'
+
+and that works:
+$ ./build/all-linux-static/qemu-m68k
+qemu: no user program specified
+
+So it must be something more specific, though I don't know what.
+
+thanks
+-- PMM
 
