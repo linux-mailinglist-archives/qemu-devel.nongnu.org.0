@@ -2,76 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94CBA25177D
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 13:25:23 +0200 (CEST)
-Received: from localhost ([::1]:50176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAF19251789
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 13:27:46 +0200 (CEST)
+Received: from localhost ([::1]:59136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAX4s-0006Mx-Ly
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 07:25:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44546)
+	id 1kAX7C-0002Au-0H
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 07:27:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kAX10-0006zM-D5
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 07:21:22 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24234
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kAX0x-0005ub-AF
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 07:21:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598354478;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kdtlNloXve70QFnvpZfchqkU7W61MUoF5ZxhWEzo0g8=;
- b=QYvlDGsx6yxrsESvGHqJbXM52v84hlWR9mHan2ioNPaJufnSj8bVrqXyDXrjPzCUNZGOXd
- Usm8tXkrukRXC/egKsdjIMr7D80oLF6C/YJVwOrERs/BvR8CQJmYFIjzVQQEN9ZhFkTwbx
- Y89gIj+6ZLna5iK9/x42fzdJ5U5DbuI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-414-nyYK0kDmPlScGfFa0r-Q1g-1; Tue, 25 Aug 2020 07:21:16 -0400
-X-MC-Unique: nyYK0kDmPlScGfFa0r-Q1g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1DE787311B
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 11:21:15 +0000 (UTC)
-Received: from redhat.com (ovpn-114-231.ams2.redhat.com [10.36.114.231])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0DB2E1014187;
- Tue, 25 Aug 2020 11:20:55 +0000 (UTC)
-Date: Tue, 25 Aug 2020 12:20:52 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH v2 42/58] vfio/pci: Move QOM macros to header
-Message-ID: <20200825112052.GI107278@redhat.com>
-References: <20200820001236.1284548-1-ehabkost@redhat.com>
- <20200820001236.1284548-43-ehabkost@redhat.com>
+ (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1kAX5l-0000RJ-OQ; Tue, 25 Aug 2020 07:26:17 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:40252 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1kAX5h-0006eS-Pq; Tue, 25 Aug 2020 07:26:16 -0400
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id ED39C389DB8B26FF8B60;
+ Tue, 25 Aug 2020 19:26:03 +0800 (CST)
+Received: from huawei.com (10.175.104.175) by DGGEMS414-HUB.china.huawei.com
+ (10.3.19.214) with Microsoft SMTP Server id 14.3.487.0; Tue, 25 Aug 2020
+ 19:25:54 +0800
+From: Chen Qun <kuhn.chenqun@huawei.com>
+To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
+Subject: [PATCH v2 00/10] trivial patchs for static code analyzer fixes
+Date: Tue, 25 Aug 2020 19:24:37 +0800
+Message-ID: <20200825112447.126308-1-kuhn.chenqun@huawei.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <20200820001236.1284548-43-ehabkost@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 02:05:08
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.958,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Originating-IP: [10.175.104.175]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.35;
+ envelope-from=kuhn.chenqun@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 07:26:04
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,34 +56,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, qemu-devel@nongnu.org
+Cc: Chen Qun <kuhn.chenqun@huawei.com>, pannengyuan@huawei.com,
+ zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 19, 2020 at 08:12:20PM -0400, Eduardo Habkost wrote:
-> This will make future conversion to OBJECT_DECLARE* easier.
-> 
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> ---
-> Changes series v1 -> v2: new patch in series v2
-> 
-> Cc: Alex Williamson <alex.williamson@redhat.com>
-> Cc: qemu-devel@nongnu.org
-> ---
->  hw/vfio/pci.h | 3 +++
->  hw/vfio/pci.c | 3 ---
->  2 files changed, 3 insertions(+), 3 deletions(-)
+Hi All,
+   This series fix trivial warnings reported by the Clang static code analyzer.
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Since v1:
+- Patch1: Addressed Igor Mammedov review comment.
+- Patch5：Addressed Raphael Norwitz review comment.
+- Patch6: Addressed Philippe Mathieu-Daudé review comment.
+- Patch7: Addressed Eric Auger review comment.
+- Patch8: drop the patch "tcg/optimize:** " follow Richard Henderson comment.
+- Patch9->Patch8: The patch code format is modified because spaces are missing.
+- Patch11->Patch10: Addressed Gerd Hoffmann review comment.
 
+Thanks.
 
-Regards,
-Daniel
+Chen Qun (10):
+  hw/arm/virt-acpi-build:Remove dead assignment in build_madt()
+  hw/arm/omap1:Remove redundant statement in omap_clkdsp_read()
+  target/arm/translate-a64:Remove dead assignment in
+    handle_scalar_simd_shli()
+  target/arm/translate-a64:Remove redundant statement in
+    disas_simd_two_reg_misc_fp16()
+  hw/virtio/vhost-user:Remove dead assignment in scrub_shadow_regions()
+  hw/net/virtio-net:Remove redundant statement in
+    virtio_net_rsc_tcp_ctrl_check()
+  vfio/platform: Remove dead assignment in vfio_intp_interrupt()
+  usb/bus: Remove dead assignment in usb_get_fw_dev_path()
+  hw/intc: Remove redundant statement in exynos4210_combiner_read()
+  hw/display/vga:Remove redundant statement in vga_draw_graphic()
+
+ hw/arm/omap1.c                | 1 -
+ hw/arm/virt-acpi-build.c      | 3 +--
+ hw/display/vga.c              | 1 -
+ hw/intc/exynos4210_combiner.c | 3 +--
+ hw/net/virtio-net.c           | 1 -
+ hw/usb/bus.c                  | 4 ++--
+ hw/vfio/platform.c            | 2 +-
+ hw/virtio/vhost-user.c        | 2 +-
+ target/arm/translate-a64.c    | 7 ++-----
+ 9 files changed, 8 insertions(+), 16 deletions(-)
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.23.0
 
 
