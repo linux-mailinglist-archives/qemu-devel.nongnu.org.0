@@ -2,32 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A78372522F3
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:38:26 +0200 (CEST)
-Received: from localhost ([::1]:56096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67C452522F2
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:37:28 +0200 (CEST)
+Received: from localhost ([::1]:52084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAge9-0003uy-Nr
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:38:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41644)
+	id 1kAgdD-0002IA-FO
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:37:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kAgSg-0001zH-QS
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:26:34 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:35956
+ id 1kAgXK-0001I6-H6
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:31:22 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:35978
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kAgSe-0004w7-6k
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:26:34 -0400
+ id 1kAgXI-0005Yd-Iy
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:31:21 -0400
 Received: from host217-42-19-185.range217-42.btcentralplus.com
  ([217.42.19.185] helo=[192.168.1.65])
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kAgSx-0002FK-Cg; Tue, 25 Aug 2020 22:26:56 +0100
+ id 1kAgXj-0002Hl-I2; Tue, 25 Aug 2020 22:31:49 +0100
 To: luoyonggang@gmail.com, qemu-devel@nongnu.org
 References: <20200825165341.520-1-luoyonggang@gmail.com>
+ <20200825165341.520-2-luoyonggang@gmail.com>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
  mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
@@ -53,19 +54,18 @@ Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
  Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
  KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
  imgcU9TTGC5qd9g=
-Message-ID: <426ddc96-c26d-e762-0598-7ae61c711d8e@ilande.co.uk>
-Date: Tue, 25 Aug 2020 22:26:18 +0100
+Message-ID: <acdc6a3d-5188-e906-bc86-b0090ffe5a42@ilande.co.uk>
+Date: Tue, 25 Aug 2020 22:31:16 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200825165341.520-1-luoyonggang@gmail.com>
+In-Reply-To: <20200825165341.520-2-luoyonggang@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 217.42.19.185
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 1/4] meson: Fixes the ninjatool issue that E$$: are
- generated in Makefile.ninja
+Subject: Re: [PATCH 2/4] meson: fixes relpath may fail on win32.
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -99,41 +99,41 @@ On 25/08/2020 17:53, luoyonggang@gmail.com wrote:
 
 > From: Yonggang Luo <luoyonggang@gmail.com>
 > 
-> SIMPLE_PATH_RE should match the full path token.
-> Or the $ and : contained in path would not matched if the path are start with C:/ and E:/
+> On win32, os.path.relpath would raise exception when do the following relpath:
+> C:/msys64/mingw64/x.exe relative to E:/path/qemu-build would fail.
+> So we try catch it for stopping it from raise exception on msys2
 > ---
->  scripts/ninjatool.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  scripts/mtest2make.py | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
 > 
-> diff --git a/scripts/ninjatool.py b/scripts/ninjatool.py
-> index cc77d51aa8..6ca8be6f10 100755
-> --- a/scripts/ninjatool.py
-> +++ b/scripts/ninjatool.py
-> @@ -55,7 +55,7 @@ else:
->  
->  PATH_RE = r"[^$\s:|]+|\$[$ :]|\$[a-zA-Z0-9_-]+|\$\{[a-zA-Z0-9_.-]+\}"
->  
-> -SIMPLE_PATH_RE = re.compile(r"[^$\s:|]+")
-> +SIMPLE_PATH_RE = re.compile(r"^[^$\s:|]+$")
->  IDENT_RE = re.compile(r"[a-zA-Z0-9_.-]+$")
->  STRING_RE = re.compile(r"(" + PATH_RE + r"|[\s:|])(?:\r?\n)?|.")
->  TOPLEVEL_RE = re.compile(r"([=:#]|\|\|?|^ +|(?:" + PATH_RE + r")+)\s*|.")
+> diff --git a/scripts/mtest2make.py b/scripts/mtest2make.py
+> index bdb257bbd9..d7a51bf97e 100644
+> --- a/scripts/mtest2make.py
+> +++ b/scripts/mtest2make.py
+> @@ -53,9 +53,16 @@ i = 0
+>  for test in json.load(sys.stdin):
+>      env = ' '.join(('%s=%s' % (shlex.quote(k), shlex.quote(v))
+>                      for k, v in test['env'].items()))
+> -    executable = os.path.relpath(test['cmd'][0])
+> +    executable = test['cmd'][0]
+> +    try:
+> +        executable = os.path.relpath(executable)
+> +    except:
+> +        pass
+>      if test['workdir'] is not None:
+> -        test['cmd'][0] = os.path.relpath(test['cmd'][0], test['workdir'])
+> +        try:
+> +            test['cmd'][0] = os.path.relpath(executable, test['workdir'])
+> +        except:
+> +            test['cmd'][0] = executable
+>      else:
+>          test['cmd'][0] = executable
+>      cmd = '$(.test.env) %s %s' % (env, ' '.join((shlex.quote(x) for x in test['cmd'])))
 
-I've tested this and it changes build.ninja so instead of Windows paths beginning C$$
-they now begin C$ instead e.g.:
-
-build qemu-version.h: CUSTOM_COMMAND  |
-C$:/msys64/home/Mark/qemu/scripts/qemu-version.sh PHONY
-
-I was expecting this not to work, however it seems in the next stage of
-transformation from build.ninja to Makefile.ninja the extra $ is removed correctly:
-
-qemu-version.h: qemu-version.h.stamp; @:
-qemu-version.h.stamp: C:/msys64/home/Mark/qemu/scripts/qemu-version.sh PHONY | ;
-${ninja-command-restat}
-
-It feels like the extra $ shouldn't be present in build.ninja, but the patch does
-generate a Makefile.ninja that works.
+I don't think this is relevant in my particular environment, however it didn't seem
+to break the build. I'm curious as to why os.path.relpath throws an exception in this
+particular case on Windows though - can you give us a bit more information about the
+Exception that is being thrown?
 
 
 ATB,
