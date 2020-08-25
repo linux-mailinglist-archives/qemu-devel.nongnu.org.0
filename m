@@ -2,113 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02EAF251B1B
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 16:46:26 +0200 (CEST)
-Received: from localhost ([::1]:57718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 917A3251B53
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 16:52:21 +0200 (CEST)
+Received: from localhost ([::1]:42250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAaDR-0004PC-3s
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 10:46:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45840)
+	id 1kAaJA-0001nn-JK
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 10:52:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jjherne@linux.ibm.com>)
- id 1kAaCZ-0003qr-Jl; Tue, 25 Aug 2020 10:45:31 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:33032
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
+ id 1kAaGa-0005gg-Em
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 10:49:40 -0400
+Received: from mail-mw2nam10on2112.outbound.protection.outlook.com
+ ([40.107.94.112]:55521 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jjherne@linux.ibm.com>)
- id 1kAaCX-0007mY-2l; Tue, 25 Aug 2020 10:45:31 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 07PEVmMv037185; Tue, 25 Aug 2020 10:45:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=reply-to : subject : to
- : cc : references : from : message-id : date : mime-version : in-reply-to
- : content-type : content-transfer-encoding; s=pp1;
- bh=NZFx2nyBHJBaurVAiPKC9DFUP/zPSDe62Gk5caZIyfI=;
- b=UmrxwhJThM9GGQdv9+Kx3mr8ZmRhk7wYTvLiBJW8XtkjrUgRpV0xa4jm+YMDtFpou/5k
- /ywTwUKq98F+dNCse981qszczqfZJva7GOntyX2C1lAf1okXEzpQYHZnD+h27jaSL23R
- 2hPeA9B3acupEar7G6XWcSMSESKNj4R839gzr1S5w9jQt1VBP4qMLDlLGnjvkl6D+xB7
- Kd0MC5wbpzOgCgdJ5Itne4fh9UShfu+8K5hTkfmkrUUpYsmckumML6x0OZU+jGzLr6uN
- g67R4t8ci80nELbSwAIIsT3VCv0D0BOuSgOHSdiMe/euYgKTHlDxtmGTaD4HmEa/ciLU Bw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3353trt5qv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Aug 2020 10:45:25 -0400
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 07PEW1nl038364;
- Tue, 25 Aug 2020 10:45:25 -0400
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3353trt5qh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Aug 2020 10:45:25 -0400
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 07PEj1DK028290;
- Tue, 25 Aug 2020 14:45:24 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma05wdc.us.ibm.com with ESMTP id 332uw7a3mr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Aug 2020 14:45:24 +0000
-Received: from b03ledav006.gho.boulder.ibm.com
- (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 07PEjIvW65864094
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 25 Aug 2020 14:45:18 GMT
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5E5E0C66DB;
- Tue, 25 Aug 2020 14:45:23 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C8F90C66D8;
- Tue, 25 Aug 2020 14:45:22 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.85.204.105])
- by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 25 Aug 2020 14:45:22 +0000 (GMT)
-Subject: Re: [PATCH] pc-bios: s390x: Only set lowcore iplb address on
- list-directed IPL
-To: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>
-References: <20200817141734.5109-1-jjherne@linux.ibm.com>
- <20200817183048.30cb6f9e.cohuck@redhat.com>
- <f232a187-c989-cf77-52e5-2e31678e5bed@linux.ibm.com>
- <173257e9-a6cb-48a5-62ed-794c060e3900@linux.ibm.com>
- <20200819114538.7485d580.cohuck@redhat.com>
- <81d2ca24-538a-56ba-04de-079d28a16cb3@linux.ibm.com>
- <133e6840-d10a-0d8d-b555-dcbe40c554f8@redhat.com>
-From: "Jason J. Herne" <jjherne@linux.ibm.com>
-Organization: IBM
-Message-ID: <bbaba98a-6f5c-cafd-2744-20526ad7568b@linux.ibm.com>
-Date: Tue, 25 Aug 2020 10:45:22 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
+ id 1kAaGY-0008RH-JB
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 10:49:40 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=j6Rl4J5UUqQsUVQInraTUlVanFo72/mmp+Yx5DSOcPuZPQioUGmHuXehHHGwLNLuNhfipOshgcGX6Fto87bQlETwRglqu5SMbx5HiCuJlc0zvMjr2TilIoHHpPj8KIV59gNj8Bdjkj9Kfx8uEdcO4/1oGyYryJ9aa9Va5FwzzVt74GbTEmompmJ9nibo0Qq7c8wUNOmv8J1bzQUUt0yFo/kLSZzteDGtNwoqahba3yBGuJvp0BFQ5ZrnH3dfwl2g6b3YNisE2RrL3w03GHDAceLT1W7PVekt+aTDKVnKrBsD7qOWVRTQVUIdRc+ZftztFf6flBCpAeoiobsYAN13Aw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8An37WyOUMpteaKTZQmOKwiRU3d5MsT/RLHaGZFWzSg=;
+ b=Mzi1JEU7DmcDiaOl5XlgNOKs9J2FB2McLRWO9nnwUBIhE9cR40r8iaGKvs0QDxbwMXOLoFaulJZrbMSYdXEu2clNgiPu6FhOgfZ/Es6EameqgJeFb87jZdhk/1llf9OjC+fp4eRDfnRcjO1sJmHHePzCqdbo9VKIza30auCL/xnpg8k16RgVZEbaxJG/WGTw8WMkzXlbueFH5puA/o3zeH12+UpXycdcrOYxyj16MPkcBBT6bMGsH5DuIO4/123UjXBtWQK8XpQeIGy1lie7zz1qfjEXjQ79Ho/w29ErbidlCpHBMG3IY4qPVcEGnzk1IH9rgKTK6u3BlZQx6zVzeQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8An37WyOUMpteaKTZQmOKwiRU3d5MsT/RLHaGZFWzSg=;
+ b=c8hhhE6EsY4NC/X+5nijUao+i1/AoXGibDivXxTq4NzYktvsu4xdf9XdInax7ZEGGtXNy7E2RHkV9cbrl54S1RNFAPM7KzA5osA1H9XzaOJUIIzD1X5kkCpt78NUetws6f34FYSAL6sAAUNJFkwSNcgzPlyS2Rn37QGEgyUyr40=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none
+ header.from=os.amperecomputing.com;
+Received: from SN6PR01MB4304.prod.exchangelabs.com (2603:10b6:805:a6::23) by
+ SN6PR01MB4990.prod.exchangelabs.com (2603:10b6:805:c8::13) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3305.24; Tue, 25 Aug 2020 14:49:35 +0000
+Received: from SN6PR01MB4304.prod.exchangelabs.com
+ ([fe80::447c:afdb:2702:e275]) by SN6PR01MB4304.prod.exchangelabs.com
+ ([fe80::447c:afdb:2702:e275%5]) with mapi id 15.20.3305.032; Tue, 25 Aug 2020
+ 14:49:34 +0000
+From: Aaron Lindsay <aaron@os.amperecomputing.com>
+To: qemu-devel@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Cc: Aaron Lindsay <aaron@os.amperecomputing.com>
+Subject: [PATCH] target/arm: Count PMU events when MDCR.SPME is set
+Date: Tue, 25 Aug 2020 10:48:10 -0400
+Message-Id: <20200825144810.1755379-1-aaron@os.amperecomputing.com>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <CAFEAcA9jUpJF4FQirb3avWJAMjh+AdkimW3DgMyMjbDjBCQSvQ@mail.gmail.com>
+References: <CAFEAcA9jUpJF4FQirb3avWJAMjh+AdkimW3DgMyMjbDjBCQSvQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MN2PR17CA0028.namprd17.prod.outlook.com
+ (2603:10b6:208:15e::41) To SN6PR01MB4304.prod.exchangelabs.com
+ (2603:10b6:805:a6::23)
 MIME-Version: 1.0
-In-Reply-To: <133e6840-d10a-0d8d-b555-dcbe40c554f8@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-08-25_04:2020-08-25,
- 2020-08-25 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- lowpriorityscore=0 phishscore=0 mlxlogscore=999 bulkscore=0 clxscore=1015
- priorityscore=1501 suspectscore=0 spamscore=0 mlxscore=0 adultscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2008250107
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=jjherne@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 07:40:49
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -52
-X-Spam_score: -5.3
-X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.602,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from 255.255.255.255 (255.255.255.255) by
+ MN2PR17CA0028.namprd17.prod.outlook.com (2603:10b6:208:15e::41) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.19 via Frontend
+ Transport; Tue, 25 Aug 2020 14:49:34 +0000
+X-Mailer: git-send-email 2.27.0
+X-Originating-IP: [68.73.113.219]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b72b8d38-48c2-45d5-125a-08d84906152a
+X-MS-TrafficTypeDiagnostic: SN6PR01MB4990:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN6PR01MB4990E8615A844BE3B719BA858A570@SN6PR01MB4990.prod.exchangelabs.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:172;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: IXSeWXNg06NNIX8xudNKx7WQbaErK3NopsqJHqZuJQ7CJX/MHcpZExFK20W5UBSIWOnhqcb3iomRVcmcDmMzMW3dmujLiBysVI8m4MykdETYnY4XdZAaMOmHb8iB49AZAE1GYcT0SCmRAkHuYUbock5tLVeyqHTSB5zYaG1JqTy84vxV8aZqJojbugRiDJ+Lr9HRqaNw700AGqsm1337kVjWcEia3+CbpvZ2VlW24DyuqPctP9hLOyR4tVtu3vyNVfxcEoKxVJ5VT1b6xsp2BfW60qM1EGGU3An/RFf1yagfimeD3PJ3q6fne3I6OFGU
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR01MB4304.prod.exchangelabs.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(396003)(346002)(39840400004)(136003)(366004)(1076003)(83380400001)(66556008)(66946007)(186003)(6666004)(26005)(4326008)(66476007)(4744005)(52116002)(5660300002)(6486002)(6916009)(16576012)(8936002)(107886003)(86362001)(316002)(956004)(2906002)(8676002)(478600001)(2616005);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: 4ITKFQqr0X+LMdvVHONkVLEZI4ebHKkEgF2vuFR5gdBs/pHvBL1xQeVG2b+dLuUYhJor4gxH3BmNWVikrHfIejn7YIlLITR6jV/Us/oRUMdFiSniafNPz4nTucBjIb5sF5ODlsD2++xfFWcYLV1ZAGzh7UFp7t0oMdrfK+3ZzenMUMW6EghtNC3QhZXUoee009gFkKbG/2t9vPGAKQH2eL5P3xaBByPo7diXd6nsxhFX+xv03DCV6c2V9E1e0emknMXcJRS+Oy0e2U7YJrHNL0gZfeN2Ay0f4YjT3bp8rxiuSHKEOnj4C9JUrDB1cZ5rE4o186SKTJWsb9TmQJuKwbKgv8W/Mqj6AR6m/ncwUAvBc5bsrOQ05ccNxrLbg6dinhJ+yEQ+lzykrQ+uFBZhyxyBZeQdkcTPqVbw54EOMs/lzF2UdELQFe/vLfqNN3bmnl+1TVc4WDRugIxe1JMYjX3E6OjwDakH9O8wfJMq24zfn7Uwhoz/c4L9Rh6uUuz7C8AABAGFQbHssRSOs3qSfMY6p6oXNKSOz8HTpgs9mwGhQ99Fub773mUmXVcsqBEHl6/IwBqDXSZ3vl5gdFm7yG46vbm+E9QmIfYdGmgvTEapqR55UvqeX1NrCCIk3j10NC0a6gbttvLQXmGqr8AKDA==
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b72b8d38-48c2-45d5-125a-08d84906152a
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR01MB4304.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2020 14:49:34.9753 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JTpekrf+ke6+2kWo5PjdAgB9XwH1ijtd52bGZnG+tNkgDG22km5KIAUK2jypNxSyfjHeYXzAazUHyOaZu2VDgovZVqY1yL8RnUO9Jq1hLtE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR01MB4990
+Received-SPF: pass client-ip=40.107.94.112;
+ envelope-from=aaron@os.amperecomputing.com;
+ helo=NAM10-MW2-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 10:49:36
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, MSGID_FROM_MTA_HEADER=0.001,
+ RCVD_ILLEGAL_IP=1.3, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -121,102 +119,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: jjherne@linux.ibm.com
-Cc: qemu-s390x@nongnu.org, Viktor Mihajlovski <mihajlov@linux.ibm.com>,
- qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/25/20 7:38 AM, Thomas Huth wrote:
-> On 19/08/2020 12.46, Janosch Frank wrote:
->> On 8/19/20 11:45 AM, Cornelia Huck wrote:
->>> On Wed, 19 Aug 2020 11:32:34 +0200
->>> Janosch Frank <frankja@linux.ibm.com> wrote:
->>>
->>>> On 8/17/20 7:51 PM, Jason J. Herne wrote:
->>>>> On 8/17/20 12:30 PM, Cornelia Huck wrote:
->>>>>> On Mon, 17 Aug 2020 10:17:34 -0400
->>>>>> "Jason J. Herne" <jjherne@linux.ibm.com> wrote:
->>>>>>   
->>>>>>> The POP states that the IPLB location is only written to 0x14 for
->>>>>>> list-directed IPL. Some operating systems expect 0x14 to not change on
->>>>>>> boot and will fail IPL if it does change.
->>>>>>>
->>>>>>> Fixes: 9bfc04f9ef6802fff0
->>>>>>
->>>>>> Should be
->>>>>>
->>>>>> Fixes: 9bfc04f9ef68 ("pc-bios: s390x: Save iplb location in lowcore")
->>>>>>   
->>>>>>> Signed-off-by: Jason J. Herne <jjherne@linux.ibm.com>
->>>>>>> Reviewed-by: Janosch Frank <frankja@de.ibm.com>
->>>>>>> ---
->>>>>>>    pc-bios/s390-ccw/jump2ipl.c | 5 ++++-
->>>>>>>    1 file changed, 4 insertions(+), 1 deletion(-)
->>>>>>>
->>>>>>> diff --git a/pc-bios/s390-ccw/jump2ipl.c b/pc-bios/s390-ccw/jump2ipl.c
->>>>>>> index 767012bf0c..5e3e13f4b0 100644
->>>>>>> --- a/pc-bios/s390-ccw/jump2ipl.c
->>>>>>> +++ b/pc-bios/s390-ccw/jump2ipl.c
->>>>>>> @@ -33,7 +33,10 @@ void jump_to_IPL_code(uint64_t address)
->>>>>>>    {
->>>>>>>        /* store the subsystem information _after_ the bootmap was loaded */
->>>>>>>        write_subsystem_identification();
->>>>>>> -    write_iplb_location();
->>>>>>> +
->>>>>>> +    if (iplb.pbt != S390_IPL_TYPE_CCW) {
->>>>>>> +            write_iplb_location();
->>>>>>> +    }
->>>>>>
->>>>>> What happens for ipl types other than CCW and FCP? IOW, should that
->>>>>> rather be a positive check for S390_IPL_TYPE_FCP?
->>>>>>   
->>>>>>>    
->>>>>>>        /* prevent unknown IPL types in the guest */
->>>>>>>        if (iplb.pbt == S390_IPL_TYPE_QEMU_SCSI) {
->>>>>>   
->>>>>
->>>>> Based on my (admittedly limited) understanding of the architecture and
->>>>> code, I believe write_iplb_location() should be called at least for
->>>>> S390_IPL_TYPE_FCP but I'm not 100% sure on S390_IPL_TYPE_QEMU_SCSI.
->>>>> Perhaps Janosch has an idea?
->>>>>
->>>>> It was originally unconditional, and my new conditional excludes vfio
->>>>> CCW which is definitely a step in the right direction, in any case :).
->>>>
->>>> If I remember correctly the problem was that ZIPL used the IPLB lowcore
->>>> ptr without checking how it was booted (CCW or FCP). That was fixed in
->>>> mid of July by testing if diag308 gives back a config or not.
->>>
->>> So we have the problem that old zipl relies on the presence of a value
->>> that must not be there if you follow the architecture? Nasty.
->>>
->>> (Is it really "must not change" vs "don't expect anything here"? Not
->>> sure if I'm looking at the right part of the documentation.)
->>
->> Well if the loaded program overwrites absolute 0x0, we shouldn't modify
->> it if we are not explicitly allowed to, no?
->>
->> We already talked about saving the exception new addresses and restoring
->> them before jumping to the new kernel. I think we might need to go a
->> step further and use a non zero prefix for the bios to avoid any changes
->> to absolute 0x0.
->>
->> However that wouldn't fix this dilemma.
-> 
-> Sorry, I'm just back from summer vacation ... so what's the conclusion
-> for Jason's patch here? Should it be included as-is now or do we rather
-> neeed another rework here instead?
-> 
->   Thomas
-> 
+This check was backwards when introduced in commit
+033614c47de78409ad3fb39bb7bd1483b71c6789:
 
-After some discussion we've decided to keep this internal for now. As it turns out, 
-Janosch plans on making some changes here that will remove the need for this fix. So we'll 
-just use it internally for our own testing purposes until that time.
+    target/arm: Filter cycle counter based on PMCCFILTR_EL0
 
-Sorry for the noise :)
+Signed-off-by: Aaron Lindsay <aaron@os.amperecomputing.com>
+---
+ target/arm/helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 6b4f0eb533..8e7730c7e3 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -1452,7 +1452,7 @@ static bool pmu_counter_enabled(CPUARMState *env, uint8_t counter)
+         }
+     } else {
+         prohibited = arm_feature(env, ARM_FEATURE_EL3) &&
+-           (env->cp15.mdcr_el3 & MDCR_SPME);
++           !(env->cp15.mdcr_el3 & MDCR_SPME);
+     }
+ 
+     if (prohibited && counter == 31) {
 -- 
--- Jason J. Herne (jjherne@linux.ibm.com)
+2.17.1
+
 
