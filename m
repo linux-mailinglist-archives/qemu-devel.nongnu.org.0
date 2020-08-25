@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86EC92511FE
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 08:22:10 +0200 (CEST)
-Received: from localhost ([::1]:41434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AA0925120F
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 08:28:47 +0200 (CEST)
+Received: from localhost ([::1]:48918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kASLR-0003go-HL
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 02:22:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36202)
+	id 1kASRq-000771-7j
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 02:28:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kASJh-0002MO-RW
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 02:20:21 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54906
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kASQi-0006Hc-5R
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 02:27:36 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52781
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kASJe-0002Zx-NO
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 02:20:21 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kASQg-0003Hc-7w
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 02:27:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598336417;
+ s=mimecast20190719; t=1598336853;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4F/YMybIDUdjbc//qb2Izw6T49U8OMYW+R/Ovl2R8ak=;
- b=aSNVsmslkx1mRKVh4H4JLkjbAi8gC/+hTO2wf+C7R3jnBn6axeugnqNmzAOXELTOImdb9L
- oIIJ8ji6jZIzf1m08QGcNJ5aD+J/VpDQQM4wtphj+xHoYABurJ6W3YQ3OMI0vShVOtRRkS
- NW7Q56n153k5e+CYNiq2w0Ui9a5wLSQ=
+ bh=pUJTE73BR2+NpO28itr5zrwu4gGWIFEDom+TtL0Cm5o=;
+ b=NqWhbMZbJphkdIHFVsIQ3dON1R2W7oCOh/5FYKZktpNhYvpV2IrwqCdhlmw7wwVDBbSBrP
+ j3XkO8LM7VcNHgQado/0rPKOW186b7zmAGu6J14Lse9SF1xkPQvo9Q5xGXDoDnyeX5ugrJ
+ DaS3lx2xBr2XcEoWqdjjcp5hfvjK6Xg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-302-7V47y0aBOcGC64o3yJH51A-1; Tue, 25 Aug 2020 02:20:13 -0400
-X-MC-Unique: 7V47y0aBOcGC64o3yJH51A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-437-vdVwh3oPNVGi1QShudidDg-1; Tue, 25 Aug 2020 02:27:31 -0400
+X-MC-Unique: vdVwh3oPNVGi1QShudidDg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5803318B9EC9;
- Tue, 25 Aug 2020 06:20:12 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-54.ams2.redhat.com
- [10.36.112.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 48CF5709BC;
- Tue, 25 Aug 2020 06:20:09 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 6CBDE9A92; Tue, 25 Aug 2020 08:20:08 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 3/3] meson: avoid compiling qemu-keymap by default
-Date: Tue, 25 Aug 2020 08:20:08 +0200
-Message-Id: <20200825062008.6502-4-kraxel@redhat.com>
-In-Reply-To: <20200825062008.6502-1-kraxel@redhat.com>
-References: <20200825062008.6502-1-kraxel@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E5548030C8;
+ Tue, 25 Aug 2020 06:27:30 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-74.ams2.redhat.com
+ [10.36.112.74])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C991A5D9D5;
+ Tue, 25 Aug 2020 06:27:29 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 11A71112D737; Tue, 25 Aug 2020 08:27:28 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH 1/1] spapr_vscsi: do not allow device hotplug
+References: <20200820190635.379657-1-danielhb413@gmail.com>
+ <7f6ab4e6-42b1-3de4-5893-2ef09fc9dd26@redhat.com>
+Date: Tue, 25 Aug 2020 08:27:28 +0200
+In-Reply-To: <7f6ab4e6-42b1-3de4-5893-2ef09fc9dd26@redhat.com> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Fri, 21 Aug 2020 13:08:24
+ +0200")
+Message-ID: <87k0xnjl4f.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0.0
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 02:05:08
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 01:37:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -82,44 +86,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent@vivier.eu, Gerd Hoffmann <kraxel@redhat.com>
+Cc: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Laurent Vivier <laurent@vivier.eu>
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-qemu-keymap is not needed with linux-user, so disable it by default if
-tools and system are disabled (tools are disabled by default with linux-user).
+> Cc'ing Markus
+>
+> On 8/20/20 9:06 PM, Daniel Henrique Barboza wrote:
+>> We do not implement hotplug in the vscsi bus, but we forgot to
+>> tell qdev about it. The result is that users are able to hotplug
+>> devices in the vscsi bus, the devices appear in qdev, but they
+>> aren't usable by the guest OS unless the user reboots it first.
+>>=20
+>> Setting qbus hotplug_handler to NULL will tell qdev-monitor, via
+>> qbus_is_hotpluggable(), that we do not support hotplug operations
+>> in spapr_vscsi.
+>>=20
+>> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=3D1862059
+>>=20
+>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>> ---
+>>  hw/scsi/spapr_vscsi.c | 3 +++
+>>  1 file changed, 3 insertions(+)
+>>=20
+>> diff --git a/hw/scsi/spapr_vscsi.c b/hw/scsi/spapr_vscsi.c
+>> index d17dc03c73..57f0a1336f 100644
+>> --- a/hw/scsi/spapr_vscsi.c
+>> +++ b/hw/scsi/spapr_vscsi.c
+>> @@ -1219,6 +1219,9 @@ static void spapr_vscsi_realize(SpaprVioDevice *de=
+v, Error **errp)
+>> =20
+>>      scsi_bus_new(&s->bus, sizeof(s->bus), DEVICE(dev),
+>>                   &vscsi_scsi_info, NULL);
+>> +
+>> +    /* ibmvscsi SCSI bus does not allow hotplug. */
+>> +    qbus_set_hotplug_handler(BUS(&s->bus), NULL);
+>
+> Can't this be a problem later in DeviceClass::unrealize()?
 
-Avoid this error with statically linked binaries:
+Can't say offhand.  Cc'ing QOM maintainers for actual expertise.
 
-    Linking target qemu-keymap
-    /usr/bin/ld: cannot find -lxkbcommon
+A quick grep coughs up virtio_serial_device_realize() /
+virtio_serial_device_unrealize(), which set and unset the hotplug
+handler of a bus their device provides.  Not the same as the code above,
+just a clue that messing with a bus's hotplug handler in a realize
+method can work.
 
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-Message-id: 20200824152430.1844159-3-laurent@vivier.eu
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- meson.build | 5 +++++
- 1 file changed, 5 insertions(+)
+qbus_set_hotplug_handler() is entirely undocumented.  It sets a link.
+Might be intended for use by the device that provides the bus.
 
-diff --git a/meson.build b/meson.build
-index f6e346af1a69..f0fe5f8799e0 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1063,6 +1063,11 @@ if 'CONFIG_GUEST_AGENT' in config_host
-   subdir('qga')
- endif
- 
-+# Don't build qemu-keymap if xkbcommon is not explicitly enabled
-+# when we don't build tools or system
-+if get_option('xkbcommon').auto() and not have_system and not have_tools
-+  xkbcommon = not_found
-+endif
- if xkbcommon.found()
-   # used for the update-keymaps target, so include rules even if !have_tools
-   qemu_keymap = executable('qemu-keymap', files('qemu-keymap.c', 'ui/input-keymap.c') + genh,
--- 
-2.27.0
+> I was expecting something like, overwriting the parent bus type:
+>
+> -- >8 --
+> @@ -1271,6 +1271,7 @@ static void spapr_vscsi_class_init(ObjectClass
+> *klass, void *data)
+>      DeviceClass *dc =3D DEVICE_CLASS(klass);
+>      SpaprVioDeviceClass *k =3D VIO_SPAPR_DEVICE_CLASS(klass);
+>
+> +    k->bus_type =3D NULL; /* ibmvscsi SCSI bus does not allow hotplug. *=
+/
+>      k->realize =3D spapr_vscsi_realize;
+>      k->reset =3D spapr_vscsi_reset;
+>      k->devnode =3D spapr_vscsi_devnode;
+
+k->bus_type does not exist.  Do you mean dc->bus_type?
+
+TYPE_VIO_SPAPR_VSCSI_DEVICE is a subtype of TYPE_VIO_SPAPR_DEVICE is a
+subtype of TYPE_DEVICE.
+
+TYPE_DEVICE is bus-less, i.e. (concrete) instances do not plug into a
+bus.
+
+TYPE_VIO_SPAPR_DEVICE has bus_type TYPE_SPAPR_VIO_BUS, i.e. (concrete)
+instances plug into a TYPE_SPAPR_VIO_BUS.  Both hot and cold plug.
+
+Zapping TYPE_VIO_SPAPR_VSCSI_DEVICE's bus_type makes it bus-less.  I
+doubt that's okay.  Also, it's not just about hot plug.  What are you
+trying to accomplish?
 
 
