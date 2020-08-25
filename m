@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A795A25148D
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 10:46:55 +0200 (CEST)
-Received: from localhost ([::1]:44244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C61A25148B
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 10:46:08 +0200 (CEST)
+Received: from localhost ([::1]:40140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAUbW-0004q5-Lv
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 04:46:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32902)
+	id 1kAUal-00037b-47
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 04:46:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kAUQR-0007NV-IQ
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 04:35:27 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:44876)
+ id 1kAUQl-00086t-18
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 04:35:47 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:41967)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kAUQP-0000vz-Np
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 04:35:27 -0400
-Received: by mail-pg1-x529.google.com with SMTP id m34so6312140pgl.11
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 01:35:25 -0700 (PDT)
+ id 1kAUQh-00010K-F1
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 04:35:46 -0400
+Received: by mail-pf1-x431.google.com with SMTP id t9so2590298pfq.8
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 01:35:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xSa+lKrzpAxZpfbmVv/lwbN7oH6G4GxEh8xRVQQ8Z/A=;
- b=LAxygP3KPu5ccm2WqUqL7j9A9bug2PsQCac6/0FabO6ypidONU9c52EFjHB8Zqr0p2
- kfR5SGd73frAIjgzFwx57nC7m480UlAo2i3Nwdac7H0ro++AVjMa/KYqiOa+fGMXOagG
- wzP905EsSyIp4JQFRMU3ctsN9vh5cNW89OCTkHJc/aJs/E61W5Dm+vPgApQAXZSSiXDX
- vsNflBol9z8oIiuFzPsp5jh8/r4es4ur2F4L8N/5TT/7fi2Bxev57bDZC1FIJM4x82Z5
- RkbBPanvWMZDJUHSGc4UQwZ600h4Ay5L3ZbMl9maNZtaMFrujSaSeVszty/+HM5qwrtt
- jaSQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=s3dYOgA7GkXXyUyxgB9kFfNBkj2FaL3vO8uRc/sluZg=;
+ b=faZbjc9KpzRCNppP5iiWIh9cjaI4/rLkD82RKbX4NJFQLIj2PKF/D7fbQruN8JtD+q
+ zfnIBcz21sQ7YQ4SmQC8J8hjOq1o5QR4x6PkdGJgM3oDVw9pwk2S8kRSd8+NdN6jnhQz
+ EB5IAfJVXS31QrCNV9Jr1NuAsMmhEjV30KRxJzZ9FxZU+dSFip1MRkSQrcg3mEXeSKRV
+ HsaOFFQKKeCeRpBHBUGm8fFHqtsqhFsIvegXrHA14gZfCBl20WmLxHIZWAV5B+4pFZ+9
+ eTa6m6dIc8oIRrntn9aDNy04+/qoS4J13qXKmO9FJfWGqqh6syeWWIMa8BOVCxO2u7PD
+ symw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xSa+lKrzpAxZpfbmVv/lwbN7oH6G4GxEh8xRVQQ8Z/A=;
- b=hZ8K92qgqQ8ADGLtsHiXnEv6oDpp7nSjFQg26yLg/MXl7Ak+QEc1XPQ7mzYO5ZLFIb
- 0/bgKO6ISfhhL5Dnw/6l72Wm1AV+NedatZLYM0uzyfOTXEp21vRJ37im68x/Ph+PX3Ge
- X86loNJSZ8HtIoE3V8AvWQxQlAcvnE11lTyKZ0hafzXQT7etA/lotFsJFWJzBMGeW6OY
- oaLLX6kCUBYjDlxHcWpyhwIo5S01UJlJxDzlQBFyW7zqbWrUXGYMHMGSk3sb2Pwp3R2S
- j2+unyxmEmWpBUHX5Ox/myjhSf/42hRk85PcmI5Eabopn26+5u//B+bSCeDCjUUAtW7N
- 7NVQ==
-X-Gm-Message-State: AOAM531+tKz38NXjOfA6jfRFIf8OrLBTcl35xblCGa04dj9ve4FZFjRR
- PhUcbdGpONsTNzXRBH+X51/+3j+IECWVVfeK
-X-Google-Smtp-Source: ABdhPJxhSpeK580wP94VnW0fXEe22qFKcduMg/NDYvLOJ8xxLIyuMp9hnh8Gaww03RB2UqedK0000w==
-X-Received: by 2002:a65:60ce:: with SMTP id r14mr6174044pgv.85.1598344523557; 
- Tue, 25 Aug 2020 01:35:23 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=s3dYOgA7GkXXyUyxgB9kFfNBkj2FaL3vO8uRc/sluZg=;
+ b=HdQ89eaDbX6Bu+s+a83HUj7DUAG+cKUwEt80+I/ikQettvojnFOr2jqZHnw4HoY07z
+ Kltfkn4COAR6okk8vm5fCTXQTwabYxHTmvIVP7R2pkfgSbom97oYdlMEcgpi8NfoJllX
+ whX9nhz1NONncFApOuVCU6kdstO/HtTM4hKuyjp8CmMH4uvgZYoe1JogdbuayTziNYaE
+ DDxpq0x1voOALbdVeEnpEKJTLLQ4xXXxIDQiHWRF0CCmHaSgVJSxHV8dfTInKWBEPnZv
+ 0AbkW3rLbiZLfRFeWme3/w9EKB5o62f4ohR33E1EBdEfFerm8pUR7X9q5a2Q5xG2qfwO
+ 73dw==
+X-Gm-Message-State: AOAM530AWIq+c9FpVAiyp4hSg52OJX7GRdgTCaoGd0evvxH8WNrV17Gs
+ 8cWK4OJ80xpu+KHB54/9ar46jSRlZRXaJ3nK
+X-Google-Smtp-Source: ABdhPJzlWxsMwAmPYmI8F5bJGHsvKN8v3XSABZtgkEVsSCbc/iKOpLQAXbJHzf2yZF5nq+azp85UjA==
+X-Received: by 2002:a65:5849:: with SMTP id s9mr6322324pgr.145.1598344541468; 
+ Tue, 25 Aug 2020 01:35:41 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id bn14sm1146683pjb.0.2020.08.25.01.35.21
+ by smtp.googlemail.com with ESMTPSA id bn14sm1146683pjb.0.2020.08.25.01.35.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Aug 2020 01:35:22 -0700 (PDT)
+ Tue, 25 Aug 2020 01:35:40 -0700 (PDT)
 From: luoyonggang@gmail.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/5] meson: SIMPLE_PATH_RE should match the full path token.
- Or the $ and : contained in path would not matched. if the path are start
- with C:/ and E:/
-Date: Tue, 25 Aug 2020 16:34:56 +0800
-Message-Id: <20200825083500.359-1-luoyonggang@gmail.com>
+Subject: [PATCH 2/5] meson: fixes relpath may fail on win32. for example
+ C:/msys64/mingw64/x.exe relative to E:/path/qemu-build would fail.
+Date: Tue, 25 Aug 2020 16:34:57 +0800
+Message-Id: <20200825083500.359-2-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.27.0.windows.1
+In-Reply-To: <20200825083500.359-1-luoyonggang@gmail.com>
+References: <20200825083500.359-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x529.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x431.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,22 +92,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Yonggang Luo <luoyonggang@gmail.com>
 
 ---
- scripts/ninjatool.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/mtest2make.py | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/ninjatool.py b/scripts/ninjatool.py
-index cc77d51aa8..6ca8be6f10 100755
---- a/scripts/ninjatool.py
-+++ b/scripts/ninjatool.py
-@@ -55,7 +55,7 @@ else:
- 
- PATH_RE = r"[^$\s:|]+|\$[$ :]|\$[a-zA-Z0-9_-]+|\$\{[a-zA-Z0-9_.-]+\}"
- 
--SIMPLE_PATH_RE = re.compile(r"[^$\s:|]+")
-+SIMPLE_PATH_RE = re.compile(r"^[^$\s:|]+$")
- IDENT_RE = re.compile(r"[a-zA-Z0-9_.-]+$")
- STRING_RE = re.compile(r"(" + PATH_RE + r"|[\s:|])(?:\r?\n)?|.")
- TOPLEVEL_RE = re.compile(r"([=:#]|\|\|?|^ +|(?:" + PATH_RE + r")+)\s*|.")
+diff --git a/scripts/mtest2make.py b/scripts/mtest2make.py
+index bdb257bbd9..d7a51bf97e 100644
+--- a/scripts/mtest2make.py
++++ b/scripts/mtest2make.py
+@@ -53,9 +53,16 @@ i = 0
+ for test in json.load(sys.stdin):
+     env = ' '.join(('%s=%s' % (shlex.quote(k), shlex.quote(v))
+                     for k, v in test['env'].items()))
+-    executable = os.path.relpath(test['cmd'][0])
++    executable = test['cmd'][0]
++    try:
++        executable = os.path.relpath(executable)
++    except:
++        pass
+     if test['workdir'] is not None:
+-        test['cmd'][0] = os.path.relpath(test['cmd'][0], test['workdir'])
++        try:
++            test['cmd'][0] = os.path.relpath(executable, test['workdir'])
++        except:
++            test['cmd'][0] = executable
+     else:
+         test['cmd'][0] = executable
+     cmd = '$(.test.env) %s %s' % (env, ' '.join((shlex.quote(x) for x in test['cmd'])))
 -- 
 2.27.0.windows.1
 
