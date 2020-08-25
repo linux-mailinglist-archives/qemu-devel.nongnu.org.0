@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AB55252162
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 21:58:43 +0200 (CEST)
-Received: from localhost ([::1]:38356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCDE42520C3
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 21:40:12 +0200 (CEST)
+Received: from localhost ([::1]:36802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAf5e-0004Wv-3U
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 15:58:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41204)
+	id 1kAenj-0002r8-T1
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 15:40:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kAeYc-0005CO-7N
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:24:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22249)
+ id 1kAeZ5-0006Uz-BX
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:25:03 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:32168
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kAeYX-0006Uc-Pc
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:24:33 -0400
+ id 1kAeZ2-0006Wi-AG
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:25:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598383469;
+ s=mimecast20190719; t=1598383499;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1vUeoQMpRkZ1cz6/zMtCDWq4pPz3rwt5G1Oe91kF9bo=;
- b=eqiTRhkuxskZwXGlllXRyHab2H1UbbUInfa7Tr9adkZzNEbJZBJOc+DUcRyJ72NXP5/cbf
- fX/XxqoHYqDx+qwOaJrZQ29PEleOhZca9gWCtytaf50JJvtQFkPERLRASnUU98EzT08zAj
- qZqbcKBMGcj0vCt9z5uom/flueDKw9Y=
+ bh=A0GQIvreJFv18GeOHvceQ5h3iH7RI9UkG3JIRgmwiK4=;
+ b=AAzh9Z9//7CEjCc1hUGYw8Lo62GGM7YhDE36D+opBN3+tc1/1z4r/WVvW+mzv79vtyi3RN
+ ZZuQhkw+3OqzN66Bikrs+NUbdmfRkyffk1wFrjSz+aXXByyW281uHh6nrTesZ+SIHOIxvK
+ FvKTPJ+TRb2X3B7g2b0CPTKpxUQt1LI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-500-Qu8P4QitP0Wvw0daqhuhXg-1; Tue, 25 Aug 2020 15:24:27 -0400
-X-MC-Unique: Qu8P4QitP0Wvw0daqhuhXg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-262-wKrw6dV7MyKzb2rJBO8ccg-1; Tue, 25 Aug 2020 15:24:57 -0400
+X-MC-Unique: wKrw6dV7MyKzb2rJBO8ccg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92DF51DDFC;
- Tue, 25 Aug 2020 19:24:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9E3F1DDE0;
+ Tue, 25 Aug 2020 19:24:55 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 31CD8709C4;
- Tue, 25 Aug 2020 19:24:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C1A5C756B1;
+ Tue, 25 Aug 2020 19:24:52 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 65/74] [automated] Move QOM typedefs and add missing
- includes (pass 2)
-Date: Tue, 25 Aug 2020 15:21:01 -0400
-Message-Id: <20200825192110.3528606-66-ehabkost@redhat.com>
+Subject: [PATCH v3 67/74] [automated] Use DECLARE_*CHECKER* macros (pass 2)
+Date: Tue, 25 Aug 2020 15:21:03 -0400
+Message-Id: <20200825192110.3528606-68-ehabkost@redhat.com>
 In-Reply-To: <20200825192110.3528606-1-ehabkost@redhat.com>
 References: <20200825192110.3528606-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 06:38:59
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 01:35:36
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.958,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,37 +81,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
  "Daniel P. Berrange" <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
  Yoshinori Sato <ysato@users.sourceforge.jp>,
- Juan Quintela <quintela@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
- qemu-ppc@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-ppc@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Laurent Vivier <laurent@vivier.eu>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, Peter Chubb <peter.chubb@nicta.com.au>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some typedefs and macros are defined after the type check macros.
-This makes it difficult to automatically replace their
-definitions with OBJECT_DECLARE_TYPE.
-
-Patch generated using:
-
  $ ./scripts/codeconverter/converter.py -i \
-   --pattern=QOMStructTypedefSplit $(git grep -l '' -- '*.[ch]')
-
-which will split "typdef struct { ... } TypedefName"
-declarations.
-
-Followed by:
-
- $ ./scripts/codeconverter/converter.py -i --pattern=MoveSymbols \
-    $(git grep -l '' -- '*.[ch]')
-
-which will:
-- move the typedefs and #defines above the type check macros
-- add missing #include "qom/object.h" lines if necessary
+   --pattern=TypeCheckMacro $(git grep -l '' -- '*.[ch]')
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
@@ -124,566 +113,392 @@ This is being submitted as a separate patch to make review
 easier, but it can be squashed into the previous patch once it
 gets reviewed.
 
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-
 ---
 Cc: Peter Maydell <peter.maydell@linaro.org>
 Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Cc: Peter Chubb <peter.chubb@nicta.com.au>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Cc: David Gibson <david@gibson.dropbear.id.au>
 Cc: "Cédric Le Goater" <clg@kaod.org>
+Cc: Cornelia Huck <cohuck@redhat.com>
+Cc: Halil Pasic <pasic@linux.ibm.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+Cc: Thomas Huth <thuth@redhat.com>
 Cc: Juan Quintela <quintela@redhat.com>
 Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
 Cc: qemu-arm@nongnu.org
 Cc: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org
+Cc: qemu-s390x@nongnu.org
 ---
- include/hw/block/swim.h    |  6 ++++--
- include/hw/display/macfb.h | 18 ++++++++++-------
- include/hw/ppc/xive.h      | 41 +++++++++++++++++++++++---------------
- include/hw/rdma/rdma.h     |  5 +++--
- migration/migration.h      |  6 ++++--
- target/rx/cpu-qom.h        |  6 ++++--
- hw/arm/integratorcp.c      | 16 +++++++++------
- hw/arm/versatilepb.c       |  6 ++++--
- hw/arm/vexpress.c          | 11 ++++++----
- hw/sd/pl181.c              |  6 ++++--
- 10 files changed, 76 insertions(+), 45 deletions(-)
+ include/hw/block/swim.h            |  3 ++-
+ include/hw/display/macfb.h         |  8 ++-----
+ include/hw/i386/x86-iommu.h        |  8 ++-----
+ include/hw/misc/imx_ccm.h          |  8 ++-----
+ include/hw/misc/mos6522.h          |  7 ++----
+ include/hw/ppc/xive.h              | 36 ++++++++++++------------------
+ include/hw/rdma/rdma.h             |  6 +----
+ include/hw/s390x/s390-virtio-ccw.h |  6 ++---
+ migration/migration.h              |  8 ++-----
+ target/arm/cpu-qom.h               |  6 ++---
+ target/rx/cpu-qom.h                |  8 ++-----
+ hw/arm/integratorcp.c              | 12 +++++-----
+ hw/arm/versatilepb.c               |  4 ++--
+ hw/sd/pl181.c                      |  3 ++-
+ 14 files changed, 43 insertions(+), 80 deletions(-)
 
 diff --git a/include/hw/block/swim.h b/include/hw/block/swim.h
-index 9d8b65c561..f013d634f7 100644
+index 29fccb41f1..8287da7c30 100644
 --- a/include/hw/block/swim.h
 +++ b/include/hw/block/swim.h
-@@ -13,6 +13,7 @@
- 
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
-+#include "qom/object.h"
- 
- #define SWIM_MAX_FD            2
- 
-@@ -67,10 +68,11 @@ struct SWIMCtrl {
- };
+@@ -71,7 +71,8 @@ struct SWIMCtrl {
  
  #define TYPE_SWIM "swim"
-+typedef struct Swim Swim;
- #define SWIM(obj) OBJECT_CHECK(Swim, (obj), TYPE_SWIM)
+ typedef struct Swim Swim;
+-#define SWIM(obj) OBJECT_CHECK(Swim, (obj), TYPE_SWIM)
++DECLARE_INSTANCE_CHECKER(Swim, SWIM,
++                         TYPE_SWIM)
  
--typedef struct Swim {
-+struct Swim {
+ struct Swim {
      SysBusDevice parent_obj;
-     SWIMCtrl     ctrl;
--} Swim;
-+};
- #endif
 diff --git a/include/hw/display/macfb.h b/include/hw/display/macfb.h
-index 347871b623..d330ee9823 100644
+index f317fe93d9..0960480b75 100644
 --- a/include/hw/display/macfb.h
 +++ b/include/hw/display/macfb.h
-@@ -16,6 +16,7 @@
- #include "qemu/osdep.h"
- #include "exec/memory.h"
- #include "ui/console.h"
-+#include "qom/object.h"
+@@ -45,10 +45,8 @@ struct MacfbSysBusState {
+ #define TYPE_NUBUS_MACFB "nubus-macfb"
+ typedef struct MacfbNubusDeviceClass MacfbNubusDeviceClass;
+ typedef struct MacfbNubusState MacfbNubusState;
+-#define NUBUS_MACFB_CLASS(class) \
+-    OBJECT_CLASS_CHECK(MacfbNubusDeviceClass, (class), TYPE_NUBUS_MACFB)
+-#define NUBUS_MACFB_GET_CLASS(obj) \
+-    OBJECT_GET_CLASS(MacfbNubusDeviceClass, (obj), TYPE_NUBUS_MACFB)
++DECLARE_OBJ_CHECKERS(MacfbNubusState, MacfbNubusDeviceClass,
++                     NUBUS_MACFB, TYPE_NUBUS_MACFB)
  
- typedef struct MacfbState {
-     MemoryRegion mem_vram;
-@@ -31,34 +32,37 @@ typedef struct MacfbState {
- } MacfbState;
- 
- #define TYPE_MACFB "sysbus-macfb"
-+typedef struct MacfbSysBusState MacfbSysBusState;
- #define MACFB(obj) \
-     OBJECT_CHECK(MacfbSysBusState, (obj), TYPE_MACFB)
- 
--typedef struct {
-+struct MacfbSysBusState {
-     SysBusDevice busdev;
- 
-     MacfbState macfb;
--} MacfbSysBusState;
-+};
- 
-+#define TYPE_NUBUS_MACFB "nubus-macfb"
-+typedef struct MacfbNubusDeviceClass MacfbNubusDeviceClass;
-+typedef struct MacfbNubusState MacfbNubusState;
- #define NUBUS_MACFB_CLASS(class) \
-     OBJECT_CLASS_CHECK(MacfbNubusDeviceClass, (class), TYPE_NUBUS_MACFB)
- #define NUBUS_MACFB_GET_CLASS(obj) \
-     OBJECT_GET_CLASS(MacfbNubusDeviceClass, (obj), TYPE_NUBUS_MACFB)
- 
--typedef struct MacfbNubusDeviceClass {
-+struct MacfbNubusDeviceClass {
+ struct MacfbNubusDeviceClass {
      DeviceClass parent_class;
- 
+@@ -56,8 +54,6 @@ struct MacfbNubusDeviceClass {
      DeviceRealize parent_realize;
--} MacfbNubusDeviceClass;
-+};
+ };
  
--#define TYPE_NUBUS_MACFB "nubus-macfb"
- #define NUBUS_MACFB(obj) \
-     OBJECT_CHECK(MacfbNubusState, (obj), TYPE_NUBUS_MACFB)
+-#define NUBUS_MACFB(obj) \
+-    OBJECT_CHECK(MacfbNubusState, (obj), TYPE_NUBUS_MACFB)
  
--typedef struct {
-+struct MacfbNubusState {
+ struct MacfbNubusState {
      NubusDevice busdev;
+diff --git a/include/hw/i386/x86-iommu.h b/include/hw/i386/x86-iommu.h
+index dae2eab800..bbfaf44e79 100644
+--- a/include/hw/i386/x86-iommu.h
++++ b/include/hw/i386/x86-iommu.h
+@@ -28,12 +28,8 @@
+ #define  TYPE_X86_IOMMU_DEVICE  ("x86-iommu")
+ typedef struct X86IOMMUClass X86IOMMUClass;
+ typedef struct X86IOMMUState X86IOMMUState;
+-#define  X86_IOMMU_DEVICE(obj) \
+-    OBJECT_CHECK(X86IOMMUState, (obj), TYPE_X86_IOMMU_DEVICE)
+-#define  X86_IOMMU_DEVICE_CLASS(klass) \
+-    OBJECT_CLASS_CHECK(X86IOMMUClass, (klass), TYPE_X86_IOMMU_DEVICE)
+-#define  X86_IOMMU_DEVICE_GET_CLASS(obj) \
+-    OBJECT_GET_CLASS(X86IOMMUClass, obj, TYPE_X86_IOMMU_DEVICE)
++DECLARE_OBJ_CHECKERS(X86IOMMUState, X86IOMMUClass,
++                     X86_IOMMU_DEVICE, TYPE_X86_IOMMU_DEVICE)
  
-     MacfbState macfb;
--} MacfbNubusState;
-+};
+ #define X86_IOMMU_SID_INVALID             (0xffff)
  
- #endif
+diff --git a/include/hw/misc/imx_ccm.h b/include/hw/misc/imx_ccm.h
+index 174248e5df..e9d82a2a50 100644
+--- a/include/hw/misc/imx_ccm.h
++++ b/include/hw/misc/imx_ccm.h
+@@ -30,12 +30,8 @@
+ #define TYPE_IMX_CCM "imx.ccm"
+ typedef struct IMXCCMClass IMXCCMClass;
+ typedef struct IMXCCMState IMXCCMState;
+-#define IMX_CCM(obj) \
+-     OBJECT_CHECK(IMXCCMState, (obj), TYPE_IMX_CCM)
+-#define IMX_CCM_CLASS(klass) \
+-     OBJECT_CLASS_CHECK(IMXCCMClass, (klass), TYPE_IMX_CCM)
+-#define IMX_CCM_GET_CLASS(obj) \
+-     OBJECT_GET_CLASS(IMXCCMClass, (obj), TYPE_IMX_CCM)
++DECLARE_OBJ_CHECKERS(IMXCCMState, IMXCCMClass,
++                     IMX_CCM, TYPE_IMX_CCM)
+ 
+ struct IMXCCMState {
+     /* <private> */
+diff --git a/include/hw/misc/mos6522.h b/include/hw/misc/mos6522.h
+index b099814879..f73271ba67 100644
+--- a/include/hw/misc/mos6522.h
++++ b/include/hw/misc/mos6522.h
+@@ -126,7 +126,8 @@ typedef struct MOS6522State MOS6522State;
+ 
+ #define TYPE_MOS6522 "mos6522"
+ typedef struct MOS6522DeviceClass MOS6522DeviceClass;
+-#define MOS6522(obj) OBJECT_CHECK(MOS6522State, (obj), TYPE_MOS6522)
++DECLARE_OBJ_CHECKERS(MOS6522State, MOS6522DeviceClass,
++                     MOS6522, TYPE_MOS6522)
+ 
+ struct MOS6522DeviceClass {
+     DeviceClass parent_class;
+@@ -143,10 +144,6 @@ struct MOS6522DeviceClass {
+     uint64_t (*get_timer2_load_time)(MOS6522State *dev, MOS6522Timer *ti);
+ };
+ 
+-#define MOS6522_CLASS(cls) \
+-    OBJECT_CLASS_CHECK(MOS6522DeviceClass, (cls), TYPE_MOS6522)
+-#define MOS6522_GET_CLASS(obj) \
+-    OBJECT_GET_CLASS(MOS6522DeviceClass, (obj), TYPE_MOS6522)
+ 
+ extern const VMStateDescription vmstate_mos6522;
+ 
 diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-index 2c42ae92d2..8ef9af1969 100644
+index 8ef9af1969..48595ab641 100644
 --- a/include/hw/ppc/xive.h
 +++ b/include/hw/ppc/xive.h
-@@ -143,6 +143,7 @@
- #include "sysemu/kvm.h"
- #include "hw/sysbus.h"
- #include "hw/ppc/xive_regs.h"
-+#include "qom/object.h"
- 
- /*
-  * XIVE Notifier (Interface between Source and Router)
-@@ -153,21 +154,23 @@ typedef struct XiveNotifier XiveNotifier;
- #define TYPE_XIVE_NOTIFIER "xive-notifier"
+@@ -155,10 +155,8 @@ typedef struct XiveNotifier XiveNotifier;
  #define XIVE_NOTIFIER(obj)                                     \
      INTERFACE_CHECK(XiveNotifier, (obj), TYPE_XIVE_NOTIFIER)
-+typedef struct XiveNotifierClass XiveNotifierClass;
- #define XIVE_NOTIFIER_CLASS(klass)                                     \
-     OBJECT_CLASS_CHECK(XiveNotifierClass, (klass), TYPE_XIVE_NOTIFIER)
- #define XIVE_NOTIFIER_GET_CLASS(obj)                                   \
-     OBJECT_GET_CLASS(XiveNotifierClass, (obj), TYPE_XIVE_NOTIFIER)
+ typedef struct XiveNotifierClass XiveNotifierClass;
+-#define XIVE_NOTIFIER_CLASS(klass)                                     \
+-    OBJECT_CLASS_CHECK(XiveNotifierClass, (klass), TYPE_XIVE_NOTIFIER)
+-#define XIVE_NOTIFIER_GET_CLASS(obj)                                   \
+-    OBJECT_GET_CLASS(XiveNotifierClass, (obj), TYPE_XIVE_NOTIFIER)
++DECLARE_CLASS_CHECKERS(XiveNotifierClass, XIVE_NOTIFIER,
++                       TYPE_XIVE_NOTIFIER)
  
--typedef struct XiveNotifierClass {
-+struct XiveNotifierClass {
+ struct XiveNotifierClass {
      InterfaceClass parent;
-     void (*notify)(XiveNotifier *xn, uint32_t lisn);
--} XiveNotifierClass;
-+};
- 
- /*
-  * XIVE Interrupt Source
-  */
+@@ -171,7 +169,8 @@ struct XiveNotifierClass {
  
  #define TYPE_XIVE_SOURCE "xive-source"
-+typedef struct XiveSource XiveSource;
- #define XIVE_SOURCE(obj) OBJECT_CHECK(XiveSource, (obj), TYPE_XIVE_SOURCE)
+ typedef struct XiveSource XiveSource;
+-#define XIVE_SOURCE(obj) OBJECT_CHECK(XiveSource, (obj), TYPE_XIVE_SOURCE)
++DECLARE_INSTANCE_CHECKER(XiveSource, XIVE_SOURCE,
++                         TYPE_XIVE_SOURCE)
  
  /*
-@@ -177,7 +180,7 @@ typedef struct XiveNotifierClass {
- #define XIVE_SRC_H_INT_ESB     0x1 /* ESB managed with hcall H_INT_ESB */
- #define XIVE_SRC_STORE_EOI     0x2 /* Store EOI supported */
- 
--typedef struct XiveSource {
-+struct XiveSource {
-     DeviceState parent;
- 
-     /* IRQs */
-@@ -198,7 +201,7 @@ typedef struct XiveSource {
-     MemoryRegion    esb_mmio_kvm;
- 
-     XiveNotifier    *xive;
--} XiveSource;
-+};
- 
- /*
-  * ESB MMIO setting. Can be one page, for both source triggering and
-@@ -304,6 +307,7 @@ void xive_source_set_irq(void *opaque, int srcno, int val);
-  */
+  * XIVE Interrupt Source characteristics, which define how the ESB are
+@@ -308,7 +307,8 @@ void xive_source_set_irq(void *opaque, int srcno, int val);
  
  #define TYPE_XIVE_TCTX "xive-tctx"
-+typedef struct XiveTCTX XiveTCTX;
- #define XIVE_TCTX(obj) OBJECT_CHECK(XiveTCTX, (obj), TYPE_XIVE_TCTX)
+ typedef struct XiveTCTX XiveTCTX;
+-#define XIVE_TCTX(obj) OBJECT_CHECK(XiveTCTX, (obj), TYPE_XIVE_TCTX)
++DECLARE_INSTANCE_CHECKER(XiveTCTX, XIVE_TCTX,
++                         TYPE_XIVE_TCTX)
  
  /*
-@@ -319,7 +323,7 @@ void xive_source_set_irq(void *opaque, int srcno, int val);
- 
- typedef struct XivePresenter XivePresenter;
- 
--typedef struct XiveTCTX {
-+struct XiveTCTX {
-     DeviceState parent_obj;
- 
-     CPUState    *cs;
-@@ -329,20 +333,22 @@ typedef struct XiveTCTX {
-     uint8_t     regs[XIVE_TM_RING_COUNT * XIVE_TM_RING_SIZE];
- 
-     XivePresenter *xptr;
--} XiveTCTX;
-+};
- 
- /*
-  * XIVE Router
-  */
- typedef struct XiveFabric XiveFabric;
- 
--typedef struct XiveRouter {
-+struct XiveRouter {
-     SysBusDevice    parent;
- 
-     XiveFabric *xfb;
--} XiveRouter;
-+};
-+typedef struct XiveRouter XiveRouter;
+  * XIVE Thread interrupt Management register rings :
+@@ -349,12 +349,8 @@ typedef struct XiveRouter XiveRouter;
  
  #define TYPE_XIVE_ROUTER "xive-router"
-+typedef struct XiveRouterClass XiveRouterClass;
- #define XIVE_ROUTER(obj)                                \
-     OBJECT_CHECK(XiveRouter, (obj), TYPE_XIVE_ROUTER)
- #define XIVE_ROUTER_CLASS(klass)                                        \
-@@ -350,7 +356,7 @@ typedef struct XiveRouter {
- #define XIVE_ROUTER_GET_CLASS(obj)                              \
-     OBJECT_GET_CLASS(XiveRouterClass, (obj), TYPE_XIVE_ROUTER)
+ typedef struct XiveRouterClass XiveRouterClass;
+-#define XIVE_ROUTER(obj)                                \
+-    OBJECT_CHECK(XiveRouter, (obj), TYPE_XIVE_ROUTER)
+-#define XIVE_ROUTER_CLASS(klass)                                        \
+-    OBJECT_CLASS_CHECK(XiveRouterClass, (klass), TYPE_XIVE_ROUTER)
+-#define XIVE_ROUTER_GET_CLASS(obj)                              \
+-    OBJECT_GET_CLASS(XiveRouterClass, (obj), TYPE_XIVE_ROUTER)
++DECLARE_OBJ_CHECKERS(XiveRouter, XiveRouterClass,
++                     XIVE_ROUTER, TYPE_XIVE_ROUTER)
  
--typedef struct XiveRouterClass {
-+struct XiveRouterClass {
+ struct XiveRouterClass {
      SysBusDeviceClass parent;
- 
-     /* XIVE table accessors */
-@@ -365,7 +371,7 @@ typedef struct XiveRouterClass {
-     int (*write_nvt)(XiveRouter *xrtr, uint8_t nvt_blk, uint32_t nvt_idx,
-                      XiveNVT *nvt, uint8_t word_number);
-     uint8_t (*get_block_id)(XiveRouter *xrtr);
--} XiveRouterClass;
-+};
- 
- int xive_router_get_eas(XiveRouter *xrtr, uint8_t eas_blk, uint32_t eas_idx,
-                         XiveEAS *eas);
-@@ -391,19 +397,20 @@ typedef struct XiveTCTXMatch {
- #define TYPE_XIVE_PRESENTER "xive-presenter"
+@@ -398,10 +394,8 @@ typedef struct XiveTCTXMatch {
  #define XIVE_PRESENTER(obj)                                     \
      INTERFACE_CHECK(XivePresenter, (obj), TYPE_XIVE_PRESENTER)
-+typedef struct XivePresenterClass XivePresenterClass;
- #define XIVE_PRESENTER_CLASS(klass)                                     \
-     OBJECT_CLASS_CHECK(XivePresenterClass, (klass), TYPE_XIVE_PRESENTER)
- #define XIVE_PRESENTER_GET_CLASS(obj)                                   \
-     OBJECT_GET_CLASS(XivePresenterClass, (obj), TYPE_XIVE_PRESENTER)
+ typedef struct XivePresenterClass XivePresenterClass;
+-#define XIVE_PRESENTER_CLASS(klass)                                     \
+-    OBJECT_CLASS_CHECK(XivePresenterClass, (klass), TYPE_XIVE_PRESENTER)
+-#define XIVE_PRESENTER_GET_CLASS(obj)                                   \
+-    OBJECT_GET_CLASS(XivePresenterClass, (obj), TYPE_XIVE_PRESENTER)
++DECLARE_CLASS_CHECKERS(XivePresenterClass, XIVE_PRESENTER,
++                       TYPE_XIVE_PRESENTER)
  
--typedef struct XivePresenterClass {
-+struct XivePresenterClass {
+ struct XivePresenterClass {
      InterfaceClass parent;
-     int (*match_nvt)(XivePresenter *xptr, uint8_t format,
-                      uint8_t nvt_blk, uint32_t nvt_idx,
-                      bool cam_ignore, uint8_t priority,
-                      uint32_t logic_serv, XiveTCTXMatch *match);
-     bool (*in_kernel)(const XivePresenter *xptr);
--} XivePresenterClass;
-+};
- 
- int xive_presenter_tctx_match(XivePresenter *xptr, XiveTCTX *tctx,
-                               uint8_t format,
-@@ -417,28 +424,30 @@ int xive_presenter_tctx_match(XivePresenter *xptr, XiveTCTX *tctx,
- #define TYPE_XIVE_FABRIC "xive-fabric"
+@@ -425,10 +419,8 @@ int xive_presenter_tctx_match(XivePresenter *xptr, XiveTCTX *tctx,
  #define XIVE_FABRIC(obj)                                     \
      INTERFACE_CHECK(XiveFabric, (obj), TYPE_XIVE_FABRIC)
-+typedef struct XiveFabricClass XiveFabricClass;
- #define XIVE_FABRIC_CLASS(klass)                                     \
-     OBJECT_CLASS_CHECK(XiveFabricClass, (klass), TYPE_XIVE_FABRIC)
- #define XIVE_FABRIC_GET_CLASS(obj)                                   \
-     OBJECT_GET_CLASS(XiveFabricClass, (obj), TYPE_XIVE_FABRIC)
+ typedef struct XiveFabricClass XiveFabricClass;
+-#define XIVE_FABRIC_CLASS(klass)                                     \
+-    OBJECT_CLASS_CHECK(XiveFabricClass, (klass), TYPE_XIVE_FABRIC)
+-#define XIVE_FABRIC_GET_CLASS(obj)                                   \
+-    OBJECT_GET_CLASS(XiveFabricClass, (obj), TYPE_XIVE_FABRIC)
++DECLARE_CLASS_CHECKERS(XiveFabricClass, XIVE_FABRIC,
++                       TYPE_XIVE_FABRIC)
  
--typedef struct XiveFabricClass {
-+struct XiveFabricClass {
+ struct XiveFabricClass {
      InterfaceClass parent;
-     int (*match_nvt)(XiveFabric *xfb, uint8_t format,
-                      uint8_t nvt_blk, uint32_t nvt_idx,
-                      bool cam_ignore, uint8_t priority,
-                      uint32_t logic_serv, XiveTCTXMatch *match);
--} XiveFabricClass;
-+};
- 
- /*
-  * XIVE END ESBs
-  */
+@@ -444,8 +436,8 @@ struct XiveFabricClass {
  
  #define TYPE_XIVE_END_SOURCE "xive-end-source"
-+typedef struct XiveENDSource XiveENDSource;
- #define XIVE_END_SOURCE(obj) \
-     OBJECT_CHECK(XiveENDSource, (obj), TYPE_XIVE_END_SOURCE)
+ typedef struct XiveENDSource XiveENDSource;
+-#define XIVE_END_SOURCE(obj) \
+-    OBJECT_CHECK(XiveENDSource, (obj), TYPE_XIVE_END_SOURCE)
++DECLARE_INSTANCE_CHECKER(XiveENDSource, XIVE_END_SOURCE,
++                         TYPE_XIVE_END_SOURCE)
  
--typedef struct XiveENDSource {
-+struct XiveENDSource {
+ struct XiveENDSource {
      DeviceState parent;
- 
-     uint32_t        nr_ends;
-@@ -448,7 +457,7 @@ typedef struct XiveENDSource {
-     MemoryRegion    esb_mmio;
- 
-     XiveRouter      *xrtr;
--} XiveENDSource;
-+};
- 
- /*
-  * For legacy compatibility, the exceptions define up to 256 different
 diff --git a/include/hw/rdma/rdma.h b/include/hw/rdma/rdma.h
-index fd3d70103d..aef82e58db 100644
+index aef82e58db..e77e43a170 100644
 --- a/include/hw/rdma/rdma.h
 +++ b/include/hw/rdma/rdma.h
-@@ -19,6 +19,7 @@
- 
+@@ -20,12 +20,8 @@
  #define INTERFACE_RDMA_PROVIDER "rdma"
  
-+typedef struct RdmaProviderClass RdmaProviderClass;
- #define RDMA_PROVIDER_CLASS(klass) \
-     OBJECT_CLASS_CHECK(RdmaProviderClass, (klass), \
+ typedef struct RdmaProviderClass RdmaProviderClass;
+-#define RDMA_PROVIDER_CLASS(klass) \
+-    OBJECT_CLASS_CHECK(RdmaProviderClass, (klass), \
++DECLARE_CLASS_CHECKERS(RdmaProviderClass, RDMA_PROVIDER,
                         INTERFACE_RDMA_PROVIDER)
-@@ -31,10 +32,10 @@
+-#define RDMA_PROVIDER_GET_CLASS(obj) \
+-    OBJECT_GET_CLASS(RdmaProviderClass, (obj), \
+-                     INTERFACE_RDMA_PROVIDER)
+ #define RDMA_PROVIDER(obj) \
+     INTERFACE_CHECK(RdmaProvider, (obj), \
+                     INTERFACE_RDMA_PROVIDER)
+diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-virtio-ccw.h
+index f20c503b19..54d14da0a6 100644
+--- a/include/hw/s390x/s390-virtio-ccw.h
++++ b/include/hw/s390x/s390-virtio-ccw.h
+@@ -18,11 +18,9 @@
  
- typedef struct RdmaProvider RdmaProvider;
+ typedef struct S390CcwMachineClass S390CcwMachineClass;
+ typedef struct S390CcwMachineState S390CcwMachineState;
+-#define S390_CCW_MACHINE(obj) \
+-    OBJECT_CHECK(S390CcwMachineState, (obj), TYPE_S390_CCW_MACHINE)
++DECLARE_OBJ_CHECKERS(S390CcwMachineState, S390CcwMachineClass,
++                     S390_CCW_MACHINE, TYPE_S390_CCW_MACHINE)
  
--typedef struct RdmaProviderClass {
-+struct RdmaProviderClass {
-     InterfaceClass parent;
+-#define S390_CCW_MACHINE_CLASS(klass) \
+-    OBJECT_CLASS_CHECK(S390CcwMachineClass, (klass), TYPE_S390_CCW_MACHINE)
  
-     void (*print_statistics)(Monitor *mon, RdmaProvider *obj);
--} RdmaProviderClass;
-+};
- 
- #endif
+ struct S390CcwMachineState {
+     /*< private >*/
 diff --git a/migration/migration.h b/migration/migration.h
-index ae497bd45a..4103e549bb 100644
+index 4103e549bb..bdc7450da3 100644
 --- a/migration/migration.h
 +++ b/migration/migration.h
-@@ -21,6 +21,7 @@
- #include "qemu/coroutine_int.h"
- #include "io/channel.h"
- #include "net/announce.h"
-+#include "qom/object.h"
- 
- struct PostcopyBlocktimeContext;
- 
-@@ -114,6 +115,7 @@ void fill_destination_postcopy_migration_info(MigrationInfo *info);
- 
+@@ -116,12 +116,8 @@ void fill_destination_postcopy_migration_info(MigrationInfo *info);
  #define TYPE_MIGRATION "migration"
  
-+typedef struct MigrationClass MigrationClass;
- #define MIGRATION_OBJ_CLASS(klass) \
-     OBJECT_CLASS_CHECK(MigrationClass, (klass), TYPE_MIGRATION)
- #define MIGRATION_OBJ(obj) \
-@@ -121,10 +123,10 @@ void fill_destination_postcopy_migration_info(MigrationInfo *info);
- #define MIGRATION_OBJ_GET_CLASS(obj) \
-     OBJECT_GET_CLASS(MigrationClass, (obj), TYPE_MIGRATION)
+ typedef struct MigrationClass MigrationClass;
+-#define MIGRATION_OBJ_CLASS(klass) \
+-    OBJECT_CLASS_CHECK(MigrationClass, (klass), TYPE_MIGRATION)
+-#define MIGRATION_OBJ(obj) \
+-    OBJECT_CHECK(MigrationState, (obj), TYPE_MIGRATION)
+-#define MIGRATION_OBJ_GET_CLASS(obj) \
+-    OBJECT_GET_CLASS(MigrationClass, (obj), TYPE_MIGRATION)
++DECLARE_OBJ_CHECKERS(MigrationState, MigrationClass,
++                     MIGRATION_OBJ, TYPE_MIGRATION)
  
--typedef struct MigrationClass {
-+struct MigrationClass {
+ struct MigrationClass {
      /*< private >*/
-     DeviceClass parent_class;
--} MigrationClass;
-+};
+diff --git a/target/arm/cpu-qom.h b/target/arm/cpu-qom.h
+index f12ca3a44c..92d58f84fe 100644
+--- a/target/arm/cpu-qom.h
++++ b/target/arm/cpu-qom.h
+@@ -63,10 +63,8 @@ struct ARMCPUClass {
  
- struct MigrationState
- {
+ #define TYPE_AARCH64_CPU "aarch64-cpu"
+ typedef struct AArch64CPUClass AArch64CPUClass;
+-#define AARCH64_CPU_CLASS(klass) \
+-    OBJECT_CLASS_CHECK(AArch64CPUClass, (klass), TYPE_AARCH64_CPU)
+-#define AARCH64_CPU_GET_CLASS(obj) \
+-    OBJECT_GET_CLASS(AArch64CPUClass, (obj), TYPE_AARCH64_CPU)
++DECLARE_CLASS_CHECKERS(AArch64CPUClass, AARCH64_CPU,
++                       TYPE_AARCH64_CPU)
+ 
+ struct AArch64CPUClass {
+     /*< private >*/
 diff --git a/target/rx/cpu-qom.h b/target/rx/cpu-qom.h
-index 9054762326..dd96469e04 100644
+index dd96469e04..05f5773ab1 100644
 --- a/target/rx/cpu-qom.h
 +++ b/target/rx/cpu-qom.h
-@@ -20,12 +20,14 @@
- #define RX_CPU_QOM_H
- 
- #include "hw/core/cpu.h"
-+#include "qom/object.h"
- 
- #define TYPE_RX_CPU "rx-cpu"
- 
- #define TYPE_RX62N_CPU RX_CPU_TYPE_NAME("rx62n")
+@@ -28,12 +28,8 @@
  
  typedef struct RXCPU RXCPU;
-+typedef struct RXCPUClass RXCPUClass;
- #define RX_CPU_CLASS(klass) \
-     OBJECT_CLASS_CHECK(RXCPUClass, (klass), TYPE_RX_CPU)
- #define RX_CPU(obj) \
-@@ -40,14 +42,14 @@ typedef struct RXCPU RXCPU;
-  *
-  * A RX CPU model.
-  */
--typedef struct RXCPUClass {
-+struct RXCPUClass {
-     /*< private >*/
-     CPUClass parent_class;
-     /*< public >*/
+ typedef struct RXCPUClass RXCPUClass;
+-#define RX_CPU_CLASS(klass) \
+-    OBJECT_CLASS_CHECK(RXCPUClass, (klass), TYPE_RX_CPU)
+-#define RX_CPU(obj) \
+-    OBJECT_CHECK(RXCPU, (obj), TYPE_RX_CPU)
+-#define RX_CPU_GET_CLASS(obj) \
+-    OBJECT_GET_CLASS(RXCPUClass, (obj), TYPE_RX_CPU)
++DECLARE_OBJ_CHECKERS(RXCPU, RXCPUClass,
++                     RX_CPU, TYPE_RX_CPU)
  
-     DeviceRealize parent_realize;
-     DeviceReset parent_reset;
--} RXCPUClass;
-+};
- 
- #define CPUArchState struct CPURXState
- 
+ /*
+  * RXCPUClass:
 diff --git a/hw/arm/integratorcp.c b/hw/arm/integratorcp.c
-index 2329cb0f4c..16c575c341 100644
+index 16c575c341..93fab86cb4 100644
 --- a/hw/arm/integratorcp.c
 +++ b/hw/arm/integratorcp.c
-@@ -26,12 +26,14 @@
- #include "hw/hw.h"
- #include "hw/irq.h"
- #include "hw/sd/sd.h"
-+#include "qom/object.h"
+@@ -30,8 +30,8 @@
  
  #define TYPE_INTEGRATOR_CM "integrator_core"
-+typedef struct IntegratorCMState IntegratorCMState;
- #define INTEGRATOR_CM(obj) \
-     OBJECT_CHECK(IntegratorCMState, (obj), TYPE_INTEGRATOR_CM)
+ typedef struct IntegratorCMState IntegratorCMState;
+-#define INTEGRATOR_CM(obj) \
+-    OBJECT_CHECK(IntegratorCMState, (obj), TYPE_INTEGRATOR_CM)
++DECLARE_INSTANCE_CHECKER(IntegratorCMState, INTEGRATOR_CM,
++                         TYPE_INTEGRATOR_CM)
  
--typedef struct IntegratorCMState {
-+struct IntegratorCMState {
+ struct IntegratorCMState {
      /*< private >*/
-     SysBusDevice parent_obj;
-     /*< public >*/
-@@ -51,7 +53,7 @@ typedef struct IntegratorCMState {
-     uint32_t int_level;
-     uint32_t irq_enabled;
-     uint32_t fiq_enabled;
--} IntegratorCMState;
-+};
- 
- static uint8_t integrator_spd[128] = {
-    128, 8, 4, 11, 9, 1, 64, 0,  2, 0xa0, 0xa0, 0, 0, 8, 0, 1,
-@@ -326,10 +328,11 @@ static void integratorcm_realize(DeviceState *d, Error **errp)
- /* Primary interrupt controller.  */
+@@ -329,8 +329,8 @@ static void integratorcm_realize(DeviceState *d, Error **errp)
  
  #define TYPE_INTEGRATOR_PIC "integrator_pic"
-+typedef struct icp_pic_state icp_pic_state;
- #define INTEGRATOR_PIC(obj) \
-    OBJECT_CHECK(icp_pic_state, (obj), TYPE_INTEGRATOR_PIC)
+ typedef struct icp_pic_state icp_pic_state;
+-#define INTEGRATOR_PIC(obj) \
+-   OBJECT_CHECK(icp_pic_state, (obj), TYPE_INTEGRATOR_PIC)
++DECLARE_INSTANCE_CHECKER(icp_pic_state, INTEGRATOR_PIC,
++                         TYPE_INTEGRATOR_PIC)
  
--typedef struct icp_pic_state {
-+struct icp_pic_state {
+ struct icp_pic_state {
      /*< private >*/
-     SysBusDevice parent_obj;
-     /*< public >*/
-@@ -340,7 +343,7 @@ typedef struct icp_pic_state {
-     uint32_t fiq_enabled;
-     qemu_irq parent_irq;
-     qemu_irq parent_fiq;
--} icp_pic_state;
-+};
- 
- static const VMStateDescription vmstate_icp_pic = {
-     .name = "icp_pic",
-@@ -465,10 +468,11 @@ static void icp_pic_init(Object *obj)
- /* CP control registers.  */
+@@ -469,8 +469,8 @@ static void icp_pic_init(Object *obj)
  
  #define TYPE_ICP_CONTROL_REGS "icp-ctrl-regs"
-+typedef struct ICPCtrlRegsState ICPCtrlRegsState;
- #define ICP_CONTROL_REGS(obj) \
-     OBJECT_CHECK(ICPCtrlRegsState, (obj), TYPE_ICP_CONTROL_REGS)
+ typedef struct ICPCtrlRegsState ICPCtrlRegsState;
+-#define ICP_CONTROL_REGS(obj) \
+-    OBJECT_CHECK(ICPCtrlRegsState, (obj), TYPE_ICP_CONTROL_REGS)
++DECLARE_INSTANCE_CHECKER(ICPCtrlRegsState, ICP_CONTROL_REGS,
++                         TYPE_ICP_CONTROL_REGS)
  
--typedef struct ICPCtrlRegsState {
-+struct ICPCtrlRegsState {
+ struct ICPCtrlRegsState {
      /*< private >*/
-     SysBusDevice parent_obj;
-     /*< public >*/
-@@ -477,7 +481,7 @@ typedef struct ICPCtrlRegsState {
- 
-     qemu_irq mmc_irq;
-     uint32_t intreg_state;
--} ICPCtrlRegsState;
-+};
- 
- #define ICP_GPIO_MMC_WPROT      "mmc-wprot"
- #define ICP_GPIO_MMC_CARDIN     "mmc-cardin"
 diff --git a/hw/arm/versatilepb.c b/hw/arm/versatilepb.c
-index 312a8d3c4b..091ad34ac3 100644
+index 091ad34ac3..ab4251dcc1 100644
 --- a/hw/arm/versatilepb.c
 +++ b/hw/arm/versatilepb.c
-@@ -26,6 +26,7 @@
- #include "qemu/error-report.h"
- #include "hw/char/pl011.h"
- #include "hw/sd/sd.h"
-+#include "qom/object.h"
- 
- #define VERSATILE_FLASH_ADDR 0x34000000
- #define VERSATILE_FLASH_SIZE (64 * 1024 * 1024)
-@@ -34,10 +35,11 @@
- /* Primary interrupt controller.  */
+@@ -36,8 +36,8 @@
  
  #define TYPE_VERSATILE_PB_SIC "versatilepb_sic"
-+typedef struct vpb_sic_state vpb_sic_state;
- #define VERSATILE_PB_SIC(obj) \
-     OBJECT_CHECK(vpb_sic_state, (obj), TYPE_VERSATILE_PB_SIC)
+ typedef struct vpb_sic_state vpb_sic_state;
+-#define VERSATILE_PB_SIC(obj) \
+-    OBJECT_CHECK(vpb_sic_state, (obj), TYPE_VERSATILE_PB_SIC)
++DECLARE_INSTANCE_CHECKER(vpb_sic_state, VERSATILE_PB_SIC,
++                         TYPE_VERSATILE_PB_SIC)
  
--typedef struct vpb_sic_state {
-+struct vpb_sic_state {
+ struct vpb_sic_state {
      SysBusDevice parent_obj;
- 
-     MemoryRegion iomem;
-@@ -46,7 +48,7 @@ typedef struct vpb_sic_state {
-     uint32_t pic_enable;
-     qemu_irq parent[32];
-     int irq;
--} vpb_sic_state;
-+};
- 
- static const VMStateDescription vmstate_vpb_sic = {
-     .name = "versatilepb_sic",
-diff --git a/hw/arm/vexpress.c b/hw/arm/vexpress.c
-index 4a71c9fa6e..17fceb160f 100644
---- a/hw/arm/vexpress.c
-+++ b/hw/arm/vexpress.c
-@@ -44,6 +44,7 @@
- #include "hw/cpu/a15mpcore.h"
- #include "hw/i2c/arm_sbcon_i2c.h"
- #include "hw/sd/sd.h"
-+#include "qom/object.h"
- 
- #define VEXPRESS_BOARD_ID 0x8e0
- #define VEXPRESS_FLASH_SIZE (64 * 1024 * 1024)
-@@ -166,16 +167,18 @@ static hwaddr motherboard_aseries_map[] = {
- 
- typedef struct VEDBoardInfo VEDBoardInfo;
- 
--typedef struct {
-+struct VexpressMachineClass {
-     MachineClass parent;
-     VEDBoardInfo *daughterboard;
--} VexpressMachineClass;
-+};
-+typedef struct VexpressMachineClass VexpressMachineClass;
- 
--typedef struct {
-+struct VexpressMachineState {
-     MachineState parent;
-     bool secure;
-     bool virt;
--} VexpressMachineState;
-+};
-+typedef struct VexpressMachineState VexpressMachineState;
- 
- #define TYPE_VEXPRESS_MACHINE   "vexpress"
- #define TYPE_VEXPRESS_A9_MACHINE   MACHINE_TYPE_NAME("vexpress-a9")
 diff --git a/hw/sd/pl181.c b/hw/sd/pl181.c
-index 5153959b1d..f44817c654 100644
+index f44817c654..f58b947e89 100644
 --- a/hw/sd/pl181.c
 +++ b/hw/sd/pl181.c
-@@ -18,15 +18,17 @@
- #include "qemu/error-report.h"
- #include "qapi/error.h"
- #include "trace.h"
-+#include "qom/object.h"
- 
- #define PL181_FIFO_LEN 16
+@@ -24,7 +24,8 @@
  
  #define TYPE_PL181 "pl181"
-+typedef struct PL181State PL181State;
- #define PL181(obj) OBJECT_CHECK(PL181State, (obj), TYPE_PL181)
+ typedef struct PL181State PL181State;
+-#define PL181(obj) OBJECT_CHECK(PL181State, (obj), TYPE_PL181)
++DECLARE_INSTANCE_CHECKER(PL181State, PL181,
++                         TYPE_PL181)
  
  #define TYPE_PL181_BUS "pl181-bus"
  
--typedef struct PL181State {
-+struct PL181State {
-     SysBusDevice parent_obj;
- 
-     MemoryRegion iomem;
-@@ -56,7 +58,7 @@ typedef struct PL181State {
-     /* GPIO outputs for 'card is readonly' and 'card inserted' */
-     qemu_irq card_readonly;
-     qemu_irq card_inserted;
--} PL181State;
-+};
- 
- static const VMStateDescription vmstate_pl181 = {
-     .name = "pl181",
 -- 
 2.26.2
 
