@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 152C425175D
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 13:21:36 +0200 (CEST)
-Received: from localhost ([::1]:57860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2704725174C
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 13:19:38 +0200 (CEST)
+Received: from localhost ([::1]:49806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAX1D-00067d-3H
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 07:21:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41898)
+	id 1kAWzJ-0002iD-3c
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 07:19:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kAWwY-00075p-Vv; Tue, 25 Aug 2020 07:16:46 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:52403)
+ id 1kAWwY-00075D-Mf; Tue, 25 Aug 2020 07:16:46 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:40573)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kAWwV-00054j-Mf; Tue, 25 Aug 2020 07:16:46 -0400
+ id 1kAWwV-00054x-Lp; Tue, 25 Aug 2020 07:16:45 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BbRJj5xvFz9sTn; Tue, 25 Aug 2020 21:16:36 +1000 (AEST)
+ id 4BbRJl13vqz9sTY; Tue, 25 Aug 2020 21:16:37 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1598354197;
- bh=YhTpF2S5cA8sgSuuYTIKOFn5DFo7TadLfI5D6Np14L4=;
+ d=gibson.dropbear.id.au; s=201602; t=1598354199;
+ bh=4t5MAMMK6onGP/lGX+I5BpEIIRqMhE3LhB0EH21vbJk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=NcCvC9DRG7A3dX88AvKNR1AzZes3kVCr887RNLWf1svrSUnMJsScd0n2EyzQarlEi
- tqShV2H3tF3Vf1+o00WtgRYIOVyiCIgw1Ja0MsodiaGQQ9Y5GOM9d9PtpVFuEr2/e9
- KYYp5FyerkFxm/Cqfr3f2Wr3xBullsJDmRrBjGEM=
+ b=JGPKiPy5fQ9NqHxHTQZMbkxFLA2suYwNAb8gFG5Ax8QzE6MVTK6f37uyTuErNAY0s
+ Qlji+AoeHDGznfxmt6VrTuAHt4jPva1JTtx93tl1gRzCVI8jFjcwlfxcZnmdD0uKJU
+ nJzc6u45rA5886q2J3H1u/Q6rxV8J604GYRvN6lI=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: ehabkost@redhat.com
-Subject: [PATCH 2/3] ppc/pnv: Fix TypeInfo of PnvLpcController abstract class
-Date: Tue, 25 Aug 2020 21:16:26 +1000
-Message-Id: <20200825111627.2007820-3-david@gibson.dropbear.id.au>
+Subject: [PATCH 3/3] spapr: Correct type for SPAPR_DRC_PCI
+Date: Tue, 25 Aug 2020 21:16:27 +1000
+Message-Id: <20200825111627.2007820-4-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200825111627.2007820-1-david@gibson.dropbear.id.au>
 References: <20200825111627.2007820-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
@@ -59,51 +58,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cédric Le Goater <clg@kaod.org>
+TYPE_SPAPR_DRC_PCI inherits from TYPE_SPAPR_DRC_PHYSICAL, so its checker
+macro should use the corresponding instance type.  We got away with it
+because we never actually used that checker macro.
 
-It was missing the instance_size field.
-
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20200822083920.2668930-1-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/pnv_lpc.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ include/hw/ppc/spapr_drc.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/ppc/pnv_lpc.c b/hw/ppc/pnv_lpc.c
-index b5ffa48dac..23f1e09492 100644
---- a/hw/ppc/pnv_lpc.c
-+++ b/hw/ppc/pnv_lpc.c
-@@ -646,7 +646,6 @@ static void pnv_lpc_power8_class_init(ObjectClass *klass, void *data)
- static const TypeInfo pnv_lpc_power8_info = {
-     .name          = TYPE_PNV8_LPC,
-     .parent        = TYPE_PNV_LPC,
--    .instance_size = sizeof(PnvLpcController),
-     .class_init    = pnv_lpc_power8_class_init,
-     .interfaces = (InterfaceInfo[]) {
-         { TYPE_PNV_XSCOM_INTERFACE },
-@@ -687,7 +686,6 @@ static void pnv_lpc_power9_class_init(ObjectClass *klass, void *data)
- static const TypeInfo pnv_lpc_power9_info = {
-     .name          = TYPE_PNV9_LPC,
-     .parent        = TYPE_PNV_LPC,
--    .instance_size = sizeof(PnvLpcController),
-     .class_init    = pnv_lpc_power9_class_init,
- };
+diff --git a/include/hw/ppc/spapr_drc.h b/include/hw/ppc/spapr_drc.h
+index 21af8deac1..baaaba3c1f 100644
+--- a/include/hw/ppc/spapr_drc.h
++++ b/include/hw/ppc/spapr_drc.h
+@@ -59,7 +59,7 @@
+         OBJECT_GET_CLASS(SpaprDrcClass, obj, TYPE_SPAPR_DRC_PCI)
+ #define SPAPR_DRC_PCI_CLASS(klass) \
+         OBJECT_CLASS_CHECK(SpaprDrcClass, klass, TYPE_SPAPR_DRC_PCI)
+-#define SPAPR_DRC_PCI(obj) OBJECT_CHECK(SpaprDrc, (obj), \
++#define SPAPR_DRC_PCI(obj) OBJECT_CHECK(SpaprDrcPhysical, (obj), \
+                                         TYPE_SPAPR_DRC_PCI)
  
-@@ -768,6 +766,7 @@ static void pnv_lpc_class_init(ObjectClass *klass, void *data)
- static const TypeInfo pnv_lpc_info = {
-     .name          = TYPE_PNV_LPC,
-     .parent        = TYPE_DEVICE,
-+    .instance_size = sizeof(PnvLpcController),
-     .class_init    = pnv_lpc_class_init,
-     .class_size    = sizeof(PnvLpcClass),
-     .abstract      = true,
+ #define TYPE_SPAPR_DRC_LMB "spapr-drc-lmb"
 -- 
 2.26.2
 
