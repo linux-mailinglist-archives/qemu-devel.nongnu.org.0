@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24B34251491
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 10:47:39 +0200 (CEST)
-Received: from localhost ([::1]:48232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC4C72514B0
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 10:55:46 +0200 (CEST)
+Received: from localhost ([::1]:44356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAUcE-0006VX-1I
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 04:47:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33026)
+	id 1kAUk5-0000GL-UU
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 04:55:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kAUQm-00089t-8V
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 04:35:48 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:39102)
+ id 1kAUQp-0008I0-8t
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 04:35:51 -0400
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:44890)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kAUQk-00011h-CS
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 04:35:47 -0400
-Received: by mail-pg1-x535.google.com with SMTP id v15so6316063pgh.6
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 01:35:45 -0700 (PDT)
+ id 1kAUQn-00012l-JZ
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 04:35:50 -0400
+Received: by mail-pg1-x536.google.com with SMTP id m34so6312824pgl.11
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 01:35:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=htMtb1NzKhLangZNeh4fyVQE1LaLJL7zHAVE3XWM2KA=;
- b=cMqB7tx6vU9uaTDHrEaPkZZHXhQ2xUynCgUO7vzFEk7/xoweBtz2J0y/ZON6XMFNLK
- UAjQLulaxsAj5a0vjvRjAUhJ5FkJ0Jzyga5E4gfyDiHMMnKyZ3RD21AARLwKi1EznpJS
- 9CWExvEpm+pYDBBnbo+Ef+zXsOpj3TCRug5QfheHxXlU9Q/Z++1FGDsM1oDsVcdwjYcO
- ZxaTI8dk8Veb1boKIHu65Q5JUAZhCm7/4Mc3nNM/0GXSYLG8gb4ClQBruDpj5C81WkQT
- yWehB7Z1ire3QeXZ3Ri7rBlc2uNWKao7yCrM1TPd0S4sPCWJNugKmeddAAY2j5LYkZfS
- 7K5Q==
+ bh=OhF7DmqPnZElocDCHxwQ+SG0m4lR629MaEFLfhtxWUY=;
+ b=jjTorMIylr5hvt3mAXy7m+XO00ETHIL0fggSqWJtI/gKe0lSybaGUkuJjaid15z8bV
+ YSI8XVcr9PedRk9OXvbocWWSb6M1i/XBInvjezvJu8VatTQlHe4KcHMH6yiur/LF9eaT
+ WvTENnW5VqkafiaOBvwstUNol0ohI9e5xMiq94bA0iKvl16t2uyhMQgQqCdFHZs5yMlE
+ y2Z1SYCzZr0QG81+thOqkN7e+s4ylyWku8z46UN01sHhzS7WFAziNjUZMeeaizUKuKJv
+ Rd1amAeWgFYjSd1/EaG/bWfN2ve6BBXKMpRHa1AZUEbsDayl3Q19b80MzYfmxll15wnp
+ MJSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=htMtb1NzKhLangZNeh4fyVQE1LaLJL7zHAVE3XWM2KA=;
- b=PavrD5XKUnQqiBoZr8ZRPTzpVTRBf2rB8+FEAccpFPUwsrlR7GNWr9IR2OAlFaxlsW
- EFIiHtNUsjDqXN01jZs6vids+4mSn/mOb5d+3NRwnMr1VQPaxbPAMKje4cH9nKtlEYTh
- LV0RuGSozr55rCsuZDhvaDiGpjeNCaShPShFi5YmPAQNThGxTn9wOeSWRh9ioToZQTF4
- Cg0OpT4H5NWCIpMKvaddt2B7FDXiQ3qyw023Lh07ci7Fcy5DY2kzKT3quvxvumphoJN4
- bRdmsRoEp+xeMcj6RvuIQPRZkvItpUgQhGjXLNA2UgZ+dITgNwo38Bz1+aajlzseCgoq
- KynA==
-X-Gm-Message-State: AOAM5332oh7i0aqVEQ0hE8CeYPdDSZrW842cINyJIgutjRII93EcF6br
- FKMM3snDuBi5TFswit8f9HbNFR25W2eUJcc7
-X-Google-Smtp-Source: ABdhPJxbvr7/AnBoZcHyhsW0W12ecYhAkPOLPxHO5o9UAm5fH+F+qXKhj+2i+WaiwgQOkytgV7QdZQ==
-X-Received: by 2002:aa7:989e:: with SMTP id r30mr7131267pfl.205.1598344544576; 
- Tue, 25 Aug 2020 01:35:44 -0700 (PDT)
+ bh=OhF7DmqPnZElocDCHxwQ+SG0m4lR629MaEFLfhtxWUY=;
+ b=IhwXd3mstUpY3PG8nFHd39QexaJueGc+9zAEqCV/hNi5ANrU9GHUKyyyytWqIO7l20
+ UbG9Ct8KYY21RlsBMnTvKg4zq3XzKnxjFWW0FOOSY46l9EK9+RufYg/HBbnlOXkLQg4H
+ vx/mfZSkNKNyX1BtIaYXpdenbMt40J1Ysl8g7E5VcVj/9/2dTNVx72oPR95GikMl+uCq
+ n2kTYfO5+WsnIhBoJ1Gnb8RnajRQZt4dLWIlIuVR73EC2rplVPfbbmC8bupInovn3UTS
+ YKWrkjA/OTDF6zAb1EEfxoR4+I+DB1qz1hXVfs1t616tm3PVirFlb+vpjE+qx5h7ZaYP
+ EbYg==
+X-Gm-Message-State: AOAM5310JfnQVBYTnm84W7Skwx2K/4SWR4YXOhG8leqBAZ1Fkx0lZlXa
+ Zpyo56kZJNkx+O1/5BEm9UK42muxof72UADl
+X-Google-Smtp-Source: ABdhPJwC6h1Q2mXUxxwA4Ehc6zViZA79CnpE4rLpyEqHHlWQgkhs0tPElA+Yh+s/vh+kHL4jnY1jxg==
+X-Received: by 2002:a17:902:bd45:: with SMTP id
+ b5mr6780810plx.22.1598344547699; 
+ Tue, 25 Aug 2020 01:35:47 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id bn14sm1146683pjb.0.2020.08.25.01.35.41
+ by smtp.googlemail.com with ESMTPSA id bn14sm1146683pjb.0.2020.08.25.01.35.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Aug 2020 01:35:43 -0700 (PDT)
+ Tue, 25 Aug 2020 01:35:47 -0700 (PDT)
 From: luoyonggang@gmail.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/5] meson: Mingw64 gcc doesn't recognize system include_type
- for sdl2
-Date: Tue, 25 Aug 2020 16:34:58 +0800
-Message-Id: <20200825083500.359-3-luoyonggang@gmail.com>
+Subject: [PATCH 4/5] meson: !/bin/sh are msys2 friendly.
+Date: Tue, 25 Aug 2020 16:34:59 +0800
+Message-Id: <20200825083500.359-4-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.27.0.windows.1
 In-Reply-To: <20200825083500.359-1-luoyonggang@gmail.com>
 References: <20200825083500.359-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x535.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x536.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,23 +92,19 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Yonggang Luo <luoyonggang@gmail.com>
 
 ---
- meson.build | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ scripts/undefsym.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meson.build b/meson.build
-index df5bf728b5..a3585881e1 100644
---- a/meson.build
-+++ b/meson.build
-@@ -224,8 +224,7 @@ if 'CONFIG_BRLAPI' in config_host
-   brlapi = declare_dependency(link_args: config_host['BRLAPI_LIBS'].split())
- endif
+diff --git a/scripts/undefsym.sh b/scripts/undefsym.sh
+index b9ec332e95..8189308b2c 100755
+--- a/scripts/undefsym.sh
++++ b/scripts/undefsym.sh
+@@ -1,4 +1,4 @@
+-#! /usr/bin/env bash
++#!/bin/sh
  
--sdl = dependency('sdl2', required: get_option('sdl'), static: enable_static,
--                 include_type: 'system')
-+sdl = dependency('sdl2', required: get_option('sdl'), static: enable_static)
- sdl_image = not_found
- if sdl.found()
-   # work around 2.0.8 bug
+ # Before a shared module's DSO is produced, a static library is built for it
+ # and passed to this script.  The script generates -Wl,-u options to force
 -- 
 2.27.0.windows.1
 
