@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 778F3251289
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 09:02:13 +0200 (CEST)
-Received: from localhost ([::1]:36964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 564DE2512E2
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 09:18:57 +0200 (CEST)
+Received: from localhost ([::1]:41264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kASyC-0007eh-I1
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 03:02:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42810)
+	id 1kATEN-00020F-W5
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 03:18:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kASwo-0006h1-Np
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 03:00:47 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:50331)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kATDa-0001Jq-68
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 03:18:06 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:51697)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kASwl-0006l6-Qz
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 03:00:46 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kATDX-0000H7-84
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 03:18:05 -0400
 Received: from [192.168.100.1] ([82.252.135.186]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MRVy9-1jwUKJ0wh3-00NQat; Tue, 25 Aug 2020 09:00:38 +0200
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MkYHO-1ktwIy2IMY-00m5WD; Tue, 25 Aug 2020 09:17:58 +0200
 Subject: Re: [PATCH v2 1/2] linux-user: Add support for ppoll_time64() and
  pselect6_time64()
 To: Filip Bozuta <Filip.Bozuta@syrmia.com>, qemu-devel@nongnu.org
@@ -68,8 +68,8 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <0798950c-1b72-f4f1-5ee0-e9822d3ea161@vivier.eu>
-Date: Tue, 25 Aug 2020 09:00:37 +0200
+Message-ID: <1920aafd-aecf-eb9d-1474-df639a23107a@vivier.eu>
+Date: Tue, 25 Aug 2020 09:17:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
@@ -77,26 +77,26 @@ In-Reply-To: <20200824223050.92032-2-Filip.Bozuta@syrmia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:GBTtAD0DOJHID8gsT8ejcLeU/rUIOE7jaKte5JSBgywamy/a6WD
- PcFQuiOx0pMyDadxS95boAes9sPwoTn8UYtCXmK51/+MC5Dom39mmYmypIhCTG/Xx8fcdSP
- XSZY1HK02X3pyjDDj/QO/L8GpMdu550LG7aO8o9o2JFLZdAVj5VMxmAuJSC1OP64yRzg627
- Di8xwAv6w1QYJttoIG//w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:xTAnL9Ypq1w=:VebG1iztXJ/wSbkPSsajrY
- GQ6o1Rig2FNazaJPuN6D9VW5Ayb6Sb+1HeUgADe8K7120fdW6cFQxs+wEaUPkve2KafAyOgUT
- 3GCQOG1RtBRqHw1LCuid0yLu6d57/YXv2UHojxEnjBNVuXR10dxMjSj0SGrw1qXC2HkINOoEO
- FccrKreQ+em68d3FRumsgWkqY2jSb1pN2AhLgu6F9b/nE22pSeN08M94VTv0zFku713Qg4mJK
- KKwxbXdbr33V+vYs2xFxBvW7utPAhLzOK9XZy09ZWPWFRVqN3DzzFEZt2QoI8UNpKsdYBB+6V
- bB6QxAuZC1Louafa8Q270gfRo2mVf41wKXVywmLHu4mbQaZt+WyQxHSta5AwACH0WQDZiKRVv
- VMktTt8/9HBuKx6gZbUVwBN+hqXQCbUoPaT/RX7hIp7ZyYkbpbVWEuu425H7wD5Wqy9fEL5Fh
- euYE0gkfafxfaxMAIqIseylEJGc8MYdFkvIHY8nxHWtCXWLZr7XoRYxL8/Bgaoqmy+Vb8oCo6
- zsoym9QBZ/39+0Z1/xq/533aXQob1eipTpU6MXRtCfqt6NxcQAuZqht7jfbqSep0UlMxYH0Q2
- 9aMzT39MHSLUPRJPduMhWQUGsOxeesf6pbXALPUSkPY5Zwz4EOgygZlplFMfFkljQoK3+g/XL
- KL50pA+exekXFXrJAcoNxwJj8yfSRQN3RQeFJH/8TkjkQIMJzaQwrzovwVZi0olmxebO8S6wR
- LHexksY5vvIK1+5xTlGDgYxWKvicR3OarLfhVZylqdde6T9jDOqLxIa3SMK+Y9cwG5foMXvlg
- fu+FfYKVwFQJUjDXhk3qfitUA/dyU9ZcCWpeUO8+rjm8ogcNlppVIDagHQKENgXTA5bCzxb
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:ov7jH177+7nHQNWm64BKERmzw88IbNzVG3Wa9yee2SnsPLTxrJV
+ DuqGy+jhnsV5xcSAE6zHy978D01juP//5f6e3RI0+0TKb2RCGPX4amIslZtd7Mq6hZYy7H1
+ sgpQ0v+bXO531EMO3+5KXXg2zwn6hA8f9WRkhNgDgfeRIKQch8yeV7gYHGLw92OzIwB53+9
+ xXOMC2KIscki3h4cqMFgg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:km5KkFyN9gs=:Me/72NS4dgZZ0CaioXJedd
+ 33MKiFh744nWPgAx9iOYfc6Myl83q6UGuogPUiOL+J24fz1IKYVwNsUN3vPxGA6zCLXKEEQ5B
+ 6sEeHj4/UFmT39wAz+ynUoHOyR2LtTDtrNfhmfuP/4jyri+DzQD7onmEvQZfuCkhmyKQC7ba/
+ kuBBr5dKKtAueRavQBp1DDlHBW63r+blfCeZV3y2JG3MyQzyxqKCL+rya7w7Hjb1KuUxn18MF
+ dImJHX1eWoNYsMLjlow6j0URnYHrEr9ldFWZD0cGgemZJMRbjyrdgeBZGJmOKNqg00/ElW8q0
+ +jGZJtXy6Ut+tm1BHk0wADGAP8aso0FwoG96L7rT56dqmeUYYPjTB2+O9dZ7QuVQulDHCFpbA
+ hV/TPbef3eNDthJBuPVSzQ+ZHKN50onKm+nMI0quOQfg1Y5MS6pteJifiL840jLfuS8ltVHBB
+ SiJdM4JM3dCDOwox7t4qRPLq7dVyXvftAk7CpZfNB8km9t8uAzO1XBes2VyuKHVw4k+DUKqc0
+ uGJDwEHtmEGgRcwRx6q6OtkG4DOa8etAIV2sC341YLNyazNN0kfiNEXMopuRq+WIzheEA8gUY
+ KFIUb1gXltGwn0AwSHfZAmT03Hq8evLEOUCSopmzAC+nI74G7AyecU3ZqouBApmB5XsgI3im1
+ wWrdu1iuN/pYw+McPTG/8YVt/+U3iAPI3P1fJQDpXfmt03SO2CXJEe2KdZPLrRRM1CcdNOSeF
+ 1cvKqVN8+a9MLpT/xHCrJdP1VGuE07CToRI8A0BHJhCalEfXQWhcMc7NS+5PLTJU1Adl7RK46
+ JTzFxLWWmWvEn3gQCjTMRZLlmYcTGDpgS1FqaEzxolnHv0QEqzf7ibZ25XpN/VJ6UezFwfM
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 03:00:42
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 03:18:01
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -677,5 +677,9 @@ Le 25/08/2020 à 00:30, Filip Bozuta a écrit :
 >          /* NOTE: the flock constant seems to be the same for every
 > 
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Applied to my linux-user-for-5.2 branch.
+
+Thanks,
+Laurent
+
 
