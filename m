@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4ABC2520F0
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 21:48:40 +0200 (CEST)
-Received: from localhost ([::1]:56352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E0F32520CF
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 21:44:03 +0200 (CEST)
+Received: from localhost ([::1]:57748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAevv-0005J4-RL
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 15:48:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40478)
+	id 1kAerS-0002sK-Ey
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 15:44:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kAeX9-0001zo-IU
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:23:03 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:37094
+ id 1kAeXF-0002G6-Ik
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:23:09 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:36116
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kAeX7-0006JR-SS
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:23:03 -0400
+ id 1kAeXD-0006Jz-T7
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:23:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598383381;
+ s=mimecast20190719; t=1598383387;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PsS14lnkTW7yY+nKdiLwDs588t0SLM80gtExZmcSA4s=;
- b=YeVFSc8a50xpKP2ijYEF66bAtIuIYGgEY++I8DqDcKQceZBY8Zr5pFjvUfj4SqTSDyngYB
- rhWRUb79ozDmsNUeevvs7HdzLsLswKtgUO5+gKuOuxmePPoiSY/QWsescHxCLHHy5gUC+3
- R+CaYcAme7cJ6PJaTpRoU492SwrYrOk=
+ bh=VjxeJ9BzGMkGV1SE9TDzsM2n1mANptvL9g+g5D4ipE4=;
+ b=e3GHLY4A95uwqQCiDceMw8vBH75oKOjpRfH/exsQfkdX1ermaiH+45YbonifcEWhKoRGc0
+ cR7e0NTUKBKK/xH/aQaVP3GGKLU57cN8zVn6KOM96CihbgR/XmzJEDutgiEytcNKeRCzca
+ 0qLS+qFWXlPGwVoTyHy3OU+/sW/0Ss8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-99-JNHvesqgOHeYYt0TPYgCJA-1; Tue, 25 Aug 2020 15:22:59 -0400
-X-MC-Unique: JNHvesqgOHeYYt0TPYgCJA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-102-ybcLCmRVPcapeTx3tYjqmg-1; Tue, 25 Aug 2020 15:23:03 -0400
+X-MC-Unique: ybcLCmRVPcapeTx3tYjqmg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 877491DE02;
- Tue, 25 Aug 2020 19:22:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 544BD807330;
+ Tue, 25 Aug 2020 19:23:02 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4D581756E1;
- Tue, 25 Aug 2020 19:22:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5A6DA709C4;
+ Tue, 25 Aug 2020 19:22:59 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 47/74] rdma: Rename INTERFACE_RDMA_PROVIDER_CLASS macro
-Date: Tue, 25 Aug 2020 15:20:43 -0400
-Message-Id: <20200825192110.3528606-48-ehabkost@redhat.com>
+Subject: [PATCH v3 48/74] s390-virtio-ccw: Rename S390_MACHINE_CLASS macro
+Date: Tue, 25 Aug 2020 15:20:44 -0400
+Message-Id: <20200825192110.3528606-49-ehabkost@redhat.com>
 In-Reply-To: <20200825192110.3528606-1-ehabkost@redhat.com>
 References: <20200825192110.3528606-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 15:21:30
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 01:35:36
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -68,7 +68,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.958,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,14 +81,16 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Yuval Shaia <yuval.shaia.ml@gmail.com>
+Cc: Thomas Huth <thuth@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename the macro to be consistent with RDMA_PROVIDER and
-RDMA_PROVIDER_GET_CLASS.
+Rename it to be consistent with S390_CCW_MACHINE and
+TYPE_S390_CCW_MACHINE.
 
 This will make future conversion to OBJECT_DECLARE* easier.
 
@@ -97,40 +99,99 @@ Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 Changes series v2 -> v3: new patch added to series v3
 
 ---
-Cc: Yuval Shaia <yuval.shaia.ml@gmail.com>
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Cc: Richard Henderson <rth@twiddle.net>
+Cc: David Hildenbrand <david@redhat.com>
+Cc: Cornelia Huck <cohuck@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>
+Cc: Halil Pasic <pasic@linux.ibm.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+Cc: qemu-s390x@nongnu.org
 Cc: qemu-devel@nongnu.org
 ---
- include/hw/rdma/rdma.h    | 2 +-
- hw/rdma/vmw/pvrdma_main.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ include/hw/s390x/s390-virtio-ccw.h |  2 +-
+ hw/s390x/s390-virtio-ccw.c         | 14 +++++++-------
+ 2 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/include/hw/rdma/rdma.h b/include/hw/rdma/rdma.h
-index 68290fb58c..fd3d70103d 100644
---- a/include/hw/rdma/rdma.h
-+++ b/include/hw/rdma/rdma.h
-@@ -19,7 +19,7 @@
+diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-virtio-ccw.h
+index cd1dccc6e3..caf4962d29 100644
+--- a/include/hw/s390x/s390-virtio-ccw.h
++++ b/include/hw/s390x/s390-virtio-ccw.h
+@@ -18,7 +18,7 @@
+ #define S390_CCW_MACHINE(obj) \
+     OBJECT_CHECK(S390CcwMachineState, (obj), TYPE_S390_CCW_MACHINE)
  
- #define INTERFACE_RDMA_PROVIDER "rdma"
+-#define S390_MACHINE_CLASS(klass) \
++#define S390_CCW_MACHINE_CLASS(klass) \
+     OBJECT_CLASS_CHECK(S390CcwMachineClass, (klass), TYPE_S390_CCW_MACHINE)
  
--#define INTERFACE_RDMA_PROVIDER_CLASS(klass) \
-+#define RDMA_PROVIDER_CLASS(klass) \
-     OBJECT_CLASS_CHECK(RdmaProviderClass, (klass), \
-                        INTERFACE_RDMA_PROVIDER)
- #define RDMA_PROVIDER_GET_CLASS(obj) \
-diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
-index 3254aadb6e..77b1235a3f 100644
---- a/hw/rdma/vmw/pvrdma_main.c
-+++ b/hw/rdma/vmw/pvrdma_main.c
-@@ -681,7 +681,7 @@ static void pvrdma_class_init(ObjectClass *klass, void *data)
+ typedef struct S390CcwMachineState {
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index f4ea6a9545..3106bbea33 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -596,7 +596,7 @@ static void ccw_machine_class_init(ObjectClass *oc, void *data)
+     MachineClass *mc = MACHINE_CLASS(oc);
+     NMIClass *nc = NMI_CLASS(oc);
+     HotplugHandlerClass *hc = HOTPLUG_HANDLER_CLASS(oc);
+-    S390CcwMachineClass *s390mc = S390_MACHINE_CLASS(mc);
++    S390CcwMachineClass *s390mc = S390_CCW_MACHINE_CLASS(mc);
+ 
+     s390mc->ri_allowed = true;
+     s390mc->cpu_model_allowed = true;
+@@ -677,7 +677,7 @@ static S390CcwMachineClass *get_machine_class(void)
+         * be called for the 'none' machine. The properties will
+         * have their after-initialization values.
+         */
+-        current_mc = S390_MACHINE_CLASS(
++        current_mc = S390_CCW_MACHINE_CLASS(
+                      object_class_by_name(TYPE_S390_CCW_MACHINE));
+     }
+     return current_mc;
+@@ -786,7 +786,7 @@ bool css_migration_enabled(void)
+     static void ccw_machine_##suffix##_instance_init(Object *obj)             \
+     {                                                                         \
+         MachineState *machine = MACHINE(obj);                                 \
+-        current_mc = S390_MACHINE_CLASS(MACHINE_GET_CLASS(machine));          \
++        current_mc = S390_CCW_MACHINE_CLASS(MACHINE_GET_CLASS(machine));          \
+         ccw_machine_##suffix##_instance_options(machine);                     \
+     }                                                                         \
+     static const TypeInfo ccw_machine_##suffix##_info = {                     \
+@@ -898,7 +898,7 @@ static void ccw_machine_3_0_instance_options(MachineState *machine)
+ 
+ static void ccw_machine_3_0_class_options(MachineClass *mc)
  {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
--    RdmaProviderClass *ir = INTERFACE_RDMA_PROVIDER_CLASS(klass);
-+    RdmaProviderClass *ir = RDMA_PROVIDER_CLASS(klass);
+-    S390CcwMachineClass *s390mc = S390_MACHINE_CLASS(mc);
++    S390CcwMachineClass *s390mc = S390_CCW_MACHINE_CLASS(mc);
  
-     k->realize = pvrdma_realize;
-     k->vendor_id = PCI_VENDOR_ID_VMWARE;
+     s390mc->hpage_1m_allowed = false;
+     ccw_machine_3_1_class_options(mc);
+@@ -965,7 +965,7 @@ static void ccw_machine_2_9_instance_options(MachineState *machine)
+ 
+ static void ccw_machine_2_9_class_options(MachineClass *mc)
+ {
+-    S390CcwMachineClass *s390mc = S390_MACHINE_CLASS(mc);
++    S390CcwMachineClass *s390mc = S390_CCW_MACHINE_CLASS(mc);
+     static GlobalProperty compat[] = {
+         { TYPE_S390_STATTRIB, "migration-enabled", "off", },
+     };
+@@ -1001,7 +1001,7 @@ static void ccw_machine_2_7_instance_options(MachineState *machine)
+ 
+ static void ccw_machine_2_7_class_options(MachineClass *mc)
+ {
+-    S390CcwMachineClass *s390mc = S390_MACHINE_CLASS(mc);
++    S390CcwMachineClass *s390mc = S390_CCW_MACHINE_CLASS(mc);
+ 
+     s390mc->cpu_model_allowed = false;
+     ccw_machine_2_8_class_options(mc);
+@@ -1016,7 +1016,7 @@ static void ccw_machine_2_6_instance_options(MachineState *machine)
+ 
+ static void ccw_machine_2_6_class_options(MachineClass *mc)
+ {
+-    S390CcwMachineClass *s390mc = S390_MACHINE_CLASS(mc);
++    S390CcwMachineClass *s390mc = S390_CCW_MACHINE_CLASS(mc);
+     static GlobalProperty compat[] = {
+         { TYPE_S390_IPL, "iplbext_migration", "off", },
+          { TYPE_VIRTUAL_CSS_BRIDGE, "css_dev_path", "off", },
 -- 
 2.26.2
 
