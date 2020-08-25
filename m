@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54DBD2520CE
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 21:43:25 +0200 (CEST)
-Received: from localhost ([::1]:54064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26F882520E1
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 21:46:12 +0200 (CEST)
+Received: from localhost ([::1]:42562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAeqq-0001QM-Bn
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 15:43:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40630)
+	id 1kAetX-0008AU-61
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 15:46:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kAeXK-0002TZ-Fr
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:23:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29403)
+ id 1kAeXM-0002aH-S3
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:23:16 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:39686
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kAeXI-0006LG-SR
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:23:14 -0400
+ id 1kAeXK-0006LV-RA
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:23:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598383392;
+ s=mimecast20190719; t=1598383394;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TV5KD0IcI0qUOaTJTfo8j0r+7GyHMo5nJpePfWRM09U=;
- b=XjWV01U2XSyXTdVl4yVLjO43y6NwGWGjVlKTpn2Ue/qQjNzF0hYOQp9kWkrSt3i7NcWd3J
- O87t6aa2Qn3DuO+hWdTuiK90UOeGJk8kSW9q+U1doO/AdJobTs46QbYqVqceaMB7LJ5ftt
- J9mu0bD3V2Hxfd5BT9cmmR0WCGVA7cY=
+ bh=bDxBLHQlkYOe30JLFk4qLr/CG93rfxJnhW4FWC4abvg=;
+ b=OpyCvcwvYHsf9jsehYxqnBV+HYWwm+aMgqQt/9sfmcj2S4Yv6TQsEu0y7Ow1tynNc/3ngP
+ Irk3eyvfv1XQ/KW9tBbM7upx3xx8ED6z5RAOqFRtlnptSQ4+LrxWjgAK0jwjsJ9Si/OhHl
+ lV3kSuMbN32g15kwaaEuVVDXnjuh40o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-492-PrPkt6ytONCjrah-2j9iFA-1; Tue, 25 Aug 2020 15:23:08 -0400
-X-MC-Unique: PrPkt6ytONCjrah-2j9iFA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-21-lMdBIpX_OxSe-2W9mbK5uw-1; Tue, 25 Aug 2020 15:23:10 -0400
+X-MC-Unique: lMdBIpX_OxSe-2W9mbK5uw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 411458799F0;
- Tue, 25 Aug 2020 19:23:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C54A11074644;
+ Tue, 25 Aug 2020 19:23:08 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E2EA519C4F;
- Tue, 25 Aug 2020 19:23:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 25C05808B2;
+ Tue, 25 Aug 2020 19:23:08 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 51/74] arm: Fix typo in AARCH64_CPU_GET_CLASS definition
-Date: Tue, 25 Aug 2020 15:20:47 -0400
-Message-Id: <20200825192110.3528606-52-ehabkost@redhat.com>
+Subject: [PATCH v3 52/74] rx: Rename QOM type check macros
+Date: Tue, 25 Aug 2020 15:20:48 -0400
+Message-Id: <20200825192110.3528606-53-ehabkost@redhat.com>
 In-Reply-To: <20200825192110.3528606-1-ehabkost@redhat.com>
 References: <20200825192110.3528606-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 06:38:59
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 15:21:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.958,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,40 +81,196 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm@nongnu.org,
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
  "Daniel P. Berrange" <berrange@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
+ Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There's a typo in the type name of AARCH64_CPU_GET_CLASS.  This
-was never detected because the macro is not used by any code.
+Currently we have a RXCPU typedef and a RXCPU type checking
+macro, but OBJECT_DECLARE* would transform the RXCPU macro into a
+function, and the function name would conflict with the typedef
+name.
+
+Rename the RXCPU* QOM type check macros to RX_CPU*, so we will
+avoid the conflict and make the macro names consistent with the
+TYPE_RX_CPU constant name.
+
+This will make future conversion to OBJECT_DECLARE* easier.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
 Changes series v2 -> v3: new patch added to series v3
 
 ---
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-arm@nongnu.org
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
 Cc: qemu-devel@nongnu.org
 ---
- target/arm/cpu-qom.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/rx/cpu-qom.h   |  6 +++---
+ hw/rx/rx-gdbsim.c     |  4 ++--
+ target/rx/cpu.c       | 14 +++++++-------
+ target/rx/gdbstub.c   |  4 ++--
+ target/rx/helper.c    |  4 ++--
+ target/rx/translate.c |  2 +-
+ 6 files changed, 17 insertions(+), 17 deletions(-)
 
-diff --git a/target/arm/cpu-qom.h b/target/arm/cpu-qom.h
-index 56395b87f6..fdef05cacf 100644
---- a/target/arm/cpu-qom.h
-+++ b/target/arm/cpu-qom.h
-@@ -67,7 +67,7 @@ typedef struct ARMCPU ARMCPU;
- #define AARCH64_CPU_CLASS(klass) \
-     OBJECT_CLASS_CHECK(AArch64CPUClass, (klass), TYPE_AARCH64_CPU)
- #define AARCH64_CPU_GET_CLASS(obj) \
--    OBJECT_GET_CLASS(AArch64CPUClass, (obj), TYPE_AArch64_CPU)
-+    OBJECT_GET_CLASS(AArch64CPUClass, (obj), TYPE_AARCH64_CPU)
+diff --git a/target/rx/cpu-qom.h b/target/rx/cpu-qom.h
+index 3e81856ef5..af937bc680 100644
+--- a/target/rx/cpu-qom.h
++++ b/target/rx/cpu-qom.h
+@@ -25,11 +25,11 @@
  
- typedef struct AArch64CPUClass {
-     /*< private >*/
+ #define TYPE_RX62N_CPU RX_CPU_TYPE_NAME("rx62n")
+ 
+-#define RXCPU_CLASS(klass) \
++#define RX_CPU_CLASS(klass) \
+     OBJECT_CLASS_CHECK(RXCPUClass, (klass), TYPE_RX_CPU)
+-#define RXCPU(obj) \
++#define RX_CPU(obj) \
+     OBJECT_CHECK(RXCPU, (obj), TYPE_RX_CPU)
+-#define RXCPU_GET_CLASS(obj) \
++#define RX_CPU_GET_CLASS(obj) \
+     OBJECT_GET_CLASS(RXCPUClass, (obj), TYPE_RX_CPU)
+ 
+ /*
+diff --git a/hw/rx/rx-gdbsim.c b/hw/rx/rx-gdbsim.c
+index 54992ebe57..6914de2e59 100644
+--- a/hw/rx/rx-gdbsim.c
++++ b/hw/rx/rx-gdbsim.c
+@@ -118,7 +118,7 @@ static void rx_gdbsim_init(MachineState *machine)
+          * the latter half of the SDRAM space.
+          */
+         kernel_offset = machine->ram_size / 2;
+-        rx_load_image(RXCPU(first_cpu), kernel_filename,
++        rx_load_image(RX_CPU(first_cpu), kernel_filename,
+                       SDRAM_BASE + kernel_offset, kernel_offset);
+         if (dtb_filename) {
+             ram_addr_t dtb_offset;
+@@ -141,7 +141,7 @@ static void rx_gdbsim_init(MachineState *machine)
+             rom_add_blob_fixed("dtb", dtb, dtb_size,
+                                SDRAM_BASE + dtb_offset);
+             /* Set dtb address to R1 */
+-            RXCPU(first_cpu)->env.regs[1] = SDRAM_BASE + dtb_offset;
++            RX_CPU(first_cpu)->env.regs[1] = SDRAM_BASE + dtb_offset;
+         }
+     }
+ }
+diff --git a/target/rx/cpu.c b/target/rx/cpu.c
+index 219e05397b..23ee17a701 100644
+--- a/target/rx/cpu.c
++++ b/target/rx/cpu.c
+@@ -28,14 +28,14 @@
+ 
+ static void rx_cpu_set_pc(CPUState *cs, vaddr value)
+ {
+-    RXCPU *cpu = RXCPU(cs);
++    RXCPU *cpu = RX_CPU(cs);
+ 
+     cpu->env.pc = value;
+ }
+ 
+ static void rx_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
+ {
+-    RXCPU *cpu = RXCPU(cs);
++    RXCPU *cpu = RX_CPU(cs);
+ 
+     cpu->env.pc = tb->pc;
+ }
+@@ -48,8 +48,8 @@ static bool rx_cpu_has_work(CPUState *cs)
+ 
+ static void rx_cpu_reset(DeviceState *dev)
+ {
+-    RXCPU *cpu = RXCPU(dev);
+-    RXCPUClass *rcc = RXCPU_GET_CLASS(cpu);
++    RXCPU *cpu = RX_CPU(dev);
++    RXCPUClass *rcc = RX_CPU_GET_CLASS(cpu);
+     CPURXState *env = &cpu->env;
+     uint32_t *resetvec;
+ 
+@@ -108,7 +108,7 @@ static ObjectClass *rx_cpu_class_by_name(const char *cpu_model)
+ static void rx_cpu_realize(DeviceState *dev, Error **errp)
+ {
+     CPUState *cs = CPU(dev);
+-    RXCPUClass *rcc = RXCPU_GET_CLASS(dev);
++    RXCPUClass *rcc = RX_CPU_GET_CLASS(dev);
+     Error *local_err = NULL;
+ 
+     cpu_exec_realizefn(cs, &local_err);
+@@ -164,7 +164,7 @@ static bool rx_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
+ static void rx_cpu_init(Object *obj)
+ {
+     CPUState *cs = CPU(obj);
+-    RXCPU *cpu = RXCPU(obj);
++    RXCPU *cpu = RX_CPU(obj);
+     CPURXState *env = &cpu->env;
+ 
+     cpu_set_cpustate_pointers(cpu);
+@@ -176,7 +176,7 @@ static void rx_cpu_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+     CPUClass *cc = CPU_CLASS(klass);
+-    RXCPUClass *rcc = RXCPU_CLASS(klass);
++    RXCPUClass *rcc = RX_CPU_CLASS(klass);
+ 
+     device_class_set_parent_realize(dc, rx_cpu_realize,
+                                     &rcc->parent_realize);
+diff --git a/target/rx/gdbstub.c b/target/rx/gdbstub.c
+index 9391e8151e..c811d4810b 100644
+--- a/target/rx/gdbstub.c
++++ b/target/rx/gdbstub.c
+@@ -22,7 +22,7 @@
+ 
+ int rx_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+ {
+-    RXCPU *cpu = RXCPU(cs);
++    RXCPU *cpu = RX_CPU(cs);
+     CPURXState *env = &cpu->env;
+ 
+     switch (n) {
+@@ -54,7 +54,7 @@ int rx_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+ 
+ int rx_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
+ {
+-    RXCPU *cpu = RXCPU(cs);
++    RXCPU *cpu = RX_CPU(cs);
+     CPURXState *env = &cpu->env;
+     uint32_t psw;
+     switch (n) {
+diff --git a/target/rx/helper.c b/target/rx/helper.c
+index a6a337a311..3e380a94fe 100644
+--- a/target/rx/helper.c
++++ b/target/rx/helper.c
+@@ -44,7 +44,7 @@ void rx_cpu_unpack_psw(CPURXState *env, uint32_t psw, int rte)
+ #define INT_FLAGS (CPU_INTERRUPT_HARD | CPU_INTERRUPT_FIR)
+ void rx_cpu_do_interrupt(CPUState *cs)
+ {
+-    RXCPU *cpu = RXCPU(cs);
++    RXCPU *cpu = RX_CPU(cs);
+     CPURXState *env = &cpu->env;
+     int do_irq = cs->interrupt_request & INT_FLAGS;
+     uint32_t save_psw;
+@@ -121,7 +121,7 @@ void rx_cpu_do_interrupt(CPUState *cs)
+ 
+ bool rx_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+ {
+-    RXCPU *cpu = RXCPU(cs);
++    RXCPU *cpu = RX_CPU(cs);
+     CPURXState *env = &cpu->env;
+     int accept = 0;
+     /* hardware interrupt (Normal) */
+diff --git a/target/rx/translate.c b/target/rx/translate.c
+index da9713d362..482278edd2 100644
+--- a/target/rx/translate.c
++++ b/target/rx/translate.c
+@@ -128,7 +128,7 @@ static int bdsp_s(DisasContext *ctx, int d)
+ 
+ void rx_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+ {
+-    RXCPU *cpu = RXCPU(cs);
++    RXCPU *cpu = RX_CPU(cs);
+     CPURXState *env = &cpu->env;
+     int i;
+     uint32_t psw;
 -- 
 2.26.2
 
