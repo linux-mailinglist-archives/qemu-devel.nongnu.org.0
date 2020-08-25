@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACD38251456
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 10:37:10 +0200 (CEST)
-Received: from localhost ([::1]:51472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3418D251470
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 10:39:25 +0200 (CEST)
+Received: from localhost ([::1]:33830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAUS5-00018d-OU
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 04:37:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60244)
+	id 1kAUUG-0005RV-83
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 04:39:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kAUOv-00040d-BM
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 04:33:53 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59570
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kAUOw-000448-Np
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 04:33:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25860)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kAUOs-0000cc-CJ
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 04:33:52 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kAUOu-0000cu-MI
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 04:33:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598344429;
+ s=mimecast20190719; t=1598344431;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3nFpmCI2uYDGUKxfLFqrxJ3b3ZYo5STX0h4aHGsGM48=;
- b=Ph8k67sibyOtdEEk1AXzDFgGBrJemXc878QVYGgaW6rDvHSyckNUYOyODNn0SPN+baBngO
- PYwKhFrihO8dhhkk1lepxonICiFcQul3Kf1CBhRGkVhA31DxacK2B9uWNM6GcYhQ7tNTUF
- UWu2Zbh7hPuH1wh7SJorzyxnnzjD4P0=
+ bh=8B7SKqqJSMBjP0ELm9wSnZJeCmsuhrnaBBAsOjU5eyo=;
+ b=dt0fHTUSxBnbLs5RXBsmIuNgsiGmg32UGnJguiTNMs6YYDidTWqb3eWBqvyzSVVOehhhxQ
+ tD2c0imMl1YmA8FWHpGOt76awByu9oNr/0k51Um0WPuyfe7oEckAy3Rtmtz2xkwtWlpohA
+ IcwMy5PxUaYIlGT1nCwPK+3C3yGVPgk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-334-QgwquM4iOGK2EZ1OUma7Sw-1; Tue, 25 Aug 2020 04:33:47 -0400
-X-MC-Unique: QgwquM4iOGK2EZ1OUma7Sw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-189-bEhcX3w4NxehPdC_sGYRdQ-1; Tue, 25 Aug 2020 04:33:49 -0400
+X-MC-Unique: bEhcX3w4NxehPdC_sGYRdQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29A10E75F;
- Tue, 25 Aug 2020 08:33:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 69F021074666;
+ Tue, 25 Aug 2020 08:33:48 +0000 (UTC)
 Received: from localhost (ovpn-113-72.ams2.redhat.com [10.36.113.72])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 98F2A50B3F;
- Tue, 25 Aug 2020 08:33:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 08D9B5D9CA;
+ Tue, 25 Aug 2020 08:33:47 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 14/34] qcow2: Add QCow2SubclusterType and
- qcow2_get_subcluster_type()
-Date: Tue, 25 Aug 2020 10:32:51 +0200
-Message-Id: <20200825083311.1098442-15-mreitz@redhat.com>
+Subject: [PULL 15/34] qcow2: Add qcow2_get_subcluster_range_type()
+Date: Tue, 25 Aug 2020 10:32:52 +0200
+Message-Id: <20200825083311.1098442-16-mreitz@redhat.com>
 In-Reply-To: <20200825083311.1098442-1-mreitz@redhat.com>
 References: <20200825083311.1098442-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 02:05:08
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 02:03:58
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.956,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,222 +85,86 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alberto Garcia <berto@igalia.com>
 
-This patch adds QCow2SubclusterType, which is the subcluster-level
-version of QCow2ClusterType. All QCOW2_SUBCLUSTER_* values have the
-the same meaning as their QCOW2_CLUSTER_* equivalents (when they
-exist). See below for details and caveats.
+There are situations in which we want to know how many contiguous
+subclusters of the same type there are in a given cluster. This can be
+done by simply iterating over the subclusters and repeatedly calling
+qcow2_get_subcluster_type() for each one of them.
 
-In images without extended L2 entries clusters are treated as having
-exactly one subcluster so it is possible to replace one data type with
-the other while keeping the exact same semantics.
-
-With extended L2 entries there are new possible values, and every
-subcluster in the same cluster can obviously have a different
-QCow2SubclusterType so functions need to be adapted to work on the
-subcluster level.
-
-There are several things that have to be taken into account:
-
-  a) QCOW2_SUBCLUSTER_COMPRESSED means that the whole cluster is
-     compressed. We do not support compression at the subcluster
-     level.
-
-  b) There are two different values for unallocated subclusters:
-     QCOW2_SUBCLUSTER_UNALLOCATED_PLAIN which means that the whole
-     cluster is unallocated, and QCOW2_SUBCLUSTER_UNALLOCATED_ALLOC
-     which means that the cluster is allocated but the subcluster is
-     not. The latter can only happen in images with extended L2
-     entries.
-
-  c) QCOW2_SUBCLUSTER_INVALID is used to detect the cases where an L2
-     entry has a value that violates the specification. The caller is
-     responsible for handling these situations.
-
-     To prevent compatibility problems with images that have invalid
-     values but are currently being read by QEMU without causing side
-     effects, QCOW2_SUBCLUSTER_INVALID is only returned for images
-     with extended L2 entries.
-
-qcow2_cluster_to_subcluster_type() is added as a separate function
-from qcow2_get_subcluster_type(), but this is only temporary and both
-will be merged in a subsequent patch.
+However once we determined the type of a subcluster we can check the
+rest efficiently by counting the number of adjacent ones (or zeroes)
+in the bitmap. This is what this function does.
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <26ef38e270f25851c98b51278852b4c4a7f97e69.1594396418.git.berto@igalia.com>
+Message-Id: <db917263d568ec6ffb4a41cac3c9100f96bf6c18.1594396418.git.berto@igalia.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qcow2.h | 126 +++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 125 insertions(+), 1 deletion(-)
+ block/qcow2-cluster.c | 51 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 51 insertions(+)
 
-diff --git a/block/qcow2.h b/block/qcow2.h
-index 82b86f6cec..3aec6f452a 100644
---- a/block/qcow2.h
-+++ b/block/qcow2.h
-@@ -80,6 +80,21 @@
- 
- #define QCOW_EXTL2_SUBCLUSTERS_PER_CLUSTER 32
- 
-+/* The subcluster X [0..31] is allocated */
-+#define QCOW_OFLAG_SUB_ALLOC(X)   (1ULL << (X))
-+/* The subcluster X [0..31] reads as zeroes */
-+#define QCOW_OFLAG_SUB_ZERO(X)    (QCOW_OFLAG_SUB_ALLOC(X) << 32)
-+/* Subclusters [X, Y) (0 <= X <= Y <= 32) are allocated */
-+#define QCOW_OFLAG_SUB_ALLOC_RANGE(X, Y) \
-+    (QCOW_OFLAG_SUB_ALLOC(Y) - QCOW_OFLAG_SUB_ALLOC(X))
-+/* Subclusters [X, Y) (0 <= X <= Y <= 32) read as zeroes */
-+#define QCOW_OFLAG_SUB_ZERO_RANGE(X, Y) \
-+    (QCOW_OFLAG_SUB_ALLOC_RANGE(X, Y) << 32)
-+/* L2 entry bitmap with all allocation bits set */
-+#define QCOW_L2_BITMAP_ALL_ALLOC  (QCOW_OFLAG_SUB_ALLOC_RANGE(0, 32))
-+/* L2 entry bitmap with all "read as zeroes" bits set */
-+#define QCOW_L2_BITMAP_ALL_ZEROES (QCOW_OFLAG_SUB_ZERO_RANGE(0, 32))
-+
- /* Size of normal and extended L2 entries */
- #define L2E_SIZE_NORMAL   (sizeof(uint64_t))
- #define L2E_SIZE_EXTENDED (sizeof(uint64_t) * 2)
-@@ -462,6 +477,33 @@ typedef struct QCowL2Meta
-     QLIST_ENTRY(QCowL2Meta) next_in_flight;
- } QCowL2Meta;
- 
-+/*
-+ * In images with standard L2 entries all clusters are treated as if
-+ * they had one subcluster so QCow2ClusterType and QCow2SubclusterType
-+ * can be mapped to each other and have the exact same meaning
-+ * (QCOW2_SUBCLUSTER_UNALLOCATED_ALLOC cannot happen in these images).
-+ *
-+ * In images with extended L2 entries QCow2ClusterType refers to the
-+ * complete cluster and QCow2SubclusterType to each of the individual
-+ * subclusters, so there are several possible combinations:
-+ *
-+ *     |--------------+---------------------------|
-+ *     | Cluster type | Possible subcluster types |
-+ *     |--------------+---------------------------|
-+ *     | UNALLOCATED  |         UNALLOCATED_PLAIN |
-+ *     |              |                ZERO_PLAIN |
-+ *     |--------------+---------------------------|
-+ *     | NORMAL       |         UNALLOCATED_ALLOC |
-+ *     |              |                ZERO_ALLOC |
-+ *     |              |                    NORMAL |
-+ *     |--------------+---------------------------|
-+ *     | COMPRESSED   |                COMPRESSED |
-+ *     |--------------+---------------------------|
-+ *
-+ * QCOW2_SUBCLUSTER_INVALID means that the L2 entry is incorrect and
-+ * the image should be marked corrupt.
-+ */
-+
- typedef enum QCow2ClusterType {
-     QCOW2_CLUSTER_UNALLOCATED,
-     QCOW2_CLUSTER_ZERO_PLAIN,
-@@ -470,6 +512,16 @@ typedef enum QCow2ClusterType {
-     QCOW2_CLUSTER_COMPRESSED,
- } QCow2ClusterType;
- 
-+typedef enum QCow2SubclusterType {
-+    QCOW2_SUBCLUSTER_UNALLOCATED_PLAIN,
-+    QCOW2_SUBCLUSTER_UNALLOCATED_ALLOC,
-+    QCOW2_SUBCLUSTER_ZERO_PLAIN,
-+    QCOW2_SUBCLUSTER_ZERO_ALLOC,
-+    QCOW2_SUBCLUSTER_NORMAL,
-+    QCOW2_SUBCLUSTER_COMPRESSED,
-+    QCOW2_SUBCLUSTER_INVALID,
-+} QCow2SubclusterType;
-+
- typedef enum QCow2MetadataOverlap {
-     QCOW2_OL_MAIN_HEADER_BITNR      = 0,
-     QCOW2_OL_ACTIVE_L1_BITNR        = 1,
-@@ -634,9 +686,11 @@ static inline int64_t qcow2_vm_state_offset(BDRVQcow2State *s)
- static inline QCow2ClusterType qcow2_get_cluster_type(BlockDriverState *bs,
-                                                       uint64_t l2_entry)
- {
-+    BDRVQcow2State *s = bs->opaque;
-+
-     if (l2_entry & QCOW_OFLAG_COMPRESSED) {
-         return QCOW2_CLUSTER_COMPRESSED;
--    } else if (l2_entry & QCOW_OFLAG_ZERO) {
-+    } else if ((l2_entry & QCOW_OFLAG_ZERO) && !has_subclusters(s)) {
-         if (l2_entry & L2E_OFFSET_MASK) {
-             return QCOW2_CLUSTER_ZERO_ALLOC;
-         }
-@@ -656,6 +710,76 @@ static inline QCow2ClusterType qcow2_get_cluster_type(BlockDriverState *bs,
-     }
+diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+index 0b762502f6..2fe7a0f79c 100644
+--- a/block/qcow2-cluster.c
++++ b/block/qcow2-cluster.c
+@@ -375,6 +375,57 @@ fail:
+     return ret;
  }
  
 +/*
-+ * For an image without extended L2 entries, return the
-+ * QCow2SubclusterType equivalent of a given QCow2ClusterType.
++ * For a given L2 entry, count the number of contiguous subclusters of
++ * the same type starting from @sc_from. Compressed clusters are
++ * treated as if they were divided into subclusters of size
++ * s->subcluster_size.
++ *
++ * Return the number of contiguous subclusters and set @type to the
++ * subcluster type.
++ *
++ * If the L2 entry is invalid return -errno and set @type to
++ * QCOW2_SUBCLUSTER_INVALID.
 + */
-+static inline
-+QCow2SubclusterType qcow2_cluster_to_subcluster_type(QCow2ClusterType type)
++G_GNUC_UNUSED
++static int qcow2_get_subcluster_range_type(BlockDriverState *bs,
++                                           uint64_t l2_entry,
++                                           uint64_t l2_bitmap,
++                                           unsigned sc_from,
++                                           QCow2SubclusterType *type)
 +{
-+    switch (type) {
-+    case QCOW2_CLUSTER_COMPRESSED:
-+        return QCOW2_SUBCLUSTER_COMPRESSED;
-+    case QCOW2_CLUSTER_ZERO_PLAIN:
-+        return QCOW2_SUBCLUSTER_ZERO_PLAIN;
-+    case QCOW2_CLUSTER_ZERO_ALLOC:
-+        return QCOW2_SUBCLUSTER_ZERO_ALLOC;
-+    case QCOW2_CLUSTER_NORMAL:
-+        return QCOW2_SUBCLUSTER_NORMAL;
-+    case QCOW2_CLUSTER_UNALLOCATED:
-+        return QCOW2_SUBCLUSTER_UNALLOCATED_PLAIN;
++    BDRVQcow2State *s = bs->opaque;
++    uint32_t val;
++
++    *type = qcow2_get_subcluster_type(bs, l2_entry, l2_bitmap, sc_from);
++
++    if (*type == QCOW2_SUBCLUSTER_INVALID) {
++        return -EINVAL;
++    } else if (!has_subclusters(s) || *type == QCOW2_SUBCLUSTER_COMPRESSED) {
++        return s->subclusters_per_cluster - sc_from;
++    }
++
++    switch (*type) {
++    case QCOW2_SUBCLUSTER_NORMAL:
++        val = l2_bitmap | QCOW_OFLAG_SUB_ALLOC_RANGE(0, sc_from);
++        return cto32(val) - sc_from;
++
++    case QCOW2_SUBCLUSTER_ZERO_PLAIN:
++    case QCOW2_SUBCLUSTER_ZERO_ALLOC:
++        val = (l2_bitmap | QCOW_OFLAG_SUB_ZERO_RANGE(0, sc_from)) >> 32;
++        return cto32(val) - sc_from;
++
++    case QCOW2_SUBCLUSTER_UNALLOCATED_PLAIN:
++    case QCOW2_SUBCLUSTER_UNALLOCATED_ALLOC:
++        val = ((l2_bitmap >> 32) | l2_bitmap)
++            & ~QCOW_OFLAG_SUB_ALLOC_RANGE(0, sc_from);
++        return ctz32(val) - sc_from;
++
 +    default:
 +        g_assert_not_reached();
 +    }
 +}
 +
-+/*
-+ * In an image without subsclusters @l2_bitmap is ignored and
-+ * @sc_index must be 0.
-+ * Return QCOW2_SUBCLUSTER_INVALID if an invalid l2 entry is detected
-+ * (this checks the whole entry and bitmap, not only the bits related
-+ * to subcluster @sc_index).
-+ */
-+static inline
-+QCow2SubclusterType qcow2_get_subcluster_type(BlockDriverState *bs,
-+                                              uint64_t l2_entry,
-+                                              uint64_t l2_bitmap,
-+                                              unsigned sc_index)
-+{
-+    BDRVQcow2State *s = bs->opaque;
-+    QCow2ClusterType type = qcow2_get_cluster_type(bs, l2_entry);
-+    assert(sc_index < s->subclusters_per_cluster);
-+
-+    if (has_subclusters(s)) {
-+        switch (type) {
-+        case QCOW2_CLUSTER_COMPRESSED:
-+            return QCOW2_SUBCLUSTER_COMPRESSED;
-+        case QCOW2_CLUSTER_NORMAL:
-+            if ((l2_bitmap >> 32) & l2_bitmap) {
-+                return QCOW2_SUBCLUSTER_INVALID;
-+            } else if (l2_bitmap & QCOW_OFLAG_SUB_ZERO(sc_index)) {
-+                return QCOW2_SUBCLUSTER_ZERO_ALLOC;
-+            } else if (l2_bitmap & QCOW_OFLAG_SUB_ALLOC(sc_index)) {
-+                return QCOW2_SUBCLUSTER_NORMAL;
-+            } else {
-+                return QCOW2_SUBCLUSTER_UNALLOCATED_ALLOC;
-+            }
-+        case QCOW2_CLUSTER_UNALLOCATED:
-+            if (l2_bitmap & QCOW_L2_BITMAP_ALL_ALLOC) {
-+                return QCOW2_SUBCLUSTER_INVALID;
-+            } else if (l2_bitmap & QCOW_OFLAG_SUB_ZERO(sc_index)) {
-+                return QCOW2_SUBCLUSTER_ZERO_PLAIN;
-+            } else {
-+                return QCOW2_SUBCLUSTER_UNALLOCATED_PLAIN;
-+            }
-+        default:
-+            g_assert_not_reached();
-+        }
-+    } else {
-+        return qcow2_cluster_to_subcluster_type(type);
-+    }
-+}
-+
- /* Check whether refcounts are eager or lazy */
- static inline bool qcow2_need_accurate_refcounts(BDRVQcow2State *s)
- {
+ /*
+  * Checks how many clusters in a given L2 slice are contiguous in the image
+  * file. As soon as one of the flags in the bitmask stop_flags changes compared
 -- 
 2.26.2
 
