@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97FB8251E96
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 19:42:57 +0200 (CEST)
-Received: from localhost ([::1]:37332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 958FD251E7D
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 19:37:25 +0200 (CEST)
+Received: from localhost ([::1]:57356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAcyG-0003FG-ME
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 13:42:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41748)
+	id 1kAcsu-00081C-42
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 13:37:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=49978a6e9=alistair.francis@wdc.com>)
- id 1kAcwk-0002KI-S0
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 13:41:23 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:48241)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=49978a6e9=alistair.francis@wdc.com>)
- id 1kAcwh-0001AU-MO
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 13:41:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1598377280; x=1629913280;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=x4Qcokgqs5OXpEujeFu7AYcPL4xuwYfManp7h1/6rJQ=;
- b=oMK3CrFG1tqyeIyqBuT9fkapTQsiIyBFmbnIDgcPmlVtQCwPO76UgB/v
- VEGl8oqU7ipaD6iKYDItlq6nqkQyDR0zaHP8IzHXoQ3yhtCaLh95/ea7D
- jeoXCG93+cIsWhtmAXAYJ1ai55YAsJWb8jyPpJzFsk0hYczTrFkVf9zH5
- 8xm7eGfVIHR376AXECsbpx0qe+coajEjoZoXLAakLc1KaECCF5SpxloXH
- WZhwX5wQbiy5fKw8ZkrZyyGL2+9RDpesrtW8a25l+SLNHnKuj5SxSRrRk
- b+1X6S7sUwVPf0YD9HA4PpUuyZZwMDQ5dLcUIRKcjaTu1q46HRI2TCD0N g==;
-IronPort-SDR: sMBmFhNPSiscRSoE8Sb9lpfqMVxDSAFg3vGwzNirNxCCRfxt90e0aU0C2qzBHBQfT5x0Cjn2pQ
- 28b930/6NvMwGoD80Zq3pU4d+gr2Nqvbgsni4ycYkY9mNofqHxt0Ee1S4S1EfeWxjOYeOJ8yWY
- 3P/25QMRSDc4o7i7uZWnyLS21CDGj0lmPYYvXz2/ro3J1WwCXC9LDARjiH/rtcFNxbKC1ZpKq9
- MBJelrJTl19oEg5LtNiNVgXtSeyLcy7dL+JrTBCBiUOlX/Syj+Jtx+zDtKcZsL9UMQL5tF77AR
- tR8=
-X-IronPort-AV: E=Sophos;i="5.76,353,1592841600"; d="scan'208";a="147029867"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 26 Aug 2020 01:41:16 +0800
-IronPort-SDR: 8OCAlGgHx1ApOJdlFc5sv+veFE2qiRkhlNw1x/UQSIGyen0oCZhZXP9LY8p5SRMYHTJZ8eotkT
- pxQmESMj4Qrg==
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Aug 2020 10:28:51 -0700
-IronPort-SDR: w1Cy7YF/HxQ6H2quv1voxrw4NeuSCqNvfQljtqWqgGD01Po1/sSx3YXt3IEPuO9SG61TzB/7NI
- xZD8r08ON+eA==
-WDCIronportException: Internal
-Received: from ind003389.ad.shared (HELO risc6-mainframe.hgst.com)
- ([10.86.59.125])
- by uls-op-cesaip01.wdc.com with ESMTP; 25 Aug 2020 10:41:15 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	ehabkost@redhat.com
-Subject: [PATCH v2 1/1] core/register: Specify instance_size in the TypeInfo
-Date: Tue, 25 Aug 2020 10:30:59 -0700
-Message-Id: <4cf1beb7dafb9143c261d266557d3173bf160524.1598376594.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.28.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kAcsE-0007bk-K1
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 13:36:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27436)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kAcsC-0000VW-3H
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 13:36:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598376998;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dKslhSTWkf/XCA69h+aiz1neUib6JaNpM+ziUcFwVWI=;
+ b=gC5LgZJ8QgjwaH7ahudIDUjnZTP5v/zzbe5MlJj7GQDF7uG41NjydcbMcUdPNLFLaip731
+ 1GcO06VeWitSHsSDmsok+Bdhf0OSI22mCXANF3Lo8Vm5HUzYkpps7DR7ud4y6G01OF44jo
+ +mXmYLF86+RnvpA8qLRlDmIbOMnrj9k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-288-irR1GK1LOaGiEB_26wf1gg-1; Tue, 25 Aug 2020 13:36:22 -0400
+X-MC-Unique: irR1GK1LOaGiEB_26wf1gg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E53751B9;
+ Tue, 25 Aug 2020 17:36:21 +0000 (UTC)
+Received: from redhat.com (ovpn-114-231.ams2.redhat.com [10.36.114.231])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 916EF100239B;
+ Tue, 25 Aug 2020 17:36:18 +0000 (UTC)
+Date: Tue, 25 Aug 2020 18:36:15 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] Deprecate Unicore32 port
+Message-ID: <20200825173615.GE107278@redhat.com>
+References: <20200825172719.19422-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+In-Reply-To: <20200825172719.19422-1-peter.maydell@linaro.org>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.154.45;
- envelope-from=prvs=49978a6e9=alistair.francis@wdc.com;
- helo=esa6.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 13:41:16
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 06:38:59
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.958,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,73 +83,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, alistair.francis@wdc.com, f4bug@amsat.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Guan Xuetao <gxt@mprc.pku.edu.cn>, Guan Xuetao <gxt@pku.edu.cn>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reported-by: Eduardo Habkost <ehabkost@redhat.com>
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- hw/core/register.c | 31 +++++++++++++------------------
- 1 file changed, 13 insertions(+), 18 deletions(-)
+On Tue, Aug 25, 2020 at 06:27:19PM +0100, Peter Maydell wrote:
+> Deprecate our Unicore32 target support:
+>  * the Linux kernel dropped support for unicore32 in commit
+>    05119217a9bd199c for its 5.9 release (with rationale in the
+>    cover letter: https://lkml.org/lkml/2020/8/3/232 )
+>  * there is apparently no upstream toolchain that can create unicore32
+>    binaries
+>  * the maintainer doesn't seem to have made any contributions to
+>    QEMU since the port first landed in 2012
+>  * nobody else seems to have made changes to the unicore code except
+>    for generic cleanups either
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> We last considered this back in 2018, but in the end both QEMU
+> and the kernel gave the port a stay of execution; the maintenance
+> situation doesn't seem to have improved, and now the kernel has
+> dropped support and especially given the lack of a toolchain
+> I think it's time to start the deprecation process here.
+> ---
+>  docs/system/deprecated.rst | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 
-diff --git a/hw/core/register.c b/hw/core/register.c
-index ddf91eb445..31038bd7cc 100644
---- a/hw/core/register.c
-+++ b/hw/core/register.c
-@@ -176,17 +176,6 @@ void register_reset(RegisterInfo *reg)
-     }
- }
- 
--void register_init(RegisterInfo *reg)
--{
--    assert(reg);
--
--    if (!reg->data || !reg->access) {
--        return;
--    }
--
--    object_initialize((void *)reg, sizeof(*reg), TYPE_REGISTER);
--}
--
- void register_write_memory(void *opaque, hwaddr addr,
-                            uint64_t value, unsigned size)
- {
-@@ -269,13 +258,18 @@ static RegisterInfoArray *register_init_block(DeviceState *owner,
-         int index = rae[i].addr / data_size;
-         RegisterInfo *r = &ri[index];
- 
--        *r = (RegisterInfo) {
--            .data = data + data_size * index,
--            .data_size = data_size,
--            .access = &rae[i],
--            .opaque = owner,
--        };
--        register_init(r);
-+        if (data + data_size * index == 0 || !&rae[i]) {
-+            continue;
-+        }
-+
-+        /* Init the register, this will zero it. */
-+        object_initialize((void *)r, sizeof(*r), TYPE_REGISTER);
-+
-+        /* Set the properties of the register */
-+        r->data = data + data_size * index;
-+        r->data_size = data_size;
-+        r->access = &rae[i];
-+        r->opaque = owner;
- 
-         r_array->r[i] = r;
-     }
-@@ -329,6 +323,7 @@ static const TypeInfo register_info = {
-     .name  = TYPE_REGISTER,
-     .parent = TYPE_DEVICE,
-     .class_init = register_class_init,
-+    .instance_size = sizeof(RegisterInfo),
- };
- 
- static void register_register_types(void)
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+
+Regards,
+Daniel
 -- 
-2.28.0
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
