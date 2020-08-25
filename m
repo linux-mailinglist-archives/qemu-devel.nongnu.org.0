@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E7A3251A3C
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 15:54:25 +0200 (CEST)
-Received: from localhost ([::1]:49704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A0C3251A46
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 15:55:54 +0200 (CEST)
+Received: from localhost ([::1]:52384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAZP6-0008Fu-AM
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 09:54:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55210)
+	id 1kAZQX-00017x-6S
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 09:55:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kAZOP-0007mp-TC
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 09:53:41 -0400
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:39741)
+ id 1kAZPm-0000cg-IM
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 09:55:06 -0400
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:40600)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kAZOO-0008Nv-6K
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 09:53:41 -0400
-Received: by mail-ej1-x644.google.com with SMTP id md23so15898786ejb.6
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 06:53:39 -0700 (PDT)
+ id 1kAZPl-00008P-2G
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 09:55:06 -0400
+Received: by mail-ej1-x644.google.com with SMTP id o18so16652678eje.7
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 06:55:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uf5wVI3JN5dBidbqdF3BhzF6kS7akN21evOjUr2c42k=;
- b=Mi5K61nxz8aE+JHrxfxzICx6epWn6tS71GJSsPa/GqLujvBmm5XwXn+MgYXw2F9NvQ
- DQwbzr8NfEZLe2iUtbJTWuuAtOfccNojNAy8l+4CvN01LkoWBhQgWxfxb6hRiAaZFujd
- nBM7NDw9SqJ12j33kUvINA3olm30xl55gvLbdsB4aVt/UTgoMFU9pSY3Q6mwVVSOClUZ
- DuBGblhMvAzDAy7BjBMlKXYcWHCE+g/dfIs8D1JQhKXPv3m3/3I3/arzGcEJp7BFLni4
- BqV73pT34ooQopDbIbAw71zn7rs7V1+yrc/TEEyjhFeZT4RkM5TJ9GNxwD0srRvGzOvP
- 8ffA==
+ :cc; bh=XldCZ5MGjdzXmIEzDGEN+objotw701ryX43+R8pmGy8=;
+ b=qpH49AJKtyXcMdTaPXMeWKSNcc6Ml15TaZ9EeZz/jzZzzoE7CFEDIBP2dLUApH1EIx
+ 7pO3DJOLQB84q4b6h4QjFrH1PYPwISWEOX1OWWE40qTAtJ8uRFqB60bhTDSZqLD7qRt3
+ ul09/I4nTqSWlTJYaAI/7XbhO5hjvYx2GcryCiVdojiaRy3VtygmN0nhe0Goen11DEeL
+ xFE0yNnY6hOHm6HLKTUPQd2qmMqzyVh7jT4PiGWq3xWeP16vMGG04V0+JqNeMJUtyuCV
+ 62NTUAcpk598dFlbs5BYDEnNXUSBiHAvPnrzqrP111bE+YiwYsmCAqN1B8DbTDIL6vPb
+ X6tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=uf5wVI3JN5dBidbqdF3BhzF6kS7akN21evOjUr2c42k=;
- b=GTHISsnfqjh+d9dujEhOU2mIwqqIy+QmQptdWIV2agh11f2pMEsB7/QuacFarolFd7
- ZwIW+Tm1836OX9s0MDAKioUBLMMYCclOTARGLKQQsqL1ya+KoaxGHy0CM2tE8pMcMsFz
- EPwNykSoactqiIzasH1zHQFBCQX6R7afplSmaIrHaKXbR/dsX7B88k6OdZSaJXt6quK1
- GPRPvOf8VISK/xRj1NbJW+xCN2EcRiqSveqZj+IRLexAv4Nj+01ndHRzbm8SCCvLA4I9
- w+4Jffh/PdkQ7HZh3vK2FgJpD1DKSTq7DKjGB7vLxxeTL+e3ATXE619iQj9lB082I3ma
- QOGA==
-X-Gm-Message-State: AOAM530fd1GwKZ6bIyo4+/NLa/6oHf35JKPoXBE1u//681dAnpoPkQ7U
- kA14W7cFiBZn+hW3xa5Yj7Qh8QMmH6XbWtofOqxFWNNEYg01uw==
-X-Google-Smtp-Source: ABdhPJzbq2214QvbqWCsK6oc9336j3hT0X32mGx7A7xgPSXP3dDDGw8KKuhllHzl4jMUa3xPmNDc4ZrTDW9VMrsFjIw=
-X-Received: by 2002:a17:906:59b:: with SMTP id
- 27mr11283968ejn.56.1598363618295; 
- Tue, 25 Aug 2020 06:53:38 -0700 (PDT)
+ bh=XldCZ5MGjdzXmIEzDGEN+objotw701ryX43+R8pmGy8=;
+ b=Nl7AddYomYnOJDJXeX+U8SsAHyL576tDa9k+OCikP+oFx63MQa3vwZ2vq1t8kgcFAn
+ n80Tds0jpjvvqcy1wA8ZPXmv+1gkNglnJDMG60W9augkNz15WVAHkoPmZHGp1T8igk8T
+ rPT2lOhTj9zWSAQhZ1YzTiUDAHOOU93d5Zpw/UNZSErTrxwKlVKB31aMPUU0O/hL4qbz
+ zPvXV4PckgaRLeb3pl9t9a2fgL8ibmgmMqmnicHDpeKS5ZKP7G7R8PllNNA1Q68ewdCm
+ f2FsIz32pC/1QoCdvtEokcIVm26brJ6/D5RlGUdKTJsrmhVJQCwAktM0++J/mF4FNa3k
+ JoMA==
+X-Gm-Message-State: AOAM530veR10UiUzrXWtE23fRzSHRQla0YH7EXEL3v1e/Zud7h+W83b4
+ D4JzcM3+byXrcKa6grBZKlBef5DwH2WlfgawuMVfHg==
+X-Google-Smtp-Source: ABdhPJyYWTMxVz4Kh5P9BisMZcyyCOXKkrCkdy+n4BNzEF9XUgU8HFeYpYKNenFuj9gDkvynZq+W+xMBeqzrntex0KQ=
+X-Received: by 2002:a17:907:2066:: with SMTP id
+ qp6mr1599107ejb.85.1598363703602; 
+ Tue, 25 Aug 2020 06:55:03 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200815013145.539409-1-richard.henderson@linaro.org>
- <20200815013145.539409-18-richard.henderson@linaro.org>
-In-Reply-To: <20200815013145.539409-18-richard.henderson@linaro.org>
+ <20200815013145.539409-19-richard.henderson@linaro.org>
+In-Reply-To: <20200815013145.539409-19-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 25 Aug 2020 14:53:26 +0100
-Message-ID: <CAFEAcA9m6ZHDzAmk3vdg2hEsA2SPNuigURh416eJUbyPq1PgCg@mail.gmail.com>
-Subject: Re: [PATCH 17/20] target/arm: Fix sve_punpk_p vs odd vector lengths
+Date: Tue, 25 Aug 2020 14:54:52 +0100
+Message-ID: <CAFEAcA93_jsGh=jzmaE2P8r-Kra0ajDShCqkH_f5XVgL5_9sEA@mail.gmail.com>
+Subject: Re: [PATCH 18/20] target/arm: Convert integer multiply (indexed) to
+ gvec for aa64 advsimd
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=2a00:1450:4864:20::644;
@@ -80,42 +81,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Desnogues <laurent.desnogues@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Sat, 15 Aug 2020 at 02:32, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Wrote too much with punpk1 with vl % 512 != 0.
->
-> Reported-by: Laurent Desnogues <laurent.desnogues@gmail.com>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/arm/sve_helper.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-> index b8651ae173..c983cd4356 100644
-> --- a/target/arm/sve_helper.c
-> +++ b/target/arm/sve_helper.c
-> @@ -2104,11 +2104,11 @@ void HELPER(sve_punpk_p)(void *vd, void *vn, uint32_t pred_desc)
->              high = oprsz >> 1;
->          }
->
-> -        if ((high & 3) == 0) {
-> +        if ((oprsz & 7) == 0) {
->              uint32_t *n = vn;
->              high >>= 2;
->
-> -            for (i = 0; i < DIV_ROUND_UP(oprsz, 8); i++) {
-> +            for (i = 0; i < oprsz / 8; i++) {
->                  uint64_t nn = n[H4(high + i)];
->                  d[i] = expand_bits(nn, 0);
->              }
-> --
-> 2.25.1
+>  target/arm/helper.h        |  4 ++++
+>  target/arm/translate-a64.c | 16 ++++++++++++++++
+>  target/arm/vec_helper.c    | 29 +++++++++++++++++++++++++----
+>  3 files changed, 45 insertions(+), 4 deletions(-)
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
