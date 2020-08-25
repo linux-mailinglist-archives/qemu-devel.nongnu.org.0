@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4642B252318
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:48:54 +0200 (CEST)
-Received: from localhost ([::1]:39524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 755B32522EF
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:36:30 +0200 (CEST)
+Received: from localhost ([::1]:47782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAgoH-0003iF-At
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:48:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41114)
+	id 1kAgcH-0000YA-FC
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:36:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kAgOj-0001ps-MZ
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:22:29 -0400
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:37736)
+ id 1kAgRB-0007F6-At
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:25:01 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:33395)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kAgOh-0004UR-L7
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:22:29 -0400
-Received: by mail-ed1-x544.google.com with SMTP id u1so2342859edi.4
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 14:22:27 -0700 (PDT)
+ id 1kAgR9-0004ff-Ej
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:25:00 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id w14so12031435eds.0
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 14:24:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=z+R4DS5qegSGsq8ZI8BxMYOvvF3kH3UXpp/f4rqf5HQ=;
- b=qt31tN8VFm33RKcvnxPXRsbBdESSyxNy0QOETF0XYHN2pGKkeUJzmDHw18802bdgsj
- Zi8rLwNfSJxunn0pxiVZ0pECJZbL4piS2eANmy2FGZQR0E2TCzs7b46umVXa3zfpwsBN
- 43HUm2w+F9c5vsCTx0RIk3IzsR8ryU7dBT2H26Qv2yJv7YkIdyvVEO7owaQXzOqAhfER
- wvJ9p0XMI4SEMDBf+gCdFgB+H7ZrA4n1UbsRHvj/dF7xHkBLA91AZvSxffpUPrklRIdP
- QtBsruBwX8rXsbzqXYEbbd9U0FRTIaRy0llPAJJQIrPgEs4cwUXmxVAI3c+Tv3XH0k4N
- 6YmA==
+ :cc; bh=IdoAv0ugNd7WnoD6TxtD6MpZqzqpCPds/f/CWSJyVxs=;
+ b=Fw5fwTWP7d8wki9jb1Jl8LmZHXzfHnvKga8kU4kFQdVtFzwpnIgu3a5VrnVjWoiMMi
+ +aEJygVyJOMT1tn+/i6AlJsDr8difO8ygPXFrx2WVmqCewr1NbC9fOxazcmwI4ASwt7B
+ BinjPe7ex8w33U+8okij5PJhbu+vKvxuDfZfJM2AzTZtdkplQeCV+kcgqORd0/VAJXpf
+ wh4s2OJr6UneKSqMHQR9dRDKs5Z5ROb73YEHKX4VTQ93j7znAsCLTS3hi00C+f9x4JBq
+ EhFfFr9sTLUNatmI2D8nukWxTULWb24NIfvhTNu/r0Ne5yiYYrj89jjflIuSq+8io9zP
+ vGBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=z+R4DS5qegSGsq8ZI8BxMYOvvF3kH3UXpp/f4rqf5HQ=;
- b=dqRlFveAA0eGJltbwzaJyA0DyQ+FJCL5cy8mdrAR2CPD8yXaKuVwxCrv4pwnFKyA7f
- XK9qN4ha8faTMly4kzd2zfdffR5b5ikib7etpWhOy5BRxFkjyhbTx2OD5kdtzDNFsUhs
- dqRvQHh4WUdrPHp8bYcHc5PRpEBbsvy01CTSwj0U30Fb6QeiGCSskgrh6Noc5SouJ0AY
- I+W0hhGq/N/j5dAyFACDV9l7L9zc6SafiAYJKY3kIG7REs2RAqzyeR6IqUljlsd9mRyd
- WPcJmLW1kFqygW/IwAm+yW1k3SIApDyJUDSf//deyF1l0rmTyNGpS5WU16TUn1Wv0Vdh
- vtmQ==
-X-Gm-Message-State: AOAM531vaWUWSs6LDN1X8eZh/sPy06yP2Znr1knQGtSM3eT4uz/iDfNd
- hnJ7H4H1JdmX+vm+gT8+0JwtvWzl9K+xHyApTt89jQ==
-X-Google-Smtp-Source: ABdhPJwZflkzIOmXmwxaVvSMt5+S99NfrzCnAzNAmXI5jvDnVWySzwzush22wJlJp00O2CK/pNft69ysPJVJGOBn/5w=
-X-Received: by 2002:a50:da44:: with SMTP id a4mr12538993edk.36.1598390545579; 
- Tue, 25 Aug 2020 14:22:25 -0700 (PDT)
+ bh=IdoAv0ugNd7WnoD6TxtD6MpZqzqpCPds/f/CWSJyVxs=;
+ b=pLh3h1lwd+WUtYYiKUplBVxUzIym3ozBd9EsRenYtfbY3I4IP2X3eqLZzp/HAy/GMn
+ vfJ03/oeVSIVDglSwo/4pDcS83m5DrOptQJDDeD5bXZmdEPlCI+dzJLlAtGEcMPofTMv
+ Pj/jFglSKEBCu2jEOOr5kKJJRskSsgM3mgvDNHyM37HifzyQ+3auL1tvMkDQCdJ0BfJr
+ P3f/pLieFUgxNV+gNXn1cel+Ky0ex9ulW6mNB2uYIXntN+FVX721zqP/6+tTgSWtM+mW
+ o5lGJbROQ9oyDvUP6TuOVkNmkqNO/KY8Pq2WxqRDs9fErewt2h1U+Iuvl9ontRzecYj7
+ 2NXA==
+X-Gm-Message-State: AOAM530meKdBnrzRYboJ7BAea6Qgr5qMsFEDFHBi+3rXq2MzEKR4xVSL
+ QSc71NPVLnEG9z3EqcirICuISdWf/1TzD2iLtxEUcA==
+X-Google-Smtp-Source: ABdhPJxf61u5+bwV8pD1ip+G4nQdhILt8Td2K4X7I5HALQGtHcM/6kMCAFlYq1QVSCgaI31gsbPZXekKmrru5l6VgCE=
+X-Received: by 2002:aa7:ca0c:: with SMTP id y12mr11925732eds.251.1598390697867; 
+ Tue, 25 Aug 2020 14:24:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <40710b94-094f-f91a-6ddb-94e51199a8c3@vivier.eu>
-In-Reply-To: <40710b94-094f-f91a-6ddb-94e51199a8c3@vivier.eu>
+References: <20200825184836.1282371-1-alistair.francis@wdc.com>
+In-Reply-To: <20200825184836.1282371-1-alistair.francis@wdc.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 25 Aug 2020 22:22:14 +0100
-Message-ID: <CAFEAcA-X-Z9adXzxunTJ=4Qu5wq7_oBreRVmO_T9nQSi=f4+rQ@mail.gmail.com>
-Subject: Re: linux-user static build broken
-To: Laurent Vivier <laurent@vivier.eu>
+Date: Tue, 25 Aug 2020 22:24:47 +0100
+Message-ID: <CAFEAcA8=Mf=EPh__tNhJyGv8+ouD-HH+MuMb+HhtTFes+XqUSQ@mail.gmail.com>
+Subject: Re: [PULL 00/18] riscv-to-apply queue
+To: Alistair Francis <alistair.francis@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::544;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x544.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -78,35 +78,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
+Cc: Alistair Francis <alistair23@gmail.com>,
  QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 25 Aug 2020 at 21:37, Laurent Vivier <laurent@vivier.eu> wrote:
+On Tue, 25 Aug 2020 at 20:01, Alistair Francis <alistair.francis@wdc.com> wrote:
 >
-> Hi,
+> The following changes since commit 7774e403f2ac58b3e87bfe8d2f77676501ba893e:
 >
-> since we have switched to meson, the statically linked binaries of qemu
-> linux-user are broken:
+>   Merge remote-tracking branch 'remotes/kraxel/tags/fixes-20200825-pull-request' into staging (2020-08-25 10:54:51 +0100)
 >
-> cd $OBJ
-> $SRC/configure --static --target-list=m68k-linux-user
-> make
-> ./qemu-m68k
-> Segmentation fault (core dumped)
+> are available in the Git repository at:
+>
+>   git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20200825
+>
+> for you to fetch changes up to e39a8320b088dd5efc9ebaafe387e52b3d962665:
+>
+>   target/riscv: Support the Virtual Instruction fault (2020-08-25 09:11:36 -0700)
+>
+> ----------------------------------------------------------------
+> This pull request first adds support for multi-socket NUMA RISC-V
+> machines. The Spike and Virt machines both support NUMA sockets.
+>
+> This PR also updates the current experimental Hypervisor support to the
+> v0.6.1 spec.
+>
+> ----------------------------------------------------------------
 
-It can't be all static binaries, because part of my merge
-tests is a config with
-'../../configure' '--cc=ccache gcc' '--enable-debug' '--static'
-'--disable-system' '--disable-gnutls'
-
-and that works:
-$ ./build/all-linux-static/qemu-m68k
-qemu: no user program specified
-
-So it must be something more specific, though I don't know what.
+The hypervisor related patches don't seem to have any
+reviewed-by tags, which seems a shame for a fairly significant
+chunk of work. Is there really nobody who can review them
+for you ?
 
 thanks
 -- PMM
