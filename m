@@ -2,67 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 866CC251CF3
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 18:09:57 +0200 (CEST)
-Received: from localhost ([::1]:54886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2AF6251CFB
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 18:12:46 +0200 (CEST)
+Received: from localhost ([::1]:57430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAbWG-0002Ev-LV
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 12:09:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46132)
+	id 1kAbYz-0003Zc-Un
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 12:12:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kAbVF-0001Z3-AI
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 12:08:53 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:39838)
+ id 1kAbYB-00035x-O6
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 12:11:55 -0400
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:35732)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kAbVD-0005TZ-8r
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 12:08:52 -0400
-Received: by mail-wr1-x443.google.com with SMTP id a5so13308553wrm.6
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 09:08:50 -0700 (PDT)
+ id 1kAbY7-000618-Ib
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 12:11:53 -0400
+Received: by mail-ej1-x642.google.com with SMTP id a26so17334369ejc.2
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 09:11:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+rL5y+LPIlyoU3TM7H1gns6WWZrHXRx5K1wFTm/QiuM=;
- b=xJZuXVRL1iwjKNnf33xvxu/cxUSn5DVXtEewSZkRHgU0staU6fGAjc2cBi6kYEl4zS
- JrKEQDgqJBN9lUozSLjigFTYFZfrFEDkWrNaTRFTgUx1yzPjXjEZ6x0RSzmKoNq4lpDB
- 1enJxz5UE+yZOv/0O1qXXLeJgVRhg92BenyDtkWi5qMYx3SGShPwT/3Rxrajby/r5H9n
- vXlZcvuSDn1S/cI/n4gQEwr0/49vwG5PtRTZp24DyKXOoE4sVFqmhndKtpt6E249k4wy
- qDOrQ3PuzD2JGphhRdPxYU9MNLCILv6xHukp68gAkbhaUf7M1MjUpWMcs9idvFUmgG6t
- EOKQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ZuN1VoXSmh7z3aL0TqbTklriGqEg4qhEQmsUK59ZCWc=;
+ b=M2Ir1xlN0FefnaQ5hMjI+LkS9kE0JXlQwMwcNhnGNP7fIpqkmAaZhSFy9zU3I47icc
+ BDIwn6y5WZoTNy6PI/LqaZeJ2YbhVzDBNDewXyMLSiF0sapgjOGQt6mD3rg+r06j7BiK
+ w/C3twy2xjVY4GE3lzz43V0AvWG0Nc3ThoBIBX9jlXzJS7S44D8GoD/wqVzi1c+hL6rE
+ oLex5ZnKSctlCWMm8QbmYzTicziDfiFcUviqcFFIT6vj5s0XRWiucn1+05qaVHwAkcem
+ vAHFqqs9A6bxsO53a72FnMu8gm/CatsOqCCD7SICzvVz4gmg8x8VDA5G3RedkqN45yG4
+ e4cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+rL5y+LPIlyoU3TM7H1gns6WWZrHXRx5K1wFTm/QiuM=;
- b=doOJ3Vz00gbB5zpPLCEzVs+eK4gXi+oQHMf9P4cJmthkaqRrOvkSgtxy43afRvCTaF
- dytEiD0pc/SgbmAY43H7VMzXsOAv5KFF57PAH5YyGwgPZbFFdQyZm2oTC14CMSQexPmu
- vaE91ztQ2yCn4uqVikNmCCTtKn1rwBLXvBuieGeXbu3wW1A7ixGXwUSWQBzXnAW95j6Y
- mKxy0NLwhnJAmX/IQtMOYHf4zccDxkXow7ftuIl4NuU0AxULezxGlxxLzUZ+s5lJKHgr
- uNY+0afpqFJEkhwighsS8XqoZLdxZA06EPfcaRNcbCTaarl/DboBNr1Fn36tmFxeoEfj
- GG+g==
-X-Gm-Message-State: AOAM531ch9OfOD6ZjlhJt2T8EJmtpBAR2J8T6vAQbH1E41+4I8unR7s8
- 7MsjIyzhu53L5NR1EXp9iuaAGg==
-X-Google-Smtp-Source: ABdhPJy2QTqLyT9oND6vSaVf8Qnmi/C2jf4i1iBCGvO/nFHI/Fs+Gp12cySADrREWtQLsCd2WE7H9w==
-X-Received: by 2002:a5d:4e03:: with SMTP id p3mr7901325wrt.354.1598371729571; 
- Tue, 25 Aug 2020 09:08:49 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g70sm7407388wmg.24.2020.08.25.09.08.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Aug 2020 09:08:48 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH] hw/timer/armv7m_systick: assert that board code set
- system_clock_scale
-Date: Tue, 25 Aug 2020 17:08:47 +0100
-Message-Id: <20200825160847.18091-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZuN1VoXSmh7z3aL0TqbTklriGqEg4qhEQmsUK59ZCWc=;
+ b=P3pPhdI20+YQ1DZuMukSqI12i7DZ2ezOTscg1jkXaoDIN0Rh29+jSvZNcR7WTQiLsS
+ V/SeqrmSvsba1MAUKP83e5mjm8vPppSjlXJyrqGe/oAQeaFsfbdweRBj6IRTUDPpqS6D
+ tC5/hVYxpMLwqJocJqTa5WGMbFAbmNUcDZdKtAG3JHmqgJ68NIpajSz50l9T4bg6hDyU
+ hNtuPQlcOvcBbXtmeV5DGMNtP8tHNMocxDqjum45Kcs8n3EoqAjFRpsrJbr/a4V+g4yc
+ 8jjeq2d0u/O/lwxVaa+h/RmgKAkAwjStkFOkp2pUPegZJXSXCWnL87gBrvHu4fFQvWn2
+ DVjg==
+X-Gm-Message-State: AOAM532pi4r0IHyg/LH5p/4Bmqf+CRhgVS6n6hZ2ITSOlf6GfP2Nr/u/
+ vo1ZWTW/VSlUQLU1TTLjXytbmu7blMVk9ppG36Irog==
+X-Google-Smtp-Source: ABdhPJzfjHtt3uwuzLyPrCvZmT2a+JMiw1S7D6QCJzGDRn0HEu2rAA0g1hnziqQ2He3wMGQkzLxPkPhNQyeQHiHEej4=
+X-Received: by 2002:a17:906:2b0b:: with SMTP id
+ a11mr1683383ejg.250.1598371906859; 
+ Tue, 25 Aug 2020 09:11:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x443.google.com
+References: <20200825150409.346957-1-marcandre.lureau@redhat.com>
+ <20200825150409.346957-6-marcandre.lureau@redhat.com>
+In-Reply-To: <20200825150409.346957-6-marcandre.lureau@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 25 Aug 2020 17:11:35 +0100
+Message-ID: <CAFEAcA9BLnPwNdQbj2sx19u4r8v+Ze2twCH-4_+7dJw-bGdGkw@mail.gmail.com>
+Subject: Re: [PATCH 5/5] meson: add NSIS building
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -84,48 +80,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stefan Weil <sw@weilnetz.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is the responsibility of board code for an armv7m system to set
-system_clock_scale appropriately for the CPU speed of the core.
-If it forgets to do this, then QEMU will hang if the guest tries
-to use the systick timer in the "tick at the CPU clock frequency" mode.
+On Tue, 25 Aug 2020 at 16:09, <marcandre.lureau@redhat.com> wrote:
+> diff --git a/scripts/nsis.sh b/scripts/nsis.sh
+> new file mode 100755
+> index 0000000000..d7d8b39b04
+> --- /dev/null
+> +++ b/scripts/nsis.sh
+> @@ -0,0 +1,58 @@
+> +#!/bin/bash -e
+> +
 
-We forgot that in a couple of our boards (see commits ce4f70e81ed23c93f,
-e7e5a9595ab1136). Add an assertion in the systick reset method so
-we don't let any new boards in with the same bug.
+Copyright and license header comment for all new files, please.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-In the longer term we should make this a clocktree input and
-plumb it through the armv7m container and so on, but for the
-moment this assert() improves the current situation.
----
- hw/timer/armv7m_systick.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/hw/timer/armv7m_systick.c b/hw/timer/armv7m_systick.c
-index 74c58bcf245..a8cec7eb56b 100644
---- a/hw/timer/armv7m_systick.c
-+++ b/hw/timer/armv7m_systick.c
-@@ -202,6 +202,14 @@ static void systick_reset(DeviceState *dev)
- {
-     SysTickState *s = SYSTICK(dev);
- 
-+    /*
-+     * Forgetting to set system_clock_scale is always a board code
-+     * bug. We can't check this earlier because for some boards
-+     * (like stellaris) it is not yet configured at the point where
-+     * the systick device is realized.
-+     */
-+    assert(system_clock_scale != 0);
-+
-     s->control = 0;
-     s->reload = 0;
-     s->tick = 0;
--- 
-2.20.1
-
+thanks
+-- PMM
 
