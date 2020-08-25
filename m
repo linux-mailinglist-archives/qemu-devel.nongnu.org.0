@@ -2,73 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E322F252323
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:51:32 +0200 (CEST)
-Received: from localhost ([::1]:47826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E5BF252335
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:56:44 +0200 (CEST)
+Received: from localhost ([::1]:53040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAgqp-0007MC-Vt
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:51:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46664)
+	id 1kAgvr-0001Zx-Ca
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:56:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kAgpU-0005ys-F0
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:50:08 -0400
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:33195)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kAgpS-0007rU-03
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:50:08 -0400
-Received: by mail-ed1-x544.google.com with SMTP id w14so12075797eds.0
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 14:50:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=I1xwrPMsg142RGue5pXqwYurDytI9ZhGuht3Ro8JNic=;
- b=Pjc53d4Q1kn4aFpphQCiQ3zTmhrxB/WY2RRRf3dJUEar5cv8Kt1t1gBSPDNe0owWCr
- OGynUn++zgg4ATJMcmSellHitO5EC3wV3cqxPl6UxU4NIdvHB39NuxPfIgUWGvjWql52
- P2TZC4/J8ZRQX7XRaxuNJqq4IUQ8Y10oYq8O34Sz2f3GirMeCL6OTnXaCcrZMxtyUmn/
- +JhxwaISoz5tq+PHddF4OeJufUprotLV1iqhmbt1DHvtsYNuYks0BvwBYeXs09YYBf8l
- tTVVSNREFmJkum4yq0iKKAT24zP8NQ/wPbPIjC8DK9Z5QXbdW01mMRYd9wpcu3wLzs7D
- r+tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=I1xwrPMsg142RGue5pXqwYurDytI9ZhGuht3Ro8JNic=;
- b=ro/KuUj4hU4NZC08xqIOK90B09KLOsYaG/rbqLQqxO1L/ucWzBmO9UYtyx9+V6S7Wd
- SULIFMipkcP81ucmU2QJ5kz9uX9s4KdmFZK5ybgRw6CJWcdtnaG9OEU63+H1bUfIQACJ
- XfC1fGRmSECX5QnxeIOX551L1raQotEsOh8Qd8OkA80UltrAFAXOYwu1IlWR8sZ9VsYE
- QAhgDw7cTw3K05B+uTbYYoIQ7l7SigOOZuHcUcUpaVDRmidPrRuHJVcHokNxi64jvdR6
- h+3sr6/0gOWVYfr2OA9cdJ/8vMS7KDhAbOx3+JXtzxHeITjqej9i9gIzhGWh32tEZdbX
- yJ6A==
-X-Gm-Message-State: AOAM530p3GnDM/+/pq14RAZgCMVMAw+1bq1OLlq6mcUGT8WygtWMIcWS
- gFnKfktQZ3Pq/O3X1YSFtwchN7dNvR2whr1CSNhHTg==
-X-Google-Smtp-Source: ABdhPJykSj8s5CgcuWQ7g9w2n0RrQwQ/b/N53YxujyXKHA+aAewALdXi6Ng46QfwwVdHbTGUmYl+MKgm4CxGepiFHT4=
-X-Received: by 2002:a05:6402:1218:: with SMTP id
- c24mr11960952edw.44.1598392204262; 
- Tue, 25 Aug 2020 14:50:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kAgv7-00019s-BJ
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:55:57 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:36070
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kAgv4-0000Ky-Th
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:55:56 -0400
+Received: from host217-42-19-185.range217-42.btcentralplus.com
+ ([217.42.19.185] helo=[192.168.1.65])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kAgvW-0002TA-Be; Tue, 25 Aug 2020 22:56:22 +0100
+To: luoyonggang@gmail.com, qemu-devel@nongnu.org
+References: <20200825165341.520-1-luoyonggang@gmail.com>
+ <20200825165341.520-4-luoyonggang@gmail.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
+ mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
+ 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
+ E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
+ PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
+ PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
+ AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
+ OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
+ NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
+ mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
+ z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
+ T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
+ DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
+ y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
+ 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
+ 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
+ YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
+ Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
+ BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
+ opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
+ NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
+ Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
+ KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
+ imgcU9TTGC5qd9g=
+Message-ID: <b85f7c1f-bda0-9666-b35a-a167f8c2261a@ilande.co.uk>
+Date: Tue, 25 Aug 2020 22:55:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-References: <20200825184836.1282371-1-alistair.francis@wdc.com>
- <CAFEAcA8=Mf=EPh__tNhJyGv8+ouD-HH+MuMb+HhtTFes+XqUSQ@mail.gmail.com>
- <CAKmqyKNxURXyNSEePPU1jY7FzcZjRThr2qAvwR393+nqUXBxJQ@mail.gmail.com>
-In-Reply-To: <CAKmqyKNxURXyNSEePPU1jY7FzcZjRThr2qAvwR393+nqUXBxJQ@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 25 Aug 2020 22:49:52 +0100
-Message-ID: <CAFEAcA8x=ck1mmJ8Y8o-0NQXWhRgOg5Gp7GvHNkNnLb6rDxygg@mail.gmail.com>
-Subject: Re: [PULL 00/18] riscv-to-apply queue
-To: Alistair Francis <alistair23@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::544;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x544.google.com
+In-Reply-To: <20200825165341.520-4-luoyonggang@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 217.42.19.185
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 4/4] configure: Fix include and linkage issue on msys2
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.602,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,25 +90,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?RGFuaWVsIFAgLiBCZXJyYW5n6IyF?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 25 Aug 2020 at 22:32, Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Tue, Aug 25, 2020 at 2:24 PM Peter Maydell <peter.maydell@linaro.org> wrote:
-> > The hypervisor related patches don't seem to have any
-> > reviewed-by tags, which seems a shame for a fairly significant
-> > chunk of work. Is there really nobody who can review them
-> > for you ?
->
-> Unfortunately not. They have been on the list since April and haven't
-> received any feedback.
->
-> There isn't a lot of people reviewing the RISC-V patches unfortunately.
+On 25/08/2020 17:53, luoyonggang@gmail.com wrote:
 
-:-(   I'd hoped it was a more active target than that.
+> From: Yonggang Luo <luoyonggang@gmail.com>
+> 
+> On msys2, the -I/e/path/to/qemu -L/e/path/to/qemu are not recognized by the compiler
+> Cause $PWD are result posix style path such as /e/path/to/qemu that can not be recognized
+> by mingw gcc, and `pwd -W` are result Windows style path such as E:/path/to/qemu that can
+> be recognized by the mingw gcc. So we replace all $PWD with $build_path that can
+> building qemu under msys2/mingw environment.
+> 
+> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+> ---
+>  configure | 28 +++++++++++++++++++---------
+>  1 file changed, 19 insertions(+), 9 deletions(-)
+> 
+> diff --git a/configure b/configure
+> index b1e11397a8..3b9e79923d 100755
+> --- a/configure
+> +++ b/configure
+> @@ -13,8 +13,13 @@ export CCACHE_RECACHE=yes
+>  
+>  # make source path absolute
+>  source_path=$(cd "$(dirname -- "$0")"; pwd)
+> +build_path=$PWD
+> +if [ "$MSYSTEM" = "MINGW64" -o  "$MSYSTEM" = "MINGW32" ]; then
+> +source_path=$(cd "$(dirname -- "$0")"; pwd -W)
+> +build_path=`pwd -W`
+> +fi
 
--- PMM
+This is missing some indentation here, and also for other if statements introduced below.
+
+I'm wondering if build_path is the right name for this variable, since it looks like
+it returns another variant of the source directory?
+
+> -if test "$PWD" = "$source_path"
+> +if test "$build_path" = "$source_path"
+>  then
+>      echo "Using './build' as the directory for build output"
+>  
+> @@ -346,7 +351,12 @@ ld_has() {
+>      $ld --help 2>/dev/null | grep ".$1" >/dev/null 2>&1
+>  }
+>  
+> -if printf %s\\n "$source_path" "$PWD" | grep -q "[[:space:]:]";
+> +check_valid_build_path="[[:space:]:]"
+> +if [ "$MSYSTEM" = "MINGW64" -o  "$MSYSTEM" = "MINGW32" ]; then
+> +check_valid_build_path="[[:space:]]"
+> +fi
+> +
+> +if printf %s\\n "$source_path" "$build_path" | grep -q "$check_valid_build_path";
+>  then
+>    error_exit "main directory cannot contain spaces nor colons"
+>  fi
+> @@ -942,7 +952,7 @@ Linux)
+>    linux="yes"
+>    linux_user="yes"
+>    kvm="yes"
+> -  QEMU_INCLUDES="-isystem ${source_path}/linux-headers -I$PWD/linux-headers $QEMU_INCLUDES"
+> +  QEMU_INCLUDES="-isystem ${source_path}/linux-headers -I${build_path}/linux-headers $QEMU_INCLUDES"
+>    libudev="yes"
+>  ;;
+>  esac
+> @@ -4283,7 +4293,7 @@ EOF
+>                symlink "$source_path/dtc/Makefile" "dtc/Makefile"
+>            fi
+>            fdt_cflags="-I${source_path}/dtc/libfdt"
+> -          fdt_ldflags="-L$PWD/dtc/libfdt"
+> +          fdt_ldflags="-L${build_path}/dtc/libfdt"
+>            fdt_libs="$fdt_libs"
+>        elif test "$fdt" = "yes" ; then
+>            # Not a git build & no libfdt found, prompt for system install
+> @@ -5268,7 +5278,7 @@ case "$capstone" in
+>      else
+>        LIBCAPSTONE=libcapstone.a
+>      fi
+> -    capstone_libs="-L$PWD/capstone -lcapstone"
+> +    capstone_libs="-L${build_path}/capstone -lcapstone"
+>      capstone_cflags="-I${source_path}/capstone/include"
+>      ;;
+>  
+> @@ -6268,8 +6278,8 @@ case "$slirp" in
+>        git_submodules="${git_submodules} slirp"
+>      fi
+>      mkdir -p slirp
+> -    slirp_cflags="-I${source_path}/slirp/src -I$PWD/slirp/src"
+> -    slirp_libs="-L$PWD/slirp -lslirp"
+> +    slirp_cflags="-I${source_path}/slirp/src -I${build_path}/slirp/src"
+> +    slirp_libs="-L${build_path}/slirp -lslirp"
+>      if test "$mingw32" = "yes" ; then
+>        slirp_libs="$slirp_libs -lws2_32 -liphlpapi"
+>      fi
+> @@ -8212,7 +8222,7 @@ fi
+>  mv $cross config-meson.cross
+>  
+>  rm -rf meson-private meson-info meson-logs
+> -NINJA=$PWD/ninjatool $meson setup \
+> +NINJA="${build_path}/ninjatool" $meson setup \
+>          --prefix "${pre_prefix}$prefix" \
+>          --libdir "${pre_prefix}$libdir" \
+>          --libexecdir "${pre_prefix}$libexecdir" \
+> @@ -8232,7 +8242,7 @@ NINJA=$PWD/ninjatool $meson setup \
+>  	-Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
+>  	-Dgettext=$gettext -Dxkbcommon=$xkbcommon \
+>          $cross_arg \
+> -        "$PWD" "$source_path"
+> +        "$build_path" "$source_path"
+>  
+>  if test "$?" -ne 0 ; then
+>      error_exit "meson setup failed"
+
+As I don't have your meson MR applied here, instead of this change to NINJA I have
+installed ninja via pacman and use the following diff instead:
+
+diff --git a/configure b/configure
+index 67832e3bab..58d76ae15a 100755
+--- a/configure
++++ b/configure
+@@ -8232,7 +8232,7 @@ fi
+ mv $cross config-meson.cross
+
+ rm -rf meson-private meson-info meson-logs
+-NINJA=$PWD/ninjatool $meson setup \
++NINJA=ninja $meson setup \
+         --prefix "${pre_prefix}$prefix" \
+         --libdir "${pre_prefix}$libdir" \
+         --libexecdir "${pre_prefix}$libexecdir" \
+
+
+I can confirm that this patch solves the linking issue and produces a working
+qemu-system-ppc.exe which I was using as a quick test.
+
+
+ATB,
+
+Mark.
 
