@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8665A251DA4
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 18:55:19 +0200 (CEST)
-Received: from localhost ([::1]:58164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEE07251DA8
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 18:56:54 +0200 (CEST)
+Received: from localhost ([::1]:37634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAcEA-0002ZK-Ia
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 12:55:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58518)
+	id 1kAcFh-0005ng-Pe
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 12:56:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kAcD6-0001Fj-GT
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 12:54:12 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:45541)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kAcD4-0003gG-Rk
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 12:54:12 -0400
-Received: by mail-pf1-x444.google.com with SMTP id k15so1340716pfc.12
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 09:54:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=bzrUXWXJ2P4FPb4Z7Y3jIG7wAqzpJKqykSmKTUKfTsk=;
- b=oOHrNjqjLxIlvODn6hHVZ0ptZCsU3Yxnup8VcCLSxqCnxWC+VFFbAMk/oQmjLKUJX2
- qP5Qy2DiUAaTmwhr3DNsOkrl42YNWHJwhCAphi7YbV1JbHWjKKeBsA6tOLArK+qigfb8
- Mmj5zN+ypOwg+7UIn7gJ/p6be3bmnLUM36hEsICpVE4FBFo0jea6mZALSSEvHfirvgsS
- IshkTxESUo8V/kVd0LX+lf9eUPSV9tTogvedZ4sql6iLraDIabRq8pJqcpIZdhA6TxTc
- QqVlBJ77rgRiRAU0hci/BYyPsVcFB+8cJfBkLLy9Qv+T/mNelAV4YQGNyFOhjuW5HTdj
- 4q4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=bzrUXWXJ2P4FPb4Z7Y3jIG7wAqzpJKqykSmKTUKfTsk=;
- b=hC1/2rr6lrDT3NMRRA2wC5JzMaE9HzRCgrkCS90GoakiTLVWYFFDcmGjwuvNDsuQJH
- 7DbG3G6iwAcFhKiSqkJRxoVECU36/m4WObi1Rtl3M5tDxZhFOYVdaDiviO2EWE9vPN3B
- nZBk67wxbudeC19M6c87sYecFlwnH+6nMXXFi/KTaodL/y0mp5CRy8+brbNg5KdtRN/O
- S5H6I/Qjb5Oe2SCysFP28qC/SXkE8w53lwPcTJdqELRkBgDOIW9QdWqz9CwPJ1ZiHHWx
- TQyh8eiUyb5T4ygfrmH9/gHiLPcyBsMlsJDKE3O3//fB56VT9vdqY/sPBiHck7rvHGMB
- j3OA==
-X-Gm-Message-State: AOAM533NQGvDcU//0a9p177Of3+St6UIhC8obxNUmgoYZR/iGPIL9Dmx
- Oar4vHWtaKmLHVsW/H/cxewSuZq8kUe0awBJTxA=
-X-Google-Smtp-Source: ABdhPJw7MMBTBkAMI4hCR53aQrxZ31YCKUkBEAWah2Tfg1yVhwecSp1pQRUbnW/JojZvxtd+0zU5Ng==
-X-Received: by 2002:a17:902:e901:: with SMTP id
- k1mr8896107pld.189.1598374448962; 
- Tue, 25 Aug 2020 09:54:08 -0700 (PDT)
-Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id
- 193sm15988527pfu.169.2020.08.25.09.54.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Aug 2020 09:54:08 -0700 (PDT)
-From: luoyonggang@gmail.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] configure: Fix include and linkage issue on msys2
-Date: Wed, 26 Aug 2020 00:53:41 +0800
-Message-Id: <20200825165341.520-4-luoyonggang@gmail.com>
-X-Mailer: git-send-email 2.27.0.windows.1
-In-Reply-To: <20200825165341.520-1-luoyonggang@gmail.com>
-References: <20200825165341.520-1-luoyonggang@gmail.com>
+ (Exim 4.90_1) (envelope-from <bfoster@redhat.com>)
+ id 1kAcDM-0001oE-4p
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 12:54:28 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53698
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <bfoster@redhat.com>)
+ id 1kAcDK-0003hz-5p
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 12:54:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598374464;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wECHHcRasIiEBwmQBh1AMtTtR0cT1Rkt61KaI1O3MeI=;
+ b=EpjaWOjPJpe5RM2vGlPvWBrdkfA8yctk2ZW9StGdUFFypCF9nKxrVqfT47NcHICeI+0ZfZ
+ 5jA7CHVGlL8tu6hNdU2spVGdlWSlVxkyDZHltlUKQwcPnhnTP/HaflJI+pY7t60+necNaZ
+ 7hZuzE6rcWsCXQimsH4pBOeE+sb01ZE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-536-5OBC34NzOBubylbRk_5iZQ-1; Tue, 25 Aug 2020 12:54:20 -0400
+X-MC-Unique: 5OBC34NzOBubylbRk_5iZQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B6E2189E607;
+ Tue, 25 Aug 2020 16:54:19 +0000 (UTC)
+Received: from bfoster (ovpn-112-11.rdu2.redhat.com [10.10.112.11])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 67E35747D1;
+ Tue, 25 Aug 2020 16:54:17 +0000 (UTC)
+Date: Tue, 25 Aug 2020 12:54:15 -0400
+From: Brian Foster <bfoster@redhat.com>
+To: Alberto Garcia <berto@igalia.com>
+Subject: Re: [PATCH 0/1] qcow2: Skip copy-on-write when allocating a zero
+ cluster
+Message-ID: <20200825165415.GB321765@bfoster>
+References: <w51pn7memr7.fsf@maestria.local.igalia.com>
+ <20200819150711.GE10272@linux.fritz.box>
+ <20200819175300.GA141399@bfoster>
+ <w51v9hdultt.fsf@maestria.local.igalia.com>
+ <20200820215811.GC7941@dread.disaster.area>
+ <20200821110506.GB212879@bfoster>
+ <w51364gjkcj.fsf@maestria.local.igalia.com>
+ <w51zh6oi4en.fsf@maestria.local.igalia.com>
+ <20200821170232.GA220086@bfoster>
+ <w51d03evrol.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <w51d03evrol.fsf@maestria.local.igalia.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=bfoster@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 10:39:45
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.958,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,114 +86,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=E8=8C=85?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ Dave Chinner <david@fromorbit.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, linux-xfs@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yonggang Luo <luoyonggang@gmail.com>
+On Tue, Aug 25, 2020 at 02:24:58PM +0200, Alberto Garcia wrote:
+> On Fri 21 Aug 2020 07:02:32 PM CEST, Brian Foster wrote:
+> >> I was running fio with --ramp_time=5 which ignores the first 5 seconds
+> >> of data in order to let performance settle, but if I remove that I can
+> >> see the effect more clearly. I can observe it with raw files (in 'off'
+> >> and 'prealloc' modes) and qcow2 files in 'prealloc' mode. With qcow2 and
+> >> preallocation=off the performance is stable during the whole test.
+> >
+> > That's interesting. I ran your fio command (without --ramp_time and
+> > with --runtime=5m) against a file on XFS (so no qcow2, no zero_range)
+> > once with sparse file with a 64k extent size hint and again with a
+> > fully preallocated 25GB file and I saw similar results in terms of the
+> > delta.  This was just against an SSD backed vdisk in my local dev VM,
+> > but I saw ~5800 iops for the full preallocation test and ~6200 iops
+> > with the extent size hint.
+> >
+> > I do notice an initial iops burst as described for both tests, so I
+> > switched to use a 60s ramp time and 60s runtime. With that longer ramp
+> > up time, I see ~5000 iops with the 64k extent size hint and ~5500 iops
+> > with the full 25GB prealloc. Perhaps the unexpected performance delta
+> > with qcow2 is similarly transient towards the start of the test and
+> > the runtime is short enough that it skews the final results..?
+> 
+> I also tried running directly against a file on xfs (no qcow2, no VMs)
+> but it doesn't really matter whether I use --ramp_time=5 or 60.
+> 
+> Here are the results:
+> 
+> |---------------+-------+-------|
+> | preallocation |   xfs |  ext4 |
+> |---------------+-------+-------|
+> | off           |  7277 | 43260 |
+> | fallocate     |  7299 | 42810 |
+> | full          | 88404 | 83197 |
+> |---------------+-------+-------|
+> 
+> I ran the first case (no preallocation) for 5 minutes and I said there's
+> a peak during the first 5 seconds, but then the number remains under 10k
+> IOPS for the rest of the 5 minutes.
+> 
 
-On msys2, the -I/e/path/to/qemu -L/e/path/to/qemu are not recognized by the compiler
-Cause $PWD are result posix style path such as /e/path/to/qemu that can not be recognized
-by mingw gcc, and `pwd -W` are result Windows style path such as E:/path/to/qemu that can
-be recognized by the mingw gcc. So we replace all $PWD with $build_path that can
-building qemu under msys2/mingw environment.
+I don't think we're talking about the same thing. I was referring to the
+difference between full file preallocation and the extent size hint in
+XFS, and how the latter was faster with the shorter ramp time but that
+swapped around when the test ramped up for longer. Here, it looks like
+you're comparing XFS to ext4 writing direct to a file..
 
-Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
----
- configure | 28 +++++++++++++++++++---------
- 1 file changed, 19 insertions(+), 9 deletions(-)
+If I compare this 5m fio test between XFS and ext4 on a couple of my
+systems (with either no prealloc or full file prealloc), I end up seeing
+ext4 run slightly faster on my vm and XFS slightly faster on bare metal.
+Either way, I don't see that huge disparity where ext4 is 5-6 times
+faster than XFS. Can you describe the test, filesystem and storage in
+detail where you observe such a discrepancy?
 
-diff --git a/configure b/configure
-index b1e11397a8..3b9e79923d 100755
---- a/configure
-+++ b/configure
-@@ -13,8 +13,13 @@ export CCACHE_RECACHE=yes
- 
- # make source path absolute
- source_path=$(cd "$(dirname -- "$0")"; pwd)
-+build_path=$PWD
-+if [ "$MSYSTEM" = "MINGW64" -o  "$MSYSTEM" = "MINGW32" ]; then
-+source_path=$(cd "$(dirname -- "$0")"; pwd -W)
-+build_path=`pwd -W`
-+fi
- 
--if test "$PWD" = "$source_path"
-+if test "$build_path" = "$source_path"
- then
-     echo "Using './build' as the directory for build output"
- 
-@@ -346,7 +351,12 @@ ld_has() {
-     $ld --help 2>/dev/null | grep ".$1" >/dev/null 2>&1
- }
- 
--if printf %s\\n "$source_path" "$PWD" | grep -q "[[:space:]:]";
-+check_valid_build_path="[[:space:]:]"
-+if [ "$MSYSTEM" = "MINGW64" -o  "$MSYSTEM" = "MINGW32" ]; then
-+check_valid_build_path="[[:space:]]"
-+fi
-+
-+if printf %s\\n "$source_path" "$build_path" | grep -q "$check_valid_build_path";
- then
-   error_exit "main directory cannot contain spaces nor colons"
- fi
-@@ -942,7 +952,7 @@ Linux)
-   linux="yes"
-   linux_user="yes"
-   kvm="yes"
--  QEMU_INCLUDES="-isystem ${source_path}/linux-headers -I$PWD/linux-headers $QEMU_INCLUDES"
-+  QEMU_INCLUDES="-isystem ${source_path}/linux-headers -I${build_path}/linux-headers $QEMU_INCLUDES"
-   libudev="yes"
- ;;
- esac
-@@ -4283,7 +4293,7 @@ EOF
-               symlink "$source_path/dtc/Makefile" "dtc/Makefile"
-           fi
-           fdt_cflags="-I${source_path}/dtc/libfdt"
--          fdt_ldflags="-L$PWD/dtc/libfdt"
-+          fdt_ldflags="-L${build_path}/dtc/libfdt"
-           fdt_libs="$fdt_libs"
-       elif test "$fdt" = "yes" ; then
-           # Not a git build & no libfdt found, prompt for system install
-@@ -5268,7 +5278,7 @@ case "$capstone" in
-     else
-       LIBCAPSTONE=libcapstone.a
-     fi
--    capstone_libs="-L$PWD/capstone -lcapstone"
-+    capstone_libs="-L${build_path}/capstone -lcapstone"
-     capstone_cflags="-I${source_path}/capstone/include"
-     ;;
- 
-@@ -6268,8 +6278,8 @@ case "$slirp" in
-       git_submodules="${git_submodules} slirp"
-     fi
-     mkdir -p slirp
--    slirp_cflags="-I${source_path}/slirp/src -I$PWD/slirp/src"
--    slirp_libs="-L$PWD/slirp -lslirp"
-+    slirp_cflags="-I${source_path}/slirp/src -I${build_path}/slirp/src"
-+    slirp_libs="-L${build_path}/slirp -lslirp"
-     if test "$mingw32" = "yes" ; then
-       slirp_libs="$slirp_libs -lws2_32 -liphlpapi"
-     fi
-@@ -8212,7 +8222,7 @@ fi
- mv $cross config-meson.cross
- 
- rm -rf meson-private meson-info meson-logs
--NINJA=$PWD/ninjatool $meson setup \
-+NINJA="${build_path}/ninjatool" $meson setup \
-         --prefix "${pre_prefix}$prefix" \
-         --libdir "${pre_prefix}$libdir" \
-         --libexecdir "${pre_prefix}$libexecdir" \
-@@ -8232,7 +8242,7 @@ NINJA=$PWD/ninjatool $meson setup \
- 	-Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
- 	-Dgettext=$gettext -Dxkbcommon=$xkbcommon \
-         $cross_arg \
--        "$PWD" "$source_path"
-+        "$build_path" "$source_path"
- 
- if test "$?" -ne 0 ; then
-     error_exit "meson setup failed"
--- 
-2.27.0.windows.1
+Brian
 
 
