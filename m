@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CE5425190A
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 14:51:10 +0200 (CEST)
-Received: from localhost ([::1]:53968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDECD25195D
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 15:18:20 +0200 (CEST)
+Received: from localhost ([::1]:45336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAYPt-0006ah-7G
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 08:51:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38204)
+	id 1kAYqC-0000DS-2q
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 09:18:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kAYPD-00065p-Id
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 08:50:27 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:50522
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kAYPB-00005P-0F
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 08:50:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598359823;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=M9tvBSaJMSYFv1fc5cVSCYsKK7qn9VQWyWAIG8G2kc4=;
- b=EdjEcc1zSwHCDqjmd+yGFW8dbvM6ITJgIuXA8et8xOEmvPJu9+W0uRByBpegRxKdgjleOF
- ZOPzzZb6jvhFkcEiHltVj6WNYNgy64+oAG/DG1w54jbXcrH5TgdRH/5Fr0E1+U4Qk933ut
- Bk5/+vmGoXkDCmOq5dFChzIhs9+b/G4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-320-EowPkB_SMaqieEY9fauHdA-1; Tue, 25 Aug 2020 08:50:21 -0400
-X-MC-Unique: EowPkB_SMaqieEY9fauHdA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6C55A8030AD;
- Tue, 25 Aug 2020 12:50:20 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-113-0.ams2.redhat.com
- [10.36.113.0])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 66376808A6;
- Tue, 25 Aug 2020 12:50:19 +0000 (UTC)
-Subject: Re: [PATCH v2 3/7] x86: cpuhp: refuse cpu hot-unplug request earlier
- if not supported
-To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
-References: <20200818122208.1243901-1-imammedo@redhat.com>
- <20200818122208.1243901-4-imammedo@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <a0349df3-ab2f-1fa4-6a4b-f7edaa06e7fa@redhat.com>
-Date: Tue, 25 Aug 2020 14:50:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Firefox/52.0 Thunderbird/52.9.1
+ (Exim 4.90_1) (envelope-from <maxime.guerreiro@gmail.com>)
+ id 1kAYLt-0005Qo-Qn
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 08:47:01 -0400
+Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32]:44873)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <maxime.guerreiro@gmail.com>)
+ id 1kAYLs-0008Am-86
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 08:47:01 -0400
+Received: by mail-io1-xd32.google.com with SMTP id v6so12274399iow.11
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 05:46:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=nC+DHUrQhOiAsMoOqZ/7iIpzUE7cn5EOw3lM9y7PezA=;
+ b=RbvZSUpuxL5l3co3S20J0g06/5H5XZXZ1HBCwxxclTLborNk1Rkt0vHB76HoK5HGyS
+ 8RmjO4TEFuQNBQf2+xWq3WwwUEsjO4e8XbFPsddgyr/1oB0NWomjY6SZeqEWcLVfqH4i
+ pxBIe+NnBTmH+9bJwqDXG5iQhHoMHkDgt/J0l3GtqkZY+I/DAxV4pSL6ukL7zCrcCeK7
+ ISugC3BE+BT9u83gJW3720mb9FT8eVBHOfI16fikRL+T7feAcDjupYrlrOWXW4FVfuhT
+ /P/Bxzj63RTLxQf7mpHmcfAxVFL3IoKTptJcfHxVMMeCfSwwiUOAfeErTTJr7cTAzLGi
+ 4n6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=nC+DHUrQhOiAsMoOqZ/7iIpzUE7cn5EOw3lM9y7PezA=;
+ b=AKP2kcfJSnBIOBzApVXuJdI/srYf2+tnY0G96YK5noxpIU3GAQAv7Hj+FWRtTOr+LI
+ gy7sKyjVz+nm90rD5lKo2i9zO+wTwqOmPQ3lg9+ltfnf60Bc+47EJvwrN0RR3ZzTzs+v
+ wfduD3KK8M48/4E3FALS/CIc5Y8fx7n8c6b2ggjp+ERjafvC+5usR3Fhm9dGImzyjUs2
+ IEyX3VUf0C6Woi4MypxpdGlKI7aljCwFdAyV8BKaZjpjJVmlrsh3hh0M9pXSEYi5CG28
+ 5YBQT9qqu0QLGidd6GGBpYIx7JOkLUHkpnZzzB0D+zBTfbXoi9vDbuKqSZPJCAD0fukY
+ 7W+g==
+X-Gm-Message-State: AOAM5303Zmj+SU2E9l6/QO5EsYvLGZAm51isZ82IjieQt4FYI2McEyqg
+ Eb42q9w8xxJOB+ldbiom9Pumq+cM+arzbIispnZhOfxEGrZix1Qu
+X-Google-Smtp-Source: ABdhPJzQGDZ9nY+N0A5d/xm4NMvSSia2LYupl2JR2wjkv78E4QXmfC4LO7r169o4Riw4eve/qeOqg4wHphi9GHCLcUE=
+X-Received: by 2002:a02:730b:: with SMTP id y11mr10541980jab.126.1598359618286; 
+ Tue, 25 Aug 2020 05:46:58 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200818122208.1243901-4-imammedo@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=lersek@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 01:35:36
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -56
-X-Spam_score: -5.7
-X-Spam_bar: -----
-X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.958,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.602, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+From: Maxime Guerreiro <maxime.guerreiro@gmail.com>
+Date: Tue, 25 Aug 2020 14:46:47 +0200
+Message-ID: <CAPESWZNaFZB-4hk0GNQAbt=KKf9ZzAMON5oLw6WFBUsi_ApkkQ@mail.gmail.com>
+Subject: What are the security risks of running QEMU/KVM as root?
+To: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
+ envelope-from=maxime.guerreiro@gmail.com; helo=mail-io1-xd32.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 25 Aug 2020 09:16:22 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,68 +76,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: boris.ostrovsky@oracle.com, aaron.young@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/18/20 14:22, Igor Mammedov wrote:
-> CPU hot-unplug with SMM requires firmware participation to prevent
-> guest crash (i.e. CPU can be removed only after OS _and_ firmware
-> were prepared for the action).
-> Previous patches introduced ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT
-> feature bit, which is advertised by firmware when it has support
-> for CPU hot-unplug. Use it to check if guest is able to handle
-> unplug and make device_del fail gracefully if hot-unplug feature
-> hasn't been negotiated.
-> 
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> Tested-by: Laszlo Ersek <lersek@redhat.com>
-> Reviewed-by: Laszlo Ersek <lersek@redhat.com>
-> ---
-> v2:
->  - fix typo in commit message
->  - drop 5.1 version from hint message (Laszlo)
-> ---
->  hw/acpi/ich9.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
-> diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
-> index 0acc9a3107..95cb0f935b 100644
-> --- a/hw/acpi/ich9.c
-> +++ b/hw/acpi/ich9.c
-> @@ -460,6 +460,18 @@ void ich9_pm_device_unplug_request_cb(HotplugHandler *hotplug_dev,
->                                        errp);
->      } else if (object_dynamic_cast(OBJECT(dev), TYPE_CPU) &&
->                 !lpc->pm.cpu_hotplug_legacy) {
-> +        uint64_t negotiated = lpc->smi_negotiated_features;
-> +
-> +        if (negotiated & BIT_ULL(ICH9_LPC_SMI_F_BROADCAST_BIT) &&
-> +            !(negotiated & BIT_ULL(ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT))) {
-> +            error_setg(errp, "cpu hot-unplug with SMI wasn't enabled "
-> +                             "by firmware");
-> +            error_append_hint(errp, "update machine type to a version having "
-> +                                    "x-smi-cpu-hotunplug=on and firmware that "
-> +                                    "supports CPU hot-unplug with SMM");
-> +            return;
-> +        }
-> +
->          acpi_cpu_unplug_request_cb(hotplug_dev, &lpc->pm.cpuhp_state,
->                                     dev, errp);
->      } else {
-> 
+Hello,
 
-A trivial comment:
+I'd be interested to learn more about the security 'vision' of qemu/kvm being
+two components, one running in-kernel, one running in user land. What are the
+security advantages of running guests as non-root?
 
-Patch#2 says "x86: cphp: " in the subject line, but patch#3 says "x86:
-cpuhp: " (note the extra "u").
+In case of a qemu or KVM vulnerability, won't malicious guests gain kernel
+privilege no matter what user is running qemu?
 
-I'm fine with either "cphp" or "cpuhp", but the subjects should be
-consistent -- both patches should use the same word.
+If a guest is able to execute arbitrary code as the "qemu" user, can
+it escalate to
+root privileges using /dev/kvm?
 
-Preserve my T-b and R-b on both patches #2 and #3, after fixing up one
-of the subjects. (Up to you which one.)
+I've also asked this on StackExchange [1], for visibility.
 
-Thanks!
-Laszlo
+Thanks,
+Maxime
 
+[1]: https://security.stackexchange.com/questions/236681/what-are-the-security-risks-of-running-qemu-kvm-as-root
 
