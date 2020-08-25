@@ -2,56 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2F562522DF
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:32:43 +0200 (CEST)
-Received: from localhost ([::1]:59252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 864992522EA
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:35:17 +0200 (CEST)
+Received: from localhost ([::1]:40906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAgYc-00022D-Ow
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:32:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40748)
+	id 1kAgb6-00068b-Hl
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:35:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1kAgMk-0005hb-DU
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:20:27 -0400
+ id 1kAgMm-0005ja-Gg
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:20:29 -0400
 Received: from mail-eopbgr60111.outbound.protection.outlook.com
  ([40.107.6.111]:2560 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1kAgMg-0004EC-Uz
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:20:25 -0400
+ id 1kAgMk-0004EC-A6
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:20:28 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hH3/H8hiQpnXVJgTW65wca7H/NeehAiMV5y2URaSdAYgz5viHvE/vdEWhM1YETFzukelFc1Q4+5qLTKueT69kmuIYrEwy8CysLSF9+Zq9ebTr6zrh6q4B7Tj/Jjxa6LMeGgf4prkkvy9P+szEeg0iZtbQs+cOBPlct3JVdJ8gibTFpqHsrKvndiQWOY+3DFqkR4uuZ985au+hmjWwsScPD8vDyxsk+jUYO+TMknrr49nI/IuzhC/6pLcUkmx54bet3DbcvXu0q26+bjnzqsjWCzJQOiEbZrAOtc3RmJWeqfD/rWFmOGz7BNkowsTOy682AZmzg7IJdqjKl7pJyb3DA==
+ b=J0LWHoec1axFoThhFgRRosR9FxSjKh+ipIwdOhC1dDhu13LeLKxZ1qDtS7CX9ubya6mbxYKlDuRanCOMwPm1MWcrDpdhBtuTIeDyeP2GFXBhLnTpTT13Z94wqPdwXMYY0Dw101jwXfbTssc14UZ1uq4IjSnCWxitvZDk4EXdR/KAK9XQgLDTsIVYnqWd9vGS3v24Aua7OpF5VsZTviiBUx7BD+/Pazo7UtZQpT2maaeVy5btmYYPOe8gapOht+K0YJd6tarT4jkpTIDscHWtIDR6/bdQ0pagB0tpffxfI/L/7ULIW/qETKLyP6g5TGC5HGnRbrs/UNaaHVJHt0OHuQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0izouUSYC054Zn1AYVhTaLft6Ua2Yx8+292SR2HN88k=;
- b=MvvUHpR91d8nDsffd3Cc9T9VuXXLnIosm+zhboK7tdjbuZqRAzLYX3DIAzn9CkWi8EA7tdhiAsKRHSwV8k6cjx3EKWxBAZdNKh666ij0Uw1RhFaydLMK691jp6FknS5VOgAOBbCRwP6f7HyLwXEyc7axWkrR/N+40KH33MWMNc5LwSjPZGjB7AAEYRqUDj4nlEC1Mlu1qoEuJUu6hO7+gRuc/qKLAXubSQ1ysYxeLoaFESP672Jnovw1WpRzBNyZffib5GVhfA4vqEf2lIZPQmBJAhWyv5aMaMDQkAIrPplOezIvqKo9SDFAFXNFQTumhfxuomhDTZ5OWpQ542duHQ==
+ bh=0rxDHV8VzSrstEgbdUUXtJ1blVeoXD32EQXBcZLp9Ls=;
+ b=Ej/kTAwyuP6F3xOVVKBauQJg6cWUt/+ICcga4UO8J/ghnachI5fYvkLVbHx+ozvXtYTOl36mN0/OUY1YUWUtByf5A1uKI1nZb+BUo81ZF8rU4BLSawZd+0CPtYnbZkhqfti1bYDk48g3FxRTmGkEwPbRgHeSDEKXV1trhVd6eEE/zJubHe0b3QJQD5e+k9q5TsFW6RmB/kBpZ6AtAjKFzdCi5pPuUfUEszMezvmBtQFokKzOu9u/rQxPXPH+5uuZ29v3jzaqjpqzpYnCduzkUKZqylF42l16O9dvOMpHBqGZUkZ9PDvjXG4y98ALGvBCkCeRavLzNc9WvGA5gtrv7A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
  dkim=pass header.d=syrmia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0izouUSYC054Zn1AYVhTaLft6Ua2Yx8+292SR2HN88k=;
- b=rmWwDTP3uaELNsE0efZD/wbAC2v9u8u+yZPa8mlZUde/NYJivjUcBr/2pq/K6N1UFY+EiagtCvWgDUcsB3EttnY2BuKhI9XoS70V7egTrvab+ybZpkFaGuCMCiJgI/4MJmI+DiNkDGtWw/e+zESkVscpYUAg2lg6bGd9+AwyLtQ=
+ bh=0rxDHV8VzSrstEgbdUUXtJ1blVeoXD32EQXBcZLp9Ls=;
+ b=ehdWG6eJE5a0M3HjFZVoC9NKKNIeEckMMzu7Qa4p65KOvnTwnwg3f+vlxWN1X4/WeBb6P5b5Umg6lzHv3PuY3FK4kxXtvIXIeTAZXJ8UNHzUlkV/yWaUTLagZzE805nmATwMnD2GJdm+0glld1Y2IFO47P6kGfgCrnXzjizTTI8=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=syrmia.com;
 Received: from VE1PR03MB5246.eurprd03.prod.outlook.com (2603:10a6:802:a1::22)
  by VI1PR0301MB2253.eurprd03.prod.outlook.com (2603:10a6:800:27::20)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.26; Tue, 25 Aug
- 2020 21:20:19 +0000
+ 2020 21:20:20 +0000
 Received: from VE1PR03MB5246.eurprd03.prod.outlook.com
  ([fe80::3568:5b4f:ab6b:e362]) by VE1PR03MB5246.eurprd03.prod.outlook.com
  ([fe80::3568:5b4f:ab6b:e362%6]) with mapi id 15.20.3261.026; Tue, 25 Aug 2020
- 21:20:19 +0000
+ 21:20:20 +0000
 From: Filip Bozuta <Filip.Bozuta@syrmia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/2] linux-user: Introducing support for 'recvmmsg_time64()'
-Date: Tue, 25 Aug 2020 23:20:03 +0200
-Message-Id: <20200825212005.35982-1-Filip.Bozuta@syrmia.com>
+Subject: [PATCH v2 1/2] linux-user: Modify 'recvmmsg()' implementation
+Date: Tue, 25 Aug 2020 23:20:04 +0200
+Message-Id: <20200825212005.35982-2-Filip.Bozuta@syrmia.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200825212005.35982-1-Filip.Bozuta@syrmia.com>
+References: <20200825212005.35982-1-Filip.Bozuta@syrmia.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: ZR0P278CA0045.CHEP278.PROD.OUTLOOK.COM
@@ -62,32 +64,32 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (147.91.217.240) by
  ZR0P278CA0045.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:1d::14) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3326.19 via Frontend Transport; Tue, 25 Aug 2020 21:20:18 +0000
+ 15.20.3326.19 via Frontend Transport; Tue, 25 Aug 2020 21:20:19 +0000
 X-Mailer: git-send-email 2.25.1
 X-Originating-IP: [147.91.217.240]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 737b13d7-05c8-4d41-8eb2-08d8493cab1e
+X-MS-Office365-Filtering-Correlation-Id: d857388d-7c28-4e8d-a4a0-08d8493cab97
 X-MS-TrafficTypeDiagnostic: VI1PR0301MB2253:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR0301MB2253F561E78F531A40374309EB570@VI1PR0301MB2253.eurprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
+X-Microsoft-Antispam-PRVS: <VI1PR0301MB225364F00AC9FB61C929180CEB570@VI1PR0301MB2253.eurprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ByOi/2eg9gGAel3pDSpetI7ebhfDbzfaCoXSnYs5aDBEgWcqyii94BMFBxtrE4ONuc42+2UOTRb82mhSBDIcCfI1w8DsZ/HVftWT907KqWsA9XTRCHcUXZXOPqKxyjpts5WFX9r/k9MUVopJb6RvaiLoDBmECFT46UWX6vRJjq1/3vbhm8cfvRoTZhayuGD+XSBB4knuNsSohSM1vFwVLPsKQQWKqVqUFdJg9pLI22LcWQ5ZoHMjsPBxsIU40V7GmyZ5fMN+Yr+/WFrPegRgJLABnCu/XV4AIC1qcpA0RsO/BqLULABpvRozp6fI/4mTluBtLhOc6oeiXWS4iAGS5nh8zaizqZgCKex6xXsXaNe7qq5KCTuM6940LNV1OJUx
+X-Microsoft-Antispam-Message-Info: ehds/tTxiGlnuXXt3KkvS0gQqaPWF/Ir/1eUJSUGsTMeHgdeAw4NMvxxbD6rIdMS2NBzugzJmAaqxuYTCXypxuSnrKfMM0tFepxfrz+m3G5PNyJa209RMYr+VXEe1KVfXbZfCgyznDEmRDEzcOqIdWaGlZeXzzqSvrdz3YhMx4X+ihPyDAMFggU6vSZL/7d0GanVuPIebp5Ft4tyeQu4KyfWR8tOZkX0YK4i25nzkBxu+1HX9KwEI4eELjy1Oy8WyX4NDG/U38yGNhJjyGEtxg/Hc0cy2nnPBZEoAioHJdp6KIlT8Kh99AYqwrD2bw1WHy5wuALR+oisulEScjrRELlr+f/ByP1rm0ELW+Wl1mp4dKFgolpf95FL9jUHgbI+vfhiXBUwCZmYhYrKseuPItnOb3I3ZL2OMc+AHbi4gA5MpLgZ/h5dDHEPAAXUPrtVoPx/NFX7U9PCtnZr5dOdYQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VE1PR03MB5246.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(346002)(366004)(39830400003)(136003)(376002)(396003)(4744005)(66476007)(86362001)(16526019)(66556008)(107886003)(1076003)(8936002)(186003)(2616005)(956004)(6512007)(26005)(6916009)(5660300002)(83380400001)(4326008)(316002)(66946007)(52116002)(478600001)(6486002)(2906002)(54906003)(36756003)(6666004)(8676002)(6506007)(69590400007);
+ SFS:(346002)(366004)(39830400003)(136003)(376002)(396003)(66476007)(86362001)(16526019)(66556008)(107886003)(1076003)(8936002)(186003)(2616005)(956004)(6512007)(26005)(6916009)(5660300002)(83380400001)(4326008)(966005)(316002)(66946007)(52116002)(478600001)(6486002)(2906002)(54906003)(36756003)(6666004)(8676002)(6506007)(69590400007);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: b9NviBA5L8Dte7xJPez7jaTiTZwJEmz60Ock9cu8zTF1g1fsddssknwrobk7JXqYq8fyQi0h3hUhuGVPuuR6XnpT1Xxf0KBmRbSp8PgIlNPH2w77+g9ooJP/rI4oIrOhZ4LPYL3mChqrfXJIThCuQtcV6ArIk9ye37tSMxI4MrKclVqn8A+kPzbsBHzRB/Un/o7u4MJhrcq31ar21sJi7OQhR0axWL+hqYJ+v7LZyO+unANEquxRx4LTe98Hzr4HVGWBPkYjczQuIvawQ/Jy/RKBfXzi+NbQp3KsGrC8PLBzAaK0GR39R5fdchz3gtXtXjBtf1matSwnbAjDbRJ7Ge7KX2qHkWoRkTzHVEVtHvSuM7bVxbhnI3UZW0znFx7iQ3sqgCqyU8x+ynaNTiHad0yzqmtSggg1c6OQ6KotpM3QTGxsMl5mVDH+2t6vCWvixH87zFEp89X3d+sFbBwl9bsMCNxzerUVrfVjJAiCCZUR0XZlYkbO/JxmfQyizwsCflYo3x19XTqiIf+ob0SOidw86za85ebE+njbGRKSNK3txoROGRkOYy2i3McBInq8YZc9HpSICp0o3nDiaByj6SoH6t+PrsEtHbU5/YQWTiJBtsoP25WFUV70+a7KQd/LTdxtI9SBdtn7Jc9r1VFMSg==
+X-MS-Exchange-AntiSpam-MessageData: tmW7yrqfTcrwHk8epaq8Izpwdf3mnCx016mlU9UCfBJI2i8n7+h02uODd/Zxj8X0wMoIICQRfQtWwA6kVNXLUO/7CRsmKwME3Vs3k8yxXS1Sm9AHhVBYoU63FqAMttzYRiZUjYgiPuaeQl7v2yFwKmUZImcGtBLneh3eAQvFatc8X4D2BoXwjbAy/QvtrJ9BQ1am/j7GTUi3pmiXHY2r5cGxXj35Y1KLBRbDy/W9xIrpHziE0lGZzz+5lBO/2yrTysNBE6tseVy3aOsb48EJrHa0LtYGsVgSr4EbV2tFzD4FoO8v4FVFGMU+PwOYJ2SbGY/HHfG/A+qgQQk/DpvEtOZBvbbr5Cs2tS+iFVNdsVVfhwbzMg0t6MXIs++Pvtngdaq/sGcHq0kepDLdl0n1mjIXjqS4L2ZAkwyp7zeVD3m+Dy2HmB/5tVRjuv08JfD0lNOA4ZZh/JVRg6X3N+TIGR+bUO39UZmUZ/j4Qrnw0AnNQ7goVUFr//J/MpZbXl795s8hst3hjG3LRNTDNnSvrTO0ktLhZe34axXCyQ0OZGU7wcwVJ/t/X/2OlCF7Jvd3kZMjqJ6EuBdpOpMt/um8ujpN/7Xk/ZKMBkEQ0j3AWVSOktxPnQZWWpOdFngiIUl8naYt5CKO3lmvGT9y0UuCOQ==
 X-OriginatorOrg: syrmia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 737b13d7-05c8-4d41-8eb2-08d8493cab1e
+X-MS-Exchange-CrossTenant-Network-Message-Id: d857388d-7c28-4e8d-a4a0-08d8493cab97
 X-MS-Exchange-CrossTenant-AuthSource: VE1PR03MB5246.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2020 21:20:19.2496 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2020 21:20:20.0241 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MP+t0ctlbM+DeDz+zWdK1Fy5xYfNMTbG4fwpSiMWABfx0b3s9Fx4adIXSTimtoOO9umvym5z5jwqA3MMWfT3ug==
+X-MS-Exchange-CrossTenant-UserPrincipalName: dTvEwBI7XgTGs+EYMRu8LzyKGKPNiPuvoYuxcd4GmOU+GKC3r2qYzwbRU7vzJ1rVmPTwWQP6h20cDA31e07NSg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0301MB2253
 Received-SPF: pass client-ip=40.107.6.111;
  envelope-from=Filip.Bozuta@syrmia.com;
@@ -119,32 +121,125 @@ Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch introduces functionality for 'recvmmsg_time64()' which
-is a year 2038 safe variant of 'recvmmsg()'. This new time64 syscall
-is introduced in series of two patches rather than in one patch
-because a little modification was needed before the syscall could
-be introduced properly.
+Implementation of syscall 'recvmmsg()' in file 'syscall.c' uses
+a loop over 'recvmsg()' to receive each individual message from
+a socket. However, the implementation ignores the timeout argument.
+This patch changes that by introducing a timeout check after
+each received message.
 
-The first patch in the series introduces a little fix in
-the implementation of 'recvmmsg()' that introduces the timeout
-argument which is of type 'struct timespec' for which the
-separate time64 variant is added.
+Implementation notes:
 
-The second patch in the series introduces the implementation
-of 'recvmmsg_time64()'.
+   Function 'clock_gettime()' is used to check the time before
+   messages start getting received. After each message is received,
+   'clock_gettime()' is called and used to check whether the timeout
+   is expired.
 
-Testing method:
+Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
+---
+ linux-user/syscall.c | 45 ++++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 37 insertions(+), 8 deletions(-)
 
-    The implementation was tested using existing tests from
-    the LTP test suite which was build inside a chroot.
-
-Filip Bozuta (2):
-  linux-user: Modify 'recvmmsg()' implementation
-  linux-user: Add support for 'recvmmsg_time64()'
-
- linux-user/syscall.c | 56 +++++++++++++++++++++++++++++++++++++-------
- 1 file changed, 48 insertions(+), 8 deletions(-)
-
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 05f03919ff..dc89bfacca 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -3197,21 +3197,36 @@ static abi_long do_sendrecvmsg(int fd, abi_ulong target_msg,
+ 
+ static abi_long do_sendrecvmmsg(int fd, abi_ulong target_msgvec,
+                                 unsigned int vlen, unsigned int flags,
+-                                int send)
++                                abi_ulong timeout, int send)
+ {
+     struct target_mmsghdr *mmsgp;
++    struct timespec ts, end_time, curr_time;
+     abi_long ret = 0;
+     int i;
+ 
+     if (vlen > UIO_MAXIOV) {
+         vlen = UIO_MAXIOV;
+     }
+-
+     mmsgp = lock_user(VERIFY_WRITE, target_msgvec, sizeof(*mmsgp) * vlen, 1);
+     if (!mmsgp) {
+         return -TARGET_EFAULT;
+     }
++    if (timeout) {
++        if (target_to_host_timespec(&ts, timeout)) {
++            return -TARGET_EFAULT;
++        }
++        if (ts.tv_sec < 0 || ts.tv_nsec < 0 || ts.tv_nsec > 1000000000) {
++            return -TARGET_EINVAL;
++        }
+ 
++        clock_gettime(CLOCK_REALTIME, &curr_time);
++        end_time.tv_sec = curr_time.tv_sec + ts.tv_sec;
++        end_time.tv_nsec = curr_time.tv_nsec + ts.tv_nsec;
++        if (end_time.tv_nsec > 1000000000) {
++            end_time.tv_nsec -= 1000000000;
++            end_time.tv_sec++;
++        }
++    }
+     for (i = 0; i < vlen; i++) {
+         ret = do_sendrecvmsg_locked(fd, &mmsgp[i].msg_hdr, flags, send);
+         if (is_error(ret)) {
+@@ -3222,6 +3237,20 @@ static abi_long do_sendrecvmmsg(int fd, abi_ulong target_msgvec,
+         if (flags & MSG_WAITFORONE) {
+             flags |= MSG_DONTWAIT;
+         }
++        /*
++         * For recvmmsg() the timeout is checked only after a datagram is
++         * received.This is an existing bug in the kernel for this syscall:
++         * https://man7.org/linux/man-pages/man2/recvmmsg.2.html#BUGS
++         */
++        if (timeout) {
++            clock_gettime(CLOCK_REALTIME, &curr_time);
++            if (curr_time.tv_sec > end_time.tv_sec ||
++                (curr_time.tv_sec == end_time.tv_sec &&
++                curr_time.tv_nsec >= end_time.tv_nsec)) {
++                i++;
++                break;
++            }
++        }
+     }
+ 
+     unlock_user(mmsgp, target_msgvec, sizeof(*mmsgp) * i);
+@@ -3477,7 +3506,7 @@ static abi_long do_socketcall(int num, abi_ulong vptr)
+         [TARGET_SYS_SENDMSG] = 3,     /* fd, msg, flags */
+         [TARGET_SYS_RECVMSG] = 3,     /* fd, msg, flags */
+         [TARGET_SYS_ACCEPT4] = 4,     /* fd, addr, addrlen, flags */
+-        [TARGET_SYS_RECVMMSG] = 4,    /* fd, msgvec, vlen, flags */
++        [TARGET_SYS_RECVMMSG] = 5,    /* fd, msgvec, vlen, flags, timeout */
+         [TARGET_SYS_SENDMMSG] = 4,    /* fd, msgvec, vlen, flags */
+     };
+     abi_long a[6]; /* max 6 args */
+@@ -3536,10 +3565,10 @@ static abi_long do_socketcall(int num, abi_ulong vptr)
+         return do_sendrecvmsg(a[0], a[1], a[2], 0);
+     case TARGET_SYS_ACCEPT4: /* sockfd, addr, addrlen, flags */
+         return do_accept4(a[0], a[1], a[2], a[3]);
+-    case TARGET_SYS_RECVMMSG: /* sockfd, msgvec, vlen, flags */
+-        return do_sendrecvmmsg(a[0], a[1], a[2], a[3], 0);
++    case TARGET_SYS_RECVMMSG: /* sockfd, msgvec, vlen, flags, timeout */
++        return do_sendrecvmmsg(a[0], a[1], a[2], a[3], a[4], 0);
+     case TARGET_SYS_SENDMMSG: /* sockfd, msgvec, vlen, flags */
+-        return do_sendrecvmmsg(a[0], a[1], a[2], a[3], 1);
++        return do_sendrecvmmsg(a[0], a[1], a[2], a[3], 0, 1);
+     default:
+         qemu_log_mask(LOG_UNIMP, "Unsupported socketcall: %d\n", num);
+         return -TARGET_EINVAL;
+@@ -9343,11 +9372,11 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+ #endif
+ #ifdef TARGET_NR_sendmmsg
+     case TARGET_NR_sendmmsg:
+-        return do_sendrecvmmsg(arg1, arg2, arg3, arg4, 1);
++        return do_sendrecvmmsg(arg1, arg2, arg3, arg4, 0, 1);
+ #endif
+ #ifdef TARGET_NR_recvmmsg
+     case TARGET_NR_recvmmsg:
+-        return do_sendrecvmmsg(arg1, arg2, arg3, arg4, 0);
++        return do_sendrecvmmsg(arg1, arg2, arg3, arg4, arg5, 0);
+ #endif
+ #ifdef TARGET_NR_sendto
+     case TARGET_NR_sendto:
 -- 
 2.25.1
 
