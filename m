@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F476251BE0
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 17:09:37 +0200 (CEST)
-Received: from localhost ([::1]:36788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 605C6251BD9
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 17:08:22 +0200 (CEST)
+Received: from localhost ([::1]:60432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAaZs-0007XX-Nu
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 11:09:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54906)
+	id 1kAaYf-0005Zq-GA
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 11:08:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kAaVV-0000if-P7
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 11:05:05 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:36880
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kAaVT-0003K3-BQ
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 11:05:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598367902;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SpOKpmoPR63A2ouAeyyv2SRBoxnyNRTpMnWZ/m2cKpw=;
- b=Iosxe3sAggLLwYfr9BslZ23JwPFFIYUddATLk+9Nw80rZvr7wpwwu9upQCyTeqL5WZHO/u
- PK2MfuoR2sdB/2deUW0zB27L15SER72a9wqdfi8K62fm2hIaSh51zQZzU0B7XRCswowb1/
- 6esP/SlyAt2XX5GEL/fvslEE0eX7VCM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-437-Wet2VMz6Pd2bg544PjyOcg-1; Tue, 25 Aug 2020 11:04:56 -0400
-X-MC-Unique: Wet2VMz6Pd2bg544PjyOcg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20E57106C109;
- Tue, 25 Aug 2020 15:04:55 +0000 (UTC)
-Received: from localhost (unknown [10.36.110.43])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1BE9C19C4F;
- Tue, 25 Aug 2020 15:04:50 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH 5/5] meson: add NSIS building
-Date: Tue, 25 Aug 2020 19:04:09 +0400
-Message-Id: <20200825150409.346957-6-marcandre.lureau@redhat.com>
-In-Reply-To: <20200825150409.346957-1-marcandre.lureau@redhat.com>
-References: <20200825150409.346957-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kAaVM-0000IY-7l
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 11:04:56 -0400
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:45631)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kAaVJ-0003FJ-4h
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 11:04:55 -0400
+Received: by mail-ej1-x643.google.com with SMTP id si26so17004439ejb.12
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 08:04:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=KIXcaowuMym4eb+LaRrC6GPH85C78x9/rnLVMXOoZqs=;
+ b=l00q5erMLE4Dmm5GH+fjk8so955LW4+QaljUWEdLO+iAVWal62GbCU3BhICehAw+/0
+ Nl9qgDwp0LY63KzfvgZPbEfvRh9HzxjQDeJ11ZPvIkkwWOWaJ/9ffQMBcHvDb8VhiXgd
+ yxqeaAVf/43UXfvlF0KWxdXdANTT5ikRrTevC6SdTNK6oNnwZR8E27zZ5l9xRsrc4vfk
+ XMt3+29FVTqx/apfyZCDbtkXOfL07C3jPbxBFMolYJkF4YucgV15H/XBjl6CzKcLrJNC
+ hsvy8tq3J9kZsW4RlCACFinWm2OwhemEO0VdgwPsgMUYDSfM/NArWGofh5o2oPsYwcox
+ Mj9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=KIXcaowuMym4eb+LaRrC6GPH85C78x9/rnLVMXOoZqs=;
+ b=d8lqDwTdW5oI+fbI63yfkpmNDDZ045b0rF5xs0eJsqr7rMnBGqkySNfui687b2vMSD
+ 6HYc/P/gpqGn9e08IE2p6YIn/ES/Fj927hPWx9ANMQVETaoLxubDjOyLUrdPrz6JhiCl
+ 9xBIrz3FbZKvvpKZ7/8+YOvGpQd9hiNictgujYAZId/x4enHq3VYd0PsnTHiWqQL9tZS
+ PsyzcWIUJGhIat9qnikg7fft+LJuKRo39rS8CzIenk6F5qLNTBhmDpKuBYVmDjnsbwxI
+ +HIjvPY0CTk3kowz4vydsk/JpYHgw8jexXzEzApf6h0oGW5W/PhlTk/bvyHd6droLN5g
+ 67Jw==
+X-Gm-Message-State: AOAM533622aZjUlYxmK3JVQ0vofJOtmiMbaYwCM/nLNVuC33n3nQKHGE
+ FjgpqSE8ebxeu+BQq/UbdRXJu7cL534t43f69V6d8w==
+X-Google-Smtp-Source: ABdhPJxzzSSGguY/ldEpdEfyP/TpDWQjl1FRTvTgnfP+gYFUfATIZzZFnjqBQ9LQap01GlmWIrqR523CIshnOgyRKfs=
+X-Received: by 2002:a17:906:2cc2:: with SMTP id
+ r2mr10859286ejr.482.1598367891446; 
+ Tue, 25 Aug 2020 08:04:51 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 01:36:47
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.958,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200818143825.691110-1-f4bug@amsat.org>
+ <20200818143825.691110-3-f4bug@amsat.org>
+In-Reply-To: <20200818143825.691110-3-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 25 Aug 2020 16:04:39 +0100
+Message-ID: <CAFEAcA8fbA0XKEHzMtTOmkzHCN7ji__wB+22uKTAp0-UAgEjEg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] hw/core/sysbus: Make sysbus_pass_irq() arguments
+ self-describing
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x643.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,189 +83,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- sw@weilnetz.de
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On Tue, 18 Aug 2020 at 15:38, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+>
+> Make the direction sysbus_pass_irq() pass the GPIOs more obvious
+> by renaming its arguments as 'from_dev' and 'to_dev'.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  include/hw/sysbus.h | 7 ++++++-
+>  hw/core/sysbus.c    | 5 ++---
+>  2 files changed, 8 insertions(+), 4 deletions(-)
+>
+> diff --git a/include/hw/sysbus.h b/include/hw/sysbus.h
+> index da9f85c58ce..65de6f6b062 100644
+> --- a/include/hw/sysbus.h
+> +++ b/include/hw/sysbus.h
+> @@ -73,7 +73,12 @@ typedef void FindSysbusDeviceFunc(SysBusDevice *sbdev,=
+ void *opaque);
+>  void sysbus_init_mmio(SysBusDevice *dev, MemoryRegion *memory);
+>  MemoryRegion *sysbus_mmio_get_region(SysBusDevice *dev, int n);
+>  void sysbus_init_irq(SysBusDevice *dev, qemu_irq *p);
+> -void sysbus_pass_irq(SysBusDevice *dev, SysBusDevice *target);
+> +/**
+> + * sysbus_pass_irq: Pass through IRQ/GPIO lines from one to another devi=
+ce
+> + * @to_dev: Device which needs to expose IRQ/GPIO lines
+> + * @from_dev: Device which has the IRQ/GPIO lines
+> + */
+> +void sysbus_pass_irq(SysBusDevice *to_dev, SysBusDevice *from_dev);
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- Makefile        | 56 -----------------------------------------------
- meson.build     | 24 ++++++++++++++++++++
- scripts/nsis.sh | 58 +++++++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 82 insertions(+), 56 deletions(-)
- create mode 100755 scripts/nsis.sh
+I think this is less good than what we had before, because (as
+per comments on patch 1) "to" vs "from" is ambiguous.
+The 'before' here is not as good as the qdev_pass_gpios()
+choice of "dev" vs "container", though, so I guess we should
+make this function match that one.
 
-diff --git a/Makefile b/Makefile
-index 81794d5c34..3ebd6929b4 100644
---- a/Makefile
-+++ b/Makefile
-@@ -294,62 +294,6 @@ endif
- 		"$(DESTDIR)$(qemu_desktopdir)/qemu.desktop"
- 	$(INSTALL_DIR) "$(DESTDIR)$(qemu_datadir)/keymaps"
- 
--ifdef CONFIG_WIN32
--
--INSTALLER = qemu-setup-$(VERSION)$(EXESUF)
--
--nsisflags = -V2 -NOCD
--
--ifneq ($(wildcard $(SRC_PATH)/dll),)
--ifeq ($(ARCH),x86_64)
--# 64 bit executables
--DLL_PATH = $(SRC_PATH)/dll/w64
--nsisflags += -DW64
--else
--# 32 bit executables
--DLL_PATH = $(SRC_PATH)/dll/w32
--endif
--endif
--
--.PHONY: installer
--installer: $(INSTALLER)
--
--INSTDIR=/tmp/qemu-nsis
--
--$(INSTALLER): $(SRC_PATH)/qemu.nsi
--	$(MAKE) install DESTDIR=${INSTDIR}
--ifdef SIGNCODE
--	(cd ${INSTDIR}/${bindir}; \
--         for i in *.exe; do \
--           $(SIGNCODE) $${i}; \
--         done \
--        )
--endif # SIGNCODE
--	(cd ${INSTDIR}/${bindir}; \
--         for i in qemu-system-*.exe; do \
--           arch=$${i%.exe}; \
--           arch=$${arch#qemu-system-}; \
--           echo Section \"$$arch\" Section_$$arch; \
--           echo SetOutPath \"\$$INSTDIR\"; \
--           echo File \"\$${BINDIR}\\$$i\"; \
--           echo SectionEnd; \
--         done \
--        ) >${INSTDIR}/${bindir}/system-emulations.nsh
--	makensis $(nsisflags) \
--                $(if $(BUILD_DOCS),-DCONFIG_DOCUMENTATION="y") \
--                $(if $(CONFIG_GTK),-DCONFIG_GTK="y") \
--                -DBINDIR="${INSTDIR}/${bindir}" \
--                $(if $(DLL_PATH),-DDLLDIR="$(DLL_PATH)") \
--                -DSRCDIR="$(SRC_PATH)" \
--                -DOUTFILE="$(INSTALLER)" \
--                -DDISPLAYVERSION="$(VERSION)" \
--                $(SRC_PATH)/qemu.nsi
--	rm -r ${INSTDIR}
--ifdef SIGNCODE
--	$(SIGNCODE) $(INSTALLER)
--endif # SIGNCODE
--endif # CONFIG_WIN
--
- # Add a dependency on the generated files, so that they are always
- # rebuilt before other object files
- ifneq ($(wildcard config-host.mak),)
-diff --git a/meson.build b/meson.build
-index 0720a7d684..4ee8ef1e9d 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1217,6 +1217,30 @@ if build_docs
-   endif
- endif
- 
-+if host_machine.system() == 'windows'
-+  nsis_cmd = [
-+    find_program('scripts/nsis.sh'),
-+    '@OUTPUT@',
-+    get_option('prefix'),
-+    meson.current_source_dir(),
-+    host_machine.cpu_family(),
-+    '-DDISPLAYVERSION=' + meson.project_version(),
-+  ]
-+  if build_docs
-+    nsis_cmd += '-DCONFIG_DOCUMENTATION=y'
-+  endif
-+  if 'CONFIG_GTK' in config_host
-+    nsis_cmd += '-DCONFIG_GTK=y'
-+  endif
-+
-+  nsis = custom_target('nsis',
-+                       output: 'qemu-setup-' + meson.project_version() + '.exe',
-+                       input: files('qemu.nsi'),
-+                       build_always_stale: true,
-+                       command: nsis_cmd + ['@INPUT@'])
-+  alias_target('installer', nsis)
-+endif
-+
- summary_info = {}
- summary_info += {'Install prefix':    config_host['prefix']}
- summary_info += {'BIOS directory':    config_host['qemu_datadir']}
-diff --git a/scripts/nsis.sh b/scripts/nsis.sh
-new file mode 100755
-index 0000000000..d7d8b39b04
---- /dev/null
-+++ b/scripts/nsis.sh
-@@ -0,0 +1,58 @@
-+#!/bin/bash -e
-+
-+OUTFILE="$1"
-+shift
-+PREFIX="$1"
-+shift
-+SRCDIR="$1"
-+shift
-+CPU="$1"
-+shift
-+
-+DESTDIR=$(mktemp -d)
-+trap 'rm -rf $DESTDIR' EXIT
-+make DESTDIR="$DESTDIR/" install
-+
-+do_signcode() {
-+    if [ -z "$SIGNCODE" ]; then
-+        return
-+    fi
-+    "$SIGNCODE" "$@"
-+}
-+
-+shopt -s nullglob
-+
-+(
-+    cd "$DESTDIR$PREFIX"
-+    for i in qemu-system-*.exe; do
-+        arch=${i%.exe}
-+        arch=${arch#qemu-system-}
-+        echo Section \""$arch"\" "Section_$arch"
-+        echo SetOutPath \"\$INSTDIR\"
-+        echo File \"\${BINDIR}\\$i\"
-+        echo SectionEnd
-+    done
-+) > "$DESTDIR$PREFIX/system-emulations.nsh"
-+
-+(
-+    cd "$DESTDIR$PREFIX"
-+    for i in *.exe; do
-+        do_signcode "$i"
-+    done
-+)
-+
-+if [ "$CPU" = "x86_64" ]; then
-+    CPUARG="-DW64"
-+    DLLDIR="w64"
-+else
-+    DLLDIR="w32"
-+fi
-+
-+if [ -d "$SRCDIR/dll" ]; then
-+   DLLARG="-DDLLDIR=$SRCDIR/dll/$DLLDIR"
-+fi
-+
-+makensis -V2 -NOCD -DSRCDIR="$SRCDIR" -DBINDIR="$DESTDIR$PREFIX" \
-+         $CPUARG $DLLARG -DOUTFILE="$OUTFILE" "$@"
-+
-+do_signcode "$OUTFILE"
--- 
-2.26.2
+> -/* Pass IRQs from a target device.  */
+> -void sysbus_pass_irq(SysBusDevice *dev, SysBusDevice *target)
+> +void sysbus_pass_irq(SysBusDevice *to_dev, SysBusDevice *from_dev)
+>  {
+> -    qdev_pass_gpios(DEVICE(target), DEVICE(dev), SYSBUS_DEVICE_GPIO_IRQ)=
+;
+> +    qdev_pass_gpios(DEVICE(from_dev), DEVICE(to_dev), SYSBUS_DEVICE_GPIO=
+_IRQ);
+>  }
 
+Having these two functions pass the container and target in
+opposite orders seems unnecessarily confusing. We should
+make them use the same order, at least...
+
+thanks
+-- PMM
 
