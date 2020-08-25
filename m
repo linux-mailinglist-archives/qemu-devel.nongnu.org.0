@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDECD25195D
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 15:18:20 +0200 (CEST)
-Received: from localhost ([::1]:45336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9802525191D
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 15:01:10 +0200 (CEST)
+Received: from localhost ([::1]:57852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAYqC-0000DS-2q
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 09:18:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37464)
+	id 1kAYZZ-0000t0-6x
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 09:01:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maxime.guerreiro@gmail.com>)
- id 1kAYLt-0005Qo-Qn
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 08:47:01 -0400
-Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32]:44873)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kAYYJ-0000D6-B4
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 08:59:51 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:35354)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <maxime.guerreiro@gmail.com>)
- id 1kAYLs-0008Am-86
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 08:47:01 -0400
-Received: by mail-io1-xd32.google.com with SMTP id v6so12274399iow.11
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 05:46:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=nC+DHUrQhOiAsMoOqZ/7iIpzUE7cn5EOw3lM9y7PezA=;
- b=RbvZSUpuxL5l3co3S20J0g06/5H5XZXZ1HBCwxxclTLborNk1Rkt0vHB76HoK5HGyS
- 8RmjO4TEFuQNBQf2+xWq3WwwUEsjO4e8XbFPsddgyr/1oB0NWomjY6SZeqEWcLVfqH4i
- pxBIe+NnBTmH+9bJwqDXG5iQhHoMHkDgt/J0l3GtqkZY+I/DAxV4pSL6ukL7zCrcCeK7
- ISugC3BE+BT9u83gJW3720mb9FT8eVBHOfI16fikRL+T7feAcDjupYrlrOWXW4FVfuhT
- /P/Bxzj63RTLxQf7mpHmcfAxVFL3IoKTptJcfHxVMMeCfSwwiUOAfeErTTJr7cTAzLGi
- 4n6g==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kAYYH-0001HD-7P
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 08:59:50 -0400
+Received: by mail-ej1-x633.google.com with SMTP id a26so16423556ejc.2
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 05:59:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7Bk80A2gjYhW1OTUY3kazTZKsuhaegwUs/Fce+B+WeI=;
+ b=gdI+6nDwSWSrcF0pkHII1w7yHOFUXLLQ1cK61MPmIo78EpFhnF2kJwviAfw/OzHAv5
+ Ae6ZV3I/QMkc0JebluNrtW4wEQcob6LVP6gMfQAw2W5virmvAZM0iNMrJtlhjaryu5od
+ DIlhm106IX3QnkLTPAxkWoBC++uYHnfO1JtNFTXyz3FkOB8O8QXpl1V5Vk8XmZsnWOB2
+ W9TGhFJc0gaJSDWpXm1/TfnhreJ4I9USk9ZGZrgbUHx5tqavK8xA4yZFwJ3n11UrUFBp
+ hemb4T8Rtnjh2daB1GBeaONWPq2chZ9FQ4c3twBAyj91vqnHLf/vZnZ86bOkOdFaDfIl
+ 75wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=nC+DHUrQhOiAsMoOqZ/7iIpzUE7cn5EOw3lM9y7PezA=;
- b=AKP2kcfJSnBIOBzApVXuJdI/srYf2+tnY0G96YK5noxpIU3GAQAv7Hj+FWRtTOr+LI
- gy7sKyjVz+nm90rD5lKo2i9zO+wTwqOmPQ3lg9+ltfnf60Bc+47EJvwrN0RR3ZzTzs+v
- wfduD3KK8M48/4E3FALS/CIc5Y8fx7n8c6b2ggjp+ERjafvC+5usR3Fhm9dGImzyjUs2
- IEyX3VUf0C6Woi4MypxpdGlKI7aljCwFdAyV8BKaZjpjJVmlrsh3hh0M9pXSEYi5CG28
- 5YBQT9qqu0QLGidd6GGBpYIx7JOkLUHkpnZzzB0D+zBTfbXoi9vDbuKqSZPJCAD0fukY
- 7W+g==
-X-Gm-Message-State: AOAM5303Zmj+SU2E9l6/QO5EsYvLGZAm51isZ82IjieQt4FYI2McEyqg
- Eb42q9w8xxJOB+ldbiom9Pumq+cM+arzbIispnZhOfxEGrZix1Qu
-X-Google-Smtp-Source: ABdhPJzQGDZ9nY+N0A5d/xm4NMvSSia2LYupl2JR2wjkv78E4QXmfC4LO7r169o4Riw4eve/qeOqg4wHphi9GHCLcUE=
-X-Received: by 2002:a02:730b:: with SMTP id y11mr10541980jab.126.1598359618286; 
- Tue, 25 Aug 2020 05:46:58 -0700 (PDT)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7Bk80A2gjYhW1OTUY3kazTZKsuhaegwUs/Fce+B+WeI=;
+ b=nAU0V6VtiFzA9cC4qyG6PDIrEYzioFQqltT9+oa8P+PAiTrL5CDc+adgvYtnW6z0yg
+ GkyDGSMTF6ml89kHHMF+Sxte7ppznoUvmGgtbDWSKzXsCQZoI5xJFOHksX5eUOK1fwwO
+ xg0sjMaZJEEOBW/0s+1dNzkeCpTd8OwT54Z9xma1wBCryuoXDWG2kDTz7wpTlGwid6My
+ U4pTEPdqBzJPBD1XCTzoOyVuDnpMfeVyTQO5em3G0J6V3P4iMTRNWt21glizGL6ol1/f
+ COBAX3DQRWfHC+p+hfPfpHteFFK7mnbvy6PPFP/nwI5ZASI5MKY3hdWzkWGtHraUdX1a
+ VQyQ==
+X-Gm-Message-State: AOAM532vVApuHt1c+Sgjzxum+gHcocWzwLxQKOnYAHFOt52aG7t/DbJA
+ grQRR559FJLg4JGNkpHHyDC/mLNQlJx4OP/tEZT0Xg==
+X-Google-Smtp-Source: ABdhPJz64/e2Ffwyand31j+qVegkd/i3Q1AHZ1pBwrv/srr5qaOXw5xXv6ViGOwJpvI1R0SwEHuI0c2uWGS21qjh9aE=
+X-Received: by 2002:a17:907:2066:: with SMTP id
+ qp6mr1327528ejb.85.1598360387342; 
+ Tue, 25 Aug 2020 05:59:47 -0700 (PDT)
 MIME-Version: 1.0
-From: Maxime Guerreiro <maxime.guerreiro@gmail.com>
-Date: Tue, 25 Aug 2020 14:46:47 +0200
-Message-ID: <CAPESWZNaFZB-4hk0GNQAbt=KKf9ZzAMON5oLw6WFBUsi_ApkkQ@mail.gmail.com>
-Subject: What are the security risks of running QEMU/KVM as root?
-To: qemu-devel@nongnu.org
+References: <20200825062008.6502-1-kraxel@redhat.com>
+In-Reply-To: <20200825062008.6502-1-kraxel@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 25 Aug 2020 13:59:35 +0100
+Message-ID: <CAFEAcA_GwypdmJyRcyLyhcPdF0fqo2p8BhMfN-zmnsUCpV=XSw@mail.gmail.com>
+Subject: Re: [PULL 0/3] Fixes 20200825 patches
+To: Gerd Hoffmann <kraxel@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
- envelope-from=maxime.guerreiro@gmail.com; helo=mail-io1-xd32.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 25 Aug 2020 09:16:22 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,26 +79,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+On Tue, 25 Aug 2020 at 07:22, Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> The following changes since commit 30aa19446d82358a30eac3b556b4d6641e00b7c1:
+>
+>   Merge remote-tracking branch 'remotes/cschoenebeck/tags/pull-9p-20200812' into staging (2020-08-24 16:39:53 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://git.kraxel.org/qemu tags/fixes-20200825-pull-request
+>
+> for you to fetch changes up to 9755c94a50c8b845ad133a6e660f55ca131b9c7a:
+>
+>   meson: avoid compiling qemu-keymap by default (2020-08-25 08:12:19 +0200)
+>
+> ----------------------------------------------------------------
+> meson: keymap fixes
+>
+> ----------------------------------------------------------------
 
-I'd be interested to learn more about the security 'vision' of qemu/kvm being
-two components, one running in-kernel, one running in user land. What are the
-security advantages of running guests as non-root?
 
-In case of a qemu or KVM vulnerability, won't malicious guests gain kernel
-privilege no matter what user is running qemu?
 
-If a guest is able to execute arbitrary code as the "qemu" user, can
-it escalate to
-root privileges using /dev/kvm?
+Applied, thanks.
 
-I've also asked this on StackExchange [1], for visibility.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+for any user-visible changes.
 
-Thanks,
-Maxime
-
-[1]: https://security.stackexchange.com/questions/236681/what-are-the-security-risks-of-running-qemu-kvm-as-root
+-- PMM
 
