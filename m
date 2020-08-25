@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 821382520F6
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 21:50:18 +0200 (CEST)
-Received: from localhost ([::1]:36928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3069252131
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 21:51:42 +0200 (CEST)
+Received: from localhost ([::1]:42784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAexV-0000Vt-JN
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 15:50:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40788)
+	id 1kAeyr-00034b-VX
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 15:51:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kAeXV-0002vl-05
+ id 1kAeXV-0002yQ-Qm
  for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:23:25 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:34155
- helo=us-smtp-delivery-1.mimecast.com)
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28804
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kAeXS-0006N6-U6
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:23:24 -0400
+ id 1kAeXR-0006Mr-P3
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:23:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598383402;
+ s=mimecast20190719; t=1598383401;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TT6/e62rayLVNN7DTR4/EQL0/nIwdGVw2Nlxetc2M/o=;
- b=Ro8piBKf7OrX77RcjUAZ8Rr6QyG6qsKU26e2+NYmXmwK1SuyejBrCIVJP3DksJo1YW6T+Z
- Kpn3F3rb0zOeMVsWSM56OusEwX24iOnwHFtBC5HnDnpL7jyMFd0UofcHaXe91SlFVenfTM
- hNUTQGfFG3H5H6URjWJyMFJ5PVU1QxU=
+ bh=qAIO+FM8bmGDgJ6mrYK4G2T8EMAPtzgKmNDUavixQ98=;
+ b=NIfHzi5FA7ZFTxJgzjFl3BF3MuFUPlgs6JzU8DSDkr74t/NLo23NOLgEFgZz8RGgGT4ySi
+ hoqLYDTAee6mb9/QnOoQHdUiVQlZZH03h6rTSXHd8dikubJqXDEVu/wyizk07NR7CVA0Be
+ HLabQGyWGO4Yn68sK5VjtVE7uVmW8Kg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-327-Y_kqjm2uOneHLh6CPqtI3A-1; Tue, 25 Aug 2020 15:23:18 -0400
-X-MC-Unique: Y_kqjm2uOneHLh6CPqtI3A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-348-0-crcQ3XOWWx1dPXRNyP3A-1; Tue, 25 Aug 2020 15:23:19 -0400
+X-MC-Unique: 0-crcQ3XOWWx1dPXRNyP3A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 69B7C1074640;
- Tue, 25 Aug 2020 19:23:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 607501074641
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 19:23:18 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3148918B59;
- Tue, 25 Aug 2020 19:23:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2865F808B7;
+ Tue, 25 Aug 2020 19:23:18 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 58/74] qom: Make type checker functions accept const
- pointers
-Date: Tue, 25 Aug 2020 15:20:54 -0400
-Message-Id: <20200825192110.3528606-59-ehabkost@redhat.com>
+Subject: [PATCH v3 59/74] qom: TYPE_INFO macro
+Date: Tue, 25 Aug 2020 15:20:55 -0400
+Message-Id: <20200825192110.3528606-60-ehabkost@redhat.com>
 In-Reply-To: <20200825192110.3528606-1-ehabkost@redhat.com>
 References: <20200825192110.3528606-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 15:21:30
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 10:39:45
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.958,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,57 +82,57 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ "Daniel P. Berrange" <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The existing type check macros all unconditionally drop const
-qualifiers from their arguments.  Keep this behavior in the
-macros generated by DECLARE_*CHECKER* by now.
+Provide a TYPE_INFO macro that can be used to register a TypeInfo
+struct declaratively.  This will allow QOM type registration to
+be 100% declarative.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-Changes v2 -> v3:
-* Removed reference to _Generic on comment
+Changes v2 -> v3: none
 
-Changes v1 -> v2:
-* Removed note about _Generic from commit message, because it
-  won't be possible to do what I was planning without manual
-  #defines
+Changes v1 -> v2: none
 ---
- include/qom/object.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ include/qom/object.h | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
 diff --git a/include/qom/object.h b/include/qom/object.h
-index 4cd84998c2..3626ae3c65 100644
+index 3626ae3c65..3c8fe1b603 100644
 --- a/include/qom/object.h
 +++ b/include/qom/object.h
-@@ -567,7 +567,7 @@ struct Object
-  */
- #define DECLARE_INSTANCE_CHECKER(InstanceType, OBJ_NAME, TYPENAME) \
-     static inline G_GNUC_UNUSED InstanceType * \
--    OBJ_NAME(void *obj) \
-+    OBJ_NAME(const void *obj) \
-     { return OBJECT_CHECK(InstanceType, obj, TYPENAME); }
+@@ -653,6 +653,14 @@ struct Object
+     struct InstanceType##Class { ParentClassType parent_class; };
  
+ 
++#define TYPE_INFO(type_info_var) \
++    static void \
++    register_type_info_##type_info_var(void) \
++    { \
++        type_register_static(&type_info_var); \
++    } \
++    type_init(register_type_info_##type_info_var);
++
  /**
-@@ -584,11 +584,11 @@ struct Object
-  */
- #define DECLARE_CLASS_CHECKERS(ClassType, OBJ_NAME, TYPENAME) \
-     static inline G_GNUC_UNUSED ClassType * \
--    OBJ_NAME##_GET_CLASS(void *obj) \
-+    OBJ_NAME##_GET_CLASS(const void *obj) \
-     { return OBJECT_GET_CLASS(ClassType, obj, TYPENAME); } \
+  * OBJECT_DEFINE_TYPE_EXTENDED:
+  * @ModuleObjName: the object name with initial caps
+@@ -698,12 +706,7 @@ struct Object
+         .interfaces = (InterfaceInfo[]) { __VA_ARGS__ } , \
+     }; \
      \
-     static inline G_GNUC_UNUSED ClassType * \
--    OBJ_NAME##_CLASS(void *klass) \
-+    OBJ_NAME##_CLASS(const void *klass) \
-     { return OBJECT_CLASS_CHECK(ClassType, klass, TYPENAME); }
+-    static void \
+-    module_obj_name##_register_types(void) \
+-    { \
+-        type_register_static(&module_obj_name##_info); \
+-    } \
+-    type_init(module_obj_name##_register_types);
++    TYPE_INFO(module_obj_name##_info)
  
  /**
+  * OBJECT_DEFINE_TYPE:
 -- 
 2.26.2
 
