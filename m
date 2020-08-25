@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DFAC25228E
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:13:02 +0200 (CEST)
-Received: from localhost ([::1]:58542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5B5E252294
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:15:16 +0200 (CEST)
+Received: from localhost ([::1]:38688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAgFZ-0000jP-In
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:13:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35660)
+	id 1kAgHj-00045C-TL
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:15:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kAg3I-0007VH-F4
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:00:20 -0400
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:36389)
+ id 1kAg3J-0007Y2-PS
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:00:21 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:42051)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kAg3G-0001hs-Fo
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:00:20 -0400
-Received: by mail-pj1-x1042.google.com with SMTP id q1so127248pjd.1
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 14:00:17 -0700 (PDT)
+ id 1kAg3H-0001i6-Gi
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:00:21 -0400
+Received: by mail-pg1-x543.google.com with SMTP id g1so3877669pgm.9
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 14:00:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HaAnpocjYbBqDikM80fgZOEo5h0cDqsU8in/f2nqeSk=;
- b=k9kjF86s31Ab6Xxn5y1ioVUgfUNO5Z9DQhb3bZ6qS/8aB+TXe5RxE228zFX0joYqry
- jCpmGE/9BGjfUK8/lMe6cbl6DSHt7tW7Ba/y+7Whcnc8X9kQQJtIwwb9N+5whq94TFp1
- 9okqSRW8nDo8nwAxwMfj/Y3n2RDxQ+E/6wkeA7hvsAAzcqf8uoXKFLCc6bSI06gX722u
- mO43Pe+X5aVDiGA8a9oc1212zKtcNTE7Ihfg0v9yAtJhn+Ajt+3FFa3Kos0xoE8gwtNU
- b7sDdPATD63oLz5ONAvHmqYvZa16II4x50z10FVjg0NxDIpAxe90jXM8twXtIqUu5J0f
- gXzg==
+ bh=Z4AmITk5w2LQx1h3BHbpZiArbCayMAaSAdvlTGNWCzo=;
+ b=yNqdK3Wk3d6p9u/Kck72abkbV6JvNTxoax6CiVyS7o9qRdRbDATlM826k3bs0LUwh5
+ /SYUwKXovfc8xFnrvuzq/9V/aPIX3QyE+3W1T46Ux6BE6INv2A3cx9QXYheFzTkGGENg
+ VOcjAgVcc1YnQeg9Eq3sXzkcCkf5NNpnAsmQlSaW/1w/mR59qnsGgRWpJblh8xAHm64Y
+ +hITm0sJRv42MwMG00mae32LrTtbkl8xZBj3PNA52//dTFbUD5INrLwmSO69bKeeMJbj
+ tUKb6h18x5GPazHnc1NLHEsF2ojTH8fRvAkMY4zfFj2vHflLigo0iNpK6bqjoAFlUoil
+ tnsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HaAnpocjYbBqDikM80fgZOEo5h0cDqsU8in/f2nqeSk=;
- b=c+fvWZ2c8jAb+hbxtQpc7MgCoCXIB7FCO1LWZDYrTKLqM/uZCLOGRvicgA+N2n08cV
- 6w2FUjjnJpLoGgL+Z30pNj55EkydPElfqm/NSxpr5liBA9LPIVY8InX1ZzntmAHtFc8o
- 4Q2dlK+wIn2HJWDFj26hnwDZeVsG6yaeFzC8sZpuDOJwoLzecxuTk2ulUlZsGF6iTlRb
- V4s42l11XA5r1IMILo1H32Fb+0YKUIYgPzgYu+/lOFkSec0CUA/M3uqZhGO7sfkTq8bF
- EDReEnf5Ldl0P6Tc0gqnhrftwj71Z2T/hwzCsLLyFZ2hEhCM2yQWU8v4wdiCS/LA/C3M
- Izhg==
-X-Gm-Message-State: AOAM5303uNH6CQZKEc9XKcvRAjASYSogvf3Ay3vA8m6dpNxPV6VIA0Tl
- kyhnfh5z8vJs8le0m62hTk8qD4y+2EeIEg==
-X-Google-Smtp-Source: ABdhPJwXOwt3xJDrUSYFVwhpnGaIl117Xi+uhbnoeT/eJDn6/bomr/cF6n2Ylq9J5d2Qv9jy0spGfA==
-X-Received: by 2002:a17:90b:1895:: with SMTP id
- mn21mr3146401pjb.173.1598389216498; 
- Tue, 25 Aug 2020 14:00:16 -0700 (PDT)
+ bh=Z4AmITk5w2LQx1h3BHbpZiArbCayMAaSAdvlTGNWCzo=;
+ b=D3uQ8fTeh9NG8gvmRrMPeJ32HpbRHkjoIKxbWcRbD45Rym4cZ40wLLJEVV3cnA+uo6
+ /uIZcA9NTQtl6PkPL0XLnf6gU+zMfu+Wtg/fCyeG6YQSxWyuGgKCER4qBje9YsKPn+ZW
+ i/uz8EsbByA+eWTXySsS8FuDoHaoDs/m0/N22YAzliVAcPWfdDmjbWfk43Iymp2SqQX4
+ ErJbxtj9OHoBVob+wA4CG3vHcDlDeYCAdD9v7ndCYNJVILPSeNMhZG2MDOMGgOLOAzUf
+ 5vm9Xh11BOz0jWmNqzIrn2OFUGuzXxwCl+6jt8gX/VtIT92Sw3reg/jg42qrZh9Vdu94
+ 2u7Q==
+X-Gm-Message-State: AOAM533YELu2Ks/y49qMMC1iOrkY/vLNqWjY2OgTnOaMzB80A4S3OCZN
+ rMD5pLuYIAiKOpNnk+oM4GNKmk2fKbbh6g==
+X-Google-Smtp-Source: ABdhPJyu6iY/48roUr3V09LM5aYGVyuw+2ujTQY5XphbbbFkpuxHsFWgVvYS+4ZOu9sD2vsIR4NAIg==
+X-Received: by 2002:aa7:84d4:: with SMTP id x20mr9055319pfn.96.1598389217721; 
+ Tue, 25 Aug 2020 14:00:17 -0700 (PDT)
 Received: from localhost.localdomain
  (h216-228-167-147.bendor.dedicated.static.tds.net. [216.228.167.147])
- by smtp.gmail.com with ESMTPSA id k4sm16074pgr.87.2020.08.25.14.00.15
+ by smtp.gmail.com with ESMTPSA id k4sm16074pgr.87.2020.08.25.14.00.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Aug 2020 14:00:15 -0700 (PDT)
+ Tue, 25 Aug 2020 14:00:17 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 19/77] target/microblaze: Remove cpu_ear
-Date: Tue, 25 Aug 2020 13:58:52 -0700
-Message-Id: <20200825205950.730499-20-richard.henderson@linaro.org>
+Subject: [PATCH 20/77] target/microblaze: Tidy raising of exceptions
+Date: Tue, 25 Aug 2020 13:58:53 -0700
+Message-Id: <20200825205950.730499-21-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200825205950.730499-1-richard.henderson@linaro.org>
 References: <20200825205950.730499-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1042.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,70 +89,185 @@ Cc: edgar.iglesias@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since cpu_ear is only used during MSR and MTR instructions,
-we can just as easily use an explicit load and store, so
-eliminate the variable.
+Split out gen_raise_exception which does no cpu state sync.
+Rename t_gen_raise_exception to gen_raise_exception_sync to
+emphasize that it does a sync.  Create gen_raise_hw_excp to
+simplify code raising EXCP_HW_EXCP.
+
+Since there is now only one use of cpu_esr, perform a store
+instead and remove the TCG variable.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/translate.c | 23 +++++++++++++++--------
- 1 file changed, 15 insertions(+), 8 deletions(-)
+ target/microblaze/translate.c | 62 +++++++++++++++++++++--------------
+ 1 file changed, 37 insertions(+), 25 deletions(-)
 
 diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index a862ac4055..f5ca25cead 100644
+index f5ca25cead..9a00a78b8a 100644
 --- a/target/microblaze/translate.c
 +++ b/target/microblaze/translate.c
 @@ -57,7 +57,6 @@ static TCGv_i32 env_debug;
  static TCGv_i32 cpu_R[32];
  static TCGv_i32 cpu_pc;
  static TCGv_i32 cpu_msr;
--static TCGv_i64 cpu_ear;
- static TCGv_i32 cpu_esr;
+-static TCGv_i32 cpu_esr;
  static TCGv_i32 env_imm;
  static TCGv_i32 env_btaken;
-@@ -533,7 +532,12 @@ static void dec_msr(DisasContext *dc)
-                 msr_write(dc, cpu_R[dc->ra]);
-                 break;
-             case SR_EAR:
--                tcg_gen_extu_i32_i64(cpu_ear, cpu_R[dc->ra]);
-+                {
-+                    TCGv_i64 t64 = tcg_temp_new_i64();
-+                    tcg_gen_extu_i32_i64(t64, cpu_R[dc->ra]);
-+                    tcg_gen_st_i64(t64, cpu_env, offsetof(CPUMBState, ear));
-+                    tcg_temp_free_i64(t64);
-+                }
-                 break;
-             case SR_ESR:
-                 tcg_gen_mov_i32(cpu_esr, cpu_R[dc->ra]);
-@@ -573,10 +577,15 @@ static void dec_msr(DisasContext *dc)
-                 msr_read(dc, cpu_R[dc->rd]);
-                 break;
-             case SR_EAR:
--                if (extended) {
--                    tcg_gen_extrh_i64_i32(cpu_R[dc->rd], cpu_ear);
--                } else {
--                    tcg_gen_extrl_i64_i32(cpu_R[dc->rd], cpu_ear);
-+                {
-+                    TCGv_i64 t64 = tcg_temp_new_i64();
-+                    tcg_gen_ld_i64(t64, cpu_env, offsetof(CPUMBState, ear));
-+                    if (extended) {
-+                        tcg_gen_extrh_i64_i32(cpu_R[dc->rd], t64);
-+                    } else {
-+                        tcg_gen_extrl_i64_i32(cpu_R[dc->rd], t64);
-+                    }
-+                    tcg_temp_free_i64(t64);
+ static TCGv_i32 cpu_btarget;
+@@ -114,17 +113,31 @@ static inline void t_sync_flags(DisasContext *dc)
+     }
+ }
+ 
+-static inline void t_gen_raise_exception(DisasContext *dc, uint32_t index)
++static void gen_raise_exception(DisasContext *dc, uint32_t index)
+ {
+     TCGv_i32 tmp = tcg_const_i32(index);
+ 
+-    t_sync_flags(dc);
+-    tcg_gen_movi_i32(cpu_pc, dc->pc);
+     gen_helper_raise_exception(cpu_env, tmp);
+     tcg_temp_free_i32(tmp);
+     dc->is_jmp = DISAS_UPDATE;
+ }
+ 
++static void gen_raise_exception_sync(DisasContext *dc, uint32_t index)
++{
++    t_sync_flags(dc);
++    tcg_gen_movi_i32(cpu_pc, dc->pc);
++    gen_raise_exception(dc, index);
++}
++
++static void gen_raise_hw_excp(DisasContext *dc, uint32_t esr_ec)
++{
++    TCGv_i32 tmp = tcg_const_i32(esr_ec);
++    tcg_gen_st_i32(tmp, cpu_env, offsetof(CPUMBState, esr));
++    tcg_temp_free_i32(tmp);
++
++    gen_raise_exception_sync(dc, EXCP_HW_EXCP);
++}
++
+ static inline bool use_goto_tb(DisasContext *dc, target_ulong dest)
+ {
+ #ifndef CONFIG_USER_ONLY
+@@ -178,8 +191,7 @@ static bool trap_illegal(DisasContext *dc, bool cond)
+ {
+     if (cond && (dc->tb_flags & MSR_EE_FLAG)
+         && dc->cpu->cfg.illegal_opcode_exception) {
+-        tcg_gen_movi_i32(cpu_esr, ESR_EC_ILLEGAL_OP);
+-        t_gen_raise_exception(dc, EXCP_HW_EXCP);
++        gen_raise_hw_excp(dc, ESR_EC_ILLEGAL_OP);
+     }
+     return cond;
+ }
+@@ -194,8 +206,7 @@ static bool trap_userspace(DisasContext *dc, bool cond)
+     bool cond_user = cond && mem_index == MMU_USER_IDX;
+ 
+     if (cond_user && (dc->tb_flags & MSR_EE_FLAG)) {
+-        tcg_gen_movi_i32(cpu_esr, ESR_EC_PRIVINSN);
+-        t_gen_raise_exception(dc, EXCP_HW_EXCP);
++        gen_raise_hw_excp(dc, ESR_EC_PRIVINSN);
+     }
+     return cond_user;
+ }
+@@ -540,7 +551,8 @@ static void dec_msr(DisasContext *dc)
                  }
                  break;
              case SR_ESR:
-@@ -1865,8 +1874,6 @@ void mb_tcg_init(void)
+-                tcg_gen_mov_i32(cpu_esr, cpu_R[dc->ra]);
++                tcg_gen_st_i32(cpu_R[dc->ra],
++                               cpu_env, offsetof(CPUMBState, esr));
+                 break;
+             case SR_FSR:
+                 tcg_gen_st_i32(cpu_R[dc->ra],
+@@ -589,7 +601,8 @@ static void dec_msr(DisasContext *dc)
+                 }
+                 break;
+             case SR_ESR:
+-                tcg_gen_mov_i32(cpu_R[dc->rd], cpu_esr);
++                tcg_gen_ld_i32(cpu_R[dc->rd],
++                               cpu_env, offsetof(CPUMBState, esr));
+                 break;
+             case SR_FSR:
+                 tcg_gen_ld_i32(cpu_R[dc->rd],
+@@ -1258,8 +1271,7 @@ static void dec_br(DisasContext *dc)
+ 
+         /* mbar IMM & 16 decodes to sleep.  */
+         if (mbar_imm & 16) {
+-            TCGv_i32 tmp_hlt = tcg_const_i32(EXCP_HLT);
+-            TCGv_i32 tmp_1 = tcg_const_i32(1);
++            TCGv_i32 tmp_1;
+ 
+             LOG_DIS("sleep\n");
+ 
+@@ -1269,13 +1281,16 @@ static void dec_br(DisasContext *dc)
+             }
+ 
+             t_sync_flags(dc);
++
++            tmp_1 = tcg_const_i32(1);
+             tcg_gen_st_i32(tmp_1, cpu_env,
+                            -offsetof(MicroBlazeCPU, env)
+                            +offsetof(CPUState, halted));
+-            tcg_gen_movi_i32(cpu_pc, dc->pc + 4);
+-            gen_helper_raise_exception(cpu_env, tmp_hlt);
+-            tcg_temp_free_i32(tmp_hlt);
+             tcg_temp_free_i32(tmp_1);
++
++            tcg_gen_movi_i32(cpu_pc, dc->pc + 4);
++
++            gen_raise_exception(dc, EXCP_HLT);
+             return;
+         }
+         /* Break the TB.  */
+@@ -1300,14 +1315,15 @@ static void dec_br(DisasContext *dc)
+         tcg_gen_movi_i32(env_btaken, 1);
+         tcg_gen_mov_i32(cpu_btarget, *(dec_alu_op_b(dc)));
+         if (link && !dslot) {
+-            if (!(dc->tb_flags & IMM_FLAG) && (dc->imm == 8 || dc->imm == 0x18))
+-                t_gen_raise_exception(dc, EXCP_BREAK);
++            if (!(dc->tb_flags & IMM_FLAG) &&
++                (dc->imm == 8 || dc->imm == 0x18)) {
++                gen_raise_exception_sync(dc, EXCP_BREAK);
++            }
+             if (dc->imm == 0) {
+                 if (trap_userspace(dc, true)) {
+                     return;
+                 }
+-
+-                t_gen_raise_exception(dc, EXCP_DEBUG);
++                gen_raise_exception_sync(dc, EXCP_DEBUG);
+             }
+         }
+     } else {
+@@ -1411,8 +1427,7 @@ static void dec_rts(DisasContext *dc)
+ static int dec_check_fpuv2(DisasContext *dc)
+ {
+     if ((dc->cpu->cfg.use_fpu != 2) && (dc->tb_flags & MSR_EE_FLAG)) {
+-        tcg_gen_movi_i32(cpu_esr, ESR_EC_FPU);
+-        t_gen_raise_exception(dc, EXCP_HW_EXCP);
++        gen_raise_hw_excp(dc, ESR_EC_FPU);
+     }
+     return (dc->cpu->cfg.use_fpu == 2) ? PVR2_USE_FPU2_MASK : 0;
+ }
+@@ -1668,8 +1683,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+ #endif
+ 
+         if (unlikely(cpu_breakpoint_test(cs, dc->pc, BP_ANY))) {
+-            t_gen_raise_exception(dc, EXCP_DEBUG);
+-            dc->is_jmp = DISAS_UPDATE;
++            gen_raise_exception_sync(dc, EXCP_DEBUG);
+             /* The address covered by the breakpoint must be included in
+                [tb->pc, tb->pc + tb->size) in order to for it to be
+                properly cleared -- thus we increment the PC here so that
+@@ -1874,8 +1888,6 @@ void mb_tcg_init(void)
          tcg_global_mem_new_i32(cpu_env, offsetof(CPUMBState, pc), "rpc");
      cpu_msr =
          tcg_global_mem_new_i32(cpu_env, offsetof(CPUMBState, msr), "rmsr");
--    cpu_ear =
--        tcg_global_mem_new_i64(cpu_env, offsetof(CPUMBState, ear), "rear");
-     cpu_esr =
-         tcg_global_mem_new_i32(cpu_env, offsetof(CPUMBState, esr), "resr");
+-    cpu_esr =
+-        tcg_global_mem_new_i32(cpu_env, offsetof(CPUMBState, esr), "resr");
  }
+ 
+ void restore_state_to_opc(CPUMBState *env, TranslationBlock *tb,
 -- 
 2.25.1
 
