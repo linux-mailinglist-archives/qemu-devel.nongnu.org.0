@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EF4A251737
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 13:15:19 +0200 (CEST)
-Received: from localhost ([::1]:33184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56CEB251743
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 13:17:19 +0200 (CEST)
+Received: from localhost ([::1]:39136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAWv8-0004AI-HH
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 07:15:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40866)
+	id 1kAWx4-0006gt-C9
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 07:17:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kAWtz-0002uq-AR
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 07:14:08 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24288
- helo=us-smtp-1.mimecast.com)
+ id 1kAWvD-00056l-59
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 07:15:23 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:29778
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kAWtx-0004ZZ-5M
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 07:14:07 -0400
+ id 1kAWv9-0004o7-DI
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 07:15:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598354044;
+ s=mimecast20190719; t=1598354118;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=16f7sbmJln1W7VE86G3hlhME9SGukPbkiskt98H6tXI=;
- b=JDFEqoKvB1Qv1FX6p/Dh3uusQszNTvesb5joa8jvPv9lsQxKQCtutF8nIaY6pS+8dwd5kE
- oOUqNjxK2xUf9fRX26G5QiXmEtii0Yh89AdrxdiligmeZ99VzG8YhqPwUW+ouQSuLrhfO+
- fBrmGiXvRo5Q67f0WoJd4R9+2/G3RiE=
+ bh=qWUe3q3b77RU3/Y6Vpg0G6Zer9oXx+EEVSeVjr+wETc=;
+ b=Dju9xgZR4YkWHce3MtuXt4mQjmnF7goIDQaJByiLYc9tfWo7ZQabg1ElNHIv3btJVKU1Le
+ vvFMp62ssGddKUpEO/3gnHUDOj8C9BnYqZ9N9cT8uynnUTpPUyGmZ30/Hm55nvapWWXh3s
+ MXLb8twF4V4EWZ0VRqXv31B+DJQMYlU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-342-G-S9t_uwO8SbeDRjfyRZhg-1; Tue, 25 Aug 2020 07:14:02 -0400
-X-MC-Unique: G-S9t_uwO8SbeDRjfyRZhg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-414-yKnToBd6Mt-fPXd-n4OC4g-1; Tue, 25 Aug 2020 07:15:16 -0400
+X-MC-Unique: yKnToBd6Mt-fPXd-n4OC4g-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53A4F10074B1;
- Tue, 25 Aug 2020 11:14:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F244E85C708
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 11:15:15 +0000 (UTC)
 Received: from redhat.com (ovpn-114-231.ams2.redhat.com [10.36.114.231])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A510808BB;
- Tue, 25 Aug 2020 11:13:58 +0000 (UTC)
-Date: Tue, 25 Aug 2020 12:13:56 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2349D5D9FC;
+ Tue, 25 Aug 2020 11:15:05 +0000 (UTC)
+Date: Tue, 25 Aug 2020 12:15:03 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH v2 28/58] s390x: Move typedef SCLPEventFacility to
- event-facility.h
-Message-ID: <20200825111356.GU107278@redhat.com>
+Subject: Re: [PATCH v2 29/58] vhost-user-gpu: Move QOM macro to header
+Message-ID: <20200825111503.GV107278@redhat.com>
 References: <20200820001236.1284548-1-ehabkost@redhat.com>
- <20200820001236.1284548-29-ehabkost@redhat.com>
+ <20200820001236.1284548-30-ehabkost@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200820001236.1284548-29-ehabkost@redhat.com>
+In-Reply-To: <20200820001236.1284548-30-ehabkost@redhat.com>
 User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0.001
@@ -63,17 +62,17 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 02:05:08
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 01:35:36
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.958,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,36 +86,33 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ qemu-devel@nongnu.org,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 19, 2020 at 08:12:06PM -0400, Eduardo Habkost wrote:
-> This will make future conversion to OBJECT_DECLARE* easier.
+On Wed, Aug 19, 2020 at 08:12:07PM -0400, Eduardo Habkost wrote:
+> Move the VHOST_USER_GPU type checking macro to virtio-gpu.h,
+> close to the TYPE_VHOST_USER_GPU #define.
 > 
-> In sclp.h, use "struct SCLPEventFacility" to avoid introducing
-> unnecessary header dependencies.
+> This will make future conversion to OBJECT_DECLARE* easier.
 > 
 > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 > ---
 > Changes series v1 -> v2: new patch in series v2
 > 
-> Cc: Cornelia Huck <cohuck@redhat.com>
-> Cc: Halil Pasic <pasic@linux.ibm.com>
-> Cc: Christian Borntraeger <borntraeger@de.ibm.com>
-> Cc: Thomas Huth <thuth@redhat.com>
-> Cc: qemu-s390x@nongnu.org
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: "Marc-André Lureau" <marcandre.lureau@redhat.com>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
 > Cc: qemu-devel@nongnu.org
 > ---
->  include/hw/s390x/event-facility.h | 1 +
->  include/hw/s390x/sclp.h           | 4 ++--
->  2 files changed, 3 insertions(+), 2 deletions(-)
+>  include/hw/virtio/virtio-gpu.h | 2 ++
+>  hw/display/vhost-user-gpu.c    | 3 ---
+>  2 files changed, 2 insertions(+), 3 deletions(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-
 
 Regards,
 Daniel
