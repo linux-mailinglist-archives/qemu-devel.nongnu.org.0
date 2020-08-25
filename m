@@ -2,78 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25255250CE9
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 02:24:42 +0200 (CEST)
-Received: from localhost ([::1]:54284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42AFE250CEF
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 02:26:11 +0200 (CEST)
+Received: from localhost ([::1]:60466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAMlV-00089S-4c
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 20:24:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45498)
+	id 1kAMmw-0002Bq-BY
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 20:26:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3q1hEXwsKCm4TeWUZZQYaQZSaaSXQ.OaYcQYg-PQhQXZaZSZg.adS@flex--hskinnemoen.bounces.google.com>)
- id 1kAMeu-0004Wo-48
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 20:17:52 -0400
-Received: from mail-pj1-x1049.google.com ([2607:f8b0:4864:20::1049]:35267)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3q1hEXwsKCm4TeWUZZQYaQZSaaSXQ.OaYcQYg-PQhQXZaZSZg.adS@flex--hskinnemoen.bounces.google.com>)
- id 1kAMer-0006AB-FV
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 20:17:51 -0400
-Received: by mail-pj1-x1049.google.com with SMTP id z8so446850pje.0
- for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 17:17:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=sender:date:in-reply-to:message-id:mime-version:references:subject
- :from:to:cc:content-transfer-encoding;
- bh=Bm7spw+C0+41sKOlaxF7L66yvzmdTiJkotWkEKVYr68=;
- b=HPKYKVapabI3RLWrwYaXngmKudG+ym6kGklYWil1WrqfyvLjFt+AIbfoXq+g3WS8Mb
- yxrxKkPz75HRTyUpYcsX9dyHdLJJOFRHd1CYpBlHMVLR6TGIQkpsjmfG/GDSAa6hzC1J
- DagqdsWNyI+sLY8VkDcaQj+6pHJC+2eiXsXEAS+RG1IW03FHyNUw8pN8tz9Kudj6+hPr
- MBi9Pt5nGLXcPSVztd6cqnDkypFIgt3bZ4e0x7IBpjZDE1HA+nZh3z4moxy2AWTIosSh
- p4VbR/MDVZQv6H70w/n+AqIoZ7o4GUSut/3Ho/+s+KoZToxGuYS9DukS8RkqRH8c/z6p
- YWog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
- :references:subject:from:to:cc:content-transfer-encoding;
- bh=Bm7spw+C0+41sKOlaxF7L66yvzmdTiJkotWkEKVYr68=;
- b=EhcXst1T9/YXKRRTtUCNgAGnzndOxxWxTmtQI3EUuO01xPZczSCSRSUpfzhZrdt3yV
- yPehdmevrTHKjMvED9PJzC4OJyUFNwZRtP2KrybLTxKBYr/HIRubq3ZM5h7YoCgOY6vF
- 6ZYvIgxBlu2+LfjBFfTx7GatvBCJOR9yInbr/7N6ZXj0RfM6pX+uDrsKKa7B0Yr2CRDL
- 3qXisxnNCO33PPgLWnfN/p5txlTrb2urJ/T2QyToswdfAMFkoelIhFvVPyL/1EAwBazT
- uJ31UJPfnXaSGmKplcaEB69lHjJul8BGdl0Vd6eFezLAOm2y44CgzsdnKG8Z8Vh0xk40
- rSnw==
-X-Gm-Message-State: AOAM5322YhLG1MNYHS5IbSuWyeGjGTdGsBAX+w/w93j7vmEnc8V2w+Ze
- KRlTYdf3KvEOzJRDJHEZJQrN32QizPRgMP3MUA==
-X-Google-Smtp-Source: ABdhPJzIVap2ywO2wNYqR/Ui0TQX2EePssI+/SQ2oNOh0YvU9U18XZBDV+fwKerqkVONZ/ANaHI0fRD8xfnwv8hPgw==
-X-Received: from skybert.c.googlers.com ([fda3:e722:ac3:10:24:72f4:c0a8:3107])
- (user=hskinnemoen job=sendgmr) by 2002:a62:7812:: with SMTP id
- t18mr5806056pfc.73.1598314667592; Mon, 24 Aug 2020 17:17:47 -0700 (PDT)
-Date: Mon, 24 Aug 2020 17:17:11 -0700
-In-Reply-To: <20200825001711.1340443-1-hskinnemoen@google.com>
-Message-Id: <20200825001711.1340443-15-hskinnemoen@google.com>
-Mime-Version: 1.0
-References: <20200825001711.1340443-1-hskinnemoen@google.com>
-X-Mailer: git-send-email 2.28.0.297.g1956fa8f8d-goog
-Subject: [PATCH v8 14/14] tests/acceptance: console boot tests for quanta-gsj
-To: peter.maydell@linaro.org, f4bug@amsat.org
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, Avi.Fishman@nuvoton.com, 
- kfting@nuvoton.com, Havard Skinnemoen <hskinnemoen@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1049;
- envelope-from=3q1hEXwsKCm4TeWUZZQYaQZSaaSXQ.OaYcQYg-PQhQXZaZSZg.adS@flex--hskinnemoen.bounces.google.com;
- helo=mail-pj1-x1049.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1kAMhj-0002VH-IV
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 20:20:47 -0400
+Received: from mga03.intel.com ([134.134.136.65]:38951)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1kAMhg-0006VY-Fb
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 20:20:46 -0400
+IronPort-SDR: 7OCV7ttYnJ0ZF/Fo1xy3BQ/t5HFaCdu5UfBqeb9YpUzTkOsqgk+GeM0r5Vs7jsdCPYUUtWMkAH
+ O6vEk8Q855Ag==
+X-IronPort-AV: E=McAfee;i="6000,8403,9723"; a="156004880"
+X-IronPort-AV: E=Sophos;i="5.76,350,1592895600"; d="scan'208";a="156004880"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Aug 2020 17:20:39 -0700
+IronPort-SDR: 7AaJtVBCdXvxN2V09PpWCIOn/PjxcKjhiHfr6lNdMOj3FPp4f/zQBbi+Flxkn9LaBW/hQZjywQ
+ 8kcGc/RuDbUg==
+X-IronPort-AV: E=Sophos;i="5.76,350,1592895600"; d="scan'208";a="474133045"
+Received: from jliu69-mobl.ccr.corp.intel.com (HELO [10.255.31.15])
+ ([10.255.31.15])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Aug 2020 17:20:37 -0700
+Subject: Re: [PATCH 2/2] target/i386: Add missed features to Cooperlake CPU
+ model
+To: Eduardo Habkost <ehabkost@redhat.com>
+References: <20191225063018.20038-1-xiaoyao.li@intel.com>
+ <20191225063018.20038-3-xiaoyao.li@intel.com>
+ <20200824220759.GS642093@habkost.net>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+Message-ID: <9cdaaa8d-4ce2-88c7-2400-eed62ffe779b@intel.com>
+Date: Tue, 25 Aug 2020 08:20:35 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
+MIME-Version: 1.0
+In-Reply-To: <20200824220759.GS642093@habkost.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=134.134.136.65; envelope-from=xiaoyao.li@intel.com;
+ helo=mga03.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/24 20:20:39
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -81
+X-Spam_score: -8.2
+X-Spam_bar: --------
+X-Spam_report: (-8.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.999, NICE_REPLY_A=-2.25, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,135 +73,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Cathy Zhang <cathy.zhang@intel.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: Havard Skinnemoen <hskinnemoen@google.com>
-From: Havard Skinnemoen via <qemu-devel@nongnu.org>
 
-This adds two acceptance tests for the quanta-gsj machine.
+On 8/25/2020 6:07 AM, Eduardo Habkost wrote:
+> On Wed, Dec 25, 2019 at 02:30:18PM +0800, Xiaoyao Li wrote:
+>> It lacks VMX features and two security feature bits (disclosed recently) in
+>> MSR_IA32_ARCH_CAPABILITIES in current Cooperlake CPU model, so add them.
+>>
+>> Fixes: 22a866b6166d ("i386: Add new CPU model Cooperlake")
+>> Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
+>> ---
+>>   target/i386/cpu.c | 51 ++++++++++++++++++++++++++++++++++++++++++++++-
+>>   1 file changed, 50 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+>> index e1eb9f473989..c9798ac8652b 100644
+>> --- a/target/i386/cpu.c
+>> +++ b/target/i386/cpu.c
+>> @@ -3198,7 +3198,8 @@ static X86CPUDefinition builtin_x86_defs[] = {
+>>               CPUID_7_0_EDX_SPEC_CTRL_SSBD | CPUID_7_0_EDX_ARCH_CAPABILITIES,
+>>           .features[FEAT_ARCH_CAPABILITIES] =
+>>               MSR_ARCH_CAP_RDCL_NO | MSR_ARCH_CAP_IBRS_ALL |
+>> -            MSR_ARCH_CAP_SKIP_L1DFL_VMENTRY | MSR_ARCH_CAP_MDS_NO,
+>> +            MSR_ARCH_CAP_SKIP_L1DFL_VMENTRY | MSR_ARCH_CAP_MDS_NO |
+>> +            MSR_ARCH_CAP_PSCHANGE_MC_NO | MSR_ARCH_CAP_TAA_NO,
+> 
+> This seems to break on some Cooperlake hosts, see:
+> 
+> https://bugzilla.redhat.com/show_bug.cgi?id=1860743
+> 
+> Are all Cooperlake hosts supposed to have TAA_NO set?  Are there
+> hosts where this requires a microcode update to be installed?
+> 
 
-One test downloads a lightly patched openbmc flash image from github and
-verifies that it boots all the way to the login prompt.
+All the production CPX in market should have IAA_NO bit. We can check it 
+directly with rdmsr(0x10a).
 
-The other test downloads a kernel, initrd and dtb built from the same
-openbmc source and verifies that the kernel detects all CPUs and boots
-to the point where it can't find the root filesystem (because we have no
-flash image in this case).
+The problem of this issue is due to commit db616173d787 ("x86/tsx: Add 
+config options to set tsx=on|off|auto"), which sets the default to "off" 
+for 100% safety. However, default to off may cause noticeable 
+regressions on TSX safe platform, e.g., CPX.
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
----
- tests/acceptance/boot_linux_console.py | 83 ++++++++++++++++++++++++++
- 1 file changed, 83 insertions(+)
+Maybe we need to set CONFIG_X86_INTEL_TSX_MODE_AUTO=y for OSV released 
+kernel?
 
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot=
-_linux_console.py
-index aaa781a581..4a366ce93e 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -568,6 +568,89 @@ class BootLinuxConsole(LinuxKernelTest):
-                                                 'sda')
-         # cubieboard's reboot is not functioning; omit reboot test.
-=20
-+    def test_arm_quanta_gsj(self):
-+        """
-+        :avocado: tags=3Darch:arm
-+        :avocado: tags=3Dmachine:quanta-gsj
-+        """
-+        # 25 MiB compressed, 32 MiB uncompressed.
-+        image_url =3D (
-+                'https://github.com/hskinnemoen/openbmc/releases/download/=
-'
-+                '20200711-gsj-qemu-0/obmc-phosphor-image-gsj.static.mtd.gz=
-')
-+        image_hash =3D '14895e634923345cb5c8776037ff7876df96f6b1'
-+        image_path_gz =3D self.fetch_asset(image_url, asset_hash=3Dimage_h=
-ash)
-+        image_name =3D 'obmc.mtd'
-+        image_path =3D os.path.join(self.workdir, image_name)
-+        archive.gzip_uncompress(image_path_gz, image_path)
-+
-+        self.vm.set_console()
-+        drive_args =3D 'file=3D' + image_path + ',if=3Dmtd,bus=3D0,unit=3D=
-0'
-+        self.vm.add_args('-drive', drive_args)
-+        self.vm.launch()
-+
-+        # Disable drivers and services that stall for a long time during b=
-oot,
-+        # to avoid running past the 90-second timeout. These may be remove=
-d
-+        # as the corresponding device support is added.
-+        kernel_command_line =3D self.KERNEL_COMMON_COMMAND_LINE + (
-+                'console=3D${console} '
-+                'mem=3D${mem} '
-+                'initcall_blacklist=3Dnpcm_i2c_bus_driver_init '
-+                'systemd.mask=3Dsystemd-random-seed.service '
-+                'systemd.mask=3Ddropbearkey.service '
-+        )
-+
-+        self.wait_for_console_pattern('> BootBlock by Nuvoton')
-+        self.wait_for_console_pattern('>Device: Poleg BMC NPCM730')
-+        self.wait_for_console_pattern('>Skip DDR init.')
-+        self.wait_for_console_pattern('U-Boot ')
-+        interrupt_interactive_console_until_pattern(
-+                self, 'Hit any key to stop autoboot:', 'U-Boot>')
-+        exec_command_and_wait_for_pattern(
-+                self, "setenv bootargs ${bootargs} " + kernel_command_line=
-,
-+                'U-Boot>')
-+        exec_command_and_wait_for_pattern(
-+                self, 'run romboot', 'Booting Kernel from flash')
-+        self.wait_for_console_pattern('Booting Linux on physical CPU 0x0')
-+        self.wait_for_console_pattern('CPU1: thread -1, cpu 1, socket 0')
-+        self.wait_for_console_pattern('OpenBMC Project Reference Distro')
-+        self.wait_for_console_pattern('gsj login:')
-+
-+    def test_arm_quanta_gsj_initrd(self):
-+        """
-+        :avocado: tags=3Darch:arm
-+        :avocado: tags=3Dmachine:quanta-gsj
-+        """
-+        initrd_url =3D (
-+                'https://github.com/hskinnemoen/openbmc/releases/download/=
-'
-+                '20200711-gsj-qemu-0/obmc-phosphor-initramfs-gsj.cpio.xz')
-+        initrd_hash =3D '98fefe5d7e56727b1eb17d5c00311b1b5c945300'
-+        initrd_path =3D self.fetch_asset(initrd_url, asset_hash=3Dinitrd_h=
-ash)
-+        kernel_url =3D (
-+                'https://github.com/hskinnemoen/openbmc/releases/download/=
-'
-+                '20200711-gsj-qemu-0/uImage-gsj.bin')
-+        kernel_hash =3D 'fa67b2f141d56d39b3c54305c0e8a899c99eb2c7'
-+        kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel_h=
-ash)
-+        dtb_url =3D (
-+                'https://github.com/hskinnemoen/openbmc/releases/download/=
-'
-+                '20200711-gsj-qemu-0/nuvoton-npcm730-gsj.dtb')
-+        dtb_hash =3D '18315f7006d7b688d8312d5c727eecd819aa36a4'
-+        dtb_path =3D self.fetch_asset(dtb_url, asset_hash=3Ddtb_hash)
-+
-+        self.vm.set_console()
-+        kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
-+                               'console=3DttyS0,115200n8 '
-+                               'earlycon=3Duart8250,mmio32,0xf0001000')
-+        self.vm.add_args('-kernel', kernel_path,
-+                         '-initrd', initrd_path,
-+                         '-dtb', dtb_path,
-+                         '-append', kernel_command_line)
-+        self.vm.launch()
-+
-+        self.wait_for_console_pattern('Booting Linux on physical CPU 0x0')
-+        self.wait_for_console_pattern('CPU1: thread -1, cpu 1, socket 0')
-+        self.wait_for_console_pattern(
-+                'Give root password for system maintenance')
-+
-     def test_arm_orangepi(self):
-         """
-         :avocado: tags=3Darch:arm
---=20
-2.28.0.297.g1956fa8f8d-goog
 
 
