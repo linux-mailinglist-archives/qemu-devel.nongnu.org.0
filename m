@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71A04252339
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:59:13 +0200 (CEST)
-Received: from localhost ([::1]:59140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B90925233B
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:59:52 +0200 (CEST)
+Received: from localhost ([::1]:33728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAgyG-0004AB-Fj
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:59:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48224)
+	id 1kAgyt-0005JI-6y
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:59:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kAgx8-0002Ga-3F; Tue, 25 Aug 2020 17:58:02 -0400
-Received: from mail-qt1-x836.google.com ([2607:f8b0:4864:20::836]:41896)
+ id 1kAgxA-0002Mt-MU; Tue, 25 Aug 2020 17:58:04 -0400
+Received: from mail-qt1-x841.google.com ([2607:f8b0:4864:20::841]:41522)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kAgx6-0000Xn-Ba; Tue, 25 Aug 2020 17:58:01 -0400
-Received: by mail-qt1-x836.google.com with SMTP id t20so12877qtr.8;
- Tue, 25 Aug 2020 14:57:58 -0700 (PDT)
+ id 1kAgx7-0000Xv-Kp; Tue, 25 Aug 2020 17:58:04 -0400
+Received: by mail-qt1-x841.google.com with SMTP id t20so12959qtr.8;
+ Tue, 25 Aug 2020 14:58:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=FEigj0tks3uCXSAIXp/Z8YnpMQG37caq+pO/8EeIF+I=;
- b=BPyV0OwdeuqoJ0E4Cc3TFOKfFD1mC5vfHEsDzIMrAyTTBKNF5hYixFWfbReQIJPsdi
- eN1zxHCA7yFvxHQRkY1raTc9TX83VUnqN1ri7/1y91S54ILabJAZHhBEEKUn0YyI/s+z
- QKgFcUwfftbDpuZxVD5XxNrBvdqPafFjlBsMOTI6ySMd1+1nQU3BuMIbeFW0DwAbTTdU
- LYgupnlQWD9+l2P/6MeBJdAT4B6yrKC0eM8L1P51uDPAGLB99weKy4qzsL5ERU7Eg+YB
- YUVbqJShFVVOZZVkEwfcIxZyk5FhdtkQd5fb9XaA0cFbTK/fG9Hu46KL0ncJ1zEU1giE
- mpHA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=BxaXqcaJ3YwDhwzhxTIh6QGfPMHlC2aIVJsVz9sdbO8=;
+ b=FpGSKVI3qXQ3oio0PJag6nDdy1m8OdH64jqMd0u+rXAuaPqHWjM3ONKUfL9eqN1mHJ
+ zaQEsqq6SxPq2pRhqBzlxGL8MjU6toiWzyM5HmzzEOUymbWYdV7/4CtKtlrFJ2ZFdzdH
+ 5aemhdhwJb9EuJHpvic9qeYcmr9igiWR7bjOZROQiaYgdR4NgyD21j45Uj/QMUxbJPg0
+ NQSjpqKYnN6uUFch6vENzWFPn88PhzICRV/dMH0V4rrnfJN49/g39Ca5bl03THu3Pm4k
+ sL6gokH5Vvd19ZLxjt2lMitkbMP4muRZaOB7eQ0arrr6kk7gHWHJc4LlWyZLAlNXu64u
+ 9SqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=FEigj0tks3uCXSAIXp/Z8YnpMQG37caq+pO/8EeIF+I=;
- b=Dc2eymSXYDVdT1InZhOS7ZqR77emRMHYNtJ3FvLRBpcLKBw3HeR6zd/qxMKmWHqaAd
- Hb+hSdehsLEQjruMhsoCcEM5F/sMcc1pnQpgG0ZotDxcQRPZwaDPetZAQL1RgsD4dM4E
- 9rz95jWS4BEVwY9IThIUbWLCW9DG+ys8Z1z6EgWTlQxup0AcDOWvNee9aHZOyVEkqqi9
- QNjhxqhwq+Q1QZ56OEzK/auFXnzWagEC23l6zs/IrYj59mMAjLaJG8QIUtn6RxNWTfZi
- BAmtXeCSE6u1zpIWtLpSYYx3qTD5fhOgHY3HTk/6TWfSi+nU9Rg3KOH9p3sRy6xk4/l8
- gBsw==
-X-Gm-Message-State: AOAM530ARzIlbm7ZfbCpxB7JGs3Q+0CjJDjV+z6tpFzU8AiqyZujP9w1
- E0tEXgXulYfB6p9rRR2oxPq+nvBsj4o=
-X-Google-Smtp-Source: ABdhPJwacyXXNLaSYSGtRgMlwsiJq8VIx1h6rX+RiltksMu15xZ0NeL7czfxFiuhZW6jea4d7+m+0g==
-X-Received: by 2002:ac8:3568:: with SMTP id z37mr2466535qtb.59.1598392678046; 
- Tue, 25 Aug 2020 14:57:58 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=BxaXqcaJ3YwDhwzhxTIh6QGfPMHlC2aIVJsVz9sdbO8=;
+ b=KrOZlaywhc3pUlWVszXAUSoVMs1/rnp2r26RdfLmJJpLUHy4DTFaIhRgqbf1th+05s
+ lVcrxXMSDtDoTaohlYJTzhkSXNWiG9RoMwTyJuXwgZIyyNhIkBrfQpoSxg25tvVKEOdD
+ sM60R9wB4BsafLWTrGEqbnI+jkk9X9rOPjEchfb+dmlY2mV5P+ZhkjjQ3cnkDaDuhtx6
+ KkDFaCeYXboFd/Ho71nxca5dfjhfL5Nv6bBBpsMzbSuU13Bhth2NfUVca02iAvxG41Yy
+ Bl9y2HdOEwdnVBk7SmHdojxXm/kY8FWjOmrZBJIqQxfh2erysYUhZCoeB6yi3ZB3UDOl
+ 5Wmw==
+X-Gm-Message-State: AOAM5336ytvMd+TuA579kK5ukiT4TiYcwiNl9VNEBEfdbDmR9A4ykNMe
+ Mi6agvH2hU98KCa5DsBoEgQc8P2oLhM=
+X-Google-Smtp-Source: ABdhPJzaNslfl68zZXHGcHUJ+d7FEbEbJpB1blKIp2UHAAYJCZucFtMtMe+baUyA0xIViVAUemIZoA==
+X-Received: by 2002:ac8:1488:: with SMTP id l8mr11429791qtj.131.1598392680184; 
+ Tue, 25 Aug 2020 14:58:00 -0700 (PDT)
 Received: from localhost.localdomain ([2804:431:c7c7:c152:8180:e1dd:d6ac:1152])
- by smtp.gmail.com with ESMTPSA id z2sm347362qtu.11.2020.08.25.14.57.56
+ by smtp.gmail.com with ESMTPSA id z2sm347362qtu.11.2020.08.25.14.57.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Aug 2020 14:57:57 -0700 (PDT)
+ Tue, 25 Aug 2020 14:57:59 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] spapr NVDIMM: consider 'nvdimm' machine option
-Date: Tue, 25 Aug 2020 18:57:46 -0300
-Message-Id: <20200825215749.213536-1-danielhb413@gmail.com>
+Subject: [PATCH 1/3] ppc/spapr_nvdimm: use g_autofree in
+ spapr_nvdimm_validate_opts()
+Date: Tue, 25 Aug 2020 18:57:47 -0300
+Message-Id: <20200825215749.213536-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200825215749.213536-1-danielhb413@gmail.com>
+References: <20200825215749.213536-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::836;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x836.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::841;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x841.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -86,36 +89,35 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series aims to solve bug [1].
+Since we're using the string just once, just use g_autofree and
+avoid leaking it without calling g_free().
 
-First patch is a trivial cleanup, feel free to squash into
-patch 02. Patch 02 attempts a code simplification to put
-all NVDIMM related logic in the same function.
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ hw/ppc/spapr_nvdimm.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Patch 03 is where the actual fix is implemented. My initial
-approach here was to make the handling of '-machine nvdimm' for
-pSeries similar to how it is handled elsewhere, but I wasn't
-able to accomplish that without either (1) breaking up existing
-pseries-5.1 guests that didn't care about this option or (2)
-make pseries-5.1 and pseries-5.2+ machines to have different
-semantics for it.
-
-I ended up doing what I was sure was sensible: if the user puts
-'-machine nvdimm=off', we must comply to that.
-
-
-[1] https://bugzilla.redhat.com/show_bug.cgi?id=1848887
-
-Daniel Henrique Barboza (3):
-  ppc/spapr_nvdimm: use g_autofree in spapr_nvdimm_validate_opts()
-  spapr, spapr_nvdimm: fold NVDIMM validation in the same place
-  ppc/spapr_nvdimm: do not enable support with 'nvdimm=off'
-
- hw/ppc/spapr.c                | 18 ++++++------------
- hw/ppc/spapr_nvdimm.c         | 31 +++++++++++++++++++++++++++----
- include/hw/ppc/spapr_nvdimm.h |  4 ++--
- 3 files changed, 35 insertions(+), 18 deletions(-)
-
+diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
+index 81410aa63f..9a20a65640 100644
+--- a/hw/ppc/spapr_nvdimm.c
++++ b/hw/ppc/spapr_nvdimm.c
+@@ -33,7 +33,7 @@
+ void spapr_nvdimm_validate_opts(NVDIMMDevice *nvdimm, uint64_t size,
+                                 Error **errp)
+ {
+-    char *uuidstr = NULL;
++    g_autofree char *uuidstr = NULL;
+     QemuUUID uuid;
+     int ret;
+ 
+@@ -54,7 +54,6 @@ void spapr_nvdimm_validate_opts(NVDIMMDevice *nvdimm, uint64_t size,
+                                       &error_abort);
+     ret = qemu_uuid_parse(uuidstr, &uuid);
+     g_assert(!ret);
+-    g_free(uuidstr);
+ 
+     if (qemu_uuid_is_null(&uuid)) {
+         error_setg(errp, "NVDIMM device requires the uuid to be set");
 -- 
 2.26.2
 
