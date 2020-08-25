@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8DA02520C0
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 21:38:52 +0200 (CEST)
-Received: from localhost ([::1]:56950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 069862520D6
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 21:44:20 +0200 (CEST)
+Received: from localhost ([::1]:59582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAemR-00083l-Qc
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 15:38:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40176)
+	id 1kAerj-0003dI-0c
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 15:44:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kAeWf-0000gD-QY
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:22:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43227)
+ id 1kAeWg-0000h5-5Q
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:22:34 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:22013
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kAeWd-0006F0-2L
+ id 1kAeWe-0006FF-68
  for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:22:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598383350;
+ s=mimecast20190719; t=1598383351;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=h0jc4y3pzQBp649mI+dEINndj2MNwTHkwFwmNAlFfKM=;
- b=ib+xYkgeBGrY69sAoYDfUmnbLGMh8PQF2l/z/Y5AE/Q8CgVBEtpmxOC7pAC17DCNgaUFi0
- DUrgau7h8lnOp+VfFoRawyq6Nrca1luOFuWjJaQPzR7Oall4FVjPcyc0WBM5FWINxZwjin
- +QwIsIvuOu/CXhU3cHWHRmrY6IyUIts=
+ bh=8wJ36udvm6pu4Eewx9JqnGIjQ112NfsHFCYV+ACUzTA=;
+ b=SqqsyYW78uTGF8dISj4xz8n7X3Y74kDsjz1bAuto1VClzni0Al6Nx/RfAUCDI+GZMTisXD
+ tu0PYOVizl2sV+SjJjpzB2ApRQbcpPdEpTjxd5FpdzyVvae1XcBo82eXrYeiHbhJIOYDXM
+ U6NHuQJC7ahJU7AuSUV/KcYFl8e9q+c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-337--4R6HDb9MIG57e5q69B4-Q-1; Tue, 25 Aug 2020 15:22:28 -0400
-X-MC-Unique: -4R6HDb9MIG57e5q69B4-Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-227-25yC3YjKNrOUeCs0kUeAaw-1; Tue, 25 Aug 2020 15:22:29 -0400
+X-MC-Unique: 25yC3YjKNrOUeCs0kUeAaw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C638801AB5
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 19:22:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A23B681F01D
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 19:22:28 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B477A6F936;
- Tue, 25 Aug 2020 19:22:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 68A01709C4;
+ Tue, 25 Aug 2020 19:22:28 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 33/74] pckbd: Move QOM macro to header
-Date: Tue, 25 Aug 2020 15:20:29 -0400
-Message-Id: <20200825192110.3528606-34-ehabkost@redhat.com>
+Subject: [PATCH v3 34/74] vmbus: Move QOM macros to vmbus.h
+Date: Tue, 25 Aug 2020 15:20:30 -0400
+Message-Id: <20200825192110.3528606-35-ehabkost@redhat.com>
 In-Reply-To: <20200825192110.3528606-1-ehabkost@redhat.com>
 References: <20200825192110.3528606-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 02:03:58
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 15:21:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.958,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,12 +82,12 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+ "Daniel P. Berrange" <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the I8042 macro close to the TYPE_I8042 define.
+Move all declarations related to TYPE_VMBUS to the same place in
+vmbus.h.
 
 This will make future conversion to OBJECT_DECLARE* easier.
 
@@ -97,39 +98,59 @@ Changes v2 -> v3: none
 
 Changes series v1 -> v2: new patch in series v2
 
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- include/hw/input/i8042.h | 1 +
- hw/input/pckbd.c         | 2 --
- 2 files changed, 1 insertion(+), 2 deletions(-)
+ include/hw/hyperv/vmbus-bridge.h | 3 +--
+ include/hw/hyperv/vmbus.h        | 4 ++++
+ hw/hyperv/vmbus.c                | 3 ---
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/include/hw/input/i8042.h b/include/hw/input/i8042.h
-index 8eaebf50ce..4569dfddd9 100644
---- a/include/hw/input/i8042.h
-+++ b/include/hw/input/i8042.h
-@@ -11,6 +11,7 @@
- #include "hw/isa/isa.h"
+diff --git a/include/hw/hyperv/vmbus-bridge.h b/include/hw/hyperv/vmbus-bridge.h
+index 33f93de64d..fe90bda01b 100644
+--- a/include/hw/hyperv/vmbus-bridge.h
++++ b/include/hw/hyperv/vmbus-bridge.h
+@@ -11,11 +11,10 @@
+ #define HW_HYPERV_VMBUS_BRIDGE_H
  
- #define TYPE_I8042 "i8042"
-+#define I8042(obj) OBJECT_CHECK(ISAKBDState, (obj), TYPE_I8042)
+ #include "hw/sysbus.h"
++#include "hw/hyperv/vmbus.h"
  
- #define I8042_A20_LINE "a20"
+ #define TYPE_VMBUS_BRIDGE "vmbus-bridge"
  
-diff --git a/hw/input/pckbd.c b/hw/input/pckbd.c
-index 29d633ca94..dde85ba6c6 100644
---- a/hw/input/pckbd.c
-+++ b/hw/input/pckbd.c
-@@ -481,8 +481,6 @@ void i8042_mm_init(qemu_irq kbd_irq, qemu_irq mouse_irq,
-     qemu_register_reset(kbd_reset, s);
- }
- 
--#define I8042(obj) OBJECT_CHECK(ISAKBDState, (obj), TYPE_I8042)
+-typedef struct VMBus VMBus;
 -
- struct ISAKBDState {
-     ISADevice parent_obj;
+ typedef struct VMBusBridge {
+     SysBusDevice parent_obj;
  
+diff --git a/include/hw/hyperv/vmbus.h b/include/hw/hyperv/vmbus.h
+index 40e8417eec..cd98ec24e7 100644
+--- a/include/hw/hyperv/vmbus.h
++++ b/include/hw/hyperv/vmbus.h
+@@ -26,6 +26,10 @@
+ #define VMBUS_DEVICE_GET_CLASS(obj) \
+     OBJECT_GET_CLASS(VMBusDeviceClass, (obj), TYPE_VMBUS_DEVICE)
+ 
++#define TYPE_VMBUS "vmbus"
++typedef struct VMBus VMBus;
++#define VMBUS(obj) OBJECT_CHECK(VMBus, (obj), TYPE_VMBUS)
++
+ /*
+  * Object wrapping a GPADL -- GPA Descriptor List -- an array of guest physical
+  * pages, to be used for various buffers shared between the host and the guest.
+diff --git a/hw/hyperv/vmbus.c b/hw/hyperv/vmbus.c
+index 34392e892a..75af6b83dd 100644
+--- a/hw/hyperv/vmbus.c
++++ b/hw/hyperv/vmbus.c
+@@ -20,9 +20,6 @@
+ #include "cpu.h"
+ #include "trace.h"
+ 
+-#define TYPE_VMBUS "vmbus"
+-#define VMBUS(obj) OBJECT_CHECK(VMBus, (obj), TYPE_VMBUS)
+-
+ enum {
+     VMGPADL_INIT,
+     VMGPADL_ALIVE,
 -- 
 2.26.2
 
