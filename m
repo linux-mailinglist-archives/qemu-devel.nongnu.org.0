@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 700982514A2
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 10:53:33 +0200 (CEST)
-Received: from localhost ([::1]:39816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8FF625149E
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 10:51:55 +0200 (CEST)
+Received: from localhost ([::1]:37232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAUhw-0006jw-In
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 04:53:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60938)
+	id 1kAUgN-0005Sx-1R
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 04:51:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kAUPf-0005WD-TP
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kAUPf-0005VZ-JM
  for qemu-devel@nongnu.org; Tue, 25 Aug 2020 04:34:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55063)
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41041
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kAUPc-0000kz-Be
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kAUPa-0000kY-2n
  for qemu-devel@nongnu.org; Tue, 25 Aug 2020 04:34:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598344475;
+ s=mimecast20190719; t=1598344473;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pICOX+Zyo3ETu/4gyJf/aQ+Uh3WU6G99th0gZuNTS6Y=;
- b=fjQPWujRrBN7wEGZhwO03umXndwfkpAUEGvyd/OSR4BPw8w84SrSeS7UUeNx38f3ch0D9v
- vKnulFHr4OmLb3PsT9SR1rZLr31jEbr7kQZu+ocDk9ZJcEVNwY8ItkUvexl1rOi4LQU2FI
- 03lQ/sOoHGjewbVtG0Ch9rTRWcYJd08=
+ bh=UPJQtlo4rKGVw4Py8ASiQq+WHa7VYt9+5uBjw3j7744=;
+ b=iAorV+eJJUFw7OttKSTpayHKR5gA7b1RiRklLB8pN0KvPcyaCwrBiP3V7CEM4mL9H7UICG
+ HyoSI8EOgKrPIpF3tDEvxgccdH8EjMOmNqlQRYcD5QVKOzdhkSp7bhAPp3fu8KwyyEfE6P
+ C48v7EQC0gutdHA4oXp2fnXyHDTn9Xc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-83-VKVv0cWkPg2p6tpDmf0UpA-1; Tue, 25 Aug 2020 04:34:29 -0400
-X-MC-Unique: VKVv0cWkPg2p6tpDmf0UpA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-219-Z9Rws37rMAGeWFzDGsMafw-1; Tue, 25 Aug 2020 04:34:31 -0400
+X-MC-Unique: Z9Rws37rMAGeWFzDGsMafw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C45480732F;
- Tue, 25 Aug 2020 08:34:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 387E881F01A;
+ Tue, 25 Aug 2020 08:34:30 +0000 (UTC)
 Received: from localhost (ovpn-113-72.ams2.redhat.com [10.36.113.72])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ACB795F707;
- Tue, 25 Aug 2020 08:34:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CEBE360E1C;
+ Tue, 25 Aug 2020 08:34:29 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 32/34] qcow2: Allow preallocation and backing files if
- extended_l2 is set
-Date: Tue, 25 Aug 2020 10:33:09 +0200
-Message-Id: <20200825083311.1098442-33-mreitz@redhat.com>
+Subject: [PULL 33/34] qcow2: Assert that expand_zero_clusters_in_l1() does not
+ support subclusters
+Date: Tue, 25 Aug 2020 10:33:10 +0200
+Message-Id: <20200825083311.1098442-34-mreitz@redhat.com>
 In-Reply-To: <20200825083311.1098442-1-mreitz@redhat.com>
 References: <20200825083311.1098442-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 02:03:58
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 01:37:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.956,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,56 +87,96 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alberto Garcia <berto@igalia.com>
 
-Traditional qcow2 images don't allow preallocation if a backing file
-is set. This is because once a cluster is allocated there is no way to
-tell that its data should be read from the backing file.
-
-Extended L2 entries have individual allocation bits for each
-subcluster, and therefore it is perfectly possible to have an
-allocated cluster with all its subclusters unallocated.
+This function is only used by qcow2_expand_zero_clusters() to
+downgrade a qcow2 image to a previous version. This would require
+transforming all extended L2 entries into normal L2 entries but this
+is not a simple task and there are no plans to implement this at the
+moment.
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <6d5b0f38e7dc5f2f31d8cab1cb92044e9909aece.1594396418.git.berto@igalia.com>
+Message-Id: <15e65112b4144381b4d8c0bdf8fb76b0d813e3d1.1594396418.git.berto@igalia.com>
+[mreitz: Fixed comment style]
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qcow2.c              | 7 ++++---
- tests/qemu-iotests/206.out | 2 +-
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ block/qcow2-cluster.c      | 14 ++++++++++++--
+ tests/qemu-iotests/061     |  6 ++++++
+ tests/qemu-iotests/061.out |  5 +++++
+ 3 files changed, 23 insertions(+), 2 deletions(-)
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 00cda5696b..da56b1a4df 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -3449,10 +3449,11 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
-         qcow2_opts->preallocation = PREALLOC_MODE_OFF;
-     }
-     if (qcow2_opts->has_backing_file &&
--        qcow2_opts->preallocation != PREALLOC_MODE_OFF)
-+        qcow2_opts->preallocation != PREALLOC_MODE_OFF &&
-+        !qcow2_opts->extended_l2)
-     {
--        error_setg(errp, "Backing file and preallocation cannot be used at "
--                   "the same time");
-+        error_setg(errp, "Backing file and preallocation can only be used at "
-+                   "the same time if extended_l2 is on");
-         ret = -EINVAL;
-         goto out;
-     }
-diff --git a/tests/qemu-iotests/206.out b/tests/qemu-iotests/206.out
-index 363c5abe35..a100849fcb 100644
---- a/tests/qemu-iotests/206.out
-+++ b/tests/qemu-iotests/206.out
-@@ -203,7 +203,7 @@ Job failed: Different refcount widths than 16 bits require compatibility level 1
- === Invalid backing file options ===
- {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"backing-file": "/dev/null", "driver": "qcow2", "file": "node0", "preallocation": "full", "size": 67108864}}}
- {"return": {}}
--Job failed: Backing file and preallocation cannot be used at the same time
-+Job failed: Backing file and preallocation can only be used at the same time if extended_l2 is on
- {"execute": "job-dismiss", "arguments": {"id": "job0"}}
- {"return": {}}
+diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+index fd506b4cb3..996b3314f4 100644
+--- a/block/qcow2-cluster.c
++++ b/block/qcow2-cluster.c
+@@ -2166,6 +2166,9 @@ static int expand_zero_clusters_in_l1(BlockDriverState *bs, uint64_t *l1_table,
+     int ret;
+     int i, j;
  
++    /* qcow2_downgrade() is not allowed in images with subclusters */
++    assert(!has_subclusters(s));
++
+     slice_size2 = s->l2_slice_size * l2_entry_size(s);
+     n_slices = s->cluster_size / slice_size2;
+ 
+@@ -2233,8 +2236,11 @@ static int expand_zero_clusters_in_l1(BlockDriverState *bs, uint64_t *l1_table,
+ 
+                 if (cluster_type == QCOW2_CLUSTER_ZERO_PLAIN) {
+                     if (!bs->backing) {
+-                        /* not backed; therefore we can simply deallocate the
+-                         * cluster */
++                        /*
++                         * not backed; therefore we can simply deallocate the
++                         * cluster. No need to call set_l2_bitmap(), this
++                         * function doesn't support images with subclusters.
++                         */
+                         set_l2_entry(s, l2_slice, j, 0);
+                         l2_dirty = true;
+                         continue;
+@@ -2305,6 +2311,10 @@ static int expand_zero_clusters_in_l1(BlockDriverState *bs, uint64_t *l1_table,
+                 } else {
+                     set_l2_entry(s, l2_slice, j, offset);
+                 }
++                /*
++                 * No need to call set_l2_bitmap() after set_l2_entry() because
++                 * this function doesn't support images with subclusters.
++                 */
+                 l2_dirty = true;
+             }
+ 
+diff --git a/tests/qemu-iotests/061 b/tests/qemu-iotests/061
+index 08ddbdd10c..5747beb7ed 100755
+--- a/tests/qemu-iotests/061
++++ b/tests/qemu-iotests/061
+@@ -303,6 +303,12 @@ $QEMU_IMG amend -o "compat=0.10" "$TEST_IMG"
+ _img_info --format-specific
+ _check_test_img
+ 
++echo
++echo "=== Testing version downgrade with extended L2 entries ==="
++echo
++_make_test_img -o "compat=1.1,extended_l2=on" 64M
++$QEMU_IMG amend -o "compat=0.10" "$TEST_IMG"
++
+ echo
+ echo "=== Try changing the external data file ==="
+ echo
+diff --git a/tests/qemu-iotests/061.out b/tests/qemu-iotests/061.out
+index b0a1382046..ee30da2665 100644
+--- a/tests/qemu-iotests/061.out
++++ b/tests/qemu-iotests/061.out
+@@ -533,6 +533,11 @@ Format specific information:
+     extended l2: false
+ No errors were found on the image.
+ 
++=== Testing version downgrade with extended L2 entries ===
++
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
++qemu-img: Cannot downgrade an image with incompatible features 0x10 set
++
+ === Try changing the external data file ===
+ 
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
 -- 
 2.26.2
 
