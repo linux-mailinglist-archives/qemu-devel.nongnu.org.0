@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67C452522F2
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:37:28 +0200 (CEST)
-Received: from localhost ([::1]:52084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DA0C252305
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:40:55 +0200 (CEST)
+Received: from localhost ([::1]:38270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAgdD-0002IA-FO
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:37:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42484)
+	id 1kAggY-000876-L3
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:40:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kAgXK-0001I6-H6
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:31:22 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:35978
+ id 1kAgeB-00057u-Rl
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:38:28 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:36016
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kAgXI-0005Yd-Iy
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:31:21 -0400
+ id 1kAge9-0006OK-II
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:38:27 -0400
 Received: from host217-42-19-185.range217-42.btcentralplus.com
  ([217.42.19.185] helo=[192.168.1.65])
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kAgXj-0002Hl-I2; Tue, 25 Aug 2020 22:31:49 +0100
+ id 1kAgeV-0002LL-T7; Tue, 25 Aug 2020 22:38:53 +0100
 To: luoyonggang@gmail.com, qemu-devel@nongnu.org
 References: <20200825165341.520-1-luoyonggang@gmail.com>
- <20200825165341.520-2-luoyonggang@gmail.com>
+ <20200825165341.520-3-luoyonggang@gmail.com>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
  mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
@@ -54,18 +54,19 @@ Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
  Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
  KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
  imgcU9TTGC5qd9g=
-Message-ID: <acdc6a3d-5188-e906-bc86-b0090ffe5a42@ilande.co.uk>
-Date: Tue, 25 Aug 2020 22:31:16 +0100
+Message-ID: <b4d17b13-2a11-58b4-0e5d-8ca95ec3068b@ilande.co.uk>
+Date: Tue, 25 Aug 2020 22:38:16 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200825165341.520-2-luoyonggang@gmail.com>
+In-Reply-To: <20200825165341.520-3-luoyonggang@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 217.42.19.185
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 2/4] meson: fixes relpath may fail on win32.
+Subject: Re: [PATCH 3/4] meson: Mingw64 gcc doesn't recognize system
+ include_type for sdl2
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -91,7 +92,8 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?RGFuaWVsIFAgLiBCZXJyYW5n6IyF?= <berrange@redhat.com>
+ =?UTF-8?B?RGFuaWVsIFAgLiBCZXJyYW5n6IyF?= <berrange@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -99,41 +101,31 @@ On 25/08/2020 17:53, luoyonggang@gmail.com wrote:
 
 > From: Yonggang Luo <luoyonggang@gmail.com>
 > 
-> On win32, os.path.relpath would raise exception when do the following relpath:
-> C:/msys64/mingw64/x.exe relative to E:/path/qemu-build would fail.
-> So we try catch it for stopping it from raise exception on msys2
+> Fixes this for msys2/mingw64 by remove the include_type for sdl2 discovery in meson
 > ---
->  scripts/mtest2make.py | 11 +++++++++--
->  1 file changed, 9 insertions(+), 2 deletions(-)
+>  meson.build | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 > 
-> diff --git a/scripts/mtest2make.py b/scripts/mtest2make.py
-> index bdb257bbd9..d7a51bf97e 100644
-> --- a/scripts/mtest2make.py
-> +++ b/scripts/mtest2make.py
-> @@ -53,9 +53,16 @@ i = 0
->  for test in json.load(sys.stdin):
->      env = ' '.join(('%s=%s' % (shlex.quote(k), shlex.quote(v))
->                      for k, v in test['env'].items()))
-> -    executable = os.path.relpath(test['cmd'][0])
-> +    executable = test['cmd'][0]
-> +    try:
-> +        executable = os.path.relpath(executable)
-> +    except:
-> +        pass
->      if test['workdir'] is not None:
-> -        test['cmd'][0] = os.path.relpath(test['cmd'][0], test['workdir'])
-> +        try:
-> +            test['cmd'][0] = os.path.relpath(executable, test['workdir'])
-> +        except:
-> +            test['cmd'][0] = executable
->      else:
->          test['cmd'][0] = executable
->      cmd = '$(.test.env) %s %s' % (env, ' '.join((shlex.quote(x) for x in test['cmd'])))
+> diff --git a/meson.build b/meson.build
+> index f0fe5f8799..1644bbd83c 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -224,8 +224,7 @@ if 'CONFIG_BRLAPI' in config_host
+>    brlapi = declare_dependency(link_args: config_host['BRLAPI_LIBS'].split())
+>  endif
+>  
+> -sdl = dependency('sdl2', required: get_option('sdl'), static: enable_static,
+> -                 include_type: 'system')
+> +sdl = dependency('sdl2', required: get_option('sdl'), static: enable_static)
+>  sdl_image = not_found
+>  if sdl.found()
+>    # work around 2.0.8 bug
 
-I don't think this is relevant in my particular environment, however it didn't seem
-to break the build. I'm curious as to why os.path.relpath throws an exception in this
-particular case on Windows though - can you give us a bit more information about the
-Exception that is being thrown?
+This gets around the issue whereby "-isystem" paths are not escaped correctly on
+Windows, presumably by changing them to "-iquote" instead.
+
+Marc-André had a query about why this is marked as a system include, however I can
+confirm that it fixes the missing "SDL.h" issue during build.
 
 
 ATB,
