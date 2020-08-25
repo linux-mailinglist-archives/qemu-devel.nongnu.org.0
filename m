@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 172512514AC
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 10:54:47 +0200 (CEST)
-Received: from localhost ([::1]:42264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82CFD251485
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 10:45:02 +0200 (CEST)
+Received: from localhost ([::1]:34520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAUj8-0007oN-5d
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 04:54:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60990)
+	id 1kAUZh-0000hO-AS
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 04:45:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kAUPp-0005v3-Gm
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 04:34:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51003)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kAUPV-0005A0-PM
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 04:34:29 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31139
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kAUPn-0000mm-EQ
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 04:34:49 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kAUPN-0000hU-3g
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 04:34:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598344486;
+ s=mimecast20190719; t=1598344459;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tWC0NAI9SqR335CvHWu7s3/mE4HBxzGKlhRP9R4+kuk=;
- b=dhAWrBoUhc3XkVyhqwVfbbR53Q3ViOMRzuHUQ1lSgY6Og+Gk8cuplvvXE5vl71b5ZSC5lG
- IbJiTMgyp448+Q8lLEySn1dxY2bUheZMu/8CwVj+JBy8IIiPx17cdyE1hTZV5xaI2bAXjA
- nxH6rJ8ZMcFtuMdTR+qCUBD1KNDX4JU=
+ bh=NUtvLLkXGhTxusC964Go6wAT3O8j7DO4y23dEg89/J8=;
+ b=cg/M6SRypgCbAxq3cFytej4guA5BYXSkz30y4I48okzTs0Zh+QrIMoNOGQwxCMej2DUIyF
+ m+8sE9wOhx453yMvp8clsGtkVE9FHGBKf7zhXq6RjaBKvKpU1tP9WRTCJxhtRJPa5hqP+P
+ mqNn9hlu//akBmwzC3a/Arxsny6tXBE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-40-Ldd0WGCFO8G5_ySSPdyJ-w-1; Tue, 25 Aug 2020 04:34:14 -0400
-X-MC-Unique: Ldd0WGCFO8G5_ySSPdyJ-w-1
+ us-mta-492-buIsJwQBO6KiVn10pGVvXQ-1; Tue, 25 Aug 2020 04:34:16 -0400
+X-MC-Unique: buIsJwQBO6KiVn10pGVvXQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F4875204;
- Tue, 25 Aug 2020 08:34:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BFFACE75F;
+ Tue, 25 Aug 2020 08:34:15 +0000 (UTC)
 Received: from localhost (ovpn-113-72.ams2.redhat.com [10.36.113.72])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0CE0060C15;
- Tue, 25 Aug 2020 08:34:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F3CE60C15;
+ Tue, 25 Aug 2020 08:34:15 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 26/34] qcow2: Clear the L2 bitmap when allocating a compressed
- cluster
-Date: Tue, 25 Aug 2020 10:33:03 +0200
-Message-Id: <20200825083311.1098442-27-mreitz@redhat.com>
+Subject: [PULL 27/34] qcow2: Add subcluster support to handle_alloc_space()
+Date: Tue, 25 Aug 2020 10:33:04 +0200
+Message-Id: <20200825083311.1098442-28-mreitz@redhat.com>
 In-Reply-To: <20200825083311.1098442-1-mreitz@redhat.com>
 References: <20200825083311.1098442-1-mreitz@redhat.com>
 MIME-Version: 1.0
@@ -56,17 +56,17 @@ X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 01:35:36
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 02:05:08
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.956,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,31 +86,58 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alberto Garcia <berto@igalia.com>
 
-Compressed clusters always have the bitmap part of the extended L2
-entry set to 0.
+The bdrv_co_pwrite_zeroes() call here fills complete clusters with
+zeroes, but it can happen that some subclusters are not part of the
+write request or the copy-on-write. This patch makes sure that only
+the affected subclusters are overwritten.
+
+A potential improvement would be to also fill with zeroes the other
+subclusters if we can guarantee that we are not overwriting existing
+data. However this would waste more disk space, so we should first
+evaluate if it's really worth doing.
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <04455b3de5dfeb9d1cfe1fc7b02d7060a6e09710.1594396418.git.berto@igalia.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <b3dc97e8e2240ddb5191a4f930e8fc9653f94621.1594396418.git.berto@igalia.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qcow2-cluster.c | 3 +++
- 1 file changed, 3 insertions(+)
+ block/qcow2.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-index 816ddc7639..1e84bd8e2e 100644
---- a/block/qcow2-cluster.c
-+++ b/block/qcow2-cluster.c
-@@ -862,6 +862,9 @@ int qcow2_alloc_compressed_cluster_offset(BlockDriverState *bs,
-     BLKDBG_EVENT(bs->file, BLKDBG_L2_UPDATE_COMPRESSED);
-     qcow2_cache_entry_mark_dirty(s->l2_table_cache, l2_slice);
-     set_l2_entry(s, l2_slice, l2_index, cluster_offset);
-+    if (has_subclusters(s)) {
-+        set_l2_bitmap(s, l2_slice, l2_index, 0);
-+    }
-     qcow2_cache_put(s->l2_table_cache, (void **) &l2_slice);
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 60192f1be3..9990535c46 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -2421,6 +2421,9 @@ static int handle_alloc_space(BlockDriverState *bs, QCowL2Meta *l2meta)
  
-     *host_offset = cluster_offset & s->cluster_offset_mask;
+     for (m = l2meta; m != NULL; m = m->next) {
+         int ret;
++        uint64_t start_offset = m->alloc_offset + m->cow_start.offset;
++        unsigned nb_bytes = m->cow_end.offset + m->cow_end.nb_bytes -
++            m->cow_start.offset;
+ 
+         if (!m->cow_start.nb_bytes && !m->cow_end.nb_bytes) {
+             continue;
+@@ -2435,16 +2438,14 @@ static int handle_alloc_space(BlockDriverState *bs, QCowL2Meta *l2meta)
+          * efficiently zero out the whole clusters
+          */
+ 
+-        ret = qcow2_pre_write_overlap_check(bs, 0, m->alloc_offset,
+-                                            m->nb_clusters * s->cluster_size,
++        ret = qcow2_pre_write_overlap_check(bs, 0, start_offset, nb_bytes,
+                                             true);
+         if (ret < 0) {
+             return ret;
+         }
+ 
+         BLKDBG_EVENT(bs->file, BLKDBG_CLUSTER_ALLOC_SPACE);
+-        ret = bdrv_co_pwrite_zeroes(s->data_file, m->alloc_offset,
+-                                    m->nb_clusters * s->cluster_size,
++        ret = bdrv_co_pwrite_zeroes(s->data_file, start_offset, nb_bytes,
+                                     BDRV_REQ_NO_FALLBACK);
+         if (ret < 0) {
+             if (ret != -ENOTSUP && ret != -EAGAIN) {
 -- 
 2.26.2
 
