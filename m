@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD84C251F74
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 21:03:12 +0200 (CEST)
-Received: from localhost ([::1]:57710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EA36251F78
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 21:04:38 +0200 (CEST)
+Received: from localhost ([::1]:37362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAeDv-0000LC-R6
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 15:03:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33420)
+	id 1kAeFJ-0003ca-F5
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 15:04:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=49978a6e9=alistair.francis@wdc.com>)
- id 1kAe9y-0003gX-Kj
+ id 1kAe9y-0003hC-TK
  for qemu-devel@nongnu.org; Tue, 25 Aug 2020 14:59:06 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:58806)
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:58813)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=49978a6e9=alistair.francis@wdc.com>)
- id 1kAe9w-0002vn-N0
+ id 1kAe9x-0002w2-6Z
  for qemu-devel@nongnu.org; Tue, 25 Aug 2020 14:59:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1598381945; x=1629917945;
+ t=1598381946; x=1629917946;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=TU1cCEPzubrHs64fD2uz3bj2lnpTyVMXjl8IKCqlV0U=;
- b=Iu6UlxPQPfUzrRZ4lE0wSbgIGUc0djQnek4CeNLk0LjJ1brzI5UeWOUd
- 8SC7Ztnjy5QeYHL2LlDGRjds61W30ONWr2jSt1z2T23Pgm8yTwrnDipBN
- 23++P2ZKMpxu5GExGd9vvYP8YparYXAHsRLFgbYSUP6c788iGKLHRko3r
- grdNBwwvCXHRR9Y0Hck4zrCDEN66weIjqYE3/CtICeFYgfoCSFDb5NleB
- iMiG/MZ4zyGOQDwG3h8IEMgm+AB4Upglds6QfNvnVnpJ+kgKWzudhdqbp
- 51UPUQafw/0j7m9zcGfSHEcg1gJyoUbATOMwuxEdWVmpZnWe7nbLJX8lU g==;
-IronPort-SDR: AEnBY5gEjynDspC6gqyTfTpQO60znkWp1djYzjiFWVQLnIHSKV9wcuo4czvsayYmU3+wqgmcnu
- 6j0g69+BhDokbCYGKBxumvK0QEctXiLNWvGs4cp9/lLzJzbBD/V1lpccammXtXBPZExckIodbG
- r/IwZEFPHPdfapfCHX6E7zh0RTay6YDqNsFWT3nWsHqB0AMB4PG940TvlCsq7fUu9xFVfd2S4/
- T91N+IyFXkkEr0cg8XGhYK+iY1jlvPbN/zHk0kJk9IP7dgKfRMgLaQsvuXh7KZSCSw0TNbkqv3
- mQg=
-X-IronPort-AV: E=Sophos;i="5.76,353,1592841600"; d="scan'208";a="150145290"
+ bh=m2TKyr6HVsz9M9uNelK10bYsMCdJvpXP3PmII+kRDn8=;
+ b=D1h4phP3eEjG72uKgbRiID65cOIip4GjidJg37gAKR2JAFwrneoCblDH
+ 1CLOt0fY2F/qE9mnkCQZNx3iU6YzbyAi4w+/kGr9HAO5oxnhHw7hG17oE
+ a5MIggff2/h37ghDlzhi2SgjYI+2qwPwEEnfVWkfCB8hh1HUS97NoxMC3
+ uvvuAYPLold8NaAAuepfe/g8jFDmDZd7njXlMkqeIOyEKp/plyUdWs3fM
+ 4hs0HBJsqsp0oAcfFFnpxcAjpAZrPSGL3PXSHF4MJZPmnKhjEOBAZUEJu
+ GlXgzjnuUc/bV1rk2vOIULvOrwbdkEWe1hXw72nwUlr9qfyger2peOVMX Q==;
+IronPort-SDR: YeqpLt1Fhw9myVKOgXUJKEvsH9RPaijbXkG6i5SBKwbDVu0OAZrzG2XwUwxXQ49FEcGusSCf7O
+ w2Bj6NSxlDwcpN+xZdB+0JS4QCSsyVS0TRO2KjMgzB/9JLvRn0p9jWLlj5caM3/c+l/7e3JZZI
+ 3cEMacfD+/6gxcqUYBCDjtgzaxi/58Muj0m7eVcN1vUTas8ajyGFUyJ7UQtl/DDFXBunMexSP1
+ 0/ysqhevAlccEeV0vgyW8SStiAOi+t5HqRskRtIfFPmkFGKC/zH9wKb9rhIsq/0ZeOlSdWE04T
+ Y0A=
+X-IronPort-AV: E=Sophos;i="5.76,353,1592841600"; d="scan'208";a="150145291"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 26 Aug 2020 02:58:56 +0800
-IronPort-SDR: l0c1sa/WPbtnmgWXDTIcS9CjbyMiLkbld29f2+jVM+1vQWQMNEhSydg11EF7AulrG0n3cTPkot
- EwWYkr/G9bPQ==
+IronPort-SDR: fS4or2QUrmdaMoerdtypex97f07ve4VR3SBEa/VRs9cmSIDv885qoObAS/HnRUiEEBpLflice4
+ WuYXBeUlIrrA==
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  25 Aug 2020 11:46:31 -0700
-IronPort-SDR: fJcMZktbCQvH/VE5bOv58YqJcMID80OoMWz5b4Px1k4WO1HjrFglqVn3X7l7Pyav2uC8e5svC8
- QKqdNOx/S0MQ==
+IronPort-SDR: 97wI/lkp64qajBj3EDf+BQv1AmW/hSkOHdte2hnuy0P38AFfyTjM7fBAg+e3r+ptiIjZOfXKgf
+ BKyDICiwxB7A==
 WDCIronportException: Internal
 Received: from ind003389.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.59.125])
  by uls-op-cesaip02.wdc.com with ESMTP; 25 Aug 2020 11:58:55 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/18] target/riscv: Do two-stage lookups on hlv/hlvx/hsv
- instructions
-Date: Tue, 25 Aug 2020 11:48:26 -0700
-Message-Id: <20200825184836.1282371-9-alistair.francis@wdc.com>
+Subject: [PULL 09/18] target/riscv: Don't allow guest to write to htinst
+Date: Tue, 25 Aug 2020 11:48:27 -0700
+Message-Id: <20200825184836.1282371-10-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200825184836.1282371-1-alistair.francis@wdc.com>
 References: <20200825184836.1282371-1-alistair.francis@wdc.com>
@@ -93,127 +92,24 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 024ad8a594fb2feaf0950fbfad1508cfa82ce7f0.1597259519.git.alistair.francis@wdc.com
-Message-Id: <024ad8a594fb2feaf0950fbfad1508cfa82ce7f0.1597259519.git.alistair.francis@wdc.com>
+Message-id: ca5359fec6b2aff851eef3b3bc4b53cb5d4ad194.1597259519.git.alistair.francis@wdc.com
+Message-Id: <ca5359fec6b2aff851eef3b3bc4b53cb5d4ad194.1597259519.git.alistair.francis@wdc.com>
 ---
- target/riscv/cpu_helper.c | 60 ++++++++++++++++-----------------------
- 1 file changed, 25 insertions(+), 35 deletions(-)
+ target/riscv/csr.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index e5e0d80c32..5efb3b16e0 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -340,22 +340,13 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
-      * was called. Background registers will be used if the guest has
-      * forced a two stage translation to be on (in HS or M mode).
-      */
-+    if (riscv_cpu_two_stage_lookup(env) && access_type != MMU_INST_FETCH) {
-+        use_background = true;
-+    }
-+
-     if (mode == PRV_M && access_type != MMU_INST_FETCH) {
-         if (get_field(env->mstatus, MSTATUS_MPRV)) {
-             mode = get_field(env->mstatus, MSTATUS_MPP);
--
--            if (riscv_has_ext(env, RVH) &&
--                MSTATUS_MPV_ISSET(env)) {
--                use_background = true;
--            }
--        }
--    }
--
--    if (mode == PRV_S && access_type != MMU_INST_FETCH &&
--        riscv_has_ext(env, RVH) && !riscv_cpu_virt_enabled(env)) {
--        if (get_field(env->hstatus, HSTATUS_SPRV)) {
--            mode = get_field(env->mstatus, SSTATUS_SPP);
--            use_background = true;
-         }
-     }
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 6a96a01b1c..0f035d33b1 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -922,7 +922,6 @@ static int read_htinst(CPURISCVState *env, int csrno, target_ulong *val)
  
-@@ -608,7 +599,8 @@ static void raise_mmu_exception(CPURISCVState *env, target_ulong address,
-         }
-         break;
-     case MMU_DATA_LOAD:
--        if (riscv_cpu_virt_enabled(env) && !first_stage) {
-+        if ((riscv_cpu_virt_enabled(env) || riscv_cpu_two_stage_lookup(env)) &&
-+            !first_stage) {
-             cs->exception_index = RISCV_EXCP_LOAD_GUEST_ACCESS_FAULT;
-         } else {
-             cs->exception_index = page_fault_exceptions ?
-@@ -616,7 +608,8 @@ static void raise_mmu_exception(CPURISCVState *env, target_ulong address,
-         }
-         break;
-     case MMU_DATA_STORE:
--        if (riscv_cpu_virt_enabled(env) && !first_stage) {
-+        if ((riscv_cpu_virt_enabled(env) || riscv_cpu_two_stage_lookup(env)) &&
-+            !first_stage) {
-             cs->exception_index = RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT;
-         } else {
-             cs->exception_index = page_fault_exceptions ?
-@@ -706,8 +699,6 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     hwaddr pa = 0;
-     int prot, prot2;
-     bool pmp_violation = false;
--    bool m_mode_two_stage = false;
--    bool hs_mode_two_stage = false;
-     bool first_stage_error = true;
-     int ret = TRANSLATE_FAIL;
-     int mode = mmu_idx;
-@@ -718,30 +709,21 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     qemu_log_mask(CPU_LOG_MMU, "%s ad %" VADDR_PRIx " rw %d mmu_idx %d\n",
-                   __func__, address, access_type, mmu_idx);
+ static int write_htinst(CPURISCVState *env, int csrno, target_ulong val)
+ {
+-    env->htinst = val;
+     return 0;
+ }
  
--    /*
--     * Determine if we are in M mode and MPRV is set or in HS mode and SPRV is
--     * set and we want to access a virtulisation address.
--     */
--    if (riscv_has_ext(env, RVH)) {
--        m_mode_two_stage = env->priv == PRV_M &&
--                           access_type != MMU_INST_FETCH &&
--                           get_field(env->mstatus, MSTATUS_MPRV) &&
--                           MSTATUS_MPV_ISSET(env);
--
--        hs_mode_two_stage = env->priv == PRV_S &&
--                            !riscv_cpu_virt_enabled(env) &&
--                            access_type != MMU_INST_FETCH &&
--                            get_field(env->hstatus, HSTATUS_SPRV) &&
--                            get_field(env->hstatus, HSTATUS_SPV);
--    }
--
-     if (mode == PRV_M && access_type != MMU_INST_FETCH) {
-         if (get_field(env->mstatus, MSTATUS_MPRV)) {
-             mode = get_field(env->mstatus, MSTATUS_MPP);
-         }
-     }
- 
--    if (riscv_cpu_virt_enabled(env) || m_mode_two_stage || hs_mode_two_stage) {
-+    if (riscv_has_ext(env, RVH) && env->priv == PRV_M &&
-+        access_type != MMU_INST_FETCH &&
-+        get_field(env->mstatus, MSTATUS_MPRV) &&
-+        MSTATUS_MPV_ISSET(env)) {
-+        riscv_cpu_set_two_stage_lookup(env, true);
-+    }
-+
-+    if (riscv_cpu_virt_enabled(env) ||
-+        (riscv_cpu_two_stage_lookup(env) && access_type != MMU_INST_FETCH)) {
-         /* Two stage lookup */
-         ret = get_physical_address(env, &pa, &prot, address, access_type,
-                                    mmu_idx, true, true);
-@@ -793,6 +775,14 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                       __func__, address, ret, pa, prot);
-     }
- 
-+    /* We did the two stage lookup based on MPRV, unset the lookup */
-+    if (riscv_has_ext(env, RVH) && env->priv == PRV_M &&
-+        access_type != MMU_INST_FETCH &&
-+        get_field(env->mstatus, MSTATUS_MPRV) &&
-+        MSTATUS_MPV_ISSET(env)) {
-+        riscv_cpu_set_two_stage_lookup(env, false);
-+    }
-+
-     if (riscv_feature(env, RISCV_FEATURE_PMP) &&
-         (ret == TRANSLATE_SUCCESS) &&
-         !pmp_hart_has_privs(env, pa, size, 1 << access_type, mode)) {
 -- 
 2.28.0
 
