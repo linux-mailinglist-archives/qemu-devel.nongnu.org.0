@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 730D3251FF9
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 21:29:05 +0200 (CEST)
-Received: from localhost ([::1]:33474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECD71251FFC
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 21:30:07 +0200 (CEST)
+Received: from localhost ([::1]:38468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAecy-00048B-GP
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 15:29:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39676)
+	id 1kAedt-00067i-P7
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 15:30:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kAeW6-0007kT-FS
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:21:58 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31619
- helo=us-smtp-1.mimecast.com)
+ id 1kAeW8-0007oc-0L
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:22:00 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:21063
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kAeW4-00068H-Tb
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:21:58 -0400
+ id 1kAeW6-00068R-CL
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:21:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598383316;
+ s=mimecast20190719; t=1598383317;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5Mq7dwXYNXegViKtoA/+pqo7nZrnutR+O8qT2sovQ/g=;
- b=U6J0TyclTUkhg7/nNs9Vvdru6e9QzhNU/1mTXTezjMwJhwgv+XzmgmoTgHWT27Lt1+PTrM
- XQ7Kp9Sizrx6Zr0VTQoLMTK3jmreE94n51m1wM86wiXZYr5+YWkJ+PP1+jxuedmjZEkZxh
- 6eYuIKwSqd5MNdLEvFqG+BH9hlUB30E=
+ bh=oVDwgTNUVgjR0WmL6SFjNJciv9Z9mAsyt/tnnTvdlhA=;
+ b=d1NIA2/ZGRaSuxcjE3y2Y2Ly8xdcgJy6r6V9K9vsAHRy5gqnP3IEriY29uL9VSV7NGFKFm
+ mAxUEQVjJHl6ihkUOtbbWCe/HQS8YJfKfM5YL0+Hmge9JC1dg8LaqsU9N0lYqh9drz7O1u
+ KZ/n0XtiqRYTyqtzWzA2xqoP49f1RkQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-439-GXEgW18BMpq2d6DPtYznuw-1; Tue, 25 Aug 2020 15:21:54 -0400
-X-MC-Unique: GXEgW18BMpq2d6DPtYznuw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-113-5V5sXzkrMGaue6HfDEZYEg-1; Tue, 25 Aug 2020 15:21:55 -0400
+X-MC-Unique: 5V5sXzkrMGaue6HfDEZYEg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 572EA81CAF9;
- Tue, 25 Aug 2020 19:21:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75754800467;
+ Tue, 25 Aug 2020 19:21:54 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 70E7960E1C;
- Tue, 25 Aug 2020 19:21:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3738F18B59;
+ Tue, 25 Aug 2020 19:21:54 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 18/74] i8254: Move PITCommonState/PITCommonClass typedefs
- to i8254.h
-Date: Tue, 25 Aug 2020 15:20:14 -0400
-Message-Id: <20200825192110.3528606-19-ehabkost@redhat.com>
+Subject: [PATCH v3 19/74] hvf: Move HVFState typedef to hvf.h
+Date: Tue, 25 Aug 2020 15:20:15 -0400
+Message-Id: <20200825192110.3528606-20-ehabkost@redhat.com>
 In-Reply-To: <20200825192110.3528606-1-ehabkost@redhat.com>
 References: <20200825192110.3528606-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 01:37:44
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 15:21:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.958,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,16 +82,16 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- "Michael S. Tsirkin" <mst@redhat.com>
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, Cameron Esfahani <dirty@apple.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Move typedef closer to the type check macros, to make it easier
 to convert the code to OBJECT_DEFINE_TYPE() in the future.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
@@ -101,58 +100,49 @@ Changes v2 -> v3: none
 Changes v1 -> v2: none
 
 ---
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Cameron Esfahani <dirty@apple.com>
+Cc: Roman Bolshakov <r.bolshakov@yadro.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Richard Henderson <rth@twiddle.net>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- include/hw/timer/i8254.h          | 2 ++
- include/hw/timer/i8254_internal.h | 8 ++++----
- 2 files changed, 6 insertions(+), 4 deletions(-)
+ include/sysemu/hvf.h       | 1 +
+ target/i386/hvf/hvf-i386.h | 4 ++--
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/timer/i8254.h b/include/hw/timer/i8254.h
-index e75b4a5a08..206b8f8464 100644
---- a/include/hw/timer/i8254.h
-+++ b/include/hw/timer/i8254.h
-@@ -39,6 +39,8 @@ typedef struct PITChannelInfo {
- } PITChannelInfo;
+diff --git a/include/sysemu/hvf.h b/include/sysemu/hvf.h
+index d3bed80ea8..760d6c79a2 100644
+--- a/include/sysemu/hvf.h
++++ b/include/sysemu/hvf.h
+@@ -35,6 +35,7 @@ void hvf_vcpu_destroy(CPUState *);
  
- #define TYPE_PIT_COMMON "pit-common"
-+typedef struct PITCommonState PITCommonState;
-+typedef struct PITCommonClass PITCommonClass;
- #define PIT_COMMON(obj) \
-      OBJECT_CHECK(PITCommonState, (obj), TYPE_PIT_COMMON)
- #define PIT_COMMON_CLASS(klass) \
-diff --git a/include/hw/timer/i8254_internal.h b/include/hw/timer/i8254_internal.h
-index 3db462aecd..a9a600d941 100644
---- a/include/hw/timer/i8254_internal.h
-+++ b/include/hw/timer/i8254_internal.h
-@@ -50,14 +50,14 @@ typedef struct PITChannelState {
-     uint32_t irq_disabled;
- } PITChannelState;
+ #define TYPE_HVF_ACCEL ACCEL_CLASS_NAME("hvf")
  
--typedef struct PITCommonState {
-+struct PITCommonState {
-     ISADevice dev;
-     MemoryRegion ioports;
-     uint32_t iobase;
-     PITChannelState channels[3];
--} PITCommonState;
++typedef struct HVFState HVFState;
+ #define HVF_STATE(obj) \
+     OBJECT_CHECK(HVFState, (obj), TYPE_HVF_ACCEL)
+ 
+diff --git a/target/i386/hvf/hvf-i386.h b/target/i386/hvf/hvf-i386.h
+index ef20c73eca..e0edffd077 100644
+--- a/target/i386/hvf/hvf-i386.h
++++ b/target/i386/hvf/hvf-i386.h
+@@ -57,13 +57,13 @@ typedef struct hvf_vcpu_caps {
+     uint64_t vmx_cap_preemption_timer;
+ } hvf_vcpu_caps;
+ 
+-typedef struct HVFState {
++struct HVFState {
+     AccelState parent;
+     hvf_slot slots[32];
+     int num_slots;
+ 
+     hvf_vcpu_caps *hvf_caps;
+-} HVFState;
 +};
+ extern HVFState *hvf_state;
  
--typedef struct PITCommonClass {
-+struct PITCommonClass {
-     ISADeviceClass parent_class;
- 
-     void (*set_channel_gate)(PITCommonState *s, PITChannelState *sc, int val);
-@@ -65,7 +65,7 @@ typedef struct PITCommonClass {
-                              PITChannelInfo *info);
-     void (*pre_save)(PITCommonState *s);
-     void (*post_load)(PITCommonState *s);
--} PITCommonClass;
-+};
- 
- int pit_get_out(PITChannelState *s, int64_t current_time);
- int64_t pit_get_next_transition_time(PITChannelState *s, int64_t current_time);
+ void hvf_set_phys_mem(MemoryRegionSection *, bool);
 -- 
 2.26.2
 
