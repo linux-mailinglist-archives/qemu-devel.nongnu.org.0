@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9641825178A
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 13:27:56 +0200 (CEST)
-Received: from localhost ([::1]:60198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4384251790
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 13:29:34 +0200 (CEST)
+Received: from localhost ([::1]:41050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAX7L-0002bq-KS
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 07:27:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46712)
+	id 1kAX8v-0006M5-PS
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 07:29:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kAX5n-0000Sh-MV; Tue, 25 Aug 2020 07:26:19 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:40250 helo=huawei.com)
+ id 1kAX5n-0000SQ-DW; Tue, 25 Aug 2020 07:26:19 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:4266 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kAX5k-0006eT-E3; Tue, 25 Aug 2020 07:26:19 -0400
+ id 1kAX5k-0006f0-Aw; Tue, 25 Aug 2020 07:26:19 -0400
 Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 013F08B673E9EFCE32DD;
- Tue, 25 Aug 2020 19:26:04 +0800 (CST)
+ by Forcepoint Email with ESMTP id 3D20EAFCC1F1C16209A2;
+ Tue, 25 Aug 2020 19:26:09 +0800 (CST)
 Received: from huawei.com (10.175.104.175) by DGGEMS414-HUB.china.huawei.com
  (10.3.19.214) with Microsoft SMTP Server id 14.3.487.0; Tue, 25 Aug 2020
- 19:25:55 +0800
+ 19:25:59 +0800
 From: Chen Qun <kuhn.chenqun@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH v2 01/10] hw/arm/virt-acpi-build:Remove dead assignment in
- build_madt()
-Date: Tue, 25 Aug 2020 19:24:38 +0800
-Message-ID: <20200825112447.126308-2-kuhn.chenqun@huawei.com>
+Subject: [PATCH v2 03/10] target/arm/translate-a64:Remove dead assignment in
+ handle_scalar_simd_shli()
+Date: Tue, 25 Aug 2020 19:24:40 +0800
+Message-ID: <20200825112447.126308-4-kuhn.chenqun@huawei.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200825112447.126308-1-kuhn.chenqun@huawei.com>
 References: <20200825112447.126308-1-kuhn.chenqun@huawei.com>
@@ -37,9 +37,9 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.175.104.175]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35;
+Received-SPF: pass client-ip=45.249.212.191;
  envelope-from=kuhn.chenqun@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 07:26:04
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 07:26:10
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -60,49 +60,48 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, zhang.zhanghailiang@huawei.com,
- "Michael S. Tsirkin" <mst@redhat.com>, Euler Robot <euler.robot@huawei.com>,
- pannengyuan@huawei.com, Shannon Zhao <shannon.zhaosl@gmail.com>,
- qemu-arm@nongnu.org, Igor
- Mammedov <imammedo@redhat.com>, Chen Qun <kuhn.chenqun@huawei.com>
+ pannengyuan@huawei.com, qemu-arm@nongnu.org,
+ Euler Robot <euler.robot@huawei.com>, Chen Qun <kuhn.chenqun@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Clang static code analyzer show warning:
-hw/arm/virt-acpi-build.c:641:5: warning: Value stored to 'madt' is never read
-    madt = acpi_data_push(table_data, sizeof *madt);
-    ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+target/arm/translate-a64.c:8635:14: warning: Value stored to 'tcg_rn' during its
+ initialization is never read
+    TCGv_i64 tcg_rn = new_tmp_a64(s);
+             ^~~~~~   ~~~~~~~~~~~~~~
+target/arm/translate-a64.c:8636:14: warning: Value stored to 'tcg_rd' during its
+ initialization is never read
+    TCGv_i64 tcg_rd = new_tmp_a64(s);
+             ^~~~~~   ~~~~~~~~~~~~~~
+
+There is a memory leak for the variable new_tmp_a64 "s".
+We should delete the assignment.
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
-Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>
 Cc: qemu-arm@nongnu.org
 ---
- hw/arm/virt-acpi-build.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ target/arm/translate-a64.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index 91f0df7b13..f830f9b779 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -633,12 +633,11 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-     int madt_start = table_data->len;
-     const MemMapEntry *memmap = vms->memmap;
-     const int *irqmap = vms->irqmap;
--    AcpiMultipleApicTable *madt;
-     AcpiMadtGenericDistributor *gicd;
-     AcpiMadtGenericMsiFrame *gic_msi;
-     int i;
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 534c3ff5f3..c83bb85e4e 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -8632,8 +8632,8 @@ static void handle_scalar_simd_shli(DisasContext *s, bool insert,
+     int size = 32 - clz32(immh) - 1;
+     int immhb = immh << 3 | immb;
+     int shift = immhb - (8 << size);
+-    TCGv_i64 tcg_rn = new_tmp_a64(s);
+-    TCGv_i64 tcg_rd = new_tmp_a64(s);
++    TCGv_i64 tcg_rn;
++    TCGv_i64 tcg_rd;
  
--    madt = acpi_data_push(table_data, sizeof *madt);
-+    acpi_data_push(table_data, sizeof(AcpiMultipleApicTable));
- 
-     gicd = acpi_data_push(table_data, sizeof *gicd);
-     gicd->type = ACPI_APIC_GENERIC_DISTRIBUTOR;
+     if (!extract32(immh, 3, 1)) {
+         unallocated_encoding(s);
 -- 
 2.23.0
 
