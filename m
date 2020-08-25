@@ -2,75 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C083325233E
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 00:00:34 +0200 (CEST)
-Received: from localhost ([::1]:36874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2960525233A
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:59:16 +0200 (CEST)
+Received: from localhost ([::1]:59558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAgzZ-0006aj-Rt
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 18:00:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48276)
+	id 1kAgyJ-0004LZ-7S
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:59:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kAgxC-0002R6-6F; Tue, 25 Aug 2020 17:58:06 -0400
-Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842]:45587)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kAgx9-0000YB-Io; Tue, 25 Aug 2020 17:58:05 -0400
-Received: by mail-qt1-x842.google.com with SMTP id p36so167858qtd.12;
- Tue, 25 Aug 2020 14:58:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=gs8bi7VVxJby/VCGELptjbix2K07oxRPUhMrOOcTGBw=;
- b=AU0C6GRYJ0zM/9ZjjxtQHS+ejltWYnm05WyAAImVBcWogxMEf3DRSTxluvKsVrCwQW
- U19ge4DqspNMKIRlxidf9dOTf5wl89dAJKeaEXERsoDhFSvqOyjgY03blwuIp/qqSkc9
- PhyStZWw99dzpL9FBxYEigTUsWq3dgxkO6ZNb9KoHQ9WpBUJ2LY3Z9joXoNMpsAEUVno
- yEQw+IFqxLg9u+D8GgEjAVhzShayossUCjpD9aoB+Tlc758WYtcb/YY2ECgtoTrfdzfK
- fyJyvCtqjd+/I8OaqqxfqGPKDf1uBpeg4aRI9kHeHGJG5Cg1GWtcDLFQ711kFmOYdewz
- /9gw==
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1kAgxE-0002W7-CO
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:58:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23983)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1kAgxB-0000YQ-Ji
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:58:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598392684;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=X9qEEMjQk+TM7XgbVKWryx3YB2XMwDW8oj4udKG4l5g=;
+ b=JhcuUCr06lh3tep+ldijF1urL0mN38WugNYaY8z/HPi3Tqq3rR9f6jz5CtO9r6foEMHQxA
+ BVi0L/Y0bGQpeqC6c8Ukse9n2esttnQOP6gYrMNhONNnIEMATdb/ciAZ/nz5Yvm50ppACl
+ 9wjS9V6R/uNd1QoWHpNtIU10Rb9+N/w=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-538-LrsC6VixPxCPZ5bjq5Q_Tw-1; Tue, 25 Aug 2020 17:58:01 -0400
+X-MC-Unique: LrsC6VixPxCPZ5bjq5Q_Tw-1
+Received: by mail-qk1-f198.google.com with SMTP id t10so301334qke.11
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 14:58:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=gs8bi7VVxJby/VCGELptjbix2K07oxRPUhMrOOcTGBw=;
- b=s1WJqtbTSWoqWpWfMWlnlpp2WspV1S6UZH/qQXJkg6i/AhtdOqh47qKJQtU1yz/44Y
- EYpi6nelPZZ23JX73jRpujSY2Q6MQSS403gzjTP/flWR5BUKenxuTsLQUFWgk5s1Ykjc
- WnDTiWWG4LoAKY8xbGodhAv7zg/ImCfEbEfptlsNqTUAkoF3xYLHODvSSEng4GOX6Sg9
- DHWKvDh3t6rpnQ/ACGXvDud3Epn7WU3AzW0taSubLpZMmAiQ8Cpyr9PhDzFHOPMm69to
- KeA8O7urVZYMJPNJkPm4KiKIkj4rsplqDijB4/XPKndtg9Am3KoWFgpdm9OFSY/3TD8+
- PFwQ==
-X-Gm-Message-State: AOAM530+juVD7XXiVAT1u3M5fPzQcPHevk4O/YVskIOqRrf6u5V2TQ1v
- pstkrvqN73UaQgj7WZarvCPWQiipEDk=
-X-Google-Smtp-Source: ABdhPJxGi34TpnofDEwH6Hzd+uzM9jsVaiIZM9wELTcDyc+3e1I6tPx5TeUJBAwLKwkW/eyrPK2QIg==
-X-Received: by 2002:ac8:4b52:: with SMTP id e18mr11432826qts.231.1598392682160; 
- Tue, 25 Aug 2020 14:58:02 -0700 (PDT)
-Received: from localhost.localdomain ([2804:431:c7c7:c152:8180:e1dd:d6ac:1152])
- by smtp.gmail.com with ESMTPSA id z2sm347362qtu.11.2020.08.25.14.58.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Aug 2020 14:58:01 -0700 (PDT)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] spapr,
- spapr_nvdimm: fold NVDIMM validation in the same place
-Date: Tue, 25 Aug 2020 18:57:48 -0300
-Message-Id: <20200825215749.213536-3-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200825215749.213536-1-danielhb413@gmail.com>
-References: <20200825215749.213536-1-danielhb413@gmail.com>
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=X9qEEMjQk+TM7XgbVKWryx3YB2XMwDW8oj4udKG4l5g=;
+ b=UhqdXhz+vQtKpvjDl+ZGkrmlUPyySg7Yfp4zGvv5DgIVU/E1tQ2Wl/dCZeccJ0SXQl
+ yVOagqQAddmBw0jMts5t4yOoJdQVmemFFzF7P+73BIBQAaZiGVzDuFYwOkbrY5P7REfD
+ Zo/qt4KYZ5Joe5COaD04DinNymovH7ChRyX8EQjyr/JeKCla0Yl+LSq2ZpaKhAFJ0oYE
+ qnjlPTgI0z073q1dYnoPgT/WV7jV7kpjTXGchFSVYvRXrso6EAE5ZYuc+yJ+HnmIuAQ/
+ Bqob4p7ZTyxfTZbLpoCGHtteF2FP5DhNRJ/EBgoYi28U0UyWQoK+Imsb8rlXGcOY4l5U
+ Tzow==
+X-Gm-Message-State: AOAM5325RjuQB1TvgL0z9yN4c14rlwi8cNf/a4Rj1VTWsPKG5k8ordeF
+ BLbDokXvyhLeoPQOLSzH1dD/x/X5v2kdsXD/QaQANuzCbdJC5JaxSlSpskjPEJNgLfsZEMe7TC0
+ /l2iR48LvoPI85Qk=
+X-Received: by 2002:a05:620a:22a1:: with SMTP id
+ p1mr4787993qkh.14.1598392680324; 
+ Tue, 25 Aug 2020 14:58:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxZwkFbHQEM1KP/jkcTAGd7bTS5JL8PD6Kl+ieLhqcWBvbk7EDULCTtKFS0EezlhhLgisHn4w==
+X-Received: by 2002:a05:620a:22a1:: with SMTP id
+ p1mr4787986qkh.14.1598392680097; 
+ Tue, 25 Aug 2020 14:58:00 -0700 (PDT)
+Received: from [192.168.0.172] (ip68-103-222-6.ks.ok.cox.net. [68.103.222.6])
+ by smtp.gmail.com with ESMTPSA id
+ s33sm237236qts.48.2020.08.25.14.57.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Aug 2020 14:57:59 -0700 (PDT)
+Subject: Re: [PATCH v3] block: Raise an error when backing file parameter is
+ an empty string
+From: Connor Kuehl <ckuehl@redhat.com>
+To: kwolf@redhat.com, mreitz@redhat.com
+References: <20200813134722.802180-1-ckuehl@redhat.com>
+Message-ID: <0977d901-c2fd-40b9-f694-914e1b895653@redhat.com>
+Date: Tue, 25 Aug 2020 16:57:58 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::842;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x842.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20200813134722.802180-1-ckuehl@redhat.com>
+Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ckuehl@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 17:42:55
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -56
+X-Spam_score: -5.7
+X-Spam_bar: -----
+X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.958,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.602, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,117 +102,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- david@gibson.dropbear.id.au
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-NVDIMM has different contraints and conditions than the regular
-DIMM and we'll need to add at least one more.
+On 8/13/20 8:47 AM, Connor Kuehl wrote:
+> Providing an empty string for the backing file parameter like so:
+> 
+> 	qemu-img create -f qcow2 -b '' /tmp/foo
+> 
+> allows the flow of control to reach and subsequently fail an assert
+> statement because passing an empty string to
+> 
+> 	bdrv_get_full_backing_filename_from_filename()
+> 
+> simply results in NULL being returned without an error being raised.
+> 
+> To fix this, let's check for an empty string when getting the value from
+> the opts list.
+> 
+> Reported-by: Attila Fazekas <afazekas@redhat.com>
+> Fixes: https://bugzilla.redhat.com/1809553
+> Signed-off-by: Connor Kuehl <ckuehl@redhat.com>
+> ---
+> v3:
+>    - Moved test case into 049 instead of taking up
+>      298.
+> 
+> v2:
+>    - Removed 4 spaces to resolve pylint warning
+>    - Updated format to be 'iotests.imgfmt' instead
+>      of hardcoding 'qcow2'
+>    - Use temporary file instead of '/tmp/foo'
+>    - Give a size parameter to qemu-img
+>    - Run test for qcow2, qcow, qed and *not* raw
 
-Instead of relying on 'if (nvdimm)' conditionals in the body of
-spapr_memory_pre_plug(), use the existing spapr_nvdimm_validate_opts()
-and put all NVDIMM handling code there. Rename it to
-spapr_nvdimm_validate() to reflect that the function is now checking
-more than the nvdimm device options. This makes spapr_memory_pre_plug()
-a bit easier to follow, and we can tune in NVDIMM parameters
-and validation in the same place.
-
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- hw/ppc/spapr.c                | 18 ++++++------------
- hw/ppc/spapr_nvdimm.c         | 10 ++++++++--
- include/hw/ppc/spapr_nvdimm.h |  4 ++--
- 3 files changed, 16 insertions(+), 16 deletions(-)
-
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index dd2fa4826b..b0a04443fb 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -3520,7 +3520,6 @@ static void spapr_memory_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
- {
-     const SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(hotplug_dev);
-     SpaprMachineState *spapr = SPAPR_MACHINE(hotplug_dev);
--    const MachineClass *mc = MACHINE_CLASS(smc);
-     bool is_nvdimm = object_dynamic_cast(OBJECT(dev), TYPE_NVDIMM);
-     PCDIMMDevice *dimm = PC_DIMM(dev);
-     Error *local_err = NULL;
-@@ -3533,27 +3532,22 @@ static void spapr_memory_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
-         return;
-     }
- 
--    if (is_nvdimm && !mc->nvdimm_supported) {
--        error_setg(errp, "NVDIMM hotplug not supported for this machine");
--        return;
--    }
--
-     size = memory_device_get_region_size(MEMORY_DEVICE(dimm), &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-         return;
-     }
- 
--    if (!is_nvdimm && size % SPAPR_MEMORY_BLOCK_SIZE) {
--        error_setg(errp, "Hotplugged memory size must be a multiple of "
--                   "%" PRIu64 " MB", SPAPR_MEMORY_BLOCK_SIZE / MiB);
--        return;
--    } else if (is_nvdimm) {
--        spapr_nvdimm_validate_opts(NVDIMM(dev), size, &local_err);
-+    if (is_nvdimm) {
-+        spapr_nvdimm_validate(hotplug_dev, NVDIMM(dev), size, &local_err);
-         if (local_err) {
-             error_propagate(errp, local_err);
-             return;
-         }
-+    } else if (size % SPAPR_MEMORY_BLOCK_SIZE) {
-+        error_setg(errp, "Hotplugged memory size must be a multiple of "
-+                   "%" PRIu64 " MB", SPAPR_MEMORY_BLOCK_SIZE / MiB);
-+        return;
-     }
- 
-     memdev = object_property_get_link(OBJECT(dimm), PC_DIMM_MEMDEV_PROP,
-diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
-index 9a20a65640..bc2b65420c 100644
---- a/hw/ppc/spapr_nvdimm.c
-+++ b/hw/ppc/spapr_nvdimm.c
-@@ -30,13 +30,19 @@
- #include "hw/ppc/fdt.h"
- #include "qemu/range.h"
- 
--void spapr_nvdimm_validate_opts(NVDIMMDevice *nvdimm, uint64_t size,
--                                Error **errp)
-+void spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
-+                           uint64_t size, Error **errp)
- {
-+    const MachineClass *mc = MACHINE_GET_CLASS(hotplug_dev);
-     g_autofree char *uuidstr = NULL;
-     QemuUUID uuid;
-     int ret;
- 
-+    if (!mc->nvdimm_supported) {
-+        error_setg(errp, "NVDIMM hotplug not supported for this machine");
-+        return;
-+    }
-+
-     if (object_property_get_int(OBJECT(nvdimm), NVDIMM_LABEL_SIZE_PROP,
-                                 &error_abort) == 0) {
-         error_setg(errp, "PAPR requires NVDIMM devices to have label-size set");
-diff --git a/include/hw/ppc/spapr_nvdimm.h b/include/hw/ppc/spapr_nvdimm.h
-index b3330cc485..fd1736634c 100644
---- a/include/hw/ppc/spapr_nvdimm.h
-+++ b/include/hw/ppc/spapr_nvdimm.h
-@@ -29,8 +29,8 @@ int spapr_pmem_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
-                            void *fdt, int *fdt_start_offset, Error **errp);
- int spapr_dt_nvdimm(void *fdt, int parent_offset, NVDIMMDevice *nvdimm);
- void spapr_dt_persistent_memory(void *fdt);
--void spapr_nvdimm_validate_opts(NVDIMMDevice *nvdimm, uint64_t size,
--                                Error **errp);
-+void spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
-+                           uint64_t size, Error **errp);
- void spapr_add_nvdimm(DeviceState *dev, uint64_t slot, Error **errp);
- void spapr_create_nvdimm_dr_connectors(SpaprMachineState *spapr);
- 
--- 
-2.26.2
+Ping
 
 
