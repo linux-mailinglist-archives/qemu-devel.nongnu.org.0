@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0D18251FF8
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 21:28:51 +0200 (CEST)
-Received: from localhost ([::1]:60578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73A5A251FFD
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 21:30:31 +0200 (CEST)
+Received: from localhost ([::1]:40848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAeck-0003gc-N6
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 15:28:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39510)
+	id 1kAeeM-000754-EC
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 15:30:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kAeVu-0007EU-MV
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:21:46 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51942
+ id 1kAeVy-0007Oh-Iv
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:21:50 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:34861
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kAeVr-00066D-Pq
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:21:46 -0400
+ id 1kAeVw-00067G-SA
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:21:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598383301;
+ s=mimecast20190719; t=1598383308;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TaAB5emtXZoCcvLOaGS24QxQgPQLSXo8gqtaC6P53zg=;
- b=DMh9gEBSI51j0xknv/OJz/NSBtApeTAfgLGf/DJ/edcd76ff9bPeulrPlsa/dhML0yOceb
- JHj1oWAZDlYLYriL90SwEAFJGdF+c6zeB85kZ8/RJlSyiU4/MaY5Z8n5C97t9bXckv1eQx
- znvKZqKbbHElEbQW9VxJf28RoQKsk1I=
+ bh=mPS0Kxl6xOaIxVH+LrL8xyENSTMDh7aIsJnItlJolQI=;
+ b=TtzNQYqIuI0Gfofgc2PcdpPtFi6IU6wbfFY/7ZPDlKej7zNYIDA7dgZLwxZAojMb2zOmXu
+ aJa2xnL/bXCP9/0vUD0yLhk851GAHXkLohUzpfy2/7e0FzrH3AnMduBo0ml7MCRO9XjWXC
+ iQyI+aFgLdFEQe5wWbLiru7/Pxoy96g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-339-xyoXwR8oM4OBOc6ythbeFw-1; Tue, 25 Aug 2020 15:21:39 -0400
-X-MC-Unique: xyoXwR8oM4OBOc6ythbeFw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-135-9whbQ3p7Oomht_edHC8bzA-1; Tue, 25 Aug 2020 15:21:43 -0400
+X-MC-Unique: 9whbQ3p7Oomht_edHC8bzA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5F851005E7A;
- Tue, 25 Aug 2020 19:21:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 479C681CAFC;
+ Tue, 25 Aug 2020 19:21:42 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7262819C58;
- Tue, 25 Aug 2020 19:21:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 76FF35D9D3;
+ Tue, 25 Aug 2020 19:21:39 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 13/74] hvf: Add missing include
-Date: Tue, 25 Aug 2020 15:20:09 -0400
-Message-Id: <20200825192110.3528606-14-ehabkost@redhat.com>
+Subject: [PATCH v3 14/74] hcd-dwc2: Rename USB_*CLASS macros for consistency
+Date: Tue, 25 Aug 2020 15:20:10 -0400
+Message-Id: <20200825192110.3528606-15-ehabkost@redhat.com>
 In-Reply-To: <20200825192110.3528606-1-ehabkost@redhat.com>
 References: <20200825192110.3528606-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.002
@@ -82,19 +82,17 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, Cameron Esfahani <dirty@apple.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The sysemu/accel.h header is needed for the ACCEL_CLASS_NAME
-macro.  This will be necessary to allow us to use OBJECT_DEFINE*()
-for TYPE_HVF_ACCEL.
+Rename the DWC2_CLASS to DWC2_USB_CLASS and DWC2_GET_CLASS to
+DWC2_USB_GET_CLASS, for consistency with the DWC2_USB macro.
 
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
 Changes v2 -> v3: none
@@ -102,26 +100,69 @@ Changes v2 -> v3: none
 Changes v1 -> v2: none
 
 ---
-Cc: Cameron Esfahani <dirty@apple.com>
-Cc: Roman Bolshakov <r.bolshakov@yadro.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- include/sysemu/hvf.h | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/usb/hcd-dwc2.h | 4 ++--
+ hw/usb/hcd-dwc2.c | 8 ++++----
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/include/sysemu/hvf.h b/include/sysemu/hvf.h
-index 6d3ee4fdb7..d3bed80ea8 100644
---- a/include/sysemu/hvf.h
-+++ b/include/sysemu/hvf.h
-@@ -13,6 +13,8 @@
- #ifndef HVF_H
- #define HVF_H
+diff --git a/hw/usb/hcd-dwc2.h b/hw/usb/hcd-dwc2.h
+index 4ba809a07b..54111d835e 100644
+--- a/hw/usb/hcd-dwc2.h
++++ b/hw/usb/hcd-dwc2.h
+@@ -182,9 +182,9 @@ struct DWC2Class {
+ #define TYPE_DWC2_USB   "dwc2-usb"
+ #define DWC2_USB(obj) \
+     OBJECT_CHECK(DWC2State, (obj), TYPE_DWC2_USB)
+-#define DWC2_CLASS(klass) \
++#define DWC2_USB_CLASS(klass) \
+     OBJECT_CLASS_CHECK(DWC2Class, (klass), TYPE_DWC2_USB)
+-#define DWC2_GET_CLASS(obj) \
++#define DWC2_USB_GET_CLASS(obj) \
+     OBJECT_GET_CLASS(DWC2Class, (obj), TYPE_DWC2_USB)
  
-+#include "sysemu/accel.h"
-+
- #ifdef CONFIG_HVF
- uint32_t hvf_get_supported_cpuid(uint32_t func, uint32_t idx,
-                                  int reg);
+ #endif
+diff --git a/hw/usb/hcd-dwc2.c b/hw/usb/hcd-dwc2.c
+index 56f91f6bee..97688d21bf 100644
+--- a/hw/usb/hcd-dwc2.c
++++ b/hw/usb/hcd-dwc2.c
+@@ -1155,7 +1155,7 @@ static void dwc2_work_timer(void *opaque)
+ 
+ static void dwc2_reset_enter(Object *obj, ResetType type)
+ {
+-    DWC2Class *c = DWC2_GET_CLASS(obj);
++    DWC2Class *c = DWC2_USB_GET_CLASS(obj);
+     DWC2State *s = DWC2_USB(obj);
+     int i;
+ 
+@@ -1239,7 +1239,7 @@ static void dwc2_reset_enter(Object *obj, ResetType type)
+ 
+ static void dwc2_reset_hold(Object *obj)
+ {
+-    DWC2Class *c = DWC2_GET_CLASS(obj);
++    DWC2Class *c = DWC2_USB_GET_CLASS(obj);
+     DWC2State *s = DWC2_USB(obj);
+ 
+     trace_usb_dwc2_reset_hold();
+@@ -1253,7 +1253,7 @@ static void dwc2_reset_hold(Object *obj)
+ 
+ static void dwc2_reset_exit(Object *obj)
+ {
+-    DWC2Class *c = DWC2_GET_CLASS(obj);
++    DWC2Class *c = DWC2_USB_GET_CLASS(obj);
+     DWC2State *s = DWC2_USB(obj);
+ 
+     trace_usb_dwc2_reset_exit();
+@@ -1382,7 +1382,7 @@ static Property dwc2_usb_properties[] = {
+ static void dwc2_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+-    DWC2Class *c = DWC2_CLASS(klass);
++    DWC2Class *c = DWC2_USB_CLASS(klass);
+     ResettableClass *rc = RESETTABLE_CLASS(klass);
+ 
+     dc->realize = dwc2_realize;
 -- 
 2.26.2
 
