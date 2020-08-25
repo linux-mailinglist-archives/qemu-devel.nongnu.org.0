@@ -2,72 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C43E250CF1
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 02:27:33 +0200 (CEST)
-Received: from localhost ([::1]:36926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93A3C250CE7
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 02:24:25 +0200 (CEST)
+Received: from localhost ([::1]:52760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAMoG-0004Ax-Nq
-	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 20:27:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45428)
+	id 1kAMlE-0007VN-KF
+	for lists+qemu-devel@lfdr.de; Mon, 24 Aug 2020 20:24:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3plhEXwsKCmkOZRPUULTVLUNVVNSL.JVTXLTb-KLcLSUVUNUb.VYN@flex--hskinnemoen.bounces.google.com>)
- id 1kAMer-0004Tp-7A
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 20:17:49 -0400
-Received: from mail-pf1-x44a.google.com ([2607:f8b0:4864:20::44a]:37492)
+ <3qFhEXwsKCmsQbTRWWNVXNWPXXPUN.LXVZNVd-MNeNUWXWPWd.XaP@flex--hskinnemoen.bounces.google.com>)
+ id 1kAMes-0004Va-Vy
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 20:17:51 -0400
+Received: from mail-yb1-xb49.google.com ([2607:f8b0:4864:20::b49]:38511)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3plhEXwsKCmkOZRPUULTVLUNVVNSL.JVTXLTb-KLcLSUVUNUb.VYN@flex--hskinnemoen.bounces.google.com>)
- id 1kAMeo-00069K-8i
- for qemu-devel@nongnu.org; Mon, 24 Aug 2020 20:17:48 -0400
-Received: by mail-pf1-x44a.google.com with SMTP id r25so7148155pfg.4
- for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 17:17:43 -0700 (PDT)
+ <3qFhEXwsKCmsQbTRWWNVXNWPXXPUN.LXVZNVd-MNeNUWXWPWd.XaP@flex--hskinnemoen.bounces.google.com>)
+ id 1kAMep-00069Y-Q1
+ for qemu-devel@nongnu.org; Mon, 24 Aug 2020 20:17:50 -0400
+Received: by mail-yb1-xb49.google.com with SMTP id l13so12783461ybf.5
+ for <qemu-devel@nongnu.org>; Mon, 24 Aug 2020 17:17:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=sender:date:in-reply-to:message-id:mime-version:references:subject
- :from:to:cc:content-transfer-encoding;
- bh=rUEKve2Wm610Ab3YZTjgeg13+EN7IVaTgjJRV1dAi30=;
- b=eaBeM5FAdIxeoIk+u2nsWVVLQ9Y6q9BI8H73hYy0GFDFwDIc+aFQjVMILysLfcQGcI
- yqEo4FFgkbgOQjmKmwi/jaC9EHtHHWpFC4kbTDjEvown3U1S8+3cVPx0auUJBwSb8Qow
- sTq0kcVgrkUsvDafqMhVsyL6SQEP+vg5Ox9SqNzgsduDj+k1kFa1NwGEVhbqj1dtpaZW
- wyY2qKjcDvWQCne0Zk30RuhTpDVFcbC3d/et14szMRGqWpMUtDTenJx/h4GN6Cl+XdKJ
- 73L1a9ZrW5rAXPx8qukV+6MlzKBCeJLD97sPmnB0u+h95SPj+GCFBIrpTdCxQ1rPPVGr
- /+qQ==
+ :from:to:cc; bh=1eUKc4mUKGxpAfRnn7edRuE+wT0NYPxDKPSyLd06AXc=;
+ b=i93oxQc97gPif+5l4MHVqnL0YPMUFlN8wvY3LI9yWOg2mHfMPjZqLRqsQqH2ZNGD53
+ uevKckWnlmqo2HG4m9p3FxLYYDgsBVFk9xZWf/KjF2fUZs5BsaAWOeV4lmHe6Gq0PIOl
+ y6Veokzd3DM7fI5DO3EJks/63EmZLKJv3cqzXJgtrkQZiCw0Gprnq9eDBr9VoskVB/r0
+ Gx5cQilHKjRRZhTJU8mvC8ZRDoq+TERAdsnDFDiUBLK6dXDvenB55D3Uo6awa9Mc5O5M
+ Hs14JjX+++uxtEQMY7VDFU9ZhHS1H39ct+JdyNTxAL1h7DlL0/4TStCHfNv8v5CwEbtF
+ Vcxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
- :references:subject:from:to:cc:content-transfer-encoding;
- bh=rUEKve2Wm610Ab3YZTjgeg13+EN7IVaTgjJRV1dAi30=;
- b=ChG5hNiVIkL03zBV1K/bxzTXfkI2PQdD5AZ4CUlinSt66WYHDxtuFQVAHccSfsFTTr
- bg6XFHCNQdxHYDxK/ceNGOuDS/OL4mTnaZgqYKszEmRQKvrdX9QHLvTjchgZW/sdxRhB
- m8JNLLj9E7EbRjg1PmcXA6baA5v7ngkR6xh6PUEgAuZ0zWsdMw2UrJ5ckc2lShJiUtDD
- Ss8OSzd0ze6Yh9EeA2nRoWi0TaGw1tnXICPh9Altcv9g2o/9WdexjXD10U8N6IuMuPsk
- dJm2qfAWZtfHGpzikG4Dcf/c1vxxz4W4WbHcxvorjb9ppEoTW3zB1rP27s6l6qrk2MDy
- jHxw==
-X-Gm-Message-State: AOAM532DdtyiaSXb0HgBNBWOFwzxLjzEtYZ2GXx1FwC2F1unvfYrb4TE
- MK0j/rr2bOffu2Shb+zBZlw1bItnOYip9/VPCQ==
-X-Google-Smtp-Source: ABdhPJyXKATQz5envJ95iECO18KZ3rjmNjvy4ZdFihaEp+YKTlWQzeZ/uxPtFOsPsInZv1HQR3kYyCjKRdbo9GqMQA==
+ :references:subject:from:to:cc;
+ bh=1eUKc4mUKGxpAfRnn7edRuE+wT0NYPxDKPSyLd06AXc=;
+ b=DG6IyTmWVKlloM0kPsUCtD36PhAv0N4fLVxWw5zisma/mkCTv/qc1ESIk/l+JIuQ8Z
+ Jef1zxeZ/Fn/SiRXJVYzv80Z1Kx571nM0hDdq1+ru6CPo+xzGiIRjQpv0DekepTAgtc7
+ r8B1Yq9fIlRWq8qUA2LKMRX/iBKxn3mIfTt5quWbwj/snIJhnVGynzdAZ/MIOikZlqx5
+ Fd+D0UBXsUOX3Lm71xDIypATj+7bzz93UIFHZvdUz+CIPYYDV52k5/VO9oLy42wc0LFE
+ u4m6BcSeip9UjRS5m+X8f5opEmIDkT/zk7L0PvUA7kMya5gG7tYLP2BcLVmbge2bDIm+
+ 5dmQ==
+X-Gm-Message-State: AOAM530obiKZyslmqCKgNeKazk0qkqQCiYiZr/51L99pGW0lpDDG+d3i
+ 3lQaGd1ajRs1EHPKsvRn3mMaNRwtntHbH5fPjQ==
+X-Google-Smtp-Source: ABdhPJzd9A40C16FQ7mckCF2szmBWC4wIp0sz2fyD7zOHFPIGpTyPZMmbiOUOa0VGQUEpRzvWd2lKxkp0bX+4XYlTg==
 X-Received: from skybert.c.googlers.com ([fda3:e722:ac3:10:24:72f4:c0a8:3107])
- (user=hskinnemoen job=sendgmr) by 2002:a17:902:6a88:: with SMTP id
- n8mr5816600plk.261.1598314662166;
- Mon, 24 Aug 2020 17:17:42 -0700 (PDT)
-Date: Mon, 24 Aug 2020 17:17:08 -0700
+ (user=hskinnemoen job=sendgmr) by 2002:a25:9004:: with SMTP id
+ s4mr10468658ybl.247.1598314664144; Mon, 24 Aug 2020 17:17:44 -0700 (PDT)
+Date: Mon, 24 Aug 2020 17:17:09 -0700
 In-Reply-To: <20200825001711.1340443-1-hskinnemoen@google.com>
-Message-Id: <20200825001711.1340443-12-hskinnemoen@google.com>
+Message-Id: <20200825001711.1340443-13-hskinnemoen@google.com>
 Mime-Version: 1.0
 References: <20200825001711.1340443-1-hskinnemoen@google.com>
 X-Mailer: git-send-email 2.28.0.297.g1956fa8f8d-goog
-Subject: [PATCH v8 11/14] hw/arm: Wire up BMC boot flash for npcm750-evb and
- quanta-gsj
+Subject: [PATCH v8 12/14] hw/arm/npcm7xx: add board setup stub for CPU and
+ UART clocks
 To: peter.maydell@linaro.org, f4bug@amsat.org
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, Avi.Fishman@nuvoton.com, 
- kfting@nuvoton.com, Havard Skinnemoen <hskinnemoen@google.com>, 
- "=?UTF-8?q?C=C3=A9dric=20Le=20Goater?=" <clg@kaod.org>
+ kfting@nuvoton.com, Havard Skinnemoen <hskinnemoen@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::44a;
- envelope-from=3plhEXwsKCmkOZRPUULTVLUNVVNSL.JVTXLTb-KLcLSUVUNUb.VYN@flex--hskinnemoen.bounces.google.com;
- helo=mail-pf1-x44a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b49;
+ envelope-from=3qFhEXwsKCmsQbTRWWNVXNWPXXPUN.LXVZNVd-MNeNUWXWPWd.XaP@flex--hskinnemoen.bounces.google.com;
+ helo=mail-yb1-xb49.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -95
@@ -94,79 +90,97 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Havard Skinnemoen <hskinnemoen@google.com>
 From: Havard Skinnemoen via <qemu-devel@nongnu.org>
 
-This allows these NPCM7xx-based boards to boot from a flash image, e.g.
-one built with OpenBMC. For example like this:
+When booting directly into a kernel, bypassing the boot loader, the CPU and
+UART clocks are not set up correctly. This makes the system appear very
+slow, and causes the initrd boot test to fail when optimization is off.
 
-IMAGE=3D${OPENBMC}/build/tmp/deploy/images/gsj/image-bmc
-qemu-system-arm -machine quanta-gsj -nographic \
-	-drive file=3D${IMAGE},if=3Dmtd,bus=3D0,unit=3D0,format=3Draw,snapshot=3Do=
-n
+The UART clock must run at 24 MHz. The default 25 MHz reference clock
+cannot achieve this, so switch to PLL2/2 @ 480 MHz, which works
+perfectly with the default /20 divider.
 
-Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Tested-by: C=C3=A9dric Le Goater <clg@kaod.org>
+The CPU clock should run at 800 MHz, so switch it to PLL1/2. PLL1 runs
+at 800 MHz by default, so we need to double the feedback divider as well
+to make it run at 1600 MHz (so PLL1/2 runs at 800 MHz).
+
+We don't bother checking for PLL lock because we know our emulated PLLs
+lock instantly.
+
 Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
 ---
- hw/arm/npcm7xx_boards.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ include/hw/arm/npcm7xx.h |  1 +
+ hw/arm/npcm7xx.c         | 32 ++++++++++++++++++++++++++++++++
+ 2 files changed, 33 insertions(+)
 
-diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
-index b67e45e913..70e5c34216 100644
---- a/hw/arm/npcm7xx_boards.c
-+++ b/hw/arm/npcm7xx_boards.c
-@@ -19,6 +19,7 @@
- #include "hw/arm/npcm7xx.h"
- #include "hw/core/cpu.h"
- #include "hw/loader.h"
-+#include "hw/qdev-properties.h"
- #include "qapi/error.h"
- #include "qemu-common.h"
- #include "qemu/units.h"
-@@ -55,6 +56,22 @@ static void npcm7xx_load_bootrom(MachineState *machine, =
-NPCM7xxState *soc)
-     }
- }
-=20
-+static void npcm7xx_connect_flash(NPCM7xxFIUState *fiu, int cs_no,
-+                                  const char *flash_type, DriveInfo *dinfo=
-)
+diff --git a/include/hw/arm/npcm7xx.h b/include/hw/arm/npcm7xx.h
+index 78d0d78c52..13106af215 100644
+--- a/include/hw/arm/npcm7xx.h
++++ b/include/hw/arm/npcm7xx.h
+@@ -37,6 +37,7 @@
+ #define NPCM7XX_SMP_LOADER_START        (0xffff0000)  /* Boot ROM */
+ #define NPCM7XX_SMP_BOOTREG_ADDR        (0xf080013c)  /* GCR.SCRPAD */
+ #define NPCM7XX_GIC_CPU_IF_ADDR         (0xf03fe100)  /* GIC within A9 */
++#define NPCM7XX_BOARD_SETUP_ADDR        (0xffff1000)  /* Boot ROM */
+ 
+ typedef struct NPCM7xxMachine {
+     MachineState        parent;
+diff --git a/hw/arm/npcm7xx.c b/hw/arm/npcm7xx.c
+index 7884b2b03d..037f3a26f2 100644
+--- a/hw/arm/npcm7xx.c
++++ b/hw/arm/npcm7xx.c
+@@ -55,6 +55,13 @@
+ #define NPCM7XX_ROM_BA          (0xffff0000)
+ #define NPCM7XX_ROM_SZ          (64 * KiB)
+ 
++/* Clock configuration values to be fixed up when bypassing bootloader */
++
++/* Run PLL1 at 1600 MHz */
++#define NPCM7XX_PLLCON1_FIXUP_VAL   (0x00402101)
++/* Run the CPU from PLL1 and UART from PLL2 */
++#define NPCM7XX_CLKSEL_FIXUP_VAL    (0x004aaba9)
++
+ /*
+  * Interrupt lines going into the GIC. This does not include internal Cortex-A9
+  * interrupts.
+@@ -132,6 +139,29 @@ static const struct {
+     },
+ };
+ 
++static void npcm7xx_write_board_setup(ARMCPU *cpu,
++                                      const struct arm_boot_info *info)
 +{
-+    DeviceState *flash;
-+    qemu_irq flash_cs;
++    uint32_t board_setup[] = {
++        0xe59f0010,     /* ldr r0, clk_base_addr */
++        0xe59f1010,     /* ldr r1, pllcon1_value */
++        0xe5801010,     /* str r1, [r0, #16] */
++        0xe59f100c,     /* ldr r1, clksel_value */
++        0xe5801004,     /* str r1, [r0, #4] */
++        0xe12fff1e,     /* bx lr */
++        NPCM7XX_CLK_BA,
++        NPCM7XX_PLLCON1_FIXUP_VAL,
++        NPCM7XX_CLKSEL_FIXUP_VAL,
++    };
++    int i;
 +
-+    flash =3D qdev_new(flash_type);
-+    if (dinfo) {
-+        qdev_prop_set_drive(flash, "drive", blk_by_legacy_dinfo(dinfo));
++    for (i = 0; i < ARRAY_SIZE(board_setup); i++) {
++        board_setup[i] = tswap32(board_setup[i]);
 +    }
-+    qdev_realize_and_unref(flash, BUS(fiu->spi), &error_fatal);
-+
-+    flash_cs =3D qdev_get_gpio_in_named(flash, SSI_GPIO_CS, 0);
-+    qdev_connect_gpio_out_named(DEVICE(fiu), "cs", cs_no, flash_cs);
++    rom_add_blob_fixed("board-setup", board_setup, sizeof(board_setup),
++                       info->board_setup_addr);
 +}
 +
- static void npcm7xx_connect_dram(NPCM7xxState *soc, MemoryRegion *dram)
+ static void npcm7xx_write_secondary_boot(ARMCPU *cpu,
+                                          const struct arm_boot_info *info)
  {
-     memory_region_add_subregion(get_system_memory(), NPCM7XX_DRAM_BA, dram=
-);
-@@ -92,6 +109,7 @@ static void npcm750_evb_init(MachineState *machine)
-     qdev_realize(DEVICE(soc), NULL, &error_fatal);
-=20
-     npcm7xx_load_bootrom(machine, soc);
-+    npcm7xx_connect_flash(&soc->fiu[0], 0, "w25q256", drive_get(IF_MTD, 0,=
- 0));
-     npcm7xx_load_kernel(machine, soc);
- }
-=20
-@@ -104,6 +122,8 @@ static void quanta_gsj_init(MachineState *machine)
-     qdev_realize(DEVICE(soc), NULL, &error_fatal);
-=20
-     npcm7xx_load_bootrom(machine, soc);
-+    npcm7xx_connect_flash(&soc->fiu[0], 0, "mx25l25635e",
-+                          drive_get(IF_MTD, 0, 0));
-     npcm7xx_load_kernel(machine, soc);
- }
-=20
---=20
+@@ -170,6 +200,8 @@ static struct arm_boot_info npcm7xx_binfo = {
+     .gic_cpu_if_addr        = NPCM7XX_GIC_CPU_IF_ADDR,
+     .write_secondary_boot   = npcm7xx_write_secondary_boot,
+     .board_id               = -1,
++    .board_setup_addr       = NPCM7XX_BOARD_SETUP_ADDR,
++    .write_board_setup      = npcm7xx_write_board_setup,
+ };
+ 
+ void npcm7xx_load_kernel(MachineState *machine, NPCM7xxState *soc)
+-- 
 2.28.0.297.g1956fa8f8d-goog
 
 
