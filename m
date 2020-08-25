@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19BC62522B4
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:23:45 +0200 (CEST)
-Received: from localhost ([::1]:50068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FDEB2522BA
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:25:29 +0200 (CEST)
+Received: from localhost ([::1]:58404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAgPw-0003YS-3s
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:23:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36596)
+	id 1kAgRc-0006ug-Iy
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:25:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kAg4M-0000hB-Ce
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:01:26 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:35182)
+ id 1kAg4P-0000jL-6m
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:01:29 -0400
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:53406)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kAg4K-00024D-HU
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:01:26 -0400
-Received: by mail-pg1-x542.google.com with SMTP id o5so7680871pgb.2
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 14:01:23 -0700 (PDT)
+ id 1kAg4M-00024P-AL
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:01:28 -0400
+Received: by mail-pj1-x1044.google.com with SMTP id nv17so123759pjb.3
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 14:01:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LiD17jdfSZ6zoYmLZKhAoxxQtSYU9ummw+8AuEiDbOo=;
- b=R8tZQiaLS9/YAgwtVCL2/g3j86yToLIsJ+rqSz4s2NVvAGijfAOr3EgpEkZSsDg+Zc
- tc0OjblT7GK99/ZaFQkL6ecNEO4jV+QnFIk7r/VxhyneRzmbNQp1OjVpYknpj6u+YbFU
- uJU+2pAm9bRiKbLfG9rQaciVloKr2k0WwUQ33xvZcL3Rm7DYocpWJbjhqChwHQcccXmN
- mbVAAxnscPBXnpU6kALbykHm0FCjrX211Orz09JG/PUUB67gToYpDGLGhTalPLe8NWBt
- q625uOtBDPC++jsl1WeUUav8q5ipSK/jItYB0nkoU0YXpa86z88E5sEL+SEADLM4YYAR
- FciA==
+ bh=vxCtytkH7BxiV9VxvRB9+Cp9GCqZrISTLIGoNOFV/HY=;
+ b=MRRkThJ+jj13lgnIj+Z2+hpO/ieiSwhs+37RC4PFmMne9X2WsyDsTzrupZU7VJwx8h
+ ORH7RGkU3ZonKxZgNelTDM6ue1oFf/QnoeZJ6u0SoeCtRHByfz9hBaVDHJM4Tb1w9b1b
+ aj9Fl+9AiKGFgxrPaVZaJOiRtjWnxtrQmH3R2jp46v3rTYX5smG/DKPWNaPTjBFtptIk
+ sxQZIuAI0jRhYohlU6cUgGS1+LLDaGKwGJYvxBdj/EKal97UuB/EYx9PGwdNeLMjWdzM
+ OVNIoAaa0/qciXFGK9NDqleC9IxqRIg39L9WQIJgoQ9gXziPFhvValawt/0vEQrrFPFm
+ fTLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LiD17jdfSZ6zoYmLZKhAoxxQtSYU9ummw+8AuEiDbOo=;
- b=V/Kh0wofEfWvVSKX5t83gKxlYvDOv7oGYZkzDfr564mf8xLAF+4vyOQ0jeBvZ80dke
- zz/9+O1/9/qgIyi1NCKe2P8GZgqWxzwLDxbOMT6y6kTXAWCBlTTwpMT8rQOCd7lGS5Wa
- nX78qKm83JC+sA2HUKrI4vJadOPvPiPFOT+jr9Z/SlSKhyBJLxGWl7AEsvZrPkfgrzBJ
- s8KVswQQOCquWDSsd+VodEe2PtKD/WHMPlneU3VaN+qKK5bELQlpdNMMKr+twdxGqSBj
- pp3uGZglzhEdQ9Hzoxt685atQu1XfXSq9PVg5861dsbZeTxqMz/pGOqzM/bQZ9S4QLMI
- UsSg==
-X-Gm-Message-State: AOAM533UoL63PJL2n0Di1WnIOkC3x06HJqUDV8bwiPowVyFOoMy2qcCr
- BEonSicOZEx83d9L8jVodxaobrGmWYykZQ==
-X-Google-Smtp-Source: ABdhPJwvBfhMZPsw/skpHFho6dPD08MWClD6suBhACS9fU261+PYBH/tuWmgZbJInbpQSjlNBnC6Ig==
-X-Received: by 2002:a05:6a00:2285:: with SMTP id
- f5mr9213748pfe.173.1598389282779; 
- Tue, 25 Aug 2020 14:01:22 -0700 (PDT)
+ bh=vxCtytkH7BxiV9VxvRB9+Cp9GCqZrISTLIGoNOFV/HY=;
+ b=rzfwjWrpwyG3/7Pyc6G7rSGFRaOqx9RY0CUCjJeKWCZYBpRwnwukb3SWwfvwHUgAdD
+ 7MB/szTWZHPEyrSgpvAGFsKXRf8gF5m5XOTKmcZ629yHxm81+17RyzaKMvMw1uQ9lGrN
+ 61wm1/s+Md9CXcys/Fb2NPnSXsd1t7UBwlV8t4+sjR0DuYZt+xS/41nwLJtkKLz4asCZ
+ XLlEJPX4nBqpE6po2PFNFTKhx+NmJ/IN+l9SQ8XwUsCW14U2jxt2bkvlqqT1BIExDTbW
+ yQkZNGHVg1yqsQfDbF3uFadYUmO0Kq8+ghmUX7Eh4vscbjWSiU8JcfsgGaCF7ysJjR8Z
+ I+Zg==
+X-Gm-Message-State: AOAM531CLjVjDhmIjXdxbspjayOqybMLvSTuwn/5An7PPIaK6Au1X4VI
+ pMCVL4RhVBTSdDHKcr2PC3H3M+dfx90BHw==
+X-Google-Smtp-Source: ABdhPJyVU0oHRJ0p9SnirYLxVfjwUnNBvM3+RWnMiTok2zhu1tDL9lqSgx+f+lIFx8qPQYMf6z5Lig==
+X-Received: by 2002:a17:90a:a101:: with SMTP id
+ s1mr2843739pjp.205.1598389284668; 
+ Tue, 25 Aug 2020 14:01:24 -0700 (PDT)
 Received: from localhost.localdomain
  (h216-228-167-147.bendor.dedicated.static.tds.net. [216.228.167.147])
- by smtp.gmail.com with ESMTPSA id k4sm16074pgr.87.2020.08.25.14.01.21
+ by smtp.gmail.com with ESMTPSA id k4sm16074pgr.87.2020.08.25.14.01.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Aug 2020 14:01:21 -0700 (PDT)
+ Tue, 25 Aug 2020 14:01:23 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 69/77] target/microblaze: Convert dec_rts to decodetree
-Date: Tue, 25 Aug 2020 13:59:42 -0700
-Message-Id: <20200825205950.730499-70-richard.henderson@linaro.org>
+Subject: [PATCH 70/77] target/microblaze: Tidy do_rti, do_rtb, do_rte
+Date: Tue, 25 Aug 2020 13:59:43 -0700
+Message-Id: <20200825205950.730499-71-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200825205950.730499-1-richard.henderson@linaro.org>
 References: <20200825205950.730499-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x542.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1044.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,107 +90,103 @@ Cc: edgar.iglesias@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Since cpu_msr is no longer a 64-bit quantity, we can simplify
+the arithmetic in these functions.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/insns.decode |  5 ++++
- target/microblaze/translate.c  | 54 +++++++++++++++-------------------
- 2 files changed, 29 insertions(+), 30 deletions(-)
+ target/microblaze/translate.c | 65 ++++++++++++++---------------------
+ 1 file changed, 25 insertions(+), 40 deletions(-)
 
-diff --git a/target/microblaze/insns.decode b/target/microblaze/insns.decode
-index 21d08289f7..f12e85b492 100644
---- a/target/microblaze/insns.decode
-+++ b/target/microblaze/insns.decode
-@@ -199,6 +199,11 @@ rsubic          001011 ..... ..... ................     @typeb
- rsubik          001101 ..... ..... ................     @typeb
- rsubikc         001111 ..... ..... ................     @typeb
- 
-+rtbd            101101 10010 ..... ................     @typeb_bc
-+rtid            101101 10001 ..... ................     @typeb_bc
-+rted            101101 10100 ..... ................     @typeb_bc
-+rtsd            101101 10000 ..... ................     @typeb_bc
-+
- sb              110100 ..... ..... ..... 0000 000 0000  @typea
- sbr             110100 ..... ..... ..... 0100 000 0000  @typea
- sbea            110100 ..... ..... ..... 0001 000 0000  @typea
 diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index f79b02e987..22569693f7 100644
+index 22569693f7..71ceabfffd 100644
 --- a/target/microblaze/translate.c
 +++ b/target/microblaze/translate.c
-@@ -1291,6 +1291,30 @@ static bool trans_mbar(DisasContext *dc, arg_mbar *arg)
-     return true;
+@@ -1521,59 +1521,44 @@ static void dec_msr(DisasContext *dc)
+     }
  }
  
-+static bool do_rts(DisasContext *dc, arg_typeb_bc *arg, int to_set)
-+{
-+    if (trap_userspace(dc, to_set)) {
-+        return true;
-+    }
-+    if (setup_dslot(dc)) {
-+        return true;
-+    }
-+    dc->tb_flags_to_set |= to_set;
-+
-+    dc->jmp_cond = TCG_COND_ALWAYS;
-+    dc->jmp_dest = -1;
-+    tcg_gen_addi_i32(cpu_btarget, reg_for_read(dc, arg->ra), arg->imm);
-+    return true;
-+}
-+
-+#define DO_RTS(NAME, IFLAG) \
-+    static bool trans_##NAME(DisasContext *dc, arg_typeb_bc *arg) \
-+    { return do_rts(dc, arg, IFLAG); }
-+
-+DO_RTS(rtbd, DRTB_FLAG)
-+DO_RTS(rtid, DRTI_FLAG)
-+DO_RTS(rted, DRTE_FLAG)
-+DO_RTS(rtsd, 0)
- 
- static void msr_read(DisasContext *dc, TCGv_i32 d)
+-static inline void do_rti(DisasContext *dc)
++static void do_rti(DisasContext *dc)
  {
-@@ -1553,35 +1577,6 @@ static inline void do_rte(DisasContext *dc)
+-    TCGv_i32 t0, t1;
+-    t0 = tcg_temp_new_i32();
+-    t1 = tcg_temp_new_i32();
+-    tcg_gen_mov_i32(t1, cpu_msr);
+-    tcg_gen_shri_i32(t0, t1, 1);
+-    tcg_gen_ori_i32(t1, t1, MSR_IE);
+-    tcg_gen_andi_i32(t0, t0, (MSR_VM | MSR_UM));
++    TCGv_i32 tmp = tcg_temp_new_i32();
+ 
+-    tcg_gen_andi_i32(t1, t1, ~(MSR_VM | MSR_UM));
+-    tcg_gen_or_i32(t1, t1, t0);
+-    msr_write(dc, t1);
+-    tcg_temp_free_i32(t1);
+-    tcg_temp_free_i32(t0);
++    tcg_gen_shri_i32(tmp, cpu_msr, 1);
++    tcg_gen_ori_i32(cpu_msr, cpu_msr, MSR_IE);
++    tcg_gen_andi_i32(tmp, tmp, MSR_VM | MSR_UM);
++    tcg_gen_andi_i32(cpu_msr, cpu_msr, ~(MSR_VM | MSR_UM));
++    tcg_gen_or_i32(cpu_msr, cpu_msr, tmp);
++
++    tcg_temp_free_i32(tmp);
+     dc->tb_flags &= ~DRTI_FLAG;
+ }
+ 
+-static inline void do_rtb(DisasContext *dc)
++static void do_rtb(DisasContext *dc)
+ {
+-    TCGv_i32 t0, t1;
+-    t0 = tcg_temp_new_i32();
+-    t1 = tcg_temp_new_i32();
+-    tcg_gen_mov_i32(t1, cpu_msr);
+-    tcg_gen_andi_i32(t1, t1, ~MSR_BIP);
+-    tcg_gen_shri_i32(t0, t1, 1);
+-    tcg_gen_andi_i32(t0, t0, (MSR_VM | MSR_UM));
++    TCGv_i32 tmp = tcg_temp_new_i32();
+ 
+-    tcg_gen_andi_i32(t1, t1, ~(MSR_VM | MSR_UM));
+-    tcg_gen_or_i32(t1, t1, t0);
+-    msr_write(dc, t1);
+-    tcg_temp_free_i32(t1);
+-    tcg_temp_free_i32(t0);
++    tcg_gen_shri_i32(tmp, cpu_msr, 1);
++    tcg_gen_andi_i32(cpu_msr, cpu_msr, ~(MSR_VM | MSR_UM | MSR_BIP));
++    tcg_gen_andi_i32(tmp, tmp, (MSR_VM | MSR_UM));
++    tcg_gen_or_i32(cpu_msr, cpu_msr, tmp);
++
++    tcg_temp_free_i32(tmp);
+     dc->tb_flags &= ~DRTB_FLAG;
+ }
+ 
+-static inline void do_rte(DisasContext *dc)
++static void do_rte(DisasContext *dc)
+ {
+-    TCGv_i32 t0, t1;
+-    t0 = tcg_temp_new_i32();
+-    t1 = tcg_temp_new_i32();
++    TCGv_i32 tmp = tcg_temp_new_i32();
+ 
+-    tcg_gen_mov_i32(t1, cpu_msr);
+-    tcg_gen_ori_i32(t1, t1, MSR_EE);
+-    tcg_gen_andi_i32(t1, t1, ~MSR_EIP);
+-    tcg_gen_shri_i32(t0, t1, 1);
+-    tcg_gen_andi_i32(t0, t0, (MSR_VM | MSR_UM));
++    tcg_gen_shri_i32(tmp, cpu_msr, 1);
++    tcg_gen_ori_i32(cpu_msr, cpu_msr, MSR_EE);
++    tcg_gen_andi_i32(tmp, tmp, (MSR_VM | MSR_UM));
++    tcg_gen_andi_i32(cpu_msr, cpu_msr, ~(MSR_VM | MSR_UM | MSR_EIP));
++    tcg_gen_or_i32(cpu_msr, cpu_msr, tmp);
+ 
+-    tcg_gen_andi_i32(t1, t1, ~(MSR_VM | MSR_UM));
+-    tcg_gen_or_i32(t1, t1, t0);
+-    msr_write(dc, t1);
+-    tcg_temp_free_i32(t1);
+-    tcg_temp_free_i32(t0);
++    tcg_temp_free_i32(tmp);
      dc->tb_flags &= ~DRTE_FLAG;
  }
  
--static void dec_rts(DisasContext *dc)
--{
--    unsigned int b_bit, i_bit, e_bit;
--
--    i_bit = dc->ir & (1 << 21);
--    b_bit = dc->ir & (1 << 22);
--    e_bit = dc->ir & (1 << 23);
--
--    if (trap_userspace(dc, i_bit || b_bit || e_bit)) {
--        return;
--    }
--
--    if (setup_dslot(dc)) {
--        return;
--    }
--
--    if (i_bit) {
--        dc->tb_flags |= DRTI_FLAG;
--    } else if (b_bit) {
--        dc->tb_flags |= DRTB_FLAG;
--    } else if (e_bit) {
--        dc->tb_flags |= DRTE_FLAG;
--    }
--
--    dc->jmp_cond = TCG_COND_ALWAYS;
--    dc->jmp_dest = -1;
--    tcg_gen_add_i32(cpu_btarget, cpu_R[dc->ra], *dec_alu_op_b(dc));
--}
--
- static void dec_null(DisasContext *dc)
- {
-     if (trap_illegal(dc, true)) {
-@@ -1629,7 +1624,6 @@ static struct decoder_info {
-     };
-     void (*dec)(DisasContext *dc);
- } decinfo[] = {
--    {DEC_RTS, dec_rts},
-     {DEC_MSR, dec_msr},
-     {DEC_STREAM, dec_stream},
-     {{0, 0}, dec_null}
 -- 
 2.25.1
 
