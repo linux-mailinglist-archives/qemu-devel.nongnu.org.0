@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44F6E252208
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 22:30:54 +0200 (CEST)
-Received: from localhost ([::1]:57922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8F6D252207
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 22:30:44 +0200 (CEST)
+Received: from localhost ([::1]:57336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAfan-0008ML-AN
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 16:30:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55958)
+	id 1kAfad-00087U-QQ
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 16:30:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kAfY8-0005X3-5s
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 16:28:08 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:35310 helo=mta-01.yadro.com)
+ id 1kAfY9-0005YM-5S
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 16:28:09 -0400
+Received: from mta-02.yadro.com ([89.207.88.252]:35316 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kAfY5-0006O0-5y
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 16:28:07 -0400
+ id 1kAfY4-0006OQ-Up
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 16:28:08 -0400
 Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id A5AC457501;
- Tue, 25 Aug 2020 20:28:02 +0000 (UTC)
+ by mta-01.yadro.com (Postfix) with ESMTP id 9897457057;
+ Tue, 25 Aug 2020 20:28:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- content-type:content-type:content-transfer-encoding:mime-version
+ content-transfer-encoding:content-type:content-type:mime-version
  :references:in-reply-to:x-mailer:message-id:date:date:subject
  :subject:from:from:received:received:received; s=mta-01; t=
- 1598387281; x=1600201682; bh=TbQEarL239nqt/ACiFvj/GPvI1T0st/AiN4
- tRxK7WqI=; b=Iygl/1WW8S88ikiqZ7idB404LBl3SPqxPfW9v1JYmr5bDCamwtE
- F4in4yZhm5DR0V0dmY4U7+nnC++UjsoAuUSaF1s2GWuy6T5gOE8k9Qh+OdYuSUFR
- 7bfbkJ0rjpCLvXA+5nC9bBNeSyohsQvUsFdSd7jq70I7gFxJ365Kn/NU=
+ 1598387282; x=1600201683; bh=V0615/o4rDYJWyo2Vh9bJHGyTvqVrxlhmHO
+ XQGtLiOQ=; b=kyVlr+X9dTUbmrA3M53Hm0o0kAHpaHPButXC1mIlBZHvtIwTABC
+ pEvnYZ/lXGo6b9bf1W7ZwiwabQQhUsTOu/1IWlmrMSqB0+zgZZNmHfMqmUWfGrB5
+ zpWjwJjwwOJo/xM3w+IqyZdXUBOJNUJ2X0dcaylBJ0tTC6sIm7Y5NS08=
 X-Virus-Scanned: amavisd-new at yadro.com
 Received: from mta-01.yadro.com ([127.0.0.1])
  by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6kWsY9YtsYN8; Tue, 25 Aug 2020 23:28:01 +0300 (MSK)
+ with ESMTP id 6cWmjN2YdHJx; Tue, 25 Aug 2020 23:28:02 +0300 (MSK)
 Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
  [172.17.10.102])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 31DDF574EA;
+ by mta-01.yadro.com (Postfix) with ESMTPS id C270557505;
  Tue, 25 Aug 2020 23:28:01 +0300 (MSK)
 Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
  (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
@@ -46,15 +46,15 @@ Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
  Aug 2020 23:28:01 +0300
 From: Roman Bolshakov <r.bolshakov@yadro.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v2 3/4] configure: Prefer gmake on darwin
-Date: Tue, 25 Aug 2020 23:27:54 +0300
-Message-ID: <20200825202755.50626-4-r.bolshakov@yadro.com>
+Subject: [PATCH v2 4/4] configure: Test if $make actually exists
+Date: Tue, 25 Aug 2020 23:27:55 +0300
+Message-ID: <20200825202755.50626-5-r.bolshakov@yadro.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200825202755.50626-1-r.bolshakov@yadro.com>
 References: <20200825202755.50626-1-r.bolshakov@yadro.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-Originating-IP: [172.17.204.212]
 X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
  T-EXCH-02.corp.yadro.com (172.17.10.102)
@@ -86,60 +86,31 @@ Cc: Roman Bolshakov <r.bolshakov@yadro.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-New meson/make build requires GNU make 3.82+ but macOS ships 3.81 even
-on Big Sur while homebrew provides GNU make 4.3 as 'gmake' in $PATH.
+configure doesn't detect if $make is installed on the build host.
+This is also helpful for hosts where an alias for make is used, i.e.
+configure would fail if gmake is not present on macOS.
 
-With the change, 'make' switches over to gmake implicitly.
-
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
 ---
- configure | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ configure | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/configure b/configure
-index 07732bf011..664084992b 100755
+index 664084992b..9230832da2 100755
 --- a/configure
 +++ b/configure
-@@ -907,6 +907,7 @@ Darwin)
-   darwin="yes"
-   hax="yes"
-   hvf="yes"
-+  make="${MAKE-gmake}"
-   LDFLAGS_SHARED="-bundle -undefined dynamic_lookup"
-   if [ "$cpu" = "x86_64" ] ; then
-     QEMU_CFLAGS="-arch x86_64 $QEMU_CFLAGS"
-@@ -920,6 +921,31 @@ Darwin)
-   # won't work when we're compiling with gcc as a C compiler.
-   QEMU_CFLAGS="-DOS_OBJECT_USE_OBJC=0 $QEMU_CFLAGS"
-   HOST_VARIANT_DIR="darwin"
-+  cat > GNUmakefile <<'EOF'
-+# This file is auto-generated by configure to implicitly switch from a 'make'
-+# invocation to 'gmake'
-+
-+OLD_MAKE := $(MAKE)
-+
-+ifeq ($(wildcard config-host.mak),)
-+$(error Incomplete configuration. Please run `configure`)
-+endif
-+include config-host.mak
-+
-+ifeq ($(MAKECMDGOALS),)
-+recurse: all
-+endif
-+
-+.NOTPARALLEL: %
-+%: force
-+	@echo 'Switch from $(OLD_MAKE) to $(MAKE)'
-+	@$(MAKE) -f Makefile $(MAKECMDGOALS)
-+force: ;
-+.PHONY: force
-+GNUmakefile: ;
-+config-host.mak: ;
-+
-+EOF
- ;;
- SunOS)
-   solaris="yes"
+@@ -2029,6 +2029,10 @@ if test -z "$python"
+ then
+     error_exit "Python not found. Use --python=/path/to/python"
+ fi
++if ! has "$make"
++then
++    error_exit "GNU make ($make) not found"
++fi
+ 
+ # Note that if the Python conditional here evaluates True we will exit
+ # with status 1 which is a shell 'false' value.
 -- 
 2.28.0
 
