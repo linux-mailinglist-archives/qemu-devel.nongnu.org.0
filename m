@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39E5D2520DE
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 21:45:23 +0200 (CEST)
-Received: from localhost ([::1]:37862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54DBD2520CE
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 21:43:25 +0200 (CEST)
+Received: from localhost ([::1]:54064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAesk-0006Ed-9A
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 15:45:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40574)
+	id 1kAeqq-0001QM-Bn
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 15:43:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kAeXG-0002Jd-TN
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:23:10 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52774
- helo=us-smtp-1.mimecast.com)
+ id 1kAeXK-0002TZ-Fr
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:23:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29403)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kAeXF-0006KJ-1d
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:23:10 -0400
+ id 1kAeXI-0006LG-SR
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:23:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598383388;
+ s=mimecast20190719; t=1598383392;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cN56Qh/RA7pUGeK+UjYLed6tcMecdFPLXuhdnlyAfCo=;
- b=PTQFiliZKIgkW2zwa/vvZr7XMy/Y5VT2lSLitipP4s9utsnAMBWBw45zoCOEFytkX+Vx2h
- NH9N3UcLPF7K2YFFbDFMme2gefbUAsFsj/1wh3o77wiG5Y52xNYUOOIcs/7pSUL+b3S14k
- qOEX93zey4Ug6ZTuL5YjweFOWRtVIFo=
+ bh=TV5KD0IcI0qUOaTJTfo8j0r+7GyHMo5nJpePfWRM09U=;
+ b=XjWV01U2XSyXTdVl4yVLjO43y6NwGWGjVlKTpn2Ue/qQjNzF0hYOQp9kWkrSt3i7NcWd3J
+ O87t6aa2Qn3DuO+hWdTuiK90UOeGJk8kSW9q+U1doO/AdJobTs46QbYqVqceaMB7LJ5ftt
+ J9mu0bD3V2Hxfd5BT9cmmR0WCGVA7cY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-338-GHSnqBItPKC5TycjIvYXFw-1; Tue, 25 Aug 2020 15:23:06 -0400
-X-MC-Unique: GHSnqBItPKC5TycjIvYXFw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-492-PrPkt6ytONCjrah-2j9iFA-1; Tue, 25 Aug 2020 15:23:08 -0400
+X-MC-Unique: PrPkt6ytONCjrah-2j9iFA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A69F11074640
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 19:23:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 411458799F0;
+ Tue, 25 Aug 2020 19:23:07 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4A0427E305;
- Tue, 25 Aug 2020 19:23:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E2EA519C4F;
+ Tue, 25 Aug 2020 19:23:06 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 50/74] migration: Rename class type checking macros
-Date: Tue, 25 Aug 2020 15:20:46 -0400
-Message-Id: <20200825192110.3528606-51-ehabkost@redhat.com>
+Subject: [PATCH v3 51/74] arm: Fix typo in AARCH64_CPU_GET_CLASS definition
+Date: Tue, 25 Aug 2020 15:20:47 -0400
+Message-Id: <20200825192110.3528606-52-ehabkost@redhat.com>
 In-Reply-To: <20200825192110.3528606-1-ehabkost@redhat.com>
 References: <20200825192110.3528606-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 10:39:45
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 06:38:59
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.958,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,48 +80,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm@nongnu.org,
  "Daniel P. Berrange" <berrange@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename the macros to make them consistent with the MIGRATION_OBJ
-macro name.
-
-This will make future conversion to OBJECT_DECLARE* easier.
+There's a typo in the type name of AARCH64_CPU_GET_CLASS.  This
+was never detected because the macro is not used by any code.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
 Changes series v2 -> v3: new patch added to series v3
 
 ---
-Cc: Juan Quintela <quintela@redhat.com>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-arm@nongnu.org
 Cc: qemu-devel@nongnu.org
 ---
- migration/migration.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/arm/cpu-qom.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/migration/migration.h b/migration/migration.h
-index 2ed55c4aef..ae497bd45a 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -114,11 +114,11 @@ void fill_destination_postcopy_migration_info(MigrationInfo *info);
+diff --git a/target/arm/cpu-qom.h b/target/arm/cpu-qom.h
+index 56395b87f6..fdef05cacf 100644
+--- a/target/arm/cpu-qom.h
++++ b/target/arm/cpu-qom.h
+@@ -67,7 +67,7 @@ typedef struct ARMCPU ARMCPU;
+ #define AARCH64_CPU_CLASS(klass) \
+     OBJECT_CLASS_CHECK(AArch64CPUClass, (klass), TYPE_AARCH64_CPU)
+ #define AARCH64_CPU_GET_CLASS(obj) \
+-    OBJECT_GET_CLASS(AArch64CPUClass, (obj), TYPE_AArch64_CPU)
++    OBJECT_GET_CLASS(AArch64CPUClass, (obj), TYPE_AARCH64_CPU)
  
- #define TYPE_MIGRATION "migration"
- 
--#define MIGRATION_CLASS(klass) \
-+#define MIGRATION_OBJ_CLASS(klass) \
-     OBJECT_CLASS_CHECK(MigrationClass, (klass), TYPE_MIGRATION)
- #define MIGRATION_OBJ(obj) \
-     OBJECT_CHECK(MigrationState, (obj), TYPE_MIGRATION)
--#define MIGRATION_GET_CLASS(obj) \
-+#define MIGRATION_OBJ_GET_CLASS(obj) \
-     OBJECT_GET_CLASS(MigrationClass, (obj), TYPE_MIGRATION)
- 
- typedef struct MigrationClass {
+ typedef struct AArch64CPUClass {
+     /*< private >*/
 -- 
 2.26.2
 
