@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3BDC2520E4
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 21:46:47 +0200 (CEST)
-Received: from localhost ([::1]:46022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E44A82520DC
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 21:44:46 +0200 (CEST)
+Received: from localhost ([::1]:34196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAeu6-00018J-OG
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 15:46:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40716)
+	id 1kAes9-0004ls-VO
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 15:44:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kAeXO-0002fc-S4
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:23:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57035)
+ id 1kAeXM-0002Yd-Bt
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:23:16 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:39834
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kAeXN-0006M1-6g
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:23:18 -0400
+ id 1kAeXK-0006LM-92
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 15:23:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598383396;
+ s=mimecast20190719; t=1598383393;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ly8MIP4Epa+Vz1TRhAwsQ91dLJJc9+zxXEsL+EX6qR8=;
- b=gIiiOetIt/I55S/UHGD2zkc1RUMdS5tYb7uRbJGzWQZkGUafe/2wgliLvuMQ49yLR6UczJ
- Kca+PVcPIKxsYAUaYgZQel564g3O/TEF29HA3aNuEmFO3PsZCeoOvSLwx8sCfQ2VKGY96H
- +66TkrZKMiSrVCP2iYj0cIafb4sA0p8=
+ bh=/XFmSQxil6m9x0uqlxeY68vshsXG5CyWP9ebo2MkDbA=;
+ b=CITI1qzdxNA8/bTgCH80qcRSNwqKu5iyt7Qm0ZS9//2NkhoBoXaShtBmQxc9rVu9u/bYyn
+ ONz/gH3t1hythJ/+hiXkmWNRwIaF8goyfoDhJSE7TXd+wva4r3J2ShdsrhKvpyrLmTqjhk
+ xEYB83fWPhfQ9IbqVbZJn6l1AjVdnV8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-107-kjuLYSiKP_mEwOOKWvWjnA-1; Tue, 25 Aug 2020 15:23:11 -0400
-X-MC-Unique: kjuLYSiKP_mEwOOKWvWjnA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-48-LUHRZBPmPQWdOM4CIzh4Ew-1; Tue, 25 Aug 2020 15:23:11 -0400
+X-MC-Unique: LUHRZBPmPQWdOM4CIzh4Ew-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C5A681074642;
- Tue, 25 Aug 2020 19:23:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8BF8807354
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 19:23:10 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8C31977D42;
- Tue, 25 Aug 2020 19:23:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8F62619C4F;
+ Tue, 25 Aug 2020 19:23:10 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 53/74] rx: Move typedef RXCPU to cpu-qom.h
-Date: Tue, 25 Aug 2020 15:20:49 -0400
-Message-Id: <20200825192110.3528606-54-ehabkost@redhat.com>
+Subject: [PATCH v3 54/74] qom: make object_ref/unref use a void * instead of
+ Object *.
+Date: Tue, 25 Aug 2020 15:20:50 -0400
+Message-Id: <20200825192110.3528606-55-ehabkost@redhat.com>
 In-Reply-To: <20200825192110.3528606-1-ehabkost@redhat.com>
 References: <20200825192110.3528606-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 02:03:58
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 01:35:36
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.958,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,50 +83,79 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>
+ "Daniel P. Berrange" <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the typedef closer to the QOM type checking macros.
-This will make future conversion to OBJECT_DECLARE* easier.
+From: Daniel P. Berrangé <berrange@redhat.com>
 
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
-Changes series v2 -> v3: new patch added to series v3
+The object_ref/unref methods are intended for use with any subclass of
+the base Object. Using "Object *" in the signature is not adding any
+meaningful level of type safety, since callers simply use "OBJECT(ptr)"
+and this expands to an unchecked cast "(Object *)".
 
----
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
-Cc: qemu-devel@nongnu.org
----
- target/rx/cpu-qom.h | 1 +
- target/rx/cpu.h     | 1 -
- 2 files changed, 1 insertion(+), 1 deletion(-)
+By using "void *" we enable the object_unref() method to be used to
+provide support for g_autoptr() with any subclass.
 
-diff --git a/target/rx/cpu-qom.h b/target/rx/cpu-qom.h
-index af937bc680..9054762326 100644
---- a/target/rx/cpu-qom.h
-+++ b/target/rx/cpu-qom.h
-@@ -25,6 +25,7 @@
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20200723181410.3145233-2-berrange@redhat.com>
+---
+Changes v2 -> v3: none
+
+Changes v1 -> v2: none
+---
+ include/qom/object.h | 4 ++--
+ qom/object.c         | 6 ++++--
+ 2 files changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/include/qom/object.h b/include/qom/object.h
+index 0f3a60617c..1f8aa2d48e 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -1035,7 +1035,7 @@ GSList *object_class_get_list_sorted(const char *implements_type,
+  * as its reference count is greater than zero.
+  * Returns: @obj
+  */
+-Object *object_ref(Object *obj);
++Object *object_ref(void *obj);
  
- #define TYPE_RX62N_CPU RX_CPU_TYPE_NAME("rx62n")
+ /**
+  * object_unref:
+@@ -1044,7 +1044,7 @@ Object *object_ref(Object *obj);
+  * Decrease the reference count of a object.  A object cannot be freed as long
+  * as its reference count is greater than zero.
+  */
+-void object_unref(Object *obj);
++void object_unref(void *obj);
  
-+typedef struct RXCPU RXCPU;
- #define RX_CPU_CLASS(klass) \
-     OBJECT_CLASS_CHECK(RXCPUClass, (klass), TYPE_RX_CPU)
- #define RX_CPU(obj) \
-diff --git a/target/rx/cpu.h b/target/rx/cpu.h
-index d1fb1ef3ca..0b4b998c7b 100644
---- a/target/rx/cpu.h
-+++ b/target/rx/cpu.h
-@@ -115,7 +115,6 @@ struct RXCPU {
-     CPURXState env;
- };
+ /**
+  * object_property_try_add:
+diff --git a/qom/object.c b/qom/object.c
+index 00fdf89b3b..b1822a2ef4 100644
+--- a/qom/object.c
++++ b/qom/object.c
+@@ -1124,8 +1124,9 @@ GSList *object_class_get_list_sorted(const char *implements_type,
+                         object_class_cmp);
+ }
  
--typedef struct RXCPU RXCPU;
- typedef RXCPU ArchCPU;
+-Object *object_ref(Object *obj)
++Object *object_ref(void *objptr)
+ {
++    Object *obj = OBJECT(objptr);
+     if (!obj) {
+         return NULL;
+     }
+@@ -1133,8 +1134,9 @@ Object *object_ref(Object *obj)
+     return obj;
+ }
  
- #define ENV_OFFSET offsetof(RXCPU, env)
+-void object_unref(Object *obj)
++void object_unref(void *objptr)
+ {
++    Object *obj = OBJECT(objptr);
+     if (!obj) {
+         return;
+     }
 -- 
 2.26.2
 
