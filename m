@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2F52251F8A
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 21:08:15 +0200 (CEST)
-Received: from localhost ([::1]:52584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18278251F8D
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 21:08:46 +0200 (CEST)
+Received: from localhost ([::1]:56022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAeIp-0001dt-1v
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 15:08:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33616)
+	id 1kAeJJ-00030i-6a
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 15:08:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=49978a6e9=alistair.francis@wdc.com>)
- id 1kAeAR-0004Nl-4u
+ id 1kAeAR-0004Nm-IU
  for qemu-devel@nongnu.org; Tue, 25 Aug 2020 14:59:36 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:58813)
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:58809)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=49978a6e9=alistair.francis@wdc.com>)
- id 1kAeAM-0002w2-L1
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 14:59:34 -0400
+ id 1kAeAN-0002vu-SU
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 14:59:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1598381971; x=1629917971;
+ t=1598381973; x=1629917973;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=JaJgYijSy03N5csPGH2OpxKfJYtfl+mklbnHCVhdze8=;
- b=Vl+IvyGFpQxefkdykrzuNa41pCmRXf0RKXxcScoAC350oToWl7EddgbI
- oxsk23iiuGxnny5TbIXdAOrFCQmSaYk8a5SfPyvbC+8kdFy5r4Z6dJk8c
- Y7jr3n/GBsRgEjttw3uWXiW8jQnQGh++vStBaDlrh9m2y8gC5Kj7kCn5G
- eCD2P4uOpPIJDtzvPvB8Z9QcOjX4Mo7LLjin4OOSTvGy19qP3EjYjuIHX
- fT7DblL9M5L76Lw2vW000mT1PNtUyP1jvwBG/J+kb3ejZZLuXUcTsNQ8d
- TOdiUWqid/EhIYlVC43OrnFwbbu2OR34YHVmGwQ5KpcUFEpzFvVpZT3jc g==;
-IronPort-SDR: ApM165vkjISWVrH4yemg+3/PjfgrkvaYKgbOSRqePIu9a3HWakWtGSLDZwvKKytRgLwl/E331Z
- 4RL/IwPMMLePUrkNgVT+PEw2yB6ncR1WdhqmNB3714855jdXF2zL/IA4TDyz4rBFhAdXnoDgBi
- PM2xcDz57Vwjt/+vxeN9N9lcTr3KU7xJDbIAx3JLryreUQ5L+ZhAg/Y15l1sYuhJbXBezE6dIC
- tH0FU0fdw3yp9J/rThPzfWvvAtzZlFKI+mUxhOhYbgWJ7vCpVV97HTe5mgeR5aPEgQPCoSocE/
- R6U=
-X-IronPort-AV: E=Sophos;i="5.76,353,1592841600"; d="scan'208";a="150145298"
+ bh=obdMeo8q7+t9EDlbLxfrGkCLmPa2G3RybFJzvmtHowM=;
+ b=pcz6BKvz93SGFF4JI390gGc2EJ6Arn9wj1zZohOmZkOcZhUy3ei4exdH
+ neCXNPn+s5vKuMMkBAkG3Itkm/M1zuJbtrxBOwoDyeD0yzJW6uGHQLk+3
+ ciI7fNC2ati1cONfRTf2FQ2jo4SZq9Ddu8kOs0ai1aGo26tJXnTKLk7pL
+ orN2XeCFkpgdqQBNOF9o8xc/yA4g6GJUwLlfd6Q/10JP+Rv1Tq87xvijL
+ Aoul23hslYYwFj7/5xuykurmxcnY1J4KR3W0MjNRE32/8cJan0VsrUWvL
+ CL7NWnvDpluKHwiHjXceIKk8q/xfrR+wiRC2kJVTbEf0A4CJ91ug1x7wO w==;
+IronPort-SDR: tVNBhiQ2GOSMxQNuZq4bf8954aDMmkxsHx6WWvmvWt2mjNHcrcnno+rEMHtQQYCKDYxCtP4se/
+ fU5N4X/AmSrvtQ4Ckn/LJL1cjzV351tTpQVbFn2kaW/vvxPVTScO2GpfmDsAb721XD4rD+0TL2
+ c8s8Coz8b6rMZ8+PPfGHX/HdYMMHfrCzQ+2ePmeO04lYFaY3cQWCTPsSgb47QQwWww2R/REa1C
+ DMEoDVMpP+j0+q9RQrqCZVW+oEnCniCoZM5yWcj+qg9+MuFR4MVPBzxn+4Vn3pF/jaHfFTgjCt
+ 4Co=
+X-IronPort-AV: E=Sophos;i="5.76,353,1592841600"; d="scan'208";a="150145299"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 26 Aug 2020 02:58:58 +0800
-IronPort-SDR: FJxIg1ToPckyujRr3XB2jn0aEhoZgFt99OtJdjiulj/wH9HhTRsgrdFdF7woNJH1Yp9Lv/mYsU
- ukpuaxiAN3Eg==
+IronPort-SDR: xzVl+DTuKGi50sphAuNEBFfvrs4h2Jg1uA9Z46LHuo88KUOm8dwWaFDZJErsE8VLZFHsCQja4r
+ BXDmYLTcfgBg==
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  25 Aug 2020 11:46:33 -0700
-IronPort-SDR: FWXWQxX9JR6c53mSDHMFPpwds9AJa1YnkpbBoNscVNDTRh0oZlTWFuCgcJHt/C82SdJo3TEVwh
- 2yONIte4Czpg==
+IronPort-SDR: emIWswTmUDFuWoBLllH/Hs+RLSMo1I2LYfjxuNoFjSG6nZ6vZLzK5b/Gl0sflMjb93IVEnquJH
+ zkPy6JBgHCqw==
 WDCIronportException: Internal
 Received: from ind003389.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.59.125])
  by uls-op-cesaip02.wdc.com with ESMTP; 25 Aug 2020 11:58:56 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/18] target/riscv: Only support little endian guests
-Date: Tue, 25 Aug 2020 11:48:33 -0700
-Message-Id: <20200825184836.1282371-16-alistair.francis@wdc.com>
+Subject: [PULL 16/18] target/riscv: Support the v0.6 Hypervisor extension CRSs
+Date: Tue, 25 Aug 2020 11:48:34 -0700
+Message-Id: <20200825184836.1282371-17-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200825184836.1282371-1-alistair.francis@wdc.com>
 References: <20200825184836.1282371-1-alistair.francis@wdc.com>
@@ -92,35 +92,113 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 93e5d4f13eca0d2a588e407187f33c6437aeaaf9.1597259519.git.alistair.francis@wdc.com
-Message-Id: <93e5d4f13eca0d2a588e407187f33c6437aeaaf9.1597259519.git.alistair.francis@wdc.com>
+Message-id: 644b6c114b1a81adbee0ab8c9c66a8672059ec96.1597259519.git.alistair.francis@wdc.com
+Message-Id: <644b6c114b1a81adbee0ab8c9c66a8672059ec96.1597259519.git.alistair.francis@wdc.com>
 ---
- target/riscv/csr.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ target/riscv/cpu_bits.h |  3 +++
+ target/riscv/csr.c      | 40 ++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 43 insertions(+)
 
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index 573d85da41..d88e2ea30d 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -197,9 +197,12 @@
+ #define CSR_HIDELEG         0x603
+ #define CSR_HIE             0x604
+ #define CSR_HCOUNTEREN      0x606
++#define CSR_HGEIE           0x607
+ #define CSR_HTVAL           0x643
++#define CSR_HVIP            0x645
+ #define CSR_HIP             0x644
+ #define CSR_HTINST          0x64A
++#define CSR_HGEIP           0xE12
+ #define CSR_HGATP           0x680
+ #define CSR_HTIMEDELTA      0x605
+ #define CSR_HTIMEDELTAH     0x615
 diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 390ef781e4..5e50683c58 100644
+index 5e50683c58..7dc50e6299 100644
 --- a/target/riscv/csr.c
 +++ b/target/riscv/csr.c
-@@ -840,6 +840,8 @@ static int read_hstatus(CPURISCVState *env, int csrno, target_ulong *val)
-     /* We only support 64-bit VSXL */
-     *val = set_field(*val, HSTATUS_VSXL, 2);
- #endif
-+    /* We only support little endian */
-+    *val = set_field(*val, HSTATUS_VSBE, 0);
+@@ -883,12 +883,25 @@ static int write_hideleg(CPURISCVState *env, int csrno, target_ulong val)
      return 0;
  }
  
-@@ -851,6 +853,9 @@ static int write_hstatus(CPURISCVState *env, int csrno, target_ulong val)
-         qemu_log_mask(LOG_UNIMP, "QEMU does not support mixed HSXLEN options.");
-     }
- #endif
-+    if (get_field(val, HSTATUS_VSBE) != 0) {
-+        qemu_log_mask(LOG_UNIMP, "QEMU does not support big endian guests.");
-+    }
++static int rmw_hvip(CPURISCVState *env, int csrno, target_ulong *ret_value,
++                   target_ulong new_value, target_ulong write_mask)
++{
++    int ret = rmw_mip(env, 0, ret_value, new_value,
++                      write_mask & hip_writable_mask);
++
++    *ret_value &= hip_writable_mask;
++
++    return ret;
++}
++
+ static int rmw_hip(CPURISCVState *env, int csrno, target_ulong *ret_value,
+                    target_ulong new_value, target_ulong write_mask)
+ {
+     int ret = rmw_mip(env, 0, ret_value, new_value,
+                       write_mask & hip_writable_mask);
+ 
++    *ret_value &= hip_writable_mask;
++
+     return ret;
+ }
+ 
+@@ -916,6 +929,18 @@ static int write_hcounteren(CPURISCVState *env, int csrno, target_ulong val)
      return 0;
  }
  
++static int read_hgeie(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    qemu_log_mask(LOG_UNIMP, "No support for a non-zero GEILEN.");
++    return 0;
++}
++
++static int write_hgeie(CPURISCVState *env, int csrno, target_ulong val)
++{
++    qemu_log_mask(LOG_UNIMP, "No support for a non-zero GEILEN.");
++    return 0;
++}
++
+ static int read_htval(CPURISCVState *env, int csrno, target_ulong *val)
+ {
+     *val = env->htval;
+@@ -939,6 +964,18 @@ static int write_htinst(CPURISCVState *env, int csrno, target_ulong val)
+     return 0;
+ }
+ 
++static int read_hgeip(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    qemu_log_mask(LOG_UNIMP, "No support for a non-zero GEILEN.");
++    return 0;
++}
++
++static int write_hgeip(CPURISCVState *env, int csrno, target_ulong val)
++{
++    qemu_log_mask(LOG_UNIMP, "No support for a non-zero GEILEN.");
++    return 0;
++}
++
+ static int read_hgatp(CPURISCVState *env, int csrno, target_ulong *val)
+ {
+     *val = env->hgatp;
+@@ -1341,11 +1378,14 @@ static riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+     [CSR_HSTATUS] =             { hmode,   read_hstatus,     write_hstatus    },
+     [CSR_HEDELEG] =             { hmode,   read_hedeleg,     write_hedeleg    },
+     [CSR_HIDELEG] =             { hmode,   read_hideleg,     write_hideleg    },
++    [CSR_HVIP] =                { hmode,   NULL,     NULL,     rmw_hvip       },
+     [CSR_HIP] =                 { hmode,   NULL,     NULL,     rmw_hip        },
+     [CSR_HIE] =                 { hmode,   read_hie,         write_hie        },
+     [CSR_HCOUNTEREN] =          { hmode,   read_hcounteren,  write_hcounteren },
++    [CSR_HGEIE] =               { hmode,   read_hgeie,       write_hgeie      },
+     [CSR_HTVAL] =               { hmode,   read_htval,       write_htval      },
+     [CSR_HTINST] =              { hmode,   read_htinst,      write_htinst     },
++    [CSR_HGEIP] =               { hmode,   read_hgeip,       write_hgeip      },
+     [CSR_HGATP] =               { hmode,   read_hgatp,       write_hgatp      },
+     [CSR_HTIMEDELTA] =          { hmode,   read_htimedelta,  write_htimedelta },
+ #if defined(TARGET_RISCV32)
 -- 
 2.28.0
 
