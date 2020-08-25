@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1461C251B6B
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 16:54:14 +0200 (CEST)
-Received: from localhost ([::1]:51944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C688251B6F
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 16:54:27 +0200 (CEST)
+Received: from localhost ([::1]:53134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAaKz-0005sS-5C
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 10:54:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49400)
+	id 1kAaLC-0006M0-GT
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 10:54:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kAaIr-00028Y-Tp
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 10:52:01 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:38790)
+ id 1kAaIv-0002Hy-7Q
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 10:52:05 -0400
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:44647)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kAaIq-0000ZY-7a
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 10:52:01 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id ep8so1357515pjb.3
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 07:51:59 -0700 (PDT)
+ id 1kAaIt-0000Zz-Do
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 10:52:04 -0400
+Received: by mail-pg1-x52a.google.com with SMTP id m34so6978150pgl.11
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 07:52:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ahNl6xGv3lvDsVsmUoTS6dtgGoj1wQWvaseozR7dTqs=;
- b=VC3oo2nm6kHuWgur5na5NzNdVPxbq4uAbOgPohSlBaiJ96DmZObxO32rbAltY977xX
- OkJlJckRnOm4UN9E/aoIOjvMPiNHjJMytwhmvwZJco1EgxEjg09bnnWhW4vbyYmU/SXS
- ghT4GDgr94b4spD0SuNgStVDMNMb9RmUU8XvlsiD3NriNmzfYzrd6RsQt0JpqBmZ5Pki
- FvflRlWnQzNr7iMdxED94sGrcS4k7ulfi9zHwH4XFYqi8SEAqtxmHv/rVSgwWPXYQMEE
- gNpZ+so1c1WCZVBTkEn6mFdAMdRxvWS5qHWnPfzWnrauYzX9rONh3nYCNFbZC8p2LYVl
- ZdyQ==
+ bh=yChn4o9CAS9a4x2QiJ5qxkdY1fP0JvPuRXAqc0hsYGk=;
+ b=C/OePMkyQY9Pxp8PHm990LIcxBlcZQ4f8a13FHofHzcSMKw+cBJdTHHXXOGDu3eEhi
+ /SqEDoglSpwNpEY/s5XGBH9WOPbewY/8jjg2O+Pz92wZMGM6y+TbUjtdwdoVZQ5t3ZTw
+ naxaf4lDZZ1d724Y0eGSxkp9tVG748oqhQz2kH0RYuesEWWtMkRXEwJYuxa+1alligXs
+ ENQITOUumIYant1DzQ9j7vvFTSF+xs6TIjxO5U5FYi281cE2qk0ooQWVrfX77/mSvtNs
+ s3Oqjm6v4RxpTPEPMOYNasHPz3fT8ObcsN69R2UmmC6S8EqVBDNqZM5QtD1FlqGDNLbH
+ zFGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ahNl6xGv3lvDsVsmUoTS6dtgGoj1wQWvaseozR7dTqs=;
- b=iQoqHj3/Wu0H4+LA/JkTkO4ZrOwP2vS7XG/na8RKN+2w+Tp63Lzy4Ud1RCTkDFWVJR
- P/HLxWLp02iUtZ1SHVWLygsU8cSFDBytyA4Esp1GQmWwjsduUKKBqx0iitIDR3ocuMAT
- icPkHXlqEdtDeerAYY8fvxwW+I0gsQvgBO1wQsDxlwvWieuMKvBoLnoXt0O6swPlfbFF
- bgbfWGwiny8Ul64Qe1BPvbxrW+r8I1RVo9cHeqqkEArX4OugaCez7NM5YLRwO28N0qlA
- RqMxxdj1xgX0CWmSCn70FlwAb3J31ABqih1am/rdXXhZPHfYOocp6xZ/BJcjR0dQCfB/
- IPYA==
-X-Gm-Message-State: AOAM530Jp2ghYCvMglXeLd4IVQ0uP6rNJcUJHIrQrap26+tj3uEqyNWZ
- fwOCneqUCq5bb+hDLEekwD8DPLrMLkLV8hie
-X-Google-Smtp-Source: ABdhPJz4eH0YDlM9Np3lgVR28cyBjFvCQWGDakFBgqBfzFtDxpcNLdnX8m4PJ3ucoA2Q9Jzl7X5xIA==
-X-Received: by 2002:a17:90b:3750:: with SMTP id
- ne16mr1922599pjb.6.1598367118413; 
- Tue, 25 Aug 2020 07:51:58 -0700 (PDT)
+ bh=yChn4o9CAS9a4x2QiJ5qxkdY1fP0JvPuRXAqc0hsYGk=;
+ b=mgtz0vQTXRgH4M3X9Z+D3UXFt3ZCXp/EaM4i8tm7kfVQx8i7l50QE91oWRFCwl/nD3
+ hl+VE64bThDGvgpAl3lf3u1YZlSwyRo7rqRnJ4crw+v1BHnpwU7Wx7gXaldZZwmUBPVl
+ Vk8GlTe3vjooMl/TXfu7v1fRgpIL7TpmyEyyewb3YPP6qsVHqRFfBg8vYPdmjf/WezaU
+ RMoL/Po3ObUhHQbmzj4zp5m5Xy0pSnBdCzI6QCSq+IolzlTvT/kJUs9CHR5NVRSSgzIs
+ 3oFfQoIvKAJ97orTS6C4pey8zcMr3imth/MRDaHXMeHeREP8UEY8NimBRt9EglSFAbV2
+ BJZQ==
+X-Gm-Message-State: AOAM532BCzBayxttds7u5k/A77xY2bN38KUUFPdXT4yD9ScSnmCS/cqv
+ zaX8Fg71M29m08eUy4ymRgxwgDtxdULi5obc
+X-Google-Smtp-Source: ABdhPJxawlQAwy6s06ewpez8RMMHvnTj0EanNSsuc1vLWucUK94lLDjWtS8+15/kb/2LCMCF7mOYhw==
+X-Received: by 2002:a63:8ec8:: with SMTP id k191mr7018919pge.154.1598367121321; 
+ Tue, 25 Aug 2020 07:52:01 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id m22sm3104383pja.36.2020.08.25.07.51.56
+ by smtp.googlemail.com with ESMTPSA id m22sm3104383pja.36.2020.08.25.07.51.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Aug 2020 07:51:57 -0700 (PDT)
+ Tue, 25 Aug 2020 07:52:00 -0700 (PDT)
 From: luoyonggang@gmail.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/4] meson: Mingw64 gcc doesn't recognize system include_type
- for sdl2
-Date: Tue, 25 Aug 2020 22:51:32 +0800
-Message-Id: <20200825145133.178-3-luoyonggang@gmail.com>
+Subject: [PATCH 4/4] configure: Fix include and linkage issue on msys2
+Date: Tue, 25 Aug 2020 22:51:33 +0800
+Message-Id: <20200825145133.178-4-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.27.0.windows.1
 In-Reply-To: <20200825145133.178-1-luoyonggang@gmail.com>
 References: <20200825145133.178-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x52a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,25 +90,110 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Yonggang Luo <luoyonggang@gmail.com>
 
-Fixes this for msys2/mingw64 by remove the include_type for sdl2 discovery in meson
+On msys2, the -I/e/path/to/qemu -L/e/path/to/qemu are not recognized by the compiler
+Case $PWD are result msys type path such as /e/path/to/qemu
+but `pwd -W` are result E:/path/to/qemu that can be recognized by the compiler
+So we replace all $PWD with $build_path that can handling msys2/mingw properly
 ---
- meson.build | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ configure | 34 ++++++++++++++++++++++------------
+ 1 file changed, 22 insertions(+), 12 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index df5bf728b5..a3585881e1 100644
---- a/meson.build
-+++ b/meson.build
-@@ -224,8 +224,7 @@ if 'CONFIG_BRLAPI' in config_host
-   brlapi = declare_dependency(link_args: config_host['BRLAPI_LIBS'].split())
- endif
+diff --git a/configure b/configure
+index b8f5b81a67..a0e2b20877 100755
+--- a/configure
++++ b/configure
+@@ -13,8 +13,13 @@ export CCACHE_RECACHE=yes
  
--sdl = dependency('sdl2', required: get_option('sdl'), static: enable_static,
--                 include_type: 'system')
-+sdl = dependency('sdl2', required: get_option('sdl'), static: enable_static)
- sdl_image = not_found
- if sdl.found()
-   # work around 2.0.8 bug
+ # make source path absolute
+ source_path=$(cd "$(dirname -- "$0")"; pwd)
++build_path=$PWD
++if [ "$MSYSTEM" = "MINGW64" -o  "$MSYSTEM" = "MINGW32" ]; then
++source_path=$(cd "$(dirname -- "$0")"; pwd -W)
++build_path=`pwd -W`
++fi
+ 
+-if test "$PWD" = "$source_path"
++if test "$build_path" = "$source_path"
+ then
+     echo "Using './build' as the directory for build output"
+ 
+@@ -346,7 +351,12 @@ ld_has() {
+     $ld --help 2>/dev/null | grep ".$1" >/dev/null 2>&1
+ }
+ 
+-if printf %s\\n "$source_path" "$PWD" | grep -q "[[:space:]:]";
++check_valid_build_path="[[:space:]:]"
++if [ "$MSYSTEM" = "MINGW64" -o  "$MSYSTEM" = "MINGW32" ]; then
++check_valid_build_path="[[:space:]]"
++fi
++
++if printf %s\\n "$source_path" "$build_path" | grep -q "$check_valid_build_path";
+ then
+   error_exit "main directory cannot contain spaces nor colons"
+ fi
+@@ -942,7 +952,7 @@ Linux)
+   linux="yes"
+   linux_user="yes"
+   kvm="yes"
+-  QEMU_INCLUDES="-isystem ${source_path}/linux-headers -I$PWD/linux-headers $QEMU_INCLUDES"
++  QEMU_INCLUDES="-isystem ${source_path}/linux-headers -I${build_path}/linux-headers $QEMU_INCLUDES"
+   libudev="yes"
+ ;;
+ esac
+@@ -4299,7 +4309,7 @@ EOF
+               symlink "$source_path/dtc/Makefile" "dtc/Makefile"
+           fi
+           fdt_cflags="-I${source_path}/dtc/libfdt"
+-          fdt_ldflags="-L$PWD/dtc/libfdt"
++          fdt_ldflags="-L${build_path}/dtc/libfdt"
+           fdt_libs="$fdt_libs"
+       elif test "$fdt" = "yes" ; then
+           # Not a git build & no libfdt found, prompt for system install
+@@ -5284,7 +5294,7 @@ case "$capstone" in
+     else
+       LIBCAPSTONE=libcapstone.a
+     fi
+-    capstone_libs="-L$PWD/capstone -lcapstone"
++    capstone_libs="-L${build_path}/capstone -lcapstone"
+     capstone_cflags="-I${source_path}/capstone/include"
+     ;;
+ 
+@@ -6284,8 +6294,8 @@ case "$slirp" in
+       git_submodules="${git_submodules} slirp"
+     fi
+     mkdir -p slirp
+-    slirp_cflags="-I${source_path}/slirp/src -I$PWD/slirp/src"
+-    slirp_libs="-L$PWD/slirp -lslirp"
++    slirp_cflags="-I${source_path}/slirp/src -I${build_path}/slirp/src"
++    slirp_libs="-L${build_path}/slirp -lslirp"
+     if test "$mingw32" = "yes" ; then
+       slirp_libs="$slirp_libs -lws2_32 -liphlpapi"
+     fi
+@@ -8233,7 +8243,7 @@ fi
+ mv $cross config-meson.cross
+ 
+ rm -rf meson-private meson-info meson-logs
+-NINJA=$PWD/ninjatool $meson setup \
++NINJA="${build_path}/ninjatool" $meson setup \
+         --prefix "${pre_prefix}$prefix" \
+         --libdir "${pre_prefix}$libdir" \
+         --libexecdir "${pre_prefix}$libexecdir" \
+@@ -8249,11 +8259,11 @@ NINJA=$PWD/ninjatool $meson setup \
+         -Dstrip=$(if test "$strip_opt" = yes; then echo true; else echo false; fi) \
+         -Db_pie=$(if test "$pie" = yes; then echo true; else echo false; fi) \
+         -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
+-	-Dsdl=$sdl -Dsdl_image=$sdl_image \
+-	-Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
+-	-Dgettext=$gettext \
++        -Dsdl=$sdl -Dsdl_image=$sdl_image \
++        -Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
++        -Dgettext=$gettext \
+         $cross_arg \
+-        "$PWD" "$source_path"
++        "$build_path" "$source_path"
+ 
+ if test "$?" -ne 0 ; then
+     error_exit "meson setup failed"
 -- 
 2.27.0.windows.1
 
