@@ -2,85 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36C9D251954
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 15:15:24 +0200 (CEST)
-Received: from localhost ([::1]:41860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A439251994
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 15:28:21 +0200 (CEST)
+Received: from localhost ([::1]:49196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAYnL-0006y3-Ak
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 09:15:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43886)
+	id 1kAYzr-0002ky-V5
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 09:28:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsuvorov@redhat.com>)
- id 1kAYma-0006Or-Nc
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 09:14:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26972)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsuvorov@redhat.com>)
- id 1kAYmZ-00035f-30
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 09:14:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598361273;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IgK5yO+j4BZWSns8DwVr32Fx2bPEirLdfFhg2XNPv64=;
- b=fXDJMBIKjetJ2hYL+CI8HpVS7TkwiEQ/CsojL/oM4A4xxv8C/B0z9bV2FpLOaeCwv1cUnH
- 7Q200+wVbo6Vj7ObsIP75R6hcJr7AetIKsI+M7aAocVDy3g8XnsDXfJLrqHC4fc+uOeVPu
- LRVWAs5j4e9MpzsXM2oMYEkfvY7ZWog=
-Received: from mail-yb1-f200.google.com (mail-yb1-f200.google.com
- [209.85.219.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-45-nZL0ajoZNfCb_sj04PAZOg-1; Tue, 25 Aug 2020 09:14:29 -0400
-X-MC-Unique: nZL0ajoZNfCb_sj04PAZOg-1
-Received: by mail-yb1-f200.google.com with SMTP id e1so15045907ybk.14
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 06:14:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kAYye-0002JV-Ni
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 09:27:04 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:44301)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kAYyI-0004fG-7u
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 09:27:04 -0400
+Received: by mail-pf1-x441.google.com with SMTP id p11so4173589pfn.11
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 06:26:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=gpIojt6malPNe1yOMlBnEEfYMoed9AVAUIL2QUF9q1w=;
+ b=m6w5Ry01c+vxwlu5CYZCFHsvzRrAb1eSyBxMtnIoCNzUyaZ2vzhpchdKuuorzX4uzW
+ Wch4/Jr1TFtJ+1BbMoWAp7OTTpMmwZwwFt2X5ae6radrDsqXZDtMcdyDwvPwTcOQ54Rn
+ jsj4POFaAVpDpXKSPspb7yCt0Xdepwbi4D1CuRnHcrEgR0kMyerpqTGSgA6XeDDZcDKN
+ /Su4dv0V7Kv+ewaWsL2YvyZFljYB3OGP5+bD5bcFqwiDSpUPdUsF4ARuAWcxa/UQziM1
+ bfpxctKFFSnUCOLf8FUq9a6U6PmdcqytJV4M5njWc+izvgxWIueWdkd3wVjBkwB7uEFC
+ zlzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=IgK5yO+j4BZWSns8DwVr32Fx2bPEirLdfFhg2XNPv64=;
- b=Zz/0rE3Jw4uhcNAP9bUdtTR78KNG0BwDIG2DAHdMYGw8/45kR45OPkDIB+M7hF84Az
- +D8RXAf6jXFj3kd5WfFhqSDybBLVtwoy21Kne1Tz1ersuOCGhPb766IO0/iwt8IfQYsF
- HzUFsoJFPtquFs5GST8dTGG/Jf6m5yu/9Z4sWmcqAHp6KLIIGW/3tD6NDHv89+M9wKOs
- pYYgPZ+t9BVGClJeTZMeGgoYBlCCEK1kXZ/9FIdo6MhMacncFqak++lsj4KU7zotM+rn
- tIPUwW4iR2EEa7XEtDqTgKo0fRRNRuFe048iEWvCTIHCN4z3fOtD/46zwcrH8eQCaquZ
- b/zQ==
-X-Gm-Message-State: AOAM5332VVD1qFlzh6oTWVOhhZLNStLgIpJMfrV1+FizHsRR6AR3aigv
- lrYzlFb7zORiRHDYQhEQK27QZ8kmi+U0BWtjjn+H5kPW7Q4qcV73rwniQavzB28cIf0ZkV7LBgN
- BB0XUd5DMsqINaI4VG4Iv1znef5p+BBY=
-X-Received: by 2002:a25:68d3:: with SMTP id d202mr13893941ybc.81.1598361268611; 
- Tue, 25 Aug 2020 06:14:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxHiW44PAKbtDIWcp5v6WQd/ETfZVEwtkYuw167ficPisTRYaDx3+jBkjPiPfpXnq3ttp0NZojwzd731oUEEQI=
-X-Received: by 2002:a25:68d3:: with SMTP id d202mr13893880ybc.81.1598361268344; 
- Tue, 25 Aug 2020 06:14:28 -0700 (PDT)
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=gpIojt6malPNe1yOMlBnEEfYMoed9AVAUIL2QUF9q1w=;
+ b=dN824E3jszPzE2lIxjjRW9pMqjyBwWAVJvQeHQ0pAmF6Gdzliq6CISgCuzWMNPo817
+ R0EdKBVUyEc0zWARHSVkLsDyyuaU2kGwJ1EZYaK5fLrPpUl7qBdg5v3iXd01R8QfY7sZ
+ QHfHP1TyFoZAG3bTLwDatPpHeHTs22HUaG737KbF3gBd1/PhGHQOSx4Yna2b56GVnc23
+ b4w2hJ8ottdKiHWVNlZKkAc4KTPLo9BehVp6FbIP26oziMKjK9/8TZGPtWMi9YQVga5g
+ rKpnhSPbDTUJIEBUKAgsrFY+5+XO3tex9IlH6dla4DUYBAWjhPf2kYiiq2uimJ2ML7Yz
+ JASA==
+X-Gm-Message-State: AOAM532JSCpI9C3WbkD2y2Gha67USc9Hbx5Uwn0fri+1Zf+qu9FQF2A2
+ F8wTvPbRrOKQQYXfYbSgw+xaftDVQyDJ0Q==
+X-Google-Smtp-Source: ABdhPJw2TZZpENXOrKYi95DbQK229BkE/NM0GnBuXzJlBGFSBoFVAs9QDqPgQ5U4FLhCysbArVZMdQ==
+X-Received: by 2002:a62:1803:: with SMTP id 3mr8313904pfy.198.1598361996358;
+ Tue, 25 Aug 2020 06:26:36 -0700 (PDT)
+Received: from [192.168.81.79]
+ (h216-228-167-147.bendor.dedicated.static.tds.net. [216.228.167.147])
+ by smtp.gmail.com with ESMTPSA id u3sm2751015pjn.29.2020.08.25.06.26.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Aug 2020 06:26:35 -0700 (PDT)
+Subject: Re: [PATCH] meson: set colorout to auto
+To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+References: <20200825064342.2037-1-kraxel@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <8cdf13b9-49c4-f12c-c67e-6e03e8e802b7@linaro.org>
+Date: Tue, 25 Aug 2020 06:26:33 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200818215227.181654-1-jusual@redhat.com>
- <20200818215227.181654-2-jusual@redhat.com>
- <7220698b-3a7c-cd36-9ca5-5bb9a06a8fd6@redhat.com>
-In-Reply-To: <7220698b-3a7c-cd36-9ca5-5bb9a06a8fd6@redhat.com>
-From: Julia Suvorova <jusual@redhat.com>
-Date: Tue, 25 Aug 2020 15:14:17 +0200
-Message-ID: <CAMDeoFV8k8wBc1z1C4Ff7Y5xsD6x2X4qLDAUnMUuuWC04O-bXA@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 1/4] hw/acpi/ich9: Trace ich9_gpe_readb()/writeb()
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsuvorov@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsuvorov@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 02:03:58
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.958,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200825064342.2037-1-kraxel@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x441.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.602,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,76 +89,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 19, 2020 at 5:14 AM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> On 8/18/20 11:52 PM, Julia Suvorova wrote:
-> > Add trace events similar to piix4_gpe_readb() to check gpe status.
-> >
-> > Signed-off-by: Julia Suvorova <jusual@redhat.com>
-> > Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-> > ---
-> >  hw/acpi/ich9.c       | 7 ++++++-
-> >  hw/acpi/trace-events | 4 ++++
-> >  2 files changed, 10 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
-> > index 6a19070cec..a2a1742aa6 100644
-> > --- a/hw/acpi/ich9.c
-> > +++ b/hw/acpi/ich9.c
-> > @@ -36,6 +36,7 @@
-> >  #include "hw/acpi/acpi.h"
-> >  #include "hw/acpi/tco.h"
-> >  #include "exec/address-spaces.h"
-> > +#include "trace.h"
-> >
-> >  #include "hw/i386/ich9.h"
-> >  #include "hw/mem/pc-dimm.h"
-> > @@ -59,13 +60,17 @@ static void ich9_pm_update_sci_fn(ACPIREGS *regs)
-> >  static uint64_t ich9_gpe_readb(void *opaque, hwaddr addr, unsigned wid=
-th)
-> >  {
-> >      ICH9LPCPMRegs *pm =3D opaque;
-> > -    return acpi_gpe_ioport_readb(&pm->acpi_regs, addr);
-> > +    uint64_t val =3D acpi_gpe_ioport_readb(&pm->acpi_regs, addr);
-> > +
-> > +    trace_ich9_gpe_readb(addr, width, val);
-> > +    return val;
-> >  }
-> >
-> >  static void ich9_gpe_writeb(void *opaque, hwaddr addr, uint64_t val,
-> >                              unsigned width)
-> >  {
-> >      ICH9LPCPMRegs *pm =3D opaque;
-> > +    trace_ich9_gpe_writeb(addr, width, val);
-> >      acpi_gpe_ioport_writeb(&pm->acpi_regs, addr, val);
-> >      acpi_update_sci(&pm->acpi_regs, pm->irq);
-> >  }
-> > diff --git a/hw/acpi/trace-events b/hw/acpi/trace-events
-> > index afbc77de1c..b9f4827afc 100644
-> > --- a/hw/acpi/trace-events
-> > +++ b/hw/acpi/trace-events
-> > @@ -32,6 +32,10 @@ cpuhp_acpi_ejecting_cpu(uint32_t idx) "0x%"PRIx32
-> >  cpuhp_acpi_write_ost_ev(uint32_t slot, uint32_t ev) "idx[0x%"PRIx32"] =
-OST EVENT: 0x%"PRIx32
-> >  cpuhp_acpi_write_ost_status(uint32_t slot, uint32_t st) "idx[0x%"PRIx3=
-2"] OST STATUS: 0x%"PRIx32
-> >
-> > +# ich9.c
-> > +ich9_gpe_readb(uint64_t addr, unsigned width, uint64_t val) "addr: 0x%=
-" PRIx64 " width: %d =3D=3D> 0x%" PRIx64
-> > +ich9_gpe_writeb(uint64_t addr, unsigned width, uint64_t val) "addr: 0x=
-%" PRIx64 " width: %d <=3D=3D 0x%" PRIx64
->
-> Nitpick, val could be uint8_t.
+On 8/24/20 11:43 PM, Gerd Hoffmann wrote:
+> Dunno why the default is set to "always".  IMHO it should be "auto",
+> i.e. only colorize in case stdout goes to a terminal.  Cluttering
+> logfiles and confusing compiler message parsers with terminal control
+> sequences is not nice ...
+> 
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  meson.build | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
-Since 'val' is an argument and its type is uint64_t it's better to
-avoid implicit cast to a smaller type. Also, acpi_gpe_ioport_readb()
-does not return uint8_t.
+Yes please.  All the color escape codes has broken emacs make next-error.
 
+Although applying this doesn't seem to have helped...
+
+
+r~
 
