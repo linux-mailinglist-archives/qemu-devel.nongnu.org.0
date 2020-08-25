@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E81342522F1
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:37:26 +0200 (CEST)
-Received: from localhost ([::1]:51830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C92F2522FB
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:39:13 +0200 (CEST)
+Received: from localhost ([::1]:60398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAgdB-0002CE-Vg
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:37:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36172)
+	id 1kAgeu-0005dn-95
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:39:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kAg3s-0008RD-VN
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:00:56 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:44373)
+ id 1kAg3w-0008WE-Am
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:01:00 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:37544)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kAg3q-0001yH-TL
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:00:56 -0400
-Received: by mail-pg1-x543.google.com with SMTP id m34so7662900pgl.11
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 14:00:54 -0700 (PDT)
+ id 1kAg3t-0001zE-K8
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:00:59 -0400
+Received: by mail-pg1-x544.google.com with SMTP id g33so7674069pgb.4
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 14:00:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=92AClQgNXABacQ0i61DaYrNKkj8PxXy6qywPLdGfziI=;
- b=KBHxp79qnB44H5MyTBLuOwUI1CUO5kzYtE2cLl+IS2YRaYx0dK3lIqZDU7yENZQjc4
- yQAelPZqpY1p5DnzJMBC/HyP++d97PGcRcbat40mM/MHZZkeh9Hu8LiUXnxYICFAigAN
- fkb3XSVDezESkxuPSZQuo42oVOagi2F3j8rLclIW0wyURj3VNmJPZQAr1He0XleiWtv9
- NDRxn6VS/iqDj5Z9+t3cBoopsyGkQfektf9aVSEkQ2Jw3MTvyWWwlZ06gXEX/enOKGVD
- yX9fUQ1Wh1AF4LIAx50i5n3yizLRqzEFz6VdO2kC2a5iuDgBxXfDumtZt8R3BjQErpZ+
- xOmQ==
+ bh=urcrD5NFXjwPKRscyzfCPuOFRd/yp7ofBRVH50uRonY=;
+ b=C8Z2qsY7W3DgCrnXVzJA/tfYQkzOcZeSEpPy41F9NWTcSPTev5vDi2zhq0qOhfe6Xs
+ PR35XOX2hkzwqiEmIwFLrsJLOj/RUZ21J+vB3Bjf9K6e6KMIAqMsq3bLAtQAVs+v8W+L
+ uY8d1RPT2Cq6VvsjFSejeWPDHwjve2uJ5osmWRQPpzUDO0JpStlyDFedCBsaWXupXjxg
+ 9GYQoKM06FRokkE7NT6csaUJzP2dM6dAGahD0/W5SaMFevMc4C/C1AxE4zueIxffc5up
+ 7km7ruN4p69L8B1ezsTp9K4PPQQujEq4Vos+8M0L2O+OyGys7wdxsPyioNK1Tqb15GsS
+ lpZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=92AClQgNXABacQ0i61DaYrNKkj8PxXy6qywPLdGfziI=;
- b=cS1oInutvkylfuBCY1qRD5D8n7789b/b7YdukxTgw1xgqJrcc1eja5MklkA0kp09gy
- tT6a+rQahIaSO/kao9U+fCwQCh8Pyr9fAjt+OPRwdUwt1JYHTAktk4pLmVwc9L59UVvh
- qIIgyUXqy7M3U6knT6anaFrP+0nOt7HGq0cDbC4FcFKzvnVentwz2ikSOdo7Ug/DnJoD
- /AvEWTTatU4nb4EQunZqs/YApabmhr7+PB8NGHKDyaoHU8GvnAPJPJM+K3KORJ3gKeH+
- d5lP5nkbs3ss4bOn7v6MyhFR+D1DZmz9IZs6dmdGmmsKv5CgswqCoshNqKPNvhWLrUQp
- Js1g==
-X-Gm-Message-State: AOAM530FUu5EoMOpdz4/8tYBCNIfzJZWNWByyPGE1grYtqQYmVKPc6HL
- gkcyjzpDytUNhtSudDnCdZTUtQEg23rH3Q==
-X-Google-Smtp-Source: ABdhPJxw8zA6ZN4TKbN2+ABXBvzw8JwlC4F6Yl4aDDu3MLwomwmrW6fc1IHgkdty5lENgdUPzMdFaQ==
-X-Received: by 2002:a63:4e56:: with SMTP id o22mr7715010pgl.381.1598389253174; 
- Tue, 25 Aug 2020 14:00:53 -0700 (PDT)
+ bh=urcrD5NFXjwPKRscyzfCPuOFRd/yp7ofBRVH50uRonY=;
+ b=VrkQ6lC3hKwCVdKLM2LZbGjJ1c7AguIHExKrkPKjxVHfUACfVM74JgCTKOfi15AzmA
+ G4dDzbZTISsg0d+JLvB2n2HlQ5Ty2hXstYAv7WCKg/DKqgbu/RjHaAiP1B592sioXzWS
+ WO4ImrRu6INb92d8vkC9cxGw6JH0XigojZTDQ25YnyMkNPgxqOMzjSRr/i66LS/8OeAs
+ Bp6FTg0kxlZpU6u8JD2HtyyxPzkvrdhORIwNSBoZh1kaQXfj9KpIlXnHO8L7bSoLxewy
+ vJvB8yXc23wWZZZ9j513/QiCyMfXUISiOd1WyktppFLSZZ868ircl6GWkU0ZAvn4Ll1O
+ wTJQ==
+X-Gm-Message-State: AOAM531HTfxdJFqYo+T7zHKYZ3+iW9ZgLDtezNhSww/6+MFYPvhoUM4H
+ 6me9EzutTG9fuWW/lhq4lH+oNxFFstZjOA==
+X-Google-Smtp-Source: ABdhPJzkS8ll7HUSMh7X1UvTsWjO0CC5Mo4f5iANobusin1PDJXHqmItsDBPXF6Kbbinitczc1/Hsw==
+X-Received: by 2002:a63:a119:: with SMTP id b25mr7908105pgf.10.1598389255978; 
+ Tue, 25 Aug 2020 14:00:55 -0700 (PDT)
 Received: from localhost.localdomain
  (h216-228-167-147.bendor.dedicated.static.tds.net. [216.228.167.147])
- by smtp.gmail.com with ESMTPSA id k4sm16074pgr.87.2020.08.25.14.00.52
+ by smtp.gmail.com with ESMTPSA id k4sm16074pgr.87.2020.08.25.14.00.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Aug 2020 14:00:52 -0700 (PDT)
+ Tue, 25 Aug 2020 14:00:55 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 49/77] target/microblaze: Mark fpu helpers TCG_CALL_NO_WG
-Date: Tue, 25 Aug 2020 13:59:22 -0700
-Message-Id: <20200825205950.730499-50-richard.henderson@linaro.org>
+Subject: [PATCH 51/77] target/microblaze: Cache mem_index in DisasContext
+Date: Tue, 25 Aug 2020 13:59:24 -0700
+Message-Id: <20200825205950.730499-52-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200825205950.730499-1-richard.henderson@linaro.org>
 References: <20200825205950.730499-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x544.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,55 +89,62 @@ Cc: edgar.iglesias@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that FSR is no longer a tcg global temp, we can say that
-the fpu helpers do not write to tcg temps.  All temps are
-read implicitly by the fpu exception path.
+Ideally, nothing outside the top-level of translation even
+has access to env.  Cache the value in init_disas_context.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/helper.h | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+ target/microblaze/translate.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/target/microblaze/helper.h b/target/microblaze/helper.h
-index 79e1e8ecc7..64816c89e1 100644
---- a/target/microblaze/helper.h
-+++ b/target/microblaze/helper.h
-@@ -3,21 +3,21 @@ DEF_HELPER_FLAGS_2(raise_exception, TCG_CALL_NO_WG, noreturn, env, i32)
- DEF_HELPER_FLAGS_3(divs, TCG_CALL_NO_WG, i32, env, i32, i32)
- DEF_HELPER_FLAGS_3(divu, TCG_CALL_NO_WG, i32, env, i32, i32)
+diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
+index cb490488a6..8a251b35d9 100644
+--- a/target/microblaze/translate.c
++++ b/target/microblaze/translate.c
+@@ -73,6 +73,7 @@ typedef struct DisasContext {
+     unsigned int delayed_branch;
+     unsigned int tb_flags, synced_flags; /* tb dependent flags.  */
+     unsigned int clear_imm;
++    int mem_index;
  
--DEF_HELPER_3(fadd, i32, env, i32, i32)
--DEF_HELPER_3(frsub, i32, env, i32, i32)
--DEF_HELPER_3(fmul, i32, env, i32, i32)
--DEF_HELPER_3(fdiv, i32, env, i32, i32)
--DEF_HELPER_2(flt, i32, env, i32)
--DEF_HELPER_2(fint, i32, env, i32)
--DEF_HELPER_2(fsqrt, i32, env, i32)
-+DEF_HELPER_FLAGS_3(fadd, TCG_CALL_NO_WG, i32, env, i32, i32)
-+DEF_HELPER_FLAGS_3(frsub, TCG_CALL_NO_WG, i32, env, i32, i32)
-+DEF_HELPER_FLAGS_3(fmul, TCG_CALL_NO_WG, i32, env, i32, i32)
-+DEF_HELPER_FLAGS_3(fdiv, TCG_CALL_NO_WG, i32, env, i32, i32)
-+DEF_HELPER_FLAGS_2(flt, TCG_CALL_NO_WG, i32, env, i32)
-+DEF_HELPER_FLAGS_2(fint, TCG_CALL_NO_WG, i32, env, i32)
-+DEF_HELPER_FLAGS_2(fsqrt, TCG_CALL_NO_WG, i32, env, i32)
+ #define JMP_NOJMP     0
+ #define JMP_DIRECT    1
+@@ -175,8 +176,7 @@ static bool trap_illegal(DisasContext *dc, bool cond)
+  */
+ static bool trap_userspace(DisasContext *dc, bool cond)
+ {
+-    int mem_index = cpu_mmu_index(&dc->cpu->env, false);
+-    bool cond_user = cond && mem_index == MMU_USER_IDX;
++    bool cond_user = cond && dc->mem_index == MMU_USER_IDX;
  
--DEF_HELPER_3(fcmp_un, i32, env, i32, i32)
--DEF_HELPER_3(fcmp_lt, i32, env, i32, i32)
--DEF_HELPER_3(fcmp_eq, i32, env, i32, i32)
--DEF_HELPER_3(fcmp_le, i32, env, i32, i32)
--DEF_HELPER_3(fcmp_gt, i32, env, i32, i32)
--DEF_HELPER_3(fcmp_ne, i32, env, i32, i32)
--DEF_HELPER_3(fcmp_ge, i32, env, i32, i32)
-+DEF_HELPER_FLAGS_3(fcmp_un, TCG_CALL_NO_WG, i32, env, i32, i32)
-+DEF_HELPER_FLAGS_3(fcmp_lt, TCG_CALL_NO_WG, i32, env, i32, i32)
-+DEF_HELPER_FLAGS_3(fcmp_eq, TCG_CALL_NO_WG, i32, env, i32, i32)
-+DEF_HELPER_FLAGS_3(fcmp_le, TCG_CALL_NO_WG, i32, env, i32, i32)
-+DEF_HELPER_FLAGS_3(fcmp_gt, TCG_CALL_NO_WG, i32, env, i32, i32)
-+DEF_HELPER_FLAGS_3(fcmp_ne, TCG_CALL_NO_WG, i32, env, i32, i32)
-+DEF_HELPER_FLAGS_3(fcmp_ge, TCG_CALL_NO_WG, i32, env, i32, i32)
+     if (cond_user && (dc->tb_flags & MSR_EE)) {
+         gen_raise_hw_excp(dc, ESR_EC_PRIVINSN);
+@@ -954,7 +954,7 @@ static void dec_load(DisasContext *dc)
+     TCGv addr;
+     unsigned int size;
+     bool rev = false, ex = false, ea = false;
+-    int mem_index = cpu_mmu_index(&dc->cpu->env, false);
++    int mem_index = dc->mem_index;
+     MemOp mop;
  
- DEF_HELPER_FLAGS_2(pcmpbf, TCG_CALL_NO_RWG_SE, i32, i32, i32)
- #if !defined(CONFIG_USER_ONLY)
+     mop = dc->opcode & 3;
+@@ -1063,7 +1063,7 @@ static void dec_store(DisasContext *dc)
+     TCGLabel *swx_skip = NULL;
+     unsigned int size;
+     bool rev = false, ex = false, ea = false;
+-    int mem_index = cpu_mmu_index(&dc->cpu->env, false);
++    int mem_index = dc->mem_index;
+     MemOp mop;
+ 
+     mop = dc->opcode & 3;
+@@ -1532,6 +1532,7 @@ static void mb_tr_init_disas_context(DisasContextBase *dcb, CPUState *cs)
+     dc->ext_imm = dc->base.tb->cs_base;
+     dc->r0 = NULL;
+     dc->r0_set = false;
++    dc->mem_index = cpu_mmu_index(&cpu->env, false);
+ 
+     bound = -(dc->base.pc_first | TARGET_PAGE_MASK) / 4;
+     dc->base.max_insns = MIN(dc->base.max_insns, bound);
 -- 
 2.25.1
 
