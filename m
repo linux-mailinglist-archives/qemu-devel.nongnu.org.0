@@ -2,70 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 755B32522EF
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:36:30 +0200 (CEST)
-Received: from localhost ([::1]:47782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A78372522F3
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:38:26 +0200 (CEST)
+Received: from localhost ([::1]:56096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAgcH-0000YA-FC
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:36:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41456)
+	id 1kAge9-0003uy-Nr
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:38:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kAgRB-0007F6-At
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:25:01 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:33395)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kAgR9-0004ff-Ej
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:25:00 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id w14so12031435eds.0
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 14:24:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IdoAv0ugNd7WnoD6TxtD6MpZqzqpCPds/f/CWSJyVxs=;
- b=Fw5fwTWP7d8wki9jb1Jl8LmZHXzfHnvKga8kU4kFQdVtFzwpnIgu3a5VrnVjWoiMMi
- +aEJygVyJOMT1tn+/i6AlJsDr8difO8ygPXFrx2WVmqCewr1NbC9fOxazcmwI4ASwt7B
- BinjPe7ex8w33U+8okij5PJhbu+vKvxuDfZfJM2AzTZtdkplQeCV+kcgqORd0/VAJXpf
- wh4s2OJr6UneKSqMHQR9dRDKs5Z5ROb73YEHKX4VTQ93j7znAsCLTS3hi00C+f9x4JBq
- EhFfFr9sTLUNatmI2D8nukWxTULWb24NIfvhTNu/r0Ne5yiYYrj89jjflIuSq+8io9zP
- vGBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IdoAv0ugNd7WnoD6TxtD6MpZqzqpCPds/f/CWSJyVxs=;
- b=pLh3h1lwd+WUtYYiKUplBVxUzIym3ozBd9EsRenYtfbY3I4IP2X3eqLZzp/HAy/GMn
- vfJ03/oeVSIVDglSwo/4pDcS83m5DrOptQJDDeD5bXZmdEPlCI+dzJLlAtGEcMPofTMv
- Pj/jFglSKEBCu2jEOOr5kKJJRskSsgM3mgvDNHyM37HifzyQ+3auL1tvMkDQCdJ0BfJr
- P3f/pLieFUgxNV+gNXn1cel+Ky0ex9ulW6mNB2uYIXntN+FVX721zqP/6+tTgSWtM+mW
- o5lGJbROQ9oyDvUP6TuOVkNmkqNO/KY8Pq2WxqRDs9fErewt2h1U+Iuvl9ontRzecYj7
- 2NXA==
-X-Gm-Message-State: AOAM530meKdBnrzRYboJ7BAea6Qgr5qMsFEDFHBi+3rXq2MzEKR4xVSL
- QSc71NPVLnEG9z3EqcirICuISdWf/1TzD2iLtxEUcA==
-X-Google-Smtp-Source: ABdhPJxf61u5+bwV8pD1ip+G4nQdhILt8Td2K4X7I5HALQGtHcM/6kMCAFlYq1QVSCgaI31gsbPZXekKmrru5l6VgCE=
-X-Received: by 2002:aa7:ca0c:: with SMTP id y12mr11925732eds.251.1598390697867; 
- Tue, 25 Aug 2020 14:24:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kAgSg-0001zH-QS
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:26:34 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:35956
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kAgSe-0004w7-6k
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:26:34 -0400
+Received: from host217-42-19-185.range217-42.btcentralplus.com
+ ([217.42.19.185] helo=[192.168.1.65])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kAgSx-0002FK-Cg; Tue, 25 Aug 2020 22:26:56 +0100
+To: luoyonggang@gmail.com, qemu-devel@nongnu.org
+References: <20200825165341.520-1-luoyonggang@gmail.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
+ mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
+ 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
+ E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
+ PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
+ PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
+ AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
+ OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
+ NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
+ mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
+ z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
+ T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
+ DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
+ y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
+ 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
+ 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
+ YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
+ Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
+ BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
+ opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
+ NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
+ Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
+ KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
+ imgcU9TTGC5qd9g=
+Message-ID: <426ddc96-c26d-e762-0598-7ae61c711d8e@ilande.co.uk>
+Date: Tue, 25 Aug 2020 22:26:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-References: <20200825184836.1282371-1-alistair.francis@wdc.com>
-In-Reply-To: <20200825184836.1282371-1-alistair.francis@wdc.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 25 Aug 2020 22:24:47 +0100
-Message-ID: <CAFEAcA8=Mf=EPh__tNhJyGv8+ouD-HH+MuMb+HhtTFes+XqUSQ@mail.gmail.com>
-Subject: Re: [PULL 00/18] riscv-to-apply queue
-To: Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
+In-Reply-To: <20200825165341.520-1-luoyonggang@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 217.42.19.185
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 1/4] meson: Fixes the ninjatool issue that E$$: are
+ generated in Makefile.ninja
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.602,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,39 +90,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair23@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?RGFuaWVsIFAgLiBCZXJyYW5n6IyF?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 25 Aug 2020 at 20:01, Alistair Francis <alistair.francis@wdc.com> wrote:
->
-> The following changes since commit 7774e403f2ac58b3e87bfe8d2f77676501ba893e:
->
->   Merge remote-tracking branch 'remotes/kraxel/tags/fixes-20200825-pull-request' into staging (2020-08-25 10:54:51 +0100)
->
-> are available in the Git repository at:
->
->   git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20200825
->
-> for you to fetch changes up to e39a8320b088dd5efc9ebaafe387e52b3d962665:
->
->   target/riscv: Support the Virtual Instruction fault (2020-08-25 09:11:36 -0700)
->
-> ----------------------------------------------------------------
-> This pull request first adds support for multi-socket NUMA RISC-V
-> machines. The Spike and Virt machines both support NUMA sockets.
->
-> This PR also updates the current experimental Hypervisor support to the
-> v0.6.1 spec.
->
-> ----------------------------------------------------------------
+On 25/08/2020 17:53, luoyonggang@gmail.com wrote:
 
-The hypervisor related patches don't seem to have any
-reviewed-by tags, which seems a shame for a fairly significant
-chunk of work. Is there really nobody who can review them
-for you ?
+> From: Yonggang Luo <luoyonggang@gmail.com>
+> 
+> SIMPLE_PATH_RE should match the full path token.
+> Or the $ and : contained in path would not matched if the path are start with C:/ and E:/
+> ---
+>  scripts/ninjatool.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/scripts/ninjatool.py b/scripts/ninjatool.py
+> index cc77d51aa8..6ca8be6f10 100755
+> --- a/scripts/ninjatool.py
+> +++ b/scripts/ninjatool.py
+> @@ -55,7 +55,7 @@ else:
+>  
+>  PATH_RE = r"[^$\s:|]+|\$[$ :]|\$[a-zA-Z0-9_-]+|\$\{[a-zA-Z0-9_.-]+\}"
+>  
+> -SIMPLE_PATH_RE = re.compile(r"[^$\s:|]+")
+> +SIMPLE_PATH_RE = re.compile(r"^[^$\s:|]+$")
+>  IDENT_RE = re.compile(r"[a-zA-Z0-9_.-]+$")
+>  STRING_RE = re.compile(r"(" + PATH_RE + r"|[\s:|])(?:\r?\n)?|.")
+>  TOPLEVEL_RE = re.compile(r"([=:#]|\|\|?|^ +|(?:" + PATH_RE + r")+)\s*|.")
 
-thanks
--- PMM
+I've tested this and it changes build.ninja so instead of Windows paths beginning C$$
+they now begin C$ instead e.g.:
+
+build qemu-version.h: CUSTOM_COMMAND  |
+C$:/msys64/home/Mark/qemu/scripts/qemu-version.sh PHONY
+
+I was expecting this not to work, however it seems in the next stage of
+transformation from build.ninja to Makefile.ninja the extra $ is removed correctly:
+
+qemu-version.h: qemu-version.h.stamp; @:
+qemu-version.h.stamp: C:/msys64/home/Mark/qemu/scripts/qemu-version.sh PHONY | ;
+${ninja-command-restat}
+
+It feels like the extra $ shouldn't be present in build.ninja, but the patch does
+generate a Makefile.ninja that works.
+
+
+ATB,
+
+Mark.
 
