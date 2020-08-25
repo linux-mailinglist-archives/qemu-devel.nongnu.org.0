@@ -2,61 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1EF4251754
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 13:20:03 +0200 (CEST)
-Received: from localhost ([::1]:52530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CB7225172F
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 13:13:13 +0200 (CEST)
+Received: from localhost ([::1]:54178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAWzi-0003nc-Mn
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 07:20:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41868)
+	id 1kAWt6-0001CD-L5
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 07:13:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kAWwU-00072U-FX; Tue, 25 Aug 2020 07:16:43 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:41845)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kAWwS-00053w-55; Tue, 25 Aug 2020 07:16:42 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BbRJc2dthz9sTm; Tue, 25 Aug 2020 21:16:31 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1598354192;
- bh=EQPdCzGXEohFL8bGkVDNx+u+KUy8Mwb8RMIjqXsIKOE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PjxOJqmyPQNZQDdgru4qmelsmeO6iJ1MGo6YTFn9kbyN7oCcgrTmTjwneDk/K0l46
- oZC59MdlvrThAQvUy2LGLd/uw8ofTn87CDWYyhQd8ExqHLugmUf1qDtwRnBqcC1AS+
- Tc6otrfuSjIKH5RkvybhcNEFRo7nj4HKi6mZvPik=
-Date: Tue, 25 Aug 2020 21:12:08 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH 02/10] numa: introduce
- MachineClass::forbid_asymmetrical_numa
-Message-ID: <20200825111208.GH4734@yekko.fritz.box>
-References: <20200820011726.GF271315@yekko.fritz.box>
- <20200820021128.GC642093@habkost.net>
- <20200820041504.GN271315@yekko.fritz.box>
- <20200820165103.GD642093@habkost.net>
- <20200821105538.6f6b46c8@redhat.com>
- <e007c59f-9533-48f0-a08a-6745a29b6600@gmail.com>
- <20200824060839.GE4734@yekko.fritz.box>
- <f936f3a7-78d1-dd1f-511b-1705c165fc06@gmail.com>
- <20200824234917.GF4734@yekko.fritz.box>
- <98728fe4-1262-6be2-8dd1-1b38ffbe81e9@gmail.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kAWsG-0000bE-En
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 07:12:20 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:25721
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kAWsD-0004Je-Vo
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 07:12:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598353937;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xB/yNdPerBZeAXz1ulVus+KtYpNCfbOy2SavkQSBh2o=;
+ b=Oe+B6BHLXoli9Kf7zjH4EZ8X/vlDqWB7DzJF8UObWzAFbSTD5CbNAhDNVjmLH+gWv6/QJ8
+ T5dzOVr+VGewMHBSG57KW8eHDbPM+N07RvhrHls1kSPq0fA9nThioiOIB3+mqz75QUq/ID
+ 7WGl/QrXQmxuh7U61OTRWkvOTyC8ST0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-318-_YpUc_piNoe7BbwnhBYmOg-1; Tue, 25 Aug 2020 07:12:15 -0400
+X-MC-Unique: _YpUc_piNoe7BbwnhBYmOg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37E62807346;
+ Tue, 25 Aug 2020 11:12:14 +0000 (UTC)
+Received: from redhat.com (ovpn-114-231.ams2.redhat.com [10.36.114.231])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BFFC61944D;
+ Tue, 25 Aug 2020 11:12:12 +0000 (UTC)
+Date: Tue, 25 Aug 2020 12:12:10 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH v2 25/58] armsse: Rename QOM macros to avoid conflicts
+Message-ID: <20200825111210.GR107278@redhat.com>
+References: <20200820001236.1284548-1-ehabkost@redhat.com>
+ <20200820001236.1284548-26-ehabkost@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="YrlhzR9YrZtruaFS"
+In-Reply-To: <20200820001236.1284548-26-ehabkost@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-In-Reply-To: <98728fe4-1262-6be2-8dd1-1b38ffbe81e9@gmail.com>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 01:35:36
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.958,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,87 +85,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
- John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, Aug 19, 2020 at 08:12:03PM -0400, Eduardo Habkost wrote:
+> Rename TYPE_ARMSSE to TYPE_ARM_SSE, and ARMSSE*() type checking
+> macros to ARM_SSE*().
+> 
+> This will avoid a future conflict between an ARM_SSE() type
+> checking macro and the ARMSSE typedef name.
+> 
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> ---
+> Changes series v1 -> v2: new patch in series v2
+> 
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: qemu-arm@nongnu.org
+> Cc: qemu-devel@nongnu.org
+> ---
+>  include/hw/arm/armsse.h | 12 ++++++------
+>  hw/arm/armsse.c         | 24 ++++++++++++------------
+>  2 files changed, 18 insertions(+), 18 deletions(-)
 
---YrlhzR9YrZtruaFS
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-On Tue, Aug 25, 2020 at 06:56:46AM -0300, Daniel Henrique Barboza wrote:
->=20
->=20
-> On 8/24/20 8:49 PM, David Gibson wrote:
-> > On Mon, Aug 24, 2020 at 08:45:12AM -0300, Daniel Henrique Barboza wrote:
-> > >=20
-> > >=20
->=20
-> [...]
->=20
-> > > > > LOPAPR support a somewhat asymmetrical NUMA setup in its current
-> > > > > form,
-> > > >=20
-> > > > Huh, I didn't even realize that.  What's the mechanism?
-> > >=20
-> > > LOPAPR mentions that a single resource/node can have multiple associa=
-tivity
-> > > arrays. The idea is to contemplate the situations where the node has
-> > > more than one connection with the board.
-> > >=20
-> > > I say "somewhat" because, right after mentioning that, the spec also =
-says that
-> > > the OS should consider that the distance between two nodes must alway=
-s be
-> > > the shortest one of all available arrays. I'll copy/paste the except =
-here
-> > > (end of section 15.2, "Numa Resource Associativity":
-> >=20
-> > Ah.  I didn't think that's what "asymmetric NUMA" meant... but come to
-> > think of it, I'm not very sure about that.
->=20
->=20
-> This was a poor attempt of my part to cut PAPR some slack.
->=20
-> TBH, even if current PAPR allows for some form of NUMA asymmetry, I don't=
- think
-> it's worth implementing at all. It'll be more complexity on top of what I
-> already added here, and the best case scenario will be the kernel ignorin=
-g it
-> (worst case - kernel blowing it up because we're adding more associativity
-> arrays in each CPU and so on).
 
-Yes, I agree.
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---YrlhzR9YrZtruaFS
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl9E8gYACgkQbDjKyiDZ
-s5I3DRAAtF8dcAIIEBRolOFiMVxR+78skl5PnuCMJ4zasQNedouQEg2KL6HjMgX4
-0tgEpAea8UCw/yRRjzev+Gze0Onk6Veadmtb+LF4B4DNKuDaWFXDbqFHvKq5gz+2
-Mcpw1PL6ui8Qmh50DN1oQ07w/OVEQFco6tIJ5eop2cPS+P222DtCQ0+QegIAggL8
-6k+TjnoGwCqFlYbymPuC8p1wFTAFPo/PKTOHAFETpJJ4QQOzfjdYu1lhl5dTAVRi
-lz+wimWwXw8dwJbmEDzWpe7pDEm5791gQ4MCwZO4ZhGqoAT/ScObFAu0Zz1z+4uL
-UqQVnUmZ9TuX0kdM93GT6Ecyz08fCRJZ+SkVSrs/2DC6DRaN7yXfZqfvB1pWUdKA
-zcxcd54bn0V57ToIW3Q3AbfPea18WnOLua8e3yGqFOOXAjHZhEORRYVeFa6HdySE
-QLLkKWuw6iUR/AXQsySbx0KoxN/RiJL1lGrIINR/sCbU8WEp3voJDJC/nGPPTbAD
-17qriPebXLDH9EOiD4rzyTqWbBQphHg65tUpkae3GHyvHr9b3dZNaKA/tcWrizPs
-46E7kMRZD8BCVKKsVo3mdvr1xziX6548SohrkJO42ZYPN3G3D9WHpq/zfcgUL85k
-lOIIOHmg/6FHXGheBqaSGNuGZFZq1aNlOIBKIuLig7JxlJHxAIc=
-=lp04
------END PGP SIGNATURE-----
-
---YrlhzR9YrZtruaFS--
 
