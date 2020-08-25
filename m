@@ -2,108 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A82CB2522E3
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:35:01 +0200 (CEST)
-Received: from localhost ([::1]:39436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6112B252314
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:47:34 +0200 (CEST)
+Received: from localhost ([::1]:34322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAgaq-0005WL-Ll
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:35:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40780)
+	id 1kAgmz-0001XC-G8
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:47:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1kAgMo-0005ku-V8
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:20:30 -0400
-Received: from mail-eopbgr60111.outbound.protection.outlook.com
- ([40.107.6.111]:2560 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1kAgMm-0004EC-N7
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:20:30 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=apriyXGWLAjVtem2eK31qwNo6ifrjR7ea9BPRayAsxIRRO4tla/2KLZyUok/Y/9Owr5xk5sd3/brjktsSYoFNVsg3Fbx0GDgwJrSCG14Yn6DqqyvSQkElDai0A77C4JdqIXuuVV/W/Fc9mxBYRe0UZY71y5A9fi+j6xkypRFOfymz1I0yZkZqwn+7RZmG21OUBOFyItn9FJTUvyPSkxzaO/64k0j+XMUerMyxhChZHq7K29yOzVkNBnRB1GeBgUVPlwC2ozSz9ntGglp2OiUlUTu9EhRhg4JgetMMLEzn55W916grh8zbn7zns1shTBph4FHPxuEKfnzqweGsFKMow==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=J1dV1RWzSFMO1GVgumA+XdGxwE57lNFLjPnlvb0DEGY=;
- b=RY/SxPx5yUE51MQ+n3+UsJqinAqcWSxMvnd6fz6jHonNHoNxhlE2UafKneYjX04SYA+VWkDdk8UhhbVhYK9kNtb1GQU/nd/poia1E0bksrA6ApQ/PAvuU1oD8XU306G9a6edhdhhfoGBHJIIxGv7VpQw9jbxtLApnCtsmoGI8w/B0NYvhpVNZcQ4URgriYwdkkf+gYlhaPMHahaVwssTGu0Fyi0kO/gDL27ThAAuLvulAnH6d4Z3MU1uHRzPn3A24H/Gg1Ew6HxjCVrkQDRuyoNFjkC5PQ5JhoczWmsFNIJPxevIYDBnN+gDNmPc0I33sKslpBi5nGd1kn+MPGa+mg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
- dkim=pass header.d=syrmia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=J1dV1RWzSFMO1GVgumA+XdGxwE57lNFLjPnlvb0DEGY=;
- b=LoSCpzwvGOPC1KgEJrkwUuoWt0ynVzU32KE0Ir1ZHnEqJjmfKI+3YebdiQk76UjMK4Bb2NzBbVW5pohH83Cz7LYk/1Ui/zEQPYs8BFg3EhmO0UqBM2xY2BoEEzfPEei67uJpDSbaq9a+Y9AOM3xnVkppxtlEoxLrViZHSea+1MM=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=syrmia.com;
-Received: from VE1PR03MB5246.eurprd03.prod.outlook.com (2603:10a6:802:a1::22)
- by VI1PR0301MB2253.eurprd03.prod.outlook.com (2603:10a6:800:27::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.26; Tue, 25 Aug
- 2020 21:20:20 +0000
-Received: from VE1PR03MB5246.eurprd03.prod.outlook.com
- ([fe80::3568:5b4f:ab6b:e362]) by VE1PR03MB5246.eurprd03.prod.outlook.com
- ([fe80::3568:5b4f:ab6b:e362%6]) with mapi id 15.20.3261.026; Tue, 25 Aug 2020
- 21:20:20 +0000
-From: Filip Bozuta <Filip.Bozuta@syrmia.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] linux-user: Add support for 'recvmmsg_time64()'
-Date: Tue, 25 Aug 2020 23:20:05 +0200
-Message-Id: <20200825212005.35982-3-Filip.Bozuta@syrmia.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200825212005.35982-1-Filip.Bozuta@syrmia.com>
-References: <20200825212005.35982-1-Filip.Bozuta@syrmia.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: ZR0P278CA0045.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:1d::14) To VE1PR03MB5246.eurprd03.prod.outlook.com
- (2603:10a6:802:a1::22)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1kAgNE-0006ZZ-LE
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:20:56 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:32509
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1kAgNB-0004Lp-Oa
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:20:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598390451;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=XuT42yOkfdA+wMaxyw5KDqINVZj8rLGxPLEtzLmXKdM=;
+ b=U4Ek7T34qAd07FjcnOTIO4nT5tHAzXInLnn20GdAmvlsRFYLvnv2QG0LbYibCNzPJfv3kY
+ dxYTXJ+ewh/2n9z/yfoKmVuC4gZCwEQXFa/oxiBIqlDqj1xefc+N3eETEKEzME1v8VTZri
+ g3Ajy+R6MOItgSzqS4OkFJn3FvRoYEM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-337-fbUw_D34Mq28azx5ixV2gg-1; Tue, 25 Aug 2020 17:20:47 -0400
+X-MC-Unique: fbUw_D34Mq28azx5ixV2gg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2CA7881F01D;
+ Tue, 25 Aug 2020 21:20:46 +0000 (UTC)
+Received: from localhost (ovpn-114-99.ams2.redhat.com [10.36.114.99])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E125074E00;
+ Tue, 25 Aug 2020 21:20:40 +0000 (UTC)
+Date: Tue, 25 Aug 2020 22:20:39 +0100
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: libguestfs@redhat.com, virt-tools-list@redhat.com, nbd@other.debian.org,
+ qemu-devel@nongnu.org
+Subject: ANNOUNCE: libnbd 1.4 - high performance NBD client library
+Message-ID: <20200825212039.GR16477@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (147.91.217.240) by
- ZR0P278CA0045.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:1d::14) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3326.19 via Frontend Transport; Tue, 25 Aug 2020 21:20:20 +0000
-X-Mailer: git-send-email 2.25.1
-X-Originating-IP: [147.91.217.240]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: bb6754b0-4dd0-411a-389f-08d8493cac0d
-X-MS-TrafficTypeDiagnostic: VI1PR0301MB2253:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR0301MB2253AD931BFC7157A659B93BEB570@VI1PR0301MB2253.eurprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AQsSqSTSCcbJVgwFeEJkwZX1NVS916uv3B4V6Q1Fy8vtTc6ORJAoyNd7okOJWpgjF2t/EcaqbVHCXA6gfPIs3wvAAl/vJhNaMN3ciIU7HBqrIM6L8RyiTy+YKlLChgnLALRZ8eTvlE8HlCQV9r6JHEmePzk8OSzQkz2bzehzW2EgLeGXKhHqYUe8B/4rKeu5XBALr//FP6H6MMgVXR2lWWXn1XGSQMz6h7rte+LtGJiZ3BoPqKUnBzp0KPlWo5jOJDch7cmKvkOPfGO/sqEnUBXnkDlFuftNW35Ou9o9sYSp+SDdgwgMbLXftEEU2LNHqnwkowXvuA8fV1aM49HmBFWA+EKKTFKu5n/j6/avQDa/WtalcAlepXqZ0FDvg2Bl/7YOR40kp7zxcVHLerAuECJqwvoelsQS38/Y6v/Pp/VUPBs9wCVOqbop4jvRwC5LAveC2xWXKChokS4p0bAqcQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VE1PR03MB5246.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(346002)(366004)(39830400003)(136003)(376002)(396003)(66476007)(86362001)(16526019)(66556008)(107886003)(1076003)(8936002)(186003)(2616005)(956004)(6512007)(26005)(6916009)(5660300002)(83380400001)(4326008)(966005)(316002)(66946007)(52116002)(478600001)(6486002)(2906002)(54906003)(36756003)(6666004)(8676002)(6506007)(69590400007);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: 4GuMjlE5kvfRzKJ7iMYZjTi1uBtJBhMQuBjC4AXQvNfDiy2HPDOQzi/1t9tBHK/T2xL7p+xUf70Ri+clCUVDGjhjs03TZKX5YqJTythuL6U1yrIN/ry8ZCz6LPKLrtob2w9BsSiuDxnQEnJOg4iFkTeKRPGKUtAZ15tye2Zxs95darTNwG0NEUYSxYu4SCAnVTZItzYWGUJELIKZ0kJ3trA+NvZ7HfJtt0GlSq7bn4HnEYSrPddve/iVM7eDuu/yqUlnvJLZZhuz2l/ljboLzb0KI2QViLGXJL9Bs47gM9RGJXoDodxGWfXVkETThSFSlL1Y1IB09R7IkOdXW62GwuLZLTFpEoSrT/xOFu62KXwUbBCr/JMJQC4W5gW1+ZkEm8deLyoXv+7t4fOYBB9gNvLqWrSWbQWAX+TM/72qgsmv8WZ3b8oQWQd4RP1HWB3YuWimx5wTREbF1yYTZcvn8yGDuY8mdDi+dKmZ/N9/91wTxZtjcLHzknBinlBna77dP2xWaJJpEs7dj6gY/r8Db1eEozMX5JKSacXPHI6Bjhco5ntfJsgDnkv+VCYnlbj1znOKwcFkrq/lAZzUiDbFmmsvDy+2uMIn79V5DKHyqxqBNCsRyMNKg4xxXjT4HS4pRA6OKXFDWfhlKXpD+lZG0Q==
-X-OriginatorOrg: syrmia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bb6754b0-4dd0-411a-389f-08d8493cac0d
-X-MS-Exchange-CrossTenant-AuthSource: VE1PR03MB5246.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2020 21:20:20.7877 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MokUvIORbi26zL4BEgVp4S8WpNYbyvUs6oCC3nZTEmzPDQUFFSwOdY4Pg4GG2DgkseGHkutLtAWzI03TMiNPzg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0301MB2253
-Received-SPF: pass client-ip=40.107.6.111;
- envelope-from=Filip.Bozuta@syrmia.com;
- helo=EUR04-DB3-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 17:20:21
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
+X-Mimecast-Spam-Score: 0.003
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=rjones@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 15:21:30
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.958,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -116,110 +79,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
- Filip Bozuta <Filip.Bozuta@syrmia.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-   This patch introduces functionality for syscall:
+I'm pleased to announce the release of libnbd 1.4.0,
+a high performance Network Block Device (NBD) client library.
 
-*recvmmsg_time64
 
-    This syscall is a 2038 safe variant for syscall:
+Key features of libnbd:
 
-    int recvmmsg(int sockfd, struct mmsghdr *msgvec, unsigned int vlen,
-                 int flags, struct timespec *timeout)
-    --receive multiple messages on a socket--
-    man page: https://man7.org/linux/man-pages/man2/recvmmsg.2.html
+ * Synchronous API for ease of use.
 
-Implementation notes:
+ * Asynchronous API for writing non-blocking, multithreaded clients.
+   You can mix both APIs freely.
 
-    Function 'do_sendrecvmmsg()' in 'syscall.c' was changed with the
-    addition of a new argument 'time64' which represents a flag by
-    which the function knows what kind of 'struct timespec' converting
-    function to call ('target_to_host_timespec() or
-    'target_to_host_timespec64()'). It is false in case of
-    'TARGET_NR_recvmmsg' and true in case of 'TARGET_NR_recvmmsg_time64'.
+ * High performance.
 
-    In 'do_socketcall()', the 'TARGET_ABI_BITS' was checked to know
-    what value for 'time64' argument to pass.
+ * Minimal dependencies for the basic library.
 
-Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
----
- linux-user/syscall.c | 27 +++++++++++++++++++--------
- 1 file changed, 19 insertions(+), 8 deletions(-)
+ * Well-documented, stable API.
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index dc89bfacca..762eea0e5b 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -3197,7 +3197,7 @@ static abi_long do_sendrecvmsg(int fd, abi_ulong target_msg,
- 
- static abi_long do_sendrecvmmsg(int fd, abi_ulong target_msgvec,
-                                 unsigned int vlen, unsigned int flags,
--                                abi_ulong timeout, int send)
-+                                abi_ulong timeout, bool time64, int send)
- {
-     struct target_mmsghdr *mmsgp;
-     struct timespec ts, end_time, curr_time;
-@@ -3212,8 +3212,14 @@ static abi_long do_sendrecvmmsg(int fd, abi_ulong target_msgvec,
-         return -TARGET_EFAULT;
-     }
-     if (timeout) {
--        if (target_to_host_timespec(&ts, timeout)) {
--            return -TARGET_EFAULT;
-+        if (time64) {
-+            if (target_to_host_timespec64(&ts, timeout)) {
-+                return -TARGET_EFAULT;
-+            }
-+        } else {
-+            if (target_to_host_timespec(&ts, timeout)) {
-+                return -TARGET_EFAULT;
-+            }
-         }
-         if (ts.tv_sec < 0 || ts.tv_nsec < 0 || ts.tv_nsec > 1000000000) {
-             return -TARGET_EINVAL;
-@@ -3506,7 +3512,7 @@ static abi_long do_socketcall(int num, abi_ulong vptr)
-         [TARGET_SYS_SENDMSG] = 3,     /* fd, msg, flags */
-         [TARGET_SYS_RECVMSG] = 3,     /* fd, msg, flags */
-         [TARGET_SYS_ACCEPT4] = 4,     /* fd, addr, addrlen, flags */
--        [TARGET_SYS_RECVMMSG] = 5,    /* fd, msgvec, vlen, flags, timeout */
-+        [TARGET_SYS_RECVMMSG] = 6,    /* fd, msgvec, vlen, flags, timeout */
-         [TARGET_SYS_SENDMMSG] = 4,    /* fd, msgvec, vlen, flags */
-     };
-     abi_long a[6]; /* max 6 args */
-@@ -3566,9 +3572,10 @@ static abi_long do_socketcall(int num, abi_ulong vptr)
-     case TARGET_SYS_ACCEPT4: /* sockfd, addr, addrlen, flags */
-         return do_accept4(a[0], a[1], a[2], a[3]);
-     case TARGET_SYS_RECVMMSG: /* sockfd, msgvec, vlen, flags, timeout */
--        return do_sendrecvmmsg(a[0], a[1], a[2], a[3], a[4], 0);
-+        return do_sendrecvmmsg(a[0], a[1], a[2], a[3], a[4],
-+                               TARGET_ABI_BITS == 64, 0);
-     case TARGET_SYS_SENDMMSG: /* sockfd, msgvec, vlen, flags */
--        return do_sendrecvmmsg(a[0], a[1], a[2], a[3], 0, 1);
-+        return do_sendrecvmmsg(a[0], a[1], a[2], a[3], 0, false, 1);
-     default:
-         qemu_log_mask(LOG_UNIMP, "Unsupported socketcall: %d\n", num);
-         return -TARGET_EINVAL;
-@@ -9372,11 +9379,15 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
- #endif
- #ifdef TARGET_NR_sendmmsg
-     case TARGET_NR_sendmmsg:
--        return do_sendrecvmmsg(arg1, arg2, arg3, arg4, 0, 1);
-+        return do_sendrecvmmsg(arg1, arg2, arg3, arg4, 0, false, 1);
- #endif
- #ifdef TARGET_NR_recvmmsg
-     case TARGET_NR_recvmmsg:
--        return do_sendrecvmmsg(arg1, arg2, arg3, arg4, arg5, 0);
-+        return do_sendrecvmmsg(arg1, arg2, arg3, arg4, arg5, false, 0);
-+#endif
-+#ifdef TARGET_NR_recvmmsg_time64
-+    case TARGET_NR_recvmmsg_time64:
-+        return do_sendrecvmmsg(arg1, arg2, arg3, arg4, arg5, true, 0);
- #endif
- #ifdef TARGET_NR_sendto
-     case TARGET_NR_sendto:
+ * Bindings in several programming languages.
+
+ * Shell (nbdsh) for command line and scripting.
+
+
+Git:      https://github.com/libguestfs/libnbd
+Download: https://download.libguestfs.org/libnbd/1.4-stable/
+Release notes:
+          https://libguestfs.org/libnbd-release-notes-1.4.1.html
+
+Fedora:   https://koji.fedoraproject.org/koji/packageinfo?packageID=28807
+Debian:   https://packages.debian.org/libnbd
+
+
+*** Release notes for libnbd 1.4 ***
+
+       These are the release notes for libnbd stable release 1.4.  This
+       describes the major changes since 1.2.
+
+       libnbd 1.4.0 was released on 25 August 2020.
+
+   Security
+       There were no security issues found in this release.  If you find a
+       security issue, please read SECURITY in the source (online here:
+       https://github.com/libguestfs/libnbd/blob/master/SECURITY).  To find
+       out about previous security issues in libnbd, see libnbd-security(3).
+
+   New APIs
+       nbd_set_opt_mode(3)
+       nbd_get_opt_mode(3)
+       nbd_aio_is_negotiating(3)
+           libnbd 1.4 adds a new “negotiating” state during NBD handshaking.
+           For backwards compatibility programs must request this before
+           starting the connection by calling nbd_set_opt_mode(3).  You can
+           find out if the connection is in this state by calling
+           nbd_aio_is_negotiating(3).
+
+           For an in-depth description of how this extra state can be used to
+           negotiate server options, see "CONTROLLING NEGOTIATION" in
+           libnbd(3).
+
+       nbd_aio_opt_abort(3)
+       nbd_opt_abort(3)
+           During the negotiating state, abort the connection.
+
+       nbd_aio_opt_go(3)
+       nbd_opt_go(3)
+           During the negotiating state, complete the handshake.
+
+       nbd_aio_opt_info(3)
+       nbd_opt_info(3)
+           During the negotiating state, request full information about the
+           server export.
+
+       nbd_aio_opt_list(3)
+       nbd_opt_list(3)
+           During the negotiating state, request the list of exports that the
+           server provides.
+
+       nbd_get_block_size(3)
+           Return the minimum, preferred or maximum block size constraints for
+           requests sent to the server.
+
+       nbd_get_canonical_export_name(3)
+           Return the canonical export name that the server defaults to.  This
+           information may only be available if you call nbd_set_full_info(3)
+           before connecting.
+
+       nbd_get_export_description(3)
+           Return the optional text description of the current export.  This
+           information may only be available if you call nbd_set_full_info(3)
+           before connecting.
+
+       nbd_set_full_info(3)
+       nbd_get_full_info(3)
+           Enable extended information about exports from the server.
+
+       Thanks: Eric Blake for all of the new APIs.
+
+   New features
+       Bindings are now available in the Go programming language.
+
+       FreeBSD and OpenBSD are now fully supported platforms.
+
+       Bash tab completion is available for all of the command line tools.
+
+   Documentation
+       Verbatim text in man pages that wrapped over several lines is now
+       typeset correctly.
+
+       Links within the documentation have been enhanced, and are now checked
+       for correctness.
+
+   Tools
+       New nbdcopy(1) tool lets you copy between an NBD server and a local
+       file, or stream to and from an NBD server.
+
+       New nbdinfo(1) tool lets you print extended information about an NBD
+       server’s exports (Eric Blake).
+
+   Tests
+       Test sockets are created in /tmp (instead of the local directory).
+       This stops the test suite from failing if the local directory path is
+       longer than the Unix domain socket maximum path length.
+
+   Other improvements and bug fixes
+       Trace messages have been improved: long strings are truncated, strings
+       with non-printable characters are escaped, and lists of strings are
+       printed.
+
+       The generator was split from a large single script into several small
+       files.  To build from git the OCaml bytecode compiler (ocamlc(1)) is
+       now required instead of the interpreter (ocaml(1)).
+
+       Long login names are supported in nbd_get_tls_username(3).
+
+       The handle name in nbdsh(1) is now set to "nbdsh" (instead of a
+       randomly generated name).
+
+       Compatibility with OCaml 4.10.0 and 4.11.0.
+
+       Python AIO buffer adds a new "is_zero" method allowing Python clients
+       to do sparsification when copying.
+
+       Compatibility with Python 3.9.
+
+       External C programs can now be compiled against libnbd’s build
+       directory using "../libnbd/run ./configure".
+
+       Honggfuzz can be used as another external fuzzing option.
+
+       Fix compilation with glibc 2.32 which deprecates "sys_errlist".
+
+       Many examples added or extended to demonstrate uses of the new APIs
+       (Eric Blake).
+
+SEE ALSO
+       libnbd(3).
+
+AUTHORS
+       Eric Blake
+
+       Richard W.M. Jones
+
+
+
+
 -- 
-2.25.1
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+libguestfs lets you edit virtual machines.  Supports shell scripting,
+bindings from many languages.  http://libguestfs.org
 
 
