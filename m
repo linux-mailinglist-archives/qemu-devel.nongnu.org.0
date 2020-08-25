@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B24825226A
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:06:23 +0200 (CEST)
-Received: from localhost ([::1]:33178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54160252259
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:02:28 +0200 (CEST)
+Received: from localhost ([::1]:45218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAg98-00078U-1I
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:06:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35320)
+	id 1kAg5L-0000ME-Bh
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:02:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kAg2w-0006rJ-NH
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 16:59:58 -0400
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:38466)
+ id 1kAg2x-0006su-SQ
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 16:59:59 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:32848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kAg2v-0001c0-3I
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 16:59:58 -0400
-Received: by mail-pj1-x1042.google.com with SMTP id ls14so121208pjb.3
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 13:59:56 -0700 (PDT)
+ id 1kAg2w-0001cL-A5
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 16:59:59 -0400
+Received: by mail-pf1-x444.google.com with SMTP id u20so8300628pfn.0
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 13:59:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VbBY1yItMeIkPbGFrNMfYpfJv2H3xsn/XCS3gcTz2VE=;
- b=N78+NB1PhP9V0tYk48fl7Mg3+sokZAFY8wivDWgDC0Lrz1vXqrVdV+5r0Eyp3ry37G
- SUTlqfcwpFC8HmWej7OlcuImek2vapqA5GvnlK6d0a5IodAlRLmTjJrj8QaCDvlvLK21
- dSQESHTmhh3qXbxhoKPjTouLSXaHOaB1Dy9IVBDuonx7qd54O0TuXoD7rLmv+G5jYlqe
- aTDHciyYkSLAV1dVXcksYxO5xvqSM2Po5/Wtr7rGSFlpvhVKDZ9vMiinOHxJZDT0hlzc
- ZEQBhBTRHouvg6M9oht0GuB3c7E81CLu49MXEv+6ZdT+ugnEmer0YN6u5/se2WR7dkTf
- LsWA==
+ bh=rxIBmswNh0tIGuyehJwJsuO5I+nId1kc+WGKDH86wIY=;
+ b=LOtU6s9lu5shExjw41c6rKHbfdwBkDJ/k+j+0RQIcHhLeYVUoXPF5sIdGkhQoIc/CS
+ 699txRbQ5YelkbCWPLH9owdGI/EyjIV+tTyqJ4n5b2VsG4W89LkB2EVd3cJnK1IoqVLP
+ LRhBldZAdnh+QRk6oPkDpJAAYiAjrlkNGr+txgNijgHurdtdiHW7vOzXvhvyMP6UeRjW
+ vgHAHxxtdBCvX3bLMuwVLU8s+r8VcNjohcx2opMf1ettKy+ltx1jXVe4LBO7Ty5JT9xI
+ wr0YcU/t261FWKZumjvinaHTHUJQog4swpZ8JQ0CIPoIh/zRwPNdVvoApkz9kvoIhrpS
+ utqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VbBY1yItMeIkPbGFrNMfYpfJv2H3xsn/XCS3gcTz2VE=;
- b=NL0IoVR2uTkvHvUUQd+F8m140VTgyWpfW48tAFfuZoJutO9aVLhDQbmKDw2QF+cntR
- lSRpDCzL63P5XKeXHPTmZhCFFJQ53pxP1X5v606T6mV4/Bb/yaCxj3ahORCJqjEkeaqm
- gPDfM/T95jeTEp0lVrIwgg4m40Q26UpK/E6VAh8fLxlXWnCrKhYCKEqiNZSw5cSWY3uP
- CJ59MC/D5vSFDSCcSGODiQnc1UrAx++7QJdEzCUcGnTh/Nk6y686Bmr2J7hf9+j6D63K
- t9M/jKa4ga74JGruzwWS9wL9eqmuuMGuzvuHDWLWbTlMkH4oGSiBbrl9tS71oeLRkG6m
- wYOA==
-X-Gm-Message-State: AOAM530kZaqMQ3MQmB2CGFSzlrTjq91y+9iqxwny5E4Vo3eGFP23GTEh
- 5LH+iD4iuDb+/l9mZQ3TQZvAleqdJQbSpA==
-X-Google-Smtp-Source: ABdhPJxVPpjcOiCGG9a4G4SfB4CX3Kj4946E+Lw1aEp+hto46yePuvQPiJXW6HP2Diw/rUFOHKJ5gg==
-X-Received: by 2002:a17:90a:d510:: with SMTP id
- t16mr3290035pju.210.1598389195444; 
- Tue, 25 Aug 2020 13:59:55 -0700 (PDT)
+ bh=rxIBmswNh0tIGuyehJwJsuO5I+nId1kc+WGKDH86wIY=;
+ b=XVD+46/OUdyXexX/Mn53c/JxhQs4PtgM9qKIV/3uMmB8FTggUJyQtWukBbflXooioc
+ bNNXRwjxRsa0UzzrRUxJtoE+xOmZQXg8rWEWPg0SqK1BZ+jGE7zVZOMAy0zSSagbt/Wt
+ wcJXGb1bDddfnksLbYqEIkBwotdV+18ZIjkSi9BjV9nG1LdC9rFa8Od9ERShZHap6gp4
+ SJyANWcrxXoHSYsER89Jijp0ZUO2uuFi4Oc9Ziogcn9R6Fn1BZbFvJMETlwaj5aZFZVn
+ egFEBYHznE0qi5hWDB1baSOWtFeMBvvvecHgtGMDmdqoFQDmXve51eoEOMVd5PdyryWQ
+ jA6A==
+X-Gm-Message-State: AOAM533AZBUB3x2hpz/TOyzztck/sp/Y1CWIvhFaXhINcG0q09VjHqnU
+ OmS124e4CEQFnIQSJGwT4COIOfhLIcyyYg==
+X-Google-Smtp-Source: ABdhPJwpTvAafnclmRaeqBNR2IFwVR6V9a4ijA5W4FX4iKVV8ZMT+rGQ/MTdmYrVSrAzzcI7jq9Xbw==
+X-Received: by 2002:a62:1d05:: with SMTP id d5mr5501965pfd.63.1598389196565;
+ Tue, 25 Aug 2020 13:59:56 -0700 (PDT)
 Received: from localhost.localdomain
  (h216-228-167-147.bendor.dedicated.static.tds.net. [216.228.167.147])
- by smtp.gmail.com with ESMTPSA id k4sm16074pgr.87.2020.08.25.13.59.54
+ by smtp.gmail.com with ESMTPSA id k4sm16074pgr.87.2020.08.25.13.59.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Aug 2020 13:59:54 -0700 (PDT)
+ Tue, 25 Aug 2020 13:59:55 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/77] tests/tcg: Do not require FE_TOWARDZERO
-Date: Tue, 25 Aug 2020 13:58:35 -0700
-Message-Id: <20200825205950.730499-3-richard.henderson@linaro.org>
+Subject: [PATCH 03/77] tests/tcg: Do not require FE_* exception bits
+Date: Tue, 25 Aug 2020 13:58:36 -0700
+Message-Id: <20200825205950.730499-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200825205950.730499-1-richard.henderson@linaro.org>
 References: <20200825205950.730499-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1042.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,43 +91,43 @@ Cc: edgar.iglesias@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is optional in ISO C, and not all cpus provide it.
+Define anything that is missing as 0, so that flags & FE_FOO
+is false for any missing FOO.
 
 Cc: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/tcg/multiarch/float_convs.c | 2 ++
- tests/tcg/multiarch/float_madds.c | 2 ++
- 2 files changed, 4 insertions(+)
+ tests/tcg/multiarch/float_helpers.h | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/tests/tcg/multiarch/float_convs.c b/tests/tcg/multiarch/float_convs.c
-index 47e24b8b16..e9be75c2d5 100644
---- a/tests/tcg/multiarch/float_convs.c
-+++ b/tests/tcg/multiarch/float_convs.c
-@@ -30,7 +30,9 @@ float_mapping round_flags[] = {
- #ifdef FE_DOWNWARD
-     { FE_DOWNWARD, "downwards" },
- #endif
-+#ifdef FE_TOWARDZERO
-     { FE_TOWARDZERO, "to zero" }
+diff --git a/tests/tcg/multiarch/float_helpers.h b/tests/tcg/multiarch/float_helpers.h
+index 6337bc66c1..309f3f4bf1 100644
+--- a/tests/tcg/multiarch/float_helpers.h
++++ b/tests/tcg/multiarch/float_helpers.h
+@@ -8,6 +8,23 @@
+ 
+ #include <inttypes.h>
+ 
++/* Some hosts do not have support for all of these; not required by ISO C. */
++#ifndef FE_OVERFLOW
++#define FE_OVERFLOW 0
 +#endif
- };
- 
- static void print_input(float input)
-diff --git a/tests/tcg/multiarch/float_madds.c b/tests/tcg/multiarch/float_madds.c
-index eceb4ae38b..e422608ccd 100644
---- a/tests/tcg/multiarch/float_madds.c
-+++ b/tests/tcg/multiarch/float_madds.c
-@@ -29,7 +29,9 @@ float_mapping round_flags[] = {
- #ifdef FE_DOWNWARD
-     { FE_DOWNWARD, "downwards" },
- #endif
-+#ifdef FE_TOWARDZERO
-     { FE_TOWARDZERO, "to zero" }
++#ifndef FE_UNDERFLOW
++#define FE_UNDERFLOW 0
 +#endif
- };
- 
- 
++#ifndef FE_DIVBYZERO
++#define FE_DIVBYZERO 0
++#endif
++#ifndef FE_INEXACT
++#define FE_INEXACT 0
++#endif
++#ifndef FE_INVALID
++#define FE_INVALID 0
++#endif
++
+ /* Number of constants in each table */
+ int get_num_f16(void);
+ int get_num_f32(void);
 -- 
 2.25.1
 
