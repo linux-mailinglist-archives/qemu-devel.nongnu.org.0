@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B493252317
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:48:52 +0200 (CEST)
-Received: from localhost ([::1]:39318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95AE72522DE
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 23:32:08 +0200 (CEST)
+Received: from localhost ([::1]:57816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAgoF-0003dK-2g
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:48:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36688)
+	id 1kAgY3-0001RJ-IE
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 17:32:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kAg4U-0000jz-Nd
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:01:37 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:50602)
+ id 1kAg4a-0000mR-EL
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:01:40 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:35182)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kAg4P-00024m-UO
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:01:34 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id i13so131293pjv.0
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 14:01:29 -0700 (PDT)
+ id 1kAg4S-00024w-A9
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 17:01:40 -0400
+Received: by mail-pg1-x541.google.com with SMTP id o5so7681091pgb.2
+ for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 14:01:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=sTzoHpTs6c42UNIKcjYj4AhcDm+2RYpkHEK+aRGbqEc=;
- b=cw4220VZyJl6GMsoTzaGf2jQSw3HHqj6uIL0Jdgoicdo6ph97xyqGLwnoBadfsLz5o
- 0tb11+Tm4M3xqlhqfNZ1BlzYxO3oVtyjocqOZuwJEHpOIqD5vLVpquxo0+nHnTnpeEWe
- 47YhXIxOy+1kXYAsDY8e8YYsXEhzsCkweV1BU3buyFv/AxbcsZU4nuQ9dAQWyKBbBLYu
- yDVxaeby5tdt2w0k6NvtY6gmzPp5SYNmpPwQZM2icOVpI6e/k5HTidOKQJXODon02MsU
- 7rZJtoC3CkIlcHQgbQcGinMQyfbBkxls4rRcaRzt1kLrBNyjZVnvmBO9JK4FDjTX/6QK
- EaoA==
+ bh=Om47t/eP4gknkyo+HoA7eqvwr7+ry/2ZpY7FF2j9M9k=;
+ b=wbt2pVqfzcx/yEJcPfUr7wXoUuRwRp65tJVp3Bh5YpOzdox+btB1XquC3/EvxOwlDX
+ NR6Nia4p0VVUh7kqAkEBOyt8mS50lvx3uJUp/BNQeLVM4GD/LdyVQcfrir9InBjMBr77
+ RK+s0MUFnnMzrQOK9f5kNlL/qGz+2UkaXfb6qHRvInbvxkDU3hAGumYx733y65XaXont
+ l0IuDwAbCnFm6xwI9ubgjCmZ3GBEFYt0SmWOZCFE8w9YmDZZ7V6XxpXy0589hm7ra6Ab
+ WHAPaMa1ZpehVIQjcbVqdbCqKd7tRiyKvmbuyJMX5CSG6CIYGSqiMzHzWr/RYIIUYcDx
+ x5mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=sTzoHpTs6c42UNIKcjYj4AhcDm+2RYpkHEK+aRGbqEc=;
- b=GVfnztabBQPh4p/8U0Jw2qHs8b+wXyylmusOYGTDJMUxNTellwiU6mv+PAHo4/VQ5w
- 3QutcMGVMAQVcHdAIx7Ta7dfyG79TSOqUWYCiVIk4wDapw0K/0HxjjUb1wwL3u89avmv
- UPpiOVYL7RlmlJtGKnuHZ3eiJH76NzynPb4A3G2Ubg8HqWahig2yglXZ5qKivhYuvmJP
- PTtc1eHw6Li7vtwxM4jQdTmaWXF5OADJ/Uslcdd0R3ccp9WkTczBB9kFm0Kaedbh9IrO
- 1wtP90i264/nOlnCbQ9M99vGmG4wP5zpgxgVECBWvd2zvHw/3oBRfuAh1WMYh1hQtiwV
- CKfA==
-X-Gm-Message-State: AOAM530ycq5QhpJKDTHx2ekSuaASTu/5roiiGYJZwn9R9BLYqoF0FshR
- dh9NLCsxPeRxTD2BGTr7lcjwFfzgLpprVg==
-X-Google-Smtp-Source: ABdhPJztrT/qQFhbMaVtFwrVibZLRkvk+iYX38JMuzy4v4GTfXaPA8ZiRFra0y7HlQrMDwD8aZSulA==
-X-Received: by 2002:a17:90a:b008:: with SMTP id
- x8mr3034133pjq.75.1598389288200; 
- Tue, 25 Aug 2020 14:01:28 -0700 (PDT)
+ bh=Om47t/eP4gknkyo+HoA7eqvwr7+ry/2ZpY7FF2j9M9k=;
+ b=HipgzBC+KkS2bf3E/yAmIv+BevX6hBv9sK6f8OcxJFPq0YyVOntcLThTPmlK5IgsjK
+ eBDdFQ14uPx6D7NtyVNosvv5UDVa8hmCfCWT8VY1vOvHumEK7tDzlbIkBhxBoNSjIVGI
+ HVf8I9zDomHArog9qcSZ0evptEFQn7d0AlHn+H8/g5nfzu+qR3AyEp4f/iU5sZ9xj8Ot
+ N/9VxAp78pvC4+FLBCU1NcCTzoutf6B8Q0DbglsxsvGK7y9+Nb8zAH1S3TYzXFI1I7za
+ t3r4qMdmwovT+kGT6w5QtpRgPsO2WyFrWAplEBVUqkmNDip3Bm4dvX0rNI0DmWvrvYLB
+ /cew==
+X-Gm-Message-State: AOAM532FP1zhtuLMPDh0f00rUugFF3WKzoa6feM8C2Drgf9tJ3rYH2Dl
+ BVDyNt/zD4xSzf1zRO6xHZFXLYer30qxFw==
+X-Google-Smtp-Source: ABdhPJyIRT+9d7HpW7VwkIYLYss18PiEGqQLj302nZZFwgTvwwaIq1e5/6FfSE4BzonYkojxmg+xzA==
+X-Received: by 2002:a62:5543:: with SMTP id j64mr1768353pfb.45.1598389289343; 
+ Tue, 25 Aug 2020 14:01:29 -0700 (PDT)
 Received: from localhost.localdomain
  (h216-228-167-147.bendor.dedicated.static.tds.net. [216.228.167.147])
- by smtp.gmail.com with ESMTPSA id k4sm16074pgr.87.2020.08.25.14.01.27
+ by smtp.gmail.com with ESMTPSA id k4sm16074pgr.87.2020.08.25.14.01.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Aug 2020 14:01:27 -0700 (PDT)
+ Tue, 25 Aug 2020 14:01:28 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 73/77] target/microblaze: Convert dec_stream to decodetree
-Date: Tue, 25 Aug 2020 13:59:46 -0700
-Message-Id: <20200825205950.730499-74-richard.henderson@linaro.org>
+Subject: [PATCH 74/77] target/microblaze: Remove last of old decoder
+Date: Tue, 25 Aug 2020 13:59:47 -0700
+Message-Id: <20200825205950.730499-75-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200825205950.730499-1-richard.henderson@linaro.org>
 References: <20200825205950.730499-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x541.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,131 +89,136 @@ Cc: edgar.iglesias@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+All instructions have been convered.  Issue sigill if decodetree
+does not match.  Remove argument decode from DisasContext.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/insns.decode |  6 ++++
- target/microblaze/translate.c  | 64 ++++++++++++++++++++++++++--------
- 2 files changed, 55 insertions(+), 15 deletions(-)
+ target/microblaze/translate.c | 75 +----------------------------------
+ 1 file changed, 2 insertions(+), 73 deletions(-)
 
-diff --git a/target/microblaze/insns.decode b/target/microblaze/insns.decode
-index 48c60082e0..79d32c826c 100644
---- a/target/microblaze/insns.decode
-+++ b/target/microblaze/insns.decode
-@@ -156,6 +156,9 @@ flt             010110 ..... ..... ----- 0101 000 0000  @typea0
- fint            010110 ..... ..... ----- 0110 000 0000  @typea0
- fsqrt           010110 ..... ..... 00000 0111 000 0000  @typea0
- 
-+get             011011 rd:5  00000 0 ctrl:5 000000 imm:4
-+getd            010011 rd:5  00000 rb:5  0 ctrl:5  00000
-+
- idiv            010010 ..... ..... ..... 000 0000 0000  @typea
- idivu           010010 ..... ..... ..... 000 0000 0010  @typea
- 
-@@ -198,6 +201,9 @@ pcmpbf          100000 ..... ..... ..... 100 0000 0000  @typea
- pcmpeq          100010 ..... ..... ..... 100 0000 0000  @typea
- pcmpne          100011 ..... ..... ..... 100 0000 0000  @typea
- 
-+put             011011 00000 ra:5  1 ctrl:5 000000 imm:4
-+putd            010011 00000 ra:5  rb:5  1 ctrl:5  00000
-+
- rsub            000001 ..... ..... ..... 000 0000 0000  @typea
- rsubc           000011 ..... ..... ..... 000 0000 0000  @typea
- rsubk           000101 ..... ..... ..... 000 0000 0000  @typea
 diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index e9e4a0e1db..0a05b49f8e 100644
+index 0a05b49f8e..2df22e8c2a 100644
 --- a/target/microblaze/translate.c
 +++ b/target/microblaze/translate.c
-@@ -1587,33 +1587,68 @@ static void dec_null(DisasContext *dc)
- }
+@@ -65,13 +65,7 @@ typedef struct DisasContext {
+     bool r0_set;
  
- /* Insns connected to FSL or AXI stream attached devices.  */
--static void dec_stream(DisasContext *dc)
-+static bool do_get(DisasContext *dc, int rd, int rb, int imm, int ctrl)
- {
-     TCGv_i32 t_id, t_ctrl;
--    int ctrl;
- 
-     if (trap_userspace(dc, true)) {
--        return;
-+        return true;
-     }
- 
-     t_id = tcg_temp_new_i32();
--    if (dc->type_b) {
--        tcg_gen_movi_i32(t_id, dc->imm & 0xf);
--        ctrl = dc->imm >> 10;
-+    if (rb) {
-+        tcg_gen_andi_i32(t_id, cpu_R[rb], 0xf);
-     } else {
--        tcg_gen_andi_i32(t_id, cpu_R[dc->rb], 0xf);
--        ctrl = dc->imm >> 5;
-+        tcg_gen_movi_i32(t_id, imm);
-     }
- 
-     t_ctrl = tcg_const_i32(ctrl);
+     /* Decoder.  */
+-    int type_b;
+-    uint32_t ir;
+     uint32_t ext_imm;
+-    uint8_t opcode;
+-    uint8_t rd, ra, rb;
+-    uint16_t imm;
 -
--    if (dc->rd == 0) {
--        gen_helper_put(t_id, t_ctrl, cpu_R[dc->ra]);
--    } else {
--        gen_helper_get(cpu_R[dc->rd], t_id, t_ctrl);
--    }
-+    gen_helper_get(reg_for_write(dc, rd), t_id, t_ctrl);
-     tcg_temp_free_i32(t_id);
-     tcg_temp_free_i32(t_ctrl);
-+    return true;
-+}
-+
-+static bool trans_get(DisasContext *dc, arg_get *arg)
-+{
-+    return do_get(dc, arg->rd, 0, arg->imm, arg->ctrl);
-+}
-+
-+static bool trans_getd(DisasContext *dc, arg_getd *arg)
-+{
-+    return do_get(dc, arg->rd, arg->rb, 0, arg->ctrl);
-+}
-+
-+static bool do_put(DisasContext *dc, int ra, int rb, int imm, int ctrl)
-+{
-+    TCGv_i32 t_id, t_ctrl;
-+
-+    if (trap_userspace(dc, true)) {
-+        return true;
-+    }
-+
-+    t_id = tcg_temp_new_i32();
-+    if (rb) {
-+        tcg_gen_andi_i32(t_id, cpu_R[rb], 0xf);
-+    } else {
-+        tcg_gen_movi_i32(t_id, imm);
-+    }
-+
-+    t_ctrl = tcg_const_i32(ctrl);
-+    gen_helper_get(t_id, t_ctrl, reg_for_read(dc, ra));
-+    tcg_temp_free_i32(t_id);
-+    tcg_temp_free_i32(t_ctrl);
-+    return true;
-+}
-+
-+static bool trans_put(DisasContext *dc, arg_put *arg)
-+{
-+    return do_put(dc, arg->ra, 0, arg->imm, arg->ctrl);
-+}
-+
-+static bool trans_putd(DisasContext *dc, arg_putd *arg)
-+{
-+    return do_put(dc, arg->ra, arg->rb, 0, arg->ctrl);
+     unsigned int cpustate_changed;
+     unsigned int tb_flags;
+     unsigned int tb_flags_to_set;
+@@ -184,21 +178,6 @@ static bool trap_userspace(DisasContext *dc, bool cond)
+     return cond_user;
  }
  
- static struct decoder_info {
-@@ -1623,7 +1658,6 @@ static struct decoder_info {
-     };
-     void (*dec)(DisasContext *dc);
- } decinfo[] = {
--    {DEC_STREAM, dec_stream},
-     {{0, 0}, dec_null}
- };
+-static int32_t dec_alu_typeb_imm(DisasContext *dc)
+-{
+-    tcg_debug_assert(dc->type_b);
+-    return typeb_imm(dc, (int16_t)dc->imm);
+-}
+-
+-static inline TCGv_i32 *dec_alu_op_b(DisasContext *dc)
+-{
+-    if (dc->type_b) {
+-        tcg_gen_movi_i32(cpu_imm, dec_alu_typeb_imm(dc));
+-        return &cpu_imm;
+-    }
+-    return &cpu_R[dc->rb];
+-}
+-
+ static TCGv_i32 reg_for_read(DisasContext *dc, int reg)
+ {
+     if (likely(reg != 0)) {
+@@ -1094,7 +1073,7 @@ static bool setup_dslot(DisasContext *dc)
+     }
  
+     dc->tb_flags_to_set |= D_FLAG;
+-    if (dc->type_b && (dc->tb_flags & IMM_FLAG)) {
++    if (dc->tb_flags & IMM_FLAG) {
+         dc->tb_flags_to_set |= BIMM_FLAG;
+     }
+     return false;
+@@ -1576,16 +1555,6 @@ static void do_rte(DisasContext *dc)
+     dc->tb_flags &= ~DRTE_FLAG;
+ }
+ 
+-static void dec_null(DisasContext *dc)
+-{
+-    if (trap_illegal(dc, true)) {
+-        return;
+-    }
+-    qemu_log_mask(LOG_GUEST_ERROR, "unknown insn pc=%x opc=%x\n",
+-                  (uint32_t)dc->base.pc_next, dc->opcode);
+-    dc->abort_at_next_insn = 1;
+-}
+-
+ /* Insns connected to FSL or AXI stream attached devices.  */
+ static bool do_get(DisasContext *dc, int rd, int rb, int imm, int ctrl)
+ {
+@@ -1651,46 +1620,6 @@ static bool trans_putd(DisasContext *dc, arg_putd *arg)
+     return do_put(dc, arg->ra, arg->rb, 0, arg->ctrl);
+ }
+ 
+-static struct decoder_info {
+-    struct {
+-        uint32_t bits;
+-        uint32_t mask;
+-    };
+-    void (*dec)(DisasContext *dc);
+-} decinfo[] = {
+-    {{0, 0}, dec_null}
+-};
+-
+-static void old_decode(DisasContext *dc, uint32_t ir)
+-{
+-    int i;
+-
+-    dc->ir = ir;
+-
+-    if (ir == 0) {
+-        trap_illegal(dc, dc->cpu->cfg.opcode_0_illegal);
+-        /* Don't decode nop/zero instructions any further.  */
+-        return;
+-    }
+-
+-    /* bit 2 seems to indicate insn type.  */
+-    dc->type_b = ir & (1 << 29);
+-
+-    dc->opcode = EXTRACT_FIELD(ir, 26, 31);
+-    dc->rd = EXTRACT_FIELD(ir, 21, 25);
+-    dc->ra = EXTRACT_FIELD(ir, 16, 20);
+-    dc->rb = EXTRACT_FIELD(ir, 11, 15);
+-    dc->imm = EXTRACT_FIELD(ir, 0, 15);
+-
+-    /* Large switch for all insns.  */
+-    for (i = 0; i < ARRAY_SIZE(decinfo); i++) {
+-        if ((dc->opcode & decinfo[i].mask) == decinfo[i].bits) {
+-            decinfo[i].dec(dc);
+-            break;
+-        }
+-    }
+-}
+-
+ static void mb_tr_init_disas_context(DisasContextBase *dcb, CPUState *cs)
+ {
+     DisasContext *dc = container_of(dcb, DisasContext, base);
+@@ -1757,7 +1686,7 @@ static void mb_tr_translate_insn(DisasContextBase *dcb, CPUState *cs)
+ 
+     ir = cpu_ldl_code(env, dc->base.pc_next);
+     if (!decode(dc, ir)) {
+-        old_decode(dc, ir);
++        trap_illegal(dc, true);
+     }
+ 
+     if (dc->r0) {
 -- 
 2.25.1
 
