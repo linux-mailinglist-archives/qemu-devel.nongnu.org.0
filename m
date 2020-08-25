@@ -2,55 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C8992521B5
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 22:13:42 +0200 (CEST)
-Received: from localhost ([::1]:43000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0EE3252204
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 22:29:22 +0200 (CEST)
+Received: from localhost ([::1]:53842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAfK9-0001SZ-1u
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 16:13:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53052)
+	id 1kAfZJ-0006dw-Lt
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 16:29:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>) id 1kAfJM-00011I-GP
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 16:12:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36022)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kAfY6-0005VA-Rg
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 16:28:06 -0400
+Received: from mta-02.yadro.com ([89.207.88.252]:35296 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>) id 1kAfJK-0004V9-Ol
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 16:12:52 -0400
-Received: from redsun51.ssa.fujisawa.hgst.com (unknown [129.253.182.57])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kAfY4-0006Nf-P9
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 16:28:06 -0400
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 8A4C3574FC;
+ Tue, 25 Aug 2020 20:28:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ content-transfer-encoding:content-type:content-type:mime-version
+ :x-mailer:message-id:date:date:subject:subject:from:from
+ :received:received:received; s=mta-01; t=1598387280; x=
+ 1600201681; bh=NJx4LFEH2kbZvVESZK68iv8jHpkFyXzFsQGvSbVkTmg=; b=T
+ fnRv7uCXQWzcDZqfLuKrI23H3RLc5svTtMi6J+14v89Q72ujDI5TbCunme6pYPOA
+ cZmFVGenzLETqHNizlbg4OuXjyvzFTwma3FVLYxsxVk7rO7Zo+SJUhrBdJQX6ahK
+ cfPYwsS11bC5RMfnlI9dk8cMyLRkMx6mfNHI6XvNhk=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id bc84zkjZ0E8N; Tue, 25 Aug 2020 23:28:00 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
+ [172.17.10.102])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 951DA20738;
- Tue, 25 Aug 2020 20:12:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1598386368;
- bh=nC54vfxMgN4S1vCM/o+DtvkyJpgPoRNtf9GGtwyhZ9A=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=o5sUGAv2BbSNBJByAOFchXh7o0u3FaEwro8Y1PbYh3DsEOtIK0Uxz2mGICJlbooRU
- w3RCE1bH+vLVFhJa45XP6N/XT9rGPJO6CgezgrQEctYpiYa1wwil8Tktimn8oBVdy4
- iYT0IyO076w1KYYgbzLPT2gwoVLSxTroeTHg+6h0=
-Date: Wed, 26 Aug 2020 05:12:42 +0900
-From: Keith Busch <kbusch@kernel.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL] nvme updates
-Message-ID: <20200825201242.GA20971@redsun51.ssa.fujisawa.hgst.com>
-References: <20200819192240.GA25305@dhcp-10-100-145-180.wdl.wdc.com>
- <CAFEAcA8-VgEDTZ7+T9ZgB2LR9KWRrejBtZN=iwy2GGPcuFuz2Q@mail.gmail.com>
+ by mta-01.yadro.com (Postfix) with ESMTPS id 6D3BD57057;
+ Tue, 25 Aug 2020 23:27:59 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
+ (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Tue, 25
+ Aug 2020 23:27:59 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH v2 0/4] Compatibility make fixes for meson
+Date: Tue, 25 Aug 2020 23:27:51 +0300
+Message-ID: <20200825202755.50626-1-r.bolshakov@yadro.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA8-VgEDTZ7+T9ZgB2LR9KWRrejBtZN=iwy2GGPcuFuz2Q@mail.gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
- helo=mail.kernel.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 16:12:48
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-02.corp.yadro.com (172.17.10.102)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 16:28:01
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -80
-X-Spam_score: -8.1
-X-Spam_bar: --------
-X-Spam_report: (-8.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.958,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,42 +78,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Klaus Jensen <k.jensen@samsung.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Klaus Jensen <its@irrelevant.dk>
+Cc: Roman Bolshakov <r.bolshakov@yadro.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Aug 23, 2020 at 02:56:12PM +0100, Peter Maydell wrote:
-> On Wed, 19 Aug 2020 at 20:23, Keith Busch <kbusch@kernel.org> wrote:
-> >
-> > We're trying our first nvme pull request from a dedicated development
-> > tree containing various fixes, cleanups, spec compliance, and welcoming
-> > Klaus Jensen to maintaining the emulated nvme device development.
-> >
-> > The following changes since commit d0ed6a69d399ae193959225cdeaa9382746c91cc:
-> >
-> >   Update version for v5.1.0 release (2020-08-11 17:07:03 +0100)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://git.infradead.org/qemu-nvme.git nvme-next
-> 
-> Hi; it looks like this isn't a gpg-signed tag?
-> 
-> error: remotes/nvme/nvme-next: cannot verify a non-tag object of type commit.
+The set of changes addresses "Diagnose "make is too old" in configure
+(or in the makefile?)" from https://wiki.qemu.org/Features/Meson#Easy.
+It also provides cleaner backwards compatible build invocation on macOS.
 
-Oops, sorry I forgot about that part of the procedure here. The repo should
-have a signed tag now:
+Changes since v1:
+ - Added explicit error for partially-completed configure (Eric B.)
+ - Added an empty rule for config-host.mak to avoid second call of
+   recursive make (which happened because of implicit force rule)
 
-The following changes since commit d0ed6a69d399ae193959225cdeaa9382746c91cc:
+Roman Bolshakov (4):
+  configure: Use discovered make for in-source build
+  Makefile: Require GNU make 3.82+
+  configure: Prefer gmake on darwin
+  configure: Test if $make actually exists
 
-  Update version for v5.1.0 release (2020-08-11 17:07:03 +0100)
+ Makefile  |  5 +++++
+ configure | 36 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 41 insertions(+)
 
-are available in the Git repository at:
+-- 
+2.28.0
 
-  git://git.infradead.org/qemu-nvme.git tags/for-upstream
-
-for you to fetch changes up to 9257c77e4f0feaefb76f02fff3dc8d60b420ea4d:
-
-  hw/block/nvme: remove explicit qsg/iov parameters (2020-08-17 08:40:54 +0200)
 
