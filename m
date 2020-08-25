@@ -2,73 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AC292516B6
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 12:40:41 +0200 (CEST)
-Received: from localhost ([::1]:35106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8931B2516C0
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Aug 2020 12:42:07 +0200 (CEST)
+Received: from localhost ([::1]:40376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAWNc-0004zx-4T
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 06:40:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58926)
+	id 1kAWP0-0007Ay-LT
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 06:42:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kAWM4-0002Rk-3J
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 06:39:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43688)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kAWMH-0002yX-4A
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 06:39:17 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:38750
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kAWM2-0007LL-BW
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 06:39:03 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kAWMF-0007NT-HY
+ for qemu-devel@nongnu.org; Tue, 25 Aug 2020 06:39:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598351941;
+ s=mimecast20190719; t=1598351954;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8rs4O5WDQdaLYpdEr+vncfMb2NC49pMpaugYuqYsPek=;
- b=csWdgNlOMsHiSw2zyHxmrIRiM/ncEKRnJx2/eomXwpgonHn7pt73AKYhS+d7aRFowtdnYs
- tjB838IsiNm1JhuCd+BGuE2hS2DYqqSiOAvlaibX+7biD7ND+E03N3k0rNJh+7SlCI4YZP
- pSp6sZe/Z8KGb8p+QyIYdAkjA07vvks=
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=IDKHcSEgJEEg/roBU/7LPFm8hJip4+RIU14A3IVHiP0=;
+ b=gj7nJc5IYCQ7uyetF+TqBhi38blQ2SuWHaHuTnqI47XEe70GEX+bnxhbGugOaXFLAt9eCj
+ Qexbv/Ca04+G1POs7otkZAitDeqgJ1OQ50sLC7uMOyDsaWPoH3Zzdv9FLBt0EXdtkBc1Q7
+ EMRC5IlnOg09o05MN9uBBiVVyuk7Wcg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-185--xxK4bjCM6aOKgE2VofByA-1; Tue, 25 Aug 2020 06:38:59 -0400
-X-MC-Unique: -xxK4bjCM6aOKgE2VofByA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-200-2YMKl4eLMGaJfGT0B358ow-1; Tue, 25 Aug 2020 06:39:12 -0400
+X-MC-Unique: 2YMKl4eLMGaJfGT0B358ow-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF54180732F;
- Tue, 25 Aug 2020 10:38:58 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-114-231.ams2.redhat.com
- [10.36.114.231])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 46FBB5C1CF;
- Tue, 25 Aug 2020 10:38:57 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/3] nbd: disable signals and forking on Windows builds
-Date: Tue, 25 Aug 2020 11:38:50 +0100
-Message-Id: <20200825103850.119911-4-berrange@redhat.com>
-In-Reply-To: <20200825103850.119911-1-berrange@redhat.com>
-References: <20200825103850.119911-1-berrange@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C63481F022;
+ Tue, 25 Aug 2020 10:39:11 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-72.ams2.redhat.com
+ [10.36.113.72])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 10BF52AA9D;
+ Tue, 25 Aug 2020 10:39:09 +0000 (UTC)
+Subject: Re: [PATCH v2 2/5] qemu-iotests: Fix FilePaths docstring
+To: Nir Soffer <nirsof@gmail.com>, qemu-devel@nongnu.org
+References: <20200820235427.374645-1-nsoffer@redhat.com>
+ <20200820235427.374645-3-nsoffer@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <cbe07c0b-a2e4-1336-c62b-fa822fadee18@redhat.com>
+Date: Tue, 25 Aug 2020 12:39:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20200820235427.374645-3-nsoffer@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0.001
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 02:03:58
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="DrgUaBLhYKx32BP2PPKGjyHGiBFRrYebK"
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 01:35:36
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.956,
+X-Spam_score_int: -52
+X-Spam_score: -5.3
+X-Spam_bar: -----
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.956,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.25, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,64 +108,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Nir Soffer <nsoffer@redhat.com>,
+ John Snow <jsnow@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Disabling these parts are sufficient to get the qemu-nbd program
-compiling in a Windows build.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--DrgUaBLhYKx32BP2PPKGjyHGiBFRrYebK
+Content-Type: multipart/mixed; boundary="nUMqMts7ZIduHMUatMMkkOCwl7Koq4DsK"
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- meson.build | 7 ++-----
- qemu-nbd.c  | 5 +++++
- 2 files changed, 7 insertions(+), 5 deletions(-)
+--nUMqMts7ZIduHMUatMMkkOCwl7Koq4DsK
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meson.build b/meson.build
-index df5bf728b5..1071871605 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1074,12 +1074,9 @@ if have_tools
-              dependencies: [authz, block, crypto, io, qom, qemuutil], install: true)
-   qemu_io = executable('qemu-io', files('qemu-io.c'),
-              dependencies: [block, qemuutil], install: true)
--  qemu_block_tools += [qemu_img, qemu_io]
--  if targetos == 'linux' or targetos == 'sunos' or targetos.endswith('bsd')
--    qemu_nbd = executable('qemu-nbd', files('qemu-nbd.c'),
-+  qemu_nbd = executable('qemu-nbd', files('qemu-nbd.c'),
-                dependencies: [block, qemuutil], install: true)
--    qemu_block_tools += [qemu_nbd]
--  endif
-+  qemu_block_tools += [qemu_img, qemu_io, qemu_nbd]
- 
-   subdir('storage-daemon')
-   subdir('contrib/rdmacm-mux')
-diff --git a/qemu-nbd.c b/qemu-nbd.c
-index dc6ef089af..33476a1000 100644
---- a/qemu-nbd.c
-+++ b/qemu-nbd.c
-@@ -899,6 +899,7 @@ int main(int argc, char **argv)
- #endif
- 
-     if ((device && !verbose) || fork_process) {
-+#ifndef WIN32
-         int stderr_fd[2];
-         pid_t pid;
-         int ret;
-@@ -962,6 +963,10 @@ int main(int argc, char **argv)
-              */
-             exit(errors);
-         }
-+#else /* WIN32 */
-+        error_report("Unable to fork into background on Windows hosts");
-+        exit(EXIT_FAILURE);
-+#endif /* WIN32 */
-     }
- 
-     if (device != NULL && sockpath == NULL) {
--- 
-2.26.2
+On 21.08.20 01:54, Nir Soffer wrote:
+> When this class was extracted from FilePath, the docstring was not
+> updated for generating multiple files, and the example usage was
+> referencing unrelated file.
+>=20
+> Fixes: de263986b5dc
+> Signed-off-by: Nir Soffer <nsoffer@redhat.com>
+> ---
+>  tests/qemu-iotests/iotests.py | 14 ++++++++------
+>  1 file changed, 8 insertions(+), 6 deletions(-)
+
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+
+
+--nUMqMts7ZIduHMUatMMkkOCwl7Koq4DsK--
+
+--DrgUaBLhYKx32BP2PPKGjyHGiBFRrYebK
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl9E6kwACgkQ9AfbAGHV
+z0CA+wf/RJbMto0QDeqt1WUtN9IJ8CxfxQXhJmOvMv1fh2fN4nNe2J4D2AubmynV
+i4X+G/PxEEJsqMdq9yNq+SjnZ+TXv0gok+6CTK6xBku2SAeqDUVEvoa3zczHWVuZ
+doiVT1Sg4jujRpKOlrR7ngH+Xa6xeQDSEAqek5kOtsQ2a+yJ/rt4DDIsGDgCK4Gd
+BSz5+I+FB++wNSuuqW3znvc/NxBornxcyDhL0GcfYoTZ6ZfoNLMM9DcxX9ztI5VU
+nfiC1fEm+SmplkC9Sn46HuO+716ubG2plPvesPVELxf3ynX0UKQnXJb+LJEDwhol
+6aZzawqhpZqtkfkCtY6wyPaHs9rKgw==
+=MSZ7
+-----END PGP SIGNATURE-----
+
+--DrgUaBLhYKx32BP2PPKGjyHGiBFRrYebK--
 
 
