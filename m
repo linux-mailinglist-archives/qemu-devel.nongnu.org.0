@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20319252CD5
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 13:49:27 +0200 (CEST)
-Received: from localhost ([::1]:49638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B4C1252CE8
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 13:52:10 +0200 (CEST)
+Received: from localhost ([::1]:55426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAtvi-0007Oo-78
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 07:49:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56724)
+	id 1kAtyL-0001QN-5C
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 07:52:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <srs0=n7r+=ce=lse.epita.fr=cesar.belley@cri.epita.fr>)
- id 1kAtpd-00058v-94
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:43:09 -0400
-Received: from gate-2.cri.epita.net ([163.5.55.20]:47968
- helo=mail-2.srv.cri.epita.fr)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <srs0=n7r+=ce=lse.epita.fr=cesar.belley@cri.epita.fr>)
- id 1kAtpb-00086x-9c
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:43:08 -0400
-Received: from MattGorko-Laptop.home
- (lfbn-idf1-1-1395-83.w90-79.abo.wanadoo.fr [90.79.87.83])
- (Authenticated sender: cesar.belley)
- by mail-2.srv.cri.epita.fr (Postfix) with ESMTPSA id 58254412EA;
- Wed, 26 Aug 2020 13:42:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=lse.epita.fr; s=cri;
- t=1598442175; bh=5gfXi+frrtfkG33iM3G746wi4KGxTaFnB9zd62r5J60=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=oo9CWw7A2gpqgYnoLwQFgDUa/veUJSeknkYOS5DxfxHPoGDivjuq3yOBzyYjWlvs7
- us7BYmZmMas2cgAhCl4LLrtq3wGTG5BR4eIQ149zMf9pTociY+3yy0iFedKN5/nByM
- B61G8WfD25sn3v8fmm236genAzZs4fv2TEXWbenQ=
-From: =?UTF-8?q?C=C3=A9sar=20Belley?= <cesar.belley@lse.epita.fr>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 12/12] hw/usb: Add U2F device autoscan to passthru mode
-Date: Wed, 26 Aug 2020 13:42:09 +0200
-Message-Id: <20200826114209.28821-13-cesar.belley@lse.epita.fr>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200826114209.28821-1-cesar.belley@lse.epita.fr>
-References: <20200826114209.28821-1-cesar.belley@lse.epita.fr>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kAtwy-0000Cm-Hh
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:50:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48664)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kAtww-0000o8-6I
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:50:44 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kAtwt-0006MV-Lf
+ for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 11:50:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 45E272E8104
+ for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 11:50:39 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=163.5.55.20;
- envelope-from=srs0=n7r+=ce=lse.epita.fr=cesar.belley@cri.epita.fr;
- helo=mail-2.srv.cri.epita.fr
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 07:42:31
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 26 Aug 2020 11:44:12 -0000
+From: Guirish Salgaonkar <1893040@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: gsalgaon
+X-Launchpad-Bug-Reporter: Guirish Salgaonkar (gsalgaon)
+X-Launchpad-Bug-Modifier: Guirish Salgaonkar (gsalgaon)
+Message-Id: <159844225257.1396.12890490778938419036.malonedeb@wampee.canonical.com>
+Subject: [Bug 1893040] [NEW] External modules retreval using Go1.15 on s390x
+ appears to have checksum and ECDSA verification issues
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="99c2d833c8d727fd05148486920aca032e908071"; Instance="production"
+X-Launchpad-Hash: 2c3955d72df523cdccae937b7602287f3340e209
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 07:50:40
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,202 +71,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?C=C3=A9sar=20Belley?= <cesar.belley@lse.epita.fr>,
- kraxel@redhat.com
+Reply-To: Bug 1893040 <1893040@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds an autoscan to let u2f-passthru choose the first U2F
-device it finds.
+Public bug reported:
 
-The autoscan is performed using libudev with an enumeration of all the
-hidraw devices present on the host.
+We are observing issue while building go-runner image and we suspect it is =
+due to QEMU version being used. As referred in below issue:
+https://github.com/golang/go/issues/40949
 
-The first device which happens to be a U2F device is taken to do the
-passtru.
+We tried to build go-runner image using go1.15 and register QEMU (docker
+run --rm --privileged multiarch/qemu-user-
+static@sha256:c772ee1965aa0be9915ee1b018a0dd92ea361b4fa1bcab5bbc033517749b2=
+af4
+--reset -p yes) as mentioned in PR
+https://github.com/kubernetes/release/pull/1499. We observed below
+failure during build:
 
-Signed-off-by: César Belley <cesar.belley@lse.epita.fr>
----
- docs/u2f.txt          |   9 ++++
- hw/usb/meson.build    |   2 +-
- hw/usb/u2f-passthru.c | 113 +++++++++++++++++++++++++++++++++++++-----
- 3 files changed, 110 insertions(+), 14 deletions(-)
+---------------------------------------------------------------------------=
+------
+ERROR: executor failed running [/bin/sh -c CGO_ENABLED=3D0 GOOS=3Dlinux GOA=
+RCH=3D${ARCH}     go build -ldflags '-s -w -buildid=3D -extldflags "-static=
+"'     -o go-runner ${package}]: buildkit-runc did not terminate successful=
+ly
+------
+=C2=A0> [builder 7/7] RUN CGO_ENABLED=3D0 GOOS=3Dlinux GOARCH=3D${ARCH}    =
+ go build -ldflags '-s -w -buildid=3D -extldflags "-static"'     -o go-runn=
+er .:
+------
+failed to solve: rpc error: code =3D Unknown desc =3D executor failed runni=
+ng [/bin/sh -c CGO_ENABLED=3D0 GOOS=3Dlinux GOARCH=3D${ARCH}     go build -=
+ldflags '-s -w -buildid=3D -extldflags "-static"'     -o go-runner ${packag=
+e}]: buildkit-runc did not terminate successfully
+Makefile:52: recipe for target 'container' failed
+make: *** [container] Error 1
+---------------------------------------------------------------------------=
+------
 
-diff --git a/docs/u2f.txt b/docs/u2f.txt
-index f60052882e..8f44994818 100644
---- a/docs/u2f.txt
-+++ b/docs/u2f.txt
-@@ -42,6 +42,10 @@ on libu2f-emu: configuring and building:
- 
-     ./configure --enable-u2f && make
- 
-+The pass-through mode is built by default on Linux. To take advantage
-+of the autoscan option it provides, make sure you have a working libudev
-+installed on the host.
-+
- 
- 3. Using u2f-emulated
- 
-@@ -90,6 +94,11 @@ On the host specify the u2f-passthru device with a suitable hidraw:
- 
-     qemu -usb -device u2f-passthru,hidraw=/dev/hidraw0
- 
-+Alternately, the u2f-passthru device can autoscan to take the first
-+U2F device it finds on the host (this requires a working libudev):
-+
-+    qemu -usb -device u2f-passthru
-+
- 
- 5. Libu2f-emu
- 
-diff --git a/hw/usb/meson.build b/hw/usb/meson.build
-index a25109b88c..b7c7ff23bf 100644
---- a/hw/usb/meson.build
-+++ b/hw/usb/meson.build
-@@ -52,7 +52,7 @@ endif
- 
- # U2F
- softmmu_ss.add(when: 'CONFIG_USB_U2F', if_true: files('u2f.c'))
--softmmu_ss.add(when: ['CONFIG_LINUX', 'CONFIG_USB_U2F'], if_true: files('u2f-passthru.c'))
-+softmmu_ss.add(when: ['CONFIG_LINUX', 'CONFIG_USB_U2F'], if_true: [libudev, files('u2f-passthru.c')])
- if u2f.found()
-   softmmu_ss.add(when: 'CONFIG_USB_U2F', if_true: [u2f, files('u2f-emulated.c')])
- endif
-diff --git a/hw/usb/u2f-passthru.c b/hw/usb/u2f-passthru.c
-index f8771966c7..1311530ee5 100644
---- a/hw/usb/u2f-passthru.c
-+++ b/hw/usb/u2f-passthru.c
-@@ -378,6 +378,84 @@ static bool u2f_passthru_is_u2f_device(int fd)
-                   sizeof(u2f_hid_report_desc_header)) == 0;
- }
- 
-+#ifdef CONFIG_LIBUDEV
-+static int u2f_passthru_open_from_device(struct udev_device *device)
-+{
-+    const char *devnode = udev_device_get_devnode(device);
-+
-+    int fd = qemu_open(devnode, O_RDWR);
-+    if (fd < 0) {
-+        return -1;
-+    } else if (!u2f_passthru_is_u2f_device(fd)) {
-+        qemu_close(fd);
-+        return -1;
-+    }
-+    return fd;
-+}
-+
-+static int u2f_passthru_open_from_enumerate(struct udev *udev,
-+                                            struct udev_enumerate *enumerate)
-+{
-+    struct udev_list_entry *devices, *entry;
-+    int ret, fd;
-+
-+    ret = udev_enumerate_scan_devices(enumerate);
-+    if (ret < 0) {
-+        return -1;
-+    }
-+
-+    devices = udev_enumerate_get_list_entry(enumerate);
-+    udev_list_entry_foreach(entry, devices) {
-+        struct udev_device *device;
-+        const char *syspath = udev_list_entry_get_name(entry);
-+
-+        if (syspath == NULL) {
-+            continue;
-+        }
-+
-+        device = udev_device_new_from_syspath(udev, syspath);
-+        if (device == NULL) {
-+            continue;
-+        }
-+
-+        fd = u2f_passthru_open_from_device(device);
-+        udev_device_unref(device);
-+        if (fd >= 0) {
-+            return fd;
-+        }
-+    }
-+    return -1;
-+}
-+
-+static int u2f_passthru_open_from_scan(void)
-+{
-+    struct udev *udev;
-+    struct udev_enumerate *enumerate;
-+    int ret, fd = -1;
-+
-+    udev = udev_new();
-+    if (udev == NULL) {
-+        return -1;
-+    }
-+
-+    enumerate = udev_enumerate_new(udev);
-+    if (enumerate == NULL) {
-+        udev_unref(udev);
-+        return -1;
-+    }
-+
-+    ret = udev_enumerate_add_match_subsystem(enumerate, "hidraw");
-+    if (ret >= 0) {
-+        fd = u2f_passthru_open_from_enumerate(udev, enumerate);
-+    }
-+
-+    udev_enumerate_unref(enumerate);
-+    udev_unref(udev);
-+
-+    return fd;
-+}
-+#endif
-+
- static void u2f_passthru_unrealize(U2FKeyState *base)
- {
-     U2FPassthruState *key = PASSTHRU_U2F_KEY(base);
-@@ -392,22 +470,31 @@ static void u2f_passthru_realize(U2FKeyState *base, Error **errp)
-     int fd;
- 
-     if (key->hidraw == NULL) {
-+#ifdef CONFIG_LIBUDEV
-+        fd = u2f_passthru_open_from_scan();
-+        if (fd < 0) {
-+            error_setg(errp, "%s: Failed to find a U2F USB device",
-+                       TYPE_U2F_PASSTHRU);
-+            return;
-+        }
-+#else
-         error_setg(errp, "%s: Missing hidraw", TYPE_U2F_PASSTHRU);
-         return;
--    }
--
--    fd = qemu_open(key->hidraw, O_RDWR);
--    if (fd < 0) {
--        error_setg(errp, "%s: Failed to open %s", TYPE_U2F_PASSTHRU,
--                   key->hidraw);
--        return;
--    }
-+#endif
-+    } else {
-+        fd = qemu_open(key->hidraw, O_RDWR);
-+        if (fd < 0) {
-+            error_setg(errp, "%s: Failed to open %s", TYPE_U2F_PASSTHRU,
-+                       key->hidraw);
-+            return;
-+        }
- 
--    if (!u2f_passthru_is_u2f_device(fd)) {
--        qemu_close(fd);
--        error_setg(errp, "%s: Passed hidraw does not represent "
--                   "a U2F HID device", TYPE_U2F_PASSTHRU);
--        return;
-+        if (!u2f_passthru_is_u2f_device(fd)) {
-+            qemu_close(fd);
-+            error_setg(errp, "%s: Passed hidraw does not represent "
-+                       "a U2F HID device", TYPE_U2F_PASSTHRU);
-+            return;
-+        }
-     }
-     key->hidraw_fd = fd;
-     u2f_passthru_reset(key);
--- 
-2.28.0
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
+** Description changed:
+
+  We are observing issue while building go-runner image and we suspect it i=
+s due to QEMU version being used. As referred in below issue:
+  https://github.com/golang/go/issues/40949
+  =
+
+  We tried to build go-runner image using go1.15 and register QEMU (docker
+  run --rm --privileged multiarch/qemu-user-
+  static@sha256:c772ee1965aa0be9915ee1b018a0dd92ea361b4fa1bcab5bbc033517749=
+b2af4
+  --reset -p yes) as mentioned in PR
+  https://github.com/kubernetes/release/pull/1499. We observed below
+  failure during build:
+  =
+
+- -------------------------------------------------------------------------=
+------------------------------------
++ -------------------------------------------------------------------------=
+--------
+  ERROR: executor failed running [/bin/sh -c CGO_ENABLED=3D0 GOOS=3Dlinux G=
+OARCH=3D${ARCH}     go build -ldflags '-s -w -buildid=3D -extldflags "-stat=
+ic"'     -o go-runner ${package}]: buildkit-runc did not terminate successf=
+ully
+  ------
+-  > [builder 7/7] RUN CGO_ENABLED=3D0 GOOS=3Dlinux GOARCH=3D${ARCH}     go=
+ build -ldflags '-s -w -buildid=3D -extldflags "-static"'     -o go-runner =
+.:
++ =C2=A0> [builder 7/7] RUN CGO_ENABLED=3D0 GOOS=3Dlinux GOARCH=3D${ARCH}  =
+   go build -ldflags '-s -w -buildid=3D -extldflags "-static"'     -o go-ru=
+nner .:
+  ------
+  failed to solve: rpc error: code =3D Unknown desc =3D executor failed run=
+ning [/bin/sh -c CGO_ENABLED=3D0 GOOS=3Dlinux GOARCH=3D${ARCH}     go build=
+ -ldflags '-s -w -buildid=3D -extldflags "-static"'     -o go-runner ${pack=
+age}]: buildkit-runc did not terminate successfully
+  Makefile:52: recipe for target 'container' failed
+  make: *** [container] Error 1
+- -------------------------------------------------------------------------=
+------------------------------------
++ -------------------------------------------------------------------------=
+--------
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1893040
+
+Title:
+   External modules retreval using Go1.15 on s390x appears to have
+  checksum and ECDSA verification issues
+
+Status in QEMU:
+  New
+
+Bug description:
+  We are observing issue while building go-runner image and we suspect it i=
+s due to QEMU version being used. As referred in below issue:
+  https://github.com/golang/go/issues/40949
+
+  We tried to build go-runner image using go1.15 and register QEMU
+  (docker run --rm --privileged multiarch/qemu-user-
+  static@sha256:c772ee1965aa0be9915ee1b018a0dd92ea361b4fa1bcab5bbc033517749=
+b2af4
+  --reset -p yes) as mentioned in PR
+  https://github.com/kubernetes/release/pull/1499. We observed below
+  failure during build:
+
+  -------------------------------------------------------------------------=
+--------
+  ERROR: executor failed running [/bin/sh -c CGO_ENABLED=3D0 GOOS=3Dlinux G=
+OARCH=3D${ARCH}     go build -ldflags '-s -w -buildid=3D -extldflags "-stat=
+ic"'     -o go-runner ${package}]: buildkit-runc did not terminate successf=
+ully
+  ------
+  =C2=A0> [builder 7/7] RUN CGO_ENABLED=3D0 GOOS=3Dlinux GOARCH=3D${ARCH}  =
+   go build -ldflags '-s -w -buildid=3D -extldflags "-static"'     -o go-ru=
+nner .:
+  ------
+  failed to solve: rpc error: code =3D Unknown desc =3D executor failed run=
+ning [/bin/sh -c CGO_ENABLED=3D0 GOOS=3Dlinux GOARCH=3D${ARCH}     go build=
+ -ldflags '-s -w -buildid=3D -extldflags "-static"'     -o go-runner ${pack=
+age}]: buildkit-runc did not terminate successfully
+  Makefile:52: recipe for target 'container' failed
+  make: *** [container] Error 1
+  -------------------------------------------------------------------------=
+--------
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1893040/+subscriptions
 
