@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98A0A253511
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 18:39:51 +0200 (CEST)
-Received: from localhost ([::1]:58996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21784253590
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 18:57:12 +0200 (CEST)
+Received: from localhost ([::1]:40422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAySk-0004a9-Fv
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 12:39:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53128)
+	id 1kAyjW-000265-Vr
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 12:57:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kAyRg-00047f-Ma
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 12:38:44 -0400
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:46909)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kAyiZ-0001Wu-M1; Wed, 26 Aug 2020 12:56:11 -0400
+Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:45778)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kAyRe-0000q8-LR
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 12:38:44 -0400
-Received: by mail-ej1-x641.google.com with SMTP id d11so3703924ejt.13
- for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 09:38:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kAyiW-0003Bn-V4; Wed, 26 Aug 2020 12:56:11 -0400
+Received: by mail-il1-x143.google.com with SMTP id k4so2365219ilr.12;
+ Wed, 26 Aug 2020 09:56:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7FIqljMOKZKFI9EP0j9P51Wc4RiazV6rlPwYeJKlg5U=;
- b=uPbqrV/V2CNRI70AF2ENAjj7stEcJksex1O7ktP1f6WvTdC32HQyZIeYweKgdlHfJK
- SYOtBmr/TSNdljW2U1ORZlEIXs7Uf7k7mi6cp3mnM1mXmcpcS8/SEG8XykDX4//g0EG3
- jEKOFIDIojSltWd8ere+ZuJhdQS7y1gFMFuonNFfc94iFSCmMJpBhbRiQYwUD+Kb3cAQ
- Tl53lcEYQcViJX9K88eZphUSKOqMZgWeifSfbJC2u/XTHsq3QrJS3HEQB9ZSudD/SHZa
- L9/bZ8lYmInYA87CTu+IjCJQj9hsWPxy50GY1zmSjQn0g58lFviBOvfkxKtV8qjfO99i
- W7iw==
+ :cc; bh=1yctldKr0wzYTBMSQmLZXZK7xKPnrNzao1VcYREm7EA=;
+ b=jBniptICDuPEWiigXMZg6ofwiWoUzUBsTGb4CHLNx226xOrvqcK5Ui3fPZtGC9EfJ3
+ HC8TT/ZT52FvqLnWo/zFRRb4Hfx1Tu6bPqrBIv6PWLUGbjA3cDq4r8KnOTjdM5fxTf/s
+ nkBW6xYoiHJGfSc3jFA3/50y0R6JorP4G0sylrez8HnAJxUrDG72MvxPBwmcbKd+zzq+
+ qs6wXCSAJbM5+LlQ5aDFEtsDX9Cy2QSQgqQb13oJ45UfpB5vj9+ij6dT2de6b0SZVE/C
+ +pa+/9eqKDZ/KUzj0wxdk2OyJYTgkiGepPGupEqdoW52GiR98LYRsGIbICl+L73on26X
+ 4asg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=7FIqljMOKZKFI9EP0j9P51Wc4RiazV6rlPwYeJKlg5U=;
- b=mBO1RlN66ACFjltGf8kD0XARSJsWVfCokTw4HW6S7pji6Mbz1UYeL9qu/7GNIlCCrE
- ikPZTjJXrPLbZrUVNBYTEycgFLQWKpZMkB3tfCEfygrIcDd8IfB6tFCGy6DVzuxM2VAu
- lhTdUiOH+bZyPPq4mmfhZvimXmoAhYjny6lU7x3gHhLTk1PBCgNPH4zmbadpl234e9tV
- IX+7UkARhxemdvUn4n2Apxbn6rjtuGcOXBCcIwMtYW8cRBde49QM8FUGRKEEenUotm7c
- 6l/3OLUA5vwDuhfNw05ar7RoR3BQ2Kj+A3KJ1ADCJFYARFXFdYpMBQYD4rj3WWRKk674
- UNtQ==
-X-Gm-Message-State: AOAM5315qzlLc5vmOIsQqq5g7y8c/KwyrFpiLxP3lxs2cGVXvXxGXTFO
- 9Ws8OFsaJRtLBXoCOGc7zEU2wkVbCD0R2mOUanY=
-X-Google-Smtp-Source: ABdhPJxvFmESC8409DDJpN9hKBYUPLaM6xeW+C7k7tUeNn3YcCgNGbwwtbCmPMLWzyNWNC1lZKSGuBq46hHm0rBc5RY=
-X-Received: by 2002:a17:906:f150:: with SMTP id
- gw16mr8425597ejb.532.1598459918119; 
- Wed, 26 Aug 2020 09:38:38 -0700 (PDT)
+ bh=1yctldKr0wzYTBMSQmLZXZK7xKPnrNzao1VcYREm7EA=;
+ b=P/KgtZVhjSRDqM9HDpev1RIXzIo+65Nk8KPKMxb4J6Iopa/8CHdlsBoKkhySghodWg
+ yrz/YIqDOKAKXqzhSjvXtb8LgdXKFZRfNeKPUs5DQ+ReyxyEhRWWJ+0C3A/QKd4L9izt
+ LpNOyvGiXVBLlvCclkIVD3snEnGE+YcwoZOWRll8jWyJZJyqXavDdN0C6yxz8vVZoY00
+ rx+YgX7G5jxx7xeu5w3jJg6or2ezdO3Vs4E/HKDJGo1wBs2kpxsoqrgrjS1VYNP2scZ/
+ 2N4V7rMfUxIrYP+PPQOa75WVCNWnrx7P7ex1cW6vOA3oxGczCJyr/mwGfYMNy+wfWc/s
+ ifUA==
+X-Gm-Message-State: AOAM5303wvaANc9E3VrWoL9pThXyp+Gd1eQbkXesf13KaKz2QABl02ds
+ WsuKObMh5t4FnGl8D3aNklWoP1Y9Faox5PLC6Z4=
+X-Google-Smtp-Source: ABdhPJx9Y3T0Gz0Ny6XIs4fhZeXVLFKdNlBzaJ6bD/PT8K11nW70BXBRAndgAb0fRXU6MlC8XsW+Lg4zcJnBtcQDL9s=
+X-Received: by 2002:a92:c7d4:: with SMTP id g20mr14214722ilk.40.1598460966560; 
+ Wed, 26 Aug 2020 09:56:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200826110419.528931-1-marcandre.lureau@redhat.com>
- <CABgObfa1Xa_2EBNHo9=XOYEWFUBqUhKmu6kDfsiE1+hMTwdDvA@mail.gmail.com>
- <CAJ+F1CLqew5KdKGN1zjoBUEtm9q79dWw-9QmhyBu1mYD0qeMWA@mail.gmail.com>
- <CABgObfZZPixkG55c-eUUEzVKczK+nzxGOyO7HPLnXSRwggekBg@mail.gmail.com>
-In-Reply-To: <CABgObfZZPixkG55c-eUUEzVKczK+nzxGOyO7HPLnXSRwggekBg@mail.gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 26 Aug 2020 20:38:24 +0400
-Message-ID: <CAJ+F1C+AGbFD888ydast+t0KRXBu+RxuuOyDwGJ2s=EODrVNCw@mail.gmail.com>
-Subject: Re: [PATCH v3 0/8] meson: mingw installation fixes & nsis conversion
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000009b770305adca7332"
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x641.google.com
+References: <20200817084955.28793-1-frank.chang@sifive.com>
+ <CAE_xrPjmrmwVW3YOTXLVuVpvT=mT+gnwKJy+yYjo6t24xC8ZDg@mail.gmail.com>
+In-Reply-To: <CAE_xrPjmrmwVW3YOTXLVuVpvT=mT+gnwKJy+yYjo6t24xC8ZDg@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 26 Aug 2020 09:45:22 -0700
+Message-ID: <CAKmqyKOU8MUAaiCadAEp4YwArJOpsPRbd_sQmmTDO8g=v-Nw2g@mail.gmail.com>
+Subject: Re: [RFC v4 00/70] support vector extension v1.0
+To: Frank Chang <frank.chang@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,215 +78,182 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sw <sw@weilnetz.de>, "Daniel P. Berrange" <berrange@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000009b770305adca7332
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-On Wed, Aug 26, 2020 at 5:47 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
-
-> We should document the difference in the 5.2 changelog then (it's okay to
-> introduce it since the configure option is named differently).
+On Tue, Aug 25, 2020 at 1:29 AM Frank Chang <frank.chang@sifive.com> wrote:
 >
->
-Not directly related, but I can't help thinking that we would be better off
-maintaining the changelog in git too, with sphinx yada yada..
-
-Il mer 26 ago 2020, 13:50 Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.co=
-m> ha
-> scritto:
->
->> Hi
+> On Mon, Aug 17, 2020 at 4:50 PM <frank.chang@sifive.com> wrote:
 >>
->> On Wed, Aug 26, 2020 at 3:38 PM Paolo Bonzini <pbonzini@redhat.com>
->> wrote:
+>> From: Frank Chang <frank.chang@sifive.com>
 >>
->>> Since behavioral changes should be reviewed separately let's just
->>> include v2 first.
->>>
->>>
->>  I am more confident that this version doesn't introduce regressions
->> though.. The use of + qemu_confsuffix was problematic, and I noticed som=
-e
->> weird behaviour that I couldn't clearly identify (when updating meson &
->> running make only - iow, fresh configure && make should be ok, but for t=
-he
->> rest it's not as "clean" as this version..).
+>> This patchset implements the vector extension v1.0 for RISC-V on QEMU.
 >>
->> Paolo
->>>
->>> Il mer 26 ago 2020, 13:04 <marcandre.lureau@redhat.com> ha scritto:
->>>
->>>> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->>>>
->>>> Hi,
->>>>
->>>> The following patches fix installation path when cross-compiling Windo=
-ws
->>>> version, and move the NSIS build rule to meson.
->>>>
->>>> v3:
->>>>  - change qemu suffix handling, make /-separator implicit
->>>>  - use qemu suffix to build qemu_docdir, as --help says
->>>>  - use / to construct qemu directory variables in meson
->>>>  - add a few signed-off from Daniel
->>>>
->>>> v2:
->>>>  - replaced the shell script by a python version
->>>>  - add copyright/license for the new python script
->>>>
->>>> Marc-Andr=C3=A9 Lureau (8):
->>>>   configure: rename confsuffix option
->>>>   configure: always /-seperate directory from qemu_suffix
->>>>   configure: build docdir like other suffixed directories
->>>>   meson: pass qemu_suffix option
->>>>   meson: use meson datadir instead of qemu_datadir
->>>>   meson: pass docdir option
->>>>   meson: use meson mandir instead of qemu_mandir
->>>>   meson: add NSIS building
->>>>
->>>>  Makefile                           | 56 ---------------------
->>>>  configure                          | 27 ++++++-----
->>>>  contrib/vhost-user-gpu/meson.build |  2 +-
->>>>  docs/meson.build                   |  4 +-
->>>>  meson.build                        | 34 +++++++++++--
->>>>  meson_options.txt                  |  4 ++
->>>>  pc-bios/descriptors/meson.build    |  2 +-
->>>>  pc-bios/keymaps/meson.build        |  6 +--
->>>>  pc-bios/meson.build                |  2 +-
->>>>  scripts/nsis.py                    | 78 +++++++++++++++++++++++++++++=
-+
->>>>  tools/virtiofsd/meson.build        |  2 +-
->>>>  trace/meson.build                  |  2 +-
->>>>  12 files changed, 138 insertions(+), 81 deletions(-)
->>>>  create mode 100644 scripts/nsis.py
->>>>
->>>> --
->>>> 2.26.2
->>>>
->>>>
->>>>
+>> This patchset is sent as RFC because RVV v1.0 is still in draft state.
+>> v2 patchset was sent for RVV v0.9 and bumped to RVV v1.0 since v3 patchset.
+>>
+>> The port is available here:
+>> https://github.com/sifive/qemu/tree/rvv-1.0-upstream-v4
+>>
+>> You can change the cpu argument: vext_spec to v1.0 (i.e. vext_spec=v1.0)
+>> to run with RVV v1.0 instructions.
+>>
+>> Note: This patchset depends on two other patchsets listed in Based-on
+>>       section below so it might not able to be built unless those two
+>>       patchsets are applied.
+>>
+>> Changelog:
+>>
+>> v4
+>>   * remove explicit float flmul variable in DisasContext.
+>>   * replace floating-point calculations with shift operations to
+>>     improve performance.
+>>   * relax RV_VLEN_MAX to 512-bits.
+>>
+>> v3
+>>   * apply nan-box helpers from Richard Henderson.
+>>   * remove fp16 api changes as they are sent independently in another
+>>     pathcset by Chih-Min Chao.
+>>   * remove all tail elements clear functions as tail elements can
+>>     retain unchanged for either VTA set to undisturbed or agnostic.
+>>   * add fp16 nan-box check generator function.
+>>   * add floating-point rounding mode enum.
+>>   * replace flmul arithmetic with shifts to avoid floating-point
+>>     conversions.
+>>   * add Zvqmac extension.
+>>   * replace gdbstub vector register xml files with dynamic generator.
+>>   * bumped to RVV v1.0.
+>>   * RVV v1.0 related changes:
+>>     * add vl<nf>re<eew>.v and vs<nf>r.v vector whole register
+>>       load/store instructions
+>>     * add vrgatherei16 instruction.
+>>     * rearranged bits in vtype to make vlmul bits into a contiguous
+>>       field.
+>>
+>> v2
+>>   * drop v0.7.1 support.
+>>   * replace invisible return check macros with functions.
+>>   * move mark_vs_dirty() to translators.
+>>   * add SSTATUS_VS flag for s-mode.
+>>   * nan-box scalar fp register for floating-point operations.
+>>   * add gdbstub files for vector registers to allow system-mode
+>>     debugging with GDB.
+>>
+>> Based-on: <20200724002807.441147-1-richard.henderson@linaro.org/>
+>> Based-on: <1596102747-20226-1-git-send-email-chihmin.chao@sifive.com/>
+>>
+>> Frank Chang (62):
+>>   target/riscv: drop vector 0.7.1 and add 1.0 support
+>>   target/riscv: Use FIELD_EX32() to extract wd field
+>>   target/riscv: rvv-1.0: introduce writable misa.v field
+>>   target/riscv: rvv-1.0: remove rvv related codes from fcsr registers
+>>   target/riscv: rvv-1.0: check MSTATUS_VS when accessing vector csr
+>>     registers
+>>   target/riscv: rvv-1.0: remove MLEN calculations
+>>   target/riscv: rvv-1.0: add fractional LMUL
+>>   target/riscv: rvv-1.0: add VMA and VTA
+>>   target/riscv: rvv-1.0: update check functions
+>>   target/riscv: introduce more imm value modes in translator functions
+>>   target/riscv: rvv:1.0: add translation-time nan-box helper function
+>>   target/riscv: rvv-1.0: configure instructions
+>>   target/riscv: rvv-1.0: stride load and store instructions
+>>   target/riscv: rvv-1.0: index load and store instructions
+>>   target/riscv: rvv-1.0: fix address index overflow bug of indexed
+>>     load/store insns
+>>   target/riscv: rvv-1.0: fault-only-first unit stride load
+>>   target/riscv: rvv-1.0: amo operations
+>>   target/riscv: rvv-1.0: load/store whole register instructions
+>>   target/riscv: rvv-1.0: update vext_max_elems() for load/store insns
+>>   target/riscv: rvv-1.0: take fractional LMUL into vector max elements
+>>     calculation
+>>   target/riscv: rvv-1.0: floating-point square-root instruction
+>>   target/riscv: rvv-1.0: floating-point classify instructions
+>>   target/riscv: rvv-1.0: mask population count instruction
+>>   target/riscv: rvv-1.0: find-first-set mask bit instruction
+>>   target/riscv: rvv-1.0: set-X-first mask bit instructions
+>>   target/riscv: rvv-1.0: iota instruction
+>>   target/riscv: rvv-1.0: element index instruction
+>>   target/riscv: rvv-1.0: allow load element with sign-extended
+>>   target/riscv: rvv-1.0: register gather instructions
+>>   target/riscv: rvv-1.0: integer scalar move instructions
+>>   target/riscv: rvv-1.0: floating-point move instruction
+>>   target/riscv: rvv-1.0: floating-point scalar move instructions
+>>   target/riscv: rvv-1.0: whole register move instructions
+>>   target/riscv: rvv-1.0: integer extension instructions
+>>   target/riscv: rvv-1.0: single-width averaging add and subtract
+>>     instructions
+>>   target/riscv: rvv-1.0: single-width bit shift instructions
+>>   target/riscv: rvv-1.0: integer add-with-carry/subtract-with-borrow
+>>   target/riscv: rvv-1.0: narrowing integer right shift instructions
+>>   target/riscv: rvv-1.0: widening integer multiply-add instructions
+>>   target/riscv: rvv-1.0: add Zvqmac extension
+>>   target/riscv: rvv-1.0: quad-widening integer multiply-add instructions
+>>   target/riscv: rvv-1.0: single-width saturating add and subtract
+>>     instructions
+>>   target/riscv: rvv-1.0: integer comparison instructions
+>>   target/riscv: use softfloat lib float16 comparison functions
+>>   target/riscv: rvv-1.0: floating-point compare instructions
+>>   target/riscv: rvv-1.0: mask-register logical instructions
+>>   target/riscv: rvv-1.0: slide instructions
+>>   target/riscv: rvv-1.0: floating-point slide instructions
+>>   target/riscv: rvv-1.0: narrowing fixed-point clip instructions
+>>   target/riscv: rvv-1.0: single-width floating-point reduction
+>>   target/riscv: rvv-1.0: widening floating-point reduction instructions
+>>   target/riscv: rvv-1.0: single-width scaling shift instructions
+>>   target/riscv: rvv-1.0: remove widening saturating scaled multiply-add
+>>   target/riscv: rvv-1.0: remove vmford.vv and vmford.vf
+>>   target/riscv: rvv-1.0: remove integer extract instruction
+>>   target/riscv: rvv-1.0: floating-point min/max instructions
+>>   target/riscv: introduce floating-point rounding mode enum
+>>   target/riscv: rvv-1.0: floating-point/integer type-convert
+>>     instructions
+>>   target/riscv: rvv-1.0: widening floating-point/integer type-convert
+>>   target/riscv: add "set round to odd" rounding mode helper function
+>>   target/riscv: rvv-1.0: narrowing floating-point/integer type-convert
+>>   target/riscv: rvv-1.0: relax RV_VLEN_MAX to 512-bits
+>>
+>> Greentime Hu (2):
+>>   target/riscv: rvv-1.0: add vlenb register
+>>   target/riscv: gdb: support vector registers for rv32
+>>
+>> Hsiangkai Wang (2):
+>>   target/riscv: gdb: modify gdb csr xml file to align with csr register
+>>     map
+>>   target/riscv: gdb: support vector registers for rv64
+>>
+>> LIU Zhiwei (4):
+>>   target/riscv: rvv-1.0: add mstatus VS field
+>>   target/riscv: rvv-1.0: add sstatus VS field
+>>   target/riscv: rvv-1.0: add translation-time vector context status
+>>   target/riscv: rvv-1.0: add vcsr register
+>>
+>>  gdb-xml/riscv-32bit-csr.xml             |   18 +-
+>>  gdb-xml/riscv-64bit-csr.xml             |   18 +-
+>>  target/riscv/cpu.c                      |   12 +-
+>>  target/riscv/cpu.h                      |   97 +-
+>>  target/riscv/cpu_bits.h                 |   10 +
+>>  target/riscv/cpu_helper.c               |   16 +-
+>>  target/riscv/csr.c                      |   73 +-
+>>  target/riscv/fpu_helper.c               |   17 +-
+>>  target/riscv/gdbstub.c                  |  126 +-
+>>  target/riscv/helper.h                   |  523 ++--
+>>  target/riscv/insn32-64.decode           |   18 +-
+>>  target/riscv/insn32.decode              |  295 +-
+>>  target/riscv/insn_trans/trans_rvv.inc.c | 2366 ++++++++++------
+>>  target/riscv/internals.h                |   19 +-
+>>  target/riscv/translate.c                |   68 +-
+>>  target/riscv/vector_helper.c            | 3269 +++++++++++------------
+>>  16 files changed, 4051 insertions(+), 2894 deletions(-)
 >>
 >> --
->> Marc-Andr=C3=A9 Lureau
+>> 2.17.1
 >>
 >
+> ping~
 
---=20
-Marc-Andr=C3=A9 Lureau
+I wasn't really following too closely, but didn't Richard give comments?
 
---0000000000009b770305adca7332
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 26, 2020 at 5:47 PM Pao=
-lo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><d=
-iv dir=3D"auto">We should document the difference in the 5.2 changelog then=
- (it&#39;s okay to introduce it since the configure option is named differe=
-ntly).</div><br></blockquote><div><br></div><div>Not directly related, but =
-I can&#39;t help thinking that we would be better off maintaining the chang=
-elog in git too, with sphinx yada yada..</div><div> <br></div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex"><div class=3D"gmail_quote"><div dir=3D=
-"ltr" class=3D"gmail_attr">Il mer 26 ago 2020, 13:50 Marc-Andr=C3=A9 Lureau=
- &lt;<a href=3D"mailto:marcandre.lureau@gmail.com" target=3D"_blank">marcan=
-dre.lureau@gmail.com</a>&gt; ha scritto:<br></div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
-4,204);padding-left:1ex"><div dir=3D"ltr"><div>Hi<br></div><br><div class=
-=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 26, 2020=
- at 3:38 PM Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" rel=3D=
-"noreferrer" target=3D"_blank">pbonzini@redhat.com</a>&gt; wrote:<br></div>=
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"auto">Since b=
-ehavioral changes should be reviewed separately let&#39;s just include v2 f=
-irst.<div dir=3D"auto"><br></div></div></blockquote><div><br></div><div>=C2=
-=A0I am more confident that this version doesn&#39;t introduce regressions =
-though.. The use of + qemu_confsuffix was problematic, and I noticed some w=
-eird behaviour that I couldn&#39;t clearly identify (when updating meson &a=
-mp; running make only - iow, fresh configure &amp;&amp; make should be ok, =
-but for the rest it&#39;s not as &quot;clean&quot; as this version..).<br><=
-/div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div =
-dir=3D"auto"><div dir=3D"auto"></div><div dir=3D"auto">Paolo</div></div><br=
-><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Il mer 26=
- ago 2020, 13:04  &lt;<a href=3D"mailto:marcandre.lureau@redhat.com" rel=3D=
-"noreferrer" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt; ha scrit=
-to:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Marc-A=
-ndr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com" rel=3D"=
-noreferrer noreferrer" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt=
-;<br>
-<br>
-Hi,<br>
-<br>
-The following patches fix installation path when cross-compiling Windows<br=
->
-version, and move the NSIS build rule to meson.<br>
-<br>
-v3:<br>
-=C2=A0- change qemu suffix handling, make /-separator implicit<br>
-=C2=A0- use qemu suffix to build qemu_docdir, as --help says<br>
-=C2=A0- use / to construct qemu directory variables in meson<br>
-=C2=A0- add a few signed-off from Daniel<br>
-<br>
-v2:<br>
-=C2=A0- replaced the shell script by a python version<br>
-=C2=A0- add copyright/license for the new python script<br>
-<br>
-Marc-Andr=C3=A9 Lureau (8):<br>
-=C2=A0 configure: rename confsuffix option<br>
-=C2=A0 configure: always /-seperate directory from qemu_suffix<br>
-=C2=A0 configure: build docdir like other suffixed directories<br>
-=C2=A0 meson: pass qemu_suffix option<br>
-=C2=A0 meson: use meson datadir instead of qemu_datadir<br>
-=C2=A0 meson: pass docdir option<br>
-=C2=A0 meson: use meson mandir instead of qemu_mandir<br>
-=C2=A0 meson: add NSIS building<br>
-<br>
-=C2=A0Makefile=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 56 ---------------------<br>
-=C2=A0configure=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 27 ++++++-----<br>
-=C2=A0contrib/vhost-user-gpu/meson.build |=C2=A0 2 +-<br>
-=C2=A0docs/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0|=C2=A0 4 +-<br>
-=C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 34 +++++++++++--<br>
-=C2=A0meson_options.txt=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 |=C2=A0 4 ++<br>
-=C2=A0pc-bios/descriptors/meson.build=C2=A0 =C2=A0 |=C2=A0 2 +-<br>
-=C2=A0pc-bios/keymaps/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 6 +--<=
-br>
-=C2=A0pc-bios/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 |=C2=A0 2 +-<br>
-=C2=A0scripts/nsis.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 | 78 ++++++++++++++++++++++++++++++<br>
-=C2=A0tools/virtiofsd/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 +-<b=
-r>
-=C2=A0trace/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 |=C2=A0 2 +-<br>
-=C2=A012 files changed, 138 insertions(+), 81 deletions(-)<br>
-=C2=A0create mode 100644 scripts/nsis.py<br>
-<br>
--- <br>
-2.26.2<br>
-<br>
-<br>
-</blockquote></div>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr">Marc-Andr=
-=C3=A9 Lureau<br></div></div>
-</blockquote></div>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---0000000000009b770305adca7332--
+Alistair
 
