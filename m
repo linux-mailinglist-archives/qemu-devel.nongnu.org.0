@@ -2,69 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3A5E25306C
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 15:52:19 +0200 (CEST)
-Received: from localhost ([::1]:35868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18676253016
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 15:41:11 +0200 (CEST)
+Received: from localhost ([::1]:47180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAvqc-0001sH-TA
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 09:52:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33768)
+	id 1kAvfp-0002z3-S9
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 09:41:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kAvpW-0000ki-VJ
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 09:51:10 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52248)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kAveg-0001mX-GS
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 09:39:58 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:39489)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kAvpU-00006f-MZ
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 09:51:10 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kAvpS-00084z-6x
- for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 13:51:06 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 083432E80EC
- for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 13:51:06 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kAvee-0006tO-LI
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 09:39:58 -0400
+Received: by mail-pf1-x442.google.com with SMTP id u128so996732pfb.6
+ for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 06:39:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=m6o2OYLWWZ9ZSr3lRsbbAC6xk2CIgNPg6GkCfQwOpGs=;
+ b=gcvDcuyX/gvXJLCb6Z6BNtuJwrU8IKaabEXzI1Plm9G2pBRuQfJ7mepQjawSd6mxfY
+ Ep9Ne5nRKjnb5ufbuc58I1Pli0tKTLjYZ2NkUwtakZgYWFqTP72Zi1bqrmXfyofmAcZC
+ OwsOKEvNKeXut1yZ1Mp6Oy/hid2rXqOFddFMWCfZDOkKtQOhWihP5sdDmJpNbJ/bfQZG
+ hbbm6N5D1UtwiDXugicQzc4JUz6kr8gkSAtCGDLYPVjc8+yX96icZpzSn73Aj1DAGoJ0
+ WEZknpcYmGsDmO/otz37dDAzYqvoFHWKv9zLfc4WSFuVNn+DVe1H4FfcrSuiOAV0ZhVQ
+ wsNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=m6o2OYLWWZ9ZSr3lRsbbAC6xk2CIgNPg6GkCfQwOpGs=;
+ b=OdU3Lyy/HrPIWAEMsnyw9UTeTfdnSohjW4sPtKP9sNFQS7tyz9O4RzYMGvYs9Nbtz8
+ kTMjzXuwfsY939fvzjeQWeRO7U/RSVvN0b6CCp5W7+3U5g8C4y1gycRelqqJTexptuHD
+ RF1ByBtHooFhLcXLeRzL4ueripVJ1O+HUZ6PX8Tj8svYIjfG2ZX33iV1p0Gig+myKDPZ
+ wKhvscpZPC0MkTa5nKnrsCSCTeu4UfNJNxiZk7T31ueN0LD0YpLuqH+aCMeEB2tHXxHe
+ TwP6EmwZGxK6s3ZzXunHZxJt6TkGAHZTUoypW+A36vNBPHy7vQ/V3vyjHh01UU2Ureg9
+ UBpA==
+X-Gm-Message-State: AOAM531JcPpDa2Iz4bLJUEYW1h13HpAyEkmpWcB5Idz/iGhZOKHdvpBQ
+ V1X+cDKRnCbh8R7NbB+MhvNjmQ==
+X-Google-Smtp-Source: ABdhPJzGUanfT6/1wb7NkPnThRzQR58CyAg6X+RNcln6CjAu7RboJLTkKaPdI5emV8kKdvqP345EBg==
+X-Received: by 2002:a63:cd54:: with SMTP id a20mr10264267pgj.228.1598449195193; 
+ Wed, 26 Aug 2020 06:39:55 -0700 (PDT)
+Received: from [192.168.81.79]
+ (h216-228-167-147.bendor.dedicated.static.tds.net. [216.228.167.147])
+ by smtp.gmail.com with ESMTPSA id x127sm3118614pfd.86.2020.08.26.06.39.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 26 Aug 2020 06:39:54 -0700 (PDT)
+Subject: Re: [RFC PATCH v3 05/34] Hexagon (target/hexagon) register names
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+References: <1597765847-16637-1-git-send-email-tsimpson@quicinc.com>
+ <1597765847-16637-6-git-send-email-tsimpson@quicinc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <a45ad7e2-c390-8b1b-792a-3815df01fc8c@linaro.org>
+Date: Wed, 26 Aug 2020 06:39:52 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 26 Aug 2020 13:39:00 -0000
-From: Daniel Berrange <1893040@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: berrange gsalgaon
-X-Launchpad-Bug-Reporter: Guirish Salgaonkar (gsalgaon)
-X-Launchpad-Bug-Modifier: Daniel Berrange (berrange)
-References: <159844225257.1396.12890490778938419036.malonedeb@wampee.canonical.com>
-Message-Id: <159844914050.2425.1794777995934076641.malone@chaenomeles.canonical.com>
-Subject: [Bug 1893040] Re: External modules retreval using Go1.15 on s390x
- appears to have checksum and ECDSA verification issues
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="99c2d833c8d727fd05148486920aca032e908071"; Instance="production"
-X-Launchpad-Hash: f6fc6c41a25ecaa7ba3741cf7aaad8db0f904dea
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 07:50:40
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <1597765847-16637-6-git-send-email-tsimpson@quicinc.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x442.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.239,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,59 +90,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1893040 <1893040@bugs.launchpad.net>
+Cc: ale@rev.ng, riku.voipio@iki.fi, philmd@redhat.com, laurent@vivier.eu,
+ aleksandar.m.mail@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Can you provide a *simple* way to demonstrate the problem. ie some
-simple Go demo program, that doens't involve building kubernetes.
+On 8/18/20 8:50 AM, Taylor Simpson wrote:
+> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
+> ---
+>  target/hexagon/hex_regs.h | 83 +++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 83 insertions(+)
+>  create mode 100644 target/hexagon/hex_regs.h
 
--- =
+Noting for the record that this apparent out-of-order patch hasn't broken
+bisecting because the build is not enabled until the final patch.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1893040
-
-Title:
-   External modules retreval using Go1.15 on s390x appears to have
-  checksum and ECDSA verification issues
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  We are observing issue while building go-runner image and we suspect it i=
-s due to QEMU version being used. As referred in below issue:
-  https://github.com/golang/go/issues/40949
-
-  We tried to build go-runner image using go1.15 and register QEMU
-  (docker run --rm --privileged multiarch/qemu-user-
-  static@sha256:c772ee1965aa0be9915ee1b018a0dd92ea361b4fa1bcab5bbc033517749=
-b2af4
-  --reset -p yes) as mentioned in PR
-  https://github.com/kubernetes/release/pull/1499. We observed below
-  failure during build:
-
-  -------------------------------------------------------------------------=
---------
-  ERROR: executor failed running [/bin/sh -c CGO_ENABLED=3D0 GOOS=3Dlinux G=
-OARCH=3D${ARCH}     go build -ldflags '-s -w -buildid=3D -extldflags "-stat=
-ic"'     -o go-runner ${package}]: buildkit-runc did not terminate successf=
-ully
-  ------
-  =C2=A0> [builder 7/7] RUN CGO_ENABLED=3D0 GOOS=3Dlinux GOARCH=3D${ARCH}  =
-   go build -ldflags '-s -w -buildid=3D -extldflags "-static"'     -o go-ru=
-nner .:
-  ------
-  failed to solve: rpc error: code =3D Unknown desc =3D executor failed run=
-ning [/bin/sh -c CGO_ENABLED=3D0 GOOS=3Dlinux GOARCH=3D${ARCH}     go build=
- -ldflags '-s -w -buildid=3D -extldflags "-static"'     -o go-runner ${pack=
-age}]: buildkit-runc did not terminate successfully
-  Makefile:52: recipe for target 'container' failed
-  make: *** [container] Error 1
-  -------------------------------------------------------------------------=
---------
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1893040/+subscriptions
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
