@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBDDB252ECB
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 14:39:07 +0200 (CEST)
-Received: from localhost ([::1]:55082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68F5E252ED5
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 14:43:01 +0200 (CEST)
+Received: from localhost ([::1]:36734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAuhm-0001cs-Qx
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 08:39:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42108)
+	id 1kAulY-0005qH-GL
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 08:43:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kAugp-0000kM-P5
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 08:38:07 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:40161)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kAugn-0006ne-Gi
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 08:38:07 -0400
-Received: by mail-ot1-x342.google.com with SMTP id e23so552345otk.7
- for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 05:38:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=iSwZ1GrBESC5BsvhKRzPZ9nPFCxWyheM4CkIPRpnReo=;
- b=QQsJa61K0Oa0tCDAMJQLEaIjMPXyx1dI77YO7E6R9zL3p1OzAd2YVhJEVMD6xRCQIo
- FOjxq6SrzB3H8uSEEBrtwDcwUvDppG5T4OVF+gza9AdNHwnLH13sIHBfigjIe7V1qSIw
- wQw+a6b9kxDR82hrU6U+2EeEeEhiMiAswXHfQwkJxzchswYbRD7pRI59TOpf0kbO12ai
- ORdnf/4+GoeWIumnrxh0NT6XttC9MJ01pXw4P3YOnRG8KkPfg6UheywCsdQFlq8yVzIj
- +UHaMyotB3WQzoQOtpxQpxWhUOY5q34nkVXSjAv0TItkZ0B8fNnLzt6P+zjx7V/F5H92
- +cWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=iSwZ1GrBESC5BsvhKRzPZ9nPFCxWyheM4CkIPRpnReo=;
- b=Tb/c2rAt8mRhYK4CvEnM6dsJ+DqEzuc94y7ptMIAOsf3NCZBVpnZfVlKBkJx4SKiut
- 05W0zAAF0HPIn/6RFuDaVWl9Q2NUdAdDrTf2g4UM49iLIW3m5vHAJBKMFJH3lWkfaLVn
- eRJXNWCDA1tI9n8piRdU+vEnyE+qgNunC6vF91XoFqux02KKqCDBNz/DCj0pRRx6YfuS
- QpQzstYTCdOVF2mmkGhE9/uRV0q3PYNhC05Lx2DsNtSZZQr3lzJiQQ/Ep4DC5KWPytOS
- ZkpbxhoFRuE0lRD8zkro2bxl/ueyEm8khymV8eil73Cz65IuMuQAxXiriXnv5sC2PvVZ
- //UQ==
-X-Gm-Message-State: AOAM532En0zeD8Rn9WTI/npBLFSohiilDrGUqSg9bk0o4av/WtcBxJV1
- hWiUcbcaiUXWrQ43gFP+KWHGTCaiO8MoCXAdVZM=
-X-Google-Smtp-Source: ABdhPJzK5TGIkcyOpzMsr2l06BsGIojTs88gFUIe7QnG2csG46HqLXUW+ZmX58yz3Bw4f4Poor0kkgtWIWSnWMtIOkE=
-X-Received: by 2002:a9d:788:: with SMTP id 8mr3087496oto.181.1598445483685;
- Wed, 26 Aug 2020 05:38:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kAuhh-0001zy-8z
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 08:39:01 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34920
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kAuhf-0006so-CK
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 08:39:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598445538;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZRkduy4VDaF1lFP367Y9kM3/kP1svBNRYVoQB/8PLTE=;
+ b=IDyoVwccSyMq/ryxU9sHZev1jV8jNdBi0f5C50q/DrNKCSaaGXZRdW3XF76O4l+A1wF0Sl
+ NW0FZUJW9PFIk61UBEEUTsXnSuWSaYtPtRK4mx0qsiYJZpJQKYX7ly9UJ8WzxmbHOWjYAB
+ lxmgSbqlkaDIpYJbTv5lsSfMsIpbqMU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-362-YtYXJLMfNDO3M3-b7ibmdg-1; Wed, 26 Aug 2020 08:38:56 -0400
+X-MC-Unique: YtYXJLMfNDO3M3-b7ibmdg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 09E5B10082F9;
+ Wed, 26 Aug 2020 12:38:55 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BDC851992F;
+ Wed, 26 Aug 2020 12:38:50 +0000 (UTC)
+Date: Wed, 26 Aug 2020 14:38:49 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Babu Moger <babu.moger@amd.com>
+Subject: Re: [PATCH v5 0/8] Remove EPYC mode apicid decode and use generic
+ decode
+Message-ID: <20200826143849.59f6970b@redhat.com>
+In-Reply-To: <159804762216.39954.15502128500494116468.stgit@naples-babu.amd.com>
+References: <159804762216.39954.15502128500494116468.stgit@naples-babu.amd.com>
 MIME-Version: 1.0
-References: <20200814160241.7915-1-pannengyuan@huawei.com>
- <20200814160241.7915-9-pannengyuan@huawei.com>
-In-Reply-To: <20200814160241.7915-9-pannengyuan@huawei.com>
-From: Li Qiang <liq3ea@gmail.com>
-Date: Wed, 26 Aug 2020 20:37:27 +0800
-Message-ID: <CAKXe6SJfvxo8k+an27YkNP9aA-pQvNJ=CqDgxfw7DyCfE-GRBw@mail.gmail.com>
-Subject: Re: [PATCH 08/12] migration/colo: Plug memleaks in
- colo_process_incoming_thread
-To: Pan Nengyuan <pannengyuan@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=liq3ea@gmail.com; helo=mail-ot1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 01:10:45
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,64 +82,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhanghailiang <zhang.zhanghailiang@huawei.com>,
- Juan Quintela <quintela@redhat.com>, Qemu Developers <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Euler Robot <euler.robot@huawei.com>, Chen Qun <kuhn.chenqun@huawei.com>
+Cc: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ ehabkost@redhat.com, mst@redhat.com, Michal Privoznik <mprivozn@redhat.com>,
+ qemu-devel@nongnu.org, pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Pan Nengyuan <pannengyuan@huawei.com> =E4=BA=8E2020=E5=B9=B48=E6=9C=8814=E6=
-=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=886:52=E5=86=99=E9=81=93=EF=BC=9A
->
-> 'local_err' forgot to free in colo_process_incoming_thread error path.
-> Fix that.
->
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+On Fri, 21 Aug 2020 17:12:19 -0500
+Babu Moger <babu.moger@amd.com> wrote:
+
+> To support some of the complex topology, we introduced EPYC mode apicid decode.
+> But, EPYC mode decode is running into problems. Also it can become quite a
+> maintenance problem in the future. So, it was decided to remove that code and
+> use the generic decode which works for majority of the topology. Most of the
+> SPECed configuration would work just fine. With some non-SPECed user inputs,
+> it will create some sub-optimal configuration.
+> Here is the discussion thread.
+> https://lore.kernel.org/qemu-devel/c0bcc1a6-1d84-a6e7-e468-d5b437c1b254@amd.com/
+> 
+> This series removes all the EPYC mode specific apicid changes and use the generic
+> apicid decode.
+
+the main difference between EPYC and all other CPUs is that
+it requires numa configuration (it's not optional)
+so we need an extra patch on top of this series to enfoce that, i.e:
+
+ if (epyc && !numa) 
+    error("EPYC cpu requires numa to be configured")
+
+I think there was a patch in previous revisions that aimed for this.
+Simplest form would be above snippet.
+
+More complex one, would be moving auto_enable_numa from MachineClass to
+MachineState so we can change it at runtime if EPYC is used. That should
+take care of use case where user hasn't provided -numa.
+
+
+Eduardo,
+ is there any way to tell managment that particular CPU type requires
+ -numa ?
+
 > ---
-> Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>
-> Cc: Juan Quintela <quintela@redhat.com>
-> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> ---
->  migration/colo.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/migration/colo.c b/migration/colo.c
-> index ea7d1e9d4e..17b5afc6b5 100644
-> --- a/migration/colo.c
-> +++ b/migration/colo.c
-> @@ -870,6 +870,7 @@ void *colo_process_incoming_thread(void *opaque)
->      replication_start_all(REPLICATION_MODE_SECONDARY, &local_err);
->      if (local_err) {
->          qemu_mutex_unlock_iothread();
-> +        error_report_err(local_err);
->          goto out;
->      }
->  #else
-> @@ -882,6 +883,7 @@ void *colo_process_incoming_thread(void *opaque)
->      colo_send_message(mis->to_src_file, COLO_MESSAGE_CHECKPOINT_READY,
->                        &local_err);
->      if (local_err) {
-> +        error_report_err(local_err);
->          goto out;
->      }
->
-
-Could we arrange 'error_report_err' in 'out' label?
-Like this:
-
-if (local_err) {
-    error_report_err(local_err);
-}
-
-Thanks,
-Li Qiang
-
-
-
+> v5:
+>  Revert EPYC specific decode.
+>  Simplify CPUID_8000_001E
+> 
+> v4:
+>   https://lore.kernel.org/qemu-devel/159744083536.39197.13827776633866601278.stgit@naples-babu.amd.com/
+>   Not much of a change. Just added few text changes.
+>   Error out configuration instead of warning if dies are not configured in EPYC.
+>   Few other text changes to clarify the removal of node_id, nr_nodes and nodes_per_pkg.
+> 
+> v3:
+>   https://lore.kernel.org/qemu-devel/159681772267.9679.1334429994189974662.stgit@naples-babu.amd.com/#r
+>   Added a new check to pass the dies for EPYC numa configuration.
+>   Added Simplify CPUID_8000_001E patch with some changes suggested by Igor.
+>   Dropped the patch to build the topology from CpuInstanceProperties.
+>   TODO: Not sure if we still need the Autonuma changes Igor mentioned.
+>   Needs more clarity on that.
+> 
+> v2:
+>   https://lore.kernel.org/qemu-devel/159362436285.36204.986406297373871949.stgit@naples-babu.amd.com/
+>   Used the numa information from CpuInstanceProperties for building
+>   the apic_id suggested by Igor.
+>   Also did some minor code re-aarangement to take care of changes.
+>   Dropped the patch "Simplify CPUID_8000_001E" from v1. Will send
+>   it later.
+> 
+> v1:
+>  https://lore.kernel.org/qemu-devel/159164739269.20543.3074052993891532749.stgit@naples-babu.amd.com
+> 
+> Babu Moger (8):
+>       hw/i386: Remove node_id, nr_nodes and nodes_per_pkg from topology
+>       Revert "i386: Fix pkg_id offset for EPYC cpu models"
+>       Revert "target/i386: Enable new apic id encoding for EPYC based cpus models"
+>       Revert "hw/i386: Move arch_id decode inside x86_cpus_init"
+>       Revert "i386: Introduce use_epyc_apic_id_encoding in X86CPUDefinition"
+>       Revert "hw/i386: Introduce apicid functions inside X86MachineState"
+>       Revert "hw/386: Add EPYC mode topology decoding functions"
+>       i386: Simplify CPUID_8000_001E for AMD
+> 
+> 
+>  hw/i386/pc.c               |    8 +--
+>  hw/i386/x86.c              |   43 +++-------------
+>  include/hw/i386/topology.h |  101 ---------------------------------------
+>  include/hw/i386/x86.h      |    9 ---
+>  target/i386/cpu.c          |  115 ++++++++++++++++----------------------------
+>  target/i386/cpu.h          |    3 -
+>  tests/test-x86-cpuid.c     |   40 ++++++++-------
+>  7 files changed, 73 insertions(+), 246 deletions(-)
+> 
 > --
-> 2.18.2
->
->
+> Signature
+> 
+
 
