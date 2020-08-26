@@ -2,67 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACFBC2528B5
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 09:56:26 +0200 (CEST)
-Received: from localhost ([::1]:34208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C2C62528A9
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 09:52:16 +0200 (CEST)
+Received: from localhost ([::1]:57844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAqID-0003To-Ok
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 03:56:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56406)
+	id 1kAqEB-0001Qz-2p
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 03:52:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kAqHV-00030D-HJ
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 03:55:41 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47882)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kAqHT-0003I5-2n
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 03:55:41 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kAqHR-0004yl-9c
- for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 07:55:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 218FE2E80E7
- for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 07:55:37 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <zhaolichang@huawei.com>)
+ id 1kAqAS-0002yt-EV; Wed, 26 Aug 2020 03:48:24 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2927 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhaolichang@huawei.com>)
+ id 1kAqAP-00029D-Pd; Wed, 26 Aug 2020 03:48:24 -0400
+Received: from dggemi402-hub.china.huawei.com (unknown [172.30.72.55])
+ by Forcepoint Email with ESMTP id F07332A389C98D44DB1F;
+ Wed, 26 Aug 2020 15:48:17 +0800 (CST)
+Received: from DGGEMI522-MBS.china.huawei.com ([169.254.8.252]) by
+ dggemi402-hub.china.huawei.com ([10.3.17.135]) with mapi id 14.03.0487.000;
+ Wed, 26 Aug 2020 15:48:09 +0800
+From: zhaolichang <zhaolichang@huawei.com>
+To: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
+Subject: [PATCH V2 08/10] disas/: fix some comment spelling errors
+Thread-Topic: [PATCH V2 08/10] disas/: fix some comment spelling errors
+Thread-Index: AdZ7fHEkBA11lOjFQXKj/DOJbVxiRg==
+Date: Wed, 26 Aug 2020 07:48:09 +0000
+Message-ID: <640CDEE67BE2784FAE298BB2517210E48AC415@dggemi522-mbs.china.huawei.com>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.186.227]
+Content-Type: multipart/alternative;
+ boundary="_000_640CDEE67BE2784FAE298BB2517210E48AC415dggemi522mbschina_"
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 26 Aug 2020 07:48:06 -0000
-From: Mike Gelfand <1893003@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: mike.dld
-X-Launchpad-Bug-Reporter: Mike Gelfand (mike.dld)
-X-Launchpad-Bug-Modifier: Mike Gelfand (mike.dld)
-Message-Id: <159842808665.2865.2216413646645324343.malonedeb@chaenomeles.canonical.com>
-Subject: [Bug 1893003] [NEW] qemu-user doesn't translate host/target data for
- iovec I/O
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="99c2d833c8d727fd05148486920aca032e908071"; Instance="production"
-X-Launchpad-Hash: afde423a213a98b149136809d083d2d94a30f59d
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 03:55:37
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=zhaolichang@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 03:46:04
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,131 +61,357 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1893003 <1893003@bugs.launchpad.net>
+Cc: zhaolichang <zhaolichang@huawei.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+--_000_640CDEE67BE2784FAE298BB2517210E48AC415dggemi522mbschina_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-When using iovec I/O functions (like `readv`), no data translation
-happens. I'm hitting this issue with libevent upon constructing a
-bufferevent over an inotify descriptor, and then building for either
-ppc64 or s390x (both big-endian) on x86_64 (little-endian) and running
-resulting code with qemu-ppc64 or qemu-s390x on Gentoo using latest QEMU
-version available (5.0.0-r2).
+I found that there are many spelling errors in the comments of qemu,
+so I used the spellcheck tool to check the spelling errors
+and finally found some spelling errors in the disas folder.
 
-The code in question is in
-https://github.com/transmission/transmission/blob/master/libtransmission
-/watchdir-inotify.c (`tr_watchdir_inotify_new`,
-`tr_watchdir_inotify_on_event`).
+Signed-off-by: zhaolichang <zhaolichang@huawei.com>
+---
+disas/hppa.c | 2 +-
+disas/m68k.c | 8 ++++----
+disas/ppc.c  | 2 +-
+3 files changed, 6 insertions(+), 6 deletions(-)
 
-While `read` syscall is handled properly, `readv` (which libevent is
-using in my case) doesn't have any logic to call
-`host_to_target_data_inotify` or any other translation function, leaving
-inotify data unchanged (with values in little-endian), which then leads
-to unit test failures. Quoting `do_syscall1` implementation bits for the
-reference:
+diff --git a/disas/hppa.c b/disas/hppa.c
+index 2dbd1fc445..dcf9a47f34 100644
+--- a/disas/hppa.c
++++ b/disas/hppa.c
+@@ -2021,7 +2021,7 @@ print_insn_hppa (bfd_vma memaddr, disassemble_info *i=
+nfo)
+                            fput_fp_reg (GET_FIELD (insn, 6, 10), info);
+                         break;
 
----8<---begin---
-    case TARGET_NR_read:
-        if (arg2 =3D=3D 0 && arg3 =3D=3D 0) {
-            return get_errno(safe_read(arg1, 0, 0));
-        } else {
-            if (!(p =3D lock_user(VERIFY_WRITE, arg2, arg3, 0)))
-                return -TARGET_EFAULT;
-            ret =3D get_errno(safe_read(arg1, p, arg3));
-            if (ret >=3D 0 &&
-                fd_trans_host_to_target_data(arg1)) {
-                ret =3D fd_trans_host_to_target_data(arg1)(p, ret);
-            }
-            unlock_user(p, arg2, ret);
-        }
-        return ret;
-...
-    case TARGET_NR_readv:
-        {
-            struct iovec *vec =3D lock_iovec(VERIFY_WRITE, arg2, arg3, 0);
-            if (vec !=3D NULL) {
-                ret =3D get_errno(safe_readv(arg1, vec, arg3));
-                unlock_iovec(vec, arg2, arg3, 1);
-            } else {
-                ret =3D -host_to_target_errno(errno);
-            }
-        }
-        return ret;
----8<---end---
+-                       /* 'fA' will not generate a space before the regsit=
+er
++                      /* 'fA' will not generate a space before the registe=
+r
+                            name.  Normally that is fine.  Except that it
+                            causes problems with xmpyu which has no FP form=
+at
+                            completer.  */
+diff --git a/disas/m68k.c b/disas/m68k.c
+index 863409c67c..aefaecfbd6 100644
+--- a/disas/m68k.c
++++ b/disas/m68k.c
+@@ -70,7 +70,7 @@ struct floatformat
+   unsigned int exp_start;
+   unsigned int exp_len;
+   /* Bias added to a "true" exponent to form the biased exponent.  It
+-     is intentionally signed as, otherwize, -exp_bias can turn into a
++     is intentionally signed as, otherwise, -exp_bias can turn into a
+      very large number (e.g., given the exp_bias of 0x3fff and a 64
+      bit long, the equation (long)(1 - exp_bias) evaluates to
+      4294950914) instead of -16382).  */
+@@ -479,7 +479,7 @@ struct m68k_opcode_alias
+       and remaining 3 bits of register shifted 9 bits in first word.
+       Indicate upper/lower in 1 bit shifted 7 bits in second word.
+       Use with `R' or `u' format.
+-   n  `m' withouth upper/lower indication. (For M[S]ACx; 4 bits split
++   n  `m' without upper/lower indication. (For M[S]ACx; 4 bits split
+       with MSB shifted 6 bits in first word and remaining 3 bits of
+       register shifted 9 bits in first word.  No upper/lower
+       indication is done.)  Use with `R' or `u' format.
+@@ -854,7 +854,7 @@ fetch_arg (unsigned char *buffer,
 
-To reiterate, the issue is not only with `readv` but with other iovec
-functions as well.
+/* Check if an EA is valid for a particular code.  This is required
+    for the EMAC instructions since the type of source address determines
+-   if it is a EMAC-load instruciton if the EA is mode 2-5, otherwise it
++   if it is a EMAC-load instruction if the EA is mode 2-5, otherwise it
+   is a non-load EMAC instruction and the bits mean register Ry.
+    A similar case exists for the movem instructions where the register
+    mask is interpreted differently for different EAs.  */
+@@ -1080,7 +1080,7 @@ print_indexed (int basereg,
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+/* Returns number of bytes "eaten" by the operand, or
+    return -1 if an invalid operand was found, or -2 if
+-   an opcode tabe error was found.
++   an opcode table error was found.
+    ADDR is the pc for this arg to be relative to.  */
 
--- =
+static int
+diff --git a/disas/ppc.c b/disas/ppc.c
+index 63e97cfe1d..02be878198 100644
+--- a/disas/ppc.c
++++ b/disas/ppc.c
+@@ -5226,7 +5226,7 @@ operand_value_powerpc (const struct powerpc_operand *=
+operand,
+       if ((operand->flags & PPC_OPERAND_SIGNED) !=3D 0)
+         {
+           /* BITM is always some number of zeros followed by some
+-             number of ones, followed by some numer of zeros.  */
++            number of ones, followed by some number of zeros.  */
+           unsigned long top =3D operand->bitm;
+           /* top & -top gives the rightmost 1 bit, so this
+              fills in any trailing zeros.  */
+--
+2.26.2.windows.1
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1893003
 
-Title:
-  qemu-user doesn't translate host/target data for iovec I/O
+--_000_640CDEE67BE2784FAE298BB2517210E48AC415dggemi522mbschina_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Status in QEMU:
-  New
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:SimSun;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:SimSun;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:SimSun;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	text-justify:inter-ideograph;
+	font-size:10.5pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;
+	font-family:"Calibri",sans-serif;}
+/* Page Definitions */
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 90.0pt 72.0pt 90.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"ZH-CN" link=3D"#0563C1" vlink=3D"#954F72" style=3D"text-justi=
+fy-trim:punctuation">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span lang=3D"EN-US">I found that there are many spe=
+lling errors in the comments of qemu,<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">so I used the spellcheck tool t=
+o check the spelling errors<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">and finally found some spelling=
+ errors in the disas folder.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Signed-off-by: zhaolichang &lt;=
+zhaolichang@huawei.com&gt;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">---<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">disas/hppa.c | 2 &#43;-<o:p></o=
+:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">disas/m68k.c | 8 &#43;&#43;&#43=
+;&#43;----<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">disas/ppc.c&nbsp; | 2 &#43;-<o:=
+p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">3 files changed, 6 insertions(&=
+#43;), 6 deletions(-)<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">diff --git a/disas/hppa.c b/dis=
+as/hppa.c<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">index 2dbd1fc445..dcf9a47f34 10=
+0644<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">--- a/disas/hppa.c<o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&#43;&#43;&#43; b/disas/hppa.c<=
+o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">@@ -2021,7 &#43;2021,7 @@ print=
+_insn_hppa (bfd_vma memaddr, disassemble_info *info)<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fput_fp_reg (GET_F=
+IELD (insn, 6, 10), info);<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; break;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp; /* 'fA' will not generate a space before the regsite=
+r<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp; /* 'fA' will not generate a space before the register<=
+o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; name.&nbsp; Normal=
+ly that is fine.&nbsp; Except that it<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; causes problems wi=
+th xmpyu which has no FP format<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; completer.&nbsp; *=
+/<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">diff --git a/disas/m68k.c b/dis=
+as/m68k.c<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">index 863409c67c..aefaecfbd6 10=
+0644<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">--- a/disas/m68k.c<o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&#43;&#43;&#43; b/disas/m68k.c<=
+o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">@@ -70,7 &#43;70,7 @@ struct fl=
+oatformat<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp; unsigned int exp_s=
+tart;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp; unsigned int exp_l=
+en;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp; /* Bias added to a=
+ &quot;true&quot; exponent to form the biased exponent.&nbsp; It<o:p></o:p>=
+</span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">-&nbsp;&nbsp;&nbsp;&nbsp; is in=
+tentionally signed as, otherwize, -exp_bias can turn into a<o:p></o:p></spa=
+n></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp;&nbsp; i=
+s intentionally signed as, otherwise, -exp_bias can turn into a<o:p></o:p><=
+/span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+very large number (e.g., given the exp_bias of 0x3fff and a 64<o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+bit long, the equation (long)(1 - exp_bias) evaluates to<o:p></o:p></span><=
+/p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+4294950914) instead of -16382).&nbsp; */<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">@@ -479,7 &#43;479,7 @@ struct =
+m68k_opcode_alias<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; and remaining 3 bits of register shifted 9 bits in first word.<o:p></=
+o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; Indicate upper/lower in 1 bit shifted 7 bits in second word.<o:p></o:=
+p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; Use with `R' or `u' format.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">-&nbsp;&nbsp; n&nbsp; `m' witho=
+uth upper/lower indication. (For M[S]ACx; 4 bits split<o:p></o:p></span></p=
+>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&#43;&nbsp;&nbsp; n&nbsp; `m' w=
+ithout upper/lower indication. (For M[S]ACx; 4 bits split<o:p></o:p></span>=
+</p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; with MSB shifted 6 bits in first word and remaining 3 bits of<o:p></o=
+:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; register shifted 9 bits in first word.&nbsp; No upper/lower<o:p></o:p=
+></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; indication is done.)&nbsp; Use with `R' or `u' format.<o:p></o:p></sp=
+an></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">@@ -854,7 &#43;854,7 @@ fetch_a=
+rg (unsigned char *buffer,<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">/* Check if an EA is valid for =
+a particular code.&nbsp; This is required<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp; for the EMAC=
+ instructions since the type of source address determines<o:p></o:p></span>=
+</p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">-&nbsp;&nbsp; if it is a EMAC-l=
+oad instruciton if the EA is mode 2-5, otherwise it<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&#43;&nbsp;&nbsp; if it is a EM=
+AC-load instruction if the EA is mode 2-5, otherwise it<o:p></o:p></span></=
+p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp; is a non-load EMAC=
+ instruction and the bits mean register Ry.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp; A similar ca=
+se exists for the movem instructions where the register<o:p></o:p></span></=
+p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp; mask is inte=
+rpreted differently for different EAs.&nbsp; */<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">@@ -1080,7 &#43;1080,7 @@ print=
+_indexed (int basereg,<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">/* Returns number of bytes &quo=
+t;eaten&quot; by the operand, or<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp; return -1 if=
+ an invalid operand was found, or -2 if<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">-&nbsp;&nbsp; an opcode tabe er=
+ror was found.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&#43;&nbsp;&nbsp; an opcode tab=
+le error was found.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp; ADDR is the =
+pc for this arg to be relative to.&nbsp; */<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">static int<o:p></o:p></span></p=
+>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">diff --git a/disas/ppc.c b/disa=
+s/ppc.c<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">index 63e97cfe1d..02be878198 10=
+0644<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">--- a/disas/ppc.c<o:p></o:p></s=
+pan></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&#43;&#43;&#43; b/disas/ppc.c<o=
+:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">@@ -5226,7 &#43;5226,7 @@ opera=
+nd_value_powerpc (const struct powerpc_operand *operand,<o:p></o:p></span><=
+/p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; if ((operand-&gt;flags &amp; PPC_OPERAND_SIGNED) !=3D 0)<o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; {<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; &nbsp; /* BITM is always some number of zeros followed by=
+ some<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; number of ones, followed by some nume=
+r of zeros.&nbsp; */<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; number of ones, followed by some number=
+ of zeros.&nbsp; */<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; &nbsp; unsigned long top =3D operand-&gt;bitm;<o:p></o:p>=
+</span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; &nbsp; /* top &amp; -top gives the rightmost 1 bit, so th=
+is<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; fills in any trailing zeros.&nbs=
+p; */<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">-- <o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">2.26.2.windows.1<o:p></o:p></sp=
+an></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+</div>
+</body>
+</html>
 
-Bug description:
-  When using iovec I/O functions (like `readv`), no data translation
-  happens. I'm hitting this issue with libevent upon constructing a
-  bufferevent over an inotify descriptor, and then building for either
-  ppc64 or s390x (both big-endian) on x86_64 (little-endian) and running
-  resulting code with qemu-ppc64 or qemu-s390x on Gentoo using latest
-  QEMU version available (5.0.0-r2).
-
-  The code in question is in
-  https://github.com/transmission/transmission/blob/master/libtransmission
-  /watchdir-inotify.c (`tr_watchdir_inotify_new`,
-  `tr_watchdir_inotify_on_event`).
-
-  While `read` syscall is handled properly, `readv` (which libevent is
-  using in my case) doesn't have any logic to call
-  `host_to_target_data_inotify` or any other translation function,
-  leaving inotify data unchanged (with values in little-endian), which
-  then leads to unit test failures. Quoting `do_syscall1` implementation
-  bits for the reference:
-
-  ---8<---begin---
-      case TARGET_NR_read:
-          if (arg2 =3D=3D 0 && arg3 =3D=3D 0) {
-              return get_errno(safe_read(arg1, 0, 0));
-          } else {
-              if (!(p =3D lock_user(VERIFY_WRITE, arg2, arg3, 0)))
-                  return -TARGET_EFAULT;
-              ret =3D get_errno(safe_read(arg1, p, arg3));
-              if (ret >=3D 0 &&
-                  fd_trans_host_to_target_data(arg1)) {
-                  ret =3D fd_trans_host_to_target_data(arg1)(p, ret);
-              }
-              unlock_user(p, arg2, ret);
-          }
-          return ret;
-  ...
-      case TARGET_NR_readv:
-          {
-              struct iovec *vec =3D lock_iovec(VERIFY_WRITE, arg2, arg3, 0);
-              if (vec !=3D NULL) {
-                  ret =3D get_errno(safe_readv(arg1, vec, arg3));
-                  unlock_iovec(vec, arg2, arg3, 1);
-              } else {
-                  ret =3D -host_to_target_errno(errno);
-              }
-          }
-          return ret;
-  ---8<---end---
-
-  To reiterate, the issue is not only with `readv` but with other iovec
-  functions as well.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1893003/+subscriptions
+--_000_640CDEE67BE2784FAE298BB2517210E48AC415dggemi522mbschina_--
 
