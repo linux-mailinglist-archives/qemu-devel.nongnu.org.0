@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 232B5252CB6
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 13:46:32 +0200 (CEST)
-Received: from localhost ([::1]:37548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55EF0252CCC
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 13:48:30 +0200 (CEST)
+Received: from localhost ([::1]:46072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAtst-0002Xy-7c
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 07:46:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56616)
+	id 1kAtun-0005xO-EN
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 07:48:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <srs0=n7r+=ce=lse.epita.fr=cesar.belley@cri.epita.fr>)
- id 1kAtpM-0004ih-1w
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:42:52 -0400
-Received: from gate-2.cri.epita.net ([163.5.55.20]:47928
+ id 1kAtpQ-0004u5-T0
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:42:56 -0400
+Received: from gate-2.cri.epita.net ([163.5.55.20]:47942
  helo=mail-2.srv.cri.epita.fr)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <srs0=n7r+=ce=lse.epita.fr=cesar.belley@cri.epita.fr>)
- id 1kAtpK-000867-Be
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:42:51 -0400
+ id 1kAtpP-00086h-7A
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:42:56 -0400
 Received: from MattGorko-Laptop.home
  (lfbn-idf1-1-1395-83.w90-79.abo.wanadoo.fr [90.79.87.83])
  (Authenticated sender: cesar.belley)
- by mail-2.srv.cri.epita.fr (Postfix) with ESMTPSA id 416B2412DD;
- Wed, 26 Aug 2020 13:42:48 +0200 (CEST)
+ by mail-2.srv.cri.epita.fr (Postfix) with ESMTPSA id EDCD8412E6;
+ Wed, 26 Aug 2020 13:42:53 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=lse.epita.fr; s=cri;
- t=1598442168; bh=nQhKuNn3MwH4gOHTPOjyBvj9K5iVBhe1uEtgY1+8Dds=;
+ t=1598442174; bh=/33EairxGlE32NvdntSN+rcwZBT7otF2vHwM46qIMbY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=AvMnKyctu16S0XDSCiPqb/XTAEtQ4YOB5upyz6yS2iKVa4qI6fcucC1PQgX5XK3Wh
- PxqlW5sjr3qlxKuDR/EEiADvOTOgKQBKnHf3xsU+y9cFMvd9AxgU/Y3r29WzCRqGDF
- o5JxRd1mXDeT32Jw+EuV9vbggksdFz/wzpu92/Sg=
+ b=Ypzb0RRhCkHtwEkMRdREKQ6h3RHhYbhVnhK11XmqPMjnNginOE9BGSlcfLybQsaPQ
+ oWiQNLAC+iyWieh92U4o9vZEeEBdwBu5HKG6mJeJGNP2zjyyssgbmdG4BmfBysvDJN
+ Y0Tf1Yo6QOkVFg/lw8extgTq3FQ1LpAOAhOgL/ck=
 From: =?UTF-8?q?C=C3=A9sar=20Belley?= <cesar.belley@lse.epita.fr>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 08/12] docs/system: Add U2F key to the USB devices examples
-Date: Wed, 26 Aug 2020 13:42:05 +0200
-Message-Id: <20200826114209.28821-9-cesar.belley@lse.epita.fr>
+Subject: [PATCH v3 09/12] docs/qdev-device-use.txt: Add USB U2F key to the
+ QDEV devices examples
+Date: Wed, 26 Aug 2020 13:42:06 +0200
+Message-Id: <20200826114209.28821-10-cesar.belley@lse.epita.fr>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200826114209.28821-1-cesar.belley@lse.epita.fr>
 References: <20200826114209.28821-1-cesar.belley@lse.epita.fr>
@@ -74,23 +75,21 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: César Belley <cesar.belley@lse.epita.fr>
 ---
- docs/system/usb.rst | 3 +++
- 1 file changed, 3 insertions(+)
+ docs/qdev-device-use.txt | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/docs/system/usb.rst b/docs/system/usb.rst
-index ddfa828d74..9a2f1927c4 100644
---- a/docs/system/usb.rst
-+++ b/docs/system/usb.rst
-@@ -81,6 +81,9 @@ option or the ``device_add`` monitor command. Available devices are:
- ``usb-audio``
-    USB audio device
+diff --git a/docs/qdev-device-use.txt b/docs/qdev-device-use.txt
+index f8d0d2fe29..9889521e3c 100644
+--- a/docs/qdev-device-use.txt
++++ b/docs/qdev-device-use.txt
+@@ -325,6 +325,7 @@ The new way is -device DEVNAME,DEV-OPTS...  Details depend on DRIVER:
+ * mouse           -device usb-mouse
+ * tablet          -device usb-tablet
+ * wacom-tablet    -device usb-wacom-tablet
++* u2f             -device u2f-{emulated,passthru}
+ * braille         See "Character Devices"
  
-+``u2f-{emulated,passthru}``
-+   Universal Second Factor device
-+
- .. _host_005fusb_005fdevices:
- 
- Using host USB devices on a Linux host
+ === Watchdog Devices ===
 -- 
 2.28.0
 
