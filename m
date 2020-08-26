@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CECB1252F58
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 15:08:05 +0200 (CEST)
-Received: from localhost ([::1]:51808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30E04252F5E
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 15:09:27 +0200 (CEST)
+Received: from localhost ([::1]:59154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAv9o-0005Ec-AZ
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 09:08:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49608)
+	id 1kAvB8-0008Ao-91
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 09:09:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kAv8R-00048q-Lv
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 09:06:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32817)
+ id 1kAv8T-000491-4e
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 09:06:41 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26271
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kAv8O-0002BU-7Z
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 09:06:39 -0400
+ id 1kAv8R-0002Dm-AJ
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 09:06:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598447192;
+ s=mimecast20190719; t=1598447198;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=xHjeeumI9PZ7GQ+VctUG//A2Ycq8P8aZIYQjigM3Qsw=;
- b=MCXr4u6VEQ2L7PLbwHrc09BUYd7MUjM9UhTd1pSc6aX5wWpsPXa3PY7ueXNl2zb+CHi/Hd
- /IOrF1wU9r++o2WwTVYih9fAkQV17nGHg+Wgf4ldScHDGqE4XPoBS81+Vjr4xzwI0zcJd3
- VNFcPzh/zoGDpn6BLvXZUSZFt6EUmAE=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wG6pTPfrkr4FA5F6SjyIDMte6/yvih8bFglacvGBJ1s=;
+ b=B7oSu6ck5b00FlZr/o+jvXtTJ7r/+BHefyJCSuis1WCkDW6D0QZ5okMQDYHPKdpir3wHTM
+ vfJilKuoKV5nB2CKZ6Hok6joxSFRk/eYBZTv50kVB/IuDL6WFz/L24TLlje5Yaib5u4BHq
+ nc47z0D+05E5i0QMBi2qXq3RQRQ2cFo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-184-TAdKzCXVNU6okZZ7OWytVw-1; Wed, 26 Aug 2020 09:06:29 -0400
-X-MC-Unique: TAdKzCXVNU6okZZ7OWytVw-1
+ us-mta-12-m9ANjzU5MH-2PCd8piOUNg-1; Wed, 26 Aug 2020 09:06:36 -0400
+X-MC-Unique: m9ANjzU5MH-2PCd8piOUNg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CCCE7189E60D
- for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 13:06:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D448AE400
+ for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 13:06:35 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.43])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 25CFD7C5F6;
- Wed, 26 Aug 2020 13:06:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1391C18B59;
+ Wed, 26 Aug 2020 13:06:33 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/6] meson: convert the remaining of install target
-Date: Wed, 26 Aug 2020 17:06:16 +0400
-Message-Id: <20200826130622.553318-1-marcandre.lureau@redhat.com>
+Subject: [PATCH 1/6] meson: install pc-bios blobs
+Date: Wed, 26 Aug 2020 17:06:17 +0400
+Message-Id: <20200826130622.553318-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20200826130622.553318-1-marcandre.lureau@redhat.com>
+References: <20200826130622.553318-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 06:53:10
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120;
+ envelope-from=marcandre.lureau@redhat.com; helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 01:10:45
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,33 +86,137 @@ Cc: pbonzini@redhat.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>=0D
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Hi,=0D
-=0D
-A few patches to finish replacing the Makefile install target by meson.=0D
-=0D
-Marc-Andr=C3=A9 Lureau (6):=0D
-  meson: install pc-bios blobs=0D
-  meson: install scripts/qemu-trace-stap=0D
-  meson: install icons=0D
-  meson: install desktop file=0D
-  meson: install $localstatedir/run for qga=0D
-  build-sys: remove install target from Makefile=0D
-=0D
- Makefile             | 62 -------------------------------------------=0D
- meson.build          |  1 +=0D
- pc-bios/meson.build  | 63 ++++++++++++++++++++++++++++++++++++++++++++=0D
- qga/meson.build      |  2 ++=0D
- scripts/meson.build  |  3 +++=0D
- ui/icons/meson.build | 13 +++++++++=0D
- ui/meson.build       |  3 +++=0D
- 7 files changed, 85 insertions(+), 62 deletions(-)=0D
- create mode 100644 scripts/meson.build=0D
- create mode 100644 ui/icons/meson.build=0D
-=0D
---=20=0D
-2.26.2=0D
-=0D
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ Makefile            | 31 ----------------------
+ pc-bios/meson.build | 63 +++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 63 insertions(+), 31 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 81794d5c34..16b2ffa7fe 100644
+--- a/Makefile
++++ b/Makefile
+@@ -229,32 +229,6 @@ distclean: clean ninja-distclean
+ 	rm -f linux-headers/asm
+ 	rm -Rf .sdk
+ 
+-ifdef INSTALL_BLOBS
+-BLOBS=bios.bin bios-256k.bin bios-microvm.bin sgabios.bin vgabios.bin vgabios-cirrus.bin \
+-vgabios-stdvga.bin vgabios-vmware.bin vgabios-qxl.bin vgabios-virtio.bin \
+-vgabios-ramfb.bin vgabios-bochs-display.bin vgabios-ati.bin \
+-openbios-sparc32 openbios-sparc64 openbios-ppc QEMU,tcx.bin QEMU,cgthree.bin \
+-pxe-e1000.rom pxe-eepro100.rom pxe-ne2k_pci.rom \
+-pxe-pcnet.rom pxe-rtl8139.rom pxe-virtio.rom \
+-efi-e1000.rom efi-eepro100.rom efi-ne2k_pci.rom \
+-efi-pcnet.rom efi-rtl8139.rom efi-virtio.rom \
+-efi-e1000e.rom efi-vmxnet3.rom \
+-qemu-nsis.bmp \
+-bamboo.dtb canyonlands.dtb petalogix-s3adsp1800.dtb petalogix-ml605.dtb \
+-multiboot.bin linuxboot.bin linuxboot_dma.bin kvmvapic.bin pvh.bin \
+-s390-ccw.img s390-netboot.img \
+-slof.bin skiboot.lid \
+-palcode-clipper \
+-u-boot.e500 u-boot-sam460-20100605.bin \
+-qemu_vga.ndrv \
+-edk2-licenses.txt \
+-hppa-firmware.img \
+-opensbi-riscv32-generic-fw_dynamic.bin opensbi-riscv64-generic-fw_dynamic.bin \
+-opensbi-riscv32-generic-fw_dynamic.elf opensbi-riscv64-generic-fw_dynamic.elf
+-else
+-BLOBS=
+-endif
+-
+ install-datadir:
+ 	$(INSTALL_DIR) "$(DESTDIR)$(qemu_datadir)"
+ 
+@@ -272,11 +246,6 @@ export DESTDIR
+ install: all install-datadir install-localstatedir
+ ifdef CONFIG_TRACE_SYSTEMTAP
+ 	$(INSTALL_PROG) "scripts/qemu-trace-stap" $(DESTDIR)$(bindir)
+-endif
+-ifneq ($(BLOBS),)
+-	set -e; for x in $(BLOBS); do \
+-		$(INSTALL_DATA) $(SRC_PATH)/pc-bios/$$x "$(DESTDIR)$(qemu_datadir)"; \
+-	done
+ endif
+ 	for s in $(ICON_SIZES); do \
+ 		mkdir -p "$(DESTDIR)$(qemu_icondir)/hicolor/$${s}/apps"; \
+diff --git a/pc-bios/meson.build b/pc-bios/meson.build
+index b6389f5148..f608c2cdba 100644
+--- a/pc-bios/meson.build
++++ b/pc-bios/meson.build
+@@ -24,5 +24,68 @@ if 'DECOMPRESS_EDK2_BLOBS' in config_host
+   endforeach
+ endif
+ 
++blobs = files(
++  'bios.bin',
++  'bios-256k.bin',
++  'bios-microvm.bin',
++  'sgabios.bin',
++  'vgabios.bin',
++  'vgabios-cirrus.bin',
++  'vgabios-stdvga.bin',
++  'vgabios-vmware.bin',
++  'vgabios-qxl.bin',
++  'vgabios-virtio.bin',
++  'vgabios-ramfb.bin',
++  'vgabios-bochs-display.bin',
++  'vgabios-ati.bin',
++  'openbios-sparc32',
++  'openbios-sparc64',
++  'openbios-ppc',
++  'QEMU,tcx.bin',
++  'QEMU,cgthree.bin',
++  'pxe-e1000.rom',
++  'pxe-eepro100.rom',
++  'pxe-ne2k_pci.rom',
++  'pxe-pcnet.rom',
++  'pxe-rtl8139.rom',
++  'pxe-virtio.rom',
++  'efi-e1000.rom',
++  'efi-eepro100.rom',
++  'efi-ne2k_pci.rom',
++  'efi-pcnet.rom',
++  'efi-rtl8139.rom',
++  'efi-virtio.rom',
++  'efi-e1000e.rom',
++  'efi-vmxnet3.rom',
++  'qemu-nsis.bmp',
++  'bamboo.dtb',
++  'canyonlands.dtb',
++  'petalogix-s3adsp1800.dtb',
++  'petalogix-ml605.dtb',
++  'multiboot.bin',
++  'linuxboot.bin',
++  'linuxboot_dma.bin',
++  'kvmvapic.bin',
++  'pvh.bin',
++  's390-ccw.img',
++  's390-netboot.img',
++  'slof.bin',
++  'skiboot.lid',
++  'palcode-clipper',
++  'u-boot.e500',
++  'u-boot-sam460-20100605.bin',
++  'qemu_vga.ndrv',
++  'edk2-licenses.txt',
++  'hppa-firmware.img',
++  'opensbi-riscv32-generic-fw_dynamic.bin',
++  'opensbi-riscv64-generic-fw_dynamic.bin',
++  'opensbi-riscv32-generic-fw_dynamic.elf',
++  'opensbi-riscv64-generic-fw_dynamic.elf',
++)
++
++if install_blobs
++  install_data(blobs, install_dir: config_host['qemu_datadir'])
++endif
++
+ subdir('descriptors')
+ subdir('keymaps')
+-- 
+2.26.2
 
 
