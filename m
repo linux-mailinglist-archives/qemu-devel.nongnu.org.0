@@ -2,80 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5684253339
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 17:14:38 +0200 (CEST)
-Received: from localhost ([::1]:37318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D8AC253369
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 17:19:22 +0200 (CEST)
+Received: from localhost ([::1]:48814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAx8H-0000nz-O6
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 11:14:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57494)
+	id 1kAxCr-0005Yg-Ae
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 11:19:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kAx6a-0007fw-F1
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 11:12:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20008)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kAx9e-000348-Lo
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 11:16:02 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:60650
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kAx6X-0003yM-PB
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 11:12:52 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kAx9c-0004Sb-OH
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 11:16:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598454767;
+ s=mimecast20190719; t=1598454959;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0BJE2WZTE4xvmgFxvyG1UsbLTRSXbl3G8EhoIcDGXKE=;
- b=if0qELc2mRNNgyPdhEdJiFZPHMxvcrgpms2eYDUNGrA/wrU6WH63FH4wT2Co/EuYJhp2Aj
- gAL2Vp6tHivGG9imyUl4R3bHrBUqE9JihZWtnyaGTWWjgpFyNx38h6omcJ9jBVOwAimXgj
- bZH1nRsWGS1FXLg6EZSg/XUWHMTNunI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-260-u3_J25EdN3e_Ul_RCCVFPQ-1; Wed, 26 Aug 2020 11:12:42 -0400
-X-MC-Unique: u3_J25EdN3e_Ul_RCCVFPQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E9315189E606;
- Wed, 26 Aug 2020 15:12:41 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-114-182.ams2.redhat.com
- [10.36.114.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C48ED747C6;
- Wed, 26 Aug 2020 15:12:40 +0000 (UTC)
-Subject: Re: [PATCH v2 6/7] x68: acpi: trigger SMI before sending hotplug
- Notify event to OSPM
-To: Igor Mammedov <imammedo@redhat.com>
-References: <20200818122208.1243901-1-imammedo@redhat.com>
- <20200818122208.1243901-7-imammedo@redhat.com>
- <382e54cc-1ac0-61e5-bf5d-0653480222a0@redhat.com>
- <cfd4dd52-4827-2288-4b4e-b396d48494f0@redhat.com>
- <20200826135501.5449641b@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <93968819-1988-1e6c-9ec7-3d1fb067c147@redhat.com>
-Date: Wed, 26 Aug 2020 17:12:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Firefox/52.0 Thunderbird/52.9.1
+ bh=wM38FLfnx0POA2G2D6IfJNi2kCkdlQ6TNYDsvVRTw6w=;
+ b=Q4tdloXEV8R0QP2z+21ov/skRRVifxuFRPfraP3aG4eAKqCtjaGGG1SWoD2o5unkNfRIXU
+ kNaLs9ecsiOlaoG8ewPuHjkVHRywCE6n1rq/1ljJUA6NIFBraBVeppo43Z0f7ywpQguxvN
+ MGfNw04oetDPMzBqhJRuNdTgDbf1MbU=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-525-mvoZQduKOAySp7oza8Ikog-1; Wed, 26 Aug 2020 11:15:56 -0400
+X-MC-Unique: mvoZQduKOAySp7oza8Ikog-1
+Received: by mail-ed1-f70.google.com with SMTP id dj21so810788edb.2
+ for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 08:15:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=wM38FLfnx0POA2G2D6IfJNi2kCkdlQ6TNYDsvVRTw6w=;
+ b=UliASEHTVuzJEOy2U+yd+i6G8FcY2/1scCiEMoYo5W+C5d/Q8zYFAScwD1WdWWWPTp
+ s1c86V+hm6o2cSVaGYJWzH+wbvX2KcEX4a/Qn3W4jUX+wQkuJkWBX0ByLNiRxK83iK+/
+ Kq5wYrZEu/cYleESsWXauLQ6vB76n+PN3a1doXXxwJdOc2HCQDfMatQh68YKjHHsr7dy
+ uBKh1Umv5r6CmAweONuqGJUZWKUWFKugqOHtusDU5qoSCqjixprY7cutd0cekKCHokkN
+ petSDOFxdzyV1O8mblFx0McRl/qJGH4cd//52fjLNe2+iiiq7M4TP15q1H2w5y/VIoR2
+ WZaQ==
+X-Gm-Message-State: AOAM530NU3QktmMLw7H8ZWD8r1wwfoaD7hWzgPin32nRQUf2VXelneK2
+ RqW5F0fJLhxwTjrV3LlmRFGyTog7JoYgcgTMCsz8aZOBbMl9ltsvl1EqtLtURvTKlIgUJKJ/iGp
+ Os0mN3Le/SVTwq/XdZIF0vqfj8rZqy/I=
+X-Received: by 2002:a17:907:693:: with SMTP id
+ wn19mr6960367ejb.121.1598454953975; 
+ Wed, 26 Aug 2020 08:15:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx1IlET/TfutOj5NMxbb7e3rDwNvRMhPytsmYbuGUp6GBoLMq6H7lk6JDYqhU86WSToPPHtXhDtZdFJIOnOdVA=
+X-Received: by 2002:a17:907:693:: with SMTP id
+ wn19mr6960347ejb.121.1598454953783; 
+ Wed, 26 Aug 2020 08:15:53 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200826135501.5449641b@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+References: <20200823225804.umk5gh6knptqo5mw@mozz.bu.edu>
+ <CABgObfZtGY-TuTLXNJNU9m_yQLfE6AM-+MdfqaaRjfMcWC8+Og@mail.gmail.com>
+ <20200826135513.ay5ga3xi2ilcagqf@mozz.bu.edu>
+In-Reply-To: <20200826135513.ay5ga3xi2ilcagqf@mozz.bu.edu>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Wed, 26 Aug 2020 17:15:42 +0200
+Message-ID: <CABgObfbxqPH1p-0ZD2wZWiKP0GjOjV6s+umgmOMKjm2ic7R=zg@mail.gmail.com>
+Subject: Re: [Fwd] Issue 25164 in oss-fuzz: qemu: Fuzzing build failure
+To: Alexander Bulekov <alxndr@bu.edu>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
-X-Mimecast-Spam-Score: 0.001
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=lersek@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 06:53:10
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 03:16:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -52
-X-Spam_score: -5.3
-X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.239, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,42 +94,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: boris.ostrovsky@oracle.com,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, aaron.young@oracle.com
+Cc: Darren Kenny <darren.kenny@oracle.com>, Bandan Das <bsd@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/26/20 13:55, Igor Mammedov wrote:
-> On Wed, 26 Aug 2020 11:24:14 +0200
-> Laszlo Ersek <lersek@redhat.com> wrote:
+On Wed, Aug 26, 2020 at 3:56 PM Alexander Bulekov <alxndr@bu.edu> wrote:
+>
+> On 200825 0958, Paolo Bonzini wrote:
+> > Il lun 24 ago 2020, 00:58 Alexander Bulekov <alxndr@bu.edu> ha scritto:
+> >
+> > > Hi Paolo,
+> > > Our oss-fuzz builds started failing, after the meson merge. I think I
+> > > tracked down the issues:
+> > > 1.) Looking at the build-log here:
+> > >
+> > > https://oss-fuzz-build-logs.storage.googleapis.com/log-d43d402c-1ce5-4422-b3db-ccbf83a862a0.txt
+> > > The error happens at link-time. Re-running the build with V=1:
+> > > "/usr/bin/ld" ...
+> > > --whole-archive /usr/local/lib/clang/12.0.0/.../libclang_rt.asan-x86_64.a \
+> > > --start-group ..... -T /src/qemu/tests/qtest/fuzz/fork_fuzz.ld  \
+> > > -wrap qtest_inb -wrap qtest_inw ..... --end-group .....
+> > >
+> >
+> > I think you can put everything into a response for and include it with
+> > @fuzz.cmd in the command line.
+>
+> I don't think I understand. Should I provide the entire linker command,
+> by email?
 
->>   (2a) Change the firmware so that it sends a directed SMI as well to
->>        each CPU, just before sending an INIT-SIPI-SIPI. This should be
->>        idempotent -- if the broadcast SMI *has* covered the the CPU,
->>        then sending a directed SMI should make no difference.
-> may be still racy, as new cpus can arrive diring/after direct broadcast.
+You can create a file fuzz.cmd.in containing
 
-(I think you meant "direct SMI")
+-Wl,-T,@FUZZING_LINKER_SCRIPT@
+-Wl,-wrap,qtest_inb
+-Wl,-wrap,qtest_inw
 
-That's not a problem -- the point is that we must never send
-INIT-SIPI-SIPI to a hot-added CPU without making an SMI pending for it.
+etc.
 
-The above condition can be satisfied by not sending INIT-SIPI-SIPI to a
-VCPU at all.
+Create a fuzz.cmd that includes the correct path to fuzz.ld in the
+source tree (using configure_file) and pass this file to the linker
+using @tests/libqtest/fuzz/fuzz.cmd in link_args (and also
+link_depends). See libblock and block for an example.
 
-The firmware collects pending CPUs into an array, and then does the
-directed SMI + INIT-SIPI-SIPI dance for each, in a separate loop.
+Paolo
 
-So if a new VCPU is hot-added while we are sending the interrupts to the
-already collected ones, that's fine -- we're not going to send *either*
-SMI *or* INIT-SIPI-SIPI to that VCPU, until the next time we collect VCPUS.
-
-It's basically the same idea as in your ACPI patch for QEMU.
-
-I'll send the OVMF patches soon.
-
-Thanks!
-Laszlo
+Paolo
 
 
