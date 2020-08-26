@@ -2,67 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 000DA252587
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 04:44:11 +0200 (CEST)
-Received: from localhost ([::1]:48650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AA982525B8
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 05:11:16 +0200 (CEST)
+Received: from localhost ([::1]:58136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAlQ3-0007eM-3J
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 22:44:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52904)
+	id 1kAlqE-0004Ua-KQ
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 23:11:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1kAlPJ-0006oU-CE
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 22:43:25 -0400
-Received: from mga18.intel.com ([134.134.136.126]:32684)
+ (Exim 4.90_1) (envelope-from <bauerman@linux.ibm.com>)
+ id 1kAlpK-0003QC-T8; Tue, 25 Aug 2020 23:10:18 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:22182
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1kAlPG-0003Do-FT
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 22:43:24 -0400
-IronPort-SDR: gmBPM/oSwPcz3wgP1I3/GOHBGph05eLrP9isOzpR8szvave1TduIWutsmPUeaTcJKo/ZKKO02i
- CVuvyyQj7YpQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9724"; a="143889320"
-X-IronPort-AV: E=Sophos;i="5.76,354,1592895600"; d="scan'208";a="143889320"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Aug 2020 19:43:18 -0700
-IronPort-SDR: yz0WD4t8sQ1JBpezTRpKP/rBpiMwuO0pyDi8xzpJt605NUI//N7XOEYfy7jslFBFdt4xOq3qhP
- /yoYk5eDjPQA==
-X-IronPort-AV: E=Sophos;i="5.76,354,1592895600"; d="scan'208";a="474599333"
-Received: from kblgvt-desktop.sh.intel.com (HELO [10.239.13.113])
- ([10.239.13.113])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Aug 2020 19:43:17 -0700
-Subject: Re: [PATCH 2/2] target/i386: Add missed features to Cooperlake CPU
- model
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20191225063018.20038-1-xiaoyao.li@intel.com>
- <20191225063018.20038-3-xiaoyao.li@intel.com>
- <20200824220759.GS642093@habkost.net>
- <9cdaaa8d-4ce2-88c7-2400-eed62ffe779b@intel.com>
- <20200825140145.GU642093@habkost.net>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-Message-ID: <3644bc2e-feaa-94cb-7c57-701539894384@intel.com>
-Date: Wed, 26 Aug 2020 10:43:14 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <bauerman@linux.ibm.com>)
+ id 1kAlpI-0002UQ-L4; Tue, 25 Aug 2020 23:10:18 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 07Q31YgO148367; Tue, 25 Aug 2020 23:09:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=references : from : cc :
+ subject : in-reply-to : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=pp1;
+ bh=Vt/YvypQ2/JgOMomfmLJ69idML1qVW8CKn8qjuI79ms=;
+ b=Mnpc3Fc5G3JEflTqRuc55rARHtbKu5yARozSzuQIKVYFuVvwI8uLBtqIMUrSxYEH4eWc
+ QcDTWT0UtZWHiYuSKlpjlWpI1K70NqQ7z4AICdaLfxMJVP2aG1LzjC5bnR4fj4P8cgBA
+ fZRYKBDsRBNB02T15133Vy58+5sMnHwMWo4qh3qDHfbQYEmjP1EQRNRfjnKi4Da7W6hV
+ 74ApyVryGF5+KrZmdwVbuwaHRDJODDTDoDztxMa+VpUeNKzV7UtU7FgIqOW4F1vQBSdt
+ y+N/yEG+dGDF4imZAYSHe+pPBF8Hz4i3xcw5TYyzqRtATI2BdCt/OYISNfjRBKNQ9cGp pA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 335exwrtq2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Aug 2020 23:09:47 -0400
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 07Q33IG7156830;
+ Tue, 25 Aug 2020 23:09:47 -0400
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 335exwrtpt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Aug 2020 23:09:47 -0400
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 07Q37g0K025429;
+ Wed, 26 Aug 2020 03:09:46 GMT
+Received: from b03cxnp07029.gho.boulder.ibm.com
+ (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
+ by ppma03dal.us.ibm.com with ESMTP id 332uttp0xp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 26 Aug 2020 03:09:46 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 07Q39jPG1376920
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 26 Aug 2020 03:09:45 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6ADC37805F;
+ Wed, 26 Aug 2020 03:09:45 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7E9E77805E;
+ Wed, 26 Aug 2020 03:09:40 +0000 (GMT)
+Received: from morokweng.localdomain (unknown [9.163.48.38])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTPS;
+ Wed, 26 Aug 2020 03:09:40 +0000 (GMT)
+References: <20200819164306.625357-1-bauerman@linux.ibm.com>
+ <20200819164306.625357-7-bauerman@linux.ibm.com>
+User-agent: mu4e 1.4.10; emacs 26.3
+From: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+Subject: Re: [PATCH v6 6/8] sparc/sun4m: Remove main_cpu_reset()
+In-reply-to: <20200819164306.625357-7-bauerman@linux.ibm.com>
+Date: Wed, 26 Aug 2020 00:09:37 -0300
+Message-ID: <87y2m29k7i.fsf@morokweng.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20200825140145.GU642093@habkost.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=134.134.136.126;
- envelope-from=xiaoyao.li@intel.com; helo=mga18.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 22:43:18
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -57
-X-Spam_score: -5.8
-X-Spam_bar: -----
-X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=1, NICE_REPLY_A=-2.602, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-08-25_11:2020-08-25,
+ 2020-08-26 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 lowpriorityscore=0
+ phishscore=0 spamscore=0 malwarescore=0 mlxlogscore=999 clxscore=1015
+ suspectscore=0 bulkscore=0 adultscore=0 priorityscore=1501 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2008260018
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=bauerman@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 23:10:12
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, MISSING_HEADERS=1.021,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,62 +110,168 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Cathy Zhang <cathy.zhang@intel.com>, Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Hildenbrand <david@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Greg Kurz <groug@kaod.org>,
+ qemu-devel@nongnu.org, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-ppc@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/25/2020 10:01 PM, Eduardo Habkost wrote:
-> On Tue, Aug 25, 2020 at 08:20:35AM +0800, Xiaoyao Li wrote:
->> On 8/25/2020 6:07 AM, Eduardo Habkost wrote:
->>> On Wed, Dec 25, 2019 at 02:30:18PM +0800, Xiaoyao Li wrote:
->>>> It lacks VMX features and two security feature bits (disclosed recently) in
->>>> MSR_IA32_ARCH_CAPABILITIES in current Cooperlake CPU model, so add them.
->>>>
->>>> Fixes: 22a866b6166d ("i386: Add new CPU model Cooperlake")
->>>> Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
->>>> ---
->>>>    target/i386/cpu.c | 51 ++++++++++++++++++++++++++++++++++++++++++++++-
->>>>    1 file changed, 50 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
->>>> index e1eb9f473989..c9798ac8652b 100644
->>>> --- a/target/i386/cpu.c
->>>> +++ b/target/i386/cpu.c
->>>> @@ -3198,7 +3198,8 @@ static X86CPUDefinition builtin_x86_defs[] = {
->>>>                CPUID_7_0_EDX_SPEC_CTRL_SSBD | CPUID_7_0_EDX_ARCH_CAPABILITIES,
->>>>            .features[FEAT_ARCH_CAPABILITIES] =
->>>>                MSR_ARCH_CAP_RDCL_NO | MSR_ARCH_CAP_IBRS_ALL |
->>>> -            MSR_ARCH_CAP_SKIP_L1DFL_VMENTRY | MSR_ARCH_CAP_MDS_NO,
->>>> +            MSR_ARCH_CAP_SKIP_L1DFL_VMENTRY | MSR_ARCH_CAP_MDS_NO |
->>>> +            MSR_ARCH_CAP_PSCHANGE_MC_NO | MSR_ARCH_CAP_TAA_NO,
->>>
->>> This seems to break on some Cooperlake hosts, see:
->>>
->>> https://bugzilla.redhat.com/show_bug.cgi?id=1860743
->>>
->>> Are all Cooperlake hosts supposed to have TAA_NO set?  Are there
->>> hosts where this requires a microcode update to be installed?
->>>
->>
->> All the production CPX in market should have IAA_NO bit. We can check it
->> directly with rdmsr(0x10a).
->>
->> The problem of this issue is due to commit db616173d787 ("x86/tsx: Add
->> config options to set tsx=on|off|auto"), which sets the default to "off" for
->> 100% safety. However, default to off may cause noticeable regressions on TSX
->> safe platform, e.g., CPX.
->>
->> Maybe we need to set CONFIG_X86_INTEL_TSX_MODE_AUTO=y for OSV released
->> kernel?
-> 
-> Considering that disabling TSX is a policy decision likely to be
-> taken by the OS vendor or by the system administrator, we could
-> at least make the CPU model easier to use on those cases.
-> 
-> Maybe we should provide a version of Cooperlake without TSX, like
-> we already do for the other CPU models?
-> 
 
-sure we can do it.
+Thiago Jung Bauermann <bauerman@linux.ibm.com> writes:
+
+> We rely on cpu_common_reset() to set cs->halted to 0, so main_cpu_reset()
+> is pointless.
+>
+> Suggested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+> Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+> ---
+>  hw/sparc/sun4m.c | 13 +------------
+>  1 file changed, 1 insertion(+), 12 deletions(-)
+>
+> diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
+> index cf7dfa4af5..22c51dac8a 100644
+> --- a/hw/sparc/sun4m.c
+> +++ b/hw/sparc/sun4m.c
+> @@ -218,15 +218,6 @@ static void dummy_cpu_set_irq(void *opaque, int irq,=
+ int level)
+>  {
+>  }
+>=20=20
+> -static void main_cpu_reset(void *opaque)
+> -{
+> -    SPARCCPU *cpu =3D opaque;
+> -    CPUState *cs =3D CPU(cpu);
+> -
+> -    cpu_reset(cs);
+> -    cs->halted =3D 0;
+> -}
+> -
+>  static void secondary_cpu_reset(void *opaque)
+>  {
+>      SPARCCPU *cpu =3D opaque;
+> @@ -827,9 +818,7 @@ static void cpu_devinit(const char *cpu_type, unsigne=
+d int id,
+>      env =3D &cpu->env;
+>=20=20
+>      cpu_sparc_set_id(env, id);
+> -    if (id =3D=3D 0) {
+> -        qemu_register_reset(main_cpu_reset, cpu);
+> -    } else {
+> +    if (id !=3D 0) {
+>          qemu_register_reset(secondary_cpu_reset, cpu);
+>          cs =3D CPU(cpu);
+>          cs->halted =3D 1;
+
+Surprisingly, this patch also causes a make check failure:
+
+$ make && make check-qtest
+  GEN     docs/index.html
+  CC      qga/main.o
+  CC      qemu-nbd.o
+  CC      qemu-storage-daemon.o
+  CC      monitor/qmp-cmds-control.o
+  CC      qemu-img.o
+  CC      qemu-io.o
+  CC      sparc-softmmu/hw/sparc/sun4m.o
+  CC      sparc-softmmu/softmmu/vl.o
+  LINK    qemu-ga
+  LINK    qemu-nbd
+  LINK    qemu-storage-daemon
+  LINK    qemu-img
+  LINK    sparc-softmmu/qemu-system-sparc
+  LINK    qemu-io
+  TEST    check-qtest-sparc: tests/qtest/prom-env-test
+Broken pipe
+/home/bauermann/trabalho/src/qemu/tests/qtest/libqtest.c:175: kill_qemu() d=
+etected QEMU death from signal 11 (Segmentation fault) (core dumped)
+ERROR prom-env-test - too few tests run (expected 3, got 0)
+make: *** [/home/bauermann/trabalho/src/qemu/tests/Makefile.include:650: ch=
+eck-qtest-sparc] Fehler 1
+
+Here's what I got from the core file:
+
+$ gdb sparc-softmmu/qemu-system-sparc core.645493
+Reading symbols from sparc-softmmu/qemu-system-sparc...
+[New LWP 645497]
+[New LWP 645496]
+[New LWP 645493]
+[New LWP 645495]
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib64/libthread_db.so.1".
+Core was generated by `sparc-softmmu/qemu-system-sparc -qtest unix:/tmp/qte=
+st-645490.sock -qtest-log /'.
+Program terminated with signal SIGSEGV, Segmentation fault.
+#0  0x0000000000000000 in ?? ()
+[Current thread is 1 (Thread 0x7f713ce60700 (LWP 645497))]
+(gdb) bt
+#0  0x0000000000000000 in  ()
+#1  0x0000557b3d6155c5 in helper_compute_psr (env=3Denv@entry=3D0x557b3f444=
+030) at /home/bauermann/trabalho/src/qemu/target/sparc/cc_helper.c:459
+#2  0x0000557b3d6156e9 in cpu_get_psr (env=3Denv@entry=3D0x557b3f444030) at=
+ /home/bauermann/trabalho/src/qemu/target/sparc/win_helper.c:56
+#3  0x0000557b3d61779c in sparc_cpu_do_interrupt (cs=3D0x557b3f43b7f0) at /=
+home/bauermann/trabalho/src/qemu/target/sparc/int32_helper.c:76
+#4  0x0000557b3d5e29a6 in cpu_handle_exception (ret=3D<synthetic pointer>, =
+cpu=3D0x557b3f43b7f0) at /home/bauermann/trabalho/src/qemu/accel/tcg/cpu-ex=
+ec.c:504
+#5  cpu_exec (cpu=3Dcpu@entry=3D0x557b3f43b7f0) at /home/bauermann/trabalho=
+/src/qemu/accel/tcg/cpu-exec.c:729
+#6  0x0000557b3d5f6c85 in tcg_cpu_exec (cpu=3D<optimized out>) at /home/bau=
+ermann/trabalho/src/qemu/softmmu/cpus.c:1356
+#7  qemu_tcg_rr_cpu_thread_fn (arg=3Darg@entry=3D0x557b3f43b7f0) at /home/b=
+auermann/trabalho/src/qemu/softmmu/cpus.c:1458
+#8  0x0000557b3d81e919 in qemu_thread_start (args=3D0x7f713ce5e930) at /hom=
+e/bauermann/trabalho/src/qemu/util/qemu-thread-posix.c:521
+#9  0x00007f717dc6b432 in start_thread () at /lib64/libpthread.so.0
+#10 0x00007f717db99913 in clone () at /lib64/libc.so.6
+(gdb) up
+#1  0x0000557b3d6155c5 in helper_compute_psr (env=3Denv@entry=3D0x557b3f444=
+030) at /home/bauermann/trabalho/src/qemu/target/sparc/cc_helper.c:459
+459         new_psr =3D icc_table[CC_OP].compute_all(env);
+(gdb) list
+454
+455     void helper_compute_psr(CPUSPARCState *env)
+456     {
+457         uint32_t new_psr;
+458
+459         new_psr =3D icc_table[CC_OP].compute_all(env);
+460         env->psr =3D new_psr;
+461     #ifdef TARGET_SPARC64
+462         new_psr =3D xcc_table[CC_OP].compute_all(env);
+463         env->xcc =3D new_psr;
+
+CC_OP is:
+
+#define CC_OP  (env->cc_op)
+
+So:
+
+(gdb) p env->cc_op
+$1 =3D 0
+
+0 is CC_OP_DYNAMIC, but the icc_table definition says:
+
+static const CCTable icc_table[CC_OP_NB] =3D {
+    /* CC_OP_DYNAMIC should never happen */
+
+I don't know what is going on. So I will change this patch to keep
+main_cpu_reset() but drop the line which sets cs->halted to 0 (which
+does pass make check).
+
+--=20
+Thiago Jung Bauermann
+IBM Linux Technology Center
 
