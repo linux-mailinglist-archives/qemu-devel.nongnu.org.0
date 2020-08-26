@@ -2,70 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5033252C89
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 13:35:52 +0200 (CEST)
-Received: from localhost ([::1]:60704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B979252C8D
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 13:37:50 +0200 (CEST)
+Received: from localhost ([::1]:39554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAtiZ-0005OM-Sl
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 07:35:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53462)
+	id 1kAtkT-0008PW-G4
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 07:37:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kAthX-00043t-9V
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:34:47 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:28174
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kAtiy-00079j-HS
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:36:16 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47257
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kAthU-0006lC-0G
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:34:46 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kAtiw-00072J-HI
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:36:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598441682;
+ s=mimecast20190719; t=1598441773;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=JwL5gsQ8ijtk4VlYbPtgCumyTw35aSg6Y8zKVQSO2WY=;
- b=BqXEeNO3Gbx+s2AtY6uLQSDevIq8ZmLEPQcvc+xvnbGx2nWoRKpkrVO2K0wFfbzrQYPW/M
- 8Uw6XWjndX22rXOlrlNS5wMCtA3aCm+HlcA9pUiiPmGQWdD30GR9CGpvJfPTawrcTeFIO+
- re2nKBmBUSbeEiHFmiwJz1/yIXCZuTU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-579-vUbberoAO8y_ixJFuqTVlQ-1; Wed, 26 Aug 2020 07:34:40 -0400
-X-MC-Unique: vUbberoAO8y_ixJFuqTVlQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5A0FFE777
- for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 11:34:39 +0000 (UTC)
-Received: from localhost (unknown [10.36.110.43])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A20697D889;
- Wed, 26 Aug 2020 11:34:35 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH] meson: install pc-bios blobs
-Date: Wed, 26 Aug 2020 15:34:32 +0400
-Message-Id: <20200826113432.534348-1-marcandre.lureau@redhat.com>
+ in-reply-to:in-reply-to:references:references;
+ bh=XgMEYJQyjSZzggV1LelfBT8sKxR8y5RBUh6LVsQ+OQ8=;
+ b=gsRgTwFyKuJN7zknKrPZhRjdUx+W5tGhzhSHmX0lrxj+iwX+tyBzjTl3xhlK4Zqqx5QDQF
+ xbFox3/yPM7W6oOs4kMxI8ntoWr0Gi6KI+uh46rblNHvOXGga0rLcpjLBY8MEuF8DTGmd8
+ 3MEyEyj6gfzpOrdZu0fAnbObiR5NtaQ=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-557-fvxtE61LNCCVSF2FtNQ9QA-1; Wed, 26 Aug 2020 07:36:09 -0400
+X-MC-Unique: fvxtE61LNCCVSF2FtNQ9QA-1
+Received: by mail-ej1-f70.google.com with SMTP id n12so837340ejz.6
+ for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 04:36:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XgMEYJQyjSZzggV1LelfBT8sKxR8y5RBUh6LVsQ+OQ8=;
+ b=TNPfLErgdJdILrFL99H7kKSyOX1fnZCyY3DuALiWHz+/E9E0YDgDk4GFFJ1pkvaiF8
+ fWYoXwJnXHxGgSf3K10wJ3V4hvlrm4F95oXUGf61IV0h/0dmLXk1ICfsi9hFBjlukQPH
+ 0KP5dcFxMW0KKOR6Fn2yLN/+hPQ7ieXhFw4UAROl7s2uGpRxl4MP56ks01Rv1So277UR
+ ydAagGVGWAGE5SBDVPReZp4ygdvnoqb7DWxrhDPdK34W4TxeR98BHEz76lCKazFAwPfO
+ lFGcm1TV18Ty+VmmlpzJJqrzpAVHqeiZowUZsm9JiUrb7+Co9WYIzEtPX+QJk2jSpyVw
+ Xwbg==
+X-Gm-Message-State: AOAM5337/3W/A+SW1x1FYsgKuOwL2/ilEGc4H7AkEkR01LhrKn+oIhCj
+ JUeGSX9+fEO0EMawG+mDPwS7IT6aoUP8Hk1Hb3D8GFJwe6qA630LcCXz0kw3sAhLZ4bHCclGz89
+ 7YHm2d+Ys2w/R7p9Rbl/KMVoVUFjEfIc=
+X-Received: by 2002:a50:9f0c:: with SMTP id b12mr13985824edf.129.1598441768703; 
+ Wed, 26 Aug 2020 04:36:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzw55gC/x915vFRa5Rv07iy1PcoHhlvN+JguiUxXryhjQNBvI0Xde6hve72qxoII3QbnaHvOJhvE+nJA6k6D7U=
+X-Received: by 2002:a50:9f0c:: with SMTP id b12mr13985802edf.129.1598441768371; 
+ Wed, 26 Aug 2020 04:36:08 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+References: <40710b94-094f-f91a-6ddb-94e51199a8c3@vivier.eu>
+ <20200826084442.GH168515@redhat.com>
+ <cabd3284-bca8-07ff-e0bc-22ba41df7298@vivier.eu>
+ <CABgObfbHtkmp0C5nN+kyAr2a80eRO3LRYa9=MwVqME0O6XMHWQ@mail.gmail.com>
+ <9c4310b6-c9fc-91d6-08c3-2c5b5140b1b9@vivier.eu>
+In-Reply-To: <9c4310b6-c9fc-91d6-08c3-2c5b5140b1b9@vivier.eu>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Wed, 26 Aug 2020 13:35:55 +0200
+Message-ID: <CABgObfbUEm5ZpMUysns2WqEKe_QW2+L3qJ737JaHbBkhNZDOZw@mail.gmail.com>
+Subject: Re: linux-user static build broken
+To: Laurent Vivier <laurent@vivier.eu>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
-X-Mimecast-Spam-Score: 0.002
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 03:16:15
+Content-Type: multipart/alternative; boundary="000000000000cc62da05adc639f2"
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 03:56:58
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,142 +94,190 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+--000000000000cc62da05adc639f2
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- Makefile            | 31 ----------------------
- pc-bios/meson.build | 63 +++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 63 insertions(+), 31 deletions(-)
+Let me take a look tonight as I plan to prepare a pull request.
 
-diff --git a/Makefile b/Makefile
-index 3ebd6929b4..be5acf10e6 100644
---- a/Makefile
-+++ b/Makefile
-@@ -229,32 +229,6 @@ distclean: clean ninja-distclean
- 	rm -f linux-headers/asm
- 	rm -Rf .sdk
- 
--ifdef INSTALL_BLOBS
--BLOBS=bios.bin bios-256k.bin bios-microvm.bin sgabios.bin vgabios.bin vgabios-cirrus.bin \
--vgabios-stdvga.bin vgabios-vmware.bin vgabios-qxl.bin vgabios-virtio.bin \
--vgabios-ramfb.bin vgabios-bochs-display.bin vgabios-ati.bin \
--openbios-sparc32 openbios-sparc64 openbios-ppc QEMU,tcx.bin QEMU,cgthree.bin \
--pxe-e1000.rom pxe-eepro100.rom pxe-ne2k_pci.rom \
--pxe-pcnet.rom pxe-rtl8139.rom pxe-virtio.rom \
--efi-e1000.rom efi-eepro100.rom efi-ne2k_pci.rom \
--efi-pcnet.rom efi-rtl8139.rom efi-virtio.rom \
--efi-e1000e.rom efi-vmxnet3.rom \
--qemu-nsis.bmp \
--bamboo.dtb canyonlands.dtb petalogix-s3adsp1800.dtb petalogix-ml605.dtb \
--multiboot.bin linuxboot.bin linuxboot_dma.bin kvmvapic.bin pvh.bin \
--s390-ccw.img s390-netboot.img \
--slof.bin skiboot.lid \
--palcode-clipper \
--u-boot.e500 u-boot-sam460-20100605.bin \
--qemu_vga.ndrv \
--edk2-licenses.txt \
--hppa-firmware.img \
--opensbi-riscv32-generic-fw_dynamic.bin opensbi-riscv64-generic-fw_dynamic.bin \
--opensbi-riscv32-generic-fw_dynamic.elf opensbi-riscv64-generic-fw_dynamic.elf
--else
--BLOBS=
--endif
--
- install-datadir:
- 	$(INSTALL_DIR) "$(DESTDIR)$(qemu_datadir)"
- 
-@@ -272,11 +246,6 @@ export DESTDIR
- install: all install-datadir install-localstatedir
- ifdef CONFIG_TRACE_SYSTEMTAP
- 	$(INSTALL_PROG) "scripts/qemu-trace-stap" $(DESTDIR)$(bindir)
--endif
--ifneq ($(BLOBS),)
--	set -e; for x in $(BLOBS); do \
--		$(INSTALL_DATA) $(SRC_PATH)/pc-bios/$$x "$(DESTDIR)$(qemu_datadir)"; \
--	done
- endif
- 	for s in $(ICON_SIZES); do \
- 		mkdir -p "$(DESTDIR)$(qemu_icondir)/hicolor/$${s}/apps"; \
-diff --git a/pc-bios/meson.build b/pc-bios/meson.build
-index c11e52ba26..8087e5c0a7 100644
---- a/pc-bios/meson.build
-+++ b/pc-bios/meson.build
-@@ -24,5 +24,68 @@ if 'DECOMPRESS_EDK2_BLOBS' in config_host
-   endforeach
- endif
- 
-+blobs = files(
-+  'bios.bin',
-+  'bios-256k.bin',
-+  'bios-microvm.bin',
-+  'sgabios.bin',
-+  'vgabios.bin',
-+  'vgabios-cirrus.bin',
-+  'vgabios-stdvga.bin',
-+  'vgabios-vmware.bin',
-+  'vgabios-qxl.bin',
-+  'vgabios-virtio.bin',
-+  'vgabios-ramfb.bin',
-+  'vgabios-bochs-display.bin',
-+  'vgabios-ati.bin',
-+  'openbios-sparc32',
-+  'openbios-sparc64',
-+  'openbios-ppc',
-+  'QEMU,tcx.bin',
-+  'QEMU,cgthree.bin',
-+  'pxe-e1000.rom',
-+  'pxe-eepro100.rom',
-+  'pxe-ne2k_pci.rom',
-+  'pxe-pcnet.rom',
-+  'pxe-rtl8139.rom',
-+  'pxe-virtio.rom',
-+  'efi-e1000.rom',
-+  'efi-eepro100.rom',
-+  'efi-ne2k_pci.rom',
-+  'efi-pcnet.rom',
-+  'efi-rtl8139.rom',
-+  'efi-virtio.rom',
-+  'efi-e1000e.rom',
-+  'efi-vmxnet3.rom',
-+  'qemu-nsis.bmp',
-+  'bamboo.dtb',
-+  'canyonlands.dtb',
-+  'petalogix-s3adsp1800.dtb',
-+  'petalogix-ml605.dtb',
-+  'multiboot.bin',
-+  'linuxboot.bin',
-+  'linuxboot_dma.bin',
-+  'kvmvapic.bin',
-+  'pvh.bin',
-+  's390-ccw.img',
-+  's390-netboot.img',
-+  'slof.bin',
-+  'skiboot.lid',
-+  'palcode-clipper',
-+  'u-boot.e500',
-+  'u-boot-sam460-20100605.bin',
-+  'qemu_vga.ndrv',
-+  'edk2-licenses.txt',
-+  'hppa-firmware.img',
-+  'opensbi-riscv32-generic-fw_dynamic.bin',
-+  'opensbi-riscv64-generic-fw_dynamic.bin',
-+  'opensbi-riscv32-generic-fw_dynamic.elf',
-+  'opensbi-riscv64-generic-fw_dynamic.elf',
-+)
-+
-+if install_blobs
-+  install_data(blobs, install_dir: config_host['qemu_datadir'])
-+endif
-+
- subdir('descriptors')
- subdir('keymaps')
--- 
-2.26.2
+Paolo
+
+Il mer 26 ago 2020, 12:53 Laurent Vivier <laurent@vivier.eu> ha scritto:
+
+> Le 26/08/2020 =C3=A0 11:08, Paolo Bonzini a =C3=A9crit :
+> > $ORIGIN is a special literal used by ld.so. It's probably fixed by the
+> > same patch that was posted for msys.
+>
+> If I remove the "-Wl,-rpath,RIGIN/" from the command line to build
+> qemu-m68k, it works again.
+>
+> What the patch name or series?
+>
+> Thanks,
+> Laurent
+>
+> > Paolo
+> >
+> > Il mer 26 ago 2020, 10:51 Laurent Vivier <laurent@vivier.eu
+> > <mailto:laurent@vivier.eu>> ha scritto:
+> >
+> >     Le 26/08/2020 =C3=A0 10:44, Daniel P. Berrang=C3=A9 a =C3=A9crit :
+> >     > On Tue, Aug 25, 2020 at 10:36:13PM +0200, Laurent Vivier wrote:
+> >     >> Hi,
+> >     >>
+> >     >> since we have switched to meson, the statically linked binaries
+> >     of qemu
+> >     >> linux-user are broken:
+> >     >>
+> >     >> cd $OBJ
+> >     >> $SRC/configure --static --target-list=3Dm68k-linux-user
+> >     >> make
+> >     >> ./qemu-m68k
+> >     >> Segmentation fault (core dumped)
+> >     >>
+> >     >> Program received signal SIGSEGV, Segmentation fault.
+> >     >> 0x00007ffff7bd6833 in __dcigettext ()
+> >     >> (gdb) bt
+> >     >> #0  0x00007ffff7bd6833 in __dcigettext ()
+> >     >> #1  0x00007ffff7bd5352 in __assert_fail ()
+> >     >> #2  0x00007ffff7c4d74c in _dl_relocate_static_pie ()
+> >     >> #3  0x00007ffff7bc713e in __libc_start_main ()
+> >     >> #4  0x00007ffff7a0029e in _start ()
+> >     >>
+> >     >> If I build with --disable-pie it works again.
+> >     >>
+> >     >> Any idea?
+> >     >
+> >     > I'd suggest checking the compiler args used with v5.1.0 vs git
+> master
+> >     > and see if any flags related to PIE or similar changed. I already
+> >     found
+> >     > one bug wrt PIE on Windows builds this way.
+> >     >
+> >     > Regards,
+> >     > Daniel
+> >     >
+> >
+> >     It's what I'm doing.
+> >
+> >     There are both "--static-pie" and "--pie" on the new command line,
+> but
+> >     keeping only the first doesn't fix the problem.
+> >
+> >     There is also a strange '-Wl,-rpath,RIGIN/' that would mean "make" =
+is
+> >     not using $(ORIGIN) but $ORIGIN...
+> >
+> >     Thanks,
+> >     Laurent
+> >
+>
+>
+
+--000000000000cc62da05adc639f2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Let me take a look tonight as I plan to prepare a pull re=
+quest.<div dir=3D"auto"><br></div><div dir=3D"auto">Paolo</div></div><br><d=
+iv class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Il mer 26 ag=
+o 2020, 12:53 Laurent Vivier &lt;<a href=3D"mailto:laurent@vivier.eu">laure=
+nt@vivier.eu</a>&gt; ha scritto:<br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Le=
+ 26/08/2020 =C3=A0 11:08, Paolo Bonzini a =C3=A9crit=C2=A0:<br>
+&gt; $ORIGIN is a special literal used by ld.so. It&#39;s probably fixed by=
+ the<br>
+&gt; same patch that was posted for msys.<br>
+<br>
+If I remove the &quot;-Wl,-rpath,RIGIN/&quot; from the command line to buil=
+d<br>
+qemu-m68k, it works again.<br>
+<br>
+What the patch name or series?<br>
+<br>
+Thanks,<br>
+Laurent<br>
+<br>
+&gt; Paolo<br>
+&gt; <br>
+&gt; Il mer 26 ago 2020, 10:51 Laurent Vivier &lt;<a href=3D"mailto:laurent=
+@vivier.eu" target=3D"_blank" rel=3D"noreferrer">laurent@vivier.eu</a><br>
+&gt; &lt;mailto:<a href=3D"mailto:laurent@vivier.eu" target=3D"_blank" rel=
+=3D"noreferrer">laurent@vivier.eu</a>&gt;&gt; ha scritto:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0Le 26/08/2020 =C3=A0 10:44, Daniel P. Berrang=C3=A9=
+ a =C3=A9crit=C2=A0:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; On Tue, Aug 25, 2020 at 10:36:13PM +0200, Laur=
+ent Vivier wrote:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; Hi,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; since we have switched to meson, the stati=
+cally linked binaries<br>
+&gt;=C2=A0 =C2=A0 =C2=A0of qemu<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; linux-user are broken:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; cd $OBJ<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; $SRC/configure --static --target-list=3Dm6=
+8k-linux-user<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; make<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; ./qemu-m68k<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; Segmentation fault (core dumped)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; Program received signal SIGSEGV, Segmentat=
+ion fault.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; 0x00007ffff7bd6833 in __dcigettext ()<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; (gdb) bt<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; #0=C2=A0 0x00007ffff7bd6833 in __dcigettex=
+t ()<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; #1=C2=A0 0x00007ffff7bd5352 in __assert_fa=
+il ()<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; #2=C2=A0 0x00007ffff7c4d74c in _dl_relocat=
+e_static_pie ()<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; #3=C2=A0 0x00007ffff7bc713e in __libc_star=
+t_main ()<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; #4=C2=A0 0x00007ffff7a0029e in _start ()<b=
+r>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; If I build with --disable-pie it works aga=
+in.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; Any idea?<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; I&#39;d suggest checking the compiler args use=
+d with v5.1.0 vs git master<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; and see if any flags related to PIE or similar=
+ changed. I already<br>
+&gt;=C2=A0 =C2=A0 =C2=A0found<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; one bug wrt PIE on Windows builds this way.<br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; Regards,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; Daniel<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0It&#39;s what I&#39;m doing.<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0There are both &quot;--static-pie&quot; and &quot;-=
+-pie&quot; on the new command line, but<br>
+&gt;=C2=A0 =C2=A0 =C2=A0keeping only the first doesn&#39;t fix the problem.=
+<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0There is also a strange &#39;-Wl,-rpath,RIGIN/&#39;=
+ that would mean &quot;make&quot; is<br>
+&gt;=C2=A0 =C2=A0 =C2=A0not using $(ORIGIN) but $ORIGIN...<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0Thanks,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Laurent<br>
+&gt; <br>
+<br>
+</blockquote></div>
+
+--000000000000cc62da05adc639f2--
 
 
