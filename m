@@ -2,84 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 277BE252566
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 04:07:45 +0200 (CEST)
-Received: from localhost ([::1]:37758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A79D9252577
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 04:26:42 +0200 (CEST)
+Received: from localhost ([::1]:43654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAkqm-00014t-9e
-	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 22:07:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46198)
+	id 1kAl97-0004at-9z
+	for lists+qemu-devel@lfdr.de; Tue, 25 Aug 2020 22:26:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kAkpv-0000DX-De
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 22:06:51 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:43444)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kAkpt-0005uM-MO
- for qemu-devel@nongnu.org; Tue, 25 Aug 2020 22:06:51 -0400
-Received: by mail-pl1-x642.google.com with SMTP id y6so154954plk.10
- for <qemu-devel@nongnu.org>; Tue, 25 Aug 2020 19:06:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=HF8dLwqsnKvQs3BxsargpvOGSOtQRtGOQ3qSBPzH408=;
- b=dWuk1MtdUkPTBdDgFltp387JoLwVQyc8VWOAvlmrtrlpvIASHu6W5hj3Cc8RUYPyS8
- mCzuPRifoEym6P4ZfiNnRM35pEfGYuZnNG6YFiba0h4GRiiHZF1LDXPUG6JB4O6nd5TP
- ltMN9F3zSjAvEhaOwCv2r52SAiswK4IRd5j+HXDZLE4vXSccihR2XqnAO6Eoh+HIlV31
- rmtLxpDFpqwZqyglS7vtPhSSkJ59w3ZYAHZR/HpkR5n4mk//f88QSYz5Poq03C0eVdnc
- +Al64ZH+aTqs0m+1D/Dx2hmeQE8EiLfCTlnVaI7Npe7oAewo1XI1q0yNhArKw/M5Kyhv
- IRFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=HF8dLwqsnKvQs3BxsargpvOGSOtQRtGOQ3qSBPzH408=;
- b=Chf2B5ZCvQrrd+cx+9xHSkDbkIpRAC9k/EodK7HYH/B7Ro6i7lggpf55mQqqRzH2DG
- zszBma6uf0hJRcToU7Z8DrwuygaH3FyqNqtiyk2tgaB4H6lAZfDIN0tUVPTPLbfKqyGE
- GZSDPxfBqkuT6DSSyEM82e2jen8uLCjeXd5rKCSrB4kJGT7zG9Kpk0+Ly1A/amWUUv4K
- OdHXsJ9E0rOVP/1n4mDTwtPDrvyoyAmqEHu9qcm+nLVVcx5URCj0pbbrnO5U5JO6vRiS
- MRIAc+kH9QACV9A30gEEqiT2N4cBcNxhzutDrwAp+Ly2cQg/Lo1RgUCqXslI8z6URPbH
- ROew==
-X-Gm-Message-State: AOAM532+zXw0W26hkJijkkroMbVZk9e0FRc+s83W3UhnXHzt38V+4WJj
- ulBF2yrAs2nle46eS0/Yb7ZbOA==
-X-Google-Smtp-Source: ABdhPJzDi5KHIbMNrdGYYsIBd6sv3gX4qtkPgsNJyXFS4vCwUoey8qPQIofRhGwRmzBIRWUhQtyXfA==
-X-Received: by 2002:a17:90b:3641:: with SMTP id
- nh1mr3882667pjb.157.1598407608066; 
- Tue, 25 Aug 2020 19:06:48 -0700 (PDT)
-Received: from [192.168.81.79]
- (h216-228-167-147.bendor.dedicated.static.tds.net. [216.228.167.147])
- by smtp.gmail.com with ESMTPSA id a20sm590636pfi.11.2020.08.25.19.06.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Aug 2020 19:06:47 -0700 (PDT)
-Subject: Re: [RFC PATCH v3 03/34] Hexagon (include/elf.h) ELF machine
- definition
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-References: <1597765847-16637-1-git-send-email-tsimpson@quicinc.com>
- <1597765847-16637-4-git-send-email-tsimpson@quicinc.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <66858372-44e6-d0b6-49d7-82777d81236e@linaro.org>
-Date: Tue, 25 Aug 2020 19:06:44 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1kAl85-00043U-2E; Tue, 25 Aug 2020 22:25:37 -0400
+Received: from szxga03-in.huawei.com ([45.249.212.189]:2102 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1kAl82-0007xv-SA; Tue, 25 Aug 2020 22:25:36 -0400
+Received: from DGGEMM403-HUB.china.huawei.com (unknown [172.30.72.55])
+ by Forcepoint Email with ESMTP id 7161E758A3FBB1896FA7;
+ Wed, 26 Aug 2020 10:25:25 +0800 (CST)
+Received: from DGGEMM511-MBX.china.huawei.com ([169.254.1.141]) by
+ DGGEMM403-HUB.china.huawei.com ([10.3.20.211]) with mapi id 14.03.0487.000;
+ Wed, 26 Aug 2020 10:25:14 +0800
+From: "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: RE: [PATCH v2 08/10] usb/bus: Remove dead assignment in
+ usb_get_fw_dev_path()
+Thread-Topic: [PATCH v2 08/10] usb/bus: Remove dead assignment in
+ usb_get_fw_dev_path()
+Thread-Index: AQHWeu2YfCXkdyEFi0CUe/xr9r5XdalJoXrggAAEUNA=
+Date: Wed, 26 Aug 2020 02:25:14 +0000
+Message-ID: <7412CDE03601674DA8197E2EBD8937E83B8E247D@dggemm511-mbx.china.huawei.com>
+References: <20200825112447.126308-1-kuhn.chenqun@huawei.com>
+ <20200825112447.126308-9-kuhn.chenqun@huawei.com>
+ <87r1rudc1y.fsf@dusky.pond.sub.org> 
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.187.50]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-In-Reply-To: <1597765847-16637-4-git-send-email-tsimpson@quicinc.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -46
-X-Spam_score: -4.7
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.189;
+ envelope-from=kuhn.chenqun@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 22:25:26
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.602,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,23 +65,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ale@rev.ng, riku.voipio@iki.fi, philmd@redhat.com, laurent@vivier.eu,
- aleksandar.m.mail@gmail.com
+Cc: Zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
+ Pannengyuan <pannengyuan@huawei.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/18/20 8:50 AM, Taylor Simpson wrote:
-> Define EM_HEXAGON 164
-> 
-> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  include/elf.h | 2 ++
->  1 file changed, 2 insertions(+)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> > >  hw/usb/bus.c | 4 ++--
+> > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/hw/usb/bus.c b/hw/usb/bus.c index
+> > > b17bda3b29..7bab0499ad
+> > > 100644
+> > > --- a/hw/usb/bus.c
+> > > +++ b/hw/usb/bus.c
+> > > @@ -612,8 +612,8 @@ static char *usb_get_fw_dev_path(DeviceState
+> > > *qdev)
+> >            if (in[0] =3D=3D '.') {
+> >                /* some hub between root port and device */
+> >                pos +=3D snprintf(fw_path + pos, fw_len - pos,
+> > "hub@%lx/", nr);
+> > >              in++;
+> > >          } else {
+> > >              /* the device itself */
+> > > -            pos +=3D snprintf(fw_path + pos, fw_len - pos, "%s@%lx",
+> > > -                            qdev_fw_name(qdev), nr);
+> > > +            snprintf(fw_path + pos, fw_len - pos, "%s@%lx",
+> > qdev_fw_name(qdev),
+> > > +                     nr);
+> > >              break;
+> > >          }
+> > >      }
+> >
+> > I'd prefer to keep the line break where it is:
+> >
+> >             snprintf(fw_path + pos, fw_len - pos, "%s@%lx",
+> >                      qdev_fw_name(qdev), nr);
+> >
+> > The patch is safe, so
+> > Reviewed-by: Markus Armbruster <armbru@redhat.com>
+> >
+> > The loss of symmetry betwen the two arms of the if is a bit sad.  Up to=
+ Gerd.
+>=20
+> If symmetry looks better. I should change it later.
+Oops, I think I just misunderstood you. I agree with your suggestion to the=
+ formatting of the "snprintf(***)" statement.
 
-r~
+If the 'pos' assignment is useless, we delete it avoid warning that are alw=
+ays detected by some tools.
+
+Thanks,
+Chen Qun
 
 
