@@ -2,54 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0204E25317D
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 16:38:50 +0200 (CEST)
-Received: from localhost ([::1]:46418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A215C25318F
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 16:40:19 +0200 (CEST)
+Received: from localhost ([::1]:54748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAwZd-0006Qt-2W
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 10:38:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46224)
+	id 1kAwb4-0001Og-MV
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 10:40:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1kAwYU-0004p5-PE
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 10:37:40 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57351
- helo=us-smtp-1.mimecast.com)
+ id 1kAwYX-0004sK-Rl
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 10:37:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40192)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1kAwYR-0006CO-Pm
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 10:37:38 -0400
+ id 1kAwYW-0006Cd-Es
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 10:37:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598452654;
+ s=mimecast20190719; t=1598452658;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cS+si9eh1bRTLeHNZhyjHNcMnCNz1d8mrD3qWaIpIXM=;
- b=NV67c+cvUOLHgtvjXw1d5zHwstFWhoeK9yzJHaCQ8SndQ/M25RRkhie2HkRS1pZf0DBCOb
- cAOYjxKp/G5uVuhftxDVWYRaI8A3g/8CfWEHeuF6r0IyW/DMtflqBv1aKH7fqq4UX/FEys
- kdAkvRQcQHhvzvmg6Z7RSweiPFyUqsE=
+ bh=myzuQLMFrzrzm+iQjl6HxCd2/viSh0aOZ9bTWanImV8=;
+ b=BHT026J70uVOjV/gQy7OvD06bdjUl9b5B2JZMspjz6RSL8M//heHYbhyTpW9E8HE1dkeif
+ qxZvpe/8sqjYQIsr1CkffLpoR/9AWgYUuInYmZWW1G3gL3HnKeBetZ0vCOBte9bji9D0AJ
+ VEYBjqopj+/ZJPdAPXmK1DTKvoBxUHY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-159-OvNetzbbO8uKTqRxVT4r6Q-1; Wed, 26 Aug 2020 10:37:29 -0400
-X-MC-Unique: OvNetzbbO8uKTqRxVT4r6Q-1
+ us-mta-491-ye5iZrQCM9O2I99XGP3gFQ-1; Wed, 26 Aug 2020 10:37:36 -0400
+X-MC-Unique: ye5iZrQCM9O2I99XGP3gFQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D71D1005E65;
- Wed, 26 Aug 2020 14:37:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C448980F043;
+ Wed, 26 Aug 2020 14:37:34 +0000 (UTC)
 Received: from eperezma.remote.csb (ovpn-115-59.ams2.redhat.com [10.36.115.59])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B189576E00;
- Wed, 26 Aug 2020 14:37:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 04B2D76E00;
+ Wed, 26 Aug 2020 14:37:27 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Xu <peterx@redhat.com>
-Subject: [RFC v6 01/13] memory: Rename memory_region_notify_one to
- memory_region_notify_iommu_one
-Date: Wed, 26 Aug 2020 16:36:39 +0200
-Message-Id: <20200826143651.7915-2-eperezma@redhat.com>
+Subject: [RFC v6 02/13] memory: Add IOMMUTLBNotificationType to IOMMUTLBEntry
+Date: Wed, 26 Aug 2020 16:36:40 +0200
+Message-Id: <20200826143651.7915-3-eperezma@redhat.com>
 In-Reply-To: <20200826143651.7915-1-eperezma@redhat.com>
 References: <20200625191651.5817-1-eperezma@redhat.com>
  <20200826143651.7915-1-eperezma@redhat.com>
@@ -61,17 +59,17 @@ X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=eperezma@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 03:56:58
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 23:30:47
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,120 +94,49 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Previous name didn't reflect the iommu operation.
+This way we can tell between MAPs and UNMAP, and potentially avoid to
+send them to a notifier that does not require them.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/arm/smmu-common.c  | 2 +-
- hw/arm/smmuv3.c       | 2 +-
- hw/i386/intel_iommu.c | 4 ++--
- include/exec/memory.h | 6 +++---
- softmmu/memory.c      | 6 +++---
- 5 files changed, 10 insertions(+), 10 deletions(-)
+ include/exec/memory.h | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
-diff --git a/hw/arm/smmu-common.c b/hw/arm/smmu-common.c
-index e13a5f4a7c..b02ffb8822 100644
---- a/hw/arm/smmu-common.c
-+++ b/hw/arm/smmu-common.c
-@@ -396,7 +396,7 @@ static void smmu_unmap_notifier_range(IOMMUNotifier *n)
-     entry.perm = IOMMU_NONE;
-     entry.addr_mask = n->end - n->start;
- 
--    memory_region_notify_one(n, &entry);
-+    memory_region_notify_iommu_one(n, &entry);
- }
- 
- /* Unmap all notifiers attached to @mr */
-diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-index 57a79df55b..3bb85ab7e1 100644
---- a/hw/arm/smmuv3.c
-+++ b/hw/arm/smmuv3.c
-@@ -838,7 +838,7 @@ static void smmuv3_notify_iova(IOMMUMemoryRegion *mr,
-     entry.addr_mask = (1 << tt->granule_sz) - 1;
-     entry.perm = IOMMU_NONE;
- 
--    memory_region_notify_one(n, &entry);
-+    memory_region_notify_iommu_one(n, &entry);
- }
- 
- /* invalidate an asid/iova tuple in all mr's */
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index 5284bb68b6..2ad6b9d796 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -3498,7 +3498,7 @@ static void vtd_address_space_unmap(VTDAddressSpace *as, IOMMUNotifier *n)
-         /* This field is meaningless for unmap */
-         entry.translated_addr = 0;
- 
--        memory_region_notify_one(n, &entry);
-+        memory_region_notify_iommu_one(n, &entry);
- 
-         start += mask;
-         remain -= mask;
-@@ -3536,7 +3536,7 @@ static void vtd_address_space_refresh_all(IntelIOMMUState *s)
- 
- static int vtd_replay_hook(IOMMUTLBEntry *entry, void *private)
- {
--    memory_region_notify_one((IOMMUNotifier *)private, entry);
-+    memory_region_notify_iommu_one((IOMMUNotifier *)private, entry);
-     return 0;
- }
- 
 diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 0cfe987ab4..22c5f564d1 100644
+index 22c5f564d1..f6d91c54aa 100644
 --- a/include/exec/memory.h
 +++ b/include/exec/memory.h
-@@ -226,7 +226,7 @@ enum IOMMUMemoryRegionAttr {
-  * The IOMMU implementation must use the IOMMU notifier infrastructure
-  * to report whenever mappings are changed, by calling
-  * memory_region_notify_iommu() (or, if necessary, by calling
-- * memory_region_notify_one() for each registered notifier).
-+ * memory_region_notify_iommu_one() for each registered notifier).
-  *
-  * Conceptually an IOMMU provides a mapping from input address
-  * to an output TLB entry. If the IOMMU is aware of memory transaction
-@@ -1274,7 +1274,7 @@ void memory_region_notify_iommu(IOMMUMemoryRegion *iommu_mr,
-                                 IOMMUTLBEntry entry);
+@@ -59,6 +59,12 @@ struct ReservedRegion {
  
- /**
-- * memory_region_notify_one: notify a change in an IOMMU translation
-+ * memory_region_notify_iommu_one: notify a change in an IOMMU translation
-  *                           entry to a single notifier
-  *
-  * This works just like memory_region_notify_iommu(), but it only
-@@ -1285,7 +1285,7 @@ void memory_region_notify_iommu(IOMMUMemoryRegion *iommu_mr,
-  *         replaces all old entries for the same virtual I/O address range.
-  *         Deleted entries have .@perm == 0.
-  */
--void memory_region_notify_one(IOMMUNotifier *notifier,
-+void memory_region_notify_iommu_one(IOMMUNotifier *notifier,
-                               IOMMUTLBEntry *entry);
+ typedef struct IOMMUTLBEntry IOMMUTLBEntry;
  
- /**
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 70b93104e8..961c25b42f 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -1890,8 +1890,8 @@ void memory_region_unregister_iommu_notifier(MemoryRegion *mr,
-     memory_region_update_iommu_notify_flags(iommu_mr, NULL);
- }
++typedef enum {
++    IOMMU_IOTLB_NONE  = 0,
++    IOMMU_IOTLB_UNMAP = 1,
++    IOMMU_IOTLB_MAP   = 2,
++} IOMMUTLBNotificationType;
++
+ /* See address_space_translate: bit 0 is read, bit 1 is write.  */
+ typedef enum {
+     IOMMU_NONE = 0,
+@@ -70,11 +76,12 @@ typedef enum {
+ #define IOMMU_ACCESS_FLAG(r, w) (((r) ? IOMMU_RO : 0) | ((w) ? IOMMU_WO : 0))
  
--void memory_region_notify_one(IOMMUNotifier *notifier,
--                              IOMMUTLBEntry *entry)
-+void memory_region_notify_iommu_one(IOMMUNotifier *notifier,
-+                                    IOMMUTLBEntry *entry)
- {
-     IOMMUNotifierFlag request_flags;
-     hwaddr entry_end = entry->iova + entry->addr_mask;
-@@ -1927,7 +1927,7 @@ void memory_region_notify_iommu(IOMMUMemoryRegion *iommu_mr,
+ struct IOMMUTLBEntry {
+-    AddressSpace    *target_as;
+-    hwaddr           iova;
+-    hwaddr           translated_addr;
+-    hwaddr           addr_mask;  /* 0xfff = 4k translation */
+-    IOMMUAccessFlags perm;
++    AddressSpace            *target_as;
++    hwaddr                   iova;
++    hwaddr                   translated_addr;
++    hwaddr                   addr_mask;  /* 0xfff = 4k translation */
++    IOMMUAccessFlags         perm;
++    IOMMUTLBNotificationType type; /* Only valid if it is a notification */
+ };
  
-     IOMMU_NOTIFIER_FOREACH(iommu_notifier, iommu_mr) {
-         if (iommu_notifier->iommu_idx == iommu_idx) {
--            memory_region_notify_one(iommu_notifier, &entry);
-+            memory_region_notify_iommu_one(iommu_notifier, &entry);
-         }
-     }
- }
+ /*
 -- 
 2.18.1
 
