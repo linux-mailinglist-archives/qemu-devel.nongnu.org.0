@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B6B8252B44
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 12:19:55 +0200 (CEST)
-Received: from localhost ([::1]:51344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1D91252B4C
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 12:21:08 +0200 (CEST)
+Received: from localhost ([::1]:56742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAsX4-00080J-CU
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 06:19:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34822)
+	id 1kAsYF-0001q3-Om
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 06:21:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1kAsUy-0005Wm-6F
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 06:17:44 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43008)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1kAsUw-0005Ar-OK
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 06:17:43 -0400
-Received: by mail-wr1-x441.google.com with SMTP id 2so1216182wrj.10
- for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 03:17:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dme-org.20150623.gappssmtp.com; s=20150623;
- h=to:cc:subject:in-reply-to:references:from:date:message-id
- :mime-version; bh=3iK+i1We6cZQJy3HPa+d1ZoIZt7Nh5me/hYR+iAvBSE=;
- b=zrowGpLBiesp1lOrw11msyKZfJC0rH8k/igZSjPQEMChKmaG/mJgl57UL9lDGGidap
- wxp57rNZMH2EUJ83tOUzSEspmLLFOyDMGovNEfE7T1bsj/JB1YhhFf0uyurD18ZXtibD
- GOfOx8ZmtZCO88PWVA+V04zu4V01ABOD5JkEhXObzd3g2YPl2eE6uTwi1M1//SkD6yDn
- GEYkSaYZVV+Ck7GBfdW2rWx6gs0p780zTjq+diolV+yxGO7vBR+bmTHEDLm4zI/Ca74N
- 2QUeZcNLFhLwUPr28vACHB07T8XeOvjaM9ferKIFFoO/O+BppYzwNLjDIxvadzcyAd2u
- n9MA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:subject:in-reply-to:references:from:date
- :message-id:mime-version;
- bh=3iK+i1We6cZQJy3HPa+d1ZoIZt7Nh5me/hYR+iAvBSE=;
- b=Ce7WpOKLi0OzOqBWLFAr4FNNklXU8K5Mbii0On+bIZU8yB1RNur/pYkVQXFFDQHhZ0
- PT5JB6Te144iMQ11hbkJEBSfoXKpgnMkUNr+eD+TI3ntrsHK6Zn5JKXs51n+rh/oDEwR
- 0iyw7nbXZ3+pymyuOUdimwtBBMbWf28muMzRC0VRvIE8KmhEa72BIdGHLPtwQTar2f2B
- 7rOkP2Xj4613FmbbVUgoHVYilNNTQ1EjV9dQJLUApkmp/hdeX0cE+aKJnIGKNYwmf1mI
- hKugcn7AOufdyLhsWKxlRL6nYeUrGw6QHvftu7izopAoCEuyssNnOYAWShWZ6zEuUGyo
- YMEw==
-X-Gm-Message-State: AOAM531lvcTjwpVgrY1981ssVt8qUrtKULEzRgG9DdN7o+YpfDVvpQEj
- gyinxo5bZU/uWOuaybs0TiyQoSmZL2u/C9UlnSo=
-X-Google-Smtp-Source: ABdhPJwW+4w/S/qPCpPRjX8+dpPIzjPTU86dRdZa8tKgvy1m5fuizJf3JDzx15PWO0IcG2YIVczM1A==
-X-Received: by 2002:adf:f610:: with SMTP id t16mr14045286wrp.97.1598437060968; 
- Wed, 26 Aug 2020 03:17:40 -0700 (PDT)
-Received: from disaster-area.hh.sledj.net
- (8.a.e.d.0.0.0.0.0.0.0.0.4.6.0.0.0.4.1.7.1.7.b.b.0.b.8.0.1.0.0.2.ip6.arpa.
- [2001:8b0:bb71:7140:64::dea8])
- by smtp.gmail.com with ESMTPSA id q6sm4628528wma.22.2020.08.26.03.17.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Aug 2020 03:17:40 -0700 (PDT)
-Received: from localhost (disaster-area.hh.sledj.net [local])
- by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 9bcedd12;
- Wed, 26 Aug 2020 10:17:39 +0000 (UTC)
-To: Chuan Zheng <zhengchuan@huawei.com>, quintela@redhat.com,
- eblake@redhat.com, dgilbert@redhat.com, berrange@redhat.com
-Subject: Re: [PATCH v5 09/12] migration/dirtyrate: Implement
- get_sample_page_period() and block_sample_page_period()
-In-Reply-To: <1598260480-64862-10-git-send-email-zhengchuan@huawei.com>
-References: <1598260480-64862-1-git-send-email-zhengchuan@huawei.com>
- <1598260480-64862-10-git-send-email-zhengchuan@huawei.com>
-X-HGTTG: heart-of-gold
-From: David Edmondson <dme@dme.org>
-Date: Wed, 26 Aug 2020 11:17:39 +0100
-Message-ID: <m23649lni4.fsf@dme.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kAsW7-00075Z-Jf
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 06:18:55 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51021
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kAsW5-0005KD-3l
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 06:18:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598437131;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=O+4LqKJp4YGqyq20Gc6eOMwe4M2AWRd11Xghp0hKT6M=;
+ b=J6OeLhCZeRBjdp+qHv4ef/IYt42jvKrr9HJ1LGuI6iA0Qt0BJE4fhbATY89Ed8SnQAiEtE
+ tdo8ShKwqdK6R8WtvwxLBRAyVAWltqmKHGnH+b4mCYy0dVp9BKUlZoukaa29sgsmRmP5uy
+ vjv90IGqZQUUFLumw9P/MGK2E0QfkiA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-41-3_HvZx_6N_acQ90tmdTHog-1; Wed, 26 Aug 2020 06:18:40 -0400
+X-MC-Unique: 3_HvZx_6N_acQ90tmdTHog-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A11FC81F01D;
+ Wed, 26 Aug 2020 10:18:39 +0000 (UTC)
+Received: from redhat.com (ovpn-114-142.ams2.redhat.com [10.36.114.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4B9725D9E4;
+ Wed, 26 Aug 2020 10:18:38 +0000 (UTC)
+Date: Wed, 26 Aug 2020 11:18:35 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: AlexChen <alex.chen@huawei.com>
+Subject: Re: =?utf-8?Q?oslib-posix=EF=BC=9AFi?= =?utf-8?Q?x?= handle fd leak
+ in qemu_write_pidfile()
+Message-ID: <20200826101835.GM168515@redhat.com>
+References: <5F463618.10000@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: neutral client-ip=2a00:1450:4864:20::441;
- envelope-from=dme@dme.org; helo=mail-wr1-x441.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NEUTRAL=0.779, UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
+In-Reply-To: <5F463618.10000@huawei.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 03:16:15
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.958,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,81 +82,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
- xiexiangyou@huawei.com, alex.chen@huawei.com, ann.zhuangyanying@huawei.com,
- fangying1@huawei.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: zhengchuan@huawei.com, pbonzini@redhat.com, qemu-devel@nongnu.org,
+ zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Monday, 2020-08-24 at 17:14:37 +08, Chuan Zheng wrote:
+On Wed, Aug 26, 2020 at 06:14:48PM +0800, AlexChen wrote:
+> From: alexchen <alex.chen@huawei.com>
+> 
+> The fd will leak when (a.st_ino == b.st_ino) is true, fix it.
 
-> Implement get_sample_page_period() and set_sample_page_period() to
-> sleep specific time between sample actions.
->
-> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
+That is *INTENTIONAL*.  We're holding a lock on the file and the
+lock exists only while the FD is open.  When QEMU exists, the FD
+is closed and the lock is released. There is no leak.
+
+> Signed-off-by: AlexChen <alex.chen@huawei.com>
 > ---
->  migration/dirtyrate.c | 24 ++++++++++++++++++++++++
->  migration/dirtyrate.h |  2 ++
->  2 files changed, 26 insertions(+)
->
-> diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-> index bd398b7..d1c0a78 100644
-> --- a/migration/dirtyrate.c
-> +++ b/migration/dirtyrate.c
-> @@ -28,6 +28,30 @@
->  static int CalculatingState = DIRTY_RATE_STATUS_UNSTARTED;
->  static struct DirtyRateStat DirtyStat;
->  
-> +static int64_t set_sample_page_period(int64_t msec, int64_t initial_time)
-> +{
-> +    int64_t current_time;
-> +
-> +    current_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-> +    if ((current_time - initial_time) >= msec) {
-> +        msec = current_time - initial_time;
-> +    } else {
-> +        g_usleep((msec + initial_time - current_time) * 1000);
-> +    }
-> +
-> +    return msec;
-> +}
-> +
-> +static int64_t get_sample_page_period(int64_t sec)
-> +{
-> +    if (sec <= MIN_FETCH_DIRTYRATE_TIME_SEC ||
-
-Shouldn't the minimum value be allowed?
-
-That is, this test should be "sec < MIN_FETCH_DIRTYRATE_TIME_SEC" and
-MIN_FETCH_DIRTYRATE_TIME_SEC should be 1.
-
-> +        sec > MAX_FETCH_DIRTYRATE_TIME_SEC) {
-> +        sec = DEFAULT_FETCH_DIRTYRATE_TIME_SEC;
-> +    }
-> +
-> +    return sec;
-> +}
-> +
->  static int dirtyrate_set_state(int *state, int old_state, int new_state)
->  {
->      assert(new_state < DIRTY_RATE_STATUS__MAX);
-> diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
-> index 41bc264..50a5636 100644
-> --- a/migration/dirtyrate.h
-> +++ b/migration/dirtyrate.h
-> @@ -51,6 +51,8 @@
->  
->  /* Take 1s as default for calculation duration */
->  #define DEFAULT_FETCH_DIRTYRATE_TIME_SEC          1
-> +#define MIN_FETCH_DIRTYRATE_TIME_SEC              0
-> +#define MAX_FETCH_DIRTYRATE_TIME_SEC              60
->  
->  struct DirtyRateConfig {
->      uint64_t sample_pages_per_gigabytes; /* sample pages per GB */
+>  util/oslib-posix.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+> index ad8001a4ad..74cf5e9c73 100644
+> --- a/util/oslib-posix.c
+> +++ b/util/oslib-posix.c
+> @@ -176,6 +176,7 @@ bool qemu_write_pidfile(const char *path, Error **errp)
+>          goto fail_unlink;
+>      }
+> 
+> +    close(fd);
+>      return true;
+> 
+>  fail_unlink:
 > -- 
-> 1.8.3.1
+> 2.19.1
+> 
+> 
 
-dme.
+Regards,
+Daniel
 -- 
-Facts don't do what I want them to.
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
