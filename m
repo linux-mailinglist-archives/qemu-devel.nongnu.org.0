@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16726252ED4
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 14:42:46 +0200 (CEST)
-Received: from localhost ([::1]:35760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8673252EDD
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 14:45:20 +0200 (CEST)
+Received: from localhost ([::1]:41630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAulI-0005Rg-Th
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 08:42:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42784)
+	id 1kAunn-0007wA-OE
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 08:45:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kAujc-0003l9-B9
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 08:41:00 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57291
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kAumA-00071M-FU
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 08:43:38 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30528
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kAuja-0007ER-9b
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 08:41:00 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kAum7-0007fV-VM
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 08:43:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598445657;
+ s=mimecast20190719; t=1598445814;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5RuVwwhn6W7C0E8wlnyHRfkiTe6w3RDwoIZb8aOR0ZM=;
- b=V6CmOlhpzqC/gagLM/qUuyMuwN4GthAVX774YU5I9DuOJp/ZCPV+YHEW+XgVSsAB7gsZOt
- gOoEItD/KauX9FlGgo8gXnc8YDtkIPnjfpLg6GlWamthlC5ozDebK0hkh63a0v6idPrr8a
- bKntHlLiIxJtLBe8mWqte2pswM6MYug=
+ bh=48iTfCsmqYeUjjHc3t/Lks1+tm5QTgbcpCAUc6ByBCU=;
+ b=H8rOk/UCHsDvExxXZ+3DM8S1ZrHo/x8owHtk90n6tSLBpFEcWBzG88Bf0WZd7v0YahWS/5
+ K69utAzqpLxrdvLY6L1qtGD/86yDlswmJSzbPOjqy6AsaP6/CtpPUd0k89ltebOFztEQ6Y
+ eiSEy+lhqWPpiizmGYmbdCmjHCZQ09I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-245-xtgM5az7MaG9I5eB7bpUHQ-1; Wed, 26 Aug 2020 08:40:55 -0400
-X-MC-Unique: xtgM5az7MaG9I5eB7bpUHQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-281-80MJdFpnMEOKCyAF_J2owA-1; Wed, 26 Aug 2020 08:43:31 -0400
+X-MC-Unique: 80MJdFpnMEOKCyAF_J2owA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4100B1009469;
- Wed, 26 Aug 2020 12:40:54 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-74.ams2.redhat.com
- [10.36.112.74])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A16285D9E4;
- Wed, 26 Aug 2020 12:40:52 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 28434112D737; Wed, 26 Aug 2020 14:40:50 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH] Coroutine-aware monitor_cur() with coroutine-specific data
-References: <20200528153742.274164-1-kwolf@redhat.com>
- <20200528153742.274164-7-kwolf@redhat.com>
- <87tuxia5a9.fsf@dusky.pond.sub.org>
- <20200804160604.GB4860@linux.fritz.box>
- <87sgd15z5w.fsf@dusky.pond.sub.org>
- <87a6z6wqkg.fsf_-_@dusky.pond.sub.org>
- <87mu36zis7.fsf_-_@dusky.pond.sub.org>
- <20200810125856.GD14538@linux.fritz.box>
-Date: Wed, 26 Aug 2020 14:40:50 +0200
-In-Reply-To: <20200810125856.GD14538@linux.fritz.box> (Kevin Wolf's message of
- "Mon, 10 Aug 2020 14:58:56 +0200")
-Message-ID: <87r1rt4m25.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A14F81074646;
+ Wed, 26 Aug 2020 12:43:30 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4827550B3F;
+ Wed, 26 Aug 2020 12:43:26 +0000 (UTC)
+Date: Wed, 26 Aug 2020 14:43:24 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v5 0/8] Remove EPYC mode apicid decode and use generic
+ decode
+Message-ID: <20200826144324.56335302@redhat.com>
+In-Reply-To: <20200825152521.GA3574@work-vm>
+References: <159804762216.39954.15502128500494116468.stgit@naples-babu.amd.com>
+ <20200824184112.GB2688@work-vm>
+ <f602852c-b6af-694e-3e32-47974722e144@amd.com>
+ <20200825081504.GA2646@work-vm>
+ <20200825163846.10185087@redhat.com>
+ <20200825152521.GA3574@work-vm>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=imammedo@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 03:56:58
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -89,244 +87,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@gmail.com,
- "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: ehabkost@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
+ Babu Moger <babu.moger@amd.com>, pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kevin Wolf <kwolf@redhat.com> writes:
+On Tue, 25 Aug 2020 16:25:21 +0100
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
 
-> Am 07.08.2020 um 15:29 hat Markus Armbruster geschrieben:
->> This is just a sketch.  It needs comments and a real commit message.
->> 
->> As is, it goes on top of Kevin's series.  It is meant to be squashed
->> into PATCH 06.
->> 
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> ---
->>  include/qemu/coroutine.h     |  4 ++++
->>  include/qemu/coroutine_int.h |  2 ++
->>  monitor/monitor.c            | 36 +++++++++++++++---------------------
->>  util/qemu-coroutine.c        | 20 ++++++++++++++++++++
->>  4 files changed, 41 insertions(+), 21 deletions(-)
->> 
->> diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
->> index dfd261c5b1..11da47092c 100644
->> --- a/include/qemu/coroutine.h
->> +++ b/include/qemu/coroutine.h
->> @@ -65,6 +65,10 @@ typedef void coroutine_fn CoroutineEntry(void *opaque);
->>   */
->>  Coroutine *qemu_coroutine_create(CoroutineEntry *entry, void *opaque);
->>  
->> +Coroutine *qemu_coroutine_create_with_storage(CoroutineEntry *entry,
->> +                                              void *opaque, size_t storage);
->> +void *qemu_coroutine_local_storage(Coroutine *co);
->> +
->>  /**
->>   * Transfer control to a coroutine
->>   */
->> diff --git a/include/qemu/coroutine_int.h b/include/qemu/coroutine_int.h
->> index bd6b0468e1..7d7865a02f 100644
->> --- a/include/qemu/coroutine_int.h
->> +++ b/include/qemu/coroutine_int.h
->> @@ -41,6 +41,8 @@ struct Coroutine {
->>      void *entry_arg;
->>      Coroutine *caller;
->>  
->> +    void *coroutine_local_storage;
->> +
->>      /* Only used when the coroutine has terminated.  */
->>      QSLIST_ENTRY(Coroutine) pool_next;
->
-> This increases the size of Coroutine objects typically by 8 bytes and
-> shifts the following fields by the same amount. On my x86_64 build, we
-> have exactly those 8 bytes left in CoroutineUContext until a new
-> cacheline would start. With different CONFIG_* settings, it could be the
-> change that increases the size to a new cacheline. No idea what this
-> looks like on other architectures.
->
-> Does this or the shifting of fields matter for performance? I don't
-> know. It might even be unlikely. But cache effects are hard to predict
-> and not wanting to do the work of proving that it's indeed harmless is
-> one of the reasons why for the slow paths in question I preferred a
-> solution that doesn't touch the coroutine core at all.
+> * Igor Mammedov (imammedo@redhat.com) wrote:
+> > On Tue, 25 Aug 2020 09:15:04 +0100
+> > "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> >   
+> > > * Babu Moger (babu.moger@amd.com) wrote:  
+> > > > Hi Dave,
+> > > > 
+> > > > On 8/24/20 1:41 PM, Dr. David Alan Gilbert wrote:    
+> > > > > * Babu Moger (babu.moger@amd.com) wrote:    
+> > > > >> To support some of the complex topology, we introduced EPYC mode apicid decode.
+> > > > >> But, EPYC mode decode is running into problems. Also it can become quite a
+> > > > >> maintenance problem in the future. So, it was decided to remove that code and
+> > > > >> use the generic decode which works for majority of the topology. Most of the
+> > > > >> SPECed configuration would work just fine. With some non-SPECed user inputs,
+> > > > >> it will create some sub-optimal configuration.
+> > > > >> Here is the discussion thread.
+> > > > >> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fqemu-devel%2Fc0bcc1a6-1d84-a6e7-e468-d5b437c1b254%40amd.com%2F&amp;data=02%7C01%7Cbabu.moger%40amd.com%7C74d90724af9c4adcc75008d8485d4d16%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637338912853492167&amp;sdata=GTsMKcpeYXAA0CvpLTirPHKdNSdlJE3RuPjCtSyWtGQ%3D&amp;reserved=0
+> > > > >>
+> > > > >> This series removes all the EPYC mode specific apicid changes and use the generic
+> > > > >> apicid decode.    
+> > > > > 
+> > > > > Hi Babu,
+> > > > >   This does simplify things a lot!
+> > > > > One worry, what happens about a live migration of a VM from an old qemu
+> > > > > that was using the node-id to a qemu with this new scheme?    
+> > > > 
+> > > > The node_id which we introduced was only used internally. This wasn't
+> > > > exposed outside. I don't think live migration will be an issue.    
+> > > 
+> > > Didn't it become part of the APIC ID visible to the guest?  
+> > 
+> > Daniel asked similar question wrt hard error on start up,
+> > when CLI is not sufficient to create EPYC cpu.
+> > 
+> > https://www.mail-archive.com/qemu-devel@nongnu.org/msg728536.html
+> > 
+> > Migration might fall into the same category.
+> > Also looking at the history, 5.0 commit 
+> >   247b18c593ec29 target/i386: Enable new apic id encoding for EPYC based cpus models
+> > silently broke APIC ID (without versioning), for all EPYC models (that's were 1 new and 1 old one).
+> > 
+> > (I'm not aware of somebody complaining about it)
+> > 
+> > Another commit ed78467a21459, changed CPUID_8000_001E without versioning as well.
+> > 
+> > 
+> > With current EPYC apicid code, if all starts align (no numa or 1 numa node only on
+> > CLI and no -smp dies=) it might produce a valid CPU (apicid+CPUID_8000_001E).
+> > No numa is gray area, since EPYC spec implies that it has to be numa machine in case of real EPYC cpus.
+> > Multi-node configs would be correct only if user assigns cpus to numa nodes
+> > by duplicating internal node_id algorithm that this series removes.
+> > 
+> > There might be other broken cases that I don't recall anymore
+> > (should be mentioned in previous versions of this series)
+> > 
+> > 
+> > To summarize from migration pov (ignoring ed78467a21459 change):
+> > 
+> >  1) old qemu pre-5.0 ==>  qemu 5.0, 5.1 - broken migration  
+> 
+> Oh ....
+> 
+> >  2) with this series (lets call it qemu 5.2)
+> >      pre-5.0 ==> qemu 5.2 - should work as series basically rollbacks current code to pre-5.0
+> >      qemu 5.0, 5.1 ==> qemu 5.2 - broken
+> > 
+> > It's all about picking which poison to choose,
+> > I'd preffer 2nd case as it lets drop a lot of complicated code that
+> > doesn't work as expected.  
+> 
+> I think that would make our lives easier for other reasons; so I'm happy
+> to go with that.
 
-Point taken.
+to make things less painful for users, me wonders if there is a way
+to block migration if epyc and specific QEMU versions are used?
 
-Possible mitigation: add at the end rather than in the middle.
-
->> diff --git a/monitor/monitor.c b/monitor/monitor.c
->> index 50fb5b20d3..047a8fb380 100644
->> --- a/monitor/monitor.c
->> +++ b/monitor/monitor.c
->> @@ -82,38 +82,32 @@ bool qmp_dispatcher_co_shutdown;
->>   */
->>  bool qmp_dispatcher_co_busy;
->>  
->> -/*
->> - * Protects mon_list, monitor_qapi_event_state, coroutine_mon,
->> - * monitor_destroyed.
->> - */
->> +/* Protects mon_list, monitor_qapi_event_state, monitor_destroyed. */
->>  QemuMutex monitor_lock;
->>  static GHashTable *monitor_qapi_event_state;
->> -static GHashTable *coroutine_mon; /* Maps Coroutine* to Monitor* */
->>  
->>  MonitorList mon_list;
->>  int mon_refcount;
->>  static bool monitor_destroyed;
->>  
->> +static Monitor **monitor_curp(Coroutine *co)
->> +{
->> +    static __thread Monitor *global_cur_mon;
->> +
->> +    if (co == qmp_dispatcher_co) {
->> +        return qemu_coroutine_local_storage(co);
->> +    }
->> +    return &global_cur_mon;
->> +}
->
-> Like the other patch, this needs to be extended for HMP. global_cur_mon
-> is never meant to be set.
-
-It is, for OOB commands.
-
-> The solution fails as soon as we have more than a single monitor
-> coroutine running at the same time because it relies on
-> qmp_dispatcher_co.
-
-Yes, but pretty much everything below handle_qmp_command() falls apart
-then.  Remembering to update monitor_curp() would be the least of my
-worries :)
-
->                    In this respect, it makes the same assumptions as the
-> simple hack.
->
-> Only knowing that qmp_dispatcher_co is always created with storage
-> containing a Monitor** makes this safe.
-
-Correct.
-
->>  Monitor *monitor_cur(void)
->>  {
->> -    Monitor *mon;
->> -
->> -    qemu_mutex_lock(&monitor_lock);
->> -    mon = g_hash_table_lookup(coroutine_mon, qemu_coroutine_self());
->> -    qemu_mutex_unlock(&monitor_lock);
->> -
->> -    return mon;
->> +    return *monitor_curp(qemu_coroutine_self());
->>  }
->>  
->>  void monitor_set_cur(Coroutine *co, Monitor *mon)
->>  {
->> -    qemu_mutex_lock(&monitor_lock);
->> -    if (mon) {
->> -        g_hash_table_replace(coroutine_mon, co, mon);
->> -    } else {
->> -        g_hash_table_remove(coroutine_mon, co);
->> -    }
->> -    qemu_mutex_unlock(&monitor_lock);
->> +    *monitor_curp(co) = mon;
->>  }
->>  
->>  /**
->> @@ -666,14 +660,14 @@ void monitor_init_globals_core(void)
->>  {
->>      monitor_qapi_event_init();
->>      qemu_mutex_init(&monitor_lock);
->> -    coroutine_mon = g_hash_table_new(NULL, NULL);
->>  
->>      /*
->>       * The dispatcher BH must run in the main loop thread, since we
->>       * have commands assuming that context.  It would be nice to get
->>       * rid of those assumptions.
->>       */
->> -    qmp_dispatcher_co = qemu_coroutine_create(monitor_qmp_dispatcher_co, NULL);
->> +    qmp_dispatcher_co = qemu_coroutine_create_with_storage(
->> +        monitor_qmp_dispatcher_co, NULL, sizeof(Monitor **));
->>      atomic_mb_set(&qmp_dispatcher_co_busy, true);
->>      aio_co_schedule(iohandler_get_aio_context(), qmp_dispatcher_co);
->>  }
->> diff --git a/util/qemu-coroutine.c b/util/qemu-coroutine.c
->> index c3caa6c770..87bf7f0fc0 100644
->> --- a/util/qemu-coroutine.c
->> +++ b/util/qemu-coroutine.c
->> @@ -81,8 +81,28 @@ Coroutine *qemu_coroutine_create(CoroutineEntry *entry, void *opaque)
->>      return co;
->>  }
->>  
->> +Coroutine *qemu_coroutine_create_with_storage(CoroutineEntry *entry,
->> +                                              void *opaque, size_t storage)
->> +{
->> +    Coroutine *co = qemu_coroutine_create(entry, opaque);
->> +
->> +    if (!co) {
->> +        return NULL;
->> +    }
->> +
->> +    co->coroutine_local_storage = g_malloc0(storage);
->> +    return co;
->> +}
->
-> As the code above shows, this interface is only useful if you can
-> identify the coroutine. It cannot be used in code that didn't create the
-> current coroutine because then it can't know whether or not the
-> coroutine has coroutine local storage, and if it has, what its structure
-> is.
->
-> For a supposedly generic solution, I think this is a bit weak.
-
-Yes, that's fair.
-
-The solution Daniel proposed is makes the weakness more explicit:
-instead of relying on "coroutine was created with this coroutine-local
-storage", we'd rely on "coroutine_getspecific(key) does not fail".  It
-can fail only if coroutine_setspecific(key, ...) was not called.  Not
-much better in practice.
-
-> Effectively, this might be a one-off solution in disguise because
-> it's a big restriction on the possible use cases.
-
-Daniel's solution is basically pthread_getspecific() for coroutines,
-with the keys dumbed down.
-
-If pthread_getspecific() was good enough for pthreads...
-
-Well, it wasn't, or rather it was only because something better could
-not be had with just a library, without toolchain support.  And that's
-where we are with coroutines.
-
->> +void *qemu_coroutine_local_storage(Coroutine *co)
->> +{
->> +    return co->coroutine_local_storage;
->> +}
->> +
->>  static void coroutine_delete(Coroutine *co)
->>  {
->> +    g_free(co->coroutine_local_storage);
->> +    co->coroutine_local_storage = NULL;
->>      co->caller = NULL;
->>  
->>      if (CONFIG_COROUTINE_POOL) {
->
-> Your list of pros/cons didn't mention coroutine creation/deletion as a
-> hot path at all (which it is, we have one coroutine per request).
-
-I did not expect coroutine creation / deletion to be a hot path.
-
-It is not a hot path for QMP, because QMP is not a hot path.
-
-I'm ready to accept the proposition that it's a hot path elsewhere.
-
-> You leave qemu_coroutine_create() untouched (except indirectly by a
-> larger g_malloc0() in the non-pooled case, which is negligible) and I
-> assume that g_free(NULL) is cheap, so at least this is probably as good
-> as it gets for something integrated in the coroutine core. Maybe an
-> explicit if (co->coroutine_local_storage) would improve it slightly.
->
-> Kevin
+> > PS:
+> >  I didn't review it yet, but with this series we aren't
+> >  making up internal node_ids that should match user provided numa node ids somehow.
+> >  It seems series lost the patch that would enforce numa in case -smp dies>1,
+> >  but otherwise it heads in the right direction.  
+> 
+> Dave
+> 
+> > > 
+> > > Dave
+> > >   
+> >   
 
 
