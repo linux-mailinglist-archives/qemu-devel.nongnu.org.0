@@ -2,86 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D8AC253369
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 17:19:22 +0200 (CEST)
-Received: from localhost ([::1]:48814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D07E925337B
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 17:21:32 +0200 (CEST)
+Received: from localhost ([::1]:53650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAxCr-0005Yg-Ae
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 11:19:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58440)
+	id 1kAxEx-0007hN-RG
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 11:21:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kAx9e-000348-Lo
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 11:16:02 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:60650
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kAx9c-0004Sb-OH
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 11:16:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598454959;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wM38FLfnx0POA2G2D6IfJNi2kCkdlQ6TNYDsvVRTw6w=;
- b=Q4tdloXEV8R0QP2z+21ov/skRRVifxuFRPfraP3aG4eAKqCtjaGGG1SWoD2o5unkNfRIXU
- kNaLs9ecsiOlaoG8ewPuHjkVHRywCE6n1rq/1ljJUA6NIFBraBVeppo43Z0f7ywpQguxvN
- MGfNw04oetDPMzBqhJRuNdTgDbf1MbU=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-525-mvoZQduKOAySp7oza8Ikog-1; Wed, 26 Aug 2020 11:15:56 -0400
-X-MC-Unique: mvoZQduKOAySp7oza8Ikog-1
-Received: by mail-ed1-f70.google.com with SMTP id dj21so810788edb.2
- for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 08:15:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kAxB3-0004U4-De
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 11:17:29 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:35595)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kAxB1-0004b1-JU
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 11:17:29 -0400
+Received: by mail-pf1-x444.google.com with SMTP id k1so1154055pfu.2
+ for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 08:17:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=KhxCPcFjyEBQpjfyeIcNjqcX9Xj3CtjhkjDuLlufOxo=;
+ b=VQGDOkhIUTols85bqOeJMeUuecBmgucp1YFZIvZWRF3mR2+PNIe6rfRp22XCq2gk8T
+ qMQR3izYwQuh/4F9ndRpzrnC9p1LCHG1CzgMqPJkXqtzIi/0BTgv4Viqgsuft4D8Rhha
+ YQr354tKmLSSvDal0+IITFI0UMEzDjCfEZ49Rc2Cenv2tv3BemKpyaZlBmbz0Il8rpxT
+ Lrw6OxIzcds+UXuAQjIvtygHtWNuNvjOr5pNtkh7PnDV/DQQO1XPlkbzcU7XE9NVB4sh
+ jc8NHD5j7S6Tu4xV3ojCa0TdaviVLI96B3+ahARjYlt9cA6uV03X3qjcLkqgxGAaJzsO
+ BkMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wM38FLfnx0POA2G2D6IfJNi2kCkdlQ6TNYDsvVRTw6w=;
- b=UliASEHTVuzJEOy2U+yd+i6G8FcY2/1scCiEMoYo5W+C5d/Q8zYFAScwD1WdWWWPTp
- s1c86V+hm6o2cSVaGYJWzH+wbvX2KcEX4a/Qn3W4jUX+wQkuJkWBX0ByLNiRxK83iK+/
- Kq5wYrZEu/cYleESsWXauLQ6vB76n+PN3a1doXXxwJdOc2HCQDfMatQh68YKjHHsr7dy
- uBKh1Umv5r6CmAweONuqGJUZWKUWFKugqOHtusDU5qoSCqjixprY7cutd0cekKCHokkN
- petSDOFxdzyV1O8mblFx0McRl/qJGH4cd//52fjLNe2+iiiq7M4TP15q1H2w5y/VIoR2
- WZaQ==
-X-Gm-Message-State: AOAM530NU3QktmMLw7H8ZWD8r1wwfoaD7hWzgPin32nRQUf2VXelneK2
- RqW5F0fJLhxwTjrV3LlmRFGyTog7JoYgcgTMCsz8aZOBbMl9ltsvl1EqtLtURvTKlIgUJKJ/iGp
- Os0mN3Le/SVTwq/XdZIF0vqfj8rZqy/I=
-X-Received: by 2002:a17:907:693:: with SMTP id
- wn19mr6960367ejb.121.1598454953975; 
- Wed, 26 Aug 2020 08:15:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx1IlET/TfutOj5NMxbb7e3rDwNvRMhPytsmYbuGUp6GBoLMq6H7lk6JDYqhU86WSToPPHtXhDtZdFJIOnOdVA=
-X-Received: by 2002:a17:907:693:: with SMTP id
- wn19mr6960347ejb.121.1598454953783; 
- Wed, 26 Aug 2020 08:15:53 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=KhxCPcFjyEBQpjfyeIcNjqcX9Xj3CtjhkjDuLlufOxo=;
+ b=dYzzwuVM+iVcQzxyyU3ztnsiA79fF0P+U1drI7P7PNq74f3hMyf4JIsyBnmpnjKWLu
+ xQYOkSqboxvhlBVDukUkjNruFS2nLLdw/rWmluCwB1QIAfFPfLcUHkMyP4FYJxdk//kl
+ 0Q2t3dg0n8/g5KnAgcxbvnQlW855uWOdnTAwgw7fOJS8RMpHFcdhTnWywchlg+9miq7j
+ y3jWBX9EIi70lqtgacpRxVSe6mRdcFUO7Mero//lvV3tjjJeS0KkdLi/VKyAdqlHJJvx
+ 9yQ9Emb/eN8v29DBhiyNV6Klr6KGUyuFTx1avYcWbqzhswCQTV6mw6aOY13G2UizdCbm
+ RFYQ==
+X-Gm-Message-State: AOAM531PlfEiFQrGFU9lyPdQyq9Do9CS5RXnCdspo4xX/Sf6gN5QSDn+
+ cJoLbdJOcKtmKOnQXH0tEXaqFA==
+X-Google-Smtp-Source: ABdhPJxiyE33GKFrNngrOTPcp3NVOJvPM1nNa07Fq9QxBx/XCsb+Z5g1cZs9g6maX8WowViTAWYdxA==
+X-Received: by 2002:a63:d504:: with SMTP id c4mr9771168pgg.138.1598455046107; 
+ Wed, 26 Aug 2020 08:17:26 -0700 (PDT)
+Received: from [192.168.81.79]
+ (h216-228-167-147.bendor.dedicated.static.tds.net. [216.228.167.147])
+ by smtp.gmail.com with ESMTPSA id g5sm2479060pjx.53.2020.08.26.08.17.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 26 Aug 2020 08:17:25 -0700 (PDT)
+Subject: Re: [RFC PATCH v3 17/34] Hexagon (target/hexagon/imported) arch
+ import - macro definitions
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+References: <1597765847-16637-1-git-send-email-tsimpson@quicinc.com>
+ <1597765847-16637-18-git-send-email-tsimpson@quicinc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <283ca509-1ab9-71db-2aa9-6ed19f22c18b@linaro.org>
+Date: Wed, 26 Aug 2020 08:17:23 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200823225804.umk5gh6knptqo5mw@mozz.bu.edu>
- <CABgObfZtGY-TuTLXNJNU9m_yQLfE6AM-+MdfqaaRjfMcWC8+Og@mail.gmail.com>
- <20200826135513.ay5ga3xi2ilcagqf@mozz.bu.edu>
-In-Reply-To: <20200826135513.ay5ga3xi2ilcagqf@mozz.bu.edu>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Wed, 26 Aug 2020 17:15:42 +0200
-Message-ID: <CABgObfbxqPH1p-0ZD2wZWiKP0GjOjV6s+umgmOMKjm2ic7R=zg@mail.gmail.com>
-Subject: Re: [Fwd] Issue 25164 in oss-fuzz: qemu: Fuzzing build failure
-To: Alexander Bulekov <alxndr@bu.edu>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 03:16:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <1597765847-16637-18-git-send-email-tsimpson@quicinc.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.239,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,51 +91,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Darren Kenny <darren.kenny@oracle.com>, Bandan Das <bsd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: ale@rev.ng, riku.voipio@iki.fi, philmd@redhat.com, laurent@vivier.eu,
+ aleksandar.m.mail@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 26, 2020 at 3:56 PM Alexander Bulekov <alxndr@bu.edu> wrote:
->
-> On 200825 0958, Paolo Bonzini wrote:
-> > Il lun 24 ago 2020, 00:58 Alexander Bulekov <alxndr@bu.edu> ha scritto:
-> >
-> > > Hi Paolo,
-> > > Our oss-fuzz builds started failing, after the meson merge. I think I
-> > > tracked down the issues:
-> > > 1.) Looking at the build-log here:
-> > >
-> > > https://oss-fuzz-build-logs.storage.googleapis.com/log-d43d402c-1ce5-4422-b3db-ccbf83a862a0.txt
-> > > The error happens at link-time. Re-running the build with V=1:
-> > > "/usr/bin/ld" ...
-> > > --whole-archive /usr/local/lib/clang/12.0.0/.../libclang_rt.asan-x86_64.a \
-> > > --start-group ..... -T /src/qemu/tests/qtest/fuzz/fork_fuzz.ld  \
-> > > -wrap qtest_inb -wrap qtest_inw ..... --end-group .....
-> > >
-> >
-> > I think you can put everything into a response for and include it with
-> > @fuzz.cmd in the command line.
->
-> I don't think I understand. Should I provide the entire linker command,
-> by email?
+On 8/18/20 8:50 AM, Taylor Simpson wrote:
+> The macro definitions specify instruction attributes that are applied
+> to each instruction that references the macro. The generator will
+> recursively apply attributes to each instruction that used the macro.
+> 
+> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
+> ---
+>  target/hexagon/imported/macros.def | 1529 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 1529 insertions(+)
+>  create mode 100755 target/hexagon/imported/macros.def
 
-You can create a file fuzz.cmd.in containing
 
--Wl,-T,@FUZZING_LINKER_SCRIPT@
--Wl,-wrap,qtest_inb
--Wl,-wrap,qtest_inw
+You might as well squash all of the patches dealing with imported files,
+because they're beyond review.  They are what they are: another project's files.
 
-etc.
+Give that squashed patch my
 
-Create a fuzz.cmd that includes the correct path to fuzz.ld in the
-source tree (using configure_file) and pass this file to the linker
-using @tests/libqtest/fuzz/fuzz.cmd in link_args (and also
-link_depends). See libblock and block for an example.
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
 
-Paolo
 
-Paolo
+r~
+
+
+PS: I notice that the README mentions archlib, but does not give a pointer to it.
 
 
