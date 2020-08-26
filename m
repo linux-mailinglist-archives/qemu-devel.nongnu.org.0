@@ -2,75 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B6DF253798
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 20:53:03 +0200 (CEST)
-Received: from localhost ([::1]:33128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31ADB25377B
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 20:47:58 +0200 (CEST)
+Received: from localhost ([::1]:47144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kB0Xe-0001MN-AP
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 14:53:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59616)
+	id 1kB0Sj-0003nt-71
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 14:47:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1kB0PQ-0008Tf-Tl; Wed, 26 Aug 2020 14:44:35 -0400
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:46067)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1kB0PP-0001If-DC; Wed, 26 Aug 2020 14:44:32 -0400
-Received: by mail-lf1-x141.google.com with SMTP id i14so1537774lfl.12;
- Wed, 26 Aug 2020 11:44:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=qLDwvIZxJUP65DAQVvbFClNeiPCkILFLUvIB5eFRofE=;
- b=g5wGkqfEaDwjlULlIbR87kq7Sc8nztSjQRKoohjcPDcyaGH83ifQu9OR3rBHfOfQoy
- 4EnhyeugkXrvUfx/BLb/Dr80JT8Ur4w+tHN2xO8KpDeYHhM0R48/PA7njopiL/A592bn
- 5iBC/wyOMW8U2G9oLzsdIBL7EOwZl6C8E92a1/23xkh23fJn5aOXamj3HLWfRI18Pymz
- 2VbshXypSdT0tS0mSDzIUvzxAM9s0Pvw06Nvnf8tMlJIY3fXN45NEFuRQ2KKn5dgERK+
- 8nSLTGMWfsD15E0AYe/IsbQrkD5wxwRU1gSBl7rzyiL528q/o1SsXrjf79RHJqsA+hy5
- 8DXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=qLDwvIZxJUP65DAQVvbFClNeiPCkILFLUvIB5eFRofE=;
- b=aarx7Wmb5BRPzQFnHAHWR3dul+KBZiIXtLpqEvlef1A3SfUWwsOjQ+y7V0IRI8lBlF
- yBU6WKURSiybQGV/m1QBU6SiAa3dM9n+NSfSGssJ36twNz27YUcTDCgMs5o3vYDoyHfN
- puy99w6vtD1e6f50ZrT9jrjlDGro60ofOiP1QDKelF36Bcz1G7zHXghfKcfqWsCRRPls
- JTO+R7fkvhMfIl/VIolZOes9FsdMWreJ08wiPNUB7JIQzsdXlqCyuwQ72webGHNiMgr6
- BnKOHp8OknfDO6oSXGg2OaYZBe5E7GmbpCW9np03xJ3pI7N2qofFw6X9NuF97VT2M1ZI
- TmJg==
-X-Gm-Message-State: AOAM532/8n2PFOKzkblwuhmaNrmh7UDj79FPDsyRKpRqQ14G+J6FbCa/
- qtNHGg0zsutyXmpVxueL3II=
-X-Google-Smtp-Source: ABdhPJxuDLrdNpYe9/5Nw1tbNf9mCJNcsrg/j0TJIbk+6lnLi3vhdF2xrBRHn0r4bHRE88BDtqxjyg==
-X-Received: by 2002:ac2:5f49:: with SMTP id 9mr2306527lfz.96.1598467468954;
- Wed, 26 Aug 2020 11:44:28 -0700 (PDT)
-Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id h11sm671516ljb.58.2020.08.26.11.44.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Aug 2020 11:44:28 -0700 (PDT)
-Date: Wed, 26 Aug 2020 20:44:27 +0200
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH 5/8] xlnx-zcu102: Use TYPE_ZCU102_MACHINE constant
-Message-ID: <20200826184427.GJ2954729@toto>
-References: <20200826184334.4120620-1-ehabkost@redhat.com>
- <20200826184334.4120620-6-ehabkost@redhat.com>
+ (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
+ id 1kB0Qo-0001xn-Vr
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 14:45:59 -0400
+Received: from mail-dm6nam11on2049.outbound.protection.outlook.com
+ ([40.107.223.49]:15616 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
+ id 1kB0Qm-0001b3-Fl
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 14:45:58 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RshdRHrD6rF2LEUlFyBm3SyxNTYOf38G5euliv95EI+dmcsbYhtcOPW4z4CGxXuiDFnQQf1hX5rY2mv41BE1mTO2o1EM2dsOjdYfsxwO/vOM7z5ayHh6D14KzleXxqhoOORgs9jLQSiaQhEYo1IKcnQvjBExAtPYrv7ZncQupcKYhT5Ye2QXnW58P6mA7n3mC8mx+yy0anzeuFGpq/4MTn1Y/iuNtNC0+lkTzokq7jxGkywH7odyfWD7lBAlaaKYCTZyKJt6B/hiZw8MC1SBA3N+Zu737OmZA1xo31qkipdEdaEwPuJ1UWJ28hGG0ImsvjffRVpbekngBRouHxabTw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=P1w45MBTHrOPa9Dg+Jg3OGqsRiXux7w+ItW48d6V96g=;
+ b=krKXaZsZxPU6H0Lgf8/K3NXV9LY9kpI72KZozSZrPveK2MrKo/C/jeqGLW4VvgS5BCFMxPcx/ZqAL4QeMNmGr/11ZuXAjuNP5Vm2iwRaI0Ko1jJgtqAYdD/ahCaJ7M+/huyu8fWZY9aWjJ+954Tw8oOG9WAjY24RxaV/X/ONqBVXdmiV5+izRwck9nCs2dT8iYFOYgN97EmKNtWAAHstytVp2+dWQnzn9agwpPcfWpKRKe8WLeSu8tA6Xi2HlHawZGu1WXbP/of1eLusRvoDAKxagCLPni8Fi9zMisd/xE4Dtyl8OODjODpW13dYMNdq7zsCDqAnLdQnB5tQQ1c/Ug==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=P1w45MBTHrOPa9Dg+Jg3OGqsRiXux7w+ItW48d6V96g=;
+ b=e7/QUYFqFcrGXdaBt8li8H++gxCdhvqwCFSvJBI5S2lUd/7nWxjVhH3V/XKKLFeC1d2Tt0iB38BxeoEpR69z6zztTqAvcVG7mGhV0pg+DMHC2VouBn4I03Ai8WWnHfoUTs9YTI8Rgr/DiqGOZzi36jHKUddseW/2PLVOwFXyCK4=
+Authentication-Results: twiddle.net; dkim=none (message not signed)
+ header.d=none;twiddle.net; dmarc=none action=none header.from=amd.com;
+Received: from SN1PR12MB2560.namprd12.prod.outlook.com (2603:10b6:802:26::19)
+ by SN6PR12MB2621.namprd12.prod.outlook.com (2603:10b6:805:73::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.26; Wed, 26 Aug
+ 2020 18:45:53 +0000
+Received: from SN1PR12MB2560.namprd12.prod.outlook.com
+ ([fe80::ccd9:728:9577:200d]) by SN1PR12MB2560.namprd12.prod.outlook.com
+ ([fe80::ccd9:728:9577:200d%4]) with mapi id 15.20.3305.026; Wed, 26 Aug 2020
+ 18:45:53 +0000
+Subject: RE: [PATCH v5 0/8] Remove EPYC mode apicid decode and use generic
+ decode
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <159804762216.39954.15502128500494116468.stgit@naples-babu.amd.com>
+ <20200826143849.59f6970b@redhat.com> <20200826125059.GN168515@redhat.com>
+ <20200826153034.115126cb@redhat.com>
+ <5c00dac9-5ea5-405c-93be-1ac903ddff62@amd.com>
+ <20200826183331.GA3977@work-vm>
+From: Babu Moger <babu.moger@amd.com>
+Message-ID: <11489e5f-2285-ddb4-9c35-c9f522d603a0@amd.com>
+Date: Wed, 26 Aug 2020 13:45:51 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20200826183331.GA3977@work-vm>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: DM6PR13CA0039.namprd13.prod.outlook.com
+ (2603:10b6:5:134::16) To SN1PR12MB2560.namprd12.prod.outlook.com
+ (2603:10b6:802:26::19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200826184334.4120620-6-ehabkost@redhat.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::141;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x141.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 10
-X-Spam_score: 1.0
-X-Spam_bar: +
-X-Spam_report: (1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- FSL_HELO_FAKE=3.066, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from 255.255.255.255 (255.255.255.255) by
+ DM6PR13CA0039.namprd13.prod.outlook.com (2603:10b6:5:134::16) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3326.10 via Frontend Transport; Wed, 26 Aug 2020 18:45:52 +0000
+X-Originating-IP: [165.204.77.1]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 3bb8bf8a-3237-4b0d-f6bf-08d849f042c7
+X-MS-TrafficTypeDiagnostic: SN6PR12MB2621:
+X-Microsoft-Antispam-PRVS: <SN6PR12MB2621BDA5EAE48897CA631EAD95540@SN6PR12MB2621.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 8qegmCyEcJYL8/gVing9aJ2b76ZLSaUE43t/ur+SaTovuM1LL1JTIA7w8uoYxcWfY1Y8CupsZUTHG1dyrASBfLIC1iG7mmLwvQz4VZMOE0HV8EpsHpv4uX2CZmwCjN4wuV20VNdPax8BhvcQCz1aEh+z/eQupY4tBuTIBGg3MtbfP1IW9RIGVkWM4uhZbddG+Csw+FCKf4F84wSjPq39GWE7V+pYxDjtxQuuJuocM04q4EwVWgR1i2+TXciNtqK29Yra4A7V/VHHdVEML1ZvZbeiXYL+HzaI0NJQ90FpEXOnCi+VXvma10m9YbDYkhSFYAOMikuowqKEQB9SO0ncFOyKyb6oUyxkEnx63MaJkXchKqSUi+sMhkhe1484DgZCXF04TV+/uIfmcUr3eRcrvZaeHdgxVXSYjT5/oVknl5ODrSi30PFOhf7WrK9JG6U2XuGwOBCG+T89EWHj3Mh2wqQFzoLEGDzX+K0z5PntBNs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN1PR12MB2560.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(396003)(39860400002)(136003)(376002)(346002)(26005)(45080400002)(31696002)(86362001)(66946007)(66476007)(6916009)(8676002)(54906003)(2906002)(66556008)(966005)(5660300002)(316002)(16576012)(31686004)(36756003)(83380400001)(53546011)(478600001)(8936002)(44832011)(52116002)(186003)(6486002)(4326008)(2616005)(956004)(41533002)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: jm2W8AKGBulPTQksw42IFL6M2AViqSlvSlkejtXY0h5dfJxyAyUIAVwcoVVilvWOSCcSQwII4zkWc5eLDfbCoROLJG6pD5JskjW0nh7cmJyDsjtF//psA9snk2gU84f+rk/19WAv/UCgPmHCBJIWiOAH/OqJU/hYKpm7qgHAwIXixPG6mo7MKUb/52w9ardtdfnR6zCN7hSNTH6UqKbST5R+cp5kmkFx7ypfbZbFIAXxIt+guhsp51M33PM8YJX+OUObJoE7DpTMVwYF9fz4XJb4HClIBGLCA25difDjgd8TkypnX9YYBK00Dp5EP3LbX/Zs5PT7dhL657RlrNdCbkpMr8oHEYSN9tt56nModfeyW8RMm8z2TlpAk4gmTXG37oMtAujuzbf7DSmptjG0tXq2XptKHZ9aDq+RN5eoOHXHVNPuRs+PoyHKo4Fpv3HbG841LPKw0FBWXetXnY9wpAlmQIGxasg9HcA6+NKv4WJyNCkdVGE5Py+7XqtpdhOIY+OFhejsSsOgw3R//vqO4wwQqo7wu8QbJ+dzHgUthicUMLCHUiv589wlZGwlB4UDIW0g4bYSNQZAneUu7sKGxToixYUOOvndmElwpANo4IJmdAoNsLCuBvcBgcIhg2UYEua2FgWQ7GiF+7qTIe/1qg==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3bb8bf8a-3237-4b0d-f6bf-08d849f042c7
+X-MS-Exchange-CrossTenant-AuthSource: SN1PR12MB2560.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2020 18:45:53.5884 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Cx+9dnl53ggFEAwL6HH5fRF/cizVMrqGDGA3PV5PUi/O0CZDhH9+Pp04v4Q84iBW
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2621
+Received-SPF: none client-ip=40.107.223.49; envelope-from=Babu.Moger@amd.com;
+ helo=NAM11-DM6-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 14:45:54
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, FORGED_SPF_HELO=1, MSGID_FROM_MTA_HEADER=0.001,
+ NICE_REPLY_A=-2.239, RCVD_ILLEGAL_IP=1.3, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,45 +121,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>, "mst@redhat.com" <mst@redhat.com>,
+ Michal Privoznik <mprivozn@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, "rth@twiddle.net" <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 26, 2020 at 02:43:31PM -0400, Eduardo Habkost wrote:
-> This will make future conversion to use OBJECT_DECLARE* easier.
-> 
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
 
-> ---
-> Cc: Alistair Francis <alistair@alistair23.me>
-> Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: qemu-arm@nongnu.org
-> Cc: qemu-devel@nongnu.org
-> ---
->  hw/arm/xlnx-zcu102.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> -----Original Message-----
+> From: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Sent: Wednesday, August 26, 2020 1:34 PM
+> To: Moger, Babu <Babu.Moger@amd.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>; Daniel P. Berrang�
+> <berrange@redhat.com>; ehabkost@redhat.com; mst@redhat.com; Michal
+> Privoznik <mprivozn@redhat.com>; qemu-devel@nongnu.org;
+> pbonzini@redhat.com; rth@twiddle.net
+> Subject: Re: [PATCH v5 0/8] Remove EPYC mode apicid decode and use generic
+> decode
 > 
-> diff --git a/hw/arm/xlnx-zcu102.c b/hw/arm/xlnx-zcu102.c
-> index 5997262459..672d9d4bd1 100644
-> --- a/hw/arm/xlnx-zcu102.c
-> +++ b/hw/arm/xlnx-zcu102.c
-> @@ -238,7 +238,7 @@ static void xlnx_zcu102_machine_class_init(ObjectClass *oc, void *data)
->  }
->  
->  static const TypeInfo xlnx_zcu102_machine_init_typeinfo = {
-> -    .name       = MACHINE_TYPE_NAME("xlnx-zcu102"),
-> +    .name       = TYPE_ZCU102_MACHINE,
->      .parent     = TYPE_MACHINE,
->      .class_init = xlnx_zcu102_machine_class_init,
->      .instance_init = xlnx_zcu102_machine_instance_init,
-> -- 
-> 2.26.2
+> * Babu Moger (babu.moger@amd.com) wrote:
+> >
+> > > -----Original Message-----
+> > > From: Igor Mammedov <imammedo@redhat.com>
+> > > Sent: Wednesday, August 26, 2020 8:31 AM
+> > > To: Daniel P. Berrangé <berrange@redhat.com>
+> > > Cc: Moger, Babu <Babu.Moger@amd.com>; pbonzini@redhat.com;
+> > > rth@twiddle.net; ehabkost@redhat.com; qemu-devel@nongnu.org;
+> > > mst@redhat.com; Michal Privoznik <mprivozn@redhat.com>
+> > > Subject: Re: [PATCH v5 0/8] Remove EPYC mode apicid decode and use
+> > > generic decode
+> > >
+> > > On Wed, 26 Aug 2020 13:50:59 +0100
+> > > Daniel P. Berrangé <berrange@redhat.com> wrote:
+> > >
+> > > > On Wed, Aug 26, 2020 at 02:38:49PM +0200, Igor Mammedov wrote:
+> > > > > On Fri, 21 Aug 2020 17:12:19 -0500 Babu Moger
+> > > > > <babu.moger@amd.com> wrote:
+> > > > >
+> > > > > > To support some of the complex topology, we introduced EPYC
+> > > > > > mode
+> > > apicid decode.
+> > > > > > But, EPYC mode decode is running into problems. Also it can
+> > > > > > become quite a maintenance problem in the future. So, it was
+> > > > > > decided to remove that code and use the generic decode which
+> > > > > > works for majority of the topology. Most of the SPECed
+> > > > > > configuration would work just fine. With some non-SPECed user
+> > > > > > inputs, it will create some sub-
+> > > optimal configuration.
+> > > > > > Here is the discussion thread.
+> > > > > > https://nam11.safelinks.protection.outlook.com/?url=https%3A%2
+> > > > > > F%2F
+> > > > > > lore.kernel.org%2Fqemu-devel%2Fc0bcc1a6-1d84-a6e7-e468-
+> > > d5b437c1b25
+> > > > > >
+> > >
+> 4%40amd.com%2F&amp;data=02%7C01%7Cbabu.moger%40amd.com%7C8a5c
+> > > 52f92
+> > > > > >
+> > >
+> 3f04082a40808d849c43d49%7C3dd8961fe4884e608e11a82d994e183d%7C0%7
+> > > C0
+> > > > > >
+> > >
+> %7C637340454473508873&amp;sdata=VnW28H1v4XwK3GaNGFxu%2BhwiMeA
+> > > YO%2B
+> > > > > > 3WAzo3DeY5Ha8%3D&amp;reserved=0
+> > > > > >
+> > > > > > This series removes all the EPYC mode specific apicid changes
+> > > > > > and use the generic apicid decode.
+> > > > >
+> > > > > the main difference between EPYC and all other CPUs is that it
+> > > > > requires numa configuration (it's not optional) so we need an
+> > > > > extra
+> > No, That is not true. Because of that assumption we made all these
+> > apicid changes. And here we are now.
+> >
+> > AMD supports varies mixed configurations. In case of EPYC-Rome, we
+> > have NPS1, NPS2 and NPS4(Numa Nodes per socket). In case of NPS1,
+> > basically we have all the cores in a socket under one numa node. This
+> > is non-numa configuration.
+> > Looking at the various configurations and also discussing internally,
+> > it is not advisable to have (epyc && !numa) check.
 > 
+> Indeed on real hardware, I don't think we always see NUMA; my single socket,
+> 16 core/32 thread 7302P Dell box, shows the kernel printing 'No NUMA
+> configuration found...Faking a node.'
+> 
+> So if real hardware hasn't got a NUMA node, what's the real problem?
+
+I don't see any problem once we revert all these changes(patch 1-7).
+We don't need if (epyc && !numa) error check or auto_enable_numa=true
+unconditionally.
+
+> 
+> Dave
+> 
+> > > > > patch on top of this series to enfoce that, i.e:
+> > > > >
+> > > > >  if (epyc && !numa)
+> > > > >     error("EPYC cpu requires numa to be configured")
+> > > >
+> > > > Please no. This will break 90% of current usage of the EPYC CPU in
+> > > > real world QEMU deployments. That is way too user hostile to
+> > > > introduce as a requirement.
+> > > >
+> > > > Why do we need to force this ?  People have been successfuly using
+> > > > EPYC CPUs without NUMA in QEMU for years now.
+> > > >
+> > > > It might not match behaviour of bare metal silicon, but that
+> > > > hasn't obviously caused the world to come crashing down.
+> > > So far it produces warning in linux kernel (RHBZ1728166), (resulting
+> > > performance might be suboptimal), but I haven't seen anyone reporting
+> crashes yet.
+> > >
+> > >
+> > > What other options do we have?
+> > > Perhaps we can turn on strict check for new machine types only, so
+> > > old configs can keep broken topology (CPUID), while new ones would
+> > > require -numa and produce correct topology.
+> > >
+> > >
+> > > >
+> > > > Regards,
+> > > > Daniel
+> >
+> >
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
