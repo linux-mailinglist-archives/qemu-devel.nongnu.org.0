@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1742A25311E
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 16:21:08 +0200 (CEST)
-Received: from localhost ([::1]:50940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B44F253127
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 16:21:58 +0200 (CEST)
+Received: from localhost ([::1]:54680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAwIV-00041i-4S
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 10:21:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42210)
+	id 1kAwJJ-0005aP-Ft
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 10:21:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <graeme@nuviainc.com>)
- id 1kAwHS-0002hw-7s
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 10:20:02 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:39191)
+ id 1kAwHT-0002jF-9C
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 10:20:03 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:34788)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <graeme@nuviainc.com>)
- id 1kAwHQ-0003rL-BD
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 10:20:01 -0400
-Received: by mail-wr1-x435.google.com with SMTP id a5so1983197wrm.6
- for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 07:19:59 -0700 (PDT)
+ id 1kAwHQ-0003rV-Uq
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 10:20:02 -0400
+Received: by mail-wm1-x331.google.com with SMTP id c19so1674670wmd.1
+ for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 07:20:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xLa6iW2a9vdfZQ+4WCOodX8y0oiavSuYPUAbM3Vgv0g=;
- b=Y2VSgrw6RUwTcqr0DSzyYkCbjltHQ6aq4EfbIXQDmyFkhHiFwDDNMFXBIFQreXGGJb
- KVj0qzv1VlE2SiqRSuTFxhtwy95WompwT4RJtc6uMXtJVICWKCXn8sOqrqclRQAF7CXO
- wOKa51xm5YM5mKxnoApoj3j9lwZ2/Ssud5s4L5YqN0UiN5rLZpo+1+nyXYBfY7/XSCG0
- WEtHB54rM4RG85PULOTSMCwNspkaSTgkFxVbOkupWDKHRxwSlR4nnGwGzX5BzQR3EtDp
- wPiPLSp1EvIzXNQzwdDrSd6iU5nON0WUBLpLqgUeeLd+1pczrAOogbA4DY5SLEda9y4u
- eJeQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=7+36PnMQTCjkKChJLGXL0i7a9udhWvYuIUxgFCuMpx4=;
+ b=yj5t2G+I8krhcX6LRNhdI/tM3NfECG/90ZZzaGmwUUaC8H1IIZVfMXOLqJduApaLPl
+ wQP/seh6Bz9oL82ngg3YtpWueVRPy85NyrlmuDJlGK8BRpHnmxN+PPGH34j81RSwUetm
+ Vxtbd1VFHo5Fkgz2u33bj7UVoXppx8UaE2D2UGJhfM1CMpl5OS7m7evhj/VLTW9hqn35
+ e6KUdInNnaZe9illCjr9cDpo0uxdSh4xpNg8YYZ1SMo71NnmT+2/H0A6UHd47gpZMyOW
+ J/kQoQte+Dk59TJghd4IdNN4g3fsdZpFUdUARz35+8OccgVfdo1E/gjRueuCwALoSPP6
+ Aq7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xLa6iW2a9vdfZQ+4WCOodX8y0oiavSuYPUAbM3Vgv0g=;
- b=Z1ZcK38N8wlH0ABR4NQI5NZtB5k/kHvtX8LDeY4aHRpPPTcS6rt92RCO1Hwl/IvVzk
- +nCDvt9Xb+pvzZIEfG0t5jsu1sNLQJ0BasCfQXwXdJauaARH2y1GFhDChReSOKX8sKh/
- 1roAceE2EK60LcfKFJcMJw2fExctyV92kCnJn957uvYfWRPCb0K0IMcak2Ul78CmZo9p
- xTesaWr2c4TxhNKdTDBTUulXyE5vU/HPQdcWofeR2MEoNez6eb1szt1zl1x7Eof6OvQm
- HscMKxaTMKpShsRyBRhY3gJrW1Y4aZnvGLojxMuiL5+xtZkXvDfZUgznRfrFvJ5OBHFs
- NOnw==
-X-Gm-Message-State: AOAM5313DzGy1EV37Oo149pTPJHEKkIiv/glYl3yHnJeE56XtLUexsK0
- +837QBgOlF4FqX0hF5BhsW1bhg==
-X-Google-Smtp-Source: ABdhPJzk9rzEHXNKgPn2fjhff4FViXwqiINd84CXjH/N2BENePpDAqO7snMbvDPMbHaVZcPZC0KWIg==
-X-Received: by 2002:adf:f08a:: with SMTP id n10mr16673709wro.351.1598451598432; 
- Wed, 26 Aug 2020 07:19:58 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=7+36PnMQTCjkKChJLGXL0i7a9udhWvYuIUxgFCuMpx4=;
+ b=jFGTJO+nvyin3YYjJZ/j0JavofzD8MIlcMf6pcpfrqF9p0+E5iMJnbbn9KwBFux12K
+ 0CV6/hHJWKoap/eRCZLziQ4Kcbb49jhEpPABiB7v3KTTE1nOjfhShFkZcDbJh1O/xzO+
+ X5SxDHhRGedECpDPauCIvrx4QfmPJCw7HV6I2WWGHAInIQBe6yE/3NNMugkhR3Objqnf
+ eDUarzMQ6KwyNn1sbX5c0GOd/e04o81DU7q6ErKcoG/45n1Ka682VwuVLSXvottujsJA
+ jQqlbrI5KBZhpimm+kg/L6LYHys7jfbjEvUcSjYax2h96Dv/OKjoP4hoiW3i/PK+qv8P
+ R0vw==
+X-Gm-Message-State: AOAM533uCQUexvzZO9yeDkePAaho88MAa7IHJn8cUhxOa87jm05GzSdE
+ cTBRoW/i//kN8baxaHBTdTZhKQ==
+X-Google-Smtp-Source: ABdhPJzSqGF23VtnPJe0sUOdSd9gnZekOYRvWzE++AnSPioIsIFet2T6OGp5PkfMD+qMq8Wh41NfiQ==
+X-Received: by 2002:a7b:c147:: with SMTP id z7mr7570848wmi.151.1598451599595; 
+ Wed, 26 Aug 2020 07:19:59 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8010:64d6::1d89])
- by smtp.gmail.com with ESMTPSA id n7sm6604411wrs.2.2020.08.26.07.19.57
+ by smtp.gmail.com with ESMTPSA id n7sm6604411wrs.2.2020.08.26.07.19.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Aug 2020 07:19:57 -0700 (PDT)
+ Wed, 26 Aug 2020 07:19:58 -0700 (PDT)
 From: Graeme Gregory <graeme@nuviainc.com>
 To: qemu-arm@nongnu.org
-Subject: [PATCH v2 0/2] Add an embedded controller to sbsa-ref machine
-Date: Wed, 26 Aug 2020 15:19:50 +0100
-Message-Id: <20200826141952.136164-1-graeme@nuviainc.com>
+Subject: [PATCH v2 1/2] hw/misc/sbsa_ec : Add an embedded controller for
+ sbsa-ref
+Date: Wed, 26 Aug 2020 15:19:51 +0100
+Message-Id: <20200826141952.136164-2-graeme@nuviainc.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200826141952.136164-1-graeme@nuviainc.com>
+References: <20200826141952.136164-1-graeme@nuviainc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=graeme@nuviainc.com; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=graeme@nuviainc.com; helo=mail-wm1-x331.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -18
@@ -82,18 +85,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, leif@nuviainc.com, rad@semihalf.com,
- qemu-devel@nongnu.org, f4bug@amsat.org
+Cc: Graeme Gregory <graeme@nuviainc.com>, peter.maydell@linaro.org,
+ rad@semihalf.com, qemu-devel@nongnu.org, f4bug@amsat.org, leif@nuviainc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series is to an add embedded controller to the sbsa-ref machine
-so that PSCI can communicate platform power states to the platform
-which in this case is QEMU.
+A difference between sbsa platform and the virt platform is PSCI is
+handled by ARM-TF in the sbsa platform. This means that the PSCI code
+there needs to communicate some of the platform power changes down
+to the qemu code for things like shutdown/reset control.
 
-v1->v2
- - broke out the EC itself as hw/misc/sbsa_ec.c as seperate patch
- - applied review comments to date
+Space has been left to extend the EC if we find other use cases in
+future where ARM-TF and qemu need to communicate.
 
+Signed-off-by: Graeme Gregory <graeme@nuviainc.com>
+---
+ hw/misc/meson.build |  2 +
+ hw/misc/sbsa_ec.c   | 98 +++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 100 insertions(+)
+ create mode 100644 hw/misc/sbsa_ec.c
+
+diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+index 84fed0494d..e1576b81cf 100644
+--- a/hw/misc/meson.build
++++ b/hw/misc/meson.build
+@@ -97,3 +97,5 @@ specific_ss.add(when: 'CONFIG_MAC_VIA', if_true: files('mac_via.c'))
+ 
+ specific_ss.add(when: 'CONFIG_MIPS_CPS', if_true: files('mips_cmgcr.c', 'mips_cpc.c'))
+ specific_ss.add(when: 'CONFIG_MIPS_ITU', if_true: files('mips_itu.c'))
++
++specific_ss.add(when: 'CONFIG_SBSA_REF', if_true: files('sbsa_ec.c'))
+diff --git a/hw/misc/sbsa_ec.c b/hw/misc/sbsa_ec.c
+new file mode 100644
+index 0000000000..9a7d7f914a
+--- /dev/null
++++ b/hw/misc/sbsa_ec.c
+@@ -0,0 +1,98 @@
++/*
++ * ARM SBSA Reference Platform Embedded Controller
++ *
++ * A device to allow PSCI running in the secure side of sbsa-ref machine
++ * to communicate platform power states to qemu.
++ *
++ * Copyright (c) 2020 Nuvia Inc
++ * Written by Graeme Gregory <graeme@nuviainc.com>
++ *
++ * SPDX-License-Identifer: GPL-2.0-or-later
++ */
++
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++#include "qemu/log.h"
++#include "hw/sysbus.h"
++#include "sysemu/runstate.h"
++
++typedef struct {
++    SysBusDevice parent_obj;
++    MemoryRegion iomem;
++} SECUREECState;
++
++#define TYPE_SBSA_EC      "sbsa-ec"
++#define SECURE_EC(obj) OBJECT_CHECK(SECUREECState, (obj), TYPE_SBSA_EC)
++
++enum sbsa_ec_powerstates {
++    SBSA_EC_CMD_POWEROFF = 0x01,
++    SBSA_EC_CMD_REBOOT = 0x02,
++};
++
++static uint64_t sbsa_ec_read(void *opaque, hwaddr offset, unsigned size)
++{
++    /* No use for this currently */
++    qemu_log_mask(LOG_GUEST_ERROR, "sbsa-ec: no readable registers");
++    return 0;
++}
++
++static void sbsa_ec_write(void *opaque, hwaddr offset,
++                     uint64_t value, unsigned size)
++{
++    if (offset == 0) { /* PSCI machine power command register */
++        switch (value) {
++        case SBSA_EC_CMD_POWEROFF:
++            qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
++            break;
++        case SBSA_EC_CMD_REBOOT:
++            qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
++            break;
++        default:
++            qemu_log_mask(LOG_GUEST_ERROR,
++                          "sbsa-ec: unknown power command");
++        }
++    } else {
++        qemu_log_mask(LOG_GUEST_ERROR, "sbsa-ec: unknown EC register");
++    }
++}
++
++static const MemoryRegionOps sbsa_ec_ops = {
++    .read = sbsa_ec_read,
++    .write = sbsa_ec_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++    .valid.min_access_size = 4,
++    .valid.max_access_size = 4,
++};
++
++static void sbsa_ec_init(Object *obj)
++{
++    SECUREECState *s = SECURE_EC(obj);
++    SysBusDevice *dev = SYS_BUS_DEVICE(obj);
++
++    memory_region_init_io(&s->iomem, obj, &sbsa_ec_ops, s, "sbsa-ec",
++                          0x1000);
++    sysbus_init_mmio(dev, &s->iomem);
++}
++
++static void sbsa_ec_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    /* No vmstate or reset required: device has no internal state */
++    dc->user_creatable = false;
++}
++
++static const TypeInfo sbsa_ec_info = {
++    .name          = TYPE_SBSA_EC,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(SECUREECState),
++    .instance_init = sbsa_ec_init,
++    .class_init    = sbsa_ec_class_init,
++};
++
++static void sbsa_ec_register_type(void)
++{
++    type_register_static(&sbsa_ec_info);
++}
++
++type_init(sbsa_ec_register_type);
+-- 
+2.25.1
 
 
