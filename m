@@ -2,68 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 600AB252992
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 10:56:55 +0200 (CEST)
-Received: from localhost ([::1]:51642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9F81252969
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 10:45:41 +0200 (CEST)
+Received: from localhost ([::1]:38290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kArEk-00037w-Fg
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 04:56:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42770)
+	id 1kAr3s-0005Kz-RP
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 04:45:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kArDb-0002H5-S9
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 04:55:43 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58390)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kArDZ-0002dw-Ly
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 04:55:43 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kArDX-0003UB-P0
- for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 08:55:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BC0D52E80E8
- for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 08:55:39 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kAr37-0004ur-L1
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 04:44:53 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20459
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kAr35-0001CI-OF
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 04:44:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598431490;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=cUZ0MZdDipPbWrS4uNtDj5PpuGn1UxYq6JXLkN5KTLg=;
+ b=gwnTv95DvXpUpC4q6oR6twCfyaM65lwIgADS5L5p2sjUc6xGZq7TmW7OhUAlkczZRo1j27
+ KRTqDRpYTRYsUnk2WxtvnMTt02mfKHYmC2KbFYka7SahdvGgwcwFU+hBC3mFsLSVzIBEE5
+ QGfYlP+/ZAerTxkx3XF8cYkZBk2U6/I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-251-Dzvd_I-TOTayTEO0TxaBXg-1; Wed, 26 Aug 2020 04:44:48 -0400
+X-MC-Unique: Dzvd_I-TOTayTEO0TxaBXg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE7FC64095;
+ Wed, 26 Aug 2020 08:44:47 +0000 (UTC)
+Received: from redhat.com (ovpn-114-142.ams2.redhat.com [10.36.114.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 604BA7C5F6;
+ Wed, 26 Aug 2020 08:44:45 +0000 (UTC)
+Date: Wed, 26 Aug 2020 09:44:42 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: linux-user static build broken
+Message-ID: <20200826084442.GH168515@redhat.com>
+References: <40710b94-094f-f91a-6ddb-94e51199a8c3@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 26 Aug 2020 08:43:26 -0000
-From: Mike Gelfand <1893010@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: mike.dld
-X-Launchpad-Bug-Reporter: Mike Gelfand (mike.dld)
-X-Launchpad-Bug-Modifier: Mike Gelfand (mike.dld)
-References: <159843096085.1469.8304847352897420087.malonedeb@wampee.canonical.com>
-Message-Id: <159843140720.4657.14434567805819248669.launchpad@gac.canonical.com>
-Subject: [Bug 1893010] Re: qemu linux-user doesn't support OFD fcntl locks
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="99c2d833c8d727fd05148486920aca032e908071"; Instance="production"
-X-Launchpad-Hash: ba42593c07bc4fc295020a13696e026dc8602f53
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 03:55:37
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <40710b94-094f-f91a-6ddb-94e51199a8c3@vivier.eu>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 03:56:58
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.958,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,41 +81,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1893010 <1893010@bugs.launchpad.net>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Summary changed:
+On Tue, Aug 25, 2020 at 10:36:13PM +0200, Laurent Vivier wrote:
+> Hi,
+> 
+> since we have switched to meson, the statically linked binaries of qemu
+> linux-user are broken:
+> 
+> cd $OBJ
+> $SRC/configure --static --target-list=m68k-linux-user
+> make
+> ./qemu-m68k
+> Segmentation fault (core dumped)
+> 
+> Program received signal SIGSEGV, Segmentation fault.
+> 0x00007ffff7bd6833 in __dcigettext ()
+> (gdb) bt
+> #0  0x00007ffff7bd6833 in __dcigettext ()
+> #1  0x00007ffff7bd5352 in __assert_fail ()
+> #2  0x00007ffff7c4d74c in _dl_relocate_static_pie ()
+> #3  0x00007ffff7bc713e in __libc_start_main ()
+> #4  0x00007ffff7a0029e in _start ()
+> 
+> If I build with --disable-pie it works again.
+> 
+> Any idea?
 
-- qemu-user doesn't support OFD fcntl locks
-+ qemu linux-user doesn't support OFD fcntl locks
+I'd suggest checking the compiler args used with v5.1.0 vs git master
+and see if any flags related to PIE or similar changed. I already found
+one bug wrt PIE on Windows builds this way.
 
-** Tags added: linux-user
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1893010
-
-Title:
-  qemu linux-user doesn't support OFD fcntl locks
-
-Status in QEMU:
-  New
-
-Bug description:
-  "Open file description locks (non-POSIX)", as they are described in
-  fcntl(2) man page, aren't supported by qemu-user  and attempting to
-  use those results in EINVAL. I'm on Gentoo with latest QEMU version
-  currently available (5.0.0-r2), and trying to emulate ppc64 and s390x
-  on x86_64.
-
-  Looking at linux-user/syscall.c, I'm guessing the issue is in (at
-  least) `target_to_host_fcntl_cmd` where switch reaches the default
-  clause as there're no cases for F_OFD_SETLK / F_OFD_SETLKW /
-  F_OFD_GETLK.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1893010/+subscriptions
 
