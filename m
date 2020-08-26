@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFD182539A5
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 23:20:09 +0200 (CEST)
-Received: from localhost ([::1]:57176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C34CF2539A4
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 23:20:06 +0200 (CEST)
+Received: from localhost ([::1]:57096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kB2q0-0001wp-L5
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 17:20:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35316)
+	id 1kB2pw-0001uM-NI
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 17:20:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kB2k9-0008Qi-KM
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 17:14:05 -0400
-Received: from mout.gmx.net ([212.227.17.20]:36315)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kB2k6-0008Ox-Rv
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 17:14:02 -0400
+Received: from mout.gmx.net ([212.227.17.22]:47441)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kB2k4-0002VE-Cs
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 17:14:05 -0400
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kB2k2-0002V7-Ft
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 17:14:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1598476428;
- bh=z/QXmt5sYC3nu5t+U0TkgIU+Re5QzTPu4ajnWt9P04Y=;
+ s=badeba3b8450; t=1598476430;
+ bh=ffjQD9P6e3SE1TvisnqQkLG+rj6/1Nng0HQOzVbN1Mw=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=BW4Vkh+MculITY9YW+eer7MEuXJy3eDABPnabhY6oojR0i6W+K28HOqX1byH0kzR1
- 0hu06skxC434cyIXGOvkVZIznk1xy+7/QKHVxWoyc+seRg0YyDu7XPxc/TJwcM7g6r
- 3ny3Uty4hTOh1DL0fDQMduR3IvhqGjN5i9IrD978=
+ b=RXK3koUskAtpzEbiHNM/CwbFTQiry0bWpITi/kqEa/vrqfZ67SGQgqc/u8RaeOZVd
+ LwB8EFoOxdC9GHsLvmXm0pIbpyR1xZSM5FDFmM0bJVbcjqOfCZkgfDkhnEw30cI6KC
+ XGOy4lTgEIynhqTcCIQJIw2Fc+iku5/BetKptaHI=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from ls3530.fritz.box ([92.116.186.77]) by mail.gmx.com (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MiaYJ-1kn7Nr2gSt-00fiSS; Wed, 26
- Aug 2020 23:13:48 +0200
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MwQTF-1kRcFf0tzZ-00sQ1e; Wed, 26
+ Aug 2020 23:13:50 +0200
 From: Helge Deller <deller@gmx.de>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL v5 03/12] hw/hppa: Implement proper SeaBIOS version check
-Date: Wed, 26 Aug 2020 23:13:36 +0200
-Message-Id: <20200826211345.14295-4-deller@gmx.de>
+Subject: [PULL v5 05/12] hw/hppa/lasi: Don't abort on invalid IMR value
+Date: Wed, 26 Aug 2020 23:13:38 +0200
+Message-Id: <20200826211345.14295-6-deller@gmx.de>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200826211345.14295-1-deller@gmx.de>
 References: <20200826211345.14295-1-deller@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:hZRjB35ILXehYOFanBQJT7ly3B8bcatuDNHc9Qo2Sozf65FKiXu
- 4bDMJv/muQgfmdTsKvE9cuXRq3LDWJfm0GjPErFr6RNdk0icZIvXEXn6kg7lGdLZqg3XlKo
- jKHDPlWvm3BbjApgTODFui8mY0K4C4D7aZlXVKWem0JGRthtu7Gh83Wnj5D/D5rBKsqnkpV
- WMCnSsnAwBx4NoJ0mDc/w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:r/Dtl7Wwh0M=:64DZoukRB1sy6fhPaZL+7k
- fl8K6DPWXBboSetilcb1sXVNqYFwemCLpxFoQRYk/wCzfc/N9RiSSP3UbFhy2kF3g1iKmGLva
- WnocHn7LTD3iV2iOjXgl42qhms/rcSbd9EUu15eaIioGLvBcoroqOEy6Enm5GdePUx7Qs/Xnv
- V7nJxsgPinqsTWibBxAh9tgebgK5zyUFFq9C8fMSkYJBljuvn+aBihx97STjcFMSdzSspIzEE
- AmM4kJ1fgLe85NAwgqczd14ZWULd4RC+tf63x+MyqXAYlWxhdzpHeLPO5XNs7v0n0YMpPuhFA
- 90JGi17OXxHeMmKfA8vXoqVeAlkDzjBn4FfR5KAd/gXntZgMa2HdSf+4zewC/5IKrRiyacM3j
- qWSHk/x0B69LfdvNJMj2fBhzzdYR4W0jdd4AvCZh34uNJPcxJvBV9EPWFy4KuBwVsAnVK65Xu
- p22Nt/EHFGXAJSGjjYCnBmJXxZPqqpgTfz/BJvMbuHnzN9VYVeA+AtmLoqIDRgenTjwOUPGRg
- VEa1dfXnFT7qBVxAFdnhrbMTCQTqh8OKl8lVcp11G4mEnFf3L3Y+ISycwouvePngznxRXW2iR
- VKrUpz5fvTR7dI9HYm75dCZc0hp7d8LRSfjn4OwW2lKBxwxm8+0j91OgUNN7b/nGzZlGGaqnh
- O+6WIKlTAnGHClSavr2McljjchUMLr9S/fnuC2p4raVPrxP7lqi27OPictn8WQs81IIU3Lm9k
- O0ZJQhhCyjATuwIREORm0/vjtknjP9ouaw4CfXvGfk0UVPyuJXBxznqXRdkkhfDQpH7BceTzg
- X/sfyiaf8bJaO9+VuVkL3Hbe1Lr/FUudpP4WuKrjGyve5mS9P+Z0EQ5DPrm/8GpbAITDth6No
- DuSIER2Gq+5qIIKEkkm3FjJhAcC+HYGyGZ3icH5DH3/zddxqaUjeMQv7qiTMXg69n/KTXBJd3
- iGfqB7/tKlBArlHzp70LrFhgjsJwUTySmli5J68XcHXzPXGsIOniFVpgst2yN7BtWb4vSdEHf
- 63+m10gQNUz5FTrKYUDQVoKripkxXM3N1P8Si8W4mWkFK87hJJrE9k/LHocmVaKavz5myEUM4
- xUqmQB6eb3xr/ocM/kS4AThV54ulgZqYlN8nTYvcwkljHaBTI3ge1X0w3DVV7HPq12kaXylUI
- J5OgzCQ/SI9XzEGA0lTApoDwkqLDghmsUgwLAHZghy4vY17buS2ZD7OQygLoisRNNGgU+nAB6
- 9qzpXpzSRLEMP1J45
-Received-SPF: pass client-ip=212.227.17.20; envelope-from=deller@gmx.de;
+X-Provags-ID: V03:K1:3kfGOFg2TmyHoaLpgmi0KvD+71Gb0OFxCKmK850eyct/5vSNYqH
+ ORiNOeDd2o2TH+rsfFpskImz6yaTz7aoS6a6ubo3UgeXg83MRXapQcraSRcMzgR25Py0Pre
+ sNO5sdwRS+It3QY7PlElVQ5TRJ9R6lqfhSVgjAJ/X6HblNiPvIljLXgLuhmzQa3WpkWx5z5
+ 0mNGiwk5gahFQTEwjyR8w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:kElX1+bVBs0=:TH5s3t88ySSaPteL+yx4g/
+ oUkNbF+JlpsoMM9mpj6JdCh4IJWwgD46wYJekpoIVZtK+frDFyPlnYrzTVGpPpvCXdwfM0e+5
+ X80610MiblVloh42xKWTrgNT4QB8m5PeD5cs/5yRf1YNocv37aS5Sq1tztxFeeBiMzRPOUWdv
+ 7c7cVxWWoiTqZe81M04E524HWXWUZwe8DkQxZK96ywys80yZYW5KWU0xzpXFlphhQPmS1dx2u
+ zVwvEDaxJKNUKSEmvjVlOI8dc/bwdOf3VKG6gc70ggZkvKihcZdttc0j4xtQ5HsT1RnBzGvJL
+ EEXZt57C04Usdnp9NaZ4jf0CoZidGn6tEOAvdVzZ8fLcSuY6pk4vl6eihGq2GRfow1yJRzT/6
+ 9yunf8N4quSgdzA1BAuiKg8VPyDe4KhVjjdaoYXh3Aq4cYA85peajjCJ+95Qocy911S9Zj21B
+ 6io3PlyC4U5WAl0wwwipUAf7cNOmnxT5GKoL12PHi4df4c78jVjBQjCWFGVCmm5m8DwXygk2m
+ Dm43y1nyvRU/I+v9jdP9r/0zx24rIkuL8q6D40mTTpR9BQIZHLwWUtvnWGgCkB3BQn5FLLhJB
+ FSBdH0L4XiFWNJkLdP5o+ety6wQHuV02jTyCmaH6gERW5Y4t5kEJLtq+ypGaUUVxgO94fyiEG
+ mQWawUS2XkLp0nDErRI9hY3xiaLL3vBHB8HLxUvrSE0fqLN43SdlyWF19dEAc+33I4mCaFuXK
+ 45misuvXc89ChUUZohSO/iJYKnq/GoIRbsqBSOMVwQY6X9JvuNWFNjpiQSmDelomPh/bQI7ES
+ Uv9mY118zwVLKsb5mLWooosYNLK8fgem0k/otGrPnCyxXF1OSRgiFtZl70edD7FTNIzh/zGRP
+ u81rru5yuJdjFbAg0BlCCCjl/12uOsbrqBYP1UViSHGfPRmEGS2+hfl0qmE+8oQW/jp4sP9J5
+ x4vxBKNac9v7zMlNr2/uuTS8iavZvdp4ryEk46Q9vS2gL+haTfPtqEHBVfn4UO8jZ43Znc6HM
+ ONjeV2qo002JXD1CMDm9F2J8xjG0C6qgFOPQEEnVYgeZiqYlDfoyJuu5qMdJ9KIm0xOg3ucVO
+ uglvPacSdoXMUcrJFDElY14S7HKKzv8mu0+L1NI1agNHJNxCo/DQdOvNF+74NXcGAQXaWulbh
+ /6NH6HUKrcARE3bv67YONItNnzuLKZ8pPxU4RuQ76tZRsELFlc0DswPGFP98FQvovz+t1MVDt
+ Z392F+flCh2dnNxQf
+Received-SPF: pass client-ip=212.227.17.22; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 17:13:52
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 16:12:45
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
 X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,68 +89,44 @@ Cc: Helge Deller <deller@gmx.de>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's important that the SeaBIOS hppa firmware is at least at a minimal
-level to ensure proper interaction between qemu and firmware.
-
-Implement a proper firmware version check by telling SeaBIOS via the
-fw_cfg interface which minimal SeaBIOS version is required by this
-running qemu instance. If the firmware detects that it's too old, it
-will stop.
+NetBSD initializes the LASI IMR value with 0xffffffff to disable all LASI
+interrupts. This triggered an assert() and stopped the emulation.  By repl=
+acing
+the check with a warning in the guest log we now allow NetBSD to boot agai=
+n.
 
 Signed-off-by: Helge Deller <deller@gmx.de>
 =2D--
- hw/hppa/machine.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ hw/hppa/lasi.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-index 49155537cd..90aeefe2a4 100644
-=2D-- a/hw/hppa/machine.c
-+++ b/hw/hppa/machine.c
-@@ -25,6 +25,8 @@
+diff --git a/hw/hppa/lasi.c b/hw/hppa/lasi.c
+index ffcbb988b8..194aa3e619 100644
+=2D-- a/hw/hppa/lasi.c
++++ b/hw/hppa/lasi.c
+@@ -11,6 +11,7 @@
 
- #define MAX_IDE_BUS 2
-
-+#define MIN_SEABIOS_HPPA_VERSION 1 /* require at least this fw version */
-+
- static ISABus *hppa_isa_bus(void)
- {
-     ISABus *isa_bus;
-@@ -56,6 +58,23 @@ static uint64_t cpu_hppa_to_phys(void *opaque, uint64_t=
- addr)
- static HPPACPU *cpu[HPPA_MAX_CPUS];
- static uint64_t firmware_entry;
-
-+static FWCfgState *create_fw_cfg(MachineState *ms)
-+{
-+    FWCfgState *fw_cfg;
-+    uint64_t val;
-+
-+    fw_cfg =3D fw_cfg_init_mem(QEMU_FW_CFG_IO_BASE, QEMU_FW_CFG_IO_BASE +=
- 4);
-+    fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, ms->smp.cpus);
-+    fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, HPPA_MAX_CPUS);
-+    fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, ram_size);
-+
-+    val =3D cpu_to_le64(MIN_SEABIOS_HPPA_VERSION);
-+    fw_cfg_add_file(fw_cfg, "/etc/firmware-min-version",
-+                    g_memdup(&val, sizeof(val)), sizeof(val));
-+
-+    return fw_cfg;
-+}
-+
- static void machine_hppa_init(MachineState *machine)
- {
-     const char *kernel_filename =3D machine->kernel_filename;
-@@ -118,6 +137,9 @@ static void machine_hppa_init(MachineState *machine)
-                        115200, serial_hd(0), DEVICE_BIG_ENDIAN);
-     }
-
-+    /* fw_cfg configuration interface */
-+    create_fw_cfg(machine);
-+
-     /* SCSI disk setup. */
-     dev =3D DEVICE(pci_create_simple(pci_bus, -1, "lsi53c895a"));
-     lsi53c8xx_handle_legacy_cmdline(dev);
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
++#include "qemu/log.h"
+ #include "qapi/error.h"
+ #include "cpu.h"
+ #include "trace.h"
+@@ -170,8 +171,11 @@ static MemTxResult lasi_chip_write_with_attrs(void *o=
+paque, hwaddr addr,
+         /* read-only.  */
+         break;
+     case LASI_IMR:
+-        s->imr =3D val;  /* 0x20 ?? */
+-        assert((val & LASI_IRQ_BITS) =3D=3D val);
++        s->imr =3D val;
++        if (((val & LASI_IRQ_BITS) !=3D val) && (val !=3D 0xffffffff))
++            qemu_log_mask(LOG_GUEST_ERROR,
++                "LASI: tried to set invalid %lx IMR value.\n",
++                (unsigned long) val);
+         break;
+     case LASI_IPR:
+         /* Any write to IPR clears the register. */
 =2D-
 2.21.3
 
