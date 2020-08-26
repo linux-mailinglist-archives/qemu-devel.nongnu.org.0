@@ -2,73 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEE54252E2B
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 14:10:09 +0200 (CEST)
-Received: from localhost ([::1]:43962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AA3C252E96
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 14:18:49 +0200 (CEST)
+Received: from localhost ([::1]:52888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAuFk-0001F4-L3
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 08:10:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35308)
+	id 1kAuO8-0005Gw-50
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 08:18:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kAuF4-0000oB-RP
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 08:09:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47863)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kAuF2-000393-AN
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 08:09:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598443763;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=K6dlQC+UEBc6TX7un1Ldp5zgqtF8TKc4cu3np/Hfqbc=;
- b=HU6ZdChamyRSqhM0taf41juEwPj9l6C14Sst7zOVIhULYp1a5pR9tfKEddiXNjggw/q3Tc
- 54goZ/YF+LPw+iquRQzWmQ8jg3AQrjBJavmY5EiAPaUgEMQuTOdlMLfmhVa7Q7xjtryjvX
- LefDDO3OmP9+cpNCC0bHVErsgpN3N4s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-452-S78txsR5PauXoECpCgyQnQ-1; Wed, 26 Aug 2020 08:09:19 -0400
-X-MC-Unique: S78txsR5PauXoECpCgyQnQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1297718C5200;
- Wed, 26 Aug 2020 12:09:18 +0000 (UTC)
-Received: from work-vm (ovpn-114-48.ams2.redhat.com [10.36.114.48])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AA64160C13;
- Wed, 26 Aug 2020 12:09:15 +0000 (UTC)
-Date: Wed, 26 Aug 2020 13:09:12 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Chuan Zheng <zhengchuan@huawei.com>
-Subject: Re: [PATCH v5 04/12] migration/dirtyrate: Add dirtyrate statistics
- series functions
-Message-ID: <20200826120912.GF2726@work-vm>
-References: <1598319650-36762-1-git-send-email-zhengchuan@huawei.com>
- <1598319650-36762-5-git-send-email-zhengchuan@huawei.com>
+ (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
+ id 1kAuMe-0003aS-7T; Wed, 26 Aug 2020 08:17:16 -0400
+Received: from proxmox-new.maurer-it.com ([212.186.127.180]:36724)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
+ id 1kAuMb-0004Cm-ST; Wed, 26 Aug 2020 08:17:15 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 228B9448BE;
+ Wed, 26 Aug 2020 14:17:01 +0200 (CEST)
+From: Stefan Reiter <s.reiter@proxmox.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH 0/3] Add support for sequential backups
+Date: Wed, 26 Aug 2020 14:13:56 +0200
+Message-Id: <20200826121359.15450-1-s.reiter@proxmox.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <1598319650-36762-5-git-send-email-zhengchuan@huawei.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0.003
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 06:53:10
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=212.186.127.180;
+ envelope-from=s.reiter@proxmox.com; helo=proxmox-new.maurer-it.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 08:17:01
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,100 +49,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, zhang.zhanghailiang@huawei.com, quintela@redhat.com,
- qemu-devel@nongnu.org, xiexiangyou@huawei.com, alex.chen@huawei.com,
- ann.zhuangyanying@huawei.com, fangying1@huawei.com
+Cc: kwolf@redhat.com, w.bumiller@proxmox.com, armbru@redhat.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, jsnow@redhat.com,
+ dietmar@proxmox.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Chuan Zheng (zhengchuan@huawei.com) wrote:
-> Add dirtyrate statistics to record/update dirtyrate info.
-> 
-> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
-> ---
->  migration/dirtyrate.c | 29 +++++++++++++++++++++++++++++
->  migration/dirtyrate.h | 10 ++++++++++
->  2 files changed, 39 insertions(+)
-> 
-> diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-> index 91987c5..0d7163f 100644
-> --- a/migration/dirtyrate.c
-> +++ b/migration/dirtyrate.c
-> @@ -24,6 +24,7 @@
->  #include "dirtyrate.h"
->  
->  static int CalculatingState = DIRTY_RATE_STATUS_UNSTARTED;
-> +static struct DirtyRateStat DirtyStat;
->  
->  static int dirtyrate_set_state(int *state, int old_state, int new_state)
->  {
-> @@ -35,6 +36,34 @@ static int dirtyrate_set_state(int *state, int old_state, int new_state)
->      }
->  }
->  
-> +static void reset_dirtyrate_stat(void)
-> +{
-> +    DirtyStat.total_dirty_samples = 0;
-> +    DirtyStat.total_sample_count = 0;
-> +    DirtyStat.total_block_mem_MB = 0;
-> +    DirtyStat.dirty_rate = 0;
-> +}
-> +
-> +static void update_dirtyrate_stat(struct RamblockDirtyInfo *info)
-> +{
-> +    DirtyStat.total_dirty_samples += info->sample_dirty_count;
-> +    DirtyStat.total_sample_count += info->sample_pages_count;
-> +    /* size of 4K pages in MB */
-> +    DirtyStat.total_block_mem_MB += info->ramblock_pages / 256;
+Backups can already be done for multiple drives in a transaction. However, these
+jobs will start all at once, potentially hogging a lot of disk IO all at once.
+This problem is made worse, since IO throttling is only available on a per-job
+basis.
 
-You need to be consistent with your use of constants, you have
-a DIRTYRATE_SAMPLE_PAGE_SIZE in a later patch; so use it rather than
-hard coding 256 here.
+Add a flag to QMP to support sequential transactions for backups. This way,
+every job will be executed one after the other, while still providing the
+benefit of transactions (i.e. once one fails, all remaining ones will be
+cancelled).
 
-Dave
+We've internally (in Proxmox VE) been doing sequential backups for a long time
+with great success, albeit in a different fashion. This series is the result of
+aligning our internal changes closer to upstream, and might be useful for other
+people as well.
 
-> +}
-> +
-> +static void update_dirtyrate(uint64_t msec)
-> +{
-> +    uint64_t dirtyrate;
-> +    uint64_t total_dirty_samples = DirtyStat.total_dirty_samples;
-> +    uint64_t total_sample_count = DirtyStat.total_sample_count;
-> +    uint64_t total_block_mem_MB = DirtyStat.total_block_mem_MB;
-> +
-> +    dirtyrate = total_dirty_samples * total_block_mem_MB *
-> +                 1000 / (total_sample_count * msec);
-> +
-> +    DirtyStat.dirty_rate = dirtyrate;
-> +}
->  
->  static void calculate_dirtyrate(struct DirtyRateConfig config)
->  {
-> diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
-> index dc45419..8e25d93 100644
-> --- a/migration/dirtyrate.h
-> +++ b/migration/dirtyrate.h
-> @@ -45,6 +45,16 @@ struct RamblockDirtyInfo {
->      uint32_t *hash_result; /* array of hash result for sampled pages */
->  };
->  
-> +/*
-> + * Store calculation statistics for each measure.
-> + */
-> +struct DirtyRateStat {
-> +    uint64_t total_dirty_samples; /* total dirty sampled page */
-> +    uint64_t total_sample_count; /* total sampled pages */
-> +    uint64_t total_block_mem_MB; /* size of total sampled pages in MB */
-> +    int64_t dirty_rate; /* dirty rate in MB/s */
-> +};
-> +
->  void *get_dirtyrate_thread(void *arg);
->  #endif
->  
-> -- 
-> 1.8.3.1
-> 
+
+Stefan Reiter (3):
+  job: add sequential transaction support
+  blockdev: add sequential mode to *-backup transactions
+  backup: initialize bcs bitmap on job create, not start
+
+ block/backup.c        |  4 ++--
+ blockdev.c            | 25 ++++++++++++++++++++++---
+ include/qemu/job.h    | 12 ++++++++++++
+ job.c                 | 24 ++++++++++++++++++++++++
+ qapi/transaction.json |  6 +++++-
+ 5 files changed, 65 insertions(+), 6 deletions(-)
+
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.20.1
+
 
 
