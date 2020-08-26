@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2519725329E
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 16:59:08 +0200 (CEST)
-Received: from localhost ([::1]:54028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB355253265
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 16:55:40 +0200 (CEST)
+Received: from localhost ([::1]:41056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAwtH-0008P7-7n
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 10:59:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50804)
+	id 1kAwpv-00031F-Qe
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 10:55:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kAwnF-0006go-AA
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 10:52:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51388)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kAwnH-0006l5-K7
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 10:52:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45158)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kAwnD-0008LA-6C
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 10:52:52 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kAwnF-0008MC-MH
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 10:52:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598453570;
+ s=mimecast20190719; t=1598453573;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Nz2sZrJX4qzBF63OonFqdCb3a+jIn0R8qkWmHt5YvFQ=;
- b=iZYq4uV0+QILOqoT7G3R79JVd24QmjoCr6bSFCgefrszQ7b81bJZ687avT8w3X38zdSDy4
- InZjXjYBLBwj5wI9JsD8/NkoetJZmAOhRa47s2O69IBO8WUB9tNEDTZSnlMepQVeYRaLLj
- RotiaquahxRFc0TrnsJpDR80XHBS6AE=
+ bh=wq5Pda4Lt5SRqI7o7hjLCdVq24fwCUMV/EoS3UXA+x0=;
+ b=Wx7eYLyhs+rsv97RQweB+oHy7qa2LqxyhleQc5apyS+l0XQcLjn+KymoJTyGjQyNn5dFvW
+ Tud5dQRrJj45Y4URy+gJozDKqCqpncGU4DhUOWLP8Q+wfDqktF4tCjN+WXIwempZyFv34H
+ m/qPgCuM+3uEkyc1hNBseoENT/FbhCw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-19-E8FT3JpZNzuxYUY4TJwSUA-1; Wed, 26 Aug 2020 10:52:47 -0400
-X-MC-Unique: E8FT3JpZNzuxYUY4TJwSUA-1
+ us-mta-99-McyJr8XxMsqWcKC87aeRkQ-1; Wed, 26 Aug 2020 10:52:47 -0400
+X-MC-Unique: McyJr8XxMsqWcKC87aeRkQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4F1281F02D;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA022801AED;
  Wed, 26 Aug 2020 14:52:46 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-54.ams2.redhat.com
  [10.36.112.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3125F5FCA2;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3497B65F5E;
  Wed, 26 Aug 2020 14:52:46 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 2A46531FBC; Wed, 26 Aug 2020 16:52:40 +0200 (CEST)
+ id 3E30031FC5; Wed, 26 Aug 2020 16:52:40 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/18] docs/system: Add U2F key to the USB devices examples
-Date: Wed, 26 Aug 2020 16:52:33 +0200
-Message-Id: <20200826145239.6077-13-kraxel@redhat.com>
+Subject: [PULL 14/18] scripts: Add u2f-setup-gen script
+Date: Wed, 26 Aug 2020 16:52:35 +0200
+Message-Id: <20200826145239.6077-15-kraxel@redhat.com>
 In-Reply-To: <20200826145239.6077-1-kraxel@redhat.com>
 References: <20200826145239.6077-1-kraxel@redhat.com>
 MIME-Version: 1.0
@@ -90,27 +90,196 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: César Belley <cesar.belley@lse.epita.fr>
 
+This patch adds the script used to generate setup directories, needed
+for the device u2f-emulated configuration in directory mode:
+
+    python u2f-setup-gen.py $DIR
+    qemu -usb -device u2f-emulated,dir=$DIR
+
 Signed-off-by: César Belley <cesar.belley@lse.epita.fr>
-Message-id: 20200826114209.28821-9-cesar.belley@lse.epita.fr
+Message-id: 20200826114209.28821-11-cesar.belley@lse.epita.fr
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- docs/system/usb.rst | 3 +++
- 1 file changed, 3 insertions(+)
+ scripts/u2f-setup-gen.py | 170 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 170 insertions(+)
+ create mode 100755 scripts/u2f-setup-gen.py
 
-diff --git a/docs/system/usb.rst b/docs/system/usb.rst
-index ddfa828d74ae..9a2f1927c451 100644
---- a/docs/system/usb.rst
-+++ b/docs/system/usb.rst
-@@ -81,6 +81,9 @@ option or the ``device_add`` monitor command. Available devices are:
- ``usb-audio``
-    USB audio device
- 
-+``u2f-{emulated,passthru}``
-+   Universal Second Factor device
+diff --git a/scripts/u2f-setup-gen.py b/scripts/u2f-setup-gen.py
+new file mode 100755
+index 000000000000..2122598fed8e
+--- /dev/null
++++ b/scripts/u2f-setup-gen.py
+@@ -0,0 +1,170 @@
++#!/usr/bin/env python3
++#
++# Libu2f-emu setup directory generator for USB U2F key emulation.
++#
++# Copyright (c) 2020 César Belley <cesar.belley@lse.epita.fr>
++# Written by César Belley <cesar.belley@lse.epita.fr>
++#
++# This work is licensed under the terms of the GNU GPL, version 2
++# or, at your option, any later version.  See the COPYING file in
++# the top-level directory.
 +
- .. _host_005fusb_005fdevices:
- 
- Using host USB devices on a Linux host
++import sys
++import os
++from random import randint
++from typing import Tuple
++
++from cryptography.hazmat.backends import default_backend
++from cryptography.hazmat.primitives.asymmetric import ec
++from cryptography.hazmat.primitives.serialization import Encoding, \
++    NoEncryption, PrivateFormat, PublicFormat
++from OpenSSL import crypto
++
++
++def write_setup_dir(dirpath: str, privkey_pem: bytes, cert_pem: bytes,
++                    entropy: bytes, counter: int) -> None:
++    """
++    Write the setup directory.
++
++    Args:
++        dirpath: The directory path.
++        key_pem: The private key PEM.
++        cert_pem: The certificate PEM.
++        entropy: The 48 bytes of entropy.
++        counter: The counter value.
++    """
++    # Directory
++    os.mkdir(dirpath)
++
++    # Private key
++    with open(f'{dirpath}/private-key.pem', 'bw') as f:
++        f.write(privkey_pem)
++
++    # Certificate
++    with open(f'{dirpath}/certificate.pem', 'bw') as f:
++        f.write(cert_pem)
++
++    # Entropy
++    with open(f'{dirpath}/entropy', 'wb') as f:
++        f.write(entropy)
++
++    # Counter
++    with open(f'{dirpath}/counter', 'w') as f:
++        f.write(f'{str(counter)}\n')
++
++
++def generate_ec_key_pair() -> Tuple[str, str]:
++    """
++    Generate an ec key pair.
++
++    Returns:
++        The private and public key PEM.
++    """
++    # Key generation
++    privkey = ec.generate_private_key(ec.SECP256R1, default_backend())
++    pubkey = privkey.public_key()
++
++    # PEM serialization
++    privkey_pem = privkey.private_bytes(encoding=Encoding.PEM,
++                                        format=PrivateFormat.TraditionalOpenSSL,
++                                        encryption_algorithm=NoEncryption())
++    pubkey_pem = pubkey.public_bytes(encoding=Encoding.PEM,
++                                     format=PublicFormat.SubjectPublicKeyInfo)
++    return privkey_pem, pubkey_pem
++
++
++def generate_certificate(privkey_pem: str, pubkey_pem: str) -> str:
++    """
++    Generate a x509 certificate from a key pair.
++
++    Args:
++        privkey_pem: The private key PEM.
++        pubkey_pem: The public key PEM.
++
++    Returns:
++        The certificate PEM.
++    """
++    # Convert key pair
++    privkey = crypto.load_privatekey(crypto.FILETYPE_PEM, privkey_pem)
++    pubkey = crypto.load_publickey(crypto.FILETYPE_PEM, pubkey_pem)
++
++    # New x509v3 certificate
++    cert = crypto.X509()
++    cert.set_version(0x2)
++
++    # Serial number
++    cert.set_serial_number(randint(1, 2 ** 64))
++
++    # Before / After
++    cert.gmtime_adj_notBefore(0)
++    cert.gmtime_adj_notAfter(4 * (365 * 24 * 60 * 60))
++
++    # Public key
++    cert.set_pubkey(pubkey)
++
++    # Subject name and issueer
++    cert.get_subject().CN = "U2F emulated"
++    cert.set_issuer(cert.get_subject())
++
++    # Extensions
++    cert.add_extensions([
++        crypto.X509Extension(b"subjectKeyIdentifier",
++                             False, b"hash", subject=cert),
++    ])
++    cert.add_extensions([
++        crypto.X509Extension(b"authorityKeyIdentifier",
++                             False, b"keyid:always", issuer=cert),
++    ])
++    cert.add_extensions([
++        crypto.X509Extension(b"basicConstraints", True, b"CA:TRUE")
++    ])
++
++    # Signature
++    cert.sign(privkey, 'sha256')
++
++    return crypto.dump_certificate(crypto.FILETYPE_PEM, cert)
++
++
++def generate_setup_dir(dirpath: str) -> None:
++    """
++    Generates the setup directory.
++
++    Args:
++        dirpath: The directory path.
++    """
++    # Key pair
++    privkey_pem, pubkey_pem = generate_ec_key_pair()
++
++    # Certificate
++    certificate_pem = generate_certificate(privkey_pem, pubkey_pem)
++
++    # Entropy
++    entropy = os.urandom(48)
++
++    # Counter
++    counter = 0
++
++    # Write
++    write_setup_dir(dirpath, privkey_pem, certificate_pem, entropy, counter)
++
++
++def main() -> None:
++    """
++    Main function
++    """
++    # Dir path
++    if len(sys.argv) != 2:
++        sys.stderr.write(f'Usage: {sys.argv[0]} <setup_dir>\n')
++        exit(2)
++    dirpath = sys.argv[1]
++
++    # Dir non existence
++    if os.path.exists(dirpath):
++        sys.stderr.write(f'Directory: {dirpath} already exists.\n')
++        exit(1)
++
++    generate_setup_dir(dirpath)
++
++
++if __name__ == '__main__':
++    main()
 -- 
 2.27.0
 
