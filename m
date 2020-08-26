@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4148F252C39
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 13:10:29 +0200 (CEST)
-Received: from localhost ([::1]:49412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45BB1252C32
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 13:08:16 +0200 (CEST)
+Received: from localhost ([::1]:38170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAtK0-0004Rw-AH
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 07:10:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47432)
+	id 1kAtHr-0008HV-8c
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 07:08:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kAtGK-0006Kz-2E
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:06:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21273)
+ id 1kAtGR-0006et-NQ
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:06:47 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:29050
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kAtEN-000388-KH
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:06:39 -0400
+ id 1kAtEV-00038N-6d
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:06:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598439877;
+ s=mimecast20190719; t=1598439885;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=D1g26c41eGJ9JbqAKW+ebPsU6Pne8C9pH3fo35R4NN0=;
- b=ByHSiUMjwH1mMcavTFx5hTYPAuLyBMQxKTBxnjK60gULEn9hBPj4QX6V0qiE+CH1+UrgTV
- LMv05GN/7F8+pPbPII4M2L7yRBMrXDyK97UegAXPHEjYyGSU5FijzifbLPb3HBBX1+J1/m
- Gx4OV+HbVx8cMS4xPzZ8reoo2+ei/04=
+ bh=bEQk/7b4iuk15wbAGxtyI0iAv4L+NwU0U/kEhBXITRM=;
+ b=Yea+hGhZMyzs+m5RBX6tGP258TEPHClqB3LeKJIdYbN52ZC+XW1pwxnUSXiMGF/o/A4swq
+ NeUnqkIyr2lHwIhUeN2l/1DGfc0Uje82f+FMNn3GWOSrR7XIFx5yr6eAPF5SkY+VBTNq5z
+ 58AthdBVjSkh8PUkt4IP9FQqjWPIjHQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-111-XPrvDIJvORq-V-t20je54w-1; Wed, 26 Aug 2020 07:04:35 -0400
-X-MC-Unique: XPrvDIJvORq-V-t20je54w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-173-f7akZ9LFNoecRrzRpqeSwA-1; Wed, 26 Aug 2020 07:04:41 -0400
+X-MC-Unique: f7akZ9LFNoecRrzRpqeSwA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 839E856BE4;
- Wed, 26 Aug 2020 11:04:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EAF3807334;
+ Wed, 26 Aug 2020 11:04:40 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.43])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DED2139A55;
- Wed, 26 Aug 2020 11:04:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3DD5A1972A;
+ Wed, 26 Aug 2020 11:04:38 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/8] configure: rename confsuffix option
-Date: Wed, 26 Aug 2020 15:04:12 +0400
-Message-Id: <20200826110419.528931-2-marcandre.lureau@redhat.com>
+Subject: [PATCH v3 2/8] configure: always /-seperate directory from qemu_suffix
+Date: Wed, 26 Aug 2020 15:04:13 +0400
+Message-Id: <20200826110419.528931-3-marcandre.lureau@redhat.com>
 In-Reply-To: <20200826110419.528931-1-marcandre.lureau@redhat.com>
 References: <20200826110419.528931-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124;
+Received-SPF: pass client-ip=207.211.31.81;
  envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 23:30:47
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 03:16:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,75 +82,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The value is used to construct conf/mod/data directories.
+Otherwise, we may accept very strange directory names...
+
+While at it, quote the variables.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- configure | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ configure | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/configure b/configure
-index b1e11397a8..0e04c47722 100755
+index 0e04c47722..61216b9210 100755
 --- a/configure
 +++ b/configure
 @@ -474,7 +474,7 @@ modules="no"
  module_upgrades="no"
  prefix="/usr/local"
  firmwarepath="\${prefix}/share/qemu-firmware"
--confsuffix="/qemu"
-+qemu_suffix="/qemu"
+-qemu_suffix="/qemu"
++qemu_suffix="qemu"
  slirp=""
  oss_lib=""
  bsd="no"
-@@ -1010,7 +1010,7 @@ if test "$mingw32" = "yes" ; then
-     LIBS="-liberty $LIBS"
-   fi
-   prefix="c:/Program Files/QEMU"
--  confsuffix=""
-+  qemu_suffix=""
-   libs_qga="-lws2_32 -lwinmm -lpowrprof -lwtsapi32 -lwininet -liphlpapi -lnetapi32 $libs_qga"
- fi
- 
-@@ -1118,7 +1118,7 @@ for opt do
-   ;;
-   --datadir=*) datadir="$optarg"
-   ;;
--  --with-confsuffix=*) confsuffix="$optarg"
-+  --with-suffix=*) qemu_suffix="$optarg"
-   ;;
-   --docdir=*) qemu_docdir="$optarg"
-   ;;
-@@ -1823,16 +1823,16 @@ Advanced options (experts only):
+@@ -1823,12 +1823,12 @@ Advanced options (experts only):
    --with-git=GIT           use specified git [$git]
    --static                 enable static build [$static]
    --mandir=PATH            install man pages in PATH
--  --datadir=PATH           install firmware in PATH$confsuffix
--  --docdir=PATH            install documentation in PATH$confsuffix
-+  --datadir=PATH           install firmware in PATH$qemu_suffix
-+  --docdir=PATH            install documentation in PATH$qemu_suffix
+-  --datadir=PATH           install firmware in PATH$qemu_suffix
+-  --docdir=PATH            install documentation in PATH$qemu_suffix
++  --datadir=PATH           install firmware in PATH/$qemu_suffix
++  --docdir=PATH            install documentation in PATH/$qemu_suffix
    --bindir=PATH            install binaries in PATH
    --libdir=PATH            install libraries in PATH
    --libexecdir=PATH        install helper binaries in PATH
--  --sysconfdir=PATH        install config in PATH$confsuffix
-+  --sysconfdir=PATH        install config in PATH$qemu_suffix
+-  --sysconfdir=PATH        install config in PATH$qemu_suffix
++  --sysconfdir=PATH        install config in PATH/$qemu_suffix
    --localstatedir=PATH     install local state in PATH (set at runtime on win32)
    --firmwarepath=PATH      search PATH for firmware files
    --efi-aarch64=PATH       PATH of efi file to use for aarch64 VMs.
--  --with-confsuffix=SUFFIX suffix for QEMU data inside datadir/libdir/sysconfdir [$confsuffix]
-+  --with-suffix=SUFFIX     suffix for QEMU data inside datadir/libdir/sysconfdir [$qemu_suffix]
-   --with-pkgversion=VERS   use specified string as sub-version of the package
-   --enable-debug           enable common debug build options
-   --enable-sanitizers      enable default sanitizers
 @@ -6467,9 +6467,9 @@ EOF
      fi
  fi
  
--qemu_confdir=$sysconfdir$confsuffix
--qemu_moddir=$libdir$confsuffix
--qemu_datadir=$datadir$confsuffix
-+qemu_confdir=$sysconfdir$qemu_suffix
-+qemu_moddir=$libdir$qemu_suffix
-+qemu_datadir=$datadir$qemu_suffix
+-qemu_confdir=$sysconfdir$qemu_suffix
+-qemu_moddir=$libdir$qemu_suffix
+-qemu_datadir=$datadir$qemu_suffix
++qemu_confdir="$sysconfdir/$qemu_suffix"
++qemu_moddir="$libdir/$qemu_suffix"
++qemu_datadir="$datadir/$qemu_suffix"
  qemu_localedir="$datadir/locale"
  qemu_icondir="$datadir/icons"
  qemu_desktopdir="$datadir/applications"
