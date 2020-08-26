@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3171125358A
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 18:55:34 +0200 (CEST)
-Received: from localhost ([::1]:37442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEEB82535B6
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 19:07:28 +0200 (CEST)
+Received: from localhost ([::1]:43734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAyhx-0000hP-2x
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 12:55:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57078)
+	id 1kAytT-0004Ej-2T
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 13:07:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kAyh4-0000E0-2o
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 12:54:38 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36190
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kAyh1-0002tp-23
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 12:54:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598460873;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7oTdfLx27jQhJZo2wtzB6hySjgfYYw+iH+MPL30OmC8=;
- b=dpKxgLIdxRoyVT/tyKSJ5joJKas1a53c1O0CRhwfsx8KESp8DAk1/HqD1XSrtzNHHT6zU5
- 86gI6WdZnuozczrfa1tZQhPO9T8jEKiZbznu3WTHsS+M1EXsXMYx0VuJ5R3D8Xt2FdRA+1
- hS3w64fbCaTDTQP8n4uCwSrzOSOBC5E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-341-DvrZI4sPO1OM6fCmK8BHTQ-1; Wed, 26 Aug 2020 12:54:31 -0400
-X-MC-Unique: DvrZI4sPO1OM6fCmK8BHTQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kAysb-0003my-41
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 13:06:33 -0400
+Received: from mta-02.yadro.com ([89.207.88.252]:50266 helo=mta-01.yadro.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kAysY-0004rg-HC
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 13:06:32 -0400
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 9573556C26;
+ Wed, 26 Aug 2020 17:06:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-disposition:content-type:content-type
+ :mime-version:references:message-id:subject:subject:from:from
+ :date:date:received:received:received; s=mta-01; t=1598461585;
+ x=1600275986; bh=8WlhbQa1vTefMol5y04s42mHdYHA5X2o/3BWSvAGFkk=; b=
+ DRsple8frADvSe9HGUYssPLY1thO0HkyUW3iE03r46V27Wiv54ufqROH5v6n6FsA
+ 5M1nlZ3dXK9NX6Zh3fToiUFbEBLHlmLOKFOpHm5lDQv3LOj2KGu7Z1qXNfZUaY+0
+ SWPfwSIpUgl6Er7bafL5+zq8SnlLwrs/hEGtPiGAAfI=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 6Civt0ioqzz1; Wed, 26 Aug 2020 20:06:25 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
+ [172.17.10.102])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A0EF80F059;
- Wed, 26 Aug 2020 16:54:30 +0000 (UTC)
-Received: from work-vm (ovpn-112-133.ams2.redhat.com [10.36.112.133])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C511E19C78;
- Wed, 26 Aug 2020 16:54:27 +0000 (UTC)
-Date: Wed, 26 Aug 2020 17:54:25 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Chuan Zheng <zhengchuan@huawei.com>
-Subject: Re: [PATCH v5 08/12] migration/dirtyrate: skip sampling ramblock
- with size below MIN_RAMBLOCK_SIZE
-Message-ID: <20200826165425.GD3932@work-vm>
-References: <1598319650-36762-1-git-send-email-zhengchuan@huawei.com>
- <1598319650-36762-9-git-send-email-zhengchuan@huawei.com>
+ by mta-01.yadro.com (Postfix) with ESMTPS id CFE9F5282A;
+ Wed, 26 Aug 2020 20:06:24 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
+ (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Wed, 26
+ Aug 2020 20:06:24 +0300
+Date: Wed, 26 Aug 2020 20:06:24 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH v3 00/74] qom: Automated conversion of type checking
+ boilerplate
+Message-ID: <20200826170624.GB16356@SPB-NB-133.local>
+References: <20200825192110.3528606-1-ehabkost@redhat.com>
+ <20200826102238.GA50795@SPB-NB-133.local>
+ <20200826111815.GV642093@habkost.net>
 MIME-Version: 1.0
-In-Reply-To: <1598319650-36762-9-git-send-email-zhengchuan@huawei.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0.003
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 03:56:58
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20200826111815.GV642093@habkost.net>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-02.corp.yadro.com (172.17.10.102)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 13:06:28
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,112 +82,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, zhang.zhanghailiang@huawei.com, quintela@redhat.com,
- qemu-devel@nongnu.org, xiexiangyou@huawei.com, alex.chen@huawei.com,
- ann.zhuangyanying@huawei.com, fangying1@huawei.com
+Cc: Gerd Hoffmann <kraxel@redhat.com>, "Daniel P.
+ Berrange" <berrange@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ qemu-devel@nongnu.org, Niek Linnenbank <nieklinnenbank@gmail.com>,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Anthony PERARD <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Chuan Zheng (zhengchuan@huawei.com) wrote:
-> In order to sample real RAM, skip ramblock with size below MIN_RAMBLOCK_SIZE
-> which is set as 128M.
+On Wed, Aug 26, 2020 at 07:18:15AM -0400, Eduardo Habkost wrote:
+> On Wed, Aug 26, 2020 at 01:22:38PM +0300, Roman Bolshakov wrote:
+> > On Tue, Aug 25, 2020 at 03:19:56PM -0400, Eduardo Habkost wrote:
+> > > git tree for this series:
+> > > https://github.com/ehabkost/qemu-hacks/tree/work/qom-macros-autoconvert
+> > > 
+> > 
+> > Hi Eduardo,
+> > 
+> > another assert fires during QEMU start:
+> > 
+> > $ lldb -- $QEMU -cpu nahelem -M q35,accel=hvf -cdrom test.iso
+> > (lldb) target create "[...]/qemu/build/qemu-system-x86_64"
+> > Current executable set to '[...]/qemu/build/qemu-system-x86_64' (x86_64).
+> > (lldb) settings set -- target.run-args  "-cpu" "nahelem" "-M" "q35,accel=hvf" "-cdrom" "test.iso"
+> > (lldb) r
+> > Process 92411 launched: '[...]/qemu/build/qemu-system-x86_64' (x86_64)
+> > **
+> > ERROR:../qom/object.c:505:object_initialize_with_type: assertion failed: (size >= type->instance_size)
+> > Bail out! ERROR:../qom/object.c:505:object_initialize_with_type: assertion failed: (size >= type->instance_size)
+> > Process 92411 stopped
+> > * thread #3, stop reason = signal SIGABRT
+> >     frame #0: 0x00007fff6a75e33a libsystem_kernel.dylib`__pthread_kill + 10
+> > libsystem_kernel.dylib`__pthread_kill:
+> > ->  0x7fff6a75e33a <+10>: jae    0x7fff6a75e344            ; <+20>
+> >     0x7fff6a75e33c <+12>: movq   %rax, %rdi
+> >     0x7fff6a75e33f <+15>: jmp    0x7fff6a758629            ; cerror_nocancel
+> >     0x7fff6a75e344 <+20>: retq
+> > Target 0: (qemu-system-x86_64) stopped.
+> > (lldb) bt
+> > * thread #3, stop reason = signal SIGABRT
+> >   * frame #0: 0x00007fff6a75e33a libsystem_kernel.dylib`__pthread_kill + 10
+> >     frame #1: 0x00007fff6a81ae60 libsystem_pthread.dylib`pthread_kill + 430
+> >     frame #2: 0x00007fff6a6e5808 libsystem_c.dylib`abort + 120
+> >     frame #3: 0x0000000101314c36 libglib-2.0.0.dylib`g_assertion_message + 406
+> >     frame #4: 0x0000000101314c9e libglib-2.0.0.dylib`g_assertion_message_expr + 94
+> >     frame #5: 0x0000000100366f0c qemu-system-x86_64`object_initialize_with_type(obj=<unavailable>, size=<unavailable>, type=<unavailable>) at object.c:505:5 [opt]
+> >     frame #6: 0x0000000100400e48 qemu-system-x86_64`qbus_create_inplace(bus=0x0000000000000000, size=<unavailable>, typename=<unavailable>, parent=0x0000000000000000, name="main-system-bus") at bus.c:153:5 [opt]
+> >     frame #7: 0x000000010006800a qemu-system-x86_64`sysbus_get_default [inlined] main_system_bus_create at sysbus.c:346:5 [opt]
+> >     frame #8: 0x0000000100067fe2 qemu-system-x86_64`sysbus_get_default at sysbus.c:354 [opt]
+> >     frame #9: 0x00000001002b774f qemu-system-x86_64`qemu_init(argc=<unavailable>, argv=<unavailable>, envp=<unavailable>) at vl.c:3890:41 [opt]
+> >     frame #10: 0x0000000100008c99 qemu-system-x86_64`qemu_main(argc=<unavailable>, argv=<unavailable>, envp=<unavailable>) at main.c:49:5 [opt]
+> >     frame #11: 0x000000010007bbd6 qemu-system-x86_64`call_qemu_main(opaque=<unavailable>) at cocoa.m:1710:14 [opt]
+> >     frame #12: 0x00000001004631ee qemu-system-x86_64`qemu_thread_start(args=<unavailable>) at qemu-thread-posix.c:521:9 [opt]
+> >     frame #13: 0x00007fff6a81b109 libsystem_pthread.dylib`_pthread_start + 148
+> >     frame #14: 0x00007fff6a816b8b libsystem_pthread.dylib`thread_start + 15
+> > (lldb) f 7
+> > qemu-system-x86_64 was compiled with optimization - stepping may behave oddly; variables may not be available.
+> > frame #7: 0x000000010006800a qemu-system-x86_64`sysbus_get_default [inlined] main_system_bus_create at sysbus.c:346:5 [opt]
+> >    343      /* assign main_system_bus before qbus_create_inplace()
+> >    344       * in order to make "if (bus != sysbus_get_default())" work */
+> >    345      main_system_bus = g_malloc0(system_bus_info.instance_size);
+> > -> 346      qbus_create_inplace(main_system_bus, system_bus_info.instance_size,
+> >    347                          TYPE_SYSTEM_BUS, NULL, "main-system-bus");
+> >    348      OBJECT(main_system_bus)->free = g_free;
+> >    349  }
+> > (lldb) f 6
+> > frame #6: 0x0000000100400e48 qemu-system-x86_64`qbus_create_inplace(bus=0x0000000000000000, size=<unavailable>, typename=<unavailable>, parent=0x0000000000000000, name="main-system-bus") at bus.c:153:5 [opt]
+> >    150  void qbus_create_inplace(void *bus, size_t size, const char *typename,
+> >    151                           DeviceState *parent, const char *name)
+> >    152  {
+> > -> 153      object_initialize(bus, size, typename);
+> >    154      qbus_init(bus, parent, name);
+> >    155  }
+> >    156
+> > (lldb) f 5
+> > frame #5: 0x0000000100366f0c qemu-system-x86_64`object_initialize_with_type(obj=<unavailable>, size=<unavailable>, type=<unavailable>) at object.c:505:5 [opt]
+> >    502
+> >    503      g_assert(type->instance_size >= sizeof(Object));
+> >    504      g_assert(type->abstract == false);
+> > -> 505      g_assert(size >= type->instance_size);
+> >    506
+> >    507      memset(obj, 0, type->instance_size);
+> >    508      obj->class = type->class;
 > 
-> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
-> ---
->  migration/dirtyrate.c | 24 ++++++++++++++++++++++++
->  migration/dirtyrate.h | 10 ++++++++++
->  2 files changed, 34 insertions(+)
+> Oops, sorry for not catching this before submitting.  This is
+> caused by patch 72/74, which is not really important right now.
+> I will drop it from the series by now.
 > 
-> diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-> index 050270d..bd398b7 100644
-> --- a/migration/dirtyrate.c
-> +++ b/migration/dirtyrate.c
-> @@ -173,6 +173,24 @@ alloc_ramblock_dirty_info(int *block_index,
->      return block_dinfo;
->  }
->  
-> +static int skip_sample_ramblock(RAMBlock *block)
-> +{
-> +    int64_t ramblock_size;
-> +
-> +    /* ramblock size in MB */
-> +    ramblock_size = qemu_ram_get_used_length(block) >> DIRTYRATE_PAGE_SHIFT_MB;
-> +
-> +    /*
-> +     * Consider ramblock with size larger than 128M is what we
-> +     * want to sample.
-> +     */
-> +    if (ramblock_size < MIN_RAMBLOCK_SIZE) {
-> +        return -1;
-> +    }
-
-This seems way too complicated for:
-
-  if (qemu_ram_get_used_length(block) < (MIN_RAMBLOCK_SIZE << 10)) {
-      return -1;
-  }
-
-  return 0;
-
-(even easier if it just returned bool from the comparison)
-
-Dave
-
-> +    return 0;
-> +}
-> +
->  static int record_ramblock_hash_info(struct RamblockDirtyInfo **block_dinfo,
->                                       struct DirtyRateConfig config,
->                                       int *block_index)
-> @@ -183,6 +201,9 @@ static int record_ramblock_hash_info(struct RamblockDirtyInfo **block_dinfo,
->      int index = 0;
->  
->      RAMBLOCK_FOREACH_MIGRATABLE(block) {
-> +        if (skip_sample_ramblock(block) < 0) {
-> +            continue;
-> +        }
->          dinfo = alloc_ramblock_dirty_info(&index, dinfo);
->          if (dinfo == NULL) {
->              return -1;
-> @@ -249,6 +270,9 @@ static int compare_page_hash_info(struct RamblockDirtyInfo *info,
->      RAMBlock *block = NULL;
->  
->      RAMBLOCK_FOREACH_MIGRATABLE(block) {
-> +        if (skip_sample_ramblock(block) < 0) {
-> +            continue;
-> +        }
->          block_dinfo = NULL;
->          if (!find_page_matched(block, info, block_index + 1, &block_dinfo)) {
->              continue;
-> diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
-> index e3adead..600bceb 100644
-> --- a/migration/dirtyrate.h
-> +++ b/migration/dirtyrate.h
-> @@ -35,10 +35,20 @@
->  #define DIRTYRATE_PAGE_SHIFT_KB                   12
->  
->  /*
-> + * Sample page size MB shift
-> + */
-> +#define DIRTYRATE_PAGE_SHIFT_MB                   20
-> +
-> +/*
->   * Sample page size 1G shift
->   */
->  #define DIRTYRATE_PAGE_SHIFT_GB                   30
->  
-> +/*
-> + * minimum ramblock size to sampled
-> + */
-> +#define MIN_RAMBLOCK_SIZE                         128
-> +
->  /* Take 1s as default for calculation duration */
->  #define DEFAULT_FETCH_DIRTYRATE_TIME_SEC          1
->  
-> -- 
-> 1.8.3.1
+> I've pushed the new tree to
+> https://github.com/ehabkost/qemu-hacks/tree/work/qom-macros-autoconvert
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
+This one is good. For the series (without trying individual commits in
+the middle):
+Tested-By: Roman Bolshakov <r.bolshakov@yadro.com>
+
+There's a test failure due to missing qemu-nbd on macOS but the fix is
+already queued.
+
+Thanks,
+Roman
 
