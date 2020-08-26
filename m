@@ -2,69 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD118252F94
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 15:22:08 +0200 (CEST)
-Received: from localhost ([::1]:48548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12087252FA8
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 15:26:59 +0200 (CEST)
+Received: from localhost ([::1]:56352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAvNN-0007qc-9A
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 09:22:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53042)
+	id 1kAvS6-0002kH-53
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 09:26:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kAvME-0005uO-Sc
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 09:20:54 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42044)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kAvMC-0004KI-Gg
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 09:20:54 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kAvMA-0002oE-49
- for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 13:20:50 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E66242E80EA
- for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 13:20:49 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
+ id 1kAvRO-0002Kt-06; Wed, 26 Aug 2020 09:26:14 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:60870 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
+ id 1kAvRJ-00059m-An; Wed, 26 Aug 2020 09:26:13 -0400
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 67FFFD0FFA45DC9DE000;
+ Wed, 26 Aug 2020 21:25:51 +0800 (CST)
+Received: from localhost.localdomain (10.175.104.175) by
+ DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
+ 14.3.487.0; Wed, 26 Aug 2020 21:25:45 +0800
+From: Peng Liang <liangpeng10@huawei.com>
+To: <qemu-block@nongnu.org>, <kwolf@redhat.com>, <jsnow@redhat.com>
+Subject: [PATCH] block/mirror: fix core when using iothreads
+Date: Wed, 26 Aug 2020 21:19:10 +0800
+Message-ID: <20200826131910.1879079-1-liangpeng10@huawei.com>
+X-Mailer: git-send-email 2.18.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 26 Aug 2020 13:14:56 -0000
-From: Guirish Salgaonkar <1893040@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: berrange gsalgaon
-X-Launchpad-Bug-Reporter: Guirish Salgaonkar (gsalgaon)
-X-Launchpad-Bug-Modifier: Guirish Salgaonkar (gsalgaon)
-References: <159844225257.1396.12890490778938419036.malonedeb@wampee.canonical.com>
-Message-Id: <159844769668.1736.11033155415826590591.malone@wampee.canonical.com>
-Subject: [Bug 1893040] Re: External modules retreval using Go1.15 on s390x
- appears to have checksum and ECDSA verification issues
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="99c2d833c8d727fd05148486920aca032e908071"; Instance="production"
-X-Launchpad-Hash: 656cf2cd1c1b5d407ff2a5b8f92af156b5852836
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 07:50:40
+Content-Type: text/plain
+X-Originating-IP: [10.175.104.175]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.35;
+ envelope-from=liangpeng10@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 09:25:52
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,58 +55,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1893040 <1893040@bugs.launchpad.net>
+Cc: Peng Liang <liangpeng10@huawei.com>, qemu-devel@nongnu.org,
+ xiexiangyou@huawei.com, zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Yes we have observed that the issue persist in later QEMU version too.
+We found an issue when doing block-commit with iothreads, which tries to
+dereference a NULL pointer.
 
--- =
+<main thread>                      |<IO thread>
+                                   |
+mirror_start_job                   |
+ 1. bdrv_ref(mirror_top_bs);       |
+    bdrv_drained_begin(bs);        |
+    bdrv_append(mirror_top_bs,     |
+                bs, &local_err);   |
+    bdrv_drained_end(bs);          |
+                                   |
+ 2. s = block_job_create(...);     |
+                                   |bdrv_mirror_top_pwritev
+                                   | MirrorBDSOpaque *s = bs->opaque;
+                                   | bool copy_to_target;
+                                   | copy_to_target = s->job->ret >= 0 &&
+                                   |     s->job->copy_mode ==
+                                   |     MIRROR_COPY_MODE_WRITE_BLOCKING;
+                                   | (s->job is not NULL until 3!)
+ 3. bs_opaque->job = s;            |
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1893040
+Just moving step 2 & 3 before 1 can avoid this.
 
-Title:
-   External modules retreval using Go1.15 on s390x appears to have
-  checksum and ECDSA verification issues
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Peng Liang <liangpeng10@huawei.com>
+---
+ block/mirror.c | 21 ++++++++++-----------
+ 1 file changed, 10 insertions(+), 11 deletions(-)
 
-Status in QEMU:
-  Incomplete
+diff --git a/block/mirror.c b/block/mirror.c
+index e8e8844afc40..7c872be71149 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -1600,6 +1600,16 @@ static BlockJob *mirror_start_job(
+     mirror_top_bs->supported_zero_flags = BDRV_REQ_WRITE_UNCHANGED |
+                                           BDRV_REQ_NO_FALLBACK;
+     bs_opaque = g_new0(MirrorBDSOpaque, 1);
++    /* Make sure that the source is not resized while the job is running */
++    s = block_job_create(job_id, driver, NULL, bs,
++                         BLK_PERM_CONSISTENT_READ,
++                         BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE_UNCHANGED |
++                         BLK_PERM_WRITE | BLK_PERM_GRAPH_MOD, speed,
++                         creation_flags, cb, opaque, errp);
++    if (!s) {
++        goto fail;
++    }
++    bs_opaque->job = s;
+     mirror_top_bs->opaque = bs_opaque;
+ 
+     /* bdrv_append takes ownership of the mirror_top_bs reference, need to keep
+@@ -1612,19 +1622,8 @@ static BlockJob *mirror_start_job(
+     if (local_err) {
+         bdrv_unref(mirror_top_bs);
+         error_propagate(errp, local_err);
+-        return NULL;
+-    }
+-
+-    /* Make sure that the source is not resized while the job is running */
+-    s = block_job_create(job_id, driver, NULL, mirror_top_bs,
+-                         BLK_PERM_CONSISTENT_READ,
+-                         BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE_UNCHANGED |
+-                         BLK_PERM_WRITE | BLK_PERM_GRAPH_MOD, speed,
+-                         creation_flags, cb, opaque, errp);
+-    if (!s) {
+         goto fail;
+     }
+-    bs_opaque->job = s;
+ 
+     /* The block job now has a reference to this node */
+     bdrv_unref(mirror_top_bs);
+-- 
+2.18.4
 
-Bug description:
-  We are observing issue while building go-runner image and we suspect it i=
-s due to QEMU version being used. As referred in below issue:
-  https://github.com/golang/go/issues/40949
-
-  We tried to build go-runner image using go1.15 and register QEMU
-  (docker run --rm --privileged multiarch/qemu-user-
-  static@sha256:c772ee1965aa0be9915ee1b018a0dd92ea361b4fa1bcab5bbc033517749=
-b2af4
-  --reset -p yes) as mentioned in PR
-  https://github.com/kubernetes/release/pull/1499. We observed below
-  failure during build:
-
-  -------------------------------------------------------------------------=
---------
-  ERROR: executor failed running [/bin/sh -c CGO_ENABLED=3D0 GOOS=3Dlinux G=
-OARCH=3D${ARCH}     go build -ldflags '-s -w -buildid=3D -extldflags "-stat=
-ic"'     -o go-runner ${package}]: buildkit-runc did not terminate successf=
-ully
-  ------
-  =C2=A0> [builder 7/7] RUN CGO_ENABLED=3D0 GOOS=3Dlinux GOARCH=3D${ARCH}  =
-   go build -ldflags '-s -w -buildid=3D -extldflags "-static"'     -o go-ru=
-nner .:
-  ------
-  failed to solve: rpc error: code =3D Unknown desc =3D executor failed run=
-ning [/bin/sh -c CGO_ENABLED=3D0 GOOS=3Dlinux GOARCH=3D${ARCH}     go build=
- -ldflags '-s -w -buildid=3D -extldflags "-static"'     -o go-runner ${pack=
-age}]: buildkit-runc did not terminate successfully
-  Makefile:52: recipe for target 'container' failed
-  make: *** [container] Error 1
-  -------------------------------------------------------------------------=
---------
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1893040/+subscriptions
 
