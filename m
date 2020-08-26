@@ -2,64 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 297CF252A9A
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 11:41:44 +0200 (CEST)
-Received: from localhost ([::1]:59712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB4D5252AA4
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 11:46:27 +0200 (CEST)
+Received: from localhost ([::1]:35560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kArw7-0003W2-73
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 05:41:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53562)
+	id 1kAs0g-0005TL-ST
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 05:46:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kArv9-0002g3-OP
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 05:40:45 -0400
-Received: from mail-ej1-f65.google.com ([209.85.218.65]:44048)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kArv8-0008Q9-4v
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 05:40:43 -0400
-Received: by mail-ej1-f65.google.com with SMTP id bo3so1909122ejb.11
- for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 02:40:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kArzx-0004yg-G4
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 05:45:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30480)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kArzu-0000oH-LX
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 05:45:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598435136;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bcmmYjm/owTCOq0Fhfp61RaSa0NPDTyi8PQOHVpSmP8=;
+ b=HE+1VCcN6LMSGRs4n3JZ6UPbk1Ejv4H+2C+rXEusDbNZ3Fz3j1agAXvdePPPg1O4VZlYs3
+ ooMj+4bXfheoR+uexeIsn5Oh85w+eKadZCZ3CaTU0dFQNZdwu62rjKtaSNKg07InN3FxN/
+ gKOl0UZuDU5EsPjisTyYwYjLAvifPbw=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-405-EBYvLrpsPnmDPWcmigddvQ-1; Wed, 26 Aug 2020 05:45:34 -0400
+X-MC-Unique: EBYvLrpsPnmDPWcmigddvQ-1
+Received: by mail-ed1-f70.google.com with SMTP id dd25so485223edb.6
+ for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 02:45:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=95SklRGHP1ij3vC1NRDi+NjAlUkxEqOeQy6udkNq75c=;
- b=NqsIVfaH+PMqJNXaVlNIU/xd30fU3qpAxwbm647RPSo/M+D+vX1s0tl0BbemggQevc
- xPFhcscCUqbcocaEi4Pnvk02U3792JBJTQAPXHjOX1uQt73LpHWiqSQ2bXL5Mz1keSR7
- pdf6EsVMUg/uOvEeVA2+m+P5r3Fzri0uWdVvdpabkURbpl8xgks1V/NfajUnCIEOJwPg
- NPm8yjBa1tbCzEHFsdlxn99JhSSVSluPtLj3dJcssH4bXNORsqzi6XjFg6uNlRldjfl1
- 6FNmTvOLmsgZFhHk8NuBXxH5AOKToDRsdmFSqDfxCWTR7E1fSx4G8Gj3lOu7Tk4ePQbF
- iy6g==
-X-Gm-Message-State: AOAM5320xqk4uE8EdmaTKzzs8hwvyehyIKjqkNu2wqJ1DEXnxMmMsj+O
- JKjjCHeOdVaVBLBjWVKpwEAKGqqnGLQETj72rGM=
-X-Google-Smtp-Source: ABdhPJyYA8M0pMaDuLV9oCeTKE7SVD9OuUfsc2pF+6ZG6RioVoM/shz7ugsQIVRt2nHN4Xbp0L1WCGKEZuZQm22dypw=
-X-Received: by 2002:a17:906:3609:: with SMTP id
- q9mr5987297ejb.138.1598434840722; 
- Wed, 26 Aug 2020 02:40:40 -0700 (PDT)
+ bh=bcmmYjm/owTCOq0Fhfp61RaSa0NPDTyi8PQOHVpSmP8=;
+ b=kWQbLeFS32DWinNNh5F4W9wjoQE8NFpp9XFx97F4XqJ4GEKIGfKNeUh8MA+SKG+YTf
+ 8HdOHDajaQOsVRamn9C126ED6je5/5/uN0tfO1oHgHkQmC3P7K1W0FaHEFuLgjHYXwjP
+ 6ocXswr3w5xA5TniYC+JxU9VoZNoRleO1ECLuciylr8yS6l7gKhOdTcIEvlCeH5GE5dI
+ rgxL23GmqYXk1STBqr93iUBsLLGzUqB6MBpnzuOLvDi86icikHDIBcKnxTG7sZsN7S0r
+ ca0BcZML9/rzmMM8/t2JyBZcbBdK4ZGXwnfJYadOOx05spv93AmmhEqkpHsgWejLWZj3
+ U+Eg==
+X-Gm-Message-State: AOAM5317ssgse31sKZLFYAnw5q5V/S3RybdIpKC9e9EQgp+RoOTTuR7Q
+ Icd3OJOBXRGYxrh4+Cf2t8qx+icV2LH6v1xyFQrhcLRav3daKE1JOF2IYz4BtS0F48SttzK/DVR
+ 9zVI1ST8ipmNknCYs+VaYWCO/ea7J1rE=
+X-Received: by 2002:a17:906:328d:: with SMTP id
+ 13mr15346029ejw.71.1598435132852; 
+ Wed, 26 Aug 2020 02:45:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyn//rscvoBcLk9dJFue4bNGNrivSzMAM66Z8JvV3oNsVvqEVPoKO4j1k/o15DcPIA+3JHHVKDbahrzxpgwT+4=
+X-Received: by 2002:a17:906:328d:: with SMTP id
+ 13mr15346019ejw.71.1598435132656; 
+ Wed, 26 Aug 2020 02:45:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <4cf1beb7dafb9143c261d266557d3173bf160524.1598376594.git.alistair.francis@wdc.com>
-In-Reply-To: <4cf1beb7dafb9143c261d266557d3173bf160524.1598376594.git.alistair.francis@wdc.com>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Wed, 26 Aug 2020 11:40:28 +0200
-Message-ID: <CAAdtpL7MKX-UAxPWyh-Xgj1xTLmiQat=UgpJ21xeZtpjB-nzPg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] core/register: Specify instance_size in the
- TypeInfo
-To: Alistair Francis <alistair.francis@wdc.com>
-Content-Type: multipart/alternative; boundary="000000000000e0c25605adc49cd6"
-Received-SPF: pass client-ip=209.85.218.65;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-f65.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 05:36:09
+References: <20200825175827.355940-1-marcandre.lureau@redhat.com>
+ <20200825175827.355940-3-marcandre.lureau@redhat.com>
+ <20200826082942.GD168515@redhat.com>
+ <CAJ+F1CKxUK=t7vy-QXazi_syCQGdpxhJdb3KKH9PC6rGmcVVxQ@mail.gmail.com>
+In-Reply-To: <CAJ+F1CKxUK=t7vy-QXazi_syCQGdpxhJdb3KKH9PC6rGmcVVxQ@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Wed, 26 Aug 2020 11:45:20 +0200
+Message-ID: <CABgObfZH3JgXKK7gJRjgjmquHq61_vmCUpKnt2fsezsPA+EOPw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/5] meson: use meson datadir instead of qemu_datadir
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="00000000000047637105adc4aee3"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 23:30:47
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.248, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.958,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,192 +95,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Stefan Weil <sw@weilnetz.de>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e0c25605adc49cd6
+--00000000000047637105adc4aee3
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Le mar. 25 ao=C3=BBt 2020 19:42, Alistair Francis <alistair.francis@wdc.com=
-> a
-=C3=A9crit :
+You'd need to check first if it works correctly if confsuffix "looks like"
+an absolute path ('/qemu'). So + looks correct to me.
 
-> Reported-by: Eduardo Habkost <ehabkost@redhat.com>
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  hw/core/register.c | 31 +++++++++++++------------------
->  1 file changed, 13 insertions(+), 18 deletions(-)
->
-> diff --git a/hw/core/register.c b/hw/core/register.c
-> index ddf91eb445..31038bd7cc 100644
-> --- a/hw/core/register.c
-> +++ b/hw/core/register.c
-> @@ -176,17 +176,6 @@ void register_reset(RegisterInfo *reg)
->      }
->  }
->
-> -void register_init(RegisterInfo *reg)
-> -{
-> -    assert(reg);
-> -
-> -    if (!reg->data || !reg->access) {
-> -        return;
-> -    }
-> -
-> -    object_initialize((void *)reg, sizeof(*reg), TYPE_REGISTER);
-> -}
-> -
->  void register_write_memory(void *opaque, hwaddr addr,
->                             uint64_t value, unsigned size)
->  {
-> @@ -269,13 +258,18 @@ static RegisterInfoArray
-> *register_init_block(DeviceState *owner,
->          int index =3D rae[i].addr / data_size;
->          RegisterInfo *r =3D &ri[index];
->
-> -        *r =3D (RegisterInfo) {
-> -            .data =3D data + data_size * index,
-> -            .data_size =3D data_size,
-> -            .access =3D &rae[i],
-> -            .opaque =3D owner,
-> -        };
-> -        register_init(r);
-> +        if (data + data_size * index =3D=3D 0 || !&rae[i]) {
-> +            continue;
-> +        }
-> +
-> +        /* Init the register, this will zero it. */
-> +        object_initialize((void *)r, sizeof(*r), TYPE_REGISTER);
->
+(Sorry for top posting).
 
-Easier to review &ri[index] than that void* cast IMO.
-Otherwise:
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Paolo
 
-+
-> +        /* Set the properties of the register */
-> +        r->data =3D data + data_size * index;
-> +        r->data_size =3D data_size;
-> +        r->access =3D &rae[i];
-> +        r->opaque =3D owner;
+Il mer 26 ago 2020, 10:53 Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.co=
+m> ha
+scritto:
+
+> Hi
 >
->          r_array->r[i] =3D r;
->      }
-> @@ -329,6 +323,7 @@ static const TypeInfo register_info =3D {
->      .name  =3D TYPE_REGISTER,
->      .parent =3D TYPE_DEVICE,
->      .class_init =3D register_class_init,
-> +    .instance_size =3D sizeof(RegisterInfo),
->  };
+> On Wed, Aug 26, 2020 at 12:30 PM Daniel P. Berrang=C3=A9 <berrange@redhat=
+.com>
+> wrote:
 >
->  static void register_register_types(void)
+>> On Tue, Aug 25, 2020 at 09:58:24PM +0400, marcandre.lureau@redhat.com
+>> wrote:
+>> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>> >
+>> > When cross-compiling, by default qemu_datadir is 'c:\Program
+>> > Files\QEMU', which is not recognized as being an absolute path, and
+>> > meson will end up adding the prefix again.
+>> >
+>> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>> > ---
+>> >  contrib/vhost-user-gpu/meson.build | 2 +-
+>> >  meson.build                        | 3 ++-
+>> >  pc-bios/descriptors/meson.build    | 2 +-
+>> >  pc-bios/keymaps/meson.build        | 6 +++---
+>> >  pc-bios/meson.build                | 2 +-
+>> >  tools/virtiofsd/meson.build        | 2 +-
+>> >  trace/meson.build                  | 2 +-
+>> >  7 files changed, 10 insertions(+), 9 deletions(-)
+>> >
+>>
+>> > diff --git a/meson.build b/meson.build
+>> > index f0fe5f8799..20f20a7bfc 100644
+>> > --- a/meson.build
+>> > +++ b/meson.build
+>> > @@ -17,6 +17,7 @@ config_all_disas =3D
+>> keyval.load(meson.current_build_dir() / 'config-all-disas.mak
+>> >  enable_modules =3D 'CONFIG_MODULES' in config_host
+>> >  enable_static =3D 'CONFIG_STATIC' in config_host
+>> >  build_docs =3D 'BUILD_DOCS' in config_host
+>> > +qemu_datadir =3D get_option('datadir') + get_option('confsuffix')
+>>
+>> This needs to be
+>>
+>>    get_option('datadir') / get_option('confsuffix')
+>>
+>> to add the dir separator if we're using the default meson value
+>> for "confsuffix" which lacks a leading "/".
+>>
+>
+> right, fixed
+>
 > --
-> 2.28.0
->
->
+> Marc-Andr=C3=A9 Lureau
 >
 
---000000000000e0c25605adc49cd6
+--00000000000047637105adc4aee3
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto"><div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
-"gmail_attr">Le mar. 25 ao=C3=BBt 2020 19:42, Alistair Francis &lt;<a href=
-=3D"mailto:alistair.francis@wdc.com">alistair.francis@wdc.com</a>&gt; a =C3=
-=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Reported-by: Eduardo=
- Habkost &lt;<a href=3D"mailto:ehabkost@redhat.com" target=3D"_blank" rel=
-=3D"noreferrer">ehabkost@redhat.com</a>&gt;<br>
-Signed-off-by: Alistair Francis &lt;<a href=3D"mailto:alistair.francis@wdc.=
-com" target=3D"_blank" rel=3D"noreferrer">alistair.francis@wdc.com</a>&gt;<=
-br>
----<br>
-=C2=A0hw/core/register.c | 31 +++++++++++++------------------<br>
-=C2=A01 file changed, 13 insertions(+), 18 deletions(-)<br>
-<br>
-diff --git a/hw/core/register.c b/hw/core/register.c<br>
-index ddf91eb445..31038bd7cc 100644<br>
---- a/hw/core/register.c<br>
-+++ b/hw/core/register.c<br>
-@@ -176,17 +176,6 @@ void register_reset(RegisterInfo *reg)<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0}<br>
-<br>
--void register_init(RegisterInfo *reg)<br>
--{<br>
--=C2=A0 =C2=A0 assert(reg);<br>
+<div dir=3D"auto">You&#39;d need to check first if it works correctly if co=
+nfsuffix &quot;looks like&quot; an absolute path (&#39;/qemu&#39;). So + lo=
+oks correct to me.<div dir=3D"auto"><br></div><div dir=3D"auto">(Sorry for =
+top posting).</div><div dir=3D"auto"><br></div><div dir=3D"auto">Paolo</div=
+></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr"=
+>Il mer 26 ago 2020, 10:53 Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:mar=
+candre.lureau@gmail.com">marcandre.lureau@gmail.com</a>&gt; ha scritto:<br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
+eft:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr">Hi<b=
+r></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr=
+">On Wed, Aug 26, 2020 at 12:30 PM Daniel P. Berrang=C3=A9 &lt;<a href=3D"m=
+ailto:berrange@redhat.com" target=3D"_blank" rel=3D"noreferrer">berrange@re=
+dhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">On Tue, Aug 25, 2020 at 09:58:24PM +0400, <a href=3D"mailto:marcand=
+re.lureau@redhat.com" target=3D"_blank" rel=3D"noreferrer">marcandre.lureau=
+@redhat.com</a> wrote:<br>
+&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
+dhat.com" target=3D"_blank" rel=3D"noreferrer">marcandre.lureau@redhat.com<=
+/a>&gt;<br>
+&gt; <br>
+&gt; When cross-compiling, by default qemu_datadir is &#39;c:\Program<br>
+&gt; Files\QEMU&#39;, which is not recognized as being an absolute path, an=
+d<br>
+&gt; meson will end up adding the prefix again.<br>
+&gt; <br>
+&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
+lureau@redhat.com" target=3D"_blank" rel=3D"noreferrer">marcandre.lureau@re=
+dhat.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 contrib/vhost-user-gpu/meson.build | 2 +-<br>
+&gt;=C2=A0 meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 3 ++-<br>
+&gt;=C2=A0 pc-bios/descriptors/meson.build=C2=A0 =C2=A0 | 2 +-<br>
+&gt;=C2=A0 pc-bios/keymaps/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 6 +++--=
 -<br>
--=C2=A0 =C2=A0 if (!reg-&gt;data || !reg-&gt;access) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
--=C2=A0 =C2=A0 }<br>
--<br>
--=C2=A0 =C2=A0 object_initialize((void *)reg, sizeof(*reg), TYPE_REGISTER);=
-<br>
--}<br>
--<br>
-=C2=A0void register_write_memory(void *opaque, hwaddr addr,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 uint64_t value, unsigned size)<br>
-=C2=A0{<br>
-@@ -269,13 +258,18 @@ static RegisterInfoArray *register_init_block(DeviceS=
-tate *owner,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int index =3D rae[i].addr / data_size;<br=
+&gt;=C2=A0 pc-bios/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 | 2 +-<br>
+&gt;=C2=A0 tools/virtiofsd/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br=
 >
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0RegisterInfo *r =3D &amp;ri[index];<br>
+&gt;=C2=A0 trace/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 | 2 +-<br>
+&gt;=C2=A0 7 files changed, 10 insertions(+), 9 deletions(-)<br>
+&gt; <br>
 <br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 *r =3D (RegisterInfo) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .data =3D data + data_size * ind=
-ex,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .data_size =3D data_size,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .access =3D &amp;rae[i],<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .opaque =3D owner,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 };<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 register_init(r);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (data + data_size * index =3D=3D 0 || !&amp=
-;rae[i]) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Init the register, this will zero it. */<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 object_initialize((void *)r, sizeof(*r), TYPE_=
-REGISTER);<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=
-=3D"auto">Easier to review &amp;ri[index] than that void* cast IMO.</div><d=
-iv dir=3D"auto">Otherwise:</div><div dir=3D"auto"><span style=3D"font-famil=
-y:sans-serif;font-size:13.696px">Reviewed-by: Philippe Mathieu-Daud=C3=A9 &=
-lt;</span><a href=3D"mailto:f4bug@amsat.org" style=3D"text-decoration:none;=
-color:rgb(66,133,244);font-family:sans-serif;font-size:13.696px">f4bug@amsa=
-t.org</a><span style=3D"font-family:sans-serif;font-size:13.696px">&gt;</sp=
-an><br></div><div dir=3D"auto"><span style=3D"font-family:sans-serif;font-s=
-ize:13.696px"><br></span></div><div dir=3D"auto"><div class=3D"gmail_quote"=
-><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
-px #ccc solid;padding-left:1ex">
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Set the properties of the register */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 r-&gt;data =3D data + data_size * index;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 r-&gt;data_size =3D data_size;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 r-&gt;access =3D &amp;rae[i];<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 r-&gt;opaque =3D owner;<br>
+&gt; diff --git a/meson.build b/meson.build<br>
+&gt; index f0fe5f8799..20f20a7bfc 100644<br>
+&gt; --- a/meson.build<br>
+&gt; +++ b/meson.build<br>
+&gt; @@ -17,6 +17,7 @@ config_all_disas =3D keyval.load(meson.current_build=
+_dir() / &#39;config-all-disas.mak<br>
+&gt;=C2=A0 enable_modules =3D &#39;CONFIG_MODULES&#39; in config_host<br>
+&gt;=C2=A0 enable_static =3D &#39;CONFIG_STATIC&#39; in config_host<br>
+&gt;=C2=A0 build_docs =3D &#39;BUILD_DOCS&#39; in config_host<br>
+&gt; +qemu_datadir =3D get_option(&#39;datadir&#39;) + get_option(&#39;conf=
+suffix&#39;)<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0r_array-&gt;r[i] =3D r;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-@@ -329,6 +323,7 @@ static const TypeInfo register_info =3D {<br>
-=C2=A0 =C2=A0 =C2=A0.name=C2=A0 =3D TYPE_REGISTER,<br>
-=C2=A0 =C2=A0 =C2=A0.parent =3D TYPE_DEVICE,<br>
-=C2=A0 =C2=A0 =C2=A0.class_init =3D register_class_init,<br>
-+=C2=A0 =C2=A0 .instance_size =3D sizeof(RegisterInfo),<br>
-=C2=A0};<br>
+This needs to be<br>
 <br>
-=C2=A0static void register_register_types(void)<br>
--- <br>
-2.28.0<br>
+=C2=A0 =C2=A0get_option(&#39;datadir&#39;) / get_option(&#39;confsuffix&#39=
+;)<br>
 <br>
-<br>
-</blockquote></div></div></div>
+to add the dir separator if we&#39;re using the default meson value<br>
+for &quot;confsuffix&quot; which lacks a leading &quot;/&quot;.<br></blockq=
+uote><div><br></div><div>right, fixed<br></div><br></div>-- <br><div dir=3D=
+"ltr">Marc-Andr=C3=A9 Lureau<br></div></div>
+</blockquote></div>
 
---000000000000e0c25605adc49cd6--
+--00000000000047637105adc4aee3--
+
 
