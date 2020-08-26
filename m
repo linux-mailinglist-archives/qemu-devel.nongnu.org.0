@@ -2,78 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2122B252C44
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 13:12:11 +0200 (CEST)
-Received: from localhost ([::1]:55042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A88D6252C55
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 13:19:15 +0200 (CEST)
+Received: from localhost ([::1]:60360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAtLe-0006rp-73
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 07:12:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48508)
+	id 1kAtST-0000wU-Pq
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 07:19:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dstepanov.src@gmail.com>)
- id 1kAtKS-0005qW-Le
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:10:59 -0400
-Received: from mail-lj1-x229.google.com ([2a00:1450:4864:20::229]:33973)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dstepanov.src@gmail.com>)
- id 1kAtKP-0003yx-6P
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:10:56 -0400
-Received: by mail-lj1-x229.google.com with SMTP id y2so1881520ljc.1
- for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 04:10:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=JfTDQ2gEGS1ExThGP/yU6Udlekoj7gey6OjVdFALmSY=;
- b=F94S2OVpXTIxiWOeP9P2EIp+O6vsTuBs9+rM5pSQn/UqsUf35QejyzdTh2qbHNSX+9
- DNZ257+9qUtEZdTBB/V6z2Pa9ty72Z2larVnsR3H+p3eIO5o2dZ+7bS4TN1aS5aH9Os7
- 9Pikvw+3ryzzx6r/3KrIWep5tpw3SK51dV3tMg/LgEIwfcGQCciFALciIfV7z1OkaID1
- js0yfNUj/DLeg/X9hVwfasI3uvCl9gUkioopokCJiRuDLH6/Avh4ddTyT7eacxLf+xVb
- ydbWStFMyEA20oix+pDu7ReJiY9nqwP2JbIgYE02B9qnEYKN8hScFEv85od6bFDsfI+P
- sckA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=JfTDQ2gEGS1ExThGP/yU6Udlekoj7gey6OjVdFALmSY=;
- b=F82MGaShZkpyCwsXFfi/M7hkG5lL8Mk48eChu9zWiykVJIH0zvUnnx+zmD9uVxpBuE
- /ghfVt+jD30EZl6fUPDEUbC77dRIgN2VMjhNAgDmlf7uvXEpXpS1go+0VhQaHpcVYjwi
- HsPSijZGdM9PVdI+bA9u47ZlSW3xYlQxNXa2uzQnxa5hel8dwBiodcYL3NVVdMRC2pHW
- gdVOFAj3eQ1IgiHkYpSKCLhgDOX46dpAsX04bzIWprSDPYk1jDmTBsJGNfUHpZKdARFe
- RQAD6HRgE+GbdHiF2XiqB8MojWSAfo8kuihOQJL+8suw8cjlIuqsy2h9fU4MeI1u0D8h
- kSvg==
-X-Gm-Message-State: AOAM533x21nTsUVCPg3Tm1TOlq/0WTsyUufw0VITB9bF9jk/ElbIzDWR
- KB2H5uWZeZSDH6El3lbgrgo=
-X-Google-Smtp-Source: ABdhPJzqT6EKkxvgaHw5u6y/EImv9bCwtnjpET8pi/sNCH6n1ez/57AtEZdes5bbgs8XhsoHgcm12A==
-X-Received: by 2002:a05:651c:110:: with SMTP id
- a16mr7444037ljb.152.1598440250479; 
- Wed, 26 Aug 2020 04:10:50 -0700 (PDT)
-Received: from dimastep-nix ([2a02:6b8:b081:17::1:12])
- by smtp.gmail.com with ESMTPSA id i26sm432587ljj.102.2020.08.26.04.10.49
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 26 Aug 2020 04:10:50 -0700 (PDT)
-Date: Wed, 26 Aug 2020 14:10:48 +0300
-From: Dima Stepanov <dstepanov.src@gmail.com>
-To: Alexander Bulekov <alxndr@bu.edu>
-Subject: Re: [PATCH 00/12] Add a General Virtual Device Fuzzer
-Message-ID: <20200826111047.GA16426@dimastep-nix>
-References: <20200723033933.21883-1-alxndr@bu.edu>
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kAtRm-0000VS-UA
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:18:30 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:32065
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kAtRk-0004pn-B1
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:18:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598440706;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=GFGmGPBNTViof4L3PQBoDsd095USIFISJuYJUB+/SIw=;
+ b=aY2JXEBpCz/qMizJux1ZJQlpysPB1NXBTT/q5zV+6e3vBwFhnn6U1ruFcIxeLZMoNFvVtp
+ U+AYoLFzpxkdEjxwgnAM/rVRDSruizQW/P1GoWOa3VSdd3DRKqX67yR/dS4/9dFSY6w8hK
+ r4ni7UGQMzSZ7VPaC5W8gwSZijHaHNA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-293-Mpuml_ZHNQ2nGR-Y5_NrlA-1; Wed, 26 Aug 2020 07:18:22 -0400
+X-MC-Unique: Mpuml_ZHNQ2nGR-Y5_NrlA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6CD201074644;
+ Wed, 26 Aug 2020 11:18:21 +0000 (UTC)
+Received: from localhost (unknown [10.10.67.254])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C8CB410013C2;
+ Wed, 26 Aug 2020 11:18:15 +0000 (UTC)
+Date: Wed, 26 Aug 2020 07:18:15 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Roman Bolshakov <r.bolshakov@yadro.com>
+Subject: Re: [PATCH v3 00/74] qom: Automated conversion of type checking
+ boilerplate
+Message-ID: <20200826111815.GV642093@habkost.net>
+References: <20200825192110.3528606-1-ehabkost@redhat.com>
+ <20200826102238.GA50795@SPB-NB-133.local>
 MIME-Version: 1.0
+In-Reply-To: <20200826102238.GA50795@SPB-NB-133.local>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0.003
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200723033933.21883-1-alxndr@bu.edu>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Received-SPF: pass client-ip=2a00:1450:4864:20::229;
- envelope-from=dstepanov.src@gmail.com; helo=mail-lj1-x229.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 03:16:15
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,163 +82,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, qemu-devel@nongnu.org, f4bug@amsat.org,
- darren.kenny@oracle.com, bsd@redhat.com, stefanha@redhat.com,
- andrew@coatesdev.com
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
+ Niek Linnenbank <nieklinnenbank@gmail.com>,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Anthony PERARD <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex,
+On Wed, Aug 26, 2020 at 01:22:38PM +0300, Roman Bolshakov wrote:
+> On Tue, Aug 25, 2020 at 03:19:56PM -0400, Eduardo Habkost wrote:
+> > git tree for this series:
+> > https://github.com/ehabkost/qemu-hacks/tree/work/qom-macros-autoconvert
+> > 
+> 
+> Hi Eduardo,
+> 
+> another assert fires during QEMU start:
+> 
+> $ lldb -- $QEMU -cpu nahelem -M q35,accel=hvf -cdrom test.iso
+> (lldb) target create "[...]/qemu/build/qemu-system-x86_64"
+> Current executable set to '[...]/qemu/build/qemu-system-x86_64' (x86_64).
+> (lldb) settings set -- target.run-args  "-cpu" "nahelem" "-M" "q35,accel=hvf" "-cdrom" "test.iso"
+> (lldb) r
+> Process 92411 launched: '[...]/qemu/build/qemu-system-x86_64' (x86_64)
+> **
+> ERROR:../qom/object.c:505:object_initialize_with_type: assertion failed: (size >= type->instance_size)
+> Bail out! ERROR:../qom/object.c:505:object_initialize_with_type: assertion failed: (size >= type->instance_size)
+> Process 92411 stopped
+> * thread #3, stop reason = signal SIGABRT
+>     frame #0: 0x00007fff6a75e33a libsystem_kernel.dylib`__pthread_kill + 10
+> libsystem_kernel.dylib`__pthread_kill:
+> ->  0x7fff6a75e33a <+10>: jae    0x7fff6a75e344            ; <+20>
+>     0x7fff6a75e33c <+12>: movq   %rax, %rdi
+>     0x7fff6a75e33f <+15>: jmp    0x7fff6a758629            ; cerror_nocancel
+>     0x7fff6a75e344 <+20>: retq
+> Target 0: (qemu-system-x86_64) stopped.
+> (lldb) bt
+> * thread #3, stop reason = signal SIGABRT
+>   * frame #0: 0x00007fff6a75e33a libsystem_kernel.dylib`__pthread_kill + 10
+>     frame #1: 0x00007fff6a81ae60 libsystem_pthread.dylib`pthread_kill + 430
+>     frame #2: 0x00007fff6a6e5808 libsystem_c.dylib`abort + 120
+>     frame #3: 0x0000000101314c36 libglib-2.0.0.dylib`g_assertion_message + 406
+>     frame #4: 0x0000000101314c9e libglib-2.0.0.dylib`g_assertion_message_expr + 94
+>     frame #5: 0x0000000100366f0c qemu-system-x86_64`object_initialize_with_type(obj=<unavailable>, size=<unavailable>, type=<unavailable>) at object.c:505:5 [opt]
+>     frame #6: 0x0000000100400e48 qemu-system-x86_64`qbus_create_inplace(bus=0x0000000000000000, size=<unavailable>, typename=<unavailable>, parent=0x0000000000000000, name="main-system-bus") at bus.c:153:5 [opt]
+>     frame #7: 0x000000010006800a qemu-system-x86_64`sysbus_get_default [inlined] main_system_bus_create at sysbus.c:346:5 [opt]
+>     frame #8: 0x0000000100067fe2 qemu-system-x86_64`sysbus_get_default at sysbus.c:354 [opt]
+>     frame #9: 0x00000001002b774f qemu-system-x86_64`qemu_init(argc=<unavailable>, argv=<unavailable>, envp=<unavailable>) at vl.c:3890:41 [opt]
+>     frame #10: 0x0000000100008c99 qemu-system-x86_64`qemu_main(argc=<unavailable>, argv=<unavailable>, envp=<unavailable>) at main.c:49:5 [opt]
+>     frame #11: 0x000000010007bbd6 qemu-system-x86_64`call_qemu_main(opaque=<unavailable>) at cocoa.m:1710:14 [opt]
+>     frame #12: 0x00000001004631ee qemu-system-x86_64`qemu_thread_start(args=<unavailable>) at qemu-thread-posix.c:521:9 [opt]
+>     frame #13: 0x00007fff6a81b109 libsystem_pthread.dylib`_pthread_start + 148
+>     frame #14: 0x00007fff6a816b8b libsystem_pthread.dylib`thread_start + 15
+> (lldb) f 7
+> qemu-system-x86_64 was compiled with optimization - stepping may behave oddly; variables may not be available.
+> frame #7: 0x000000010006800a qemu-system-x86_64`sysbus_get_default [inlined] main_system_bus_create at sysbus.c:346:5 [opt]
+>    343      /* assign main_system_bus before qbus_create_inplace()
+>    344       * in order to make "if (bus != sysbus_get_default())" work */
+>    345      main_system_bus = g_malloc0(system_bus_info.instance_size);
+> -> 346      qbus_create_inplace(main_system_bus, system_bus_info.instance_size,
+>    347                          TYPE_SYSTEM_BUS, NULL, "main-system-bus");
+>    348      OBJECT(main_system_bus)->free = g_free;
+>    349  }
+> (lldb) f 6
+> frame #6: 0x0000000100400e48 qemu-system-x86_64`qbus_create_inplace(bus=0x0000000000000000, size=<unavailable>, typename=<unavailable>, parent=0x0000000000000000, name="main-system-bus") at bus.c:153:5 [opt]
+>    150  void qbus_create_inplace(void *bus, size_t size, const char *typename,
+>    151                           DeviceState *parent, const char *name)
+>    152  {
+> -> 153      object_initialize(bus, size, typename);
+>    154      qbus_init(bus, parent, name);
+>    155  }
+>    156
+> (lldb) f 5
+> frame #5: 0x0000000100366f0c qemu-system-x86_64`object_initialize_with_type(obj=<unavailable>, size=<unavailable>, type=<unavailable>) at object.c:505:5 [opt]
+>    502
+>    503      g_assert(type->instance_size >= sizeof(Object));
+>    504      g_assert(type->abstract == false);
+> -> 505      g_assert(size >= type->instance_size);
+>    506
+>    507      memset(obj, 0, type->instance_size);
+>    508      obj->class = type->class;
 
-Thanks for the nice general fuzzer implementation, looks pretty
-exciting. Are there any future plans discussion which i can read
-or maybe join? I have some ideas about it so it could be great to
-syncronize.
+Oops, sorry for not catching this before submitting.  This is
+caused by patch 72/74, which is not really important right now.
+I will drop it from the series by now.
 
-Regards, Dima.
+I've pushed the new tree to
+https://github.com/ehabkost/qemu-hacks/tree/work/qom-macros-autoconvert
 
-On Wed, Jul 22, 2020 at 11:39:21PM -0400, Alexander Bulekov wrote:
-> This is a general virtual-device fuzzer, designed to fuzz devices over Port IO,
-> MMIO, and DMA.
-> To get started with this:
->  1. Build the fuzzers (see docs/devel/fuzzing.txt)
->     Note: Build with --enable-sanitizers, or create a "dictionary file":
->     echo kw1=\"\x84\x05\x5C\x5E\" > dict
->     and pass it as an argument to libFuzzer with -dict=./dict
->     This magic value is a command separator that lets the fuzzer perform
->     multiple IO actions with a single input.
-> 
->  2. Pick the qemu arguments you wish to fuzz:
->     export QEMU_FUZZ_ARGS="-M q35 -device virtio-balloon"
-> 
->  3. Tell the fuzzer which QOM objects or MemoryRegion names to fuzz. I find the
->  "info qom-tree", "info qtree" and "info mtree" commands useful for identifying
->  these. Supports globbing. Here I will try to simultaneously fuzz(for no good
->  reason) virtio-balloon and e1000e, which is included by default in the q35:
->     export QEMU_FUZZ_OBJECTS='virtio* e1000*'
->     You can also try to fuzz the whole machine:
->     export QEMU_FUZZ_OBJECTS='*'
-> 
->  4. Run the fuzzer for 0 inputs. The fuzzer should output a list of
->  MemoryRegions/PCI Devices it will try to fuzz. Confirm that these match your
->  expectations.
->     ./i386-softmmu/qemu-fuzz-i386 --fuzz-target=general-fuzz -runs=0
-> 
->  5. Run the fuzzer:
->     ./i386-softmmu/qemu-fuzz-i386 --fuzz-target=general-fuzz 
-> 
-> 
-> Basically, at the core, this fuzzer is an interpreter that splits the input
-> into a series of commands, such as mmio_write, pio_write, etc. We structure
-> these commands to hit only MemoryRegions that are associated with the devices
-> specified in QEMU_FUZZ_OBJECTS. Additionally, these patches add "hooks" to
-> functions that are typically used by virtual-devices to read from RAM (DMA).
-> These hooks attempt to populate these DMA regions with fuzzed data, just in
-> time.
-> 
-> Patch 1 changes the way we tell QTest to log to stderr (becomes important when
-> building reproducers with this fuzzer)
-> 
-> Patches 2-6 add the fuzzer and the necessary DMA callbacks
-> 
-> Patches 7-10 are my (very rough) attempt at integrating this into OSS-Fuzz
-> 
-> Patches 11-12 contain the "reordering" and minimization scripts used to
-> produce a QTest reproducer for a crash.
-> 
-> Additional notes:
->  * With the latest changes, the
->  fuzzer is quite effective at only targeting the device we care about,
->  so it will probably be beneficial to allow reboot() as an option for
->  resetting state, rather than fork(), for devices where that works well.
-> 
->  * We have only scratched the surface for device "backends". I.e. I am using
->  fake null-co:// drives for block devices and SLiRP for network devices (see
->  scripts/oss-fuzz/general_fuzzer_configs.yml). Using more complex backends will
->  likely break due to forking/threading/statefulness related reasons and will
->  require more work.
-> 
-> * Because I still can't figure out how to make QOS do what I want, this
->   only maps PCI BARs on i386. For other targets, the fuzzer can still
->   try to do it on its own :). Only did a very simple test on ppc and arm
-> 
->  * This is failing on GitLab due to a leak:
->  https://gitlab.com/a1xndr/qemu/-/jobs/652179729
->  I am not sure how to work around it yet, since I don't think we can
->  free what the trace says we should free (argv from wordexp that we pass
->  to qemu_main).
-> 
-> 
-> Some of the issues I have found or reproduced with this fuzzer:
-> https://bugs.launchpad.net/bugs/1525123
-> https://bugs.launchpad.net/bugs/1681439
-> https://bugs.launchpad.net/bugs/1777315
-> https://bugs.launchpad.net/bugs/1878034
-> https://bugs.launchpad.net/bugs/1878043
-> https://bugs.launchpad.net/bugs/1878054
-> https://bugs.launchpad.net/bugs/1878057
-> https://bugs.launchpad.net/bugs/1878067
-> https://bugs.launchpad.net/bugs/1878134
-> https://bugs.launchpad.net/bugs/1878136
-> https://bugs.launchpad.net/bugs/1878253
-> https://bugs.launchpad.net/bugs/1878255
-> https://bugs.launchpad.net/bugs/1878259
-> https://bugs.launchpad.net/bugs/1878263
-> https://bugs.launchpad.net/bugs/1878323
-> https://bugs.launchpad.net/bugs/1878641
-> https://bugs.launchpad.net/bugs/1878642
-> https://bugs.launchpad.net/bugs/1878645
-> https://bugs.launchpad.net/bugs/1878651
-> https://bugs.launchpad.net/bugs/1879223
-> https://bugs.launchpad.net/bugs/1879227
-> https://bugs.launchpad.net/bugs/1879531
-> https://bugs.launchpad.net/bugs/1880355
-> https://bugs.launchpad.net/bugs/1880539
-> https://bugs.launchpad.net/bugs/1884693
-> https://bugs.launchpad.net/bugs/1886362
-> https://bugs.launchpad.net/bugs/1887303
-> https://bugs.launchpad.net/bugs/1887309
-> https://bugs.launchpad.net/bugs/697510
-> 
-> -Alex
-> 
-> Alexander Bulekov (12):
->   fuzz: Change the way we write qtest log to stderr
->   fuzz: Add general virtual-device fuzzer
->   fuzz: Add PCI features to the general fuzzer
->   fuzz: Add DMA support to the generic-fuzzer
->   fuzz: Declare DMA Read callback function
->   fuzz: Add fuzzer callbacks to DMA-read functions
->   scripts/oss-fuzz: Add wrapper program for generic fuzzer
->   scripts/oss-fuzz: Add general-fuzzer build script
->   scripts/oss-fuzz: Add general-fuzzer configs for oss-fuzz
->   scripts/oss-fuzz: build the general-fuzzer configs
->   scripts/oss-fuzz: Add script to reorder a general-fuzzer trace
->   scripts/oss-fuzz: Add crash trace minimization script
-> 
->  exec.c                                        |   2 +
->  include/exec/memory.h                         |  16 +
->  include/exec/memory_ldst_cached.inc.h         |   3 +
->  memory_ldst.inc.c                             |   4 +
->  scripts/oss-fuzz/build.sh                     |   8 +-
->  scripts/oss-fuzz/build_general_fuzzers.py     |  62 ++
->  scripts/oss-fuzz/general_fuzzer_configs.yml   | 103 +++
->  scripts/oss-fuzz/minimize_qtest_trace.py      | 117 +++
->  .../oss-fuzz/reorder_fuzzer_qtest_trace.py    |  94 +++
->  scripts/oss-fuzz/target.c                     |  40 +
->  softmmu/memory.c                              |  14 +
->  tests/qtest/fuzz/Makefile.include             |   1 +
->  tests/qtest/fuzz/fuzz.c                       |   5 +-
->  tests/qtest/fuzz/general_fuzz.c               | 758 ++++++++++++++++++
->  14 files changed, 1223 insertions(+), 4 deletions(-)
->  create mode 100755 scripts/oss-fuzz/build_general_fuzzers.py
->  create mode 100644 scripts/oss-fuzz/general_fuzzer_configs.yml
->  create mode 100755 scripts/oss-fuzz/minimize_qtest_trace.py
->  create mode 100755 scripts/oss-fuzz/reorder_fuzzer_qtest_trace.py
->  create mode 100644 scripts/oss-fuzz/target.c
->  create mode 100644 tests/qtest/fuzz/general_fuzz.c
-> 
-> -- 
-> 2.27.0
-> 
+-- 
+Eduardo
+
 
