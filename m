@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDA79252C36
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 13:09:24 +0200 (CEST)
-Received: from localhost ([::1]:44304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 254B0252C43
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 13:11:56 +0200 (CEST)
+Received: from localhost ([::1]:54014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAtIx-0002NQ-V7
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 07:09:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47468)
+	id 1kAtLP-0006Pw-71
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 07:11:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kAtGX-0006l5-2t
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:06:53 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:39096
- helo=us-smtp-1.mimecast.com)
+ id 1kAtGj-00075H-1n
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:07:05 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:36468
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kAtEa-00038h-LI
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:06:52 -0400
+ id 1kAtEm-00039M-Hm
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:07:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598439892;
+ s=mimecast20190719; t=1598439903;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7FwKynu//NYHMVvyqf9/IcST7xvNIQRYBCR5V/7Gzkw=;
- b=YfwjtUMZs02UgAXaN3tpsN6HUVLObvPRsy19QwzrvzfQK/JCET3BWA1zQxVKa1cj1LV5xO
- 4wkUQx/eLKEsZmyM8x3/5R/5Ym7+HvjU5U8EJzaF/lGCF/5YYqgDH8nC1v5riwNhVaCzC5
- Poo5ZeK2mgqs9UOO7C46giPdYflCL9Y=
+ bh=STAiIOun13Xq9as09CTvKHfANgWUbmuNAt9hQQAyelE=;
+ b=iF25wRo3Dhb4Xv5wHM7rNaLiAcQuCtqp5ViahzOuxBEGbEkgyGhUfBQ3oYij1eYgtdtHkg
+ X988dYWY43R1WDdDPPPknK1bcqsIe4xfB6/0jR1Kt0ZUU91w5kAo60UDddNugyapFtDSo2
+ Hye7wWWStMGwYnjAi8BKDZoKyOTiU/s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-7-AE5IZg8rN_eMpfmoqB_Nfw-1; Wed, 26 Aug 2020 07:04:49 -0400
-X-MC-Unique: AE5IZg8rN_eMpfmoqB_Nfw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-493-GynGley4M3iYXk0d_feBNQ-1; Wed, 26 Aug 2020 07:05:00 -0400
+X-MC-Unique: GynGley4M3iYXk0d_feBNQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF8AF10ABDBA;
- Wed, 26 Aug 2020 11:04:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70220807339;
+ Wed, 26 Aug 2020 11:04:59 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.43])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C314C1944D;
- Wed, 26 Aug 2020 11:04:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1DDEA1002D47;
+ Wed, 26 Aug 2020 11:04:52 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 3/8] configure: build docdir like other suffixed directories
-Date: Wed, 26 Aug 2020 15:04:14 +0400
-Message-Id: <20200826110419.528931-4-marcandre.lureau@redhat.com>
+Subject: [PATCH v3 4/8] meson: pass qemu_suffix option
+Date: Wed, 26 Aug 2020 15:04:15 +0400
+Message-Id: <20200826110419.528931-5-marcandre.lureau@redhat.com>
 In-Reply-To: <20200826110419.528931-1-marcandre.lureau@redhat.com>
 References: <20200826110419.528931-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=207.211.31.81;
- envelope-from=marcandre.lureau@redhat.com; helo=us-smtp-1.mimecast.com
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 03:16:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,51 +82,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-As documented in --help for --docdir.
+The following patches will make use of it to fix installation paths.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- configure | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ configure         | 1 +
+ meson_options.txt | 2 ++
+ 2 files changed, 3 insertions(+)
 
 diff --git a/configure b/configure
-index 61216b9210..e880e5676d 100755
+index e880e5676d..05b944fb8e 100755
 --- a/configure
 +++ b/configure
-@@ -1676,14 +1676,14 @@ includedir="${includedir:-$prefix/include}"
- if test "$mingw32" = "yes" ; then
-     mandir="$prefix"
-     datadir="$prefix"
--    qemu_docdir="$prefix"
-+    docdir="$prefix"
-     bindir="$prefix"
-     sysconfdir="$prefix"
-     local_statedir=
- else
-     mandir="${mandir:-$prefix/share/man}"
-     datadir="${datadir:-$prefix/share}"
--    qemu_docdir="${qemu_docdir:-$prefix/share/doc/qemu}"
-+    docdir="${docdir:-$prefix/share/doc}"
-     bindir="${bindir:-$prefix/bin}"
-     sysconfdir="${sysconfdir:-$prefix/etc}"
-     local_statedir="${local_statedir:-$prefix/var}"
-@@ -1832,7 +1832,7 @@ Advanced options (experts only):
-   --localstatedir=PATH     install local state in PATH (set at runtime on win32)
-   --firmwarepath=PATH      search PATH for firmware files
-   --efi-aarch64=PATH       PATH of efi file to use for aarch64 VMs.
--  --with-suffix=SUFFIX     suffix for QEMU data inside datadir/libdir/sysconfdir [$qemu_suffix]
-+  --with-suffix=SUFFIX     suffix for QEMU data inside datadir/libdir/sysconfdir/docdir [$qemu_suffix]
-   --with-pkgversion=VERS   use specified string as sub-version of the package
-   --enable-debug           enable common debug build options
-   --enable-sanitizers      enable default sanitizers
-@@ -6470,6 +6470,7 @@ fi
- qemu_confdir="$sysconfdir/$qemu_suffix"
- qemu_moddir="$libdir/$qemu_suffix"
- qemu_datadir="$datadir/$qemu_suffix"
-+qemu_docdir="$docdir/$qemu_suffix"
- qemu_localedir="$datadir/locale"
- qemu_icondir="$datadir/icons"
- qemu_desktopdir="$datadir/applications"
+@@ -8223,6 +8223,7 @@ NINJA=$PWD/ninjatool $meson setup \
+         --mandir "${pre_prefix}$mandir" \
+         --sysconfdir "${pre_prefix}$sysconfdir" \
+         --localstatedir "${pre_prefix}$local_statedir" \
++        -Dqemu_suffix="$qemu_suffix" \
+         -Doptimization=$(if test "$debug" = yes; then echo 0; else echo 2; fi) \
+         -Ddebug=$(if test "$debug_info" = yes; then echo true; else echo false; fi) \
+         -Dwerror=$(if test "$werror" = yes; then echo true; else echo false; fi) \
+diff --git a/meson_options.txt b/meson_options.txt
+index c55f9cd94c..1ef822bab3 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -1,3 +1,5 @@
++option('qemu_suffix', type : 'string', value: '/qemu',
++       description: 'Suffix for QEMU data/modules/config directories (can be empty)')
+ option('gettext', type : 'boolean', value : true)
+ option('sdl', type : 'feature', value : 'auto')
+ option('sdl_image', type : 'feature', value : 'auto')
 -- 
 2.26.2
 
