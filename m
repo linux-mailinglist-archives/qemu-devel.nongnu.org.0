@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E2AC252CC0
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 13:47:22 +0200 (CEST)
-Received: from localhost ([::1]:39906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 232B5252CB6
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 13:46:32 +0200 (CEST)
+Received: from localhost ([::1]:37548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAtth-0003Ug-1M
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 07:47:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56608)
+	id 1kAtst-0002Xy-7c
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 07:46:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <srs0=n7r+=ce=lse.epita.fr=cesar.belley@cri.epita.fr>)
- id 1kAtpL-0004h8-DK
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:42:51 -0400
-Received: from gate-2.cri.epita.net ([163.5.55.20]:47916
+ id 1kAtpM-0004ih-1w
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:42:52 -0400
+Received: from gate-2.cri.epita.net ([163.5.55.20]:47928
  helo=mail-2.srv.cri.epita.fr)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <srs0=n7r+=ce=lse.epita.fr=cesar.belley@cri.epita.fr>)
- id 1kAtpJ-00085n-CX
+ id 1kAtpK-000867-Be
  for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:42:51 -0400
 Received: from MattGorko-Laptop.home
  (lfbn-idf1-1-1395-83.w90-79.abo.wanadoo.fr [90.79.87.83])
  (Authenticated sender: cesar.belley)
- by mail-2.srv.cri.epita.fr (Postfix) with ESMTPSA id 7C56D412DC;
- Wed, 26 Aug 2020 13:42:47 +0200 (CEST)
+ by mail-2.srv.cri.epita.fr (Postfix) with ESMTPSA id 416B2412DD;
+ Wed, 26 Aug 2020 13:42:48 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=lse.epita.fr; s=cri;
- t=1598442167; bh=pXjOhnz/ejL0oC4wPTqjtOBcoqXZnfCQ63MGA0Z0KNY=;
+ t=1598442168; bh=nQhKuNn3MwH4gOHTPOjyBvj9K5iVBhe1uEtgY1+8Dds=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=O51UEbZAfp2KOm3cEuur0IvJ05gJ8P9QdiwK96P9NM3MMbINLDF6fGXrmD+iDoYtr
- +XatVnQOOxcISQScBg/3bqnHgSuSXnzm8X/Y7b1rTFJYt5aGYepnlhq2QJ6xPzA5Am
- vaDx3ML5MQT724wNpZahrwh5sQAaAxKgODCA7zm8=
+ b=AvMnKyctu16S0XDSCiPqb/XTAEtQ4YOB5upyz6yS2iKVa4qI6fcucC1PQgX5XK3Wh
+ PxqlW5sjr3qlxKuDR/EEiADvOTOgKQBKnHf3xsU+y9cFMvd9AxgU/Y3r29WzCRqGDF
+ o5JxRd1mXDeT32Jw+EuV9vbggksdFz/wzpu92/Sg=
 From: =?UTF-8?q?C=C3=A9sar=20Belley?= <cesar.belley@lse.epita.fr>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 07/12] meson: Add U2F key to meson
-Date: Wed, 26 Aug 2020 13:42:04 +0200
-Message-Id: <20200826114209.28821-8-cesar.belley@lse.epita.fr>
+Subject: [PATCH v3 08/12] docs/system: Add U2F key to the USB devices examples
+Date: Wed, 26 Aug 2020 13:42:05 +0200
+Message-Id: <20200826114209.28821-9-cesar.belley@lse.epita.fr>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200826114209.28821-1-cesar.belley@lse.epita.fr>
 References: <20200826114209.28821-1-cesar.belley@lse.epita.fr>
@@ -74,131 +74,23 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: César Belley <cesar.belley@lse.epita.fr>
 ---
- configure          | 8 +++++++-
- hw/usb/Kconfig     | 5 +++++
- hw/usb/meson.build | 7 +++++++
- meson.build        | 7 +++++++
- meson_options.txt  | 1 +
- 5 files changed, 27 insertions(+), 1 deletion(-)
+ docs/system/usb.rst | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/configure b/configure
-index b1e11397a8..24137d49d6 100755
---- a/configure
-+++ b/configure
-@@ -495,6 +495,7 @@ trace_file="trace"
- spice=""
- rbd=""
- smartcard=""
-+u2f="auto"
- libusb=""
- usb_redir=""
- opengl=""
-@@ -1411,6 +1412,10 @@ for opt do
-   ;;
-   --enable-smartcard) smartcard="yes"
-   ;;
-+  --disable-u2f) u2f="disabled"
-+  ;;
-+  --enable-u2f) u2f="enabled"
-+  ;;
-   --disable-libusb) libusb="no"
-   ;;
-   --enable-libusb) libusb="yes"
-@@ -1940,6 +1945,7 @@ disabled with --disable-FEATURE, default is enabled if available:
-   libiscsi        iscsi support
-   libnfs          nfs support
-   smartcard       smartcard support (libcacard)
-+  u2f             U2F support (u2f-emu)
-   libusb          libusb (for usb passthrough)
-   live-block-migration   Block migration in the main migration stream
-   usb-redir       usb network redirection support
-@@ -8230,7 +8236,7 @@ NINJA=$PWD/ninjatool $meson setup \
-         -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
- 	-Dsdl=$sdl -Dsdl_image=$sdl_image \
- 	-Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
--	-Dgettext=$gettext -Dxkbcommon=$xkbcommon \
-+	-Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f\
-         $cross_arg \
-         "$PWD" "$source_path"
+diff --git a/docs/system/usb.rst b/docs/system/usb.rst
+index ddfa828d74..9a2f1927c4 100644
+--- a/docs/system/usb.rst
++++ b/docs/system/usb.rst
+@@ -81,6 +81,9 @@ option or the ``device_add`` monitor command. Available devices are:
+ ``usb-audio``
+    USB audio device
  
-diff --git a/hw/usb/Kconfig b/hw/usb/Kconfig
-index 5e63dc75f8..3fc8fbe3c7 100644
---- a/hw/usb/Kconfig
-+++ b/hw/usb/Kconfig
-@@ -96,6 +96,11 @@ config USB_STORAGE_MTP
-     default y
-     depends on USB
- 
-+config USB_U2F
-+    bool
-+    default y
-+    depends on USB
++``u2f-{emulated,passthru}``
++   Universal Second Factor device
 +
- config IMX_USBPHY
-     bool
-     default y
-diff --git a/hw/usb/meson.build b/hw/usb/meson.build
-index 3c44a1b069..a25109b88c 100644
---- a/hw/usb/meson.build
-+++ b/hw/usb/meson.build
-@@ -50,6 +50,13 @@ if config_host.has_key('CONFIG_SMARTCARD')
-   hw_usb_modules += {'smartcard': usbsmartcard_ss}
- endif
+ .. _host_005fusb_005fdevices:
  
-+# U2F
-+softmmu_ss.add(when: 'CONFIG_USB_U2F', if_true: files('u2f.c'))
-+softmmu_ss.add(when: ['CONFIG_LINUX', 'CONFIG_USB_U2F'], if_true: files('u2f-passthru.c'))
-+if u2f.found()
-+  softmmu_ss.add(when: 'CONFIG_USB_U2F', if_true: [u2f, files('u2f-emulated.c')])
-+endif
-+
- # usb redirect
- if config_host.has_key('CONFIG_USB_REDIR')
-   usbredir_ss = ss.source_set()
-diff --git a/meson.build b/meson.build
-index f0fe5f8799..ae90fdbfe3 100644
---- a/meson.build
-+++ b/meson.build
-@@ -360,6 +360,11 @@ if 'CONFIG_SMARTCARD' in config_host
-   cacard = declare_dependency(compile_args: config_host['SMARTCARD_CFLAGS'].split(),
-                               link_args: config_host['SMARTCARD_LIBS'].split())
- endif
-+u2f = dependency('u2f-emu', required: get_option('u2f'), static: enable_static,
-+                 include_type: 'system')
-+if u2f.found()
-+  u2f = declare_dependency(dependencies: u2f)
-+endif
- usbredir = not_found
- if 'CONFIG_USB_REDIR' in config_host
-   usbredir = declare_dependency(compile_args: config_host['USB_REDIR_CFLAGS'].split(),
-@@ -385,6 +390,7 @@ endif
- 
- config_host_data.set('CONFIG_SDL', sdl.found())
- config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
-+config_host_data.set('CONFIG_U2F', u2f.found())
- config_host_data.set('CONFIG_VNC', vnc.found())
- config_host_data.set('CONFIG_VNC_JPEG', jpeg.found())
- config_host_data.set('CONFIG_VNC_PNG', png.found())
-@@ -1365,6 +1371,7 @@ summary_info += {'spice support':     config_host.has_key('CONFIG_SPICE')}
- summary_info += {'rbd support':       config_host.has_key('CONFIG_RBD')}
- summary_info += {'xfsctl support':    config_host.has_key('CONFIG_XFS')}
- summary_info += {'smartcard support': config_host.has_key('CONFIG_SMARTCARD')}
-+summary_info += {'U2F support':       u2f.found()}
- summary_info += {'libusb':            config_host.has_key('CONFIG_USB_LIBUSB')}
- summary_info += {'usb net redir':     config_host.has_key('CONFIG_USB_REDIR')}
- summary_info += {'OpenGL support':    config_host.has_key('CONFIG_OPENGL')}
-diff --git a/meson_options.txt b/meson_options.txt
-index c55f9cd94c..aef2de6523 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -1,6 +1,7 @@
- option('gettext', type : 'boolean', value : true)
- option('sdl', type : 'feature', value : 'auto')
- option('sdl_image', type : 'feature', value : 'auto')
-+option('u2f', type : 'feature', value : 'auto')
- option('vnc', type : 'feature', value : 'enabled')
- option('vnc_jpeg', type : 'feature', value : 'auto')
- option('vnc_png', type : 'feature', value : 'auto')
+ Using host USB devices on a Linux host
 -- 
 2.28.0
 
