@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16D65252E9C
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 14:19:47 +0200 (CEST)
-Received: from localhost ([::1]:56800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CBFE252E95
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 14:18:44 +0200 (CEST)
+Received: from localhost ([::1]:52454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAuP4-0006qg-6l
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 08:19:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37506)
+	id 1kAuO3-00056N-KQ
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 08:18:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
- id 1kAuMe-0003aO-77; Wed, 26 Aug 2020 08:17:16 -0400
-Received: from proxmox-new.maurer-it.com ([212.186.127.180]:18191)
+ id 1kAuMf-0003ax-BV; Wed, 26 Aug 2020 08:17:17 -0400
+Received: from proxmox-new.maurer-it.com ([212.186.127.180]:39896)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
- id 1kAuMb-0004Cj-JJ; Wed, 26 Aug 2020 08:17:15 -0400
+ id 1kAuMb-0004Cl-UM; Wed, 26 Aug 2020 08:17:17 -0400
 Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 91E08448B6;
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 98364448C0;
  Wed, 26 Aug 2020 14:17:01 +0200 (CEST)
 From: Stefan Reiter <s.reiter@proxmox.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 2/3] blockdev: add sequential mode to *-backup transactions
-Date: Wed, 26 Aug 2020 14:13:58 +0200
-Message-Id: <20200826121359.15450-3-s.reiter@proxmox.com>
+Subject: [PATCH 3/3] backup: initialize bcs bitmap on job create, not start
+Date: Wed, 26 Aug 2020 14:13:59 +0200
+Message-Id: <20200826121359.15450-4-s.reiter@proxmox.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200826121359.15450-1-s.reiter@proxmox.com>
 References: <20200826121359.15450-1-s.reiter@proxmox.com>
@@ -57,105 +57,46 @@ Cc: kwolf@redhat.com, w.bumiller@proxmox.com, armbru@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Only supported with completion-mode 'grouped', since it relies on a
-JobTxn to exist. This means that for now it is only available for
-{drive,blockdev}-backup transactions.
-
-Since only one job will be running at a time, bandwidth-limits can be
-applied effectively. It can also prevent overloading a host's IO
-capabilities in general.
+After backup_init_bcs_bitmap the copy-before-write behaviour is active.
+This way, multiple backup jobs created at once but running in a
+sequential transaction will still represent the same point in time.
 
 Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
 ---
- blockdev.c            | 25 ++++++++++++++++++++++---
- qapi/transaction.json |  6 +++++-
- 2 files changed, 27 insertions(+), 4 deletions(-)
 
-diff --git a/blockdev.c b/blockdev.c
-index 3848a9c8ab..3691e5e791 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -1826,7 +1826,10 @@ static void drive_backup_commit(BlkActionState *common)
-     aio_context_acquire(aio_context);
+I'd imagine this was done on job start for a purpose, so this is potentially
+wrong. In testing it works fine.
+
+Sent along for feedback, since it would be necessary to really make use of the
+sequential backup feature (without it, the individual backup jobs would not have
+a consistent view of the guest).
+
+
+ block/backup.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/block/backup.c b/block/backup.c
+index 4f13bb20a5..14660eef45 100644
+--- a/block/backup.c
++++ b/block/backup.c
+@@ -237,8 +237,6 @@ static int coroutine_fn backup_run(Job *job, Error **errp)
+     BackupBlockJob *s = container_of(job, BackupBlockJob, common.job);
+     int ret = 0;
  
-     assert(state->job);
--    job_start(&state->job->job);
+-    backup_init_bcs_bitmap(s);
+-
+     if (s->sync_mode == MIRROR_SYNC_MODE_TOP) {
+         int64_t offset = 0;
+         int64_t count;
+@@ -471,6 +469,8 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
+     block_job_add_bdrv(&job->common, "target", target, 0, BLK_PERM_ALL,
+                        &error_abort);
+ 
++    backup_init_bcs_bitmap(job);
 +
-+    if (!common->txn_props->sequential) {
-+        job_start(&state->job->job);
-+    }
+     return &job->common;
  
-     aio_context_release(aio_context);
- }
-@@ -1927,7 +1930,9 @@ static void blockdev_backup_commit(BlkActionState *common)
-     aio_context_acquire(aio_context);
- 
-     assert(state->job);
--    job_start(&state->job->job);
-+    if (!common->txn_props->sequential) {
-+        job_start(&state->job->job);
-+    }
- 
-     aio_context_release(aio_context);
- }
-@@ -2303,6 +2308,11 @@ static TransactionProperties *get_transaction_properties(
-         props->completion_mode = ACTION_COMPLETION_MODE_INDIVIDUAL;
-     }
- 
-+    if (!props->has_sequential) {
-+        props->has_sequential = true;
-+        props->sequential = false;
-+    }
-+
-     return props;
- }
- 
-@@ -2328,7 +2338,11 @@ void qmp_transaction(TransactionActionList *dev_list,
-      */
-     props = get_transaction_properties(props);
-     if (props->completion_mode != ACTION_COMPLETION_MODE_INDIVIDUAL) {
--        block_job_txn = job_txn_new();
-+        block_job_txn = props->sequential ? job_txn_new_seq() : job_txn_new();
-+    } else if (props->sequential) {
-+        error_setg(errp, "Sequential transaction mode is not supported with "
-+                         "completion-mode = individual");
-+        return;
-     }
- 
-     /* drain all i/o before any operations */
-@@ -2367,6 +2381,11 @@ void qmp_transaction(TransactionActionList *dev_list,
-         }
-     }
- 
-+    /* jobs in sequential txns don't start themselves on commit */
-+    if (block_job_txn && props->sequential) {
-+        job_txn_start_seq(block_job_txn);
-+    }
-+
-     /* success */
-     goto exit;
- 
-diff --git a/qapi/transaction.json b/qapi/transaction.json
-index 15ddebdbc3..4808383088 100644
---- a/qapi/transaction.json
-+++ b/qapi/transaction.json
-@@ -84,11 +84,15 @@
- #                   Actions will complete or fail as a group.
- #                   See @ActionCompletionMode for details.
- #
-+# @sequential: Run the jobs in the transaction one after the other, instead
-+#              of all at once. Not supported for completion-mode 'individual'.
-+#
- # Since: 2.5
- ##
- { 'struct': 'TransactionProperties',
-   'data': {
--       '*completion-mode': 'ActionCompletionMode'
-+       '*completion-mode': 'ActionCompletionMode',
-+       '*sequential': 'bool'
-   }
- }
- 
+  error:
 -- 
 2.20.1
 
