@@ -2,62 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CF6B252A40
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 11:37:04 +0200 (CEST)
-Received: from localhost ([::1]:56504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D4DA252A9B
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 11:41:44 +0200 (CEST)
+Received: from localhost ([::1]:59764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kArrb-00020W-IJ
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 05:37:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52766)
+	id 1kArw7-0003XK-CC
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 05:41:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kArqn-0001Re-As; Wed, 26 Aug 2020 05:36:13 -0400
-Received: from mail-ej1-f65.google.com ([209.85.218.65]:36839)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kArql-0007zu-CR; Wed, 26 Aug 2020 05:36:12 -0400
-Received: by mail-ej1-f65.google.com with SMTP id l2so1935395eji.3;
- Wed, 26 Aug 2020 02:36:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2/q5de0KwxEsVLf+vB5ZV1S2o31SGrIX59NRPZ6CivY=;
- b=HQ/hm8MxZz6Uz2xhma4D5Ax46nRMJUWzBoTSG0dG40AvRXtyC0DGu3oCLIcjG5lpzC
- SCJqAbSb8ddb5LLEkaj+1Wlq/tR0iq3MV8mVTbs40IGYuQ00GvdLBAGi5GiMoO/asWTm
- gZASVPjPAiwopL/gRZLw8A+NvqHa7eSw0qwZ+G1aCMR4ivreYOyw1LaRy617Sct3DTfC
- 10QgQIXqfH/NyJUP6/c5U/z0xFd0OfLokMC79zDoOztZ+/MaXB/aPtX+jhDbNQ4UC2OX
- 5QrnJJQBGOfZQUQ0KSoZa7O+Jfg4jHl+jCl6KWvLt+82iiQMh0nk9AVTeEVvTdN6ucFM
- lQ6A==
-X-Gm-Message-State: AOAM531s23ZlBqE8lWG0xYLzC6Mg1+pyGdSgUpv2FFnDmTgRLUtph2U5
- N/cFPkoJPLUizuPqvg1T/O0/3wYsbt2HXYNH1fs=
-X-Google-Smtp-Source: ABdhPJzO8n7lX2zEcQ45woa6HJ0PNDbUEjIQ2B4pJ6TS/HlasRxMIn5BzK03y7Ird04H0yRCQUABNm/ZUWixr3e+TOE=
-X-Received: by 2002:a17:906:640c:: with SMTP id
- d12mr14598157ejm.388.1598434569310; 
- Wed, 26 Aug 2020 02:36:09 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1kArv8-0002g1-M9
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 05:40:42 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:4654 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1kArv6-0008Np-35
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 05:40:42 -0400
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 4CBEC4DA4C2DCC287681;
+ Wed, 26 Aug 2020 17:40:30 +0800 (CST)
+Received: from [127.0.0.1] (10.174.186.4) by DGGEMS401-HUB.china.huawei.com
+ (10.3.19.201) with Microsoft SMTP Server id 14.3.487.0; Wed, 26 Aug 2020
+ 17:40:23 +0800
+Subject: Re: [PATCH v5 03/12] migration/dirtyrate: Add RamlockDirtyInfo to
+ store sampled page info
+To: David Edmondson <dme@dme.org>
+References: <1598260480-64862-1-git-send-email-zhengchuan@huawei.com>
+ <1598260480-64862-4-git-send-email-zhengchuan@huawei.com>
+ <m2lfi1lpqj.fsf@dme.org>
+From: Zheng Chuan <zhengchuan@huawei.com>
+Message-ID: <a689e7ed-c685-231d-e9f8-61cc2167a71f@huawei.com>
+Date: Wed, 26 Aug 2020 17:40:23 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <20200825160847.18091-1-peter.maydell@linaro.org>
-In-Reply-To: <20200825160847.18091-1-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Wed, 26 Aug 2020 11:35:57 +0200
-Message-ID: <CAAdtpL709BVOXDbhDRVqgueveVeT0c0dv=weZDaLf84xGkz6dQ@mail.gmail.com>
-Subject: Re: [PATCH] hw/timer/armv7m_systick: assert that board code set
- system_clock_scale
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000b3568805adc48cff"
-Received-SPF: pass client-ip=209.85.218.65;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-f65.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 05:36:09
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.248, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <m2lfi1lpqj.fsf@dme.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.186.4]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190;
+ envelope-from=zhengchuan@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 05:40:31
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.602,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,133 +65,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
+ xiexiangyou@huawei.com, alex.chen@huawei.com, ann.zhuangyanying@huawei.com,
+ fangying1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b3568805adc48cff
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Le mar. 25 ao=C3=BBt 2020 18:09, Peter Maydell <peter.maydell@linaro.org> a
-=C3=A9crit :
-
-> It is the responsibility of board code for an armv7m system to set
-> system_clock_scale appropriately for the CPU speed of the core.
-> If it forgets to do this, then QEMU will hang if the guest tries
-> to use the systick timer in the "tick at the CPU clock frequency" mode.
->
-> We forgot that in a couple of our boards (see commits ce4f70e81ed23c93f,
-> e7e5a9595ab1136). Add an assertion in the systick reset method so
-> we don't let any new boards in with the same bug.
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
->
 
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+On 2020/8/26 17:29, David Edmondson wrote:
+> On Monday, 2020-08-24 at 17:14:31 +08, Chuan Zheng wrote:
+> 
+>> Add RamlockDirtyInfo to store sampled page info of each ramblock.
+>>
+>> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
+>> ---
+>>  migration/dirtyrate.h | 18 ++++++++++++++++++
+>>  1 file changed, 18 insertions(+)
+>>
+>> diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
+>> index 33669b7..70000da 100644
+>> --- a/migration/dirtyrate.h
+>> +++ b/migration/dirtyrate.h
+>> @@ -19,6 +19,11 @@
+>>   */
+>>  #define DIRTYRATE_DEFAULT_SAMPLE_PAGES            512
+>>  
+>> +/*
+>> + * Record ramblock idstr
+>> + */
+>> +#define RAMBLOCK_INFO_MAX_LEN                     256
+>> +
+>>  /* Take 1s as default for calculation duration */
+>>  #define DEFAULT_FETCH_DIRTYRATE_TIME_SEC          1
+>>  
+>> @@ -27,6 +32,19 @@ struct DirtyRateConfig {
+>>      int64_t sample_period_seconds; /* time duration between two sampling */
+>>  };
+>>  
+>> +/*
+>> + * Store dirtypage info for each ramblock.
+>> + */
+>> +struct RamblockDirtyInfo {
+>> +    char idstr[RAMBLOCK_INFO_MAX_LEN]; /* idstr for each ramblock */
+>> +    uint8_t *ramblock_addr; /* base address of ramblock we measure */
+>> +    uint64_t ramblock_pages; /* ramblock size in 4K-page */
+> 
+> It's probably a stupid question, but why not store a pointer to the
+> RAMBlock rather than copying some of the details?
+> 
+>> +    uint64_t *sample_page_vfn; /* relative offset address for sampled page */
+>> +    uint64_t sample_pages_count; /* count of sampled pages */
+>> +    uint64_t sample_dirty_count; /* cout of dirty pages we measure */
+> 
+> "cout" -> "count"
+> 
+Hi, David.
+Thank you for review.
+Actually I have resent [PATCH V5], but it's my fault to forget to add resent tag which may lead to confusing.
+In new patch series, this spell mistake is fixed.
+Please refer to the newer patch series:)
 
----
-> In the longer term we should make this a clocktree input and
-> plumb it through the armv7m container and so on, but for the
-> moment this assert() improves the current situation.
-> ---
->  hw/timer/armv7m_systick.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/hw/timer/armv7m_systick.c b/hw/timer/armv7m_systick.c
-> index 74c58bcf245..a8cec7eb56b 100644
-> --- a/hw/timer/armv7m_systick.c
-> +++ b/hw/timer/armv7m_systick.c
-> @@ -202,6 +202,14 @@ static void systick_reset(DeviceState *dev)
->  {
->      SysTickState *s =3D SYSTICK(dev);
->
-> +    /*
-> +     * Forgetting to set system_clock_scale is always a board code
-> +     * bug. We can't check this earlier because for some boards
-> +     * (like stellaris) it is not yet configured at the point where
-> +     * the systick device is realized.
-> +     */
-> +    assert(system_clock_scale !=3D 0);
-> +
->      s->control =3D 0;
->      s->reload =3D 0;
->      s->tick =3D 0;
-> --
-> 2.20.1
->
->
->
+>> +    uint32_t *hash_result; /* array of hash result for sampled pages */
+>> +};
+>> +
+>>  void *get_dirtyrate_thread(void *arg);
+>>  #endif
+>>  
+>> -- 
+>> 1.8.3.1
+> 
+> dme.
+> 
 
---000000000000b3568805adc48cff
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
-"gmail_attr">Le mar. 25 ao=C3=BBt 2020 18:09, Peter Maydell &lt;<a href=3D"=
-mailto:peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; a =C3=A9c=
-rit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex">It is the responsibility=
- of board code for an armv7m system to set<br>
-system_clock_scale appropriately for the CPU speed of the core.<br>
-If it forgets to do this, then QEMU will hang if the guest tries<br>
-to use the systick timer in the &quot;tick at the CPU clock frequency&quot;=
- mode.<br>
-<br>
-We forgot that in a couple of our boards (see commits ce4f70e81ed23c93f,<br=
->
-e7e5a9595ab1136). Add an assertion in the systick reset method so<br>
-we don&#39;t let any new boards in with the same bug.<br>
-<br>
-Signed-off-by: Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org=
-" target=3D"_blank" rel=3D"noreferrer">peter.maydell@linaro.org</a>&gt;<br>=
-</blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto"><br =
-style=3D"font-family:sans-serif;font-size:13.696px"><span style=3D"font-fam=
-ily:sans-serif;font-size:13.696px">Reviewed-by: Philippe Mathieu-Daud=C3=A9=
- &lt;</span><a href=3D"mailto:f4bug@amsat.org" style=3D"text-decoration:non=
-e;color:rgb(66,133,244);font-family:sans-serif;font-size:13.696px">f4bug@am=
-sat.org</a><span style=3D"font-family:sans-serif;font-size:13.696px">&gt;</=
-span><br></div><div dir=3D"auto"><span style=3D"font-family:sans-serif;font=
--size:13.696px"><br></span></div><div dir=3D"auto"><div class=3D"gmail_quot=
-e"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex">
----<br>
-In the longer term we should make this a clocktree input and<br>
-plumb it through the armv7m container and so on, but for the<br>
-moment this assert() improves the current situation.<br>
----<br>
-=C2=A0hw/timer/armv7m_systick.c | 8 ++++++++<br>
-=C2=A01 file changed, 8 insertions(+)<br>
-<br>
-diff --git a/hw/timer/armv7m_systick.c b/hw/timer/armv7m_systick.c<br>
-index 74c58bcf245..a8cec7eb56b 100644<br>
---- a/hw/timer/armv7m_systick.c<br>
-+++ b/hw/timer/armv7m_systick.c<br>
-@@ -202,6 +202,14 @@ static void systick_reset(DeviceState *dev)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0SysTickState *s =3D SYSTICK(dev);<br>
-<br>
-+=C2=A0 =C2=A0 /*<br>
-+=C2=A0 =C2=A0 =C2=A0* Forgetting to set system_clock_scale is always a boa=
-rd code<br>
-+=C2=A0 =C2=A0 =C2=A0* bug. We can&#39;t check this earlier because for som=
-e boards<br>
-+=C2=A0 =C2=A0 =C2=A0* (like stellaris) it is not yet configured at the poi=
-nt where<br>
-+=C2=A0 =C2=A0 =C2=A0* the systick device is realized.<br>
-+=C2=A0 =C2=A0 =C2=A0*/<br>
-+=C2=A0 =C2=A0 assert(system_clock_scale !=3D 0);<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0s-&gt;control =3D 0;<br>
-=C2=A0 =C2=A0 =C2=A0s-&gt;reload =3D 0;<br>
-=C2=A0 =C2=A0 =C2=A0s-&gt;tick =3D 0;<br>
--- <br>
-2.20.1<br>
-<br>
-<br>
-</blockquote></div></div></div>
-
---000000000000b3568805adc48cff--
 
