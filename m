@@ -2,23 +2,23 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3349252B3F
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 12:18:12 +0200 (CEST)
-Received: from localhost ([::1]:45632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF05E252B3C
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 12:17:18 +0200 (CEST)
+Received: from localhost ([::1]:42578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAsVP-0005gK-SB
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 06:18:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34296)
+	id 1kAsUX-0004QS-Ti
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 06:17:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1kAsTS-00033D-SV; Wed, 26 Aug 2020 06:16:10 -0400
-Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:32896)
+ id 1kAsTS-00031l-5D; Wed, 26 Aug 2020 06:16:10 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:39939)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1kAsTQ-0004zg-8S; Wed, 26 Aug 2020 06:16:10 -0400
-Received: by mail-io1-xd42.google.com with SMTP id g14so1557671iom.0;
- Wed, 26 Aug 2020 03:16:01 -0700 (PDT)
+ id 1kAsTQ-0004zT-8S; Wed, 26 Aug 2020 06:16:09 -0400
+Received: by mail-ot1-x343.google.com with SMTP id e23so269789otk.7;
+ Wed, 26 Aug 2020 03:15:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
@@ -34,18 +34,17 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
  bh=B8xG5RlJvyOHoSk0yY3k6K12U3qnr4Bcj+P1T+wfO6A=;
- b=kLsTFSq6MneJcdd7Xt4wgthbhe22Nq4syi/WmH3+pPob70y6dwwLyUontNb142ffMK
- Bu4h/oHBH0RdWG00uTpm/MYZfFQ3f8IQIo2MT1L3Aa7iz6y5j4f6cbAKNWKzvej0P+17
- G1aD2Xwew092Zxtpp7qYId4FlCR1gIjaw1DvB8SBB7PjBxVHPwTHJm6Lr8pZ035J7eq+
- YbKT7RK6N2bX+IHMa80UcR6lmVLIau+fh5ZoZAi84e8H7ckOC0TRFpAh5TQtF9goHill
- x8aF2+CXLOXpgoYasDmk8svmduBF3U7Reh0C+v/mQ6Ijcl17rRH9okuVNgLMdthRpM23
- XPfQ==
-X-Gm-Message-State: AOAM5311FZzYIsi4kn1p91MNp0yRH7MlQq9k/0cq17FCBFO/EDqTsWf8
- +L33fADnPaBSQXXRSrcR3fzmRvd+Ciz6gcf837Q=
-X-Google-Smtp-Source: ABdhPJxa1/8SLgXbCENqRBKPFA2eFymeM9FA66XECHzgZ/UvEBbPrQyJHHJDCeQx9B7TtVwzQyLbNdT5xrFdnm5O3VY=
-X-Received: by 2002:a05:6638:298:: with SMTP id
- c24mr14534165jaq.20.1598436960678; 
- Wed, 26 Aug 2020 03:16:00 -0700 (PDT)
+ b=jv0KIDuY4jyIIzQXNKe3T4Thp0jTeOf1kTm2DNaXzxBKgzbAM2ZTeqcNmm9kHCF4xz
+ 1oJ/GXa+JhJ0NuW7DTEd/QFiZx5avIXd2jqMDuS3kdsFYFnKPFGFbRHMuBpL33XfzSq5
+ kk3cJxVghlf4iiTCtf3n+JOa65G2eEaJoauoeo1DgFPq1r278uW7qcf5lCImBTJVKMlr
+ ZwemnPstIWnpCGYrFGMdtv3f/oU8wtY64y8LrTk86sD1xpnJuV9QYnC7IJ1FYqOLCp/y
+ 49xTpZoHwhlhiabA5//v1K86rKcxsghcEe+17mnd71jWZAi5+LuQCd7rvJJX22FUzt7c
+ /guw==
+X-Gm-Message-State: AOAM530MaOFlyEL7fe+IiosOCm1NS5EZI8VH+UkBcXgPkYHukXNeE1IX
+ D1+4PAOO1bd5D+HwT+qXuXCyXlHbkquzixzrpfI=
+X-Google-Smtp-Source: ABdhPJz8oYkkGpVcqh0wvp/7ZXpCNAZU/exTnnvPQ/YFPtK2pa0/lEsN2zdAaMf01VrKylTWgnIdl01X0F6P3hDQ9EI=
+X-Received: by 2002:a9d:788:: with SMTP id 8mr2771347oto.181.1598436958078;
+ Wed, 26 Aug 2020 03:15:58 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200825112447.126308-1-kuhn.chenqun@huawei.com>
  <20200825112447.126308-8-kuhn.chenqun@huawei.com>
@@ -60,8 +59,8 @@ Subject: Re: [PATCH v2 07/10] vfio/platform: Remove dead assignment in
 To: "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
- envelope-from=liq3ea@gmail.com; helo=mail-io1-xd42.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
+ envelope-from=liq3ea@gmail.com; helo=mail-ot1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -70,7 +69,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
