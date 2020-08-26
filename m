@@ -2,74 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CA8F252BE4
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 12:58:44 +0200 (CEST)
-Received: from localhost ([::1]:52142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 586E3252BD0
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 12:56:29 +0200 (CEST)
+Received: from localhost ([::1]:40874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAt8d-0007qg-7m
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 06:58:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44240)
+	id 1kAt6S-0003Kz-C8
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 06:56:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kAt3Q-00062Y-1e
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 06:53:20 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:38410
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kAt3H-0001Wo-GG
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 06:53:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598439190;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+RoT3UHwL3C3aiK+dtyg81KyFCt1RZ6yhy/ND3g2/ps=;
- b=aAjUhBV1RJS0m9G1rhihpYe8gEl+ZJ4nsqPzhjrlgizcS2Tu48mNJRf9J5qYZy3mXocd+z
- Nb5nC1KvmKIc083UpD5WRAUlZxb9ET6yRJ6tjZe3b/zDkkH0OD1yOpz3qfCO6Mjy59plpB
- ck73FTywvRPl4aUl2iDTX7A2ZdgRp58=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-206-RRdoey3WNem19gyBUqYnLQ-1; Wed, 26 Aug 2020 06:53:09 -0400
-X-MC-Unique: RRdoey3WNem19gyBUqYnLQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D8C531074646;
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1kAt3N-0005uJ-8g
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 06:53:17 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:39859)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1kAt3H-0001W0-4Z
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 06:53:16 -0400
+Received: by mail-wr1-x441.google.com with SMTP id a5so1330233wrm.6
+ for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 03:53:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dme-org.20150623.gappssmtp.com; s=20150623;
+ h=to:cc:subject:in-reply-to:references:from:date:message-id
+ :mime-version; bh=ALlIKMUEnT3uU6b07euw91wpzQdUfu2Dw7stGzRpdrg=;
+ b=axjCNdfKWcxV74aSNNQUn2x9vpVIBUFHNv8BEvYA2/M9sS6sSi8Z6E04nrmm9UKVOw
+ e1U9sPXnT/Fxti1bKyqgmGefXT2J4uoJY/DPLXHXIoIctHsrnEGAn7wBJR3kvlKZKI29
+ B4whje4UY5K5+K1Kv7Tn+1hM56GX/wDSs5XRNfGG+fFX5F437rkCE2yu4a1OpEmOsiFp
+ Zx65NGZlcff3T5ul+y4M30y/BGguYuaoT7l+D9Ozl3vATxRu3ISNoYcve49VjGqU0s8A
+ mxEbJNaCxjF90Hh7mv8rRYUej0ButhxktClNWz+tFzG7jrBTsPTvVKapNNs6zqD6v77s
+ wxmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:subject:in-reply-to:references:from:date
+ :message-id:mime-version;
+ bh=ALlIKMUEnT3uU6b07euw91wpzQdUfu2Dw7stGzRpdrg=;
+ b=CVBfJ9VCJx+QSPgq/LGd3MLS0X+K1ouA7qJyL+gfJ6/UZEtHxGrpSi8dhY6oUsI2H/
+ wPJhlCh2mV9cggz4C2gP92ooKGj3WulamHmTlL04Yz2cX3Vff5Z87gHJruUXGYCKNPIt
+ 05z6ryJhU+n5O0cB4AwSR51Yvkh+NaOG40E1u6xD2Aei8NcQAZuTOt8IjSrlSsqwILgQ
+ Xh5s7hkslwWgtmXflNZI8X8TLVUdB0YtNqET2ui39tuy/pttjeTrkA8JS/9l7wZLey5P
+ iqhVDOqgIDCDO4h5qf0UuQAnPK1igkVz9dMwccUtgrAZfRtLKdnsaIu/yoSM8fdvW0dZ
+ a8eQ==
+X-Gm-Message-State: AOAM531xC08OQ4Z0etw2SngHqV0VrC4vmbi8LccN0C99zGJyyeIkZS5b
+ bwjFNaGHBls8bAUccObSnwEs3g==
+X-Google-Smtp-Source: ABdhPJymphwzmWKb+2jhQGjfFNDmZrQLKKhM34VjvyAxWBEqA6b97SW6AwKMnyT03klRaLJYH+ZOEA==
+X-Received: by 2002:adf:fac8:: with SMTP id a8mr15042522wrs.368.1598439188945; 
+ Wed, 26 Aug 2020 03:53:08 -0700 (PDT)
+Received: from disaster-area.hh.sledj.net
+ (8.a.e.d.0.0.0.0.0.0.0.0.4.6.0.0.0.4.1.7.1.7.b.b.0.b.8.0.1.0.0.2.ip6.arpa.
+ [2001:8b0:bb71:7140:64::dea8])
+ by smtp.gmail.com with ESMTPSA id n18sm4752401wrp.58.2020.08.26.03.53.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Aug 2020 03:53:08 -0700 (PDT)
+Received: from localhost (disaster-area.hh.sledj.net [local])
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 1d2838e8;
  Wed, 26 Aug 2020 10:53:07 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-54.ams2.redhat.com
- [10.36.112.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7F6B25D9E4;
- Wed, 26 Aug 2020 10:53:07 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 0635031FC7; Wed, 26 Aug 2020 12:52:55 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 20/20] tests/acpi: update expected data files for microvm
-Date: Wed, 26 Aug 2020 12:52:54 +0200
-Message-Id: <20200826105254.28496-21-kraxel@redhat.com>
-In-Reply-To: <20200826105254.28496-1-kraxel@redhat.com>
-References: <20200826105254.28496-1-kraxel@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v5 03/12] migration/dirtyrate: Add RamlockDirtyInfo to
+ store sampled page info
+In-Reply-To: <20200826103330.GB2726@work-vm>
+References: <1598260480-64862-1-git-send-email-zhengchuan@huawei.com>
+ <1598260480-64862-4-git-send-email-zhengchuan@huawei.com>
+ <m2lfi1lpqj.fsf@dme.org> <20200826103330.GB2726@work-vm>
+X-HGTTG: heart-of-gold
+From: David Edmondson <dme@dme.org>
+Date: Wed, 26 Aug 2020 11:53:07 +0100
+Message-ID: <m2tuwpk7ak.fsf@dme.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 06:53:09
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.958,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: neutral client-ip=2a00:1450:4864:20::441;
+ envelope-from=dme@dme.org; helo=mail-wr1-x441.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NEUTRAL=0.779, UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,70 +89,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
- qemu-arm@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: alex.chen@huawei.com, berrange@redhat.com, zhang.zhanghailiang@huawei.com,
+ quintela@redhat.com, qemu-devel@nongnu.org, xiexiangyou@huawei.com,
+ Chuan Zheng <zhengchuan@huawei.com>, ann.zhuangyanying@huawei.com,
+ fangying1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Also clear tests/qtest/bios-tables-test-allowed-diff.h
+On Wednesday, 2020-08-26 at 11:33:30 +01, Dr. David Alan Gilbert wrote:
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- tests/qtest/bios-tables-test-allowed-diff.h |   3 ---
- tests/data/acpi/microvm/APIC                | Bin 0 -> 70 bytes
- tests/data/acpi/microvm/DSDT                | Bin 0 -> 365 bytes
- tests/data/acpi/microvm/FACP                | Bin 0 -> 268 bytes
- 4 files changed, 3 deletions(-)
+> * David Edmondson (dme@dme.org) wrote:
+>> On Monday, 2020-08-24 at 17:14:31 +08, Chuan Zheng wrote:
+>> 
+>> > Add RamlockDirtyInfo to store sampled page info of each ramblock.
+>> >
+>> > Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
+>> > ---
+>> >  migration/dirtyrate.h | 18 ++++++++++++++++++
+>> >  1 file changed, 18 insertions(+)
+>> >
+>> > diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
+>> > index 33669b7..70000da 100644
+>> > --- a/migration/dirtyrate.h
+>> > +++ b/migration/dirtyrate.h
+>> > @@ -19,6 +19,11 @@
+>> >   */
+>> >  #define DIRTYRATE_DEFAULT_SAMPLE_PAGES            512
+>> >  
+>> > +/*
+>> > + * Record ramblock idstr
+>> > + */
+>> > +#define RAMBLOCK_INFO_MAX_LEN                     256
+>> > +
+>> >  /* Take 1s as default for calculation duration */
+>> >  #define DEFAULT_FETCH_DIRTYRATE_TIME_SEC          1
+>> >  
+>> > @@ -27,6 +32,19 @@ struct DirtyRateConfig {
+>> >      int64_t sample_period_seconds; /* time duration between two sampling */
+>> >  };
+>> >  
+>> > +/*
+>> > + * Store dirtypage info for each ramblock.
+>> > + */
+>> > +struct RamblockDirtyInfo {
+>> > +    char idstr[RAMBLOCK_INFO_MAX_LEN]; /* idstr for each ramblock */
+>> > +    uint8_t *ramblock_addr; /* base address of ramblock we measure */
+>> > +    uint64_t ramblock_pages; /* ramblock size in 4K-page */
+>> 
+>> It's probably a stupid question, but why not store a pointer to the
+>> RAMBlock rather than copying some of the details?
+>
+> I think I figured that out in the last round;  this code runs as:
+>
+>     rcu lock {
+>        calculate initial CRCs
+>     }
+>
+>     <sleep 1 second ish>
+>     rcu lock {
+>        calculate new CRCs
+>     }
+>
+> A RAMBlock might get deleted between the two.
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index 97c3fa621b7f..dfb8523c8bf4 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,4 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/microvm/APIC",
--"tests/data/acpi/microvm/DSDT",
--"tests/data/acpi/microvm/FACP",
-diff --git a/tests/data/acpi/microvm/APIC b/tests/data/acpi/microvm/APIC
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..7472c7e830b6c7139720e93dd544d4441556661d 100644
-GIT binary patch
-literal 70
-zcmZ<^@N{-#U|?Xp?&R<65v<@85#a0y6k`O6f!H9Lf#JbFFwFr}2jnsGfW!{`1CcCj
-H|A7Jk<Z=uF
+Makes sense, thanks.
 
-literal 0
-HcmV?d00001
-
-diff --git a/tests/data/acpi/microvm/DSDT b/tests/data/acpi/microvm/DSDT
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..b43f427a222a933d3f34aceab6224a2c6115c365 100644
-GIT binary patch
-literal 365
-zcmX9(%SyvQ6upy2n@pNIKA<QF#Sf5arMONe(=?DaG1G?-VTyaft+=UO6kPiQ{RBV7
-z&*`dor`gOs_nbMLa}$-!-w1&98W&=s`tfrq66BBqgUw{=rB<=7xA)_f7<+n>CE=5t
-zE;#2y@U)soH1M>j)Okp0N|?)B()oaTI~2uqaQfeg{#@eeMV8=e3}=mj(J&<k`(T52
-z$G~{<Rw@(SghZmuI3GM<2s%R)5Sg4V4Zd4o6Cc~5X(KC{LI+@fq)z=6m{mw6^ZwPX
-zmdm;SZkF|){d}&e1=QM=t170OdV6g^6IRYjF1Tp2ut@AIEB@GM`K&7N+EF9YHntEE
-jUShi3(B94m0^Q#uSOD0Iklv{mV=rh>BYn|!sEgD;a<EMS
-
-literal 0
-HcmV?d00001
-
-diff --git a/tests/data/acpi/microvm/FACP b/tests/data/acpi/microvm/FACP
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..0ba5795d622349e1521138e4123544637b4ab9af 100644
-GIT binary patch
-literal 268
-zcmZ>BbPnKQWME*ebMklg2v%^42yk`-iUEZfKx`0ARlp*^z`()4z{IrRAIMxMsv1tD
-QVL<yCp!S2@!U$yp0N^VO0RR91
-
-literal 0
-HcmV?d00001
-
+dme.
 -- 
-2.27.0
-
+Why does it have to be like this? I can never tell.
 
