@@ -2,76 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBE5925364B
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 20:08:07 +0200 (CEST)
-Received: from localhost ([::1]:37092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E76E253651
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 20:11:09 +0200 (CEST)
+Received: from localhost ([::1]:40102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAzqA-0002p9-O8
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 14:08:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50640)
+	id 1kAzt6-0004CM-9c
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 14:11:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1kAzpQ-0002Ok-4R
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 14:07:20 -0400
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:36549)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1kAzpO-00051X-JA
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 14:07:19 -0400
-Received: by mail-lj1-x243.google.com with SMTP id t23so3442009ljc.3
- for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 11:07:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=pIuzeq1Sfx3g4c4F8h8ET1Jq2X1Amplz5V/3pz49bwc=;
- b=puwTqf8RpXvruWYITPz6U52trI2I9ROe5MsYPjFgcqSJ93c3tz88i5Et2GDxiuRV8E
- eULs0M59onKipCJBj2BpSgXSPgwNLckZ+k5xL5g2W+MMpDDefXlcvRSRZMjtEfGMLNmm
- Igzm0KrMsoH47KRG96cjhb/DanS82hgeVdg8MdCKpzjiwNp2nFvpNCgw/ESuATXyyc4K
- 5KZ2nNwOzk5w+3X74TBUNju0bhK5OqYcz4vWCkd6UdlredPiXIpBylz4glf6WvNkCC+K
- eDYgMLvxI6cnzSYS6ACq1M7yQG2UVm9jW7Mjan7H1TXsBP28euryO0i1O1VlCZUWQsMs
- By1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=pIuzeq1Sfx3g4c4F8h8ET1Jq2X1Amplz5V/3pz49bwc=;
- b=YMD7lonh7VADmGGQQuPVusGt/B4hPX47DKk22z7hFpwie8Wjz7r76glubfJKE4YSAk
- 0BgCTwscudb9zToDMyrVsuhCngjng04I8yP4REpGUH7hm6X/Vay82FJBgcdHHDw3F0Dz
- bIcGgx3W4h24XPSbdFlUGYKRgB9hkNe2ES05IGE98Kwa/eQqeD/j2+txesLIfyR3Fg53
- eKL72CV9Yb8sDTxY9wR/8cyeBeJQgVj7XRWNPtBucn044+qqeiN5Lxf0F3sHDMruzSzx
- sb0mxjSt7tR8zWF88mx7ea31ndqTLz1d+lNDksTWwiVNnyychy0AWAe3llyxcmnJUmsc
- XhIQ==
-X-Gm-Message-State: AOAM531yCi2BR/sbwPu2L8420YwyzW2u1xVBY9/c82Y2Oz0PasEP4t2+
- TbLjo1yIrgJDYVSX6Rusup0=
-X-Google-Smtp-Source: ABdhPJyvT/ACS/O6NcCX/+07r9Ab+hr54djH/XNh42R7IXgIAugjc+oE9TWxabIh4nThCc+vUe+gdA==
-X-Received: by 2002:a2e:9a15:: with SMTP id o21mr7896949lji.419.1598465236864; 
- Wed, 26 Aug 2020 11:07:16 -0700 (PDT)
-Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id x17sm670096ljm.0.2020.08.26.11.07.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Aug 2020 11:07:16 -0700 (PDT)
-Date: Wed, 26 Aug 2020 20:07:15 +0200
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 00/77] target/microblaze improvements
-Message-ID: <20200826180715.GI2954729@toto>
-References: <20200825205950.730499-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kAzsI-0003cB-1K
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 14:10:18 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:56412
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kAzsF-0005HH-Ot
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 14:10:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598465414;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=PiApvT1sTiwwUhR3nn4DVseSe1rzlHNor0YuHEpkx1A=;
+ b=UsphT6Pclaj0ybo7g7RP3k1vFNIp0TUBAKqVj0BOrF3f7jUKHicDwN7PxHbQgPV3q0jnUK
+ 1o0fDFhTodPVeeyCs3cpUdxDc4Uigb/FvUUVXCA9n1iZrr3UwsdknPVkW7QViTybxFTlAf
+ EoCxi5qfHM9Wc2qHf2XWOQsfdi7GjJs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-435-wWgFRKcxNuaxoPWIhxloQQ-1; Wed, 26 Aug 2020 14:10:09 -0400
+X-MC-Unique: wWgFRKcxNuaxoPWIhxloQQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 659C210ABDDC;
+ Wed, 26 Aug 2020 18:10:08 +0000 (UTC)
+Received: from localhost (unknown [10.10.67.254])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 25C535C1DA;
+ Wed, 26 Aug 2020 18:10:07 +0000 (UTC)
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] armsse: Define ARMSSEClass correctly
+Date: Wed, 26 Aug 2020 14:10:06 -0400
+Message-Id: <20200826181006.4097163-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200825205950.730499-1-richard.henderson@linaro.org>
-Received-SPF: pass client-ip=2a00:1450:4864:20::243;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x243.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 10
-X-Spam_score: 1.0
-X-Spam_bar: +
-X-Spam_report: (1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- FSL_HELO_FAKE=3.066, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 14:10:14
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,50 +78,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 25, 2020 at 01:58:33PM -0700, Richard Henderson wrote:
-> Well, this is larger than I expected.
-> 
-> I started off thinking conversion to decodetree would be quick,
-> after I reviewed the mttcg patches last week.  Then I realized
-> that this could also use conversion to the generic translation loop.
-> Then I realized that there were a number of bugs, and some
-> inefficiencies, that could be fixed by using tcg exception unwind
-> properly.
-> 
-> Hopefully most of these are small and easy to understand.
-> 
-> I begin by adding enough stuff to test/tcg to make use of a
-> self-built musl cross-environment.  I'll note that linuxtest
-> does not pass before or after this patch set -- I think that
-> linux-user/microblaze/signal.c needs work -- but that the
-> other tests do work.
-> 
-> I also have an old copy of a microblaze system test image,
-> which I think used to be hosted on our wiki.  After basic kernel
-> boot, it contains a "selftest" script which runs a bunch of
-> user-land isa tests.  That still works fine too.
-> 
-> HOWEVER: That's not nearly complete.  There are cpu config options
-> that aren't default and I don't know how to change or test.
-> 
-> In addition, the manual is really not clear on what's supposed to
-> happen under various edge conditions, especially with MSR[EE] unset.
-> E.g. unaligned access: Does the insn get nop-ed out?  Do the low
-> bits of the address get ignored?  Right now (before and after) the
-> access simply happens unaligned, which doesn't seem correct.
-> I assume the reason for having this configure option is to reduce
-> the size of the FPGA so that the unaligned access handling hw
-> simply isn't present.
+TYPE_ARM_SSE is a TYPE_SYS_BUS_DEVICE subclass, but
+ARMSSEClass::parent_class is declared as DeviceClass.
 
-Yes, I verified with the RTL designers and this particular case will
-result in the core issuing the load/store with the lower address bits
-ignored.
+It never caused any problems by pure luck:
 
-Cheers,
-Edgar
+We were not setting class_size for TYPE_ARM_SSE, so class_size of
+TYPE_SYS_BUS_DEVICE was being used (sizeof(SysBusDeviceClass)).
+This made the system allocate enough memory for TYPE_ARM_SSE
+devices even though ARMSSEClass was too small for a sysbus
+device.
+
+Additionally, the ARMSSEClass::info field ended up at the same
+offset as SysBusDeviceClass::explicit_ofw_unit_address.  This
+would make sysbus_get_fw_dev_path() crash for the device.
+Luckily, sysbus_get_fw_dev_path() never gets called for
+TYPE_ARM_SSE devices, because qdev_get_fw_dev_path() is only used
+by the boot device code, and TYPE_ARM_SSE devices don't appear at
+the fw_boot_order list.
+
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+---
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org
+---
+ include/hw/arm/armsse.h | 2 +-
+ hw/arm/armsse.c         | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/include/hw/arm/armsse.h b/include/hw/arm/armsse.h
+index 84080c2299..b10173beab 100644
+--- a/include/hw/arm/armsse.h
++++ b/include/hw/arm/armsse.h
+@@ -220,7 +220,7 @@ typedef struct ARMSSE {
+ typedef struct ARMSSEInfo ARMSSEInfo;
+ 
+ typedef struct ARMSSEClass {
+-    DeviceClass parent_class;
++    SysBusDeviceClass parent_class;
+     const ARMSSEInfo *info;
+ } ARMSSEClass;
+ 
+diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
+index dcbff9bd8f..6381bbd94d 100644
+--- a/hw/arm/armsse.c
++++ b/hw/arm/armsse.c
+@@ -1160,6 +1160,7 @@ static const TypeInfo armsse_info = {
+     .name = TYPE_ARMSSE,
+     .parent = TYPE_SYS_BUS_DEVICE,
+     .instance_size = sizeof(ARMSSE),
++    .class_size = sizeof(ARMSSEClass),
+     .instance_init = armsse_init,
+     .abstract = true,
+     .interfaces = (InterfaceInfo[]) {
+-- 
+2.26.2
 
 
