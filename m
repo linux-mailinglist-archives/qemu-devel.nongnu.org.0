@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCA682528A3
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 09:50:34 +0200 (CEST)
-Received: from localhost ([::1]:50152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E77F25289E
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 09:49:32 +0200 (CEST)
+Received: from localhost ([::1]:44796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAqCX-0006ht-R6
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 03:50:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53698)
+	id 1kAqBX-0004XN-21
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 03:49:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhaolichang@huawei.com>)
- id 1kAq9k-0001eu-Ta; Wed, 26 Aug 2020 03:47:40 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2535 helo=huawei.com)
+ id 1kAqA2-0002LM-Ni; Wed, 26 Aug 2020 03:47:58 -0400
+Received: from szxga03-in.huawei.com ([45.249.212.189]:2104 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhaolichang@huawei.com>)
- id 1kAq9i-00027O-2F; Wed, 26 Aug 2020 03:47:40 -0400
-Received: from dggemi401-hub.china.huawei.com (unknown [172.30.72.55])
- by Forcepoint Email with ESMTP id 744E4494B988589E294A;
- Wed, 26 Aug 2020 15:47:35 +0800 (CST)
+ id 1kAq9z-00028W-Uw; Wed, 26 Aug 2020 03:47:58 -0400
+Received: from dggemi403-hub.china.huawei.com (unknown [172.30.72.54])
+ by Forcepoint Email with ESMTP id 250DE44ED93AE378A15A;
+ Wed, 26 Aug 2020 15:47:53 +0800 (CST)
 Received: from DGGEMI522-MBS.china.huawei.com ([169.254.8.252]) by
- dggemi401-hub.china.huawei.com ([10.3.17.134]) with mapi id 14.03.0487.000;
- Wed, 26 Aug 2020 15:47:28 +0800
+ dggemi403-hub.china.huawei.com ([10.3.17.136]) with mapi id 14.03.0487.000;
+ Wed, 26 Aug 2020 15:47:44 +0800
 From: zhaolichang <zhaolichang@huawei.com>
 To: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
-Subject: [PATCH V2 06/10] linux-user/: fix some comment spelling errors
-Thread-Topic: [PATCH V2 06/10] linux-user/: fix some comment spelling errors
-Thread-Index: AdZ7fCiFmI5TQf6xTrCZ0G7eSMl9KQ==
-Date: Wed, 26 Aug 2020 07:47:28 +0000
-Message-ID: <640CDEE67BE2784FAE298BB2517210E48AC3F2@dggemi522-mbs.china.huawei.com>
+Subject: [PATCH V2 07/10] block/: fix some comment spelling errors
+Thread-Topic: [PATCH V2 07/10] block/: fix some comment spelling errors
+Thread-Index: AdZ7fE1rIxaMRRSdTo6XVvpZzb5RsA==
+Date: Wed, 26 Aug 2020 07:47:45 +0000
+Message-ID: <640CDEE67BE2784FAE298BB2517210E48AC401@dggemi522-mbs.china.huawei.com>
 Accept-Language: en-US
 Content-Language: zh-CN
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-originating-ip: [10.174.186.227]
 Content-Type: multipart/alternative;
- boundary="_000_640CDEE67BE2784FAE298BB2517210E48AC3F2dggemi522mbschina_"
+ boundary="_000_640CDEE67BE2784FAE298BB2517210E48AC401dggemi522mbschina_"
 MIME-Version: 1.0
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
+Received-SPF: pass client-ip=45.249.212.189;
  envelope-from=zhaolichang@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 03:46:00
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 03:47:14
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -66,144 +66,123 @@ Cc: zhaolichang <zhaolichang@huawei.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_640CDEE67BE2784FAE298BB2517210E48AC3F2dggemi522mbschina_
-Content-Type: text/plain; charset="iso-8859-1"
+--_000_640CDEE67BE2784FAE298BB2517210E48AC401dggemi522mbschina_
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
 I found that there are many spelling errors in the comments of qemu,
 so I used the spellcheck tool to check the spelling errors
-and finally found some spelling errors in the linux-user folder.
+and finally found some spelling errors in the block folder.
 
 Signed-off-by: zhaolichang <zhaolichang@huawei.com>
-Reviewed-by: Alex Benn=E9e <alex.bennee@linaro.org>
 ---
-linux-user/aarch64/signal.c              | 2 +-
-linux-user/cris/target_syscall.h         | 4 ++--
-linux-user/flat.h                        | 2 +-
-linux-user/flatload.c                    | 4 ++--
-linux-user/host/ppc64/safe-syscall.inc.S | 2 +-
-linux-user/syscall.c                     | 4 ++--
-6 files changed, 9 insertions(+), 9 deletions(-)
+block/block-copy.c | 2 +-
+block/linux-aio.c  | 2 +-
+block/mirror.c     | 2 +-
+block/vhdx.c       | 2 +-
+block/vhdx.h       | 4 ++--
+5 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/linux-user/aarch64/signal.c b/linux-user/aarch64/signal.c
-index cd521ee42d..d50c1ae583 100644
---- a/linux-user/aarch64/signal.c
-+++ b/linux-user/aarch64/signal.c
-@@ -78,7 +78,7 @@ struct target_sve_context {
-     struct target_aarch64_ctx head;
-     uint16_t vl;
-     uint16_t reserved[3];
--    /* The actual SVE data immediately follows.  It is layed out
-+    /* The actual SVE data immediately follows.  It is laid out
-      * according to TARGET_SVE_SIG_{Z,P}REG_OFFSET, based off of
-      * the original struct pointer.
-      */
-diff --git a/linux-user/cris/target_syscall.h b/linux-user/cris/target_sysc=
-all.h
-index 29d69009ff..c7ae89d73a 100644
---- a/linux-user/cris/target_syscall.h
-+++ b/linux-user/cris/target_syscall.h
-@@ -4,7 +4,7 @@
-#define UNAME_MACHINE "cris"
-#define UNAME_MINIMUM_RELEASE "2.6.32"
-
--/* pt_regs not only specifices the format in the user-struct during
-+/* pt_regs not only specifies the format in the user-struct during
-  * ptrace but is also the frame format used in the kernel prologue/epilogu=
-es
-  * themselves
+diff --git a/block/block-copy.c b/block/block-copy.c
+index a30b9097ef..d648306ce5 100644
+--- a/block/block-copy.c
++++ b/block/block-copy.c
+@@ -321,7 +321,7 @@ static coroutine_fn int block_copy_task_run(AioTaskPool=
+ *pool,
+  * Do copy of cluster-aligned chunk. Requested region is allowed to exceed
+  * s->len only to cover last cluster when s->len is not aligned to cluster=
+s.
+  *
+- * No sync here: nor bitmap neighter intersecting requests handling, only =
+copy.
++ * No sync here: neither bitmap nor intersecting requests handling, only c=
+opy.
+  *
+  * Returns 0 on success.
   */
-@@ -32,7 +32,7 @@ struct target_pt_regs {
-         unsigned long spc;
-         unsigned long ccs;
-         unsigned long srp;
--        unsigned long erp; /* This is actually the debugged process' PC */
-+        unsigned long erp; /* This is actually the debugged process's PC *=
+diff --git a/block/linux-aio.c b/block/linux-aio.c
+index 3c0527c2bf..772ff860ea 100644
+--- a/block/linux-aio.c
++++ b/block/linux-aio.c
+@@ -222,7 +222,7 @@ static void qemu_laio_process_completions(LinuxAioState=
+ *s)
+
+     /* If we are nested we have to notify the level above that we are done
+      * by setting event_max to zero, upper level will then jump out of it'=
+s
+-     * own `for` loop.  If we are the last all counters droped to zero. */
++     * own `for` loop.  If we are the last all counters dropped to zero. *=
 /
-         /* For debugging purposes; saved only when needed. */
-         unsigned long exs;
-         unsigned long eda;
-diff --git a/linux-user/flat.h b/linux-user/flat.h
-index 1e44b33443..ed518e2013 100644
---- a/linux-user/flat.h
-+++ b/linux-user/flat.h
-@@ -43,7 +43,7 @@ struct flat_hdr {
-         abi_ulong reloc_count;  /* Number of relocation records */
-         abi_ulong flags;
-         abi_ulong build_date;   /* When the program/library was built */
--        abi_ulong filler[5];    /* Reservered, set to zero */
-+       abi_ulong filler[5];    /* Reserved, set to zero */
-};
+     s->event_max =3D 0;
+     s->event_idx =3D 0;
+}
+diff --git a/block/mirror.c b/block/mirror.c
+index e8e8844afc..22d574167e 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -478,7 +478,7 @@ static uint64_t coroutine_fn mirror_iteration(MirrorBlo=
+ckJob *s)
 
-#define FLAT_FLAG_RAM    0x0001 /* load program entirely into RAM */
-diff --git a/linux-user/flatload.c b/linux-user/flatload.c
-index 8fb448f0bf..14d2999d15 100644
---- a/linux-user/flatload.c
-+++ b/linux-user/flatload.c
-@@ -442,7 +442,7 @@ static int load_flat_file(struct linux_binprm * bprm,
-     indx_len =3D (indx_len + 15) & ~(abi_ulong)15;
+     job_pause_point(&s->common.job);
 
-     /*
--     * Alloate the address space.
-+     * Allocate the address space.
-      */
-     probe_guest_base(bprm->filename, 0,
-                      text_len + data_len + extra + indx_len);
-@@ -794,7 +794,7 @@ int load_flt_binary(struct linux_binprm *bprm, struct i=
-mage_info *info)
-#error here
-     for (i =3D MAX_SHARED_LIBS-1; i>0; i--) {
-             if (libinfo[i].loaded) {
--                    /* Push previos first to call address */
-+                    /* Push previous first to call address */
-                     --sp;
-                     if (put_user_ual(start_addr, sp))
-                         return -EFAULT;
-diff --git a/linux-user/host/ppc64/safe-syscall.inc.S b/linux-user/host/ppc=
-64/safe-syscall.inc.S
-index 8ed73a5b86..875133173b 100644
---- a/linux-user/host/ppc64/safe-syscall.inc.S
-+++ b/linux-user/host/ppc64/safe-syscall.inc.S
-@@ -84,7 +84,7 @@ safe_syscall_end:
+-    /* Find the number of consective dirty chunks following the first dirt=
+y
++    /* Find the number of consecutive dirty chunks following the first dir=
+ty
+      * one, and wait for in flight requests in them. */
+     bdrv_dirty_bitmap_lock(s->dirty_bitmap);
+     while (nb_chunks * s->granularity < s->buf_size) {
+diff --git a/block/vhdx.c b/block/vhdx.c
+index 791eb90263..84eedee83f 100644
+--- a/block/vhdx.c
++++ b/block/vhdx.c
+@@ -1073,7 +1073,7 @@ static int vhdx_open(BlockDriverState *bs, QDict *opt=
+ions, int flags,
+         goto fail;
+     }
 
-       /* code path when we didn't execute the syscall */
-0:      addi 3, 0, -TARGET_ERESTARTSYS
--        ld 14, 16(1) /* restore r14 to its orginal value */
-+       ld 14, 16(1) /* restore r14 to its original value */
-         blr
-         .cfi_endproc
+-    /* endian convert populated BAT field entires */
++    /* endian convert populated BAT field entries */
+     for (i =3D 0; i < s->bat_entries; i++) {
+         s->bat[i] =3D le64_to_cpu(s->bat[i]);
+     }
+diff --git a/block/vhdx.h b/block/vhdx.h
+index 0b74924cee..e385e484b4 100644
+--- a/block/vhdx.h
++++ b/block/vhdx.h
+@@ -212,7 +212,7 @@ typedef struct QEMU_PACKED VHDXLogDataSector {
+     uint32_t    sequence_high;          /* 4 MSB of 8 byte sequence_number=
+ */
+     uint8_t     data[4084];             /* raw data, bytes 8-4091 (inclusi=
+ve).
+                                            see the data descriptor field f=
+or the
+-                                           other mising bytes */
++                                           other missing bytes */
+     uint32_t    sequence_low;           /* 4 LSB of 8 byte sequence_number=
+ */
+} VHDXLogDataSector;
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index b4a7b605f3..bdfa51dde8 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -477,7 +477,7 @@ _syscall4(int, sys_prlimit64, pid_t, pid, int, resource=
-,
+@@ -257,7 +257,7 @@ typedef struct QEMU_PACKED VHDXMetadataTableHeader {
 
- #if defined(TARGET_NR_timer_create)
--/* Maxiumum of 32 active POSIX timers allowed at any one time. */
-+/* Maximum of 32 active POSIX timers allowed at any one time. */
-static timer_t g_posix_timers[32] =3D { 0, } ;
-
-static inline int next_free_host_timer(void)
-@@ -7800,7 +7800,7 @@ static abi_long do_syscall1(void *cpu_env, int num, a=
-bi_long arg1,
-     switch(num) {
-     case TARGET_NR_exit:
-         /* In old applications this may be used to implement _exit(2).
--           However in threaded applictions it is used for thread terminati=
-on,
-+           However in threaded applications it is used for thread terminat=
-ion,
-            and _exit_group is used for application termination.
-            Do thread termination if we have more then one thread.  */
-
+#define VHDX_META_FLAGS_IS_USER         0x01    /* max 1024 entries */
+#define VHDX_META_FLAGS_IS_VIRTUAL_DISK 0x02    /* virtual disk metadata if=
+ set,
+-                                                   otherwise file metdata =
+*/
++                                                   otherwise file metadata=
+ */
+#define VHDX_META_FLAGS_IS_REQUIRED     0x04    /* parse must understand th=
+is
+                                                    entry to open the file =
+*/
+typedef struct QEMU_PACKED VHDXMetadataTableEntry {
 --
 2.26.2.windows.1
 
 
---_000_640CDEE67BE2784FAE298BB2517210E48AC3F2dggemi522mbschina_
-Content-Type: text/html; charset="iso-8859-1"
+--_000_640CDEE67BE2784FAE298BB2517210E48AC401dggemi522mbschina_
+Content-Type: text/html; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
 <html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
@@ -211,8 +190,8 @@ osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
 xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
 //www.w3.org/TR/REC-html40">
 <head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
 <meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
 <style><!--
 /* Font Definitions */
@@ -273,264 +252,202 @@ lling errors in the comments of qemu,<o:p></o:p></span></p>
 <p class=3D"MsoNormal"><span lang=3D"EN-US">so I used the spellcheck tool t=
 o check the spelling errors<o:p></o:p></span></p>
 <p class=3D"MsoNormal"><span lang=3D"EN-US">and finally found some spelling=
- errors in the linux-user folder.<o:p></o:p></span></p>
+ errors in the block folder.<o:p></o:p></span></p>
 <p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
 <p class=3D"MsoNormal"><span lang=3D"EN-US">Signed-off-by: zhaolichang &lt;=
 zhaolichang@huawei.com&gt;<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">Reviewed-by: Alex Benn=E9e &lt;=
-alex.bennee@linaro.org&gt;<o:p></o:p></span></p>
 <p class=3D"MsoNormal"><span lang=3D"EN-US">---<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">linux-user/aarch64/signal.c&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
-| 2 &#43;-<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">linux-user/cris/target_syscall.=
-h&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 4 &#43;&#43;--<o:p></o:=
-p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">linux-user/flat.h&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 2 &#43;-<o:p></o:p></sp=
-an></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">linux-user/flatload.c&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 4 &#43;&#43;--<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">linux-user/host/ppc64/safe-sysc=
-all.inc.S | 2 &#43;-<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">linux-user/syscall.c&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 4 &#43;&#43;--<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">6 files changed, 9 insertions(&=
-#43;), 9 deletions(-)<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">block/block-copy.c | 2 &#43;-<o=
+:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">block/linux-aio.c&nbsp; | 2 &#4=
+3;-<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">block/mirror.c&nbsp;&nbsp;&nbsp=
+;&nbsp; | 2 &#43;-<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">block/vhdx.c&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; | 2 &#43;-<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">block/vhdx.h&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; | 4 &#43;&#43;--<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">5 files changed, 6 insertions(&=
+#43;), 6 deletions(-)<o:p></o:p></span></p>
 <p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">diff --git a/linux-user/aarch64=
-/signal.c b/linux-user/aarch64/signal.c<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">index cd521ee42d..d50c1ae583 10=
+<p class=3D"MsoNormal"><span lang=3D"EN-US">diff --git a/block/block-copy.c=
+ b/block/block-copy.c<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">index a30b9097ef..d648306ce5 10=
 0644<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">--- a/linux-user/aarch64/signal=
-.c<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&#43;&#43;&#43; b/linux-user/aa=
-rch64/signal.c<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">@@ -78,7 &#43;78,7 @@ struct ta=
-rget_sve_context {<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; struct=
- target_aarch64_ctx head;<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; uint16=
-_t vl;<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; uint16=
-_t reserved[3];<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">-&nbsp;&nbsp;&nbsp; /* The actu=
-al SVE data immediately follows.&nbsp; It is layed out<o:p></o:p></span></p=
->
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp; /* The =
-actual SVE data immediately follows.&nbsp; It is laid out<o:p></o:p></span>=
+<p class=3D"MsoNormal"><span lang=3D"EN-US">--- a/block/block-copy.c<o:p></=
+o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&#43;&#43;&#43; b/block/block-c=
+opy.c<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">@@ -321,7 &#43;321,7 @@ static =
+coroutine_fn int block_copy_task_run(AioTaskPool *pool,<o:p></o:p></span></=
+p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp; * Do copy of cluster-ali=
+gned chunk. Requested region is allowed to exceed<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp; * s-&gt;len only to cove=
+r last cluster when s-&gt;len is not aligned to clusters.<o:p></o:p></span>=
 </p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
-* according to TARGET_SVE_SIG_{Z,P}REG_OFFSET, based off of<o:p></o:p></spa=
-n></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
-* the original struct pointer.<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
-*/<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">diff --git a/linux-user/cris/ta=
-rget_syscall.h b/linux-user/cris/target_syscall.h<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">index 29d69009ff..c7ae89d73a 10=
-0644<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">--- a/linux-user/cris/target_sy=
-scall.h<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&#43;&#43;&#43; b/linux-user/cr=
-is/target_syscall.h<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">@@ -4,7 &#43;4,7 @@<o:p></o:p><=
-/span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">#define UNAME_MACHINE &quot;cri=
-s&quot;<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">#define UNAME_MINIMUM_RELEASE &=
-quot;2.6.32&quot;<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">-/* pt_regs not only specifices=
- the format in the user-struct during<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&#43;/* pt_regs not only specif=
-ies the format in the user-struct during<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp; * ptrace but is also the=
- frame format used in the kernel prologue/epilogues<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp; * themselves<o:p></o:p><=
-/span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp; *<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">- * No sync here: nor bitmap ne=
+ighter intersecting requests handling, only copy.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&#43; * No sync here: neither b=
+itmap nor intersecting requests handling, only copy.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp; *<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp; * Returns 0 on success.<=
+o:p></o:p></span></p>
 <p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp; */<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">@@ -32,7 &#43;32,7 @@ struct ta=
-rget_pt_regs {<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp; unsigned long spc;<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp; &nbsp;&nbsp;unsigned long ccs;<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp; unsigned long srp;<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp; unsigned long erp; /* This is actually the debugged process' P=
-C */<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp; unsigned long erp; /* This is actually the debugged proces=
-s's PC */<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp; /* For debugging purposes; saved only when needed. */<o:p=
-></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp; unsigned long exs;<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp; unsigned long eda;<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">diff --git a/linux-user/flat.h =
-b/linux-user/flat.h<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">index 1e44b33443..ed518e2013 10=
+<p class=3D"MsoNormal"><span lang=3D"EN-US">diff --git a/block/linux-aio.c =
+b/block/linux-aio.c<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">index 3c0527c2bf..772ff860ea 10=
 0644<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">--- a/linux-user/flat.h<o:p></o=
+<p class=3D"MsoNormal"><span lang=3D"EN-US">--- a/block/linux-aio.c<o:p></o=
 :p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&#43;&#43;&#43; b/linux-user/fl=
-at.h<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">@@ -43,7 &#43;43,7 @@ struct fl=
-at_hdr {<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp; abi_ulong reloc_count;&nbsp; /* Number of relocation reco=
-rds */<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp; abi_ulong flags;<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp; abi_ulong build_date;&nbsp;&nbsp; /* When the program/lib=
-rary was built */<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp; abi_ulong filler[5];&nbsp;&nbsp;&nbsp; /* Reservered, set to z=
-ero */<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp; abi_ulong filler[5];&nbsp;&nbsp;&nbsp; /* Reserved, set to zero =
-*/<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">};<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&#43;&#43;&#43; b/block/linux-a=
+io.c<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">@@ -222,7 &#43;222,7 @@ static =
+void qemu_laio_process_completions(LinuxAioState *s)<o:p></o:p></span></p>
 <p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">#define FLAT_FLAG_RAM&nbsp;&nbs=
-p;&nbsp; 0x0001 /* load program entirely into RAM */<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">diff --git a/linux-user/flatloa=
-d.c b/linux-user/flatload.c<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">index 8fb448f0bf..14d2999d15 10=
-0644<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">--- a/linux-user/flatload.c<o:p=
-></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&#43;&#43;&#43; b/linux-user/fl=
-atload.c<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">@@ -442,7 &#43;442,7 @@ static =
-int load_flat_file(struct linux_binprm * bprm,<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; indx_l=
-en =3D (indx_len &#43; 15) &amp; ~(abi_ulong)15;<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; /*<o:p=
-></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">-&nbsp;&nbsp;&nbsp;&nbsp; * All=
-oate the address space.<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp;&nbsp; *=
- Allocate the address space.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; /* If =
+we are nested we have to notify the level above that we are done<o:p></o:p>=
+</span></p>
 <p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
-*/<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; probe_=
-guest_base(bprm-&gt;filename, 0,<o:p></o:p></span></p>
+* by setting event_max to zero, upper level will then jump out of it's<o:p>=
+</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">-&nbsp;&nbsp;&nbsp;&nbsp; * own=
+ `for` loop.&nbsp; If we are the last all counters droped to zero. */<o:p><=
+/o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp;&nbsp; *=
+ own `for` loop.&nbsp; If we are the last all counters dropped to zero. */<=
+o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; s-&gt;=
+event_max =3D 0;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; s-&gt;=
+event_idx =3D 0;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">}<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">diff --git a/block/mirror.c b/b=
+lock/mirror.c<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">index e8e8844afc..22d574167e 10=
+0644<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">--- a/block/mirror.c<o:p></o:p>=
+</span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&#43;&#43;&#43; b/block/mirror.=
+c<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">@@ -478,7 &#43;478,7 @@ static =
+uint64_t coroutine_fn mirror_iteration(MirrorBlockJob *s)<o:p></o:p></span>=
+</p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; job_pa=
+use_point(&amp;s-&gt;common.job);<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">-&nbsp;&nbsp;&nbsp; /* Find the=
+ number of consective dirty chunks following the first dirty<o:p></o:p></sp=
+an></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp; /* Find=
+ the number of consecutive dirty chunks following the first dirty<o:p></o:p=
+></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+* one, and wait for in flight requests in them. */<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; bdrv_d=
+irty_bitmap_lock(s-&gt;dirty_bitmap);<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; while =
+(nb_chunks * s-&gt;granularity &lt; s-&gt;buf_size) {<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">diff --git a/block/vhdx.c b/blo=
+ck/vhdx.c<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">index 791eb90263..84eedee83f 10=
+0644<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">--- a/block/vhdx.c<o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&#43;&#43;&#43; b/block/vhdx.c<=
+o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">@@ -1073,7 &#43;1073,7 @@ stati=
+c int vhdx_open(BlockDriverState *bs, QDict *options, int flags,<o:p></o:p>=
+</span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; goto fail;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; }<o:p>=
+</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">-&nbsp;&nbsp;&nbsp; /* endian c=
+onvert populated BAT field entires */<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp; /* endi=
+an convert populated BAT field entries */<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; for (i=
+ =3D 0; i &lt; s-&gt;bat_entries; i&#43;&#43;) {<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; s-&gt;bat[i] =3D le64_to_cpu(s-&gt;bat[i]);<o:p></o:p></s=
+pan></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; }<o:p>=
+</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">diff --git a/block/vhdx.h b/blo=
+ck/vhdx.h<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">index 0b74924cee..e385e484b4 10=
+0644<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">--- a/block/vhdx.h<o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&#43;&#43;&#43; b/block/vhdx.h<=
+o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">@@ -212,7 &#43;212,7 @@ typedef=
+ struct QEMU_PACKED VHDXLogDataSector {<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp; &nbsp;&nbsp;&nbsp;uint32=
+_t&nbsp;&nbsp;&nbsp; sequence_high;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp; /* 4 MSB of 8 byte sequence_number */<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; uint8_=
+t&nbsp;&nbsp;&nbsp;&nbsp; data[4084];&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* raw data, bytes 8-4091 (inclusive).<o=
+:p></o:p></span></p>
 <p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
 nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; text_len &#43; data_len &#43; extra &#43; indx_len);<o=
-:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">@@ -794,7 &#43;794,7 @@ int loa=
-d_flt_binary(struct linux_binprm *bprm, struct image_info *info)<o:p></o:p>=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p; see the data descriptor field for the<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ot=
+her mising bytes */<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+; other missing bytes */<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; uint32=
+_t&nbsp;&nbsp;&nbsp; sequence_low;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; /* 4 LSB of 8 byte sequence_number */<o:p></o:p></span>=
+</p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">} VHDXLogDataSector;<o:p></o:p>=
 </span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">#error here<o:p></o:p></span></=
-p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; for (i=
- =3D MAX_SHARED_LIBS-1; i&gt;0; i--) {<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (libinfo[i].loaded) {<o:p></o:=
-p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">@@ -257,7 &#43;257,7 @@ typedef=
+ struct QEMU_PACKED VHDXMetadataTableHeader {<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">#define VHDX_META_FLAGS_IS_USER=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0x01&nbsp;&nbsp;&nbsp; /* =
+max 1024 entries */<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">#define VHDX_META_FLAGS_IS_VIRT=
+UAL_DISK 0x02&nbsp;&nbsp;&nbsp; /* virtual disk metadata if set,<o:p></o:p>=
+</span></p>
 <p class=3D"MsoNormal"><span lang=3D"EN-US">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp; /* Push previos first to call address */<o:p></o:p></span></p>
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; otherwise file metdata */<o:p=
+></o:p></span></p>
 <p class=3D"MsoNormal"><span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&n=
 bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp; /* Push previous first to call address */<o:p></o:p></span></=
-p>
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; otherwise file metadata *=
+/<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">#define VHDX_META_FLAGS_IS_REQU=
+IRED&nbsp;&nbsp;&nbsp;&nbsp; 0x04&nbsp;&nbsp;&nbsp; /* parse must understan=
+d this<o:p></o:p></span></p>
 <p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
 nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp; --sp;<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
 nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp; if (put_user_ual(start_addr, sp))<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return -EFAULT;<o:p></o:p></span></p=
->
-<p class=3D"MsoNormal"><span lang=3D"EN-US">diff --git a/linux-user/host/pp=
-c64/safe-syscall.inc.S b/linux-user/host/ppc64/safe-syscall.inc.S<o:p></o:p=
-></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">index 8ed73a5b86..875133173b 10=
-0644<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">--- a/linux-user/host/ppc64/saf=
-e-syscall.inc.S<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&#43;&#43;&#43; b/linux-user/ho=
-st/ppc64/safe-syscall.inc.S<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">@@ -84,7 &#43;84,7 @@ safe_sysc=
-all_end:<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp; /* code path when we didn't execute the syscall */<o:p></o:p></span><=
-/p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">0:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-; addi 3, 0, -TARGET_ERESTARTSYS<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp; ld 14, 16(1) /* restore r14 to its orginal value */<o:p></o:p>=
-</span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp; ld 14, 16(1) /* restore r14 to its original value */<o:p></o:p><=
-/span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp; blr<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp; .cfi_endproc<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">diff --git a/linux-user/syscall=
-.c b/linux-user/syscall.c<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">index b4a7b605f3..bdfa51dde8 10=
-0644<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">--- a/linux-user/syscall.c<o:p>=
-</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&#43;&#43;&#43; b/linux-user/sy=
-scall.c<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">@@ -477,7 &#43;477,7 @@ _syscal=
-l4(int, sys_prlimit64, pid_t, pid, int, resource,<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;#if defined(TARGET_NR_tim=
-er_create)<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">-/* Maxiumum of 32 active POSIX=
- timers allowed at any one time. */<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&#43;/* Maximum of 32 active PO=
-SIX timers allowed at any one time. */<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">static timer_t g_posix_timers[3=
-2] =3D { 0, } ;<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">static inline int next_free_hos=
-t_timer(void)<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">@@ -7800,7 &#43;7800,7 @@ stati=
-c abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,<o:p></o:p></s=
-pan></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; switch=
-(num) {<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp; case T=
-ARGET_NR_exit:<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp; /* In old applications this may be used to implement _exi=
-t(2).<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; However in threaded applictions it is used f=
-or thread termination,<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; However in threaded applications it is u=
-sed for thread termination,<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; and _exit_group is used for application=
- termination.<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Do thread termination if we have more t=
-hen one thread.&nbsp; */<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; entry to open the file *=
+/<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">typedef struct QEMU_PACKED VHDX=
+MetadataTableEntry {<o:p></o:p></span></p>
 <p class=3D"MsoNormal"><span lang=3D"EN-US">-- <o:p></o:p></span></p>
 <p class=3D"MsoNormal"><span lang=3D"EN-US">2.26.2.windows.1<o:p></o:p></sp=
 an></p>
@@ -539,5 +456,5 @@ an></p>
 </body>
 </html>
 
---_000_640CDEE67BE2784FAE298BB2517210E48AC3F2dggemi522mbschina_--
+--_000_640CDEE67BE2784FAE298BB2517210E48AC401dggemi522mbschina_--
 
