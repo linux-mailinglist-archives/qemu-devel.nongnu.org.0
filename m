@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25DDD252F5B
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 15:08:46 +0200 (CEST)
-Received: from localhost ([::1]:54818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFF79252F60
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 15:10:27 +0200 (CEST)
+Received: from localhost ([::1]:35080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAvAT-0006RH-7n
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 09:08:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49724)
+	id 1kAvC6-0001Pd-SQ
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 09:10:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kAv8w-0004nN-1U
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 09:07:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32597)
+ id 1kAv93-00057Q-Dz
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 09:07:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52449)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kAv8u-0002FK-9l
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 09:07:09 -0400
+ id 1kAv91-0002Ff-OZ
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 09:07:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598447227;
+ s=mimecast20190719; t=1598447234;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=R1bixWs7YawKmc1KBJbS3ohcGUCnPIAUu2VpF9JtO9Y=;
- b=Cg+wp7B12GOWBH9e99nC3cvhOrENFaGWt4qTGFXgiEYNnVEFYYsJTl18AzLh21qAtJ6xFv
- Sv3RPK3msdE/actyYYDZ4OjxQsXlDnAoodX3U0ZW62K89mfBkkl9P6VSbSgEMDUXTVdNKY
- nG6ehzMxICVvJruKL3HsaOIYkm6RSQg=
+ bh=93r3xopRd/4+ask6J7CZEtbhuCGYBv3KRMEHpGvj3Q8=;
+ b=iAF8KTNS3cVFx1tKWpv4A4Xyg34i9cJROh8GS6h0bq02dOOSZHSGQdxFxyYYzZfmDnyKEf
+ 3i87XNYqmR5HSCf9EwYOLmYSNx0PdGu3Zux+L/olxn/KOeT5btCI+GGLY6jkUTj4Bzvj81
+ P3Vf5mwK5OhQRpM3jP1Pe5EMolnkFTA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-334-u0GbR078MNyhA57AMcq3tA-1; Wed, 26 Aug 2020 09:07:05 -0400
-X-MC-Unique: u0GbR078MNyhA57AMcq3tA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-519-GyBHZbNOMK-UGP9cAvei8Q-1; Wed, 26 Aug 2020 09:07:12 -0400
+X-MC-Unique: GyBHZbNOMK-UGP9cAvei8Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89B1D10ABDBC
- for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 13:07:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F26CC10ABDD1
+ for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 13:07:11 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.43])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 253385D9E8;
- Wed, 26 Aug 2020 13:07:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 54B1819C78;
+ Wed, 26 Aug 2020 13:07:07 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/6] meson: install $localstatedir/run for qga
-Date: Wed, 26 Aug 2020 17:06:21 +0400
-Message-Id: <20200826130622.553318-6-marcandre.lureau@redhat.com>
+Subject: [PATCH 6/6] build-sys: remove install target from Makefile
+Date: Wed, 26 Aug 2020 17:06:22 +0400
+Message-Id: <20200826130622.553318-7-marcandre.lureau@redhat.com>
 In-Reply-To: <20200826130622.553318-1-marcandre.lureau@redhat.com>
 References: <20200826130622.553318-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124;
+Received-SPF: pass client-ip=216.205.24.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 06:53:10
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 23:30:47
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -88,48 +88,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+Now covered by meson
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- Makefile        | 10 +---------
- qga/meson.build |  2 ++
- 2 files changed, 3 insertions(+), 9 deletions(-)
+ Makefile | 5 -----
+ 1 file changed, 5 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index dc3c20dd5e..9a9e7c0301 100644
+index 9a9e7c0301..75db8be52e 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -232,17 +232,9 @@ distclean: clean ninja-distclean
- install-datadir:
- 	$(INSTALL_DIR) "$(DESTDIR)$(qemu_datadir)"
+@@ -229,13 +229,8 @@ distclean: clean ninja-distclean
+ 	rm -f linux-headers/asm
+ 	rm -Rf .sdk
  
--install-localstatedir:
--ifdef CONFIG_POSIX
--ifeq ($(CONFIG_GUEST_AGENT),y)
--	$(INSTALL_DIR) "$(DESTDIR)$(qemu_localstatedir)"/run
--endif
--endif
--
+-install-datadir:
+-	$(INSTALL_DIR) "$(DESTDIR)$(qemu_datadir)"
 -
  # Needed by "meson install"
  export DESTDIR
--install: all install-datadir install-localstatedir
-+install: all install-datadir
- 	$(INSTALL_DIR) "$(DESTDIR)$(qemu_datadir)/keymaps"
+-install: all install-datadir
+-	$(INSTALL_DIR) "$(DESTDIR)$(qemu_datadir)/keymaps"
  
  ifdef CONFIG_WIN32
-diff --git a/qga/meson.build b/qga/meson.build
-index 3f28f74b52..e5c5778a3e 100644
---- a/qga/meson.build
-+++ b/qga/meson.build
-@@ -82,6 +82,8 @@ if targetos == 'windows'
-     all_qga += [qga_msi]
-     alias_target('msi', qga_msi)
-   endif
-+else
-+  install_subdir('run', install_dir: get_option('localstatedir'))
- endif
  
- alias_target('qemu-ga', all_qga)
 -- 
 2.26.2
 
