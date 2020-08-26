@@ -2,72 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4622E252C34
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 13:08:59 +0200 (CEST)
-Received: from localhost ([::1]:42456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4148F252C39
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 13:10:29 +0200 (CEST)
+Received: from localhost ([::1]:49412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAtIY-0001cA-7R
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 07:08:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47400)
+	id 1kAtK0-0004Rw-AH
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 07:10:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kAtG5-0005qy-S8
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:06:25 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:30508
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1kAtGK-0006Kz-2E
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:06:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21273)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kAtEG-00037z-FC
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:06:25 -0400
+ id 1kAtEN-000388-KH
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:06:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598439871;
+ s=mimecast20190719; t=1598439877;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=DoLsYrCDYKkjcYC8LFkgFdJxKPUHBmrTMlE9U5WviuM=;
- b=VfyYssPqjfdgIpxWSBYUImcTaoD3hqMEgLClsHqAjvY6nd9lHTRMXTMmSivVCR7kk+sigw
- rea2IkQ/J6KJfxLitY83HAod3eOzkXoAArnMkAiaKAF1kX7Jc25bfeySfeHeJNXcYA0Blt
- PtrhTwqJSt/xiMNZZ7YDBkXch7zEanM=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=D1g26c41eGJ9JbqAKW+ebPsU6Pne8C9pH3fo35R4NN0=;
+ b=ByHSiUMjwH1mMcavTFx5hTYPAuLyBMQxKTBxnjK60gULEn9hBPj4QX6V0qiE+CH1+UrgTV
+ LMv05GN/7F8+pPbPII4M2L7yRBMrXDyK97UegAXPHEjYyGSU5FijzifbLPb3HBBX1+J1/m
+ Gx4OV+HbVx8cMS4xPzZ8reoo2+ei/04=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-498-9oaiYUqXOsOykA4o1xBTSw-1; Wed, 26 Aug 2020 07:04:27 -0400
-X-MC-Unique: 9oaiYUqXOsOykA4o1xBTSw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-111-XPrvDIJvORq-V-t20je54w-1; Wed, 26 Aug 2020 07:04:35 -0400
+X-MC-Unique: XPrvDIJvORq-V-t20je54w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C7A7805EE2;
- Wed, 26 Aug 2020 11:04:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 839E856BE4;
+ Wed, 26 Aug 2020 11:04:34 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.43])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 995821992F;
- Wed, 26 Aug 2020 11:04:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DED2139A55;
+ Wed, 26 Aug 2020 11:04:30 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/8] meson: mingw installation fixes & nsis conversion
-Date: Wed, 26 Aug 2020 15:04:11 +0400
-Message-Id: <20200826110419.528931-1-marcandre.lureau@redhat.com>
+Subject: [PATCH v3 1/8] configure: rename confsuffix option
+Date: Wed, 26 Aug 2020 15:04:12 +0400
+Message-Id: <20200826110419.528931-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20200826110419.528931-1-marcandre.lureau@redhat.com>
+References: <20200826110419.528931-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124;
  envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 06:53:09
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 23:30:47
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
-X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,50 +79,81 @@ Cc: sw@weilnetz.de, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>=0D
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Hi,=0D
-=0D
-The following patches fix installation path when cross-compiling Windows=0D
-version, and move the NSIS build rule to meson.=0D
-=0D
-v3:=0D
- - change qemu suffix handling, make /-separator implicit=0D
- - use qemu suffix to build qemu_docdir, as --help says=0D
- - use / to construct qemu directory variables in meson=0D
- - add a few signed-off from Daniel=0D
-=0D
-v2:=0D
- - replaced the shell script by a python version=0D
- - add copyright/license for the new python script=0D
-=0D
-Marc-Andr=C3=A9 Lureau (8):=0D
-  configure: rename confsuffix option=0D
-  configure: always /-seperate directory from qemu_suffix=0D
-  configure: build docdir like other suffixed directories=0D
-  meson: pass qemu_suffix option=0D
-  meson: use meson datadir instead of qemu_datadir=0D
-  meson: pass docdir option=0D
-  meson: use meson mandir instead of qemu_mandir=0D
-  meson: add NSIS building=0D
-=0D
- Makefile                           | 56 ---------------------=0D
- configure                          | 27 ++++++-----=0D
- contrib/vhost-user-gpu/meson.build |  2 +-=0D
- docs/meson.build                   |  4 +-=0D
- meson.build                        | 34 +++++++++++--=0D
- meson_options.txt                  |  4 ++=0D
- pc-bios/descriptors/meson.build    |  2 +-=0D
- pc-bios/keymaps/meson.build        |  6 +--=0D
- pc-bios/meson.build                |  2 +-=0D
- scripts/nsis.py                    | 78 ++++++++++++++++++++++++++++++=0D
- tools/virtiofsd/meson.build        |  2 +-=0D
- trace/meson.build                  |  2 +-=0D
- 12 files changed, 138 insertions(+), 81 deletions(-)=0D
- create mode 100644 scripts/nsis.py=0D
-=0D
---=20=0D
-2.26.2=0D
-=0D
+The value is used to construct conf/mod/data directories.
+
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ configure | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/configure b/configure
+index b1e11397a8..0e04c47722 100755
+--- a/configure
++++ b/configure
+@@ -474,7 +474,7 @@ modules="no"
+ module_upgrades="no"
+ prefix="/usr/local"
+ firmwarepath="\${prefix}/share/qemu-firmware"
+-confsuffix="/qemu"
++qemu_suffix="/qemu"
+ slirp=""
+ oss_lib=""
+ bsd="no"
+@@ -1010,7 +1010,7 @@ if test "$mingw32" = "yes" ; then
+     LIBS="-liberty $LIBS"
+   fi
+   prefix="c:/Program Files/QEMU"
+-  confsuffix=""
++  qemu_suffix=""
+   libs_qga="-lws2_32 -lwinmm -lpowrprof -lwtsapi32 -lwininet -liphlpapi -lnetapi32 $libs_qga"
+ fi
+ 
+@@ -1118,7 +1118,7 @@ for opt do
+   ;;
+   --datadir=*) datadir="$optarg"
+   ;;
+-  --with-confsuffix=*) confsuffix="$optarg"
++  --with-suffix=*) qemu_suffix="$optarg"
+   ;;
+   --docdir=*) qemu_docdir="$optarg"
+   ;;
+@@ -1823,16 +1823,16 @@ Advanced options (experts only):
+   --with-git=GIT           use specified git [$git]
+   --static                 enable static build [$static]
+   --mandir=PATH            install man pages in PATH
+-  --datadir=PATH           install firmware in PATH$confsuffix
+-  --docdir=PATH            install documentation in PATH$confsuffix
++  --datadir=PATH           install firmware in PATH$qemu_suffix
++  --docdir=PATH            install documentation in PATH$qemu_suffix
+   --bindir=PATH            install binaries in PATH
+   --libdir=PATH            install libraries in PATH
+   --libexecdir=PATH        install helper binaries in PATH
+-  --sysconfdir=PATH        install config in PATH$confsuffix
++  --sysconfdir=PATH        install config in PATH$qemu_suffix
+   --localstatedir=PATH     install local state in PATH (set at runtime on win32)
+   --firmwarepath=PATH      search PATH for firmware files
+   --efi-aarch64=PATH       PATH of efi file to use for aarch64 VMs.
+-  --with-confsuffix=SUFFIX suffix for QEMU data inside datadir/libdir/sysconfdir [$confsuffix]
++  --with-suffix=SUFFIX     suffix for QEMU data inside datadir/libdir/sysconfdir [$qemu_suffix]
+   --with-pkgversion=VERS   use specified string as sub-version of the package
+   --enable-debug           enable common debug build options
+   --enable-sanitizers      enable default sanitizers
+@@ -6467,9 +6467,9 @@ EOF
+     fi
+ fi
+ 
+-qemu_confdir=$sysconfdir$confsuffix
+-qemu_moddir=$libdir$confsuffix
+-qemu_datadir=$datadir$confsuffix
++qemu_confdir=$sysconfdir$qemu_suffix
++qemu_moddir=$libdir$qemu_suffix
++qemu_datadir=$datadir$qemu_suffix
+ qemu_localedir="$datadir/locale"
+ qemu_icondir="$datadir/icons"
+ qemu_desktopdir="$datadir/applications"
+-- 
+2.26.2
 
 
