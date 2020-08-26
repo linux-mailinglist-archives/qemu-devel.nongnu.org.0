@@ -2,71 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63F63253065
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 15:51:35 +0200 (CEST)
-Received: from localhost ([::1]:33072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED2A725306E
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 15:53:00 +0200 (CEST)
+Received: from localhost ([::1]:38538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAvpu-0000kc-Ds
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 09:51:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33448)
+	id 1kAvrI-0002xJ-25
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 09:53:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kAvos-0008Jd-Pz
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 09:50:32 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:46329)
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1kAvqF-000253-QG
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 09:51:55 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:40296)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kAvon-0008M8-1c
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 09:50:29 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id d11so2906819ejt.13
- for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 06:50:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bUBfWFnHFK4Sbwf8GvU2FpRepm+4AfQNfSiY7GdqAaU=;
- b=XAb+01qdxAu//jN3qVSHwzUguMhDSvC0IeD699mxFgackR2fcbdZWzbM4cXgBFxmyD
- m+5bib+JPL+j/6iQeq2XlRRhlUzDD6N76uNN35uaRHqhZjgSmo/xMJxcbT4Qvj0yWCQg
- wLTg2kr1BjXCk9xLMq11tYWqRo4fi6w19Ij78MKrgLKJJaAJ4FOw8tY3/NqqznxxO0Q8
- h3asFkqTwUPH5gD17Zt4R8I32hS2zhfDO/KUUH/tCSN4rXTaj/dW0KfTmk12IFYwff8h
- 6rH61rLCTf2ku7H/IcAd0wIsAa24716qNfKY2DnB7cB/kEAWVYnDijoY2/nBVvDdOuyG
- rwyg==
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1kAvqC-0000BT-WF
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 09:51:55 -0400
+Received: by mail-wr1-x442.google.com with SMTP id b18so1881920wrs.7
+ for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 06:51:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dme-org.20150623.gappssmtp.com; s=20150623;
+ h=to:cc:subject:in-reply-to:references:from:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=DGYROD/wnsPA52oJqpkpPnHFqdELkB1fOTUE8EOGPxw=;
+ b=nAd5uCFLxjyyY3dAnRGfSQNNZRXWnJJCfb9oCgUFXQ6ZXVBLgyhMNcthi37uqj9PcG
+ XUsNS2c8LVbUjARM/RQy2Q6HOB3HvOJRszhiQ0uRSDaK5nRddJFRWGI0Z+jneG5Ua6zr
+ M4rrhvsGcfjQs0xLMsn3oEk0ablKsG8crvmwNED1uuiUVNtowT0N3JvFQsRa6NcKJZgD
+ T5WlRqKGaXW2K8yiJUmF2Qz4nnhpCZUIjuH1hXvIUSWT+j6DShfS/sCIirQwz4mi917v
+ weHGebWhcD2cKFCgy/VgfV2loMAVFRJF1SFwP8/uzOfJfcTgcKzjkN2nWE8W7xlj3gZf
+ vojQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bUBfWFnHFK4Sbwf8GvU2FpRepm+4AfQNfSiY7GdqAaU=;
- b=F51+z+BY3UUThC2KYcIfoL/BVj6CtCo2gCmO1JEcc97wVb3+6q9BgCphTseOxVkFO3
- D09VAay7CP4a3MIV4OT6nWOwJiC+CUw+WEBizAQr00B8qNkG17P+aV+vez9sDiyS+bCR
- J/5+/pjf2ovmwouOhj59sdBd4YFSNyM48M4ieJPhsRF6EdDfT9zs574rqmkO10sUPmBu
- wFRp3fxCNGRO2w6oq4wAHmsfaOpn+8QJ8e4u1/3aPs8ws4Ts7MDJ/lWpcelNx83+G2DF
- mLKuMMMSUfY/dlDq2FgE/LR1wi4Zav4MdwTXJxWETCM2pu4JKR5JXO45/YgmVu6lV+jd
- +Y9Q==
-X-Gm-Message-State: AOAM532jZcirH9mGnphqBfkPh4efOD5gJdYVo8IRAK4yxkjiJ2y9rIhh
- RusGooKFSnGkqEpZeRgOGCpAZPWqA9s+8JV0olk=
-X-Google-Smtp-Source: ABdhPJyV2ZGwwbI/e/Iiga16jgCYjTB7G32Z+HTfUBEW/Zz7Q2uPCNrRpDjOxSsYeGIt0rZLIrRCJgl6BnT0L0shhhs=
-X-Received: by 2002:a17:906:3816:: with SMTP id
- v22mr15606040ejc.105.1598449821919; 
- Wed, 26 Aug 2020 06:50:21 -0700 (PDT)
+ h=x-gm-message-state:to:cc:subject:in-reply-to:references:from:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=DGYROD/wnsPA52oJqpkpPnHFqdELkB1fOTUE8EOGPxw=;
+ b=TZPt2ubqv/MUzTRaUz6MARUXWWYo/5dmRaDypF1XSVJEP7+3h8fMjg5U+Jsp04So9k
+ hqisHsOJ+3Tee12E3dhVC6dzXfh+6pPyDhFg5bLvOdPxFRa/WXSsonc/UBdV+yJcL0R6
+ K89DRSIU9nNtQ8JqNM8aY/zxWJV1Pb0ll6NF8xZMzeo3+J77tenFxooy6TRXjaykJmqo
+ vuofrAQLWQK/pE82NFg2Ej5C7WBZa/zAywxISsagm8tKjwogwdrwKL4iufUrGnHdB7bK
+ pamAWvav82Jfu7aH5Y3/kd238hP5SlP/JUbf4M3Z6LPjJZXn5/Qrl36fHeQ3j6Ec/B2F
+ rEnQ==
+X-Gm-Message-State: AOAM530RVxR27Lb7vBXrmovqZojlaYr9a3Nf1Mw03fRaRYImcHbxfJ4Y
+ hDubOtzCkvkn8wciOLof+XpXswfo+j/tyz0SEj4=
+X-Google-Smtp-Source: ABdhPJyJeeSlUQn7pOZzY4QD1/IcIwui7tT4tRWMQAlSJr7+IUHA9orTETQRTPIrUG3J7ZDy//jH2w==
+X-Received: by 2002:a05:6000:d0:: with SMTP id
+ q16mr2704076wrx.24.1598449910875; 
+ Wed, 26 Aug 2020 06:51:50 -0700 (PDT)
+Received: from disaster-area.hh.sledj.net
+ (8.a.e.d.0.0.0.0.0.0.0.0.4.6.0.0.0.4.1.7.1.7.b.b.0.b.8.0.1.0.0.2.ip6.arpa.
+ [2001:8b0:bb71:7140:64::dea8])
+ by smtp.gmail.com with ESMTPSA id q3sm5441292wmq.12.2020.08.26.06.51.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Aug 2020 06:51:49 -0700 (PDT)
+Received: from localhost (disaster-area.hh.sledj.net [local])
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id b3bab257;
+ Wed, 26 Aug 2020 13:51:49 +0000 (UTC)
+To: Max Reitz <mreitz@redhat.com>, Vladimir Sementsov-Ogievskiy
+ <vsementsov@virtuozzo.com>, qemu-block@nongnu.org
+Subject: Re: [PATCH v5 07/10] block: introduce preallocate filter
+In-Reply-To: <9d22c3be-df5f-0bd1-0634-6217889670ec@redhat.com>
+References: <20200821141123.28538-1-vsementsov@virtuozzo.com>
+ <20200821141123.28538-8-vsementsov@virtuozzo.com>
+ <9d22c3be-df5f-0bd1-0634-6217889670ec@redhat.com>
+X-HGTTG: heart-of-gold
+From: David Edmondson <dme@dme.org>
+Date: Wed, 26 Aug 2020 14:51:49 +0100
+Message-ID: <m2o8mxjz0q.fsf@dme.org>
 MIME-Version: 1.0
-References: <9AB9A3F5-8AA6-4F82-9693-D331251AA0CB@gmail.com>
-In-Reply-To: <9AB9A3F5-8AA6-4F82-9693-D331251AA0CB@gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 26 Aug 2020 17:50:10 +0400
-Message-ID: <CAJ+F1CKk_jYqPPsGUPLk+MLBUymSeMNjEKpqRR2e-xQry9N3=Q@mail.gmail.com>
-Subject: Re: Issue with submodules on macOS & meson
-To: Emmanuel Blot <eblot.com@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000d3ae3b05adc8195e"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x62d.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: neutral client-ip=2a00:1450:4864:20::442;
+ envelope-from=dme@dme.org; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NEUTRAL=0.779, UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,246 +92,566 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ nsoffer@redhat.com, stefanha@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d3ae3b05adc8195e
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Tuesday, 2020-08-25 at 17:11:34 +02, Max Reitz wrote:
 
-Hi
+> On 21.08.20 16:11, Vladimir Sementsov-Ogievskiy wrote:
+>> It's intended to be inserted between format and protocol nodes to
+>> preallocate additional space (expanding protocol file) on writes
+>> crossing EOF. It improves performance for file-systems with slow
+>> allocation.
+>>=20
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+>>  docs/system/qemu-block-drivers.rst.inc |  26 +++
+>>  qapi/block-core.json                   |  20 +-
+>>  block/preallocate.c                    | 291 +++++++++++++++++++++++++
+>>  block/Makefile.objs                    |   1 +
+>>  4 files changed, 337 insertions(+), 1 deletion(-)
+>>  create mode 100644 block/preallocate.c
+>
+> Looks good to me in essence.  Besides minor details, I wonder most about
+> whether truncating the file on close can be safe, but more about that bel=
+ow.
+>
+>> diff --git a/docs/system/qemu-block-drivers.rst.inc b/docs/system/qemu-b=
+lock-drivers.rst.inc
+>> index b052a6d14e..5e8a35c571 100644
+>> --- a/docs/system/qemu-block-drivers.rst.inc
+>> +++ b/docs/system/qemu-block-drivers.rst.inc
+>> @@ -952,3 +952,29 @@ on host and see if there are locks held by the QEMU=
+ process on the image file.
+>>  More than one byte could be locked by the QEMU instance, each byte of w=
+hich
+>>  reflects a particular permission that is acquired or protected by the r=
+unning
+>>  block driver.
+>> +
+>> +Filter drivers
+>> +~~~~~~~~~~~~~~
+>> +
+>> +QEMU supports several filter drivers, which don't store any data, but d=
+o some
+>
+> s/do/perform/
+>
+>> +additional tasks, hooking io requests.
+>> +
+>> +.. program:: filter-drivers
+>> +.. option:: preallocate
+>> +
+>> +  Preallocate filter driver is intended to be inserted between format
+>
+> *The preallocate filter driver
+>
+>> +  and protocol nodes and does preallocation of some additional space
+>
+> I=E2=80=99d simplify this as s/does preallocation of/preallocates/
+>
+>> +  (expanding the protocol file) on write. It may be used for
+>
+> I=E2=80=99d complicate this as s/on write/when writing past the file=E2=
+=80=99s end/, or
+> =E2=80=9Cwhen data is written to the file after its end=E2=80=9D, or at l=
+east =E2=80=9Con
+> post-EOF writes=E2=80=9D.
+>
+> Maybe also s/It may be used for/This can be useful for/?
+>
+>> +  file-systems with slow allocation.
+>> +
+>> +  Supported options:
+>> +
+>> +  .. program:: preallocate
+>> +  .. option:: prealloc-align
+>> +
+>> +    On preallocation, align file length to this number, default 1M.
+>
+> *the file length
+>
+> As for =E2=80=9Cnumber=E2=80=9D...  Well, it is a number.  But =E2=80=9Cv=
+alue=E2=80=9D might fit better.
+>  Or =E2=80=9Clength (in bytes)=E2=80=9D?
 
-On Wed, Aug 26, 2020 at 5:40 PM Emmanuel Blot <eblot.com@gmail.com> wrote:
+Isn't it really:
 
-> Hi,
->
-> Using current master 78dca230 w/ Meson/ninja, build fails with capstone
-> dependency.
->
-> * ../configure --target-list=3Driscv64-softmmu && ninja
->
+"On preallocation, ensure that the file length is aligned to a multiple
+of this value, default 1M."
 
-You need to run 'make' (at least once - but still by preference for now).
-Submodule handling is done by Makefile.
+?
 
-   fails because capstone is automatically enabled @ configure stage,
-> but capstone is not installed on the host, and the local capstone/
-> submodule is not automatically populated:
+>> +
+>> +  .. program:: preallocate
+>> +  .. option:: prealloc-size
+>> +
+>> +    How much to preallocate, default 128M.
+>> diff --git a/qapi/block-core.json b/qapi/block-core.json
+>> index 197bdc1c36..b40448063b 100644
+>> --- a/qapi/block-core.json
+>> +++ b/qapi/block-core.json
+>> @@ -2805,7 +2805,7 @@
+>>              'cloop', 'compress', 'copy-on-read', 'dmg', 'file', 'ftp', =
+'ftps',
+>>              'gluster', 'host_cdrom', 'host_device', 'http', 'https', 'i=
+scsi',
+>>              'luks', 'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'paral=
+lels',
+>> -            'qcow', 'qcow2', 'qed', 'quorum', 'raw', 'rbd',
+>> +            'preallocate', 'qcow', 'qcow2', 'qed', 'quorum', 'raw', 'rb=
+d',
+>>              { 'name': 'replication', 'if': 'defined(CONFIG_REPLICATION)=
+' },
+>>              'sheepdog',
+>>              'ssh', 'throttle', 'vdi', 'vhdx', 'vmdk', 'vpc', 'vvfat' ] }
+>> @@ -3074,6 +3074,23 @@
+>>    'data': { 'aes': 'QCryptoBlockOptionsQCow',
+>>              'luks': 'QCryptoBlockOptionsLUKS'} }
+>>=20=20
+>> +##
+>> +# @BlockdevOptionsPreallocate:
+>> +#
+>> +# Filter driver intended to be inserted between format and protocol node
+>> +# and do preallocation in protocol node on write.
+>> +#
+>> +# @prealloc-align: on preallocation, align file length to this number,
+>> +#                 default 1048576 (1M)
 >
-> cc -Ilibqemu-riscv64-softmmu.fa.p -I. -I.. -Itarget/riscv
-> -I../target/riscv -Iqapi -Itrace -Iui -Iui/shader
-> -I/usr/local/Cellar/pixman/0.40.0/include/pixman-1
-> -I/usr/local/Cellar/glib/2.64.4_2/include
-> -I/usr/local/Cellar/glib/2.64.4_2/include/glib-2.0
-> -I/usr/local/Cellar/glib/2.64.4_2/lib/glib-2.0/include
-> -I/usr/local/opt/gettext/include -I/usr/local/Cellar/pcre/8.44/include
-> -I/usr/local/Cellar/gnutls/3.6.14/include
-> -I/usr/local/Cellar/nettle/3.6/include
-> -I/usr/local/Cellar/libtasn1/4.16.0/include
-> -I/usr/local/Cellar/libidn2/2.3.0/include
-> -I/usr/local/Cellar/p11-kit/0.23.20_1/include/p11-kit-1
-> -I/Users/eblot/Sources/Git/github.com/QEMU/upstream/capstone/include
-> -Xclang -fcolor-diagnostics -pipe -Wall -Winvalid-pch -std=3Dgnu99 -O2 -g
-> -m64 -mcx16 -DOS_OBJECT_USE_OBJC=3D0 -arch x86_64 -D_GNU_SOURCE
-> -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE -Wstrict-prototypes
-> -Wredundant-decls -Wundef -Wwrite-strings -Wmissing-prototypes
-> -fno-strict-aliasing -fno-common -fwrapv -Wold-style-definition
-> -Wtype-limits -Wformat-security -Wformat-y2k -Winit-self
-> -Wignored-qualifiers -Wempty-body -Wnested-externs -Wendif-labels
-> -Wexpansion-to-defined -Wno-initializer-overrides
-> -Wno-missing-include-dirs -Wno-shift-negative-value -Wno-string-plus-int
-> -Wno-typedef-redefinition -Wno-tautological-type-limit-compare
-> -fstack-protector-strong -iquote
-> /Users/eblot/Sources/Git/github.com/QEMU/upstream/tcg/i386 -iquote .
-> -iquote /Users/eblot/Sources/Git/github.com/QEMU/upstream -iquote
-> /Users/eblot/Sources/Git/github.com/QEMU/upstream/accel/tcg -iquote
-> /Users/eblot/Sources/Git/github.com/QEMU/upstream/include -iquote
-> /Users/eblot/Sources/Git/github.com/QEMU/upstream/disas/libvixl
-> -DNEED_CPU_H '-DCONFIG_TARGET=3D"riscv64-softmmu-config-target.h"'
-> '-DCONFIG_DEVICES=3D"riscv64-softmmu-config-devices.h"' -MD -MQ
-> libqemu-riscv64-softmmu.fa.p/disas.c.o -MF
-> libqemu-riscv64-softmmu.fa.p/disas.c.o.d -o
-> libqemu-riscv64-softmmu.fa.p/disas.c.o -c ../disas.c
-> In file included from ../disas.c:9:
-> /Users/eblot/Sources/Git/
-> github.com/QEMU/upstream/include/disas/capstone.h:6:10:
-> error: 'capstone.h' file not found with <angled> include; use "quotes"
-> instead
-> #include <capstone.h>
->           ^~~~~~~~~~~~
->           "capstone.h"
+> Speaking of alignment, this second line isn=E2=80=99t properly aligned.
 >
-> * ../configure --target-list=3Driscv64-softmmu =E2=80=94enable-capstone=
-=3Dgit &&
-> ninja
->    fails for the same reason (git submodule is not pulled)
+>> +#
+>> +# @prealloc-size: how much to preallocate, default 134217728 (128M)
+>> +#
+>> +# Since: 5.2
+>> +##
+>> +{ 'struct': 'BlockdevOptionsPreallocate',
+>> +  'base': 'BlockdevOptionsGenericFormat',
+>> +  'data': { '*prealloc-align': 'int', '*prealloc-size': 'int' } }
+>> +
+>>  ##
+>>  # @BlockdevOptionsQcow2:
+>>  #
+>> @@ -3979,6 +3996,7 @@
+>>        'null-co':    'BlockdevOptionsNull',
+>>        'nvme':       'BlockdevOptionsNVMe',
+>>        'parallels':  'BlockdevOptionsGenericFormat',
+>> +      'preallocate':'BlockdevOptionsPreallocate',
+>>        'qcow2':      'BlockdevOptionsQcow2',
+>>        'qcow':       'BlockdevOptionsQcow',
+>>        'qed':        'BlockdevOptionsGenericCOWFormat',
+>> diff --git a/block/preallocate.c b/block/preallocate.c
+>> new file mode 100644
+>> index 0000000000..bdf54dbd2f
+>> --- /dev/null
+>> +++ b/block/preallocate.c
+>> @@ -0,0 +1,291 @@
+>> +/*
+>> + * preallocate filter driver
+>> + *
+>> + * The driver performs preallocate operation: it is injected above
+>> + * some node, and before each write over EOF it does additional preallo=
+cating
+>> + * write-zeroes request.
+>> + *
+>> + * Copyright (c) 2020 Virtuozzo International GmbH.
+>> + *
+>> + * Author:
+>> + *  Sementsov-Ogievskiy Vladimir <vsementsov@virtuozzo.com>
+>> + *
+>> + * This program is free software; you can redistribute it and/or modify
+>> + * it under the terms of the GNU General Public License as published by
+>> + * the Free Software Foundation; either version 2 of the License, or
+>> + * (at your option) any later version.
+>> + *
+>> + * This program is distributed in the hope that it will be useful,
+>> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+>> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+>> + * GNU General Public License for more details.
+>> + *
+>> + * You should have received a copy of the GNU General Public License
+>> + * along with this program. If not, see <http://www.gnu.org/licenses/>.
+>> + */
+>> +
+>> +#include "qemu/osdep.h"
+>> +
+>> +#include "qapi/error.h"
+>> +#include "qemu/module.h"
+>> +#include "qemu/option.h"
+>> +#include "qemu/units.h"
+>> +#include "block/block_int.h"
+>> +
+>> +
+>> +typedef struct BDRVPreallocateState {
+>> +    int64_t prealloc_size;
+>> +    int64_t prealloc_align;
+>> +
+>> +    /*
+>> +     * Filter is started as not-active, so it doesn't do any preallocat=
+ions nor
+>> +     * requires BLK_PERM_RESIZE on its child. This is needed to create =
+filter
+>> +     * above another node-child and then do bdrv_replace_node to insert=
+ the
+>> +     * filter.
 >
-> * git submodule init && git submodule update capstone && ../configure
-> --target-list=3Driscv64-softmmu && ninja
->    fails because capstone.h is now found, but the library is not built:
+> A bit weird, but seems fair.  It=E2=80=99s basically just a cache for whe=
+ther
+> this node has a writer on it or not.
 >
->      ld: library not found for -lcapstone
->      clang: error: linker command failed with exit code 1 (use -v to see
-> invocation)
+> Apart from the weirdness, I don=E2=80=99t understand the =E2=80=9Canother=
+ node-child=E2=80=9D.
+> Say you have =E2=80=9Cformat=E2=80=9D -> =E2=80=9Cproto=E2=80=9D, and the=
+n you want to insert
+> =E2=80=9Cprealloc=E2=80=9D.  Wouldn=E2=80=99t you blockdev-add prealloc,f=
+ile=3Dproto and then
+> blockdev-replace format.file=3Dprealloc?  So what is that =E2=80=9Cother =
+node-child=E2=80=9D?
 >
->     build/capstone is created but stays empty.
+>> +     *
+>> +     * Filter becomes active the first time it detects that its parents=
+ have
+>> +     * BLK_PERM_RESIZE on it.
+>> +     * Filter becomes active forever: it doesn't lose active status if =
+parents
+>> +     * lose BLK_PERM_RESIZE, otherwise we'll not be able to shrink the =
+file on
+>> +     * filter close.
 >
-> * ../configure --target-list=3Driscv64-softmmu =E2=80=94disable-capstone
->     seems ok
+> Oh, the file is shrunk?  That wasn=E2=80=99t clear from the documentation.
 >
-> A similar issue arises with slirp: slirp is automatically selected while
-> not installed on the host and not pulled as a submodule. If the
-> submodule is manually pulled, slirp is not built and QEMU fails to build
-> because libslirp-version.h is not generated.
+> Hm.  Seems like useful behavior.  I just wonder if keeping the
+> permission around indefinitely makes sense.  Why not just truncate it
+> when the permission is revoked?
 >
->     /Users/eblot/Sources/Git/
-> github.com/QEMU/upstream/slirp/src/libslirp.h:17:10:
-> fatal error: 'libslirp-version.h' file not found
+>> +     */
+>> +    bool active;
+>> +
+>> +    /*
+>> +     * Track real data end, to crop preallocation on close  data_end ma=
+y be
 >
-> Am I missing something obvious?
+> s/on close /when closed./
 >
-> I cannot reproduce those issues with v.5.1.0
+>> +     * negative, which means that actual status is unknown (nothing cro=
+pped in
+>> +     * this case)
+>> +     */
+>> +    int64_t data_end;
+>> +} BDRVPreallocateState;
+>> +
+>> +#define PREALLOCATE_OPT_PREALLOC_ALIGN "prealloc-align"
+>> +#define PREALLOCATE_OPT_PREALLOC_SIZE "prealloc-size"
+>> +static QemuOptsList runtime_opts =3D {
+>> +    .name =3D "preallocate",
+>> +    .head =3D QTAILQ_HEAD_INITIALIZER(runtime_opts.head),
+>> +    .desc =3D {
+>> +        {
+>> +            .name =3D PREALLOCATE_OPT_PREALLOC_ALIGN,
+>> +            .type =3D QEMU_OPT_SIZE,
+>> +            .help =3D "on preallocation, align file length to this numb=
+er, "
+>> +                "default 1M",
+>> +        },
+>> +        {
+>> +            .name =3D PREALLOCATE_OPT_PREALLOC_SIZE,
+>> +            .type =3D QEMU_OPT_SIZE,
+>> +            .help =3D "how much to preallocate, default 128M",
+>> +        },
+>> +        { /* end of list */ }
+>> +    },
+>> +};
+>> +
+>> +static int preallocate_open(BlockDriverState *bs, QDict *options, int f=
+lags,
+>> +                            Error **errp)
+>> +{
+>> +    QemuOpts *opts;
+>> +    BDRVPreallocateState *s =3D bs->opaque;
+>> +
+>> +    /*
+>> +     * Parameters are hardcoded now. May need to add corresponding opti=
+ons in
+>> +     * future.
+>> +     */
+>> +    opts =3D qemu_opts_create(&runtime_opts, NULL, 0, &error_abort);
+>> +    qemu_opts_absorb_qdict(opts, options, &error_abort);
+>> +    s->prealloc_align =3D
+>> +        qemu_opt_get_size(opts, PREALLOCATE_OPT_PREALLOC_ALIGN, 1 * MiB=
+);
+>> +    s->prealloc_size =3D
+>> +        qemu_opt_get_size(opts, PREALLOCATE_OPT_PREALLOC_SIZE, 128 * Mi=
+B);
+>> +    qemu_opts_del(opts);
 >
+> Should we have some validation on these parameters?  Like,
+> prealloc_align being at least 512, or maybe even file.request_alignment?
 >
-> Thanks,
-> Emmanuel.
+> (I suppose anything for prealloc_size is fine, though 0 doesn=E2=80=99t m=
+ake
+> much sense...)
 >
+>> +
+>> +    bs->file =3D bdrv_open_child(NULL, options, "file", bs, &child_of_b=
+ds,
+>> +                               BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
+>> +                               false, errp);
+>> +    if (!bs->file) {
+>> +        return -EINVAL;
+>> +    }
+>> +
+>> +    s->data_end =3D bdrv_getlength(bs->file->bs);
+>> +    if (s->data_end < 0) {
+>> +        return s->data_end;
+>> +    }
+>> +
+>> +    bs->supported_write_flags =3D BDRV_REQ_WRITE_UNCHANGED |
+>> +        (BDRV_REQ_FUA & bs->file->bs->supported_write_flags);
+>> +
+>> +    bs->supported_zero_flags =3D BDRV_REQ_WRITE_UNCHANGED |
+>> +        ((BDRV_REQ_FUA | BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK) &
+>> +            bs->file->bs->supported_zero_flags);
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +static void preallocate_close(BlockDriverState *bs)
+>> +{
+>> +    BDRVPreallocateState *s =3D bs->opaque;
+>> +
+>> +    if (s->active && s->data_end >=3D 0 &&
+>> +        bdrv_getlength(bs->file->bs) > s->data_end)
+>> +    {
+>> +        bdrv_truncate(bs->file, s->data_end, true, PREALLOC_MODE_OFF, 0=
+, NULL);
 >
+> Now that I think more about it...  What if there are other writers on
+> bs->file?  This may throw data away.  Maybe BDS.wr_highest_offset can
+> help to make a better call?
+>
+>> +    }
+>> +}
+>> +
+>> +static void preallocate_child_perm(BlockDriverState *bs, BdrvChild *c,
+>> +                                   BdrvChildRole role,
+>> +                                   BlockReopenQueue *reopen_queue,
+>> +                                   uint64_t perm, uint64_t shared,
+>> +                                   uint64_t *nperm, uint64_t *nshared)
+>> +{
+>> +    BDRVPreallocateState *s =3D bs->opaque;
+>> +
+>> +    bdrv_default_perms(bs, c, role, reopen_queue, perm, shared, nperm, =
+nshared);
+>> +
+>> +    s->active =3D s->active || (perm & BLK_PERM_RESIZE);
+>> +
+>> +    if (s->active) {
+>> +        /* Force RESIZE permission, to be able to crop file on close() =
+*/
+>> +        *nperm |=3D BLK_PERM_RESIZE;
+>> +    }
+>> +}
+>> +
+>> +static coroutine_fn int preallocate_co_preadv_part(
+>> +        BlockDriverState *bs, uint64_t offset, uint64_t bytes,
+>> +        QEMUIOVector *qiov, size_t qiov_offset, int flags)
+>> +{
+>> +    return bdrv_co_preadv_part(bs->file, offset, bytes, qiov, qiov_offs=
+et,
+>> +                               flags);
+>> +}
+>> +
+>> +static int coroutine_fn preallocate_co_pdiscard(BlockDriverState *bs,
+>> +                                               int64_t offset, int byte=
+s)
+>> +{
+>> +    return bdrv_co_pdiscard(bs->file, offset, bytes);
+>> +}
+>> +
+>> +static bool coroutine_fn do_preallocate(BlockDriverState *bs, int64_t o=
+ffset,
+>> +                                       int64_t bytes, bool write_zero)
+>> +{
+>> +    BDRVPreallocateState *s =3D bs->opaque;
+>> +    int64_t len, start, end;
+>> +
+>> +    if (!s->active) {
+>> +        return false;
+>> +    }
+>> +
+>> +    if (s->data_end >=3D 0) {
+>> +        s->data_end =3D MAX(s->data_end,
+>> +                          QEMU_ALIGN_UP(offset + bytes, BDRV_SECTOR_SIZ=
+E));
+>> +    }
+>> +
+>> +    len =3D bdrv_getlength(bs->file->bs);
+>
+> I=E2=80=99d rename @len so it=E2=80=99s clear that it has nothing to do w=
+ith the request
+> length.  Like, file_len.
+>
+> (Because...
+>
+>> +    if (len < 0) {
+>> +        return false;
+>> +    }
+>> +
+>> +    if (s->data_end < 0) {
+>> +        s->data_end =3D MAX(len,
+>> +                          QEMU_ALIGN_UP(offset + bytes, BDRV_SECTOR_SIZ=
+E));
+>> +    }
+>> +
+>> +    if (offset + bytes <=3D len) {
+>> +        return false;
+>> +    }
+>> +
+>> +    start =3D write_zero ? MIN(offset, len) : len;
+>
+> ...I got confused here for a bit)
+>
+>> +    end =3D QEMU_ALIGN_UP(offset + bytes + s->prealloc_size, s->preallo=
+c_align);
+>
+> Ah, I expected offset + s->prealloc_size.  But OK.
+>
+>> +    return !bdrv_co_pwrite_zeroes(bs->file, start, end - start,
+>> +            BDRV_REQ_NO_FALLBACK | BDRV_REQ_SERIALISING | BDRV_REQ_NO_W=
+AIT);
+>> +}
+>> +
+>> +static int coroutine_fn preallocate_co_pwrite_zeroes(BlockDriverState *=
+bs,
+>> +        int64_t offset, int bytes, BdrvRequestFlags flags)
+>> +{
+>> +    if (do_preallocate(bs, offset, bytes, true)) {
+>> +        return 0;
+>> +    }
+>> +
+>> +    return bdrv_co_pwrite_zeroes(bs->file, offset, bytes, flags);
+>> +}
+>> +
+>> +static coroutine_fn int preallocate_co_pwritev_part(BlockDriverState *b=
+s,
+>> +                                                    uint64_t offset,
+>> +                                                    uint64_t bytes,
+>> +                                                    QEMUIOVector *qiov,
+>> +                                                    size_t qiov_offset,
+>> +                                                    int flags)
+>> +{
+>> +    do_preallocate(bs, offset, bytes, false);
+>> +
+>> +    return bdrv_co_pwritev_part(bs->file, offset, bytes, qiov, qiov_off=
+set,
+>> +                                flags);
+>> +}
+>> +
+>> +static int coroutine_fn
+>> +preallocate_co_truncate(BlockDriverState *bs, int64_t offset,
+>> +                        bool exact, PreallocMode prealloc,
+>> +                        BdrvRequestFlags flags, Error **errp)
+>> +{
+>> +    BDRVPreallocateState *s =3D bs->opaque;
+>> +    int ret =3D bdrv_co_truncate(bs->file, offset, exact, prealloc, fla=
+gs, errp);
+>> +
+>> +    /* s->data_end may become negative here, which means unknown data e=
+nd */
+>> +    s->data_end =3D bdrv_getlength(bs->file->bs);
+>
+> What would be the problem with just setting data_end =3D offset?  We only
+> use data_end to truncate down on close, so basically repeat the
+> bdrv_co_truncate() call here, which seems correct.
+>
+>> +
+>> +    return ret;
+>> +}
+>> +
+>> +static int coroutine_fn preallocate_co_flush(BlockDriverState *bs)
+>> +{
+>> +    return bdrv_co_flush(bs->file->bs);
+>> +}
+>> +
+>> +static int64_t preallocate_getlength(BlockDriverState *bs)
+>> +{
+>> +    /*
+>> +     * We probably can return s->data_end here, but seems safer to retu=
+rn real
+>> +     * file length, not trying to hide the preallocation.
+>
+> I don=E2=80=99t know.  The auto-truncation on close makes that a bit weir=
+d, in
+> my opinion.  But since this filter is probably never directly below a
+> BlockBackend (i.e., the length is never exposed to anything outside of
+> the block layer), but always below a format driver, it should be fine.
+> (In fact, those drivers do probably rather care about the true file
+> length rather than whatever they may have truncated it to, so you=E2=80=
+=99re
+> right, it should be safer.)
+>
+> Max
+>
+>> +     *
+>> +     * Still, don't miss the chance to restore s->data_end if it is bro=
+ken.
+>> +     */
+>> +    BDRVPreallocateState *s =3D bs->opaque;
+>> +    int64_t ret =3D bdrv_getlength(bs->file->bs);
+>> +
+>> +    if (s->data_end < 0) {
+>> +        s->data_end =3D ret;
+>> +    }
+>> +
+>> +    return ret;
+>> +}
+>> +
+>> +BlockDriver bdrv_preallocate_filter =3D {
+>> +    .format_name =3D "preallocate",
+>> +    .instance_size =3D sizeof(BDRVPreallocateState),
+>> +
+>> +    .bdrv_getlength =3D preallocate_getlength,
+>> +    .bdrv_open =3D preallocate_open,
+>> +    .bdrv_close =3D preallocate_close,
+>> +
+>> +    .bdrv_co_preadv_part =3D preallocate_co_preadv_part,
+>> +    .bdrv_co_pwritev_part =3D preallocate_co_pwritev_part,
+>> +    .bdrv_co_pwrite_zeroes =3D preallocate_co_pwrite_zeroes,
+>> +    .bdrv_co_pdiscard =3D preallocate_co_pdiscard,
+>> +    .bdrv_co_flush =3D preallocate_co_flush,
+>> +    .bdrv_co_truncate =3D preallocate_co_truncate,
+>> +
+>> +    .bdrv_co_block_status =3D bdrv_co_block_status_from_file,
+>> +
+>> +    .bdrv_child_perm =3D preallocate_child_perm,
+>> +
+>> +    .has_variable_length =3D true,
+>> +    .is_filter =3D true,
+>> +};
+>> +
+>> +static void bdrv_preallocate_init(void)
+>> +{
+>> +    bdrv_register(&bdrv_preallocate_filter);
+>> +}
+>> +
+>> +block_init(bdrv_preallocate_init);
+>> diff --git a/block/Makefile.objs b/block/Makefile.objs
+>> index 19c6f371c9..f8e6f16522 100644
+>> --- a/block/Makefile.objs
+>> +++ b/block/Makefile.objs
+>> @@ -44,6 +44,7 @@ block-obj-y +=3D crypto.o
+>>  block-obj-y +=3D aio_task.o
+>>  block-obj-y +=3D backup-top.o
+>>  block-obj-y +=3D filter-compress.o
+>> +block-obj-y +=3D preallocate.o
+>>  common-obj-y +=3D monitor/
+>>  block-obj-y +=3D monitor/
+>>=20=20
+>>=20
 
+dme.
 --=20
-Marc-Andr=C3=A9 Lureau
-
---000000000000d3ae3b05adc8195e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 26, 2020 at 5:40 PM Emm=
-anuel Blot &lt;<a href=3D"mailto:eblot.com@gmail.com">eblot.com@gmail.com</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi=
-,<br>
-<br>
-Using current master 78dca230 w/ Meson/ninja, build fails with capstone <br=
->
-dependency.<br>
-<br>
-* ../configure --target-list=3Driscv64-softmmu &amp;&amp; ninja<br></blockq=
-uote><div><br></div><div>You need to run &#39;make&#39; (at least once - bu=
-t still by preference for now). Submodule handling is done by Makefile.<br>=
-</div><div> <br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-=C2=A0 =C2=A0fails because capstone is automatically enabled @ configure st=
-age, <br>
-but capstone is not installed on the host, and the local capstone/ <br>
-submodule is not automatically populated:<br>
-<br>
-cc -Ilibqemu-riscv64-softmmu.fa.p -I. -I.. -Itarget/riscv <br>
--I../target/riscv -Iqapi -Itrace -Iui -Iui/shader <br>
--I/usr/local/Cellar/pixman/0.40.0/include/pixman-1 <br>
--I/usr/local/Cellar/glib/2.64.4_2/include <br>
--I/usr/local/Cellar/glib/2.64.4_2/include/glib-2.0 <br>
--I/usr/local/Cellar/glib/2.64.4_2/lib/glib-2.0/include <br>
--I/usr/local/opt/gettext/include -I/usr/local/Cellar/pcre/8.44/include <br>
--I/usr/local/Cellar/gnutls/3.6.14/include <br>
--I/usr/local/Cellar/nettle/3.6/include <br>
--I/usr/local/Cellar/libtasn1/4.16.0/include <br>
--I/usr/local/Cellar/libidn2/2.3.0/include <br>
--I/usr/local/Cellar/p11-kit/0.23.20_1/include/p11-kit-1 <br>
--I/Users/eblot/Sources/Git/<a href=3D"http://github.com/QEMU/upstream/capst=
-one/include" rel=3D"noreferrer" target=3D"_blank">github.com/QEMU/upstream/=
-capstone/include</a> <br>
--Xclang -fcolor-diagnostics -pipe -Wall -Winvalid-pch -std=3Dgnu99 -O2 -g <=
-br>
--m64 -mcx16 -DOS_OBJECT_USE_OBJC=3D0 -arch x86_64 -D_GNU_SOURCE <br>
--D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE -Wstrict-prototypes <br>
--Wredundant-decls -Wundef -Wwrite-strings -Wmissing-prototypes <br>
--fno-strict-aliasing -fno-common -fwrapv -Wold-style-definition <br>
--Wtype-limits -Wformat-security -Wformat-y2k -Winit-self <br>
--Wignored-qualifiers -Wempty-body -Wnested-externs -Wendif-labels <br>
--Wexpansion-to-defined -Wno-initializer-overrides <br>
--Wno-missing-include-dirs -Wno-shift-negative-value -Wno-string-plus-int <b=
-r>
--Wno-typedef-redefinition -Wno-tautological-type-limit-compare <br>
--fstack-protector-strong -iquote <br>
-/Users/eblot/Sources/Git/<a href=3D"http://github.com/QEMU/upstream/tcg/i38=
-6" rel=3D"noreferrer" target=3D"_blank">github.com/QEMU/upstream/tcg/i386</=
-a> -iquote . <br>
--iquote /Users/eblot/Sources/Git/<a href=3D"http://github.com/QEMU/upstream=
-" rel=3D"noreferrer" target=3D"_blank">github.com/QEMU/upstream</a> -iquote=
- <br>
-/Users/eblot/Sources/Git/<a href=3D"http://github.com/QEMU/upstream/accel/t=
-cg" rel=3D"noreferrer" target=3D"_blank">github.com/QEMU/upstream/accel/tcg=
-</a> -iquote <br>
-/Users/eblot/Sources/Git/<a href=3D"http://github.com/QEMU/upstream/include=
-" rel=3D"noreferrer" target=3D"_blank">github.com/QEMU/upstream/include</a>=
- -iquote <br>
-/Users/eblot/Sources/Git/<a href=3D"http://github.com/QEMU/upstream/disas/l=
-ibvixl" rel=3D"noreferrer" target=3D"_blank">github.com/QEMU/upstream/disas=
-/libvixl</a> <br>
--DNEED_CPU_H &#39;-DCONFIG_TARGET=3D&quot;riscv64-softmmu-config-target.h&q=
-uot;&#39; <br>
-&#39;-DCONFIG_DEVICES=3D&quot;riscv64-softmmu-config-devices.h&quot;&#39; -=
-MD -MQ <br>
-libqemu-riscv64-softmmu.fa.p/disas.c.o -MF <br>
-libqemu-riscv64-softmmu.fa.p/disas.c.o.d -o <br>
-libqemu-riscv64-softmmu.fa.p/disas.c.o -c ../disas.c<br>
-In file included from ../disas.c:9:<br>
-/Users/eblot/Sources/Git/<a href=3D"http://github.com/QEMU/upstream/include=
-/disas/capstone.h:6:10" rel=3D"noreferrer" target=3D"_blank">github.com/QEM=
-U/upstream/include/disas/capstone.h:6:10</a>: <br>
-error: &#39;capstone.h&#39; file not found with &lt;angled&gt; include; use=
- &quot;quotes&quot; <br>
-instead<br>
-#include &lt;capstone.h&gt;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^~~~~~~~~~~~<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;capstone.h&quot;<br>
-<br>
-* ../configure --target-list=3Driscv64-softmmu =E2=80=94enable-capstone=3Dg=
-it &amp;&amp; <br>
-ninja<br>
-=C2=A0 =C2=A0fails for the same reason (git submodule is not pulled)<br>
-<br>
-* git submodule init &amp;&amp; git submodule update capstone &amp;&amp; ..=
-/configure <br>
---target-list=3Driscv64-softmmu &amp;&amp; ninja<br>
-=C2=A0 =C2=A0fails because capstone.h is now found, but the library is not =
-built:<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0ld: library not found for -lcapstone<br>
-=C2=A0 =C2=A0 =C2=A0clang: error: linker command failed with exit code 1 (u=
-se -v to see <br>
-invocation)<br>
-<br>
-=C2=A0 =C2=A0 build/capstone is created but stays empty.<br>
-<br>
-* ../configure --target-list=3Driscv64-softmmu =E2=80=94disable-capstone<br=
->
-=C2=A0 =C2=A0 seems ok<br>
-<br>
-A similar issue arises with slirp: slirp is automatically selected while <b=
-r>
-not installed on the host and not pulled as a submodule. If the <br>
-submodule is manually pulled, slirp is not built and QEMU fails to build <b=
-r>
-because libslirp-version.h is not generated.<br>
-<br>
-=C2=A0 =C2=A0 /Users/eblot/Sources/Git/<a href=3D"http://github.com/QEMU/up=
-stream/slirp/src/libslirp.h:17:10" rel=3D"noreferrer" target=3D"_blank">git=
-hub.com/QEMU/upstream/slirp/src/libslirp.h:17:10</a>: <br>
-fatal error: &#39;libslirp-version.h&#39; file not found<br>
-<br>
-Am I missing something obvious?<br>
-<br>
-I cannot reproduce those issues with v.5.1.0<br>
-<br>
-<br>
-Thanks,<br>
-Emmanuel.<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---000000000000d3ae3b05adc8195e--
+I think I waited too long, I'm moving into the dollhouse.
 
