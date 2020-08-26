@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2E052539DF
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 23:38:03 +0200 (CEST)
-Received: from localhost ([::1]:55932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B89B52539F3
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 23:53:51 +0200 (CEST)
+Received: from localhost ([::1]:40016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kB37K-0005MM-On
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 17:38:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35314)
+	id 1kB3Mc-0002ma-OK
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 17:53:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kB2k9-0008QT-Ao
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 17:14:05 -0400
-Received: from mout.gmx.net ([212.227.17.22]:36381)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kB2k4-0002VL-Ca
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 17:14:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1598476431;
- bh=FteAIEPVuJTC5Kttr/SwW6t9UCyjdQt5PIs/OZjkss4=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=j0RQJ7OMMNo2c16d7VKqC8m1sRhfwOCnzi36nxaYo8eg/Zp8nyE1gnWi1XGlL4aZp
- i3KDWBJ1m9gzNVGnt0bMs9UBnM9LeyYN4MzMSuArCmFmAztsZEwie9j/JyU1GqdjOB
- jPpEnRFIWdljU0ntosnhgSXr02DHOuJ7ImuPYitI=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from ls3530.fritz.box ([92.116.186.77]) by mail.gmx.com (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MPXhK-1jxD7V11Dm-00MfVJ; Wed, 26
- Aug 2020 23:13:51 +0200
-From: Helge Deller <deller@gmx.de>
-To: peter.maydell@linaro.org,
-	qemu-devel@nongnu.org
-Subject: [PULL v5 09/12] hw/display/artist: Prevent out of VRAM buffer accesses
-Date: Wed, 26 Aug 2020 23:13:42 +0200
-Message-Id: <20200826211345.14295-10-deller@gmx.de>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200826211345.14295-1-deller@gmx.de>
-References: <20200826211345.14295-1-deller@gmx.de>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kB2xT-0000LT-DO; Wed, 26 Aug 2020 17:27:51 -0400
+Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:32797)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kB2xP-00043o-FC; Wed, 26 Aug 2020 17:27:51 -0400
+Received: by mail-io1-xd44.google.com with SMTP id g14so3727141iom.0;
+ Wed, 26 Aug 2020 14:27:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qXoSw4CigitYdJqtY9TxZ1NTW1eNT9SPR79Oiws9Ekk=;
+ b=OXYr7DyngbKOeGE7rz+AC+J3ncjo6jhmXFzzwwJHuOQFA6eYjXpY6LFnh1Muj5BU8u
+ SqVlR8pYOKdKAQnets52XEn8Iq7yd8D1YYQYwhaM8InjXOUIH2ljIhnzjmHeLW3H35Ev
+ hG/EXU2UZWekWiv8+t2Q2VGJiaFVeZMcqTKBMlitivqEXh7u57JMAlZs+99XmU0D+Sr0
+ Bbkn9aGMRPic8NVyay160OVUJLIxVO9ViykxH53mAXIaaGMpMChhtfRrEuDZdvaT0D0g
+ JNKZ49buxSLQ8YAvZH+KLKk5K0VebBqX337gOFQqDi47BECz3SUBkBqCrLlQsY/gL11s
+ MwRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qXoSw4CigitYdJqtY9TxZ1NTW1eNT9SPR79Oiws9Ekk=;
+ b=l7vz+w8j8LpEU7HoeA9yoO9s0UmqMX8Bi1ypYx86AyjcPv1urtdSCz00rMNfBzU23s
+ g3Vg7T38841hxsRZ7YFJ5m5RjvRM45L1Ha6puUTTSNRNxF7b0zR//RdnBXUPp+ipy3yV
+ gU+O+jWUf4uNVRBO6DMsokEJeyeowPSUeSRxbrSmk+4SHUNbQhKSoeFYcxsz+1RWoPpG
+ Sqr3KJcB3rm1EuDzXLyC6qSKlJM/Dej0Sh95KmAydaZzOJrIJ8d6Fe+YNxvcaMfxr/CF
+ 3zf5HxNbN9zg6zcvnspvdeddJrqaIVt32/I7arx0L7FfXdWaOSlS5jlda3vTESLJ1MoM
+ jVQw==
+X-Gm-Message-State: AOAM530IBRGjILoGxuKiDmKSAR43EHt+y/kfFvM/jaW7JLHbZHbimoVZ
+ EA/i4+yoMw3c2VwX6ei4il91orRAOktNQYOQF8c=
+X-Google-Smtp-Source: ABdhPJzK3j1Az+cHA0LBmEKWsCrP+B9x+7aEen1KzLQyBUONkS66qgJFezpOYPB2NjB+BvErd/0TdyxGsoxAyAFA7g4=
+X-Received: by 2002:a05:6638:1690:: with SMTP id
+ f16mr16851298jat.91.1598477265404; 
+ Wed, 26 Aug 2020 14:27:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:PwH7rK16Im5POgWTw7o4Gnioub3m3DWL4gnIvVPEsZg9zvvmc5u
- TlrEW8N8AVbb8HlWU4dMgUgGqoVCMbT/RWsDR9rjhfUczaFntjsUj9F4VRH3ZwX3c2ecBnL
- n/LEJr+BOLevdIFyOyYjZx6iAaWctu6S4FeGWqxVGAfg2vxPgS+0Sn2y1DMGs6/LGdfGflq
- yQrBM9OMegnoUDoNiPvKA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:jwHn8yh01c8=:TdIDHjqsLL3A9HBdd6J6bI
- oIoDWvVySItF+bEDq3X/bxxIXECRG/afoJkMoVXPkgth4bDu9k5414v3toyClDbebhwtMy1VS
- vFbaE1YafJ0/aol4KZ3ao4f8amrmEFfqsWDB470KBoKaGjTc/kgXipVEnh0XStSUSAAc86SE2
- FS7urOmExxyJ89HJ3CjeeageHZMwVQwmU4F01PRVqu0CQFcHMGxZj6wU13g0k0HhmyMP1DZMS
- KLRqjJ7qApikCLvPbzBuh75IaVLpXo6hrY/w6zEAr18ofAL2AyyAu6WE5wCMy28mLZg4bl6i9
- YifnbtL02pp9gIzSBtxfxvvf9g8kEsoobVvsTVlKc/2psJDOY+y8RrFEdhrYDdune2FCxapw2
- 6mbvNzY6v/CRIB9cUqfjr8KW6uJxbaSbG3VaVYmCo0Sn5hLRC38hl/0m9F4ngvkc4Wy93o/8f
- w3VluFG2h5B5dcSIG7hH+C+3nIThj8aH94hhKJzAGwtQgLTmz/0BjFPiD1luLtZJrGw7laDZ7
- hyq/wnIzCzEkx3ofMChIxzlwASNfdjNYE1B1EM1rISnHSK25TZwhUaA8VnmrI37U+wF3yHPE9
- 10kZ4Ndhop41kCPOa8GC92xmLcWTWnMWxiWlcmBB9MMneZpH2ws8P2csOpXt6BZTDTRgyONgo
- 8NF9E4wKBWPmrPUSptH7S8m09xbVbgMV53/a8Wp/Anmp4Hx/wiMr5/8YthlKXucje5Rn+2ETF
- TqTuap618eVzaTlOp86kUP9VFp3orLvBjv0mRjMFqp0FIAeMSRoxJE6/c3SyrVoI1MYl8VX/X
- 3CWcD/hfNiAqsRx2lu8HURQbJ0U52peuXFRjecNv3rwg2igxKn/8BU8SaJvDOF36m45YpDarg
- 12Yex3e2jpJbus8HXDItZLzPpflwxX4AdExGTEqgWj9+yL8YluC4DtWJXhNe7Y1dIyVNmJrHn
- 43x8Gv2a0BUdwJMuRb6Z6k/gsHjBTuj5wNtJDT7C76+KGiiwkNN7qdFttnGduHP78OWHDcw9T
- gbyCz7eGyGwfaqQMF5JVf12jyUdlSqGVltRkB/0B3pW0JZgeu+76SYa2PaZGkNn7Mvh12Kjr4
- PxaGcUh8TME43C6wTRKel0EhXIE8sDC48qXqPyuwmVdXYFciST5TGvORmJKw4XR7rJahPoarI
- 9NGqMIUS1uGDcluc0/AEvZrywN1BsOlwtJEAFZMK+gwfT0XOfit/VGssHpKApZ8WgKNp/0tyr
- ynf/Z0/bN3uSlWfrG
-Received-SPF: pass client-ip=212.227.17.22; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 16:12:45
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20200817084955.28793-1-frank.chang@sifive.com>
+ <CAE_xrPjmrmwVW3YOTXLVuVpvT=mT+gnwKJy+yYjo6t24xC8ZDg@mail.gmail.com>
+ <CAKmqyKOU8MUAaiCadAEp4YwArJOpsPRbd_sQmmTDO8g=v-Nw2g@mail.gmail.com>
+ <CAE_xrPhcp74tJNqsRzOe++4PboVxEv0O4dEK9yEaK4CWn_VRHQ@mail.gmail.com>
+ <CAKmqyKNog9-AQ3cwC1NGe3jhoyt9Vaqxur7OJgF2AGJY3eg2HA@mail.gmail.com>
+ <CAE_xrPihO4Eu5LV+-Vd9QgcrwRY-4Tu_D3Zp=AQdTfwbhS+ZNQ@mail.gmail.com>
+In-Reply-To: <CAE_xrPihO4Eu5LV+-Vd9QgcrwRY-4Tu_D3Zp=AQdTfwbhS+ZNQ@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 26 Aug 2020 14:17:01 -0700
+Message-ID: <CAKmqyKOt63syMu6_RuMTu_YnE3HuFeRocHVSiHOnvHB3uVzdaQ@mail.gmail.com>
+Subject: Re: [RFC v4 00/70] support vector extension v1.0
+To: Frank Chang <frank.chang@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd44.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,309 +83,230 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, Helge Deller <deller@gmx.de>,
- Richard Henderson <rth@twiddle.net>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Simplify various bounds checks by changing parameters like row and column
-numbers to become unsigned instead of signed.
-With that we can check if the calculated offset is bigger than the size of=
- the
-VRAM region and bail out if not.
+On Wed, Aug 26, 2020 at 11:13 AM Frank Chang <frank.chang@sifive.com> wrote:
+>
+> On Thu, Aug 27, 2020 at 2:03 AM Alistair Francis <alistair23@gmail.com> wrote:
+>>
+>> On Wed, Aug 26, 2020 at 10:39 AM Frank Chang <frank.chang@sifive.com> wrote:
+>> >
+>> > On Thu, Aug 27, 2020 at 12:56 AM Alistair Francis <alistair23@gmail.com> wrote:
+>> >>
+>> >> On Tue, Aug 25, 2020 at 1:29 AM Frank Chang <frank.chang@sifive.com> wrote:
+>> >> >
+>> >> > On Mon, Aug 17, 2020 at 4:50 PM <frank.chang@sifive.com> wrote:
+>> >> >>
+>> >> >> From: Frank Chang <frank.chang@sifive.com>
+>> >> >>
+>> >> >> This patchset implements the vector extension v1.0 for RISC-V on QEMU.
+>> >> >>
+>> >> >> This patchset is sent as RFC because RVV v1.0 is still in draft state.
+>> >> >> v2 patchset was sent for RVV v0.9 and bumped to RVV v1.0 since v3 patchset.
+>> >> >>
+>> >> >> The port is available here:
+>> >> >> https://github.com/sifive/qemu/tree/rvv-1.0-upstream-v4
+>> >> >>
+>> >> >> You can change the cpu argument: vext_spec to v1.0 (i.e. vext_spec=v1.0)
+>> >> >> to run with RVV v1.0 instructions.
+>> >> >>
+>> >> >> Note: This patchset depends on two other patchsets listed in Based-on
+>> >> >>       section below so it might not able to be built unless those two
+>> >> >>       patchsets are applied.
+>> >> >>
+>> >> >> Changelog:
+>> >> >>
+>> >> >> v4
+>> >> >>   * remove explicit float flmul variable in DisasContext.
+>> >> >>   * replace floating-point calculations with shift operations to
+>> >> >>     improve performance.
+>> >> >>   * relax RV_VLEN_MAX to 512-bits.
+>> >> >>
+>> >> >> v3
+>> >> >>   * apply nan-box helpers from Richard Henderson.
+>> >> >>   * remove fp16 api changes as they are sent independently in another
+>> >> >>     pathcset by Chih-Min Chao.
+>> >> >>   * remove all tail elements clear functions as tail elements can
+>> >> >>     retain unchanged for either VTA set to undisturbed or agnostic.
+>> >> >>   * add fp16 nan-box check generator function.
+>> >> >>   * add floating-point rounding mode enum.
+>> >> >>   * replace flmul arithmetic with shifts to avoid floating-point
+>> >> >>     conversions.
+>> >> >>   * add Zvqmac extension.
+>> >> >>   * replace gdbstub vector register xml files with dynamic generator.
+>> >> >>   * bumped to RVV v1.0.
+>> >> >>   * RVV v1.0 related changes:
+>> >> >>     * add vl<nf>re<eew>.v and vs<nf>r.v vector whole register
+>> >> >>       load/store instructions
+>> >> >>     * add vrgatherei16 instruction.
+>> >> >>     * rearranged bits in vtype to make vlmul bits into a contiguous
+>> >> >>       field.
+>> >> >>
+>> >> >> v2
+>> >> >>   * drop v0.7.1 support.
+>> >> >>   * replace invisible return check macros with functions.
+>> >> >>   * move mark_vs_dirty() to translators.
+>> >> >>   * add SSTATUS_VS flag for s-mode.
+>> >> >>   * nan-box scalar fp register for floating-point operations.
+>> >> >>   * add gdbstub files for vector registers to allow system-mode
+>> >> >>     debugging with GDB.
+>> >> >>
+>> >> >> Based-on: <20200724002807.441147-1-richard.henderson@linaro.org/>
+>> >> >> Based-on: <1596102747-20226-1-git-send-email-chihmin.chao@sifive.com/>
+>> >> >>
+>> >> >> Frank Chang (62):
+>> >> >>   target/riscv: drop vector 0.7.1 and add 1.0 support
+>> >> >>   target/riscv: Use FIELD_EX32() to extract wd field
+>> >> >>   target/riscv: rvv-1.0: introduce writable misa.v field
+>> >> >>   target/riscv: rvv-1.0: remove rvv related codes from fcsr registers
+>> >> >>   target/riscv: rvv-1.0: check MSTATUS_VS when accessing vector csr
+>> >> >>     registers
+>> >> >>   target/riscv: rvv-1.0: remove MLEN calculations
+>> >> >>   target/riscv: rvv-1.0: add fractional LMUL
+>> >> >>   target/riscv: rvv-1.0: add VMA and VTA
+>> >> >>   target/riscv: rvv-1.0: update check functions
+>> >> >>   target/riscv: introduce more imm value modes in translator functions
+>> >> >>   target/riscv: rvv:1.0: add translation-time nan-box helper function
+>> >> >>   target/riscv: rvv-1.0: configure instructions
+>> >> >>   target/riscv: rvv-1.0: stride load and store instructions
+>> >> >>   target/riscv: rvv-1.0: index load and store instructions
+>> >> >>   target/riscv: rvv-1.0: fix address index overflow bug of indexed
+>> >> >>     load/store insns
+>> >> >>   target/riscv: rvv-1.0: fault-only-first unit stride load
+>> >> >>   target/riscv: rvv-1.0: amo operations
+>> >> >>   target/riscv: rvv-1.0: load/store whole register instructions
+>> >> >>   target/riscv: rvv-1.0: update vext_max_elems() for load/store insns
+>> >> >>   target/riscv: rvv-1.0: take fractional LMUL into vector max elements
+>> >> >>     calculation
+>> >> >>   target/riscv: rvv-1.0: floating-point square-root instruction
+>> >> >>   target/riscv: rvv-1.0: floating-point classify instructions
+>> >> >>   target/riscv: rvv-1.0: mask population count instruction
+>> >> >>   target/riscv: rvv-1.0: find-first-set mask bit instruction
+>> >> >>   target/riscv: rvv-1.0: set-X-first mask bit instructions
+>> >> >>   target/riscv: rvv-1.0: iota instruction
+>> >> >>   target/riscv: rvv-1.0: element index instruction
+>> >> >>   target/riscv: rvv-1.0: allow load element with sign-extended
+>> >> >>   target/riscv: rvv-1.0: register gather instructions
+>> >> >>   target/riscv: rvv-1.0: integer scalar move instructions
+>> >> >>   target/riscv: rvv-1.0: floating-point move instruction
+>> >> >>   target/riscv: rvv-1.0: floating-point scalar move instructions
+>> >> >>   target/riscv: rvv-1.0: whole register move instructions
+>> >> >>   target/riscv: rvv-1.0: integer extension instructions
+>> >> >>   target/riscv: rvv-1.0: single-width averaging add and subtract
+>> >> >>     instructions
+>> >> >>   target/riscv: rvv-1.0: single-width bit shift instructions
+>> >> >>   target/riscv: rvv-1.0: integer add-with-carry/subtract-with-borrow
+>> >> >>   target/riscv: rvv-1.0: narrowing integer right shift instructions
+>> >> >>   target/riscv: rvv-1.0: widening integer multiply-add instructions
+>> >> >>   target/riscv: rvv-1.0: add Zvqmac extension
+>> >> >>   target/riscv: rvv-1.0: quad-widening integer multiply-add instructions
+>> >> >>   target/riscv: rvv-1.0: single-width saturating add and subtract
+>> >> >>     instructions
+>> >> >>   target/riscv: rvv-1.0: integer comparison instructions
+>> >> >>   target/riscv: use softfloat lib float16 comparison functions
+>> >> >>   target/riscv: rvv-1.0: floating-point compare instructions
+>> >> >>   target/riscv: rvv-1.0: mask-register logical instructions
+>> >> >>   target/riscv: rvv-1.0: slide instructions
+>> >> >>   target/riscv: rvv-1.0: floating-point slide instructions
+>> >> >>   target/riscv: rvv-1.0: narrowing fixed-point clip instructions
+>> >> >>   target/riscv: rvv-1.0: single-width floating-point reduction
+>> >> >>   target/riscv: rvv-1.0: widening floating-point reduction instructions
+>> >> >>   target/riscv: rvv-1.0: single-width scaling shift instructions
+>> >> >>   target/riscv: rvv-1.0: remove widening saturating scaled multiply-add
+>> >> >>   target/riscv: rvv-1.0: remove vmford.vv and vmford.vf
+>> >> >>   target/riscv: rvv-1.0: remove integer extract instruction
+>> >> >>   target/riscv: rvv-1.0: floating-point min/max instructions
+>> >> >>   target/riscv: introduce floating-point rounding mode enum
+>> >> >>   target/riscv: rvv-1.0: floating-point/integer type-convert
+>> >> >>     instructions
+>> >> >>   target/riscv: rvv-1.0: widening floating-point/integer type-convert
+>> >> >>   target/riscv: add "set round to odd" rounding mode helper function
+>> >> >>   target/riscv: rvv-1.0: narrowing floating-point/integer type-convert
+>> >> >>   target/riscv: rvv-1.0: relax RV_VLEN_MAX to 512-bits
+>> >> >>
+>> >> >> Greentime Hu (2):
+>> >> >>   target/riscv: rvv-1.0: add vlenb register
+>> >> >>   target/riscv: gdb: support vector registers for rv32
+>> >> >>
+>> >> >> Hsiangkai Wang (2):
+>> >> >>   target/riscv: gdb: modify gdb csr xml file to align with csr register
+>> >> >>     map
+>> >> >>   target/riscv: gdb: support vector registers for rv64
+>> >> >>
+>> >> >> LIU Zhiwei (4):
+>> >> >>   target/riscv: rvv-1.0: add mstatus VS field
+>> >> >>   target/riscv: rvv-1.0: add sstatus VS field
+>> >> >>   target/riscv: rvv-1.0: add translation-time vector context status
+>> >> >>   target/riscv: rvv-1.0: add vcsr register
+>> >> >>
+>> >> >>  gdb-xml/riscv-32bit-csr.xml             |   18 +-
+>> >> >>  gdb-xml/riscv-64bit-csr.xml             |   18 +-
+>> >> >>  target/riscv/cpu.c                      |   12 +-
+>> >> >>  target/riscv/cpu.h                      |   97 +-
+>> >> >>  target/riscv/cpu_bits.h                 |   10 +
+>> >> >>  target/riscv/cpu_helper.c               |   16 +-
+>> >> >>  target/riscv/csr.c                      |   73 +-
+>> >> >>  target/riscv/fpu_helper.c               |   17 +-
+>> >> >>  target/riscv/gdbstub.c                  |  126 +-
+>> >> >>  target/riscv/helper.h                   |  523 ++--
+>> >> >>  target/riscv/insn32-64.decode           |   18 +-
+>> >> >>  target/riscv/insn32.decode              |  295 +-
+>> >> >>  target/riscv/insn_trans/trans_rvv.inc.c | 2366 ++++++++++------
+>> >> >>  target/riscv/internals.h                |   19 +-
+>> >> >>  target/riscv/translate.c                |   68 +-
+>> >> >>  target/riscv/vector_helper.c            | 3269 +++++++++++------------
+>> >> >>  16 files changed, 4051 insertions(+), 2894 deletions(-)
+>> >> >>
+>> >> >> --
+>> >> >> 2.17.1
+>> >> >>
+>> >> >
+>> >> > ping~
+>> >>
+>> >> I wasn't really following too closely, but didn't Richard give comments?
+>> >>
+>> >> Alistair
+>> >
+>> >
+>> > Yeah, they were given in v3 patchset and I've made the changes
+>> > based on Richard's comments in this v4 patchset.
+>>
+>> Ah ok. I missed that while I was on holidays.
+>>
+>> Did you want to wait until the v1.0 spec is released or have the draft
+>> extensions merged?
+>>
+>> Alistair
+>>
+>> >
+>> > Frank Chang
+>
+>
+> I'm okay to wait until v1.0 spec. is released as I'm just sending
+> RFC patchset for now. As far as I know there are still couple of
+> instructions not implemented for RVV v1.0 yet (e.g. vfrsqrt7.v
+> and vfrece7.v). Not sure what else is going to be changed before
+> v1.0 spec. is ratified.
 
-Reported-by: LLVM libFuzzer
-Reported-by: Alexander Bulekov <alxndr@bu.edu>
-Buglink: https://bugs.launchpad.net/qemu/+bug/1880326
-Buglink: https://bugs.launchpad.net/qemu/+bug/1890310
-Buglink: https://bugs.launchpad.net/qemu/+bug/1890311
-Buglink: https://bugs.launchpad.net/qemu/+bug/1890312
-Buglink: https://bugs.launchpad.net/qemu/+bug/1890370
-Acked-by: Alexander Bulekov <alxndr@bu.edu>
-Signed-off-by: Helge Deller <deller@gmx.de>
-=2D--
- hw/display/artist.c | 110 +++++++++++++++++++++++++++-----------------
- 1 file changed, 69 insertions(+), 41 deletions(-)
+You don't have to wait. We will be happy to replace the v0.7.1 version
+with 0.9.0. I think the community will find that useful.
 
-diff --git a/hw/display/artist.c b/hw/display/artist.c
-index f37aa9eb49..46eaa10dae 100644
-=2D-- a/hw/display/artist.c
-+++ b/hw/display/artist.c
-@@ -35,9 +35,9 @@
- struct vram_buffer {
-     MemoryRegion mr;
-     uint8_t *data;
--    int size;
--    int width;
--    int height;
-+    unsigned int size;
-+    unsigned int width;
-+    unsigned int height;
- };
+>
+> However, it would still be nice if someone can take a look of current
+> patches so it might speed up the process to get these patches merged
+> into mainline once v1.0 spec. is released.
 
- typedef struct ARTISTState {
-@@ -274,15 +274,15 @@ static artist_rop_t artist_get_op(ARTISTState *s)
- }
+The RISC-V port is very low on reviewers. It will take a chunk of my
+time to review it as I don't closely follow the Vector work. If it's
+just an RFC I don't think I can dedicate that much time. I already
+have a large backlog I'm trying to get through.
 
- static void artist_rop8(ARTISTState *s, struct vram_buffer *buf,
--                        int offset, uint8_t val)
-+                        unsigned int offset, uint8_t val)
- {
-     const artist_rop_t op =3D artist_get_op(s);
-     uint8_t plane_mask;
-     uint8_t *dst;
+Alistair
 
--    if (offset < 0 || offset >=3D buf->size) {
-+    if (offset >=3D buf->size) {
-         qemu_log_mask(LOG_GUEST_ERROR,
--                      "rop8 offset:%d bufsize:%u\n", offset, buf->size);
-+                      "rop8 offset:%u bufsize:%u\n", offset, buf->size);
-         return;
-     }
-     dst =3D buf->data + offset;
-@@ -294,8 +294,7 @@ static void artist_rop8(ARTISTState *s, struct vram_bu=
-ffer *buf,
-         break;
-
-     case ARTIST_ROP_COPY:
--        *dst &=3D ~plane_mask;
--        *dst |=3D val & plane_mask;
-+        *dst =3D (*dst & ~plane_mask) | (val & plane_mask);
-         break;
-
-     case ARTIST_ROP_XOR:
-@@ -349,7 +348,8 @@ static void vram_bit_write(ARTISTState *s, int posx, i=
-nt posy, bool incr_x,
- {
-     struct vram_buffer *buf;
-     uint32_t vram_bitmask =3D s->vram_bitmask;
--    int mask, i, pix_count, pix_length, offset, width;
-+    int mask, i, pix_count, pix_length;
-+    unsigned int offset, width;
-     uint8_t *data8, *p;
-
-     pix_count =3D vram_write_pix_per_transfer(s);
-@@ -364,8 +364,7 @@ static void vram_bit_write(ARTISTState *s, int posx, i=
-nt posy, bool incr_x,
-         offset =3D posy * width + posx;
-     }
-
--    if (!buf->size) {
--        qemu_log("write to non-existent buffer\n");
-+    if (!buf->size || offset >=3D buf->size) {
-         return;
-     }
-
-@@ -394,7 +393,9 @@ static void vram_bit_write(ARTISTState *s, int posx, i=
-nt posy, bool incr_x,
-
-     case 3:
-         if (s->cmap_bm_access) {
--            *(uint32_t *)(p + offset) =3D data;
-+            if (offset + 3 < buf->size) {
-+                *(uint32_t *)(p + offset) =3D data;
-+            }
-             break;
-         }
-         data8 =3D (uint8_t *)&data;
-@@ -464,12 +465,14 @@ static void vram_bit_write(ARTISTState *s, int posx,=
- int posy, bool incr_x,
-     }
- }
-
--static void block_move(ARTISTState *s, int source_x, int source_y, int de=
-st_x,
--                       int dest_y, int width, int height)
-+static void block_move(ARTISTState *s,
-+                       unsigned int source_x, unsigned int source_y,
-+                       unsigned int dest_x,   unsigned int dest_y,
-+                       unsigned int width,    unsigned int height)
- {
-     struct vram_buffer *buf;
-     int line, endline, lineincr, startcolumn, endcolumn, columnincr, colu=
-mn;
--    uint32_t dst, src;
-+    unsigned int dst, src;
-
-     trace_artist_block_move(source_x, source_y, dest_x, dest_y, width, he=
-ight);
-
-@@ -481,6 +484,12 @@ static void block_move(ARTISTState *s, int source_x, =
-int source_y, int dest_x,
-     }
-
-     buf =3D &s->vram_buffer[ARTIST_BUFFER_AP];
-+    if (height > buf->height) {
-+        height =3D buf->height;
-+    }
-+    if (width > buf->width) {
-+        width =3D buf->width;
-+    }
-
-     if (dest_y > source_y) {
-         /* move down */
-@@ -507,24 +516,27 @@ static void block_move(ARTISTState *s, int source_x,=
- int source_y, int dest_x,
-     }
-
-     for ( ; line !=3D endline; line +=3D lineincr) {
--        src =3D source_x + ((line + source_y) * buf->width);
--        dst =3D dest_x + ((line + dest_y) * buf->width);
-+        src =3D source_x + ((line + source_y) * buf->width) + startcolumn=
-;
-+        dst =3D dest_x + ((line + dest_y) * buf->width) + startcolumn;
-
-         for (column =3D startcolumn; column !=3D endcolumn; column +=3D c=
-olumnincr) {
--            if (dst + column > buf->size || src + column > buf->size) {
-+            if (dst >=3D buf->size || src >=3D buf->size) {
-                 continue;
-             }
--            artist_rop8(s, buf, dst + column, buf->data[src + column]);
-+            artist_rop8(s, buf, dst, buf->data[src]);
-+            src +=3D columnincr;
-+            dst +=3D columnincr;
-         }
-     }
-
-     artist_invalidate_lines(buf, dest_y, height);
- }
-
--static void fill_window(ARTISTState *s, int startx, int starty,
--                        int width, int height)
-+static void fill_window(ARTISTState *s,
-+                        unsigned int startx, unsigned int starty,
-+                        unsigned int width,  unsigned int height)
- {
--    uint32_t offset;
-+    unsigned int offset;
-     uint8_t color =3D artist_get_color(s);
-     struct vram_buffer *buf;
-     int x, y;
-@@ -561,7 +573,9 @@ static void fill_window(ARTISTState *s, int startx, in=
-t starty,
-     artist_invalidate_lines(buf, starty, height);
- }
-
--static void draw_line(ARTISTState *s, int x1, int y1, int x2, int y2,
-+static void draw_line(ARTISTState *s,
-+                      unsigned int x1, unsigned int y1,
-+                      unsigned int x2, unsigned int y2,
-                       bool update_start, int skip_pix, int max_pix)
- {
-     struct vram_buffer *buf =3D &s->vram_buffer[ARTIST_BUFFER_AP];
-@@ -571,12 +585,12 @@ static void draw_line(ARTISTState *s, int x1, int y1=
-, int x2, int y2,
-
-     trace_artist_draw_line(x1, y1, x2, y2);
-
--    if (x1 * y1 >=3D buf->size || x2 * y2 >=3D buf->size) {
--        qemu_log_mask(LOG_GUEST_ERROR,
--                      "draw_line (%d,%d) (%d,%d)\n", x1, y1, x2, y2);
--        return;
-+    if ((x1 >=3D buf->width && x2 >=3D buf->width) ||
-+        (y1 >=3D buf->height && y2 >=3D buf->height)) {
-+	return;
-     }
-
-+
-     if (update_start) {
-         s->vram_start =3D (x2 << 16) | y2;
-     }
-@@ -633,7 +647,7 @@ static void draw_line(ARTISTState *s, int x1, int y1, =
-int x2, int y2,
-     color =3D artist_get_color(s);
-
-     do {
--        int ofs;
-+        unsigned int ofs;
-
-         if (c1) {
-             ofs =3D x * s->width + y;
-@@ -765,13 +779,14 @@ static void font_write16(ARTISTState *s, uint16_t va=
-l)
-     uint16_t mask;
-     int i;
-
--    int startx =3D artist_get_x(s->vram_start);
--    int starty =3D artist_get_y(s->vram_start) + s->font_write_pos_y;
--    int offset =3D starty * s->width + startx;
-+    unsigned int startx =3D artist_get_x(s->vram_start);
-+    unsigned int starty =3D artist_get_y(s->vram_start) + s->font_write_p=
-os_y;
-+    unsigned int offset =3D starty * s->width + startx;
-
-     buf =3D &s->vram_buffer[ARTIST_BUFFER_AP];
-
--    if (offset + 16 > buf->size) {
-+    if (startx >=3D buf->width || starty >=3D buf->height ||
-+        offset + 16 >=3D buf->size) {
-         return;
-     }
-
-@@ -1135,7 +1150,7 @@ static void artist_vram_write(void *opaque, hwaddr a=
-ddr, uint64_t val,
-     struct vram_buffer *buf;
-     int posy =3D (addr >> 11) & 0x3ff;
-     int posx =3D addr & 0x7ff;
--    uint32_t offset;
-+    unsigned int offset;
-     trace_artist_vram_write(size, addr, val);
-
-     if (s->cmap_bm_access) {
-@@ -1156,18 +1171,28 @@ static void artist_vram_write(void *opaque, hwaddr=
- addr, uint64_t val,
-     }
-
-     offset =3D posy * buf->width + posx;
-+    if (offset >=3D buf->size) {
-+        return;
-+    }
-+
-     switch (size) {
-     case 4:
--        *(uint32_t *)(buf->data + offset) =3D be32_to_cpu(val);
--        memory_region_set_dirty(&buf->mr, offset, 4);
-+        if (offset + 3 < buf->size) {
-+            *(uint32_t *)(buf->data + offset) =3D be32_to_cpu(val);
-+            memory_region_set_dirty(&buf->mr, offset, 4);
-+        }
-         break;
-     case 2:
--        *(uint16_t *)(buf->data + offset) =3D be16_to_cpu(val);
--        memory_region_set_dirty(&buf->mr, offset, 2);
-+        if (offset + 1 < buf->size) {
-+            *(uint16_t *)(buf->data + offset) =3D be16_to_cpu(val);
-+            memory_region_set_dirty(&buf->mr, offset, 2);
-+        }
-         break;
-     case 1:
--        *(uint8_t *)(buf->data + offset) =3D val;
--        memory_region_set_dirty(&buf->mr, offset, 1);
-+        if (offset < buf->size) {
-+            *(uint8_t *)(buf->data + offset) =3D val;
-+            memory_region_set_dirty(&buf->mr, offset, 1);
-+        }
-         break;
-     default:
-         break;
-@@ -1183,9 +1208,12 @@ static uint64_t artist_vram_read(void *opaque, hwad=
-dr addr, unsigned size)
-
-     if (s->cmap_bm_access) {
-         buf =3D &s->vram_buffer[ARTIST_BUFFER_CMAP];
--        val =3D *(uint32_t *)(buf->data + addr);
-+        val =3D 0;
-+        if (addr < buf->size && addr + 3 < buf->size) {
-+            val =3D *(uint32_t *)(buf->data + addr);
-+        }
-         trace_artist_vram_read(size, addr, 0, 0, val);
--        return 0;
-+        return val;
-     }
-
-     buf =3D vram_read_buffer(s);
-=2D-
-2.21.3
-
+>
+> Thanks,
+> Frank Chang
 
