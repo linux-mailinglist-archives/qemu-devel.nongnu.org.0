@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52F0F252C26
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 13:07:22 +0200 (CEST)
-Received: from localhost ([::1]:34142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4622E252C34
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 13:08:59 +0200 (CEST)
+Received: from localhost ([::1]:42456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAtGz-0006gE-9b
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 07:07:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47368)
+	id 1kAtIY-0001cA-7R
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 07:08:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1kAtFo-0005Ql-A4; Wed, 26 Aug 2020 07:06:08 -0400
-Received: from mail-oo1-xc41.google.com ([2607:f8b0:4864:20::c41]:38245)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1kAtDy-00035y-KS; Wed, 26 Aug 2020 07:06:07 -0400
-Received: by mail-oo1-xc41.google.com with SMTP id z11so347163oon.5;
- Wed, 26 Aug 2020 04:04:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=fgSZbO7M5TnMgI+6Y7mF/x3aurPUq0c8aQSVxmuMyQw=;
- b=jCrTOJublfGs2Lm6BT0NPoocEPhGnVrjbjGTK5/LOEqVlgnQhwGnAv4KrOGriGp54w
- mGn7dvzVHAUZtXr4gouEHyNhVZU5SDCdBNfIJVqtP+nTJS1Q3UcUhjYO70s5nYq1N6Lv
- 8xGSGpdvWzsM4ZIWOYFyrOUqNiB0VCSzPAX1sFWfUtfOPPvcxGnKi2rhKWKmkn/byQHw
- JmGdBgrwCbSvK707nj77vBpOQ7UErOTmA1YBVVZwQBL2wkXcbG8bjkDRtC2zEuN3wEeW
- ocF4qNMxVBR5qv2kVRI2MaeJqrhbBQkk4TsLT2dJyO1vHZd3/TnA5wVGycfMnVOY+usV
- C9pA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=fgSZbO7M5TnMgI+6Y7mF/x3aurPUq0c8aQSVxmuMyQw=;
- b=sMIKEKJR0G2L15KT8+DTImN7FtQBR7YgWs74hvfFK1YDoaE1zgXZafi2c3dga9qE6D
- 6PKwLbixxMl7KkYSRF7EkqaVwHLwjPRIv15DCAJQErGPaUn8SfU535c0qjC0polR8eE3
- I4OnvX4iKi3ywgQcw0Nsesk6bdoifP1Rmy5Ckg0XQO5/qSK75N7XeK6IYTY7tKK0R499
- 6HKueX1m+AgbN5J5msLSuT0qOHWq4shhcLhMHkfPp7vJhHT5XjsF4qLS6A/1uWTo5IKd
- D/5yMOUdWf9YjrEXXKzuX72F6h2kPFDuvT8q0LcMK+zClJ80/9rx5TeNzTHXp4+bDwf+
- 7jYg==
-X-Gm-Message-State: AOAM532aLixNjiuD3E4Vh0UmDPK/b+ARARw/Pi4lFplorZBh5yxqyDSe
- M4TnFPmgWPw/OwU7+qSMjNHFfW7dSSCrR1r/0iE=
-X-Google-Smtp-Source: ABdhPJzt3GPwy88oK2cLOEI2uScIoMZryU0aW2Zx6BwyvUpZyWSnYqoPXWhKQLGkgXA2/PJuN6xYjthZ0551MFLs1ls=
-X-Received: by 2002:a4a:4201:: with SMTP id h1mr10171742ooj.1.1598439852987;
- Wed, 26 Aug 2020 04:04:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1kAtG5-0005qy-S8
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:06:25 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:30508
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1kAtEG-00037z-FC
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:06:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598439871;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=DoLsYrCDYKkjcYC8LFkgFdJxKPUHBmrTMlE9U5WviuM=;
+ b=VfyYssPqjfdgIpxWSBYUImcTaoD3hqMEgLClsHqAjvY6nd9lHTRMXTMmSivVCR7kk+sigw
+ rea2IkQ/J6KJfxLitY83HAod3eOzkXoAArnMkAiaKAF1kX7Jc25bfeySfeHeJNXcYA0Blt
+ PtrhTwqJSt/xiMNZZ7YDBkXch7zEanM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-498-9oaiYUqXOsOykA4o1xBTSw-1; Wed, 26 Aug 2020 07:04:27 -0400
+X-MC-Unique: 9oaiYUqXOsOykA4o1xBTSw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C7A7805EE2;
+ Wed, 26 Aug 2020 11:04:26 +0000 (UTC)
+Received: from localhost (unknown [10.36.110.43])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 995821992F;
+ Wed, 26 Aug 2020 11:04:22 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/8] meson: mingw installation fixes & nsis conversion
+Date: Wed, 26 Aug 2020 15:04:11 +0400
+Message-Id: <20200826110419.528931-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-References: <20200814160241.7915-1-pannengyuan@huawei.com>
- <20200814160241.7915-3-pannengyuan@huawei.com>
-In-Reply-To: <20200814160241.7915-3-pannengyuan@huawei.com>
-From: Li Qiang <liq3ea@gmail.com>
-Date: Wed, 26 Aug 2020 19:03:37 +0800
-Message-ID: <CAKXe6S+MV3fyCoyDbDV01CbuGoR8JO3e1=VAh4OFP5bKUVMXkA@mail.gmail.com>
-Subject: Re: [PATCH 02/12] hw/vfio/ap: Plug memleak in vfio_ap_get_group()
-To: Pan Nengyuan <pannengyuan@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c41;
- envelope-from=liq3ea@gmail.com; helo=mail-oo1-xc41.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=205.139.110.61;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 06:53:09
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,63 +79,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tony Krowiak <akrowiak@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- zhanghailiang <zhang.zhanghailiang@huawei.com>,
- Pierre Morel <pmorel@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
- Qemu Developers <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Euler Robot <euler.robot@huawei.com>, Chen Qun <kuhn.chenqun@huawei.com>
+Cc: sw@weilnetz.de, berrange@redhat.com,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Pan Nengyuan <pannengyuan@huawei.com> =E4=BA=8E2020=E5=B9=B48=E6=9C=8814=E6=
-=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=886:29=E5=86=99=E9=81=93=EF=BC=9A
->
-> Missing g_error_free() in vfio_ap_get_group() error path. Fix that.
->
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>=0D
 
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Hi,=0D
+=0D
+The following patches fix installation path when cross-compiling Windows=0D
+version, and move the NSIS build rule to meson.=0D
+=0D
+v3:=0D
+ - change qemu suffix handling, make /-separator implicit=0D
+ - use qemu suffix to build qemu_docdir, as --help says=0D
+ - use / to construct qemu directory variables in meson=0D
+ - add a few signed-off from Daniel=0D
+=0D
+v2:=0D
+ - replaced the shell script by a python version=0D
+ - add copyright/license for the new python script=0D
+=0D
+Marc-Andr=C3=A9 Lureau (8):=0D
+  configure: rename confsuffix option=0D
+  configure: always /-seperate directory from qemu_suffix=0D
+  configure: build docdir like other suffixed directories=0D
+  meson: pass qemu_suffix option=0D
+  meson: use meson datadir instead of qemu_datadir=0D
+  meson: pass docdir option=0D
+  meson: use meson mandir instead of qemu_mandir=0D
+  meson: add NSIS building=0D
+=0D
+ Makefile                           | 56 ---------------------=0D
+ configure                          | 27 ++++++-----=0D
+ contrib/vhost-user-gpu/meson.build |  2 +-=0D
+ docs/meson.build                   |  4 +-=0D
+ meson.build                        | 34 +++++++++++--=0D
+ meson_options.txt                  |  4 ++=0D
+ pc-bios/descriptors/meson.build    |  2 +-=0D
+ pc-bios/keymaps/meson.build        |  6 +--=0D
+ pc-bios/meson.build                |  2 +-=0D
+ scripts/nsis.py                    | 78 ++++++++++++++++++++++++++++++=0D
+ tools/virtiofsd/meson.build        |  2 +-=0D
+ trace/meson.build                  |  2 +-=0D
+ 12 files changed, 138 insertions(+), 81 deletions(-)=0D
+ create mode 100644 scripts/nsis.py=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
-I see Cornelia Huck has merged this in his tree.
-Don't know whether this series will go separate maintainer's tree or
-as go only one maintainer's tree(maybe Paolo's misc tree?).
-
-
-Thanks,
-Li Qiang
-
-> ---
-> Cc: Cornelia Huck <cohuck@redhat.com>
-> Cc: Thomas Huth <thuth@redhat.com>
-> Cc: Christian Borntraeger <borntraeger@de.ibm.com>
-> Cc: Tony Krowiak <akrowiak@linux.ibm.com>
-> Cc: Halil Pasic <pasic@linux.ibm.com>
-> Cc: Pierre Morel <pmorel@linux.ibm.com>
-> Cc: Alex Williamson <alex.williamson@redhat.com>
-> Cc: qemu-s390x@nongnu.org
-> ---
->  hw/vfio/ap.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/hw/vfio/ap.c b/hw/vfio/ap.c
-> index b9330a8e6f..cec6fe1599 100644
-> --- a/hw/vfio/ap.c
-> +++ b/hw/vfio/ap.c
-> @@ -71,6 +71,7 @@ static VFIOGroup *vfio_ap_get_group(VFIOAPDevice *vapde=
-v, Error **errp)
->      if (!group_path) {
->          error_setg(errp, "%s: no iommu_group found for %s: %s",
->                     VFIO_AP_DEVICE_TYPE, vapdev->vdev.sysfsdev, gerror->m=
-essage);
-> +        g_error_free(gerror);
->          return NULL;
->      }
->
-> --
-> 2.18.2
->
->
 
