@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21784253590
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 18:57:12 +0200 (CEST)
-Received: from localhost ([::1]:40422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A7E325357A
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 18:52:58 +0200 (CEST)
+Received: from localhost ([::1]:35220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAyjW-000265-Vr
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 12:57:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57380)
+	id 1kAyfQ-0007qr-Kn
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 12:52:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kAyiZ-0001Wu-M1; Wed, 26 Aug 2020 12:56:11 -0400
-Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:45778)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kAyeb-00077H-MQ; Wed, 26 Aug 2020 12:52:05 -0400
+Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:42108)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kAyiW-0003Bn-V4; Wed, 26 Aug 2020 12:56:11 -0400
-Received: by mail-il1-x143.google.com with SMTP id k4so2365219ilr.12;
- Wed, 26 Aug 2020 09:56:07 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kAyeZ-0002am-LK; Wed, 26 Aug 2020 12:52:05 -0400
+Received: by mail-lj1-x241.google.com with SMTP id t6so3141207ljk.9;
+ Wed, 26 Aug 2020 09:52:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1yctldKr0wzYTBMSQmLZXZK7xKPnrNzao1VcYREm7EA=;
- b=jBniptICDuPEWiigXMZg6ofwiWoUzUBsTGb4CHLNx226xOrvqcK5Ui3fPZtGC9EfJ3
- HC8TT/ZT52FvqLnWo/zFRRb4Hfx1Tu6bPqrBIv6PWLUGbjA3cDq4r8KnOTjdM5fxTf/s
- nkBW6xYoiHJGfSc3jFA3/50y0R6JorP4G0sylrez8HnAJxUrDG72MvxPBwmcbKd+zzq+
- qs6wXCSAJbM5+LlQ5aDFEtsDX9Cy2QSQgqQb13oJ45UfpB5vj9+ij6dT2de6b0SZVE/C
- +pa+/9eqKDZ/KUzj0wxdk2OyJYTgkiGepPGupEqdoW52GiR98LYRsGIbICl+L73on26X
- 4asg==
+ h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+ :subject:to:cc;
+ bh=zuNk7v+IEG1NX946w4US+NnSDslhmTRg4grXH/qysdU=;
+ b=RoUrXREz1IAhYdIoE3vYJyfanZuzTqBHkOMfhc8I9YPEW3N87Fj4+VGFSy7EJrXSy2
+ rjG9N0mb+/Ke3iMJDopKx7JVtcsfUpjp/1kVyKlxOTdYdY0SIpk4Bu8V1iwKlsYxlCx+
+ lU+y9RQk8aib7IFRW98MyU+ViTd8/0SGdfMBXZvKUYHj2nV1dY6za7Xs9Kn7WRqXBlKT
+ 6mcSl2odua88EaLfTVrky1kaiEYpNED70BOdNZM4jnszr9m6FM095uvkpIZQSEaQecW9
+ ZwqcSr5YKZl1hX1neo8QMsqvuWFLOGESXwKj3yYcTrZ1nB1xciINi8R3wNka53geWELM
+ oTug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1yctldKr0wzYTBMSQmLZXZK7xKPnrNzao1VcYREm7EA=;
- b=P/KgtZVhjSRDqM9HDpev1RIXzIo+65Nk8KPKMxb4J6Iopa/8CHdlsBoKkhySghodWg
- yrz/YIqDOKAKXqzhSjvXtb8LgdXKFZRfNeKPUs5DQ+ReyxyEhRWWJ+0C3A/QKd4L9izt
- LpNOyvGiXVBLlvCclkIVD3snEnGE+YcwoZOWRll8jWyJZJyqXavDdN0C6yxz8vVZoY00
- rx+YgX7G5jxx7xeu5w3jJg6or2ezdO3Vs4E/HKDJGo1wBs2kpxsoqrgrjS1VYNP2scZ/
- 2N4V7rMfUxIrYP+PPQOa75WVCNWnrx7P7ex1cW6vOA3oxGczCJyr/mwGfYMNy+wfWc/s
- ifUA==
-X-Gm-Message-State: AOAM5303wvaANc9E3VrWoL9pThXyp+Gd1eQbkXesf13KaKz2QABl02ds
- WsuKObMh5t4FnGl8D3aNklWoP1Y9Faox5PLC6Z4=
-X-Google-Smtp-Source: ABdhPJx9Y3T0Gz0Ny6XIs4fhZeXVLFKdNlBzaJ6bD/PT8K11nW70BXBRAndgAb0fRXU6MlC8XsW+Lg4zcJnBtcQDL9s=
-X-Received: by 2002:a92:c7d4:: with SMTP id g20mr14214722ilk.40.1598460966560; 
- Wed, 26 Aug 2020 09:56:06 -0700 (PDT)
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc;
+ bh=zuNk7v+IEG1NX946w4US+NnSDslhmTRg4grXH/qysdU=;
+ b=TFhqeRZx3cA66x/TCX3O756FmbaSWqE4L45wDfJ/acuzXcSyE4BvctgSKCBj9MZ8JU
+ rrnF/bYb7tTL9OKdtCfglyfOTwLVvTdErbtCaWW9tE/J3v0XD8JQ3r/d241Aiv4UvUMn
+ YT87KbcQQBKwdXp0jYjC0qUW5u4+Eryp4HQENtudqhNRecA4/ePR3QMKzWFUobv+S4JB
+ gcWNUT4PqXFJz+nLnbC8lbbQM22ceWX8RmoYzY2gfMoVkOwo4jKU7YEmHhl73jcIsqEm
+ HOaXveIylXIITAzy+pzx1IBfvmPIdYxx0sGDx7vkZ2Sy6XrQzeGTF7n+HtI5wI3uHM89
+ OLAg==
+X-Gm-Message-State: AOAM533jsqTtcu+Q+YMroOFjTvtY9jCqKZFC2RADTPSfb4IGAXjeyqMf
+ LXggSuPbBUlNR+ooXwJwv6IEfVkyH3KtEHyOQqU=
+X-Google-Smtp-Source: ABdhPJxaBO/UIAe6yxemUUFv81+VfrrCMuo8TAPHXZ2FfWsCSwXHDNrOJkZvjpy+oqCqH7Le8bxbI0f2juscaPw6kyY=
+X-Received: by 2002:a2e:7315:: with SMTP id o21mr938830ljc.120.1598460720926; 
+ Wed, 26 Aug 2020 09:52:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200817084955.28793-1-frank.chang@sifive.com>
- <CAE_xrPjmrmwVW3YOTXLVuVpvT=mT+gnwKJy+yYjo6t24xC8ZDg@mail.gmail.com>
-In-Reply-To: <CAE_xrPjmrmwVW3YOTXLVuVpvT=mT+gnwKJy+yYjo6t24xC8ZDg@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 26 Aug 2020 09:45:22 -0700
-Message-ID: <CAKmqyKOU8MUAaiCadAEp4YwArJOpsPRbd_sQmmTDO8g=v-Nw2g@mail.gmail.com>
-Subject: Re: [RFC v4 00/70] support vector extension v1.0
-To: Frank Chang <frank.chang@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
+References: <20200625191651.5817-1-eperezma@redhat.com>
+ <20200826143651.7915-1-eperezma@redhat.com>
+ <20200826143651.7915-13-eperezma@redhat.com>
+In-Reply-To: <20200826143651.7915-13-eperezma@redhat.com>
+From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
+Date: Thu, 27 Aug 2020 00:51:48 +0800
+Message-ID: <CAE2XoE9kFuavzHzTWvCony77iHk1_+kjrYj-budDVTdgKfTeaQ@mail.gmail.com>
+Subject: Re: [RFC v6 12/13] intel_iommu: Do not notify regular iotlb to
+ device-iotlb notifiers
+To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000755af905adcaa32b"
+Received-SPF: pass client-ip=2a00:1450:4864:20::241;
+ envelope-from=luoyonggang@gmail.com; helo=mail-lj1-x241.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,182 +80,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Reply-To: luoyonggang@gmail.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Yan Zhao <yan.y.zhao@intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-level <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ qemu-arm@nongnu.org, =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Avi Kivity <avi@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 25, 2020 at 1:29 AM Frank Chang <frank.chang@sifive.com> wrote:
->
-> On Mon, Aug 17, 2020 at 4:50 PM <frank.chang@sifive.com> wrote:
->>
->> From: Frank Chang <frank.chang@sifive.com>
->>
->> This patchset implements the vector extension v1.0 for RISC-V on QEMU.
->>
->> This patchset is sent as RFC because RVV v1.0 is still in draft state.
->> v2 patchset was sent for RVV v0.9 and bumped to RVV v1.0 since v3 patchset.
->>
->> The port is available here:
->> https://github.com/sifive/qemu/tree/rvv-1.0-upstream-v4
->>
->> You can change the cpu argument: vext_spec to v1.0 (i.e. vext_spec=v1.0)
->> to run with RVV v1.0 instructions.
->>
->> Note: This patchset depends on two other patchsets listed in Based-on
->>       section below so it might not able to be built unless those two
->>       patchsets are applied.
->>
->> Changelog:
->>
->> v4
->>   * remove explicit float flmul variable in DisasContext.
->>   * replace floating-point calculations with shift operations to
->>     improve performance.
->>   * relax RV_VLEN_MAX to 512-bits.
->>
->> v3
->>   * apply nan-box helpers from Richard Henderson.
->>   * remove fp16 api changes as they are sent independently in another
->>     pathcset by Chih-Min Chao.
->>   * remove all tail elements clear functions as tail elements can
->>     retain unchanged for either VTA set to undisturbed or agnostic.
->>   * add fp16 nan-box check generator function.
->>   * add floating-point rounding mode enum.
->>   * replace flmul arithmetic with shifts to avoid floating-point
->>     conversions.
->>   * add Zvqmac extension.
->>   * replace gdbstub vector register xml files with dynamic generator.
->>   * bumped to RVV v1.0.
->>   * RVV v1.0 related changes:
->>     * add vl<nf>re<eew>.v and vs<nf>r.v vector whole register
->>       load/store instructions
->>     * add vrgatherei16 instruction.
->>     * rearranged bits in vtype to make vlmul bits into a contiguous
->>       field.
->>
->> v2
->>   * drop v0.7.1 support.
->>   * replace invisible return check macros with functions.
->>   * move mark_vs_dirty() to translators.
->>   * add SSTATUS_VS flag for s-mode.
->>   * nan-box scalar fp register for floating-point operations.
->>   * add gdbstub files for vector registers to allow system-mode
->>     debugging with GDB.
->>
->> Based-on: <20200724002807.441147-1-richard.henderson@linaro.org/>
->> Based-on: <1596102747-20226-1-git-send-email-chihmin.chao@sifive.com/>
->>
->> Frank Chang (62):
->>   target/riscv: drop vector 0.7.1 and add 1.0 support
->>   target/riscv: Use FIELD_EX32() to extract wd field
->>   target/riscv: rvv-1.0: introduce writable misa.v field
->>   target/riscv: rvv-1.0: remove rvv related codes from fcsr registers
->>   target/riscv: rvv-1.0: check MSTATUS_VS when accessing vector csr
->>     registers
->>   target/riscv: rvv-1.0: remove MLEN calculations
->>   target/riscv: rvv-1.0: add fractional LMUL
->>   target/riscv: rvv-1.0: add VMA and VTA
->>   target/riscv: rvv-1.0: update check functions
->>   target/riscv: introduce more imm value modes in translator functions
->>   target/riscv: rvv:1.0: add translation-time nan-box helper function
->>   target/riscv: rvv-1.0: configure instructions
->>   target/riscv: rvv-1.0: stride load and store instructions
->>   target/riscv: rvv-1.0: index load and store instructions
->>   target/riscv: rvv-1.0: fix address index overflow bug of indexed
->>     load/store insns
->>   target/riscv: rvv-1.0: fault-only-first unit stride load
->>   target/riscv: rvv-1.0: amo operations
->>   target/riscv: rvv-1.0: load/store whole register instructions
->>   target/riscv: rvv-1.0: update vext_max_elems() for load/store insns
->>   target/riscv: rvv-1.0: take fractional LMUL into vector max elements
->>     calculation
->>   target/riscv: rvv-1.0: floating-point square-root instruction
->>   target/riscv: rvv-1.0: floating-point classify instructions
->>   target/riscv: rvv-1.0: mask population count instruction
->>   target/riscv: rvv-1.0: find-first-set mask bit instruction
->>   target/riscv: rvv-1.0: set-X-first mask bit instructions
->>   target/riscv: rvv-1.0: iota instruction
->>   target/riscv: rvv-1.0: element index instruction
->>   target/riscv: rvv-1.0: allow load element with sign-extended
->>   target/riscv: rvv-1.0: register gather instructions
->>   target/riscv: rvv-1.0: integer scalar move instructions
->>   target/riscv: rvv-1.0: floating-point move instruction
->>   target/riscv: rvv-1.0: floating-point scalar move instructions
->>   target/riscv: rvv-1.0: whole register move instructions
->>   target/riscv: rvv-1.0: integer extension instructions
->>   target/riscv: rvv-1.0: single-width averaging add and subtract
->>     instructions
->>   target/riscv: rvv-1.0: single-width bit shift instructions
->>   target/riscv: rvv-1.0: integer add-with-carry/subtract-with-borrow
->>   target/riscv: rvv-1.0: narrowing integer right shift instructions
->>   target/riscv: rvv-1.0: widening integer multiply-add instructions
->>   target/riscv: rvv-1.0: add Zvqmac extension
->>   target/riscv: rvv-1.0: quad-widening integer multiply-add instructions
->>   target/riscv: rvv-1.0: single-width saturating add and subtract
->>     instructions
->>   target/riscv: rvv-1.0: integer comparison instructions
->>   target/riscv: use softfloat lib float16 comparison functions
->>   target/riscv: rvv-1.0: floating-point compare instructions
->>   target/riscv: rvv-1.0: mask-register logical instructions
->>   target/riscv: rvv-1.0: slide instructions
->>   target/riscv: rvv-1.0: floating-point slide instructions
->>   target/riscv: rvv-1.0: narrowing fixed-point clip instructions
->>   target/riscv: rvv-1.0: single-width floating-point reduction
->>   target/riscv: rvv-1.0: widening floating-point reduction instructions
->>   target/riscv: rvv-1.0: single-width scaling shift instructions
->>   target/riscv: rvv-1.0: remove widening saturating scaled multiply-add
->>   target/riscv: rvv-1.0: remove vmford.vv and vmford.vf
->>   target/riscv: rvv-1.0: remove integer extract instruction
->>   target/riscv: rvv-1.0: floating-point min/max instructions
->>   target/riscv: introduce floating-point rounding mode enum
->>   target/riscv: rvv-1.0: floating-point/integer type-convert
->>     instructions
->>   target/riscv: rvv-1.0: widening floating-point/integer type-convert
->>   target/riscv: add "set round to odd" rounding mode helper function
->>   target/riscv: rvv-1.0: narrowing floating-point/integer type-convert
->>   target/riscv: rvv-1.0: relax RV_VLEN_MAX to 512-bits
->>
->> Greentime Hu (2):
->>   target/riscv: rvv-1.0: add vlenb register
->>   target/riscv: gdb: support vector registers for rv32
->>
->> Hsiangkai Wang (2):
->>   target/riscv: gdb: modify gdb csr xml file to align with csr register
->>     map
->>   target/riscv: gdb: support vector registers for rv64
->>
->> LIU Zhiwei (4):
->>   target/riscv: rvv-1.0: add mstatus VS field
->>   target/riscv: rvv-1.0: add sstatus VS field
->>   target/riscv: rvv-1.0: add translation-time vector context status
->>   target/riscv: rvv-1.0: add vcsr register
->>
->>  gdb-xml/riscv-32bit-csr.xml             |   18 +-
->>  gdb-xml/riscv-64bit-csr.xml             |   18 +-
->>  target/riscv/cpu.c                      |   12 +-
->>  target/riscv/cpu.h                      |   97 +-
->>  target/riscv/cpu_bits.h                 |   10 +
->>  target/riscv/cpu_helper.c               |   16 +-
->>  target/riscv/csr.c                      |   73 +-
->>  target/riscv/fpu_helper.c               |   17 +-
->>  target/riscv/gdbstub.c                  |  126 +-
->>  target/riscv/helper.h                   |  523 ++--
->>  target/riscv/insn32-64.decode           |   18 +-
->>  target/riscv/insn32.decode              |  295 +-
->>  target/riscv/insn_trans/trans_rvv.inc.c | 2366 ++++++++++------
->>  target/riscv/internals.h                |   19 +-
->>  target/riscv/translate.c                |   68 +-
->>  target/riscv/vector_helper.c            | 3269 +++++++++++------------
->>  16 files changed, 4051 insertions(+), 2894 deletions(-)
->>
->> --
->> 2.17.1
->>
->
-> ping~
+--000000000000755af905adcaa32b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I wasn't really following too closely, but didn't Richard give comments?
+On Wed, Aug 26, 2020 at 10:42 PM Eugenio P=C3=A9rez <eperezma@redhat.com> w=
+rote:
 
-Alistair
+> This improves performance in case of netperf with vhost-net:
+> * TCP_STREAM: From 9049.59Mbit/s to 9049.59Mbit/s (13%)
+>
+What's improvement ? they are the same
+
+
+> * TCP_RR: From 8464.73 trans/s to 8932.703333 trans/s (5.5%)
+> * UDP_RR: From 8562.08 trans/s to 9005.62/s (5.1%)
+> * UDP_STREAM: No change observed (insignificant 0.1% improvement)
+>
+> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> ---
+>  hw/i386/intel_iommu.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+> index ddb828da1f..7620a1abbf 100644
+> --- a/hw/i386/intel_iommu.c
+> +++ b/hw/i386/intel_iommu.c
+> @@ -1960,6 +1960,12 @@ static void
+> vtd_iotlb_domain_invalidate(IntelIOMMUState *s, uint16_t domain_id)
+>      vtd_iommu_unlock(s);
+>
+>      QLIST_FOREACH(vtd_as, &s->vtd_as_with_notifiers, next) {
+> +        if (vtd_as->iommu.iommu_notify_flags & IOMMU_NOTIFIER_DEVIOTLB) =
+{
+> +            /* If IOMMU memory region is DEVICE IOTLB type, it does not
+> make
+> +             * sense to send regular IOMMU notifications. */
+> +            continue;
+> +        }
+> +
+>          if (!vtd_dev_to_context_entry(s, pci_bus_num(vtd_as->bus),
+>                                        vtd_as->devfn, &ce) &&
+>              domain_id =3D=3D vtd_get_domain_id(s, &ce)) {
+> --
+> 2.18.1
+>
+>
+>
+
+--=20
+         =E6=AD=A4=E8=87=B4
+=E7=A4=BC
+=E7=BD=97=E5=8B=87=E5=88=9A
+Yours
+    sincerely,
+Yonggang Luo
+
+--000000000000755af905adcaa32b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 26, 2020 at 10:42 PM Euge=
+nio P=C3=A9rez &lt;<a href=3D"mailto:eperezma@redhat.com">eperezma@redhat.c=
+om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+">This improves performance in case of netperf with vhost-net:<br>
+* TCP_STREAM: From 9049.59Mbit/s to 9049.59Mbit/s (13%)<br></blockquote><di=
+v>What&#39;s improvement ? they are the same</div><div>=C2=A0</div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
+ solid rgb(204,204,204);padding-left:1ex">
+* TCP_RR: From 8464.73 trans/s to 8932.703333 trans/s (5.5%)<br>
+* UDP_RR: From 8562.08 trans/s to 9005.62/s (5.1%)<br>
+* UDP_STREAM: No change observed (insignificant 0.1% improvement)<br>
+<br>
+Signed-off-by: Eugenio P=C3=A9rez &lt;<a href=3D"mailto:eperezma@redhat.com=
+" target=3D"_blank">eperezma@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0hw/i386/intel_iommu.c | 6 ++++++<br>
+=C2=A01 file changed, 6 insertions(+)<br>
+<br>
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c<br>
+index ddb828da1f..7620a1abbf 100644<br>
+--- a/hw/i386/intel_iommu.c<br>
++++ b/hw/i386/intel_iommu.c<br>
+@@ -1960,6 +1960,12 @@ static void vtd_iotlb_domain_invalidate(IntelIOMMUSt=
+ate *s, uint16_t domain_id)<br>
+=C2=A0 =C2=A0 =C2=A0vtd_iommu_unlock(s);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0QLIST_FOREACH(vtd_as, &amp;s-&gt;vtd_as_with_notifiers,=
+ next) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (vtd_as-&gt;iommu.iommu_notify_flags &amp; =
+IOMMU_NOTIFIER_DEVIOTLB) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* If IOMMU memory region is DEV=
+ICE IOTLB type, it does not make<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* sense to send regular IO=
+MMU notifications. */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!vtd_dev_to_context_entry(s, pci_bus_=
+num(vtd_as-&gt;bus),<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vtd_as-&g=
+t;devfn, &amp;ce) &amp;&amp;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0domain_id =3D=3D vtd_get_do=
+main_id(s, &amp;ce)) {<br>
+-- <br>
+2.18.1<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature">=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 =E6=AD=A4=E8=
+=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=
+=A0 sincerely,<br>Yonggang Luo<br></div></div>
+
+--000000000000755af905adcaa32b--
 
