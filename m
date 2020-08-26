@@ -2,67 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA1C92528AA
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 09:52:38 +0200 (CEST)
-Received: from localhost ([::1]:59552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 332752528B8
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 09:57:05 +0200 (CEST)
+Received: from localhost ([::1]:36650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAqEX-000277-TW
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 03:52:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54802)
+	id 1kAqIq-0004SY-Am
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 03:57:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kAqD8-0008U4-8z
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 03:51:10 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:35067
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kAqI9-0003q7-UO
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 03:56:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32952)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kAqD2-0002bl-Jb
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 03:51:09 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kAqI8-0003Py-86
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 03:56:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598428262;
+ s=mimecast20190719; t=1598428579;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=AshblrPjJMR2R4JuxoIZkuv1ONPwaNrQpTgPZ8PtiD8=;
- b=IRyB1HtGo44QJD3SO7i3Vsbvse5/JLbrEi8SCnFjeoLbR2BKG/BFeXKXXE4LcmdiOOv4SN
- i6D9XdFPwmRAQrdN4d6OdKVl8iaaW11UdFBRqWP3B/lfZJVh1oPPRzSKvo8gq+/3MbtDEf
- 3TLQAp3JGUBHodZB/vhol6FTeIUtlm4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-122-2WfjWYtCMrmrTLZ5FwhuWg-1; Wed, 26 Aug 2020 03:50:59 -0400
-X-MC-Unique: 2WfjWYtCMrmrTLZ5FwhuWg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3E3D10066FB;
- Wed, 26 Aug 2020 07:50:57 +0000 (UTC)
-Received: from localhost (ovpn-112-172.ams2.redhat.com [10.36.112.172])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4601B708FF;
- Wed, 26 Aug 2020 07:50:57 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PULL v2 00/34] Block patches
-Date: Wed, 26 Aug 2020 09:50:55 +0200
-Message-Id: <20200826075055.779372-1-mreitz@redhat.com>
+ in-reply-to:in-reply-to:references:references;
+ bh=DO1AwVIopD8FA7wu3biFZ5SqxyKf6YLqpALSW9wBjNo=;
+ b=BTIY5g7nz+5fizKOBGOxrjPrAw/F5m5BPAzMFpEOJhaCpbHqhbs7KgTkGxLp0Vn8WSBYCQ
+ V9FX/MsVwWy+M5XctSndb4kikLsxvHLIcMfx01j2gxESac3VgPODo3aYjiNqUzprdgva/l
+ 4UuH3laGu4IIKcEFcTodKjZ+FNrckYo=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-256-cgdfHdUDPAa4qGzpQybX-g-1; Wed, 26 Aug 2020 03:56:17 -0400
+X-MC-Unique: cgdfHdUDPAa4qGzpQybX-g-1
+Received: by mail-ej1-f71.google.com with SMTP id o18so578795ejr.14
+ for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 00:56:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DO1AwVIopD8FA7wu3biFZ5SqxyKf6YLqpALSW9wBjNo=;
+ b=V0WeRrs6F972imp9ha+NJKlk+UP45cZYr+OMiubIyjKMzPOZnvAkGyZKKYjnnq9vFb
+ 3GofwpdvNGqtIqetIVIIxAKB6wv4KSkmKD907oQi1CJPW66AKqOouMBcigi+ffF5c+pp
+ pN9GAWFihZuSqPji2LUVbOB7TYh7OPXW9cMVSZPYU/gelVZlHwnw3wMT0QRCgF5U51Og
+ 5gd0Ef/TJkcghEAJsD/4sBZN3bMcn/95C45qFBQixzBpwtV0LFcQOn0a/1sZxSybEsty
+ CEvSwN7wbnXbL8/ArVx2r0sVLv0jcY0f4IeEg//BHzsydOW3zhWc62OrFP9lOSeoXdUF
+ uj+Q==
+X-Gm-Message-State: AOAM5315sl2HJH5vU7ISQkALW9m2iSzHvTcdmLCNYt236Xjh1sP0KuYY
+ VP/CFvVZsx1jYkDlNtvod+mLKMoOoyRCIwPmxrzGcTyqHDHuT2gIX71wLbaejxEQbO2eddPDtLD
+ Xch5ns1o4pD8LloFTPX20BRAY6onAy7g=
+X-Received: by 2002:a17:906:d9db:: with SMTP id
+ qk27mr13660934ejb.230.1598428575872; 
+ Wed, 26 Aug 2020 00:56:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwcSezMeBRiHxeztZut25hcGpbTWFSZmA485ouX3NXUFIYYCV5TMfk8sN++QJo65/0U4rdn4vq3Fc/9B7sqk/M=
+X-Received: by 2002:a17:906:d9db:: with SMTP id
+ qk27mr13660930ejb.230.1598428575690; 
+ Wed, 26 Aug 2020 00:56:15 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+References: <20200825222310.27176-1-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20200825222310.27176-1-mark.cave-ayland@ilande.co.uk>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Wed, 26 Aug 2020 09:56:04 +0200
+Message-ID: <CABgObfa=qLwBVbusZ1G=xZcPAnsT4HK0DzEqho=vMyaB1yCuUA@mail.gmail.com>
+Subject: Re: [PATCH] meson: don't require CONFIG_VTE for the GTK UI
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 02:47:00
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 02:45:17
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.958,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,108 +91,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, "Hoffmann, Gerd" <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 30aa19446d82358a30eac3b556b4d6641e00b7c1:
+Queued, thanks.
 
-  Merge remote-tracking branch 'remotes/cschoenebeck/tags/pull-9p-20200812' into staging (2020-08-24 16:39:53 +0100)
+Paolo
 
-are available in the Git repository at:
-
-  https://github.com/XanClic/qemu.git tags/pull-block-2020-08-26
-
-for you to fetch changes up to a5d3cfa2dc775e5d99f013703b8508f1d989d588:
-
-  iotests: Add tests for qcow2 images with extended L2 entries (2020-08-26 08:49:51 +0200)
-
-----------------------------------------------------------------
-Block patches:
-- qcow2 subclusters (extended L2 entries)
-
-----------------------------------------------------------------
-v2:
-- Fixed the shebang line in iotest 271
-
-----------------------------------------------------------------
-Alberto Garcia (34):
-  qcow2: Make Qcow2AioTask store the full host offset
-  qcow2: Convert qcow2_get_cluster_offset() into qcow2_get_host_offset()
-  qcow2: Add calculate_l2_meta()
-  qcow2: Split cluster_needs_cow() out of count_cow_clusters()
-  qcow2: Process QCOW2_CLUSTER_ZERO_ALLOC clusters in handle_copied()
-  qcow2: Add get_l2_entry() and set_l2_entry()
-  qcow2: Document the Extended L2 Entries feature
-  qcow2: Add dummy has_subclusters() function
-  qcow2: Add subcluster-related fields to BDRVQcow2State
-  qcow2: Add offset_to_sc_index()
-  qcow2: Add offset_into_subcluster() and size_to_subclusters()
-  qcow2: Add l2_entry_size()
-  qcow2: Update get/set_l2_entry() and add get/set_l2_bitmap()
-  qcow2: Add QCow2SubclusterType and qcow2_get_subcluster_type()
-  qcow2: Add qcow2_get_subcluster_range_type()
-  qcow2: Add qcow2_cluster_is_allocated()
-  qcow2: Add cluster type parameter to qcow2_get_host_offset()
-  qcow2: Replace QCOW2_CLUSTER_* with QCOW2_SUBCLUSTER_*
-  qcow2: Handle QCOW2_SUBCLUSTER_UNALLOCATED_ALLOC
-  qcow2: Add subcluster support to calculate_l2_meta()
-  qcow2: Add subcluster support to qcow2_get_host_offset()
-  qcow2: Add subcluster support to zero_in_l2_slice()
-  qcow2: Add subcluster support to discard_in_l2_slice()
-  qcow2: Add subcluster support to check_refcounts_l2()
-  qcow2: Update L2 bitmap in qcow2_alloc_cluster_link_l2()
-  qcow2: Clear the L2 bitmap when allocating a compressed cluster
-  qcow2: Add subcluster support to handle_alloc_space()
-  qcow2: Add subcluster support to qcow2_co_pwrite_zeroes()
-  qcow2: Add subcluster support to qcow2_measure()
-  qcow2: Add prealloc field to QCowL2Meta
-  qcow2: Add the 'extended_l2' option and the QCOW2_INCOMPAT_EXTL2 bit
-  qcow2: Allow preallocation and backing files if extended_l2 is set
-  qcow2: Assert that expand_zero_clusters_in_l1() does not support
-    subclusters
-  iotests: Add tests for qcow2 images with extended L2 entries
-
- docs/interop/qcow2.txt           |  68 ++-
- docs/qcow2-cache.txt             |  19 +-
- qapi/block-core.json             |   7 +
- block/qcow2.h                    | 211 ++++++-
- include/block/block_int.h        |   1 +
- block/qcow2-cluster.c            | 906 +++++++++++++++++++++----------
- block/qcow2-refcount.c           |  47 +-
- block/qcow2.c                    | 302 +++++++----
- block/trace-events               |   2 +-
- tests/qemu-iotests/031.out       |   8 +-
- tests/qemu-iotests/036.out       |   4 +-
- tests/qemu-iotests/049.out       | 102 ++--
- tests/qemu-iotests/060.out       |   3 +-
- tests/qemu-iotests/061           |   6 +
- tests/qemu-iotests/061.out       |  25 +-
- tests/qemu-iotests/065           |  12 +-
- tests/qemu-iotests/082.out       |  39 +-
- tests/qemu-iotests/085.out       |  38 +-
- tests/qemu-iotests/144.out       |   4 +-
- tests/qemu-iotests/182.out       |   2 +-
- tests/qemu-iotests/185.out       |   8 +-
- tests/qemu-iotests/198           |   2 +
- tests/qemu-iotests/206.out       |   6 +-
- tests/qemu-iotests/242.out       |   5 +
- tests/qemu-iotests/255.out       |   8 +-
- tests/qemu-iotests/271           | 901 ++++++++++++++++++++++++++++++
- tests/qemu-iotests/271.out       | 726 +++++++++++++++++++++++++
- tests/qemu-iotests/274.out       |  49 +-
- tests/qemu-iotests/280.out       |   2 +-
- tests/qemu-iotests/291.out       |   2 +
- tests/qemu-iotests/302.out       |   1 +
- tests/qemu-iotests/303.out       |   4 +-
- tests/qemu-iotests/common.filter |   1 +
- tests/qemu-iotests/group         |   1 +
- 34 files changed, 2952 insertions(+), 570 deletions(-)
- create mode 100755 tests/qemu-iotests/271
- create mode 100644 tests/qemu-iotests/271.out
-
--- 
-2.26.2
+On Wed, Aug 26, 2020 at 12:23 AM Mark Cave-Ayland
+<mark.cave-ayland@ilande.co.uk> wrote:
+>
+> Prevously CONFIG_VTE was not required to build QEMU with GTK UI support as not
+> all platforms have VTE available (in particular Windows).
+>
+> Remove this requirement from the meson build system to enable QEMU to be built
+> with GTK UI support for Windows once again.
+>
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> ---
+>  ui/meson.build | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/ui/meson.build b/ui/meson.build
+> index 018c5698bf..a81d5c259c 100644
+> --- a/ui/meson.build
+> +++ b/ui/meson.build
+> @@ -42,7 +42,7 @@ if config_host.has_key('CONFIG_CURSES')
+>    ui_modules += {'curses' : curses_ss}
+>  endif
+>
+> -if config_host.has_key('CONFIG_GTK') and config_host.has_key('CONFIG_VTE')
+> +if config_host.has_key('CONFIG_GTK')
+>    softmmu_ss.add(when: 'CONFIG_WIN32', if_true: files('win32-kbd-hook.c'))
+>
+>    gtk_ss = ss.source_set()
+> --
+> 2.20.1
+>
 
 
