@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03D7C2532F6
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 17:09:14 +0200 (CEST)
-Received: from localhost ([::1]:55384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2BF52532C9
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 17:05:10 +0200 (CEST)
+Received: from localhost ([::1]:41418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAx33-0004kw-3E
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 11:09:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50938)
+	id 1kAwz7-0007Io-QW
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 11:05:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kAwnR-0007Ar-B9
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 10:53:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57568)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kAwnG-0006ir-IZ
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 10:52:54 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:60609
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kAwnP-0008NU-Gx
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 10:53:04 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kAwnD-0008Ld-Rr
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 10:52:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598453582;
+ s=mimecast20190719; t=1598453571;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QtNfs9Y7alg7kpJbY2NUPkJ1krlAjwWxnSjia7sxiR0=;
- b=dvpwVATvkfBI9e92lrMF7slWJlIJUKbis/ylqCzgnIm7heQdVLWYPW/5WhUwgXTxkUxl8Y
- An2xe30Ru5tNbn0R9OIDHHI81yzW6ThkEEKBgnt+U5U1tAzXppYpCGuxXUeS7jDBwhwC4A
- HNuFVJ4KehDYN+OVNZ3drjuwlJVYmPE=
+ bh=e7ADtjUCvvlcoWLUsdaaSfb862SflFQHg7D9hEwKRwc=;
+ b=Vtpx2uKitg8qj4EfIBVR566bVlPA6059Z3Ks3RgfHryVdvmn+Iqw5XpAaLwYsf2nahtL0L
+ 5iCtf4n8pn3xgJ7d7/sykNjQkvsnXK7hekAO+RPslwk1l9TG/p97a8QG8UjrXu/31+OIYy
+ /AGAdBRK8lJc/fr0iiOKx4uzPevDQyk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-105-_v97pHrPO1CXd93OkEEyqw-1; Wed, 26 Aug 2020 10:52:47 -0400
-X-MC-Unique: _v97pHrPO1CXd93OkEEyqw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-534-8SdLNfBwMbStO0TZsCC4Pg-1; Wed, 26 Aug 2020 10:52:49 -0400
+X-MC-Unique: 8SdLNfBwMbStO0TZsCC4Pg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3299107464A;
- Wed, 26 Aug 2020 14:52:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 35FE2801AE5
+ for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 14:52:48 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-54.ams2.redhat.com
  [10.36.112.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8AE7A747C6;
- Wed, 26 Aug 2020 14:52:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0495F5D9E8;
+ Wed, 26 Aug 2020 14:52:47 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 47B4F31FC6; Wed, 26 Aug 2020 16:52:40 +0200 (CEST)
+ id 5EFBF31FC8; Wed, 26 Aug 2020 16:52:40 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/18] hw/usb: Add U2F device check to passthru mode
-Date: Wed, 26 Aug 2020 16:52:36 +0200
-Message-Id: <20200826145239.6077-16-kraxel@redhat.com>
+Subject: [PULL 17/18] usb-host: workaround libusb bug
+Date: Wed, 26 Aug 2020 16:52:38 +0200
+Message-Id: <20200826145239.6077-18-kraxel@redhat.com>
 In-Reply-To: <20200826145239.6077-1-kraxel@redhat.com>
 References: <20200826145239.6077-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 23:30:47
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 06:53:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,94 +82,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?C=C3=A9sar=20Belley?= <cesar.belley@lse.epita.fr>,
- Gerd Hoffmann <kraxel@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: César Belley <cesar.belley@lse.epita.fr>
+libusb_get_device_speed() does not work for
+libusb_wrap_sys_device() devices in v1.0.23.
 
-This patchs adds a check to verify that the device passed through the
-hidraw property is a U2F device.
-
-The check is done by ensuring that the first values of the report
-descriptor (USAGE PAGE and USAGE) correspond to those of a U2F device.
-
-Signed-off-by: César Belley <cesar.belley@lse.epita.fr>
-Message-id: 20200826114209.28821-12-cesar.belley@lse.epita.fr
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1871090
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Message-id: 20200824110057.32089-1-kraxel@redhat.com
 ---
- hw/usb/u2f-passthru.c | 41 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
+ hw/usb/host-libusb.c | 37 ++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 36 insertions(+), 1 deletion(-)
 
-diff --git a/hw/usb/u2f-passthru.c b/hw/usb/u2f-passthru.c
-index 106b5abf9ecc..f8771966c747 100644
---- a/hw/usb/u2f-passthru.c
-+++ b/hw/usb/u2f-passthru.c
-@@ -34,6 +34,12 @@
+diff --git a/hw/usb/host-libusb.c b/hw/usb/host-libusb.c
+index c474551d8456..08604f787fdf 100644
+--- a/hw/usb/host-libusb.c
++++ b/hw/usb/host-libusb.c
+@@ -39,6 +39,11 @@
+ #endif
+ #include <libusb.h>
  
- #include "u2f.h"
- 
-+#ifdef CONFIG_LIBUDEV
-+#include <libudev.h>
-+#endif
-+#include <linux/hidraw.h>
++#ifdef CONFIG_LINUX
 +#include <sys/ioctl.h>
++#include <linux/usbdevice_fs.h>
++#endif
 +
- #define NONCE_SIZE 8
- #define BROADCAST_CID 0xFFFFFFFF
- #define TRANSACTION_TIMEOUT 120000
-@@ -344,6 +350,34 @@ static void u2f_passthru_recv_from_guest(U2FKeyState *base,
-     }
- }
- 
-+static bool u2f_passthru_is_u2f_device(int fd)
-+{
-+    int ret, rdesc_size;
-+    struct hidraw_report_descriptor rdesc;
-+    const uint8_t u2f_hid_report_desc_header[] = {
-+        0x06, 0xd0, 0xf1, /* Usage Page (FIDO) */
-+        0x09, 0x01,       /* Usage (FIDO) */
-+    };
-+
-+    /* Get report descriptor size */
-+    ret = ioctl(fd, HIDIOCGRDESCSIZE, &rdesc_size);
-+    if (ret < 0 || rdesc_size < sizeof(u2f_hid_report_desc_header)) {
-+        return false;
-+    }
-+
-+    /* Get report descriptor */
-+    memset(&rdesc, 0x0, sizeof(rdesc));
-+    rdesc.size = rdesc_size;
-+    ret = ioctl(fd, HIDIOCGRDESC, &rdesc);
-+    if (ret < 0) {
-+        return false;
-+    }
-+
-+    /* Header bytes cover specific U2F rdesc values */
-+    return memcmp(u2f_hid_report_desc_header, rdesc.value,
-+                  sizeof(u2f_hid_report_desc_header)) == 0;
-+}
-+
- static void u2f_passthru_unrealize(U2FKeyState *base)
+ #include "qapi/error.h"
+ #include "migration/vmstate.h"
+ #include "monitor/monitor.h"
+@@ -885,6 +890,7 @@ static void usb_host_ep_update(USBHostDevice *s)
+ static int usb_host_open(USBHostDevice *s, libusb_device *dev, int hostfd)
  {
-     U2FPassthruState *key = PASSTHRU_U2F_KEY(base);
-@@ -368,6 +402,13 @@ static void u2f_passthru_realize(U2FKeyState *base, Error **errp)
-                    key->hidraw);
-         return;
-     }
-+
-+    if (!u2f_passthru_is_u2f_device(fd)) {
-+        qemu_close(fd);
-+        error_setg(errp, "%s: Passed hidraw does not represent "
-+                   "a U2F HID device", TYPE_U2F_PASSTHRU);
-+        return;
+     USBDevice *udev = USB_DEVICE(s);
++    int libusb_speed;
+     int bus_num = 0;
+     int addr = 0;
+     int rc;
+@@ -935,7 +941,36 @@ static int usb_host_open(USBHostDevice *s, libusb_device *dev, int hostfd)
+     usb_ep_init(udev);
+     usb_host_ep_update(s);
+ 
+-    udev->speed     = speed_map[libusb_get_device_speed(dev)];
++    libusb_speed = libusb_get_device_speed(dev);
++#ifdef CONFIG_LINUX
++    if (hostfd && libusb_speed == 0) {
++        /*
++         * Workaround libusb bug: libusb_get_device_speed() does not
++         * work for libusb_wrap_sys_device() devices in v1.0.23.
++         *
++         * Speeds are defined in linux/usb/ch9.h, file not included
++         * due to name conflicts.
++         */
++        int rc = ioctl(hostfd, USBDEVFS_GET_SPEED, NULL);
++        switch (rc) {
++        case 1: /* low */
++            libusb_speed = LIBUSB_SPEED_LOW;
++            break;
++        case 2: /* full */
++            libusb_speed = LIBUSB_SPEED_FULL;
++            break;
++        case 3: /* high */
++        case 4: /* wireless */
++            libusb_speed = LIBUSB_SPEED_HIGH;
++            break;
++        case 5: /* super */
++        case 6: /* super plus */
++            libusb_speed = LIBUSB_SPEED_SUPER;
++            break;
++        }
 +    }
-     key->hidraw_fd = fd;
-     u2f_passthru_reset(key);
- }
++#endif
++    udev->speed = speed_map[libusb_speed];
+     usb_host_speed_compat(s);
+ 
+     if (s->ddesc.iProduct) {
 -- 
 2.27.0
 
