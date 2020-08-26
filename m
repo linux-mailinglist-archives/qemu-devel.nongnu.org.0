@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4285E252C22
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 13:05:45 +0200 (CEST)
-Received: from localhost ([::1]:55456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92F5F252C09
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 13:03:57 +0200 (CEST)
+Received: from localhost ([::1]:47310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAtFQ-0003rC-9V
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 07:05:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44786)
+	id 1kAtDg-0000Yj-Kl
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 07:03:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kAt46-0007rE-Kl
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 06:54:02 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:39215)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kAt5X-0002Xu-GF
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 06:55:31 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:33589)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kAt43-0001hZ-7Y
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 06:54:02 -0400
-Received: by mail-oi1-x244.google.com with SMTP id z195so1122321oia.6
- for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 03:53:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kAt5V-0001pi-Ng
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 06:55:31 -0400
+Received: by mail-ot1-x344.google.com with SMTP id t7so1148698otp.0
+ for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 03:55:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=/6Qb9HUZPr1M4+WsnWJ+hiTdF/J1R2bDjrjIOxqgiKc=;
- b=Rk3LHmBNJWcomUxrAOhxZFQpnJLZpaayXncBOPfkiCADthn9N/dkccO/XWzkzF+Pb+
- mUy//U/O5eyaNXhguedLW8hHEzdfnexF4xj2vedegVpEbYgo3x91wQ5c2qltM7rntzL/
- rqF3PsMDbeB8wImoCskTJWFsFtoRW4WBQNfXSeGHLffsfjr8/spvG3ZzKDZWX/r1RMxx
- 6AgHMprlDMNp1OkCodixpDhliroIa2GBQ3Mr2HdM7mYduvX7tEatzeCuUU4ueBilAN7g
- E4YT0MWPYez/NiOlvzYANhXJYFyt0kEfI3/Xxv13txAKUqOvqfPyMAqyMVxe080CSZUf
- SpPA==
+ bh=NBFS1/HS/zOYoxL94070hIRVoqRtTMgsIpaJj4PD718=;
+ b=s7IhKc7ZOezIrm0P4NN0fruwBeEo1wUd7Twn/SQArkXlB8+BTNcZGueUjxaj1+AJqy
+ v05PunaUUI9CBBQATTOlGdDIDxWVhya8nbQnCJH37pgEddYWitc2X6qT/P8lLIa4b9ar
+ bQRXmccq3L4lxgK4beqUFD7BJydRjcdBZWF43WKC/yn/YWhh7t3dZlCYpN1ZgMi0nvE0
+ hEVmCJv+XsG3xClmPcBtlviw0em3sn5SQ68CpjCKdUXdus6xtzj9cO0Kg4uZGyKhjM8O
+ jGvMft0TEP3uipUJEHgW31T1DiVQeTgr558tI4ud439JJqypeZdoMRs+8DA96/GAJeZn
+ 9DIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=/6Qb9HUZPr1M4+WsnWJ+hiTdF/J1R2bDjrjIOxqgiKc=;
- b=bpYHmSGBLJrUbRMB+OpraxlkSU4BrLr5q1OZgGyNUDm/qzIXjDFvIDrCIJ2MUcPG4/
- ttIVUt/IVthvVP37aOjWdggVECPUpw9k3pxMy/PJ8hh8Qa8DymF58FEFfOLCQtKF8tPC
- HCwtxz1wN3FevZEBE3fFxu0NqwgIe971Yy38LXrCNCpchhog6x3x/s2ydLHdnbvpCDmS
- 1aoIfJUcN4VeB2edTLN7361izpgplQeIeZzW3u14Qpt1SmN6maaNcz/thjaY2CGsQjzA
- mDyCh3+S83qc6fL2uP4f1wVKy1x7oPCVlQfTKuBQwL2XoN92XxQHGDGnk9hx6Vme2CAb
- i25g==
-X-Gm-Message-State: AOAM533aeV1UFXIpAdj+e55utfU4WMkGXDwr1AeiYzxsmhAHI8r7iZue
- Ysuntk9t2vn3vjjpop9mzspUPkYf/1+Ogrfiu7k=
-X-Google-Smtp-Source: ABdhPJwLgrRx52tcVuzcB6jxum2vTS6Bw15/eftSdlgnweBj9NuG1icyslPMhjGyl7n+E1SQIGOKydjcfD7Z6l3Vt4E=
-X-Received: by 2002:a05:6808:4d3:: with SMTP id
- a19mr3420750oie.150.1598439237914; 
- Wed, 26 Aug 2020 03:53:57 -0700 (PDT)
+ bh=NBFS1/HS/zOYoxL94070hIRVoqRtTMgsIpaJj4PD718=;
+ b=JxR5fsVG40vfwW26zT+iJtzeTQaUuavECVwzjj+hLW9lOqGqAH/h+K6sB/crT/noDk
+ BTaX2Xosw+ozP3baV3Hg1uk9OSRck0ixxXsKDzkqIvQUN0+KKtQhJuApHnw9BWEG/thJ
+ vvBIYdsPRLv3Q0Gg6rCh+1+V2mwe21KpqPY4tQ14LC3CMZe9dRUKX/LdpgUs3NO9TUoK
+ 3EAWVSoommcydBe111fRlQLebuClUDRjLNRao8CYutb0blppf1dgQB3YJmaNDoDM0oLj
+ 5T5So0u8hzjw1Cv9jKwTlVY1QQ9JfnNAb/FfZBcV+XZKdjJoMNC972WroG4woJRmsYYg
+ +Okg==
+X-Gm-Message-State: AOAM5336pbINCh3hZCxHstK7aIiYJTpbEJuTKMwG95NMPjid49ok9pRo
+ UvFt11IiSi758CMBdPBBEASB/mg11gtz63QsbPE=
+X-Google-Smtp-Source: ABdhPJyHFtAEQyeppFDRDJBNvYw+CzFKAAnQZJqXNlkoGAKkZ5OtnkRnzf9yZoTQRcNHHtPelzXTX3IRz6wv54S1bzw=
+X-Received: by 2002:a9d:788:: with SMTP id 8mr2853901oto.181.1598439327729;
+ Wed, 26 Aug 2020 03:55:27 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200814160241.7915-1-pannengyuan@huawei.com>
- <20200814160241.7915-6-pannengyuan@huawei.com>
-In-Reply-To: <20200814160241.7915-6-pannengyuan@huawei.com>
+ <20200814160241.7915-5-pannengyuan@huawei.com>
+In-Reply-To: <20200814160241.7915-5-pannengyuan@huawei.com>
 From: Li Qiang <liq3ea@gmail.com>
-Date: Wed, 26 Aug 2020 18:53:22 +0800
-Message-ID: <CAKXe6S+jWLnMo8+zQ6OFjZoWVLifQPn64JBwJz5A_zPkP0tEkA@mail.gmail.com>
-Subject: Re: [PATCH 05/12] target/i386/sev: Plug memleak in
- sev_read_file_base64
+Date: Wed, 26 Aug 2020 18:54:51 +0800
+Message-ID: <CAKXe6SJ_1FF2O36E21f2pORhEjpg80QYbTidBVYOk0nhdodnXw@mail.gmail.com>
+Subject: Re: [PATCH 04/12] elf2dmp/pdb: Plug memleak in pdb_init_from_file
 To: Pan Nengyuan <pannengyuan@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
- envelope-from=liq3ea@gmail.com; helo=mail-oi1-x244.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
+ envelope-from=liq3ea@gmail.com; helo=mail-ot1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -81,18 +79,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Chen Qun <kuhn.chenqun@huawei.com>,
- Qemu Developers <qemu-devel@nongnu.org>, Euler Robot <euler.robot@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+Cc: Chen Qun <kuhn.chenqun@huawei.com>, Euler Robot <euler.robot@huawei.com>,
+ Qemu Developers <qemu-devel@nongnu.org>,
+ Viktor Prutyanov <viktor.prutyanov@phystech.edu>,
  zhanghailiang <zhang.zhanghailiang@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Pan Nengyuan <pannengyuan@huawei.com> =E4=BA=8E2020=E5=B9=B48=E6=9C=8814=E6=
-=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=886:37=E5=86=99=E9=81=93=EF=BC=9A
+=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=886:51=E5=86=99=E9=81=93=EF=BC=9A
 >
-> Missing g_error_free() in sev_read_file_base64() error path.
-> Fix that.
+> Missing g_error_free in pdb_init_from_file() error path. Fix that.
 >
 > Reported-by: Euler Robot <euler.robot@huawei.com>
 > Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
@@ -100,25 +97,22 @@ Pan Nengyuan <pannengyuan@huawei.com> =E4=BA=8E2020=E5=B9=B48=E6=9C=8814=E6=
 Reviewed-by: Li Qiang <liq3ea@gmail.com>
 
 > ---
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Richard Henderson <rth@twiddle.net>
-> Cc: Eduardo Habkost <ehabkost@redhat.com>
+> Cc: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
 > ---
->  target/i386/sev.c | 1 +
+>  contrib/elf2dmp/pdb.c | 1 +
 >  1 file changed, 1 insertion(+)
 >
-> diff --git a/target/i386/sev.c b/target/i386/sev.c
-> index c3ecf86704..de4818da6d 100644
-> --- a/target/i386/sev.c
-> +++ b/target/i386/sev.c
-> @@ -500,6 +500,7 @@ sev_read_file_base64(const char *filename, guchar **d=
-ata, gsize *len)
->
->      if (!g_file_get_contents(filename, &base64, &sz, &error)) {
->          error_report("failed to read '%s' (%s)", filename, error->messag=
-e);
-> +        g_error_free(error);
->          return -1;
+> diff --git a/contrib/elf2dmp/pdb.c b/contrib/elf2dmp/pdb.c
+> index a5bd40c99d..b3a6547068 100644
+> --- a/contrib/elf2dmp/pdb.c
+> +++ b/contrib/elf2dmp/pdb.c
+> @@ -285,6 +285,7 @@ int pdb_init_from_file(const char *name, struct pdb_r=
+eader *reader)
+>      reader->gmf =3D g_mapped_file_new(name, TRUE, &gerr);
+>      if (gerr) {
+>          eprintf("Failed to map PDB file \'%s\'\n", name);
+> +        g_error_free(gerr);
+>          return 1;
 >      }
 >
 > --
