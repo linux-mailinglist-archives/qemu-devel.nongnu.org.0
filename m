@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E80B252E94
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 14:18:41 +0200 (CEST)
-Received: from localhost ([::1]:52060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16D65252E9C
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 14:19:47 +0200 (CEST)
+Received: from localhost ([::1]:56800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAuO0-0004wl-9b
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 08:18:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37508)
+	id 1kAuP4-0006qg-6l
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 08:19:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
- id 1kAuMe-0003aQ-74; Wed, 26 Aug 2020 08:17:16 -0400
-Received: from proxmox-new.maurer-it.com ([212.186.127.180]:11365)
+ id 1kAuMe-0003aO-77; Wed, 26 Aug 2020 08:17:16 -0400
+Received: from proxmox-new.maurer-it.com ([212.186.127.180]:18191)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
- id 1kAuMb-0004Ck-Nd; Wed, 26 Aug 2020 08:17:15 -0400
+ id 1kAuMb-0004Cj-JJ; Wed, 26 Aug 2020 08:17:15 -0400
 Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 7BE28432AA;
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 91E08448B6;
  Wed, 26 Aug 2020 14:17:01 +0200 (CEST)
 From: Stefan Reiter <s.reiter@proxmox.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 1/3] job: add sequential transaction support
-Date: Wed, 26 Aug 2020 14:13:57 +0200
-Message-Id: <20200826121359.15450-2-s.reiter@proxmox.com>
+Subject: [PATCH 2/3] blockdev: add sequential mode to *-backup transactions
+Date: Wed, 26 Aug 2020 14:13:58 +0200
+Message-Id: <20200826121359.15450-3-s.reiter@proxmox.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200826121359.15450-1-s.reiter@proxmox.com>
 References: <20200826121359.15450-1-s.reiter@proxmox.com>
@@ -57,89 +57,105 @@ Cc: kwolf@redhat.com, w.bumiller@proxmox.com, armbru@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Jobs in a sequential transaction should never be started with job_start
-manually. job_txn_start_seq and the sequentially called job_start will
-take care of it, 'assert'ing in case a job is already running or has
-finished.
+Only supported with completion-mode 'grouped', since it relies on a
+JobTxn to exist. This means that for now it is only available for
+{drive,blockdev}-backup transactions.
+
+Since only one job will be running at a time, bandwidth-limits can be
+applied effectively. It can also prevent overloading a host's IO
+capabilities in general.
 
 Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
 ---
- include/qemu/job.h | 12 ++++++++++++
- job.c              | 24 ++++++++++++++++++++++++
- 2 files changed, 36 insertions(+)
+ blockdev.c            | 25 ++++++++++++++++++++++---
+ qapi/transaction.json |  6 +++++-
+ 2 files changed, 27 insertions(+), 4 deletions(-)
 
-diff --git a/include/qemu/job.h b/include/qemu/job.h
-index 32aabb1c60..f7a6a0926a 100644
---- a/include/qemu/job.h
-+++ b/include/qemu/job.h
-@@ -280,6 +280,18 @@ typedef enum JobCreateFlags {
-  */
- JobTxn *job_txn_new(void);
+diff --git a/blockdev.c b/blockdev.c
+index 3848a9c8ab..3691e5e791 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -1826,7 +1826,10 @@ static void drive_backup_commit(BlkActionState *common)
+     aio_context_acquire(aio_context);
  
-+/**
-+ * Create a new transaction and set it to sequential mode, i.e. run all jobs
-+ * one after the other instead of at the same time.
-+ */
-+JobTxn *job_txn_new_seq(void);
+     assert(state->job);
+-    job_start(&state->job->job);
 +
-+/**
-+ * Helper method to start the first job in a sequential transaction to kick it
-+ * off. Other jobs will be run after this one completes.
-+ */
-+void job_txn_start_seq(JobTxn *txn);
-+
- /**
-  * Release a reference that was previously acquired with job_txn_add_job or
-  * job_txn_new. If it's the last reference to the object, it will be freed.
-diff --git a/job.c b/job.c
-index 8fecf38960..4df7c1d2ca 100644
---- a/job.c
-+++ b/job.c
-@@ -72,6 +72,8 @@ struct JobTxn {
++    if (!common->txn_props->sequential) {
++        job_start(&state->job->job);
++    }
  
-     /* Reference count */
-     int refcnt;
-+
-+    bool sequential;
- };
+     aio_context_release(aio_context);
+ }
+@@ -1927,7 +1930,9 @@ static void blockdev_backup_commit(BlkActionState *common)
+     aio_context_acquire(aio_context);
  
- /* Right now, this mutex is only needed to synchronize accesses to job->busy
-@@ -102,6 +104,25 @@ JobTxn *job_txn_new(void)
-     return txn;
+     assert(state->job);
+-    job_start(&state->job->job);
++    if (!common->txn_props->sequential) {
++        job_start(&state->job->job);
++    }
+ 
+     aio_context_release(aio_context);
+ }
+@@ -2303,6 +2308,11 @@ static TransactionProperties *get_transaction_properties(
+         props->completion_mode = ACTION_COMPLETION_MODE_INDIVIDUAL;
+     }
+ 
++    if (!props->has_sequential) {
++        props->has_sequential = true;
++        props->sequential = false;
++    }
++
+     return props;
  }
  
-+JobTxn *job_txn_new_seq(void)
-+{
-+    JobTxn *txn = job_txn_new();
-+    txn->sequential = true;
-+    return txn;
-+}
-+
-+void job_txn_start_seq(JobTxn *txn)
-+{
-+    assert(txn->sequential);
-+    assert(!txn->aborting);
-+
-+    Job *first = QLIST_FIRST(&txn->jobs);
-+    assert(first);
-+    assert(first->status == JOB_STATUS_CREATED);
-+
-+    job_start(first);
-+}
-+
- static void job_txn_ref(JobTxn *txn)
- {
-     txn->refcnt++;
-@@ -840,6 +861,9 @@ static void job_completed_txn_success(Job *job)
+@@ -2328,7 +2338,11 @@ void qmp_transaction(TransactionActionList *dev_list,
       */
-     QLIST_FOREACH(other_job, &txn->jobs, txn_list) {
-         if (!job_is_completed(other_job)) {
-+            if (txn->sequential) {
-+                job_start(other_job);
-+            }
-             return;
+     props = get_transaction_properties(props);
+     if (props->completion_mode != ACTION_COMPLETION_MODE_INDIVIDUAL) {
+-        block_job_txn = job_txn_new();
++        block_job_txn = props->sequential ? job_txn_new_seq() : job_txn_new();
++    } else if (props->sequential) {
++        error_setg(errp, "Sequential transaction mode is not supported with "
++                         "completion-mode = individual");
++        return;
+     }
+ 
+     /* drain all i/o before any operations */
+@@ -2367,6 +2381,11 @@ void qmp_transaction(TransactionActionList *dev_list,
          }
-         assert(other_job->ret == 0);
+     }
+ 
++    /* jobs in sequential txns don't start themselves on commit */
++    if (block_job_txn && props->sequential) {
++        job_txn_start_seq(block_job_txn);
++    }
++
+     /* success */
+     goto exit;
+ 
+diff --git a/qapi/transaction.json b/qapi/transaction.json
+index 15ddebdbc3..4808383088 100644
+--- a/qapi/transaction.json
++++ b/qapi/transaction.json
+@@ -84,11 +84,15 @@
+ #                   Actions will complete or fail as a group.
+ #                   See @ActionCompletionMode for details.
+ #
++# @sequential: Run the jobs in the transaction one after the other, instead
++#              of all at once. Not supported for completion-mode 'individual'.
++#
+ # Since: 2.5
+ ##
+ { 'struct': 'TransactionProperties',
+   'data': {
+-       '*completion-mode': 'ActionCompletionMode'
++       '*completion-mode': 'ActionCompletionMode',
++       '*sequential': 'bool'
+   }
+ }
+ 
 -- 
 2.20.1
 
