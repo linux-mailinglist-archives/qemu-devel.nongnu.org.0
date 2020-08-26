@@ -2,83 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 332752528B8
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 09:57:05 +0200 (CEST)
-Received: from localhost ([::1]:36650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 065382528C1
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 10:01:00 +0200 (CEST)
+Received: from localhost ([::1]:38844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAqIq-0004SY-Am
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 03:57:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56604)
+	id 1kAqMd-0005X1-3u
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 04:00:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kAqI9-0003q7-UO
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 03:56:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32952)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1kAqLn-00054H-ME
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 04:00:07 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24255
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kAqI8-0003Py-86
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 03:56:21 -0400
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1kAqLl-0003lW-0W
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 04:00:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598428579;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DO1AwVIopD8FA7wu3biFZ5SqxyKf6YLqpALSW9wBjNo=;
- b=BTIY5g7nz+5fizKOBGOxrjPrAw/F5m5BPAzMFpEOJhaCpbHqhbs7KgTkGxLp0Vn8WSBYCQ
- V9FX/MsVwWy+M5XctSndb4kikLsxvHLIcMfx01j2gxESac3VgPODo3aYjiNqUzprdgva/l
- 4UuH3laGu4IIKcEFcTodKjZ+FNrckYo=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-256-cgdfHdUDPAa4qGzpQybX-g-1; Wed, 26 Aug 2020 03:56:17 -0400
-X-MC-Unique: cgdfHdUDPAa4qGzpQybX-g-1
-Received: by mail-ej1-f71.google.com with SMTP id o18so578795ejr.14
- for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 00:56:16 -0700 (PDT)
+ s=mimecast20190719; t=1598428803;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=N4T0rD7FLGEd7DCEpFX/xo0xsyGyFv7O4AnZ00sej04=;
+ b=GTHaqwvmJyankST/gkXZqv3Nr3UZO4jZ1TdTfFbWg+ID6vW2pIVDB+DxEzA4CY8Gy7rA2K
+ iI/U6ogdmjgNBhSx2LdMUIrVBqXlEgFxgBlrYsV18uXmzY/xtWT0x/Yatnomym00NOFLip
+ 3G1VzKu8lJ5LcwX/9CyIdOigOibO/ew=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-37-G3Qa6CN_Mq-Vrs-aRHkdUw-1; Wed, 26 Aug 2020 04:00:01 -0400
+X-MC-Unique: G3Qa6CN_Mq-Vrs-aRHkdUw-1
+Received: by mail-wr1-f72.google.com with SMTP id f14so219368wrm.22
+ for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 01:00:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DO1AwVIopD8FA7wu3biFZ5SqxyKf6YLqpALSW9wBjNo=;
- b=V0WeRrs6F972imp9ha+NJKlk+UP45cZYr+OMiubIyjKMzPOZnvAkGyZKKYjnnq9vFb
- 3GofwpdvNGqtIqetIVIIxAKB6wv4KSkmKD907oQi1CJPW66AKqOouMBcigi+ffF5c+pp
- pN9GAWFihZuSqPji2LUVbOB7TYh7OPXW9cMVSZPYU/gelVZlHwnw3wMT0QRCgF5U51Og
- 5gd0Ef/TJkcghEAJsD/4sBZN3bMcn/95C45qFBQixzBpwtV0LFcQOn0a/1sZxSybEsty
- CEvSwN7wbnXbL8/ArVx2r0sVLv0jcY0f4IeEg//BHzsydOW3zhWc62OrFP9lOSeoXdUF
- uj+Q==
-X-Gm-Message-State: AOAM5315sl2HJH5vU7ISQkALW9m2iSzHvTcdmLCNYt236Xjh1sP0KuYY
- VP/CFvVZsx1jYkDlNtvod+mLKMoOoyRCIwPmxrzGcTyqHDHuT2gIX71wLbaejxEQbO2eddPDtLD
- Xch5ns1o4pD8LloFTPX20BRAY6onAy7g=
-X-Received: by 2002:a17:906:d9db:: with SMTP id
- qk27mr13660934ejb.230.1598428575872; 
- Wed, 26 Aug 2020 00:56:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwcSezMeBRiHxeztZut25hcGpbTWFSZmA485ouX3NXUFIYYCV5TMfk8sN++QJo65/0U4rdn4vq3Fc/9B7sqk/M=
-X-Received: by 2002:a17:906:d9db:: with SMTP id
- qk27mr13660930ejb.230.1598428575690; 
- Wed, 26 Aug 2020 00:56:15 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=N4T0rD7FLGEd7DCEpFX/xo0xsyGyFv7O4AnZ00sej04=;
+ b=MKb5A5T7nYfaA9hF98Aws0sTfnLFXvSNKiqPrk8HRiu4dMf3ht0fOSVLALpfP2WSHs
+ krRX3RMBg2BueHOwmIVU/kP8kwQivX4XADUdz/7hxSf+Ama8GegaG7U5+dUjcNv2AmLM
+ icZ7rkfUZS0vVTBJzCeM/ljH3uzEKk01W5rW/FwS3JQ9E1xQ5WT+cJ5KD4901uiWNRmx
+ MtmZtmdTjy1h0lefP2PPp8PaEejV0FnsyqxLuiVSZTetBX6sliSmLt6xhaSBhl301sLD
+ 8CjUcta97DrhhBULX33tnlUPqN4X/FLBJ3X5qJd8GjvhWXhYlWnbSPSNfDKoPw7roS2Z
+ h2XA==
+X-Gm-Message-State: AOAM531FlZBP3dCMZtbxxkVo/k0Eau+8lyz2fkehesMFMRxdGyKeIYxL
+ 3NvGBm9R+FNzH4QbuJ00j6donCZ1mqWueqcMmGPRzLg6T9X8d+pt04Rbto5LTpWlrhdSebX6LO8
+ Bn8uIT1PSzgLB+F4=
+X-Received: by 2002:a1c:c906:: with SMTP id f6mr6050330wmb.5.1598428800347;
+ Wed, 26 Aug 2020 01:00:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwoaLh31ASNfzR907L2WydSKufcgMZe0iaYX2mTIn5ki/5ToLYb988gFA1izz8ss3CeERhZyw==
+X-Received: by 2002:a1c:c906:: with SMTP id f6mr6050307wmb.5.1598428800156;
+ Wed, 26 Aug 2020 01:00:00 -0700 (PDT)
+Received: from localhost (trasno.trasno.org. [83.165.45.250])
+ by smtp.gmail.com with ESMTPSA id c10sm3639975wrn.24.2020.08.26.00.59.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Aug 2020 00:59:59 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH v3 50/74] migration: Rename class type checking macros
+In-Reply-To: <20200825192110.3528606-51-ehabkost@redhat.com> (Eduardo
+ Habkost's message of "Tue, 25 Aug 2020 15:20:46 -0400")
+References: <20200825192110.3528606-1-ehabkost@redhat.com>
+ <20200825192110.3528606-51-ehabkost@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+Date: Wed, 26 Aug 2020 09:59:58 +0200
+Message-ID: <874kopzvk1.fsf@secure.mitica>
 MIME-Version: 1.0
-References: <20200825222310.27176-1-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20200825222310.27176-1-mark.cave-ayland@ilande.co.uk>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Wed, 26 Aug 2020 09:56:04 +0200
-Message-ID: <CABgObfa=qLwBVbusZ1G=xZcPAnsT4HK0DzEqho=vMyaB1yCuUA@mail.gmail.com>
-Subject: Re: [PATCH] meson: don't require CONFIG_VTE for the GTK UI
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 02:45:17
+Content-Type: text/plain
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=quintela@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 03:56:58
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.958,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,43 +97,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, "Hoffmann, Gerd" <kraxel@redhat.com>
+Reply-To: quintela@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Queued, thanks.
-
-Paolo
-
-On Wed, Aug 26, 2020 at 12:23 AM Mark Cave-Ayland
-<mark.cave-ayland@ilande.co.uk> wrote:
+Eduardo Habkost <ehabkost@redhat.com> wrote:
+> Rename the macros to make them consistent with the MIGRATION_OBJ
+> macro name.
 >
-> Prevously CONFIG_VTE was not required to build QEMU with GTK UI support as not
-> all platforms have VTE available (in particular Windows).
+> This will make future conversion to OBJECT_DECLARE* easier.
 >
-> Remove this requirement from the meson build system to enable QEMU to be built
-> with GTK UI support for Windows once again.
->
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 > ---
->  ui/meson.build | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Changes series v2 -> v3: new patch added to series v3
 >
-> diff --git a/ui/meson.build b/ui/meson.build
-> index 018c5698bf..a81d5c259c 100644
-> --- a/ui/meson.build
-> +++ b/ui/meson.build
-> @@ -42,7 +42,7 @@ if config_host.has_key('CONFIG_CURSES')
->    ui_modules += {'curses' : curses_ss}
->  endif
->
-> -if config_host.has_key('CONFIG_GTK') and config_host.has_key('CONFIG_VTE')
-> +if config_host.has_key('CONFIG_GTK')
->    softmmu_ss.add(when: 'CONFIG_WIN32', if_true: files('win32-kbd-hook.c'))
->
->    gtk_ss = ss.source_set()
-> --
-> 2.20.1
->
+> ---
+> Cc: Juan Quintela <quintela@redhat.com>
+> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> Cc: qemu-devel@nongnu.org
+
+not used anywhere, so if it makes your life easier.
+
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
 
