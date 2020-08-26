@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B979252C8D
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 13:37:50 +0200 (CEST)
-Received: from localhost ([::1]:39554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E232252C93
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 13:38:48 +0200 (CEST)
+Received: from localhost ([::1]:44062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAtkT-0008PW-G4
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 07:37:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53824)
+	id 1kAtlP-0001or-NA
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 07:38:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kAtiy-00079j-HS
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:36:16 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47257
+ id 1kAtkM-0000k2-Kf
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:37:42 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52108
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kAtiw-00072J-HI
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:36:16 -0400
+ id 1kAtkK-000796-PN
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:37:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598441773;
+ s=mimecast20190719; t=1598441859;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=XgMEYJQyjSZzggV1LelfBT8sKxR8y5RBUh6LVsQ+OQ8=;
- b=gsRgTwFyKuJN7zknKrPZhRjdUx+W5tGhzhSHmX0lrxj+iwX+tyBzjTl3xhlK4Zqqx5QDQF
- xbFox3/yPM7W6oOs4kMxI8ntoWr0Gi6KI+uh46rblNHvOXGga0rLcpjLBY8MEuF8DTGmd8
- 3MEyEyj6gfzpOrdZu0fAnbObiR5NtaQ=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-557-fvxtE61LNCCVSF2FtNQ9QA-1; Wed, 26 Aug 2020 07:36:09 -0400
-X-MC-Unique: fvxtE61LNCCVSF2FtNQ9QA-1
-Received: by mail-ej1-f70.google.com with SMTP id n12so837340ejz.6
- for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 04:36:09 -0700 (PDT)
+ bh=C7/snZh4ahmdZ3YwhtJy1h9hF34X/rl5C2+fHUXg7AU=;
+ b=SGSEoStygCY8tX3CHXytf77Qjyj6amfY+2jPBawsQco9SYvs75Apa95boKvCUmubfO3Nb9
+ VVxuqUWP4sTMmj3RVSgOdZdRA78hT7lp10kAoTrO2R3YcPIZGXZWbcBBijZHnYSk2xDiPp
+ S/KIFBD9SNPnKDoLZm+L3tyrYn3kfzw=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-568-Ygg2SC8qOe-eAlAOIs6R5w-1; Wed, 26 Aug 2020 07:37:34 -0400
+X-MC-Unique: Ygg2SC8qOe-eAlAOIs6R5w-1
+Received: by mail-ed1-f72.google.com with SMTP id w26so579280edq.1
+ for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 04:37:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=XgMEYJQyjSZzggV1LelfBT8sKxR8y5RBUh6LVsQ+OQ8=;
- b=TNPfLErgdJdILrFL99H7kKSyOX1fnZCyY3DuALiWHz+/E9E0YDgDk4GFFJ1pkvaiF8
- fWYoXwJnXHxGgSf3K10wJ3V4hvlrm4F95oXUGf61IV0h/0dmLXk1ICfsi9hFBjlukQPH
- 0KP5dcFxMW0KKOR6Fn2yLN/+hPQ7ieXhFw4UAROl7s2uGpRxl4MP56ks01Rv1So277UR
- ydAagGVGWAGE5SBDVPReZp4ygdvnoqb7DWxrhDPdK34W4TxeR98BHEz76lCKazFAwPfO
- lFGcm1TV18Ty+VmmlpzJJqrzpAVHqeiZowUZsm9JiUrb7+Co9WYIzEtPX+QJk2jSpyVw
- Xwbg==
-X-Gm-Message-State: AOAM5337/3W/A+SW1x1FYsgKuOwL2/ilEGc4H7AkEkR01LhrKn+oIhCj
- JUeGSX9+fEO0EMawG+mDPwS7IT6aoUP8Hk1Hb3D8GFJwe6qA630LcCXz0kw3sAhLZ4bHCclGz89
- 7YHm2d+Ys2w/R7p9Rbl/KMVoVUFjEfIc=
-X-Received: by 2002:a50:9f0c:: with SMTP id b12mr13985824edf.129.1598441768703; 
- Wed, 26 Aug 2020 04:36:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzw55gC/x915vFRa5Rv07iy1PcoHhlvN+JguiUxXryhjQNBvI0Xde6hve72qxoII3QbnaHvOJhvE+nJA6k6D7U=
-X-Received: by 2002:a50:9f0c:: with SMTP id b12mr13985802edf.129.1598441768371; 
- Wed, 26 Aug 2020 04:36:08 -0700 (PDT)
+ bh=C7/snZh4ahmdZ3YwhtJy1h9hF34X/rl5C2+fHUXg7AU=;
+ b=CNsF3irKefwvEvtNWgHoEddvp6DXLDQNKIOFq0O1wHizuao/unn4tjK/1d0V7ZWVM4
+ dLMEhfMSAWA4WdBUZ35y1NSD7xH3yA6kApqunnFZcAaDyId2YfWLzZSaOIYCMOSz1DJV
+ BWDH/XLueaXn/+D/MHbtxu29pm2MyDcR0kXT5MMqDWASy+0zOwXugMlaHwSC2pBupmeo
+ R4LZ7cReU4kPaqhBBkP5MOg2rh6q2G0UJWQszUfcy3OxKc9wyGtXoMc8aK4N9L6brQuU
+ gt/GyqIyGhZ3PByswiVdVQ6N1GUBxBM4uG6/oBCwRZSNOfA+GHZj7HDphNljcwmwoQL2
+ EvlA==
+X-Gm-Message-State: AOAM530K58rl/pU8yPoDub5P2eUm4+6X+ocGl0tUmZBrQDexxEd1j7mR
+ xH9sMGY+sXZR7CXcpHJvU28L2SnMmS6qDHgcmzwM9KkrP1ciAcK0ma7IIswoz8mTir8wK91V2Nj
+ zSJTXbzHc7pT3F1EW/pzf2Tr6+dVQ3GM=
+X-Received: by 2002:a17:906:130a:: with SMTP id
+ w10mr555557ejb.106.1598441853730; 
+ Wed, 26 Aug 2020 04:37:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyYeTCf+IPfD0BVkSN3GsPoxMw5JBUm0iMjLhyxlQ8QoPPfSmPReojmXEmOHql8+CWH0xtuXnJd4JuTj1Kqsig=
+X-Received: by 2002:a17:906:130a:: with SMTP id
+ w10mr555540ejb.106.1598441853551; 
+ Wed, 26 Aug 2020 04:37:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <40710b94-094f-f91a-6ddb-94e51199a8c3@vivier.eu>
- <20200826084442.GH168515@redhat.com>
- <cabd3284-bca8-07ff-e0bc-22ba41df7298@vivier.eu>
- <CABgObfbHtkmp0C5nN+kyAr2a80eRO3LRYa9=MwVqME0O6XMHWQ@mail.gmail.com>
- <9c4310b6-c9fc-91d6-08c3-2c5b5140b1b9@vivier.eu>
-In-Reply-To: <9c4310b6-c9fc-91d6-08c3-2c5b5140b1b9@vivier.eu>
+References: <20200826110419.528931-1-marcandre.lureau@redhat.com>
+In-Reply-To: <20200826110419.528931-1-marcandre.lureau@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Wed, 26 Aug 2020 13:35:55 +0200
-Message-ID: <CABgObfbUEm5ZpMUysns2WqEKe_QW2+L3qJ737JaHbBkhNZDOZw@mail.gmail.com>
-Subject: Re: linux-user static build broken
-To: Laurent Vivier <laurent@vivier.eu>
+Date: Wed, 26 Aug 2020 13:37:21 +0200
+Message-ID: <CABgObfa1Xa_2EBNHo9=XOYEWFUBqUhKmu6kDfsiE1+hMTwdDvA@mail.gmail.com>
+Subject: Re: [PATCH v3 0/8] meson: mingw installation fixes & nsis conversion
+To: Marc-Andre Lureau <marcandre.lureau@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000cc62da05adc639f2"
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+Content-Type: multipart/alternative; boundary="000000000000e01da705adc63e6e"
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 03:56:58
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 01:10:45
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -94,190 +92,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: sw <sw@weilnetz.de>, berrange@redhat.com,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000cc62da05adc639f2
+--000000000000e01da705adc63e6e
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Let me take a look tonight as I plan to prepare a pull request.
+Since behavioral changes should be reviewed separately let's just include
+v2 first.
 
 Paolo
 
-Il mer 26 ago 2020, 12:53 Laurent Vivier <laurent@vivier.eu> ha scritto:
+Il mer 26 ago 2020, 13:04 <marcandre.lureau@redhat.com> ha scritto:
 
-> Le 26/08/2020 =C3=A0 11:08, Paolo Bonzini a =C3=A9crit :
-> > $ORIGIN is a special literal used by ld.so. It's probably fixed by the
-> > same patch that was posted for msys.
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 >
-> If I remove the "-Wl,-rpath,RIGIN/" from the command line to build
-> qemu-m68k, it works again.
+> Hi,
 >
-> What the patch name or series?
+> The following patches fix installation path when cross-compiling Windows
+> version, and move the NSIS build rule to meson.
 >
-> Thanks,
-> Laurent
+> v3:
+>  - change qemu suffix handling, make /-separator implicit
+>  - use qemu suffix to build qemu_docdir, as --help says
+>  - use / to construct qemu directory variables in meson
+>  - add a few signed-off from Daniel
 >
-> > Paolo
-> >
-> > Il mer 26 ago 2020, 10:51 Laurent Vivier <laurent@vivier.eu
-> > <mailto:laurent@vivier.eu>> ha scritto:
-> >
-> >     Le 26/08/2020 =C3=A0 10:44, Daniel P. Berrang=C3=A9 a =C3=A9crit :
-> >     > On Tue, Aug 25, 2020 at 10:36:13PM +0200, Laurent Vivier wrote:
-> >     >> Hi,
-> >     >>
-> >     >> since we have switched to meson, the statically linked binaries
-> >     of qemu
-> >     >> linux-user are broken:
-> >     >>
-> >     >> cd $OBJ
-> >     >> $SRC/configure --static --target-list=3Dm68k-linux-user
-> >     >> make
-> >     >> ./qemu-m68k
-> >     >> Segmentation fault (core dumped)
-> >     >>
-> >     >> Program received signal SIGSEGV, Segmentation fault.
-> >     >> 0x00007ffff7bd6833 in __dcigettext ()
-> >     >> (gdb) bt
-> >     >> #0  0x00007ffff7bd6833 in __dcigettext ()
-> >     >> #1  0x00007ffff7bd5352 in __assert_fail ()
-> >     >> #2  0x00007ffff7c4d74c in _dl_relocate_static_pie ()
-> >     >> #3  0x00007ffff7bc713e in __libc_start_main ()
-> >     >> #4  0x00007ffff7a0029e in _start ()
-> >     >>
-> >     >> If I build with --disable-pie it works again.
-> >     >>
-> >     >> Any idea?
-> >     >
-> >     > I'd suggest checking the compiler args used with v5.1.0 vs git
-> master
-> >     > and see if any flags related to PIE or similar changed. I already
-> >     found
-> >     > one bug wrt PIE on Windows builds this way.
-> >     >
-> >     > Regards,
-> >     > Daniel
-> >     >
-> >
-> >     It's what I'm doing.
-> >
-> >     There are both "--static-pie" and "--pie" on the new command line,
-> but
-> >     keeping only the first doesn't fix the problem.
-> >
-> >     There is also a strange '-Wl,-rpath,RIGIN/' that would mean "make" =
-is
-> >     not using $(ORIGIN) but $ORIGIN...
-> >
-> >     Thanks,
-> >     Laurent
-> >
+> v2:
+>  - replaced the shell script by a python version
+>  - add copyright/license for the new python script
+>
+> Marc-Andr=C3=A9 Lureau (8):
+>   configure: rename confsuffix option
+>   configure: always /-seperate directory from qemu_suffix
+>   configure: build docdir like other suffixed directories
+>   meson: pass qemu_suffix option
+>   meson: use meson datadir instead of qemu_datadir
+>   meson: pass docdir option
+>   meson: use meson mandir instead of qemu_mandir
+>   meson: add NSIS building
+>
+>  Makefile                           | 56 ---------------------
+>  configure                          | 27 ++++++-----
+>  contrib/vhost-user-gpu/meson.build |  2 +-
+>  docs/meson.build                   |  4 +-
+>  meson.build                        | 34 +++++++++++--
+>  meson_options.txt                  |  4 ++
+>  pc-bios/descriptors/meson.build    |  2 +-
+>  pc-bios/keymaps/meson.build        |  6 +--
+>  pc-bios/meson.build                |  2 +-
+>  scripts/nsis.py                    | 78 ++++++++++++++++++++++++++++++
+>  tools/virtiofsd/meson.build        |  2 +-
+>  trace/meson.build                  |  2 +-
+>  12 files changed, 138 insertions(+), 81 deletions(-)
+>  create mode 100644 scripts/nsis.py
+>
+> --
+> 2.26.2
+>
 >
 >
 
---000000000000cc62da05adc639f2
+--000000000000e01da705adc63e6e
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">Let me take a look tonight as I plan to prepare a pull re=
-quest.<div dir=3D"auto"><br></div><div dir=3D"auto">Paolo</div></div><br><d=
-iv class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Il mer 26 ag=
-o 2020, 12:53 Laurent Vivier &lt;<a href=3D"mailto:laurent@vivier.eu">laure=
-nt@vivier.eu</a>&gt; ha scritto:<br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Le=
- 26/08/2020 =C3=A0 11:08, Paolo Bonzini a =C3=A9crit=C2=A0:<br>
-&gt; $ORIGIN is a special literal used by ld.so. It&#39;s probably fixed by=
- the<br>
-&gt; same patch that was posted for msys.<br>
+<div dir=3D"auto">Since behavioral changes should be reviewed separately le=
+t&#39;s just include v2 first.<div dir=3D"auto"><br></div><div dir=3D"auto"=
+>Paolo</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"=
+gmail_attr">Il mer 26 ago 2020, 13:04  &lt;<a href=3D"mailto:marcandre.lure=
+au@redhat.com">marcandre.lureau@redhat.com</a>&gt; ha scritto:<br></div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
+ccc solid;padding-left:1ex">From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mai=
+lto:marcandre.lureau@redhat.com" target=3D"_blank" rel=3D"noreferrer">marca=
+ndre.lureau@redhat.com</a>&gt;<br>
 <br>
-If I remove the &quot;-Wl,-rpath,RIGIN/&quot; from the command line to buil=
-d<br>
-qemu-m68k, it works again.<br>
+Hi,<br>
 <br>
-What the patch name or series?<br>
-<br>
-Thanks,<br>
-Laurent<br>
-<br>
-&gt; Paolo<br>
-&gt; <br>
-&gt; Il mer 26 ago 2020, 10:51 Laurent Vivier &lt;<a href=3D"mailto:laurent=
-@vivier.eu" target=3D"_blank" rel=3D"noreferrer">laurent@vivier.eu</a><br>
-&gt; &lt;mailto:<a href=3D"mailto:laurent@vivier.eu" target=3D"_blank" rel=
-=3D"noreferrer">laurent@vivier.eu</a>&gt;&gt; ha scritto:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Le 26/08/2020 =C3=A0 10:44, Daniel P. Berrang=C3=A9=
- a =C3=A9crit=C2=A0:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; On Tue, Aug 25, 2020 at 10:36:13PM +0200, Laur=
-ent Vivier wrote:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; Hi,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; since we have switched to meson, the stati=
-cally linked binaries<br>
-&gt;=C2=A0 =C2=A0 =C2=A0of qemu<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; linux-user are broken:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; cd $OBJ<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; $SRC/configure --static --target-list=3Dm6=
-8k-linux-user<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; make<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; ./qemu-m68k<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; Segmentation fault (core dumped)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; Program received signal SIGSEGV, Segmentat=
-ion fault.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; 0x00007ffff7bd6833 in __dcigettext ()<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; (gdb) bt<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; #0=C2=A0 0x00007ffff7bd6833 in __dcigettex=
-t ()<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; #1=C2=A0 0x00007ffff7bd5352 in __assert_fa=
-il ()<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; #2=C2=A0 0x00007ffff7c4d74c in _dl_relocat=
-e_static_pie ()<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; #3=C2=A0 0x00007ffff7bc713e in __libc_star=
-t_main ()<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; #4=C2=A0 0x00007ffff7a0029e in _start ()<b=
-r>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; If I build with --disable-pie it works aga=
-in.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; Any idea?<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; I&#39;d suggest checking the compiler args use=
-d with v5.1.0 vs git master<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; and see if any flags related to PIE or similar=
- changed. I already<br>
-&gt;=C2=A0 =C2=A0 =C2=A0found<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; one bug wrt PIE on Windows builds this way.<br=
+The following patches fix installation path when cross-compiling Windows<br=
 >
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; Regards,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; Daniel<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0It&#39;s what I&#39;m doing.<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0There are both &quot;--static-pie&quot; and &quot;-=
--pie&quot; on the new command line, but<br>
-&gt;=C2=A0 =C2=A0 =C2=A0keeping only the first doesn&#39;t fix the problem.=
+version, and move the NSIS build rule to meson.<br>
 <br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0There is also a strange &#39;-Wl,-rpath,RIGIN/&#39;=
- that would mean &quot;make&quot; is<br>
-&gt;=C2=A0 =C2=A0 =C2=A0not using $(ORIGIN) but $ORIGIN...<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Thanks,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Laurent<br>
-&gt; <br>
+v3:<br>
+=C2=A0- change qemu suffix handling, make /-separator implicit<br>
+=C2=A0- use qemu suffix to build qemu_docdir, as --help says<br>
+=C2=A0- use / to construct qemu directory variables in meson<br>
+=C2=A0- add a few signed-off from Daniel<br>
+<br>
+v2:<br>
+=C2=A0- replaced the shell script by a python version<br>
+=C2=A0- add copyright/license for the new python script<br>
+<br>
+Marc-Andr=C3=A9 Lureau (8):<br>
+=C2=A0 configure: rename confsuffix option<br>
+=C2=A0 configure: always /-seperate directory from qemu_suffix<br>
+=C2=A0 configure: build docdir like other suffixed directories<br>
+=C2=A0 meson: pass qemu_suffix option<br>
+=C2=A0 meson: use meson datadir instead of qemu_datadir<br>
+=C2=A0 meson: pass docdir option<br>
+=C2=A0 meson: use meson mandir instead of qemu_mandir<br>
+=C2=A0 meson: add NSIS building<br>
+<br>
+=C2=A0Makefile=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 56 ---------------------<br>
+=C2=A0configure=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 27 ++++++-----<br>
+=C2=A0contrib/vhost-user-gpu/meson.build |=C2=A0 2 +-<br>
+=C2=A0docs/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0|=C2=A0 4 +-<br>
+=C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 34 +++++++++++--<br>
+=C2=A0meson_options.txt=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 |=C2=A0 4 ++<br>
+=C2=A0pc-bios/descriptors/meson.build=C2=A0 =C2=A0 |=C2=A0 2 +-<br>
+=C2=A0pc-bios/keymaps/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 6 +--<=
+br>
+=C2=A0pc-bios/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 |=C2=A0 2 +-<br>
+=C2=A0scripts/nsis.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 | 78 ++++++++++++++++++++++++++++++<br>
+=C2=A0tools/virtiofsd/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 +-<b=
+r>
+=C2=A0trace/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 |=C2=A0 2 +-<br>
+=C2=A012 files changed, 138 insertions(+), 81 deletions(-)<br>
+=C2=A0create mode 100644 scripts/nsis.py<br>
+<br>
+-- <br>
+2.26.2<br>
+<br>
 <br>
 </blockquote></div>
 
---000000000000cc62da05adc639f2--
+--000000000000e01da705adc63e6e--
 
 
