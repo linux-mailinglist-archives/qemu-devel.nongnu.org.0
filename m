@@ -2,74 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21152252CA5
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 13:42:27 +0200 (CEST)
-Received: from localhost ([::1]:48788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BE86252CAD
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 13:45:05 +0200 (CEST)
+Received: from localhost ([::1]:58934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAtov-0003yq-VN
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 07:42:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56244)
+	id 1kAtrU-00088H-2J
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 07:45:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kAto6-0003OM-Ep
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:41:34 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37968
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kAto4-0007xP-8o
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:41:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598442091;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wqgZ/KS/GBGL8lK1BMW7XcnBp3uIBcfE+5gcV/8Ehbg=;
- b=CDxV0n+1h6UhuF6YWiI0jbOKUQ9+QRgY6BGZR5qS3Gqs8v3Cy8IxYk/GswinCXwVrMztvL
- mAeFGNH4VM6PzoCLAAiCm0CbtHq1PpWdYmFgGpJO4o8oTCHR3rpBK4543ox1MKBbJPTrgW
- e5k1OKQ9W6KtyW+MKe8w94DOB34DiT8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-217-UTpE2HEkPN6vVpLN1UvKZg-1; Wed, 26 Aug 2020 07:41:29 -0400
-X-MC-Unique: UTpE2HEkPN6vVpLN1UvKZg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3F5718B9EC2;
- Wed, 26 Aug 2020 11:41:27 +0000 (UTC)
-Received: from gondolin (ovpn-113-202.ams2.redhat.com [10.36.113.202])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 733195C1BB;
- Wed, 26 Aug 2020 11:41:21 +0000 (UTC)
-Date: Wed, 26 Aug 2020 13:41:18 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Li Qiang <liq3ea@gmail.com>
-Subject: Re: [PATCH 02/12] hw/vfio/ap: Plug memleak in vfio_ap_get_group()
-Message-ID: <20200826134118.07fdec61.cohuck@redhat.com>
-In-Reply-To: <CAKXe6S+MV3fyCoyDbDV01CbuGoR8JO3e1=VAh4OFP5bKUVMXkA@mail.gmail.com>
-References: <20200814160241.7915-1-pannengyuan@huawei.com>
- <20200814160241.7915-3-pannengyuan@huawei.com>
- <CAKXe6S+MV3fyCoyDbDV01CbuGoR8JO3e1=VAh4OFP5bKUVMXkA@mail.gmail.com>
-Organization: Red Hat GmbH
+ (Exim 4.90_1)
+ (envelope-from <srs0=n7r+=ce=lse.epita.fr=cesar.belley@cri.epita.fr>)
+ id 1kAtp9-0004Zx-Cq
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:42:39 -0400
+Received: from gate-2.cri.epita.net ([163.5.55.20]:47864
+ helo=mail-2.srv.cri.epita.fr)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <srs0=n7r+=ce=lse.epita.fr=cesar.belley@cri.epita.fr>)
+ id 1kAtp6-00084f-E9
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 07:42:38 -0400
+Received: from MattGorko-Laptop.home
+ (lfbn-idf1-1-1395-83.w90-79.abo.wanadoo.fr [90.79.87.83])
+ (Authenticated sender: cesar.belley)
+ by mail-2.srv.cri.epita.fr (Postfix) with ESMTPSA id F02253FAC6;
+ Wed, 26 Aug 2020 13:42:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=lse.epita.fr; s=cri;
+ t=1598442151; bh=JaIrakQXRvTkIGTF3eoK9BXnZfzz+BeOlV61S3pyDtQ=;
+ h=From:To:Cc:Subject:Date:From;
+ b=WNdMBLY+vZ7fc+0cylWbs75+vzwoa1N/nK+dsEBGFlcpw2pCvQyImWWkfu0/aBVL6
+ G5cnDouFWdxdraT16yAGqxTrdunr4M2aFPS5t+Iq+UpLIIJmCfCm2Jem5DfM+qfURI
+ bALb3XyFFKwrp9lgwa4dFJXqOctVW/mwdpeIrKPI=
+From: =?UTF-8?q?C=C3=A9sar=20Belley?= <cesar.belley@lse.epita.fr>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 00/12] Introduce USB U2F key device
+Date: Wed, 26 Aug 2020 13:41:57 +0200
+Message-Id: <20200826114209.28821-1-cesar.belley@lse.epita.fr>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=cohuck@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 03:56:58
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=163.5.55.20;
+ envelope-from=srs0=n7r+=ce=lse.epita.fr=cesar.belley@cri.epita.fr;
+ helo=mail-2.srv.cri.epita.fr
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 07:42:31
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,39 +65,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tony Krowiak <akrowiak@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- zhanghailiang <zhang.zhanghailiang@huawei.com>,
- Pierre Morel <pmorel@linux.ibm.com>, Pan Nengyuan <pannengyuan@huawei.com>,
- Qemu Developers <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Euler Robot <euler.robot@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Chen Qun <kuhn.chenqun@huawei.com>
+Cc: =?UTF-8?q?C=C3=A9sar=20Belley?= <cesar.belley@lse.epita.fr>,
+ kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 26 Aug 2020 19:03:37 +0800
-Li Qiang <liq3ea@gmail.com> wrote:
+This patch series adds the U2F dedicated support to Qemu through a USB
+U2F key device that can operate in two modes: pass-through and emulated.
 
-> Pan Nengyuan <pannengyuan@huawei.com> =E4=BA=8E2020=E5=B9=B48=E6=9C=8814=
-=E6=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=886:29=E5=86=99=E9=81=93=EF=BC=
-=9A
-> >
-> > Missing g_error_free() in vfio_ap_get_group() error path. Fix that.
-> >
-> > Reported-by: Euler Robot <euler.robot@huawei.com>
-> > Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com> =20
->=20
-> Reviewed-by: Li Qiang <liq3ea@gmail.com>
->=20
-> I see Cornelia Huck has merged this in his tree.
+This work is also part of the GSoC program of this year and follows the
+proposal I made for the 'Virtual FIDO2/U2F security key' subject,
+suggested and mentored by Gerd Hoffmann.
 
-s/his/her/ :)
+U2F is an open authentication standard. It enables relying parties
+exposed to the internet to offer a strong second factor option for end
+user authentication.
 
-> Don't know whether this series will go separate maintainer's tree or
-> as go only one maintainer's tree(maybe Paolo's misc tree?).
+The standard brings many advantages to both parties, client and server,
+allowing to reduce over-reliance on passwords, it increases
+authentication security and simplifies passwords.
 
-Whatever works best, but I still plan to send a pull req this week to
-flush out my queue.
+The second factor is materialized by a device implementing the U2F
+protocol. In case of a USB U2F security key, it is a USB HID device
+that implements the U2F protocol.
+
+The USB U2F key device given in this patch series allows to add guest
+U2F security keys via two possible modes: pass-through and emulated.
+
+The pass-through mode consists of passing all requests made from the
+guest to the physical security key connected to the host machine and
+vice versa. In addition, the dedicated pass-through allows to have a
+U2F security key shared on several guests which is not possible with
+a simple host device assignment pass-through.
+
+The emulated mode consists of completely emulating the behavior of an
+U2F device through software part. Libu2f-emu is used for that.
+
+Regards,
+César Belley
+
+History:
+
+v1 -> v2:
+- change build recipes to integrate meson build system
+
+v2 -> v3:
+- use meson to check libu2f-emu dependency
+- squash the two patchs that add u2f key to the build system
+
+César Belley (12):
+  hw/usb: Regroup USB HID protocol values
+  docs: Add USB U2F key device documentation
+  hw/usb: Add U2F key base class
+  hw/usb: Add U2F key base class implementation
+  hw/usb: Add U2F key passthru mode
+  hw/usb: Add U2F key emulated mode
+  meson: Add U2F key to meson
+  docs/system: Add U2F key to the USB devices examples
+  docs/qdev-device-use.txt: Add USB U2F key to the QDEV devices examples
+  scripts: Add u2f-setup-gen script
+  hw/usb: Add U2F device check to passthru mode
+  hw/usb: Add U2F device autoscan to passthru mode
+
+ configure                |   8 +-
+ docs/qdev-device-use.txt |   1 +
+ docs/system/usb.rst      |   3 +
+ docs/u2f.txt             | 110 ++++++++
+ hw/usb/Kconfig           |   5 +
+ hw/usb/dev-hid.c         |  26 +-
+ hw/usb/dev-wacom.c       |  12 +-
+ hw/usb/meson.build       |   7 +
+ hw/usb/u2f-emulated.c    | 405 ++++++++++++++++++++++++++++
+ hw/usb/u2f-passthru.c    | 551 +++++++++++++++++++++++++++++++++++++++
+ hw/usb/u2f.c             | 352 +++++++++++++++++++++++++
+ hw/usb/u2f.h             |  92 +++++++
+ include/hw/usb/hid.h     |  17 ++
+ meson.build              |   7 +
+ meson_options.txt        |   1 +
+ scripts/u2f-setup-gen.py | 170 ++++++++++++
+ 16 files changed, 1738 insertions(+), 29 deletions(-)
+ create mode 100644 docs/u2f.txt
+ create mode 100644 hw/usb/u2f-emulated.c
+ create mode 100644 hw/usb/u2f-passthru.c
+ create mode 100644 hw/usb/u2f.c
+ create mode 100644 hw/usb/u2f.h
+ create mode 100644 include/hw/usb/hid.h
+ create mode 100755 scripts/u2f-setup-gen.py
+
+-- 
+2.28.0
 
 
