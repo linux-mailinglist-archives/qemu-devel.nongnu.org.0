@@ -2,89 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 541A0252EA8
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 14:28:26 +0200 (CEST)
-Received: from localhost ([::1]:37888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BD12252EBA
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 14:33:07 +0200 (CEST)
+Received: from localhost ([::1]:43542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAuXR-0002XD-EM
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 08:28:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39542)
+	id 1kAuby-00053G-4q
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 08:33:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kAuWE-00023H-JU
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 08:27:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32252)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kAuWB-0005Pq-UP
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 08:27:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598444825;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=rkkQI/wYXENlCW1Jvqq6bXzYIJuw8NEg9m3IFD6BwCs=;
- b=hVeJjHhLORhsrr3dhEKoGSAT1FqsOU7bQUC1/R0Dwe4W8gtL8jDAYZIR7Hag4mr/Zxe6+J
- 4I4Oksl2GMqVqv6L9+dFAWoA80QilFLsV8J/XlSq4aVPEGH39vdHit0wUbYGYMfI/KWe09
- P+3q5yrCk587SrZxoqDpRnwBpfpOsLY=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-390-rIY7T5n3O2KyXi9MHBse8A-1; Wed, 26 Aug 2020 08:27:04 -0400
-X-MC-Unique: rIY7T5n3O2KyXi9MHBse8A-1
-Received: by mail-wm1-f72.google.com with SMTP id g79so847611wmg.0
- for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 05:27:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=rkkQI/wYXENlCW1Jvqq6bXzYIJuw8NEg9m3IFD6BwCs=;
- b=RNCl9TJhVRWYW1OYL3arWtS5YRggD1i58tLYjF9EmhROUcQj0Kqri3tIm41hW2D2CU
- q+JIpP0k/MHhQ7Y9x4WeIZPZt1jmqlRILOMawTrulC6HThhpU0t2J/oDFufjzHXDHuYb
- 0vtxH5kFl4cb02LSX1QooXeiT5uGBroZsTqzouX446SD0x2dnauF10uR6dQNzeXbh6Rd
- yvZWWDv+Dy3p4kuoDyPVNtzUNeoJEFkoi9Z8mXrvZ7iZr9JzGEM4+jEI3zOQ7NVFdI+z
- OXSTT9VWYEncxGgSkVpFcI1fEkUL9ByEoZ3YX3bpXT//ShiEwB3G8J3r0X6gD0yA6Ool
- TLqw==
-X-Gm-Message-State: AOAM530H31sELUf7QgYcKhnZO+ELHg85rrD9ndK25vnZCbdDXT24EJzw
- EJbLUYIIezDnMQQdUoS4nOvyxc37Kc3k6IpXTbxhJfsqHlmKExmI+w+hnuXd6cyzzhdkfB1FQMc
- NQhZ6I677FNLcyj0=
-X-Received: by 2002:a5d:4dcb:: with SMTP id f11mr16012165wru.9.1598444822774; 
- Wed, 26 Aug 2020 05:27:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw0xbC9dzkRh8kdZb85jaCpn6wU2yctKY2q7jCpoCcHlZEv5/EKsYUsT9W3INNqvjYLG61L9g==
-X-Received: by 2002:a5d:4dcb:: with SMTP id f11mr16012138wru.9.1598444822448; 
- Wed, 26 Aug 2020 05:27:02 -0700 (PDT)
-Received: from redhat.com (bzq-109-67-46-169.red.bezeqint.net. [109.67.46.169])
- by smtp.gmail.com with ESMTPSA id v4sm4912619wml.46.2020.08.26.05.27.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Aug 2020 05:27:01 -0700 (PDT)
-Date: Wed, 26 Aug 2020 08:26:58 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH v3] virtio-rng: return available data with O_NONBLOCK
-Message-ID: <20200826082613-mutt-send-email-mst@kernel.org>
-References: <20200811142821.12323-1-mwilck@suse.com>
- <4ae4f348-c186-f7e4-f7e3-b1f1e4a4b408@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kAua4-0003ow-Mw
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 08:31:08 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57998)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kAua0-0005yX-6w
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 08:31:08 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kAuZx-0003Yg-Ri
+ for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 12:31:01 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B38CE2E80DC
+ for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 12:31:01 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <4ae4f348-c186-f7e4-f7e3-b1f1e4a4b408@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 06:53:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 26 Aug 2020 12:19:48 -0000
+From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1883984@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Fix Released; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu; 
+ component=main; status=Fix Committed; importance=Medium;
+ assignee=None; 
+X-Launchpad-Bug-Tags: verification-done verification-done-focal
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: bruno-clisp janitor nhfbeebe paelzer rth tjaalton
+ ubuntu-sru-bot
+X-Launchpad-Bug-Reporter: Nelson H F Beebe (nhfbeebe)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
+ =?utf-8?q?=29?=
+References: <159243063748.16697.11009205973276249282.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159844438899.1756.14534341872365500187.malone@chaenomeles.canonical.com>
+Subject: [Bug 1883984] Re: QEMU S/390x sqxbr (128-bit IEEE 754 square root)
+ crashes qemu-system-s390x
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="99c2d833c8d727fd05148486920aca032e908071"; Instance="production"
+X-Launchpad-Hash: bba5aef87dc3dd5a85881d60c697b38db42fca08
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 07:50:40
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -93,179 +81,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Amit Shah <amit@kernel.org>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, virtualization@lists.linux-foundation.org,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>, mwilck@suse.com
+Reply-To: Bug 1883984 <1883984@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 11, 2020 at 04:42:32PM +0200, Laurent Vivier wrote:
-> On 11/08/2020 16:28, mwilck@suse.com wrote:
-> > From: Martin Wilck <mwilck@suse.com>
-> > 
-> > If a program opens /dev/hwrng with O_NONBLOCK and uses poll() and
-> > non-blocking read() to retrieve random data, it ends up in a tight
-> > loop with poll() always returning POLLIN and read() returning EAGAIN.
-> > This repeats forever until some process makes a blocking read() call.
-> > The reason is that virtio_read() always returns 0 in non-blocking mode,
-> > even if data is available. Worse, it fetches random data from the
-> > hypervisor after every non-blocking call, without ever using this data.
-> > 
-> > The following test program illustrates the behavior and can be used
-> > for testing and experiments. The problem will only be seen if all
-> > tasks use non-blocking access; otherwise the blocking reads will
-> > "recharge" the random pool and cause other, non-blocking reads to
-> > succeed at least sometimes.
-> > 
-> > /* Whether to use non-blocking mode in a task, problem occurs if CONDITION is 1 */
-> > //#define CONDITION (getpid() % 2 != 0)
-> > 
-> > static volatile sig_atomic_t stop;
-> > static void handler(int sig __attribute__((unused))) { stop = 1; }
-> > 
-> > static void loop(int fd, int sec)
-> > {
-> > 	struct pollfd pfd = { .fd = fd, .events  = POLLIN, };
-> > 	unsigned long errors = 0, eagains = 0, bytes = 0, succ = 0;
-> > 	int size, rc, rd;
-> > 
-> > 	srandom(getpid());
-> > 	if (CONDITION && fcntl(fd, F_SETFL, fcntl(fd, F_GETFL) | O_NONBLOCK) == -1)
-> > 		perror("fcntl");
-> > 	size = MINBUFSIZ + random() % (MAXBUFSIZ - MINBUFSIZ + 1);
-> > 
-> > 	for(;;) {
-> > 		char buf[size];
-> > 
-> > 		if (stop)
-> > 			break;
-> > 		rc = poll(&pfd, 1, sec);
-> > 		if (rc > 0) {
-> > 			rd = read(fd, buf, sizeof(buf));
-> > 			if (rd == -1 && errno == EAGAIN)
-> > 				eagains++;
-> > 			else if (rd == -1)
-> > 				errors++;
-> > 			else {
-> > 				succ++;
-> > 				bytes += rd;
-> > 				write(1, buf, sizeof(buf));
-> > 			}
-> > 		} else if (rc == -1) {
-> > 			if (errno != EINTR)
-> > 				perror("poll");
-> > 			break;
-> > 		} else
-> > 			fprintf(stderr, "poll: timeout\n");
-> > 	}
-> > 	fprintf(stderr,
-> > 		"pid %d %sblocking, bufsize %d, %d seconds, %lu bytes read, %lu success, %lu eagain, %lu errors\n",
-> > 		getpid(), CONDITION ? "non-" : "", size, sec, bytes, succ, eagains, errors);
-> > }
-> > 
-> > int main(void)
-> > {
-> > 	int fd;
-> > 
-> > 	fork(); fork();
-> > 	fd = open("/dev/hwrng", O_RDONLY);
-> > 	if (fd == -1) {
-> > 		perror("open");
-> > 		return 1;
-> > 	};
-> > 	signal(SIGALRM, handler);
-> > 	alarm(SECONDS);
-> > 	loop(fd, SECONDS);
-> > 	close(fd);
-> > 	wait(NULL);
-> > 	return 0;
-> > }
-> > 
-> > void loop(int fd)
-> > {
-> >         struct pollfd pfd0 = { .fd = fd, .events  = POLLIN, };
-> >         int rc;
-> >         unsigned int n;
-> > 
-> >         for (n = LOOPS; n > 0; n--) {
-> >                 struct pollfd pfd = pfd0;
-> >                 char buf[SIZE];
-> > 
-> >                 rc = poll(&pfd, 1, 1);
-> >                 if (rc > 0) {
-> >                         int rd = read(fd, buf, sizeof(buf));
-> > 
-> >                         if (rd == -1)
-> >                                 perror("read");
-> >                         else
-> >                                 printf("read %d bytes\n", rd);
-> >                 } else if (rc == -1)
-> >                         perror("poll");
-> >                 else
-> >                         fprintf(stderr, "timeout\n");
-> > 
-> >         }
-> > }
-> > 
-> > int main(void)
-> > {
-> >         int fd;
-> > 
-> >         fd = open("/dev/hwrng", O_RDONLY|O_NONBLOCK);
-> >         if (fd == -1) {
-> >                 perror("open");
-> >                 return 1;
-> >         };
-> >         loop(fd);
-> >         close(fd);
-> >         return 0;
-> > }
-> > 
-> > This can be observed in the real word e.g. with nested qemu/KVM virtual
-> > machines, if both the "outer" and "inner" VMs have a virtio-rng device.
-> > If the "inner" VM requests random data, qemu running in the "outer" VM
-> > uses this device in a non-blocking manner like the test program above.
-> > 
-> > Fix it by returning available data if a previous hypervisor call has
-> > completed. I tested this patch with the program above, and with rng-tools.
-> > 
-> > v2 -> v3: Simplified the implementation as suggested by Laurent Vivier
-> > 
-> > Signed-off-by: Martin Wilck <mwilck@suse.com>
-> > ---
-> >  drivers/char/hw_random/virtio-rng.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/char/hw_random/virtio-rng.c b/drivers/char/hw_random/virtio-rng.c
-> > index a90001e02bf7..8eaeceecb41e 100644
-> > --- a/drivers/char/hw_random/virtio-rng.c
-> > +++ b/drivers/char/hw_random/virtio-rng.c
-> > @@ -65,7 +65,7 @@ static int virtio_read(struct hwrng *rng, void *buf, size_t size, bool wait)
-> >  		register_buffer(vi, buf, size);
-> >  	}
-> >  
-> > -	if (!wait)
-> > +	if (!wait && !completion_done(&vi->have_data))
-> >  		return 0;
-> >  
-> >  	ret = wait_for_completion_killable(&vi->have_data);
-> > @@ -74,7 +74,7 @@ static int virtio_read(struct hwrng *rng, void *buf, size_t size, bool wait)
-> >  
-> >  	vi->busy = false;
-> >  
-> > -	return vi->data_avail;
-> > +	return min_t(size_t, size, vi->data_avail);
-> >  }
-> >  
-> >  static void virtio_cleanup(struct hwrng *rng)
-> > 
-> 
-> Reviewed-by: Laurent Vivier <lvivier@redhat.com>
+old version
+sudo apt install qemu-system-s390x=3D1:4.2-3ubuntu6.4
+...test as listed in the test instructions ...
 
-Laurent didn't we agree the real fix is private buffers in the driver,
-and copying out from there?
+ubuntu@focal-sqxbr:~$ ./a.out =
 
--- 
-MST
+Segmentation fault
+(qemu is dead at this point)
 
+$ sudo apt install qemu-system-s390x=3D1:4.2-3ubuntu6.5
+Reading package lists... Done
+Building dependency tree       =
+
+Reading state information... Done
+The following packages will be upgraded:
+  qemu-system-s390x
+1 upgraded, 0 newly installed, 0 to remove and 315 not upgraded.
+Need to get 2334 kB of archives.
+After this operation, 4096 B of additional disk space will be used.
+Get:1 http://ports.ubuntu.com focal-proposed/main s390x qemu-system-s390x s=
+390x 1:4.2-3ubuntu6.5 [2334 kB]
+Fetched 2334 kB in 1s (3927 kB/s)      =
+
+(Reading database ... 203254 files and directories currently installed.)
+Preparing to unpack .../qemu-system-s390x_1%3a4.2-3ubuntu6.5_s390x.deb ...
+Unpacking qemu-system-s390x (1:4.2-3ubuntu6.5) over (1:4.2-3ubuntu6.4) ...
+Setting up qemu-system-s390x (1:4.2-3ubuntu6.5) ...
+Processing triggers for man-db (2.9.3-2) ...
+ubuntu@s1lp05:~$ =
+
+
+ubuntu@focal-sqxbr:~$ ./a.out =
+
+(no crash)
+
+
+Setting verified
+
+** Tags removed: verification-needed verification-needed-focal
+** Tags added: verification-done verification-done-focal
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1883984
+
+Title:
+  QEMU S/390x sqxbr (128-bit IEEE 754 square root) crashes qemu-system-
+  s390x
+
+Status in QEMU:
+  Fix Released
+Status in qemu package in Ubuntu:
+  Fix Released
+Status in qemu source package in Focal:
+  Fix Committed
+
+Bug description:
+  [Impact]
+
+   * An instruction was described wrong so that on usage the program would =
+
+     crash.
+
+  [Test Case]
+
+   * Run s390x in emulation and there use this program:
+     For simplicity and speed you can use KVM guest as usual on s390x, that =
+
+     after prep&install&compile of the test you run in qemu-tcg like:
+
+     $ sudo qemu-system-s390x -machine s390-ccw-virtio,accel=3Dtcg -cpu max=
+,zpci=3Don -serial mon:stdio -display none -m 4096 -nic user,model=3Dvirtio=
+,hostfwd=3Dtcp::2222-:22 -drive file=3D/var/lib/uvtool/libvirt/images/focal=
+-sqxbr.qcow,if=3Dnone,id=3Ddrive-virtio-disk0,format=3Dqcow2,cache=3Dnone -=
+device virtio-blk-ccw,devno=3Dfe.0.0001,drive=3Ddrive-virtio-disk0,id=3Dvir=
+tio-disk0,bootindex=3D1,scsi=3Doff
+     Obviously is you have no s390x access you need to use emulation right =
+
+     away.
+
+   * Build and run failing program
+     $ sudo apt install clang
+     $ cat > bug-sqrtl-one-line.c << EOF
+  int main(void) { volatile long double x, r; x =3D 4.0L; __asm__ =
+
+  __volatile__("sqxbr %0, %1" : "=3Df" (r) : "f" (x)); return (0);}
+  EOF
+     $ cc bug-sqrtl-one-line.c
+     $ ./a.out
+     Segmentation fault (core dumped)
+
+     qemu is dead by now as long as the bug is present
+
+  [Regression Potential]
+
+   * The change only modifies 128 bit square root on s390x so regressions
+     should be limited to exactly that - which formerly before this fix was =
+
+     a broken instruction.
+
+  [Other Info]
+   =
+
+   * n/a
+
+  ---
+
+  In porting software to guest Ubuntu 18.04 and 20.04 VMs for S/390x, I dis=
+covered
+  that some of my own numerical programs, and also a GNU configure script f=
+or at
+  least one package with CC=3Dclang, would cause an instant crash of the VM=
+, sometimes
+  also destroying recently opened files, and producing long strings of NUL =
+characters
+  in /var/log/syslog in the S/390 guest O/S.
+
+  Further detective work narrowed the cause of the crash down to a single I=
+BM S/390
+  instruction: sqxbr (128-bit IEEE 754 square root).  Here is a one-line pr=
+ogram
+  that when compiled and run on a VM hosted on QEMUcc emulator version 4.2.0
+  (Debian 1:4.2-3ubuntu6.1) [hosted on Ubuntu 20.04 on a Dell Precision 7920
+  workstation with an Intel Xeon Platinum 8253 CPU],  and also on QEMU emul=
+ator
+  version 5.0.0, reproducibly produces a VM crash under qemu-system-s390x.
+
+  % cat bug-sqrtl-one-line.c
+  int main(void) { volatile long double x, r; x =3D 4.0L; __asm__ __volatil=
+e__("sqxbr %0, %1" : "=3Df" (r) : "f" (x)); return (0);}
+
+  % cc bug-sqrtl-one-line.c && ./a.out
+  Segmentation fault (core dumped)
+
+  The problem code may be the function float128_sqrt() defined in qemu-5.0.=
+0/fpu/softfloat.c
+  starting at line 7619.  I have NOT attempted to run the qemu-system-s390x=
+ executable
+  under a debugger.  However, I observe that S/390 is the only CPU family t=
+hat I know of,
+  except possibly for a Fujitsu SPARC-64, that has a 128-bit square root in=
+ hardware.
+  Thus, this instruction bug may not have been seen before.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1883984/+subscriptions
 
