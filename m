@@ -2,76 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 928E2253634
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 19:56:28 +0200 (CEST)
-Received: from localhost ([::1]:55452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 341CD253644
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 20:06:07 +0200 (CEST)
+Received: from localhost ([::1]:39190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAzet-0006YW-6A
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 13:56:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46918)
+	id 1kAzJ4-00070U-6X
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 13:33:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rohit.shinde12194@gmail.com>)
- id 1kAze3-00067g-HK
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 13:55:35 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:39893)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <rohit.shinde12194@gmail.com>)
- id 1kAze1-0003N9-KZ
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 13:55:35 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id s2so615688pjr.4
- for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 10:55:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2P7whGF79zxLrakL7V9v6AWbyvP72M74/TIW61tC0kI=;
- b=r8dmJA2/xikxgaxFfJJIez4sNm+IscDuzMbOjd9kKdV6D3y/Hxj7SEv7s05TQJmMDK
- E6h9zNQeiw9SbdF5XVCN8eYt+mXaia23fark2IIde1PcXexCetclHFu6N5usz8gmPahi
- Kb6rxZlWYh4R1Ao/fubHQ3elH9sf1Cp0Dpm80jobfKBLG23Vz6j3pfKDHHuePczNb+7x
- NRPIsF90PZNG+px+PUPXjxNBwhBFVbQHKmZKlWExRDeR5miMsNt+enF28kLGHdDohLEo
- JUV6NW5MTd7ytKJPzLIYfO0WELwetNbsX9m69EJw6rjGK5WWXRdFmSgo87t8Em4WGaZD
- cKTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2P7whGF79zxLrakL7V9v6AWbyvP72M74/TIW61tC0kI=;
- b=pOa9/ePCCnu7r9IZvmu0Eiabj+UkASNdMMUp0VuqV2stOymaK7+3yAYqDBjCUIP6lx
- XwtZHMM6NhutXxMSFu4uBq5Co8K+WA51rH7xpAwcLy30txLibelw1V3vf+ysgZqtGd0u
- OI4WowXuMFcMQW8nZQND16uV0fznbHwnOgNXOfbOyLsui37QmvOBUeJNuqSvvAzdxAu0
- JzemFW+dvpOxeCngpsncrlt1UatC+D+NDRCOv+CxxAGKAEbsTddikixyRJPrEBd8lF1m
- bPP1yq8lHIG4tHC2lyAoq4eCqw6vorr+vj8aRhCASjaZyTJfKw6/Wia81/n/byN33NOW
- o/4A==
-X-Gm-Message-State: AOAM530Djb1qnuFLpUbVMXESVXXkfwPl2qLKJ07uU0VjjcA4Mo1jZWMv
- /C9OW2tYZ/HeQXx108H8dkq/enINyUX5rgrDdZ4=
-X-Google-Smtp-Source: ABdhPJz5pEdvjN9QOm3ozxcATEqNRhnzRns5XxmOxsq5z1Lt0GE6jCGYaEgLL6pr95Ngl+lN1azhSDY0DOjM1eYvhVU=
-X-Received: by 2002:a17:902:9a06:: with SMTP id
- v6mr13165859plp.57.1598464531934; 
- Wed, 26 Aug 2020 10:55:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
+ id 1kAzIM-0006Yp-LV
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 13:33:10 -0400
+Received: from mail-bn8nam11on2068.outbound.protection.outlook.com
+ ([40.107.236.68]:15457 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
+ id 1kAzII-0008ET-Fx
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 13:33:10 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=d/llBU8n/jTmCmxhEMsrgrLFoPPcEpBB+7w1ba6vsyaL9hXnDfh6F72WMxaiSJq139AvDl4t8aZtJErmH5gs7ELXBeDp7NLpRoG5HUV+Urx3HSshJFE7rXhsWAdJn1Z5tU3/iketceHR83KuhCpyJfxVLEbiLrA7u18GOBt/FCVfoiFMlgUsdLr0aYg3tYWKEENiXj8sgD1ymSzmoFHh0pMMS+oRC+ZYNMF3Fgx7f8Dqvfis1KHK9GWuiyM6M7zj80dXG289s3xKIPsVGuK9HpfKpzBgcHH7PxUngnMDiFowQCeNisZThlP4uVCRfPkcreQgaENM///dtLhyZtbyvw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zIuYQy/hdoEYtaNqXbaWLdsLxRbI4LysF9PHBzegA7o=;
+ b=gtglQ+gAtJ/ESX51Sq3/UzD0ESBmcSAwCr8xdE/1IjHqqRXQEgMXrTrBBMj+86bgF29czU0PvNOhpH3RhO9SyLc5D+mGaO28G8FLX1kA/1K108riKEqOKE29SKq+0QyBD/0VSAGmnhvu2/ZQMN0CiEJiCTAjpH3u3kWcmWruUK9TX3GLcyUqCO+g0j4bJwRn8NUJNbikBgtuXZhGL5UPaHu6Yxr3TKpFkwGluAXaR+A/ZbAun5MLEL18cLDos0dVB0tAOPGcqFfrsbX5X6STP7bCf7KhVCja5t8Lgsgj5D5ImhySMRrBcDtemtOoPk8wqAPla4BRGMI1T4iKeCatPQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zIuYQy/hdoEYtaNqXbaWLdsLxRbI4LysF9PHBzegA7o=;
+ b=rJgqJZPmJKn74VOyibL40vuHi265Wv1x2yQEt1OjWVBHmDv8uMZmmnvMuSPZA8GPG2cQrRNfqKgGQwLSZYqOA2OkVeJammpFCe/CAi9FNVc+RRCCqd3JWAjvdrGShAAII/Bd2jp2FzDtVPV4CkFSs4kTIIky8vqmkZH0hCYEIBM=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
+Received: from SN1PR12MB2560.namprd12.prod.outlook.com (2603:10b6:802:26::19)
+ by SA0PR12MB4526.namprd12.prod.outlook.com (2603:10b6:806:98::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.19; Wed, 26 Aug
+ 2020 17:18:01 +0000
+Received: from SN1PR12MB2560.namprd12.prod.outlook.com
+ ([fe80::ccd9:728:9577:200d]) by SN1PR12MB2560.namprd12.prod.outlook.com
+ ([fe80::ccd9:728:9577:200d%4]) with mapi id 15.20.3305.026; Wed, 26 Aug 2020
+ 17:18:01 +0000
+From: Babu Moger <babu.moger@amd.com>
+Subject: RE: [PATCH v5 0/8] Remove EPYC mode apicid decode and use generic
+ decode
+To: Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <159804762216.39954.15502128500494116468.stgit@naples-babu.amd.com>
+ <20200826143849.59f6970b@redhat.com> <20200826125059.GN168515@redhat.com>
+ <20200826153034.115126cb@redhat.com>
+Message-ID: <5c00dac9-5ea5-405c-93be-1ac903ddff62@amd.com>
+Date: Wed, 26 Aug 2020 12:17:59 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20200826153034.115126cb@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SA0PR11CA0038.namprd11.prod.outlook.com
+ (2603:10b6:806:d0::13) To SN1PR12MB2560.namprd12.prod.outlook.com
+ (2603:10b6:802:26::19)
 MIME-Version: 1.0
-References: <CA+Ai=tAypbso9yMy0jtyzbeHCweQ1FPgDaJ8=bXxFvBA6pZyLA@mail.gmail.com>
- <CA+Ai=tBJqLB7yDbd-kqzDhr+d+65K9r3DQsZrB2kGi9wF8BaiA@mail.gmail.com>
- <2d69f1ac-df97-9d70-d2e2-e9cf27cf9b0c@redhat.com>
- <CA+Ai=tCk-XX7yogRu=zoKxDv7okRHXibbnT9OoMs8XpHs9yDkA@mail.gmail.com>
- <a50f47d2-f5c6-49c0-779f-dfcaf05df5f9@redhat.com>
-In-Reply-To: <a50f47d2-f5c6-49c0-779f-dfcaf05df5f9@redhat.com>
-From: Rohit Shinde <rohit.shinde12194@gmail.com>
-Date: Wed, 26 Aug 2020 13:55:21 -0400
-Message-ID: <CA+Ai=tCDHWBLNToQ2HqMVmJtXxKzP40AuDqfWc=YQV3mggcc4Q@mail.gmail.com>
-Subject: Re: Contributor wanting to get started with simple contributions
-To: John Snow <jsnow@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000009cb03005adcb86ab"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=rohit.shinde12194@gmail.com; helo=mail-pj1-x1030.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from 255.255.255.255 (255.255.255.255) by
+ SA0PR11CA0038.namprd11.prod.outlook.com (2603:10b6:806:d0::13) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3326.19 via Frontend Transport; Wed, 26 Aug 2020 17:18:00 +0000
+X-Originating-IP: [165.204.77.1]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: e490abf6-417c-4182-2a8d-08d849e3fbf9
+X-MS-TrafficTypeDiagnostic: SA0PR12MB4526:
+X-Microsoft-Antispam-PRVS: <SA0PR12MB45268BE04B4E757048A1899A95540@SA0PR12MB4526.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: s1tc0Qv81EI4MlM48QJTInA9th6oiB/9jrVri8ur6q+WNrm26QfdbAKobfWgxYFAyRBDwUAjl56/C0c2Yao9nNG932xUfBZXxB369BKSLFHTUjrURsxMf//3YuzOJjX80KHd2m0HTbX1bW52JVPhfsNtgiH7FCYQkuAh7lnaBXjK3TSJ/n+DTy98kP8DBIxDIMh2mAIyInBYSJa4Nbepqvy4cIy2V2FwcFZ0KCN8cG1YDqmnJZkrw3CGm75tsllV0Y6F00+gZ3PyHfGnfnBiAqcVRdQM4JiFNbBE7VVmwfQuGnb7eE20rEK13FqSn41+M6ebJf9TU+1Y52XULnyJRxPGJdQ/Ek4B1SknkpQtw+ipG9PWTZfJyAK1hUWD7Grq2NXGNpj5hLu1SVUqkcN1/iDv2ahl+ju+8RtINjkZtQY15JL8b2aYhFtck392idVLHniLfvRAw3HqA4nPNL1PBkdRmLb53F25JESbRKbctQA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN1PR12MB2560.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(396003)(376002)(346002)(136003)(366004)(2906002)(16576012)(966005)(45080400002)(2616005)(956004)(54906003)(44832011)(53546011)(6486002)(52116002)(4326008)(83380400001)(86362001)(8676002)(26005)(8936002)(186003)(110136005)(31696002)(478600001)(316002)(66946007)(66556008)(66476007)(36756003)(31686004)(5660300002)(41533002)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: 9brB+o3IsXsJyO0O3XgHxSJXQbuqpbiybhapkRCWrIYw5Kc66vQsbDk1YvD21vwLTqVbyDHa8SH9yU0NjZ/BS5MNL5395cemuoWiomHtqXe6P7RQylwThL/Bm42N3txDOAYuIIwpjBzC5EInPA9Tt7Xda06oYseNKb6A/vIQIBo5HWZiQLYhmFt7YwxW/JvStGXY96K+fzfCeF69wlcuB16yWPWYHk1PiEnPeUZf63/dVwNjTVQ3eqPLMFoMEEZ34dwgPg0srIqq3GvV+1wI/UBvrol2OXQwSf0TsOAjqN8hgloKt9t9LPEOpRMHjEChHEvW9sJCKlseh7nGRQgMz3MCYEBLgfNNwjP6Je1F9LyM7D0S6f62oeTwydGpSS7X9lT0MYgn6N/umXr0vS0KG2xf3k9mYEbW1Q+Xi+xhwE7AaT/+5/SfniAUFFLtZmLsXDazrQXUtLHg+93MhAOZZROkz9NWZT2VbLOWFY3EY8PXriDhkBe/WTxxJ6kOKH5T1qSiIL4uzp/6adJhIWbWf4jx75eifIBEQEfC2bWIqTsAJCKF0xiBof5sS0jhU1+lH0eWTVM7r9sgRTIBBIw5deofVb/s2Z9WD+f6zseuIy+Nkh4hFdu+2KQ4JnRU78x5S2CaQoMC3tLY2dKxk2b0PQ==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e490abf6-417c-4182-2a8d-08d849e3fbf9
+X-MS-Exchange-CrossTenant-AuthSource: SN1PR12MB2560.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2020 17:18:00.9927 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WH0m+JyBY4CweMdAvNQVGsjkq6ICPWOqd7NSoW5q2/tiRAwWYTclGbu87mc3w216
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4526
+Received-SPF: none client-ip=40.107.236.68; envelope-from=Babu.Moger@amd.com;
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 13:33:05
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
 X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, FORGED_SPF_HELO=1, MSGID_FROM_MTA_HEADER=0.001,
+ NICE_REPLY_A=-2.239, RCVD_ILLEGAL_IP=1.3, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,171 +120,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, crosa@redhat.com, qemu-devel@nongnu.org,
- ehabkost@redhat.com
+Cc: "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ "mst@redhat.com" <mst@redhat.com>, Michal Privoznik <mprivozn@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "rth@twiddle.net" <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000009cb03005adcb86ab
-Content-Type: text/plain; charset="UTF-8"
 
-Hey John,
+> -----Original Message-----
+> From: Igor Mammedov <imammedo@redhat.com>
+> Sent: Wednesday, August 26, 2020 8:31 AM
+> To: Daniel P. Berrangé <berrange@redhat.com>
+> Cc: Moger, Babu <Babu.Moger@amd.com>; pbonzini@redhat.com;
+> rth@twiddle.net; ehabkost@redhat.com; qemu-devel@nongnu.org;
+> mst@redhat.com; Michal Privoznik <mprivozn@redhat.com>
+> Subject: Re: [PATCH v5 0/8] Remove EPYC mode apicid decode and use generic
+> decode
+> 
+> On Wed, 26 Aug 2020 13:50:59 +0100
+> Daniel P. Berrangé <berrange@redhat.com> wrote:
+> 
+> > On Wed, Aug 26, 2020 at 02:38:49PM +0200, Igor Mammedov wrote:
+> > > On Fri, 21 Aug 2020 17:12:19 -0500
+> > > Babu Moger <babu.moger@amd.com> wrote:
+> > >
+> > > > To support some of the complex topology, we introduced EPYC mode
+> apicid decode.
+> > > > But, EPYC mode decode is running into problems. Also it can become
+> > > > quite a maintenance problem in the future. So, it was decided to
+> > > > remove that code and use the generic decode which works for
+> > > > majority of the topology. Most of the SPECed configuration would
+> > > > work just fine. With some non-SPECed user inputs, it will create some sub-
+> optimal configuration.
+> > > > Here is the discussion thread.
+> > > > https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2F
+> > > > lore.kernel.org%2Fqemu-devel%2Fc0bcc1a6-1d84-a6e7-e468-
+> d5b437c1b25
+> > > >
+> 4%40amd.com%2F&amp;data=02%7C01%7Cbabu.moger%40amd.com%7C8a5c
+> 52f92
+> > > >
+> 3f04082a40808d849c43d49%7C3dd8961fe4884e608e11a82d994e183d%7C0%7
+> C0
+> > > >
+> %7C637340454473508873&amp;sdata=VnW28H1v4XwK3GaNGFxu%2BhwiMeA
+> YO%2B
+> > > > 3WAzo3DeY5Ha8%3D&amp;reserved=0
+> > > >
+> > > > This series removes all the EPYC mode specific apicid changes and
+> > > > use the generic apicid decode.
+> > >
+> > > the main difference between EPYC and all other CPUs is that it
+> > > requires numa configuration (it's not optional) so we need an extra
+No, That is not true. Because of that assumption we made all these apicid
+changes. And here we are now.
 
-I came across QEMU in 2015 when I was looking to participate in GSOC. I did
-GSoC through another org. I kept following qemu because I was interested in
-virtualization, systems level coding and device emulation.
+AMD supports varies mixed configurations. In case of EPYC-Rome, we have
+NPS1, NPS2 and NPS4(Numa Nodes per socket). In case of NPS1, basically we
+have all the cores in a socket under one numa node. This is non-numa
+configuration.
+Looking at the various configurations and also discussing internally, it
+is not advisable to have (epyc && !numa) check.
 
-Currently, most of my professional dev work is done in Java and Python
-(with some C++). I am interested in C/C++ development simply because of the
-things you can accomplish with the tools that these languages give you. My
-interests in programming as a hobby are very general. I would like to take
-part in all kinds of development at least once (example: OS development,
-virtualization, compilers, networking, etc). Professionally, I am a backend
-developer who does SDK/API development along with writing general purpose
-software that serves business needs. This is all at the application level.
-So I have quite some experience in areas like CI/CD, deployment, build
-systems and API dev. However, I don't know how much of that will translate
-to QEMU development since the environment I work in is quite different.
-
-Out of the topic areas you mention, I am very interested in the following
-(mentioned in order of interest):
-
-   1. Emulation
-   2. KVM
-   3. Storage optimization.
-
-I have been reading about KVM quite a bit because I wanted to know how
-virtualization theory is actually implemented.
-
-And once again, thanks for the response! I really appreciate it!
-
-Thanks,
-Rohit.
-
-On Wed, Aug 26, 2020 at 11:51 AM John Snow <jsnow@redhat.com> wrote:
-
-> On 8/26/20 11:00 AM, Rohit Shinde wrote:
-> > Hey Thomas,
+> > > patch on top of this series to enfoce that, i.e:
+> > >
+> > >  if (epyc && !numa)
+> > >     error("EPYC cpu requires numa to be configured")
 > >
-> > I didn't really have any specific questions. I wanted to know if there
-> > was any part of qemu that I could contribute to. Qemu is overwhelmingly
-> > vast and without some pointers, I felt very lost.
->
-> Yeah, it can be hard to get started.
->
-> What are your interests in programming/development, any specific types
-> of coding you like doing more than others? What draws you to the QEMU in
-> particular? Is there something you'd like to see QEMU do that it doesn't
-> today, or something you feel like you are particularly suited to doing?
->
-> If I can figure out what brought you here, maybe I can direct you to
-> some projects that might benefit from your attention. [Apart from the
-> Python stuff, which we are discussing elsewhere in another thread.]
->
-> Some topic areas:
->
-> - Emulation (TCG)
-> - Virtualization (KVM)
-> - Esoteric/Legacy architecture/device emulation
-> - Optimization (Network, Storage, CPU)
-> - Regression/Acceptance Testing
-> - Fuzzing
-> - Configuration
-> - Deployment
-> - Continuous Integration
-> - Accessibility, Ease-of-use
-> - Build systems & tooling
-> - Development process
-> - SDK/API development
->
->
-> If you have any specific knowledge in areas that aren't Linux on x86,
-> there are likely areas of QEMU that could benefit from your knowledge.
-> We are always looking for people to help maintain and develop code
-> intended for other architectures on other platforms.
->
-> --js
->
->
+> > Please no. This will break 90% of current usage of the EPYC CPU in
+> > real world QEMU deployments. That is way too user hostile to introduce
+> > as a requirement.
+> >
+> > Why do we need to force this ?  People have been successfuly using
+> > EPYC CPUs without NUMA in QEMU for years now.
+> >
+> > It might not match behaviour of bare metal silicon, but that hasn't
+> > obviously caused the world to come crashing down.
+> So far it produces warning in linux kernel (RHBZ1728166), (resulting performance
+> might be suboptimal), but I haven't seen anyone reporting crashes yet.
+> 
+> 
+> What other options do we have?
+> Perhaps we can turn on strict check for new machine types only, so old configs
+> can keep broken topology (CPUID), while new ones would require -numa and
+> produce correct topology.
+> 
+> 
+> >
+> > Regards,
+> > Daniel
 
---0000000000009cb03005adcb86ab
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hey John,<div><br></div><div>I came across QEMU in 2015 wh=
-en I was looking to participate in GSOC. I did GSoC through another org. I =
-kept following qemu because I was interested in virtualization, systems lev=
-el coding and device emulation.=C2=A0</div><div><br></div><div>Currently, m=
-ost of my professional dev work is done in Java and Python (with some C++).=
- I am interested in C/C++ development simply because of the things you can =
-accomplish with the tools that these languages give you. My interests in pr=
-ogramming as a hobby are very=C2=A0general. I would like to take part in al=
-l kinds of development at least once (example: OS development, virtualizati=
-on, compilers, networking, etc). Professionally, I am a backend developer w=
-ho does SDK/API development along with writing general purpose software tha=
-t serves business needs. This is all at the application level. So I have qu=
-ite some experience in areas like CI/CD, deployment, build systems and API =
-dev. However, I don&#39;t know how much of that will translate to QEMU deve=
-lopment since the environment I work in is quite different.</div><div><br><=
-/div><div>Out of the topic areas you mention, I am very interested in the f=
-ollowing (mentioned in order of interest):</div><div><ol><li>Emulation</li>=
-<li>KVM</li><li>Storage optimization.</li></ol><div>I have been reading abo=
-ut KVM quite a bit because I wanted to know how virtualization theory is ac=
-tually implemented.</div></div><div><br></div><div>And once again, thanks f=
-or the response! I really appreciate it!</div><div><br></div><div>Thanks,</=
-div><div>Rohit.</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Wed, Aug 26, 2020 at 11:51 AM John Snow &lt;<a href=
-=3D"mailto:jsnow@redhat.com">jsnow@redhat.com</a>&gt; wrote:<br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
-1px solid rgb(204,204,204);padding-left:1ex">On 8/26/20 11:00 AM, Rohit Shi=
-nde wrote:<br>
-&gt; Hey Thomas,<br>
-&gt; <br>
-&gt; I didn&#39;t really have any specific questions. I wanted to know if t=
-here <br>
-&gt; was any part of qemu that I could contribute to. Qemu is overwhelmingl=
-y <br>
-&gt; vast and without some pointers, I felt very lost.<br>
-<br>
-Yeah, it can be hard to get started.<br>
-<br>
-What are your interests in programming/development, any specific types <br>
-of coding you like doing more than others? What draws you to the QEMU in <b=
-r>
-particular? Is there something you&#39;d like to see QEMU do that it doesn&=
-#39;t <br>
-today, or something you feel like you are particularly suited to doing?<br>
-<br>
-If I can figure out what brought you here, maybe I can direct you to <br>
-some projects that might benefit from your attention. [Apart from the <br>
-Python stuff, which we are discussing elsewhere in another thread.]<br>
-<br>
-Some topic areas:<br>
-<br>
-- Emulation (TCG)<br>
-- Virtualization (KVM)<br>
-- Esoteric/Legacy architecture/device emulation<br>
-- Optimization (Network, Storage, CPU)<br>
-- Regression/Acceptance Testing<br>
-- Fuzzing<br>
-- Configuration<br>
-- Deployment<br>
-- Continuous Integration<br>
-- Accessibility, Ease-of-use<br>
-- Build systems &amp; tooling<br>
-- Development process<br>
-- SDK/API development<br>
-<br>
-<br>
-If you have any specific knowledge in areas that aren&#39;t Linux on x86, <=
-br>
-there are likely areas of QEMU that could benefit from your knowledge. <br>
-We are always looking for people to help maintain and develop code <br>
-intended for other architectures on other platforms.<br>
-<br>
---js<br>
-<br>
-</blockquote></div>
-
---0000000000009cb03005adcb86ab--
 
