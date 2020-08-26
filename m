@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EB482532BF
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 17:03:38 +0200 (CEST)
-Received: from localhost ([::1]:37256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03D7C2532F6
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 17:09:14 +0200 (CEST)
+Received: from localhost ([::1]:55384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAwxc-00057w-Ql
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 11:03:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50814)
+	id 1kAx33-0004kw-3E
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 11:09:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kAwnF-0006hl-MJ
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 10:52:54 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:30622
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kAwnR-0007Ar-B9
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 10:53:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57568)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kAwnC-0008Kz-EG
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 10:52:53 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kAwnP-0008NU-Gx
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 10:53:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598453569;
+ s=mimecast20190719; t=1598453582;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Pj6QbpvhXb4xod3nciQRVD0Eay61+3ZfpSS93t0PtVU=;
- b=dUP82fwDxbYzw1adbLmKqTnsAZC5gQMB0o3LKP5zANvJPj/YZRVs22ofu9NXqut5f59RUO
- drLObotqhtUtIV2B9gyyfSHyinS/TVK1Y9+MIe4+xGhqx8rMNT0K5DidOBrRTYcIovIP2N
- N0g76C82+nS/AWnYJA7vJFDmdP7SbOk=
+ bh=QtNfs9Y7alg7kpJbY2NUPkJ1krlAjwWxnSjia7sxiR0=;
+ b=dvpwVATvkfBI9e92lrMF7slWJlIJUKbis/ylqCzgnIm7heQdVLWYPW/5WhUwgXTxkUxl8Y
+ An2xe30Ru5tNbn0R9OIDHHI81yzW6ThkEEKBgnt+U5U1tAzXppYpCGuxXUeS7jDBwhwC4A
+ HNuFVJ4KehDYN+OVNZ3drjuwlJVYmPE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-39-LToslJWpMYiKAEzs93lbxg-1; Wed, 26 Aug 2020 10:52:47 -0400
-X-MC-Unique: LToslJWpMYiKAEzs93lbxg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-105-_v97pHrPO1CXd93OkEEyqw-1; Wed, 26 Aug 2020 10:52:47 -0400
+X-MC-Unique: _v97pHrPO1CXd93OkEEyqw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8DE4810074BF;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3299107464A;
  Wed, 26 Aug 2020 14:52:46 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-54.ams2.redhat.com
  [10.36.112.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3854050B3F;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8AE7A747C6;
  Wed, 26 Aug 2020 14:52:46 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 33F7331FC3; Wed, 26 Aug 2020 16:52:40 +0200 (CEST)
+ id 47B4F31FC6; Wed, 26 Aug 2020 16:52:40 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/18] docs/qdev-device-use.txt: Add USB U2F key to the QDEV
- devices examples
-Date: Wed, 26 Aug 2020 16:52:34 +0200
-Message-Id: <20200826145239.6077-14-kraxel@redhat.com>
+Subject: [PULL 15/18] hw/usb: Add U2F device check to passthru mode
+Date: Wed, 26 Aug 2020 16:52:36 +0200
+Message-Id: <20200826145239.6077-16-kraxel@redhat.com>
 In-Reply-To: <20200826145239.6077-1-kraxel@redhat.com>
 References: <20200826145239.6077-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 03:16:15
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 23:30:47
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,25 +90,85 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: César Belley <cesar.belley@lse.epita.fr>
 
+This patchs adds a check to verify that the device passed through the
+hidraw property is a U2F device.
+
+The check is done by ensuring that the first values of the report
+descriptor (USAGE PAGE and USAGE) correspond to those of a U2F device.
+
 Signed-off-by: César Belley <cesar.belley@lse.epita.fr>
-Message-id: 20200826114209.28821-10-cesar.belley@lse.epita.fr
+Message-id: 20200826114209.28821-12-cesar.belley@lse.epita.fr
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- docs/qdev-device-use.txt | 1 +
- 1 file changed, 1 insertion(+)
+ hw/usb/u2f-passthru.c | 41 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
-diff --git a/docs/qdev-device-use.txt b/docs/qdev-device-use.txt
-index f8d0d2fe297a..9889521e3c07 100644
---- a/docs/qdev-device-use.txt
-+++ b/docs/qdev-device-use.txt
-@@ -325,6 +325,7 @@ The new way is -device DEVNAME,DEV-OPTS...  Details depend on DRIVER:
- * mouse           -device usb-mouse
- * tablet          -device usb-tablet
- * wacom-tablet    -device usb-wacom-tablet
-+* u2f             -device u2f-{emulated,passthru}
- * braille         See "Character Devices"
+diff --git a/hw/usb/u2f-passthru.c b/hw/usb/u2f-passthru.c
+index 106b5abf9ecc..f8771966c747 100644
+--- a/hw/usb/u2f-passthru.c
++++ b/hw/usb/u2f-passthru.c
+@@ -34,6 +34,12 @@
  
- === Watchdog Devices ===
+ #include "u2f.h"
+ 
++#ifdef CONFIG_LIBUDEV
++#include <libudev.h>
++#endif
++#include <linux/hidraw.h>
++#include <sys/ioctl.h>
++
+ #define NONCE_SIZE 8
+ #define BROADCAST_CID 0xFFFFFFFF
+ #define TRANSACTION_TIMEOUT 120000
+@@ -344,6 +350,34 @@ static void u2f_passthru_recv_from_guest(U2FKeyState *base,
+     }
+ }
+ 
++static bool u2f_passthru_is_u2f_device(int fd)
++{
++    int ret, rdesc_size;
++    struct hidraw_report_descriptor rdesc;
++    const uint8_t u2f_hid_report_desc_header[] = {
++        0x06, 0xd0, 0xf1, /* Usage Page (FIDO) */
++        0x09, 0x01,       /* Usage (FIDO) */
++    };
++
++    /* Get report descriptor size */
++    ret = ioctl(fd, HIDIOCGRDESCSIZE, &rdesc_size);
++    if (ret < 0 || rdesc_size < sizeof(u2f_hid_report_desc_header)) {
++        return false;
++    }
++
++    /* Get report descriptor */
++    memset(&rdesc, 0x0, sizeof(rdesc));
++    rdesc.size = rdesc_size;
++    ret = ioctl(fd, HIDIOCGRDESC, &rdesc);
++    if (ret < 0) {
++        return false;
++    }
++
++    /* Header bytes cover specific U2F rdesc values */
++    return memcmp(u2f_hid_report_desc_header, rdesc.value,
++                  sizeof(u2f_hid_report_desc_header)) == 0;
++}
++
+ static void u2f_passthru_unrealize(U2FKeyState *base)
+ {
+     U2FPassthruState *key = PASSTHRU_U2F_KEY(base);
+@@ -368,6 +402,13 @@ static void u2f_passthru_realize(U2FKeyState *base, Error **errp)
+                    key->hidraw);
+         return;
+     }
++
++    if (!u2f_passthru_is_u2f_device(fd)) {
++        qemu_close(fd);
++        error_setg(errp, "%s: Passed hidraw does not represent "
++                   "a U2F HID device", TYPE_U2F_PASSTHRU);
++        return;
++    }
+     key->hidraw_fd = fd;
+     u2f_passthru_reset(key);
+ }
 -- 
 2.27.0
 
