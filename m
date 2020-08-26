@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 260992532B4
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 17:01:32 +0200 (CEST)
-Received: from localhost ([::1]:59312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EB482532BF
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 17:03:38 +0200 (CEST)
+Received: from localhost ([::1]:37256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAwvb-0002Cd-68
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 11:01:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50888)
+	id 1kAwxc-00057w-Ql
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 11:03:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kAwnJ-0006p1-KC
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 10:52:57 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:60891
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kAwnF-0006hl-MJ
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 10:52:54 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:30622
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kAwnG-0008MN-7b
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 10:52:57 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kAwnC-0008Kz-EG
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 10:52:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598453573;
+ s=mimecast20190719; t=1598453569;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9roSgM66IiBIQZjYMh8WgmO1UZqEEROPpB96xe/qOl0=;
- b=ieeUuNuLze6h8APAQOlI3vL+EMUIJcKYN38yBZ3fpQO/pwNTorekKrqXtcrYHfi1nLMok6
- c+pOt3XGwGNxHy2fKFef0+0w82VsPbXSlD7UJaqIIxSyxafUteibpB3FP9eeTxTNZVMxBp
- 3+SJ2KTzA8n7azBk/zXPmCQViPRb1Ow=
+ bh=Pj6QbpvhXb4xod3nciQRVD0Eay61+3ZfpSS93t0PtVU=;
+ b=dUP82fwDxbYzw1adbLmKqTnsAZC5gQMB0o3LKP5zANvJPj/YZRVs22ofu9NXqut5f59RUO
+ drLObotqhtUtIV2B9gyyfSHyinS/TVK1Y9+MIe4+xGhqx8rMNT0K5DidOBrRTYcIovIP2N
+ N0g76C82+nS/AWnYJA7vJFDmdP7SbOk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-534-4rpVTDsSONCdyWEZj2seaw-1; Wed, 26 Aug 2020 10:52:49 -0400
-X-MC-Unique: 4rpVTDsSONCdyWEZj2seaw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-39-LToslJWpMYiKAEzs93lbxg-1; Wed, 26 Aug 2020 10:52:47 -0400
+X-MC-Unique: LToslJWpMYiKAEzs93lbxg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57EF310074AF;
- Wed, 26 Aug 2020 14:52:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8DE4810074BF;
+ Wed, 26 Aug 2020 14:52:46 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-54.ams2.redhat.com
  [10.36.112.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ED1CF5D9E4;
- Wed, 26 Aug 2020 14:52:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3854050B3F;
+ Wed, 26 Aug 2020 14:52:46 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 20A6931F97; Wed, 26 Aug 2020 16:52:40 +0200 (CEST)
+ id 33F7331FC3; Wed, 26 Aug 2020 16:52:40 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/18] meson: Add U2F key to meson
-Date: Wed, 26 Aug 2020 16:52:32 +0200
-Message-Id: <20200826145239.6077-12-kraxel@redhat.com>
+Subject: [PULL 13/18] docs/qdev-device-use.txt: Add USB U2F key to the QDEV
+ devices examples
+Date: Wed, 26 Aug 2020 16:52:34 +0200
+Message-Id: <20200826145239.6077-14-kraxel@redhat.com>
 In-Reply-To: <20200826145239.6077-1-kraxel@redhat.com>
 References: <20200826145239.6077-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 06:53:09
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 03:16:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -92,134 +93,24 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: César Belley <cesar.belley@lse.epita.fr>
 
 Signed-off-by: César Belley <cesar.belley@lse.epita.fr>
-Message-id: 20200826114209.28821-8-cesar.belley@lse.epita.fr
+Message-id: 20200826114209.28821-10-cesar.belley@lse.epita.fr
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- configure          | 8 +++++++-
- meson_options.txt  | 1 +
- hw/usb/Kconfig     | 5 +++++
- hw/usb/meson.build | 7 +++++++
- meson.build        | 7 +++++++
- 5 files changed, 27 insertions(+), 1 deletion(-)
+ docs/qdev-device-use.txt | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/configure b/configure
-index b1e11397a827..24137d49d6f4 100755
---- a/configure
-+++ b/configure
-@@ -495,6 +495,7 @@ trace_file="trace"
- spice=""
- rbd=""
- smartcard=""
-+u2f="auto"
- libusb=""
- usb_redir=""
- opengl=""
-@@ -1411,6 +1412,10 @@ for opt do
-   ;;
-   --enable-smartcard) smartcard="yes"
-   ;;
-+  --disable-u2f) u2f="disabled"
-+  ;;
-+  --enable-u2f) u2f="enabled"
-+  ;;
-   --disable-libusb) libusb="no"
-   ;;
-   --enable-libusb) libusb="yes"
-@@ -1940,6 +1945,7 @@ disabled with --disable-FEATURE, default is enabled if available:
-   libiscsi        iscsi support
-   libnfs          nfs support
-   smartcard       smartcard support (libcacard)
-+  u2f             U2F support (u2f-emu)
-   libusb          libusb (for usb passthrough)
-   live-block-migration   Block migration in the main migration stream
-   usb-redir       usb network redirection support
-@@ -8230,7 +8236,7 @@ NINJA=$PWD/ninjatool $meson setup \
-         -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
- 	-Dsdl=$sdl -Dsdl_image=$sdl_image \
- 	-Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
--	-Dgettext=$gettext -Dxkbcommon=$xkbcommon \
-+	-Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f\
-         $cross_arg \
-         "$PWD" "$source_path"
+diff --git a/docs/qdev-device-use.txt b/docs/qdev-device-use.txt
+index f8d0d2fe297a..9889521e3c07 100644
+--- a/docs/qdev-device-use.txt
++++ b/docs/qdev-device-use.txt
+@@ -325,6 +325,7 @@ The new way is -device DEVNAME,DEV-OPTS...  Details depend on DRIVER:
+ * mouse           -device usb-mouse
+ * tablet          -device usb-tablet
+ * wacom-tablet    -device usb-wacom-tablet
++* u2f             -device u2f-{emulated,passthru}
+ * braille         See "Character Devices"
  
-diff --git a/meson_options.txt b/meson_options.txt
-index c55f9cd94cb2..aef2de652332 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -1,6 +1,7 @@
- option('gettext', type : 'boolean', value : true)
- option('sdl', type : 'feature', value : 'auto')
- option('sdl_image', type : 'feature', value : 'auto')
-+option('u2f', type : 'feature', value : 'auto')
- option('vnc', type : 'feature', value : 'enabled')
- option('vnc_jpeg', type : 'feature', value : 'auto')
- option('vnc_png', type : 'feature', value : 'auto')
-diff --git a/hw/usb/Kconfig b/hw/usb/Kconfig
-index 5e63dc75f815..3fc8fbe3c74c 100644
---- a/hw/usb/Kconfig
-+++ b/hw/usb/Kconfig
-@@ -96,6 +96,11 @@ config USB_STORAGE_MTP
-     default y
-     depends on USB
- 
-+config USB_U2F
-+    bool
-+    default y
-+    depends on USB
-+
- config IMX_USBPHY
-     bool
-     default y
-diff --git a/hw/usb/meson.build b/hw/usb/meson.build
-index 3c44a1b06954..a25109b88c91 100644
---- a/hw/usb/meson.build
-+++ b/hw/usb/meson.build
-@@ -50,6 +50,13 @@ if config_host.has_key('CONFIG_SMARTCARD')
-   hw_usb_modules += {'smartcard': usbsmartcard_ss}
- endif
- 
-+# U2F
-+softmmu_ss.add(when: 'CONFIG_USB_U2F', if_true: files('u2f.c'))
-+softmmu_ss.add(when: ['CONFIG_LINUX', 'CONFIG_USB_U2F'], if_true: files('u2f-passthru.c'))
-+if u2f.found()
-+  softmmu_ss.add(when: 'CONFIG_USB_U2F', if_true: [u2f, files('u2f-emulated.c')])
-+endif
-+
- # usb redirect
- if config_host.has_key('CONFIG_USB_REDIR')
-   usbredir_ss = ss.source_set()
-diff --git a/meson.build b/meson.build
-index f0fe5f8799e0..ae90fdbfe306 100644
---- a/meson.build
-+++ b/meson.build
-@@ -360,6 +360,11 @@ if 'CONFIG_SMARTCARD' in config_host
-   cacard = declare_dependency(compile_args: config_host['SMARTCARD_CFLAGS'].split(),
-                               link_args: config_host['SMARTCARD_LIBS'].split())
- endif
-+u2f = dependency('u2f-emu', required: get_option('u2f'), static: enable_static,
-+                 include_type: 'system')
-+if u2f.found()
-+  u2f = declare_dependency(dependencies: u2f)
-+endif
- usbredir = not_found
- if 'CONFIG_USB_REDIR' in config_host
-   usbredir = declare_dependency(compile_args: config_host['USB_REDIR_CFLAGS'].split(),
-@@ -385,6 +390,7 @@ endif
- 
- config_host_data.set('CONFIG_SDL', sdl.found())
- config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
-+config_host_data.set('CONFIG_U2F', u2f.found())
- config_host_data.set('CONFIG_VNC', vnc.found())
- config_host_data.set('CONFIG_VNC_JPEG', jpeg.found())
- config_host_data.set('CONFIG_VNC_PNG', png.found())
-@@ -1365,6 +1371,7 @@ summary_info += {'spice support':     config_host.has_key('CONFIG_SPICE')}
- summary_info += {'rbd support':       config_host.has_key('CONFIG_RBD')}
- summary_info += {'xfsctl support':    config_host.has_key('CONFIG_XFS')}
- summary_info += {'smartcard support': config_host.has_key('CONFIG_SMARTCARD')}
-+summary_info += {'U2F support':       u2f.found()}
- summary_info += {'libusb':            config_host.has_key('CONFIG_USB_LIBUSB')}
- summary_info += {'usb net redir':     config_host.has_key('CONFIG_USB_REDIR')}
- summary_info += {'OpenGL support':    config_host.has_key('CONFIG_OPENGL')}
+ === Watchdog Devices ===
 -- 
 2.27.0
 
