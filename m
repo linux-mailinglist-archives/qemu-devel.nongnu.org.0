@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDCDC253854
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 21:35:17 +0200 (CEST)
-Received: from localhost ([::1]:36084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E28B025389D
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 21:55:07 +0200 (CEST)
+Received: from localhost ([::1]:48616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kB1CW-0000aN-CH
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 15:35:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43472)
+	id 1kB1Vi-0007FS-EI
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 15:55:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kB1Bm-00008f-Cp
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 15:34:30 -0400
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:40095)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kB1Bj-0007Vi-Tv
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 15:34:30 -0400
-Received: by mail-ej1-x643.google.com with SMTP id o18so4464003eje.7
- for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 12:34:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=AJYVAIksZwFEHAZNcHOnSEZrcCpGNDBV8FUK4gCkFIY=;
- b=mfJKnXAtUMtKIuKrHyvZFz0Y69ZPrNR1C7O6ODlTMfrXsk76aU37D2GPD6/MU6Noa+
- iZDN23NMoanNRGiHwRCTDkBNhwU4BOA/QbMkfIrawF69QtAidO2d2QUzUr6OVQYDE2Ng
- Y4w0Mv1ZXv1wgNs7mYSlpZJGS29UaqOsPrIxuhd5P+evaiduJ/h6OC10LA/HjIgDFflp
- c3YKoycrrnN7WFigXFUrrPck/anMUP1xeSxyL21bhdj4GLRnmRa5QZAV0E8j896aZTq1
- TIH0MemBm2OEasBeye/ToUT5XlTr3K8mLP5htCt02CVeoS4T24NazShDUIb5G/mEmwkX
- 6jxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=AJYVAIksZwFEHAZNcHOnSEZrcCpGNDBV8FUK4gCkFIY=;
- b=Ug50fF93m8YGCkvNv6XJQzA4KIC9aAK1/zNh5twQLQaPFHX2ZYmXDvSIsX7tdtSWAv
- 0lmzKWenrDNrWJ7ggHL+Hp4cM58rVaqnzQ4OekptF4xeCBjt46phoAhaGcyS50YdJNEf
- djJpcBgrp0JzYj3A75fHxlxHyzIDkEk3WSIP3Ee0w9ynxv66tog276sY6BAaT7JBHeU2
- FmbUqyjm4vk6C63pfunOUmScZgOUwQZ6PE4OP8RmOSMlOebGfxO07MXRKd+Yq1hM3tW3
- 3R8gcOx9MMpkgkwN+KsSPsyg8qBDQTEzKYboifagFJL0U0RxufON6g/gUEohWLDtRdmp
- +6hw==
-X-Gm-Message-State: AOAM531BkwahlSRJnColgo+yrdzgseHGhPpQ6yJ9R5Q9sGz2SrgkPprg
- Ns1QaBfQCbBgYuU4NwR0GVV1DsQT1mIxzEkASXLuQA==
-X-Google-Smtp-Source: ABdhPJxTPIK05Wdsmf0X2xWMpSOoVi3XpZUNQ/Bud6DI5Ma1Nwvh/EjsN+65+dacIwNZSg7ABB4fZd51KYz3L3d9WnA=
-X-Received: by 2002:a17:906:d8ca:: with SMTP id
- re10mr16685927ejb.382.1598470466206; 
- Wed, 26 Aug 2020 12:34:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kB1Uu-0006pa-Ss
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 15:54:17 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32334
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kB1RA-0000w6-N2
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 15:54:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598471362;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=KrLEEkpUDk59fGsNOaQL+LkZ6p5ffFliyiEINgieX+E=;
+ b=FoEJX3eW5GSAmyeM8WbJPdQQ3W7lO2BGjtvqeXpczGLdgmQ46KnaWx2tW6+HxN/eJk5rGH
+ 3MHwA4bp/nyP7SBP8Hb6jkHXV6d3dEpgbaYjvcD+rIpxoxsboDQ58zX0+lwx7L6dkIsb1G
+ e8bKysTMBNtgCUl8w2l9rsecncIRK6g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-235-FeDs58TeM7apl8PdWmrbGA-1; Wed, 26 Aug 2020 15:49:20 -0400
+X-MC-Unique: FeDs58TeM7apl8PdWmrbGA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D72364086;
+ Wed, 26 Aug 2020 19:49:19 +0000 (UTC)
+Received: from localhost (unknown [10.10.67.254])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A28C619C58;
+ Wed, 26 Aug 2020 19:49:18 +0000 (UTC)
+Date: Wed, 26 Aug 2020 15:49:18 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Alistair Francis <alistair.francis@wdc.com>
+Subject: Re: [PATCH v2 1/1] core/register: Specify instance_size in the
+ TypeInfo
+Message-ID: <20200826194918.GG642093@habkost.net>
+References: <4cf1beb7dafb9143c261d266557d3173bf160524.1598376594.git.alistair.francis@wdc.com>
 MIME-Version: 1.0
-References: <20200826190128.22707-1-pbonzini@redhat.com>
-In-Reply-To: <20200826190128.22707-1-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 26 Aug 2020 20:34:15 +0100
-Message-ID: <CAFEAcA8MSzo7+zSWTr8vmU294M3oYkZKk17SFRrBZLmqfxGdmQ@mail.gmail.com>
-Subject: Re: [PATCH] ninjatool: quote dollars in variables
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x643.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <4cf1beb7dafb9143c261d266557d3173bf160524.1598376594.git.alistair.francis@wdc.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 03:56:58
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,21 +81,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: alistair23@gmail.com, qemu-devel@nongnu.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 26 Aug 2020 at 20:03, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> Otherwise, dollars (such as in the special $ORIGIN rpath) are
-> eaten by Make.
+On Tue, Aug 25, 2020 at 10:30:59AM -0700, Alistair Francis wrote:
+> Reported-by: Eduardo Habkost <ehabkost@redhat.com>
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  hw/core/register.c | 31 +++++++++++++------------------
+>  1 file changed, 13 insertions(+), 18 deletions(-)
+> 
+> diff --git a/hw/core/register.c b/hw/core/register.c
+> index ddf91eb445..31038bd7cc 100644
+> --- a/hw/core/register.c
+> +++ b/hw/core/register.c
+> @@ -176,17 +176,6 @@ void register_reset(RegisterInfo *reg)
+>      }
+>  }
+>  
+> -void register_init(RegisterInfo *reg)
+> -{
+> -    assert(reg);
+> -
+> -    if (!reg->data || !reg->access) {
+> -        return;
+> -    }
+> -
+> -    object_initialize((void *)reg, sizeof(*reg), TYPE_REGISTER);
+> -}
+> -
+>  void register_write_memory(void *opaque, hwaddr addr,
+>                             uint64_t value, unsigned size)
+>  {
+> @@ -269,13 +258,18 @@ static RegisterInfoArray *register_init_block(DeviceState *owner,
+>          int index = rae[i].addr / data_size;
+>          RegisterInfo *r = &ri[index];
+>  
+> -        *r = (RegisterInfo) {
+> -            .data = data + data_size * index,
+> -            .data_size = data_size,
+> -            .access = &rae[i],
+> -            .opaque = owner,
+> -        };
+> -        register_init(r);
+> +        if (data + data_size * index == 0 || !&rae[i]) {
 
-Incidentally, why are we using rpath anyway? I'm pretty
-sure the old build system didn't need it, and it's one of
-those features I have mentally filed away under "liable
-to confusing and non-portable weirdness"...
+Do you know what's the goal of this check?
 
-thanks
--- PMM
+Can `data` or `rae` be NULL?  If not, it seems impossible for
+this condition to be true.  If they can, this seems to be a weird
+and fragile way of checking for NULL arguments.
+
+> +            continue;
+> +        }
+> +
+> +        /* Init the register, this will zero it. */
+> +        object_initialize((void *)r, sizeof(*r), TYPE_REGISTER);
+> +
+> +        /* Set the properties of the register */
+> +        r->data = data + data_size * index;
+> +        r->data_size = data_size;
+> +        r->access = &rae[i];
+> +        r->opaque = owner;
+>  
+>          r_array->r[i] = r;
+>      }
+> @@ -329,6 +323,7 @@ static const TypeInfo register_info = {
+>      .name  = TYPE_REGISTER,
+>      .parent = TYPE_DEVICE,
+>      .class_init = register_class_init,
+> +    .instance_size = sizeof(RegisterInfo),
+>  };
+>  
+>  static void register_register_types(void)
+> -- 
+> 2.28.0
+> 
+
+-- 
+Eduardo
+
 
