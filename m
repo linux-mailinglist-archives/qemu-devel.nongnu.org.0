@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C1D5253195
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 16:40:39 +0200 (CEST)
-Received: from localhost ([::1]:56806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 555662531A4
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 16:42:48 +0200 (CEST)
+Received: from localhost ([::1]:39962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAwbO-0002GF-Fo
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 10:40:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46710)
+	id 1kAwdT-00071O-CL
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 10:42:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1kAwZo-000875-23
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 10:39:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52873)
+ id 1kAwZz-0000CS-Hg
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 10:39:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24846)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1kAwZm-0006KP-EG
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 10:38:59 -0400
+ id 1kAwZx-0006MK-Rl
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 10:39:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598452737;
+ s=mimecast20190719; t=1598452749;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KaGyxX2iurcUU1VjRNA2tYBF2S9PFsb51ufyJr6sbM4=;
- b=jT4VNCd/YZwICgLTPg1Lt28TTP0MxkTS24ON0SmNSA88cvePFZRvecxWtk2r35i0NHPrXq
- r9dQAD+53FlUUb18e8zw8Sr/9gPVUbAR/IGSzYNkrmwSSm8RvPLD+ye3bao386Rju4z/n/
- fop1AUvo2MW4nnUWHEN5y6d3w1Xns6w=
+ bh=g3dbNdcxxhQJeQFXVm5XbSPMbQBlA/yaWTXFikvO7So=;
+ b=chlioOrU+Z19cBzDq/eSManqKyCycUr3OcqJpRgcLb2mvziEQNOlCJvTNnzs0luMB4QS3t
+ fF2a8rVlDGdgCeoI4QKVEuU4Nwxw9vQh2OFVNt8NaUYJ+DCvA9Wl/lx4rG8zAZCfUm0VCI
+ fH0aINCZtN+Qa5l/EiDgTHFNzVEjU3g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-172-7KLE7cvNMXm15MpKIEaYMA-1; Wed, 26 Aug 2020 10:38:53 -0400
-X-MC-Unique: 7KLE7cvNMXm15MpKIEaYMA-1
+ us-mta-267-boRpaYidMAWIyRUdxiGzbw-1; Wed, 26 Aug 2020 10:39:05 -0400
+X-MC-Unique: boRpaYidMAWIyRUdxiGzbw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0DE9E801AE5;
- Wed, 26 Aug 2020 14:38:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A71C425D1;
+ Wed, 26 Aug 2020 14:39:04 +0000 (UTC)
 Received: from eperezma.remote.csb (ovpn-115-59.ams2.redhat.com [10.36.115.59])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0B41576E00;
- Wed, 26 Aug 2020 14:38:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6917776E00;
+ Wed, 26 Aug 2020 14:38:52 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Xu <peterx@redhat.com>
-Subject: [RFC v6 09/13] intel_iommu: Set IOMMUTLBEntry type in
- vtd_page_walk_level
-Date: Wed, 26 Aug 2020 16:36:47 +0200
-Message-Id: <20200826143651.7915-10-eperezma@redhat.com>
+Subject: [RFC v6 10/13] memory: Notify IOMMU IOTLB based on entry type,
+ not permissions
+Date: Wed, 26 Aug 2020 16:36:48 +0200
+Message-Id: <20200826143651.7915-11-eperezma@redhat.com>
 In-Reply-To: <20200826143651.7915-1-eperezma@redhat.com>
 References: <20200625191651.5817-1-eperezma@redhat.com>
  <20200826143651.7915-1-eperezma@redhat.com>
@@ -56,13 +56,13 @@ MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eperezma@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 06:53:10
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/25 23:30:47
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -95,23 +95,61 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This way the intention is much clearer.
+
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/i386/intel_iommu.c | 1 +
- 1 file changed, 1 insertion(+)
+ softmmu/memory.c | 27 +++++++++++++++++++--------
+ 1 file changed, 19 insertions(+), 8 deletions(-)
 
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index ed83e496b8..0b3399874f 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -1251,6 +1251,7 @@ static int vtd_page_walk_level(dma_addr_t addr, uint64_t start,
-             entry.addr_mask = ~subpage_mask;
-             /* NOTE: this is only meaningful if entry_valid == true */
-             entry.translated_addr = vtd_get_slpte_addr(slpte, info->aw);
-+            entry.type = entry.perm ? IOMMU_IOTLB_MAP : IOMMU_IOTLB_UNMAP;
-             ret = vtd_page_walk_one(&entry, info);
-         }
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index 961c25b42f..3e68442ca6 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -1890,10 +1890,27 @@ void memory_region_unregister_iommu_notifier(MemoryRegion *mr,
+     memory_region_update_iommu_notify_flags(iommu_mr, NULL);
+ }
  
++static IOMMUNotifierFlag notifier_type_iommu(const IOMMUNotifier *notifier)
++{
++    return notifier->notifier_flags & IOMMU_NOTIFIER_ALL;
++}
++
++static bool memory_region_notify(const IOMMUNotifier *notifier,
++                                 const IOMMUTLBEntry *entry)
++{
++    switch(entry->type) {
++    case IOMMU_IOTLB_MAP:
++        return notifier_type_iommu(notifier) == IOMMU_NOTIFIER_MAP;
++    case IOMMU_IOTLB_UNMAP:
++        return notifier_type_iommu(notifier) == IOMMU_NOTIFIER_UNMAP;
++    default:
++        return false;
++    };
++}
++
+ void memory_region_notify_iommu_one(IOMMUNotifier *notifier,
+                                     IOMMUTLBEntry *entry)
+ {
+-    IOMMUNotifierFlag request_flags;
+     hwaddr entry_end = entry->iova + entry->addr_mask;
+ 
+     /*
+@@ -1906,13 +1923,7 @@ void memory_region_notify_iommu_one(IOMMUNotifier *notifier,
+ 
+     assert(entry->iova >= notifier->start && entry_end <= notifier->end);
+ 
+-    if (entry->perm & IOMMU_RW) {
+-        request_flags = IOMMU_NOTIFIER_MAP;
+-    } else {
+-        request_flags = IOMMU_NOTIFIER_UNMAP;
+-    }
+-
+-    if (notifier->notifier_flags & request_flags) {
++    if (memory_region_notify(notifier, entry)) {
+         notifier->notify(notifier, entry);
+     }
+ }
 -- 
 2.18.1
 
