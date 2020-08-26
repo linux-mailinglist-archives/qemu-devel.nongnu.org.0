@@ -2,57 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66726252B17
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 12:04:44 +0200 (CEST)
-Received: from localhost ([::1]:54572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE337252B1F
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Aug 2020 12:07:02 +0200 (CEST)
+Received: from localhost ([::1]:57968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kAsIN-0005ih-HE
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 06:04:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59798)
+	id 1kAsKb-0007De-Vz
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 06:07:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kAsHG-0005Db-RS
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 06:03:34 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:4268 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kAsHE-0003CM-Cj
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 06:03:34 -0400
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id F3E7EECAC5332C66EB52;
- Wed, 26 Aug 2020 18:03:23 +0800 (CST)
-Received: from [127.0.0.1] (10.174.186.4) by DGGEMS404-HUB.china.huawei.com
- (10.3.19.204) with Microsoft SMTP Server id 14.3.487.0; Wed, 26 Aug 2020
- 18:03:16 +0800
-Subject: Re: [PATCH v5 03/12] migration/dirtyrate: Add RamlockDirtyInfo to
- store sampled page info
-From: Zheng Chuan <zhengchuan@huawei.com>
-To: David Edmondson <dme@dme.org>
-References: <1598260480-64862-1-git-send-email-zhengchuan@huawei.com>
- <1598260480-64862-4-git-send-email-zhengchuan@huawei.com>
- <m2lfi1lpqj.fsf@dme.org> <a689e7ed-c685-231d-e9f8-61cc2167a71f@huawei.com>
-Message-ID: <e1b489c1-b480-be1f-d41e-81aacaf50a9a@huawei.com>
-Date: Wed, 26 Aug 2020 18:03:15 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kAsJw-0006p3-Rj
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 06:06:20 -0400
+Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:37822)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kAsJv-0003fO-67
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 06:06:20 -0400
+Received: by mail-yb1-xb2a.google.com with SMTP id e14so648036ybf.4
+ for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 03:06:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=IBlWzqg1x3SWdj4VWhi+AMYq+xiFJAIJuQ8pHd5gDlE=;
+ b=u1TSi+eRTfaZPVc7r7ANwclQlBBQOCvt7fTCkuiK3EN/ibVlc6MwaipJxaqm2DXyeR
+ fLkNZLkCWAEjxvLID5GJ773nJQnxx6EAB5eieLS/3O1J5hSi3yPjHxpAwhwfjlJkXAk+
+ 9EK+hJmXuVx5mc3/C1e/+/fMOvgD6XK8C3/JdwwnAKgFsXEtiZpK2KXRLFlYuTNiUJKI
+ yqAs4rrKRI9+ESNEr+DjdQQzm0rkJBakU/qfOlJWVsKVZuyIbP/FhZhFJ8hnEFtGjArW
+ d9OkIWPqUpAm+PaGgt3kLTgd6DDDleYa4pmrBTMyVy2JOO6zwx8n3keKJ86jUW26uGZB
+ 49lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=IBlWzqg1x3SWdj4VWhi+AMYq+xiFJAIJuQ8pHd5gDlE=;
+ b=Dvbt0YRupVq+yJ8bhNuTxDRUjeSQbPw5aTGR0c8VO702Vsj3vPRuGmV8Qud2k9ty3w
+ 7VOUf+nMWM47Su3H+jZ7lIGYPx+K1NW4LnetXJeLCbvEB8c9mRh1WEL669bi+zmf3jz6
+ OnLXRsLUfM0d0pQ7OaTIrX10ko0WyHT+Y6v0UPU0ylDywlklkStOtzFfScctC3n8NC/G
+ 9uKc+cQ63ncreSYvw4Ht/KGp7zBEnKxPNi/7qjbKbmgx0ftIB6IdZBx4k+/i22YO+Yy1
+ 1pZMAp38PkjTETwX3XI2Sh4CdZHfZC7tObyii1nMTDqoSK0sfrzZ7OCqULlQy98CEnK4
+ RMjQ==
+X-Gm-Message-State: AOAM53153XR9NW4YJSbLBCw0Wtu931gp9odwS/TYLThom1lm6ggnJcE0
+ pxx963UNqUYBGqN9leZ4RUdcp5+5/w8sx/Xl1ew=
+X-Google-Smtp-Source: ABdhPJxSAcfKygIWlmjjnXJV/1sn9GkAsS93DOWdKQo25nxTZvjUiZCLVRXCq/u9wvcVUQTbDv8aaBgtVVaQ5jmMGBU=
+X-Received: by 2002:a25:d946:: with SMTP id q67mr18199585ybg.517.1598436378137; 
+ Wed, 26 Aug 2020 03:06:18 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <a689e7ed-c685-231d-e9f8-61cc2167a71f@huawei.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.186.4]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191;
- envelope-from=zhengchuan@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/26 06:03:24
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.602,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200825184836.1282371-1-alistair.francis@wdc.com>
+ <CAFEAcA8=Mf=EPh__tNhJyGv8+ouD-HH+MuMb+HhtTFes+XqUSQ@mail.gmail.com>
+ <CAKmqyKNxURXyNSEePPU1jY7FzcZjRThr2qAvwR393+nqUXBxJQ@mail.gmail.com>
+ <CAFEAcA8x=ck1mmJ8Y8o-0NQXWhRgOg5Gp7GvHNkNnLb6rDxygg@mail.gmail.com>
+ <CAKmqyKP6OUoaR6iZ6SD6qZPvYF0bKqpB_rRNeQOteg8BtcqKeQ@mail.gmail.com>
+ <CAEUhbmWN93n1JoGszsW6WrkGbdFD6VsGyi7Ji6bS6wF+DbMOBw@mail.gmail.com>
+ <CAFEAcA9026WV-t5Q9EbV-nZi+6GZ3WoKCx2tA9QeAXu5iD5ryg@mail.gmail.com>
+In-Reply-To: <CAFEAcA9026WV-t5Q9EbV-nZi+6GZ3WoKCx2tA9QeAXu5iD5ryg@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 26 Aug 2020 18:06:07 +0800
+Message-ID: <CAEUhbmWv52oeQb6z3JTpa16utD2NmB1sKZ-sT7uD1R8_3KwNMw@mail.gmail.com>
+Subject: Re: [PULL 00/18] riscv-to-apply queue
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2a.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,86 +84,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
- xiexiangyou@huawei.com, alex.chen@huawei.com, ann.zhuangyanying@huawei.com,
- fangying1@huawei.com
+Cc: Alistair Francis <alistair23@gmail.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Peter,
 
+On Wed, Aug 26, 2020 at 5:25 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Wed, 26 Aug 2020 at 04:21, Bin Meng <bmeng.cn@gmail.com> wrote:
+> > On Wed, Aug 26, 2020 at 6:41 AM Alistair Francis <alistair23@gmail.com> wrote:
+> > > Richard and Philippe review patches and some of the RISC-V patches get
+> > > reviewed by the RISC-V community. The main problem (which is a common
+> > > problem in open source) is that large technical patch series just get
+> > > ignored.
+> >
+> > Yep, I am only comfortable reviewing patches which I have confidence
+> > in. Right now I am not working on any H- or V - extension for RISC-V
+> > so I cannot contribute to any review of these large numbers of H- or
+> > V- extension related patches. Sorry!
+>
+> So, everybody has a ton of work they need to do and only a limited
+> amount of time they might have for code review, so it's important to
+> prioritise. But I would encourage you, and other people contributing
+> to RISC-V parts of QEMU, to at least sometimes review changes that are
+> a little bit out of your "comfort zone" if nobody else seems to be
+> doing so. Review can find bugs, areas that are confusing or need
+> comments, etc, even without a thorough knowledge of the relevant spec.
+> (In fact, not knowing the spec can help in identifying where
+> explanatory comments can help the reader!) And for the project it means
+> we have more people who at least have some idea of what that bit of code
+> is doing. Review that is limited to "this code seems to make sense but
+> I haven't checked it against the spec" is better than patches getting
+> no review at all, I think. And it's a good way to build your knowledge
+> of the codebase and the architecture over time.
 
-On 2020/8/26 17:40, Zheng Chuan wrote:
-> 
-> 
-> On 2020/8/26 17:29, David Edmondson wrote:
->> On Monday, 2020-08-24 at 17:14:31 +08, Chuan Zheng wrote:
->>
->>> Add RamlockDirtyInfo to store sampled page info of each ramblock.
->>>
->>> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
->>> ---
->>>  migration/dirtyrate.h | 18 ++++++++++++++++++
->>>  1 file changed, 18 insertions(+)
->>>
->>> diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
->>> index 33669b7..70000da 100644
->>> --- a/migration/dirtyrate.h
->>> +++ b/migration/dirtyrate.h
->>> @@ -19,6 +19,11 @@
->>>   */
->>>  #define DIRTYRATE_DEFAULT_SAMPLE_PAGES            512
->>>  
->>> +/*
->>> + * Record ramblock idstr
->>> + */
->>> +#define RAMBLOCK_INFO_MAX_LEN                     256
->>> +
->>>  /* Take 1s as default for calculation duration */
->>>  #define DEFAULT_FETCH_DIRTYRATE_TIME_SEC          1
->>>  
->>> @@ -27,6 +32,19 @@ struct DirtyRateConfig {
->>>      int64_t sample_period_seconds; /* time duration between two sampling */
->>>  };
->>>  
->>> +/*
->>> + * Store dirtypage info for each ramblock.
->>> + */
->>> +struct RamblockDirtyInfo {
->>> +    char idstr[RAMBLOCK_INFO_MAX_LEN]; /* idstr for each ramblock */
->>> +    uint8_t *ramblock_addr; /* base address of ramblock we measure */
->>> +    uint64_t ramblock_pages; /* ramblock size in 4K-page */
->>
->> It's probably a stupid question, but why not store a pointer to the
->> RAMBlock rather than copying some of the details?
->>
-Missing this question:)
-Since I only hold the RCU around each part separately, the RAMBlock
-could disappear between the initial hash, and the later compare;  so
-using the name makes it safe.
-Again, Please refer to the newer patch series:)
+Agree. I really wanted to spend more time on this project but like you
+said it's priorities.
 
->>> +    uint64_t *sample_page_vfn; /* relative offset address for sampled page */
->>> +    uint64_t sample_pages_count; /* count of sampled pages */
->>> +    uint64_t sample_dirty_count; /* cout of dirty pages we measure */
->>
->> "cout" -> "count"
->>
-> Hi, David.
-> Thank you for review.
-> Actually I have resent [PATCH V5], but it's my fault to forget to add resent tag which may lead to confusing.
-> In new patch series, this spell mistake is fixed.
-> Please refer to the newer patch series:)
-> 
->>> +    uint32_t *hash_result; /* array of hash result for sampled pages */
->>> +};
->>> +
->>>  void *get_dirtyrate_thread(void *arg);
->>>  #endif
->>>  
->>> -- 
->>> 1.8.3.1
->>
->> dme.
->>
+One thing I do not understand is that according to MAINTAINTERS there
+are 4 custodians for the RISC-V maintenance work but it looks to me so
+far only Alistair is actively reviewing patches. I know Palmer used to
+review patches but if it's only one person that might be some issues.
+At least MAINTAINTERS can cross-review, and we have 4 there.
 
+Regards,
+Bin
 
