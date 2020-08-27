@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C45E0254B66
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 19:02:11 +0200 (CEST)
-Received: from localhost ([::1]:37226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F1F1254B68
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 19:02:14 +0200 (CEST)
+Received: from localhost ([::1]:37504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBLHu-0007T9-9d
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 13:02:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50684)
+	id 1kBLHx-0007bn-C3
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 13:02:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kBLFy-0005pQ-6D
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 13:00:11 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26704
+ id 1kBLG1-0005pm-Ip
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 13:00:13 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21291
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kBLFw-0005Mn-00
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 13:00:09 -0400
+ id 1kBLFw-0005Mv-11
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 13:00:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598547605;
+ s=mimecast20190719; t=1598547606;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=u0cU2pKxq8BAQpdJNYqHz0FvSzVLfYh0AUYliRmr3zg=;
- b=FNi94mNV8YqaGC9W3i6uWPw+56zugzIO9LL46sIxeFBHsRgz2WAE1efESKxZffOGMOrlGr
- XiJFiDc9teWLzz1qQAE9ZqkCV8PSkPfctQxdNjfknRYdzZcgX9jiap1lBPrK5I4fWHjUhf
- PS8H3Wgj9aBwlfAfdvR2SDHNT4PVOc4=
+ bh=EnjvU88cAwFF+qc9CW8oMqgJGUmWasA62ifrpCJGzYE=;
+ b=RljYEWr7qcRDiBrPFsbjCN3mXRwV2T5egapncJZl9hlfd4sP/oUPGjPhPotkhEnSFyluOp
+ /3Z1aZAnZ+NzrA/mE2Lt8JeKokA+kj7kK3AgcV1w4CvWByDIjwt0ZvXIE3p5lW0npjvNg9
+ Fdg/BmbUo8hHhmSFVaXE2hSbY+5MaJg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-321-yv4aXGMfOW6jhEfQ5wlI9g-1; Thu, 27 Aug 2020 13:00:02 -0400
-X-MC-Unique: yv4aXGMfOW6jhEfQ5wlI9g-1
+ us-mta-411-_LTGKjY0NjqV6bNAo0GkPQ-1; Thu, 27 Aug 2020 13:00:04 -0400
+X-MC-Unique: _LTGKjY0NjqV6bNAo0GkPQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AEC1D1074655;
- Thu, 27 Aug 2020 17:00:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E72EB1009637
+ for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 17:00:03 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A49CB7843F;
- Thu, 27 Aug 2020 16:59:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CAB8778426;
+ Thu, 27 Aug 2020 17:00:00 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/17] trace: fix creation of systemtap files
-Date: Thu, 27 Aug 2020 12:59:40 -0400
-Message-Id: <20200827165956.12925-2-pbonzini@redhat.com>
+Subject: [PULL 02/17] meson: Build qemu-nbd on macOS again
+Date: Thu, 27 Aug 2020 12:59:41 -0400
+Message-Id: <20200827165956.12925-3-pbonzini@redhat.com>
 In-Reply-To: <20200827165956.12925-1-pbonzini@redhat.com>
 References: <20200827165956.12925-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +57,7 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-1.mimecast.com
@@ -82,46 +82,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
 
-The "exe_name" variable was renamed to exe['name'], so systemtap
-files fail to build.
+Before switching to the meson build system, we used to compile qemu-nbd
+for macOS, too, which is especially important for running the iotests
+there. Commit b7c70bf2c5 disabled it by accident, since it did not take
+into consideration that the $bsd variable in the configure script was
+also set to "yes" on macOS. Fix it by enabling qemu-nbd on all systems
+but Windows now instead (which was likely the original intention of the
+old code in the configure script).
 
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Fixes: b7c70bf2c5 ("meson: qemu-{img,io,nbd}")
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Acked-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meson.build b/meson.build
-index f0fe5f8799..f2aa5a7700 100644
+index f2aa5a7700..38d0abc0ea 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1029,14 +1029,14 @@ foreach target : target_dirs
- 
-     if 'CONFIG_TRACE_SYSTEMTAP' in config_host
-       foreach stp: [
--        {'ext': '.stp-build', 'fmt': 'stap', 'bin': meson.current_build_dir() / exe_name, 'install': false},
--        {'ext': '.stp', 'fmt': 'stap', 'bin': get_option('prefix') / get_option('bindir') / exe_name, 'install': true},
-+        {'ext': '.stp-build', 'fmt': 'stap', 'bin': meson.current_build_dir() / exe['name'], 'install': false},
-+        {'ext': '.stp', 'fmt': 'stap', 'bin': get_option('prefix') / get_option('bindir') / exe['name'], 'install': true},
-         {'ext': '-simpletrace.stp', 'fmt': 'simpletrace-stap', 'bin': '', 'install': true},
-         {'ext': '-log.stp', 'fmt': 'log-stap', 'bin': '', 'install': true},
-       ]
--        custom_target(exe_name + stp['ext'],
-+        custom_target(exe['name'] + stp['ext'],
-                       input: trace_events_all,
--                      output: exe_name + stp['ext'],
-+                      output: exe['name'] + stp['ext'],
-                       capture: true,
-                       install: stp['install'],
-                       install_dir: config_host['qemu_datadir'] / '../systemtap/tapset',
+@@ -1081,7 +1081,7 @@ if have_tools
+   qemu_io = executable('qemu-io', files('qemu-io.c'),
+              dependencies: [block, qemuutil], install: true)
+   qemu_block_tools += [qemu_img, qemu_io]
+-  if targetos == 'linux' or targetos == 'sunos' or targetos.endswith('bsd')
++  if targetos != 'windows'
+     qemu_nbd = executable('qemu-nbd', files('qemu-nbd.c'),
+                dependencies: [block, qemuutil], install: true)
+     qemu_block_tools += [qemu_nbd]
 -- 
 2.26.2
 
