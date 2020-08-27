@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4156525502C
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 22:45:49 +0200 (CEST)
-Received: from localhost ([::1]:54368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F2FE255022
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 22:40:38 +0200 (CEST)
+Received: from localhost ([::1]:46964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBOmK-0004PJ-5P
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 16:45:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50710)
+	id 1kBOhJ-000163-FO
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 16:40:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kBOcV-0007p4-PV
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 16:35:40 -0400
-Received: from mout.gmx.net ([212.227.15.18]:59535)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kBOcN-0007lX-IH
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 16:35:31 -0400
+Received: from mout.gmx.net ([212.227.15.18]:57651)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kBOcR-0001Wp-3M
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 16:35:39 -0400
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kBOcJ-0001V6-T6
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 16:35:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
  s=badeba3b8450; t=1598560521;
- bh=xGoJxgZ7IVup4dbsseRwpe8Ye66tYZj9bPxD1FAfhqQ=;
+ bh=vw8bGZyavPiuNJqGPu8Pu9oaZpooKHADWrXrJJKoI0U=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=g4OY8V7Rz6ldWd17ZLLHtmm+nWVF0lYCWnTXxvl/mk/kUO+R+0AYGpvCxW9SnGZI5
- IbAe1Rjos6er7RWoV8fidE6FpJWx/iypMPhi9lP+vNFmw0JoM0LNTkeOMH8CRnc1Ri
- uWogKTLLVSOq8/pGsWxvXYTNuHX3onbPDuYcrers=
+ b=fJZyZnH1MW5uUA87T/FI9viuDipNgy+iW12yhC8v2Q1DysuQIQvKu+Sc9VD8cSCZ/
+ Pm3khQVOOVpEqNVk+ZzTCqiQl9LQx2LOIkp/bSPBYGBW3ck6ehVpehkBtBuHoFzjUg
+ OVLiZ5g1qWTL2e9LMLBIfvy7PNvpxjta7mlps718=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from ls3530.fritz.box ([92.116.181.35]) by mail.gmx.com (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1ML9uK-1juPzm3emQ-00IGiQ; Thu, 27
- Aug 2020 22:35:20 +0200
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MjS5A-1kruRX09hS-00kuTa; Thu, 27
+ Aug 2020 22:35:21 +0200
 From: Helge Deller <deller@gmx.de>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/5] hw/hppa: Make number of TLB and BTLB entries configurable
-Date: Thu, 27 Aug 2020 22:35:14 +0200
-Message-Id: <20200827203517.29404-3-deller@gmx.de>
+Subject: [PATCH 3/5] hw/hppa: Store boot device in fw_cfg section
+Date: Thu, 27 Aug 2020 22:35:15 +0200
+Message-Id: <20200827203517.29404-4-deller@gmx.de>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200827203517.29404-1-deller@gmx.de>
 References: <20200827203517.29404-1-deller@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:SSesNdgd1VaeG+r8fHaitRYIWSzZvR4MREF7LlJI4EzQcAvkt6+
- Yynz9QCIfSKvcTkpZraVFqNKBr+YLe5DYVAIoE8611OivYDSgKIIVnUuk9P7y59JuDjrXif
- kJLL1uUJNQyZGBAMbP6iCRUazKbAezCJxs8OvCRZ76kjzeaSZyegkNLjkl4lTWxchvC6IE3
- 41NIkvrSUCc896WENn8xw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:riCtzN8e5+4=:TU/FlD8jiuc23GdZRENDXl
- JRVZjVJIfgOp6GABMwAdVNWMH0bTpLmgt2Jjne9mf+ta5WZfD/N/JqX7wyExf14Up2LTERP3M
- JG9WVB0BUhR5hQAjntUMK94afNwts2biW12tCngB70ivEzFNQ4fVWN0iJstY61BRYA/QksPpm
- G13Rz2V1ac8FcDZJfk6tg6RJaX9zWcss9idTzBognfhF+1ZL0gg3lNQCUhTjvhGe+X4GBH3hR
- 4vcRycyj22bjY+15XlAiCDuKeVvBV7M6awdpiNW9Vqt/R1MwzJqEykwFMWgU9r7Q7GVPG5Mtp
- MMWbGLZaEGRfAWFfQiP0zYW4nvSeI2sry1yBhWUCEMwVlOeZYEztJcOFotPCF2/3LhlK/Z7QK
- iD6wNz5W7Tpc10aj2GIGLPeukgMA/nwDf1Xn2YPxtLmjxVCHwBCaOUVJcivQ3sb7v8/o8lScM
- /lecQWzhlBAqpSgO3s4CELwr4B4hD2muTZcBTqxlhv75ETH3lTYy3SKRxdiaxPlgmhjoycOiZ
- IZa3kxdf4FbhNnWmIwuaLaAnbQiHjzAdxwWyDA6RCZah23kgwjVZqtlVbYvHk6QsETDBby4JJ
- IElQkvw+LF/WIfO9uFWPrRmjddkBr9mMa8+HOkTULDYqkeif3zCIAkAVkBJyKEWQqYvpsrlO+
- fGp9BLN+1EHB2BxlcGCI9IWFGERRu7+w3+HCnegJqx4A+k4g4D5IOsF77Iue5OP2JeFU71Uo3
- k9VCEWvBAM3IsW/uIPS6NMX4K1KjMhdTDHMj+7geEvQOG0XjNfsJS2Bty1/W9NEzjUFNcNcfW
- a4oaRDmpH+5JXtOSEerl686wLRZNKpEsKBovUy4NjfhhFWppCrX3tF5dQuhctfl/wB/JG4/IG
- XhcfrV/SO4bUQ6tE30Y+68v9HuUTmk23f26AhHfQABwLNtmC4mfU+doXDM4gZ+MMlWqALWPdd
- jpCM9vRUb+6VAXsCXBd1DxPMNa4dcQEvBiKHB5+OcEU42LRirPYQgEf/iNl6sFAtv3GiCXn8Y
- 90dL4jxB+hYd50dnm0bfulsvNf6ErqAAHRml+w+Enpg+qGl+zW4Z9Vogo+54w11okCUhTjO/8
- spprPrer899pJiN+2j9Ycy9Mrr0PzpJSnI007Q/e5uXDrLlPtsEhygV+MK+pcD+GhwdV9veXD
- Hl+FRHlPEegW4z3oWf/WtW7oMLKz0l1v0hIApVubg8kumvZ3i1tfQ9vS1FfWPz0MjIVTmCLUo
- PQ7G1WEEF0+WsW+Bm
+X-Provags-ID: V03:K1:y+BaNieFhgukXqtpKUmgv+nB7fnoH4zSRllYEicGmQmWPl+buGu
+ FO0Fnx5obDUmYWkfb1zvrQwrWCth4CTQsYPQg/tU84JFcIPcTYD+RrHrPt5hOArAPgR6ChH
+ MppUM/Gxmb9sRZu8x8zsOOx3LTIEJk2Vjv5BFF24ENNT0CLX6HQhcGk9jYna5TuZhq9jAGo
+ vHnQk09mNzDDDWcrY2tRg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:5NhQpBOEF2I=:Xbijeik0xnGE9PVB3+aMyF
+ 51Gk2RyLYAITE5c6ORYC44nC0Eu/HyD4/Ev79g96AmokDsju0LUtA2iqVy3RISoYO4SUGOGIM
+ UFHsrhBpUkuhf2LcTH64lTyx7TkhWdi9QlZz/n7xE4jZX+NasVZp0rHT3B9FQz/PXoMqqxWzh
+ BffWQlwOqrBm3jY51gs9gQGxTLNbcGHp/I8lBqhkHLDJ2yMwLQF2JL2NDQck2jPQsxLW+IeZk
+ 8j7dAWBTBqoimy3Q1nhQisrzy4B+yNizpVPF2eXnIerAaGHstKICfYUcxCJTB2tnuNN0TVqbv
+ k4gwhurAvMG2/qv9JR7fMSlQ55a8peNnnJTwH7EVoJ809WiYmAed9sMfxjDD9htdUzObC/OGt
+ zPzy0SAFJF5QftxP5A5IRalZ6AkLwIjGnuZ2YG/Vi6jH6UCouiEbHxHYQ7fDDfbqBtjiWtQgQ
+ pEpmZDNppopnlj8eplF06uuc0dpkQOBf1yoVSjY2RNWiOOwEZ8h6RNfygZDWwd5jLN2c1MW+4
+ Iik46vGE6FBqGz7kHBZ39BrmQ3y95fpy7jK2ItD7PHflHxmdc3NjJvMl/kiWL3VWYD8Dyzh0J
+ +EhBrAxW7uXOtrTGM0Pog1ThWLYduCUvejwjLOQSQRTTcAN074Xwlb1tT/Jx5FVmxhAZRkf5s
+ 61Os3zR4tnGSOnfoVqGWOOba/zEM0orXi3070Ejex0r964qxAYIDnM+UDwCtjWw7iZGYhxYwb
+ fz73BQIsZ4HhXR/z/JiKZZZgeJi8gcoKEQIjp362zX//aA3GvQQBQBeLAUGqH136AvErmUUbi
+ 5W9oZgyYPzeKDDlI7tBv6TpFB2OxeGpSIzBquUfyqSrXe7YOxQTB5ocb9anWLsrFkMUv1kqwG
+ Ys6GpTCDWs3whzX55vbG/lRvnVwCcFXViOfr4GfqQ31cXabrnNu6Av6gVOzp+F39/1bSnhZ7a
+ bOYUzmpSZi1h6jETLmxZ9pxqW3VDNPY1cpBm7vdHUCCd9zk2GuChbgH/9r3rs+ohIp8nobbaW
+ 6i5QCUob9NTPud0fhROXjKrqkL6kXYXQtiAm7JcbAI+kRk5fKnaBWa4XoBAcMbc2hswt7WrLM
+ /QkhmQxQMP8tmGA7lZZC2LheCKSG3mSugSIYU+vrRn09CuUALqg/XPGLKdyxPEflOa7eYooat
+ 7b+UYYxBPtXIVJQvi3Exfg8mY5xxz0c2NDEXPO3xwD1eAPr8GbiH8TShNk2O4K6DWZ9TpXt+h
+ leRAfWKaG2mF9qSAh
 Received-SPF: pass client-ip=212.227.15.18; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 16:35:24
@@ -90,56 +90,38 @@ Cc: Helge Deller <deller@gmx.de>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Until now the TLB size was fixed at 256 entries. To allow operating
-systems to utilize more TLB entries in the future, we need to tell
-firmware how many TLB entries we actually support in the emulation.
-Firmware then reports this to the operating system via the
-PDC_CACHE_INFO call.
-
-This patch simply does the preparation to allow more TLB entries.
-
 Signed-off-by: Helge Deller <deller@gmx.de>
 =2D--
- hw/hppa/machine.c | 8 ++++++++
- target/hppa/cpu.h | 5 ++++-
- 2 files changed, 12 insertions(+), 1 deletion(-)
+ hw/hppa/machine.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-index 90aeefe2a4..e9d84d0f03 100644
+index e9d84d0f03..4b35afc9d5 100644
 =2D-- a/hw/hppa/machine.c
 +++ b/hw/hppa/machine.c
-@@ -72,6 +72,14 @@ static FWCfgState *create_fw_cfg(MachineState *ms)
-     fw_cfg_add_file(fw_cfg, "/etc/firmware-min-version",
+@@ -58,6 +58,12 @@ static uint64_t cpu_hppa_to_phys(void *opaque, uint64_t=
+ addr)
+ static HPPACPU *cpu[HPPA_MAX_CPUS];
+ static uint64_t firmware_entry;
+
++static void fw_cfg_boot_set(void *opaque, const char *boot_device,
++                            Error **errp)
++{
++    fw_cfg_modify_i16(opaque, FW_CFG_BOOT_DEVICE, boot_device[0]);
++}
++
+ static FWCfgState *create_fw_cfg(MachineState *ms)
+ {
+     FWCfgState *fw_cfg;
+@@ -80,6 +86,9 @@ static FWCfgState *create_fw_cfg(MachineState *ms)
+     fw_cfg_add_file(fw_cfg, "/etc/cpu/btlb_entries",
                      g_memdup(&val, sizeof(val)), sizeof(val));
 
-+    val =3D cpu_to_le64(HPPA_TLB_ENTRIES);
-+    fw_cfg_add_file(fw_cfg, "/etc/cpu/tlb_entries",
-+                    g_memdup(&val, sizeof(val)), sizeof(val));
-+
-+    val =3D cpu_to_le64(HPPA_BTLB_ENTRIES);
-+    fw_cfg_add_file(fw_cfg, "/etc/cpu/btlb_entries",
-+                    g_memdup(&val, sizeof(val)), sizeof(val));
++    fw_cfg_add_i16(fw_cfg, FW_CFG_BOOT_DEVICE, ms->boot_order[0]);
++    qemu_register_boot_set(fw_cfg_boot_set, fw_cfg);
 +
      return fw_cfg;
  }
-
-diff --git a/target/hppa/cpu.h b/target/hppa/cpu.h
-index 801a4fb1ba..440104dc3c 100644
-=2D-- a/target/hppa/cpu.h
-+++ b/target/hppa/cpu.h
-@@ -196,9 +196,12 @@ struct CPUHPPAState {
-     target_ureg shadow[7];   /* shadow registers */
-
-     /* ??? The number of entries isn't specified by the architecture.  */
-+    #define HPPA_TLB_ENTRIES        256
-+    #define HPPA_BTLB_ENTRIES       0
-+
-     /* ??? Implement a unified itlb/dtlb for the moment.  */
-     /* ??? We should use a more intelligent data structure.  */
--    hppa_tlb_entry tlb[256];
-+    hppa_tlb_entry tlb[HPPA_TLB_ENTRIES];
-     uint32_t tlb_last;
- };
 
 =2D-
 2.21.3
