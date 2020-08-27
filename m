@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BAB7254EDF
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 21:41:09 +0200 (CEST)
-Received: from localhost ([::1]:41634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39700254EEC
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 21:42:47 +0200 (CEST)
+Received: from localhost ([::1]:47894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBNlk-0002Pz-MD
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 15:41:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33926)
+	id 1kBNnK-0004ve-AD
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 15:42:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kBNTC-0006Zt-86
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:21:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23975)
+ id 1kBNTF-0006fV-HG
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:22:01 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51150
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kBNTA-0000NU-EW
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:21:57 -0400
+ id 1kBNTC-0000Nk-3f
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:22:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598556115;
+ s=mimecast20190719; t=1598556117;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CP+DOULOj0w02HAwvltHBXZrv5Zpm+d+Sy70IDDtoQg=;
- b=YytBp2KVB60o7Zi4+dwnTyNzMHkx9j99FvUklT6UBxgzYIne8/WtR0hqOQhIzeCEaSMtk8
- eAKn297e5qRSrDgMKO+SkWUej90FUuMEZ8jvlIdzHohLhYXsfoH905GaKNCdJzLU29RA04
- Vk6WBFljGNg750JwwaaELzQ43gpo9c8=
+ bh=vwaGSpawaqzMq1JtVKo0D7Zw39mdEsK4m4X847mdgBI=;
+ b=bMyd9Ut/WGDFCXqazyHxsmmmd1OEngyvuvvCuqcb3LnQ+fqgFeW/JyC0nGQszHQLhieBsX
+ RqUOsX6jIjmysOKB0WVLe2kcIW691IhcFyutWmfXNPS+MRlRZFJBBIf3v6Bywq18EI+Eaz
+ M0AG7LOjoUK34nV4Cn6NV+MjJ2FWpWU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-361--33y91yjOM-FYP57JVoRxA-1; Thu, 27 Aug 2020 15:21:51 -0400
-X-MC-Unique: -33y91yjOM-FYP57JVoRxA-1
+ us-mta-1-8JwECEs0PtuZTMopkuf58g-1; Thu, 27 Aug 2020 15:21:54 -0400
+X-MC-Unique: 8JwECEs0PtuZTMopkuf58g-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3688B1895806;
- Thu, 27 Aug 2020 19:21:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CFD118018A4;
+ Thu, 27 Aug 2020 19:21:53 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EF19C7849B;
- Thu, 27 Aug 2020 19:21:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EA5E97D8B1;
+ Thu, 27 Aug 2020 19:21:50 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 10/53] versatile: Fix typo in PCI_VPB_HOST definition
-Date: Thu, 27 Aug 2020 15:20:39 -0400
-Message-Id: <20200827192122.658035-11-ehabkost@redhat.com>
+Subject: [PULL 11/53] virtio-ccw: Fix definition of VIRTIO_CCW_BUS_GET_CLASS
+Date: Thu, 27 Aug 2020 15:20:40 -0400
+Message-Id: <20200827192122.658035-12-ehabkost@redhat.com>
 In-Reply-To: <20200827192122.658035-1-ehabkost@redhat.com>
 References: <20200827192122.658035-1-ehabkost@redhat.com>
 MIME-Version: 1.0
@@ -58,17 +59,17 @@ X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 02:10:07
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 02:56:52
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,36 +83,41 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>, Igor Mammedov <imammedo@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixes: cd93dbf375bd ("versatile_pci: Update to realize and instance init functions")
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+The macro was incorrectly defined using OBJECT_CHECK.
+
+Acked-by: Cornelia Huck <cohuck@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 Tested-By: Roman Bolshakov <r.bolshakov@yadro.com>
-Message-Id: <20200825192110.3528606-12-ehabkost@redhat.com>
+Message-Id: <20200825192110.3528606-13-ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/pci-host/versatile.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/s390x/virtio-ccw.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/pci-host/versatile.c b/hw/pci-host/versatile.c
-index 616882a80d..7e4aa467a2 100644
---- a/hw/pci-host/versatile.c
-+++ b/hw/pci-host/versatile.c
-@@ -161,7 +161,7 @@ static const VMStateDescription pci_vpb_vmstate = {
+diff --git a/hw/s390x/virtio-ccw.h b/hw/s390x/virtio-ccw.h
+index c0e3355248..b281896f7d 100644
+--- a/hw/s390x/virtio-ccw.h
++++ b/hw/s390x/virtio-ccw.h
+@@ -65,9 +65,9 @@ typedef struct VirtioBusClass VirtioCcwBusClass;
  
- #define TYPE_VERSATILE_PCI_HOST "versatile_pci_host"
- #define PCI_VPB_HOST(obj) \
--    OBJECT_CHECK(PCIDevice, (obj), TYPE_VERSATILE_PCIHOST)
-+    OBJECT_CHECK(PCIDevice, (obj), TYPE_VERSATILE_PCI_HOST)
+ #define TYPE_VIRTIO_CCW_BUS "virtio-ccw-bus"
+ #define VIRTIO_CCW_BUS(obj) \
+-     OBJECT_CHECK(VirtioCcwBus, (obj), TYPE_VIRTIO_CCW_BUS)
++     OBJECT_CHECK(VirtioCcwBusState, (obj), TYPE_VIRTIO_CCW_BUS)
+ #define VIRTIO_CCW_BUS_GET_CLASS(obj) \
+-    OBJECT_CHECK(VirtioCcwBusState, (obj), TYPE_VIRTIO_CCW_BUS)
++    OBJECT_GET_CLASS(VirtioCcwBusClass, (obj), TYPE_VIRTIO_CCW_BUS)
+ #define VIRTIO_CCW_BUS_CLASS(klass) \
+     OBJECT_CLASS_CHECK(VirtioCcwBusClass, klass, TYPE_VIRTIO_CCW_BUS)
  
- typedef enum {
-     PCI_IMAP0 = 0x0,
 -- 
 2.26.2
 
