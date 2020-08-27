@@ -2,89 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9E722544B6
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 14:04:32 +0200 (CEST)
-Received: from localhost ([::1]:43192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98E2B2544C4
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 14:08:36 +0200 (CEST)
+Received: from localhost ([::1]:49348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBGdr-0003b0-SL
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 08:04:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49482)
+	id 1kBGhn-0006LV-Nl
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 08:08:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kBGcU-0002kd-1B
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 08:03:07 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22039
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kBGgl-0005on-6q
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 08:07:31 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40757
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kBGcR-00015m-Lq
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 08:03:05 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kBGgj-0001gi-0T
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 08:07:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598529782;
+ s=mimecast20190719; t=1598530047;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=cKtkLesNoXADmOkrWGtd1DzClSETZwPbs392XL32ypE=;
- b=Lg79DRtoDSHsxCKAlcrzooiVFxx/eI3S4u8SO0I4nXhzWvKxmcBFJhWJGtnM2oWUrU1PtU
- 6wlhtxngd/1nokrcZFyOVLhCxJf07lxxXg/o+/qFLIEvEuq3k0klGFVg8zGeJxwcoQRaov
- DNqdQ6dfgouJaVekA1aZalF+bFPq7HI=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-337-Oyk7qOFQNbyx2ZDtWjirxw-1; Thu, 27 Aug 2020 08:03:00 -0400
-X-MC-Unique: Oyk7qOFQNbyx2ZDtWjirxw-1
-Received: by mail-ej1-f69.google.com with SMTP id i21so2530300ejj.0
- for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 05:02:59 -0700 (PDT)
+ bh=E0lrKIRwpk3fspP40Kgkcgsrt3UnRS77wqaXy4RP/9A=;
+ b=SbskRA/EFEJsdMWI4PYR0byALBN9PRy00j/47VO0EtEL4+JLB2+uCa++kWz+JBzuTu88Ld
+ jnVRNyViWgzdTJewFK4OtffdivX5Kp01vZ3jfd2KaVUuh7yHzRj1vX58BqBgFG+rYYWmer
+ mL9QBVc/MO4DwRLg7MVN/V1JE8fIrgM=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-530-vg0pVzrIMZGK38IGa7MUOg-1; Thu, 27 Aug 2020 08:07:25 -0400
+X-MC-Unique: vg0pVzrIMZGK38IGa7MUOg-1
+Received: by mail-wr1-f70.google.com with SMTP id i6so1456908wru.23
+ for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 05:07:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cKtkLesNoXADmOkrWGtd1DzClSETZwPbs392XL32ypE=;
- b=SFxbMPmRDyiw6mGHr/WQuJDMgs3s/I2+fSqim2TXMFiN+Xb/LUgHmtaU8L3PoOvD7Z
- bAvg9EfVwbF+xeaYfnzB7ukBfsBVIXiSLMns1Tvwe8tOlQe7A7MvJL27ELH+8pX5R5w0
- S7icECAF9rL+WGQEtBTutvepibB2f8shAg9aqaXboQiA5EcIeL559hgyhqr9R9W+9h8M
- w1hJRW8LBpdpILFkSD/QT1fcimt8j36ipUSqInhZ2pMbOa7gyrjT0fT/HZw99d1tdVS4
- gPB3wAfXZfAQlwyVvFFMP38FZsN/k/nCloIFc9Y5xFbfU7EEDoHCadKK/u1Sn1NKuwTS
- /c0A==
-X-Gm-Message-State: AOAM531JDUvLHkoTUi9CYjWolvKW3rEhftoio9friuDTynf4W/6po8om
- o7Hdm6ivSz42ZLDB24W/OT44J6L+3I2WHD+iSyiCC0cVyjuqYc3pgIIUb54kLQSrlf8W4BbgGX/
- OYVXquibx83SoRm3Q1bCrL0uvUO4YGrw=
-X-Received: by 2002:a17:906:1cc5:: with SMTP id
- i5mr18309966ejh.449.1598529779023; 
- Thu, 27 Aug 2020 05:02:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzDiUiE4bVTZ2VZhoAbngZmsEmX1q7QlJ/tbDjPxd+EYIrXlj5cqoOq66AHSw+UDgkPoAjyrzY8QKup3EUVzAQ=
-X-Received: by 2002:a17:906:1cc5:: with SMTP id
- i5mr18309934ejh.449.1598529778764; 
- Thu, 27 Aug 2020 05:02:58 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=E0lrKIRwpk3fspP40Kgkcgsrt3UnRS77wqaXy4RP/9A=;
+ b=FbrFcwpp4v24UTD0C0cY48tJYPmM3IcEvBbIZhyzRTs/mi7AWElIdeyeX/DIYzq8Wy
+ tCCfVEQJM4TNXdPrs+6ipWUr4xw1mWs4trcAwR3IUvyhpi/z28+/DHxx7yAVUKSD1Lo9
+ UhEkhw/gLi0jHZaBfsTUcCc4MdkILWvr7N2OMtzlN8/zdiHcCF5QbD/ruKMZcxKZi6va
+ 0xziavOSemf6CDLKaRlpM273/eyLwDh9t8qfqr6ORvcBetmVnIvQdcjW5b+EUo5E5bs6
+ 0Xk7+xIl7TMMj7XTmr9C1tsBJZ08D9gTavHpuCX3HhslS+tScmJ9BuAXF7azrhtODrUj
+ pjrg==
+X-Gm-Message-State: AOAM530g2l1miyw6hWUgW1AiXRaP4s0IJAuUpye01c9n1aA28b/pZSXj
+ eNjhTCobAOnx+DLuiplPhe4/ZkFZfx1KqoZ+jGa0IM/SNA5N9Yoz1iVYcB9eZ6Lq0ULE2mjoRa0
+ bW8FwBKFIWEcIlYU=
+X-Received: by 2002:a5d:60c5:: with SMTP id x5mr20486712wrt.67.1598530044133; 
+ Thu, 27 Aug 2020 05:07:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwguSvprA0Yx/RiuO+41QL/KmE5DXl08XKmj7YWP+gR/4VqFuGUhTVaT+hSap7enzTdL6bm8Q==
+X-Received: by 2002:a5d:60c5:: with SMTP id x5mr20486696wrt.67.1598530043944; 
+ Thu, 27 Aug 2020 05:07:23 -0700 (PDT)
+Received: from redhat.com (bzq-109-67-46-169.red.bezeqint.net. [109.67.46.169])
+ by smtp.gmail.com with ESMTPSA id m1sm4174221wmc.28.2020.08.27.05.07.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Aug 2020 05:07:22 -0700 (PDT)
+Date: Thu, 27 Aug 2020 08:07:08 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH 3/8] amd_iommu: Use TYPE_AMD_IOMMU_PCI constant
+Message-ID: <20200827080657-mutt-send-email-mst@kernel.org>
+References: <20200826184334.4120620-1-ehabkost@redhat.com>
+ <20200826184334.4120620-4-ehabkost@redhat.com>
 MIME-Version: 1.0
-References: <20200826190128.22707-1-pbonzini@redhat.com>
- <3c7ca48a-5eb0-cfd4-bac0-a2a7475eec39@vivier.eu>
- <CABgObfZhE1+N1XiHBaPx7SZHawUwNeA4yG5g1TPNQ5TMCO9xSA@mail.gmail.com>
- <CABgObfas4KFFc=0r9o_N8BYC0jHUoVx=iS0VYFU+zSCj-9yVQg@mail.gmail.com>
- <CABgObfYrFxgUSx2MYDf_uJA_cDXe_befjTm8GuiCBENzRttkOw@mail.gmail.com>
- <CAFEAcA8_ehUpuiCHkpdjdWQLHd8PG4D4ijtTo=vwk88wVip5HQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA8_ehUpuiCHkpdjdWQLHd8PG4D4ijtTo=vwk88wVip5HQ@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Thu, 27 Aug 2020 14:02:45 +0200
-Message-ID: <CABgObfbOhKjdn8uK+ATW5fxvtYodacjTAS-8gB4sHFDr9AS-iA@mail.gmail.com>
-Subject: Re: [PATCH] ninjatool: quote dollars in variables
-To: Peter Maydell <peter.maydell@linaro.org>
+In-Reply-To: <20200826184334.4120620-4-ehabkost@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.0
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000a0684405addab721"
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 02:56:52
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 00:13:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,68 +94,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000a0684405addab721
-Content-Type: text/plain; charset="UTF-8"
+On Wed, Aug 26, 2020 at 02:43:29PM -0400, Eduardo Habkost wrote:
+> This will make future conversion to use OBJECT_DECLARE* easier.
+> 
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> ---
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Richard Henderson <rth@twiddle.net>
+> Cc: Eduardo Habkost <ehabkost@redhat.com>
+> Cc: qemu-devel@nongnu.org
 
-Il gio 27 ago 2020, 12:08 Peter Maydell <peter.maydell@linaro.org> ha
-scritto:
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 
-> On Thu, 27 Aug 2020 at 10:20, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> >
-> > ... and actually it's fixed in 0.55.1. We can therefore just update the
-> submodule and declare 0.55.1 the minimum required version for QEMU.
->
-> Oh, I meant to ask -- if 0.56 is the one that gets rid of the
-> warnings about unstable-keyval backwards compatibility issues,
-> is there a reason our submodule version is 0.55 rather than 0.56 ?
->
+feel free to merge with the rest of the patch.
 
-Because 0.56 has not been released yet, it's what the master branch will be.
-
-Paolo
-
-
-> thanks
-> -- PMM
->
->
-
---000000000000a0684405addab721
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Il gio 27 ago 2020, 12:08 Peter Maydell &lt;<a href=3D=
-"mailto:peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; ha scrit=
-to:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex">On Thu, 27 Aug 2020 at 10:20, P=
-aolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" target=3D"_blank" r=
-el=3D"noreferrer">pbonzini@redhat.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; ... and actually it&#39;s fixed in 0.55.1. We can therefore just updat=
-e the submodule and declare 0.55.1 the minimum required version for QEMU.<b=
-r>
-<br>
-Oh, I meant to ask -- if 0.56 is the one that gets rid of the<br>
-warnings about unstable-keyval backwards compatibility issues,<br>
-is there a reason our submodule version is 0.55 rather than 0.56 ?<br></blo=
-ckquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Because 0=
-.56 has not been released yet, it&#39;s what the master branch will be.</di=
-v><div dir=3D"auto"><br></div><div dir=3D"auto">Paolo</div><div dir=3D"auto=
-"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">
-<br>
-thanks<br>
--- PMM<br>
-<br>
-</blockquote></div></div></div>
-
---000000000000a0684405addab721--
+> ---
+>  hw/i386/amd_iommu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
+> index 087f601666..18411f1dec 100644
+> --- a/hw/i386/amd_iommu.c
+> +++ b/hw/i386/amd_iommu.c
+> @@ -1622,7 +1622,7 @@ static const TypeInfo amdvi = {
+>  };
+>  
+>  static const TypeInfo amdviPCI = {
+> -    .name = "AMDVI-PCI",
+> +    .name = TYPE_AMD_IOMMU_PCI,
+>      .parent = TYPE_PCI_DEVICE,
+>      .instance_size = sizeof(AMDVIPCIState),
+>      .interfaces = (InterfaceInfo[]) {
+> -- 
+> 2.26.2
 
 
