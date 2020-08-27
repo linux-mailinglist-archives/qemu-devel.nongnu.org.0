@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85C39253CF6
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 06:51:59 +0200 (CEST)
-Received: from localhost ([::1]:60012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D401C253CFD
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 06:53:52 +0200 (CEST)
+Received: from localhost ([::1]:36838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kB9tG-00072e-Jf
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 00:51:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59628)
+	id 1kB9v5-0000iu-VR
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 00:53:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kB9rQ-0003dh-NY
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 00:50:04 -0400
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:33454)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kB9rO-0003is-QR
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 00:50:04 -0400
-Received: by mail-pg1-x52c.google.com with SMTP id o13so2478185pgf.0
- for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 21:50:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=hAIHaNoFAufwAGE6KbRmUZ0ExbibwWjhonjd/BMqxdQ=;
- b=H6OSlufeVe70sUyXpUiMZIh+/E9q3jJGFxgmBsSFtgWd/z9QNkwjELY8U6DjAqEUoz
- NrSCrB+dqnZVvnyR/OTJe4BnnxYPPSqfOsu+DMrk26O3vLAD4w3Xxk3zariVBEZrkMwO
- UHpnVqTEjunnYwdAdcbVArmW7NIMEPIG3eY2SPAS5aTbzBp3B549yK6TojvS0dn8jEpj
- tWXnrttZZgmWaMljl8qK7m6VRIMzxuiJg48AumIMwxzPQdMN0LKufhj6BHGfu+xuC9ba
- bMc09ZqcmxfNmv3fW1qTrFppdvsnE3mUZ5kkw4MYRvA4k8uK+gdyOxK6kDbhGN3e38av
- BXow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=hAIHaNoFAufwAGE6KbRmUZ0ExbibwWjhonjd/BMqxdQ=;
- b=hQE/hqTjoOoVWQMz/AbuyROizeSt2uWroe1NyHUoTnwbrg3vZMZ/mygZu3zzKQ1Bwc
- U4K9lEtCuAMwqmc94rt1kjOMvLEPZJ8xtc4veFTKLv34dB5f08mvW2WkwpQNaAF1AcL4
- 2S25ZGtCJtop08wpgXhIAIQQvSQxkbmLPoEEF7+lj8VYkwxbd391DbWcY1xYpmZJpVEY
- Ohtrtn+pQYuC5jleK+3TIsYxHIrUI8+hKsgIRQkbtD53jfBkHHcHH20BPsDJ+Bz+VvY6
- dV2mNvPikSkZLRzUL35EZIuxCvsk21H1HXZXzaJiH4dyHmJlEOa5OgDdoSsanFCyoIm3
- zwtQ==
-X-Gm-Message-State: AOAM530FppUAl7zWE4KwRV9+rh321VLXDyCI8RfuvKBG+GgP+jhVBFH6
- p9yQ8bhq7AOTst9P/qNDXHUpZHaRK8u9CrfNL3Q=
-X-Google-Smtp-Source: ABdhPJztqGONx5q3IWhvve9gq6nFnqL/m+pwhe9FZcGDz9YhMBw5T55zSdREXE71U722+RnDijo/Cg==
-X-Received: by 2002:aa7:854f:: with SMTP id y15mr14843926pfn.298.1598503800706; 
- Wed, 26 Aug 2020 21:50:00 -0700 (PDT)
-Received: from localhost.localdomain ([2401:c080:1c01:4fe:5400:2ff:fef1:b056])
- by smtp.googlemail.com with ESMTPSA id
- n26sm902296pff.30.2020.08.26.21.49.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Aug 2020 21:49:59 -0700 (PDT)
-From: luoyonggang@gmail.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH 6/6] meson: Convert undefsym.sh to undefsym.py
-Date: Thu, 27 Aug 2020 12:49:17 +0800
-Message-Id: <20200827044917.1356-7-luoyonggang@gmail.com>
-X-Mailer: git-send-email 2.27.0.windows.1
-In-Reply-To: <20200827044917.1356-1-luoyonggang@gmail.com>
-References: <20200827044917.1356-1-luoyonggang@gmail.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kB9uP-0000I3-1K
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 00:53:09 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:45543
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kB9uL-000455-V6
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 00:53:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598503984;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Pdpv7UQJiZxAeWDRb3n2YB0Nf5eGJJJwTC1SMKh0+vU=;
+ b=ep5gwaK6Ip8VxcdcSBMcToS6QgqOU6eLEP2HwnDGzi7ZHnZVhUyQZDdzmwUu6xKnRen/ug
+ F5GbwCVbfKSbmNAjuViMxi3hEbklCIJLBkd2gi88edCz8yc+QSA8TQiEZ0t07Ex8E63hv8
+ AQcxAGBxBvzPkhMIwn+CQPHKsXZ6UOo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-163-8qnab6huO5aFVSuptCY23Q-1; Thu, 27 Aug 2020 00:53:00 -0400
+X-MC-Unique: 8qnab6huO5aFVSuptCY23Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65F3118A2251;
+ Thu, 27 Aug 2020 04:52:59 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-56.ams2.redhat.com [10.36.112.56])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 164AA5C1DA;
+ Thu, 27 Aug 2020 04:52:57 +0000 (UTC)
+Subject: Re: [PATCH] meson: move pixman detection to meson
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20200826070243.11969-1-pbonzini@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <cc6af807-a24f-42bb-b1f7-8c8c5e59200b@redhat.com>
+Date: Thu, 27 Aug 2020 06:52:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
+In-Reply-To: <20200826070243.11969-1-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x52c.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Language: en-US
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 00:53:04
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -52
+X-Spam_score: -5.3
+X-Spam_bar: -----
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.239, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,127 +83,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Rafael Kitover <rkitover@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yonggang Luo <luoyonggang@gmail.com>
+On 26/08/2020 09.02, Paolo Bonzini wrote:
+> When pixman is not installed (or too old), but virglrenderer is available
+> and "configure" has been run with "--disable-system", the build currently
+> aborts when trying to compile vhost-user-gpu (since it requires pixman).
+> 
+> Let's skip the build of vhost-user-gpu when pixman is not installed or
+> too old.  Instead of adding CONFIG_PIXMAN, it is simpler to move the
+> detection to pixman.
+> 
+> Based on a patch by Thomas Huth. <thuth@redhat.com>
+> 
+> Fixes: 9b52b17ba5 ("configure: Allow to build tools without pixman")
+> Reported-by: Rafael Kitover <rkitover@gmail.com>
+> Reported-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  configure                          | 21 ++-------------------
+>  contrib/vhost-user-gpu/meson.build |  3 ++-
+>  meson.build                        | 12 +++++++-----
+>  3 files changed, 11 insertions(+), 25 deletions(-)
+> 
+> diff --git a/configure b/configure
+> index a5fa472c64..51b6164f69 100755
+> --- a/configure
+> +++ b/configure
+> @@ -3923,20 +3923,6 @@ if test "$modules" = yes; then
+>      fi
+>  fi
+>  
+> -##########################################
+> -# pixman support probe
+> -
+> -if test "$softmmu" = "no"; then
+> -  pixman_cflags=
+> -  pixman_libs=
+> -elif $pkg_config --atleast-version=0.21.8 pixman-1 > /dev/null 2>&1; then
+> -  pixman_cflags=$($pkg_config --cflags pixman-1)
+> -  pixman_libs=$($pkg_config --libs pixman-1)
+> -else
+> -  error_exit "pixman >= 0.21.8 not present." \
+> -      "Please install the pixman devel package."
+> -fi
 
-undefsym.sh are not msys2 compatible, convert it to python script
+The "else" part now got completely lost, didn't it? pixman is required
+for building the softmmu targets, so we should error out if configure is
+run with a softmmu target on systems where pixman is not installed.
 
-Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
----
- meson.build         |  2 +-
- scripts/undefsym.py | 57 +++++++++++++++++++++++++++++++++++++++++++++
- scripts/undefsym.sh | 20 ----------------
- 3 files changed, 58 insertions(+), 21 deletions(-)
- create mode 100644 scripts/undefsym.py
- delete mode 100755 scripts/undefsym.sh
+Maybe you can simply replace the above check with:
 
-diff --git a/meson.build b/meson.build
-index 1644bbd83c..d6e3bcea7e 100644
---- a/meson.build
-+++ b/meson.build
-@@ -845,7 +845,7 @@ foreach d, list : modules
- endforeach
- 
- nm = find_program('nm')
--undefsym = find_program('scripts/undefsym.sh')
-+undefsym = find_program('scripts/undefsym.py')
- block_syms = custom_target('block.syms', output: 'block.syms',
-                              input: [libqemuutil, block_mods],
-                              capture: true,
-diff --git a/scripts/undefsym.py b/scripts/undefsym.py
-new file mode 100644
-index 0000000000..c690f88c7a
---- /dev/null
-+++ b/scripts/undefsym.py
-@@ -0,0 +1,57 @@
-+#!/usr/bin/env python3
-+# -*- coding: utf-8 -*-
-+
-+# Before a shared module's DSO is produced, a static library is built for it
-+# and passed to this script.  The script generates -Wl,-u options to force
-+# the inclusion of symbol from libqemuutil.a if the shared modules need them,
-+# This is necessary because the modules may use functions not needed by the
-+# executable itself, which would cause the function to not be linked in.
-+# Then the DSO loading would fail because of the missing symbol.
-+
-+
-+"""
-+Compare the static library with the shared module for compute the symbol duplication
-+"""
-+
-+import sys
-+import subprocess
-+
-+def filter_lines_set(stdout, is_static = True):
-+    linesSet = set()
-+    for line in stdout.splitlines():
-+        tokens = line.split(b' ')
-+        if len(tokens) >= 1:
-+            if len(tokens) > 1:
-+                if is_static and tokens[1] == b'U':
-+                    continue
-+                if not is_static and tokens[1] != b'U':
-+                    continue
-+            new_line = b'-Wl,-u,' + tokens[0]
-+            if not new_line in linesSet:
-+                linesSet.add(new_line)
-+    return linesSet
-+
-+def main(args):
-+    if len(args) <= 3:
-+        sys.exit(0)
-+
-+    nm = args[1]
-+    staticlib = args[2]
-+    pc = subprocess.run([nm, "-P", "-g", staticlib], stdout=subprocess.PIPE)
-+    if pc.returncode != 0:
-+        sys.exit(-1)
-+    lines_set_left = filter_lines_set(pc.stdout)
-+
-+    shared_modules = args[3:]
-+    pc = subprocess.run([nm, "-P", "-g"] + shared_modules, stdout=subprocess.PIPE)
-+    if pc.returncode != 0:
-+        sys.exit(-1)
-+    lines_set_right = filter_lines_set(pc.stdout, False)
-+    lines = []
-+    for line in sorted(list(lines_set_right)):
-+        if line in lines_set_left:
-+            lines.append(line)
-+    sys.stdout.write(b'\n'.join(lines).decode())
-+
-+if __name__ == "__main__":
-+    main(sys.argv)
-diff --git a/scripts/undefsym.sh b/scripts/undefsym.sh
-deleted file mode 100755
-index b9ec332e95..0000000000
---- a/scripts/undefsym.sh
-+++ /dev/null
-@@ -1,20 +0,0 @@
--#! /usr/bin/env bash
--
--# Before a shared module's DSO is produced, a static library is built for it
--# and passed to this script.  The script generates -Wl,-u options to force
--# the inclusion of symbol from libqemuutil.a if the shared modules need them,
--# This is necessary because the modules may use functions not needed by the
--# executable itself, which would cause the function to not be linked in.
--# Then the DSO loading would fail because of the missing symbol.
--
--if test $# -le 2; then
--  exit 0
--fi
--
--NM=$1
--staticlib=$2
--shift 2
--# Find symbols defined in static libraries and undefined in shared modules
--comm -12 \
--  <( $NM -P -g $staticlib | awk '$2!="U"{print "-Wl,-u," $1}' | sort -u) \
--  <( $NM -P -g "$@" | awk '$2=="U"{print "-Wl,-u," $1}' | sort -u)
--- 
-2.27.0.windows.1
+if test "$softmmu" = "yes" && ! $pkg_config --atleast-version=0.21.8
+pixman-1 > /dev/null 2>&1; then
+  error_exit "pixman >= 0.21.8 not present." \
+      "Please install the pixman devel package."
+fi
+
+?
+
+ Thomas
+
+
+>  ##########################################
+>  # libmpathpersist probe
+>  
+> @@ -6649,8 +6635,8 @@ echo_version() {
+>      fi
+>  }
+>  
+> -# prepend pixman and ftd flags after all config tests are done
+> -QEMU_CFLAGS="$pixman_cflags $fdt_cflags $QEMU_CFLAGS"
+> +# prepend ftd flags after all config tests are done
+> +QEMU_CFLAGS="$fdt_cflags $QEMU_CFLAGS"
+>  QEMU_LDFLAGS="$fdt_ldflags $QEMU_LDFLAGS"
+>  
+>  config_host_mak="config-host.mak"
+> @@ -8053,9 +8039,6 @@ fi
+>  
+>  done # for target in $targets
+>  
+> -echo "PIXMAN_CFLAGS=$pixman_cflags" >> $config_host_mak
+> -echo "PIXMAN_LIBS=$pixman_libs" >> $config_host_mak
+> -
+>  if [ "$fdt" = "git" ]; then
+>    subdirs="$subdirs dtc"
+>  fi
+> diff --git a/contrib/vhost-user-gpu/meson.build b/contrib/vhost-user-gpu/meson.build
+> index 8df4c13bc5..7d9b29da8b 100644
+> --- a/contrib/vhost-user-gpu/meson.build
+> +++ b/contrib/vhost-user-gpu/meson.build
+> @@ -1,5 +1,6 @@
+>  if 'CONFIG_TOOLS' in config_host and 'CONFIG_VIRGL' in config_host \
+> -    and 'CONFIG_GBM' in config_host and 'CONFIG_LINUX' in config_host
+> +    and 'CONFIG_GBM' in config_host and 'CONFIG_LINUX' in config_host \
+> +    and pixman.found()
+>    executable('vhost-user-gpu', files('vhost-user-gpu.c', 'virgl.c', 'vugbm.c'),
+>               link_with: libvhost_user,
+>               dependencies: [qemuutil, pixman, gbm, virgl],
+> diff --git a/meson.build b/meson.build
+> index bcd39b39da..57c2fe2b65 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -114,8 +114,11 @@ if 'CONFIG_GNUTLS' in config_host
+>    gnutls = declare_dependency(compile_args: config_host['GNUTLS_CFLAGS'].split(),
+>                                link_args: config_host['GNUTLS_LIBS'].split())
+>  endif
+> -pixman = declare_dependency(compile_args: config_host['PIXMAN_CFLAGS'].split(),
+> -                            link_args: config_host['PIXMAN_LIBS'].split())
+> +pixman = not_found
+> +if have_system or have_tools
+> +  pixman = dependency('pixman', required: have_system, version:'>=0.21.8',
+> +                      static: enable_static)
+> +endif
+>  pam = not_found
+>  if 'CONFIG_AUTH_PAM' in config_host
+>    pam = cc.find_library('pam')
+> @@ -1094,9 +1097,7 @@ if have_tools
+>    if 'CONFIG_VHOST_USER' in config_host
+>      subdir('contrib/libvhost-user')
+>      subdir('contrib/vhost-user-blk')
+> -    if 'CONFIG_LINUX' in config_host
+> -      subdir('contrib/vhost-user-gpu')
+> -    endif
+> +    subdir('contrib/vhost-user-gpu')
+>      subdir('contrib/vhost-user-input')
+>      subdir('contrib/vhost-user-scsi')
+>    endif
+> @@ -1303,6 +1304,7 @@ summary_info += {'SDL image support': sdl_image.found()}
+>  # TODO: add back version
+>  summary_info += {'GTK support':       config_host.has_key('CONFIG_GTK')}
+>  summary_info += {'GTK GL support':    config_host.has_key('CONFIG_GTK_GL')}
+> +summary_info += {'pixman':            pixman.found()}
+>  # TODO: add back version
+>  summary_info += {'VTE support':       config_host.has_key('CONFIG_VTE')}
+>  summary_info += {'TLS priority':      config_host['CONFIG_TLS_PRIORITY']}
+> 
 
 
