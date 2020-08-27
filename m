@@ -2,53 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD7B2254E27
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 21:23:44 +0200 (CEST)
-Received: from localhost ([::1]:39658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E73E2254E1C
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 21:21:55 +0200 (CEST)
+Received: from localhost ([::1]:59374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBNUt-0000Ox-Us
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 15:23:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33324)
+	id 1kBNT8-0005CX-Tv
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 15:21:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kBNRs-0003kw-4y
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:20:36 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:45197)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kBNRp-0003hm-4q
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:20:33 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:60077)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kBNRq-00009L-6F
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:20:35 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kBNRn-000092-5A
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:20:32 -0400
 Received: from localhost.localdomain ([82.252.135.186]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MV6G0-1k4K8n3AM2-00S5h2; Thu, 27 Aug 2020 21:20:23 +0200
+ id 1Mt6x5-1kRGV71Vt3-00tPp9; Thu, 27 Aug 2020 21:20:24 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/18] Linux user for 5.2 patches
-Date: Thu, 27 Aug 2020 21:20:00 +0200
-Message-Id: <20200827192018.2442099-1-laurent@vivier.eu>
+Subject: [PULL 01/18] linux-user: Fix 'semop()' and 'semtimedop()'
+ implementation
+Date: Thu, 27 Aug 2020 21:20:01 +0200
+Message-Id: <20200827192018.2442099-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200827192018.2442099-1-laurent@vivier.eu>
+References: <20200827192018.2442099-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:eF0OzeniPApHj7BXEfG1wWY10/FA5TDwVEaiYKH18qGxjIDhkaO
- SSymseN+Deyg/A20vFCn90nemxjhUM1XvrjMAD8wXQuU/nY8fxZkP34ps/u0ECSzge0Lz8d
- NGAK7uyma7Zg6W2yjijl7iffzDDp/wdatbh+ddwEfVvshlJ9yHBSgj1J+TXLRlEEjrd71Ic
- RtbM3oeMe5/R7ksOf31dw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:EtK/8wOqKH0=:LO/lLICnfnmYxySXyJlOTK
- onjQLL2Eq1OCOnQcSffDYRm4sTZDcGOx/hMYMKRUJvPnYyoQj1NzDLsDnzd159Dr9iQ3/adDH
- 5yuDMlRFQnqTwJ2B67nt3Tm7tIDTmc2fBa1nVAuLe2hH2uo+d8LQPPlcEnvrjWxoYdaSvEXAI
- OZyCH6+zSQs0R82b03/4hYm5cMAVp28GGc7Ik0WamqbvMnk02AxJRkaTTs4IeJ8x7+aQDQRW4
- kkCUjfduYysqf5H8U+dqVudm3Ts/mdGL0WqN/UU3+ezZovT8IXPbM/Sp7gVO3FkruAT7oEZ6d
- rcPj95ixdPggOuHjlxo/yEnLLrS/i2V739tncN/wIF1NI6JaVVMH2/oHsytR+rZfNfieZtsBi
- FSPyI+2U+G3aLpW3MAKTjEjwnwEDqwMjaEheYEiI3xrVghbbjS0idogfF6koc/DLpI2zkrM1Q
- FnTAP+vl4DCAmAh9r+r4GvTh/fS1FC658fjpBL6j1AKyee6KMrkUuoV+xClkhGcx1bqaILnOT
- IoIyIn4UjBHJ8Q9Yffthx/n05JQCxlReKL+SxiAuxH0WVAX06rpCNlWoqZv2mGuuCwnDYh5QL
- 8Rw8OgYficXCX9LbB+XUbIEsbgnQA3RZ1P5zMpKvaANnOeUTFpq3k4qnRfE5BJP4V0xonsDMV
- qeEhcMO0OeVi1pN2lQqoUC55l6pF4UwaFJS9LvBwNozeOH9ktkhXGEbIb3f/6WT0/zcOVFMqZ
- bFocgh0uGQzlhYtpb4fCORsYq3iKv5UqYaAvQlwUQGziHjZy9+AZv/T52D24o0UuWm/w/6i3f
- urzvWj709NPC5BHF5YQO3Vg8Q0iPZLwkqJLzJDq+vdUS13mCViiPLO0Z+83x7Ay4LqsPkvH
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:/HRRcOuhczjHgzZbLLSklhEjqNLzfAOG9DXUgU8oxc+rjK0Fgdt
+ gmqY5YLLNGV6RBc0VnaXdJ/1UGoFkovVqhPmoWWDWOcwWBrMaqLnifRHgnrJmQ2RNKGBc1E
+ gDfV+2Acn6717S80KHd161upAQMhdV/2f3V5YErHrCrfNuZu5tFnkU/vcF/az3+k5O9ttKV
+ Q4LHmYN1Dk4FsjN0bykwg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:WuFA+C8fl50=:f5wmrMsMqROf4Q2A+XGEL1
+ BLGE75OL4ZiYRbvwH5r/74OkIgaUB8DN+DcjUZyIkES0IqA9HaGTix+WCVIXrl9UdQedn6fUY
+ T25TRqp8hwQuIxHKR+/3DjbTJpCT1Vz6UWfJLUPphKF2t2wiMafgJ02rigcB4Oy/7uEGmT2W8
+ NMJb6tBwIEofzqJnBrgVi/NLd4BTH+bXr+OVCaC5pHOPzx3c5l1DeTtmI3L4xJKSAuhPhHwyA
+ j+sKHzhTzRJ3R3IWQUV9xwJhWa/pMP3hwiNDHt5IUqjmLWXMjmtQLOa6dFm2uQBTATyNoTnGc
+ anruVWDV+leR2PZNtW8XmcNpKwruk/Vlv0d/qHA4pQdv1Kirtr44xDFbYIAj5NuXjdizWO3li
+ oMz7fxw8nCNNtrAOTPWEk6XTv3z22CRG8m/JFnR7HerxHD4+rSnCVSbcKmus9585sP9+b3ixW
+ F1ygaR4W4aHUNmg3QdvQzawkuAMafTDSmsETZLTNe47Yx74bb5dNUmvxtYW/aPXQPl+lC2SdV
+ KY5tDevQp36eKuvqzNT3ia4nIhd0St0FYUQHkP9CRcbiTNAZKGr2OFSH7KDHUR9/np7XLEwV+
+ D7R2EV2Ebew1EO+GwZ6veYCu7kF/xJ5XgLLtdgIViqO1POmA+0zzyQ85PF90brqyNrAITt8nA
+ 23+oQgFVjohpNrbPDhml4sItALu0C5dXEKgDYCYvWRaffiKtnccoRMWZ41CzQgyCOnU+hOzkN
+ RMvKLrJr9A5UQhiXQiePJhdhI+8cgWWIIuNv10eTbjB0OkQ/0OGLMG8RGdQpFXkobQXuNXrsI
+ ibH8fKwASoG3d4Yi6YKVbCr9opdnbQiBvUjyfoYnfUsGgIx5wWUnV8XMRqL185kjMxBmHTk
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 15:20:33
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 15:20:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -68,131 +70,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+ Filip Bozuta <Filip.Bozuta@syrmia.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 25f6dc28a3a8dd231c2c092a0e65bd796353c769=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/maxreitz/tags/pull-block-2020-08-26=
-' =3D=0D
-into staging (2020-08-26 10:28:36 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://github.com/vivier/qemu.git tags/linux-user-for-5.2-pull-request=0D
-=0D
-for you to fetch changes up to aa26eb42f5eaec54257aaceaeda50b9aa98756a5:=0D
-=0D
-  linux-user: Add support for utimensat_time64() and semtimedop_time64() (2=
-02=3D=0D
-0-08-27 12:29:51 +0200)=0D
-=0D
-----------------------------------------------------------------=0D
-add utimensat_time64, semtimedop_time64, rt_sigtimedwait_time64,=0D
-    sched_rr_get_interval_time64, clock_nanosleep_time64, clock_adjtime64,=
-=0D
-    mq_timedsend_time64, mq_timedreceive_time64=0D
-fix semop, semtimedop, clock_nanosleep, mq_timedsend, target_to_host_timesp=
-ec=3D=0D
-64=0D
-fix tembits.h=0D
-add more strace function=0D
-Add upport DRM_IOCTL_I915_GETPARAM=0D
-detect mismatched ELF ABI in qemu-mips[n32][el]=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Carlo Marcelo Arenas Bel=3DC3=3DB3n (1):=0D
-  linux-user: detect mismatched ELF ABI in qemu-mips[n32][el]=0D
-=0D
-Chen Gang (1):=0D
-  linux-user: syscall: ioctls: support DRM_IOCTL_I915_GETPARAM=0D
-=0D
-Filip Bozuta (15):=0D
-  linux-user: Fix 'semop()' and 'semtimedop()' implementation=0D
-  linux-user: Fix 'clock_nanosleep()' implementation=0D
-  linux-user: Make cpu_env accessible in strace.c=0D
-  linux-user: Add strace support for printing arguments of=0D
-    truncate()/ftruncate() and getsid()=0D
-  linux-user: Add strace support for printing arguments of syscalls used=0D
-    to lock and unlock memory=0D
-  linux-user: Add an api to print enumareted argument values with strace=0D
-  linux-user: Add strace support for printing arguments of some clock=0D
-    and time functions=0D
-  linux-user: Add generic 'termbits.h' for some archs=0D
-  linux-user: Add missing termbits types and values definitions=0D
-  linux-user: Add strace support for printing arguments for ioctls used=0D
-    for terminals and serial lines=0D
-  linux-user: Fix 'mq_timedsend()' and 'mq_timedreceive()'=0D
-  linux-user: Add support for 'mq_timedsend_time64()' and=0D
-    'mq_timedreceive_time64()'=0D
-  linux-user: Add support for 'clock_nanosleep_time64()' and=0D
-    'clock_adjtime64()'=0D
-  linux-user: Add support for 'rt_sigtimedwait_time64()' and=0D
-    'sched_rr_get_interval_time64()'=0D
-  linux-user: Add support for utimensat_time64() and semtimedop_time64()=0D
-=0D
-Laurent Vivier (1):=0D
-  linux-user: fix target_to_host_timespec64()=0D
-=0D
- include/exec/user/thunk.h              |    1 +=0D
- linux-user/aarch64/target_syscall.h    |    5 +-=0D
- linux-user/aarch64/termbits.h          |  228 +----=0D
- linux-user/alpha/target_syscall.h      |    5 +-=0D
- linux-user/alpha/termbits.h            |    1 +=0D
- linux-user/arm/target_syscall.h        |    6 +-=0D
- linux-user/arm/termbits.h              |  223 +----=0D
- linux-user/cris/target_syscall.h       |    5 +-=0D
- linux-user/cris/termbits.h             |   18 +-=0D
- linux-user/elfload.c                   |   11 +=0D
- linux-user/generic/termbits.h          |  318 +++++++=0D
- linux-user/hppa/target_syscall.h       |    5 +-=0D
- linux-user/hppa/termbits.h             |   17 +-=0D
- linux-user/i386/target_syscall.h       |    5 +-=0D
- linux-user/i386/termbits.h             |  233 +-----=0D
- linux-user/ioctls.h                    |    3 +=0D
- linux-user/m68k/target_syscall.h       |    6 +-=0D
- linux-user/m68k/termbits.h             |  234 +-----=0D
- linux-user/microblaze/target_syscall.h |    5 +-=0D
- linux-user/microblaze/termbits.h       |  220 +----=0D
- linux-user/mips/target_syscall.h       |    5 +-=0D
- linux-user/mips/termbits.h             |   17 +-=0D
- linux-user/mips64/target_syscall.h     |    5 +-=0D
- linux-user/nios2/target_syscall.h      |    5 +-=0D
- linux-user/nios2/termbits.h            |  228 +----=0D
- linux-user/openrisc/target_syscall.h   |    5 +-=0D
- linux-user/openrisc/termbits.h         |  302 +------=0D
- linux-user/ppc/target_syscall.h        |    5 +-=0D
- linux-user/ppc/termbits.h              |   21 +-=0D
- linux-user/qemu.h                      |   40 +-=0D
- linux-user/riscv/target_syscall.h      |    5 +-=0D
- linux-user/riscv/termbits.h            |  228 +----=0D
- linux-user/s390x/target_syscall.h      |    5 +-=0D
- linux-user/s390x/termbits.h            |  289 +------=0D
- linux-user/sh4/target_syscall.h        |    5 +-=0D
- linux-user/sh4/termbits.h              |   19 +-=0D
- linux-user/sparc/target_syscall.h      |    5 +-=0D
- linux-user/sparc/termbits.h            |   18 +-=0D
- linux-user/sparc64/target_syscall.h    |    5 +-=0D
- linux-user/sparc64/termbits.h          |   18 +-=0D
- linux-user/strace.c                    | 1060 +++++++++++++++++-------=0D
- linux-user/strace.list                 |   35 +-=0D
- linux-user/syscall.c                   |  471 +++++++++--=0D
- linux-user/syscall_defs.h              |   41 +=0D
- linux-user/syscall_types.h             |    4 +=0D
- linux-user/tilegx/target_syscall.h     |    5 +-=0D
- linux-user/tilegx/termbits.h           |  276 +-----=0D
- linux-user/x86_64/target_syscall.h     |    5 +-=0D
- linux-user/x86_64/termbits.h           |  254 +-----=0D
- linux-user/xtensa/target_syscall.h     |    5 +-=0D
- linux-user/xtensa/termbits.h           |   55 +-=0D
- thunk.c                                |   23 +-=0D
- 52 files changed, 1790 insertions(+), 3223 deletions(-)=0D
- create mode 100644 linux-user/generic/termbits.h=0D
-=0D
---=3D20=0D
-2.26.2=0D
-=0D
+From: Filip Bozuta <Filip.Bozuta@syrmia.com>
+
+The implementations of syscalls 'semop()' and 'semtimedop()' in
+file 'syscall.c' use function 'target_to_host_sembuf()' to convert
+values of 'struct sembuf' from host to target. However, before this
+conversion it should be check whether the number of semaphore operations
+'nsops' is not bigger than maximum allowed semaphor operations per
+syscall: 'SEMOPM'. In these cases, errno 'E2BIG' ("Arg list too long")
+should be set. But the implementation will set errno 'EFAULT' ("Bad address")
+in this case since the conversion from target to host in this case fails.
+
+This was confirmed with the LTP test for 'semop()' ('ipc/semop/semop02') in
+test case where 'nsops' is greater than SEMOPM with unaproppriate errno EFAULT:
+
+semop02.c:130: FAIL: semop failed unexpectedly; expected: E2BIG: EFAULT (14)
+
+This patch changes this by adding a check whether 'nsops' is bigger than
+'SEMOPM' before the conversion function 'target_to_host_sembuf()' is called.
+After the changes from this patch, the test works fine along with the other
+LTP testcases for 'semop()'):
+
+semop02.c:126: PASS: semop failed as expected: E2BIG (7)
+
+Implementation notes:
+
+    A target value ('TARGET_SEMOPM') was added for 'SEMOPM' as to be sure
+    in case the value is not available for some targets.
+
+Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20200818180722.45089-1-Filip.Bozuta@syrmia.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ linux-user/syscall.c      | 13 +++++++++++--
+ linux-user/syscall_defs.h |  2 ++
+ 2 files changed, 13 insertions(+), 2 deletions(-)
+
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index b4a7b605f3d4..5b3fce3dc0cb 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -3901,7 +3901,7 @@ static inline abi_long do_semtimedop(int semid,
+                                      unsigned nsops,
+                                      abi_long timeout)
+ {
+-    struct sembuf sops[nsops];
++    struct sembuf *sops;
+     struct timespec ts, *pts = NULL;
+     abi_long ret;
+ 
+@@ -3912,8 +3912,16 @@ static inline abi_long do_semtimedop(int semid,
+         }
+     }
+ 
+-    if (target_to_host_sembuf(sops, ptr, nsops))
++    if (nsops > TARGET_SEMOPM) {
++        return -TARGET_E2BIG;
++    }
++
++    sops = g_new(struct sembuf, nsops);
++
++    if (target_to_host_sembuf(sops, ptr, nsops)) {
++        g_free(sops);
+         return -TARGET_EFAULT;
++    }
+ 
+     ret = -TARGET_ENOSYS;
+ #ifdef __NR_semtimedop
+@@ -3925,6 +3933,7 @@ static inline abi_long do_semtimedop(int semid,
+                                  SEMTIMEDOP_IPC_ARGS(nsops, sops, (long)pts)));
+     }
+ #endif
++    g_free(sops);
+     return ret;
+ }
+ #endif
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index 427a25f5bce5..9aa3bd724f0c 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -46,6 +46,8 @@
+ #define IPCOP_shmget		23
+ #define IPCOP_shmctl		24
+ 
++#define TARGET_SEMOPM     500
++
+ /*
+  * The following is for compatibility across the various Linux
+  * platforms.  The i386 ioctl numbering scheme doesn't really enforce
+-- 
+2.26.2
+
 
