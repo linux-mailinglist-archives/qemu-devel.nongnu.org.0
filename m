@@ -2,103 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03682254279
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 11:33:53 +0200 (CEST)
-Received: from localhost ([::1]:41006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CE56254288
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 11:35:41 +0200 (CEST)
+Received: from localhost ([::1]:50730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBEI4-0004iA-26
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 05:33:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59008)
+	id 1kBEJo-0000Cr-EP
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 05:35:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1kBEGS-0002Hm-DK
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 05:32:12 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:41992)
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1kBEIg-00071o-Jp
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 05:34:30 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:4276 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1kBEGQ-0004Uf-C4
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 05:32:12 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 07R92ppJ152451
- for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 05:32:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=3S8ZafikN+JmxjS3GFDrMweZY9YUE5KaHs8ZIW2Or3w=;
- b=s+Xl57EKleSAUVTBM93DbJlQyF10lRw5Q1TJm1lDec4flfVoC5KI0NTIlzpQt+z8m0qn
- FuEhUBorEfRDC9pDOfyDUGlhBaBIp9DfMn65LGUn2wyRp8zeSleM8nWlh0W65Ku0ZlKi
- O+hgdS567mT5EI7VrXUsJBKpnH7pjU10g+D4I/038K+Es+nsncjDOVH4+GBcpBfflfft
- jpgQZf9vXxSGmpTGzBIa2EysA2VxBxvutGd1Wog/rfpFlED7dppBsteXkMIlCJ2Qe2Ct
- WAdneKcE8kUi3seUr8Ye+81sEHukfQKLMlf8OzyAZCaIrt5xTUJlj6EiA1bx8KecRqlj zQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3369uwrs64-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 05:32:08 -0400
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 07R99lRH174535
- for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 05:32:07 -0400
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3369uwrs54-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Aug 2020 05:32:07 -0400
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 07R9HZke001878;
- Thu, 27 Aug 2020 09:32:05 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma02fra.de.ibm.com with ESMTP id 332ujrucb9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Aug 2020 09:32:05 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 07R9W2sn61735332
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 27 Aug 2020 09:32:03 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CF18642041;
- Thu, 27 Aug 2020 09:32:02 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3BC4742047;
- Thu, 27 Aug 2020 09:32:02 +0000 (GMT)
-Received: from linux01.pok.stglabs.ibm.com (unknown [9.114.17.81])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 27 Aug 2020 09:32:02 +0000 (GMT)
-From: Janosch Frank <frankja@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/4] pc-bios: s390x: Go into disabled wait when
- encountering a PGM exception
-Date: Thu, 27 Aug 2020 05:31:52 -0400
-Message-Id: <20200827093152.3026-5-frankja@linux.ibm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200827093152.3026-1-frankja@linux.ibm.com>
-References: <20200827093152.3026-1-frankja@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1kBEIc-0004i2-MH
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 05:34:30 -0400
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 8F0B695C92B2FF4CD25E;
+ Thu, 27 Aug 2020 17:34:20 +0800 (CST)
+Received: from [127.0.0.1] (10.174.186.4) by DGGEMS403-HUB.china.huawei.com
+ (10.3.19.203) with Microsoft SMTP Server id 14.3.487.0; Thu, 27 Aug 2020
+ 17:34:14 +0800
+Subject: Re: [PATCH v5 11/12] migration/dirtyrate: Implement
+ qmp_cal_dirty_rate()/qmp_get_dirty_rate() function
+To: David Edmondson <dme@dme.org>, <quintela@redhat.com>, <eblake@redhat.com>, 
+ <dgilbert@redhat.com>, <berrange@redhat.com>
+References: <1598260480-64862-1-git-send-email-zhengchuan@huawei.com>
+ <1598260480-64862-12-git-send-email-zhengchuan@huawei.com>
+ <m2wo1lk8j9.fsf@dme.org>
+From: Zheng Chuan <zhengchuan@huawei.com>
+Message-ID: <1a23d60c-186b-d5b5-c43a-a8512826409b@huawei.com>
+Date: Thu, 27 Aug 2020 17:34:13 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-08-27_02:2020-08-27,
- 2020-08-27 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 priorityscore=1501
- malwarescore=0 adultscore=0 suspectscore=1 impostorscore=0 spamscore=0
- lowpriorityscore=0 phishscore=0 mlxlogscore=802 bulkscore=0 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2008270065
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=frankja@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 05:32:05
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <m2wo1lk8j9.fsf@dme.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.186.4]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.191;
+ envelope-from=zhengchuan@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 02:09:23
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -63
+X-Spam_score: -6.4
+X-Spam_bar: ------
+X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.239,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -111,34 +66,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, thuth@redhat.com, cohuck@redhat.com,
- david@redhat.com
+Cc: zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
+ xiexiangyou@huawei.com, alex.chen@huawei.com, ann.zhuangyanying@huawei.com,
+ fangying1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's setup a PGM PSW, so we won't load 0s when a program exception
-happens. Instead we'll load a disabled wait PSW.
 
-Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
----
- pc-bios/s390-ccw/start.S | 3 +++
- 1 file changed, 3 insertions(+)
 
-diff --git a/pc-bios/s390-ccw/start.S b/pc-bios/s390-ccw/start.S
-index 939aac3a7c..775b45baeb 100644
---- a/pc-bios/s390-ccw/start.S
-+++ b/pc-bios/s390-ccw/start.S
-@@ -44,6 +44,9 @@ done:
-         larl  %r2, external_new_psw
-         stg   %r1, 8(%r2)
-         mvc   0x1b0(16),0(%r2)
-+        /* set up a pgm exception disabled wait psw */
-+        larl  %r2, disabled_wait_psw
-+        mvc   0x01d0(16), 0(%r2)
-         j      main		/* And call C */
- 
- memsetxc:
--- 
-2.25.1
+On 2020/8/26 18:26, David Edmondson wrote:
+> On Monday, 2020-08-24 at 17:14:39 +08, Chuan Zheng wrote:
+> 
+>> Implement qmp_cal_dirty_rate()/qmp_get_dirty_rate() function which could be called
+>>
+>> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
+>> ---
+>>  migration/dirtyrate.c | 45 +++++++++++++++++++++++++++++++++++++++++++++
+>>  qapi/migration.json   | 44 ++++++++++++++++++++++++++++++++++++++++++++
+>>  2 files changed, 89 insertions(+)
+>>
+>> diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+>> index 9f52f5f..08c46d3 100644
+>> --- a/migration/dirtyrate.c
+>> +++ b/migration/dirtyrate.c
+>> @@ -62,6 +62,28 @@ static int dirtyrate_set_state(int *state, int old_state, int new_state)
+>>      }
+>>  }
+>>  
+>> +static struct DirtyRateInfo *query_dirty_rate_info(void)
+>> +{
+>> +    int64_t dirty_rate = DirtyStat.dirty_rate;
+>> +    struct DirtyRateInfo *info = g_malloc0(sizeof(DirtyRateInfo));
+>> +
+>> +    if (CalculatingState == DIRTY_RATE_STATUS_MEASURED) {
+>> +        info->dirty_rate = dirty_rate;
+>> +    } else {
+>> +        info->dirty_rate = -1;
+>> +    }
+>> +
+>> +    info->status = CalculatingState;
+>> +    /*
+>> +     * Only support query once for each calculation,
+>> +     * reset as DIRTY_RATE_STATUS_UNSTARTED after query
+>> +     */
+>> +    (void)dirtyrate_set_state(&CalculatingState, CalculatingState,
+>> +                              DIRTY_RATE_STATUS_UNSTARTED);
+> 
+> Is there a reason for this restriction? Removing it would require
+> clarifying the state model, I suppose.
+> 
+We only support query once for each calculation.
+Otherwise, it could always query dirtyrate, but maybe the dirtyrate is calculated
+long time ago.
+
+>> +
+>> +    return info;
+>> +}
+>> +
+>>  static void reset_dirtyrate_stat(void)
+>>  {
+>>      DirtyStat.total_dirty_samples = 0;
+>> @@ -378,3 +400,26 @@ void *get_dirtyrate_thread(void *arg)
+>>                                DIRTY_RATE_STATUS_MEASURED);
+>>      return NULL;
+>>  }
+>> +
+>> +void qmp_calc_dirty_rate(int64_t calc_time, Error **errp)
+>> +{
+>> +    static struct DirtyRateConfig config;
+>> +    QemuThread thread;
+>> +
+>> +    /*
+>> +     * We don't begin calculating thread only when it's in calculating status.
+> 
+> "If the dirty rate is already being measured, don't attempt to start."
+> 
+>> +     */
+>> +    if (CalculatingState == DIRTY_RATE_STATUS_MEASURING) {
+> 
+> Should this return an error to the caller?
+> 
+>> +        return;
+>> +    }
+>> +
+>> +    config.sample_period_seconds = get_sample_page_period(calc_time);
+> 
+> If the specified sample period is outside the min/max, should an error
+> be returned to the caller?
+> 
+>> +    config.sample_pages_per_gigabytes = DIRTYRATE_DEFAULT_SAMPLE_PAGES;
+>> +    qemu_thread_create(&thread, "get_dirtyrate", get_dirtyrate_thread,
+>> +                       (void *)&config, QEMU_THREAD_DETACHED);
+>> +}
+>> +
+>> +struct DirtyRateInfo *qmp_query_dirty_rate(Error **errp)
+>> +{
+>> +    return query_dirty_rate_info();
+>> +}
+>> diff --git a/qapi/migration.json b/qapi/migration.json
+>> index d640165..826bfd7 100644
+>> --- a/qapi/migration.json
+>> +++ b/qapi/migration.json
+>> @@ -1737,3 +1737,47 @@
+>>  ##
+>>  { 'enum': 'DirtyRateStatus',
+>>    'data': [ 'unstarted', 'measuring', 'measured'] }
+>> +
+>> +##
+>> +# @DirtyRateInfo:
+>> +#
+>> +# Information about current dirty page rate of vm.
+>> +#
+>> +# @dirty-rate: @dirtyrate describing the dirty page rate of vm
+>> +#          in units of MB/s.
+>> +#          If this field return '-1', it means querying is not
+>> +#          start or not complete.
+>> +#
+>> +# @status: status containing dirtyrate query status includes
+>> +#          'unstarted' or 'measuring' or 'measured'
+>> +#
+>> +# Since: 5.2
+>> +#
+>> +##
+>> +{ 'struct': 'DirtyRateInfo',
+>> +  'data': {'dirty-rate': 'int64',
+>> +           'status': 'DirtyRateStatus'} }
+>> +
+>> +##
+>> +# @calc-dirty-rate:
+>> +#
+>> +# start calculating dirty page rate for vm
+>> +#
+>> +# @calc-time: time in units of second for sample dirty pages
+>> +#
+>> +# Since: 5.2
+>> +#
+>> +# Example:
+>> +#   {"command": "cal-dirty-rate", "data": {"calc-time": 1} }
+> 
+> "cal-dirty-rate" -> "calc-dirty-rate".
+> 
+>> +#
+>> +##
+>> +{ 'command': 'calc-dirty-rate', 'data': {'calc-time': 'int64'} }
+>> +
+>> +##
+>> +# @query-dirty-rate:
+>> +#
+>> +# query dirty page rate in units of MB/s for vm
+>> +#
+>> +# Since: 5.2
+>> +##
+>> +{ 'command': 'query-dirty-rate', 'returns': 'DirtyRateInfo' }
+>> -- 
+>> 1.8.3.1
+> 
+> dme.
+> 
 
 
