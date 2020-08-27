@@ -2,59 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4FC42541A5
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 11:13:02 +0200 (CEST)
-Received: from localhost ([::1]:33268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E87FD2541E0
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 11:20:36 +0200 (CEST)
+Received: from localhost ([::1]:47202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBDxt-0003Ln-O7
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 05:13:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54434)
+	id 1kBE5E-0000wM-0u
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 05:20:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1kBDwh-0001hb-CU; Thu, 27 Aug 2020 05:11:47 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:42149)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1kBDwe-0001zk-8y; Thu, 27 Aug 2020 05:11:47 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.44])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 21B9954810E7;
- Thu, 27 Aug 2020 11:11:34 +0200 (CEST)
-Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 27 Aug
- 2020 11:11:32 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G0037ad0b0ec-b560-4631-aafb-8b451044cef8,
- 618CF37EF0508A6B3BD090B4D8B11E595DDBE7AA) smtp.auth=clg@kaod.org
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH 2/2] m25p80: Add the n25q256a SFDP table
-Date: Thu, 27 Aug 2020 11:11:30 +0200
-Message-ID: <20200827091130.3525790-3-clg@kaod.org>
-X-Mailer: git-send-email 2.25.4
-In-Reply-To: <20200827091130.3525790-1-clg@kaod.org>
-References: <20200827091130.3525790-1-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kBDzx-0006WU-Ds
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 05:15:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36622)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kBDzu-0002JP-SY
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 05:15:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598519705;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Oo05j2vAVfkCxshf61MLeyKwpa5ecwh11SF/M1AByfk=;
+ b=g5nfTm4XOp+ZPF8Jze33aJpLdxHArk8vQJuDac/ULDa3kkNllNK65W0iJYImh3yA1IF8ft
+ QgsQK5iQN3cfTV6WL2BXT3IRkgoqOVHHzkhUvGNrJ4x5NVQwbEyyBU0YMNedvdOsOFCt0y
+ pGSvwNpKlNMyB7IQS4WFqNdkttc3NXI=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-554-hNay5M8FP7q4nSC6pqQaLw-1; Thu, 27 Aug 2020 05:15:03 -0400
+X-MC-Unique: hNay5M8FP7q4nSC6pqQaLw-1
+Received: by mail-ej1-f71.google.com with SMTP id n12so2326166ejz.6
+ for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 02:15:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Oo05j2vAVfkCxshf61MLeyKwpa5ecwh11SF/M1AByfk=;
+ b=UwBjCoQJky6UDK9i76E/CiOeFzA4bffrvdh0T7iVLqjSPcsGyblHfu6EgFJXo+unYc
+ jy7MJE4q4IoQGvXlgKcG7HSSMQVOojZgdlFCA6r8MYxxcvkF6IPSE3drCHvhQgWn7Lmb
+ eVXcx3glDwnf6vSFgyip6Ihb6IArE4o7Sh6/VzwljuzVUlntJwRYHxQGdlZBxYFka4YE
+ eGiUeb8K2QvP7c5+p2+0Hg27HLHYFh4uK5ua+60R4pMLUXZTvfx1txLKFI0ieVtvc5Cl
+ ljJEBG6MgI+w7qjsxsxDyoH77IP++rcLKwH9ZuR97WMbPZ2CUWAm/PzoptngaizndZxz
+ 4ieg==
+X-Gm-Message-State: AOAM533A8y+UXyyCrXnMpISMptGPcxdgYELxbuu5EgLoKbsbLS3ijva5
+ HO69iZmQtxh1NvMJO47s5UPaJomkva0m83zhh+iEJPu4nemYshSCnQnchXxpfg4WXmsT9VdoXbl
+ I0HLF/B3XznUtF5FRg3/qzOvOVCGAwlw=
+X-Received: by 2002:aa7:da8e:: with SMTP id q14mr17239950eds.359.1598519701470; 
+ Thu, 27 Aug 2020 02:15:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyCfLL8pIuo3zJ6RtzQLfCWbjRgn6KiG6JkxJV1kevYBY6uGB4y5fJW6NMgr5ZD83CzxZHmpDB0pif2P0HoiKU=
+X-Received: by 2002:aa7:da8e:: with SMTP id q14mr17239939eds.359.1598519701299; 
+ Thu, 27 Aug 2020 02:15:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 5532ed18-4329-496b-b1f1-afc464dcf5aa
-X-Ovh-Tracer-Id: 8702361857402047340
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedruddvgedguddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfhisehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheehfeegjeeitdfffeetjeduveejueefuefgtdefueelueetveeliefhhffgtdelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 05:11:34
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20200826190128.22707-1-pbonzini@redhat.com>
+ <3c7ca48a-5eb0-cfd4-bac0-a2a7475eec39@vivier.eu>
+ <CABgObfZhE1+N1XiHBaPx7SZHawUwNeA4yG5g1TPNQ5TMCO9xSA@mail.gmail.com>
+ <CABgObfas4KFFc=0r9o_N8BYC0jHUoVx=iS0VYFU+zSCj-9yVQg@mail.gmail.com>
+In-Reply-To: <CABgObfas4KFFc=0r9o_N8BYC0jHUoVx=iS0VYFU+zSCj-9yVQg@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Thu, 27 Aug 2020 11:14:49 +0200
+Message-ID: <CABgObfYrFxgUSx2MYDf_uJA_cDXe_befjTm8GuiCBENzRttkOw@mail.gmail.com>
+Subject: Re: [PATCH] ninjatool: quote dollars in variables
+To: Laurent Vivier <laurent@vivier.eu>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000f6860e05add85e01"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 02:54:02
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,125 +93,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- Francisco Iglesias <frasse.iglesias@gmail.com>,
- Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
- Joel Stanley <joel@jms.id.au>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The same values were collected on 4 differents OpenPower systems,
-palmettos, romulus and tacoma.
+--000000000000f6860e05add85e01
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
----
- hw/block/m25p80_sfdp.h |  2 ++
- hw/block/m25p80.c      |  6 ++++--
- hw/block/m25p80_sfdp.c | 49 ++++++++++++++++++++++++++++++++++++++++++
- hw/block/Makefile.objs |  2 +-
- 4 files changed, 56 insertions(+), 3 deletions(-)
- create mode 100644 hw/block/m25p80_sfdp.c
+... and actually it's fixed in 0.55.1. We can therefore just update the
+submodule and declare 0.55.1 the minimum required version for QEMU.
 
-diff --git a/hw/block/m25p80_sfdp.h b/hw/block/m25p80_sfdp.h
-index b75fd0b0c13f..ca2658a676e0 100644
---- a/hw/block/m25p80_sfdp.h
-+++ b/hw/block/m25p80_sfdp.h
-@@ -12,4 +12,6 @@
- 
- #define M25P80_SFDP_AREA_SIZE 0x100
- 
-+extern const uint8_t m25p80_sfdp_n25q256a[M25P80_SFDP_AREA_SIZE];
-+
- #endif
-diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-index 32925589ec7a..d053bdbb2805 100644
---- a/hw/block/m25p80.c
-+++ b/hw/block/m25p80.c
-@@ -233,11 +233,13 @@ static const FlashPartInfo known_devices[] = {
-     { INFO("n25q128a11",  0x20bb18,      0,  64 << 10, 256, ER_4K) },
-     { INFO("n25q128a13",  0x20ba18,      0,  64 << 10, 256, ER_4K) },
-     { INFO("n25q256a11",  0x20bb19,      0,  64 << 10, 512, ER_4K) },
--    { INFO("n25q256a13",  0x20ba19,      0,  64 << 10, 512, ER_4K) },
-+    { INFO("n25q256a13",  0x20ba19,      0,  64 << 10, 512, ER_4K),
-+      .sfdp = m25p80_sfdp_n25q256a },
-     { INFO("n25q512a11",  0x20bb20,      0,  64 << 10, 1024, ER_4K) },
-     { INFO("n25q512a13",  0x20ba20,      0,  64 << 10, 1024, ER_4K) },
-     { INFO("n25q128",     0x20ba18,      0,  64 << 10, 256, 0) },
--    { INFO("n25q256a",    0x20ba19,      0,  64 << 10, 512, ER_4K) },
-+    { INFO("n25q256a",    0x20ba19,      0,  64 << 10, 512, ER_4K),
-+      .sfdp = m25p80_sfdp_n25q256a },
-     { INFO("n25q512a",    0x20ba20,      0,  64 << 10, 1024, ER_4K) },
-     { INFO_STACKED("n25q00",    0x20ba21, 0x1000, 64 << 10, 2048, ER_4K, 4) },
-     { INFO_STACKED("n25q00a",   0x20bb21, 0x1000, 64 << 10, 2048, ER_4K, 4) },
-diff --git a/hw/block/m25p80_sfdp.c b/hw/block/m25p80_sfdp.c
-new file mode 100644
-index 000000000000..def94bd4ea02
---- /dev/null
-+++ b/hw/block/m25p80_sfdp.c
-@@ -0,0 +1,49 @@
-+/*
-+ * M25P80 Serial Flash Discoverable Parameter (SFDP)
-+ *
-+ * Copyright (c) 2020, IBM Corporation.
-+ *
-+ * This code is licensed under the GPL version 2 or later. See the
-+ * COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "m25p80_sfdp.h"
-+
-+/*
-+ * Micron
-+ */
-+const uint8_t m25p80_sfdp_n25q256a[M25P80_SFDP_AREA_SIZE] = {
-+    0x53, 0x46, 0x44, 0x50, 0x00, 0x01, 0x00, 0xff,
-+    0x00, 0x00, 0x01, 0x09, 0x30, 0x00, 0x00, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xe5, 0x20, 0xfb, 0xff, 0xff, 0xff, 0xff, 0x0f,
-+    0x29, 0xeb, 0x27, 0x6b, 0x08, 0x3b, 0x27, 0xbb,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x27, 0xbb,
-+    0xff, 0xff, 0x29, 0xeb, 0x0c, 0x20, 0x10, 0xd8,
-+    0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+};
-diff --git a/hw/block/Makefile.objs b/hw/block/Makefile.objs
-index 8855c2265639..b65a12c52b52 100644
---- a/hw/block/Makefile.objs
-+++ b/hw/block/Makefile.objs
-@@ -1,6 +1,6 @@
- common-obj-y += block.o cdrom.o hd-geometry.o
- common-obj-$(CONFIG_FDC) += fdc.o
--common-obj-$(CONFIG_SSI_M25P80) += m25p80.o
-+common-obj-$(CONFIG_SSI_M25P80) += m25p80.o m25p80_sfdp.o
- common-obj-$(CONFIG_NAND) += nand.o
- common-obj-$(CONFIG_PFLASH_CFI01) += pflash_cfi01.o
- common-obj-$(CONFIG_PFLASH_CFI02) += pflash_cfi02.o
--- 
-2.25.4
+Paolo
+
+Il gio 27 ago 2020, 11:10 Paolo Bonzini <pbonzini@redhat.com> ha scritto:
+
+> Found; https://github.com/mesonbuild/Meson/issues/5191.
+>
+> (With the fix there's no rpath at all in the QEMU build process).
+>
+> Let's ask for a backport to 0.55.2.
+>
+> Paolo
+>
+> Il gio 27 ago 2020, 10:22 Paolo Bonzini <pbonzini@redhat.com> ha scritto:
+>
+>>
+>>
+>> Il gio 27 ago 2020, 09:33 Laurent Vivier <laurent@vivier.eu> ha scritto:
+>>
+>>> This actually fixes the '-Wl,-rpath,$ORIGIN/', but doesn't fix the crash
+>>> with statically linked binaries.
+>>>
+>>
+>> I will try to reproduce when I am back; it works for Peter so there must
+>> be something different in the setup.
+>>
+>> In any case, if needed we can both momentarily hack around it in
+>> Makefiles, and fix it for good in Meson.
+>>
+>> Paolo
+>>
+>>
+>>> Could we simply remove the the '-Wl,-rpath,$ORIGIN/' in the case of
+>>> "-static" build?
+>>>
+>>> Thanks,
+>>> Laurent
+>>>
+>>>
+
+--000000000000f6860e05add85e01
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">... and actually it&#39;s fixed in 0.55.1. We can therefo=
+re just update the submodule and declare 0.55.1 the minimum required versio=
+n for QEMU.<div dir=3D"auto"><br></div><div dir=3D"auto">Paolo</div></div><=
+br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Il gio =
+27 ago 2020, 11:10 Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com"=
+>pbonzini@redhat.com</a>&gt; ha scritto:<br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
+:1ex"><div dir=3D"auto">Found; <a href=3D"https://github.com/mesonbuild/Mes=
+on/issues/5191" target=3D"_blank" rel=3D"noreferrer">https://github.com/mes=
+onbuild/Meson/issues/5191</a>.<div dir=3D"auto"><br></div><div dir=3D"auto"=
+>(With the fix there&#39;s no rpath at all in the QEMU build process).</div=
+><div dir=3D"auto"><br></div><div dir=3D"auto">Let&#39;s ask for a backport=
+ to 0.55.2.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Paolo</div><=
+/div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">I=
+l gio 27 ago 2020, 10:22 Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redha=
+t.com" target=3D"_blank" rel=3D"noreferrer">pbonzini@redhat.com</a>&gt; ha =
+scritto:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"auto"><div><br=
+><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Il gi=
+o 27 ago 2020, 09:33 Laurent Vivier &lt;<a href=3D"mailto:laurent@vivier.eu=
+" rel=3D"noreferrer noreferrer" target=3D"_blank">laurent@vivier.eu</a>&gt;=
+ ha scritto:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">This actually fixes th=
+e &#39;-Wl,-rpath,$ORIGIN/&#39;, but doesn&#39;t fix the crash<br>
+with statically linked binaries.<br></blockquote></div></div><div dir=3D"au=
+to"><br></div><div dir=3D"auto">I will try to reproduce when I am back; it =
+works for Peter so there must be something different in the setup.</div><di=
+v dir=3D"auto"><br></div><div dir=3D"auto">In any case, if needed we can bo=
+th momentarily hack around it in Makefiles, and fix it for good in Meson.</=
+div><div dir=3D"auto"><br></div><div dir=3D"auto">Paolo</div><div dir=3D"au=
+to"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
+ding-left:1ex">
+<br>
+Could we simply remove the the &#39;-Wl,-rpath,$ORIGIN/&#39; in the case of=
+<br>
+&quot;-static&quot; build?<br>
+<br>
+Thanks,<br>
+Laurent<br>
+<br>
+</blockquote></div></div></div>
+</blockquote></div>
+</blockquote></div>
+
+--000000000000f6860e05add85e01--
 
 
