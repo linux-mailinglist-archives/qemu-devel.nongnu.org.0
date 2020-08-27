@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABC57254B95
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 19:06:58 +0200 (CEST)
-Received: from localhost ([::1]:32870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A19C8254B77
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 19:03:50 +0200 (CEST)
+Received: from localhost ([::1]:47080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBLMX-0000N0-PM
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 13:06:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50826)
+	id 1kBLJV-00033Q-KI
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 13:03:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kBLGC-00066X-HD
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 13:00:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49263)
+ id 1kBLGG-0006H1-JD
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 13:00:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21131)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kBLGA-0005QD-E3
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 13:00:24 -0400
+ id 1kBLGC-0005SV-Jp
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 13:00:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598547621;
+ s=mimecast20190719; t=1598547623;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Rdhf1SEccPCnHKjVmetN+WeOeWXLm8RfMWFO534rBlM=;
- b=a/erwrqM6nkXnG9xGuHbzJCPjyjrces/wJcEZITxKLpQ+GxEzy9ykmbmc+JoIvI69j2OsC
- yVDopU2CNQRnR0N0CDPLYpWmRFzWg+Ze7IPg1ueY0Ou+eZyh6KifcG2cwj3dWxzHCdKM1U
- 8sVBA0+ls7sOWkb1wjsdk9q/HLhqeFY=
+ bh=KF9SiR0HyK9h6SoUntBhr4RRkjYw/qK9hQ054IRzsSs=;
+ b=Lm4Vu/FxUTf1ePSeABtginPKn0bOJ8AmrAAcjjSEBi8a0/tvNER80qt+L5/yNEU5BdFULc
+ GyotwDMBLAS7MFHAGkQQ5KS09kW4f6NUsI/NnCNJ3qiAL8wXDGT5E/wxjHR8eivXdy0hum
+ l2I3Q5fpAQUJJ0XsELs5R82nHABf5XE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-391-pnRVg9uVNIGd2IxuZCGUfg-1; Thu, 27 Aug 2020 13:00:19 -0400
-X-MC-Unique: pnRVg9uVNIGd2IxuZCGUfg-1
+ us-mta-544-ZiiVvu8EOV-bRGREddRZZw-1; Thu, 27 Aug 2020 13:00:20 -0400
+X-MC-Unique: ZiiVvu8EOV-bRGREddRZZw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A12E802B6D;
- Thu, 27 Aug 2020 17:00:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9BAA100A63E
+ for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 17:00:18 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C3BDC50B3F;
- Thu, 27 Aug 2020 17:00:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4536050B3F;
+ Thu, 27 Aug 2020 17:00:18 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/17] meson: Fix chardev-baum.so name
-Date: Thu, 27 Aug 2020 12:59:45 -0400
-Message-Id: <20200827165956.12925-7-pbonzini@redhat.com>
+Subject: [PULL 07/17] configure: default to PIE disabled on Windows platforms
+Date: Thu, 27 Aug 2020 12:59:46 -0400
+Message-Id: <20200827165956.12925-8-pbonzini@redhat.com>
 In-Reply-To: <20200827165956.12925-1-pbonzini@redhat.com>
 References: <20200827165956.12925-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 02:10:07
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 02:54:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -82,35 +82,47 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Bruce Rogers <brogers@suse.com>
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bruce Rogers <brogers@suse.com>
+From: Daniel P. Berrangé <berrange@redhat.com>
 
-Somehow in the conversion to meson, the module named chardev-baum got
-renamed to chardev-brlapi. Change it back.
+If Windows EXE files are built with -pie/-fpie they will fail to
+launch. Historically QEMU defaulted to disabling PIE for Windows,
+but this setting was accidentally lost when the configure summary
+text was removed in
 
-Signed-off-by: Bruce Rogers <brogers@suse.com>
+  commit f9332757898a764d85e19d339ec421236e885b68
+  Author: Paolo Bonzini <pbonzini@redhat.com>
+  Date:   Mon Feb 3 13:28:38 2020 +0100
+
+    meson: move summary to meson.build
+
+    Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+
+Fixes: f9332757898a764d85e19d339ec421236e885b68
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- chardev/meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ configure | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/chardev/meson.build b/chardev/meson.build
-index a46a6237be..7726837e34 100644
---- a/chardev/meson.build
-+++ b/chardev/meson.build
-@@ -39,7 +39,7 @@ chardev_modules = {}
- if config_host.has_key('CONFIG_BRLAPI') and sdl.found()
-   module_ss = ss.source_set()
-   module_ss.add(when: [sdl, brlapi], if_true: files('baum.c'))
--  chardev_modules += { 'brlapi': module_ss }
-+  chardev_modules += { 'baum': module_ss }
- endif
- 
- modules += { 'chardev': chardev_modules }
+diff --git a/configure b/configure
+index a3f95f2b22..0b78577236 100755
+--- a/configure
++++ b/configure
+@@ -857,6 +857,7 @@ MINGW32*)
+     audio_drv_list=""
+   fi
+   supported_os="yes"
++  pie="no"
+ ;;
+ GNU/kFreeBSD)
+   bsd="yes"
 -- 
 2.26.2
 
