@@ -2,84 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 719BD254121
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 10:45:46 +0200 (CEST)
-Received: from localhost ([::1]:35086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B44CA254131
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 10:52:23 +0200 (CEST)
+Received: from localhost ([::1]:43138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBDXU-0007oS-QW
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 04:45:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47980)
+	id 1kBDdu-0002yg-OL
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 04:52:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1kBDTW-0006zc-Sk
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 04:41:38 -0400
-Received: from mout.web.de ([212.227.17.12]:50881)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1kBDTU-0006gI-GC
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 04:41:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1598517665;
- bh=7RWWDZwbVONcVmSnXX1cIILVnU/OnbMtE3GHvvMf18E=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=NUcnNkRrbzUWZsZKrFRuAm8DChgC00Nc06cY2Q3Ofh6XZYTVWioGP5Srtz2cM7Y3h
- b+g2sXqwdSfYO+5aCR0mBAXNbjhOg8U0I/08xXOZqWMPE8m40n8n63gKV8963asAbM
- acEsbEv+7FmCZkgYoES7zgjYzdfp8ZLvhBLN8HCs=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([87.123.206.239]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MyvBA-1kWibD0uKQ-00wGEy; Thu, 27
- Aug 2020 10:41:05 +0200
-Date: Thu, 27 Aug 2020 10:40:54 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: Re: [PATCH v3 0/7] colo: Introduce resource agent and test suite/CI
-Message-ID: <20200827104054.45a116fb@luklap>
-In-Reply-To: <20200818142701.6d1d82bd@luklap>
-References: <cover.1596536719.git.lukasstraub2@web.de>
- <20200818142701.6d1d82bd@luklap>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kBDd1-00029v-98
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 04:51:27 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53074)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kBDcy-0007mX-N1
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 04:51:27 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kBDcw-0006e5-Qz
+ for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 08:51:22 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id CA4412E80EC
+ for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 08:51:22 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/Sv.YT3J+8XPtH/L/mqFaYO1";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:eSMoYnXQC7HPzembwt8u6wbOm7lIXKxNQd+y7BJ9B87zhNnK72i
- T9H57Tu7yU9kFEB4UIjGmBD1uvgt6GmNReSEXFF0VWXBheqAxHCbuMl4bX3qBcNnca5V+wI
- 9j1efmaB89gEqpOe+8LRlRSvjKG+QupzQrnthUFKydDRVB62hD8DBKDN0ZwHeXV+F37//fi
- blF+iSDNUqfE0aVC5PG4w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:lBpMALD5GnM=:Z6O15pnSBUca1Er5D3Avje
- ZqLQ4s82UKe8OySKBvPwkEviifNJFY3Jng0EWjbA43rc511SSwqJaU9Z16lhGpI90lNB66xPr
- 6dwAOm++k7RGkKwSTKX3UvxF7yenU3N8Zt6kla7fjWSzxAMp2ssEKaG10vVrcgZnRNA+waOUv
- l9t0dH8WDCjhbgqZvEbyivXB9XnsxZuXp7bUMfD+ouTj8LgTk3Q6HfRwrDPDfd+YvCwhn7GTQ
- FxXlqLm2u2FMt4dg9GcuowaZdKZO3eyHb9AWNDpVYPZVfdbpVwiVnFlBWEcW21UPxXiJU7ODs
- 8yVt7dr1dzNkkqHXrSXqGLcOyyH0Zy1OYuwcldHuMzkgLVEdq8DFq09/qjKvvd5XnexYU820+
- XCXe8soFE+NlDTXUOd03vwbCvpzjYzLtuRsTvpL91e33aTz+jrYJkVo0vk8Z/jaB4vGqfVOT2
- bR9rMkEVV7fFqkJZIL8me+dt0eBwjEVyrIaXPfu4ukLzDYpu7YzizAYL5gF+tZEbLP6ktCadr
- Yy+W8ugmvz8LpXw41bDmcmUYR1YwVIa1YPg7IbGi16XqBEcN8vKv41f9n13674Z1o2gbcf5ON
- hPZPVKyKcNrpWGQvXyUdFYjEq7gz2T3Msf7icNOjd3CNAXblz5HnA20SQOAvCwLgEtoaa2gn9
- 8jcF28+yvKzbR6OToqAF2zsuCapwqf1KGsj9h2M8OkRpeHYRmHV0LLXTzt6cvsNi+XNBEtkdU
- sNF7zTwf68cbkR4tpdiSgp5mIm6wYeyuiIfIxBKr4+ZdA3/CqOLPNWqHyNhOg4a1WbxkrOdpc
- G8VTnDaB4GuKmHkK6BWcADogmHAE09jR40vJ+pP8+HT/uDthQmOCyKP0QMXDpRIkwbzTeqoRc
- UmSNRt2zoOkQsWXC+v+jr58gmS+m5K/Uqo18DIdIVc5dFPdEbpK8GdSQla3esCgvNORcdogNu
- A4szCL3Y8VpIkA2KqB7MG6xGbne+IcDeHM4NGqdiwHZf+5iadEREyj4wUIPyonYtcizo2RccG
- 2Z1x7qRtT2j3fpe/U1NboK6/biZjw7R8tIoVea6noW+j2rhhfYDF0Bsf3zQl42rcY0Hz3OYES
- VrnqRxWViLiloNruC5Vy2avq5xoftsqbuk3R/beRavRS1W4Rm4qzR6Be2QpVnI90OXUVzGCU+
- U0xWHzHip2vdTuML30WawkDu5An01A6LnOqPdFYxGs+5oOBFILn1+xW2q/dYtpeNXWMXXHlvi
- etX06jaV8m3XAs2wgfFe+zLgYUCStSqrXXnKYXA==
-Received-SPF: pass client-ip=212.227.17.12; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 04:41:33
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 27 Aug 2020 08:40:59 -0000
+From: Mike Gelfand <1893003@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: linux-user ppc s390x
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: mike.dld
+X-Launchpad-Bug-Reporter: Mike Gelfand (mike.dld)
+X-Launchpad-Bug-Modifier: Mike Gelfand (mike.dld)
+References: <159842808665.2865.2216413646645324343.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159851765924.5796.7987398138944264389.malone@gac.canonical.com>
+Subject: [Bug 1893003] Re: qemu linux-user doesn't translate host/target data
+ for iovec I/O
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="99c2d833c8d727fd05148486920aca032e908071"; Instance="production"
+X-Launchpad-Hash: 706958fe38d73a08bb2684d62462af0b00e150fe
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 04:51:23
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,151 +73,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Zhang Chen <chen.zhang@intel.com>,
- Cleber Rosa <crosa@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Reply-To: Bug 1893003 <1893003@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/Sv.YT3J+8XPtH/L/mqFaYO1
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+The attached patch fixes the issue for me, but is incomplete (and not
+thoroughly tested) as I've only implemented inotify data translation for
+readv syscall.
 
-On Tue, 18 Aug 2020 14:27:01 +0200
-Lukas Straub <lukasstraub2@web.de> wrote:
+** Patch added: "qemu-5.0.0-inotify-readv.patch"
+   https://bugs.launchpad.net/qemu/+bug/1893003/+attachment/5405134/+files/=
+qemu-5.0.0-inotify-readv.patch
 
-> On Tue, 4 Aug 2020 12:46:29 +0200
-> Lukas Straub <lukasstraub2@web.de> wrote:
->=20
-> > Hello Everyone,
-> > So here is v3. Patch 1 can already be merged independently of the other=
-s.
-> > Please review.
-> >=20
-> > Regards,
-> > Lukas Straub
-> >=20
-> > Based-on: <cover.1596528468.git.lukasstraub2@web.de>
-> > "Introduce 'yank' oob qmp command to recover from hanging qemu"
-> >=20
-> > Changes:
-> >=20
-> > v3:
-> >  -resource-agent: Don't determine local qemu state by remote master-sco=
-re, query
-> >   directly via qmp instead
-> >  -resource-agent: Add max_queue_size parameter for colo-compare
-> >  -resource-agent: Fix monitor action on secondary returning error during
-> >   clean shutdown
-> >  -resource-agent: Fix stop action setting master-score to 0 on primary =
-on
-> >   clean shutdown
-> >=20
-> > v2:
-> >  -use new yank api
-> >  -drop disk_size parameter
-> >  -introduce pick_qemu_util function and use it
-> >=20
-> > Overview:
-> >=20
-> > Hello Everyone,
-> > These patches introduce a resource agent for fully automatic management=
- of colo
-> > and a test suite building upon the resource agent to extensively test c=
-olo.
-> >=20
-> > Test suite features:
-> > -Tests failover with peer crashing and hanging and failover during chec=
-kpoint
-> > -Tests network using ssh and iperf3
-> > -Quick test requires no special configuration
-> > -Network test for testing colo-compare
-> > -Stress test: failover all the time with network load
-> >=20
-> > Resource agent features:
-> > -Fully automatic management of colo
-> > -Handles many failures: hanging/crashing qemu, replication error, disk =
-error, ...
-> > -Recovers from hanging qemu by using the "yank" oob command
-> > -Tracks which node has up-to-date data
-> > -Works well in clusters with more than 2 nodes
-> >=20
-> > Run times on my laptop:
-> > Quick test: 200s
-> > Network test: 800s (tagged as slow)
-> > Stress test: 1300s (tagged as slow)
-> >=20
-> > For the last two tests, the test suite needs access to a network bridge=
- to
-> > properly test the network, so some parameters need to be given to the t=
-est
-> > run. See tests/acceptance/colo.py for more information.
-> >=20
-> > Regards,
-> > Lukas Straub
-> >=20
-> > Lukas Straub (7):
-> >   block/quorum.c: stable children names
-> >   avocado_qemu: Introduce pick_qemu_util to pick qemu utility binaries
-> >   boot_linux.py: Use pick_qemu_util
-> >   colo: Introduce resource agent
-> >   colo: Introduce high-level test suite
-> >   configure,Makefile: Install colo resource-agent
-> >   MAINTAINERS: Add myself as maintainer for COLO resource agent
-> >=20
-> >  MAINTAINERS                               |    6 +
-> >  Makefile                                  |    5 +
-> >  block/quorum.c                            |   20 +-
-> >  configure                                 |   10 +
-> >  scripts/colo-resource-agent/colo          | 1501 +++++++++++++++++++++
-> >  scripts/colo-resource-agent/crm_master    |   44 +
-> >  scripts/colo-resource-agent/crm_resource  |   12 +
-> >  tests/acceptance/avocado_qemu/__init__.py |   15 +
-> >  tests/acceptance/boot_linux.py            |   11 +-
-> >  tests/acceptance/colo.py                  |  677 ++++++++++
-> >  10 files changed, 2286 insertions(+), 15 deletions(-)
-> >  create mode 100755 scripts/colo-resource-agent/colo
-> >  create mode 100755 scripts/colo-resource-agent/crm_master
-> >  create mode 100755 scripts/colo-resource-agent/crm_resource
-> >  create mode 100644 tests/acceptance/colo.py
-> >=20
-> > --
-> > 2.20.1 =20
->=20
-> Ping...
+-- =
 
-Ping 2...
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1893003
 
-Kevin, can you already apply patch 1 "block/quorum.c: stable children names=
-"? It resolves the following bug: https://bugs.launchpad.net/qemu/+bug/1881=
-231
+Title:
+  qemu linux-user doesn't translate host/target data for iovec I/O
 
-Regards,
-Lukas Straub
+Status in QEMU:
+  New
 
---Sig_/Sv.YT3J+8XPtH/L/mqFaYO1
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Bug description:
+  When using iovec I/O functions (like `readv`), no data translation
+  happens. I'm hitting this issue with libevent upon constructing a
+  bufferevent over an inotify descriptor, and then building for either
+  ppc64 or s390x (both big-endian) on x86_64 (little-endian) and running
+  resulting code with qemu-ppc64 or qemu-s390x on Gentoo using latest
+  QEMU version available (5.0.0-r2).
 
------BEGIN PGP SIGNATURE-----
+  The code in question is in
+  https://github.com/transmission/transmission/blob/master/libtransmission
+  /watchdir-inotify.c (`tr_watchdir_inotify_new`,
+  `tr_watchdir_inotify_on_event`).
 
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl9HcZYACgkQNasLKJxd
-slhHmhAArJG6jI/kY+iBFzwsbTRHu0yqcr+K9cIHBqeEHFMSPyTLYPv4gOymj5wL
-tVtKgEkTN+wKnmVIbSM4IHYZM/Sh3eQK5NNd+sQcvzEOk1rSKA2IA2Yu8A/KaM0v
-7krafVlOF+lpiYFhpUDzkBhlXYrlvFiEJ9Vt5ICeHkXn+GBX26J+fi8BFeEhzKm5
-EMfANaDV7Noep5V3Qud4V5BONXNtWj73HTNwlM+UDrZ+53/mlg67KSYTFHuGR5QZ
-VxcyTjfCCNbidh6q6aSOKB9glrPuaBc8Gd+GCVnbBCE/2u/ap1kNj5Ba95r5Bucv
-LZ0EMkQKAdxwZebYccAqZc+uTufZZcGAce5WD8gTjtf0feDWOMKMqIRXTzRlYgWe
-hpcKPkmEkF8J5PICmzo4QKMezUc+4YrvYlQPcuw38GddoCja2rydqJ8azQpw9QEq
-h9Quswmn6L9R0/i1zSxm3JBaJHH25Mlwtce0bNELmJhO7Z9UEWFkAuDz/Ynb1kx6
-XQ50GmCYaXuU9MuD1Dsv+wfAYid2DkGkfAqItvvoNtk5JDYgt0mGvNOSNkho6h7P
-JQ9TbE7ld5qcNr+VdqM2WkV1yjRGOYcDztWLuLIOi9QIvm3T4Sg4OrP35I0ArBVn
-ywd3vq8hLyNP/AOCA63PpwIzVPj0OxrSs0zuDdIS1VepXPEBZA8=
-=reDT
------END PGP SIGNATURE-----
+  While `read` syscall is handled properly, `readv` (which libevent is
+  using in my case) doesn't have any logic to call
+  `host_to_target_data_inotify` or any other translation function,
+  leaving inotify data unchanged (with values in little-endian), which
+  then leads to unit test failures. Quoting `do_syscall1` implementation
+  bits for the reference:
 
---Sig_/Sv.YT3J+8XPtH/L/mqFaYO1--
+  ---8<---begin---
+      case TARGET_NR_read:
+          if (arg2 =3D=3D 0 && arg3 =3D=3D 0) {
+              return get_errno(safe_read(arg1, 0, 0));
+          } else {
+              if (!(p =3D lock_user(VERIFY_WRITE, arg2, arg3, 0)))
+                  return -TARGET_EFAULT;
+              ret =3D get_errno(safe_read(arg1, p, arg3));
+              if (ret >=3D 0 &&
+                  fd_trans_host_to_target_data(arg1)) {
+                  ret =3D fd_trans_host_to_target_data(arg1)(p, ret);
+              }
+              unlock_user(p, arg2, ret);
+          }
+          return ret;
+  ...
+      case TARGET_NR_readv:
+          {
+              struct iovec *vec =3D lock_iovec(VERIFY_WRITE, arg2, arg3, 0);
+              if (vec !=3D NULL) {
+                  ret =3D get_errno(safe_readv(arg1, vec, arg3));
+                  unlock_iovec(vec, arg2, arg3, 1);
+              } else {
+                  ret =3D -host_to_target_errno(errno);
+              }
+          }
+          return ret;
+  ---8<---end---
+
+  To reiterate, the issue is not only with `readv` but with other iovec
+  functions as well.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1893003/+subscriptions
 
