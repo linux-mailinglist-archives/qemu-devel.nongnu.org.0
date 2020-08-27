@@ -2,58 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 109132541B2
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 11:14:22 +0200 (CEST)
-Received: from localhost ([::1]:39274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EE2A2541A4
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 11:12:47 +0200 (CEST)
+Received: from localhost ([::1]:60140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBDzB-0005nP-2B
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 05:14:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54420)
+	id 1kBDxe-0002o8-Cx
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 05:12:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1kBDwf-0001ec-S6; Thu, 27 Aug 2020 05:11:45 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:36913)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1kBDwd-0001zh-P5; Thu, 27 Aug 2020 05:11:45 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.44])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id A4EBB54810DF;
- Thu, 27 Aug 2020 11:11:32 +0200 (CEST)
-Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 27 Aug
- 2020 11:11:31 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G003cc3eeee9-ec49-4800-98bd-d7db1c7de948,
- 618CF37EF0508A6B3BD090B4D8B11E595DDBE7AA) smtp.auth=clg@kaod.org
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH 0/2] m25p80: Add SFDP support
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1kBDwU-0001Lj-6E
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 05:11:34 -0400
+Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:44282)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1kBDwS-0001yz-L8
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 05:11:33 -0400
+Received: by mail-lj1-x244.google.com with SMTP id g6so5558286ljn.11
+ for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 02:11:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=fDHlh8kb9xxLWdRs7n7qhEa0ipMfi7lZ9cad/daw3mc=;
+ b=czsSxRKLByekiY7e3cKsDu4bXhwrZSqdPklpkBDWzvoH0aeCM5sBGWz1qxhfXndpRE
+ cZYQ1/vO4mVfiNguXp1hUMGiqDdp7U0kxy6qGM0gVaCZDd0y1fLF2aE/uGEjkE3nnYKC
+ 9izKvlpyVbcNWqZUhY4fdiXixaL30JMZkwPhOiEEf/tong/qS4CLRwmjjxge8PK5GtQL
+ Dd9nCOiiKBjLOumLrmHCbJiczqvwfByfihxCi89nFSoXfWu239Db6bwaQFf1ndsf4QXH
+ rjKJkVkc8sHnck+Oe2dEEZMFG5pVHGlgFt5QdPFf/k+hktMzgJ2cVALmhmMeqnLCz4e4
+ BVCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=fDHlh8kb9xxLWdRs7n7qhEa0ipMfi7lZ9cad/daw3mc=;
+ b=YG+b+1iJeQeyFCSAIsMbqUM3c5+JLv776Cp99d1kXrdfwtNhfSsAARUm05NhiZyvna
+ IFoNty9qo7anLZsIjuj+6fCtZInH7+y/MLYajqtWzznY5xqolYkQKRscCHWnGjA/+bSc
+ amL+idB/vGgCAE3Ze03Qc4J6Ko/olkZWq2iQ+29rhL5Q7kPx49E0qEbj5hD1IOfJAaZA
+ JGT6RRbmfwqTQ8C6GojLPSIYuGAcwURcIoTADw9hhPUUjggbgbuHb9QlB+6Id6kN8d/W
+ IreDw5+oIIoW0lqd6NuW7GAy8p7Zzdnvt9mjSWs4iAWMsLgouBMMWtdVw1flJlX3Hd1Q
+ Qv5g==
+X-Gm-Message-State: AOAM532mrd80yvvIrEfZjUiPU3jj7P9KMk916e1HJu76aHlst6JsJ1lT
+ BwjKsWGQWHhgNgJdnMxiQ4w=
+X-Google-Smtp-Source: ABdhPJw11Z3zdP5kOPracqhDEiJEV4Tx6W2Gkgbz5dLi7A/yswjNVa1WSc1B7XTQdorEK6D9LVEy1w==
+X-Received: by 2002:a2e:a0cd:: with SMTP id f13mr8594870ljm.393.1598519490679; 
+ Thu, 27 Aug 2020 02:11:30 -0700 (PDT)
+Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
+ by smtp.gmail.com with ESMTPSA id y26sm332416ljm.132.2020.08.27.02.11.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Aug 2020 02:11:29 -0700 (PDT)
 Date: Thu, 27 Aug 2020 11:11:28 +0200
-Message-ID: <20200827091130.3525790-1-clg@kaod.org>
-X-Mailer: git-send-email 2.25.4
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 00/77] target/microblaze improvements
+Message-ID: <20200827091128.GK2954729@toto>
+References: <20200825205950.730499-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: b1c3040f-a86a-4037-a15d-f3ab95d91762
-X-Ovh-Tracer-Id: 8702080382252256108
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedruddvgedguddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffogggtgfhisehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedvuedtvdeikeekuefhkedujeejgffggffhtefglefgveevfeeghfdvgedtleevnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 05:11:34
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200825205950.730499-1-richard.henderson@linaro.org>
+Received-SPF: pass client-ip=2a00:1450:4864:20::244;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x244.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 10
+X-Spam_score: 1.0
+X-Spam_bar: +
+X-Spam_report: (1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ FSL_HELO_FAKE=3.066, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,44 +84,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- Francisco Iglesias <frasse.iglesias@gmail.com>,
- Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
- Joel Stanley <joel@jms.id.au>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+On Tue, Aug 25, 2020 at 01:58:33PM -0700, Richard Henderson wrote:
+> Well, this is larger than I expected.
+> 
+> I started off thinking conversion to decodetree would be quick,
+> after I reviewed the mttcg patches last week.  Then I realized
+> that this could also use conversion to the generic translation loop.
+> Then I realized that there were a number of bugs, and some
+> inefficiencies, that could be fixed by using tcg exception unwind
+> properly.
+> 
+> Hopefully most of these are small and easy to understand.
+> 
+> I begin by adding enough stuff to test/tcg to make use of a
+> self-built musl cross-environment.  I'll note that linuxtest
+> does not pass before or after this patch set -- I think that
+> linux-user/microblaze/signal.c needs work -- but that the
+> other tests do work.
+> 
+> I also have an old copy of a microblaze system test image,
+> which I think used to be hosted on our wiki.  After basic kernel
+> boot, it contains a "selftest" script which runs a bunch of
+> user-land isa tests.  That still works fine too.
+> 
+> HOWEVER: That's not nearly complete.  There are cpu config options
+> that aren't default and I don't know how to change or test.
+> 
+> In addition, the manual is really not clear on what's supposed to
+> happen under various edge conditions, especially with MSR[EE] unset.
+> E.g. unaligned access: Does the insn get nop-ed out?  Do the low
+> bits of the address get ignored?  Right now (before and after) the
+> access simply happens unaligned, which doesn't seem correct.
+> I assume the reason for having this configure option is to reduce
+> the size of the FPGA so that the unaligned access handling hw
+> simply isn't present.
+> 
+> Lemme know what you think.
 
-JEDEC STANDARD JESD216 for Serial Flash Discovery Parameters (SFDP)
-provides a mean to describe the features of a serial flash device
-using a set of internal parameter tables. Support in Linux has been
-added some time ago and the spi-nor driver is using it more often
-to detect the flash settings and even flash models.
+I merged this to our internal tree and run some of our tests,
+unfortunately it causes quite a few regressions. I'll try to
+get you details as I go and respond to individual patches if
+related otherwise here.
 
-This is the initial framework for the RDSFDP command giving access to
-a private SFDP area under the flash and one example for the n25q256a
-to check this is a good approach.
+So a first general regression is that opcode 0 no longer
+traps as an illegal instruction (seems to be treated as an
+add with all r0).
 
-Thanks,
+Cheers,
+Edgar
 
-C.
 
-Cédric Le Goater (2):
-  m25p80: Add basic support for the SFDP command
-  m25p80: Add the n25q256a SFDP table
-
- hw/block/m25p80_sfdp.h | 17 +++++++++++++++
- hw/block/m25p80.c      | 39 +++++++++++++++++++++++++++++++--
- hw/block/m25p80_sfdp.c | 49 ++++++++++++++++++++++++++++++++++++++++++
- hw/block/Makefile.objs |  2 +-
- hw/block/trace-events  |  1 +
- 5 files changed, 105 insertions(+), 3 deletions(-)
- create mode 100644 hw/block/m25p80_sfdp.h
- create mode 100644 hw/block/m25p80_sfdp.c
-
--- 
-2.25.4
 
 
