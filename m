@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47304254B6D
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 19:02:30 +0200 (CEST)
-Received: from localhost ([::1]:38664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2D5E254B7A
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 19:04:12 +0200 (CEST)
+Received: from localhost ([::1]:48656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBLID-00084f-6p
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 13:02:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50914)
+	id 1kBLJr-0003iB-RX
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 13:04:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kBLGG-0006GR-AR
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 13:00:28 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56609
- helo=us-smtp-1.mimecast.com)
+ id 1kBLGT-0006O3-ON
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 13:00:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48370)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kBLGD-0005TN-Em
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 13:00:27 -0400
+ id 1kBLGL-0005X1-PY
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 13:00:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598547624;
+ s=mimecast20190719; t=1598547631;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GguCrW/Rvun9IpqZXGcfmt+z0BdPZspMP0K0b8YELQg=;
- b=jR4HWqPABKc+JrpXA2pevEC/E4jGGRuBpIiUUKnfWuK4Yrz06Swk08heoB1VnJ8aw6/vu5
- 7cX9ZVIlvc+TiFWhDmH/8h59e5DaCA/ivrHCqporOXKA7vQQBhaucqSGdoGr6/tfHYEKQx
- 9vyRIFwY5nbaPaxMtUx+XrKa/t17UQs=
+ bh=l0qmoXzyoO5mCYonXFyvhU+th08hnMEw8zFrlRa0/JM=;
+ b=J0LKyJHfxkgUk+5wtFCNUzckGmz7Gphv4n85g9bEsT+A/HE+cWQIJMBoNX9SirGTmz7tKB
+ JYvM+Cj/FevVRRoMWbstJ8DMj2Aqazc1IdOBEWOEe4vLwjw8kA70MhnyCiEAc4iwoWICOf
+ d3kTPt5gxJz+MtUScSth2ojyXYGGwDc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-274-THLtucD3MKuXvRA2v8x4sg-1; Thu, 27 Aug 2020 13:00:21 -0400
-X-MC-Unique: THLtucD3MKuXvRA2v8x4sg-1
+ us-mta-329-Qtw_rmzwNUSniOhfvyQ6gg-1; Thu, 27 Aug 2020 13:00:25 -0400
+X-MC-Unique: Qtw_rmzwNUSniOhfvyQ6gg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C1CCC189E617
- for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 17:00:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E9F2F107464C;
+ Thu, 27 Aug 2020 17:00:23 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8D03550B3F
- for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 17:00:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DDDAD50B3F;
+ Thu, 27 Aug 2020 17:00:20 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/17] meson: cleanup xkbcommon detection
-Date: Thu, 27 Aug 2020 12:59:50 -0400
-Message-Id: <20200827165956.12925-12-pbonzini@redhat.com>
+Subject: [PULL 12/17] meson: don't require CONFIG_VTE for the GTK UI
+Date: Thu, 27 Aug 2020 12:59:51 -0400
+Message-Id: <20200827165956.12925-13-pbonzini@redhat.com>
 In-Reply-To: <20200827165956.12925-1-pbonzini@redhat.com>
 References: <20200827165956.12925-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -59,17 +58,17 @@ X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 00:13:19
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 02:10:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,44 +81,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+
+Prevously CONFIG_VTE was not required to build QEMU with GTK UI support as not
+all platforms have VTE available (in particular Windows).
+
+Remove this requirement from the meson build system to enable QEMU to be built
+with GTK UI support for Windows once again.
+
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+ ui/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meson.build b/meson.build
-index a3baa2dbf0..90128616e5 100644
---- a/meson.build
-+++ b/meson.build
-@@ -165,10 +165,11 @@ libcap_ng = not_found
- if 'CONFIG_LIBCAP_NG' in config_host
-   libcap_ng = declare_dependency(link_args: config_host['LIBCAP_NG_LIBS'].split())
+diff --git a/ui/meson.build b/ui/meson.build
+index 393c9bcb53..962e776569 100644
+--- a/ui/meson.build
++++ b/ui/meson.build
+@@ -44,7 +44,7 @@ if config_host.has_key('CONFIG_CURSES')
+   ui_modules += {'curses' : curses_ss}
  endif
--xkbcommon = dependency('xkbcommon', required: get_option('xkbcommon'), static: enable_static,
--                       include_type: 'system')
--if xkbcommon.found()
--  xkbcommon = declare_dependency(dependencies: xkbcommon)
-+if get_option('xkbcommon').auto() and not have_system and not have_tools
-+  xkbcommon = not_found
-+else
-+  xkbcommon = dependency('xkbcommon', required: get_option('xkbcommon'),
-+                         static: enable_static)
- endif
- slirp = not_found
- if config_host.has_key('CONFIG_SLIRP')
-@@ -1078,9 +1079,6 @@ endif
  
- # Don't build qemu-keymap if xkbcommon is not explicitly enabled
- # when we don't build tools or system
--if get_option('xkbcommon').auto() and not have_system and not have_tools
--  xkbcommon = not_found
--endif
- if xkbcommon.found()
-   # used for the update-keymaps target, so include rules even if !have_tools
-   qemu_keymap = executable('qemu-keymap', files('qemu-keymap.c', 'ui/input-keymap.c') + genh,
+-if config_host.has_key('CONFIG_GTK') and config_host.has_key('CONFIG_VTE')
++if config_host.has_key('CONFIG_GTK')
+   softmmu_ss.add(when: 'CONFIG_WIN32', if_true: files('win32-kbd-hook.c'))
+ 
+   gtk_ss = ss.source_set()
 -- 
 2.26.2
 
