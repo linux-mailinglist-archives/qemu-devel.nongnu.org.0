@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 446FA25454D
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 14:48:49 +0200 (CEST)
-Received: from localhost ([::1]:46760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A42BC254554
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 14:49:47 +0200 (CEST)
+Received: from localhost ([::1]:50832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBHKi-0007Xm-BE
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 08:48:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59086)
+	id 1kBHLe-0000m8-OL
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 08:49:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ysato@users.sourceforge.jp>)
- id 1kBHBW-0008Ax-Lh
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 08:39:18 -0400
-Received: from mail01.asahi-net.or.jp ([202.224.55.13]:47911)
+ id 1kBHBf-0000CE-GF
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 08:39:27 -0400
+Received: from mail01.asahi-net.or.jp ([202.224.55.13]:47915)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ysato@users.sourceforge.jp>) id 1kBHBS-0005y5-3g
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 08:39:18 -0400
+ (envelope-from <ysato@users.sourceforge.jp>) id 1kBHBd-0005yl-09
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 08:39:27 -0400
 Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
  [153.127.30.23]) (Authenticated sender: PQ4Y-STU)
- by mail01.asahi-net.or.jp (Postfix) with ESMTPA id 95A8910894A;
+ by mail01.asahi-net.or.jp (Postfix) with ESMTPA id CA76D108974;
  Thu, 27 Aug 2020 21:39:08 +0900 (JST)
 Received: from yo-satoh-debian.localdomain (ZM005235.ppp.dion.ne.jp
  [222.8.5.235])
- by sakura.ysato.name (Postfix) with ESMTPSA id 50D301C0696;
+ by sakura.ysato.name (Postfix) with ESMTPSA id 813D91C0792;
  Thu, 27 Aug 2020 21:39:08 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 14/20] hw/rx/rx62n: RX62N Add MTU module
-Date: Thu, 27 Aug 2020 21:38:53 +0900
-Message-Id: <20200827123859.81793-15-ysato@users.sourceforge.jp>
+Subject: [PATCH 15/20] hw/net: Add generic Bit-bang MDIO PHY.
+Date: Thu, 27 Aug 2020 21:38:54 +0900
+Message-Id: <20200827123859.81793-16-ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200827123859.81793-1-ysato@users.sourceforge.jp>
 References: <20200827123859.81793-1-ysato@users.sourceforge.jp>
@@ -61,113 +61,442 @@ Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Only supported link status.
+
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 ---
- include/hw/rx/rx62n.h |  3 +++
- hw/rx/rx62n.c         | 28 ++++++++++++++++++++++++++++
- hw/rx/Kconfig         |  1 +
- 3 files changed, 32 insertions(+)
+ include/hw/net/mdio.h | 126 ++++++++++++++++++++
+ hw/net/mdio.c         | 264 ++++++++++++++++++++++++++++++++++++++++++
+ hw/net/Kconfig        |   3 +
+ hw/net/meson.build    |   2 +
+ 4 files changed, 395 insertions(+)
+ create mode 100644 include/hw/net/mdio.h
+ create mode 100644 hw/net/mdio.c
 
-diff --git a/include/hw/rx/rx62n.h b/include/hw/rx/rx62n.h
-index f463148799..170c8cb6fc 100644
---- a/include/hw/rx/rx62n.h
-+++ b/include/hw/rx/rx62n.h
-@@ -28,6 +28,7 @@
- #include "hw/intc/rx_icu.h"
- #include "hw/timer/renesas_tmr8.h"
- #include "hw/timer/renesas_timer.h"
-+#include "hw/timer/renesas_mtu.h"
- #include "hw/char/renesas_sci.h"
- #include "hw/rx/rx62n-cpg.h"
- #include "qemu/units.h"
-@@ -45,6 +46,7 @@
- #define RX62N_NR_TMR    2
- #define RX62N_NR_CMT    2
- #define RX62N_NR_SCI    6
-+#define RX62N_NR_MTU    2
- 
- typedef struct RX62NClass {
-     /*< private >*/
-@@ -70,6 +72,7 @@ typedef struct RX62NState {
-     RXICUState icu;
-     RenesasTMR8State tmr[RX62N_NR_TMR];
-     RenesasCMTState cmt[RX62N_NR_CMT];
-+    RenesasMTU2State mtu[RX62N_NR_MTU];
-     RSCIAState sci[RX62N_NR_SCI];
-     RX62NCPGState cpg;
- 
-diff --git a/hw/rx/rx62n.c b/hw/rx/rx62n.c
-index f61383a4c2..344be846bc 100644
---- a/hw/rx/rx62n.c
-+++ b/hw/rx/rx62n.c
-@@ -46,6 +46,7 @@
- #define RX62N_ICU_BASE  0x00087000
- #define RX62N_TMR_BASE  0x00088200
- #define RX62N_CMT_BASE  0x00088000
-+#define RX62N_MTU_BASE  0x00088600
- #define RX62N_SCI_BASE  0x00088240
- #define RX62N_CPG_BASE  0x00080010
- 
-@@ -55,6 +56,7 @@
-  */
- #define RX62N_TMR_IRQ   174
- #define RX62N_CMT_IRQ   28
-+#define RX62N_MTU_IRQ   114
- #define RX62N_SCI_IRQ   214
- 
- /*
-@@ -187,6 +189,30 @@ static void register_cmt(RX62NState *s, int unit)
-                           qdev_get_clock_out(DEVICE(&s->cpg), ckname));
- }
- 
-+static void register_mtu(RX62NState *s, int unit)
+diff --git a/include/hw/net/mdio.h b/include/hw/net/mdio.h
+new file mode 100644
+index 0000000000..55a7170e67
+--- /dev/null
++++ b/include/hw/net/mdio.h
+@@ -0,0 +1,126 @@
++/*
++ *  MDIO PHY emulation
++ *
++ *  Copyright 2020 Yoshinori Sato <ysato@users.sourceforge.jp>
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; under version 2 of the License.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License along
++ *  with this program; if not, see <http://www.gnu.org/licenses/>.
++ *
++ *  Contributions after 2012-01-13 are licensed under the terms of the
++ *  GNU GPL, version 2 or (at your option) any later version.
++ */
++
++#ifndef MDIO_H
++#define MDIO_H
++
++#include "hw/qdev-core.h"
++#include "hw/net/mii.h"
++
++typedef enum mdio_pin {
++    mdio_z = -1,
++    mdio_l = 0,
++    mdio_h = 1,
++} MDIOPin;
++
++#define TYPE_ETHER_PHY "ether-phy"
++#define TYPE_ETHER_PHY_CLASS(obj) \
++    OBJECT_GET_CLASS(EtherPHYClass, (obj), TYPE_ETHER_PHY)
++#define EtherPHYClass(klass) \
++    OBJECT_CHECK_CLASS(EtherPHYClass, (klass), TYPE_ETHER_PHY)
++#define EtherPHY(obj) \
++    OBJECT_CHECK(PHYState, (obj), TYPE_ETHER_PHY)
++
++#define TYPE_ETHER_MDIO_BB "ether-mdio-bb"
++#define TYPE_ETHER_MDIO_BB_CLASS(obj)                           \
++    OBJECT_GET_CLASS(MDIO_BBClass, (obj), TYPE_ETHER_MDIO_BB)
++#define MDIO_BBClass(klass) \
++    OBJECT_CHECK_CLASS(MDIO_BBClass, (klass), TYPE_ETHER_MDIO_BB)
++#define MDIO_BB(obj) \
++    OBJECT_CHECK(MDIOState, (obj), TYPE_ETHER_MDIO_BB)
++
++typedef enum {
++    phy_out_p = 0,    /* Link up is 'H' */
++    phy_out_n = 1,    /* Link up is 'L' */
++} phy_output_polarity;
++
++typedef struct {
++    DeviceState parent;
++
++    uint16_t regs[32];
++    uint32_t identifier;
++    bool link_ok;
++    phy_output_polarity link_out_pol;
++    uint16_t bmsr;
++    uint16_t anlpar;
++} PHYState;
++
++#define MDIO_ANLPAR_LINK \
++    (MII_ANLPAR_TXFD | MII_ANLPAR_TX | MII_ANLPAR_10FD | MII_ANLPAR_10 | \
++     MII_ANLPAR_CSMACD)
++
++typedef enum {
++    BB_PRE,
++    BB_ST,
++    BB_CMD,
++    BB_TA_R,
++    BB_TA_W,
++    BB_DATA_R,
++    BB_DATA_W,
++    BB_INH,
++} mdio_bb_state;
++
++typedef struct {
++    DeviceState parent;
++
++    PHYState *phy;
++    mdio_bb_state bb_state;
++    int pclk;
++    int bits;
++    int cmd;
++    int phyad;
++    int selphy;
++    int regad;
++    int data;
++    int mdi_pin;
++    int mdo_pin;
++} MDIOState;
++
++#define mdio_get_phy(s) (s->phy)
++
++typedef struct {
++    DeviceClass parent;
++} EtherPHYClass;
++
++typedef struct {
++    DeviceClass parent;
++} MDIO_BBClass;
++
++/* Generic PHY interface */
++void mdio_phy_set_link(PHYState *s, bool ok);
++int mdio_phy_linksta(PHYState *s);
++uint16_t mdio_phy_read(PHYState *s, int addr);
++void mdio_phy_write(PHYState *s, int addr, uint16_t val);
++
++/* Bit-bang MDIO operation */
++static inline MDIOPin mdio_read_mdi_pin(MDIOState *s)
 +{
-+    SysBusDevice *mtu;
-+    int i, irqbase;
-+    char ckname[16];
-+
-+    object_initialize_child(OBJECT(s), "mtu[*]", &s->mtu[unit],
-+                            TYPE_RENESAS_MTU2);
-+    mtu = SYS_BUS_DEVICE(&s->mtu[unit]);
-+    qdev_prop_set_uint32(DEVICE(mtu), "unit", unit);
-+
-+    sysbus_mmio_map(mtu, 0, RX62N_MTU_BASE + 0x100 + unit * 0x400);
-+    sysbus_mmio_map(mtu, 1, RX62N_MTU_BASE + unit * 0x400);
-+    sysbus_mmio_map(mtu, 2, RX62N_MTU_BASE + 0x280 + unit * 0x400);
-+    irqbase = RX62N_MTU_IRQ + MTU_NR_IRQ * unit;
-+    for (i = 0; i < MTU_NR_IRQ; i++) {
-+        sysbus_connect_irq(mtu, i, s->irq[irqbase + i]);
-+    }
-+    sysbus_realize(mtu, &error_abort);
-+    snprintf(ckname, sizeof(ckname), "pck_mtu-%d", unit);
-+    qdev_connect_clock_in(DEVICE(mtu), "pck",
-+                          qdev_get_clock_out(DEVICE(&s->cpg), ckname));
++    return s->mdi_pin;
 +}
 +
- static void register_sci(RX62NState *s, int unit)
- {
-     SysBusDevice *sci;
-@@ -248,6 +274,8 @@ static void rx62n_realize(DeviceState *dev, Error **errp)
-     register_tmr(s, 1);
-     register_cmt(s, 0);
-     register_cmt(s, 1);
-+    register_mtu(s, 0);
-+    register_mtu(s, 1);
-     register_sci(s, 0);
-     sysbus_realize(SYS_BUS_DEVICE(&s->cpg), &error_abort);
- }
-diff --git a/hw/rx/Kconfig b/hw/rx/Kconfig
-index d1812870ea..887a5782bb 100644
---- a/hw/rx/Kconfig
-+++ b/hw/rx/Kconfig
-@@ -4,6 +4,7 @@ config RX62N_MCU
-     select RENESAS_TMR8
-     select RENESAS_TIMER
-     select RENESAS_SCI
-+    select RENESAS_MTU
++static inline void mdio_set_mdo_pin(MDIOState *s, MDIOPin mdo)
++{
++    s->mdo_pin = mdo;
++}
++
++void mdio_set_mdc_pin(MDIOState *s, int clk);
++
++#endif
+diff --git a/hw/net/mdio.c b/hw/net/mdio.c
+new file mode 100644
+index 0000000000..39670e70c6
+--- /dev/null
++++ b/hw/net/mdio.c
+@@ -0,0 +1,264 @@
++/*
++ *  Bit-bang MII emulation
++ *
++ *  Copyright 2020 Yoshinori Sato <ysato@users.sourceforge.jp>
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; under version 2 of the License.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License along
++ *  with this program; if not, see <http://www.gnu.org/licenses/>.
++ *
++ *  Contributions after 2012-01-13 are licensed under the terms of the
++ *  GNU GPL, version 2 or (at your option) any later version.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/bitops.h"
++#include "qemu/log.h"
++#include "hw/qdev-properties.h"
++#include "hw/net/mdio.h"
++
++void mdio_phy_set_link(PHYState *s, bool ok)
++{
++    if (ok) {
++        s->regs[MII_BMSR] |= MII_BMSR_LINK_ST;
++        s->regs[MII_ANLPAR] |= MDIO_ANLPAR_LINK;
++    } else {
++        s->regs[MII_BMSR] &= ~(MII_BMSR_LINK_ST | MII_BMSR_AUTONEG);
++        s->regs[MII_ANLPAR] &= MDIO_ANLPAR_LINK;
++    }
++    s->link_ok = ok;
++}
++
++static void mdio_phy_reset(PHYState *s)
++{
++    memset(s->regs, 0, sizeof(s->regs));
++    s->regs[MII_BMSR] = s->bmsr;
++    s->regs[MII_ANLPAR] = s->anlpar;
++    s->regs[MII_PHYID1] = extract32(s->identifier, 16, 16);
++    s->regs[MII_PHYID2] = extract32(s->identifier, 0, 16);
++    mdio_phy_set_link(s, s->link_ok);
++}
++
++uint16_t mdio_phy_read(PHYState *s, int addr)
++{
++    if (addr >= 0 && addr < 32) {
++        return s->regs[addr];
++    } else {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "mdio: Register %04x invalid address.\n", addr);
++        return 0;
++    }
++}
++
++int mdio_phy_linksta(PHYState *s)
++{
++    return s->link_ok ^ s->link_out_pol;
++}
++
++void mdio_phy_write(PHYState *s, int addr, uint16_t val)
++{
++    switch (addr) {
++    case MII_BMCR:
++        s->regs[MII_BMCR] = val & 0xfd80;
++        if (val & MII_BMCR_RESET) {
++            mdio_phy_reset(s);
++        }
++        break;
++    case MII_BMSR:
++    case MII_ANLPAR:
++        /* Read only */
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "mdio: Register %04x is read only register.\n", addr);
++        break;
++    case MII_PHYID1:
++    case MII_PHYID2:
++        s->regs[addr] = val;
++        break;
++    case MII_ANAR:
++        s->regs[addr] = val & 0x2dff;
++        break;
++    default:
++        qemu_log_mask(LOG_UNIMP,
++                      "mdio: Register %04x not implemented\n", addr);
++        break;
++    }
++}
++
++static Property phy_properties[] = {
++    DEFINE_PROP_UINT32("phy-id", PHYState, identifier, 0),
++    DEFINE_PROP_UINT32("link-out-pol", PHYState, link_out_pol, 0),
++    DEFINE_PROP_UINT16("bmsr", PHYState, bmsr, 0),
++    DEFINE_PROP_UINT16("anlpar", PHYState, anlpar, 0),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void phy_realize(DeviceState *dev, Error **errp)
++{
++    PHYState *s = EtherPHY(dev);
++    mdio_phy_reset(s);
++}
++
++static void phy_class_init(ObjectClass *klass, void *class_data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    device_class_set_props(dc, phy_properties);
++    dc->realize = phy_realize;
++}
++
++/* shift in MDO */
++static void read_mdo(MDIOState *s)
++{
++    int op;
++    s->bits++;
++    switch (s->bb_state) {
++    case BB_PRE: /* preamble */
++        if (s->mdo_pin == 0) {
++            /* ST 1st bit found */
++            s->bb_state = BB_ST;
++        }
++        break;
++    case BB_ST: /* ST 2nd bit */
++        if (s->mdo_pin == 0) {
++            s->bb_state = BB_CMD;
++            s->cmd = 0;
++            s->bits = 2;
++            s->selphy = -1;
++            s->regad = -1;
++        } else {
++            s->bb_state = BB_PRE;
++        }
++        break;
++    case BB_CMD:
++        s->cmd <<= 1;
++        s->cmd |= (s->mdo_pin & 1);
++        if (s->bits == 14) {
++            op = extract32(s->cmd, 10, 2);
++            s->selphy = extract32(s->cmd, 5, 5);
++            s->regad = extract32(s->cmd, 0, 5);
++            switch (op) {
++            case 0x02: /* READ */
++                s->bb_state = BB_TA_R;
++                break;
++            case 0x01: /* WRITE */
++                s->bb_state = BB_TA_W;
++                break;
++            default:
++                s->bb_state = BB_INH;
++                break;
++            }
++        }
++        break;
++    case BB_TA_R:
++        s->mdi_pin = 0;
++        if (s->bits == 16) {
++            if (s->phyad == s->selphy) {
++                s->data = mdio_phy_read(s->phy, s->regad);
++                s->bb_state = BB_DATA_R;
++            } else {
++                s->bb_state = BB_INH;
++            }
++        }
++        break;
++    case BB_TA_W:
++        if (s->bits == 16) {
++            s->bb_state = BB_DATA_W;
++        }
++        break;
++    case BB_DATA_W:
++        s->data <<= 1;
++        s->data |= (s->mdo_pin & 1);
++        if (s->bits == 32) {
++            if (s->phyad == s->selphy) {
++                mdio_phy_write(s->phy, s->regad, s->data);
++            }
++            s->bb_state = BB_PRE;
++        }
++        break;
++    case BB_INH:
++    case BB_DATA_R:
++        if (s->bits == 32) {
++            s->bb_state = BB_PRE;
++        }
++        break;
++    }
++}
++
++/* shift out MDI */
++static void write_mdi(MDIOState *s)
++{
++    switch (s->bb_state) {
++    case BB_DATA_R:
++        s->mdi_pin = (s->data >> 15) & 1;
++        s->data <<= 1;
++        break;
++    case BB_TA_R:
++        s->mdi_pin = 0;
++        break;
++    default:
++        s->mdi_pin = mdio_z;
++        break;
++    }
++}
++
++/* MDIO pin operation */
++void mdio_set_mdc_pin(MDIOState *s, int clk)
++{
++    if (s->pclk ^ (clk & 1)) {
++        s->pclk = (clk & 1);
++        if (s->pclk == 1) {
++            /* rising edge */
++            read_mdo(s);
++        } else {
++            /* faling edge */
++            write_mdi(s);
++        }
++    }
++}
++
++static Property bb_properties[] = {
++    DEFINE_PROP_INT32("address", MDIOState, phyad, 0),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void bb_init(Object *obj)
++{
++    MDIOState *s = MDIO_BB(obj);
++
++    object_property_add_link(obj, "phy",
++                             TYPE_ETHER_PHY,
++                             (Object **)&s->phy,
++                             qdev_prop_allow_set_link_before_realize,
++                             OBJ_PROP_LINK_STRONG);
++}
++
++static void bb_class_init(ObjectClass *klass, void *class_data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    device_class_set_props(dc, bb_properties);
++}
++
++static const TypeInfo phy_types_info[] = {
++    {
++        .name = TYPE_ETHER_PHY,
++        .parent = TYPE_DEVICE,
++        .class_init = phy_class_init,
++        .instance_size = sizeof(PHYState),
++    },
++    {
++        .name = TYPE_ETHER_MDIO_BB,
++        .parent = TYPE_DEVICE,
++        .class_init = bb_class_init,
++        .instance_size = sizeof(MDIOState),
++        .instance_init = bb_init,
++    },
++};
++
++DEFINE_TYPES(phy_types_info);
+diff --git a/hw/net/Kconfig b/hw/net/Kconfig
+index e43c96dae0..e6a32a2ab0 100644
+--- a/hw/net/Kconfig
++++ b/hw/net/Kconfig
+@@ -143,3 +143,6 @@ config CAN_SJA1000
+     default y if PCI_DEVICES
+     depends on PCI
+     select CAN_BUS
++
++config MDIO_PHY
++    bool
+diff --git a/hw/net/meson.build b/hw/net/meson.build
+index 4a7051b54a..faa4e3d2c0 100644
+--- a/hw/net/meson.build
++++ b/hw/net/meson.build
+@@ -64,4 +64,6 @@ softmmu_ss.add(when: 'CONFIG_ROCKER', if_true: files(
+ ), if_false: files('rocker/qmp-norocker.c'))
+ softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('rocker/qmp-norocker.c'))
  
- config RX_GDBSIM
-     bool
++softmmu_ss.add(when: 'CONFIG_MDIO_PHY', if_true: files('mdio.c'))
++
+ subdir('can')
 -- 
 2.20.1
 
