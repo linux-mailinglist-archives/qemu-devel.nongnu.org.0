@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ECC1254EDC
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 21:40:29 +0200 (CEST)
-Received: from localhost ([::1]:39120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F747254EA4
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 21:33:04 +0200 (CEST)
+Received: from localhost ([::1]:54402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBNl6-0001Jf-Hj
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 15:40:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34210)
+	id 1kBNdv-0001H8-Gd
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 15:33:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kBNTZ-0007I8-Qf
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:22:21 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:58127
+ id 1kBNTj-0007P8-7g
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:22:31 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:41869
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kBNTY-0000Qq-2v
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:22:21 -0400
+ id 1kBNTf-0000RG-GL
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:22:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598556139;
+ s=mimecast20190719; t=1598556142;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/a1F8ULNHmlugJgaJhLzzHYP9LnrIrNxI4hpEzysAec=;
- b=QSpJIBdsKslSf5K52mErnR94aG/dV9ciQanEHLUdsTg76zrMAlOWz4PMcxtBEWZqEyHJsa
- S8bKLzrHcUpbx5ulyain5/NFwAV7j8RhKXytvIo5eDcXoa8Is1RWehBuCd9iu8usuiqVTH
- ZIwL877q9lWkzFXEPpma6WOIYygb8IA=
+ bh=ZwIQ8/xitgvcojsFfi9ZHtpUvOUvenjZxuMbQ/1FVFA=;
+ b=S1+4hpucubgbfhywVFYr+H8XbS9w+hhZjcILk05GJorM/H3twp1GdiY9o60Ef+YAVSJY2A
+ 2uxLLHuNPKg7GuVlwv80dv3LDr6JNhbxR/DFUZPtRZAZL3czZaBnDt2HlhmTXpiY8aVy1j
+ Gtce6jzvtAMu0qynYO4UM//evgij+pU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-509-YCvY8OnZOUa0V9TbQqzQbg-1; Thu, 27 Aug 2020 15:22:16 -0400
-X-MC-Unique: YCvY8OnZOUa0V9TbQqzQbg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-565-SYYwKtcWNAaIb6XxnDPUeA-1; Thu, 27 Aug 2020 15:22:17 -0400
+X-MC-Unique: SYYwKtcWNAaIb6XxnDPUeA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9748C802B6B;
- Thu, 27 Aug 2020 19:22:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9BAC107464D;
+ Thu, 27 Aug 2020 19:22:16 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5BBBD78396;
- Thu, 27 Aug 2020 19:22:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 68D686115F;
+ Thu, 27 Aug 2020 19:22:16 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 22/53] nubus: Delete unused NUBUS_BRIDGE macro
-Date: Thu, 27 Aug 2020 15:20:51 -0400
-Message-Id: <20200827192122.658035-23-ehabkost@redhat.com>
+Subject: [PULL 23/53] platform-bus: Delete macros for non-existing typedef
+Date: Thu, 27 Aug 2020 15:20:52 -0400
+Message-Id: <20200827192122.658035-24-ehabkost@redhat.com>
 In-Reply-To: <20200827192122.658035-1-ehabkost@redhat.com>
 References: <20200827192122.658035-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -82,40 +82,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The macro never worked because the NubusBridge typedef doesn't
-exist.  Delete it.
+PlatformBusDeviceClass doesn't exist.  This will break when we
+automatically convert the code to use OBJECT_DEFINE_TYPE().
+Delete the macros that reference the non-existing typedef.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Acked-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 Tested-By: Roman Bolshakov <r.bolshakov@yadro.com>
-Message-Id: <20200825192110.3528606-24-ehabkost@redhat.com>
+Message-Id: <20200825192110.3528606-25-ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/hw/nubus/nubus.h | 1 -
- 1 file changed, 1 deletion(-)
+ include/hw/platform-bus.h | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/include/hw/nubus/nubus.h b/include/hw/nubus/nubus.h
-index a8634e54c5..c350948262 100644
---- a/include/hw/nubus/nubus.h
-+++ b/include/hw/nubus/nubus.h
-@@ -29,7 +29,6 @@
- #define NUBUS_BUS(obj) OBJECT_CHECK(NubusBus, (obj), TYPE_NUBUS_BUS)
+diff --git a/include/hw/platform-bus.h b/include/hw/platform-bus.h
+index 19e20c57ce..33745a418e 100644
+--- a/include/hw/platform-bus.h
++++ b/include/hw/platform-bus.h
+@@ -29,10 +29,6 @@ typedef struct PlatformBusDevice PlatformBusDevice;
+ #define TYPE_PLATFORM_BUS_DEVICE "platform-bus-device"
+ #define PLATFORM_BUS_DEVICE(obj) \
+      OBJECT_CHECK(PlatformBusDevice, (obj), TYPE_PLATFORM_BUS_DEVICE)
+-#define PLATFORM_BUS_DEVICE_CLASS(klass) \
+-     OBJECT_CLASS_CHECK(PlatformBusDeviceClass, (klass), TYPE_PLATFORM_BUS_DEVICE)
+-#define PLATFORM_BUS_DEVICE_GET_CLASS(obj) \
+-     OBJECT_GET_CLASS(PlatformBusDeviceClass, (obj), TYPE_PLATFORM_BUS_DEVICE)
  
- #define TYPE_NUBUS_BRIDGE "nubus-bridge"
--#define NUBUS_BRIDGE(obj) OBJECT_CHECK(NubusBridge, (obj), TYPE_NUBUS_BRIDGE)
- 
- typedef struct NubusBus {
-     BusState qbus;
+ struct PlatformBusDevice {
+     /*< private >*/
 -- 
 2.26.2
 
