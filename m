@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2B5E254247
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 11:28:06 +0200 (CEST)
-Received: from localhost ([::1]:46180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EC8125425D
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 11:30:15 +0200 (CEST)
+Received: from localhost ([::1]:56358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBECT-0003l9-SJ
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 05:28:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57402)
+	id 1kBEEY-0007qW-5n
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 05:30:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1kBE8p-00060E-7e
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 05:24:19 -0400
-Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:41925)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kBEDK-0006Z6-Kv
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 05:28:58 -0400
+Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:43074)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1kBE8m-0003Sb-Gp
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 05:24:18 -0400
-Received: by mail-lf1-x144.google.com with SMTP id y17so1509130lfa.8
- for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 02:24:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=jAc9QkYcpJS5T0cX52ZPY/FDmlfraaU2jvBIDWWbuuw=;
- b=NUbQaIB19Gu4DGFCkfGQgKBIZwI7MvZTtRoUYXftvckqDMP0kBUenUfsy2MOuwB9NI
- xCgtxMSiRTDGIMqoY8DPRab5/PypID2szF/Y1JWzfOxDjbPoHK7uN5aoXxTQcpwUB6hW
- 32jbDlPrC0gAKqi5rUhajnS9Eraen8Kib01FSYUJEUKdDvTrRK0WxM+Gd1A62vBv9JjE
- uleIoqI2tnAKEsMqbTZGDB57x8mwYRwdcZ1/pyI0CsuyQzVuiELgszc7UuKl9S9Qo+xS
- bvGyeXUzWV8PT69gD8J5BJjnAsB7R/UtMDiAF8wliL9it22+8118JYm2OObWpdRjHaFZ
- d06g==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kBEDI-000429-Q8
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 05:28:58 -0400
+Received: by mail-ej1-x641.google.com with SMTP id m22so6693546eje.10
+ for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 02:28:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lNKyWQVmt7GlUFWHoZTwmyRNJK2j89UAb8nPiiUG4IE=;
+ b=noNzADQDPVadXawjYSe5fCn2sn+gbSUutTNtls9utIQ8+0mnQee2MJAT6N2nt8QcA/
+ bp0rwSKoeQNSBFA76EQzURfFMdnjsHHXKW7vfN5P1iP3F272SNpARzb8JXN2dl+GTfom
+ xShxvoKl7Och+vstOo+OnvnedZFwt47uEggDuTAkkVRAYT0Xd3y3apUI0lzYLAvrS6DB
+ z1bss0+M65MZ3l0Qrmya8jzCNDSDyNQZSxH3Tc0+MVKkmlxycMaDtZhRRAYuIZ8ca7Or
+ 8BNTuUu79X0xswikQdzdMakT+33fGggjoN8e4ujtwl6E5P/KGZ6ELutXEcdYzVTExXZZ
+ M9+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=jAc9QkYcpJS5T0cX52ZPY/FDmlfraaU2jvBIDWWbuuw=;
- b=MOjZ8fTafT8d32j6tPUZDcYrgp2TnJcESOLGeUz7Wk5eI4UExO39UdxBMFUlunqZWQ
- yWokCWkuivYVmpO6UsiDGXjCzkELz+e6GBnVKsK3yitEvYsZogedBaqsJAiFCvJR9c6Q
- IFmuFhMLLvduPoweoS9U7HHA2+VN/bgliSgvnuQN1XJlgJFbichv6/HBXochTTr3YIOf
- zAO213Hzs/AgeuKd5nkx2Q/pAjVkc0khmNFsimAGpE3rZRfFhni8IDomcRpLQNBbfBA3
- Kc6+1oMPpa0gi3S/HpyyM7mpxMgXsR9egJKu0Y4Asbi+eUEvFjn2d2OFNw4Nmsxav+od
- XxrQ==
-X-Gm-Message-State: AOAM532a5WeB8shgjLAIWxKGfLQhlEoDkNVm2z/KJpKSxJaOCVhHAP0n
- an5BmAOJX5MkYLW3uF7E0Io=
-X-Google-Smtp-Source: ABdhPJxUVaOwT5gSxkrPcrgbTidibTdJSexkROKuOvpdESP8X8vBUhQ+6EA8YwQGTwMU/9sVnPbL/Q==
-X-Received: by 2002:a05:6512:31c3:: with SMTP id
- j3mr9548125lfe.204.1598520254456; 
- Thu, 27 Aug 2020 02:24:14 -0700 (PDT)
-Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id 10sm345251ljn.22.2020.08.27.02.24.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Aug 2020 02:24:13 -0700 (PDT)
-Date: Thu, 27 Aug 2020 11:24:13 +0200
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 64/77] target/microblaze: Convert mbar to decodetree
-Message-ID: <20200827092413.GL2954729@toto>
-References: <20200825205950.730499-1-richard.henderson@linaro.org>
- <20200825205950.730499-65-richard.henderson@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lNKyWQVmt7GlUFWHoZTwmyRNJK2j89UAb8nPiiUG4IE=;
+ b=odjMIi3hmyYC8T5PQvSg5sbU0Aag8YgkiWNWAnmIv46/xycL1hC5Mcu0gGqzzurivr
+ TTDb6mulih5IErHjr+DhNA4nX8vrVoppKhvK+oXwCGXcBHGsmbfSU7VEjcGyLB12kRTD
+ aUnfYo+JGQ1BwNJCWZ5u8eeb60vo53JBN+FXX/DDBQTI9lHS4MpU1910rqkkAhWXS8tW
+ aGdAb7lrCF5l0tO+9+YQ3BhJ5Wutu5KGJ0SpToVEnpPO/gIg1TOsbtIFQ/qLtU+c4MGj
+ Hp0q9qdcIzc4hguHdwes8YGnsOUZQqgAC+u17bp5CTeoId8dw55CMHS9v+triC6Tjfxd
+ fPRg==
+X-Gm-Message-State: AOAM5321ULEGzRTG356ud784RHMYeKSJwFVoEjm+OsrGrc9GcgFtWv2C
+ SHzdNPkMXkINSIzVWxqfLXBPFfCMJya26Oos0wH7eQ==
+X-Google-Smtp-Source: ABdhPJwMqiizVrdloQm+Nzhr9AVWDNwQZEGlWjrIKB2LZj0N2vYUuyPx8PQj4alBYvlGEWVuZqB8C9vLsDoz9TOJ+dA=
+X-Received: by 2002:a17:907:2066:: with SMTP id
+ qp6mr10748116ejb.85.1598520535238; 
+ Thu, 27 Aug 2020 02:28:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200825205950.730499-65-richard.henderson@linaro.org>
-Received-SPF: pass client-ip=2a00:1450:4864:20::144;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x144.google.com
+References: <20200825112447.126308-1-kuhn.chenqun@huawei.com>
+ <20200825112447.126308-10-kuhn.chenqun@huawei.com>
+ <CAFEAcA_SLjM28bHH8WxBdHAFdLgE6zgqNAj9EpOVp77WL-iqKg@mail.gmail.com>
+ <7412CDE03601674DA8197E2EBD8937E83B8E58BD@dggemm511-mbx.china.huawei.com>
+In-Reply-To: <7412CDE03601674DA8197E2EBD8937E83B8E58BD@dggemm511-mbx.china.huawei.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 27 Aug 2020 10:28:44 +0100
+Message-ID: <CAFEAcA-MU2tginRvDOUk8+sEQiDm3ZxNZ2sb-vsw4jFaomHa7Q@mail.gmail.com>
+Subject: Re: [PATCH v2 09/10] hw/intc: Remove redundant statement in
+ exynos4210_combiner_read()
+To: "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::641;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x641.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: 10
-X-Spam_score: 1.0
-X-Spam_bar: +
-X-Spam_report: (1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- FSL_HELO_FAKE=3.066, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,150 +83,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ QEMU Trivial <qemu-trivial@nongnu.org>, Pannengyuan <pannengyuan@huawei.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Igor Mitsyanko <i.mitsyanko@gmail.com>, Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 25, 2020 at 01:59:37PM -0700, Richard Henderson wrote:
-> Split this out of the normal branch instructions, as it requires
-> special handling.  End the TB only for an instruction barrier.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/microblaze/insns.decode |  2 +
->  target/microblaze/translate.c  | 81 ++++++++++++++++++----------------
->  2 files changed, 45 insertions(+), 38 deletions(-)
-> 
-> diff --git a/target/microblaze/insns.decode b/target/microblaze/insns.decode
-> index 53da2b75aa..77b073be9e 100644
-> --- a/target/microblaze/insns.decode
-> +++ b/target/microblaze/insns.decode
-> @@ -124,6 +124,8 @@ lwea            110010 ..... ..... ..... 0001 000 0000  @typea
->  lwx             110010 ..... ..... ..... 1000 000 0000  @typea
->  lwi             111010 ..... ..... ................     @typeb
->  
-> +mbar            101110 imm:5 00010 0000 0000 0000 0100
-> +
->  mul             010000 ..... ..... ..... 000 0000 0000  @typea
->  mulh            010000 ..... ..... ..... 000 0000 0001  @typea
->  mulhu           010000 ..... ..... ..... 000 0000 0011  @typea
-> diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-> index fc1c661368..a391e80fb9 100644
-> --- a/target/microblaze/translate.c
-> +++ b/target/microblaze/translate.c
-> @@ -1166,6 +1166,48 @@ static bool trans_brki(DisasContext *dc, arg_typeb_br *arg)
->      return true;
->  }
->  
-> +static bool trans_mbar(DisasContext *dc, arg_mbar *arg)
-> +{
-> +    int mbar_imm = arg->imm;
-> +
-> +    /*
-> +     * Instruction access memory barrier.
-> +     * End the TB so that we recognize self-modified code immediately.
-> +     */
-> +    if (mbar_imm & 1) {
-> +        dc->cpustate_changed = 1;
-> +    }
+On Thu, 27 Aug 2020 at 08:01, Chenqun (kuhn) <kuhn.chenqun@huawei.com> wrote:
+>
+> > Subject: Re: [PATCH v2 09/10] hw/intc: Remove redundant statement in
+> > exynos4210_combiner_read()
 
-This should be (mbar_imm & 1) == 0
-But even with that fixed it fails some of our tests because interrupts
-that should become visible within a couple of cycles after a
-memory data barrier can now be delayed longer.
+> > The code as it stands is definitely wrong, but I'm not sure this is the correct fix.
+> > Surely the intention must have been to return the actual register value from
+> > the reg_set[] array, not to return 0 ?
+> >
+> > I suspect the correct fix here is simply to delete the "return 0" line and leave
+> > the assignment to val as it is.
+>
+> Hi Peter,
+>   I think you're right.
+>
+> > Ideally you should check the h/w datasheet to confirm.
+>  I checked the Exynos 4210 datasheet and found that 'Interrupt Combiner Operation' had only five types of registers.
 
-I think we should always break the TB.
+> Please confirm that if there is no problem, I will modify it in later version.
 
-> +    /* Data access memory barrier.  */
-> +    if (mbar_imm & 2) {
-> +        tcg_gen_mb(TCG_BAR_SC | TCG_MO_ALL);
-> +    }
+Thanks for checking the datasheet -- I agree and we should keep
+the "val = s->reg_set[offset >> 2];" and only delete the "return 0".
 
-This should be (mbar_imm & 2) == 0
-
-
-> +
-> +    /* Sleep. */
-> +    if (mbar_imm & 16) {
-> +        TCGv_i32 tmp_1;
-> +
-> +        if (trap_userspace(dc, true)) {
-> +            /* Sleep is a privileged instruction.  */
-> +            return true;
-> +        }
-> +
-> +        t_sync_flags(dc);
-> +
-> +        tmp_1 = tcg_const_i32(1);
-> +        tcg_gen_st_i32(tmp_1, cpu_env,
-> +                       -offsetof(MicroBlazeCPU, env)
-> +                       +offsetof(CPUState, halted));
-> +        tcg_temp_free_i32(tmp_1);
-> +
-> +        tcg_gen_movi_i32(cpu_pc, dc->base.pc_next + 4);
-> +
-> +        gen_raise_exception(dc, EXCP_HLT);
-> +    }
-> +    return true;
-> +}
-> +
-> +
->  static void msr_read(DisasContext *dc, TCGv_i32 d)
->  {
->      TCGv_i32 t;
-> @@ -1447,50 +1489,13 @@ static void dec_bcc(DisasContext *dc)
->  
->  static void dec_br(DisasContext *dc)
->  {
-> -    unsigned int dslot, link, abs, mbar;
-> +    unsigned int dslot, link, abs;
->      uint32_t add_pc;
->  
->      dslot = dc->ir & (1 << 20);
->      abs = dc->ir & (1 << 19);
->      link = dc->ir & (1 << 18);
->  
-> -    /* Memory barrier.  */
-> -    mbar = (dc->ir >> 16) & 31;
-> -    if (mbar == 2 && dc->imm == 4) {
-> -        uint16_t mbar_imm = dc->rd;
-> -
-> -        /* Data access memory barrier.  */
-> -        if ((mbar_imm & 2) == 0) {
-> -            tcg_gen_mb(TCG_BAR_SC | TCG_MO_ALL);
-> -        }
-> -
-> -        /* mbar IMM & 16 decodes to sleep.  */
-> -        if (mbar_imm & 16) {
-> -            TCGv_i32 tmp_1;
-> -
-> -            if (trap_userspace(dc, true)) {
-> -                /* Sleep is a privileged instruction.  */
-> -                return;
-> -            }
-> -
-> -            t_sync_flags(dc);
-> -
-> -            tmp_1 = tcg_const_i32(1);
-> -            tcg_gen_st_i32(tmp_1, cpu_env,
-> -                           -offsetof(MicroBlazeCPU, env)
-> -                           +offsetof(CPUState, halted));
-> -            tcg_temp_free_i32(tmp_1);
-> -
-> -            tcg_gen_movi_i32(cpu_pc, dc->base.pc_next + 4);
-> -
-> -            gen_raise_exception(dc, EXCP_HLT);
-> -            return;
-> -        }
-> -        /* Break the TB.  */
-> -        dc->cpustate_changed = 1;
-> -        return;
-> -    }
-> -
->      if (dslot && dec_setup_dslot(dc)) {
->          return;
->      }
-> -- 
-> 2.25.1
-> 
+-- PMM
 
