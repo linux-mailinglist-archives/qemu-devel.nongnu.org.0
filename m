@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 779F9253B61
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 03:30:17 +0200 (CEST)
-Received: from localhost ([::1]:49202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4631253B64
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 03:32:16 +0200 (CEST)
+Received: from localhost ([::1]:56040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kB6k4-0004qR-4B
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 21:30:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51762)
+	id 1kB6lz-0007li-Tb
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 21:32:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kB6ip-0003oi-1h
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 21:28:59 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:37220)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
+ id 1kB6i9-0003gj-I5; Wed, 26 Aug 2020 21:28:17 -0400
+Received: from mail-oo1-xc44.google.com ([2607:f8b0:4864:20::c44]:40195)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kB6in-0006At-GB
- for qemu-devel@nongnu.org; Wed, 26 Aug 2020 21:28:58 -0400
-Received: by mail-ot1-x343.google.com with SMTP id k2so3152255ots.4
- for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 18:28:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
+ id 1kB6i6-00066f-VT; Wed, 26 Aug 2020 21:28:17 -0400
+Received: by mail-oo1-xc44.google.com with SMTP id j16so880334ooc.7;
+ Wed, 26 Aug 2020 18:28:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=fpenwrvLfc97hkyHgDpEPphR84cdeFww9gUYZbeCj1Q=;
- b=bH4zDICP5pcu5U+UT+7+xym50/CW0037J4xkeAKNRkamy/V/pa1aZiyIjCPeLmD5y6
- eXxfL0u8NSjH2Kx7OJmt7lxMcuqhl45B475huBn8lmTZSsEHIdcu8tgATqZTVnaelnd9
- 8891R3oih45fkgsKxgIbnO9Qc/elNSl2WBd21fgc9RZNZr52QtRaTSYHl7Lf30WEj+rp
- 6kQSgRHVLZDoh0zR7T7hxfiUvhMlapSIzkhWJFC+FbbsWoeSYYzLAwdh2hQJ1ht9WnhM
- 9KK29X4/61kjdNQek2nuYm2BRxuwq28bGr+vCeP2dzkMwotL2I14KD6R8r9hCoc5I97+
- ID2A==
+ bh=8NWq3EQI/P5IXayyCobvfgxleBQDbnXft7XlUG7K+Ic=;
+ b=Ugn2s7LhnHa5Gxz8qR1l859xxSmSjNP+wpswYnfZyDyVoousYldOwd/riAlSHD9n4C
+ dGcxePnBGjwKIK/ZL5LhOSSlJw4Xp//M2PIfLjSCrmvU8dRCob81OyMgc1YhybZChwoV
+ mclBAIuuNj48Ay0dgfFN9tRXT886XgSf2bfYKwojY2Vu6+sfaAz6ddSqWD+xv6mH8q6X
+ 6Bx6rlGTmE502Z1vos1dDx9QbSvud/W+QOvCG2Qq1D/pW3pegoFKL225/C3a8ed0/xTB
+ 2PboihfMhz9MmYkkUifiF+279b/saFRSMfTQNH3b5RTgwpQ9uUMeHtAsOmBp4jIddnnp
+ gvYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=fpenwrvLfc97hkyHgDpEPphR84cdeFww9gUYZbeCj1Q=;
- b=UaM6ifMz7wfIHAbHMFWrb8lSvcRgYmeVLVJH23GdjGrro5hy8cq4jfZLAh7MDSFdmh
- 38qUNSvNskWx9XUr5Ji77F6BfafmQkCBOwxIsONDlNrc77xnumib2NLr2XZuv/URAuu7
- nZkawsPwp7lEuz1v+9d536jPCsJoPDihgLJySKqqDEsxzWOpNIfXYWhoUvj+b3xzybjz
- EZBwEDi6eAyuxhrh8zugIf5aM+F8IFG5ugZd3b/J2rqOIAse1z87bDeX1P/jQ3x/ppRk
- 4dCB8bH1ztsWcdELIwR0hk/gVmIcfRO+5EylAj4W9FiZ1bQKRg20oizJEvzv++LizZqv
- 64CA==
-X-Gm-Message-State: AOAM5310bcsFIVgv96orntpd7OIz8+yszE9GkYxz7l7JYYxVvbktYZSB
- 3lg2VG1Yp1AkinIEdCwvhXLG3ecPfTIxDJ2hVHc=
-X-Google-Smtp-Source: ABdhPJwZEs7AAxt15PdmaFaCzxKbPlgcWvWNMihfyeK5n4GtkFMxEZS9j6568YIfv7uSAVh/UC880YwLYQN7VZ7nYA8=
-X-Received: by 2002:a9d:7c92:: with SMTP id q18mr8974644otn.333.1598491736469; 
- Wed, 26 Aug 2020 18:28:56 -0700 (PDT)
+ bh=8NWq3EQI/P5IXayyCobvfgxleBQDbnXft7XlUG7K+Ic=;
+ b=jhC6BVh+WQNKQVIVLPBfE3Ofxsc7ui0pt81oofjS2MN3BaFuq7x0LepbHTth07em6f
+ qowDpXIzarwO1j9HmSsnp+WTOE+UZOQLYLPpeuJA/nZua8/lVs5kuLIBEzEqe92CvJxV
+ UnFyKGxlrRteuVVUNuK/mpW4WPtM3wmaVRZN7D4DmEtI9OkSTMi9nKSfK24ank4fgZny
+ 6twEAfKLr757YaDU3qTdv2QkIOmuoPRwL3JnZFwkmLMQBZxVHQpUrSbhMw1c5mtNmgw1
+ qY7WxHdGF3MnJpEsx/i3MP2rivKu0gmetsVR7DDoSpgCQgMkLoSEc9k4tnW3Cmth63Yo
+ ML9w==
+X-Gm-Message-State: AOAM530PlTNeK6PzjLqve7UZhFzuLQjs7HS3rlj/u2rAXhivxyIdjQCE
+ F+2ExYZD+zqeQUbLJ9EnotzwZ0QLPdsYpsGHZ+c=
+X-Google-Smtp-Source: ABdhPJwurgWHSp450JpVOGdPE2fS1cDGwi0URKz6UZru1GdShzTg132XtYb3OkOcUDxfPHCJG2xwv2etgNYYBi36koE=
+X-Received: by 2002:a4a:c587:: with SMTP id x7mr12544204oop.60.1598491693440; 
+ Wed, 26 Aug 2020 18:28:13 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200826184334.4120620-1-ehabkost@redhat.com>
- <20200826184334.4120620-3-ehabkost@redhat.com>
-In-Reply-To: <20200826184334.4120620-3-ehabkost@redhat.com>
+ <20200826184334.4120620-2-ehabkost@redhat.com>
+In-Reply-To: <20200826184334.4120620-2-ehabkost@redhat.com>
 From: Li Qiang <liq3ea@gmail.com>
-Date: Thu, 27 Aug 2020 09:28:20 +0800
-Message-ID: <CAKXe6SJHPg99UQ9cogjFX2vhjoCWErp0WdsUedp1hZKyP7AScA@mail.gmail.com>
-Subject: Re: [PATCH 2/8] nios2_iic: Use TYPE_ALTERA_IIC constant
+Date: Thu, 27 Aug 2020 09:27:37 +0800
+Message-ID: <CAKXe6S+4wG3-nqqn-=W4x1e9strY3xKCraZwukoSw8a=fHReYA@mail.gmail.com>
+Subject: Re: [PATCH 1/8] etsec: Use TYPE_ETSEC_COMMON constant
 To: Eduardo Habkost <ehabkost@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=liq3ea@gmail.com; helo=mail-ot1-x343.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c44;
+ envelope-from=liq3ea@gmail.com; helo=mail-oo1-xc44.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -79,14 +79,15 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Paolo Bonzini <pbonzini@redhat.com>,
- Chris Wulff <crwulff@gmail.com>, "Daniel P. Berrange" <berrange@redhat.com>,
- Qemu Developers <qemu-devel@nongnu.org>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Qemu Developers <qemu-devel@nongnu.org>,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Eduardo Habkost <ehabkost@redhat.com> =E4=BA=8E2020=E5=B9=B48=E6=9C=8827=E6=
-=97=A5=E5=91=A8=E5=9B=9B =E4=B8=8A=E5=8D=882:44=E5=86=99=E9=81=93=EF=BC=9A
+=97=A5=E5=91=A8=E5=9B=9B =E4=B8=8A=E5=8D=882:46=E5=86=99=E9=81=93=EF=BC=9A
 >
 > This will make future conversion to use OBJECT_DECLARE* easier.
 >
@@ -95,27 +96,28 @@ Eduardo Habkost <ehabkost@redhat.com> =E4=BA=8E2020=E5=B9=B48=E6=9C=8827=E6=
 Reviewed-by: Li Qiang <liq3ea@gmail.com>
 
 > ---
-> Cc: Chris Wulff <crwulff@gmail.com>
-> Cc: Marek Vasut <marex@denx.de>
+> Cc: David Gibson <david@gibson.dropbear.id.au>
+> Cc: Jason Wang <jasowang@redhat.com>
+> Cc: qemu-ppc@nongnu.org
 > Cc: qemu-devel@nongnu.org
 > ---
->  hw/intc/nios2_iic.c | 2 +-
+>  hw/net/fsl_etsec/etsec.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/hw/intc/nios2_iic.c b/hw/intc/nios2_iic.c
-> index 1a5df8c89a..86d088f9b5 100644
-> --- a/hw/intc/nios2_iic.c
-> +++ b/hw/intc/nios2_iic.c
-> @@ -80,7 +80,7 @@ static void altera_iic_class_init(ObjectClass *klass, v=
-oid *data)
+> diff --git a/hw/net/fsl_etsec/etsec.c b/hw/net/fsl_etsec/etsec.c
+> index 7035cf4eb9..ad20b22cdd 100644
+> --- a/hw/net/fsl_etsec/etsec.c
+> +++ b/hw/net/fsl_etsec/etsec.c
+> @@ -430,7 +430,7 @@ static void etsec_class_init(ObjectClass *klass, void=
+ *data)
 >  }
 >
->  static TypeInfo altera_iic_info =3D {
-> -    .name          =3D "altera,iic",
-> +    .name          =3D TYPE_ALTERA_IIC,
->      .parent        =3D TYPE_SYS_BUS_DEVICE,
->      .instance_size =3D sizeof(AlteraIIC),
->      .instance_init =3D altera_iic_init,
+>  static TypeInfo etsec_info =3D {
+> -    .name                  =3D "eTSEC",
+> +    .name                  =3D TYPE_ETSEC_COMMON,
+>      .parent                =3D TYPE_SYS_BUS_DEVICE,
+>      .instance_size         =3D sizeof(eTSEC),
+>      .class_init            =3D etsec_class_init,
 > --
 > 2.26.2
 >
