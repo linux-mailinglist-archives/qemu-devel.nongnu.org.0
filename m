@@ -2,75 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EC8125425D
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 11:30:15 +0200 (CEST)
-Received: from localhost ([::1]:56358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF2602542BA
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 11:50:08 +0200 (CEST)
+Received: from localhost ([::1]:37268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBEEY-0007qW-5n
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 05:30:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58370)
+	id 1kBEXo-0007PM-11
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 05:50:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBEDK-0006Z6-Kv
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 05:28:58 -0400
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:43074)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBEDI-000429-Q8
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 05:28:58 -0400
-Received: by mail-ej1-x641.google.com with SMTP id m22so6693546eje.10
- for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 02:28:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lNKyWQVmt7GlUFWHoZTwmyRNJK2j89UAb8nPiiUG4IE=;
- b=noNzADQDPVadXawjYSe5fCn2sn+gbSUutTNtls9utIQ8+0mnQee2MJAT6N2nt8QcA/
- bp0rwSKoeQNSBFA76EQzURfFMdnjsHHXKW7vfN5P1iP3F272SNpARzb8JXN2dl+GTfom
- xShxvoKl7Och+vstOo+OnvnedZFwt47uEggDuTAkkVRAYT0Xd3y3apUI0lzYLAvrS6DB
- z1bss0+M65MZ3l0Qrmya8jzCNDSDyNQZSxH3Tc0+MVKkmlxycMaDtZhRRAYuIZ8ca7Or
- 8BNTuUu79X0xswikQdzdMakT+33fGggjoN8e4ujtwl6E5P/KGZ6ELutXEcdYzVTExXZZ
- M9+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lNKyWQVmt7GlUFWHoZTwmyRNJK2j89UAb8nPiiUG4IE=;
- b=odjMIi3hmyYC8T5PQvSg5sbU0Aag8YgkiWNWAnmIv46/xycL1hC5Mcu0gGqzzurivr
- TTDb6mulih5IErHjr+DhNA4nX8vrVoppKhvK+oXwCGXcBHGsmbfSU7VEjcGyLB12kRTD
- aUnfYo+JGQ1BwNJCWZ5u8eeb60vo53JBN+FXX/DDBQTI9lHS4MpU1910rqkkAhWXS8tW
- aGdAb7lrCF5l0tO+9+YQ3BhJ5Wutu5KGJ0SpToVEnpPO/gIg1TOsbtIFQ/qLtU+c4MGj
- Hp0q9qdcIzc4hguHdwes8YGnsOUZQqgAC+u17bp5CTeoId8dw55CMHS9v+triC6Tjfxd
- fPRg==
-X-Gm-Message-State: AOAM5321ULEGzRTG356ud784RHMYeKSJwFVoEjm+OsrGrc9GcgFtWv2C
- SHzdNPkMXkINSIzVWxqfLXBPFfCMJya26Oos0wH7eQ==
-X-Google-Smtp-Source: ABdhPJwMqiizVrdloQm+Nzhr9AVWDNwQZEGlWjrIKB2LZj0N2vYUuyPx8PQj4alBYvlGEWVuZqB8C9vLsDoz9TOJ+dA=
-X-Received: by 2002:a17:907:2066:: with SMTP id
- qp6mr10748116ejb.85.1598520535238; 
- Thu, 27 Aug 2020 02:28:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kBEVB-0005J2-93; Thu, 27 Aug 2020 05:47:25 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:34273 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kBEV8-0006L2-OY; Thu, 27 Aug 2020 05:47:25 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4BcdDc1qRXz9sT6; Thu, 27 Aug 2020 19:47:12 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1598521632;
+ bh=m40uJQ8pPYmbdLq+RjHWh+7eqmyHtRDsUfPJRBDOnIU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ADLKSrw6TcIVxh2x92NUpAzco75mwQIsaTFnVFyg0yqYL/uqAlBPMhziNlgQ73GV5
+ EcOuv5Z3J/IE5IZVwS60Y3Gf6LeaK3B6UzsNDgserJUEAIMKyPGBXbE5GFKOOb8SUW
+ O28tYrHzjCuzhbqOVUNi8//IA7z3XJpMuIskCDWw=
+Date: Thu, 27 Aug 2020 10:01:03 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH 1/8] etsec: Use TYPE_ETSEC_COMMON constant
+Message-ID: <20200827000103.GA2014948@yekko.fritz.box>
+References: <20200826184334.4120620-1-ehabkost@redhat.com>
+ <20200826184334.4120620-2-ehabkost@redhat.com>
 MIME-Version: 1.0
-References: <20200825112447.126308-1-kuhn.chenqun@huawei.com>
- <20200825112447.126308-10-kuhn.chenqun@huawei.com>
- <CAFEAcA_SLjM28bHH8WxBdHAFdLgE6zgqNAj9EpOVp77WL-iqKg@mail.gmail.com>
- <7412CDE03601674DA8197E2EBD8937E83B8E58BD@dggemm511-mbx.china.huawei.com>
-In-Reply-To: <7412CDE03601674DA8197E2EBD8937E83B8E58BD@dggemm511-mbx.china.huawei.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 27 Aug 2020 10:28:44 +0100
-Message-ID: <CAFEAcA-MU2tginRvDOUk8+sEQiDm3ZxNZ2sb-vsw4jFaomHa7Q@mail.gmail.com>
-Subject: Re: [PATCH v2 09/10] hw/intc: Remove redundant statement in
- exynos4210_combiner_read()
-To: "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x641.google.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="/9DWx/yDrRhgMJTb"
+Content-Disposition: inline
+In-Reply-To: <20200826184334.4120620-2-ehabkost@redhat.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_06_12=1.543,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,35 +61,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhanghailiang <zhang.zhanghailiang@huawei.com>,
- QEMU Trivial <qemu-trivial@nongnu.org>, Pannengyuan <pannengyuan@huawei.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>, Euler Robot <euler.robot@huawei.com>
+Cc: qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 27 Aug 2020 at 08:01, Chenqun (kuhn) <kuhn.chenqun@huawei.com> wrote:
->
-> > Subject: Re: [PATCH v2 09/10] hw/intc: Remove redundant statement in
-> > exynos4210_combiner_read()
 
-> > The code as it stands is definitely wrong, but I'm not sure this is the correct fix.
-> > Surely the intention must have been to return the actual register value from
-> > the reg_set[] array, not to return 0 ?
-> >
-> > I suspect the correct fix here is simply to delete the "return 0" line and leave
-> > the assignment to val as it is.
->
-> Hi Peter,
->   I think you're right.
->
-> > Ideally you should check the h/w datasheet to confirm.
->  I checked the Exynos 4210 datasheet and found that 'Interrupt Combiner Operation' had only five types of registers.
+--/9DWx/yDrRhgMJTb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Please confirm that if there is no problem, I will modify it in later version.
+On Wed, Aug 26, 2020 at 02:43:27PM -0400, Eduardo Habkost wrote:
+> This will make future conversion to use OBJECT_DECLARE* easier.
+>=20
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 
-Thanks for checking the datasheet -- I agree and we should keep
-the "val = s->reg_set[offset >> 2];" and only delete the "return 0".
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
--- PMM
+> ---
+> Cc: David Gibson <david@gibson.dropbear.id.au>
+> Cc: Jason Wang <jasowang@redhat.com>
+> Cc: qemu-ppc@nongnu.org
+> Cc: qemu-devel@nongnu.org
+> ---
+>  hw/net/fsl_etsec/etsec.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/hw/net/fsl_etsec/etsec.c b/hw/net/fsl_etsec/etsec.c
+> index 7035cf4eb9..ad20b22cdd 100644
+> --- a/hw/net/fsl_etsec/etsec.c
+> +++ b/hw/net/fsl_etsec/etsec.c
+> @@ -430,7 +430,7 @@ static void etsec_class_init(ObjectClass *klass, void=
+ *data)
+>  }
+> =20
+>  static TypeInfo etsec_info =3D {
+> -    .name                  =3D "eTSEC",
+> +    .name                  =3D TYPE_ETSEC_COMMON,
+>      .parent                =3D TYPE_SYS_BUS_DEVICE,
+>      .instance_size         =3D sizeof(eTSEC),
+>      .class_init            =3D etsec_class_init,
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--/9DWx/yDrRhgMJTb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl9G974ACgkQbDjKyiDZ
+s5KOqA//Uke9r+tjNRUIhRnwdZ+QXAbapf/tmUo1hlqUhEyn8NRGENGQdktjUb1z
+G72fKNrWm5x8xf8ZSc3JnVZBMUWscQVPefI8x1aSwbAqz0MNm/bdXZUVLDrDCGrs
+5/70cSwGvGNA/8+Y3iobsvgIiq9EezcffMHXwvOqvA16mMm0wbsP2NpqV7at05R/
+LDBePEnmHjHwPIw7211Dl/CWCnQ0S0iwAFXX1P0UYuZj77ZmTp3iUNN+gAH1nckT
+2bAGRWoMC+53M8uF0g/5LiCYKgGfeUbwHpweE67Ew/OlNwDSy3Kcxjvi7l3lPeKo
+r4vC5u+8SpTmviT6YHKMH+7zVVqrLHD6ANby9QRZxgN4lfLvV2tOvMuHoeb8eEe1
+19J0QpExqfmyeygnu9por/jHx6VfcAeKn0h+pISryi3btllkq104oO1I3Hp66IHg
+RHS2Wgmtj1NGG4+RAmG3EgIZTq2cFgucffX/Qq9xsi4JukGrbUO/mgxqCY5PqyI2
++JjtkBbnDqD2+CnXVQmDpUCBs2EqUfYlHH6sijrRcgclobOooGhUx/inSdy1VsDT
+KGU/ofxfducwsknEFQLwu5k3S5idT5Ev9I7ZK69x5Xht42lOMpQWMElx7nS2mkWq
+/rw4U9XBcd6GEYHPRIoxFbmeP/eySuB2MzNyGHQvTY6vMknx5uo=
+=0kGi
+-----END PGP SIGNATURE-----
+
+--/9DWx/yDrRhgMJTb--
 
