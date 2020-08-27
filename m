@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4631253B64
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 03:32:16 +0200 (CEST)
-Received: from localhost ([::1]:56040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53E51253B67
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 03:33:56 +0200 (CEST)
+Received: from localhost ([::1]:60196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kB6lz-0007li-Tb
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 21:32:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51692)
+	id 1kB6nb-00015v-B7
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 21:33:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1kB6i9-0003gj-I5; Wed, 26 Aug 2020 21:28:17 -0400
-Received: from mail-oo1-xc44.google.com ([2607:f8b0:4864:20::c44]:40195)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kB6jX-0004Zs-Gk
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 21:29:43 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:42505)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1kB6i6-00066f-VT; Wed, 26 Aug 2020 21:28:17 -0400
-Received: by mail-oo1-xc44.google.com with SMTP id j16so880334ooc.7;
- Wed, 26 Aug 2020 18:28:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kB6jU-0006FW-EV
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 21:29:43 -0400
+Received: by mail-oi1-x243.google.com with SMTP id j7so3276086oij.9
+ for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 18:29:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=8NWq3EQI/P5IXayyCobvfgxleBQDbnXft7XlUG7K+Ic=;
- b=Ugn2s7LhnHa5Gxz8qR1l859xxSmSjNP+wpswYnfZyDyVoousYldOwd/riAlSHD9n4C
- dGcxePnBGjwKIK/ZL5LhOSSlJw4Xp//M2PIfLjSCrmvU8dRCob81OyMgc1YhybZChwoV
- mclBAIuuNj48Ay0dgfFN9tRXT886XgSf2bfYKwojY2Vu6+sfaAz6ddSqWD+xv6mH8q6X
- 6Bx6rlGTmE502Z1vos1dDx9QbSvud/W+QOvCG2Qq1D/pW3pegoFKL225/C3a8ed0/xTB
- 2PboihfMhz9MmYkkUifiF+279b/saFRSMfTQNH3b5RTgwpQ9uUMeHtAsOmBp4jIddnnp
- gvYg==
+ bh=JmjKeYGLPW5C5CoFnmy4cHlpYVARDSgeDgC3BwYISss=;
+ b=J0sqJi+a2CvVH3jRjPL+AdQmTu6O3wRCymFgNER1K3ngMI/bgNpQFUT5cCdhVu4yXv
+ VtCYQTjHziOsKCdhuEj5uh5WppQZYeNlS0PfRxIJszGgW0tzm/2vZVHsCTLj6tdO58nU
+ 5InCPqf8Uv6Dk5GTOUiru7CX8o/Ga7acKQwYro4h6b948/uguG9uEhOF6Fa8F4mD0o8H
+ BHNn4yngeS6RokkzkXbrAA25rASaXkU2FykicqjyCDAspaIrws8Sat1b483Tltq+JJ1x
+ /VQ3fkGM8AxZlc5dTGSn1utRmsmoH9RX/FZYhYPREgkgzltlon4F4gUv/vp9JiBaj47L
+ gGVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=8NWq3EQI/P5IXayyCobvfgxleBQDbnXft7XlUG7K+Ic=;
- b=jhC6BVh+WQNKQVIVLPBfE3Ofxsc7ui0pt81oofjS2MN3BaFuq7x0LepbHTth07em6f
- qowDpXIzarwO1j9HmSsnp+WTOE+UZOQLYLPpeuJA/nZua8/lVs5kuLIBEzEqe92CvJxV
- UnFyKGxlrRteuVVUNuK/mpW4WPtM3wmaVRZN7D4DmEtI9OkSTMi9nKSfK24ank4fgZny
- 6twEAfKLr757YaDU3qTdv2QkIOmuoPRwL3JnZFwkmLMQBZxVHQpUrSbhMw1c5mtNmgw1
- qY7WxHdGF3MnJpEsx/i3MP2rivKu0gmetsVR7DDoSpgCQgMkLoSEc9k4tnW3Cmth63Yo
- ML9w==
-X-Gm-Message-State: AOAM530PlTNeK6PzjLqve7UZhFzuLQjs7HS3rlj/u2rAXhivxyIdjQCE
- F+2ExYZD+zqeQUbLJ9EnotzwZ0QLPdsYpsGHZ+c=
-X-Google-Smtp-Source: ABdhPJwurgWHSp450JpVOGdPE2fS1cDGwi0URKz6UZru1GdShzTg132XtYb3OkOcUDxfPHCJG2xwv2etgNYYBi36koE=
-X-Received: by 2002:a4a:c587:: with SMTP id x7mr12544204oop.60.1598491693440; 
- Wed, 26 Aug 2020 18:28:13 -0700 (PDT)
+ bh=JmjKeYGLPW5C5CoFnmy4cHlpYVARDSgeDgC3BwYISss=;
+ b=O8+EkPymvgGKPbWk/0hr/9CwkU1gW+7qBWVfhNzKbiWMQJ74p6WT1Wq6Su/luFN2Sp
+ njHKyOm6iWvfswJZXaKK7mFsRi4qZEVu0yZ65eGm7DhZ0T1g3hXfS6i2rIVvlYYzqeuW
+ ZBZfGjGb9bNa898lyfwzFyCoJVxrIM+6lHq8nEZ06KBDlfntJPavDYYhJ+/7mdURxN1d
+ d7QtznnzPUaWDQZ3AMYGzcZPYdj3XXEUoPcG+2RYNquU67C1DTO76IMz5tHcn+G4IPm/
+ Kt2DgvBqmkTeZP5eF4UAbhm47ofXsv+mK0zJCrzidg9jdc77sl50UPnO8ciGhTambuKQ
+ tsUw==
+X-Gm-Message-State: AOAM53155zo7AmWfYKVvsC9jfT1dPL958As83p0I1YjemEVzCtDBg9aZ
+ VQ83tTz6MZbzx+S6OEOEf08kBRDc/RItVjaftzw=
+X-Google-Smtp-Source: ABdhPJxcMAf7flbgkeatvbMipdyMCFr1NOx3XdBZYbhuEqZHFC5VBp8/pocLtaoQeF8Qibt5IB7gwdNUrNDfUVpVHxo=
+X-Received: by 2002:aca:1117:: with SMTP id 23mr5620209oir.97.1598491778891;
+ Wed, 26 Aug 2020 18:29:38 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200826184334.4120620-1-ehabkost@redhat.com>
- <20200826184334.4120620-2-ehabkost@redhat.com>
-In-Reply-To: <20200826184334.4120620-2-ehabkost@redhat.com>
+ <20200826184334.4120620-4-ehabkost@redhat.com>
+In-Reply-To: <20200826184334.4120620-4-ehabkost@redhat.com>
 From: Li Qiang <liq3ea@gmail.com>
-Date: Thu, 27 Aug 2020 09:27:37 +0800
-Message-ID: <CAKXe6S+4wG3-nqqn-=W4x1e9strY3xKCraZwukoSw8a=fHReYA@mail.gmail.com>
-Subject: Re: [PATCH 1/8] etsec: Use TYPE_ETSEC_COMMON constant
+Date: Thu, 27 Aug 2020 09:29:03 +0800
+Message-ID: <CAKXe6SLU-UM5aGMG=cqE0b1X_NVRJC4pAta_jfGOtnG4cVCptA@mail.gmail.com>
+Subject: Re: [PATCH 3/8] amd_iommu: Use TYPE_AMD_IOMMU_PCI constant
 To: Eduardo Habkost <ehabkost@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c44;
- envelope-from=liq3ea@gmail.com; helo=mail-oo1-xc44.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=liq3ea@gmail.com; helo=mail-oi1-x243.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -79,15 +79,14 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Qemu Developers <qemu-devel@nongnu.org>,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Qemu Developers <qemu-devel@nongnu.org>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Eduardo Habkost <ehabkost@redhat.com> =E4=BA=8E2020=E5=B9=B48=E6=9C=8827=E6=
-=97=A5=E5=91=A8=E5=9B=9B =E4=B8=8A=E5=8D=882:46=E5=86=99=E9=81=93=EF=BC=9A
+=97=A5=E5=91=A8=E5=9B=9B =E4=B8=8A=E5=8D=882:48=E5=86=99=E9=81=93=EF=BC=9A
 >
 > This will make future conversion to use OBJECT_DECLARE* easier.
 >
@@ -96,28 +95,29 @@ Eduardo Habkost <ehabkost@redhat.com> =E4=BA=8E2020=E5=B9=B48=E6=9C=8827=E6=
 Reviewed-by: Li Qiang <liq3ea@gmail.com>
 
 > ---
-> Cc: David Gibson <david@gibson.dropbear.id.au>
-> Cc: Jason Wang <jasowang@redhat.com>
-> Cc: qemu-ppc@nongnu.org
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Richard Henderson <rth@twiddle.net>
+> Cc: Eduardo Habkost <ehabkost@redhat.com>
 > Cc: qemu-devel@nongnu.org
 > ---
->  hw/net/fsl_etsec/etsec.c | 2 +-
+>  hw/i386/amd_iommu.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/hw/net/fsl_etsec/etsec.c b/hw/net/fsl_etsec/etsec.c
-> index 7035cf4eb9..ad20b22cdd 100644
-> --- a/hw/net/fsl_etsec/etsec.c
-> +++ b/hw/net/fsl_etsec/etsec.c
-> @@ -430,7 +430,7 @@ static void etsec_class_init(ObjectClass *klass, void=
- *data)
->  }
+> diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
+> index 087f601666..18411f1dec 100644
+> --- a/hw/i386/amd_iommu.c
+> +++ b/hw/i386/amd_iommu.c
+> @@ -1622,7 +1622,7 @@ static const TypeInfo amdvi =3D {
+>  };
 >
->  static TypeInfo etsec_info =3D {
-> -    .name                  =3D "eTSEC",
-> +    .name                  =3D TYPE_ETSEC_COMMON,
->      .parent                =3D TYPE_SYS_BUS_DEVICE,
->      .instance_size         =3D sizeof(eTSEC),
->      .class_init            =3D etsec_class_init,
+>  static const TypeInfo amdviPCI =3D {
+> -    .name =3D "AMDVI-PCI",
+> +    .name =3D TYPE_AMD_IOMMU_PCI,
+>      .parent =3D TYPE_PCI_DEVICE,
+>      .instance_size =3D sizeof(AMDVIPCIState),
+>      .interfaces =3D (InterfaceInfo[]) {
 > --
 > 2.26.2
 >
