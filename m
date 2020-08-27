@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEC79253CE5
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 06:50:33 +0200 (CEST)
-Received: from localhost ([::1]:51868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E67D7253CE6
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 06:50:41 +0200 (CEST)
+Received: from localhost ([::1]:52828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kB9rs-0003iN-KV
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 00:50:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59524)
+	id 1kB9s0-00046y-Tw
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 00:50:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kB9qx-0002gJ-NF
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 00:49:35 -0400
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:42585)
+ id 1kB9r3-0002lA-5h
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 00:49:41 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:40556)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kB9qw-0003gC-6R
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 00:49:35 -0400
-Received: by mail-pf1-x42d.google.com with SMTP id 17so2526897pfw.9
- for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 21:49:33 -0700 (PDT)
+ id 1kB9r1-0003gR-O1
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 00:49:40 -0400
+Received: by mail-pf1-x442.google.com with SMTP id k18so2525174pfp.7
+ for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 21:49:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=T9/LRO7zs4o6nPW1yspDQXlHiJnUjoTK1K/OWRpCTE4=;
- b=Xv0CFgC/yx0neW27nxRJRVIIoWxkBeZ6pBXWAUYq3VUcCE7ucZ8muvp1ee7BXn3xFf
- vIohJ8PrwRZaLPRWvgCI+NY2HgsNM3llMvkluomppeJG3bMi0gvcgBentOYwh/lxDqk3
- 4+aC/0+9UwI4QCE00dh1d87THxAZol+bMKRsLEzfD5Br1eps6Vxl9T8LttHZ57bOI1ab
- kao0B9rMEz50rsF3/Z4A4EqcbbKcifkhawgCj0apydLaOiM1LKMUUxqiy4VOABxsNnOR
- VnO+XuWfYXFUJD9JQq3k0pb9vyzDKE4rGy8/O4CxidzIqYEV7yjbSmlgnfXRZcBvYPMr
- qgFQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=nHEmWVZQoKiBv31d0b1nWAUGSiNgf5i9gDUSz3OTqd8=;
+ b=ayl8lTK3HbdJ2w5DMD+s7vbhyF3kQHWt1OBC459fFYkfQPYtsOiHlWp/hXFOC5j1Uu
+ Fr02t7HNRgfk2N/uqDb5M+joMjkIujQcjDpdhrm5qSnU/PJa7b2srjwhTksrE6kpV2y3
+ UJdtE9bPL4Vx8D5LlLpQUhAj5rhQp+8kZv/tqBTPpMTngWNwmllzGk8r8deRLM65WxND
+ svlvWWEK11i1HCBXEynEjJ8578mC8nbMTMwuoIBzMQhWT9ZZ0JERR12hvzATlW2aJJwM
+ o+hYfVgsMF+FCxGYnTrkX7eWKHomMi7NFgDaEvneZFOaHNMnLZDXd87BAa/5sJ/LRQMb
+ Ur+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=T9/LRO7zs4o6nPW1yspDQXlHiJnUjoTK1K/OWRpCTE4=;
- b=MdPc58fPN9cZIOtrlNzY1BOI2jAnyGKY25GrcY7odqXFaeJczAGlTn3FeODXgMicAX
- OQALDs9hEouxH9AabpPB+NnVQZ3QcJGoO7bC0LQNxsTXNnjuY3ZvMNBSEOqaXcKaL09Q
- EOqa8AgudbjOHZgkvrp6KaeOhL5KwFP/ka0Poclf9taTb7Mi+ntkE4u1MS/8+3NPyWZi
- TUzNMtYekEXzcaRPg2be5+Pg3yciJa+LDvxdOmeZzRTI+9l2tkIs+fZPJ50JRIfYWdY9
- Kt2yeMlxJld9g+giDQpZ/6nQnQ/zYAX/HKh6bjim0knf9hJQqdAzhFSdhQh83Miuk7QL
- FiKg==
-X-Gm-Message-State: AOAM533VcUcjgriLgGHXuzcjdrUwpeayHirc4eDvOVOt0oFZTIYsuDyW
- hSwj0B+nggzUM/28IpkfE4tgtrWMYTNqsE+4uiw=
-X-Google-Smtp-Source: ABdhPJygy7vK6QY3RxiGsRCMj87CZBXALix/PBozR11JEjMAzO0dXtH7/YprHTx7wrTwCJ0bQTwdzw==
-X-Received: by 2002:a17:902:a503:: with SMTP id
- s3mr14807195plq.190.1598503771967; 
- Wed, 26 Aug 2020 21:49:31 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=nHEmWVZQoKiBv31d0b1nWAUGSiNgf5i9gDUSz3OTqd8=;
+ b=f+VI+LSf7o/c+qO7zNyxTWfU6fsHnpLWG5MKmhmIiCIvxXtFN9kY49ltGthRTDzmEO
+ /1R8DZPTrb8guflF3bQmFV8vFxsRmasHIARTVMgNa4BRP03u7aKXY2GLD62T6ZZ1rCY4
+ uyXQiM2w2Xrc1nsUAP0A/1QjbB6mSkLN2fbirlXkU0b2aPvJFXA1vX1DodbOttY8SMc7
+ 3zH//UZH6NlIYHAMakQJJ8aGeobmXuM6T2eLvsRKmBwfWnesCF1GghpquxKTESblogCs
+ mJglJF8t392TPTDxsSYwNo/76rRZCBqTPxpGYOBrRPX3bgXT4tWgaMrY+tq6oU5bNk30
+ 1T0g==
+X-Gm-Message-State: AOAM531JsFqWCM0tSPGsF8leZvsjGTs+Gyc7tvvbFXUNhHMnopUxsZeF
+ 0/tdnS17O135RKwwbGbEU2yuHldtrx4YMNOuJ3I=
+X-Google-Smtp-Source: ABdhPJxWICLA5u99WN3jePmnSqiPn33OehnwvNlzu4tur4+OyFe+CR2prFe2L0ugNvlauI12MA9AKg==
+X-Received: by 2002:a63:6e01:: with SMTP id j1mr13037528pgc.147.1598503777962; 
+ Wed, 26 Aug 2020 21:49:37 -0700 (PDT)
 Received: from localhost.localdomain ([2401:c080:1c01:4fe:5400:2ff:fef1:b056])
  by smtp.googlemail.com with ESMTPSA id
- n26sm902296pff.30.2020.08.26.21.49.29
+ n26sm902296pff.30.2020.08.26.21.49.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Aug 2020 21:49:31 -0700 (PDT)
+ Wed, 26 Aug 2020 21:49:37 -0700 (PDT)
 From: luoyonggang@gmail.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/6] *** Fixes msys2 building after the meson convert ***
-Date: Thu, 27 Aug 2020 12:49:11 +0800
-Message-Id: <20200827044917.1356-1-luoyonggang@gmail.com>
+Subject: [PATCH 1/6] meson: Fixes the ninjatool issue that E$$: are generated
+ in Makefile.ninja
+Date: Thu, 27 Aug 2020 12:49:12 +0800
+Message-Id: <20200827044917.1356-2-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.27.0.windows.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20200827044917.1356-1-luoyonggang@gmail.com>
+References: <20200827044917.1356-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x42d.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,33 +91,30 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yonggang Luo <luoyonggang@gmail.com>=0D
+From: Yonggang Luo <luoyonggang@gmail.com>
 
-msys2 environment=0D
-=0D
-*** BLURB HERE ***=0D
-=0D
-Yonggang Luo (6):=0D
-  meson: Fixes the ninjatool issue that E$$: are generated in=0D
-    Makefile.ninja=0D
-  meson: fixes relpath may fail on win32.=0D
-  meson: Mingw64 gcc doesn't recognize system include_type for sdl2=0D
-  configure: Fix include and linkage issue on msys2=0D
-  meson: Fixes ninjatool can not be recognized as script under=0D
-    Window/MSYS2=0D
-  meson: Convert undefsym.sh to undefsym.py=0D
-=0D
- configure             | 28 ++++++++++++++-------=0D
- meson.build           |  5 ++--=0D
- scripts/mtest2make.py | 11 +++++++--=0D
- scripts/ninjatool.py  |  2 +-=0D
- scripts/undefsym.py   | 57 +++++++++++++++++++++++++++++++++++++++++++=0D
- scripts/undefsym.sh   | 20 ---------------=0D
- 6 files changed, 88 insertions(+), 35 deletions(-)=0D
- create mode 100644 scripts/undefsym.py=0D
- delete mode 100755 scripts/undefsym.sh=0D
-=0D
--- =0D
-2.27.0.windows.1=0D
-=0D
+SIMPLE_PATH_RE should match the full path token.
+Or the $ and : contained in path would not matched if the path are start with C:/ and E:/
+
+Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+---
+ scripts/ninjatool.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/ninjatool.py b/scripts/ninjatool.py
+index cc77d51aa8..6ca8be6f10 100755
+--- a/scripts/ninjatool.py
++++ b/scripts/ninjatool.py
+@@ -55,7 +55,7 @@ else:
+ 
+ PATH_RE = r"[^$\s:|]+|\$[$ :]|\$[a-zA-Z0-9_-]+|\$\{[a-zA-Z0-9_.-]+\}"
+ 
+-SIMPLE_PATH_RE = re.compile(r"[^$\s:|]+")
++SIMPLE_PATH_RE = re.compile(r"^[^$\s:|]+$")
+ IDENT_RE = re.compile(r"[a-zA-Z0-9_.-]+$")
+ STRING_RE = re.compile(r"(" + PATH_RE + r"|[\s:|])(?:\r?\n)?|.")
+ TOPLEVEL_RE = re.compile(r"([=:#]|\|\|?|^ +|(?:" + PATH_RE + r")+)\s*|.")
+-- 
+2.27.0.windows.1
+
 
