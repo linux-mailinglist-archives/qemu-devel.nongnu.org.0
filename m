@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD76F254F56
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 21:50:59 +0200 (CEST)
-Received: from localhost ([::1]:49942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4546254F5E
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 21:52:00 +0200 (CEST)
+Received: from localhost ([::1]:54214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBNvF-0000OB-Ee
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 15:50:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34584)
+	id 1kBNwF-00026L-PJ
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 15:51:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kBNUI-000094-DB
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:23:06 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25227
- helo=us-smtp-1.mimecast.com)
+ id 1kBNUJ-0000BC-2I
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:23:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51682)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kBNUG-0000XC-6q
+ id 1kBNUH-0000XN-6y
  for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:23:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598556183;
+ s=mimecast20190719; t=1598556184;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mBmnDkuEVMNVkcADTPvtKNeMp0nFpsqcBD6Cr7Tv/hc=;
- b=HIwzGeIEJoVNjnV7v0xoeHoXwYTs6BLipCGY0Z7j89AerKlTfYW3uR5EYvKJHJZK7l81wy
- XcNkOO6rH/uzigjVCDV2h35m3WEl7U3FHheFvi/c9qvti1UAu7YMDcjR7eGvxwavzT2OBw
- OP6JPRVJJJNXoHhdR3QMOwMCXDDU6gM=
+ bh=FC7gWrO5rA8n5kvbt1UyMxdfosQoNwnuqkSOSMS22Fw=;
+ b=V27dCJXbu8qkAAhEsZM9C+Wrm58ab+JMrWSeKHmIYsbyQ/4pVTxr9ko5sgms5DtN0i1K/t
+ f8rBdDYuuA9dBWUDtoDwZYtPEQ9JJV0sC57Gx6Howlm1OgzhQDmGfEmMcptLkRFhbXe0XH
+ 0qwCGTf2Yd92MPpBwhYHewJ+x0mqtuQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-458-pykBTZoONk-xBdIYPNYmaA-1; Thu, 27 Aug 2020 15:23:01 -0400
-X-MC-Unique: pykBTZoONk-xBdIYPNYmaA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-496-v2aq7njONJudsHXKSyg7dw-1; Thu, 27 Aug 2020 15:23:02 -0400
+X-MC-Unique: v2aq7njONJudsHXKSyg7dw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB3B81084C84;
- Thu, 27 Aug 2020 19:22:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E73D4802B68;
+ Thu, 27 Aug 2020 19:23:00 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9B1485D9FC;
- Thu, 27 Aug 2020 19:22:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A5E63101417D;
+ Thu, 27 Aug 2020 19:23:00 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 44/53] swim: Rename struct SWIM to Swim
-Date: Thu, 27 Aug 2020 15:21:13 -0400
-Message-Id: <20200827192122.658035-45-ehabkost@redhat.com>
+Subject: [PULL 45/53] migration: Rename class type checking macros
+Date: Thu, 27 Aug 2020 15:21:14 -0400
+Message-Id: <20200827192122.658035-46-ehabkost@redhat.com>
 In-Reply-To: <20200827192122.658035-1-ehabkost@redhat.com>
 References: <20200827192122.658035-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 00:13:19
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 02:54:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,96 +82,43 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Juan Quintela <quintela@redhat.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
  Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently we have a SWIM typedef and a SWIM type checking macro,
-but OBJECT_DECLARE* would transform the SWIM macro into a
-function, and the function name would conflict with the SWIM
-typedef name.
+Rename the macros to make them consistent with the MIGRATION_OBJ
+macro name.
 
-Rename the struct and typedef to "Swim". This will make future
-conversion to OBJECT_DECLARE* easier.
+This will make future conversion to OBJECT_DECLARE* easier.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Acked-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 Tested-By: Roman Bolshakov <r.bolshakov@yadro.com>
-Message-Id: <20200825192110.3528606-50-ehabkost@redhat.com>
+Message-Id: <20200825192110.3528606-51-ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/hw/block/swim.h |  6 +++---
- hw/block/swim.c         | 10 +++++-----
- 2 files changed, 8 insertions(+), 8 deletions(-)
+ migration/migration.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/block/swim.h b/include/hw/block/swim.h
-index 6add3499d0..9d8b65c561 100644
---- a/include/hw/block/swim.h
-+++ b/include/hw/block/swim.h
-@@ -67,10 +67,10 @@ struct SWIMCtrl {
- };
+diff --git a/migration/migration.h b/migration/migration.h
+index 2ed55c4aef..ae497bd45a 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -114,11 +114,11 @@ void fill_destination_postcopy_migration_info(MigrationInfo *info);
  
- #define TYPE_SWIM "swim"
--#define SWIM(obj) OBJECT_CHECK(SWIM, (obj), TYPE_SWIM)
-+#define SWIM(obj) OBJECT_CHECK(Swim, (obj), TYPE_SWIM)
+ #define TYPE_MIGRATION "migration"
  
--typedef struct SWIM {
-+typedef struct Swim {
-     SysBusDevice parent_obj;
-     SWIMCtrl     ctrl;
--} SWIM;
-+} Swim;
- #endif
-diff --git a/hw/block/swim.c b/hw/block/swim.c
-index 74f56e8f46..20133a814c 100644
---- a/hw/block/swim.c
-+++ b/hw/block/swim.c
-@@ -387,7 +387,7 @@ static const MemoryRegionOps swimctrl_mem_ops = {
+-#define MIGRATION_CLASS(klass) \
++#define MIGRATION_OBJ_CLASS(klass) \
+     OBJECT_CLASS_CHECK(MigrationClass, (klass), TYPE_MIGRATION)
+ #define MIGRATION_OBJ(obj) \
+     OBJECT_CHECK(MigrationState, (obj), TYPE_MIGRATION)
+-#define MIGRATION_GET_CLASS(obj) \
++#define MIGRATION_OBJ_GET_CLASS(obj) \
+     OBJECT_GET_CLASS(MigrationClass, (obj), TYPE_MIGRATION)
  
- static void sysbus_swim_reset(DeviceState *d)
- {
--    SWIM *sys = SWIM(d);
-+    Swim *sys = SWIM(d);
-     SWIMCtrl *ctrl = &sys->ctrl;
-     int i;
- 
-@@ -408,7 +408,7 @@ static void sysbus_swim_reset(DeviceState *d)
- static void sysbus_swim_init(Object *obj)
- {
-     SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
--    SWIM *sbs = SWIM(obj);
-+    Swim *sbs = SWIM(obj);
-     SWIMCtrl *swimctrl = &sbs->ctrl;
- 
-     memory_region_init_io(&swimctrl->iomem, obj, &swimctrl_mem_ops, swimctrl,
-@@ -418,7 +418,7 @@ static void sysbus_swim_init(Object *obj)
- 
- static void sysbus_swim_realize(DeviceState *dev, Error **errp)
- {
--    SWIM *sys = SWIM(dev);
-+    Swim *sys = SWIM(dev);
-     SWIMCtrl *swimctrl = &sys->ctrl;
- 
-     qbus_create_inplace(&swimctrl->bus, sizeof(SWIMBus), TYPE_SWIM_BUS, dev,
-@@ -460,7 +460,7 @@ static const VMStateDescription vmstate_sysbus_swim = {
-     .name = "SWIM",
-     .version_id = 1,
-     .fields = (VMStateField[]) {
--        VMSTATE_STRUCT(ctrl, SWIM, 0, vmstate_swim, SWIMCtrl),
-+        VMSTATE_STRUCT(ctrl, Swim, 0, vmstate_swim, SWIMCtrl),
-         VMSTATE_END_OF_LIST()
-     }
- };
-@@ -477,7 +477,7 @@ static void sysbus_swim_class_init(ObjectClass *oc, void *data)
- static const TypeInfo sysbus_swim_info = {
-     .name          = TYPE_SWIM,
-     .parent        = TYPE_SYS_BUS_DEVICE,
--    .instance_size = sizeof(SWIM),
-+    .instance_size = sizeof(Swim),
-     .instance_init = sysbus_swim_init,
-     .class_init    = sysbus_swim_class_init,
- };
+ typedef struct MigrationClass {
 -- 
 2.26.2
 
