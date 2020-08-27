@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ABA2254EC5
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 21:37:31 +0200 (CEST)
-Received: from localhost ([::1]:49380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80DC1254EE3
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 21:41:45 +0200 (CEST)
+Received: from localhost ([::1]:44562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBNiE-0002Pd-HF
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 15:37:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34338)
+	id 1kBNmK-0003b9-He
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 15:41:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kBNTo-0007Zi-Qt
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:22:36 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:34737
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1kBNTl-0007S0-5f
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:22:33 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26797
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kBNTh-0000RE-0M
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:22:35 -0400
+ id 1kBNTg-0000RM-V4
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:22:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598556142;
+ s=mimecast20190719; t=1598556143;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UDAB9lmlWJRibKtreg8TJ47DL+Yfto/OwhiERIuiAAc=;
- b=cYd6m+Hk0kJP8mSN52Yyn/0xlYnbIbFVaSGDJQAEuAI6dWG/zJuz+DTngYJevKPaIMktMA
- vxIjMnRCQbyz0r5j17Fl3tMXkZHeh35m3ig1FJrwIPvYFVSOfMAeleAwNl4kENEj7JeXMO
- nc7W8gi5Aynf8Le30eGG6ofdZ5aFIy4=
+ bh=6m7+zGiLc9rB4CIybQhtjj2AzYa0ZlXS+zjIxx+URlY=;
+ b=UI2SjuqnnkqvatZbE9AiuxGQcCJ9Pf3A9lOsivJ3oNay7s4UWn7SZSaa+LJjxAVfCMCQ85
+ 4yAYwlmXP8Ki5G3ccT4sKJBQ3yyqICoRnPQcwqVlv/hdSEcsAnocoN5K1gltbUyrnh9FHD
+ ZRn6kfMNtjS7AvXiKYrGiUWnJe8wlg8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-114-Wtdeo2QeNKu9WKP08wxvfA-1; Thu, 27 Aug 2020 15:22:19 -0400
-X-MC-Unique: Wtdeo2QeNKu9WKP08wxvfA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-15-lJSavYrwPNmn_BP9UifiEw-1; Thu, 27 Aug 2020 15:22:21 -0400
+X-MC-Unique: lJSavYrwPNmn_BP9UifiEw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E474189E616;
- Thu, 27 Aug 2020 19:22:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3F41101C2EB;
+ Thu, 27 Aug 2020 19:22:19 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 64B887849B;
- Thu, 27 Aug 2020 19:22:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 63DB560FC2;
+ Thu, 27 Aug 2020 19:22:19 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 24/53] armsse: Rename QOM macros to avoid conflicts
-Date: Thu, 27 Aug 2020 15:20:53 -0400
-Message-Id: <20200827192122.658035-25-ehabkost@redhat.com>
+Subject: [PULL 25/53] xen-legacy-backend: Add missing typedef XenLegacyDevice
+Date: Thu, 27 Aug 2020 15:20:54 -0400
+Message-Id: <20200827192122.658035-26-ehabkost@redhat.com>
 In-Reply-To: <20200827192122.658035-1-ehabkost@redhat.com>
 References: <20200827192122.658035-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 07:16:16
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 02:56:52
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,156 +82,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Igor Mammedov <imammedo@redhat.com>,
+ Anthony PERARD <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename TYPE_ARMSSE to TYPE_ARM_SSE, and ARMSSE*() type checking
-macros to ARM_SSE*().
+The typedef was used in the XENBACKEND_DEVICE macro, but it was
+never defined.  Define the typedef close to the type checking
+macro.
 
-This will avoid a future conflict between an ARM_SSE() type
-checking macro and the ARMSSE typedef name.
-
+Acked-by: Anthony PERARD <anthony.perard@citrix.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 Tested-By: Roman Bolshakov <r.bolshakov@yadro.com>
-Message-Id: <20200825192110.3528606-26-ehabkost@redhat.com>
+Message-Id: <20200825192110.3528606-27-ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/hw/arm/armsse.h | 12 ++++++------
- hw/arm/armsse.c         | 24 ++++++++++++------------
- 2 files changed, 18 insertions(+), 18 deletions(-)
+ include/hw/xen/xen-legacy-backend.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/hw/arm/armsse.h b/include/hw/arm/armsse.h
-index 84080c2299..529816286d 100644
---- a/include/hw/arm/armsse.h
-+++ b/include/hw/arm/armsse.h
-@@ -106,8 +106,8 @@
- #include "hw/core/split-irq.h"
- #include "hw/cpu/cluster.h"
+diff --git a/include/hw/xen/xen-legacy-backend.h b/include/hw/xen/xen-legacy-backend.h
+index 5e6c56c4d6..704bc7852b 100644
+--- a/include/hw/xen/xen-legacy-backend.h
++++ b/include/hw/xen/xen-legacy-backend.h
+@@ -9,6 +9,7 @@
+ #define TYPE_XENSYSBUS "xen-sysbus"
+ #define TYPE_XENBACKEND "xen-backend"
  
--#define TYPE_ARMSSE "arm-sse"
--#define ARMSSE(obj) OBJECT_CHECK(ARMSSE, (obj), TYPE_ARMSSE)
-+#define TYPE_ARM_SSE "arm-sse"
-+#define ARM_SSE(obj) OBJECT_CHECK(ARMSSE, (obj), TYPE_ARM_SSE)
++typedef struct XenLegacyDevice XenLegacyDevice;
+ #define XENBACKEND_DEVICE(obj) \
+     OBJECT_CHECK(XenLegacyDevice, (obj), TYPE_XENBACKEND)
  
- /*
-  * These type names are for specific IoTKit subsystems; other than
-@@ -224,9 +224,9 @@ typedef struct ARMSSEClass {
-     const ARMSSEInfo *info;
- } ARMSSEClass;
- 
--#define ARMSSE_CLASS(klass) \
--    OBJECT_CLASS_CHECK(ARMSSEClass, (klass), TYPE_ARMSSE)
--#define ARMSSE_GET_CLASS(obj) \
--    OBJECT_GET_CLASS(ARMSSEClass, (obj), TYPE_ARMSSE)
-+#define ARM_SSE_CLASS(klass) \
-+    OBJECT_CLASS_CHECK(ARMSSEClass, (klass), TYPE_ARM_SSE)
-+#define ARM_SSE_GET_CLASS(obj) \
-+    OBJECT_GET_CLASS(ARMSSEClass, (obj), TYPE_ARM_SSE)
- 
- #endif
-diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
-index dcbff9bd8f..6264eab16b 100644
---- a/hw/arm/armsse.c
-+++ b/hw/arm/armsse.c
-@@ -167,7 +167,7 @@ static void irq_status_forwarder(void *opaque, int n, int level)
- 
- static void nsccfg_handler(void *opaque, int n, int level)
- {
--    ARMSSE *s = ARMSSE(opaque);
-+    ARMSSE *s = ARM_SSE(opaque);
- 
-     s->nsccfg = level;
- }
-@@ -233,8 +233,8 @@ static void armsse_forward_sec_resp_cfg(ARMSSE *s)
- 
- static void armsse_init(Object *obj)
- {
--    ARMSSE *s = ARMSSE(obj);
--    ARMSSEClass *asc = ARMSSE_GET_CLASS(obj);
-+    ARMSSE *s = ARM_SSE(obj);
-+    ARMSSEClass *asc = ARM_SSE_GET_CLASS(obj);
-     const ARMSSEInfo *info = asc->info;
-     int i;
- 
-@@ -391,7 +391,7 @@ static void armsse_exp_irq(void *opaque, int n, int level)
- 
- static void armsse_mpcexp_status(void *opaque, int n, int level)
- {
--    ARMSSE *s = ARMSSE(opaque);
-+    ARMSSE *s = ARM_SSE(opaque);
-     qemu_set_irq(s->mpcexp_status_in[n], level);
- }
- 
-@@ -401,7 +401,7 @@ static qemu_irq armsse_get_common_irq_in(ARMSSE *s, int irqno)
-      * Return a qemu_irq which can be used to signal IRQ n to
-      * all CPUs in the SSE.
-      */
--    ARMSSEClass *asc = ARMSSE_GET_CLASS(s);
-+    ARMSSEClass *asc = ARM_SSE_GET_CLASS(s);
-     const ARMSSEInfo *info = asc->info;
- 
-     assert(irq_is_common[irqno]);
-@@ -428,8 +428,8 @@ static void map_ppu(ARMSSE *s, int ppuidx, const char *name, hwaddr addr)
- 
- static void armsse_realize(DeviceState *dev, Error **errp)
- {
--    ARMSSE *s = ARMSSE(dev);
--    ARMSSEClass *asc = ARMSSE_GET_CLASS(dev);
-+    ARMSSE *s = ARM_SSE(dev);
-+    ARMSSEClass *asc = ARM_SSE_GET_CLASS(dev);
-     const ARMSSEInfo *info = asc->info;
-     int i;
-     MemoryRegion *mr;
-@@ -1114,7 +1114,7 @@ static void armsse_idau_check(IDAUInterface *ii, uint32_t address,
-      * of the address bits. The NSC attribute is guest-adjustable via the
-      * NSCCFG register in the security controller.
-      */
--    ARMSSE *s = ARMSSE(ii);
-+    ARMSSE *s = ARM_SSE(ii);
-     int region = extract32(address, 28, 4);
- 
-     *ns = !(region & 1);
-@@ -1136,7 +1136,7 @@ static const VMStateDescription armsse_vmstate = {
- 
- static void armsse_reset(DeviceState *dev)
- {
--    ARMSSE *s = ARMSSE(dev);
-+    ARMSSE *s = ARM_SSE(dev);
- 
-     s->nsccfg = 0;
- }
-@@ -1145,7 +1145,7 @@ static void armsse_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     IDAUInterfaceClass *iic = IDAU_INTERFACE_CLASS(klass);
--    ARMSSEClass *asc = ARMSSE_CLASS(klass);
-+    ARMSSEClass *asc = ARM_SSE_CLASS(klass);
-     const ARMSSEInfo *info = data;
- 
-     dc->realize = armsse_realize;
-@@ -1157,7 +1157,7 @@ static void armsse_class_init(ObjectClass *klass, void *data)
- }
- 
- static const TypeInfo armsse_info = {
--    .name = TYPE_ARMSSE,
-+    .name = TYPE_ARM_SSE,
-     .parent = TYPE_SYS_BUS_DEVICE,
-     .instance_size = sizeof(ARMSSE),
-     .instance_init = armsse_init,
-@@ -1177,7 +1177,7 @@ static void armsse_register_types(void)
-     for (i = 0; i < ARRAY_SIZE(armsse_variants); i++) {
-         TypeInfo ti = {
-             .name = armsse_variants[i].name,
--            .parent = TYPE_ARMSSE,
-+            .parent = TYPE_ARM_SSE,
-             .class_init = armsse_class_init,
-             .class_data = (void *)&armsse_variants[i],
-         };
 -- 
 2.26.2
 
