@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A5BD254283
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 11:34:37 +0200 (CEST)
-Received: from localhost ([::1]:44998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03682254279
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 11:33:53 +0200 (CEST)
+Received: from localhost ([::1]:41006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBEIm-0006KG-3a
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 05:34:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59006)
+	id 1kBEI4-0004iA-26
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 05:33:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1kBEGR-0002Hg-ED
+ id 1kBEGS-0002Hm-DK
  for qemu-devel@nongnu.org; Thu, 27 Aug 2020 05:32:12 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:40050
- helo=mx0a-001b2d01.pphosted.com)
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:41992)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1kBEGO-0004UQ-F5
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 05:32:11 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 07R9ViNP032659
- for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 05:32:06 -0400
+ id 1kBEGQ-0004Uf-C4
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 05:32:12 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 07R92ppJ152451
+ for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 05:32:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=KXUh3AnRFkecV2Ytu1ZxecpP1UPZJ4wLAYyw9rsuhzQ=;
- b=qiVSqi0Wk+2ReG6lkOaDYcixYAixhs2vxdxEGvFvwdEfFfvVovrL/N2vZmMmAcQZ5DYv
- LjYgBJFpcoDHBr5K2RYHgEqmi5EEVNi4qGH33ty+XNgKUJTzZH5/+EdMKVrXV1a5PYMC
- U3+9guWGWp6gUekdssFxppX6WbkHffL3qimwbZDoSB06NcXFSFnTduUGEAZaGFSLNciU
- 2r9LH44QXjgKlFBlCbfsDSeFZHpGY9vpaCJuixNxDIec95z0tvRtHyJRL+ftAiXGqOkE
- cuMnEVnGPnT827xDj4u/E8z1WCPB9CgwVWry4mYwQezvDZlvlFnurshnNLsdxOChWAkI 2A== 
+ bh=3S8ZafikN+JmxjS3GFDrMweZY9YUE5KaHs8ZIW2Or3w=;
+ b=s+Xl57EKleSAUVTBM93DbJlQyF10lRw5Q1TJm1lDec4flfVoC5KI0NTIlzpQt+z8m0qn
+ FuEhUBorEfRDC9pDOfyDUGlhBaBIp9DfMn65LGUn2wyRp8zeSleM8nWlh0W65Ku0ZlKi
+ O+hgdS567mT5EI7VrXUsJBKpnH7pjU10g+D4I/038K+Es+nsncjDOVH4+GBcpBfflfft
+ jpgQZf9vXxSGmpTGzBIa2EysA2VxBxvutGd1Wog/rfpFlED7dppBsteXkMIlCJ2Qe2Ct
+ WAdneKcE8kUi3seUr8Ye+81sEHukfQKLMlf8OzyAZCaIrt5xTUJlj6EiA1bx8KecRqlj zQ== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 336a2k8asb-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3369uwrs64-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 05:32:06 -0400
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 07R9W6kI033758
- for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 05:32:06 -0400
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0b-001b2d01.pphosted.com with ESMTP id 336a2k8aru-1
+ for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 05:32:08 -0400
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 07R99lRH174535
+ for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 05:32:07 -0400
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3369uwrs54-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Aug 2020 05:32:06 -0400
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 07R9J68s007334;
- Thu, 27 Aug 2020 09:32:04 GMT
+ Thu, 27 Aug 2020 05:32:07 -0400
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 07R9HZke001878;
+ Thu, 27 Aug 2020 09:32:05 GMT
 Received: from b06avi18878370.portsmouth.uk.ibm.com
  (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma06ams.nl.ibm.com with ESMTP id 332uk6dgpp-1
+ by ppma02fra.de.ibm.com with ESMTP id 332ujrucb9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Aug 2020 09:32:04 +0000
+ Thu, 27 Aug 2020 09:32:05 +0000
 Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
  by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 07R9W2c365339696
+ id 07R9W2sn61735332
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 27 Aug 2020 09:32:02 GMT
+ Thu, 27 Aug 2020 09:32:03 GMT
 Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0B2EB42042;
+ by IMSVA (Postfix) with ESMTP id CF18642041;
  Thu, 27 Aug 2020 09:32:02 +0000 (GMT)
 Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7469042041;
- Thu, 27 Aug 2020 09:32:01 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 3BC4742047;
+ Thu, 27 Aug 2020 09:32:02 +0000 (GMT)
 Received: from linux01.pok.stglabs.ibm.com (unknown [9.114.17.81])
  by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 27 Aug 2020 09:32:01 +0000 (GMT)
+ Thu, 27 Aug 2020 09:32:02 +0000 (GMT)
 From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC v2 3/4] pc-bios: s390x: Save io and external new PSWs
- before overwriting them
-Date: Thu, 27 Aug 2020 05:31:51 -0400
-Message-Id: <20200827093152.3026-4-frankja@linux.ibm.com>
+Subject: [PATCH v2 4/4] pc-bios: s390x: Go into disabled wait when
+ encountering a PGM exception
+Date: Thu, 27 Aug 2020 05:31:52 -0400
+Message-Id: <20200827093152.3026-5-frankja@linux.ibm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200827093152.3026-1-frankja@linux.ibm.com>
 References: <20200827093152.3026-1-frankja@linux.ibm.com>
@@ -84,15 +83,15 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
  definitions=2020-08-27_02:2020-08-27,
  2020-08-27 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- malwarescore=0 adultscore=0 mlxlogscore=969 mlxscore=0 impostorscore=0
- priorityscore=1501 suspectscore=1 bulkscore=0 spamscore=0 clxscore=1015
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2008270068
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
+ mlxscore=0 priorityscore=1501
+ malwarescore=0 adultscore=0 suspectscore=1 impostorscore=0 spamscore=0
+ lowpriorityscore=0 phishscore=0 mlxlogscore=802 bulkscore=0 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2008270065
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=frankja@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 05:32:06
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 05:32:05
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
 X-Spam_score_int: -26
 X-Spam_score: -2.7
 X-Spam_bar: --
@@ -117,136 +116,28 @@ Cc: borntraeger@de.ibm.com, thuth@redhat.com, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently we always overwrite the mentioned exception new PSWs before
-loading the enabled wait PSW. Let's save the PSW before overwriting
-and restore it right before starting the loaded kernel.
+Let's setup a PGM PSW, so we won't load 0s when a program exception
+happens. Instead we'll load a disabled wait PSW.
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 ---
+ pc-bios/s390-ccw/start.S | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Maybe we should rather statically allocate a lowcore so we don't dirty
-0x0 at all.
-
----
- pc-bios/s390-ccw/jump2ipl.c |  3 ++
- pc-bios/s390-ccw/start.S    | 62 +++++++++++++++++++++++++++----------
- 2 files changed, 48 insertions(+), 17 deletions(-)
-
-diff --git a/pc-bios/s390-ccw/jump2ipl.c b/pc-bios/s390-ccw/jump2ipl.c
-index 143d027bf7..a44f3ab5b3 100644
---- a/pc-bios/s390-ccw/jump2ipl.c
-+++ b/pc-bios/s390-ccw/jump2ipl.c
-@@ -13,12 +13,15 @@
- #define KERN_IMAGE_START 0x010000UL
- #define RESET_PSW_MASK (PSW_MASK_SHORTPSW | PSW_MASK_64)
- 
-+extern uint64_t *psw_save_io, *psw_save_ext;
- uint64_t *reset_psw = 0, save_psw, ipl_continue;
- 
- static void jump_to_IPL_2(void)
- {
-     /* Restore reset PSW and io and external new PSWs */
-     *reset_psw = save_psw;
-+    memcpy((void *)0x1f0, psw_save_io, 16);
-+    memcpy((void *)0x1b0, psw_save_ext, 16);
- 
-     /* No reset PSW, let's jump instead. */
-     if (ipl_continue) {
 diff --git a/pc-bios/s390-ccw/start.S b/pc-bios/s390-ccw/start.S
-index ce519300a1..939aac3a7c 100644
+index 939aac3a7c..775b45baeb 100644
 --- a/pc-bios/s390-ccw/start.S
 +++ b/pc-bios/s390-ccw/start.S
-@@ -34,7 +34,17 @@ remainder:
- 	larl	%r2,memsetxc
- 	ex	%r3,0(%r2)
- done:
--	j      main		/* And call C */
-+        /* prepare i/o call handler */
-+        larl  %r1, io_new_code
-+        larl  %r2, io_new_psw
-+        stg   %r1, 8(%r2)
-+        mvc   0x1f0(16),0(%r2)
-+        /* prepare external call handler */
-+        larl  %r1, external_new_code
-+        larl  %r2, external_new_psw
-+        stg   %r1, 8(%r2)
-+        mvc   0x1b0(16),0(%r2)
-+        j      main		/* And call C */
+@@ -44,6 +44,9 @@ done:
+         larl  %r2, external_new_psw
+         stg   %r1, 8(%r2)
+         mvc   0x1b0(16),0(%r2)
++        /* set up a pgm exception disabled wait psw */
++        larl  %r2, disabled_wait_psw
++        mvc   0x01d0(16), 0(%r2)
+         j      main		/* And call C */
  
  memsetxc:
- 	xc	0(1,%r1),0(%r1)
-@@ -64,13 +74,16 @@ consume_sclp_int:
-         oi      6(%r15),0x2
-         lctlg   %c0,%c0,0(%r15)
-         /* prepare external call handler */
--        larl %r1, external_new_code
--        stg %r1, 0x1b8
--        larl %r1, external_new_mask
--        mvc 0x1b0(8),0(%r1)
--        /* load enabled wait PSW */
--        larl %r1, enabled_wait_psw
--        lpswe 0(%r1)
-+        larl  %r1, external_new_psw
-+        lghi  %r2, 0x1b0
-+        /* Is the BIOS' external new PSW already set? */
-+        clc   0(16, %r1), 0(%r2)
-+        je    load_ewait
-+        /* No, save old PSW and write BIOS PSW */
-+        larl  %r3, psw_save_ext
-+        mvc   0(16, %r3), 0x1b0
-+        mvc   0x1b0(16),0(%r1)
-+        j     load_ewait
- 
- /*
-  * void consume_io_int(void)
-@@ -84,11 +97,20 @@ consume_io_int:
-         oi    4(%r15), 0xff
-         lctlg %c6,%c6,0(%r15)
-         /* prepare i/o call handler */
--        larl  %r1, io_new_code
--        stg   %r1, 0x1f8
--        larl  %r1, io_new_mask
--        mvc   0x1f0(8),0(%r1)
--        /* load enabled wait PSW */
-+        larl  %r1, io_new_psw
-+        lghi  %r2, 0x1f0
-+        /* Is the BIOS' PSW already set? */
-+        larl  %r3, load_ewait
-+        clc   0(16, %r1), 0(%r2)
-+        bcr   8, %r3
-+        /* No, save old PSW and write BIOS PSW */
-+        larl  %r3, psw_save_io
-+        mvc   0(16, %r3), 0x1f0
-+        mvc   0x1f0(16),0(%r1)
-+        j     load_ewait
-+
-+load_ewait:
-+        /* PSW is the correct one, time to load the enabled wait PSW */
-         larl  %r1, enabled_wait_psw
-         lpswe 0(%r1)
- 
-@@ -107,11 +129,17 @@ io_new_code:
-         br    %r14
- 
-         .align  8
-+        .globl psw_save_io
-+        .globl psw_save_ext
- disabled_wait_psw:
-         .quad   0x0002000180000000,0x0000000000000000
- enabled_wait_psw:
-         .quad   0x0302000180000000,0x0000000000000000
--external_new_mask:
--        .quad   0x0000000180000000
--io_new_mask:
--        .quad   0x0000000180000000
-+external_new_psw:
-+        .quad   0x0000000180000000,0
-+io_new_psw:
-+        .quad   0x0000000180000000,0
-+psw_save_io:
-+        .quad   0,0
-+psw_save_ext:
-+        .quad   0,0
 -- 
 2.25.1
 
