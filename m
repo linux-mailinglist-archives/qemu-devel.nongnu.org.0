@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81C6B254B87
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 19:05:22 +0200 (CEST)
-Received: from localhost ([::1]:55420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A93D3254B96
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 19:07:20 +0200 (CEST)
+Received: from localhost ([::1]:33534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBLKz-0006QL-Gr
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 13:05:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50956)
+	id 1kBLMp-0000gr-Qf
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 13:07:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kBLGM-0006Lq-Vj
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 13:00:35 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:25508
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1kBLGP-0006Ne-Od
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 13:00:41 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36717
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kBLGI-0005WK-3P
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 13:00:34 -0400
+ id 1kBLGK-0005Ww-4R
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 13:00:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598547628;
+ s=mimecast20190719; t=1598547630;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yEDf+p/ADTtLKkCVxqoCqYGwvr2LwjZU9msIj0OQM8c=;
- b=T9KkDZD+VY0gY18nf9u3oTR30/8XoG72ySma5SPhhkjmom6sx4zX86Yk4kcyI6sIGq9iG3
- XkjUzidH0jFjmfVcn+mKThS15aPS/0lfMKnA4e3AzM//4bRDZWWaxLmVfJMxa8P/gyw8ir
- VG4P+eqHGeqtC9lq3QqTx7kWTavVRNA=
+ bh=Aki3Qo0pxFtN0AobNIq1SGsWqCNa8JRiNsFzMRNgv5Q=;
+ b=UKstlpaX1z3nkNan7dwV9Rc+CUfuM4HO7nZG5AcncY3x9BTP5QR2OfrdcAb/sp4uoPrAdp
+ uC4y2ySthVmCoksx90Qy3QpEK3c6C4zDC4IZ45HESnAevO1a/ja8NzX9fs0yfs6p/1dErg
+ LkurPA15fS23t3U3ZCPEP9xtq0imQ/M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-458-EFkmmfzsMryAWNIsFmaSXg-1; Thu, 27 Aug 2020 13:00:26 -0400
-X-MC-Unique: EFkmmfzsMryAWNIsFmaSXg-1
+ us-mta-246-6rX5rXYhOVyEDN3gwKNiAQ-1; Thu, 27 Aug 2020 13:00:26 -0400
+X-MC-Unique: 6rX5rXYhOVyEDN3gwKNiAQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45C16425EB
- for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 17:00:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB0C2107464F;
+ Thu, 27 Aug 2020 17:00:25 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 10F0E50B3F;
- Thu, 27 Aug 2020 17:00:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 60BAB50B3F;
+ Thu, 27 Aug 2020 17:00:25 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/17] ninjatool: quote dollars in variables
-Date: Thu, 27 Aug 2020 12:59:52 -0400
-Message-Id: <20200827165956.12925-14-pbonzini@redhat.com>
+Subject: [PULL 14/17] meson: fix relpath failure on Win32
+Date: Thu, 27 Aug 2020 12:59:53 -0400
+Message-Id: <20200827165956.12925-15-pbonzini@redhat.com>
 In-Reply-To: <20200827165956.12925-1-pbonzini@redhat.com>
 References: <20200827165956.12925-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 07:16:16
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 00:13:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,33 +82,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>
+Cc: Yonggang Luo <luoyonggang@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Otherwise, dollars (such as in the special $ORIGIN rpath) are
-eaten by Make.
+From: Yonggang Luo <luoyonggang@gmail.com>
 
-Reported-by: Laurent Vivier <lvivier@redhat.com>
+On win32, os.path.relpath can raise an exception when computing
+for example C:/msys64/mingw64/x.exe relative to E:/path/qemu-build.
+Use try...except to avoid this, just using an absolute path in
+this case.
+
+Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/ninjatool.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ scripts/mtest2make.py | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/ninjatool.py b/scripts/ninjatool.py
-index cc77d51aa8..c33eafb5a0 100755
---- a/scripts/ninjatool.py
-+++ b/scripts/ninjatool.py
-@@ -834,7 +834,8 @@ class Ninja2Make(NinjaParserEventsWithVars):
-         self.print()
-         for targets in self.build_vars:
-             for name, value in self.build_vars[targets].items():
--                self.print('%s: private .var.%s := %s' % (targets, name, value))
-+                self.print('%s: private .var.%s := %s' %
-+                           (targets, name, value.replace('$', '$$')))
-             self.print()
-         if not self.seen_default:
-             default_targets = sorted(self.all_outs - self.all_ins, key=natural_sort_key)
+diff --git a/scripts/mtest2make.py b/scripts/mtest2make.py
+index bdb257bbd9..d7a51bf97e 100644
+--- a/scripts/mtest2make.py
++++ b/scripts/mtest2make.py
+@@ -53,9 +53,16 @@ i = 0
+ for test in json.load(sys.stdin):
+     env = ' '.join(('%s=%s' % (shlex.quote(k), shlex.quote(v))
+                     for k, v in test['env'].items()))
+-    executable = os.path.relpath(test['cmd'][0])
++    executable = test['cmd'][0]
++    try:
++        executable = os.path.relpath(executable)
++    except:
++        pass
+     if test['workdir'] is not None:
+-        test['cmd'][0] = os.path.relpath(test['cmd'][0], test['workdir'])
++        try:
++            test['cmd'][0] = os.path.relpath(executable, test['workdir'])
++        except:
++            test['cmd'][0] = executable
+     else:
+         test['cmd'][0] = executable
+     cmd = '$(.test.env) %s %s' % (env, ' '.join((shlex.quote(x) for x in test['cmd'])))
 -- 
 2.26.2
 
