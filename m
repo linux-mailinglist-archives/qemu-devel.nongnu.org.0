@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAAB225451C
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 14:40:19 +0200 (CEST)
-Received: from localhost ([::1]:38742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1D38254523
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 14:41:40 +0200 (CEST)
+Received: from localhost ([::1]:47024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBHCU-0001AB-No
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 08:40:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58900)
+	id 1kBHDi-0004Yd-Em
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 08:41:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ysato@users.sourceforge.jp>)
- id 1kBHBQ-0007xC-6F
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 08:39:12 -0400
-Received: from mail02.asahi-net.or.jp ([202.224.55.14]:56302)
+ id 1kBHBS-0007yC-83
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 08:39:14 -0400
+Received: from mail01.asahi-net.or.jp ([202.224.55.13]:47877)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ysato@users.sourceforge.jp>) id 1kBHBN-0005u8-TJ
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 08:39:11 -0400
+ (envelope-from <ysato@users.sourceforge.jp>) id 1kBHBN-0005uA-Tb
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 08:39:13 -0400
 Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
  [153.127.30.23]) (Authenticated sender: PQ4Y-STU)
- by mail02.asahi-net.or.jp (Postfix) with ESMTPA id CC51026329;
- Thu, 27 Aug 2020 21:39:05 +0900 (JST)
+ by mail01.asahi-net.or.jp (Postfix) with ESMTPA id 045621080B5;
+ Thu, 27 Aug 2020 21:39:06 +0900 (JST)
 Received: from yo-satoh-debian.localdomain (ZM005235.ppp.dion.ne.jp
  [222.8.5.235])
- by sakura.ysato.name (Postfix) with ESMTPSA id 7C96C1C07B2;
+ by sakura.ysato.name (Postfix) with ESMTPSA id B23DE1C0696;
  Thu, 27 Aug 2020 21:39:05 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/20] hw/rx: Firmware and kernel loader.
-Date: Thu, 27 Aug 2020 21:38:42 +0900
-Message-Id: <20200827123859.81793-4-ysato@users.sourceforge.jp>
+Subject: [PATCH 04/20] hw/rx: New firmware loader.
+Date: Thu, 27 Aug 2020 21:38:43 +0900
+Message-Id: <20200827123859.81793-5-ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200827123859.81793-1-ysato@users.sourceforge.jp>
 References: <20200827123859.81793-1-ysato@users.sourceforge.jp>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: softfail client-ip=202.224.55.14;
- envelope-from=ysato@users.sourceforge.jp; helo=mail02.asahi-net.or.jp
+Received-SPF: softfail client-ip=202.224.55.13;
+ envelope-from=ysato@users.sourceforge.jp; helo=mail01.asahi-net.or.jp
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 08:39:06
 X-ACL-Warn: Detected OS   = ???
 X-Spam_score_int: -18
@@ -61,268 +61,247 @@ Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Suppoerted format.
-ELF, HEX, SREC and Raw firmware.
-fit and Raw kernel image.
+Separate the loading of the firmware from the target definition
+ as it is an obstacle to adding more targets.
 
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 ---
- include/hw/rx/loader.h |  35 ++++++++
- hw/rx/loader.c         | 182 +++++++++++++++++++++++++++++++++++++++++
- hw/rx/Kconfig          |   1 +
- hw/rx/meson.build      |   1 +
- 4 files changed, 219 insertions(+)
- create mode 100644 include/hw/rx/loader.h
- create mode 100644 hw/rx/loader.c
+ include/hw/rx/rx62n.h | 15 +++++++
+ hw/rx/rx-gdbsim.c     | 98 +++++++++++++++++++++----------------------
+ hw/rx/rx62n.c         | 25 -----------
+ 3 files changed, 64 insertions(+), 74 deletions(-)
 
-diff --git a/include/hw/rx/loader.h b/include/hw/rx/loader.h
-new file mode 100644
-index 0000000000..71f3bd2bb3
---- /dev/null
-+++ b/include/hw/rx/loader.h
-@@ -0,0 +1,35 @@
-+/*
-+ * RX QEMU frimware loader
-+ *
-+ * Copyright (c) 2020 Yoshinori Sato
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qapi/error.h"
-+#include "qemu/error-report.h"
-+
-+typedef struct {
-+    hwaddr ram_start;
-+    size_t ram_size;
-+    hwaddr entry;
-+    hwaddr kernel_entry;
-+    hwaddr dtb_address;
-+    const char *filename;
-+    const char *dtbname;
-+    const char *cmdline;
-+} rx_kernel_info_t;
-+
-+bool load_bios(const char *filename, int rom_size, Error **errp);
-+
-+bool load_kernel(rx_kernel_info_t *info);
-diff --git a/hw/rx/loader.c b/hw/rx/loader.c
-new file mode 100644
-index 0000000000..c262f3ef86
---- /dev/null
-+++ b/hw/rx/loader.c
-@@ -0,0 +1,182 @@
-+/*
-+ * RX QEMU frimware loader
-+ *
-+ * Copyright (c) 2020 Yoshinori Sato
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "elf.h"
-+#include "hw/loader.h"
-+#include "hw/loader-fit.h"
-+#include "hw/rx/loader.h"
-+#include "sysemu/device_tree.h"
-+#include "exec/cpu-defs.h"
-+#include <libfdt.h>
-+
-+#define RX_RESET_VEC 0xfffffffc
-+#define ADDRESS_TOP ((1LL << TARGET_PHYS_ADDR_SPACE_BITS) - 1)
-+
-+bool load_bios(const char *filename, int rom_size, Error **errp)
-+{
-+    int size;
-+    uint64_t entry64 = UINT64_MAX;
-+    uint32_t entry;
-+
-+    size = load_elf(filename, NULL, NULL, NULL, &entry64,
-+                    NULL, NULL, NULL, 0, EM_RX, 0, 0);
-+    if (size > 0) {
-+        goto load_ok;
-+    }
-+    size = load_targphys_hex_as(filename, &entry64, NULL);
-+    if (size > 0) {
-+        goto load_ok;
-+    }
-+    size = load_targphys_srec_as(filename, &entry64, NULL);
-+    if (size > 0) {
-+        goto load_ok;
-+    }
-+    size = get_image_size(filename);
-+    if (size < 0) {
-+        error_setg(errp, "\"%s\" is open failed.", filename);
-+        return false;
-+    }
-+    if (size > rom_size) {
-+        error_setg(errp, "\"%s\" is too large for ROM area.", filename);
-+        return false;
-+    }
-+
-+    /*
-+     * The RX CPU reset vector is at the top of the ROM,
-+     * so the raw binary is loaded there.
-+     */
-+    rom_add_file_fixed(filename, -size, 0);
-+ load_ok:
-+    if (rom_ptr(RX_RESET_VEC, 4) == NULL) {
-+        if (entry64 <= ADDRESS_TOP) {
-+            entry = cpu_to_le32(entry64);
-+            rom_add_blob_fixed("entry", &entry, 4, RX_RESET_VEC);
-+        } else {
-+            error_setg(errp, "Reset vector is not set");
-+            return false;
-+        }
-+    }
-+    return true;
-+}
-+
-+static hwaddr rx_addr_to_phys(void *opaque, uint64_t addr)
-+{
-+    /* No address translation */
-+    return addr;
-+}
-+
-+static bool setup_commandline(void *dtb, rx_kernel_info_t *info)
-+{
-+    if (info->cmdline &&
-+        qemu_fdt_setprop_string(dtb, "/chosen", "bootargs",
-+                                info->cmdline) < 0) {
-+        return false;
-+    }
-+    return true;
-+}
-+
-+
-+static const void *rx_fdt_filter(void *opaque, const void *fdt_orig,
-+                                 const void *match_data, hwaddr *load_addr)
-+{
-+    rx_kernel_info_t *info = opaque;
-+    void *fdt;
-+    size_t fdt_sz;
-+    int err;
-+
-+    fdt_sz = fdt_totalsize(fdt_orig) + 0x1000;
-+    fdt = g_malloc0(fdt_sz);
-+
-+    err = fdt_open_into(fdt_orig, fdt, fdt_sz);
-+    if (err) {
-+        error_report("couldn't open dtb");
-+        return NULL;
-+    }
-+
-+    if (!setup_commandline(fdt, info)) {
-+        error_report("couldn't set /chosen/bootargs");
-+        return NULL;
-+    }
-+    fdt_sz = fdt_totalsize(fdt);
-+    fdt = g_realloc(fdt, fdt_totalsize(fdt));
-+    info->dtb_address = info->ram_start + info->ram_size - fdt_sz;
-+    *load_addr = info->dtb_address;
-+
-+    return fdt;
-+}
-+
-+static const void *rx_kernel_filter(void *opaque, const void *kernel,
-+                                        hwaddr *load_addr, hwaddr *entry_addr)
-+{
-+    rx_kernel_info_t *info = opaque;
-+
-+    info->kernel_entry = *entry_addr;
-+
-+    return kernel;
-+}
-+
-+static const struct fit_loader rx_fit_loader = {
-+    .addr_to_phys = rx_addr_to_phys,
-+    .fdt_filter = rx_fdt_filter,
-+    .kernel_filter = rx_kernel_filter,
-+};
-+
-+bool load_kernel(rx_kernel_info_t *info)
-+{
-+    ram_addr_t kernel_offset;
-+    size_t kernel_size;
-+
-+    if (load_fit(&rx_fit_loader, info->filename, info) == 0) {
-+        return true;
-+    }
-+
-+    /*
-+     * The kernel image is loaded into
-+     * the latter half of the SDRAM space.
-+     */
-+    kernel_offset = info->ram_size / 2;
-+
-+    info->entry = info->ram_start + kernel_offset;
-+    kernel_size = load_image_targphys(info->filename,
-+                                      info->entry, info->ram_size / 2);
-+    if (kernel_size == -1) {
-+        return false;
-+    }
-+    if (info->dtbname) {
-+        ram_addr_t dtb_offset;
-+        int dtb_size;
-+        void *dtb;
-+
-+        dtb = load_device_tree(info->dtbname, &dtb_size);
-+        if (dtb == NULL) {
-+            error_report("Couldn't open dtb file %s", info->dtbname);
-+            return false;
-+        }
-+        if (!setup_commandline(dtb, info)) {
-+            error_report("Couldn't set /chosen/bootargs");
-+            return false;
-+        }
-+        /* DTB is located at the end of SDRAM space. */
-+        dtb_size = fdt_totalsize(dtb);
-+        dtb_offset = info->ram_size - dtb_size;
-+        info->dtb_address = info->ram_start + dtb_offset;
-+        rom_add_blob_fixed("dtb", dtb, dtb_size, info->dtb_address);
-+    }
-+    return true;
-+}
-diff --git a/hw/rx/Kconfig b/hw/rx/Kconfig
-index 2b297c5a6a..a63e4a5520 100644
---- a/hw/rx/Kconfig
-+++ b/hw/rx/Kconfig
-@@ -8,3 +8,4 @@ config RX62N_MCU
- config RX_GDBSIM
-     bool
-     select RX62N_MCU
-+    select FITLOADER
-diff --git a/hw/rx/meson.build b/hw/rx/meson.build
-index d223512a78..e73850f303 100644
---- a/hw/rx/meson.build
-+++ b/hw/rx/meson.build
-@@ -1,4 +1,5 @@
- rx_ss = ss.source_set()
-+rx_ss.add(files('loader.c'))
- rx_ss.add(when: 'CONFIG_RX_GDBSIM', if_true: files('rx-gdbsim.c'))
- rx_ss.add(when: 'CONFIG_RX62N_MCU', if_true: files('rx62n.c'))
+diff --git a/include/hw/rx/rx62n.h b/include/hw/rx/rx62n.h
+index aa94758c27..32e460bbad 100644
+--- a/include/hw/rx/rx62n.h
++++ b/include/hw/rx/rx62n.h
+@@ -45,6 +45,21 @@
+ #define RX62N_NR_CMT    2
+ #define RX62N_NR_SCI    6
  
++typedef struct RX62NClass {
++    /*< private >*/
++    DeviceClass parent_class;
++    /*< public >*/
++    const char *name;
++    uint64_t ram_size;
++    uint64_t rom_flash_size;
++    uint64_t data_flash_size;
++} RX62NClass;
++
++#define RX62N_MCU_CLASS(klass) \
++    OBJECT_CLASS_CHECK(RX62NClass, (klass), TYPE_RX62N_MCU)
++#define RX62N_MCU_GET_CLASS(obj) \
++    OBJECT_GET_CLASS(RX62NClass, (obj), TYPE_RX62N_MCU)
++
+ typedef struct RX62NState {
+     /*< private >*/
+     DeviceState parent_obj;
+diff --git a/hw/rx/rx-gdbsim.c b/hw/rx/rx-gdbsim.c
+index 54992ebe57..02e03c797c 100644
+--- a/hw/rx/rx-gdbsim.c
++++ b/hw/rx/rx-gdbsim.c
+@@ -25,6 +25,7 @@
+ #include "hw/hw.h"
+ #include "hw/sysbus.h"
+ #include "hw/loader.h"
++#include "hw/rx/loader.h"
+ #include "hw/rx/rx62n.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/qtest.h"
+@@ -40,6 +41,7 @@ typedef struct RxGdbSimMachineClass {
+     /*< public >*/
+     const char *mcu_name;
+     uint32_t xtal_freq_hz;
++    size_t romsize;
+ } RxGdbSimMachineClass;
+ 
+ typedef struct RxGdbSimMachineState {
+@@ -59,26 +61,39 @@ typedef struct RxGdbSimMachineState {
+ #define RX_GDBSIM_MACHINE_GET_CLASS(obj) \
+     OBJECT_GET_CLASS(RxGdbSimMachineClass, (obj), TYPE_RX_GDBSIM_MACHINE)
+ 
+-static void rx_load_image(RXCPU *cpu, const char *filename,
+-                          uint32_t start, uint32_t size)
++#define TINYBOOT_TOP (0xffffff00)
++
++static void set_bootstrap(hwaddr entry, hwaddr dtb)
+ {
+-    static uint32_t extable[32];
+-    long kernel_size;
++    /* Minimal hardware initialize for kernel requirement */
++    /* linux kernel only works little-endian mode */
++    static uint8_t tinyboot[256] = {
++        0xfb, 0x2e, 0x20, 0x00, 0x08,       /* mov.l #0x80020, r2 */
++        0xf8, 0x2e, 0x00, 0x01, 0x01,       /* mov.l #0x00010100, [r2] */
++        0xfb, 0x2e, 0x10, 0x00, 0x08,       /* mov.l #0x80010, r2 */
++        0xf8, 0x22, 0xdf, 0x7d, 0xff, 0xff, /* mov.l #0xffff7ddf, [r2] */
++        0x62, 0x42,                         /* add #4, r2 */
++        0xf8, 0x22, 0xff, 0x7f, 0xff, 0x7f, /* mov.l #0x7fff7fff, [r2] */
++        0xfb, 0x2e, 0x40, 0x82, 0x08,       /* mov.l #0x88240, r2 */
++        0x3c, 0x22, 0x00,                   /* mov.b #0, 2[r2] */
++        0x3c, 0x21, 0x4e,                   /* mov.b #78, 1[r2] */
++        0xfb, 0x22, 0x70, 0xff, 0xff, 0xff, /* mov.l #0xffffff70, r2 */
++        0xec, 0x21,                         /* mov.l [r2], r1 */
++        0xfb, 0x22, 0x74, 0xff, 0xff, 0xff, /* mov.l #0xffffff74, r2 */
++        0xec, 0x22,                         /* mov.l [r2], r2 */
++        0x7f, 0x02,                         /* jmp r2 */
++    };
+     int i;
+ 
+-    kernel_size = load_image_targphys(filename, start, size);
+-    if (kernel_size < 0) {
+-        fprintf(stderr, "qemu: could not load kernel '%s'\n", filename);
+-        exit(1);
+-    }
+-    cpu->env.pc = start;
++    *((uint32_t *)&tinyboot[0x70]) = cpu_to_le32(dtb);
++    *((uint32_t *)&tinyboot[0x74]) = cpu_to_le32(entry);
+ 
+     /* setup exception trap trampoline */
+-    /* linux kernel only works little-endian mode */
+-    for (i = 0; i < ARRAY_SIZE(extable); i++) {
+-        extable[i] = cpu_to_le32(0x10 + i * 4);
++    for (i = 0; i < 31; i++) {
++        *((uint32_t *)&tinyboot[0x40 + i * 4]) = cpu_to_le32(0x10 + i * 4);
+     }
+-    rom_add_blob_fixed("extable", extable, sizeof(extable), VECTOR_TABLE_BASE);
++    *((uint32_t *)&tinyboot[0xfc - 0x40]) = cpu_to_le32(TINYBOOT_TOP);
++    rom_add_blob_fixed("tinyboot", tinyboot, sizeof(tinyboot), TINYBOOT_TOP);
+ }
+ 
+ static void rx_gdbsim_init(MachineState *machine)
+@@ -86,10 +101,11 @@ static void rx_gdbsim_init(MachineState *machine)
+     MachineClass *mc = MACHINE_GET_CLASS(machine);
+     RxGdbSimMachineState *s = RX_GDBSIM_MACHINE(machine);
+     RxGdbSimMachineClass *rxc = RX_GDBSIM_MACHINE_GET_CLASS(machine);
++    RX62NClass *rx62nc;
+     MemoryRegion *sysmem = get_system_memory();
+     const char *kernel_filename = machine->kernel_filename;
+     const char *dtb_filename = machine->dtb;
+-
++    rx_kernel_info_t kernel_info;
+     if (machine->ram_size < mc->default_ram_size) {
+         char *sz = size_to_str(mc->default_ram_size);
+         error_report("Invalid RAM size, should be more than %s", sz);
+@@ -101,49 +117,33 @@ static void rx_gdbsim_init(MachineState *machine)
+ 
+     /* Initialize MCU */
+     object_initialize_child(OBJECT(machine), "mcu", &s->mcu, rxc->mcu_name);
++    rx62nc = RX62N_MCU_GET_CLASS(&s->mcu);
+     object_property_set_link(OBJECT(&s->mcu), "main-bus", OBJECT(sysmem),
+                              &error_abort);
+     object_property_set_uint(OBJECT(&s->mcu), "xtal-frequency-hz",
+                              rxc->xtal_freq_hz, &error_abort);
+-    object_property_set_bool(OBJECT(&s->mcu), "load-kernel",
+-                             kernel_filename != NULL, &error_abort);
+-    qdev_realize(DEVICE(&s->mcu), NULL, &error_abort);
+-
+     /* Load kernel and dtb */
+     if (kernel_filename) {
+-        ram_addr_t kernel_offset;
+-
+-        /*
+-         * The kernel image is loaded into
+-         * the latter half of the SDRAM space.
+-         */
+-        kernel_offset = machine->ram_size / 2;
+-        rx_load_image(RXCPU(first_cpu), kernel_filename,
+-                      SDRAM_BASE + kernel_offset, kernel_offset);
+-        if (dtb_filename) {
+-            ram_addr_t dtb_offset;
+-            int dtb_size;
+-            void *dtb;
+-
+-            dtb = load_device_tree(dtb_filename, &dtb_size);
+-            if (dtb == NULL) {
+-                error_report("Couldn't open dtb file %s", dtb_filename);
+-                exit(1);
+-            }
+-            if (machine->kernel_cmdline &&
+-                qemu_fdt_setprop_string(dtb, "/chosen", "bootargs",
+-                                        machine->kernel_cmdline) < 0) {
+-                error_report("Couldn't set /chosen/bootargs");
+-                exit(1);
++        kernel_info.ram_start = SDRAM_BASE;
++        kernel_info.ram_size = machine->ram_size;
++        kernel_info.filename = kernel_filename;
++        kernel_info.dtbname = dtb_filename;
++        kernel_info.cmdline = machine->kernel_cmdline;
++        if (!load_kernel(&kernel_info)) {
++            exit(1);
++        }
++        set_bootstrap(kernel_info.entry, kernel_info.dtb_address);
++    } else {
++        if (bios_name) {
++            if (!load_bios(bios_name, rx62nc->rom_flash_size, &error_abort)) {
++                exit(0);
+             }
+-            /* DTB is located at the end of SDRAM space. */
+-            dtb_offset = machine->ram_size - dtb_size;
+-            rom_add_blob_fixed("dtb", dtb, dtb_size,
+-                               SDRAM_BASE + dtb_offset);
+-            /* Set dtb address to R1 */
+-            RXCPU(first_cpu)->env.regs[1] = SDRAM_BASE + dtb_offset;
++        } else if (!qtest_enabled()) {
++            error_report("No bios or kernel specified");
++            exit(1);
+         }
+     }
++    qdev_realize(DEVICE(&s->mcu), NULL, &error_abort);
+ }
+ 
+ static void rx_gdbsim_class_init(ObjectClass *oc, void *data)
+diff --git a/hw/rx/rx62n.c b/hw/rx/rx62n.c
+index b9c217ebfa..4b5c3c1079 100644
+--- a/hw/rx/rx62n.c
++++ b/hw/rx/rx62n.c
+@@ -60,21 +60,6 @@
+ #define RX62N_XTAL_MAX_HZ (14 * 1000 * 1000)
+ #define RX62N_PCLK_MAX_HZ (50 * 1000 * 1000)
+ 
+-typedef struct RX62NClass {
+-    /*< private >*/
+-    DeviceClass parent_class;
+-    /*< public >*/
+-    const char *name;
+-    uint64_t ram_size;
+-    uint64_t rom_flash_size;
+-    uint64_t data_flash_size;
+-} RX62NClass;
+-
+-#define RX62N_MCU_CLASS(klass) \
+-    OBJECT_CLASS_CHECK(RX62NClass, (klass), TYPE_RX62N_MCU)
+-#define RX62N_MCU_GET_CLASS(obj) \
+-    OBJECT_GET_CLASS(RX62NClass, (obj), TYPE_RX62N_MCU)
+-
+ /*
+  * IRQ -> IPR mapping table
+  * 0x00 - 0x91: IPR no (IPR00 to IPR91)
+@@ -245,15 +230,6 @@ static void rx62n_realize(DeviceState *dev, Error **errp)
+                            rxc->rom_flash_size, &error_abort);
+     memory_region_add_subregion(s->sysmem, RX62N_CFLASH_BASE, &s->c_flash);
+ 
+-    if (!s->kernel) {
+-        if (bios_name) {
+-            rom_add_file_fixed(bios_name, RX62N_CFLASH_BASE, 0);
+-        }  else if (!qtest_enabled()) {
+-            error_report("No bios or kernel specified");
+-            exit(1);
+-        }
+-    }
+-
+     /* Initialize CPU */
+     object_initialize_child(OBJECT(s), "cpu", &s->cpu, TYPE_RX62N_CPU);
+     qdev_realize(DEVICE(&s->cpu), NULL, &error_abort);
+@@ -270,7 +246,6 @@ static void rx62n_realize(DeviceState *dev, Error **errp)
+ static Property rx62n_properties[] = {
+     DEFINE_PROP_LINK("main-bus", RX62NState, sysmem, TYPE_MEMORY_REGION,
+                      MemoryRegion *),
+-    DEFINE_PROP_BOOL("load-kernel", RX62NState, kernel, false),
+     DEFINE_PROP_UINT32("xtal-frequency-hz", RX62NState, xtal_freq_hz, 0),
+     DEFINE_PROP_END_OF_LIST(),
+ };
 -- 
 2.20.1
 
