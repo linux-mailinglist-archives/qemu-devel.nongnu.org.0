@@ -2,74 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF7E325461A
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 15:40:27 +0200 (CEST)
-Received: from localhost ([::1]:41842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 966FE254626
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 15:42:00 +0200 (CEST)
+Received: from localhost ([::1]:47986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBI8g-0000L4-FH
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 09:40:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48040)
+	id 1kBIAB-0002x3-Kz
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 09:41:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBI7u-0008BW-JC
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 09:39:38 -0400
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:43162)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBI7r-000687-TK
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 09:39:38 -0400
-Received: by mail-ej1-x641.google.com with SMTP id m22so7660359eje.10
- for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 06:39:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uOOpIUEpKND8Xenl6ngCr01i2rdcJVzjIROy+VzT8mc=;
- b=BIKQVPU4RcwskeVNuunnMT/xS4nu5Nc9NqNaZIueGifjJjF3PDrCaooS0R/jrPEy+1
- fxKu08NIzewknB5Evyg9fhyWl13c+0Q2EyO6RIxjH2fojyCtVTQ8S0bxlq4KejeATY+4
- MLNWH/yOU5EbifLdzGHG4W3BZnRIMYWuDXDx6HSwWgPGixi7VGI0pkvNBnF/XosFWgiU
- TSxyURiC7hWBzIH4jLrjA+zaYXEO7CF0vqZTXk+pbVMasRVfUDopdWBkdnYX10fIiZTf
- AhXJqtXbBnIgNTRt9mxaMHr7gf+QdVwIzvotYAQTQOMdu7jMXr7ID0+2dpahQ9QNH15p
- cpHQ==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kBI8d-0000bv-Qe
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 09:40:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23856)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kBI8b-0006Ie-Rn
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 09:40:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598535620;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=2hxtoHQ3TAiSaMzzff4e9bxIZ7e3A0BQ7Rr2LIxo2Wg=;
+ b=UFHEkq0FWxHbk40XpySkFyIdBxFG1Z25/lOGOCOZPidCOGIsSHCox/KiiNQzC/Q6FSeeoD
+ LsSorwbU79JWy1UVT5hbK+vcXDH38ar9EtlTC8NKhAMWxEWsMWKYmB7FkAJGabp2e6jooo
+ vOziadH0Vrgxgy5PQkVbUTBkzpRsJxM=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-511-go8haRsMMnewsqCm_xx_5A-1; Thu, 27 Aug 2020 09:40:19 -0400
+X-MC-Unique: go8haRsMMnewsqCm_xx_5A-1
+Received: by mail-wr1-f70.google.com with SMTP id i6so1545082wru.23
+ for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 06:40:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uOOpIUEpKND8Xenl6ngCr01i2rdcJVzjIROy+VzT8mc=;
- b=kcYPqgZznAQmDDZU7K5LToJ5SEcDgP/SrtoTN41uT3nLIxfiBPvY4YNZdli5Hk8yVN
- WJ/xCLlA2B9xPP9Wz+T52LC1PEqAiea/dLbhh9GvEPu84ko1FP61/lyI/Shwq2nE1HW6
- mWvVrpvsrIy1kH4ppyVLA1RtfcJ8VIMTLFT2M2ZMQJgjA37WQ5EtJOJGtTEc2MjQmsu6
- qKtQVmO372ZYmIm6YSmt6gSJNiEIyqFS+8auN9LhhaW556+egwEtvyMSsktHOhXzAseD
- plYbun8xI7KNV/rSR0lMVkGQQq7rSiwtznQLOhHdBrdFvqcYzGHXR/rzr0gdgG3Y+2+l
- Hn9Q==
-X-Gm-Message-State: AOAM5300Yb/dC1WEyY7XqXP9603qtYfGusskx4zpyVfrC3pKciB3++Or
- nwLi2ygzftKMwputHi8P6/6Jnfuhro29ItWyeqx0vg==
-X-Google-Smtp-Source: ABdhPJzVBY4MuI1TOYsVkS8YGdUcND7o4w95LR7qhsiKdta4bCzNqiu9ooX++LHXyPdCyt3uZ9ZUzRZw2IO3sMKdEEk=
-X-Received: by 2002:a17:906:d8ca:: with SMTP id
- re10mr20234887ejb.382.1598535574148; 
- Thu, 27 Aug 2020 06:39:34 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=2hxtoHQ3TAiSaMzzff4e9bxIZ7e3A0BQ7Rr2LIxo2Wg=;
+ b=ttOzZ1EOyfsKbOPkQRfQsCIDcKfpgzCBlNvvmll9xGWoZkBt7nCn0lzBpWps28ptF4
+ /gvU6dJt1wXmY6et+tOInEJd8gkSq4eYcfgXAnWsj58bHPUMSAeMJ5iL3SbUs84LK/tH
+ zFlwHjQey0icqUuKDmVUKFqehNDYEfMlkpAzQTM2qiEDc4q0DUFTMJrDVLFIJ2njG9pK
+ hvcPNy5ltfJ8hPYMA5cePypO+6BiTGGyTQcU9LsuktHX6qricWxd0ztKQTXhdG5flEgP
+ 5YKtFhVUviTfMjdYd3UAA6N8mCbOayENX1AimyrlMLp4U8ZZEr3qWTTJNMRiMgEXxzkA
+ Q1GQ==
+X-Gm-Message-State: AOAM530NkITrEwTwN4EYGl5a68omBoJO96jPgdr4TSJwkapPmcBedODm
+ uvfw8oCAR7RZv0O6dO2Dnw+XqkvwAGPY6uJ6U8w61otM94nHA0TFxUDCJqFBkjM2/tAnDngF/z1
+ yX+3OThFeIQpXObY=
+X-Received: by 2002:a1c:98c7:: with SMTP id
+ a190mr12580951wme.131.1598535613875; 
+ Thu, 27 Aug 2020 06:40:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyyhGYe1V3G2/qfArTFBNf7f4Am3sTx/qUBm7XRb0A2DwH/Vb9WMvvHdrKwe4EkE17wQVvuiA==
+X-Received: by 2002:a1c:98c7:: with SMTP id
+ a190mr12580928wme.131.1598535613618; 
+ Thu, 27 Aug 2020 06:40:13 -0700 (PDT)
+Received: from redhat.com ([192.117.173.58])
+ by smtp.gmail.com with ESMTPSA id o128sm5470180wmo.39.2020.08.27.06.40.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Aug 2020 06:40:12 -0700 (PDT)
+Date: Thu, 27 Aug 2020 09:40:08 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/13] virtio,pc,acpi: features, fixes
+Message-ID: <20200827133954.2118749-1-mst@redhat.com>
 MIME-Version: 1.0
-References: <20200824142934.20850-1-peter.maydell@linaro.org>
- <20200824142934.20850-4-peter.maydell@linaro.org>
- <6dee2bdb-f585-ffec-e57f-47517e278baa@linaro.org>
-In-Reply-To: <6dee2bdb-f585-ffec-e57f-47517e278baa@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 27 Aug 2020 14:39:22 +0100
-Message-ID: <CAFEAcA8Du8ejOK1v-CKtppB2GJvKtxPmhBTDKVndceOHMQ+cFg@mail.gmail.com>
-Subject: Re: [PATCH 03/22] target/arm: Implement VFP fp16 for VFP_BINOP
- operations
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x641.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 02:10:07
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,33 +93,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 25 Aug 2020 at 19:14, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 8/24/20 7:29 AM, Peter Maydell wrote:
-> > +DEF_HELPER_3(vfp_addh, f32, f32, f32, ptr)
->
-> We do have an f16 entry in helper-head.h, for documentation purposes.  It
-> expands to the same uint32_t, so it doesn't make any practical difference.
->
->
-> > +float32 VFP_HELPER(name, h)(float32 a, float32 b, void *fpstp) \
->
-> And here it would be better to use uint32_t explicitly, because we're
-> definitely not returning float32.
->
-> I guess you could see if dh_ctype_f16 works here?  But that looks a bit ugly to
-> me.  Perhaps we should have introduced a better typedef somewhere...
+The following changes since commit 8e49197ca5e76fdb8928833b2649ef13fc5aab2f:
 
-dh_ctype_f16 does work, yes. Unless you can think of a better name
-I think we should go with using that. I'm not sure that "16 bit float
-held in a 32-bit unsigned integer for the benefit of the TCG calling
-convention" is ever going to have a particularly snappy name...
+  Merge remote-tracking branch 'remotes/hdeller/tags/target-hppa-v3-pull-request' into staging (2020-08-26 22:23:53 +0100)
 
-thanks
--- PMM
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+
+for you to fetch changes up to e1647539b1d04f121b70f1f6f438976477450f10:
+
+  tests/bios-tables-test: add smbios cpu speed test (2020-08-27 08:29:13 -0400)
+
+----------------------------------------------------------------
+virtio,pc,acpi: features, fixes
+
+better number of queues for vhost
+smbios speed options
+acpi fixes
+
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+
+----------------------------------------------------------------
+Ani Sinha (1):
+      Introduce a new flag for i440fx to disable PCI hotplug on the root bus
+
+Michael S. Tsirkin (5):
+      acpi: allow DSDT changes
+      i386/acpi: fix inconsistent QEMU/OVMF device paths
+      arm/acpi: fix an out of spec _UID for PCI root
+      disassemble-aml: -o actually works
+      acpi: update expected DSDT files with _UID changes
+
+Stefan Hajnoczi (5):
+      virtio-pci: add virtio_pci_optimal_num_queues() helper
+      virtio-scsi: introduce a constant for fixed virtqueues
+      virtio-scsi-pci: default num_queues to -smp N
+      virtio-blk-pci: default num_queues to -smp N
+      vhost-user-blk-pci: default num_queues to -smp N
+
+Ying Fang (2):
+      hw/smbios: add options for type 4 max-speed and current-speed
+      tests/bios-tables-test: add smbios cpu speed test
+
+ hw/virtio/virtio-pci.h             |   9 ++++++++
+ include/hw/acpi/pcihp.h            |   2 +-
+ include/hw/virtio/vhost-user-blk.h |   2 ++
+ include/hw/virtio/virtio-blk.h     |   2 ++
+ include/hw/virtio/virtio-scsi.h    |   5 +++++
+ hw/acpi/pcihp.c                    |  23 +++++++++++++++++++-
+ hw/acpi/piix4.c                    |   5 ++++-
+ hw/arm/virt-acpi-build.c           |   2 +-
+ hw/block/vhost-user-blk.c          |   6 +++++-
+ hw/block/virtio-blk.c              |   6 +++++-
+ hw/core/machine.c                  |   8 ++++++-
+ hw/i386/acpi-build.c               |   4 ++--
+ hw/scsi/vhost-scsi.c               |   3 ++-
+ hw/scsi/vhost-user-scsi.c          |   5 +++--
+ hw/scsi/virtio-scsi.c              |  13 ++++++++----
+ hw/smbios/smbios.c                 |  36 +++++++++++++++++++++++++++----
+ hw/virtio/vhost-scsi-pci.c         |   9 ++++++--
+ hw/virtio/vhost-user-blk-pci.c     |   4 ++++
+ hw/virtio/vhost-user-scsi-pci.c    |   9 ++++++--
+ hw/virtio/virtio-blk-pci.c         |   7 ++++++-
+ hw/virtio/virtio-pci.c             |  32 ++++++++++++++++++++++++++++
+ hw/virtio/virtio-scsi-pci.c        |   9 ++++++--
+ tests/qtest/bios-tables-test.c     |  42 +++++++++++++++++++++++++++++++++++++
+ qemu-options.hx                    |   2 +-
+ tests/data/acpi/disassemle-aml.sh  |  11 +++++++---
+ tests/data/acpi/pc/DSDT            | Bin 4934 -> 4934 bytes
+ tests/data/acpi/pc/DSDT.acpihmat   | Bin 6258 -> 6258 bytes
+ tests/data/acpi/pc/DSDT.bridge     | Bin 6793 -> 6793 bytes
+ tests/data/acpi/pc/DSDT.cphp       | Bin 5397 -> 5397 bytes
+ tests/data/acpi/pc/DSDT.dimmpxm    | Bin 6587 -> 6587 bytes
+ tests/data/acpi/pc/DSDT.ipmikcs    | Bin 5006 -> 5006 bytes
+ tests/data/acpi/pc/DSDT.memhp      | Bin 6293 -> 6293 bytes
+ tests/data/acpi/pc/DSDT.numamem    | Bin 4940 -> 4940 bytes
+ tests/data/acpi/q35/DSDT           | Bin 7678 -> 7678 bytes
+ tests/data/acpi/q35/DSDT.acpihmat  | Bin 9002 -> 9002 bytes
+ tests/data/acpi/q35/DSDT.bridge    | Bin 7695 -> 7695 bytes
+ tests/data/acpi/q35/DSDT.cphp      | Bin 8141 -> 8141 bytes
+ tests/data/acpi/q35/DSDT.dimmpxm   | Bin 9331 -> 9331 bytes
+ tests/data/acpi/q35/DSDT.ipmibt    | Bin 7753 -> 7753 bytes
+ tests/data/acpi/q35/DSDT.memhp     | Bin 9037 -> 9037 bytes
+ tests/data/acpi/q35/DSDT.mmio64    | Bin 8808 -> 8808 bytes
+ tests/data/acpi/q35/DSDT.numamem   | Bin 7684 -> 7684 bytes
+ tests/data/acpi/q35/DSDT.tis       | Bin 8283 -> 8283 bytes
+ tests/data/acpi/virt/DSDT          | Bin 5205 -> 5200 bytes
+ tests/data/acpi/virt/DSDT.memhp    | Bin 6566 -> 6561 bytes
+ tests/data/acpi/virt/DSDT.numamem  | Bin 5205 -> 5200 bytes
+ 46 files changed, 225 insertions(+), 31 deletions(-)
+
 
