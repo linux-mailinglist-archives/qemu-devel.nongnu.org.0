@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A955254ECC
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 21:39:15 +0200 (CEST)
-Received: from localhost ([::1]:59374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F0BA254EFA
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 21:44:47 +0200 (CEST)
+Received: from localhost ([::1]:56212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBNju-0006UW-CB
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 15:39:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34124)
+	id 1kBNpG-0008En-Fm
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 15:44:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kBNTT-00071c-HE
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:22:15 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36478
- helo=us-smtp-1.mimecast.com)
+ id 1kBNTU-00073Q-8q
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:22:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49322)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kBNTQ-0000PH-Mr
+ id 1kBNTS-0000Pg-Id
  for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:22:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598556130;
+ s=mimecast20190719; t=1598556133;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=p2OhsxXYFO8oYZwDb62gtGu4z+Q8a9njWmrcpWWO6NE=;
- b=F1vOau8M+51nAjVkosmgYDButWcXO9BvXmYwImj9IX4ipwZD2a+5H7El0OVWRRmxlMjDTC
- P208HGBuGlr4/50dZuR0mts/BhFXuEJJf9KagflZJ2fZSbDcW9HpBBZgVlb93R0pqg4FnA
- 8hn4ezLpL4r7roAXiJzBX/qBx4ZU0bs=
+ bh=dunSP9Qidngz/qIk+WBxeT1z0zhX3Vd4pj2JqsC3gP0=;
+ b=GggNaSLvLM5G6L0Hk/ZuJM6KxwHKoaYT8I2RHaIqaFQsdP4otzDJ0RYM1ku5aXSLmwmCrb
+ Ypc97rAlpj3ywgBgVrPmn5YlRRElQ9MdqW1PPU4dvLpEpX86qKAbOHBEXGHDeh1Vk+nvHF
+ 8jz6YhIiT4OWjPmZq0fBX2cuLnXPyoQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-E0OzD84GNuCgD9KM6_m5wA-1; Thu, 27 Aug 2020 15:22:08 -0400
-X-MC-Unique: E0OzD84GNuCgD9KM6_m5wA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-575-Sq-9g_mPOPWVLU0VL4QSiw-1; Thu, 27 Aug 2020 15:22:09 -0400
+X-MC-Unique: Sq-9g_mPOPWVLU0VL4QSiw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3CBCA1DDFF;
- Thu, 27 Aug 2020 19:22:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 811E91074650;
+ Thu, 27 Aug 2020 19:22:08 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 04D8519D7C;
- Thu, 27 Aug 2020 19:22:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 462D0747BD;
+ Thu, 27 Aug 2020 19:22:08 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 15/53] throttle-groups: Move ThrottleGroup typedef to header
-Date: Thu, 27 Aug 2020 15:20:44 -0400
-Message-Id: <20200827192122.658035-16-ehabkost@redhat.com>
+Subject: [PULL 16/53] pci: Move PCIBusClass typedef to pci.h
+Date: Thu, 27 Aug 2020 15:20:45 -0400
+Message-Id: <20200827192122.658035-17-ehabkost@redhat.com>
 In-Reply-To: <20200827192122.658035-1-ehabkost@redhat.com>
 References: <20200827192122.658035-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 00:13:19
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 02:10:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,61 +81,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Move typedef closer to the type check macros, to make it easier
 to convert the code to OBJECT_DEFINE_TYPE() in the future.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 Tested-By: Roman Bolshakov <r.bolshakov@yadro.com>
-Message-Id: <20200825192110.3528606-17-ehabkost@redhat.com>
+Message-Id: <20200825192110.3528606-18-ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/block/throttle-groups.h | 1 +
- block/throttle-groups.c         | 4 ++--
+ include/hw/pci/pci.h     | 1 +
+ include/hw/pci/pci_bus.h | 4 ++--
  2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/include/block/throttle-groups.h b/include/block/throttle-groups.h
-index 712a8e64b4..5e77db700f 100644
---- a/include/block/throttle-groups.h
-+++ b/include/block/throttle-groups.h
-@@ -59,6 +59,7 @@ typedef struct ThrottleGroupMember {
- } ThrottleGroupMember;
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index c1bf7d5356..4ca7258b5b 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -396,6 +396,7 @@ typedef int (*pci_map_irq_fn)(PCIDevice *pci_dev, int irq_num);
+ typedef PCIINTxRoute (*pci_route_irq_fn)(void *opaque, int pin);
  
- #define TYPE_THROTTLE_GROUP "throttle-group"
-+typedef struct ThrottleGroup ThrottleGroup;
- #define THROTTLE_GROUP(obj) OBJECT_CHECK(ThrottleGroup, (obj), TYPE_THROTTLE_GROUP)
- 
- const char *throttle_group_get_name(ThrottleGroupMember *tgm);
-diff --git a/block/throttle-groups.c b/block/throttle-groups.c
-index 98fea7fd47..4e28365d8d 100644
---- a/block/throttle-groups.c
-+++ b/block/throttle-groups.c
-@@ -63,7 +63,7 @@ static void timer_cb(ThrottleGroupMember *tgm, bool is_write);
-  * access some other ThrottleGroupMember's timers only after verifying that
-  * that ThrottleGroupMember has throttled requests in the queue.
+ #define TYPE_PCI_BUS "PCI"
++typedef struct PCIBusClass PCIBusClass;
+ #define PCI_BUS(obj) OBJECT_CHECK(PCIBus, (obj), TYPE_PCI_BUS)
+ #define PCI_BUS_CLASS(klass) OBJECT_CLASS_CHECK(PCIBusClass, (klass), TYPE_PCI_BUS)
+ #define PCI_BUS_GET_CLASS(obj) OBJECT_GET_CLASS(PCIBusClass, (obj), TYPE_PCI_BUS)
+diff --git a/include/hw/pci/pci_bus.h b/include/hw/pci/pci_bus.h
+index 0714f578af..347440d42c 100644
+--- a/include/hw/pci/pci_bus.h
++++ b/include/hw/pci/pci_bus.h
+@@ -10,14 +10,14 @@
+  * use accessor functions in pci.h
   */
--typedef struct ThrottleGroup {
-+struct ThrottleGroup {
-     Object parent_obj;
  
-     /* refuse individual property change if initialization is complete */
-@@ -79,7 +79,7 @@ typedef struct ThrottleGroup {
+-typedef struct PCIBusClass {
++struct PCIBusClass {
+     /*< private >*/
+     BusClass parent_class;
+     /*< public >*/
  
-     /* This field is protected by the global QEMU mutex */
-     QTAILQ_ENTRY(ThrottleGroup) list;
--} ThrottleGroup;
+     int (*bus_num)(PCIBus *bus);
+     uint16_t (*numa_node)(PCIBus *bus);
+-} PCIBusClass;
 +};
  
- /* This is protected by the global QEMU mutex */
- static QTAILQ_HEAD(, ThrottleGroup) throttle_groups =
+ enum PCIBusFlags {
+     /* This bus is the root of a PCI domain */
 -- 
 2.26.2
 
