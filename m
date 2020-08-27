@@ -2,52 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA6342549A2
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 17:38:58 +0200 (CEST)
-Received: from localhost ([::1]:45396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78F3A2549A6
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 17:40:21 +0200 (CEST)
+Received: from localhost ([::1]:51846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBJzN-0007wx-VD
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 11:38:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55674)
+	id 1kBK0i-0002Aw-En
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 11:40:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kBJxi-0006j5-Nf
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 11:37:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51679)
+ id 1kBJxr-0006v3-55
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 11:37:23 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47744
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kBJxe-00082j-Ml
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 11:37:14 -0400
+ id 1kBJxo-00083v-6Q
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 11:37:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598542628;
+ s=mimecast20190719; t=1598542639;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=3pT7yM8sF334B20UH+dfchA4yGZwR0dLTpAKDiuiUik=;
- b=efYzcAnACe4wKQV3Qdv+0T/jW8lsU2wtKyzXR6CBsbMfCKBfjSTQA1BISadVAdo4q/DcEs
- HQ6FFgOAaKPF8Y8QnGRpZ66U7SWeFRuxMMDy62mLSzUBYDMeRXu5u8B8u694UaXCCtkdRV
- 0zftYp1wZHMB4mTOg8FP98VV6U8amik=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=J2Hcdv6y9uwn8fe101Z3EGICS4g/oAiTlP3M5dwO1s4=;
+ b=Ej71+hPEfORs1JBEpbW79wFu4vnSxOXCB8Xya19bnCyorPRQYiViX1+QuaJ0mSVP5If95m
+ s7ZGigUqd8ZAChntFJ5u3wSIU4K8XGTrYqFRZPInHqYcui5WmExn53F+FLgkBVzwlZ51Rp
+ Cb3JCcc3m55uTznMjuQ87FuS835PhFQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-246-oRXB8_j4O0qA-zX8WvSTaw-1; Thu, 27 Aug 2020 11:37:07 -0400
-X-MC-Unique: oRXB8_j4O0qA-zX8WvSTaw-1
+ us-mta-90-5qXIAWH8O0e4X_jfdfVFjw-1; Thu, 27 Aug 2020 11:37:16 -0400
+X-MC-Unique: 5qXIAWH8O0e4X_jfdfVFjw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 21C301DDFF
- for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 15:37:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40139802B4E
+ for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 15:37:15 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-163.ams2.redhat.com
  [10.36.114.163])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 85CEC5D9E8;
- Thu, 27 Aug 2020 15:36:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6CD505D9F3;
+ Thu, 27 Aug 2020 15:37:06 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, vgoyal@redhat.com, stefanha@redhat.com,
  virtio-fs@redhat.com
-Subject: [PATCH v2 0/6] virtiofsd xattr name mappings
-Date: Thu, 27 Aug 2020 16:36:51 +0100
-Message-Id: <20200827153657.111098-1-dgilbert@redhat.com>
+Subject: [PATCH v2 1/6] virtiofsd: Silence gcc warning
+Date: Thu, 27 Aug 2020 16:36:52 +0100
+Message-Id: <20200827153657.111098-2-dgilbert@redhat.com>
+In-Reply-To: <20200827153657.111098-1-dgilbert@redhat.com>
+References: <20200827153657.111098-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
@@ -56,17 +60,17 @@ X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 02:54:02
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 00:13:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,45 +88,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-  This is a second cut of a xattr name mapping option for virtiofsd.
-It allows the user of virtiofsd to define a fairly flexible mapping
-from the view of the xattr names the host fs has and the ones that the
-guest sees.
+Gcc worries fd might be used unset, in reality it's always set if
+fi is set, and only used if fi is set so it's safe.  Initialise it to -1
+just to keep gcc happy for now.
 
-  The hope is this allows things like:
-    a) Different selinux attributes on host/guest
-    b) separation of trusted. attributes that clash on overlayfs
-    c) support for privileged xattr's in guests running with an
-       unprivileged virtiofsd.
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+---
+ tools/virtiofsd/passthrough_ll.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-There's no apparent standard for this kind of mapping, so I made
-it flexible by specifying a mapping rule in the option.
-
-Prefix's can be added (selectively or globally), xattr's can be
-dropped in either direction or passed through.
-
-Dave
-
-v2
-  Switch from cryptic single letter codes to full words in rules
-  Allow rules to use any separator character
-  Add examples to doc
-  Add a couple of fixups for a gcc warning and make gcc spot my
-  format errors.
-
-Dr. David Alan Gilbert (6):
-  virtiofsd: Silence gcc warning
-  virtiofsd: Add printf checking to fuse_log
-  tools/virtiofsd: xattr name mappings: Add option
-  tools/virtiofsd: xattr name mappings: Map client xattr names
-  tools/virtiofsd: xattr name mappings: Map server xattr names
-  tools/virtiofsd: xattr name mapping examples
-
- docs/tools/virtiofsd.rst         | 104 ++++++++++
- tools/virtiofsd/fuse_log.h       |   2 +
- tools/virtiofsd/passthrough_ll.c | 340 ++++++++++++++++++++++++++++++-
- 3 files changed, 442 insertions(+), 4 deletions(-)
-
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+index 63d1d00565..083d17a960 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -617,7 +617,7 @@ static void lo_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
+     struct lo_inode *inode;
+     int ifd;
+     int res;
+-    int fd;
++    int fd = -1;
+ 
+     inode = lo_inode(req, ino);
+     if (!inode) {
 -- 
 2.26.2
 
