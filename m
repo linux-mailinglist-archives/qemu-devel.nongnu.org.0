@@ -2,112 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F14D62541DC
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 11:20:18 +0200 (CEST)
-Received: from localhost ([::1]:45936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CAA02541E3
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 11:21:33 +0200 (CEST)
+Received: from localhost ([::1]:50008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBE4v-0000PU-PA
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 05:20:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56218)
+	id 1kBE68-00029K-L7
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 05:21:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kBE43-0007vo-FW; Thu, 27 Aug 2020 05:19:23 -0400
-Received: from mail-eopbgr130124.outbound.protection.outlook.com
- ([40.107.13.124]:38612 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kBE40-0002oh-5y; Thu, 27 Aug 2020 05:19:22 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dnzU6fodLEW5GwONxENvSJYT+OAP5/ndblt2IOWdOWubYmuuyX+hYxitCWidxOOmJ4T3YK3wgzl5fItm5X5Rg49UjTKyu1+bgDzw0wpR2JqkEYEuszKu4xBmExeSBg4x5FCFEKNXONHu436/b/d9JtfdOYM05q7TIbaA2BTFBUoOE0L+ONv0mYE9TMpshhquUeMFk67xpLtedCwIEcx0DtPHAQY3TkDb0gfd/dK3C4jXwBtyKiU9Hn34CaeLQp1TtLq2CwvpdjVXYBWJKSS1wSwyP94g/Njy6SVt9mS7qDVrbfKxKx7dZWDw12qlqHqQhnkKRyBxk1Ly5hjsHPsoUw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rK9hAnE5AcVdZ68RkaesMIsyg0PxoHHx3e1r/bkdWx4=;
- b=PBytvYarjgIL0zObl92OQG3MuJZT+Y3b/hxub1Tr+zgQSCvgiainklqKvVDmwQIcxmEC6MIItfK5gcvWNZhh1wCdaueMpQEl8C5W2Ch65Q44FYc1cWrT1Z2Rbf0BmtEuEIPOqR4YF6DIQjQIDLmIXa/sNn21kMh22xVdwqtaV4swJKv2yBI0U2DbVU8r5hXUqBxILA3G9dqC8thIYjf2uhrk6JgV95H2Niah/mqiwNprXy7LWTElaXJ/et+Y/cR5Z+0/rby570Y/DdFMdohEGsFgkorcVPGqyWgOqNK1OnkMawNlGltm+vci7HKx+XLxHg/9HuEDkbc3ysSpAVbu2A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rK9hAnE5AcVdZ68RkaesMIsyg0PxoHHx3e1r/bkdWx4=;
- b=EXMRiFhYtJWNHS0u07r5/lG1lTxfqTfmtkX3TxB1g6JYjlrg7lM9XqJbxrC+eCfoVL3n/1Gr2wDbUz7TXzABpxv4dT7FSIkLap9U51V+v6NZRZuaQ46MxYRdQ6CMrQzV+d74mV2/D3bmwdzh2uY/l/3kLvP6KjeBl6Xqy3XlBYQ=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM5PR0801MB1650.eurprd08.prod.outlook.com (2603:10a6:203:2f::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.19; Thu, 27 Aug
- 2020 09:19:15 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b179:9641:7589:d692]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b179:9641:7589:d692%9]) with mapi id 15.20.3305.032; Thu, 27 Aug 2020
- 09:19:15 +0000
-Subject: Re: [PATCH v5 07/10] block: introduce preallocate filter
-To: David Edmondson <dme@dme.org>, Max Reitz <mreitz@redhat.com>,
- qemu-block@nongnu.org
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-devel@nongnu.org,
- armbru@redhat.com, nsoffer@redhat.com, stefanha@redhat.com, den@openvz.org
-References: <20200821141123.28538-1-vsementsov@virtuozzo.com>
- <20200821141123.28538-8-vsementsov@virtuozzo.com>
- <9d22c3be-df5f-0bd1-0634-6217889670ec@redhat.com> <m2o8mxjz0q.fsf@dme.org>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <a53e1a1f-0589-fd9c-e039-1ac1b3a68b7b@virtuozzo.com>
-Date: Thu, 27 Aug 2020 12:19:13 +0300
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kBE5Q-0001ik-Fe
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 05:20:48 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43457
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kBE5O-00031G-5U
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 05:20:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598520045;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fVfqujiv4NoNGtDo53U2kioxibVaTcU+jJqIejDIvlg=;
+ b=YSBvoR0ZAPAdA7PlqZShejr+sXXrkGoU64lKlhMnUZ9ttNDxKyam0aMlc5svsrZnn7zQvd
+ ub+jMNhZ/jbOG7oo5vIktlSYrEr0iWQ/Ro5Kw0K9IJHGKNWHdJ0meXY0q55VptpdFV5wB6
+ V4PP/QiWBAS97C+SIH9kzFM3pNZ7UhA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-399-MR_otvD5P9Gc67AAXakvvQ-1; Thu, 27 Aug 2020 05:20:43 -0400
+X-MC-Unique: MR_otvD5P9Gc67AAXakvvQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4FB4A189E614;
+ Thu, 27 Aug 2020 09:20:42 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-56.ams2.redhat.com [10.36.112.56])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B848110013C1;
+ Thu, 27 Aug 2020 09:20:37 +0000 (UTC)
+Subject: Re: [PATCH] pc-bios: s390x: Add a comment to the io and external new
+ PSW setup
+To: Janosch Frank <frankja@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org
+References: <033b0db7-7b7d-6eb0-9018-bcc342f13509@de.ibm.com>
+ <20200715140820.3401-1-frankja@linux.ibm.com>
+ <3216babd-433b-4ec7-5333-43a75df2e331@de.ibm.com>
+ <d493a0c2-c0df-4ed5-27af-34a9fc82927d@linux.ibm.com>
+ <2e6134fb-3e34-4d3a-1bf8-1665ceffef38@de.ibm.com>
+ <cd2c8bb2-413f-b6b9-ae16-e79e838b503d@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <741c77bc-1f0d-c613-9c74-832f797db5aa@redhat.com>
+Date: Thu, 27 Aug 2020 11:20:36 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-In-Reply-To: <m2o8mxjz0q.fsf@dme.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM0PR08CA0030.eurprd08.prod.outlook.com
- (2603:10a6:208:d2::43) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.171) by
- AM0PR08CA0030.eurprd08.prod.outlook.com (2603:10a6:208:d2::43) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3326.19 via Frontend Transport; Thu, 27 Aug 2020 09:19:14 +0000
-X-Originating-IP: [185.215.60.171]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 779bf4ef-d6a9-43a6-5241-08d84a6a44c8
-X-MS-TrafficTypeDiagnostic: AM5PR0801MB1650:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM5PR0801MB165091C0FF1791EE4F95A78AC1550@AM5PR0801MB1650.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bJYUtyMwYi6nHu1Doeg8/Hz3hLkx7Nsahuxtw/bt5d+EmNZl1yAUwL0lg/m3pEEMRDKiu1LTeYa9w5J/kc2nwy8EyXLRFWg8KMtIETGIidgd0FJt6OhsSZpJhnti38QNdwYy8QEMZKe2RVQmcmSlfrb86DgkuBXR4ggK5vaBT+sBzXuc6sUzqv0tnPFQrO9lt1vLukB8M2FQJ/el5jLqH+OMCbt2W65t/58ZRfxtXODDopVGpb64VpfBf6r7GGYCAjc1GTJB6EnsCvgB7eMayQAq4LKSHJNLRou6MfZZTLDjKrqwymqwTKWW8knre11Ks0lWnM3EjxF3PS36Tp1yd35VxshrVGO0zM45c+NLurbZmre05wAOGhKejV2/h/Tp
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(136003)(396003)(366004)(346002)(39840400004)(8936002)(8676002)(2616005)(36756003)(66476007)(956004)(66946007)(31696002)(66556008)(6486002)(478600001)(186003)(5660300002)(107886003)(52116002)(16526019)(2906002)(316002)(31686004)(86362001)(16576012)(4326008)(26005)(4744005)(110136005)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: EOW/6gmAzZWGMKkL1l4k6i8NDeUsepB4AraMacdfqUqv0QGK+UcToKexxqworMp9hQQKswXWRaOg0dTjNTXNsLvHA79N0VxzS5ksI2sj9B+Kyexz5D3SE9G26XDThDQi2nziADt9tPh0tpKNUCUg9DOKVTVA0Vut28Az2w1lNysxj8yqgqlCYcspF4yBMsFzAs0gCoZDD7El7hDv2YSGb1wV7N7Iwdr+vBZ/pVV0DG6PlfbR2Y4YJKQSJRP36hamlUlYWUm3RKTeelvTr9SXDycc1Iu6c3UqsrLh7nsP14pfWjTYk2pPjxkEnL3tKHjxS/qmALau1ATNmH1hfK971j4hX9XD4eEKzAgeA5rEWypGonhtUKqZet9UPtrWKvsV9QrA6Vc+x4O9nep5RjTrkxYTSNrmvVgm7/tiTQ8I8xgeRt24kyuQn4pBSoECZ+2xzKKGAuaMxS6k7bxHbVOoRz6pU5qpTF3kg2JRbhpKY5ce81pvBgPteAROtRXNwZiLvEWEEJU6UhuinXx3VFOWsFsFvtLsCbLXDUWImDOyPtpHcVcua3S9uQ2QjEH0GE/QkR2ce7wz1TfNwr6lNCy8A5D19Xpt3NUq09sp5UzkWWxqsUeVrUC+PrI1CVFuYWC+tKyNwIcFKOa5joBuPQetKg==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 779bf4ef-d6a9-43a6-5241-08d84a6a44c8
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2020 09:19:15.6053 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WvfXGJv0dXHgt09hP+RRKQpZdpsRsrRiLz/sKg5MQEl7choGdnpsIYK9cApkkxTEVTTsfTjgDFy9QFAY3rJ1IAhwPemUUoHqGTzwWiF6d4U=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1650
-Received-SPF: pass client-ip=40.107.13.124;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-HE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 05:19:16
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-2.239, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <cd2c8bb2-413f-b6b9-ae16-e79e838b503d@linux.ibm.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 02:56:52
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -52
+X-Spam_score: -5.3
+X-Spam_bar: -----
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.239, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -120,32 +89,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: cohuck@redhat.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-26.08.2020 16:51, David Edmondson wrote:
->>> +  file-systems with slow allocation.
->>> +
->>> +  Supported options:
->>> +
->>> +  .. program:: preallocate
->>> +  .. option:: prealloc-align
->>> +
->>> +    On preallocation, align file length to this number, default 1M.
->> *the file length
+On 22/07/2020 10.05, Janosch Frank wrote:
+> On 7/22/20 9:39 AM, Christian Borntraeger wrote:
 >>
->> As for “number”...  Well, it is a number.  But “value” might fit better.
->>   Or “length (in bytes)”?
-> Isn't it really:
+>>
+>> On 22.07.20 09:24, Janosch Frank wrote:
+>>> On 7/22/20 8:43 AM, Christian Borntraeger wrote:
+>>>>
+>>>>
+>>>> On 15.07.20 16:08, Janosch Frank wrote:
+>>>>> Normally they don't need to be set up before waiting for an interrupt
+>>>>> but are set up on boot. The BIOS however might overwrite the lowcore
+>>>>> (and hence the PSWs) when loading a blob into memory and therefore
+>>>>> needs to set up those PSWs more often.
+>>>>
+>>>> Now when I read the new comment this actually inidicates a bug. 
+>>>> When do we restore the original content? If the loaded program
+>>>> does have interrupt handlers in the original image and relies on that
+>>>> then we are broken, no?
+>>>
+>>> I haven't seen references to a save/restore functionality for those
+>>> PSWs. And I also think it's not that easy to do because we have multiple
+>>> ways of loading data and if we want to print when loading we might end
+>>> up overwriting and then saving the written value for a later restore.
+>>>
+>>> I need to have a closer look at how virtio works, but wouldn't we have a
+>>> chicken - egg problem with IO interrupts for IO that writes the prefix?
+>>>
+>>> The BIOS often has "interesting" solutions to problems.
+>>> If you have a quick fix, be my guest and send it. If not I'd put it on
+>>> my todo list or let Stefan make it a proper dev item.
+>>
+>> Maybe a global fixup table in BIOS memory that restores all the memory that
+>> we messed with when we hand over control? Can you at least change the comment
+>> here to add a fixme?
 > 
-> "On preallocation, ensure that the file length is aligned to a multiple
-> of this value, default 1M."
-> 
+> Sure
 
-Sounds good, thanks!
+Hi Janosch!
 
+Did you ever send a new version of this patch with the FIXME added? I
+can't find it right now... Or shall I add a FIXME when picking this up?
+(If so, could you please suggest a text?)
 
--- 
-Best regards,
-Vladimir
+ Thomas
+
 
