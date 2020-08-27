@@ -2,73 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96A2025427F
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 11:34:05 +0200 (CEST)
-Received: from localhost ([::1]:42276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7A1325426D
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 11:33:28 +0200 (CEST)
+Received: from localhost ([::1]:38194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBEIG-0005DN-JI
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 05:34:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58412)
+	id 1kBEHf-0003Zj-Ro
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 05:33:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kBEDQ-0006l6-Id
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 05:29:04 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35496
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kBEDO-00043z-Cs
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 05:29:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598520540;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=VSqzT/3cT9tuKSuiCbBKvwVmtBzWA6xWGuBGhdzDymA=;
- b=A8k7MbImE7c2fsJuz4ABK0/aqEJx5wjSyH50ENd+gxddQ1V1BDErKDu69pS1AWIZBmd8y2
- kT+c72WMoE5ux28EBQJZfPOsOeQwR8a6OTdaYplyiJlmbzRPduefH1T8beHKpJ3vqo2aTi
- OzO/BtFtyb++ThobTgqMmvfphw4x9Pc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-55-B0nSCDuVN1Cj3fUh9X81cQ-1; Thu, 27 Aug 2020 05:28:58 -0400
-X-MC-Unique: B0nSCDuVN1Cj3fUh9X81cQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86B51640D2;
- Thu, 27 Aug 2020 09:28:57 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-54.ams2.redhat.com
- [10.36.112.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8BBB65C1DA;
- Thu, 27 Aug 2020 09:28:54 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id A37A8991; Thu, 27 Aug 2020 11:28:53 +0200 (CEST)
-Date: Thu, 27 Aug 2020 11:28:53 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PULL 0/3] Fixes 20200825 patches
-Message-ID: <20200827092853.eu3uvddhcyljqqbe@sirius.home.kraxel.org>
-References: <20200825062008.6502-1-kraxel@redhat.com>
- <128e42b3-3b0f-744b-91be-f4c52837c3a2@redhat.com>
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1kBEGQ-0002HA-Ma
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 05:32:10 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:25560)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1kBEGN-0004UD-QY
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 05:32:10 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 07R93H7n190733
+ for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 05:32:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=bykdKesFZ7qoAwsDkF/5GNjz1u3vYto13y+9bLAAg30=;
+ b=gKP9/Tn3m/CdWM7SYxh4XL2YR33YGygsVDMz+MjJ6MqVviuQOYk0Pv8l+2IdrNSM6Mhb
+ quR8KERRUINnRA6MSnJSJpZ59l0qxCP/0Ryk86L7tF4Ft71PEXTiG/aWA2WlLI3Uq7gv
+ WiPh0n2QjYPuZm7xzBpfx6JjSGAPWwnMWpUEessz7vjO3gqevIordexNhgVq6mGRzAI3
+ 8vpaBKc7pvWNfW6Fwlfqs0z1SNqyEOfjdooop8GMXmhWUSHWUXctKZ9bq6Q+9Zh0xoV3
+ czxpeKwtjI6+y0ykthwwxbws0g28ehs02SWkEr4SmSGy07nqKDB9sydQ1zhbcyRd4Ki3 RQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3368aqky9b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 05:32:05 -0400
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 07R93Mt6191380
+ for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 05:32:04 -0400
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3368aqky8h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Aug 2020 05:32:04 -0400
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 07R9IAeX029591;
+ Thu, 27 Aug 2020 09:32:02 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma04fra.de.ibm.com with ESMTP id 332ujjuch7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Aug 2020 09:32:02 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 07R9VxUt23920990
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 27 Aug 2020 09:32:00 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C0A9542054;
+ Thu, 27 Aug 2020 09:31:59 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 22BD742049;
+ Thu, 27 Aug 2020 09:31:59 +0000 (GMT)
+Received: from linux01.pok.stglabs.ibm.com (unknown [9.114.17.81])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 27 Aug 2020 09:31:59 +0000 (GMT)
+From: Janosch Frank <frankja@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/4] pc-bios: s390x: Cleanup part 2
+Date: Thu, 27 Aug 2020 05:31:48 -0400
+Message-Id: <20200827093152.3026-1-frankja@linux.ibm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <128e42b3-3b0f-744b-91be-f4c52837c3a2@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0.003
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 02:56:52
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-08-27_02:2020-08-27,
+ 2020-08-27 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 bulkscore=0
+ mlxlogscore=967 spamscore=0 clxscore=1015 adultscore=0 lowpriorityscore=0
+ priorityscore=1501 phishscore=0 mlxscore=0 suspectscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2008270068
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=frankja@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 05:32:05
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,36 +108,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- laurent@vivier.eu, Stefan Hajnoczi <stefanha@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: borntraeger@de.ibm.com, thuth@redhat.com, cohuck@redhat.com,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> if I've got that right, something in this pull request broke the gitlab
-> CI, see:
-> 
->  https://gitlab.com/qemu-project/qemu/-/jobs/702680909
-> 
-> 216 (33/45)
-> tests/acceptance/vnc.py:Vnc.test_change_password_requires_a_password:
-> ERROR: Unexpected empty reply from server (0.08 s)
-> 217 (34/45) tests/acceptance/vnc.py:Vnc.test_change_password:  ERROR:
-> Unexpected empty reply from server (0.06 s)
+So, here are a few more cleanup patches mostly cleaning up ipl code
+and some of the assembly.
 
-Yep, qemu is upset b/c the en-us keymap isn't there.
+The patches are available here:
+https://github.com/frankjaa/qemu/pull/new/cleanup_bios2
 
-Seems we handle the 'no qemu-keymap present + start from build
-directory' case not correctly.  I guess with the symlink being
-gone now we should just copy the files from the source tree.
 
-https://gitlab.com/kraxel/qemu/-/commit/1e29c4518e7b69d09bb22e071376ddeb151d0970
-https://gitlab.com/kraxel/qemu/-/pipelines/182575761
+v2:
+	* Fixed psw saving in use reset psw patch (thanks Jason)
+	* Dropped a lot of patches which weren't strictly necessary
+	* Added disabled wait patch
+	* Added RFC PSW save patch
 
-lets see how it is going ...
+Janosch Frank (4):
+  pc-bios: s390x: Fix bootmap.c zipl component entry data handling
+  pc-bios: s390x: Use reset PSW if avaliable
+  pc-bios: s390x: Save io and external new PSWs before overwriting them
+  pc-bios: s390x: Go into disabled wait when encountering a PGM
+    exception
 
-take care,
-  Gerd
+ pc-bios/s390-ccw/bootmap.c  |  6 ++--
+ pc-bios/s390-ccw/bootmap.h  |  7 +++-
+ pc-bios/s390-ccw/jump2ipl.c | 51 ++++++++++++++++++-----------
+ pc-bios/s390-ccw/s390-ccw.h |  1 +
+ pc-bios/s390-ccw/start.S    | 65 +++++++++++++++++++++++++++----------
+ 5 files changed, 91 insertions(+), 39 deletions(-)
+
+-- 
+2.25.1
 
 
