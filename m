@@ -2,68 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 495372545BA
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 15:12:06 +0200 (CEST)
-Received: from localhost ([::1]:46570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6B4B25459D
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 15:04:45 +0200 (CEST)
+Received: from localhost ([::1]:33230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBHhE-00063y-Qx
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 09:12:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40810)
+	id 1kBHa8-0000Ia-WC
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 09:04:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kBHgS-0005eh-UV
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 09:11:16 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49268)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kBHYs-0007Vx-0V
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 09:03:26 -0400
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:46803)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kBHgQ-0002iH-Nx
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 09:11:16 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kBHgN-0007XY-Sk
- for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 13:11:11 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D447B2E80ED
- for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 13:11:11 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kBHYq-0001Uc-38
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 09:03:25 -0400
+Received: by mail-ej1-x644.google.com with SMTP id d11so7471943ejt.13
+ for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 06:03:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2nkNBtrpucYVQes4Y0fhh4VWSin2uT6R7jqyVo0LoO0=;
+ b=UeX8J55+DWMItHrkW9m/5XXsVAMzRGOeAKRGxc6CyHS/Fx9vgJs5hQaS2mx+QR+Ys+
+ yGFANnybN7e6X28H7f7+TLf6f5ionkNeRKNyN+xSp0FBc7fsOVSiAO/5Gl+oKFEdkW96
+ NS0PrXkTAd3a+ce4yrdX+wGANfHJwgCkCYSUbxz2J8KyJYdWnBv2xJWC6/CGq5bDPHdf
+ 8imJFeJ3Qp2vvlVBdyAt/3n3mtjGlcvPHyMEXVWnsVOGkuYNDK16I5LUCeO4Omhs/UwC
+ W6VSWAmy8EmTdLv813dGwNQoDXaFU5mJTjG2A5nWBnNhaVCobnVJ/ZSEvUnzzMmneZZp
+ bvpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2nkNBtrpucYVQes4Y0fhh4VWSin2uT6R7jqyVo0LoO0=;
+ b=K/cOABVrAdxXz/fVU4zIcINK7SqrepsPhrWGLAgSpTFkSbM7CBDOeUdn6Gdum42zzw
+ g+C08ISi2WCkkp8SBYggqvIW3crJI5mAGgCNEkn0lPnZZop8KibcAuGh9Kn6dLtuz1fQ
+ GOy9w7SidqDaLU7XklxlkgUny6+y8mJuusWhdtRHtjHNGB+EVUMGZWbXZDvmomfmShSJ
+ KVdwXt71p99XarKY09r+miztJ8+wJr77NAdCHMPEYlEDjadmyhVyFODjPNv9Vl330j4y
+ KG9q7OySUiVpV81qnz9szvzzGod37jJvQAcAn/4L17yfbrHYG92KjpjC7Rw409tnR6Cn
+ xREQ==
+X-Gm-Message-State: AOAM530yakevW17ptkWSff2ykNhH9n1mZFgAS+VdmW8kyaKpKljbibbw
+ zQUyyu2R42KqVX+hN1ZzHb0rh1iNiY+nWqFteEoz3Q==
+X-Google-Smtp-Source: ABdhPJx0x/hr0eepOZsbG+2H07E0iwsgBJcvEbTGDHuv4Q9FamjYEzvUE1k/lV6GwujNzN8i3LT2nY1LIXd2V1DcUr8=
+X-Received: by 2002:a17:907:728e:: with SMTP id
+ dt14mr8265175ejc.4.1598533402211; 
+ Thu, 27 Aug 2020 06:03:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 27 Aug 2020 13:02:48 -0000
-From: Daniel Berrange <1893040@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: berrange gsalgaon
-X-Launchpad-Bug-Reporter: Guirish Salgaonkar (gsalgaon)
-X-Launchpad-Bug-Modifier: Daniel Berrange (berrange)
-References: <159844225257.1396.12890490778938419036.malonedeb@wampee.canonical.com>
-Message-Id: <159853336983.2034.519975808336986637.launchpad@chaenomeles.canonical.com>
-Subject: [Bug 1893040] Re: External modules retreval using Go1.15 on s390x
- appears to have checksum and ECDSA verification issues
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="99c2d833c8d727fd05148486920aca032e908071"; Instance="production"
-X-Launchpad-Hash: 73a48ff903cbe7d9879be822fb6c57be9bb6d989
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 07:20:46
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20200727045925.29375-1-tianjia.zhang@linux.alibaba.com>
+ <20200727054335-mutt-send-email-mst@kernel.org>
+ <cb08fa85-e7d3-09af-d702-036fd165a46d@linux.alibaba.com>
+In-Reply-To: <cb08fa85-e7d3-09af-d702-036fd165a46d@linux.alibaba.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 27 Aug 2020 14:03:11 +0100
+Message-ID: <CAFEAcA8iK-J3NKA=QxFV5uswBSXLNNQDbx1NnFzhz3ppWVEVkQ@mail.gmail.com>
+Subject: Re: [PATCH] qemu-options.hx: Fix typo for netdev documentation
+To: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x644.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,65 +81,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1893040 <1893040@bugs.launchpad.net>
+Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: Incomplete =3D> Opinion
+On Thu, 27 Aug 2020 at 14:00, Tianjia Zhang
+<tianjia.zhang@linux.alibaba.com> wrote:
+> Other opinions needed?
 
-** Changed in: qemu
-       Status: Opinion =3D> Invalid
+No, the patch just got lost by accident; sorry.
 
-** Changed in: qemu
-       Status: Invalid =3D> New
+Jason, could you take this via your net tree, please?
 
--- =
+thanks
+-- PMM
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1893040
-
-Title:
-   External modules retreval using Go1.15 on s390x appears to have
-  checksum and ECDSA verification issues
-
-Status in QEMU:
-  New
-
-Bug description:
-  We are observing issue while building go-runner image and we suspect it i=
-s due to QEMU version being used. As referred in below issue:
-  https://github.com/golang/go/issues/40949
-
-  We tried to build go-runner image using go1.15 and register QEMU
-  (docker run --rm --privileged multiarch/qemu-user-
-  static@sha256:c772ee1965aa0be9915ee1b018a0dd92ea361b4fa1bcab5bbc033517749=
-b2af4
-  --reset -p yes) as mentioned in PR
-  https://github.com/kubernetes/release/pull/1499. We observed below
-  failure during build:
-
-  -------------------------------------------------------------------------=
---------
-  ERROR: executor failed running [/bin/sh -c CGO_ENABLED=3D0 GOOS=3Dlinux G=
-OARCH=3D${ARCH}     go build -ldflags '-s -w -buildid=3D -extldflags "-stat=
-ic"'     -o go-runner ${package}]: buildkit-runc did not terminate successf=
-ully
-  ------
-  =C2=A0> [builder 7/7] RUN CGO_ENABLED=3D0 GOOS=3Dlinux GOARCH=3D${ARCH}  =
-   go build -ldflags '-s -w -buildid=3D -extldflags "-static"'     -o go-ru=
-nner .:
-  ------
-  failed to solve: rpc error: code =3D Unknown desc =3D executor failed run=
-ning [/bin/sh -c CGO_ENABLED=3D0 GOOS=3Dlinux GOARCH=3D${ARCH}     go build=
- -ldflags '-s -w -buildid=3D -extldflags "-static"'     -o go-runner ${pack=
-age}]: buildkit-runc did not terminate successfully
-  Makefile:52: recipe for target 'container' failed
-  make: *** [container] Error 1
-  -------------------------------------------------------------------------=
---------
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1893040/+subscriptions
+>
+> On 7/27/20 5:44 PM, Michael S. Tsirkin wrote:
+> > On Mon, Jul 27, 2020 at 12:59:25PM +0800, Tianjia Zhang wrote:
+> >> This patch fixes the netdev document description typo in qemu-option.hx.
+> >>
+> >> Signed-off-by: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
+> > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> >
+> > Trivial tree? Jason's ?
+> >
+> >> ---
+> >>   qemu-options.hx | 2 +-
+> >>   1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/qemu-options.hx b/qemu-options.hx
+> >> index 708583b4ce..92556ed96d 100644
+> >> --- a/qemu-options.hx
+> >> +++ b/qemu-options.hx
+> >> @@ -2684,7 +2684,7 @@ SRST
+> >>       disable script execution.
+> >>
+> >>       If running QEMU as an unprivileged user, use the network helper
+> >> -    helper to configure the TAP interface and attach it to the bridge.
+> >> +    to configure the TAP interface and attach it to the bridge.
+> >>       The default network helper executable is
+> >>       ``/path/to/qemu-bridge-helper`` and the default bridge device is
+> >>       ``br0``.
+> >> --
+> >> 2.17.1
 
