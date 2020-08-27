@@ -2,115 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2D3E255182
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 01:14:05 +0200 (CEST)
-Received: from localhost ([::1]:39456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16C7E255192
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 01:31:20 +0200 (CEST)
+Received: from localhost ([::1]:45294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBR5o-0001WU-DZ
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 19:14:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52252)
+	id 1kBRMU-0005ky-Mv
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 19:31:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
- id 1kBR4z-00015L-Gp
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 19:13:13 -0400
-Received: from mail-bn7nam10on2069.outbound.protection.outlook.com
- ([40.107.92.69]:63584 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
- id 1kBR4x-0002zO-0g
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 19:13:13 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cdU3V8A53gbaB3Xn9RCb0lK3/3/XFgzgeYME8A/MPTIu9+tvKcxSpgOLJiVgeToW+OtUJRM/iZQ4H6wavwHybwQRj4dE+mPp+9FS9I89oSk92wQ6Nl93KkT3AmArz1gikSKATPqi0lNLVl9+kJFGIE4/iqdf9lYK0Ioas0E9Hp8Xa5rlKtN0gABkNcWSkB37B3c4RbhOYlwMnAlESSYQpmmK0PenKnqg5Lfz+u1Xtw2fIHiZ+NkW6RpoqZyta5vYQ/hMPT9MXZXe3zmX0aLWt0oERq4qhaJ3lJm7j5v7qe/AKXZdkf7crSjGVEMcBipnIPCRJV3LYTKjbA+a3287SQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4ZTRl5Wy8JJNE9ZMp7VEUz90+pD/CqXLERgek6XMyFM=;
- b=hJBZjwuaYu9mFs8KbBMiQ10vdYdao5NqP0tV/U2MyRuB83EVMYd3clm6B7HZy8Luqi9q38UOcSjdbHO+pRBEK/APdoTuvkBUIbz99fnid9WWfMCLylvTjnxyawWjs24k8ijPOg9rQ4wUNP1Py5JcOYwetMkhxXu0aoLy3IMpglFb2xQCJkxH6q/s+1gQFxv07UmVKXbsLTfVdA83iOnUPK+u1ARfxL1/N31jIfwemJjelyYnMqcFShtTXfAYaGc79Ju0AbokV5qKI3dsUn3aaj0L1NqsNquO6jQz60nBoT+OOX8ZBYsHUys9iHN0gLCqSns6mCIIrnQyP+fflYuu9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4ZTRl5Wy8JJNE9ZMp7VEUz90+pD/CqXLERgek6XMyFM=;
- b=Emnqctv/a6JnlA3MKrIbLyJKcd09v0saph+cAe16tpp7MzhnHHz4aFJhUedMpxPJVx8REtZvx2W5JiUc50Ec8eOj4HwhG5VJhanx3w86hWy8SxG03Oagu+urt1lau7qCySbOZFUAy0JwqaMRC010H7w3n+hGEWfVFuvgMsd8Ajo=
-Authentication-Results: twiddle.net; dkim=none (message not signed)
- header.d=none;twiddle.net; dmarc=none action=none header.from=amd.com;
-Received: from MW2PR12MB2556.namprd12.prod.outlook.com (2603:10b6:907:a::11)
- by MWHPR12MB1534.namprd12.prod.outlook.com (2603:10b6:301:10::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.19; Thu, 27 Aug
- 2020 22:58:04 +0000
-Received: from MW2PR12MB2556.namprd12.prod.outlook.com
- ([fe80::8488:291b:292c:20b9]) by MW2PR12MB2556.namprd12.prod.outlook.com
- ([fe80::8488:291b:292c:20b9%5]) with mapi id 15.20.3305.026; Thu, 27 Aug 2020
- 22:58:04 +0000
-Subject: RE: [PATCH v5 0/8] Remove EPYC mode apicid decode and use generic
- decode
-To: Igor Mammedov <imammedo@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <159804762216.39954.15502128500494116468.stgit@naples-babu.amd.com>
- <20200824184112.GB2688@work-vm>
- <f602852c-b6af-694e-3e32-47974722e144@amd.com>
- <20200825081504.GA2646@work-vm> <20200825163846.10185087@redhat.com>
- <20200825152521.GA3574@work-vm> <20200826144324.56335302@redhat.com>
- <20200826141046.GB2727@work-vm> <20200827231907.10cfe4b7@imammedo-mac>
-From: Babu Moger <babu.moger@amd.com>
-Message-ID: <f58e6200-b058-5f59-addc-13ca602ce745@amd.com>
-Date: Thu, 27 Aug 2020 17:58:01 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20200827231907.10cfe4b7@imammedo-mac>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
+ (Exim 4.90_1)
+ (envelope-from <bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com>)
+ id 1kBRL7-0005B1-Ae
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 19:29:53 -0400
+Received: from do158-143.mg.gitlab.com ([192.237.158.143]:47581)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1)
+ (envelope-from <bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com>)
+ id 1kBRL0-0004go-W3
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 19:29:53 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.gitlab.com;
+ q=dns/txt; 
+ s=mailo; t=1598570991; h=List-Id: Content-Transfer-Encoding:
+ Content-Type: Mime-Version: Subject: Message-ID: Reply-To: From: Date:
+ Sender; bh=dukEPPuOBvqswyUmG2ULp9ltGJITMd8NktA0dI3RdA8=;
+ b=TKNg19hKurwbMqQdXj3hngUuYAP/bnjZ/WUYmsBlO/FEFD5Vva57LJbMTjR/h+sc6ZPuVnmW
+ 1apuyS35PsBlSJ4WEYc6rIIhU0tqFQlrymmhgKzKPRLrTr2G1smk/ufaYMPciG6jUdbGTJLs
+ jRD4qodkjWuQhiBUaLuDPHHpNOk=
+X-Mailgun-Sending-Ip: 192.237.158.143
+X-Mailgun-Sid: WyI3MWYzYSIsICJxZW11LWRldmVsQG5vbmdudS5vcmciLCAiOTQ3YjQiXQ==
+Received: from mg.gitlab.com (67.90.74.34.bc.googleusercontent.com
+ [34.74.90.67]) by smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
+ 5f4841e82fd6d21f0a5bbc38 (version=TLS1.3, cipher=TLS_AES_128_GCM_SHA256);
+ Thu, 27 Aug 2020 23:29:44 GMT
+Date: Thu, 27 Aug 2020 23:29:43 +0000
+Message-ID: <5f4841e7e909_7adc3fb9d0e9d5e4129731@sidekiq-catchall-03-sv-gprd.mail>
+Subject: QEMU | Pipeline #182890686 has failed for master | 19591e9e
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="--==_mimepart_5f4841e784ce_7adc3fb9d0e9d5e4129682";
+ charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: DM5PR16CA0018.namprd16.prod.outlook.com
- (2603:10b6:3:c0::28) To MW2PR12MB2556.namprd12.prod.outlook.com
- (2603:10b6:907:a::11)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from 255.255.255.255 (255.255.255.255) by
- DM5PR16CA0018.namprd16.prod.outlook.com (2603:10b6:3:c0::28) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3326.19 via Frontend Transport; Thu, 27 Aug 2020 22:58:02 +0000
-X-Originating-IP: [165.204.77.1]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 862a638d-3b60-47c2-e709-08d84adca76d
-X-MS-TrafficTypeDiagnostic: MWHPR12MB1534:
-X-Microsoft-Antispam-PRVS: <MWHPR12MB15343B1BD6C9266D013DC06195550@MWHPR12MB1534.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: r8sFzbAr3Kt+Q+M/GdLyHcs7VL3t3S52kL+L8KIigxUVDfRTpJrtB/z636SPu+6sabUD77emLXWC906F3VUPZ6HVgmdagvez4QsAjakVOc91WNfkRkmKf4OoR69ATerTU9KfjAl3LXVTdg0vcy+M76jl2gmGVY1Vrl15nxZ+jLt2racbN1XVBCKuP7cvCO9I74mu+xJ09nyYvmcKzFiwR5LmyFGRuNAGNrw5QRFtaGvXXmvIuonxvYHLULmC6YFliPu8amkRB5RPzQKWNKyoSL4AY80cLK25Ycc8ebf3ARLf2oci9yVIlfgT3Q3+MmcQMd3Ii4bU2FgSGIXvoyDsux4/mb6diCiEeoQgB3eLcA3jMYVTXBdPU4VqVvYOa+jXRS2UNt7qDgt7Fm3/Ah3HaUcEBZoTISR5QWmAbZJ9Ow9wOK70OSHd0Nm3Tp6+h4v7/WN09Rqrg8nOVz+uZOeEhC8UJteoXVzv/6zcsVOozDc=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW2PR12MB2556.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(346002)(396003)(136003)(366004)(376002)(52116002)(2906002)(86362001)(66556008)(44832011)(66476007)(66946007)(26005)(5660300002)(186003)(966005)(83080400001)(36756003)(2616005)(83380400001)(956004)(54906003)(45080400002)(6486002)(31696002)(31686004)(8936002)(4326008)(8676002)(16576012)(316002)(478600001)(110136005)(53546011)(41533002)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: 37yU3Fh3zxv4FA6ADuQsDnCxkXNPbstqNYB7cJt/JFbdYdQ6htH/YHBdIq2jJWLv8j3Z3Psg5VpODdDukUGDLO0nC1CQpzQK/r8VsbIAfROvVt5jw1YLtd8214v41FqB41L4nOb0oN3F6hF2b8/Vn/5hpRZqKkZIXpEOtROytj7NFV7ac8H/5VSggBGIoSsLNbnr8SwG+KSg9GWxPzoy7PHYAW5DxGDtEJzQerb+tGtEX2xOhL5f201PKYw36/pyZ6hK9B3ha3dXx0NW/oRf0sWPp6Mr+0rTAWS0/bLETmkgiMbrEFUSgANVw3mITtnQCnUhMsKfkNdqFQ6iGRI4c3K+g4BqHuJSUlFc5GQfb7lajpcTL7jH2Jg+qANTimdHzzZfpu6YVSJzCM/Asswtwcqi0BUlMmdSMz7EPx0vwBQFz7+NerT3q4qFnWzpVcJB7+xaGxlFC1SSgmeK0bJAqqnzMbOJfCoIH3fl/tJ7KF7Ds0QkHP98wf2yEO6bnclujMO+MYEjVYWzAw0CvT7hcu0G8LsKl6+JYgVVUcnkmCoXCZ9Nfg/Do2V+f726LA8vwGzg9yJX1LbMgPwcO97imMRNnLOSK6kPMJvqwsG3ehI2kZ+4cazRiA5TC9iHlXMZNUMAo5Gs+tRNH0oKjfFr3Q==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 862a638d-3b60-47c2-e709-08d84adca76d
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB2556.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2020 22:58:03.8921 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: A1asFlU3IgKjyOgPsQU979lCnwFBHuOSK6y/np8/LMx2igevry6dV3IUJcioqZxf
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1534
-Received-SPF: none client-ip=40.107.92.69; envelope-from=Babu.Moger@amd.com;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 19:13:09
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FORGED_SPF_HELO=1, MSGID_FROM_MTA_HEADER=0.001,
- NICE_REPLY_A=-1.782, RCVD_ILLEGAL_IP=1.3, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+X-GitLab-Project: QEMU
+X-GitLab-Project-Id: 11167699
+X-GitLab-Project-Path: qemu-project/qemu
+X-GitLab-Pipeline-Id: 182890686
+X-GitLab-Pipeline-Ref: master
+X-GitLab-Pipeline-Status: failed
+Auto-Submitted: auto-generated
+X-Auto-Response-Suppress: All
+Received-SPF: pass client-ip=192.237.158.143;
+ envelope-from=bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com;
+ helo=do158-143.mg.gitlab.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 13:19:01
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HTML_FONT_LOW_CONTRAST=0.001, HTML_MESSAGE=0.001, MISSING_HEADERS=1.021,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, REPLYTO_WITHOUT_TO_CC=1.552,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -123,216 +76,499 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "rth@twiddle.net" <rth@twiddle.net>,
- "ehabkost@redhat.com" <ehabkost@redhat.com>, "mst@redhat.com" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: GitLab <noreply@gitlab.com>, GitLab <gitlab@mg.gitlab.com>
+From: GitLab via <qemu-devel@nongnu.org>
+
+
+----==_mimepart_5f4841e784ce_7adc3fb9d0e9d5e4129682
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
 
 
-> -----Original Message-----
-> From: Igor Mammedov <imammedo@redhat.com>
-> Sent: Thursday, August 27, 2020 4:19 PM
-> To: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Cc: ehabkost@redhat.com; mst@redhat.com; qemu-devel@nongnu.org;
-> Moger, Babu <Babu.Moger@amd.com>; pbonzini@redhat.com;
-> rth@twiddle.net
-> Subject: Re: [PATCH v5 0/8] Remove EPYC mode apicid decode and use
-> generic decode
-> 
-> On Wed, 26 Aug 2020 15:10:46 +0100
-> "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> 
-> > * Igor Mammedov (imammedo@redhat.com) wrote:
-> > > On Tue, 25 Aug 2020 16:25:21 +0100
-> > > "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> > >
-> > > > * Igor Mammedov (imammedo@redhat.com) wrote:
-> > > > > On Tue, 25 Aug 2020 09:15:04 +0100 "Dr. David Alan Gilbert"
-> > > > > <dgilbert@redhat.com> wrote:
-> > > > >
-> > > > > > * Babu Moger (babu.moger@amd.com) wrote:
-> > > > > > > Hi Dave,
-> > > > > > >
-> > > > > > > On 8/24/20 1:41 PM, Dr. David Alan Gilbert wrote:
-> > > > > > > > * Babu Moger (babu.moger@amd.com) wrote:
-> > > > > > > >> To support some of the complex topology, we introduced EPYC
-> mode apicid decode.
-> > > > > > > >> But, EPYC mode decode is running into problems. Also it
-> > > > > > > >> can become quite a maintenance problem in the future. So,
-> > > > > > > >> it was decided to remove that code and use the generic
-> > > > > > > >> decode which works for majority of the topology. Most of
-> > > > > > > >> the SPECed configuration would work just fine. With some
-> non-SPECed user inputs, it will create some sub-optimal configuration.
-> > > > > > > >> Here is the discussion thread.
-> > > > > > > >> https://nam11.safelinks.protection.outlook.com/?url=https
-> > > > > > > >> %3A%2F%2Flore.kernel.org%2Fqemu-devel%2Fc0bcc1a6-
-> 1d84-a6e
-> > > > > > > >> 7-e468-
-> d5b437c1b254%40amd.com%2F&amp;data=02%7C01%7Cbabu.
-> > > > > > > >>
-> moger%40amd.com%7C9b15ee395daa4935640408d84acedf13%7C3dd8
-> > > > > > > >>
-> 961fe4884e608e11a82d994e183d%7C0%7C0%7C637341599663177545
-> > > > > > > >>
-> &amp;sdata=4okYGU%2F8QTYqEOZEd1EBC%2BEsIIrEV59HZrHzpbsR8s
-> > > > > > > >> U%3D&amp;reserved=0
-> > > > > > > >>
-> > > > > > > >> This series removes all the EPYC mode specific apicid changes
-> and use the generic
-> > > > > > > >> apicid decode.
-> > > > > > > >
-> > > > > > > > Hi Babu,
-> > > > > > > >   This does simplify things a lot!
-> > > > > > > > One worry, what happens about a live migration of a VM from
-> an old qemu
-> > > > > > > > that was using the node-id to a qemu with this new scheme?
-> > > > > > >
-> > > > > > > The node_id which we introduced was only used internally. This
-> wasn't
-> > > > > > > exposed outside. I don't think live migration will be an issue.
-> > > > > >
-> > > > > > Didn't it become part of the APIC ID visible to the guest?
-> > > > >
-> > > > > Daniel asked similar question wrt hard error on start up, when
-> > > > > CLI is not sufficient to create EPYC cpu.
-> > > > >
-> > > > >
-> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%
-> > > > > 2Fwww.mail-archive.com%2Fqemu-
-> devel%40nongnu.org%2Fmsg728536.htm
-> > > > >
-> l&amp;data=02%7C01%7Cbabu.moger%40amd.com%7C9b15ee395daa49356
-> 404
-> > > > >
-> 08d84acedf13%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C63734
-> 1
-> > > > >
-> 599663177545&amp;sdata=OnHz23W4F4TdYwlxPZwC%2B8YRY1K3qJ5U9Sfdo
-> Oc
-> > > > > GXtw%3D&amp;reserved=0
-> > > > >
-> > > > > Migration might fall into the same category.
-> > > > > Also looking at the history, 5.0 commit
-> > > > >   247b18c593ec29 target/i386: Enable new apic id encoding for
-> > > > > EPYC based cpus models silently broke APIC ID (without versioning),
-> for all EPYC models (that's were 1 new and 1 old one).
-> > > > >
-> > > > > (I'm not aware of somebody complaining about it)
-> > > > >
-> > > > > Another commit ed78467a21459, changed CPUID_8000_001E without
-> versioning as well.
-> > > > >
-> > > > >
-> > > > > With current EPYC apicid code, if all starts align (no numa or 1
-> > > > > numa node only on CLI and no -smp dies=) it might produce a valid
-> CPU (apicid+CPUID_8000_001E).
-> > > > > No numa is gray area, since EPYC spec implies that it has to be numa
-> machine in case of real EPYC cpus.
-> > > > > Multi-node configs would be correct only if user assigns cpus to
-> > > > > numa nodes by duplicating internal node_id algorithm that this series
-> removes.
-> > > > >
-> > > > > There might be other broken cases that I don't recall anymore
-> > > > > (should be mentioned in previous versions of this series)
-> > > > >
-> > > > >
-> > > > > To summarize from migration pov (ignoring ed78467a21459 change):
-> > > > >
-> > > > >  1) old qemu pre-5.0 ==>  qemu 5.0, 5.1 - broken migration
-> > > >
-> > > > Oh ....
-> > > >
-> > > > >  2) with this series (lets call it qemu 5.2)
-> > > > >      pre-5.0 ==> qemu 5.2 - should work as series basically rollbacks
-> current code to pre-5.0
-> > > > >      qemu 5.0, 5.1 ==> qemu 5.2 - broken
-> > > > >
-> > > > > It's all about picking which poison to choose, I'd preffer 2nd
-> > > > > case as it lets drop a lot of complicated code that doesn't work
-> > > > > as expected.
-> > > >
-> > > > I think that would make our lives easier for other reasons; so I'm
-> > > > happy to go with that.
-> > >
-> > > to make things less painful for users, me wonders if there is a way
-> > > to block migration if epyc and specific QEMU versions are used?
-> >
-> > We have no way to block based on version - and that's a pretty painful
-> > thing to do; we can block based on machine type.
-> >
-> > But before we get there; can we understand in which combinations that
-> > things break and why exactly - would it break on a 1 or 2 vCPU guest -
-> > or would it only break when we get to the point the upper bits start
-> > being used for example?  Why exaclty would it break - i.e. is it going
-> > to change the name of sections in the migration stream - or are the
-> > values we need actually going to migrate OK?
-> 
-> it's values of APIC ID, where 4.2 and 5.0 QEMU use different values if numa is
-> enabled.
-> I'd expect guest to be very confused in when this happens.
-> 
-> here is an example:
-> qemu-4.2 -cpu EPYC -smp 8,sockets=1,cores=8 -numa node,cpus=0-3 -numa
-> node,cpus=4-7
-> 
-> (QEMU) qom-get path=/machine/unattached/device[8] property=apic-id {
->     "return": 7
-> }
-> 
-> vs
-> 
-> qemu-5.1 -cpu EPYC -smp 8,sockets=1,cores=8 -numa node,cpus=0-3 -numa
-> node,cpus=4-7
-> (QEMU) qom-get path=/machine/unattached/device[8] property=apic-id {
->     "return": 15
-> }
-> 
-> we probably can't do anything based on machine type versions, as
-> 4.2 and older versions on qemu-5.0 and newer use different algorithm to
-> calculate apic-id.
-> 
-> Hence was suggestion to leave 5.0/5.1 with broken apic id and revert back to
-> 4.2 algorithm, which should encode APIC ID correctly when '-smp dies' is
-> used.
+Your pipeline has failed.
 
-That is correct. When we revert all the node_id related changes, we will
-go back to 4.2 algorithm. It will work fine with user passing "-smp
-dies=n". It also keeps the code simple. That is why I kept the decoding of
-0x8000001e like this below. This will also match apicid decoding.
+Project: QEMU ( https://gitlab.com/qemu-project/qemu )
+Branch: master ( https://gitlab.com/qemu-project/qemu/-/commits/master )
 
-*ecx = ((topo_info->dies_per_pkg - 1) << 8) |  ((cpu->apic_id >>
-apicid_die_offset(topo_info)) & 0xFF);
+Commit: 19591e9e ( https://gitlab.com/qemu-project/qemu/-/commit/19591e9e=
+0938ea5066984553c256a043bd5d822f )
+Commit Message: Merge remote-tracking branch 'remotes/mst/tags/...
+Commit Author: Peter Maydell ( https://gitlab.com/pm215 )
+
+Pipeline #182890686 ( https://gitlab.com/qemu-project/qemu/-/pipelines/18=
+2890686 ) triggered by Alex Benn=C3=A9e ( https://gitlab.com/stsquad )
+had 1 failed build.
+
+Job #707714496 ( https://gitlab.com/qemu-project/qemu/-/jobs/707714496/ra=
+w )
+
+Stage: test
+Name: acceptance-system-centos
+Trace: 23:12:58 ERROR|   File "/builds/qemu-project/qemu/python/qemu/mach=
+ine.py", line 342, in launch
+    self._launch()
+
+23:12:58 ERROR|   File "/builds/qemu-project/qemu/python/qemu/machine.py"=
+, line 369, in _launch
+    self._post_launch()
+
+23:12:58 ERROR|   File "/builds/qemu-project/qemu/python/qemu/machine.py"=
+, line 288, in _post_launch
+    self._qmp.accept()
+
+23:12:58 ERROR|   File "/builds/qemu-project/qemu/python/qemu/qmp.py", li=
+ne 236, in accept
+    return self.__negotiate_capabilities()
+
+23:12:58 ERROR|   File "/builds/qemu-project/qemu/python/qemu/qmp.py", li=
+ne 129, in __negotiate_capabilities
+    resp =3D self.cmd('qmp_capabilities')
+
+23:12:58 ERROR|   File "/builds/qemu-project/qemu/python/qemu/qmp.py", li=
+ne 266, in cmd
+    return self.cmd_obj(qmp_cmd)
+
+23:12:58 ERROR|   File "/builds/qemu-project/qemu/python/qemu/qmp.py", li=
+ne 249, in cmd_obj
+    raise QMPConnectError("Unexpected empty reply from server")
+
+23:12:58 ERROR| qemu.qmp.QMPConnectError: Unexpected empty reply from ser=
+ver
+
+23:12:58 ERROR| ERROR 34-tests/acceptance/vnc.py:Vnc.test_change_password=
+ -> QMPConnectError: Unexpected empty reply from server
+23:12:58 INFO | =
+
+=1B[32;1m$ du -chs ${CI_PROJECT_DIR}/avocado-cache=1B[0;m
+1.2G	/builds/qemu-project/qemu/avocado-cache
+1.2G	total
+section_end:1598569984:after_script
+=1B[0K=1B[31;1mERROR: Job failed: exit code 1
+=1B[0;m
 
 
-Still not clear if we need to add a warning when numa nodes != dies.
-Worried about adding that check and remove it again later.
+-- =
 
-What about auto_enable_numa? Do we still need it?
+You're receiving this email because of your account on gitlab.com.
 
-I can send the patches tomorrow if these things are clarified.
-Thanks
 
-> 
-> 
-> > Dave
-> >
-> >
-> > > > > PS:
-> > > > >  I didn't review it yet, but with this series we aren't  making
-> > > > > up internal node_ids that should match user provided numa node ids
-> somehow.
-> > > > >  It seems series lost the patch that would enforce numa in case
-> > > > > -smp dies>1,  but otherwise it heads in the right direction.
-> > > >
-> > > > Dave
-> > > >
-> > > > > >
-> > > > > > Dave
-> > > > > >
-> > > > >
-> > >
 
+
+----==_mimepart_5f4841e784ce_7adc3fb9d0e9d5e4129682
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://ww=
+w.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns=3D"http://www.w3.org/1999/xhtml" lang=3D"en" xml:lang=3D"en">=
+
+<head>
+<meta content=3D"text/html; charset=3DUTF-8" http-equiv=3D"Content-Type" =
+/>
+<meta content=3D"width=3Ddevice-width, initial-scale=3D1" name=3D"viewpor=
+t" />
+<meta content=3D"IE=3Dedge" http-equiv=3D"X-UA-Compatible" />
+<title>QEMU | Pipeline #182890686 has failed for master | 19591e9e</title=
+>
+<style data-premailer=3D"ignore" type=3D"text/css">
+body,table,td,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}t=
+able,td{mso-table-lspace:0pt;mso-table-rspace:0pt}img{-ms-interpolation-m=
+ode:bicubic}.hidden{display:none !important;visibility:hidden !important}=
+a[x-apple-data-detectors]{color:inherit !important;text-decoration:none !=
+important;font-size:inherit !important;font-family:inherit !important;fon=
+t-weight:inherit !important;line-height:inherit !important}div[style*=3D'=
+margin: 16px 0']{margin:0 !important}@media only screen and (max-width: 6=
+39px){body,#body{min-width:320px !important}table.wrapper{width:100% !imp=
+ortant;min-width:320px !important}table.wrapper td.wrapper-cell{border-le=
+ft:0 !important;border-right:0 !important;border-radius:0 !important;padd=
+ing-left:10px !important;padding-right:10px !important}}
+
+</style>
+
+<style>body {
+margin: 0 !important; background-color: #fafafa; padding: 0; text-align: =
+center; min-width: 640px; width: 100%; height: 100%; font-family: "Helvet=
+ica Neue", Helvetica, Arial, sans-serif;
+}
+</style></head>
+<body style=3D"text-align: center; min-width: 640px; width: 100%; height:=
+ 100%; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-se=
+rif; margin: 0; padding: 0;" bgcolor=3D"#fafafa">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" id=3D"body" style=
+=3D"text-align: center; min-width: 640px; width: 100%; margin: 0; padding=
+: 0;" bgcolor=3D"#fafafa">
+<tbody>
+<tr class=3D"line">
+<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
+ans-serif; height: 4px; font-size: 4px; line-height: 4px;" bgcolor=3D"#6b=
+4fbb"></td>
+</tr>
+<tr class=3D"header">
+<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
+ans-serif; font-size: 13px; line-height: 1.6; color: #5c5c5c; padding: 25=
+px 0;">
+
+<img alt=3D"GitLab" src=3D"https://gitlab.com/assets/mailers/gitlab_heade=
+r_logo-153749eaa7ea6fafcb995161abd3247bc4c4500f31498b0c4024f50093983ac0.g=
+if" width=3D"55" height=3D"50" />
+</td>
+</tr>
+<tr>
+<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
+ans-serif;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"wrapper"=
+ style=3D"width: 640px; border-collapse: separate; border-spacing: 0; mar=
+gin: 0 auto;">
+<tbody>
+<tr>
+<td class=3D"wrapper-cell" style=3D"font-family: &quot;Helvetica Neue&quo=
+t;, Helvetica, Arial, sans-serif; border-radius: 3px; overflow: hidden; p=
+adding: 18px 25px; border: 1px solid #ededed;" align=3D"left" bgcolor=3D"=
+#fff">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"content"=
+ style=3D"width: 100%; border-collapse: separate; border-spacing: 0;">
+<tbody>
+<tr class=3D"alert">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
+rder-radius: 3px; font-size: 14px; line-height: 1.3; overflow: hidden; co=
+lor: #ffffff; padding: 10px;" align=3D"center" bgcolor=3D"#d22f57">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse; margin: 0 auto;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #ffffff; padding-right: 5px; line-height: 1;" align=3D"center" valig=
+n=3D"middle">
+<img alt=3D"&#10006;" height=3D"13" src=3D"https://gitlab.com/assets/mail=
+ers/ci_pipeline_notif_v1/icon-x-red-inverted-06edddd39ba2a7f9a32f6201e420=
+175db85a4b6ac0348203fdc069001b440149.gif" style=3D"display: block;" width=
+=3D"13" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #ffffff;" align=3D"center" valign=3D"middle">
+Your pipeline has failed.
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class=3D"spacer">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; he=
+ight: 18px; font-size: 18px; line-height: 18px;">
+&#160;
+</td>
+</tr>
+<tr class=3D"section">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
+rder-radius: 3px; overflow: hidden; padding: 0 15px; border: 1px solid #e=
+deded;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"table-in=
+fo" style=3D"width: 100%;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; margin=
+: 0; padding: 14px 0;">Project</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
+ 75%; margin: 0; padding: 14px 0 14px 5px;">
+<a class=3D"muted" href=3D"https://gitlab.com/qemu-project" style=3D"colo=
+r: #333333; text-decoration: none;">
+QEMU
+</a>
+/
+<a class=3D"muted" href=3D"https://gitlab.com/qemu-project/qemu" style=3D=
+"color: #333333; text-decoration: none;">
+QEMU
+</a>
+</td>
+</tr>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
+-top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
+in: 0; padding: 14px 0;">Branch</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
+ 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
+ solid; margin: 0; padding: 14px 0 14px 5px;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
+<img alt=3D"" height=3D"13" src=3D"https://gitlab.com/assets/mailers/ci_p=
+ipeline_notif_v1/icon-branch-gray-53618a7fc19d4d32ccbabac2f6d59bebe67202a=
+9f2f1255e3f72c69756c0dd9c.gif" style=3D"display: block;" width=3D"13" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4;" valign=3D"middle">
+<a class=3D"muted" href=3D"https://gitlab.com/qemu-project/qemu/-/commits=
+/master" style=3D"color: #333333; text-decoration: none;">
+master
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
+-top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
+in: 0; padding: 14px 0;">Commit</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; font-weight: 400; color: #333333; width:=
+ 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
+ solid; margin: 0; padding: 14px 0 14px 5px;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
+<img alt=3D"" height=3D"13" src=3D"https://gitlab.com/assets/mailers/ci_p=
+ipeline_notif_v1/icon-commit-gray-c10243ac24cde64b549aec91de35e6b49c8739b=
+506b86472b54614c10d8b4aac.gif" style=3D"display: block;" width=3D"13" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4;" valign=3D"middle">
+<a href=3D"https://gitlab.com/qemu-project/qemu/-/commit/19591e9e0938ea50=
+66984553c256a043bd5d822f" style=3D"color: #3777b0; text-decoration: none;=
+">
+19591e9e
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+<div class=3D"commit" style=3D"color: #5c5c5c; font-weight: 300;">
+Merge remote-tracking branch 'remotes/mst/tags/...
+</div>
+</td>
+</tr>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
+-top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
+in: 0; padding: 14px 0;">Commit Author</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
+ 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
+ solid; margin: 0; padding: 14px 0 14px 5px;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
+<img alt=3D"" class=3D"avatar" height=3D"24" src=3D"https://secure.gravat=
+ar.com/avatar/98261ce19b4e9da714d577154686723a?s=3D48&amp;d=3Didenticon" =
+style=3D"display: block; border-radius: 12px; margin: -2px 0;" width=3D"2=
+4" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4;" valign=3D"middle">
+<a class=3D"muted" href=3D"https://gitlab.com/pm215" style=3D"color: #333=
+333; text-decoration: none;">
+Peter Maydell
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class=3D"spacer">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; he=
+ight: 18px; font-size: 18px; line-height: 18px;">
+&#160;
+</td>
+</tr>
+<tr class=3D"pre-section">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #333333; font-size: 15px; font-weight: 400; line-height: 1.4; paddin=
+g: 15px 5px 0;" align=3D"center">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse; margin: 0 auto;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; font-weight: 500; line-height: 1.4;" valign=3D"baseline">
+Pipeline
+<a href=3D"https://gitlab.com/qemu-project/qemu/-/pipelines/182890686" st=
+yle=3D"color: #3777b0; text-decoration: none;">
+#182890686
+</a>
+triggered by
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; padding-right: 5px; padding-left: 5px;" =
+width=3D"24" valign=3D"middle">
+<img alt=3D"" class=3D"avatar" height=3D"24" src=3D"https://secure.gravat=
+ar.com/avatar/a7d7f408c0b3370bbbeb98833d6c50e4?s=3D48&amp;d=3Didenticon" =
+style=3D"display: block; border-radius: 12px; margin: -2px 0;" width=3D"2=
+4" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; font-weight: 500; line-height: 1.4;" valign=3D"baseline">
+<a class=3D"muted" href=3D"https://gitlab.com/stsquad" style=3D"color: #3=
+33333; text-decoration: none;">
+Alex Benn&#233;e
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td colspan=3D"2" style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,=
+sans-serif; color: #333333; font-size: 14px; font-weight: 400; line-heigh=
+t: 1.4; padding: 0 8px 16px;" align=3D"center">
+had
+1
+failed
+build.
+</td>
+</tr>
+<tr class=3D"table-warning">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
+rder-radius: 4px 4px 0 0; overflow: hidden; color: #d22852; font-size: 14=
+px; line-height: 1.4; padding: 8px 16px; border-color: #ededed; border-st=
+yle: solid; border-width: 1px 1px 0;" align=3D"center" bgcolor=3D"#fdf4f6=
+">
+Logs may contain sensitive data. Please consider before forwarding this e=
+mail.
+</td>
+</tr>
+<tr class=3D"section">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; ov=
+erflow: hidden; border-radius: 0 0 4px 4px; padding: 0 16px; border-color=
+: #ededed; border-style: solid; border-width: 0 1px 1px;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"builds" =
+style=3D"width: 100%; border-collapse: collapse;">
+<tbody>
+<tr class=3D"build-state">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #8c8c8c; font-weight: 500; font-size: 14px; padding: 16px 0;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #d22f57; font-weight: 500; font-size: 16px; padding-right: 8px; line=
+-height: 10px;" valign=3D"middle">
+<img alt=3D"&#10006;" height=3D"10" src=3D"https://gitlab.com/assets/mail=
+ers/ci_pipeline_notif_v1/icon-x-red-67056b7b99899e30453df79abfbe16162f6a2=
+6ed789d8236f81afcaea216ffe6.gif" style=3D"display: block;" width=3D"10" /=
+>
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #8c8c8c; font-weight: 500; font-size: 14px;" valign=3D"middle">
+test
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+<td align=3D"right" style=3D"font-family: 'Helvetica Neue',Helvetica,Aria=
+l,sans-serif; color: #8c8c8c; font-weight: 500; font-size: 14px; padding:=
+ 16px 0;">
+<a href=3D"https://gitlab.com/qemu-project/qemu/-/jobs/707714496" style=3D=
+"color: #3777b0; text-decoration: none;">
+acceptance-system-centos
+</a>
+
+</td>
+</tr>
+<tr class=3D"build-log">
+<td colspan=3D"2" style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,=
+sans-serif; padding: 0 0 16px;">
+<pre style=3D"font-family: Monaco,'Lucida Console','Courier New',Courier,=
+monospace; background-color: #fafafa; border-radius: 4px; overflow: hidde=
+n; white-space: pre-wrap; word-break: break-all; font-size: 13px; line-he=
+ight: 1.4; color: #333333; margin: 0; padding: 16px 8px;"><span>23:12:58 =
+ERROR|   File "/builds/qemu-project/qemu/python/qemu/machine.py", line 34=
+2, in launch<br />    self._launch()<br /><br />23:12:58 ERROR|   File "/=
+builds/qemu-project/qemu/python/qemu/machine.py", line 369, in _launch<br=
+ />    self._post_launch()<br /><br />23:12:58 ERROR|   File "/builds/qem=
+u-project/qemu/python/qemu/machine.py", line 288, in _post_launch<br />  =
+  self._qmp.accept()<br /><br />23:12:58 ERROR|   File "/builds/qemu-proj=
+ect/qemu/python/qemu/qmp.py", line 236, in accept<br />    return self.__=
+negotiate_capabilities()<br /><br />23:12:58 ERROR|   File "/builds/qemu-=
+project/qemu/python/qemu/qmp.py", line 129, in __negotiate_capabilities<b=
+r />    resp =3D self.cmd('qmp_capabilities')<br /><br />23:12:58 ERROR| =
+  File "/builds/qemu-project/qemu/python/qemu/qmp.py", line 266, in cmd<b=
+r />    return self.cmd_obj(qmp_cmd)<br /><br />23:12:58 ERROR|   File "/=
+builds/qemu-project/qemu/python/qemu/qmp.py", line 249, in cmd_obj<br /> =
+   raise QMPConnectError("Unexpected empty reply from server")<br /><br /=
+>23:12:58 ERROR| qemu.qmp.QMPConnectError: Unexpected empty reply from se=
+rver<br /><br />23:12:58 ERROR| ERROR 34-tests/acceptance/vnc.py:Vnc.test=
+_change_password -&gt; QMPConnectError: Unexpected empty reply from serve=
+r<br />23:12:58 INFO | <br /></span><span class=3D"term-fg-l-green term-b=
+old">$ du -chs ${CI_PROJECT_DIR}/avocado-cache</span><span><br />1.2G	/bu=
+ilds/qemu-project/qemu/avocado-cache<br />1.2G	total<br /></span><span cl=
+ass=3D"term-fg-l-red term-bold">ERROR: Job failed: exit code 1<br /></spa=
+n></pre>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+
+
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+
+<tr class=3D"footer">
+<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
+ans-serif; font-size: 13px; line-height: 1.6; color: #5c5c5c; padding: 25=
+px 0;">
+<img alt=3D"GitLab" height=3D"33" src=3D"https://gitlab.com/assets/mailer=
+s/gitlab_footer_logo-078860f148cc9596195e6bb3fa7db31c30538355576c5c3b569c=
+414902e3d095.gif" width=3D"90" style=3D"display: block; margin: 0 auto 1e=
+m;" />
+<div>
+You're receiving this email because of your account on gitlab.com. <a cla=
+ss=3D"mng-notif-link" href=3D"https://gitlab.com/profile/notifications" s=
+tyle=3D"color: #3777b0; text-decoration: none;">Manage all notifications<=
+/a> &#183; <a class=3D"help-link" href=3D"https://gitlab.com/help" style=3D=
+"color: #3777b0; text-decoration: none;">Help</a>
+</div>
+</td>
+</tr>
+
+<tr>
+<td class=3D"footer-message" style=3D"font-family: &quot;Helvetica Neue&q=
+uot;, Helvetica, Arial, sans-serif; font-size: 13px; line-height: 1.6; co=
+lor: #5c5c5c; padding: 25px 0;">
+
+</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>
+
+----==_mimepart_5f4841e784ce_7adc3fb9d0e9d5e4129682--
 
