@@ -2,73 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6B4B25459D
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 15:04:45 +0200 (CEST)
-Received: from localhost ([::1]:33230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD2F02545AE
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 15:07:54 +0200 (CEST)
+Received: from localhost ([::1]:37954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBHa8-0000Ia-WC
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 09:04:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38626)
+	id 1kBHdB-0002OQ-SU
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 09:07:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBHYs-0007Vx-0V
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 09:03:26 -0400
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:46803)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBHYq-0001Uc-38
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 09:03:25 -0400
-Received: by mail-ej1-x644.google.com with SMTP id d11so7471943ejt.13
- for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 06:03:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2nkNBtrpucYVQes4Y0fhh4VWSin2uT6R7jqyVo0LoO0=;
- b=UeX8J55+DWMItHrkW9m/5XXsVAMzRGOeAKRGxc6CyHS/Fx9vgJs5hQaS2mx+QR+Ys+
- yGFANnybN7e6X28H7f7+TLf6f5ionkNeRKNyN+xSp0FBc7fsOVSiAO/5Gl+oKFEdkW96
- NS0PrXkTAd3a+ce4yrdX+wGANfHJwgCkCYSUbxz2J8KyJYdWnBv2xJWC6/CGq5bDPHdf
- 8imJFeJ3Qp2vvlVBdyAt/3n3mtjGlcvPHyMEXVWnsVOGkuYNDK16I5LUCeO4Omhs/UwC
- W6VSWAmy8EmTdLv813dGwNQoDXaFU5mJTjG2A5nWBnNhaVCobnVJ/ZSEvUnzzMmneZZp
- bvpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2nkNBtrpucYVQes4Y0fhh4VWSin2uT6R7jqyVo0LoO0=;
- b=K/cOABVrAdxXz/fVU4zIcINK7SqrepsPhrWGLAgSpTFkSbM7CBDOeUdn6Gdum42zzw
- g+C08ISi2WCkkp8SBYggqvIW3crJI5mAGgCNEkn0lPnZZop8KibcAuGh9Kn6dLtuz1fQ
- GOy9w7SidqDaLU7XklxlkgUny6+y8mJuusWhdtRHtjHNGB+EVUMGZWbXZDvmomfmShSJ
- KVdwXt71p99XarKY09r+miztJ8+wJr77NAdCHMPEYlEDjadmyhVyFODjPNv9Vl330j4y
- KG9q7OySUiVpV81qnz9szvzzGod37jJvQAcAn/4L17yfbrHYG92KjpjC7Rw409tnR6Cn
- xREQ==
-X-Gm-Message-State: AOAM530yakevW17ptkWSff2ykNhH9n1mZFgAS+VdmW8kyaKpKljbibbw
- zQUyyu2R42KqVX+hN1ZzHb0rh1iNiY+nWqFteEoz3Q==
-X-Google-Smtp-Source: ABdhPJx0x/hr0eepOZsbG+2H07E0iwsgBJcvEbTGDHuv4Q9FamjYEzvUE1k/lV6GwujNzN8i3LT2nY1LIXd2V1DcUr8=
-X-Received: by 2002:a17:907:728e:: with SMTP id
- dt14mr8265175ejc.4.1598533402211; 
- Thu, 27 Aug 2020 06:03:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kBHcN-0001eO-JJ
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 09:07:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57451)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kBHcK-0001yy-Q7
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 09:07:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598533619;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HWmT8SSGFpzK4FVTZ+cvThQwoe30DX2x2lihZMpGo0o=;
+ b=YpCfhOXIzjotQYp4cYZQAdLHWfx4MvdHEJw4szAVyKBUVU/zKsyiFHeTDX8opKQdLKpgio
+ IhCy6vTmPeSwbYBln5iNZbFszoSR0/LtdwBoFT/iUl5l3mDpM0haTs5llXSMTjHeByjdBr
+ KmIztM6CpOeoMJY9qwNyc8ODYFush/8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-483-W-mBAr5FNXuzlMjN93PFIQ-1; Thu, 27 Aug 2020 09:06:55 -0400
+X-MC-Unique: W-mBAr5FNXuzlMjN93PFIQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51A4C802B56;
+ Thu, 27 Aug 2020 13:06:54 +0000 (UTC)
+Received: from redhat.com (ovpn-114-113.ams2.redhat.com [10.36.114.113])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 419F97E565;
+ Thu, 27 Aug 2020 13:06:48 +0000 (UTC)
+Date: Thu, 27 Aug 2020 14:06:45 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Denis V. Lunev" <den@openvz.org>
+Subject: Re: [PATCH 4/6] block, migration: add bdrv_finalize_vmstate helper
+Message-ID: <20200827130645.GT192458@redhat.com>
+References: <20200709132644.28470-1-den@openvz.org>
+ <20200709132644.28470-5-den@openvz.org>
+ <20200827125846.GA1429165@redhat.com>
+ <a5e7f90b-629a-69d1-d9f2-4d57802ba617@openvz.org>
 MIME-Version: 1.0
-References: <20200727045925.29375-1-tianjia.zhang@linux.alibaba.com>
- <20200727054335-mutt-send-email-mst@kernel.org>
- <cb08fa85-e7d3-09af-d702-036fd165a46d@linux.alibaba.com>
-In-Reply-To: <cb08fa85-e7d3-09af-d702-036fd165a46d@linux.alibaba.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 27 Aug 2020 14:03:11 +0100
-Message-ID: <CAFEAcA8iK-J3NKA=QxFV5uswBSXLNNQDbx1NnFzhz3ppWVEVkQ@mail.gmail.com>
-Subject: Re: [PATCH] qemu-options.hx: Fix typo for netdev documentation
-To: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x644.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <a5e7f90b-629a-69d1-d9f2-4d57802ba617@openvz.org>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0.003
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 02:10:07
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,50 +86,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Denis Plotnikov <dplotnikov@virtuozzo.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 27 Aug 2020 at 14:00, Tianjia Zhang
-<tianjia.zhang@linux.alibaba.com> wrote:
-> Other opinions needed?
-
-No, the patch just got lost by accident; sorry.
-
-Jason, could you take this via your net tree, please?
-
-thanks
--- PMM
-
->
-> On 7/27/20 5:44 PM, Michael S. Tsirkin wrote:
-> > On Mon, Jul 27, 2020 at 12:59:25PM +0800, Tianjia Zhang wrote:
-> >> This patch fixes the netdev document description typo in qemu-option.hx.
+On Thu, Aug 27, 2020 at 04:02:38PM +0300, Denis V. Lunev wrote:
+> On 8/27/20 3:58 PM, Daniel P. Berrangé wrote:
+> > On Thu, Jul 09, 2020 at 04:26:42PM +0300, Denis V. Lunev wrote:
+> >> Right now bdrv_fclose() is just calling bdrv_flush().
 > >>
-> >> Signed-off-by: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
-> > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> >
-> > Trivial tree? Jason's ?
-> >
+> >> The problem is that migration code is working inefficiently from block
+> >> layer terms and are frequently called for very small pieces of
+> >> unaligned data. Block layer is capable to work this way, but this is very
+> >> slow.
+> >>
+> >> This patch is a preparation for the introduction of the intermediate
+> >> buffer at block driver state. It would be beneficial to separate
+> >> conventional bdrv_flush() from closing QEMU file from migration code.
+> >>
+> >> The patch also forces bdrv_finalize_vmstate() operation inside
+> >> synchronous blk_save_vmstate() operation. This helper is used from
+> >> qemu-io only.
+> >>
+> >> Signed-off-by: Denis V. Lunev <den@openvz.org>
+> >> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> >> CC: Kevin Wolf <kwolf@redhat.com>
+> >> CC: Max Reitz <mreitz@redhat.com>
+> >> CC: Stefan Hajnoczi <stefanha@redhat.com>
+> >> CC: Fam Zheng <fam@euphon.net>
+> >> CC: Juan Quintela <quintela@redhat.com>
+> >> CC: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> >> CC: Denis Plotnikov <dplotnikov@virtuozzo.com>
 > >> ---
-> >>   qemu-options.hx | 2 +-
-> >>   1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >> diff --git a/qemu-options.hx b/qemu-options.hx
-> >> index 708583b4ce..92556ed96d 100644
-> >> --- a/qemu-options.hx
-> >> +++ b/qemu-options.hx
-> >> @@ -2684,7 +2684,7 @@ SRST
-> >>       disable script execution.
-> >>
-> >>       If running QEMU as an unprivileged user, use the network helper
-> >> -    helper to configure the TAP interface and attach it to the bridge.
-> >> +    to configure the TAP interface and attach it to the bridge.
-> >>       The default network helper executable is
-> >>       ``/path/to/qemu-bridge-helper`` and the default bridge device is
-> >>       ``br0``.
-> >> --
-> >> 2.17.1
+> >>  block/block-backend.c |  6 +++++-
+> >>  block/io.c            | 15 +++++++++++++++
+> >>  include/block/block.h |  5 +++++
+> >>  migration/savevm.c    |  4 ++++
+> >>  4 files changed, 29 insertions(+), 1 deletion(-)
+> >> diff --git a/migration/savevm.c b/migration/savevm.c
+> >> index 45c9dd9d8a..d8a94e312c 100644
+> >> --- a/migration/savevm.c
+> >> +++ b/migration/savevm.c
+> >> @@ -150,6 +150,10 @@ static ssize_t block_get_buffer(void *opaque, uint8_t *buf, int64_t pos,
+> >>  
+> >>  static int bdrv_fclose(void *opaque, Error **errp)
+> >>  {
+> >> +    int err = bdrv_finalize_vmstate(opaque);
+> >> +    if (err < 0) {
+> >> +        return err;
+> > This is returning an error without having populating 'errp' which means
+> > the caller will be missing error diagnosis
+> 
+> but this behaves exactly like the branch below,
+> bdrv_flush() could return error too and errp
+> is not filled in the same way.
+
+Doh, it seems the only caller passes NULL for the errp too,
+so it is a redundant parameter. So nothing wrong with your
+patch after all.
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
