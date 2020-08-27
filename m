@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6765E254F61
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 21:52:48 +0200 (CEST)
-Received: from localhost ([::1]:57582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A54D254EF7
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 21:44:01 +0200 (CEST)
+Received: from localhost ([::1]:52840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBNx1-0003RA-FZ
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 15:52:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34448)
+	id 1kBNoW-0006uo-FR
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 15:44:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kBNTz-0007hq-6k
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:22:47 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24546
- helo=us-smtp-1.mimecast.com)
+ id 1kBNU0-0007lA-KB
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:22:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32380)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kBNTw-0000VY-C6
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:22:46 -0400
+ id 1kBNTy-0000Vt-VI
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:22:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598556163;
+ s=mimecast20190719; t=1598556166;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gCzdj0wP9hH9GSsYgQ/Mxpku+ddRHqP0wd810k2sVH4=;
- b=T8ZnYDhEXSqLMaMkLUG1vjzUEujjbBEe7JE5W77Mb7XYKChncP8A/LBF/p3B2vythsRi/D
- UWkttK9ux5P90YVOj02nTouSgmoyboxkNOMH6Ku5sGtiC7fwh96sol9rcHOZcBTIHjU9QE
- Msb3Yv10OdEWGoRo/Ux0KaCy5OPZrwc=
+ bh=8aXup1DjgJiHXxRKSwI0joWB15Sx1yxkC1ROHNXJamw=;
+ b=YbHjTDbROUCLCNCSgVWmaaKL9nUlZDyW827SXC/pDuFdByqJO6PgVHhCfNDKKE3Qyo6rKE
+ 5zp5hWORKV4KpOklFunLfUiiro9RjfXErYh6X1+m21hpGvakL2WzkgSgpsUPL83AQ7B2fE
+ WZDn2To/gHa/3L0eXQOVFR6GmmjRm9c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-324-H0yQgybYNsGoLDRVrG0ZZA-1; Thu, 27 Aug 2020 15:22:41 -0400
-X-MC-Unique: H0yQgybYNsGoLDRVrG0ZZA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-403-sXFYquEbMAu1p3xNqhqb3A-1; Thu, 27 Aug 2020 15:22:42 -0400
+X-MC-Unique: sXFYquEbMAu1p3xNqhqb3A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2A148018A4;
- Thu, 27 Aug 2020 19:22:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 331782FD03;
+ Thu, 27 Aug 2020 19:22:41 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 83C4B795A0;
- Thu, 27 Aug 2020 19:22:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E7FDD50B3F;
+ Thu, 27 Aug 2020 19:22:40 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 36/53] auxbus: Move QOM macros to header
-Date: Thu, 27 Aug 2020 15:21:05 -0400
-Message-Id: <20200827192122.658035-37-ehabkost@redhat.com>
+Subject: [PULL 37/53] rocker: Move QOM macros to header
+Date: Thu, 27 Aug 2020 15:21:06 -0400
+Message-Id: <20200827192122.658035-38-ehabkost@redhat.com>
 In-Reply-To: <20200827192122.658035-1-ehabkost@redhat.com>
 References: <20200827192122.658035-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 00:13:19
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 02:10:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,41 +93,50 @@ This will make future conversion to OBJECT_DECLARE* easier.
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 Tested-By: Roman Bolshakov <r.bolshakov@yadro.com>
-Message-Id: <20200825192110.3528606-38-ehabkost@redhat.com>
+Message-Id: <20200825192110.3528606-39-ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/hw/misc/auxbus.h | 3 +++
- hw/misc/auxbus.c         | 2 --
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ hw/net/rocker/rocker.h | 6 +++++-
+ hw/net/rocker/rocker.c | 5 -----
+ 2 files changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/include/hw/misc/auxbus.h b/include/hw/misc/auxbus.h
-index 15a8973517..041edfc9e9 100644
---- a/include/hw/misc/auxbus.h
-+++ b/include/hw/misc/auxbus.h
-@@ -32,7 +32,10 @@ typedef struct AUXBus AUXBus;
- typedef struct AUXSlave AUXSlave;
- typedef enum AUXCommand AUXCommand;
- typedef enum AUXReply AUXReply;
+diff --git a/hw/net/rocker/rocker.h b/hw/net/rocker/rocker.h
+index 7ae0495d9e..e4c22db4ff 100644
+--- a/hw/net/rocker/rocker.h
++++ b/hw/net/rocker/rocker.h
+@@ -66,11 +66,15 @@ static inline bool ipv6_addr_is_multicast(const Ipv6Addr *addr)
+     return (addr->addr32[0] & htonl(0xFF000000)) == htonl(0xFF000000);
+ }
+ 
+-typedef struct rocker Rocker;
+ typedef struct world World;
+ typedef struct desc_info DescInfo;
+ typedef struct desc_ring DescRing;
+ 
++#define TYPE_ROCKER "rocker"
++typedef struct rocker Rocker;
++#define ROCKER(obj) \
++    OBJECT_CHECK(Rocker, (obj), TYPE_ROCKER)
 +
-+#define TYPE_AUXTOI2C "aux-to-i2c-bridge"
- typedef struct AUXTOI2CState AUXTOI2CState;
-+#define AUXTOI2C(obj) OBJECT_CHECK(AUXTOI2CState, (obj), TYPE_AUXTOI2C)
+ Rocker *rocker_find(const char *name);
+ uint32_t rocker_fp_ports(Rocker *r);
+ int rocker_event_link_changed(Rocker *r, uint32_t pport, bool link_up);
+diff --git a/hw/net/rocker/rocker.c b/hw/net/rocker/rocker.c
+index 15d66f6cbc..1af1e6fa2f 100644
+--- a/hw/net/rocker/rocker.c
++++ b/hw/net/rocker/rocker.c
+@@ -73,11 +73,6 @@ struct rocker {
+     QLIST_ENTRY(rocker) next;
+ };
  
- enum AUXCommand {
-     WRITE_I2C = 0,
-diff --git a/hw/misc/auxbus.c b/hw/misc/auxbus.c
-index da361baa32..6c099ae2a2 100644
---- a/hw/misc/auxbus.c
-+++ b/hw/misc/auxbus.c
-@@ -45,8 +45,6 @@
-     }                                                                          \
- } while (0)
+-#define TYPE_ROCKER "rocker"
+-
+-#define ROCKER(obj) \
+-    OBJECT_CHECK(Rocker, (obj), TYPE_ROCKER)
+-
+ static QLIST_HEAD(, rocker) rockers;
  
--#define TYPE_AUXTOI2C "aux-to-i2c-bridge"
--#define AUXTOI2C(obj) OBJECT_CHECK(AUXTOI2CState, (obj), TYPE_AUXTOI2C)
- 
- static void aux_slave_dev_print(Monitor *mon, DeviceState *dev, int indent);
- static inline I2CBus *aux_bridge_get_i2c_bus(AUXTOI2CState *bridge);
+ Rocker *rocker_find(const char *name)
 -- 
 2.26.2
 
