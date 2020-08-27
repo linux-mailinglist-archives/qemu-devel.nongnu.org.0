@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 252C7253D0F
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 07:07:30 +0200 (CEST)
-Received: from localhost ([::1]:44462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E6D7253D14
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 07:08:34 +0200 (CEST)
+Received: from localhost ([::1]:51524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBA8H-0004sp-4u
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 01:07:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33958)
+	id 1kBA9J-0007jE-8o
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 01:08:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kBA76-0003FT-CF
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 01:06:16 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:55620)
+ id 1kBA7A-0003PO-3i
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 01:06:20 -0400
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:42848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kBA74-0005f6-Ou
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 01:06:16 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id 2so1994258pjx.5
- for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 22:06:14 -0700 (PDT)
+ id 1kBA78-0005fX-87
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 01:06:19 -0400
+Received: by mail-pg1-x52a.google.com with SMTP id g1so2480578pgm.9
+ for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 22:06:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kZmgaDEBNjpxaFbsHI9krVOWSzauPOV79k08lIpZd10=;
- b=B3wBalM/yDYmUtfyBo1U/JZUa5rZT3EMGdbAd10MfTBZ+zwrKkWkllIQkl9/CO32RH
- TyOvL32luqe8bwdMqF0Ys8o9o6U3vyefVGx+r3dsR2yDs86fQ2efvqkKj4eTjtX+8nb6
- 0/zJqemfVaIvAJfGeZsMRCDgdoaX4yIIBsBqMNMFr8O28ASxV6d7TFhbyxM7LqR4dqh4
- xO5AYA0/WLMpDbbn4Poy9YbdCvrRmUzMAkH53ypPrRWxV0HJEwxlKLqKrbqQg8Wqua5n
- hbJJKS7uVyThZ0xfBCUIgZYJsRJFcJxkCgmjj9NN9KEcZImueba+Q1utpgMk+lUUC4Qv
- HZPw==
+ bh=hAIHaNoFAufwAGE6KbRmUZ0ExbibwWjhonjd/BMqxdQ=;
+ b=coicLt5tS3ZGmOlZMjwXMwss6hh4duXrLnJ2tTo2GoJi7Vq3D5gTDVgSy0NDlR4dM7
+ /PzNHbKNbv09uV+zOpvWebJUwy6TfJo4V4x34e3l5o5nEw4vez9KJkZl7wg+Qf8N5trt
+ YBnXcKujei6/MYEMtuTnXn74bNYmTDD8wWaiw4mTg7LP3AraBs8/AJ/06d7rrBeEcadi
+ KdDY23vgHPIgasoKrYUyM2yzBbVnJjtKc4v57cD0WBn2gPBzwNf/KuNeZztHivpNklts
+ RNlZ79Bqp8KvD+AcgXszbgldSV03RJ5bnltAWy0qnpr5lHWG0a80JRuOhkMqLtQIaezR
+ E3gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kZmgaDEBNjpxaFbsHI9krVOWSzauPOV79k08lIpZd10=;
- b=c4mOc6devKTY7yzlAo5pXig8M3QWKbdTf13hMP28TIhfT4iAvksjskrYhVQXRrLZED
- lFmOs26uVw88Mu5mDaJm6rT8igsDABNC+6eKFfoayr62G7Zi+KDX3fE9Ik78l6evXG2y
- wYqyYr/Fupi1/7nDfqn7iPT+mTd1ze8OFNNt2pyJsKkuYzwJ8uA3+RAlixO7UmvdgJkh
- 4CnRkv8souL6VcuDJGJSexb03CqGH6wmBh9pZ2JI/TE2A772B3rpCyIVCRUAzxvYU/lY
- n0DFsSZuNU/hQfBXHq6A2gCDs9BECN9qNP5SjyK0Uv8Loo3I9OoB55qTLB8oL+mTriqy
- qnaw==
-X-Gm-Message-State: AOAM532b9uS+iVoLhoHOq7gdVMmWpfdUQCvJP5YuoQTbCarFbURpTl33
- KUzwSv8Vahyotm0pGVFurPXRJWeBG76wIeMFdjo=
-X-Google-Smtp-Source: ABdhPJzox6zVI7SZ2VdIibKNtUHjdRTTqySlXPSzOJnAvPE5ZVJyCGjkLQJJ9jVaO65ED9YzGc6N2w==
-X-Received: by 2002:a17:90a:c505:: with SMTP id
- k5mr8718507pjt.188.1598504772817; 
- Wed, 26 Aug 2020 22:06:12 -0700 (PDT)
+ bh=hAIHaNoFAufwAGE6KbRmUZ0ExbibwWjhonjd/BMqxdQ=;
+ b=pJHXAeBVTCHvwffbjtOaH7d8+pXv50x3rGM1uIwh40RC6wdmlzTHK/RE5pwLzDQyOi
+ 0jOnJANmWTxLYrX40wHzx3BVeAacLPVT7Z9PUBblurmTFc263RDoPpWvYV1IIzw3fj8r
+ UvuvmkKGabNqrcuSzi2b7qDSU7wWMXg0JmgjeoIJwDyx5TH7U/5P5+Nirw6iZ6NoHULj
+ kcJ1CNpMMf/LVidOZb63sakxHNdpamNHUZZsPXJicMWtEQSzumitm7CaW+t1JsUgjeA5
+ d9OQNL2wLc2BvFT96d387sVWqceXSCTOmNi71o8Oc8r+PxzJ1gnJBxUtrPHW8DyezPbr
+ Cuvw==
+X-Gm-Message-State: AOAM531xR1CsZICc+MMHo1vTxoQvFwPCWOITa+xf4Q7MPrAg4f1S+CZJ
+ Oh2vtZULtBbIKCs2nTG+2ZtPM6jCj4Bc2n0HvDk=
+X-Google-Smtp-Source: ABdhPJymrNUFplPqIAk/ba4Itkf5ht7rujm9SaBdz9A45vrGbChKma+coDAQjzQjx/R/LLVdRol6tA==
+X-Received: by 2002:a17:902:be0f:: with SMTP id
+ r15mr14964614pls.84.1598504775292; 
+ Wed, 26 Aug 2020 22:06:15 -0700 (PDT)
 Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id u3sm724213pjn.29.2020.08.26.22.06.10
+ by smtp.googlemail.com with ESMTPSA id u3sm724213pjn.29.2020.08.26.22.06.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Aug 2020 22:06:12 -0700 (PDT)
+ Wed, 26 Aug 2020 22:06:14 -0700 (PDT)
 From: luoyonggang@gmail.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/6] meson: Fixes ninjatool can not be recognized as script
- under Window/MSYS2
-Date: Thu, 27 Aug 2020 13:05:42 +0800
-Message-Id: <20200827050543.44-6-luoyonggang@gmail.com>
+Subject: [PATCH v2 6/6] meson: Convert undefsym.sh to undefsym.py
+Date: Thu, 27 Aug 2020 13:05:43 +0800
+Message-Id: <20200827050543.44-7-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.27.0.windows.1
 In-Reply-To: <20200827050543.44-1-luoyonggang@gmail.com>
 References: <20200827050543.44-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x52a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -93,26 +92,119 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Yonggang Luo <luoyonggang@gmail.com>
 
-use ninja instead ${build_path}/ninjatool
+undefsym.sh are not msys2 compatible, convert it to python script
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- configure | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meson.build         |  2 +-
+ scripts/undefsym.py | 57 +++++++++++++++++++++++++++++++++++++++++++++
+ scripts/undefsym.sh | 20 ----------------
+ 3 files changed, 58 insertions(+), 21 deletions(-)
+ create mode 100644 scripts/undefsym.py
+ delete mode 100755 scripts/undefsym.sh
 
-diff --git a/configure b/configure
-index 3b9e79923d..2ad0c58492 100755
---- a/configure
-+++ b/configure
-@@ -8222,7 +8222,7 @@ fi
- mv $cross config-meson.cross
+diff --git a/meson.build b/meson.build
+index 1644bbd83c..d6e3bcea7e 100644
+--- a/meson.build
++++ b/meson.build
+@@ -845,7 +845,7 @@ foreach d, list : modules
+ endforeach
  
- rm -rf meson-private meson-info meson-logs
--NINJA="${build_path}/ninjatool" $meson setup \
-+NINJA="ninja" $meson setup \
-         --prefix "${pre_prefix}$prefix" \
-         --libdir "${pre_prefix}$libdir" \
-         --libexecdir "${pre_prefix}$libexecdir" \
+ nm = find_program('nm')
+-undefsym = find_program('scripts/undefsym.sh')
++undefsym = find_program('scripts/undefsym.py')
+ block_syms = custom_target('block.syms', output: 'block.syms',
+                              input: [libqemuutil, block_mods],
+                              capture: true,
+diff --git a/scripts/undefsym.py b/scripts/undefsym.py
+new file mode 100644
+index 0000000000..c690f88c7a
+--- /dev/null
++++ b/scripts/undefsym.py
+@@ -0,0 +1,57 @@
++#!/usr/bin/env python3
++# -*- coding: utf-8 -*-
++
++# Before a shared module's DSO is produced, a static library is built for it
++# and passed to this script.  The script generates -Wl,-u options to force
++# the inclusion of symbol from libqemuutil.a if the shared modules need them,
++# This is necessary because the modules may use functions not needed by the
++# executable itself, which would cause the function to not be linked in.
++# Then the DSO loading would fail because of the missing symbol.
++
++
++"""
++Compare the static library with the shared module for compute the symbol duplication
++"""
++
++import sys
++import subprocess
++
++def filter_lines_set(stdout, is_static = True):
++    linesSet = set()
++    for line in stdout.splitlines():
++        tokens = line.split(b' ')
++        if len(tokens) >= 1:
++            if len(tokens) > 1:
++                if is_static and tokens[1] == b'U':
++                    continue
++                if not is_static and tokens[1] != b'U':
++                    continue
++            new_line = b'-Wl,-u,' + tokens[0]
++            if not new_line in linesSet:
++                linesSet.add(new_line)
++    return linesSet
++
++def main(args):
++    if len(args) <= 3:
++        sys.exit(0)
++
++    nm = args[1]
++    staticlib = args[2]
++    pc = subprocess.run([nm, "-P", "-g", staticlib], stdout=subprocess.PIPE)
++    if pc.returncode != 0:
++        sys.exit(-1)
++    lines_set_left = filter_lines_set(pc.stdout)
++
++    shared_modules = args[3:]
++    pc = subprocess.run([nm, "-P", "-g"] + shared_modules, stdout=subprocess.PIPE)
++    if pc.returncode != 0:
++        sys.exit(-1)
++    lines_set_right = filter_lines_set(pc.stdout, False)
++    lines = []
++    for line in sorted(list(lines_set_right)):
++        if line in lines_set_left:
++            lines.append(line)
++    sys.stdout.write(b'\n'.join(lines).decode())
++
++if __name__ == "__main__":
++    main(sys.argv)
+diff --git a/scripts/undefsym.sh b/scripts/undefsym.sh
+deleted file mode 100755
+index b9ec332e95..0000000000
+--- a/scripts/undefsym.sh
++++ /dev/null
+@@ -1,20 +0,0 @@
+-#! /usr/bin/env bash
+-
+-# Before a shared module's DSO is produced, a static library is built for it
+-# and passed to this script.  The script generates -Wl,-u options to force
+-# the inclusion of symbol from libqemuutil.a if the shared modules need them,
+-# This is necessary because the modules may use functions not needed by the
+-# executable itself, which would cause the function to not be linked in.
+-# Then the DSO loading would fail because of the missing symbol.
+-
+-if test $# -le 2; then
+-  exit 0
+-fi
+-
+-NM=$1
+-staticlib=$2
+-shift 2
+-# Find symbols defined in static libraries and undefined in shared modules
+-comm -12 \
+-  <( $NM -P -g $staticlib | awk '$2!="U"{print "-Wl,-u," $1}' | sort -u) \
+-  <( $NM -P -g "$@" | awk '$2=="U"{print "-Wl,-u," $1}' | sort -u)
 -- 
 2.27.0.windows.1
 
