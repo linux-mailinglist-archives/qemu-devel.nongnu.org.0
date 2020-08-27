@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44670253B69
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 03:34:43 +0200 (CEST)
-Received: from localhost ([::1]:35698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D663C253B70
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 03:35:19 +0200 (CEST)
+Received: from localhost ([::1]:38576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kB6oM-0002bd-CL
-	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 21:34:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52582)
+	id 1kB6ow-0003lb-Ug
+	for lists+qemu-devel@lfdr.de; Wed, 26 Aug 2020 21:35:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1kB6nC-00016z-Pw; Wed, 26 Aug 2020 21:33:30 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:42764)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kB6ni-0002T0-Ls
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 21:34:02 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:37251)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1kB6nB-0006rN-7s; Wed, 26 Aug 2020 21:33:30 -0400
-Received: by mail-ot1-x344.google.com with SMTP id h17so1115447otl.9;
- Wed, 26 Aug 2020 18:33:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kB6nh-0006tq-31
+ for qemu-devel@nongnu.org; Wed, 26 Aug 2020 21:34:02 -0400
+Received: by mail-ot1-x341.google.com with SMTP id k2so3159709ots.4
+ for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 18:34:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=Ko0g7c5gsx7ItwbuVsDKYhtFoxiFL3TjE/iAFf76dM8=;
- b=NDyUPtI2vl9yZ+XXGzmB+f5o/8NhLEyUXTsrq3il2BcOSu2WhpQ6xii4i0UNEp0rj/
- 2PEbqhOLaJLVec1m8Tag8TExCx8BgYo5fID5PrQuWAbnlzAM2vIoQrDpc/GiIk9KMPJY
- Jlo3OknqSJppK2F43tq4iV9TGNkIi1pEXbG3N0T6WjT5qRJmFWX+wqbMEVDbroXQQDq+
- mjYuHPE7V3sn6jIQ58xPjR9V+n4cmyQhsBdvGysk/l9wzB9x2BfbSvu+xnszfSm9uQL1
- PO9iE1DlWjKxfAIwlFFHH8Rgn/kGBLOU3I8ESIAYk/5A9bp2vgbV5CVBmeRXcfMXcKLR
- 2dfw==
+ bh=hWXWYJTXkuTqo3CUEMsAfd/R4sAEzt8NMJoEF221juw=;
+ b=ROp95BS7g+F9CTgMVDMZ2esh7U+11uulsFE/nqZIwBcgHLc/KCoT+gNHMlC8PV4oku
+ giHpIwvcJ5OsONAkBGYRVp5tUg0m5C5nJP8pu1RojJmxmxZnNHLnSWKBUIoyZWmupIf+
+ lUSyRgY4xE98FqCz7O1RKa3VzEntkB8dsZyC/ori2Cr2c5kDIjBs4B157OtFznOEpIYu
+ Rq9qjZt1plIpiOm7SNY+6RTNaSPS/cEREIuyRpwYR8Q3VgZwWjLYZ6pca45gbZMsRmno
+ GfTcS7qCzMBtJa7pFXrmKk6PVgJ7SrYWBPUevj4zIvu3fj5HaAyl8J0LPPbIQZvQTGeP
+ 5neA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=Ko0g7c5gsx7ItwbuVsDKYhtFoxiFL3TjE/iAFf76dM8=;
- b=eXLL4KgjIUvQ+qz9Sq/X9Hvh44DduNLzMmpZGVhZguxFCuJEiDSQX/IaNTaglz2KsT
- WyJKVSIUTOczikz6iJ09CMyaGetK/zkagQK0+A/XKhbWha9W1bGExS47IWDO3EI1N9Wn
- HV7SfyzeHx4TYgEDRSODo2FT0x/RqSqcvGpIueDDm2VYBV3lfs64/HPa8NyNCmnAkVnc
- HguPmXeDz1bXC7Hbft3hL44oxNVJjWc51we1/rEx21O8Zu6d/aTwupuWdkyXK41tNQHP
- WyiSs6zaVabBSwt4i1ygZc436KqfDym/XuKmRn/T9CsCgLRWlr+fUI6Bk8WxjhL2+sIf
- HnbA==
-X-Gm-Message-State: AOAM5331ViUHibGGz0jmdNnpZ6yhFlExEN1dfNWU8satGKIAbo6QX2L6
- o7w75V50+PWUVDtzDfNMSiowUHSyUYZ5I8gvmY//WP8bxyGA/w==
-X-Google-Smtp-Source: ABdhPJyfAgJipp057gOqPA524Auu1hNSFJIqFh9Tz4QUnP5l/MIy215keUjVSYVITKzN0VHZkYMPUJv5cPfI3M+AZFQ=
-X-Received: by 2002:a9d:7c92:: with SMTP id q18mr8982466otn.333.1598492007343; 
- Wed, 26 Aug 2020 18:33:27 -0700 (PDT)
+ bh=hWXWYJTXkuTqo3CUEMsAfd/R4sAEzt8NMJoEF221juw=;
+ b=YToEeE+kBc9u/WUTNcdKByk+lMKmIEIIVMVNxsY6dsr9daLze+L3xErhOfRtDKbWVJ
+ fWdvKxMbimumtpWjRoOimQ2VqTe3yZEHaQu8nY+Vvn/fM1wVoPUQwoC72ErmGKblncGZ
+ RlTD0jG28tyfxMaYPkJ8bWaH5KHuCFUuEjn7W1sw/3WsG9kjd13l8XaSPV55L6OV82QH
+ yQ6/hZc62ywOL9JAdOjJejjgWJ8rdr2fJQXMf/ukS7bXHQMfhZdiXRPFzhtTl68BW/2O
+ +rB8YWPJxxG4rOgc8N0o3ZGKhhEIlVMoUR2jgjqhAHdkxLNWzK+G3oARr+VosbSmuIhb
+ 97DA==
+X-Gm-Message-State: AOAM533gC6YZOfAM6M0eu61e8yvon6ja/DzEyam+/qNcRdVlpUh4KdwA
+ +N+2AfDKnam8dxD5IROf+5lOocpr6ZYzZVlfby4=
+X-Google-Smtp-Source: ABdhPJyiS7pekTGTsMEe+2MPclOzPjYvCnauo9iKe/lfbhYL+WB643Dj87B8QDK6hQzM7zsevb/GW3ZzqGvhagnJqYY=
+X-Received: by 2002:a9d:4699:: with SMTP id z25mr8317379ote.353.1598492039908; 
+ Wed, 26 Aug 2020 18:33:59 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200826184334.4120620-1-ehabkost@redhat.com>
- <20200826184334.4120620-8-ehabkost@redhat.com>
-In-Reply-To: <20200826184334.4120620-8-ehabkost@redhat.com>
+ <20200826184334.4120620-9-ehabkost@redhat.com>
+In-Reply-To: <20200826184334.4120620-9-ehabkost@redhat.com>
 From: Li Qiang <liq3ea@gmail.com>
-Date: Thu, 27 Aug 2020 09:32:51 +0800
-Message-ID: <CAKXe6S+YQUbomtZTL=qO4hJ0BXa4yrLkTA2o4RxhUvuMMrQ5Eg@mail.gmail.com>
-Subject: Re: [PATCH 7/8] ppce500: Use TYPE_PPC_E500_PCI_BRIDGE constant
+Date: Thu, 27 Aug 2020 09:33:23 +0800
+Message-ID: <CAKXe6SKOGjK75Yc42+dAuugA79ghHwRHiaOMcUeL9BoZXvHyxA@mail.gmail.com>
+Subject: Re: [PATCH 8/8] dc390: Use TYPE_DC390_DEVICE constant
 To: Eduardo Habkost <ehabkost@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=liq3ea@gmail.com; helo=mail-ot1-x344.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=liq3ea@gmail.com; helo=mail-ot1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -79,15 +79,14 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, qemu-ppc@nongnu.org,
- Qemu Developers <qemu-devel@nongnu.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Qemu Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Eduardo Habkost <ehabkost@redhat.com> =E4=BA=8E2020=E5=B9=B48=E6=9C=8827=E6=
-=97=A5=E5=91=A8=E5=9B=9B =E4=B8=8A=E5=8D=882:51=E5=86=99=E9=81=93=EF=BC=9A
+=97=A5=E5=91=A8=E5=9B=9B =E4=B8=8A=E5=8D=882:44=E5=86=99=E9=81=93=EF=BC=9A
 >
 > This will make future conversion to use OBJECT_DECLARE* easier.
 >
@@ -96,27 +95,27 @@ Eduardo Habkost <ehabkost@redhat.com> =E4=BA=8E2020=E5=B9=B48=E6=9C=8827=E6=
 Reviewed-by: Li Qiang <liq3ea@gmail.com>
 
 > ---
-> Cc: David Gibson <david@gibson.dropbear.id.au>
-> Cc: qemu-ppc@nongnu.org
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Fam Zheng <fam@euphon.net>
 > Cc: qemu-devel@nongnu.org
 > ---
->  hw/pci-host/ppce500.c | 2 +-
+>  hw/scsi/esp-pci.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/hw/pci-host/ppce500.c b/hw/pci-host/ppce500.c
-> index d71072731d..1a62b2f8cc 100644
-> --- a/hw/pci-host/ppce500.c
-> +++ b/hw/pci-host/ppce500.c
-> @@ -509,7 +509,7 @@ static void e500_host_bridge_class_init(ObjectClass *=
-klass, void *data)
+> diff --git a/hw/scsi/esp-pci.c b/hw/scsi/esp-pci.c
+> index 497a8d5901..90432ef107 100644
+> --- a/hw/scsi/esp-pci.c
+> +++ b/hw/scsi/esp-pci.c
+> @@ -521,7 +521,7 @@ static void dc390_class_init(ObjectClass *klass, void=
+ *data)
 >  }
 >
->  static const TypeInfo e500_host_bridge_info =3D {
-> -    .name          =3D "e500-host-bridge",
-> +    .name          =3D TYPE_PPC_E500_PCI_BRIDGE,
->      .parent        =3D TYPE_PCI_DEVICE,
->      .instance_size =3D sizeof(PPCE500PCIBridgeState),
->      .class_init    =3D e500_host_bridge_class_init,
+>  static const TypeInfo dc390_info =3D {
+> -    .name =3D "dc390",
+> +    .name =3D TYPE_DC390_DEVICE,
+>      .parent =3D TYPE_AM53C974_DEVICE,
+>      .instance_size =3D sizeof(DC390State),
+>      .class_init =3D dc390_class_init,
 > --
 > 2.26.2
 >
