@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE5C9254EB9
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 21:36:06 +0200 (CEST)
-Received: from localhost ([::1]:42448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30884254F48
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 21:50:44 +0200 (CEST)
+Received: from localhost ([::1]:49092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBNgr-00080N-SH
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 15:36:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34356)
+	id 1kBNv1-0008Rz-8r
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 15:50:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kBNTp-0007cX-1B
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:22:38 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60091
- helo=us-smtp-1.mimecast.com)
+ id 1kBNTr-0007fR-CC
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:22:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21875)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kBNTn-0000TX-5j
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:22:36 -0400
+ id 1kBNTp-0000UY-Ng
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:22:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598556154;
+ s=mimecast20190719; t=1598556156;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3ilQNTa7uND8ERU/CX8/fVvxaxWeqnExbJ3dT0n01Fw=;
- b=Ch+/rdxoMLUgRleB2tFGb6oWMC72g9ff/zA3GY8K/F/5nDtpE4HMRCmQPbHArehw1KqpcK
- HNTbSflP5Q03gxmL7062zlabh6u3882pRhvcj8Hmj52l3yoMEasXMkcM2RFp7EMd5oGxET
- W/f4EruNKBqdCySeMUARZAw5e8BS3Lw=
+ bh=ClHMBwjDNhYDDMdiCYbxXiOD5wk+OXlFAseOOxzfMuk=;
+ b=D7kN7Yx8yXAHG0gj7tcmT0p3lyxZBUq3aI1VWhJWKKECqvSZfv6XuEko15hBzFQE3Sslkq
+ 7W+fmJr9p/2K/qlohhavZWlFSZERdmkhAjU5m1qiZdOTFl/ipUUPg2ffbm9g6OWJ9DAexD
+ 2hkREaNYvYZnweEiQzNSPmwiai/TaPo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-351-2bEd1aQXPFG6ivjveDYRQQ-1; Thu, 27 Aug 2020 15:22:31 -0400
-X-MC-Unique: 2bEd1aQXPFG6ivjveDYRQQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-451-RfQeboBbNgStEfGASWAG6w-1; Thu, 27 Aug 2020 15:22:34 -0400
+X-MC-Unique: RfQeboBbNgStEfGASWAG6w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E57F5101C2E3;
- Thu, 27 Aug 2020 19:22:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2FE48018A4;
+ Thu, 27 Aug 2020 19:22:32 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AB734747BD;
- Thu, 27 Aug 2020 19:22:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B346F795B0;
+ Thu, 27 Aug 2020 19:22:32 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 31/53] ahci: Move QOM macro to header
-Date: Thu, 27 Aug 2020 15:21:00 -0400
-Message-Id: <20200827192122.658035-32-ehabkost@redhat.com>
+Subject: [PULL 32/53] pckbd: Move QOM macro to header
+Date: Thu, 27 Aug 2020 15:21:01 -0400
+Message-Id: <20200827192122.658035-33-ehabkost@redhat.com>
 In-Reply-To: <20200827192122.658035-1-ehabkost@redhat.com>
 References: <20200827192122.658035-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 02:56:52
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 02:10:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,48 +88,45 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the ALLWINNER_AHCI macro close to the TYPE_ALLWINNER_AHCI
-define.
+Move the I8042 macro close to the TYPE_I8042 define.
 
 This will make future conversion to OBJECT_DECLARE* easier.
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 Tested-By: Roman Bolshakov <r.bolshakov@yadro.com>
-Message-Id: <20200825192110.3528606-33-ehabkost@redhat.com>
+Message-Id: <20200825192110.3528606-34-ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/hw/ide/ahci.h   | 2 ++
- hw/ide/ahci-allwinner.c | 3 ---
- 2 files changed, 2 insertions(+), 3 deletions(-)
+ include/hw/input/i8042.h | 1 +
+ hw/input/pckbd.c         | 2 --
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/include/hw/ide/ahci.h b/include/hw/ide/ahci.h
-index ce2bf8a5f8..41bb517047 100644
---- a/include/hw/ide/ahci.h
-+++ b/include/hw/ide/ahci.h
-@@ -72,6 +72,8 @@ typedef struct SysbusAHCIState {
- } SysbusAHCIState;
+diff --git a/include/hw/input/i8042.h b/include/hw/input/i8042.h
+index 8eaebf50ce..4569dfddd9 100644
+--- a/include/hw/input/i8042.h
++++ b/include/hw/input/i8042.h
+@@ -11,6 +11,7 @@
+ #include "hw/isa/isa.h"
  
- #define TYPE_ALLWINNER_AHCI "allwinner-ahci"
-+#define ALLWINNER_AHCI(obj) \
-+        OBJECT_CHECK(AllwinnerAHCIState, (obj), TYPE_ALLWINNER_AHCI)
+ #define TYPE_I8042 "i8042"
++#define I8042(obj) OBJECT_CHECK(ISAKBDState, (obj), TYPE_I8042)
  
- #define ALLWINNER_AHCI_MMIO_OFF  0x80
- #define ALLWINNER_AHCI_MMIO_SIZE 0x80
-diff --git a/hw/ide/ahci-allwinner.c b/hw/ide/ahci-allwinner.c
-index 8536b9eb5a..227e747ba7 100644
---- a/hw/ide/ahci-allwinner.c
-+++ b/hw/ide/ahci-allwinner.c
-@@ -25,9 +25,6 @@
+ #define I8042_A20_LINE "a20"
  
- #include "trace.h"
+diff --git a/hw/input/pckbd.c b/hw/input/pckbd.c
+index 29d633ca94..dde85ba6c6 100644
+--- a/hw/input/pckbd.c
++++ b/hw/input/pckbd.c
+@@ -481,8 +481,6 @@ void i8042_mm_init(qemu_irq kbd_irq, qemu_irq mouse_irq,
+     qemu_register_reset(kbd_reset, s);
+ }
  
--#define ALLWINNER_AHCI(obj) \
--        OBJECT_CHECK(AllwinnerAHCIState, (obj), TYPE_ALLWINNER_AHCI)
+-#define I8042(obj) OBJECT_CHECK(ISAKBDState, (obj), TYPE_I8042)
 -
- #define ALLWINNER_AHCI_BISTAFR    ((0xa0 - ALLWINNER_AHCI_MMIO_OFF) / 4)
- #define ALLWINNER_AHCI_BISTCR     ((0xa4 - ALLWINNER_AHCI_MMIO_OFF) / 4)
- #define ALLWINNER_AHCI_BISTFCTR   ((0xa8 - ALLWINNER_AHCI_MMIO_OFF) / 4)
+ struct ISAKBDState {
+     ISADevice parent_obj;
+ 
 -- 
 2.26.2
 
