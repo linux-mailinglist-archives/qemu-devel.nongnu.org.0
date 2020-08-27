@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C534A25425A
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 11:29:37 +0200 (CEST)
-Received: from localhost ([::1]:52824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CEB225424C
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 11:28:41 +0200 (CEST)
+Received: from localhost ([::1]:48858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBEDw-0006Ph-T4
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 05:29:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57014)
+	id 1kBED2-0004o3-Dq
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 05:28:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
- id 1kBE7N-0002hU-70; Thu, 27 Aug 2020 05:22:49 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:4275 helo=huawei.com)
+ id 1kBE7R-0002tB-6Q; Thu, 27 Aug 2020 05:22:53 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:34554 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
- id 1kBE7J-0003Fn-J2; Thu, 27 Aug 2020 05:22:48 -0400
+ id 1kBE7M-0003G9-Ac; Thu, 27 Aug 2020 05:22:52 -0400
 Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id CD915463E7D6D7E0E19C;
+ by Forcepoint Email with ESMTP id D8300F5FA69D5CDAF46A;
  Thu, 27 Aug 2020 17:22:42 +0800 (CST)
 Received: from huawei.com (10.174.187.31) by DGGEMS402-HUB.china.huawei.com
  (10.3.19.202) with Microsoft SMTP Server id 14.3.487.0; Thu, 27 Aug 2020
- 17:22:34 +0800
+ 17:22:35 +0800
 From: Yifei Jiang <jiangyifei@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-riscv@nongnu.org>
-Subject: [PATCH RFC v3 11/14] target/riscv: Support riscv cpu vmstate
-Date: Thu, 27 Aug 2020 17:21:34 +0800
-Message-ID: <20200827092137.479-12-jiangyifei@huawei.com>
+Subject: [PATCH RFC v3 12/14] target/riscv: Add kvm_riscv_get/put_regs_timer
+Date: Thu, 27 Aug 2020 17:21:35 +0800
+Message-ID: <20200827092137.479-13-jiangyifei@huawei.com>
 X-Mailer: git-send-email 2.26.2.windows.1
 In-Reply-To: <20200827092137.479-1-jiangyifei@huawei.com>
 References: <20200827092137.479-1-jiangyifei@huawei.com>
@@ -36,9 +36,9 @@ Content-Transfer-Encoding: 7bit
 Content-Type: text/plain
 X-Originating-IP: [10.174.187.31]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191;
- envelope-from=jiangyifei@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 02:09:23
+Received-SPF: pass client-ip=45.249.212.32; envelope-from=jiangyifei@huawei.com;
+ helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 02:28:14
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -67,52 +67,128 @@ Cc: victor.zhangxiaofeng@huawei.com, sagark@eecs.berkeley.edu,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Describe gpr, fpr and csr in vmstate_riscv_cpu.
+Add kvm_riscv_get/put_regs_timer to synchronize virtual time context
+from KVM. The frequency of virtual time is not supported by KVM_SET_ONE_REG,
+So it's useless to synchronize the frequency of virtual time.
+
+To set register of RISCV_TIMER_REG(state) will occur a error from KVM
+on kvm_timer_state == 0. It's better to adapt in KVM, but it doesn't matter
+that adaping in QEMU.
 
 Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
 Signed-off-by: Yipeng Yin <yinyipeng1@huawei.com>
 ---
- target/riscv/cpu.c | 20 ++++++++++++++++++--
- 1 file changed, 18 insertions(+), 2 deletions(-)
+ target/riscv/cpu.h |  6 ++++
+ target/riscv/kvm.c | 72 ++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 78 insertions(+)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index d8c32a8f84..b698f4adbb 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -26,7 +26,7 @@
- #include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "hw/qdev-properties.h"
--#include "migration/vmstate.h"
-+#include "migration/cpu.h"
- #include "fpu/softfloat-helpers.h"
- #include "kvm_riscv.h"
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 7795e7ae13..b735258f27 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -233,6 +233,12 @@ struct CPURISCVState {
  
-@@ -499,7 +499,23 @@ static void riscv_cpu_init(Object *obj)
- #ifndef CONFIG_USER_ONLY
- static const VMStateDescription vmstate_riscv_cpu = {
-     .name = "cpu",
--    .unmigratable = 1,
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINTTL_ARRAY(env.gpr, RISCVCPU, 32),
-+        VMSTATE_UINT64_ARRAY(env.fpr, RISCVCPU, 32),
-+        VMSTATE_UINTTL(env.pc, RISCVCPU),
-+        VMSTATE_UINTTL(env.mstatus, RISCVCPU),
-+        VMSTATE_UINTTL(env.mie, RISCVCPU),
-+        VMSTATE_UINTTL(env.stvec, RISCVCPU),
-+        VMSTATE_UINTTL(env.sscratch, RISCVCPU),
-+        VMSTATE_UINTTL(env.sepc, RISCVCPU),
-+        VMSTATE_UINTTL(env.scause, RISCVCPU),
-+        VMSTATE_UINTTL(env.sbadaddr, RISCVCPU),
-+        VMSTATE_UINTTL(env.mip, RISCVCPU),
-+        VMSTATE_UINTTL(env.satp, RISCVCPU),
-+        VMSTATE_END_OF_LIST()
-+    }
+     hwaddr kernel_addr;
+     hwaddr fdt_addr;
++
++    /* kvm timer */
++    bool kvm_timer_dirty;
++    uint64_t kvm_timer_time;
++    uint64_t kvm_timer_compare;
++    uint64_t kvm_timer_state;
  };
- #endif
  
+ #define RISCV_CPU_CLASS(klass) \
+diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
+index b49df6dd9c..59c537b1cb 100644
+--- a/target/riscv/kvm.c
++++ b/target/riscv/kvm.c
+@@ -59,6 +59,9 @@ static __u64 kvm_riscv_reg_id(__u64 type, __u64 idx)
+ #define RISCV_CSR_REG(name)  kvm_riscv_reg_id(KVM_REG_RISCV_CSR, \
+                  KVM_REG_RISCV_CSR_REG(name))
+ 
++#define RISCV_TIMER_REG(name)  kvm_riscv_reg_id(KVM_REG_RISCV_TIMER, \
++                 KVM_REG_RISCV_TIMER_REG(name))
++
+ #define RISCV_FP_F_REG(idx)  kvm_riscv_reg_id(KVM_REG_RISCV_FP_F, idx)
+ 
+ #define RISCV_FP_D_REG(idx)  kvm_riscv_reg_id(KVM_REG_RISCV_FP_D, idx)
+@@ -306,6 +309,75 @@ static int kvm_riscv_put_regs_fp(CPUState *cs)
+     return ret;
+ }
+ 
++static void kvm_riscv_get_regs_timer(CPUState *cs)
++{
++    int ret;
++    uint64_t reg;
++    CPURISCVState *env = &RISCV_CPU(cs)->env;
++
++    if (env->kvm_timer_dirty) {
++        return;
++    }
++
++    ret = kvm_get_one_reg(cs, RISCV_TIMER_REG(time), &reg);
++    if (ret) {
++        abort();
++    }
++    env->kvm_timer_time = reg;
++
++    ret = kvm_get_one_reg(cs, RISCV_TIMER_REG(compare), &reg);
++    if (ret) {
++        abort();
++    }
++    env->kvm_timer_compare = reg;
++
++    ret = kvm_get_one_reg(cs, RISCV_TIMER_REG(state), &reg);
++    if (ret) {
++        abort();
++    }
++    env->kvm_timer_state = reg;
++
++    env->kvm_timer_dirty = true;
++}
++
++static void kvm_riscv_put_regs_timer(CPUState *cs)
++{
++    int ret;
++    uint64_t reg;
++    CPURISCVState *env = &RISCV_CPU(cs)->env;
++
++    if (!env->kvm_timer_dirty) {
++        return;
++    }
++
++    reg = env->kvm_timer_time;
++    ret = kvm_set_one_reg(cs, RISCV_TIMER_REG(time), &reg);
++    if (ret) {
++        abort();
++    }
++
++    reg = env->kvm_timer_compare;
++    ret = kvm_set_one_reg(cs, RISCV_TIMER_REG(compare), &reg);
++    if (ret) {
++        abort();
++    }
++
++    /*
++     * To set register of RISCV_TIMER_REG(state) will occur a error from KVM
++     * on env->kvm_timer_state == 0, It's better to adapt in KVM, but it
++     * doesn't matter that adaping in QEMU now.
++     * TODO If KVM changes, adapt here.
++     */
++    if (env->kvm_timer_state) {
++        reg = env->kvm_timer_state;
++        ret = kvm_set_one_reg(cs, RISCV_TIMER_REG(state), &reg);
++        if (ret) {
++            abort();
++        }
++    }
++
++    env->kvm_timer_dirty = false;
++}
+ 
+ const KVMCapabilityInfo kvm_arch_required_capabilities[] = {
+     KVM_CAP_LAST_INFO
 -- 
 2.19.1
 
