@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 853EE254525
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 14:42:19 +0200 (CEST)
-Received: from localhost ([::1]:50276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA1CD254540
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 14:47:27 +0200 (CEST)
+Received: from localhost ([::1]:42186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBHEQ-0005qg-IJ
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 08:42:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59066)
+	id 1kBHJO-0005fu-PJ
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 08:47:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ysato@users.sourceforge.jp>)
- id 1kBHBV-00086e-4C
+ id 1kBHBV-00087v-Kw
  for qemu-devel@nongnu.org; Thu, 27 Aug 2020 08:39:17 -0400
-Received: from mail02.asahi-net.or.jp ([202.224.55.14]:56311)
+Received: from mail03.asahi-net.or.jp ([202.224.55.15]:39228)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ysato@users.sourceforge.jp>) id 1kBHBO-0005wY-Np
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 08:39:16 -0400
+ (envelope-from <ysato@users.sourceforge.jp>) id 1kBHBR-0005xj-H4
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 08:39:17 -0400
 Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
  [153.127.30.23]) (Authenticated sender: PQ4Y-STU)
- by mail02.asahi-net.or.jp (Postfix) with ESMTPA id BFCF72683A;
- Thu, 27 Aug 2020 21:39:09 +0900 (JST)
+ by mail03.asahi-net.or.jp (Postfix) with ESMTPA id 0069026AF9;
+ Thu, 27 Aug 2020 21:39:10 +0900 (JST)
 Received: from yo-satoh-debian.localdomain (ZM005235.ppp.dion.ne.jp
  [222.8.5.235])
- by sakura.ysato.name (Postfix) with ESMTPSA id 783C81C0792;
+ by sakura.ysato.name (Postfix) with ESMTPSA id A78621C0696;
  Thu, 27 Aug 2020 21:39:09 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 19/20] hw/rx: Add CQ-FRK-RX62N target
-Date: Thu, 27 Aug 2020 21:38:58 +0900
-Message-Id: <20200827123859.81793-20-ysato@users.sourceforge.jp>
+Subject: [PATCH 20/20] MAINTAINERS: Update RX entry
+Date: Thu, 27 Aug 2020 21:38:59 +0900
+Message-Id: <20200827123859.81793-21-ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200827123859.81793-1-ysato@users.sourceforge.jp>
 References: <20200827123859.81793-1-ysato@users.sourceforge.jp>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: softfail client-ip=202.224.55.14;
- envelope-from=ysato@users.sourceforge.jp; helo=mail02.asahi-net.or.jp
+Received-SPF: softfail client-ip=202.224.55.15;
+ envelope-from=ysato@users.sourceforge.jp; helo=mail03.asahi-net.or.jp
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 08:39:06
 X-ACL-Warn: Detected OS   = ???
 X-Spam_score_int: -18
@@ -61,149 +61,27 @@ Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It most popular RX target board in Japan.
-
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 ---
- default-configs/rx-softmmu.mak |  1 +
- hw/rx/cq-frk-rx62n.c           | 94 ++++++++++++++++++++++++++++++++++
- hw/rx/Kconfig                  |  3 ++
- hw/rx/meson.build              |  1 +
- 4 files changed, 99 insertions(+)
- create mode 100644 hw/rx/cq-frk-rx62n.c
+ MAINTAINERS | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/default-configs/rx-softmmu.mak b/default-configs/rx-softmmu.mak
-index ea8731d67b..dbbaee8809 100644
---- a/default-configs/rx-softmmu.mak
-+++ b/default-configs/rx-softmmu.mak
-@@ -2,3 +2,4 @@
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5a22c8be42..cee8448a73 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2054,9 +2054,11 @@ F: hw/char/renesas_sci.c
+ F: hw/char/sh_serial.c
+ F: hw/timer/renesas_*.c
+ F: hw/timer/sh_timer.c
++F: hw/net/renesas_eth.c
+ F: include/hw/char/renesas_sci.h
+ F: include/hw/sh4/sh.h
+ F: include/hw/timer/renesas_*.h
++F: include/hw/net/renesas_eth.h
  
- CONFIG_RX_GDBSIM=y
- CONFIG_TKDN_RX62N=y
-+CONFIG_FRK_RX62N=y
-diff --git a/hw/rx/cq-frk-rx62n.c b/hw/rx/cq-frk-rx62n.c
-new file mode 100644
-index 0000000000..a1cd9cb2ad
---- /dev/null
-+++ b/hw/rx/cq-frk-rx62n.c
-@@ -0,0 +1,94 @@
-+/*
-+ * CQ publishing CQ-FRK-RX62N
-+ *
-+ * Copyright (c) 2020 Yoshinori Sato
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/cutils.h"
-+#include "qapi/error.h"
-+#include "qemu-common.h"
-+#include "cpu.h"
-+#include "hw/hw.h"
-+#include "hw/sysbus.h"
-+#include "hw/loader.h"
-+#include "hw/rx/loader.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/rx/rx62n.h"
-+#include "sysemu/sysemu.h"
-+#include "sysemu/qtest.h"
-+#include "sysemu/device_tree.h"
-+#include "hw/boards.h"
-+
-+typedef struct {
-+    /*< private >*/
-+    MachineState parent_obj;
-+    /*< public >*/
-+    RX62NState mcu;
-+} FRK_RX62NMachineState;
-+
-+#define TYPE_FRK_RX62N_MACHINE MACHINE_TYPE_NAME("cq-frk-rx62n")
-+
-+#define FRK_RX62N_MACHINE(obj) \
-+    OBJECT_CHECK(FRK_RX62NMachineState, (obj), TYPE_FRK_RX62N_MACHINE)
-+
-+static void frk_rx62n_init(MachineState *machine)
-+{
-+    FRK_RX62NMachineState *s = FRK_RX62N_MACHINE(machine);
-+    RX62NClass *rx62nc;
-+    MemoryRegion *sysmem = get_system_memory();
-+
-+    /* Initialize MCU */
-+    object_initialize_child(OBJECT(machine), "mcu",
-+                            &s->mcu, TYPE_R5F562N7_MCU);
-+    rx62nc = RX62N_MCU_GET_CLASS(&s->mcu);
-+    object_property_set_link(OBJECT(&s->mcu), "main-bus", OBJECT(sysmem),
-+                             &error_abort);
-+    object_property_set_uint(OBJECT(&s->mcu), "xtal-frequency-hz",
-+                             12 * 1000 * 1000, &error_abort);
-+    if (bios_name) {
-+        if (!load_bios(bios_name, rx62nc->rom_flash_size, &error_abort)) {
-+            exit(0);
-+        }
-+    } else if (!qtest_enabled()) {
-+        error_report("No bios specified");
-+        exit(1);
-+    }
-+    qdev_realize(DEVICE(&s->mcu), NULL, &error_abort);
-+}
-+
-+static void frk_rx62n_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+
-+    mc->desc = "CQ publishing CQ-FRK-RX62N";
-+    mc->init = frk_rx62n_init;
-+    mc->is_default = 0;
-+    mc->default_cpu_type = TYPE_RX62N_CPU;
-+}
-+
-+static const TypeInfo frk_rx62n_type = {
-+    .name = MACHINE_TYPE_NAME("cq-frk-rx62n"),
-+    .parent = TYPE_MACHINE,
-+    .instance_size  = sizeof(FRK_RX62NMachineState),
-+    .class_init = frk_rx62n_class_init,
-+};
-+
-+static void frk_rx62n_machine_init(void)
-+{
-+    type_register_static(&frk_rx62n_type);
-+}
-+
-+type_init(frk_rx62n_machine_init)
-diff --git a/hw/rx/Kconfig b/hw/rx/Kconfig
-index 0ef20d0c3c..ab2c472510 100644
---- a/hw/rx/Kconfig
-+++ b/hw/rx/Kconfig
-@@ -17,3 +17,6 @@ config TKDN_RX62N
-     select RX62N_MCU
-     select FITLOADER
- 
-+config FRK_RX62N
-+    bool
-+    select RX62N_MCU
-diff --git a/hw/rx/meson.build b/hw/rx/meson.build
-index 0a741e091c..0f26f1fcb2 100644
---- a/hw/rx/meson.build
-+++ b/hw/rx/meson.build
-@@ -2,6 +2,7 @@ rx_ss = ss.source_set()
- rx_ss.add(files('loader.c'))
- rx_ss.add(when: 'CONFIG_RX_GDBSIM', if_true: files('rx-gdbsim.c'))
- rx_ss.add(when: 'CONFIG_TKDN_RX62N', if_true: files('tkdn-rx62n.c'))
-+rx_ss.add(when: 'CONFIG_FRK_RX62N', if_true: files('cq-frk-rx62n.c'))
- rx_ss.add(when: 'CONFIG_RX62N_MCU', if_true: files('rx62n.c', 'rx62n-cpg.c'))
- 
- hw_arch += {'rx': rx_ss}
+ Renesas RX peripherals
+ M: Yoshinori Sato <ysato@users.sourceforge.jp>
 -- 
 2.20.1
 
