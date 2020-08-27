@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F2FE255022
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 22:40:38 +0200 (CEST)
-Received: from localhost ([::1]:46964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C95B255023
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 22:40:45 +0200 (CEST)
+Received: from localhost ([::1]:47346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBOhJ-000163-FO
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 16:40:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50648)
+	id 1kBOhQ-0001Fd-3r
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 16:40:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kBOcN-0007lX-IH
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 16:35:31 -0400
-Received: from mout.gmx.net ([212.227.15.18]:57651)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kBOca-0007r5-2s
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 16:35:44 -0400
+Received: from mout.gmx.net ([212.227.15.19]:50063)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kBOcJ-0001V6-T6
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 16:35:30 -0400
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kBOcU-0001Wy-LC
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 16:35:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
  s=badeba3b8450; t=1598560521;
- bh=vw8bGZyavPiuNJqGPu8Pu9oaZpooKHADWrXrJJKoI0U=;
+ bh=GfAPOzRoNtv6AQhGQrz6LyS411L8skaDZnE6D/yVaAY=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=fJZyZnH1MW5uUA87T/FI9viuDipNgy+iW12yhC8v2Q1DysuQIQvKu+Sc9VD8cSCZ/
- Pm3khQVOOVpEqNVk+ZzTCqiQl9LQx2LOIkp/bSPBYGBW3ck6ehVpehkBtBuHoFzjUg
- OVLiZ5g1qWTL2e9LMLBIfvy7PNvpxjta7mlps718=
+ b=jUzT+LAmIwW95FLhGoGNus66afloudSMl2A4tb06DA0p6/jjoN3DE/avXAQSSsa7n
+ OLdhSKtYgdbxNTNT7z6Cx6wEJMmmP+R4EGZt3Z3+pC7GOFpimWTddj2mFbbZ8bcK0l
+ ibQbHQyPW2Tb1LWI3zBNjT6J9O+jhQeIWe9KLzhg=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from ls3530.fritz.box ([92.116.181.35]) by mail.gmx.com (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MjS5A-1kruRX09hS-00kuTa; Thu, 27
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MdNY2-1kkjQv0qRc-00ZO9w; Thu, 27
  Aug 2020 22:35:21 +0200
 From: Helge Deller <deller@gmx.de>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/5] hw/hppa: Store boot device in fw_cfg section
-Date: Thu, 27 Aug 2020 22:35:15 +0200
-Message-Id: <20200827203517.29404-4-deller@gmx.de>
+Subject: [PATCH 4/5] hw/hppa: Inform SeaBIOS about fw_cfg port address
+Date: Thu, 27 Aug 2020 22:35:16 +0200
+Message-Id: <20200827203517.29404-5-deller@gmx.de>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200827203517.29404-1-deller@gmx.de>
 References: <20200827203517.29404-1-deller@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:y+BaNieFhgukXqtpKUmgv+nB7fnoH4zSRllYEicGmQmWPl+buGu
- FO0Fnx5obDUmYWkfb1zvrQwrWCth4CTQsYPQg/tU84JFcIPcTYD+RrHrPt5hOArAPgR6ChH
- MppUM/Gxmb9sRZu8x8zsOOx3LTIEJk2Vjv5BFF24ENNT0CLX6HQhcGk9jYna5TuZhq9jAGo
- vHnQk09mNzDDDWcrY2tRg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5NhQpBOEF2I=:Xbijeik0xnGE9PVB3+aMyF
- 51Gk2RyLYAITE5c6ORYC44nC0Eu/HyD4/Ev79g96AmokDsju0LUtA2iqVy3RISoYO4SUGOGIM
- UFHsrhBpUkuhf2LcTH64lTyx7TkhWdi9QlZz/n7xE4jZX+NasVZp0rHT3B9FQz/PXoMqqxWzh
- BffWQlwOqrBm3jY51gs9gQGxTLNbcGHp/I8lBqhkHLDJ2yMwLQF2JL2NDQck2jPQsxLW+IeZk
- 8j7dAWBTBqoimy3Q1nhQisrzy4B+yNizpVPF2eXnIerAaGHstKICfYUcxCJTB2tnuNN0TVqbv
- k4gwhurAvMG2/qv9JR7fMSlQ55a8peNnnJTwH7EVoJ809WiYmAed9sMfxjDD9htdUzObC/OGt
- zPzy0SAFJF5QftxP5A5IRalZ6AkLwIjGnuZ2YG/Vi6jH6UCouiEbHxHYQ7fDDfbqBtjiWtQgQ
- pEpmZDNppopnlj8eplF06uuc0dpkQOBf1yoVSjY2RNWiOOwEZ8h6RNfygZDWwd5jLN2c1MW+4
- Iik46vGE6FBqGz7kHBZ39BrmQ3y95fpy7jK2ItD7PHflHxmdc3NjJvMl/kiWL3VWYD8Dyzh0J
- +EhBrAxW7uXOtrTGM0Pog1ThWLYduCUvejwjLOQSQRTTcAN074Xwlb1tT/Jx5FVmxhAZRkf5s
- 61Os3zR4tnGSOnfoVqGWOOba/zEM0orXi3070Ejex0r964qxAYIDnM+UDwCtjWw7iZGYhxYwb
- fz73BQIsZ4HhXR/z/JiKZZZgeJi8gcoKEQIjp362zX//aA3GvQQBQBeLAUGqH136AvErmUUbi
- 5W9oZgyYPzeKDDlI7tBv6TpFB2OxeGpSIzBquUfyqSrXe7YOxQTB5ocb9anWLsrFkMUv1kqwG
- Ys6GpTCDWs3whzX55vbG/lRvnVwCcFXViOfr4GfqQ31cXabrnNu6Av6gVOzp+F39/1bSnhZ7a
- bOYUzmpSZi1h6jETLmxZ9pxqW3VDNPY1cpBm7vdHUCCd9zk2GuChbgH/9r3rs+ohIp8nobbaW
- 6i5QCUob9NTPud0fhROXjKrqkL6kXYXQtiAm7JcbAI+kRk5fKnaBWa4XoBAcMbc2hswt7WrLM
- /QkhmQxQMP8tmGA7lZZC2LheCKSG3mSugSIYU+vrRn09CuUALqg/XPGLKdyxPEflOa7eYooat
- 7b+UYYxBPtXIVJQvi3Exfg8mY5xxz0c2NDEXPO3xwD1eAPr8GbiH8TShNk2O4K6DWZ9TpXt+h
- leRAfWKaG2mF9qSAh
-Received-SPF: pass client-ip=212.227.15.18; envelope-from=deller@gmx.de;
+X-Provags-ID: V03:K1:Sv4H8Z5VfW29P/71RunDSvZ0S3eb9+SxNIw1KsLfvBpS8nH5XJ3
+ doLxzBukwebbKRpawbZF+c6Oux7k/SVGvYRu4SdIBGIcdfZVKYjdAPkrWkremEy+kNG1pUS
+ 5ad+SbMwUwV3b1XlY18UhJDu/pRYmkIa54AhuAlZu8Sfab9RmiLzTrTHleMw9XtO4OE8Ai6
+ 3yI66GfPyxZF8h7MKwf3w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:xtIir5blvKA=:m5JAW6vEETSj3t5mvNr5VT
+ ffUYIlVJ35W5XuxblfIQHHzFjnC/TMRvjpkyWeXLf47quswbkUVn/JATNcac53w+4frxV+hot
+ RqLg3g/Z7tY7yVa2VbyhS3kEIeicFiJk943tjouEHYPGDYRM7GsdEv1nciW3HtFjZdO30GNSh
+ GyVElkUsG+1Gt9mk5Q1kJSKzpVlhRN+im7xVwTQcts1we7YuOxPPVEr7dtdj1pbXRWJ8H+O31
+ bUovow6W2kA3lqHM/krInLYXehjxeFctEJC/UMQeb0pW4q5Mn857EKEhCnP+KbHbcyerROXs8
+ H0LtRMJ0PiScGdU6idemzaVSKolhWxUkQbu5doUiLgM3Pp7WmE841rw8wqOXQCYtA/lVZ2Gs5
+ aazgnngM+ylIwW7BS5kmXuzhLVJkcWehZ5alzap7yocLmx8A/syWW7Tjxl2xi7cI/ogPTK7+7
+ 3hF5R1Fvy1HIrkE6z6SeFm8xLIrQJISuD2UmQBlRnclAIYIh7Ex8pzzSnyQ1LJXz/pITATynA
+ 6H+3E1CYU/BCwwsWDMV5mBOZOerKPFRerV4Vat9o7KaCROh+incsE39bguwnHdfV8hsIwPhri
+ 39jaN8GgsNtgPGbNbXAm/2PMn9dYVBjvrrLgBL9w811GDV02oqllVrGVDlO/62QdBohZ2NFEx
+ u0lNnqwbeL98a1Eh2HmpjckjlprnBbew/LcKagbWkUsuZGGLMHpXBTFqreoSFWGwv3CMt4dwd
+ IZOlu6LZzQHtUcRVIF/UiC1sODcMtEehexxanIucoMTYFT240kiTMgklMQxQbECAqdvUKBr4k
+ /c9cWvCaixL6n7IJzUr8SdsS//UTFZSooBbJt1+Oq0DgSZrF3JkOLAJ3qWBr5DcrnoL6wN4PB
+ hFStkjBhLKxJo7mcik4o+zRipjqjfzSR3ooBDFG7lGf37K9R7p3DSGtb4vt+Uhi9uc7lYIYR/
+ zWn1lc1X3ZMs3venYtrtPOI6C2UhbrO4XZAAEHHlD/NGhygFhkM3AnB9Km/+tsi4XNwtlpeoK
+ O+0ECRzmB8MCdhIMy7lVABDugATEPtteNNQfYOqkwq4Hphht10laLgoxUHSFqEXISaGLukYqz
+ +Tc5Yxvef10+KLk0yC8VilLutxLSozoCuLEraVu955fW6YCh4K6RqjjT+61pI7Vn0PPxmbwp2
+ Jg2olQqGsFoxMfi8QGfiMWX242/mM+msfeYO7i3NlPvuUpVIGnYc2mKwnLSCham4BgD4QyMWQ
+ yg3q0jwf7rt9BoZOp
+Received-SPF: pass client-ip=212.227.15.19; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 16:35:24
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 16:35:28
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -92,36 +92,56 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Helge Deller <deller@gmx.de>
 =2D--
- hw/hppa/machine.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ hw/hppa/hppa_hardware.h | 3 +--
+ hw/hppa/machine.c       | 7 ++++++-
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
+diff --git a/hw/hppa/hppa_hardware.h b/hw/hppa/hppa_hardware.h
+index cdb7fa6240..bc258895c9 100644
+=2D-- a/hw/hppa/hppa_hardware.h
++++ b/hw/hppa/hppa_hardware.h
+@@ -38,8 +38,7 @@
+ #define PORT_PCI_CMD    (PCI_HPA + DINO_PCI_ADDR)
+ #define PORT_PCI_DATA   (PCI_HPA + DINO_CONFIG_DATA)
+
+-/* QEMU fw_cfg interface port */
+-#define QEMU_FW_CFG_IO_BASE     (MEMORY_HPA + 0x80)
++#define FW_CFG_IO_BASE  0xfffa0000
+
+ #define PORT_SERIAL1    (DINO_UART_HPA + 0x800)
+ #define PORT_SERIAL2    (LASI_UART_HPA + 0x800)
 diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-index e9d84d0f03..4b35afc9d5 100644
+index 4b35afc9d5..2bed49807b 100644
 =2D-- a/hw/hppa/machine.c
 +++ b/hw/hppa/machine.c
-@@ -58,6 +58,12 @@ static uint64_t cpu_hppa_to_phys(void *opaque, uint64_t=
- addr)
- static HPPACPU *cpu[HPPA_MAX_CPUS];
- static uint64_t firmware_entry;
-
-+static void fw_cfg_boot_set(void *opaque, const char *boot_device,
-+                            Error **errp)
-+{
-+    fw_cfg_modify_i16(opaque, FW_CFG_BOOT_DEVICE, boot_device[0]);
-+}
-+
- static FWCfgState *create_fw_cfg(MachineState *ms)
- {
+@@ -69,7 +69,7 @@ static FWCfgState *create_fw_cfg(MachineState *ms)
      FWCfgState *fw_cfg;
-@@ -80,6 +86,9 @@ static FWCfgState *create_fw_cfg(MachineState *ms)
-     fw_cfg_add_file(fw_cfg, "/etc/cpu/btlb_entries",
-                     g_memdup(&val, sizeof(val)), sizeof(val));
+     uint64_t val;
 
-+    fw_cfg_add_i16(fw_cfg, FW_CFG_BOOT_DEVICE, ms->boot_order[0]);
-+    qemu_register_boot_set(fw_cfg_boot_set, fw_cfg);
+-    fw_cfg =3D fw_cfg_init_mem(QEMU_FW_CFG_IO_BASE, QEMU_FW_CFG_IO_BASE +=
+ 4);
++    fw_cfg =3D fw_cfg_init_mem(FW_CFG_IO_BASE, FW_CFG_IO_BASE + 4);
+     fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, ms->smp.cpus);
+     fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, HPPA_MAX_CPUS);
+     fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, ram_size);
+@@ -290,6 +290,9 @@ static void machine_hppa_init(MachineState *machine)
+
+     /* tell firmware how many SMP CPUs to present in inventory table */
+     cpu[0]->env.gr[21] =3D smp_cpus;
 +
-     return fw_cfg;
++    /* tell firmware fw_cfg port */
++    cpu[0]->env.gr[19] =3D FW_CFG_IO_BASE;
  }
+
+ static void hppa_machine_reset(MachineState *ms)
+@@ -317,6 +320,8 @@ static void hppa_machine_reset(MachineState *ms)
+     cpu[0]->env.gr[24] =3D 'c';
+     /* gr22/gr23 unused, no initrd while reboot. */
+     cpu[0]->env.gr[21] =3D smp_cpus;
++    /* tell firmware fw_cfg port */
++    cpu[0]->env.gr[19] =3D FW_CFG_IO_BASE;
+ }
+
 
 =2D-
 2.21.3
