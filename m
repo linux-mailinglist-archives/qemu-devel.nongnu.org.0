@@ -2,87 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 034F8253E3E
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 08:55:08 +0200 (CEST)
-Received: from localhost ([::1]:42110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73970253E4A
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 08:57:57 +0200 (CEST)
+Received: from localhost ([::1]:44676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBBoQ-0000x3-TM
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 02:55:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53090)
+	id 1kBBrA-0002Cs-Ga
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 02:57:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1kBBnR-0000Oq-KX
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 02:54:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29102)
+ id 1kBBqE-0001eO-H3
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 02:56:58 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39479
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1kBBnP-0001qm-BQ
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 02:54:05 -0400
+ id 1kBBq9-0002G9-Jo
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 02:56:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598511242;
+ s=mimecast20190719; t=1598511412;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m6pExH/Wx7HDxG5TZe8WndVEbse8trnYUp0l8jdP0II=;
- b=PET5LWbR4bsCfoZ4lzXdAT3RGbq+u1/CssrcNLL3x0/IZmZgyfB7rspomojsK3FmGq03zY
- Vkb91NpYq8UCa7prqDx1ZW/EJJ3Rq0xOHhdcFwLEWXBvlPGsP8z2+vv6XMWpFBhlGonP7B
- lfWFhXbr951ORgDXF9GuSA5T0YieP2I=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-453-RcMkx_FAMa6SKkEx32FuRg-1; Thu, 27 Aug 2020 02:54:00 -0400
-X-MC-Unique: RcMkx_FAMa6SKkEx32FuRg-1
-Received: by mail-qk1-f197.google.com with SMTP id g6so3905261qko.21
- for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 23:54:00 -0700 (PDT)
+ bh=rPJ5+y1fY3rbEC4eXpcba4ftNw0KTE3K0N9tI7jMnxk=;
+ b=ikLRy5HflvgaMDAaTDYXq8ialOkfXt5oppNRwyzZcIqyoE8DbOHaeXS3gPNDSe7tA182cn
+ 5F1+0Dzg0tFyxplmQXd7qHwZA/NQTuIpj4gsaWlJ4xmOmplOv21+/k32YT1PrkyRvKGdS4
+ 768uUnshTrbuZhih4B3UmbgMReKLeJE=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-509-ASVLqu2IPByhbBnoEuqzbg-1; Thu, 27 Aug 2020 02:56:50 -0400
+X-MC-Unique: ASVLqu2IPByhbBnoEuqzbg-1
+Received: by mail-qk1-f199.google.com with SMTP id 1so3904558qki.22
+ for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 23:56:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=m6pExH/Wx7HDxG5TZe8WndVEbse8trnYUp0l8jdP0II=;
- b=ISCsA9aqCBR0smJUD44b1GshJvS3cjSU5hXd2FgFBWpj5iNj6Yy7fgmUMA6p3urD6i
- xaAV2F3i7filrOD+asFryxiLqAZCC7jzTg3V64aXe4Soaeq2ed4yaLW4gm44Ob1Rk1Yb
- X8VmNTeZPdGNBpzCU3bOPkgdhmPBzfMvvKuzJKUc+CspxTNfGdYxZUTgNu5OTSRvBMQE
- pC1tgs7TVUy+iX1KtxX22PDEGOkyI6kVkQn+uGZIkeUdAmzhGC7jM5Z70bBKC0KG+E9/
- HbesQDSOubg5A6mzFR5d/QmpFyr7a9WEh3h8lCVtC2GtlSASEnsWOcVVx/qL39Y4+45l
- ub5Q==
-X-Gm-Message-State: AOAM533I3qnz86SaI26raW+7ASFakhxNz3iXYH5Lcjfj8gRHzqDSXgJw
- qwezZE6PZwRRsbDoJXRE+09EPvvi6NqZ0puH4cS/hc1Xus++Yu+R6SspyF2UWepHOpPWeUBALNO
- lOJtDI7p6mytP8IT8XGap+FMUeirCw5M=
-X-Received: by 2002:a05:620a:ed3:: with SMTP id
- x19mr15955302qkm.89.1598511239875; 
- Wed, 26 Aug 2020 23:53:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyC/TrtYCu0a1o4nFIE0pxQLuoadQcXPJcHPcYZxDJvVVf+oAn7vYaYX1zQEUfyBtBtlaJw/m2CSGV03/T1vIA=
-X-Received: by 2002:a05:620a:ed3:: with SMTP id
- x19mr15955280qkm.89.1598511239638; 
- Wed, 26 Aug 2020 23:53:59 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=rPJ5+y1fY3rbEC4eXpcba4ftNw0KTE3K0N9tI7jMnxk=;
+ b=ZPbOrcV5JJfh4moHA7OqlMUUMp3NwRTYWyAMKgrPdWY06OEoanPmQ+sncr4Eata2r7
+ TJrrFRVzrhki8SUtaldXGVENTo42XkXzBaKfk8o9QSB7HUyCtQUOUC7/kBvoAdGNf/v2
+ Ha828vU5kyreRZ3NEk5+3dVbyxDhTOYleurcxGEq65UANB94jb6mD3F90iwTM90ouBoZ
+ GwrDmKi49LcJ12UPl53dGq0cHn+N4UBzvJnoE6eezjoRiHH1XI2aj+S62ts3BgVBrvwH
+ EkhQz1LeJx79npZrmifuln1qoxXxdf5lJq70b2OzhcOhPxUEZjKQxJRU1PBd1666qSLt
+ r5Jw==
+X-Gm-Message-State: AOAM531sEHecYkVdsdOTcL/ScRdL6Ael818GSKjrwy3Z5Qe7qt3enJ0y
+ HsBShBJu/FgjxPANwdlcsSWLDBORRP6+itAf/hP31FcI18cZ1iWCqlI6SHlNTtNXSBCUIdUvfxk
+ MF4QqY09lm6nbatvklp7IVfv3d80CTcc=
+X-Received: by 2002:ad4:4dc5:: with SMTP id cw5mr17529773qvb.238.1598511410287; 
+ Wed, 26 Aug 2020 23:56:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxhfGICCROP5tIO8I+7hBk1ClW7mqG/ldbOpvgXCIGMXnYdOO94Kjxmjgg+k5at1c/g/nxTGvyY0FIXwRZDMEI=
+X-Received: by 2002:ad4:4dc5:: with SMTP id cw5mr17529758qvb.238.1598511410063; 
+ Wed, 26 Aug 2020 23:56:50 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200625191651.5817-1-eperezma@redhat.com>
  <20200826143651.7915-1-eperezma@redhat.com>
- <CAJaqyWf5vgSNvix99aWzrm2kDZ5xHQ_binRkpTe7WifDrLCjyw@mail.gmail.com>
- <20200826155409.GG8235@xz-x1>
-In-Reply-To: <20200826155409.GG8235@xz-x1>
+ <20200826143651.7915-13-eperezma@redhat.com>
+ <CAE2XoE9kFuavzHzTWvCony77iHk1_+kjrYj-budDVTdgKfTeaQ@mail.gmail.com>
+In-Reply-To: <CAE2XoE9kFuavzHzTWvCony77iHk1_+kjrYj-budDVTdgKfTeaQ@mail.gmail.com>
 From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Thu, 27 Aug 2020 08:53:23 +0200
-Message-ID: <CAJaqyWcVRrX=3TzSpiRUrVBZ8m=c0Rvt1OtN4ZQZS1EoVkCtZg@mail.gmail.com>
-Subject: Re: [RFC v6 00/13] memory: Delete assertion in
- memory_region_unregister_iommu_notifier
-To: Peter Xu <peterx@redhat.com>
+Date: Thu, 27 Aug 2020 08:56:14 +0200
+Message-ID: <CAJaqyWf-v8rx1V5WenepqYVWbN+z7CxWyr=vYe+H=T6DgQJDUQ@mail.gmail.com>
+Subject: Re: [RFC v6 12/13] intel_iommu: Do not notify regular iotlb to
+ device-iotlb notifiers
+To: luoyonggang@gmail.com
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 02:10:07
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 02:56:52
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,87 +100,73 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Yan Zhao <yan.y.zhao@intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
  Juan Quintela <quintela@redhat.com>, Jason Wang <jasowang@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Eric Auger <eric.auger@redhat.com>, qemu-arm@nongnu.org,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-level <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ qemu-arm@nongnu.org, =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
  Avi Kivity <avi@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 26, 2020 at 5:54 PM Peter Xu <peterx@redhat.com> wrote:
+On Wed, Aug 26, 2020 at 6:52 PM =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) <=
+luoyonggang@gmail.com> wrote:
 >
-> On Wed, Aug 26, 2020 at 05:00:30PM +0200, Eugenio Perez Martin wrote:
-> > Hi!
-> >
-> > Sending v6 to see if that is on the same page as what you meant.
-> > Making each setting of "type" explicitly IOMMU_IOTLB_NONE if not used
-> > in notifications. This is done in different commits in case this helps
-> > review of different architectures.
 >
-> I've also proposed IOMMUTLBEvent in the other reply, that might help too.
 >
-
-I think IOMMUTLBEvent would be way clearer, yes :).
-
-> Since at it, there's also another trick to use - we don't need to touch those
-> "type" as long as the default type is "zero", so as long as we make sure the
-> default type (IOMMU_NOTIFIER_NONE) is zero, then we don't need to set it
-> everywhere either.
+> On Wed, Aug 26, 2020 at 10:42 PM Eugenio P=C3=A9rez <eperezma@redhat.com>=
+ wrote:
+>>
+>> This improves performance in case of netperf with vhost-net:
+>> * TCP_STREAM: From 9049.59Mbit/s to 9049.59Mbit/s (13%)
+>
+> What's improvement ? they are the same
 >
 
-Right, I was just making it explicit.
+Ouch, it was from 1923.6 Mbit/s to 2175.13 Mbit/s. Thanks for notify
+it, will fix in next revision!
 
-> >
-> > I think that this way we have too much freedom between entry flags
-> > (currently only access type, RW) and notification type. Since not all
-> > of them are valid nor used in the same context, I think this adds
-> > complexity. I'm wondering if:
-> >
-> > Option a) We could make it private to memory.c, and make it a flag of
-> > memory_region_notify_iommu (like "bool deviotlb_type)". IOW, instead
-> > of making it a member of IOMMUTLBEntry, wrap the "entry" parameter of
-> > memory_region_notify_iommu in a new private structure defined in
-> > memory.c that adds that flag.
+>>
+>> * TCP_RR: From 8464.73 trans/s to 8932.703333 trans/s (5.5%)
+>> * UDP_RR: From 8562.08 trans/s to 9005.62/s (5.1%)
+>> * UDP_STREAM: No change observed (insignificant 0.1% improvement)
+>>
+>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+>> ---
+>>  hw/i386/intel_iommu.c | 6 ++++++
+>>  1 file changed, 6 insertions(+)
+>>
+>> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+>> index ddb828da1f..7620a1abbf 100644
+>> --- a/hw/i386/intel_iommu.c
+>> +++ b/hw/i386/intel_iommu.c
+>> @@ -1960,6 +1960,12 @@ static void vtd_iotlb_domain_invalidate(IntelIOMM=
+UState *s, uint16_t domain_id)
+>>      vtd_iommu_unlock(s);
+>>
+>>      QLIST_FOREACH(vtd_as, &s->vtd_as_with_notifiers, next) {
+>> +        if (vtd_as->iommu.iommu_notify_flags & IOMMU_NOTIFIER_DEVIOTLB)=
+ {
+>> +            /* If IOMMU memory region is DEVICE IOTLB type, it does not=
+ make
+>> +             * sense to send regular IOMMU notifications. */
+>> +            continue;
+>> +        }
+>> +
+>>          if (!vtd_dev_to_context_entry(s, pci_bus_num(vtd_as->bus),
+>>                                        vtd_as->devfn, &ce) &&
+>>              domain_id =3D=3D vtd_get_domain_id(s, &ce)) {
+>> --
+>> 2.18.1
+>>
+>>
 >
-> No strong preference from me.  But since you posted the series before you
-> provide the options... Maybe continue with what we have can be easier. :)
->
-
-I just wanted to be sure I understood your proposal before comparing :)
-
-> >
-> > Option b) We could keep the IOMMUTLBNotificationType enum (open to
-> > suggestions for a better name :)), but not embed it in the struct,
-> > like:
-> >
-> > diff --git a/include/exec/memory.h b/include/exec/memory.h
-> > index 477c3af24c..d9150e7b7e 100644
-> > --- a/include/exec/memory.h
-> > +++ b/include/exec/memory.h
-> > @@ -72,7 +72,8 @@ typedef enum {
-> >      IOMMU_RO   = 1,
-> >      IOMMU_WO   = 2,
-> >      IOMMU_RW   = 3,
-> > -} IOMMUAccessFlags;
-> > +    IOMMU_DEVIOTLB = 4,
-> > +} IOMMUEntryFlags;
->
-> Just in case you didn't notice - IOMMUAccessFlags is actaully a bitmap. :)
->
-
-I know I know, that is why I compared with IOMMU_RW in proposed
-iommu_tlb_entry_type.
-
-Thanks!
-
-> IMHO we can keep the IOMMUAccessFlags scemantics, since it's still correct for
-> a general translated IOMMUTLBEntry object.
->
-> Thanks,
 >
 > --
-> Peter Xu
->
+>          =E6=AD=A4=E8=87=B4
+> =E7=A4=BC
+> =E7=BD=97=E5=8B=87=E5=88=9A
+> Yours
+>     sincerely,
+> Yonggang Luo
 
 
