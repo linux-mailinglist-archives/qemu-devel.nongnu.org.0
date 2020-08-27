@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FCED254522
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 14:41:40 +0200 (CEST)
-Received: from localhost ([::1]:47604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF108254521
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 14:41:34 +0200 (CEST)
+Received: from localhost ([::1]:46998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBHDn-0004mm-51
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 08:41:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59000)
+	id 1kBHDh-0004Y6-Sn
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 08:41:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ysato@users.sourceforge.jp>)
- id 1kBHBT-00081U-9n
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 08:39:15 -0400
-Received: from mail01.asahi-net.or.jp ([202.224.55.13]:47883)
+ id 1kBHBR-0007xb-BS
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 08:39:13 -0400
+Received: from mail01.asahi-net.or.jp ([202.224.55.13]:47886)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ysato@users.sourceforge.jp>) id 1kBHBN-0005uu-S5
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 08:39:14 -0400
+ (envelope-from <ysato@users.sourceforge.jp>) id 1kBHBO-0005vG-17
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 08:39:13 -0400
 Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
  [153.127.30.23]) (Authenticated sender: PQ4Y-STU)
- by mail01.asahi-net.or.jp (Postfix) with ESMTPA id 15835108666;
+ by mail01.asahi-net.or.jp (Postfix) with ESMTPA id 4C9D3108673;
  Thu, 27 Aug 2020 21:39:07 +0900 (JST)
 Received: from yo-satoh-debian.localdomain (ZM005235.ppp.dion.ne.jp
  [222.8.5.235])
- by sakura.ysato.name (Postfix) with ESMTPSA id B1FA71C0696;
+ by sakura.ysato.name (Postfix) with ESMTPSA id F34F41C0792;
  Thu, 27 Aug 2020 21:39:06 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/20] hw/timer: Renesas TMU/CMT module.
-Date: Thu, 27 Aug 2020 21:38:47 +0900
-Message-Id: <20200827123859.81793-9-ysato@users.sourceforge.jp>
+Subject: [PATCH 09/20] hw/timer: Remove renesas_cmt.
+Date: Thu, 27 Aug 2020 21:38:48 +0900
+Message-Id: <20200827123859.81793-10-ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200827123859.81793-1-ysato@users.sourceforge.jp>
 References: <20200827123859.81793-1-ysato@users.sourceforge.jp>
@@ -61,804 +61,351 @@ Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TMU - SH4 Timer module.
-CMT - Compare and match timer used by some Renesas MCUs.
-
-The two modules have similar interfaces and have been merged.
+This module replaced to unified renesas_timer.
 
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 ---
- include/hw/timer/renesas_timer.h | 103 +++++
- hw/timer/renesas_timer.c         | 639 +++++++++++++++++++++++++++++++
- hw/timer/Kconfig                 |   4 +-
- hw/timer/meson.build             |   2 +-
- 4 files changed, 745 insertions(+), 3 deletions(-)
- create mode 100644 include/hw/timer/renesas_timer.h
- create mode 100644 hw/timer/renesas_timer.c
+ include/hw/timer/renesas_cmt.h |  40 -----
+ hw/timer/renesas_cmt.c         | 283 ---------------------------------
+ 2 files changed, 323 deletions(-)
+ delete mode 100644 include/hw/timer/renesas_cmt.h
+ delete mode 100644 hw/timer/renesas_cmt.c
 
-diff --git a/include/hw/timer/renesas_timer.h b/include/hw/timer/renesas_timer.h
-new file mode 100644
-index 0000000000..27300ae574
---- /dev/null
-+++ b/include/hw/timer/renesas_timer.h
-@@ -0,0 +1,103 @@
-+/*
-+ * Renesas Timer unit Object
-+ *
-+ * Copyright (c) 2020 Yoshinori Sato
-+ *
-+ * This code is licensed under the GPL version 2 or later.
-+ *
-+ */
-+
-+#ifndef HW_RENESAS_TIMER_H
-+#define HW_RENESAS_TIMER_H
-+
-+#include "hw/sysbus.h"
-+#include "hw/qdev-clock.h"
-+
-+#define TYPE_RENESAS_TIMER_BASE "renesas-timer"
-+#define RenesasTimerBase(obj) \
-+    OBJECT_CHECK(RenesasTimerBaseState, (obj), TYPE_RENESAS_TIMER_BASE)
-+#define TYPE_RENESAS_CMT "renesas-cmt"
-+#define RenesasCMT(obj) OBJECT_CHECK(RenesasCMTState, (obj), TYPE_RENESAS_CMT)
-+#define TYPE_RENESAS_TMU "renesas-tmu"
-+#define RenesasTMU(obj) OBJECT_CHECK(RenesasTMUState, (obj), TYPE_RENESAS_TMU)
-+
-+#define RenesasTimer_GET_CLASS(obj) \
-+    OBJECT_GET_CLASS(RenesasTimerBaseClass, obj, TYPE_RENESAS_TIMER_BASE)
-+#define TimerBaseClass(klass) \
-+    OBJECT_CLASS_CHECK(RenesasTimerBaseClass, klass, TYPE_RENESAS_TIMER_BASE)
-+#define CMTClass(klass) \
-+    OBJECT_CLASS_CHECK(RenesasCMTClass, klass, TYPE_RENESAS_CMT)
-+#define TMUClass(klass) \
-+    OBJECT_CLASS_CHECK(RenesasTMUClass, klass, TYPE_RENESAS_TMU)
-+
-+enum {
-+    TIMER_CH_CMT = 2,
-+    TIMER_CH_TMU = 3,
-+};
-+
-+enum {
-+    CMT_NR_IRQ = 1 * TIMER_CH_CMT,
-+};
-+
-+struct RTIMERState;
-+
-+enum dirction {
-+    countup, countdown,
-+};
-+
-+struct rtimer_ch {
-+    uint32_t cnt;
-+    uint32_t cor;
-+    uint16_t ctrl;
-+    qemu_irq irq;
-+    int64_t base;
-+    int64_t next;
-+    uint64_t clk;
-+    bool start;
-+    QEMUTimer *timer;
-+    struct RTIMERState *tmrp;
-+};
-+
-+typedef struct RenesasTimerBaseState {
-+    SysBusDevice parent_obj;
-+
-+    uint64_t input_freq;
-+    MemoryRegion memory;
-+    MemoryRegion memory_p4;
-+    MemoryRegion memory_a7;
-+    Clock *pck;
-+
-+    struct rtimer_ch ch[TIMER_CH_TMU];
-+    int num_ch;
-+    enum dirction direction;
-+    int unit;
-+} RenesasTimerBaseState;
-+
-+typedef struct RenesasCMTState {
-+    RenesasTimerBaseState parent_obj;
-+} RenesasCMTState;
-+
-+typedef struct RenesasTMUState {
-+    RenesasTimerBaseState parent_obj;
-+    uint8_t tocr;
-+} RenesasTMUState;
-+
-+typedef struct RenesasTimerBaseClass {
-+    SysBusDeviceClass parent;
-+    int (*divrate)(RenesasTimerBaseState *tmr, int ch);
-+    void (*timer_event)(void *opaque);
-+    int64_t (*delta_to_tcnt)(RenesasTimerBaseState *tmr, int ch, int64_t delta);
-+    int64_t (*get_next)(RenesasTimerBaseState *tmr, int ch);
-+    void (*update_clk)(RenesasTimerBaseState *tmr, int ch);
-+} RenesasTimerBaseClass;
-+
-+typedef struct RenesasCMTClass {
-+    RenesasTimerBaseClass parent;
-+} RenesasCMTClass;
-+
-+typedef struct RenesasTMUClass {
-+    RenesasTimerBaseClass parent;
-+    void (*p_update_clk)(RenesasTimerBaseState *tmr, int ch);
-+} RenesasTMUClass;
-+
-+#endif
-diff --git a/hw/timer/renesas_timer.c b/hw/timer/renesas_timer.c
-new file mode 100644
-index 0000000000..e1da328d1b
---- /dev/null
-+++ b/hw/timer/renesas_timer.c
-@@ -0,0 +1,639 @@
-+/*
-+ * Renesas 16bit Compare-match timer
-+ *
-+ * Datasheet: RX62N Group, RX621 Group User's Manual: Hardware
-+ * (Rev.1.40 R01UH0033EJ0140)
-+ *
-+ * Copyright (c) 2019 Yoshinori Sato
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+#include "qemu/log.h"
-+#include "qapi/error.h"
-+#include "qemu/timer.h"
-+#include "hw/hw.h"
-+#include "hw/irq.h"
-+#include "hw/sysbus.h"
-+#include "hw/registerfields.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/timer/renesas_timer.h"
-+#include "migration/vmstate.h"
-+#include "qemu/error-report.h"
-+
-+REG32(TOCR, 0)
-+  FIELD(TOCR, TCOE, 0, 1)
-+REG32(CMSTR, 0)
-+REG32(TSTR, 4)
-+REG32(TCOR, 8)
-+REG32(TCNT, 12)
-+REG32(TCR, 16)
-+  FIELD(TCR, TPSC, 0, 3)
-+  FIELD(TCR, CKEG, 3, 2)
-+  FIELD(TCR, UNIE, 5, 1)
-+  FIELD(TCR, ICPE, 6, 2)
-+  FIELD(TCR, UNF, 8, 1)
-+  FIELD(TCR, ICPF, 9, 1)
-+REG32(CMCR, 16)
-+  FIELD(CMCR, CKS, 0, 2)
-+  FIELD(CMCR, CMIE, 6, 1)
-+REG32(TCPR, 20)
-+
-+static int cmt_div(RenesasTimerBaseState *tmr, int ch)
-+{
-+    return 8 << (2 * FIELD_EX16(tmr->ch[ch].ctrl, CMCR, CKS));
-+}
-+
-+static int tmu_div(RenesasTimerBaseState *tmr, int ch)
-+{
-+    if (FIELD_EX16(tmr->ch[ch].ctrl, TCR, TPSC) <= 5) {
-+        return 4 << (2 * FIELD_EX16(tmr->ch[ch].ctrl, TCR, TPSC));
-+    } else {
-+        return 0;
-+    }
-+
-+}
-+
-+static int64_t cmt_get_next(RenesasTimerBaseState *tmr, int ch)
-+{
-+    return tmr->ch[ch].cor - tmr->ch[ch].cnt;
-+}
-+
-+static int64_t tmu_get_next(RenesasTimerBaseState *tmr, int ch)
-+{
-+    return tmr->ch[ch].cnt;
-+}
-+
-+static void cmt_timer_event(void *opaque)
-+{
-+    struct rtimer_ch *ch = opaque;
-+    ch->cnt = 0;
-+    if (FIELD_EX16(ch->ctrl, CMCR, CMIE)) {
-+        qemu_irq_pulse(ch->irq);
-+    }
-+    ch->base = ch->next;
-+    ch->next += (ch->cor - ch->cnt) * ch->clk;
-+    timer_mod(ch->timer, ch->next);
-+}
-+
-+static void tmu_timer_event(void *opaque)
-+{
-+    struct rtimer_ch *ch = opaque;
-+    ch->cnt = ch->cor;
-+    if (!FIELD_EX16(ch->ctrl, TCR, UNF)) {
-+        ch->ctrl = FIELD_DP16(ch->ctrl, TCR, UNF, 1);
-+        qemu_set_irq(ch->irq, FIELD_EX16(ch->ctrl, TCR, UNIE));
-+    }
-+    ch->base = ch->next;
-+    ch->next += ch->cnt * ch->clk;
-+    timer_mod(ch->timer, ch->next);
-+}
-+
-+static int64_t cmt_delta_to_cnt(RenesasTimerBaseState *tmr,
-+                                int ch, int64_t delta)
-+{
-+    return tmr->ch[ch].cnt + delta;
-+}
-+
-+static int64_t tmu_delta_to_cnt(RenesasTimerBaseState *tmr,
-+                                int ch, int64_t delta)
-+{
-+    return tmr->ch[ch].cnt - delta;
-+}
-+
-+static int64_t read_tcnt(RenesasTimerBaseState *tmr, int ch)
-+{
-+    int64_t delta, now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+    RenesasTimerBaseClass *tc = RenesasTimer_GET_CLASS(tmr);
-+
-+    if (tmr->ch[ch].clk > 0) {
-+        delta = (now - tmr->ch[ch].base);
-+        delta /= tmr->ch[ch].clk;
-+        return tc->delta_to_tcnt(tmr, ch, delta);
-+    } else {
-+        return tmr->ch[ch].cnt;
-+    }
-+}
-+
-+static void tmr_start_stop(RenesasTimerBaseState *tmr, int ch, int start)
-+{
-+    RenesasTimerBaseClass *tc = RenesasTimer_GET_CLASS(tmr);
-+    int64_t now;
-+    if (tmr->ch[ch].start != start) {
-+        now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+        if (start) {
-+            if (!tmr->ch[ch].timer) {
-+                tmr->ch[ch].timer =
-+                    timer_new_ns(QEMU_CLOCK_VIRTUAL,
-+                                 tc->timer_event, &tmr->ch[ch]);
-+            }
-+            tmr->ch[ch].base = now;
-+            tmr->ch[ch].next = now + tc->get_next(tmr, ch) * tmr->ch[ch].clk;
-+            timer_mod(tmr->ch[ch].timer, tmr->ch[ch].next);
-+        } else {
-+            tmr->ch[ch].cnt = read_tcnt(tmr, ch);
-+            tmr->ch[ch].next = 0;
-+            if (tmr->ch[ch].timer) {
-+                timer_del(tmr->ch[ch].timer);
-+            }
-+        }
-+        tmr->ch[ch].start = start;
-+    }
-+}
-+
-+static uint64_t read_tstr(RenesasTimerBaseState *tmr)
-+{
-+    uint64_t ret = 0;
-+    int ch;
-+    for (ch = 0; ch < tmr->num_ch; ch++) {
-+        ret = deposit64(ret, ch, 1, tmr->ch[ch].start);
-+    }
-+    return ret;
-+}
-+
-+static void update_clk(RenesasTimerBaseState *tmr, int ch)
-+{
-+    RenesasTimerBaseClass *tc = RenesasTimer_GET_CLASS(tmr);
-+    int t;
-+    t = tc->divrate(tmr, ch);
-+    if (t > 0) {
-+        t = tmr->input_freq / t;
-+        tmr->ch[ch].clk = NANOSECONDS_PER_SECOND / t;
-+    } else {
-+        tmr->ch[ch].clk = 0;
-+    }
-+}
-+
-+static void tmu_update_clk(RenesasTimerBaseState *tmr, int ch)
-+{
-+    /* Clock setting validation */
-+    int tpsc = FIELD_EX16(tmr->ch[ch].ctrl, TCR, TPSC);
-+    switch (tpsc) {
-+    case 5:
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "renesas_timer: Invalid TPSC valule %d.\n", tpsc);
-+        break;
-+    case 6:
-+    case 7:
-+        qemu_log_mask(LOG_UNIMP,
-+                      "renesas_timer: External clock not implemented.\n");
-+        break;
-+    }
-+    /* Interrupt clear */
-+    if (FIELD_EX16(tmr->ch[ch].ctrl, TCR, UNF) == 0) {
-+        qemu_set_irq(tmr->ch[ch].irq, 0);
-+    }
-+    update_clk(tmr, ch);
-+}
-+
-+static uint64_t channel_read(RenesasTimerBaseState *tmr, int ch, int reg)
-+{
-+    switch (reg) {
-+    case R_TCR:
-+        return tmr->ch[ch].ctrl;
-+    case R_TCNT:
-+        if (tmr->ch[ch].start) {
-+            return read_tcnt(tmr, ch);
-+        } else {
-+            return tmr->ch[ch].cnt;
-+        }
-+    case R_TCOR:
-+        return tmr->ch[ch].cor;
-+    }
-+    return UINT64_MAX;
-+}
-+
-+static void tmr_pck_update(void *opaque)
-+{
-+    RenesasTimerBaseState *tmr = RenesasTimerBase(opaque);
-+    int64_t now;
-+    int i;
-+    struct rtimer_ch *ch;
-+    for (i = 0; i < TIMER_CH_CMT; i++) {
-+        if (tmr->ch[i].start) {
-+            tmr->ch[i].cnt = read_tcnt(tmr, i);
-+        }
-+    }
-+    if (clock_is_enabled(tmr->pck)) {
-+        tmr->input_freq = clock_get_hz(tmr->pck);
-+        now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+        for (i = 0; i < TIMER_CH_CMT; i++) {
-+            update_clk(tmr, i);
-+            ch = &tmr->ch[i];
-+            if (ch->start) {
-+                ch->next = ch->base = now;
-+                if (tmr->direction == countup) {
-+                    ch->next += (ch->cor - ch->cnt) * ch->clk;
-+                } else {
-+                    ch->next += ch->cnt * ch->clk;
-+                }
-+                timer_mod(ch->timer, ch->next);
-+            }
-+        }
-+    } else {
-+        for (i = 0; i < TIMER_CH_CMT; i++) {
-+            if (tmr->ch[i].timer) {
-+                timer_del(tmr->ch[i].timer);
-+            }
-+        }
-+    }
-+}
-+
-+static uint64_t cmt_read(void *opaque, hwaddr addr, unsigned size)
-+{
-+    RenesasCMTState *cmt = RenesasCMT(opaque);
-+    RenesasTimerBaseState *tmr = RenesasTimerBase(cmt);
-+    int ch, reg;
-+
-+    /*  +0 - CMSTR (TSTR)  */
-+    /*  +2 - CMCR0  (TCR)  */
-+    /*  +4 - CMCNT0 (TCNT) */
-+    /*  +6 - CMCOR0 (TCOR) */
-+    /*  +8 - CMCR1  (TCR)  */
-+    /* +10 - CMCNT1 (TCNT) */
-+    /* +12 - CMCOR1 (TCOR) */
-+    if (!clock_is_enabled(tmr->pck)) {
-+        qemu_log_mask(LOG_UNIMP, "renesas_timer: Unit %d stopped.\n",
-+                      tmr->unit);
-+        return UINT64_MAX;
-+    }
-+    addr /= 2;
-+    if (addr == R_CMSTR) {
-+        return read_tstr(RenesasTimerBase(cmt));
-+    } else {
-+        ch = addr / 4;
-+        if (addr < 4) {
-+            /* skip CMSTR */
-+            addr--;
-+        }
-+        reg = 2 - (addr % 4);
-+        return channel_read(RenesasTimerBase(cmt), ch, reg);
-+    }
-+}
-+
-+static uint64_t tmu_read(void *opaque, hwaddr addr, unsigned size)
-+{
-+    RenesasTMUState *tmu = RenesasTMU(opaque);
-+    RenesasTimerBaseState *tmr = RenesasTimerBase(tmu);
-+    int ch = -1, reg = -1;
-+
-+    /*  +0 - TCOR  */
-+    /*  +4 - TSTR  */
-+    /*  +8 - TCOR0 */
-+    /* +12 - TCNT0 */
-+    /* +16 - TCR0  */
-+    /* +20 - TCOR1 */
-+    /* +24 - TCNT1 */
-+    /* +28 - TCR1  */
-+    /* +32 - TCOR2 */
-+    /* +36 - TCNT2 */
-+    /* +40 - TCR2  */
-+    /* +44 - TCPR2 */
-+
-+    if (tmr->unit != 0 && addr >= 32) {
-+        /* UNIT1 channel2 is not exit */
-+        qemu_log_mask(LOG_UNIMP, "renesas_timer: Register 0x%"
-+                      HWADDR_PRIX " not implemented\n", addr);
-+        return UINT64_MAX;
-+    }
-+    if (!clock_is_enabled(tmr->pck)) {
-+        qemu_log_mask(LOG_UNIMP, "renesas_timer: Unit %d stopped.\n",
-+                      tmr->unit);
-+        return UINT64_MAX;
-+    }
-+    addr /= 4;
-+    switch (addr) {
-+    case R_TOCR:
-+        return tmu->tocr;
-+    case R_TSTR:
-+        return read_tstr(RenesasTimerBase(tmu));
-+    case R_TCPR:
-+        qemu_log_mask(LOG_UNIMP,
-+                      "renesas_timer: Input capture not implemented.\n");
-+        return UINT64_MAX;
-+    default:
-+        ch = (addr - 2) / 3;
-+        reg = (addr - 2) % 3 + 2;
-+        return channel_read(RenesasTimerBase(tmu), ch, reg);
-+    }
-+}
-+
-+static void write_tstr(RenesasTimerBaseState *tmr, uint16_t val)
-+{
-+    int ch;
-+    for (ch = 0; ch < tmr->num_ch; ch++) {
-+        tmr_start_stop(tmr, ch, extract16(val, ch, 1));
-+    }
-+}
-+
-+static void write_tcr(RenesasTimerBaseState *tmr, int ch,
-+                      uint16_t val, uint16_t mask)
-+{
-+    RenesasTimerBaseClass *tc = RenesasTimer_GET_CLASS(tmr);
-+    tmr->ch[ch].ctrl |= (mask & 0x00ff);
-+    tmr->ch[ch].ctrl &= val & mask;
-+    tc->update_clk(tmr, ch);
-+}
-+
-+static void channel_write(RenesasTimerBaseState *tmr, int ch,
-+                         int reg, uint64_t val)
-+{
-+    switch (reg) {
-+    case R_TCNT:
-+        tmr->ch[ch].cnt = val;
-+        break;
-+    case R_TCOR:
-+        tmr->ch[ch].cor = val;
-+        break;
-+    }
-+}
-+
-+static void cmt_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
-+{
-+    RenesasTimerBaseState *tmr = RenesasTimerBase(opaque);
-+    int ch, reg;
-+    uint32_t next_timeout;
-+    uint16_t cnt;
-+
-+    if (!clock_is_enabled(tmr->pck)) {
-+        qemu_log_mask(LOG_UNIMP, "renesas_timer: Unit %d stopped.\n",
-+                      tmr->unit);
-+        return;
-+    }
-+    addr /= 2;
-+    if (addr == R_CMSTR) {
-+        write_tstr(tmr, val);
-+    } else {
-+        ch = addr / 4;
-+        if (addr < 4) {
-+            /* skip CMSTR */
-+            addr--;
-+        }
-+        reg = (2 - (addr % 4)) + 2;
-+        if (reg == R_TCR) {
-+            /* bit7 always 1 */
-+            val |= 0x0080;
-+            write_tcr(RenesasTimerBase(tmr), ch, val, 0x0043);
-+        } else {
-+            channel_write(RenesasTimerBase(tmr), ch, reg, val);
-+            if (tmr->ch[ch].start) {
-+                if (reg == R_TCNT) {
-+                    cnt = tmr->ch[ch].cnt;
-+                } else {
-+                    cnt = read_tcnt(tmr, ch);
-+                }
-+                if (tmr->ch[ch].cor < cnt) {
-+                    next_timeout = 0x10000 + tmr->ch[ch].cor - cnt;
-+                } else {
-+                    next_timeout = tmr->ch[ch].cor - cnt;
-+                }
-+                tmr->ch[ch].next = tmr->ch[ch].base +
-+                    next_timeout * tmr->ch[ch].clk;
-+                timer_mod(tmr->ch[ch].timer, tmr->ch[ch].next);
-+            }
-+        }
-+    }
-+}
-+
-+static void tmu_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
-+{
-+    RenesasTMUState *tmu = RenesasTMU(opaque);
-+    RenesasTimerBaseState *tmr = RenesasTimerBase(tmu);
-+
-+    int ch, reg;
-+    uint16_t tcr_mask;
-+
-+    if (tmr->unit != 0 && addr >= 32) {
-+        /* UNIT1 channel2 is not exit */
-+        qemu_log_mask(LOG_UNIMP, "renesas_timer: Register 0x%"
-+                      HWADDR_PRIX " not implemented\n", addr);
-+        return;
-+    }
-+    if (!clock_is_enabled(tmr->pck)) {
-+        qemu_log_mask(LOG_UNIMP, "renesas_timer: Unit %d stopped.\n",
-+                      tmr->unit);
-+        return;
-+    }
-+    addr /= 4;
-+    switch (addr) {
-+    case R_TOCR:
-+        tmu->tocr = FIELD_DP8(tmu->tocr, TOCR, TCOE,
-+                              FIELD_EX8(val, TOCR, TCOE));
-+        break;
-+    case R_TSTR:
-+        write_tstr(tmr, val);
-+        break;
-+    case R_TCPR:
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "renesas_timer: TCPR is read only.\n");
-+        break;
-+    default:
-+        ch = (addr - 2) / 3;
-+        reg = (addr - 2) % 3 + 2;
-+        if (reg == R_TCR) {
-+            if (tmr->unit == 0) {
-+                tcr_mask = (ch < 2) ? 0x013f : 0x03ff;
-+            } else {
-+                tcr_mask = 0x0127;
-+            }
-+            write_tcr(tmr, ch, val, tcr_mask);
-+        } else {
-+            channel_write(tmr, ch, reg, val);
-+            if (reg == R_TCNT && tmr->ch[ch].start) {
-+                tmr->ch[ch].next = tmr->ch[ch].base +
-+                    tmr->ch[ch].cnt * tmr->ch[ch].clk;
-+                timer_mod(tmr->ch[ch].timer, tmr->ch[ch].next);
-+            }
-+        }
-+        break;
-+    }
-+}
-+
-+static const MemoryRegionOps cmt_ops = {
-+    .write = cmt_write,
-+    .read  = cmt_read,
-+    .endianness = DEVICE_NATIVE_ENDIAN,
-+    .impl = {
-+        .min_access_size = 2,
-+        .max_access_size = 2,
-+    },
-+};
-+
-+static const MemoryRegionOps tmu_ops = {
-+    .write = tmu_write,
-+    .read  = tmu_read,
-+    .endianness = DEVICE_NATIVE_ENDIAN,
-+    .impl = {
-+        .min_access_size = 2,
-+        .max_access_size = 4,
-+    },
-+};
-+
-+static void timer_base_realize(RenesasTimerBaseState *tmr, int num_ch)
-+{
-+    tmr->num_ch = num_ch;
-+}
-+
-+static void cmt_realize(DeviceState *dev, Error **errp)
-+{
-+    RenesasCMTState *cmt = RenesasCMT(dev);
-+    RenesasTimerBaseState *tmr = RenesasTimerBase(cmt);
-+    int i;
-+
-+    timer_base_realize(tmr, TIMER_CH_CMT);
-+
-+    for (i = 0; i < TIMER_CH_CMT; i++) {
-+        tmr->ch[i].cor = 0xffff;
-+        if (clock_is_enabled(tmr->pck)) {
-+            update_clk(tmr, i);
-+        }
-+    }
-+}
-+
-+static void cmt_init(Object *obj)
-+{
-+    SysBusDevice *d = SYS_BUS_DEVICE(obj);
-+    RenesasCMTState *cmt = RenesasCMT(obj);
-+    RenesasTimerBaseState *tmr = RenesasTimerBase(cmt);
-+    int i;
-+
-+    tmr->direction = countup;
-+    memory_region_init_io(&tmr->memory, obj, &cmt_ops,
-+                          tmr, "renesas-cmt", 0x10);
-+    sysbus_init_mmio(d, &tmr->memory);
-+
-+    for (i = 0; i < TIMER_CH_CMT; i++) {
-+        sysbus_init_irq(d, &tmr->ch[i].irq);
-+    }
-+    tmr->pck = qdev_init_clock_in(DEVICE(obj), "pck",
-+                                  tmr_pck_update, tmr);
-+}
-+
-+static void tmu_realize(DeviceState *dev, Error **errp)
-+{
-+    SysBusDevice *d = SYS_BUS_DEVICE(dev);
-+    RenesasTMUState *tmu = RenesasTMU(dev);
-+    RenesasTimerBaseState *tmr = RenesasTimerBase(tmu);
-+    int i;
-+    int num_ch;
-+
-+    /* Unit0 have 3ch, Unit1 have 2ch */
-+    num_ch = TIMER_CH_TMU - tmr->unit;
-+    timer_base_realize(tmr, num_ch);
-+    for (i = 0; i < num_ch; i++) {
-+        sysbus_init_irq(d, &tmr->ch[i].irq);
-+        tmr->ch[i].cor = tmr->ch[i].cnt = 0xffffffff;
-+        if (clock_is_enabled(tmr->pck)) {
-+            update_clk(tmr, i);
-+        }
-+    }
-+}
-+
-+static void tmu_init(Object *obj)
-+{
-+    SysBusDevice *d = SYS_BUS_DEVICE(obj);
-+    RenesasTimerBaseState *tmr = RenesasTimerBase(obj);
-+
-+    tmr->direction = countdown;
-+    memory_region_init_io(&tmr->memory, obj, &tmu_ops,
-+                          tmr, "renesas-tmu", 0x30);
-+    sysbus_init_mmio(d, &tmr->memory);
-+    memory_region_init_alias(&tmr->memory_p4, NULL, "renesas-tmu-p4",
-+                             &tmr->memory, 0, 0x30);
-+    sysbus_init_mmio(d, &tmr->memory_p4);
-+    memory_region_init_alias(&tmr->memory_a7, NULL, "renesas-tmu-a7",
-+                             &tmr->memory, 0, 0x30);
-+    sysbus_init_mmio(d, &tmr->memory_a7);
-+    tmr->pck = qdev_init_clock_in(DEVICE(obj), "pck",
-+                                  tmr_pck_update, tmr);
-+}
-+
-+static const VMStateDescription vmstate_rtimer = {
-+    .name = "rx-cmt",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+static Property renesas_timer_properties[] = {
-+    DEFINE_PROP_INT32("unit", RenesasTimerBaseState, unit, 0),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void renesas_timer_base_class_init(ObjectClass *klass, void *data)
-+{
-+    RenesasTimerBaseClass *base = TimerBaseClass(klass);
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->vmsd = &vmstate_rtimer;
-+    base->update_clk = update_clk;
-+    device_class_set_props(dc, renesas_timer_properties);
-+}
-+
-+static void cmt_class_init(ObjectClass *klass, void *data)
-+{
-+    RenesasTimerBaseClass *base = TimerBaseClass(klass);
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    base->divrate = cmt_div;
-+    base->timer_event = cmt_timer_event;
-+    base->delta_to_tcnt = cmt_delta_to_cnt;
-+    base->get_next = cmt_get_next;
-+    dc->realize = cmt_realize;
-+}
-+
-+static void tmu_class_init(ObjectClass *klass, void *data)
-+{
-+    RenesasTimerBaseClass *base = TimerBaseClass(klass);
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    base->divrate = tmu_div;
-+    base->timer_event = tmu_timer_event;
-+    base->delta_to_tcnt = tmu_delta_to_cnt;
-+    base->get_next = tmu_get_next;
-+    base->update_clk = tmu_update_clk;
-+    dc->realize = tmu_realize;
-+}
-+
-+static const TypeInfo renesas_timer_info[] = {
-+    {
-+        .name       = TYPE_RENESAS_TIMER_BASE,
-+        .parent     = TYPE_SYS_BUS_DEVICE,
-+        .instance_size = sizeof(RenesasTimerBaseState),
-+        .class_init = renesas_timer_base_class_init,
-+        .class_size = sizeof(RenesasTimerBaseClass),
-+        .abstract = true,
-+    },
-+    {
-+        .name       = TYPE_RENESAS_CMT,
-+        .parent     = TYPE_RENESAS_TIMER_BASE,
-+        .instance_size = sizeof(RenesasCMTState),
-+        .instance_init = cmt_init,
-+        .class_init = cmt_class_init,
-+        .class_size = sizeof(RenesasCMTClass),
-+    },
-+    {
-+        .name       = TYPE_RENESAS_TMU,
-+        .parent     = TYPE_RENESAS_TIMER_BASE,
-+        .instance_size = sizeof(RenesasTMUState),
-+        .instance_init = tmu_init,
-+        .class_init = tmu_class_init,
-+        .class_size = sizeof(RenesasTMUClass),
-+    },
-+};
-+
-+DEFINE_TYPES(renesas_timer_info)
-diff --git a/hw/timer/Kconfig b/hw/timer/Kconfig
-index 5288660cda..4d21b50ab0 100644
---- a/hw/timer/Kconfig
-+++ b/hw/timer/Kconfig
-@@ -39,9 +39,9 @@ config CMSDK_APB_DUALTIMER
- config RENESAS_TMR8
-     bool
- 
--config RENESAS_CMT
-+config AVR_TIMER16
-     bool
- 
--config AVR_TIMER16
-+config RENESAS_TIMER
-     bool
- 
-diff --git a/hw/timer/meson.build b/hw/timer/meson.build
-index a02e45fdbd..6aed6d1e5f 100644
---- a/hw/timer/meson.build
-+++ b/hw/timer/meson.build
-@@ -9,7 +9,7 @@ softmmu_ss.add(when: 'CONFIG_CADENCE', if_true: files('cadence_ttc.c'))
- softmmu_ss.add(when: 'CONFIG_CMSDK_APB_DUALTIMER', if_true: files('cmsdk-apb-dualtimer.c'))
- softmmu_ss.add(when: 'CONFIG_CMSDK_APB_TIMER', if_true: files('cmsdk-apb-timer.c'))
- softmmu_ss.add(when: 'CONFIG_RENESAS_TMR8', if_true: files('renesas_tmr8.c'))
--softmmu_ss.add(when: 'CONFIG_RENESAS_CMT', if_true: files('renesas_cmt.c'))
-+softmmu_ss.add(when: 'CONFIG_RENESAS_TIMER', if_true: files('renesas_timer.c'))
- softmmu_ss.add(when: 'CONFIG_DIGIC', if_true: files('digic-timer.c'))
- softmmu_ss.add(when: 'CONFIG_ETRAXFS', if_true: files('etraxfs_timer.c'))
- softmmu_ss.add(when: 'CONFIG_EXYNOS4', if_true: files('exynos4210_mct.c'))
+diff --git a/include/hw/timer/renesas_cmt.h b/include/hw/timer/renesas_cmt.h
+deleted file mode 100644
+index e28a15cb38..0000000000
+--- a/include/hw/timer/renesas_cmt.h
++++ /dev/null
+@@ -1,40 +0,0 @@
+-/*
+- * Renesas Compare-match timer Object
+- *
+- * Copyright (c) 2019 Yoshinori Sato
+- *
+- * SPDX-License-Identifier: GPL-2.0-or-later
+- */
+-
+-#ifndef HW_TIMER_RENESAS_CMT_H
+-#define HW_TIMER_RENESAS_CMT_H
+-
+-#include "qemu/timer.h"
+-#include "hw/sysbus.h"
+-
+-#define TYPE_RENESAS_CMT "renesas-cmt"
+-#define RCMT(obj) OBJECT_CHECK(RCMTState, (obj), TYPE_RENESAS_CMT)
+-
+-enum {
+-    CMT_CH = 2,
+-    CMT_NR_IRQ = 1 * CMT_CH
+-};
+-
+-typedef struct RCMTState {
+-    /*< private >*/
+-    SysBusDevice parent_obj;
+-    /*< public >*/
+-
+-    uint64_t input_freq;
+-    MemoryRegion memory;
+-
+-    uint16_t cmstr;
+-    uint16_t cmcr[CMT_CH];
+-    uint16_t cmcnt[CMT_CH];
+-    uint16_t cmcor[CMT_CH];
+-    int64_t tick[CMT_CH];
+-    qemu_irq cmi[CMT_CH];
+-    QEMUTimer timer[CMT_CH];
+-} RCMTState;
+-
+-#endif
+diff --git a/hw/timer/renesas_cmt.c b/hw/timer/renesas_cmt.c
+deleted file mode 100644
+index 2e0fd21a36..0000000000
+--- a/hw/timer/renesas_cmt.c
++++ /dev/null
+@@ -1,283 +0,0 @@
+-/*
+- * Renesas 16bit Compare-match timer
+- *
+- * Datasheet: RX62N Group, RX621 Group User's Manual: Hardware
+- *            (Rev.1.40 R01UH0033EJ0140)
+- *
+- * Copyright (c) 2019 Yoshinori Sato
+- *
+- * SPDX-License-Identifier: GPL-2.0-or-later
+- *
+- * This program is free software; you can redistribute it and/or modify it
+- * under the terms and conditions of the GNU General Public License,
+- * version 2 or later, as published by the Free Software Foundation.
+- *
+- * This program is distributed in the hope it will be useful, but WITHOUT
+- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+- * more details.
+- *
+- * You should have received a copy of the GNU General Public License along with
+- * this program.  If not, see <http://www.gnu.org/licenses/>.
+- */
+-
+-#include "qemu/osdep.h"
+-#include "qemu/log.h"
+-#include "hw/irq.h"
+-#include "hw/registerfields.h"
+-#include "hw/qdev-properties.h"
+-#include "hw/timer/renesas_cmt.h"
+-#include "migration/vmstate.h"
+-
+-/*
+- *  +0 CMSTR - common control
+- *  +2 CMCR  - ch0
+- *  +4 CMCNT - ch0
+- *  +6 CMCOR - ch0
+- *  +8 CMCR  - ch1
+- * +10 CMCNT - ch1
+- * +12 CMCOR - ch1
+- * If we think that the address of CH 0 has an offset of +2,
+- * we can treat it with the same address as CH 1, so define it like that.
+- */
+-REG16(CMSTR, 0)
+-  FIELD(CMSTR, STR0, 0, 1)
+-  FIELD(CMSTR, STR1, 1, 1)
+-  FIELD(CMSTR, STR,  0, 2)
+-/* This addeess is channel offset */
+-REG16(CMCR, 0)
+-  FIELD(CMCR, CKS,  0, 2)
+-  FIELD(CMCR, CMIE, 6, 1)
+-REG16(CMCNT, 2)
+-REG16(CMCOR, 4)
+-
+-static void update_events(RCMTState *cmt, int ch)
+-{
+-    int64_t next_time;
+-
+-    if ((cmt->cmstr & (1 << ch)) == 0) {
+-        /* count disable, so not happened next event. */
+-        return ;
+-    }
+-    next_time = cmt->cmcor[ch] - cmt->cmcnt[ch];
+-    next_time *= NANOSECONDS_PER_SECOND;
+-    next_time /= cmt->input_freq;
+-    /*
+-     * CKS -> div rate
+-     *  0 -> 8 (1 << 3)
+-     *  1 -> 32 (1 << 5)
+-     *  2 -> 128 (1 << 7)
+-     *  3 -> 512 (1 << 9)
+-     */
+-    next_time *= 1 << (3 + FIELD_EX16(cmt->cmcr[ch], CMCR, CKS) * 2);
+-    next_time += qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+-    timer_mod(&cmt->timer[ch], next_time);
+-}
+-
+-static int64_t read_cmcnt(RCMTState *cmt, int ch)
+-{
+-    int64_t delta, now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+-
+-    if (cmt->cmstr & (1 << ch)) {
+-        delta = (now - cmt->tick[ch]);
+-        delta /= NANOSECONDS_PER_SECOND;
+-        delta /= cmt->input_freq;
+-        delta /= 1 << (3 + FIELD_EX16(cmt->cmcr[ch], CMCR, CKS) * 2);
+-        cmt->tick[ch] = now;
+-        return cmt->cmcnt[ch] + delta;
+-    } else {
+-        return cmt->cmcnt[ch];
+-    }
+-}
+-
+-static uint64_t cmt_read(void *opaque, hwaddr offset, unsigned size)
+-{
+-    RCMTState *cmt = opaque;
+-    int ch = offset / 0x08;
+-    uint64_t ret;
+-
+-    if (offset == A_CMSTR) {
+-        ret = 0;
+-        ret = FIELD_DP16(ret, CMSTR, STR,
+-                         FIELD_EX16(cmt->cmstr, CMSTR, STR));
+-        return ret;
+-    } else {
+-        offset &= 0x07;
+-        if (ch == 0) {
+-            offset -= 0x02;
+-        }
+-        switch (offset) {
+-        case A_CMCR:
+-            ret = 0;
+-            ret = FIELD_DP16(ret, CMCR, CKS,
+-                             FIELD_EX16(cmt->cmstr, CMCR, CKS));
+-            ret = FIELD_DP16(ret, CMCR, CMIE,
+-                             FIELD_EX16(cmt->cmstr, CMCR, CMIE));
+-            return ret;
+-        case A_CMCNT:
+-            return read_cmcnt(cmt, ch);
+-        case A_CMCOR:
+-            return cmt->cmcor[ch];
+-        }
+-    }
+-    qemu_log_mask(LOG_UNIMP, "renesas_cmt: Register 0x%" HWADDR_PRIX " "
+-                             "not implemented\n",
+-                  offset);
+-    return UINT64_MAX;
+-}
+-
+-static void start_stop(RCMTState *cmt, int ch, int st)
+-{
+-    if (st) {
+-        update_events(cmt, ch);
+-    } else {
+-        timer_del(&cmt->timer[ch]);
+-    }
+-}
+-
+-static void cmt_write(void *opaque, hwaddr offset, uint64_t val, unsigned size)
+-{
+-    RCMTState *cmt = opaque;
+-    int ch = offset / 0x08;
+-
+-    if (offset == A_CMSTR) {
+-        cmt->cmstr = FIELD_EX16(val, CMSTR, STR);
+-        start_stop(cmt, 0, FIELD_EX16(cmt->cmstr, CMSTR, STR0));
+-        start_stop(cmt, 1, FIELD_EX16(cmt->cmstr, CMSTR, STR1));
+-    } else {
+-        offset &= 0x07;
+-        if (ch == 0) {
+-            offset -= 0x02;
+-        }
+-        switch (offset) {
+-        case A_CMCR:
+-            cmt->cmcr[ch] = FIELD_DP16(cmt->cmcr[ch], CMCR, CKS,
+-                                       FIELD_EX16(val, CMCR, CKS));
+-            cmt->cmcr[ch] = FIELD_DP16(cmt->cmcr[ch], CMCR, CMIE,
+-                                       FIELD_EX16(val, CMCR, CMIE));
+-            break;
+-        case 2:
+-            cmt->cmcnt[ch] = val;
+-            break;
+-        case 4:
+-            cmt->cmcor[ch] = val;
+-            break;
+-        default:
+-            qemu_log_mask(LOG_UNIMP, "renesas_cmt: Register 0x%" HWADDR_PRIX " "
+-                                     "not implemented\n",
+-                          offset);
+-            return;
+-        }
+-        if (FIELD_EX16(cmt->cmstr, CMSTR, STR) & (1 << ch)) {
+-            update_events(cmt, ch);
+-        }
+-    }
+-}
+-
+-static const MemoryRegionOps cmt_ops = {
+-    .write = cmt_write,
+-    .read  = cmt_read,
+-    .endianness = DEVICE_NATIVE_ENDIAN,
+-    .impl = {
+-        .min_access_size = 2,
+-        .max_access_size = 2,
+-    },
+-    .valid = {
+-        .min_access_size = 2,
+-        .max_access_size = 2,
+-    },
+-};
+-
+-static void timer_events(RCMTState *cmt, int ch)
+-{
+-    cmt->cmcnt[ch] = 0;
+-    cmt->tick[ch] = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+-    update_events(cmt, ch);
+-    if (FIELD_EX16(cmt->cmcr[ch], CMCR, CMIE)) {
+-        qemu_irq_pulse(cmt->cmi[ch]);
+-    }
+-}
+-
+-static void timer_event0(void *opaque)
+-{
+-    RCMTState *cmt = opaque;
+-
+-    timer_events(cmt, 0);
+-}
+-
+-static void timer_event1(void *opaque)
+-{
+-    RCMTState *cmt = opaque;
+-
+-    timer_events(cmt, 1);
+-}
+-
+-static void rcmt_reset(DeviceState *dev)
+-{
+-    RCMTState *cmt = RCMT(dev);
+-    cmt->cmstr = 0;
+-    cmt->cmcr[0] = cmt->cmcr[1] = 0;
+-    cmt->cmcnt[0] = cmt->cmcnt[1] = 0;
+-    cmt->cmcor[0] = cmt->cmcor[1] = 0xffff;
+-}
+-
+-static void rcmt_init(Object *obj)
+-{
+-    SysBusDevice *d = SYS_BUS_DEVICE(obj);
+-    RCMTState *cmt = RCMT(obj);
+-    int i;
+-
+-    memory_region_init_io(&cmt->memory, OBJECT(cmt), &cmt_ops,
+-                          cmt, "renesas-cmt", 0x10);
+-    sysbus_init_mmio(d, &cmt->memory);
+-
+-    for (i = 0; i < ARRAY_SIZE(cmt->cmi); i++) {
+-        sysbus_init_irq(d, &cmt->cmi[i]);
+-    }
+-    timer_init_ns(&cmt->timer[0], QEMU_CLOCK_VIRTUAL, timer_event0, cmt);
+-    timer_init_ns(&cmt->timer[1], QEMU_CLOCK_VIRTUAL, timer_event1, cmt);
+-}
+-
+-static const VMStateDescription vmstate_rcmt = {
+-    .name = "rx-cmt",
+-    .version_id = 1,
+-    .minimum_version_id = 1,
+-    .fields = (VMStateField[]) {
+-        VMSTATE_UINT16(cmstr, RCMTState),
+-        VMSTATE_UINT16_ARRAY(cmcr, RCMTState, CMT_CH),
+-        VMSTATE_UINT16_ARRAY(cmcnt, RCMTState, CMT_CH),
+-        VMSTATE_UINT16_ARRAY(cmcor, RCMTState, CMT_CH),
+-        VMSTATE_INT64_ARRAY(tick, RCMTState, CMT_CH),
+-        VMSTATE_TIMER_ARRAY(timer, RCMTState, CMT_CH),
+-        VMSTATE_END_OF_LIST()
+-    }
+-};
+-
+-static Property rcmt_properties[] = {
+-    DEFINE_PROP_UINT64("input-freq", RCMTState, input_freq, 0),
+-    DEFINE_PROP_END_OF_LIST(),
+-};
+-
+-static void rcmt_class_init(ObjectClass *klass, void *data)
+-{
+-    DeviceClass *dc = DEVICE_CLASS(klass);
+-
+-    dc->vmsd = &vmstate_rcmt;
+-    dc->reset = rcmt_reset;
+-    device_class_set_props(dc, rcmt_properties);
+-}
+-
+-static const TypeInfo rcmt_info = {
+-    .name = TYPE_RENESAS_CMT,
+-    .parent = TYPE_SYS_BUS_DEVICE,
+-    .instance_size = sizeof(RCMTState),
+-    .instance_init = rcmt_init,
+-    .class_init = rcmt_class_init,
+-};
+-
+-static void rcmt_register_types(void)
+-{
+-    type_register_static(&rcmt_info);
+-}
+-
+-type_init(rcmt_register_types)
 -- 
 2.20.1
 
