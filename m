@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88C76253CF7
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 06:52:22 +0200 (CEST)
-Received: from localhost ([::1]:60730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39606253CE7
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 06:50:54 +0200 (CEST)
+Received: from localhost ([::1]:54132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kB9td-0007KZ-Lb
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 00:52:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59572)
+	id 1kB9sD-0004hG-6O
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 00:50:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kB9r8-0002uj-Di
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 00:49:46 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:46108)
+ id 1kB9rC-00031R-2O
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 00:49:50 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:36941)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kB9r5-0003gk-Qs
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 00:49:46 -0400
-Received: by mail-pg1-x544.google.com with SMTP id 31so2446534pgy.13
- for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 21:49:43 -0700 (PDT)
+ id 1kB9rA-0003hF-Eb
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 00:49:49 -0400
+Received: by mail-pf1-x443.google.com with SMTP id x143so2535425pfc.4
+ for <qemu-devel@nongnu.org>; Wed, 26 Aug 2020 21:49:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7+MsaJjYLlKc/kuo4dhCFuDpn67NQClb7RmuHL3RlA8=;
- b=C0m1ka4nMOIT8pbURzi32/XLZXhAAVj/llq5s7GnnlYPsVjBuzyUf647/wcrQxfECB
- shePWwDQBmS9T3WJhd3Oq9/vck9BCmcJvp1sTaf01DHOxtpBF0P1IO6jvf0d6bsux1Wz
- J8yCj6YDPQl+fmfH5Xssk7FVqq20ijww/51e7SDGo3I80VD3/DNgmSXk4v8wlhP4WFV/
- RKJKucHsUr96aQRn9GIPjJwZgSt+lZ88nQEAI7cCFi3FD4c7Tnz3C98iWsvhCBpESsDR
- zOgK/ILy4yogUhy5sJPpxSzZ/D/3tLjTUFco4n7bIGkbpL22jzdZXtJR6Yoq5R2kYZYc
- j5sA==
+ bh=rIP9TCfc3oqvA8Vp/R/E5MTUabOcrCowAJuIfVAgJrs=;
+ b=Lj+7e+M31Jh9HGfacgwlvuk2cowjBdBkec7wQbrdIuxNlLoOXE+zVBSqfHBSGkXP+Y
+ 0kpdipUVzCQkhiSMsr0XYg0loio89MY1CSR5uE3oleWcHX0tUzZAfr5WArCQXocXG+BQ
+ faglqAGKhF31GYN2LA2AUcpwFll0R9EYHHMVfilL+N2lteX5hdH3y2qsT6iwcTo5z7gB
+ ydmpBA165fyvGUEB7oUhUGMXAbVHrX7N/OihHtOrap/OtVPwDystEHGND+IaSflqBC/1
+ q1w9tUSuRs6/l3pcGUkM7dEMCpQswATCCUpqV+yLM7pQJ/Ok+ddu6erkyKVaPtumH2sV
+ VRRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7+MsaJjYLlKc/kuo4dhCFuDpn67NQClb7RmuHL3RlA8=;
- b=GPSvHtbkBDJcN6uN2pvaOSMr1eblAa6s5+dRtmfAxHoqGzhcWsnI1Yuciog6knM394
- czgKzd6oWOklVQ+owWdP6VMSr7gyS6dHWjtiv1xqhW4bedyClwDojE3Pdy2zHwrBzQyL
- S629NtGwF9nAesk3/FftdXQ/5mx7i5CzmHrRFmXrMlq/fu4r1SmaZJF4BPQlCscMABYF
- AGt1l3sZOhZbfV8+tgMDZZmVo0kaUZwxbXVgVHchp9/YD2hzQR5NryR/o2ak5n8FV0jx
- PK8uBA9clX99DU3a9WlxKzicjwL+Q3s0CPf6gOpXdL1Xw0P29gHNfzT5w788wLKqxOUy
- otFQ==
-X-Gm-Message-State: AOAM532PKUT76WjOUs6BjwL3X5SeEJ8yNP9hKjqa+m/AzwaNL0mrTjKt
- HiwbbOZXjXjtxG7KuCzwcZduF50wzeNdXb7VZiU=
-X-Google-Smtp-Source: ABdhPJygoErTZpcYOEEZIwnw2ndhPQz3lOJ5nJTBI3YErIW/Z5+AEZKvx+BSQtXWbF/NPceT0FmMFw==
-X-Received: by 2002:a17:902:bf01:: with SMTP id
- bi1mr14688209plb.118.1598503781986; 
- Wed, 26 Aug 2020 21:49:41 -0700 (PDT)
+ bh=rIP9TCfc3oqvA8Vp/R/E5MTUabOcrCowAJuIfVAgJrs=;
+ b=HGIEsKSucQAL3Os+O3TUzQTgQH5E3VgvRwIE3FnT1KfhAySuoO7oj9iK4LGVf9/EYd
+ 1EqbUkPVUUcWXSAnK5/5uEvInMGXQuehHvA3/y39DXj2NtEdlUBqS1V1uJc6EcSpMKN3
+ dsvS0ZRwwe1MgLZO2lv4dc5lqw4tP7llxgYJ7tFQ38Nrws01IWXoXZPK/UhTbczqIUUO
+ VFYzHEXr7AiGVgvzj2QNmWN2JaqLhYXJ+PCk3LiZc3lQCOCLOLP4BH+FghkCgz4X2026
+ cxGZQOocrdfNnJpQWvmfr2AhxYP/JHX/U9kVXSaAZ8MB4ZQ6cGnxIWHodd1QaQPxP995
+ NJmQ==
+X-Gm-Message-State: AOAM5328/7BnK/C/wOd5PMNUNUCP9xWDTrO7tes/W+fExhp66iDFj+//
+ Oe08aBjif/EOFcapSnJ1ruNdlDffwT+v7aLy1kI=
+X-Google-Smtp-Source: ABdhPJxTfljYwgIutZFgXEfn4gT7GzzEUplBwHPhXaSX6LSFv+N0UibHi/EAGJbMiBuWLM3MeEB+WA==
+X-Received: by 2002:a63:2482:: with SMTP id
+ k124mr13780529pgk.251.1598503786704; 
+ Wed, 26 Aug 2020 21:49:46 -0700 (PDT)
 Received: from localhost.localdomain ([2401:c080:1c01:4fe:5400:2ff:fef1:b056])
  by smtp.googlemail.com with ESMTPSA id
- n26sm902296pff.30.2020.08.26.21.49.38
+ n26sm902296pff.30.2020.08.26.21.49.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Aug 2020 21:49:41 -0700 (PDT)
+ Wed, 26 Aug 2020 21:49:45 -0700 (PDT)
 From: luoyonggang@gmail.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/6] meson: fixes relpath may fail on win32.
-Date: Thu, 27 Aug 2020 12:49:13 +0800
-Message-Id: <20200827044917.1356-3-luoyonggang@gmail.com>
+Subject: [PATCH 3/6] meson: Mingw64 gcc doesn't recognize system include_type
+ for sdl2
+Date: Thu, 27 Aug 2020 12:49:14 +0800
+Message-Id: <20200827044917.1356-4-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.27.0.windows.1
 In-Reply-To: <20200827044917.1356-1-luoyonggang@gmail.com>
 References: <20200827044917.1356-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
- envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x544.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -93,38 +94,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Yonggang Luo <luoyonggang@gmail.com>
 
-On win32, os.path.relpath would raise exception when do the following relpath:
-C:/msys64/mingw64/x.exe relative to E:/path/qemu-build would fail.
-So we try catch it for stopping it from raise exception on msys2
+Fixes this for msys2/mingw64 by remove the include_type for sdl2 discovery in meson
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- scripts/mtest2make.py | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ meson.build | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/scripts/mtest2make.py b/scripts/mtest2make.py
-index bdb257bbd9..d7a51bf97e 100644
---- a/scripts/mtest2make.py
-+++ b/scripts/mtest2make.py
-@@ -53,9 +53,16 @@ i = 0
- for test in json.load(sys.stdin):
-     env = ' '.join(('%s=%s' % (shlex.quote(k), shlex.quote(v))
-                     for k, v in test['env'].items()))
--    executable = os.path.relpath(test['cmd'][0])
-+    executable = test['cmd'][0]
-+    try:
-+        executable = os.path.relpath(executable)
-+    except:
-+        pass
-     if test['workdir'] is not None:
--        test['cmd'][0] = os.path.relpath(test['cmd'][0], test['workdir'])
-+        try:
-+            test['cmd'][0] = os.path.relpath(executable, test['workdir'])
-+        except:
-+            test['cmd'][0] = executable
-     else:
-         test['cmd'][0] = executable
-     cmd = '$(.test.env) %s %s' % (env, ' '.join((shlex.quote(x) for x in test['cmd'])))
+diff --git a/meson.build b/meson.build
+index f0fe5f8799..1644bbd83c 100644
+--- a/meson.build
++++ b/meson.build
+@@ -224,8 +224,7 @@ if 'CONFIG_BRLAPI' in config_host
+   brlapi = declare_dependency(link_args: config_host['BRLAPI_LIBS'].split())
+ endif
+ 
+-sdl = dependency('sdl2', required: get_option('sdl'), static: enable_static,
+-                 include_type: 'system')
++sdl = dependency('sdl2', required: get_option('sdl'), static: enable_static)
+ sdl_image = not_found
+ if sdl.found()
+   # work around 2.0.8 bug
 -- 
 2.27.0.windows.1
 
