@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FFBA254536
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 14:45:46 +0200 (CEST)
-Received: from localhost ([::1]:35244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78EAC254541
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 14:47:28 +0200 (CEST)
+Received: from localhost ([::1]:42178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBHHl-0002nR-4X
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 08:45:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59014)
+	id 1kBHJP-0005fm-Io
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 08:47:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ysato@users.sourceforge.jp>)
- id 1kBHBT-00082T-Jm
+ id 1kBHBT-00083F-RO
  for qemu-devel@nongnu.org; Thu, 27 Aug 2020 08:39:15 -0400
-Received: from mail03.asahi-net.or.jp ([202.224.55.15]:39208)
+Received: from mail03.asahi-net.or.jp ([202.224.55.15]:39211)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ysato@users.sourceforge.jp>) id 1kBHBO-0005uR-1U
+ (envelope-from <ysato@users.sourceforge.jp>) id 1kBHBN-0005uV-Vh
  for qemu-devel@nongnu.org; Thu, 27 Aug 2020 08:39:15 -0400
 Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
  [153.127.30.23]) (Authenticated sender: PQ4Y-STU)
- by mail03.asahi-net.or.jp (Postfix) with ESMTPA id 47DB7268A6;
+ by mail03.asahi-net.or.jp (Postfix) with ESMTPA id 9380A26B17;
  Thu, 27 Aug 2020 21:39:06 +0900 (JST)
 Received: from yo-satoh-debian.localdomain (ZM005235.ppp.dion.ne.jp
  [222.8.5.235])
- by sakura.ysato.name (Postfix) with ESMTPSA id E2D131C0792;
- Thu, 27 Aug 2020 21:39:05 +0900 (JST)
+ by sakura.ysato.name (Postfix) with ESMTPSA id 3009B1C0696;
+ Thu, 27 Aug 2020 21:39:06 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/20] hw/rx: Add RX62N Clock generator
-Date: Thu, 27 Aug 2020 21:38:44 +0900
-Message-Id: <20200827123859.81793-6-ysato@users.sourceforge.jp>
+Subject: [PATCH 06/20] hw/timer: Renesas 8bit timer emulation.
+Date: Thu, 27 Aug 2020 21:38:45 +0900
+Message-Id: <20200827123859.81793-7-ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200827123859.81793-1-ysato@users.sourceforge.jp>
 References: <20200827123859.81793-1-ysato@users.sourceforge.jp>
@@ -61,140 +61,650 @@ Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This module generated core and peripheral clock.
+Rewrite for clock API.
 
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 ---
- include/hw/rx/rx62n-cpg.h |  72 ++++++++
- include/hw/rx/rx62n.h     |   5 +-
- hw/rx/rx62n-cpg.c         | 344 ++++++++++++++++++++++++++++++++++++++
- hw/rx/rx62n.c             |  52 +++---
- hw/rx/meson.build         |   2 +-
- 5 files changed, 447 insertions(+), 28 deletions(-)
- create mode 100644 include/hw/rx/rx62n-cpg.h
- create mode 100644 hw/rx/rx62n-cpg.c
+ include/hw/timer/renesas_tmr.h  |  55 ----
+ include/hw/timer/renesas_tmr8.h |  67 ++++
+ hw/timer/renesas_tmr.c          | 477 ----------------------------
+ hw/timer/renesas_tmr8.c         | 540 ++++++++++++++++++++++++++++++++
+ hw/timer/Kconfig                |   3 +-
+ hw/timer/meson.build            |   2 +-
+ 6 files changed, 610 insertions(+), 534 deletions(-)
+ delete mode 100644 include/hw/timer/renesas_tmr.h
+ create mode 100644 include/hw/timer/renesas_tmr8.h
+ delete mode 100644 hw/timer/renesas_tmr.c
+ create mode 100644 hw/timer/renesas_tmr8.c
 
-diff --git a/include/hw/rx/rx62n-cpg.h b/include/hw/rx/rx62n-cpg.h
+diff --git a/include/hw/timer/renesas_tmr.h b/include/hw/timer/renesas_tmr.h
+deleted file mode 100644
+index cf3baa7a28..0000000000
+--- a/include/hw/timer/renesas_tmr.h
++++ /dev/null
+@@ -1,55 +0,0 @@
+-/*
+- * Renesas 8bit timer Object
+- *
+- * Copyright (c) 2018 Yoshinori Sato
+- *
+- * SPDX-License-Identifier: GPL-2.0-or-later
+- */
+-
+-#ifndef HW_TIMER_RENESAS_TMR_H
+-#define HW_TIMER_RENESAS_TMR_H
+-
+-#include "qemu/timer.h"
+-#include "hw/sysbus.h"
+-
+-#define TYPE_RENESAS_TMR "renesas-tmr"
+-#define RTMR(obj) OBJECT_CHECK(RTMRState, (obj), TYPE_RENESAS_TMR)
+-
+-enum timer_event {
+-    cmia = 0,
+-    cmib = 1,
+-    ovi = 2,
+-    none = 3,
+-    TMR_NR_EVENTS = 4
+-};
+-
+-enum {
+-    TMR_CH = 2,
+-    TMR_NR_IRQ = 3 * TMR_CH
+-};
+-
+-typedef struct RTMRState {
+-    /*< private >*/
+-    SysBusDevice parent_obj;
+-    /*< public >*/
+-
+-    uint64_t input_freq;
+-    MemoryRegion memory;
+-
+-    int64_t tick;
+-    uint8_t tcnt[TMR_CH];
+-    uint8_t tcora[TMR_CH];
+-    uint8_t tcorb[TMR_CH];
+-    uint8_t tcr[TMR_CH];
+-    uint8_t tccr[TMR_CH];
+-    uint8_t tcor[TMR_CH];
+-    uint8_t tcsr[TMR_CH];
+-    int64_t div_round[TMR_CH];
+-    uint8_t next[TMR_CH];
+-    qemu_irq cmia[TMR_CH];
+-    qemu_irq cmib[TMR_CH];
+-    qemu_irq ovi[TMR_CH];
+-    QEMUTimer timer[TMR_CH];
+-} RTMRState;
+-
+-#endif
+diff --git a/include/hw/timer/renesas_tmr8.h b/include/hw/timer/renesas_tmr8.h
 new file mode 100644
-index 0000000000..d90a067313
+index 0000000000..23935bd4a3
 --- /dev/null
-+++ b/include/hw/rx/rx62n-cpg.h
-@@ -0,0 +1,72 @@
++++ b/include/hw/timer/renesas_tmr8.h
+@@ -0,0 +1,67 @@
 +/*
-+ * RX62N Clock generator circuit
++ * Renesas 8bit timer Object
 + *
-+ * Datasheet: RX62N Group, RX621 Group User's Manual: Hardware
-+ * (Rev.1.40 R01UH0033EJ0140)
++ * Copyright (c) 2018 Yoshinori Sato
 + *
-+ * Copyright (c) 2020 Yoshinori Sato
++ * This code is licensed under the GPL version 2 or later.
 + *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
 + */
 +
-+#ifndef HW_RX_RX62N_CPG_H
-+#define HW_RX_RX62N_CPG_H
++#ifndef HW_RENESAS_TMR8_H
++#define HW_RENESAS_TMR8_H
 +
 +#include "hw/sysbus.h"
-+#include "hw/qdev-clock.h"
 +
-+#define TYPE_RX62N_CPG "rx62n-cpg"
-+#define RX62NCPG(obj) OBJECT_CHECK(RX62NCPGState, (obj), TYPE_RX62N_CPG)
++#define TYPE_RENESAS_TMR8 "renesas-tmr8"
++#define RenesasTMR8(obj) \
++    OBJECT_CHECK(RenesasTMR8State, (obj), TYPE_RENESAS_TMR8)
 +
 +enum {
-+    CK_TMR8_1,
-+    CK_TMR8_0,
-+    CK_MTU_1,
-+    CK_MTU_0,
-+    CK_CMT_1,
-+    CK_CMT_0,
-+    CK_EDMAC,
-+    CK_SCI6,
-+    CK_SCI5,
-+    CK_SCI3,
-+    CK_SCI2,
-+    CK_SCI1,
-+    CK_SCI0,
-+    NUM_SUBCLOCK,
++    TMR_CH = 2,
 +};
 +
-+typedef struct RX62NCPGState {
++enum {
++    IRQ_CMIA, IRQ_CMIB, IRQ_OVI,
++    TMR_NR_IRQ,
++};
++
++enum timer_event {
++    EVT_NONE, EVT_CMIA, EVT_CMIB, EVT_OVI, EVT_WOVI,
++    TMR_NR_EVENTS,
++};
++
++enum cor {
++    REG_A, REG_B, NR_COR,
++};
++
++struct RenesasTMR8State;
++
++struct tmr8_ch {
++    uint16_t cnt;
++    uint16_t cor[NR_COR];
++    uint8_t tcr;
++    uint8_t tccr;
++    uint8_t tcsr;
++    qemu_irq irq[TMR_NR_IRQ];
++    QEMUTimer *timer;
++    int64_t base;
++    int64_t next;
++    int64_t clk;
++    enum timer_event event;
++    int id;
++    struct RenesasTMR8State *tmrp;
++    bool word;
++};
++
++typedef struct RenesasTMR8State {
 +    SysBusDevice parent_obj;
-+    uint32_t mstpcr[3];
-+    uint32_t sckcr;
-+    uint8_t  bckcr;
-+    uint8_t  ostdcr;
 +
-+    int ick;
-+    Clock *clk_ick;
-+    int bck;
-+    Clock *clk_bck;
-+    int pck;
-+    Clock *clk_pck;
-+    Clock *dev_clocks[NUM_SUBCLOCK];
-+    uint32_t xtal_freq_hz;
++    uint32_t unit;
++    Clock *pck;
++    uint64_t input_freq;
 +    MemoryRegion memory;
-+} RX62NCPGState;
 +
-+typedef struct RX62NCPGClass {
-+    SysBusDeviceClass parent;
-+} RX62NCPGClass;
-+
-+#define OSTDCR_KEY 0xac
++    struct tmr8_ch ch[TMR_CH];
++} RenesasTMR8State;
 +
 +#endif
-diff --git a/include/hw/rx/rx62n.h b/include/hw/rx/rx62n.h
-index 32e460bbad..e0ca1cfc33 100644
---- a/include/hw/rx/rx62n.h
-+++ b/include/hw/rx/rx62n.h
-@@ -29,6 +29,7 @@
- #include "hw/timer/renesas_tmr.h"
- #include "hw/timer/renesas_cmt.h"
- #include "hw/char/renesas_sci.h"
-+#include "hw/rx/rx62n-cpg.h"
- #include "qemu/units.h"
- 
- #define TYPE_RX62N_MCU "rx62n-mcu"
-@@ -70,9 +71,9 @@ typedef struct RX62NState {
-     RTMRState tmr[RX62N_NR_TMR];
-     RCMTState cmt[RX62N_NR_CMT];
-     RSCIState sci[RX62N_NR_SCI];
-+    RX62NCPGState cpg;
- 
-     MemoryRegion *sysmem;
--    bool kernel;
- 
-     MemoryRegion iram;
-     MemoryRegion iomem1;
-@@ -84,8 +85,6 @@ typedef struct RX62NState {
- 
-     /* Input Clock (XTAL) frequency */
-     uint32_t xtal_freq_hz;
--    /* Peripheral Module Clock frequency */
--    uint32_t pclk_freq_hz;
- } RX62NState;
- 
- #endif
-diff --git a/hw/rx/rx62n-cpg.c b/hw/rx/rx62n-cpg.c
+diff --git a/hw/timer/renesas_tmr.c b/hw/timer/renesas_tmr.c
+deleted file mode 100644
+index 446f2eacdd..0000000000
+--- a/hw/timer/renesas_tmr.c
++++ /dev/null
+@@ -1,477 +0,0 @@
+-/*
+- * Renesas 8bit timer
+- *
+- * Datasheet: RX62N Group, RX621 Group User's Manual: Hardware
+- *            (Rev.1.40 R01UH0033EJ0140)
+- *
+- * Copyright (c) 2019 Yoshinori Sato
+- *
+- * SPDX-License-Identifier: GPL-2.0-or-later
+- *
+- * This program is free software; you can redistribute it and/or modify it
+- * under the terms and conditions of the GNU General Public License,
+- * version 2 or later, as published by the Free Software Foundation.
+- *
+- * This program is distributed in the hope it will be useful, but WITHOUT
+- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+- * more details.
+- *
+- * You should have received a copy of the GNU General Public License along with
+- * this program.  If not, see <http://www.gnu.org/licenses/>.
+- */
+-
+-#include "qemu/osdep.h"
+-#include "qemu/log.h"
+-#include "hw/irq.h"
+-#include "hw/registerfields.h"
+-#include "hw/qdev-properties.h"
+-#include "hw/timer/renesas_tmr.h"
+-#include "migration/vmstate.h"
+-
+-REG8(TCR, 0)
+-  FIELD(TCR, CCLR,  3, 2)
+-  FIELD(TCR, OVIE,  5, 1)
+-  FIELD(TCR, CMIEA, 6, 1)
+-  FIELD(TCR, CMIEB, 7, 1)
+-REG8(TCSR, 2)
+-  FIELD(TCSR, OSA,  0, 2)
+-  FIELD(TCSR, OSB,  2, 2)
+-  FIELD(TCSR, ADTE, 4, 2)
+-REG8(TCORA, 4)
+-REG8(TCORB, 6)
+-REG8(TCNT, 8)
+-REG8(TCCR, 10)
+-  FIELD(TCCR, CKS,   0, 3)
+-  FIELD(TCCR, CSS,   3, 2)
+-  FIELD(TCCR, TMRIS, 7, 1)
+-
+-#define INTERNAL  0x01
+-#define CASCADING 0x03
+-#define CCLR_A    0x01
+-#define CCLR_B    0x02
+-
+-static const int clkdiv[] = {0, 1, 2, 8, 32, 64, 1024, 8192};
+-
+-static uint8_t concat_reg(uint8_t *reg)
+-{
+-    return (reg[0] << 8) | reg[1];
+-}
+-
+-static void update_events(RTMRState *tmr, int ch)
+-{
+-    uint16_t diff[TMR_NR_EVENTS], min;
+-    int64_t next_time;
+-    int i, event;
+-
+-    if (tmr->tccr[ch] == 0) {
+-        return ;
+-    }
+-    if (FIELD_EX8(tmr->tccr[ch], TCCR, CSS) == 0) {
+-        /* external clock mode */
+-        /* event not happened */
+-        return ;
+-    }
+-    if (FIELD_EX8(tmr->tccr[0], TCCR, CSS) == CASCADING) {
+-        /* cascading mode */
+-        if (ch == 1) {
+-            tmr->next[ch] = none;
+-            return ;
+-        }
+-        diff[cmia] = concat_reg(tmr->tcora) - concat_reg(tmr->tcnt);
+-        diff[cmib] = concat_reg(tmr->tcorb) - concat_reg(tmr->tcnt);
+-        diff[ovi] = 0x10000 - concat_reg(tmr->tcnt);
+-    } else {
+-        /* separate mode */
+-        diff[cmia] = tmr->tcora[ch] - tmr->tcnt[ch];
+-        diff[cmib] = tmr->tcorb[ch] - tmr->tcnt[ch];
+-        diff[ovi] = 0x100 - tmr->tcnt[ch];
+-    }
+-    /* Search for the most recently occurring event. */
+-    for (event = 0, min = diff[0], i = 1; i < none; i++) {
+-        if (min > diff[i]) {
+-            event = i;
+-            min = diff[i];
+-        }
+-    }
+-    tmr->next[ch] = event;
+-    next_time = diff[event];
+-    next_time *= clkdiv[FIELD_EX8(tmr->tccr[ch], TCCR, CKS)];
+-    next_time *= NANOSECONDS_PER_SECOND;
+-    next_time /= tmr->input_freq;
+-    next_time += qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+-    timer_mod(&tmr->timer[ch], next_time);
+-}
+-
+-static int elapsed_time(RTMRState *tmr, int ch, int64_t delta)
+-{
+-    int divrate = clkdiv[FIELD_EX8(tmr->tccr[ch], TCCR, CKS)];
+-    int et;
+-
+-    tmr->div_round[ch] += delta;
+-    if (divrate > 0) {
+-        et = tmr->div_round[ch] / divrate;
+-        tmr->div_round[ch] %= divrate;
+-    } else {
+-        /* disble clock. so no update */
+-        et = 0;
+-    }
+-    return et;
+-}
+-
+-static uint16_t read_tcnt(RTMRState *tmr, unsigned size, int ch)
+-{
+-    int64_t delta, now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+-    int elapsed, ovf = 0;
+-    uint16_t tcnt[2];
+-    uint32_t ret;
+-
+-    delta = (now - tmr->tick) * NANOSECONDS_PER_SECOND / tmr->input_freq;
+-    if (delta > 0) {
+-        tmr->tick = now;
+-
+-        if (FIELD_EX8(tmr->tccr[1], TCCR, CSS) == INTERNAL) {
+-            /* timer1 count update */
+-            elapsed = elapsed_time(tmr, 1, delta);
+-            if (elapsed >= 0x100) {
+-                ovf = elapsed >> 8;
+-            }
+-            tcnt[1] = tmr->tcnt[1] + (elapsed & 0xff);
+-        }
+-        switch (FIELD_EX8(tmr->tccr[0], TCCR, CSS)) {
+-        case INTERNAL:
+-            elapsed = elapsed_time(tmr, 0, delta);
+-            tcnt[0] = tmr->tcnt[0] + elapsed;
+-            break;
+-        case CASCADING:
+-            if (ovf > 0) {
+-                tcnt[0] = tmr->tcnt[0] + ovf;
+-            }
+-            break;
+-        }
+-    } else {
+-        tcnt[0] = tmr->tcnt[0];
+-        tcnt[1] = tmr->tcnt[1];
+-    }
+-    if (size == 1) {
+-        return tcnt[ch];
+-    } else {
+-        ret = 0;
+-        ret = deposit32(ret, 0, 8, tcnt[1]);
+-        ret = deposit32(ret, 8, 8, tcnt[0]);
+-        return ret;
+-    }
+-}
+-
+-static uint8_t read_tccr(uint8_t r)
+-{
+-    uint8_t tccr = 0;
+-    tccr = FIELD_DP8(tccr, TCCR, TMRIS,
+-                     FIELD_EX8(r, TCCR, TMRIS));
+-    tccr = FIELD_DP8(tccr, TCCR, CSS,
+-                     FIELD_EX8(r, TCCR, CSS));
+-    tccr = FIELD_DP8(tccr, TCCR, CKS,
+-                     FIELD_EX8(r, TCCR, CKS));
+-    return tccr;
+-}
+-
+-static uint64_t tmr_read(void *opaque, hwaddr addr, unsigned size)
+-{
+-    RTMRState *tmr = opaque;
+-    int ch = addr & 1;
+-    uint64_t ret;
+-
+-    if (size == 2 && (ch != 0 || addr == A_TCR || addr == A_TCSR)) {
+-        qemu_log_mask(LOG_GUEST_ERROR, "renesas_tmr: Invalid read size 0x%"
+-                                       HWADDR_PRIX "\n",
+-                      addr);
+-        return UINT64_MAX;
+-    }
+-    switch (addr & 0x0e) {
+-    case A_TCR:
+-        ret = 0;
+-        ret = FIELD_DP8(ret, TCR, CCLR,
+-                        FIELD_EX8(tmr->tcr[ch], TCR, CCLR));
+-        ret = FIELD_DP8(ret, TCR, OVIE,
+-                        FIELD_EX8(tmr->tcr[ch], TCR, OVIE));
+-        ret = FIELD_DP8(ret, TCR, CMIEA,
+-                        FIELD_EX8(tmr->tcr[ch], TCR, CMIEA));
+-        ret = FIELD_DP8(ret, TCR, CMIEB,
+-                        FIELD_EX8(tmr->tcr[ch], TCR, CMIEB));
+-        return ret;
+-    case A_TCSR:
+-        ret = 0;
+-        ret = FIELD_DP8(ret, TCSR, OSA,
+-                        FIELD_EX8(tmr->tcsr[ch], TCSR, OSA));
+-        ret = FIELD_DP8(ret, TCSR, OSB,
+-                        FIELD_EX8(tmr->tcsr[ch], TCSR, OSB));
+-        switch (ch) {
+-        case 0:
+-            ret = FIELD_DP8(ret, TCSR, ADTE,
+-                            FIELD_EX8(tmr->tcsr[ch], TCSR, ADTE));
+-            break;
+-        case 1: /* CH1 ADTE unimplement always 1 */
+-            ret = FIELD_DP8(ret, TCSR, ADTE, 1);
+-            break;
+-        }
+-        return ret;
+-    case A_TCORA:
+-        if (size == 1) {
+-            return tmr->tcora[ch];
+-        } else if (ch == 0) {
+-            return concat_reg(tmr->tcora);
+-        }
+-    case A_TCORB:
+-        if (size == 1) {
+-            return tmr->tcorb[ch];
+-        } else {
+-            return concat_reg(tmr->tcorb);
+-        }
+-    case A_TCNT:
+-        return read_tcnt(tmr, size, ch);
+-    case A_TCCR:
+-        if (size == 1) {
+-            return read_tccr(tmr->tccr[ch]);
+-        } else {
+-            return read_tccr(tmr->tccr[0]) << 8 | read_tccr(tmr->tccr[1]);
+-        }
+-    default:
+-        qemu_log_mask(LOG_UNIMP, "renesas_tmr: Register 0x%" HWADDR_PRIX
+-                                 " not implemented\n",
+-                      addr);
+-        break;
+-    }
+-    return UINT64_MAX;
+-}
+-
+-static void tmr_write_count(RTMRState *tmr, int ch, unsigned size,
+-                            uint8_t *reg, uint64_t val)
+-{
+-    if (size == 1) {
+-        reg[ch] = val;
+-        update_events(tmr, ch);
+-    } else {
+-        reg[0] = extract32(val, 8, 8);
+-        reg[1] = extract32(val, 0, 8);
+-        update_events(tmr, 0);
+-        update_events(tmr, 1);
+-    }
+-}
+-
+-static void tmr_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
+-{
+-    RTMRState *tmr = opaque;
+-    int ch = addr & 1;
+-
+-    if (size == 2 && (ch != 0 || addr == A_TCR || addr == A_TCSR)) {
+-        qemu_log_mask(LOG_GUEST_ERROR,
+-                      "renesas_tmr: Invalid write size 0x%" HWADDR_PRIX "\n",
+-                      addr);
+-        return;
+-    }
+-    switch (addr & 0x0e) {
+-    case A_TCR:
+-        tmr->tcr[ch] = val;
+-        break;
+-    case A_TCSR:
+-        tmr->tcsr[ch] = val;
+-        break;
+-    case A_TCORA:
+-        tmr_write_count(tmr, ch, size, tmr->tcora, val);
+-        break;
+-    case A_TCORB:
+-        tmr_write_count(tmr, ch, size, tmr->tcorb, val);
+-        break;
+-    case A_TCNT:
+-        tmr_write_count(tmr, ch, size, tmr->tcnt, val);
+-        break;
+-    case A_TCCR:
+-        tmr_write_count(tmr, ch, size, tmr->tccr, val);
+-        break;
+-    default:
+-        qemu_log_mask(LOG_UNIMP, "renesas_tmr: Register 0x%" HWADDR_PRIX
+-                                 " not implemented\n",
+-                      addr);
+-        break;
+-    }
+-}
+-
+-static const MemoryRegionOps tmr_ops = {
+-    .write = tmr_write,
+-    .read  = tmr_read,
+-    .endianness = DEVICE_LITTLE_ENDIAN,
+-    .impl = {
+-        .min_access_size = 1,
+-        .max_access_size = 2,
+-    },
+-    .valid = {
+-        .min_access_size = 1,
+-        .max_access_size = 2,
+-    },
+-};
+-
+-static void timer_events(RTMRState *tmr, int ch);
+-
+-static uint16_t issue_event(RTMRState *tmr, int ch, int sz,
+-                        uint16_t tcnt, uint16_t tcora, uint16_t tcorb)
+-{
+-    uint16_t ret = tcnt;
+-
+-    switch (tmr->next[ch]) {
+-    case none:
+-        break;
+-    case cmia:
+-        if (tcnt >= tcora) {
+-            if (FIELD_EX8(tmr->tcr[ch], TCR, CCLR) == CCLR_A) {
+-                ret = tcnt - tcora;
+-            }
+-            if (FIELD_EX8(tmr->tcr[ch], TCR, CMIEA)) {
+-                qemu_irq_pulse(tmr->cmia[ch]);
+-            }
+-            if (sz == 8 && ch == 0 &&
+-                FIELD_EX8(tmr->tccr[1], TCCR, CSS) == CASCADING) {
+-                tmr->tcnt[1]++;
+-                timer_events(tmr, 1);
+-            }
+-        }
+-        break;
+-    case cmib:
+-        if (tcnt >= tcorb) {
+-            if (FIELD_EX8(tmr->tcr[ch], TCR, CCLR) == CCLR_B) {
+-                ret = tcnt - tcorb;
+-            }
+-            if (FIELD_EX8(tmr->tcr[ch], TCR, CMIEB)) {
+-                qemu_irq_pulse(tmr->cmib[ch]);
+-            }
+-        }
+-        break;
+-    case ovi:
+-        if ((tcnt >= (1 << sz)) && FIELD_EX8(tmr->tcr[ch], TCR, OVIE)) {
+-            qemu_irq_pulse(tmr->ovi[ch]);
+-        }
+-        break;
+-    default:
+-        g_assert_not_reached();
+-    }
+-    return ret;
+-}
+-
+-static void timer_events(RTMRState *tmr, int ch)
+-{
+-    uint16_t tcnt;
+-
+-    tmr->tcnt[ch] = read_tcnt(tmr, 1, ch);
+-    if (FIELD_EX8(tmr->tccr[0], TCCR, CSS) != CASCADING) {
+-        tmr->tcnt[ch] = issue_event(tmr, ch, 8,
+-                                    tmr->tcnt[ch],
+-                                    tmr->tcora[ch],
+-                                    tmr->tcorb[ch]) & 0xff;
+-    } else {
+-        if (ch == 1) {
+-            return ;
+-        }
+-        tcnt = issue_event(tmr, ch, 16,
+-                           concat_reg(tmr->tcnt),
+-                           concat_reg(tmr->tcora),
+-                           concat_reg(tmr->tcorb));
+-        tmr->tcnt[0] = (tcnt >> 8) & 0xff;
+-        tmr->tcnt[1] = tcnt & 0xff;
+-    }
+-    update_events(tmr, ch);
+-}
+-
+-static void timer_event0(void *opaque)
+-{
+-    RTMRState *tmr = opaque;
+-
+-    timer_events(tmr, 0);
+-}
+-
+-static void timer_event1(void *opaque)
+-{
+-    RTMRState *tmr = opaque;
+-
+-    timer_events(tmr, 1);
+-}
+-
+-static void rtmr_reset(DeviceState *dev)
+-{
+-    RTMRState *tmr = RTMR(dev);
+-    tmr->tcr[0]   = tmr->tcr[1]   = 0x00;
+-    tmr->tcsr[0]  = 0x00;
+-    tmr->tcsr[1]  = 0x10;
+-    tmr->tcnt[0]  = tmr->tcnt[1]  = 0x00;
+-    tmr->tcora[0] = tmr->tcora[1] = 0xff;
+-    tmr->tcorb[0] = tmr->tcorb[1] = 0xff;
+-    tmr->tccr[0]  = tmr->tccr[1]  = 0x00;
+-    tmr->next[0]  = tmr->next[1]  = none;
+-    tmr->tick = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+-}
+-
+-static void rtmr_init(Object *obj)
+-{
+-    SysBusDevice *d = SYS_BUS_DEVICE(obj);
+-    RTMRState *tmr = RTMR(obj);
+-    int i;
+-
+-    memory_region_init_io(&tmr->memory, OBJECT(tmr), &tmr_ops,
+-                          tmr, "renesas-tmr", 0x10);
+-    sysbus_init_mmio(d, &tmr->memory);
+-
+-    for (i = 0; i < ARRAY_SIZE(tmr->ovi); i++) {
+-        sysbus_init_irq(d, &tmr->cmia[i]);
+-        sysbus_init_irq(d, &tmr->cmib[i]);
+-        sysbus_init_irq(d, &tmr->ovi[i]);
+-    }
+-    timer_init_ns(&tmr->timer[0], QEMU_CLOCK_VIRTUAL, timer_event0, tmr);
+-    timer_init_ns(&tmr->timer[1], QEMU_CLOCK_VIRTUAL, timer_event1, tmr);
+-}
+-
+-static const VMStateDescription vmstate_rtmr = {
+-    .name = "rx-tmr",
+-    .version_id = 1,
+-    .minimum_version_id = 1,
+-    .fields = (VMStateField[]) {
+-        VMSTATE_INT64(tick, RTMRState),
+-        VMSTATE_UINT8_ARRAY(tcnt, RTMRState, TMR_CH),
+-        VMSTATE_UINT8_ARRAY(tcora, RTMRState, TMR_CH),
+-        VMSTATE_UINT8_ARRAY(tcorb, RTMRState, TMR_CH),
+-        VMSTATE_UINT8_ARRAY(tcr, RTMRState, TMR_CH),
+-        VMSTATE_UINT8_ARRAY(tccr, RTMRState, TMR_CH),
+-        VMSTATE_UINT8_ARRAY(tcor, RTMRState, TMR_CH),
+-        VMSTATE_UINT8_ARRAY(tcsr, RTMRState, TMR_CH),
+-        VMSTATE_INT64_ARRAY(div_round, RTMRState, TMR_CH),
+-        VMSTATE_UINT8_ARRAY(next, RTMRState, TMR_CH),
+-        VMSTATE_TIMER_ARRAY(timer, RTMRState, TMR_CH),
+-        VMSTATE_END_OF_LIST()
+-    }
+-};
+-
+-static Property rtmr_properties[] = {
+-    DEFINE_PROP_UINT64("input-freq", RTMRState, input_freq, 0),
+-    DEFINE_PROP_END_OF_LIST(),
+-};
+-
+-static void rtmr_class_init(ObjectClass *klass, void *data)
+-{
+-    DeviceClass *dc = DEVICE_CLASS(klass);
+-
+-    dc->vmsd = &vmstate_rtmr;
+-    dc->reset = rtmr_reset;
+-    device_class_set_props(dc, rtmr_properties);
+-}
+-
+-static const TypeInfo rtmr_info = {
+-    .name = TYPE_RENESAS_TMR,
+-    .parent = TYPE_SYS_BUS_DEVICE,
+-    .instance_size = sizeof(RTMRState),
+-    .instance_init = rtmr_init,
+-    .class_init = rtmr_class_init,
+-};
+-
+-static void rtmr_register_types(void)
+-{
+-    type_register_static(&rtmr_info);
+-}
+-
+-type_init(rtmr_register_types)
+diff --git a/hw/timer/renesas_tmr8.c b/hw/timer/renesas_tmr8.c
 new file mode 100644
-index 0000000000..9d70004302
+index 0000000000..39deabce47
 --- /dev/null
-+++ b/hw/rx/rx62n-cpg.c
-@@ -0,0 +1,344 @@
++++ b/hw/timer/renesas_tmr8.c
+@@ -0,0 +1,540 @@
 +/*
-+ * RX62N Clock Generation Circuit
++ * Renesas 8bit timer
 + *
 + * Datasheet: RX62N Group, RX621 Group User's Manual: Hardware
-+ * (Rev.1.40 R01UH0033EJ0140)
++ *            (Rev.1.40 R01UH0033EJ0140)
 + *
 + * Copyright (c) 2020 Yoshinori Sato
 + *
@@ -212,474 +722,555 @@ index 0000000000..9d70004302
 + */
 +
 +#include "qemu/osdep.h"
-+#include "qapi/error.h"
++#include "qemu-common.h"
 +#include "qemu/log.h"
++#include "qapi/error.h"
++#include "qemu/timer.h"
++#include "qemu/bitops.h"
 +#include "hw/hw.h"
-+#include "hw/rx/rx62n-cpg.h"
++#include "hw/irq.h"
 +#include "hw/sysbus.h"
-+#include "hw/qdev-properties.h"
 +#include "hw/registerfields.h"
 +#include "hw/qdev-properties.h"
-+#include "hw/clock.h"
++#include "hw/qdev-clock.h"
++#include "hw/timer/renesas_tmr8.h"
 +#include "migration/vmstate.h"
++#include "qemu/error-report.h"
 +
-+#define RX62N_XTAL_MIN_HZ  (8 * 1000 * 1000)
-+#define RX62N_XTAL_MAX_HZ (14 * 1000 * 1000)
++REG8(TCR, 0)
++  FIELD(TCR, CCLR, 3, 2)
++  FIELD(TCR, OVIE, 5, 1)
++  FIELD(TCR, CMIEA, 6, 1)
++  FIELD(TCR, CMIEB, 7, 1)
++  FIELD(TCR, CMIE, 6, 2)
++  FIELD(TCR, ALLIE, 5, 3)
++REG8(TCSR, 2)
++  FIELD(TCSR, OSA, 0, 2)
++  FIELD(TCSR, OSB, 2, 2)
++  FIELD(TCSR, ADTE, 4, 1)
++REG8(TCORA, 4)
++REG8(TCORB, 6)
++REG8(TCNT, 8)
++REG8(TCCR, 10)
++  FIELD(TCCR, CKS, 0, 3)
++  FIELD(TCCR, CSS, 3, 2)
++  FIELD(TCCR, TMRIS, 7, 1)
 +
-+REG32(MSTPCRA, 0)
-+REG32(MSTPCRB, 4)
-+REG32(MSTPCRC, 8)
-+REG32(SCKCR, 16)
-+  FIELD(SCKCR, PCK,  8, 3)
-+  FIELD(SCKCR, BCK, 16, 3)
-+  FIELD(SCKCR, PSTOP, 22, 2)
-+  FIELD(SCKCR, ICK, 24, 3)
-+REG8(BCKCR, 32)
-+  FIELD(BCKCR, BCLKDIV, 0, 1)
-+REG16(OSTDCR, 48)
-+  FIELD(OSTDCR, OSTDF, 6, 1)
-+  FIELD(OSTDCR, OSTDE, 7, 1)
++#define CLK_EVT -1
 +
-+static const int access_size[] = {4, 4, 1, 2};
-+
-+typedef struct {
-+    const char *name;
-+    int devnum;
-+    int reg;
-+    int offset;
-+    int parentck;
-+} dev_clock_t;
-+
-+enum {
-+    parent_ick, parent_bck, parent_pck,
++enum CSS {
++    CSS_EXT = 0,        /* extarnal clock */
++    CSS_INT = 1,        /* internal clock */
++    CSS_UND = 2,        /* undefined */
++    CSS_EVT = 3,        /* event count */
 +};
 +
-+static const dev_clock_t dev_clock_list[] = {
-+    { .name = "pck_tmr8-1",
-+      .devnum = CK_TMR8_1, .reg = 0, .offset = 4, .parentck = parent_pck, },
-+    { .name = "pck_tmr8-0",
-+      .devnum = CK_TMR8_0, .reg = 0, .offset = 5, .parentck = parent_pck, },
-+    { .name = "pck_mtu-1",
-+      .devnum = CK_MTU_1, .reg = 0, .offset = 8, .parentck = parent_pck, },
-+    { .name = "pck_mtu-0",
-+      .devnum = CK_MTU_0, .reg = 0, .offset = 9, .parentck = parent_pck, },
-+    { .name = "pck_cmt-1",
-+      .devnum = CK_CMT_1, .reg = 0, .offset = 14, .parentck = parent_pck, },
-+    { .name = "pck_cmt-0",
-+      .devnum = CK_CMT_0, .reg = 0, .offset = 15, .parentck = parent_pck, },
-+    { .name = "ick_edmac",
-+      .devnum = CK_EDMAC, .reg = 1, .offset = 15, .parentck = parent_ick, },
-+    { .name = "pck_sci-6",
-+      .devnum = CK_SCI6, .reg = 1, .offset = 25, .parentck = parent_pck, },
-+    { .name = "pck_sci-5",
-+      .devnum = CK_SCI5, .reg = 1, .offset = 26, .parentck = parent_pck, },
-+    { .name = "pck_sci-3",
-+      .devnum = CK_SCI3, .reg = 1, .offset = 28, .parentck = parent_pck, },
-+    { .name = "pck_sci-2",
-+      .devnum = CK_SCI2, .reg = 1, .offset = 29, .parentck = parent_pck, },
-+    { .name = "pck_sci-1",
-+      .devnum = CK_SCI1, .reg = 1, .offset = 30, .parentck = parent_pck, },
-+    { .name = "pck_sci-0",
-+      .devnum = CK_SCI0, .reg = 1, .offset = 31, .parentck = parent_pck, },
-+    { },
-+};
-+
-+static void set_clock_in(RX62NCPGState *cpg, const dev_clock_t *ck)
++static void update_clk(RenesasTMR8State *tmr, int ch)
 +{
-+    Clock *out;
-+    uint64_t period;
-+
-+    out = qdev_get_clock_out(DEVICE(cpg), ck->name);
-+    g_assert(out);
-+    period = 0;
-+    if (extract32(cpg->mstpcr[ck->reg], ck->offset, 1) == 0) {
-+        switch (ck->parentck) {
-+        case parent_ick:
-+            period = clock_get(cpg->clk_ick);
-+            break;
-+        case parent_pck:
-+            period = clock_get(cpg->clk_pck);
-+            break;
++    int64_t t;
++    static const int divlist[] = {1, 2, 8, 32, 64, 1024, 8192, 0};
++    switch (FIELD_EX8(tmr->ch[ch].tccr, TCCR, CSS)) {
++    case CSS_EXT:
++        qemu_log_mask(LOG_UNIMP,
++                      "renesas_tmr8: External clock not implemented.\n");
++        tmr->ch[ch].clk = 0;
++        break;
++    case CSS_INT:
++        t = divlist[FIELD_EX8(tmr->ch[ch].tccr, TCCR, CKS)];
++        if (t > 0 && clock_is_enabled(tmr->pck)) {
++            t = tmr->input_freq / t;
++            tmr->ch[ch].clk = NANOSECONDS_PER_SECOND / t;
++        } else {
++            tmr->ch[ch].clk = 0;
 +        }
-+    }
-+    if (clock_get(out) != period) {
-+        clock_update(out, period);
-+    }
-+}
-+
-+#define update_ck(ckname)                                             \
-+    if (cpg->ckname != ckname) {                                      \
-+        cpg->ckname = ckname;                                         \
-+        ckname =  8 / (1 << ckname);                                  \
-+        clock_update_hz(cpg->clk_ ## ckname,                          \
-+                        cpg->xtal_freq_hz * ckname);                  \
-+    }
-+
-+#define validate_setting(ckname)                                 \
-+    if (ick > ckname) {                                         \
-+        qemu_log_mask(LOG_GUEST_ERROR,                           \
-+                      "rx62n-cpg: Invalid " #ckname " setting."   \
-+                      " (ick=%d " #ckname "=%d)\n", ick, ckname); \
-+        cpg->ckname = ckname = ick;                              \
-+    }
-+
-+static void update_divrate(RX62NCPGState *cpg)
-+{
-+    int ick = FIELD_EX32(cpg->sckcr, SCKCR, ICK);
-+    int bck = FIELD_EX32(cpg->sckcr, SCKCR, BCK);
-+    int pck = FIELD_EX32(cpg->sckcr, SCKCR, PCK);
-+    const dev_clock_t *p = dev_clock_list;
-+    validate_setting(pck);
-+    validate_setting(bck);
-+    update_ck(ick);
-+    update_ck(bck);
-+    update_ck(pck);
-+    while (p->name) {
-+        set_clock_in(cpg, p);
-+        p++;
++        break;
++    case CSS_UND:
++        qemu_log_mask(LOG_UNIMP,
++                      "renesas_8timer: CSS undefined.");
++        tmr->ch[ch].clk = 0;
++        break;
++    case CSS_EVT:
++        tmr->ch[ch].clk = CLK_EVT;
++        break;
 +    }
 +}
 +
-+static const dev_clock_t *find_clock_list(int crno, int bit)
++static uint16_t catreg(uint8_t hi, uint8_t lo)
 +{
-+    const dev_clock_t *ret = dev_clock_list;
-+    while (ret->name) {
-+        if (ret->reg == crno && ret->offset == bit) {
-+            return ret;
-+        }
-+        ret++;
-+    }
-+    return NULL;
++    uint16_t ret = 0;
++    ret = deposit32(ret, 8, 8, hi);
++    ret = deposit32(ret, 0, 8, lo);
++    return ret;
 +}
 +
-+static void update_mstpcr(RX62NCPGState *cpg, int crno, uint32_t diff)
++static bool is_clr_count(uint8_t tcr, enum timer_event event)
 +{
-+    int bit = 0;
-+    const dev_clock_t *p;
++    switch (event) {
++    case EVT_CMIA:
++    case EVT_CMIB:
++        return FIELD_EX8(tcr, TCR, CCLR) == event;
++    case EVT_OVI:
++        return true;
++    default:
++        g_assert_not_reached();
++    }
++}
 +
-+    while (diff) {
-+        if (diff & 1) {
-+            p = find_clock_list(crno, bit);
-+            if (p) {
-+                set_clock_in(cpg, p);
-+            } else {
-+                qemu_log_mask(LOG_UNIMP, "rx62n-cpg: MSTPCR%c "
-+                              " bit %d is not implement.\n", 'A' + crno, bit);
++static bool is_irq_enabled(uint8_t tcr, enum timer_event event)
++{
++    switch (event) {
++    case EVT_CMIA:
++        return FIELD_EX8(tcr, TCR, CMIEA);
++    case EVT_CMIB:
++        return FIELD_EX8(tcr, TCR, CMIEB);
++    case EVT_OVI:
++        return FIELD_EX8(tcr, TCR, OVIE);
++    default:
++        g_assert_not_reached();
++    }
++}
++
++static bool event_enabled(uint8_t tcr, enum timer_event event)
++{
++    return is_clr_count(tcr, event) || is_irq_enabled(tcr, event);
++}
++
++static int event_cor(struct tmr8_ch *ch, enum timer_event event)
++{
++    switch (event) {
++    case EVT_CMIA:
++        return ch->cor[REG_A];
++    case EVT_CMIB:
++        return ch->cor[REG_B];
++    default:
++        return 0xff;
++    }
++}
++
++static bool is_word_mode(RenesasTMR8State *tmr)
++{
++    /*
++     * If the following conditions are met, it is treated as a 16-bit counter.
++     * ch0 - free running and no compare match event
++     * ch1 - free running no event
++     */
++    return tmr->ch[0].clk == CLK_EVT &&
++        tmr->ch[1].clk > 0 &&
++        FIELD_EX8(tmr->ch[0].tcr, TCR, CCLR) == 0 &&
++        FIELD_EX8(tmr->ch[0].tcr, TCR, CMIE) == 0 &&
++        FIELD_EX8(tmr->ch[0].tccr, TCCR, CSS) == CSS_EVT &&
++        FIELD_EX8(tmr->ch[1].tcr, TCR, CCLR) == 0 &&
++        FIELD_EX8(tmr->ch[1].tcr, TCR, ALLIE) == 0;
++}
++
++static void set_next_event(RenesasTMR8State *tmr, int ch)
++{
++    int64_t next = 0;
++    enum timer_event evt;
++    int cor;
++    int min;
++    if (ch == 1 && is_word_mode(tmr)) {
++        /* 16bit count mode */
++        next = 0x10000 - catreg(tmr->ch[0].cnt, tmr->ch[1].cnt);
++        next *= tmr->ch[1].clk;
++        tmr->ch[0].event = tmr->ch[1].event = EVT_WOVI;
++    } else if (tmr->ch[ch].clk > 0) {
++        /* Find the next event. */
++        min = 0x100 + 1;
++        for (evt = EVT_CMIA; evt < EVT_WOVI; evt++) {
++            cor = event_cor(&tmr->ch[ch], evt);
++            /* event happen in next count up */
++            cor++;
++            if (tmr->ch[ch].cnt < cor && min > cor &&
++                event_enabled(tmr->ch[ch].tcr, evt)) {
++                    min = cor;
++                    next = cor - tmr->ch[ch].cnt;
++                    next *= tmr->ch[ch].clk;
++                    tmr->ch[ch].event = evt;
 +            }
 +        }
-+        bit++;
-+        diff >>= 1;
++    }
++    if (next > 0) {
++        tmr->ch[ch].base = tmr->ch[ch].next;
++        tmr->ch[ch].next += next;
++        timer_mod(tmr->ch[ch].timer, tmr->ch[ch].next);
++    } else {
++        timer_del(tmr->ch[ch].timer);
 +    }
 +}
 +
-+static uint64_t cpg_read(void *opaque, hwaddr addr, unsigned size)
++static void sent_irq(struct tmr8_ch *ch, enum timer_event evt)
 +{
-+    RX62NCPGState *cpg = RX62NCPG(opaque);
-+
-+    if (access_size[addr >> 4] != size) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "rx62n-cpg: Register 0x%"
-+                      HWADDR_PRIX " Invalid access size.\n", addr);
-+        return UINT64_MAX;
++    if (is_irq_enabled(ch->tcr, evt)) {
++        qemu_irq_pulse(ch->irq[evt - 1]);
 +    }
-+    switch (addr) {
-+    case A_MSTPCRA:
-+        return cpg->mstpcr[0] | 0x473530cf;
-+    case A_MSTPCRB:
-+        return cpg->mstpcr[1] | 0x09407ffe;
-+    case A_MSTPCRC:
-+        return (cpg->mstpcr[2] | 0xffff0000) & 0xffff0003;
-+    case A_SCKCR:
-+        return cpg->sckcr & 0x0fcf0f00;
-+    case A_BCKCR:
-+        return cpg->bckcr & 0x01;
-+    case A_OSTDCR:
-+        /* Main OSC always good */
-+        return cpg->ostdcr & 0x0080;
++}
++
++static void event_countup(struct tmr8_ch *ch)
++{
++    enum timer_event evt;
++    int cor;
++
++    ch->cnt++;
++    for (evt = EVT_CMIA; evt < EVT_WOVI; evt++) {
++        cor = event_cor(ch, evt) + 1;
++        if (ch->cnt == cor) {
++            if (is_clr_count(ch->tcr, evt)) {
++                ch->cnt = 0;
++            }
++            sent_irq(ch, evt);
++        }
++    }
++}
++
++static void timer_event(void *opaque)
++{
++    struct tmr8_ch *ch = opaque;
++    RenesasTMR8State *tmr = ch->tmrp;
++
++    switch (ch->event) {
++    case EVT_CMIA:
++        if (ch->id == 0 && tmr->ch[1].clk == CLK_EVT) {
++            /* CH1 event count */
++            event_countup(&tmr->ch[1]);
++        }
++        /* Falls through. */
++    case EVT_CMIB:
++        if (FIELD_EX8(ch->tcr, TCR, CCLR) == ch->event) {
++            ch->cnt = 0;
++        } else {
++        /* update current value */
++            ch->cnt = ch->cor[ch->event] + 1;
++        }
++        sent_irq(ch, ch->event);
++        break;
++    case EVT_OVI:
++        ch->cnt = 0;
++        sent_irq(ch, EVT_OVI);
++        if (ch->id == 1 && tmr->ch[0].clk == CLK_EVT) {
++            /* CH0 event count */
++            event_countup(&tmr->ch[0]);
++        }
++        break;
++    case EVT_WOVI:
++        tmr->ch[0].cnt = tmr->ch[1].cnt = 0;
++        sent_irq(ch, EVT_OVI);
++        break;
 +    default:
-+        qemu_log_mask(LOG_GUEST_ERROR, "rx62n-cpg: Register 0x%"
-+                      HWADDR_PRIX " Invalid address.\n", addr);
-+        return UINT64_MAX;
++        g_assert_not_reached();
++    }
++    set_next_event(tmr, ch->id);
++}
++
++static uint16_t read_tcnt(RenesasTMR8State *tmr, unsigned int size, int ch)
++{
++    int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++    int64_t delta;
++    uint8_t ret[2];
++    int i;
++
++    switch (size) {
++    case 1:
++        if (tmr->ch[ch].clk > 0) {
++            delta = now - tmr->ch[ch].base;
++            delta /= tmr->ch[ch].clk;
++        } else {
++            delta = 0;
++        }
++        return tmr->ch[ch].cnt + delta;
++    case 2:
++        if (is_word_mode(tmr)) {
++            /* 16bit count mode */
++            delta = now - tmr->ch[1].base;
++            delta /= tmr->ch[1].clk;
++            return catreg(tmr->ch[0].cnt, tmr->ch[1].cnt) + delta;
++        } else {
++            for (i = 0; i < TMR_CH; i++) {
++                if (tmr->ch[i].clk > 0) {
++                    delta = now - tmr->ch[i].base;
++                    delta /= tmr->ch[i].clk;
++                } else {
++                    delta = 0;
++                }
++                ret[i] = tmr->ch[i].cnt + delta;
++            }
++            return catreg(ret[0], ret[1]);
++        }
++    default:
++        g_assert_not_reached();
 +    }
 +}
 +
-+static void cpg_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
++static void tmr_pck_update(void *opaque)
 +{
-+    RX62NCPGState *cpg = RX62NCPG(opaque);
-+    uint32_t old_mstpcr;
-+    int cr_no;
-+    if (access_size[addr >> 4] != size) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "rx62n-cpg: Register 0x%"
-+                      HWADDR_PRIX " Invalid access size.\n", addr);
++    RenesasTMR8State *tmr = opaque;
++    int i;
++    uint16_t tcnt = read_tcnt(tmr, 2, 0);
++
++    tmr->ch[0].cnt = extract16(tcnt, 8, 8);
++    tmr->ch[1].cnt = extract16(tcnt, 0, 8);
++
++    tmr->input_freq = clock_get_hz(tmr->pck);
++    for (i = 0; i < TMR_CH; i++) {
++        if (clock_is_enabled(tmr->pck)) {
++            update_clk(tmr, i);
++            set_next_event(tmr, i);
++        } else {
++            if (tmr->ch[i].timer) {
++                timer_del(tmr->ch[i].timer);
++            }
++        }
++    }
++}
++
++static int validate_access(hwaddr addr, unsigned int size)
++{
++    /* Byte access always OK */
++    if (size == 1) {
++        return 1;
++    }
++    /* word access allowed TCNT / TCOR / TCCR */
++    return ((addr & 1) == 0 && addr >= A_TCORA);
++}
++
++static uint64_t tmr8_read(void *opaque, hwaddr addr, unsigned int size)
++{
++    RenesasTMR8State *tmr = opaque;
++    int ch = addr & 1;
++    int cor;
++
++    if (!validate_access(addr, size)) {
++        qemu_log_mask(LOG_GUEST_ERROR, "renesas_tmr8: Invalid read size 0x%"
++                      HWADDR_PRIX "\n", addr);
++        return UINT64_MAX;
++    }
++    if (!clock_is_enabled(tmr->pck)) {
++        qemu_log_mask(LOG_GUEST_ERROR, "renesas_tmr8: Unit %d is stopped.\n",
++                      tmr->unit);
++        return UINT64_MAX;
++    }
++    switch (addr & ~1) {
++    case A_TCR:
++        return tmr->ch[ch].tcr;
++    case A_TCSR:
++        return tmr->ch[ch].tcsr;
++    case A_TCORA:
++    case A_TCORB:
++        cor = extract32(addr, 1, 1);
++        if (size == 1) {
++            /* 8bit read - single register */
++            return tmr->ch[ch].cor[cor];
++        } else {
++            /* 16bit read - high byte ch0 reg, low byte ch1 reg */
++            return catreg(tmr->ch[0].cor[cor], tmr->ch[1].cor[cor]);
++        }
++    case A_TCNT:
++        return read_tcnt(tmr, size, ch);
++    case A_TCCR:
++        if (size == 1) {
++            return tmr->ch[ch].tccr;
++        } else {
++            return catreg(tmr->ch[0].tccr, tmr->ch[1].tccr);
++        }
++    default:
++        qemu_log_mask(LOG_UNIMP, "renesas_tmr8: Register 0x%" HWADDR_PRIX
++                      " not implemented\n", addr);
++        break;
++    }
++    return UINT64_MAX;
++}
++
++static void tmr8_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
++{
++    RenesasTMR8State *tmr = opaque;
++    int ch = addr & 1;
++    int cor;
++    int64_t now;
++
++    if (!validate_access(addr, size)) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "renesas_tmr: Invalid write size 0x%" HWADDR_PRIX
++                      "\n", addr);
 +        return;
 +    }
-+    switch (addr) {
-+    case A_MSTPCRA:
-+    case A_MSTPCRB:
-+    case A_MSTPCRC:
-+        cr_no = (addr & 0x0f) >> 2;
-+        old_mstpcr = cpg->mstpcr[cr_no];
-+        old_mstpcr ^= val;
-+        cpg->mstpcr[cr_no] = val;
-+        update_mstpcr(cpg, cr_no, old_mstpcr);
++    if (!clock_is_enabled(tmr->pck)) {
++        qemu_log_mask(LOG_GUEST_ERROR, "renesas_tmr8: Unit %d is stopped.\n",
++                      tmr->unit);
++        return;
++    }
++    switch (addr & ~1) {
++    case A_TCR:
++        tmr->ch[ch].tcr = val;
 +        break;
-+    case A_SCKCR:
-+        cpg->sckcr = val;
-+        update_divrate(cpg);
++    case A_TCSR:
++        if (ch == 1) {
++            /* CH1 ADTR always 1 */
++            val = FIELD_DP8(val, TCSR, ADTE, 1);
++        }
++        tmr->ch[ch].tcsr = val;
 +        break;
-+    case A_BCKCR:
-+        cpg->bckcr = val;
-+        break;
-+    case A_OSTDCR:
-+        if (extract16(val, 8, 8) == OSTDCR_KEY) {
-+            cpg->ostdcr = val;
++    case A_TCORA:
++    case A_TCORB:
++        cor = extract32(addr, 1, 1);
++        if (size == 1) {
++            tmr->ch[ch].cor[cor] = val;
 +        } else {
-+            qemu_log_mask(LOG_GUEST_ERROR, "rx62n-cpg: Register 0x%"
-+                          HWADDR_PRIX " Invalid key value.\n", addr);
++            tmr->ch[0].cor[cor] = extract32(val, 0, 8);
++            tmr->ch[1].cor[cor] = extract32(val, 8, 8);
++        }
++        break;
++    case A_TCNT:
++        now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++        if (size == 1) {
++            tmr->ch[ch].base = now;
++            tmr->ch[ch].cnt = val;
++        } else {
++            tmr->ch[0].base = tmr->ch[1].base = now;
++            tmr->ch[0].cnt = extract32(val, 0, 8);
++            tmr->ch[1].cnt = extract32(val, 8, 8);
++        }
++        break;
++    case A_TCCR:
++        val &= ~0x6060;
++        if (size == 1) {
++            tmr->ch[ch].tccr = val;
++            update_clk(tmr, ch);
++        } else {
++            tmr->ch[0].tccr = extract32(val, 0, 8);
++            tmr->ch[1].tccr = extract32(val, 8, 8);
++            update_clk(tmr, 0);
++            update_clk(tmr, 1);
 +        }
 +        break;
 +    default:
-+        qemu_log_mask(LOG_GUEST_ERROR, "rx62n-cpg: Register 0x%"
-+                      HWADDR_PRIX " Invalid address.\n", addr);
++        qemu_log_mask(LOG_UNIMP, "renesas_tmr: Register 0x%" HWADDR_PRIX
++                      " not implemented\n", addr);
++        return;
++    }
++    if (size == 1) {
++        set_next_event(tmr, ch);
++    } else {
++        set_next_event(tmr, 0);
++        set_next_event(tmr, 1);
 +    }
 +}
 +
-+static const MemoryRegionOps cpg_ops = {
-+    .write = cpg_write,
-+    .read  = cpg_read,
-+    .endianness = DEVICE_NATIVE_ENDIAN,
++static const MemoryRegionOps tmr_ops = {
++    .write = tmr8_write,
++    .read  = tmr8_read,
++    .endianness = DEVICE_LITTLE_ENDIAN,
 +    .impl = {
 +        .min_access_size = 1,
-+        .max_access_size = 4,
++        .max_access_size = 2,
 +    },
 +};
 +
-+static const ClockPortInitArray rx62n_cpg_clocks = {
-+    QDEV_CLOCK_OUT(RX62NCPGState, clk_ick),
-+    QDEV_CLOCK_OUT(RX62NCPGState, clk_bck),
-+    QDEV_CLOCK_OUT(RX62NCPGState, clk_pck),
-+    QDEV_CLOCK_END
++static void tmr8_realize(DeviceState *dev, Error **errp)
++{
++    RenesasTMR8State *tmr = RenesasTMR8(dev);
++    int i;
++
++    for (i = 0; i < TMR_CH; i++) {
++        tmr->ch[i].id = i;
++        tmr->ch[i].timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
++                                        timer_event, &tmr->ch[i]);
++        tmr->ch[i].tmrp = tmr;
++        tmr->ch[i].tcr = 0x00;
++        tmr->ch[i].tcsr = (i == 0) ? 0x00 : 0x10;
++        tmr->ch[i].cnt = 0x00;
++        tmr->ch[i].cor[0] = 0xff;
++        tmr->ch[i].cor[1] = 0xff;
++        tmr->ch[i].tccr = 0x00;
++    }
++}
++
++static void tmr8_init(Object *obj)
++{
++    RenesasTMR8State *tmr = RenesasTMR8(obj);
++    SysBusDevice *d = SYS_BUS_DEVICE(obj);
++    int i;
++
++    memory_region_init_io(&tmr->memory, obj, &tmr_ops,
++                          tmr, "renesas-tmr8", 0x10);
++    sysbus_init_mmio(d, &tmr->memory);
++
++    for (i = 0; i < TMR_CH; i++) {
++        sysbus_init_irq(d, &tmr->ch[i].irq[IRQ_CMIA]);
++        sysbus_init_irq(d, &tmr->ch[i].irq[IRQ_CMIB]);
++        sysbus_init_irq(d, &tmr->ch[i].irq[IRQ_OVI]);
++    }
++    tmr->pck = qdev_init_clock_in(DEVICE(d), "pck",
++                                  tmr_pck_update, tmr);
++}
++
++static const VMStateDescription vmstate_rtmr = {
++    .name = "renesas-8tmr",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_END_OF_LIST()
++    }
 +};
 +
-+static void cpg_realize(DeviceState *dev, Error **errp)
-+{
-+    RX62NCPGState *cpg = RX62NCPG(dev);
-+    const dev_clock_t *p = dev_clock_list;
-+
-+    if (cpg->xtal_freq_hz == 0) {
-+        error_setg(errp, "\"xtal-frequency-hz\" property must be provided.");
-+        return;
-+    }
-+    /* XTAL range: 8-14 MHz */
-+    if (cpg->xtal_freq_hz < RX62N_XTAL_MIN_HZ ||
-+        cpg->xtal_freq_hz > RX62N_XTAL_MAX_HZ) {
-+        error_setg(errp, "\"xtal-frequency-hz\" property in incorrect range.");
-+        return;
-+    }
-+
-+    cpg->sckcr = FIELD_DP32(cpg->sckcr, SCKCR, ICK, 2);
-+    cpg->sckcr = FIELD_DP32(cpg->sckcr, SCKCR, BCK, 2);
-+    cpg->sckcr = FIELD_DP32(cpg->sckcr, SCKCR, PCK, 2);
-+    cpg->ostdcr = FIELD_DP8(cpg->ostdcr, OSTDCR, OSTDE, 1);
-+    cpg->mstpcr[0] = 0x47ffffff;
-+    cpg->mstpcr[1] = 0xffffffff;
-+    cpg->mstpcr[2] = 0xffff0000;
-+
-+    /* set initial state */
-+    while (p->name) {
-+        set_clock_in(cpg, p);
-+        p++;
-+    }
-+    update_divrate(cpg);
-+}
-+
-+static void rx62n_cpg_init(Object *obj)
-+{
-+    RX62NCPGState *cpg = RX62NCPG(obj);
-+    const dev_clock_t *p = dev_clock_list;
-+    qdev_init_clocks(DEVICE(obj), rx62n_cpg_clocks);
-+    /* connect parent clock */
-+    while (p->name) {
-+        cpg->dev_clocks[p->devnum] = qdev_init_clock_out(DEVICE(obj),
-+                                                         p->name);
-+        p++;
-+    }
-+
-+    memory_region_init_io(&cpg->memory, OBJECT(cpg), &cpg_ops,
-+                          cpg, "rx62n-cpg", 0x40);
-+    sysbus_init_mmio(SYS_BUS_DEVICE(obj), &cpg->memory);
-+}
-+
-+static Property rx62n_cpg_properties[] = {
-+    DEFINE_PROP_UINT32("xtal-frequency-hz", RX62NCPGState, xtal_freq_hz, 0),
++static Property tmr8_properties[] = {
++    DEFINE_PROP_UINT32("unit", RenesasTMR8State, unit, 0),
 +    DEFINE_PROP_END_OF_LIST(),
 +};
 +
-+static void rx62n_cpg_class_init(ObjectClass *klass, void *data)
++static void tmr8_class_init(ObjectClass *klass, void *data)
 +{
 +    DeviceClass *dc = DEVICE_CLASS(klass);
 +
-+    dc->realize = cpg_realize;
-+    device_class_set_props(dc, rx62n_cpg_properties);
++    dc->vmsd = &vmstate_rtmr;
++    dc->realize = tmr8_realize;
++    device_class_set_props(dc, tmr8_properties);
 +}
 +
-+static const TypeInfo rx62n_cpg_info[] = {
-+    {
-+        .name       = TYPE_RX62N_CPG,
-+        .parent     = TYPE_SYS_BUS_DEVICE,
-+        .instance_size = sizeof(RX62NCPGState),
-+        .instance_init = rx62n_cpg_init,
-+        .class_init = rx62n_cpg_class_init,
-+        .class_size = sizeof(RX62NCPGClass),
-+    },
++static const TypeInfo tmr8_info = {
++    .name       = TYPE_RENESAS_TMR8,
++    .parent     = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(RenesasTMR8State),
++    .instance_init = tmr8_init,
++    .class_init = tmr8_class_init,
 +};
 +
-+DEFINE_TYPES(rx62n_cpg_info)
-diff --git a/hw/rx/rx62n.c b/hw/rx/rx62n.c
-index 4b5c3c1079..ec63fa5db1 100644
---- a/hw/rx/rx62n.c
-+++ b/hw/rx/rx62n.c
-@@ -47,6 +47,7 @@
- #define RX62N_TMR_BASE  0x00088200
- #define RX62N_CMT_BASE  0x00088000
- #define RX62N_SCI_BASE  0x00088240
-+#define RX62N_CPG_BASE  0x00080010
- 
- /*
-  * RX62N Peripheral IRQ
-@@ -56,10 +57,6 @@
- #define RX62N_CMT_IRQ   28
- #define RX62N_SCI_IRQ   214
- 
--#define RX62N_XTAL_MIN_HZ  (8 * 1000 * 1000)
--#define RX62N_XTAL_MAX_HZ (14 * 1000 * 1000)
--#define RX62N_PCLK_MAX_HZ (50 * 1000 * 1000)
--
- /*
-  * IRQ -> IPR mapping table
-  * 0x00 - 0x91: IPR no (IPR00 to IPR91)
-@@ -149,36 +146,45 @@ static void register_tmr(RX62NState *s, int unit)
- {
-     SysBusDevice *tmr;
-     int i, irqbase;
-+    char ckname[16];
- 
-     object_initialize_child(OBJECT(s), "tmr[*]",
-                             &s->tmr[unit], TYPE_RENESAS_TMR);
-     tmr = SYS_BUS_DEVICE(&s->tmr[unit]);
--    qdev_prop_set_uint64(DEVICE(tmr), "input-freq", s->pclk_freq_hz);
--    sysbus_realize(tmr, &error_abort);
- 
-     irqbase = RX62N_TMR_IRQ + TMR_NR_IRQ * unit;
-     for (i = 0; i < TMR_NR_IRQ; i++) {
-         sysbus_connect_irq(tmr, i, s->irq[irqbase + i]);
-     }
-     sysbus_mmio_map(tmr, 0, RX62N_TMR_BASE + unit * 0x10);
-+
-+    qdev_prop_set_uint32(DEVICE(tmr), "unit", unit);
-+    sysbus_realize(tmr, &error_abort);
-+    snprintf(ckname, sizeof(ckname), "pck_tmr8-%d", unit);
-+    qdev_connect_clock_in(DEVICE(tmr), "pck",
-+                          qdev_get_clock_out(DEVICE(&s->cpg), ckname));
- }
- 
- static void register_cmt(RX62NState *s, int unit)
- {
-     SysBusDevice *cmt;
-     int i, irqbase;
-+    char ckname[16];
- 
-     object_initialize_child(OBJECT(s), "cmt[*]",
-                             &s->cmt[unit], TYPE_RENESAS_CMT);
-     cmt = SYS_BUS_DEVICE(&s->cmt[unit]);
--    qdev_prop_set_uint64(DEVICE(cmt), "input-freq", s->pclk_freq_hz);
--    sysbus_realize(cmt, &error_abort);
-+    qdev_prop_set_uint32(DEVICE(cmt), "unit", unit);
- 
-     irqbase = RX62N_CMT_IRQ + CMT_NR_IRQ * unit;
-     for (i = 0; i < CMT_NR_IRQ; i++) {
-         sysbus_connect_irq(cmt, i, s->irq[irqbase + i]);
-     }
-     sysbus_mmio_map(cmt, 0, RX62N_CMT_BASE + unit * 0x10);
-+    sysbus_realize(cmt, &error_abort);
-+    snprintf(ckname, sizeof(ckname), "pck_cmt-%d", unit);
-+    qdev_connect_clock_in(DEVICE(cmt), "pck",
-+                          qdev_get_clock_out(DEVICE(&s->cpg), ckname));
- }
- 
- static void register_sci(RX62NState *s, int unit)
-@@ -190,7 +196,6 @@ static void register_sci(RX62NState *s, int unit)
-                             &s->sci[unit], TYPE_RENESAS_SCI);
-     sci = SYS_BUS_DEVICE(&s->sci[unit]);
-     qdev_prop_set_chr(DEVICE(sci), "chardev", serial_hd(unit));
--    qdev_prop_set_uint64(DEVICE(sci), "input-freq", s->pclk_freq_hz);
-     sysbus_realize(sci, &error_abort);
- 
-     irqbase = RX62N_SCI_IRQ + SCI_NR_IRQ * unit;
-@@ -200,26 +205,23 @@ static void register_sci(RX62NState *s, int unit)
-     sysbus_mmio_map(sci, 0, RX62N_SCI_BASE + unit * 0x08);
- }
- 
-+static void register_cpg(RX62NState *s)
++static void tmr8_register_types(void)
 +{
-+    SysBusDevice *cpg;
-+
-+    object_initialize_child(OBJECT(s), "rx62n-cpg", &s->cpg,
-+                            TYPE_RX62N_CPG);
-+    cpg = SYS_BUS_DEVICE(&s->cpg);
-+    qdev_prop_set_uint64(DEVICE(cpg), "xtal-frequency-hz", s->xtal_freq_hz);
-+
-+    sysbus_mmio_map(cpg, 0, RX62N_CPG_BASE);
++    type_register_static(&tmr8_info);
 +}
 +
- static void rx62n_realize(DeviceState *dev, Error **errp)
- {
-     RX62NState *s = RX62N_MCU(dev);
-     RX62NClass *rxc = RX62N_MCU_GET_CLASS(dev);
++type_init(tmr8_register_types)
+diff --git a/hw/timer/Kconfig b/hw/timer/Kconfig
+index 8749edfb6a..5288660cda 100644
+--- a/hw/timer/Kconfig
++++ b/hw/timer/Kconfig
+@@ -36,7 +36,7 @@ config CMSDK_APB_DUALTIMER
+     bool
+     select PTIMER
  
--    if (s->xtal_freq_hz == 0) {
--        error_setg(errp, "\"xtal-frequency-hz\" property must be provided.");
--        return;
--    }
--    /* XTAL range: 8-14 MHz */
--    if (s->xtal_freq_hz < RX62N_XTAL_MIN_HZ
--            || s->xtal_freq_hz > RX62N_XTAL_MAX_HZ) {
--        error_setg(errp, "\"xtal-frequency-hz\" property in incorrect range.");
--        return;
--    }
--    /* Use a 4x fixed multiplier */
--    s->pclk_freq_hz = 4 * s->xtal_freq_hz;
--    /* PCLK range: 8-50 MHz */
--    assert(s->pclk_freq_hz <= RX62N_PCLK_MAX_HZ);
--
-     memory_region_init_ram(&s->iram, OBJECT(dev), "iram",
-                            rxc->ram_size, &error_abort);
-     memory_region_add_subregion(s->sysmem, RX62N_IRAM_BASE, &s->iram);
-@@ -236,11 +238,13 @@ static void rx62n_realize(DeviceState *dev, Error **errp)
+-config RENESAS_TMR
++config RENESAS_TMR8
+     bool
  
-     register_icu(s);
-     s->cpu.env.ack = qdev_get_gpio_in_named(DEVICE(&s->icu), "ack", 0);
-+    register_cpg(s);
-     register_tmr(s, 0);
-     register_tmr(s, 1);
-     register_cmt(s, 0);
-     register_cmt(s, 1);
-     register_sci(s, 0);
-+    sysbus_realize(SYS_BUS_DEVICE(&s->cpg), &error_abort);
- }
+ config RENESAS_CMT
+@@ -44,3 +44,4 @@ config RENESAS_CMT
  
- static Property rx62n_properties[] = {
-diff --git a/hw/rx/meson.build b/hw/rx/meson.build
-index e73850f303..3a81d85a53 100644
---- a/hw/rx/meson.build
-+++ b/hw/rx/meson.build
-@@ -1,6 +1,6 @@
- rx_ss = ss.source_set()
- rx_ss.add(files('loader.c'))
- rx_ss.add(when: 'CONFIG_RX_GDBSIM', if_true: files('rx-gdbsim.c'))
--rx_ss.add(when: 'CONFIG_RX62N_MCU', if_true: files('rx62n.c'))
-+rx_ss.add(when: 'CONFIG_RX62N_MCU', if_true: files('rx62n.c', 'rx62n-cpg.c'))
- 
- hw_arch += {'rx': rx_ss}
+ config AVR_TIMER16
+     bool
++
+diff --git a/hw/timer/meson.build b/hw/timer/meson.build
+index 9f0a267c83..a02e45fdbd 100644
+--- a/hw/timer/meson.build
++++ b/hw/timer/meson.build
+@@ -8,7 +8,7 @@ softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_timer.c'))
+ softmmu_ss.add(when: 'CONFIG_CADENCE', if_true: files('cadence_ttc.c'))
+ softmmu_ss.add(when: 'CONFIG_CMSDK_APB_DUALTIMER', if_true: files('cmsdk-apb-dualtimer.c'))
+ softmmu_ss.add(when: 'CONFIG_CMSDK_APB_TIMER', if_true: files('cmsdk-apb-timer.c'))
+-softmmu_ss.add(when: 'CONFIG_RENESAS_TMR', if_true: files('renesas_tmr.c'))
++softmmu_ss.add(when: 'CONFIG_RENESAS_TMR8', if_true: files('renesas_tmr8.c'))
+ softmmu_ss.add(when: 'CONFIG_RENESAS_CMT', if_true: files('renesas_cmt.c'))
+ softmmu_ss.add(when: 'CONFIG_DIGIC', if_true: files('digic-timer.c'))
+ softmmu_ss.add(when: 'CONFIG_ETRAXFS', if_true: files('etraxfs_timer.c'))
 -- 
 2.20.1
 
