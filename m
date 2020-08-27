@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D638D254625
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 15:41:55 +0200 (CEST)
-Received: from localhost ([::1]:47400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54A2D25462E
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 15:43:49 +0200 (CEST)
+Received: from localhost ([::1]:57514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBIA6-0002iv-SK
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 09:41:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48394)
+	id 1kBIBw-0006k6-BC
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 09:43:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kBI8n-0000tV-5y
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 09:40:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31350)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kBI8q-000111-7j
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 09:40:36 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26029
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kBI8l-0006JJ-5b
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 09:40:32 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kBI8o-0006Jn-9L
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 09:40:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598535630;
+ s=mimecast20190719; t=1598535633;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=O+Jdn5rlTkIqQs4IBOaacsbGO+yrRT0GNqOf9hAByzs=;
- b=RrQ/m6/zE8GuypwEc+PAdt6ISnoHFrQg3POR6KMI4JMqvlZJVDHwPS3J6BUPp11B7Tuc6y
- iNu1qiBZuo255wTO2cHkt315OjHC1EYerkpXdY6jywNrN1oc+wUqq6LTQUBuGF+ESUXeO6
- iHnwMLjKQ3Rns6mboi7jxmPaJXhTZLk=
+ bh=9MryNRxQ6ULiJofurlt8UiScI0QAkE96jDnD1eW9uNs=;
+ b=MKe1hnu1v4r/pvnN8D50hGg0WEKRyy7pT0R+gcpZ+YW+aXHgngvTVdcKfb5P2CqAJTn0g+
+ Ev+98LzZabqNW2x7KdHibFOpLcj5QVPvSE87TtfrQOaIdwjytiXA/ELrXw6XoS+Djhe3WB
+ oqtZzBVbhWm0ND9mTJixcJjCR1UAPRM=
 Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
  [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-505-U-ds8ZnrNc-TAe_YBezcgA-1; Thu, 27 Aug 2020 09:40:27 -0400
-X-MC-Unique: U-ds8ZnrNc-TAe_YBezcgA-1
-Received: by mail-wm1-f72.google.com with SMTP id c198so2144770wme.5
- for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 06:40:27 -0700 (PDT)
+ us-mta-354-39iPnWfVOf2GwUK1W_2Vtg-1; Thu, 27 Aug 2020 09:40:32 -0400
+X-MC-Unique: 39iPnWfVOf2GwUK1W_2Vtg-1
+Received: by mail-wm1-f72.google.com with SMTP id p184so2145852wmp.7
+ for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 06:40:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=O+Jdn5rlTkIqQs4IBOaacsbGO+yrRT0GNqOf9hAByzs=;
- b=Zn+a8IW1bOpb/G843Xo1yzUAg7jdRkqR6AWbxZiR1lh0td3DKK7cQ0pbQ1ADS88vPn
- MfYqUutkHR6RDQRx1UIeXrGXqcbhkTokpedQHUYYnHjeMqe7eBXqJkLTMZpkl/IPDCtG
- EX1tg82s41Yo3l9DhFlD9DlwcSflh5qsbh+Zs1S6fY8eX0WpAZqrlSA6j1FlY+cL+mwH
- 2bWCHFarGOx7cI1DC34fgHMMLvKQGqlFYYRbTXfG2+I2hqJhW/f8JqHivzZDTuugk6BK
- 3jBCkI7S8tAAoSwWtGRrRBQId5/s96+x6y1YC6Sf3a+P4vocOM50xasGt8JG8rNp3T+4
- Fz3Q==
-X-Gm-Message-State: AOAM530Y3xw/ZSGGjd9slzqNu4ovRsmVGZHBsd8kkB/m+cA9BFjMdXpO
- smDAxmGgeWvg4Bzn78ToAzUyqlwjATX9aXy01GuLgTClBjq5kTwOF105FsGnMdbTWQRCFdc/WQs
- s8jQC5rVXaVN+alQ=
-X-Received: by 2002:adf:f58e:: with SMTP id f14mr13441169wro.251.1598535626064; 
- Thu, 27 Aug 2020 06:40:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxeO1yNHlhNkeNFLrV26p2lSO6onfx+3qz1X8T4LR9OMNB4I7I3jKaQ9XLpa0+nxIqwc2HH0g==
-X-Received: by 2002:adf:f58e:: with SMTP id f14mr13441156wro.251.1598535625877; 
- Thu, 27 Aug 2020 06:40:25 -0700 (PDT)
+ bh=9MryNRxQ6ULiJofurlt8UiScI0QAkE96jDnD1eW9uNs=;
+ b=XwpL10FP1lvXChYUs3Y3IN4VrDO9a6nyRqlGrN1+wMoJiJOi6/KsxjhOB1UNgJkdC7
+ a9h0jIciX4FGik6WHfa4swnAhq8tXDHOn/iZRbb5orn2ClbZubU94+1Xzy/PgokSrX4L
+ pnj5DHQzYp8vOQaRNmZgeKPQ1mVz7yFlLvTaVRrE8SbY7cAIxdBcQax4erZOklPph17O
+ kCpl2ulfALt70XKR5BcOXwWAMxaycypDtEMEeLRuLB3lsYrN+h0ohB0M3PE765a8U9D9
+ bCvfxlY1tvBAzilUyPrmnW/HtZkzAf5KJBwlsdTbB1VAEtiVfL1Z2CsyJu72PLbTzYP2
+ UWEA==
+X-Gm-Message-State: AOAM5323+I5Dd0MgaVeU0neycaC83Ptnu1CNL90ZFgGGNdbA61BZ5stn
+ aR1pV35F/TyMUSocwWdOeKvKVV9KvNCjtjIkCll506ey41vEjtGHxtQTzYt7An/pDIjJsR9x3K+
+ 0FoROCo+oQRcB0eo=
+X-Received: by 2002:adf:f812:: with SMTP id s18mr21035837wrp.96.1598535630670; 
+ Thu, 27 Aug 2020 06:40:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwqResxLo3RawtVvCSWJBwxtNx2KGjGYVdM/JalwNYFRdf0mTV2aa53HteXwYgm2v/CXOYO9Q==
+X-Received: by 2002:adf:f812:: with SMTP id s18mr21035825wrp.96.1598535630462; 
+ Thu, 27 Aug 2020 06:40:30 -0700 (PDT)
 Received: from redhat.com ([192.117.173.58])
- by smtp.gmail.com with ESMTPSA id c10sm5045320wmk.30.2020.08.27.06.40.23
+ by smtp.gmail.com with ESMTPSA id d10sm6344774wrg.3.2020.08.27.06.40.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Aug 2020 06:40:25 -0700 (PDT)
-Date: Thu, 27 Aug 2020 09:40:21 -0400
+ Thu, 27 Aug 2020 06:40:29 -0700 (PDT)
+Date: Thu, 27 Aug 2020 09:40:26 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/13] arm/acpi: fix an out of spec _UID for PCI root
-Message-ID: <20200827133954.2118749-4-mst@redhat.com>
+Subject: [PULL 04/13] disassemble-aml: -o actually works
+Message-ID: <20200827133954.2118749-5-mst@redhat.com>
 References: <20200827133954.2118749-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200827133954.2118749-1-mst@redhat.com>
@@ -71,17 +72,17 @@ X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 02:10:07
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 00:13:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,60 +96,42 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Vitaly Cheptsov <vit9696@protonmail.com>, qemu-stable@nongnu.org,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, Laszlo Ersek <lersek@redhat.com>
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On ARM/virt machine type QEMU currently reports an incorrect _UID in
-ACPI.
+Turns out that option was borken due to weird iasl
+command line handling. Fix it.
 
-The particular node in question is the primary PciRoot (PCI0 in ACPI),
-which gets assigned PCI0 in ACPI UID and 0 in the
-DevicePath. This is due to the _UID assigned to it by build_dsdt in
-hw/arm/virt-acpi-build.c Which does not correspond to the primary PCI
-identifier given by pcibus_num in hw/pci/pci.c
-
-In UEFI v2.8, section "10.4.2 Rules with ACPI _HID and _UID" ends with
-the paragraph,
-
-    Root PCI bridges will use the plug and play ID of PNP0A03, This will
-    be stored in the ACPI Device Path _HID field, or in the Expanded
-    ACPI Device Path _CID field to match the ACPI name space. The _UID
-    in the ACPI Device Path structure must match the _UID in the ACPI
-    name space.
-
-(See especially the last sentence.)
-
-A similar bug has been reported on i386, on that architecture it has
-been reported to confuse at least macOS which uses ACPI UIDs to build
-the DevicePath for NVRAM boot options, while OVMF firmware gets them via
-an internal channel through QEMU.  When UEFI firmware and ACPI have
-different values, this makes the underlying operating system unable to
-report its boot option.
-
-Cc: qemu-stable@nongnu.org
-Reported-by: Vitaly Cheptsov <vit9696@protonmail.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Laszlo Ersek <lersek@redhat.com>
 ---
- hw/arm/virt-acpi-build.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/data/acpi/disassemle-aml.sh | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index 91f0df7b13..0a482ff6f7 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -170,7 +170,7 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
-     aml_append(dev, aml_name_decl("_CID", aml_string("PNP0A03")));
-     aml_append(dev, aml_name_decl("_SEG", aml_int(0)));
-     aml_append(dev, aml_name_decl("_BBN", aml_int(0)));
--    aml_append(dev, aml_name_decl("_UID", aml_string("PCI0")));
-+    aml_append(dev, aml_name_decl("_UID", aml_int(0)));
-     aml_append(dev, aml_name_decl("_STR", aml_unicode("PCIe 0 Device")));
-     aml_append(dev, aml_name_decl("_CCA", aml_int(1)));
- 
+diff --git a/tests/data/acpi/disassemle-aml.sh b/tests/data/acpi/disassemle-aml.sh
+index 1d8a4d0301..253b7620a0 100755
+--- a/tests/data/acpi/disassemle-aml.sh
++++ b/tests/data/acpi/disassemle-aml.sh
+@@ -42,11 +42,16 @@ do
+         else
+             extra=""
+         fi
+-        asl=${aml}.dsl
+         if [[ "${outdir}" ]];
+         then
+-            asl="${outdir}"/${machine}/${asl}
++            # iasl strips an extension from prefix if there.
++            # since we have some files with . in the name, the
++            # last component gets interpreted as an extension:
++            # add another extension to work around that.
++            prefix="-p ${outdir}/${aml}.dsl"
++        else
++            prefix=""
+         fi
+-        iasl -d -p ${asl} ${extra} ${aml}
++        iasl ${extra} ${prefix} -d ${aml}
+     done
+ done
 -- 
 MST
 
