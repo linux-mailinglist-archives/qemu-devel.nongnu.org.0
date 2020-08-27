@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2C17254E1E
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 21:22:01 +0200 (CEST)
-Received: from localhost ([::1]:59936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EB0D254E28
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 21:23:48 +0200 (CEST)
+Received: from localhost ([::1]:39984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBNTE-0005QE-N7
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 15:22:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33364)
+	id 1kBNUx-0000X7-3Z
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 15:23:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kBNRt-0003nM-NO
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:20:37 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:56107)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kBNRv-0003qf-MR
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:20:39 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:56617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kBNRr-00009i-Ht
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:20:37 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kBNRt-0000A9-Q8
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:20:39 -0400
 Received: from localhost.localdomain ([82.252.135.186]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1M1HmG-1k9jYB3AWw-002p4O; Thu, 27 Aug 2020 21:20:25 +0200
+ id 1MSbp1-1k0lN72dir-00SumF; Thu, 27 Aug 2020 21:20:28 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/18] linux-user: Fix 'clock_nanosleep()' implementation
-Date: Thu, 27 Aug 2020 21:20:02 +0200
-Message-Id: <20200827192018.2442099-3-laurent@vivier.eu>
+Subject: [PULL 03/18] linux-user: syscall: ioctls: support
+ DRM_IOCTL_I915_GETPARAM
+Date: Thu, 27 Aug 2020 21:20:03 +0200
+Message-Id: <20200827192018.2442099-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200827192018.2442099-1-laurent@vivier.eu>
 References: <20200827192018.2442099-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:gVJJqO4UfM0NVrnQSTRoplZEqH3X65aSH2sPjICx5FnPh3l4m/k
- kdqU7ChqTDqXPYvZ2yeZI3/TLc9afqKp8pmpJ8aWQNyKoHbvXpeOmdN7t6ARbnUkN9Is2vg
- 6JclEb0CXIP7mF37xtlcIMkJ851erhVgT6DWDPmVGjAWfF7l0kitCYoLoIrZ9zw8qtgcZ9i
- rSAnIdA+VIbfYoZMaYRdw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:KI4mpl7U7vU=:QBTjR1DmnMbkPyb2rwAT5I
- TeJw0mefJw5m2K2ykXw1x62Y/n5d0jR5F9lhItWgrF/gUFpn+gmRcBI8Z6gfGl7ZVNhVAiUjM
- ch6V3THqngqOqCMUGGHxMBnWsCVgqfe7+Y+mMrh0t94Q2A7ioDdx/TX5JRRjQ5gR7rnsG+EhU
- /L+tBpg6/MV+L96hC0F+LBCaR3kMFdjfueq71baeNqs50Wsvv5uSMJBILt//cpDOZXfPcPvoV
- XF2r7Mtkl9p4rajNXoQQaLITn4QRscs5gNPTuWZfzNBEMs6+kP2/Tiyuw1V7qEo0kqD1e5HEK
- VU+N7gbwCHxIn3G1Lcyh870t7Az5h3TYcLu5M8ritDXOa0arKkDoYktb2bOmPhc0uZ/NDRWD3
- UQVWGHmweRnPM2RtsdApSDzJRZxrlFv/KFhLOpoI2j/mFm1QrKI9hM0XJ+UgO23x3Az8p1zdP
- a8jxtT2e3QGzivD4mGLl9LjfkdKGUZCFoxXJVkv3VTvR17if4r/N1uI6kdpeMBXK8FPAoT2EN
- qOYxL4KhD/U+ZRgoxj1cxr9oFodLe3MP5gxGJHSxE96511RxGBb3QLs7QaYIb4YKhTb0YTov5
- JDDZMpsOlL/1YKWwOZeu0oyvbDYwpFdVbs2euXaKic1SzKwKmcECK5kyEv3lST4OWjG/bOWqf
- WSNgNJO0mgQo8FYLwh3ICA6LjwcKrx7zBK6M9b0fpxX2WlF8UfjAAoe8wBR0xgfXRTP+tUKZj
- SgApOujeUPU6eXY6RX4WqmaHRhLlk6Qiet7fEO2lVllVHChYAo4asCp9lWHZiLSfH9U9FpBO8
- Tk1byBLZlWpgyx8Wswlk2WfpYHKLnA38gr78+O6xH9vcSP4t3q7EcTZN2ZGiw90p4pAxHSU
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:MXn0zVzwswKtcIarZsDaSOLtnC8aow9SWx4mBc5EyTfuO+ALaqa
+ 13cd+SlYJJemq1+Ea1H1feBZ17vwccj++5yIRuL7oyxNbMgCRnD2hLEu81nCnyh53gneCKN
+ dwlPU1fL9s+2BK9JaCbQ2W7vr+GD9touPtTp6nkT+pWtbhKVFgXOMQGUbdUuk5fWnLSR0g7
+ wk3enMTlTp7/8napEaL3w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ezbO9ETbV40=:wuJoyiAXLNRNU07JUOr12i
+ y4URvqmRtzytEShS58gUCQWrso5H4ebKNyQF5BnRMs+zewTCYujhiyJ6/kmVfsOxRsmJ6AySm
+ CEY2hVJFizczdhEnk4nDjoAmG7AY/peO5HCEEGXc1BTsT90ukBI/k0l6JzztMigVQJfOJhko8
+ CNib7qYA5UDZLF09TYnPwc1OEjTKKgjyN2JGi78icqT5RoyFxdeE9pe9pJNoWaQWxq3QkJ+Y9
+ w+lIRSK5RUMqV9eLMCf7LIb1L8HjLB2L9BnCOjedgfUbKouPCwYDmBOfleunexKF5sz02xOqB
+ 6Hc0nokKNkNso8Ya2e58s3gi1uDm+0dTffUPFHw4er74UJjnrEDRwWSIScdL6+OFIglCWfLUV
+ VgHQhC0izHRpWtvDOVKongmVk1XUED+F8GNKBQIdTYwCT4NuSXx8X+CNF4pGIjr6RdRFFBwcm
+ I60pzYm6vGsjPqDpllorYw5DOjBFAW4BDPMdp1cNPEBwNkmcfAEioj8qSkihzVM02vZgOTr9i
+ ZaQhZNlErC/1rSfSUGyACvu4yxjwiBsDY8nT7710XKmMgt5qR7B3yMYdl5ARAPeA0cYvq9roh
+ N8s5jEXC58W2jlR1JqWy46mhDIwmv89E5ucxb7/hZIC/ErOrh2AXKp89vIfxudyIGT2isF+tz
+ KYisXr9OqnuO0MwBAslZokugHsehpWojXowiWfluDX3QiIkQNZV8Exl29OEhhm3Pmf+pXcbLy
+ wJWBQuPYdfBGA3in7w1qUFQYB45SMmi9Z8QTNO4/Tbb2I9fvt2dEVYM8rC+E6rLIgwYLFmRGL
+ bk42opoDxjK8hKwj5A2G6DB/oShxk03qhm3f5ngR6gua7sWXbd3zZUDbtFPPmM1CcNZ1VOk
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 15:20:34
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 15:20:36
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -69,60 +70,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
- Filip Bozuta <Filip.Bozuta@syrmia.com>
+Cc: Chen Gang <chengang@emindsoft.com.cn>, Riku Voipio <riku.voipio@iki.fi>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Filip Bozuta <Filip.Bozuta@syrmia.com>
+From: Chen Gang <chengang@emindsoft.com.cn>
 
-Implementation of syscall 'clock_nanosleep()' in 'syscall.c' uses
-functions 'target_to_host_timespec()' and 'host_to_target_timespec()'
-to transfer the value of 'struct timespec' between target and host.
-However, the implementation doesn't check whether this conversion
-succeeds and thus can return an unaproppriate error instead of 'EFAULT'
-that is expected. This was confirmed with the modified LTP test suite
-where testcases with bad 'struct timespec' adress for 'clock_nanosleep()'
-were added. This modified LTP suite can be found at:
-https://github.com/bozutaf/ltp
+Another DRM_IOCTL_I915 patches will be sent next.
 
-(Patch with this new test case will be sent to LTP mailing list soon)
-
-Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
+Signed-off-by: Chen Gang <chengang@emindsoft.com.cn>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200727201326.401519-1-Filip.Bozuta@syrmia.com>
+Message-Id: <20200802133938.12055-1-chengang@emindsoft.com.cn>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ linux-user/ioctls.h        |  3 +++
+ linux-user/syscall.c       | 35 +++++++++++++++++++++++++++++++++++
+ linux-user/syscall_defs.h  |  8 ++++++++
+ linux-user/syscall_types.h |  4 ++++
+ 4 files changed, 50 insertions(+)
 
+diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
+index 0713ae131162..e2fc09b5a5ee 100644
+--- a/linux-user/ioctls.h
++++ b/linux-user/ioctls.h
+@@ -581,6 +581,9 @@
+ #ifdef HAVE_DRM_H
+   IOCTL_SPECIAL(DRM_IOCTL_VERSION, IOC_RW, do_ioctl_drm,
+                 MK_PTR(MK_STRUCT(STRUCT_drm_version)))
++
++  IOCTL_SPECIAL(DRM_IOCTL_I915_GETPARAM, IOC_RW, do_ioctl_drm_i915,
++                MK_PTR(MK_STRUCT(STRUCT_drm_i915_getparam)))
+ #endif
+ 
+ #ifdef TARGET_TIOCSTART
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 5b3fce3dc0cb..e387246d7196 100644
+index e387246d7196..efaa0a7b8365 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -11875,7 +11875,9 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-     case TARGET_NR_clock_nanosleep:
-     {
-         struct timespec ts;
--        target_to_host_timespec(&ts, arg3);
-+        if (target_to_host_timespec(&ts, arg3)) {
-+            return -TARGET_EFAULT;
-+        }
-         ret = get_errno(safe_clock_nanosleep(arg1, arg2,
-                                              &ts, arg4 ? &ts : NULL));
-         /*
-@@ -11883,8 +11885,9 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-          * with error -TARGET_EINTR and if arg4 is not NULL and arg2 is not
-          * TIMER_ABSTIME, it returns the remaining unslept time in arg4.
-          */
--        if (ret == -TARGET_EINTR && arg4 && arg2 != TIMER_ABSTIME) {
--            host_to_target_timespec(arg4, &ts);
-+        if (ret == -TARGET_EINTR && arg4 && arg2 != TIMER_ABSTIME &&
-+            host_to_target_timespec(arg4, &ts)) {
-+              return -TARGET_EFAULT;
-         }
+@@ -114,6 +114,7 @@
+ #include <sound/asound.h>
+ #ifdef HAVE_DRM_H
+ #include <libdrm/drm.h>
++#include <libdrm/i915_drm.h>
+ #endif
+ #include "linux_loop.h"
+ #include "uname.h"
+@@ -5426,6 +5427,40 @@ static abi_long do_ioctl_drm(const IOCTLEntry *ie, uint8_t *buf_temp,
+     return -TARGET_ENOSYS;
+ }
  
-         return ret;
++static abi_long do_ioctl_drm_i915_getparam(const IOCTLEntry *ie,
++                                           struct drm_i915_getparam *gparam,
++                                           int fd, abi_long arg)
++{
++    abi_long ret;
++    int value;
++    struct target_drm_i915_getparam *target_gparam;
++
++    if (!lock_user_struct(VERIFY_READ, target_gparam, arg, 0)) {
++        return -TARGET_EFAULT;
++    }
++
++    __get_user(gparam->param, &target_gparam->param);
++    gparam->value = &value;
++    ret = get_errno(safe_ioctl(fd, ie->host_cmd, gparam));
++    put_user_s32(value, target_gparam->value);
++
++    unlock_user_struct(target_gparam, arg, 0);
++    return ret;
++}
++
++static abi_long do_ioctl_drm_i915(const IOCTLEntry *ie, uint8_t *buf_temp,
++                                  int fd, int cmd, abi_long arg)
++{
++    switch (ie->host_cmd) {
++    case DRM_IOCTL_I915_GETPARAM:
++        return do_ioctl_drm_i915_getparam(ie,
++                                          (struct drm_i915_getparam *)buf_temp,
++                                          fd, arg);
++    default:
++        return -TARGET_ENOSYS;
++    }
++}
++
+ #endif
+ 
+ IOCTLEntry ioctl_entries[] = {
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index 9aa3bd724f0c..a6abc7e70be8 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -1177,6 +1177,9 @@ struct target_rtc_pll_info {
+ /* drm ioctls */
+ #define TARGET_DRM_IOCTL_VERSION      TARGET_IOWRU('d', 0x00)
+ 
++/* drm i915 ioctls */
++#define TARGET_DRM_IOCTL_I915_GETPARAM              TARGET_IOWRU('d', 0x46)
++
+ /* from asm/termbits.h */
+ 
+ #define TARGET_NCC 8
+@@ -2620,6 +2623,11 @@ struct target_drm_version {
+     abi_ulong desc;
+ };
+ 
++struct target_drm_i915_getparam {
++    int param;
++    abi_ulong value;
++};
++
+ #include "socket.h"
+ 
+ #include "errno_defs.h"
+diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
+index 3f1f0334649b..12bf3484e2bd 100644
+--- a/linux-user/syscall_types.h
++++ b/linux-user/syscall_types.h
+@@ -325,6 +325,10 @@ STRUCT(drm_version,
+        TYPE_ULONG, /* desc_len */
+        TYPE_PTRVOID) /* desc */
+ 
++STRUCT(drm_i915_getparam,
++       TYPE_INT, /* param */
++       TYPE_PTRVOID) /* value */
++
+ STRUCT(file_clone_range,
+        TYPE_LONGLONG, /* src_fd */
+        TYPE_ULONGLONG, /* src_offset */
 -- 
 2.26.2
 
