@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DE02254BC9
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 19:13:38 +0200 (CEST)
-Received: from localhost ([::1]:55738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5889254BB6
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 19:12:03 +0200 (CEST)
+Received: from localhost ([::1]:49412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBLSz-0001SI-Fi
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 13:13:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50902)
+	id 1kBLRS-0007HL-SJ
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 13:12:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kBLGF-0006EU-Dh
+ id 1kBLGF-0006D8-5T
  for qemu-devel@nongnu.org; Thu, 27 Aug 2020 13:00:27 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21514
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21364
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kBLGB-0005R0-3K
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 13:00:27 -0400
+ id 1kBLGB-0005Re-LJ
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 13:00:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1598547622;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0GIS4sJrpYwSxVl4OBe0grTnM0NESHgzmK3QC9d6C6k=;
- b=Ihjjv1xsq17BaQfXHVO19xff2aFUtBGlU71omy3UwaJ4j1JA/cBt9l4N0MixzQbAn/6XFt
- 8k0d1jYIdL1a+9bMzId6gdZxyg3/yyBaLbhp5IDoJ2LmQah9qrTlpTQfxm6PZLzENCeNVu
- 2xafNXzTrUh3v4JjN6p3AI6z838llsE=
+ bh=QAL+xb8Z8Q1fT1MGAGd3DM6glV+qy904a5V+tZdfuAs=;
+ b=HJY2IuaX/NDS78r1cyB4oHwtW+YFsdGvvMdvfWO9BnB6KCsJ54m15Cf569wa9afGBNT6B1
+ IItVFb0VruoidGlLI9NhFz801eKnR14Eo2H3Xq+bXT50Ilsq+SdjExscqo6ejx2NMLHsad
+ Jteru4a131Xkhpg8ENtbm2xatHOiZGU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-558-9hIK1qE8PH2DAu-RBAoawg-1; Thu, 27 Aug 2020 13:00:20 -0400
-X-MC-Unique: 9hIK1qE8PH2DAu-RBAoawg-1
+ us-mta-208-j1CUipB1Oc-O7qnTO8ncmg-1; Thu, 27 Aug 2020 13:00:21 -0400
+X-MC-Unique: j1CUipB1Oc-O7qnTO8ncmg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92F09800683;
- Thu, 27 Aug 2020 17:00:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70D53801AAF;
+ Thu, 27 Aug 2020 17:00:20 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3FD7D50B3F;
- Thu, 27 Aug 2020 17:00:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2E6CA50B3F;
+ Thu, 27 Aug 2020 17:00:20 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/17] meson: skip SDL2 detection if --disable-system
-Date: Thu, 27 Aug 2020 12:59:48 -0400
-Message-Id: <20200827165956.12925-10-pbonzini@redhat.com>
+Subject: [PULL 10/17] configure: add --ninja option
+Date: Thu, 27 Aug 2020 12:59:49 -0400
+Message-Id: <20200827165956.12925-11-pbonzini@redhat.com>
 In-Reply-To: <20200827165956.12925-1-pbonzini@redhat.com>
 References: <20200827165956.12925-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
@@ -82,93 +82,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SDL is only used for system emulation; avoid spurious warnings for
-static --disable-system emulation by skipping the detection of
-the library if there are no system emulation targets.
+On Windows it is not possible to invoke a Python script as $NINJA.
+If ninja is present use it directly, while if it is not we can
+keep using ninjatool.
 
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 27 ++++++++++++++++-----------
- 1 file changed, 16 insertions(+), 11 deletions(-)
+ configure | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/meson.build b/meson.build
-index 86a6d13192..a3baa2dbf0 100644
---- a/meson.build
-+++ b/meson.build
-@@ -20,6 +20,16 @@ build_docs = 'BUILD_DOCS' in config_host
- config_host_data = configuration_data()
- genh = []
+diff --git a/configure b/configure
+index 9db9bb89b9..6ecaff429b 100755
+--- a/configure
++++ b/configure
+@@ -568,6 +568,7 @@ rng_none="no"
+ secret_keyring=""
+ libdaxctl=""
+ meson=""
++ninja=""
+ skip_meson=no
+ gettext=""
  
-+target_dirs = config_host['TARGET_DIRS'].split()
-+have_user = false
-+have_system = false
-+foreach target : target_dirs
-+  have_user = have_user or target.endswith('-user')
-+  have_system = have_system or target.endswith('-softmmu')
-+endforeach
-+have_tools = 'CONFIG_TOOLS' in config_host
-+have_block = have_system or have_tools
+@@ -1052,6 +1053,8 @@ for opt do
+   ;;
+   --meson=*) meson="$optarg"
+   ;;
++  --ninja=*) ninja="$optarg"
++  ;;
+   --smbd=*) smbd="$optarg"
+   ;;
+   --extra-cflags=*)
+@@ -1820,6 +1823,7 @@ Advanced options (experts only):
+   --python=PYTHON          use specified python [$python]
+   --sphinx-build=SPHINX    use specified sphinx-build [$sphinx_build]
+   --meson=MESON            use specified meson [$meson]
++  --ninja=NINJA            use specified ninja [$ninja]
+   --smbd=SMBD              use specified smbd [$smbd]
+   --with-git=GIT           use specified git [$git]
+   --static                 enable static build [$static]
+@@ -2058,6 +2062,16 @@ case "$meson" in
+     *) meson=$(command -v meson) ;;
+ esac
+ 
++# Probe for ninja (used for compdb)
 +
- add_project_arguments(config_host['QEMU_CFLAGS'].split(),
-                       native: false, language: ['c', 'objc'])
- add_project_arguments(config_host['QEMU_CXXFLAGS'].split(),
-@@ -227,9 +237,12 @@ if 'CONFIG_BRLAPI' in config_host
-   brlapi = declare_dependency(link_args: config_host['BRLAPI_LIBS'].split())
- endif
++if test -z "$ninja"; then
++    for c in ninja ninja-build samu; do
++        if has $c; then
++            ninja=$(command -v "$c")
++            break
++        fi
++    done
++fi
  
--sdl = dependency('sdl2', required: get_option('sdl'), static: enable_static,
--                 include_type: 'system')
--sdl_image = not_found
-+sdl = not_found
-+if have_system
-+  sdl = dependency('sdl2', required: get_option('sdl'), static: enable_static,
-+                   include_type: 'system')
-+  sdl_image = not_found
-+endif
- if sdl.found()
-   # work around 2.0.8 bug
-   sdl = declare_dependency(compile_args: '-Wno-undef',
-@@ -426,9 +439,6 @@ endforeach
- genh += configure_file(output: 'config-host.h', configuration: config_host_data)
+ # Check that the C compiler works. Doing this here before testing
+ # the host CPU ensures that we had a valid CC to autodetect the
+@@ -8197,7 +8211,7 @@ fi
+ mv $cross config-meson.cross
  
- minikconf = find_program('scripts/minikconf.py')
--target_dirs = config_host['TARGET_DIRS'].split()
--have_user = false
--have_system = false
- config_devices_mak_list = []
- config_devices_h = {}
- config_target_h = {}
-@@ -449,7 +459,6 @@ kconfig_external_symbols = [
- ]
- ignored = ['TARGET_XML_FILES', 'TARGET_ABI_DIR', 'TARGET_DIRS']
- foreach target : target_dirs
--  have_user = have_user or target.endswith('-user')
-   config_target = keyval.load(meson.current_build_dir() / target / 'config-target.mak')
- 
-   config_target_data = configuration_data()
-@@ -472,8 +481,6 @@ foreach target : target_dirs
-                                                configuration: config_target_data)}
- 
-   if target.endswith('-softmmu')
--    have_system = true
--
-     base_kconfig = []
-     foreach sym : kconfig_external_symbols
-       if sym in config_target or sym in config_host
-@@ -503,8 +510,6 @@ foreach target : target_dirs
-   endif
-   config_target_mak += {target: config_target}
- endforeach
--have_tools = 'CONFIG_TOOLS' in config_host
--have_block = have_system or have_tools
- 
- grepy = find_program('scripts/grepy.sh')
- # This configuration is used to build files that are shared by
+ rm -rf meson-private meson-info meson-logs
+-NINJA=$PWD/ninjatool $meson setup \
++NINJA=${ninja:-$PWD/ninjatool} $meson setup \
+         --prefix "${pre_prefix}$prefix" \
+         --libdir "${pre_prefix}$libdir" \
+         --libexecdir "${pre_prefix}$libexecdir" \
 -- 
 2.26.2
 
