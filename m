@@ -2,89 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D29D254CF0
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 20:22:34 +0200 (CEST)
-Received: from localhost ([::1]:42824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55F1F254D0F
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 20:28:33 +0200 (CEST)
+Received: from localhost ([::1]:39908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBMXh-0004Fn-Ea
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 14:22:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42438)
+	id 1kBMdU-0006Mz-DG
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 14:28:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1kBMPA-0001x8-Ey
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 14:13:44 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:50024)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1kBMP8-0007Ku-99
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 14:13:44 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07RI5LLE074591;
- Thu, 27 Aug 2020 18:13:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=corp-2020-01-29;
- bh=C2zYlbgUjh78gb8/f0N4TRIumkzhBi1rRYVFiDcIxEc=;
- b=uUZag/7bmK5RgQt7sYgFIZ5+FjV263uTlIX4IvWZQ4gWK3svtlSQZB0oYr7Z3QTmvrSx
- C717wKcyz9/Hf0PD9vqwWAQdUHGwhrIfFwPPCBwXmoGVPIOd0/QERmBzh31v4dA3HhTE
- mhCNwL9hKV+Myg6UQOvIQ0jf3iByZcObuRgeXiv7VHZbB/wzwbFVhO6HkLRJDWHjUtR+
- orUeADjBn9uhgyRh00hMkZo4s3IMbv7aHWe4oq4KWXzkS/nuBLcaHJUWlttw19KasD47
- NIE8iVf4/9u80Wv1nr02BjTDoTpv60sDLXKa1NoWj6Bm7V3+PyOPVcG1ya7HfFbNGq0z 9Q== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2120.oracle.com with ESMTP id 333w6u6hm8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 27 Aug 2020 18:13:36 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07RI4tVa072660;
- Thu, 27 Aug 2020 18:13:35 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3030.oracle.com with ESMTP id 333r9nr071-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 27 Aug 2020 18:13:35 +0000
-Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 07RIDYGg025744;
- Thu, 27 Aug 2020 18:13:34 GMT
-Received: from flaka.hsd1.ca.comcast.net (/10.159.136.159)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 27 Aug 2020 11:13:34 -0700
-From: elena.ufimtseva@oracle.com
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kBMUQ-0000WI-QI
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 14:19:10 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:26849
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kBMUL-00083Q-KT
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 14:19:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598552344;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=xq67xF1Ah1SkuP7oFrCV75JxzXmfxpuV8L0SN/RmBDk=;
+ b=UrcTPrXfMF47d9Fe4smV3Ogp+Qg9KmYkxbkLVxjucpUEYmci8z/hmBFsUqr5GPNp6ZJ6++
+ TzswGUs7NiHepqTfiCNvDIfX6gWeKA3aY+nYz4Y2YtUzKkQYjxczZRMpFNGPflEM9zbo8U
+ +4NZNeOF6YwwhefX7goACDL4MdfCCK4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-47-L87QBkKKNdqtVT7o2Yd_Pg-1; Thu, 27 Aug 2020 14:18:39 -0400
+X-MC-Unique: L87QBkKKNdqtVT7o2Yd_Pg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79FCE1074650;
+ Thu, 27 Aug 2020 18:18:33 +0000 (UTC)
+Received: from localhost (unknown [10.10.67.254])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 233C35D9E8;
+ Thu, 27 Aug 2020 18:18:17 +0000 (UTC)
+Date: Thu, 27 Aug 2020 14:18:16 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 20/20] multi-process: add configure and usage information
-Date: Thu, 27 Aug 2020 11:12:31 -0700
-Message-Id: <20200827181231.22778-21-elena.ufimtseva@oracle.com>
-X-Mailer: git-send-email 2.25.GIT
-In-Reply-To: <20200827181231.22778-1-elena.ufimtseva@oracle.com>
-References: <20200827181231.22778-1-elena.ufimtseva@oracle.com>
+Subject: Re: [PATCH v3 00/74] qom: Automated conversion of type checking
+ boilerplate
+Message-ID: <20200827181816.GI642093@habkost.net>
+References: <20200825192110.3528606-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9726
- signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- mlxscore=0 bulkscore=0
- adultscore=0 spamscore=0 mlxlogscore=999 phishscore=0 suspectscore=1
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2008270136
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9726
- signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- impostorscore=0
- mlxlogscore=999 suspectscore=1 phishscore=0 malwarescore=0 spamscore=0
- priorityscore=1501 clxscore=1015 mlxscore=0 lowpriorityscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2008270136
-Received-SPF: pass client-ip=156.151.31.85;
- envelope-from=elena.ufimtseva@oracle.com; helo=userp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 14:08:28
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -53
-X-Spam_score: -5.4
-X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200825192110.3528606-1-ehabkost@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 00:53:04
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,172 +77,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
- john.g.johnson@oracle.com, kraxel@redhat.com, jag.raman@oracle.com,
- quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
- kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
- ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
- stefanha@redhat.com, thanos.makatos@nutanix.com, rth@twiddle.net,
- kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
- ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ David Hildenbrand <david@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>,
+ Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Sven Schnelle <svens@stackframe.org>, Paul Durrant <paul@xen.org>,
+ Hannes Reinecke <hare@suse.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ Alberto Garcia <berto@igalia.com>, kvm@vger.kernel.org, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, qemu-ppc@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
+ Joel Stanley <joel@jms.id.au>, Anthony PERARD <anthony.perard@citrix.com>,
+ xen-devel@lists.xenproject.org, David Gibson <david@gibson.dropbear.id.au>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Jiri Pirko <jiri@resnulli.us>, qemu-s390x@nongnu.org,
+ Niek Linnenbank <nieklinnenbank@gmail.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Cameron Esfahani <dirty@apple.com>, Beniamino Galvani <b.galvani@gmail.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm@nongnu.org,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ qemu-riscv@nongnu.org, John Snow <jsnow@redhat.com>,
+ Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Amit Shah <amit@kernel.org>, Cornelia Huck <cohuck@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Max Reitz <mreitz@redhat.com>, Thomas Huth <huth@tuxfamily.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+On Tue, Aug 25, 2020 at 03:19:56PM -0400, Eduardo Habkost wrote:
+> git tree for this series:
+> https://github.com/ehabkost/qemu-hacks/tree/work/qom-macros-autoconvert
+> 
+> This is an extension of the series previously submitted by
+> Daniel[1], including a script that will convert existing type
+> checker macros automatically.
+> 
+> [1] https://lore.kernel.org/qemu-devel/20200723181410.3145233-1-berrange@redh=
+> at.com/
 
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
----
- MAINTAINERS                |  2 ++
- docs/multi-process.rst     | 67 ++++++++++++++++++++++++++++++++++++++
- scripts/mpqemu-launcher.py | 49 ++++++++++++++++++++++++++++
- 3 files changed, 118 insertions(+)
- create mode 100644 docs/multi-process.rst
- create mode 100755 scripts/mpqemu-launcher.py
+I'm queueing the following patches on machine-next:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ffc4f321f6..acbe096976 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3059,6 +3059,8 @@ F: include/hw/pci/memory-sync.h
- F: hw/i386/remote-iohub.c
- F: include/hw/i386/remote-iohub.h
- F: docs/devel/multi-process.rst
-+F: scripts/mpqemu-launcher.py
-+F: scripts/mpqemu-launcher-perf-mode.py
- 
- Build and test automation
- -------------------------
-diff --git a/docs/multi-process.rst b/docs/multi-process.rst
-new file mode 100644
-index 0000000000..9dc55e37d1
---- /dev/null
-+++ b/docs/multi-process.rst
-@@ -0,0 +1,67 @@
-+Multi-process QEMU
-+==================
-+
-+This document describes how to configure and use multi-process qemu.
-+For the design document refer to docs/devel/qemu-multiprocess.
-+
-+1) Configuration
-+----------------
-+
-+To enable support for multi-process add --enable-mpqemu
-+to the list of options for the "configure" script.
-+
-+
-+2) Usage
-+--------
-+
-+Multi-process QEMU requires an orchestrator to launch. Please refer to a
-+light-weight python based orchestrator for mpqemu in
-+scripts/mpqemu-launcher.py to lauch QEMU in multi-process mode.
-+
-+Following is a description of command-line used to launch mpqemu.
-+
-+* Orchestrator:
-+
-+  - The Orchestrator creates a unix socketpair
-+
-+  - It launches the remote process and passes one of the
-+    sockets to it via command-line.
-+
-+  - It then launches QEMU and specifies the other socket as an option
-+    to the Proxy device object
-+
-+* Remote Process:
-+
-+  - QEMU can enter remote process mode by using the "remote" machine
-+    option.
-+
-+  - The orchestrator creates a "remote-object" with details about
-+    the device and the file descriptor for the device
-+
-+  - The remaining options are no different from how one launches QEMU with
-+    devices.
-+
-+  - Example command-line for the remote process is as follows:
-+
-+      /usr/bin/qemu-system-x86_64                                        \
-+      -machine remote                                                    \
-+      -device lsi53c895a,id=lsi0                                         \
-+      -drive id=drive_image2,file=/build/ol7-nvme-test-1.qcow2           \
-+      -device scsi-hd,id=drive2,drive=drive_image2,bus=lsi0.0,scsi-id=0  \
-+      -object remote-object,id=robj1,devid=lsi1,fd=4,
-+
-+* QEMU:
-+
-+  - Since parts of the RAM are shared between QEMU & remote process, a
-+    memory-backend-memfd is required to facilitate this, as follows:
-+
-+    -object memory-backend-memfd,id=mem,size=2G
-+
-+  - A "pci-proxy-dev" device is created for each of the PCI devices emulated
-+    in the remote process. A "socket" sub-option specifies the other end of
-+    unix channel created by orchestrator. The "id" sub-option must be specified
-+    and should be the same as the "id" specified for the remote PCI device
-+
-+  - Example commandline for QEMU is as follows:
-+
-+      -device pci-proxy-dev,id=lsi0,socket=3
-diff --git a/scripts/mpqemu-launcher.py b/scripts/mpqemu-launcher.py
-new file mode 100755
-index 0000000000..07b11c6f0d
---- /dev/null
-+++ b/scripts/mpqemu-launcher.py
-@@ -0,0 +1,49 @@
-+#!/usr/bin/env python3
-+import socket
-+import os
-+import subprocess
-+import time
-+
-+PROC_QEMU='/usr/bin/qemu-system-x86_64'
-+
-+proxy, remote = socket.socketpair(socket.AF_UNIX, socket.SOCK_STREAM)
-+
-+remote_cmd = [ PROC_QEMU,                                                     \
-+               '-machine', 'remote',                                          \
-+               '-device', 'lsi53c895a,id=lsi1',                               \
-+               '-drive', 'id=drive_image1,file=/build/ol7-nvme-test-1.qcow2', \
-+               '-device', 'scsi-hd,id=drive1,drive=drive_image1,bus=lsi1.0,'  \
-+                              'scsi-id=0',                                    \
-+               '-object',                                                     \
-+               'remote-object,id=robj1,devid=lsi1,fd='+str(remote.fileno()),  \
-+               '-nographic',                                                  \
-+             ]
-+
-+proxy_cmd = [ PROC_QEMU,                                                      \
-+              '-name', 'OL7.4',                                               \
-+              '-machine', 'q35,accel=kvm',                                    \
-+              '-smp', 'sockets=1,cores=1,threads=1',                          \
-+              '-m', '2048',                                                   \
-+              '-object', 'memory-backend-memfd,id=sysmem-file,size=2G',       \
-+              '-numa', 'node,memdev=sysmem-file',                             \
-+              '-device', 'virtio-scsi-pci,id=virtio_scsi_pci0',               \
-+              '-drive', 'id=drive_image1,if=none,format=qcow2,'               \
-+                            'file=/home/ol7-hdd-1.qcow2',                     \
-+              '-device', 'scsi-hd,id=image1,drive=drive_image1,'              \
-+                             'bus=virtio_scsi_pci0.0',                        \
-+              '-boot', 'd',                                                   \
-+              '-vnc', ':0',                                                   \
-+              '-device', 'pci-proxy-dev,id=lsi1,fd='+str(proxy.fileno()),     \
-+            ]
-+
-+
-+pid = os.fork();
-+
-+if pid:
-+    # In Proxy
-+    print('Launching QEMU with Proxy object');
-+    process = subprocess.Popen(proxy_cmd, pass_fds=[proxy.fileno()])
-+else:
-+    # In remote
-+    print('Launching Remote process');
-+    process = subprocess.Popen(remote_cmd, pass_fds=[remote.fileno()])
+[PATCH v3 01/74] e1000: Rename QOM class cast macros
+[PATCH v3 02/74] megasas: Rename QOM class cast macros
+[PATCH v3 03/74] vmw_pvscsi: Rename QOM class cast macros
+[PATCH v3 04/74] pl110: Rename pl110_version enum values
+[PATCH v3 05/74] allwinner-h3: Rename memmap enum constants
+[PATCH v3 06/74] aspeed_soc: Rename memmap/irqmap enum constants
+[PATCH v3 07/74] opentitan: Rename memmap enum constants
+[PATCH v3 10/74] aspeed_timer: Fix ASPEED_TIMER macro definition
+[PATCH v3 11/74] versatile: Fix typo in PCI_VPB_HOST definition
+[PATCH v3 12/74] virtio-ccw: Fix definition of VIRTIO_CCW_BUS_GET_CLASS
+[PATCH v3 13/74] hvf: Add missing include
+[PATCH v3 14/74] hcd-dwc2: Rename USB_*CLASS macros for consistency
+[PATCH v3 15/74] tulip: Move TulipState typedef to header
+[PATCH v3 16/74] throttle-groups: Move ThrottleGroup typedef to header
+[PATCH v3 17/74] pci: Move PCIBusClass typedef to pci.h
+[PATCH v3 18/74] i8254: Move PITCommonState/PITCommonClass typedefs to i8254.h
+[PATCH v3 19/74] hvf: Move HVFState typedef to hvf.h
+[PATCH v3 20/74] mcf_fec: Move mcf_fec_state typedef to header
+[PATCH v3 21/74] s390_flic: Move KVMS390FLICState typedef to header
+[PATCH v3 22/74] can_emu: Delete macros for non-existing typedef
+[PATCH v3 23/74] nubus: Delete unused NUBUS_BRIDGE macro
+[PATCH v3 24/74] platform-bus: Delete macros for non-existing typedef
+[PATCH v3 25/74] armsse: Rename QOM macros to avoid conflicts
+[PATCH v3 26/74] xen-legacy-backend: Add missing typedef XenLegacyDevice
+[PATCH v3 27/74] spapr: Move typedef SpaprMachineState to spapr.h
+[PATCH v3 28/74] s390x: Move typedef SCLPEventFacility to event-facility.h
+[PATCH v3 29/74] vhost-user-gpu: Move QOM macro to header
+[PATCH v3 30/74] ahci: Move QOM macros to header
+[PATCH v3 31/74] i8257: Move QOM macro to header
+[PATCH v3 32/74] ahci: Move QOM macro to header
+[PATCH v3 33/74] pckbd: Move QOM macro to header
+[PATCH v3 34/74] vmbus: Move QOM macros to vmbus.h
+[PATCH v3 35/74] virtio-serial-bus: Move QOM macros to header
+[PATCH v3 36/74] piix: Move QOM macros to header
+[PATCH v3 37/74] auxbus: Move QOM macros to header
+[PATCH v3 38/74] rocker: Move QOM macros to header
+[PATCH v3 39/74] pxa2xx: Move QOM macros to header
+[PATCH v3 40/74] mptsas: Move QOM macros to header
+[PATCH v3 41/74] kvm: Move QOM macros to kvm.h
+[PATCH v3 42/74] vfio/pci: Move QOM macros to header
+[PATCH v3 43/74] nubus: Rename class type checking macros
+[PATCH v3 48/74] s390-virtio-ccw: Rename S390_MACHINE_CLASS macro
+[PATCH v3 49/74] swim: Rename struct SWIM to Swim
+[PATCH v3 50/74] migration: Rename class type checking macros
+
 -- 
-2.25.GIT
+Eduardo
 
 
