@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B23D0254637
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 15:45:09 +0200 (CEST)
-Received: from localhost ([::1]:35710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74E76254629
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 15:42:44 +0200 (CEST)
+Received: from localhost ([::1]:51718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBIDE-0000tG-Px
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 09:45:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48478)
+	id 1kBIAt-0004RQ-GJ
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 09:42:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kBI8y-0001P9-6d
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 09:40:44 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:27677
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kBI93-0001dJ-BT
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 09:40:49 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:60057
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kBI8v-0006KN-KE
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 09:40:43 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kBI91-0006LA-6J
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 09:40:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598535640;
+ s=mimecast20190719; t=1598535646;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=goMO8hb7iY4YjGLokxDYf+btfPCSDsgCnFQDuyULhx0=;
- b=W5Bp028bkTE6dj7sZ5S3oCp4tXR8G3lnW8PSPZ4dDAHCcFvH2Xy+H6zSv65pXnJldAQS/2
- 2ElvcL56Dss1zgxfQopEgmQ972e4UpajZeLypxpqco4uyIEX3qiETaQwm1prIIuRSdoRLs
- FJYvHL+cAzA8iKzUYeHITnjMBDi22bA=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-339-HgJGUKZsPXSb-mq4mf0amw-1; Thu, 27 Aug 2020 09:40:38 -0400
-X-MC-Unique: HgJGUKZsPXSb-mq4mf0amw-1
-Received: by mail-wm1-f72.google.com with SMTP id b73so2081055wmb.0
- for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 06:40:38 -0700 (PDT)
+ bh=/ClDOcff+wtkvg45OPGxJst3ciUDP9rU2GNJXIg6PAc=;
+ b=ZEyfOVQnlCQBeE3H3gqeWch0fdbGVvqbyhScjTqdxMHQMNijAfArcYWV95SZ7l7CXdlB33
+ dCT75Rb99OqIwoUNTcV9w9HzLQcBCiVGU6n5gfrKQUWTBhb27WWqbCJxDU18GEWT5SD1Ye
+ nbc34Yxx/XpmmAnGtlu8SQ+BoA1isQA=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-61-P_rE05lTO-m9gLnUqIbupA-1; Thu, 27 Aug 2020 09:40:44 -0400
+X-MC-Unique: P_rE05lTO-m9gLnUqIbupA-1
+Received: by mail-wr1-f70.google.com with SMTP id d15so1555111wrp.10
+ for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 06:40:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=goMO8hb7iY4YjGLokxDYf+btfPCSDsgCnFQDuyULhx0=;
- b=K+bOf+ICgkaB/pwnNU4YFKJSiNoWIaxlE8frfUOuoVt9eCCKR7/ZVu5JJzNM6CXurH
- meLf9qpYIsZgwwzX50kJUmLHsif/349lX4iYwR94gA/HtuULklnyZZhFli4nxPShDZuz
- S6ypndIzEny54MLzttZ+X6aG7EDRqRpUn/saftBi+0p+sY/1TfKss3JgL52OoLgNNTrr
- ZrwU4G522nSngtaUdXWn4iVhela48JQoJIT52D4EH9TBbpwZw3oWqoyLEpkb4iFxc/Jp
- /9ZgAaiAiXu4zTZIHFNwd/8IGWZzQnjUCkcd7WeyzKLvKg7cga5n05JSq+dKMO0kzS88
- Lbjg==
-X-Gm-Message-State: AOAM531M+G9xb0uTgFRRBcUUc6pmImMQoI5xmN1dOtOZzwak1XOlhddg
- /bDahlDV6XN/YJ6Eg4GscmoP750HdRUcU+piYhVx0/zixGx/USmp3FMalxY9d4eeT+ce9KARWD2
- 1HotfAOzkkzZDhvA=
-X-Received: by 2002:adf:c50d:: with SMTP id q13mr12622125wrf.175.1598535637108; 
- Thu, 27 Aug 2020 06:40:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJydCjQonxJ7Xx7koQmhScRTLdx7rtcQiU85MMZWlCaU2cpHPsFJUpJbRD+nw9YmMBJnZPJ9aA==
-X-Received: by 2002:adf:c50d:: with SMTP id q13mr12622098wrf.175.1598535636841; 
- Thu, 27 Aug 2020 06:40:36 -0700 (PDT)
-Received: from redhat.com (bzq-109-67-46-169.red.bezeqint.net. [109.67.46.169])
- by smtp.gmail.com with ESMTPSA id s8sm4646372wmc.1.2020.08.27.06.40.35
+ bh=/ClDOcff+wtkvg45OPGxJst3ciUDP9rU2GNJXIg6PAc=;
+ b=mo/eX+VrD6Ue5x7iObwnFoUnVhgsrH9VCzWgQKOiH6UTruTrVsl6I9rvrAILkVaL0c
+ eC8qz9Nhwau8UJVO2ump42ZR4U0uyYCyc6+MW1oO2xlbZQikXQx0R54u6VZvFY7bcMT7
+ dnVCdixWDZc97DS9s/shwhPKMZVJC8SAXWrmHbbpNkpSE7JGfKL3ni1Z2JTYalCxwCzb
+ FNKxw0fwB09YVQmzD1P98/mvrNsUjpAq+qOQEi4oXbv5WsBIegRP+jDq9qQuYn+asxbN
+ PzbxWFdrP0XJaCJd26ko/ss5Zn664hW4IWDJUipkZT/dE4VzFnrYMb9so2eZTvKvyCab
+ tLzg==
+X-Gm-Message-State: AOAM530M2or8mI8orljQRqBQOqJ6FQwN7DYKs4UT82TN2YO8RQRLXh1x
+ IuvWmVBQ4WLPxii6mvwf86ViaLE7rU6DGhnF/NH09rWZCRKMrxPair7649/lxf6cfQp22pZS7Yi
+ G5/R/N3rG+CUFaj0=
+X-Received: by 2002:adf:fa8f:: with SMTP id h15mr17215136wrr.365.1598535642879; 
+ Thu, 27 Aug 2020 06:40:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJywa6yMwaH70voVF213MlHbmVeYQUkPS3Czv/pBqLCaYXMIb+rBh9foOdEbkEqRIApv+1c5Tg==
+X-Received: by 2002:adf:fa8f:: with SMTP id h15mr17215120wrr.365.1598535642649; 
+ Thu, 27 Aug 2020 06:40:42 -0700 (PDT)
+Received: from redhat.com ([192.117.173.58])
+ by smtp.gmail.com with ESMTPSA id l21sm4769314wmj.25.2020.08.27.06.40.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Aug 2020 06:40:36 -0700 (PDT)
-Date: Thu, 27 Aug 2020 09:40:34 -0400
+ Thu, 27 Aug 2020 06:40:42 -0700 (PDT)
+Date: Thu, 27 Aug 2020 09:40:37 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/13] Introduce a new flag for i440fx to disable PCI hotplug
- on the root bus
-Message-ID: <20200827133954.2118749-7-mst@redhat.com>
+Subject: [PULL 07/13] virtio-pci: add virtio_pci_optimal_num_queues() helper
+Message-ID: <20200827133954.2118749-8-mst@redhat.com>
 References: <20200827133954.2118749-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200827133954.2118749-1-mst@redhat.com>
@@ -96,144 +95,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ani Sinha <ani@anisinha.ca>
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-We introduce a new global flag 'acpi-root-pci-hotplug' for i440fx with which
-we can turn on or off PCI device hotplug on the root bus. This flag can be
-used to prevent all PCI devices from getting hotplugged or unplugged from the
-root PCI bus.
-This feature is targetted mostly towards Windows VMs. It is useful in cases
-where some hypervisor admins want to deploy guest VMs in a way so that the
-users of the guest OSes are not able to hot-eject certain PCI devices from
-the Windows system tray. Laine has explained the use case here in detail:
-https://www.redhat.com/archives/libvir-list/2020-February/msg00110.html
+Multi-queue devices achieve the best performance when each vCPU has a
+dedicated queue. This ensures that virtqueue used notifications are
+handled on the same vCPU that submitted virtqueue buffers.  When another
+vCPU handles the the notification an IPI will be necessary to wake the
+submission vCPU and this incurs a performance overhead.
 
-Julia has resolved this issue for PCIE buses with the following commit:
-530a0963184e57e71a5b538 ("pcie_root_port: Add hotplug disabling option")
+Provide a helper function that virtio-pci devices will use in later
+patches to automatically select the optimal number of queues.
 
-This commit attempts to introduce similar behavior for PCI root buses used in
-i440fx machine types (although in this case, we do not have a per-slot
-capability to turn hotplug on or off).
+The function handles guests with large numbers of CPUs by limiting the
+number of queues to fit within the following constraints:
+1. The maximum number of MSI-X vectors.
+2. The maximum number of virtqueues.
 
-Usage:
-   -global PIIX4_PM.acpi-root-pci-hotplug=off
-
-By default, this option is enabled which means that hotplug is turned on for
-the PCI root bus.
-
-The previously existing flag 'acpi-pci-hotplug-with-bridge-support' for PCI-PCI
-bridges remain as is and can be used along with this new flag to control PCI
-hotplug on PCI bridges.
-
-This change has been tested using a Windows 2012R2 server guest image and also
-with a Windows 2019 server guest image on a Ubuntu 18.04 host using the latest
-master qemu from upstream.
-
-Signed-off-by: Ani Sinha <ani@anisinha.ca>
-Message-Id: <20200821165403.26589-1-ani@anisinha.ca>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Message-Id: <20200818143348.310613-4-stefanha@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Tested-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
- include/hw/acpi/pcihp.h |  2 +-
- hw/acpi/pcihp.c         | 23 ++++++++++++++++++++++-
- hw/acpi/piix4.c         |  5 ++++-
- 3 files changed, 27 insertions(+), 3 deletions(-)
+ hw/virtio/virtio-pci.h |  9 +++++++++
+ hw/virtio/virtio-pci.c | 32 ++++++++++++++++++++++++++++++++
+ 2 files changed, 41 insertions(+)
 
-diff --git a/include/hw/acpi/pcihp.h b/include/hw/acpi/pcihp.h
-index 8bc4a4c01d..02f4665767 100644
---- a/include/hw/acpi/pcihp.h
-+++ b/include/hw/acpi/pcihp.h
-@@ -67,7 +67,7 @@ void acpi_pcihp_device_unplug_request_cb(HotplugHandler *hotplug_dev,
-                                          Error **errp);
+diff --git a/hw/virtio/virtio-pci.h b/hw/virtio/virtio-pci.h
+index e2eaaa9182..91096f0291 100644
+--- a/hw/virtio/virtio-pci.h
++++ b/hw/virtio/virtio-pci.h
+@@ -243,4 +243,13 @@ typedef struct VirtioPCIDeviceTypeInfo {
+ /* Register virtio-pci type(s).  @t must be static. */
+ void virtio_pci_types_register(const VirtioPCIDeviceTypeInfo *t);
  
- /* Called on reset */
--void acpi_pcihp_reset(AcpiPciHpState *s);
-+void acpi_pcihp_reset(AcpiPciHpState *s, bool acpihp_root_off);
++/**
++ * virtio_pci_optimal_num_queues:
++ * @fixed_queues: number of queues that are always present
++ *
++ * Returns: The optimal number of queues for a multi-queue device, excluding
++ * @fixed_queues.
++ */
++unsigned virtio_pci_optimal_num_queues(unsigned fixed_queues);
++
+ #endif
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index ccdf54e81c..fc69570dcc 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -19,6 +19,7 @@
  
- extern const VMStateDescription vmstate_acpi_pcihp_pci_status;
- 
-diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-index 9e31ab2da4..39b1f74442 100644
---- a/hw/acpi/pcihp.c
-+++ b/hw/acpi/pcihp.c
-@@ -104,6 +104,24 @@ static void acpi_set_pci_info(void)
-     }
+ #include "exec/memop.h"
+ #include "standard-headers/linux/virtio_pci.h"
++#include "hw/boards.h"
+ #include "hw/virtio/virtio.h"
+ #include "migration/qemu-file-types.h"
+ #include "hw/pci/pci.h"
+@@ -2058,6 +2059,37 @@ void virtio_pci_types_register(const VirtioPCIDeviceTypeInfo *t)
+     g_free(base_name);
  }
  
-+static void acpi_pcihp_disable_root_bus(void)
++unsigned virtio_pci_optimal_num_queues(unsigned fixed_queues)
 +{
-+    static bool root_hp_disabled;
-+    PCIBus *bus;
++    /*
++     * 1:1 vq to vCPU mapping is ideal because the same vCPU that submitted
++     * virtqueue buffers can handle their completion. When a different vCPU
++     * handles completion it may need to IPI the vCPU that submitted the
++     * request and this adds overhead.
++     *
++     * Virtqueues consume guest RAM and MSI-X vectors. This is wasteful in
++     * guests with very many vCPUs and a device that is only used by a few
++     * vCPUs. Unfortunately optimizing that case requires manual pinning inside
++     * the guest, so those users might as well manually set the number of
++     * queues. There is no upper limit that can be applied automatically and
++     * doing so arbitrarily would result in a sudden performance drop once the
++     * threshold number of vCPUs is exceeded.
++     */
++    unsigned num_queues = current_machine->smp.cpus;
 +
-+    if (root_hp_disabled) {
-+        return;
-+    }
++    /*
++     * The maximum number of MSI-X vectors is PCI_MSIX_FLAGS_QSIZE + 1, but the
++     * config change interrupt and the fixed virtqueues must be taken into
++     * account too.
++     */
++    num_queues = MIN(num_queues, PCI_MSIX_FLAGS_QSIZE - fixed_queues);
 +
-+    bus = find_i440fx();
-+    if (bus) {
-+        /* setting the hotplug handler to NULL makes the bus non-hotpluggable */
-+        qbus_set_hotplug_handler(BUS(bus), NULL);
-+    }
-+    root_hp_disabled = true;
-+    return;
++    /*
++     * There is a limit to how many virtqueues a device can have.
++     */
++    return MIN(num_queues, VIRTIO_QUEUE_MAX - fixed_queues);
 +}
 +
- static void acpi_pcihp_test_hotplug_bus(PCIBus *bus, void *opaque)
- {
-     AcpiPciHpFind *find = opaque;
-@@ -209,8 +227,11 @@ static void acpi_pcihp_update(AcpiPciHpState *s)
-     }
- }
+ /* virtio-pci-bus */
  
--void acpi_pcihp_reset(AcpiPciHpState *s)
-+void acpi_pcihp_reset(AcpiPciHpState *s, bool acpihp_root_off)
- {
-+    if (acpihp_root_off) {
-+        acpi_pcihp_disable_root_bus();
-+    }
-     acpi_set_pci_info();
-     acpi_pcihp_update(s);
- }
-diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-index 26bac4f16c..e6163bb6ce 100644
---- a/hw/acpi/piix4.c
-+++ b/hw/acpi/piix4.c
-@@ -78,6 +78,7 @@ typedef struct PIIX4PMState {
- 
-     AcpiPciHpState acpi_pci_hotplug;
-     bool use_acpi_hotplug_bridge;
-+    bool use_acpi_root_pci_hotplug;
- 
-     uint8_t disable_s3;
-     uint8_t disable_s4;
-@@ -324,7 +325,7 @@ static void piix4_pm_reset(DeviceState *dev)
-         pci_conf[0x5B] = 0x02;
-     }
-     pm_io_space_update(s);
--    acpi_pcihp_reset(&s->acpi_pci_hotplug);
-+    acpi_pcihp_reset(&s->acpi_pci_hotplug, !s->use_acpi_root_pci_hotplug);
- }
- 
- static void piix4_pm_powerdown_req(Notifier *n, void *opaque)
-@@ -635,6 +636,8 @@ static Property piix4_pm_properties[] = {
-     DEFINE_PROP_UINT8(ACPI_PM_PROP_S4_VAL, PIIX4PMState, s4_val, 2),
-     DEFINE_PROP_BOOL("acpi-pci-hotplug-with-bridge-support", PIIX4PMState,
-                      use_acpi_hotplug_bridge, true),
-+    DEFINE_PROP_BOOL("acpi-root-pci-hotplug", PIIX4PMState,
-+                     use_acpi_root_pci_hotplug, true),
-     DEFINE_PROP_BOOL("memory-hotplug-support", PIIX4PMState,
-                      acpi_memory_hotplug.is_enabled, true),
-     DEFINE_PROP_END_OF_LIST(),
+ static void virtio_pci_bus_new(VirtioBusState *bus, size_t bus_size,
 -- 
 MST
 
