@@ -2,79 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C13A25432E
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 12:09:51 +0200 (CEST)
-Received: from localhost ([::1]:56358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 990B1254333
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 12:11:27 +0200 (CEST)
+Received: from localhost ([::1]:33554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBEqs-00081h-7Z
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 06:09:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38736)
+	id 1kBEsQ-0001uB-MH
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 06:11:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1kBEpl-00074d-MR
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 06:08:41 -0400
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:34717)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1kBEph-0000ck-7W
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 06:08:41 -0400
-Received: by mail-lf1-x141.google.com with SMTP id d2so2612568lfj.1
- for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 03:08:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=ptOYtMy0gK7P0avq5N/LI+cM9H0OymG6o1WhyCnKA/g=;
- b=s1sQ2k6JmlsupsfLQveA0JtrM29Q5ao0jA04JbsE40IoRQjTkczMOXpjsxvzTrvZfg
- AZ7H4wMS53n7r81urqp+1GvsH4R8wZGjnaQHWEKT3XUBqucEEqx/sF0ZnlvGh+0PthML
- Pp4NeBfTrEWSCi8EpM1NEqFd+LJlgxGgVTuppC4DVvKpaUOfw2hxoboLds1VRzyTzd0k
- +E0TdvN1JM7ogD4L1/tTcH6wT23XROfumTRTyZcUXo3HKAmSfmUY2xUK4bWQ2hl2uKs+
- D1bhcXn7oHTMIC+JKG46ks2pIIzhRQqZ9d3MDz41h2YFpxcRcChFMMlGDBagHCz9nWHX
- FuMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ptOYtMy0gK7P0avq5N/LI+cM9H0OymG6o1WhyCnKA/g=;
- b=rhV2vFB4nrtjvLi2XQ340FD6wYp6MCR2M/Gt/28ytlY6+FjuNWUkWPASnFpgG8pEZh
- COOwMCB6ojMirutFx09ixssTWDM3Lba/ksEdllbCYVxS5En04TTYOG0Pvak08eZHa1+W
- ZVc592HFc2KUyx7Koi4CqKA6BUBGWUQ8nARZMYuF64zwqGen4716MYbyBFR52s3k/ZXS
- g3+3vXj4Ff5Jc80a98vh1BZCg3fJPblfYujs7waRiWxa9hnSCmLZBklRkpJPNt4w0JRr
- ev2usfumNahey2r3s8r3Wc3OQP8hZaC691ESReDU1z0zIdaQWN+kyYsGCHdiT0iaDRTM
- hGvA==
-X-Gm-Message-State: AOAM5312jAnul1DA5V4uJphLVsqFTYPai6ehT8UwlR3hmpLK8biAZaZu
- UDFIfDTFv+JfQuJXt5E9hG8=
-X-Google-Smtp-Source: ABdhPJzkgOQyAFizjs0U6Gg1K1mqScWe9AP9FekrOx3lEc0QPl+XmZbxY+ecoNohexg4dgAr1BgQLw==
-X-Received: by 2002:ac2:58c6:: with SMTP id u6mr9556062lfo.105.1598522915436; 
- Thu, 27 Aug 2020 03:08:35 -0700 (PDT)
-Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id n24sm368923lji.83.2020.08.27.03.08.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Aug 2020 03:08:34 -0700 (PDT)
-Date: Thu, 27 Aug 2020 12:08:34 +0200
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 64/77] target/microblaze: Convert mbar to decodetree
-Message-ID: <20200827100834.GM2954729@toto>
-References: <20200825205950.730499-1-richard.henderson@linaro.org>
- <20200825205950.730499-65-richard.henderson@linaro.org>
- <20200827092413.GL2954729@toto>
- <7e242b2a-d582-059c-f282-9e001653b627@linaro.org>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kBEqz-0000SC-S6
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 06:09:57 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49698
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kBEqx-0000l7-RX
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 06:09:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598522993;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=TsBIZJLnVoaZxEs3CwZ2W3ho7vpt78LBeB2emBVihdk=;
+ b=JVUmK0ng7QaMKRQeQI9SuBfvNy/rl2DGkQp8RI3Gy69tphg9cgvAUvpE/CBac2J3HStQtO
+ NOaI9s3pQYDNH0AYVOpOxxlt9Ks4/plnUDHxphJnGgVFX0ssZQxUuOScYc+GPMx3KX1jmn
+ ZubHLrILuGg9w9LhVu09f5qMqbFK1KQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-124-x2xG38TtPQum2AoqPBj7jg-1; Thu, 27 Aug 2020 06:09:49 -0400
+X-MC-Unique: x2xG38TtPQum2AoqPBj7jg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6A828015FA;
+ Thu, 27 Aug 2020 10:09:48 +0000 (UTC)
+Received: from localhost (ovpn-115-8.ams2.redhat.com [10.36.115.8])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6E1295D9CC;
+ Thu, 27 Aug 2020 10:09:48 +0000 (UTC)
+Date: Thu, 27 Aug 2020 11:09:46 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: better file/line info for format string errors in trace events
+Message-ID: <20200827100946.GC16947@stefanha-x1.localdomain>
+References: <CAFEAcA9Z6V4ZkUfnpu-YY9AqU=YUK1Tb8cF-+4_CSPbGLbVHtQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <CAFEAcA9Z6V4ZkUfnpu-YY9AqU=YUK1Tb8cF-+4_CSPbGLbVHtQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="vEao7xgI/oilGqZ+"
 Content-Disposition: inline
-In-Reply-To: <7e242b2a-d582-059c-f282-9e001653b627@linaro.org>
-Received-SPF: pass client-ip=2a00:1450:4864:20::141;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x141.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 10
-X-Spam_score: 1.0
-X-Spam_bar: +
-X-Spam_report: (1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- FSL_HELO_FAKE=3.066, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 00:13:19
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,105 +81,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 27, 2020 at 02:58:06AM -0700, Richard Henderson wrote:
-> On 8/27/20 2:24 AM, Edgar E. Iglesias wrote:
-> >> +    /*
-> >> +     * Instruction access memory barrier.
-> >> +     * End the TB so that we recognize self-modified code immediately.
-> >> +     */
-> >> +    if (mbar_imm & 1) {
-> >> +        dc->cpustate_changed = 1;
-> >> +    }
-> > 
-> > This should be (mbar_imm & 1) == 0
-> > But even with that fixed it fails some of our tests because interrupts
-> > that should become visible within a couple of cycles after a
-> > memory data barrier can now be delayed longer.
-> > 
-> > I think we should always break the TB.
-> 
-> Ok.  I assume this follows a write to something like an interrupt controller
-> register?
+--vEao7xgI/oilGqZ+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-yes, kind of. It's a memory store to a device that raises an interrupt as a
-result of that store. The interrupt propagates to the CPU and on real HW if
-the pipeline depth of the core is small, it gets taken within a couple of
-cycles after the barrier completes. In QEMU, that delay can become very long
-if we don't break the TB.
+On Tue, Aug 25, 2020 at 10:49:08PM +0100, Peter Maydell wrote:
+> If you have a format string error in a trace event it fails
+> like this:
+>=20
+> In file included from ../../hw/block/trace.h:1:0,
+>                  from ../../hw/block/fdc.c:48:
+> ./trace/trace-hw_block.h: In function '_nocheck__trace_pci_nvme_err_mdts'=
+:
+> ./trace/trace-hw_block.h:2162:18: error: format '%llu' expects
+> argument of type 'long long unsigned int', but argument 6 has type
+> 'size_t {aka unsigned int}' [-Werror=3Dformat=3D]
+>          qemu_log("%d@%zu.%06zu:pci_nvme_err_mdts " "cid %"PRIu16" len
+> %"PRIu64"" "\n",
+>                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> In file included from /home/peter.maydell/qemu/include/qemu/osdep.h:89:0,
+>                  from ../../hw/block/fdc.c:30:
+> /usr/include/inttypes.h:105:34: note: format string is defined here
+>  # define PRIu64  __PRI64_PREFIX "u"
+>=20
+>=20
+> which doesn't anywhere give the filename where the format
+> string is actually defined (hw/block/trace-events in this case),
+> let alone the line number in that file of the trace event.
+>=20
+> Bit of a long shot, but I don't suppose it's possible for the
+> tracing subsystem to give more targeted error messages in this
+> situation ?
 
-Architecturally, it would be wrong to make such assumptions about the pipeline
-but there's code out there already..
+I will send a patch to make tracetool emit #line directives:
+https://gcc.gnu.org/onlinedocs/gcc-10.2.0/cpp/Line-Control.html
 
+Stefan
 
+--vEao7xgI/oilGqZ+
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> 
-> > 
-> >> +    /* Data access memory barrier.  */
-> >> +    if (mbar_imm & 2) {
-> >> +        tcg_gen_mb(TCG_BAR_SC | TCG_MO_ALL);
-> >> +    }
-> > 
-> > This should be (mbar_imm & 2) == 0
-> 
-> Oops.  ;-)
-> 
-> Applying the following incremental patch.
+-----BEGIN PGP SIGNATURE-----
 
-Thanks! With your incremental patch:
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9HhmoACgkQnKSrs4Gr
+c8jUvQf/fw+G/AdHW2soKrzAuYAtVAAngK+XwSwqvuXwPVe7hcWHqwWnHNVYid5/
+dFYhKSb4E4vrvO3Bbf40GxkeqsTO9Z5TmzUDlmxx/dJJZgA5sdo2LWSdW5JW8XwE
+DIml9agvx/ibxKP8AoFIDfocwznY/iQcRO+GCWZho4Qlya17O1euPx+xSVcBgHek
+EEwUjkxrnwerBqQDjoMMN/o57OfXvTQ8AS31ws5FJgXNED12kRjWUBSk1WjfVKnL
+/aZqDiyA/3+f66y3XwiCNHBGe93lx6L/XCi+rJr4yBI2z5DPCcg6LCysZyqtRE94
+oKWR4B3rMhvWAETvHrGH6baHvbottA==
+=jk07
+-----END PGP SIGNATURE-----
 
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+--vEao7xgI/oilGqZ+--
 
-
-
-> 
-> 
-> r~
-> 
-> 
-> diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-> index a391e80fb9..1e2bb529ac 100644
-> --- a/target/microblaze/translate.c
-> +++ b/target/microblaze/translate.c
-> @@ -1170,16 +1170,8 @@ static bool trans_mbar(DisasContext *dc, arg_mbar *arg)
->  {
->      int mbar_imm = arg->imm;
-> 
-> -    /*
-> -     * Instruction access memory barrier.
-> -     * End the TB so that we recognize self-modified code immediately.
-> -     */
-> -    if (mbar_imm & 1) {
-> -        dc->cpustate_changed = 1;
-> -    }
-> -
->      /* Data access memory barrier.  */
-> -    if (mbar_imm & 2) {
-> +    if ((mbar_imm & 2) == 0) {
->          tcg_gen_mb(TCG_BAR_SC | TCG_MO_ALL);
->      }
-> 
-> @@ -1204,6 +1196,19 @@ static bool trans_mbar(DisasContext *dc, arg_mbar *arg)
-> 
->          gen_raise_exception(dc, EXCP_HLT);
->      }
-> +
-> +    /*
-> +     * If !(mbar_imm & 1), this is an instruction access memory barrier
-> +     * and we need to end the TB so that we recognize self-modified
-> +     * code immediately.
-> +     *
-> +     * However, there are some data mbars that need the TB break
-> +     * (and return to main loop) to recognize interrupts right away.
-> +     * E.g. recognizing a change to an interrupt controller register.
-> +     *
-> +     * Therefore, choose to end the TB always.
-> +     */
-> +    dc->cpustate_changed = 1;
->      return true;
->  }
-> 
 
