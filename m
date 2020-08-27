@@ -2,61 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0862C2544C3
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 14:07:51 +0200 (CEST)
-Received: from localhost ([::1]:47256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9E722544B6
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 14:04:32 +0200 (CEST)
+Received: from localhost ([::1]:43192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBGh3-0005Le-LG
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 08:07:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49378)
+	id 1kBGdr-0003b0-SL
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 08:04:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <michael@walle.cc>) id 1kBGbx-0002Jv-3l
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 08:02:33 -0400
-Received: from ssl.serverraum.org ([176.9.125.105]:57833)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <michael@walle.cc>) id 1kBGbp-00012E-TI
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 08:02:31 -0400
-Received: from [192.168.180.155] (p50998fbe.dip0.t-ipconnect.de
- [80.153.143.190])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by ssl.serverraum.org (Postfix) with ESMTPSA id 29E7B22F53;
- Thu, 27 Aug 2020 14:02:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc;
- s=mail2016061301; t=1598529738;
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kBGcU-0002kd-1B
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 08:03:07 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22039
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kBGcR-00015m-Lq
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 08:03:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598529782;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UE8WhxeuQL2BJBpDscg3qP5GoRovosWz3UqAS9nwlnY=;
- b=WhGjmAyUAlX1ULz2zGMmY4NJhw15b+qUeohetKfCuwIoet5p+XiOF8UhBuM8i9M9Bw00Hh
- /hqtNz3nlZ/6bvSZIIaUHTaZ6nEqvC/h9qrND49p8Be7+w656aMqPnlBk1k0ZQ7NvqYXR4
- zWLbPJAEV8bbOP6HzGZ85F3Z4jsISMo=
-Date: Thu, 27 Aug 2020 14:02:14 +0200
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20200827113259.25064-1-peter.maydell@linaro.org>
-References: <20200827113259.25064-1-peter.maydell@linaro.org>
+ bh=cKtkLesNoXADmOkrWGtd1DzClSETZwPbs392XL32ypE=;
+ b=Lg79DRtoDSHsxCKAlcrzooiVFxx/eI3S4u8SO0I4nXhzWvKxmcBFJhWJGtnM2oWUrU1PtU
+ 6wlhtxngd/1nokrcZFyOVLhCxJf07lxxXg/o+/qFLIEvEuq3k0klGFVg8zGeJxwcoQRaov
+ DNqdQ6dfgouJaVekA1aZalF+bFPq7HI=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-337-Oyk7qOFQNbyx2ZDtWjirxw-1; Thu, 27 Aug 2020 08:03:00 -0400
+X-MC-Unique: Oyk7qOFQNbyx2ZDtWjirxw-1
+Received: by mail-ej1-f69.google.com with SMTP id i21so2530300ejj.0
+ for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 05:02:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=cKtkLesNoXADmOkrWGtd1DzClSETZwPbs392XL32ypE=;
+ b=SFxbMPmRDyiw6mGHr/WQuJDMgs3s/I2+fSqim2TXMFiN+Xb/LUgHmtaU8L3PoOvD7Z
+ bAvg9EfVwbF+xeaYfnzB7ukBfsBVIXiSLMns1Tvwe8tOlQe7A7MvJL27ELH+8pX5R5w0
+ S7icECAF9rL+WGQEtBTutvepibB2f8shAg9aqaXboQiA5EcIeL559hgyhqr9R9W+9h8M
+ w1hJRW8LBpdpILFkSD/QT1fcimt8j36ipUSqInhZ2pMbOa7gyrjT0fT/HZw99d1tdVS4
+ gPB3wAfXZfAQlwyVvFFMP38FZsN/k/nCloIFc9Y5xFbfU7EEDoHCadKK/u1Sn1NKuwTS
+ /c0A==
+X-Gm-Message-State: AOAM531JDUvLHkoTUi9CYjWolvKW3rEhftoio9friuDTynf4W/6po8om
+ o7Hdm6ivSz42ZLDB24W/OT44J6L+3I2WHD+iSyiCC0cVyjuqYc3pgIIUb54kLQSrlf8W4BbgGX/
+ OYVXquibx83SoRm3Q1bCrL0uvUO4YGrw=
+X-Received: by 2002:a17:906:1cc5:: with SMTP id
+ i5mr18309966ejh.449.1598529779023; 
+ Thu, 27 Aug 2020 05:02:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzDiUiE4bVTZ2VZhoAbngZmsEmX1q7QlJ/tbDjPxd+EYIrXlj5cqoOq66AHSw+UDgkPoAjyrzY8QKup3EUVzAQ=
+X-Received: by 2002:a17:906:1cc5:: with SMTP id
+ i5mr18309934ejh.449.1598529778764; 
+ Thu, 27 Aug 2020 05:02:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] Deprecate lm32 port
-To: Peter Maydell <peter.maydell@linaro.org>,qemu-devel@nongnu.org
-From: Michael Walle <michael@walle.cc>
-Message-ID: <AC5F071F-2965-4401-858C-2E4373C052E4@walle.cc>
-Received-SPF: pass client-ip=176.9.125.105; envelope-from=michael@walle.cc;
- helo=ssl.serverraum.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 08:02:21
+References: <20200826190128.22707-1-pbonzini@redhat.com>
+ <3c7ca48a-5eb0-cfd4-bac0-a2a7475eec39@vivier.eu>
+ <CABgObfZhE1+N1XiHBaPx7SZHawUwNeA4yG5g1TPNQ5TMCO9xSA@mail.gmail.com>
+ <CABgObfas4KFFc=0r9o_N8BYC0jHUoVx=iS0VYFU+zSCj-9yVQg@mail.gmail.com>
+ <CABgObfYrFxgUSx2MYDf_uJA_cDXe_befjTm8GuiCBENzRttkOw@mail.gmail.com>
+ <CAFEAcA8_ehUpuiCHkpdjdWQLHd8PG4D4ijtTo=vwk88wVip5HQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA8_ehUpuiCHkpdjdWQLHd8PG4D4ijtTo=vwk88wVip5HQ@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Thu, 27 Aug 2020 14:02:45 +0200
+Message-ID: <CABgObfbOhKjdn8uK+ATW5fxvtYodacjTAS-8gB4sHFDr9AS-iA@mail.gmail.com>
+Subject: Re: [PATCH] ninjatool: quote dollars in variables
+To: Peter Maydell <peter.maydell@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000a0684405addab721"
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 02:56:52
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,32 +97,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 27=2E August 2020 13:32:59 MESZ schrieb Peter Maydell <peter=2Emaydell@l=
-inaro=2Eorg>:
->Deprecate our lm32 target support=2E Michael Walle (former lm32
->maintainer)
->suggested that we do this in 2019:
-> https://www=2Email-archive=2Ecom/qemu-devel@nongnu=2Eorg/msg605024=2Ehtm=
-l
->because the only public user of the architecture is the many-years-dead
->milkymist project=2E (The Linux port to lm32 was never merged upstream=2E=
-)
->
->In commit 4b4d96c776f552e (March 2020) we marked it as 'orphan' in
->the MAINTAINERS file, but didn't officially deprecate it=2E Mark it
->deprecated now, with the intention of removing it from QEMU in
->mid-2021 before the 6=2E1 release=2E
->
->Signed-off-by: Peter Maydell <peter=2Emaydell@linaro=2Eorg>
+--000000000000a0684405addab721
+Content-Type: text/plain; charset="UTF-8"
 
-Acked-by: Michael Walle <michael@walle=2Ecc>
+Il gio 27 ago 2020, 12:08 Peter Maydell <peter.maydell@linaro.org> ha
+scritto:
 
-Thanks,=20
--michael=20
+> On Thu, 27 Aug 2020 at 10:20, Paolo Bonzini <pbonzini@redhat.com> wrote:
+> >
+> > ... and actually it's fixed in 0.55.1. We can therefore just update the
+> submodule and declare 0.55.1 the minimum required version for QEMU.
+>
+> Oh, I meant to ask -- if 0.56 is the one that gets rid of the
+> warnings about unstable-keyval backwards compatibility issues,
+> is there a reason our submodule version is 0.55 rather than 0.56 ?
+>
+
+Because 0.56 has not been released yet, it's what the master branch will be.
+
+Paolo
+
+
+> thanks
+> -- PMM
+>
+>
+
+--000000000000a0684405addab721
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">Il gio 27 ago 2020, 12:08 Peter Maydell &lt;<a href=3D=
+"mailto:peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; ha scrit=
+to:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex">On Thu, 27 Aug 2020 at 10:20, P=
+aolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" target=3D"_blank" r=
+el=3D"noreferrer">pbonzini@redhat.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; ... and actually it&#39;s fixed in 0.55.1. We can therefore just updat=
+e the submodule and declare 0.55.1 the minimum required version for QEMU.<b=
+r>
+<br>
+Oh, I meant to ask -- if 0.56 is the one that gets rid of the<br>
+warnings about unstable-keyval backwards compatibility issues,<br>
+is there a reason our submodule version is 0.55 rather than 0.56 ?<br></blo=
+ckquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Because 0=
+.56 has not been released yet, it&#39;s what the master branch will be.</di=
+v><div dir=3D"auto"><br></div><div dir=3D"auto">Paolo</div><div dir=3D"auto=
+"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex">
+<br>
+thanks<br>
+-- PMM<br>
+<br>
+</blockquote></div></div></div>
+
+--000000000000a0684405addab721--
 
 
