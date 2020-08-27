@@ -2,82 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A6382542E6
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 11:58:57 +0200 (CEST)
-Received: from localhost ([::1]:44330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BFC525432F
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 12:10:30 +0200 (CEST)
+Received: from localhost ([::1]:59010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBEgK-0002av-MZ
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 05:58:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35836)
+	id 1kBErV-0000gV-BF
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 06:10:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBEfe-0002B8-5V
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 05:58:14 -0400
-Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:56270)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBEfb-0007lq-9I
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 05:58:13 -0400
-Received: by mail-pj1-x1043.google.com with SMTP id 2so2346124pjx.5
- for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 02:58:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=uVper52yUxvXFoa7vjhvEw+B+Qfgyt+174M4HcDFFlc=;
- b=tS6mFymcOr38OCZZCJeIcW4t7SvKIzmiHyZWaVqk0KDM42Po3jSelbb8Ltj/Qotl0s
- 0XJCjv8xoBm4ElnlxSLKY8f+WiqY2p8BRvCx2ePsGy31Mu0bYva2cyvp1SNSuiGMHvQx
- NhEWQhBna0uxZ/2wNxk6n0UJnn+xVtrHVMshXDIyPiGGgfim8redHIzxlYknElDaLOs9
- U2lCXsRstYGbaZ3DGFBnw7oveAKhYC8FCe9sn9/cPFaovr3aQFouahTm3zS/TWBeDRqe
- 4b2T2a93T+i7P2xh5lmXa3711QyOvKprCED/guKl/XjDuLQE91DOb1Oa7L4GkcMXVQBR
- ornA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=uVper52yUxvXFoa7vjhvEw+B+Qfgyt+174M4HcDFFlc=;
- b=pZIhzSJJk01kHS1Llxiv6mepdUPUpIKApxR87dfKaXXo4ImyzbUFDIx7pEFwo7i93y
- HGihAe0iseaY4KmTOxo0/g1EGGvzkS80N2PWU0pT3aPWUBHreEskQFYF9cGUVqNjiVTs
- zHuujfIAAv+sEmZNyBWB7xYMtPSUoPCn+vLFeJx9kISQZl6D22TnCEg7YJD/WpXa3G0n
- 5Rkw3nus1iSCXfpdDIMdgH82mLK3hJTfLH2OD9Ih0+KMej1d0rAw6Y87Q/VJWHImufN8
- wQynehivSi9yNnc+GSZzI3824NE7iidhxYsGcRzq05fAdaP3+x9wvsxBt0ETCt54d2+o
- fBmA==
-X-Gm-Message-State: AOAM533xDmzwQ7R9gJwt+IUOg2PlMen4KMv4nhMyey/vkCs7dORemthG
- bQ4WSl1GGUuRFhwi2YicKkI4NkPMmMM1ZQ==
-X-Google-Smtp-Source: ABdhPJxv7+H7k27m+wzWQFn9XQomp/nRptfXWT7KXM59gkjWy903xrpj+AfpKzXW7KOVNzQGfD5Aew==
-X-Received: by 2002:a17:90b:4d0d:: with SMTP id
- mw13mr9715320pjb.43.1598522289129; 
- Thu, 27 Aug 2020 02:58:09 -0700 (PDT)
-Received: from [192.168.101.174] ([75.147.178.105])
- by smtp.gmail.com with ESMTPSA id u62sm2216212pfb.4.2020.08.27.02.58.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Aug 2020 02:58:08 -0700 (PDT)
-Subject: Re: [PATCH 64/77] target/microblaze: Convert mbar to decodetree
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-References: <20200825205950.730499-1-richard.henderson@linaro.org>
- <20200825205950.730499-65-richard.henderson@linaro.org>
- <20200827092413.GL2954729@toto>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <7e242b2a-d582-059c-f282-9e001653b627@linaro.org>
-Date: Thu, 27 Aug 2020 02:58:06 -0700
+ (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
+ id 1kBEqT-00089I-D5
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 06:09:25 -0400
+Received: from mail-eopbgr30101.outbound.protection.outlook.com
+ ([40.107.3.101]:46477 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
+ id 1kBEqR-0000iW-8q
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 06:09:25 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kBohqYKvwWMHaidsBqlkYILTop3AXy4FQd2JFHvqtUNb1sWhVbRjE1h80LBZz8BPMwxw44Z6wypg7FodwfgCLmjPxDk4guXzuhZa9Yw3MZzXXkd9GKY9ZuEBvMbcnOzr8oi7hgYKJPlTx9YmqXMybZov8sEeuqeAyZxB+5KnmUj9dRkjIE41MiFKIAkFNY869f0Wln29nls0GdPDMXC10TNvtUGdAMZ95Pd9wCRMOCt6FSMLoe6ur3iAaSgxNSK80QEyP+IMNmx3ZrCVQRgyhT5mL8gLlXpweCRXB+Et9JAga9CRlCmTcQTDvpHM9d62Xrj1mpCdMTYTvAFHCM3roQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DQnL0z9xXKJrr86Ei9arf487d5r3MxuLcVA/31GIhPk=;
+ b=Sxad4YuUh6S/nRsz6u+fnlHoB76xR2g0OxQDscg+kWFvM/lQL+muJ1Eak13uPjMO9sZCYLU5nEpv6piThos/8ODO5ygGLQOcK+wVCTyOeOtvShTbbbsWFCqzS4e81dcXqgIXdz8kmV2M5F3s8y45ZkE96FV4KpfF9Ds5VXQuvvSYElZlxMiz58c1m48bs1hgW13zrZ2hWXb/YNEtYgG7aKRRIEWmt4GmFmzzth4WSQLs0vkcePlGHvKUxiWwrblza5yoBP1PjKssBiA5Yd0U2ML2hNX1TXbN2PyRrNr0Tfu7WoZUzd85lVIO++faz7lIQ3kL8g2PDm08GZ0KZKV3QQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
+ dkim=pass header.d=syrmia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DQnL0z9xXKJrr86Ei9arf487d5r3MxuLcVA/31GIhPk=;
+ b=b6kPASEUZYe7u1FZC8yilpK+BFslzipaH9hHCI5vBwhYyQ1PE5n6gT8vlyQcQF6E7Pt/Fd456hfS4asMANt8dD+KZyCRDZUiQKtVbm57RRpPp1sIwkYD2RFpjphH2BwjNa21aoGdmKWf7pGrzpWVcc5kbgMqVfvlXBcwLYNpTr0=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=syrmia.com;
+Received: from VE1PR03MB5246.eurprd03.prod.outlook.com (2603:10a6:802:a1::22)
+ by VI1PR03MB6461.eurprd03.prod.outlook.com (2603:10a6:800:17c::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.24; Thu, 27 Aug
+ 2020 09:54:17 +0000
+Received: from VE1PR03MB5246.eurprd03.prod.outlook.com
+ ([fe80::3568:5b4f:ab6b:e362]) by VE1PR03MB5246.eurprd03.prod.outlook.com
+ ([fe80::3568:5b4f:ab6b:e362%6]) with mapi id 15.20.3261.026; Thu, 27 Aug 2020
+ 09:54:16 +0000
+Subject: Re: [PATCH] linux-user: fix target_to_host_timespec64()
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20200827070449.2386007-1-laurent@vivier.eu>
+From: Filip Bozuta <Filip.Bozuta@syrmia.com>
+Message-ID: <70b20fc1-c8d6-957f-fd21-37c61c9be7a6@syrmia.com>
+Date: Thu, 27 Aug 2020 11:54:13 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20200827092413.GL2954729@toto>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+ Thunderbird/68.8.0
+In-Reply-To: <20200827070449.2386007-1-laurent@vivier.eu>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1043.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.239,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Language: en-US
+X-ClientProxiedBy: ZR0P278CA0030.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:1c::17) To VE1PR03MB5246.eurprd03.prod.outlook.com
+ (2603:10a6:802:a1::22)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.0.102] (147.91.217.238) by
+ ZR0P278CA0030.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:1c::17) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3326.19 via Frontend Transport; Thu, 27 Aug 2020 09:54:16 +0000
+X-Originating-IP: [147.91.217.238]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: fb20b6ca-5fc3-4041-5cc2-08d84a6f2935
+X-MS-TrafficTypeDiagnostic: VI1PR03MB6461:
+X-Microsoft-Antispam-PRVS: <VI1PR03MB646195BDFD5E1A25D0FDB6B4EB550@VI1PR03MB6461.eurprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 5ihKXXrXmihsfoOw5Hd3u1BhwOrUYYXK8uA/KTV32Ka9U5Pgptyq1k05zDUt0vFKyqUA41x63G5FUuUQucQ5gRg8AzbvhHYxtZscbSf6vfXjpqGjFdAiTjAjiUNx1VuKjQgOaXDZFPTEGeu94k49F3nbZT5h/1eDd19oVoynAEUPM2pYxrPyVHk/SJM9skCJ8iCxIzD8j6pti60LFEQ1r4BrogXn66cKs1ewC2m+Jciak4W61dwZLgEbwooHOFUv/I8psOL95on/6MGbKUz54unTE3K1Jcz/2ZPArKPddNY8n79MoPJNlKTIlngLbQMC/Bbm4oWnVHUBtqctdO9hgOjeSnni43D9S392BTdxFy6wiYXS+mdzmCG5ld0HCXDZ
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VE1PR03MB5246.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(396003)(366004)(376002)(39830400003)(346002)(136003)(6666004)(2906002)(66946007)(16526019)(66476007)(186003)(5660300002)(316002)(31686004)(66556008)(52116002)(16576012)(26005)(6486002)(956004)(31696002)(36756003)(478600001)(2616005)(86362001)(8676002)(83380400001)(8936002)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: 5Jr80duy9gg2OHAHkekW3thpUb3lYYQ7ik2xNtmb8XVlI8Nd9BtLyuzOncAmF1Fsdd3gKG6Gr1Fb8+tHFo+qBO0lcwzZOXcv4DXSJxjqSE1HemhRhFRcfKaqzRtDqi0EEpZhQbXOP3V6SdCfHzbTeo0vppQTta80Ru+J7ujP5Px+UXftBgKuiVF+l0/ogOPbjsnXzIZsfL87RxXds5J3BdLFDd3eUNOlIQYwyhANieN2uhr0/tqKESoo6iMFOvAXLiYrnrGlmgFkxYF4EwPznSoMk4QmvNBf3wpLZjfgt0PCnMLgMDIlHYRUBBfw53AhGGzrGBSzIgxRQff3Zsda5uppy00KRbr2K7FtPX+AwzZLplGcjKf74/h4VR3muTSij/f4I3CT0ckf+vNPoJBrb2UV5vHXDOItHP+lpXKI4dlXe9mTC2RoD5UfHiCeMouPIQ8pFEA1YgUMS1y1RGs26JcVB+fQ/Bl43SF/0yZ5BOcrOyP0S8WeJyV3T3272O9bJoH69knAOXXYEmslKT5h5qXSvrwobSGTHYaCujSQWUCjHcOMcZd8THZpHDOOwQjUQKhrSeylvBQ5m4N3l9dajiar8+7cIyoJgdJyyk8R/0Nt1ywS2jHpxAtycvmWfkVKTljVa43f3LyqYVZBJlCX0w==
+X-OriginatorOrg: syrmia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fb20b6ca-5fc3-4041-5cc2-08d84a6f2935
+X-MS-Exchange-CrossTenant-AuthSource: VE1PR03MB5246.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2020 09:54:16.7972 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FHZK7YU/lLgy/gr6uNNfF37t9OoDROpSpzBOw7Q4k+YgplTSJebiaLCTzl/eE2gSeyWmu/YuIOpCxqRk3iNaPw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR03MB6461
+Received-SPF: pass client-ip=40.107.3.101;
+ envelope-from=Filip.Bozuta@syrmia.com;
+ helo=EUR03-AM5-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 06:09:21
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-2.239, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, RCVD_IN_SORBS_WEB=1.5, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,85 +116,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/27/20 2:24 AM, Edgar E. Iglesias wrote:
->> +    /*
->> +     * Instruction access memory barrier.
->> +     * End the TB so that we recognize self-modified code immediately.
->> +     */
->> +    if (mbar_imm & 1) {
->> +        dc->cpustate_changed = 1;
->> +    }
-> 
-> This should be (mbar_imm & 1) == 0
-> But even with that fixed it fails some of our tests because interrupts
-> that should become visible within a couple of cycles after a
-> memory data barrier can now be delayed longer.
-> 
-> I think we should always break the TB.
+On 27.8.20. 09:04, Laurent Vivier wrote:
+> in 32 bit mode, drop the padding in tv_nsec. If host is 64bit and target
+> is 32bit, the padding bytes will be copied from the target and as the
+> kernel checks the value, the syscall exits with EINVAL.
+>
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+> ---
+>   linux-user/syscall.c | 2 ++
+>   1 file changed, 2 insertions(+)
+>
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index c82b73e03234..9d7376734ad4 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -1253,6 +1253,8 @@ static inline abi_long target_to_host_timespec64(struct timespec *host_ts,
+>       }
+>       __get_user(host_ts->tv_sec, &target_ts->tv_sec);
+>       __get_user(host_ts->tv_nsec, &target_ts->tv_nsec);
+> +    /* in 32bit mode, this drops the padding */
+> +    host_ts->tv_nsec = (long)(abi_long)host_ts->tv_nsec;
 
-Ok.  I assume this follows a write to something like an interrupt controller
-register?
+I tested this with sh4 and the nsec conversion seems to be working fine now.
 
-> 
->> +    /* Data access memory barrier.  */
->> +    if (mbar_imm & 2) {
->> +        tcg_gen_mb(TCG_BAR_SC | TCG_MO_ALL);
->> +    }
-> 
-> This should be (mbar_imm & 2) == 0
+Just curious, why a double cast is needed '(long)(abi_long)', why not 
+just '(abi_long)'?
 
-Oops.  ;-)
-
-Applying the following incremental patch.
-
-
-r~
-
-
-diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index a391e80fb9..1e2bb529ac 100644
---- a/target/microblaze/translate.c
-+++ b/target/microblaze/translate.c
-@@ -1170,16 +1170,8 @@ static bool trans_mbar(DisasContext *dc, arg_mbar *arg)
- {
-     int mbar_imm = arg->imm;
-
--    /*
--     * Instruction access memory barrier.
--     * End the TB so that we recognize self-modified code immediately.
--     */
--    if (mbar_imm & 1) {
--        dc->cpustate_changed = 1;
--    }
--
-     /* Data access memory barrier.  */
--    if (mbar_imm & 2) {
-+    if ((mbar_imm & 2) == 0) {
-         tcg_gen_mb(TCG_BAR_SC | TCG_MO_ALL);
-     }
-
-@@ -1204,6 +1196,19 @@ static bool trans_mbar(DisasContext *dc, arg_mbar *arg)
-
-         gen_raise_exception(dc, EXCP_HLT);
-     }
-+
-+    /*
-+     * If !(mbar_imm & 1), this is an instruction access memory barrier
-+     * and we need to end the TB so that we recognize self-modified
-+     * code immediately.
-+     *
-+     * However, there are some data mbars that need the TB break
-+     * (and return to main loop) to recognize interrupts right away.
-+     * E.g. recognizing a change to an interrupt controller register.
-+     *
-+     * Therefore, choose to end the TB always.
-+     */
-+    dc->cpustate_changed = 1;
-     return true;
- }
-
+>       unlock_user_struct(target_ts, target_addr, 0);
+>       return 0;
+>   }
 
