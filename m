@@ -2,69 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B44CA254131
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 10:52:23 +0200 (CEST)
-Received: from localhost ([::1]:43138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA278254125
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 10:47:04 +0200 (CEST)
+Received: from localhost ([::1]:36150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBDdu-0002yg-OL
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 04:52:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49834)
+	id 1kBDYl-0008HD-Ks
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 04:47:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kBDd1-00029v-98
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 04:51:27 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53074)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kBDcy-0007mX-N1
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 04:51:27 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kBDcw-0006e5-Qz
- for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 08:51:22 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CA4412E80EC
- for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 08:51:22 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1kBDUl-0007GQ-2r; Thu, 27 Aug 2020 04:42:55 -0400
+Received: from mout.web.de ([212.227.17.12]:49811)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1kBDUj-0006pZ-9q; Thu, 27 Aug 2020 04:42:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1598517768;
+ bh=bcXRMSi6YJYz704wAXxQwPfHknoLUgU9pLiHl9cE30w=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=B3NuCqZK9k9Yp9qg1QXcRL91yLmKrgkkp6c3Qir+CDn8zD55D+b18KzDtDWhKatq2
+ NXaUw7spNUvzDpIfhrFsRZ/wQodL0Ij0FBY6CyyiVTEzqVAPsQOKbcPuWQYazer/Jb
+ 56hxC8aLdjFBZxhwZb11TIZUpAOblCrnaxNyxpA0=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from luklap ([87.123.206.239]) by smtp.web.de (mrweb103
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0LoYb8-1kqaj73YLK-00gbeZ; Thu, 27
+ Aug 2020 10:42:47 +0200
+Date: Thu, 27 Aug 2020 10:42:46 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: Re: [PATCH v7 0/8] Introduce 'yank' oob qmp command to recover from
+ hanging qemu
+Message-ID: <20200827104246.63754338@luklap>
+In-Reply-To: <20200818142631.3e1c1481@luklap>
+References: <cover.1596528468.git.lukasstraub2@web.de>
+ <20200818142631.3e1c1481@luklap>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 27 Aug 2020 08:40:59 -0000
-From: Mike Gelfand <1893003@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: linux-user ppc s390x
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: mike.dld
-X-Launchpad-Bug-Reporter: Mike Gelfand (mike.dld)
-X-Launchpad-Bug-Modifier: Mike Gelfand (mike.dld)
-References: <159842808665.2865.2216413646645324343.malonedeb@chaenomeles.canonical.com>
-Message-Id: <159851765924.5796.7987398138944264389.malone@gac.canonical.com>
-Subject: [Bug 1893003] Re: qemu linux-user doesn't translate host/target data
- for iovec I/O
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="99c2d833c8d727fd05148486920aca032e908071"; Instance="production"
-X-Launchpad-Hash: 706958fe38d73a08bb2684d62462af0b00e150fe
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 04:51:23
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+Content-Type: multipart/signed; boundary="Sig_/cYpDfUd2ynkPymOatnsZqt0";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
+X-Provags-ID: V03:K1:pLv9nm5tXm6H6Ow0TIaukW19SaVHBNE7X09cN7vonSp78d7IbH7
+ lS5xfKGUJ5sbj4rugnPq7GDrU57uigbYBjZBrjQLW8gXUnKt2ZDanjFvd76rQWYhb+118YN
+ SDOhmp7OXsV4zNMY8ylPPiP3Xlx2iVHmpyVqSzl1kR1fYfvW+mh8cs1oMWcVoVPIikCbNwi
+ GLX+Su/qoO/aaNkX42pKA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:JAWGaXQDMJk=:+/aCrsvXK80S86dPgENAyh
+ 3VSBHXulGH4uyf5I66YEWQBgJMwyhQ5GrIiYgAJrk2X/Nm4Y7q5ATQLr5vxY4H9Mi9VXOQVff
+ zH7aEjXhkfkkRF3dMUFyj8yo9lExCl2xe0Wa9WTsjPrQZOy+8Aapn+QZP6fxIcoljOx+ZpXVQ
+ mS7xy9Q+gu6Ngs6GkwiSDXCBb4/tJmrlL8Lyy+7yP7PO7HpWcTy/30HRxpgNIPGj0TKwCBt+q
+ n5yau1WgKMVz9ilDmyeqohIm3yU048DkU+UtpMTorqzQo6zw4MV1bcmccUqdoB2T/3A9pgKUd
+ 2JEnjVydKvOfZUrH6vQgO+ZOT+EMcDV4373BFMVamrXaV+ZFopzEzItvwWtSd9YH/4Qw7NSk7
+ F0xcDuCiTnjNNE5SVakRDWfvAP9NIfdmOD4pDHOtSW2lhhEfDLjrdeGRZI/7A8+1F0g7/tNmR
+ WNt50A00WQkCV5PR1HB6PcodFUuzOV969T+PN00eLHqEY2ENYIZZ+hy7LcSZDABGFdX6hKMEz
+ 91XdTuQEWPcAeNMI6qjF57pywej/Jkg/Up7U0vMntw4BKLZsOEAZkw/AaUVi9+6+1ZAtnFljM
+ 9DLY+3AcHs3UjCLnmaiyn8y8P7vH+vobaq+mGt4iq8o5nJE150FDFE1c6aiazT52hA65A8CLx
+ p78uNLHe9kCy10ermcosHEXmHwLmafIoH1+bGO1tA9HRv0cclibRxo8/NeuYwZvlrTaWNM8Jd
+ FkhMiQxIz4yi0LvScZLa/DxvKgGoLodSDrYRwms3x3TpscqjXmBAiw1VX9X7rEYiXpYrEE0Ed
+ qSUks1ofBNzayJzkI4wX9t8NAHaZsAyWLC+dPwusxWI/HXVZDtv+BWtXd9+oHOKqiTt872IPr
+ BswhghP0YxYepUn8ZhrHNA4YUDnFK8shuzMC3Z2SRDwEi2gUVYWQDMhQ3FWrpvdrojLhERcsD
+ G2zN5JOCojZHSN1pdqTVDAS//WsbNMZPNxgG6fRsvSuvWo+G6zTyHGYCK1ovmlnuwlpA9LpCF
+ XEW/CbgOLzX2In7CFYQy4UO8uAVHcLCbHe5e3GA3H6tjZKgnVVQ4prI0aWpbFW/b/t+neynXN
+ PSykmHz7jxykLCDSYYzdY3kceXF7m3cVLY4Icq3UCy8Eblvak63rsbiIa58PxULD9kDB9F/j4
+ rdfCLI902xqbeEpgluwBZOnVL/UBRaJHTVIknsW7PQZAkwXEKyWIPljfXPQ7eVZRPSKnEWCYs
+ mdOmf8ziUCcQfAfk/p/eFnRRUtJgcgXL+uuo7xw==
+Received-SPF: pass client-ip=212.227.17.12; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 04:41:33
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,82 +87,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1893003 <1893003@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan
+ Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRy?= =?UTF-8?B?w6k=?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The attached patch fixes the issue for me, but is incomplete (and not
-thoroughly tested) as I've only implemented inotify data translation for
-readv syscall.
+--Sig_/cYpDfUd2ynkPymOatnsZqt0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-** Patch added: "qemu-5.0.0-inotify-readv.patch"
-   https://bugs.launchpad.net/qemu/+bug/1893003/+attachment/5405134/+files/=
-qemu-5.0.0-inotify-readv.patch
+On Tue, 18 Aug 2020 14:26:31 +0200
+Lukas Straub <lukasstraub2@web.de> wrote:
 
--- =
+> On Tue, 4 Aug 2020 10:11:22 +0200
+> Lukas Straub <lukasstraub2@web.de> wrote:
+>=20
+> > Hello Everyone,
+> > In many cases, if qemu has a network connection (qmp, migration, charde=
+v, etc.)
+> > to some other server and that server dies or hangs, qemu hangs too.
+> > These patches introduce the new 'yank' out-of-band qmp command to recov=
+er from
+> > these kinds of hangs. The different subsystems register callbacks which=
+ get
+> > executed with the yank command. For example the callback can shutdown()=
+ a
+> > socket. This is intended for the colo use-case, but it can be used for =
+other
+> > things too of course.
+> >=20
+> > Regards,
+> > Lukas Straub
+> >=20
+> > v7:
+> >  -yank_register_instance now returns error via Error **errp instead of =
+aborting
+> >  -dropped "chardev/char.c: Check for duplicate id before  creating char=
+dev"
+> >=20
+> > v6:
+> >  -add Reviewed-by and Acked-by tags
+> >  -rebase on master
+> >  -lots of changes in nbd due to rebase
+> >  -only take maintainership of util/yank.c and include/qemu/yank.h (Dani=
+el P. Berrang=C3=A9)
+> >  -fix a crash discovered by the newly added chardev test
+> >  -fix the test itself
+> >=20
+> > v5:
+> >  -move yank.c to util/
+> >  -move yank.h to include/qemu/
+> >  -add license to yank.h
+> >  -use const char*
+> >  -nbd: use atomic_store_release and atomic_load_aqcuire
+> >  -io-channel: ensure thread-safety and document it
+> >  -add myself as maintainer for yank
+> >=20
+> > v4:
+> >  -fix build errors...
+> >=20
+> > v3:
+> >  -don't touch softmmu/vl.c, use __contructor__ attribute instead (Paolo=
+ Bonzini)
+> >  -fix build errors
+> >  -rewrite migration patch so it actually passes all tests
+> >=20
+> > v2:
+> >  -don't touch io/ code anymore
+> >  -always register yank functions
+> >  -'yank' now takes a list of instances to yank
+> >  -'query-yank' returns a list of yankable instances
+> >=20
+> > Lukas Straub (8):
+> >   Introduce yank feature
+> >   block/nbd.c: Add yank feature
+> >   chardev/char-socket.c: Add yank feature
+> >   migration: Add yank feature
+> >   io/channel-tls.c: make qio_channel_tls_shutdown thread-safe
+> >   io: Document thread-safety of qio_channel_shutdown
+> >   MAINTAINERS: Add myself as maintainer for yank feature
+> >   tests/test-char.c: Wait for the chardev to connect in
+> >     char_socket_client_dupid_test
+> >=20
+> >  MAINTAINERS                   |   6 ++
+> >  block/nbd.c                   | 129 +++++++++++++++---------
+> >  chardev/char-socket.c         |  31 ++++++
+> >  include/io/channel.h          |   2 +
+> >  include/qemu/yank.h           |  80 +++++++++++++++
+> >  io/channel-tls.c              |   6 +-
+> >  migration/channel.c           |  12 +++
+> >  migration/migration.c         |  25 ++++-
+> >  migration/multifd.c           |  10 ++
+> >  migration/qemu-file-channel.c |   6 ++
+> >  migration/savevm.c            |   6 ++
+> >  qapi/misc.json                |  45 +++++++++
+> >  tests/Makefile.include        |   2 +-
+> >  tests/test-char.c             |   1 +
+> >  util/Makefile.objs            |   1 +
+> >  util/yank.c                   | 184 ++++++++++++++++++++++++++++++++++
+> >  16 files changed, 493 insertions(+), 53 deletions(-)
+> >  create mode 100644 include/qemu/yank.h
+> >  create mode 100644 util/yank.c
+> >=20
+> > --
+> > 2.20.1 =20
+>=20
+> Ping...
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1893003
+Ping 2...
 
-Title:
-  qemu linux-user doesn't translate host/target data for iovec I/O
+Also, can the different subsystems have a look at this and give their ok?
 
-Status in QEMU:
-  New
+Regards,
+Lukas Straub
 
-Bug description:
-  When using iovec I/O functions (like `readv`), no data translation
-  happens. I'm hitting this issue with libevent upon constructing a
-  bufferevent over an inotify descriptor, and then building for either
-  ppc64 or s390x (both big-endian) on x86_64 (little-endian) and running
-  resulting code with qemu-ppc64 or qemu-s390x on Gentoo using latest
-  QEMU version available (5.0.0-r2).
+--Sig_/cYpDfUd2ynkPymOatnsZqt0
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-  The code in question is in
-  https://github.com/transmission/transmission/blob/master/libtransmission
-  /watchdir-inotify.c (`tr_watchdir_inotify_new`,
-  `tr_watchdir_inotify_on_event`).
+-----BEGIN PGP SIGNATURE-----
 
-  While `read` syscall is handled properly, `readv` (which libevent is
-  using in my case) doesn't have any logic to call
-  `host_to_target_data_inotify` or any other translation function,
-  leaving inotify data unchanged (with values in little-endian), which
-  then leads to unit test failures. Quoting `do_syscall1` implementation
-  bits for the reference:
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl9HcgYACgkQNasLKJxd
+sli6lA/+J/fVppEvaTcXlOuiLJHxtvoaa8zTu/30T0PIgL+BY13Mh+YqJ7H+1wf8
+COZgjhYWNQztpxZR4u5ALzkNLndV7rDSTCwvqu98zmAiiZsj9It1QQdd1ZsCWpg8
+8v8yDtbfhOBzLC74suS1N2I8DJIe1PFFe/C9MRUVATYZdqka0Y0vJKeXR0dtItkU
+VD2SwVCZosTsjpiofbSAOckFKBkC4wTxfF1Xu6UM9091Cek4E/O3K24i1CXgmnHm
+wFu3cx1MJOoKE0+ZWC6F9a57joMrILyBq0/HAhTIC6TxRcxyG1S0tAgP6TfVlrYj
+V4hcJGcAuY1eBUzrzS62ht8IjEFYbXABGddJQm1Tfwnp5XHFS8tAvRXth7QswUWq
+ImUqcUe+8gFukIzVcRahK+7vEzNEHnRorzOaQ9+A2mV6axiTkt82AEdzpxnlZOZy
+xk6XUk4yay5aesTJlveRqmRimm7SnPl+ykqaMzmGsJ6IaJJPxqRFSCDapihuOyA9
++yjwW8fHb6bYwx/eh+m1WbhuCc3iO6hjnql+pIl0O+AEMc5KklmAjwkqqfgWTTVb
+aeJ0wjzxyit0YULG5D12Oum4qEJol8quXrVGrSVfqouZQmW2LMQuxZeZ1N90IEd/
+klW+45X9ENWDWExgaIekpPzEPM5YSmUarGdvv6L3V3wEL/ab1j8=
+=5O18
+-----END PGP SIGNATURE-----
 
-  ---8<---begin---
-      case TARGET_NR_read:
-          if (arg2 =3D=3D 0 && arg3 =3D=3D 0) {
-              return get_errno(safe_read(arg1, 0, 0));
-          } else {
-              if (!(p =3D lock_user(VERIFY_WRITE, arg2, arg3, 0)))
-                  return -TARGET_EFAULT;
-              ret =3D get_errno(safe_read(arg1, p, arg3));
-              if (ret >=3D 0 &&
-                  fd_trans_host_to_target_data(arg1)) {
-                  ret =3D fd_trans_host_to_target_data(arg1)(p, ret);
-              }
-              unlock_user(p, arg2, ret);
-          }
-          return ret;
-  ...
-      case TARGET_NR_readv:
-          {
-              struct iovec *vec =3D lock_iovec(VERIFY_WRITE, arg2, arg3, 0);
-              if (vec !=3D NULL) {
-                  ret =3D get_errno(safe_readv(arg1, vec, arg3));
-                  unlock_iovec(vec, arg2, arg3, 1);
-              } else {
-                  ret =3D -host_to_target_errno(errno);
-              }
-          }
-          return ret;
-  ---8<---end---
-
-  To reiterate, the issue is not only with `readv` but with other iovec
-  functions as well.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1893003/+subscriptions
+--Sig_/cYpDfUd2ynkPymOatnsZqt0--
 
