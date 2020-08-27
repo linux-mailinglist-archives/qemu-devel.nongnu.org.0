@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A58B5254CE4
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 20:20:13 +0200 (CEST)
-Received: from localhost ([::1]:34266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DFBC254D10
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 20:28:36 +0200 (CEST)
+Received: from localhost ([::1]:40090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBMVQ-0000ex-L4
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 14:20:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42172)
+	id 1kBMdX-0006Rf-AH
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 14:28:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1kBMOi-00014J-FW
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 14:13:16 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:51912)
+ id 1kBMQg-0004pR-V1
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 14:15:18 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:53572)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1kBMOg-0007Dr-5T
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 14:13:16 -0400
+ id 1kBMQe-0007YJ-QQ
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 14:15:18 -0400
 Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07RI54Jv096560;
- Thu, 27 Aug 2020 18:13:07 GMT
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07RIEcY1116884;
+ Thu, 27 Aug 2020 18:15:09 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=THfOZ04d/paWD1Q/f3YSUVGWzg8L0nQEaHOMTmy8jlc=;
- b=MwBxXsE9F4jB9vBEzSsnRCHu0eh6NOnoKsoYlkO2i3/FQd7vnDd14wn2iqvhlW+E0mWB
- kiTlil4DOBGgbxwvrmm4ER6UmdW157gCFCFbIzsLaxSCeqgSYiu363Mkzwnqc56I9tS5
- HN5lelVZbCFrxlam65m/OnkdpSNNJXwTJpQHjcFJ+pIlwIx0Zn8+vbjHtHsTvJ9j/EVd
- JiLu4B0GAPmSaKDJ1Mxd41hMBEOm8ArwzIjGNrbQp+ztYhP4Bp4LQiwNCEObrWmyj2h/
- 0jdc0VDUJIH7Wjzvew/BIEudLkalTZYXtINgrZJVZ24ht6cZ4VzbjkF/0n44KwhV2hJR Hg== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2130.oracle.com with ESMTP id 336ht3g186-1
+ bh=X0IUQ5RYUb67uzYl/Qna4vMKDdKBkIqlA3X3HgHpeA0=;
+ b=AegGKAHvVl10I/7Jf/a0NIZJklDC5hZMoFY1edwufEe5dq4RbXYjMr8OuOBQWYAULVlP
+ 6DNpIcsba1Zr8ZMC492jiHJ2Fz00v5rBknFe6oInm5qjtOsFRw9e2QpqjMWL/mDwR0e3
+ lWko3qwd1bTRIDVE+3Lal/XgEfGUSDqRkQxbirYAfFAMfAV+OcvwCMS5Ii/R3rFB+dGM
+ m/loa/dAv9eYdmvkOWq+RQgx5wEFWvPZ5OOxSHwIj6B6YP7pzC40lWzf8f1QGzwDtyKw
+ SErPf7M1Ok2Kn28nLzXRT7A1qiJIKY9Xe910Jvwpgx8xsArS7Ore9fR94nu/IpI7wJOK Uw== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2130.oracle.com with ESMTP id 336ht3g1j9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 27 Aug 2020 18:13:07 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07RI4iFA074845;
- Thu, 27 Aug 2020 18:13:07 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by userp3020.oracle.com with ESMTP id 333ru1sy84-1
+ Thu, 27 Aug 2020 18:15:09 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07RI5QV9187652;
+ Thu, 27 Aug 2020 18:13:09 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by userp3030.oracle.com with ESMTP id 333r9njx88-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 27 Aug 2020 18:13:06 +0000
+ Thu, 27 Aug 2020 18:13:09 +0000
 Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 07RID5me021209;
- Thu, 27 Aug 2020 18:13:05 GMT
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 07RID7i6020896;
+ Thu, 27 Aug 2020 18:13:07 GMT
 Received: from flaka.hsd1.ca.comcast.net (/10.159.136.159)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 27 Aug 2020 11:13:03 -0700
+ with ESMTP ; Thu, 27 Aug 2020 11:13:07 -0700
 From: elena.ufimtseva@oracle.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 10/20] multi-process: setup memory manager for remote device
-Date: Thu, 27 Aug 2020 11:12:21 -0700
-Message-Id: <20200827181231.22778-11-elena.ufimtseva@oracle.com>
+Subject: [PATCH v9 11/20] multi-process: introduce proxy object
+Date: Thu, 27 Aug 2020 11:12:22 -0700
+Message-Id: <20200827181231.22778-12-elena.ufimtseva@oracle.com>
 X-Mailer: git-send-email 2.25.GIT
 In-Reply-To: <20200827181231.22778-1-elena.ufimtseva@oracle.com>
 References: <20200827181231.22778-1-elena.ufimtseva@oracle.com>
@@ -62,19 +62,19 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9726
  signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=4
- adultscore=0
- phishscore=0 spamscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ phishscore=0
+ suspectscore=1 malwarescore=0 spamscore=0 mlxlogscore=999 mlxscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2006250000 definitions=main-2008270136
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9726
  signatures=668679
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
  adultscore=0 malwarescore=0
- phishscore=0 priorityscore=1501 clxscore=1015 suspectscore=4 spamscore=0
+ phishscore=0 priorityscore=1501 clxscore=1015 suspectscore=1 spamscore=0
  impostorscore=0 mlxscore=0 mlxlogscore=999 lowpriorityscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2008270136
+ definitions=main-2008270137
 Received-SPF: pass client-ip=156.151.31.86;
  envelope-from=elena.ufimtseva@oracle.com; helo=userp2130.oracle.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 13:54:41
@@ -109,62 +109,54 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jagannathan Raman <jag.raman@oracle.com>
+From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 
-SyncSysMemMsg message format is defined. It is used to send
-file descriptors of the RAM regions to remote device.
-RAM on the remote device is configured with a set of file descriptors.
-Old RAM regions are deleted and new regions, each with an fd, is
-added to the RAM.
+Defines a PCI Device proxy object as a child of TYPE_PCI_DEVICE.
 
+Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 ---
- MAINTAINERS                     |  2 ++
- hw/i386/meson.build             |  1 +
- hw/i386/remote-memory.c         | 58 +++++++++++++++++++++++++++++++++
- include/hw/i386/remote-memory.h | 19 +++++++++++
- include/io/mpqemu-link.h        | 13 ++++++++
- io/mpqemu-link.c                | 11 +++++++
- 6 files changed, 104 insertions(+)
- create mode 100644 hw/i386/remote-memory.c
- create mode 100644 include/hw/i386/remote-memory.h
+ MAINTAINERS            |  2 +
+ hw/pci/meson.build     |  1 +
+ hw/pci/proxy.c         | 84 ++++++++++++++++++++++++++++++++++++++++++
+ include/hw/pci/proxy.h | 34 +++++++++++++++++
+ 4 files changed, 121 insertions(+)
+ create mode 100644 hw/pci/proxy.c
+ create mode 100644 include/hw/pci/proxy.h
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index ac8eefaa3f..14b8c005fc 100644
+index 14b8c005fc..7b2096b300 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -3050,6 +3050,8 @@ F: include/io/mpqemu-link.h
- F: hw/i386/remote-msg.c
- F: include/hw/i386/remote-obj.h
+@@ -3052,6 +3052,8 @@ F: include/hw/i386/remote-obj.h
  F: hw/i386/remote-obj.c
-+F: include/hw/i386/remote-memory.h
-+F: hw/i386/remote-memory.c
+ F: include/hw/i386/remote-memory.h
+ F: hw/i386/remote-memory.c
++F: hw/pci/proxy.c
++F: include/hw/pci/proxy.h
  
  Build and test automation
  -------------------------
-diff --git a/hw/i386/meson.build b/hw/i386/meson.build
-index 7b35f35d86..36e151c80a 100644
---- a/hw/i386/meson.build
-+++ b/hw/i386/meson.build
-@@ -26,6 +26,7 @@ i386_ss.add(when: 'CONFIG_PC', if_true: files(
- i386_ss.add(when: 'CONFIG_MPQEMU', if_true: files('remote.c'))
- i386_ss.add(when: 'CONFIG_MPQEMU', if_true: files('remote-msg.c'))
- i386_ss.add(when: 'CONFIG_MPQEMU', if_true: files('remote-obj.c'))
-+i386_ss.add(when: 'CONFIG_MPQEMU', if_true: files('remote-memory.c'))
+diff --git a/hw/pci/meson.build b/hw/pci/meson.build
+index 5c4bbac817..0df30172b5 100644
+--- a/hw/pci/meson.build
++++ b/hw/pci/meson.build
+@@ -12,6 +12,7 @@ pci_ss.add(files(
+ # allow plugging PCIe devices into PCI buses, include them even if
+ # CONFIG_PCI_EXPRESS=n.
+ pci_ss.add(files('pcie.c', 'pcie_aer.c'))
++pci_ss.add(when: 'CONFIG_MPQEMU', if_true: files('proxy.c'))
+ softmmu_ss.add(when: 'CONFIG_PCI_EXPRESS', if_true: files('pcie_port.c', 'pcie_host.c'))
+ softmmu_ss.add_all(when: 'CONFIG_PCI', if_true: pci_ss)
  
- subdir('kvm')
- subdir('xen')
-diff --git a/hw/i386/remote-memory.c b/hw/i386/remote-memory.c
+diff --git a/hw/pci/proxy.c b/hw/pci/proxy.c
 new file mode 100644
-index 0000000000..27bc8a7674
+index 0000000000..1bff744bd6
 --- /dev/null
-+++ b/hw/i386/remote-memory.c
-@@ -0,0 +1,58 @@
++++ b/hw/pci/proxy.c
+@@ -0,0 +1,84 @@
 +/*
-+ * Memory manager for remote device
-+ *
 + * Copyright © 2018, 2020 Oracle and/or its affiliates.
 + *
 + * This work is licensed under the terms of the GNU GPL, version 2 or later.
@@ -175,60 +167,86 @@ index 0000000000..27bc8a7674
 +#include "qemu/osdep.h"
 +#include "qemu-common.h"
 +
-+#include "hw/i386/remote-memory.h"
-+#include "exec/address-spaces.h"
-+#include "exec/ram_addr.h"
++#include "hw/pci/proxy.h"
++#include "hw/pci/pci.h"
 +#include "qapi/error.h"
++#include "io/channel-util.h"
++#include "hw/qdev-properties.h"
++#include "monitor/monitor.h"
 +
-+void remote_sysmem_reconfig(MPQemuMsg *msg, Error **errp)
++static void proxy_set_socket(PCIProxyDev *pdev, int fd, Error **errp)
 +{
-+    SyncSysmemMsg *sysmem_info = &msg->data.sync_sysmem;
-+    MemoryRegion *sysmem, *subregion, *next;
-+    static unsigned int suffix;
-+    Error *local_err = NULL;
-+    char *name;
-+    int region;
-+
-+    sysmem = get_system_memory();
-+
-+    memory_region_transaction_begin();
-+
-+    QTAILQ_FOREACH_SAFE(subregion, &sysmem->subregions, subregions_link, next) {
-+        if (subregion->ram) {
-+            memory_region_del_subregion(sysmem, subregion);
-+            object_unparent(OBJECT(subregion));
-+        }
-+    }
-+
-+    for (region = 0; region < msg->num_fds; region++) {
-+        subregion = g_new(MemoryRegion, 1);
-+        name = g_strdup_printf("remote-mem-%u", suffix++);
-+        memory_region_init_ram_from_fd(subregion, NULL,
-+                                       name, sysmem_info->sizes[region],
-+                                       RAM_SHARED, msg->fds[region],
-+                                       sysmem_info->offsets[region],
-+                                       &local_err);
-+        g_free(name);
-+        if (local_err) {
-+            error_propagate(errp, local_err);
-+            break;
-+        }
-+
-+        memory_region_add_subregion(sysmem, sysmem_info->gpas[region],
-+                                    subregion);
-+    }
-+
-+    memory_region_transaction_commit();
++    pdev->ioc = qio_channel_new_fd(fd, errp);
 +}
-diff --git a/include/hw/i386/remote-memory.h b/include/hw/i386/remote-memory.h
++
++static Property proxy_properties[] = {
++    DEFINE_PROP_STRING("fd", PCIProxyDev, fd),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void pci_proxy_dev_realize(PCIDevice *device, Error **errp)
++{
++    PCIProxyDev *dev = PCI_PROXY_DEV(device);
++    int fd;
++
++    if (dev->fd) {
++        fd = monitor_fd_param(cur_mon, dev->fd, errp);
++        if (fd == -1) {
++            error_prepend(errp, "proxy: unable to parse fd: ");
++            return;
++        }
++        proxy_set_socket(dev, fd, errp);
++    } else {
++        error_setg(errp, "fd parameter not specified for %s",
++                   DEVICE(device)->id);
++        return;
++    }
++
++    qemu_mutex_init(&dev->io_mutex);
++    qio_channel_set_blocking(dev->ioc, true, NULL);
++}
++
++static void pci_proxy_dev_exit(PCIDevice *pdev)
++{
++    PCIProxyDev *dev = PCI_PROXY_DEV(pdev);
++
++    qio_channel_close(dev->ioc, NULL);
++}
++
++static void pci_proxy_dev_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
++
++    k->realize = pci_proxy_dev_realize;
++    k->exit = pci_proxy_dev_exit;
++    device_class_set_props(dc, proxy_properties);
++}
++
++static const TypeInfo pci_proxy_dev_type_info = {
++    .name          = TYPE_PCI_PROXY_DEV,
++    .parent        = TYPE_PCI_DEVICE,
++    .instance_size = sizeof(PCIProxyDev),
++    .class_init    = pci_proxy_dev_class_init,
++    .interfaces = (InterfaceInfo[]) {
++        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
++        { },
++    },
++};
++
++static void pci_proxy_dev_register_types(void)
++{
++    type_register_static(&pci_proxy_dev_type_info);
++}
++
++type_init(pci_proxy_dev_register_types)
+diff --git a/include/hw/pci/proxy.h b/include/hw/pci/proxy.h
 new file mode 100644
-index 0000000000..aab3e4d85d
+index 0000000000..4ae7becf34
 --- /dev/null
-+++ b/include/hw/i386/remote-memory.h
-@@ -0,0 +1,19 @@
++++ b/include/hw/pci/proxy.h
+@@ -0,0 +1,34 @@
 +/*
-+ * Memory manager for remote device
-+ *
 + * Copyright © 2018, 2020 Oracle and/or its affiliates.
 + *
 + * This work is licensed under the terms of the GNU GPL, version 2 or later.
@@ -236,86 +254,32 @@ index 0000000000..aab3e4d85d
 + *
 + */
 +
-+#ifndef REMOTE_MEMORY_H
-+#define REMOTE_MEMORY_H
++#ifndef PROXY_H
++#define PROXY_H
 +
-+#include "exec/hwaddr.h"
-+#include "io/mpqemu-link.h"
++#include "hw/pci/pci.h"
++#include "io/channel.h"
 +
-+void remote_sysmem_reconfig(MPQemuMsg *msg, Error **errp);
++#define TYPE_PCI_PROXY_DEV "pci-proxy-dev"
 +
-+#endif
-diff --git a/include/io/mpqemu-link.h b/include/io/mpqemu-link.h
-index e02b5ce663..b348c658d1 100644
---- a/include/io/mpqemu-link.h
-+++ b/include/io/mpqemu-link.h
-@@ -14,6 +14,7 @@
- #include "qom/object.h"
- #include "qemu/thread.h"
- #include "io/channel.h"
-+#include "exec/hwaddr.h"
- 
- #define REMOTE_MAX_FDS 8
- 
-@@ -24,12 +25,22 @@
-  *
-  * MPQemuCmd enum type to specify the command to be executed on the remote
-  * device.
-+ *
-+ * SYNC_SYSMEM      Shares QEMU's RAM with remote device's RAM
-  */
- typedef enum {
-     INIT = 0,
-+    SYNC_SYSMEM,
-+    RET_MSG,
-     MAX = INT_MAX,
- } MPQemuCmd;
- 
-+typedef struct {
-+    hwaddr gpas[REMOTE_MAX_FDS];
-+    uint64_t sizes[REMOTE_MAX_FDS];
-+    off_t offsets[REMOTE_MAX_FDS];
-+} SyncSysmemMsg;
++#define PCI_PROXY_DEV(obj) \
++            OBJECT_CHECK(PCIProxyDev, (obj), TYPE_PCI_PROXY_DEV)
 +
- /**
-  * MPQemuMsg:
-  * @cmd: The remote command
-@@ -40,12 +51,14 @@ typedef enum {
-  * MPQemuMsg Format of the message sent to the remote device from QEMU.
-  *
-  */
++typedef struct PCIProxyDev {
++    PCIDevice parent_dev;
++    char *fd;
 +
- typedef struct {
-     int cmd;
-     size_t size;
- 
-     union {
-         uint64_t u64;
-+        SyncSysmemMsg sync_sysmem;
-     } data;
- 
-     int fds[REMOTE_MAX_FDS];
-diff --git a/io/mpqemu-link.c b/io/mpqemu-link.c
-index 1dd776f81b..0d1eaaca7f 100644
---- a/io/mpqemu-link.c
-+++ b/io/mpqemu-link.c
-@@ -277,5 +277,16 @@ bool mpqemu_msg_valid(MPQemuMsg *msg)
-         }
-     }
- 
-+     /* Verify message specific fields. */
-+    switch (msg->cmd) {
-+    case SYNC_SYSMEM:
-+        if (msg->num_fds == 0 || msg->size != sizeof(SyncSysmemMsg)) {
-+            return false;
-+        }
-+        break;
-+    default:
-+        break;
-+    }
++    /*
++     * Mutex used to protect the QIOChannel fd from
++     * the concurrent access by the VCPUs since proxy
++     * blocks while awaiting for the replies from the
++     * process remote.
++     */
++    QemuMutex io_mutex;
++    QIOChannel *ioc;
++} PCIProxyDev;
 +
-     return true;
- }
++#endif /* PROXY_H */
 -- 
 2.25.GIT
 
