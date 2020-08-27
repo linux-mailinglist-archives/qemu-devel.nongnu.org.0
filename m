@@ -2,81 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CAA02541E3
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 11:21:33 +0200 (CEST)
-Received: from localhost ([::1]:50008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04EC525420B
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 11:24:19 +0200 (CEST)
+Received: from localhost ([::1]:56040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBE68-00029K-L7
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 05:21:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56512)
+	id 1kBE8o-0004kO-0i
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 05:24:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kBE5Q-0001ik-Fe
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 05:20:48 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43457
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kBE5O-00031G-5U
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 05:20:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598520045;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fVfqujiv4NoNGtDo53U2kioxibVaTcU+jJqIejDIvlg=;
- b=YSBvoR0ZAPAdA7PlqZShejr+sXXrkGoU64lKlhMnUZ9ttNDxKyam0aMlc5svsrZnn7zQvd
- ub+jMNhZ/jbOG7oo5vIktlSYrEr0iWQ/Ro5Kw0K9IJHGKNWHdJ0meXY0q55VptpdFV5wB6
- V4PP/QiWBAS97C+SIH9kzFM3pNZ7UhA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-399-MR_otvD5P9Gc67AAXakvvQ-1; Thu, 27 Aug 2020 05:20:43 -0400
-X-MC-Unique: MR_otvD5P9Gc67AAXakvvQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4FB4A189E614;
- Thu, 27 Aug 2020 09:20:42 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-56.ams2.redhat.com [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B848110013C1;
- Thu, 27 Aug 2020 09:20:37 +0000 (UTC)
-Subject: Re: [PATCH] pc-bios: s390x: Add a comment to the io and external new
- PSW setup
-To: Janosch Frank <frankja@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org
-References: <033b0db7-7b7d-6eb0-9018-bcc342f13509@de.ibm.com>
- <20200715140820.3401-1-frankja@linux.ibm.com>
- <3216babd-433b-4ec7-5333-43a75df2e331@de.ibm.com>
- <d493a0c2-c0df-4ed5-27af-34a9fc82927d@linux.ibm.com>
- <2e6134fb-3e34-4d3a-1bf8-1665ceffef38@de.ibm.com>
- <cd2c8bb2-413f-b6b9-ae16-e79e838b503d@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <741c77bc-1f0d-c613-9c74-832f797db5aa@redhat.com>
-Date: Thu, 27 Aug 2020 11:20:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
+ id 1kBE7N-0002i2-EW; Thu, 27 Aug 2020 05:22:49 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:4274 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
+ id 1kBE7I-0003FE-Ug; Thu, 27 Aug 2020 05:22:49 -0400
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id D58A74862EF1E1423524;
+ Thu, 27 Aug 2020 17:22:34 +0800 (CST)
+Received: from huawei.com (10.174.187.31) by DGGEMS402-HUB.china.huawei.com
+ (10.3.19.202) with Microsoft SMTP Server id 14.3.487.0; Thu, 27 Aug 2020
+ 17:22:25 +0800
+From: Yifei Jiang <jiangyifei@huawei.com>
+To: <qemu-devel@nongnu.org>, <qemu-riscv@nongnu.org>
+Subject: [PATCH RFC v3 00/14] Add riscv kvm accel support
+Date: Thu, 27 Aug 2020 17:21:23 +0800
+Message-ID: <20200827092137.479-1-jiangyifei@huawei.com>
+X-Mailer: git-send-email 2.26.2.windows.1
 MIME-Version: 1.0
-In-Reply-To: <cd2c8bb2-413f-b6b9-ae16-e79e838b503d@linux.ibm.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 02:56:52
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -52
-X-Spam_score: -5.3
-X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.239, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [10.174.187.31]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.191;
+ envelope-from=jiangyifei@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 02:09:23
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,53 +56,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, david@redhat.com
+Cc: victor.zhangxiaofeng@huawei.com, sagark@eecs.berkeley.edu,
+ kvm@vger.kernel.org, libvir-list@redhat.com, kbastian@mail.uni-paderborn.de,
+ anup.patel@wdc.com, yinyipeng1@huawei.com, Alistair.Francis@wdc.com,
+ Yifei Jiang <jiangyifei@huawei.com>, kvm-riscv@lists.infradead.org,
+ palmer@dabbelt.com, dengkai1@huawei.com, wu.wubin@huawei.com,
+ zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/07/2020 10.05, Janosch Frank wrote:
-> On 7/22/20 9:39 AM, Christian Borntraeger wrote:
->>
->>
->> On 22.07.20 09:24, Janosch Frank wrote:
->>> On 7/22/20 8:43 AM, Christian Borntraeger wrote:
->>>>
->>>>
->>>> On 15.07.20 16:08, Janosch Frank wrote:
->>>>> Normally they don't need to be set up before waiting for an interrupt
->>>>> but are set up on boot. The BIOS however might overwrite the lowcore
->>>>> (and hence the PSWs) when loading a blob into memory and therefore
->>>>> needs to set up those PSWs more often.
->>>>
->>>> Now when I read the new comment this actually inidicates a bug. 
->>>> When do we restore the original content? If the loaded program
->>>> does have interrupt handlers in the original image and relies on that
->>>> then we are broken, no?
->>>
->>> I haven't seen references to a save/restore functionality for those
->>> PSWs. And I also think it's not that easy to do because we have multiple
->>> ways of loading data and if we want to print when loading we might end
->>> up overwriting and then saving the written value for a later restore.
->>>
->>> I need to have a closer look at how virtio works, but wouldn't we have a
->>> chicken - egg problem with IO interrupts for IO that writes the prefix?
->>>
->>> The BIOS often has "interesting" solutions to problems.
->>> If you have a quick fix, be my guest and send it. If not I'd put it on
->>> my todo list or let Stefan make it a proper dev item.
->>
->> Maybe a global fixup table in BIOS memory that restores all the memory that
->> we messed with when we hand over control? Can you at least change the comment
->> here to add a fixme?
-> 
-> Sure
+This series adds both riscv32 and riscv64 kvm support, and implements
+migration based on riscv. It is based on temporarily unaccepted kvm:
+https://github.com/kvm-riscv/linux
 
-Hi Janosch!
+Compared to RFC v2, the migration is supported in this series. The new
+added migration feature also requires the following patches:
+[1]
+[PATCH RFC 0/2] Add log dirty support
+https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg2284945.html
 
-Did you ever send a new version of this patch with the FIXME added? I
-can't find it right now... Or shall I add a FIXME when picking this up?
-(If so, could you please suggest a text?)
+[2]
+[PATCH] target/riscv: raise exception to HS-mode at get_physical_address
+https://patchew.org/QEMU/20200824084158.1769-1-jiangyifei@huawei.com/
 
- Thomas
+Several steps to use this:
+1. Build emulation
+$ ./configure --target-list=riscv64-softmmu
+$ make -j$(nproc)
+
+2. Build kernel
+https://github.com/kvm-riscv/linux
+
+3. Build QEMU VM
+I cross built in riscv toolchain.
+$ PKG_CONFIG_LIBDIR=<toolchain pkgconfig path>
+$ export PKG_CONFIG_SYSROOT_DIR=<toolchain sysroot path>
+$ ./configure --target-list=riscv64-softmmu --enable-kvm \
+--cross-prefix=riscv64-linux-gnu- --disable-libiscsi --disable-glusterfs \
+--disable-libusb --disable-usb-redir --audio-drv-list= --disable-opengl \
+--disable-libxml2
+$ make -j$(nproc)
+
+4. Start emulation
+$ ./qemu-system-riscv64 -M virt -m 4096M -cpu rv64,x-h=true -nographic \
+        -name guest=riscv-hyp,debug-threads=on \
+        -smp 4 \
+        -bios ./fw_jump.bin \
+        -kernel ./Image \
+        -drive file=./hyp.img,format=raw,id=hd0 \
+        -device virtio-blk-device,drive=hd0 \
+        -append "root=/dev/vda rw console=ttyS0 earlycon=sbi"
+
+5. Start kvm-acceled QEMU VM in emulation
+$ ./qemu-system-riscv64 -M virt,accel=kvm -m 1024M -cpu host -nographic \
+        -name guest=riscv-guset \
+        -smp 2 \
+        -bios none \
+        -kernel ./Image \
+        -drive file=./guest.img,format=raw,id=hd0 \
+        -device virtio-blk-device,drive=hd0 \
+        -append "root=/dev/vda rw console=ttyS0 earlycon=sbi"
+
+This following link describes the details about live migration steps:
+https://gitee.com/openeuler/qemu/wikis/Live%20migration?sort_id=2767831
+
+Changes since RFC v2
+1. Fix checkpatch error at target/riscv/sbi_ecall_interface.h.
+2. Add riscv migration support.
+
+Changes since RFC v1
+1. Add separate SBI ecall interface header.
+2. Add riscv32 kvm accel support.
+
+Yifei Jiang (14):
+  linux-header: Update linux/kvm.h
+  target/riscv: Add target/riscv/kvm.c to place the public kvm interface
+  target/riscv: Implement function kvm_arch_init_vcpu
+  target/riscv: Implement kvm_arch_get_registers
+  arget/riscv: Implement kvm_arch_put_registers
+  target/riscv: Support start kernel directly by KVM
+  hw/riscv: PLIC update external interrupt by KVM when kvm enabled
+  target/riscv: Handler KVM_EXIT_RISCV_SBI exit
+  target/riscv: Add host cpu type
+  target/riscv: Add sifive_plic vmstate
+  target/riscv: Support riscv cpu vmstate
+  target/riscv: Add kvm_riscv_get/put_regs_timer
+  target/riscv: Implement virtual time adjusting with vm state changing
+  target/riscv: Support virtual time context synchronization
+
+ configure                          |   1 +
+ hw/riscv/sifive_plic.c             |  55 ++-
+ hw/riscv/virt.c                    |   8 +
+ include/hw/riscv/sifive_plic.h     |   1 +
+ linux-headers/linux/kvm.h          |   8 +
+ target/riscv/cpu.c                 |  41 +-
+ target/riscv/cpu.h                 |  10 +
+ target/riscv/kvm.c                 | 599 +++++++++++++++++++++++++++++
+ target/riscv/kvm_riscv.h           |  25 ++
+ target/riscv/meson.build           |   1 +
+ target/riscv/sbi_ecall_interface.h |  72 ++++
+ 11 files changed, 809 insertions(+), 12 deletions(-)
+ create mode 100644 target/riscv/kvm.c
+ create mode 100644 target/riscv/kvm_riscv.h
+ create mode 100644 target/riscv/sbi_ecall_interface.h
+
+-- 
+2.19.1
+
 
 
