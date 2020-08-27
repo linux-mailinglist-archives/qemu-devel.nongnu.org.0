@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA454254B99
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 19:08:43 +0200 (CEST)
-Received: from localhost ([::1]:38202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABC57254B95
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 19:06:58 +0200 (CEST)
+Received: from localhost ([::1]:32870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBLOE-0002bx-Rh
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 13:08:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50864)
+	id 1kBLMX-0000N0-PM
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 13:06:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kBLGD-000695-U9
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 13:00:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32361)
+ id 1kBLGC-00066X-HD
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 13:00:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49263)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kBLGA-0005Qh-TD
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 13:00:25 -0400
+ id 1kBLGA-0005QD-E3
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 13:00:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598547622;
+ s=mimecast20190719; t=1598547621;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AimggI63mz5uiW4qcXKMmenPxfcEt+6Z3zILbLl4Zv0=;
- b=Pc0Vh8RPaKxrqpCc/4/BDxjOLVCLVMeNKV2D4tsL1PkuzN2gorqZLJAoqPsT9n9WoKRYCx
- fBDJbNvqQB4042BJptdPud3mK/NhNlJsMO2XXRUiE2ys16SRFkpKjCP+fKZOvhZlZuj4yJ
- zPxpTs8hrUHiqPQ98M0fncDd0UTxxzY=
+ bh=Rdhf1SEccPCnHKjVmetN+WeOeWXLm8RfMWFO534rBlM=;
+ b=a/erwrqM6nkXnG9xGuHbzJCPjyjrces/wJcEZITxKLpQ+GxEzy9ykmbmc+JoIvI69j2OsC
+ yVDopU2CNQRnR0N0CDPLYpWmRFzWg+Ze7IPg1ueY0Ou+eZyh6KifcG2cwj3dWxzHCdKM1U
+ 8sVBA0+ls7sOWkb1wjsdk9q/HLhqeFY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-468-tr3jK5aMMYSEOhKEF5eLkg-1; Thu, 27 Aug 2020 13:00:18 -0400
-X-MC-Unique: tr3jK5aMMYSEOhKEF5eLkg-1
+ us-mta-391-pnRVg9uVNIGd2IxuZCGUfg-1; Thu, 27 Aug 2020 13:00:19 -0400
+X-MC-Unique: pnRVg9uVNIGd2IxuZCGUfg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8B68189E618;
- Thu, 27 Aug 2020 17:00:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A12E802B6D;
+ Thu, 27 Aug 2020 17:00:18 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5185150B3F;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C3BDC50B3F;
  Thu, 27 Aug 2020 17:00:17 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/17] meson: Fix meson build with --enable-libdaxctl
-Date: Thu, 27 Aug 2020 12:59:44 -0400
-Message-Id: <20200827165956.12925-6-pbonzini@redhat.com>
+Subject: [PULL 06/17] meson: Fix chardev-baum.so name
+Date: Thu, 27 Aug 2020 12:59:45 -0400
+Message-Id: <20200827165956.12925-7-pbonzini@redhat.com>
 In-Reply-To: <20200827165956.12925-1-pbonzini@redhat.com>
 References: <20200827165956.12925-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,9 +58,9 @@ X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 02:54:02
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 02:10:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -88,53 +88,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bruce Rogers <brogers@suse.com>
 
-The daxctl library needs to be linked against when daxctl is asked for
-in configure.
+Somehow in the conversion to meson, the module named chardev-baum got
+renamed to chardev-brlapi. Change it back.
 
 Signed-off-by: Bruce Rogers <brogers@suse.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure   | 1 +
- meson.build | 6 +++++-
- 2 files changed, 6 insertions(+), 1 deletion(-)
+ chardev/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/configure b/configure
-index b1e11397a8..a3f95f2b22 100755
---- a/configure
-+++ b/configure
-@@ -7467,6 +7467,7 @@ fi
- 
- if test "$libdaxctl" = "yes" ; then
-   echo "CONFIG_LIBDAXCTL=y" >> $config_host_mak
-+  echo "LIBDAXCTL_LIBS=$libdaxctl_libs" >> $config_host_mak
- fi
- 
- if test "$bochs" = "yes" ; then
-diff --git a/meson.build b/meson.build
-index 38d0abc0ea..b44901dfe1 100644
---- a/meson.build
-+++ b/meson.build
-@@ -380,6 +380,10 @@ if 'CONFIG_LIBPMEM' in config_host
-   libpmem = declare_dependency(compile_args: config_host['LIBPMEM_CFLAGS'].split(),
-                                link_args: config_host['LIBPMEM_LIBS'].split())
+diff --git a/chardev/meson.build b/chardev/meson.build
+index a46a6237be..7726837e34 100644
+--- a/chardev/meson.build
++++ b/chardev/meson.build
+@@ -39,7 +39,7 @@ chardev_modules = {}
+ if config_host.has_key('CONFIG_BRLAPI') and sdl.found()
+   module_ss = ss.source_set()
+   module_ss.add(when: [sdl, brlapi], if_true: files('baum.c'))
+-  chardev_modules += { 'brlapi': module_ss }
++  chardev_modules += { 'baum': module_ss }
  endif
-+libdaxctl = not_found
-+if 'CONFIG_LIBDAXCTL' in config_host
-+  libdaxctl = declare_dependency(link_args: config_host['LIBDAXCTL_LIBS'].split())
-+endif
  
- # Create config-host.h
- 
-@@ -787,7 +791,7 @@ common_ss.add(files('cpus-common.c'))
- 
- subdir('softmmu')
- 
--specific_ss.add(files('disas.c', 'exec.c', 'gdbstub.c'), capstone, libpmem)
-+specific_ss.add(files('disas.c', 'exec.c', 'gdbstub.c'), capstone, libpmem, libdaxctl)
- specific_ss.add(files('exec-vary.c'))
- specific_ss.add(when: 'CONFIG_TCG', if_true: files(
-   'fpu/softfloat.c',
+ modules += { 'chardev': chardev_modules }
 -- 
 2.26.2
 
