@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9907254F5B
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 21:51:47 +0200 (CEST)
-Received: from localhost ([::1]:53346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 358C4254ED1
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 21:39:25 +0200 (CEST)
+Received: from localhost ([::1]:60414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBNw2-0001jv-TV
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 15:51:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34428)
+	id 1kBNk4-0006uF-4k
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 15:39:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kBNTw-0007gT-MF
+ id 1kBNTw-0007gM-Lb
  for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:22:45 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:57070
- helo=us-smtp-delivery-1.mimecast.com)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38669)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kBNTr-0000V2-6j
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:22:44 -0400
+ id 1kBNTr-0000VL-PG
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:22:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598556157;
+ s=mimecast20190719; t=1598556159;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=P847TqoNJFzJB2K8e6REplRN3E3O2/fiCQfD92kksM8=;
- b=jDxas//h14yYIOnhZu+nLVrKqa2M4liE+ao3+tLo4vltWUhYHoz4WFp3YkNw/fAJq1iUiD
- fdV660fhWUoJc1jVy3xXJda0GMwZ+h1v4y0wPNf81IjR6BlaXi8Pru7jo1+3H/gHa1R96O
- GAgOE/E/zHMQAQNOfZXGWZIEjuZrD9Y=
+ bh=8V+AdwqlbYUH6OguZbyOOfR6ie5miodV0Nz/vrMwUcU=;
+ b=e1RlwUWnAFGJWRfT/PAEs9kRWINCWzORKL1H+d1RsbIQ3+caN7ohAwGsj/MhHc5K5mlyqo
+ gyrNtg0S4LI/UWlugOl+6n5Ldgw6m/u9f5RFLXizi+Fbgu9ZPVkopKuLjdt0v+SyWa36dG
+ y5yh05UgqI3dY33MKRky8675czmhe5w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-390-ISvVBzAMMo-NrwHLB6XuSA-1; Thu, 27 Aug 2020 15:22:35 -0400
-X-MC-Unique: ISvVBzAMMo-NrwHLB6XuSA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-569-jFFrD_qPPNih1k3pf96kTg-1; Thu, 27 Aug 2020 15:22:36 -0400
+X-MC-Unique: jFFrD_qPPNih1k3pf96kTg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04F81189E616;
- Thu, 27 Aug 2020 19:22:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E152D1074672;
+ Thu, 27 Aug 2020 19:22:35 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B7BAA19D61;
- Thu, 27 Aug 2020 19:22:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 770F05D9F1;
+ Thu, 27 Aug 2020 19:22:35 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 33/53] vmbus: Move QOM macros to vmbus.h
-Date: Thu, 27 Aug 2020 15:21:02 -0400
-Message-Id: <20200827192122.658035-34-ehabkost@redhat.com>
+Subject: [PULL 34/53] virtio-serial-bus: Move QOM macros to header
+Date: Thu, 27 Aug 2020 15:21:03 -0400
+Message-Id: <20200827192122.658035-35-ehabkost@redhat.com>
 In-Reply-To: <20200827192122.658035-1-ehabkost@redhat.com>
 References: <20200827192122.658035-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 07:16:16
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 02:10:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,68 +88,50 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move all declarations related to TYPE_VMBUS to the same place in
-vmbus.h.
-
 This will make future conversion to OBJECT_DECLARE* easier.
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 Tested-By: Roman Bolshakov <r.bolshakov@yadro.com>
-Message-Id: <20200825192110.3528606-35-ehabkost@redhat.com>
+Message-Id: <20200825192110.3528606-36-ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/hw/hyperv/vmbus-bridge.h | 3 +--
- include/hw/hyperv/vmbus.h        | 4 ++++
- hw/hyperv/vmbus.c                | 3 ---
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ include/hw/virtio/virtio-serial.h | 5 +++++
+ hw/char/virtio-serial-bus.c       | 4 ----
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/hyperv/vmbus-bridge.h b/include/hw/hyperv/vmbus-bridge.h
-index 33f93de64d..fe90bda01b 100644
---- a/include/hw/hyperv/vmbus-bridge.h
-+++ b/include/hw/hyperv/vmbus-bridge.h
-@@ -11,11 +11,10 @@
- #define HW_HYPERV_VMBUS_BRIDGE_H
+diff --git a/include/hw/virtio/virtio-serial.h b/include/hw/virtio/virtio-serial.h
+index ed3e916b68..448615a6b3 100644
+--- a/include/hw/virtio/virtio-serial.h
++++ b/include/hw/virtio/virtio-serial.h
+@@ -33,7 +33,12 @@ struct virtio_serial_conf {
+      OBJECT_GET_CLASS(VirtIOSerialPortClass, (obj), TYPE_VIRTIO_SERIAL_PORT)
  
- #include "hw/sysbus.h"
-+#include "hw/hyperv/vmbus.h"
- 
- #define TYPE_VMBUS_BRIDGE "vmbus-bridge"
- 
--typedef struct VMBus VMBus;
--
- typedef struct VMBusBridge {
-     SysBusDevice parent_obj;
- 
-diff --git a/include/hw/hyperv/vmbus.h b/include/hw/hyperv/vmbus.h
-index 40e8417eec..cd98ec24e7 100644
---- a/include/hw/hyperv/vmbus.h
-+++ b/include/hw/hyperv/vmbus.h
-@@ -26,6 +26,10 @@
- #define VMBUS_DEVICE_GET_CLASS(obj) \
-     OBJECT_GET_CLASS(VMBusDeviceClass, (obj), TYPE_VMBUS_DEVICE)
- 
-+#define TYPE_VMBUS "vmbus"
-+typedef struct VMBus VMBus;
-+#define VMBUS(obj) OBJECT_CHECK(VMBus, (obj), TYPE_VMBUS)
+ typedef struct VirtIOSerial VirtIOSerial;
 +
- /*
-  * Object wrapping a GPADL -- GPA Descriptor List -- an array of guest physical
-  * pages, to be used for various buffers shared between the host and the guest.
-diff --git a/hw/hyperv/vmbus.c b/hw/hyperv/vmbus.c
-index 34392e892a..75af6b83dd 100644
---- a/hw/hyperv/vmbus.c
-+++ b/hw/hyperv/vmbus.c
-@@ -20,9 +20,6 @@
- #include "cpu.h"
- #include "trace.h"
++#define TYPE_VIRTIO_SERIAL_BUS "virtio-serial-bus"
+ typedef struct VirtIOSerialBus VirtIOSerialBus;
++#define VIRTIO_SERIAL_BUS(obj) \
++      OBJECT_CHECK(VirtIOSerialBus, (obj), TYPE_VIRTIO_SERIAL_BUS)
++
+ typedef struct VirtIOSerialPort VirtIOSerialPort;
  
--#define TYPE_VMBUS "vmbus"
--#define VMBUS(obj) OBJECT_CHECK(VMBus, (obj), TYPE_VMBUS)
+ typedef struct VirtIOSerialPortClass {
+diff --git a/hw/char/virtio-serial-bus.c b/hw/char/virtio-serial-bus.c
+index f9a4428bd6..cf08ef9728 100644
+--- a/hw/char/virtio-serial-bus.c
++++ b/hw/char/virtio-serial-bus.c
+@@ -843,10 +843,6 @@ static Property virtser_props[] = {
+     DEFINE_PROP_END_OF_LIST()
+ };
+ 
+-#define TYPE_VIRTIO_SERIAL_BUS "virtio-serial-bus"
+-#define VIRTIO_SERIAL_BUS(obj) \
+-      OBJECT_CHECK(VirtIOSerialBus, (obj), TYPE_VIRTIO_SERIAL_BUS)
 -
- enum {
-     VMGPADL_INIT,
-     VMGPADL_ALIVE,
+ static void virtser_bus_class_init(ObjectClass *klass, void *data)
+ {
+     BusClass *k = BUS_CLASS(klass);
 -- 
 2.26.2
 
