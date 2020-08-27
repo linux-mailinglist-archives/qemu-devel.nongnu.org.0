@@ -2,110 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71C912549EF
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 17:54:27 +0200 (CEST)
-Received: from localhost ([::1]:41986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C2BA254A12
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 17:58:34 +0200 (CEST)
+Received: from localhost ([::1]:46346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBKEM-0002Uk-0F
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 11:54:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60686)
+	id 1kBKIL-0004uw-K5
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 11:58:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
- id 1kBKDI-0001qz-VG
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 11:53:21 -0400
-Received: from mail-eopbgr690075.outbound.protection.outlook.com
- ([40.107.69.75]:44934 helo=NAM04-CO1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kBKHP-0004QK-Gf
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 11:57:35 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:39398
+ helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
- id 1kBKDG-0002GU-Nb
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 11:53:20 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=G4L7Dpz+wCu6jnDwkYgrxjhcL2XBdsn5v6BXnO78vJzB0UXYrRq9tASKEpMAwC72vzV5geF43SJ3TsyUdRar4kS3j2CErY2azVzFjghRPc7jhjyGq/CdbMG55mIXRyng1+X69uQHonfkAAKyf0sMfLyfdqjKNQ45bxMv9aiIFZrYuBFFGIuKvoKsJmYaxbjbJahChz7xlvrB92VES3+kWj+CAX9507DoJHB37Ejb2QaGbBRe4j0T1moCNDkzCUr2uyH3JGBD3Eqt8hIiBIuN0mCL52cyDL5a0Y1mGv4LExEH2Q0DniaK5+5ugGGlLKAw/iRZT2zMbHf0mYok+yvXSQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TmX5UKo4Sh5d3rsLlCaDrFwq6J5U68wIG+U3QNRBYZU=;
- b=jWUZsoZKOwmBiL+tJnqxr5AK+dEKC1d5mgcDBPMZNoITnEYQd9xLC/BXo/ntC9F0f7nBmygmUdc0lXJkVPzTkXBguNaDFhiubJA704O0xUtdBIkbarRwnFAuJX5rmPiUL4IVE49LIs0LFXvpYpHReBa4KvJwbWBpb5C1Eel/s0wm/IndEH03gxyxjj/yS/Eqzyr/LOD6sGrKweuyEFWw1hV5TYh17jEWOGtRy4KsmrMaxdzul49exWPQ2pvJjkL869LmnSck82Hl6adwpPCidUOzv5VFEYMRw7tXhpvXqNOt5ZSgDW/X/PFRlB4MwIdRUp3dpFpJoU+P1BejzsKVwQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TmX5UKo4Sh5d3rsLlCaDrFwq6J5U68wIG+U3QNRBYZU=;
- b=GROkznrgYWwfCDvgpuZRA3mrFC24mAWGejogCbv5GngpumrING2x9Ex/YxfSKrS2uH74SBW+c7Yod1O0XnLs3hSmW0Wpvuy3yA+iWSMF92TvBKY7tSOEQMcphWuDpwpHjuq68ZfgFsGbdNWZVcDJX+qV0fphldbm2MmpD1k02t4=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
-Received: from DM5PR12MB1355.namprd12.prod.outlook.com (2603:10b6:3:6e::7) by
- DM6PR12MB3082.namprd12.prod.outlook.com (2603:10b6:5:11b::12) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3326.19; Thu, 27 Aug 2020 15:53:15 +0000
-Received: from DM5PR12MB1355.namprd12.prod.outlook.com
- ([fe80::299a:8ed2:23fc:6346]) by DM5PR12MB1355.namprd12.prod.outlook.com
- ([fe80::299a:8ed2:23fc:6346%3]) with mapi id 15.20.3305.032; Thu, 27 Aug 2020
- 15:53:15 +0000
-Subject: Re: [PATCH 0/4] SEV-ES guest support
-From: Tom Lendacky <thomas.lendacky@amd.com>
-To: qemu-devel@nongnu.org, kvm@vger.kernel.org
-References: <cover.1598382343.git.thomas.lendacky@amd.com>
-Message-ID: <4a529793-5448-458e-d9a8-31a8aa39f67c@amd.com>
-Date: Thu, 27 Aug 2020 10:53:13 -0500
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kBKHN-0003DD-2V
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 11:57:35 -0400
+Received: from host217-42-19-185.range217-42.btcentralplus.com
+ ([217.42.19.185] helo=[192.168.1.65])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kBKHi-0000iU-Nk; Thu, 27 Aug 2020 16:57:59 +0100
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20200826190245.22810-1-pbonzini@redhat.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
+ mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
+ 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
+ E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
+ PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
+ PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
+ AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
+ OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
+ NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
+ mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
+ z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
+ T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
+ DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
+ y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
+ 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
+ 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
+ YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
+ Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
+ BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
+ opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
+ NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
+ Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
+ KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
+ imgcU9TTGC5qd9g=
+Message-ID: <f04c27c7-84b1-c43c-6919-53fffcd5c360@ilande.co.uk>
+Date: Thu, 27 Aug 2020 16:57:16 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <cover.1598382343.git.thomas.lendacky@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN4PR0501CA0128.namprd05.prod.outlook.com
- (2603:10b6:803:42::45) To DM5PR12MB1355.namprd12.prod.outlook.com
- (2603:10b6:3:6e::7)
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from 255.255.255.255 (255.255.255.255) by
- SN4PR0501CA0128.namprd05.prod.outlook.com (2603:10b6:803:42::45) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.10 via Frontend
- Transport; Thu, 27 Aug 2020 15:53:14 +0000
-X-Originating-IP: [67.79.209.213]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: d9366339-f740-49f6-0102-08d84aa14ef6
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3082:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB3082BA0F1F57149437EB15E0EC550@DM6PR12MB3082.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4HR5gJNRBl8EEAckCBu1CGHGVE8JaY0nv4+EK2GYL9TNQpg9pcDdwZxFLuGvAgm9Rfu+4dV1sA/QbkljiOmM7s2Cx7RXDuGcsHqTyyD6EdWnzH1baWf6UZOOBHAQ9vCzcWcam3ZqW3KhkKdZOPS5SFQRyAdPhaM/IN+pYwGDHJuADKz4ZNwmNd9gptpe4zk5njSYmKrZQqeUeEMCknp7Db2+zFsqSA/shGd1iHrldc+NMv1h9b7SDA9fBXCbLEnUbf8iBOBTNX7ADRTmN7BrjtnNfu5zPXRqZb/uZepPUa+gduhQ/DKL7SuBydjZFE8KktdyeEhkRjswXDmc89oky0h2ijIdrTgYFzUYMkV/mhu9vLzrax1Fm5ub1Uq6b7YvqMfqs1XHupfGKMLGP/KsEccKbAOW0yCMS+mUyb6ZmXrEPCqrFhnj9a6x4uEKQVddwlKry4ceI+yWPbjG1WsghA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR12MB1355.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(376002)(39860400002)(136003)(396003)(366004)(2906002)(5660300002)(6486002)(54906003)(36756003)(966005)(478600001)(31686004)(53546011)(186003)(83380400001)(52116002)(26005)(4326008)(8936002)(2616005)(8676002)(956004)(66556008)(7416002)(316002)(86362001)(16576012)(66946007)(31696002)(66476007)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: OTfGjScodq1nlHOiQ2ESv0QY0fcl+sS1OIrSRIkdxLKrzm5N3Ec804v950hiMmP+4w2VThstEpESClqFj3YtsulzE293xbog6cECUe7Lkpuxf18JZX7vwlRvyWnHfTbFnq4z3J3YWtGWtRh+Bdh9DuHkqkYoA4D03/QJcPW5G1h3cATdSqKoEh6hF12cK2vfiSBwL5AtOEs5YXNH50fnJXA/RAInisKmlVT4zHEiPPuhkp44eU0u/xW3yuvxBc9GQn/Im5QDIc/IeMsu1EGE0B91BHcFREizJ6PpBAuxmtNz1BONQtn7/7dmNRL49xdo2Uf2X74HUPw0a+ybK2QOXtp26C84BDRF5Mm7BYlqpEGMiJhUpnGV0hcyefwpqK9pVsVvXcQOxrb7wHpo51hYij+hV5e57MPyvktTxlTmUe+7g5G4FwngwFBNA29BiRIk5W5SJ1EVQZ3ZATprcc6gz59N76dZWw/lur4yB1zM2c9wWZAASgtw/exMINfg9zqE6+5jMRB7eWxeOfqynF3RLaFKNZiSbI8xEyJlrPZXuLI7CwqBlyawh7GHqRVlv4V+oB4aMm6ip2MLl4RfDCxGfrgo1gzdLtYzHCw1ddGYLmHNHbu7PT32eWH57d0VWP98utfADxE2gEQMNbmZ4vrm9Q==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d9366339-f740-49f6-0102-08d84aa14ef6
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1355.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2020 15:53:15.0850 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LWgjoN21iZTkyW5ibepV1eIGphzwFzq8Pb793CUYox6KQej2Gkda94Ukcm5iRb2DCtMLiXt/kMaq6QRk4uXEnw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3082
-Received-SPF: none client-ip=40.107.69.75;
- envelope-from=Thomas.Lendacky@amd.com;
- helo=NAM04-CO1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 11:53:16
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FORGED_SPF_HELO=1, MSGID_FROM_MTA_HEADER=0.001,
- NICE_REPLY_A=-1.782, RCVD_ILLEGAL_IP=1.3, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20200826190245.22810-1-pbonzini@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 217.42.19.185
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v2] configure: add --ninja option
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.782,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -118,105 +89,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Jiri Slaby <jslaby@suse.cz>,
- Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/25/20 2:05 PM, Tom Lendacky wrote:
-> From: Tom Lendacky <thomas.lendacky@amd.com>
-> 
-> This patch series provides support for launching an SEV-ES guest.
+On 26/08/2020 20:02, Paolo Bonzini wrote:
 
-I've made the changes associated with the checkpatch script output. I'll 
-wait a few more days for other feedback before submitting a v2.
-
-Sorry about the miss in regards to running checkpatch.
-
-Thanks,
-Tom
-
+> On Windows it is not possible to invoke a Python script as $NINJA.
+> If ninja is present use it directly, while if it is not we can
+> keep using ninjatool.
 > 
-> Secure Encrypted Virtualization - Encrypted State (SEV-ES) expands on the
-> SEV support to protect the guest register state from the hypervisor. See
-> "AMD64 Architecture Programmer's Manual Volume 2: System Programming",
-> section "15.35 Encrypted State (SEV-ES)" [1].
-> 
-> In order to allow a hypervisor to perform functions on behalf of a guest,
-> there is architectural support for notifying a guest's operating system
-> when certain types of VMEXITs are about to occur. This allows the guest to
-> selectively share information with the hypervisor to satisfy the requested
-> function. The notification is performed using a new exception, the VMM
-> Communication exception (#VC). The information is shared through the
-> Guest-Hypervisor Communication Block (GHCB) using the VMGEXIT instruction.
-> The GHCB format and the protocol for using it is documented in "SEV-ES
-> Guest-Hypervisor Communication Block Standardization" [2].
-> 
-> The main areas of the Qemu code that are updated to support SEV-ES are
-> around the SEV guest launch process and AP booting in order to support
-> booting multiple vCPUs.
-> 
-> There are no new command line switches required. Instead, the desire for
-> SEV-ES is presented using the SEV policy object. Bit 2 of the SEV policy
-> object indicates that SEV-ES is required.
-> 
-> The SEV launch process is updated in two ways. The first is that a the
-> KVM_SEV_ES_INIT ioctl is used to initialize the guest instead of the
-> standard KVM_SEV_INIT ioctl. The second is that before the SEV launch
-> measurement is calculated, the LAUNCH_UPDATE_VMSA SEV API is invoked for
-> each vCPU that Qemu has created. Once the LAUNCH_UPDATE_VMSA API has been
-> invoked, no direct changes to the guest register state can be made.
-> 
-> AP booting poses some interesting challenges. The INIT-SIPI-SIPI sequence
-> is typically used to boot the APs. However, the hypervisor is not allowed
-> to update the guest registers. For the APs, the reset vector must be known
-> in advance. An OVMF method to provide a known reset vector address exists
-> by providing an SEV information block, identified by UUID, near the end of
-> the firmware [3]. OVMF will program the jump to the actual reset vector in
-> this area of memory. Since the memory location is known in advance, an AP
-> can be created with the known reset vector address as its starting CS:IP.
-> The GHCB document [2] talks about how SMP booting under SEV-ES is
-> performed.
-> 
-> [1] https://www.amd.com/system/files/TechDocs/24593.pdf
-> [2] https://developer.amd.com/wp-content/resources/56421.pdf
-> [3] 30937f2f98c4 ("OvmfPkg: Use the SEV-ES work area for the SEV-ES AP reset vector")
->      https://github.com/tianocore/edk2/commit/30937f2f98c42496f2f143fe8374ae7f7e684847
-> 
+> Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
+>  configure | 16 +++++++++++++++-
+>  1 file changed, 15 insertions(+), 1 deletion(-)
 > 
-> These patches are based on commit:
-> d0ed6a69d3 ("Update version for v5.1.0 release")
-> 
-> (I tried basing on the latest Qemu commit, but I was having build issues
-> that level)
-> 
-> A version of the tree can be found at:
-> https://github.com/AMDESE/qemu/tree/sev-es-v9
-> 
-> Tom Lendacky (4):
->    sev/i386: Add initial support for SEV-ES
->    sev/i386: Allow AP booting under SEV-ES
->    sev/i386: Don't allow a system reset under an SEV-ES guest
->    sev/i386: Enable an SEV-ES guest based on SEV policy
-> 
->   accel/kvm/kvm-all.c       | 68 ++++++++++++++++++++++++++++
->   accel/stubs/kvm-stub.c    |  5 +++
->   hw/i386/pc_sysfw.c        | 10 ++++-
->   include/sysemu/cpus.h     |  2 +
->   include/sysemu/hw_accel.h |  4 ++
->   include/sysemu/kvm.h      | 18 ++++++++
->   include/sysemu/sev.h      |  2 +
->   softmmu/cpus.c            |  5 +++
->   softmmu/vl.c              |  5 ++-
->   target/i386/cpu.c         |  1 +
->   target/i386/kvm.c         |  2 +
->   target/i386/sev-stub.c    |  5 +++
->   target/i386/sev.c         | 95 ++++++++++++++++++++++++++++++++++++++-
->   target/i386/sev_i386.h    |  1 +
->   14 files changed, 219 insertions(+), 4 deletions(-)
-> 
+> diff --git a/configure b/configure
+> index 9db9bb89b9..6ecaff429b 100755
+> --- a/configure
+> +++ b/configure
+> @@ -568,6 +568,7 @@ rng_none="no"
+>  secret_keyring=""
+>  libdaxctl=""
+>  meson=""
+> +ninja=""
+>  skip_meson=no
+>  gettext=""
+>  
+> @@ -1052,6 +1053,8 @@ for opt do
+>    ;;
+>    --meson=*) meson="$optarg"
+>    ;;
+> +  --ninja=*) ninja="$optarg"
+> +  ;;
+>    --smbd=*) smbd="$optarg"
+>    ;;
+>    --extra-cflags=*)
+> @@ -1820,6 +1823,7 @@ Advanced options (experts only):
+>    --python=PYTHON          use specified python [$python]
+>    --sphinx-build=SPHINX    use specified sphinx-build [$sphinx_build]
+>    --meson=MESON            use specified meson [$meson]
+> +  --ninja=NINJA            use specified ninja [$ninja]
+>    --smbd=SMBD              use specified smbd [$smbd]
+>    --with-git=GIT           use specified git [$git]
+>    --static                 enable static build [$static]
+> @@ -2058,6 +2062,16 @@ case "$meson" in
+>      *) meson=$(command -v meson) ;;
+>  esac
+>  
+> +# Probe for ninja (used for compdb)
+> +
+> +if test -z "$ninja"; then
+> +    for c in ninja ninja-build samu; do
+> +        if has $c; then
+> +            ninja=$(command -v "$c")
+> +            break
+> +        fi
+> +    done
+> +fi
+>  
+>  # Check that the C compiler works. Doing this here before testing
+>  # the host CPU ensures that we had a valid CC to autodetect the
+> @@ -8197,7 +8211,7 @@ fi
+>  mv $cross config-meson.cross
+>  
+>  rm -rf meson-private meson-info meson-logs
+> -NINJA=$PWD/ninjatool $meson setup \
+> +NINJA=${ninja:-$PWD/ninjatool} $meson setup \
+>          --prefix "${pre_prefix}$prefix" \
+>          --libdir "${pre_prefix}$libdir" \
+>          --libexecdir "${pre_prefix}$libexecdir" \
+
+I've just tested this, but it gives me a python stacktrace if I run it without
+passing a --ninja argument to configure. With a bit of extra debugging added to see
+what is being generated:
+
+###XXX ['C:/msys64/mingw64/bin/ninja', '--version']
+Traceback (most recent call last):
+  File "C:/msys64/home/Mark/qemu/meson/mesonbuild/mesonmain.py", line 131, in run
+    return options.run_func(options)
+  File "C:/msys64/home/Mark/qemu/meson/mesonbuild/msetup.py", line 245, in run
+    app.generate()
+  File "C:/msys64/home/Mark/qemu/meson/mesonbuild/msetup.py", line 159, in generate
+    self._generate(env)
+  File "C:/msys64/home/Mark/qemu/meson/mesonbuild/msetup.py", line 215, in _generate
+    intr.backend.generate()
+  File "C:/msys64/home/Mark/qemu/meson/mesonbuild/backend/ninjabackend.py", line 483,
+in generate
+    ninja = environment.detect_ninja_command_and_version(log=True)
+  File "C:/msys64/home/Mark/qemu/meson/mesonbuild/environment.py", line 177, in
+detect_ninja_command_and_version
+    name = os.path.basename(n)
+  File "C:/msys64/mingw64/lib/python3.8/ntpath.py", line 231, in basename
+    return split(p)[1]
+  File "C:/msys64/mingw64/lib/python3.8/ntpath.py", line 200, in split
+    p = os.fspath(p)
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+
+ERROR: meson setup failed
+
+It seems that it doesn't like parsing the discovered ninja path. I can make configure
+work by passing --ninja=ninja to configure which falls back to PATH and appears to do
+the right thing:
+
+###XXX ['ninja', '--version']
+Found ninja.EXE-1.10.1 at C:\msys64\mingw64\bin/ninja.EXE
+
+I tried a few other things too:
+
+ --ninja=C:/msys64/mingw64/bin/ninja - fails
+ --ninja=C:/msys64/mingw64/bin/ninja.exe - works
+ --ninja=ninja.exe - works
+ --ninja=/c/msys64/mingw64/bin/ninja - fails similar as above
+ --ninja=/c/msys64/mingw64/bin/ninja.exe - works
+ --ninja=C:\\msys64\\mingw64\\bin\\ninja - fails similar as above
+ --ninja=C:\\msys64\\mingw64\\bin\\ninja.exe - works
+
+From these tests it looks as if the .exe prefix is required when using a full path to
+the ninja executable.
+
+
+ATB,
+
+Mark.
 
