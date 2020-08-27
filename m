@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 997C8254444
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 13:27:25 +0200 (CEST)
-Received: from localhost ([::1]:55570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A772C254458
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 13:33:51 +0200 (CEST)
+Received: from localhost ([::1]:36064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBG3w-0007pN-EO
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 07:27:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33362)
+	id 1kBGAA-0003qL-AL
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 07:33:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBG2k-0006pu-Q9
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 07:26:10 -0400
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:38633)
+ id 1kBG9S-0003QP-5o
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 07:33:06 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:35445)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBG2g-00030U-4i
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 07:26:10 -0400
-Received: by mail-ed1-x544.google.com with SMTP id b2so4568912edw.5
- for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 04:26:05 -0700 (PDT)
+ id 1kBG9Q-0004r4-8W
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 07:33:05 -0400
+Received: by mail-wr1-x443.google.com with SMTP id d10so4111303wrw.2
+ for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 04:33:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=n2fvNEvJVFGhZsX82sS8ZfWw/uOHiFyQ1KS69MXpzh8=;
- b=Z4vvp/Qc60g8WBnZPknv34rH8KNUzCXRxyoEmleXWAx0NruznH3l/XkZT0oanAQ+en
- fjXp2m330sPBoUVJrS+LOSYC0jpT/c4usyYE3gCdagO5nluGWhB9P7+hZ8hmv10+6jgM
- 4u7BEZtq2OZgQt4VVzEVkGfvFgF8gqgCF/DdW6Sl6bvyKiMLJ5XzG8OmHeXN67gPOCgT
- pmNvbcPspCG9cZkYkJhqndr4z27ZxHeQ37EzkH2JYTYb02Fd3mjfzIwIorwtrLVlev+a
- Oksew+bDjuIjkIx4SkBtmAkcMMVufu6kHhSsYEd44+gjkRl/J1eUjAckA1hT90CrsZah
- UBmw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CZMtI/tGFEHR1d/kfeU7MuVTM6tT3+kuWZIcP5eHXGU=;
+ b=PxPOCAjm8kPrtnj/wh0RHmG7PEFWe1aZ7+MThEznkqgCx6/61aeGaANJhhd+Q1eU4H
+ 56acKE/WQ1h3TztG2Mij0BOGufPtmRKnQg8e8ABhYBIZ/mON3TyzAUOUvz2G5pAlUNzx
+ gSY9Cjz5YEw+YrmpnXtvdnrP0vxzwrv6H9EEqXLhYqjkH6wqKAdBpVnEAXZFWSM7Ory2
+ dwCEgU90oZApdu3C4pams4oNFGk+jRwXRN2TJoMEv48VuE+NYojBGv4iZLG5F4hhEeih
+ wyMO4og7fR6W2ax/yJwBO4vU2GWCTR8tJet4bsmdmjkheuRuxpn169xeDeEslbh910mH
+ vQpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=n2fvNEvJVFGhZsX82sS8ZfWw/uOHiFyQ1KS69MXpzh8=;
- b=COYefMl7jTwb+mm28Uk8Pz0HRR//Q5x0i6ENefpuvI56OYWOCfLVjHu1E4DqkocIUR
- ZhYtzPCVN4wPLnXc9CR4GUNCZgJDAxSPOFRM+gDO0hzSjpnRSijWlkriG4iWtKHgCe4T
- NHEpBlULVdI3JgvDcnXH/UX+zCFnRjt9s1j8eJFpjPwMSj8L3yuJIDvS1Qa/3PjLbMmC
- 4IA676nTw4iH/dIn98/nuXQsorH1DNIHlF4rSIx6ft82KWNlLGGskpte4Iv3ugKOVND5
- 5cLcGtCi6qHwulaqhrEFk4IWsNg2QSMk9RskFT9VhbufZVEf2wfRJYALFWFiFzFLIjj1
- XLUw==
-X-Gm-Message-State: AOAM530tgtHbyRMLXHv+QECgrqrZeIVXUbqu4Mvu0n6jyU6RJVSLzNfS
- yiIwesp9HO3KbZQdY2Fiei2Qe2P13oPu/2rq/FGZDKbA2C5mfg==
-X-Google-Smtp-Source: ABdhPJxKjptkjbdqkM5eTceZOSFgDF34nV4pN/i49JS/Hd7eTpw60juot2m4LKLKhXOMfyvEgKoGWxrAww9rIs8+HSM=
-X-Received: by 2002:a50:ef11:: with SMTP id m17mr5431833eds.251.1598527564134; 
- Thu, 27 Aug 2020 04:26:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200810195019.25427-1-peter.maydell@linaro.org>
-In-Reply-To: <20200810195019.25427-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CZMtI/tGFEHR1d/kfeU7MuVTM6tT3+kuWZIcP5eHXGU=;
+ b=XT0/gSUFmDK5UY84hXEjDnBFV7CJzJ290v/ulLjZpB902fcxO5Ju29OowkJUNY1XIo
+ FN/+oRlYFVYUKFlAK03OVPpklZKGT5+Nc7EGVviNKbMopNAYLvyBijU6Pur8fXx2CPlk
+ FG1lac7FlvDY0baF7il3du94eX3OMRXIKd8EkXYBkKEsvxiv9ORQmquldvOgHBQ3ZCsK
+ uW4fHWS195tyI9MQuty2RC0GlDjFdSMq+nq19gbtEmIc9hJaA7uJ+PuV1LddxEYcNp1I
+ yGBnx8wj3Bp8qWQ4eM3+ihMSogRMdh2Pi1f4Tc+3EtJq4sE0ulyn2R1k8FqV0subQWA+
+ lYFw==
+X-Gm-Message-State: AOAM533X3zwG21xOmaRCKqMhnJWRoXfg92NRiXXKyy4hf+2A+iICX5dN
+ t6PaosAhCisHNJsH6+HRt9BMiPSH6t2qPSuN
+X-Google-Smtp-Source: ABdhPJzf0mPJAFRommlIvRiDdALUrFSAYanq/MpuXzjE5+ZQJess4L5a/KFEh3RFXJoN5T1QMaf5Tg==
+X-Received: by 2002:adf:c64d:: with SMTP id u13mr20679978wrg.114.1598527982089; 
+ Thu, 27 Aug 2020 04:33:02 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id c9sm4736007wmf.3.2020.08.27.04.33.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Aug 2020 04:33:01 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 27 Aug 2020 12:25:53 +0100
-Message-ID: <CAFEAcA9cyKVwONYuzG3oPcQQ9sibpdtetCjcBe3133gd09Aa9w@mail.gmail.com>
-Subject: Re: [PATCH v5 00/20] Convert QAPI doc comments to generate rST
- instead of texinfo
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::544;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x544.google.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH] Deprecate lm32 port
+Date: Thu, 27 Aug 2020 12:32:59 +0100
+Message-Id: <20200827113259.25064-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -79,37 +82,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ Michael Walle <michael@walle.cc>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 10 Aug 2020 at 20:50, Peter Maydell <peter.maydell@linaro.org> wrote:
-> This series switches all our QAPI doc comments over from
-> texinfo format to rST. It then removes all the texinfo
-> machinery, because this was the last user of texinfo.
->
-> This is largely just a rebase of patchset v4 to current master.
+Deprecate our lm32 target support. Michael Walle (former lm32 maintainer)
+suggested that we do this in 2019:
+ https://www.mail-archive.com/qemu-devel@nongnu.org/msg605024.html
+because the only public user of the architecture is the many-years-dead
+milkymist project. (The Linux port to lm32 was never merged upstream.)
 
-> There are a few things I have left out of this initial series:
+In commit 4b4d96c776f552e (March 2020) we marked it as 'orphan' in
+the MAINTAINERS file, but didn't officially deprecate it. Mark it
+deprecated now, with the intention of removing it from QEMU in
+mid-2021 before the 6.1 release.
 
-I realized there is something I forgot to add to this "left out" list:
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+Based-on: 20200825172719.19422-1-peter.maydell@linaro.org
+("Deprecate Unicore32 port") to avoid the obvious textual-conflict.
 
-Sphinx needs to know what all the input files which go into
-a document are, as it builds up dependencies to tell it whether
-to rebuild the output or not. The docs/sphinx/qapidoc.py
-plugin adds such a dependency on the file that the .rst
-docs reference (eg qapi/qapi-schema.json) but it does not
-have a mechanism for adding dependencies when that .json
-file uses an 'include' to pull in other .json files.
+ docs/system/deprecated.rst | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-I'm not sure whether the scripts/qapi code supports telling
-a consumer of the parsed info about this -- is it sufficient
-for QAPISchemaGenRSTVisitor to implement the 'visit_include'
-method, find the path to the included .qapi file from the
-arguments and call Sphinx's env.notedependency(), or do we
-need to do something more complicated to get the list of
-all the included .qapi files ?
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index 4c52098c707..5c7fc8a3c99 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -416,6 +416,14 @@ The above, converted to the current supported format::
+ linux-user mode CPUs
+ --------------------
+ 
++``lm32`` CPUs (since 5.2.0)
++'''''''''''''''''''''''''''
++
++The ``lm32`` guest CPU support is deprecated and will be removed in
++a future version of QEMU. The only public user of this architecture
++was the milkymist project, which has been dead for years; there was
++never an upstream Linux port.
++
+ ``unicore32`` CPUs (since 5.2.0)
+ ''''''''''''''''''''''''''''''''
+ 
+-- 
+2.20.1
 
-thanks
--- PMM
 
