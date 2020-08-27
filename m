@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D992254F74
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 21:54:58 +0200 (CEST)
-Received: from localhost ([::1]:38486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8172254F88
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 21:56:18 +0200 (CEST)
+Received: from localhost ([::1]:42612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBNz7-00076s-Ah
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 15:54:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34656)
+	id 1kBO0P-0000Rn-TP
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 15:56:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kBNUQ-0000Xf-Mo
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:23:14 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20300
+ id 1kBNUT-0000gr-M0
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:23:17 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58974
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kBNUP-0000Y6-0a
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:23:14 -0400
+ id 1kBNUS-0000YW-1B
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:23:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598556192;
+ s=mimecast20190719; t=1598556195;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oU2M7XvJR80fM4tDCM96DaTf2rrkntMZhxYcQ9Std54=;
- b=aRNrnMSgvrenVFHnnMx8aEzELNG6iE89HOnd8bfybwHRGTxvSfQXb9WyuTiYFSEr6zTyKi
- CXk0F64p26fMW6pbvW6zsvU5DpzlFbafd62izdXn1UQCqx5IJjdXS8VFw9HNLrk7odJEzh
- pyFoPj34i/ZiBTNzdVSSnV4WA/r5+yE=
+ bh=eBhLW5gtU0+x6sEOPSnH7vx5dZxYxWjOHuErJ2M3898=;
+ b=ZsDixVJvKnZGX5z+UOqqxpkk99UJMNOciJeqdJi8HctdjOUcq/0HNYgjrwCGPzIvXoJoex
+ GhkDAaZELiFKtBlNbg8uVxCSwz1i01vBQL71k3SKyhmHo9ZBxhDBtjmGFekLwC7meycmD7
+ 6n5YijXcMYT/x8ATiyDtITzDRUnD2F4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-390-cNbpujuJO6yCvInL6Brkhw-1; Thu, 27 Aug 2020 15:23:10 -0400
-X-MC-Unique: cNbpujuJO6yCvInL6Brkhw-1
+ us-mta-320-HWNysShsP_2Xt3hosgY71Q-1; Thu, 27 Aug 2020 15:23:11 -0400
+X-MC-Unique: HWNysShsP_2Xt3hosgY71Q-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C45BF8797E1;
- Thu, 27 Aug 2020 19:23:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6E0918A2240;
+ Thu, 27 Aug 2020 19:23:09 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 88021702FF;
- Thu, 27 Aug 2020 19:23:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 78740795B0;
+ Thu, 27 Aug 2020 19:23:09 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 49/53] sclpconsole: Use TYPE_* constants
-Date: Thu, 27 Aug 2020 15:21:18 -0400
-Message-Id: <20200827192122.658035-50-ehabkost@redhat.com>
+Subject: [PULL 50/53] xlnx-zcu102: Use TYPE_ZCU102_MACHINE constant
+Date: Thu, 27 Aug 2020 15:21:19 -0400
+Message-Id: <20200827192122.658035-51-ehabkost@redhat.com>
 In-Reply-To: <20200827192122.658035-1-ehabkost@redhat.com>
 References: <20200827192122.658035-1-ehabkost@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
@@ -82,9 +82,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
+Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Li Qiang <liq3ea@gmail.com>,
+ Li Qiang <liq3ea@gmail.com>, Alistair Francis <alistair.francis@wdc.com>,
  Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
@@ -92,42 +92,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 This will make future conversion to use OBJECT_DECLARE* easier.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Acked-by: Cornelia Huck <cohuck@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Reviewed-by: Li Qiang <liq3ea@gmail.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20200826184334.4120620-5-ehabkost@redhat.com>
+Message-Id: <20200826184334.4120620-6-ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/char/sclpconsole-lm.c | 2 +-
- hw/char/sclpconsole.c    | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ hw/arm/xlnx-zcu102.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/char/sclpconsole-lm.c b/hw/char/sclpconsole-lm.c
-index 2b5f37b6a2..5848b4e9c5 100644
---- a/hw/char/sclpconsole-lm.c
-+++ b/hw/char/sclpconsole-lm.c
-@@ -355,7 +355,7 @@ static void console_class_init(ObjectClass *klass, void *data)
+diff --git a/hw/arm/xlnx-zcu102.c b/hw/arm/xlnx-zcu102.c
+index 5997262459..672d9d4bd1 100644
+--- a/hw/arm/xlnx-zcu102.c
++++ b/hw/arm/xlnx-zcu102.c
+@@ -238,7 +238,7 @@ static void xlnx_zcu102_machine_class_init(ObjectClass *oc, void *data)
  }
  
- static const TypeInfo sclp_console_info = {
--    .name          = "sclplmconsole",
-+    .name          = TYPE_SCLPLM_CONSOLE,
-     .parent        = TYPE_SCLP_EVENT,
-     .instance_size = sizeof(SCLPConsoleLM),
-     .class_init    = console_class_init,
-diff --git a/hw/char/sclpconsole.c b/hw/char/sclpconsole.c
-index 5c7664905e..d6f7da0818 100644
---- a/hw/char/sclpconsole.c
-+++ b/hw/char/sclpconsole.c
-@@ -271,7 +271,7 @@ static void console_class_init(ObjectClass *klass, void *data)
- }
- 
- static const TypeInfo sclp_console_info = {
--    .name          = "sclpconsole",
-+    .name          = TYPE_SCLP_CONSOLE,
-     .parent        = TYPE_SCLP_EVENT,
-     .instance_size = sizeof(SCLPConsole),
-     .class_init    = console_class_init,
+ static const TypeInfo xlnx_zcu102_machine_init_typeinfo = {
+-    .name       = MACHINE_TYPE_NAME("xlnx-zcu102"),
++    .name       = TYPE_ZCU102_MACHINE,
+     .parent     = TYPE_MACHINE,
+     .class_init = xlnx_zcu102_machine_class_init,
+     .instance_init = xlnx_zcu102_machine_instance_init,
 -- 
 2.26.2
 
