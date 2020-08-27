@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B2C9254E2A
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 21:24:01 +0200 (CEST)
-Received: from localhost ([::1]:41536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F213E254E1F
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 21:22:19 +0200 (CEST)
+Received: from localhost ([::1]:32954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBNVA-0001CF-A4
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 15:24:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33514)
+	id 1kBNTW-0005wV-Vh
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 15:22:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kBNS5-0004FS-Au
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:20:49 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:53383)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kBNS5-0004GS-Tf
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:20:50 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:58073)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kBNS2-0000HF-S2
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kBNS3-0000Ha-Rl
  for qemu-devel@nongnu.org; Thu, 27 Aug 2020 15:20:49 -0400
 Received: from localhost.localdomain ([82.252.135.186]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1Mzz6m-1kZF6511mw-00x0am; Thu, 27 Aug 2020 21:20:43 +0200
+ id 1MSKq6-1k0URY1rZY-00Sdf4; Thu, 27 Aug 2020 21:20:44 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/18] linux-user: Add support for 'clock_nanosleep_time64()'
- and 'clock_adjtime64()'
-Date: Thu, 27 Aug 2020 21:20:16 +0200
-Message-Id: <20200827192018.2442099-17-laurent@vivier.eu>
+Subject: [PULL 17/18] linux-user: Add support for 'rt_sigtimedwait_time64()'
+ and 'sched_rr_get_interval_time64()'
+Date: Thu, 27 Aug 2020 21:20:17 +0200
+Message-Id: <20200827192018.2442099-18-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200827192018.2442099-1-laurent@vivier.eu>
 References: <20200827192018.2442099-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:FQdlanOCI9F6Hn+RFCg6gj3aQHq3mfBetIA49srNDIReYWrNSLN
- pf3vC6cgnb5nkGZoXarfT20p7olWNmXf42rzYfkHdkuBy35v/lrp1n6Yu8bQeLC8/lQHPFY
- IVTlRPQsCmCqYWjDBLXzWeGJjPkyqOYiV95UVaPrZF4jvVFzmVi0AcIq8A28CNc7X8Osr+5
- +UxG7kCnr7W6gZLtXB0DQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:FjjA67XCBs8=:q7uzGAreb52A3Q/uJ/gwg5
- RSw6JCLG6rSVUYNd57l2I6dgVNpJltM9+OfOW+mUni25fgbSOridSmjwDekDr+A8zfYXXO8Th
- 5T665L8CnUeUm7KhA6FRpwSS+Elv8iMAKqdXgpAIpXHf2Xd8laDq97b8YbB8IfPcA+pS5PL1+
- BYmikJcHl0v2JBD1TqPNUahnvG2vBil3qqTFB+dG3Vx+vTj3u5qv51fvGKDKJ1BpwdL6bVDqb
- ovXYDj80nFF2KuBDeOuPW3oo6MZaVMv8TWfiLsDj1HHkFgPVS54TVwlbtern/ucSgbknzD9nE
- NAvpIFBbJbfeIuK50aevDSak+AChcFN6A2agQA4IS97/L85ehrtGuYHVLAJL3BoAY6lqf+4bu
- hwecMKiRED4/AiJ2KHrfZkl0fS5ncS0pMZjOwpXhdWiQSvZ4Xcf2DQ3TlVvrebdKa3ADYkS4S
- OE1RMI3iw/ZcMp7HDXRwUu+E40eUqiPQ6A5gyCgTqOxbDKptHHaQnQkBLrSClwjYZcP3+rX17
- 7J1Ay1pe+PnOn9M34AdBy5wX4Ff/wyqId/+htt2Jspebqkozy0ug8B4T/eq/OLZdE86rgMLHK
- GGCCH491alUZK8Hy5LdxdhOevBlRDMSd8yOWlrz6nDrBRF2Whvb9UkN0B+5jQ6qVOnHvbm5EG
- XNATzeue+N3u051wlPcE5eJlMbadGynKX+AEtett47aluP1agNZzyuVUOuTmdRxs4ETlhQt/n
- MsISBIjxU2tlGaQdkSFiK5f3FBJqkBnhJwearBFdLQbcp/Q0KRjlBmV0OoGaqZQoXH3FLCOWu
- F6B3SATQYrDR+PjbVbGwJAnewJutjjZjXoLfgbDlfAPJ75XubwxPkQiESFMpUJuzmQEORHl
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:iArs7WzgFORGfjjIRmUkgldGfCrWfC86/ThQOMf+7Bj7ZMDRUNH
+ Sdq1SOQejV0kKhqu84TktQ/E87oBVzeIinADgn25Vl7sDjvynQbpbyEgNs86s0EnyJ0GtYl
+ x0o/ff1GIKkWHnLMnj6/FIk6VEnheHbKHaXhHYAsKF/UN5h+jfcS3t228+kOEwE5CVX0bqh
+ nVLeYIfoHqz5VxAjSJLXA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:VpHd2xuhM5w=:QTvbdPdu2GJWtZ766OjsBj
+ QqCPv+gscSeTJ4f3a1mnlXpCcMPAzZsIL8AuPjptd7egZmPlIYEQ4oYyj7d6xJxzO1IA+9N7O
+ UaQh1eJRsf3oSRgY3PRYpS2AodoMpKexjfUPsrCF1uto7RWCFASGGrPdXGBPRS5zmh1hZiKrE
+ uIXtmrpBdijTOR3dcHtS8n2xqiPT/fk9HNxgS7Ayy4HdSVprlEj2Jz13jKrLoOwFqkR9CN7jD
+ whFDIQujEnBYdtSk0WflXB1pzot/h+472/0Qd6+k8DIsVnfs95HCi1buJJ1qsi+I9kt9ja6ZM
+ KZmgRmASejhULw0f92+lrTswGANZnix5xvDwKPjSSf/Zt6LZ+AXqp1ypP3hZv1o9WZW/0lgUT
+ NA1nTiyS8XQFaTwCorfQjZwFUVP6XXoiSoyjTdPTIZj/DWxpqwuFWUC5IGz+R+B5rORpHO8KT
+ s9fVfUPJgSA3kpvmrxee/hbp8w79Q1btq6rBHnafdrZWkoDZSGCWsMYrIKOorKRKeMPGHDxQt
+ 19qybkViFqEmvkuEtT7s9CaZY0CowUfHrs5HE635oBi7wYMx23i4+1Ol3GsH057xyH0nWTRqA
+ GH0Oy0buaVzvzNzcySLDJJe3K3LPq7Ey2KG+WvZM7GuySE952YPciwIGVG/88OHyyu/CS+WKY
+ WqG2EutLS1X2yocILgQuIQvFVGxqaWLf0DRltSxjzJM7G4WNY5PPhVTKPxvTNbqUXdnkY6bFt
+ iMOh7IrGWZHm7/7M7zvqKGhsG/KXITvw5GqaWNj5B3R5GvZpaiAB78e84EQ3XybVU/5zZyIfB
+ gWCguT2vGjm0uv52VCoE+SKvGeDRSI3+bZQqVT3zy5RssAeu4UVByG+ZgYA/WQJr/6Ib/3t
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 15:20:33
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 15:20:36
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -77,280 +77,132 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Filip Bozuta <Filip.Bozuta@syrmia.com>
 
-This patch implements functionality for following time64 syscall:
+This patch implements functionality for following time64 syscalls:
 
-*clock_nanosleep_time64()
-
-    This is a year 2038 safe vairant of syscall:
-    int clock_nanosleep(clockid_t clockid, int flags,
-                        const struct timespec *request,
-                        struct timespec *remain)
-    --high-resolution sleep with specifiable clock--
-    man page: https://man7.org/linux/man-pages/man2/clock_nanosleep.2.html
-
-*clock_adjtime64()
+*rt_sigtimedwait_time64()
 
     This is a year 2038 safe variant of syscall:
-    int clock_adjtime(clockid_t clk_id, struct timex *buf)
-    --tune kernel clock--
-    man page: https://man7.org/linux/man-pages/man2/clock_adjtime.2.html
+
+    int rt_sigtimedwait(const sigset_t *set, siginfo_t *info,
+                        const struct timespec *timeout, size_t sigsetsize)
+    --synchronously wait for queued signals--
+    man page: https://man7.org/linux/man-pages/man2/rt_sigtimedwait.2.html
+
+*sched_rr_get_interval_time64()
+
+    This is a year 2038 safe variant of syscall:
+
+    int sched_rr_get_interval(pid_t pid, struct timespec *tp)
+    --get  the  SCHED_RR  interval  for the named process--
+    man page: https://man7.org/linux/man-pages/man2/sched_rr_get_interval.2.html
 
 Implementation notes:
 
-    Syscall 'clock_nanosleep_time64()' was implemented similarly
-    to syscall 'clock_nanosleep()' except that 'host_to_target_timespec64()'
-    and 'target_to_host_timespec64()' were used instead of the regular
-    'host_to_target_timespec()' and 'target_to_host_timespec()'.
-
-    For 'clock_adjtime64()' a 64-bit target kernel version of 'struct timex'
-    was defined in 'syscall_defs.h': 'struct target__kernel_timex'.
-    This type was used to convert the values of 64-bit timex type between
-    host and target. For this purpose a 64-bit timex converting functions
-    'target_to_host_timex64()' and 'host_to_target_timex64()'. An existing
-    function 'copy_to_user_timeval64()' was used to convert the field
-    'time' which if of type 'struct timeval' from host to target.
-    Function 'copy_from_user_timveal64()' was added in this patch and
-    used to convert the 'time' field from target to host.
+    These syscalls were implemented in similar ways like
+    'rt_sigtimedwait()' and 'sched_rr_get_interval()' except
+    that functions 'target_to_host_timespec64()' and
+    'host_to_target_timespec64()' were used to convert values
+    of 'struct timespec' between host and target.
 
 Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200824192116.65562-2-Filip.Bozuta@syrmia.com>
-[lv: add missing defined(TARGET_NR_clock_nanosleep_time64)]
+Message-Id: <20200824192116.65562-3-Filip.Bozuta@syrmia.com>
+[lv: add missing defined(TARGET_NR_rt_sigtimedwait_time64)]
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c      | 140 +++++++++++++++++++++++++++++++++++++-
- linux-user/syscall_defs.h |  31 +++++++++
- 2 files changed, 168 insertions(+), 3 deletions(-)
+ linux-user/syscall.c | 58 ++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 56 insertions(+), 2 deletions(-)
 
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index b28c8edb421e..82414c08d655 100644
+index 82414c08d655..9d7376734ad4 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -774,7 +774,8 @@ safe_syscall4(int, accept4, int, fd, struct sockaddr *, addr, socklen_t *, len,
- safe_syscall2(int, nanosleep, const struct timespec *, req,
-               struct timespec *, rem)
+@@ -764,7 +764,7 @@ safe_syscall6(ssize_t, recvfrom, int, fd, void *, buf, size_t, len,
+ safe_syscall3(ssize_t, sendmsg, int, fd, const struct msghdr *, msg, int, flags)
+ safe_syscall3(ssize_t, recvmsg, int, fd, struct msghdr *, msg, int, flags)
+ safe_syscall2(int, flock, int, fd, int, operation)
+-#ifdef TARGET_NR_rt_sigtimedwait
++#if defined(TARGET_NR_rt_sigtimedwait) || defined(TARGET_NR_rt_sigtimedwait_time64)
+ safe_syscall4(int, rt_sigtimedwait, const sigset_t *, these, siginfo_t *, uinfo,
+               const struct timespec *, uts, size_t, sigsetsize)
  #endif
--#ifdef TARGET_NR_clock_nanosleep
-+#if defined(TARGET_NR_clock_nanosleep) || \
-+    defined(TARGET_NR_clock_nanosleep_time64)
- safe_syscall4(int, clock_nanosleep, const clockid_t, clock, int, flags,
-               const struct timespec *, req, struct timespec *, rem)
- #endif
-@@ -1177,8 +1178,25 @@ static inline abi_long copy_to_user_timeval(abi_ulong target_tv_addr,
-     return 0;
- }
- 
-+static inline abi_long copy_from_user_timeval64(struct timeval *tv,
-+                                                abi_ulong target_tv_addr)
-+{
-+    struct target__kernel_sock_timeval *target_tv;
-+
-+    if (!lock_user_struct(VERIFY_READ, target_tv, target_tv_addr, 1)) {
-+        return -TARGET_EFAULT;
-+    }
-+
-+    __get_user(tv->tv_sec, &target_tv->tv_sec);
-+    __get_user(tv->tv_usec, &target_tv->tv_usec);
-+
-+    unlock_user_struct(target_tv, target_tv_addr, 0);
-+
-+    return 0;
-+}
-+
- static inline abi_long copy_to_user_timeval64(abi_ulong target_tv_addr,
--                                             const struct timeval *tv)
-+                                              const struct timeval *tv)
- {
-     struct target__kernel_sock_timeval *target_tv;
- 
-@@ -1222,7 +1240,8 @@ static inline abi_long target_to_host_timespec(struct timespec *host_ts,
-     defined(TARGET_NR_timer_settime64) || \
+@@ -1241,7 +1241,8 @@ static inline abi_long target_to_host_timespec(struct timespec *host_ts,
      defined(TARGET_NR_mq_timedsend_time64) || \
      defined(TARGET_NR_mq_timedreceive_time64) || \
--    (defined(TARGET_NR_timerfd_settime64) && defined(CONFIG_TIMERFD))
-+    (defined(TARGET_NR_timerfd_settime64) && defined(CONFIG_TIMERFD)) || \
-+    defined(TARGET_NR_clock_nanosleep_time64)
+     (defined(TARGET_NR_timerfd_settime64) && defined(CONFIG_TIMERFD)) || \
+-    defined(TARGET_NR_clock_nanosleep_time64)
++    defined(TARGET_NR_clock_nanosleep_time64) || \
++    defined(TARGET_NR_rt_sigtimedwait_time64)
  static inline abi_long target_to_host_timespec64(struct timespec *host_ts,
                                                   abi_ulong target_addr)
  {
-@@ -6953,6 +6972,87 @@ static inline abi_long host_to_target_timex(abi_long target_addr,
- }
- #endif
- 
-+
-+#if defined(TARGET_NR_clock_adjtime64) && defined(CONFIG_CLOCK_ADJTIME)
-+static inline abi_long target_to_host_timex64(struct timex *host_tx,
-+                                              abi_long target_addr)
-+{
-+    struct target__kernel_timex *target_tx;
-+
-+    if (copy_from_user_timeval64(&host_tx->time, target_addr +
-+                                 offsetof(struct target__kernel_timex,
-+                                          time))) {
-+        return -TARGET_EFAULT;
-+    }
-+
-+    if (!lock_user_struct(VERIFY_READ, target_tx, target_addr, 1)) {
-+        return -TARGET_EFAULT;
-+    }
-+
-+    __get_user(host_tx->modes, &target_tx->modes);
-+    __get_user(host_tx->offset, &target_tx->offset);
-+    __get_user(host_tx->freq, &target_tx->freq);
-+    __get_user(host_tx->maxerror, &target_tx->maxerror);
-+    __get_user(host_tx->esterror, &target_tx->esterror);
-+    __get_user(host_tx->status, &target_tx->status);
-+    __get_user(host_tx->constant, &target_tx->constant);
-+    __get_user(host_tx->precision, &target_tx->precision);
-+    __get_user(host_tx->tolerance, &target_tx->tolerance);
-+    __get_user(host_tx->tick, &target_tx->tick);
-+    __get_user(host_tx->ppsfreq, &target_tx->ppsfreq);
-+    __get_user(host_tx->jitter, &target_tx->jitter);
-+    __get_user(host_tx->shift, &target_tx->shift);
-+    __get_user(host_tx->stabil, &target_tx->stabil);
-+    __get_user(host_tx->jitcnt, &target_tx->jitcnt);
-+    __get_user(host_tx->calcnt, &target_tx->calcnt);
-+    __get_user(host_tx->errcnt, &target_tx->errcnt);
-+    __get_user(host_tx->stbcnt, &target_tx->stbcnt);
-+    __get_user(host_tx->tai, &target_tx->tai);
-+
-+    unlock_user_struct(target_tx, target_addr, 0);
-+    return 0;
-+}
-+
-+static inline abi_long host_to_target_timex64(abi_long target_addr,
-+                                              struct timex *host_tx)
-+{
-+    struct target__kernel_timex *target_tx;
-+
-+   if (copy_to_user_timeval64(target_addr +
-+                              offsetof(struct target__kernel_timex, time),
-+                              &host_tx->time)) {
-+        return -TARGET_EFAULT;
-+    }
-+
-+    if (!lock_user_struct(VERIFY_WRITE, target_tx, target_addr, 0)) {
-+        return -TARGET_EFAULT;
-+    }
-+
-+    __put_user(host_tx->modes, &target_tx->modes);
-+    __put_user(host_tx->offset, &target_tx->offset);
-+    __put_user(host_tx->freq, &target_tx->freq);
-+    __put_user(host_tx->maxerror, &target_tx->maxerror);
-+    __put_user(host_tx->esterror, &target_tx->esterror);
-+    __put_user(host_tx->status, &target_tx->status);
-+    __put_user(host_tx->constant, &target_tx->constant);
-+    __put_user(host_tx->precision, &target_tx->precision);
-+    __put_user(host_tx->tolerance, &target_tx->tolerance);
-+    __put_user(host_tx->tick, &target_tx->tick);
-+    __put_user(host_tx->ppsfreq, &target_tx->ppsfreq);
-+    __put_user(host_tx->jitter, &target_tx->jitter);
-+    __put_user(host_tx->shift, &target_tx->shift);
-+    __put_user(host_tx->stabil, &target_tx->stabil);
-+    __put_user(host_tx->jitcnt, &target_tx->jitcnt);
-+    __put_user(host_tx->calcnt, &target_tx->calcnt);
-+    __put_user(host_tx->errcnt, &target_tx->errcnt);
-+    __put_user(host_tx->stbcnt, &target_tx->stbcnt);
-+    __put_user(host_tx->tai, &target_tx->tai);
-+
-+    unlock_user_struct(target_tx, target_addr, 1);
-+    return 0;
-+}
-+#endif
-+
- static inline abi_long target_to_host_sigevent(struct sigevent *host_sevp,
-                                                abi_ulong target_addr)
- {
-@@ -9940,6 +10040,21 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+@@ -9042,6 +9043,48 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
              }
          }
          return ret;
 +#endif
-+#if defined(TARGET_NR_clock_adjtime64) && defined(CONFIG_CLOCK_ADJTIME)
-+    case TARGET_NR_clock_adjtime64:
++#ifdef TARGET_NR_rt_sigtimedwait_time64
++    case TARGET_NR_rt_sigtimedwait_time64:
 +        {
-+            struct timex htx;
++            sigset_t set;
++            struct timespec uts, *puts;
++            siginfo_t uinfo;
 +
-+            if (target_to_host_timex64(&htx, arg2) != 0) {
++            if (arg4 != sizeof(target_sigset_t)) {
++                return -TARGET_EINVAL;
++            }
++
++            p = lock_user(VERIFY_READ, arg1, sizeof(target_sigset_t), 1);
++            if (!p) {
 +                return -TARGET_EFAULT;
 +            }
-+            ret = get_errno(clock_adjtime(arg1, &htx));
-+            if (!is_error(ret) && host_to_target_timex64(arg2, &htx)) {
++            target_to_host_sigset(&set, p);
++            unlock_user(p, arg1, 0);
++            if (arg3) {
++                puts = &uts;
++                if (target_to_host_timespec64(puts, arg3)) {
 +                    return -TARGET_EFAULT;
++                }
++            } else {
++                puts = NULL;
++            }
++            ret = get_errno(safe_rt_sigtimedwait(&set, &uinfo, puts,
++                                                 SIGSET_T_SIZE));
++            if (!is_error(ret)) {
++                if (arg2) {
++                    p = lock_user(VERIFY_WRITE, arg2,
++                                  sizeof(target_siginfo_t), 0);
++                    if (!p) {
++                        return -TARGET_EFAULT;
++                    }
++                    host_to_target_siginfo(p, &uinfo);
++                    unlock_user(p, arg2, sizeof(target_siginfo_t));
++                }
++                ret = host_to_target_signal(ret);
 +            }
 +        }
 +        return ret;
  #endif
-     case TARGET_NR_getpgid:
-         return get_errno(getpgid(arg1));
-@@ -11911,6 +12026,25 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+     case TARGET_NR_rt_sigqueueinfo:
+         {
+@@ -10566,6 +10609,17 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         }
          return ret;
-     }
  #endif
-+#ifdef TARGET_NR_clock_nanosleep_time64
-+    case TARGET_NR_clock_nanosleep_time64:
-+    {
-+        struct timespec ts;
-+
-+        if (target_to_host_timespec64(&ts, arg3)) {
-+            return -TARGET_EFAULT;
-+        }
-+
-+        ret = get_errno(safe_clock_nanosleep(arg1, arg2,
-+                                             &ts, arg4 ? &ts : NULL));
-+
-+        if (ret == -TARGET_EINTR && arg4 && arg2 != TIMER_ABSTIME &&
-+            host_to_target_timespec64(arg4, &ts)) {
-+            return -TARGET_EFAULT;
++#ifdef TARGET_NR_sched_rr_get_interval_time64
++    case TARGET_NR_sched_rr_get_interval_time64:
++        {
++            struct timespec ts;
++            ret = get_errno(sched_rr_get_interval(arg1, &ts));
++            if (!is_error(ret)) {
++                ret = host_to_target_timespec64(arg2, &ts);
++            }
 +        }
 +        return ret;
-+    }
 +#endif
- 
- #if defined(TARGET_NR_set_tid_address) && defined(__NR_set_tid_address)
-     case TARGET_NR_set_tid_address:
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index a6abc7e70be8..9d07991176b8 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -294,6 +294,37 @@ struct target_timex {
-     abi_int:32; abi_int:32; abi_int:32;
- };
- 
-+struct target__kernel_timex {
-+    abi_uint modes;               /* Mode selector */
-+    abi_int: 32;                  /* pad */
-+    abi_llong offset;             /* Time offset */
-+    abi_llong freq;               /* Frequency offset */
-+    abi_llong maxerror;           /* Maximum error (microseconds) */
-+    abi_llong esterror;           /* Estimated error (microseconds) */
-+    abi_int status;               /* Clock command/status */
-+    abi_int: 32;                  /* pad */
-+    abi_llong constant;           /* PLL (phase-locked loop) time constant */
-+    abi_llong precision;          /* Clock precision (microseconds, ro) */
-+    abi_llong tolerance;          /* Clock freq. tolerance (ppm, ro) */
-+    struct target__kernel_sock_timeval time;  /* Current time */
-+    abi_llong tick;               /* Microseconds between clock ticks */
-+    abi_llong ppsfreq;            /* PPS (pulse per second) frequency */
-+    abi_llong jitter;             /* PPS jitter (ro); nanoseconds */
-+    abi_int shift;                /* PPS interval duration (seconds) */
-+    abi_int: 32;                  /* pad */
-+    abi_llong stabil;             /* PPS stability */
-+    abi_llong jitcnt;             /* PPS jitter limit exceeded (ro) */
-+    abi_llong calcnt;             /* PPS calibration intervals */
-+    abi_llong errcnt;             /* PPS calibration errors */
-+    abi_llong stbcnt;             /* PPS stability limit exceeded */
-+    abi_int tai;                  /* TAI offset */
-+
-+    /* Further padding bytes to allow for future expansion */
-+    abi_int:32; abi_int:32; abi_int:32; abi_int:32;
-+    abi_int:32; abi_int:32; abi_int:32; abi_int:32;
-+    abi_int:32; abi_int:32; abi_int:32;
-+};
-+
- typedef abi_long target_clock_t;
- 
- #define TARGET_HZ 100
+ #if defined(TARGET_NR_nanosleep)
+     case TARGET_NR_nanosleep:
+         {
 -- 
 2.26.2
 
