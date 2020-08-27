@@ -2,56 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2560525459B
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 15:03:51 +0200 (CEST)
-Received: from localhost ([::1]:57610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64A4A254599
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 15:03:16 +0200 (CEST)
+Received: from localhost ([::1]:55110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBHZG-000796-6D
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 09:03:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38136)
+	id 1kBHYh-00066d-BX
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 09:03:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tianjia.zhang@linux.alibaba.com>)
- id 1kBHXS-0005gT-T2
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 09:01:58 -0400
-Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130]:60303)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tianjia.zhang@linux.alibaba.com>)
- id 1kBHXH-00013f-Ay
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 09:01:54 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R191e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e07425;
- MF=tianjia.zhang@linux.alibaba.com; NM=1; PH=DS; RN=7; SR=0;
- TI=SMTPD_---0U7.lQO1_1598533237; 
-Received: from B-455UMD6M-2027.local(mailfrom:tianjia.zhang@linux.alibaba.com
- fp:SMTPD_---0U7.lQO1_1598533237) by smtp.aliyun-inc.com(127.0.0.1);
- Thu, 27 Aug 2020 21:00:37 +0800
-Subject: Re: [PATCH] qemu-options.hx: Fix typo for netdev documentation
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <20200727045925.29375-1-tianjia.zhang@linux.alibaba.com>
- <20200727054335-mutt-send-email-mst@kernel.org>
-From: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
-Message-ID: <cb08fa85-e7d3-09af-d702-036fd165a46d@linux.alibaba.com>
-Date: Thu, 27 Aug 2020 21:00:36 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.1.1
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kBHWf-0004eL-8b
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 09:01:09 -0400
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:46776)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kBHWd-0001BS-EQ
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 09:01:08 -0400
+Received: by mail-ed1-x541.google.com with SMTP id n26so393483edv.13
+ for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 06:01:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=HwnMBZ0Xa2ornS7ieOgEsGB/1HJECozKOZjHwZWJ+WQ=;
+ b=nVREqagBqrseSpBqJHNdQ9sdHZDC2c9Kbze9ywB5xGCV5mOXxLg3lqtkj12UBtmgqm
+ zl6DIeHc19ephe9YyfDslOPwTzGnBE5iFchjBmxW5q7dI8SBJJqtP7sVSZQuumd3Bnt1
+ VHc5uglgaedNII0lk24xpGuzCHkZF0BGxC4ZEbLoou5GDQlBCMGhbR6WzGb0aJAA3Kod
+ M7bBpMcro94Y3s9Qdp2LuT+/ma3XscGYQYI2Xr4CmJK3VgXfHIJd/GcZ52NOEo43zH2C
+ +VjNDlZyEkKDbVc5vG78Hy9Twhq13mlXAWghNZdqmi2pPiMgV5T8LjGlH+u+ZqojrqiQ
+ FUOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HwnMBZ0Xa2ornS7ieOgEsGB/1HJECozKOZjHwZWJ+WQ=;
+ b=ebijfKkBFQowTUcs5sXCE5QscQJ6xU9SaK5TdgvVrStzFNZFBNcA5/pMM9Fte0/EfP
+ CudrZvRlCBPHvna8sct7YjmGIFdZCDaw+J0qTu3DECrrhIFy+1m8ooorcVR3chhA+dOW
+ VWP1YtVnOjqmjaH28LKVn/F3Nukshk+p8SoBHINlcY8esHNFtbpcObcoJeyt1HGvacER
+ Rp+VA383lR0wQIJ2qpurdZGt3BPfjbIW6lRB6Py5w14uCDOd9CFCzivmLAOy05ciBZR6
+ HhGY0Id8bwMgPIkhFa2cOAEAmxgveZydBFhUIaF76WgBpsIFWBhzIY5uYFS6eLlBCgld
+ bhgQ==
+X-Gm-Message-State: AOAM533uDF2EcpztH4hCR3IzkuCJtrvzl5F1M4e1F8kag+IkPvyAe8Ew
+ 6u+7hsNeE6+eV4s0vpYyf6jQDokN5BZE8zqckumelA==
+X-Google-Smtp-Source: ABdhPJySMnEk/HM96NDHk+GotKLqPFFdl4Q5Hl4reTBs2rtB7GL53fM8I+WM3LoOvLeJrXJ/MfkW9mE7MFc6r8UmkIM=
+X-Received: by 2002:a50:da44:: with SMTP id a4mr20307706edk.36.1598533266069; 
+ Thu, 27 Aug 2020 06:01:06 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200727054335-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=115.124.30.130;
- envelope-from=tianjia.zhang@linux.alibaba.com;
- helo=out30-130.freemail.mail.aliyun.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 09:00:38
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -116
-X-Spam_score: -11.7
-X-Spam_bar: -----------
-X-Spam_report: (-11.7 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- NICE_REPLY_A=-1.782, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+References: <20200826181006.4097163-1-ehabkost@redhat.com>
+In-Reply-To: <20200826181006.4097163-1-ehabkost@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 27 Aug 2020 14:00:55 +0100
+Message-ID: <CAFEAcA-VuODmgo=8WeFP=gEBdOr8K1HxvPN7hdp4AYHnBh6A6Q@mail.gmail.com>
+Subject: Re: [PATCH] armsse: Define ARMSSEClass correctly
+To: Eduardo Habkost <ehabkost@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::541;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,47 +78,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com,
- Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org, kraxel@redhat.com,
- pbonzini@redhat.com
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-
-Other opinions needed?
-
-
-Thanks,
-
-Tianjia
-
-On 7/27/20 5:44 PM, Michael S. Tsirkin wrote:
-> On Mon, Jul 27, 2020 at 12:59:25PM +0800, Tianjia Zhang wrote:
->> This patch fixes the netdev document description typo in qemu-option.hx.
->>
->> Signed-off-by: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+On Wed, 26 Aug 2020 at 19:10, Eduardo Habkost <ehabkost@redhat.com> wrote:
 >
-> Trivial tree? Jason's ?
->
->> ---
->>   qemu-options.hx | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/qemu-options.hx b/qemu-options.hx
->> index 708583b4ce..92556ed96d 100644
->> --- a/qemu-options.hx
->> +++ b/qemu-options.hx
->> @@ -2684,7 +2684,7 @@ SRST
->>       disable script execution.
->>   
->>       If running QEMU as an unprivileged user, use the network helper
->> -    helper to configure the TAP interface and attach it to the bridge.
->> +    to configure the TAP interface and attach it to the bridge.
->>       The default network helper executable is
->>       ``/path/to/qemu-bridge-helper`` and the default bridge device is
->>       ``br0``.
->> -- 
->> 2.17.1
+> TYPE_ARM_SSE is a TYPE_SYS_BUS_DEVICE subclass, but
+> ARMSSEClass::parent_class is declared as DeviceClass.
+
+Whoops, I clearly managed to mangle the definition of this
+class quite badly :-)
+
+Applied to target-arm.next, thanks.
+
+-- PMM
 
