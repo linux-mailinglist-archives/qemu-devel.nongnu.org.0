@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB0042541AA
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 11:13:18 +0200 (CEST)
-Received: from localhost ([::1]:35084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4FC42541A5
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 11:13:02 +0200 (CEST)
+Received: from localhost ([::1]:33268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBDy9-00045X-Sl
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 05:13:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54424)
+	id 1kBDxt-0003Ln-O7
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 05:13:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1kBDwg-0001fD-7W; Thu, 27 Aug 2020 05:11:46 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:41739)
+ id 1kBDwh-0001hb-CU; Thu, 27 Aug 2020 05:11:47 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:42149)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1kBDwe-0001zi-0B; Thu, 27 Aug 2020 05:11:45 -0400
+ id 1kBDwe-0001zk-8y; Thu, 27 Aug 2020 05:11:47 -0400
 Received: from mxplan5.mail.ovh.net (unknown [10.109.156.44])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id F0BBF54810E6;
- Thu, 27 Aug 2020 11:11:33 +0200 (CEST)
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 21B9954810E7;
+ Thu, 27 Aug 2020 11:11:34 +0200 (CEST)
 Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 27 Aug
  2020 11:11:32 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-99G003d6fa0ea9-06f3-4474-923a-91ee005d5c8c,
+ (GARM-99G0037ad0b0ec-b560-4631-aafb-8b451044cef8,
  618CF37EF0508A6B3BD090B4D8B11E595DDBE7AA) smtp.auth=clg@kaod.org
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH 1/2] m25p80: Add basic support for the SFDP command
-Date: Thu, 27 Aug 2020 11:11:29 +0200
-Message-ID: <20200827091130.3525790-2-clg@kaod.org>
+Subject: [PATCH 2/2] m25p80: Add the n25q256a SFDP table
+Date: Thu, 27 Aug 2020 11:11:30 +0200
+Message-ID: <20200827091130.3525790-3-clg@kaod.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20200827091130.3525790-1-clg@kaod.org>
 References: <20200827091130.3525790-1-clg@kaod.org>
@@ -41,8 +41,8 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.99]
 X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: b5469d95-93aa-4455-a49e-f5c5e03ab007
-X-Ovh-Tracer-Id: 8702080382030482284
+X-Ovh-Tracer-GUID: 5532ed18-4329-496b-b1f1-afc464dcf5aa
+X-Ovh-Tracer-Id: 8702361857402047340
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedruddvgedguddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfhisehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheehfeegjeeitdfffeetjeduveejueefuefgtdefueelueetveeliefhhffgtdelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
@@ -76,31 +76,57 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-JEDEC STANDARD JESD216 for Serial Flash Discovery Parameters (SFDP)
-provides a mean to describe the features of a serial flash device
-using a set of internal parameter tables.
-
-This is the initial framework for the RDSFDP command giving access to
-a private SFDP area under the flash. This area now needs to be
-populated with the flash device characteristics, using a new 'sfdp'
-pointer under FlashPartInfo.
+The same values were collected on 4 differents OpenPower systems,
+palmettos, romulus and tacoma.
 
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/block/m25p80_sfdp.h | 15 +++++++++++++++
- hw/block/m25p80.c      | 33 +++++++++++++++++++++++++++++++++
- hw/block/trace-events  |  1 +
- 3 files changed, 49 insertions(+)
- create mode 100644 hw/block/m25p80_sfdp.h
+ hw/block/m25p80_sfdp.h |  2 ++
+ hw/block/m25p80.c      |  6 ++++--
+ hw/block/m25p80_sfdp.c | 49 ++++++++++++++++++++++++++++++++++++++++++
+ hw/block/Makefile.objs |  2 +-
+ 4 files changed, 56 insertions(+), 3 deletions(-)
+ create mode 100644 hw/block/m25p80_sfdp.c
 
 diff --git a/hw/block/m25p80_sfdp.h b/hw/block/m25p80_sfdp.h
-new file mode 100644
-index 000000000000..b75fd0b0c13f
---- /dev/null
+index b75fd0b0c13f..ca2658a676e0 100644
+--- a/hw/block/m25p80_sfdp.h
 +++ b/hw/block/m25p80_sfdp.h
-@@ -0,0 +1,15 @@
+@@ -12,4 +12,6 @@
+ 
+ #define M25P80_SFDP_AREA_SIZE 0x100
+ 
++extern const uint8_t m25p80_sfdp_n25q256a[M25P80_SFDP_AREA_SIZE];
++
+ #endif
+diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+index 32925589ec7a..d053bdbb2805 100644
+--- a/hw/block/m25p80.c
++++ b/hw/block/m25p80.c
+@@ -233,11 +233,13 @@ static const FlashPartInfo known_devices[] = {
+     { INFO("n25q128a11",  0x20bb18,      0,  64 << 10, 256, ER_4K) },
+     { INFO("n25q128a13",  0x20ba18,      0,  64 << 10, 256, ER_4K) },
+     { INFO("n25q256a11",  0x20bb19,      0,  64 << 10, 512, ER_4K) },
+-    { INFO("n25q256a13",  0x20ba19,      0,  64 << 10, 512, ER_4K) },
++    { INFO("n25q256a13",  0x20ba19,      0,  64 << 10, 512, ER_4K),
++      .sfdp = m25p80_sfdp_n25q256a },
+     { INFO("n25q512a11",  0x20bb20,      0,  64 << 10, 1024, ER_4K) },
+     { INFO("n25q512a13",  0x20ba20,      0,  64 << 10, 1024, ER_4K) },
+     { INFO("n25q128",     0x20ba18,      0,  64 << 10, 256, 0) },
+-    { INFO("n25q256a",    0x20ba19,      0,  64 << 10, 512, ER_4K) },
++    { INFO("n25q256a",    0x20ba19,      0,  64 << 10, 512, ER_4K),
++      .sfdp = m25p80_sfdp_n25q256a },
+     { INFO("n25q512a",    0x20ba20,      0,  64 << 10, 1024, ER_4K) },
+     { INFO_STACKED("n25q00",    0x20ba21, 0x1000, 64 << 10, 2048, ER_4K, 4) },
+     { INFO_STACKED("n25q00a",   0x20bb21, 0x1000, 64 << 10, 2048, ER_4K, 4) },
+diff --git a/hw/block/m25p80_sfdp.c b/hw/block/m25p80_sfdp.c
+new file mode 100644
+index 000000000000..def94bd4ea02
+--- /dev/null
++++ b/hw/block/m25p80_sfdp.c
+@@ -0,0 +1,49 @@
 +/*
-+ * M25P80 SFDP
++ * M25P80 Serial Flash Discoverable Parameter (SFDP)
 + *
 + * Copyright (c) 2020, IBM Corporation.
 + *
@@ -108,116 +134,58 @@ index 000000000000..b75fd0b0c13f
 + * COPYING file in the top-level directory.
 + */
 +
-+#ifndef HW_M25P80_SFDP_H
-+#define HW_M25P80_SFDP_H
-+
-+#define M25P80_SFDP_AREA_SIZE 0x100
-+
-+#endif
-diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-index 82270884416e..32925589ec7a 100644
---- a/hw/block/m25p80.c
-+++ b/hw/block/m25p80.c
-@@ -33,6 +33,7 @@
- #include "qemu/error-report.h"
- #include "qapi/error.h"
- #include "trace.h"
++#include "qemu/osdep.h"
 +#include "m25p80_sfdp.h"
- 
- /* Fields for FlashPartInfo->flags */
- 
-@@ -72,6 +73,7 @@ typedef struct FlashPartInfo {
-      * This field inform how many die is in the chip.
-      */
-     uint8_t die_cnt;
-+    const uint8_t *sfdp;
- } FlashPartInfo;
- 
- /* adapted from linux */
-@@ -333,6 +335,7 @@ typedef enum {
-     BULK_ERASE = 0xc7,
-     READ_FSR = 0x70,
-     RDCR = 0x15,
-+    RDSFDP = 0x5a,
- 
-     READ = 0x03,
-     READ4 = 0x13,
-@@ -398,6 +401,7 @@ typedef enum {
-     STATE_COLLECTING_DATA,
-     STATE_COLLECTING_VAR_LEN_DATA,
-     STATE_READING_DATA,
-+    STATE_READING_SFDP,
- } CMDState;
- 
- typedef enum {
-@@ -619,6 +623,8 @@ static inline int get_addr_length(Flash *s)
-     }
- 
-    switch (s->cmd_in_progress) {
-+   case RDSFDP:
-+       return 3;
-    case PP4:
-    case PP4_4:
-    case QPP_4:
-@@ -744,6 +750,17 @@ static void complete_collecting_data(Flash *s)
-                           " by device\n");
-         }
-         break;
 +
-+    case RDSFDP:
-+        if (s->cur_addr < M25P80_SFDP_AREA_SIZE) {
-+            s->state = STATE_READING_SFDP;
-+        } else {
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                          "M25P80: Invalid SFDP address %#" PRIx32 "\n",
-+                          s->cur_addr);
-+        }
-+        break;
-+
-     default:
-         break;
-     }
-@@ -1160,6 +1177,16 @@ static void decode_new_cmd(Flash *s, uint32_t value)
-     case RSTQIO:
-         s->quad_enable = false;
-         break;
-+    case RDSFDP:
-+        if (s->pi->sfdp) {
-+            s->needed_bytes = get_addr_length(s) + 1 ; /* SFDP addr + dummy */
-+            s->pos = 0;
-+            s->len = 0;
-+            s->state = STATE_COLLECTING_DATA;
-+            break;
-+        }
-+        /* Fallthrough */
-+
-     default:
-         s->pos = 0;
-         s->len = 1;
-@@ -1256,6 +1283,12 @@ static uint32_t m25p80_transfer8(SSISlave *ss, uint32_t tx)
-             }
-         }
-         break;
-+    case STATE_READING_SFDP:
-+        assert(s->pi->sfdp);
-+        r = s->pi->sfdp[s->cur_addr];
-+        trace_m25p80_read_sfdp(s, s->cur_addr, (uint8_t)r);
-+        s->cur_addr = (s->cur_addr + 1) & (M25P80_SFDP_AREA_SIZE - 1);
-+        break;
- 
-     default:
-     case STATE_IDLE:
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index 958fcc5508d1..53d377ca2b46 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -152,5 +152,6 @@ m25p80_page_program(void *s, uint32_t addr, uint8_t tx) "[%p] page program cur_a
- m25p80_transfer(void *s, uint8_t state, uint32_t len, uint8_t needed, uint32_t pos, uint32_t cur_addr, uint8_t t) "[%p] Transfer state 0x%"PRIx8" len 0x%"PRIx32" needed 0x%"PRIx8" pos 0x%"PRIx32" addr 0x%"PRIx32" tx 0x%"PRIx8
- m25p80_read_byte(void *s, uint32_t addr, uint8_t v) "[%p] Read byte 0x%"PRIx32"=0x%"PRIx8
- m25p80_read_data(void *s, uint32_t pos, uint8_t v) "[%p] Read data 0x%"PRIx32"=0x%"PRIx8
-+m25p80_read_sfdp(void *s, uint32_t addr, uint8_t v) "[%p] Read SFDP 0x%"PRIx32"=0x%"PRIx8
- m25p80_binding(void *s) "[%p] Binding to IF_MTD drive"
- m25p80_binding_no_bdrv(void *s) "[%p] No BDRV - binding to RAM"
++/*
++ * Micron
++ */
++const uint8_t m25p80_sfdp_n25q256a[M25P80_SFDP_AREA_SIZE] = {
++    0x53, 0x46, 0x44, 0x50, 0x00, 0x01, 0x00, 0xff,
++    0x00, 0x00, 0x01, 0x09, 0x30, 0x00, 0x00, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xe5, 0x20, 0xfb, 0xff, 0xff, 0xff, 0xff, 0x0f,
++    0x29, 0xeb, 0x27, 0x6b, 0x08, 0x3b, 0x27, 0xbb,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x27, 0xbb,
++    0xff, 0xff, 0x29, 0xeb, 0x0c, 0x20, 0x10, 0xd8,
++    0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++};
+diff --git a/hw/block/Makefile.objs b/hw/block/Makefile.objs
+index 8855c2265639..b65a12c52b52 100644
+--- a/hw/block/Makefile.objs
++++ b/hw/block/Makefile.objs
+@@ -1,6 +1,6 @@
+ common-obj-y += block.o cdrom.o hd-geometry.o
+ common-obj-$(CONFIG_FDC) += fdc.o
+-common-obj-$(CONFIG_SSI_M25P80) += m25p80.o
++common-obj-$(CONFIG_SSI_M25P80) += m25p80.o m25p80_sfdp.o
+ common-obj-$(CONFIG_NAND) += nand.o
+ common-obj-$(CONFIG_PFLASH_CFI01) += pflash_cfi01.o
+ common-obj-$(CONFIG_PFLASH_CFI02) += pflash_cfi02.o
 -- 
 2.25.4
 
