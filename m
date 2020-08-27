@@ -2,89 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61C0C254638
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 15:45:25 +0200 (CEST)
-Received: from localhost ([::1]:36624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E36125464B
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Aug 2020 15:51:25 +0200 (CEST)
+Received: from localhost ([::1]:48874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBIDU-0001Fk-F8
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 09:45:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48762)
+	id 1kBIJI-0006Ti-Jm
+	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 09:51:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kBI9P-00024R-AB
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 09:41:12 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54003
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kBI9M-0006Uh-Sl
- for qemu-devel@nongnu.org; Thu, 27 Aug 2020 09:41:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598535668;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=V5iyYPg4tvRYFQ2+2ZkkR3GJS89VZ1RmchDLxqTL8l4=;
- b=IlGpDjxwBnDcSI5/UohwJZYZPaH97qjWQXnNg6bKSglBcvCi+NU1b3kNQioQFJDA6Ww+20
- m8w5ssN5zPaJa3qjvL+MqBG+BI3oPhmGkRNTx/mAHdD0syO+hvb/66EdTo06C+ElXaJ9ug
- nK8fRdNLRmNWOHlC5RY1OTAyOQVNK6g=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-315-uonY2XQeOAm58xzi07WmCw-1; Thu, 27 Aug 2020 09:41:06 -0400
-X-MC-Unique: uonY2XQeOAm58xzi07WmCw-1
-Received: by mail-wr1-f72.google.com with SMTP id d15so1555424wrp.10
- for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 06:41:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kBIEM-0002pF-B6
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 09:46:18 -0400
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:36851)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kBIEJ-0007Bs-Tc
+ for qemu-devel@nongnu.org; Thu, 27 Aug 2020 09:46:18 -0400
+Received: by mail-ej1-x642.google.com with SMTP id l2so7736202eji.3
+ for <qemu-devel@nongnu.org>; Thu, 27 Aug 2020 06:46:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=CGrK+0iK2Y0NicqMq1swc/EaOXpiNI5JBP4oBAovEyE=;
+ b=eUxvfzU1ksZ/JbgmCJdEly6dyqTpBu3R9NIZhv9DJFDgzzDMWP4GYwQcI/NfQf7T3d
+ tFE+a1tCO/Ks+xznjZzepbcdsEf/BfxjHBoieD0Ihhb8i6saee+ekDlNt1N0aQnie4/T
+ wkxAmiIeLfxXjUUwf/wpZmqsn9tExWeJumajde0c3LUSMwDIftu6A3kAzy2GC9GJASdn
+ k2yErzCfGWFTNDnBeDd2rPkNulNrgLS0iMpXrJTFjGfUA4ATutERK9P9tJ/SL5t3al28
+ Qcw545Bhbi6Xg9hFEXmZzih7k1JOQNVyBfiK2CBRaUJro3xYYahH+wVA4ac/xHX8ESxi
+ 6qpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=V5iyYPg4tvRYFQ2+2ZkkR3GJS89VZ1RmchDLxqTL8l4=;
- b=Dkd9seHsvrp/S8tpsPFQbyXrSEVZ0rfIaOPXixL7powALpbnPjOrvUbywmIVnQRjHV
- DSlCwFyAZTmcdEda8f5SeNbOUIRD34FzivYcFBqvvpvKT90RmqBJdjPj2mkq7KTLEmSr
- 7dYVGo1V7jEENIHO+2rSQJ2cve+sa4W0sKx4gdjlhYc0NGSq4DJEqguN2Kew/BaXscGL
- x1PtV1GRLn2jFE0SXlS7GjhaWthQnF9qaH8xI8W6k/4E2Ic8A5G5Y0ZUmbq5fIrqah7h
- 9OIzg4R6u9q3Y92xXJsEDWJ0qeFlmY2LuXl/fMOA84JQ+tBb8l325r8x4eg0L7RZcetC
- nB7w==
-X-Gm-Message-State: AOAM532r60cUHmaaz5KMLcmbjq4LvPYCL7f+ksIaqNl0arRhlLknax1Q
- w+TeD6Jza2/GkKwkX2dj4SZZU6Q4vMunKBHPCSDHnixgAC9eBqIqtTtKnm9EPwgV9hGWN5zymYZ
- wATsxF7DE6w6QBTs=
-X-Received: by 2002:a1c:24d5:: with SMTP id
- k204mr11611516wmk.159.1598535664788; 
- Thu, 27 Aug 2020 06:41:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxlSb3DopXh/xizCLqmbnn5CJfBDl3YM4tr1LGfvISz1IYrMPPVlPcpYM+xYAkicILlAsu1uQ==
-X-Received: by 2002:a1c:24d5:: with SMTP id
- k204mr11611502wmk.159.1598535664619; 
- Thu, 27 Aug 2020 06:41:04 -0700 (PDT)
-Received: from redhat.com ([192.117.173.58])
- by smtp.gmail.com with ESMTPSA id n24sm4946658wmi.36.2020.08.27.06.41.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Aug 2020 06:41:03 -0700 (PDT)
-Date: Thu, 27 Aug 2020 09:41:00 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 13/13] tests/bios-tables-test: add smbios cpu speed test
-Message-ID: <20200827133954.2118749-14-mst@redhat.com>
-References: <20200827133954.2118749-1-mst@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=CGrK+0iK2Y0NicqMq1swc/EaOXpiNI5JBP4oBAovEyE=;
+ b=g0l9hf514mZ4ldV1T4RSCW0i9kWJsA16+1UK4iVZRliXE6MNuyDBwy9WkK0kQt8eB3
+ xQAFzR4ZWlQYjkkId5s0HmP8ooqJoThXSXIGXMCsI0pd0zWaiPaGJacWKer/FBrZBE+O
+ fc95cxPqez/ynuPjc3Bg4fYIiG/94/3FGfXIJqLPTAti7B4bw1f9Xx/OtgnCmadiqkq1
+ OGTT6I7tGo9Y6J5kUJvw8TI+CLBZ1eyfoajuh6iFhGIttuIQAlvc5l5XqQ0lV+Tt3Q4y
+ WsQDrh6AZOGozWGmRD1BB7oPCrPZZlDQiUVjaFFTsXjNahGOvfPAf9D9ZK6cGJXQzkkv
+ IHbg==
+X-Gm-Message-State: AOAM531UEuzhOC6utRcIgEozSPINB/G0Qjn6Uv6BLdAQzlV6svSnGetA
+ VWDl28hD5f/B7qRZkRPIsgCxA/izrfCo+aLx3ad3Og==
+X-Google-Smtp-Source: ABdhPJz8GY54reoWSG0nXqpOQWyGGS1EfBRPycn0Z14g00BkjzRWuFhu2gqkyS3Hpn/9PbiVphT9BAoJa+lMezxiRi4=
+X-Received: by 2002:a17:906:2b0b:: with SMTP id
+ a11mr11143697ejg.250.1598535974136; 
+ Thu, 27 Aug 2020 06:46:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200827133954.2118749-1-mst@redhat.com>
-X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
-X-Mutt-Fcc: =sent
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/27 02:56:52
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200824142934.20850-1-peter.maydell@linaro.org>
+ <20200824142934.20850-3-peter.maydell@linaro.org>
+ <0a7f9574-2d82-9c32-ca37-e5fad0e9bb42@linaro.org>
+In-Reply-To: <0a7f9574-2d82-9c32-ca37-e5fad0e9bb42@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 27 Aug 2020 14:46:03 +0100
+Message-ID: <CAFEAcA9Nau4wOJBORF_=OYV+_3Wzq6Vcw4yoDz=WRtLWxbQhXg@mail.gmail.com>
+Subject: Re: [PATCH 02/22] target/arm: Use correct ID register check for
+ aa32_fp16_arith
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,113 +82,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Heyi Guo <guoheyi@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Ying Fang <fangying1@huawei.com>, Igor Mammedov <imammedo@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ying Fang <fangying1@huawei.com>
+On Tue, 25 Aug 2020 at 19:06, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 8/24/20 7:29 AM, Peter Maydell wrote:
+> > The aa32_fp16_arith feature check function currently looks at the
+> > AArch64 ID_AA64PFR0 register. This is (as the comment notes) not
+> > correct. The bogus check was put in mostly to allow testing of the
+> > fp16 variants of the VCMLA instructions and it was something of
+> > a mistake that we allowed them to exist in master.
+> >
+> > Switch the feature check function to testing VMFR1.FPHP, which is
+> > what it ought to be.
+> >
+> > This will remove emulation of the VCMLA and VCADD insns from
+> > AArch32 code running on an AArch64 '-cpu max' using system emulation.
+> > (They were never enabled for aarch32 linux-user and system-emulation.)
+> > Since we weren't advertising their existence via the AArch32 ID
+> > register, well-behaved guests wouldn't have been using them anyway.
+> >
+> > Once we have implemented all the AArch32 support for the FP16 extension
+> > we will advertise it in the MVFR1 ID register field, which will reenable
+> > these insns along with all the others.
+> >
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> > ---
+> > I don't expect that any guests will have been using these insns,
+> > but in any case the fp16 work will be all done before the next
+> > QEMU release and the insns re-enabled...
+> > ---
+> >  target/arm/cpu.h | 7 +------
+> >  1 file changed, 1 insertion(+), 6 deletions(-)
+>
+> Cc qemu-stable, for the bug fix?
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Add smbios type 4 CPU speed check for we added new options to set
-smbios type 4 "max speed" and "current speed". The default value
-should be 2000 when no option is specified, just as the old version
-did.
+I'd rather not put this in -stable, because it is removing
+insns that previously worked. (In master the insns will also
+be removed, of course, but there they will come back again
+once the fp16 VFP and Neon patchset is all done and we can
+set the MVFR1 value correctly.)
 
-We add the test case to one machine of each architecture, though it
-doesn't really run on aarch64 platform for smbios test can't run on
-uefi only platform yet.
-
-Signed-off-by: Ying Fang <fangying1@huawei.com>
-Signed-off-by: Heyi Guo <guoheyi@huawei.com>
-Message-Id: <20200806035634.376-3-fangying1@huawei.com>
----
- tests/qtest/bios-tables-test.c | 42 ++++++++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
-
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index d25ff35492..504b810af5 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -80,6 +80,8 @@ typedef struct {
-     GArray *tables;
-     uint32_t smbios_ep_addr;
-     struct smbios_21_entry_point smbios_ep_table;
-+    uint16_t smbios_cpu_max_speed;
-+    uint16_t smbios_cpu_curr_speed;
-     uint8_t *required_struct_types;
-     int required_struct_types_len;
-     QTestState *qts;
-@@ -563,6 +565,31 @@ static inline bool smbios_single_instance(uint8_t type)
-     }
- }
- 
-+static bool smbios_cpu_test(test_data *data, uint32_t addr)
-+{
-+    uint16_t expect_speed[2];
-+    uint16_t real;
-+    int offset[2];
-+    int i;
-+
-+    /* Check CPU speed for backward compatibility */
-+    offset[0] = offsetof(struct smbios_type_4, max_speed);
-+    offset[1] = offsetof(struct smbios_type_4, current_speed);
-+    expect_speed[0] = data->smbios_cpu_max_speed ? : 2000;
-+    expect_speed[1] = data->smbios_cpu_curr_speed ? : 2000;
-+
-+    for (i = 0; i < 2; i++) {
-+        real = qtest_readw(data->qts, addr + offset[i]);
-+        if (real != expect_speed[i]) {
-+            fprintf(stderr, "Unexpected SMBIOS CPU speed: real %u expect %u\n",
-+                    real, expect_speed[i]);
-+            return false;
-+        }
-+    }
-+
-+    return true;
-+}
-+
- static void test_smbios_structs(test_data *data)
- {
-     DECLARE_BITMAP(struct_bitmap, SMBIOS_MAX_TYPE+1) = { 0 };
-@@ -585,6 +612,10 @@ static void test_smbios_structs(test_data *data)
-         }
-         set_bit(type, struct_bitmap);
- 
-+        if (type == 4) {
-+            g_assert(smbios_cpu_test(data, addr));
-+        }
-+
-         /* seek to end of unformatted string area of this struct ("\0\0") */
-         prv = crt = 1;
-         while (prv || crt) {
-@@ -719,6 +750,11 @@ static void test_acpi_q35_tcg(void)
-     data.required_struct_types_len = ARRAY_SIZE(base_required_struct_types);
-     test_acpi_one(NULL, &data);
-     free_test_data(&data);
-+
-+    data.smbios_cpu_max_speed = 3000;
-+    data.smbios_cpu_curr_speed = 2600;
-+    test_acpi_one("-smbios type=4,max-speed=3000,current-speed=2600", &data);
-+    free_test_data(&data);
- }
- 
- static void test_acpi_q35_tcg_bridge(void)
-@@ -1084,6 +1120,12 @@ static void test_acpi_virt_tcg(void)
- 
-     test_acpi_one("-cpu cortex-a57", &data);
-     free_test_data(&data);
-+
-+    data.smbios_cpu_max_speed = 2900;
-+    data.smbios_cpu_curr_speed = 2700;
-+    test_acpi_one("-cpu cortex-a57 "
-+                  "-smbios type=4,max-speed=2900,current-speed=2700", &data);
-+    free_test_data(&data);
- }
- 
- int main(int argc, char *argv[])
--- 
-MST
-
+thanks
+-- PMM
 
