@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A42AF255A81
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 14:47:26 +0200 (CEST)
-Received: from localhost ([::1]:47438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE532255A8C
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 14:49:36 +0200 (CEST)
+Received: from localhost ([::1]:55850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBdmv-0000Qp-Ju
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 08:47:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40078)
+	id 1kBdp1-0003vb-RH
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 08:49:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kBdl7-0007Bv-RN
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 08:45:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56621)
+ id 1kBdlC-0007G9-2M
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 08:45:38 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49182
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kBdl4-0006If-CC
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 08:45:33 -0400
+ id 1kBdl9-0006J0-82
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 08:45:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598618729;
+ s=mimecast20190719; t=1598618733;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=t73ewfhGZEjgSMUi7kGzfxkTAmXERrI2xtvf7jXFApM=;
- b=foIT7yyoyu/an+k7hsQFYszCGygw5lKgg9GFtUgWAeqLDKBnilBlVCyVVE1qbWpo1VVe3z
- 3i1akhH5qQca5yjPZoO7PPTxSmLXryyiCMSBsTi8AL9P4ytvV/66AY2rwxOWcukXMoqJ6k
- iOXo0jK6hjnBDeg4LduS5i+tBtjjMvA=
+ bh=LOjpi5aDbVKbhupvDfjI+zgd5MOMOYyjWIyqirdog6k=;
+ b=bsltD5LMSLSp41C1GE55uRxTvnzuGUH5En5EYfOC90D+pYIp/uqfD+2nzNO6W673pQxJ0i
+ Bjsxd6bs8sDk2FY3woFPUNmgzjmYfzEXB5TSllyiSJbxLOkvdzxxox9bv6AN6LAnMG9t+D
+ ++Gdom/PnFoohlQdRuy1mCJ5//JJB4U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-53-w6TCohBiMCi0n614JV49xg-1; Fri, 28 Aug 2020 08:45:27 -0400
-X-MC-Unique: w6TCohBiMCi0n614JV49xg-1
+ us-mta-308-egFatznMOsiWWEAN9UpHIw-1; Fri, 28 Aug 2020 08:45:28 -0400
+X-MC-Unique: egFatznMOsiWWEAN9UpHIw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 817B480EF84;
- Fri, 28 Aug 2020 12:45:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F0D510066FB;
+ Fri, 28 Aug 2020 12:45:27 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-100.ams2.redhat.com
  [10.36.114.100])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0F43774E12;
- Fri, 28 Aug 2020 12:45:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CD57974E12;
+ Fri, 28 Aug 2020 12:45:25 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com,
  slp@redhat.com, yezhenyu2@huawei.com, longpeng2@huawei.com,
  berrange@redhat.com
-Subject: [PULL 4/8] migration: tls: fix memory leak in migration_tls_get_creds
-Date: Fri, 28 Aug 2020 13:45:05 +0100
-Message-Id: <20200828124509.311210-5-dgilbert@redhat.com>
+Subject: [PULL 5/8] virtiofsd: Disable remote posix locks by default
+Date: Fri, 28 Aug 2020 13:45:06 +0100
+Message-Id: <20200828124509.311210-6-dgilbert@redhat.com>
 In-Reply-To: <20200828124509.311210-1-dgilbert@redhat.com>
 References: <20200828124509.311210-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 02:09:03
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 04:08:58
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,54 +87,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zhenyu Ye <yezhenyu2@huawei.com>
+From: Vivek Goyal <vgoyal@redhat.com>
 
-Currently migration_tls_get_creds() adds the reference of creds
-but there was no place to unref it.  So the OBJECT(creds) will
-never be freed and result in memory leak.
+Right now we enable remote posix locks by default. That means when guest
+does a posix lock it sends request to server (virtiofsd). But currently
+we only support non-blocking posix lock and return -EOPNOTSUPP for
+blocking version.
 
-The leak stack:
-Direct leak of 104 byte(s) in 1 object(s) allocated from:
-    #0 0xffffa88bd20b in __interceptor_malloc (/usr/lib64/libasan.so.4+0xd320b)
-    #1 0xffffa7f0cb1b in g_malloc (/usr/lib64/libglib-2.0.so.0+0x58b1b)
-    #2 0x14b58cb in object_new_with_type qom/object.c:634
-    #3 0x14b597b in object_new qom/object.c:645
-    #4 0x14c0e4f in user_creatable_add_type qom/object_interfaces.c:59
-    #5 0x141c78b in qmp_object_add qom/qom-qmp-cmds.c:312
-    #6 0x140e513 in qmp_marshal_object_add qapi/qapi-commands-qom.c:279
-    #7 0x176ba97 in do_qmp_dispatch qapi/qmp-dispatch.c:165
-    #8 0x176bee7 in qmp_dispatch qapi/qmp-dispatch.c:208
-    #9 0x136e337 in monitor_qmp_dispatch monitor/qmp.c:150
-    #10 0x136eae3 in monitor_qmp_bh_dispatcher monitor/qmp.c:239
-    #11 0x1852e93 in aio_bh_call util/async.c:89
-    #12 0x18531b7 in aio_bh_poll util/async.c:117
-    #13 0x18616bf in aio_dispatch util/aio-posix.c:459
-    #14 0x1853f37 in aio_ctx_dispatch util/async.c:268
-    #15 0xffffa7f06a7b in g_main_context_dispatch (/usr/lib64/libglib-2.0.so.0+0x52a7b)
+This means that existing applications which are doing blocking posix
+locks get -EOPNOTSUPP and fail. To avoid this, people have been
+running virtiosd with option "-o no_posix_lock". For new users it
+is still a surprise and trial and error takes them to this option.
 
-Since we're fine to use the borrowed reference when using the creds,
-so just remove the object_ref() in migration_tls_get_creds().
+Given posix lock implementation is not complete in virtiofsd, disable
+it by default. This means that posix locks will work with-in applications
+in a guest but not across guests. Anyway we don't support sharing
+filesystem among different guests yet in virtiofs so this should
+not lead to any kind of surprise or regression and will make life
+little easier for virtiofs users.
 
-Signed-off-by: Zhenyu Ye <yezhenyu2@huawei.com>
-Message-Id: <20200722033228.71-1-yezhenyu2@huawei.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reported-by: Aa Aa <jimbothom@yandex.com>
+Suggested-by: Miklos Szeredi <mszeredi@redhat.com>
+Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/tls.c | 1 -
- 1 file changed, 1 deletion(-)
+ docs/tools/virtiofsd.rst         | 2 +-
+ tools/virtiofsd/passthrough_ll.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/migration/tls.c b/migration/tls.c
-index 5171afc6c4..7a02ec8656 100644
---- a/migration/tls.c
-+++ b/migration/tls.c
-@@ -58,7 +58,6 @@ migration_tls_get_creds(MigrationState *s,
-         return NULL;
-     }
+diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
+index 824e713491..2cfdfd9ba2 100644
+--- a/docs/tools/virtiofsd.rst
++++ b/docs/tools/virtiofsd.rst
+@@ -67,7 +67,7 @@ Options
+     Disable racy fallback.  The default is false.
  
--    object_ref(OBJECT(ret));
-     return ret;
- }
+   * posix_lock|no_posix_lock -
+-    Enable/disable remote POSIX locks.  The default is ``posix_lock``.
++    Enable/disable remote POSIX locks.  The default is ``no_posix_lock``.
  
+   * readdirplus|no_readdirplus -
+     Enable/disable readdirplus.  The default is ``readdirplus``.
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+index 63d1d00565..a9feb90fd0 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -2823,7 +2823,7 @@ int main(int argc, char *argv[])
+     struct lo_data lo = {
+         .debug = 0,
+         .writeback = 0,
+-        .posix_lock = 1,
++        .posix_lock = 0,
+         .proc_self_fd = -1,
+     };
+     struct lo_map_elem *root_elem;
 -- 
 2.26.2
 
