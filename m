@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10C66255AC8
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 15:07:15 +0200 (CEST)
-Received: from localhost ([::1]:54228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89925255ACC
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 15:07:49 +0200 (CEST)
+Received: from localhost ([::1]:55138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBe65-0007UA-F8
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 09:07:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46482)
+	id 1kBe6e-0007rJ-G1
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 09:07:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
- id 1kBe23-0005By-2O; Fri, 28 Aug 2020 09:03:03 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:38488)
+ id 1kBe2z-0005xu-Ee; Fri, 28 Aug 2020 09:04:01 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:38558)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
- id 1kBe20-0000PN-Mt; Fri, 28 Aug 2020 09:03:02 -0400
+ id 1kBe2x-0000Xt-O7; Fri, 28 Aug 2020 09:04:01 -0400
 Received: from [172.17.10.10] (unknown [172.17.10.10])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 3C50B21C77;
- Fri, 28 Aug 2020 13:02:54 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 0B85D21C7B;
+ Fri, 28 Aug 2020 13:03:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1598619775;
+ s=mail; t=1598619837;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=USWkyQHcJKd4cOWWD1fK+eXPIc31EoLnhUVkQz4zIoY=;
- b=FzOmqbT5b1lnljvY2znZIJC0pRllvcr38tSgbzhFmR0LVvuu1A29mbnZ6VRAwrsV61diKb
- a9S5w4WBjo0UgeqBaZIIHcgsF4RQR4SF91qx2z7RcLRH/z9IHt6So/HXmEaZq3RiPXosVT
- 7Hi7G9iJypztHwMRLQS8F2O0rZERBYY=
-Subject: Re: [PATCH v1 1/2] target/microblaze: Use CPU properties to
- conditionalize bus exceptions
+ bh=dkagsWIsZBw1oCC7bYzRxd0xR1useDjExiqvrjcDQxA=;
+ b=MH6IPxQ94rWODkCGIQ3QPLJDkwPzZNxbSkIjxTFHqSVnuf3n10jjaTiMTkMSjzTce+qyNK
+ ziSOD1wTU9Bt2IpYyHW9H09KlpgHy6eZv0gt8NFL4mGNkxGXu8LEaO9/fj1TYuBQMh+yGw
+ aC9ndpMiI8xQyu7IfpOSr+fr/ZShba0=
+Subject: Re: [PATCH v1 2/2] target/microblaze: Improve transaction failure
+ handling
 To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-devel@nongnu.org
 References: <20200828113931.3252489-1-edgar.iglesias@gmail.com>
- <20200828113931.3252489-2-edgar.iglesias@gmail.com>
+ <20200828113931.3252489-3-edgar.iglesias@gmail.com>
 From: Luc Michel <luc.michel@greensocs.com>
-Message-ID: <6274ca9d-9c7a-948a-533e-1ecba6bda349@greensocs.com>
-Date: Fri, 28 Aug 2020 15:03:38 +0200
+Message-ID: <5a284482-68ed-32f5-0c82-73d2f98795f0@greensocs.com>
+Date: Fri, 28 Aug 2020 15:04:42 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200828113931.3252489-2-edgar.iglesias@gmail.com>
+In-Reply-To: <20200828113931.3252489-3-edgar.iglesias@gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -78,36 +78,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 8/28/20 1:39 PM, Edgar E. Iglesias wrote:
 > From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 > 
-> Use CPU properties, instead of PVR fields, to conditionalize
-> bus exceptions.
+> When the CPU has exceptions disabled, avoid unwinding CPU
+> state and clobbering registers if we're not going to raise
+> any exception.
 > 
-> Fixes: 2867a96ffb ("target/microblaze: Add props enabling exceptions on failed bus accesses")
 > Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
 Reviewed-by: Luc Michel <luc.michel@greensocs.com>
 
 > ---
->   target/microblaze/op_helper.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   target/microblaze/op_helper.c | 19 +++++++------------
+>   1 file changed, 7 insertions(+), 12 deletions(-)
 > 
 > diff --git a/target/microblaze/op_helper.c b/target/microblaze/op_helper.c
-> index f3b17a95b3..13ac476199 100644
+> index 13ac476199..190cd96c6a 100644
 > --- a/target/microblaze/op_helper.c
 > +++ b/target/microblaze/op_helper.c
-> @@ -490,12 +490,12 @@ void mb_cpu_transaction_failed(CPUState *cs, hwaddr physaddr, vaddr addr,
+> @@ -483,22 +483,17 @@ void mb_cpu_transaction_failed(CPUState *cs, hwaddr physaddr, vaddr addr,
+>       cpu = MICROBLAZE_CPU(cs);
+>       env = &cpu->env;
 >   
->       env->sregs[SR_EAR] = addr;
->       if (access_type == MMU_INST_FETCH) {
-> -        if ((env->pvr.regs[2] & PVR2_IOPB_BUS_EXC_MASK)) {
-> +        if (cpu->cfg.iopb_bus_exception) {
->               env->sregs[SR_ESR] = ESR_EC_INSN_BUS;
->               helper_raise_exception(env, EXCP_HW_EXCP);
->           }
->       } else {
-> -        if ((env->pvr.regs[2] & PVR2_DOPB_BUS_EXC_MASK)) {
-> +        if (cpu->cfg.dopb_bus_exception) {
->               env->sregs[SR_ESR] = ESR_EC_DATA_BUS;
->               helper_raise_exception(env, EXCP_HW_EXCP);
->           }
+> -    cpu_restore_state(cs, retaddr, true);
+>       if (!(env->sregs[SR_MSR] & MSR_EE)) {
+>           return;
+>       }
+>   
+> -    env->sregs[SR_EAR] = addr;
+> -    if (access_type == MMU_INST_FETCH) {
+> -        if (cpu->cfg.iopb_bus_exception) {
+> -            env->sregs[SR_ESR] = ESR_EC_INSN_BUS;
+> -            helper_raise_exception(env, EXCP_HW_EXCP);
+> -        }
+> -    } else {
+> -        if (cpu->cfg.dopb_bus_exception) {
+> -            env->sregs[SR_ESR] = ESR_EC_DATA_BUS;
+> -            helper_raise_exception(env, EXCP_HW_EXCP);
+> -        }
+> +    if ((access_type == MMU_INST_FETCH && cpu->cfg.iopb_bus_exception) ||
+> +        (access_type != MMU_INST_FETCH && cpu->cfg.dopb_bus_exception)) {
+> +        cpu_restore_state(cs, retaddr, true);
+> +        env->sregs[SR_ESR] = access_type == MMU_INST_FETCH ?
+> +                             ESR_EC_INSN_BUS : ESR_EC_DATA_BUS;
+> +        env->sregs[SR_EAR] = addr;
+> +        helper_raise_exception(env, EXCP_HW_EXCP);
+>       }
+>   }
+>   #endif
 > 
 
