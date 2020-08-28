@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EF0C2560D6
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 20:54:32 +0200 (CEST)
-Received: from localhost ([::1]:51762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 889102560E7
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 20:58:46 +0200 (CEST)
+Received: from localhost ([::1]:43834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBjWB-0008Af-8c
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 14:54:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59622)
+	id 1kBjaH-0007zx-K3
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 14:58:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBjDB-0003Ux-Ny
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:53 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:40503)
+ id 1kBjDD-0003Y8-Us
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:55 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:39073)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBjD7-000674-N2
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:53 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id b18so51527wrs.7
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 11:34:48 -0700 (PDT)
+ id 1kBjD9-00068J-3R
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:55 -0400
+Received: by mail-wr1-x443.google.com with SMTP id a5so56875wrm.6
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 11:34:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=gov6OrVq+v77edQml+nkA/s6hx0NTnYGiTc0gLPrxvY=;
- b=VfX91rQuGgQU8qCylnV+9lie6il/R3sbdp4/60On0vG8doJevfzAh6st8gPNtNoGUt
- xq+LDnVRM5vlg+ipcrcK6fZ9FjODloMBzs+o/Wlb4BhFUbVlCCc0976GNsBfP6MMum8N
- pZ0r280TJychIX9oU4vXMOFmMc6SAtNN5JP5T/MJWu0X3HqbESqv0ch1qQa6NrD6Jq8u
- yEGdLSUSIhR7zHnQrHGuOxFdS0GsPCM7eBMZVttZoHDn6cSw8TMwifdQMFNrG1TfBAYU
- ZppuRg7Bxxsi041xIW3QgikDGfSNg4yt+p4z2nVDgu80P4iHKuxkzdoaaOKAgV2hrxwl
- FZLw==
+ bh=HeYlTgG2nVHL2C245Ht4MOVEngVsjvNT2o9I6+aEd/g=;
+ b=DZQWLOB1snAQ7+MVdOHjGG5wlhZXyEV2Y5fDs4OvECl2schG1LumXVlHdHOeCP+g8X
+ dWm70UBx8zpN8rOrfHG4rotrbBI2UQPP2UhC8eFWTZMrpItoZwoiTvOfGgbKoqqmZ13l
+ hoFL+Ody+AMoqTx6PCHt5dsDutx3uFI7ETH83IB1CjjAxUz7tXRwRQLt0esj8Yp+j3c0
+ qSGFkJNp6j3JqXSg/3HQIS0c3yJvlk4MFdkvdBMGlBstQnXJGIU/jsVYV6baCz5kM78Z
+ 9en1lbXiYhp3DgqRhX01M36cWWFLJs0+hGOE3tUw+mWUeeWlUhnpiroUfvqV68n21frZ
+ 2DHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gov6OrVq+v77edQml+nkA/s6hx0NTnYGiTc0gLPrxvY=;
- b=tpFVlltkJSx1yMtL9x1fddQA70A78u6KAgC2RKmKqkbUADbQAht0D3XC1s/ET1QE1W
- SF+O5BfyLxF9a1CPTjTdkoO11xrB92jdObahtXl7o0QgOkHoJBt/7ldbKMBl8b95yILt
- WD5qdw+Xbj5p5K8tOmRVfAtvqU17UGgERMuITMMlEhUb0bfYG/1/wN+MmCge9YF+BxIp
- oHanoPEWrzBwreLfiIqj8D35JoRdyz5HKjVNveQnf+1kwBsDKOIDbTzAolhs1Twtuo3V
- SKREFERKD9I5TdUeZw1Ut3AuEx3FCEmiBkenPI1PFOofriquQlA87ttJiXiw33mDQLzy
- PztQ==
-X-Gm-Message-State: AOAM5339D7jcFVWPNiosiFUW7C9sEMTgMVrEKcDt/V7NXs7YlrFsslH7
- cmZjBafC6uwioniHuvfvkK8EX/WOZwsUBl/M
-X-Google-Smtp-Source: ABdhPJwZsS8qcLGpFSegT2TdRbBon4TAZwNp8ztChBSLZtj1Q6cUBmYRSRnjFUbAtslzPoWRGq3mYQ==
-X-Received: by 2002:a5d:61d2:: with SMTP id q18mr265146wrv.404.1598639688086; 
- Fri, 28 Aug 2020 11:34:48 -0700 (PDT)
+ bh=HeYlTgG2nVHL2C245Ht4MOVEngVsjvNT2o9I6+aEd/g=;
+ b=Cn3peuiA1+X7FB5GT4iFX42KtaiTa8SZ7l+G5ogK2ULLrqmqZTuvUI1RNRAv+XshgP
+ eYx3X058E6nRWMQw0+iPUglwDoDNZvVAWal/DbGSlImvMWLY6KdfZ2SxZxduu7x1Veuk
+ hjHtyeGmfYQoEPo7UVIT3c7kqmYsMpODigOwXBC9P0HUQMKkk2KQKm2Y/o+MffJfyQCa
+ yV2U4WR3jWaDTAVY+LwSfw+TzkLxHFau5IU4jLEEE6TdlSvY5wNiIOpaBg/c+2BMW0w6
+ PUAP2mAntYlRGNjqcRVkYJES8U93R/bRY3Qn2PHAr2u5seYDWZY2Pop7eW9PmyXstb4E
+ mOPg==
+X-Gm-Message-State: AOAM533i/Hs3ciXbyBfPlCI1v6igxAEGHUoEmCzW+1fcK2HXuWW2JYTD
+ rEuUf4zlcO+L9Lx7TSyGxBH8ng==
+X-Google-Smtp-Source: ABdhPJwz+EvxzcKUgBFcub3FXBA+tkNW6By5kRQn8CULDQoxcFoUF2sx6rHuTfnjB84CensgsT4R9w==
+X-Received: by 2002:adf:80cb:: with SMTP id 69mr259422wrl.313.1598639689208;
+ Fri, 28 Aug 2020 11:34:49 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id s20sm356251wmh.21.2020.08.28.11.34.47
+ by smtp.gmail.com with ESMTPSA id s20sm356251wmh.21.2020.08.28.11.34.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 11:34:47 -0700 (PDT)
+ Fri, 28 Aug 2020 11:34:48 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 43/45] target/arm/vec_helper: Add gvec fp indexed
- multiply-and-add operations
-Date: Fri, 28 Aug 2020 19:33:52 +0100
-Message-Id: <20200828183354.27913-44-peter.maydell@linaro.org>
+Subject: [PATCH v2 44/45] target/arm: Implement fp16 for Neon VMUL, VMLA, VMLS
+Date: Fri, 28 Aug 2020 19:33:53 +0100
+Message-Id: <20200828183354.27913-45-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200828183354.27913-1-peter.maydell@linaro.org>
 References: <20200828183354.27913-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,87 +88,146 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add gvec helpers for doing Neon-style indexed non-fused fp
-multiply-and-accumulate operations.
+Convert the Neon floating-point VMUL, VMLA and VMLS to use gvec,
+and use this to implement fp16 support.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.h     | 10 ++++++++++
- target/arm/vec_helper.c | 27 ++++++++++++++++++++++-----
- 2 files changed, 32 insertions(+), 5 deletions(-)
+ target/arm/translate-neon.c.inc | 114 ++++++++++++++++----------------
+ 1 file changed, 57 insertions(+), 57 deletions(-)
 
-diff --git a/target/arm/helper.h b/target/arm/helper.h
-index cbdbf824d8d..8defd7c8019 100644
---- a/target/arm/helper.h
-+++ b/target/arm/helper.h
-@@ -740,6 +740,16 @@ DEF_HELPER_FLAGS_5(gvec_fmul_idx_s, TCG_CALL_NO_RWG,
- DEF_HELPER_FLAGS_5(gvec_fmul_idx_d, TCG_CALL_NO_RWG,
-                    void, ptr, ptr, ptr, ptr, i32)
- 
-+DEF_HELPER_FLAGS_5(gvec_fmla_nf_idx_h, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(gvec_fmla_nf_idx_s, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+
-+DEF_HELPER_FLAGS_5(gvec_fmls_nf_idx_h, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(gvec_fmls_nf_idx_s, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+
- DEF_HELPER_FLAGS_6(gvec_fmla_idx_h, TCG_CALL_NO_RWG,
-                    void, ptr, ptr, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_6(gvec_fmla_idx_s, TCG_CALL_NO_RWG,
-diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
-index b27b90e1dd8..a973454e4f4 100644
---- a/target/arm/vec_helper.c
-+++ b/target/arm/vec_helper.c
-@@ -1085,7 +1085,7 @@ DO_MLA_IDX(gvec_mls_idx_d, uint64_t, -,   )
- 
- #undef DO_MLA_IDX
- 
--#define DO_FMUL_IDX(NAME, TYPE, H) \
-+#define DO_FMUL_IDX(NAME, ADD, TYPE, H)                                    \
- void HELPER(NAME)(void *vd, void *vn, void *vm, void *stat, uint32_t desc) \
- {                                                                          \
-     intptr_t i, j, oprsz = simd_oprsz(desc);                               \
-@@ -1095,16 +1095,33 @@ void HELPER(NAME)(void *vd, void *vn, void *vm, void *stat, uint32_t desc) \
-     for (i = 0; i < oprsz / sizeof(TYPE); i += segment) {                  \
-         TYPE mm = m[H(i + idx)];                                           \
-         for (j = 0; j < segment; j++) {                                    \
--            d[i + j] = TYPE##_mul(n[i + j], mm, stat);                     \
-+            d[i + j] = TYPE##_##ADD(d[i + j],                              \
-+                                    TYPE##_mul(n[i + j], mm, stat), stat); \
-         }                                                                  \
-     }                                                                      \
-     clear_tail(d, oprsz, simd_maxsz(desc));                                \
+diff --git a/target/arm/translate-neon.c.inc b/target/arm/translate-neon.c.inc
+index e728415c276..f971a5f57ae 100644
+--- a/target/arm/translate-neon.c.inc
++++ b/target/arm/translate-neon.c.inc
+@@ -2432,70 +2432,70 @@ static bool trans_VMLS_2sc(DisasContext *s, arg_2scalar *a)
+     return do_2scalar(s, a, opfn[a->size], accfn[a->size]);
  }
  
--DO_FMUL_IDX(gvec_fmul_idx_h, float16, H2)
--DO_FMUL_IDX(gvec_fmul_idx_s, float32, H4)
--DO_FMUL_IDX(gvec_fmul_idx_d, float64, )
-+#define float16_nop(N, M, S) (M)
-+#define float32_nop(N, M, S) (M)
-+#define float64_nop(N, M, S) (M)
- 
-+DO_FMUL_IDX(gvec_fmul_idx_h, nop, float16, H2)
-+DO_FMUL_IDX(gvec_fmul_idx_s, nop, float32, H4)
-+DO_FMUL_IDX(gvec_fmul_idx_d, nop, float64, )
+-/*
+- * Rather than have a float-specific version of do_2scalar just for
+- * three insns, we wrap a NeonGenTwoSingleOpFn to turn it into
+- * a NeonGenTwoOpFn.
+- */
+-#define WRAP_FP_FN(WRAPNAME, FUNC)                              \
+-    static void WRAPNAME(TCGv_i32 rd, TCGv_i32 rn, TCGv_i32 rm) \
+-    {                                                           \
+-        TCGv_ptr fpstatus = fpstatus_ptr(FPST_STD);             \
+-        FUNC(rd, rn, rm, fpstatus);                             \
+-        tcg_temp_free_ptr(fpstatus);                            \
++static bool do_2scalar_fp_vec(DisasContext *s, arg_2scalar *a,
++                              gen_helper_gvec_3_ptr *fn)
++{
++    /* Two registers and a scalar, using gvec */
++    int vec_size = a->q ? 16 : 8;
++    int rd_ofs = neon_reg_offset(a->vd, 0);
++    int rn_ofs = neon_reg_offset(a->vn, 0);
++    int rm_ofs;
++    int idx;
++    TCGv_ptr fpstatus;
 +
-+/*
-+ * Non-fused multiply-accumulate operations, for Neon. NB that unlike
-+ * the fused ops below they assume accumulate both from and into Vd.
-+ */
-+DO_FMUL_IDX(gvec_fmla_nf_idx_h, add, float16, H2)
-+DO_FMUL_IDX(gvec_fmla_nf_idx_s, add, float32, H4)
-+DO_FMUL_IDX(gvec_fmls_nf_idx_h, sub, float16, H2)
-+DO_FMUL_IDX(gvec_fmls_nf_idx_s, sub, float32, H4)
-+
-+#undef float16_nop
-+#undef float32_nop
-+#undef float64_nop
- #undef DO_FMUL_IDX
++    if (!arm_dc_feature(s, ARM_FEATURE_NEON)) {
++        return false;
+     }
  
- #define DO_FMLA_IDX(NAME, TYPE, H)                                         \
+-WRAP_FP_FN(gen_VMUL_F_mul, gen_helper_vfp_muls)
+-WRAP_FP_FN(gen_VMUL_F_add, gen_helper_vfp_adds)
+-WRAP_FP_FN(gen_VMUL_F_sub, gen_helper_vfp_subs)
++    /* UNDEF accesses to D16-D31 if they don't exist. */
++    if (!dc_isar_feature(aa32_simd_r32, s) &&
++        ((a->vd | a->vn | a->vm) & 0x10)) {
++        return false;
++    }
+ 
+-static bool trans_VMUL_F_2sc(DisasContext *s, arg_2scalar *a)
+-{
+-    static NeonGenTwoOpFn * const opfn[] = {
+-        NULL,
+-        NULL, /* TODO: fp16 support */
+-        gen_VMUL_F_mul,
+-        NULL,
+-    };
++    if (!fn) {
++        /* Bad size (including size == 3, which is a different insn group) */
++        return false;
++    }
+ 
+-    return do_2scalar(s, a, opfn[a->size], NULL);
++    if (a->q && ((a->vd | a->vn) & 1)) {
++        return false;
++    }
++
++    if (!vfp_access_check(s)) {
++        return true;
++    }
++
++    /* a->vm is M:Vm, which encodes both register and index */
++    idx = extract32(a->vm, a->size + 2, 2);
++    a->vm = extract32(a->vm, 0, a->size + 2);
++    rm_ofs = neon_reg_offset(a->vm, 0);
++
++    fpstatus = fpstatus_ptr(a->size == 1 ? FPST_STD_F16 : FPST_STD);
++    tcg_gen_gvec_3_ptr(rd_ofs, rn_ofs, rm_ofs, fpstatus,
++                       vec_size, vec_size, idx, fn);
++    tcg_temp_free_ptr(fpstatus);
++    return true;
+ }
+ 
+-static bool trans_VMLA_F_2sc(DisasContext *s, arg_2scalar *a)
+-{
+-    static NeonGenTwoOpFn * const opfn[] = {
+-        NULL,
+-        NULL, /* TODO: fp16 support */
+-        gen_VMUL_F_mul,
+-        NULL,
+-    };
+-    static NeonGenTwoOpFn * const accfn[] = {
+-        NULL,
+-        NULL, /* TODO: fp16 support */
+-        gen_VMUL_F_add,
+-        NULL,
+-    };
++#define DO_VMUL_F_2sc(NAME, FUNC)                                       \
++    static bool trans_##NAME##_F_2sc(DisasContext *s, arg_2scalar *a)   \
++    {                                                                   \
++        static gen_helper_gvec_3_ptr * const opfn[] = {                 \
++            NULL,                                                       \
++            gen_helper_##FUNC##_h,                                      \
++            gen_helper_##FUNC##_s,                                      \
++            NULL,                                                       \
++        };                                                              \
++        if (a->size == 1 && !dc_isar_feature(aa32_fp16_arith, s)) {     \
++            return false;                                               \
++        }                                                               \
++        return do_2scalar_fp_vec(s, a, opfn[a->size]);                  \
++    }
+ 
+-    return do_2scalar(s, a, opfn[a->size], accfn[a->size]);
+-}
+-
+-static bool trans_VMLS_F_2sc(DisasContext *s, arg_2scalar *a)
+-{
+-    static NeonGenTwoOpFn * const opfn[] = {
+-        NULL,
+-        NULL, /* TODO: fp16 support */
+-        gen_VMUL_F_mul,
+-        NULL,
+-    };
+-    static NeonGenTwoOpFn * const accfn[] = {
+-        NULL,
+-        NULL, /* TODO: fp16 support */
+-        gen_VMUL_F_sub,
+-        NULL,
+-    };
+-
+-    return do_2scalar(s, a, opfn[a->size], accfn[a->size]);
+-}
++DO_VMUL_F_2sc(VMUL, gvec_fmul_idx)
++DO_VMUL_F_2sc(VMLA, gvec_fmla_nf_idx)
++DO_VMUL_F_2sc(VMLS, gvec_fmls_nf_idx)
+ 
+ WRAP_ENV_FN(gen_VQDMULH_16, gen_helper_neon_qdmulh_s16)
+ WRAP_ENV_FN(gen_VQDMULH_32, gen_helper_neon_qdmulh_s32)
 -- 
 2.20.1
 
