@@ -2,83 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EC62255D23
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 16:54:56 +0200 (CEST)
-Received: from localhost ([::1]:47020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 180BB255D47
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 17:03:28 +0200 (CEST)
+Received: from localhost ([::1]:40114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBfmJ-0000x2-7j
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 10:54:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58664)
+	id 1kBfuY-0001iJ-Rf
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 11:03:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kBfgR-0007KC-S5
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 10:48:51 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32990
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kBfgM-0000Ou-JQ
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 10:48:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598626124;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qjrK9tVOpAcr29862cynv5RRhbEodI6jjKBvGEry1ls=;
- b=X9saMY7AxUai1lQyaUAzPpPCfTY5G26SVuQhl80pCnJq67lnwe8ctY7hL0f2EVwwQ4FQBQ
- CtiXP9inQQSjoSYQQSvs1yqWdRExw0MMvvRnUhezm+dGoo/x4o2MzYdFjYTfvozhQGEiIT
- ob5cmiDhHZIXe0P6o5VEv8Cg5p/eREo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-86-IkVPL3jfNweJ-ikGb_LUnQ-1; Fri, 28 Aug 2020 10:48:38 -0400
-X-MC-Unique: IkVPL3jfNweJ-ikGb_LUnQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 27BF48730A0;
- Fri, 28 Aug 2020 14:48:37 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E186E19C59;
- Fri, 28 Aug 2020 14:48:31 +0000 (UTC)
-Date: Fri, 28 Aug 2020 16:48:30 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Babu Moger <babu.moger@amd.com>
-Subject: Re: [PATCH v5 0/8] Remove EPYC mode apicid decode and use generic
- decode
-Message-ID: <20200828164830.7164ecc3@redhat.com>
-In-Reply-To: <56d9a7fb-d88a-258d-1c67-768d63369643@amd.com>
-References: <159804762216.39954.15502128500494116468.stgit@naples-babu.amd.com>
- <20200826143849.59f6970b@redhat.com>
- <20200826125059.GN168515@redhat.com>
- <20200826153034.115126cb@redhat.com>
- <5c00dac9-5ea5-405c-93be-1ac903ddff62@amd.com>
- <20200826183331.GA3977@work-vm>
- <11489e5f-2285-ddb4-9c35-c9f522d603a0@amd.com>
- <20200827222110.1c2ee236@imammedo-mac>
- <20200828085803.GD224144@redhat.com>
- <20200828132436.63de9921@redhat.com>
- <56d9a7fb-d88a-258d-1c67-768d63369643@amd.com>
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kBftR-0001CX-L9
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 11:02:17 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:55198)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kBftP-0002qZ-Js
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 11:02:17 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id mt12so611208pjb.4
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 08:02:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Raiid8L9PZEfLlzIJU5tjNJVrqSN1E40mgcYWH4rHNI=;
+ b=NhSvQxkKmq02Qd3cwLzzSbb48z+ZF17uIZsXLGg0LX8v32iGpWqxzhtWZkO54jAvcQ
+ UY96OwMSQo/o0kyms+v524o9cjy54J4S21EpFu9EIqY7fZP286Wnkpl01o+3xhQveORo
+ H90nwwgIbZQ2Ex4Teq74iKd1/ClLrU8nOsZC5Llrvxb4J8DtwmD8pta5amWRT9VM/REK
+ 5B3FAECY/r0H3PQH6wC9nuObG8O6OiWHZfyj6zNWQO3l6Juw58fkAxWofbkcX8t4z4Zl
+ LXVBYqM4CUhGQXrAeK2oKQNVZY8BjPfayRigJKAErffCAy9CYKzAWOV+hcMz4eZ/KuGG
+ /sNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Raiid8L9PZEfLlzIJU5tjNJVrqSN1E40mgcYWH4rHNI=;
+ b=s5zN7RgHb92ZcgaGGXlnrBgYY0ggQ6uGqNHYr8A7StenYXFFqQ+920DLVqsspNFCZ5
+ DtdIdUM5FxNFCd+AwA+K+g2Lp1br/lj2v3ov84TDsI2plV/Wo6g+SCtBPLKAy0sAbLH/
+ CGT2CvXBqmRVM2NmgI0r5yT+uQx58es0XPMDzQjCk+CpisGcgl34rAJjLM7qTzY0K6vL
+ YgiLL7eqQuU8fYkWnvw6dIxl8g7nnjKTbp3L1aC9Gr5OZRouFf0GH2VX9WoTTCzuqYp0
+ hz9roZrxzrz4hQ697oRjCZPI8mtAeBXT0gPq6AL9hroHsAKnK/a+xpbw+J3s7kbUfUmJ
+ 6AJQ==
+X-Gm-Message-State: AOAM533kmWoJzK1YSRTPmLM+4mfhshNSQlEXJv8f6o23/C5OJlkIND9v
+ 5UzpMUvFNly37JOqQzY4nG3+ubm+Oyco3A==
+X-Google-Smtp-Source: ABdhPJxeifnkUd2ixJc7UtDVCp3HfpGCQspgp5KhDtKC+c1SKJHXzdegn/cGLGX3L4nvhh+JpH2swQ==
+X-Received: by 2002:a17:902:c24a:: with SMTP id
+ 10mr1646753plg.83.1598626932568; 
+ Fri, 28 Aug 2020 08:02:12 -0700 (PDT)
+Received: from localhost.localdomain ([2401:c080:1c01:4fe:5400:2ff:fef1:b056])
+ by smtp.googlemail.com with ESMTPSA id
+ k5sm1508330pjl.3.2020.08.28.08.02.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 28 Aug 2020 08:02:11 -0700 (PDT)
+From: luoyonggang@gmail.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH] meson: Convert undefsym.sh to undefsym.py
+Date: Fri, 28 Aug 2020 23:01:49 +0800
+Message-Id: <20200828150149.1620-1-luoyonggang@gmail.com>
+X-Mailer: git-send-email 2.27.0.windows.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=imammedo@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 04:08:58
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x102a.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,256 +84,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- "ehabkost@redhat.com" <ehabkost@redhat.com>, "mst@redhat.com" <mst@redhat.com>,
- Michal Privoznik <mprivozn@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "rth@twiddle.net" <rth@twiddle.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 28 Aug 2020 09:17:42 -0500
-Babu Moger <babu.moger@amd.com> wrote:
+From: Yonggang Luo <luoyonggang@gmail.com>
 
-> > -----Original Message-----
-> > From: Igor Mammedov <imammedo@redhat.com>
-> > Sent: Friday, August 28, 2020 6:25 AM
-> > To: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> > Cc: Moger, Babu <Babu.Moger@amd.com>; Dr. David Alan Gilbert
-> > <dgilbert@redhat.com>; ehabkost@redhat.com; mst@redhat.com; Michal
-> > Privoznik <mprivozn@redhat.com>; qemu-devel@nongnu.org;
-> > pbonzini@redhat.com; rth@twiddle.net
-> > Subject: Re: [PATCH v5 0/8] Remove EPYC mode apicid decode and use
-> > generic decode
-> >=20
-> > On Fri, 28 Aug 2020 09:58:03 +0100
-> > Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
-> >  =20
-> > > On Thu, Aug 27, 2020 at 10:21:10PM +0200, Igor Mammedov wrote: =20
-> > > > On Wed, 26 Aug 2020 13:45:51 -0500
-> > > > Babu Moger <babu.moger@amd.com> wrote:
-> > > > =20
-> > > > >
-> > > > > =20
-> > > > > > -----Original Message-----
-> > > > > > From: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > > > > > Sent: Wednesday, August 26, 2020 1:34 PM
-> > > > > > To: Moger, Babu <Babu.Moger@amd.com>
-> > > > > > Cc: Igor Mammedov <imammedo@redhat.com>; Daniel P. Berrang=C3=
-=A9
-> > > > > > <berrange@redhat.com>; ehabkost@redhat.com; mst@redhat.com;
-> > > > > > Michal Privoznik <mprivozn@redhat.com>; qemu- =20
-> > devel@nongnu.org; =20
-> > > > > > pbonzini@redhat.com; rth@twiddle.net
-> > > > > > Subject: Re: [PATCH v5 0/8] Remove EPYC mode apicid decode and
-> > > > > > use generic decode
-> > > > > >
-> > > > > > * Babu Moger (babu.moger@amd.com) wrote: =20
-> > > > > > > =20
-> > > > > > > > -----Original Message-----
-> > > > > > > > From: Igor Mammedov <imammedo@redhat.com>
-> > > > > > > > Sent: Wednesday, August 26, 2020 8:31 AM
-> > > > > > > > To: Daniel P. Berrang=C3=83=C2=A9 <berrange@redhat.com>
-> > > > > > > > Cc: Moger, Babu <Babu.Moger@amd.com>; =20
-> > pbonzini@redhat.com; =20
-> > > > > > > > rth@twiddle.net; ehabkost@redhat.com; qemu- =20
-> > devel@nongnu.org; =20
-> > > > > > > > mst@redhat.com; Michal Privoznik <mprivozn@redhat.com>
-> > > > > > > > Subject: Re: [PATCH v5 0/8] Remove EPYC mode apicid decode
-> > > > > > > > and use generic decode
-> > > > > > > >
-> > > > > > > > On Wed, 26 Aug 2020 13:50:59 +0100 Daniel P. Berrang=C3=83=
-=C2=A9
-> > > > > > > > <berrange@redhat.com> wrote:
-> > > > > > > > =20
-> > > > > > > > > On Wed, Aug 26, 2020 at 02:38:49PM +0200, Igor Mammedov =
-=20
-> > wrote: =20
-> > > > > > > > > > On Fri, 21 Aug 2020 17:12:19 -0500 Babu Moger
-> > > > > > > > > > <babu.moger@amd.com> wrote:
-> > > > > > > > > > =20
-> > > > > > > > > > > To support some of the complex topology, we introduce=
-d
-> > > > > > > > > > > EPYC mode =20
-> > > > > > > > apicid decode. =20
-> > > > > > > > > > > But, EPYC mode decode is running into problems. Also
-> > > > > > > > > > > it can become quite a maintenance problem in the
-> > > > > > > > > > > future. So, it was decided to remove that code and us=
-e
-> > > > > > > > > > > the generic decode which works for majority of the
-> > > > > > > > > > > topology. Most of the SPECed configuration would work
-> > > > > > > > > > > just fine. With some non-SPECed user inputs, it will
-> > > > > > > > > > > create some sub- =20
-> > > > > > > > optimal configuration. =20
-> > > > > > > > > > > Here is the discussion thread.
-> > > > > > > > > > > https://nam11.safelinks.protection.outlook.com/?url=
-=3Dht
-> > > > > > > > > > > tps%3A%252
-> > > > > > > > > > > F%2F
-> > > > > > > > > > > lore.kernel.org%2Fqemu-devel%2Fc0bcc1a6-1d84-a6e7- =
-=20
-> > e468 =20
-> > > > > > > > > > > - =20
-> > > > > > > > d5b437c1b25 =20
-> > > > > > > > > > > =20
-> > > > > > > > =20
-> > > > > > =20
-> > 4%40amd.com%2F&amp;data=3D02%7C01%7Cbabu.moger%40amd.com%7C8a
-> > 5c =20
-> > > > > > > > 52f92 =20
-> > > > > > > > > > > =20
-> > > > > > > > =20
-> > > > > > =20
-> > 3f04082a40808d849c43d49%7C3dd8961fe4884e608e11a82d994e183d%7C0%7 =20
-> > > > > > > > C0 =20
-> > > > > > > > > > > =20
-> > > > > > > > =20
-> > > > > > =20
-> > %7C637340454473508873&amp;sdata=3DVnW28H1v4XwK3GaNGFxu%2BhwiMe
-> > A =20
-> > > > > > > > YO%2B =20
-> > > > > > > > > > > 3WAzo3DeY5Ha8%3D&amp;reserved=3D0
-> > > > > > > > > > >
-> > > > > > > > > > > This series removes all the EPYC mode specific apicid
-> > > > > > > > > > > changes and use the generic apicid decode. =20
-> > > > > > > > > >
-> > > > > > > > > > the main difference between EPYC and all other CPUs is
-> > > > > > > > > > that it requires numa configuration (it's not optional)
-> > > > > > > > > > so we need an extra =20
-> > > > > > > No, That is not true. Because of that assumption we made all
-> > > > > > > these apicid changes. And here we are now.
-> > > > > > >
-> > > > > > > AMD supports varies mixed configurations. In case of
-> > > > > > > EPYC-Rome, we have NPS1, NPS2 and NPS4(Numa Nodes per =20
-> > socket). =20
-> > > > > > > In case of NPS1, basically we have all the cores in a socket
-> > > > > > > under one numa node. This is non-numa configuration.
-> > > > > > > Looking at the various configurations and also discussing
-> > > > > > > internally, it is not advisable to have (epyc && !numa) check=
-. =20
-> > > > > >
-> > > > > > Indeed on real hardware, I don't think we always see NUMA; my
-> > > > > > single socket,
-> > > > > > 16 core/32 thread 7302P Dell box, shows the kernel printing 'No
-> > > > > > NUMA configuration found...Faking a node.' =20
-> > > > looks like firmware bug or maybe it's feature and there is a knob i=
-n
-> > > > fw to turn it on/off in case used OS doesn't like it for some reaso=
-n.
-> > > >
-> > > > =20
-> > > > > > So if real hardware hasn't got a NUMA node, what's the real pro=
-blem? =20
-> > > > >
-> > > > > I don't see any problem once we revert all these changes(patch 1-=
-7).
-> > > > > We don't need if (epyc && !numa) error check or
-> > > > > auto_enable_numa=3Dtrue unconditionally. =20
-> > > >
-> > > > We need revert to unbreak migration from QEMU < 5.0, everything els=
-e
-> > > > (fixes for CPUID_Fn8000001E) could go on top.
-> > > >
-> > > > So what's on top (because old code also wasn't correct when
-> > > > CPUID_Fn8000001E is taken in account, tha's why we are at this
-> > > > point),
-> > > >
-> > > > When starting QEMU without -numa
-> > > > Indeed we can skip "if (epyc && !numa) error check or
-> > > > auto_enable_numa=3Dtrue", in case where there is 1 die (NPS1).
-> > > > (1) User however may set core/threads number bigger than possible b=
-y =20
-> > spec, =20
-> > > >     in which case CPUID_Fn8000001E_EBX/CPUID_Fn8000001E_ECX will no=
-t =20
-> > be =20
-> > > >     valid spec vise and could trigger OPPs in guest kernel.
-> > > >     Given we allow go out of spec, perhaps we should add a warning =
-at
-> > > >     realize time saying that used -smp config is not supported sinc=
-e it
-> > > >     doesn't match AMD EPYC spec and might not work.
-> > > >
-> > > > (2) Earlier we agreed that we can reuse existing die_id instead of =
-internal
-> > > >     (topo_ids.node_id in current code)
-> > > >     (It's is called DIE_ID and NODE ID in spec interchangeably)
-> > > >     Same as (1) add a warning when '-smp dies' goes beyond spec lim=
-its.
-> > > >
-> > > > (3) "-smp dies>1" ''if'' we allow to run it without -numa,
-> > > >     then system wide NUMA node id in CPUID_Fn8000001E_ECX probably =
-=20
-> > doesn't matter. =20
-> > > >     could be something like in spec but taking in account die offse=
-t, to =20
-> > produce =20
-> > > >     unique id.
-> > > >
-> > > >     Same, add a warning that there are more than 1 dies but numa is=
- not =20
-> > enabled, =20
-> > > >     suggest to enable numa.
-> > > >
-> > > >     With current code it produces invalid APIC ID for valid '-smp' =
-=20
-> > combination, =20
-> > > >     however if we revert it and switch to die_id than it should pro=
-duce
-> > > >     valid APIC ID once again (as in 4.2).
-> > > >     Given it produces invalid APIC id, maybe we should just ditch t=
-he case =20
-> > and =20
-> > > >     fold it in (4) (i.e. require -numa if "-smp dies>1")
-> > > >
-> > > > (4) -numa is used (RHBZ1728166)
-> > > >     we need to ensure that socket*dies =3D=3D ms->numa_state->num_n=
-odes
-> > > >      and make sure that CPUID_Fn8000001E_ECX consistent with
-> > > >     cpu mapping provided with "-numa cpu=3D" option. =20
-> > >
-> > > Why do we need to socket*dies =3D=3D ms->numa_state->num_nodes ? That
-> > > doesn't seem to be the case in bare metal EPYC nodes I've used which
-> > > lets you configure how many NUMA nodes in firmware. =20
-> >=20
-> > (From dumps Babu has provided earlier, it was dies =3D=3D nodes and
-> > CPUID_Fn8000001E_ECX =3D=3D numa node ids in SRAT.) =20
->=20
-> Yes, That is correct. In most cases dies =3D=3D nodes.
->=20
-> But that is going to change. In future(even in EPYC-Rome) with new f/w
-> BIOS option, users can configure their numa node. It will give the option
-> to keep NPS1, SPS2 or NSP4(Nodes per socket). In those cases dies and
-> nodes will not match. That is why I wanted to keep them separate. User ca=
-n
-> change dies or -numa to match their bios config.
+undefsym.sh are not msys2 compatible, convert it to python script
 
-if real hw will do that, than that's fine.
-it will be hw vendor who will be fixing issues if any when it comes to gues=
-t OS
-(i.e. Windows)
+Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+---
+ meson.build         |  2 +-
+ scripts/undefsym.py | 70 +++++++++++++++++++++++++++++++++++++++++++++
+ scripts/undefsym.sh | 20 -------------
+ 3 files changed, 71 insertions(+), 21 deletions(-)
+ create mode 100644 scripts/undefsym.py
+ delete mode 100755 scripts/undefsym.sh
 
-
-> > dumping CPUID_Fn8000001E and SRAT table for such configs will help us t=
-o
-> > figure out if we need socket*dies !=3D nodes and how to compose config =
-were
-> > SRAT differs from CPUID_Fn8000001E_ECX.
-> >=20
-> > Babu, can you provide CPUID_Fn8000001E and SRAT dumps for above configs
-> > combinations? Or to some spec/guide how it should be. =20
->=20
-> I dont have the config right now. But I will try to get one.
->=20
-> >=20
-> >  =20
-> > >
-> > >
-> > > Regards,
-> > > Daniel =20
->=20
->=20
+diff --git a/meson.build b/meson.build
+index 74f8ea0c2e..9d8419bf82 100644
+--- a/meson.build
++++ b/meson.build
+@@ -859,7 +859,7 @@ foreach d, list : modules
+ endforeach
+ 
+ nm = find_program('nm')
+-undefsym = find_program('scripts/undefsym.sh')
++undefsym = find_program('scripts/undefsym.py')
+ block_syms = custom_target('block.syms', output: 'block.syms',
+                              input: [libqemuutil, block_mods],
+                              capture: true,
+diff --git a/scripts/undefsym.py b/scripts/undefsym.py
+new file mode 100644
+index 0000000000..90ee31ab69
+--- /dev/null
++++ b/scripts/undefsym.py
+@@ -0,0 +1,70 @@
++#!/usr/bin/env python3
++# -*- coding: utf-8 -*-
++#
++# Static library and shared library compare utility
++#
++# Authors:
++#  Yonggang Luo <luoyonggang@gmail.com>
++#
++# This library is free software; you can redistribute it and/or
++# modify it under the terms of the GNU Lesser General Public
++# License as published by the Free Software Foundation; either
++# version 2 of the License, or (at your option) any later version.
++#
++# This library is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++# Lesser General Public License for more details.
++#
++# You should have received a copy of the GNU Lesser General Public
++# License along with this library; if not, see <http://www.gnu.org/licenses/>.
++
++import sys
++import subprocess
++
++# Before a shared module's DSO is produced, a static library is built for it
++# and passed to this script.  The script generates -Wl,-u options to force
++# the inclusion of symbol from libqemuutil.a if the shared modules need them,
++# This is necessary because the modules may use functions not needed by the
++# executable itself, which would cause the function to not be linked in.
++# Then the DSO loading would fail because of the missing symbol.
++
++def filter_lines_set(stdout, is_static = True):
++    lines_set = set()
++    for line in stdout.splitlines():
++        tokens = line.split(b' ')
++        if len(tokens) >= 1:
++            if len(tokens) > 1:
++                if is_static and tokens[1] == b'U':
++                    continue
++                if not is_static and tokens[1] != b'U':
++                    continue
++            new_line = b'-Wl,-u,' + tokens[0]
++            if not new_line in lines_set:
++                lines_set.add(new_line)
++    return lines_set
++
++def main(args):
++    if len(args) <= 3:
++        sys.exit(0)
++
++    nm = args[1]
++    staticlib = args[2]
++    pc = subprocess.run([nm, "-P", "-g", staticlib], stdout=subprocess.PIPE)
++    if pc.returncode != 0:
++        sys.exit(-1)
++    lines_set_left = filter_lines_set(pc.stdout)
++
++    shared_modules = args[3:]
++    pc = subprocess.run([nm, "-P", "-g"] + shared_modules, stdout=subprocess.PIPE)
++    if pc.returncode != 0:
++        sys.exit(-1)
++    lines_set_right = filter_lines_set(pc.stdout, False)
++    lines = []
++    for line in sorted(list(lines_set_right)):
++        if line in lines_set_left:
++            lines.append(line)
++    sys.stdout.write(b'\n'.join(lines).decode())
++
++if __name__ == "__main__":
++    main(sys.argv)
+diff --git a/scripts/undefsym.sh b/scripts/undefsym.sh
+deleted file mode 100755
+index b9ec332e95..0000000000
+--- a/scripts/undefsym.sh
++++ /dev/null
+@@ -1,20 +0,0 @@
+-#! /usr/bin/env bash
+-
+-# Before a shared module's DSO is produced, a static library is built for it
+-# and passed to this script.  The script generates -Wl,-u options to force
+-# the inclusion of symbol from libqemuutil.a if the shared modules need them,
+-# This is necessary because the modules may use functions not needed by the
+-# executable itself, which would cause the function to not be linked in.
+-# Then the DSO loading would fail because of the missing symbol.
+-
+-if test $# -le 2; then
+-  exit 0
+-fi
+-
+-NM=$1
+-staticlib=$2
+-shift 2
+-# Find symbols defined in static libraries and undefined in shared modules
+-comm -12 \
+-  <( $NM -P -g $staticlib | awk '$2!="U"{print "-Wl,-u," $1}' | sort -u) \
+-  <( $NM -P -g "$@" | awk '$2=="U"{print "-Wl,-u," $1}' | sort -u)
+-- 
+2.27.0.windows.1
 
 
