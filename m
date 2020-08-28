@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3572D255A88
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 14:49:28 +0200 (CEST)
-Received: from localhost ([::1]:55380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFC19255A7F
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 14:47:24 +0200 (CEST)
+Received: from localhost ([::1]:47334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBdot-0003jx-7Q
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 08:49:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40048)
+	id 1kBdmt-0000OD-Oa
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 08:47:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kBdl2-00078a-LV
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 08:45:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31893)
+ id 1kBdl3-0007AS-Ot
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 08:45:29 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:28963
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kBdl0-0006FQ-Pm
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 08:45:28 -0400
+ id 1kBdl1-0006G2-QQ
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 08:45:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598618725;
+ s=mimecast20190719; t=1598618726;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rGcnZSUDcPlBMQ0CkQrj7qp3Hy4c2fh7Gj0fE3bYDpg=;
- b=R2xdvZaam9t9SyFCV8u0di6RpxaSJqCg1CzVlNZU+Bh67AcJytCIflJIVKPV2AUP8DZC/Y
- 4D01eugEE+s13YT/XJyuXJ4zP2CLgc5yqRYONQWu23U4XFp8oSm3lTy/sWmI3u7Lx8yBt5
- 8AcnOjxSMOBVzWfYiqahSmKp+sAesT0=
+ bh=XzLBrjmc2gvzMbHC8xI5ss3GtnAalCmrC5gAURzAcMw=;
+ b=GfWPNM3NZ354cpm2H04eTWnfCDFGj62NonmafYRkn1mUNgbW8CB/GPeWc7yoCJzADSxfG2
+ L+sGBLHOc7ysL+MaumSd9ZM/FFoJodKB35JbKG8MNiMVFc0EvifR+HEnPWBHD0ciK71rga
+ Ut0TkxcYoniYRjqqwjdfEY9MtJ3z+fw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-344-Bkm8jUlpOrKC3_Db09_rRA-1; Fri, 28 Aug 2020 08:45:22 -0400
-X-MC-Unique: Bkm8jUlpOrKC3_Db09_rRA-1
+ us-mta-471-eFvQ-yKBPEeLsuO3b5NbCg-1; Fri, 28 Aug 2020 08:45:24 -0400
+X-MC-Unique: eFvQ-yKBPEeLsuO3b5NbCg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F083480EF84;
- Fri, 28 Aug 2020 12:45:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9E4E189E61A;
+ Fri, 28 Aug 2020 12:45:23 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-100.ams2.redhat.com
  [10.36.114.100])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7DBCC74E12;
- Fri, 28 Aug 2020 12:45:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4732974E12;
+ Fri, 28 Aug 2020 12:45:22 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com,
  slp@redhat.com, yezhenyu2@huawei.com, longpeng2@huawei.com,
  berrange@redhat.com
-Subject: [PULL 2/8] migration: add vsock as data channel support
-Date: Fri, 28 Aug 2020 13:45:03 +0100
-Message-Id: <20200828124509.311210-3-dgilbert@redhat.com>
+Subject: [PULL 3/8] migration: improve error reporting of block driver state
+ name
+Date: Fri, 28 Aug 2020 13:45:04 +0100
+Message-Id: <20200828124509.311210-4-dgilbert@redhat.com>
 In-Reply-To: <20200828124509.311210-1-dgilbert@redhat.com>
 References: <20200828124509.311210-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.003
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 04:08:55
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 01:02:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,43 +88,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Longpeng(Mike)" <longpeng2@huawei.com>
+From: Daniel P. Berrangé <berrange@redhat.com>
 
-The vsock channel is more widely use in some new features, for example,
-the Nitro/Enclave. It can also be used as the migration channel.
+With blockdev, a BlockDriverState may not have a device name,
+so using a node name is required as an alternative.
 
-Signed-off-by: Longpeng(Mike) <longpeng2@huawei.com>
-Message-Id: <20200806074030.174-3-longpeng2@huawei.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20200827111606.1408275-2-berrange@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/migration.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ migration/savevm.c         | 12 ++++++------
+ tests/qemu-iotests/267.out |  4 ++--
+ 2 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index ac37a386dd..58a5452471 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -384,7 +384,8 @@ void qemu_start_incoming_migration(const char *uri, Error **errp)
-     if (!strcmp(uri, "defer")) {
-         deferred_incoming_migration(errp);
-     } else if (strstart(uri, "tcp:", &p) ||
--               strstart(uri, "unix:", NULL)) {
-+               strstart(uri, "unix:", NULL) ||
-+               strstart(uri, "vsock:", NULL)) {
-         socket_start_incoming_migration(p ? p : uri, errp);
- #ifdef CONFIG_RDMA
-     } else if (strstart(uri, "rdma:", &p)) {
-@@ -2102,7 +2103,8 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
+diff --git a/migration/savevm.c b/migration/savevm.c
+index a843d202b5..304d98ff78 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -2682,7 +2682,7 @@ int save_snapshot(const char *name, Error **errp)
+ 
+     if (!bdrv_all_can_snapshot(&bs)) {
+         error_setg(errp, "Device '%s' is writable but does not support "
+-                   "snapshots", bdrv_get_device_name(bs));
++                   "snapshots", bdrv_get_device_or_node_name(bs));
+         return ret;
      }
  
-     if (strstart(uri, "tcp:", &p) ||
--        strstart(uri, "unix:", NULL)) {
-+        strstart(uri, "unix:", NULL) ||
-+        strstart(uri, "vsock:", NULL)) {
-         socket_start_outgoing_migration(s, p ? p : uri, &local_err);
- #ifdef CONFIG_RDMA
-     } else if (strstart(uri, "rdma:", &p)) {
+@@ -2691,7 +2691,7 @@ int save_snapshot(const char *name, Error **errp)
+         ret = bdrv_all_delete_snapshot(name, &bs1, errp);
+         if (ret < 0) {
+             error_prepend(errp, "Error while deleting snapshot on device "
+-                          "'%s': ", bdrv_get_device_name(bs1));
++                          "'%s': ", bdrv_get_device_or_node_name(bs1));
+             return ret;
+         }
+     }
+@@ -2766,7 +2766,7 @@ int save_snapshot(const char *name, Error **errp)
+     ret = bdrv_all_create_snapshot(sn, bs, vm_state_size, &bs);
+     if (ret < 0) {
+         error_setg(errp, "Error while creating snapshot on '%s'",
+-                   bdrv_get_device_name(bs));
++                   bdrv_get_device_or_node_name(bs));
+         goto the_end;
+     }
+ 
+@@ -2884,14 +2884,14 @@ int load_snapshot(const char *name, Error **errp)
+     if (!bdrv_all_can_snapshot(&bs)) {
+         error_setg(errp,
+                    "Device '%s' is writable but does not support snapshots",
+-                   bdrv_get_device_name(bs));
++                   bdrv_get_device_or_node_name(bs));
+         return -ENOTSUP;
+     }
+     ret = bdrv_all_find_snapshot(name, &bs);
+     if (ret < 0) {
+         error_setg(errp,
+                    "Device '%s' does not have the requested snapshot '%s'",
+-                   bdrv_get_device_name(bs), name);
++                   bdrv_get_device_or_node_name(bs), name);
+         return ret;
+     }
+ 
+@@ -2920,7 +2920,7 @@ int load_snapshot(const char *name, Error **errp)
+     ret = bdrv_all_goto_snapshot(name, &bs, errp);
+     if (ret < 0) {
+         error_prepend(errp, "Could not load snapshot '%s' on '%s': ",
+-                      name, bdrv_get_device_name(bs));
++                      name, bdrv_get_device_or_node_name(bs));
+         goto err_drain;
+     }
+ 
+diff --git a/tests/qemu-iotests/267.out b/tests/qemu-iotests/267.out
+index d6d80c099f..215902b3ad 100644
+--- a/tests/qemu-iotests/267.out
++++ b/tests/qemu-iotests/267.out
+@@ -81,11 +81,11 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
+ Testing: -blockdev driver=file,filename=TEST_DIR/t.IMGFMT,node-name=file
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) savevm snap0
+-Error: Device '' is writable but does not support snapshots
++Error: Device 'file' is writable but does not support snapshots
+ (qemu) info snapshots
+ No available block device supports snapshots
+ (qemu) loadvm snap0
+-Error: Device '' is writable but does not support snapshots
++Error: Device 'file' is writable but does not support snapshots
+ (qemu) quit
+ 
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
 -- 
 2.26.2
 
