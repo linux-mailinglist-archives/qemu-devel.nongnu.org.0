@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DD48255C83
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 16:31:47 +0200 (CEST)
-Received: from localhost ([::1]:48382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A65E7255CB1
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 16:38:38 +0200 (CEST)
+Received: from localhost ([::1]:53474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBfPu-00064k-Fr
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 10:31:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51498)
+	id 1kBfWX-00034w-LS
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 10:38:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBfEy-0001FU-Bx
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 10:20:28 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:38255)
+ id 1kBfF0-0001IK-4n
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 10:20:30 -0400
+Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:39263)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBfEw-0005FI-Ar
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 10:20:28 -0400
-Received: by mail-pf1-x443.google.com with SMTP id d22so738830pfn.5
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 07:20:25 -0700 (PDT)
+ id 1kBfEx-0005FT-Ms
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 10:20:29 -0400
+Received: by mail-pj1-x1043.google.com with SMTP id s2so565405pjr.4
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 07:20:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hr7Ho+g+bgpcDeEBrTLXrsm1Zc/M5hF3iPitiFsO4bo=;
- b=rCJEAKQ5k22P/Ge7NP5z3Ds4h2F1hJsdAZ7l8B7wB3PYZVJ+QaZIDEEj8qrXEy2pdZ
- gT/5qf+6V96BqpRo7rYybQQ2Xq8wWV/HDpaPUCBXkokxAqcPMvur/dytBuPhh+x6viO6
- lTK0kL0cCpNW6ToKD+cD0bkhMcY3fdRE1h2lGO/6RP0iUhZj1QtZY6KYTMuCwq1pGprW
- NikGe5cPWcEXJSvEwL1r0PUtpRvR1MIkJPJ014cU1h9aqihiBE9kI+RS2axscdB49Jml
- ZnoMp3l2lp0BiHbBCmWe4wFUjnCAwKntJQZcnoawBpwvjSirYp6B1c8uR5dXZz6lXv61
- 1vXg==
+ bh=bQC2NsHcUulzW6D5RhH+hzBIgYR+xbZNPdmPEiO9k08=;
+ b=zg0juVRQKbAqwIFtI3G83o+nuPOMDKq6hl5qrzV0gCIOSK5KXRue36QcRz9aLOiwtD
+ aZq/hhprqlcky0GGAoOHd40WCZE1AL9SOuXMlidt/aElwSHW3TaoOvARsY+kweBnnHH/
+ +AJXRZzbRjlPfdAe8K22PuXZ/U15eThQiN+u8K28xiuspGRAR20iufSG1alQqZL1LAB1
+ ATDy6zxtvzrsWueFkiGDKG4K3c68yOMuEJDDKWhjcCZo9pdbeyh8Sl23ToNlBvYj2D3Q
+ yfsV8cwoxGsnTVBBVU/gSau62LQg8Zd8JnjTz4q/euIa1aLxt+51N94MhgVuxMaLSq4X
+ 8QhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hr7Ho+g+bgpcDeEBrTLXrsm1Zc/M5hF3iPitiFsO4bo=;
- b=dWlL2Y9eHfpJhFyo8iOIYZ5J8qc00RMSfGu69w8cpeEykeu3cMDB0e77KcmfVuILZE
- iqmf0Wc0d9QdJmWmQY27NUmeNasR/f9rIGrseBAL4ZKBy2etV/rlj5Cz+/X4jja9fKOk
- 8ejXfS3pOYKfZDvxHtNxakFgBJZFdZEYxfvGgrC/2td9i4fvTVoge9Y4kxCKPEausMae
- cJob9CyPBWFbIrXSkwFOeuMK5skZwi/+VyvthWRpL5fUChPWK99ZwTG6PyPmwsCuYVWI
- tj7sJc8MsS41RbIar4NRzqRBuoWHe5WeqYPZqieeBb/hz2hmpkIPQKmnKF9vUutb+Gdz
- A36A==
-X-Gm-Message-State: AOAM531kKCvD0htVuTSzjjMqOr7iuhM6MjvUkAogFaqDEvTCX7Owz/Up
- cuT4n+TPTUSGxs2qZZUMZ7qDsvwskH0RbQ==
-X-Google-Smtp-Source: ABdhPJwGhQAPmTeN+onzQQFAS9mcM9s6KPyHWKwDzSuef6z8DaUg8k4ebB64Z9VLs2dpDMC9R+uCVA==
-X-Received: by 2002:a63:fc4b:: with SMTP id r11mr1401780pgk.342.1598624424664; 
- Fri, 28 Aug 2020 07:20:24 -0700 (PDT)
+ bh=bQC2NsHcUulzW6D5RhH+hzBIgYR+xbZNPdmPEiO9k08=;
+ b=YYrqnuwAhRj0rcYZMxGojmHxvcOqYQDfIJsm9PKQd8Xk+1bYSidFm8xQwPGXBZ8+pR
+ 336IFGYqUt/moVkf4HmNzH1E6nsUmvK+6a+x3XletejV1Wv50jwNo+O+asWxT9pi8Djj
+ WCv+kNQSU3XvLc8+4qSxNzWCGonIblU1nycPEDyCmv1EULNBTSlPqLyOggmSKPcorMMg
+ DQkdyj2nUHx7H4OGDzzyg0rrwt1/pdNgWF/8FKrqR04LtisHKHx7In7/SwrZYewmORQ0
+ 3tBFMDIFCo+giMDq/fihOk5KAwIk6//cPoly6FMeAXjdB2NRXqlslNy5a2jYCSbQB4hp
+ 02BA==
+X-Gm-Message-State: AOAM5313r0qfC37t2WErBAHCv2nkiQl0nf9isxBeHUJb2tB7wsQak9Bh
+ u/m45Viz2s1wD4bp8r7aRgNhdXJlV7CJUg==
+X-Google-Smtp-Source: ABdhPJxMWr4PYB36C1+mioOCRrssHqQjMDtnxVF4NJ3K2eIRX7TFhtrBylFKY0y54E0ojTRD+SrHSg==
+X-Received: by 2002:a17:902:690a:: with SMTP id
+ j10mr1541600plk.155.1598624426000; 
+ Fri, 28 Aug 2020 07:20:26 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id j3sm1403080pjw.23.2020.08.28.07.20.23
+ by smtp.gmail.com with ESMTPSA id j3sm1403080pjw.23.2020.08.28.07.20.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 07:20:23 -0700 (PDT)
+ Fri, 28 Aug 2020 07:20:25 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 42/76] target/microblaze: Convert dec_div to decodetree
-Date: Fri, 28 Aug 2020 07:18:55 -0700
-Message-Id: <20200828141929.77854-43-richard.henderson@linaro.org>
+Subject: [PATCH v2 43/76] target/microblaze: Unwind properly when raising
+ divide-by-zero
+Date: Fri, 28 Aug 2020 07:18:56 -0700
+Message-Id: <20200828141929.77854-44-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200828141929.77854-1-richard.henderson@linaro.org>
 References: <20200828141929.77854-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x443.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1043.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,86 +90,80 @@ Cc: edgar.iglesias@xilinx.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Restore the correct pc when raising divide-by-zero.  Also, the
+MSR[DZO] bit is sticky -- it is not cleared with a successful divide.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/insns.decode |  3 +++
- target/microblaze/translate.c  | 35 +++++++++++++---------------------
- 2 files changed, 16 insertions(+), 22 deletions(-)
+ target/microblaze/helper.h    |  4 ++--
+ target/microblaze/op_helper.c | 23 ++++++++++++-----------
+ 2 files changed, 14 insertions(+), 13 deletions(-)
 
-diff --git a/target/microblaze/insns.decode b/target/microblaze/insns.decode
-index 1a2e22e44a..b2dcbdf784 100644
---- a/target/microblaze/insns.decode
-+++ b/target/microblaze/insns.decode
-@@ -50,6 +50,9 @@ andni           101011 ..... ..... ................     @typeb
- cmp             000101 ..... ..... ..... 000 0000 0001  @typea
- cmpu            000101 ..... ..... ..... 000 0000 0011  @typea
+diff --git a/target/microblaze/helper.h b/target/microblaze/helper.h
+index 6f7f96421f..79e1e8ecc7 100644
+--- a/target/microblaze/helper.h
++++ b/target/microblaze/helper.h
+@@ -1,7 +1,7 @@
+ DEF_HELPER_FLAGS_2(raise_exception, TCG_CALL_NO_WG, noreturn, env, i32)
  
-+idiv            010010 ..... ..... ..... 000 0000 0000  @typea
-+idivu           010010 ..... ..... ..... 000 0000 0010  @typea
-+
- mul             010000 ..... ..... ..... 000 0000 0000  @typea
- mulh            010000 ..... ..... ..... 000 0000 0001  @typea
- mulhu           010000 ..... ..... ..... 000 0000 0011  @typea
-diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index 617e208583..9763b9d77c 100644
---- a/target/microblaze/translate.c
-+++ b/target/microblaze/translate.c
-@@ -368,6 +368,19 @@ static void gen_cmpu(TCGv_i32 out, TCGv_i32 ina, TCGv_i32 inb)
- DO_TYPEA(cmp, false, gen_cmp)
- DO_TYPEA(cmpu, false, gen_cmpu)
+-DEF_HELPER_3(divs, i32, env, i32, i32)
+-DEF_HELPER_3(divu, i32, env, i32, i32)
++DEF_HELPER_FLAGS_3(divs, TCG_CALL_NO_WG, i32, env, i32, i32)
++DEF_HELPER_FLAGS_3(divu, TCG_CALL_NO_WG, i32, env, i32, i32)
  
-+static void gen_idiv(TCGv_i32 out, TCGv_i32 ina, TCGv_i32 inb)
-+{
-+    gen_helper_divs(out, cpu_env, inb, ina);
-+}
-+
-+static void gen_idivu(TCGv_i32 out, TCGv_i32 ina, TCGv_i32 inb)
-+{
-+    gen_helper_divu(out, cpu_env, inb, ina);
-+}
-+
-+DO_TYPEA_CFG(idiv, use_div, true, gen_idiv)
-+DO_TYPEA_CFG(idivu, use_div, true, gen_idivu)
-+
- static void gen_mulh(TCGv_i32 out, TCGv_i32 ina, TCGv_i32 inb)
- {
-     TCGv_i32 tmp = tcg_temp_new_i32();
-@@ -683,27 +696,6 @@ static void dec_msr(DisasContext *dc)
-     }
+ DEF_HELPER_3(fadd, i32, env, i32, i32)
+ DEF_HELPER_3(frsub, i32, env, i32, i32)
+diff --git a/target/microblaze/op_helper.c b/target/microblaze/op_helper.c
+index f976d112eb..d99d98051a 100644
+--- a/target/microblaze/op_helper.c
++++ b/target/microblaze/op_helper.c
+@@ -69,26 +69,27 @@ void helper_raise_exception(CPUMBState *env, uint32_t index)
+     cpu_loop_exit(cs);
  }
  
--/* Div unit.  */
--static void dec_div(DisasContext *dc)
--{
--    unsigned int u;
--
--    u = dc->imm & 2; 
--
--    if (trap_illegal(dc, !dc->cpu->cfg.use_div)) {
--        return;
--    }
--
--    if (u)
--        gen_helper_divu(cpu_R[dc->rd], cpu_env, *(dec_alu_op_b(dc)),
--                        cpu_R[dc->ra]);
--    else
--        gen_helper_divs(cpu_R[dc->rd], cpu_env, *(dec_alu_op_b(dc)),
--                        cpu_R[dc->ra]);
--    if (!dc->rd)
--        tcg_gen_movi_i32(cpu_R[dc->rd], 0);
--}
--
- static void dec_barrel(DisasContext *dc)
+-static inline int div_prepare(CPUMBState *env, uint32_t a, uint32_t b)
++static bool check_divz(CPUMBState *env, uint32_t a, uint32_t b, uintptr_t ra)
  {
-     TCGv_i32 t0;
-@@ -1565,7 +1557,6 @@ static struct decoder_info {
-     {DEC_BCC, dec_bcc},
-     {DEC_RTS, dec_rts},
-     {DEC_FPU, dec_fpu},
--    {DEC_DIV, dec_div},
-     {DEC_MSR, dec_msr},
-     {DEC_STREAM, dec_stream},
-     {{0, 0}, dec_null}
+-    MicroBlazeCPU *cpu = env_archcpu(env);
+-
+-    if (b == 0) {
++    if (unlikely(b == 0)) {
+         env->msr |= MSR_DZ;
+ 
+-        if ((env->msr & MSR_EE) && cpu->cfg.div_zero_exception) {
++        if ((env->msr & MSR_EE) &&
++            env_archcpu(env)->cfg.div_zero_exception) {
++            CPUState *cs = env_cpu(env);
++
+             env->esr = ESR_EC_DIVZERO;
+-            helper_raise_exception(env, EXCP_HW_EXCP);
++            cs->exception_index = EXCP_HW_EXCP;
++            cpu_loop_exit_restore(cs, ra);
+         }
+-        return 0;
++        return false;
+     }
+-    env->msr &= ~MSR_DZ;
+-    return 1;
++    return true;
+ }
+ 
+ uint32_t helper_divs(CPUMBState *env, uint32_t a, uint32_t b)
+ {
+-    if (!div_prepare(env, a, b)) {
++    if (!check_divz(env, a, b, GETPC())) {
+         return 0;
+     }
+     return (int32_t)a / (int32_t)b;
+@@ -96,7 +97,7 @@ uint32_t helper_divs(CPUMBState *env, uint32_t a, uint32_t b)
+ 
+ uint32_t helper_divu(CPUMBState *env, uint32_t a, uint32_t b)
+ {
+-    if (!div_prepare(env, a, b)) {
++    if (!check_divz(env, a, b, GETPC())) {
+         return 0;
+     }
+     return a / b;
 -- 
 2.25.1
 
