@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C05AA255CFE
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 16:49:33 +0200 (CEST)
-Received: from localhost ([::1]:50044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67B32255D27
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 16:56:01 +0200 (CEST)
+Received: from localhost ([::1]:52066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBfh6-0007eK-QI
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 10:49:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52058)
+	id 1kBfnM-00033K-G5
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 10:56:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBfFV-0002Pn-NI
+ id 1kBfFV-0002QK-Rd
  for qemu-devel@nongnu.org; Fri, 28 Aug 2020 10:21:01 -0400
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:50935)
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:33318)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBfFS-0005Qv-PI
+ id 1kBfFT-0005RI-Ur
  for qemu-devel@nongnu.org; Fri, 28 Aug 2020 10:21:01 -0400
-Received: by mail-pj1-x1042.google.com with SMTP id i13so567200pjv.0
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 07:20:58 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id h2so540833plr.0
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 07:20:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Dfp4IqU2KYAnvz32O5a9TP5rQnlGG8wPHCxVkh2Xx9w=;
- b=fuItrZYYFv5RGph+ZsLBdLvS401JPvBt83KMJ2WSSjPlnI0FbMdv2zvNNJoBPtF9Y7
- Y7ugxmG8MTBR5M3UeUxwz4l8MPEN5IVq/YqxdowxxEfj5es0CfIyp8IQ2T/s1x3DdKXL
- HgW8cNBoA0YcvSupEulK12n0MZnWQ6V24K59Ro+pfUjOogOhqUUY/RHWzXFGUOdI+bTA
- jbhdrM4kNp3Bz4wAZFd/KYALZ7bAFbZHQVCyuh4UkfaN+8haOozIqHgbVNHyHRfxXm4O
- 9Ru9mByU41xJkqTaHZpLSm0KVZhIxuG9PzuHv8KEIp1f7dp+8flc1rxg1ZzGzAGMWqYW
- V5oA==
+ bh=JAaLtIFS218jhrIntO1CQBLV81E0LrWrKQYBwcRx/ss=;
+ b=qLeGHQN8piX0iQLsD4gji7uRrL4cecjHuSY0wXonxtlxgn3Nu7DXVUHSQMwzPrJcdm
+ O6saoHhKqfrjj355bqUWjLvQSn8CrvsopWGUEfMB7IiXP8Y/TtWKKmyc+tFyWHC4962P
+ KlmEhhq1/rxbB/9Pow1f1GgAeTD+a8ZVcTsiNWahqTonYWkv+IDe+JfmpCvDG2IYWS0d
+ Rq6Im67ouWoxE6t6lN2NSAXKv2pM/skQVE+XlEqlZ2ZblMQkGP8Zo+bAfXk8LzrLqwfa
+ V27LTPx6jrnHeR6BvQ4PVv//QM3IcMUJdUvh3LfOcof1JMkazYOzqraHUdZAOhcg3/Pd
+ t5pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Dfp4IqU2KYAnvz32O5a9TP5rQnlGG8wPHCxVkh2Xx9w=;
- b=d1B8P7rcQSfIqB+NvGZpmWEPdKfugILzCFPfniZJEyhTXIr2BmXT3DKHSrqASOV55t
- J3Csjfn1c0ocBltzwXsURVU1SCVZAJDRxP2/P6ZFf0oaRLyuk5xTUufNSZmJvr/oHI2C
- qDcne3slg0DCAm02uqKZONLxPF7pXZN09Bwb4aKKtzURf5dj+lq2KTXTFcFubKrfoCUs
- Z90tXzZjKUyHW+vwrHeRUAlmTyP6msn11H9JHR3o7/GUFKbXIiVrO/Ehjjx8ZvJSKkL/
- Apd+H3nlae57Qwx0BV3xy7vdtSNV6D6UuP8U543uit1eXJUALzl+2BgaFhE6svXcH4z1
- V8fw==
-X-Gm-Message-State: AOAM5339bTJcEjSgdJZ0CFc9nY9kxr+z2AZ972u790/m+gkGzd6wnKps
- zfmGLQe9pc1zR6sxB1mYyqMqAfEcJiqrBA==
-X-Google-Smtp-Source: ABdhPJwWrzFFOlfJ1sh6b2zrd6PEUUux/zNigtsmMWoaPwMUgaCQqVY7otyNsOdIIzT6KNuk78MFDg==
-X-Received: by 2002:a17:902:b082:: with SMTP id
- p2mr1496402plr.266.1598624456959; 
- Fri, 28 Aug 2020 07:20:56 -0700 (PDT)
+ bh=JAaLtIFS218jhrIntO1CQBLV81E0LrWrKQYBwcRx/ss=;
+ b=es6pQ3mbq4K5E5fhfNT7MmiJP3VDJo55gf+KY6Yfv32/gxZH/PpYKi7fYNXa/ZvfbW
+ Zs5OTSsIZjKHF/Aru42dyTLeAVvRROjlrkRcCty9TWsAivqXCMnhDu4qA2HW5VHQaCqe
+ D16HFNgqNutqUahxdZIC3MF1PHLn5sFqCHKEn+1Qx7ulITR98NMR5B3W7QrTcfU6He3K
+ 35Is+nn/ojSKceQz19pTZPEtJL3pt1UzPcPBhV6TzQOdWE808u/nhPIJ1Fgz0BrHcZJw
+ GjEKlsgzbJw0Bz4uRtTSHZ4BrepIXL2bEQWyFRdIyqXgtPkNNAq9aQ+cYNPiVXCILU0w
+ jFGQ==
+X-Gm-Message-State: AOAM532nTtUY1NEBoBcm9v4Jo1A5xzUfo8gS8wi5H8kaQfz1lKdoEISe
+ SrDmD8jYFu+N2bQLfUxeop7cWCu+gju0SQ==
+X-Google-Smtp-Source: ABdhPJyQWxp6kvmZbkgHM/nznqhHuVxcUqyXU0LpyvOkwQFufOlWU3CAcoOt/XCNwPffxvsYl7jPcQ==
+X-Received: by 2002:a17:902:988f:: with SMTP id
+ s15mr1506833plp.26.1598624458291; 
+ Fri, 28 Aug 2020 07:20:58 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id j3sm1403080pjw.23.2020.08.28.07.20.55
+ by smtp.gmail.com with ESMTPSA id j3sm1403080pjw.23.2020.08.28.07.20.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 07:20:56 -0700 (PDT)
+ Fri, 28 Aug 2020 07:20:57 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 67/76] target/microblaze: Convert dec_bcc to decodetree
-Date: Fri, 28 Aug 2020 07:19:20 -0700
-Message-Id: <20200828141929.77854-68-richard.henderson@linaro.org>
+Subject: [PATCH v2 68/76] target/microblaze: Convert dec_rts to decodetree
+Date: Fri, 28 Aug 2020 07:19:21 -0700
+Message-Id: <20200828141929.77854-69-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200828141929.77854-1-richard.henderson@linaro.org>
 References: <20200828141929.77854-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1042.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,203 +91,102 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/insns.decode | 36 +++++++++++++
- target/microblaze/translate.c  | 99 ++++++++++++++++++----------------
- 2 files changed, 88 insertions(+), 47 deletions(-)
+ target/microblaze/insns.decode |  5 ++++
+ target/microblaze/translate.c  | 51 +++++++++++++++-------------------
+ 2 files changed, 28 insertions(+), 28 deletions(-)
 
 diff --git a/target/microblaze/insns.decode b/target/microblaze/insns.decode
-index 340dd999b6..e6a61f147a 100644
+index e6a61f147a..8906058a29 100644
 --- a/target/microblaze/insns.decode
 +++ b/target/microblaze/insns.decode
-@@ -20,8 +20,10 @@
- &typea0         rd ra
- &typea          rd ra rb
- &typea_br       rd rb
-+&typea_bc       ra rb
- &typeb          rd ra imm
- &typeb_br       rd imm
-+&typeb_bc       ra imm
+@@ -202,6 +202,11 @@ rsubic          001011 ..... ..... ................     @typeb
+ rsubik          001101 ..... ..... ................     @typeb
+ rsubikc         001111 ..... ..... ................     @typeb
  
- # Include any IMM prefix in the value reported.
- %extimm         0:s16 !function=typeb_imm
-@@ -35,12 +37,18 @@
- # Officially typea, but with ra as opcode.
- @typea_br       ...... rd:5 ..... rb:5 ...........      &typea_br
- 
-+# Officially typea, but with rd as opcode.
-+@typea_bc       ...... ..... ra:5 rb:5 ...........      &typea_bc
++rtbd            101101 10010 ..... ................     @typeb_bc
++rtid            101101 10001 ..... ................     @typeb_bc
++rted            101101 10100 ..... ................     @typeb_bc
++rtsd            101101 10000 ..... ................     @typeb_bc
 +
- # Officially typeb, but any immediate extension is unused.
- @typeb_bs       ...... rd:5 ra:5 ..... ...... imm:5     &typeb
- 
- # Officially typeb, but with ra as opcode.
- @typeb_br       ...... rd:5 ..... ................      &typeb_br imm=%extimm
- 
-+# Officially typeb, but with rd as opcode.
-+@typeb_bc       ...... ..... ra:5 ................      &typeb_bc imm=%extimm
-+
- # For convenience, extract the two imm_w/imm_s fields, then pack
- # them back together as "imm".  Doing this makes it easiest to
- # match the required zero at bit 5.
-@@ -68,6 +76,34 @@ andi            101001 ..... ..... ................     @typeb
- andn            100011 ..... ..... ..... 000 0000 0000  @typea
- andni           101011 ..... ..... ................     @typeb
- 
-+beq             100111 00000 ..... ..... 000 0000 0000  @typea_bc
-+bge             100111 00101 ..... ..... 000 0000 0000  @typea_bc
-+bgt             100111 00100 ..... ..... 000 0000 0000  @typea_bc
-+ble             100111 00011 ..... ..... 000 0000 0000  @typea_bc
-+blt             100111 00010 ..... ..... 000 0000 0000  @typea_bc
-+bne             100111 00001 ..... ..... 000 0000 0000  @typea_bc
-+
-+beqd            100111 10000 ..... ..... 000 0000 0000  @typea_bc
-+bged            100111 10101 ..... ..... 000 0000 0000  @typea_bc
-+bgtd            100111 10100 ..... ..... 000 0000 0000  @typea_bc
-+bled            100111 10011 ..... ..... 000 0000 0000  @typea_bc
-+bltd            100111 10010 ..... ..... 000 0000 0000  @typea_bc
-+bned            100111 10001 ..... ..... 000 0000 0000  @typea_bc
-+
-+beqi            101111 00000 ..... ................     @typeb_bc
-+bgei            101111 00101 ..... ................     @typeb_bc
-+bgti            101111 00100 ..... ................     @typeb_bc
-+blei            101111 00011 ..... ................     @typeb_bc
-+blti            101111 00010 ..... ................     @typeb_bc
-+bnei            101111 00001 ..... ................     @typeb_bc
-+
-+beqid           101111 10000 ..... ................     @typeb_bc
-+bgeid           101111 10101 ..... ................     @typeb_bc
-+bgtid           101111 10100 ..... ................     @typeb_bc
-+bleid           101111 10011 ..... ................     @typeb_bc
-+bltid           101111 10010 ..... ................     @typeb_bc
-+bneid           101111 10001 ..... ................     @typeb_bc
-+
- br              100110 ..... 00000 ..... 000 0000 0000  @typea_br
- bra             100110 ..... 01000 ..... 000 0000 0000  @typea_br
- brd             100110 ..... 10000 ..... 000 0000 0000  @typea_br
+ sb              110100 ..... ..... ..... 0000 000 0000  @typea
+ sbr             110100 ..... ..... ..... 0100 000 0000  @typea
+ sbea            110100 ..... ..... ..... 0001 000 0000  @typea
 diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index 5c6e6e599e..b8dcef8f1c 100644
+index b8dcef8f1c..6c1855b29a 100644
 --- a/target/microblaze/translate.c
 +++ b/target/microblaze/translate.c
-@@ -1095,6 +1095,58 @@ DO_BR(brad, braid, true, true, false)
- DO_BR(brld, brlid, true, false, true)
- DO_BR(brald, bralid, true, true, true)
+@@ -1252,6 +1252,29 @@ static bool trans_mbar(DisasContext *dc, arg_mbar *arg)
+     return true;
+ }
  
-+static bool do_bcc(DisasContext *dc, int dest_rb, int dest_imm,
-+                   TCGCond cond, int ra, bool delay)
++static bool do_rts(DisasContext *dc, arg_typeb_bc *arg, int to_set)
 +{
-+    TCGv_i32 zero, next;
-+
-+    if (delay) {
-+        setup_dslot(dc, dest_rb < 0);
++    if (trap_userspace(dc, to_set)) {
++        return true;
 +    }
++    dc->tb_flags_to_set |= to_set;
++    setup_dslot(dc, true);
 +
-+    dc->jmp_cond = cond;
-+
-+    /* Cache the condition register in cpu_bvalue across any delay slot.  */
-+    tcg_gen_mov_i32(cpu_bvalue, reg_for_read(dc, ra));
-+
-+    /* Store the branch taken destination into btarget.  */
-+    if (dest_rb > 0) {
-+        dc->jmp_dest = -1;
-+        tcg_gen_addi_i32(cpu_btarget, cpu_R[dest_rb], dc->base.pc_next);
-+    } else {
-+        dc->jmp_dest = dc->base.pc_next + dest_imm;
-+        tcg_gen_movi_i32(cpu_btarget, dc->jmp_dest);
-+    }
-+
-+    /* Compute the final destination into btarget.  */
-+    zero = tcg_const_i32(0);
-+    next = tcg_const_i32(dc->base.pc_next + (delay + 1) * 4);
-+    tcg_gen_movcond_i32(dc->jmp_cond, cpu_btarget,
-+                        reg_for_read(dc, ra), zero,
-+                        cpu_btarget, next);
-+    tcg_temp_free_i32(zero);
-+    tcg_temp_free_i32(next);
-+
++    dc->jmp_cond = TCG_COND_ALWAYS;
++    dc->jmp_dest = -1;
++    tcg_gen_addi_i32(cpu_btarget, reg_for_read(dc, arg->ra), arg->imm);
 +    return true;
 +}
 +
-+#define DO_BCC(NAME, COND)                                              \
-+    static bool trans_##NAME(DisasContext *dc, arg_typea_bc *arg)       \
-+    { return do_bcc(dc, arg->rb, 0, COND, arg->ra, false); }            \
-+    static bool trans_##NAME##d(DisasContext *dc, arg_typea_bc *arg)    \
-+    { return do_bcc(dc, arg->rb, 0, COND, arg->ra, true); }             \
-+    static bool trans_##NAME##i(DisasContext *dc, arg_typeb_bc *arg)    \
-+    { return do_bcc(dc, -1, arg->imm, COND, arg->ra, false); }          \
-+    static bool trans_##NAME##id(DisasContext *dc, arg_typeb_bc *arg)   \
-+    { return do_bcc(dc, -1, arg->imm, COND, arg->ra, true); }
++#define DO_RTS(NAME, IFLAG) \
++    static bool trans_##NAME(DisasContext *dc, arg_typeb_bc *arg) \
++    { return do_rts(dc, arg, IFLAG); }
 +
-+DO_BCC(beq, TCG_COND_EQ)
-+DO_BCC(bge, TCG_COND_GE)
-+DO_BCC(bgt, TCG_COND_GT)
-+DO_BCC(ble, TCG_COND_LE)
-+DO_BCC(blt, TCG_COND_LT)
-+DO_BCC(bne, TCG_COND_NE)
++DO_RTS(rtbd, DRTB_FLAG)
++DO_RTS(rtid, DRTI_FLAG)
++DO_RTS(rted, DRTE_FLAG)
++DO_RTS(rtsd, 0)
 +
- static bool trans_brk(DisasContext *dc, arg_typea_br *arg)
+ static bool trans_zero(DisasContext *dc, arg_zero *arg)
  {
-     if (trap_userspace(dc, true)) {
-@@ -1419,52 +1471,6 @@ static void dec_msr(DisasContext *dc)
-     }
+     /* If opcode_0_illegal, trap.  */
+@@ -1527,33 +1550,6 @@ static inline void do_rte(DisasContext *dc)
+     dc->tb_flags &= ~DRTE_FLAG;
  }
  
--static void dec_bcc(DisasContext *dc)
+-static void dec_rts(DisasContext *dc)
 -{
--    static const TCGCond mb_to_tcg_cc[] = {
--        [CC_EQ] = TCG_COND_EQ,
--        [CC_NE] = TCG_COND_NE,
--        [CC_LT] = TCG_COND_LT,
--        [CC_LE] = TCG_COND_LE,
--        [CC_GE] = TCG_COND_GE,
--        [CC_GT] = TCG_COND_GT,
--    };
--    unsigned int cc;
--    unsigned int dslot;
--    TCGv_i32 zero, next;
+-    unsigned int b_bit, i_bit, e_bit;
 -
--    cc = EXTRACT_FIELD(dc->ir, 21, 23);
--    dslot = dc->ir & (1 << 25);
+-    i_bit = dc->ir & (1 << 21);
+-    b_bit = dc->ir & (1 << 22);
+-    e_bit = dc->ir & (1 << 23);
 -
--    if (dslot) {
--        setup_dslot(dc, dc->type_b);
+-    if (trap_userspace(dc, i_bit || b_bit || e_bit)) {
+-        return;
 -    }
 -
--    dc->jmp_cond = mb_to_tcg_cc[cc];
+-    setup_dslot(dc, true);
 -
--    /* Cache the condition register in cpu_bvalue across any delay slot.  */
--    tcg_gen_mov_i32(cpu_bvalue, cpu_R[dc->ra]);
--
--    /* Store the branch taken destination into btarget.  */
--    if (dc->type_b) {
--        dc->jmp_dest = dc->base.pc_next + dec_alu_typeb_imm(dc);
--        tcg_gen_movi_i32(cpu_btarget, dc->jmp_dest);
--    } else {
--        dc->jmp_dest = -1;
--        tcg_gen_addi_i32(cpu_btarget, reg_for_read(dc, dc->rb),
--                         dc->base.pc_next);
+-    if (i_bit) {
+-        dc->tb_flags |= DRTI_FLAG;
+-    } else if (b_bit) {
+-        dc->tb_flags |= DRTB_FLAG;
+-    } else if (e_bit) {
+-        dc->tb_flags |= DRTE_FLAG;
 -    }
 -
--    /* Compute the final destination into btarget.  */
--    zero = tcg_const_i32(0);
--    next = tcg_const_i32(dc->base.pc_next + (dslot + 1) * 4);
--    tcg_gen_movcond_i32(dc->jmp_cond, cpu_btarget,
--                        reg_for_read(dc, dc->ra), zero,
--                        cpu_btarget, next);
--    tcg_temp_free_i32(zero);
--    tcg_temp_free_i32(next);
+-    dc->jmp_cond = TCG_COND_ALWAYS;
+-    dc->jmp_dest = -1;
+-    tcg_gen_add_i32(cpu_btarget, cpu_R[dc->ra], *dec_alu_op_b(dc));
 -}
 -
- static inline void do_rti(DisasContext *dc)
+ static void dec_null(DisasContext *dc)
  {
-     TCGv_i32 t0, t1;
-@@ -1595,7 +1601,6 @@ static struct decoder_info {
+     if (trap_illegal(dc, true)) {
+@@ -1601,7 +1597,6 @@ static struct decoder_info {
      };
      void (*dec)(DisasContext *dc);
  } decinfo[] = {
--    {DEC_BCC, dec_bcc},
-     {DEC_RTS, dec_rts},
+-    {DEC_RTS, dec_rts},
      {DEC_MSR, dec_msr},
      {DEC_STREAM, dec_stream},
+     {{0, 0}, dec_null}
 -- 
 2.25.1
 
