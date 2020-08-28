@@ -2,77 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E54A255EB8
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 18:24:12 +0200 (CEST)
-Received: from localhost ([::1]:37062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E476255EC3
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 18:29:54 +0200 (CEST)
+Received: from localhost ([::1]:44072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBhAh-0005cX-Gr
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 12:24:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55420)
+	id 1kBhGD-0000Wd-4B
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 12:29:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kBh9q-0004oZ-Sr
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 12:23:18 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:40407)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kBh9p-0006E0-6h
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 12:23:18 -0400
-Received: by mail-pl1-x644.google.com with SMTP id z15so726139plo.7
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 09:23:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=osLPcEi8aYKNeKMrl3Nhb0lKK7Z02N/L59W6dAxD6lQ=;
- b=YXzQOAffV7DF395F0dIyxaRcdBYOiCb98Oc62W0VQ65A7Ba8oelmhPViyMLfHSeLj2
- XJQejba4Py5DPu8KGNmbsRRec+LNvRjVL6vym9qvpq1n2QDwRjCrLi9zh7PSB76UOMmM
- HJ3GbbSneR74+SqoCIehzDEOqE1oPPA3BcRzhfKf0nQRoZKdHwaPY9YsjLi8z+Sgo+Bk
- Hys2kdl67Wmfuq7JAcLi7o4GL4mSK7oCd397gfBu9SGm/aiHh2hXPwoKBf38uw96QG/6
- 9ORJkjsWSVYIsswL6N9pRlpjgcI39bWvDPa0SHpHGjMvXhCDGr4Wn2+asfeGGO/vv6ky
- n0zQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=osLPcEi8aYKNeKMrl3Nhb0lKK7Z02N/L59W6dAxD6lQ=;
- b=J/DDj8/82aAPqKg0hMxUWyZ4dTFTy4Nm2HIlR2BxUDY8Smg96FwVGLQdL+hyJUXht8
- yfgYwdPCw8T16WshT4EvAzeC90o9YvukkaMP2ZOAZ5qF4uZ//NYthbugLW57ySNfB+M/
- Yr66a4rh+9E8zSACSqwMR2PNWNaudgHRZYaQK8WVSO9HufYmsPz7EoqNW8/12mHxYQuZ
- 6ffC4fXMyUhsNxJb8OpP3LFykg8Vev53ZN1l2Gn4eHorPVZW8nz5MlEasBwpk08YUxQ9
- Sgwo6/2jtuJzveBHM0ZsdRRtXlvYycewdMNRBil1oq3Ba9l8N9wlurf/PccLqHKp1TpO
- YVCQ==
-X-Gm-Message-State: AOAM531ngdbLXCMHPvI4N7/t8azNCcp8gptCwr6FUHuGEQH3EqoeNsWs
- pXgFFeId7xdKrcK+RVWnyS329h/pEOBia/zC
-X-Google-Smtp-Source: ABdhPJxoTwEj6OZR2zvUtYULn9HVQcT3hK47I4el0s1t+kEFWtUhhiHbZ4GtPCLDNzrhBwaZO3Ffew==
-X-Received: by 2002:a17:90b:4b89:: with SMTP id
- lr9mr2111560pjb.190.1598631795339; 
- Fri, 28 Aug 2020 09:23:15 -0700 (PDT)
-Received: from localhost.localdomain ([2401:c080:1c01:4fe:5400:2ff:fef1:b056])
- by smtp.googlemail.com with ESMTPSA id
- v8sm1629324pju.1.2020.08.28.09.23.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 09:23:14 -0700 (PDT)
-From: Yonggang Luo <luoyonggang@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] configure: Fix include and linkage issue on msys2
-Date: Sat, 29 Aug 2020 00:22:46 +0800
-Message-Id: <20200828162246.423-3-luoyonggang@gmail.com>
-X-Mailer: git-send-email 2.27.0.windows.1
-In-Reply-To: <20200828162246.423-1-luoyonggang@gmail.com>
-References: <20200828162246.423-1-luoyonggang@gmail.com>
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1kBhFE-0008PB-1i; Fri, 28 Aug 2020 12:28:52 -0400
+Received: from mail-eopbgr130104.outbound.protection.outlook.com
+ ([40.107.13.104]:48014 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1kBhF9-00074H-S4; Fri, 28 Aug 2020 12:28:50 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mGi89byRA6Dqkd/jQu4Ui2h1JeN0yiWbdv7BYVmMzGFrRKZ/VH+EEn/n4+fJ3HTqqL3zbIZvv6+T7V2EHw5pEDvz9C3O9Hh4OZavjEYlSWFckHLGoJpxKY1vifSdKjYCU9kJQnBBBPqI6X3CU+Cz1/+ERABEWmAnKxfacHnaaSh27/m9bmUggUQXqo0YmjYmYjYSHtRIwTWd8M9ygz+HZkxrBflm2Ot3ubjDR+jYo5isN9P26d6AfCDh30UU4wN/xgfnZLpIG3s9dEW78jAmMnz1VFIBK263eY3sUOb3GnxPpykLSp1E5FULGvYscEqXUG6uGG+Q2P43qwnUPiAg2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=24p3HBhex2pqwtFnhm+1+eMJQFFmDRZVbtSJNXXhuE4=;
+ b=ln2A+yyIhFB638y10Qt8/RuNt8Nv+UOAhT4xzvUIBFDrt1KMZ1ppnxYIgpnDWuKatp7S3/mL0Dr93Kde/tro6cRtNrwzk9gOPRN0rrROGy25zMmEahO79EwnNeWQ6osW4LjqU9B2FYxeCelLGqMEMz61Lsmg0fCVQ8odpV6lvlgsRkyroczwWOMh8r8KeAb6LywpLXHFoV8l92SGYqTm5PAqrchL8YdqGmhW/3AuJISPdJ6Ku+iR6hJpqJtuMOjyGeTBqOgmmRduDL3uWM+t1CfIxlrjofHFfRIwieyPMFNuscOoW2Zd9hWmrF+LhaRFHskDAoaPKVClGAT4jPgX9A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=24p3HBhex2pqwtFnhm+1+eMJQFFmDRZVbtSJNXXhuE4=;
+ b=AFA9xSa2FezwxMG+tSRwvCDuyBDNCpOrbq+Q+j2jtuPG1ua+eF4DXnUACcFx/Tyzm5o/Bosv5hb3sWqmxaEwhGucByxLZ14kS4KMIhHFxs38hMnYW9ijmNvgYFgOLHMEfW9rtmCGWeTykLLNvNA0id+UbGQHLoObBJfDE4VtM4E=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from HE1PR0801MB2124.eurprd08.prod.outlook.com (2603:10a6:3:89::22)
+ by HE1PR0801MB1673.eurprd08.prod.outlook.com (2603:10a6:3:86::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.25; Fri, 28 Aug
+ 2020 16:28:42 +0000
+Received: from HE1PR0801MB2124.eurprd08.prod.outlook.com
+ ([fe80::b5e5:e4d:ed88:5a3a]) by HE1PR0801MB2124.eurprd08.prod.outlook.com
+ ([fe80::b5e5:e4d:ed88:5a3a%9]) with mapi id 15.20.3305.032; Fri, 28 Aug 2020
+ 16:28:42 +0000
+Subject: Re: [PATCH v7 4/4] block: apply COR-filter to block-stream jobs
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, kwolf@redhat.com, mreitz@redhat.com,
+ armbru@redhat.com, jsnow@redhat.com, eblake@redhat.com, den@openvz.org
+References: <1598257914-887267-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1598257914-887267-5-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <2eef369e-a79d-57c9-f8c8-40be9c3aaa2c@virtuozzo.com>
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Message-ID: <5a2bfe27-3589-5735-a3f8-cbcfc9cdbe75@virtuozzo.com>
+Date: Fri, 28 Aug 2020 19:28:39 +0300
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.9.0
+In-Reply-To: <2eef369e-a79d-57c9-f8c8-40be9c3aaa2c@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
- envelope-from=luoyonggang@gmail.com; helo=mail-pl1-x644.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Language: en-GB
+X-ClientProxiedBy: AM4P190CA0015.EURP190.PROD.OUTLOOK.COM
+ (2603:10a6:200:56::25) To HE1PR0801MB2124.eurprd08.prod.outlook.com
+ (2603:10a6:3:89::22)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from Admins-MacBook-Pro.local (109.252.114.22) by
+ AM4P190CA0015.EURP190.PROD.OUTLOOK.COM (2603:10a6:200:56::25) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3326.19 via Frontend Transport; Fri, 28 Aug 2020 16:28:41 +0000
+X-Originating-IP: [109.252.114.22]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 04b47e30-eff0-4db5-8cea-08d84b6f6d55
+X-MS-TrafficTypeDiagnostic: HE1PR0801MB1673:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <HE1PR0801MB167313DC84ADD1E7BA896E59F4520@HE1PR0801MB1673.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 5MC60gJ0wWMZFJcrWMHds5d6RCWuAVpPmnP5pKtSZWFY69c6wVR57RGOVK1AlcUCXjaWOaAd4E3kR5a4mnAv88ydULkW2955ibq50PXlYM2Ax+mHK29THoBcaegGfSIiJvmhChazE5YdFfA2sB8daURMrYYQOause/HqebNvVlicmWtHR4XgsYaE9i2JGoD0WGw4MHaWrk064MoHfTlSCe3Xfn/ON5PbuEzHuPgQjuHEx3uwnBv0Rk7F3eIp3wgHEk+7W3EVncyGde7Zti6GkdoGiUE00jMg7RcOyclJQ//F810BZnLqdprhybH0A/CSsEql30UNqs3Z4LRDQA+x10BK2f5RyCjHCQP4jKemvA2lSkVGmqBo92YKdeUV+pDD
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:HE1PR0801MB2124.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(136003)(376002)(366004)(346002)(39840400004)(107886003)(83380400001)(5660300002)(4326008)(6512007)(8676002)(2906002)(6486002)(36756003)(316002)(8936002)(86362001)(956004)(2616005)(31696002)(31686004)(44832011)(26005)(478600001)(16526019)(186003)(66946007)(53546011)(66556008)(66476007)(6506007)(52116002)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: S9s4mX6DRQYhP5V5IlR64jGk5Cp7BhKO//hLehebJh/tijIfacHWDJLBGOzsbCx8azIUIPUFimV8v8t+hpzr8Axfy+UK5a2QeS97lTIsEMhHj06rAUycIKNRLUl51DifQkGUH0INiuoo8ghxB8VFwaFqmx8E0at9K3nSk8DuVfSeNErz4XdJf26bj3r9zDiKcdt59y9dkuQBdEmD0zXf46YZY+MirQThckqgGXBNf7HCQ+M1+IphLTzsnr0KnPC880YVmUjEMQE4VxJr01Pwt75gcSS/ILd03MewrcUcuvlZYAvjltyIy1DneWWVbd3eJuqDZNPSF+bd0EjwgbQwtlHRUP6pcWsqo0TARfS5PhllCGlVcyv7lVV/j3vv5x+ZQnalC8rbBvMT9WBhonugfgvIiDwsTXw7rLWKAOMKcPhKgfBitx5I/1UIndjEZOH2c8gzhkY1vM1kAQgrnz6KrObjLXobOuRv1K8477rMjehEdLJf5QLtRMaIymcIROyzttvnvD0Qpn8fj348+ab23w1JrNU8f3WM5edU2kTFYJcDobbY9TpCiPibrC+n3cIXE1Rqnl47TcWWlm1z0qQf5QMDjdM9FHDtrzbkpj7ziyeRnSHaTVYaYEbssIOo6FLgSb9P8RJH5g2GiWbRalLAjA==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 04b47e30-eff0-4db5-8cea-08d84b6f6d55
+X-MS-Exchange-CrossTenant-AuthSource: HE1PR0801MB2124.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2020 16:28:42.5189 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SpH8uQHY39ckFMNGEyJgV98QMSUZ9AMf4Z2WG1pCmnob5XnJ0FSy3yUZJ2IjJOkBsqMj8hHQXW/KAY7q0fSKcVMednuKnbF9oxtfDBqFD8Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0801MB1673
+Received-SPF: pass client-ip=40.107.13.104;
+ envelope-from=andrey.shinkevich@virtuozzo.com;
+ helo=EUR01-HE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 12:28:44
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.809, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,111 +120,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On msys2, the -I/e/path/to/qemu -L/e/path/to/qemu are not recognized by the compiler
-Cause $PWD are result posix style path such as /e/path/to/qemu that can not be recognized
-by mingw gcc, and `pwd -W` are result Windows style path such as E:/path/to/qemu that can
-be recognized by the mingw gcc. So we replace all $PWD with $build_path that can
-building qemu under msys2/mingw environment.
+On 24.08.2020 14:30, Vladimir Sementsov-Ogievskiy wrote:
+> 24.08.2020 11:31, Andrey Shinkevich wrote:
+>> This patch completes the series with the COR-filter insertion for
+>> block-stream operations. Adding the filter makes it possible for copied
+>> regions to be discarded in backing files during the block-stream job,
+>> what will reduce the disk overuse.
+>> The COR-filter insertion incurs changes in the iotests case
+>> 245:test_block_stream_4 that reopens the backing chain during a
+>> block-stream job. There are changes in the iotests #030 as well.
+>> The iotests case 030:test_stream_parallel was deleted due to multiple
+>> conflicts between the concurrent job operations over the same backing
+>> chain. The base backing node for one job is the top node for another
+>> job. It may change due to the filter node inserted into the backing
+>> chain while both jobs are running. Another issue is that the parts of
+>> the backing chain are being frozen by the running job and may not be
+>> changed by the concurrent job when needed. The concept of the parallel
+>> jobs with common nodes is considered vital no more.
+>>
+>> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+>> ---
+>>   block/stream.c             | 58 
+>> +++++++++++++++++++++++++++++++++++-----------
+>>   tests/qemu-iotests/030     | 50 
+>> ++++-----------------------------------
+>>   tests/qemu-iotests/030.out |  4 ++--
+>>   tests/qemu-iotests/245     | 19 +++++++++++----
+>>   4 files changed, 65 insertions(+), 66 deletions(-)
+>>
+>> diff --git a/block/stream.c b/block/stream.c
+>> index 8bf6b6d..e927fed 100644
+>> --- a/block/stream.c
+>> +++ b/block/stream.c
+...
+>> @@ -307,5 +332,10 @@ fail:
+>>       if (bs_read_only) {
+>>           bdrv_reopen_set_read_only(bs, true, NULL);
+>>       }
+>> -    bdrv_unfreeze_backing_chain(bs, above_base);
+>> +    if () {
+>> +        bdrv_unfreeze_backing_chain(cor_filter_bs, above_base);
+>> +        bdrv_cor_filter_drop(cor_filter_bs);
+>> +    } else {
+>> +        bdrv_unfreeze_backing_chain(bs, above_base);
+>
+> as I see, in this case chain is not yet frozen
+>
 
-Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
----
- configure | 28 +++++++++++++++++++---------
- 1 file changed, 19 insertions(+), 9 deletions(-)
+When cor_filter_bs is NULL, only bs - above_base chain is frozen at this 
+point.
 
-diff --git a/configure b/configure
-index 6ecaff429b..f7e0b3bc33 100755
---- a/configure
-+++ b/configure
-@@ -13,8 +13,13 @@ export CCACHE_RECACHE=yes
- 
- # make source path absolute
- source_path=$(cd "$(dirname -- "$0")"; pwd)
-+build_path=$PWD
-+if [ "$MSYSTEM" = "MINGW64" -o  "$MSYSTEM" = "MINGW32" ]; then
-+source_path=$(cd "$(dirname -- "$0")"; pwd -W)
-+build_path=`pwd -W`
-+fi
- 
--if test "$PWD" = "$source_path"
-+if test "$build_path" = "$source_path"
- then
-     echo "Using './build' as the directory for build output"
- 
-@@ -346,7 +351,12 @@ ld_has() {
-     $ld --help 2>/dev/null | grep ".$1" >/dev/null 2>&1
- }
- 
--if printf %s\\n "$source_path" "$PWD" | grep -q "[[:space:]:]";
-+check_valid_build_path="[[:space:]:]"
-+if [ "$MSYSTEM" = "MINGW64" -o  "$MSYSTEM" = "MINGW32" ]; then
-+check_valid_build_path="[[:space:]]"
-+fi
-+
-+if printf %s\\n "$source_path" "$build_path" | grep -q "$check_valid_build_path";
- then
-   error_exit "main directory cannot contain spaces nor colons"
- fi
-@@ -944,7 +954,7 @@ Linux)
-   linux="yes"
-   linux_user="yes"
-   kvm="yes"
--  QEMU_INCLUDES="-isystem ${source_path}/linux-headers -I$PWD/linux-headers $QEMU_INCLUDES"
-+  QEMU_INCLUDES="-isystem ${source_path}/linux-headers -I${build_path}/linux-headers $QEMU_INCLUDES"
-   libudev="yes"
- ;;
- esac
-@@ -4284,7 +4294,7 @@ EOF
-               symlink "$source_path/dtc/Makefile" "dtc/Makefile"
-           fi
-           fdt_cflags="-I${source_path}/dtc/libfdt"
--          fdt_ldflags="-L$PWD/dtc/libfdt"
-+          fdt_ldflags="-L${build_path}/dtc/libfdt"
-           fdt_libs="$fdt_libs"
-       elif test "$fdt" = "yes" ; then
-           # Not a git build & no libfdt found, prompt for system install
-@@ -5269,7 +5279,7 @@ case "$capstone" in
-     else
-       LIBCAPSTONE=libcapstone.a
-     fi
--    capstone_libs="-L$PWD/capstone -lcapstone"
-+    capstone_libs="-L${build_path}/capstone -lcapstone"
-     capstone_cflags="-I${source_path}/capstone/include"
-     ;;
- 
-@@ -6269,8 +6279,8 @@ case "$slirp" in
-       git_submodules="${git_submodules} slirp"
-     fi
-     mkdir -p slirp
--    slirp_cflags="-I${source_path}/slirp/src -I$PWD/slirp/src"
--    slirp_libs="-L$PWD/slirp -lslirp"
-+    slirp_cflags="-I${source_path}/slirp/src -I${build_path}/slirp/src"
-+    slirp_libs="-L${build_path}/slirp -lslirp"
-     if test "$mingw32" = "yes" ; then
-       slirp_libs="$slirp_libs -lws2_32 -liphlpapi"
-     fi
-@@ -8211,7 +8221,7 @@ fi
- mv $cross config-meson.cross
- 
- rm -rf meson-private meson-info meson-logs
--NINJA=${ninja:-$PWD/ninjatool} $meson setup \
-+NINJA=${ninja:-${build_path}/ninjatool} $meson setup \
-         --prefix "${pre_prefix}$prefix" \
-         --libdir "${pre_prefix}$libdir" \
-         --libexecdir "${pre_prefix}$libexecdir" \
-@@ -8231,7 +8241,7 @@ NINJA=${ninja:-$PWD/ninjatool} $meson setup \
- 	-Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
- 	-Dgettext=$gettext -Dxkbcommon=$xkbcommon \
-         $cross_arg \
--        "$PWD" "$source_path"
-+        "$build_path" "$source_path"
- 
- if test "$?" -ne 0 ; then
-     error_exit "meson setup failed"
--- 
-2.27.0.windows.1
+Andrey
 
+
+>> +    }
+>>   }
+>> diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
+>> index 1cdd7e2..fec9d89 100755
+>> --- a/tests/qemu-iotests/030
+>> +++ b/tests/qemu-iotests/030
+...
 
