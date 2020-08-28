@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 011002557B9
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 11:34:17 +0200 (CEST)
-Received: from localhost ([::1]:40642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE5F12557C3
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 11:35:53 +0200 (CEST)
+Received: from localhost ([::1]:51530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBam0-0005eh-1z
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 05:34:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46168)
+	id 1kBanY-0001b0-MR
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 05:35:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBact-00059p-Ez
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:51 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:35120)
+ id 1kBacu-0005Co-Ip
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:52 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:39639)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBacr-0004MO-CM
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:51 -0400
-Received: by mail-wr1-x432.google.com with SMTP id e16so636620wrm.2
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 02:24:48 -0700 (PDT)
+ id 1kBacs-0004MZ-QW
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:52 -0400
+Received: by mail-wr1-x441.google.com with SMTP id a5so628847wrm.6
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 02:24:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=9OEvYlAJnxCsF9R7lzprB3K7WPYrkSLw8yXVJNlRrBw=;
- b=dETlM1QjzVZu5IwZd30DysjMJ/8AuCPBMUZqG2/g06c5MVT1oqi2DfpF6RXYs7SM1V
- iZD/8ZhvbAmu7ZCjvhDIAaZuGbuUduKLzycqReaDzvfQei4gUINugilbj2laYRTIbPfE
- 274ftZPiSC+MmIhR+wM1epVshOoCzTflf0KtDa6PCHNg0aHEP5jvH+CVC9OKLsyspIXy
- vXgiJmiwkxMS+Vov06WMtnxkFDJgzF/y78p5aRenJ+qkjBYw35PlSFVbTRgj6tNYaQq/
- +k/gREiHWNXWjB2JhLKhHlZ96J7BsQ1ZGufudmcC+z+Y3BGfLfhHeH8WVanMZqQH1w6T
- 3CcA==
+ bh=q2SOyhlGgEPSy3V2k6pu6+0RR4P2AO7ul/vaktw5y5o=;
+ b=YBjeiBOf8NK3YhBeNVqfGWLW5SKxyIGobWDCj7TzEhkdulVWXI7DpMD8IsXZPVSwqH
+ eISHGJlXyFhHET4XL0gRCwfHOMOH+7VtjCObV91GtiwfVJZPWjWPlM7q+GW1Id49aWR4
+ w2E9/ow1epqnwiR/usMYpi+pAVJlja2p7RbECEbDGUI+onMuXQ9y/7hKl2V0ulAn2mpu
+ ICQXD17+t7JFCcO+tqV7gAbjhWTV6RaifotT87D9irI0yluyOKOcS7sSedaLCj4f1PX/
+ n1IFSB6DKizKQjUuWHexTMj8T+sUbjBr9TVjc5MzfTZielgckQ/modWmNzmqqw0hURMZ
+ rcKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9OEvYlAJnxCsF9R7lzprB3K7WPYrkSLw8yXVJNlRrBw=;
- b=J144cfYQMqxOdTek8DyrGwlsw3NX4BpMTorlZTCfR9wsigHG/FehBtf6xtW1gwaX63
- 1Wun5TNMsdFPL9XNG1brJOS8C2Qv65Ar/vX4dnFOk8IGZH3p+Qtp8ClOGQ1vzMjlVgCC
- 37D2Hyiz8UWJ2ThYpRq877tXdo0n0w2mOU0pkBAD0bT8BENvKUCu+cQORPZ8PNtFoc8E
- 4GOK0/LsBjnTzIgBxDXZSSKACuuBc5Z2q1XZH+7UNSYhpq8ATvt37DZ69R62fgrrx3wY
- BhWxvhF702mj9Ke5KPpDKSt5D3lL4yyEEb5+doJSaHQvbnEXUdjOq1Lyo6DVxl36UuMK
- Ax4w==
-X-Gm-Message-State: AOAM531WGIr3tPuEcKOtMBghaKGknDfzHONei8raIfZq2a9pDqxYfqNm
- LXn6LGcuoaKcgO1/x593jLIB4tsY/wmTkHKa
-X-Google-Smtp-Source: ABdhPJyYX1g+EbO1azq5t6EnUIFV96okmWbIpNTJT2SVJpB2+42L+NFf6ZAOa96qa3ScHX2ZednFRw==
-X-Received: by 2002:adf:f5c7:: with SMTP id k7mr640836wrp.230.1598606687597;
- Fri, 28 Aug 2020 02:24:47 -0700 (PDT)
+ bh=q2SOyhlGgEPSy3V2k6pu6+0RR4P2AO7ul/vaktw5y5o=;
+ b=ctoMDsiccBqn/XYYmhJGg0lWXQlBlKHju8/rl7HSSgwRs7Te1A0gMHSeTQVded4JXO
+ 0JJDDMY+FFOjiUw4eyDEwPIR8fbP4d2QZyjwKR9f8Hk55WSiLDjDYoa0WGJRNjE9zG9W
+ gtC3NedSOXAqtiesQpjF0Ep9rt5K7z/me/Dk+odSnS0Mj03FIYUnsxA033f5i0JKtRmn
+ PbFf21r9AaosE+PlDN549M0qQ2sMaCYhtpRU8+UnZTrTyAnbvr8hsMldbxL23MbwE9Wp
+ egQMB+Wkmf0dcshntH7GW8IJziRf6oTi3PgL454mNKeTlfU3OnSeFQbEtIzUuq5yCKgR
+ GBTQ==
+X-Gm-Message-State: AOAM532sDKni9XY2/DWam60EZeFnMudppI8L5x6/sn/jSlQ9wHL+L/c+
+ MWQR2KFlRbECCTOKZjO/HL2IjEX9pPJ7umBC
+X-Google-Smtp-Source: ABdhPJxvQUOvP7fVmmMmDMfFnNZL71uHcnIivXtSFW5TY8gjONkJYxUMPqTikZuvcDoBxQGYy5mWUA==
+X-Received: by 2002:a5d:4850:: with SMTP id n16mr688817wrs.92.1598606689264;
+ Fri, 28 Aug 2020 02:24:49 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id t13sm912304wru.65.2020.08.28.02.24.46
+ by smtp.gmail.com with ESMTPSA id t13sm912304wru.65.2020.08.28.02.24.47
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 02:24:46 -0700 (PDT)
+ Fri, 28 Aug 2020 02:24:47 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/35] target/arm: Merge helper_sve_clr_* and helper_sve_movz_*
-Date: Fri, 28 Aug 2020 10:24:05 +0100
-Message-Id: <20200828092413.22206-28-peter.maydell@linaro.org>
+Subject: [PULL 28/35] target/arm: Split out gen_gvec_ool_zzp
+Date: Fri, 28 Aug 2020 10:24:06 +0100
+Message-Id: <20200828092413.22206-29-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200828092413.22206-1-peter.maydell@linaro.org>
 References: <20200828092413.22206-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,254 +90,76 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-The existing clr functions have only one vector argument, and so
-can only clear in place.  The existing movz functions have two
-vector arguments, and so can clear while moving.  Merge them, with
-a flag that controls the sense of active vs inactive elements
-being cleared.
+Model after gen_gvec_fn_zzz et al.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20200815013145.539409-10-richard.henderson@linaro.org
+Message-id: 20200815013145.539409-11-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper-sve.h    |  5 ---
- target/arm/sve_helper.c    | 70 ++++++++------------------------------
- target/arm/translate-sve.c | 53 +++++++++++------------------
- 3 files changed, 34 insertions(+), 94 deletions(-)
+ target/arm/translate-sve.c | 29 ++++++++++++++---------------
+ 1 file changed, 14 insertions(+), 15 deletions(-)
 
-diff --git a/target/arm/helper-sve.h b/target/arm/helper-sve.h
-index 63c4a087caa..4411c47120d 100644
---- a/target/arm/helper-sve.h
-+++ b/target/arm/helper-sve.h
-@@ -269,11 +269,6 @@ DEF_HELPER_FLAGS_3(sve_uminv_h, TCG_CALL_NO_RWG, i64, ptr, ptr, i32)
- DEF_HELPER_FLAGS_3(sve_uminv_s, TCG_CALL_NO_RWG, i64, ptr, ptr, i32)
- DEF_HELPER_FLAGS_3(sve_uminv_d, TCG_CALL_NO_RWG, i64, ptr, ptr, i32)
- 
--DEF_HELPER_FLAGS_3(sve_clr_b, TCG_CALL_NO_RWG, void, ptr, ptr, i32)
--DEF_HELPER_FLAGS_3(sve_clr_h, TCG_CALL_NO_RWG, void, ptr, ptr, i32)
--DEF_HELPER_FLAGS_3(sve_clr_s, TCG_CALL_NO_RWG, void, ptr, ptr, i32)
--DEF_HELPER_FLAGS_3(sve_clr_d, TCG_CALL_NO_RWG, void, ptr, ptr, i32)
--
- DEF_HELPER_FLAGS_4(sve_movz_b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_4(sve_movz_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_4(sve_movz_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index 382fa82bc8a..4758d46f34d 100644
---- a/target/arm/sve_helper.c
-+++ b/target/arm/sve_helper.c
-@@ -956,85 +956,43 @@ uint32_t HELPER(sve_pnext)(void *vd, void *vg, uint32_t pred_desc)
-     return flags;
- }
- 
--/* Store zero into every active element of Zd.  We will use this for two
-- * and three-operand predicated instructions for which logic dictates a
-- * zero result.  In particular, logical shift by element size, which is
-- * otherwise undefined on the host.
-- *
-- * For element sizes smaller than uint64_t, we use tables to expand
-- * the N bits of the controlling predicate to a byte mask, and clear
-- * those bytes.
-+/*
-+ * Copy Zn into Zd, and store zero into inactive elements.
-+ * If inv, store zeros into the active elements.
-  */
--void HELPER(sve_clr_b)(void *vd, void *vg, uint32_t desc)
--{
--    intptr_t i, opr_sz = simd_oprsz(desc) / 8;
--    uint64_t *d = vd;
--    uint8_t *pg = vg;
--    for (i = 0; i < opr_sz; i += 1) {
--        d[i] &= ~expand_pred_b(pg[H1(i)]);
--    }
--}
--
--void HELPER(sve_clr_h)(void *vd, void *vg, uint32_t desc)
--{
--    intptr_t i, opr_sz = simd_oprsz(desc) / 8;
--    uint64_t *d = vd;
--    uint8_t *pg = vg;
--    for (i = 0; i < opr_sz; i += 1) {
--        d[i] &= ~expand_pred_h(pg[H1(i)]);
--    }
--}
--
--void HELPER(sve_clr_s)(void *vd, void *vg, uint32_t desc)
--{
--    intptr_t i, opr_sz = simd_oprsz(desc) / 8;
--    uint64_t *d = vd;
--    uint8_t *pg = vg;
--    for (i = 0; i < opr_sz; i += 1) {
--        d[i] &= ~expand_pred_s(pg[H1(i)]);
--    }
--}
--
--void HELPER(sve_clr_d)(void *vd, void *vg, uint32_t desc)
--{
--    intptr_t i, opr_sz = simd_oprsz(desc) / 8;
--    uint64_t *d = vd;
--    uint8_t *pg = vg;
--    for (i = 0; i < opr_sz; i += 1) {
--        if (pg[H1(i)] & 1) {
--            d[i] = 0;
--        }
--    }
--}
--
--/* Copy Zn into Zd, and store zero into inactive elements.  */
- void HELPER(sve_movz_b)(void *vd, void *vn, void *vg, uint32_t desc)
- {
-     intptr_t i, opr_sz = simd_oprsz(desc) / 8;
-+    uint64_t inv = -(uint64_t)(simd_data(desc) & 1);
-     uint64_t *d = vd, *n = vn;
-     uint8_t *pg = vg;
-+
-     for (i = 0; i < opr_sz; i += 1) {
--        d[i] = n[i] & expand_pred_b(pg[H1(i)]);
-+        d[i] = n[i] & (expand_pred_b(pg[H1(i)]) ^ inv);
-     }
- }
- 
- void HELPER(sve_movz_h)(void *vd, void *vn, void *vg, uint32_t desc)
- {
-     intptr_t i, opr_sz = simd_oprsz(desc) / 8;
-+    uint64_t inv = -(uint64_t)(simd_data(desc) & 1);
-     uint64_t *d = vd, *n = vn;
-     uint8_t *pg = vg;
-+
-     for (i = 0; i < opr_sz; i += 1) {
--        d[i] = n[i] & expand_pred_h(pg[H1(i)]);
-+        d[i] = n[i] & (expand_pred_h(pg[H1(i)]) ^ inv);
-     }
- }
- 
- void HELPER(sve_movz_s)(void *vd, void *vn, void *vg, uint32_t desc)
- {
-     intptr_t i, opr_sz = simd_oprsz(desc) / 8;
-+    uint64_t inv = -(uint64_t)(simd_data(desc) & 1);
-     uint64_t *d = vd, *n = vn;
-     uint8_t *pg = vg;
-+
-     for (i = 0; i < opr_sz; i += 1) {
--        d[i] = n[i] & expand_pred_s(pg[H1(i)]);
-+        d[i] = n[i] & (expand_pred_s(pg[H1(i)]) ^ inv);
-     }
- }
- 
-@@ -1043,8 +1001,10 @@ void HELPER(sve_movz_d)(void *vd, void *vn, void *vg, uint32_t desc)
-     intptr_t i, opr_sz = simd_oprsz(desc) / 8;
-     uint64_t *d = vd, *n = vn;
-     uint8_t *pg = vg;
-+    uint8_t inv = simd_data(desc);
-+
-     for (i = 0; i < opr_sz; i += 1) {
--        d[i] = n[i] & -(uint64_t)(pg[H1(i)] & 1);
-+        d[i] = n[i] & -(uint64_t)((pg[H1(i)] ^ inv) & 1);
-     }
- }
- 
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 96bfd32bbec..aba156d5ab6 100644
+index aba156d5ab6..6d10e2ac2c7 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -590,37 +590,26 @@ static bool trans_SADDV(DisasContext *s, arg_rpr_esz *a)
-  *** SVE Shift by Immediate - Predicated Group
-  */
+@@ -142,6 +142,17 @@ static int pred_gvec_reg_size(DisasContext *s)
+     return size_for_gvec(pred_full_reg_size(s));
+ }
  
--/* Store zero into every active element of Zd.  We will use this for two
-- * and three-operand predicated instructions for which logic dictates a
-- * zero result.
-+/*
-+ * Copy Zn into Zd, storing zeros into inactive elements.
-+ * If invert, store zeros into the active elements.
-  */
--static bool do_clr_zp(DisasContext *s, int rd, int pg, int esz)
--{
--    static gen_helper_gvec_2 * const fns[4] = {
--        gen_helper_sve_clr_b, gen_helper_sve_clr_h,
--        gen_helper_sve_clr_s, gen_helper_sve_clr_d,
--    };
--    if (sve_access_check(s)) {
--        unsigned vsz = vec_full_reg_size(s);
--        tcg_gen_gvec_2_ool(vec_full_reg_offset(s, rd),
--                           pred_full_reg_offset(s, pg),
--                           vsz, vsz, 0, fns[esz]);
--    }
--    return true;
--}
--
--/* Copy Zn into Zd, storing zeros into inactive elements.  */
--static void do_movz_zpz(DisasContext *s, int rd, int rn, int pg, int esz)
-+static bool do_movz_zpz(DisasContext *s, int rd, int rn, int pg,
-+                        int esz, bool invert)
- {
-     static gen_helper_gvec_3 * const fns[4] = {
-         gen_helper_sve_movz_b, gen_helper_sve_movz_h,
-         gen_helper_sve_movz_s, gen_helper_sve_movz_d,
-     };
--    unsigned vsz = vec_full_reg_size(s);
--    tcg_gen_gvec_3_ool(vec_full_reg_offset(s, rd),
--                       vec_full_reg_offset(s, rn),
--                       pred_full_reg_offset(s, pg),
--                       vsz, vsz, 0, fns[esz]);
++/* Invoke an out-of-line helper on 2 Zregs and a predicate. */
++static void gen_gvec_ool_zzp(DisasContext *s, gen_helper_gvec_3 *fn,
++                             int rd, int rn, int pg, int data)
++{
++    unsigned vsz = vec_full_reg_size(s);
++    tcg_gen_gvec_3_ool(vec_full_reg_offset(s, rd),
++                       vec_full_reg_offset(s, rn),
++                       pred_full_reg_offset(s, pg),
++                       vsz, vsz, data, fn);
++}
 +
-+    if (sve_access_check(s)) {
-+        unsigned vsz = vec_full_reg_size(s);
-+        tcg_gen_gvec_3_ool(vec_full_reg_offset(s, rd),
-+                           vec_full_reg_offset(s, rn),
-+                           pred_full_reg_offset(s, pg),
-+                           vsz, vsz, invert, fns[esz]);
-+    }
-+    return true;
+ /* Invoke an out-of-line helper on 3 Zregs and a predicate. */
+ static void gen_gvec_ool_zzzp(DisasContext *s, gen_helper_gvec_4 *fn,
+                               int rd, int rn, int rm, int pg, int data)
+@@ -415,11 +426,7 @@ static bool do_zpz_ool(DisasContext *s, arg_rpr_esz *a, gen_helper_gvec_3 *fn)
+         return false;
+     }
+     if (sve_access_check(s)) {
+-        unsigned vsz = vec_full_reg_size(s);
+-        tcg_gen_gvec_3_ool(vec_full_reg_offset(s, a->rd),
+-                           vec_full_reg_offset(s, a->rn),
+-                           pred_full_reg_offset(s, a->pg),
+-                           vsz, vsz, 0, fn);
++        gen_gvec_ool_zzp(s, fn, a->rd, a->rn, a->pg, 0);
+     }
+     return true;
  }
+@@ -603,11 +610,7 @@ static bool do_movz_zpz(DisasContext *s, int rd, int rn, int pg,
+     };
  
- static bool do_zpzi_ool(DisasContext *s, arg_rpri_esz *a,
-@@ -664,7 +653,7 @@ static bool trans_LSR_zpzi(DisasContext *s, arg_rpri_esz *a)
-     /* Shift by element size is architecturally valid.
-        For logical shifts, it is a zeroing operation.  */
-     if (a->imm >= (8 << a->esz)) {
--        return do_clr_zp(s, a->rd, a->pg, a->esz);
-+        return do_movz_zpz(s, a->rd, a->rd, a->pg, a->esz, true);
-     } else {
-         return do_zpzi_ool(s, a, fns[a->esz]);
+     if (sve_access_check(s)) {
+-        unsigned vsz = vec_full_reg_size(s);
+-        tcg_gen_gvec_3_ool(vec_full_reg_offset(s, rd),
+-                           vec_full_reg_offset(s, rn),
+-                           pred_full_reg_offset(s, pg),
+-                           vsz, vsz, invert, fns[esz]);
++        gen_gvec_ool_zzp(s, fns[esz], rd, rn, pg, invert);
      }
-@@ -682,7 +671,7 @@ static bool trans_LSL_zpzi(DisasContext *s, arg_rpri_esz *a)
-     /* Shift by element size is architecturally valid.
-        For logical shifts, it is a zeroing operation.  */
-     if (a->imm >= (8 << a->esz)) {
--        return do_clr_zp(s, a->rd, a->pg, a->esz);
-+        return do_movz_zpz(s, a->rd, a->rd, a->pg, a->esz, true);
-     } else {
-         return do_zpzi_ool(s, a, fns[a->esz]);
-     }
-@@ -700,7 +689,7 @@ static bool trans_ASRD(DisasContext *s, arg_rpri_esz *a)
-     /* Shift by element size is architecturally valid.  For arithmetic
-        right shift for division, it is a zeroing operation.  */
-     if (a->imm >= (8 << a->esz)) {
--        return do_clr_zp(s, a->rd, a->pg, a->esz);
-+        return do_movz_zpz(s, a->rd, a->rd, a->pg, a->esz, true);
-     } else {
-         return do_zpzi_ool(s, a, fns[a->esz]);
-     }
-@@ -5049,8 +5038,7 @@ static bool trans_LD1R_zpri(DisasContext *s, arg_rpri_load *a)
- 
-     /* Zero the inactive elements.  */
-     gen_set_label(over);
--    do_movz_zpz(s, a->rd, a->rd, a->pg, esz);
--    return true;
-+    return do_movz_zpz(s, a->rd, a->rd, a->pg, esz, false);
+     return true;
  }
- 
- static void do_st_zpa(DisasContext *s, int zt, int pg, TCGv_i64 addr,
-@@ -5833,8 +5821,5 @@ static bool trans_MOVPRFX_m(DisasContext *s, arg_rpr_esz *a)
- 
- static bool trans_MOVPRFX_z(DisasContext *s, arg_rpr_esz *a)
+@@ -616,11 +619,7 @@ static bool do_zpzi_ool(DisasContext *s, arg_rpri_esz *a,
+                         gen_helper_gvec_3 *fn)
  {
--    if (sve_access_check(s)) {
--        do_movz_zpz(s, a->rd, a->rn, a->pg, a->esz);
--    }
--    return true;
-+    return do_movz_zpz(s, a->rd, a->rn, a->pg, a->esz, false);
+     if (sve_access_check(s)) {
+-        unsigned vsz = vec_full_reg_size(s);
+-        tcg_gen_gvec_3_ool(vec_full_reg_offset(s, a->rd),
+-                           vec_full_reg_offset(s, a->rn),
+-                           pred_full_reg_offset(s, a->pg),
+-                           vsz, vsz, a->imm, fn);
++        gen_gvec_ool_zzp(s, fn, a->rd, a->rn, a->pg, a->imm);
+     }
+     return true;
  }
 -- 
 2.20.1
