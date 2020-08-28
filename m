@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A7112557CA
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 11:37:51 +0200 (CEST)
-Received: from localhost ([::1]:60114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96D792557FD
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 11:50:07 +0200 (CEST)
+Received: from localhost ([::1]:46758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBapS-000572-H4
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 05:37:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46286)
+	id 1kBb1K-0003Jt-Du
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 05:50:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBad3-0005bv-6d
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:25:01 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:36090)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBad1-0004Pm-7t
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:25:00 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id z9so288439wmk.1
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 02:24:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=nu72P525ZWsOYSw7UDEIWb9/3JC8nEVuqmcqR/cOqbI=;
- b=acMING7o0xT9i8qfzmgrPW62rI7d32kaR04wVUp3FVwiWSLgR3h2RURPArsjY0tvFn
- j5Ha7bUnPMHDB1xorBwRrGHKHvIafD4yslylgIkhnVQNr8rSvfraTnXtNRHn4ZH8vtKS
- TFqRhn3ItL8HU0z2mrLIO6twxcg/rltMDcv19TVS/xoqcf3KAgA9Y61o3tR11CKgrN4e
- A+XiUZzaH7QrIgrVlRi6f6MNJh1uDjg/Mp8sPUeCKB6XS5hc63+SnhvIycCC8EafRoWg
- 7wMxv75q0Y39ARhaVAo8ykJ+EeXwbNsrp2ldpFBjOIkCsiPmiI3d+aJhp/aggWxGB/py
- Q4dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=nu72P525ZWsOYSw7UDEIWb9/3JC8nEVuqmcqR/cOqbI=;
- b=WOSYXfZB/uctOn6JrOQrMujoDfhPZv+Yl2rjYEWbsmk88x913Xv2s4yHk4QULundUU
- fOQSAUp900EZkKg3Dl4KZFnYJ+pEd8AeMZjOjg+CRAWYyQ39/wMsRgB4hhp+AO9Ga7D4
- 0dSbNddHsP05WrrheXjQnv/xiVgYXvX5vzKvLdqQCgFoN5DldCFlQMPeaTnXs2tObe/B
- sc28XNlzcLJwMRIvU1ZJ0cJbmxzq5PXFcyzad1eSkabwa9+LeF4LmRZu0wlaFL5T/XeK
- FjVMiVbS+SLrLBzYlyJX76mhsO1/EEMN/5nxO/O2wQVm/8d7aQP8N/0msKjG9VITpIqB
- wBNA==
-X-Gm-Message-State: AOAM531xKTlNU8UWquymQ7aUa2cc4uPpiBOMEwzjsip2nkaK3VKkbQgF
- 1e7trse+XFennfXcaMUp/hV0ZMV2fSsID1M7
-X-Google-Smtp-Source: ABdhPJykBjfiEXjGEmrxPF08gTyOJLNBMpOhRGQtVWjha4zUTpfdJWdGa//e2oV4d1TdtdusEtdNDg==
-X-Received: by 2002:a1c:9910:: with SMTP id b16mr732772wme.79.1598606697533;
- Fri, 28 Aug 2020 02:24:57 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id t13sm912304wru.65.2020.08.28.02.24.56
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 02:24:56 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 35/35] target/arm: Convert sq{, r}dmulh to gvec for aa64 advsimd
-Date: Fri, 28 Aug 2020 10:24:13 +0100
-Message-Id: <20200828092413.22206-36-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200828092413.22206-1-peter.maydell@linaro.org>
-References: <20200828092413.22206-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kBb0d-0002rP-I3
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:49:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30484)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kBb0a-0007MU-JE
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:49:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598608159;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=V01CCDxyWBeJ7A5NPuiWGmNDnfIEXu/FMIwc0427774=;
+ b=BemQOB1FY/SPAZ64xXJi9nW/1SfI94X4y9B4Tlssc+difRakXPqDbAjuWqBPJjRCw2B8BY
+ f4RfuH1XY7jX9zd1FhSgWALcgQtgBPrPWAA51DRl70EbzPq2cilwerdriIoVbv1rCZwnKm
+ yz3+A9N2gXmSV5P6PcTb5vfbLIUqaFw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-443-l6iErpSHMhiYs_0Hi33QfA-1; Fri, 28 Aug 2020 05:49:15 -0400
+X-MC-Unique: l6iErpSHMhiYs_0Hi33QfA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE57E425D3;
+ Fri, 28 Aug 2020 09:49:13 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D86AF619C4;
+ Fri, 28 Aug 2020 09:49:08 +0000 (UTC)
+Date: Fri, 28 Aug 2020 11:49:07 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PULL 06/13] Introduce a new flag for i440fx to disable PCI
+ hotplug on the root bus
+Message-ID: <20200828114907.42961cd3@redhat.com>
+In-Reply-To: <CAARzgwzLcu5iHrXNZrVbg2Yx27AvyYWrKqBZ0wK7CveQ_eKgsQ@mail.gmail.com>
+References: <20200827133954.2118749-1-mst@redhat.com>
+ <20200827133954.2118749-7-mst@redhat.com>
+ <20200827194115.673f94de@imammedo-mac>
+ <CAARzgwzLcu5iHrXNZrVbg2Yx27AvyYWrKqBZ0wK7CveQ_eKgsQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 02:09:03
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,167 +84,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVk?= =?UTF-8?B?w6k=?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+On Thu, 27 Aug 2020 23:29:34 +0530
+Ani Sinha <ani@anisinha.ca> wrote:
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20200815013145.539409-21-richard.henderson@linaro.org
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/helper.h        | 10 ++++++++
- target/arm/translate-a64.c | 33 ++++++++++++++++++--------
- target/arm/vec_helper.c    | 48 ++++++++++++++++++++++++++++++++++++++
- 3 files changed, 81 insertions(+), 10 deletions(-)
+> On Thu, Aug 27, 2020 at 11:11 PM Igor Mammedov <imammedo@redhat.com> wrote:
+> >
+> > On Thu, 27 Aug 2020 09:40:34 -0400
+> > "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> >  
+> > > From: Ani Sinha <ani@anisinha.ca>
+> > >
+> > > We introduce a new global flag 'acpi-root-pci-hotplug' for i440fx with which
+> > > we can turn on or off PCI device hotplug on the root bus. This flag can be
+> > > used to prevent all PCI devices from getting hotplugged or unplugged from the
+> > > root PCI bus.
+> > > This feature is targetted mostly towards Windows VMs. It is useful in cases
+> > > where some hypervisor admins want to deploy guest VMs in a way so that the
+> > > users of the guest OSes are not able to hot-eject certain PCI devices from
+> > > the Windows system tray. Laine has explained the use case here in detail:
+> > > https://www.redhat.com/archives/libvir-list/2020-February/msg00110.html
+> > >
+> > > Julia has resolved this issue for PCIE buses with the following commit:
+> > > 530a0963184e57e71a5b538 ("pcie_root_port: Add hotplug disabling option")
+> > >
+> > > This commit attempts to introduce similar behavior for PCI root buses used in
+> > > i440fx machine types (although in this case, we do not have a per-slot
+> > > capability to turn hotplug on or off).
+> > >
+> > > Usage:
+> > >    -global PIIX4_PM.acpi-root-pci-hotplug=off
+> > >
+> > > By default, this option is enabled which means that hotplug is turned on for
+> > > the PCI root bus.
+> > >
+> > > The previously existing flag 'acpi-pci-hotplug-with-bridge-support' for PCI-PCI
+> > > bridges remain as is and can be used along with this new flag to control PCI
+> > > hotplug on PCI bridges.
+> > >
+> > > This change has been tested using a Windows 2012R2 server guest image and also
+> > > with a Windows 2019 server guest image on a Ubuntu 18.04 host using the latest
+> > > master qemu from upstream.
+> > >
+> > > Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> > > Message-Id: <20200821165403.26589-1-ani@anisinha.ca>
+> > > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>  
+> >
+> >  
+> > > Tested-by: Igor Mammedov <imammedo@redhat.com>
+> > > Reviewed-by: Igor Mammedov <imammedo@redhat.com>  
+> > A glitch in scripts?
+> > I didn't review nor tested this (v8) version  
+> 
+> oops! I am so eager to get this done and dusted :)
+it's merged now,
 
-diff --git a/target/arm/helper.h b/target/arm/helper.h
-index 378bb1898be..3ca73a1764a 100644
---- a/target/arm/helper.h
-+++ b/target/arm/helper.h
-@@ -776,6 +776,16 @@ DEF_HELPER_FLAGS_5(gvec_mls_idx_s, TCG_CALL_NO_RWG,
- DEF_HELPER_FLAGS_5(gvec_mls_idx_d, TCG_CALL_NO_RWG,
-                    void, ptr, ptr, ptr, ptr, i32)
- 
-+DEF_HELPER_FLAGS_5(neon_sqdmulh_h, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(neon_sqdmulh_s, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+
-+DEF_HELPER_FLAGS_5(neon_sqrdmulh_h, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(neon_sqrdmulh_s, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+
- #ifdef TARGET_AARCH64
- #include "helper-a64.h"
- #include "helper-sve.h"
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index a50b2f0cb13..4ba6918b606 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -678,6 +678,20 @@ static void gen_gvec_op3_fpst(DisasContext *s, bool is_q, int rd, int rn,
-     tcg_temp_free_ptr(fpst);
- }
- 
-+/* Expand a 3-operand + qc + operation using an out-of-line helper.  */
-+static void gen_gvec_op3_qc(DisasContext *s, bool is_q, int rd, int rn,
-+                            int rm, gen_helper_gvec_3_ptr *fn)
-+{
-+    TCGv_ptr qc_ptr = tcg_temp_new_ptr();
-+
-+    tcg_gen_addi_ptr(qc_ptr, cpu_env, offsetof(CPUARMState, vfp.qc));
-+    tcg_gen_gvec_3_ptr(vec_full_reg_offset(s, rd),
-+                       vec_full_reg_offset(s, rn),
-+                       vec_full_reg_offset(s, rm), qc_ptr,
-+                       is_q ? 16 : 8, vec_full_reg_size(s), 0, fn);
-+    tcg_temp_free_ptr(qc_ptr);
-+}
-+
- /* Set ZF and NF based on a 64 bit result. This is alas fiddlier
-  * than the 32 bit equivalent.
-  */
-@@ -11734,6 +11748,15 @@ static void disas_simd_3same_int(DisasContext *s, uint32_t insn)
-             gen_gvec_fn3(s, is_q, rd, rn, rm, gen_gvec_mla, size);
-         }
-         return;
-+    case 0x16: /* SQDMULH, SQRDMULH */
-+        {
-+            static gen_helper_gvec_3_ptr * const fns[2][2] = {
-+                { gen_helper_neon_sqdmulh_h, gen_helper_neon_sqrdmulh_h },
-+                { gen_helper_neon_sqdmulh_s, gen_helper_neon_sqrdmulh_s },
-+            };
-+            gen_gvec_op3_qc(s, is_q, rd, rn, rm, fns[size - 1][u]);
-+        }
-+        return;
-     case 0x11:
-         if (!u) { /* CMTST */
-             gen_gvec_fn3(s, is_q, rd, rn, rm, gen_gvec_cmtst, size);
-@@ -11845,16 +11868,6 @@ static void disas_simd_3same_int(DisasContext *s, uint32_t insn)
-                 genenvfn = fns[size][u];
-                 break;
-             }
--            case 0x16: /* SQDMULH, SQRDMULH */
--            {
--                static NeonGenTwoOpEnvFn * const fns[2][2] = {
--                    { gen_helper_neon_qdmulh_s16, gen_helper_neon_qrdmulh_s16 },
--                    { gen_helper_neon_qdmulh_s32, gen_helper_neon_qrdmulh_s32 },
--                };
--                assert(size == 1 || size == 2);
--                genenvfn = fns[size - 1][u];
--                break;
--            }
-             default:
-                 g_assert_not_reached();
-             }
-diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
-index 9e93a8a154d..a6c53d2ab6c 100644
---- a/target/arm/vec_helper.c
-+++ b/target/arm/vec_helper.c
-@@ -109,6 +109,30 @@ void HELPER(gvec_qrdmlsh_s16)(void *vd, void *vn, void *vm,
-     clear_tail(d, opr_sz, simd_maxsz(desc));
- }
- 
-+void HELPER(neon_sqdmulh_h)(void *vd, void *vn, void *vm,
-+                            void *vq, uint32_t desc)
-+{
-+    intptr_t i, opr_sz = simd_oprsz(desc);
-+    int16_t *d = vd, *n = vn, *m = vm;
-+
-+    for (i = 0; i < opr_sz / 2; ++i) {
-+        d[i] = do_sqrdmlah_h(n[i], m[i], 0, false, false, vq);
-+    }
-+    clear_tail(d, opr_sz, simd_maxsz(desc));
-+}
-+
-+void HELPER(neon_sqrdmulh_h)(void *vd, void *vn, void *vm,
-+                             void *vq, uint32_t desc)
-+{
-+    intptr_t i, opr_sz = simd_oprsz(desc);
-+    int16_t *d = vd, *n = vn, *m = vm;
-+
-+    for (i = 0; i < opr_sz / 2; ++i) {
-+        d[i] = do_sqrdmlah_h(n[i], m[i], 0, false, true, vq);
-+    }
-+    clear_tail(d, opr_sz, simd_maxsz(desc));
-+}
-+
- /* Signed saturating rounding doubling multiply-accumulate high half, 32-bit */
- static int32_t do_sqrdmlah_s(int32_t src1, int32_t src2, int32_t src3,
-                              bool neg, bool round, uint32_t *sat)
-@@ -172,6 +196,30 @@ void HELPER(gvec_qrdmlsh_s32)(void *vd, void *vn, void *vm,
-     clear_tail(d, opr_sz, simd_maxsz(desc));
- }
- 
-+void HELPER(neon_sqdmulh_s)(void *vd, void *vn, void *vm,
-+                            void *vq, uint32_t desc)
-+{
-+    intptr_t i, opr_sz = simd_oprsz(desc);
-+    int32_t *d = vd, *n = vn, *m = vm;
-+
-+    for (i = 0; i < opr_sz / 4; ++i) {
-+        d[i] = do_sqrdmlah_s(n[i], m[i], 0, false, false, vq);
-+    }
-+    clear_tail(d, opr_sz, simd_maxsz(desc));
-+}
-+
-+void HELPER(neon_sqrdmulh_s)(void *vd, void *vn, void *vm,
-+                             void *vq, uint32_t desc)
-+{
-+    intptr_t i, opr_sz = simd_oprsz(desc);
-+    int32_t *d = vd, *n = vn, *m = vm;
-+
-+    for (i = 0; i < opr_sz / 4; ++i) {
-+        d[i] = do_sqrdmlah_s(n[i], m[i], 0, false, true, vq);
-+    }
-+    clear_tail(d, opr_sz, simd_maxsz(desc));
-+}
-+
- /* Integer 8 and 16-bit dot-product.
-  *
-  * Note that for the loops herein, host endianness does not matter
--- 
-2.20.1
+can you add a test case for it please?
+
+You can use test_acpi_piix4_tcg_bridge() as model.
+See header comment at the top of bios-tables-test.c
+for how to prepare and submit testcase.
+
+> 
+> >  
+> > > ---
+> > >  include/hw/acpi/pcihp.h |  2 +-
+> > >  hw/acpi/pcihp.c         | 23 ++++++++++++++++++++++-
+> > >  hw/acpi/piix4.c         |  5 ++++-
+> > >  3 files changed, 27 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git a/include/hw/acpi/pcihp.h b/include/hw/acpi/pcihp.h
+> > > index 8bc4a4c01d..02f4665767 100644
+> > > --- a/include/hw/acpi/pcihp.h
+> > > +++ b/include/hw/acpi/pcihp.h
+> > > @@ -67,7 +67,7 @@ void acpi_pcihp_device_unplug_request_cb(HotplugHandler *hotplug_dev,
+> > >                                           Error **errp);
+> > >
+> > >  /* Called on reset */
+> > > -void acpi_pcihp_reset(AcpiPciHpState *s);
+> > > +void acpi_pcihp_reset(AcpiPciHpState *s, bool acpihp_root_off);
+> > >
+> > >  extern const VMStateDescription vmstate_acpi_pcihp_pci_status;
+> > >
+> > > diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+> > > index 9e31ab2da4..39b1f74442 100644
+> > > --- a/hw/acpi/pcihp.c
+> > > +++ b/hw/acpi/pcihp.c
+> > > @@ -104,6 +104,24 @@ static void acpi_set_pci_info(void)
+> > >      }
+> > >  }
+> > >
+> > > +static void acpi_pcihp_disable_root_bus(void)
+> > > +{
+> > > +    static bool root_hp_disabled;
+> > > +    PCIBus *bus;
+> > > +
+> > > +    if (root_hp_disabled) {
+> > > +        return;
+> > > +    }
+> > > +
+> > > +    bus = find_i440fx();
+> > > +    if (bus) {
+> > > +        /* setting the hotplug handler to NULL makes the bus non-hotpluggable */
+> > > +        qbus_set_hotplug_handler(BUS(bus), NULL);
+> > > +    }
+> > > +    root_hp_disabled = true;
+> > > +    return;
+> > > +}
+> > > +
+> > >  static void acpi_pcihp_test_hotplug_bus(PCIBus *bus, void *opaque)
+> > >  {
+> > >      AcpiPciHpFind *find = opaque;
+> > > @@ -209,8 +227,11 @@ static void acpi_pcihp_update(AcpiPciHpState *s)
+> > >      }
+> > >  }
+> > >
+> > > -void acpi_pcihp_reset(AcpiPciHpState *s)
+> > > +void acpi_pcihp_reset(AcpiPciHpState *s, bool acpihp_root_off)
+> > >  {
+> > > +    if (acpihp_root_off) {
+> > > +        acpi_pcihp_disable_root_bus();
+> > > +    }
+> > >      acpi_set_pci_info();
+> > >      acpi_pcihp_update(s);
+> > >  }
+> > > diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+> > > index 26bac4f16c..e6163bb6ce 100644
+> > > --- a/hw/acpi/piix4.c
+> > > +++ b/hw/acpi/piix4.c
+> > > @@ -78,6 +78,7 @@ typedef struct PIIX4PMState {
+> > >
+> > >      AcpiPciHpState acpi_pci_hotplug;
+> > >      bool use_acpi_hotplug_bridge;
+> > > +    bool use_acpi_root_pci_hotplug;
+> > >
+> > >      uint8_t disable_s3;
+> > >      uint8_t disable_s4;
+> > > @@ -324,7 +325,7 @@ static void piix4_pm_reset(DeviceState *dev)
+> > >          pci_conf[0x5B] = 0x02;
+> > >      }
+> > >      pm_io_space_update(s);
+> > > -    acpi_pcihp_reset(&s->acpi_pci_hotplug);
+> > > +    acpi_pcihp_reset(&s->acpi_pci_hotplug, !s->use_acpi_root_pci_hotplug);
+> > >  }
+> > >
+> > >  static void piix4_pm_powerdown_req(Notifier *n, void *opaque)
+> > > @@ -635,6 +636,8 @@ static Property piix4_pm_properties[] = {
+> > >      DEFINE_PROP_UINT8(ACPI_PM_PROP_S4_VAL, PIIX4PMState, s4_val, 2),
+> > >      DEFINE_PROP_BOOL("acpi-pci-hotplug-with-bridge-support", PIIX4PMState,
+> > >                       use_acpi_hotplug_bridge, true),
+> > > +    DEFINE_PROP_BOOL("acpi-root-pci-hotplug", PIIX4PMState,
+> > > +                     use_acpi_root_pci_hotplug, true),
+> > >      DEFINE_PROP_BOOL("memory-hotplug-support", PIIX4PMState,
+> > >                       acpi_memory_hotplug.is_enabled, true),
+> > >      DEFINE_PROP_END_OF_LIST(),  
+> >  
+> 
 
 
