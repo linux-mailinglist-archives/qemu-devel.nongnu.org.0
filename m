@@ -2,53 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FB90255B62
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 15:43:37 +0200 (CEST)
-Received: from localhost ([::1]:42410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32AD4255B52
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 15:40:27 +0200 (CEST)
+Received: from localhost ([::1]:55778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBefI-0006KQ-1g
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 09:43:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36888)
+	id 1kBecE-0000F3-8D
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 09:40:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kBea9-00040z-Dh
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 09:38:17 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:54001)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kBeaB-00045J-1V
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 09:38:19 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:47959)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kBea7-0007HC-7A
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 09:38:17 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kBea8-0007Hc-C1
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 09:38:18 -0400
 Received: from localhost.localdomain ([82.252.135.186]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MqZE0-1kyErW21iK-00mcpm; Fri, 28 Aug 2020 15:38:06 +0200
+ id 1Mq1GE-1kyn5p14yY-00nB44; Fri, 28 Aug 2020 15:38:07 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/18] linux-user: detect mismatched ELF ABI in
- qemu-mips[n32][el]
-Date: Fri, 28 Aug 2020 15:37:47 +0200
-Message-Id: <20200828133753.2622286-13-laurent@vivier.eu>
+Subject: [PULL 13/18] linux-user: Fix 'mq_timedsend()' and 'mq_timedreceive()'
+Date: Fri, 28 Aug 2020 15:37:48 +0200
+Message-Id: <20200828133753.2622286-14-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200828133753.2622286-1-laurent@vivier.eu>
 References: <20200828133753.2622286-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:nErqG+xrP5ehjIzp/14dthCCJVsrY4T3lftaSCNosmlNNcX8UYT
- FXYeaex3aqmdRKpGIbb10pjzh2PD/cfib8okzQ0+6dUKQ++xNHVmWfbCJyNvh0EgoKZu0Xq
- x9lMMyMjvKeJaiBGL9OQasJ8QH2RKfUiDsXioOY2PXUXDs7PZHVTw2YgWo2j40Pw+7v0FaM
- HpsHqExWHxbcR4uQc7gng==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:aocaX+l7jwM=:rr6Y4SevKA75oRw+gmrJcR
- JSQOx4rrGChdmxVGMBc8EQgR0fq4OThgg5tsfYo8cB6NLLigBU48d76hZOM7Y9ZsSwJk3f5EM
- Fn7O886oKhXd/1CIrfIV0dXY6SJsqte1dnKPlfFamib8/xWSte7sg0dxHuURtUrzC0By+2gRU
- VcokWoZto62HMJUc88sYmPppJBo4wmq2PlfzkEJtdWhFCLgjBigAmji09BmFDceBkM6La0jrB
- bSaPEJJwHzTx181DoNCmE8zgBqAiN9UDwjHXxkmoXCuAfvbUw2SrZ4oSb0rbAuf1eumRu9UgE
- d6PHu2jdqV4eciKkQThb4/KvV3G+xLIYQ4pZmBx/J8XG6witt+zIWksh6rE7XuPQxrWADcEC5
- dDl9VG4qV2SHzPilCNdERJftVmDUYMDAW0lX5anNRNnH4mUTo0Du6FEXFBJtWHSbp44J0RfH+
- mXSi9xVxjugL8mD/gyeLOG0dYDz4Gp4hFz3HlFV47BwT325lXxLjbsjReNcMfdmfmfy+JyOsu
- g2XNP0nqaWgLlc7FMWPxMvE9y/VigDZqpbywLEM8j2QzHdpBPyEnUmxryFcrqixN/JzOPQYe2
- TXkQjxGMLDc+nRkOaHptkJtqAKVSD0sk+M+kuFa46P2H1T6phstt2Y62T9cMwExiA8DQtCiaF
- A7K3SjqVpI8XFjv0/PYs7d9pWCnO+zNxPbtnmye0WSAobdbGbfd74MriYgG15nxBcQl7Qn/j9
- 2gDIOir4KKUl8PlReVCOyHojzjfXhhmpmPBR2ZNwJiw1OhAaWHPYTzUnU9Fp5ZKdwKPNsAyo0
- nz+yzO/kSihZpAgrURH1vaXEbG1fgfb7GD4RetBhEKhKkJYpkh3ZusCCnssepMLO4IR1KYT
+X-Provags-ID: V03:K1:jfDu4dBgaWC1O+LIKt7nKn3VZ/TMnY227cCw9Q7eF40zJ/Cpi3a
+ qnmLvj8cDrHqnPATN9FcPfVItulLia+Ou6RhpmJGWmgtTGDnJVHt/jGsNlBD0eCCFrxEXZg
+ X2fH1XASzxTgX/nIhn5DsArGwxV/FZh27PqoBpFz2oVdm411awNExbov4CWZcMN2c7FYxPk
+ QnqkHpMLih9kkkmLaOsCQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:oktaPHaxQ4M=:hhvpAsOoMYeXlj76aoAn1R
+ vAEE2e/PIERGirgxeKlzLFMqegYobrKWDJjoy54lj0qjWCbTVUeEaVA2V/tczW1ZLIACWlyMs
+ dwRNuRAuLpMQ1fuLM1wTz8cvKDix0iKB+Kgubdnerl4gdU13zmhDd+T9LHDlrHiXZIqzVs9jj
+ G1gQEFAv2WBd9u3naZ5xYMM6HuxZtMpfdtlmfWeUbcevkYzDew1dDX9B9YC4KaehK5N5ZQs5C
+ zQd/yi/mFbC2bJgLirJPWNOAgW6u4sYiEX/WP4rm2aTBp9CcrUerixL45ld45SrQ5TbJcH5HN
+ UCaEmjMbriO2b9HbYp2zNl6JioHNfy4eBfe/KGL+P3A5mw91qXsF6zIqnEwQZi0WJlQ9NIr8M
+ Uk5qUfeJ9NhN3lH7eO/NArDRDL89TRFOpFKm6hA0M+gkVq5mGjuYK5AWvLxJY5Zek9EOI7wAF
+ fdI0XzI24WM0RnKscHN1iXXLntZmZa5tU80WR4B5q/dVIHFR5+jXnrrZYGB7A7vc0OfsetZhr
+ vcR/Y0rCjA+mJXQn3ZK6NmvPW39OiYNf4rQIkIaRzccsfvLc6wM6DIownepBZtHpaEE3QM7eO
+ F618VmkyGkfcjpk2Zb1TQ1juEJJorAMei3kTdamrip4BVviqqc4qzsX4MTzbhxsqZPYokh4LU
+ lTFKtTDRQuUi+fpdmAqVpP6j8y4NISnEZ51o09Ga865gyexI4aFKsfc9czBvg3xadT3v6D3Vv
+ LB6d9NgDKBSqmWMRtAVId14e+SqVtbkFUWeLn2KE+sS9Nyv5rZfVhExajYfDFL5/Dtn2oe+Dl
+ xBtOcBLJQnIEgSZ3mm5ocewrXqMBS0+QCeCnDn9kxFoMidPTB+iCURwlLC7nrn1T+VbAz15
 Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 09:38:08
@@ -71,73 +69,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Carlo=20Marcelo=20Arenas=20Bel=C3=B3n?= <carenas@gmail.com>,
- Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+ Filip Bozuta <Filip.Bozuta@syrmia.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Carlo Marcelo Arenas Belón <carenas@gmail.com>
+From: Filip Bozuta <Filip.Bozuta@syrmia.com>
 
-MIPS provides 2 ILP32 ABIs, and therefore 4 possible qemu-mips binaries
-with 2 pairs using the same endianess and bitness.
+Implementations of syscalls 'mq_timedsend()' and 'mq_timedreceive()'
+in 'syscall.c' use functions 'target_to_host_timespec()' and
+'host_to_target_timespec()' to transfer the value of 'struct timespec'
+between target and host. However, the implementations don't check whether
+this conversion succeeds and thus can cause an unaproppriate error instead
+of the 'EFAULT (Bad address)' which is supposed to be set if the conversion
+from target to host fails. This was confirmed with the modified LTP
+test suite where test cases with a bad adress for 'timespec' were
+added. This modified test suite can be found at:
+https://github.com/bozutaf/ltp
 
-This could lead to an O32 image loading in the N32 binary or vice versa
-and in cryptic errors (if lucky that the CPU doesn't match the FPU used)
-like :
+Without the changes from this patch the bad adress testcase for 'mq_timedsend()'
+succeds unexpectedly, while the test returns errno 'ETIMEOUT' for
+'mq_timedreceive()':
 
-  qemu: Unexpected FPU mode       (o32 ELF loaded to qemu-mipsn32[el])
-  ELF binary's NaN mode not supported by CPU    (n32 -> qemu-mips[el])
+mq_timedsend01.c:190: FAIL: mq_timedsend() returned 0, expected -1: SUCCESS (0)
+mq_timedreceive01.c:178: FAIL: mq_timedreceive() failed unexpectedly,
+expected EFAULT: ETIMEDOUT (110)
 
-Add an ABI check macro that could be used while checking the ELF header
-that relies in the ABI2 flag to identify n32 binaries and abort instead
-early with a more descriptive error :
+After the changes from this patch, testcases for both syscalls fail with EFAULT
+as expected, which is the same test result that is received with native execution:
 
-  Invalid ELF image for this architecture
+mq_timedsend01.c:187: PASS: mq_timedsend() failed expectedly: EFAULT (14)
+mq_timedreceive01.c:180: PASS: mq_timedreceive() failed expectedly: EFAULT (14)
 
-Signed-off-by: Carlo Marcelo Arenas Belón <carenas@gmail.com>
+(Patch with this new test case will be sent to LTP mailing list soon)
+
+Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200823101703.18451-1-carenas@gmail.com>
+Message-Id: <20200824193752.67950-2-Filip.Bozuta@syrmia.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/elfload.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ linux-user/syscall.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index fe9dfe795ddd..69936dcd4595 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -918,6 +918,12 @@ static void elf_core_copy_regs(target_elf_gregset_t *regs, const CPUPPCState *en
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 78e404c23cad..fd13e72305de 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -12043,9 +12043,13 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
  
- #define elf_check_arch(x) ((x) == EM_MIPS || (x) == EM_NANOMIPS)
+             p = lock_user (VERIFY_READ, arg2, arg3, 1);
+             if (arg5 != 0) {
+-                target_to_host_timespec(&ts, arg5);
++                if (target_to_host_timespec(&ts, arg5)) {
++                    return -TARGET_EFAULT;
++                }
+                 ret = get_errno(safe_mq_timedsend(arg1, p, arg3, arg4, &ts));
+-                host_to_target_timespec(arg5, &ts);
++                if (!is_error(ret) && host_to_target_timespec(arg5, &ts)) {
++                    return -TARGET_EFAULT;
++                }
+             } else {
+                 ret = get_errno(safe_mq_timedsend(arg1, p, arg3, arg4, NULL));
+             }
+@@ -12062,10 +12066,14 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
  
-+#ifdef TARGET_ABI_MIPSN32
-+#define elf_check_abi(x) ((x) & EF_MIPS_ABI2)
-+#else
-+#define elf_check_abi(x) (!((x) & EF_MIPS_ABI2))
-+#endif
-+
- static inline void init_thread(struct target_pt_regs *regs,
-                                struct image_info *infop)
- {
-@@ -1487,6 +1493,10 @@ static void elf_core_copy_regs(target_elf_gregset_t *regs,
- #define elf_check_arch(x) ((x) == ELF_ARCH)
- #endif
- 
-+#ifndef elf_check_abi
-+#define elf_check_abi(x) (1)
-+#endif
-+
- #ifndef ELF_HWCAP
- #define ELF_HWCAP 0
- #endif
-@@ -1644,6 +1654,7 @@ static bool elf_check_ident(struct elfhdr *ehdr)
- static bool elf_check_ehdr(struct elfhdr *ehdr)
- {
-     return (elf_check_arch(ehdr->e_machine)
-+            && elf_check_abi(ehdr->e_flags)
-             && ehdr->e_ehsize == sizeof(struct elfhdr)
-             && ehdr->e_phentsize == sizeof(struct elf_phdr)
-             && (ehdr->e_type == ET_EXEC || ehdr->e_type == ET_DYN));
+             p = lock_user (VERIFY_READ, arg2, arg3, 1);
+             if (arg5 != 0) {
+-                target_to_host_timespec(&ts, arg5);
++                if (target_to_host_timespec(&ts, arg5)) {
++                    return -TARGET_EFAULT;
++                }
+                 ret = get_errno(safe_mq_timedreceive(arg1, p, arg3,
+                                                      &prio, &ts));
+-                host_to_target_timespec(arg5, &ts);
++                if (!is_error(ret) && host_to_target_timespec(arg5, &ts)) {
++                    return -TARGET_EFAULT;
++                }
+             } else {
+                 ret = get_errno(safe_mq_timedreceive(arg1, p, arg3,
+                                                      &prio, NULL));
 -- 
 2.26.2
 
