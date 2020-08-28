@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97BB92560DE
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 20:56:05 +0200 (CEST)
-Received: from localhost ([::1]:58210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 484812560E5
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 20:57:54 +0200 (CEST)
+Received: from localhost ([::1]:38688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBjXf-0002JW-64
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 14:56:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59210)
+	id 1kBjZR-0005t6-7h
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 14:57:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBjCs-0002w8-MY
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:34 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:43866)
+ id 1kBjCt-0002za-V4
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:35 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:32823)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBjCq-000632-3Y
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:34 -0400
-Received: by mail-wr1-x443.google.com with SMTP id k15so38336wrn.10
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 11:34:31 -0700 (PDT)
+ id 1kBjCr-00063J-3q
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:35 -0400
+Received: by mail-wm1-x341.google.com with SMTP id y8so186851wma.0
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 11:34:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ddfbpJ21TZ9Q17LNM2UsZZUB857tEs2rgQ+ipEgpwVQ=;
- b=fA6sCUiARSVq3wAaPcMu1SxXXm6Bz5UPqHap7nUVBKo6iCrQq3GzqJGt7oB466ak94
- 3GkGpXVnA9LOfL8WKpN0vKPU1aGyX0xlx8mRYnnYsZZFUrJkAPgSS7R9JEgmwa8Loz4+
- UTyVMVCvexuzb4qfGpLFO0fak6v1jDWOe9hIiZqbx3hJHxqfyez/d2wzqTqKHnQHMPTM
- 0iNpXV1FNb0ptm+iPuJIW1rWjhdE6gXNSUh+zVKK7RmVy+ufOGipsSbuMg+tSIL4bgLs
- AcjlZ1pfE+vjXQFzv4nc/Q6DzoJhH3MGse4HlQacFOjDf3OBmzorESP3yhYI6svexMUN
- xXVg==
+ bh=inXY03xGdyZBdSKyNEIZuqr9D88x76DuBRO96S6LpR8=;
+ b=Xu3s+WJGPA/9Cdbgq8xSyEYqx0keUo1u/wuHbASUIjBwgIwkXFk+2c4HjuHKVhG+mC
+ b8BDTBlL0HtQHl6bIpNaawOUBd6I/QnON9ykdnPfPR4QylcnnYRe+hvEkj6nPG5f/k0U
+ 1K0TjaAiqW6CxKlnDHuFTjEjhe14oyhawX452jQ7iIZZ9y8OcJx/0iCHUCiu69LiKP85
+ fvMng/Yc1Js+qoOUPjXtVZzDIL0MSuSeF2lOIHPPWNj68jx6qyktSDBSp7r5vf6lIzPB
+ YKsYuAUdeigQUAKDGJYKi/rIX7UnBbnR15xXe7hk+u9Mbqgjsbe42ZpPpmIAvXg49U13
+ KNww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ddfbpJ21TZ9Q17LNM2UsZZUB857tEs2rgQ+ipEgpwVQ=;
- b=Ea8MuefF6iRS0pIpeXga28TmtKdPtLbiwpSdCIs1bUb3/MAJSv8qGaMYqdzlXY0bjq
- 40odB0mVTaeJfbIvDcMvRIeya6VS6Uy+12ix2ZFjYSI6FMXA8556J/2J8GHi0Im8Wgfe
- Zuwu68txCwtu9gcUgxVpaLcsjtwNq+UNuvddq31IVJ+oMHHyUhPaYjoAqj7LEoA9+1Zi
- cO4QO6mxlcK5UHT8Hv8KVinckKdwdO3sR2fgF/OurY0aYEvaZ2VVdbW94viFU0wZqwrs
- zm887TjliRI4eRfIao3FAYFEtUcj1VTh8N2RUiiC2lyejfHw8GF3AltSDSORzI+JUZPf
- 8Mzg==
-X-Gm-Message-State: AOAM533DzThEaEyI6hUMLrPCuT4uGyyKiFED3ZCnk06pZn+sTukS7SK/
- cNpl0xBBnLYTBPokxxdG9m41yoMkpIXYELb5
-X-Google-Smtp-Source: ABdhPJxZ7VBhDGIluF6rdgHPIh7rzoVlpaLtXKsrrf8RafuA175gqWZn0Gzo3yzP+e8bQjNhQnG3UQ==
-X-Received: by 2002:a05:6000:1003:: with SMTP id
- a3mr275229wrx.258.1598639670781; 
- Fri, 28 Aug 2020 11:34:30 -0700 (PDT)
+ bh=inXY03xGdyZBdSKyNEIZuqr9D88x76DuBRO96S6LpR8=;
+ b=VwZE7ul2zGC6sUtlQkiB5Um94F5vqu6QH37/eMABOBArdSDZnTdhlgPZWvtNxIN+Yy
+ +HAz50nrJj6RQUGJ7gjN5NR9+1HGNSGwKGlHZKew0+miDKPAXhz7ZdkUCOCF6p6Yxgp5
+ 7PELtXSbbEMQMzhOCc+7/p+OJizGEJ+EeJzgBFe9TzeQu6613Wp0kmlY9a9yFv0oQoQV
+ Ltdb9FqiQv2IOTsuxEPTK8pUtgTs2zyNpixpzqjTAJ0Iljl17tYZc7NOvmcZfKsHv0//
+ 9AVdMOGBskU85+/2Okll6VQGDNmno5Tj/t1/ES6d/qoQ8ovNrXPa67XVaKURD30rS7aW
+ kdqQ==
+X-Gm-Message-State: AOAM530PwhkBD4iIdV6bSJTiY8Me8TnvAOD4V7r1mGmEL+h4IHhCT+YV
+ +wS3ZBl3B2qvVzZ0+533iTR67A==
+X-Google-Smtp-Source: ABdhPJzl77I8/p4w2x+YYTfTwKuvviRX6g+D9rOBFtN2+g5GAzQ0lkHW2K+I69ZKY6l2W0Ix59aSFA==
+X-Received: by 2002:a1c:9910:: with SMTP id b16mr17245wme.79.1598639671716;
+ Fri, 28 Aug 2020 11:34:31 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id s20sm356251wmh.21.2020.08.28.11.34.29
+ by smtp.gmail.com with ESMTPSA id s20sm356251wmh.21.2020.08.28.11.34.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 11:34:30 -0700 (PDT)
+ Fri, 28 Aug 2020 11:34:31 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 28/45] target/arm: Implement fp16 for Neon VMAX, VMIN
-Date: Fri, 28 Aug 2020 19:33:37 +0100
-Message-Id: <20200828183354.27913-29-peter.maydell@linaro.org>
+Subject: [PATCH v2 29/45] target/arm: Implement fp16 for Neon VMAXNM, VMINNM
+Date: Fri, 28 Aug 2020 19:33:38 +0100
+Message-Id: <20200828183354.27913-30-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200828183354.27913-1-peter.maydell@linaro.org>
 References: <20200828183354.27913-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -73,7 +72,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,73 +88,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert the Neon float-point VMAX and VMIN insns over to using
-a gvec helper, and use this to implement the fp16 case.
+Convert the Neon floating point VMAXNM and VMINNM insns to
+using a gvec helper and use this to implement the fp16 case.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.h             | 6 ++++++
- target/arm/vec_helper.c         | 6 ++++++
- target/arm/translate-neon.c.inc | 5 ++---
- 3 files changed, 14 insertions(+), 3 deletions(-)
+ target/arm/helper.h             |  6 ++++++
+ target/arm/vec_helper.c         |  6 ++++++
+ target/arm/translate-neon.c.inc | 23 +++++++++++++++--------
+ 3 files changed, 27 insertions(+), 8 deletions(-)
 
 diff --git a/target/arm/helper.h b/target/arm/helper.h
-index b2d24050e27..e252f380a89 100644
+index e252f380a89..f621940e69d 100644
 --- a/target/arm/helper.h
 +++ b/target/arm/helper.h
-@@ -647,6 +647,12 @@ DEF_HELPER_FLAGS_5(gvec_facge_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_5(gvec_facgt_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_5(gvec_facgt_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
+@@ -653,6 +653,12 @@ DEF_HELPER_FLAGS_5(gvec_fmax_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_5(gvec_fmin_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_5(gvec_fmin_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
  
-+DEF_HELPER_FLAGS_5(gvec_fmax_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(gvec_fmax_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(gvec_fmaxnum_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(gvec_fmaxnum_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
 +
-+DEF_HELPER_FLAGS_5(gvec_fmin_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(gvec_fmin_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(gvec_fminnum_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(gvec_fminnum_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
 +
  DEF_HELPER_FLAGS_5(gvec_ftsmul_h, TCG_CALL_NO_RWG,
                     void, ptr, ptr, ptr, ptr, i32)
  DEF_HELPER_FLAGS_5(gvec_ftsmul_s, TCG_CALL_NO_RWG,
 diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
-index 4ac16ed102c..9d05e1a568b 100644
+index 9d05e1a568b..f551f86d5a5 100644
 --- a/target/arm/vec_helper.c
 +++ b/target/arm/vec_helper.c
-@@ -817,6 +817,12 @@ DO_3OP(gvec_facge_s, float32_acge, float32)
- DO_3OP(gvec_facgt_h, float16_acgt, float16)
- DO_3OP(gvec_facgt_s, float32_acgt, float32)
+@@ -823,6 +823,12 @@ DO_3OP(gvec_fmax_s, float32_max, float32)
+ DO_3OP(gvec_fmin_h, float16_min, float16)
+ DO_3OP(gvec_fmin_s, float32_min, float32)
  
-+DO_3OP(gvec_fmax_h, float16_max, float16)
-+DO_3OP(gvec_fmax_s, float32_max, float32)
++DO_3OP(gvec_fmaxnum_h, float16_maxnum, float16)
++DO_3OP(gvec_fmaxnum_s, float32_maxnum, float32)
 +
-+DO_3OP(gvec_fmin_h, float16_min, float16)
-+DO_3OP(gvec_fmin_s, float32_min, float32)
++DO_3OP(gvec_fminnum_h, float16_minnum, float16)
++DO_3OP(gvec_fminnum_s, float32_minnum, float32)
 +
  #ifdef TARGET_AARCH64
  
  DO_3OP(gvec_recps_h, helper_recpsf_f16, float16)
 diff --git a/target/arm/translate-neon.c.inc b/target/arm/translate-neon.c.inc
-index 645a099518d..621d6524df1 100644
+index 621d6524df1..13858aaa08b 100644
 --- a/target/arm/translate-neon.c.inc
 +++ b/target/arm/translate-neon.c.inc
-@@ -1117,6 +1117,8 @@ DO_3S_FP_GVEC(VCGE, gen_helper_gvec_fcge_s, gen_helper_gvec_fcge_h)
- DO_3S_FP_GVEC(VCGT, gen_helper_gvec_fcgt_s, gen_helper_gvec_fcgt_h)
- DO_3S_FP_GVEC(VACGE, gen_helper_gvec_facge_s, gen_helper_gvec_facge_h)
- DO_3S_FP_GVEC(VACGT, gen_helper_gvec_facgt_s, gen_helper_gvec_facgt_h)
-+DO_3S_FP_GVEC(VMAX, gen_helper_gvec_fmax_s, gen_helper_gvec_fmax_h)
-+DO_3S_FP_GVEC(VMIN, gen_helper_gvec_fmin_s, gen_helper_gvec_fmin_h)
+@@ -1151,6 +1151,11 @@ static void gen_VMLS_fp_3s(TCGv_i32 vd, TCGv_i32 vn, TCGv_i32 vm,
+ DO_3S_FP(VMLA, gen_VMLA_fp_3s, true)
+ DO_3S_FP(VMLS, gen_VMLS_fp_3s, true)
  
- /*
-  * For all the functions using this macro, size == 1 means fp16,
-@@ -1132,9 +1134,6 @@ DO_3S_FP_GVEC(VACGT, gen_helper_gvec_facgt_s, gen_helper_gvec_facgt_h)
-         return do_3same_fp(s, a, FUNC, READS_VD);                   \
++WRAP_FP_GVEC(gen_VMAXNM_fp32_3s, FPST_STD, gen_helper_gvec_fmaxnum_s)
++WRAP_FP_GVEC(gen_VMAXNM_fp16_3s, FPST_STD_F16, gen_helper_gvec_fmaxnum_h)
++WRAP_FP_GVEC(gen_VMINNM_fp32_3s, FPST_STD, gen_helper_gvec_fminnum_s)
++WRAP_FP_GVEC(gen_VMINNM_fp16_3s, FPST_STD_F16, gen_helper_gvec_fminnum_h)
++
+ static bool trans_VMAXNM_fp_3s(DisasContext *s, arg_3same *a)
+ {
+     if (!arm_dc_feature(s, ARM_FEATURE_V8)) {
+@@ -1158,11 +1163,12 @@ static bool trans_VMAXNM_fp_3s(DisasContext *s, arg_3same *a)
      }
  
--DO_3S_FP(VMAX, gen_helper_vfp_maxs, false)
--DO_3S_FP(VMIN, gen_helper_vfp_mins, false)
+     if (a->size != 0) {
+-        /* TODO fp16 support */
+-        return false;
++        if (!dc_isar_feature(aa32_fp16_arith, s)) {
++            return false;
++        }
++        return do_3same(s, a, gen_VMAXNM_fp16_3s);
+     }
 -
- static void gen_VMLA_fp_3s(TCGv_i32 vd, TCGv_i32 vn, TCGv_i32 vm,
-                             TCGv_ptr fpstatus)
- {
+-    return do_3same_fp(s, a, gen_helper_vfp_maxnums, false);
++    return do_3same(s, a, gen_VMAXNM_fp32_3s);
+ }
+ 
+ static bool trans_VMINNM_fp_3s(DisasContext *s, arg_3same *a)
+@@ -1172,11 +1178,12 @@ static bool trans_VMINNM_fp_3s(DisasContext *s, arg_3same *a)
+     }
+ 
+     if (a->size != 0) {
+-        /* TODO fp16 support */
+-        return false;
++        if (!dc_isar_feature(aa32_fp16_arith, s)) {
++            return false;
++        }
++        return do_3same(s, a, gen_VMINNM_fp16_3s);
+     }
+-
+-    return do_3same_fp(s, a, gen_helper_vfp_minnums, false);
++    return do_3same(s, a, gen_VMINNM_fp32_3s);
+ }
+ 
+ WRAP_ENV_FN(gen_VRECPS_tramp, gen_helper_recps_f32)
 -- 
 2.20.1
 
