@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C52B12560EE
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 21:01:56 +0200 (CEST)
-Received: from localhost ([::1]:54272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F9CE2560F6
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 21:03:48 +0200 (CEST)
+Received: from localhost ([::1]:33340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBjdL-00040X-Ph
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 15:01:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59364)
+	id 1kBjf9-00073x-JB
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 15:03:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBjCx-0003A9-Sl
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:39 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36538)
+ id 1kBjD2-0003M1-Gn
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:44 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:56295)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBjCv-00064f-Nl
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:39 -0400
-Received: by mail-wm1-x342.google.com with SMTP id z9so124862wmk.1
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 11:34:37 -0700 (PDT)
+ id 1kBjD0-00065r-Ho
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:44 -0400
+Received: by mail-wm1-x335.google.com with SMTP id a65so115883wme.5
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 11:34:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=fvqm8C3dM5TmctflCAJIz9ZcX7WSbouhFM9/Ad7Pr7Q=;
- b=HxOHV+4vZ2srB8AycjUd9A1aGVkM4LVN264XyaWm8hVL1kYhoQ+KWj79XPLVWPeKfB
- mpYRbiQXqfYbvQ19VEourfL8+qKb5ZuFQQzNQFdFON4BloT5V/jGJkD/ICoL620M3AA6
- CjFcboDhEltu2OIsZp/RIrjBFimLD66EnUrEMNlJJpaHzP6nF5xZZJZ3V8ldIKLZGU27
- 8D0ryLwLSPC51LgE4nAdiAYtRiyU23357SV6LRZcnleZkmlYE/Ol7zxe73TbZYwhcKWI
- zB5pz9qd5gsF3pTVjSm/Gg1qDdiWN2xBL+pSqZFDDuPoAylFWPQgU+KeurvNgcJ2Ovkg
- RGNA==
+ bh=YxYS6bedwXk9fQo5XTWT6l9ay8TcjftA/wL59SqMRkk=;
+ b=ZYRaAy5a0InMlW+RfPFwYAsn5yQ4tLaCS3PTjd4+w0CaXvWE9REOPbS9/e4n66lWiF
+ 5fEamfKH0uFwSGzgNQ9D0hpPkXNIN1ty8g2F4gGdrMGy2qRjM+KuLhh4EoyGv4UWoFl5
+ vtVTrW46oOaNwJIaVTViWh9Qn9/bpE7AucKu6c4exfh0YEtp6Pw8wPhwhb+aJ1OP0c7C
+ uz2RnjV0oAvrMtuRCE+b9g5jFEz1icE1hurIeKoGefNMhmQxKw9Bx4uUO7JWkqRv1QFY
+ tCdfkQ2Zh6HrtXZEqB96mW/Cg76nzsUDrMdP3GOvxwGLyIIUnVDoIqqjenS5QqEx7kvN
+ i9eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fvqm8C3dM5TmctflCAJIz9ZcX7WSbouhFM9/Ad7Pr7Q=;
- b=dMpDyqxx823YhX7bW+aeuQHTqTK8MC9oF+Uxn/cxv2RHp+pRGboO/EZ9yqpIHbg1XH
- JFY1T9nf0JMnqJgIwJG2eljSDT29S+hlvfUCZn8QDqkbTGHsd9uNXrsl2Ga1/QmMFDEH
- zZ2yzR7rPiXyecBY73brwRmLx2U69cscTuX3HDqmg38Y5japS7hYM5LVypI3U6L2iW4v
- ZX9BY9BdQeC5MiJi6MdhV+t3zbvPkuHYgiP5GYVLUAxssIiQdZaytYov5RioRVFNbJu3
- WLfW3TacnZbyb0s4GKg9fRWB4U2iv8xQgZuFjADwXEbOZKS2ZlgesruyjhblneY8bJ8f
- zngQ==
-X-Gm-Message-State: AOAM532GCH3MZohAlcDIokjjhomShKln85D3hLPhI9eJUWDkQ7mOHhMS
- buGUZZ1LH+gyeV2SH0c05ww86FdfMtfyFhuO
-X-Google-Smtp-Source: ABdhPJwRdTgOAJIHfm6U9cS0EGLzaJHo1OX3iztAiqDAsr0gp/jSSUq4mlGatRiV+Cnj3M/0xs2yTw==
-X-Received: by 2002:a1c:f207:: with SMTP id s7mr54680wmc.22.1598639676268;
- Fri, 28 Aug 2020 11:34:36 -0700 (PDT)
+ bh=YxYS6bedwXk9fQo5XTWT6l9ay8TcjftA/wL59SqMRkk=;
+ b=BEIgs+qWUuYXROGZgcLgG4a0sA5WCcKeYqYLmR90Frf+Fdq+K4UrDiFpZ0wwm0Gz/+
+ 8MpmrImqxGFmN5oIyKxi+6m/JkE5zpk2kaVfmIghx00xqGxaAkRCO6io3im1eXbxPXuI
+ 9zdlHXovCjpiIggI2gNWXJYZQfmAq1GJx2Q4uIlhcODA4GlvjkhA1Q1+e8pp/zDx0ePl
+ 54XSXaUxj4wscrQTOcGocqAVoNcJ8OKunozcsANnGIRHpeZlH16Mep/31Qv/5LnNijLL
+ OKt9XDuqlxnqOkmv3oaT7ukYSCPVOksij1EkcjQb1CYXjUJtFGM0W9rda2xJ0hCg4EC9
+ hJ8w==
+X-Gm-Message-State: AOAM530sTcXTslHNThFG/wuFcZI/rwNad05foNcQV7BiXV1jEwN1imD7
+ eTUtHK+SO+A0T+D0ou2KdvpcSQ==
+X-Google-Smtp-Source: ABdhPJyB8c1sHZb/9qWWyesgH+bvOn94vBxARDafi6Qjx3Vuhad190az2OWgxwUNS13wsF9afyx6RQ==
+X-Received: by 2002:a7b:cb17:: with SMTP id u23mr15745wmj.79.1598639681164;
+ Fri, 28 Aug 2020 11:34:41 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id s20sm356251wmh.21.2020.08.28.11.34.35
+ by smtp.gmail.com with ESMTPSA id s20sm356251wmh.21.2020.08.28.11.34.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 11:34:35 -0700 (PDT)
+ Fri, 28 Aug 2020 11:34:40 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 33/45] target/arm: Implement fp16 for Neon VRECPS
-Date: Fri, 28 Aug 2020 19:33:42 +0100
-Message-Id: <20200828183354.27913-34-peter.maydell@linaro.org>
+Subject: [PATCH v2 37/45] target/arm: Convert Neon VCVT fixed-point to gvec
+Date: Fri, 28 Aug 2020 19:33:46 +0100
+Message-Id: <20200828183354.27913-38-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200828183354.27913-1-peter.maydell@linaro.org>
 References: <20200828183354.27913-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,155 +88,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert the Neon VRECPS insn to using a gvec helper, and
-use this to implement the fp16 case.
-
-The phrasing of the new float32_recps_nf() is slightly different from
-the old recps_f32() so that it parallels the f16 version; for f16 we
-can't assume that flush-to-zero is always enabled.
+Convert the Neon VCVT float<->fixed-point insns to a
+gvec style, in preparation for adding fp16 support.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.h             |  4 +++-
- target/arm/vec_helper.c         | 31 +++++++++++++++++++++++++++++++
- target/arm/vfp_helper.c         | 13 -------------
- target/arm/translate-neon.c.inc | 21 +--------------------
- 4 files changed, 35 insertions(+), 34 deletions(-)
+ target/arm/helper.h             |  5 +++++
+ target/arm/vec_helper.c         | 20 +++++++++++++++++++
+ target/arm/translate-neon.c.inc | 35 +++++++++++++++++----------------
+ 3 files changed, 43 insertions(+), 17 deletions(-)
 
 diff --git a/target/arm/helper.h b/target/arm/helper.h
-index bf2b9a7d028..114039c4c33 100644
+index 1d8badf4a21..09e0fa052ef 100644
 --- a/target/arm/helper.h
 +++ b/target/arm/helper.h
-@@ -225,7 +225,6 @@ DEF_HELPER_4(vfp_muladdd, f64, f64, f64, f64, ptr)
- DEF_HELPER_4(vfp_muladds, f32, f32, f32, f32, ptr)
- DEF_HELPER_4(vfp_muladdh, f16, f16, f16, f16, ptr)
+@@ -623,6 +623,11 @@ DEF_HELPER_FLAGS_4(gvec_tosizs, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_4(gvec_touszh, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_4(gvec_touizs, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
  
--DEF_HELPER_3(recps_f32, f32, env, f32, f32)
- DEF_HELPER_3(rsqrts_f32, f32, env, f32, f32)
- DEF_HELPER_FLAGS_2(recpe_f16, TCG_CALL_NO_RWG, f16, f16, ptr)
- DEF_HELPER_FLAGS_2(recpe_f32, TCG_CALL_NO_RWG, f32, f32, ptr)
-@@ -674,6 +673,9 @@ DEF_HELPER_FLAGS_5(gvec_fmaxnum_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i3
- DEF_HELPER_FLAGS_5(gvec_fminnum_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_5(gvec_fminnum_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
- 
-+DEF_HELPER_FLAGS_5(gvec_recps_nf_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(gvec_recps_nf_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(gvec_vcvt_sf, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(gvec_vcvt_uf, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(gvec_vcvt_fs, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(gvec_vcvt_fu, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
 +
- DEF_HELPER_FLAGS_5(gvec_fmla_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_5(gvec_fmla_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
- 
+ DEF_HELPER_FLAGS_4(gvec_frecpe_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_4(gvec_frecpe_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_4(gvec_frecpe_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
 diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
-index 072bcd1a9d5..0111a230244 100644
+index 6ea9807b790..6d83953ee8f 100644
 --- a/target/arm/vec_helper.c
 +++ b/target/arm/vec_helper.c
-@@ -797,6 +797,34 @@ static float32 float32_abd(float32 op1, float32 op2, float_status *stat)
-     return float32_abs(float32_sub(op1, op2, stat));
- }
+@@ -1845,3 +1845,23 @@ DO_NEON_PAIRWISE(neon_pmax, max)
+ DO_NEON_PAIRWISE(neon_pmin, min)
  
-+/*
-+ * Reciprocal step. These are the AArch32 version which uses a
-+ * non-fused multiply-and-subtract.
-+ */
-+static float16 float16_recps_nf(float16 op1, float16 op2, float_status *stat)
-+{
-+    op1 = float16_squash_input_denormal(op1, stat);
-+    op2 = float16_squash_input_denormal(op2, stat);
+ #undef DO_NEON_PAIRWISE
 +
-+    if ((float16_is_infinity(op1) && float16_is_zero(op2)) ||
-+        (float16_is_infinity(op2) && float16_is_zero(op1))) {
-+        return float16_two;
++#define DO_VCVT_FIXED(NAME, FUNC, TYPE)                                 \
++    void HELPER(NAME)(void *vd, void *vn, void *stat, uint32_t desc)    \
++    {                                                                   \
++        intptr_t i, oprsz = simd_oprsz(desc);                           \
++        int shift = simd_data(desc);                                    \
++        TYPE *d = vd, *n = vn;                                          \
++        float_status *fpst = stat;                                      \
++        for (i = 0; i < oprsz / sizeof(TYPE); i++) {                    \
++            d[i] = FUNC(n[i], shift, fpst);                             \
++        }                                                               \
++        clear_tail(d, oprsz, simd_maxsz(desc));                         \
 +    }
-+    return float16_sub(float16_two, float16_mul(op1, op2, stat), stat);
-+}
 +
-+static float32 float32_recps_nf(float32 op1, float32 op2, float_status *stat)
-+{
-+    op1 = float32_squash_input_denormal(op1, stat);
-+    op2 = float32_squash_input_denormal(op2, stat);
++DO_VCVT_FIXED(gvec_vcvt_sf, helper_vfp_sltos, uint32_t)
++DO_VCVT_FIXED(gvec_vcvt_uf, helper_vfp_ultos, uint32_t)
++DO_VCVT_FIXED(gvec_vcvt_fs, helper_vfp_tosls_round_to_zero, uint32_t)
++DO_VCVT_FIXED(gvec_vcvt_fu, helper_vfp_touls_round_to_zero, uint32_t)
 +
-+    if ((float32_is_infinity(op1) && float32_is_zero(op2)) ||
-+        (float32_is_infinity(op2) && float32_is_zero(op1))) {
-+        return float32_two;
-+    }
-+    return float32_sub(float32_two, float32_mul(op1, op2, stat), stat);
-+}
-+
- #define DO_3OP(NAME, FUNC, TYPE) \
- void HELPER(NAME)(void *vd, void *vn, void *vm, void *stat, uint32_t desc) \
- {                                                                          \
-@@ -854,6 +882,9 @@ DO_3OP(gvec_fmaxnum_s, float32_maxnum, float32)
- DO_3OP(gvec_fminnum_h, float16_minnum, float16)
- DO_3OP(gvec_fminnum_s, float32_minnum, float32)
- 
-+DO_3OP(gvec_recps_nf_h, float16_recps_nf, float16)
-+DO_3OP(gvec_recps_nf_s, float32_recps_nf, float32)
-+
- #ifdef TARGET_AARCH64
- 
- DO_3OP(gvec_recps_h, helper_recpsf_f16, float16)
-diff --git a/target/arm/vfp_helper.c b/target/arm/vfp_helper.c
-index 586dfd22e5e..1f452409d4d 100644
---- a/target/arm/vfp_helper.c
-+++ b/target/arm/vfp_helper.c
-@@ -529,19 +529,6 @@ uint32_t HELPER(vfp_fcvt_f64_to_f16)(float64 a, void *fpstp, uint32_t ahp_mode)
-     return r;
- }
- 
--float32 HELPER(recps_f32)(CPUARMState *env, float32 a, float32 b)
--{
--    float_status *s = &env->vfp.standard_fp_status;
--    if ((float32_is_infinity(a) && float32_is_zero_or_denormal(b)) ||
--        (float32_is_infinity(b) && float32_is_zero_or_denormal(a))) {
--        if (!(float32_is_zero(a) || float32_is_zero(b))) {
--            float_raise(float_flag_input_denormal, s);
--        }
--        return float32_two;
--    }
--    return float32_sub(float32_two, float32_mul(a, b, s), s);
--}
--
- float32 HELPER(rsqrts_f32)(CPUARMState *env, float32 a, float32 b)
- {
-     float_status *s = &env->vfp.standard_fp_status;
++#undef DO_VCVT_FIXED
 diff --git a/target/arm/translate-neon.c.inc b/target/arm/translate-neon.c.inc
-index fe9d09973c2..9d077be976d 100644
+index f77506dab24..50fcf4159ea 100644
 --- a/target/arm/translate-neon.c.inc
 +++ b/target/arm/translate-neon.c.inc
-@@ -1074,6 +1074,7 @@ DO_3S_FP_GVEC(VMLA, gen_helper_gvec_fmla_s, gen_helper_gvec_fmla_h)
- DO_3S_FP_GVEC(VMLS, gen_helper_gvec_fmls_s, gen_helper_gvec_fmls_h)
- DO_3S_FP_GVEC(VFMA, gen_helper_gvec_vfma_s, gen_helper_gvec_vfma_h)
- DO_3S_FP_GVEC(VFMS, gen_helper_gvec_vfms_s, gen_helper_gvec_vfms_h)
-+DO_3S_FP_GVEC(VRECPS, gen_helper_gvec_recps_nf_s, gen_helper_gvec_recps_nf_h)
- 
- WRAP_FP_GVEC(gen_VMAXNM_fp32_3s, FPST_STD, gen_helper_gvec_fmaxnum_s)
- WRAP_FP_GVEC(gen_VMAXNM_fp16_3s, FPST_STD_F16, gen_helper_gvec_fmaxnum_h)
-@@ -1110,26 +1111,6 @@ static bool trans_VMINNM_fp_3s(DisasContext *s, arg_3same *a)
-     return do_3same(s, a, gen_VMINNM_fp32_3s);
+@@ -1608,17 +1608,24 @@ static bool trans_VSHLL_U_2sh(DisasContext *s, arg_2reg_shift *a)
  }
  
--WRAP_ENV_FN(gen_VRECPS_tramp, gen_helper_recps_f32)
--
--static void gen_VRECPS_fp_3s(unsigned vece, uint32_t rd_ofs,
--                             uint32_t rn_ofs, uint32_t rm_ofs,
--                             uint32_t oprsz, uint32_t maxsz)
--{
--    static const GVecGen3 ops = { .fni4 = gen_VRECPS_tramp };
--    tcg_gen_gvec_3(rd_ofs, rn_ofs, rm_ofs, oprsz, maxsz, &ops);
--}
--
--static bool trans_VRECPS_fp_3s(DisasContext *s, arg_3same *a)
--{
--    if (a->size != 0) {
--        /* TODO fp16 support */
--        return false;
--    }
--
--    return do_3same(s, a, gen_VRECPS_fp_3s);
--}
--
- WRAP_ENV_FN(gen_VRSQRTS_tramp, gen_helper_rsqrts_f32)
+ static bool do_fp_2sh(DisasContext *s, arg_2reg_shift *a,
+-                      NeonGenTwoSingleOpFn *fn)
++                      gen_helper_gvec_2_ptr *fn)
+ {
+     /* FP operations in 2-reg-and-shift group */
+-    TCGv_i32 tmp, shiftv;
+-    TCGv_ptr fpstatus;
+-    int pass;
++    int vec_size = a->q ? 16 : 8;
++    int rd_ofs = neon_reg_offset(a->vd, 0);
++    int rm_ofs = neon_reg_offset(a->vm, 0);
++    TCGv_ptr fpst;
  
- static void gen_VRSQRTS_fp_3s(unsigned vece, uint32_t rd_ofs,
+     if (!arm_dc_feature(s, ARM_FEATURE_NEON)) {
+         return false;
+     }
+ 
++    if (a->size != 0) {
++        if (!dc_isar_feature(aa32_fp16_arith, s)) {
++            return false;
++        }
++    }
++
+     /* UNDEF accesses to D16-D31 if they don't exist. */
+     if (!dc_isar_feature(aa32_simd_r32, s) &&
+         ((a->vd | a->vm) & 0x10)) {
+@@ -1633,15 +1640,9 @@ static bool do_fp_2sh(DisasContext *s, arg_2reg_shift *a,
+         return true;
+     }
+ 
+-    fpstatus = fpstatus_ptr(FPST_STD);
+-    shiftv = tcg_const_i32(a->shift);
+-    for (pass = 0; pass < (a->q ? 4 : 2); pass++) {
+-        tmp = neon_load_reg(a->vm, pass);
+-        fn(tmp, tmp, shiftv, fpstatus);
+-        neon_store_reg(a->vd, pass, tmp);
+-    }
+-    tcg_temp_free_ptr(fpstatus);
+-    tcg_temp_free_i32(shiftv);
++    fpst = fpstatus_ptr(a->size ? FPST_STD_F16 : FPST_STD);
++    tcg_gen_gvec_2_ptr(rd_ofs, rm_ofs, fpst, vec_size, vec_size, a->shift, fn);
++    tcg_temp_free_ptr(fpst);
+     return true;
+ }
+ 
+@@ -1651,10 +1652,10 @@ static bool do_fp_2sh(DisasContext *s, arg_2reg_shift *a,
+         return do_fp_2sh(s, a, FUNC);                                   \
+     }
+ 
+-DO_FP_2SH(VCVT_SF, gen_helper_vfp_sltos)
+-DO_FP_2SH(VCVT_UF, gen_helper_vfp_ultos)
+-DO_FP_2SH(VCVT_FS, gen_helper_vfp_tosls_round_to_zero)
+-DO_FP_2SH(VCVT_FU, gen_helper_vfp_touls_round_to_zero)
++DO_FP_2SH(VCVT_SF, gen_helper_gvec_vcvt_sf)
++DO_FP_2SH(VCVT_UF, gen_helper_gvec_vcvt_uf)
++DO_FP_2SH(VCVT_FS, gen_helper_gvec_vcvt_fs)
++DO_FP_2SH(VCVT_FU, gen_helper_gvec_vcvt_fu)
+ 
+ static uint64_t asimd_imm_const(uint32_t imm, int cmode, int op)
+ {
 -- 
 2.20.1
 
