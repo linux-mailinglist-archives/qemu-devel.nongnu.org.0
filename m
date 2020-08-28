@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECCD6255985
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 13:41:42 +0200 (CEST)
-Received: from localhost ([::1]:59454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B440B2559A0
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 13:49:09 +0200 (CEST)
+Received: from localhost ([::1]:37892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBclK-00025E-1n
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 07:41:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46600)
+	id 1kBcsW-00056w-Kn
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 07:49:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1kBcjL-0000Pq-Fq; Fri, 28 Aug 2020 07:39:39 -0400
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:32912)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1kBcjI-0004Q7-VG; Fri, 28 Aug 2020 07:39:39 -0400
-Received: by mail-lj1-x243.google.com with SMTP id r13so955860ljm.0;
- Fri, 28 Aug 2020 04:39:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=kL3W06mXnWndmR6GJLLJiTkowuaDiYxG06aqX/GvAOo=;
- b=Ds+A/DpWxMr4QUhDXo6LhmvMvEFdmuMAVsOegcyAl16/FNjVRDcwyC+T4e8xBL66/J
- tF7mCS9DU6sJJu+u/5N9I7k8fOtlNnzZTsYqRWk5+uR6k9eQT78QVj3R+3ETVC7Cpekz
- rM3LhuJEw9JYnXustqQIPFsUE4Nli07/MGVKNnkVS7aL8YyB+iDKTAfFiy5H5o/+jsMo
- PpHoRlpc6O8SkWn/fPi+OVZ63elVe+NwUnGf1Jr66K/eStLmBSwibDyLymofNVsOK8pG
- xA3/7npmEMkwKobOSLWAxZyGYExkBrxcoyns6jGbDdNU2yTejW+PAd0V76xPYiIZBkH5
- U68Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=kL3W06mXnWndmR6GJLLJiTkowuaDiYxG06aqX/GvAOo=;
- b=mmGP2RKN7Y6bxyXEQtISoVC5ShhgmpYiA3zYlITTgrMKAQ30XN1Bp+yFkUxS9zbjxJ
- p/dhFxrELeocrufNCXMMVkP3FmXXVWI5XHsvD4W2/Ra7cfrA/oxLGmxPcssTQ5199PJy
- Kbz8Nq8JMMsj4xvzhC24zRzlYiUM0UpnWsDfhvtkAWTIyG3yR0D4BQO9IPxgz+hRPY8e
- jR8GfIvaGBlb5x975ZsKvkIGChNfcr8GIdWa/kxwTjps+VWkyVA1L6Bhw5trtPHVaIH8
- WU7gPEwwOZlKVNucb4IJQx0sRiSXE280S3A8IxG0L2qfFlkSFK2egQxb39GH8Ogg2lyR
- P52A==
-X-Gm-Message-State: AOAM532/MoscsaBkgXc2BZEjJLcnck7VIE8N0Ke+YH+oafCTK6RDnRnS
- C8P9mSA+fgMNT8JdmTNgBUoixT33/oA=
-X-Google-Smtp-Source: ABdhPJy3M8urRwgid9mYK2ZdjxdftHs4YuzfyFQZePU305mFcgba2qjOqqfL6LTz8Ay11OIwXGBHjQ==
-X-Received: by 2002:a2e:9b8e:: with SMTP id z14mr687999lji.47.1598614774836;
- Fri, 28 Aug 2020 04:39:34 -0700 (PDT)
-Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id a3sm155223ljm.7.2020.08.28.04.39.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 04:39:34 -0700 (PDT)
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1 2/2] target/microblaze: Improve transaction failure handling
-Date: Fri, 28 Aug 2020 13:39:31 +0200
-Message-Id: <20200828113931.3252489-3-edgar.iglesias@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200828113931.3252489-1-edgar.iglesias@gmail.com>
-References: <20200828113931.3252489-1-edgar.iglesias@gmail.com>
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kBcoA-0004Sl-7d
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 07:44:38 -0400
+Received: from mout.gmx.net ([212.227.15.19]:32941)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kBco8-0004ug-7H
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 07:44:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1598615066;
+ bh=oxXS0uLCGhDa3XkMLezeWNX6IWsnVqHs90zkM3VJ5HU=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
+ b=QaJXbmoI8E/YtLuiiT0ERWEGhIgVzhcRcn4bNz8A+oZZD12sPKj6TeQvlhxn3uneZ
+ 2Y9MnnVHv6Gpyn+gizVQ2vvfKO/3HOF+C7wcDqtoilESBR5C+GIsPhg8UcdiONKFMQ
+ O/PAGvKxnRWSFqtO/y4BuDfPtdVR2mUHT05O+BPc=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from ls3530.fritz.box ([92.116.181.17]) by mail.gmx.com (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MbAcs-1kiTeD3P56-00bbG9; Fri, 28
+ Aug 2020 13:44:25 +0200
+Date: Fri, 28 Aug 2020 13:44:23 +0200
+From: Helge Deller <deller@gmx.de>
+To: qemu-devel@nongnu.org,
+ Philippe =?iso-8859-15?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Richard Henderson <rth@twiddle.net>
+Subject: [PATCH] hw/display/artist: Fix artist screen resolution
+Message-ID: <20200828114423.GA17650@ls3530.fritz.box>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::243;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x243.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 13
-X-Spam_score: 1.3
-X-Spam_bar: +
-X-Spam_report: (1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- FSL_HELO_FAKE=3.425, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Provags-ID: V03:K1:PD8VA0DGBwskJxx9/NORBW/aNLiHdqMrBD9hGZwzY2yl59UHeME
+ GIZtyqe5u5Gibuyja+QsT2qxiyQugoVFSglcyarGhiqLXnkEzK3E1iVS+maaKYtTmNoy9u5
+ UgSt+hbwQ1UdT36t+/zZGIqG9ATGepEz+d/pYwaCgVs7QWn9/XBUfcy1AsT5TyVudkxMAoP
+ wKDNf5QUTzrKrYyKpS59g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ouZIApbYToE=:itbu8omB5pD9FigSrpsED7
+ knLFSWA0FoZSFlNV4cawKUh3L7wFd5SBwiVo0PTmJgbiaj4PL3mq5X9J24GhmmIFRclIKCh8q
+ UaZzh4K9thvxmfCf/gW1xJZpgFbtne9PZJ3VvDkN+2B0DjHs96bb3lyttCqgnB5cSvLiL78hh
+ 9jvCWp74fSItXuuxy7h3hEfgVU93fC3vwbWSAorfCw2+lq5WVGsHUvoJidWgeEMQ7MGEXl9iC
+ lAjg4XwiiVj55HflTXdAtjU54EHwMRzxDcBVbl9HprovSmSZ0RBgCmHDVJo531H8l5Ad219QV
+ pmDpxfO/Nycc2cb8PWtR5EFL3ybDnadew1dumHAveYxx0iytdkj0G51RZRf84YFVcZFfic9WN
+ pPvssS/3A3O4FKHwInGmhsPWlUZE3NpidQaiXdu9b9X3zsauRRsBzXCdItgkld4EAA4BrcBBI
+ KQhQkv4bfCr/0YHxRpSzj1nsxKUqn8OUj9c7d+hB3gXy2nJ5NzXHcauwyqYS3/FWcrqBEHYs1
+ 1p+LXQge9y88SAWGu0UhPwIHS3MglvTi/U/+JYhdQpYpdOYVffPo+5MDuJ9JMScd3UBXPrQFu
+ KM+bM1aNRUsj5ItHyKMP4eVQ7Lp4V1aIMOOLzFqjWCuZW3zXGgljCzgOVjzZY9/PNUCcZ5vDp
+ Vs8D3gR87udDISuMWWmHyQ6FiGs2zNSwouTe4+utDCb5U8Id8JhBmyMtRhxhNhHzCy/IOkIYz
+ 4jmAVnLSuH81jfURtsyCKdnH2yndVDD23Quexnz2kyfPjYakAr/vsDhuVwnpVda0orXrUjUkt
+ KJwhF9+8XQvkhxzaPust+8+IBQvYJaGHKxLP+quZkJLDde7A6rWeRnYZ336OqFhekxD52nDcE
+ v3yk5PUEiM4H6xlERnSdUx6iGw0//GceiA5tZ1tsVjjZSrDSwi0JenD6LRHpE+0LsLVUEYwct
+ ukU+g38HihII+tFsgd4M6Zu2cxv7t1lCRvn9toVo3VDWfZgFeY0McPX7Z9FE0T7FT/KUqx57d
+ gvTVahVkbRW0Ul9bShLuDIGoB98wZsRCyKUpgZn3hOySubqOtt6LP8Tw0RpMYw8AYw8RZq9AU
+ +AK3xnSqZVSbBWjlE47unfKU7il5fFfL0SVBwUujcobBr6EPM/1PVantmhi/WA5hoEahtPBDr
+ wSGiyKpcn6eruySZMlQXe+9pNOl5CYK0bPwkT7ORIwqizc2nr4E0r985XfDfbOvqvVZ4OiIyN
+ OtvXg7/6oXXDnuF36
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=212.227.15.19; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 07:44:32
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,60 +85,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: figlesia@xilinx.com, peter.maydell@linaro.org, sstabellini@kernel.org,
- edgar.iglesias@xilinx.com, sai.pavan.boddu@xilinx.com,
- frasse.iglesias@gmail.com, alistair@alistair23.me,
- richard.henderson@linaro.org, frederic.konrad@adacore.com, qemu-arm@nongnu.org,
- philmd@redhat.com, luc.michel@greensocs.com
+Cc: Sven Schnelle <svens@stackframe.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+Artist screen size is limited to 2048 x 2048 pixels and x/y coordination
+addressing needs to be done by OS via an uint32 value which is based on
+a 2048 byte line length, independend of the real screen size.
 
-When the CPU has exceptions disabled, avoid unwinding CPU
-state and clobbering registers if we're not going to raise
-any exception.
+Since HP-UX seems to ideally need at least 640 pixels in width, this
+patch ensures that the screen size stays between 640x480 and 2048x2048
+pixels and fixes some pixel glitches were visible before on STI text
+consoles due to the 2048 line length limitation.
 
-Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
----
- target/microblaze/op_helper.c | 19 +++++++------------
- 1 file changed, 7 insertions(+), 12 deletions(-)
+Cc: Sven Schnelle <svens@stackframe.org>
+Signed-off-by: Helge Deller <deller@gmx.de>
 
-diff --git a/target/microblaze/op_helper.c b/target/microblaze/op_helper.c
-index 13ac476199..190cd96c6a 100644
---- a/target/microblaze/op_helper.c
-+++ b/target/microblaze/op_helper.c
-@@ -483,22 +483,17 @@ void mb_cpu_transaction_failed(CPUState *cs, hwaddr physaddr, vaddr addr,
-     cpu = MICROBLAZE_CPU(cs);
-     env = &cpu->env;
- 
--    cpu_restore_state(cs, retaddr, true);
-     if (!(env->sregs[SR_MSR] & MSR_EE)) {
+diff --git a/hw/display/artist.c b/hw/display/artist.c
+index 71982559c6..98bee6d61c 100644
+=2D-- a/hw/display/artist.c
++++ b/hw/display/artist.c
+@@ -192,6 +192,10 @@ static const char *artist_reg_name(uint64_t addr)
+ }
+ #undef REG_NAME
+
++/* artist has a fixed line length of 2048 bytes. */
++#define ADDR_TO_Y(addr) (((addr) >> 11) & 0x7ff)
++#define ADDR_TO_X(addr) ((addr) & 0x7ff)
++
+ static int16_t artist_get_x(uint32_t reg)
+ {
+     return reg >> 16;
+@@ -348,13 +352,13 @@ static void artist_invalidate_cursor(ARTISTState *s)
+                             y, s->cursor_height);
+ }
+
+-static void vram_bit_write(ARTISTState *s, int posx, int posy, bool incr_=
+x,
++static void vram_bit_write(ARTISTState *s, int posy, bool incr_x,
+                            int size, uint32_t data)
+ {
+     struct vram_buffer *buf;
+     uint32_t vram_bitmask =3D s->vram_bitmask;
+     int mask, i, pix_count, pix_length;
+-    unsigned int offset, width;
++    unsigned int posx, offset, width;
+     uint8_t *data8, *p;
+
+     pix_count =3D vram_write_pix_per_transfer(s);
+@@ -366,6 +370,8 @@ static void vram_bit_write(ARTISTState *s, int posx, i=
+nt posy, bool incr_x,
+     if (s->cmap_bm_access) {
+         offset =3D s->vram_pos;
+     } else {
++        posx =3D ADDR_TO_X(s->vram_pos >> 2);
++        posy +=3D ADDR_TO_Y(s->vram_pos >> 2);
+         offset =3D posy * width + posx;
+     }
+
+@@ -858,7 +864,6 @@ static void artist_reg_write(void *opaque, hwaddr addr=
+, uint64_t val,
+                              unsigned size)
+ {
+     ARTISTState *s =3D opaque;
+-    int posx, posy;
+     int width, height;
+
+     trace_artist_reg_write(size, addr, artist_reg_name(addr & ~3ULL), val=
+);
+@@ -881,16 +886,12 @@ static void artist_reg_write(void *opaque, hwaddr ad=
+dr, uint64_t val,
+         break;
+
+     case VRAM_WRITE_INCR_Y:
+-        posx =3D (s->vram_pos >> 2) & 0x7ff;
+-        posy =3D (s->vram_pos >> 13) & 0x3ff;
+-        vram_bit_write(s, posx, posy + s->vram_char_y++, false, size, val=
+);
++        vram_bit_write(s, s->vram_char_y++, false, size, val);
+         break;
+
+     case VRAM_WRITE_INCR_X:
+     case VRAM_WRITE_INCR_X2:
+-        posx =3D (s->vram_pos >> 2) & 0x7ff;
+-        posy =3D (s->vram_pos >> 13) & 0x3ff;
+-        vram_bit_write(s, posx, posy + s->vram_char_y, true, size, val);
++        vram_bit_write(s, s->vram_char_y, true, size, val);
+         break;
+
+     case VRAM_IDX:
+@@ -1156,8 +1157,7 @@ static void artist_vram_write(void *opaque, hwaddr a=
+ddr, uint64_t val,
+ {
+     ARTISTState *s =3D opaque;
+     struct vram_buffer *buf;
+-    int posy =3D (addr >> 11) & 0x3ff;
+-    int posx =3D addr & 0x7ff;
++    unsigned int posy, posx;
+     unsigned int offset;
+     trace_artist_vram_write(size, addr, val);
+
+@@ -1170,6 +1170,9 @@ static void artist_vram_write(void *opaque, hwaddr a=
+ddr, uint64_t val,
+     }
+
+     buf =3D vram_write_buffer(s);
++    posy =3D ADDR_TO_Y(addr);
++    posx =3D ADDR_TO_X(addr);
++
+     if (!buf->size) {
          return;
      }
- 
--    env->sregs[SR_EAR] = addr;
--    if (access_type == MMU_INST_FETCH) {
--        if (cpu->cfg.iopb_bus_exception) {
--            env->sregs[SR_ESR] = ESR_EC_INSN_BUS;
--            helper_raise_exception(env, EXCP_HW_EXCP);
--        }
--    } else {
--        if (cpu->cfg.dopb_bus_exception) {
--            env->sregs[SR_ESR] = ESR_EC_DATA_BUS;
--            helper_raise_exception(env, EXCP_HW_EXCP);
--        }
-+    if ((access_type == MMU_INST_FETCH && cpu->cfg.iopb_bus_exception) ||
-+        (access_type != MMU_INST_FETCH && cpu->cfg.dopb_bus_exception)) {
-+        cpu_restore_state(cs, retaddr, true);
-+        env->sregs[SR_ESR] = access_type == MMU_INST_FETCH ?
-+                             ESR_EC_INSN_BUS : ESR_EC_DATA_BUS;
-+        env->sregs[SR_EAR] = addr;
-+        helper_raise_exception(env, EXCP_HW_EXCP);
+@@ -1212,7 +1215,7 @@ static uint64_t artist_vram_read(void *opaque, hwadd=
+r addr, unsigned size)
+     ARTISTState *s =3D opaque;
+     struct vram_buffer *buf;
+     uint64_t val;
+-    int posy, posx;
++    unsigned int posy, posx;
+
+     if (s->cmap_bm_access) {
+         buf =3D &s->vram_buffer[ARTIST_BUFFER_CMAP];
+@@ -1229,8 +1232,8 @@ static uint64_t artist_vram_read(void *opaque, hwadd=
+r addr, unsigned size)
+         return 0;
      }
- }
- #endif
--- 
-2.25.1
+
+-    posy =3D (addr >> 13) & 0x3ff;
+-    posx =3D (addr >> 2) & 0x7ff;
++    posy =3D ADDR_TO_Y(addr);
++    posx =3D ADDR_TO_X(addr);
+
+     if (posy > buf->height || posx > buf->width) {
+         return 0;
+@@ -1374,6 +1377,12 @@ static void artist_realizefn(DeviceState *dev, Erro=
+r **errp)
+     struct vram_buffer *buf;
+     hwaddr offset =3D 0;
+
++    /* Screen on artist can not be greater than 2048x2048 pixels. */
++    s->width =3D MAX(s->width, 640);
++    s->width =3D MIN(s->width, 2048);
++    s->height =3D MAX(s->height, 480);
++    s->height =3D MIN(s->height, 2048);
++
+     memory_region_init(&s->mem_as_root, OBJECT(dev), "artist", ~0ull);
+     address_space_init(&s->as, &s->mem_as_root, "artist");
 
 
