@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68E7B255CAC
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 16:37:07 +0200 (CEST)
-Received: from localhost ([::1]:45132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95C9E255CAF
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 16:38:31 +0200 (CEST)
+Received: from localhost ([::1]:50544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBfV4-00088P-DJ
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 10:37:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51458)
+	id 1kBfW7-0001sB-7S
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 10:38:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBfEv-00017i-JK
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 10:20:25 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:46555)
+ id 1kBfEx-0001CB-7O
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 10:20:27 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:43219)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBfEt-0005Eo-Gd
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 10:20:25 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id t185so723067pfd.13
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 07:20:22 -0700 (PDT)
+ id 1kBfEv-0005F5-8J
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 10:20:26 -0400
+Received: by mail-pg1-x543.google.com with SMTP id d19so517032pgl.10
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 07:20:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wXHheAujwG3J7OkJDdVOIKAESxqo8RAwt5jkuy5HApE=;
- b=rRcLMnk0BuRSGAIPpb/sgknemybd7UCwpH3jjRfjTom1E3gQ3EGGr/u1pIxjMtpE/A
- nZEBRF9JD2J/FINUIpDIMFHlkeKWtOkcq6nWrPT7UJH4LOoCeyI02QpRorz8WQ3c+1mb
- VmSMTffUBE0CH3nvO/Y09TYllPKMjSmVcm4uC7d9NmHlRbOiu52vjf+2RzOvLN/yC9tE
- Rtkdz6JZnFCJ/IybgcKUxoxPyrz17R06Vh/xzMCAct46uiOJwKH9hhDTb9c9ANA3Fg9t
- 6sba8DsrGgARoFw6lqhj3MxM//ohiiUf5BCIjcxikJ0Rgl8ejFDpzpJvMKNgsUYusyx3
- /l9w==
+ bh=2qRjDe/fKYjb4A+1fYr4Tr7VDgkxS0k1+OZKcZn8JeA=;
+ b=HAGpYxz7OLQtR6GzgNuIJ+RM1TWi2yy6QIJiIop2ZxyeDivAsLAJCuRDIyhj4JWzgi
+ t4zAcmPkqTFE1Rm9jcF98GiQG22BFGcxNOm1QIR6UWmH+M51REndv3wnN/W6k6XVcnQm
+ Vv59Gi0A1RMw4thcy80BkS2kSLOp1iUajiVv6ONN/Gq9mYW1NGFpEC43llpvlI5i0WMc
+ 4UVw2qABTU2TP0HoeSf98vjJiysuJOsq+zFf5I6/wSN5rUn+ziEhB/7z3alMU+2M16Ku
+ W6nAvj2cf7Os0TBoyyEJfvQBrOHpmefqMk0UhLX/oLw8WZ6AaiFsqnDnqGgT+Ojp0lQq
+ VQ6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wXHheAujwG3J7OkJDdVOIKAESxqo8RAwt5jkuy5HApE=;
- b=S+lk9i8hQ3kGHM2GJOGY5+s/7ejeaTaC8OxzEZBqMaD5eRiPFF9JAFzW1RCACul3fg
- +tt5V48xsiKVw9/NsNfmc8kM0tymPU/SkEMYFaIZcl/pMlm1Hhq0PfMZLOIfXBIjyva/
- uTUBbLAAHI6W/z7eQLCEI8RHhsFRF0wUZpVBp+R2ZJZtM5CadyzDUovnCD93sEO2ZFPd
- KKHobK5Z1ZloooklO4WhY9xcx+6P/CDBxp+gfB2Cx7wCfK2yneA+4wMyfILSjXXS7UY2
- /9fv+kgM0A7HdYTyBa7dbaoog/yUMBSttwCjseBOm8As/RRa77IQeVLZ8fLDyaAUSwNo
- qSYA==
-X-Gm-Message-State: AOAM5331gm7VIfHoZ4Th0kfDyOatloW9xC8DTLkvyNoRzZUdtAORVQSb
- tinJv/BsYAAH23RsX+YvSrkQm3YolEzuug==
-X-Google-Smtp-Source: ABdhPJzm1rHCH9MSsU1d3J6bRZ8ILG2jhS2i4ae3DV4JoCHW4jUSq7zhNyllC7AXEYtj7RlYlDBiaQ==
-X-Received: by 2002:a65:60ce:: with SMTP id r14mr1449898pgv.85.1598624421014; 
- Fri, 28 Aug 2020 07:20:21 -0700 (PDT)
+ bh=2qRjDe/fKYjb4A+1fYr4Tr7VDgkxS0k1+OZKcZn8JeA=;
+ b=c61e7+FTmN48ahnMrRxnWM4+XPJ75kPRC1itEBqZSG9Gf0I3gyMFR069l7dG8dMvzR
+ 7+KfRJvEXsA8AijH4YwyJ+TvommJm3qt0a2Qrw3FGhHYQ/96FiP7FHy0Bb8wxotACgpm
+ dsDWPzHO858RPZ5IYz0Jfr3so3jqzkDz4u6nCWpQw9umVgkDZrg4P5TgMZHBVlLsDPy1
+ MEGcYugIKKNq5/yIO+F32qxQwYGrkX55I+TwFoNNiBwklWdLoInX4vZq1qI5U0mr2IPd
+ y3OyMrK0oip9PW60gi3Okg9fIqp2ksH3DK9agiOLDzWCr9hLNEXkAaOrkGLeBQiVSLoh
+ S+jA==
+X-Gm-Message-State: AOAM530staTnZlEkZjHPVRMVeuMNtPOMWNog+C3yfW0PikfQGWfZFnVi
+ Kl9TFfZsuNSbGap2wGVcYAGre6tWWSRlwA==
+X-Google-Smtp-Source: ABdhPJyhPdHUuw5RnWy11RDpu9Cnwib/Ykmy73HVTPMt7HSfztf+SRn7PLh3b7a8pW/yMMIYQU+HIw==
+X-Received: by 2002:a65:568b:: with SMTP id v11mr1409464pgs.396.1598624423310; 
+ Fri, 28 Aug 2020 07:20:23 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id j3sm1403080pjw.23.2020.08.28.07.20.20
+ by smtp.gmail.com with ESMTPSA id j3sm1403080pjw.23.2020.08.28.07.20.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 07:20:20 -0700 (PDT)
+ Fri, 28 Aug 2020 07:20:22 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 39/76] target/microblaze: Convert dec_pattern to decodetree
-Date: Fri, 28 Aug 2020 07:18:52 -0700
-Message-Id: <20200828141929.77854-40-richard.henderson@linaro.org>
+Subject: [PATCH v2 41/76] target/microblaze: Convert dec_mul to decodetree
+Date: Fri, 28 Aug 2020 07:18:54 -0700
+Message-Id: <20200828141929.77854-42-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200828141929.77854-1-richard.henderson@linaro.org>
 References: <20200828141929.77854-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,134 +90,136 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/insns.decode |  4 ++
- target/microblaze/translate.c  | 67 +++++++++-------------------------
- 2 files changed, 22 insertions(+), 49 deletions(-)
+ target/microblaze/insns.decode |  6 +++
+ target/microblaze/translate.c  | 77 ++++++++++++++--------------------
+ 2 files changed, 37 insertions(+), 46 deletions(-)
 
 diff --git a/target/microblaze/insns.decode b/target/microblaze/insns.decode
-index a611cc83a7..16519f05dc 100644
+index 93bd51c78b..1a2e22e44a 100644
 --- a/target/microblaze/insns.decode
 +++ b/target/microblaze/insns.decode
-@@ -44,6 +44,10 @@ addikc          001110 ..... ..... ................     @typeb
+@@ -50,6 +50,12 @@ andni           101011 ..... ..... ................     @typeb
  cmp             000101 ..... ..... ..... 000 0000 0001  @typea
  cmpu            000101 ..... ..... ..... 000 0000 0011  @typea
  
-+pcmpbf          100000 ..... ..... ..... 100 0000 0000  @typea
-+pcmpeq          100010 ..... ..... ..... 100 0000 0000  @typea
-+pcmpne          100011 ..... ..... ..... 100 0000 0000  @typea
++mul             010000 ..... ..... ..... 000 0000 0000  @typea
++mulh            010000 ..... ..... ..... 000 0000 0001  @typea
++mulhu           010000 ..... ..... ..... 000 0000 0011  @typea
++mulhsu          010000 ..... ..... ..... 000 0000 0010  @typea
++muli            011000 ..... ..... ................     @typeb
 +
- rsub            000001 ..... ..... ..... 000 0000 0000  @typea
- rsubc           000011 ..... ..... ..... 000 0000 0000  @typea
- rsubk           000101 ..... ..... ..... 000 0000 0000  @typea
+ or              100000 ..... ..... ..... 000 0000 0000  @typea
+ ori             101000 ..... ..... ................     @typeb
+ 
 diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index 8da477457d..7ebf0e1e7d 100644
+index a143f17e9d..617e208583 100644
 --- a/target/microblaze/translate.c
 +++ b/target/microblaze/translate.c
-@@ -279,6 +279,10 @@ static bool do_typeb_val(DisasContext *dc, arg_typeb *arg, bool side_effects,
-     static bool trans_##NAME(DisasContext *dc, arg_typea *a) \
-     { return do_typea(dc, a, SE, FN); }
- 
-+#define DO_TYPEA_CFG(NAME, CFG, SE, FN) \
-+    static bool trans_##NAME(DisasContext *dc, arg_typea *a) \
-+    { return dc->cpu->cfg.CFG && do_typea(dc, a, SE, FN); }
-+
- #define DO_TYPEBI(NAME, SE, FNI) \
+@@ -287,6 +287,10 @@ static bool do_typeb_val(DisasContext *dc, arg_typeb *arg, bool side_effects,
      static bool trans_##NAME(DisasContext *dc, arg_typeb *a) \
      { return do_typeb_imm(dc, a, SE, FNI); }
-@@ -350,6 +354,20 @@ static void gen_cmpu(TCGv_i32 out, TCGv_i32 ina, TCGv_i32 inb)
+ 
++#define DO_TYPEBI_CFG(NAME, CFG, SE, FNI) \
++    static bool trans_##NAME(DisasContext *dc, arg_typeb *a) \
++    { return dc->cpu->cfg.CFG && do_typeb_imm(dc, a, SE, FNI); }
++
+ #define DO_TYPEBV(NAME, SE, FN) \
+     static bool trans_##NAME(DisasContext *dc, arg_typeb *a) \
+     { return do_typeb_val(dc, a, SE, FN); }
+@@ -364,6 +368,33 @@ static void gen_cmpu(TCGv_i32 out, TCGv_i32 ina, TCGv_i32 inb)
  DO_TYPEA(cmp, false, gen_cmp)
  DO_TYPEA(cmpu, false, gen_cmpu)
  
-+static void gen_pcmpeq(TCGv_i32 out, TCGv_i32 ina, TCGv_i32 inb)
++static void gen_mulh(TCGv_i32 out, TCGv_i32 ina, TCGv_i32 inb)
 +{
-+    tcg_gen_setcond_i32(TCG_COND_EQ, out, ina, inb);
++    TCGv_i32 tmp = tcg_temp_new_i32();
++    tcg_gen_muls2_i32(tmp, out, ina, inb);
++    tcg_temp_free_i32(tmp);
 +}
 +
-+static void gen_pcmpne(TCGv_i32 out, TCGv_i32 ina, TCGv_i32 inb)
++static void gen_mulhu(TCGv_i32 out, TCGv_i32 ina, TCGv_i32 inb)
 +{
-+    tcg_gen_setcond_i32(TCG_COND_NE, out, ina, inb);
++    TCGv_i32 tmp = tcg_temp_new_i32();
++    tcg_gen_mulu2_i32(tmp, out, ina, inb);
++    tcg_temp_free_i32(tmp);
 +}
 +
-+DO_TYPEA_CFG(pcmpbf, use_pcmp_instr, false, gen_helper_pcmpbf)
-+DO_TYPEA_CFG(pcmpeq, use_pcmp_instr, false, gen_pcmpeq)
-+DO_TYPEA_CFG(pcmpne, use_pcmp_instr, false, gen_pcmpne)
++static void gen_mulhsu(TCGv_i32 out, TCGv_i32 ina, TCGv_i32 inb)
++{
++    TCGv_i32 tmp = tcg_temp_new_i32();
++    tcg_gen_mulsu2_i32(tmp, out, ina, inb);
++    tcg_temp_free_i32(tmp);
++}
 +
- /* No input carry, but output carry. */
- static void gen_rsub(TCGv_i32 out, TCGv_i32 ina, TCGv_i32 inb)
- {
-@@ -413,49 +431,10 @@ static bool trans_zero(DisasContext *dc, arg_zero *arg)
-     return false;
++DO_TYPEA_CFG(mul, use_hw_mul, false, tcg_gen_mul_i32)
++DO_TYPEA_CFG(mulh, use_hw_mul >= 2, false, gen_mulh)
++DO_TYPEA_CFG(mulhu, use_hw_mul >= 2, false, gen_mulhu)
++DO_TYPEA_CFG(mulhsu, use_hw_mul >= 2, false, gen_mulhsu)
++DO_TYPEBI_CFG(muli, use_hw_mul, false, tcg_gen_muli_i32)
++
+ DO_TYPEA(or, false, tcg_gen_or_i32)
+ DO_TYPEBI(ori, false, tcg_gen_ori_i32)
+ 
+@@ -652,51 +683,6 @@ static void dec_msr(DisasContext *dc)
+     }
  }
  
--static void dec_pattern(DisasContext *dc)
+-/* Multiplier unit.  */
+-static void dec_mul(DisasContext *dc)
 -{
--    unsigned int mode;
+-    TCGv_i32 tmp;
+-    unsigned int subcode;
 -
--    if (trap_illegal(dc, !dc->cpu->cfg.use_pcmp_instr)) {
+-    if (trap_illegal(dc, !dc->cpu->cfg.use_hw_mul)) {
 -        return;
 -    }
 -
--    mode = dc->opcode & 3;
--    switch (mode) {
+-    subcode = dc->imm & 3;
+-
+-    if (dc->type_b) {
+-        tcg_gen_mul_i32(cpu_R[dc->rd], cpu_R[dc->ra], *(dec_alu_op_b(dc)));
+-        return;
+-    }
+-
+-    /* mulh, mulhsu and mulhu are not available if C_USE_HW_MUL is < 2.  */
+-    if (subcode >= 1 && subcode <= 3 && dc->cpu->cfg.use_hw_mul < 2) {
+-        /* nop??? */
+-    }
+-
+-    tmp = tcg_temp_new_i32();
+-    switch (subcode) {
 -        case 0:
--            /* pcmpbf.  */
--            if (dc->rd)
--                gen_helper_pcmpbf(cpu_R[dc->rd], cpu_R[dc->ra], cpu_R[dc->rb]);
+-            tcg_gen_mul_i32(cpu_R[dc->rd], cpu_R[dc->ra], cpu_R[dc->rb]);
+-            break;
+-        case 1:
+-            tcg_gen_muls2_i32(tmp, cpu_R[dc->rd],
+-                              cpu_R[dc->ra], cpu_R[dc->rb]);
 -            break;
 -        case 2:
--            if (dc->rd) {
--                tcg_gen_setcond_i32(TCG_COND_EQ, cpu_R[dc->rd],
--                                   cpu_R[dc->ra], cpu_R[dc->rb]);
--            }
+-            tcg_gen_mulsu2_i32(tmp, cpu_R[dc->rd],
+-                               cpu_R[dc->ra], cpu_R[dc->rb]);
 -            break;
 -        case 3:
--            if (dc->rd) {
--                tcg_gen_setcond_i32(TCG_COND_NE, cpu_R[dc->rd],
--                                   cpu_R[dc->ra], cpu_R[dc->rb]);
--            }
+-            tcg_gen_mulu2_i32(tmp, cpu_R[dc->rd], cpu_R[dc->ra], cpu_R[dc->rb]);
 -            break;
 -        default:
--            cpu_abort(CPU(dc->cpu),
--                      "unsupported pattern insn opcode=%x\n", dc->opcode);
+-            cpu_abort(CPU(dc->cpu), "unknown MUL insn %x\n", subcode);
 -            break;
 -    }
+-    tcg_temp_free_i32(tmp);
 -}
 -
- static void dec_and(DisasContext *dc)
+ /* Div unit.  */
+ static void dec_div(DisasContext *dc)
  {
-     unsigned int not;
- 
--    if (!dc->type_b && (dc->imm & (1 << 10))) {
--        dec_pattern(dc);
--        return;
--    }
--
-     not = dc->opcode & (1 << 1);
- 
-     if (!dc->rd)
-@@ -469,22 +448,12 @@ static void dec_and(DisasContext *dc)
- 
- static void dec_or(DisasContext *dc)
- {
--    if (!dc->type_b && (dc->imm & (1 << 10))) {
--        dec_pattern(dc);
--        return;
--    }
--
-     if (dc->rd)
-         tcg_gen_or_i32(cpu_R[dc->rd], cpu_R[dc->ra], *(dec_alu_op_b(dc)));
- }
- 
- static void dec_xor(DisasContext *dc)
- {
--    if (!dc->type_b && (dc->imm & (1 << 10))) {
--        dec_pattern(dc);
--        return;
--    }
--
-     if (dc->rd)
-         tcg_gen_xor_i32(cpu_R[dc->rd], cpu_R[dc->ra], *(dec_alu_op_b(dc)));
- }
+@@ -1579,7 +1565,6 @@ static struct decoder_info {
+     {DEC_BCC, dec_bcc},
+     {DEC_RTS, dec_rts},
+     {DEC_FPU, dec_fpu},
+-    {DEC_MUL, dec_mul},
+     {DEC_DIV, dec_div},
+     {DEC_MSR, dec_msr},
+     {DEC_STREAM, dec_stream},
 -- 
 2.25.1
 
