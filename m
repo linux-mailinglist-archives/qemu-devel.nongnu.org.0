@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEFF12557A2
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 11:29:06 +0200 (CEST)
-Received: from localhost ([::1]:43718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE94B2557AB
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 11:31:00 +0200 (CEST)
+Received: from localhost ([::1]:51896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBagz-0003yF-Ri
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 05:29:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46008)
+	id 1kBaip-0007I9-Mj
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 05:30:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBach-0004af-7T
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:39 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:50883)
+ id 1kBacV-0003zR-12
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:27 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:35181)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBacf-0004KD-GI
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:38 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id t2so305747wma.0
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 02:24:37 -0700 (PDT)
+ id 1kBacT-0004Eb-7t
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:26 -0400
+Received: by mail-wm1-x342.google.com with SMTP id o21so291841wmc.0
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 02:24:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ytws2G2vdwDCedoP9AQB1YpWX7L6H56Ji0Orxd+JfWk=;
- b=njosnHaoF5qbbFedi+pCml+nZyxJQM0Tou5qZ3ubvbCe1fIQPZkOBKAE/n8LdbhUwm
- rYCQBaVZadL+ob8e/16AigtLbLVFCSS6CR1+eulcFaKH9lHv1fP/ZnB+pccWXK4K+69m
- NUBDuzKtPLfOF7rgE//MukQvCJxH+baJLIERNTFkeSFe0BDPDxKakBRz8DGDKlyxlhL3
- RMWpYy0yqH+z/a8MQ29V3Km5n9Jka/kQyAEPaRMANDYagdBodrXTg9wFXnhT4hGFCZ+6
- nweUZXuGPFuAtIB2jcLA5/KDzillOqIWS8ackcHfKNprRKajc667HgBKrviaVvRtgxjM
- se+g==
+ bh=E/hUSBSlKb/LJszDXWsL9uhrET5mQxZ2BFMVcC2J7Co=;
+ b=TSMJjTLQkWNiZVVwG5X4Zn7EytKqaVKF7KMetM3I04z77YSe+GZQH6H76BV8OLCiRk
+ dBAhJwNPP801/aHuJ+iKRMckqkejEq2PMwBvQYIEyf4a8RWHFm8WS22GzMudBc4Q8DS3
+ /Eh1q1W7yNxpJmmQBVJik/pzk5qotARWR2Z1A8c5ZCZZ7xPcM4vV79SbW/g+lGAtyxPw
+ Bjqubz8A4xyx+tr5masfFXo4+OKCAEaxRf6xt1YHQj+zFuAbxGPGXXPTVFUNaDLf701f
+ IEBHp8EtlddnPIVcpNatb2kUkVlCGy4Bm5o+nHXjn6/kY+JGy/fKwxt8QiBYj/Vnu/KK
+ sE0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ytws2G2vdwDCedoP9AQB1YpWX7L6H56Ji0Orxd+JfWk=;
- b=mPS0awflGA+5wMoMG1lBZ18uHDZsGreuvbCaq/JEC0rTv7wo294/JjCCVQ3uOzWsWu
- 1ObkcjJX3+9aSSLN33nfdrfqMa/hbTMeSoN/QBuQaqGDinvLyE8UF+0EnAIfUMoYgoil
- pBAzEdNujvuR7VTLQmI/RL3+Smwv27L8ZKuRtEHx6lctxcZu7aPx5JDT+CsftJyeDS39
- Ge6MxlwsMMHpYzb0w8o1IE9TkOHPUVi+1W4HAwEUBdo59E2Xl2yvH5gv5MEkpdp4R1qz
- +Q8u/6EtYMSPwa7/UO8miJhfPitnwK3h9s5o+XZVlIL0n+SPCe/NHBKrcMbQ1rFJTV06
- B9Lg==
-X-Gm-Message-State: AOAM531MyWB1QBiHbIjsdkxPLpqlae/KFZ1NekxYtaW808w8crXPV091
- klLWdUK7FvKfCJdvRtqTMAzubuep3BqTrMkc
-X-Google-Smtp-Source: ABdhPJxdl9g5yvKtjqkeW0Ylp09NbGFjPacZW8jxhxXMmVT2KRrlak1cA3dGMrm982GiAIVIvvo+vQ==
-X-Received: by 2002:a1c:4d12:: with SMTP id o18mr726819wmh.95.1598606675794;
- Fri, 28 Aug 2020 02:24:35 -0700 (PDT)
+ bh=E/hUSBSlKb/LJszDXWsL9uhrET5mQxZ2BFMVcC2J7Co=;
+ b=plHT7N08Y9+BqjYoH4TKuByvIVtNar1dbjhOsKd3iVzG+q5lUDR4Iuv8Vgx+XjpuKH
+ WMhKVh16TXkXlefVQkYIaMhEvvGtIFDlvrRkaszoB9ZaOt1gAUpXaCHlCW60TDs0j8Ts
+ VJKplQXGvwJrH9GokE8rXtazpgfUAqoDqLZ+khFzyUugT4e24jwzDQYhSCDiMLHC2Edd
+ a+ZbdUAv94zaT/Q/REtraUoAjzKfPuAKpr9wSl8eXD0F98djMc5iwoVV96+C00Tvs60n
+ mbh4ZJh8kXEDNX3XBsmGv/WPHo8Ix/ImoAPCF3vEhwIN3iBvfgCyC9cK7km1lYxsYIZ3
+ X8xw==
+X-Gm-Message-State: AOAM531vlvpvnT+q4J3U1t4P8ac7sQrN266ME0khhzEMl/eCrj+uKHVH
+ 76QcYcPcboKWC4dY7UBnTvtV6KhTczANRTO7
+X-Google-Smtp-Source: ABdhPJyqHe5kEtaGk/6I+u78J9SZxvUEZqhDdjQA6m3o0poRO13qKR3XBeES0CJgyRUxk93h9K2YuA==
+X-Received: by 2002:a7b:cc8e:: with SMTP id p14mr672481wma.111.1598606663666; 
+ Fri, 28 Aug 2020 02:24:23 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id t13sm912304wru.65.2020.08.28.02.24.34
+ by smtp.gmail.com with ESMTPSA id t13sm912304wru.65.2020.08.28.02.24.22
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 02:24:34 -0700 (PDT)
+ Fri, 28 Aug 2020 02:24:22 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/35] armsse: Define ARMSSEClass correctly
-Date: Fri, 28 Aug 2020 10:23:56 +0100
-Message-Id: <20200828092413.22206-19-peter.maydell@linaro.org>
+Subject: [PULL 08/35] target/arm: Fill in the WnR syndrome bit in
+ mte_check_fail
+Date: Fri, 28 Aug 2020 10:23:46 +0100
+Message-Id: <20200828092413.22206-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200828092413.22206-1-peter.maydell@linaro.org>
 References: <20200828092413.22206-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,61 +89,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eduardo Habkost <ehabkost@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-TYPE_ARM_SSE is a TYPE_SYS_BUS_DEVICE subclass, but
-ARMSSEClass::parent_class is declared as DeviceClass.
+According to AArch64.TagCheckFault, none of the other ISS values are
+provided, so we do not need to go so far as merge_syn_data_abort.
+But we were missing the WnR bit.
 
-It never caused any problems by pure luck:
-
-We were not setting class_size for TYPE_ARM_SSE, so class_size of
-TYPE_SYS_BUS_DEVICE was being used (sizeof(SysBusDeviceClass)).
-This made the system allocate enough memory for TYPE_ARM_SSE
-devices even though ARMSSEClass was too small for a sysbus
-device.
-
-Additionally, the ARMSSEClass::info field ended up at the same
-offset as SysBusDeviceClass::explicit_ofw_unit_address.  This
-would make sysbus_get_fw_dev_path() crash for the device.
-Luckily, sysbus_get_fw_dev_path() never gets called for
-TYPE_ARM_SSE devices, because qdev_get_fw_dev_path() is only used
-by the boot device code, and TYPE_ARM_SSE devices don't appear at
-the fw_boot_order list.
-
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Message-id: 20200826181006.4097163-1-ehabkost@redhat.com
+Tested-by: Andrey Konovalov <andreyknvl@google.com>
+Reported-by: Andrey Konovalov <andreyknvl@google.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20200813200816.3037186-3-richard.henderson@linaro.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/armsse.h | 2 +-
- hw/arm/armsse.c         | 1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ target/arm/mte_helper.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/arm/armsse.h b/include/hw/arm/armsse.h
-index 84080c22993..b10173beabd 100644
---- a/include/hw/arm/armsse.h
-+++ b/include/hw/arm/armsse.h
-@@ -220,7 +220,7 @@ typedef struct ARMSSE {
- typedef struct ARMSSEInfo ARMSSEInfo;
+diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
+index a40454588d2..891306f5b02 100644
+--- a/target/arm/mte_helper.c
++++ b/target/arm/mte_helper.c
+@@ -519,7 +519,7 @@ static void mte_check_fail(CPUARMState *env, uint32_t desc,
+ {
+     int mmu_idx = FIELD_EX32(desc, MTEDESC, MIDX);
+     ARMMMUIdx arm_mmu_idx = core_to_aa64_mmu_idx(mmu_idx);
+-    int el, reg_el, tcf, select;
++    int el, reg_el, tcf, select, is_write, syn;
+     uint64_t sctlr;
  
- typedef struct ARMSSEClass {
--    DeviceClass parent_class;
-+    SysBusDeviceClass parent_class;
-     const ARMSSEInfo *info;
- } ARMSSEClass;
+     reg_el = regime_el(env, arm_mmu_idx);
+@@ -547,9 +547,10 @@ static void mte_check_fail(CPUARMState *env, uint32_t desc,
+          */
+         cpu_restore_state(env_cpu(env), ra, true);
+         env->exception.vaddress = dirty_ptr;
+-        raise_exception(env, EXCP_DATA_ABORT,
+-                        syn_data_abort_no_iss(el != 0, 0, 0, 0, 0, 0, 0x11),
+-                        exception_target_el(env));
++
++        is_write = FIELD_EX32(desc, MTEDESC, WRITE);
++        syn = syn_data_abort_no_iss(el != 0, 0, 0, 0, 0, is_write, 0x11);
++        raise_exception(env, EXCP_DATA_ABORT, syn, exception_target_el(env));
+         /* noreturn, but fall through to the assert anyway */
  
-diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
-index dcbff9bd8f4..6381bbd94d6 100644
---- a/hw/arm/armsse.c
-+++ b/hw/arm/armsse.c
-@@ -1160,6 +1160,7 @@ static const TypeInfo armsse_info = {
-     .name = TYPE_ARMSSE,
-     .parent = TYPE_SYS_BUS_DEVICE,
-     .instance_size = sizeof(ARMSSE),
-+    .class_size = sizeof(ARMSSEClass),
-     .instance_init = armsse_init,
-     .abstract = true,
-     .interfaces = (InterfaceInfo[]) {
+     case 0:
 -- 
 2.20.1
 
