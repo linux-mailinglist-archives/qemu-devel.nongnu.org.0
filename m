@@ -2,74 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42EDF25608F
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 20:36:11 +0200 (CEST)
-Received: from localhost ([::1]:36258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7609B2560CD
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 20:50:53 +0200 (CEST)
+Received: from localhost ([::1]:36966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBjEP-0004CS-RK
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 14:36:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58318)
+	id 1kBjSe-000285-Fa
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 14:50:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBjCK-00027R-OL
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:00 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:40201)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBjCI-0005vA-Pc
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:00 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id k20so104998wmi.5
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 11:33:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=SMP+9dLyuBXrBOEKbSUabOjTS+nr6/zOWHkUllhu5EI=;
- b=wOmQagTQ8vEBu159VY7CYec/TjDmr9eEi1eo1g1WHgmaHzxCBspPm3CR52awlZQ1Fg
- s/vSBtyKf9FTv/GTmhfM9EoDrFdl8uQ01U+DbepxPm7KOlOyuXKADtbtXrS848VgfC6c
- XmdRiNpjvJ8sVE2TJqJvq+k/sN9xpG1q8cGTQIurKuB6FFmsBMHRDfY1sMBOJ1NeqCqc
- VDj/4wVkIKN1BuAblmDg6jDNKzA97bRCMI5Pocef0wENQcwD2JfWtucgrdOK56h8yNTW
- 92L/3dpn/mh9f8kRLZGIKSccct4geh5IV5h8QkmqZzrx+50eAaNrjTw8eOC9hHVLbaiY
- 2M6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=SMP+9dLyuBXrBOEKbSUabOjTS+nr6/zOWHkUllhu5EI=;
- b=kLEmNU1y4J9ltLWwYaoDJvT1MRNwdMq0AJHmV3ALx24WKW9hXhfvmBSqiT0LqR2Svn
- eBkOL3IG4W4rqIek+44dwLNPISBYJ/lyns1gY4jZMaHBEdlYQgWGIoLC0rom4rYb+xI2
- yZdXOvDtDxuehJELamZNRacNqbtIichOEgi2mARJgCenfPcL7H6H05dAIifH0aFWfFMw
- RDlSeUZw8exOJWcWHkFvgOhnnEkq5yqouDHkw6z5ZXsEuG3l+ZLoWZ7I3bx1L9OivcFB
- ZwbAgOtN3ddKqeRHccB2C2M5y9RSR4u7hWu+Fn5jb7DGGeWDnrovSRy6+qU4miJHvvXV
- 7/Kg==
-X-Gm-Message-State: AOAM530gz9WISFWZMe7nM6hcrfSDq1sOXykFUi2FJm+uAX4NgtaFwOef
- +X+ZXzKHHHvCiTtqVNYiy27VCw==
-X-Google-Smtp-Source: ABdhPJxqsSf9z21xEGE3yip1ciiScrk0d1smwvCV99soNsS5T5jTguuG4cp/QBXXAyismdzcorKSGw==
-X-Received: by 2002:a1c:f207:: with SMTP id s7mr52743wmc.22.1598639636503;
- Fri, 28 Aug 2020 11:33:56 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id s20sm356251wmh.21.2020.08.28.11.33.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 11:33:55 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH v2 00/45] target/arm: Implement fp16 for AArch32 VFP and Neon
-Date: Fri, 28 Aug 2020 19:33:09 +0100
-Message-Id: <20200828183354.27913-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kBjCl-0002br-7v
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:27 -0400
+Received: from relay68.bu.edu ([128.197.228.73]:37832)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kBjCf-0005zE-6j
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:26 -0400
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 07SIX9aK005482
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Fri, 28 Aug 2020 14:33:12 -0400
+Date: Fri, 28 Aug 2020 14:33:09 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [Fwd] Issue 25164 in oss-fuzz: qemu: Fuzzing build failure
+Message-ID: <20200828183305.6lbuwvmleqtn7fx3@mozz.bu.edu>
+References: <20200823225804.umk5gh6knptqo5mw@mozz.bu.edu>
+ <CABgObfZtGY-TuTLXNJNU9m_yQLfE6AM-+MdfqaaRjfMcWC8+Og@mail.gmail.com>
+ <20200826135513.ay5ga3xi2ilcagqf@mozz.bu.edu>
+ <CABgObfbxqPH1p-0ZD2wZWiKP0GjOjV6s+umgmOMKjm2ic7R=zg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CABgObfbxqPH1p-0ZD2wZWiKP0GjOjV6s+umgmOMKjm2ic7R=zg@mail.gmail.com>
+Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
+ helo=relay68.bu.edu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 14:34:18
+X-ACL-Warn: Detected OS   = Linux 2.6.x
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=1, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,85 +59,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Darren Kenny <darren.kenny@oracle.com>, Bandan Das <bsd@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchset implements fp16 support for AArch32, both VFP and Neon.
+On 200826 1715, Paolo Bonzini wrote:
+> On Wed, Aug 26, 2020 at 3:56 PM Alexander Bulekov <alxndr@bu.edu> wrote:
+> >
+> > On 200825 0958, Paolo Bonzini wrote:
+> > > Il lun 24 ago 2020, 00:58 Alexander Bulekov <alxndr@bu.edu> ha scritto:
+> > >
+> > > > Hi Paolo,
+> > > > Our oss-fuzz builds started failing, after the meson merge. I think I
+> > > > tracked down the issues:
+> > > > 1.) Looking at the build-log here:
+> > > >
+> > > > https://oss-fuzz-build-logs.storage.googleapis.com/log-d43d402c-1ce5-4422-b3db-ccbf83a862a0.txt
+> > > > The error happens at link-time. Re-running the build with V=1:
+> > > > "/usr/bin/ld" ...
+> > > > --whole-archive /usr/local/lib/clang/12.0.0/.../libclang_rt.asan-x86_64.a \
+> > > > --start-group ..... -T /src/qemu/tests/qtest/fuzz/fork_fuzz.ld  \
+> > > > -wrap qtest_inb -wrap qtest_inw ..... --end-group .....
+> > > >
+> > >
+> > > I think you can put everything into a response for and include it with
+> > > @fuzz.cmd in the command line.
+> >
+> > I don't think I understand. Should I provide the entire linker command,
+> > by email?
+> 
+> You can create a file fuzz.cmd.in containing
+> 
+> -Wl,-T,@FUZZING_LINKER_SCRIPT@
+> -Wl,-wrap,qtest_inb
+> -Wl,-wrap,qtest_inw
+> 
+> etc.
+> 
+> Create a fuzz.cmd that includes the correct path to fuzz.ld in the
+> source tree (using configure_file) and pass this file to the linker
+> using @tests/libqtest/fuzz/fuzz.cmd in link_args (and also
+> link_depends). See libblock and block for an example.
 
-Patches 1-21 and 45 are the same as from the v1 vfp-only series,
-and have all been reviewed. (I've included the minor fixups to
-use 'f16' and the 'dh_ctype_f16' type.) Patches 22-44 are new and
-cover Neon.
+I'm not sure whether this solves the problem that the linker-script is
+placed in between --start-group and --end-group arguments.  It seems
+that no matter what I do to specify the linker script with -Wl,-T, and
+link_args, the flag ends up placed between --start-group and --end-group
+due to some parsing that meson does in
+mesonbuild/compilers/mixins/clike.py.
 
-thanks
--- PMM
+Relevant:
+https://github.com/mesonbuild/meson/pull/7505
+-Alex
 
-Peter Maydell (45):
-  target/arm: Remove local definitions of float constants
-  target/arm: Use correct ID register check for aa32_fp16_arith
-  target/arm: Implement VFP fp16 for VFP_BINOP operations
-  target/arm: Implement VFP fp16 VMLA, VMLS, VNMLS, VNMLA, VNMUL
-  target/arm: Macroify trans functions for VFMA, VFMS, VFNMA, VFNMS
-  target/arm: Implement VFP fp16 for fused-multiply-add
-  target/arm: Macroify uses of do_vfp_2op_sp() and do_vfp_2op_dp()
-  target/arm: Implement VFP fp16 for VABS, VNEG, VSQRT
-  target/arm: Implement VFP fp16 for VMOV immediate
-  target/arm: Implement VFP fp16 VCMP
-  target/arm: Implement VFP fp16 VLDR and VSTR
-  target/arm: Implement VFP fp16 VCVT between float and integer
-  target/arm: Make VFP_CONV_FIX macros take separate float type and
-    float size
-  target/arm: Use macros instead of open-coding fp16 conversion helpers
-  target/arm: Implement VFP fp16 VCVT between float and fixed-point
-  target/arm: Implement VFP vp16 VCVT-with-specified-rounding-mode
-  target/arm: Implement VFP fp16 VSEL
-  target/arm: Implement VFP fp16 VRINT*
-  target/arm: Implement new VFP fp16 insn VINS
-  target/arm: Implement new VFP fp16 insn VMOVX
-  target/arm: Implement VFP fp16 VMOV between gp and halfprec registers
-  fpu: Add float16 comparison functions
-  target/arm: Implement FP16 for Neon VADD, VSUB, VABD, VMUL
-  target/arm: Implement fp16 for Neon VRECPE, VRSQRTE using gvec
-  target/arm: Implement fp16 for Neon VABS, VNEG of floats
-  target/arm: Implement fp16 for VCEQ, VCGE, VCGT comparisons
-  target/arm: Implement fp16 for VACGE, VACGT
-  target/arm: Implement fp16 for Neon VMAX, VMIN
-  target/arm: Implement fp16 for Neon VMAXNM, VMINNM
-  target/arm: Implement fp16 for Neon VMLA, VMLS operations
-  target/arm: Implement fp16 for Neon VFMA, VMFS
-  target/arm: Implement fp16 for Neon fp compare-vs-0
-  target/arm: Implement fp16 for Neon VRECPS
-  target/arm: Implement fp16 for Neon VRSQRTS
-  target/arm: Implement fp16 for Neon pairwise fp ops
-  target/arm: Implement fp16 for Neon float-integer VCVT
-  target/arm: Convert Neon VCVT fixed-point to gvec
-  target/arm: Implement fp16 for Neon VCVT fixed-point
-  target/arm: Implement fp16 for Neon VCVT with rounding modes
-  target/arm: Implement fp16 for Neon VRINT-with-specified-rounding-mode
-  target/arm: Implement fp16 for Neon VRINTX
-  target/arm/vec_helper: Handle oprsz less than 16 bytes in indexed
-    operations
-  target/arm/vec_helper: Add gvec fp indexed multiply-and-add operations
-  target/arm: Implement fp16 for Neon VMUL, VMLA, VMLS
-  target/arm: Enable FP16 in '-cpu max'
-
- include/fpu/softfloat.h         |  41 ++
- target/arm/cpu.h                |   7 +-
- target/arm/helper.h             | 133 +++++-
- target/arm/neon-dp.decode       |   8 +-
- target/arm/vfp-uncond.decode    |  27 +-
- target/arm/vfp.decode           |  34 +-
- target/arm/cpu.c                |   3 +-
- target/arm/cpu64.c              |  10 +-
- target/arm/helper-a64.c         |  11 -
- target/arm/translate-sve.c      |   4 -
- target/arm/vec_helper.c         | 431 ++++++++++++++++-
- target/arm/vfp_helper.c         | 244 ++++------
- target/arm/translate-neon.c.inc | 751 ++++++++++-------------------
- target/arm/translate-vfp.c.inc  | 810 ++++++++++++++++++++++++++++----
- 14 files changed, 1719 insertions(+), 795 deletions(-)
-
--- 
-2.20.1
-
+> Paolo
+> 
+> Paolo
+> 
 
