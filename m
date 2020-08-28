@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 363422558D7
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 12:47:32 +0200 (CEST)
-Received: from localhost ([::1]:43516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 239B02558C6
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 12:44:54 +0200 (CEST)
+Received: from localhost ([::1]:36472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBbut-0002mR-AA
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 06:47:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34534)
+	id 1kBbsJ-0008Cb-Js
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 06:44:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
- id 1kBbpQ-0003fM-Ah
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 06:41:52 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45773)
+ id 1kBbpT-0003pL-V1
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 06:41:55 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43367)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
- id 1kBbpO-0005jD-C2
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 06:41:51 -0400
-Received: by mail-wr1-x442.google.com with SMTP id h15so831313wrt.12
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 03:41:49 -0700 (PDT)
+ id 1kBbpQ-0005kD-Jh
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 06:41:55 -0400
+Received: by mail-wr1-x442.google.com with SMTP id k15so834510wrn.10
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 03:41:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=ocs60WDznaDScA/gvXj53ZTFJX4+fFayK+ZVchaf5to=;
- b=sFkgZ2boQgWhq4eXz6d09Ypkx8IqsyVoGLyWlG08+NeYR0k2QrTXXwqqVN0smG09Sb
- o89f2Vs0Upy7/Gm/+odj5QYCMICXmj2m8tTkvLXpIORj8cmv/QRO/oor7daXMgMiZw56
- JJZZS4tH9NQNzGc4AA6GtJhkVWwwKexihmyv512GrORDoe6+r/rf8EwwDjhEyziNpvh7
- L0rX+mp0WG+zTMyhuC+X8WWoGEwb8Ua6SqwwVz/GrndNXBQqmuweQgeeLcF2p45HQcL1
- Jq5Ra5zk7uAabEvpMUSrCOQzWqN2ryd+2SoIRJRS3h30PI5qdJ4FIdLMgNVSlmEiw23W
- V0fA==
+ bh=NKjrR/1jJBl3PMLAgxGFOGP+xi3KNmymEVWR9lFRmRk=;
+ b=b7Lp06PIVaYJOGD/iWKmSUt1QjjX41g5c9VeXHZhk3l7qeTyJropoduGwPmAMNJ0RC
+ smQxmVX7ivvXTDaMNzWBiWCiIGajG5y1jonWPU/YKLQrwB20wBvHWUFYlM1nDdf6CFWQ
+ zph5CvKoUrduoVOz2a4hk4BnRW2Is0uABwxVPA/rNsRGAeVQ3QlKQSO1N0z5Q15EDFVY
+ M4YWJRHHYTQs+yVy1Ipyf+ObGU5d0UL0D4BVqw2I9t4jITTLakphE5OVbHZja7km9GsB
+ /kHtzlJlRWExC9iPT7/DmO9A2oNZApQi2TB1Q/Olw8kK53bwhuf8LFVDdvnCoP39Q7P9
+ t51A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=ocs60WDznaDScA/gvXj53ZTFJX4+fFayK+ZVchaf5to=;
- b=UB2qNRDP9qKTfrFddQHDOrYSim/mODDD1PeGAxY5aHZhCZYV0HePEYX/8LHbKtXyUl
- +Fq0ENfkHVicElI7PJyVHtwJxI+mEXWlG2p0flchXNxBrZXJazd+1HW3sZHQ5LHCM70F
- 1LATI/Dl/kEgAzHzgX5Ez+Ki3xL/43A0NsPxmZdySNHMdDX4lHmagGDUC1puBTlTDu7A
- yh54kCT3xnb0IxXOqqjdHAH/H+9R4rCF00QrbnWdpxTNRm+J4KuVVs4PBkZIIU8KGLwp
- KCaT9//7YImOngue6Lcm16QiMTxuzuHLJus148gsa/AtKPdCiqn0tfgfMu0QyfZPnzwi
- Vyag==
-X-Gm-Message-State: AOAM530uDkDY6fCqjdBtQoJuiL4dPemHSEZ9qIwHjmye6JQUfiXn9xXI
- iF9Z9QeR+cMQx0JC75vO/XY0VY+WW493Xg==
-X-Google-Smtp-Source: ABdhPJzC+ez05Uou+atjjrhL2u5gcFrd8SM0IZ3ReNieo/RoGnrU8Gt8HLHuFj2S1Aw6BCQL6c88KA==
-X-Received: by 2002:a5d:674c:: with SMTP id l12mr890586wrw.325.1598611308896; 
- Fri, 28 Aug 2020 03:41:48 -0700 (PDT)
+ bh=NKjrR/1jJBl3PMLAgxGFOGP+xi3KNmymEVWR9lFRmRk=;
+ b=JFw0lDw6e2fU7+ukZcqxus70HcXSlGlRRSdkTjJQHQXESD1FkbQ6A73ZAx5vd9Ag3v
+ oNRwYFDRje0Rrin+c3fRPoOf5N94x2lHfs2PV89kuX7hKlvtvNTLT1b64CVyJsB9wTBm
+ BcH2po1J4gsFYsVO5pRqBOoSVnujgNHN84nWwzZ4hsbjDbbYjuEPvPwJfu8KxYRfLICE
+ 7walVArnLs5iSWo74WBC1H0vvTWO0J6mt//f+gs1RiUdO6yMx3dvoRqrWxIjqVr6giZW
+ EzqPPzxK2QXdAumDunKQ6f2x/qWshrJX5U6dZqjoLtzAB0/bSaTnxc4dS7mMf/3iEbXN
+ tbXg==
+X-Gm-Message-State: AOAM530pseFF1o4KXG7up1h2MihWyrvstAz3IF76meNuFzRmtjluOPW7
+ 968P62rRIM98xbrircy8sCNwydAr/BXfKg==
+X-Google-Smtp-Source: ABdhPJwsM0EBllpTnbeUyiaGJcaEEvoElZtbRzP6mYUFKdp3uqyWztCdJ+EosrbuJFcOdtYbGs7lKg==
+X-Received: by 2002:adf:828e:: with SMTP id 14mr984753wrc.217.1598611310859;
+ Fri, 28 Aug 2020 03:41:50 -0700 (PDT)
 Received: from localhost.localdomain ([197.58.77.158])
- by smtp.gmail.com with ESMTPSA id e18sm1307453wrx.50.2020.08.28.03.41.47
+ by smtp.gmail.com with ESMTPSA id e18sm1307453wrx.50.2020.08.28.03.41.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 03:41:48 -0700 (PDT)
+ Fri, 28 Aug 2020 03:41:50 -0700 (PDT)
 From: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
 To: qemu-devel@nongnu.org, aleksandar.qemu.devel@gmail.com, philmd@redhat.com,
  alex.bennee@linaro.org, eblake@redhat.com, ldoktor@redhat.com,
  jsnow@redhat.com, rth@twiddle.net, ehabkost@redhat.com, crosa@redhat.com
-Subject: [PATCH 8/9] MAINTAINERS: Add 'tests/performance' to 'Performance
- Tools and Tests' subsection
-Date: Fri, 28 Aug 2020 12:41:01 +0200
-Message-Id: <20200828104102.4490-9-ahmedkhaledkaraman@gmail.com>
+Subject: [PATCH 9/9] scripts/performance: Add topN_system.py script
+Date: Fri, 28 Aug 2020 12:41:02 +0200
+Message-Id: <20200828104102.4490-10-ahmedkhaledkaraman@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200828104102.4490-1-ahmedkhaledkaraman@gmail.com>
 References: <20200828104102.4490-1-ahmedkhaledkaraman@gmail.com>
@@ -70,8 +69,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_PDS_OTHER_BAD_TLD=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,23 +87,217 @@ Cc: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a new 'tests/performance' directory under the 'Performance Tools
-and Tests' subsection.
+Python script for listing the topN executed QEMU functions in
+system mode.
+
+Syntax:
+topN_system.py [-h] [-n <number of displayed top functions>] -- \
+    <qemu system executable> <qemu system options>
+
+[-h] - Print the script arguments help message.
+[-n] - Specify the number of top functions to print.
+     - If this flag is not specified, the tool defaults to 25.
+
+Example of usage:
+topN_system.py -n 20 -- qemu-system-x86_64 -m 1024 -kernel <kernel> \
+    -initrd <initrd>
+
+Example output:
+Number of instructions: 150,991,381,071
+
+ No.  Percentage  Name
+ ---  ----------  ------------------------------
+   1      11.30%  helper_lookup_tb_ptr
+   2       7.01%  liveness_pass_1
+   3       4.48%  tcg_gen_code
+   4       3.41%  tcg_optimize
+   5       1.84%  tcg_out_opc.isra.13
+   6       1.78%  helper_pcmpeqb_xmm
+   7       1.20%  object_dynamic_cast_assert
+   8       1.00%  cpu_exec
+   9       0.99%  tcg_temp_new_internal
+  10       0.88%  tb_htable_lookup
+  11       0.84%  object_class_dynamic_cast_assert
+  12       0.81%  init_ts_info
+  13       0.80%  tlb_set_page_with_attrs
+  14       0.77%  victim_tlb_hit
+  15       0.75%  tcg_out_sib_offset
+  16       0.62%  tcg_op_alloc
+  17       0.61%  helper_pmovmskb_xmm
+  18       0.58%  disas_insn.isra.50
+  19       0.56%  helper_pcmpgtb_xmm
+  20       0.56%  address_space_ldq
 
 Signed-off-by: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
 ---
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+ scripts/performance/topN_system.py | 158 +++++++++++++++++++++++++++++
+ 1 file changed, 158 insertions(+)
+ create mode 100755 scripts/performance/topN_system.py
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5a22c8be42..8923307642 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3124,3 +3124,4 @@ Performance Tools and Tests
- M: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
- S: Maintained
- F: scripts/performance/
-+F: tests/performance/
+diff --git a/scripts/performance/topN_system.py b/scripts/performance/topN_system.py
+new file mode 100755
+index 0000000000..9b1f1a66c7
+--- /dev/null
++++ b/scripts/performance/topN_system.py
+@@ -0,0 +1,158 @@
++#!/usr/bin/env python3
++
++"""
++Print the top N most executed functions in QEMU system mode emulation.
++
++Syntax:
++topN_system.py [-h] [-n <number of displayed top functions>] -- \
++    <qemu system executable> <qemu system options>
++
++[-h] - Print the script arguments help message.
++[-n] - Specify the number of top functions to print.
++     - If this flag is not specified, the tool defaults to 25.
++
++Example of usage:
++topN_system.py -n 20 -- qemu-system-x86_64 -m 1024 -kernel <kernel> \
++    -initrd <initrd>
++
++This file is a part of the project "TCG Continuous Benchmarking".
++
++Copyright (C) 2020  Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
++Copyright (C) 2020  Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
++
++This program is free software: you can redistribute it and/or modify
++it under the terms of the GNU General Public License as published by
++the Free Software Foundation, either version 2 of the License, or
++(at your option) any later version.
++
++This program is distributed in the hope that it will be useful,
++but WITHOUT ANY WARRANTY; without even the implied warranty of
++MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
++GNU General Public License for more details.
++
++You should have received a copy of the GNU General Public License
++along with this program. If not, see <https://www.gnu.org/licenses/>.
++"""
++
++import argparse
++import os
++import subprocess
++import sys
++import tempfile
++
++
++# Parse the command line arguments
++PARSER = argparse.ArgumentParser(
++    usage="usage: topN_system.py [-h] [-n <number of displayed top functions>]"
++          " -- <qemu system executable> <qemu system options>")
++
++PARSER.add_argument("-n", dest="top", type=int, default=25,
++                    help="Specify the number of top functions to print.")
++
++PARSER.add_argument("command", type=str, nargs="+", help=argparse.SUPPRESS)
++
++ARGS = PARSER.parse_args()
++
++# Extract the needed variables from the args
++COMMAND = ARGS.command
++TOP = ARGS.top
++
++# Ensure that perf is installed
++CHECK_PERF_PRESENCE = subprocess.run(["which", "perf"],
++                                     stdout=subprocess.DEVNULL,
++                                     check=False)
++if CHECK_PERF_PRESENCE.returncode:
++    sys.exit("Please install perf before running the script!")
++
++# Ensure user has previllage to run perf
++CHECK_PERF_EXECUTABILITY = subprocess.run(["perf", "stat", "ls", "/"],
++                                          stdout=subprocess.DEVNULL,
++                                          stderr=subprocess.DEVNULL,
++                                          check=False)
++if CHECK_PERF_EXECUTABILITY.returncode:
++    sys.exit("""
++Error:
++You may not have permission to collect stats.
++Consider tweaking /proc/sys/kernel/perf_event_paranoid,
++which controls use of the performance events system by
++unprivileged users (without CAP_SYS_ADMIN).
++  -1: Allow use of (almost) all events by all users
++      Ignore mlock limit after perf_event_mlock_kb without CAP_IPC_LOCK
++   0: Disallow ftrace function tracepoint by users without CAP_SYS_ADMIN
++      Disallow raw tracepoint access by users without CAP_SYS_ADMIN
++   1: Disallow CPU event access by users without CAP_SYS_ADMIN
++   2: Disallow kernel profiling by users without CAP_SYS_ADMIN
++To make this setting permanent, edit /etc/sysctl.conf too, e.g.:
++   kernel.perf_event_paranoid = -1
++
++* Alternatively, you can run this script under sudo privileges.
++""")
++
++# Run perf and save all intermediate files in a temporary directory
++with tempfile.TemporaryDirectory() as tmpdir:
++    RECORD_PATH = os.path.join(tmpdir, "record.data")
++    REPORT_PATH = os.path.join(tmpdir, "report.txt")
++
++    PERF_RECORD = subprocess.run((["perf",
++                                   "record",
++                                   "-e",
++                                   "instructions",
++                                   "--output="+RECORD_PATH] +
++                                  COMMAND),
++                                 stdout=subprocess.DEVNULL,
++                                 stderr=subprocess.PIPE,
++                                 check=False)
++    if PERF_RECORD.returncode:
++        sys.exit(PERF_RECORD.stderr.decode("utf-8"))
++
++    with open(REPORT_PATH, "w") as output:
++        PERF_REPORT = subprocess.run(["perf",
++                                      "report",
++                                      "--input=" + RECORD_PATH,
++                                      "--stdio"],
++                                     stdout=output,
++                                     stderr=subprocess.PIPE,
++                                     check=False)
++        if PERF_REPORT.returncode:
++            sys.exit(PERF_REPORT.stderr.decode("utf-8"))
++
++    # Save the reported data to FUNCTIONS[] and INSTRUCTIONS
++    with open(REPORT_PATH, "r") as data:
++        LINES = data.readlines()
++        # Read the number of instructions
++        INSTRUCTIONS = int(LINES[6].split()[-1])
++        # Continue reading:
++        # Only read lines that are not empty
++        # Only read lines that are not comments (comments start with #)
++        # Only read functions executed by qemu-system
++        FUNCTIONS = [line for line in LINES if line
++                     and line[0] != "\n"
++                     and line[0] != "#"
++                     and "qemu-system" in line.split()[2]]
++
++
++# Limit the number of top functions to "TOP"
++NO_TOP_FUNCTIONS = TOP if len(FUNCTIONS) > TOP else len(FUNCTIONS)
++
++# Store the data of the top functions in TOP_FUNCTIONS[]
++TOP_FUNCTIONS = FUNCTIONS[:NO_TOP_FUNCTIONS]
++
++# Print total instructions
++print("\nNumber of instructions:", format(INSTRUCTIONS, ","))
++# Print table header
++print("\n{:>4}  {:>10}  {}\n{}  {}  {}".format("No.",
++                                               "Percentage",
++                                               "Name",
++                                               "-" * 4,
++                                               "-" * 10,
++                                               "-" * 30))
++
++# Print top N functions
++for (index, function) in enumerate(TOP_FUNCTIONS, start=1):
++    function_data = function.split()
++    function_percentage = function_data[0]
++    function_name = function_data[-1]
++    function_invoker = " ".join(function_data[2:-2])
++    print("{:>4}  {:>10}  {}".format(index,
++                                     function_percentage,
++                                     function_name))
 -- 
 2.17.1
 
