@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32AD4255B52
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 15:40:27 +0200 (CEST)
-Received: from localhost ([::1]:55778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26A21255B6B
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 15:44:39 +0200 (CEST)
+Received: from localhost ([::1]:48508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBecE-0000F3-8D
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 09:40:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36944)
+	id 1kBegI-0000JK-8H
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 09:44:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kBeaB-00045J-1V
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 09:38:19 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:47959)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kBeaC-00049C-E4
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 09:38:20 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:47231)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kBea8-0007Hc-C1
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 09:38:18 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kBea8-0007Hm-QR
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 09:38:20 -0400
 Received: from localhost.localdomain ([82.252.135.186]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1Mq1GE-1kyn5p14yY-00nB44; Fri, 28 Aug 2020 15:38:07 +0200
+ id 1MUl4z-1k2gQw4A9h-00Qg2V; Fri, 28 Aug 2020 15:38:08 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/18] linux-user: Fix 'mq_timedsend()' and 'mq_timedreceive()'
-Date: Fri, 28 Aug 2020 15:37:48 +0200
-Message-Id: <20200828133753.2622286-14-laurent@vivier.eu>
+Subject: [PULL 14/18] linux-user: fix target_to_host_timespec64()
+Date: Fri, 28 Aug 2020 15:37:49 +0200
+Message-Id: <20200828133753.2622286-15-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200828133753.2622286-1-laurent@vivier.eu>
 References: <20200828133753.2622286-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:jfDu4dBgaWC1O+LIKt7nKn3VZ/TMnY227cCw9Q7eF40zJ/Cpi3a
- qnmLvj8cDrHqnPATN9FcPfVItulLia+Ou6RhpmJGWmgtTGDnJVHt/jGsNlBD0eCCFrxEXZg
- X2fH1XASzxTgX/nIhn5DsArGwxV/FZh27PqoBpFz2oVdm411awNExbov4CWZcMN2c7FYxPk
- QnqkHpMLih9kkkmLaOsCQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:oktaPHaxQ4M=:hhvpAsOoMYeXlj76aoAn1R
- vAEE2e/PIERGirgxeKlzLFMqegYobrKWDJjoy54lj0qjWCbTVUeEaVA2V/tczW1ZLIACWlyMs
- dwRNuRAuLpMQ1fuLM1wTz8cvKDix0iKB+Kgubdnerl4gdU13zmhDd+T9LHDlrHiXZIqzVs9jj
- G1gQEFAv2WBd9u3naZ5xYMM6HuxZtMpfdtlmfWeUbcevkYzDew1dDX9B9YC4KaehK5N5ZQs5C
- zQd/yi/mFbC2bJgLirJPWNOAgW6u4sYiEX/WP4rm2aTBp9CcrUerixL45ld45SrQ5TbJcH5HN
- UCaEmjMbriO2b9HbYp2zNl6JioHNfy4eBfe/KGL+P3A5mw91qXsF6zIqnEwQZi0WJlQ9NIr8M
- Uk5qUfeJ9NhN3lH7eO/NArDRDL89TRFOpFKm6hA0M+gkVq5mGjuYK5AWvLxJY5Zek9EOI7wAF
- fdI0XzI24WM0RnKscHN1iXXLntZmZa5tU80WR4B5q/dVIHFR5+jXnrrZYGB7A7vc0OfsetZhr
- vcR/Y0rCjA+mJXQn3ZK6NmvPW39OiYNf4rQIkIaRzccsfvLc6wM6DIownepBZtHpaEE3QM7eO
- F618VmkyGkfcjpk2Zb1TQ1juEJJorAMei3kTdamrip4BVviqqc4qzsX4MTzbhxsqZPYokh4LU
- lTFKtTDRQuUi+fpdmAqVpP6j8y4NISnEZ51o09Ga865gyexI4aFKsfc9czBvg3xadT3v6D3Vv
- LB6d9NgDKBSqmWMRtAVId14e+SqVtbkFUWeLn2KE+sS9Nyv5rZfVhExajYfDFL5/Dtn2oe+Dl
- xBtOcBLJQnIEgSZ3mm5ocewrXqMBS0+QCeCnDn9kxFoMidPTB+iCURwlLC7nrn1T+VbAz15
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:Qfsq6b94jqQKAP9drriZ6LkOSDv9q1rbn5oZsTi5RTrmRfSYYt2
+ JTDkF1a8XN1vTze8cejKdM3Tse1T8Cg7Ysee1dN4EyIwTUdmi1Cdk4JirXtEsgFMIlXdv6w
+ 24VPSaK55SGrl9sCIGNWHR43Z6sjYj8VtAJ9z4A9TH1U4GdWO8IvJRFkz3WfP+WHRY/yCeK
+ BLm8C/0B0nUTPGea+h/bw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:File1mpwMLE=:sjL1ljiU5dOKGpYPMdalH8
+ dl0wJgLMhmM94K9mMyGDhdQDKnDaIk/OI4l4DrbDyixf5oF7QVoKFqdjeU4s2HWyGRHwnyPt2
+ mX0akO46a+p6x3Bjn0WGqZmz14THPoFsMbtxi57yDsMsD4G6GsynqNbEDxuPsQ1tZwc4G8hJX
+ FXREF8mEe3/ROcvbQtYlzU57bAM0l6zkgnL42pWJckM+TBRjVdzy6eCsURsPAc6xloVbdQUCx
+ xVmH4S6z4lFHS+IxhEEvX+yDpKaRUbgRkNC7CTFxemypLwulc5Uu20p9Xd6w16Yax3o2BDB4B
+ xm1IXjsR4TGXyX3gIcaV+Ki7JGTlEsH0kMg4nH5Uo9/qCY2MFIqIULCtUc9X+ZSxqEOyGvvjw
+ rSCOL5r7is3caYxJ14txY/yBKG1P/66xfauT0pg+6cKsyANGRcrAy6lRU7gXC9tvnDI4B5FYP
+ BlQQSu5ushRAMuRjRt/wefq9ad7jVVC+yxaXPjZQEQ1eTfW5gxKWRbR3IuVZeZVnPuwoBIpgF
+ Lkooe2dSCSRG3GghZa1loP1JPQIjmWUa0yod532h29R6y7KaATNALquBrpNxh5cieXQRjhlGF
+ 6E3abF68nI/qSA1oLNx0kDTtADjYcOzUJZS/uScRxWyOatVMQpmuab5rU8pJq6KDlvYC13HRN
+ YmHJTmp0fnh4gRK44SGawFQVrIdEoRh4FkaTgn5cyHg0+1Cdd/lSHnwTvaZL3EEE07hyZ7sgD
+ Ab4z585JYZBGP+VoTQ4EZCRR+kVm4nDF0OiPb5384TTFNPdlCFN+4GKciP+NlMIuyXtXb6hjE
+ eS7teEj0SkY/I50DlbJSswgmFcbzlASH7YDYChT8qMvqx1sNFRJ8jGBpqTr2j4FuVCTOrvB
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 09:38:08
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 09:38:06
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -69,85 +69,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
- Filip Bozuta <Filip.Bozuta@syrmia.com>
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Filip Bozuta <Filip.Bozuta@syrmia.com>
+in 32 bit mode, drop the padding in tv_nsec. If host is 64bit and target
+is 32bit, the padding bytes will be copied from the target and as the
+kernel checks the value, the syscall exits with EINVAL.
 
-Implementations of syscalls 'mq_timedsend()' and 'mq_timedreceive()'
-in 'syscall.c' use functions 'target_to_host_timespec()' and
-'host_to_target_timespec()' to transfer the value of 'struct timespec'
-between target and host. However, the implementations don't check whether
-this conversion succeeds and thus can cause an unaproppriate error instead
-of the 'EFAULT (Bad address)' which is supposed to be set if the conversion
-from target to host fails. This was confirmed with the modified LTP
-test suite where test cases with a bad adress for 'timespec' were
-added. This modified test suite can be found at:
-https://github.com/bozutaf/ltp
-
-Without the changes from this patch the bad adress testcase for 'mq_timedsend()'
-succeds unexpectedly, while the test returns errno 'ETIMEOUT' for
-'mq_timedreceive()':
-
-mq_timedsend01.c:190: FAIL: mq_timedsend() returned 0, expected -1: SUCCESS (0)
-mq_timedreceive01.c:178: FAIL: mq_timedreceive() failed unexpectedly,
-expected EFAULT: ETIMEDOUT (110)
-
-After the changes from this patch, testcases for both syscalls fail with EFAULT
-as expected, which is the same test result that is received with native execution:
-
-mq_timedsend01.c:187: PASS: mq_timedsend() failed expectedly: EFAULT (14)
-mq_timedreceive01.c:180: PASS: mq_timedreceive() failed expectedly: EFAULT (14)
-
-(Patch with this new test case will be sent to LTP mailing list soon)
-
-Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200824193752.67950-2-Filip.Bozuta@syrmia.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20200827070449.2386007-1-laurent@vivier.eu>
+Fixes: c6c8d1026e75 ("linux-user/syscall: Add support for clock_gettime64/clock_settime64")
 ---
- linux-user/syscall.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+ linux-user/syscall.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 78e404c23cad..fd13e72305de 100644
+index fd13e72305de..3b725bbe2513 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -12043,9 +12043,13 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
- 
-             p = lock_user (VERIFY_READ, arg2, arg3, 1);
-             if (arg5 != 0) {
--                target_to_host_timespec(&ts, arg5);
-+                if (target_to_host_timespec(&ts, arg5)) {
-+                    return -TARGET_EFAULT;
-+                }
-                 ret = get_errno(safe_mq_timedsend(arg1, p, arg3, arg4, &ts));
--                host_to_target_timespec(arg5, &ts);
-+                if (!is_error(ret) && host_to_target_timespec(arg5, &ts)) {
-+                    return -TARGET_EFAULT;
-+                }
-             } else {
-                 ret = get_errno(safe_mq_timedsend(arg1, p, arg3, arg4, NULL));
-             }
-@@ -12062,10 +12066,14 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
- 
-             p = lock_user (VERIFY_READ, arg2, arg3, 1);
-             if (arg5 != 0) {
--                target_to_host_timespec(&ts, arg5);
-+                if (target_to_host_timespec(&ts, arg5)) {
-+                    return -TARGET_EFAULT;
-+                }
-                 ret = get_errno(safe_mq_timedreceive(arg1, p, arg3,
-                                                      &prio, &ts));
--                host_to_target_timespec(arg5, &ts);
-+                if (!is_error(ret) && host_to_target_timespec(arg5, &ts)) {
-+                    return -TARGET_EFAULT;
-+                }
-             } else {
-                 ret = get_errno(safe_mq_timedreceive(arg1, p, arg3,
-                                                      &prio, NULL));
+@@ -1229,6 +1229,8 @@ static inline abi_long target_to_host_timespec64(struct timespec *host_ts,
+     }
+     __get_user(host_ts->tv_sec, &target_ts->tv_sec);
+     __get_user(host_ts->tv_nsec, &target_ts->tv_nsec);
++    /* in 32bit mode, this drops the padding */
++    host_ts->tv_nsec = (long)(abi_long)host_ts->tv_nsec;
+     unlock_user_struct(target_ts, target_addr, 0);
+     return 0;
+ }
 -- 
 2.26.2
 
