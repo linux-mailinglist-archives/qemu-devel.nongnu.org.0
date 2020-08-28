@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 194A925592F
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 13:13:45 +0200 (CEST)
-Received: from localhost ([::1]:57454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 251F5255932
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 13:14:37 +0200 (CEST)
+Received: from localhost ([::1]:33990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBcKG-0004ZB-2b
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 07:13:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39994)
+	id 1kBcL6-0006Uq-72
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 07:14:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kBcGZ-00061P-RU
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 07:09:55 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22903
+ id 1kBcGj-0006Kr-O6
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 07:10:05 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21899
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kBcGX-0000eF-An
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 07:09:55 -0400
+ id 1kBcGh-0000fd-Nn
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 07:10:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598612992;
+ s=mimecast20190719; t=1598613002;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=knDwBoTRIu/6pmdzHFuI+i2z60A8pL5efZSsvt2zSuU=;
- b=P3aIz5L3AyqMUsocDbWctrPLtR3UBt5imXYtEsSuLpe2WKXQWdYj60fE6XMIG73nn77mgt
- /MoGlWcSpk2jzBoFh7WznWkuBuXx4mk2dsVAPDQ5ZTaHgFkGJq4KmBGTSNO5qa3FXcRrIN
- CcGdOxo+cYfW5eS5HKIQoQ0kDyaictA=
+ bh=HV35Mezsi0HSTtx5F2YjaL6Mk9/5E72GBfTRj64cdTU=;
+ b=EKDNaeygwy3mIFaoc8DLs6dAgBLQTdXq+N0zmQl2ESlACdnhQgPJE11O6uCxasvkTElEfx
+ MLyLQFFmUNMLSJxDHJsWnU7lnDQeB9rFukQxLboSsqvLomfARMUEKzGEokz2Q002dDefxn
+ 3wzHa1xXPZCim1Gpvj/pExhx9qwn9qw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-56--xEDqYb1OL2ESPKjG-BFLA-1; Fri, 28 Aug 2020 07:09:50 -0400
-X-MC-Unique: -xEDqYb1OL2ESPKjG-BFLA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-283-Tfa60AD2PHiMq6M676MREg-1; Fri, 28 Aug 2020 07:09:57 -0400
+X-MC-Unique: Tfa60AD2PHiMq6M676MREg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E020801AAB
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 11:09:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20BAA18A2240
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 11:09:57 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6752C10027A6;
- Fri, 28 Aug 2020 11:09:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1D79E19C59;
+ Fri, 28 Aug 2020 11:09:52 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 15/16] meson: fix migration/stress compilation with glib>=2.30
-Date: Fri, 28 Aug 2020 15:07:33 +0400
-Message-Id: <20200828110734.1638685-16-marcandre.lureau@redhat.com>
+Subject: [PATCH 16/16] meson: convert migration/initrd-stress
+Date: Fri, 28 Aug 2020 15:07:34 +0400
+Message-Id: <20200828110734.1638685-17-marcandre.lureau@redhat.com>
 In-Reply-To: <20200828110734.1638685-1-marcandre.lureau@redhat.com>
 References: <20200828110734.1638685-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120;
+Received-SPF: pass client-ip=207.211.31.120;
  envelope-from=marcandre.lureau@redhat.com; helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 04:08:58
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 00:28:43
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -88,52 +88,86 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-gettid() was introduced with glibc 2.30.
-
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- meson.build              | 3 +++
- tests/migration/stress.c | 2 ++
- 2 files changed, 5 insertions(+)
+ tests/Makefile.include           | 14 --------------
+ tests/meson.build                |  1 +
+ tests/migration/initrd-stress.sh | 10 ++++++++++
+ tests/migration/meson.build      | 14 ++++++++++++++
+ 4 files changed, 25 insertions(+), 14 deletions(-)
+ create mode 100755 tests/migration/initrd-stress.sh
+ create mode 100644 tests/migration/meson.build
 
-diff --git a/meson.build b/meson.build
-index 421f53083e..a8e074f4fa 100644
---- a/meson.build
-+++ b/meson.build
-@@ -408,6 +408,8 @@ if 'CONFIG_TASN1' in config_host
- endif
- keyutils = dependency('keyutils', required: false)
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 30d4c6f932..0d36bd11d4 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -38,20 +38,6 @@ export SRC_PATH
+ SYSEMU_TARGET_LIST := $(subst -softmmu.mak,,$(notdir \
+    $(wildcard $(SRC_PATH)/default-configs/*-softmmu.mak)))
  
-+has_gettid = cc.has_function('gettid')
+-QEMU_CFLAGS += -I$(SRC_PATH)/tests -I$(SRC_PATH)/tests/qtest
+-
+-tests/migration/stress$(EXESUF): tests/migration/stress.o
+-	$(call quiet-command, $(LINKPROG) -static -O3 $(PTHREAD_LIB) -o $@ $< ,"LINK","$(TARGET_DIR)$@")
+-
+-INITRD_WORK_DIR=tests/migration/initrd
+-
+-tests/migration/initrd-stress.img: tests/migration/stress$(EXESUF)
+-	mkdir -p $(INITRD_WORK_DIR)
+-	cp $< $(INITRD_WORK_DIR)/init
+-	(cd $(INITRD_WORK_DIR) && (find | cpio --quiet -o -H newc | gzip -9)) > $@
+-	rm $(INITRD_WORK_DIR)/init
+-	rmdir $(INITRD_WORK_DIR)
+-
+ SPEED = quick
+ 
+ # gtester tests, possibly with verbose output
+diff --git a/tests/meson.build b/tests/meson.build
+index 4d6bcf06b3..257a474daa 100644
+--- a/tests/meson.build
++++ b/tests/meson.build
+@@ -268,3 +268,4 @@ endif
+ 
+ subdir('qapi-schema')
+ subdir('qtest')
++subdir('migration')
+diff --git a/tests/migration/initrd-stress.sh b/tests/migration/initrd-stress.sh
+new file mode 100755
+index 0000000000..0f20ac29a6
+--- /dev/null
++++ b/tests/migration/initrd-stress.sh
+@@ -0,0 +1,10 @@
++#!/bin/sh
 +
- # Create config-host.h
- 
- config_host_data.set('CONFIG_SDL', sdl.found())
-@@ -418,6 +420,7 @@ config_host_data.set('CONFIG_VNC_PNG', png.found())
- config_host_data.set('CONFIG_VNC_SASL', sasl.found())
- config_host_data.set('CONFIG_XKBCOMMON', xkbcommon.found())
- config_host_data.set('CONFIG_KEYUTILS', keyutils.found())
-+config_host_data.set('CONFIG_GETTID', has_gettid)
- config_host_data.set('QEMU_VERSION', '"@0@"'.format(meson.project_version()))
- config_host_data.set('QEMU_VERSION_MAJOR', meson.project_version().split('.')[0])
- config_host_data.set('QEMU_VERSION_MINOR', meson.project_version().split('.')[1])
-diff --git a/tests/migration/stress.c b/tests/migration/stress.c
-index 05d85051e3..0c72a420be 100644
---- a/tests/migration/stress.c
-+++ b/tests/migration/stress.c
-@@ -29,10 +29,12 @@ const char *argv0;
- 
- #define PAGE_SIZE 4096
- 
-+#ifndef CONFIG_GETTID
- static int gettid(void)
- {
-     return syscall(SYS_gettid);
- }
-+#endif
- 
- static __attribute__((noreturn)) void exit_failure(void)
- {
++INITRD="$1"
++STRESS="$2"
++
++INITRD_DIR=$(mktemp -d -p '' "initrd-stress.XXXXXX")
++trap 'rm -rf $INITRD_DIR' EXIT
++
++cp "$STRESS" "$INITRD_DIR/init"
++(cd "$INITRD_DIR" && (find | cpio --quiet -o -H newc | gzip -9)) > "$INITRD"
+diff --git a/tests/migration/meson.build b/tests/migration/meson.build
+new file mode 100644
+index 0000000000..f215ee7d3a
+--- /dev/null
++++ b/tests/migration/meson.build
+@@ -0,0 +1,14 @@
++stress = executable(
++  'stress',
++  files('stress.c'),
++  dependencies: [glib],
++  link_args: ['-static'],
++  build_by_default: false,
++)
++
++custom_target(
++  'initrd-stress.img',
++  output: 'initrd-stress.img',
++  input: stress,
++  command: [find_program('initrd-stress.sh'), '@OUTPUT@', '@INPUT@']
++)
 -- 
 2.26.2
 
