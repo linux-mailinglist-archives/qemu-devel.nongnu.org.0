@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3A4A2560FB
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 21:05:34 +0200 (CEST)
-Received: from localhost ([::1]:41252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A31842560ED
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 21:01:37 +0200 (CEST)
+Received: from localhost ([::1]:53412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBjgr-0001pD-Gf
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 15:05:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59540)
+	id 1kBjd2-0003dU-Mk
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 15:01:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBjD7-0003Q6-UE
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:50 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37750)
+ id 1kBjD9-0003SI-FP
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:51 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35439)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBjD1-000669-RQ
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:49 -0400
-Received: by mail-wr1-x441.google.com with SMTP id y3so66907wrl.4
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 11:34:43 -0700 (PDT)
+ id 1kBjD3-00066P-29
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:51 -0400
+Received: by mail-wr1-x431.google.com with SMTP id e16so75613wrm.2
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 11:34:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=hE3x5UYpTv4DTAsoywo/5Ti5Qf5DuCUIVQT2wDt49Fo=;
- b=del1U37Omwl17tNv4Zn0bmRZ8UNBpyX/1+pc8BdozEL0Nc8Y2YByu/phuHRXeFaSCO
- E+88gJBiUFb4AVRn9h1j1DHIYcFYQpBWshuBN2hKo3HjsJFyGzJ5nHroUx0mw4bJIUR/
- 6em0g8PYtCdO3GDrItO1inf7DwViv/uLUmNAd8Ol7+zCmQO8k4RWxVIqAvGlCBbV3KCn
- 2n6G9OnFJ65Y/Q2/cw8nFse39hpjfwtXKAIgC4hQGCYRX0iPjY8lQxR6Ma7lTixfREe6
- M+IM2GEWrLkgnB66Z/UxdDcufx8e5tNII6S1Xhm/wnyHIO2gb+inCx6GuSQar20vIkjq
- 3tJw==
+ bh=H+SA5BtJZZsSmfjNYqMp1Lvncj89UN93oPcUQSiNQtg=;
+ b=ybTTfEdXG4i6fqt5l6HLVgx+eprgPBfCYLc+yYBUGvh8IQku4tcbD6OyNqqLR2DTZr
+ JitJ/ryMlbQR6OPoXC7SXyKapi8T9TsSgijW/21H6W/OW7dxDYLIpIdVdNnJXIA027db
+ AIA3fVqoLYEqCDjAR4gOZ5gMcbqam2dKZ5p73aFngDo7E0wsc2tpxr8Paw6GySSwPpnN
+ 6/iA0bv0X99X03C6sGFFVdrWaYJDT1hRF7BssB97GbK12OWV5DT/J0DetIl7hToBidAZ
+ U24YJNWoNNkSZ93SJlBGFdEoHYIjtDkZUNBvs0qc1mdVwDvs4GogE/k+c/AzVpuyaO1c
+ 7SIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hE3x5UYpTv4DTAsoywo/5Ti5Qf5DuCUIVQT2wDt49Fo=;
- b=alphyw/gwMq5x1TX9ZFIrJOAbciCpKv9VP+rYV4DiC47UfV2BkqVJxwMEVWhJA84w9
- Ff1KlvtWoSPWf9nDoOJ286evqq/6j6iL2Hsz376qX+W4CpTwl+Q1nryR3F2bQXCzoyPF
- WtUmjm1/fI+RMOULO919DgSSrD1ZUA3ruRaDd1DOoO0ug8SC/ivTfw6amG548XYIpOzo
- 1EwN6L6tP4rWosJODw0D74TkFYuwjTGJWlFLt6AmU61xkh9uLUYSIUr0tsl2rUyq0qSa
- 8NfC468cwjsE14B/Q56q77Iu2ObHoiLg5YjQ6egEXzICma9+D1x4Qnv+xeo8M6hFsr2X
- /zvQ==
-X-Gm-Message-State: AOAM532G29s1s1cY8QqP7CLjQ9w37aMwbOXc2Wt4xT92/w6KDf8HLqvy
- ciuwbNfHhZ1gX4KZGUcXwpIXTA==
-X-Google-Smtp-Source: ABdhPJyopbOd6OJBrOBEbRXciXOkiwen11dw6O2RBgcIohQBNDTtsyVl3g1VzyYTz2ntiQ6SgsxWiw==
-X-Received: by 2002:a5d:6610:: with SMTP id n16mr261588wru.363.1598639682467; 
- Fri, 28 Aug 2020 11:34:42 -0700 (PDT)
+ bh=H+SA5BtJZZsSmfjNYqMp1Lvncj89UN93oPcUQSiNQtg=;
+ b=gCwjYKqWR3a+oSjQIDy6ck7Hfo/gNurDhOLEw7Kj0lOvpPsfnj6CckcGjg6De4BH1J
+ 2ok+NvWCuH6u9G2oCgIH5gppPdbZ0dnEqcSMOlYeN3LARH8tpqY7TdALRVDtCoIg+Tvk
+ Bm7yirHpWF5EaO8dVOysGKKp98C7AeHcF8NI2WoGWcFWTxuJf872NOHDwBSYjm5D6qua
+ Y/hi5ovzrNUFFLJUZkYxbZKgZP4ovIfrPUouNSyzf39vWADY4qYRQXnZLlDOyaMzLWjl
+ QPjoZr43RwIQxUj58PrCQVJTY4N2Q/w+6sQI6Y2YhVtc+zGXD0uipKltYR4gbfs/+9CB
+ 6j3Q==
+X-Gm-Message-State: AOAM5305HIJzOEawL3ad8zuVlP0IILWQ7615obcjKKYSsA7hQlkoYxS0
+ ybetsZoegoiXhOAqA8muM53cZg==
+X-Google-Smtp-Source: ABdhPJyvUXi9wbdbv3o7sdVoR2p5WUTkG5yk0mFOjRUmny/RvZnIOjx5uBLcn+JT4hEC8azjyLzsWQ==
+X-Received: by 2002:a5d:6946:: with SMTP id r6mr282401wrw.308.1598639683620;
+ Fri, 28 Aug 2020 11:34:43 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id s20sm356251wmh.21.2020.08.28.11.34.41
+ by smtp.gmail.com with ESMTPSA id s20sm356251wmh.21.2020.08.28.11.34.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 11:34:41 -0700 (PDT)
+ Fri, 28 Aug 2020 11:34:42 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 38/45] target/arm: Implement fp16 for Neon VCVT fixed-point
-Date: Fri, 28 Aug 2020 19:33:47 +0100
-Message-Id: <20200828183354.27913-39-peter.maydell@linaro.org>
+Subject: [PATCH v2 39/45] target/arm: Implement fp16 for Neon VCVT with
+ rounding modes
+Date: Fri, 28 Aug 2020 19:33:48 +0100
+Message-Id: <20200828183354.27913-40-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200828183354.27913-1-peter.maydell@linaro.org>
 References: <20200828183354.27913-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,89 +89,179 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement fp16 for the Neon VCVT insns which convert between
-float and fixed-point.
+Convert the Neon VCVT with-specified-rounding-mode instructions
+to gvec, and use this to implement fp16 support for them.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.h             | 5 +++++
- target/arm/neon-dp.decode       | 8 +++++++-
- target/arm/vec_helper.c         | 4 ++++
- target/arm/translate-neon.c.inc | 5 +++++
- 4 files changed, 21 insertions(+), 1 deletion(-)
+ target/arm/helper.h             |   5 ++
+ target/arm/vec_helper.c         |  23 +++++++
+ target/arm/translate-neon.c.inc | 103 +++++++++++---------------------
+ 3 files changed, 64 insertions(+), 67 deletions(-)
 
 diff --git a/target/arm/helper.h b/target/arm/helper.h
-index 09e0fa052ef..8c98bc40eb3 100644
+index 8c98bc40eb3..a2758ded287 100644
 --- a/target/arm/helper.h
 +++ b/target/arm/helper.h
-@@ -628,6 +628,11 @@ DEF_HELPER_FLAGS_4(gvec_vcvt_uf, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_4(gvec_vcvt_fs, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_4(gvec_vcvt_fu, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+@@ -633,6 +633,11 @@ DEF_HELPER_FLAGS_4(gvec_vcvt_uh, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_4(gvec_vcvt_hs, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_4(gvec_vcvt_hu, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
  
-+DEF_HELPER_FLAGS_4(gvec_vcvt_sh, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(gvec_vcvt_uh, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(gvec_vcvt_hs, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(gvec_vcvt_hu, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(gvec_vcvt_rm_ss, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(gvec_vcvt_rm_us, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(gvec_vcvt_rm_sh, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(gvec_vcvt_rm_uh, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
 +
  DEF_HELPER_FLAGS_4(gvec_frecpe_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
  DEF_HELPER_FLAGS_4(gvec_frecpe_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
  DEF_HELPER_FLAGS_4(gvec_frecpe_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-diff --git a/target/arm/neon-dp.decode b/target/arm/neon-dp.decode
-index 686f9fbf46a..1e9e8592917 100644
---- a/target/arm/neon-dp.decode
-+++ b/target/arm/neon-dp.decode
-@@ -254,6 +254,8 @@ VMINNM_fp_3s     1111 001 1 0 . 1 . .... .... 1111 ... 1 .... @3same_fp
- # We use size=0 for fp32 and size=1 for fp16 to match the 3-same encodings.
- @2reg_vcvt       .... ... . . . 1 ..... .... .... . q:1 . . .... \
-                  &2reg_shift vm=%vm_dp vd=%vd_dp size=0 shift=%neon_rshift_i5
-+@2reg_vcvt_f16   .... ... . . . 11 .... .... .... . q:1 . . .... \
-+                 &2reg_shift vm=%vm_dp vd=%vd_dp size=1 shift=%neon_rshift_i4
- 
- VSHR_S_2sh       1111 001 0 1 . ...... .... 0000 . . . 1 .... @2reg_shr_d
- VSHR_S_2sh       1111 001 0 1 . ...... .... 0000 . . . 1 .... @2reg_shr_s
-@@ -370,7 +372,11 @@ VSHLL_U_2sh      1111 001 1 1 . ...... .... 1010 . 0 . 1 .... @2reg_shll_h
- VSHLL_U_2sh      1111 001 1 1 . ...... .... 1010 . 0 . 1 .... @2reg_shll_b
- 
- # VCVT fixed<->float conversions
--# TODO: FP16 fixed<->float conversions are opc==0b1100 and 0b1101
-+VCVT_SH_2sh      1111 001 0 1 . ...... .... 1100 0 . . 1 .... @2reg_vcvt_f16
-+VCVT_UH_2sh      1111 001 1 1 . ...... .... 1100 0 . . 1 .... @2reg_vcvt_f16
-+VCVT_HS_2sh      1111 001 0 1 . ...... .... 1101 0 . . 1 .... @2reg_vcvt_f16
-+VCVT_HU_2sh      1111 001 1 1 . ...... .... 1101 0 . . 1 .... @2reg_vcvt_f16
-+
- VCVT_SF_2sh      1111 001 0 1 . ...... .... 1110 0 . . 1 .... @2reg_vcvt
- VCVT_UF_2sh      1111 001 1 1 . ...... .... 1110 0 . . 1 .... @2reg_vcvt
- VCVT_FS_2sh      1111 001 0 1 . ...... .... 1111 0 . . 1 .... @2reg_vcvt
 diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
-index 6d83953ee8f..ea401910f37 100644
+index ea401910f37..fae0fe75294 100644
 --- a/target/arm/vec_helper.c
 +++ b/target/arm/vec_helper.c
-@@ -1863,5 +1863,9 @@ DO_VCVT_FIXED(gvec_vcvt_sf, helper_vfp_sltos, uint32_t)
- DO_VCVT_FIXED(gvec_vcvt_uf, helper_vfp_ultos, uint32_t)
- DO_VCVT_FIXED(gvec_vcvt_fs, helper_vfp_tosls_round_to_zero, uint32_t)
- DO_VCVT_FIXED(gvec_vcvt_fu, helper_vfp_touls_round_to_zero, uint32_t)
-+DO_VCVT_FIXED(gvec_vcvt_sh, helper_vfp_shtoh, uint16_t)
-+DO_VCVT_FIXED(gvec_vcvt_uh, helper_vfp_uhtoh, uint16_t)
-+DO_VCVT_FIXED(gvec_vcvt_hs, helper_vfp_toshh_round_to_zero, uint16_t)
-+DO_VCVT_FIXED(gvec_vcvt_hu, helper_vfp_touhh_round_to_zero, uint16_t)
+@@ -1869,3 +1869,26 @@ DO_VCVT_FIXED(gvec_vcvt_hs, helper_vfp_toshh_round_to_zero, uint16_t)
+ DO_VCVT_FIXED(gvec_vcvt_hu, helper_vfp_touhh_round_to_zero, uint16_t)
  
  #undef DO_VCVT_FIXED
++
++#define DO_VCVT_RMODE(NAME, FUNC, TYPE)                                 \
++    void HELPER(NAME)(void *vd, void *vn, void *stat, uint32_t desc)    \
++    {                                                                   \
++        float_status *fpst = stat;                                      \
++        intptr_t i, oprsz = simd_oprsz(desc);                           \
++        uint32_t rmode = simd_data(desc);                               \
++        uint32_t prev_rmode = get_float_rounding_mode(fpst);            \
++        TYPE *d = vd, *n = vn;                                          \
++        set_float_rounding_mode(rmode, fpst);                           \
++        for (i = 0; i < oprsz / sizeof(TYPE); i++) {                    \
++            d[i] = FUNC(n[i], 0, fpst);                                 \
++        }                                                               \
++        set_float_rounding_mode(prev_rmode, fpst);                      \
++        clear_tail(d, oprsz, simd_maxsz(desc));                         \
++    }
++
++DO_VCVT_RMODE(gvec_vcvt_rm_ss, helper_vfp_tosls, uint32_t)
++DO_VCVT_RMODE(gvec_vcvt_rm_us, helper_vfp_touls, uint32_t)
++DO_VCVT_RMODE(gvec_vcvt_rm_sh, helper_vfp_toshh, uint16_t)
++DO_VCVT_RMODE(gvec_vcvt_rm_uh, helper_vfp_touhh, uint16_t)
++
++#undef DO_VCVT_RMODE
 diff --git a/target/arm/translate-neon.c.inc b/target/arm/translate-neon.c.inc
-index 50fcf4159ea..b3b1d46e958 100644
+index b3b1d46e958..899de360bf8 100644
 --- a/target/arm/translate-neon.c.inc
 +++ b/target/arm/translate-neon.c.inc
-@@ -1657,6 +1657,11 @@ DO_FP_2SH(VCVT_UF, gen_helper_gvec_vcvt_uf)
- DO_FP_2SH(VCVT_FS, gen_helper_gvec_vcvt_fs)
- DO_FP_2SH(VCVT_FU, gen_helper_gvec_vcvt_fu)
+@@ -3825,75 +3825,44 @@ DO_VRINT(VRINTZ, FPROUNDING_ZERO)
+ DO_VRINT(VRINTM, FPROUNDING_NEGINF)
+ DO_VRINT(VRINTP, FPROUNDING_POSINF)
  
-+DO_FP_2SH(VCVT_SH, gen_helper_gvec_vcvt_sh)
-+DO_FP_2SH(VCVT_UH, gen_helper_gvec_vcvt_uh)
-+DO_FP_2SH(VCVT_HS, gen_helper_gvec_vcvt_hs)
-+DO_FP_2SH(VCVT_HU, gen_helper_gvec_vcvt_hu)
-+
- static uint64_t asimd_imm_const(uint32_t imm, int cmode, int op)
+-static bool do_vcvt(DisasContext *s, arg_2misc *a, int rmode, bool is_signed)
+-{
+-    /*
+-     * Handle a VCVT* operation by iterating 32 bits at a time,
+-     * with a specified rounding mode in operation.
+-     */
+-    int pass;
+-    TCGv_ptr fpst;
+-    TCGv_i32 tcg_rmode, tcg_shift;
+-
+-    if (!arm_dc_feature(s, ARM_FEATURE_NEON) ||
+-        !arm_dc_feature(s, ARM_FEATURE_V8)) {
+-        return false;
++#define DO_VEC_RMODE(INSN, RMODE, OP)                                   \
++    static void gen_##INSN(unsigned vece, uint32_t rd_ofs,              \
++                           uint32_t rm_ofs,                             \
++                           uint32_t oprsz, uint32_t maxsz)              \
++    {                                                                   \
++        static gen_helper_gvec_2_ptr * const fns[4] = {                 \
++            NULL,                                                       \
++            gen_helper_gvec_##OP##h,                                    \
++            gen_helper_gvec_##OP##s,                                    \
++            NULL,                                                       \
++        };                                                              \
++        TCGv_ptr fpst;                                                  \
++        fpst = fpstatus_ptr(vece == 1 ? FPST_STD_F16 : FPST_STD);       \
++        tcg_gen_gvec_2_ptr(rd_ofs, rm_ofs, fpst, oprsz, maxsz,          \
++                           arm_rmode_to_sf(RMODE), fns[vece]);          \
++        tcg_temp_free_ptr(fpst);                                        \
++    }                                                                   \
++    static bool trans_##INSN(DisasContext *s, arg_2misc *a)             \
++    {                                                                   \
++        if (!arm_dc_feature(s, ARM_FEATURE_V8)) {                       \
++            return false;                                               \
++        }                                                               \
++        if (a->size == 0 ||                                             \
++            (a->size == 1 && !dc_isar_feature(aa32_fp16_arith, s)))     \
++        {                                                               \
++            return false;                                               \
++        }                                                               \
++        return do_2misc_vec(s, a, gen_##INSN);                          \
+     }
+ 
+-    /* UNDEF accesses to D16-D31 if they don't exist. */
+-    if (!dc_isar_feature(aa32_simd_r32, s) &&
+-        ((a->vd | a->vm) & 0x10)) {
+-        return false;
+-    }
+-
+-    if (a->size != 2) {
+-        /* TODO: FP16 will be the size == 1 case */
+-        return false;
+-    }
+-
+-    if ((a->vd | a->vm) & a->q) {
+-        return false;
+-    }
+-
+-    if (!vfp_access_check(s)) {
+-        return true;
+-    }
+-
+-    fpst = fpstatus_ptr(FPST_STD);
+-    tcg_shift = tcg_const_i32(0);
+-    tcg_rmode = tcg_const_i32(arm_rmode_to_sf(rmode));
+-    gen_helper_set_neon_rmode(tcg_rmode, tcg_rmode, cpu_env);
+-    for (pass = 0; pass < (a->q ? 4 : 2); pass++) {
+-        TCGv_i32 tmp = neon_load_reg(a->vm, pass);
+-        if (is_signed) {
+-            gen_helper_vfp_tosls(tmp, tmp, tcg_shift, fpst);
+-        } else {
+-            gen_helper_vfp_touls(tmp, tmp, tcg_shift, fpst);
+-        }
+-        neon_store_reg(a->vd, pass, tmp);
+-    }
+-    gen_helper_set_neon_rmode(tcg_rmode, tcg_rmode, cpu_env);
+-    tcg_temp_free_i32(tcg_rmode);
+-    tcg_temp_free_i32(tcg_shift);
+-    tcg_temp_free_ptr(fpst);
+-
+-    return true;
+-}
+-
+-#define DO_VCVT(INSN, RMODE, SIGNED)                            \
+-    static bool trans_##INSN(DisasContext *s, arg_2misc *a)     \
+-    {                                                           \
+-        return do_vcvt(s, a, RMODE, SIGNED);                    \
+-    }
+-
+-DO_VCVT(VCVTAU, FPROUNDING_TIEAWAY, false)
+-DO_VCVT(VCVTAS, FPROUNDING_TIEAWAY, true)
+-DO_VCVT(VCVTNU, FPROUNDING_TIEEVEN, false)
+-DO_VCVT(VCVTNS, FPROUNDING_TIEEVEN, true)
+-DO_VCVT(VCVTPU, FPROUNDING_POSINF, false)
+-DO_VCVT(VCVTPS, FPROUNDING_POSINF, true)
+-DO_VCVT(VCVTMU, FPROUNDING_NEGINF, false)
+-DO_VCVT(VCVTMS, FPROUNDING_NEGINF, true)
++DO_VEC_RMODE(VCVTAU, FPROUNDING_TIEAWAY, vcvt_rm_u)
++DO_VEC_RMODE(VCVTAS, FPROUNDING_TIEAWAY, vcvt_rm_s)
++DO_VEC_RMODE(VCVTNU, FPROUNDING_TIEEVEN, vcvt_rm_u)
++DO_VEC_RMODE(VCVTNS, FPROUNDING_TIEEVEN, vcvt_rm_s)
++DO_VEC_RMODE(VCVTPU, FPROUNDING_POSINF, vcvt_rm_u)
++DO_VEC_RMODE(VCVTPS, FPROUNDING_POSINF, vcvt_rm_s)
++DO_VEC_RMODE(VCVTMU, FPROUNDING_NEGINF, vcvt_rm_u)
++DO_VEC_RMODE(VCVTMS, FPROUNDING_NEGINF, vcvt_rm_s)
+ 
+ static bool trans_VSWP(DisasContext *s, arg_2misc *a)
  {
-     /*
 -- 
 2.20.1
 
