@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C8A7255B56
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 15:41:47 +0200 (CEST)
-Received: from localhost ([::1]:35060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2C2A255B4B
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 15:39:12 +0200 (CEST)
+Received: from localhost ([::1]:47432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBedW-0003Lq-Kf
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 09:41:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36708)
+	id 1kBeb1-0005MP-OM
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 09:39:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kBeZz-0003dA-Ll
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kBeZz-0003de-TI
  for qemu-devel@nongnu.org; Fri, 28 Aug 2020 09:38:07 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:33755)
+Received: from mout.kundenserver.de ([212.227.126.131]:46305)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kBeZx-0007Fm-T0
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kBeZx-0007Fs-Ur
  for qemu-devel@nongnu.org; Fri, 28 Aug 2020 09:38:07 -0400
 Received: from localhost.localdomain ([82.252.135.186]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N14xe-1kadTS0Y5i-012V20; Fri, 28 Aug 2020 15:37:56 +0200
+ id 1MQgtC-1k0CGI2pyI-00NhcS; Fri, 28 Aug 2020 15:37:56 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/18] linux-user: Fix 'semop()' and 'semtimedop()'
- implementation
-Date: Fri, 28 Aug 2020 15:37:36 +0200
-Message-Id: <20200828133753.2622286-2-laurent@vivier.eu>
+Subject: [PULL 02/18] linux-user: Fix 'clock_nanosleep()' implementation
+Date: Fri, 28 Aug 2020 15:37:37 +0200
+Message-Id: <20200828133753.2622286-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200828133753.2622286-1-laurent@vivier.eu>
 References: <20200828133753.2622286-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:fykUZ8gQu6OhB2vhQ5RrNKq5YNnxIiXkuw0t1HQUZVc8mqPWlh8
- ptsH6fcDrIFrgOF14gftkqbZ/RAnPpcYSeq4xLyjml9/SlgQQpguzTlVhaQhZq4YjmKkVCP
- 4V29i5txyfqVD+w0GBvILeVAFSYaFWdBCiaEwxkK1rVBAI7vKuylsrmiRkA/+s3VFQmjLX1
- +1yF0ju4TCbMyeNqf4KqQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:CTHB2D4AHhA=:IZA+X2JLS2p8R6Dj4FY64u
- JXWN5E70sEtdPFIYF8ws+w2ik+wgpAkLgKQkjLV3gqX8w0I5C/kpYbc+dXy/m2o0nJxJiM2VE
- cMcnFUZmK0GsnRi1pfkray+px7O/ies29ykBpDv4RfKZJ9bLs+VuRxbNC4OW+1KB2wB3EXjYL
- z2HuI838dbirYNatzXIot4LS0OIo/+hA+ohwCn4R+q5VIgTsjnV725guELFqVooODc06V+V2U
- eZQllWyDHsy/upsV6gSlB8g4tfWoswrgd0VmLC0LB3U6EkQTHmWebbpFVp+y/rmjCbhsWmlRN
- 9xL0Jnmk/0mIiELLUK4p9OUBC4pY/3hcIWhqIXAuq24do/dria32+U4j2WyQnY/nMWxWLr/Bi
- dPYiKUQxInxQkXc7GRDv4Y1dFIVUkSPUS09Ee4CKENaJl5LAbQtWVy0vh1kwOQLBI3s7iE5kY
- lQYR2IGPLkGYrslT4bgIcnN9zt0fZZO15ebBXXYKVx5ZdvPyDtGT10zFe62NWFrmwHPiWRFdO
- +H2VjZ4TKvMNSfWt2xrY2gNezNfA5tZzcLmfXh9s6mpLyx64xweUrVt7a9s7SggRRLyxsZUX7
- ZqLVcUf63UGHVw5ToA9ltHCH/Ru08zAeizrlLACsGec6nzNKeoNCG7F6Jo5JANGGMuWCLaNWy
- xWPmE+PsHoS27yoh1J7aCg3nrq6bA+Fp2vUWiBTWjHRtVCQnfnmU1C86MTVaZyJxH6PamZjKY
- +SzP/fqg4JVl0a9ZNgArCH6ns/fW2qBGXXIOp+du5sib/AiPxPNrHtgQRh2NDqiNPy0aBenXc
- LoWZmoAsJdtcrr6PbaDJhV9iaA949IQ+kVa7qME2NVEQSMc+pVxouDXery6SKrV/XPbNt4z
+X-Provags-ID: V03:K1:PgMW5plxnhlyQLOwsnzOcAwuV8dMZ/LyU3W09+waqJCNYohd1Gs
+ WTAHD9U+T6jTVeRxRyFqjiFUysN4/2vZO/lImSWf5gVCK+eKFn+PFQGUb/jAEiIAGmtg4/l
+ kjFswtG1vr3EOZkWRoa8Dhrchd1hFn6d4SeaqlRJLAwtSh2fOaodLZOeQWUNicStM9S5uP9
+ ukRaSD+8LvCy0+1RmHjXQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:g5Y5p3hL8vQ=:lj7l8StXdlWAIWmlyuVTGF
+ bj81489C8uU/Jse2obLy/IJ3n0AiQPV+PsSQYCSa7Sy34Y5dGcuTCKc2GiXFkWtQLlAeZs82G
+ uo2abBOvW7gd3XHk7WZDG8siekYaQTndtXVEwvr7vgEwnnOwbp+feFaJUPJLXoMAyhAp9b9e5
+ ESYjaxRiy2faE4ih1KqE3MPXUTXdNqaIpEnzLm7yyoC9EsGuLRXOqsta5IPN58b7VkeXVV5Ec
+ FImV0LTDxeo+51jx/Bc2t4N0/gxIEkl9WHcM7k+5bX1aQ9XwopCCqlqqKgW3ee0XyU4wlqzFS
+ 4Pu6E46yncE4zP0qTjB9k2EbWAy7DYxaim06AneolQ/BNx9TV7GhPaprEJH/gOA6hmhPYhgoQ
+ uFAdUOU87zxxeFSeWvxbvmxev1AV1gm5763Csiwp4fR9kP9VwHp/3zXSFTzpGzDheMjs+a7zP
+ 7F51rzkXEVybRnyjQAafG0Crla2EZlpBLlND+DVTFZHLOSLhyXXM7c5NSrz341pbs9SapbXrE
+ iTaYxjpteMuL40nXks6qM4J6sEbLq+rW5kK5Oi0IM7e+UNWyvBUdPBH9ap9OPQwDk5WnsPD/l
+ 5/VnrLEXsK07BNZBuMQ98epwI5NO9GyE8UMp6Nr6++XSmNJMLcS2YsbOGRqDqPE8JYLrsVQNB
+ sqXc7OpwryBqAIW3EIdIX3YRyyLPJhxu09hnamcaXoMp6nSdZy/tUJwSAWkWRry2T5vOHGqcW
+ 4SnoRJBgeA9r7B0mJqZcwRqSXgNbaV7mnX0APKSIAzutDCLKY4X6nQFi9UyyHdCHR+e+dN/Nw
+ GV2nHtZiGvrp+MBNm6tUvwHv/5VbU8Kwf3Z7wWn7VHFrz2Mf1WL1JxVx7LSYKqPINHWP4+6
 Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 09:38:04
@@ -77,93 +76,53 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Filip Bozuta <Filip.Bozuta@syrmia.com>
 
-The implementations of syscalls 'semop()' and 'semtimedop()' in
-file 'syscall.c' use function 'target_to_host_sembuf()' to convert
-values of 'struct sembuf' from host to target. However, before this
-conversion it should be check whether the number of semaphore operations
-'nsops' is not bigger than maximum allowed semaphor operations per
-syscall: 'SEMOPM'. In these cases, errno 'E2BIG' ("Arg list too long")
-should be set. But the implementation will set errno 'EFAULT' ("Bad address")
-in this case since the conversion from target to host in this case fails.
+Implementation of syscall 'clock_nanosleep()' in 'syscall.c' uses
+functions 'target_to_host_timespec()' and 'host_to_target_timespec()'
+to transfer the value of 'struct timespec' between target and host.
+However, the implementation doesn't check whether this conversion
+succeeds and thus can return an unaproppriate error instead of 'EFAULT'
+that is expected. This was confirmed with the modified LTP test suite
+where testcases with bad 'struct timespec' adress for 'clock_nanosleep()'
+were added. This modified LTP suite can be found at:
+https://github.com/bozutaf/ltp
 
-This was confirmed with the LTP test for 'semop()' ('ipc/semop/semop02') in
-test case where 'nsops' is greater than SEMOPM with unaproppriate errno EFAULT:
-
-semop02.c:130: FAIL: semop failed unexpectedly; expected: E2BIG: EFAULT (14)
-
-This patch changes this by adding a check whether 'nsops' is bigger than
-'SEMOPM' before the conversion function 'target_to_host_sembuf()' is called.
-After the changes from this patch, the test works fine along with the other
-LTP testcases for 'semop()'):
-
-semop02.c:126: PASS: semop failed as expected: E2BIG (7)
-
-Implementation notes:
-
-    A target value ('TARGET_SEMOPM') was added for 'SEMOPM' as to be sure
-    in case the value is not available for some targets.
+(Patch with this new test case will be sent to LTP mailing list soon)
 
 Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200818180722.45089-1-Filip.Bozuta@syrmia.com>
+Message-Id: <20200727201326.401519-1-Filip.Bozuta@syrmia.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c      | 13 +++++++++++--
- linux-user/syscall_defs.h |  2 ++
- 2 files changed, 13 insertions(+), 2 deletions(-)
+ linux-user/syscall.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index b4a7b605f3d4..5b3fce3dc0cb 100644
+index 5b3fce3dc0cb..e387246d7196 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -3901,7 +3901,7 @@ static inline abi_long do_semtimedop(int semid,
-                                      unsigned nsops,
-                                      abi_long timeout)
- {
--    struct sembuf sops[nsops];
-+    struct sembuf *sops;
-     struct timespec ts, *pts = NULL;
-     abi_long ret;
- 
-@@ -3912,8 +3912,16 @@ static inline abi_long do_semtimedop(int semid,
+@@ -11875,7 +11875,9 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+     case TARGET_NR_clock_nanosleep:
+     {
+         struct timespec ts;
+-        target_to_host_timespec(&ts, arg3);
++        if (target_to_host_timespec(&ts, arg3)) {
++            return -TARGET_EFAULT;
++        }
+         ret = get_errno(safe_clock_nanosleep(arg1, arg2,
+                                              &ts, arg4 ? &ts : NULL));
+         /*
+@@ -11883,8 +11885,9 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+          * with error -TARGET_EINTR and if arg4 is not NULL and arg2 is not
+          * TIMER_ABSTIME, it returns the remaining unslept time in arg4.
+          */
+-        if (ret == -TARGET_EINTR && arg4 && arg2 != TIMER_ABSTIME) {
+-            host_to_target_timespec(arg4, &ts);
++        if (ret == -TARGET_EINTR && arg4 && arg2 != TIMER_ABSTIME &&
++            host_to_target_timespec(arg4, &ts)) {
++              return -TARGET_EFAULT;
          }
-     }
  
--    if (target_to_host_sembuf(sops, ptr, nsops))
-+    if (nsops > TARGET_SEMOPM) {
-+        return -TARGET_E2BIG;
-+    }
-+
-+    sops = g_new(struct sembuf, nsops);
-+
-+    if (target_to_host_sembuf(sops, ptr, nsops)) {
-+        g_free(sops);
-         return -TARGET_EFAULT;
-+    }
- 
-     ret = -TARGET_ENOSYS;
- #ifdef __NR_semtimedop
-@@ -3925,6 +3933,7 @@ static inline abi_long do_semtimedop(int semid,
-                                  SEMTIMEDOP_IPC_ARGS(nsops, sops, (long)pts)));
-     }
- #endif
-+    g_free(sops);
-     return ret;
- }
- #endif
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 427a25f5bce5..9aa3bd724f0c 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -46,6 +46,8 @@
- #define IPCOP_shmget		23
- #define IPCOP_shmctl		24
- 
-+#define TARGET_SEMOPM     500
-+
- /*
-  * The following is for compatibility across the various Linux
-  * platforms.  The i386 ioctl numbering scheme doesn't really enforce
+         return ret;
 -- 
 2.26.2
 
