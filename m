@@ -2,76 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 303122560F5
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 21:03:27 +0200 (CEST)
-Received: from localhost ([::1]:59942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AA072560FC
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 21:05:37 +0200 (CEST)
+Received: from localhost ([::1]:41472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBjeo-0006Pq-5j
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 15:03:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59612)
+	id 1kBjgu-0001ua-HZ
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 15:05:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBjDB-0003Tb-4C
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:53 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:45226)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kBjXb-0003Y6-HQ; Fri, 28 Aug 2020 14:55:59 -0400
+Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:46354)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBjD7-00066d-MQ
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:52 -0400
-Received: by mail-wr1-x435.google.com with SMTP id h15so28508wrt.12
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 11:34:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=aMTfD29FPtiD6L41OXlRIuAGmyQ1AcZ6CdZyeeYTfMI=;
- b=lS4NjKFqDpsNS0mtyDJrF6FLKKOFhSdDdHoDDAVNOOPP72rOpWE1NH+hxIiWtudkt5
- GtNQwzvN70Zd8y07Ni0wDtjUSRTq+eVJ4b2MtCTLixzK/cZFJRe/kXrFZVNwFrrZZz5J
- UHM9RK2kM9pFKr/zf3eyfDj/sD4ySlpHfxK7BFNvvmbaz78PkAm+f3e7qDmBYbgINxaK
- MttQZrZ7nNBeiksieSMD1e5qdwjxv4/rHRzWVzyqRAUmJFR+uNP6HJnjfBDMrIROlEAh
- saAmuKSLou8oNA8VUw8R9yGf5cWyiOcPm4PQL2We5OCM6icZ3yMgqv9bl9s12nmCODWa
- 0UwQ==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kBjXY-0000WW-PA; Fri, 28 Aug 2020 14:55:59 -0400
+Received: by mail-il1-x143.google.com with SMTP id c6so1522704ilo.13;
+ Fri, 28 Aug 2020 11:55:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=GlKzTO5F2KNBvSeehU+dY+HZdAprZs32LYHqu1SBBZE=;
+ b=pWJWQAnIFFEMvp7byXaJD5HhyMw6LsNNCErCXPqGAdJMX64cQD7vFDK89ZIvkF5JfK
+ WwDpIOZ5uTIkvayACsx+z/f2jVA+MNiezAU+khTAgiu2g/3Q4pgg7FO4tXc6eRwYRBoE
+ PG/CcH+NS6vhNimsAkFXL62vVhE1Oc7RHZkajCg3aIvkWQIxlPiSu1Q98ePDS5Kw5UQ/
+ StdYKrduQBGI8ejkDp1IxT+ksa8glNeqxxdpselE0qrdrmW6HGTdIfLtMOvRS0ysSlJu
+ NQ5DjF6+fB1fV7qRn6ZZawp/+nVumHBxEHIC4dskNK+Ds6xj+XHbk1+tucDf4kc8Xe/R
+ +QkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=aMTfD29FPtiD6L41OXlRIuAGmyQ1AcZ6CdZyeeYTfMI=;
- b=pvKqFQIqpyvkuPjzmce2Fll8TVU5l0wKDgJNJgqB8oQNiVwzn56I/ZbzatogqSfDbA
- h/0i9RhC3ryWKdweF9RStDH10zUv2v4N27GNrwL1KWTIuvMjYd0cKn+c2WVn6iifLsLa
- 9s0Tj0WkMNEd4asKA3xTW5JaDfixKucwn8UUzPFoDq5m66gtkOLws1seuUB8Bq4a8mJe
- cQg5ezI7fkImBcXBM+mZt11dDnnGaFmIOkxTQP8xDQm2YUM5WWmY6omJ80wRqaZuwxLL
- Je7n5GXabp1NOLEUVrbcLjWEELztAMpIf9Zpx0d1Ub/xOroUY2JuGGcONHginjBst5pA
- is+g==
-X-Gm-Message-State: AOAM530ZNLvSzw2Hb9FpzcoX6mdAIbX2KvNQ7WSQ8OeqVrJVOp9PcSyu
- 0/CgKTMYUDPjiMmwcE4UDRDxN57H9minTSiB
-X-Google-Smtp-Source: ABdhPJyhySWt8fZyGBmqscMOgPantgtg8SLxJDfKEwndwedTDb411b9vugoSQesu7jnSGRUXv0g8eg==
-X-Received: by 2002:a5d:54c8:: with SMTP id x8mr230451wrv.405.1598639684789;
- Fri, 28 Aug 2020 11:34:44 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id s20sm356251wmh.21.2020.08.28.11.34.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 11:34:44 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH v2 40/45] target/arm: Implement fp16 for Neon
- VRINT-with-specified-rounding-mode
-Date: Fri, 28 Aug 2020 19:33:49 +0100
-Message-Id: <20200828183354.27913-41-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200828183354.27913-1-peter.maydell@linaro.org>
-References: <20200828183354.27913-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GlKzTO5F2KNBvSeehU+dY+HZdAprZs32LYHqu1SBBZE=;
+ b=cyr/vXVDrdX5sN+0tOljbhWLwkguUgjnKZeVZHWPIhQSG2D56DWYu/Edr70AUs0+hN
+ 24HBr56BumTox+9h6ZUM5OW+3hEbkZDV40C9mCb0Js4Ia1Oj+9VL3H5L7etKv2sMbqey
+ 4dETiEjSLV41SSPOT2DRTojcwTH+uQY+CJPNQHCHfCj2NBs9AIeMO4MVkTOu1V5PdvFC
+ O6osXs0MPHCwLR1jK0PXWu4TaSxNMfRbclUrR/ou1zzp9PTAgqC5gNQqsHkaGIAhR+l7
+ bjeLSC8aBOwXec1FvLuKtdVJpF7CAtjjLtsOQgGLGQlvvPcTiG1mRAogWObEach646t8
+ lc7A==
+X-Gm-Message-State: AOAM532yqVMmfqYL8KK79tSwPleHZGb79m2JYvnT+Q9duN3DUjPycod3
+ BaB3qjR4D/UiWmHv5ZjxZsqx3isXINIvUbmBiq8=
+X-Google-Smtp-Source: ABdhPJzr1bNaOSrZ3gkzvf7BBMr/FpWMXZXGEjPKMfWmzXObSIpANuM0VY8qFMbNlvHD4xBRQc8Vnx02EhT25TuSDWg=
+X-Received: by 2002:a05:6e02:13f1:: with SMTP id
+ w17mr253539ilj.131.1598640955031; 
+ Fri, 28 Aug 2020 11:55:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+References: <20200828113931.3252489-1-edgar.iglesias@gmail.com>
+ <20200828113931.3252489-2-edgar.iglesias@gmail.com>
+In-Reply-To: <20200828113931.3252489-2-edgar.iglesias@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 28 Aug 2020 11:45:07 -0700
+Message-ID: <CAKmqyKOoEh-grrCesQWRy_KD0DfsCAYR3BnCNXW7kFk1RK7BgA@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] target/microblaze: Use CPU properties to
+ conditionalize bus exceptions
+To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -86,185 +80,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: figlesia@xilinx.com, Peter Maydell <peter.maydell@linaro.org>,
+ Edgar Iglesias <edgar.iglesias@xilinx.com>,
+ Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
+ Francisco Iglesias <frasse.iglesias@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert the Neon VRINT-with-specified-rounding-mode insns to gvec,
-and use this to implement the fp16 versions.
+On Fri, Aug 28, 2020 at 4:41 AM Edgar E. Iglesias
+<edgar.iglesias@gmail.com> wrote:
+>
+> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+>
+> Use CPU properties, instead of PVR fields, to conditionalize
+> bus exceptions.
+>
+> Fixes: 2867a96ffb ("target/microblaze: Add props enabling exceptions on failed bus accesses")
+> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/helper.h             |  4 +-
- target/arm/vec_helper.c         | 21 +++++++++++
- target/arm/vfp_helper.c         | 17 ---------
- target/arm/translate-neon.c.inc | 67 +++------------------------------
- 4 files changed, 30 insertions(+), 79 deletions(-)
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-diff --git a/target/arm/helper.h b/target/arm/helper.h
-index a2758ded287..83f7804dfe9 100644
---- a/target/arm/helper.h
-+++ b/target/arm/helper.h
-@@ -214,7 +214,6 @@ DEF_HELPER_3(vfp_sqtoh, f16, i64, i32, ptr)
- DEF_HELPER_3(vfp_uqtoh, f16, i64, i32, ptr)
- 
- DEF_HELPER_FLAGS_2(set_rmode, TCG_CALL_NO_RWG, i32, i32, ptr)
--DEF_HELPER_FLAGS_2(set_neon_rmode, TCG_CALL_NO_RWG, i32, i32, env)
- 
- DEF_HELPER_FLAGS_3(vfp_fcvt_f16_to_f32, TCG_CALL_NO_RWG, f32, f16, ptr, i32)
- DEF_HELPER_FLAGS_3(vfp_fcvt_f32_to_f16, TCG_CALL_NO_RWG, f16, f32, ptr, i32)
-@@ -638,6 +637,9 @@ DEF_HELPER_FLAGS_4(gvec_vcvt_rm_us, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_4(gvec_vcvt_rm_sh, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_4(gvec_vcvt_rm_uh, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
- 
-+DEF_HELPER_FLAGS_4(gvec_vrint_rm_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(gvec_vrint_rm_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+
- DEF_HELPER_FLAGS_4(gvec_frecpe_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_4(gvec_frecpe_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_4(gvec_frecpe_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
-index fae0fe75294..7ddf1e791c9 100644
---- a/target/arm/vec_helper.c
-+++ b/target/arm/vec_helper.c
-@@ -1892,3 +1892,24 @@ DO_VCVT_RMODE(gvec_vcvt_rm_sh, helper_vfp_toshh, uint16_t)
- DO_VCVT_RMODE(gvec_vcvt_rm_uh, helper_vfp_touhh, uint16_t)
- 
- #undef DO_VCVT_RMODE
-+
-+#define DO_VRINT_RMODE(NAME, FUNC, TYPE)                                \
-+    void HELPER(NAME)(void *vd, void *vn, void *stat, uint32_t desc)    \
-+    {                                                                   \
-+        float_status *fpst = stat;                                      \
-+        intptr_t i, oprsz = simd_oprsz(desc);                           \
-+        uint32_t rmode = simd_data(desc);                               \
-+        uint32_t prev_rmode = get_float_rounding_mode(fpst);            \
-+        TYPE *d = vd, *n = vn;                                          \
-+        set_float_rounding_mode(rmode, fpst);                           \
-+        for (i = 0; i < oprsz / sizeof(TYPE); i++) {                    \
-+            d[i] = FUNC(n[i], fpst);                                    \
-+        }                                                               \
-+        set_float_rounding_mode(prev_rmode, fpst);                      \
-+        clear_tail(d, oprsz, simd_maxsz(desc));                         \
-+    }
-+
-+DO_VRINT_RMODE(gvec_vrint_rm_h, helper_rinth, uint16_t)
-+DO_VRINT_RMODE(gvec_vrint_rm_s, helper_rints, uint32_t)
-+
-+#undef DO_VRINT_RMODE
-diff --git a/target/arm/vfp_helper.c b/target/arm/vfp_helper.c
-index 8a3dd176819..5666393ef79 100644
---- a/target/arm/vfp_helper.c
-+++ b/target/arm/vfp_helper.c
-@@ -459,23 +459,6 @@ uint32_t HELPER(set_rmode)(uint32_t rmode, void *fpstp)
-     return prev_rmode;
- }
- 
--/* Set the current fp rounding mode in the standard fp status and return
-- * the old one. This is for NEON instructions that need to change the
-- * rounding mode but wish to use the standard FPSCR values for everything
-- * else. Always set the rounding mode back to the correct value after
-- * modifying it.
-- * The argument is a softfloat float_round_ value.
-- */
--uint32_t HELPER(set_neon_rmode)(uint32_t rmode, CPUARMState *env)
--{
--    float_status *fp_status = &env->vfp.standard_fp_status;
--
--    uint32_t prev_rmode = get_float_rounding_mode(fp_status);
--    set_float_rounding_mode(rmode, fp_status);
--
--    return prev_rmode;
--}
--
- /* Half precision conversions.  */
- float32 HELPER(vfp_fcvt_f16_to_f32)(uint32_t a, void *fpstp, uint32_t ahp_mode)
- {
-diff --git a/target/arm/translate-neon.c.inc b/target/arm/translate-neon.c.inc
-index 899de360bf8..fe9dc9597bd 100644
---- a/target/arm/translate-neon.c.inc
-+++ b/target/arm/translate-neon.c.inc
-@@ -3764,67 +3764,6 @@ static bool trans_VRINTX(DisasContext *s, arg_2misc *a)
-     return do_2misc_fp(s, a, gen_helper_rints_exact);
- }
- 
--static bool do_vrint(DisasContext *s, arg_2misc *a, int rmode)
--{
--    /*
--     * Handle a VRINT* operation by iterating 32 bits at a time,
--     * with a specified rounding mode in operation.
--     */
--    int pass;
--    TCGv_ptr fpst;
--    TCGv_i32 tcg_rmode;
--
--    if (!arm_dc_feature(s, ARM_FEATURE_NEON) ||
--        !arm_dc_feature(s, ARM_FEATURE_V8)) {
--        return false;
--    }
--
--    /* UNDEF accesses to D16-D31 if they don't exist. */
--    if (!dc_isar_feature(aa32_simd_r32, s) &&
--        ((a->vd | a->vm) & 0x10)) {
--        return false;
--    }
--
--    if (a->size != 2) {
--        /* TODO: FP16 will be the size == 1 case */
--        return false;
--    }
--
--    if ((a->vd | a->vm) & a->q) {
--        return false;
--    }
--
--    if (!vfp_access_check(s)) {
--        return true;
--    }
--
--    fpst = fpstatus_ptr(FPST_STD);
--    tcg_rmode = tcg_const_i32(arm_rmode_to_sf(rmode));
--    gen_helper_set_neon_rmode(tcg_rmode, tcg_rmode, cpu_env);
--    for (pass = 0; pass < (a->q ? 4 : 2); pass++) {
--        TCGv_i32 tmp = neon_load_reg(a->vm, pass);
--        gen_helper_rints(tmp, tmp, fpst);
--        neon_store_reg(a->vd, pass, tmp);
--    }
--    gen_helper_set_neon_rmode(tcg_rmode, tcg_rmode, cpu_env);
--    tcg_temp_free_i32(tcg_rmode);
--    tcg_temp_free_ptr(fpst);
--
--    return true;
--}
--
--#define DO_VRINT(INSN, RMODE)                                   \
--    static bool trans_##INSN(DisasContext *s, arg_2misc *a)     \
--    {                                                           \
--        return do_vrint(s, a, RMODE);                           \
--    }
--
--DO_VRINT(VRINTN, FPROUNDING_TIEEVEN)
--DO_VRINT(VRINTA, FPROUNDING_TIEAWAY)
--DO_VRINT(VRINTZ, FPROUNDING_ZERO)
--DO_VRINT(VRINTM, FPROUNDING_NEGINF)
--DO_VRINT(VRINTP, FPROUNDING_POSINF)
--
- #define DO_VEC_RMODE(INSN, RMODE, OP)                                   \
-     static void gen_##INSN(unsigned vece, uint32_t rd_ofs,              \
-                            uint32_t rm_ofs,                             \
-@@ -3864,6 +3803,12 @@ DO_VEC_RMODE(VCVTPS, FPROUNDING_POSINF, vcvt_rm_s)
- DO_VEC_RMODE(VCVTMU, FPROUNDING_NEGINF, vcvt_rm_u)
- DO_VEC_RMODE(VCVTMS, FPROUNDING_NEGINF, vcvt_rm_s)
- 
-+DO_VEC_RMODE(VRINTN, FPROUNDING_TIEEVEN, vrint_rm_)
-+DO_VEC_RMODE(VRINTA, FPROUNDING_TIEAWAY, vrint_rm_)
-+DO_VEC_RMODE(VRINTZ, FPROUNDING_ZERO, vrint_rm_)
-+DO_VEC_RMODE(VRINTM, FPROUNDING_NEGINF, vrint_rm_)
-+DO_VEC_RMODE(VRINTP, FPROUNDING_POSINF, vrint_rm_)
-+
- static bool trans_VSWP(DisasContext *s, arg_2misc *a)
- {
-     TCGv_i64 rm, rd;
--- 
-2.20.1
+Alistair
 
+> ---
+>  target/microblaze/op_helper.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/target/microblaze/op_helper.c b/target/microblaze/op_helper.c
+> index f3b17a95b3..13ac476199 100644
+> --- a/target/microblaze/op_helper.c
+> +++ b/target/microblaze/op_helper.c
+> @@ -490,12 +490,12 @@ void mb_cpu_transaction_failed(CPUState *cs, hwaddr physaddr, vaddr addr,
+>
+>      env->sregs[SR_EAR] = addr;
+>      if (access_type == MMU_INST_FETCH) {
+> -        if ((env->pvr.regs[2] & PVR2_IOPB_BUS_EXC_MASK)) {
+> +        if (cpu->cfg.iopb_bus_exception) {
+>              env->sregs[SR_ESR] = ESR_EC_INSN_BUS;
+>              helper_raise_exception(env, EXCP_HW_EXCP);
+>          }
+>      } else {
+> -        if ((env->pvr.regs[2] & PVR2_DOPB_BUS_EXC_MASK)) {
+> +        if (cpu->cfg.dopb_bus_exception) {
+>              env->sregs[SR_ESR] = ESR_EC_DATA_BUS;
+>              helper_raise_exception(env, EXCP_HW_EXCP);
+>          }
+> --
+> 2.25.1
+>
+>
 
