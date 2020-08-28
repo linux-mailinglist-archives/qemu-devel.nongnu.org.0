@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C12942558C8
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 12:45:00 +0200 (CEST)
-Received: from localhost ([::1]:36646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5669C2558C4
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 12:43:26 +0200 (CEST)
+Received: from localhost ([::1]:57140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBbsR-0008Gm-PQ
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 06:44:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34414)
+	id 1kBbqv-00058c-By
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 06:43:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
- id 1kBbpD-0003Pe-Ia
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 06:41:39 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:45770)
+ id 1kBbpE-0003Re-M4
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 06:41:40 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:46399)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
- id 1kBbpA-0005gS-RI
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 06:41:39 -0400
-Received: by mail-wr1-x443.google.com with SMTP id h15so830654wrt.12
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 03:41:36 -0700 (PDT)
+ id 1kBbpC-0005gg-Fx
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 06:41:40 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id r15so828425wrp.13
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 03:41:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=6VnUOaw47q1sBFWEPDkKi8Rl+L6HJXn0J6GhoPyLYWM=;
- b=HK/+cklW0orMXNl4Is5lsX4XkmBhx776gGavdwJf8IBs89t4vZJzXPAaCtxc6yKIvc
- RzQB1Qus6S9Bn6Mzp/bHtBKVuU99Vcl4/E54OUhOshOmMFSRImyfLeEu3yKgjaZNuKZr
- Q/R91V2p8iDPXFPeLzOrwTJzcHoK+Rwdtb5Izj+iATpzclxbu7oMxWbdaKr5AbmjWolH
- WQEPE/DkQ7BvxFwG2cz0hL0+6qnx3otbnGYt7t0mxUeUiEXYIxZeDOGK0qs9WxCdaBSo
- ZNaz31UqFtszJ4YvYS+YHjq3NuI1ipWTa24bHx8MYl6pALyPRYiokQMv3shLjDT4F9bH
- NkiQ==
+ bh=EJjPWrg0i8aqjuW0NGnomyE8WzQ7HVuoMsi3T2ewGf0=;
+ b=O+XmnZCn19gSQ9LhKKOi5ptnw7DICMn0z17F4uo1VVTkzXwb2ScJWwleT9vSnBgGuj
+ wTh3Zc+jwzHhwmOcdb3U7pjhZdoamRmOZ/jSFUzcvbsk8eweunRayngHIL7rjoa+/eVK
+ JPVI2q09eKw7LJI4qwfB3JT32NfIjKFoVj9IlbeoO2PpiA3p0v/DxmEgN49zvbDOjZ4/
+ U82KeCfn4VYTbhe7HBaxx0E41dnyqI1Z8piJ0fVdLyuDy7IR0BtHs0XyS/LrAaAxyeYL
+ ZIFudBPRpRM5aH7hyqB4Fg+pLfQUbmwhKdiQLNvIUOiPYI2hU/rRrIUvZLYejCck3JeX
+ 3EAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=6VnUOaw47q1sBFWEPDkKi8Rl+L6HJXn0J6GhoPyLYWM=;
- b=NriiN+nz4yZkfD74HZulD9tIomLmngDWDA8gazf8+8/WJHHvFU5zcT5gGhzY5GBOQQ
- E+WlbiNH+y2SDEIjCdO7wq/KE26t8X/PZaUepCvMWKRVxyxifYmXvJrfQMn89RuDPkIJ
- sYzFCFV+adVzh8kg4R26iZWSpisLfzwYbeoiBsUvP3DdYwcYKzywaia/4Tu+yLTK7a+/
- 11BbMJiuu9+c8iIjVEX4LUBEhEg8bL/fSEfxWtOJtIVqfld2ausPS8moJRsmx93PLtNC
- n7liJJuATdjssXl9WRFwM+zup86OT3AXSAmeKCOe59p1sI5+ACWWMErExjyzkKAKXZRY
- iTdA==
-X-Gm-Message-State: AOAM533QXLo3R0Uz/AxpcfakWt4+/QsIVEYutCI00pdz4sFd8rW4P2Rl
- rZ3xit9u9SaskK8XOYJn6gdLKIUiLPu4/A==
-X-Google-Smtp-Source: ABdhPJzJsAjybpcBhmfxWDs+uG3yuDlTJWs5Nnd98OPlyvZdKNUSixe42FeYCDweCVGzHmXJt3aKPA==
-X-Received: by 2002:adf:9d44:: with SMTP id o4mr864841wre.99.1598611294899;
- Fri, 28 Aug 2020 03:41:34 -0700 (PDT)
+ bh=EJjPWrg0i8aqjuW0NGnomyE8WzQ7HVuoMsi3T2ewGf0=;
+ b=hEyCFR39ji16AXv7G3xOMFY/PE6FDpY4nCkffrNxVPkdR3W1JtI5lgBougtjiWjkU5
+ 9zrFm02UubIOpHxxjZVSDZxSDneZ/rlyfHuiI1Tdv/ESKBEu5kcfTBk/QBd4ez9+D4eR
+ gcjRAO5DTxsNgskFPXcgFRIsO+OPuqAAgm9I3zdSn4QqRxfBQra625WqRQQUbb7i7mB6
+ 5FN1Y9sp78xF19UVdfTzXZj+T0BaE/cP+m8pCM1QET3Vtb7eQ1FwM4ih4tpt29MwCbmT
+ VaKjXajHzsQVTs8Kz6LKwJiB83qj1Akmf7T7E+MLjGBvHFAZeSi0jdQdA25Z0n1Z0Z4V
+ J8hg==
+X-Gm-Message-State: AOAM533VW2tu8hEUDUoLsrG35SbLapUUjYIKfvp2tXhnkPLyfsUtIh0g
+ h/WfOSOk5W/mmec4o5yD5lGPjvsBqXvPBw==
+X-Google-Smtp-Source: ABdhPJwYHcBmyWUqISf1+MDWEgjeN49KGbx78XbWEICTBGoADTQXsb4aYsE666vllJTQwD7y/kKXvw==
+X-Received: by 2002:adf:ea0f:: with SMTP id q15mr904644wrm.113.1598611296846; 
+ Fri, 28 Aug 2020 03:41:36 -0700 (PDT)
 Received: from localhost.localdomain ([197.58.77.158])
- by smtp.gmail.com with ESMTPSA id e18sm1307453wrx.50.2020.08.28.03.41.33
+ by smtp.gmail.com with ESMTPSA id e18sm1307453wrx.50.2020.08.28.03.41.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 03:41:34 -0700 (PDT)
+ Fri, 28 Aug 2020 03:41:36 -0700 (PDT)
 From: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
 To: qemu-devel@nongnu.org, aleksandar.qemu.devel@gmail.com, philmd@redhat.com,
  alex.bennee@linaro.org, eblake@redhat.com, ldoktor@redhat.com,
  jsnow@redhat.com, rth@twiddle.net, ehabkost@redhat.com, crosa@redhat.com
-Subject: [PATCH 2/9] scripts/performance: Refactor topN_callgrind.py
-Date: Fri, 28 Aug 2020 12:40:55 +0200
-Message-Id: <20200828104102.4490-3-ahmedkhaledkaraman@gmail.com>
+Subject: [PATCH 3/9] scripts/performance: Refactor dissect.py
+Date: Fri, 28 Aug 2020 12:40:56 +0200
+Message-Id: <20200828104102.4490-4-ahmedkhaledkaraman@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200828104102.4490-1-ahmedkhaledkaraman@gmail.com>
 References: <20200828104102.4490-1-ahmedkhaledkaraman@gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=ahmedkhaledkaraman@gmail.com; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=ahmedkhaledkaraman@gmail.com; helo=mail-wr1-x42a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -69,8 +69,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_PDS_OTHER_BAD_TLD=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,33 +87,34 @@ Cc: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-    - Apply pylint and flake8 formatting rules to the script.
-    - Use 'tempfile' instead of '/tmp' for creating temporary files.
+- Apply pylint and flake8 formatting rules to the script.
+- Move syntax and usage exmaple to main() docstring.
+- Update get_jit_line() to only detect the main jit call.
+- Use mypy for specifying parameters and return types in functions.
 
-    Signed-off-by: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
+Signed-off-by: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
 ---
- scripts/performance/topN_callgrind.py | 169 +++++++++++++-------------
- 1 file changed, 87 insertions(+), 82 deletions(-)
+ scripts/performance/dissect.py | 123 ++++++++++++++++++---------------
+ 1 file changed, 68 insertions(+), 55 deletions(-)
 
-diff --git a/scripts/performance/topN_callgrind.py b/scripts/performance/topN_callgrind.py
-index 67c59197af..f8a554f393 100755
---- a/scripts/performance/topN_callgrind.py
-+++ b/scripts/performance/topN_callgrind.py
-@@ -1,113 +1,122 @@
+diff --git a/scripts/performance/dissect.py b/scripts/performance/dissect.py
+index bf24f50922..d4df884b75 100755
+--- a/scripts/performance/dissect.py
++++ b/scripts/performance/dissect.py
+@@ -1,34 +1,27 @@
  #!/usr/bin/env python3
  
--#  Print the top N most executed functions in QEMU using callgrind.
+-#  Print the percentage of instructions spent in each phase of QEMU
+-#  execution.
+-#
 -#  Syntax:
--#  topN_callgrind.py [-h] [-n] <number of displayed top functions>  -- \
--#           <qemu executable> [<qemu executable options>] \
--#           <target executable> [<target execurable options>]
+-#  dissect.py [-h] -- <qemu executable> [<qemu executable options>] \
+-#                   <target executable> [<target executable options>]
 -#
 -#  [-h] - Print the script arguments help message.
--#  [-n] - Specify the number of top functions to print.
--#       - If this flag is not specified, the tool defaults to 25.
 -#
 -#  Example of usage:
--#  topN_callgrind.py -n 20 -- qemu-arm coulomb_double-arm
+-#  dissect.py -- qemu-arm coulomb_double-arm
 -#
 -#  This file is a part of the project "TCG Continuous Benchmarking".
 -#
@@ -133,19 +134,8 @@ index 67c59197af..f8a554f393 100755
 -#  You should have received a copy of the GNU General Public License
 -#  along with this program. If not, see <https://www.gnu.org/licenses/>.
 +"""
-+Print the top N most executed functions in QEMU using callgrind.
-+
-+Syntax:
-+topN_callgrind.py [-h] [-n <number of displayed top functions>] -- \
-+         <qemu executable> [<qemu executable options>] \
-+         <target executable> [<target execurable options>]
-+
-+[-h] - Print the script arguments help message.
-+[-n] - Specify the number of top functions to print.
-+     - If this flag is not specified, the tool defaults to 25.
-+
-+Example of usage:
-+topN_callgrind.py -n 20 -- qemu-arm coulomb_double-arm
++Print the percentage of instructions spent in each phase of QEMU
++execution.
 +
 +This file is a part of the project "TCG Continuous Benchmarking".
 +
@@ -168,159 +158,146 @@ index 67c59197af..f8a554f393 100755
  
  import argparse
  import os
- import subprocess
+@@ -36,23 +29,26 @@ import subprocess
  import sys
-+import tempfile
+ import tempfile
  
- 
- # Parse the command line arguments
--parser = argparse.ArgumentParser(
--    usage='topN_callgrind.py [-h] [-n] <number of displayed top functions>  -- '
-+PARSER = argparse.ArgumentParser(
-+    usage='topN_callgrind.py [-h] [-n] <number of displayed top functions> -- '
-           '<qemu executable> [<qemu executable options>] '
-           '<target executable> [<target executable options>]')
- 
--parser.add_argument('-n', dest='top', type=int, default=25,
-+PARSER.add_argument('-n', dest='top', type=int, default=25,
-                     help='Specify the number of top functions to print.')
- 
--parser.add_argument('command', type=str, nargs='+', help=argparse.SUPPRESS)
-+PARSER.add_argument('command', type=str, nargs='+', help=argparse.SUPPRESS)
- 
--args = parser.parse_args()
-+ARGS = PARSER.parse_args()
- 
- # Extract the needed variables from the args
--command = args.command
--top = args.top
-+COMMAND = ARGS.command
-+TOP = ARGS.top
- 
- # Insure that valgrind is installed
--check_valgrind_presence = subprocess.run(["which", "valgrind"],
--                                         stdout=subprocess.DEVNULL)
--if check_valgrind_presence.returncode:
-+CHECK_VALGRIND_PRESENCE = subprocess.run(["which", "valgrind"],
-+                                         stdout=subprocess.DEVNULL,
-+                                         check=False)
-+if CHECK_VALGRIND_PRESENCE.returncode:
-     sys.exit("Please install valgrind before running the script!")
- 
--# Run callgrind
--callgrind = subprocess.run((
--    ["valgrind", "--tool=callgrind", "--callgrind-out-file=/tmp/callgrind.data"]
--    + command),
--    stdout=subprocess.DEVNULL,
--    stderr=subprocess.PIPE)
--if callgrind.returncode:
--    sys.exit(callgrind.stderr.decode("utf-8"))
--
--# Save callgrind_annotate output to /tmp/callgrind_annotate.out
--with open("/tmp/callgrind_annotate.out", "w") as output:
--    callgrind_annotate = subprocess.run(["callgrind_annotate",
--                                         "/tmp/callgrind.data"],
--                                        stdout=output,
--                                        stderr=subprocess.PIPE)
--    if callgrind_annotate.returncode:
--        os.unlink('/tmp/callgrind.data')
--        output.close()
--        os.unlink('/tmp/callgrind_annotate.out')
--        sys.exit(callgrind_annotate.stderr.decode("utf-8"))
--
--# Read the callgrind_annotate output to callgrind_data[]
--callgrind_data = []
--with open('/tmp/callgrind_annotate.out', 'r') as data:
--    callgrind_data = data.readlines()
-+# Run callgrind and save all intermediate files in a temporary directory
-+with tempfile.TemporaryDirectory() as tmpdir:
-+    CALLGRIND_DATA_PATH = os.path.join(tmpdir, "callgrind.data")
-+    ANNOTATE_OUT_PATH = os.path.join(tmpdir, "callgrind_annotate.out")
++from typing import List
 +
-+    # Run callgrind
-+    CALLGRIND = subprocess.run((["valgrind",
-+                                 "--tool=callgrind",
-+                                 "--callgrind-out-file="+CALLGRIND_DATA_PATH]
-+                                + COMMAND),
-+                               stdout=subprocess.DEVNULL,
-+                               stderr=subprocess.PIPE,
-+                               check=False)
-+    if CALLGRIND.returncode:
-+        sys.exit(CALLGRIND.stderr.decode("utf-8"))
+ 
+-def get_JIT_line(callgrind_data):
++def get_jit_line(callgrind_data: List[str]) -> int:
+     """
+     Search for the first instance of the JIT call in
+     the callgrind_annotate output when ran using --tree=caller
+     This is equivalent to the self number of instructions of JIT.
+ 
+     Parameters:
+-    callgrind_data (list): callgrind_annotate output
++    callgrind_data (List[str]): callgrind_annotate output
+ 
+     Returns:
+     (int): Line number
+     """
+     line = -1
+-    for i in range(len(callgrind_data)):
+-        if callgrind_data[i].strip('\n') and \
+-                callgrind_data[i].split()[-1] == "[???]":
++    for (i, callgrind_datum) in enumerate(callgrind_data):
++        if callgrind_datum.strip('\n') and \
++                callgrind_datum.split()[-1] == "[???]" and \
++                callgrind_datum.split()[1] == "*":
+             line = i
+             break
+     if line == -1:
+@@ -61,6 +57,18 @@ def get_JIT_line(callgrind_data):
+ 
+ 
+ def main():
++    """
++    Parse the command line arguments then start the execution.
++    Syntax:
++    dissect.py [-h] -- <qemu executable> [<qemu executable options>] \
++                 <target executable> [<target executable options>]
 +
-+    with open(ANNOTATE_OUT_PATH, "w") as output:
-+        CALLGRIND_ANNOTATE = subprocess.run(["callgrind_annotate",
-+                                             CALLGRIND_DATA_PATH],
-+                                            stdout=output,
-+                                            stderr=subprocess.PIPE,
-+                                            check=False)
-+        if CALLGRIND_ANNOTATE.returncode:
-+            sys.exit(CALLGRIND_ANNOTATE.stderr.decode("utf-8"))
++    [-h] - Print the script arguments help message.
 +
-+    # Read the callgrind_annotate output to CALLGRIND_DATA[]
-+    CALLGRIND_DATA = []
-+    with open(ANNOTATE_OUT_PATH, 'r') as data:
-+        CALLGRIND_DATA = data.readlines()
++    Example of usage:
++    dissect.py -- qemu-arm coulomb_double-arm
++    """
++
+     # Parse the command line arguments
+     parser = argparse.ArgumentParser(
+         usage='dissect.py [-h] -- '
+@@ -76,7 +84,7 @@ def main():
  
- # Line number with the total number of instructions
--total_instructions_line_number = 20
-+TOTAL_INSTRUCTIONS_LINE_NO = 20
+     # Insure that valgrind is installed
+     check_valgrind = subprocess.run(
+-        ["which", "valgrind"], stdout=subprocess.DEVNULL)
++        ["which", "valgrind"], stdout=subprocess.DEVNULL, check=False)
+     if check_valgrind.returncode:
+         sys.exit("Please install valgrind before running the script.")
  
- # Get the total number of instructions
--total_instructions_line_data = callgrind_data[total_instructions_line_number]
--total_number_of_instructions = total_instructions_line_data.split(' ')[0]
--total_number_of_instructions = int(
--    total_number_of_instructions.replace(',', ''))
-+TOTAL_INSTRUCTIONS_LINE_DATA = CALLGRIND_DATA[TOTAL_INSTRUCTIONS_LINE_NO]
-+TOTAL_NUMBER_OF_INSTRUCTIONS = TOTAL_INSTRUCTIONS_LINE_DATA.split(' ')[0]
-+TOTAL_NUMBER_OF_INSTRUCTIONS = int(
-+    TOTAL_NUMBER_OF_INSTRUCTIONS.replace(',', ''))
+@@ -93,7 +101,8 @@ def main():
+                                      "--callgrind-out-file=" + data_path]
+                                     + command),
+                                    stdout=subprocess.DEVNULL,
+-                                   stderr=subprocess.PIPE)
++                                   stderr=subprocess.PIPE,
++                                   check=False)
+         if callgrind.returncode:
+             sys.exit(callgrind.stderr.decode("utf-8"))
  
- # Line number with the top function
--first_func_line = 25
-+FIRST_FUNC_LINE = 25
+@@ -102,7 +111,8 @@ def main():
+             callgrind_annotate = subprocess.run(
+                 ["callgrind_annotate", data_path, "--tree=caller"],
+                 stdout=output,
+-                stderr=subprocess.PIPE)
++                stderr=subprocess.PIPE,
++                check=False)
+             if callgrind_annotate.returncode:
+                 sys.exit(callgrind_annotate.stderr.decode("utf-8"))
  
- # Number of functions recorded by callgrind, last two lines are always empty
--number_of_functions = len(callgrind_data) - first_func_line - 2
-+NUMBER_OF_FUNCTIONS = len(CALLGRIND_DATA) - FIRST_FUNC_LINE - 2
+@@ -120,25 +130,28 @@ def main():
+         total_instructions = int(total_instructions.replace(',', ''))
  
- # Limit the number of top functions to "top"
--number_of_top_functions = (top if number_of_functions >
--                           top else number_of_functions)
-+NUMBER_OF_TOP_FUNCTIONS = (TOP if NUMBER_OF_FUNCTIONS >
-+                           TOP else NUMBER_OF_FUNCTIONS)
+         # Line number with the JIT self number of instructions
+-        JIT_self_instructions_line_number = get_JIT_line(callgrind_data)
++        jit_self_instructions_line_number = get_jit_line(callgrind_data)
+         # Get the JIT self number of instructions
+-        JIT_self_instructions_line_data = \
+-            callgrind_data[JIT_self_instructions_line_number]
+-        JIT_self_instructions = JIT_self_instructions_line_data.split()[0]
+-        JIT_self_instructions = int(JIT_self_instructions.replace(',', ''))
++        jit_self_instructions_line_data = \
++            callgrind_data[jit_self_instructions_line_number]
++        jit_self_instructions = jit_self_instructions_line_data.split()[0]
++        jit_self_instructions = int(jit_self_instructions.replace(',', ''))
  
- # Store the data of the top functions in top_functions[]
--top_functions = callgrind_data[first_func_line:
--                               first_func_line + number_of_top_functions]
-+TOP_FUNCTIONS = CALLGRIND_DATA[FIRST_FUNC_LINE:
-+                               FIRST_FUNC_LINE + NUMBER_OF_TOP_FUNCTIONS]
+         # Line number with the JIT self + inclusive number of instructions
+-        # It's the line above the first JIT call when running with --tree=caller
+-        JIT_total_instructions_line_number = JIT_self_instructions_line_number-1
++        # It's the line above the first JIT call when running with
++        # --tree=caller
++        jit_total_instructions_line_number = \
++            jit_self_instructions_line_number-1
+         # Get the JIT self + inclusive number of instructions
+-        JIT_total_instructions_line_data = \
+-            callgrind_data[JIT_total_instructions_line_number]
+-        JIT_total_instructions = JIT_total_instructions_line_data.split()[0]
+-        JIT_total_instructions = int(JIT_total_instructions.replace(',', ''))
++        jit_total_instructions_line_data = \
++            callgrind_data[jit_total_instructions_line_number]
++        jit_total_instructions = jit_total_instructions_line_data.split()[0]
++        jit_total_instructions = int(jit_total_instructions.replace(',', ''))
  
- # Print table header
- print('{:>4}  {:>10}  {:<30}  {}\n{}  {}  {}  {}'.format('No.',
-@@ -121,12 +130,12 @@ print('{:>4}  {:>10}  {:<30}  {}\n{}  {}  {}  {}'.format('No.',
-                                                          ))
+         # Calculate number of instructions in helpers and code generation
+-        helpers_instructions = JIT_total_instructions-JIT_self_instructions
+-        code_generation_instructions = total_instructions-JIT_total_instructions
++        helpers_instructions = jit_total_instructions-jit_self_instructions
++        code_generation_instructions = \
++            total_instructions-jit_total_instructions
  
- # Print top N functions
--for (index, function) in enumerate(top_functions, start=1):
-+for (index, function) in enumerate(TOP_FUNCTIONS, start=1):
-     function_data = function.split()
-     # Calculate function percentage
-     function_instructions = float(function_data[0].replace(',', ''))
-     function_percentage = (function_instructions /
--                           total_number_of_instructions)*100
-+                           TOTAL_NUMBER_OF_INSTRUCTIONS)*100
-     # Get function name and source files path
-     function_source_file, function_name = function_data[1].split(':')
-     # Print extracted data
-@@ -134,7 +143,3 @@ for (index, function) in enumerate(top_functions, start=1):
-                                                 round(function_percentage, 3),
-                                                 function_name,
-                                                 function_source_file))
--
--# Remove intermediate files
--os.unlink('/tmp/callgrind.data')
--os.unlink('/tmp/callgrind_annotate.out')
+         # Print results (Insert commas in large numbers)
+         # Print total number of instructions
+@@ -149,12 +162,12 @@ def main():
+         print('{:<20}{:>20}\t{:>6.3f}%'.
+               format("Code Generation:",
+                      format(code_generation_instructions, ","),
+-                     (code_generation_instructions / total_instructions) * 100))
+-        # Print JIT instructions and percentage
++                     (code_generation_instructions/total_instructions)*100))
++        # Print jit instructions and percentage
+         print('{:<20}{:>20}\t{:>6.3f}%'.
+-              format("JIT Execution:",
+-                     format(JIT_self_instructions, ","),
+-                     (JIT_self_instructions / total_instructions) * 100))
++              format("jit Execution:",
++                     format(jit_self_instructions, ","),
++                     (jit_self_instructions / total_instructions) * 100))
+         # Print helpers instructions and percentage
+         print('{:<20}{:>20}\t{:>6.3f}%'.
+               format("Helpers:",
 -- 
 2.17.1
 
