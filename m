@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DCAF255F65
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 19:08:10 +0200 (CEST)
-Received: from localhost ([::1]:42274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEDEF255F83
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 19:12:50 +0200 (CEST)
+Received: from localhost ([::1]:35706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBhrF-000075-2D
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 13:08:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36726)
+	id 1kBhvm-0000TH-20
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 13:12:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBhop-0003nO-52
+ id 1kBhop-0003oy-Ul
  for qemu-devel@nongnu.org; Fri, 28 Aug 2020 13:05:39 -0400
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:35339)
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:36319)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBhon-00031j-9X
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 13:05:38 -0400
-Received: by mail-pf1-x431.google.com with SMTP id o68so954231pfg.2
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 10:05:36 -0700 (PDT)
+ id 1kBhoo-00032w-DP
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 13:05:39 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id p37so731293pgl.3
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 10:05:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eBk+GrbH5UnrDm8FHWFaBbZjN/qoNANGe98dIeav8qI=;
- b=DfX+UpRuPgzZzEI+ypg6EHr6Ta3dP4juFUvEgDsY1xLS1HCF0Kxeam9Bgxy1rbkGDO
- LIO/i2nd4D/WopXTp5CCNfSTuIzzgL702owFH3FKbYRjQ5Y4gWnp5/wR/sC7uq9KQGGs
- 21fGA8P23CDSypaOdMCJmpRFWjs0Nzg7+BaISO0QgrZQoYljP9xbATIJbjA4Sw7pbMQw
- S6n7yumIYw6+aaWgVHjW4gPFsBukChnZQ4Wm2WcKsNzROUlOH/Kjj44OylOaTocr6rb6
- PgcV5hW88Ri3rIWitgDYStNbZ66SlzxiDh1pwji9Sl1Olqb/MkRVc3WfJUETNYIdXcE3
- DZiQ==
+ bh=uHfxrHQWg2O+r2PVrn88/8hdFFb+717npid0qZec8zg=;
+ b=yK79qwzfaH40Z1JVCkGqopZ7hJptf/Ot/frQc/0ErjJMAd6FpCqW99D10qMvAs9wej
+ eAbAuBkEJINReChClbJtpxIsLo6ytnNkxoEPkANaVL+VhOTVejR8lgdv/2HByPoovTZG
+ aQDGy+27Ul6RklJNRada767cTVJTBFPrxNNJtCGHDFWm6pJccWGEaI18msdkq3cocX/f
+ x8FZV5BPBPTuFWVsofd9o71keMOy08pWjd5tgTpafy68CrzPfAuRG92aT/gMbn/AxNCy
+ E1jEdrpOi2YhV8kgRNQ6+aTqdjoTCmou03L2b854hqTYshKGlcRMW/mTYEkUjtuTX5N2
+ BIow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eBk+GrbH5UnrDm8FHWFaBbZjN/qoNANGe98dIeav8qI=;
- b=sjaW61f/5H3UGbeBfd5I2gWKvbObm+45wc0gp5qKP3f18nU1KHvXP0Owd4tV6D2L8w
- Y2JgcHry6TIu4dK2uxCCHU1O1T8f/l7F7t5rw4GKBxh/kGpP3Cn6Eov3nPn1486Rw08l
- SxG1HwAZXotsTCoZMQ0DTzk0gi7KYOPKsD4pL1AVk3SDKmPmgc8IIYdhqM/7XVAhbobL
- UEfjUIMLw73BRvkTME4hhEVeOwlGNKp4qzfVtbi1jby0zzpWt+1YitF970xEDFq609IZ
- tAmoTtvKmedHmSpVlfjIEEFGzh3fdWwTrE0A9MOf9Ui5S7MN3vVNwCbeE7BF8lRY0RlB
- twdA==
-X-Gm-Message-State: AOAM533Z/nU7ERPmexKmbdEXvZ0jgZmheZLYOIcweMr6HZVM97S0T1jr
- zrzHpQR07RGrsbwHUzVHKIYtQW+Xmxjx0Q==
-X-Google-Smtp-Source: ABdhPJz+AELX29YEAbykZYDMIPmSKRcYfaShMbgXHoXAXaKzZx14It7xpZNMIfDAY9eht9xwQOlHWQ==
-X-Received: by 2002:a63:5f8b:: with SMTP id t133mr1825708pgb.238.1598634335505; 
- Fri, 28 Aug 2020 10:05:35 -0700 (PDT)
+ bh=uHfxrHQWg2O+r2PVrn88/8hdFFb+717npid0qZec8zg=;
+ b=dSarxfu/iNsWMdM7IMdR/gO0uU4JIWWnxNY9fUVvc5Pteds7Xz9DESpEEzHClBXRV7
+ XITpFxZt1DEsTmujifisgTyNCjJzj1kJFQv7h1EpOxr9fSB0Th4dnJVZDRFiJJcjZl3Y
+ H8/0DHg6QrVQHd1wZMK5OSwrNScMUCKW2z7h/ITrbjk75Jn/WGJof99AtYmEFLJSVcHv
+ QiXGGhRS07hYLyCqXyPkQ4ieuk5kmKAmw6R0F/mWln83RZ7JjkU8U4M4A4E/nz5egshP
+ CqUZtMM3xci0b5WL29QlSJj/S4JHkhSxQbGWVLixmFcan0sFZ8/rTqkr/NSrf4AOxMGq
+ JQ1Q==
+X-Gm-Message-State: AOAM531ZzXI/gE+9YgRJqvH0UmJgXfacsj+pulscnk2medWMFsfSkruB
+ Hr9s6f0koxqk9RXfrgAY8UaPdNtu1aZpSA==
+X-Google-Smtp-Source: ABdhPJw7Csw6kXNFcNj+Y+cCIgPZQaEOamW8n++pGMvmnpYGjRHIgL9QqdDly6+q8wTRP0xqfcLLdA==
+X-Received: by 2002:a63:7056:: with SMTP id a22mr1809199pgn.12.1598634336675; 
+ Fri, 28 Aug 2020 10:05:36 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id q12sm2277495pff.196.2020.08.28.10.05.34
+ by smtp.gmail.com with ESMTPSA id q12sm2277495pff.196.2020.08.28.10.05.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 10:05:34 -0700 (PDT)
+ Fri, 28 Aug 2020 10:05:35 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 08/16] crypto: Move cipher->driver init to
- qcrypto_*_cipher_ctx_new
-Date: Fri, 28 Aug 2020 10:05:15 -0700
-Message-Id: <20200828170523.418603-9-richard.henderson@linaro.org>
+Subject: [PATCH v2 09/16] crypto: Constify cipher data tables
+Date: Fri, 28 Aug 2020 10:05:16 -0700
+Message-Id: <20200828170523.418603-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200828170523.418603-1-richard.henderson@linaro.org>
 References: <20200828170523.418603-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,170 +85,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ berrange@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The class vtable should be set by the class initializer.
-This will also allow additional subclassing, reducing the
-amount of indirection in the hierarchy.
-
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- crypto/cipherpriv.h         | 2 --
- crypto/cipher-afalg.c       | 5 ++++-
- crypto/cipher.c             | 7 -------
- crypto/cipher-builtin.c.inc | 4 ++++
- crypto/cipher-gcrypt.c.inc  | 2 ++
- crypto/cipher-nettle.c.inc  | 3 +++
- 6 files changed, 13 insertions(+), 10 deletions(-)
+ crypto/cipher.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/crypto/cipherpriv.h b/crypto/cipherpriv.h
-index 437b109b5e..396527857d 100644
---- a/crypto/cipherpriv.h
-+++ b/crypto/cipherpriv.h
-@@ -47,8 +47,6 @@ qcrypto_afalg_cipher_ctx_new(QCryptoCipherAlgorithm alg,
-                              const uint8_t *key,
-                              size_t nkey, Error **errp);
- 
--extern const struct QCryptoCipherDriver qcrypto_cipher_afalg_driver;
--
- #endif
- 
- #endif
-diff --git a/crypto/cipher-afalg.c b/crypto/cipher-afalg.c
-index 86e5249bd6..052355a8a9 100644
---- a/crypto/cipher-afalg.c
-+++ b/crypto/cipher-afalg.c
-@@ -58,6 +58,8 @@ qcrypto_afalg_cipher_format_name(QCryptoCipherAlgorithm alg,
-     return name;
- }
- 
-+static const struct QCryptoCipherDriver qcrypto_cipher_afalg_driver;
-+
- QCryptoCipher *
- qcrypto_afalg_cipher_ctx_new(QCryptoCipherAlgorithm alg,
-                              QCryptoCipherMode mode,
-@@ -109,6 +111,7 @@ qcrypto_afalg_cipher_ctx_new(QCryptoCipherAlgorithm alg,
-     }
-     afalg->cmsg = CMSG_FIRSTHDR(afalg->msg);
- 
-+    afalg->base.driver = &qcrypto_cipher_afalg_driver;
-     return &afalg->base;
- }
- 
-@@ -222,7 +225,7 @@ static void qcrypto_afalg_comm_ctx_free(QCryptoCipher *cipher)
-     qcrypto_afalg_comm_free(afalg);
- }
- 
--const struct QCryptoCipherDriver qcrypto_cipher_afalg_driver = {
-+static const struct QCryptoCipherDriver qcrypto_cipher_afalg_driver = {
-     .cipher_encrypt = qcrypto_afalg_cipher_encrypt,
-     .cipher_decrypt = qcrypto_afalg_cipher_decrypt,
-     .cipher_setiv = qcrypto_afalg_cipher_setiv,
 diff --git a/crypto/cipher.c b/crypto/cipher.c
-index 737fc0735d..3711b552fa 100644
+index 3711b552fa..068b2fb867 100644
 --- a/crypto/cipher.c
 +++ b/crypto/cipher.c
-@@ -164,13 +164,9 @@ QCryptoCipher *qcrypto_cipher_new(QCryptoCipherAlgorithm alg,
-                                   Error **errp)
- {
-     QCryptoCipher *cipher = NULL;
--    const QCryptoCipherDriver *drv = NULL;
+@@ -25,7 +25,7 @@
+ #include "cipherpriv.h"
  
- #ifdef CONFIG_AF_ALG
-     cipher = qcrypto_afalg_cipher_ctx_new(alg, mode, key, nkey, NULL);
--    if (cipher) {
--        drv = &qcrypto_cipher_afalg_driver;
--    }
- #endif
  
-     if (!cipher) {
-@@ -178,13 +174,10 @@ QCryptoCipher *qcrypto_cipher_new(QCryptoCipherAlgorithm alg,
-         if (!cipher) {
-             return NULL;
-         }
--
--        drv = &qcrypto_cipher_lib_driver;
-     }
+-static size_t alg_key_len[QCRYPTO_CIPHER_ALG__MAX] = {
++static const size_t alg_key_len[QCRYPTO_CIPHER_ALG__MAX] = {
+     [QCRYPTO_CIPHER_ALG_AES_128] = 16,
+     [QCRYPTO_CIPHER_ALG_AES_192] = 24,
+     [QCRYPTO_CIPHER_ALG_AES_256] = 32,
+@@ -40,7 +40,7 @@ static size_t alg_key_len[QCRYPTO_CIPHER_ALG__MAX] = {
+     [QCRYPTO_CIPHER_ALG_TWOFISH_256] = 32,
+ };
  
-     cipher->alg = alg;
-     cipher->mode = mode;
--    cipher->driver = drv;
+-static size_t alg_block_len[QCRYPTO_CIPHER_ALG__MAX] = {
++static const size_t alg_block_len[QCRYPTO_CIPHER_ALG__MAX] = {
+     [QCRYPTO_CIPHER_ALG_AES_128] = 16,
+     [QCRYPTO_CIPHER_ALG_AES_192] = 16,
+     [QCRYPTO_CIPHER_ALG_AES_256] = 16,
+@@ -55,7 +55,7 @@ static size_t alg_block_len[QCRYPTO_CIPHER_ALG__MAX] = {
+     [QCRYPTO_CIPHER_ALG_TWOFISH_256] = 16,
+ };
  
-     return cipher;
- }
-diff --git a/crypto/cipher-builtin.c.inc b/crypto/cipher-builtin.c.inc
-index 6a03e23040..1444139f36 100644
---- a/crypto/cipher-builtin.c.inc
-+++ b/crypto/cipher-builtin.c.inc
-@@ -22,6 +22,8 @@
- #include "crypto/desrfb.h"
- #include "crypto/xts.h"
- 
-+static const struct QCryptoCipherDriver qcrypto_cipher_lib_driver;
-+
- typedef struct QCryptoCipherBuiltinAESContext QCryptoCipherBuiltinAESContext;
- struct QCryptoCipherBuiltinAESContext {
-     AES_KEY enc;
-@@ -292,6 +294,7 @@ qcrypto_cipher_init_aes(QCryptoCipherMode mode,
-     ctxt->encrypt = qcrypto_cipher_encrypt_aes;
-     ctxt->decrypt = qcrypto_cipher_decrypt_aes;
- 
-+    ctxt->base.driver = &qcrypto_cipher_lib_driver;
-     return &ctxt->base;
- 
-  error:
-@@ -396,6 +399,7 @@ qcrypto_cipher_init_des_rfb(QCryptoCipherMode mode,
-     ctxt->encrypt = qcrypto_cipher_encrypt_des_rfb;
-     ctxt->decrypt = qcrypto_cipher_decrypt_des_rfb;
- 
-+    ctxt->base.driver = &qcrypto_cipher_lib_driver;
-     return &ctxt->base;
- }
- 
-diff --git a/crypto/cipher-gcrypt.c.inc b/crypto/cipher-gcrypt.c.inc
-index 3b3c85e265..7a1fbc9745 100644
---- a/crypto/cipher-gcrypt.c.inc
-+++ b/crypto/cipher-gcrypt.c.inc
-@@ -24,6 +24,7 @@
- 
- #include <gcrypt.h>
- 
-+static const struct QCryptoCipherDriver qcrypto_cipher_lib_driver;
- 
- bool qcrypto_cipher_supports(QCryptoCipherAlgorithm alg,
-                              QCryptoCipherMode mode)
-@@ -258,6 +259,7 @@ static QCryptoCipher *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
-     }
- #endif
- 
-+    ctx->base.driver = &qcrypto_cipher_lib_driver;
-     return &ctx->base;
- 
-  error:
-diff --git a/crypto/cipher-nettle.c.inc b/crypto/cipher-nettle.c.inc
-index d8371d1f37..36d57ef430 100644
---- a/crypto/cipher-nettle.c.inc
-+++ b/crypto/cipher-nettle.c.inc
-@@ -34,6 +34,8 @@
- #include <nettle/xts.h>
- #endif
- 
-+static const struct QCryptoCipherDriver qcrypto_cipher_lib_driver;
-+
- typedef void (*QCryptoCipherNettleFuncWrapper)(const void *ctx,
-                                                size_t length,
-                                                uint8_t *dst,
-@@ -587,6 +589,7 @@ static QCryptoCipher *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
- 
-     ctx->iv = g_new0(uint8_t, ctx->blocksize);
- 
-+    ctx->base.driver = &qcrypto_cipher_lib_driver;
-     return &ctx->base;
- 
-  error:
+-static bool mode_need_iv[QCRYPTO_CIPHER_MODE__MAX] = {
++static const bool mode_need_iv[QCRYPTO_CIPHER_MODE__MAX] = {
+     [QCRYPTO_CIPHER_MODE_ECB] = false,
+     [QCRYPTO_CIPHER_MODE_CBC] = true,
+     [QCRYPTO_CIPHER_MODE_XTS] = true,
 -- 
 2.25.1
 
