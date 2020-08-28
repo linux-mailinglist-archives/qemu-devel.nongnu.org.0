@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78F20256379
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Aug 2020 01:25:32 +0200 (CEST)
-Received: from localhost ([::1]:38534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B2B325637B
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Aug 2020 01:26:39 +0200 (CEST)
+Received: from localhost ([::1]:42180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBnkR-0005Zo-Dr
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 19:25:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54786)
+	id 1kBnlW-0007CL-EN
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 19:26:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <nirsof@gmail.com>)
- id 1kBnh7-0001iu-Eu; Fri, 28 Aug 2020 19:22:05 -0400
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:36942)
+ id 1kBnh9-0001l2-Ni; Fri, 28 Aug 2020 19:22:07 -0400
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:44584)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <nirsof@gmail.com>)
- id 1kBnh5-0006Jm-L6; Fri, 28 Aug 2020 19:22:05 -0400
-Received: by mail-ej1-x644.google.com with SMTP id e23so1236447ejb.4;
- Fri, 28 Aug 2020 16:22:02 -0700 (PDT)
+ id 1kBnh7-0006Jw-90; Fri, 28 Aug 2020 19:22:07 -0400
+Received: by mail-ej1-x643.google.com with SMTP id bo3so1187646ejb.11;
+ Fri, 28 Aug 2020 16:22:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lJC7yqn+aYrJFGPSXOQj9C6bCyzL+YLObXLu10CJu2E=;
- b=su84LV7FrdSKS48qJv2WmNLin8ZufKiPUyyoDfSWX/fDrIJXAk+NTlLBfOHePm0Z+l
- TS39fgkb8GUFp5p4JdrM7Mnv18L6rW5Z+nECrCwSMnRJbRG2jIrA/pgeEX/oOoXWyqTK
- khJHsMhu1QCcQAtgXJuX2H/63mu0TtqDRWe+a0MLcnLJla9JQp1Mi4uh9Gp0S4Swzpvq
- s9w2jutwPbGJccPDEKcJAAR8qITRvFnyi1uVdJ7hID0HwHODqZFAPjNbDZnwGWZ+0W1U
- 7X6NgdQos1aqKVilFM6ANLUpVXlZrCZi5bnenHTriKpAbzJYNQhHU2lcO/FvKyM1bOz2
- ujsA==
+ bh=DfQdOmDWDR7CywBxhlqnr+z6I//LZ+YDpkFuKYbiMMg=;
+ b=hzdJrdbwFVdaWVTrr6/Lyj9cgSgOLt52i0nlTOLvRTax6vxct9AmcSMmXsiGGE0jtH
+ KTQW/11HuDEHda87vecNanVgo77hBbd1/xI1WP/L3bVoSMtdWApMBHL5Vv2PcOg37x/B
+ GgG9l0c1vnwjulYDIDvlW9T1KGatM/hNiWoL3vpd7TxGoQ3qIP+EBa2N+tJb4ieQIrZt
+ 4bDT4A5OYzXoqIzdR9JpNxBlO+EY6kl+//YgnEKtrL0wdogOWzDbMhVgJEYt8tYSnGaf
+ M/KbuXyy1I6LWIx5Sk/tX8Gt0qC9xligjZ4rCQ2nF8ZERb6/AT8G9mEIp3g8sQu+mFDP
+ rdxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lJC7yqn+aYrJFGPSXOQj9C6bCyzL+YLObXLu10CJu2E=;
- b=jRb4gh0Bioc+npRP0qu3NdMLXoP+8gF4eDYdI2xZw/s7XN7Bp/zyWmfPLtl85MyDCs
- Gb/4O6jVz8U3M6ewhFQRMGuOZgpeg618DM0WAnxktlqjLnEg8ci9yLbqT9vSR6IHtmqm
- ZBxjlfkbtt3a03NOEeCSROh9b6HYjXqyPRr3gIUvWteOUtaPjzHUx4NaM2tr7p0gWKsO
- h+Q44IRvoj+GVYNBvatci6T4shuDKOXHBDMpzJB72AO6n99zJxafFlccumFjs/JbGqOs
- pEu9hSlgySPQc7FOtlZnnbRf4qE4KN575icGzih6ho1Yq9+6iT2zrRSjMicp4OSd78rE
- AaTQ==
-X-Gm-Message-State: AOAM53091z33z8fqfKmtscHEn/MmipuCbuoupMKUWjVXMfOvUfvwFLGg
- oqlg7Dt2qlMZTU4uKr+BzZnIvceSkuExEgEx
-X-Google-Smtp-Source: ABdhPJx4XJONk+930Fjs84XWBG3u3JLQM+pUYFNhVfR1YtxkhoV7558nqVqcEVRUEGm7gvsWO+RQmg==
-X-Received: by 2002:a17:906:289a:: with SMTP id
- o26mr1086286ejd.309.1598656921636; 
- Fri, 28 Aug 2020 16:22:01 -0700 (PDT)
+ bh=DfQdOmDWDR7CywBxhlqnr+z6I//LZ+YDpkFuKYbiMMg=;
+ b=rA5j+XpVlJpjVdJMQVuMPrpfAeleHpRzyjhhXnAmSpMIFbAGtSCOU45xnEqmOcrQqq
+ NuDS8gDJNDoWCGTrS2NbQD7ilKKiCoHgVv8zY5oVVS731pr2OAnncHD5TnFKXClHDyQ/
+ /iPwLZX9ixkp0VloFkB0w2/KvJOVzHn7e7xlX3XlEKSZ3re1LKbdUloLjt3HhVuErtEc
+ nSNrIMqw9ns2XvOMOV8hCyHrQXjOQ6SLJLgk/OYela9jBPFzFg1Duvqe+Y6wzwXiwBW0
+ 2fT5WeAItDOBmqsx+WEmsfnx3Ybco3ytVvMIm6hZJvz2rx0Ll4wQdF1dW0vEp+dDuwGY
+ Gvgw==
+X-Gm-Message-State: AOAM530wJDwQ5YcXWW0AB+GjnzKNFHp4f1r37WfgCG7rl40d2/62NZj1
+ N7O/wDsTP5k4Id8eYukKvXhtghlZX4dAaLcJ
+X-Google-Smtp-Source: ABdhPJzb/ddDrn0EPX9Vzpd41i2wf97PIV72zM5s+jkYrQu31U7ecJZj4SqKMuOSjpMOllJHymJyig==
+X-Received: by 2002:a17:907:94c3:: with SMTP id
+ dn3mr1115216ejc.186.1598656923193; 
+ Fri, 28 Aug 2020 16:22:03 -0700 (PDT)
 Received: from localhost.localdomain (109-186-204-55.bb.netvision.net.il.
  [109.186.204.55])
- by smtp.gmail.com with ESMTPSA id j21sm523436eja.109.2020.08.28.16.22.00
+ by smtp.gmail.com with ESMTPSA id j21sm523436eja.109.2020.08.28.16.22.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 16:22:01 -0700 (PDT)
+ Fri, 28 Aug 2020 16:22:02 -0700 (PDT)
 From: Nir Soffer <nirsof@gmail.com>
 X-Google-Original-From: Nir Soffer <nsoffer@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 3/5] qemu-iotests: Support varargs syntax in FilePaths
-Date: Sat, 29 Aug 2020 02:21:50 +0300
-Message-Id: <20200828232152.205833-4-nsoffer@redhat.com>
+Subject: [PATCH v3 4/5] qemu-iotests: Merge FilePaths and FilePath
+Date: Sat, 29 Aug 2020 02:21:51 +0300
+Message-Id: <20200828232152.205833-5-nsoffer@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200828232152.205833-1-nsoffer@redhat.com>
 References: <20200828232152.205833-1-nsoffer@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=nirsof@gmail.com; helo=mail-ej1-x644.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=nirsof@gmail.com; helo=mail-ej1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,103 +91,150 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Accept variable number of names instead of a sequence:
+FilePath creates now one temporary file:
 
-    with FilePaths("a", "b", "c") as (a, b, c):
+    with FilePath("a") as a:
 
-The disadvantage is that base_dir must be used as kwarg:
+Or more:
 
-    with FilePaths("a", "b", base_dir=soc_dir) as (sock1, sock2):
+    with FilePath("a", "b", "c") as (a, b, c):
 
-But this is more clear and calling optional argument as positional
-arguments is bad idea anyway.
+This is also the behavior of the file_path() helper, used by some of the
+tests. Now we have only 2 helpers for creating temporary files instead
+of 3.
 
 Signed-off-by: Nir Soffer <nsoffer@redhat.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/194        |  4 ++--
- tests/qemu-iotests/257        | 10 ++++------
- tests/qemu-iotests/iotests.py |  8 ++++----
- 3 files changed, 10 insertions(+), 12 deletions(-)
+ tests/qemu-iotests/194        |  2 +-
+ tests/qemu-iotests/208        |  2 +-
+ tests/qemu-iotests/222        |  2 +-
+ tests/qemu-iotests/257        |  4 ++--
+ tests/qemu-iotests/iotests.py | 23 ++++++++++-------------
+ 5 files changed, 15 insertions(+), 18 deletions(-)
 
 diff --git a/tests/qemu-iotests/194 b/tests/qemu-iotests/194
-index da7c4265ec..08389f474e 100755
+index 08389f474e..7a4863ab18 100755
 --- a/tests/qemu-iotests/194
 +++ b/tests/qemu-iotests/194
-@@ -26,8 +26,8 @@ iotests.script_initialize(supported_fmts=['qcow2', 'qed', 'raw'],
+@@ -26,7 +26,7 @@ iotests.script_initialize(supported_fmts=['qcow2', 'qed', 'raw'],
  
  with iotests.FilePath('source.img') as source_img_path, \
       iotests.FilePath('dest.img') as dest_img_path, \
--     iotests.FilePaths(['migration.sock', 'nbd.sock'], iotests.sock_dir) as \
--         [migration_sock_path, nbd_sock_path], \
-+     iotests.FilePaths('migration.sock', 'nbd.sock', base_dir=iotests.sock_dir) \
-+        as (migration_sock_path, nbd_sock_path), \
+-     iotests.FilePaths('migration.sock', 'nbd.sock', base_dir=iotests.sock_dir) \
++     iotests.FilePath('migration.sock', 'nbd.sock', base_dir=iotests.sock_dir) \
+         as (migration_sock_path, nbd_sock_path), \
       iotests.VM('source') as source_vm, \
       iotests.VM('dest') as dest_vm:
+diff --git a/tests/qemu-iotests/208 b/tests/qemu-iotests/208
+index 6cb642f821..54aa4be273 100755
+--- a/tests/qemu-iotests/208
++++ b/tests/qemu-iotests/208
+@@ -26,7 +26,7 @@ iotests.script_initialize(supported_fmts=['generic'])
  
+ with iotests.FilePath('disk.img') as disk_img_path, \
+      iotests.FilePath('disk-snapshot.img') as disk_snapshot_img_path, \
+-     iotests.FilePath('nbd.sock', iotests.sock_dir) as nbd_sock_path, \
++     iotests.FilePath('nbd.sock', base_dir=iotests.sock_dir) as nbd_sock_path, \
+      iotests.VM() as vm:
+ 
+     img_size = '10M'
+diff --git a/tests/qemu-iotests/222 b/tests/qemu-iotests/222
+index 6602f6b4ba..14d67c875b 100755
+--- a/tests/qemu-iotests/222
++++ b/tests/qemu-iotests/222
+@@ -49,7 +49,7 @@ remainder = [("0xd5", "0x108000",  "32k"), # Right-end of partial-left [1]
+ 
+ with iotests.FilePath('base.img') as base_img_path, \
+      iotests.FilePath('fleece.img') as fleece_img_path, \
+-     iotests.FilePath('nbd.sock', iotests.sock_dir) as nbd_sock_path, \
++     iotests.FilePath('nbd.sock', base_dir=iotests.sock_dir) as nbd_sock_path, \
+      iotests.VM() as vm:
+ 
+     log('--- Setting up images ---')
 diff --git a/tests/qemu-iotests/257 b/tests/qemu-iotests/257
-index e1e6077219..a9aa65bbe3 100755
+index a9aa65bbe3..c80e06ae28 100755
 --- a/tests/qemu-iotests/257
 +++ b/tests/qemu-iotests/257
-@@ -275,10 +275,9 @@ def test_bitmap_sync(bsync_mode, msync_mode='bitmap', failure=None):
+@@ -275,7 +275,7 @@ def test_bitmap_sync(bsync_mode, msync_mode='bitmap', failure=None):
                          an incomplete backup. Testing limitations prevent
                          testing competing writes.
      """
--    with iotests.FilePaths(['img', 'bsync1', 'bsync2',
--                            'fbackup0', 'fbackup1', 'fbackup2']) as \
--                            (img_path, bsync1, bsync2,
--                             fbackup0, fbackup1, fbackup2), \
-+    with iotests.FilePaths(
-+            'img', 'bsync1', 'bsync2', 'fbackup0', 'fbackup1', 'fbackup2') as \
-+            (img_path, bsync1, bsync2, fbackup0, fbackup1, fbackup2), \
+-    with iotests.FilePaths(
++    with iotests.FilePath(
+             'img', 'bsync1', 'bsync2', 'fbackup0', 'fbackup1', 'fbackup2') as \
+             (img_path, bsync1, bsync2, fbackup0, fbackup1, fbackup2), \
           iotests.VM() as vm:
- 
-         mode = "Mode {:s}; Bitmap Sync {:s}".format(msync_mode, bsync_mode)
-@@ -441,8 +440,7 @@ def test_backup_api():
+@@ -440,7 +440,7 @@ def test_backup_api():
      """
      Test malformed and prohibited invocations of the backup API.
      """
--    with iotests.FilePaths(['img', 'bsync1']) as \
--         (img_path, backup_path), \
-+    with iotests.FilePaths('img', 'bsync1') as (img_path, backup_path), \
+-    with iotests.FilePaths('img', 'bsync1') as (img_path, backup_path), \
++    with iotests.FilePath('img', 'bsync1') as (img_path, backup_path), \
           iotests.VM() as vm:
  
          log("\n=== API failure tests ===\n")
 diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 4abfe63662..0d22ad5b03 100644
+index 0d22ad5b03..7a233330c9 100644
 --- a/tests/qemu-iotests/iotests.py
 +++ b/tests/qemu-iotests/iotests.py
-@@ -455,7 +455,7 @@ class FilePaths:
+@@ -448,14 +448,14 @@ class Timeout:
+ def file_pattern(name):
+     return "{0}-{1}".format(os.getpid(), name)
+ 
+-class FilePaths:
++class FilePath:
+     """
+     Context manager generating multiple file names. The generated files are
+     removed when exiting the context.
  
      Example usage:
  
--        with FilePaths(['a.img', 'b.img']) as (img_a, img_b):
-+        with FilePaths('a.img', 'b.img') as (img_a, img_b):
+-        with FilePaths('a.img', 'b.img') as (img_a, img_b):
++        with FilePath('a.img', 'b.img') as (img_a, img_b):
              # Use img_a and img_b here...
  
          # a.img and b.img are automatically removed here.
-@@ -463,10 +463,10 @@ class FilePaths:
+@@ -463,7 +463,10 @@ class FilePaths:
      By default images are created in iotests.test_dir. To create socket use
      iotests.sock_dir:
  
--       with FilePaths(['a.sock'], base_dir=iotests.sock_dir) as (sock,):
-+       with FilePaths('a.sock', base_dir=iotests.sock_dir) as (sock,):
+-       with FilePaths('a.sock', base_dir=iotests.sock_dir) as (sock,):
++       with FilePath('a.sock', base_dir=iotests.sock_dir) as sock:
++
++    For convenience, calling with one argument yields a single file instead of
++    a tuple with one item.
  
      """
--    def __init__(self, names, base_dir=test_dir):
-+    def __init__(self, *names, base_dir=test_dir):
-         self.paths = []
-         for name in names:
+     def __init__(self, *names, base_dir=test_dir):
+@@ -472,7 +475,10 @@ class FilePaths:
              self.paths.append(os.path.join(base_dir, file_pattern(name)))
-@@ -487,7 +487,7 @@ class FilePath(FilePaths):
-     FilePath is a specialization of FilePaths that takes a single filename.
-     """
-     def __init__(self, name, base_dir=test_dir):
--        super(FilePath, self).__init__([name], base_dir)
-+        super(FilePath, self).__init__(name, base_dir=base_dir)
  
      def __enter__(self):
-         return self.paths[0]
+-        return self.paths
++        if len(self.paths) == 1:
++            return self.paths[0]
++        else:
++            return self.paths
+ 
+     def __exit__(self, exc_type, exc_val, exc_tb):
+         for path in self.paths:
+@@ -482,15 +488,6 @@ class FilePaths:
+                 pass
+         return False
+ 
+-class FilePath(FilePaths):
+-    """
+-    FilePath is a specialization of FilePaths that takes a single filename.
+-    """
+-    def __init__(self, name, base_dir=test_dir):
+-        super(FilePath, self).__init__(name, base_dir=base_dir)
+-
+-    def __enter__(self):
+-        return self.paths[0]
+ 
+ def file_path_remover():
+     for path in reversed(file_path_remover.paths):
 -- 
 2.26.2
 
