@@ -2,48 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB86D256282
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 23:35:16 +0200 (CEST)
-Received: from localhost ([::1]:48280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7D85256283
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 23:36:57 +0200 (CEST)
+Received: from localhost ([::1]:50876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBm1j-0001Gz-Os
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 17:35:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37616)
+	id 1kBm3N-0002U9-19
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 17:36:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mwilck@suse.com>) id 1kBm0g-0000nz-Ir
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 17:34:10 -0400
-Received: from mx2.suse.de ([195.135.220.15]:44036)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mwilck@suse.com>) id 1kBm0e-0002XE-Hv
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 17:34:10 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 67E93ACE1;
- Fri, 28 Aug 2020 21:34:38 +0000 (UTC)
-Message-ID: <519e0296a7d61d5e9e8d258a855eb42a57c641c5.camel@suse.com>
-Subject: Re: [PATCH v3] virtio-rng: return available data with O_NONBLOCK
-From: Martin Wilck <mwilck@suse.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <lvivier@redhat.com>
-Date: Fri, 28 Aug 2020 23:34:04 +0200
-In-Reply-To: <20200826082613-mutt-send-email-mst@kernel.org>
-References: <20200811142821.12323-1-mwilck@suse.com>
- <4ae4f348-c186-f7e4-f7e3-b1f1e4a4b408@redhat.com>
- <20200826082613-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset="ISO-8859-15"
-User-Agent: Evolution 3.36.5 
+ (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
+ id 1kBm1x-0001gw-7w
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 17:35:30 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:33246)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
+ id 1kBm1t-0002lp-7b
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 17:35:27 -0400
+Received: by mail-ej1-x635.google.com with SMTP id a21so1030788ejp.0
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 14:35:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=message-id:mime-version:from:to:date:subject;
+ bh=aYXQLVT5nIkA6AwuikVD5bCzdM2jiuGuocvfScBdnGY=;
+ b=XSh/cbj9y4ticzkTC2/PO60AjKOe5dnbAlzD2xg/gXlGAMj/EAwzezookb4hznIe36
+ xfD4DaLI5ytExv5a8N2Tl2/UJjgYoJ6KdlinwRfAvTssyimjnnudbG+1Lc8z/aBlSoH3
+ 420w5pf1CxoGGNHgIsSow3zxnrdSOi356jwH8EwgJSN2/3Yu4ysOtcHVbfyRs2Y6q9Ei
+ 2yCb7N0UUeq19b/kEAUqAwkmN9dDQO7vrkFvOcwH5davZpJQJHJxXjdQeEaPRKu/3Y0M
+ O1wCdGyfboHI6FZSK4zefIx/xoWs6Lk6U16TvB9BpsLcEdmGnRzApDcF3hkivAClxEXQ
+ TWjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:mime-version:from:to:date:subject;
+ bh=aYXQLVT5nIkA6AwuikVD5bCzdM2jiuGuocvfScBdnGY=;
+ b=NGUbAsIUSDgznYV1KILMH9vMcXNMHttQRqQsLusM+m+YfQMM0PjAX0EBVN3KL8X6Tq
+ baRroT7y25RTCfxgP0fKOW7RTjwfsKhsz+ZzUj6jXWaTFPJOKKoWfbJRGGdLagZt4u47
+ 6AA4DYjOIOb5uJiLvmq0HNtkmF8nLp0S/BiOogpsrkEgbS7896TZ57c/P4tCp/LGAPB6
+ zoZqYC1GaMdJwnwllWKUAUEhWDXhRQx9NDaaSsqCbVXYFxx+XA+XHzPjK7UFw7oWRf+8
+ UDbapIRCFj6WiK69+/PUyEe00K+0Icx3rnDHTVXXkRsqzF0PpsTG+VojZ9zIhW483B+j
+ iTNg==
+X-Gm-Message-State: AOAM532akQidI8pGS6AnqU5IdSLgFcDV6r/UKuKWUImnWHVhR67dDU/h
+ wh3lkqsyqIHblgBiOE9gr5FcP3Tm0q9UyQ==
+X-Google-Smtp-Source: ABdhPJzZ1VYybi0UTVlO2EmlLz3Smc2kkJXcam+NsW31x37Ape5BWKbiCnDLJOFE+8j7WqWglOzEZw==
+X-Received: by 2002:a17:906:710b:: with SMTP id
+ x11mr770696ejj.546.1598650523330; 
+ Fri, 28 Aug 2020 14:35:23 -0700 (PDT)
+Received: from [127.0.1.1] ([197.58.77.158])
+ by smtp.gmail.com with ESMTPSA id bt14sm373931ejb.2.2020.08.28.14.35.22
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 28 Aug 2020 14:35:22 -0700 (PDT)
+Message-ID: <5f49789a.1c69fb81.c12aa.0e95@mx.google.com>
+Content-Type: multipart/alternative;
+ boundary="===============3854100496081697164=="
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=mwilck@suse.com;
- helo=mx2.suse.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 14:36:18
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
+To: qemu-devel@nongnu.org
+Date: Fri, 28 Aug 2020 23:35:21 +0200
+Subject: [REPORT] Nightly Performance Tests - Friday, August 28, 2020
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=ahmedkhaledkaraman@gmail.com; helo=mail-ej1-x635.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, MIME_HTML_ONLY=0.1, MIME_HTML_ONLY_MULTI=0.001,
+ MPART_ALT_DIFF=0.79, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,208 +83,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Amit Shah <amit@kernel.org>,
- Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, virtualization@lists.linux-foundation.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2020-08-26 at 08:26 -0400, Michael S. Tsirkin wrote:
-> On Tue, Aug 11, 2020 at 04:42:32PM +0200, Laurent Vivier wrote:
-> > On 11/08/2020 16:28, mwilck@suse.com wrote:
-> > > From: Martin Wilck <mwilck@suse.com>
-> > > 
-> > > If a program opens /dev/hwrng with O_NONBLOCK and uses poll() and
-> > > non-blocking read() to retrieve random data, it ends up in a
-> > > tight
-> > > loop with poll() always returning POLLIN and read() returning
-> > > EAGAIN.
-> > > This repeats forever until some process makes a blocking read()
-> > > call.
-> > > The reason is that virtio_read() always returns 0 in non-blocking 
-> > > mode,
-> > > even if data is available. Worse, it fetches random data from the
-> > > hypervisor after every non-blocking call, without ever using this
-> > > data.
-> > > 
-> > > The following test program illustrates the behavior and can be
-> > > used
-> > > for testing and experiments. The problem will only be seen if all
-> > > tasks use non-blocking access; otherwise the blocking reads will
-> > > "recharge" the random pool and cause other, non-blocking reads to
-> > > succeed at least sometimes.
-> > > 
-> > > /* Whether to use non-blocking mode in a task, problem occurs if
-> > > CONDITION is 1 */
-> > > //#define CONDITION (getpid() % 2 != 0)
-> > > 
-> > > static volatile sig_atomic_t stop;
-> > > static void handler(int sig __attribute__((unused))) { stop = 1;
-> > > }
-> > > 
-> > > static void loop(int fd, int sec)
-> > > {
-> > > 	struct pollfd pfd = { .fd = fd, .events  = POLLIN, };
-> > > 	unsigned long errors = 0, eagains = 0, bytes = 0, succ = 0;
-> > > 	int size, rc, rd;
-> > > 
-> > > 	srandom(getpid());
-> > > 	if (CONDITION && fcntl(fd, F_SETFL, fcntl(fd, F_GETFL) |
-> > > O_NONBLOCK) == -1)
-> > > 		perror("fcntl");
-> > > 	size = MINBUFSIZ + random() % (MAXBUFSIZ - MINBUFSIZ + 1);
-> > > 
-> > > 	for(;;) {
-> > > 		char buf[size];
-> > > 
-> > > 		if (stop)
-> > > 			break;
-> > > 		rc = poll(&pfd, 1, sec);
-> > > 		if (rc > 0) {
-> > > 			rd = read(fd, buf, sizeof(buf));
-> > > 			if (rd == -1 && errno == EAGAIN)
-> > > 				eagains++;
-> > > 			else if (rd == -1)
-> > > 				errors++;
-> > > 			else {
-> > > 				succ++;
-> > > 				bytes += rd;
-> > > 				write(1, buf, sizeof(buf));
-> > > 			}
-> > > 		} else if (rc == -1) {
-> > > 			if (errno != EINTR)
-> > > 				perror("poll");
-> > > 			break;
-> > > 		} else
-> > > 			fprintf(stderr, "poll: timeout\n");
-> > > 	}
-> > > 	fprintf(stderr,
-> > > 		"pid %d %sblocking, bufsize %d, %d seconds, %lu bytes
-> > > read, %lu success, %lu eagain, %lu errors\n",
-> > > 		getpid(), CONDITION ? "non-" : "", size, sec, bytes,
-> > > succ, eagains, errors);
-> > > }
-> > > 
-> > > int main(void)
-> > > {
-> > > 	int fd;
-> > > 
-> > > 	fork(); fork();
-> > > 	fd = open("/dev/hwrng", O_RDONLY);
-> > > 	if (fd == -1) {
-> > > 		perror("open");
-> > > 		return 1;
-> > > 	};
-> > > 	signal(SIGALRM, handler);
-> > > 	alarm(SECONDS);
-> > > 	loop(fd, SECONDS);
-> > > 	close(fd);
-> > > 	wait(NULL);
-> > > 	return 0;
-> > > }
-> > > 
-> > > void loop(int fd)
-> > > {
-> > >         struct pollfd pfd0 = { .fd = fd, .events  = POLLIN, };
-> > >         int rc;
-> > >         unsigned int n;
-> > > 
-> > >         for (n = LOOPS; n > 0; n--) {
-> > >                 struct pollfd pfd = pfd0;
-> > >                 char buf[SIZE];
-> > > 
-> > >                 rc = poll(&pfd, 1, 1);
-> > >                 if (rc > 0) {
-> > >                         int rd = read(fd, buf, sizeof(buf));
-> > > 
-> > >                         if (rd == -1)
-> > >                                 perror("read");
-> > >                         else
-> > >                                 printf("read %d bytes\n", rd);
-> > >                 } else if (rc == -1)
-> > >                         perror("poll");
-> > >                 else
-> > >                         fprintf(stderr, "timeout\n");
-> > > 
-> > >         }
-> > > }
-> > > 
-> > > int main(void)
-> > > {
-> > >         int fd;
-> > > 
-> > >         fd = open("/dev/hwrng", O_RDONLY|O_NONBLOCK);
-> > >         if (fd == -1) {
-> > >                 perror("open");
-> > >                 return 1;
-> > >         };
-> > >         loop(fd);
-> > >         close(fd);
-> > >         return 0;
-> > > }
-> > > 
-> > > This can be observed in the real word e.g. with nested qemu/KVM
-> > > virtual
-> > > machines, if both the "outer" and "inner" VMs have a virtio-rng
-> > > device.
-> > > If the "inner" VM requests random data, qemu running in the
-> > > "outer" VM
-> > > uses this device in a non-blocking manner like the test program
-> > > above.
-> > > 
-> > > Fix it by returning available data if a previous hypervisor call
-> > > has
-> > > completed. I tested this patch with the program above, and with
-> > > rng-tools.
-> > > 
-> > > v2 -> v3: Simplified the implementation as suggested by Laurent
-> > > Vivier
-> > > 
-> > > Signed-off-by: Martin Wilck <mwilck@suse.com>
-> > > ---
-> > >  drivers/char/hw_random/virtio-rng.c | 4 ++--
-> > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/drivers/char/hw_random/virtio-rng.c
-> > > b/drivers/char/hw_random/virtio-rng.c
-> > > index a90001e02bf7..8eaeceecb41e 100644
-> > > --- a/drivers/char/hw_random/virtio-rng.c
-> > > +++ b/drivers/char/hw_random/virtio-rng.c
-> > > @@ -65,7 +65,7 @@ static int virtio_read(struct hwrng *rng, void
-> > > *buf, size_t size, bool wait)
-> > >  		register_buffer(vi, buf, size);
-> > >  	}
-> > >  
-> > > -	if (!wait)
-> > > +	if (!wait && !completion_done(&vi->have_data))
-> > >  		return 0;
-> > >  
-> > >  	ret = wait_for_completion_killable(&vi->have_data);
-> > > @@ -74,7 +74,7 @@ static int virtio_read(struct hwrng *rng, void
-> > > *buf, size_t size, bool wait)
-> > >  
-> > >  	vi->busy = false;
-> > >  
-> > > -	return vi->data_avail;
-> > > +	return min_t(size_t, size, vi->data_avail);
-> > >  }
-> > >  
-> > >  static void virtio_cleanup(struct hwrng *rng)
-> > > 
-> > 
-> > Reviewed-by: Laurent Vivier <lvivier@redhat.com>
-> 
-> Laurent didn't we agree the real fix is private buffers in the
-> driver,
-> and copying out from there?
-> 
+--===============3854100496081697164==
+Content-Type: text/html; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Can we perhaps proceed with this for now? AFAICS the private buffer
-implementation would be a larger effort, while we have the issues with
-nested VMs getting no entropy today.
+<html><body><pre>
+Host CPU         : Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz
+Host Memory      : 15.49 GB
 
-Thanks
-Martin
+Start Time (UTC) : 2020-08-28 21:30:02
+End Time (UTC)   : 2020-08-28 21:35:21
+Execution Time   : 0:05:18.871569
+
+Status           : FAILURE
+
+--------------------------------------------------------
+            SUMMARY REPORT - COMMIT a4e236b7
+
+--------------------------------------------------------
+                  ERROR LOGS
+--------------------------------------------------------
+2020-08-28T21:30:02.254226 - Verifying executables of 8 benchmarks for 17 targets
+2020-08-28T21:30:02.258421 - Verifying results of reference version v5.1.0
+2020-08-28T21:30:02.278698 - Checking out master
+2020-08-28T21:30:02.703788 - Pulling the latest changes from QEMU master
+From https://git.qemu.org/git/qemu
+ * branch                  master     -> FETCH_HEAD
+   ac8b279f13..a4e236b7d4  master     -> origin/master
+2020-08-28T21:30:08.254973 - Running 'configure' for master
+2020-08-28T21:30:24.336578 - Running 'make' for master
+2020-08-28T21:32:14.504346 - Measuring instructions for master - dijkstra_double
+==15118== Callgrind, a call-graph generating cache profiler
+==15118== Copyright (C) 2002-2017, and GNU GPL'd, by Josef Weidendorfer et al.
+==15118== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
+==15118== Command: /home/ahmedkrmn/Desktop/GSoC2020/tools/qemu-nightly-tests/qemu-nightly/build-gcc/m68k-linux-user/qemu-m68k /home/ahmedkrmn/Desktop/GSoC2020/tools/qemu-nightly-tests/benchmarks/executables/dijkstra_double/dijkstra_double-m68k
+==15118== 
+==15118== For interactive control, run 'callgrind_control -h'.
+==15118== 
+==15118== Events    : Ir
+==15118== Collected : 4294020686
+==15118== 
+==15118== I   refs:      4,294,020,686
 
 
+
+</pre></body></html>
+
+--===============3854100496081697164==--
 
