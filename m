@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FA622557AA
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 11:30:58 +0200 (CEST)
-Received: from localhost ([::1]:51706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 601142557B2
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 11:32:47 +0200 (CEST)
+Received: from localhost ([::1]:60020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBain-0007Cn-1F
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 05:30:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45962)
+	id 1kBakY-00027s-BX
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 05:32:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBacd-0004Pc-Ta
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:35 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:34380)
+ id 1kBace-0004Sf-SA
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:36 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:34753)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBacc-0004IL-4G
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:35 -0400
-Received: by mail-wr1-x442.google.com with SMTP id f7so640715wrw.1
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 02:24:33 -0700 (PDT)
+ id 1kBacd-0004IT-5b
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:36 -0400
+Received: by mail-wm1-x342.google.com with SMTP id c19so441919wmd.1
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 02:24:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=pXn9jEw0LzQcgHngHnQYKyL6TbEOp1hHuZtBzavzb4E=;
- b=AFhFyX0ZeXYCzQuTsP7Sw4MZRVoG57dFOaAUTssBGEW83KVN4HXNPKnI4An/xIkmIv
- 1Q8BiIX1wF6MgpF6Bo/6G6u4xVKBGGKu/iGxAbNmPO5xD6XGaYNZpNKTsjj4qxqXMkL3
- BhYjD4hzCaDwnRizYcmODwoAKoA5H3CogOSQ8BXoOy4FxUG3Mgu/xHGBJkaxvBI/zSLZ
- juN7bGUUlj8zju9tPT7ZiprI1huSSvrp/ME/XulybEI1vg6GKXXVTSFIzlkUkXbsUJ6k
- OjYhZlMJDBoQcrJ5Ot1fd5upInXhwWCYprfIJnIG7Xg8I2AUHxl/efMAfmPwHQabo5Zm
- S8mw==
+ bh=fxmRf5DVdkRrGvUUcEHoxUAm6QSXXwocckAawvaTPHc=;
+ b=QgjpOkheEcfJN8uveTmsCP08/sGn/SnT2VXS2GRy0VE6udOfZZyYSxuBFfqR8AkcZv
+ BGoiexnoeGjTSNuUb5R8BL6ooQLfMIypN0VA9rG3cSZX1X5fwFajAyyNY1E8q0KnLShA
+ xeUed+zeQEEhR+foSF55ui7MDc1uT1P7+2fyCQyZILlwNldOBngCVHKrHZc/OguACioA
+ ObQOO9Yy4o/V1l7CueE13fGrl+M63KuXH4Fnsb3b0bwgABNdPvtu5HxWoQnUkqso+oD4
+ z0nYuj/eaHFa5+LXLJH+wvD0PvKttqkSKByJJyg27RZ9ej1uTfoYFuGw4Nvj8NccIB7u
+ ySVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pXn9jEw0LzQcgHngHnQYKyL6TbEOp1hHuZtBzavzb4E=;
- b=WuNMD3Z5O9QL4uHrnTR+Ut+AFOid1PZBmezE0GykhyU+xCCGHcIFoTqSyjr81fy1WI
- WP8CtLSvXpFu8t71Uc7xfZAFxIA5TT3/Ac4JCUqwbVFR/QzeafNkerdiNVjqVM9zGH2g
- dqbTuA3TGb9t6TFgycq8reOobfWNDfR5XM6uUI2L8jwXxsGk8MoqyssmGyZ3wzYdNMFG
- wNN0oRrQ1pC7drIyV0jWJxam4MmkwVVb1O3Nbr4pm30KY2BrTvuVd+kaHmpnE1DhVzan
- krx3d7oK05Tc+E5KvOu6SWa1FrcIzFWPGiv1UR7d02iLDQxuDTGYkExoqm/EgEQkF2YA
- MGMg==
-X-Gm-Message-State: AOAM533Hlsp22Yo7ZR7afKqgpRj7ZqbyO/eHo62/+SiiZ+8pobDdZSdx
- Q/0DzU7Ku10t4N8JqVyg4cS+g0Z0+rQ0wnG4
-X-Google-Smtp-Source: ABdhPJz6MqxqcixLZhphttw4mUpvDyflaYNzhlfIhJ4s9IxNmQVjMYrdZs7akhnCzeGst4vnaYMizw==
-X-Received: by 2002:adf:80c7:: with SMTP id 65mr618326wrl.35.1598606672501;
- Fri, 28 Aug 2020 02:24:32 -0700 (PDT)
+ bh=fxmRf5DVdkRrGvUUcEHoxUAm6QSXXwocckAawvaTPHc=;
+ b=oUZNoy54xxKqNLJz4BDT9xnT/FzXEFFDIGMb+O7Px3a0K4lev3XCuycbPfam0p51Qb
+ xhmcl6/BNPbKeJXI8xGZRZX9Gq/nOH/T2Ej95a0nLDPKYQq4/DJ9seXZ42jmCbZzLqCc
+ 3IGBLRfLL+Z0dwDp+wqZIyqtYTWHShGQyAzC8iAtKfrs7rKEH2Yku0DMl2gWV50o6axl
+ qPMyPBw4piTonbH+VLOEIbWH4LjCweoZ7xtwWMM64IGoxnIAqfMO9R9yOF9QyOlkrhcI
+ +sJal7vr61BF3MdSOZxIDbuzCIVvYBmqad+juND4XWAdXaGD/PbP+9IPgVKPVMmWIICt
+ LoTg==
+X-Gm-Message-State: AOAM531W/mqxEvLrLh2aq+niCIV8m6k5Negy6zeNP2Km6bh5pBG+eRn7
+ hMQLuowu1/IGyGmV0oLBPAkBpGTkxUbqDGCA
+X-Google-Smtp-Source: ABdhPJyWtABsSKxx+AwHTwYjR2QTTBg5WijGY/PrMYsEnzrw89liN5PxiQSoNgHP8gCXVDm6r7iCCQ==
+X-Received: by 2002:a05:600c:214e:: with SMTP id
+ v14mr759798wml.118.1598606673619; 
+ Fri, 28 Aug 2020 02:24:33 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id t13sm912304wru.65.2020.08.28.02.24.31
+ by smtp.gmail.com with ESMTPSA id t13sm912304wru.65.2020.08.28.02.24.32
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 02:24:31 -0700 (PDT)
+ Fri, 28 Aug 2020 02:24:32 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/35] hw/misc/unimp: Display value after offset
-Date: Fri, 28 Aug 2020 10:23:53 +0100
-Message-Id: <20200828092413.22206-16-peter.maydell@linaro.org>
+Subject: [PULL 16/35] hw/misc/unimp: Display the value with width of the
+ access size
+Date: Fri, 28 Aug 2020 10:23:54 +0100
+Message-Id: <20200828092413.22206-17-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200828092413.22206-1-peter.maydell@linaro.org>
 References: <20200828092413.22206-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,40 +93,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-To better align the read/write accesses, display the value after
-the offset (read accesses only display the offset).
+To quickly notice the access size, display the value with the
+width of the access (i.e. 16-bit access is displayed 0x0000,
+while 8-bit access 0x00).
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20200812190206.31595-2-f4bug@amsat.org
+Message-id: 20200812190206.31595-3-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/misc/unimp.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ hw/misc/unimp.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/hw/misc/unimp.c b/hw/misc/unimp.c
-index bc4084d344e..ee2e536c8b1 100644
+index ee2e536c8b1..b4b318db1c3 100644
 --- a/hw/misc/unimp.c
 +++ b/hw/misc/unimp.c
-@@ -22,7 +22,7 @@ static uint64_t unimp_read(void *opaque, hwaddr offset, unsigned size)
- {
-     UnimplementedDeviceState *s = UNIMPLEMENTED_DEVICE(opaque);
- 
--    qemu_log_mask(LOG_UNIMP, "%s: unimplemented device read "
-+    qemu_log_mask(LOG_UNIMP, "%s: unimplemented device read  "
-                   "(size %d, offset 0x%" HWADDR_PRIx ")\n",
-                   s->name, size, offset);
-     return 0;
-@@ -34,9 +34,9 @@ static void unimp_write(void *opaque, hwaddr offset,
-     UnimplementedDeviceState *s = UNIMPLEMENTED_DEVICE(opaque);
+@@ -35,8 +35,8 @@ static void unimp_write(void *opaque, hwaddr offset,
  
      qemu_log_mask(LOG_UNIMP, "%s: unimplemented device write "
--                  "(size %d, value 0x%" PRIx64
--                  ", offset 0x%" HWADDR_PRIx ")\n",
--                  s->name, size, value, offset);
-+                  "(size %d, offset 0x%" HWADDR_PRIx
-+                  ", value 0x%" PRIx64 ")\n",
-+                  s->name, size, offset, value);
+                   "(size %d, offset 0x%" HWADDR_PRIx
+-                  ", value 0x%" PRIx64 ")\n",
+-                  s->name, size, offset, value);
++                  ", value 0x%0*" PRIx64 ")\n",
++                  s->name, size, offset, size << 1, value);
  }
  
  static const MemoryRegionOps unimp_ops = {
