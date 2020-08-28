@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C24E0255790
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 11:27:32 +0200 (CEST)
-Received: from localhost ([::1]:34934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A20EF2557A0
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 11:29:04 +0200 (CEST)
+Received: from localhost ([::1]:43506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBafT-0000TQ-Qd
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 05:27:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45782)
+	id 1kBagx-0003tA-Mt
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 05:29:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBacS-0003t7-UE
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:24 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:51190)
+ id 1kBacU-0003wL-1t
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:26 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:40933)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBacR-0004EA-7E
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:24 -0400
-Received: by mail-wm1-x344.google.com with SMTP id t2so305167wma.0
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 02:24:22 -0700 (PDT)
+ id 1kBacS-0004EL-8Y
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:25 -0400
+Received: by mail-wr1-x430.google.com with SMTP id b18so625509wrs.7
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 02:24:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=LTEVy4NzBC1MZpxWLLBEHRRE7l/hCcwK4UzQ3pQm9hQ=;
- b=aqzz+CP5UfsIRXpEjhb1JVBvGuv7L91WgEP42Q8Gff2863x1n5kufQw8DmB8tTm5Cm
- Pt8LaZLPgfK5UXeK/7OguOWI2s4Hqg4dZ125IkPncV6LopydZfK4a/KcskBnQ+SDqAec
- 9CetlFw2Z26UCdNvEdO48agbQFRl5F9iRUIyUs28+xQnjRoSSYoVPOvuJ7FRg3+xJkzx
- 3o9WFvLJS4j9fWx7nCxZqXyeiGGiB/pI4bLn55UJsuqLsdz3OYrwwPOpaKoJ7Fo8uGNs
- 9GgICF5jJs9dCiC5qYjRoUnZgKcUivkjjn3A/FPI4bwzo+WeWUZ9VHvWTClvUOdkze04
- MO8A==
+ bh=jp9bb95FmgoCU2/ptjukarM+q7Wux537NT9Ov1W4D4o=;
+ b=mHcUfL22yzV8jeBidkNbYPnlduLJ55Fi3mxlissm6nDAGQ8NagsTrnI9vvMyPvIddt
+ 2nqE4SNWZXdIoRMdqgIliipzW5YGsyxChgFNmCIQqhKrvql+Xpf/gRqc9bofdgpSkexc
+ cPL6i4kdxABP8DEvcuRhSH74/UdqS3GidCKViDjgfOwIqiqmkhOqKLbsPGy18eTnHRbc
+ K5SHtdJ1TpZtc/jxygKPW3pQKmTm5Intb8pr+J49LgmwxgI1/mYnWLe4NMuNoDqGmSLB
+ cYDNNDUlERvASWe1ryFnhM6HIaNmE/3zg6/7HhE3kg3dgvky7uRx0K8HF6JynXdccunb
+ fFiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LTEVy4NzBC1MZpxWLLBEHRRE7l/hCcwK4UzQ3pQm9hQ=;
- b=bfdqXcwebiySY6u329bUUir36VtwEdTPcvbm0GurS6kxzc2oagCCDBa8Jlhv7QOKXz
- W9qOnovKC4CTWqPSzJBYfVC/gOH2YgEskpdEgJ3tzPikBVg9e0cX5lDm6asJAaoICl/H
- v3knHepOnx0UH1Vo137KBWNp3r8Nxa3dNhICnOPWgNI9URw7/1Blm38pyTRWAjyCdZOE
- kSTTF3HojXXqV72vGO+GdIicRdCYMofUjRLA81sAJ6ZIdEYr2HIzXtGoLQAw2+Nk0OWK
- utDOR0qU1P/WIGqH4pfFbTrfcZYAhK0IODDo+Vo5r0DuY88ZOk1MqNqUXhP1roKpDgws
- vOKQ==
-X-Gm-Message-State: AOAM533HlNDBIK4rTaLnxJGR63fYtV7r81vmF0OLHgsofB4l6gW0rKTi
- cbca/Ch6neb5HC5o2gwe7mIAbGvoOaDaY6XE
-X-Google-Smtp-Source: ABdhPJytQK7S0zr0G+hD8Uwhos3zPihLWm07TLILpiA8cDYaQ5bsAeUs0m/E+SkSw7fJtyDOnJUNXA==
-X-Received: by 2002:a1c:4d12:: with SMTP id o18mr725930wmh.95.1598606661596;
- Fri, 28 Aug 2020 02:24:21 -0700 (PDT)
+ bh=jp9bb95FmgoCU2/ptjukarM+q7Wux537NT9Ov1W4D4o=;
+ b=XHRGk9mu7wmp1xGilttnz/bgLwAyx+rMw/3+zwj/sFJK4YJougXwlflnUlyUDWhmGS
+ W0QY4PyoQ21j/VRcZmIMBLAiad86ErE59Ko0T1zFZGFKiwXGdEQLT09wf5d48FWEJXR7
+ GyJSn3e3XS6VmX7YYgSHU670ABnJNveYN5eacdxPmkv9Ynue0CnvBsIiKNhL9sP5X57J
+ Zuft4F6e76wSIYWg2vGGTaT2OWv2gJMUHY6tbPZ4NS4XUFfkWcE5ymODp+x2bfe2g4vi
+ XcCRonKMQVkLibc3YNW3f1DjkPjj84kRK54j6Rr89Jt31Fp4hr0O2v02NjptLsETKjii
+ 1u7Q==
+X-Gm-Message-State: AOAM532Ymd3RgXlcWmqp2z6bI/u7VTYdgcI7yZkQWhRrml/T2XddxRbE
+ P9AQOR8nVPUrwlCWzku1ktRS3EhVfVwkFWWW
+X-Google-Smtp-Source: ABdhPJzWhI8rZWHLdEYSSYHhaMHUYvUQb5yIbFNs1jYtrBXtOQSL3j03CpUnpTkWzxDM4oeREBHVSA==
+X-Received: by 2002:adf:e6c2:: with SMTP id y2mr661604wrm.117.1598606662693;
+ Fri, 28 Aug 2020 02:24:22 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id t13sm912304wru.65.2020.08.28.02.24.20
+ by smtp.gmail.com with ESMTPSA id t13sm912304wru.65.2020.08.28.02.24.21
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 02:24:20 -0700 (PDT)
+ Fri, 28 Aug 2020 02:24:21 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/35] target/arm: Clarify HCR_EL2 ARMCPRegInfo type
-Date: Fri, 28 Aug 2020 10:23:44 +0100
-Message-Id: <20200828092413.22206-7-peter.maydell@linaro.org>
+Subject: [PULL 07/35] target/arm: Pass the entire mte descriptor to
+ mte_check_fail
+Date: Fri, 28 Aug 2020 10:23:45 +0100
+Message-Id: <20200828092413.22206-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200828092413.22206-1-peter.maydell@linaro.org>
 References: <20200828092413.22206-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,38 +89,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-In commit ce4afed839 ("target/arm: Implement AArch32 HCR and HCR2")
-the HCR_EL2 register has been changed from type NO_RAW (no underlying
-state and does not support raw access for state saving/loading) to
-type CONST (TCG can assume the value to be constant), removing the
-read/write accessors.
-We forgot to remove the previous type ARM_CP_NO_RAW. This is not
-really a problem since the field is overwritten. However it makes
-code review confuse, so remove it.
+We need more information than just the mmu_idx in order
+to create the proper exception syndrome.  Only change the
+function signature so far.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200812111223.7787-1-f4bug@amsat.org
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20200813200816.3037186-2-richard.henderson@linaro.org
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 1 -
- 1 file changed, 1 deletion(-)
+ target/arm/mte_helper.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 6b4f0eb5334..44d666627a8 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -5105,7 +5105,6 @@ static const ARMCPRegInfo el3_no_el2_cp_reginfo[] = {
-       .access = PL2_RW,
-       .readfn = arm_cp_read_zero, .writefn = arm_cp_write_ignore },
-     { .name = "HCR_EL2", .state = ARM_CP_STATE_BOTH,
--      .type = ARM_CP_NO_RAW,
-       .opc0 = 3, .opc1 = 4, .crn = 1, .crm = 1, .opc2 = 0,
-       .access = PL2_RW,
-       .type = ARM_CP_CONST, .resetvalue = 0 },
+diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
+index 104752041f7..a40454588d2 100644
+--- a/target/arm/mte_helper.c
++++ b/target/arm/mte_helper.c
+@@ -514,9 +514,10 @@ void HELPER(stzgm_tags)(CPUARMState *env, uint64_t ptr, uint64_t val)
+ }
+ 
+ /* Record a tag check failure.  */
+-static void mte_check_fail(CPUARMState *env, int mmu_idx,
++static void mte_check_fail(CPUARMState *env, uint32_t desc,
+                            uint64_t dirty_ptr, uintptr_t ra)
+ {
++    int mmu_idx = FIELD_EX32(desc, MTEDESC, MIDX);
+     ARMMMUIdx arm_mmu_idx = core_to_aa64_mmu_idx(mmu_idx);
+     int el, reg_el, tcf, select;
+     uint64_t sctlr;
+@@ -639,8 +640,7 @@ uint64_t mte_check1(CPUARMState *env, uint32_t desc,
+     }
+ 
+     if (unlikely(!mte_probe1_int(env, desc, ptr, ra, bit55))) {
+-        int mmu_idx = FIELD_EX32(desc, MTEDESC, MIDX);
+-        mte_check_fail(env, mmu_idx, ptr, ra);
++        mte_check_fail(env, desc, ptr, ra);
+     }
+ 
+     return useronly_clean_ptr(ptr);
+@@ -810,7 +810,7 @@ uint64_t mte_checkN(CPUARMState *env, uint32_t desc,
+ 
+         fail_ofs = tag_first + n * TAG_GRANULE - ptr;
+         fail_ofs = ROUND_UP(fail_ofs, esize);
+-        mte_check_fail(env, mmu_idx, ptr + fail_ofs, ra);
++        mte_check_fail(env, desc, ptr + fail_ofs, ra);
+     }
+ 
+  done:
+@@ -922,7 +922,7 @@ uint64_t HELPER(mte_check_zva)(CPUARMState *env, uint32_t desc, uint64_t ptr)
+  fail:
+     /* Locate the first nibble that differs. */
+     i = ctz64(mem_tag ^ ptr_tag) >> 4;
+-    mte_check_fail(env, mmu_idx, align_ptr + i * TAG_GRANULE, ra);
++    mte_check_fail(env, desc, align_ptr + i * TAG_GRANULE, ra);
+ 
+  done:
+     return useronly_clean_ptr(ptr);
 -- 
 2.20.1
 
