@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E40B2255CB0
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 16:38:34 +0200 (CEST)
-Received: from localhost ([::1]:53068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FFED255D1C
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 16:53:30 +0200 (CEST)
+Received: from localhost ([::1]:39338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBfWT-0002ux-UO
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 10:38:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51860)
+	id 1kBfkv-0006KL-Aq
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 10:53:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBfFL-0001wq-0u
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 10:20:51 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:33318)
+ id 1kBfFM-00020B-7u
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 10:20:52 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:37206)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBfFJ-0005PE-8y
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 10:20:50 -0400
-Received: by mail-pl1-x643.google.com with SMTP id h2so540615plr.0
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 07:20:48 -0700 (PDT)
+ id 1kBfFK-0005PM-G5
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 10:20:51 -0400
+Received: by mail-pl1-x641.google.com with SMTP id c15so533250plq.4
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 07:20:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zwo2tLKRvQRJhDTbPnKciACBLjC4l/PhJRnGW8zacPw=;
- b=PXJUCSQeawL24bOK+pBya9y/6qqKkx1vVpKY9dPs6244AxiKuiaXzktpKPOsQqH+E1
- Iqh89YAhc2AzTQdXZWoKpfoE2seW+vGt3/h8BdIyQ5tAn1ABEeC/0PacB4qxpui6VgUN
- 3Gs9QNQg/SazlTJtpFa5CQlG4gw22pGv351PRUZqaMog268zsgQGXb5fp+FkO9UTRTlb
- teH/yY32UseutouA3xLIABj3aijsmclzb9mW4v2tKLPhuzW4ETFXTL4Cn+b5EIepHn+V
- 6z7uL8JVEWpBvYe0S1lid0DjIAFbomlvqpqPNEB9kCpf9mzFT45b7N0LWgtjj+wUerT5
- L2+A==
+ bh=NBFrP1+/jgZ0aFs6sSu+fBXeEHUysvclKSZS577gabk=;
+ b=IzIYlYe9WJW40VnuC+eVYCy60hCic28Lw06mAUzM4bXKmsCVMDMaLSFPWvco9jvXML
+ SgtnGbBdOq1X8Oof/cDKl2gO0GN9TJ2/M9RkMmKFl3+Z6fEhVuwYjp5vFPefalizkrmk
+ pbGr7aGiIqFhOGbCouThQoKbL9NABJE5SyJqF/YnwZbPy/3mH96Ju2IbBGcAwh3rdiuH
+ MOAsig5MYrZwFqmdPoeYqtFkP3cchqy53XYASi5J37Ofi+6kyPAHiLE2RdzRzRmeIanx
+ BnRMlh9+dItDasFzNnDTXLW56sbHtfcFB520T9eG481QnJp73/w1F1QcsG+njNna1idK
+ GqDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zwo2tLKRvQRJhDTbPnKciACBLjC4l/PhJRnGW8zacPw=;
- b=AJT7+q8M+nlJQfSG/18w4CkdCsX5J/LWwATaJ4txEpcAzSXoOMN4w9x1WVkwvfN0hO
- 04DqehiMhGUoTghTqtg5dB8J2hx90ZykMbI98FXUDX668g6kaAWbNQaKS0aYyyUmIYWC
- mQjgaRQMDDFznpUwEcrdHbE5pEm8dLTn7MjoOB4x8Dcfwu0MjcYEihBaN3sN50LKyj+J
- dr/LCXsTZlV+2l1YPzvJRt+WXa/zKboLHRkeRW5+4tpoxOQnhgD4eP9/V4ysA9yV+JNT
- riWZXSd6Avf/YLGkL7LQfynNBnqLAsKtMPQK/Y6SSK3mLgmhQXZ3YIEGhKsP6NHKxnbY
- OovA==
-X-Gm-Message-State: AOAM532+8YWPpfrLYTmFNEgBmMvk2jqYOax0Di4/zUzlZb2XlQPUUFrA
- nRQmwwxzqJL4i1rXlP+8nJgF5v9gjgTlkA==
-X-Google-Smtp-Source: ABdhPJzQ3Kew5drb9GoPCUv97gG6P5MnhE8DLC4etlKd6AspqwYRvhhWW5Yah/OYpQN/1KfU/krXbA==
-X-Received: by 2002:a17:902:44c:: with SMTP id
- 70mr1468024ple.293.1598624447602; 
- Fri, 28 Aug 2020 07:20:47 -0700 (PDT)
+ bh=NBFrP1+/jgZ0aFs6sSu+fBXeEHUysvclKSZS577gabk=;
+ b=GoH4OGQOCmprArc+tFyfPqpZnezqpandZ4nNnBQex0q1OiRXXE5XtQiS3+JzJLz0bH
+ dVPKPXSpl9b8vJ1WTIJWUCntmp9scQRF7kbYROaTuYOSjLND7hKQzlwRNm3GD3BbNyuF
+ UfK+OAPoobpkRx5pyOUN6MGH/pJ+0mUky5wPx3Wa5FIwzryFCvLDG5sB82A+WaIaT7Ps
+ QOfMWwzRqXrrNxVpHcfuu+pbsk7FOf2KuXyQ1Kc5DL/HbCp61s8KUruuJZHvAPXdMcBn
+ OD1E1dkQ8PvRwx0nppFP2swxbVemX+AROBx7vEgZpaXYqSkgVYioNBdvZJzyMXxT2rug
+ UlPw==
+X-Gm-Message-State: AOAM5335zFL9XYwWXtgTP/rJGpUBNsZIScqXMy3i6S3zyrcbmcEZy6y4
+ jSL0elF2jD4udk8EFXqBsvV+6lwm5+7pjA==
+X-Google-Smtp-Source: ABdhPJxGZ/gGZtTU/XVhZha0ME+t+yBa8oylIDh02lpdm9RP6QZHHmk4koGv0vSNzsZOJvxqZg3V7A==
+X-Received: by 2002:a17:902:6a8b:: with SMTP id
+ n11mr1502705plk.75.1598624448860; 
+ Fri, 28 Aug 2020 07:20:48 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id j3sm1403080pjw.23.2020.08.28.07.20.46
+ by smtp.gmail.com with ESMTPSA id j3sm1403080pjw.23.2020.08.28.07.20.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 07:20:46 -0700 (PDT)
+ Fri, 28 Aug 2020 07:20:48 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 60/76] target/microblaze: Replace clear_imm with
+Subject: [PATCH v2 61/76] target/microblaze: Replace delayed_branch with
  tb_flags_to_set
-Date: Fri, 28 Aug 2020 07:19:13 -0700
-Message-Id: <20200828141929.77854-61-richard.henderson@linaro.org>
+Date: Fri, 28 Aug 2020 07:19:14 -0700
+Message-Id: <20200828141929.77854-62-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200828141929.77854-1-richard.henderson@linaro.org>
 References: <20200828141929.77854-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x643.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x641.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,63 +90,89 @@ Cc: edgar.iglesias@xilinx.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This more general update variable will be able to handle
-delay slots as well.
+The multi-stage counter can be replaced by clearing D_FLAG,
+the or'ing in tb_flags_to_set.  The jump then happens when
+D_FLAG is finally cleared.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/translate.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+ target/microblaze/translate.c | 17 +++++------------
+ 1 file changed, 5 insertions(+), 12 deletions(-)
 
 diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index 597b96ffb3..c0b586f467 100644
+index c0b586f467..811c92d23b 100644
 --- a/target/microblaze/translate.c
 +++ b/target/microblaze/translate.c
-@@ -75,7 +75,7 @@ typedef struct DisasContext {
-     unsigned int cpustate_changed;
-     unsigned int delayed_branch;
-     unsigned int tb_flags;
--    unsigned int clear_imm;
-+    unsigned int tb_flags_to_set;
-     int mem_index;
+@@ -73,7 +73,6 @@ typedef struct DisasContext {
+     uint16_t imm;
  
- #define JMP_NOJMP     0
-@@ -535,8 +535,7 @@ static bool trans_imm(DisasContext *dc, arg_imm *arg)
+     unsigned int cpustate_changed;
+-    unsigned int delayed_branch;
+     unsigned int tb_flags;
+     unsigned int tb_flags_to_set;
+     int mem_index;
+@@ -1328,10 +1327,9 @@ static void eval_cond_jmp(DisasContext *dc, TCGv_i32 pc_true, TCGv_i32 pc_false)
+ 
+ static void dec_setup_dslot(DisasContext *dc)
  {
-     dc->ext_imm = arg->imm << 16;
-     tcg_gen_movi_i32(cpu_imm, dc->ext_imm);
--    dc->tb_flags |= IMM_FLAG;
--    dc->clear_imm = 0;
-+    dc->tb_flags_to_set = IMM_FLAG;
-     return true;
+-    dc->delayed_branch = 2;
+-    dc->tb_flags |= D_FLAG;
++    dc->tb_flags_to_set |= D_FLAG;
+     if (dc->type_b && (dc->tb_flags & IMM_FLAG)) {
+-        dc->tb_flags |= BIMM_FLAG;
++        dc->tb_flags_to_set |= BIMM_FLAG;
+     }
  }
  
-@@ -1688,7 +1687,8 @@ static void mb_tr_translate_insn(DisasContextBase *dcb, CPUState *cs)
-                   (uint32_t)dc->base.pc_next);
+@@ -1343,7 +1341,6 @@ static void dec_bcc(DisasContext *dc)
+     cc = EXTRACT_FIELD(dc->ir, 21, 23);
+     dslot = dc->ir & (1 << 25);
+ 
+-    dc->delayed_branch = 1;
+     if (dslot) {
+         dec_setup_dslot(dc);
+     }
+@@ -1419,7 +1416,6 @@ static void dec_br(DisasContext *dc)
+         }
      }
  
--    dc->clear_imm = 1;
-+    dc->tb_flags_to_set = 0;
-+
-     ir = cpu_ldl_code(env, dc->base.pc_next);
-     if (!decode(dc, ir)) {
-         old_decode(dc, ir);
-@@ -1700,10 +1700,13 @@ static void mb_tr_translate_insn(DisasContextBase *dcb, CPUState *cs)
-         dc->r0_set = false;
+-    dc->delayed_branch = 1;
+     if (dslot) {
+         dec_setup_dslot(dc);
      }
+@@ -1633,8 +1629,7 @@ static void mb_tr_init_disas_context(DisasContextBase *dcb, CPUState *cs)
  
--    if (dc->clear_imm && (dc->tb_flags & IMM_FLAG)) {
--        dc->tb_flags &= ~IMM_FLAG;
-+    /* Discard the imm global when its contents cannot be used. */
-+    if ((dc->tb_flags & ~dc->tb_flags_to_set) & IMM_FLAG) {
+     dc->cpu = cpu;
+     dc->tb_flags = dc->base.tb->flags;
+-    dc->delayed_branch = !!(dc->tb_flags & D_FLAG);
+-    dc->jmp = dc->delayed_branch ? JMP_INDIRECT : JMP_NOJMP;
++    dc->jmp = dc->tb_flags & D_FLAG ? JMP_INDIRECT : JMP_NOJMP;
+     dc->cpustate_changed = 0;
+     dc->abort_at_next_insn = 0;
+     dc->ext_imm = dc->base.tb->cs_base;
+@@ -1705,11 +1700,11 @@ static void mb_tr_translate_insn(DisasContextBase *dcb, CPUState *cs)
          tcg_gen_discard_i32(cpu_imm);
      }
-+
-+    dc->tb_flags &= ~IMM_FLAG;
-+    dc->tb_flags |= dc->tb_flags_to_set;
+ 
+-    dc->tb_flags &= ~IMM_FLAG;
++    dc->tb_flags &= ~(IMM_FLAG | BIMM_FLAG | D_FLAG);
+     dc->tb_flags |= dc->tb_flags_to_set;
      dc->base.pc_next += 4;
  
-     if (dc->delayed_branch && --dc->delayed_branch == 0) {
+-    if (dc->delayed_branch && --dc->delayed_branch == 0) {
++    if (dc->jmp != JMP_NOJMP && !(dc->tb_flags & D_FLAG)) {
+         if (dc->tb_flags & DRTI_FLAG) {
+             do_rti(dc);
+         }
+@@ -1719,8 +1714,6 @@ static void mb_tr_translate_insn(DisasContextBase *dcb, CPUState *cs)
+         if (dc->tb_flags & DRTE_FLAG) {
+             do_rte(dc);
+         }
+-        /* Clear the delay slot flag.  */
+-        dc->tb_flags &= ~D_FLAG;
+         dc->base.is_jmp = DISAS_JUMP;
+     }
+ 
 -- 
 2.25.1
 
