@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A3E9255789
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 11:25:42 +0200 (CEST)
-Received: from localhost ([::1]:54628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7531C25578B
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 11:26:02 +0200 (CEST)
+Received: from localhost ([::1]:55042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBadh-0005NY-4L
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 05:25:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45672)
+	id 1kBae1-0005Xw-Fu
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 05:26:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBacN-0003jR-NL
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:19 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:36646)
+ id 1kBacQ-0003lO-2d
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:22 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36253)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBacL-0004CB-Mg
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:19 -0400
-Received: by mail-wr1-x434.google.com with SMTP id x7so632613wro.3
+ id 1kBacL-0004CE-MX
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:21 -0400
+Received: by mail-wm1-x342.google.com with SMTP id z9so286765wmk.1
  for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 02:24:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=djzxROywXETvEXbTAZgD0V33eG4XBAGoEVWBCeA5TI0=;
- b=VRHjJrylKMSTHhNnuS5RPIl0U3y7uQ8eWofrhWZWlqZ9aD4vJ2czE8pKnVge2qxZyE
- IIKP8NSRbd2WrQlnJ9Fh660xfKcRIsA46uUGdGqEF2J/0e+Qqpt1XolOaRyNmqOPclOQ
- SXTyGLS2RlIdcPLwbTWHY4FQFeukIKijQuCl0WE0XUkvIVF57sC16/MxttAmM9Q1gSzF
- 853UHNwZijnF/v/V0xTrjCnArhedjXLgWH1/czw7dqsN8la9vZfUF5GHYQiUgGhZXzIH
- sf+FLzh+xWBWWSsgNAy/86Es6G5T1DpC6zT8tl2jnNkArUSBK35zIJkpneqWO3t+KRq8
- qaTA==
+ bh=qGRrg8fqVk3kjMpo0tOF1M25f8LDIDHdvCUbdkd6EyQ=;
+ b=rLYYnfV3W118pSJj3ZYnFao4Xq3D+F5AeNiYdh63Lvcvkd6bj6CMBBRnaJnbwry3hH
+ GvGZfR5w8IFX5Zkomzn1bc/eMIGQgZdV1m0fpwIFkVSmSP5yk0ssj1e27F4tuytkLiab
+ ogwVirvMZ3uT/YQwTKa5t6GRo0oiSD0JZLDdHcuL+KdCU4v5FGk3VNOUFPljEwA78V7h
+ TXij080lauEEaGVvWFgFa6nZmYqNMFHm2tyv5vtBctx7f3r7JD7aaC63PatYCiBYXYsl
+ lvo0o9CvNt4thhCxbfPaqSFfzj7M1b3vHRr/D1QuZ3enTjqbeTMVSy4lMdMMhEjmLIkA
+ EX8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=djzxROywXETvEXbTAZgD0V33eG4XBAGoEVWBCeA5TI0=;
- b=k9tvQFS+O24vRSjNSrMeF0TQ0F3+7+NE+EHD55ygBHLt48/zIS19Tm645/AGW425Dv
- qO1r6T2DPK55poUPRowOOPfdtvzZi+HFz2I5q++IQZAEPsMu4+CX+bk324B/iRzgjRQB
- iyhH4cBsBGrzLhibnHm4NMBZUSel6MSl3/nAA6CsrNMFo8L///4oHXLGMysbcNRveE2o
- tPXoIMJZw1Ked+Vcywb1IXwhoSkjkjeLnVa9Vn6DbSvMw3/agE/gVIA6USEm4AvoJU3U
- p5v8kdK7PpaD1H+J5BLzDDwPWFx+FgLdJV8v2zGrtsjztKWVnvG5iv+zSDFxGb7X5NzX
- e45Q==
-X-Gm-Message-State: AOAM531QeuUDLipYvLjVpVAYR7Z2l/UgMJZG23NC3f6kfGkcQC+gndW7
- 8SxrdxHTDfhRqC+FhzQNt4mcqgwnG/bK5MIS
-X-Google-Smtp-Source: ABdhPJzFKyD4emS+l6A6vpBtzIYOcgl7N8fVTNWNeMbHf5rkAY46JlMmQrVq2nAkMcYT4JSLY/U3lw==
-X-Received: by 2002:adf:e7c3:: with SMTP id e3mr640960wrn.356.1598606655157;
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=qGRrg8fqVk3kjMpo0tOF1M25f8LDIDHdvCUbdkd6EyQ=;
+ b=izDgfBuWtVDVYRt5ylo8uQgoN/vg1xRF4fhePZ5KvhIKJqQZttpYX3K6Mv8adFF13Y
+ OuWaz9qjvBQ3SVcxPxBZejPzsTC8wTG3j0BdC0KEl+fp2WibCv8r5JnQeajTGTXtjfVf
+ xKS1YkhhI3KRYbp08t7VojtP8EgTuzcPwnUshZdsZdbhU0H45VIcd9kqgPlF+iX+IbGg
+ hpAczVbQmc594AF5VLGMuCU40BPpGTjQQkUJ5hqc4m+uDUx5M/6Pj20YzqXZ35lLPbKg
+ CReloppjfoH6FRK+Thw6Wu/Pn7JaIecSelMxzuQCJQpiJbmJuIR22K3ek6E//qJMU48S
+ zBaA==
+X-Gm-Message-State: AOAM5337S/SLZHhPKRmnNOg8ij7VE7t9cIZax3tMnhyS04bH/7Fc7a8i
+ QTDzPqgZQHt/j7B5PXLJdjUkC5ehIyC0h8TN
+X-Google-Smtp-Source: ABdhPJyWnkth0SYsT1f9Yo/prloAG4fSNUgJIQuUnichGBUOHBj8CAiG1ct3P6IxA602dyffp7YAPg==
+X-Received: by 2002:a1c:81cb:: with SMTP id c194mr716607wmd.45.1598606655957; 
  Fri, 28 Aug 2020 02:24:15 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id t13sm912304wru.65.2020.08.28.02.24.14
+ by smtp.gmail.com with ESMTPSA id t13sm912304wru.65.2020.08.28.02.24.15
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 02:24:14 -0700 (PDT)
+ Fri, 28 Aug 2020 02:24:15 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/35] target-arm queue
-Date: Fri, 28 Aug 2020 10:23:38 +0100
-Message-Id: <20200828092413.22206-1-peter.maydell@linaro.org>
+Subject: [PULL 01/35] hw/arm/sbsa-ref: fix typo breaking PCIe IRQs
+Date: Fri, 28 Aug 2020 10:23:39 +0100
+Message-Id: <20200828092413.22206-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200828092413.22206-1-peter.maydell@linaro.org>
+References: <20200828092413.22206-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,109 +89,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Nothing earth-shaking in here, just a lot of refactoring and cleanup
-and a few bugfixes. I suspect I'll have another pullreq to come in
-the early part of next week...
+From: Graeme Gregory <graeme@nuviainc.com>
 
-The following changes since commit 19591e9e0938ea5066984553c256a043bd5d822f:
+Fixing a typo in a previous patch that translated an "i" to a 1
+and therefore breaking the allocation of PCIe interrupts. This was
+discovered when virtio-net-pci devices ceased to function correctly.
 
-  Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2020-08-27 16:59:02 +0100)
+Cc: qemu-stable@nongnu.org
+Fixes: 48ba18e6d3f3 ("hw/arm/sbsa-ref: Simplify by moving the gic in the machine state")
+Signed-off-by: Graeme Gregory <graeme@nuviainc.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20200821083853.356490-1-graeme@nuviainc.com
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/arm/sbsa-ref.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-are available in the Git repository at:
+diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+index f030a416fdf..2a7d9a61fc7 100644
+--- a/hw/arm/sbsa-ref.c
++++ b/hw/arm/sbsa-ref.c
+@@ -554,7 +554,7 @@ static void create_pcie(SBSAMachineState *sms)
+ 
+     for (i = 0; i < GPEX_NUM_IRQS; i++) {
+         sysbus_connect_irq(SYS_BUS_DEVICE(dev), i,
+-                           qdev_get_gpio_in(sms->gic, irq + 1));
++                           qdev_get_gpio_in(sms->gic, irq + i));
+         gpex_set_irq_num(GPEX_HOST(dev), i, irq + i);
+     }
+ 
+-- 
+2.20.1
 
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20200828
-
-for you to fetch changes up to ed78849d9711805bda37ee026018d6ee7a606d0e:
-
-  target/arm: Convert sq{, r}dmulh to gvec for aa64 advsimd (2020-08-28 10:02:50 +0100)
-
-----------------------------------------------------------------
-target-arm queue:
- * target/arm: Cleanup and refactoring preparatory to SVE2
- * armsse: Define ARMSSEClass correctly
- * hw/misc/unimp: Improve information provided in log messages
- * hw/qdev-clock: Avoid calling qdev_connect_clock_in after DeviceRealize
- * hw/arm/xilinx_zynq: Call qdev_connect_clock_in() before DeviceRealize
- * hw/net/allwinner-sun8i-emac: Use AddressSpace for DMA transfers
- * hw/sd/allwinner-sdhost: Use AddressSpace for DMA transfers
- * target/arm: Fill in the WnR syndrome bit in mte_check_fail
- * target/arm: Clarify HCR_EL2 ARMCPRegInfo type
- * hw/arm/musicpal: Use AddressSpace for DMA transfers
- * hw/clock: Minor cleanups
- * hw/arm/sbsa-ref: fix typo breaking PCIe IRQs
-
-----------------------------------------------------------------
-Eduardo Habkost (1):
-      armsse: Define ARMSSEClass correctly
-
-Graeme Gregory (1):
-      hw/arm/sbsa-ref: fix typo breaking PCIe IRQs
-
-Philippe Mathieu-Daudé (14):
-      hw/clock: Remove unused clock_init*() functions
-      hw/clock: Let clock_set() return boolean value
-      hw/clock: Only propagate clock changes if the clock is changed
-      hw/arm/musicpal: Use AddressSpace for DMA transfers
-      target/arm: Clarify HCR_EL2 ARMCPRegInfo type
-      hw/sd/allwinner-sdhost: Use AddressSpace for DMA transfers
-      hw/net/allwinner-sun8i-emac: Use AddressSpace for DMA transfers
-      hw/arm/xilinx_zynq: Uninline cadence_uart_create()
-      hw/arm/xilinx_zynq: Call qdev_connect_clock_in() before DeviceRealize
-      hw/qdev-clock: Uninline qdev_connect_clock_in()
-      hw/qdev-clock: Avoid calling qdev_connect_clock_in after DeviceRealize
-      hw/misc/unimp: Display value after offset
-      hw/misc/unimp: Display the value with width of the access size
-      hw/misc/unimp: Display the offset with width of the region size
-
-Richard Henderson (19):
-      target/arm: Pass the entire mte descriptor to mte_check_fail
-      target/arm: Fill in the WnR syndrome bit in mte_check_fail
-      qemu/int128: Add int128_lshift
-      target/arm: Split out gen_gvec_fn_zz
-      target/arm: Split out gen_gvec_fn_zzz, do_zzz_fn
-      target/arm: Rearrange {sve,fp}_check_access assert
-      target/arm: Merge do_vector2_p into do_mov_p
-      target/arm: Clean up 4-operand predicate expansion
-      target/arm: Use tcg_gen_gvec_bitsel for trans_SEL_pppp
-      target/arm: Split out gen_gvec_ool_zzzp
-      target/arm: Merge helper_sve_clr_* and helper_sve_movz_*
-      target/arm: Split out gen_gvec_ool_zzp
-      target/arm: Split out gen_gvec_ool_zzz
-      target/arm: Split out gen_gvec_ool_zz
-      target/arm: Tidy SVE tszimm shift formats
-      target/arm: Generalize inl_qrdmlah_* helper functions
-      target/arm: Convert integer multiply (indexed) to gvec for aa64 advsimd
-      target/arm: Convert integer multiply-add (indexed) to gvec for aa64 advsimd
-      target/arm: Convert sq{, r}dmulh to gvec for aa64 advsimd
-
- include/hw/arm/armsse.h               |   2 +-
- include/hw/char/cadence_uart.h        |  17 --
- include/hw/clock.h                    |  30 +--
- include/hw/misc/unimp.h               |   1 +
- include/hw/net/allwinner-sun8i-emac.h |   6 +
- include/hw/qdev-clock.h               |   8 +-
- include/hw/sd/allwinner-sdhost.h      |   6 +
- include/qemu/int128.h                 |  16 ++
- target/arm/helper-sve.h               |   5 -
- target/arm/helper.h                   |  28 +++
- target/arm/translate.h                |   1 +
- target/arm/sve.decode                 |  35 ++-
- hw/arm/allwinner-a10.c                |   2 +
- hw/arm/allwinner-h3.c                 |   4 +
- hw/arm/armsse.c                       |   1 +
- hw/arm/musicpal.c                     |  45 ++--
- hw/arm/sbsa-ref.c                     |   2 +-
- hw/arm/xilinx_zynq.c                  |  24 +-
- hw/core/clock.c                       |   7 +-
- hw/core/qdev-clock.c                  |   6 +
- hw/misc/unimp.c                       |  14 +-
- hw/net/allwinner-sun8i-emac.c         |  46 ++--
- hw/sd/allwinner-sdhost.c              |  37 +++-
- target/arm/helper.c                   |   1 -
- target/arm/mte_helper.c               |  19 +-
- target/arm/sve_helper.c               |  70 ++----
- target/arm/translate-a64.c            | 110 ++++++++--
- target/arm/translate-sve.c            | 399 ++++++++++++++--------------------
- target/arm/vec_helper.c               | 182 +++++++++++-----
- 29 files changed, 629 insertions(+), 495 deletions(-)
 
