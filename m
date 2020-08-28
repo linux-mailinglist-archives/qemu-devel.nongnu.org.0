@@ -2,51 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32B86255928
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 13:12:07 +0200 (CEST)
-Received: from localhost ([::1]:48886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD403255934
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 13:16:03 +0200 (CEST)
+Received: from localhost ([::1]:39934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBcIg-00015t-5q
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 07:12:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39748)
+	id 1kBcMU-0000YY-U4
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 07:16:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kBcFy-0004ij-4T; Fri, 28 Aug 2020 07:09:18 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:58265)
+ (Exim 4.90_1)
+ (envelope-from <bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com>)
+ id 1kBcIB-0001LX-ML
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 07:11:35 -0400
+Received: from do158-143.mg.gitlab.com ([192.237.158.143]:38599)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kBcFt-0000Sn-Mb; Fri, 28 Aug 2020 07:09:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From;
- bh=UUR9W5zRzm02Un+Xj9o8GlNCqep1SV9nMZAHxhhJxFo=; 
- b=KOD+dq8w2UNhrbLBBFdWGWbIidFt4tntSDBjIrd32l2dkoCdroWWetQl3thKWKcms502Zx+6/6tZKWVZvMbBoKRirDLJACQ1XJF8w7xorCaAICK8NpUwU9GMrXnUanJQuWA06R2FN9xm6dwItdsjerwgnjZlA4icbGIVvVTJFKdE7T5otsC91bBwAo4/hJMJ0nk4QhVgWdUEXlskU5qIbUCoDzmB6cHwlxmWg1BJxblAwYf0q+FbxSJDiWMSjipl3Kd97/KF4aOP64pcmwJtrsAXpN95FJT+CLYw7kJjA2rS8GlATHyrBbYcsOzd9g4gZiVXRFL12s9t+L/zVFlZHQ==;
-Received: from 92.red-79-158-239.dynamicip.rima-tde.net ([79.158.239.92]
- helo=perseus.local) by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1kBcFR-0005uV-Ot; Fri, 28 Aug 2020 13:08:46 +0200
-Received: from berto by perseus.local with local (Exim 4.92)
- (envelope-from <berto@igalia.com>)
- id 1kBcFE-0003br-AI; Fri, 28 Aug 2020 13:08:32 +0200
-From: Alberto Garcia <berto@igalia.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] qcow2: Use macros for the L1,
- refcount and bitmap table entry sizes
-Date: Fri, 28 Aug 2020 13:08:28 +0200
-Message-Id: <20200828110828.13833-1-berto@igalia.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
- helo=fanzine.igalia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 07:08:47
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1)
+ (envelope-from <bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com>)
+ id 1kBcI9-0000xy-Dg
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 07:11:35 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.gitlab.com;
+ q=dns/txt; 
+ s=mailo; t=1598613092; h=List-Id: Content-Transfer-Encoding:
+ Content-Type: Mime-Version: Subject: Message-ID: Reply-To: From: Date:
+ Sender; bh=J4eX8iXP8Yawkek9irXZo0qllj8I5PjcPzfDHaExoSE=;
+ b=jTW8hx9vwlSvtylbS1G/JixXRinpH8k/M0danvX3gwsdBE5m8YWhqsxfNRklUx0yC5d3v3Dd
+ 5sXqNawcUMsgPMHAb2ZfNDzZl/TWvECjR80OdwYqflgv2iy1CUy4JROgzadDzweB+gul8mqh
+ YnmCdzXfCz2HAU/Y/kAQeYjvkCQ=
+X-Mailgun-Sending-Ip: 192.237.158.143
+X-Mailgun-Sid: WyI3MWYzYSIsICJxZW11LWRldmVsQG5vbmdudS5vcmciLCAiOTQ3YjQiXQ==
+Received: from mg.gitlab.com (70.90.74.34.bc.googleusercontent.com
+ [34.74.90.70]) by smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
+ 5f48e664630b177c47513035 (version=TLS1.3, cipher=TLS_AES_128_GCM_SHA256);
+ Fri, 28 Aug 2020 11:11:32 GMT
+Date: Fri, 28 Aug 2020 11:11:30 +0000
+Message-ID: <5f48e662c99b6_7a6c3fdded29dfa058957@sidekiq-catchall-01-sv-gprd.mail>
+Subject: QEMU | Pipeline #183067413 has failed for master | 33265724
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="--==_mimepart_5f48e662bfb42_7a6c3fdded29dfa0588f";
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-GitLab-Project: QEMU
+X-GitLab-Project-Id: 11167699
+X-GitLab-Project-Path: qemu-project/qemu
+X-GitLab-Pipeline-Id: 183067413
+X-GitLab-Pipeline-Ref: master
+X-GitLab-Pipeline-Status: failed
+Auto-Submitted: auto-generated
+X-Auto-Response-Suppress: All
+Received-SPF: pass client-ip=192.237.158.143;
+ envelope-from=bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com;
+ helo=do158-143.mg.gitlab.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 06:19:12
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HTML_FONT_LOW_CONTRAST=0.001, HTML_MESSAGE=0.001, MISSING_HEADERS=1.021,
+ RCVD_IN_DNSWL_MED=-2.3, REPLYTO_WITHOUT_TO_CC=1.552, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,695 +76,499 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: GitLab <noreply@gitlab.com>, GitLab <gitlab@mg.gitlab.com>
+From: GitLab via <qemu-devel@nongnu.org>
 
-This patch replaces instances of sizeof(uint64_t) in the qcow2 driver
-with macros that indicate what those sizes are actually referring to.
 
-Signed-off-by: Alberto Garcia <berto@igalia.com>
----
- block/qcow2.h          |  6 +++
- block/qcow2-bitmap.c   | 11 ++++--
- block/qcow2-cluster.c  | 24 ++++++------
- block/qcow2-refcount.c | 89 ++++++++++++++++++++++--------------------
- block/qcow2-snapshot.c | 20 +++++-----
- block/qcow2.c          | 27 ++++++-------
- 6 files changed, 94 insertions(+), 83 deletions(-)
+----==_mimepart_5f48e662bfb42_7a6c3fdded29dfa0588f
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/block/qcow2.h b/block/qcow2.h
-index 065ec3df0b..83cfa0c391 100644
---- a/block/qcow2.h
-+++ b/block/qcow2.h
-@@ -99,6 +99,12 @@
- #define L2E_SIZE_NORMAL   (sizeof(uint64_t))
- #define L2E_SIZE_EXTENDED (sizeof(uint64_t) * 2)
- 
-+/* Size of L1 table entries */
-+#define L1E_SIZE (sizeof(uint64_t))
-+
-+/* Size of reftable entries */
-+#define REFTABLE_ENTRY_SIZE (sizeof(uint64_t))
-+
- #define MIN_CLUSTER_BITS 9
- #define MAX_CLUSTER_BITS 21
- 
-diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
-index 8c34b2aef7..d7a31a8ddc 100644
---- a/block/qcow2-bitmap.c
-+++ b/block/qcow2-bitmap.c
-@@ -42,6 +42,9 @@
- #define BME_MIN_GRANULARITY_BITS 9
- #define BME_MAX_NAME_SIZE 1023
- 
-+/* Size of bitmap table entries */
-+#define BME_TABLE_ENTRY_SIZE (sizeof(uint64_t))
-+
- QEMU_BUILD_BUG_ON(BME_MAX_NAME_SIZE != BDRV_BITMAP_MAX_NAME_SIZE);
- 
- #if BME_MAX_TABLE_SIZE * 8ULL > INT_MAX
-@@ -232,7 +235,7 @@ static int bitmap_table_load(BlockDriverState *bs, Qcow2BitmapTable *tb,
- 
-     assert(tb->size <= BME_MAX_TABLE_SIZE);
-     ret = bdrv_pread(bs->file, tb->offset,
--                     table, tb->size * sizeof(uint64_t));
-+                     table, tb->size * BME_TABLE_ENTRY_SIZE);
-     if (ret < 0) {
-         goto fail;
-     }
-@@ -265,7 +268,7 @@ static int free_bitmap_clusters(BlockDriverState *bs, Qcow2BitmapTable *tb)
-     }
- 
-     clear_bitmap_table(bs, bitmap_table, tb->size);
--    qcow2_free_clusters(bs, tb->offset, tb->size * sizeof(uint64_t),
-+    qcow2_free_clusters(bs, tb->offset, tb->size * BME_TABLE_ENTRY_SIZE,
-                         QCOW2_DISCARD_OTHER);
-     g_free(bitmap_table);
- 
-@@ -690,7 +693,7 @@ int qcow2_check_bitmaps_refcounts(BlockDriverState *bs, BdrvCheckResult *res,
-         ret = qcow2_inc_refcounts_imrt(bs, res,
-                                        refcount_table, refcount_table_size,
-                                        bm->table.offset,
--                                       bm->table.size * sizeof(uint64_t));
-+                                       bm->table.size * BME_TABLE_ENTRY_SIZE);
-         if (ret < 0) {
-             goto out;
-         }
-@@ -1797,7 +1800,7 @@ uint64_t qcow2_get_persistent_dirty_bitmap_size(BlockDriverState *in_bs,
-             /* Assume the entire bitmap is allocated */
-             bitmaps_size += bmclusters * cluster_size;
-             /* Also reserve space for the bitmap table entries */
--            bitmaps_size += ROUND_UP(bmclusters * sizeof(uint64_t),
-+            bitmaps_size += ROUND_UP(bmclusters * BME_TABLE_ENTRY_SIZE,
-                                      cluster_size);
-             /* And space for contribution to bitmap directory size */
-             bitmap_dir_size += calc_dir_entry_size(strlen(name), 0);
-diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-index 996b3314f4..5b58720607 100644
---- a/block/qcow2-cluster.c
-+++ b/block/qcow2-cluster.c
-@@ -47,8 +47,8 @@ int qcow2_shrink_l1_table(BlockDriverState *bs, uint64_t exact_size)
- 
-     BLKDBG_EVENT(bs->file, BLKDBG_L1_SHRINK_WRITE_TABLE);
-     ret = bdrv_pwrite_zeroes(bs->file, s->l1_table_offset +
--                                       new_l1_size * sizeof(uint64_t),
--                             (s->l1_size - new_l1_size) * sizeof(uint64_t), 0);
-+                                       new_l1_size * L1E_SIZE,
-+                             (s->l1_size - new_l1_size) * L1E_SIZE, 0);
-     if (ret < 0) {
-         goto fail;
-     }
-@@ -76,7 +76,7 @@ fail:
-      * l1_table in memory to avoid possible image corruption.
-      */
-     memset(s->l1_table + new_l1_size, 0,
--           (s->l1_size - new_l1_size) * sizeof(uint64_t));
-+           (s->l1_size - new_l1_size) * L1E_SIZE);
-     return ret;
- }
- 
-@@ -96,7 +96,7 @@ int qcow2_grow_l1_table(BlockDriverState *bs, uint64_t min_size,
-     /* Do a sanity check on min_size before trying to calculate new_l1_size
-      * (this prevents overflows during the while loop for the calculation of
-      * new_l1_size) */
--    if (min_size > INT_MAX / sizeof(uint64_t)) {
-+    if (min_size > INT_MAX / L1E_SIZE) {
-         return -EFBIG;
-     }
- 
-@@ -114,7 +114,7 @@ int qcow2_grow_l1_table(BlockDriverState *bs, uint64_t min_size,
-     }
- 
-     QEMU_BUILD_BUG_ON(QCOW_MAX_L1_SIZE > INT_MAX);
--    if (new_l1_size > QCOW_MAX_L1_SIZE / sizeof(uint64_t)) {
-+    if (new_l1_size > QCOW_MAX_L1_SIZE / L1E_SIZE) {
-         return -EFBIG;
-     }
- 
-@@ -123,7 +123,7 @@ int qcow2_grow_l1_table(BlockDriverState *bs, uint64_t min_size,
-             s->l1_size, new_l1_size);
- #endif
- 
--    new_l1_size2 = sizeof(uint64_t) * new_l1_size;
-+    new_l1_size2 = L1E_SIZE * new_l1_size;
-     new_l1_table = qemu_try_blockalign(bs->file->bs, new_l1_size2);
-     if (new_l1_table == NULL) {
-         return -ENOMEM;
-@@ -131,7 +131,7 @@ int qcow2_grow_l1_table(BlockDriverState *bs, uint64_t min_size,
-     memset(new_l1_table, 0, new_l1_size2);
- 
-     if (s->l1_size) {
--        memcpy(new_l1_table, s->l1_table, s->l1_size * sizeof(uint64_t));
-+        memcpy(new_l1_table, s->l1_table, s->l1_size * L1E_SIZE);
-     }
- 
-     /* write new table (align to cluster) */
-@@ -180,7 +180,7 @@ int qcow2_grow_l1_table(BlockDriverState *bs, uint64_t min_size,
-     s->l1_table = new_l1_table;
-     old_l1_size = s->l1_size;
-     s->l1_size = new_l1_size;
--    qcow2_free_clusters(bs, old_l1_table_offset, old_l1_size * sizeof(uint64_t),
-+    qcow2_free_clusters(bs, old_l1_table_offset, old_l1_size * L1E_SIZE,
-                         QCOW2_DISCARD_OTHER);
-     return 0;
-  fail:
-@@ -225,9 +225,9 @@ int qcow2_write_l1_entry(BlockDriverState *bs, int l1_index)
-     BDRVQcow2State *s = bs->opaque;
-     int l1_start_index;
-     int i, ret;
--    int bufsize = MAX(sizeof(uint64_t),
-+    int bufsize = MAX(L1E_SIZE,
-                       MIN(bs->file->bs->bl.request_alignment, s->cluster_size));
--    int nentries = bufsize / sizeof(uint64_t);
-+    int nentries = bufsize / L1E_SIZE;
-     g_autofree uint64_t *buf = g_try_new0(uint64_t, nentries);
- 
-     if (buf == NULL) {
-@@ -2409,7 +2409,7 @@ int qcow2_expand_zero_clusters(BlockDriverState *bs,
-         Error *local_err = NULL;
- 
-         ret = qcow2_validate_table(bs, s->snapshots[i].l1_table_offset,
--                                   s->snapshots[i].l1_size, sizeof(uint64_t),
-+                                   s->snapshots[i].l1_size, L1E_SIZE,
-                                    QCOW_MAX_L1_SIZE, "Snapshot L1 table",
-                                    &local_err);
-         if (ret < 0) {
-@@ -2417,7 +2417,7 @@ int qcow2_expand_zero_clusters(BlockDriverState *bs,
-             goto fail;
-         }
- 
--        l1_size2 = s->snapshots[i].l1_size * sizeof(uint64_t);
-+        l1_size2 = s->snapshots[i].l1_size * L1E_SIZE;
-         new_l1_table = g_try_realloc(l1_table, l1_size2);
- 
-         if (!new_l1_table) {
-diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
-index aae52607eb..51e9778ed8 100644
---- a/block/qcow2-refcount.c
-+++ b/block/qcow2-refcount.c
-@@ -105,8 +105,8 @@ int qcow2_refcount_init(BlockDriverState *bs)
-     s->get_refcount = get_refcount_funcs[s->refcount_order];
-     s->set_refcount = set_refcount_funcs[s->refcount_order];
- 
--    assert(s->refcount_table_size <= INT_MAX / sizeof(uint64_t));
--    refcount_table_size2 = s->refcount_table_size * sizeof(uint64_t);
-+    assert(s->refcount_table_size <= INT_MAX / REFTABLE_ENTRY_SIZE);
-+    refcount_table_size2 = s->refcount_table_size * REFTABLE_ENTRY_SIZE;
-     s->refcount_table = g_try_malloc(refcount_table_size2);
- 
-     if (s->refcount_table_size > 0) {
-@@ -434,8 +434,8 @@ static int alloc_refcount_block(BlockDriverState *bs,
-     if (refcount_table_index < s->refcount_table_size) {
-         uint64_t data64 = cpu_to_be64(new_block);
-         BLKDBG_EVENT(bs->file, BLKDBG_REFBLOCK_ALLOC_HOOKUP);
--        ret = bdrv_pwrite_sync(bs->file,
--            s->refcount_table_offset + refcount_table_index * sizeof(uint64_t),
-+        ret = bdrv_pwrite_sync(bs->file, s->refcount_table_offset +
-+                               refcount_table_index * REFTABLE_ENTRY_SIZE,
-             &data64, sizeof(data64));
-         if (ret < 0) {
-             goto fail;
-@@ -562,8 +562,8 @@ int64_t qcow2_refcount_area(BlockDriverState *bs, uint64_t start_offset,
-                      DIV_ROUND_UP(total_refblock_count, 2);
-     }
-     /* The qcow2 file can only store the reftable size in number of clusters */
--    table_size = ROUND_UP(table_size, s->cluster_size / sizeof(uint64_t));
--    table_clusters = (table_size * sizeof(uint64_t)) / s->cluster_size;
-+    table_size = ROUND_UP(table_size, s->cluster_size / REFTABLE_ENTRY_SIZE);
-+    table_clusters = (table_size * REFTABLE_ENTRY_SIZE) / s->cluster_size;
- 
-     if (table_size > QCOW_MAX_REFTABLE_SIZE) {
-         return -EFBIG;
-@@ -581,13 +581,13 @@ int64_t qcow2_refcount_area(BlockDriverState *bs, uint64_t start_offset,
-     if (table_size > s->max_refcount_table_index) {
-         /* We're actually growing the reftable */
-         memcpy(new_table, s->refcount_table,
--               (s->max_refcount_table_index + 1) * sizeof(uint64_t));
-+               (s->max_refcount_table_index + 1) * REFTABLE_ENTRY_SIZE);
-     } else {
-         /* Improbable case: We're shrinking the reftable. However, the caller
-          * has assured us that there is only empty space beyond @start_offset,
-          * so we can simply drop all of the refblocks that won't fit into the
-          * new reftable. */
--        memcpy(new_table, s->refcount_table, table_size * sizeof(uint64_t));
-+        memcpy(new_table, s->refcount_table, table_size * REFTABLE_ENTRY_SIZE);
-     }
- 
-     if (new_refblock_offset) {
-@@ -682,7 +682,7 @@ int64_t qcow2_refcount_area(BlockDriverState *bs, uint64_t start_offset,
- 
-     BLKDBG_EVENT(bs->file, BLKDBG_REFBLOCK_ALLOC_WRITE_TABLE);
-     ret = bdrv_pwrite_sync(bs->file, table_offset, new_table,
--        table_size * sizeof(uint64_t));
-+        table_size * REFTABLE_ENTRY_SIZE);
-     if (ret < 0) {
-         goto fail;
-     }
-@@ -717,7 +717,8 @@ int64_t qcow2_refcount_area(BlockDriverState *bs, uint64_t start_offset,
-     update_max_refcount_table_index(s);
- 
-     /* Free old table. */
--    qcow2_free_clusters(bs, old_table_offset, old_table_size * sizeof(uint64_t),
-+    qcow2_free_clusters(bs, old_table_offset,
-+                        old_table_size * REFTABLE_ENTRY_SIZE,
-                         QCOW2_DISCARD_OTHER);
- 
-     return end_offset;
-@@ -1253,7 +1254,7 @@ int qcow2_update_snapshot_refcount(BlockDriverState *bs,
- 
-     l2_slice = NULL;
-     l1_table = NULL;
--    l1_size2 = l1_size * sizeof(uint64_t);
-+    l1_size2 = l1_size * L1E_SIZE;
-     slice_size2 = s->l2_slice_size * l2_entry_size(s);
-     n_slices = s->cluster_size / slice_size2;
- 
-@@ -1784,7 +1785,7 @@ static int check_refcounts_l1(BlockDriverState *bs,
-     uint64_t *l1_table = NULL, l2_offset, l1_size2;
-     int i, ret;
- 
--    l1_size2 = l1_size * sizeof(uint64_t);
-+    l1_size2 = l1_size * L1E_SIZE;
- 
-     /* Mark L1 table as used */
-     ret = qcow2_inc_refcounts_imrt(bs, res, refcount_table, refcount_table_size,
-@@ -2146,7 +2147,7 @@ static int calculate_refcounts(BlockDriverState *bs, BdrvCheckResult *res,
-             res->corruptions++;
-             continue;
-         }
--        if (sn->l1_size > QCOW_MAX_L1_SIZE / sizeof(uint64_t)) {
-+        if (sn->l1_size > QCOW_MAX_L1_SIZE / L1E_SIZE) {
-             fprintf(stderr, "ERROR snapshot %s (%s) l1_size=%#" PRIx32 ": "
-                     "L1 table is too large; snapshot table entry corrupted\n",
-                     sn->id_str, sn->name, sn->l1_size);
-@@ -2169,7 +2170,8 @@ static int calculate_refcounts(BlockDriverState *bs, BdrvCheckResult *res,
-     /* refcount data */
-     ret = qcow2_inc_refcounts_imrt(bs, res, refcount_table, nb_clusters,
-                                    s->refcount_table_offset,
--                                   s->refcount_table_size * sizeof(uint64_t));
-+                                   s->refcount_table_size *
-+                                   REFTABLE_ENTRY_SIZE);
-     if (ret < 0) {
-         return ret;
-     }
-@@ -2390,11 +2392,11 @@ write_refblocks:
-             uint32_t old_reftable_size = reftable_size;
-             uint64_t *new_on_disk_reftable;
- 
--            reftable_size = ROUND_UP((refblock_index + 1) * sizeof(uint64_t),
--                                     s->cluster_size) / sizeof(uint64_t);
-+            reftable_size = ROUND_UP((refblock_index + 1) * REFTABLE_ENTRY_SIZE,
-+                                     s->cluster_size) / REFTABLE_ENTRY_SIZE;
-             new_on_disk_reftable = g_try_realloc(on_disk_reftable,
-                                                  reftable_size *
--                                                 sizeof(uint64_t));
-+                                                 REFTABLE_ENTRY_SIZE);
-             if (!new_on_disk_reftable) {
-                 res->check_errors++;
-                 ret = -ENOMEM;
-@@ -2403,7 +2405,7 @@ write_refblocks:
-             on_disk_reftable = new_on_disk_reftable;
- 
-             memset(on_disk_reftable + old_reftable_size, 0,
--                   (reftable_size - old_reftable_size) * sizeof(uint64_t));
-+                   (reftable_size - old_reftable_size) * REFTABLE_ENTRY_SIZE);
- 
-             /* The offset we have for the reftable is now no longer valid;
-              * this will leak that range, but we can easily fix that by running
-@@ -2420,7 +2422,7 @@ write_refblocks:
-             reftable_offset < 0)
-         {
-             uint64_t reftable_clusters = size_to_clusters(s, reftable_size *
--                                                          sizeof(uint64_t));
-+                                                          REFTABLE_ENTRY_SIZE);
-             reftable_offset = alloc_clusters_imrt(bs, reftable_clusters,
-                                                   refcount_table, nb_clusters,
-                                                   &first_free_cluster);
-@@ -2460,8 +2462,8 @@ write_refblocks:
-         uint64_t post_refblock_start, reftable_clusters;
- 
-         post_refblock_start = ROUND_UP(*nb_clusters, s->refcount_block_size);
--        reftable_clusters = size_to_clusters(s,
--                                             reftable_size * sizeof(uint64_t));
-+        reftable_clusters =
-+            size_to_clusters(s, reftable_size * REFTABLE_ENTRY_SIZE);
-         /* Not pretty but simple */
-         if (first_free_cluster < post_refblock_start) {
-             first_free_cluster = post_refblock_start;
-@@ -2485,16 +2487,16 @@ write_refblocks:
-     }
- 
-     ret = qcow2_pre_write_overlap_check(bs, 0, reftable_offset,
--                                        reftable_size * sizeof(uint64_t),
-+                                        reftable_size * REFTABLE_ENTRY_SIZE,
-                                         false);
-     if (ret < 0) {
-         fprintf(stderr, "ERROR writing reftable: %s\n", strerror(-ret));
-         goto fail;
-     }
- 
--    assert(reftable_size < INT_MAX / sizeof(uint64_t));
-+    assert(reftable_size < INT_MAX / REFTABLE_ENTRY_SIZE);
-     ret = bdrv_pwrite(bs->file, reftable_offset, on_disk_reftable,
--                      reftable_size * sizeof(uint64_t));
-+                      reftable_size * REFTABLE_ENTRY_SIZE);
-     if (ret < 0) {
-         fprintf(stderr, "ERROR writing reftable: %s\n", strerror(-ret));
-         goto fail;
-@@ -2503,7 +2505,7 @@ write_refblocks:
-     /* Enter new reftable into the image header */
-     reftable_offset_and_clusters.reftable_offset = cpu_to_be64(reftable_offset);
-     reftable_offset_and_clusters.reftable_clusters =
--        cpu_to_be32(size_to_clusters(s, reftable_size * sizeof(uint64_t)));
-+        cpu_to_be32(size_to_clusters(s, reftable_size * REFTABLE_ENTRY_SIZE));
-     ret = bdrv_pwrite_sync(bs->file,
-                            offsetof(QCowHeader, refcount_table_offset),
-                            &reftable_offset_and_clusters,
-@@ -2693,14 +2695,14 @@ int qcow2_check_metadata_overlap(BlockDriverState *bs, int ign, int64_t offset,
-     offset = start_of_cluster(s, offset);
- 
-     if ((chk & QCOW2_OL_ACTIVE_L1) && s->l1_size) {
--        if (overlaps_with(s->l1_table_offset, s->l1_size * sizeof(uint64_t))) {
-+        if (overlaps_with(s->l1_table_offset, s->l1_size * L1E_SIZE)) {
-             return QCOW2_OL_ACTIVE_L1;
-         }
-     }
- 
-     if ((chk & QCOW2_OL_REFCOUNT_TABLE) && s->refcount_table_size) {
-         if (overlaps_with(s->refcount_table_offset,
--            s->refcount_table_size * sizeof(uint64_t))) {
-+            s->refcount_table_size * REFTABLE_ENTRY_SIZE)) {
-             return QCOW2_OL_REFCOUNT_TABLE;
-         }
-     }
-@@ -2715,7 +2717,7 @@ int qcow2_check_metadata_overlap(BlockDriverState *bs, int ign, int64_t offset,
-         for (i = 0; i < s->nb_snapshots; i++) {
-             if (s->snapshots[i].l1_size &&
-                 overlaps_with(s->snapshots[i].l1_table_offset,
--                s->snapshots[i].l1_size * sizeof(uint64_t))) {
-+                s->snapshots[i].l1_size * L1E_SIZE)) {
-                 return QCOW2_OL_INACTIVE_L1;
-             }
-         }
-@@ -2749,11 +2751,11 @@ int qcow2_check_metadata_overlap(BlockDriverState *bs, int ign, int64_t offset,
-         for (i = 0; i < s->nb_snapshots; i++) {
-             uint64_t l1_ofs = s->snapshots[i].l1_table_offset;
-             uint32_t l1_sz  = s->snapshots[i].l1_size;
--            uint64_t l1_sz2 = l1_sz * sizeof(uint64_t);
-+            uint64_t l1_sz2 = l1_sz * L1E_SIZE;
-             uint64_t *l1;
-             int ret;
- 
--            ret = qcow2_validate_table(bs, l1_ofs, l1_sz, sizeof(uint64_t),
-+            ret = qcow2_validate_table(bs, l1_ofs, l1_sz, L1E_SIZE,
-                                        QCOW_MAX_L1_SIZE, "", NULL);
-             if (ret < 0) {
-                 return ret;
-@@ -2877,8 +2879,8 @@ static int alloc_refblock(BlockDriverState *bs, uint64_t **reftable,
-         uint64_t new_reftable_size;
- 
-         new_reftable_size = ROUND_UP(reftable_index + 1,
--                                     s->cluster_size / sizeof(uint64_t));
--        if (new_reftable_size > QCOW_MAX_REFTABLE_SIZE / sizeof(uint64_t)) {
-+                                     s->cluster_size / REFTABLE_ENTRY_SIZE);
-+        if (new_reftable_size > QCOW_MAX_REFTABLE_SIZE / REFTABLE_ENTRY_SIZE) {
-             error_setg(errp,
-                        "This operation would make the refcount table grow "
-                        "beyond the maximum size supported by QEMU, aborting");
-@@ -2886,14 +2888,14 @@ static int alloc_refblock(BlockDriverState *bs, uint64_t **reftable,
-         }
- 
-         new_reftable = g_try_realloc(*reftable, new_reftable_size *
--                                                sizeof(uint64_t));
-+                                                REFTABLE_ENTRY_SIZE);
-         if (!new_reftable) {
-             error_setg(errp, "Failed to increase reftable buffer size");
-             return -ENOMEM;
-         }
- 
-         memset(new_reftable + *reftable_size, 0,
--               (new_reftable_size - *reftable_size) * sizeof(uint64_t));
-+               (new_reftable_size - *reftable_size) * REFTABLE_ENTRY_SIZE);
- 
-         *reftable      = new_reftable;
-         *reftable_size = new_reftable_size;
-@@ -3164,13 +3166,14 @@ int qcow2_change_refcount_order(BlockDriverState *bs, int refcount_order,
- 
-         if (new_allocation) {
-             if (new_reftable_offset) {
--                qcow2_free_clusters(bs, new_reftable_offset,
--                                    allocated_reftable_size * sizeof(uint64_t),
--                                    QCOW2_DISCARD_NEVER);
-+                qcow2_free_clusters(
-+                    bs, new_reftable_offset,
-+                    allocated_reftable_size * REFTABLE_ENTRY_SIZE,
-+                    QCOW2_DISCARD_NEVER);
-             }
- 
-             new_reftable_offset = qcow2_alloc_clusters(bs, new_reftable_size *
--                                                           sizeof(uint64_t));
-+                                                           REFTABLE_ENTRY_SIZE);
-             if (new_reftable_offset < 0) {
-                 error_setg_errno(errp, -new_reftable_offset,
-                                  "Failed to allocate the new reftable");
-@@ -3196,7 +3199,7 @@ int qcow2_change_refcount_order(BlockDriverState *bs, int refcount_order,
- 
-     /* Write the new reftable */
-     ret = qcow2_pre_write_overlap_check(bs, 0, new_reftable_offset,
--                                        new_reftable_size * sizeof(uint64_t),
-+                                        new_reftable_size * REFTABLE_ENTRY_SIZE,
-                                         false);
-     if (ret < 0) {
-         error_setg_errno(errp, -ret, "Overlap check failed");
-@@ -3208,7 +3211,7 @@ int qcow2_change_refcount_order(BlockDriverState *bs, int refcount_order,
-     }
- 
-     ret = bdrv_pwrite(bs->file, new_reftable_offset, new_reftable,
--                      new_reftable_size * sizeof(uint64_t));
-+                      new_reftable_size * REFTABLE_ENTRY_SIZE);
- 
-     for (i = 0; i < new_reftable_size; i++) {
-         be64_to_cpus(&new_reftable[i]);
-@@ -3285,7 +3288,7 @@ done:
- 
-         if (new_reftable_offset > 0) {
-             qcow2_free_clusters(bs, new_reftable_offset,
--                                new_reftable_size * sizeof(uint64_t),
-+                                new_reftable_size * REFTABLE_ENTRY_SIZE,
-                                 QCOW2_DISCARD_OTHER);
-         }
-     }
-@@ -3374,7 +3377,7 @@ int qcow2_shrink_reftable(BlockDriverState *bs)
- {
-     BDRVQcow2State *s = bs->opaque;
-     uint64_t *reftable_tmp =
--        g_malloc(s->refcount_table_size * sizeof(uint64_t));
-+        g_malloc(s->refcount_table_size * REFTABLE_ENTRY_SIZE);
-     int i, ret;
- 
-     for (i = 0; i < s->refcount_table_size; i++) {
-@@ -3412,7 +3415,7 @@ int qcow2_shrink_reftable(BlockDriverState *bs)
-     }
- 
-     ret = bdrv_pwrite_sync(bs->file, s->refcount_table_offset, reftable_tmp,
--                           s->refcount_table_size * sizeof(uint64_t));
-+                           s->refcount_table_size * REFTABLE_ENTRY_SIZE);
-     /*
-      * If the write in the reftable failed the image may contain a partially
-      * overwritten reftable. In this case it would be better to clear the
-diff --git a/block/qcow2-snapshot.c b/block/qcow2-snapshot.c
-index 2756b37d24..9b68690f56 100644
---- a/block/qcow2-snapshot.c
-+++ b/block/qcow2-snapshot.c
-@@ -659,7 +659,7 @@ int qcow2_snapshot_create(BlockDriverState *bs, QEMUSnapshotInfo *sn_info)
-     sn->extra_data_size = sizeof(QCowSnapshotExtraData);
- 
-     /* Allocate the L1 table of the snapshot and copy the current one there. */
--    l1_table_offset = qcow2_alloc_clusters(bs, s->l1_size * sizeof(uint64_t));
-+    l1_table_offset = qcow2_alloc_clusters(bs, s->l1_size * L1E_SIZE);
-     if (l1_table_offset < 0) {
-         ret = l1_table_offset;
-         goto fail;
-@@ -679,13 +679,13 @@ int qcow2_snapshot_create(BlockDriverState *bs, QEMUSnapshotInfo *sn_info)
-     }
- 
-     ret = qcow2_pre_write_overlap_check(bs, 0, sn->l1_table_offset,
--                                        s->l1_size * sizeof(uint64_t), false);
-+                                        s->l1_size * L1E_SIZE, false);
-     if (ret < 0) {
-         goto fail;
-     }
- 
-     ret = bdrv_pwrite(bs->file, sn->l1_table_offset, l1_table,
--                      s->l1_size * sizeof(uint64_t));
-+                      s->l1_size * L1E_SIZE);
-     if (ret < 0) {
-         goto fail;
-     }
-@@ -768,7 +768,7 @@ int qcow2_snapshot_goto(BlockDriverState *bs, const char *snapshot_id)
-     sn = &s->snapshots[snapshot_index];
- 
-     ret = qcow2_validate_table(bs, sn->l1_table_offset, sn->l1_size,
--                               sizeof(uint64_t), QCOW_MAX_L1_SIZE,
-+                               L1E_SIZE, QCOW_MAX_L1_SIZE,
-                                "Snapshot L1 table", &local_err);
-     if (ret < 0) {
-         error_report_err(local_err);
-@@ -803,8 +803,8 @@ int qcow2_snapshot_goto(BlockDriverState *bs, const char *snapshot_id)
-         goto fail;
-     }
- 
--    cur_l1_bytes = s->l1_size * sizeof(uint64_t);
--    sn_l1_bytes = sn->l1_size * sizeof(uint64_t);
-+    cur_l1_bytes = s->l1_size * L1E_SIZE;
-+    sn_l1_bytes = sn->l1_size * L1E_SIZE;
- 
-     /*
-      * Copy the snapshot L1 table to the current L1 table.
-@@ -917,7 +917,7 @@ int qcow2_snapshot_delete(BlockDriverState *bs,
-     sn = s->snapshots[snapshot_index];
- 
-     ret = qcow2_validate_table(bs, sn.l1_table_offset, sn.l1_size,
--                               sizeof(uint64_t), QCOW_MAX_L1_SIZE,
-+                               L1E_SIZE, QCOW_MAX_L1_SIZE,
-                                "Snapshot L1 table", errp);
-     if (ret < 0) {
-         return ret;
-@@ -953,7 +953,7 @@ int qcow2_snapshot_delete(BlockDriverState *bs,
-         error_setg_errno(errp, -ret, "Failed to free the cluster and L1 table");
-         return ret;
-     }
--    qcow2_free_clusters(bs, sn.l1_table_offset, sn.l1_size * sizeof(uint64_t),
-+    qcow2_free_clusters(bs, sn.l1_table_offset, sn.l1_size * L1E_SIZE,
-                         QCOW2_DISCARD_SNAPSHOT);
- 
-     /* must update the copied flag on the current cluster offsets */
-@@ -1030,12 +1030,12 @@ int qcow2_snapshot_load_tmp(BlockDriverState *bs,
- 
-     /* Allocate and read in the snapshot's L1 table */
-     ret = qcow2_validate_table(bs, sn->l1_table_offset, sn->l1_size,
--                               sizeof(uint64_t), QCOW_MAX_L1_SIZE,
-+                               L1E_SIZE, QCOW_MAX_L1_SIZE,
-                                "Snapshot L1 table", errp);
-     if (ret < 0) {
-         return ret;
-     }
--    new_l1_bytes = sn->l1_size * sizeof(uint64_t);
-+    new_l1_bytes = sn->l1_size * L1E_SIZE;
-     new_l1_table = qemu_try_blockalign(bs->file->bs, new_l1_bytes);
-     if (new_l1_table == NULL) {
-         return -ENOMEM;
-diff --git a/block/qcow2.c b/block/qcow2.c
-index da56b1a4df..ef9a45e82f 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -1543,7 +1543,7 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
- 
-     /* read the level 1 table */
-     ret = qcow2_validate_table(bs, header.l1_table_offset,
--                               header.l1_size, sizeof(uint64_t),
-+                               header.l1_size, L1E_SIZE,
-                                QCOW_MAX_L1_SIZE, "Active L1 table", errp);
-     if (ret < 0) {
-         goto fail;
-@@ -1568,15 +1568,14 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
-     }
- 
-     if (s->l1_size > 0) {
--        s->l1_table = qemu_try_blockalign(bs->file->bs,
--                                          s->l1_size * sizeof(uint64_t));
-+        s->l1_table = qemu_try_blockalign(bs->file->bs, s->l1_size * L1E_SIZE);
-         if (s->l1_table == NULL) {
-             error_setg(errp, "Could not allocate L1 table");
-             ret = -ENOMEM;
-             goto fail;
-         }
-         ret = bdrv_pread(bs->file, s->l1_table_offset, s->l1_table,
--                         s->l1_size * sizeof(uint64_t));
-+                         s->l1_size * L1E_SIZE);
-         if (ret < 0) {
-             error_setg_errno(errp, -ret, "Could not read L1 table");
-             goto fail;
-@@ -3213,7 +3212,7 @@ int64_t qcow2_refcount_metadata_size(int64_t clusters, size_t cluster_size,
-      * where no further refcount blocks or table clusters are required to
-      * reference count every cluster.
-      */
--    int64_t blocks_per_table_cluster = cluster_size / sizeof(uint64_t);
-+    int64_t blocks_per_table_cluster = cluster_size / REFTABLE_ENTRY_SIZE;
-     int64_t refcounts_per_block = cluster_size * 8 / (1 << refcount_order);
-     int64_t table = 0;  /* number of refcount table clusters */
-     int64_t blocks = 0; /* number of refcount block clusters */
-@@ -3270,8 +3269,8 @@ static int64_t qcow2_calc_prealloc_size(int64_t total_size,
- 
-     /* total size of L1 tables */
-     nl1e = nl2e * l2e_size / cluster_size;
--    nl1e = ROUND_UP(nl1e, cluster_size / sizeof(uint64_t));
--    meta_size += nl1e * sizeof(uint64_t);
-+    nl1e = ROUND_UP(nl1e, cluster_size / L1E_SIZE);
-+    meta_size += nl1e * L1E_SIZE;
- 
-     /* total size of refcount table and blocks */
-     meta_size += qcow2_refcount_metadata_size(
-@@ -4460,7 +4459,7 @@ static int coroutine_fn qcow2_co_truncate(BlockDriverState *bs, int64_t offset,
-     /* write updated header.size */
-     offset = cpu_to_be64(offset);
-     ret = bdrv_pwrite_sync(bs->file, offsetof(QCowHeader, size),
--                           &offset, sizeof(uint64_t));
-+                           &offset, sizeof(offset));
-     if (ret < 0) {
-         error_setg_errno(errp, -ret, "Failed to update the image size");
-         goto fail;
-@@ -4700,8 +4699,8 @@ static int make_completely_empty(BlockDriverState *bs)
- 
-     BLKDBG_EVENT(bs->file, BLKDBG_L1_UPDATE);
- 
--    l1_clusters = DIV_ROUND_UP(s->l1_size, s->cluster_size / sizeof(uint64_t));
--    l1_size2 = (uint64_t)s->l1_size * sizeof(uint64_t);
-+    l1_clusters = DIV_ROUND_UP(s->l1_size, s->cluster_size / L1E_SIZE);
-+    l1_size2 = (uint64_t)s->l1_size * L1E_SIZE;
- 
-     /* After this call, neither the in-memory nor the on-disk refcount
-      * information accurately describe the actual references */
-@@ -4747,14 +4746,14 @@ static int make_completely_empty(BlockDriverState *bs)
- 
-     s->l1_table_offset = 3 * s->cluster_size;
- 
--    new_reftable = g_try_new0(uint64_t, s->cluster_size / sizeof(uint64_t));
-+    new_reftable = g_try_new0(uint64_t, s->cluster_size / REFTABLE_ENTRY_SIZE);
-     if (!new_reftable) {
-         ret = -ENOMEM;
-         goto fail_broken_refcounts;
-     }
- 
-     s->refcount_table_offset = s->cluster_size;
--    s->refcount_table_size   = s->cluster_size / sizeof(uint64_t);
-+    s->refcount_table_size   = s->cluster_size / REFTABLE_ENTRY_SIZE;
-     s->max_refcount_table_index = 0;
- 
-     g_free(s->refcount_table);
-@@ -4826,7 +4825,7 @@ static int qcow2_make_empty(BlockDriverState *bs)
-     int step = QEMU_ALIGN_DOWN(INT_MAX, s->cluster_size);
-     int l1_clusters, ret = 0;
- 
--    l1_clusters = DIV_ROUND_UP(s->l1_size, s->cluster_size / sizeof(uint64_t));
-+    l1_clusters = DIV_ROUND_UP(s->l1_size, s->cluster_size / L1E_SIZE);
- 
-     if (s->qcow_version >= 3 && !s->snapshots && !s->nb_bitmaps &&
-         3 + l1_clusters <= s->refcount_block_size &&
-@@ -4957,7 +4956,7 @@ static BlockMeasureInfo *qcow2_measure(QemuOpts *opts, BlockDriverState *in_bs,
-     l2e_size = extended_l2 ? L2E_SIZE_EXTENDED : L2E_SIZE_NORMAL;
-     l2_tables = DIV_ROUND_UP(virtual_size / cluster_size,
-                              cluster_size / l2e_size);
--    if (l2_tables * sizeof(uint64_t) > QCOW_MAX_L1_SIZE) {
-+    if (l2_tables * L1E_SIZE > QCOW_MAX_L1_SIZE) {
-         error_setg(&local_err, "The image size is too large "
-                                "(try using a larger cluster size)");
-         goto err;
--- 
-2.20.1
 
+
+Your pipeline has failed.
+
+Project: QEMU ( https://gitlab.com/qemu-project/qemu )
+Branch: master ( https://gitlab.com/qemu-project/qemu/-/commits/master )
+
+Commit: 33265724 ( https://gitlab.com/qemu-project/qemu/-/commit/33265724=
+5b59952306715bdf696037cb7ea35919 )
+Commit Message: Merge remote-tracking branch 'remotes/bonzini-g...
+Commit Author: Peter Maydell ( https://gitlab.com/pm215 )
+
+Pipeline #183067413 ( https://gitlab.com/qemu-project/qemu/-/pipelines/18=
+3067413 ) triggered by Alex Benn=C3=A9e ( https://gitlab.com/stsquad )
+had 1 failed build.
+
+Job #708467507 ( https://gitlab.com/qemu-project/qemu/-/jobs/708467507/ra=
+w )
+
+Stage: test
+Name: acceptance-system-centos
+Trace: 10:56:18 ERROR|   File "/builds/qemu-project/qemu/python/qemu/mach=
+ine.py", line 342, in launch
+    self._launch()
+
+10:56:18 ERROR|   File "/builds/qemu-project/qemu/python/qemu/machine.py"=
+, line 369, in _launch
+    self._post_launch()
+
+10:56:18 ERROR|   File "/builds/qemu-project/qemu/python/qemu/machine.py"=
+, line 288, in _post_launch
+    self._qmp.accept()
+
+10:56:18 ERROR|   File "/builds/qemu-project/qemu/python/qemu/qmp.py", li=
+ne 236, in accept
+    return self.__negotiate_capabilities()
+
+10:56:18 ERROR|   File "/builds/qemu-project/qemu/python/qemu/qmp.py", li=
+ne 129, in __negotiate_capabilities
+    resp =3D self.cmd('qmp_capabilities')
+
+10:56:18 ERROR|   File "/builds/qemu-project/qemu/python/qemu/qmp.py", li=
+ne 266, in cmd
+    return self.cmd_obj(qmp_cmd)
+
+10:56:18 ERROR|   File "/builds/qemu-project/qemu/python/qemu/qmp.py", li=
+ne 249, in cmd_obj
+    raise QMPConnectError("Unexpected empty reply from server")
+
+10:56:18 ERROR| qemu.qmp.QMPConnectError: Unexpected empty reply from ser=
+ver
+
+10:56:18 ERROR| ERROR 34-tests/acceptance/vnc.py:Vnc.test_change_password=
+ -> QMPConnectError: Unexpected empty reply from server
+10:56:18 INFO | =
+
+=1B[32;1m$ du -chs ${CI_PROJECT_DIR}/avocado-cache=1B[0;m
+1.2G	/builds/qemu-project/qemu/avocado-cache
+1.2G	total
+section_end:1598612183:after_script
+=1B[0K=1B[31;1mERROR: Job failed: exit code 1
+=1B[0;m
+
+
+-- =
+
+You're receiving this email because of your account on gitlab.com.
+
+
+
+
+----==_mimepart_5f48e662bfb42_7a6c3fdded29dfa0588f
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://ww=
+w.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns=3D"http://www.w3.org/1999/xhtml" lang=3D"en" xml:lang=3D"en">=
+
+<head>
+<meta content=3D"text/html; charset=3DUTF-8" http-equiv=3D"Content-Type" =
+/>
+<meta content=3D"width=3Ddevice-width, initial-scale=3D1" name=3D"viewpor=
+t" />
+<meta content=3D"IE=3Dedge" http-equiv=3D"X-UA-Compatible" />
+<title>QEMU | Pipeline #183067413 has failed for master | 33265724</title=
+>
+<style data-premailer=3D"ignore" type=3D"text/css">
+body,table,td,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}t=
+able,td{mso-table-lspace:0pt;mso-table-rspace:0pt}img{-ms-interpolation-m=
+ode:bicubic}.hidden{display:none !important;visibility:hidden !important}=
+a[x-apple-data-detectors]{color:inherit !important;text-decoration:none !=
+important;font-size:inherit !important;font-family:inherit !important;fon=
+t-weight:inherit !important;line-height:inherit !important}div[style*=3D'=
+margin: 16px 0']{margin:0 !important}@media only screen and (max-width: 6=
+39px){body,#body{min-width:320px !important}table.wrapper{width:100% !imp=
+ortant;min-width:320px !important}table.wrapper td.wrapper-cell{border-le=
+ft:0 !important;border-right:0 !important;border-radius:0 !important;padd=
+ing-left:10px !important;padding-right:10px !important}}
+
+</style>
+
+<style>body {
+margin: 0 !important; background-color: #fafafa; padding: 0; text-align: =
+center; min-width: 640px; width: 100%; height: 100%; font-family: "Helvet=
+ica Neue", Helvetica, Arial, sans-serif;
+}
+</style></head>
+<body style=3D"text-align: center; min-width: 640px; width: 100%; height:=
+ 100%; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-se=
+rif; margin: 0; padding: 0;" bgcolor=3D"#fafafa">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" id=3D"body" style=
+=3D"text-align: center; min-width: 640px; width: 100%; margin: 0; padding=
+: 0;" bgcolor=3D"#fafafa">
+<tbody>
+<tr class=3D"line">
+<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
+ans-serif; height: 4px; font-size: 4px; line-height: 4px;" bgcolor=3D"#6b=
+4fbb"></td>
+</tr>
+<tr class=3D"header">
+<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
+ans-serif; font-size: 13px; line-height: 1.6; color: #5c5c5c; padding: 25=
+px 0;">
+
+<img alt=3D"GitLab" src=3D"https://gitlab.com/assets/mailers/gitlab_heade=
+r_logo-153749eaa7ea6fafcb995161abd3247bc4c4500f31498b0c4024f50093983ac0.g=
+if" width=3D"55" height=3D"50" />
+</td>
+</tr>
+<tr>
+<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
+ans-serif;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"wrapper"=
+ style=3D"width: 640px; border-collapse: separate; border-spacing: 0; mar=
+gin: 0 auto;">
+<tbody>
+<tr>
+<td class=3D"wrapper-cell" style=3D"font-family: &quot;Helvetica Neue&quo=
+t;, Helvetica, Arial, sans-serif; border-radius: 3px; overflow: hidden; p=
+adding: 18px 25px; border: 1px solid #ededed;" align=3D"left" bgcolor=3D"=
+#fff">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"content"=
+ style=3D"width: 100%; border-collapse: separate; border-spacing: 0;">
+<tbody>
+<tr class=3D"alert">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
+rder-radius: 3px; font-size: 14px; line-height: 1.3; overflow: hidden; co=
+lor: #ffffff; padding: 10px;" align=3D"center" bgcolor=3D"#d22f57">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse; margin: 0 auto;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #ffffff; padding-right: 5px; line-height: 1;" align=3D"center" valig=
+n=3D"middle">
+<img alt=3D"&#10006;" height=3D"13" src=3D"https://gitlab.com/assets/mail=
+ers/ci_pipeline_notif_v1/icon-x-red-inverted-06edddd39ba2a7f9a32f6201e420=
+175db85a4b6ac0348203fdc069001b440149.gif" style=3D"display: block;" width=
+=3D"13" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #ffffff;" align=3D"center" valign=3D"middle">
+Your pipeline has failed.
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class=3D"spacer">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; he=
+ight: 18px; font-size: 18px; line-height: 18px;">
+&#160;
+</td>
+</tr>
+<tr class=3D"section">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
+rder-radius: 3px; overflow: hidden; padding: 0 15px; border: 1px solid #e=
+deded;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"table-in=
+fo" style=3D"width: 100%;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; margin=
+: 0; padding: 14px 0;">Project</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
+ 75%; margin: 0; padding: 14px 0 14px 5px;">
+<a class=3D"muted" href=3D"https://gitlab.com/qemu-project" style=3D"colo=
+r: #333333; text-decoration: none;">
+QEMU
+</a>
+/
+<a class=3D"muted" href=3D"https://gitlab.com/qemu-project/qemu" style=3D=
+"color: #333333; text-decoration: none;">
+QEMU
+</a>
+</td>
+</tr>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
+-top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
+in: 0; padding: 14px 0;">Branch</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
+ 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
+ solid; margin: 0; padding: 14px 0 14px 5px;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
+<img alt=3D"" height=3D"13" src=3D"https://gitlab.com/assets/mailers/ci_p=
+ipeline_notif_v1/icon-branch-gray-53618a7fc19d4d32ccbabac2f6d59bebe67202a=
+9f2f1255e3f72c69756c0dd9c.gif" style=3D"display: block;" width=3D"13" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4;" valign=3D"middle">
+<a class=3D"muted" href=3D"https://gitlab.com/qemu-project/qemu/-/commits=
+/master" style=3D"color: #333333; text-decoration: none;">
+master
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
+-top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
+in: 0; padding: 14px 0;">Commit</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; font-weight: 400; color: #333333; width:=
+ 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
+ solid; margin: 0; padding: 14px 0 14px 5px;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
+<img alt=3D"" height=3D"13" src=3D"https://gitlab.com/assets/mailers/ci_p=
+ipeline_notif_v1/icon-commit-gray-c10243ac24cde64b549aec91de35e6b49c8739b=
+506b86472b54614c10d8b4aac.gif" style=3D"display: block;" width=3D"13" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4;" valign=3D"middle">
+<a href=3D"https://gitlab.com/qemu-project/qemu/-/commit/332657245b599523=
+06715bdf696037cb7ea35919" style=3D"color: #3777b0; text-decoration: none;=
+">
+33265724
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+<div class=3D"commit" style=3D"color: #5c5c5c; font-weight: 300;">
+Merge remote-tracking branch 'remotes/bonzini-g...
+</div>
+</td>
+</tr>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
+-top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
+in: 0; padding: 14px 0;">Commit Author</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
+ 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
+ solid; margin: 0; padding: 14px 0 14px 5px;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
+<img alt=3D"" class=3D"avatar" height=3D"24" src=3D"https://secure.gravat=
+ar.com/avatar/98261ce19b4e9da714d577154686723a?s=3D48&amp;d=3Didenticon" =
+style=3D"display: block; border-radius: 12px; margin: -2px 0;" width=3D"2=
+4" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4;" valign=3D"middle">
+<a class=3D"muted" href=3D"https://gitlab.com/pm215" style=3D"color: #333=
+333; text-decoration: none;">
+Peter Maydell
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class=3D"spacer">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; he=
+ight: 18px; font-size: 18px; line-height: 18px;">
+&#160;
+</td>
+</tr>
+<tr class=3D"pre-section">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #333333; font-size: 15px; font-weight: 400; line-height: 1.4; paddin=
+g: 15px 5px 0;" align=3D"center">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse; margin: 0 auto;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; font-weight: 500; line-height: 1.4;" valign=3D"baseline">
+Pipeline
+<a href=3D"https://gitlab.com/qemu-project/qemu/-/pipelines/183067413" st=
+yle=3D"color: #3777b0; text-decoration: none;">
+#183067413
+</a>
+triggered by
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; padding-right: 5px; padding-left: 5px;" =
+width=3D"24" valign=3D"middle">
+<img alt=3D"" class=3D"avatar" height=3D"24" src=3D"https://secure.gravat=
+ar.com/avatar/a7d7f408c0b3370bbbeb98833d6c50e4?s=3D48&amp;d=3Didenticon" =
+style=3D"display: block; border-radius: 12px; margin: -2px 0;" width=3D"2=
+4" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; font-weight: 500; line-height: 1.4;" valign=3D"baseline">
+<a class=3D"muted" href=3D"https://gitlab.com/stsquad" style=3D"color: #3=
+33333; text-decoration: none;">
+Alex Benn&#233;e
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td colspan=3D"2" style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,=
+sans-serif; color: #333333; font-size: 14px; font-weight: 400; line-heigh=
+t: 1.4; padding: 0 8px 16px;" align=3D"center">
+had
+1
+failed
+build.
+</td>
+</tr>
+<tr class=3D"table-warning">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
+rder-radius: 4px 4px 0 0; overflow: hidden; color: #d22852; font-size: 14=
+px; line-height: 1.4; padding: 8px 16px; border-color: #ededed; border-st=
+yle: solid; border-width: 1px 1px 0;" align=3D"center" bgcolor=3D"#fdf4f6=
+">
+Logs may contain sensitive data. Please consider before forwarding this e=
+mail.
+</td>
+</tr>
+<tr class=3D"section">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; ov=
+erflow: hidden; border-radius: 0 0 4px 4px; padding: 0 16px; border-color=
+: #ededed; border-style: solid; border-width: 0 1px 1px;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"builds" =
+style=3D"width: 100%; border-collapse: collapse;">
+<tbody>
+<tr class=3D"build-state">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #8c8c8c; font-weight: 500; font-size: 14px; padding: 16px 0;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #d22f57; font-weight: 500; font-size: 16px; padding-right: 8px; line=
+-height: 10px;" valign=3D"middle">
+<img alt=3D"&#10006;" height=3D"10" src=3D"https://gitlab.com/assets/mail=
+ers/ci_pipeline_notif_v1/icon-x-red-67056b7b99899e30453df79abfbe16162f6a2=
+6ed789d8236f81afcaea216ffe6.gif" style=3D"display: block;" width=3D"10" /=
+>
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #8c8c8c; font-weight: 500; font-size: 14px;" valign=3D"middle">
+test
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+<td align=3D"right" style=3D"font-family: 'Helvetica Neue',Helvetica,Aria=
+l,sans-serif; color: #8c8c8c; font-weight: 500; font-size: 14px; padding:=
+ 16px 0;">
+<a href=3D"https://gitlab.com/qemu-project/qemu/-/jobs/708467507" style=3D=
+"color: #3777b0; text-decoration: none;">
+acceptance-system-centos
+</a>
+
+</td>
+</tr>
+<tr class=3D"build-log">
+<td colspan=3D"2" style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,=
+sans-serif; padding: 0 0 16px;">
+<pre style=3D"font-family: Monaco,'Lucida Console','Courier New',Courier,=
+monospace; background-color: #fafafa; border-radius: 4px; overflow: hidde=
+n; white-space: pre-wrap; word-break: break-all; font-size: 13px; line-he=
+ight: 1.4; color: #333333; margin: 0; padding: 16px 8px;"><span>10:56:18 =
+ERROR|   File "/builds/qemu-project/qemu/python/qemu/machine.py", line 34=
+2, in launch<br />    self._launch()<br /><br />10:56:18 ERROR|   File "/=
+builds/qemu-project/qemu/python/qemu/machine.py", line 369, in _launch<br=
+ />    self._post_launch()<br /><br />10:56:18 ERROR|   File "/builds/qem=
+u-project/qemu/python/qemu/machine.py", line 288, in _post_launch<br />  =
+  self._qmp.accept()<br /><br />10:56:18 ERROR|   File "/builds/qemu-proj=
+ect/qemu/python/qemu/qmp.py", line 236, in accept<br />    return self.__=
+negotiate_capabilities()<br /><br />10:56:18 ERROR|   File "/builds/qemu-=
+project/qemu/python/qemu/qmp.py", line 129, in __negotiate_capabilities<b=
+r />    resp =3D self.cmd('qmp_capabilities')<br /><br />10:56:18 ERROR| =
+  File "/builds/qemu-project/qemu/python/qemu/qmp.py", line 266, in cmd<b=
+r />    return self.cmd_obj(qmp_cmd)<br /><br />10:56:18 ERROR|   File "/=
+builds/qemu-project/qemu/python/qemu/qmp.py", line 249, in cmd_obj<br /> =
+   raise QMPConnectError("Unexpected empty reply from server")<br /><br /=
+>10:56:18 ERROR| qemu.qmp.QMPConnectError: Unexpected empty reply from se=
+rver<br /><br />10:56:18 ERROR| ERROR 34-tests/acceptance/vnc.py:Vnc.test=
+_change_password -&gt; QMPConnectError: Unexpected empty reply from serve=
+r<br />10:56:18 INFO | <br /></span><span class=3D"term-fg-l-green term-b=
+old">$ du -chs ${CI_PROJECT_DIR}/avocado-cache</span><span><br />1.2G	/bu=
+ilds/qemu-project/qemu/avocado-cache<br />1.2G	total<br /></span><span cl=
+ass=3D"term-fg-l-red term-bold">ERROR: Job failed: exit code 1<br /></spa=
+n></pre>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+
+
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+
+<tr class=3D"footer">
+<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
+ans-serif; font-size: 13px; line-height: 1.6; color: #5c5c5c; padding: 25=
+px 0;">
+<img alt=3D"GitLab" height=3D"33" src=3D"https://gitlab.com/assets/mailer=
+s/gitlab_footer_logo-078860f148cc9596195e6bb3fa7db31c30538355576c5c3b569c=
+414902e3d095.gif" width=3D"90" style=3D"display: block; margin: 0 auto 1e=
+m;" />
+<div>
+You're receiving this email because of your account on gitlab.com. <a cla=
+ss=3D"mng-notif-link" href=3D"https://gitlab.com/profile/notifications" s=
+tyle=3D"color: #3777b0; text-decoration: none;">Manage all notifications<=
+/a> &#183; <a class=3D"help-link" href=3D"https://gitlab.com/help" style=3D=
+"color: #3777b0; text-decoration: none;">Help</a>
+</div>
+</td>
+</tr>
+
+<tr>
+<td class=3D"footer-message" style=3D"font-family: &quot;Helvetica Neue&q=
+uot;, Helvetica, Arial, sans-serif; font-size: 13px; line-height: 1.6; co=
+lor: #5c5c5c; padding: 25px 0;">
+
+</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>
+
+----==_mimepart_5f48e662bfb42_7a6c3fdded29dfa0588f--
 
