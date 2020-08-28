@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3DD6255C85
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 16:31:54 +0200 (CEST)
-Received: from localhost ([::1]:48934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DFD3255CA2
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 16:35:27 +0200 (CEST)
+Received: from localhost ([::1]:36998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBfQ1-0006In-T6
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 10:31:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51394)
+	id 1kBfTS-0004g9-6v
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 10:35:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBfEr-00010l-1W
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 10:20:21 -0400
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:44612)
+ id 1kBfEr-00012a-Vq
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 10:20:23 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:46935)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBfEn-0005Bh-5l
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 10:20:20 -0400
-Received: by mail-pl1-x636.google.com with SMTP id q3so519699pls.11
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 07:20:16 -0700 (PDT)
+ id 1kBfEo-0005Bu-7E
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 10:20:21 -0400
+Received: by mail-pl1-x643.google.com with SMTP id k13so513714plk.13
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 07:20:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wse7zD0pJo6WjEez5LvLZIudG6q/fbgb3bbbGW9ilgU=;
- b=JTtHd001fmseF2x8ueeXUqRoww9p2zSHOGlRcOTohLKFRLMLAGUPSs3Ji3e7PgtyEc
- GEIhJ8HeJpCT0G596HhCoxvee7+xpnOltXzwW1v9xbEKQzWQG9PwISSYCeSHg97FvmqH
- XGouX4YMs2Kv1FvnxTx0OF9c7GlpOqg67U69IuIAmc0GStImTKmUldlT8hdCIhe+iIyK
- 9exMY2FWun8Dtfx9wHVFVH4Q7pzz9D6rNjGlttBirrxO1Wtz4vx5jWcwV+6MmS770Dbs
- 8oiFByfTG5HFxgR4ic+uA7plpMnLSuiRXhoUGrKUSrAuJZqXIa6vdeZ0ncVZehhFxTL4
- OvCg==
+ bh=+kEx0UptQCrtmnph6sgV6tFoh7UCNGXW3aCpI+f1tQA=;
+ b=YomxZ/DhDeUWnSe05DJ+fB7yPF1bZJ0rpB3bsxUT3XCdcvfOmXZQDqK5rg3zkXz9mZ
+ /i8qziZJKBy0NqI09elc8x02O3K5VbKybNQtVKzHu3dTrTozRQla80GkmIYA1ACegXSO
+ souu71kuNybTiQd+C+lRszFqH+uctoQzyirGAHHzSl3EDnIjY2dPIs6g5ABGzoMAM6Y1
+ tFfPIy8MPAZPk+Ffr0YqE1QUvHyyRfE67IE1szgaLJkcLmge9OG3k6iDsiYtWWb5qFXc
+ y3gIoW6+sx6YitiDXZq3bbSb6h3HAzTjEDr6UYCTL+CLqSUzd+vkRVv8YN+1tI96gzIM
+ 5M9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wse7zD0pJo6WjEez5LvLZIudG6q/fbgb3bbbGW9ilgU=;
- b=V1KgVeVL9t5Zz1uWHMD6H1rpzWR0K24akbo4Lp/nYjfsBsV3xulL2StQIMHPQztPG0
- q8zCmWrVt56QAm0vtLH4oNgAR29ezd69LX98TrV/OF8MxNMUMDYkeXe/MLXvgrjq1VBN
- 0UyRsENx2aZH0XQyHRBGINqSpYpE6P5tpqnN0TEm56io1X+VY1ZnKAj4vec+Fewgke/r
- 6XCcWpLxIxhIBVqylFkjDPo/pJ6+VYGBT7cZdG+weARdWaVeIWeAJef8E83bNOr4M32W
- BnSIbmQ1/0dQGMPvXFFy9S00WB7YF83gOvWCGD29mZyS8+3HsNLeEYr7WMaw4fDtenLw
- Qe/g==
-X-Gm-Message-State: AOAM531bXElZ92KCmLLtwqcI/iEeleuH6V40AY+Uk1YU9fEYKW8I2vKC
- xFtCMHvNW3WsFvrTls/0TW2Wj51tcrm9KA==
-X-Google-Smtp-Source: ABdhPJyUN7340HolLAR3nfS/akljQu8O3gAVw2PkM5xzTCPuIHQszNQvxOLF0BcmsITdZ6ZR/eg6Vg==
-X-Received: by 2002:a17:90a:ad48:: with SMTP id
- w8mr1393761pjv.179.1598624415335; 
- Fri, 28 Aug 2020 07:20:15 -0700 (PDT)
+ bh=+kEx0UptQCrtmnph6sgV6tFoh7UCNGXW3aCpI+f1tQA=;
+ b=snw/BJxKvcg0sq4RMb7zZKKfu3NTa6d7ww8OERFfB8ZdI3FE98YMrxITP2W+XoNqCU
+ T4/tNbnFXZpLC5zrbR1ZPyXoZ83O1qhfxPA6JWrXSfyrYvIM4bHBl7iDg9l7zSrVbdCR
+ orjkmlkWDu32kxAlEC8lR3aKe+JXPB+pZ/iGMiL4d/xEDXBMEAWg8R66a2EjOjRJAzbO
+ U419IhBFjsyJgbNc+rLabym0iPt1LHhpEGhm+eolkf3IEcFGnlojsEyhyYvx2dl1k9DV
+ 91udEBYGBxzZ2rqXfrQQpl7CwWGx70OdJ9zZykMRJAzQo/Yh02Is1Y4geqf0oOH+msS9
+ KoNA==
+X-Gm-Message-State: AOAM530ZKwD084Z0ndZK71ZYtd0AEaTSq7FuEMotvzzfk/KJ8YPOi2WT
+ w32KZndLrZJ9rc1X1cXqdoPbLY3h8pA2uQ==
+X-Google-Smtp-Source: ABdhPJxltCoQk4lkp6hwmcgfFw0H6CKaj98wKGSELsiuHLHwPq03wPvcdmqTpwMoOfXRqQTb0MEO7Q==
+X-Received: by 2002:a17:902:748c:: with SMTP id
+ h12mr1496665pll.316.1598624416492; 
+ Fri, 28 Aug 2020 07:20:16 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id j3sm1403080pjw.23.2020.08.28.07.20.14
+ by smtp.gmail.com with ESMTPSA id j3sm1403080pjw.23.2020.08.28.07.20.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 07:20:14 -0700 (PDT)
+ Fri, 28 Aug 2020 07:20:15 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 34/76] target/microblaze: Ensure imm constant is always
- available
-Date: Fri, 28 Aug 2020 07:18:47 -0700
-Message-Id: <20200828141929.77854-35-richard.henderson@linaro.org>
+Subject: [PATCH v2 35/76] target/microblaze: Add decodetree infrastructure
+Date: Fri, 28 Aug 2020 07:18:48 -0700
+Message-Id: <20200828141929.77854-36-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200828141929.77854-1-richard.henderson@linaro.org>
 References: <20200828141929.77854-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,233 +89,96 @@ Cc: edgar.iglesias@xilinx.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Include the env->imm value in the TB values when IMM_FLAG is set.
-This means that we can always reconstruct the complete 32-bit imm.
-Discard env_imm when its contents can no longer be accessed.
-
-Fix user-mode checks for BRK/BRKI, which depend on IMM.
+The new interface is a stub that recognizes no instructions.
+It falls back to the old decoder for all instructions.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/cpu.h       |   2 +-
- target/microblaze/translate.c | 111 ++++++++++++++++++++--------------
- 2 files changed, 67 insertions(+), 46 deletions(-)
+ target/microblaze/insns.decode | 18 ++++++++++++++++++
+ target/microblaze/translate.c  | 11 +++++++++--
+ target/microblaze/meson.build  |  3 +++
+ 3 files changed, 30 insertions(+), 2 deletions(-)
+ create mode 100644 target/microblaze/insns.decode
 
-diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
-index 7066878ac7..013858b8e0 100644
---- a/target/microblaze/cpu.h
-+++ b/target/microblaze/cpu.h
-@@ -374,9 +374,9 @@ static inline void cpu_get_tb_cpu_state(CPUMBState *env, target_ulong *pc,
-                                         target_ulong *cs_base, uint32_t *flags)
- {
-     *pc = env->pc;
--    *cs_base = 0;
-     *flags = (env->iflags & IFLAGS_TB_MASK) |
-              (env->msr & (MSR_UM | MSR_VM | MSR_EE));
-+    *cs_base = (*flags & IMM_FLAG ? env->imm : 0);
- }
- 
- #if !defined(CONFIG_USER_ONLY)
+diff --git a/target/microblaze/insns.decode b/target/microblaze/insns.decode
+new file mode 100644
+index 0000000000..1ed9ca0731
+--- /dev/null
++++ b/target/microblaze/insns.decode
+@@ -0,0 +1,18 @@
++#
++# MicroBlaze instruction decode definitions.
++#
++# Copyright (c) 2020 Richard Henderson <rth@twiddle.net>
++#
++# This library is free software; you can redistribute it and/or
++# modify it under the terms of the GNU Lesser General Public
++# License as published by the Free Software Foundation; either
++# version 2.1 of the License, or (at your option) any later version.
++#
++# This library is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++# Lesser General Public License for more details.
++#
++# You should have received a copy of the GNU Lesser General Public
++# License along with this library; if not, see <http://www.gnu.org/licenses/>.
++#
 diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index 133ec24870..65ce8f3cd6 100644
+index 65ce8f3cd6..e624093745 100644
 --- a/target/microblaze/translate.c
 +++ b/target/microblaze/translate.c
-@@ -61,6 +61,7 @@ typedef struct DisasContext {
-     /* Decoder.  */
-     int type_b;
-     uint32_t ir;
-+    uint32_t ext_imm;
-     uint8_t opcode;
-     uint8_t rd, ra, rb;
-     uint16_t imm;
-@@ -169,24 +170,23 @@ static bool trap_userspace(DisasContext *dc, bool cond)
-     return cond_user;
- }
+@@ -81,6 +81,9 @@ typedef struct DisasContext {
+     int abort_at_next_insn;
+ } DisasContext;
  
--/* True if ALU operand b is a small immediate that may deserve
--   faster treatment.  */
--static inline int dec_alu_op_b_is_small_imm(DisasContext *dc)
-+static int32_t dec_alu_typeb_imm(DisasContext *dc)
- {
--    /* Immediate insn without the imm prefix ?  */
--    return dc->type_b && !(dc->tb_flags & IMM_FLAG);
-+    tcg_debug_assert(dc->type_b);
-+    if (dc->tb_flags & IMM_FLAG) {
-+        return dc->ext_imm | dc->imm;
-+    } else {
-+        return (int16_t)dc->imm;
-+    }
- }
- 
- static inline TCGv_i32 *dec_alu_op_b(DisasContext *dc)
- {
-     if (dc->type_b) {
--        if (dc->tb_flags & IMM_FLAG)
--            tcg_gen_ori_i32(cpu_imm, cpu_imm, dc->imm);
--        else
--            tcg_gen_movi_i32(cpu_imm, (int32_t)((int16_t)dc->imm));
-+        tcg_gen_movi_i32(cpu_imm, dec_alu_typeb_imm(dc));
-         return &cpu_imm;
--    } else
--        return &cpu_R[dc->rb];
-+    }
-+    return &cpu_R[dc->rb];
- }
- 
- static void dec_add(DisasContext *dc)
-@@ -776,14 +776,14 @@ static inline void sync_jmpstate(DisasContext *dc)
- 
- static void dec_imm(DisasContext *dc)
- {
--    tcg_gen_movi_i32(cpu_imm, (dc->imm << 16));
-+    dc->ext_imm = dc->imm << 16;
-+    tcg_gen_movi_i32(cpu_imm, dc->ext_imm);
-     dc->tb_flags |= IMM_FLAG;
-     dc->clear_imm = 0;
- }
- 
- static inline void compute_ldst_addr(DisasContext *dc, bool ea, TCGv t)
- {
--    bool extimm = dc->tb_flags & IMM_FLAG;
-     /* Should be set to true if r1 is used by loadstores.  */
-     bool stackprot = false;
-     TCGv_i32 t32;
-@@ -836,11 +836,7 @@ static inline void compute_ldst_addr(DisasContext *dc, bool ea, TCGv t)
-     }
-     /* Immediate.  */
-     t32 = tcg_temp_new_i32();
--    if (!extimm) {
--        tcg_gen_addi_i32(t32, cpu_R[dc->ra], (int16_t)dc->imm);
--    } else {
--        tcg_gen_add_i32(t32, cpu_R[dc->ra], *(dec_alu_op_b(dc)));
--    }
-+    tcg_gen_addi_i32(t32, cpu_R[dc->ra], dec_alu_typeb_imm(dc));
-     tcg_gen_extu_i32_tl(t, t32);
-     tcg_temp_free_i32(t32);
- 
-@@ -1134,15 +1130,13 @@ static void dec_bcc(DisasContext *dc)
-         dec_setup_dslot(dc);
-     }
- 
--    if (dec_alu_op_b_is_small_imm(dc)) {
--        int32_t offset = (int32_t)((int16_t)dc->imm); /* sign-extend.  */
--
--        tcg_gen_movi_i32(cpu_btarget, dc->base.pc_next + offset);
-+    if (dc->type_b) {
-         dc->jmp = JMP_DIRECT_CC;
--        dc->jmp_pc = dc->base.pc_next + offset;
-+        dc->jmp_pc = dc->base.pc_next + dec_alu_typeb_imm(dc);
-+        tcg_gen_movi_i32(cpu_btarget, dc->jmp_pc);
-     } else {
-         dc->jmp = JMP_INDIRECT;
--        tcg_gen_addi_i32(cpu_btarget, *dec_alu_op_b(dc), dc->base.pc_next);
-+        tcg_gen_addi_i32(cpu_btarget, cpu_R[dc->rb], dc->base.pc_next);
-     }
-     eval_cc(dc, cc, cpu_btaken, cpu_R[dc->ra]);
- }
-@@ -1192,38 +1186,63 @@ static void dec_br(DisasContext *dc)
-         return;
-     }
- 
-+    if (abs && link && !dslot) {
-+        if (dc->type_b) {
-+            /* BRKI */
-+            uint32_t imm = dec_alu_typeb_imm(dc);
-+            if (trap_userspace(dc, imm != 8 && imm != 0x18)) {
-+                return;
-+            }
-+        } else {
-+            /* BRK */
-+            if (trap_userspace(dc, true)) {
-+                return;
-+            }
-+        }
-+    }
++/* Include the auto-generated decoder.  */
++#include "decode-insns.c.inc"
 +
-     dc->delayed_branch = 1;
-     if (dslot) {
-         dec_setup_dslot(dc);
+ static inline void t_sync_flags(DisasContext *dc)
+ {
+     /* Synch the tb dependent flags between translator and runtime.  */
+@@ -1506,7 +1509,7 @@ static struct decoder_info {
+     {{0, 0}, dec_null}
+ };
+ 
+-static inline void decode(DisasContext *dc, uint32_t ir)
++static void old_decode(DisasContext *dc, uint32_t ir)
+ {
+     int i;
+ 
+@@ -1584,6 +1587,7 @@ static void mb_tr_translate_insn(DisasContextBase *dcb, CPUState *cs)
+ {
+     DisasContext *dc = container_of(dcb, DisasContext, base);
+     CPUMBState *env = cs->env_ptr;
++    uint32_t ir;
+ 
+     /* TODO: This should raise an exception, not terminate qemu. */
+     if (dc->base.pc_next & 3) {
+@@ -1592,7 +1596,10 @@ static void mb_tr_translate_insn(DisasContextBase *dcb, CPUState *cs)
      }
--    if (link && dc->rd)
-+    if (link && dc->rd) {
-         tcg_gen_movi_i32(cpu_R[dc->rd], dc->base.pc_next);
-+    }
- 
--    dc->jmp = JMP_INDIRECT;
-     if (abs) {
--        tcg_gen_movi_i32(cpu_btaken, 1);
--        tcg_gen_mov_i32(cpu_btarget, *(dec_alu_op_b(dc)));
--        if (link && !dslot) {
--            if (!(dc->tb_flags & IMM_FLAG) &&
--                (dc->imm == 8 || dc->imm == 0x18)) {
-+        if (dc->type_b) {
-+            uint32_t dest = dec_alu_typeb_imm(dc);
-+
-+            dc->jmp = JMP_DIRECT;
-+            dc->jmp_pc = dest;
-+            tcg_gen_movi_i32(cpu_btarget, dest);
-+            if (link && !dslot) {
-+                switch (dest) {
-+                case 8:
-+                case 0x18:
-+                    gen_raise_exception_sync(dc, EXCP_BREAK);
-+                    break;
-+                case 0:
-+                    gen_raise_exception_sync(dc, EXCP_DEBUG);
-+                    break;
-+                }
-+            }
-+        } else {
-+            dc->jmp = JMP_INDIRECT;
-+            tcg_gen_mov_i32(cpu_btarget, cpu_R[dc->rb]);
-+            if (link && !dslot) {
-                 gen_raise_exception_sync(dc, EXCP_BREAK);
-             }
--            if (dc->imm == 0) {
--                if (trap_userspace(dc, true)) {
--                    return;
--                }
--                gen_raise_exception_sync(dc, EXCP_DEBUG);
--            }
-         }
-+    } else if (dc->type_b) {
-+        dc->jmp = JMP_DIRECT;
-+        dc->jmp_pc = dc->base.pc_next + dec_alu_typeb_imm(dc);
-+        tcg_gen_movi_i32(cpu_btarget, dc->jmp_pc);
-     } else {
--        if (dec_alu_op_b_is_small_imm(dc)) {
--            dc->jmp = JMP_DIRECT;
--            dc->jmp_pc = dc->base.pc_next + (int32_t)((int16_t)dc->imm);
--        } else {
--            tcg_gen_movi_i32(cpu_btaken, 1);
--            tcg_gen_addi_i32(cpu_btarget, *dec_alu_op_b(dc), dc->base.pc_next);
--        }
-+        dc->jmp = JMP_INDIRECT;
-+        tcg_gen_addi_i32(cpu_btarget, cpu_R[dc->rb], dc->base.pc_next);
-     }
-+    tcg_gen_movi_i32(cpu_btaken, 1);
- }
- 
- static inline void do_rti(DisasContext *dc)
-@@ -1529,6 +1548,7 @@ static void mb_tr_init_disas_context(DisasContextBase *dcb, CPUState *cs)
-     dc->jmp = dc->delayed_branch ? JMP_INDIRECT : JMP_NOJMP;
-     dc->cpustate_changed = 0;
-     dc->abort_at_next_insn = 0;
-+    dc->ext_imm = dc->base.tb->cs_base;
- 
-     bound = -(dc->base.pc_first | TARGET_PAGE_MASK) / 4;
-     dc->base.max_insns = MIN(dc->base.max_insns, bound);
-@@ -1573,8 +1593,9 @@ static void mb_tr_translate_insn(DisasContextBase *dcb, CPUState *cs)
  
      dc->clear_imm = 1;
-     decode(dc, cpu_ldl_code(env, dc->base.pc_next));
--    if (dc->clear_imm) {
-+    if (dc->clear_imm && (dc->tb_flags & IMM_FLAG)) {
+-    decode(dc, cpu_ldl_code(env, dc->base.pc_next));
++    ir = cpu_ldl_code(env, dc->base.pc_next);
++    if (!decode(dc, ir)) {
++        old_decode(dc, ir);
++    }
+     if (dc->clear_imm && (dc->tb_flags & IMM_FLAG)) {
          dc->tb_flags &= ~IMM_FLAG;
-+        tcg_gen_discard_i32(cpu_imm);
-     }
-     dc->base.pc_next += 4;
- 
+         tcg_gen_discard_i32(cpu_imm);
+diff --git a/target/microblaze/meson.build b/target/microblaze/meson.build
+index b8fe4afe61..639c3f73a8 100644
+--- a/target/microblaze/meson.build
++++ b/target/microblaze/meson.build
+@@ -1,4 +1,7 @@
++gen = decodetree.process('insns.decode')
++
+ microblaze_ss = ss.source_set()
++microblaze_ss.add(gen)
+ microblaze_ss.add(files(
+   'cpu.c',
+   'gdbstub.c',
 -- 
 2.25.1
 
