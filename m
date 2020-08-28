@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4205325621C
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 22:34:41 +0200 (CEST)
-Received: from localhost ([::1]:36090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7968525621D
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 22:35:05 +0200 (CEST)
+Received: from localhost ([::1]:38424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBl55-0006Cs-RV
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 16:34:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55928)
+	id 1kBl5U-00078w-Jq
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 16:35:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBl4D-0005aV-Rv
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 16:33:46 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:33167)
+ id 1kBl4g-00069d-Hu
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 16:34:14 -0400
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:56238)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBl4A-00042c-Un
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 16:33:45 -0400
-Received: by mail-pl1-x644.google.com with SMTP id h2so221160plr.0
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 13:33:42 -0700 (PDT)
+ id 1kBl4d-00045C-Sq
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 16:34:14 -0400
+Received: by mail-pj1-x1041.google.com with SMTP id 2so113429pjx.5
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 13:34:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=vdDOyDijRjE1ptteUMGDx2/i3MNjI+NxccBmLnqZQ/k=;
- b=vt4LTlpyM1HOzm9dmVE7q1uab0QUhY6f649qA5vrwhhVoTYZuq4UcI4otTp1RdZxvF
- 5P3qGozqoTvtekoxnrqqKJWXox1//+faakvR2cc4qDLlZInRoVX933rh1aM9iJngYOGA
- hE7qyl030Q5/eE1tRg8qn++H6GGgshMtT/ZnGzoVZJesdB7p9FGv2kpdRk3Bs9wkJfAV
- q4ic7oQGKBN1cbJLaggPh9EUVMxFWeTf3j3qCwhe9h5L19Ywu8Gef9UW0AmhD5vK1rRp
- SbIFXsX7wUx1RUd5wpDXYKSk5re2lJBCRJnceF0L3Xuj+XxDl9lb4o6mWXcaMB6oIHVz
- ubaQ==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=OQygBWHACdJLdEJnsxYXuKSltvPMBiSKkoQRYnAo6OY=;
+ b=GV1rMkKleRFKRvpRfMUQ2JP3E1oBk/27tOlFyKhgzLQ6Jn+8uhUL0aprxYPYbaxZKF
+ W5V01ZsSLOUTM2QxgQZSSbjDnBlWacY4QqW3PYc/DHo9Bq2lAFQy20Cxjyqoenas6yme
+ tD9Yx1X1TTRlKblrItXMJIZg8nbZ/haz/U0rwOw9/3LAqajuh4drTNf6vI2Jg0bm06bE
+ dQCncQ3hIhLGQ1zaZFTWhSRwzniH0fMbS951N3hOdjCi7m00eH1jqpsdTNFlq6SL1h9v
+ fC2tJiZpYGhMfz0GN7vqCK6qo29fK1W+LIOGCWi3WNOWD+I1NC3C0lMxNmG3Xukiu2dK
+ kdNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=vdDOyDijRjE1ptteUMGDx2/i3MNjI+NxccBmLnqZQ/k=;
- b=rkok4qjTUYDXuNUXscfIEBlAyhIgSVuXn4dZepd1LdknwSkwNXO9CzLKJ+Y2jDlQuR
- zhPTP04N1P8S6dycmuxs2MEZlp/BSBA/E7nHOZv8TPM/7ttt2K3kchzSdnfw1KuIdNcE
- 2q5C11do+v3TI3TonCrhyBhkVv0fFgiwlFWTnOqUe+DvxhSw3cug9Vb9f4UdYHRNP68K
- 07DGj52glOambQu40Yo3CRyH2kHajGQOu/bR33jN9qfUuoejgKMkesXM/gRdnMfSViL9
- griN4ym4REvDY9EmtIaGtTMVIlybMT6zwE360S9D7ISpxcQYnY5phlVy3wTDxqy/SX/L
- hC0w==
-X-Gm-Message-State: AOAM532T8PvyP5WuIS1IZ+QegvYfQFBupm4gIlY9UoWt/7yLmpY23tvs
- tIsloEzLBD3/MhGX1DWc3JtqVS5x0srSXw==
-X-Google-Smtp-Source: ABdhPJxZss4yppbmtgx/UuLH+ssFO3IuYRKpgSdXYQHA5fIzEgo2d+Wx607lPDWCj7+XElWM4YismA==
-X-Received: by 2002:a17:90a:ca89:: with SMTP id
- y9mr664197pjt.108.1598646820735; 
- Fri, 28 Aug 2020 13:33:40 -0700 (PDT)
+ bh=OQygBWHACdJLdEJnsxYXuKSltvPMBiSKkoQRYnAo6OY=;
+ b=NMQgffrYFfew9R7d41zspnls+We9wQ9x3A0qwNV/0C2sD2ME1kwTgA9FOeynwuRMxW
+ dc57LzM7At2IG8zRYOfi1MaDm1INXAZwFpay0qrVPOFs7WhtoDapQvQGoW1qWfbM2H+H
+ +fw0qmpt0PmP60OHrwyWjsIlPmnBPqJlBhC+M+yYYws8aP5ZeQcvEXoo29ztBwPEzuZ1
+ wOLBSvC0P0GJdbhPA3Jx2Yg5C2BwMYu5CiRCfzW9CsG3PXX+K+igo3F8o3EnEwC1Xmva
+ HtnCb6/AR6VQ3mj+VuREKDd4+jZHM+pfxC5x5bfTqc/WN2otlx5O/Buri3n08n1/T+EZ
+ JaqQ==
+X-Gm-Message-State: AOAM533aB9xdoulnvYBXGH94i7URNyaq2VDaEbwT8G8uCA+cu4AY6NtN
+ 98e7MUF4Rkm3z0WBwKJuLHD9rw==
+X-Google-Smtp-Source: ABdhPJyVnRFKUYzrUwU2xSU3ogyOWET1xIXm5wGY5vIXF7lGH9PD9odQMz1wHbVG44sDuPvYs9rkkA==
+X-Received: by 2002:a17:902:e787:: with SMTP id
+ cp7mr500565plb.125.1598646850519; 
+ Fri, 28 Aug 2020 13:34:10 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id l24sm301803pff.20.2020.08.28.13.33.39
+ by smtp.gmail.com with ESMTPSA id y1sm289191pfp.95.2020.08.28.13.34.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Aug 2020 13:33:39 -0700 (PDT)
-Subject: Re: [PATCH v2 25/45] target/arm: Implement fp16 for Neon VABS, VNEG
- of floats
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20200828183354.27913-1-peter.maydell@linaro.org>
- <20200828183354.27913-26-peter.maydell@linaro.org>
+ Fri, 28 Aug 2020 13:34:09 -0700 (PDT)
+Subject: Re: [PATCH v1 2/2] target/microblaze: Improve transaction failure
+ handling
+To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-devel@nongnu.org
+References: <20200828113931.3252489-1-edgar.iglesias@gmail.com>
+ <20200828113931.3252489-3-edgar.iglesias@gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <81cb8181-f605-259f-1aa5-193a2af6dc94@linaro.org>
-Date: Fri, 28 Aug 2020 13:33:37 -0700
+Message-ID: <3556c713-8635-2868-cd4c-387fcef6c50c@linaro.org>
+Date: Fri, 28 Aug 2020 13:34:08 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200828183354.27913-26-peter.maydell@linaro.org>
+In-Reply-To: <20200828113931.3252489-3-edgar.iglesias@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1041.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -28
@@ -92,19 +91,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: figlesia@xilinx.com, peter.maydell@linaro.org, sstabellini@kernel.org,
+ edgar.iglesias@xilinx.com, sai.pavan.boddu@xilinx.com,
+ frasse.iglesias@gmail.com, alistair@alistair23.me, frederic.konrad@adacore.com,
+ qemu-arm@nongnu.org, philmd@redhat.com, luc.michel@greensocs.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/28/20 11:33 AM, Peter Maydell wrote:
-> Rewrite Neon VABS/VNEG of floats to use gvec logical AND and XOR, so
-> that we can implement the fp16 version of the insns.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  target/arm/translate-neon.c.inc | 34 +++++++++++++++++++++++++++------
->  1 file changed, 28 insertions(+), 6 deletions(-)
+On 8/28/20 4:39 AM, Edgar E. Iglesias wrote:
+> +    if ((access_type == MMU_INST_FETCH && cpu->cfg.iopb_bus_exception) ||
+> +        (access_type != MMU_INST_FETCH && cpu->cfg.dopb_bus_exception)) {
+> +        cpu_restore_state(cs, retaddr, true);
+> +        env->sregs[SR_ESR] = access_type == MMU_INST_FETCH ?
+> +                             ESR_EC_INSN_BUS : ESR_EC_DATA_BUS;
+> +        env->sregs[SR_EAR] = addr;
+> +        helper_raise_exception(env, EXCP_HW_EXCP);
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+I think it's better to use cpu_loop_exit_restore, adding the one line for
+cs->exception_index from helper_raise_exception.
+
 
 r~
 
