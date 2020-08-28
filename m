@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40E492560BC
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 20:45:11 +0200 (CEST)
-Received: from localhost ([::1]:44170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8F222560C2
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 20:47:22 +0200 (CEST)
+Received: from localhost ([::1]:52684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBjN8-00024J-8w
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 14:45:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58776)
+	id 1kBjPF-0005WZ-Ku
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 14:47:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBjCf-0002Mv-Fa
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:21 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39065)
+ id 1kBjCg-0002P6-9v
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:22 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36534)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBjCX-0005xe-KJ
+ id 1kBjCZ-0005xr-5U
  for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:21 -0400
-Received: by mail-wr1-x444.google.com with SMTP id a5so55564wrm.6
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 11:34:13 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id z9so124174wmk.1
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 11:34:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=FHUFQV4FXXHkAhMkndvZsQ9Vo9mjapkfHTwxSOIt/l0=;
- b=wA1LJRFmANZRhoMDSzF/eLoNuFzKYRS7FgDydVoMnQxheKrL+cb3yy09zcgwh9gzsn
- c2ACeUIE4TjscPAmEYOvWasQwrdkhticOuX1LKF/8Kw1Pm91nKVvv4JEN+bKClWr9hts
- +EAT+/lI4v/rjCO2OUy4SVCagy3rVp7QoKcMu/5yhPyLqs+qlWkqLkWLVYY0pIo4C1kT
- Tz0tDNKcbVSyGWttngYi+K9Bkbq08NzNBF92sRGicrncd1g99TPGKNu8BxxX8qnWa+y7
- flhkq97fjte91cjlMB2Ud8ZxreAjWrElkpxfr+MTiEfjmramAAPL652FMxLMe6agV/wL
- 5ScA==
+ bh=wog/DDcjxmwzPzd3wKUUXbXIEInR2+mr6YMMIRusMRo=;
+ b=z2HGo66BNR+iMV4BhVkgM0X/IPgr+t4eoO/GSfQCRzls3MNh5sdm+VcUTP7nJHlf4r
+ e3+PjES8Ad0HGwhY0jVN+DhZudDWyokrRO6fQlEPikmP7nwm6dnit306SQ5NRQwynhrM
+ 4g/jEPCRc0bIzMBL9ELHL9NIHdfV3BO2lLOmB+5xssHKa0lMRsRjR5hlizgo2SJj/wO0
+ LD20ePec4NIHRZfjwv6t2nq1pJ4YL9bIszSmo3ua6cLESk+UlKVIh7RSIaGURKxJrJh8
+ NrN8q597QeCOfe17FEZU0vQC59OPvMAXQ8C2HxXQuHagA0SmabJds7oz0vQEa81pNdkL
+ iIsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FHUFQV4FXXHkAhMkndvZsQ9Vo9mjapkfHTwxSOIt/l0=;
- b=iEccw0ronRcRM2LiJ98MizVRmRiC2/tyPr+voIiMrmPbL4DySaFUA95pLLOGhI+7Od
- /aIYlJ0OpY1BV0u9TqJMVm86eHCpwwKE/TFcdotdaXf/8JdeX9/oZfua8lmLJp/APvHX
- wdJbZjbzU9Dk98YGx7M2Cg7m9GN3OkkVC+vl3MuZ5HENfYE3thzmiM5evAVV9RJ67o4I
- jB8GZjNOGOQCKMqZJccEjyvsngIqnqmuXKyaewmo/psRt0MefUahv4uqw0eRMtt4Yfia
- NmxufEEJ2drwsAr3hGqyiYdKm27Y+E6fSvDeajZsEHD4FzVqjG9DT68/VQEIoQZ4WrWQ
- fTlQ==
-X-Gm-Message-State: AOAM530TCVow6wAoCVcvkXK+5cWrqf+oRS6kM2v4+2M9DxkVpMsr0A2L
- a9y4o73LsS1+vrSXQNS3f0xAmxaw18Sj6k24
-X-Google-Smtp-Source: ABdhPJwcI+KACIjiCZgEv3k68nKe04BGcccxzJwRCQSujx90bzOGQYWzXzT4T4bYeZ/SUAQs/THJRg==
-X-Received: by 2002:adf:dd44:: with SMTP id u4mr266229wrm.366.1598639652225;
- Fri, 28 Aug 2020 11:34:12 -0700 (PDT)
+ bh=wog/DDcjxmwzPzd3wKUUXbXIEInR2+mr6YMMIRusMRo=;
+ b=iJlJr5rLnafWkhDgjNaSzBYoKehXsdRQI2bnmVKMNaAWC3WoVQaHiYJCDEs6pZEHCV
+ 6VyZQ+VOWwhRWqG2VXDrJW4le0o6RQ4mMRk+R/FV+13wFjI8Ki+hw4IghrMCnb7L/RWO
+ EAwtlFYdNqgx3QHl1eTVo7yPoP/JnUAoVO9CahKYo6h+I0rWiIgW2T17N59qiTZVcY/w
+ 5sgu8r/Dg9b2fiQoDTxRwZdGuSNbqMEjfsyRphIcLtLIMgYfAj7yFLUDeAhoDxl7YLeM
+ xkLYwJTQ+xOcIwKwPLL0ttxeiVDDIttwAUd7jN4weSf6qpEAJb7xK8Y+w58FFjFV5VLp
+ vzGw==
+X-Gm-Message-State: AOAM530syYA71MQhjB5RZEcHybjOPHoEl+4pGBTntcktLWLob7GTN4t5
+ LnoaxEEf2xKU+0sbjiunvAcn/JzNntQIMDVJ
+X-Google-Smtp-Source: ABdhPJw8yMihllAvlWeFpjeZCn3uf1bRg7iwrJLyejrU186PETbl3XLYxzmwPa+DUKFkYnzgpxZy0w==
+X-Received: by 2002:a1c:ed0e:: with SMTP id l14mr33583wmh.140.1598639653808;
+ Fri, 28 Aug 2020 11:34:13 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id s20sm356251wmh.21.2020.08.28.11.34.11
+ by smtp.gmail.com with ESMTPSA id s20sm356251wmh.21.2020.08.28.11.34.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 11:34:11 -0700 (PDT)
+ Fri, 28 Aug 2020 11:34:13 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 13/45] target/arm: Make VFP_CONV_FIX macros take separate
- float type and float size
-Date: Fri, 28 Aug 2020 19:33:22 +0100
-Message-Id: <20200828183354.27913-14-peter.maydell@linaro.org>
+Subject: [PATCH v2 14/45] target/arm: Use macros instead of open-coding fp16
+ conversion helpers
+Date: Fri, 28 Aug 2020 19:33:23 +0100
+Message-Id: <20200828183354.27913-15-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200828183354.27913-1-peter.maydell@linaro.org>
 References: <20200828183354.27913-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,93 +89,147 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the VFP_CONV_FIX macros take a single fsz argument for the
-size of the float type, which is used both to select the name of
-the functions to call (eg float32_is_any_nan()) and also for the
-type to use for the float inputs and outputs (eg float32).
+Now the VFP_CONV_FIX macros can handle fp16's distinction between the
+width of the operation and the width of the type used to pass operands,
+use the macros rather than the open-coded functions.
 
-Separate these into fsz and ftype arguments, so that we can use them
-for fp16, which uses 'float16' in the function names but is still
-passing inputs and outputs in a 32-bit sized type.
+This creates an extra six helper functions, all of which we are going
+to need for the AArch32 VFP fp16 instructions.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/vfp_helper.c | 46 ++++++++++++++++++++---------------------
- 1 file changed, 23 insertions(+), 23 deletions(-)
+ target/arm/helper.h     |  6 +++
+ target/arm/vfp_helper.c | 86 +++--------------------------------------
+ 2 files changed, 12 insertions(+), 80 deletions(-)
 
+diff --git a/target/arm/helper.h b/target/arm/helper.h
+index 18afad634c9..03193728476 100644
+--- a/target/arm/helper.h
++++ b/target/arm/helper.h
+@@ -164,6 +164,10 @@ DEF_HELPER_2(vfp_tosizh, s32, f16, ptr)
+ DEF_HELPER_2(vfp_tosizs, s32, f32, ptr)
+ DEF_HELPER_2(vfp_tosizd, s32, f64, ptr)
+ 
++DEF_HELPER_3(vfp_toshh_round_to_zero, i32, f16, i32, ptr)
++DEF_HELPER_3(vfp_toslh_round_to_zero, i32, f16, i32, ptr)
++DEF_HELPER_3(vfp_touhh_round_to_zero, i32, f16, i32, ptr)
++DEF_HELPER_3(vfp_toulh_round_to_zero, i32, f16, i32, ptr)
+ DEF_HELPER_3(vfp_toshs_round_to_zero, i32, f32, i32, ptr)
+ DEF_HELPER_3(vfp_tosls_round_to_zero, i32, f32, i32, ptr)
+ DEF_HELPER_3(vfp_touhs_round_to_zero, i32, f32, i32, ptr)
+@@ -202,6 +206,8 @@ DEF_HELPER_3(vfp_sqtod, f64, i64, i32, ptr)
+ DEF_HELPER_3(vfp_uhtod, f64, i64, i32, ptr)
+ DEF_HELPER_3(vfp_ultod, f64, i64, i32, ptr)
+ DEF_HELPER_3(vfp_uqtod, f64, i64, i32, ptr)
++DEF_HELPER_3(vfp_shtoh, f16, i32, i32, ptr)
++DEF_HELPER_3(vfp_uhtoh, f16, i32, i32, ptr)
+ DEF_HELPER_3(vfp_sltoh, f16, i32, i32, ptr)
+ DEF_HELPER_3(vfp_ultoh, f16, i32, i32, ptr)
+ DEF_HELPER_3(vfp_sqtoh, f16, i64, i32, ptr)
 diff --git a/target/arm/vfp_helper.c b/target/arm/vfp_helper.c
-index 55aa38f0ce8..7650890d440 100644
+index 7650890d440..ab3f0b170a7 100644
 --- a/target/arm/vfp_helper.c
 +++ b/target/arm/vfp_helper.c
-@@ -394,13 +394,13 @@ float32 VFP_HELPER(fcvts, d)(float64 x, CPUARMState *env)
- }
- 
- /* VFP3 fixed point conversion.  */
--#define VFP_CONV_FIX_FLOAT(name, p, fsz, isz, itype) \
--float##fsz HELPER(vfp_##name##to##p)(uint##isz##_t  x, uint32_t shift, \
-+#define VFP_CONV_FIX_FLOAT(name, p, fsz, ftype, isz, itype)            \
-+ftype HELPER(vfp_##name##to##p)(uint##isz##_t  x, uint32_t shift,      \
-                                      void *fpstp) \
- { return itype##_to_##float##fsz##_scalbn(x, -shift, fpstp); }
- 
--#define VFP_CONV_FLOAT_FIX_ROUND(name, p, fsz, isz, itype, ROUND, suff)   \
--uint##isz##_t HELPER(vfp_to##name##p##suff)(float##fsz x, uint32_t shift, \
-+#define VFP_CONV_FLOAT_FIX_ROUND(name, p, fsz, ftype, isz, itype, ROUND, suff) \
-+uint##isz##_t HELPER(vfp_to##name##p##suff)(ftype x, uint32_t shift,      \
-                                             void *fpst)                   \
- {                                                                         \
-     if (unlikely(float##fsz##_is_any_nan(x))) {                           \
-@@ -410,30 +410,30 @@ uint##isz##_t HELPER(vfp_to##name##p##suff)(float##fsz x, uint32_t shift, \
-     return float##fsz##_to_##itype##_scalbn(x, ROUND, shift, fpst);       \
- }
- 
--#define VFP_CONV_FIX(name, p, fsz, isz, itype)                   \
--VFP_CONV_FIX_FLOAT(name, p, fsz, isz, itype)                     \
--VFP_CONV_FLOAT_FIX_ROUND(name, p, fsz, isz, itype,               \
-+#define VFP_CONV_FIX(name, p, fsz, ftype, isz, itype)            \
-+VFP_CONV_FIX_FLOAT(name, p, fsz, ftype, isz, itype)              \
-+VFP_CONV_FLOAT_FIX_ROUND(name, p, fsz, ftype, isz, itype,        \
-                          float_round_to_zero, _round_to_zero)    \
--VFP_CONV_FLOAT_FIX_ROUND(name, p, fsz, isz, itype,               \
-+VFP_CONV_FLOAT_FIX_ROUND(name, p, fsz, ftype, isz, itype,        \
-                          get_float_rounding_mode(fpst), )
- 
--#define VFP_CONV_FIX_A64(name, p, fsz, isz, itype)               \
--VFP_CONV_FIX_FLOAT(name, p, fsz, isz, itype)                     \
--VFP_CONV_FLOAT_FIX_ROUND(name, p, fsz, isz, itype,               \
-+#define VFP_CONV_FIX_A64(name, p, fsz, ftype, isz, itype)        \
-+VFP_CONV_FIX_FLOAT(name, p, fsz, ftype, isz, itype)              \
-+VFP_CONV_FLOAT_FIX_ROUND(name, p, fsz, ftype, isz, itype,        \
-                          get_float_rounding_mode(fpst), )
- 
--VFP_CONV_FIX(sh, d, 64, 64, int16)
--VFP_CONV_FIX(sl, d, 64, 64, int32)
--VFP_CONV_FIX_A64(sq, d, 64, 64, int64)
--VFP_CONV_FIX(uh, d, 64, 64, uint16)
--VFP_CONV_FIX(ul, d, 64, 64, uint32)
--VFP_CONV_FIX_A64(uq, d, 64, 64, uint64)
--VFP_CONV_FIX(sh, s, 32, 32, int16)
--VFP_CONV_FIX(sl, s, 32, 32, int32)
--VFP_CONV_FIX_A64(sq, s, 32, 64, int64)
--VFP_CONV_FIX(uh, s, 32, 32, uint16)
--VFP_CONV_FIX(ul, s, 32, 32, uint32)
--VFP_CONV_FIX_A64(uq, s, 32, 64, uint64)
-+VFP_CONV_FIX(sh, d, 64, float64, 64, int16)
-+VFP_CONV_FIX(sl, d, 64, float64, 64, int32)
-+VFP_CONV_FIX_A64(sq, d, 64, float64, 64, int64)
-+VFP_CONV_FIX(uh, d, 64, float64, 64, uint16)
-+VFP_CONV_FIX(ul, d, 64, float64, 64, uint32)
-+VFP_CONV_FIX_A64(uq, d, 64, float64, 64, uint64)
-+VFP_CONV_FIX(sh, s, 32, float32, 32, int16)
-+VFP_CONV_FIX(sl, s, 32, float32, 32, int32)
-+VFP_CONV_FIX_A64(sq, s, 32, float32, 64, int64)
-+VFP_CONV_FIX(uh, s, 32, float32, 32, uint16)
-+VFP_CONV_FIX(ul, s, 32, float32, 32, uint32)
-+VFP_CONV_FIX_A64(uq, s, 32, float32, 64, uint64)
+@@ -434,92 +434,18 @@ VFP_CONV_FIX_A64(sq, s, 32, float32, 64, int64)
+ VFP_CONV_FIX(uh, s, 32, float32, 32, uint16)
+ VFP_CONV_FIX(ul, s, 32, float32, 32, uint32)
+ VFP_CONV_FIX_A64(uq, s, 32, float32, 64, uint64)
++VFP_CONV_FIX(sh, h, 16, dh_ctype_f16, 32, int16)
++VFP_CONV_FIX(sl, h, 16, dh_ctype_f16, 32, int32)
++VFP_CONV_FIX_A64(sq, h, 16, dh_ctype_f16, 64, int64)
++VFP_CONV_FIX(uh, h, 16, dh_ctype_f16, 32, uint16)
++VFP_CONV_FIX(ul, h, 16, dh_ctype_f16, 32, uint32)
++VFP_CONV_FIX_A64(uq, h, 16, dh_ctype_f16, 64, uint64)
  
  #undef VFP_CONV_FIX
  #undef VFP_CONV_FIX_FLOAT
+ #undef VFP_CONV_FLOAT_FIX_ROUND
+ #undef VFP_CONV_FIX_A64
+ 
+-uint32_t HELPER(vfp_sltoh)(uint32_t x, uint32_t shift, void *fpst)
+-{
+-    return int32_to_float16_scalbn(x, -shift, fpst);
+-}
+-
+-uint32_t HELPER(vfp_ultoh)(uint32_t x, uint32_t shift, void *fpst)
+-{
+-    return uint32_to_float16_scalbn(x, -shift, fpst);
+-}
+-
+-uint32_t HELPER(vfp_sqtoh)(uint64_t x, uint32_t shift, void *fpst)
+-{
+-    return int64_to_float16_scalbn(x, -shift, fpst);
+-}
+-
+-uint32_t HELPER(vfp_uqtoh)(uint64_t x, uint32_t shift, void *fpst)
+-{
+-    return uint64_to_float16_scalbn(x, -shift, fpst);
+-}
+-
+-uint32_t HELPER(vfp_toshh)(uint32_t x, uint32_t shift, void *fpst)
+-{
+-    if (unlikely(float16_is_any_nan(x))) {
+-        float_raise(float_flag_invalid, fpst);
+-        return 0;
+-    }
+-    return float16_to_int16_scalbn(x, get_float_rounding_mode(fpst),
+-                                   shift, fpst);
+-}
+-
+-uint32_t HELPER(vfp_touhh)(uint32_t x, uint32_t shift, void *fpst)
+-{
+-    if (unlikely(float16_is_any_nan(x))) {
+-        float_raise(float_flag_invalid, fpst);
+-        return 0;
+-    }
+-    return float16_to_uint16_scalbn(x, get_float_rounding_mode(fpst),
+-                                    shift, fpst);
+-}
+-
+-uint32_t HELPER(vfp_toslh)(uint32_t x, uint32_t shift, void *fpst)
+-{
+-    if (unlikely(float16_is_any_nan(x))) {
+-        float_raise(float_flag_invalid, fpst);
+-        return 0;
+-    }
+-    return float16_to_int32_scalbn(x, get_float_rounding_mode(fpst),
+-                                   shift, fpst);
+-}
+-
+-uint32_t HELPER(vfp_toulh)(uint32_t x, uint32_t shift, void *fpst)
+-{
+-    if (unlikely(float16_is_any_nan(x))) {
+-        float_raise(float_flag_invalid, fpst);
+-        return 0;
+-    }
+-    return float16_to_uint32_scalbn(x, get_float_rounding_mode(fpst),
+-                                    shift, fpst);
+-}
+-
+-uint64_t HELPER(vfp_tosqh)(uint32_t x, uint32_t shift, void *fpst)
+-{
+-    if (unlikely(float16_is_any_nan(x))) {
+-        float_raise(float_flag_invalid, fpst);
+-        return 0;
+-    }
+-    return float16_to_int64_scalbn(x, get_float_rounding_mode(fpst),
+-                                   shift, fpst);
+-}
+-
+-uint64_t HELPER(vfp_touqh)(uint32_t x, uint32_t shift, void *fpst)
+-{
+-    if (unlikely(float16_is_any_nan(x))) {
+-        float_raise(float_flag_invalid, fpst);
+-        return 0;
+-    }
+-    return float16_to_uint64_scalbn(x, get_float_rounding_mode(fpst),
+-                                    shift, fpst);
+-}
+-
+ /* Set the current fp rounding mode and return the old one.
+  * The argument is a softfloat float_round_ value.
+  */
 -- 
 2.20.1
 
