@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A60222558C2
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 12:43:22 +0200 (CEST)
-Received: from localhost ([::1]:56658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C12942558C8
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 12:45:00 +0200 (CEST)
+Received: from localhost ([::1]:36646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBbqr-0004wk-Nv
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 06:43:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34384)
+	id 1kBbsR-0008Gm-PQ
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 06:44:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
- id 1kBbpB-0003MZ-Ex
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 06:41:37 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:42827)
+ id 1kBbpD-0003Pe-Ia
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 06:41:39 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:45770)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
- id 1kBbp8-0005fA-Ql
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 06:41:37 -0400
-Received: by mail-wr1-x442.google.com with SMTP id c18so833999wrm.9
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 03:41:34 -0700 (PDT)
+ id 1kBbpA-0005gS-RI
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 06:41:39 -0400
+Received: by mail-wr1-x443.google.com with SMTP id h15so830654wrt.12
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 03:41:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=GGrLy3IbvYhI9UUc6EFtGpu2pNno9f5HSPArLmtNmFM=;
- b=ULG82S0L3kCib5VT4GaouqmZivM+bay/mzr4qks3za+D7dtBqR++RqUjn5NKpkuVLE
- /3WjJcnTTdwSFiaGo8qwVLUJahcQ7YdGddB3xqtaldRO0TWnk8RyT7Cau2kciF5uc7V7
- Nk/GzfRznwhn6IjcEL5I8C3h1O59R/HBQrVnu7SUJ3+UrmTDzW1TF7XsuaY1bR65VcNx
- sZ3AFsVXCOcMZP1jtQhLb8qc/1cQPTORJ/AxlxH/uybNPNQO95i10kyWpJ8XPe87hLJA
- AQLF6MfAcC6rwAgym1SY74AMz2zNBol60n2pAN+xDpkD9mAz2NmUuitE7eVfTahJz+cX
- 4BPw==
+ bh=6VnUOaw47q1sBFWEPDkKi8Rl+L6HJXn0J6GhoPyLYWM=;
+ b=HK/+cklW0orMXNl4Is5lsX4XkmBhx776gGavdwJf8IBs89t4vZJzXPAaCtxc6yKIvc
+ RzQB1Qus6S9Bn6Mzp/bHtBKVuU99Vcl4/E54OUhOshOmMFSRImyfLeEu3yKgjaZNuKZr
+ Q/R91V2p8iDPXFPeLzOrwTJzcHoK+Rwdtb5Izj+iATpzclxbu7oMxWbdaKr5AbmjWolH
+ WQEPE/DkQ7BvxFwG2cz0hL0+6qnx3otbnGYt7t0mxUeUiEXYIxZeDOGK0qs9WxCdaBSo
+ ZNaz31UqFtszJ4YvYS+YHjq3NuI1ipWTa24bHx8MYl6pALyPRYiokQMv3shLjDT4F9bH
+ NkiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=GGrLy3IbvYhI9UUc6EFtGpu2pNno9f5HSPArLmtNmFM=;
- b=edhvkGgaW9FNDljG3BIyWtLg3vd0nXEB+/VdohZOpFWeWNs3yQU+HeWPI6aFOXHqip
- w9iA0fpMObgbfEg/q9ms4kU1Td1b/+f5x4Ujjxb4tbeSLEfHVuBXTCrmeu+dzRBVRdOd
- KTaTcdGN+h854DLMezFJJJE+lqYJyY7gep7kYzCj5BzIqTS9cqSIIVPBBcFB1hC+3U4d
- 7RX1jMrvlxe7E5Qh1aZIcQ2ntgdnxUDhsbZhfIezgHAVJt9rbhqI/58mbqcy9rwhmJLr
- FXKvpSlFTuI4+ereHs7Wv3rBgAizzUm+s/azfzQAc6n7LkmlymlVZCZkfCZ4KHaN585s
- GQig==
-X-Gm-Message-State: AOAM532cer+BEXV1Y4xxukMb6m+oXF80a4vYTa7iq27DCeVULpPw8SUI
- B7Snuz/ED3TY/vhWtxrk80YWy3tKpaP0UA==
-X-Google-Smtp-Source: ABdhPJy+UxZw0jQnURExU+I0JXJh37Lpqu5CD/VUPQVnG0uk7ICLiSSbKv/D/w+rB/FxGK0ERvMoDA==
-X-Received: by 2002:adf:a1d6:: with SMTP id v22mr954931wrv.185.1598611292937; 
- Fri, 28 Aug 2020 03:41:32 -0700 (PDT)
+ bh=6VnUOaw47q1sBFWEPDkKi8Rl+L6HJXn0J6GhoPyLYWM=;
+ b=NriiN+nz4yZkfD74HZulD9tIomLmngDWDA8gazf8+8/WJHHvFU5zcT5gGhzY5GBOQQ
+ E+WlbiNH+y2SDEIjCdO7wq/KE26t8X/PZaUepCvMWKRVxyxifYmXvJrfQMn89RuDPkIJ
+ sYzFCFV+adVzh8kg4R26iZWSpisLfzwYbeoiBsUvP3DdYwcYKzywaia/4Tu+yLTK7a+/
+ 11BbMJiuu9+c8iIjVEX4LUBEhEg8bL/fSEfxWtOJtIVqfld2ausPS8moJRsmx93PLtNC
+ n7liJJuATdjssXl9WRFwM+zup86OT3AXSAmeKCOe59p1sI5+ACWWMErExjyzkKAKXZRY
+ iTdA==
+X-Gm-Message-State: AOAM533QXLo3R0Uz/AxpcfakWt4+/QsIVEYutCI00pdz4sFd8rW4P2Rl
+ rZ3xit9u9SaskK8XOYJn6gdLKIUiLPu4/A==
+X-Google-Smtp-Source: ABdhPJzJsAjybpcBhmfxWDs+uG3yuDlTJWs5Nnd98OPlyvZdKNUSixe42FeYCDweCVGzHmXJt3aKPA==
+X-Received: by 2002:adf:9d44:: with SMTP id o4mr864841wre.99.1598611294899;
+ Fri, 28 Aug 2020 03:41:34 -0700 (PDT)
 Received: from localhost.localdomain ([197.58.77.158])
- by smtp.gmail.com with ESMTPSA id e18sm1307453wrx.50.2020.08.28.03.41.30
+ by smtp.gmail.com with ESMTPSA id e18sm1307453wrx.50.2020.08.28.03.41.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 03:41:32 -0700 (PDT)
+ Fri, 28 Aug 2020 03:41:34 -0700 (PDT)
 From: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
 To: qemu-devel@nongnu.org, aleksandar.qemu.devel@gmail.com, philmd@redhat.com,
  alex.bennee@linaro.org, eblake@redhat.com, ldoktor@redhat.com,
  jsnow@redhat.com, rth@twiddle.net, ehabkost@redhat.com, crosa@redhat.com
-Subject: [PATCH 1/9] scripts/performance: Refactor topN_perf.py
-Date: Fri, 28 Aug 2020 12:40:54 +0200
-Message-Id: <20200828104102.4490-2-ahmedkhaledkaraman@gmail.com>
+Subject: [PATCH 2/9] scripts/performance: Refactor topN_callgrind.py
+Date: Fri, 28 Aug 2020 12:40:55 +0200
+Message-Id: <20200828104102.4490-3-ahmedkhaledkaraman@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200828104102.4490-1-ahmedkhaledkaraman@gmail.com>
 References: <20200828104102.4490-1-ahmedkhaledkaraman@gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=ahmedkhaledkaraman@gmail.com; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=ahmedkhaledkaraman@gmail.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,24 +87,24 @@ Cc: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-- Apply pylint and flake8 formatting rules to the script.
-- Use 'tempfile' instead of '/tmp' for creating temporary files.
+    - Apply pylint and flake8 formatting rules to the script.
+    - Use 'tempfile' instead of '/tmp' for creating temporary files.
 
-Signed-off-by: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
+    Signed-off-by: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
 ---
- scripts/performance/topN_perf.py | 174 +++++++++++++++----------------
- 1 file changed, 87 insertions(+), 87 deletions(-)
+ scripts/performance/topN_callgrind.py | 169 +++++++++++++-------------
+ 1 file changed, 87 insertions(+), 82 deletions(-)
 
-diff --git a/scripts/performance/topN_perf.py b/scripts/performance/topN_perf.py
-index 07be195fc8..56b100da87 100755
---- a/scripts/performance/topN_perf.py
-+++ b/scripts/performance/topN_perf.py
-@@ -1,72 +1,77 @@
+diff --git a/scripts/performance/topN_callgrind.py b/scripts/performance/topN_callgrind.py
+index 67c59197af..f8a554f393 100755
+--- a/scripts/performance/topN_callgrind.py
++++ b/scripts/performance/topN_callgrind.py
+@@ -1,113 +1,122 @@
  #!/usr/bin/env python3
  
--#  Print the top N most executed functions in QEMU using perf.
+-#  Print the top N most executed functions in QEMU using callgrind.
 -#  Syntax:
--#  topN_perf.py [-h] [-n] <number of displayed top functions>  -- \
+-#  topN_callgrind.py [-h] [-n] <number of displayed top functions>  -- \
 -#           <qemu executable> [<qemu executable options>] \
 -#           <target executable> [<target execurable options>]
 -#
@@ -113,7 +113,7 @@ index 07be195fc8..56b100da87 100755
 -#       - If this flag is not specified, the tool defaults to 25.
 -#
 -#  Example of usage:
--#  topN_perf.py -n 20 -- qemu-arm coulomb_double-arm
+-#  topN_callgrind.py -n 20 -- qemu-arm coulomb_double-arm
 -#
 -#  This file is a part of the project "TCG Continuous Benchmarking".
 -#
@@ -133,10 +133,10 @@ index 07be195fc8..56b100da87 100755
 -#  You should have received a copy of the GNU General Public License
 -#  along with this program. If not, see <https://www.gnu.org/licenses/>.
 +"""
-+Print the top N most executed functions in QEMU using perf.
++Print the top N most executed functions in QEMU using callgrind.
 +
 +Syntax:
-+topN_perf.py [-h] [-n <number of displayed top functions>] -- \
++topN_callgrind.py [-h] [-n <number of displayed top functions>] -- \
 +         <qemu executable> [<qemu executable options>] \
 +         <target executable> [<target execurable options>]
 +
@@ -145,7 +145,7 @@ index 07be195fc8..56b100da87 100755
 +     - If this flag is not specified, the tool defaults to 25.
 +
 +Example of usage:
-+topN_perf.py -n 20 -- qemu-arm coulomb_double-arm
++topN_callgrind.py -n 20 -- qemu-arm coulomb_double-arm
 +
 +This file is a part of the project "TCG Continuous Benchmarking".
 +
@@ -175,9 +175,9 @@ index 07be195fc8..56b100da87 100755
  
  # Parse the command line arguments
 -parser = argparse.ArgumentParser(
--    usage='topN_perf.py [-h] [-n] <number of displayed top functions >  -- '
+-    usage='topN_callgrind.py [-h] [-n] <number of displayed top functions>  -- '
 +PARSER = argparse.ArgumentParser(
-+    usage='topN_perf.py [-h] [-n <number of displayed top functions>] -- '
++    usage='topN_callgrind.py [-h] [-n] <number of displayed top functions> -- '
            '<qemu executable> [<qemu executable options>] '
            '<target executable> [<target executable options>]')
  
@@ -197,128 +197,130 @@ index 07be195fc8..56b100da87 100755
 +COMMAND = ARGS.command
 +TOP = ARGS.top
  
- # Insure that perf is installed
--check_perf_presence = subprocess.run(["which", "perf"],
--                                     stdout=subprocess.DEVNULL)
--if check_perf_presence.returncode:
-+CHECK_PERF_PRESENCE = subprocess.run(["which", "perf"],
-+                                     stdout=subprocess.DEVNULL,
-+                                     check=False)
-+if CHECK_PERF_PRESENCE.returncode:
-     sys.exit("Please install perf before running the script!")
+ # Insure that valgrind is installed
+-check_valgrind_presence = subprocess.run(["which", "valgrind"],
+-                                         stdout=subprocess.DEVNULL)
+-if check_valgrind_presence.returncode:
++CHECK_VALGRIND_PRESENCE = subprocess.run(["which", "valgrind"],
++                                         stdout=subprocess.DEVNULL,
++                                         check=False)
++if CHECK_VALGRIND_PRESENCE.returncode:
+     sys.exit("Please install valgrind before running the script!")
  
- # Insure user has previllage to run perf
--check_perf_executability = subprocess.run(["perf", "stat", "ls", "/"],
-+CHECK_PERF_EXECUTABILITY = subprocess.run(["perf", "stat", "ls", "/"],
-                                           stdout=subprocess.DEVNULL,
--                                          stderr=subprocess.DEVNULL)
--if check_perf_executability.returncode:
--    sys.exit(
--"""
-+                                          stderr=subprocess.DEVNULL,
-+                                          check=False)
-+if CHECK_PERF_EXECUTABILITY.returncode:
-+    sys.exit("""
- Error:
- You may not have permission to collect stats.
- 
-@@ -85,43 +90,42 @@ To make this setting permanent, edit /etc/sysctl.conf too, e.g.:
-    kernel.perf_event_paranoid = -1
- 
- * Alternatively, you can run this script under sudo privileges.
--"""
--)
+-# Run callgrind
+-callgrind = subprocess.run((
+-    ["valgrind", "--tool=callgrind", "--callgrind-out-file=/tmp/callgrind.data"]
+-    + command),
+-    stdout=subprocess.DEVNULL,
+-    stderr=subprocess.PIPE)
+-if callgrind.returncode:
+-    sys.exit(callgrind.stderr.decode("utf-8"))
 -
--# Run perf record
--perf_record = subprocess.run((["perf", "record", "--output=/tmp/perf.data"] +
--                              command),
--                             stdout=subprocess.DEVNULL,
--                             stderr=subprocess.PIPE)
--if perf_record.returncode:
--    os.unlink('/tmp/perf.data')
--    sys.exit(perf_record.stderr.decode("utf-8"))
--
--# Save perf report output to /tmp/perf_report.out
--with open("/tmp/perf_report.out", "w") as output:
--    perf_report = subprocess.run(
--        ["perf", "report", "--input=/tmp/perf.data", "--stdio"],
--        stdout=output,
--        stderr=subprocess.PIPE)
--    if perf_report.returncode:
--        os.unlink('/tmp/perf.data')
+-# Save callgrind_annotate output to /tmp/callgrind_annotate.out
+-with open("/tmp/callgrind_annotate.out", "w") as output:
+-    callgrind_annotate = subprocess.run(["callgrind_annotate",
+-                                         "/tmp/callgrind.data"],
+-                                        stdout=output,
+-                                        stderr=subprocess.PIPE)
+-    if callgrind_annotate.returncode:
+-        os.unlink('/tmp/callgrind.data')
 -        output.close()
--        os.unlink('/tmp/perf_report.out')
--        sys.exit(perf_report.stderr.decode("utf-8"))
+-        os.unlink('/tmp/callgrind_annotate.out')
+-        sys.exit(callgrind_annotate.stderr.decode("utf-8"))
 -
--# Read the reported data to functions[]
--functions = []
--with open("/tmp/perf_report.out", "r") as data:
--    # Only read lines that are not comments (comments start with #)
--    # Only read lines that are not empty
--    functions = [line for line in data.readlines() if line and line[0]
--                 != '#' and line[0] != "\n"]
--
--# Limit the number of top functions to "top"
--number_of_top_functions = top if len(functions) > top else len(functions)
--
--# Store the data of the top functions in top_functions[]
--top_functions = functions[:number_of_top_functions]
-+""")
-+
-+# Run perf and save all intermediate files in a temporary directory
+-# Read the callgrind_annotate output to callgrind_data[]
+-callgrind_data = []
+-with open('/tmp/callgrind_annotate.out', 'r') as data:
+-    callgrind_data = data.readlines()
++# Run callgrind and save all intermediate files in a temporary directory
 +with tempfile.TemporaryDirectory() as tmpdir:
-+    RECORD_PATH = os.path.join(tmpdir, "record.data")
-+    REPORT_PATH = os.path.join(tmpdir, "report.txt")
++    CALLGRIND_DATA_PATH = os.path.join(tmpdir, "callgrind.data")
++    ANNOTATE_OUT_PATH = os.path.join(tmpdir, "callgrind_annotate.out")
 +
-+    PERF_RECORD = subprocess.run((["perf", "record", "--output="+RECORD_PATH] +
-+                                  COMMAND),
-+                                 stdout=subprocess.DEVNULL,
-+                                 stderr=subprocess.PIPE,
-+                                 check=False)
-+    if PERF_RECORD.returncode:
-+        sys.exit(PERF_RECORD.stderr.decode("utf-8"))
++    # Run callgrind
++    CALLGRIND = subprocess.run((["valgrind",
++                                 "--tool=callgrind",
++                                 "--callgrind-out-file="+CALLGRIND_DATA_PATH]
++                                + COMMAND),
++                               stdout=subprocess.DEVNULL,
++                               stderr=subprocess.PIPE,
++                               check=False)
++    if CALLGRIND.returncode:
++        sys.exit(CALLGRIND.stderr.decode("utf-8"))
 +
-+    with open(REPORT_PATH, "w") as output:
-+        PERF_REPORT = subprocess.run(
-+            ["perf", "report", "--input="+RECORD_PATH, "--stdio"],
-+            stdout=output,
-+            stderr=subprocess.PIPE,
-+            check=False)
-+        if PERF_REPORT.returncode:
-+            sys.exit(PERF_REPORT.stderr.decode("utf-8"))
++    with open(ANNOTATE_OUT_PATH, "w") as output:
++        CALLGRIND_ANNOTATE = subprocess.run(["callgrind_annotate",
++                                             CALLGRIND_DATA_PATH],
++                                            stdout=output,
++                                            stderr=subprocess.PIPE,
++                                            check=False)
++        if CALLGRIND_ANNOTATE.returncode:
++            sys.exit(CALLGRIND_ANNOTATE.stderr.decode("utf-8"))
 +
-+    # Save the reported data to FUNCTIONS[]
-+    with open(REPORT_PATH, "r") as data:
-+        # Only read lines that are not comments (comments start with #)
-+        # Only read lines that are not empty
-+        FUNCTIONS = [line for line in data.readlines() if line and
-+                     line[0] != '#' and line[0] != "\n"]
-+
-+# Limit the number of top functions to "TOP"
-+NO_TOP_FUNCTIONS = TOP if len(FUNCTIONS) > TOP else len(FUNCTIONS)
-+
-+# Store the data of the top functions in TOP_FUNCTIONS[]
-+TOP_FUNCTIONS = FUNCTIONS[:NO_TOP_FUNCTIONS]
++    # Read the callgrind_annotate output to CALLGRIND_DATA[]
++    CALLGRIND_DATA = []
++    with open(ANNOTATE_OUT_PATH, 'r') as data:
++        CALLGRIND_DATA = data.readlines()
+ 
+ # Line number with the total number of instructions
+-total_instructions_line_number = 20
++TOTAL_INSTRUCTIONS_LINE_NO = 20
+ 
+ # Get the total number of instructions
+-total_instructions_line_data = callgrind_data[total_instructions_line_number]
+-total_number_of_instructions = total_instructions_line_data.split(' ')[0]
+-total_number_of_instructions = int(
+-    total_number_of_instructions.replace(',', ''))
++TOTAL_INSTRUCTIONS_LINE_DATA = CALLGRIND_DATA[TOTAL_INSTRUCTIONS_LINE_NO]
++TOTAL_NUMBER_OF_INSTRUCTIONS = TOTAL_INSTRUCTIONS_LINE_DATA.split(' ')[0]
++TOTAL_NUMBER_OF_INSTRUCTIONS = int(
++    TOTAL_NUMBER_OF_INSTRUCTIONS.replace(',', ''))
+ 
+ # Line number with the top function
+-first_func_line = 25
++FIRST_FUNC_LINE = 25
+ 
+ # Number of functions recorded by callgrind, last two lines are always empty
+-number_of_functions = len(callgrind_data) - first_func_line - 2
++NUMBER_OF_FUNCTIONS = len(CALLGRIND_DATA) - FIRST_FUNC_LINE - 2
+ 
+ # Limit the number of top functions to "top"
+-number_of_top_functions = (top if number_of_functions >
+-                           top else number_of_functions)
++NUMBER_OF_TOP_FUNCTIONS = (TOP if NUMBER_OF_FUNCTIONS >
++                           TOP else NUMBER_OF_FUNCTIONS)
+ 
+ # Store the data of the top functions in top_functions[]
+-top_functions = callgrind_data[first_func_line:
+-                               first_func_line + number_of_top_functions]
++TOP_FUNCTIONS = CALLGRIND_DATA[FIRST_FUNC_LINE:
++                               FIRST_FUNC_LINE + NUMBER_OF_TOP_FUNCTIONS]
  
  # Print table header
  print('{:>4}  {:>10}  {:<30}  {}\n{}  {}  {}  {}'.format('No.',
-@@ -134,7 +138,7 @@ print('{:>4}  {:>10}  {:<30}  {}\n{}  {}  {}  {}'.format('No.',
-                                                          '-' * 25))
+@@ -121,12 +130,12 @@ print('{:>4}  {:>10}  {:<30}  {}\n{}  {}  {}  {}'.format('No.',
+                                                          ))
  
  # Print top N functions
 -for (index, function) in enumerate(top_functions, start=1):
 +for (index, function) in enumerate(TOP_FUNCTIONS, start=1):
      function_data = function.split()
-     function_percentage = function_data[0]
-     function_name = function_data[-1]
-@@ -143,7 +147,3 @@ for (index, function) in enumerate(top_functions, start=1):
-                                              function_percentage,
-                                              function_name,
-                                              function_invoker))
+     # Calculate function percentage
+     function_instructions = float(function_data[0].replace(',', ''))
+     function_percentage = (function_instructions /
+-                           total_number_of_instructions)*100
++                           TOTAL_NUMBER_OF_INSTRUCTIONS)*100
+     # Get function name and source files path
+     function_source_file, function_name = function_data[1].split(':')
+     # Print extracted data
+@@ -134,7 +143,3 @@ for (index, function) in enumerate(top_functions, start=1):
+                                                 round(function_percentage, 3),
+                                                 function_name,
+                                                 function_source_file))
 -
 -# Remove intermediate files
--os.unlink('/tmp/perf.data')
--os.unlink('/tmp/perf_report.out')
+-os.unlink('/tmp/callgrind.data')
+-os.unlink('/tmp/callgrind_annotate.out')
 -- 
 2.17.1
 
