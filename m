@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BADC255933
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 13:15:20 +0200 (CEST)
-Received: from localhost ([::1]:36792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DD1425592D
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 13:12:58 +0200 (CEST)
+Received: from localhost ([::1]:53426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBcLn-0007cv-3t
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 07:15:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39768)
+	id 1kBcJV-0002wB-FR
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 07:12:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kBcG5-00051x-8l
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 07:09:25 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:31126
+ id 1kBcGC-0005Cl-Sh
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 07:09:32 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:23997
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kBcG3-0000Zl-Gp
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 07:09:24 -0400
+ id 1kBcGA-0000bm-SR
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 07:09:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598612962;
+ s=mimecast20190719; t=1598612969;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kRd0J17TL3EKWjtslK7HZu1toRTuXcADnLWsSeDYb0Y=;
- b=MgrGKbIW8pUdlrcrba5Z4GPG3khTSNTdve8Q/Ykm3QuKJIKow/ciMFM55g5J6rUXOHp7yF
- poRfuONxbhUMCj1HCXZpTuV+42C3gKPXhXQXWFgbfNJg4Sjt8XKe9mQeL1zeyKVa+h1TP/
- 2HXE+JZ0jS+aJJ5+R3bHyxDRp2dnrKI=
+ bh=0uXV+T/HYmL2WGCSQbjUYrOSpkTcCjueGq8gGiNN3NQ=;
+ b=G4hwFlYgH359/wwCi3PGn+AyuE4qSV6kma9mNn64qNgOJpk/zg55UmyVj/cxIRpX/MeYmF
+ //a3UzgVJXuMN8jnOYM3PznalpSKkVsV2FowT177X1MmthZY9g3OXs42ZIpH+xBf52w5UE
+ zJKVMZeF/qeKXWDih9J2aLK9DVH4KVY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-493-Mff-Y03tOWGDB5ioY-4YmQ-1; Fri, 28 Aug 2020 07:09:21 -0400
-X-MC-Unique: Mff-Y03tOWGDB5ioY-4YmQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-450-Io7p_g0NOyaPebPXzdr4oQ-1; Fri, 28 Aug 2020 07:09:28 -0400
+X-MC-Unique: Io7p_g0NOyaPebPXzdr4oQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26AAA100746C
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 11:09:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56F951074650
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 11:09:27 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 634385C1C2;
- Fri, 28 Aug 2020 11:09:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DAB5774E1E;
+ Fri, 28 Aug 2020 11:09:23 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 11/16] tests/Makefile.include: update check-build
-Date: Fri, 28 Aug 2020 15:07:29 +0400
-Message-Id: <20200828110734.1638685-12-marcandre.lureau@redhat.com>
+Subject: [PATCH 12/16] tests: do not print benchmark output to stdout
+Date: Fri, 28 Aug 2020 15:07:30 +0400
+Message-Id: <20200828110734.1638685-13-marcandre.lureau@redhat.com>
 In-Reply-To: <20200828110734.1638685-1-marcandre.lureau@redhat.com>
 References: <20200828110734.1638685-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81;
+Received-SPF: pass client-ip=205.139.110.61;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 01:02:42
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 07:07:45
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -89,32 +89,73 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+As this makes the TAP output invalid. Use g_test_message().
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- tests/Makefile.include | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ tests/benchmark-crypto-cipher.c | 8 ++++----
+ tests/benchmark-crypto-hash.c   | 2 +-
+ tests/benchmark-crypto-hmac.c   | 8 ++++----
+ 3 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 30de192567..9fb61ff900 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -23,7 +23,7 @@ endif
- 	@echo " $(MAKE) check-clean          Clean the tests and related data"
- 	@echo
- 	@echo "The following are useful for CI builds"
--	@echo " $(MAKE) check-build          Build most test binaris"
-+	@echo " $(MAKE) check-build          Build most test binaries"
- 	@echo " $(MAKE) get-vm-images        Downloads all images used by acceptance tests, according to configured targets (~350 MB each, 1.5 GB max)"
- 	@echo
- 	@echo
-@@ -195,7 +195,6 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
+diff --git a/tests/benchmark-crypto-cipher.c b/tests/benchmark-crypto-cipher.c
+index 53032334ec..1936aa4ae0 100644
+--- a/tests/benchmark-crypto-cipher.c
++++ b/tests/benchmark-crypto-cipher.c
+@@ -70,8 +70,8 @@ static void test_cipher_speed(size_t chunk_size,
+     }
+     g_test_timer_elapsed();
  
- .PHONY: check-block check check-clean get-vm-images
- check-block:
--check-build:
+-    g_print("Enc chunk %zu bytes ", chunk_size);
+-    g_print("%.2f MB/sec ", (double)total / MiB / g_test_timer_last());
++    g_test_message("Enc chunk %zu bytes ", chunk_size);
++    g_test_message("%.2f MB/sec ", (double)total / MiB / g_test_timer_last());
  
- check-clean:
- 	rm -rf tests/*.o tests/*/*.o $(QEMU_IOTESTS_HELPERS-y)
+     g_test_timer_start();
+     remain = total;
+@@ -85,8 +85,8 @@ static void test_cipher_speed(size_t chunk_size,
+     }
+     g_test_timer_elapsed();
+ 
+-    g_print("Dec chunk %zu bytes ", chunk_size);
+-    g_print("%.2f MB/sec ", (double)total / MiB / g_test_timer_last());
++    g_test_message("Dec chunk %zu bytes ", chunk_size);
++    g_test_message("%.2f MB/sec ", (double)total / MiB / g_test_timer_last());
+ 
+     qcrypto_cipher_free(cipher);
+     g_free(plaintext);
+diff --git a/tests/benchmark-crypto-hash.c b/tests/benchmark-crypto-hash.c
+index d16837d00a..598111e75a 100644
+--- a/tests/benchmark-crypto-hash.c
++++ b/tests/benchmark-crypto-hash.c
+@@ -48,7 +48,7 @@ static void test_hash_speed(const void *opaque)
+     }
+     g_test_timer_elapsed();
+ 
+-    g_print("%.2f MB/sec ", (double)total / MiB / g_test_timer_last());
++    g_test_message("%.2f MB/sec ", (double)total / MiB / g_test_timer_last());
+ 
+     g_free(out);
+     g_free(in);
+diff --git a/tests/benchmark-crypto-hmac.c b/tests/benchmark-crypto-hmac.c
+index f1dfa240cb..f9fa22df95 100644
+--- a/tests/benchmark-crypto-hmac.c
++++ b/tests/benchmark-crypto-hmac.c
+@@ -55,10 +55,10 @@ static void test_hmac_speed(const void *opaque)
+     } while (g_test_timer_elapsed() < 5.0);
+ 
+     total /= MiB;
+-    g_print("hmac(sha256): ");
+-    g_print("Testing chunk_size %zu bytes ", chunk_size);
+-    g_print("done: %.2f MB in %.2f secs: ", total, g_test_timer_last());
+-    g_print("%.2f MB/sec\n", total / g_test_timer_last());
++    g_test_message("hmac(sha256): ");
++    g_test_message("Testing chunk_size %zu bytes ", chunk_size);
++    g_test_message("done: %.2f MB in %.2f secs: ", total, g_test_timer_last());
++    g_test_message("%.2f MB/sec\n", total / g_test_timer_last());
+ 
+     g_free(out);
+     g_free(in);
 -- 
 2.26.2
 
