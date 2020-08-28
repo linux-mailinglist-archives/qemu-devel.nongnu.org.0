@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 034BE255C3A
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 16:21:03 +0200 (CEST)
-Received: from localhost ([::1]:51688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6546B255C48
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 16:22:28 +0200 (CEST)
+Received: from localhost ([::1]:60362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBfFV-0000z2-Vy
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 10:21:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50744)
+	id 1kBfGt-0004fw-DE
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 10:22:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBfE8-0007nf-Bu
+ id 1kBfE8-0007p0-Rw
  for qemu-devel@nongnu.org; Fri, 28 Aug 2020 10:19:36 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:42632)
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:38928)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBfE5-00050z-TT
+ id 1kBfE7-000515-3W
  for qemu-devel@nongnu.org; Fri, 28 Aug 2020 10:19:36 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id 17so729224pfw.9
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 07:19:33 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id v15so524833pgh.6
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 07:19:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=pja91OOCTOC632k6hUXx/Hme4SkTt9HZ9gi0Kb477RM=;
- b=N6/ylgLtvX0ERwmi9ditzHITGoAA9HREiiEp5gIBwjoSmHNMVcfxFZCbT9SQO8Uz/m
- vGH0+J0bNBKV8DjgsjxZuraGc7jieIHwoS1kTsA7OeqWRIpT3loHS8vYwXdvwGVB40NQ
- yxowpEJ9hUkQBu9ZgXHWg/JsmNqy9Otvn4AMAUKZBs3cvhYIfZWs0ieH4PMIGz+8/V8G
- ZwI8LM/fqf9Yxem1YYXWVTNjMx7SPKvGvTzqcjHUS4QFi3xJNZJnrwRxb+5g5MMtFeE/
- La/PsEmO2XqbcQx3Y0qm9OqdnChUpskH9eLt9Ob9M5JzczRH4NA138LRtLq88fNxr47e
- DU/A==
+ bh=LfqpuF2wNDM0fswn7p/0qMKThcYJi8mNAXbQlEHPUSw=;
+ b=peFYGHyyfRoK1cqkXVXZemlhp+wWLD4rGmYUfKmu1CJp1ILW2s/iEbz0T1nbeYcQO2
+ CLNfg+9YjtkwTdGIV6IUp70eZLunCvXzvIOfzVCoFWYMBF1OeeUzVpHXgttudpPaIibQ
+ fKfD3gb7uYmXHsdBaRf4OdtkY0Gqf/kK24ESmC+Kp4MSYBb54DwHL2spA7wZ5Jqxwz11
+ ySI/+Un8r2fxonijiSF6p6Qv7zMMu0MB4yLrIRGKOclkNUeTaZ9KAGmWqmVihDrIMLRr
+ OLvfThF8ikaHb+RLgpR3/J99zAFf0AigKr3QHl0udyFR3SvH+P/PhvBoixPRK+gcUVuz
+ QdRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pja91OOCTOC632k6hUXx/Hme4SkTt9HZ9gi0Kb477RM=;
- b=CXqjt8He2CE6yHPDk5I0cXteaz/74Y6QcXEtTfdDSYk8kWcOA/kB0p8k2SSwVs+9ZM
- m3/wiSJr/enyPSYOJ4ToPck0f4e3O0QfmLMsIHpbxbvmJy32RJd68j3e2Gqt7LwRuNwn
- xpPu5yLOStClHIWN5/93gQMbjbQfEZBXKG2iY5OQwS5iCfIzVPx/0BHSgt1G3AR0H+H6
- LoLe52QLw2vxggFcp7jx2W9jDE8SH1+9wNdOp8Asd4CBjAwdrvtyJdAPsd5SHdphtaMa
- SbmyhaMbxL0Dlj2eREhMpJKYn8+KSdUZaxXDaOW/iOqg87E1jSHKiSo3R7SUhOgqMceM
- ZIhA==
-X-Gm-Message-State: AOAM533dz+pz/2K8cCOSniJeKIcXXRQC7QB3lYd4Dxlz4eS2G8ExR8Qk
- 0ghnlZRbpGzOAJ6I3++o/bdGm/z0+zX7lQ==
-X-Google-Smtp-Source: ABdhPJx0uaQhLOP76muEQaAgJ4JDyDzwWqBy2kS4DB7djVd9swCVMPZtwCIVrFRC2yWbBIF3i9Ln1A==
-X-Received: by 2002:a63:fc4b:: with SMTP id r11mr1399093pgk.342.1598624372267; 
- Fri, 28 Aug 2020 07:19:32 -0700 (PDT)
+ bh=LfqpuF2wNDM0fswn7p/0qMKThcYJi8mNAXbQlEHPUSw=;
+ b=BduXBUMqytf6S3VHNWTqs+7Mpr7x8EAY8OextVJV4CLJwIGJgIe7UirhXkvMxBJFKo
+ x9PM1II4LHZdmnhE+SU6b1NboWcSOZSXd52c07eDtWkXrHOgNFt0QcvMaAQ60P4AwRsg
+ ymnvilpI0/V9Qh5aN4eCod8F/r9KJx/vWE4WfIMUY3l3fqfItR3BfmEOVIK1kozLODvi
+ ZsKQ5daxlB6jHd0nteJvOKiBycGjMPsgPJnlQ+YCFmsZoYyI078HMAC7RERA7fWqwvOk
+ hrhdNnJ0w6Bd9BEyDG9BIIqo+stp3Ejk0cVvV2UXlnz/KCLwODbCV/Fbi0clr/1STs5b
+ dBCA==
+X-Gm-Message-State: AOAM530Kln13VMhs2rFjn7/lYMJI0FWYhnxo01WaAJpv1Q2SBt9TyxEU
+ bLDu27Iel/82ZIGGbsUYpIHK66pQX2Ubhw==
+X-Google-Smtp-Source: ABdhPJzTcn2WZM14DBO5ekuTprCn9I7CFzpWtH9SP9aj55vz1Js7wgwK/FnFendbCA5Gbt6oZUkl0w==
+X-Received: by 2002:a65:58c9:: with SMTP id e9mr1429009pgu.66.1598624373311;
+ Fri, 28 Aug 2020 07:19:33 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id j3sm1403080pjw.23.2020.08.28.07.19.31
+ by smtp.gmail.com with ESMTPSA id j3sm1403080pjw.23.2020.08.28.07.19.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 07:19:31 -0700 (PDT)
+ Fri, 28 Aug 2020 07:19:32 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 01/76] tests/tcg: Add microblaze to arches filter
-Date: Fri, 28 Aug 2020 07:18:14 -0700
-Message-Id: <20200828141929.77854-2-richard.henderson@linaro.org>
+Subject: [PATCH v2 02/76] tests/tcg: Do not require FE_TOWARDZERO
+Date: Fri, 28 Aug 2020 07:18:15 -0700
+Message-Id: <20200828141929.77854-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200828141929.77854-1-richard.henderson@linaro.org>
 References: <20200828141929.77854-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x541.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,28 +88,43 @@ Cc: edgar.iglesias@xilinx.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Not attempting to use a single cross-compiler for both
-big-endian and little-endian at this time.
+This is optional in ISO C, and not all cpus provide it.
 
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/tcg/configure.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/tcg/multiarch/float_convs.c | 2 ++
+ tests/tcg/multiarch/float_madds.c | 2 ++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index 7d714f902a..598a50cd4f 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -94,7 +94,7 @@ for target in $target_list; do
-     xtensa|xtensaeb)
-       arches=xtensa
-       ;;
--    alpha|cris|hppa|i386|lm32|m68k|openrisc|riscv64|s390x|sh4|sparc64)
-+    alpha|cris|hppa|i386|lm32|microblaze|microblazeel|m68k|openrisc|riscv64|s390x|sh4|sparc64)
-       arches=$target
-       ;;
-     *)
+diff --git a/tests/tcg/multiarch/float_convs.c b/tests/tcg/multiarch/float_convs.c
+index 47e24b8b16..e9be75c2d5 100644
+--- a/tests/tcg/multiarch/float_convs.c
++++ b/tests/tcg/multiarch/float_convs.c
+@@ -30,7 +30,9 @@ float_mapping round_flags[] = {
+ #ifdef FE_DOWNWARD
+     { FE_DOWNWARD, "downwards" },
+ #endif
++#ifdef FE_TOWARDZERO
+     { FE_TOWARDZERO, "to zero" }
++#endif
+ };
+ 
+ static void print_input(float input)
+diff --git a/tests/tcg/multiarch/float_madds.c b/tests/tcg/multiarch/float_madds.c
+index eceb4ae38b..e422608ccd 100644
+--- a/tests/tcg/multiarch/float_madds.c
++++ b/tests/tcg/multiarch/float_madds.c
+@@ -29,7 +29,9 @@ float_mapping round_flags[] = {
+ #ifdef FE_DOWNWARD
+     { FE_DOWNWARD, "downwards" },
+ #endif
++#ifdef FE_TOWARDZERO
+     { FE_TOWARDZERO, "to zero" }
++#endif
+ };
+ 
+ 
 -- 
 2.25.1
 
