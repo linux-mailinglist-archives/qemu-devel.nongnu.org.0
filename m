@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEDEF255F83
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 19:12:50 +0200 (CEST)
-Received: from localhost ([::1]:35706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACC9C255F72
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 19:09:32 +0200 (CEST)
+Received: from localhost ([::1]:50066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBhvm-0000TH-20
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 13:12:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36730)
+	id 1kBhsZ-0003Gx-Nf
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 13:09:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBhop-0003oy-Ul
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 13:05:39 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:36319)
+ id 1kBhor-0003tC-LR
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 13:05:41 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:42911)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBhoo-00032w-DP
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 13:05:39 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id p37so731293pgl.3
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 10:05:37 -0700 (PDT)
+ id 1kBhop-000352-S7
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 13:05:41 -0400
+Received: by mail-pl1-x641.google.com with SMTP id j11so777767plk.9
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 10:05:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uHfxrHQWg2O+r2PVrn88/8hdFFb+717npid0qZec8zg=;
- b=yK79qwzfaH40Z1JVCkGqopZ7hJptf/Ot/frQc/0ErjJMAd6FpCqW99D10qMvAs9wej
- eAbAuBkEJINReChClbJtpxIsLo6ytnNkxoEPkANaVL+VhOTVejR8lgdv/2HByPoovTZG
- aQDGy+27Ul6RklJNRada767cTVJTBFPrxNNJtCGHDFWm6pJccWGEaI18msdkq3cocX/f
- x8FZV5BPBPTuFWVsofd9o71keMOy08pWjd5tgTpafy68CrzPfAuRG92aT/gMbn/AxNCy
- E1jEdrpOi2YhV8kgRNQ6+aTqdjoTCmou03L2b854hqTYshKGlcRMW/mTYEkUjtuTX5N2
- BIow==
+ bh=TqzPE+AsczeJFR52P3swxprxnAZO/kZ1snURQdlagJA=;
+ b=XGB1X0i4my0zdUr1MHPPBWyF2ZTOZnn4l3AVeNVWvJtE+U5PCV0agP/aAFq1devQg/
+ clDiH/N4yVYZJ5w62/z/QtZF01caGviCKeyVJkLYEmrqcKyD56R77e7IhxgZuFj8xJr/
+ TSw3d/XPCZUimt90B8aajrTR+GX/NRMV4m1Wb5+4ADcep8boy7XAE+/FNMREdp2CLJpA
+ aGRL8Z4U0EhGB29p38YHfyKAYj2mUAoAFgNmmudM9E4yEtg3IqH0ws0LQnaJovvYUZfG
+ jLNek2vUtXt9j/TNeJdvR+jfdlXmp2BL1+bhKIZ5TsUCPejLAFiBCd3N4DWvcQ/Oi0Mz
+ jBRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uHfxrHQWg2O+r2PVrn88/8hdFFb+717npid0qZec8zg=;
- b=dSarxfu/iNsWMdM7IMdR/gO0uU4JIWWnxNY9fUVvc5Pteds7Xz9DESpEEzHClBXRV7
- XITpFxZt1DEsTmujifisgTyNCjJzj1kJFQv7h1EpOxr9fSB0Th4dnJVZDRFiJJcjZl3Y
- H8/0DHg6QrVQHd1wZMK5OSwrNScMUCKW2z7h/ITrbjk75Jn/WGJof99AtYmEFLJSVcHv
- QiXGGhRS07hYLyCqXyPkQ4ieuk5kmKAmw6R0F/mWln83RZ7JjkU8U4M4A4E/nz5egshP
- CqUZtMM3xci0b5WL29QlSJj/S4JHkhSxQbGWVLixmFcan0sFZ8/rTqkr/NSrf4AOxMGq
- JQ1Q==
-X-Gm-Message-State: AOAM531ZzXI/gE+9YgRJqvH0UmJgXfacsj+pulscnk2medWMFsfSkruB
- Hr9s6f0koxqk9RXfrgAY8UaPdNtu1aZpSA==
-X-Google-Smtp-Source: ABdhPJw7Csw6kXNFcNj+Y+cCIgPZQaEOamW8n++pGMvmnpYGjRHIgL9QqdDly6+q8wTRP0xqfcLLdA==
-X-Received: by 2002:a63:7056:: with SMTP id a22mr1809199pgn.12.1598634336675; 
- Fri, 28 Aug 2020 10:05:36 -0700 (PDT)
+ bh=TqzPE+AsczeJFR52P3swxprxnAZO/kZ1snURQdlagJA=;
+ b=qJTmCDN7sWhpl7iQEn6ocftnB576UyOcstEyMgr9lnM9JWqRVHK5Ly01jxDwjRN9iD
+ ZBE67iRq7jLi4DTDXIghAOaE1kn+cPu1FfwKQOR1GFDoV3eCOP/8qMWuG6FgwqRChqA3
+ eQz2prySfG9dThzVfoyK3zGQBJeSOOiG8OUjFq235pSXOmaq3JqttHWv38MDdKDP9Sb3
+ zWi6+Srk44iZjoroXkq/qow1T80oTb+KVuzKi7NAXu/cPjhHUb2huSRZyXH/XSl7ff8e
+ UaXBwUdygmdwrv5nsY8VJrIY2PFryvOb85jB4LQaA7WHMIMEtlVsHMlc84G9wtAnT4vV
+ assQ==
+X-Gm-Message-State: AOAM5316qLItp5HG4hqG551hyzsWrudomr3Aod7nwx883bVAd7m95of6
+ hREzEGIIHKpRCK47A3mZfX5651XbygMmGA==
+X-Google-Smtp-Source: ABdhPJzjxMIxor5Gg9pbplDdi9RDj3cCJUeat7Obyr+MgtO0HSZu02n8RdCw6FddbqLoGAjBWMyB9w==
+X-Received: by 2002:a17:902:7582:: with SMTP id
+ j2mr2203287pll.322.1598634338106; 
+ Fri, 28 Aug 2020 10:05:38 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id q12sm2277495pff.196.2020.08.28.10.05.35
+ by smtp.gmail.com with ESMTPSA id q12sm2277495pff.196.2020.08.28.10.05.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 10:05:35 -0700 (PDT)
+ Fri, 28 Aug 2020 10:05:37 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 09/16] crypto: Constify cipher data tables
-Date: Fri, 28 Aug 2020 10:05:16 -0700
-Message-Id: <20200828170523.418603-10-richard.henderson@linaro.org>
+Subject: [PATCH v2 10/16] crypto/builtin: Remove odd-sized AES block handling
+Date: Fri, 28 Aug 2020 10:05:17 -0700
+Message-Id: <20200828170523.418603-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200828170523.418603-1-richard.henderson@linaro.org>
 References: <20200828170523.418603-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x641.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -85,49 +86,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- berrange@redhat.com
+Cc: berrange@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+We verified that the data block is properly sized modulo
+AES_BLOCK_SIZE within qcrypto_builtin_cipher_{en,de}crypt.
+Therefore we will never have to handle odd sized blocks.
+
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- crypto/cipher.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ crypto/cipher-builtin.c.inc | 40 +++++++++++--------------------------
+ 1 file changed, 12 insertions(+), 28 deletions(-)
 
-diff --git a/crypto/cipher.c b/crypto/cipher.c
-index 3711b552fa..068b2fb867 100644
---- a/crypto/cipher.c
-+++ b/crypto/cipher.c
-@@ -25,7 +25,7 @@
- #include "cipherpriv.h"
+diff --git a/crypto/cipher-builtin.c.inc b/crypto/cipher-builtin.c.inc
+index 1444139f36..e2ae5d090c 100644
+--- a/crypto/cipher-builtin.c.inc
++++ b/crypto/cipher-builtin.c.inc
+@@ -80,21 +80,13 @@ static void qcrypto_cipher_aes_ecb_encrypt(const AES_KEY *key,
+ {
+     const uint8_t *inptr = in;
+     uint8_t *outptr = out;
++
++    /* We have already verified that len % AES_BLOCK_SIZE == 0. */
+     while (len) {
+-        if (len > AES_BLOCK_SIZE) {
+-            AES_encrypt(inptr, outptr, key);
+-            inptr += AES_BLOCK_SIZE;
+-            outptr += AES_BLOCK_SIZE;
+-            len -= AES_BLOCK_SIZE;
+-        } else {
+-            uint8_t tmp1[AES_BLOCK_SIZE], tmp2[AES_BLOCK_SIZE];
+-            memcpy(tmp1, inptr, len);
+-            /* Fill with 0 to avoid valgrind uninitialized reads */
+-            memset(tmp1 + len, 0, sizeof(tmp1) - len);
+-            AES_encrypt(tmp1, tmp2, key);
+-            memcpy(outptr, tmp2, len);
+-            len = 0;
+-        }
++        AES_encrypt(inptr, outptr, key);
++        inptr += AES_BLOCK_SIZE;
++        outptr += AES_BLOCK_SIZE;
++        len -= AES_BLOCK_SIZE;
+     }
+ }
  
+@@ -106,21 +98,13 @@ static void qcrypto_cipher_aes_ecb_decrypt(const AES_KEY *key,
+ {
+     const uint8_t *inptr = in;
+     uint8_t *outptr = out;
++
++    /* We have already verified that len % AES_BLOCK_SIZE == 0. */
+     while (len) {
+-        if (len > AES_BLOCK_SIZE) {
+-            AES_decrypt(inptr, outptr, key);
+-            inptr += AES_BLOCK_SIZE;
+-            outptr += AES_BLOCK_SIZE;
+-            len -= AES_BLOCK_SIZE;
+-        } else {
+-            uint8_t tmp1[AES_BLOCK_SIZE], tmp2[AES_BLOCK_SIZE];
+-            memcpy(tmp1, inptr, len);
+-            /* Fill with 0 to avoid valgrind uninitialized reads */
+-            memset(tmp1 + len, 0, sizeof(tmp1) - len);
+-            AES_decrypt(tmp1, tmp2, key);
+-            memcpy(outptr, tmp2, len);
+-            len = 0;
+-        }
++        AES_decrypt(inptr, outptr, key);
++        inptr += AES_BLOCK_SIZE;
++        outptr += AES_BLOCK_SIZE;
++        len -= AES_BLOCK_SIZE;
+     }
+ }
  
--static size_t alg_key_len[QCRYPTO_CIPHER_ALG__MAX] = {
-+static const size_t alg_key_len[QCRYPTO_CIPHER_ALG__MAX] = {
-     [QCRYPTO_CIPHER_ALG_AES_128] = 16,
-     [QCRYPTO_CIPHER_ALG_AES_192] = 24,
-     [QCRYPTO_CIPHER_ALG_AES_256] = 32,
-@@ -40,7 +40,7 @@ static size_t alg_key_len[QCRYPTO_CIPHER_ALG__MAX] = {
-     [QCRYPTO_CIPHER_ALG_TWOFISH_256] = 32,
- };
- 
--static size_t alg_block_len[QCRYPTO_CIPHER_ALG__MAX] = {
-+static const size_t alg_block_len[QCRYPTO_CIPHER_ALG__MAX] = {
-     [QCRYPTO_CIPHER_ALG_AES_128] = 16,
-     [QCRYPTO_CIPHER_ALG_AES_192] = 16,
-     [QCRYPTO_CIPHER_ALG_AES_256] = 16,
-@@ -55,7 +55,7 @@ static size_t alg_block_len[QCRYPTO_CIPHER_ALG__MAX] = {
-     [QCRYPTO_CIPHER_ALG_TWOFISH_256] = 16,
- };
- 
--static bool mode_need_iv[QCRYPTO_CIPHER_MODE__MAX] = {
-+static const bool mode_need_iv[QCRYPTO_CIPHER_MODE__MAX] = {
-     [QCRYPTO_CIPHER_MODE_ECB] = false,
-     [QCRYPTO_CIPHER_MODE_CBC] = true,
-     [QCRYPTO_CIPHER_MODE_XTS] = true,
 -- 
 2.25.1
 
