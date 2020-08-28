@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B80F255F63
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 19:08:04 +0200 (CEST)
-Received: from localhost ([::1]:41712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7C86255F71
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 19:09:31 +0200 (CEST)
+Received: from localhost ([::1]:49884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBhr9-0008LF-Jt
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 13:08:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36634)
+	id 1kBhsY-0003CR-Um
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 13:09:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBhoi-0003Zz-RO
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 13:05:32 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:40574)
+ id 1kBhoj-0003bS-Iu
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 13:05:33 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:33688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBhoh-00030S-0t
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 13:05:32 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id kx11so20027pjb.5
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 10:05:30 -0700 (PDT)
+ id 1kBhoh-00030b-Vr
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 13:05:33 -0400
+Received: by mail-pf1-x443.google.com with SMTP id u20so954807pfn.0
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 10:05:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=G4aBqze3dMxYJ4S0H3/4ztu6UBprrxcKGaJBxwSWoZI=;
- b=I3KjoArDaN3KKaUhyem6JJl7pG2J3QaSVS4XAkvDmxudW1TjtVLlFZ445IxB/dLKjv
- aHkgtjtXLClIzESQ5AwiXcoBtzjH3rSQrSlGhRvR6/aQnq9GLR0IC98HwFEet/NctH94
- gLfMA56fKrh0B9b2gGnvI2A53ZgKpOHppIcAIBnGE5UektY0mPCBAVW6XrAVVBfFIfXx
- saloL5z3/66JpEE4XYtkv9xjjwd7zoMiihqe7Ai/ynhrIrLjxqK0YI5yicemGWc8SWGa
- ceCc9bZFtW2FEec9BNdbOqIlfrK7mbajqwxSmtiUm/wZHHv2ySIUGbjdXdHasSFmRaXJ
- /QrA==
+ bh=vkqjR+0dFjJx/RqSJg4ZuU6Fj06xiA2ZZSaXxPiNFoU=;
+ b=JoSAFj7h/TcBC+QPk7eGl93Qqn79bJodTyFVU8QyWiKEeEiTkR6Zuwor5kqF7Pvqpt
+ jEUFLyHIQwEFUSj6aOQi0QLeoDIYhlPAj9H/qfCt0Dw17iJwQDC4//VWZPtZJIHeihzz
+ emLNPzforafvinCVoxfpq3qDrbpaXzEhzR6DrYupBk+v815j07a8RluYi1UjJ/Xrcev4
+ gU5/CJUIbTg2HYHBAu7hvKq2uw40+hjBWGqzrSxVl/Y34xdEGUNpagqPS6Q42ZcZvJQe
+ NMKX/LNKiHpuLxJBmONit+5q7vfwpotyhWlsrg61nUsfIQJa0lxVXbrXWN/xu8pJo6jp
+ TE2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=G4aBqze3dMxYJ4S0H3/4ztu6UBprrxcKGaJBxwSWoZI=;
- b=B31xlrrqz7v8LfhFSGzvAjQXSrBIfi49ERHEiMnqZegw5LOeG12uJg+xIJmsWhqNoY
- poaRTXrn6seV4COYN8BwyfoxWVu/INz6lOVK5Of6gVS8luELrTKuAGNejzQYj2MsHPW/
- tO6I4P3Yzt2KoTQ5VCx0i+GvNHbxX2BIzNKK/cBgZjRIagGXE7W0hnheUIwFXHvxJpd9
- rK3H6ak9iM+xbgtbA9Tcw+FqYYKavi9/EihSg1LTXWSVK7ArQeZgrQahjaYbEVLTuEMR
- qpSAz4pgsyYIa+8KMGF6FD/orwoXBPOj2uLaWdP6WNfkqrLT1n+mFrk8ntAQR+5CN/P5
- oC7g==
-X-Gm-Message-State: AOAM531mfaH+AelyBhaUTgi1oWLxQET1/UTJG7PRD4McJ+1X0Sv/N4iK
- CnvuGb14mbQ6A41HPP2drycjFTXTbpnAGA==
-X-Google-Smtp-Source: ABdhPJx8YHgFGbq7vU2AsduGaSbrItSojIllFiyEAtxF2M9Lgzb/zqj8VaUmr4aA2aULa9WrgkDKTA==
-X-Received: by 2002:a17:90a:19d1:: with SMTP id 17mr59873pjj.93.1598634329101; 
- Fri, 28 Aug 2020 10:05:29 -0700 (PDT)
+ bh=vkqjR+0dFjJx/RqSJg4ZuU6Fj06xiA2ZZSaXxPiNFoU=;
+ b=KiMwoEskkwvzXhBfCuGw0OJnnXJQZ5YE61s2aG2IPhKfJTxXqK5JopHEzYd3Qm73VD
+ 7H+O88+GK9g2JbGbJhlfXnOD6T5Fhz5JGxc4ho6XsaCt7IwQN/3B46XDCamfFU1Jyz42
+ MwD/TNJwpBXi/Ko3pS2MysstzrvNteeF1asa1cD1kkLbPToM+me4Hey9D1V9BHWQooh8
+ QmkQDjaUO/O1vf9o0cDYeghzUIWw68WukWJG3r6W+HJWDq+Ar04lfp+rGHBQUvy4aekl
+ +hGi4abUz8YSJoPZF+iDrzrvvPSPmHZHuEcTHFE/50OL6YgzvGMi8OOT97/OIpQVFv/J
+ H2Zg==
+X-Gm-Message-State: AOAM533EaR5T45O6IkCBaiudjDeZDnwYstjEv2ODk+XAyBaSsJvJKKck
+ ATbvZGHpdxL9CLV+VzPMOr21KZGJYhUXBw==
+X-Google-Smtp-Source: ABdhPJygVTUTpTseFw/AC/EruBh/kS2xgy+nku7TwS9KS+PIJE6CsAeqE3V6fvypHEVZEpCb4eOokA==
+X-Received: by 2002:a63:516:: with SMTP id 22mr1812863pgf.316.1598634330292;
+ Fri, 28 Aug 2020 10:05:30 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id q12sm2277495pff.196.2020.08.28.10.05.28
+ by smtp.gmail.com with ESMTPSA id q12sm2277495pff.196.2020.08.28.10.05.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 10:05:28 -0700 (PDT)
+ Fri, 28 Aug 2020 10:05:29 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 03/16] crypto: Remove redundant includes
-Date: Fri, 28 Aug 2020 10:05:10 -0700
-Message-Id: <20200828170523.418603-4-richard.henderson@linaro.org>
+Subject: [PATCH v2 04/16] crypto/nettle: Fix xts_encrypt arguments
+Date: Fri, 28 Aug 2020 10:05:11 -0700
+Message-Id: <20200828170523.418603-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200828170523.418603-1-richard.henderson@linaro.org>
 References: <20200828170523.418603-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -85,71 +85,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- berrange@redhat.com
+Cc: berrange@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Both qemu/osdep.h and cipherpriv.h have already been
-included by the parent cipher.c.
+The fourth argument to xts_encrypt should be the decrypt
+callback; we were accidentally passing encrypt twice.
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- crypto/cipher-builtin.c.inc | 2 --
- crypto/cipher-gcrypt.c.inc  | 2 --
- crypto/cipher-nettle.c.inc  | 2 --
- 3 files changed, 6 deletions(-)
+ crypto/cipher-nettle.c.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/crypto/cipher-builtin.c.inc b/crypto/cipher-builtin.c.inc
-index 6eafd39da0..56d45b0227 100644
---- a/crypto/cipher-builtin.c.inc
-+++ b/crypto/cipher-builtin.c.inc
-@@ -18,11 +18,9 @@
-  *
-  */
- 
--#include "qemu/osdep.h"
- #include "crypto/aes.h"
- #include "crypto/desrfb.h"
- #include "crypto/xts.h"
--#include "cipherpriv.h"
- 
- typedef struct QCryptoCipherBuiltinAESContext QCryptoCipherBuiltinAESContext;
- struct QCryptoCipherBuiltinAESContext {
-diff --git a/crypto/cipher-gcrypt.c.inc b/crypto/cipher-gcrypt.c.inc
-index 81e4745bff..a62839914b 100644
---- a/crypto/cipher-gcrypt.c.inc
-+++ b/crypto/cipher-gcrypt.c.inc
-@@ -18,11 +18,9 @@
-  *
-  */
- 
--#include "qemu/osdep.h"
- #ifdef CONFIG_QEMU_PRIVATE_XTS
- #include "crypto/xts.h"
- #endif
--#include "cipherpriv.h"
- 
- #include <gcrypt.h>
- 
 diff --git a/crypto/cipher-nettle.c.inc b/crypto/cipher-nettle.c.inc
-index 0677fdfd33..256931a823 100644
+index 256931a823..0404cfc6da 100644
 --- a/crypto/cipher-nettle.c.inc
 +++ b/crypto/cipher-nettle.c.inc
-@@ -18,11 +18,9 @@
-  *
-  */
- 
--#include "qemu/osdep.h"
+@@ -632,7 +632,7 @@ qcrypto_nettle_cipher_encrypt(QCryptoCipher *cipher,
+     case QCRYPTO_CIPHER_MODE_XTS:
  #ifdef CONFIG_QEMU_PRIVATE_XTS
- #include "crypto/xts.h"
- #endif
--#include "cipherpriv.h"
- 
- #include <nettle/nettle-types.h>
- #include <nettle/aes.h>
+         xts_encrypt(ctx->ctx, ctx->ctx_tweak,
+-                    ctx->alg_encrypt_wrapper, ctx->alg_encrypt_wrapper,
++                    ctx->alg_encrypt_wrapper, ctx->alg_decrypt_wrapper,
+                     ctx->iv, len, out, in);
+ #else
+         xts_encrypt_message(ctx->ctx, ctx->ctx_tweak,
 -- 
 2.25.1
 
