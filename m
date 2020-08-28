@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E90C255636
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 10:17:29 +0200 (CEST)
-Received: from localhost ([::1]:36070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6C7C255632
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 10:16:03 +0200 (CEST)
+Received: from localhost ([::1]:58992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBZZg-0007aS-Lb
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 04:17:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57912)
+	id 1kBZYI-0005KG-RS
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 04:16:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kBZRZ-0000kL-F3
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 04:09:05 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:49913
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kBZRb-0000oU-2S
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 04:09:07 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33094
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kBZRS-0003Rc-2p
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 04:09:05 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kBZRT-0003Sd-Pq
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 04:09:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598602136;
+ s=mimecast20190719; t=1598602138;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4FAgqbOoChHUalvFenlqqEy3ehfL0sTPRx5XtHq0V9o=;
- b=JBWWv+Hjhqzd7XZ+bRCYrbFREHPYfXLV63vwE90z1vEhveY1YoQKjFjoVq5vkG+//DNzhC
- s0rEV3uWhB8o0NHmoOTEKYXhg+jUY9o7opzUGkgGVi58xGcWRnKmCef27YJWEmCdgPzzwG
- mAG4mqZkwnKVnAAZAyFDDNMpy2Uxz8c=
+ bh=9roSgM66IiBIQZjYMh8WgmO1UZqEEROPpB96xe/qOl0=;
+ b=DeqyUOxzlYLz9sApYf4fS1aXgZsriTPN9JnQSmMvXBovGabjRLhKFAeLLnpg7bDgqYs5hY
+ ZitlX0Mrd9nEc7eIBQzkbPS69QkD6XHCmrADx6WiSxR+r/PDt9Qh+n/yCysJZIuDjuc2dF
+ t5zBmdziNCKzpIWdDKMem3CwH06gnUM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-550-pUkdWiLPMcGR4jYQsa-9pA-1; Fri, 28 Aug 2020 04:08:52 -0400
-X-MC-Unique: pUkdWiLPMcGR4jYQsa-9pA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-578-s1DfeJhiOg2tS8svtcAm0g-1; Fri, 28 Aug 2020 04:08:57 -0400
+X-MC-Unique: s1DfeJhiOg2tS8svtcAm0g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D283A425D4;
- Fri, 28 Aug 2020 08:08:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14BAA425D3;
+ Fri, 28 Aug 2020 08:08:56 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-54.ams2.redhat.com
  [10.36.112.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E11037D4E9;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3126E5C1C2;
  Fri, 28 Aug 2020 08:08:50 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 4473F31E66; Fri, 28 Aug 2020 10:08:46 +0200 (CEST)
+ id 539DE31E67; Fri, 28 Aug 2020 10:08:46 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/18] hw/usb: Add U2F key emulated mode
-Date: Fri, 28 Aug 2020 10:08:37 +0200
-Message-Id: <20200828080845.28287-11-kraxel@redhat.com>
+Subject: [PULL 11/18] meson: Add U2F key to meson
+Date: Fri, 28 Aug 2020 10:08:38 +0200
+Message-Id: <20200828080845.28287-12-kraxel@redhat.com>
 In-Reply-To: <20200828080845.28287-1-kraxel@redhat.com>
 References: <20200828080845.28287-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 03:48:58
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 04:08:58
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,445 +91,135 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: César Belley <cesar.belley@lse.epita.fr>
 
-This patch adds the U2F key emulated mode.
-
-The emulated mode consists of completely emulating the behavior of a
-U2F device through software part. Libu2f-emu is used for that.
-
-The emulated mode is associated with a device inheriting from
-u2f-key base.
-
-To work, an emulated U2F device must have differents elements which
-can be given in different ways. This is detailed in docs/u2f.txt.
-
-The Ephemeral one is the simplest way to configure, it lets the device
-generate all the elements it needs for a single use of the lifetime
-of the device:
-
-    qemu -usb -device u2f-emulated
-
-For more information about libu2f-emu see this page:
-https://github.com/MattGorko/libu2f-emu.
-
 Signed-off-by: César Belley <cesar.belley@lse.epita.fr>
-Message-id: 20200826114209.28821-7-cesar.belley@lse.epita.fr
+Message-id: 20200826114209.28821-8-cesar.belley@lse.epita.fr
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/usb/u2f-emulated.c | 405 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 405 insertions(+)
- create mode 100644 hw/usb/u2f-emulated.c
+ configure          | 8 +++++++-
+ meson_options.txt  | 1 +
+ hw/usb/Kconfig     | 5 +++++
+ hw/usb/meson.build | 7 +++++++
+ meson.build        | 7 +++++++
+ 5 files changed, 27 insertions(+), 1 deletion(-)
 
-diff --git a/hw/usb/u2f-emulated.c b/hw/usb/u2f-emulated.c
-new file mode 100644
-index 000000000000..9e1b829f3d32
---- /dev/null
-+++ b/hw/usb/u2f-emulated.c
-@@ -0,0 +1,405 @@
-+/*
-+ * U2F USB Emulated device.
-+ *
-+ * Copyright (c) 2020 César Belley <cesar.belley@lse.epita.fr>
-+ * Written by César Belley <cesar.belley@lse.epita.fr>
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/module.h"
-+#include "qemu/thread.h"
-+#include "qemu/main-loop.h"
-+#include "qapi/error.h"
-+#include "hw/usb.h"
-+#include "hw/qdev-properties.h"
-+
-+#include <u2f-emu/u2f-emu.h>
-+
-+#include "u2f.h"
-+
-+/* Counter which sync with a file */
-+struct synced_counter {
-+    /* Emulated device counter */
-+    struct u2f_emu_vdev_counter vdev_counter;
-+
-+    /* Private attributes */
-+    uint32_t value;
-+    FILE *fp;
-+};
-+
-+static void counter_increment(struct u2f_emu_vdev_counter *vdev_counter)
-+{
-+    struct synced_counter *counter = (struct synced_counter *)vdev_counter;
-+    ++counter->value;
-+
-+    /* Write back */
-+    if (fseek(counter->fp, 0, SEEK_SET) == -1) {
-+        return;
-+    }
-+    fprintf(counter->fp, "%u\n", counter->value);
-+}
-+
-+static uint32_t counter_read(struct u2f_emu_vdev_counter *vdev_counter)
-+{
-+    struct synced_counter *counter = (struct synced_counter *)vdev_counter;
-+    return counter->value;
-+}
-+
-+typedef struct U2FEmulatedState U2FEmulatedState;
-+
-+#define PENDING_OUT_NUM 32
-+
-+struct U2FEmulatedState {
-+    U2FKeyState base;
-+
-+    /* U2F virtual emulated device */
-+    u2f_emu_vdev *vdev;
-+    QemuMutex vdev_mutex;
-+
-+    /* Properties */
-+    char *dir;
-+    char *cert;
-+    char *privkey;
-+    char *entropy;
-+    char *counter;
-+    struct synced_counter synced_counter;
-+
-+    /* Pending packets received from the guest */
-+    uint8_t pending_out[PENDING_OUT_NUM][U2FHID_PACKET_SIZE];
-+    uint8_t pending_out_start;
-+    uint8_t pending_out_end;
-+    uint8_t pending_out_num;
-+    QemuMutex pending_out_mutex;
-+
-+    /* Emulation thread and sync */
-+    QemuCond key_cond;
-+    QemuMutex key_mutex;
-+    QemuThread key_thread;
-+    bool stop_thread;
-+    EventNotifier notifier;
-+};
-+
-+#define TYPE_U2F_EMULATED "u2f-emulated"
-+#define EMULATED_U2F_KEY(obj) \
-+    OBJECT_CHECK(U2FEmulatedState, (obj), TYPE_U2F_EMULATED)
-+
-+static void u2f_emulated_reset(U2FEmulatedState *key)
-+{
-+    key->pending_out_start = 0;
-+    key->pending_out_end = 0;
-+    key->pending_out_num = 0;
-+}
-+
-+static void u2f_pending_out_add(U2FEmulatedState *key,
-+                                const uint8_t packet[U2FHID_PACKET_SIZE])
-+{
-+    int index;
-+
-+    if (key->pending_out_num >= PENDING_OUT_NUM) {
-+        return;
-+    }
-+
-+    index = key->pending_out_end;
-+    key->pending_out_end = (index + 1) % PENDING_OUT_NUM;
-+    ++key->pending_out_num;
-+
-+    memcpy(&key->pending_out[index], packet, U2FHID_PACKET_SIZE);
-+}
-+
-+static uint8_t *u2f_pending_out_get(U2FEmulatedState *key)
-+{
-+    int index;
-+
-+    if (key->pending_out_num == 0) {
-+        return NULL;
-+    }
-+
-+    index  = key->pending_out_start;
-+    key->pending_out_start = (index + 1) % PENDING_OUT_NUM;
-+    --key->pending_out_num;
-+
-+    return key->pending_out[index];
-+}
-+
-+static void u2f_emulated_recv_from_guest(U2FKeyState *base,
-+                                    const uint8_t packet[U2FHID_PACKET_SIZE])
-+{
-+    U2FEmulatedState *key = EMULATED_U2F_KEY(base);
-+
-+    qemu_mutex_lock(&key->pending_out_mutex);
-+    u2f_pending_out_add(key, packet);
-+    qemu_mutex_unlock(&key->pending_out_mutex);
-+
-+    qemu_mutex_lock(&key->key_mutex);
-+    qemu_cond_signal(&key->key_cond);
-+    qemu_mutex_unlock(&key->key_mutex);
-+}
-+
-+static void *u2f_emulated_thread(void* arg)
-+{
-+    U2FEmulatedState *key = arg;
-+    uint8_t packet[U2FHID_PACKET_SIZE];
-+    uint8_t *packet_out = NULL;
-+
-+
-+    while (true) {
-+        /* Wait signal */
-+        qemu_mutex_lock(&key->key_mutex);
-+        qemu_cond_wait(&key->key_cond, &key->key_mutex);
-+        qemu_mutex_unlock(&key->key_mutex);
-+
-+        /* Exit thread check */
-+        if (key->stop_thread) {
-+            key->stop_thread = false;
-+            break;
-+        }
-+
-+        qemu_mutex_lock(&key->pending_out_mutex);
-+        packet_out = u2f_pending_out_get(key);
-+        if (packet_out == NULL) {
-+            qemu_mutex_unlock(&key->pending_out_mutex);
-+            continue;
-+        }
-+        memcpy(packet, packet_out, U2FHID_PACKET_SIZE);
-+        qemu_mutex_unlock(&key->pending_out_mutex);
-+
-+        qemu_mutex_lock(&key->vdev_mutex);
-+        u2f_emu_vdev_send(key->vdev, U2F_EMU_USB, packet,
-+                          U2FHID_PACKET_SIZE);
-+
-+        /* Notify response */
-+        if (u2f_emu_vdev_has_response(key->vdev, U2F_EMU_USB)) {
-+            event_notifier_set(&key->notifier);
-+        }
-+        qemu_mutex_unlock(&key->vdev_mutex);
-+    }
-+    return NULL;
-+}
-+
-+static ssize_t u2f_emulated_read(const char *path, char *buffer,
-+                                 size_t buffer_len)
-+{
-+    int fd;
-+    ssize_t ret;
-+
-+    fd = qemu_open(path, O_RDONLY);
-+    if (fd < 0) {
-+        return -1;
-+    }
-+
-+    ret = read(fd, buffer, buffer_len);
-+    close(fd);
-+
-+    return ret;
-+}
-+
-+static bool u2f_emulated_setup_counter(const char *path,
-+                                       struct synced_counter *counter)
-+{
-+    int fd, ret;
-+    FILE *fp;
-+
-+    fd = qemu_open(path, O_RDWR);
-+    if (fd < 0) {
-+        return false;
-+    }
-+    fp = fdopen(fd, "r+");
-+    if (fp == NULL) {
-+        close(fd);
-+        return false;
-+    }
-+    ret = fscanf(fp, "%u", &counter->value);
-+    if (ret == EOF) {
-+        fclose(fp);
-+        return false;
-+    }
-+    counter->fp = fp;
-+    counter->vdev_counter.counter_increment = counter_increment;
-+    counter->vdev_counter.counter_read = counter_read;
-+
-+    return true;
-+}
-+
-+static u2f_emu_rc u2f_emulated_setup_vdev_manualy(U2FEmulatedState *key)
-+{
-+    ssize_t ret;
-+    char cert_pem[4096], privkey_pem[2048];
-+    struct u2f_emu_vdev_setup setup_info;
-+
-+    /* Certificate */
-+    ret = u2f_emulated_read(key->cert, cert_pem, sizeof(cert_pem));
-+    if (ret < 0) {
-+        return -1;
-+    }
-+
-+    /* Private key */
-+    ret = u2f_emulated_read(key->privkey, privkey_pem, sizeof(privkey_pem));
-+    if (ret < 0) {
-+        return -1;
-+    }
-+
-+    /* Entropy */
-+    ret = u2f_emulated_read(key->entropy, (char *)&setup_info.entropy,
-+                            sizeof(setup_info.entropy));
-+    if (ret < 0) {
-+        return -1;
-+    }
-+
-+    /* Counter */
-+    if (!u2f_emulated_setup_counter(key->counter, &key->synced_counter)) {
-+        return -1;
-+    }
-+
-+    /* Setup */
-+    setup_info.certificate = cert_pem;
-+    setup_info.private_key = privkey_pem;
-+    setup_info.counter = (struct u2f_emu_vdev_counter *)&key->synced_counter;
-+
-+    return u2f_emu_vdev_new(&key->vdev, &setup_info);
-+}
-+
-+static void u2f_emulated_event_handler(EventNotifier *notifier)
-+{
-+    U2FEmulatedState *key = container_of(notifier, U2FEmulatedState, notifier);
-+    size_t packet_size;
-+    uint8_t *packet_in = NULL;
-+
-+    event_notifier_test_and_clear(&key->notifier);
-+    qemu_mutex_lock(&key->vdev_mutex);
-+    while (u2f_emu_vdev_has_response(key->vdev, U2F_EMU_USB)) {
-+        packet_size = u2f_emu_vdev_get_response(key->vdev, U2F_EMU_USB,
-+                                                &packet_in);
-+        if (packet_size == U2FHID_PACKET_SIZE) {
-+            u2f_send_to_guest(&key->base, packet_in);
-+        }
-+        u2f_emu_vdev_free_response(packet_in);
-+    }
-+    qemu_mutex_unlock(&key->vdev_mutex);
-+}
-+
-+static void u2f_emulated_realize(U2FKeyState *base, Error **errp)
-+{
-+    U2FEmulatedState *key = EMULATED_U2F_KEY(base);
-+    u2f_emu_rc rc;
-+
-+    if (key->cert != NULL || key->privkey != NULL || key->entropy != NULL
-+        || key->counter != NULL) {
-+        if (key->cert != NULL && key->privkey != NULL
-+            && key->entropy != NULL && key->counter != NULL) {
-+            rc = u2f_emulated_setup_vdev_manualy(key);
-+        } else {
-+            error_setg(errp, "%s: cert, priv, entropy and counter "
-+                       "parameters must be provided to manualy configure "
-+                       "the emulated device", TYPE_U2F_EMULATED);
-+            return;
-+        }
-+    } else if (key->dir != NULL) {
-+        rc = u2f_emu_vdev_new_from_dir(&key->vdev, key->dir);
-+    } else {
-+        rc = u2f_emu_vdev_new_ephemeral(&key->vdev);
-+    }
-+
-+    if (rc != U2F_EMU_OK) {
-+        error_setg(errp, "%s: Failed to setup the key", TYPE_U2F_EMULATED);
-+        return;
-+    }
-+
-+    if (event_notifier_init(&key->notifier, false) < 0) {
-+        error_setg(errp, "%s: Failed to initialize notifier",
-+                   TYPE_U2F_EMULATED);
-+        return;
-+    }
-+    /* Notifier */
-+    event_notifier_set_handler(&key->notifier, u2f_emulated_event_handler);
-+
-+    /* Synchronization */
-+    qemu_cond_init(&key->key_cond);
-+    qemu_mutex_init(&key->vdev_mutex);
-+    qemu_mutex_init(&key->pending_out_mutex);
-+    qemu_mutex_init(&key->key_mutex);
-+    u2f_emulated_reset(key);
-+
-+    /* Thread */
-+    key->stop_thread = false;
-+    qemu_thread_create(&key->key_thread, "u2f-key", u2f_emulated_thread,
-+                       key, QEMU_THREAD_JOINABLE);
-+}
-+
-+static void u2f_emulated_unrealize(U2FKeyState *base)
-+{
-+    U2FEmulatedState *key = EMULATED_U2F_KEY(base);
-+
-+    /* Thread */
-+    key->stop_thread = true;
-+    qemu_cond_signal(&key->key_cond);
-+    qemu_thread_join(&key->key_thread);
-+
-+    /* Notifier */
-+    event_notifier_set_handler(&key->notifier, NULL);
-+    event_notifier_cleanup(&key->notifier);
-+
-+    /* Synchronization */
-+    qemu_cond_destroy(&key->key_cond);
-+    qemu_mutex_destroy(&key->vdev_mutex);
-+    qemu_mutex_destroy(&key->key_mutex);
-+    qemu_mutex_destroy(&key->pending_out_mutex);
-+
-+    /* Vdev */
-+    u2f_emu_vdev_free(key->vdev);
-+    if (key->synced_counter.fp != NULL) {
-+        fclose(key->synced_counter.fp);
-+    }
-+}
-+
-+static Property u2f_emulated_properties[] = {
-+    DEFINE_PROP_STRING("dir", U2FEmulatedState, dir),
-+    DEFINE_PROP_STRING("cert", U2FEmulatedState, cert),
-+    DEFINE_PROP_STRING("privkey", U2FEmulatedState, privkey),
-+    DEFINE_PROP_STRING("entropy", U2FEmulatedState, entropy),
-+    DEFINE_PROP_STRING("counter", U2FEmulatedState, counter),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void u2f_emulated_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    U2FKeyClass *kc = U2F_KEY_CLASS(klass);
-+
-+    kc->realize = u2f_emulated_realize;
-+    kc->unrealize = u2f_emulated_unrealize;
-+    kc->recv_from_guest = u2f_emulated_recv_from_guest;
-+    dc->desc = "QEMU U2F emulated key";
-+    device_class_set_props(dc, u2f_emulated_properties);
-+}
-+
-+static const TypeInfo u2f_key_emulated_info = {
-+    .name = TYPE_U2F_EMULATED,
-+    .parent = TYPE_U2F_KEY,
-+    .instance_size = sizeof(U2FEmulatedState),
-+    .class_init = u2f_emulated_class_init
-+};
-+
-+static void u2f_key_emulated_register_types(void)
-+{
-+    type_register_static(&u2f_key_emulated_info);
-+}
-+
-+type_init(u2f_key_emulated_register_types)
+diff --git a/configure b/configure
+index b1e11397a827..24137d49d6f4 100755
+--- a/configure
++++ b/configure
+@@ -495,6 +495,7 @@ trace_file="trace"
+ spice=""
+ rbd=""
+ smartcard=""
++u2f="auto"
+ libusb=""
+ usb_redir=""
+ opengl=""
+@@ -1411,6 +1412,10 @@ for opt do
+   ;;
+   --enable-smartcard) smartcard="yes"
+   ;;
++  --disable-u2f) u2f="disabled"
++  ;;
++  --enable-u2f) u2f="enabled"
++  ;;
+   --disable-libusb) libusb="no"
+   ;;
+   --enable-libusb) libusb="yes"
+@@ -1940,6 +1945,7 @@ disabled with --disable-FEATURE, default is enabled if available:
+   libiscsi        iscsi support
+   libnfs          nfs support
+   smartcard       smartcard support (libcacard)
++  u2f             U2F support (u2f-emu)
+   libusb          libusb (for usb passthrough)
+   live-block-migration   Block migration in the main migration stream
+   usb-redir       usb network redirection support
+@@ -8230,7 +8236,7 @@ NINJA=$PWD/ninjatool $meson setup \
+         -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
+ 	-Dsdl=$sdl -Dsdl_image=$sdl_image \
+ 	-Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
+-	-Dgettext=$gettext -Dxkbcommon=$xkbcommon \
++	-Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f\
+         $cross_arg \
+         "$PWD" "$source_path"
+ 
+diff --git a/meson_options.txt b/meson_options.txt
+index c55f9cd94cb2..aef2de652332 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -1,6 +1,7 @@
+ option('gettext', type : 'boolean', value : true)
+ option('sdl', type : 'feature', value : 'auto')
+ option('sdl_image', type : 'feature', value : 'auto')
++option('u2f', type : 'feature', value : 'auto')
+ option('vnc', type : 'feature', value : 'enabled')
+ option('vnc_jpeg', type : 'feature', value : 'auto')
+ option('vnc_png', type : 'feature', value : 'auto')
+diff --git a/hw/usb/Kconfig b/hw/usb/Kconfig
+index 5e63dc75f815..3fc8fbe3c74c 100644
+--- a/hw/usb/Kconfig
++++ b/hw/usb/Kconfig
+@@ -96,6 +96,11 @@ config USB_STORAGE_MTP
+     default y
+     depends on USB
+ 
++config USB_U2F
++    bool
++    default y
++    depends on USB
++
+ config IMX_USBPHY
+     bool
+     default y
+diff --git a/hw/usb/meson.build b/hw/usb/meson.build
+index 3c44a1b06954..a25109b88c91 100644
+--- a/hw/usb/meson.build
++++ b/hw/usb/meson.build
+@@ -50,6 +50,13 @@ if config_host.has_key('CONFIG_SMARTCARD')
+   hw_usb_modules += {'smartcard': usbsmartcard_ss}
+ endif
+ 
++# U2F
++softmmu_ss.add(when: 'CONFIG_USB_U2F', if_true: files('u2f.c'))
++softmmu_ss.add(when: ['CONFIG_LINUX', 'CONFIG_USB_U2F'], if_true: files('u2f-passthru.c'))
++if u2f.found()
++  softmmu_ss.add(when: 'CONFIG_USB_U2F', if_true: [u2f, files('u2f-emulated.c')])
++endif
++
+ # usb redirect
+ if config_host.has_key('CONFIG_USB_REDIR')
+   usbredir_ss = ss.source_set()
+diff --git a/meson.build b/meson.build
+index f0fe5f8799e0..ae90fdbfe306 100644
+--- a/meson.build
++++ b/meson.build
+@@ -360,6 +360,11 @@ if 'CONFIG_SMARTCARD' in config_host
+   cacard = declare_dependency(compile_args: config_host['SMARTCARD_CFLAGS'].split(),
+                               link_args: config_host['SMARTCARD_LIBS'].split())
+ endif
++u2f = dependency('u2f-emu', required: get_option('u2f'), static: enable_static,
++                 include_type: 'system')
++if u2f.found()
++  u2f = declare_dependency(dependencies: u2f)
++endif
+ usbredir = not_found
+ if 'CONFIG_USB_REDIR' in config_host
+   usbredir = declare_dependency(compile_args: config_host['USB_REDIR_CFLAGS'].split(),
+@@ -385,6 +390,7 @@ endif
+ 
+ config_host_data.set('CONFIG_SDL', sdl.found())
+ config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
++config_host_data.set('CONFIG_U2F', u2f.found())
+ config_host_data.set('CONFIG_VNC', vnc.found())
+ config_host_data.set('CONFIG_VNC_JPEG', jpeg.found())
+ config_host_data.set('CONFIG_VNC_PNG', png.found())
+@@ -1365,6 +1371,7 @@ summary_info += {'spice support':     config_host.has_key('CONFIG_SPICE')}
+ summary_info += {'rbd support':       config_host.has_key('CONFIG_RBD')}
+ summary_info += {'xfsctl support':    config_host.has_key('CONFIG_XFS')}
+ summary_info += {'smartcard support': config_host.has_key('CONFIG_SMARTCARD')}
++summary_info += {'U2F support':       u2f.found()}
+ summary_info += {'libusb':            config_host.has_key('CONFIG_USB_LIBUSB')}
+ summary_info += {'usb net redir':     config_host.has_key('CONFIG_USB_REDIR')}
+ summary_info += {'OpenGL support':    config_host.has_key('CONFIG_OPENGL')}
 -- 
 2.27.0
 
