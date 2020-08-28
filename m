@@ -2,67 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C3F7255990
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 13:43:43 +0200 (CEST)
-Received: from localhost ([::1]:35744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D647225596D
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 13:33:36 +0200 (CEST)
+Received: from localhost ([::1]:51644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBcnG-0003xL-OC
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 07:43:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47198)
+	id 1kBcdT-0006i0-Ld
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 07:33:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kBcmN-0003L8-FV
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 07:42:47 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46330)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kBcca-0006Ie-Ri
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 07:32:40 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:37280)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kBcmK-0004me-Rj
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 07:42:47 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kBcmH-00068e-K1
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 11:42:41 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8EF262E80EC
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 11:42:41 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kBccZ-0003b8-0u
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 07:32:40 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id u1so846701edi.4
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 04:32:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/hTps1y8/J9bvYSq/4N8iGsEWxMULcMGFbxWJ1iTy5w=;
+ b=CiflYIiLYgWNZ0dHVe3niYR/kGSE0nVGDrynbOL+kc3UByGbC7G+pTzOxznM0Oa8gV
+ 99qG+r3OGSh2rbnv0Zqn7zrly3zFduDHT/Gq4Or13ijVPN8t0eAR4RzikzYKF3G3CGXq
+ BIdIVFIM1qzXw15M3wwtSclwupCYHWN6ixYn9Ho3H1gVz9oq1SIa1/POEB8m+kPk4mdi
+ xPHptiAKSGgCh06OBFD8SETXFlh/W5d/jUVrwx7EKbNpeC4jlgrRoPJU3pskl+T3UBeQ
+ kLgKdwMJBPQzwhXoSEkb/8UPyhLOuSA6NLdQ4swQLvrF1H52dWJ+pIgYezUW7FzDft2T
+ USTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/hTps1y8/J9bvYSq/4N8iGsEWxMULcMGFbxWJ1iTy5w=;
+ b=Sbje9jQto+U86LUa8VhjtTXnX/3kUN9Ty/S/WcTUE54egoMUzhFOZni5sa69VnIupv
+ EZ2vMan8Yes8nP6oxG7q0Li/p8fPTUWeR02uSNUwsjUyF5jgaEet2vH8FljmRH7MAPqi
+ 49sNz1CTMoz8DN0ok+m/sOiJ3q15VxxeOHfLrgzoI0poBVMKGjdOpLjhPiouHiFamx/H
+ VFfjRYsX6z1ziaQOufqdSwfLCxFTt7Jf7T3dapJLxRxQGAPNspsa5Y8gzMwLIstD1WRn
+ KflFhUvgttT81CkcM10Y59lyn8UecZa0nIzkd9ZurFxDseHZixqoAFLYTW6ypfJ3qqZK
+ P/vg==
+X-Gm-Message-State: AOAM531oc/lRUrEr/xDTJdnS9Tq/C550Q8rOhS4zGoAHO3Cu2MeOTQkL
+ 5HBq1QtjHJy1Pzd+irzAl1komh1jvIFi69xX1fjr+w==
+X-Google-Smtp-Source: ABdhPJwNlTtWAnM+fBYe7r52F8fZPlPjVACpDqvPXIQqJ2t5etE2GSWl7VsKwBbG3VurxJG51lvcXyIiwaw1miSU6L4=
+X-Received: by 2002:a05:6402:22d2:: with SMTP id
+ dm18mr1337817edb.44.1598614353324; 
+ Fri, 28 Aug 2020 04:32:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 28 Aug 2020 11:27:59 -0000
-From: Gerd Hoffmann <1882851@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: diego-viola kraxel-redhat
-X-Launchpad-Bug-Reporter: Diego Viola (diego-viola)
-X-Launchpad-Bug-Modifier: Gerd Hoffmann (kraxel-redhat)
-References: <159174217343.32241.17743917589333297614.malonedeb@gac.canonical.com>
-Message-Id: <20200828112759.rmeeh5bonrewiqte@sirius.home.kraxel.org>
-Subject: [Bug 1882851] Re: [PATCH 1/2] drm/virtio: fix unblank
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="195cbfa84cb75815472f69dd83d46f006869050b"; Instance="production"
-X-Launchpad-Hash: e136c09edec282e16eafe6afda3f26f8f3fe8d26
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 07:42:42
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20200827192122.658035-1-ehabkost@redhat.com>
+In-Reply-To: <20200827192122.658035-1-ehabkost@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 28 Aug 2020 12:32:22 +0100
+Message-ID: <CAFEAcA_kXP9ihQXfALKZ8zG+AZObYOm6MrdOpRET0Pg+3rTJuA@mail.gmail.com>
+Subject: Re: [PULL 00/53] Machine queue + QOM fixes and cleanups
+To: Eduardo Habkost <ehabkost@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,71 +79,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1882851 <1882851@bugs.launchpad.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 24, 2020 at 09:24:40AM +0200, Jiri Slaby wrote:
-> On 18. 08. 20, 9:25, Gerd Hoffmann wrote:
-> > When going through a disable/enable cycle without changing the
-> > framebuffer the optimization added by commit 3954ff10e06e ("drm/virtio:
-> > skip set_scanout if framebuffer didn't change") causes the screen stay
-> > blank.  Add a bool to force an update to fix that.
-> > =
+On Thu, 27 Aug 2020 at 20:21, Eduardo Habkost <ehabkost@redhat.com> wrote:
+>
+> The following changes since commit ac8b279f13865d1a4f1958d3bf34240c1c3af90d:
+>
+>   Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20200827' into staging (2020-08-27 13:48:12 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/ehabkost/qemu.git tags/machine-next-pull-request
+>
+> for you to fetch changes up to 92951316dc0b66a41b04edb5dcf3f4a7a2470a61:
+>
+>   dc390: Use TYPE_DC390_DEVICE constant (2020-08-27 14:21:48 -0400)
+>
+> ----------------------------------------------------------------
+> Machine queue + QOM fixes and cleanups
+>
+> Bug fix:
+> * numa: hmat: fix cache size check (Igor Mammedov)
+>
+> QOM fixes and cleanups:
+> * Move QOM macros and typedefs to header files
+> * Use TYPE_* constants on TypeInfo structs
+> * Rename QOM type checking macros for consistency
+> * Rename enum values and typedefs that conflict with QOM
+>   type checking amcros
+> * Fix typos on QOM type checking macros
+> * Delete unused QOM type checking macros that use
+>   non-existing typedefs
+> * hvf: Add missing include
+> * xen-legacy-backend: Add missing typedef XenLegacyDevice
 
-> > v2: use drm_atomic_crtc_needs_modeset() (Daniel).
-> > =
+(Thanks for putting in this work to clean up our QOM boilerplate
+handling -- definitely very much needed.)
 
-> > Cc: 1882851@bugs.launchpad.net
-> > Fixes: 3954ff10e06e ("drm/virtio: skip set_scanout if framebuffer didn'=
-t change")
-> > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> =
+Applied, thanks.
 
-> Tested-by: Jiri Slaby <jirislaby@kernel.org>
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+for any user-visible changes.
 
-Ping.  Need an ack or an review to merge this.
-
-thanks,
-  Gerd
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1882851
-
-Title:
-  QEMU video freezes with "Guest disabled display" (virtio driver)
-
-Status in QEMU:
-  New
-
-Bug description:
-  I am using Arch Linux as my Guest and Host OS, after starting qemu
-  with the following command:
-
-    $ qemu-system-x86_64 -enable-kvm -hda arch-zoom.qcow2 -m 4G -vga
-  virtio
-
-  and waiting for a screen blank, I get this message:
-
-    Guest disabled display
-
-  And nothing happens after that, I can move the mouse or hit any key,
-  and the message is still there.
-
-  I can still reboot the VM but that's not optimal.
-
-  I can reproduce this with the latest QEMU release (5.0.0) or git master, =
-
-  I also tried this with older releases (4.0.0, 3.0.0) and the issue is sti=
-ll there.
-
-  I can't reproduce this with other video drivers (std, qxl).
-
-  With std/qxl the screen will blank a bit and then continue as normal.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1882851/+subscriptions
+-- PMM
 
