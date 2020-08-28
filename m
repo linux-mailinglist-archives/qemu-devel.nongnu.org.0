@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 318A82560D3
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 20:53:29 +0200 (CEST)
-Received: from localhost ([::1]:46264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B2972560B9
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 20:44:06 +0200 (CEST)
+Received: from localhost ([::1]:39126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBjVA-0005x2-5Q
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 14:53:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59024)
+	id 1kBjM5-0008UQ-6p
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 14:44:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBjCm-0002gG-T7
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:28 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:32824)
+ id 1kBjCn-0002ha-D7
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:29 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:38679)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBjCh-00060c-L5
+ id 1kBjCi-00060w-QP
  for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:28 -0400
-Received: by mail-wr1-x442.google.com with SMTP id o4so85091wrn.0
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 11:34:23 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id t14so114711wmi.3
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 11:34:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=fO4bxaTwEV/w3CMo+SSdfW5rxADm6yGqbOxhWupxuUI=;
- b=HwKlMaUikwZD9Z9ToLszsuD8jJbM0kk50AybXBAdnMOIH7nPlUSIZe12rLqtmJYcJm
- mBWdQ/F8SOwMXaVoeJAIRUMWSqo2IvLrKGmssQxOBjjXty5zfYx6aG85zi20ypXaa7Yi
- Y5JpvJ6zjXoevwtlPVFs1NBNO85gB4pujpjBQNrlYHDjG/fzmhG8IVyYiPT/VmodR3ID
- Z9xuIUMKxQDGUqZN+CXWCDceQLqvRrdn6ziwxEn9yuCt/B1Bre+aQ2TcB4AHy0pbHDor
- u6ai/Q5KG3dfcoeRreQ+Bp1iY+Yqe912IOgrkjz8OhBk85MZT+IOAdHHb2KySSP7T9ZA
- 1Z+w==
+ bh=xRS9Xs/A7cPVwavP2/d7CO6TOTh4dxr4Fh4pdaLz/eQ=;
+ b=A8HfjYAZwLPq0tRJ5qS8TzXe1/JhbJHag5h1dm2XNuM7VjCHSnFOIgjy1ehFf3+pvg
+ RQhd8DekjEFX2I9k/97I+d6nkusgG+mSY+p68Eo/H5OwUn8qHVZQSom6XurqQwLhAQkg
+ /lKBMDOu+GNpsRWWTjSNhqQrbVhKa3f5P9TaIaTBpQZaOtA0ibLroXfU7uuJLPHV3NWY
+ m4CGt7v0CXrwtFLSkTzg7Yb8KR4mkP4c70yK+3o3D5fn7TAlkngLmVQ6b0G1D7XHyUgx
+ G7aLhRPr0cR4jOTwPaz1uTCrk9ma3FT8Y5ZBnfA6QQIkIGu50RobUT8CDMA3A263XgLr
+ TmtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fO4bxaTwEV/w3CMo+SSdfW5rxADm6yGqbOxhWupxuUI=;
- b=OGUhghCKfp1LtdvkbYnWuvsrunitygjP8B+A/5fwjgrJBnxnfcUDXhXib3188yJVEK
- fQ1uLwHAflJaeGf6jD4SpRLRzPJUXFBBN9Ih1v2WcjOHQpmqh4zdYGGRrIxwIsZ3m05u
- nqtluHelufzsiwzp+Q1yOBmYegTS0tlLBdwB20oy8XtWNu1gLADaLhck1xO+X93B49Ei
- y9nccxVG2g2HwkLOR1uOHCA8/gV42OdvtJbJYbRdtXb7ld9f12T7mRb3oCC4ZDvlyuf1
- 5JJgX+WDD1wDWE9YipeVTeNmGi81d/I4/xm6TjMcLwqgROuTKNJSHCMpRaCZNUSwcpZc
- s1Aw==
-X-Gm-Message-State: AOAM53254G2zXB1pDviyKWjbping3xBt3bnxq49iqmEUjUFAWgNNOkpD
- z43mUowkEf94vV81xJedXy3EIg==
-X-Google-Smtp-Source: ABdhPJxVpf2PxZtq6/E8SM5FUcmXTI/O7q80gaShaWsZWnWbMTGSHxp3+O6rpiK+fqXnu4vnTb86rQ==
-X-Received: by 2002:a5d:420b:: with SMTP id n11mr259999wrq.11.1598639662059;
- Fri, 28 Aug 2020 11:34:22 -0700 (PDT)
+ bh=xRS9Xs/A7cPVwavP2/d7CO6TOTh4dxr4Fh4pdaLz/eQ=;
+ b=I0CGUXWioQYtG1XcjNp8cd28vJwJJjDhxQPgSKw8C6RTcGBl2kfapKrD25/8kElpUo
+ yjTPOlW98A06mgNiwQ3cNqgfUcofBc+7Zxp73yglKw7MXuxfL8UjxbTg0EK64e567GAc
+ Zb2e4yZXqLmXn6cRb8H/2rC3V0iVNb6hbGPczS9iPKJN1uba5jEuheUhvoCWT7Vx/cim
+ 0hx+nMDXDdMwstMcscqRGrjXk9bTEp2qCw48QaH1DjtMw+cWNjvL26Mmt5Lqx4GADsPn
+ blfgr2zNbf6lSHajC1NJNPKMznoKCKYIzM2AkhC7rAXCB9BmqFZGSygfOK8fte9s2bji
+ SuUg==
+X-Gm-Message-State: AOAM531ufjvLs7fyTZugx4Quvt9Yb5LvZa2dbWtvAjPwdxEA+ltSnptq
+ Enn/Tep9QrTQ3x4riLeogl+H/A==
+X-Google-Smtp-Source: ABdhPJwx/CqW1Qyw/jpFGdsdtZU00Qc5CjpLx/qkwPcUEdwLcQnoSM1q91XhViXe9Or7uZFqxoAb4g==
+X-Received: by 2002:a7b:c925:: with SMTP id h5mr52680wml.28.1598639663462;
+ Fri, 28 Aug 2020 11:34:23 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id s20sm356251wmh.21.2020.08.28.11.34.21
+ by smtp.gmail.com with ESMTPSA id s20sm356251wmh.21.2020.08.28.11.34.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 11:34:21 -0700 (PDT)
+ Fri, 28 Aug 2020 11:34:22 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 21/45] target/arm: Implement VFP fp16 VMOV between gp and
- halfprec registers
-Date: Fri, 28 Aug 2020 19:33:30 +0100
-Message-Id: <20200828183354.27913-22-peter.maydell@linaro.org>
+Subject: [PATCH v2 22/45] fpu: Add float16 comparison functions
+Date: Fri, 28 Aug 2020 19:33:31 +0100
+Message-Id: <20200828183354.27913-23-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200828183354.27913-1-peter.maydell@linaro.org>
 References: <20200828183354.27913-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,77 +88,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the VFP fp16 variant of VMOV that transfers a 16-bit
-value between a general purpose register and a VFP register.
+Add comparison functions for float16 to match the existing float32
+and float64 ones:
 
-Note that Rt == 15 is UNPREDICTABLE; since this insn is v8 and later
-only we have no need to replicate the old "updates CPSR.NZCV"
-behaviour that the singleprec version of this insn does.
+ float16_eq()
+ float16_le()
+ float16_lt()
+ float16_unordered()
+ float16_eq_quiet()
+ float16_le_quiet()
+ float16_lt_quiet()
+ float16_unordered_quiet()
+
+These are all just convenience wrappers around float16_compare() and
+float16_compare_quiet().  We will want these for AArch23 fp16
+support.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/vfp.decode          |  1 +
- target/arm/translate-vfp.c.inc | 34 ++++++++++++++++++++++++++++++++++
- 2 files changed, 35 insertions(+)
+ include/fpu/softfloat.h | 41 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
-diff --git a/target/arm/vfp.decode b/target/arm/vfp.decode
-index 9a79e99f1b0..51f143b4a51 100644
---- a/target/arm/vfp.decode
-+++ b/target/arm/vfp.decode
-@@ -74,6 +74,7 @@ VDUP         ---- 1110 1 b:1 q:1 0 .... rt:4 1011 . 0 e:1 1 0000 \
-              vn=%vn_dp
- 
- VMSR_VMRS    ---- 1110 111 l:1 reg:4 rt:4 1010 0001 0000
-+VMOV_half    ---- 1110 000 l:1 .... rt:4 1001 . 001 0000    vn=%vn_sp
- VMOV_single  ---- 1110 000 l:1 .... rt:4 1010 . 001 0000    vn=%vn_sp
- 
- VMOV_64_sp   ---- 1100 010 op:1 rt2:4 rt:4 1010 00.1 ....   vm=%vm_sp
-diff --git a/target/arm/translate-vfp.c.inc b/target/arm/translate-vfp.c.inc
-index 4b26156eccc..28e0dba5f14 100644
---- a/target/arm/translate-vfp.c.inc
-+++ b/target/arm/translate-vfp.c.inc
-@@ -809,6 +809,40 @@ static bool trans_VMSR_VMRS(DisasContext *s, arg_VMSR_VMRS *a)
-     return true;
+diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
+index 659218b5c78..573fce99bc6 100644
+--- a/include/fpu/softfloat.h
++++ b/include/fpu/softfloat.h
+@@ -285,6 +285,47 @@ static inline float16 float16_set_sign(float16 a, int sign)
+     return make_float16((float16_val(a) & 0x7fff) | (sign << 15));
  }
  
-+static bool trans_VMOV_half(DisasContext *s, arg_VMOV_single *a)
++static inline bool float16_eq(float16 a, float16 b, float_status *s)
 +{
-+    TCGv_i32 tmp;
-+
-+    if (!dc_isar_feature(aa32_fp16_arith, s)) {
-+        return false;
-+    }
-+
-+    if (a->rt == 15) {
-+        /* UNPREDICTABLE; we choose to UNDEF */
-+        return false;
-+    }
-+
-+    if (!vfp_access_check(s)) {
-+        return true;
-+    }
-+
-+    if (a->l) {
-+        /* VFP to general purpose register */
-+        tmp = tcg_temp_new_i32();
-+        neon_load_reg32(tmp, a->vn);
-+        tcg_gen_andi_i32(tmp, tmp, 0xffff);
-+        store_reg(s, a->rt, tmp);
-+    } else {
-+        /* general purpose register to VFP */
-+        tmp = load_reg(s, a->rt);
-+        tcg_gen_andi_i32(tmp, tmp, 0xffff);
-+        neon_store_reg32(tmp, a->vn);
-+        tcg_temp_free_i32(tmp);
-+    }
-+
-+    return true;
++    return float16_compare(a, b, s) == float_relation_equal;
 +}
 +
- static bool trans_VMOV_single(DisasContext *s, arg_VMOV_single *a)
- {
-     TCGv_i32 tmp;
++static inline bool float16_le(float16 a, float16 b, float_status *s)
++{
++    return float16_compare(a, b, s) <= float_relation_equal;
++}
++
++static inline bool float16_lt(float16 a, float16 b, float_status *s)
++{
++    return float16_compare(a, b, s) < float_relation_equal;
++}
++
++static inline bool float16_unordered(float16 a, float16 b, float_status *s)
++{
++    return float16_compare(a, b, s) == float_relation_unordered;
++}
++
++static inline bool float16_eq_quiet(float16 a, float16 b, float_status *s)
++{
++    return float16_compare_quiet(a, b, s) == float_relation_equal;
++}
++
++static inline bool float16_le_quiet(float16 a, float16 b, float_status *s)
++{
++    return float16_compare_quiet(a, b, s) <= float_relation_equal;
++}
++
++static inline bool float16_lt_quiet(float16 a, float16 b, float_status *s)
++{
++    return float16_compare_quiet(a, b, s) < float_relation_equal;
++}
++
++static inline bool float16_unordered_quiet(float16 a, float16 b,
++                                           float_status *s)
++{
++    return float16_compare_quiet(a, b, s) == float_relation_unordered;
++}
++
+ #define float16_zero make_float16(0)
+ #define float16_half make_float16(0x3800)
+ #define float16_one make_float16(0x3c00)
 -- 
 2.20.1
 
