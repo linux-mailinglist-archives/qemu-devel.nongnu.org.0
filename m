@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26EA82557B3
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 11:32:50 +0200 (CEST)
-Received: from localhost ([::1]:60354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FA622557AA
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 11:30:58 +0200 (CEST)
+Received: from localhost ([::1]:51706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBakb-0002Fm-4z
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 05:32:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45940)
+	id 1kBain-0007Cn-1F
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 05:30:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBacc-0004Lx-JR
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:34 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:53840)
+ id 1kBacd-0004Pc-Ta
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:35 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:34380)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBaca-0004Hy-VT
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:34 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id u18so294082wmc.3
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 02:24:32 -0700 (PDT)
+ id 1kBacc-0004IL-4G
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:35 -0400
+Received: by mail-wr1-x442.google.com with SMTP id f7so640715wrw.1
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 02:24:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=d7gcMoXpU39ijrdTiJgkd9oKx1sM3y9iLjYpjdy3fPs=;
- b=RProm81Hmb1uSQSHR5BCSY8hn+ehajNFxAph8Nn2e5sp4FrTVYYYK1kksZLPJlnhju
- 4qQQ+1td1spKMqLxaGUYXNqQHOpG//B8iU7OsJgX6vz99dgwJhc5Fnw1iFYWa2a2UGBP
- 84V5rEhf1iAvb3MtYiW7UVlhax6Btp4dipUV+BjFjucaJTqlQkCl1DROE9pNZ+wirBMk
- 5e9TX+moBlMY7agc7dX926VtcGLkpID7R9X46Y2dW3cYgA64Q3SvieCm8FRnlL85prgw
- D0Br5oT1aFMqKdNhe17AyWtrZEAL0tizeELXoEisxq8dazpaXO2nmbt6eHQD/c8AHd3t
- nkDw==
+ bh=pXn9jEw0LzQcgHngHnQYKyL6TbEOp1hHuZtBzavzb4E=;
+ b=AFhFyX0ZeXYCzQuTsP7Sw4MZRVoG57dFOaAUTssBGEW83KVN4HXNPKnI4An/xIkmIv
+ 1Q8BiIX1wF6MgpF6Bo/6G6u4xVKBGGKu/iGxAbNmPO5xD6XGaYNZpNKTsjj4qxqXMkL3
+ BhYjD4hzCaDwnRizYcmODwoAKoA5H3CogOSQ8BXoOy4FxUG3Mgu/xHGBJkaxvBI/zSLZ
+ juN7bGUUlj8zju9tPT7ZiprI1huSSvrp/ME/XulybEI1vg6GKXXVTSFIzlkUkXbsUJ6k
+ OjYhZlMJDBoQcrJ5Ot1fd5upInXhwWCYprfIJnIG7Xg8I2AUHxl/efMAfmPwHQabo5Zm
+ S8mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=d7gcMoXpU39ijrdTiJgkd9oKx1sM3y9iLjYpjdy3fPs=;
- b=DprumQgirkNrWIuzZ8RUO/xFllWHJS92rSTtU3n7Jupoj2KhLOyKk8i87U/B6sJDnM
- sS3JWTvuynHuwTFnNSUBNmAkVLaoV8ojCPjJLyub9tPXZRSCI7bEpUirh0JvpOhRq0tO
- jqwKmfH9bKYhI5IgAXgna1yoeZC8WQO3cu2A6xI3zOuMQowzuSj0oogOWeo9QRkzmsQR
- 5B+8VAo7R7zT3v5HQze8WpWNTltN5+J0PZQWxHSPDtS5umn3w3bGagEgg6vz3024yw67
- 9UIlapQhFprc/5i/xaT2KxcgiAlLcZgPoGoTyO5NzT6vDldPU0PuQf3YuKiDE9YJOwSS
- 6+yw==
-X-Gm-Message-State: AOAM533XfwJDhq9TT0R3ivWlYKGO2AIM2x/ZQ7AfBh2zNEBWWAjL69dp
- X4QCFg4OkYXsJaHJgm+iqlt8y6sLEl3T7Hmh
-X-Google-Smtp-Source: ABdhPJx+rzz/7MvqSMUKdAjEtXe+IICJZyLftyHeMOcripUCnosdBzT7fWwOQMFZWYwu7lOCRCXhKw==
-X-Received: by 2002:a7b:c0c5:: with SMTP id s5mr743899wmh.144.1598606671444;
- Fri, 28 Aug 2020 02:24:31 -0700 (PDT)
+ bh=pXn9jEw0LzQcgHngHnQYKyL6TbEOp1hHuZtBzavzb4E=;
+ b=WuNMD3Z5O9QL4uHrnTR+Ut+AFOid1PZBmezE0GykhyU+xCCGHcIFoTqSyjr81fy1WI
+ WP8CtLSvXpFu8t71Uc7xfZAFxIA5TT3/Ac4JCUqwbVFR/QzeafNkerdiNVjqVM9zGH2g
+ dqbTuA3TGb9t6TFgycq8reOobfWNDfR5XM6uUI2L8jwXxsGk8MoqyssmGyZ3wzYdNMFG
+ wNN0oRrQ1pC7drIyV0jWJxam4MmkwVVb1O3Nbr4pm30KY2BrTvuVd+kaHmpnE1DhVzan
+ krx3d7oK05Tc+E5KvOu6SWa1FrcIzFWPGiv1UR7d02iLDQxuDTGYkExoqm/EgEQkF2YA
+ MGMg==
+X-Gm-Message-State: AOAM533Hlsp22Yo7ZR7afKqgpRj7ZqbyO/eHo62/+SiiZ+8pobDdZSdx
+ Q/0DzU7Ku10t4N8JqVyg4cS+g0Z0+rQ0wnG4
+X-Google-Smtp-Source: ABdhPJz6MqxqcixLZhphttw4mUpvDyflaYNzhlfIhJ4s9IxNmQVjMYrdZs7akhnCzeGst4vnaYMizw==
+X-Received: by 2002:adf:80c7:: with SMTP id 65mr618326wrl.35.1598606672501;
+ Fri, 28 Aug 2020 02:24:32 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id t13sm912304wru.65.2020.08.28.02.24.30
+ by smtp.gmail.com with ESMTPSA id t13sm912304wru.65.2020.08.28.02.24.31
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 02:24:30 -0700 (PDT)
+ Fri, 28 Aug 2020 02:24:31 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/35] hw/qdev-clock: Avoid calling qdev_connect_clock_in after
- DeviceRealize
-Date: Fri, 28 Aug 2020 10:23:52 +0100
-Message-Id: <20200828092413.22206-15-peter.maydell@linaro.org>
+Subject: [PULL 15/35] hw/misc/unimp: Display value after offset
+Date: Fri, 28 Aug 2020 10:23:53 +0100
+Message-Id: <20200828092413.22206-16-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200828092413.22206-1-peter.maydell@linaro.org>
 References: <20200828092413.22206-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,48 +91,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Clock canonical name is set in device_set_realized (see the block
-added to hw/core/qdev.c in commit 0e6934f264).
-If we connect a clock after the device is realized, this code is
-not executed. This is currently not a problem as this name is only
-used for trace events, however this disrupt tracing.
+To better align the read/write accesses, display the value after
+the offset (read accesses only display the offset).
 
-Add a comment to document qdev_connect_clock_in() must be called
-before the device is realized, and assert this condition.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20200803105647.22223-5-f4bug@amsat.org
+Message-id: 20200812190206.31595-2-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/qdev-clock.h | 2 ++
- hw/core/qdev-clock.c    | 1 +
- 2 files changed, 3 insertions(+)
+ hw/misc/unimp.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/qdev-clock.h b/include/hw/qdev-clock.h
-index a897f7c9d0f..64ca4d266f2 100644
---- a/include/hw/qdev-clock.h
-+++ b/include/hw/qdev-clock.h
-@@ -70,6 +70,8 @@ Clock *qdev_get_clock_out(DeviceState *dev, const char *name);
-  *
-  * Set the source clock of input clock @name of device @dev to @source.
-  * @source period update will be propagated to @name clock.
-+ *
-+ * Must be called before @dev is realized.
-  */
- void qdev_connect_clock_in(DeviceState *dev, const char *name, Clock *source);
- 
-diff --git a/hw/core/qdev-clock.c b/hw/core/qdev-clock.c
-index f139b68b881..47ecb5b4fae 100644
---- a/hw/core/qdev-clock.c
-+++ b/hw/core/qdev-clock.c
-@@ -186,5 +186,6 @@ Clock *qdev_alias_clock(DeviceState *dev, const char *name,
- 
- void qdev_connect_clock_in(DeviceState *dev, const char *name, Clock *source)
+diff --git a/hw/misc/unimp.c b/hw/misc/unimp.c
+index bc4084d344e..ee2e536c8b1 100644
+--- a/hw/misc/unimp.c
++++ b/hw/misc/unimp.c
+@@ -22,7 +22,7 @@ static uint64_t unimp_read(void *opaque, hwaddr offset, unsigned size)
  {
-+    assert(!dev->realized);
-     clock_set_source(qdev_get_clock_in(dev, name), source);
+     UnimplementedDeviceState *s = UNIMPLEMENTED_DEVICE(opaque);
+ 
+-    qemu_log_mask(LOG_UNIMP, "%s: unimplemented device read "
++    qemu_log_mask(LOG_UNIMP, "%s: unimplemented device read  "
+                   "(size %d, offset 0x%" HWADDR_PRIx ")\n",
+                   s->name, size, offset);
+     return 0;
+@@ -34,9 +34,9 @@ static void unimp_write(void *opaque, hwaddr offset,
+     UnimplementedDeviceState *s = UNIMPLEMENTED_DEVICE(opaque);
+ 
+     qemu_log_mask(LOG_UNIMP, "%s: unimplemented device write "
+-                  "(size %d, value 0x%" PRIx64
+-                  ", offset 0x%" HWADDR_PRIx ")\n",
+-                  s->name, size, value, offset);
++                  "(size %d, offset 0x%" HWADDR_PRIx
++                  ", value 0x%" PRIx64 ")\n",
++                  s->name, size, offset, value);
  }
+ 
+ static const MemoryRegionOps unimp_ops = {
 -- 
 2.20.1
 
