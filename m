@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7531C25578B
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 11:26:02 +0200 (CEST)
-Received: from localhost ([::1]:55042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2C5D25578A
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 11:25:59 +0200 (CEST)
+Received: from localhost ([::1]:54848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBae1-0005Xw-Fu
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 05:26:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45738)
+	id 1kBadv-0005Sz-6o
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 05:25:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBacQ-0003lO-2d
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:22 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36253)
+ id 1kBacO-0003je-MF
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:20 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:39923)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBacL-0004CE-MX
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:21 -0400
-Received: by mail-wm1-x342.google.com with SMTP id z9so286765wmk.1
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 02:24:17 -0700 (PDT)
+ id 1kBacM-0004Ck-To
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:20 -0400
+Received: by mail-wr1-x430.google.com with SMTP id a5so627382wrm.6
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 02:24:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=qGRrg8fqVk3kjMpo0tOF1M25f8LDIDHdvCUbdkd6EyQ=;
- b=rLYYnfV3W118pSJj3ZYnFao4Xq3D+F5AeNiYdh63Lvcvkd6bj6CMBBRnaJnbwry3hH
- GvGZfR5w8IFX5Zkomzn1bc/eMIGQgZdV1m0fpwIFkVSmSP5yk0ssj1e27F4tuytkLiab
- ogwVirvMZ3uT/YQwTKa5t6GRo0oiSD0JZLDdHcuL+KdCU4v5FGk3VNOUFPljEwA78V7h
- TXij080lauEEaGVvWFgFa6nZmYqNMFHm2tyv5vtBctx7f3r7JD7aaC63PatYCiBYXYsl
- lvo0o9CvNt4thhCxbfPaqSFfzj7M1b3vHRr/D1QuZ3enTjqbeTMVSy4lMdMMhEjmLIkA
- EX8Q==
+ bh=T1OFqc0n4tXLA0uJrhfV1aWiONH3/+FnVs/jfiL+i1Y=;
+ b=i/ZxaLODK9+LxcfYU2mT6NT2R5I+kEANN2VMWvDl+XYb1+XTMdWT4ciR0nhaaR1gj9
+ mTBM3aW9MHvPBm+T8+I/O4yL8Nqc9c9ZcpASxqexjlTQFLBOQIS4BaJ5FxCvv59VaEMI
+ pYyT356zLIW+j0NG7gybg4bocbwDGClnUUYvAHoChYoD6ZZTWhyUUR/VGkS4PYmkLGkA
+ shbFu0fLfcZQVksjHXcndgPqghOCjXCEHdWseOUjTZeBPHFeocqSljdGAeed7yAXqMwr
+ hS6agfX4dFKzvi7AJK7G9Tc3oHXJpV5y88C9QR3WIkb7CZhnrFEcv25fqMvJ4BZybww2
+ 5u1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qGRrg8fqVk3kjMpo0tOF1M25f8LDIDHdvCUbdkd6EyQ=;
- b=izDgfBuWtVDVYRt5ylo8uQgoN/vg1xRF4fhePZ5KvhIKJqQZttpYX3K6Mv8adFF13Y
- OuWaz9qjvBQ3SVcxPxBZejPzsTC8wTG3j0BdC0KEl+fp2WibCv8r5JnQeajTGTXtjfVf
- xKS1YkhhI3KRYbp08t7VojtP8EgTuzcPwnUshZdsZdbhU0H45VIcd9kqgPlF+iX+IbGg
- hpAczVbQmc594AF5VLGMuCU40BPpGTjQQkUJ5hqc4m+uDUx5M/6Pj20YzqXZ35lLPbKg
- CReloppjfoH6FRK+Thw6Wu/Pn7JaIecSelMxzuQCJQpiJbmJuIR22K3ek6E//qJMU48S
- zBaA==
-X-Gm-Message-State: AOAM5337S/SLZHhPKRmnNOg8ij7VE7t9cIZax3tMnhyS04bH/7Fc7a8i
- QTDzPqgZQHt/j7B5PXLJdjUkC5ehIyC0h8TN
-X-Google-Smtp-Source: ABdhPJyWnkth0SYsT1f9Yo/prloAG4fSNUgJIQuUnichGBUOHBj8CAiG1ct3P6IxA602dyffp7YAPg==
-X-Received: by 2002:a1c:81cb:: with SMTP id c194mr716607wmd.45.1598606655957; 
- Fri, 28 Aug 2020 02:24:15 -0700 (PDT)
+ bh=T1OFqc0n4tXLA0uJrhfV1aWiONH3/+FnVs/jfiL+i1Y=;
+ b=kzwQSWoqOsHcCFHzDC++phZYm1CQJvpnfa8dvYgMoJXpTzyH5ngnXKLGpODkn2xsF6
+ n50IOnSZj4LiIHtGWgKkXPJ0zVRhzEtp7RtGAZm+v0bgNNPB/0rvngUaqfDAur9+2b0f
+ lk6Dyq80FhyuX/boKHFe2Mg5+eaYMW/BA4suvm3trjucsypjxgLckiN1bCnQYuEEhMjx
+ C1O0KOpDOCHBXoh/El3IDO+7yCtitCzEO1JK0KN+necOGB2twC9cPtXNqZEw22MUEanf
+ v1rKknpBR3PWtaMDb5p2AVlVEhcgOD0U5ONPdWSCKt1NOkUQNsFzZ0CJqeH6ry5YhvgA
+ m9yA==
+X-Gm-Message-State: AOAM533zPgNR1M6Z8JMtWHxiIgVMXkvc5DurCbxrqeT5y0zxeEYnoPWI
+ NRCuBh8n1RhXTs/6irTfbNsLbE9Tvazr8AUe
+X-Google-Smtp-Source: ABdhPJyvte6beexMXB7qq7+G9E2We6pJnMOWgiJ15sfHAETQWcJ1jJcQ34j7YX1i/H5Up1+KLX7u5w==
+X-Received: by 2002:adf:f511:: with SMTP id q17mr625595wro.414.1598606657084; 
+ Fri, 28 Aug 2020 02:24:17 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id t13sm912304wru.65.2020.08.28.02.24.15
+ by smtp.gmail.com with ESMTPSA id t13sm912304wru.65.2020.08.28.02.24.16
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 02:24:15 -0700 (PDT)
+ Fri, 28 Aug 2020 02:24:16 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/35] hw/arm/sbsa-ref: fix typo breaking PCIe IRQs
-Date: Fri, 28 Aug 2020 10:23:39 +0100
-Message-Id: <20200828092413.22206-2-peter.maydell@linaro.org>
+Subject: [PULL 02/35] hw/clock: Remove unused clock_init*() functions
+Date: Fri, 28 Aug 2020 10:23:40 +0100
+Message-Id: <20200828092413.22206-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200828092413.22206-1-peter.maydell@linaro.org>
 References: <20200828092413.22206-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,35 +89,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Graeme Gregory <graeme@nuviainc.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Fixing a typo in a previous patch that translated an "i" to a 1
-and therefore breaking the allocation of PCIe interrupts. This was
-discovered when virtio-net-pci devices ceased to function correctly.
+clock_init*() inlined funtions are simple wrappers around
+clock_set*() and are not used. Remove them in favor of clock_set*().
 
-Cc: qemu-stable@nongnu.org
-Fixes: 48ba18e6d3f3 ("hw/arm/sbsa-ref: Simplify by moving the gic in the machine state")
-Signed-off-by: Graeme Gregory <graeme@nuviainc.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20200821083853.356490-1-graeme@nuviainc.com
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20200806123858.30058-2-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/sbsa-ref.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/hw/clock.h | 13 -------------
+ 1 file changed, 13 deletions(-)
 
-diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-index f030a416fdf..2a7d9a61fc7 100644
---- a/hw/arm/sbsa-ref.c
-+++ b/hw/arm/sbsa-ref.c
-@@ -554,7 +554,7 @@ static void create_pcie(SBSAMachineState *sms)
+diff --git a/include/hw/clock.h b/include/hw/clock.h
+index f822a942209..468fed0996d 100644
+--- a/include/hw/clock.h
++++ b/include/hw/clock.h
+@@ -209,17 +209,4 @@ static inline bool clock_is_enabled(const Clock *clk)
+     return clock_get(clk) != 0;
+ }
  
-     for (i = 0; i < GPEX_NUM_IRQS; i++) {
-         sysbus_connect_irq(SYS_BUS_DEVICE(dev), i,
--                           qdev_get_gpio_in(sms->gic, irq + 1));
-+                           qdev_get_gpio_in(sms->gic, irq + i));
-         gpex_set_irq_num(GPEX_HOST(dev), i, irq + i);
-     }
- 
+-static inline void clock_init(Clock *clk, uint64_t value)
+-{
+-    clock_set(clk, value);
+-}
+-static inline void clock_init_hz(Clock *clk, uint64_t value)
+-{
+-    clock_set_hz(clk, value);
+-}
+-static inline void clock_init_ns(Clock *clk, uint64_t value)
+-{
+-    clock_set_ns(clk, value);
+-}
+-
+ #endif /* QEMU_HW_CLOCK_H */
 -- 
 2.20.1
 
