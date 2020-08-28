@@ -2,79 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB9E3255CFA
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 16:48:40 +0200 (CEST)
-Received: from localhost ([::1]:39252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7298D255D1F
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 16:54:15 +0200 (CEST)
+Received: from localhost ([::1]:43556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBfgF-0003If-ID
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 10:48:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52604)
+	id 1kBfle-00080Y-Gf
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 10:54:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1kBfGf-0005Iw-Uf; Fri, 28 Aug 2020 10:22:14 -0400
-Received: from mout.web.de ([212.227.15.14]:39035)
+ (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
+ id 1kBfHT-0007Hk-2B
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 10:23:03 -0400
+Received: from mail-dm6nam11on2044.outbound.protection.outlook.com
+ ([40.107.223.44]:47584 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1kBfGc-0005YY-RE; Fri, 28 Aug 2020 10:22:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1598624523;
- bh=GOP/1i5s4LEm39BzLINUFTGBh+Kzxo61hu8aGXaWR6E=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=RpvpC7zBqrERHxmKYm+5uKsuZf96DfZfaHUbXXnozgch4h9dfqDM/WVBvzpx+7yQ8
- qzPYgAd2mE1BtqIchvTRVTr2JnouPZdpcXGJiSX4Vx7JqcPzRPDdYODwXmilcTkv82
- 6hS0SP+h4/F6fqDNMx10vIS+p2wkc6f429DqhF9M=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([89.247.255.134]) by smtp.web.de (mrweb001
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0MaJc8-1jrwYN1IKm-00Jrr1; Fri, 28
- Aug 2020 16:22:03 +0200
-Date: Fri, 28 Aug 2020 16:21:45 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v7 1/8] Introduce yank feature
-Message-ID: <20200828162145.21d082af@luklap>
-In-Reply-To: <871rjs9ser.fsf@dusky.pond.sub.org>
-References: <cover.1596528468.git.lukasstraub2@web.de>
- <0092d4fe5f64078a18db3790c46c508416dbdb6b.1596528468.git.lukasstraub2@web.de>
- <871rjs9ser.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
+ id 1kBfHP-0005ix-Ki
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 10:23:02 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mBmZmwvVs5AsW56DiB0C/APv2gAH9/3fTeuP3rQXbMUDxVxVzwI7pnlGFMkPfn4NzedQQs9xd11IuyTMxJl3VZ1UAOUFioGM44r03YAoZ49drGIu+hd7HwFMPljcpIaOTlPFZVc0/fXwq1N53esE4Ra7SoxkW3YCrQcj8G7Luqi5vuG6o4/DH6ZSJrJdxESMiZ5Wfh17oxtzw+XPdByMBkCv/+IuY+WYOM5OK8r02BsBGs2bHHEDOb2xuUpkv1ynnbWbsuXwbhPBU2SAQbRl4BTVf/CHt2Zj513AKJGU8qVrrWSz3bV0HvEDTokhZVfuuCtaN6x4tF/e4FbhMgGePg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TAu1ZI99+/RaGpAk2u5nPLbAY5UARsSWhDthmNoE/T8=;
+ b=bTG/ewldTRLKbjSOHoeA/yd4oGRw1fKLCXs8I0cXGnG2xS5ZAX/XvcKHkW3ye67PPWjIQPSuQBOVp0TRRdVjzRGmuVpjWdEgLGAP5k8nq2xuQtHlzRLrptn5xxn6AOlvDqx5yabe7jEjM1PAgFMCnpGekG+mUhvrd3mZ9XAAXjd9iaAa9TaarOli5JYMsr/BJZ3/qwH5xTd7gnGFWgAH52D8wcDhzNdFiR+KeIRmEayhb30lcIgzHGoQ4QWqNPBvLFI0cFFthuM62qOjyZ1Pdl6ulLg3dFBfEPnFdcGd9Yuiv1AGay+tZhtI7dfUFN80zT+bQXCpkXbQMTiFzTFPXw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TAu1ZI99+/RaGpAk2u5nPLbAY5UARsSWhDthmNoE/T8=;
+ b=sDhMyRECnQ3/JGtblnE46ToNZrLZsBk4y1NeAcDBJket17md1KftvhyGSqY+lh6/qfFl+noLuAPUN5mAubIecbp7drfhFHiE7LUYzmyyLaNMdx3HQ8QUz6/Uaa79DnGYb+8zmmIocCNb1ertwUgR/mpZy1olo0FPjifTwKL8ifU=
+Authentication-Results: twiddle.net; dkim=none (message not signed)
+ header.d=none;twiddle.net; dmarc=none action=none header.from=amd.com;
+Received: from SN1PR12MB2560.namprd12.prod.outlook.com (2603:10b6:802:26::19)
+ by SN1PR12MB2525.namprd12.prod.outlook.com (2603:10b6:802:29::28)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.26; Fri, 28 Aug
+ 2020 14:22:56 +0000
+Received: from SN1PR12MB2560.namprd12.prod.outlook.com
+ ([fe80::ccd9:728:9577:200d]) by SN1PR12MB2560.namprd12.prod.outlook.com
+ ([fe80::ccd9:728:9577:200d%4]) with mapi id 15.20.3326.023; Fri, 28 Aug 2020
+ 14:22:56 +0000
+From: Babu Moger <babu.moger@amd.com>
+Subject: RE: [PATCH v5 0/8] Remove EPYC mode apicid decode and use generic
+ decode
+To: Igor Mammedov <imammedo@redhat.com>
+References: <159804762216.39954.15502128500494116468.stgit@naples-babu.amd.com>
+ <20200824184112.GB2688@work-vm>
+ <f602852c-b6af-694e-3e32-47974722e144@amd.com>
+ <20200825081504.GA2646@work-vm> <20200825163846.10185087@redhat.com>
+ <20200825152521.GA3574@work-vm> <20200826144324.56335302@redhat.com>
+ <20200826141046.GB2727@work-vm> <20200827231907.10cfe4b7@imammedo-mac>
+ <f58e6200-b058-5f59-addc-13ca602ce745@amd.com>
+ <20200828104249.04c39c12@redhat.com>
+Message-ID: <7ba8d539-de13-6a65-abe8-e1d2863a1820@amd.com>
+Date: Fri, 28 Aug 2020 09:22:54 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20200828104249.04c39c12@redhat.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: DM5PR22CA0001.namprd22.prod.outlook.com
+ (2603:10b6:3:101::11) To SN1PR12MB2560.namprd12.prod.outlook.com
+ (2603:10b6:802:26::19)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/BrmbCTzCnw0zXIxt0z_i.JT";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:Fjd+wfXLHL7j0489B3wF4G8T+P3KHmssbJERnuDUK3MboNEmfnx
- PFOdxD+bmSyquXogGCejaWCI0VK8SniYKsLQFcGcO6V+JguvRpqwKeUgG2l+oUO5y+RxhLm
- ZVsbD3ZJllL8Nhg4BlOKa7QbSJYco0BHO4W8TDbxl7rUqla7Cg8mlUII+lWkcljLrP5Q0Kr
- +HhoaUTfwOClif38fV56A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:S/9WKTsAA7Y=:dR6KOZ5c7eE9UYlMQkiTWI
- foB1zgPbjzSSLyFlArc38UyElfIxNfRNbA4iPC4VTShZI6efuBjoRsfwLOIXbhay3OcTIEE1L
- ncWyioYr00u1aErq2FxFkBaeVCediiCsG6kFzVql6JntWGk3aIq4Nvp3b+zHUgk5fb8AmlCLX
- lp0qSy7D07aJss3JAI8rt+QC5WDWHyXTHjtz38GK1jIiy34UTCFaahghoWFmSBR6ose8TMjvA
- n7KctIbVVgecIuzo4Olu7uWCwECPyrPxsmemLNZXyyOlKpAFT18LU8xDITtuj0ChFLZB7ubeG
- ZfsQju2sdZb+QV30tidHu+JJnW9fES7s6l/i9Pn5EiTi3E/MoEYSkhtwBI+US4DGfvNP2ewIB
- h61IA9rhfgHNYJRV/3pcDISWOpLb+K8nKvXTB9ESw/I9x92bn8vGcNhN+bZ6IipgX4wxwNKMX
- tiWzMLn1V0U2eWFTbpez68koC1QJQATRvmhsgIHOam7/zI+oRNLcYw7aSk6BHGaLPtm+pzSP1
- JMh4NArXmsW5MXkhJTAeZPzoNGpQRdK/U4AiEUtsu5I1uNO2GX3fkWujDW9iwLaWew16zbvR6
- 8htNtFgkNBPstL0FW/6LirxwvjnzdYaiMaUYNwPeJ3FsufMxy30CSrZb5iwu4svNZB3fZQcXG
- IUN2HvFpjHeXRqnwIJtCQRyx0wsBGGYzW/nJeh1Mxs12TdquB2PbpVHly1CmpALGH3/obvFlC
- fFh+7DQUSiqN+xaHHJalViWRvE4EAaKh0kJyose0ssnXQf47g7aXSDHLeotn6JMaSqKtpfrMB
- fOSXRjGC5aP6AHOl/6j9m8ZShtuElzEJDezlNTy4qf4oKhrLtb7i3cpLRSdUZdqudAFxogozj
- HOunAmgpc5au8oco7r9flX2azzy+DReWnJVS3lhbQq/QRXAozKdg3jhSh41QaeSs67wnmiOXa
- FIm9kQeYEtt4yQkCWumd8R8zaFBmW2OVmUIT0GLUa47OKCh4+mHHnNRe4q2L4T250Faf7Twgz
- SWdrHgQJNhrp/RcnjB9ws+YTE/N9Fhf+Ay4FjIJNZU2YZj1qtZ4sbiVUb7mC2r3n5lqJZj6oa
- vCuCdXMx/bUxvatagCVMKGx5rf8S+rXd3DEXQGX5Agr4CuevbI09+drkvohCDjduVs4d4GEnp
- 5h4Gh0aNS8IsC/A0fk5OFM36/rkPCDRrnlftDEsiA3UVCFn5lYjqIB/PVE5OXA7NFZVzQfCma
- GQyj1NnDdc1Py1SNcSguX8wUQEnNzXvksLOzrfQ==
-Received-SPF: pass client-ip=212.227.15.14; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 10:22:07
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from 255.255.255.255 (255.255.255.255) by
+ DM5PR22CA0001.namprd22.prod.outlook.com (2603:10b6:3:101::11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3326.19 via Frontend Transport; Fri, 28 Aug 2020 14:22:56 +0000
+X-Originating-IP: [165.204.77.1]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 7ea5b7e3-c4b6-4ef9-628a-08d84b5ddbde
+X-MS-TrafficTypeDiagnostic: SN1PR12MB2525:
+X-Microsoft-Antispam-PRVS: <SN1PR12MB2525972ED34F4A46A817665595520@SN1PR12MB2525.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Xa2pgHgcOfE5El8LwDyw2OXKrWpRinNyFL+wGknJsd2DLjzf7gVB0UqXUPbRV60SMw6xtgpaQrJtg+eKeNOg5O1uis1Q5Nh2hur8cQG7L9/HbIfaU9b5KD+Fcj1njYeextyJotGuy3cSl1UfTTTjxdONOrpMxQTZooalSLZeoeTbIgur7r02aQDDbM6dgJU18jPbwzusLago990yLNlXAIZL5e9A3ERYF+aZtNKJ4VpE9VPf1qZ2GhtsrRW8tZBoFSP+FMb/0XXdEp7uPxCtIJGJsOF1X8lo1urDqh3WQfUpMVSFVcY8TwLhUNx2J+M3RzWyvspgnkKTTT1Z8VGcTWGEAex0WZE6Jfa0AQRWy2+s5R4UxxVWPQcj8OhdUdziiF+ha+0nPyTyx0EdzF1c7tzTV3ulHqIdkKt+3nsLafQNRsJtvIhU9RO6QxegczQyxF4/MMGGUyBES/oQq/Xz8rr5DmjZ1V+iIdVLcl9Hzgo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN1PR12MB2560.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(366004)(396003)(136003)(376002)(39860400002)(478600001)(16576012)(186003)(316002)(8936002)(66946007)(66476007)(30864003)(6486002)(966005)(8676002)(54906003)(26005)(5660300002)(31696002)(66556008)(956004)(31686004)(86362001)(83080400001)(44832011)(45080400002)(2616005)(6916009)(4326008)(53546011)(2906002)(36756003)(52116002)(83380400001)(41533002)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: 63Mq9Ix/wIHC5jL2QvEg6e1JRxu4NJG5bI5KgHoAccmXOZ6IKjQ8dhXhD7Vr8SFcL7X+A/YvYZQ3KwxmOtomH/1eldbNU1pi/6YDiaWAj+g+acP7QVu8mfi7mVAyhudn0mBYw3ZDaNsPnL5+X2P/Eg+9JqOItROYWu3wwRfddQokz+6YjOX9vgOJvH6znDeO+EC0k3Nyoi8xkIrcxhMMAcHIgfz89I1vhGJQGuhq+E1HlvlHLOP0UVLWi9y1tCo44SegsO3E9UX+VKaBZucB7GaDaPN/qBgIn/Vl6QlYVq8DQClzgKaljuPGwnCvskz0OZdbqq8qBZTD1cGfLYnaFPr49YoYk5MqMA13IL82FjHYSUg36cIIp8q5cKBlmD2UnHTY2X3pve8wEVWqkmEDgoH9tHTO3xJ/jiRrkLnqsI2PDaWBzVHC5rrnnoLgc0BY7KLXF4bJI5bzKz1K6wPZNgtk3EAS5Oa81xSlS14D5yLKnQGCywrvORx3/nQ22T2g3EJnr8wioDZGn4LKey16oRw+wFCAX8JxcQ8lOmX8ilgqfepIOCp2sPP+7BQorQ99GdVdIJQrWA75nJLs0Mnkxk57ndFoPied2UKaC0s3T1gF7BsYyBu47pZcNbM90q62bZIuaLfQr4lRi2Lnkr/hig==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7ea5b7e3-c4b6-4ef9-628a-08d84b5ddbde
+X-MS-Exchange-CrossTenant-AuthSource: SN1PR12MB2560.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2020 14:22:56.6630 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ClJhsjtLMS4eGjY+Le1fikJvRAEcnTEHV3oCHux4f7W5Jcq1fMsWvRsHnFb0uk2X
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2525
+Received-SPF: none client-ip=40.107.223.44; envelope-from=Babu.Moger@amd.com;
+ helo=NAM11-DM6-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 10:22:58
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FORGED_SPF_HELO=1, MSGID_FROM_MTA_HEADER=0.001,
+ NICE_REPLY_A=-0.809, RCVD_ILLEGAL_IP=1.3, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,589 +124,277 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
- "Dr. David
- Alan Gilbert" <dgilbert@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ "mst@redhat.com" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "rth@twiddle.net" <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/BrmbCTzCnw0zXIxt0z_i.JT
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, 27 Aug 2020 14:37:00 +0200
-Markus Armbruster <armbru@redhat.com> wrote:
 
-> I apologize for not reviewing this much earlier.
->=20
-> Lukas Straub <lukasstraub2@web.de> writes:
->=20
-> > The yank feature allows to recover from hanging qemu by "yanking"
-> > at various parts. Other qemu systems can register themselves and
-> > multiple yank functions. Then all yank functions for selected
-> > instances can be called by the 'yank' out-of-band qmp command.
-> > Available instances can be queried by a 'query-yank' oob command.
+> -----Original Message-----
+> From: Igor Mammedov <imammedo@redhat.com>
+> Sent: Friday, August 28, 2020 3:43 AM
+> To: Moger, Babu <Babu.Moger@amd.com>
+> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>; ehabkost@redhat.com;
+> mst@redhat.com; qemu-devel@nongnu.org; pbonzini@redhat.com;
+> rth@twiddle.net
+> Subject: Re: [PATCH v5 0/8] Remove EPYC mode apicid decode and use
+> generic decode
+> 
+> On Thu, 27 Aug 2020 17:58:01 -0500
+> Babu Moger <babu.moger@amd.com> wrote:
+> 
+> > > -----Original Message-----
+> > > From: Igor Mammedov <imammedo@redhat.com>
+> > > Sent: Thursday, August 27, 2020 4:19 PM
+> > > To: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > > Cc: ehabkost@redhat.com; mst@redhat.com; qemu-devel@nongnu.org;
+> > > Moger, Babu <Babu.Moger@amd.com>; pbonzini@redhat.com;
+> > > rth@twiddle.net
+> > > Subject: Re: [PATCH v5 0/8] Remove EPYC mode apicid decode and use
+> > > generic decode
+> > >
+> > > On Wed, 26 Aug 2020 15:10:46 +0100
+> > > "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> > >
+> > > > * Igor Mammedov (imammedo@redhat.com) wrote:
+> > > > > On Tue, 25 Aug 2020 16:25:21 +0100 "Dr. David Alan Gilbert"
+> > > > > <dgilbert@redhat.com> wrote:
+> > > > >
+> > > > > > * Igor Mammedov (imammedo@redhat.com) wrote:
+> > > > > > > On Tue, 25 Aug 2020 09:15:04 +0100 "Dr. David Alan Gilbert"
+> > > > > > > <dgilbert@redhat.com> wrote:
+> > > > > > >
+> > > > > > > > * Babu Moger (babu.moger@amd.com) wrote:
+> > > > > > > > > Hi Dave,
+> > > > > > > > >
+> > > > > > > > > On 8/24/20 1:41 PM, Dr. David Alan Gilbert wrote:
+> > > > > > > > > > * Babu Moger (babu.moger@amd.com) wrote:
+> > > > > > > > > >> To support some of the complex topology, we
+> > > > > > > > > >> introduced EPYC
+> > > mode apicid decode.
+> > > > > > > > > >> But, EPYC mode decode is running into problems. Also
+> > > > > > > > > >> it can become quite a maintenance problem in the
+> > > > > > > > > >> future. So, it was decided to remove that code and
+> > > > > > > > > >> use the generic decode which works for majority of
+> > > > > > > > > >> the topology. Most of the SPECed configuration would
+> > > > > > > > > >> work just fine. With some
+> > > non-SPECed user inputs, it will create some sub-optimal configuration.
+> > > > > > > > > >> Here is the discussion thread.
+> > > > > > > > > >> https://nam11.safelinks.protection.outlook.com/?url=h
+> > > > > > > > > >> ttps
+> > > > > > > > > >> %3A%2F%2Flore.kernel.org%2Fqemu-devel%2Fc0bcc1a6-
+> > > 1d84-a6e
+> > > > > > > > > >> 7-e468-
+> > > d5b437c1b254%40amd.com%2F&amp;data=02%7C01%7Cbabu.
+> > > > > > > > > >>
+> > > moger%40amd.com%7C9b15ee395daa4935640408d84acedf13%7C3dd8
+> > > > > > > > > >>
+> > > 961fe4884e608e11a82d994e183d%7C0%7C0%7C637341599663177545
+> > > > > > > > > >>
+> > > &amp;sdata=4okYGU%2F8QTYqEOZEd1EBC%2BEsIIrEV59HZrHzpbsR8s
+> > > > > > > > > >> U%3D&amp;reserved=0
+> > > > > > > > > >>
+> > > > > > > > > >> This series removes all the EPYC mode specific apicid
+> > > > > > > > > >> changes
+> > > and use the generic
+> > > > > > > > > >> apicid decode.
+> > > > > > > > > >
+> > > > > > > > > > Hi Babu,
+> > > > > > > > > >   This does simplify things a lot!
+> > > > > > > > > > One worry, what happens about a live migration of a VM
+> > > > > > > > > > from
+> > > an old qemu
+> > > > > > > > > > that was using the node-id to a qemu with this new scheme?
+> > > > > > > > >
+> > > > > > > > > The node_id which we introduced was only used
+> > > > > > > > > internally. This
+> > > wasn't
+> > > > > > > > > exposed outside. I don't think live migration will be an issue.
+> > > > > > > >
+> > > > > > > > Didn't it become part of the APIC ID visible to the guest?
+> > > > > > >
+> > > > > > > Daniel asked similar question wrt hard error on start up,
+> > > > > > > when CLI is not sufficient to create EPYC cpu.
+> > > > > > >
+> > > > > > >
+> > > https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%25
+> > > > > > > 2Fwww.mail-archive.com%2Fqemu-
+> > > devel%40nongnu.org%2Fmsg728536.htm
+> > > > > > >
+> > >
+> l&amp;data=02%7C01%7Cbabu.moger%40amd.com%7C9b15ee395daa49356
+> > > 404
+> > > > > > >
+> > >
+> 08d84acedf13%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C63734
+> > > 1
+> > > > > > >
+> > >
+> 599663177545&amp;sdata=OnHz23W4F4TdYwlxPZwC%2B8YRY1K3qJ5U9Sfdo
+> > > Oc
+> > > > > > > GXtw%3D&amp;reserved=0
+> > > > > > >
+> > > > > > > Migration might fall into the same category.
+> > > > > > > Also looking at the history, 5.0 commit
+> > > > > > >   247b18c593ec29 target/i386: Enable new apic id encoding
+> > > > > > > for EPYC based cpus models silently broke APIC ID (without
+> > > > > > > versioning),
+> > > for all EPYC models (that's were 1 new and 1 old one).
+> > > > > > >
+> > > > > > > (I'm not aware of somebody complaining about it)
+> > > > > > >
+> > > > > > > Another commit ed78467a21459, changed CPUID_8000_001E
+> > > > > > > without
+> > > versioning as well.
+> > > > > > >
+> > > > > > >
+> > > > > > > With current EPYC apicid code, if all starts align (no numa
+> > > > > > > or 1 numa node only on CLI and no -smp dies=) it might
+> > > > > > > produce a valid
+> > > CPU (apicid+CPUID_8000_001E).
+> > > > > > > No numa is gray area, since EPYC spec implies that it has to
+> > > > > > > be numa
+> > > machine in case of real EPYC cpus.
+> > > > > > > Multi-node configs would be correct only if user assigns
+> > > > > > > cpus to numa nodes by duplicating internal node_id algorithm
+> > > > > > > that this series
+> > > removes.
+> > > > > > >
+> > > > > > > There might be other broken cases that I don't recall
+> > > > > > > anymore (should be mentioned in previous versions of this
+> > > > > > > series)
+> > > > > > >
+> > > > > > >
+> > > > > > > To summarize from migration pov (ignoring ed78467a21459
+> change):
+> > > > > > >
+> > > > > > >  1) old qemu pre-5.0 ==>  qemu 5.0, 5.1 - broken migration
+> > > > > >
+> > > > > > Oh ....
+> > > > > >
+> > > > > > >  2) with this series (lets call it qemu 5.2)
+> > > > > > >      pre-5.0 ==> qemu 5.2 - should work as series basically
+> > > > > > > rollbacks
+> > > current code to pre-5.0
+> > > > > > >      qemu 5.0, 5.1 ==> qemu 5.2 - broken
+> > > > > > >
+> > > > > > > It's all about picking which poison to choose, I'd preffer
+> > > > > > > 2nd case as it lets drop a lot of complicated code that
+> > > > > > > doesn't work as expected.
+> > > > > >
+> > > > > > I think that would make our lives easier for other reasons; so
+> > > > > > I'm happy to go with that.
+> > > > >
+> > > > > to make things less painful for users, me wonders if there is a
+> > > > > way to block migration if epyc and specific QEMU versions are used?
+> > > >
+> > > > We have no way to block based on version - and that's a pretty
+> > > > painful thing to do; we can block based on machine type.
+> > > >
+> > > > But before we get there; can we understand in which combinations
+> > > > that things break and why exactly - would it break on a 1 or 2
+> > > > vCPU guest - or would it only break when we get to the point the
+> > > > upper bits start being used for example?  Why exaclty would it
+> > > > break - i.e. is it going to change the name of sections in the
+> > > > migration stream - or are the values we need actually going to migrate
+> OK?
+> > >
+> > > it's values of APIC ID, where 4.2 and 5.0 QEMU use different values
+> > > if numa is enabled.
+> > > I'd expect guest to be very confused in when this happens.
+> > >
+> > > here is an example:
+> > > qemu-4.2 -cpu EPYC -smp 8,sockets=1,cores=8 -numa node,cpus=0-3
+> > > -numa
+> > > node,cpus=4-7
+> > >
+> > > (QEMU) qom-get path=/machine/unattached/device[8] property=apic-id
+> {
+> > >     "return": 7
+> > > }
+> > >
+> > > vs
+> > >
+> > > qemu-5.1 -cpu EPYC -smp 8,sockets=1,cores=8 -numa node,cpus=0-3
+> > > -numa
+> > > node,cpus=4-7
+> > > (QEMU) qom-get path=/machine/unattached/device[8] property=apic-id
+> {
+> > >     "return": 15
+> > > }
+> > >
+> > > we probably can't do anything based on machine type versions, as
+> > > 4.2 and older versions on qemu-5.0 and newer use different algorithm
+> > > to calculate apic-id.
+> > >
+> > > Hence was suggestion to leave 5.0/5.1 with broken apic id and revert
+> > > back to
+> > > 4.2 algorithm, which should encode APIC ID correctly when '-smp
+> > > dies' is used.
 > >
-> > Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-> > Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > ---
-> >  include/qemu/yank.h |  80 +++++++++++++++++++
-> >  qapi/misc.json      |  45 +++++++++++
-> >  util/Makefile.objs  |   1 +
-> >  util/yank.c         | 184 ++++++++++++++++++++++++++++++++++++++++++++
-> >  4 files changed, 310 insertions(+)
-> >  create mode 100644 include/qemu/yank.h
-> >  create mode 100644 util/yank.c
+> > That is correct. When we revert all the node_id related changes, we
+> > will go back to 4.2 algorithm. It will work fine with user passing
+> > "-smp dies=n". It also keeps the code simple. That is why I kept the
+> > decoding of 0x8000001e like this below. This will also match apicid decoding.
 > >
-> > diff --git a/include/qemu/yank.h b/include/qemu/yank.h
-> > new file mode 100644
-> > index 0000000000..cd184fcd05
-> > --- /dev/null
-> > +++ b/include/qemu/yank.h
-> > @@ -0,0 +1,80 @@
-> > +/*
-> > + * QEMU yank feature
-> > + *
-> > + * Copyright (c) Lukas Straub <lukasstraub2@web.de>
-> > + *
-> > + * This work is licensed under the terms of the GNU GPL, version 2 or =
-later.
-> > + * See the COPYING file in the top-level directory.
-> > + */
-> > +
-> > +#ifndef YANK_H
-> > +#define YANK_H
-> > +
-> > +typedef void (YankFn) (void *opaque); =20
->=20
-> No space before parameter lists, please.
+> > *ecx = ((topo_info->dies_per_pkg - 1) << 8) |  ((cpu->apic_id >>
+> > apicid_die_offset(topo_info)) & 0xFF);
+> that will work when there is no -numa on CLI, when -numa is used, we
+> should use node id that user provided.
+> like you did in previous revision
+>    "[PATCH v4 1/3] i386: Simplify CPUID_8000_001E for AMD"
 
-Ok, I will fix this in the next version.
+This might be a problem in the future with new BIOS options to change the
+NPS(Nodes per Socket). Nodes and dies may not match. Then we will end up
+with wrong CPUID_8000_001E encoding. That is why I wanted to keep both of
+them separate. Users have the option to configure the way it matches their
+bios config.
 
-> > +
-> > +/**
-> > + * yank_register_instance: Register a new instance.
-> > + *
-> > + * This registers a new instance for yanking. Must be called before an=
-y yank
-> > + * function is registered for this instance.
-> > + *
-> > + * This function is thread-safe.
-> > + *
-> > + * @instance_name: The globally unique name of the instance.
-> > + * @errp: ...
-> > + */
-> > +void yank_register_instance(const char *instance_name, Error **errp);
-> > +
-> > +/**
-> > + * yank_unregister_instance: Unregister a instance.
-> > + *
-> > + * This unregisters a instance. Must be called only after every yank f=
-unction
-> > + * of the instance has been unregistered.
-> > + *
-> > + * This function is thread-safe.
-> > + *
-> > + * @instance_name: The name of the instance.
-> > + */
-> > +void yank_unregister_instance(const char *instance_name);
-> > +
-> > +/**
-> > + * yank_register_function: Register a yank function
-> > + *
-> > + * This registers a yank function. All limitations of qmp oob commands=
- apply
-> > + * to the yank function as well. =20
->=20
-> The restrictions are documented in docs/devel/qapi-code-gen.txt under
-> "An OOB-capable command handler must satisfy the following conditions".
-> Let's point there,
 
-I will fix this in the next version.
-
-> > + *
-> > + * This function is thread-safe.
-> > + *
-> > + * @instance_name: The name of the instance
-> > + * @func: The yank function
-> > + * @opaque: Will be passed to the yank function
-> > + */
-> > +void yank_register_function(const char *instance_name,
-> > +                            YankFn *func,
-> > +                            void *opaque); =20
->=20
-> Pardon my ignorance... can you explain to me why a yank instance may
-> have multiple functions?
->
-> > +
-> > +/**
-> > + * yank_unregister_function: Unregister a yank function
-> > + *
-> > + * This unregisters a yank function.
-> > + *
-> > + * This function is thread-safe.
-> > + *
-> > + * @instance_name: The name of the instance
-> > + * @func: func that was passed to yank_register_function
-> > + * @opaque: opaque that was passed to yank_register_function
-> > + */
-> > +void yank_unregister_function(const char *instance_name,
-> > +                              YankFn *func,
-> > +                              void *opaque);
-> > +
-> > +/**
-> > + * yank_unregister_function: Generic yank function for iochannel =20
->=20
-> Pasto, should be
->=20
->     * yank_generic_iochannel: ...
-
-I will fix this in the next version.
-
-> > + *
-> > + * This is a generic yank function which will call qio_channel_shutdow=
-n on the
-> > + * provided QIOChannel.
-> > + *
-> > + * @opaque: QIOChannel to shutdown
-> > + */
-> > +void yank_generic_iochannel(void *opaque);
-> > +#endif
-> > diff --git a/qapi/misc.json b/qapi/misc.json
-> > index 9d32820dc1..0d6a8f20b7 100644
-> > --- a/qapi/misc.json
-> > +++ b/qapi/misc.json
-> > @@ -1615,3 +1615,48 @@
-> >  ##
-> >  { 'command': 'query-vm-generation-id', 'returns': 'GuidInfo' }
+> 
+> > Still not clear if we need to add a warning when numa nodes != dies.
+> > Worried about adding that check and remove it again later.
+> Since there is objection wrt making it error and I'd go with warning for now, it
+> makes life of person who have to figure what's wrong a bit easier.
+> 
+> > What about auto_enable_numa? Do we still need it?
 > >
-> > +##
-> > +# @YankInstances:
-> > +#
-> > +# @instances: List of yank instances.
-> > +#
-> > +# Yank instances are named after the following schema:
-> > +# "blockdev:<node-name>", "chardev:<chardev-name>" and "migration"
-> > +#
-> > +# Since: 5.1
-> > +##
-> > +{ 'struct': 'YankInstances', 'data': {'instances': ['str'] } } =20
->=20
-> I'm afraid this is a problematic QMP interface.
->=20
-> By making YankInstances a struct, you keep the door open to adding more
-> members, which is good.
->=20
-> But by making its 'instances' member a ['str'], you close the door to
-> using anything but a single string for the individual instances.  Not so
-> good.
->=20
-> The single string encodes information which QMP client will need to
-> parse from the string.  We frown on that in QMP.  Use QAPI complex types
-> capabilities for structured data.
->=20
-> Could you use something like this instead?
->=20
-> { 'enum': 'YankInstanceType',
->   'data': { 'block-node', 'chardev', 'migration' } }
->=20
-> { 'struct': 'YankInstanceBlockNode',
->   'data': { 'node-name': 'str' } }
->=20
-> { 'struct': 'YankInstanceChardev',
->   'data' { 'label': 'str' } }
->=20
-> { 'union': 'YankInstance',
->   'base': { 'type': 'YankInstanceType' },
->   'discriminator': 'type',
->   'data': {
->       'block-node': 'YankInstanceBlockNode',
->       'chardev': 'YankInstanceChardev' } }
->=20
-> { 'command': 'yank',
->   'data': { 'instances': ['YankInstance'] },
->   'allow-oob': true }
->=20
-> If you're confident nothing will ever be added to YankInstanceBlockNode
-> and YankInstanceChardev, you could use str instead.
-
-As Daniel said, this has already been discussed.
-
-> > +
-> > +##
-> > +# @yank:
-> > +#
-> > +# Recover from hanging qemu by yanking the specified instances. =20
->=20
-> What's an "instance", and what does it mean to "yank" it?
->=20
-> The documentation of YankInstances above gives a clue on what an
-> "instance" is: presumably a block node, a character device or the
-> migration job.
->=20
-> I guess a YankInstance is whatever the code chooses to make one, and the
-> current code makes these three kinds.
->=20
-> Does it make every block node a YankInstance?  If not, which ones?
->=20
-> Does it make every character device a YankInstance?  If not, which ones?
->=20
-> Does it make migration always a YankInstance?  If not, when?
-
-The yank function is generic so anything more specific than "instance"
-doesn't fit. But you are right, I'll improve the documentation here and
-list what is currently implemented for yanking and what yanking does in
-each case.
-
-> > +#
-> > +# Takes @YankInstances as argument.
-> > +#
-> > +# Returns: nothing.
-> > +#
-> > +# Example:
-> > +#
-> > +# -> { "execute": "yank", "arguments": { "instances": ["blockdev:nbd0"=
-] } }
-> > +# <- { "return": {} }
-> > +#
-> > +# Since: 5.1
-> > +##
-> > +{ 'command': 'yank', 'data': 'YankInstances', 'allow-oob': true }
-> > +
-> > +##
-> > +# @query-yank:
-> > +#
-> > +# Query yank instances.
-> > +#
-> > +# Returns: @YankInstances
-> > +#
-> > +# Example:
-> > +#
-> > +# -> { "execute": "query-yank" }
-> > +# <- { "return": { "instances": ["blockdev:nbd0"] } }
-> > +#
-> > +# Since: 5.1
-> > +##
-> > +{ 'command': 'query-yank', 'returns': 'YankInstances', 'allow-oob': tr=
-ue }
-> > diff --git a/util/Makefile.objs b/util/Makefile.objs
-> > index cc5e37177a..13faa98425 100644
-> > --- a/util/Makefile.objs
-> > +++ b/util/Makefile.objs
-> > @@ -45,6 +45,7 @@ util-obj-$(CONFIG_GIO) +=3D dbus.o
-> >  dbus.o-cflags =3D $(GIO_CFLAGS)
-> >  dbus.o-libs =3D $(GIO_LIBS)
-> >  util-obj-$(CONFIG_USER_ONLY) +=3D selfmap.o
-> > +util-obj-y +=3D yank.o
 > >
-> >  #######################################################################
-> >  # code used by both qemu system emulation and qemu-img
-> > diff --git a/util/yank.c b/util/yank.c
-> > new file mode 100644
-> > index 0000000000..b0cd27728b
-> > --- /dev/null
-> > +++ b/util/yank.c
-> > @@ -0,0 +1,184 @@
-> > +/*
-> > + * QEMU yank feature
-> > + *
-> > + * Copyright (c) Lukas Straub <lukasstraub2@web.de>
-> > + *
-> > + * This work is licensed under the terms of the GNU GPL, version 2 or =
-later.
-> > + * See the COPYING file in the top-level directory.
-> > + */
-> > +
-> > +#include "qemu/osdep.h"
-> > +#include "qapi/error.h"
-> > +#include "qemu/thread.h"
-> > +#include "qemu/queue.h"
-> > +#include "qapi/qapi-commands-misc.h"
-> > +#include "io/channel.h"
-> > +#include "qemu/yank.h"
-> > +
-> > +struct YankFuncAndParam {
-> > +    YankFn *func;
-> > +    void *opaque;
-> > +    QLIST_ENTRY(YankFuncAndParam) next;
-> > +};
-> > +
-> > +struct YankInstance {
-> > +    char *name;
-> > +    QLIST_HEAD(, YankFuncAndParam) yankfns;
-> > +    QLIST_ENTRY(YankInstance) next;
-> > +};
-> > +
-> > +static QemuMutex lock; =20
->=20
-> Please give the variable a more telling name, such as @yank_lock, and
-> document what exactly the lock protects.  I can guess it's just the list
-> that immediately follows, but I prefer to be explicit when it comes to
-> locking.
+> > I can send the patches tomorrow if these things are clarified.
+> > Thanks
+> With auto_enable_numa it would be cleaner as you can reuse the same
+> numa code to set 0x8000001e.ecx vs hardcodding it as above.
+> 
+> Maybe post series without auto_enable_numa so we fix migration
+> regression ASAP and then switch to auto_enable_numa on top.
+> 
+> 
+> >
+> > >
+> > >
+> > > > Dave
+> > > >
+> > > >
+> > > > > > > PS:
+> > > > > > >  I didn't review it yet, but with this series we aren't
+> > > > > > > making up internal node_ids that should match user provided
+> > > > > > > numa node ids
+> > > somehow.
+> > > > > > >  It seems series lost the patch that would enforce numa in
+> > > > > > > case -smp dies>1,  but otherwise it heads in the right direction.
+> > > > > >
+> > > > > > Dave
+> > > > > >
+> > > > > > > >
+> > > > > > > > Dave
+> > > > > > > >
+> > > > > > >
+> > > > >
+> >
 
-I will fix this in the next version.
-
-> > +static QLIST_HEAD(yankinst_list, YankInstance) head
-> > +    =3D QLIST_HEAD_INITIALIZER(head); =20
->=20
-> Please give the variable a more telling name, such as
-> @yank_instance_list.
->=20
-> I doubt there is a need to name the struct.  This should do:
->=20
->    static QLIST_HEAD(, YankInstance) yank_instance_list
-
-I will fix this in the next version.
-
-> > +
-> > +static struct YankInstance *yank_find_instance(const char *name)
-> > +{
-> > +    struct YankInstance *tmp, *instance;
-> > +    instance =3D NULL;
-> > +    QLIST_FOREACH(tmp, &head, next) {
-> > +        if (!strcmp(tmp->name, name)) {
-> > +            instance =3D tmp;
-> > +        }
-> > +    }
-> > +    return instance;
-> > +} =20
->=20
-> Suggest
->=20
->    static struct YankInstance *yank_find_instance(const char *name)
->    {
->        struct YankInstance *instance;
->=20
->        QLIST_FOREACH(instance, &head, next) {
->            if (!strcmp(instance->name, name)) {
->                return instance;
->            }
->        }
->        return NULL;
->    }
-
-I will fix this in the next version.
-
-> > +
-> > +void yank_register_instance(const char *instance_name, Error **errp)
-> > +{
-> > +    struct YankInstance *instance;
-> > +
-> > +    qemu_mutex_lock(&lock);
-> > +
-> > +    if (yank_find_instance(instance_name)) {
-> > +        error_setg(errp, "duplicate yank instance name: '%s'", instanc=
-e_name); =20
->=20
-> Rather long line, suggest to wrap before the last argument.
-
-I will fix this in the next version.
-
-> > +        qemu_mutex_unlock(&lock);
-> > +        return;
-> > +    }
-> > +
-> > +    instance =3D g_slice_new(struct YankInstance);
-> > +    instance->name =3D g_strdup(instance_name);
-> > +    QLIST_INIT(&instance->yankfns);
-> > +    QLIST_INSERT_HEAD(&head, instance, next);
-> > +
-> > +    qemu_mutex_unlock(&lock);
-> > +}
-> > +
-> > +void yank_unregister_instance(const char *instance_name)
-> > +{
-> > +    struct YankInstance *instance;
-> > +
-> > +    qemu_mutex_lock(&lock);
-> > +    instance =3D yank_find_instance(instance_name);
-> > +    assert(instance);
-> > +
-> > +    assert(QLIST_EMPTY(&instance->yankfns));
-> > +    QLIST_REMOVE(instance, next);
-> > +    g_free(instance->name);
-> > +    g_slice_free(struct YankInstance, instance);
-> > +
-> > +    qemu_mutex_unlock(&lock);
-> > +}
-> > +
-> > +void yank_register_function(const char *instance_name,
-> > +                            YankFn *func,
-> > +                            void *opaque)
-> > +{
-> > +    struct YankInstance *instance;
-> > +    struct YankFuncAndParam *entry;
-> > +
-> > +    qemu_mutex_lock(&lock);
-> > +    instance =3D yank_find_instance(instance_name);
-> > +    assert(instance);
-> > +
-> > +    entry =3D g_slice_new(struct YankFuncAndParam);
-> > +    entry->func =3D func;
-> > +    entry->opaque =3D opaque;
-> > +
-> > +    QLIST_INSERT_HEAD(&instance->yankfns, entry, next);
-> > +    qemu_mutex_unlock(&lock);
-> > +}
-> > +
-> > +void yank_unregister_function(const char *instance_name,
-> > +                              YankFn *func,
-> > +                              void *opaque)
-> > +{
-> > +    struct YankInstance *instance;
-> > +    struct YankFuncAndParam *entry;
-> > +
-> > +    qemu_mutex_lock(&lock);
-> > +    instance =3D yank_find_instance(instance_name);
-> > +    assert(instance);
-> > +
-> > +    QLIST_FOREACH(entry, &instance->yankfns, next) {
-> > +        if (entry->func =3D=3D func && entry->opaque =3D=3D opaque) {
-> > +            QLIST_REMOVE(entry, next);
-> > +            g_slice_free(struct YankFuncAndParam, entry);
-> > +            qemu_mutex_unlock(&lock);
-> > +            return;
-> > +        }
-> > +    }
-> > +
-> > +    abort();
-> > +}
-> > +
-> > +void yank_generic_iochannel(void *opaque)
-> > +{
-> > +    QIOChannel *ioc =3D QIO_CHANNEL(opaque);
-> > +
-> > +    qio_channel_shutdown(ioc, QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
-> > +}
-> > +
-> > +void qmp_yank(strList *instances,
-> > +              Error **errp)
-> > +{
-> > +    strList *tmp;
-> > +    struct YankInstance *instance;
-> > +    struct YankFuncAndParam *entry;
-> > +
-> > +    qemu_mutex_lock(&lock);
-> > +    tmp =3D instances;
-> > +    for (; tmp; tmp =3D tmp->next) { =20
->=20
-> Make that
->=20
->        for (tail =3D instances; tail; tail =3D tail->next) {
-
-I will fix this in the next version.
-
-> > +        instance =3D yank_find_instance(tmp->value);
-> > +        if (!instance) {
-> > +            error_set(errp, ERROR_CLASS_DEVICE_NOT_FOUND,
-> > +                      "Instance '%s' not found", tmp->value);
-> > +            qemu_mutex_unlock(&lock);
-> > +            return;
-> > +        }
-> > +    }
-> > +    tmp =3D instances;
-> > +    for (; tmp; tmp =3D tmp->next) { =20
->=20
-> Likewise.
->=20
-> > +        instance =3D yank_find_instance(tmp->value);
-> > +        assert(instance);
-> > +        QLIST_FOREACH(entry, &instance->yankfns, next) {
-> > +            entry->func(entry->opaque);
-> > +        }
-> > +    }
-> > +    qemu_mutex_unlock(&lock);
-> > +}
-> > +
-> > +YankInstances *qmp_query_yank(Error **errp)
-> > +{
-> > +    struct YankInstance *instance;
-> > +    YankInstances *ret;
-> > +
-> > +    ret =3D g_new0(YankInstances, 1);
-> > +    ret->instances =3D NULL;
-> > +
-> > +    qemu_mutex_lock(&lock);
-> > +    QLIST_FOREACH(instance, &head, next) {
-> > +        strList *entry;
-> > +        entry =3D g_new0(strList, 1);
-> > +        entry->value =3D g_strdup(instance->name);
-> > +        entry->next =3D ret->instances;
-> > +        ret->instances =3D entry;
-> > +    }
-> > +    qemu_mutex_unlock(&lock);
-> > +
-> > +    return ret;
-> > +}
-> > +
-> > +static void __attribute__((__constructor__)) yank_init(void)
-> > +{
-> > +    qemu_mutex_init(&lock);
-> > +}
-> > --
-> > 2.20.1 =20
->=20
-> The two QMP commands permit out-of-band execution ('allow-oob': true).
-> OOB is easy to get wrong, but I figure you have a legitimate use case.
-> Let's review the restrictions documented in
-> docs/devel/qapi-code-gen.txt:
->=20
->     An OOB-capable command handler must satisfy the following conditions:
->=20
->     - It terminates quickly.
->     - It does not invoke system calls that may block.
->     - It does not access guest RAM that may block when userfaultfd is
->       enabled for postcopy live migration.
->     - It takes only "fast" locks, i.e. all critical sections protected by
->       any lock it takes also satisfy the conditions for OOB command
->       handler code.
->=20
-> Since the command handlers take &lock, the restrictions apply to the
-> other critical sections protected by &lock as well.  I believe these are
-> all okay: they do nothing but allocate, initialize and free memory.
->=20
-> The restrictions also apply to the YankFn callbacks, but you documented
-> that.  Okay.
->=20
-> The one such callback included in this patch is
-> yank_generic_iochannel(), which is a thin wrapper around
-> qio_channel_shutdown(), which in turn runs the io_shutdown method.
-> Thus, the restructions also apply to all the io_shutdown methods.
-> That's not documented.
->=20
-> Daniel, should it be documented?
->=20
-This is already done in patch 6.
-
-Thank you for you review.
-
-Regards,
-Lukas Straub
-
---Sig_/BrmbCTzCnw0zXIxt0z_i.JT
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl9JEvkACgkQNasLKJxd
-slgXsQ/+L/kHaLz6AB//ocZ7smVyILj9Ak6qzLkfk8s4j7/Oy/TXqc0FpUKLw+qC
-e3+FEOuqG2eRvqP8ndUu2Z1CRZRBCnscJV9DLgQ49CLHvDGxYwmZtfEx1UI5WPWp
-q1s5wgznhP+FJ0iXzL3+3TctBJdD3j/SQlpJL+oyOSZ5tT5h2UScXIp/Sdp6Wz1H
-TkjRs2wav/wjywHJCZltk+au8YSPFZYeNvwrDbNXx1evvtbRCAUN538SUNbPW5G5
-Fx90eA5i2JZOy/Rdbblw3NtHjK2TGaVrT/RAbT2lq68n6/YV9VzW1IM4PohWEa6B
-QH8Ba7Zch9VyQKxw7BwzvDHftciWFVhTh12JalkCarh8/8snx4vj30/S7Ufc9XQ+
-k8+lrPMoPqcEOl5i/s8vrUfhQc72d1xkZ8CjvPfL0ODX75NB99nNpm49gxUWsOxK
-Ps9cr1APE0Szjm8JSMT7XtH4rsBdWfzbrTjhEg2bNdbZDJQX5cTXs2XWiPoRDreD
-eMVDmpcOQEgN7kPftYbYPklnwqUWgV0z3NgebtCztQ1oqUsK8xWoRfskCXR29gxX
-fluNF3ixlCzhH+GEkmC0g+oRBk34P6pJFb4eNR8angux07OUJm2FVnBJ2KhZGbS9
-aA5XGGjVtpSg+Q9MHp9oqCep55a49jqt0DPGDMo/2rpJOl37veI=
-=XFhF
------END PGP SIGNATURE-----
-
---Sig_/BrmbCTzCnw0zXIxt0z_i.JT--
 
