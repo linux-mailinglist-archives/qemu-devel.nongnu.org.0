@@ -2,52 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC059255E10
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 17:42:43 +0200 (CEST)
-Received: from localhost ([::1]:38036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9633255DF7
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 17:37:32 +0200 (CEST)
+Received: from localhost ([::1]:57730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBgWY-00086a-Qi
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 11:42:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36404)
+	id 1kBgRX-0004RU-Gq
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 11:37:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jacob.prida@protonmail.com>)
- id 1kBeZB-0002ui-JF
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 09:37:18 -0400
-Received: from mail-40140.protonmail.ch ([185.70.40.140]:42511)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jacob.prida@protonmail.com>)
- id 1kBeZ7-0007Ay-A2
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 09:37:17 -0400
-Date: Fri, 28 Aug 2020 13:37:00 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
- s=protonmail; t=1598621828;
- bh=l5F9dF6yyRQ3tVTWZpkfvGcZ6MP4zh9qcUgBDKojbu8=;
- h=Date:To:From:Cc:Reply-To:Subject:From;
- b=Fo5Yg6J5Nn8T7uK5tXrQ30nq+7MVkefNPURfQ3ID+UkNPi0+V5x25chuxQVJkGSA6
- 9bKYniJ525VpMJ5jXBmcNmh/bQvExxZtx+400+aECQDXHYlMjd3IxnCYzfuZTB5yKF
- xNhin+UD4Zlvskhm9I4zrnDbviZMlmg56Krk0E/4=
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-From: Jacob Prida <jacob.prida@protonmail.com>
-Cc: "stefanha@gmail.com" <stefanha@gmail.com>
-Subject: Question regarding packet sniffing from a guest KVM
-Message-ID: <JAKyy2sEdENiHm11y9YsYIrKKGYoGLfCrQcKqEtfg6hVUr5OSmmzujHFhAdd3tdfqonybfaBzBNf7ZhipGhHpX59Uzr-LwjBwgpqGgt_aGA=@protonmail.com>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kBgQY-0003zq-UT
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 11:36:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25056)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kBgQW-0000Jk-4k
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 11:36:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598628986;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=IQfkV1u2Clrlg3Ol8HzIVWNYEOpwi2PFg5Of+P7CUUE=;
+ b=T/kTremiXrqgBc196fewE00KdFdpoEgvsb7HA4Go/TRAHItBHqGS4bT/OPsEc5uPHHovgF
+ QFc3UzvG4DyIvlrnKeT/wVDJjZiWpe13RUbLvYB7zUoLjIhgdzQLfj92WyjdIZLgirk+1u
+ tf6ZOhLzB9XALN4OM7S31zDywKpVWe0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-325-kRa-FmSvPZKi-yIuuVxGXQ-1; Fri, 28 Aug 2020 11:36:23 -0400
+X-MC-Unique: kRa-FmSvPZKi-yIuuVxGXQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A78C81074658;
+ Fri, 28 Aug 2020 15:36:22 +0000 (UTC)
+Received: from localhost (ovpn-112-204.ams2.redhat.com [10.36.112.204])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 18D795B6B6;
+ Fri, 28 Aug 2020 15:36:21 +0000 (UTC)
+Date: Fri, 28 Aug 2020 16:36:20 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 4/4] tracetool: show trace-events filename/lineno in fmt
+ string errors
+Message-ID: <20200828153620.GA206776@stefanha-x1.localdomain>
+References: <20200827142915.108730-1-stefanha@redhat.com>
+ <20200827142915.108730-5-stefanha@redhat.com>
+ <CAFEAcA-B_HC-uRBchjtjKx=Zo5fj0Wf3yJA_1h1Rr8-rZm=V0Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
- boundary="b1_Dgjj6XEfQGXlIPLHAH8hD0bl1TYzuyyG1ngR9inIk"
-Received-SPF: pass client-ip=185.70.40.140;
- envelope-from=jacob.prida@protonmail.com; helo=mail-40140.protonmail.ch
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 09:37:09
+In-Reply-To: <CAFEAcA-B_HC-uRBchjtjKx=Zo5fj0Wf3yJA_1h1Rr8-rZm=V0Q@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="qDbXVdCdHGoSgWSk"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 11:36:26
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 28 Aug 2020 11:41:42 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,66 +83,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Jacob Prida <jacob.prida@protonmail.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
-
---b1_Dgjj6XEfQGXlIPLHAH8hD0bl1TYzuyyG1ngR9inIk
+--qDbXVdCdHGoSgWSk
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: base64
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-SGVsbG8sCgpJIHNhdyB5b3VyIGJsb2cgcG9zdCAoaHR0cDovL2Jsb2cudm1zcGxpY2UubmV0LzIw
-MTEvMDQvaG93LXRvLWNhcHR1cmUtdm0tbmV0d29yay10cmFmZmljLXVzaW5nLmh0bWwpIG9uIHBh
-Y2tldCBzbmlmZmluZywgYW5kIHdhcyB3b25kZXJpbmcgaWYgSSBjb3VsZCBnZXQgeW91ciBhZHZp
-Y2Ugb24gYSBwcm9ibGVtIEknbSBoYXZpbmcuCgpJIHBvc3RlZCB0aGlzIHF1ZXN0aW9uIHRvIHN0
-YWNrZXhjaGFuZ2UgYXMgd2VsbCAoaHR0cHM6Ly91bml4LnN0YWNrZXhjaGFuZ2UuY29tL3F1ZXN0
-aW9ucy82MDY3MjIvY2FuLWktc25pZmYtcGFja2V0cy1vbi1hLWhvc3QtaW50ZXJmYWNlLW1hY3Z0
-YXAtdGhyb3VnaC1hLWd1ZXN0LW9zLW9uLXFlbXUta3ZtKSBidXQgaGVyZSBpcyBteSBwcm9ibGVt
-OgoKSSB3YW50IHRvIHBhY2tldCBzbmlmZiBhIHBoeXNpY2FsIE5JQyBmcm9tIGEgZ3Vlc3QgVk0u
-IFRoZSBndWVzdCBWTSBpcyB3aW5kb3dzIDEwIHdpdGggV2lyZXNoYXJrL25wY2FwLiBJIHdhbnQg
-dG8gc2V0dXAgdGhlIHZpcnR1YWwgbmV0d29yayBpbnRlcmZhY2UgdG8gZW5hYmxlIHRoaXMgcGFj
-a2V0IHNuaWZmaW5nLiBUaGUgaG9zdCBPUyBpcyBSSEVMIDcuIEN1cnJlbnRseSwgSSBoYXZlIHRo
-ZSBWTSBjb25uZWN0ZWQgdG8gYSBtYWN2dGFwIGludGVyZmFjZSBmb3IgdGhlIHBoeXNpY2FsIGRl
-dmljZSBJIHdhbnQgdG8gc25pZmYsIGJ1dCBJIGFtIG5vdCBzZWVpbmcgYW55IGRhdGEgb24gV2ly
-ZXNoYXJrLgoKQW55IGhlbHAvYWR2aWNlIGlzIGdyZWF0bHkgYXBwcmVjaWF0ZWQuCgpSZWdhcmRz
-LAoKSmFjb2IKClNlbnQgd2l0aCBbUHJvdG9uTWFpbF0oaHR0cHM6Ly9wcm90b25tYWlsLmNvbSkg
-U2VjdXJlIEVtYWlsLg==
+On Thu, Aug 27, 2020 at 03:59:04PM +0100, Peter Maydell wrote:
+> On Thu, 27 Aug 2020 at 15:29, Stefan Hajnoczi <stefanha@redhat.com> wrote=
+:
+> >
+> > The compiler encounters trace event format strings in generated code.
+> > Format strings are error-prone and therefore clear compiler errors are
+> > important.
+> >
+> > Use the #line directive to show the trace-events filename and line
+> > number in format string errors:
+> > https://gcc.gnu.org/onlinedocs/gcc-10.2.0/cpp/Line-Control.html
+> >
+> > For example, if the cpu_in trace event's %u is changed to %p the
+> > following error is reported:
+> >
+> >   trace-events:29:18: error: format =E2=80=98%p=E2=80=99 expects argume=
+nt of type =E2=80=98void *=E2=80=99, but argument 7 has type =E2=80=98unsig=
+ned int=E2=80=99 [-Werror=3Dformat=3D]
+> >
+> > Line 29 in trace-events is where cpu_in is defined. This works for any
+> > trace-events file in the QEMU source tree and the correct path is
+> > displayed.
+> >
+> > Unfortunately there does not seem to be a way to set the column, so "18=
+"
+> > is not the right character on that line.
+>=20
+> It's been pointed out to me that you could do this by
+> making the generated code have suitable line breaks, padding,
+> etc, so that the format string in the output ends up starting in
+> the same column it was in the input trace file. Whether this is
+> worthwhile I leave up to you :-)
+>=20
+> (The argument number (7 in your example) is also of course off,
+> and that I think we're also stuck with. Getting the file and line
+> number right is a solid improvement on the current situation.)
 
---b1_Dgjj6XEfQGXlIPLHAH8hD0bl1TYzuyyG1ngR9inIk
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: base64
+Thanks for mentioning that trick. I will leave the patch series as-is
+for now.
 
-PGRpdj5IZWxsbyw8YnI+PC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj5JIHNhdyB5b3VyIGJsb2cg
-cG9zdCAoPGEgaHJlZj0iaHR0cDovL2Jsb2cudm1zcGxpY2UubmV0LzIwMTEvMDQvaG93LXRvLWNh
-cHR1cmUtdm0tbmV0d29yay10cmFmZmljLXVzaW5nLmh0bWwiPmh0dHA6Ly9ibG9nLnZtc3BsaWNl
-Lm5ldC8yMDExLzA0L2hvdy10by1jYXB0dXJlLXZtLW5ldHdvcmstdHJhZmZpYy11c2luZy5odG1s
-PC9hPikgb24gcGFja2V0IHNuaWZmaW5nLCBhbmQgd2FzIHdvbmRlcmluZyBpZiBJIGNvdWxkIGdl
-dCB5b3VyIGFkdmljZSBvbiBhIHByb2JsZW0gSSdtIGhhdmluZy48YnI+PC9kaXY+PGRpdj48YnI+
-PC9kaXY+PGRpdj5JIHBvc3RlZCB0aGlzIHF1ZXN0aW9uIHRvIHN0YWNrZXhjaGFuZ2UgYXMgd2Vs
-bCAoPGEgaHJlZj0iaHR0cHM6Ly91bml4LnN0YWNrZXhjaGFuZ2UuY29tL3F1ZXN0aW9ucy82MDY3
-MjIvY2FuLWktc25pZmYtcGFja2V0cy1vbi1hLWhvc3QtaW50ZXJmYWNlLW1hY3Z0YXAtdGhyb3Vn
-aC1hLWd1ZXN0LW9zLW9uLXFlbXUta3ZtIj5odHRwczovL3VuaXguc3RhY2tleGNoYW5nZS5jb20v
-cXVlc3Rpb25zLzYwNjcyMi9jYW4taS1zbmlmZi1wYWNrZXRzLW9uLWEtaG9zdC1pbnRlcmZhY2Ut
-bWFjdnRhcC10aHJvdWdoLWEtZ3Vlc3Qtb3Mtb24tcWVtdS1rdm08L2E+KSBidXQgaGVyZSBpcyBt
-eSBwcm9ibGVtOjxicj48L2Rpdj48ZGl2Pjxicj48L2Rpdj48ZGl2Pkkgd2FudCB0byBwYWNrZXQg
-c25pZmYgYSBwaHlzaWNhbCBOSUMgZnJvbSBhIGd1ZXN0IFZNLiBUaGUgZ3Vlc3QgVk0gaXMgd2lu
-ZG93cyAxMCB3aXRoIFdpcmVzaGFyay9ucGNhcC4gSSB3YW50IHRvIHNldHVwIHRoZSB2aXJ0dWFs
-IG5ldHdvcmsgaW50ZXJmYWNlIHRvIGVuYWJsZSB0aGlzIHBhY2tldCBzbmlmZmluZy4gVGhlIGhv
-c3QgT1MgaXMgUkhFTCA3LiBDdXJyZW50bHksIEkgaGF2ZSB0aGUgVk0gY29ubmVjdGVkIHRvIGEg
-bWFjdnRhcCBpbnRlcmZhY2UgZm9yIHRoZSBwaHlzaWNhbCBkZXZpY2UgSSB3YW50IHRvIHNuaWZm
-LCBidXQgSSBhbSBub3Qgc2VlaW5nIGFueSBkYXRhIG9uIFdpcmVzaGFyay48YnI+PC9kaXY+PGRp
-dj48YnI+PC9kaXY+PGRpdj5BbnkgaGVscC9hZHZpY2UgaXMgZ3JlYXRseSBhcHByZWNpYXRlZC48
-YnI+PC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj5SZWdhcmRzLDxicj48L2Rpdj48ZGl2Pjxicj48
-L2Rpdj48ZGl2PkphY29iPGJyPjwvZGl2PjxkaXY+PGJyPjwvZGl2PjxkaXYgY2xhc3M9InByb3Rv
-bm1haWxfc2lnbmF0dXJlX2Jsb2NrIj48ZGl2IGNsYXNzPSJwcm90b25tYWlsX3NpZ25hdHVyZV9i
-bG9jay11c2VyIHByb3Rvbm1haWxfc2lnbmF0dXJlX2Jsb2NrLWVtcHR5Ij48YnI+PC9kaXY+PGRp
-diBjbGFzcz0icHJvdG9ubWFpbF9zaWduYXR1cmVfYmxvY2stcHJvdG9uIj5TZW50IHdpdGggPGEg
-aHJlZj0iaHR0cHM6Ly9wcm90b25tYWlsLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPlByb3Rvbk1haWw8
-L2E+IFNlY3VyZSBFbWFpbC48YnI+PC9kaXY+PC9kaXY+PGRpdj48YnI+PC9kaXY+
+Stefan
 
+--qDbXVdCdHGoSgWSk
+Content-Type: application/pgp-signature; name="signature.asc"
 
---b1_Dgjj6XEfQGXlIPLHAH8hD0bl1TYzuyyG1ngR9inIk--
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9JJHQACgkQnKSrs4Gr
+c8hiFQf+II+NFeLsjAnv/nyc3Q/ztqHZoMDoK4Go1LnYIhgERySwrmo1KKc5BkGW
+t42Dz7ffbdeGx2pjj2yVl4cgD6TolM//7KlYIWfDXe/NqrRC2+vknjJOoZf6RLip
+9bjXSRuMZbJmjis4oLFUYfQO0Oin9UcwJ2FXXBFnBetvrEUGqniNO9v0vTb6d5xE
+9vrIASi3ZvYxxPUZoYtTkh37NdSV7Ja11X00I52dDkEC+PzXxqtSzPAbVqPphpFF
+VbJk9gPy1rnwEjX5tBe10rMg2MTKvwrOxu4qNAREwDmX4v1y0izPsQKqs0dHLLDs
+IJEkuciG+ZU6nThujD6nlfSMIGT7gA==
+=oe2j
+-----END PGP SIGNATURE-----
+
+--qDbXVdCdHGoSgWSk--
 
 
