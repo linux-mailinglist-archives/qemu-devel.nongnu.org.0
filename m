@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22536255F82
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 19:12:04 +0200 (CEST)
-Received: from localhost ([::1]:60194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AC73255F68
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 19:08:20 +0200 (CEST)
+Received: from localhost ([::1]:43324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBhv1-0007P6-6H
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 13:12:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36852)
+	id 1kBhrP-0000Xy-5o
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 13:08:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBhp2-0004OU-NH
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 13:05:52 -0400
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:35370)
+ id 1kBhp1-0004Kh-96
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 13:05:51 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:37671)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBhoy-00037u-19
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 13:05:52 -0400
-Received: by mail-pg1-x532.google.com with SMTP id g29so733645pgl.2
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 10:05:47 -0700 (PDT)
+ id 1kBhoy-000381-Na
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 13:05:50 -0400
+Received: by mail-pl1-x643.google.com with SMTP id c15so787918plq.4
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 10:05:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xjAvkiOCc/NtSfmsWN0x73KFFAEhwgsUyYE/lGgma1M=;
- b=RjfWO9ty3XE62f7nFHgLRJ8ft8Hrf8LoapgMwFEkzEiZ7I0hQ/V/1EHtnFs4szsjf6
- MpYSlBhyYCoREPqzUAWc2yt+jq1imwUOMxrXfeCehZ1BV5MQfYbV0NiS1+04LXkD4OVl
- fPjaRET9SGnUCSeXr9j7m+C2mIuOzQBZvC4mZJKiwGilLoh1d/8voyrsAV9TQh88fR6H
- T2UvdlYIkWZNzBmjajdc0Yz72z8MtqfW2ajBRLIWmP77NfkSxYwdsIJP9LoLjNO5d/VA
- +J1vJLach3MRxi3usakX0RVOWLkVlkj9wPhapcs/hlpRkXlKHED8Tx6koNBtrfRUS6/N
- MPCw==
+ bh=6oAAd13GwF/3Te3K0+i8T99RpHAlTgI/+rDnUt7DA9A=;
+ b=aZDhrPedvmbMt4La7SABNowNFitHiAKxBVa/W0nKiodr6ADYUz/2pk/DBnszvAxnQ0
+ a793gQPcgBTaYe4ZSRy+rly5vRnCPy4XH+KIj3lenGZwZ8J0FijPiWXlFesv2U0JUC3Q
+ gipm9XJNH3zjjSB1VaOFM+IF845iuruNB5xVvqVqKib3mstZfskW3dK7nTVHB34Okt/f
+ tGb4BWINkJBNd5wsSgZJFC9K4jbgVVr/55svNr66C/g8qUwzP0PPJuviBNSFEyoYUsUf
+ hv2hI7PuKvds6tvF7aAg1bM2yWc2XGt3kytno58pgOefQUqoNp71pSHvB/rrzla49MM1
+ Be2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xjAvkiOCc/NtSfmsWN0x73KFFAEhwgsUyYE/lGgma1M=;
- b=WVvswYimtlNRJ7qY5YwivbE2VAz2xF0n8PrifVPQyt3MEMLV7blwJpfhwPqHbDY5qS
- nywsrZwOy00lPoUvo5PSGxQ8qb1F+rVNkTYsZgg6nE7sU3Lrqs3d5Oa6hadShdn9JG4m
- 9Gwz7FMfxMolyuFjh6HMt4E2fNEtk4UvNEI/HKemBKFjYZ9+hZpjFbjWqiDAgztMUUzY
- QaZ8QWY9n45FBxyMdc+9tznMPSM8cDp9Pak8wLaPlPy22UxYCDCmezOGEpyFB8KOupDG
- 5I04kuIphP2R4ZvDevSsl4EJNdXhfRTA2SaepjkZNkAheSHTOGR1GsSoRKe7yx+QzHEM
- H3qg==
-X-Gm-Message-State: AOAM533W6gvrNaGzznKUu16Z0dnRZu+P2VwLFudb7xqu4GWV3t6dkjdg
- MtSwmOnIeknjEihBwmLo8iAlVP4DkoJ3jQ==
-X-Google-Smtp-Source: ABdhPJyyBrha3cGi8oLqOhEWJVhWvxIp2Qcg6U7Sc0Q++48d7uJ0nBojFOg5gx4ZVwUDBhq7nn1GYQ==
-X-Received: by 2002:aa7:96cf:: with SMTP id h15mr2087694pfq.294.1598634345521; 
- Fri, 28 Aug 2020 10:05:45 -0700 (PDT)
+ bh=6oAAd13GwF/3Te3K0+i8T99RpHAlTgI/+rDnUt7DA9A=;
+ b=KtdLlLIGLxYep0Fn9huYZ+YjIL7Rt4SoUmTOhSK7ZB8XkB7l/smYZxxg1woiqSNHfg
+ 2ca+88l+XxziZZQk0fBT22F7sfS2DEb6j11BijVvm3R9XYcz/8JnUpoteuMXUBZ7U0T4
+ daIl+AkQZ1S8rWx3OFbAfjPFL8Xs/gSIGxFAQPAuGq8V2r7JnSTLv+nVZ8rbDvI2w6F1
+ uAnW14+3HEBL/TKWqk1duaRvfX7hIdfqXIJ4cBx/fiZzTTVfBiAsDa6LwUnBBaK9DGGN
+ yJnQsJTdV6z2LF6+wufyRegFbYVPRI9vMbqQs1E+0Rz6+VAiw5c0Yz6XiEvDT306tI7K
+ J+hQ==
+X-Gm-Message-State: AOAM530EaLxEC1bI4YFU3jmf65lCKVYKC3baLRBl6JCvg76bUbFrq0iP
+ HZTY40GrSChlnzqvk8yTMcRMU6sEMiAuCw==
+X-Google-Smtp-Source: ABdhPJzlAiJUnzfzT1GTSZZQ4a+ZiA74TeFxShmtkSgCknuR/CSKaxkdR3Iu31AAAz4zPIfL3h73sQ==
+X-Received: by 2002:a17:90a:f691:: with SMTP id cl17mr40474pjb.8.1598634346720; 
+ Fri, 28 Aug 2020 10:05:46 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id q12sm2277495pff.196.2020.08.28.10.05.43
+ by smtp.gmail.com with ESMTPSA id q12sm2277495pff.196.2020.08.28.10.05.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 10:05:44 -0700 (PDT)
+ Fri, 28 Aug 2020 10:05:46 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 15/16] crypto/nettle: Split QCryptoCipherNettle into
+Subject: [PATCH v2 16/16] crypto/gcrypt: Split QCryptoCipherGcrypt into
  subclasses
-Date: Fri, 28 Aug 2020 10:05:22 -0700
-Message-Id: <20200828170523.418603-16-richard.henderson@linaro.org>
+Date: Fri, 28 Aug 2020 10:05:23 -0700
+Message-Id: <20200828170523.418603-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200828170523.418603-1-richard.henderson@linaro.org>
 References: <20200828170523.418603-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,1041 +89,513 @@ Cc: berrange@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use separate classes for each cipher entry point: des_rfb, des3,
-aes128, aes192, aes256, cast128, serpent, and twofish.
+With gcrypt, most of the dispatch happens in the library,
+so there aren't many classes to create.  However, we can
+still create separate dispatch for CTR mode, and for
+CONFIG_QEMU_PRIVATE_XTS, which avoids needing to check
+for these modes at runtime.
 
-Generate wrappers for XTS only for CONFIG_QEMU_PRIVATE_XTS.
-This eliminates unreachable wrappers for DES_RFB, DES3 and
-CAST128, which have blocksizes that do not allow XTS mode.
-
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- crypto/cipher-nettle.c.inc | 993 +++++++++++++++++++------------------
- 1 file changed, 508 insertions(+), 485 deletions(-)
+ crypto/cipher-gcrypt.c.inc | 497 ++++++++++++++++++-------------------
+ 1 file changed, 240 insertions(+), 257 deletions(-)
 
-diff --git a/crypto/cipher-nettle.c.inc b/crypto/cipher-nettle.c.inc
-index 36d57ef430..cac771e4ff 100644
---- a/crypto/cipher-nettle.c.inc
-+++ b/crypto/cipher-nettle.c.inc
-@@ -34,8 +34,6 @@
- #include <nettle/xts.h>
- #endif
+diff --git a/crypto/cipher-gcrypt.c.inc b/crypto/cipher-gcrypt.c.inc
+index 7a1fbc9745..42d4137534 100644
+--- a/crypto/cipher-gcrypt.c.inc
++++ b/crypto/cipher-gcrypt.c.inc
+@@ -24,8 +24,6 @@
+ 
+ #include <gcrypt.h>
  
 -static const struct QCryptoCipherDriver qcrypto_cipher_lib_driver;
 -
- typedef void (*QCryptoCipherNettleFuncWrapper)(const void *ctx,
-                                                size_t length,
-                                                uint8_t *dst,
-@@ -45,6 +43,7 @@ typedef void (*QCryptoCipherNettleFuncWrapper)(const void *ctx,
- typedef nettle_crypt_func * QCryptoCipherNettleFuncNative;
- typedef void *       cipher_ctx_t;
- typedef unsigned     cipher_length_t;
-+#define CONST_CTX
- 
- #define cast5_set_key cast128_set_key
- 
-@@ -73,64 +72,215 @@ typedef unsigned     cipher_length_t;
- typedef nettle_cipher_func * QCryptoCipherNettleFuncNative;
- typedef const void * cipher_ctx_t;
- typedef size_t       cipher_length_t;
-+#define CONST_CTX    const
- #endif
- 
--typedef struct QCryptoNettleAES128 {
--    struct aes128_ctx enc;
--    struct aes128_ctx dec;
--} QCryptoNettleAES128;
--
--typedef struct QCryptoNettleAES192 {
--    struct aes192_ctx enc;
--    struct aes192_ctx dec;
--} QCryptoNettleAES192;
--
--typedef struct QCryptoNettleAES256 {
--    struct aes256_ctx enc;
--    struct aes256_ctx dec;
--} QCryptoNettleAES256;
--
--static void aes128_encrypt_native(cipher_ctx_t ctx, cipher_length_t length,
--                                  uint8_t *dst, const uint8_t *src)
-+static inline bool qcrypto_length_check(size_t len, size_t blocksize,
-+                                        Error **errp)
- {
--    const QCryptoNettleAES128 *aesctx = ctx;
--    aes128_encrypt(&aesctx->enc, length, dst, src);
-+    if (unlikely(len & (blocksize - 1))) {
-+        error_setg(errp, "Length %zu must be a multiple of block size %zu",
-+                   len, blocksize);
-+        return false;
-+    }
-+    return true;
- }
- 
--static void aes128_decrypt_native(cipher_ctx_t ctx, cipher_length_t length,
--                                  uint8_t *dst, const uint8_t *src)
-+
-+static void qcrypto_cipher_ctx_free(QCryptoCipher *ctx)
- {
--    const QCryptoNettleAES128 *aesctx = ctx;
--    aes128_decrypt(&aesctx->dec, length, dst, src);
-+    g_free(ctx);
- }
- 
--static void aes192_encrypt_native(cipher_ctx_t ctx, cipher_length_t length,
--                               uint8_t *dst, const uint8_t *src)
-+static int qcrypto_cipher_no_setiv(QCryptoCipher *cipher,
-+                                   const uint8_t *iv, size_t niv,
-+                                   Error **errp)
- {
--    const QCryptoNettleAES192 *aesctx = ctx;
--    aes192_encrypt(&aesctx->enc, length, dst, src);
-+    error_setg(errp, "Setting IV is not supported");
-+    return -1;
- }
- 
--static void aes192_decrypt_native(cipher_ctx_t ctx, cipher_length_t length,
--                               uint8_t *dst, const uint8_t *src)
--{
--    const QCryptoNettleAES192 *aesctx = ctx;
--    aes192_decrypt(&aesctx->dec, length, dst, src);
-+
-+#define DEFINE_SETIV(NAME, TYPE, BLEN)                                  \
-+static int NAME##_setiv(QCryptoCipher *cipher, const uint8_t *iv,       \
-+                        size_t niv, Error **errp)                       \
-+{                                                                       \
-+    TYPE *ctx = container_of(cipher, TYPE, base);                       \
-+    if (niv != BLEN) {                                                  \
-+        error_setg(errp, "Expected IV size %d not %zu", BLEN, niv);     \
-+        return -1;                                                      \
-+    }                                                                   \
-+    memcpy(ctx->iv, iv, niv);                                           \
-+    return 0;                                                           \
- }
- 
--static void aes256_encrypt_native(cipher_ctx_t ctx, cipher_length_t length,
--                               uint8_t *dst, const uint8_t *src)
--{
--    const QCryptoNettleAES256 *aesctx = ctx;
--    aes256_encrypt(&aesctx->enc, length, dst, src);
--}
- 
--static void aes256_decrypt_native(cipher_ctx_t ctx, cipher_length_t length,
--                               uint8_t *dst, const uint8_t *src)
--{
--    const QCryptoNettleAES256 *aesctx = ctx;
--    aes256_decrypt(&aesctx->dec, length, dst, src);
-+#define DEFINE_ECB(NAME, TYPE, BLEN, ENCRYPT, DECRYPT)                  \
-+static int NAME##_encrypt_ecb(QCryptoCipher *cipher, const void *in,    \
-+                              void *out, size_t len, Error **errp)      \
-+{                                                                       \
-+    TYPE *ctx = container_of(cipher, TYPE, base);                       \
-+    if (!qcrypto_length_check(len, BLEN, errp)) {                       \
-+        return -1;                                                      \
-+    }                                                                   \
-+    ENCRYPT(&ctx->key, len, out, in);                                   \
-+    return 0;                                                           \
-+}                                                                       \
-+static int NAME##_decrypt_ecb(QCryptoCipher *cipher, const void *in,    \
-+                              void *out, size_t len, Error **errp)      \
-+{                                                                       \
-+    TYPE *ctx = container_of(cipher, TYPE, base);                       \
-+    if (!qcrypto_length_check(len, BLEN, errp)) {                       \
-+        return -1;                                                      \
-+    }                                                                   \
-+    DECRYPT(&ctx->key, len, out, in);                                   \
-+    return 0;                                                           \
-+}                                                                       \
-+static const struct QCryptoCipherDriver NAME##_driver_ecb = {           \
-+    .cipher_encrypt = NAME##_encrypt_ecb,                               \
-+    .cipher_decrypt = NAME##_decrypt_ecb,                               \
-+    .cipher_setiv = qcrypto_cipher_no_setiv,                            \
-+    .cipher_free = qcrypto_cipher_ctx_free,                             \
-+};
-+
-+
-+#define DEFINE_CBC(NAME, TYPE, BLEN, ENCRYPT, DECRYPT)                  \
-+static int NAME##_encrypt_cbc(QCryptoCipher *cipher, const void *in,    \
-+                              void *out, size_t len, Error **errp)      \
-+{                                                                       \
-+    TYPE *ctx = container_of(cipher, TYPE, base);                       \
-+    if (!qcrypto_length_check(len, BLEN, errp)) {                       \
-+        return -1;                                                      \
-+    }                                                                   \
-+    cbc_encrypt(&ctx->key, ENCRYPT, BLEN, ctx->iv, len, out, in);       \
-+    return 0;                                                           \
-+}                                                                       \
-+static int NAME##_decrypt_cbc(QCryptoCipher *cipher, const void *in,    \
-+                              void *out, size_t len, Error **errp)      \
-+{                                                                       \
-+    TYPE *ctx = container_of(cipher, TYPE, base);                       \
-+    if (!qcrypto_length_check(len, BLEN, errp)) {                       \
-+        return -1;                                                      \
-+    }                                                                   \
-+    cbc_decrypt(&ctx->key, DECRYPT, BLEN, ctx->iv, len, out, in);       \
-+    return 0;                                                           \
-+}                                                                       \
-+static const struct QCryptoCipherDriver NAME##_driver_cbc = {           \
-+    .cipher_encrypt = NAME##_encrypt_cbc,                               \
-+    .cipher_decrypt = NAME##_decrypt_cbc,                               \
-+    .cipher_setiv = NAME##_setiv,                                       \
-+    .cipher_free = qcrypto_cipher_ctx_free,                             \
-+};
-+
-+
-+#define DEFINE_CTR(NAME, TYPE, BLEN, ENCRYPT)                           \
-+static int NAME##_encrypt_ctr(QCryptoCipher *cipher, const void *in,    \
-+                              void *out, size_t len, Error **errp)      \
-+{                                                                       \
-+    TYPE *ctx = container_of(cipher, TYPE, base);                       \
-+    if (!qcrypto_length_check(len, BLEN, errp)) {                       \
-+        return -1;                                                      \
-+    }                                                                   \
-+    ctr_crypt(&ctx->key, ENCRYPT, BLEN, ctx->iv, len, out, in);         \
-+    return 0;                                                           \
-+}                                                                       \
-+static const struct QCryptoCipherDriver NAME##_driver_ctr = {           \
-+    .cipher_encrypt = NAME##_encrypt_ctr,                               \
-+    .cipher_decrypt = NAME##_encrypt_ctr,                               \
-+    .cipher_setiv = NAME##_setiv,                                       \
-+    .cipher_free = qcrypto_cipher_ctx_free,                             \
-+};
-+
-+
-+#ifdef CONFIG_QEMU_PRIVATE_XTS
-+#define DEFINE__XTS(NAME, TYPE, BLEN, ENCRYPT, DECRYPT)                 \
-+static void NAME##_xts_wrape(const void *ctx, size_t length,            \
-+                             uint8_t *dst, const uint8_t *src)          \
-+{                                                                       \
-+    ENCRYPT((cipher_ctx_t)ctx, length, dst, src);                       \
-+}                                                                       \
-+static void NAME##_xts_wrapd(const void *ctx, size_t length,            \
-+                             uint8_t *dst, const uint8_t *src)          \
-+{                                                                       \
-+    DECRYPT((cipher_ctx_t)ctx, length, dst, src);                       \
-+}                                                                       \
-+static int NAME##_encrypt_xts(QCryptoCipher *cipher, const void *in,    \
-+                              void *out, size_t len, Error **errp)      \
-+{                                                                       \
-+    TYPE *ctx = container_of(cipher, TYPE, base);                       \
-+    if (!qcrypto_length_check(len, BLEN, errp)) {                       \
-+        return -1;                                                      \
-+    }                                                                   \
-+    xts_encrypt(&ctx->key, &ctx->key_xts,                               \
-+                NAME##_xts_wrape, NAME##_xts_wrapd,                     \
-+                ctx->iv, len, out, in);                                 \
-+    return 0;                                                           \
-+}                                                                       \
-+static int NAME##_decrypt_xts(QCryptoCipher *cipher, const void *in,    \
-+                              void *out, size_t len, Error **errp)      \
-+{                                                                       \
-+    TYPE *ctx = container_of(cipher, TYPE, base);                       \
-+    if (!qcrypto_length_check(len, BLEN, errp)) {                       \
-+        return -1;                                                      \
-+    }                                                                   \
-+    xts_decrypt(&ctx->key, &ctx->key_xts,                               \
-+                NAME##_xts_wrape, NAME##_xts_wrapd,                     \
-+                ctx->iv, len, out, in);                                 \
-+    return 0;                                                           \
- }
-+#else
-+#define DEFINE__XTS(NAME, TYPE, BLEN, ENCRYPT, DECRYPT)                 \
-+static int NAME##_encrypt_xts(QCryptoCipher *cipher, const void *in,    \
-+                              void *out, size_t len, Error **errp)      \
-+{                                                                       \
-+    TYPE *ctx = container_of(cipher, TYPE, base);                       \
-+    if (!qcrypto_length_check(len, BLEN, errp)) {                       \
-+        return -1;                                                      \
-+    }                                                                   \
-+    xts_encrypt_message(&ctx->key, &ctx->key_xts, ENCRYPT,              \
-+                        ctx->iv, len, out, in);                         \
-+    return 0;                                                           \
-+}                                                                       \
-+static int NAME##_decrypt_xts(QCryptoCipher *cipher, const void *in,    \
-+                              void *out, size_t len, Error **errp)      \
-+{                                                                       \
-+    TYPE *ctx = container_of(cipher, TYPE, base);                       \
-+    if (!qcrypto_length_check(len, BLEN, errp)) {                       \
-+        return -1;                                                      \
-+    }                                                                   \
-+    xts_decrypt_message(&ctx->key, &ctx->key_xts, DECRYPT, ENCRYPT,     \
-+                        ctx->iv, len, out, in);                         \
-+    return 0;                                                           \
-+}
-+#endif
-+
-+#define DEFINE_XTS(NAME, TYPE, BLEN, ENCRYPT, DECRYPT)          \
-+    QEMU_BUILD_BUG_ON(BLEN != XTS_BLOCK_SIZE);                  \
-+    DEFINE__XTS(NAME, TYPE, BLEN, ENCRYPT, DECRYPT)             \
-+static const struct QCryptoCipherDriver NAME##_driver_xts = {   \
-+    .cipher_encrypt = NAME##_encrypt_xts,                       \
-+    .cipher_decrypt = NAME##_decrypt_xts,                       \
-+    .cipher_setiv = NAME##_setiv,                               \
-+    .cipher_free = qcrypto_cipher_ctx_free,                     \
-+};
-+
-+
-+#define DEFINE_ECB_CBC_CTR(NAME, TYPE, BLEN, ENCRYPT, DECRYPT)  \
-+    DEFINE_SETIV(NAME, TYPE, BLEN)                              \
-+    DEFINE_ECB(NAME, TYPE, BLEN, ENCRYPT, DECRYPT)              \
-+    DEFINE_CBC(NAME, TYPE, BLEN, ENCRYPT, DECRYPT)              \
-+    DEFINE_CTR(NAME, TYPE, BLEN, ENCRYPT)
-+
-+#define DEFINE_ECB_CBC_CTR_XTS(NAME, TYPE, BLEN, ENCRYPT, DECRYPT)      \
-+    DEFINE_ECB_CBC_CTR(NAME, TYPE, BLEN, ENCRYPT, DECRYPT)              \
-+    DEFINE_XTS(NAME, TYPE, BLEN, ENCRYPT, DECRYPT)
-+
-+
-+typedef struct QCryptoNettleDESRFB {
-+    QCryptoCipher base;
-+    struct des_ctx key;
-+    uint8_t iv[DES_BLOCK_SIZE];
-+} QCryptoNettleDESRFB;
- 
- static void des_encrypt_native(cipher_ctx_t ctx, cipher_length_t length,
-                                uint8_t *dst, const uint8_t *src)
-@@ -144,6 +294,16 @@ static void des_decrypt_native(cipher_ctx_t ctx, cipher_length_t length,
-     des_decrypt(ctx, length, dst, src);
- }
- 
-+DEFINE_ECB_CBC_CTR(qcrypto_nettle_des_rfb, QCryptoNettleDESRFB,
-+                   DES_BLOCK_SIZE, des_encrypt_native, des_decrypt_native)
-+
-+
-+typedef struct QCryptoNettleDES3 {
-+    QCryptoCipher base;
-+    struct des3_ctx key;
-+    uint8_t iv[DES3_BLOCK_SIZE];
-+} QCryptoNettleDES3;
-+
- static void des3_encrypt_native(cipher_ctx_t ctx, cipher_length_t length,
-                                 uint8_t *dst, const uint8_t *src)
- {
-@@ -156,6 +316,94 @@ static void des3_decrypt_native(cipher_ctx_t ctx, cipher_length_t length,
-     des3_decrypt(ctx, length, dst, src);
- }
- 
-+DEFINE_ECB_CBC_CTR(qcrypto_nettle_des3, QCryptoNettleDES3, DES3_BLOCK_SIZE,
-+                   des3_encrypt_native, des3_decrypt_native)
-+
-+
-+typedef struct QCryptoNettleAES128 {
-+    QCryptoCipher base;
-+    uint8_t iv[AES_BLOCK_SIZE];
-+    /* First key from pair is encode, second key is decode. */
-+    struct aes128_ctx key[2], key_xts[2];
-+} QCryptoNettleAES128;
-+
-+static void aes128_encrypt_native(cipher_ctx_t ctx, cipher_length_t length,
-+                                  uint8_t *dst, const uint8_t *src)
-+{
-+    CONST_CTX struct aes128_ctx *keys = ctx;
-+    aes128_encrypt(&keys[0], length, dst, src);
-+}
-+
-+static void aes128_decrypt_native(cipher_ctx_t ctx, cipher_length_t length,
-+                                  uint8_t *dst, const uint8_t *src)
-+{
-+    CONST_CTX struct aes128_ctx *keys = ctx;
-+    aes128_decrypt(&keys[1], length, dst, src);
-+}
-+
-+DEFINE_ECB_CBC_CTR_XTS(qcrypto_nettle_aes128,
-+                       QCryptoNettleAES128, AES_BLOCK_SIZE,
-+                       aes128_encrypt_native, aes128_decrypt_native)
-+
-+
-+typedef struct QCryptoNettleAES192 {
-+    QCryptoCipher base;
-+    uint8_t iv[AES_BLOCK_SIZE];
-+    /* First key from pair is encode, second key is decode. */
-+    struct aes192_ctx key[2], key_xts[2];
-+} QCryptoNettleAES192;
-+
-+static void aes192_encrypt_native(cipher_ctx_t ctx, cipher_length_t length,
-+                                  uint8_t *dst, const uint8_t *src)
-+{
-+    CONST_CTX struct aes192_ctx *keys = ctx;
-+    aes192_encrypt(&keys[0], length, dst, src);
-+}
-+
-+static void aes192_decrypt_native(cipher_ctx_t ctx, cipher_length_t length,
-+                                  uint8_t *dst, const uint8_t *src)
-+{
-+    CONST_CTX struct aes192_ctx *keys = ctx;
-+    aes192_decrypt(&keys[1], length, dst, src);
-+}
-+
-+DEFINE_ECB_CBC_CTR_XTS(qcrypto_nettle_aes192,
-+                       QCryptoNettleAES192, AES_BLOCK_SIZE,
-+                       aes192_encrypt_native, aes192_decrypt_native)
-+
-+
-+typedef struct QCryptoNettleAES256 {
-+    QCryptoCipher base;
-+    uint8_t iv[AES_BLOCK_SIZE];
-+    /* First key from pair is encode, second key is decode. */
-+    struct aes256_ctx key[2], key_xts[2];
-+} QCryptoNettleAES256;
-+
-+static void aes256_encrypt_native(cipher_ctx_t ctx, cipher_length_t length,
-+                                  uint8_t *dst, const uint8_t *src)
-+{
-+    CONST_CTX struct aes256_ctx *keys = ctx;
-+    aes256_encrypt(&keys[0], length, dst, src);
-+}
-+
-+static void aes256_decrypt_native(cipher_ctx_t ctx, cipher_length_t length,
-+                               uint8_t *dst, const uint8_t *src)
-+{
-+    CONST_CTX struct aes256_ctx *keys = ctx;
-+    aes256_decrypt(&keys[1], length, dst, src);
-+}
-+
-+DEFINE_ECB_CBC_CTR_XTS(qcrypto_nettle_aes256,
-+                       QCryptoNettleAES256, AES_BLOCK_SIZE,
-+                       aes256_encrypt_native, aes256_decrypt_native)
-+
-+
-+typedef struct QCryptoNettleCAST128 {
-+    QCryptoCipher base;
-+    uint8_t iv[CAST128_BLOCK_SIZE];
-+    struct cast128_ctx key, key_xts;
-+} QCryptoNettleCAST128;
-+
- static void cast128_encrypt_native(cipher_ctx_t ctx, cipher_length_t length,
-                                    uint8_t *dst, const uint8_t *src)
- {
-@@ -168,6 +416,18 @@ static void cast128_decrypt_native(cipher_ctx_t ctx, cipher_length_t length,
-     cast128_decrypt(ctx, length, dst, src);
- }
- 
-+DEFINE_ECB_CBC_CTR(qcrypto_nettle_cast128,
-+                   QCryptoNettleCAST128, CAST128_BLOCK_SIZE,
-+                   cast128_encrypt_native, cast128_decrypt_native)
-+
-+
-+typedef struct QCryptoNettleSerpent {
-+    QCryptoCipher base;
-+    uint8_t iv[SERPENT_BLOCK_SIZE];
-+    struct serpent_ctx key, key_xts;
-+} QCryptoNettleSerpent;
-+
-+
- static void serpent_encrypt_native(cipher_ctx_t ctx, cipher_length_t length,
-                                    uint8_t *dst, const uint8_t *src)
- {
-@@ -180,6 +440,17 @@ static void serpent_decrypt_native(cipher_ctx_t ctx, cipher_length_t length,
-     serpent_decrypt(ctx, length, dst, src);
- }
- 
-+DEFINE_ECB_CBC_CTR_XTS(qcrypto_nettle_serpent,
-+                       QCryptoNettleSerpent, SERPENT_BLOCK_SIZE,
-+                       serpent_encrypt_native, serpent_decrypt_native)
-+
-+
-+typedef struct QCryptoNettleTwofish {
-+    QCryptoCipher base;
-+    uint8_t iv[TWOFISH_BLOCK_SIZE];
-+    struct twofish_ctx key, key_xts;
-+} QCryptoNettleTwofish;
-+
- static void twofish_encrypt_native(cipher_ctx_t ctx, cipher_length_t length,
-                                    uint8_t *dst, const uint8_t *src)
- {
-@@ -192,125 +463,10 @@ static void twofish_decrypt_native(cipher_ctx_t ctx, cipher_length_t length,
-     twofish_decrypt(ctx, length, dst, src);
- }
- 
--static void aes128_encrypt_wrapper(const void *ctx, size_t length,
--                                uint8_t *dst, const uint8_t *src)
--{
--    const QCryptoNettleAES128 *aesctx = ctx;
--    aes128_encrypt(&aesctx->enc, length, dst, src);
--}
-+DEFINE_ECB_CBC_CTR_XTS(qcrypto_nettle_twofish,
-+                       QCryptoNettleTwofish, TWOFISH_BLOCK_SIZE,
-+                       twofish_encrypt_native, twofish_decrypt_native)
- 
--static void aes128_decrypt_wrapper(const void *ctx, size_t length,
--                                uint8_t *dst, const uint8_t *src)
--{
--    const QCryptoNettleAES128 *aesctx = ctx;
--    aes128_decrypt(&aesctx->dec, length, dst, src);
--}
--
--static void aes192_encrypt_wrapper(const void *ctx, size_t length,
--                                uint8_t *dst, const uint8_t *src)
--{
--    const QCryptoNettleAES192 *aesctx = ctx;
--    aes192_encrypt(&aesctx->enc, length, dst, src);
--}
--
--static void aes192_decrypt_wrapper(const void *ctx, size_t length,
--                                uint8_t *dst, const uint8_t *src)
--{
--    const QCryptoNettleAES192 *aesctx = ctx;
--    aes192_decrypt(&aesctx->dec, length, dst, src);
--}
--
--static void aes256_encrypt_wrapper(const void *ctx, size_t length,
--                                uint8_t *dst, const uint8_t *src)
--{
--    const QCryptoNettleAES256 *aesctx = ctx;
--    aes256_encrypt(&aesctx->enc, length, dst, src);
--}
--
--static void aes256_decrypt_wrapper(const void *ctx, size_t length,
--                                uint8_t *dst, const uint8_t *src)
--{
--    const QCryptoNettleAES256 *aesctx = ctx;
--    aes256_decrypt(&aesctx->dec, length, dst, src);
--}
--
--static void des_encrypt_wrapper(const void *ctx, size_t length,
--                                uint8_t *dst, const uint8_t *src)
--{
--    des_encrypt(ctx, length, dst, src);
--}
--
--static void des_decrypt_wrapper(const void *ctx, size_t length,
--                                uint8_t *dst, const uint8_t *src)
--{
--    des_decrypt(ctx, length, dst, src);
--}
--
--static void des3_encrypt_wrapper(const void *ctx, size_t length,
--                                uint8_t *dst, const uint8_t *src)
--{
--    des3_encrypt(ctx, length, dst, src);
--}
--
--static void des3_decrypt_wrapper(const void *ctx, size_t length,
--                                uint8_t *dst, const uint8_t *src)
--{
--    des3_decrypt(ctx, length, dst, src);
--}
--
--static void cast128_encrypt_wrapper(const void *ctx, size_t length,
--                                    uint8_t *dst, const uint8_t *src)
--{
--    cast128_encrypt(ctx, length, dst, src);
--}
--
--static void cast128_decrypt_wrapper(const void *ctx, size_t length,
--                                    uint8_t *dst, const uint8_t *src)
--{
--    cast128_decrypt(ctx, length, dst, src);
--}
--
--static void serpent_encrypt_wrapper(const void *ctx, size_t length,
--                                    uint8_t *dst, const uint8_t *src)
--{
--    serpent_encrypt(ctx, length, dst, src);
--}
--
--static void serpent_decrypt_wrapper(const void *ctx, size_t length,
--                                    uint8_t *dst, const uint8_t *src)
--{
--    serpent_decrypt(ctx, length, dst, src);
--}
--
--static void twofish_encrypt_wrapper(const void *ctx, size_t length,
--                                    uint8_t *dst, const uint8_t *src)
--{
--    twofish_encrypt(ctx, length, dst, src);
--}
--
--static void twofish_decrypt_wrapper(const void *ctx, size_t length,
--                                    uint8_t *dst, const uint8_t *src)
--{
--    twofish_decrypt(ctx, length, dst, src);
--}
--
--typedef struct QCryptoCipherNettle QCryptoCipherNettle;
--struct QCryptoCipherNettle {
--    QCryptoCipher base;
--
--    /* Primary cipher context for all modes */
--    void *ctx;
--    /* Second cipher context for XTS mode only */
--    void *ctx_tweak;
--    /* Cipher callbacks for both contexts */
--    QCryptoCipherNettleFuncNative alg_encrypt_native;
--    QCryptoCipherNettleFuncNative alg_decrypt_native;
--    QCryptoCipherNettleFuncWrapper alg_encrypt_wrapper;
--    QCryptoCipherNettleFuncWrapper alg_decrypt_wrapper;
--    /* Initialization vector or Counter */
--    uint8_t *iv;
--    size_t blocksize;
--};
- 
  bool qcrypto_cipher_supports(QCryptoCipherAlgorithm alg,
                               QCryptoCipherMode mode)
-@@ -344,30 +500,12 @@ bool qcrypto_cipher_supports(QCryptoCipherAlgorithm alg,
+ {
+@@ -57,36 +55,212 @@ bool qcrypto_cipher_supports(QCryptoCipherAlgorithm alg,
      }
  }
  
--
+-typedef struct QCryptoCipherGcrypt QCryptoCipherGcrypt;
+-struct QCryptoCipherGcrypt {
++typedef struct QCryptoCipherGcrypt {
+     QCryptoCipher base;
+     gcry_cipher_hd_t handle;
+     size_t blocksize;
+ #ifdef CONFIG_QEMU_PRIVATE_XTS
+     gcry_cipher_hd_t tweakhandle;
+-    /* Initialization vector or Counter */
+-    uint8_t *iv;
++    uint8_t iv[XTS_BLOCK_SIZE];
+ #endif
+-};
++} QCryptoCipherGcrypt;
+ 
 -static void
--qcrypto_nettle_cipher_free_ctx(QCryptoCipherNettle *ctx)
--{
+-qcrypto_gcrypt_cipher_free_ctx(QCryptoCipherGcrypt *ctx,
+-                               QCryptoCipherMode mode)
++
++static void qcrypto_gcrypt_ctx_free(QCryptoCipher *cipher)
+ {
 -    if (!ctx) {
 -        return;
 -    }
--
++    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
+ 
+     gcry_cipher_close(ctx->handle);
+-#ifdef CONFIG_QEMU_PRIVATE_XTS
+-    if (mode == QCRYPTO_CIPHER_MODE_XTS) {
+-        gcry_cipher_close(ctx->tweakhandle);
+-    }
 -    g_free(ctx->iv);
--    g_free(ctx->ctx);
--    g_free(ctx->ctx_tweak);
--    g_free(ctx);
--}
--
--
+-#endif
+     g_free(ctx);
+ }
+ 
++static int qcrypto_gcrypt_encrypt(QCryptoCipher *cipher, const void *in,
++                                  void *out, size_t len, Error **errp)
++{
++    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
++    gcry_error_t err;
++
++    if (len & (ctx->blocksize - 1)) {
++        error_setg(errp, "Length %zu must be a multiple of block size %zu",
++                   len, ctx->blocksize);
++        return -1;
++    }
++
++    err = gcry_cipher_encrypt(ctx->handle, out, len, in, len);
++    if (err != 0) {
++        error_setg(errp, "Cannot encrypt data: %s", gcry_strerror(err));
++        return -1;
++    }
++
++    return 0;
++}
++
++
++static int qcrypto_gcrypt_decrypt(QCryptoCipher *cipher, const void *in,
++                                  void *out, size_t len, Error **errp)
++{
++    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
++    gcry_error_t err;
++
++    if (len & (ctx->blocksize - 1)) {
++        error_setg(errp, "Length %zu must be a multiple of block size %zu",
++                   len, ctx->blocksize);
++        return -1;
++    }
++
++    err = gcry_cipher_decrypt(ctx->handle, out, len, in, len);
++    if (err != 0) {
++        error_setg(errp, "Cannot decrypt data: %s",
++                   gcry_strerror(err));
++        return -1;
++    }
++
++    return 0;
++}
++
++static int qcrypto_gcrypt_setiv(QCryptoCipher *cipher,
++                                const uint8_t *iv, size_t niv,
++                                Error **errp)
++{
++    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
++    gcry_error_t err;
++
++    if (niv != ctx->blocksize) {
++        error_setg(errp, "Expected IV size %zu not %zu",
++                   ctx->blocksize, niv);
++        return -1;
++    }
++
++    gcry_cipher_reset(ctx->handle);
++    err = gcry_cipher_setiv(ctx->handle, iv, niv);
++    if (err != 0) {
++        error_setg(errp, "Cannot set IV: %s", gcry_strerror(err));
++        return -1;
++    }
++
++    return 0;
++}
++
++static int qcrypto_gcrypt_ctr_setiv(QCryptoCipher *cipher,
++                                    const uint8_t *iv, size_t niv,
++                                    Error **errp)
++{
++    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
++    gcry_error_t err;
++
++    if (niv != ctx->blocksize) {
++        error_setg(errp, "Expected IV size %zu not %zu",
++                   ctx->blocksize, niv);
++        return -1;
++    }
++
++    err = gcry_cipher_setctr(ctx->handle, iv, niv);
++    if (err != 0) {
++        error_setg(errp, "Cannot set Counter: %s", gcry_strerror(err));
++        return -1;
++    }
++
++    return 0;
++}
++
++
++static const struct QCryptoCipherDriver qcrypto_gcrypt_driver = {
++    .cipher_encrypt = qcrypto_gcrypt_encrypt,
++    .cipher_decrypt = qcrypto_gcrypt_decrypt,
++    .cipher_setiv = qcrypto_gcrypt_setiv,
++    .cipher_free = qcrypto_gcrypt_ctx_free,
++};
++
++static const struct QCryptoCipherDriver qcrypto_gcrypt_ctr_driver = {
++    .cipher_encrypt = qcrypto_gcrypt_encrypt,
++    .cipher_decrypt = qcrypto_gcrypt_decrypt,
++    .cipher_setiv = qcrypto_gcrypt_ctr_setiv,
++    .cipher_free = qcrypto_gcrypt_ctx_free,
++};
++
++#ifdef CONFIG_QEMU_PRIVATE_XTS
++static void qcrypto_gcrypt_xts_ctx_free(QCryptoCipher *cipher)
++{
++    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
++
++    gcry_cipher_close(ctx->tweakhandle);
++    qcrypto_gcrypt_ctx_free(cipher);
++}
++
++static void qcrypto_gcrypt_xts_wrape(const void *ctx, size_t length,
++                                     uint8_t *dst, const uint8_t *src)
++{
++    gcry_error_t err;
++    err = gcry_cipher_encrypt((gcry_cipher_hd_t)ctx, dst, length, src, length);
++    g_assert(err == 0);
++}
++
++static void qcrypto_gcrypt_xts_wrapd(const void *ctx, size_t length,
++                                     uint8_t *dst, const uint8_t *src)
++{
++    gcry_error_t err;
++    err = gcry_cipher_decrypt((gcry_cipher_hd_t)ctx, dst, length, src, length);
++    g_assert(err == 0);
++}
++
++static int qcrypto_gcrypt_xts_encrypt(QCryptoCipher *cipher, const void *in,
++                                      void *out, size_t len, Error **errp)
++{
++    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
++
++    if (len & (ctx->blocksize - 1)) {
++        error_setg(errp, "Length %zu must be a multiple of block size %zu",
++                   len, ctx->blocksize);
++        return -1;
++    }
++
++    xts_encrypt(ctx->handle, ctx->tweakhandle,
++                qcrypto_gcrypt_xts_wrape, qcrypto_gcrypt_xts_wrapd,
++                ctx->iv, len, out, in);
++    return 0;
++}
++
++static int qcrypto_gcrypt_xts_decrypt(QCryptoCipher *cipher, const void *in,
++                                      void *out, size_t len, Error **errp)
++{
++    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
++
++    if (len & (ctx->blocksize - 1)) {
++        error_setg(errp, "Length %zu must be a multiple of block size %zu",
++                   len, ctx->blocksize);
++        return -1;
++    }
++
++    xts_decrypt(ctx->handle, ctx->tweakhandle,
++                qcrypto_gcrypt_xts_wrape, qcrypto_gcrypt_xts_wrapd,
++                ctx->iv, len, out, in);
++    return 0;
++}
++
++static int qcrypto_gcrypt_xts_setiv(QCryptoCipher *cipher,
++                                    const uint8_t *iv, size_t niv,
++                                    Error **errp)
++{
++    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
++
++    if (niv != ctx->blocksize) {
++        error_setg(errp, "Expected IV size %zu not %zu",
++                   ctx->blocksize, niv);
++        return -1;
++    }
++
++    memcpy(ctx->iv, iv, niv);
++    return 0;
++}
++
++static const struct QCryptoCipherDriver qcrypto_gcrypt_xts_driver = {
++    .cipher_encrypt = qcrypto_gcrypt_xts_encrypt,
++    .cipher_decrypt = qcrypto_gcrypt_xts_decrypt,
++    .cipher_setiv = qcrypto_gcrypt_xts_setiv,
++    .cipher_free = qcrypto_gcrypt_xts_ctx_free,
++};
++#endif /* CONFIG_QEMU_PRIVATE_XTS */
++
+ 
  static QCryptoCipher *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
                                               QCryptoCipherMode mode,
-                                              const uint8_t *key,
-                                              size_t nkey,
+@@ -95,32 +269,10 @@ static QCryptoCipher *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
                                               Error **errp)
  {
--    QCryptoCipherNettle *ctx;
--    uint8_t *rfbkey;
--
-     switch (mode) {
-     case QCRYPTO_CIPHER_MODE_ECB:
-     case QCRYPTO_CIPHER_MODE_CBC:
-@@ -375,363 +513,248 @@ static QCryptoCipher *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
-     case QCRYPTO_CIPHER_MODE_CTR:
-         break;
-     default:
+     QCryptoCipherGcrypt *ctx;
++    const QCryptoCipherDriver *drv;
+     gcry_error_t err;
+     int gcryalg, gcrymode;
+ 
+-    switch (mode) {
+-    case QCRYPTO_CIPHER_MODE_ECB:
+-        gcrymode = GCRY_CIPHER_MODE_ECB;
+-        break;
+-    case QCRYPTO_CIPHER_MODE_XTS:
+-#ifdef CONFIG_QEMU_PRIVATE_XTS
+-        gcrymode = GCRY_CIPHER_MODE_ECB;
+-#else
+-        gcrymode = GCRY_CIPHER_MODE_XTS;
+-#endif
+-        break;
+-    case QCRYPTO_CIPHER_MODE_CBC:
+-        gcrymode = GCRY_CIPHER_MODE_CBC;
+-        break;
+-    case QCRYPTO_CIPHER_MODE_CTR:
+-        gcrymode = GCRY_CIPHER_MODE_CTR;
+-        break;
+-    default:
 -        error_setg(errp, "Unsupported cipher mode %s",
 -                   QCryptoCipherMode_str(mode));
 -        return NULL;
-+        goto bad_cipher_mode;
-     }
- 
+-    }
+-
      if (!qcrypto_cipher_validate_key_length(alg, mode, nkey, errp)) {
          return NULL;
      }
- 
--    ctx = g_new0(QCryptoCipherNettle, 1);
--
-     switch (alg) {
+@@ -129,54 +281,70 @@ static QCryptoCipher *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
      case QCRYPTO_CIPHER_ALG_DES_RFB:
--        ctx->ctx = g_new0(struct des_ctx, 1);
--        rfbkey = qcrypto_cipher_munge_des_rfb_key(key, nkey);
--        des_set_key(ctx->ctx, rfbkey);
--        g_free(rfbkey);
-+        {
-+            QCryptoNettleDESRFB *ctx;
-+            const QCryptoCipherDriver *drv;
-+            uint8_t *rfbkey;
- 
--        ctx->alg_encrypt_native = des_encrypt_native;
--        ctx->alg_decrypt_native = des_decrypt_native;
--        ctx->alg_encrypt_wrapper = des_encrypt_wrapper;
--        ctx->alg_decrypt_wrapper = des_decrypt_wrapper;
-+            switch (mode) {
-+            case QCRYPTO_CIPHER_MODE_ECB:
-+                drv = &qcrypto_nettle_des_rfb_driver_ecb;
-+                break;
-+            case QCRYPTO_CIPHER_MODE_CBC:
-+                drv = &qcrypto_nettle_des_rfb_driver_cbc;
-+                break;
-+            case QCRYPTO_CIPHER_MODE_CTR:
-+                drv = &qcrypto_nettle_des_rfb_driver_ctr;
-+                break;
-+            default:
-+                goto bad_cipher_mode;
-+            }
- 
--        ctx->blocksize = DES_BLOCK_SIZE;
--        break;
-+            ctx = g_new0(QCryptoNettleDESRFB, 1);
-+            ctx->base.driver = drv;
-+
-+            rfbkey = qcrypto_cipher_munge_des_rfb_key(key, nkey);
-+            des_set_key(&ctx->key, rfbkey);
-+            g_free(rfbkey);
-+
-+            return &ctx->base;
-+        }
- 
+         gcryalg = GCRY_CIPHER_DES;
+         break;
+-
      case QCRYPTO_CIPHER_ALG_3DES:
--        ctx->ctx = g_new0(struct des3_ctx, 1);
--        des3_set_key(ctx->ctx, key);
-+        {
-+            QCryptoNettleDES3 *ctx;
-+            const QCryptoCipherDriver *drv;
- 
--        ctx->alg_encrypt_native = des3_encrypt_native;
--        ctx->alg_decrypt_native = des3_decrypt_native;
--        ctx->alg_encrypt_wrapper = des3_encrypt_wrapper;
--        ctx->alg_decrypt_wrapper = des3_decrypt_wrapper;
-+            switch (mode) {
-+            case QCRYPTO_CIPHER_MODE_ECB:
-+                drv = &qcrypto_nettle_des3_driver_ecb;
-+                break;
-+            case QCRYPTO_CIPHER_MODE_CBC:
-+                drv = &qcrypto_nettle_des3_driver_cbc;
-+                break;
-+            case QCRYPTO_CIPHER_MODE_CTR:
-+                drv = &qcrypto_nettle_des3_driver_ctr;
-+                break;
-+            default:
-+                goto bad_cipher_mode;
-+            }
- 
--        ctx->blocksize = DES3_BLOCK_SIZE;
--        break;
-+            ctx = g_new0(QCryptoNettleDES3, 1);
-+            ctx->base.driver = drv;
-+            des3_set_key(&ctx->key, key);
-+            return &ctx->base;
-+        }
- 
+         gcryalg = GCRY_CIPHER_3DES;
+         break;
+-
      case QCRYPTO_CIPHER_ALG_AES_128:
--        ctx->ctx = g_new0(QCryptoNettleAES128, 1);
-+        {
-+            QCryptoNettleAES128 *ctx = g_new0(QCryptoNettleAES128, 1);
- 
--        if (mode == QCRYPTO_CIPHER_MODE_XTS) {
--            ctx->ctx_tweak = g_new0(QCryptoNettleAES128, 1);
-+            switch (mode) {
-+            case QCRYPTO_CIPHER_MODE_ECB:
-+                ctx->base.driver = &qcrypto_nettle_aes128_driver_ecb;
-+                break;
-+            case QCRYPTO_CIPHER_MODE_CBC:
-+                ctx->base.driver = &qcrypto_nettle_aes128_driver_cbc;
-+                break;
-+            case QCRYPTO_CIPHER_MODE_CTR:
-+                ctx->base.driver = &qcrypto_nettle_aes128_driver_ctr;
-+                break;
-+            case QCRYPTO_CIPHER_MODE_XTS:
-+                ctx->base.driver = &qcrypto_nettle_aes128_driver_xts;
-+                nkey /= 2;
-+                aes128_set_encrypt_key(&ctx->key_xts[0], key + nkey);
-+                aes128_set_decrypt_key(&ctx->key_xts[1], key + nkey);
-+                break;
-+            default:
-+                g_assert_not_reached();
-+            }
-+            aes128_set_encrypt_key(&ctx->key[0], key);
-+            aes128_set_decrypt_key(&ctx->key[1], key);
- 
--            nkey /= 2;
--            aes128_set_encrypt_key(&((QCryptoNettleAES128 *)ctx->ctx)->enc,
--                                   key);
--            aes128_set_decrypt_key(&((QCryptoNettleAES128 *)ctx->ctx)->dec,
--                                   key);
--
--            aes128_set_encrypt_key(&((QCryptoNettleAES128 *)ctx->ctx_tweak)->
--                                   enc, key + nkey);
--            aes128_set_decrypt_key(&((QCryptoNettleAES128 *)ctx->ctx_tweak)->
--                                   dec, key + nkey);
--        } else {
--            aes128_set_encrypt_key(&((QCryptoNettleAES128 *)ctx->ctx)->enc,
--                                   key);
--            aes128_set_decrypt_key(&((QCryptoNettleAES128 *)ctx->ctx)->dec,
--                                   key);
-+            return &ctx->base;
-         }
- 
--        ctx->alg_encrypt_native = aes128_encrypt_native;
--        ctx->alg_decrypt_native = aes128_decrypt_native;
--        ctx->alg_encrypt_wrapper = aes128_encrypt_wrapper;
--        ctx->alg_decrypt_wrapper = aes128_decrypt_wrapper;
--
--        ctx->blocksize = AES_BLOCK_SIZE;
--        break;
+         gcryalg = GCRY_CIPHER_AES128;
+         break;
 -
      case QCRYPTO_CIPHER_ALG_AES_192:
--        ctx->ctx = g_new0(QCryptoNettleAES192, 1);
-+        {
-+            QCryptoNettleAES192 *ctx = g_new0(QCryptoNettleAES192, 1);
- 
--        if (mode == QCRYPTO_CIPHER_MODE_XTS) {
--            ctx->ctx_tweak = g_new0(QCryptoNettleAES192, 1);
-+            switch (mode) {
-+            case QCRYPTO_CIPHER_MODE_ECB:
-+                ctx->base.driver = &qcrypto_nettle_aes192_driver_ecb;
-+                break;
-+            case QCRYPTO_CIPHER_MODE_CBC:
-+                ctx->base.driver = &qcrypto_nettle_aes192_driver_cbc;
-+                break;
-+            case QCRYPTO_CIPHER_MODE_CTR:
-+                ctx->base.driver = &qcrypto_nettle_aes192_driver_ctr;
-+                break;
-+            case QCRYPTO_CIPHER_MODE_XTS:
-+                ctx->base.driver = &qcrypto_nettle_aes192_driver_xts;
-+                nkey /= 2;
-+                aes192_set_encrypt_key(&ctx->key_xts[0], key + nkey);
-+                aes192_set_decrypt_key(&ctx->key_xts[1], key + nkey);
-+                break;
-+            default:
-+                g_assert_not_reached();
-+            }
-+            aes192_set_encrypt_key(&ctx->key[0], key);
-+            aes192_set_decrypt_key(&ctx->key[1], key);
- 
--            nkey /= 2;
--            aes192_set_encrypt_key(&((QCryptoNettleAES192 *)ctx->ctx)->enc,
--                                   key);
--            aes192_set_decrypt_key(&((QCryptoNettleAES192 *)ctx->ctx)->dec,
--                                   key);
--
--            aes192_set_encrypt_key(&((QCryptoNettleAES192 *)ctx->ctx_tweak)->
--                                   enc, key + nkey);
--            aes192_set_decrypt_key(&((QCryptoNettleAES192 *)ctx->ctx_tweak)->
--                                   dec, key + nkey);
--        } else {
--            aes192_set_encrypt_key(&((QCryptoNettleAES192 *)ctx->ctx)->enc,
--                                   key);
--            aes192_set_decrypt_key(&((QCryptoNettleAES192 *)ctx->ctx)->dec,
--                                   key);
-+            return &ctx->base;
-         }
- 
--        ctx->alg_encrypt_native = aes192_encrypt_native;
--        ctx->alg_decrypt_native = aes192_decrypt_native;
--        ctx->alg_encrypt_wrapper = aes192_encrypt_wrapper;
--        ctx->alg_decrypt_wrapper = aes192_decrypt_wrapper;
--
--        ctx->blocksize = AES_BLOCK_SIZE;
--        break;
+         gcryalg = GCRY_CIPHER_AES192;
+         break;
 -
      case QCRYPTO_CIPHER_ALG_AES_256:
--        ctx->ctx = g_new0(QCryptoNettleAES256, 1);
-+        {
-+            QCryptoNettleAES256 *ctx = g_new0(QCryptoNettleAES256, 1);
- 
--        if (mode == QCRYPTO_CIPHER_MODE_XTS) {
--            ctx->ctx_tweak = g_new0(QCryptoNettleAES256, 1);
-+            switch (mode) {
-+            case QCRYPTO_CIPHER_MODE_ECB:
-+                ctx->base.driver = &qcrypto_nettle_aes256_driver_ecb;
-+                break;
-+            case QCRYPTO_CIPHER_MODE_CBC:
-+                ctx->base.driver = &qcrypto_nettle_aes256_driver_cbc;
-+                break;
-+            case QCRYPTO_CIPHER_MODE_CTR:
-+                ctx->base.driver = &qcrypto_nettle_aes256_driver_ctr;
-+                break;
-+            case QCRYPTO_CIPHER_MODE_XTS:
-+                ctx->base.driver = &qcrypto_nettle_aes256_driver_xts;
-+                nkey /= 2;
-+                aes256_set_encrypt_key(&ctx->key_xts[0], key + nkey);
-+                aes256_set_decrypt_key(&ctx->key_xts[1], key + nkey);
-+                break;
-+            default:
-+                g_assert_not_reached();
-+            }
-+            aes256_set_encrypt_key(&ctx->key[0], key);
-+            aes256_set_decrypt_key(&ctx->key[1], key);
- 
--            nkey /= 2;
--            aes256_set_encrypt_key(&((QCryptoNettleAES256 *)ctx->ctx)->enc,
--                                   key);
--            aes256_set_decrypt_key(&((QCryptoNettleAES256 *)ctx->ctx)->dec,
--                                   key);
--
--            aes256_set_encrypt_key(&((QCryptoNettleAES256 *)ctx->ctx_tweak)->
--                                   enc, key + nkey);
--            aes256_set_decrypt_key(&((QCryptoNettleAES256 *)ctx->ctx_tweak)->
--                                   dec, key + nkey);
--        } else {
--            aes256_set_encrypt_key(&((QCryptoNettleAES256 *)ctx->ctx)->enc,
--                                   key);
--            aes256_set_decrypt_key(&((QCryptoNettleAES256 *)ctx->ctx)->dec,
--                                   key);
-+            return &ctx->base;
-         }
- 
--        ctx->alg_encrypt_native = aes256_encrypt_native;
--        ctx->alg_decrypt_native = aes256_decrypt_native;
--        ctx->alg_encrypt_wrapper = aes256_encrypt_wrapper;
--        ctx->alg_decrypt_wrapper = aes256_decrypt_wrapper;
--
--        ctx->blocksize = AES_BLOCK_SIZE;
--        break;
+         gcryalg = GCRY_CIPHER_AES256;
+         break;
 -
      case QCRYPTO_CIPHER_ALG_CAST5_128:
--        ctx->ctx = g_new0(struct cast128_ctx, 1);
-+        {
-+            QCryptoNettleCAST128 *ctx;
-+            const QCryptoCipherDriver *drv;
- 
--        if (mode == QCRYPTO_CIPHER_MODE_XTS) {
--            ctx->ctx_tweak = g_new0(struct cast128_ctx, 1);
-+            switch (mode) {
-+            case QCRYPTO_CIPHER_MODE_ECB:
-+                drv = &qcrypto_nettle_cast128_driver_ecb;
-+                break;
-+            case QCRYPTO_CIPHER_MODE_CBC:
-+                drv = &qcrypto_nettle_cast128_driver_cbc;
-+                break;
-+            case QCRYPTO_CIPHER_MODE_CTR:
-+                drv = &qcrypto_nettle_cast128_driver_ctr;
-+                break;
-+            default:
-+                goto bad_cipher_mode;
-+            }
- 
--            nkey /= 2;
--            cast5_set_key(ctx->ctx, nkey, key);
--            cast5_set_key(ctx->ctx_tweak, nkey, key + nkey);
--        } else {
--            cast5_set_key(ctx->ctx, nkey, key);
-+            ctx = g_new0(QCryptoNettleCAST128, 1);
-+            ctx->base.driver = drv;
-+            cast5_set_key(&ctx->key, nkey, key);
-+
-+            return &ctx->base;
-         }
- 
--        ctx->alg_encrypt_native = cast128_encrypt_native;
--        ctx->alg_decrypt_native = cast128_decrypt_native;
--        ctx->alg_encrypt_wrapper = cast128_encrypt_wrapper;
--        ctx->alg_decrypt_wrapper = cast128_decrypt_wrapper;
--
--        ctx->blocksize = CAST128_BLOCK_SIZE;
--        break;
+         gcryalg = GCRY_CIPHER_CAST5;
+         break;
 -
      case QCRYPTO_CIPHER_ALG_SERPENT_128:
-     case QCRYPTO_CIPHER_ALG_SERPENT_192:
-     case QCRYPTO_CIPHER_ALG_SERPENT_256:
--        ctx->ctx = g_new0(struct serpent_ctx, 1);
-+        {
-+            QCryptoNettleSerpent *ctx = g_new0(QCryptoNettleSerpent, 1);
- 
--        if (mode == QCRYPTO_CIPHER_MODE_XTS) {
--            ctx->ctx_tweak = g_new0(struct serpent_ctx, 1);
-+            switch (mode) {
-+            case QCRYPTO_CIPHER_MODE_ECB:
-+                ctx->base.driver = &qcrypto_nettle_serpent_driver_ecb;
-+                break;
-+            case QCRYPTO_CIPHER_MODE_CBC:
-+                ctx->base.driver = &qcrypto_nettle_serpent_driver_cbc;
-+                break;
-+            case QCRYPTO_CIPHER_MODE_CTR:
-+                ctx->base.driver = &qcrypto_nettle_serpent_driver_ctr;
-+                break;
-+            case QCRYPTO_CIPHER_MODE_XTS:
-+                ctx->base.driver = &qcrypto_nettle_serpent_driver_xts;
-+                nkey /= 2;
-+                serpent_set_key(&ctx->key_xts, nkey, key + nkey);
-+                break;
-+            default:
-+                g_assert_not_reached();
-+            }
-+            serpent_set_key(&ctx->key, nkey, key);
- 
--            nkey /= 2;
--            serpent_set_key(ctx->ctx, nkey, key);
--            serpent_set_key(ctx->ctx_tweak, nkey, key + nkey);
--        } else {
--            serpent_set_key(ctx->ctx, nkey, key);
-+            return &ctx->base;
-         }
- 
--        ctx->alg_encrypt_native = serpent_encrypt_native;
--        ctx->alg_decrypt_native = serpent_decrypt_native;
--        ctx->alg_encrypt_wrapper = serpent_encrypt_wrapper;
--        ctx->alg_decrypt_wrapper = serpent_decrypt_wrapper;
+         gcryalg = GCRY_CIPHER_SERPENT128;
+         break;
 -
--        ctx->blocksize = SERPENT_BLOCK_SIZE;
--        break;
+     case QCRYPTO_CIPHER_ALG_SERPENT_192:
+         gcryalg = GCRY_CIPHER_SERPENT192;
+         break;
+-
+     case QCRYPTO_CIPHER_ALG_SERPENT_256:
+         gcryalg = GCRY_CIPHER_SERPENT256;
+         break;
 -
      case QCRYPTO_CIPHER_ALG_TWOFISH_128:
-     case QCRYPTO_CIPHER_ALG_TWOFISH_192:
-     case QCRYPTO_CIPHER_ALG_TWOFISH_256:
--        ctx->ctx = g_new0(struct twofish_ctx, 1);
-+        {
-+            QCryptoNettleTwofish *ctx = g_new0(QCryptoNettleTwofish, 1);
- 
--        if (mode == QCRYPTO_CIPHER_MODE_XTS) {
--            ctx->ctx_tweak = g_new0(struct twofish_ctx, 1);
-+            switch (mode) {
-+            case QCRYPTO_CIPHER_MODE_ECB:
-+                ctx->base.driver = &qcrypto_nettle_twofish_driver_ecb;
-+                break;
-+            case QCRYPTO_CIPHER_MODE_CBC:
-+                ctx->base.driver = &qcrypto_nettle_twofish_driver_cbc;
-+                break;
-+            case QCRYPTO_CIPHER_MODE_CTR:
-+                ctx->base.driver = &qcrypto_nettle_twofish_driver_ctr;
-+                break;
-+            case QCRYPTO_CIPHER_MODE_XTS:
-+                ctx->base.driver = &qcrypto_nettle_twofish_driver_xts;
-+                nkey /= 2;
-+                twofish_set_key(&ctx->key_xts, nkey, key + nkey);
-+                break;
-+            default:
-+                g_assert_not_reached();
-+            }
-+            twofish_set_key(&ctx->key, nkey, key);
- 
--            nkey /= 2;
--            twofish_set_key(ctx->ctx, nkey, key);
--            twofish_set_key(ctx->ctx_tweak, nkey, key + nkey);
--        } else {
--            twofish_set_key(ctx->ctx, nkey, key);
-+            return &ctx->base;
-         }
- 
--        ctx->alg_encrypt_native = twofish_encrypt_native;
--        ctx->alg_decrypt_native = twofish_decrypt_native;
--        ctx->alg_encrypt_wrapper = twofish_encrypt_wrapper;
--        ctx->alg_decrypt_wrapper = twofish_decrypt_wrapper;
+         gcryalg = GCRY_CIPHER_TWOFISH128;
+         break;
 -
--        ctx->blocksize = TWOFISH_BLOCK_SIZE;
--        break;
+     case QCRYPTO_CIPHER_ALG_TWOFISH_256:
+         gcryalg = GCRY_CIPHER_TWOFISH;
+         break;
 -
      default:
          error_setg(errp, "Unsupported cipher algorithm %s",
                     QCryptoCipherAlgorithm_str(alg));
--        goto error;
--    }
--    g_assert(is_power_of_2(ctx->blocksize));
--
--    if (mode == QCRYPTO_CIPHER_MODE_XTS &&
--        ctx->blocksize != XTS_BLOCK_SIZE) {
--        error_setg(errp, "Cipher block size %zu must equal XTS block size %d",
--                   ctx->blocksize, XTS_BLOCK_SIZE);
--        goto error;
-+        return NULL;
+         return NULL;
      }
  
--    ctx->iv = g_new0(uint8_t, ctx->blocksize);
++    drv = &qcrypto_gcrypt_driver;
++    switch (mode) {
++    case QCRYPTO_CIPHER_MODE_ECB:
++        gcrymode = GCRY_CIPHER_MODE_ECB;
++        break;
++    case QCRYPTO_CIPHER_MODE_XTS:
++#ifdef CONFIG_QEMU_PRIVATE_XTS
++        drv = &qcrypto_gcrypt_xts_driver;
++        gcrymode = GCRY_CIPHER_MODE_ECB;
++#else
++        gcrymode = GCRY_CIPHER_MODE_XTS;
++#endif
++        break;
++    case QCRYPTO_CIPHER_MODE_CBC:
++        gcrymode = GCRY_CIPHER_MODE_CBC;
++        break;
++    case QCRYPTO_CIPHER_MODE_CTR:
++        drv = &qcrypto_gcrypt_ctr_driver;
++        gcrymode = GCRY_CIPHER_MODE_CTR;
++        break;
++    default:
++        error_setg(errp, "Unsupported cipher mode %s",
++                   QCryptoCipherMode_str(mode));
++        return NULL;
++    }
++
+     ctx = g_new0(QCryptoCipherGcrypt, 1);
++    ctx->base.driver = drv;
+ 
+     err = gcry_cipher_open(&ctx->handle, gcryalg, gcrymode, 0);
+     if (err != 0) {
+@@ -184,8 +352,16 @@ static QCryptoCipher *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
+                    gcry_strerror(err));
+         goto error;
+     }
++    ctx->blocksize = gcry_cipher_get_algo_blklen(gcryalg);
++
+ #ifdef CONFIG_QEMU_PRIVATE_XTS
+     if (mode == QCRYPTO_CIPHER_MODE_XTS) {
++        if (ctx->blocksize != XTS_BLOCK_SIZE) {
++            error_setg(errp,
++                       "Cipher block size %zu must equal XTS block size %d",
++		       ctx->blocksize, XTS_BLOCK_SIZE);
++            goto error;
++        }
+         err = gcry_cipher_open(&ctx->tweakhandle, gcryalg, gcrymode, 0);
+         if (err != 0) {
+             error_setg(errp, "Cannot initialize cipher: %s",
+@@ -203,224 +379,31 @@ static QCryptoCipher *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
+         uint8_t *rfbkey = qcrypto_cipher_munge_des_rfb_key(key, nkey);
+         err = gcry_cipher_setkey(ctx->handle, rfbkey, nkey);
+         g_free(rfbkey);
+-        ctx->blocksize = 8;
+     } else {
+ #ifdef CONFIG_QEMU_PRIVATE_XTS
+         if (mode == QCRYPTO_CIPHER_MODE_XTS) {
+             nkey /= 2;
+-            err = gcry_cipher_setkey(ctx->handle, key, nkey);
++            err = gcry_cipher_setkey(ctx->tweakhandle, key + nkey, nkey);
+             if (err != 0) {
+-                error_setg(errp, "Cannot set key: %s",
+-                           gcry_strerror(err));
++                error_setg(errp, "Cannot set key: %s", gcry_strerror(err));
+                 goto error;
+             }
+-            err = gcry_cipher_setkey(ctx->tweakhandle, key + nkey, nkey);
+-        } else {
+-#endif
+-            err = gcry_cipher_setkey(ctx->handle, key, nkey);
+-#ifdef CONFIG_QEMU_PRIVATE_XTS
+         }
+ #endif
+-        if (err != 0) {
+-            error_setg(errp, "Cannot set key: %s",
+-                       gcry_strerror(err));
+-            goto error;
+-        }
+-        switch (alg) {
+-        case QCRYPTO_CIPHER_ALG_AES_128:
+-        case QCRYPTO_CIPHER_ALG_AES_192:
+-        case QCRYPTO_CIPHER_ALG_AES_256:
+-        case QCRYPTO_CIPHER_ALG_SERPENT_128:
+-        case QCRYPTO_CIPHER_ALG_SERPENT_192:
+-        case QCRYPTO_CIPHER_ALG_SERPENT_256:
+-        case QCRYPTO_CIPHER_ALG_TWOFISH_128:
+-        case QCRYPTO_CIPHER_ALG_TWOFISH_256:
+-            ctx->blocksize = 16;
+-            break;
+-        case QCRYPTO_CIPHER_ALG_3DES:
+-        case QCRYPTO_CIPHER_ALG_CAST5_128:
+-            ctx->blocksize = 8;
+-            break;
+-        default:
+-            g_assert_not_reached();
+-        }
++        err = gcry_cipher_setkey(ctx->handle, key, nkey);
+     }
+-    g_assert(is_power_of_2(ctx->blocksize));
 -
+-#ifdef CONFIG_QEMU_PRIVATE_XTS
+-    if (mode == QCRYPTO_CIPHER_MODE_XTS) {
+-        if (ctx->blocksize != XTS_BLOCK_SIZE) {
+-            error_setg(errp,
+-                       "Cipher block size %zu must equal XTS block size %d",
+-                       ctx->blocksize, XTS_BLOCK_SIZE);
+-            goto error;
+-        }
+-        ctx->iv = g_new0(uint8_t, ctx->blocksize);
++    if (err != 0) {
++        error_setg(errp, "Cannot set key: %s", gcry_strerror(err));
++        goto error;
+     }
+-#endif
+ 
 -    ctx->base.driver = &qcrypto_cipher_lib_driver;
--    return &ctx->base;
--
-- error:
--    qcrypto_nettle_cipher_free_ctx(ctx);
-+ bad_cipher_mode:
-+    error_setg(errp, "Unsupported cipher mode %s",
-+               QCryptoCipherMode_str(mode));
+     return &ctx->base;
+ 
+  error:
+-    qcrypto_gcrypt_cipher_free_ctx(ctx, mode);
++#ifdef CONFIG_QEMU_PRIVATE_XTS
++    gcry_cipher_close(ctx->tweakhandle);
++#endif
++    gcry_cipher_close(ctx->handle);
++    g_free(ctx);
      return NULL;
  }
 -
 -
 -static void
--qcrypto_nettle_cipher_ctx_free(QCryptoCipher *cipher)
+-qcrypto_gcrypt_cipher_ctx_free(QCryptoCipher *cipher)
 -{
--    QCryptoCipherNettle *ctx = container_of(cipher, QCryptoCipherNettle, base);
+-    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
 -
--    qcrypto_nettle_cipher_free_ctx(ctx);
+-    qcrypto_gcrypt_cipher_free_ctx(ctx, cipher->mode);
 -}
 -
 -
+-#ifdef CONFIG_QEMU_PRIVATE_XTS
+-static void qcrypto_gcrypt_xts_encrypt(const void *ctx,
+-                                       size_t length,
+-                                       uint8_t *dst,
+-                                       const uint8_t *src)
+-{
+-    gcry_error_t err;
+-    err = gcry_cipher_encrypt((gcry_cipher_hd_t)ctx, dst, length, src, length);
+-    g_assert(err == 0);
+-}
+-
+-static void qcrypto_gcrypt_xts_decrypt(const void *ctx,
+-                                       size_t length,
+-                                       uint8_t *dst,
+-                                       const uint8_t *src)
+-{
+-    gcry_error_t err;
+-    err = gcry_cipher_decrypt((gcry_cipher_hd_t)ctx, dst, length, src, length);
+-    g_assert(err == 0);
+-}
+-#endif
+-
 -static int
--qcrypto_nettle_cipher_encrypt(QCryptoCipher *cipher,
+-qcrypto_gcrypt_cipher_encrypt(QCryptoCipher *cipher,
 -                              const void *in,
 -                              void *out,
 -                              size_t len,
 -                              Error **errp)
 -{
--    QCryptoCipherNettle *ctx = container_of(cipher, QCryptoCipherNettle, base);
+-    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
+-    gcry_error_t err;
 -
 -    if (len & (ctx->blocksize - 1)) {
 -        error_setg(errp, "Length %zu must be a multiple of block size %zu",
@@ -1132,52 +603,38 @@ index 36d57ef430..cac771e4ff 100644
 -        return -1;
 -    }
 -
--    switch (cipher->mode) {
--    case QCRYPTO_CIPHER_MODE_ECB:
--        ctx->alg_encrypt_wrapper(ctx->ctx, len, out, in);
--        break;
--
--    case QCRYPTO_CIPHER_MODE_CBC:
--        cbc_encrypt(ctx->ctx, ctx->alg_encrypt_native,
--                    ctx->blocksize, ctx->iv,
--                    len, out, in);
--        break;
--
--    case QCRYPTO_CIPHER_MODE_XTS:
 -#ifdef CONFIG_QEMU_PRIVATE_XTS
--        xts_encrypt(ctx->ctx, ctx->ctx_tweak,
--                    ctx->alg_encrypt_wrapper, ctx->alg_decrypt_wrapper,
+-    if (cipher->mode == QCRYPTO_CIPHER_MODE_XTS) {
+-        xts_encrypt(ctx->handle, ctx->tweakhandle,
+-                    qcrypto_gcrypt_xts_encrypt,
+-                    qcrypto_gcrypt_xts_decrypt,
 -                    ctx->iv, len, out, in);
--#else
--        xts_encrypt_message(ctx->ctx, ctx->ctx_tweak,
--                            ctx->alg_encrypt_native,
--                            ctx->iv, len, out, in);
+-        return 0;
+-    }
 -#endif
--        break;
 -
--    case QCRYPTO_CIPHER_MODE_CTR:
--        ctr_crypt(ctx->ctx, ctx->alg_encrypt_native,
--                    ctx->blocksize, ctx->iv,
--                    len, out, in);
--        break;
--
--    default:
--        error_setg(errp, "Unsupported cipher mode %s",
--                   QCryptoCipherMode_str(cipher->mode));
+-    err = gcry_cipher_encrypt(ctx->handle,
+-                              out, len,
+-                              in, len);
+-    if (err != 0) {
+-        error_setg(errp, "Cannot encrypt data: %s",
+-                   gcry_strerror(err));
 -        return -1;
 -    }
+-
 -    return 0;
 -}
 -
 -
 -static int
--qcrypto_nettle_cipher_decrypt(QCryptoCipher *cipher,
+-qcrypto_gcrypt_cipher_decrypt(QCryptoCipher *cipher,
 -                              const void *in,
 -                              void *out,
 -                              size_t len,
 -                              Error **errp)
 -{
--    QCryptoCipherNettle *ctx = container_of(cipher, QCryptoCipherNettle, base);
+-    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
+-    gcry_error_t err;
 -
 -    if (len & (ctx->blocksize - 1)) {
 -        error_setg(errp, "Length %zu must be a multiple of block size %zu",
@@ -1185,65 +642,75 @@ index 36d57ef430..cac771e4ff 100644
 -        return -1;
 -    }
 -
--    switch (cipher->mode) {
--    case QCRYPTO_CIPHER_MODE_ECB:
--        ctx->alg_decrypt_wrapper(ctx->ctx, len, out, in);
--        break;
--
--    case QCRYPTO_CIPHER_MODE_CBC:
--        cbc_decrypt(ctx->ctx, ctx->alg_decrypt_native,
--                    ctx->blocksize, ctx->iv,
--                    len, out, in);
--        break;
--
--    case QCRYPTO_CIPHER_MODE_XTS:
 -#ifdef CONFIG_QEMU_PRIVATE_XTS
--        xts_decrypt(ctx->ctx, ctx->ctx_tweak,
--                    ctx->alg_encrypt_wrapper, ctx->alg_decrypt_wrapper,
+-    if (cipher->mode == QCRYPTO_CIPHER_MODE_XTS) {
+-        xts_decrypt(ctx->handle, ctx->tweakhandle,
+-                    qcrypto_gcrypt_xts_encrypt,
+-                    qcrypto_gcrypt_xts_decrypt,
 -                    ctx->iv, len, out, in);
--#else
--        xts_decrypt_message(ctx->ctx, ctx->ctx_tweak,
--                            ctx->alg_decrypt_native,
--                            ctx->alg_encrypt_native,
--                            ctx->iv, len, out, in);
+-        return 0;
+-    }
 -#endif
--        break;
--    case QCRYPTO_CIPHER_MODE_CTR:
--        ctr_crypt(ctx->ctx, ctx->alg_encrypt_native,
--                    ctx->blocksize, ctx->iv,
--                    len, out, in);
--        break;
 -
--    default:
--        error_setg(errp, "Unsupported cipher mode %s",
--                   QCryptoCipherMode_str(cipher->mode));
+-    err = gcry_cipher_decrypt(ctx->handle,
+-                              out, len,
+-                              in, len);
+-    if (err != 0) {
+-        error_setg(errp, "Cannot decrypt data: %s",
+-                   gcry_strerror(err));
 -        return -1;
 -    }
+-
 -    return 0;
 -}
 -
 -static int
--qcrypto_nettle_cipher_setiv(QCryptoCipher *cipher,
+-qcrypto_gcrypt_cipher_setiv(QCryptoCipher *cipher,
 -                            const uint8_t *iv, size_t niv,
 -                            Error **errp)
 -{
--    QCryptoCipherNettle *ctx = container_of(cipher, QCryptoCipherNettle, base);
+-    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
+-    gcry_error_t err;
 -
 -    if (niv != ctx->blocksize) {
 -        error_setg(errp, "Expected IV size %zu not %zu",
 -                   ctx->blocksize, niv);
 -        return -1;
 -    }
--    memcpy(ctx->iv, iv, niv);
+-
+-#ifdef CONFIG_QEMU_PRIVATE_XTS
+-    if (ctx->iv) {
+-        memcpy(ctx->iv, iv, niv);
+-        return 0;
+-    }
+-#endif
+-
+-    if (cipher->mode == QCRYPTO_CIPHER_MODE_CTR) {
+-        err = gcry_cipher_setctr(ctx->handle, iv, niv);
+-        if (err != 0) {
+-            error_setg(errp, "Cannot set Counter: %s",
+-                       gcry_strerror(err));
+-            return -1;
+-        }
+-    } else {
+-        gcry_cipher_reset(ctx->handle);
+-        err = gcry_cipher_setiv(ctx->handle, iv, niv);
+-        if (err != 0) {
+-            error_setg(errp, "Cannot set IV: %s",
+-                       gcry_strerror(err));
+-            return -1;
+-        }
+-    }
+-
 -    return 0;
 -}
 -
 -
 -static const struct QCryptoCipherDriver qcrypto_cipher_lib_driver = {
--    .cipher_encrypt = qcrypto_nettle_cipher_encrypt,
--    .cipher_decrypt = qcrypto_nettle_cipher_decrypt,
--    .cipher_setiv = qcrypto_nettle_cipher_setiv,
--    .cipher_free = qcrypto_nettle_cipher_ctx_free,
+-    .cipher_encrypt = qcrypto_gcrypt_cipher_encrypt,
+-    .cipher_decrypt = qcrypto_gcrypt_cipher_decrypt,
+-    .cipher_setiv = qcrypto_gcrypt_cipher_setiv,
+-    .cipher_free = qcrypto_gcrypt_cipher_ctx_free,
 -};
 -- 
 2.25.1
