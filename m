@@ -2,69 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 068EB25534E
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 05:29:01 +0200 (CEST)
-Received: from localhost ([::1]:56940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5246925537F
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 06:16:11 +0200 (CEST)
+Received: from localhost ([::1]:39936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBV4V-0007mI-Kq
-	for lists+qemu-devel@lfdr.de; Thu, 27 Aug 2020 23:28:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37214)
+	id 1kBVo9-0006gQ-QJ
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 00:16:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raphael.s.norwitz@gmail.com>)
- id 1kBV3p-0007He-Fc; Thu, 27 Aug 2020 23:28:17 -0400
-Received: from mail-oo1-xc42.google.com ([2607:f8b0:4864:20::c42]:35769)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <raphael.s.norwitz@gmail.com>)
- id 1kBV3n-0004ZK-Fm; Thu, 27 Aug 2020 23:28:17 -0400
-Received: by mail-oo1-xc42.google.com with SMTP id j19so1743358oor.2;
- Thu, 27 Aug 2020 20:28:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=llaIb6rl59xW94j4o6h1/y42rYaarCMWr+k0GeVoi7A=;
- b=koyvnDqZbr3KoYAF8xD982/WPI1Q+hCucX0NPN2MYx44wxz/ZDiGWnK2zgHELlcr7F
- G6xbxgiZIExbmrdRcro1YYnZ6JRhb2Uj/4x1VhPLW0Yum1e+FrZKigO5KqwrUNTsiXS4
- v2WalTm5nad6GxVCBOa663KgVcnhCEal3q2elMmt4pDhydiLlrAAn+r4yqP+PazLDk9m
- NgcMdpv9h+9n+gj7zTZ6NgTV5slADv9q46Wgq+LnszPaAFziVawHiUbQ7zsiEFp/BImK
- bKQ8kppXbLLsYlum7EfowvduPgDvLyOVxeB4JTaXEvHzVyZaed1kvuUWdVEjDAsMJ4l5
- oI9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=llaIb6rl59xW94j4o6h1/y42rYaarCMWr+k0GeVoi7A=;
- b=bxMlMfRwuXqBhaL5QoEXrU0yIj16mGLmAcUwYneb1QYitvl53ZeNxF4nV1Zb6S5TPY
- jxsWRN+5AOx8au+xjwhxTexYV6jGFwtHmCX/LevN79AduMv7yTlmYEMVjvWnh8FrY2ZC
- OFmRxT9UyD4Sno+8Pg8UUk3d1ZiyMNxdU7wGBTbwlI2pIYRhTVWlDZzDIJ1iHuYD4oSn
- ROSzu6BX+h5caxAbtyNWluD7yF1CcwxVR10ESqumx02TcjEY9pIeFyJLnSY11wSIuNe/
- b1od0KjJ9o/HhoMKHI36Wj0o1x50lU2TAIFTng0iL0cmVbe+7U9ICFHjMnCloPL8Lfgw
- CwVQ==
-X-Gm-Message-State: AOAM530op8F4PHeDF3/k0gtks9OPD5YEYxOis85KOOD9N5eylg1YOGV0
- F2eg/00FYYYD3fN/fyQm4EvLoKXgkXvoDMAW+9I=
-X-Google-Smtp-Source: ABdhPJxV2a6ZyE4QK14B7cq0kGnqMrj5yxg0nHaWzVYq9+62Gj7NGTpYw0RBX1xn8H0VArgn8ofhBHm7CcYgkJ1EMxk=
-X-Received: by 2002:a4a:b791:: with SMTP id a17mr16473273oop.90.1598585293705; 
- Thu, 27 Aug 2020 20:28:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kBVnG-0006EC-NM
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 00:15:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46858)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kBVnD-0001l1-PH
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 00:15:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598588109;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=q2hnZGG9Ewd9zLHv32UUcBtZ5VkiXc8exnlvWQYlOR4=;
+ b=IfOn1FFFqs040596l35W0tMHIYxp5Luso50tJeYAiTznJHhujLzmDxzx1iO8rtXKf6nzRd
+ lJlMOYAUC/AyYgppWGhdTcvx7gbKh3WgBj6XW+YqEeDyfCAUqCVY7HTpeFr1cLftDbVeKq
+ ltB3p16S1DEsMtOAtCWmLGLyC7NMhIw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-558-eUDNUOhFNee0cYrfXe2LwA-1; Fri, 28 Aug 2020 00:15:02 -0400
+X-MC-Unique: eUDNUOhFNee0cYrfXe2LwA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1FBCB802B6B;
+ Fri, 28 Aug 2020 04:15:01 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-79.ams2.redhat.com [10.36.112.79])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9355E1001B2B;
+ Fri, 28 Aug 2020 04:15:00 +0000 (UTC)
+Subject: Re: Contributor wanting to get started with simple contributions
+To: Rohit Shinde <rohit.shinde12194@gmail.com>
+References: <CA+Ai=tAypbso9yMy0jtyzbeHCweQ1FPgDaJ8=bXxFvBA6pZyLA@mail.gmail.com>
+ <CA+Ai=tBJqLB7yDbd-kqzDhr+d+65K9r3DQsZrB2kGi9wF8BaiA@mail.gmail.com>
+ <2d69f1ac-df97-9d70-d2e2-e9cf27cf9b0c@redhat.com>
+ <CA+Ai=tCk-XX7yogRu=zoKxDv7okRHXibbnT9OoMs8XpHs9yDkA@mail.gmail.com>
+ <15d81509-81d4-d583-16c6-3407efd26f12@redhat.com>
+ <CA+Ai=tBJ+Z9ETMLu4muhA40F6V7OAjWC7-SyB+k7GDsHvYj4WQ@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <96db61bb-47bd-e57c-11c8-3412e8ca4a96@redhat.com>
+Date: Fri, 28 Aug 2020 06:14:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <cover.1596536559.git.dimastep@yandex-team.ru>
- <20200827081556-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20200827081556-mutt-send-email-mst@kernel.org>
-From: Raphael Norwitz <raphael.s.norwitz@gmail.com>
-Date: Thu, 27 Aug 2020 23:28:02 -0400
-Message-ID: <CAFubqFttDNhkK3sXEv_jVDxw5VNviqfe6AH7TBfHAw=yxk6p8g@mail.gmail.com>
-Subject: Re: [PATCH v1 0/7] vhost-user-blk: fix the migration issue and
- enhance qtests
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c42;
- envelope-from=raphael.s.norwitz@gmail.com; helo=mail-oo1-xc42.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <CA+Ai=tBJ+Z9ETMLu4muhA40F6V7OAjWC7-SyB+k7GDsHvYj4WQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 00:15:09
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.782, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,83 +87,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org, jasowang@redhat.com,
- QEMU <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>, fengli@smartx.com,
- yc-core@yandex-team.ru, Paolo Bonzini <pbonzini@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Dima Stepanov <dimastep@yandex-team.ru>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 27, 2020 at 8:17 AM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Tue, Aug 04, 2020 at 01:36:45PM +0300, Dima Stepanov wrote:
-> > Reference e-mail threads:
-> >   - https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg01509.html
-> >   - https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg05241.html
-> >
-> > If vhost-user daemon is used as a backend for the vhost device, then we
-> > should consider a possibility of disconnect at any moment. There was a general
-> > question here: should we consider it as an error or okay state for the vhost-user
-> > devices during migration process?
-> > I think the disconnect event for the vhost-user devices should not break the
-> > migration process, because:
-> >   - the device will be in the stopped state, so it will not be changed
-> >     during migration
-> >   - if reconnect will be made the migration log will be reinitialized as
-> >     part of reconnect/init process:
-> >     #0  vhost_log_global_start (listener=0x563989cf7be0)
-> >     at hw/virtio/vhost.c:920
-> >     #1  0x000056398603d8bc in listener_add_address_space (listener=0x563989cf7be0,
-> >         as=0x563986ea4340 <address_space_memory>)
-> >     at softmmu/memory.c:2664
-> >     #2  0x000056398603dd30 in memory_listener_register (listener=0x563989cf7be0,
-> >         as=0x563986ea4340 <address_space_memory>)
-> >     at softmmu/memory.c:2740
-> >     #3  0x0000563985fd6956 in vhost_dev_init (hdev=0x563989cf7bd8,
-> >         opaque=0x563989cf7e30, backend_type=VHOST_BACKEND_TYPE_USER,
-> >         busyloop_timeout=0)
-> >     at hw/virtio/vhost.c:1385
-> >     #4  0x0000563985f7d0b8 in vhost_user_blk_connect (dev=0x563989cf7990)
-> >     at hw/block/vhost-user-blk.c:315
-> >     #5  0x0000563985f7d3f6 in vhost_user_blk_event (opaque=0x563989cf7990,
-> >         event=CHR_EVENT_OPENED)
-> >     at hw/block/vhost-user-blk.c:379
-> > The first patch in the patchset fixes this issue by setting vhost device to the
-> > stopped state in the disconnect handler and check it the vhost_migration_log()
-> > routine before returning from the function.
-> > qtest framework was updated to test vhost-user-blk functionality. The
-> > vhost-user-blk/vhost-user-blk-tests/migrate_reconnect test was added to reproduce
-> > the original issue found.
->
->
-> Raphael any input on this?
+On 28/08/2020 02.49, Rohit Shinde wrote:
+> Hey Thomas,
+> 
+> Thanks for the in-depth response! I appreciate it a lot!
+> 
+> 
+> 
+> On Wed, Aug 26, 2020 at 9:38 PM Thomas Huth <thuth@redhat.com
+> <mailto:thuth@redhat.com>> wrote:
+> 
+>     On 26/08/2020 17.00, Rohit Shinde wrote:
+>     > Hey Thomas,
+>     >
+>     > I didn't really have any specific questions. I wanted to know if there
+>     > was any part of qemu that I could contribute to. Qemu is
+>     overwhelmingly
+>     > vast and without some pointers, I felt very lost.
+> 
+>     Ok, that's true - QEMU is really a huge project. I'd really recommend to
+>     pick some topics from https://wiki.qemu.org/Contribute/BiteSizedTasks
+>     first to get a feeling for contributing patches to QEMU. Since you're
+>     interested in emulation, maybe the topics from the "Device models"
+>     section would also be a good fit?
+> 
+>     >     >     I plan to stay and become a long term contributor. Is
+>     there any CS
+>     >
+>     >     What does "CS" stand for?
+>     >
+>     > Computer Science :) 
+> 
+>     Oh, well, thanks, ok, that was too easy. I guess there are just too many
+>     abbreviations around ;-)
+> 
+>     >
+>     >     >     theory that I would need to know other than what I mentioned
+>     >     above?
+> 
+>     I'd recommend to browse the various KVM forum presentations on
+>     http://www.linux-kvm.org/page/Category:Conferences to see if there is
+>     something that catches your eye. You can find the recordings of most
+>     presentations on
+>     https://www.youtube.com/channel/UCRCSQmAOh7yzgheq-emy1xA , too.
+> 
+>     >     >     Is it possible to "learn on the go"?
+>     >
+>     >     You certainly have to "learn on the go", since it is likely quite
+>     >     impossible to grasp a huge project like QEMU at once.
+>     >
+>     > I am interested in contributing to something like device emulation.
+>     > There might be lots of devices which Qemu might want to emulate but
+>     > which haven't yet been emulated.
+>     Sure, but I think you first need a target you're interested in first.
+>     E.g. do you want to focus on x86, ARM, PPC, m68k, ... ? Depending on
+>     that, you can start looking around in the hw/ directory for "missing" or
+>     "TODO" items.
+> 
+> I am pretty familiar with the x86 architecture since I have worked with
+> processors right from 8086 to the Pentium line of processors. I have a
+> nice familiarity with x86_64. I have a passing familiarity with ARM and
+> SPARC architectures, but not much more. So I think I would like to focus
+> on the x86 architecture. I'll poke around the hw/ directory. Please feel
+> free to give me pointers in the meanwhile.
+> 
+> Since I am new to the community, I wanted to make sure if it is fine if
+> I post general questions to the mailing list and copy you?
 
-Just posted comments on the vhost/vhost-user-blk side. Will look at
-the test code next.
+Sure, but I'm not the right guy for x86 ;-) It's often a good idea to
+have a look at the MAINTAINERS file to find people who you could put on
+CC: for specific topics.
 
->
-> > Dima Stepanov (7):
-> >   vhost: recheck dev state in the vhost_migration_log routine
-> >   vhost: check queue state in the vhost_dev_set_log routine
-> >   tests/qtest/vhost-user-test: prepare the tests for adding new dev
-> >     class
-> >   tests/qtest/libqos/virtio-blk: add support for vhost-user-blk
-> >   tests/qtest/vhost-user-test: add support for the vhost-user-blk device
-> >   tests/qtest/vhost-user-test: add migrate_reconnect test
-> >   tests/qtest/vhost-user-test: enable the reconnect tests
-> >
-> >  hw/block/vhost-user-blk.c          |  13 +-
-> >  hw/virtio/vhost.c                  |  39 ++++-
-> >  include/hw/virtio/vhost-user-blk.h |   1 +
-> >  tests/qtest/libqos/virtio-blk.c    |  14 ++
-> >  tests/qtest/vhost-user-test.c      | 291 +++++++++++++++++++++++++++++++------
-> >  5 files changed, 311 insertions(+), 47 deletions(-)
-> >
-> > --
-> > 2.7.4
->
->
+ Thomas
+
 
