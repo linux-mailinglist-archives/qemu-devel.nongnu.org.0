@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A20EF2557A0
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 11:29:04 +0200 (CEST)
-Received: from localhost ([::1]:43506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D440255791
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 11:27:33 +0200 (CEST)
+Received: from localhost ([::1]:35018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBagx-0003tA-Mt
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 05:29:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45798)
+	id 1kBafU-0000VV-FR
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 05:27:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBacU-0003wL-1t
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:26 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:40933)
+ id 1kBacW-00043w-FO
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:28 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:36094)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBacS-0004EL-8Y
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:25 -0400
-Received: by mail-wr1-x430.google.com with SMTP id b18so625509wrs.7
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 02:24:23 -0700 (PDT)
+ id 1kBacU-0004Eo-Eu
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:28 -0400
+Received: by mail-wm1-x333.google.com with SMTP id z9so287152wmk.1
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 02:24:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=jp9bb95FmgoCU2/ptjukarM+q7Wux537NT9Ov1W4D4o=;
- b=mHcUfL22yzV8jeBidkNbYPnlduLJ55Fi3mxlissm6nDAGQ8NagsTrnI9vvMyPvIddt
- 2nqE4SNWZXdIoRMdqgIliipzW5YGsyxChgFNmCIQqhKrvql+Xpf/gRqc9bofdgpSkexc
- cPL6i4kdxABP8DEvcuRhSH74/UdqS3GidCKViDjgfOwIqiqmkhOqKLbsPGy18eTnHRbc
- K5SHtdJ1TpZtc/jxygKPW3pQKmTm5Intb8pr+J49LgmwxgI1/mYnWLe4NMuNoDqGmSLB
- cYDNNDUlERvASWe1ryFnhM6HIaNmE/3zg6/7HhE3kg3dgvky7uRx0K8HF6JynXdccunb
- fFiA==
+ bh=PNlpFAnkNi+iSBT/J3PRzcvZzeHSz8/BRVgPxWnbCC4=;
+ b=ZLOUJ1FHaFof3VUj/D3t3svG2GuPDvub7i7F5n9qfJwI6E5RldgJNS7ctMwnwe8773
+ Nnfo/1U9wzKmnxmF4eNj+BIysd0Y8ZpDvVOJdUdCLUgVzg2auPxOuW3Q7G1ksbDRTUtn
+ 4b+0ms972QfEJ/ah97urFaLBJaYxlBO9Pi7N66M9Rj5Swte8XNJ8qnDR+TC+F6yq9ASG
+ VBSINx6avduu5pYSeORrDtEE0+oKBXRiJ86/IClD8B0mRlyzXlgEe6AO1NtGPdfftXpM
+ dj4jthQzgL6yOQGdKMoNKzhN+W4oZDrVdepmOkOrpJmA8THtlkoOzLwsx/or+o5MfhlZ
+ AoHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jp9bb95FmgoCU2/ptjukarM+q7Wux537NT9Ov1W4D4o=;
- b=XHRGk9mu7wmp1xGilttnz/bgLwAyx+rMw/3+zwj/sFJK4YJougXwlflnUlyUDWhmGS
- W0QY4PyoQ21j/VRcZmIMBLAiad86ErE59Ko0T1zFZGFKiwXGdEQLT09wf5d48FWEJXR7
- GyJSn3e3XS6VmX7YYgSHU670ABnJNveYN5eacdxPmkv9Ynue0CnvBsIiKNhL9sP5X57J
- Zuft4F6e76wSIYWg2vGGTaT2OWv2gJMUHY6tbPZ4NS4XUFfkWcE5ymODp+x2bfe2g4vi
- XcCRonKMQVkLibc3YNW3f1DjkPjj84kRK54j6Rr89Jt31Fp4hr0O2v02NjptLsETKjii
- 1u7Q==
-X-Gm-Message-State: AOAM532Ymd3RgXlcWmqp2z6bI/u7VTYdgcI7yZkQWhRrml/T2XddxRbE
- P9AQOR8nVPUrwlCWzku1ktRS3EhVfVwkFWWW
-X-Google-Smtp-Source: ABdhPJzWhI8rZWHLdEYSSYHhaMHUYvUQb5yIbFNs1jYtrBXtOQSL3j03CpUnpTkWzxDM4oeREBHVSA==
-X-Received: by 2002:adf:e6c2:: with SMTP id y2mr661604wrm.117.1598606662693;
- Fri, 28 Aug 2020 02:24:22 -0700 (PDT)
+ bh=PNlpFAnkNi+iSBT/J3PRzcvZzeHSz8/BRVgPxWnbCC4=;
+ b=LBbHQ+MeJO1mtxDg6EEWc607Gwo3lsntBZDaoizLt2ju5L1i9SnAhijnyD9zUFoeUO
+ 7/5aByjW12Dj8OSNJUN3XsknBJN0/aF4bZlW90WHxW0sWp82CODrWdHqihtRF689OBXn
+ WGH8Z6Arpnx1k0fNRgz/sJqJe0dH0nyPoTnjJqcUmI+Fio9ksAq6a6GWHdMjSakpvnam
+ 5ab77wtIfciB4OeJ5V4f6AlCjQzkKeMlJcdXptBJXwJbh1omR64EblZy4C/BxRTDXSF1
+ LNrZgYfwxnLMm3Dq7puZB6s68lDKQAZKgAhxtcVczEvI23Ev7GPNMUALWd1IUc9XA+zF
+ OSIA==
+X-Gm-Message-State: AOAM530tId0fZhyAGNSJXqj5TeDdo+5eIeOhp33W2Ibz7hTIIPUtK/RZ
+ vZPhatFWeoNoSeeND05zCwomzLY3e9NEU3Gy
+X-Google-Smtp-Source: ABdhPJxoZRFahtIDKNsGxL8dV/+9v63lgbFBcnv0a5bo23FgvZdiCLGHXStqc9NHChw9h6kz46/h6g==
+X-Received: by 2002:a7b:c056:: with SMTP id u22mr711818wmc.188.1598606664795; 
+ Fri, 28 Aug 2020 02:24:24 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id t13sm912304wru.65.2020.08.28.02.24.21
+ by smtp.gmail.com with ESMTPSA id t13sm912304wru.65.2020.08.28.02.24.23
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 02:24:21 -0700 (PDT)
+ Fri, 28 Aug 2020 02:24:24 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/35] target/arm: Pass the entire mte descriptor to
- mte_check_fail
-Date: Fri, 28 Aug 2020 10:23:45 +0100
-Message-Id: <20200828092413.22206-8-peter.maydell@linaro.org>
+Subject: [PULL 09/35] hw/sd/allwinner-sdhost: Use AddressSpace for DMA
+ transfers
+Date: Fri, 28 Aug 2020 10:23:47 +0100
+Message-Id: <20200828092413.22206-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200828092413.22206-1-peter.maydell@linaro.org>
 References: <20200828092413.22206-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,64 +90,164 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-We need more information than just the mmu_idx in order
-to create the proper exception syndrome.  Only change the
-function signature so far.
+Allow the device to execute the DMA transfers in a different
+AddressSpace.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200813200816.3037186-2-richard.henderson@linaro.org
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+The A10 and H3 SoC keep using the system_memory address space,
+but via the proper dma_memory_access() API.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Tested-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+Reviewed-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+Message-id: 20200814110057.307-1-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/mte_helper.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ include/hw/sd/allwinner-sdhost.h |  6 ++++++
+ hw/arm/allwinner-a10.c           |  2 ++
+ hw/arm/allwinner-h3.c            |  2 ++
+ hw/sd/allwinner-sdhost.c         | 37 ++++++++++++++++++++++++++------
+ 4 files changed, 41 insertions(+), 6 deletions(-)
 
-diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
-index 104752041f7..a40454588d2 100644
---- a/target/arm/mte_helper.c
-+++ b/target/arm/mte_helper.c
-@@ -514,9 +514,10 @@ void HELPER(stzgm_tags)(CPUARMState *env, uint64_t ptr, uint64_t val)
+diff --git a/include/hw/sd/allwinner-sdhost.h b/include/hw/sd/allwinner-sdhost.h
+index d94606a8531..839732ebf3b 100644
+--- a/include/hw/sd/allwinner-sdhost.h
++++ b/include/hw/sd/allwinner-sdhost.h
+@@ -71,6 +71,12 @@ typedef struct AwSdHostState {
+     /** Interrupt output signal to notify CPU */
+     qemu_irq irq;
+ 
++    /** Memory region where DMA transfers are done */
++    MemoryRegion *dma_mr;
++
++    /** Address space used internally for DMA transfers */
++    AddressSpace dma_as;
++
+     /** Number of bytes left in current DMA transfer */
+     uint32_t transfer_cnt;
+ 
+diff --git a/hw/arm/allwinner-a10.c b/hw/arm/allwinner-a10.c
+index e2584637478..d404f31e02f 100644
+--- a/hw/arm/allwinner-a10.c
++++ b/hw/arm/allwinner-a10.c
+@@ -155,6 +155,8 @@ static void aw_a10_realize(DeviceState *dev, Error **errp)
+     }
+ 
+     /* SD/MMC */
++    object_property_set_link(OBJECT(&s->mmc0), "dma-memory",
++                             OBJECT(get_system_memory()), &error_fatal);
+     sysbus_realize(SYS_BUS_DEVICE(&s->mmc0), &error_fatal);
+     sysbus_mmio_map(SYS_BUS_DEVICE(&s->mmc0), 0, AW_A10_MMC0_BASE);
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->mmc0), 0, qdev_get_gpio_in(dev, 32));
+diff --git a/hw/arm/allwinner-h3.c b/hw/arm/allwinner-h3.c
+index ff92ded82c9..43a8d3dc480 100644
+--- a/hw/arm/allwinner-h3.c
++++ b/hw/arm/allwinner-h3.c
+@@ -349,6 +349,8 @@ static void allwinner_h3_realize(DeviceState *dev, Error **errp)
+     sysbus_mmio_map(SYS_BUS_DEVICE(&s->sid), 0, s->memmap[AW_H3_SID]);
+ 
+     /* SD/MMC */
++    object_property_set_link(OBJECT(&s->mmc0), "dma-memory",
++                             OBJECT(get_system_memory()), &error_fatal);
+     sysbus_realize(SYS_BUS_DEVICE(&s->mmc0), &error_fatal);
+     sysbus_mmio_map(SYS_BUS_DEVICE(&s->mmc0), 0, s->memmap[AW_H3_MMC0]);
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->mmc0), 0,
+diff --git a/hw/sd/allwinner-sdhost.c b/hw/sd/allwinner-sdhost.c
+index f9eb92c09ed..e82afb75eb6 100644
+--- a/hw/sd/allwinner-sdhost.c
++++ b/hw/sd/allwinner-sdhost.c
+@@ -21,7 +21,10 @@
+ #include "qemu/log.h"
+ #include "qemu/module.h"
+ #include "qemu/units.h"
++#include "qapi/error.h"
+ #include "sysemu/blockdev.h"
++#include "sysemu/dma.h"
++#include "hw/qdev-properties.h"
+ #include "hw/irq.h"
+ #include "hw/sd/allwinner-sdhost.h"
+ #include "migration/vmstate.h"
+@@ -306,7 +309,7 @@ static uint32_t allwinner_sdhost_process_desc(AwSdHostState *s,
+     uint8_t buf[1024];
+ 
+     /* Read descriptor */
+-    cpu_physical_memory_read(desc_addr, desc, sizeof(*desc));
++    dma_memory_read(&s->dma_as, desc_addr, desc, sizeof(*desc));
+     if (desc->size == 0) {
+         desc->size = klass->max_desc_size;
+     } else if (desc->size > klass->max_desc_size) {
+@@ -331,22 +334,24 @@ static uint32_t allwinner_sdhost_process_desc(AwSdHostState *s,
+ 
+         /* Write to SD bus */
+         if (is_write) {
+-            cpu_physical_memory_read((desc->addr & DESC_SIZE_MASK) + num_done,
+-                                      buf, buf_bytes);
++            dma_memory_read(&s->dma_as,
++                            (desc->addr & DESC_SIZE_MASK) + num_done,
++                            buf, buf_bytes);
+             sdbus_write_data(&s->sdbus, buf, buf_bytes);
+ 
+         /* Read from SD bus */
+         } else {
+             sdbus_read_data(&s->sdbus, buf, buf_bytes);
+-            cpu_physical_memory_write((desc->addr & DESC_SIZE_MASK) + num_done,
+-                                       buf, buf_bytes);
++            dma_memory_write(&s->dma_as,
++                             (desc->addr & DESC_SIZE_MASK) + num_done,
++                             buf, buf_bytes);
+         }
+         num_done += buf_bytes;
+     }
+ 
+     /* Clear hold flag and flush descriptor */
+     desc->status &= ~DESC_STATUS_HOLD;
+-    cpu_physical_memory_write(desc_addr, desc, sizeof(*desc));
++    dma_memory_write(&s->dma_as, desc_addr, desc, sizeof(*desc));
+ 
+     return num_done;
+ }
+@@ -721,6 +726,12 @@ static const VMStateDescription vmstate_allwinner_sdhost = {
+     }
+ };
+ 
++static Property allwinner_sdhost_properties[] = {
++    DEFINE_PROP_LINK("dma-memory", AwSdHostState, dma_mr,
++                     TYPE_MEMORY_REGION, MemoryRegion *),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
+ static void allwinner_sdhost_init(Object *obj)
+ {
+     AwSdHostState *s = AW_SDHOST(obj);
+@@ -734,6 +745,18 @@ static void allwinner_sdhost_init(Object *obj)
+     sysbus_init_irq(SYS_BUS_DEVICE(s), &s->irq);
  }
  
- /* Record a tag check failure.  */
--static void mte_check_fail(CPUARMState *env, int mmu_idx,
-+static void mte_check_fail(CPUARMState *env, uint32_t desc,
-                            uint64_t dirty_ptr, uintptr_t ra)
++static void allwinner_sdhost_realize(DeviceState *dev, Error **errp)
++{
++    AwSdHostState *s = AW_SDHOST(dev);
++
++    if (!s->dma_mr) {
++        error_setg(errp, TYPE_AW_SDHOST " 'dma-memory' link not set");
++        return;
++    }
++
++    address_space_init(&s->dma_as, s->dma_mr, "sdhost-dma");
++}
++
+ static void allwinner_sdhost_reset(DeviceState *dev)
  {
-+    int mmu_idx = FIELD_EX32(desc, MTEDESC, MIDX);
-     ARMMMUIdx arm_mmu_idx = core_to_aa64_mmu_idx(mmu_idx);
-     int el, reg_el, tcf, select;
-     uint64_t sctlr;
-@@ -639,8 +640,7 @@ uint64_t mte_check1(CPUARMState *env, uint32_t desc,
-     }
+     AwSdHostState *s = AW_SDHOST(dev);
+@@ -792,6 +815,8 @@ static void allwinner_sdhost_class_init(ObjectClass *klass, void *data)
  
-     if (unlikely(!mte_probe1_int(env, desc, ptr, ra, bit55))) {
--        int mmu_idx = FIELD_EX32(desc, MTEDESC, MIDX);
--        mte_check_fail(env, mmu_idx, ptr, ra);
-+        mte_check_fail(env, desc, ptr, ra);
-     }
+     dc->reset = allwinner_sdhost_reset;
+     dc->vmsd = &vmstate_allwinner_sdhost;
++    dc->realize = allwinner_sdhost_realize;
++    device_class_set_props(dc, allwinner_sdhost_properties);
+ }
  
-     return useronly_clean_ptr(ptr);
-@@ -810,7 +810,7 @@ uint64_t mte_checkN(CPUARMState *env, uint32_t desc,
- 
-         fail_ofs = tag_first + n * TAG_GRANULE - ptr;
-         fail_ofs = ROUND_UP(fail_ofs, esize);
--        mte_check_fail(env, mmu_idx, ptr + fail_ofs, ra);
-+        mte_check_fail(env, desc, ptr + fail_ofs, ra);
-     }
- 
-  done:
-@@ -922,7 +922,7 @@ uint64_t HELPER(mte_check_zva)(CPUARMState *env, uint32_t desc, uint64_t ptr)
-  fail:
-     /* Locate the first nibble that differs. */
-     i = ctz64(mem_tag ^ ptr_tag) >> 4;
--    mte_check_fail(env, mmu_idx, align_ptr + i * TAG_GRANULE, ra);
-+    mte_check_fail(env, desc, align_ptr + i * TAG_GRANULE, ra);
- 
-  done:
-     return useronly_clean_ptr(ptr);
+ static void allwinner_sdhost_sun4i_class_init(ObjectClass *klass, void *data)
 -- 
 2.20.1
 
