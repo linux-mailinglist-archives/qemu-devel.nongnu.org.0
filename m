@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A0E92557CF
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 11:38:35 +0200 (CEST)
-Received: from localhost ([::1]:35454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63D1B2557BC
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 11:35:29 +0200 (CEST)
+Received: from localhost ([::1]:48730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBaqA-0006YY-JW
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 05:38:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46142)
+	id 1kBanA-0000TX-Dp
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 05:35:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBacq-00052I-PA
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:48 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42813)
+ id 1kBacr-00054u-MS
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:49 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:54467)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBaco-0004M0-V6
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:48 -0400
-Received: by mail-wr1-x444.google.com with SMTP id c18so618589wrm.9
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 02:24:46 -0700 (PDT)
+ id 1kBacp-0004MD-Uy
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:49 -0400
+Received: by mail-wm1-x344.google.com with SMTP id s13so289268wmh.4
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 02:24:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=pLOsYLSLQGhbGrUxiIPuU1+9qEP5TpgYgTkWz6q1G+c=;
- b=sLJIx19LI5vmZukFWxBSc7hd+5O4o0nGbMXmtAOrEbD/v+F3vGtJljkM0n3qt/zvAk
- 5giPjBk6A9Pu+mrBdSxFULGQeBf6QSmH+cZoNpP4xYU+vnJy23Nqnlx7INhC6gnihoEV
- BEGNi5Ai1O1s+EfaEfsSRcn9LVvyX8wE89EkiZupdapdfkPA8ZFwlxK42Y2eugY0Gb+D
- mA522resoHuLMoA6LtfORp9E3trR6ki7XQWlaT+K5nkmuBr7ua5c1UzqyIVxMfbY3qCA
- qvsAuvOf4FhwkhFaKt/lCZYibZRiv9h/NC0JSca0X03JnSSreMDnXpr/Sf54MHQ7x7Xh
- vixw==
+ bh=rb21YRqN8FSr5jkzL6XdWdemnlaFMSgFTexiVZhwl7w=;
+ b=M5ub63YKp9MmX9yWNvU16Djihr4BbVUfhPVD1MLDSu/nBcGi2bM8j5mJxPLfxCLcVk
+ aNWGitmzG3TwK6WKtvh0/Ow9n+sx2L0jojP6QpYeVltd+Y1mJXBXBKM/zPbb8lZoxrU5
+ 3rMYAMBJYIaQY8mPVcrPUV9savtvmRFgCHddy1oAe7K/AK0rrzIIjjy/Td7o+tu/M3Vo
+ gEm1b2/ATqiOc8V0xDGbCUNi96AnxPRpyrp2Ii06ovwEwGWzF4oFCAfj50fxZ8OE/C+b
+ AhbOLFgG9EG7XL1SjMpSzhI+7a04Kqddtvz+zgYeEpEq9+vzlzsPckEexe27lzwlMF4M
+ mH8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pLOsYLSLQGhbGrUxiIPuU1+9qEP5TpgYgTkWz6q1G+c=;
- b=FKyOW89Q575ta1ChvAxJfi/I6gjpmD4MZ5a7OaDVJ1PEHcEutfuAP0s9wLJBtDXnc2
- G5+OHGP8MAfMHT/Hb9mJ/EsbNAjeXICDIiCbMrQnA/84qFui3rOakoDV6oj+iCpbESlO
- t8dVptRJl4pTw0Kb14gYH7yRupiQG1SBqqYwylanMahhrZYLe5/Xik5RjeygfzcubAgG
- 9k21neSRYSA3jMPk10eaDXf+LdXIWNS4lj/b1btWdeANKSHjMQgBsht9uHe5W5uJm0TH
- PtKwM1Kb21Ai5+HeidMa0Lpi7594FmgSC0ADMK/ANPI2eFigLGFKEYg7TJD0ZWf8Wo4/
- yD2A==
-X-Gm-Message-State: AOAM5329AzFAzFABjptDB5u+R74dY+JK3LkAD7ElgjUlY0NC9VLOKeU/
- M9xN6hJH76NCWujvl/MSCZLpO78nMoEXOG84
-X-Google-Smtp-Source: ABdhPJx6zch39uQi0+9rjcFeq2hlLYfz1G0QmLtS7d45qnZpMPYJi6Yk+u+GsQKwg2E/xU80C954RQ==
-X-Received: by 2002:adf:ee83:: with SMTP id b3mr604289wro.163.1598606685291;
- Fri, 28 Aug 2020 02:24:45 -0700 (PDT)
+ bh=rb21YRqN8FSr5jkzL6XdWdemnlaFMSgFTexiVZhwl7w=;
+ b=oBUvyH1EMhvZF8RZQKOxGqVSs4B/7YbJbrMkRTvrUknE4kTT4wvdFNKB5jMCCKNck0
+ UJO3Z6PQhfcxtSh3AVzQcGODsJj3RIPUJzrcpBPg1yNtwCGB3tih2veBs4ioAtLXQ/+2
+ gTP+lnIv47uU3kd1jq32dM+Os42DVgYrc3eSwDgh45uQpzVuVZN78W5qgL3/aRxlzYeu
+ M8egq9icTQf08972NTAUMuc4oDZTiA+htxODAs/n2UaRaQl+Jah5vAkkqFObuMEj8k96
+ uvCCjuPiik/15pRXwc+tCcbDWISptbf+bJOIkGxY+2Yc0N5Xmg+GVEXeG7axWharIjSj
+ 5e8g==
+X-Gm-Message-State: AOAM531f7CKzq5YREa7bZ3ybDxSSzp27r1pDUeaWytRI0mDj6VJ3iFlt
+ /427btUpQhNtbr5koGPQ+PYlXsJZXLX09yCu
+X-Google-Smtp-Source: ABdhPJyFEv+syIZvxVplQF4xq28YGvNLt81pjY8rcKweW06yXqmhrcy4g793g9BuQhuxkVKlDfmMGQ==
+X-Received: by 2002:a7b:c342:: with SMTP id l2mr657062wmj.153.1598606686399;
+ Fri, 28 Aug 2020 02:24:46 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id t13sm912304wru.65.2020.08.28.02.24.44
+ by smtp.gmail.com with ESMTPSA id t13sm912304wru.65.2020.08.28.02.24.45
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 02:24:44 -0700 (PDT)
+ Fri, 28 Aug 2020 02:24:45 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/35] target/arm: Use tcg_gen_gvec_bitsel for trans_SEL_pppp
-Date: Fri, 28 Aug 2020 10:24:03 +0100
-Message-Id: <20200828092413.22206-26-peter.maydell@linaro.org>
+Subject: [PULL 26/35] target/arm: Split out gen_gvec_ool_zzzp
+Date: Fri, 28 Aug 2020 10:24:04 +0100
+Message-Id: <20200828092413.22206-27-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200828092413.22206-1-peter.maydell@linaro.org>
 References: <20200828092413.22206-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,64 +90,88 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-The gvec operation was added after the initial implementation
-of the SEL instruction and was missed in the conversion.
+Model after gen_gvec_fn_zzz et al.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20200815013145.539409-8-richard.henderson@linaro.org
+Message-id: 20200815013145.539409-9-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate-sve.c | 31 ++++++++-----------------------
- 1 file changed, 8 insertions(+), 23 deletions(-)
+ target/arm/translate-sve.c | 35 ++++++++++++++++-------------------
+ 1 file changed, 16 insertions(+), 19 deletions(-)
 
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 5dfc129e73b..a747fff01f8 100644
+index a747fff01f8..96bfd32bbec 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -1188,34 +1188,19 @@ static bool trans_EOR_pppp(DisasContext *s, arg_rprr_s *a)
-     return do_pppp_flags(s, a, &op);
+@@ -142,8 +142,19 @@ static int pred_gvec_reg_size(DisasContext *s)
+     return size_for_gvec(pred_full_reg_size(s));
  }
  
--static void gen_sel_pg_i64(TCGv_i64 pd, TCGv_i64 pn, TCGv_i64 pm, TCGv_i64 pg)
--{
--    tcg_gen_and_i64(pn, pn, pg);
--    tcg_gen_andc_i64(pm, pm, pg);
--    tcg_gen_or_i64(pd, pn, pm);
--}
--
--static void gen_sel_pg_vec(unsigned vece, TCGv_vec pd, TCGv_vec pn,
--                           TCGv_vec pm, TCGv_vec pg)
--{
--    tcg_gen_and_vec(vece, pn, pn, pg);
--    tcg_gen_andc_vec(vece, pm, pm, pg);
--    tcg_gen_or_vec(vece, pd, pn, pm);
--}
--
- static bool trans_SEL_pppp(DisasContext *s, arg_rprr_s *a)
+-/* Invoke a vector expander on two Zregs.  */
++/* Invoke an out-of-line helper on 3 Zregs and a predicate. */
++static void gen_gvec_ool_zzzp(DisasContext *s, gen_helper_gvec_4 *fn,
++                              int rd, int rn, int rm, int pg, int data)
++{
++    unsigned vsz = vec_full_reg_size(s);
++    tcg_gen_gvec_4_ool(vec_full_reg_offset(s, rd),
++                       vec_full_reg_offset(s, rn),
++                       vec_full_reg_offset(s, rm),
++                       pred_full_reg_offset(s, pg),
++                       vsz, vsz, data, fn);
++}
+ 
++/* Invoke a vector expander on two Zregs.  */
+ static void gen_gvec_fn_zz(DisasContext *s, GVecGen2Fn *gvec_fn,
+                            int esz, int rd, int rn)
  {
--    static const GVecGen4 op = {
--        .fni8 = gen_sel_pg_i64,
--        .fniv = gen_sel_pg_vec,
--        .fno = gen_helper_sve_sel_pppp,
--        .prefer_i64 = TCG_TARGET_REG_BITS == 64,
--    };
--
-     if (a->s) {
+@@ -314,16 +325,11 @@ static bool trans_UQSUB_zzz(DisasContext *s, arg_rrr_esz *a)
+ 
+ static bool do_zpzz_ool(DisasContext *s, arg_rprr_esz *a, gen_helper_gvec_4 *fn)
+ {
+-    unsigned vsz = vec_full_reg_size(s);
+     if (fn == NULL) {
          return false;
      }
--    return do_pppp_flags(s, a, &op);
-+    if (sve_access_check(s)) {
-+        unsigned psz = pred_gvec_reg_size(s);
-+        tcg_gen_gvec_bitsel(MO_8, pred_full_reg_offset(s, a->rd),
-+                            pred_full_reg_offset(s, a->pg),
-+                            pred_full_reg_offset(s, a->rn),
-+                            pred_full_reg_offset(s, a->rm), psz, psz);
-+    }
-+    return true;
+     if (sve_access_check(s)) {
+-        tcg_gen_gvec_4_ool(vec_full_reg_offset(s, a->rd),
+-                           vec_full_reg_offset(s, a->rn),
+-                           vec_full_reg_offset(s, a->rm),
+-                           pred_full_reg_offset(s, a->pg),
+-                           vsz, vsz, 0, fn);
++        gen_gvec_ool_zzzp(s, fn, a->rd, a->rn, a->rm, a->pg, 0);
+     }
+     return true;
+ }
+@@ -337,12 +343,7 @@ static void do_sel_z(DisasContext *s, int rd, int rn, int rm, int pg, int esz)
+         gen_helper_sve_sel_zpzz_b, gen_helper_sve_sel_zpzz_h,
+         gen_helper_sve_sel_zpzz_s, gen_helper_sve_sel_zpzz_d
+     };
+-    unsigned vsz = vec_full_reg_size(s);
+-    tcg_gen_gvec_4_ool(vec_full_reg_offset(s, rd),
+-                       vec_full_reg_offset(s, rn),
+-                       vec_full_reg_offset(s, rm),
+-                       pred_full_reg_offset(s, pg),
+-                       vsz, vsz, 0, fns[esz]);
++    gen_gvec_ool_zzzp(s, fns[esz], rd, rn, rm, pg, 0);
  }
  
- static void gen_orr_pg_i64(TCGv_i64 pd, TCGv_i64 pn, TCGv_i64 pm, TCGv_i64 pg)
+ #define DO_ZPZZ(NAME, name) \
+@@ -2704,12 +2705,8 @@ static bool trans_RBIT(DisasContext *s, arg_rpr_esz *a)
+ static bool trans_SPLICE(DisasContext *s, arg_rprr_esz *a)
+ {
+     if (sve_access_check(s)) {
+-        unsigned vsz = vec_full_reg_size(s);
+-        tcg_gen_gvec_4_ool(vec_full_reg_offset(s, a->rd),
+-                           vec_full_reg_offset(s, a->rn),
+-                           vec_full_reg_offset(s, a->rm),
+-                           pred_full_reg_offset(s, a->pg),
+-                           vsz, vsz, a->esz, gen_helper_sve_splice);
++        gen_gvec_ool_zzzp(s, gen_helper_sve_splice,
++                          a->rd, a->rn, a->rm, a->pg, 0);
+     }
+     return true;
+ }
 -- 
 2.20.1
 
