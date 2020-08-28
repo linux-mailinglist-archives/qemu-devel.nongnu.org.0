@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCC2D255621
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 10:14:18 +0200 (CEST)
-Received: from localhost ([::1]:52538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0C2225560D
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 10:11:47 +0200 (CEST)
+Received: from localhost ([::1]:38924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBZWb-0002hd-Su
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 04:14:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57872)
+	id 1kBZUA-0005fe-Rc
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 04:11:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kBZRX-0000fK-Mu
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 04:09:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27040)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kBZRU-0000Wz-Bh
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 04:09:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22491)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kBZRS-0003RL-1A
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 04:09:03 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kBZRR-0003Ry-VU
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 04:09:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598602135;
+ s=mimecast20190719; t=1598602137;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1xSE0n02diYqExNHwLoM1kNSqbWL0PPkSAmvh8Hm6qA=;
- b=G5sEpTSCjgJD0G4SKdfuYlD+boABpv6WjyCvVJZNs6OZI7TWg7uhm9CxqjELBt/Vf/I8e/
- rb+XSq2fZAMHoj50CpWJrvPn2zC2xC2fVPEsCq67aVI9GMnVlifOVoT52MFtfkdVTjnKFm
- lyBIdNSRHDoe7tn7lNL/Mk2GtXVMFBQ=
+ bh=LYMY1TJzScePIyALLqkaqwZt57Dewu7kAwmHWhsDJLk=;
+ b=E7N4WeNWIt7ZRiLcOS6uhP/6BqHec/yHkfOI1SrxlQV4dqozXsvAjJabqf4O0V9ZIZvpTq
+ pHqUfPsNbpiNORgxUetBW1U0kKfEy9kSPwoQAuelrGP1U2hUE1hd0yWCnEasNWw2Mm8PkI
+ TbyrefITBcbmZhC1UoKafn/LY4McsZI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-275-N0VhRDSnMaWu7A3fx7C_2Q-1; Fri, 28 Aug 2020 04:08:52 -0400
-X-MC-Unique: N0VhRDSnMaWu7A3fx7C_2Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-430--Ug_8huxPXGD2n_YqQqixw-1; Fri, 28 Aug 2020 04:08:55 -0400
+X-MC-Unique: -Ug_8huxPXGD2n_YqQqixw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C3E7E10082EC;
- Fri, 28 Aug 2020 08:08:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99D301084C98;
+ Fri, 28 Aug 2020 08:08:54 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-54.ams2.redhat.com
  [10.36.112.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E127819D7C;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E11D65D9F1;
  Fri, 28 Aug 2020 08:08:50 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 14BCE204AE; Fri, 28 Aug 2020 10:08:46 +0200 (CEST)
+ id 1DC0331E23; Fri, 28 Aug 2020 10:08:46 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/18] hw/usb: Regroup USB HID protocol values
-Date: Fri, 28 Aug 2020 10:08:32 +0200
-Message-Id: <20200828080845.28287-6-kraxel@redhat.com>
+Subject: [PULL 06/18] docs: Add USB U2F key device documentation
+Date: Fri, 28 Aug 2020 10:08:33 +0200
+Message-Id: <20200828080845.28287-7-kraxel@redhat.com>
 In-Reply-To: <20200828080845.28287-1-kraxel@redhat.com>
 References: <20200828080845.28287-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 02:09:03
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 04:08:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -90,154 +90,128 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: César Belley <cesar.belley@lse.epita.fr>
 
-Group some HID values that are used pretty much everywhere when
-dealing with HID devices.
+Add USB U2F key device documentation:
+- USB U2F key device
+- Building
+- Using u2f-emulated
+- Using u2f-passthru
+- Libu2f-emu
 
 Signed-off-by: César Belley <cesar.belley@lse.epita.fr>
-Message-id: 20200812094135.20550-2-cesar.belley@lse.epita.fr
+Message-id: 20200826114209.28821-3-cesar.belley@lse.epita.fr
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- include/hw/usb/hid.h | 17 +++++++++++++++++
- hw/usb/dev-hid.c     | 26 +++++++-------------------
- hw/usb/dev-wacom.c   | 12 +++---------
- 3 files changed, 27 insertions(+), 28 deletions(-)
- create mode 100644 include/hw/usb/hid.h
+ docs/u2f.txt | 101 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 101 insertions(+)
+ create mode 100644 docs/u2f.txt
 
-diff --git a/include/hw/usb/hid.h b/include/hw/usb/hid.h
+diff --git a/docs/u2f.txt b/docs/u2f.txt
 new file mode 100644
-index 000000000000..1c142584ffab
+index 000000000000..f60052882ec3
 --- /dev/null
-+++ b/include/hw/usb/hid.h
-@@ -0,0 +1,17 @@
-+#ifndef HW_USB_HID_H
-+#define HW_USB_HID_H
++++ b/docs/u2f.txt
+@@ -0,0 +1,101 @@
++QEMU U2F Key Device Documentation.
 +
-+/* HID interface requests */
-+#define HID_GET_REPORT   0xa101
-+#define HID_GET_IDLE     0xa102
-+#define HID_GET_PROTOCOL 0xa103
-+#define HID_SET_REPORT   0x2109
-+#define HID_SET_IDLE     0x210a
-+#define HID_SET_PROTOCOL 0x210b
++Contents
++1. USB U2F key device
++2. Building
++3. Using u2f-emulated
++4. Using u2f-passthru
++5. Libu2f-emu
 +
-+/* HID descriptor types */
-+#define USB_DT_HID    0x21
-+#define USB_DT_REPORT 0x22
-+#define USB_DT_PHY    0x23
++1. USB U2F key device
 +
-+#endif
-diff --git a/hw/usb/dev-hid.c b/hw/usb/dev-hid.c
-index 89f63b698b8a..c73f7b2fe2c5 100644
---- a/hw/usb/dev-hid.c
-+++ b/hw/usb/dev-hid.c
-@@ -32,21 +32,9 @@
- #include "qemu/module.h"
- #include "qemu/timer.h"
- #include "hw/input/hid.h"
-+#include "hw/usb/hid.h"
- #include "hw/qdev-properties.h"
- 
--/* HID interface requests */
--#define GET_REPORT   0xa101
--#define GET_IDLE     0xa102
--#define GET_PROTOCOL 0xa103
--#define SET_REPORT   0x2109
--#define SET_IDLE     0x210a
--#define SET_PROTOCOL 0x210b
--
--/* HID descriptor types */
--#define USB_DT_HID    0x21
--#define USB_DT_REPORT 0x22
--#define USB_DT_PHY    0x23
--
- typedef struct USBHIDState {
-     USBDevice dev;
-     USBEndpoint *intr;
-@@ -618,38 +606,38 @@ static void usb_hid_handle_control(USBDevice *dev, USBPacket *p,
-             goto fail;
-         }
-         break;
--    case GET_REPORT:
-+    case HID_GET_REPORT:
-         if (hs->kind == HID_MOUSE || hs->kind == HID_TABLET) {
-             p->actual_length = hid_pointer_poll(hs, data, length);
-         } else if (hs->kind == HID_KEYBOARD) {
-             p->actual_length = hid_keyboard_poll(hs, data, length);
-         }
-         break;
--    case SET_REPORT:
-+    case HID_SET_REPORT:
-         if (hs->kind == HID_KEYBOARD) {
-             p->actual_length = hid_keyboard_write(hs, data, length);
-         } else {
-             goto fail;
-         }
-         break;
--    case GET_PROTOCOL:
-+    case HID_GET_PROTOCOL:
-         if (hs->kind != HID_KEYBOARD && hs->kind != HID_MOUSE) {
-             goto fail;
-         }
-         data[0] = hs->protocol;
-         p->actual_length = 1;
-         break;
--    case SET_PROTOCOL:
-+    case HID_SET_PROTOCOL:
-         if (hs->kind != HID_KEYBOARD && hs->kind != HID_MOUSE) {
-             goto fail;
-         }
-         hs->protocol = value;
-         break;
--    case GET_IDLE:
-+    case HID_GET_IDLE:
-         data[0] = hs->idle;
-         p->actual_length = 1;
-         break;
--    case SET_IDLE:
-+    case HID_SET_IDLE:
-         hs->idle = (uint8_t) (value >> 8);
-         hid_set_next_idle(hs);
-         if (hs->kind == HID_MOUSE || hs->kind == HID_TABLET) {
-diff --git a/hw/usb/dev-wacom.c b/hw/usb/dev-wacom.c
-index 8aba44b8bc3d..76fc5a5dabf3 100644
---- a/hw/usb/dev-wacom.c
-+++ b/hw/usb/dev-wacom.c
-@@ -29,6 +29,7 @@
- #include "qemu/osdep.h"
- #include "ui/console.h"
- #include "hw/usb.h"
-+#include "hw/usb/hid.h"
- #include "migration/vmstate.h"
- #include "qemu/module.h"
- #include "desc.h"
-@@ -37,13 +38,6 @@
- #define WACOM_GET_REPORT	0x2101
- #define WACOM_SET_REPORT	0x2109
- 
--/* HID interface requests */
--#define HID_GET_REPORT		0xa101
--#define HID_GET_IDLE		0xa102
--#define HID_GET_PROTOCOL	0xa103
--#define HID_SET_IDLE		0x210a
--#define HID_SET_PROTOCOL	0x210b
--
- typedef struct USBWacomState {
-     USBDevice dev;
-     USBEndpoint *intr;
-@@ -86,11 +80,11 @@ static const USBDescIface desc_iface_wacom = {
-             /* HID descriptor */
-             .data = (uint8_t[]) {
-                 0x09,          /*  u8  bLength */
--                0x21,          /*  u8  bDescriptorType */
-+                USB_DT_HID,    /*  u8  bDescriptorType */
-                 0x01, 0x10,    /*  u16 HID_class */
-                 0x00,          /*  u8  country_code */
-                 0x01,          /*  u8  num_descriptors */
--                0x22,          /*  u8  type: Report */
-+                USB_DT_REPORT, /*  u8  type: Report */
-                 0x6e, 0,       /*  u16 len */
-             },
-         },
++U2F is an open authentication standard that enables relying parties
++exposed to the internet to offer a strong second factor option for end
++user authentication.
++
++The standard brings many advantages to both parties, client and server,
++allowing to reduce over-reliance on passwords, it increases authentication
++security and simplifies passwords.
++
++The second factor is materialized by a device implementing the U2F
++protocol. In case of a USB U2F security key, it is a USB HID device
++that implements the U2F protocol.
++
++In Qemu, the USB U2F key device offers a dedicated support of U2F, allowing
++guest USB FIDO/U2F security keys operating in two possible modes:
++pass-through and emulated.
++
++The pass-through mode consists of passing all requests made from the guest
++to the physical security key connected to the host machine and vice versa.
++In addition, the dedicated pass-through allows to have a U2F security key
++shared on several guests which is not possible with a simple host device
++assignment pass-through.
++
++The emulated mode consists of completely emulating the behavior of an
++U2F device through software part. Libu2f-emu is used for that.
++
++
++2. Building
++
++To ensure the build of the u2f-emulated device variant which depends
++on libu2f-emu: configuring and building:
++
++    ./configure --enable-u2f && make
++
++
++3. Using u2f-emulated
++
++To work, an emulated U2F device must have four elements:
++ * ec x509 certificate
++ * ec private key
++ * counter (four bytes value)
++ * 48 bytes of entropy (random bits)
++
++To use this type of device, this one has to be configured, and these
++four elements must be passed one way or another.
++
++Assuming that you have a working libu2f-emu installed on the host.
++There are three possible ways of configurations:
++ * ephemeral
++ * setup directory
++ * manual
++
++Ephemeral is the simplest way to configure, it lets the device generate
++all the elements it needs for a single use of the lifetime of the device.
++
++    qemu -usb -device u2f-emulated
++
++Setup directory allows to configure the device from a directory containing
++four files:
++ * certificate.pem: ec x509 certificate
++ * private-key.pem: ec private key
++ * counter: counter value
++ * entropy: 48 bytes of entropy
++
++    qemu -usb -device u2f-emulated,dir=$dir
++
++Manual allows to configure the device more finely by specifying each
++of the elements necessary for the device:
++ * cert
++ * priv
++ * counter
++ * entropy
++
++    qemu -usb -device u2f-emulated,cert=$DIR1/$FILE1,priv=$DIR2/$FILE2,counter=$DIR3/$FILE3,entropy=$DIR4/$FILE4
++
++
++4. Using u2f-passthru
++
++On the host specify the u2f-passthru device with a suitable hidraw:
++
++    qemu -usb -device u2f-passthru,hidraw=/dev/hidraw0
++
++
++5. Libu2f-emu
++
++The u2f-emulated device uses libu2f-emu for the U2F key emulation. Libu2f-emu
++implements completely the U2F protocol device part for all specified
++transport given by the FIDO Alliance.
++
++For more information about libu2f-emu see this page:
++https://github.com/MattGorko/libu2f-emu.
 -- 
 2.27.0
 
