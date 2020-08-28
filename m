@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E7AD256371
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Aug 2020 01:23:19 +0200 (CEST)
-Received: from localhost ([::1]:60276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C9C4256372
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Aug 2020 01:24:16 +0200 (CEST)
+Received: from localhost ([::1]:35386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBniI-0002ow-BO
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 19:23:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54758)
+	id 1kBnjD-0004DO-Co
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 19:24:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <nirsof@gmail.com>)
- id 1kBnh3-0001cV-ME; Fri, 28 Aug 2020 19:22:01 -0400
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:32962)
+ id 1kBnh5-0001eV-F8; Fri, 28 Aug 2020 19:22:03 -0400
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:44584)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <nirsof@gmail.com>)
- id 1kBnh2-0006JM-6Y; Fri, 28 Aug 2020 19:22:01 -0400
-Received: by mail-ej1-x644.google.com with SMTP id a21so1271947ejp.0;
- Fri, 28 Aug 2020 16:21:59 -0700 (PDT)
+ id 1kBnh3-0006Jb-Ro; Fri, 28 Aug 2020 19:22:03 -0400
+Received: by mail-ej1-x644.google.com with SMTP id bo3so1187560ejb.11;
+ Fri, 28 Aug 2020 16:22:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LGDBKWC08oc7KjFCWYV40h60UwUROAE9zpPW6K9PPWM=;
- b=sThXLve0gHWuAnVPWSG9o+PuBba9m7C7kbw0hc+O37Br/z4GEqv4XgGInAm+SZ64uS
- HorBCg01u141eTxI7ij24wGUXHlgWqwetp67udBSUYpL630Ea0rPvvKkjDtAOUAEK9u7
- r+Ms293bv3PfpZPT9db42vtdYcbJjCrhajWMty4nuBBhBY263JptzgpHkhV7UITAWjBF
- u3+e6ohUPIP5RQQ9Mw2iMigq75hP0ROIsvQMMH8GAMpSuOuzXqnzw/esj4/PArhepOEz
- h0rkgbfy2B06YaEHApxjQFIu8VEN96KHyG7vpONw1czPJ56oCD0I2lW0mtuAIq531hEG
- Jzzg==
+ bh=CUWOPdxbZMjjlgVu2jD4P/2CDhJJfs5x+yzzwsdv4cs=;
+ b=B1PSKMEqygi70lKdyXxj86DvB9a9WQs2Q//zCBuuiR5VmqCJTI9TVjJnatAn1fc4vH
+ iWYYyNG4tMYGJ2a7yW61DO8QFltW9i62FYfrsemQ6c2jcNPASrQSE0q7EFuzJfSLxuqD
+ spbb02itWJ3G/HK65eJyinASjhldAz7imABrWJzJoUtaUp9weZ+rUwchtP1yH0fIomfy
+ iHDz38svTSJZonup+nRv2JeNdxe3a2XIn4QsJN5XdB2I7M6X+bsfbNZclfWjcFFHSSL7
+ 6ASf2wTOwl/ekre3T4rU1RhvWbaq3xUA3pIUWMuXZ2RFHfphzA3c8ZAXrYExvy8hTYVx
+ vq6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LGDBKWC08oc7KjFCWYV40h60UwUROAE9zpPW6K9PPWM=;
- b=HFY9JvpCKAU4UnVOlxs9M8NGAtKK0gkBbGxR8l2N4UC4avyHZKrBI9jsvvuJqgze0f
- ha/Q8RyY/G0X/lS+Ns4wYXg53lt8SkMgxoKHhunhYgjt27eIx2Y2FrP0QMMmoyxxrMSw
- 3WDKUk4Llbfeq9rcEEBrlMuPqFRxx3VkE+5hsKKeF4PBFetyB31xTx+Id4tbSz+5YY3J
- YZABY/fv7ejzIkChrJwXdlUjO5Uj7hAwwdUJQD/heWMhW1CN1EXM4R4QXw946nOa9D+m
- hO5BZ9KR8Us/VjBvr1r5kcetSlkKXd2XzKCBZITyTA1EMYyRkN9nsD7sZJowNA4aZcTV
- WZfw==
-X-Gm-Message-State: AOAM533us+9K2fh+Ch8K9BQkXr2rM3uKvSROIWcUiso7H5yaev2DTBBA
- 7eRNIWumvBiVFjpJ4qucdb2Cl9tyKfdhYTn0
-X-Google-Smtp-Source: ABdhPJyYqngonIu/Ibcvlj8WIIPNDeky7d+0btmqqDjd0bENZciN3E9Mkvw2AW5FZ905YklBMf2qnQ==
-X-Received: by 2002:a17:906:bb0e:: with SMTP id
- jz14mr1118079ejb.525.1598656918180; 
- Fri, 28 Aug 2020 16:21:58 -0700 (PDT)
+ bh=CUWOPdxbZMjjlgVu2jD4P/2CDhJJfs5x+yzzwsdv4cs=;
+ b=aHli+A53YpJMg1b+y0jPOTZbb+YIcf8xv4965iMe09CYw1I6DfrGm168lwnroi7CWk
+ TP3o1xVn/+dqdJa3P8Tho8/gXdMz7wD319O1K+k20V4ZYKpFr6T8yiTMBbIk8CELhLZf
+ 4g/AFOiiqBMAGtuOyEgEZtc4NsqyfOULzn0lc6ZannOEc6TfTlCJdt756uJFM+g6CxSf
+ d+Smyera40GyQcl1s2VMkKkU6LIf+eedO/oX/s9U/W3alpdo0+rWilJhZUWhvktY84da
+ +F3gOI0wEckcrthdcAWuviMl2ozT2B5f3rI48d083lSdn4WhqvvSfunFyfHMo3WZkGhl
+ fLDw==
+X-Gm-Message-State: AOAM533VEA8MtNPSqlWdugGZzysANFIQP3/Sj6Xh22w2gcdGD80peiiq
+ 1QUa1+3glzwwC8SV4YhNrrapP41W735lSwt+
+X-Google-Smtp-Source: ABdhPJybNi27GC3NxlTE0TlH+wXn19BkSmRFX5nFvm690bvRJ3b0CxJY1ilxRDclR41OftgOXB1jlg==
+X-Received: by 2002:a17:907:262e:: with SMTP id
+ aq14mr1162575ejc.79.1598656919934; 
+ Fri, 28 Aug 2020 16:21:59 -0700 (PDT)
 Received: from localhost.localdomain (109-186-204-55.bb.netvision.net.il.
  [109.186.204.55])
- by smtp.gmail.com with ESMTPSA id j21sm523436eja.109.2020.08.28.16.21.56
+ by smtp.gmail.com with ESMTPSA id j21sm523436eja.109.2020.08.28.16.21.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 16:21:57 -0700 (PDT)
+ Fri, 28 Aug 2020 16:21:59 -0700 (PDT)
 From: Nir Soffer <nirsof@gmail.com>
 X-Google-Original-From: Nir Soffer <nsoffer@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/5] qemu-iotests: Fix FilePaths cleanup
-Date: Sat, 29 Aug 2020 02:21:48 +0300
-Message-Id: <20200828232152.205833-2-nsoffer@redhat.com>
+Subject: [PATCH v3 2/5] qemu-iotests: Fix FilePaths docstring
+Date: Sat, 29 Aug 2020 02:21:49 +0300
+Message-Id: <20200828232152.205833-3-nsoffer@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200828232152.205833-1-nsoffer@redhat.com>
 References: <20200828232152.205833-1-nsoffer@redhat.com>
@@ -91,37 +91,51 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If os.remove() fails to remove one of the paths, for example if the file
-was removed by the test, the cleanup loop would exit silently, without
-removing the rest of the files.
+When this class was extracted from FilePath, the docstring was not
+updated for generating multiple files, and the example usage was
+referencing unrelated file.
+
+While fixing the docstring, add example for creating sockets, which
+should use iotests.sock_dir instead of the default base_dir.
 
 Fixes: de263986b5dc
 Signed-off-by: Nir Soffer <nsoffer@redhat.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ tests/qemu-iotests/iotests.py | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
 
 diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index e197c73ca5..2fd5c916fa 100644
+index 2fd5c916fa..4abfe63662 100644
 --- a/tests/qemu-iotests/iotests.py
 +++ b/tests/qemu-iotests/iotests.py
-@@ -468,11 +468,11 @@ class FilePaths:
-         return self.paths
+@@ -450,14 +450,21 @@ def file_pattern(name):
  
-     def __exit__(self, exc_type, exc_val, exc_tb):
--        try:
--            for path in self.paths:
-+        for path in self.paths:
-+            try:
-                 os.remove(path)
--        except OSError:
--            pass
-+            except OSError:
-+                pass
-         return False
+ class FilePaths:
+     """
+-    FilePaths is an auto-generated filename that cleans itself up.
++    Context manager generating multiple file names. The generated files are
++    removed when exiting the context.
  
- class FilePath(FilePaths):
+-    Use this context manager to generate filenames and ensure that the file
+-    gets deleted::
++    Example usage:
++
++        with FilePaths(['a.img', 'b.img']) as (img_a, img_b):
++            # Use img_a and img_b here...
++
++        # a.img and b.img are automatically removed here.
++
++    By default images are created in iotests.test_dir. To create socket use
++    iotests.sock_dir:
++
++       with FilePaths(['a.sock'], base_dir=iotests.sock_dir) as (sock,):
+ 
+-        with FilePaths(['test.img']) as img_path:
+-            qemu_img('create', img_path, '1G')
+-        # migration_sock_path is automatically deleted
+     """
+     def __init__(self, names, base_dir=test_dir):
+         self.paths = []
 -- 
 2.26.2
 
