@@ -2,131 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 281F6256149
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 21:31:54 +0200 (CEST)
-Received: from localhost ([::1]:51348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EE42256176
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 21:42:11 +0200 (CEST)
+Received: from localhost ([::1]:60298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBk6L-00025w-35
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 15:31:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44104)
+	id 1kBkGI-0006Sy-GS
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 15:42:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1kBk4t-0000kZ-Ks
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 15:30:23 -0400
-Received: from mail-eopbgr760070.outbound.protection.outlook.com
- ([40.107.76.70]:22663 helo=NAM02-CY1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1kBk4r-0004rI-3q
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 15:30:23 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TI86sVmAjkqMEzrMmxz5zCxhrQE6zUR+lIdevfdK16F86STA2ULQqfVldm6n850gWJYtCylX7aZg54SfXTPkj3Iy5k2GFz95x6kjYIcL9SAbxt97lWvxqLw2Dg4DB6YbR9eEgyouU12Q2Uk7GAq2sXT0CFauFJcECETjhZrPKOAh4MfA6cDCkEhcN4sDs6akSJSfTwAcpy15ll8+ZKGwqFadMONrajbNSsog2Ioq4S1a00kHfOXDIpxaWEEMDRdE0Kzy6M0s9X/TD4xkrtHPV+I8FTJmt9WZeXJTJiqE/8BcGETyjRfM0/TOtLpsPVs/WydY9IstAD0rgmxOwjUgxg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=W7z8upTjih8QRn90U4ObcaqkK4OEgP5O4s6UkJjvPHQ=;
- b=E3HGaDeUH1vsfIL9vekt/6J+pkXJ53jnNvcVRHARuKxSqZ1TG1LqqnGDWPntiplIqdlT1vm+tUeDXMC/a9mzRB33LW603LUmIpoznhkZv0rG0t7V51wdYz6HnpPz2yeRBf83Meb6rYkLnehMBXqkhyVhtd8sMTufaDykt9sU0qoItNqEdN8q6MzUSm8kNGFewiHJLruZwy5LVdO6U3Ys4oMykxwkB/rCNpJfjOM3m+qmAKMZljd4ZPDDaiJhn3R87XCkMymC/hx0q2dZl6ZmWRDNIrsHQ5zSbK39WhRVCOjHhoSJJFn8gbg7acmUQ+sHQYUqEdJmIimXJuLvYgcEBw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.83) smtp.rcpttodomain=wdc.com smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=W7z8upTjih8QRn90U4ObcaqkK4OEgP5O4s6UkJjvPHQ=;
- b=grdkURC2eJkigZzSnoNDXnq8+9s+tflsRkKsSa2fbPdZwZcuQmXzUmzgZLy06nDNo2MHunTxxSf6w6CuHjfnZfNMMPEiVwt106jOidLtVK63m5Joo1Ik9ry0oQ9W0utsLp4pCz9B/suyjgB0yrU/vowHblOrod0QKpr7A/FT+pw=
-Received: from MN2PR06CA0028.namprd06.prod.outlook.com (2603:10b6:208:23d::33)
- by CH2PR02MB6229.namprd02.prod.outlook.com (2603:10b6:610:1::25) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.24; Fri, 28 Aug
- 2020 19:15:15 +0000
-Received: from BL2NAM02FT030.eop-nam02.prod.protection.outlook.com
- (2603:10b6:208:23d:cafe::2e) by MN2PR06CA0028.outlook.office365.com
- (2603:10b6:208:23d::33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.19 via Frontend
- Transport; Fri, 28 Aug 2020 19:15:15 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; wdc.com; dkim=none (message not signed)
- header.d=none;wdc.com; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- BL2NAM02FT030.mail.protection.outlook.com (10.152.77.172) with Microsoft SMTP
- Server id 15.20.3326.19 via Frontend Transport; Fri, 28 Aug 2020 19:15:15
- +0000
-Received: from [149.199.38.66] (port=48174 helo=smtp.xilinx.com)
- by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
- (envelope-from <sai.pavan.boddu@xilinx.com>)
- id 1kBjpg-0007Jb-LI; Fri, 28 Aug 2020 12:14:40 -0700
-Received: from [127.0.0.1] (helo=xsj-smtp-dlp2.xlnx.xilinx.com)
- by smtp.xilinx.com with esmtp (Exim 4.63)
- (envelope-from <sai.pavan.boddu@xilinx.com>)
- id 1kBjqE-0002CW-TV; Fri, 28 Aug 2020 12:15:14 -0700
-Received: from xsj-pvapsmtp01 (mailhub.xilinx.com [149.199.38.66])
- by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 07SJFDcd012956; 
- Fri, 28 Aug 2020 12:15:13 -0700
-Received: from [10.140.6.35] (helo=xhdsaipava40.xilinx.com)
- by xsj-pvapsmtp01 with esmtp (Exim 4.63)
- (envelope-from <saipava@xhdsaipava40.xilinx.com>)
- id 1kBjqD-0002BY-84; Fri, 28 Aug 2020 12:15:13 -0700
-Received: by xhdsaipava40.xilinx.com (Postfix, from userid 14131)
- id 8FBCB13C05CF; Sat, 29 Aug 2020 00:49:47 +0530 (IST)
-From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?=27Marc-Andr=C3=A9=20Lureau=27?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
- Francisco Iglesias <francisco.iglesias@xilinx.com>
-Subject: [PATCH v4 4/7] usb: hcd-xhci-sysbus: Attach xhci to sysbus device
-Date: Sat, 29 Aug 2020 00:49:37 +0530
-Message-Id: <1598642380-27817-5-git-send-email-sai.pavan.boddu@xilinx.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1598642380-27817-1-git-send-email-sai.pavan.boddu@xilinx.com>
-References: <1598642380-27817-1-git-send-email-sai.pavan.boddu@xilinx.com>
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-PublicTrafficType: Email
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kBkFa-00062W-67
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 15:41:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56184)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kBkFX-0006SW-Ns
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 15:41:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598643682;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cKCN8ryRJqFG3ryCmuU1NgwEVKT4Qr6mBU6auwiutTs=;
+ b=YHFu/JRUlZdsUGr3kTx2R5lwlDfG9LomlJAPusbRE7ndQduAFA6qEL0aA7TJ0vIYcfJ3c7
+ rh3FSsDIsarPIL5fptpJs2+aqoaw2kTUtW8Niua49mJjc4a8MaFwso2zKo+ssJ0g/x9Kfq
+ xS7WG3Tp5BSmT4PAkK68D6wnZcAEiIQ=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-108-eqvWAGs9NWquxsLckX7KyQ-1; Fri, 28 Aug 2020 15:41:20 -0400
+X-MC-Unique: eqvWAGs9NWquxsLckX7KyQ-1
+Received: by mail-wr1-f71.google.com with SMTP id z1so89621wrn.18
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 12:41:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=cKCN8ryRJqFG3ryCmuU1NgwEVKT4Qr6mBU6auwiutTs=;
+ b=XPbXBTY9aMpY/by53p7LIfoCm3LuYi9j0xD56Z0Ir85JlzENwVH6kDT6Ux5+/i3QwP
+ BtclUn7GeCjvbR8hiGwxXGkaE5ihP9qJ1aNhZnlule47/jTYPPimhcpJy3QgFUMQ/0nP
+ 3S047KOrC5p8FJ6M/dzHzphy+VK4zKJv0O5Xi1YTZSx489Mu8imHg4luZaO/vEFH0br2
+ i36V6OYXP5TMByqYq/UGwCw4SsSyCShsYDVL5iskJyWWMAaR90mMZ0zuSxQs6C/oWPiC
+ oMmlb/yTDC1+aBDium/SfIfmz7pfTfW2Ww7n0bgao+xbl6xUSZ0zNs2nKzfUAR7FqsSh
+ zWMw==
+X-Gm-Message-State: AOAM533v4gZTK4Ytf/u0/0a/StLRaMy2CkT0LMVcYONDSIdZGS/lxebJ
+ 8uWxFDWXqksD1H1MPxgPkqWYA1+KL48GEyW8E1Q6IQ+9vE7V+Sx4Ya5oF4Z5pwPHl349awuZ+io
+ Gp/TSU7W5mXvnPak=
+X-Received: by 2002:adf:f786:: with SMTP id q6mr515536wrp.2.1598643678891;
+ Fri, 28 Aug 2020 12:41:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxJBEOi2Itm9TjsTd+hn8mP3QqTR/cemG6kY/alaGU5FUrNyyAd5BxJC1uHb9NP4U31OoTaTQ==
+X-Received: by 2002:adf:f786:: with SMTP id q6mr515514wrp.2.1598643678584;
+ Fri, 28 Aug 2020 12:41:18 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c924:73d2:e509:7a3f?
+ ([2001:b07:6468:f312:c924:73d2:e509:7a3f])
+ by smtp.gmail.com with ESMTPSA id g15sm720459wrx.66.2020.08.28.12.41.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Aug 2020 12:41:18 -0700 (PDT)
+Subject: Re: [Fwd] Issue 25164 in oss-fuzz: qemu: Fuzzing build failure
+To: Alexander Bulekov <alxndr@bu.edu>
+References: <20200823225804.umk5gh6knptqo5mw@mozz.bu.edu>
+ <CABgObfZtGY-TuTLXNJNU9m_yQLfE6AM-+MdfqaaRjfMcWC8+Og@mail.gmail.com>
+ <20200826135513.ay5ga3xi2ilcagqf@mozz.bu.edu>
+ <CABgObfbxqPH1p-0ZD2wZWiKP0GjOjV6s+umgmOMKjm2ic7R=zg@mail.gmail.com>
+ <20200828183305.6lbuwvmleqtn7fx3@mozz.bu.edu>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <9dfe703d-5c78-36d0-bc15-17ff6f9179d7@redhat.com>
+Date: Fri, 28 Aug 2020 21:41:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: bd98a9c6-c88d-46c9-792c-08d84b86b1d8
-X-MS-TrafficTypeDiagnostic: CH2PR02MB6229:
-X-Microsoft-Antispam-PRVS: <CH2PR02MB62293EC772D3E8CCB0EDC0BACA520@CH2PR02MB6229.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:130;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /DX1dDA7ll7yfWz1SveOLJ2FGXxXVInZdwESlLC4UDXpMB7ya4gHBRaLXJIp/gauHO4g+LilVimfn9LQk06XGC48ZgaC0CEqAkPCS2Etg56uC4Enw5CEoNtfv2HGkjsW2xpfbPR5umxq3iYl2G9Yb6GhT4YI6x/pNZQbHBgf/A0jFhBYa/D2jwxsYIlRKt+O++ihgAoVNaCr+HuZ5KdRZ490HyFW7zmzg2j5LA9oaMtUe/K5JgPJoMajaeAEWDZfjBdTTePs1SdmFVFbDwFx0XhG83PikXW7cLvczmdeYvIGBaz6llZEZZK5Jcc7209Vc0m9dqm0AJQYaYpgQ9mxPePWBY4So7zZOmHULpwJ5x6VISfZpwuD4ZzSDUxQWv1fU14q3G2jmo2U6xWUnNdhwA==
-X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
- SFS:(376002)(346002)(136003)(39860400002)(396003)(46966005)(6636002)(5660300002)(7416002)(70586007)(54906003)(82740400003)(70206006)(8936002)(316002)(110136005)(26005)(47076004)(42186006)(83380400001)(8676002)(4326008)(356005)(36756003)(2906002)(186003)(426003)(81166007)(82310400002)(6666004)(2616005)(6266002)(336012)(478600001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2020 19:15:15.4230 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: bd98a9c6-c88d-46c9-792c-08d84b86b1d8
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
- Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-AuthSource: BL2NAM02FT030.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR02MB6229
-Received-SPF: pass client-ip=40.107.76.70; envelope-from=saipava@xilinx.com;
- helo=NAM02-CY1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 15:30:18
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200828183305.6lbuwvmleqtn7fx3@mozz.bu.edu>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 15:41:22
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.809, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -139,212 +105,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Vikram Garhwal <fnuv@xilinx.com>,
- sai.pavan.boddu@xilinx.com, qemu-devel@nongnu.org,
- Paul Zimmerman <pauldzim@gmail.com>,
- Alistair Francis <alistair.francis@wdc.com>, Ying Fang <fangying1@huawei.com>,
- =?UTF-8?q?=27Philippe=20Mathieu-Daud=C3=A9=27?= <philmd@redhat.com>
+Cc: Darren Kenny <darren.kenny@oracle.com>, Bandan Das <bsd@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use XHCI as sysbus device, add memory region property to get the
-address space instance for dma read/write.
+On 28/08/20 20:33, Alexander Bulekov wrote:
+>> Create a fuzz.cmd that includes the correct path to fuzz.ld in the
+>> source tree (using configure_file) and pass this file to the linker
+>> using @tests/libqtest/fuzz/fuzz.cmd in link_args (and also
+>> link_depends). See libblock and block for an example.
+> I'm not sure whether this solves the problem that the linker-script is
+> placed in between --start-group and --end-group arguments.  It seems
+> that no matter what I do to specify the linker script with -Wl,-T, and
+> link_args, the flag ends up placed between --start-group and --end-group
+> due to some parsing that meson does in
+> mesonbuild/compilers/mixins/clike.py.
 
-Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
----
- hw/usb/Kconfig           |  5 +++
- hw/usb/Makefile.objs     |  1 +
- hw/usb/hcd-xhci-sysbus.c | 99 ++++++++++++++++++++++++++++++++++++++++++++++++
- hw/usb/hcd-xhci-sysbus.h | 32 ++++++++++++++++
- hw/usb/hcd-xhci.h        |  1 +
- 5 files changed, 138 insertions(+)
- create mode 100644 hw/usb/hcd-xhci-sysbus.c
- create mode 100644 hw/usb/hcd-xhci-sysbus.h
+Looks like you need to ensure that the link_args for -T and -wrap come
+before everything else.
 
-diff --git a/hw/usb/Kconfig b/hw/usb/Kconfig
-index d9965c1..a251501 100644
---- a/hw/usb/Kconfig
-+++ b/hw/usb/Kconfig
-@@ -48,6 +48,11 @@ config USB_XHCI_NEC
-     depends on PCI
-     select USB_XHCI
- 
-+config USB_XHCI_SYSBUS
-+    bool
-+    default y if USB_XHCI
-+    select USB
-+
- config USB_MUSB
-     bool
-     select USB
-diff --git a/hw/usb/Makefile.objs b/hw/usb/Makefile.objs
-index 029b040..f16a3c3 100644
---- a/hw/usb/Makefile.objs
-+++ b/hw/usb/Makefile.objs
-@@ -12,6 +12,7 @@ common-obj-$(CONFIG_USB_EHCI_SYSBUS) += hcd-ehci-sysbus.o
- common-obj-$(CONFIG_USB_XHCI) += hcd-xhci.o
- common-obj-$(CONFIG_USB_XHCI_NEC) += hcd-xhci-nec.o
- common-obj-$(CONFIG_USB_XHCI_PCI) += hcd-xhci-pci.o
-+common-obj-$(CONFIG_USB_XHCI_SYSBUS) += hcd-xhci-sysbus.o
- common-obj-$(CONFIG_USB_MUSB) += hcd-musb.o
- common-obj-$(CONFIG_USB_DWC2) += hcd-dwc2.o
- 
-diff --git a/hw/usb/hcd-xhci-sysbus.c b/hw/usb/hcd-xhci-sysbus.c
-new file mode 100644
-index 0000000..d5b4656
---- /dev/null
-+++ b/hw/usb/hcd-xhci-sysbus.c
-@@ -0,0 +1,99 @@
-+/*
-+ * USB xHCI controller for system-bus interface
-+ * Based on hcd-echi-sysbus.c
-+
-+ * SPDX-FileCopyrightText: 2020 Xilinx
-+ * SPDX-FileContributor: Author: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+#include "qemu/osdep.h"
-+#include "hw/qdev-properties.h"
-+#include "migration/vmstate.h"
-+#include "trace.h"
-+#include "qapi/error.h"
-+#include "hcd-xhci-sysbus.h"
-+#include "hw/irq.h"
-+
-+static void xhci_sysbus_intr_raise(XHCIState *xhci, int n, bool level)
-+{
-+    XHCISysbusState *s = container_of(xhci, XHCISysbusState, xhci);
-+
-+    qemu_set_irq(s->irq[n], level);
-+}
-+
-+void xhci_sysbus_reset(DeviceState *dev)
-+{
-+    XHCISysbusState *s = XHCI_SYSBUS(dev);
-+
-+    device_legacy_reset(DEVICE(&s->xhci));
-+}
-+
-+static void xhci_sysbus_realize(DeviceState *dev, Error **errp)
-+{
-+    XHCISysbusState *s = XHCI_SYSBUS(dev);
-+    Error *err = NULL;
-+
-+    object_property_set_link(OBJECT(&s->xhci), "host", OBJECT(s), NULL);
-+    object_property_set_bool(OBJECT(&s->xhci), "realized", true, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-+    s->irq = g_new0(qemu_irq, s->xhci.numintrs);
-+    qdev_init_gpio_out_named(dev, s->irq, SYSBUS_DEVICE_GPIO_IRQ,
-+                             s->xhci.numintrs);
-+    if (s->xhci.dma_mr) {
-+        s->xhci.as =  g_malloc0(sizeof(AddressSpace));
-+        address_space_init(s->xhci.as, s->xhci.dma_mr, NULL);
-+    } else {
-+        s->xhci.as = &address_space_memory;
-+    }
-+
-+    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->xhci.mem);
-+}
-+
-+static void xhci_sysbus_instance_init(Object *obj)
-+{
-+    XHCISysbusState *s = XHCI_SYSBUS(obj);
-+
-+    object_initialize_child(obj, "xhci-core", &s->xhci, TYPE_XHCI);
-+    qdev_alias_all_properties(DEVICE(&s->xhci), obj);
-+
-+    object_property_add_link(obj, "dma", TYPE_MEMORY_REGION,
-+                             (Object **)&s->xhci.dma_mr,
-+                             qdev_prop_allow_set_link_before_realize,
-+                             OBJ_PROP_LINK_STRONG);
-+    s->xhci.intr_update = NULL;
-+    s->xhci.intr_raise = xhci_sysbus_intr_raise;
-+}
-+
-+static Property xhci_sysbus_props[] = {
-+    DEFINE_PROP_UINT32("intrs", XHCISysbusState, xhci.numintrs, MAXINTRS),
-+    DEFINE_PROP_UINT32("slots", XHCISysbusState, xhci.numslots, MAXSLOTS),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void xhci_sysbus_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->reset = xhci_sysbus_reset;
-+    dc->realize = xhci_sysbus_realize;
-+    device_class_set_props(dc, xhci_sysbus_props);
-+}
-+
-+static const TypeInfo xhci_sysbus_info = {
-+    .name          = TYPE_XHCI_SYSBUS,
-+    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(XHCISysbusState),
-+    .class_init    = xhci_sysbus_class_init,
-+    .instance_init = xhci_sysbus_instance_init
-+};
-+
-+static void xhci_sysbus_register_types(void)
-+{
-+    type_register_static(&xhci_sysbus_info);
-+}
-+
-+type_init(xhci_sysbus_register_types);
-diff --git a/hw/usb/hcd-xhci-sysbus.h b/hw/usb/hcd-xhci-sysbus.h
-new file mode 100644
-index 0000000..a308753
---- /dev/null
-+++ b/hw/usb/hcd-xhci-sysbus.h
-@@ -0,0 +1,32 @@
-+/*
-+ * USB xHCI controller for system-bus interface
-+ *
-+ * SPDX-FileCopyrightText: 2020 Xilinx
-+ * SPDX-FileContributor: Author: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-+ * SPDX-sourceInfo: Based on hcd-echi-sysbus
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#ifndef HW_USB_HCD_XHCI_SYSBUS_H
-+#define HW_USB_HCD_XHCI_SYSBUS_H
-+
-+#include "hw/usb.h"
-+#include "hcd-xhci.h"
-+#include "hw/sysbus.h"
-+
-+#define TYPE_XHCI_SYSBUS "sysbus-xhci"
-+#define XHCI_SYSBUS(obj) \
-+    OBJECT_CHECK(XHCISysbusState, (obj), TYPE_XHCI_SYSBUS)
-+
-+
-+typedef struct XHCISysbusState {
-+    /*< private >*/
-+    SysBusDevice parent_obj;
-+    /*< public >*/
-+    XHCIState xhci;
-+    qemu_irq *irq;
-+} XHCISysbusState;
-+
-+void xhci_sysbus_reset(DeviceState *dev);
-+#endif
-diff --git a/hw/usb/hcd-xhci.h b/hw/usb/hcd-xhci.h
-index fea1761..b951df4 100644
---- a/hw/usb/hcd-xhci.h
-+++ b/hw/usb/hcd-xhci.h
-@@ -190,6 +190,7 @@ typedef struct XHCIState {
- 
-     USBBus bus;
-     MemoryRegion mem;
-+    MemoryRegion *dma_mr;
-     AddressSpace *as;
-     MemoryRegion mem_cap;
-     MemoryRegion mem_oper;
--- 
-2.7.4
+For example:
+
+-Wl,--whole-archive qom/libqom.fa io/libio.fa crypto/libcrypto.fa
+authz/libauthz.fa hw/core/libhwcore.fa libblock.fa libqmp.fa
+chardev/libchardev.fa -Wl,--no-whole-archive -Wl,--warn-common
+-Wl,-z,relro -Wl,-z,now -m64 -fstack-protector-strong
+migration/libmigration.fa -Wl,--start-group libqemuutil.a qom/libqom.fa
+io/libio.fa crypto/libcrypto.fa authz/libauthz.fa hw/core/libhwcore.fa
+libblock.fa libqmp.fa chardev/libchardev.fa @block.syms @qemu.syms
+
+libqemuutil.a is what triggers --start-group.  So if you can add them
+using add_project_link_arguments it should work.
+
+Paolo
 
 
