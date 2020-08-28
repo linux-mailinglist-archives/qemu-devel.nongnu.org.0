@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF18325562F
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 10:16:00 +0200 (CEST)
-Received: from localhost ([::1]:58798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 049AD2555FD
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 10:10:25 +0200 (CEST)
+Received: from localhost ([::1]:59118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBZYF-0005FK-OJ
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 04:15:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57876)
+	id 1kBZSq-0002Ml-07
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 04:10:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kBZRY-0000hP-GA
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 04:09:04 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32356
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kBZRV-0000Z5-In
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 04:09:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25404)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kBZRS-0003SF-KE
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 04:09:04 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kBZRS-0003RW-17
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 04:09:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598602137;
+ s=mimecast20190719; t=1598602136;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iMjAeZE8KysOCotHdYlErXQLpMhSFzcspX0W4u/w6y8=;
- b=V60rgXcwQcME0v3RSvVQUPydOVqwsOi7Qa2W+Ee2mwTLgHparLiKPVwUkmRLaVlBAa69hA
- x7TOuAWJyXLreVNic0EpDePWodrg73geITrxpLK6VE0PITP+DgsUn1TsV6BJlDQR9ZdCkn
- N/Sm1fA4B8E7J4o08bdH9omYD26YLSw=
+ bh=sJ/vUDTa8rToYl7gXD645Fj7KHedX4qEsoI1hsq6SB8=;
+ b=ev/+NCYn/Snzsf7bIA9fUpL3STqBOXgIIaj6jY3Ez8ZPh1lAY8bOycf+YwEqDPVuJ9qXei
+ rJIpf4EXmEHW4PXUoyL64GtZ7bR26neGH/Ogf2vQFG4lPBKiveD2G73Euh6dZvnbykHygv
+ xuEDCrQkEF5VIaqD+/498PuS0iOH73k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-285-A-Gb5UbWPyWmERks5jRXQA-1; Fri, 28 Aug 2020 04:08:53 -0400
-X-MC-Unique: A-Gb5UbWPyWmERks5jRXQA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-271-g39lbK9uMz-VlT-n_rl2DA-1; Fri, 28 Aug 2020 04:08:53 -0400
+X-MC-Unique: g39lbK9uMz-VlT-n_rl2DA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 997C91084C95;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D752C10082E7;
  Fri, 28 Aug 2020 08:08:52 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-54.ams2.redhat.com
  [10.36.112.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4977A7E565;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4CFCF19D7C;
  Fri, 28 Aug 2020 08:08:52 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 777A031F09; Fri, 28 Aug 2020 10:08:46 +0200 (CEST)
+ id 83CA931FBC; Fri, 28 Aug 2020 10:08:46 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/18] hw/usb: Add U2F device check to passthru mode
-Date: Fri, 28 Aug 2020 10:08:42 +0200
-Message-Id: <20200828080845.28287-16-kraxel@redhat.com>
+Subject: [PULL 16/18] hw/usb: Add U2F device autoscan to passthru mode
+Date: Fri, 28 Aug 2020 10:08:43 +0200
+Message-Id: <20200828080845.28287-17-kraxel@redhat.com>
 In-Reply-To: <20200828080845.28287-1-kraxel@redhat.com>
 References: <20200828080845.28287-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 00:28:43
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 02:09:03
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,85 +90,198 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: César Belley <cesar.belley@lse.epita.fr>
 
-This patchs adds a check to verify that the device passed through the
-hidraw property is a U2F device.
+This patch adds an autoscan to let u2f-passthru choose the first U2F
+device it finds.
 
-The check is done by ensuring that the first values of the report
-descriptor (USAGE PAGE and USAGE) correspond to those of a U2F device.
+The autoscan is performed using libudev with an enumeration of all the
+hidraw devices present on the host.
+
+The first device which happens to be a U2F device is taken to do the
+passtru.
 
 Signed-off-by: César Belley <cesar.belley@lse.epita.fr>
-Message-id: 20200826114209.28821-12-cesar.belley@lse.epita.fr
+Message-id: 20200826114209.28821-13-cesar.belley@lse.epita.fr
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/usb/u2f-passthru.c | 41 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
+ docs/u2f.txt          |   9 ++++
+ hw/usb/u2f-passthru.c | 113 +++++++++++++++++++++++++++++++++++++-----
+ hw/usb/meson.build    |   2 +-
+ 3 files changed, 110 insertions(+), 14 deletions(-)
 
+diff --git a/docs/u2f.txt b/docs/u2f.txt
+index f60052882ec3..8f44994818a2 100644
+--- a/docs/u2f.txt
++++ b/docs/u2f.txt
+@@ -42,6 +42,10 @@ on libu2f-emu: configuring and building:
+ 
+     ./configure --enable-u2f && make
+ 
++The pass-through mode is built by default on Linux. To take advantage
++of the autoscan option it provides, make sure you have a working libudev
++installed on the host.
++
+ 
+ 3. Using u2f-emulated
+ 
+@@ -90,6 +94,11 @@ On the host specify the u2f-passthru device with a suitable hidraw:
+ 
+     qemu -usb -device u2f-passthru,hidraw=/dev/hidraw0
+ 
++Alternately, the u2f-passthru device can autoscan to take the first
++U2F device it finds on the host (this requires a working libudev):
++
++    qemu -usb -device u2f-passthru
++
+ 
+ 5. Libu2f-emu
+ 
 diff --git a/hw/usb/u2f-passthru.c b/hw/usb/u2f-passthru.c
-index 52b44670775d..74d4ae6e9294 100644
+index 74d4ae6e9294..e9c8aa459586 100644
 --- a/hw/usb/u2f-passthru.c
 +++ b/hw/usb/u2f-passthru.c
-@@ -34,6 +34,12 @@
- 
- #include "u2f.h"
- 
-+#ifdef CONFIG_LIBUDEV
-+#include <libudev.h>
-+#endif
-+#include <linux/hidraw.h>
-+#include <sys/ioctl.h>
-+
- #define NONCE_SIZE 8
- #define BROADCAST_CID 0xFFFFFFFF
- #define TRANSACTION_TIMEOUT 120000
-@@ -344,6 +350,34 @@ static void u2f_passthru_recv_from_guest(U2FKeyState *base,
-     }
+@@ -378,6 +378,84 @@ static bool u2f_passthru_is_u2f_device(int fd)
+                   sizeof(u2f_hid_report_desc_header)) == 0;
  }
  
-+static bool u2f_passthru_is_u2f_device(int fd)
++#ifdef CONFIG_LIBUDEV
++static int u2f_passthru_open_from_device(struct udev_device *device)
 +{
-+    int ret, rdesc_size;
-+    struct hidraw_report_descriptor rdesc;
-+    const uint8_t u2f_hid_report_desc_header[] = {
-+        0x06, 0xd0, 0xf1, /* Usage Page (FIDO) */
-+        0x09, 0x01,       /* Usage (FIDO) */
-+    };
++    const char *devnode = udev_device_get_devnode(device);
 +
-+    /* Get report descriptor size */
-+    ret = ioctl(fd, HIDIOCGRDESCSIZE, &rdesc_size);
-+    if (ret < 0 || rdesc_size < sizeof(u2f_hid_report_desc_header)) {
-+        return false;
++    int fd = qemu_open(devnode, O_RDWR);
++    if (fd < 0) {
++        return -1;
++    } else if (!u2f_passthru_is_u2f_device(fd)) {
++        qemu_close(fd);
++        return -1;
 +    }
-+
-+    /* Get report descriptor */
-+    memset(&rdesc, 0x0, sizeof(rdesc));
-+    rdesc.size = rdesc_size;
-+    ret = ioctl(fd, HIDIOCGRDESC, &rdesc);
-+    if (ret < 0) {
-+        return false;
-+    }
-+
-+    /* Header bytes cover specific U2F rdesc values */
-+    return memcmp(u2f_hid_report_desc_header, rdesc.value,
-+                  sizeof(u2f_hid_report_desc_header)) == 0;
++    return fd;
 +}
++
++static int u2f_passthru_open_from_enumerate(struct udev *udev,
++                                            struct udev_enumerate *enumerate)
++{
++    struct udev_list_entry *devices, *entry;
++    int ret, fd;
++
++    ret = udev_enumerate_scan_devices(enumerate);
++    if (ret < 0) {
++        return -1;
++    }
++
++    devices = udev_enumerate_get_list_entry(enumerate);
++    udev_list_entry_foreach(entry, devices) {
++        struct udev_device *device;
++        const char *syspath = udev_list_entry_get_name(entry);
++
++        if (syspath == NULL) {
++            continue;
++        }
++
++        device = udev_device_new_from_syspath(udev, syspath);
++        if (device == NULL) {
++            continue;
++        }
++
++        fd = u2f_passthru_open_from_device(device);
++        udev_device_unref(device);
++        if (fd >= 0) {
++            return fd;
++        }
++    }
++    return -1;
++}
++
++static int u2f_passthru_open_from_scan(void)
++{
++    struct udev *udev;
++    struct udev_enumerate *enumerate;
++    int ret, fd = -1;
++
++    udev = udev_new();
++    if (udev == NULL) {
++        return -1;
++    }
++
++    enumerate = udev_enumerate_new(udev);
++    if (enumerate == NULL) {
++        udev_unref(udev);
++        return -1;
++    }
++
++    ret = udev_enumerate_add_match_subsystem(enumerate, "hidraw");
++    if (ret >= 0) {
++        fd = u2f_passthru_open_from_enumerate(udev, enumerate);
++    }
++
++    udev_enumerate_unref(enumerate);
++    udev_unref(udev);
++
++    return fd;
++}
++#endif
 +
  static void u2f_passthru_unrealize(U2FKeyState *base)
  {
      U2FPassthruState *key = PASSTHRU_U2F_KEY(base);
-@@ -368,6 +402,13 @@ static void u2f_passthru_realize(U2FKeyState *base, Error **errp)
-                    key->hidraw);
+@@ -392,22 +470,31 @@ static void u2f_passthru_realize(U2FKeyState *base, Error **errp)
+     int fd;
+ 
+     if (key->hidraw == NULL) {
++#ifdef CONFIG_LIBUDEV
++        fd = u2f_passthru_open_from_scan();
++        if (fd < 0) {
++            error_setg(errp, "%s: Failed to find a U2F USB device",
++                       TYPE_U2F_PASSTHRU);
++            return;
++        }
++#else
+         error_setg(errp, "%s: Missing hidraw", TYPE_U2F_PASSTHRU);
          return;
+-    }
++#endif
++    } else {
++        fd = qemu_open(key->hidraw, O_RDWR);
++        if (fd < 0) {
++            error_setg(errp, "%s: Failed to open %s", TYPE_U2F_PASSTHRU,
++                       key->hidraw);
++            return;
++        }
+ 
+-    fd = qemu_open(key->hidraw, O_RDWR);
+-    if (fd < 0) {
+-        error_setg(errp, "%s: Failed to open %s", TYPE_U2F_PASSTHRU,
+-                   key->hidraw);
+-        return;
+-    }
+-
+-    if (!u2f_passthru_is_u2f_device(fd)) {
+-        qemu_close(fd);
+-        error_setg(errp, "%s: Passed hidraw does not represent "
+-                   "a U2F HID device", TYPE_U2F_PASSTHRU);
+-        return;
++        if (!u2f_passthru_is_u2f_device(fd)) {
++            qemu_close(fd);
++            error_setg(errp, "%s: Passed hidraw does not represent "
++                       "a U2F HID device", TYPE_U2F_PASSTHRU);
++            return;
++        }
      }
-+
-+    if (!u2f_passthru_is_u2f_device(fd)) {
-+        qemu_close(fd);
-+        error_setg(errp, "%s: Passed hidraw does not represent "
-+                   "a U2F HID device", TYPE_U2F_PASSTHRU);
-+        return;
-+    }
      key->hidraw_fd = fd;
      u2f_passthru_reset(key);
- }
+diff --git a/hw/usb/meson.build b/hw/usb/meson.build
+index a25109b88c91..b7c7ff23bfbd 100644
+--- a/hw/usb/meson.build
++++ b/hw/usb/meson.build
+@@ -52,7 +52,7 @@ endif
+ 
+ # U2F
+ softmmu_ss.add(when: 'CONFIG_USB_U2F', if_true: files('u2f.c'))
+-softmmu_ss.add(when: ['CONFIG_LINUX', 'CONFIG_USB_U2F'], if_true: files('u2f-passthru.c'))
++softmmu_ss.add(when: ['CONFIG_LINUX', 'CONFIG_USB_U2F'], if_true: [libudev, files('u2f-passthru.c')])
+ if u2f.found()
+   softmmu_ss.add(when: 'CONFIG_USB_U2F', if_true: [u2f, files('u2f-emulated.c')])
+ endif
 -- 
 2.27.0
 
