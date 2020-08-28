@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B7E7255CB2
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 16:38:48 +0200 (CEST)
-Received: from localhost ([::1]:50116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A71F255C7D
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 16:31:20 +0200 (CEST)
+Received: from localhost ([::1]:45848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBfW2-0001hj-TC
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 10:38:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51190)
+	id 1kBfPT-00052G-7V
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 10:31:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBfEd-0000YI-0n
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 10:20:07 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:37658)
+ id 1kBfEg-0000g3-5g
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 10:20:10 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:46879)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBfEb-00057A-1P
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 10:20:06 -0400
-Received: by mail-pg1-x541.google.com with SMTP id 5so529341pgl.4
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 07:20:04 -0700 (PDT)
+ id 1kBfEd-00057Q-C1
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 10:20:09 -0400
+Received: by mail-pf1-x444.google.com with SMTP id t185so722716pfd.13
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 07:20:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7NCItsGikAjoxCQbtrtcdgvM3OCnFXhPqNO+3OzZ5UY=;
- b=w9NqW6o/d7xpN7WyjF8XV2hXkg3mEhZ/pa4ceYASlCwZvWbQDnG6ThRCKRTCVtxnbJ
- 7J60iN4D83usBnCCpKMt0eY9olEdUEZGEKoRS3TiZ2Wd+jpJ4T4ZoeSAN3BQydFvZcc9
- +H6a45JiryEu2nnEd/OZQDgDV0BDimi7MW5S1HcX9Bq8CjaH39d2lkZyFkdBXEe0TrVh
- GxsVNDu1DD60pGaqDICGtbHCHv9MFcEM+SPCAw1d2rJtqfLfc7OUwueYpO4vAIis8sw+
- TERKySKI8eE7htAJ877GP4N1dEd19FQNOpd4r/Fm/u21BB5ZVTCq5TLhDBMKL0U48dN/
- y4lQ==
+ bh=qXpLGSkTUh0l6cihbLBx2yxjRuaY4I2Cb0zQBnRmSlQ=;
+ b=KakpYYKHmGmteDL+lHFlX6zCH1S5uw1naqWSrBkmncYx9YNjZUHkJf0O6F0NaqGtq/
+ qpINusx8ffqduxH6T4W5/KPQVrbsDB+k42r7KEIb5zG1sRzVMsegundBYK/NpOacHdru
+ aZVQCi1FgAK5iY45pHAIJ8tzQBNt9y1k+DDa02Pwthxj0fwT715/n8wwIJunw/onVk6F
+ ChgwfUvNu3ZuNSWd/iIHueCF8rO5Lz3hhwmd1nWRJo7vIf4Gokg4eK7IK1BWpPnW1WeZ
+ ZrtXKLBcF1TMKueGv/Tfprg3eWrD4yGaT3S2bhyGcEapITfAr5JeNsLBy3lO9c9urpeA
+ Lxbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7NCItsGikAjoxCQbtrtcdgvM3OCnFXhPqNO+3OzZ5UY=;
- b=jH0GBm1iqAHEgBOnZCLe+kIvEWx9scbr6rU2HNnAT0ApoQuvAhc4JYbO9meFSA7EXh
- BSrI7qxMwveV5QoqncahWerNj6dYfFEduRNiGYypoZjF5JS+gyjIty0MDTsd87EpXFWc
- vDA3ZlUPUlg1ldEnveQjZPZ+TqvAomC9u0G7IAVjDWzJav2DUkw8todM2gahuKncc7wQ
- y0h3Lm0cEYu5dPswqRzBGT98ibCcoUk5B+pvnc650nY2kCN2z/cwwNOyo4bPwlhFlZhT
- 79fCDl0/C6L0+XQg/pxSjwdHqF7YlvOChohO9Ub/cIpUPC7pqKnH2ODTAtMOtswCatsD
- nxKg==
-X-Gm-Message-State: AOAM530BerA4wSargxV4yupIn3N9FnxZZ+puScW1ZMfstEewjWUl+Lrq
- lvYl6QsxxMHODNzhwopX2+DJXDr8go/m2g==
-X-Google-Smtp-Source: ABdhPJwuHdhedwg/DoBjiBYV1g9B1wthNgkxpxHYi1AnPWosKzSHOrOVvJq4srwlHLCXvmDfJGXspA==
-X-Received: by 2002:a63:4c11:: with SMTP id z17mr1408895pga.152.1598624403254; 
- Fri, 28 Aug 2020 07:20:03 -0700 (PDT)
+ bh=qXpLGSkTUh0l6cihbLBx2yxjRuaY4I2Cb0zQBnRmSlQ=;
+ b=d4UAu8LphhwpAVgD8MFJq1uw9B0fVSoFQ8IkIMRhE8Smdw5H/QuRgJUPRnA1jBlZAM
+ ImjgDuZvfrNXfrsp36HFUXBL5oxo2gH6CwIVx6Eg7p1Csf0qluHapGruYwH8Q35XNRyA
+ /ecTUp0GJctUzeCgnKs5kcP0WPYqlxQlHRhMM/sTB0ekZ57OsCyhHFvU5408FKaaAG02
+ oLS9VTmieGh7KKz3jxkK1zEcRwBbNW2uT2Utclp8BauleRMHSYS7NjZTRKr880LdT3hU
+ Kw+u3E/PvPm3a3nZJNMREDbWd6CMJ9gbWh2O7LMHq8FbFfck6SjdNrQ27RtBrtmgI8qQ
+ lffw==
+X-Gm-Message-State: AOAM533bOJL1a0DMZP7Rl1yj6S8Job0ArrZr7IUxSW/yf4IiPEKoxATb
+ AdNi76MDqs7BGFF+JxZ3IH1S3XqEwVdMFg==
+X-Google-Smtp-Source: ABdhPJxQnnRF3vFGMNQD8f9kgH4uBN0C9i1UwTU64XSIdTRdJHukLjnCznYARN/GhfY2TBK+dbJGMQ==
+X-Received: by 2002:a65:524b:: with SMTP id q11mr1455199pgp.372.1598624405567; 
+ Fri, 28 Aug 2020 07:20:05 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id j3sm1403080pjw.23.2020.08.28.07.20.02
+ by smtp.gmail.com with ESMTPSA id j3sm1403080pjw.23.2020.08.28.07.20.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 07:20:02 -0700 (PDT)
+ Fri, 28 Aug 2020 07:20:04 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 24/76] target/microblaze: Tidy mb_tcg_init
-Date: Fri, 28 Aug 2020 07:18:37 -0700
-Message-Id: <20200828141929.77854-25-richard.henderson@linaro.org>
+Subject: [PATCH v2 26/76] target/microblaze: Use DISAS_NORETURN
+Date: Fri, 28 Aug 2020 07:18:39 -0700
+Message-Id: <20200828141929.77854-27-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200828141929.77854-1-richard.henderson@linaro.org>
 References: <20200828141929.77854-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x541.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,98 +88,91 @@ Cc: edgar.iglesias@xilinx.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All of the tcg globals can be recorded in the same table.
-Drop the "r" prefix from "rpc" and "rmsr".  Obviates the
-need for regnames[], which was incorrectly not const.
+Both exceptions and gen_goto_tb do not return.  Use the
+official DISAS_NORETURN enumerator for this case.
+This eliminates all use of DISAS_TB_JUMP.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/translate.c | 62 +++++++++++++++--------------------
- 1 file changed, 27 insertions(+), 35 deletions(-)
+ target/microblaze/translate.c | 17 +++++++----------
+ 1 file changed, 7 insertions(+), 10 deletions(-)
 
 diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index 9aa63ddcc5..e709884f2d 100644
+index 0c9b4ffa5a..53ca0bfb38 100644
 --- a/target/microblaze/translate.c
 +++ b/target/microblaze/translate.c
-@@ -95,14 +95,6 @@ typedef struct DisasContext {
-     int singlestep_enabled;
- } DisasContext;
+@@ -51,7 +51,6 @@
+ /* is_jmp field values */
+ #define DISAS_JUMP    DISAS_TARGET_0 /* only pc was modified dynamically */
+ #define DISAS_UPDATE  DISAS_TARGET_1 /* cpu state was modified dynamically */
+-#define DISAS_TB_JUMP DISAS_TARGET_2 /* only pc was modified statically */
  
--static const char *regnames[] =
--{
--    "r0", "r1", "r2", "r3", "r4", "r5", "r6", "r7",
--    "r8", "r9", "r10", "r11", "r12", "r13", "r14", "r15",
--    "r16", "r17", "r18", "r19", "r20", "r21", "r22", "r23",
--    "r24", "r25", "r26", "r27", "r28", "r29", "r30", "r31",
--};
--
- static inline void t_sync_flags(DisasContext *dc)
- {
-     /* Synch the tb dependent flags between translator and runtime.  */
-@@ -1846,36 +1838,36 @@ void mb_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+ static TCGv_i32 cpu_R[32];
+ static TCGv_i32 cpu_pc;
+@@ -111,7 +110,7 @@ static void gen_raise_exception(DisasContext *dc, uint32_t index)
  
- void mb_tcg_init(void)
- {
--    int i;
-+#define R(X)  { &cpu_R[X], offsetof(CPUMBState, regs[X]), "r" #X }
-+#define SP(X) { &cpu_##X, offsetof(CPUMBState, X), #X }
- 
--    cpu_iflags = tcg_global_mem_new_i32(cpu_env,
--                    offsetof(CPUMBState, iflags),
--                    "iflags");
--    cpu_imm = tcg_global_mem_new_i32(cpu_env,
--                    offsetof(CPUMBState, imm),
--                    "imm");
--    cpu_btarget = tcg_global_mem_new_i32(cpu_env,
--                     offsetof(CPUMBState, btarget),
--                     "btarget");
--    cpu_btaken = tcg_global_mem_new_i32(cpu_env,
--                     offsetof(CPUMBState, btaken),
--                     "btaken");
--    cpu_res_addr = tcg_global_mem_new(cpu_env,
--                     offsetof(CPUMBState, res_addr),
--                     "res_addr");
--    cpu_res_val = tcg_global_mem_new_i32(cpu_env,
--                     offsetof(CPUMBState, res_val),
--                     "res_val");
--    for (i = 0; i < ARRAY_SIZE(cpu_R); i++) {
--        cpu_R[i] = tcg_global_mem_new_i32(cpu_env,
--                          offsetof(CPUMBState, regs[i]),
--                          regnames[i]);
-+    static const struct {
-+        TCGv_i32 *var; int ofs; char name[8];
-+    } i32s[] = {
-+        R(0),  R(1),  R(2),  R(3),  R(4),  R(5),  R(6),  R(7),
-+        R(8),  R(9),  R(10), R(11), R(12), R(13), R(14), R(15),
-+        R(16), R(17), R(18), R(19), R(20), R(21), R(22), R(23),
-+        R(24), R(25), R(26), R(27), R(28), R(29), R(30), R(31),
-+
-+        SP(pc),
-+        SP(msr),
-+        SP(imm),
-+        SP(iflags),
-+        SP(btaken),
-+        SP(btarget),
-+        SP(res_val),
-+    };
-+
-+#undef R
-+#undef SP
-+
-+    for (int i = 0; i < ARRAY_SIZE(i32s); ++i) {
-+        *i32s[i].var =
-+          tcg_global_mem_new_i32(cpu_env, i32s[i].ofs, i32s[i].name);
-     }
- 
--    cpu_pc =
--        tcg_global_mem_new_i32(cpu_env, offsetof(CPUMBState, pc), "rpc");
--    cpu_msr =
--        tcg_global_mem_new_i32(cpu_env, offsetof(CPUMBState, msr), "rmsr");
-+    cpu_res_addr =
-+        tcg_global_mem_new(cpu_env, offsetof(CPUMBState, res_addr), "res_addr");
+     gen_helper_raise_exception(cpu_env, tmp);
+     tcg_temp_free_i32(tmp);
+-    dc->is_jmp = DISAS_UPDATE;
++    dc->is_jmp = DISAS_NORETURN;
  }
  
- void restore_state_to_opc(CPUMBState *env, TranslationBlock *tb,
+ static void gen_raise_exception_sync(DisasContext *dc, uint32_t index)
+@@ -149,6 +148,7 @@ static void gen_goto_tb(DisasContext *dc, int n, target_ulong dest)
+         tcg_gen_movi_i32(cpu_pc, dest);
+         tcg_gen_exit_tb(NULL, 0);
+     }
++    dc->is_jmp = DISAS_NORETURN;
+ }
+ 
+ /*
+@@ -1675,7 +1675,6 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+                 } else if (dc->jmp == JMP_DIRECT) {
+                     t_sync_flags(dc);
+                     gen_goto_tb(dc, 0, dc->jmp_pc);
+-                    dc->is_jmp = DISAS_TB_JUMP;
+                 } else if (dc->jmp == JMP_DIRECT_CC) {
+                     TCGLabel *l1 = gen_new_label();
+                     t_sync_flags(dc);
+@@ -1684,8 +1683,6 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+                     gen_goto_tb(dc, 1, dc->pc);
+                     gen_set_label(l1);
+                     gen_goto_tb(dc, 0, dc->jmp_pc);
+-
+-                    dc->is_jmp = DISAS_TB_JUMP;
+                 }
+                 break;
+             }
+@@ -1717,7 +1714,9 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+     }
+     t_sync_flags(dc);
+ 
+-    if (unlikely(cs->singlestep_enabled)) {
++    if (dc->is_jmp == DISAS_NORETURN) {
++        /* nothing more to generate */
++    } else if (unlikely(cs->singlestep_enabled)) {
+         TCGv_i32 tmp = tcg_const_i32(EXCP_DEBUG);
+ 
+         if (dc->is_jmp != DISAS_JUMP) {
+@@ -1730,16 +1729,14 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+             case DISAS_NEXT:
+                 gen_goto_tb(dc, 1, npc);
+                 break;
+-            default:
+             case DISAS_JUMP:
+             case DISAS_UPDATE:
+                 /* indicate that the hash table must be used
+                    to find the next TB */
+                 tcg_gen_exit_tb(NULL, 0);
+                 break;
+-            case DISAS_TB_JUMP:
+-                /* nothing more to generate */
+-                break;
++            default:
++                g_assert_not_reached();
+         }
+     }
+     gen_tb_end(tb, num_insns);
 -- 
 2.25.1
 
