@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26A21255B6B
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 15:44:39 +0200 (CEST)
-Received: from localhost ([::1]:48508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C12BA255B57
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 15:41:53 +0200 (CEST)
+Received: from localhost ([::1]:35666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBegI-0000JK-8H
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 09:44:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36984)
+	id 1kBedc-0003ap-Pj
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 09:41:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kBeaC-00049C-E4
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 09:38:20 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:47231)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kBeaE-0004Dc-3u
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 09:38:22 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:37845)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kBea8-0007Hm-QR
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 09:38:20 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kBea9-0007I8-T0
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 09:38:21 -0400
 Received: from localhost.localdomain ([82.252.135.186]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MUl4z-1k2gQw4A9h-00Qg2V; Fri, 28 Aug 2020 15:38:08 +0200
+ id 1N1cvQ-1ka5EG3NVY-011wni; Fri, 28 Aug 2020 15:38:09 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/18] linux-user: fix target_to_host_timespec64()
-Date: Fri, 28 Aug 2020 15:37:49 +0200
-Message-Id: <20200828133753.2622286-15-laurent@vivier.eu>
+Subject: [PULL 15/18] linux-user: Add support for 'mq_timedsend_time64()' and
+ 'mq_timedreceive_time64()'
+Date: Fri, 28 Aug 2020 15:37:50 +0200
+Message-Id: <20200828133753.2622286-16-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200828133753.2622286-1-laurent@vivier.eu>
 References: <20200828133753.2622286-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Qfsq6b94jqQKAP9drriZ6LkOSDv9q1rbn5oZsTi5RTrmRfSYYt2
- JTDkF1a8XN1vTze8cejKdM3Tse1T8Cg7Ysee1dN4EyIwTUdmi1Cdk4JirXtEsgFMIlXdv6w
- 24VPSaK55SGrl9sCIGNWHR43Z6sjYj8VtAJ9z4A9TH1U4GdWO8IvJRFkz3WfP+WHRY/yCeK
- BLm8C/0B0nUTPGea+h/bw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:File1mpwMLE=:sjL1ljiU5dOKGpYPMdalH8
- dl0wJgLMhmM94K9mMyGDhdQDKnDaIk/OI4l4DrbDyixf5oF7QVoKFqdjeU4s2HWyGRHwnyPt2
- mX0akO46a+p6x3Bjn0WGqZmz14THPoFsMbtxi57yDsMsD4G6GsynqNbEDxuPsQ1tZwc4G8hJX
- FXREF8mEe3/ROcvbQtYlzU57bAM0l6zkgnL42pWJckM+TBRjVdzy6eCsURsPAc6xloVbdQUCx
- xVmH4S6z4lFHS+IxhEEvX+yDpKaRUbgRkNC7CTFxemypLwulc5Uu20p9Xd6w16Yax3o2BDB4B
- xm1IXjsR4TGXyX3gIcaV+Ki7JGTlEsH0kMg4nH5Uo9/qCY2MFIqIULCtUc9X+ZSxqEOyGvvjw
- rSCOL5r7is3caYxJ14txY/yBKG1P/66xfauT0pg+6cKsyANGRcrAy6lRU7gXC9tvnDI4B5FYP
- BlQQSu5ushRAMuRjRt/wefq9ad7jVVC+yxaXPjZQEQ1eTfW5gxKWRbR3IuVZeZVnPuwoBIpgF
- Lkooe2dSCSRG3GghZa1loP1JPQIjmWUa0yod532h29R6y7KaATNALquBrpNxh5cieXQRjhlGF
- 6E3abF68nI/qSA1oLNx0kDTtADjYcOzUJZS/uScRxWyOatVMQpmuab5rU8pJq6KDlvYC13HRN
- YmHJTmp0fnh4gRK44SGawFQVrIdEoRh4FkaTgn5cyHg0+1Cdd/lSHnwTvaZL3EEE07hyZ7sgD
- Ab4z585JYZBGP+VoTQ4EZCRR+kVm4nDF0OiPb5384TTFNPdlCFN+4GKciP+NlMIuyXtXb6hjE
- eS7teEj0SkY/I50DlbJSswgmFcbzlASH7YDYChT8qMvqx1sNFRJ8jGBpqTr2j4FuVCTOrvB
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:7g9EO+XNkkRxUPt03hR/FcciOk5jXl6jJ2ZSU9AT3e3sNF8C3vX
+ rFHYTliG8SgsajUd2do1LWhIasnLcJP9fnqiN1cVd1dhc3P8Dw3Uyac68/337KkgwP7c+In
+ SP0uuOJVoNWrD+Kl5eqWyfUWFqjvEs2ShccVlgsRZ1R8PHjPRMV51fDhAmospbQ616CWy78
+ N/r7G1d9crNHzNWcrYmqg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:VnZH9lp5PNs=:45UB/2oyfL7DUk74XYnOcC
+ Jn9xhMWocVoQegdj6J6yfziPnz0F0DXHWNZtelXfh2NFH4wz518Aoo1SRfyy14iwotkdGtxys
+ zad/o3u+SI7xWzLiPzCXzeRB5IYpyB1JBzonAO3kky61PYY9Ge0EG83qCU1rRFU7McLCnorcw
+ SddWDYoqMHzDmywYpZabfhUaVSQF6OE0ePlJiLncGWG8dnXUbN8ca3XvGZ/whIxdLnER+Ol7h
+ 7as0f1oUKF1v9/buMBgBAobkZtjBKzLMcEHNK7z+mWbzhq6BF1H2VRjODRuEbuRVZ0N+/MjTg
+ nJTKEJYFPFOg136eQ/MQF31SaAodnkZVb9ol1WJvZUVx5TSYQxBh2rTcce1zTS/kZjNHAslY0
+ ySRlcDPV5sOuthomQCjpSE0ZbhPfoctHCvUYMaDLtHI92uQs3nIaKig4XCQI87T+oD+oBVHvL
+ nrp26b4eMLp8viplkn/+pEw9t1S/4jF84YBcQgTRUc+pPexMB9soOfmgOmH4dYsG/MCaS1UW+
+ 51tBJ+IfWwn+AvmuLFebGW4I8u29tyAOlOOOEs1E9piGLP4ShL1sMgxDqnrpbu57ypU6RLa07
+ A82aOjRCa4mczxvtnWCuzzddUuOrqpfnw6qWcNqahkEZp6PIpAN7RvIvodkqGK6pZkFcgDpGJ
+ yj95qwrcx2szacCjnbjRGrik1a/hfJ0px04hWtrpfXicmoeDO096Bv9YXR84G2SzGAuEaIEJX
+ Z8JJ/CllknOOLEEn+AhLlYV3IDDq4XS+kfj5AYvVR2hLVmwrE5uqg1Kr99YpJ7tSjvhs0SqI0
+ J4fy0/M/3AiKjCnOkWj8Sp2cTfXRxobLQL8q3KAm1rgdilf8Ul3qXOWvDa1bHEOBMosymdi
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 09:38:06
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 09:38:01
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -69,34 +70,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+ Filip Bozuta <Filip.Bozuta@syrmia.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-in 32 bit mode, drop the padding in tv_nsec. If host is 64bit and target
-is 32bit, the padding bytes will be copied from the target and as the
-kernel checks the value, the syscall exits with EINVAL.
+From: Filip Bozuta <Filip.Bozuta@syrmia.com>
 
+This patch implements functionality for following time64 syscalls:
+
+*mq_timedsend_time64()
+
+    This is a year 2038 safe vairant of syscall:
+
+    int mq_timedsend(mqd_t mqdes, const char *msg_ptr,
+                     size_t msg_len, unsigned int msg_prio,
+                     const struct timespec *abs_timeout)
+    --send a message to a message queue--
+    man page: https://www.man7.org/linux/man-pages/man2/mq_timedsend.2.html
+
+*mq_timedreceive_time64()
+
+    This is a year 2038 safe variant of syscall:
+
+    ssize_t mq_timedreceive(mqd_t mqdes, char *msg_ptr,
+                            size_t msg_len, unsigned int *msg_prio,
+                            const struct timespec *abs_timeout)
+    --receive a message from a message queue--
+    man page: https://man7.org/linux/man-pages/man3/mq_receive.3.html
+
+Implementation notes:
+
+    These syscalls were implemented in similar ways like
+    'mq_timedsend()' and 'mq_timedreceive' except that
+    functions 'target_to_host_timespec64()' and
+    'host_to_target_timespec64()' were used to convert
+    values of 'struct timespec' between host and target.
+
+Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20200824193752.67950-3-Filip.Bozuta@syrmia.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200827070449.2386007-1-laurent@vivier.eu>
-Fixes: c6c8d1026e75 ("linux-user/syscall: Add support for clock_gettime64/clock_settime64")
 ---
- linux-user/syscall.c | 2 ++
- 1 file changed, 2 insertions(+)
+ linux-user/syscall.c | 56 ++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 54 insertions(+), 2 deletions(-)
 
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index fd13e72305de..3b725bbe2513 100644
+index 3b725bbe2513..b28c8edb421e 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -1229,6 +1229,8 @@ static inline abi_long target_to_host_timespec64(struct timespec *host_ts,
-     }
-     __get_user(host_ts->tv_sec, &target_ts->tv_sec);
-     __get_user(host_ts->tv_nsec, &target_ts->tv_nsec);
-+    /* in 32bit mode, this drops the padding */
-+    host_ts->tv_nsec = (long)(abi_long)host_ts->tv_nsec;
-     unlock_user_struct(target_ts, target_addr, 0);
-     return 0;
- }
+@@ -799,11 +799,13 @@ safe_syscall5(int, msgrcv, int, msgid, void *, msgp, size_t, sz,
+ safe_syscall4(int, semtimedop, int, semid, struct sembuf *, tsops,
+               unsigned, nsops, const struct timespec *, timeout)
+ #endif
+-#ifdef TARGET_NR_mq_timedsend
++#if defined(TARGET_NR_mq_timedsend) || \
++    defined(TARGET_NR_mq_timedsend_time64)
+ safe_syscall5(int, mq_timedsend, int, mqdes, const char *, msg_ptr,
+               size_t, len, unsigned, prio, const struct timespec *, timeout)
+ #endif
+-#ifdef TARGET_NR_mq_timedreceive
++#if defined(TARGET_NR_mq_timedreceive) || \
++    defined(TARGET_NR_mq_timedreceive_time64)
+ safe_syscall5(int, mq_timedreceive, int, mqdes, char *, msg_ptr,
+               size_t, len, unsigned *, prio, const struct timespec *, timeout)
+ #endif
+@@ -1218,6 +1220,8 @@ static inline abi_long target_to_host_timespec(struct timespec *host_ts,
+ 
+ #if defined(TARGET_NR_clock_settime64) || defined(TARGET_NR_futex_time64) || \
+     defined(TARGET_NR_timer_settime64) || \
++    defined(TARGET_NR_mq_timedsend_time64) || \
++    defined(TARGET_NR_mq_timedreceive_time64) || \
+     (defined(TARGET_NR_timerfd_settime64) && defined(CONFIG_TIMERFD))
+ static inline abi_long target_to_host_timespec64(struct timespec *host_ts,
+                                                  abi_ulong target_addr)
+@@ -12059,6 +12063,27 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         }
+         return ret;
+ #endif
++#ifdef TARGET_NR_mq_timedsend_time64
++    case TARGET_NR_mq_timedsend_time64:
++        {
++            struct timespec ts;
++
++            p = lock_user(VERIFY_READ, arg2, arg3, 1);
++            if (arg5 != 0) {
++                if (target_to_host_timespec64(&ts, arg5)) {
++                    return -TARGET_EFAULT;
++                }
++                ret = get_errno(safe_mq_timedsend(arg1, p, arg3, arg4, &ts));
++                if (!is_error(ret) && host_to_target_timespec64(arg5, &ts)) {
++                    return -TARGET_EFAULT;
++                }
++            } else {
++                ret = get_errno(safe_mq_timedsend(arg1, p, arg3, arg4, NULL));
++            }
++            unlock_user(p, arg2, arg3);
++        }
++        return ret;
++#endif
+ 
+ #ifdef TARGET_NR_mq_timedreceive
+     case TARGET_NR_mq_timedreceive:
+@@ -12086,6 +12111,33 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         }
+         return ret;
+ #endif
++#ifdef TARGET_NR_mq_timedreceive_time64
++    case TARGET_NR_mq_timedreceive_time64:
++        {
++            struct timespec ts;
++            unsigned int prio;
++
++            p = lock_user(VERIFY_READ, arg2, arg3, 1);
++            if (arg5 != 0) {
++                if (target_to_host_timespec64(&ts, arg5)) {
++                    return -TARGET_EFAULT;
++                }
++                ret = get_errno(safe_mq_timedreceive(arg1, p, arg3,
++                                                     &prio, &ts));
++                if (!is_error(ret) && host_to_target_timespec64(arg5, &ts)) {
++                    return -TARGET_EFAULT;
++                }
++            } else {
++                ret = get_errno(safe_mq_timedreceive(arg1, p, arg3,
++                                                     &prio, NULL));
++            }
++            unlock_user(p, arg2, arg3);
++            if (arg4 != 0) {
++                put_user_u32(prio, arg4);
++            }
++        }
++        return ret;
++#endif
+ 
+     /* Not implemented for now... */
+ /*     case TARGET_NR_mq_notify: */
 -- 
 2.26.2
 
