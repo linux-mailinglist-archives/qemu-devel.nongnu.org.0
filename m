@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7D85256283
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 23:36:57 +0200 (CEST)
-Received: from localhost ([::1]:50876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2676256295
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 23:42:00 +0200 (CEST)
+Received: from localhost ([::1]:54822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBm3N-0002U9-19
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 17:36:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37756)
+	id 1kBm8F-0004Mb-RL
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 17:41:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
- id 1kBm1x-0001gw-7w
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 17:35:30 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:33246)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kBm72-0003Uh-9S
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 17:40:44 -0400
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:38025)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
- id 1kBm1t-0002lp-7b
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 17:35:27 -0400
-Received: by mail-ej1-x635.google.com with SMTP id a21so1030788ejp.0
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 14:35:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=message-id:mime-version:from:to:date:subject;
- bh=aYXQLVT5nIkA6AwuikVD5bCzdM2jiuGuocvfScBdnGY=;
- b=XSh/cbj9y4ticzkTC2/PO60AjKOe5dnbAlzD2xg/gXlGAMj/EAwzezookb4hznIe36
- xfD4DaLI5ytExv5a8N2Tl2/UJjgYoJ6KdlinwRfAvTssyimjnnudbG+1Lc8z/aBlSoH3
- 420w5pf1CxoGGNHgIsSow3zxnrdSOi356jwH8EwgJSN2/3Yu4ysOtcHVbfyRs2Y6q9Ei
- 2yCb7N0UUeq19b/kEAUqAwkmN9dDQO7vrkFvOcwH5davZpJQJHJxXjdQeEaPRKu/3Y0M
- O1wCdGyfboHI6FZSK4zefIx/xoWs6Lk6U16TvB9BpsLcEdmGnRzApDcF3hkivAClxEXQ
- TWjQ==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kBm6z-0003Ii-3E
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 17:40:43 -0400
+Received: by mail-ej1-x643.google.com with SMTP id oz20so1005209ejb.5
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 14:40:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=WAAqBab0dsaOmEhirldciEMZEwkJuEViOintycNFPAM=;
+ b=N9yLLRLggf0d37kPNyOcqRtC6aabQpbRQJAKop/MHxZWLyuIwsQe1Kkr5gNuuUz+Ay
+ Rz4hpMQyTVOl+Fs3ezqSIaT9NNlaE+1f3Ke72kck3s8G7whNlaJTKxBzJnytQ3AGZhSg
+ ojUc0MixGAQoVBz/b9TLQGMfci8SZGvB4pq7XMWca2cIBKp7ZG5XncBL3WRMxGh8XSpY
+ EqiaIlWvqwhv/D5apwAbMPtzdP8Qs+mXaKEDn+XUxen/sw5ZLnMlgq4hVRuGnAPRjUJ5
+ eAgMGSmBjhx1t3TUH9Iv7hnTkRjGzvCeWLSX7FJ1rzr8Gqt5Tor+ONO3xbnq2cDG+wRH
+ vgOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:mime-version:from:to:date:subject;
- bh=aYXQLVT5nIkA6AwuikVD5bCzdM2jiuGuocvfScBdnGY=;
- b=NGUbAsIUSDgznYV1KILMH9vMcXNMHttQRqQsLusM+m+YfQMM0PjAX0EBVN3KL8X6Tq
- baRroT7y25RTCfxgP0fKOW7RTjwfsKhsz+ZzUj6jXWaTFPJOKKoWfbJRGGdLagZt4u47
- 6AA4DYjOIOb5uJiLvmq0HNtkmF8nLp0S/BiOogpsrkEgbS7896TZ57c/P4tCp/LGAPB6
- zoZqYC1GaMdJwnwllWKUAUEhWDXhRQx9NDaaSsqCbVXYFxx+XA+XHzPjK7UFw7oWRf+8
- UDbapIRCFj6WiK69+/PUyEe00K+0Icx3rnDHTVXXkRsqzF0PpsTG+VojZ9zIhW483B+j
- iTNg==
-X-Gm-Message-State: AOAM532akQidI8pGS6AnqU5IdSLgFcDV6r/UKuKWUImnWHVhR67dDU/h
- wh3lkqsyqIHblgBiOE9gr5FcP3Tm0q9UyQ==
-X-Google-Smtp-Source: ABdhPJzZ1VYybi0UTVlO2EmlLz3Smc2kkJXcam+NsW31x37Ape5BWKbiCnDLJOFE+8j7WqWglOzEZw==
-X-Received: by 2002:a17:906:710b:: with SMTP id
- x11mr770696ejj.546.1598650523330; 
- Fri, 28 Aug 2020 14:35:23 -0700 (PDT)
-Received: from [127.0.1.1] ([197.58.77.158])
- by smtp.gmail.com with ESMTPSA id bt14sm373931ejb.2.2020.08.28.14.35.22
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 14:35:22 -0700 (PDT)
-Message-ID: <5f49789a.1c69fb81.c12aa.0e95@mx.google.com>
-Content-Type: multipart/alternative;
- boundary="===============3854100496081697164=="
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=WAAqBab0dsaOmEhirldciEMZEwkJuEViOintycNFPAM=;
+ b=tYORJ9Au41oPSzNSav5lQmROMvI00jdBFhLgwE0oohg3hDMW0vA7kpufNZMbgHFC4e
+ Fy+3onwxCyU3dpaKkyVt64rQpBdzd62vBsSKGOMZHwDbC2/9boptQib2XSTcceuy2yUE
+ h2IUBqyw1x5Z7ZioTZF9aOsZGKCDluJIbpkjmacXqg8gAK2cMWFo/vEbstqlfGAGp5b6
+ bxaQQNrZiekR4O/EdJSGNRlgB8zIGjWvNYdKSwJkAdcaa3McCiwtDugpLnoHFe57F+hA
+ R7RLeM/3dn5WUjzyIWlIiEPgRygzeTbZ8kQz56lPNfEPFSCvG68tGBFdIqfBZeO8ku5g
+ Vlhg==
+X-Gm-Message-State: AOAM531/EUXhG9HmWmyqM/oEg8ZHw5eLGlAWr4lRmQH08Y+p9CDzxbZK
+ oGJzGoGWsrXf1UfMc2dqprnsWaIIRFoXe0FwLodGxQ==
+X-Google-Smtp-Source: ABdhPJwaP1W+cX+ydxrXL36HgoR7HkyNwUtEyOivE5KCl0ne4EdRVAidAe6zBffxkCDHxHN1jRMRLeBPV+S9yggQ0JA=
+X-Received: by 2002:a17:906:f28b:: with SMTP id
+ gu11mr717177ejb.407.1598650839367; 
+ Fri, 28 Aug 2020 14:40:39 -0700 (PDT)
 MIME-Version: 1.0
-From: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
-To: qemu-devel@nongnu.org
-Date: Fri, 28 Aug 2020 23:35:21 +0200
-Subject: [REPORT] Nightly Performance Tests - Friday, August 28, 2020
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=ahmedkhaledkaraman@gmail.com; helo=mail-ej1-x635.google.com
+References: <20200828183354.27913-1-peter.maydell@linaro.org>
+ <20200828183354.27913-25-peter.maydell@linaro.org>
+ <55675521-a61c-186c-599f-7373e9165184@linaro.org>
+In-Reply-To: <55675521-a61c-186c-599f-7373e9165184@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 28 Aug 2020 22:40:28 +0100
+Message-ID: <CAFEAcA87JLog+Ly5wvRi2bOvwDvFVL5mjpnkeB3h+pckbnNMmQ@mail.gmail.com>
+Subject: Re: [PATCH v2 24/45] target/arm: Implement fp16 for Neon VRECPE,
+ VRSQRTE using gvec
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, MIME_HTML_ONLY=0.1, MIME_HTML_ONLY_MULTI=0.001,
- MPART_ALT_DIFF=0.79, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,55 +82,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---===============3854100496081697164==
-Content-Type: text/html; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+On Fri, 28 Aug 2020 at 21:10, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 8/28/20 11:33 AM, Peter Maydell wrote:
+> > We already have gvec helpers for floating point VRECPE and
+> > VRQSRTE, so convert the Neon decoder to use them and
+> > add the fp16 support.
+> >
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> > ---
+> >  target/arm/translate-neon.c.inc | 29 +++++++++++++++++++++++++++--
+> >  1 file changed, 27 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/target/arm/translate-neon.c.inc b/target/arm/translate-neon.c.inc
+> > index 9d0959517fa..872f093a1fc 100644
+> > --- a/target/arm/translate-neon.c.inc
+> > +++ b/target/arm/translate-neon.c.inc
+> > @@ -3857,13 +3857,38 @@ static bool do_2misc_fp(DisasContext *s, arg_2misc *a,
+> >          return do_2misc_fp(s, a, FUNC);                         \
+> >      }
+> >
+> > -DO_2MISC_FP(VRECPE_F, gen_helper_recpe_f32)
+> > -DO_2MISC_FP(VRSQRTE_F, gen_helper_rsqrte_f32)
+> >  DO_2MISC_FP(VCVT_FS, gen_helper_vfp_sitos)
+> >  DO_2MISC_FP(VCVT_FU, gen_helper_vfp_uitos)
+> >  DO_2MISC_FP(VCVT_SF, gen_helper_vfp_tosizs)
+> >  DO_2MISC_FP(VCVT_UF, gen_helper_vfp_touizs)
+> >
+> > +#define DO_2MISC_FP_VEC(INSN, HFUNC, SFUNC)                             \
+> > +    static void gen_##INSN(unsigned vece, uint32_t rd_ofs,              \
+> > +                           uint32_t rm_ofs,                             \
+> > +                           uint32_t oprsz, uint32_t maxsz)              \
+> > +    {                                                                   \
+> > +        static gen_helper_gvec_2_ptr * const fns[4] = {                 \
+> > +            NULL, HFUNC, SFUNC, NULL,                                   \
+> > +        };                                                              \
+> > +        TCGv_ptr fpst;                                                  \
+> > +        fpst = fpstatus_ptr(vece == 1 ? FPST_STD_F16 : FPST_STD);       \
+>
+> Perhaps clearer with MO_16 instead of 1.
 
-<html><body><pre>
-Host CPU         : Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz
-Host Memory      : 15.49 GB
+OK (matches what we've mostly used elsewhere when selecting the
+argument to fpstatus_ptr()).
 
-Start Time (UTC) : 2020-08-28 21:30:02
-End Time (UTC)   : 2020-08-28 21:35:21
-Execution Time   : 0:05:18.871569
+> > +        tcg_gen_gvec_2_ptr(rd_ofs, rm_ofs, fpst, oprsz, maxsz, 0,       \
+> > +                           fns[vece]);                                  \
+> > +        tcg_temp_free_ptr(fpst);                                        \
+> > +    }                                                                   \
+> > +    static bool trans_##INSN(DisasContext *s, arg_2misc *a)             \
+> > +    {                                                                   \
+> > +        if (a->size == 0 ||                                             \
+> > +            (a->size == 1 && !dc_isar_feature(aa32_fp16_arith, s)))     \
+> > +        {                                                               \
+>
+> Likewise
 
-Status           : FAILURE
+Here I'm not so sure -- the thing you'd be cross-checking the size
+against is the Arm ARM, which uses '01' and '10' (or '1' and '0', depending
+on the insn), since it's the raw size field from the insn we're
+looking at, not the data-type size. They happen to be the same values
+for this insn, but aren't for all insns. (VADD (fp) and the other
+@3same_fp patterns are examples of the other encoding.)
 
---------------------------------------------------------
-            SUMMARY REPORT - COMMIT a4e236b7
+The other approach would be to standardize on "the decodetree pattern
+always converts the size to the data-type size, regardless of how
+it's encoded in the insn fields", and then you could check against
+MO_16 here. Would that be better ?
 
---------------------------------------------------------
-                  ERROR LOGS
---------------------------------------------------------
-2020-08-28T21:30:02.254226 - Verifying executables of 8 benchmarks for 17 targets
-2020-08-28T21:30:02.258421 - Verifying results of reference version v5.1.0
-2020-08-28T21:30:02.278698 - Checking out master
-2020-08-28T21:30:02.703788 - Pulling the latest changes from QEMU master
-From https://git.qemu.org/git/qemu
- * branch                  master     -> FETCH_HEAD
-   ac8b279f13..a4e236b7d4  master     -> origin/master
-2020-08-28T21:30:08.254973 - Running 'configure' for master
-2020-08-28T21:30:24.336578 - Running 'make' for master
-2020-08-28T21:32:14.504346 - Measuring instructions for master - dijkstra_double
-==15118== Callgrind, a call-graph generating cache profiler
-==15118== Copyright (C) 2002-2017, and GNU GPL'd, by Josef Weidendorfer et al.
-==15118== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
-==15118== Command: /home/ahmedkrmn/Desktop/GSoC2020/tools/qemu-nightly-tests/qemu-nightly/build-gcc/m68k-linux-user/qemu-m68k /home/ahmedkrmn/Desktop/GSoC2020/tools/qemu-nightly-tests/benchmarks/executables/dijkstra_double/dijkstra_double-m68k
-==15118== 
-==15118== For interactive control, run 'callgrind_control -h'.
-==15118== 
-==15118== Events    : Ir
-==15118== Collected : 4294020686
-==15118== 
-==15118== I   refs:      4,294,020,686
+> , and the { is on the wrong line.
 
+Will fix.
 
-
-</pre></body></html>
-
---===============3854100496081697164==--
+thanks
+-- PMM
 
