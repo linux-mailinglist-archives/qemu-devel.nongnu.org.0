@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBDF6255C59
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 16:26:11 +0200 (CEST)
-Received: from localhost ([::1]:48734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65AD7255C5B
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 16:26:39 +0200 (CEST)
+Received: from localhost ([::1]:51834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBfKU-0002uV-UD
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 10:26:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50930)
+	id 1kBfKw-0004FA-ER
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 10:26:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBfEJ-00089i-3p
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 10:19:47 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:38248)
+ id 1kBfEK-0008CW-8h
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 10:19:48 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:38247)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBfEH-00054D-5X
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 10:19:46 -0400
-Received: by mail-pf1-x443.google.com with SMTP id d22so737828pfn.5
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 07:19:44 -0700 (PDT)
+ id 1kBfEI-00054M-FX
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 10:19:47 -0400
+Received: by mail-pf1-x441.google.com with SMTP id d22so737862pfn.5
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 07:19:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=v5cOPITpAORhIDF2PS7d5r/AWbCGGzSRkZP2Jde8Lx4=;
- b=uSGx6BGpp5j/Yn57I1X47HsttAD19+mYAj7sfjJCjnRtz04XHE1ts2cDpRipt72Wi5
- l+WTGU0aE1Wp4GRrqFX8Y5hLbOzOXPlG//l2b2YJ3imJb15AC2+RH1xfntglZzmfgycq
- X7H7c1APmGDouqfQ7cY/aL2FDXQiUyoAMwAIjFyWe8++KTfVTu3xu8tawoCS6h6n1QD6
- kP9FpiySnpHSwrLa8THQIF4ryZ0ekHsTGjzBv+Y70HBCdb05P4bAAD1xtunRZv1NSs4X
- SCpWqxl2whKZjsEGSVL8uBlNtv3jBeZfqZlmMzLhhuNx9FYQUhbDjrWdz1iA1CYRD7ou
- DGKA==
+ bh=uVRyTVQxo8OjLoh4LZ/et66lNRgcRHaSjjoCMlpw+SQ=;
+ b=u2meYQFbUWxfteHLzcUK2AZ+zWuwExI34OSwejQpg43VgXpZxmEkwh6lXqUd5IcncH
+ 186aItOpJximDBd/aavgaWqQJitu3q9b3WKJZkfQb+gpMdf+BCDu6VSdhrPIHvsV0Un9
+ ekYBxK55Mr/gLV+/Zfpi+yJ2NVbvtS6uBUb7/nGkoQodj3BwCRT1iLflKQE96Mzku5AL
+ IB33QVw/LE/3i+TR1Pz3wDElws4i7QwGikuRXD1fOc1yQq17A7c1kWTqRQa4S5H1Nrql
+ 223rF8QIe6WkdyN8D5YNP48Tu+61zPrOrYB0PW/3W4FI4j/VjVtx+QnWTDi3Ds+unJu1
+ oeXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=v5cOPITpAORhIDF2PS7d5r/AWbCGGzSRkZP2Jde8Lx4=;
- b=mYuner+8NYBcufgJC+IN4USH87YZPfyD9g2iwgQSYXGmNHcbiweeXPEbyj+Hw2KN29
- NrHSwR/cZ09N66F1xRbOvYN2KGVOFw1RwXUqJkD8hprbg88yhr65wOaBndkP1XUFfYI0
- I9lKK8TITqntMb0m+rz566f6eQJ+cDN9wMGP6jueByYKa4AQux/Habylvmc9UN1DKg0m
- guF4Xbx8RD8p5/hbeIv9rkkbmZ+Nozf/gC7UdYS2cxfZU0RAv38SNDA7QPUL01S5RVE/
- jvTXYc9lqFa/vk+/M4u5oF4vBB/q0SvTEUNFLvpR0qu2tmxGxr9sRIGJ84NNEXqfQEFV
- sv3w==
-X-Gm-Message-State: AOAM5321+SF0GnPQfOe03HyIp9iovQCFgjvYoLla0UGyU4iiczDD7oW+
- 2npWXYYTK15g9vukG3RI1V+ZGNhk/ydyHw==
-X-Google-Smtp-Source: ABdhPJzbWnIzaDFr4LMXjI9e18NOec5M8AxdT2wv9jtMuDSfCZb1cv1FYJmMJ6bwKcsqorKuZJgsAw==
-X-Received: by 2002:a65:6545:: with SMTP id a5mr1454011pgw.43.1598624383339;
- Fri, 28 Aug 2020 07:19:43 -0700 (PDT)
+ bh=uVRyTVQxo8OjLoh4LZ/et66lNRgcRHaSjjoCMlpw+SQ=;
+ b=toGHx/B9v45rLgY8jD5n7U9IT6jTIp08u2mcgYoRgAub88GXhz3cuvmWB/HnGRtBJf
+ sHkR/gF+sxpHH+q8h2N3z4sBTlfh31H4QT2iIB735E0LNkZGspKkCwXFis8tgU9R9fgg
+ vGbWyBRfztar+Hnfigfxnumvguml3U/wOzpvlI02gD9SvkkpJmvwNgZDbzW0+AcM4VOF
+ c9dRrLXYznTlQ2tEYNnXla1aQOsZ6KTjSc7yquqQAjEKQ9qWFAGMQ182SeQciclfI0XN
+ 7NsN0IvmFQHqui3ihyHrR27HObbdzeQ6Refr2VyZbPrVCEzCO2kaAdUh93lrSeOiExZK
+ QpdA==
+X-Gm-Message-State: AOAM533GohZUGC/9CU/nbzn0rM29gNsK5ppiAsEeF3MUrsa0mLjP8s+B
+ CGjUuy5Q2MUuGsDNrpkcwLrLUPoRNXB0WQ==
+X-Google-Smtp-Source: ABdhPJyut+8GhAYtqipQNRu/zjTpF1Bmd6k8kWLKAhlGKpISe9NM/ucqBMeTxy9B35muDQ5kxy9Tlg==
+X-Received: by 2002:a63:8543:: with SMTP id u64mr1425085pgd.350.1598624384601; 
+ Fri, 28 Aug 2020 07:19:44 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id j3sm1403080pjw.23.2020.08.28.07.19.42
+ by smtp.gmail.com with ESMTPSA id j3sm1403080pjw.23.2020.08.28.07.19.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 07:19:42 -0700 (PDT)
+ Fri, 28 Aug 2020 07:19:43 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 09/76] target/microblaze: Split out FSR from env->sregs
-Date: Fri, 28 Aug 2020 07:18:22 -0700
-Message-Id: <20200828141929.77854-10-richard.henderson@linaro.org>
+Subject: [PATCH v2 10/76] target/microblaze: Split out BTR from env->sregs
+Date: Fri, 28 Aug 2020 07:18:23 -0700
+Message-Id: <20200828141929.77854-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200828141929.77854-1-richard.henderson@linaro.org>
 References: <20200828141929.77854-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x443.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,118 +89,94 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Continue eliminating the sregs array in favor of individual members.
-Does not correct the width of FSR, yet.
+Does not correct the width of BTR, yet.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/cpu.h          | 1 +
- linux-user/microblaze/cpu_loop.c | 4 ++--
- target/microblaze/gdbstub.c      | 4 ++--
- target/microblaze/op_helper.c    | 8 ++++----
- target/microblaze/translate.c    | 6 ++++--
- 5 files changed, 13 insertions(+), 10 deletions(-)
+ target/microblaze/cpu.h       | 1 +
+ target/microblaze/gdbstub.c   | 4 ++--
+ target/microblaze/helper.c    | 4 ++--
+ target/microblaze/translate.c | 6 ++++--
+ 4 files changed, 9 insertions(+), 6 deletions(-)
 
 diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
-index 7d94af43ed..bcafef99b0 100644
+index bcafef99b0..deddb47abb 100644
 --- a/target/microblaze/cpu.h
 +++ b/target/microblaze/cpu.h
-@@ -240,6 +240,7 @@ struct CPUMBState {
-     uint64_t msr;
+@@ -241,6 +241,7 @@ struct CPUMBState {
      uint64_t ear;
      uint64_t esr;
-+    uint64_t fsr;
+     uint64_t fsr;
++    uint64_t btr;
      uint64_t sregs[14];
      float_status fp_status;
      /* Stack protectors. Yes, it's a hw feature.  */
-diff --git a/linux-user/microblaze/cpu_loop.c b/linux-user/microblaze/cpu_loop.c
-index c10e3e0261..da5e98b784 100644
---- a/linux-user/microblaze/cpu_loop.c
-+++ b/linux-user/microblaze/cpu_loop.c
-@@ -96,10 +96,10 @@ void cpu_loop(CPUMBState *env)
-                 case ESR_EC_FPU:
-                     info.si_signo = TARGET_SIGFPE;
-                     info.si_errno = 0;
--                    if (env->sregs[SR_FSR] & FSR_IO) {
-+                    if (env->fsr & FSR_IO) {
-                         info.si_code = TARGET_FPE_FLTINV;
-                     }
--                    if (env->sregs[SR_FSR] & FSR_DZ) {
-+                    if (env->fsr & FSR_DZ) {
-                         info.si_code = TARGET_FPE_FLTDIV;
-                     }
-                     info._sifields._sigfault._addr = 0;
 diff --git a/target/microblaze/gdbstub.c b/target/microblaze/gdbstub.c
-index 05e22f233d..2634ce49fc 100644
+index 2634ce49fc..cde8c169bf 100644
 --- a/target/microblaze/gdbstub.c
 +++ b/target/microblaze/gdbstub.c
-@@ -71,7 +71,7 @@ int mb_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
-         val = env->esr;
-         break;
-     case GDB_FSR:
--        val = env->sregs[SR_FSR];
-+        val = env->fsr;
+@@ -74,7 +74,7 @@ int mb_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+         val = env->fsr;
          break;
      case GDB_BTR:
-         val = env->sregs[SR_BTR];
-@@ -127,7 +127,7 @@ int mb_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
-         env->esr = tmp;
+-        val = env->sregs[SR_BTR];
++        val = env->btr;
          break;
-     case GDB_FSR:
--        env->sregs[SR_FSR] = tmp;
-+        env->fsr = tmp;
+     case GDB_PVR0 ... GDB_PVR11:
+         /* PVR12 is intentionally skipped */
+@@ -130,7 +130,7 @@ int mb_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
+         env->fsr = tmp;
          break;
      case GDB_BTR:
-         env->sregs[SR_BTR] = tmp;
-diff --git a/target/microblaze/op_helper.c b/target/microblaze/op_helper.c
-index f01cf9be64..ae57d45536 100644
---- a/target/microblaze/op_helper.c
-+++ b/target/microblaze/op_helper.c
-@@ -175,19 +175,19 @@ static void update_fpu_flags(CPUMBState *env, int flags)
-     int raise = 0;
+-        env->sregs[SR_BTR] = tmp;
++        env->btr = tmp;
+         break;
+     case GDB_PVR0 ... GDB_PVR11:
+         /* PVR12 is intentionally skipped */
+diff --git a/target/microblaze/helper.c b/target/microblaze/helper.c
+index ea290be780..b240dc76f6 100644
+--- a/target/microblaze/helper.c
++++ b/target/microblaze/helper.c
+@@ -132,7 +132,7 @@ void mb_cpu_do_interrupt(CPUState *cs)
+             /* Exception breaks branch + dslot sequence?  */
+             if (env->iflags & D_FLAG) {
+                 env->esr |= 1 << 12 ;
+-                env->sregs[SR_BTR] = env->btarget;
++                env->btr = env->btarget;
+             }
  
-     if (flags & float_flag_invalid) {
--        env->sregs[SR_FSR] |= FSR_IO;
-+        env->fsr |= FSR_IO;
-         raise = 1;
-     }
-     if (flags & float_flag_divbyzero) {
--        env->sregs[SR_FSR] |= FSR_DZ;
-+        env->fsr |= FSR_DZ;
-         raise = 1;
-     }
-     if (flags & float_flag_overflow) {
--        env->sregs[SR_FSR] |= FSR_OF;
-+        env->fsr |= FSR_OF;
-         raise = 1;
-     }
-     if (flags & float_flag_underflow) {
--        env->sregs[SR_FSR] |= FSR_UF;
-+        env->fsr |= FSR_UF;
-         raise = 1;
-     }
-     if (raise
+             /* Disable the MMU.  */
+@@ -160,7 +160,7 @@ void mb_cpu_do_interrupt(CPUState *cs)
+             if (env->iflags & D_FLAG) {
+                 D(qemu_log("D_FLAG set at exception bimm=%d\n", env->bimm));
+                 env->esr |= 1 << 12 ;
+-                env->sregs[SR_BTR] = env->btarget;
++                env->btr = env->btarget;
+ 
+                 /* Reexecute the branch.  */
+                 env->regs[17] -= 4;
 diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index 411c7b6e49..c58c49ea8f 100644
+index c58c49ea8f..469e1f103a 100644
 --- a/target/microblaze/translate.c
 +++ b/target/microblaze/translate.c
-@@ -1810,7 +1810,7 @@ void mb_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-                  "debug=%x imm=%x iflags=%x fsr=%" PRIx64 " "
+@@ -1811,7 +1811,7 @@ void mb_cpu_dump_state(CPUState *cs, FILE *f, int flags)
                   "rbtr=%" PRIx64 "\n",
                   env->msr, env->esr, env->ear,
--                 env->debug, env->imm, env->iflags, env->sregs[SR_FSR],
-+                 env->debug, env->imm, env->iflags, env->fsr,
-                  env->sregs[SR_BTR]);
+                  env->debug, env->imm, env->iflags, env->fsr,
+-                 env->sregs[SR_BTR]);
++                 env->btr);
      qemu_fprintf(f, "btaken=%d btarget=%" PRIx64 " mode=%s(saved=%s) "
                   "eip=%d ie=%d\n",
-@@ -1877,8 +1877,10 @@ void mb_tcg_init(void)
-         tcg_global_mem_new_i64(cpu_env, offsetof(CPUMBState, ear), "rear");
-     cpu_SR[SR_ESR] =
+                  env->btaken, env->btarget,
+@@ -1879,8 +1879,10 @@ void mb_tcg_init(void)
          tcg_global_mem_new_i64(cpu_env, offsetof(CPUMBState, esr), "resr");
-+    cpu_SR[SR_FSR] =
-+        tcg_global_mem_new_i64(cpu_env, offsetof(CPUMBState, fsr), "rfsr");
+     cpu_SR[SR_FSR] =
+         tcg_global_mem_new_i64(cpu_env, offsetof(CPUMBState, fsr), "rfsr");
++    cpu_SR[SR_BTR] =
++        tcg_global_mem_new_i64(cpu_env, offsetof(CPUMBState, btr), "rbtr");
  
--    for (i = SR_ESR + 1; i < ARRAY_SIZE(cpu_SR); i++) {
-+    for (i = SR_FSR + 1; i < ARRAY_SIZE(cpu_SR); i++) {
+-    for (i = SR_FSR + 1; i < ARRAY_SIZE(cpu_SR); i++) {
++    for (i = SR_BTR + 1; i < ARRAY_SIZE(cpu_SR); i++) {
          cpu_SR[i] = tcg_global_mem_new_i64(cpu_env,
                            offsetof(CPUMBState, sregs[i]),
                            special_regnames[i]);
