@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61A8625609C
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 20:38:30 +0200 (CEST)
-Received: from localhost ([::1]:44796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48D88256090
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 20:36:11 +0200 (CEST)
+Received: from localhost ([::1]:36288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBjGf-0007hx-Ei
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 14:38:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58376)
+	id 1kBjEP-0004D6-Ow
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 14:36:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBjCO-00027r-Qm
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:06 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:51270)
+ id 1kBjCT-00028l-6v
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:11 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:55516)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBjCJ-0005vI-Fb
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:02 -0400
-Received: by mail-wm1-x341.google.com with SMTP id w2so132119wmi.1
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 11:33:59 -0700 (PDT)
+ id 1kBjCK-0005vS-VO
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:07 -0400
+Received: by mail-wm1-x341.google.com with SMTP id a65so114446wme.5
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 11:34:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=+SArinhnBNgui3GNs7u+aKBEwW+643mTjOuIFolyhT4=;
- b=Rwdg2jqBQUKrOFgG4Da1Ln1wHNl7br4p9tmcc8/1oqPz6zyFbTroZGVlDJsxUe2+k6
- auTkS4F6doocWS3zmmEd7eoGAa4XLC2IDVm+eWTBt9NNYA9JqmSo/g8dMpxzs4uMQCHk
- QNw9ibA7tXqF308MAyvJwSU18i1O34APggSwBOwodR413boXyPFWC6LaD7M/OPcbFsUk
- QPLvMCNsucajCL+Y3YbtP5q+/DfgZC/R1hloBe4HdTYiMCMSbYZUvRuw+F8OOXPW1xrg
- fUpEwtiU6wB5DUGdOOTAvzpchW9oUJdJzRk4uL/SAFnJ/16wWnel0Pj6rS0LukIwP2So
- vVjA==
+ bh=k0ud5uE8Pk3z964JEoUoy6xdQiGva9otrDBqT+HZWCM=;
+ b=uOuO0aRQgUOghGStr3dx6DhjthsfDJpBqPWg2dQNNKuOhq4vesNuPT+qvvojDq02Ai
+ 7PxaBOOo49bDWotwWF8597MI0oRJCkhmYFyt5sahVSur4mwF5j0lp6Y4Ef7ciVTadGhd
+ bJhpwe0wzt7I6A1HvX4/yrRAB0lGdK2PkcUr1H6KXR12VzIZ+Re9XwrGwxXvZrbDnI9P
+ YXTBdpTjeLpx4DT5Lh/Uml2Gz1BpDe530/wUkaDk5FGOptwx9C07/bdYj91l6G62XMY6
+ g3wPr4G7Z3s+zew20S3vFL8f7tglYEmEhOqVSMhdVf7UgA5nzn7/j2qVO56PcKfkXCrx
+ gZUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+SArinhnBNgui3GNs7u+aKBEwW+643mTjOuIFolyhT4=;
- b=XOZOIUSRkzc0jd8llKnP4nxLjd7ow52QqZPzMEiZEg08NV89jT0vxWbNKEFGhZyJ3+
- n/2JnBCV4R/j6oOCd96SJKB05UXF9MyaxiurL5jzReTecaMh9RC6X793q4odgF+zkiM1
- J0RKwaJdI3ZoZB1zUx9V+CtEAVflc0VtAT+TRkqOtHps+QxX1eEMRb7MTa1/LOZv77QD
- 5n02d8ES5HvWGJmDXR06HP55JK8D74FMVCpL3OqRW1uQUhO2Kbxqfudk223UmjChQ5FG
- FGjsm85K6yzPbUGTxLks2qjm1J3T2QQwO8dbF+Za+ncujrxL6hBYo65npX1Hd9BLf7Se
- UmXg==
-X-Gm-Message-State: AOAM532gDZU6WIdE6w1Wb6rsEzO4O9YtD3kltX6Y9DxLbTu6Gl2Fs3ec
- SXQfGfWFN9sbH/bwLy+JhrD+SJWWIeRl2qOK
-X-Google-Smtp-Source: ABdhPJwccbFyJq5gru1mf1q5B16F9XpNw23ti26tyidoRHO3Cvwj+wqZ7kcdFuUps8IvpGS1Dfa0Vw==
-X-Received: by 2002:a7b:cb17:: with SMTP id u23mr13430wmj.79.1598639637959;
- Fri, 28 Aug 2020 11:33:57 -0700 (PDT)
+ bh=k0ud5uE8Pk3z964JEoUoy6xdQiGva9otrDBqT+HZWCM=;
+ b=Wy8Ci7tZnYcj8TbTmZ1tumd5jjP5T4vvQMTHg3vb48114xkTDiGJTcO1wNP8PQJQgC
+ xMvn5sy5p8UNgdJrSl+DpXMK4QgH4+gInTIRy1ipVxz/6JTqVbVW37ytI48uazOjZTuW
+ 53kXal6+o1QpIYFrLXU3PngtZvXaoEftzv5exjCZe+a9VxUPyO8TIYE4VNaOqFOtdf9Y
+ eMl1ztgPrZLgxTXnsYq2h2Bh6Dmil7npihBDvTfd8VnwdvsamRArGEWf4lwuqE8coGhj
+ 11fct7UXG8CNHSYOaOq3ZyJoEs7AHxX8BNNSKko0YvCE52mgvq0BmPZCxQ+ZCpm9i9nK
+ CJAQ==
+X-Gm-Message-State: AOAM530S4woPmQSoppaLWeaVp4UC4fHvXkR7sXWfSBoxcIqfSPVE00wb
+ vjlrahVkiMtxZXRFCXa8wOy8PA==
+X-Google-Smtp-Source: ABdhPJxAz/BTzFCDTps+xumf7/3azfVPt5E48QmCS0Uu9MSCwi7lmQ2uwX8UrISerZHk3C5oimEA8A==
+X-Received: by 2002:a1c:9a47:: with SMTP id c68mr20953wme.33.1598639639287;
+ Fri, 28 Aug 2020 11:33:59 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id s20sm356251wmh.21.2020.08.28.11.33.56
+ by smtp.gmail.com with ESMTPSA id s20sm356251wmh.21.2020.08.28.11.33.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 11:33:56 -0700 (PDT)
+ Fri, 28 Aug 2020 11:33:58 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 01/45] target/arm: Remove local definitions of float
- constants
-Date: Fri, 28 Aug 2020 19:33:10 +0100
-Message-Id: <20200828183354.27913-2-peter.maydell@linaro.org>
+Subject: [PATCH v2 02/45] target/arm: Use correct ID register check for
+ aa32_fp16_arith
+Date: Fri, 28 Aug 2020 19:33:11 +0100
+Message-Id: <20200828183354.27913-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200828183354.27913-1-peter.maydell@linaro.org>
 References: <20200828183354.27913-1-peter.maydell@linaro.org>
@@ -89,70 +89,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In several places the target/arm code defines local float constants
-for 2, 3 and 1.5, which are also provided by include/fpu/softfloat.h.
-Remove the unnecessary local duplicate versions.
+The aa32_fp16_arith feature check function currently looks at the
+AArch64 ID_AA64PFR0 register. This is (as the comment notes) not
+correct. The bogus check was put in mostly to allow testing of the
+fp16 variants of the VCMLA instructions and it was something of
+a mistake that we allowed them to exist in master.
+
+Switch the feature check function to testing VMFR1.FPHP, which is
+what it ought to be.
+
+This will remove emulation of the VCMLA and VCADD insns from
+AArch32 code running on an AArch64 '-cpu max' using system emulation.
+(They were never enabled for aarch32 linux-user and system-emulation.)
+Since we weren't advertising their existence via the AArch32 ID
+register, well-behaved guests wouldn't have been using them anyway.
+
+Once we have implemented all the AArch32 support for the FP16 extension
+we will advertise it in the MVFR1 ID register field, which will reenable
+these insns along with all the others.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper-a64.c    | 11 -----------
- target/arm/translate-sve.c |  4 ----
- target/arm/vfp_helper.c    |  4 ----
- 3 files changed, 19 deletions(-)
+ target/arm/cpu.h | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/target/arm/helper-a64.c b/target/arm/helper-a64.c
-index 8682630ff6c..030821489b3 100644
---- a/target/arm/helper-a64.c
-+++ b/target/arm/helper-a64.c
-@@ -234,17 +234,6 @@ uint64_t HELPER(neon_cgt_f64)(float64 a, float64 b, void *fpstp)
-  * versions, these do a fully fused multiply-add or
-  * multiply-add-and-halve.
-  */
--#define float16_two make_float16(0x4000)
--#define float16_three make_float16(0x4200)
--#define float16_one_point_five make_float16(0x3e00)
--
--#define float32_two make_float32(0x40000000)
--#define float32_three make_float32(0x40400000)
--#define float32_one_point_five make_float32(0x3fc00000)
--
--#define float64_two make_float64(0x4000000000000000ULL)
--#define float64_three make_float64(0x4008000000000000ULL)
--#define float64_one_point_five make_float64(0x3FF8000000000000ULL)
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index ac857bdc2c1..a1c7d8ebae5 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3519,12 +3519,7 @@ static inline bool isar_feature_aa32_predinv(const ARMISARegisters *id)
  
- uint32_t HELPER(recpsf_f16)(uint32_t a, uint32_t b, void *fpstp)
+ static inline bool isar_feature_aa32_fp16_arith(const ARMISARegisters *id)
  {
-diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 15ad6c7d323..e4cd6b62517 100644
---- a/target/arm/translate-sve.c
-+++ b/target/arm/translate-sve.c
-@@ -3803,10 +3803,6 @@ static bool trans_##NAME##_zpzi(DisasContext *s, arg_rpri_esz *a)         \
-     return true;                                                          \
+-    /*
+-     * This is a placeholder for use by VCMA until the rest of
+-     * the ARMv8.2-FP16 extension is implemented for aa32 mode.
+-     * At which point we can properly set and check MVFR1.FPHP.
+-     */
+-    return FIELD_EX64(id->id_aa64pfr0, ID_AA64PFR0, FP) == 1;
++    return FIELD_EX32(id->mvfr1, MVFR1, FPHP) >= 3;
  }
  
--#define float16_two  make_float16(0x4000)
--#define float32_two  make_float32(0x40000000)
--#define float64_two  make_float64(0x4000000000000000ULL)
--
- DO_FP_IMM(FADD, fadds, half, one)
- DO_FP_IMM(FSUB, fsubs, half, one)
- DO_FP_IMM(FMUL, fmuls, half, two)
-diff --git a/target/arm/vfp_helper.c b/target/arm/vfp_helper.c
-index 64266ece620..02ab8d7f2d8 100644
---- a/target/arm/vfp_helper.c
-+++ b/target/arm/vfp_helper.c
-@@ -582,10 +582,6 @@ uint32_t HELPER(vfp_fcvt_f64_to_f16)(float64 a, void *fpstp, uint32_t ahp_mode)
-     return r;
- }
- 
--#define float32_two make_float32(0x40000000)
--#define float32_three make_float32(0x40400000)
--#define float32_one_point_five make_float32(0x3fc00000)
--
- float32 HELPER(recps_f32)(CPUARMState *env, float32 a, float32 b)
- {
-     float_status *s = &env->vfp.standard_fp_status;
+ static inline bool isar_feature_aa32_vfp_simd(const ARMISARegisters *id)
 -- 
 2.20.1
 
