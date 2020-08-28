@@ -2,77 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AC73255F68
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 19:08:20 +0200 (CEST)
-Received: from localhost ([::1]:43324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 343FF255FB4
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 19:28:35 +0200 (CEST)
+Received: from localhost ([::1]:45214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBhrP-0000Xy-5o
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 13:08:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36840)
+	id 1kBiAz-0005UO-NA
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 13:28:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBhp1-0004Kh-96
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 13:05:51 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:37671)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBhoy-000381-Na
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 13:05:50 -0400
-Received: by mail-pl1-x643.google.com with SMTP id c15so787918plq.4
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 10:05:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=6oAAd13GwF/3Te3K0+i8T99RpHAlTgI/+rDnUt7DA9A=;
- b=aZDhrPedvmbMt4La7SABNowNFitHiAKxBVa/W0nKiodr6ADYUz/2pk/DBnszvAxnQ0
- a793gQPcgBTaYe4ZSRy+rly5vRnCPy4XH+KIj3lenGZwZ8J0FijPiWXlFesv2U0JUC3Q
- gipm9XJNH3zjjSB1VaOFM+IF845iuruNB5xVvqVqKib3mstZfskW3dK7nTVHB34Okt/f
- tGb4BWINkJBNd5wsSgZJFC9K4jbgVVr/55svNr66C/g8qUwzP0PPJuviBNSFEyoYUsUf
- hv2hI7PuKvds6tvF7aAg1bM2yWc2XGt3kytno58pgOefQUqoNp71pSHvB/rrzla49MM1
- Be2g==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kBiA6-0004jf-OE
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 13:27:38 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48924
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kBiA4-0005uX-De
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 13:27:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598635654;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dCVy++E7Qs3toEG3a72PngLCiqJ7+u+SlNHW5O1TuAs=;
+ b=cfgqu1vSezam9cZa68uFxsyMn2e7+puwkwk5MLbOciLuNRpHVmOHpX813yu71AMOKLW3Fg
+ LvTKl1gdSArvlV/7Dwr9k1DumtxVfg3klPZh6k6GWRosN13VwtFk53Mc9sYi+2Ui1HUTfV
+ 4Ewitw3e1dh+Z4r37On9CxRvud5lpuU=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-397-cSvcP67wOhGsXrgPyIlMKw-1; Fri, 28 Aug 2020 13:27:32 -0400
+X-MC-Unique: cSvcP67wOhGsXrgPyIlMKw-1
+Received: by mail-ej1-f72.google.com with SMTP id e15so857226ejk.10
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 10:27:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=6oAAd13GwF/3Te3K0+i8T99RpHAlTgI/+rDnUt7DA9A=;
- b=KtdLlLIGLxYep0Fn9huYZ+YjIL7Rt4SoUmTOhSK7ZB8XkB7l/smYZxxg1woiqSNHfg
- 2ca+88l+XxziZZQk0fBT22F7sfS2DEb6j11BijVvm3R9XYcz/8JnUpoteuMXUBZ7U0T4
- daIl+AkQZ1S8rWx3OFbAfjPFL8Xs/gSIGxFAQPAuGq8V2r7JnSTLv+nVZ8rbDvI2w6F1
- uAnW14+3HEBL/TKWqk1duaRvfX7hIdfqXIJ4cBx/fiZzTTVfBiAsDa6LwUnBBaK9DGGN
- yJnQsJTdV6z2LF6+wufyRegFbYVPRI9vMbqQs1E+0Rz6+VAiw5c0Yz6XiEvDT306tI7K
- J+hQ==
-X-Gm-Message-State: AOAM530EaLxEC1bI4YFU3jmf65lCKVYKC3baLRBl6JCvg76bUbFrq0iP
- HZTY40GrSChlnzqvk8yTMcRMU6sEMiAuCw==
-X-Google-Smtp-Source: ABdhPJzlAiJUnzfzT1GTSZZQ4a+ZiA74TeFxShmtkSgCknuR/CSKaxkdR3Iu31AAAz4zPIfL3h73sQ==
-X-Received: by 2002:a17:90a:f691:: with SMTP id cl17mr40474pjb.8.1598634346720; 
- Fri, 28 Aug 2020 10:05:46 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id q12sm2277495pff.196.2020.08.28.10.05.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 10:05:46 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 16/16] crypto/gcrypt: Split QCryptoCipherGcrypt into
- subclasses
-Date: Fri, 28 Aug 2020 10:05:23 -0700
-Message-Id: <20200828170523.418603-17-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200828170523.418603-1-richard.henderson@linaro.org>
-References: <20200828170523.418603-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=dCVy++E7Qs3toEG3a72PngLCiqJ7+u+SlNHW5O1TuAs=;
+ b=GuZRcL6U+wSBM3yi0T2vS9Xbx0kDRl2IebVbtXkfTscILIvFduPYxKwVlSlmJ4Ftz6
+ cIaA8DU5geNHZlxjSOqm68CMH5dGtukd/WamRWxRYG82rCSTMeJoVCXhAmkxP0hZSy1A
+ gv/ZPmRFGzVQGeOWziveSdSMEY5LwByXHjktUulPpdX5L8r7mokn5aXGKztrhhtYQ2Yk
+ XSvlg7tl5qJb/Tq18gRk0n8KOhoWlm+G3KQkhGk56NE7WLeQiiEeUHlq4pRRMBRL02fq
+ BwTBxuLUgnKcgZde3ygfITfJEXZs1rZzOQogBOy0GUlpngjSLrEi07RRIpBnu9X/CqqZ
+ KyDw==
+X-Gm-Message-State: AOAM531uXxjdo4R6I40LDAI7fMTlMBhmCcpoPw58WM2diIPeEYBTxawl
+ H2DXa6WNjFtOxGqJtt4qiUPvdjBCY7UrwmyHarJrP9xO2RcsjljlBRdXI08xVgGPTp1Wdq8/Flp
+ KfFwp3IaCJ4vUrak=
+X-Received: by 2002:a50:f40a:: with SMTP id r10mr3078602edm.137.1598635651740; 
+ Fri, 28 Aug 2020 10:27:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyXR0T7jO8Uy/rOcud+rXvv3yI2lJ2ttLYMBBdzaHntxeReVu8+JXCnHpA5uJyODg2pHmP0aA==
+X-Received: by 2002:a50:f40a:: with SMTP id r10mr3078577edm.137.1598635651482; 
+ Fri, 28 Aug 2020 10:27:31 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:287e:2203:f280:c08?
+ ([2001:b07:6468:f312:287e:2203:f280:c08])
+ by smtp.gmail.com with ESMTPSA id k13sm1472854edh.37.2020.08.28.10.27.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Aug 2020 10:27:30 -0700 (PDT)
+Subject: Re: QEMU build error with --disable-qcow1
+To: Thomas Huth <thuth@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <5e1817af-afde-2839-98b2-c7a50678756a@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <2a3c48d9-cc5e-844b-f3ea-b3917237615d@redhat.com>
+Date: Fri, 28 Aug 2020 19:27:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x643.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <5e1817af-afde-2839-98b2-c7a50678756a@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 12:34:32
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.809, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,634 +102,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Denis Plotnikov <dplotnikov@virtuozzo.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With gcrypt, most of the dispatch happens in the library,
-so there aren't many classes to create.  However, we can
-still create separate dispatch for CTR mode, and for
-CONFIG_QEMU_PRIVATE_XTS, which avoids needing to check
-for these modes at runtime.
+On 28/08/20 18:34, Thomas Huth wrote:
+> 
+> Linking target qemu-nbd
+> libblock.fa(block_qcow2-threads.c.o): In function `qcow2_zlib_compress':
+> /tmp/qemu-test/../../home/thuth/devel/qemu/block/qcow2-threads.c:101:
+> undefined reference to `deflateInit2_'
+> /tmp/qemu-test/../../home/thuth/devel/qemu/block/qcow2-threads.c:116:
+> undefined reference to `deflate'
+> /tmp/qemu-test/../../home/thuth/devel/qemu/block/qcow2-threads.c:123:
+> undefined reference to `deflateEnd'
+> libblock.fa(block_qcow2-threads.c.o): In function `qcow2_zlib_decompress':
+> /tmp/qemu-test/../../home/thuth/devel/qemu/block/qcow2-threads.c:152:
+> undefined reference to `inflateInit2_'
+> /tmp/qemu-test/../../home/thuth/devel/qemu/block/qcow2-threads.c:157:
+> undefined reference to `inflate'
+> /tmp/qemu-test/../../home/thuth/devel/qemu/block/qcow2-threads.c:169:
+> undefined reference to `inflateEnd'
+> etc.
+> 
+> Not sure whether this is due to the recent conversion to meson, or a
+> recent change to that file ... anybody got a clue what's going on here?
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- crypto/cipher-gcrypt.c.inc | 497 ++++++++++++++++++-------------------
- 1 file changed, 240 insertions(+), 257 deletions(-)
+It's a missing zlib dependency for the qcow2 files:
 
-diff --git a/crypto/cipher-gcrypt.c.inc b/crypto/cipher-gcrypt.c.inc
-index 7a1fbc9745..42d4137534 100644
---- a/crypto/cipher-gcrypt.c.inc
-+++ b/crypto/cipher-gcrypt.c.inc
-@@ -24,8 +24,6 @@
- 
- #include <gcrypt.h>
- 
--static const struct QCryptoCipherDriver qcrypto_cipher_lib_driver;
--
- bool qcrypto_cipher_supports(QCryptoCipherAlgorithm alg,
-                              QCryptoCipherMode mode)
- {
-@@ -57,36 +55,212 @@ bool qcrypto_cipher_supports(QCryptoCipherAlgorithm alg,
-     }
- }
- 
--typedef struct QCryptoCipherGcrypt QCryptoCipherGcrypt;
--struct QCryptoCipherGcrypt {
-+typedef struct QCryptoCipherGcrypt {
-     QCryptoCipher base;
-     gcry_cipher_hd_t handle;
-     size_t blocksize;
- #ifdef CONFIG_QEMU_PRIVATE_XTS
-     gcry_cipher_hd_t tweakhandle;
--    /* Initialization vector or Counter */
--    uint8_t *iv;
-+    uint8_t iv[XTS_BLOCK_SIZE];
- #endif
--};
-+} QCryptoCipherGcrypt;
- 
--static void
--qcrypto_gcrypt_cipher_free_ctx(QCryptoCipherGcrypt *ctx,
--                               QCryptoCipherMode mode)
-+
-+static void qcrypto_gcrypt_ctx_free(QCryptoCipher *cipher)
- {
--    if (!ctx) {
--        return;
--    }
-+    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
- 
-     gcry_cipher_close(ctx->handle);
--#ifdef CONFIG_QEMU_PRIVATE_XTS
--    if (mode == QCRYPTO_CIPHER_MODE_XTS) {
--        gcry_cipher_close(ctx->tweakhandle);
--    }
--    g_free(ctx->iv);
--#endif
-     g_free(ctx);
- }
- 
-+static int qcrypto_gcrypt_encrypt(QCryptoCipher *cipher, const void *in,
-+                                  void *out, size_t len, Error **errp)
-+{
-+    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
-+    gcry_error_t err;
-+
-+    if (len & (ctx->blocksize - 1)) {
-+        error_setg(errp, "Length %zu must be a multiple of block size %zu",
-+                   len, ctx->blocksize);
-+        return -1;
-+    }
-+
-+    err = gcry_cipher_encrypt(ctx->handle, out, len, in, len);
-+    if (err != 0) {
-+        error_setg(errp, "Cannot encrypt data: %s", gcry_strerror(err));
-+        return -1;
-+    }
-+
-+    return 0;
-+}
-+
-+
-+static int qcrypto_gcrypt_decrypt(QCryptoCipher *cipher, const void *in,
-+                                  void *out, size_t len, Error **errp)
-+{
-+    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
-+    gcry_error_t err;
-+
-+    if (len & (ctx->blocksize - 1)) {
-+        error_setg(errp, "Length %zu must be a multiple of block size %zu",
-+                   len, ctx->blocksize);
-+        return -1;
-+    }
-+
-+    err = gcry_cipher_decrypt(ctx->handle, out, len, in, len);
-+    if (err != 0) {
-+        error_setg(errp, "Cannot decrypt data: %s",
-+                   gcry_strerror(err));
-+        return -1;
-+    }
-+
-+    return 0;
-+}
-+
-+static int qcrypto_gcrypt_setiv(QCryptoCipher *cipher,
-+                                const uint8_t *iv, size_t niv,
-+                                Error **errp)
-+{
-+    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
-+    gcry_error_t err;
-+
-+    if (niv != ctx->blocksize) {
-+        error_setg(errp, "Expected IV size %zu not %zu",
-+                   ctx->blocksize, niv);
-+        return -1;
-+    }
-+
-+    gcry_cipher_reset(ctx->handle);
-+    err = gcry_cipher_setiv(ctx->handle, iv, niv);
-+    if (err != 0) {
-+        error_setg(errp, "Cannot set IV: %s", gcry_strerror(err));
-+        return -1;
-+    }
-+
-+    return 0;
-+}
-+
-+static int qcrypto_gcrypt_ctr_setiv(QCryptoCipher *cipher,
-+                                    const uint8_t *iv, size_t niv,
-+                                    Error **errp)
-+{
-+    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
-+    gcry_error_t err;
-+
-+    if (niv != ctx->blocksize) {
-+        error_setg(errp, "Expected IV size %zu not %zu",
-+                   ctx->blocksize, niv);
-+        return -1;
-+    }
-+
-+    err = gcry_cipher_setctr(ctx->handle, iv, niv);
-+    if (err != 0) {
-+        error_setg(errp, "Cannot set Counter: %s", gcry_strerror(err));
-+        return -1;
-+    }
-+
-+    return 0;
-+}
-+
-+
-+static const struct QCryptoCipherDriver qcrypto_gcrypt_driver = {
-+    .cipher_encrypt = qcrypto_gcrypt_encrypt,
-+    .cipher_decrypt = qcrypto_gcrypt_decrypt,
-+    .cipher_setiv = qcrypto_gcrypt_setiv,
-+    .cipher_free = qcrypto_gcrypt_ctx_free,
-+};
-+
-+static const struct QCryptoCipherDriver qcrypto_gcrypt_ctr_driver = {
-+    .cipher_encrypt = qcrypto_gcrypt_encrypt,
-+    .cipher_decrypt = qcrypto_gcrypt_decrypt,
-+    .cipher_setiv = qcrypto_gcrypt_ctr_setiv,
-+    .cipher_free = qcrypto_gcrypt_ctx_free,
-+};
-+
-+#ifdef CONFIG_QEMU_PRIVATE_XTS
-+static void qcrypto_gcrypt_xts_ctx_free(QCryptoCipher *cipher)
-+{
-+    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
-+
-+    gcry_cipher_close(ctx->tweakhandle);
-+    qcrypto_gcrypt_ctx_free(cipher);
-+}
-+
-+static void qcrypto_gcrypt_xts_wrape(const void *ctx, size_t length,
-+                                     uint8_t *dst, const uint8_t *src)
-+{
-+    gcry_error_t err;
-+    err = gcry_cipher_encrypt((gcry_cipher_hd_t)ctx, dst, length, src, length);
-+    g_assert(err == 0);
-+}
-+
-+static void qcrypto_gcrypt_xts_wrapd(const void *ctx, size_t length,
-+                                     uint8_t *dst, const uint8_t *src)
-+{
-+    gcry_error_t err;
-+    err = gcry_cipher_decrypt((gcry_cipher_hd_t)ctx, dst, length, src, length);
-+    g_assert(err == 0);
-+}
-+
-+static int qcrypto_gcrypt_xts_encrypt(QCryptoCipher *cipher, const void *in,
-+                                      void *out, size_t len, Error **errp)
-+{
-+    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
-+
-+    if (len & (ctx->blocksize - 1)) {
-+        error_setg(errp, "Length %zu must be a multiple of block size %zu",
-+                   len, ctx->blocksize);
-+        return -1;
-+    }
-+
-+    xts_encrypt(ctx->handle, ctx->tweakhandle,
-+                qcrypto_gcrypt_xts_wrape, qcrypto_gcrypt_xts_wrapd,
-+                ctx->iv, len, out, in);
-+    return 0;
-+}
-+
-+static int qcrypto_gcrypt_xts_decrypt(QCryptoCipher *cipher, const void *in,
-+                                      void *out, size_t len, Error **errp)
-+{
-+    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
-+
-+    if (len & (ctx->blocksize - 1)) {
-+        error_setg(errp, "Length %zu must be a multiple of block size %zu",
-+                   len, ctx->blocksize);
-+        return -1;
-+    }
-+
-+    xts_decrypt(ctx->handle, ctx->tweakhandle,
-+                qcrypto_gcrypt_xts_wrape, qcrypto_gcrypt_xts_wrapd,
-+                ctx->iv, len, out, in);
-+    return 0;
-+}
-+
-+static int qcrypto_gcrypt_xts_setiv(QCryptoCipher *cipher,
-+                                    const uint8_t *iv, size_t niv,
-+                                    Error **errp)
-+{
-+    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
-+
-+    if (niv != ctx->blocksize) {
-+        error_setg(errp, "Expected IV size %zu not %zu",
-+                   ctx->blocksize, niv);
-+        return -1;
-+    }
-+
-+    memcpy(ctx->iv, iv, niv);
-+    return 0;
-+}
-+
-+static const struct QCryptoCipherDriver qcrypto_gcrypt_xts_driver = {
-+    .cipher_encrypt = qcrypto_gcrypt_xts_encrypt,
-+    .cipher_decrypt = qcrypto_gcrypt_xts_decrypt,
-+    .cipher_setiv = qcrypto_gcrypt_xts_setiv,
-+    .cipher_free = qcrypto_gcrypt_xts_ctx_free,
-+};
-+#endif /* CONFIG_QEMU_PRIVATE_XTS */
-+
- 
- static QCryptoCipher *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
-                                              QCryptoCipherMode mode,
-@@ -95,32 +269,10 @@ static QCryptoCipher *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
-                                              Error **errp)
- {
-     QCryptoCipherGcrypt *ctx;
-+    const QCryptoCipherDriver *drv;
-     gcry_error_t err;
-     int gcryalg, gcrymode;
- 
--    switch (mode) {
--    case QCRYPTO_CIPHER_MODE_ECB:
--        gcrymode = GCRY_CIPHER_MODE_ECB;
--        break;
--    case QCRYPTO_CIPHER_MODE_XTS:
--#ifdef CONFIG_QEMU_PRIVATE_XTS
--        gcrymode = GCRY_CIPHER_MODE_ECB;
--#else
--        gcrymode = GCRY_CIPHER_MODE_XTS;
--#endif
--        break;
--    case QCRYPTO_CIPHER_MODE_CBC:
--        gcrymode = GCRY_CIPHER_MODE_CBC;
--        break;
--    case QCRYPTO_CIPHER_MODE_CTR:
--        gcrymode = GCRY_CIPHER_MODE_CTR;
--        break;
--    default:
--        error_setg(errp, "Unsupported cipher mode %s",
--                   QCryptoCipherMode_str(mode));
--        return NULL;
--    }
--
-     if (!qcrypto_cipher_validate_key_length(alg, mode, nkey, errp)) {
-         return NULL;
-     }
-@@ -129,54 +281,70 @@ static QCryptoCipher *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
-     case QCRYPTO_CIPHER_ALG_DES_RFB:
-         gcryalg = GCRY_CIPHER_DES;
-         break;
--
-     case QCRYPTO_CIPHER_ALG_3DES:
-         gcryalg = GCRY_CIPHER_3DES;
-         break;
--
-     case QCRYPTO_CIPHER_ALG_AES_128:
-         gcryalg = GCRY_CIPHER_AES128;
-         break;
--
-     case QCRYPTO_CIPHER_ALG_AES_192:
-         gcryalg = GCRY_CIPHER_AES192;
-         break;
--
-     case QCRYPTO_CIPHER_ALG_AES_256:
-         gcryalg = GCRY_CIPHER_AES256;
-         break;
--
-     case QCRYPTO_CIPHER_ALG_CAST5_128:
-         gcryalg = GCRY_CIPHER_CAST5;
-         break;
--
-     case QCRYPTO_CIPHER_ALG_SERPENT_128:
-         gcryalg = GCRY_CIPHER_SERPENT128;
-         break;
--
-     case QCRYPTO_CIPHER_ALG_SERPENT_192:
-         gcryalg = GCRY_CIPHER_SERPENT192;
-         break;
--
-     case QCRYPTO_CIPHER_ALG_SERPENT_256:
-         gcryalg = GCRY_CIPHER_SERPENT256;
-         break;
--
-     case QCRYPTO_CIPHER_ALG_TWOFISH_128:
-         gcryalg = GCRY_CIPHER_TWOFISH128;
-         break;
--
-     case QCRYPTO_CIPHER_ALG_TWOFISH_256:
-         gcryalg = GCRY_CIPHER_TWOFISH;
-         break;
--
-     default:
-         error_setg(errp, "Unsupported cipher algorithm %s",
-                    QCryptoCipherAlgorithm_str(alg));
-         return NULL;
-     }
- 
-+    drv = &qcrypto_gcrypt_driver;
-+    switch (mode) {
-+    case QCRYPTO_CIPHER_MODE_ECB:
-+        gcrymode = GCRY_CIPHER_MODE_ECB;
-+        break;
-+    case QCRYPTO_CIPHER_MODE_XTS:
-+#ifdef CONFIG_QEMU_PRIVATE_XTS
-+        drv = &qcrypto_gcrypt_xts_driver;
-+        gcrymode = GCRY_CIPHER_MODE_ECB;
-+#else
-+        gcrymode = GCRY_CIPHER_MODE_XTS;
-+#endif
-+        break;
-+    case QCRYPTO_CIPHER_MODE_CBC:
-+        gcrymode = GCRY_CIPHER_MODE_CBC;
-+        break;
-+    case QCRYPTO_CIPHER_MODE_CTR:
-+        drv = &qcrypto_gcrypt_ctr_driver;
-+        gcrymode = GCRY_CIPHER_MODE_CTR;
-+        break;
-+    default:
-+        error_setg(errp, "Unsupported cipher mode %s",
-+                   QCryptoCipherMode_str(mode));
-+        return NULL;
-+    }
-+
-     ctx = g_new0(QCryptoCipherGcrypt, 1);
-+    ctx->base.driver = drv;
- 
-     err = gcry_cipher_open(&ctx->handle, gcryalg, gcrymode, 0);
-     if (err != 0) {
-@@ -184,8 +352,16 @@ static QCryptoCipher *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
-                    gcry_strerror(err));
-         goto error;
-     }
-+    ctx->blocksize = gcry_cipher_get_algo_blklen(gcryalg);
-+
- #ifdef CONFIG_QEMU_PRIVATE_XTS
-     if (mode == QCRYPTO_CIPHER_MODE_XTS) {
-+        if (ctx->blocksize != XTS_BLOCK_SIZE) {
-+            error_setg(errp,
-+                       "Cipher block size %zu must equal XTS block size %d",
-+		       ctx->blocksize, XTS_BLOCK_SIZE);
-+            goto error;
-+        }
-         err = gcry_cipher_open(&ctx->tweakhandle, gcryalg, gcrymode, 0);
-         if (err != 0) {
-             error_setg(errp, "Cannot initialize cipher: %s",
-@@ -203,224 +379,31 @@ static QCryptoCipher *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
-         uint8_t *rfbkey = qcrypto_cipher_munge_des_rfb_key(key, nkey);
-         err = gcry_cipher_setkey(ctx->handle, rfbkey, nkey);
-         g_free(rfbkey);
--        ctx->blocksize = 8;
-     } else {
- #ifdef CONFIG_QEMU_PRIVATE_XTS
-         if (mode == QCRYPTO_CIPHER_MODE_XTS) {
-             nkey /= 2;
--            err = gcry_cipher_setkey(ctx->handle, key, nkey);
-+            err = gcry_cipher_setkey(ctx->tweakhandle, key + nkey, nkey);
-             if (err != 0) {
--                error_setg(errp, "Cannot set key: %s",
--                           gcry_strerror(err));
-+                error_setg(errp, "Cannot set key: %s", gcry_strerror(err));
-                 goto error;
-             }
--            err = gcry_cipher_setkey(ctx->tweakhandle, key + nkey, nkey);
--        } else {
--#endif
--            err = gcry_cipher_setkey(ctx->handle, key, nkey);
--#ifdef CONFIG_QEMU_PRIVATE_XTS
-         }
- #endif
--        if (err != 0) {
--            error_setg(errp, "Cannot set key: %s",
--                       gcry_strerror(err));
--            goto error;
--        }
--        switch (alg) {
--        case QCRYPTO_CIPHER_ALG_AES_128:
--        case QCRYPTO_CIPHER_ALG_AES_192:
--        case QCRYPTO_CIPHER_ALG_AES_256:
--        case QCRYPTO_CIPHER_ALG_SERPENT_128:
--        case QCRYPTO_CIPHER_ALG_SERPENT_192:
--        case QCRYPTO_CIPHER_ALG_SERPENT_256:
--        case QCRYPTO_CIPHER_ALG_TWOFISH_128:
--        case QCRYPTO_CIPHER_ALG_TWOFISH_256:
--            ctx->blocksize = 16;
--            break;
--        case QCRYPTO_CIPHER_ALG_3DES:
--        case QCRYPTO_CIPHER_ALG_CAST5_128:
--            ctx->blocksize = 8;
--            break;
--        default:
--            g_assert_not_reached();
--        }
-+        err = gcry_cipher_setkey(ctx->handle, key, nkey);
-     }
--    g_assert(is_power_of_2(ctx->blocksize));
--
--#ifdef CONFIG_QEMU_PRIVATE_XTS
--    if (mode == QCRYPTO_CIPHER_MODE_XTS) {
--        if (ctx->blocksize != XTS_BLOCK_SIZE) {
--            error_setg(errp,
--                       "Cipher block size %zu must equal XTS block size %d",
--                       ctx->blocksize, XTS_BLOCK_SIZE);
--            goto error;
--        }
--        ctx->iv = g_new0(uint8_t, ctx->blocksize);
-+    if (err != 0) {
-+        error_setg(errp, "Cannot set key: %s", gcry_strerror(err));
-+        goto error;
-     }
--#endif
- 
--    ctx->base.driver = &qcrypto_cipher_lib_driver;
-     return &ctx->base;
- 
-  error:
--    qcrypto_gcrypt_cipher_free_ctx(ctx, mode);
-+#ifdef CONFIG_QEMU_PRIVATE_XTS
-+    gcry_cipher_close(ctx->tweakhandle);
-+#endif
-+    gcry_cipher_close(ctx->handle);
-+    g_free(ctx);
-     return NULL;
- }
--
--
--static void
--qcrypto_gcrypt_cipher_ctx_free(QCryptoCipher *cipher)
--{
--    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
--
--    qcrypto_gcrypt_cipher_free_ctx(ctx, cipher->mode);
--}
--
--
--#ifdef CONFIG_QEMU_PRIVATE_XTS
--static void qcrypto_gcrypt_xts_encrypt(const void *ctx,
--                                       size_t length,
--                                       uint8_t *dst,
--                                       const uint8_t *src)
--{
--    gcry_error_t err;
--    err = gcry_cipher_encrypt((gcry_cipher_hd_t)ctx, dst, length, src, length);
--    g_assert(err == 0);
--}
--
--static void qcrypto_gcrypt_xts_decrypt(const void *ctx,
--                                       size_t length,
--                                       uint8_t *dst,
--                                       const uint8_t *src)
--{
--    gcry_error_t err;
--    err = gcry_cipher_decrypt((gcry_cipher_hd_t)ctx, dst, length, src, length);
--    g_assert(err == 0);
--}
--#endif
--
--static int
--qcrypto_gcrypt_cipher_encrypt(QCryptoCipher *cipher,
--                              const void *in,
--                              void *out,
--                              size_t len,
--                              Error **errp)
--{
--    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
--    gcry_error_t err;
--
--    if (len & (ctx->blocksize - 1)) {
--        error_setg(errp, "Length %zu must be a multiple of block size %zu",
--                   len, ctx->blocksize);
--        return -1;
--    }
--
--#ifdef CONFIG_QEMU_PRIVATE_XTS
--    if (cipher->mode == QCRYPTO_CIPHER_MODE_XTS) {
--        xts_encrypt(ctx->handle, ctx->tweakhandle,
--                    qcrypto_gcrypt_xts_encrypt,
--                    qcrypto_gcrypt_xts_decrypt,
--                    ctx->iv, len, out, in);
--        return 0;
--    }
--#endif
--
--    err = gcry_cipher_encrypt(ctx->handle,
--                              out, len,
--                              in, len);
--    if (err != 0) {
--        error_setg(errp, "Cannot encrypt data: %s",
--                   gcry_strerror(err));
--        return -1;
--    }
--
--    return 0;
--}
--
--
--static int
--qcrypto_gcrypt_cipher_decrypt(QCryptoCipher *cipher,
--                              const void *in,
--                              void *out,
--                              size_t len,
--                              Error **errp)
--{
--    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
--    gcry_error_t err;
--
--    if (len & (ctx->blocksize - 1)) {
--        error_setg(errp, "Length %zu must be a multiple of block size %zu",
--                   len, ctx->blocksize);
--        return -1;
--    }
--
--#ifdef CONFIG_QEMU_PRIVATE_XTS
--    if (cipher->mode == QCRYPTO_CIPHER_MODE_XTS) {
--        xts_decrypt(ctx->handle, ctx->tweakhandle,
--                    qcrypto_gcrypt_xts_encrypt,
--                    qcrypto_gcrypt_xts_decrypt,
--                    ctx->iv, len, out, in);
--        return 0;
--    }
--#endif
--
--    err = gcry_cipher_decrypt(ctx->handle,
--                              out, len,
--                              in, len);
--    if (err != 0) {
--        error_setg(errp, "Cannot decrypt data: %s",
--                   gcry_strerror(err));
--        return -1;
--    }
--
--    return 0;
--}
--
--static int
--qcrypto_gcrypt_cipher_setiv(QCryptoCipher *cipher,
--                            const uint8_t *iv, size_t niv,
--                            Error **errp)
--{
--    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
--    gcry_error_t err;
--
--    if (niv != ctx->blocksize) {
--        error_setg(errp, "Expected IV size %zu not %zu",
--                   ctx->blocksize, niv);
--        return -1;
--    }
--
--#ifdef CONFIG_QEMU_PRIVATE_XTS
--    if (ctx->iv) {
--        memcpy(ctx->iv, iv, niv);
--        return 0;
--    }
--#endif
--
--    if (cipher->mode == QCRYPTO_CIPHER_MODE_CTR) {
--        err = gcry_cipher_setctr(ctx->handle, iv, niv);
--        if (err != 0) {
--            error_setg(errp, "Cannot set Counter: %s",
--                       gcry_strerror(err));
--            return -1;
--        }
--    } else {
--        gcry_cipher_reset(ctx->handle);
--        err = gcry_cipher_setiv(ctx->handle, iv, niv);
--        if (err != 0) {
--            error_setg(errp, "Cannot set IV: %s",
--                       gcry_strerror(err));
--            return -1;
--        }
--    }
--
--    return 0;
--}
--
--
--static const struct QCryptoCipherDriver qcrypto_cipher_lib_driver = {
--    .cipher_encrypt = qcrypto_gcrypt_cipher_encrypt,
--    .cipher_decrypt = qcrypto_gcrypt_cipher_decrypt,
--    .cipher_setiv = qcrypto_gcrypt_cipher_setiv,
--    .cipher_free = qcrypto_gcrypt_cipher_ctx_free,
--};
--- 
-2.25.1
+diff --git a/block/meson.build b/block/meson.build
+index 4dbbfe60b4..a3e56b7cd1 100644
+--- a/block/meson.build
++++ b/block/meson.build
+@@ -40,9 +40,9 @@ block_ss.add(files(
+   'vmdk.c',
+   'vpc.c',
+   'write-threshold.c',
+-), zstd)
++), zstd, zlib)
+
+-block_ss.add(when: [zlib, 'CONFIG_QCOW1'], if_true: files('qcow.c'))
++block_ss.add(when: 'CONFIG_QCOW1', if_true: files('qcow.c'))
+ block_ss.add(when: 'CONFIG_VDI', if_true: files('vdi.c'))
+ block_ss.add(when: 'CONFIG_CLOOP', if_true: files('cloop.c'))
+ block_ss.add(when: 'CONFIG_BOCHS', if_true: files('bochs.c'))
+
+(and then it becomes redundant for qcow1).  I'll send a formal patch
+shortly.
+
+Paolo
 
 
