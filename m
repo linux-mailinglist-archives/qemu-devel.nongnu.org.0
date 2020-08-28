@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85EB225579F
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 11:29:03 +0200 (CEST)
-Received: from localhost ([::1]:43286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEFF12557A2
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 11:29:06 +0200 (CEST)
+Received: from localhost ([::1]:43718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBagw-0003mm-Hn
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 05:29:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45918)
+	id 1kBagz-0003yF-Ri
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 05:29:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBaca-0004Ge-ST
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:32 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:51189)
+ id 1kBach-0004af-7T
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:39 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:50883)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBacZ-0004Go-3I
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:32 -0400
-Received: by mail-wm1-x341.google.com with SMTP id t2so305498wma.0
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 02:24:30 -0700 (PDT)
+ id 1kBacf-0004KD-GI
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 05:24:38 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id t2so305747wma.0
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 02:24:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=sVGSILwjDAqupuQyroGQhqDaeoRzPGgJv2uj9s/0pFg=;
- b=iGqh4KVXZ+GtAQjEr3VDEhZr91a75/ea7Xz3ndy9lxmV7QhL7UImBQvuAwRyn1F42k
- unDdhS8yejqw4q2DFAdiQm++NfmNZcW0oUTt/FDQyLPqY8+VSwQpySYetgHJHhlycqbr
- UnKj3043Yq53jgYJpXCoNV2L9tF6XJLKFZngHHfV5l/ALX5w0AW14KYOPtMUpyf3uoOn
- U+xS5lMbI/n3SiwLWLJxEj9+kSuDZHwX4DLc3lPB8IxS+94pdQEfNpAbl0+w4V/sZbDU
- ohsXLhhA+XY3q78wWd2LgSzWTJBdKg+hb+UXirGx2SaC3G5dkyjloKWab1I4JDDm4Ple
- b4dw==
+ bh=ytws2G2vdwDCedoP9AQB1YpWX7L6H56Ji0Orxd+JfWk=;
+ b=njosnHaoF5qbbFedi+pCml+nZyxJQM0Tou5qZ3ubvbCe1fIQPZkOBKAE/n8LdbhUwm
+ rYCQBaVZadL+ob8e/16AigtLbLVFCSS6CR1+eulcFaKH9lHv1fP/ZnB+pccWXK4K+69m
+ NUBDuzKtPLfOF7rgE//MukQvCJxH+baJLIERNTFkeSFe0BDPDxKakBRz8DGDKlyxlhL3
+ RMWpYy0yqH+z/a8MQ29V3Km5n9Jka/kQyAEPaRMANDYagdBodrXTg9wFXnhT4hGFCZ+6
+ nweUZXuGPFuAtIB2jcLA5/KDzillOqIWS8ackcHfKNprRKajc667HgBKrviaVvRtgxjM
+ se+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=sVGSILwjDAqupuQyroGQhqDaeoRzPGgJv2uj9s/0pFg=;
- b=NUfNhWsq7LiDTOv+hVal/T158AFwdGSS/yXu7zY7MVXfSNoct+Dy2oJoadh4wNBo8D
- GH1j8tqk3gLA2D4BNR5/NZyZ4kh4vqLV06k9NsHl6bNsKjEZ7TXEMddyJTuo3LOyrq8X
- b8vocxO3KCBdY+LXwqcgzHnb3hNbPJ2myTO2gIEG1f8Ux3prXWX5ZANwG6+RPcaexLlS
- d/fBQL86P7KfSijgAalr9JhG0q/nObNU8VhFOwIuKvBbPHqnMrzGIjt+vLWlqzJZJ5fP
- gKPtOVMGAg3RCtxDXUaouMONODfgvZ/qPx/echDbduNuTY7jWVpGrZ1eb79qZIZLCXdo
- 5ydQ==
-X-Gm-Message-State: AOAM532wKXoRUkVOQU+r9UhU69nAVYGu6eSIOFxuvWEMP0UZ8e6r9QqH
- mVycKpI/0Lk0/mWS1c5uRJDNzRW54iPKd2T8
-X-Google-Smtp-Source: ABdhPJypYfrekDYkV+evP9pqZKl5lgVoZypiRMzsr209x971Z36d0UbykMhD8uMdQyR12qLp6/O6nA==
-X-Received: by 2002:a7b:c00c:: with SMTP id c12mr781842wmb.54.1598606669370;
- Fri, 28 Aug 2020 02:24:29 -0700 (PDT)
+ bh=ytws2G2vdwDCedoP9AQB1YpWX7L6H56Ji0Orxd+JfWk=;
+ b=mPS0awflGA+5wMoMG1lBZ18uHDZsGreuvbCaq/JEC0rTv7wo294/JjCCVQ3uOzWsWu
+ 1ObkcjJX3+9aSSLN33nfdrfqMa/hbTMeSoN/QBuQaqGDinvLyE8UF+0EnAIfUMoYgoil
+ pBAzEdNujvuR7VTLQmI/RL3+Smwv27L8ZKuRtEHx6lctxcZu7aPx5JDT+CsftJyeDS39
+ Ge6MxlwsMMHpYzb0w8o1IE9TkOHPUVi+1W4HAwEUBdo59E2Xl2yvH5gv5MEkpdp4R1qz
+ +Q8u/6EtYMSPwa7/UO8miJhfPitnwK3h9s5o+XZVlIL0n+SPCe/NHBKrcMbQ1rFJTV06
+ B9Lg==
+X-Gm-Message-State: AOAM531MyWB1QBiHbIjsdkxPLpqlae/KFZ1NekxYtaW808w8crXPV091
+ klLWdUK7FvKfCJdvRtqTMAzubuep3BqTrMkc
+X-Google-Smtp-Source: ABdhPJxdl9g5yvKtjqkeW0Ylp09NbGFjPacZW8jxhxXMmVT2KRrlak1cA3dGMrm982GiAIVIvvo+vQ==
+X-Received: by 2002:a1c:4d12:: with SMTP id o18mr726819wmh.95.1598606675794;
+ Fri, 28 Aug 2020 02:24:35 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id t13sm912304wru.65.2020.08.28.02.24.28
+ by smtp.gmail.com with ESMTPSA id t13sm912304wru.65.2020.08.28.02.24.34
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 02:24:28 -0700 (PDT)
+ Fri, 28 Aug 2020 02:24:34 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/35] hw/arm/xilinx_zynq: Call qdev_connect_clock_in() before
- DeviceRealize
-Date: Fri, 28 Aug 2020 10:23:50 +0100
-Message-Id: <20200828092413.22206-13-peter.maydell@linaro.org>
+Subject: [PULL 18/35] armsse: Define ARMSSEClass correctly
+Date: Fri, 28 Aug 2020 10:23:56 +0100
+Message-Id: <20200828092413.22206-19-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200828092413.22206-1-peter.maydell@linaro.org>
 References: <20200828092413.22206-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,76 +88,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Eduardo Habkost <ehabkost@redhat.com>
 
-Clock canonical name is set in device_set_realized (see the block
-added to hw/core/qdev.c in commit 0e6934f264).
-If we connect a clock after the device is realized, this code is
-not executed. This is currently not a problem as this name is only
-used for trace events, however this disrupt tracing.
+TYPE_ARM_SSE is a TYPE_SYS_BUS_DEVICE subclass, but
+ARMSSEClass::parent_class is declared as DeviceClass.
 
-Fix by calling qdev_connect_clock_in() before realizing.
+It never caused any problems by pure luck:
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20200803105647.22223-3-f4bug@amsat.org
+We were not setting class_size for TYPE_ARM_SSE, so class_size of
+TYPE_SYS_BUS_DEVICE was being used (sizeof(SysBusDeviceClass)).
+This made the system allocate enough memory for TYPE_ARM_SSE
+devices even though ARMSSEClass was too small for a sysbus
+device.
+
+Additionally, the ARMSSEClass::info field ended up at the same
+offset as SysBusDeviceClass::explicit_ofw_unit_address.  This
+would make sysbus_get_fw_dev_path() crash for the device.
+Luckily, sysbus_get_fw_dev_path() never gets called for
+TYPE_ARM_SSE devices, because qdev_get_fw_dev_path() is only used
+by the boot device code, and TYPE_ARM_SSE devices don't appear at
+the fw_boot_order list.
+
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+Message-id: 20200826181006.4097163-1-ehabkost@redhat.com
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/xilinx_zynq.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ include/hw/arm/armsse.h | 2 +-
+ hw/arm/armsse.c         | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
-index cf6d9757b57..969ef0727cc 100644
---- a/hw/arm/xilinx_zynq.c
-+++ b/hw/arm/xilinx_zynq.c
-@@ -222,18 +222,18 @@ static void zynq_init(MachineState *machine)
-                           1, 0x0066, 0x0022, 0x0000, 0x0000, 0x0555, 0x2aa,
-                           0);
+diff --git a/include/hw/arm/armsse.h b/include/hw/arm/armsse.h
+index 84080c22993..b10173beabd 100644
+--- a/include/hw/arm/armsse.h
++++ b/include/hw/arm/armsse.h
+@@ -220,7 +220,7 @@ typedef struct ARMSSE {
+ typedef struct ARMSSEInfo ARMSSEInfo;
  
--    /* Create slcr, keep a pointer to connect clocks */
--    slcr = qdev_new("xilinx,zynq_slcr");
--    sysbus_realize_and_unref(SYS_BUS_DEVICE(slcr), &error_fatal);
--    sysbus_mmio_map(SYS_BUS_DEVICE(slcr), 0, 0xF8000000);
--
-     /* Create the main clock source, and feed slcr with it */
-     zynq_machine->ps_clk = CLOCK(object_new(TYPE_CLOCK));
-     object_property_add_child(OBJECT(zynq_machine), "ps_clk",
-                               OBJECT(zynq_machine->ps_clk));
-     object_unref(OBJECT(zynq_machine->ps_clk));
-     clock_set_hz(zynq_machine->ps_clk, PS_CLK_FREQUENCY);
-+
-+    /* Create slcr, keep a pointer to connect clocks */
-+    slcr = qdev_new("xilinx,zynq_slcr");
-     qdev_connect_clock_in(slcr, "ps_clk", zynq_machine->ps_clk);
-+    sysbus_realize_and_unref(SYS_BUS_DEVICE(slcr), &error_fatal);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(slcr), 0, 0xF8000000);
+ typedef struct ARMSSEClass {
+-    DeviceClass parent_class;
++    SysBusDeviceClass parent_class;
+     const ARMSSEInfo *info;
+ } ARMSSEClass;
  
-     dev = qdev_new(TYPE_A9MPCORE_PRIV);
-     qdev_prop_set_uint32(dev, "num-cpu", 1);
-@@ -257,19 +257,19 @@ static void zynq_init(MachineState *machine)
-     dev = qdev_new(TYPE_CADENCE_UART);
-     busdev = SYS_BUS_DEVICE(dev);
-     qdev_prop_set_chr(dev, "chardev", serial_hd(0));
-+    qdev_connect_clock_in(dev, "refclk",
-+                          qdev_get_clock_out(slcr, "uart0_ref_clk"));
-     sysbus_realize_and_unref(busdev, &error_fatal);
-     sysbus_mmio_map(busdev, 0, 0xE0000000);
-     sysbus_connect_irq(busdev, 0, pic[59 - IRQ_OFFSET]);
--    qdev_connect_clock_in(dev, "refclk",
--                          qdev_get_clock_out(slcr, "uart0_ref_clk"));
-     dev = qdev_new(TYPE_CADENCE_UART);
-     busdev = SYS_BUS_DEVICE(dev);
-     qdev_prop_set_chr(dev, "chardev", serial_hd(1));
-+    qdev_connect_clock_in(dev, "refclk",
-+                          qdev_get_clock_out(slcr, "uart1_ref_clk"));
-     sysbus_realize_and_unref(busdev, &error_fatal);
-     sysbus_mmio_map(busdev, 0, 0xE0001000);
-     sysbus_connect_irq(busdev, 0, pic[82 - IRQ_OFFSET]);
--    qdev_connect_clock_in(dev, "refclk",
--                          qdev_get_clock_out(slcr, "uart1_ref_clk"));
- 
-     sysbus_create_varargs("cadence_ttc", 0xF8001000,
-             pic[42-IRQ_OFFSET], pic[43-IRQ_OFFSET], pic[44-IRQ_OFFSET], NULL);
+diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
+index dcbff9bd8f4..6381bbd94d6 100644
+--- a/hw/arm/armsse.c
++++ b/hw/arm/armsse.c
+@@ -1160,6 +1160,7 @@ static const TypeInfo armsse_info = {
+     .name = TYPE_ARMSSE,
+     .parent = TYPE_SYS_BUS_DEVICE,
+     .instance_size = sizeof(ARMSSE),
++    .class_size = sizeof(ARMSSEClass),
+     .instance_init = armsse_init,
+     .abstract = true,
+     .interfaces = (InterfaceInfo[]) {
 -- 
 2.20.1
 
