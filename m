@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F86B255B81
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 15:46:41 +0200 (CEST)
-Received: from localhost ([::1]:56994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAAC7255B4D
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 15:39:41 +0200 (CEST)
+Received: from localhost ([::1]:50706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBeiG-0003oi-8u
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 09:46:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36836)
+	id 1kBebU-0006fC-SS
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 09:39:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kBea7-0003wk-RX
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 09:38:15 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:53833)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kBea5-0003s7-V8
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 09:38:14 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:56097)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kBea3-0007Gb-4Z
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 09:38:15 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kBea1-0007GN-Ip
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 09:38:13 -0400
 Received: from localhost.localdomain ([82.252.135.186]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MSqbe-1k2PBR1iNq-00UG8y; Fri, 28 Aug 2020 15:37:59 +0200
+ id 1Mo6WJ-1kwJBT04dv-00peyP; Fri, 28 Aug 2020 15:38:00 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/18] linux-user: Add strace support for printing arguments of
- truncate()/ftruncate() and getsid()
-Date: Fri, 28 Aug 2020 15:37:40 +0200
-Message-Id: <20200828133753.2622286-6-laurent@vivier.eu>
+Subject: [PULL 06/18] linux-user: Add strace support for printing arguments of
+ syscalls used to lock and unlock memory
+Date: Fri, 28 Aug 2020 15:37:41 +0200
+Message-Id: <20200828133753.2622286-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200828133753.2622286-1-laurent@vivier.eu>
 References: <20200828133753.2622286-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:XoUGNhqitSlAnIumASTrVsKcrEFe2ULZcSgk+ubu6U2eaxkkehC
- 4zU/o0WmVVIZmwUGLNnu9xx71mIFQ5XVHhzXqax3oMLzPAyB8yYwpfRwra/pcaePJlylsGw
- SNw3DeHc6fmfdmamUlWB1bLwu+YABHsTVFOOSbLoMBiDidBKnZS+X8vSr16kNZ/FKYj9Zd1
- 57OM1ZxWUSpxsJn03j0dA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:nD8pNaNgyKU=:Zv4RUjPEfJGTdZXbZFtLKy
- Geh0aP0S249zwDyZJm04c9KdGftsT/HrCTwHFOvn7G184JGuKKPyxwncU9i97wEgylJOIrlrj
- lhfY+NzeFZpXRbO1Yt3kMpYYOUEHdlwiTDacb7nqSkbJepKbUOcUsX8YkD8YDt1y18ZOSIwst
- MNFLZCVoyo+BAoIGAAqPu2ErmkDch3UVwIYTcsqW7T4eYhpcnYeYjDB6saO8oVEMlg7xVdsAO
- R/+3oCuLfamdb134gSzuSc2YGEnSCijapM8V7ZkxO/oAanftDetbxO7ebSbqtvvSO+ElGye3+
- 2xAvCWSuVe36iIe+/O8aXHlhE6RMC+Ne1A0P8l6u+VbEHw4sZ3fa30HS3S+e44U76QrELySV9
- c3ruSxe4ycnMTccjlCmxHwaxr/yGMTOfYPplgynKGqUSabPWZsOesrFFaQ9QoS1txqsJwmKw1
- 73vmYGQQT+8veqVnC8oZ/zHk6V8GtV+7mDk/vI3898eU1eaHDLOfpYTxWN2HSVj3m1TEhY272
- DMCK4okoEhZWU9AkKrD2UqvpQL6oee61ZYAtdM6WO3vhGBr+9oFwJfpTvHbw/6Rv3jexWhc2v
- itDzt+cFf+6l8KddmBRhlIT7thiQ9g8zIK5zKsY1n0CAakkUxtIX9GOsfue4M2lkZOCJqVBSe
- 7xmL5oXSdmPLLHDCkNmFAX8ePQ2w5n7ah8UR+MDssrVWNw3SYNzhQNYRXCvUrgJI+omdeQYFQ
- fC/LNZtTlvJi5WiA7dfkJc9pZ3Oa6PqIyDgM6mWdCqc+cHfivr8LwlB2a532d9y3iA8a9mnS5
- 3YqmXGyg+riYwNyD5g+c8m92nsqlcXILd8qGZOcu5b++zXU/+38vFX/BVG8mXWvbENOGVMW
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:9P1QR4M2pNOMKf/q/mncMw3A2cflNmYitcFuk2lb/x+lm1Yvkjz
+ +54B/NmeCKb7M4OWZcBnYUT71UMx+PVRxjCP73y3Fu8sl3jXy/qJbLaKoLYtCRZ4HS2FZgv
+ pirMiL/iNMFA8Gz39oAGbu8EoZFn253owLcLPZtYHO66eNMxeLdKJ2ne736Km7hS0B3TcYm
+ /rVMLLeHyZTcplJPFj76A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:JyXBmoWHXTg=:xmDOIKn+SCO/wgBH0daIHT
+ NMFxmxZX9yI+LuD2o13FGvjyA02HDYPBec7NH0jU8fP922ru6RQgXHI+yVX3LpvWanuAYEYDt
+ gimM6Cs8BeDsbH0wI7P8b/yVBjWPG4yKkx7yHAab1xCGe7Cjzhl+xCMYN5RE7q2DmaTDdfx/2
+ qbUiAVasaMDexIg0T86frK9eUwUtRt4yXHVehWtGObHhMZhKmQWryoX1XZ24WgVKrAtnAMVuG
+ rZBOsql1ZUHg2szbGFHmZ8fv8dmBea3g/vt4NlgUIdRuiQjo0GF+KTYn/Gc3eO4ojaGOwePZ5
+ meZAQvdzyIvKPj7FFBTalfx7GAcmx6M8V4ExsSg5T4QcFgqnG8oEb1FI4Vz0rVLdpttSVJfNd
+ iQ39GennkbajjKy9yEysApmgqXPRLkvQrJ39d4/mQmSZxCmibYSHNkkB4LJkOLldiOX09WxNv
+ +s0daWE8zoOem8y+yhejt0AmH9F5wZEJinIjKLhOiOrFPeFU7xt2rfIA1IpHCTrz2L3T3O6JW
+ 0JEQFYIIlu6p5F9jnkWuiR0RsJzOH8ZTnWEKSxYepapqpOsVxVi5FcKBC3OcYwAQpBRSg7B1l
+ 9rN9rssQnhx0twsh4tnr7fnUiRUgCqy+ZRtBPx7cEjT/7PZiVg8xRYFNjYy1X0IApCCmXKni2
+ Y4H34C1VYZUB/ZRlhXPf+47Ok8LL98YlVXf54GSTX8goDnV9Y17Naq7EYlwpUwZ34sjpPr/Kg
+ Tgi9e0jHzGfeRsSwKZBT+cTRy0wiK/BoVYk3swk9BY4LrBFwBFqRfzLFFnW4j4F5AAlME1WPl
+ cdMTIipvxkmY/UzRuSbGr7ciAwg8u7+S/1NU4L5BvtT9qaFrhofWISCvsuxg7MVx2y6A/X5
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 09:38:06
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 09:36:25
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -79,140 +79,385 @@ From: Filip Bozuta <Filip.Bozuta@syrmia.com>
 
 This patch implements strace argument printing functionality for following syscalls:
 
-    * truncate, ftruncate - truncate a file to a specified length
+    * mlock, munlock, mlockall, munlockall - lock and unlock memory
 
-        int truncate/truncate64(const char *path, off_t length)
-        int ftruncate/ftruncate64(int fd, off_t length)
-        man page: https://man7.org/linux/man-pages/man2/truncate.2.html
-
-    * getsid - get session ID
-
-        pid_t getsid(pid_t pid)
-        man page: https://man7.org/linux/man-pages/man2/getsid.2.html
+       int mlock(const void *addr, size_t len)
+       int munlock(const void *addr, size_t len)
+       int mlockall(int flags)
+       int munlockall(void)
+       man page: https://man7.org/linux/man-pages/man2/mlock.2.html
 
 Implementation notes:
 
-    Syscalls truncate/truncate64 take string argument types and thus a
-    separate print function "print_truncate/print_truncate64" is stated in
-    file "strace.list". This function is defined and implemented in "strace.c"
-    by using an existing function used to print string arguments: "print_string()".
-    For syscall ftruncate64, a separate printing function was also stated in
-    "strace.c" as it requires a special kind of handling.
-    The other syscalls have only primitive argument types, so the rest of the
-    implementation was handled by stating an appropriate printing format in file
-    "strace.list".
-    Function "regpairs_aligned()" was cut & pasted from "syscall.c" to "qemu.h"
-    as it is used by functions "print_truncate64()" and "print_ftruncate64()"
-    to print the offset arguments of "truncate64()" and "ftruncate64()".
+    Syscall mlockall() takes an argument that is composed of predefined values
+    which represent flags that determine the type of locking operation that is
+    to be performed. For that reason, a printing function "print_mlockall" was
+    stated in file "strace.list". This printing function uses an already existing
+    function "print_flags()" to print the "flags" argument.  These flags are stated
+    inside an array "mlockall_flags" that contains values of type "struct flags".
+    These values are instantiated using an existing macro "FLAG_TARGET()" that
+    crates aproppriate target flag values based on those defined in files
+    '/target_syscall.h'. These target flag values were changed from
+    "TARGET_MLOCKALL_MCL*" to "TARGET_MCL_*" so that they can be aproppriately set
+    and recognised in "strace.c" with "FLAG_TARGET()". Value for "MCL_ONFAULT"
+    was added in this patch. This value was also added in "syscall.c" in function
+    "target_to_host_mlockall_arg()". Because this flag value was added in kernel
+    version 4.4, it is enwrapped in an #ifdef directive (both in "syscall.c" and
+    in "strace.c") as to support older kernel versions.
+    The other syscalls have only primitive argument types, so the
+    rest of the implementation was handled by stating an appropriate
+    printing format in file "strace.list". Syscall mlock2() is not implemented in
+    "syscall.c" and thus it's argument printing is not implemented in this patch.
 
 Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200811164553.27713-3-Filip.Bozuta@syrmia.com>
+Message-Id: <20200811164553.27713-4-Filip.Bozuta@syrmia.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/qemu.h      | 35 +++++++++++++++++++++++++++++++
- linux-user/strace.c    | 47 ++++++++++++++++++++++++++++++++++++++++++
- linux-user/strace.list | 10 ++++-----
- linux-user/syscall.c   | 32 ----------------------------
- 4 files changed, 87 insertions(+), 37 deletions(-)
+ linux-user/aarch64/target_syscall.h    |  5 +++--
+ linux-user/alpha/target_syscall.h      |  5 +++--
+ linux-user/arm/target_syscall.h        |  6 ++++--
+ linux-user/cris/target_syscall.h       |  5 +++--
+ linux-user/hppa/target_syscall.h       |  5 +++--
+ linux-user/i386/target_syscall.h       |  5 +++--
+ linux-user/m68k/target_syscall.h       |  6 +++---
+ linux-user/microblaze/target_syscall.h |  5 +++--
+ linux-user/mips/target_syscall.h       |  5 +++--
+ linux-user/mips64/target_syscall.h     |  5 +++--
+ linux-user/nios2/target_syscall.h      |  5 +++--
+ linux-user/openrisc/target_syscall.h   |  5 +++--
+ linux-user/ppc/target_syscall.h        |  5 +++--
+ linux-user/riscv/target_syscall.h      |  5 +++--
+ linux-user/s390x/target_syscall.h      |  5 +++--
+ linux-user/sh4/target_syscall.h        |  5 +++--
+ linux-user/sparc/target_syscall.h      |  5 +++--
+ linux-user/sparc64/target_syscall.h    |  5 +++--
+ linux-user/strace.c                    | 21 +++++++++++++++++++++
+ linux-user/strace.list                 |  8 ++++----
+ linux-user/syscall.c                   | 10 ++++++++--
+ linux-user/tilegx/target_syscall.h     |  5 +++--
+ linux-user/x86_64/target_syscall.h     |  5 +++--
+ linux-user/xtensa/target_syscall.h     |  5 +++--
+ 24 files changed, 97 insertions(+), 49 deletions(-)
 
-diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-index 63ddfe86fd8b..f431805e573f 100644
---- a/linux-user/qemu.h
-+++ b/linux-user/qemu.h
-@@ -706,6 +706,41 @@ static inline uint64_t target_offset64(uint64_t word0, uint64_t word1)
- }
- #endif /* TARGET_ABI_BITS != 32 */
+diff --git a/linux-user/aarch64/target_syscall.h b/linux-user/aarch64/target_syscall.h
+index 995e475c73f8..3194e6b0093c 100644
+--- a/linux-user/aarch64/target_syscall.h
++++ b/linux-user/aarch64/target_syscall.h
+@@ -16,8 +16,9 @@ struct target_pt_regs {
+ #define UNAME_MINIMUM_RELEASE "3.8.0"
+ #define TARGET_CLONE_BACKWARDS
+ #define TARGET_MINSIGSTKSZ       2048
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
  
+ #define TARGET_PR_SVE_SET_VL  50
+ #define TARGET_PR_SVE_GET_VL  51
+diff --git a/linux-user/alpha/target_syscall.h b/linux-user/alpha/target_syscall.h
+index 3426cc5b4e4f..fd389422e31e 100644
+--- a/linux-user/alpha/target_syscall.h
++++ b/linux-user/alpha/target_syscall.h
+@@ -258,7 +258,8 @@ struct target_pt_regs {
+ #define TARGET_UAC_NOFIX		2
+ #define TARGET_UAC_SIGBUS		4
+ #define TARGET_MINSIGSTKSZ              4096
+-#define TARGET_MLOCKALL_MCL_CURRENT     0x2000
+-#define TARGET_MLOCKALL_MCL_FUTURE      0x4000
++#define TARGET_MCL_CURRENT     0x2000
++#define TARGET_MCL_FUTURE      0x4000
++#define TARGET_MCL_ONFAULT     0x8000
+ 
+ #endif /* ALPHA_TARGET_SYSCALL_H */
+diff --git a/linux-user/arm/target_syscall.h b/linux-user/arm/target_syscall.h
+index f85cbdaf56ff..e870ed7a5468 100644
+--- a/linux-user/arm/target_syscall.h
++++ b/linux-user/arm/target_syscall.h
+@@ -28,8 +28,10 @@ struct target_pt_regs {
+ #define TARGET_CLONE_BACKWARDS
+ 
+ #define TARGET_MINSIGSTKSZ 2048
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
 +
-+/* ARM EABI and MIPS expect 64bit types aligned even on pairs or registers */
-+#ifdef TARGET_ARM
-+static inline int regpairs_aligned(void *cpu_env, int num)
-+{
-+    return ((((CPUARMState *)cpu_env)->eabi) == 1) ;
-+}
-+#elif defined(TARGET_MIPS) && (TARGET_ABI_BITS == 32)
-+static inline int regpairs_aligned(void *cpu_env, int num) { return 1; }
-+#elif defined(TARGET_PPC) && !defined(TARGET_PPC64)
-+/*
-+ * SysV AVI for PPC32 expects 64bit parameters to be passed on odd/even pairs
-+ * of registers which translates to the same as ARM/MIPS, because we start with
-+ * r3 as arg1
-+ */
-+static inline int regpairs_aligned(void *cpu_env, int num) { return 1; }
-+#elif defined(TARGET_SH4)
-+/* SH4 doesn't align register pairs, except for p{read,write}64 */
-+static inline int regpairs_aligned(void *cpu_env, int num)
-+{
-+    switch (num) {
-+    case TARGET_NR_pread64:
-+    case TARGET_NR_pwrite64:
-+        return 1;
-+
-+    default:
-+        return 0;
-+    }
-+}
-+#elif defined(TARGET_XTENSA)
-+static inline int regpairs_aligned(void *cpu_env, int num) { return 1; }
-+#else
-+static inline int regpairs_aligned(void *cpu_env, int num) { return 0; }
-+#endif
-+
- /**
-  * preexit_cleanup: housekeeping before the guest exits
-  *
+ #define TARGET_WANT_OLD_SYS_SELECT
+ 
+ #define TARGET_FORCE_SHMLBA
+diff --git a/linux-user/cris/target_syscall.h b/linux-user/cris/target_syscall.h
+index 29d69009ffe8..d109a6b42a35 100644
+--- a/linux-user/cris/target_syscall.h
++++ b/linux-user/cris/target_syscall.h
+@@ -40,7 +40,8 @@ struct target_pt_regs {
+ 
+ #define TARGET_CLONE_BACKWARDS2
+ #define TARGET_MINSIGSTKSZ 2048
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
+ 
+ #endif
+diff --git a/linux-user/hppa/target_syscall.h b/linux-user/hppa/target_syscall.h
+index e2f366839d80..f34e05edb57b 100644
+--- a/linux-user/hppa/target_syscall.h
++++ b/linux-user/hppa/target_syscall.h
+@@ -23,8 +23,9 @@ struct target_pt_regs {
+ #define UNAME_MINIMUM_RELEASE "2.6.32"
+ #define TARGET_CLONE_BACKWARDS
+ #define TARGET_MINSIGSTKSZ       2048
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
+ 
+ #undef  TARGET_ENOMSG
+ #define TARGET_ENOMSG          35
+diff --git a/linux-user/i386/target_syscall.h b/linux-user/i386/target_syscall.h
+index 2854758134d7..ed356b3908dc 100644
+--- a/linux-user/i386/target_syscall.h
++++ b/linux-user/i386/target_syscall.h
+@@ -151,8 +151,9 @@ struct target_vm86plus_struct {
+ 
+ #define TARGET_CLONE_BACKWARDS
+ #define TARGET_MINSIGSTKSZ 2048
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
+ #define TARGET_WANT_OLD_SYS_SELECT
+ 
+ #endif /* I386_TARGET_SYSCALL_H */
+diff --git a/linux-user/m68k/target_syscall.h b/linux-user/m68k/target_syscall.h
+index c0366b1c622d..23359a6299dd 100644
+--- a/linux-user/m68k/target_syscall.h
++++ b/linux-user/m68k/target_syscall.h
+@@ -21,9 +21,9 @@ struct target_pt_regs {
+ #define UNAME_MINIMUM_RELEASE "2.6.32"
+ 
+ #define TARGET_MINSIGSTKSZ 2048
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
+-
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
+ #define TARGET_WANT_OLD_SYS_SELECT
+ 
+ #endif /* M68K_TARGET_SYSCALL_H */
+diff --git a/linux-user/microblaze/target_syscall.h b/linux-user/microblaze/target_syscall.h
+index 4141cbaa5ec2..7f653db34f87 100644
+--- a/linux-user/microblaze/target_syscall.h
++++ b/linux-user/microblaze/target_syscall.h
+@@ -50,8 +50,9 @@ struct target_pt_regs {
+ 
+ #define TARGET_CLONE_BACKWARDS
+ #define TARGET_MINSIGSTKSZ      2048
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
+ 
+ #define TARGET_WANT_NI_OLD_SELECT
+ 
+diff --git a/linux-user/mips/target_syscall.h b/linux-user/mips/target_syscall.h
+index d5509a34a7e2..dd6fd7af8eac 100644
+--- a/linux-user/mips/target_syscall.h
++++ b/linux-user/mips/target_syscall.h
+@@ -234,8 +234,9 @@ struct target_pt_regs {
+ 
+ #define TARGET_CLONE_BACKWARDS
+ #define TARGET_MINSIGSTKSZ 2048
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
+ 
+ #define TARGET_FORCE_SHMLBA
+ 
+diff --git a/linux-user/mips64/target_syscall.h b/linux-user/mips64/target_syscall.h
+index 8ccc46822c11..8594955eec26 100644
+--- a/linux-user/mips64/target_syscall.h
++++ b/linux-user/mips64/target_syscall.h
+@@ -231,8 +231,9 @@ struct target_pt_regs {
+ 
+ #define TARGET_CLONE_BACKWARDS
+ #define TARGET_MINSIGSTKSZ      2048
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
+ 
+ #define TARGET_FORCE_SHMLBA
+ 
+diff --git a/linux-user/nios2/target_syscall.h b/linux-user/nios2/target_syscall.h
+index f3b2a500f430..78006c24d479 100644
+--- a/linux-user/nios2/target_syscall.h
++++ b/linux-user/nios2/target_syscall.h
+@@ -31,7 +31,8 @@ struct target_pt_regs {
+ };
+ 
+ #define TARGET_MINSIGSTKSZ 2048
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
+ 
+ #endif /* NIOS2_TARGET_SYSCALL_H */
+diff --git a/linux-user/openrisc/target_syscall.h b/linux-user/openrisc/target_syscall.h
+index d586d2a018a5..ef0d89a551d5 100644
+--- a/linux-user/openrisc/target_syscall.h
++++ b/linux-user/openrisc/target_syscall.h
+@@ -16,8 +16,9 @@ struct target_pt_regs {
+ #define UNAME_MINIMUM_RELEASE "2.6.32"
+ 
+ #define TARGET_MINSIGSTKSZ 2048
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
+ 
+ #define MMAP_SHIFT TARGET_PAGE_BITS
+ 
+diff --git a/linux-user/ppc/target_syscall.h b/linux-user/ppc/target_syscall.h
+index afc0570410d8..c461f878f2d6 100644
+--- a/linux-user/ppc/target_syscall.h
++++ b/linux-user/ppc/target_syscall.h
+@@ -72,8 +72,9 @@ struct target_revectored_struct {
+ #define TARGET_CLONE_BACKWARDS
+ 
+ #define TARGET_MINSIGSTKSZ 2048
+-#define TARGET_MLOCKALL_MCL_CURRENT 0x2000
+-#define TARGET_MLOCKALL_MCL_FUTURE  0x4000
++#define TARGET_MCL_CURRENT 0x2000
++#define TARGET_MCL_FUTURE  0x4000
++#define TARGET_MCL_ONFAULT 0x8000
+ #define TARGET_WANT_NI_OLD_SELECT
+ 
+ #endif /* PPC_TARGET_SYSCALL_H */
+diff --git a/linux-user/riscv/target_syscall.h b/linux-user/riscv/target_syscall.h
+index a88e821f733d..dc597c897222 100644
+--- a/linux-user/riscv/target_syscall.h
++++ b/linux-user/riscv/target_syscall.h
+@@ -51,8 +51,9 @@ struct target_pt_regs {
+ #define UNAME_MINIMUM_RELEASE "4.15.0"
+ 
+ #define TARGET_MINSIGSTKSZ 2048
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
+ 
+ /* clone(flags, newsp, ptidptr, tls, ctidptr) for RISC-V */
+ /* This comes from linux/kernel/fork.c, CONFIG_CLONE_BACKWARDS */
+diff --git a/linux-user/s390x/target_syscall.h b/linux-user/s390x/target_syscall.h
+index 8d4f609eaa5d..94f84178db79 100644
+--- a/linux-user/s390x/target_syscall.h
++++ b/linux-user/s390x/target_syscall.h
+@@ -28,7 +28,8 @@ struct target_pt_regs {
+ 
+ #define TARGET_CLONE_BACKWARDS2
+ #define TARGET_MINSIGSTKSZ        2048
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
+ 
+ #endif /* S390X_TARGET_SYSCALL_H */
+diff --git a/linux-user/sh4/target_syscall.h b/linux-user/sh4/target_syscall.h
+index 2b5f75be13d6..c1437adafefa 100644
+--- a/linux-user/sh4/target_syscall.h
++++ b/linux-user/sh4/target_syscall.h
+@@ -16,8 +16,9 @@ struct target_pt_regs {
+ #define UNAME_MINIMUM_RELEASE "2.6.32"
+ 
+ #define TARGET_MINSIGSTKSZ 2048
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
+ 
+ #define TARGET_FORCE_SHMLBA
+ 
+diff --git a/linux-user/sparc/target_syscall.h b/linux-user/sparc/target_syscall.h
+index b9160a771baa..d8ea04ea837a 100644
+--- a/linux-user/sparc/target_syscall.h
++++ b/linux-user/sparc/target_syscall.h
+@@ -21,8 +21,9 @@ struct target_pt_regs {
+  */
+ #define TARGET_CLONE_BACKWARDS
+ #define TARGET_MINSIGSTKSZ      4096
+-#define TARGET_MLOCKALL_MCL_CURRENT 0x2000
+-#define TARGET_MLOCKALL_MCL_FUTURE  0x4000
++#define TARGET_MCL_CURRENT 0x2000
++#define TARGET_MCL_FUTURE  0x4000
++#define TARGET_MCL_ONFAULT 0x8000
+ 
+ /* For SPARC SHMLBA is determined at runtime in the kernel, and
+  * libc has to runtime-detect it using the hwcaps (see glibc
+diff --git a/linux-user/sparc64/target_syscall.h b/linux-user/sparc64/target_syscall.h
+index 3073a23e03ae..696a68b1ed4e 100644
+--- a/linux-user/sparc64/target_syscall.h
++++ b/linux-user/sparc64/target_syscall.h
+@@ -22,8 +22,9 @@ struct target_pt_regs {
+  */
+ #define TARGET_CLONE_BACKWARDS
+ #define TARGET_MINSIGSTKSZ      4096
+-#define TARGET_MLOCKALL_MCL_CURRENT 0x2000
+-#define TARGET_MLOCKALL_MCL_FUTURE  0x4000
++#define TARGET_MCL_CURRENT 0x2000
++#define TARGET_MCL_FUTURE  0x4000
++#define TARGET_MCL_ONFAULT 0x8000
+ 
+ #define TARGET_FORCE_SHMLBA
+ 
 diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 2dcc15496a6a..31c7be24ebfd 100644
+index 31c7be24ebfd..4ac54ecffe9c 100644
 --- a/linux-user/strace.c
 +++ b/linux-user/strace.c
-@@ -1962,6 +1962,53 @@ print_lseek(void *cpu_env, const struct syscallname *name,
+@@ -1198,6 +1198,15 @@ UNUSED static struct flags falloc_flags[] = {
+ #endif
+ };
+ 
++UNUSED static struct flags mlockall_flags[] = {
++    FLAG_TARGET(MCL_CURRENT),
++    FLAG_TARGET(MCL_FUTURE),
++#ifdef MCL_ONFAULT
++    FLAG_TARGET(MCL_ONFAULT),
++#endif
++    FLAG_END,
++};
++
+ /*
+  * print_xxx utility functions.  These are used to print syscall
+  * parameters in certain format.  All of these have parameter
+@@ -2009,6 +2018,18 @@ print_ftruncate64(void *cpu_env, const struct syscallname *name,
  }
  #endif
  
-+#ifdef TARGET_NR_truncate
++#ifdef TARGET_NR_mlockall
 +static void
-+print_truncate(void *cpu_env, const struct syscallname *name,
++print_mlockall(void *cpu_env, const struct syscallname *name,
 +               abi_long arg0, abi_long arg1, abi_long arg2,
 +               abi_long arg3, abi_long arg4, abi_long arg5)
 +{
 +    print_syscall_prologue(name);
-+    print_string(arg0, 0);
-+    print_raw_param(TARGET_ABI_FMT_ld, arg1, 1);
-+    print_syscall_epilogue(name);
-+}
-+#endif
-+
-+#ifdef TARGET_NR_truncate64
-+static void
-+print_truncate64(void *cpu_env, const struct syscallname *name,
-+                 abi_long arg0, abi_long arg1, abi_long arg2,
-+                 abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_string(arg0, 0);
-+    if (regpairs_aligned(cpu_env, TARGET_NR_truncate64)) {
-+        arg1 = arg2;
-+        arg2 = arg3;
-+    }
-+    print_raw_param("%" PRIu64, target_offset64(arg1, arg2), 1);
-+    print_syscall_epilogue(name);
-+}
-+#endif
-+
-+#ifdef TARGET_NR_ftruncate64
-+static void
-+print_ftruncate64(void *cpu_env, const struct syscallname *name,
-+                  abi_long arg0, abi_long arg1, abi_long arg2,
-+                  abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_raw_param("%d", arg0, 0);
-+    if (regpairs_aligned(cpu_env, TARGET_NR_ftruncate64)) {
-+        arg1 = arg2;
-+        arg2 = arg3;
-+    }
-+    print_raw_param("%" PRIu64, target_offset64(arg1, arg2), 1);
++    print_flags(mlockall_flags, arg0, 1);
 +    print_syscall_epilogue(name);
 +}
 +#endif
@@ -221,87 +466,109 @@ index 2dcc15496a6a..31c7be24ebfd 100644
  static void
  print_socket(void *cpu_env, const struct syscallname *name,
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index a04706a524ae..8e5303d03500 100644
+index 8e5303d03500..d0ea7f3464b8 100644
 --- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -258,10 +258,10 @@
- { TARGET_NR_ftime, "ftime" , NULL, NULL, NULL },
+@@ -568,13 +568,13 @@
+ { TARGET_NR_mknodat, "mknodat" , NULL, print_mknodat, NULL },
  #endif
- #ifdef TARGET_NR_ftruncate
--{ TARGET_NR_ftruncate, "ftruncate" , NULL, NULL, NULL },
-+{ TARGET_NR_ftruncate, "ftruncate" , "%s(%d," TARGET_ABI_FMT_ld ")", NULL, NULL },
+ #ifdef TARGET_NR_mlock
+-{ TARGET_NR_mlock, "mlock" , NULL, NULL, NULL },
++{ TARGET_NR_mlock, "mlock" , "%s(%p," TARGET_FMT_lu ")", NULL, NULL },
  #endif
- #ifdef TARGET_NR_ftruncate64
--{ TARGET_NR_ftruncate64, "ftruncate64" , NULL, NULL, NULL },
-+{ TARGET_NR_ftruncate64, "ftruncate64" , NULL, print_ftruncate64, NULL },
+ #ifdef TARGET_NR_mlock2
+ { TARGET_NR_mlock2, "mlock2" , NULL, NULL, NULL },
  #endif
- #ifdef TARGET_NR_futex
- { TARGET_NR_futex, "futex" , NULL, print_futex, NULL },
-@@ -372,7 +372,7 @@
- { TARGET_NR_getrusage, "getrusage" , NULL, NULL, NULL },
+ #ifdef TARGET_NR_mlockall
+-{ TARGET_NR_mlockall, "mlockall" , NULL, NULL, NULL },
++{ TARGET_NR_mlockall, "mlockall" , NULL, print_mlockall, NULL },
  #endif
- #ifdef TARGET_NR_getsid
--{ TARGET_NR_getsid, "getsid" , NULL, NULL, NULL },
-+{ TARGET_NR_getsid, "getsid" , "%s(%d)", NULL, NULL },
+ #ifdef TARGET_NR_mmap
+ { TARGET_NR_mmap, "mmap" , NULL, print_mmap, print_syscall_ret_addr },
+@@ -637,10 +637,10 @@
+ { TARGET_NR_multiplexer, "multiplexer" , NULL, NULL, NULL },
  #endif
- #ifdef TARGET_NR_getsockname
- { TARGET_NR_getsockname, "getsockname" , NULL, NULL, NULL },
-@@ -1535,10 +1535,10 @@
- { TARGET_NR_tkill, "tkill" , NULL, print_tkill, NULL },
+ #ifdef TARGET_NR_munlock
+-{ TARGET_NR_munlock, "munlock" , NULL, NULL, NULL },
++{ TARGET_NR_munlock, "munlock" , "%s(%p," TARGET_FMT_lu ")", NULL, NULL },
  #endif
- #ifdef TARGET_NR_truncate
--{ TARGET_NR_truncate, "truncate" , NULL, NULL, NULL },
-+{ TARGET_NR_truncate, "truncate" , NULL, print_truncate, NULL },
+ #ifdef TARGET_NR_munlockall
+-{ TARGET_NR_munlockall, "munlockall" , NULL, NULL, NULL },
++{ TARGET_NR_munlockall, "munlockall" , "%s()", NULL, NULL },
  #endif
- #ifdef TARGET_NR_truncate64
--{ TARGET_NR_truncate64, "truncate64" , NULL, NULL, NULL },
-+{ TARGET_NR_truncate64, "truncate64" , NULL, print_truncate64, NULL },
- #endif
- #ifdef TARGET_NR_tuxcall
- { TARGET_NR_tuxcall, "tuxcall" , NULL, NULL, NULL },
+ #ifdef TARGET_NR_munmap
+ { TARGET_NR_munmap, "munmap" , NULL, print_munmap, NULL },
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 42107f37e397..ec7192112e9d 100644
+index ec7192112e9d..027dea35af41 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -495,38 +495,6 @@ static inline int next_free_host_timer(void)
+@@ -6975,12 +6975,18 @@ static inline int target_to_host_mlockall_arg(int arg)
+ {
+     int result = 0;
+ 
+-    if (arg & TARGET_MLOCKALL_MCL_CURRENT) {
++    if (arg & TARGET_MCL_CURRENT) {
+         result |= MCL_CURRENT;
+     }
+-    if (arg & TARGET_MLOCKALL_MCL_FUTURE) {
++    if (arg & TARGET_MCL_FUTURE) {
+         result |= MCL_FUTURE;
+     }
++#ifdef MCL_ONFAULT
++    if (arg & TARGET_MCL_ONFAULT) {
++        result |= MCL_ONFAULT;
++    }
++#endif
++
+     return result;
  }
  #endif
+diff --git a/linux-user/tilegx/target_syscall.h b/linux-user/tilegx/target_syscall.h
+index d731acdafaa0..8e9db734b88b 100644
+--- a/linux-user/tilegx/target_syscall.h
++++ b/linux-user/tilegx/target_syscall.h
+@@ -34,8 +34,9 @@ struct target_pt_regs {
+     tilegx_reg_t pad[2];
+ };
  
--/* ARM EABI and MIPS expect 64bit types aligned even on pairs or registers */
--#ifdef TARGET_ARM
--static inline int regpairs_aligned(void *cpu_env, int num)
--{
--    return ((((CPUARMState *)cpu_env)->eabi) == 1) ;
--}
--#elif defined(TARGET_MIPS) && (TARGET_ABI_BITS == 32)
--static inline int regpairs_aligned(void *cpu_env, int num) { return 1; }
--#elif defined(TARGET_PPC) && !defined(TARGET_PPC64)
--/* SysV AVI for PPC32 expects 64bit parameters to be passed on odd/even pairs
-- * of registers which translates to the same as ARM/MIPS, because we start with
-- * r3 as arg1 */
--static inline int regpairs_aligned(void *cpu_env, int num) { return 1; }
--#elif defined(TARGET_SH4)
--/* SH4 doesn't align register pairs, except for p{read,write}64 */
--static inline int regpairs_aligned(void *cpu_env, int num)
--{
--    switch (num) {
--    case TARGET_NR_pread64:
--    case TARGET_NR_pwrite64:
--        return 1;
--
--    default:
--        return 0;
--    }
--}
--#elif defined(TARGET_XTENSA)
--static inline int regpairs_aligned(void *cpu_env, int num) { return 1; }
--#else
--static inline int regpairs_aligned(void *cpu_env, int num) { return 0; }
--#endif
--
- #define ERRNO_TABLE_SIZE 1200
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
  
- /* target_to_host_errno_table[] is initialized from
+ /* For faultnum */
+ #define TARGET_INT_SWINT_1            14
+diff --git a/linux-user/x86_64/target_syscall.h b/linux-user/x86_64/target_syscall.h
+index 5e221e1d9ddc..3ecccb72be2d 100644
+--- a/linux-user/x86_64/target_syscall.h
++++ b/linux-user/x86_64/target_syscall.h
+@@ -101,7 +101,8 @@ struct target_msqid64_ds {
+ #define TARGET_ARCH_GET_FS 0x1003
+ #define TARGET_ARCH_GET_GS 0x1004
+ #define TARGET_MINSIGSTKSZ 2048
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
+ 
+ #endif /* X86_64_TARGET_SYSCALL_H */
+diff --git a/linux-user/xtensa/target_syscall.h b/linux-user/xtensa/target_syscall.h
+index 3866dad84930..afc86a153fc0 100644
+--- a/linux-user/xtensa/target_syscall.h
++++ b/linux-user/xtensa/target_syscall.h
+@@ -43,7 +43,8 @@ struct target_pt_regs {
+     xtensa_reg_t areg[16];
+ };
+ 
+-#define TARGET_MLOCKALL_MCL_CURRENT 1
+-#define TARGET_MLOCKALL_MCL_FUTURE  2
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
+ 
+ #endif
 -- 
 2.26.2
 
