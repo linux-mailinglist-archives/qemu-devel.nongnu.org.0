@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B2972560B9
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 20:44:06 +0200 (CEST)
-Received: from localhost ([::1]:39126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8F5F2560C4
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 20:48:37 +0200 (CEST)
+Received: from localhost ([::1]:56966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBjM5-0008UQ-6p
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 14:44:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59040)
+	id 1kBjQS-0007FB-RY
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 14:48:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBjCn-0002ha-D7
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:29 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:38679)
+ id 1kBjCp-0002nm-Pp
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:31 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:40392)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kBjCi-00060w-QP
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:28 -0400
-Received: by mail-wm1-x342.google.com with SMTP id t14so114711wmi.3
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 11:34:24 -0700 (PDT)
+ id 1kBjCk-00061D-1P
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 14:34:31 -0400
+Received: by mail-wr1-x443.google.com with SMTP id b18so50684wrs.7
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 11:34:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=xRS9Xs/A7cPVwavP2/d7CO6TOTh4dxr4Fh4pdaLz/eQ=;
- b=A8HfjYAZwLPq0tRJ5qS8TzXe1/JhbJHag5h1dm2XNuM7VjCHSnFOIgjy1ehFf3+pvg
- RQhd8DekjEFX2I9k/97I+d6nkusgG+mSY+p68Eo/H5OwUn8qHVZQSom6XurqQwLhAQkg
- /lKBMDOu+GNpsRWWTjSNhqQrbVhKa3f5P9TaIaTBpQZaOtA0ibLroXfU7uuJLPHV3NWY
- m4CGt7v0CXrwtFLSkTzg7Yb8KR4mkP4c70yK+3o3D5fn7TAlkngLmVQ6b0G1D7XHyUgx
- G7aLhRPr0cR4jOTwPaz1uTCrk9ma3FT8Y5ZBnfA6QQIkIGu50RobUT8CDMA3A263XgLr
- TmtA==
+ bh=k2fvNqZMBMcu+QPHwCHqAmjAV+Giderb+QvU3S3E5kg=;
+ b=VWA1EareKeIVNI81aZYnIdjOamSaZuyYYcm5QuiqAlJgOtEIKzLTmRz/Bnc8ZtPysj
+ WWVayamAVQJi14sdFSy7lxjEJA5jmc6NZ48ocaEcPyMykxKR4qTDrgpP7tmrnlEbcMQi
+ g35b016zVudrZiEzWypdeQpFcEOe9NGQnGNafEyy0bCHmuQOTeEmQmdsidejkv+DOdMS
+ xzD6nB4H3oj5SnI80zlvC/julxv+m34Ta0SoIbYV3QXoUGuNZVmy/PvQhoDgLZMyTvdo
+ mFCzR1P9nxw/X1G+ZE7Ll/+G09qfHM2h9ttz/y0m9iMfN4a+SqTL/Nftz/bYSN7yEJuo
+ /wfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xRS9Xs/A7cPVwavP2/d7CO6TOTh4dxr4Fh4pdaLz/eQ=;
- b=I0CGUXWioQYtG1XcjNp8cd28vJwJJjDhxQPgSKw8C6RTcGBl2kfapKrD25/8kElpUo
- yjTPOlW98A06mgNiwQ3cNqgfUcofBc+7Zxp73yglKw7MXuxfL8UjxbTg0EK64e567GAc
- Zb2e4yZXqLmXn6cRb8H/2rC3V0iVNb6hbGPczS9iPKJN1uba5jEuheUhvoCWT7Vx/cim
- 0hx+nMDXDdMwstMcscqRGrjXk9bTEp2qCw48QaH1DjtMw+cWNjvL26Mmt5Lqx4GADsPn
- blfgr2zNbf6lSHajC1NJNPKMznoKCKYIzM2AkhC7rAXCB9BmqFZGSygfOK8fte9s2bji
- SuUg==
-X-Gm-Message-State: AOAM531ufjvLs7fyTZugx4Quvt9Yb5LvZa2dbWtvAjPwdxEA+ltSnptq
- Enn/Tep9QrTQ3x4riLeogl+H/A==
-X-Google-Smtp-Source: ABdhPJwx/CqW1Qyw/jpFGdsdtZU00Qc5CjpLx/qkwPcUEdwLcQnoSM1q91XhViXe9Or7uZFqxoAb4g==
-X-Received: by 2002:a7b:c925:: with SMTP id h5mr52680wml.28.1598639663462;
- Fri, 28 Aug 2020 11:34:23 -0700 (PDT)
+ bh=k2fvNqZMBMcu+QPHwCHqAmjAV+Giderb+QvU3S3E5kg=;
+ b=oxq+uQtYHcinabS/8CuDxNlXtTrlSmq6WomfyBhWG/kG24G5eVEUBfStaQjgwjat+E
+ sFYm2Xv39Av14FhsJ0LWFUvY65AvM6PIzmPnEFbNjps00wdDnqJNFkFqZ61dcvL0aOG1
+ s/Agp0xEcZgszQm+1BSQhuMJxtULs/VaxJDPmIMa8MgBruCRgYV/iYtkWXoIVs3XXdys
+ ksquVl0jDo0SWQc3rh3pNypUHB2EXW+qokmWrxL+ZhY2T/EtaZx4QbP8dZ6WK5cqfk6h
+ zd2zohVXwCVXazADjkg5GxyoIuXzIN5xE38z4TXt3jIiCfEn2UqWQTOdAPKn0jbuxn8i
+ TDXA==
+X-Gm-Message-State: AOAM531Id4xHqru4thqnPrGYUQGaERKKZaSOA3BN5XgD8tDG9UdcyfmT
+ sgrbmNLc9YRQdYl7PLa4b1iF0A==
+X-Google-Smtp-Source: ABdhPJzmL8mGJK/ez5nYNr+v/juKiI1OzFsy1LT4AVwPKgkp7bJN1yGEWN//x8tol791F8+TqpMSvA==
+X-Received: by 2002:adf:9ed1:: with SMTP id b17mr278555wrf.140.1598639664666; 
+ Fri, 28 Aug 2020 11:34:24 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id s20sm356251wmh.21.2020.08.28.11.34.22
+ by smtp.gmail.com with ESMTPSA id s20sm356251wmh.21.2020.08.28.11.34.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 11:34:22 -0700 (PDT)
+ Fri, 28 Aug 2020 11:34:24 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 22/45] fpu: Add float16 comparison functions
-Date: Fri, 28 Aug 2020 19:33:31 +0100
-Message-Id: <20200828183354.27913-23-peter.maydell@linaro.org>
+Subject: [PATCH v2 23/45] target/arm: Implement FP16 for Neon VADD, VSUB, VABD,
+ VMUL
+Date: Fri, 28 Aug 2020 19:33:32 +0100
+Message-Id: <20200828183354.27913-24-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200828183354.27913-1-peter.maydell@linaro.org>
 References: <20200828183354.27913-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -72,7 +73,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,79 +89,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add comparison functions for float16 to match the existing float32
-and float64 ones:
+Implement FP16 support for the Neon insns which use the DO_3S_FP_GVEC
+macro: VADD, VSUB, VABD, VMUL.
 
- float16_eq()
- float16_le()
- float16_lt()
- float16_unordered()
- float16_eq_quiet()
- float16_le_quiet()
- float16_lt_quiet()
- float16_unordered_quiet()
-
-These are all just convenience wrappers around float16_compare() and
-float16_compare_quiet().  We will want these for AArch23 fp16
-support.
+For VABD this requires us to implement a new gvec_fabd_h helper
+using the machinery we have already for the other helpers.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/fpu/softfloat.h | 41 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
+ target/arm/helper.h             |  1 +
+ target/arm/vec_helper.c         |  6 ++++++
+ target/arm/translate-neon.c.inc | 36 +++++++++++++++++----------------
+ 3 files changed, 26 insertions(+), 17 deletions(-)
 
-diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
-index 659218b5c78..573fce99bc6 100644
---- a/include/fpu/softfloat.h
-+++ b/include/fpu/softfloat.h
-@@ -285,6 +285,47 @@ static inline float16 float16_set_sign(float16 a, int sign)
-     return make_float16((float16_val(a) & 0x7fff) | (sign << 15));
+diff --git a/target/arm/helper.h b/target/arm/helper.h
+index f5ad5088bf1..aa1ac75571f 100644
+--- a/target/arm/helper.h
++++ b/target/arm/helper.h
+@@ -629,6 +629,7 @@ DEF_HELPER_FLAGS_5(gvec_fmul_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_5(gvec_fmul_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_5(gvec_fmul_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
+ 
++DEF_HELPER_FLAGS_5(gvec_fabd_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_5(gvec_fabd_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
+ 
+ DEF_HELPER_FLAGS_5(gvec_ftsmul_h, TCG_CALL_NO_RWG,
+diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
+index a6c53d2ab6c..988d5784e83 100644
+--- a/target/arm/vec_helper.c
++++ b/target/arm/vec_helper.c
+@@ -707,6 +707,11 @@ static float64 float64_ftsmul(float64 op1, uint64_t op2, float_status *stat)
+     return result;
  }
  
-+static inline bool float16_eq(float16 a, float16 b, float_status *s)
++static float16 float16_abd(float16 op1, float16 op2, float_status *stat)
 +{
-+    return float16_compare(a, b, s) == float_relation_equal;
++    return float16_abs(float16_sub(op1, op2, stat));
 +}
 +
-+static inline bool float16_le(float16 a, float16 b, float_status *s)
-+{
-+    return float16_compare(a, b, s) <= float_relation_equal;
-+}
+ static float32 float32_abd(float32 op1, float32 op2, float_status *stat)
+ {
+     return float32_abs(float32_sub(op1, op2, stat));
+@@ -739,6 +744,7 @@ DO_3OP(gvec_ftsmul_h, float16_ftsmul, float16)
+ DO_3OP(gvec_ftsmul_s, float32_ftsmul, float32)
+ DO_3OP(gvec_ftsmul_d, float64_ftsmul, float64)
+ 
++DO_3OP(gvec_fabd_h, float16_abd, float16)
+ DO_3OP(gvec_fabd_s, float32_abd, float32)
+ 
+ #ifdef TARGET_AARCH64
+diff --git a/target/arm/translate-neon.c.inc b/target/arm/translate-neon.c.inc
+index 9879731a521..9d0959517fa 100644
+--- a/target/arm/translate-neon.c.inc
++++ b/target/arm/translate-neon.c.inc
+@@ -1082,34 +1082,36 @@ static bool do_3same_fp(DisasContext *s, arg_3same *a, VFPGen3OpSPFn *fn,
+     return true;
+ }
+ 
+-/*
+- * For all the functions using this macro, size == 1 means fp16,
+- * which is an architecture extension we don't implement yet.
+- */
+-#define DO_3S_FP_GVEC(INSN,FUNC)                                        \
+-    static void gen_##INSN##_3s(unsigned vece, uint32_t rd_ofs,         \
+-                                uint32_t rn_ofs, uint32_t rm_ofs,       \
+-                                uint32_t oprsz, uint32_t maxsz)         \
++#define WRAP_FP_GVEC(WRAPNAME, FPST, FUNC)                              \
++    static void WRAPNAME(unsigned vece, uint32_t rd_ofs,                \
++                         uint32_t rn_ofs, uint32_t rm_ofs,              \
++                         uint32_t oprsz, uint32_t maxsz)                \
+     {                                                                   \
+-        TCGv_ptr fpst = fpstatus_ptr(FPST_STD);                         \
++        TCGv_ptr fpst = fpstatus_ptr(FPST);                             \
+         tcg_gen_gvec_3_ptr(rd_ofs, rn_ofs, rm_ofs, fpst,                \
+                            oprsz, maxsz, 0, FUNC);                      \
+         tcg_temp_free_ptr(fpst);                                        \
+-    }                                                                   \
++    }
 +
-+static inline bool float16_lt(float16 a, float16 b, float_status *s)
-+{
-+    return float16_compare(a, b, s) < float_relation_equal;
-+}
-+
-+static inline bool float16_unordered(float16 a, float16 b, float_status *s)
-+{
-+    return float16_compare(a, b, s) == float_relation_unordered;
-+}
-+
-+static inline bool float16_eq_quiet(float16 a, float16 b, float_status *s)
-+{
-+    return float16_compare_quiet(a, b, s) == float_relation_equal;
-+}
-+
-+static inline bool float16_le_quiet(float16 a, float16 b, float_status *s)
-+{
-+    return float16_compare_quiet(a, b, s) <= float_relation_equal;
-+}
-+
-+static inline bool float16_lt_quiet(float16 a, float16 b, float_status *s)
-+{
-+    return float16_compare_quiet(a, b, s) < float_relation_equal;
-+}
-+
-+static inline bool float16_unordered_quiet(float16 a, float16 b,
-+                                           float_status *s)
-+{
-+    return float16_compare_quiet(a, b, s) == float_relation_unordered;
-+}
-+
- #define float16_zero make_float16(0)
- #define float16_half make_float16(0x3800)
- #define float16_one make_float16(0x3c00)
++#define DO_3S_FP_GVEC(INSN,SFUNC,HFUNC)                                 \
++    WRAP_FP_GVEC(gen_##INSN##_fp32_3s, FPST_STD, SFUNC)                 \
++    WRAP_FP_GVEC(gen_##INSN##_fp16_3s, FPST_STD_F16, HFUNC)             \
+     static bool trans_##INSN##_fp_3s(DisasContext *s, arg_3same *a)     \
+     {                                                                   \
+         if (a->size != 0) {                                             \
+-            /* TODO fp16 support */                                     \
+-            return false;                                               \
++            if (!dc_isar_feature(aa32_fp16_arith, s)) {                 \
++                return false;                                           \
++            }                                                           \
++            return do_3same(s, a, gen_##INSN##_fp16_3s);                \
+         }                                                               \
+-        return do_3same(s, a, gen_##INSN##_3s);                         \
++        return do_3same(s, a, gen_##INSN##_fp32_3s);                    \
+     }
+ 
+ 
+-DO_3S_FP_GVEC(VADD, gen_helper_gvec_fadd_s)
+-DO_3S_FP_GVEC(VSUB, gen_helper_gvec_fsub_s)
+-DO_3S_FP_GVEC(VABD, gen_helper_gvec_fabd_s)
+-DO_3S_FP_GVEC(VMUL, gen_helper_gvec_fmul_s)
++DO_3S_FP_GVEC(VADD, gen_helper_gvec_fadd_s, gen_helper_gvec_fadd_h)
++DO_3S_FP_GVEC(VSUB, gen_helper_gvec_fsub_s, gen_helper_gvec_fsub_h)
++DO_3S_FP_GVEC(VABD, gen_helper_gvec_fabd_s, gen_helper_gvec_fabd_h)
++DO_3S_FP_GVEC(VMUL, gen_helper_gvec_fmul_s, gen_helper_gvec_fmul_h)
+ 
+ /*
+  * For all the functions using this macro, size == 1 means fp16,
 -- 
 2.20.1
 
