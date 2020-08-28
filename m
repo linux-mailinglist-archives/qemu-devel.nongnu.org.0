@@ -2,87 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B666255B91
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 15:50:04 +0200 (CEST)
-Received: from localhost ([::1]:43974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6515255B8D
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 15:49:06 +0200 (CEST)
+Received: from localhost ([::1]:40296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBelX-0001Zr-A2
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 09:50:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40652)
+	id 1kBekb-0008W0-Py
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 09:49:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1kBej5-00060R-9Q
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 09:47:31 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:34275
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kBeje-00072n-Uo
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 09:48:06 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22817
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1kBej3-0000Pe-M4
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 09:47:30 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kBejd-0000Ue-De
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 09:48:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598622448;
+ s=mimecast20190719; t=1598622484;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ERdT69ax0+kZdzAbXsFNb+QP37dCpZZsDlf1oMe4UE4=;
- b=QV7fv8RfkKuXfvAKXCIezKEn4xZX82czLKaQwLXd8e19rpM9RZKMxrkxFMQaTRifzd9qN4
- L4uNW6DbfGdJ+1L2xNkeGpSBYmm8SPQdhdgtL2OrDjmTRm+RGdJF7go1VcY91pFOz3zfLA
- sjbgxiDqLN7vi/KlPuyp7FAMx59281M=
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
- [209.85.166.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-173-X3paKuH1Ptq45AzuM-oy9Q-1; Fri, 28 Aug 2020 09:47:27 -0400
-X-MC-Unique: X3paKuH1Ptq45AzuM-oy9Q-1
-Received: by mail-io1-f72.google.com with SMTP id k133so922920iof.16
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 06:47:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ERdT69ax0+kZdzAbXsFNb+QP37dCpZZsDlf1oMe4UE4=;
- b=BEr0g0HYZCXP70nPDtuQg8mLBfgoRZWyw6Mbq8T2TsY8tJBA18L8UhOHzIEAQWVdoy
- u4GpvNNnpFTQ+u/C/UhvbbR2KxZjYBWzBqjjnNJPEL2lUZVxqOqgVVH0rz9VDYIfS73r
- 1mcQl8uaP9fY2cX3a7i3wbi7rbud/wggkfC+3Jkzui3qbySvmIRoX4VcPXUBUc55CgTv
- YebA1M24iFWIp9/wuoWQ36hCtAlWFeKdauq7ok83dO+aDRrFSfP5uTafBSVx96OJbLgZ
- P1iba9zrG5poztzRACQamLQ7nFkmjOZx+GY8CAIv3XkRsYDiumz7REUemUwR48n7CuRO
- YlBg==
-X-Gm-Message-State: AOAM533UX9Ki2y51Ibyv2Uj6noL0x6a8/PmCTpbPFqVWAlbiXubfLoXD
- NP9AjXltbvnpkr9LlHDCyQfg/S6yyg78b2oJAeoNRNTjYdEBVmL1vzx7s2AINuUV6tUGKKNvcA+
- myE58NX3DWJofuQU+MrFoIljRv2h9+fo=
-X-Received: by 2002:a92:4f:: with SMTP id 76mr1411361ila.11.1598622446495;
- Fri, 28 Aug 2020 06:47:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwmlJWiyrgOl59vPyxdQtRqJd5Qy1cE6Ha3PtfDBYLqotlZ/iOLYbiLSJtxfMqCKO3W/oTEOPsTHn2EcBMibaI=
-X-Received: by 2002:a92:4f:: with SMTP id 76mr1411339ila.11.1598622446245;
- Fri, 28 Aug 2020 06:47:26 -0700 (PDT)
+ bh=PyImQr8Vv71Nkg4eGLf/31gz0soaKXkRyk+wNyHdUvU=;
+ b=a4BmW7igN0nosE1ZDkltWUilMgkuRliEVXXEi9fQcd78Vd/kOiK4g0bGGWR85ac1kYnMUq
+ 92IcLl8l1kuSOdoWU+8W7JrU03gQ2EyWwG1WbR18xSBQAjXO0jHeq2ZJbdXWazeLR3LUWX
+ z6gkZjysSmlIiHm3AC/w7vK9Tf9TBA0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-574-Ets9HjX7NxWOzyPhwKwiwA-1; Fri, 28 Aug 2020 09:48:02 -0400
+X-MC-Unique: Ets9HjX7NxWOzyPhwKwiwA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37BBE8730A8;
+ Fri, 28 Aug 2020 13:47:59 +0000 (UTC)
+Received: from gondolin (ovpn-113-255.ams2.redhat.com [10.36.113.255])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B5F055C1D0;
+ Fri, 28 Aug 2020 13:47:44 +0000 (UTC)
+Date: Fri, 28 Aug 2020 15:47:41 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Yan Zhao <yan.y.zhao@intel.com>
+Subject: Re: device compatibility interface for live migration with assigned
+ devices
+Message-ID: <20200828154741.30cfc1a3.cohuck@redhat.com>
+In-Reply-To: <20200826064117.GA22243@joy-OptiPlex-7040>
+References: <20200814051601.GD15344@joy-OptiPlex-7040>
+ <a51209fe-a8c6-941f-ff54-7be06d73bc44@redhat.com>
+ <20200818085527.GB20215@redhat.com>
+ <3a073222-dcfe-c02d-198b-29f6a507b2e1@redhat.com>
+ <20200818091628.GC20215@redhat.com>
+ <20200818113652.5d81a392.cohuck@redhat.com>
+ <20200820003922.GE21172@joy-OptiPlex-7040>
+ <20200819212234.223667b3@x1.home>
+ <20200820031621.GA24997@joy-OptiPlex-7040>
+ <20200825163925.1c19b0f0.cohuck@redhat.com>
+ <20200826064117.GA22243@joy-OptiPlex-7040>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-References: <20200828110734.1638685-1-marcandre.lureau@redhat.com>
- <20200828110734.1638685-6-marcandre.lureau@redhat.com>
- <e3840569-5aa5-34f7-5962-7f63c51451ae@redhat.com>
-In-Reply-To: <e3840569-5aa5-34f7-5962-7f63c51451ae@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Fri, 28 Aug 2020 17:47:14 +0400
-Message-ID: <CAMxuvaxos5RazRCEB9ce-7tqwAdAPh_jDLN8LgxxvXeaEXhK6Q@mail.gmail.com>
-Subject: Re: [PATCH 05/16] tests: qga has virtio-serial by default when host
- has it
-To: Thomas Huth <thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 01:02:42
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 04:08:58
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,49 +87,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Bonzini, Paolo" <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: kvm@vger.kernel.org, libvir-list@redhat.com,
+ Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org, kwankhede@nvidia.com,
+ eauger@redhat.com, xin-ran.wang@intel.com, corbet@lwn.net,
+ openstack-discuss@lists.openstack.org, shaohe.feng@intel.com,
+ kevin.tian@intel.com, Parav Pandit <parav@mellanox.com>,
+ jian-feng.ding@intel.com, dgilbert@redhat.com, zhenyuw@linux.intel.com,
+ hejie.xu@intel.com, bao.yumeng@zte.com.cn,
+ Alex Williamson <alex.williamson@redhat.com>, smooney@redhat.com,
+ intel-gvt-dev@lists.freedesktop.org, Daniel =?UTF-8?B?UC5C?=
+ =?UTF-8?B?ZXJyYW5nw6k=?= <berrange@redhat.com>, eskultet@redhat.com,
+ Jiri Pirko <jiri@mellanox.com>, dinechin@redhat.com, devel@ovirt.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+On Wed, 26 Aug 2020 14:41:17 +0800
+Yan Zhao <yan.y.zhao@intel.com> wrote:
 
-On Fri, Aug 28, 2020 at 4:55 PM Thomas Huth <thuth@redhat.com> wrote:
->
-> On 28/08/2020 13.07, marcandre.lureau@redhat.com wrote:
-> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >
-> > When dumping the default configuration, don't expect virtio-serial as
-> > the configured method, unless the host has CONFIG_VIRTIO_SERIAL.
-> >
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >  tests/test-qga.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/tests/test-qga.c b/tests/test-qga.c
-> > index 4ac4c22109..122730d326 100644
-> > --- a/tests/test-qga.c
-> > +++ b/tests/test-qga.c
-> > @@ -728,10 +728,12 @@ static void test_qga_config(gconstpointer data)
-> >      g_assert_false(g_key_file_get_boolean(kf, "general", "daemon", &er=
-ror));
-> >      g_assert_no_error(error);
-> >
-> > +#ifdef CONFIG_VIRTIO_SERIAL
-> >      str =3D g_key_file_get_string(kf, "general", "method", &error);
-> >      g_assert_no_error(error);
-> >      g_assert_cmpstr(str, =3D=3D, "virtio-serial");
-> >      g_free(str);
-> > +#endif
-> >
-> >      str =3D g_key_file_get_string(kf, "general", "path", &error);
-> >      g_assert_no_error(error);
->
-> Does this work as expected? I thought that CONFIG_VIRTIO_SERIAL is a
-> *target* specific config switch, not a host specific one ?
+> previously, we want to regard the two mdevs created with dsa-1dwq x 30 and
+> dsa-2dwq x 15 as compatible, because the two mdevs consist equal resources.
+> 
+> But, as it's a burden to upper layer, we agree that if this condition
+> happens, we still treat the two as incompatible.
+> 
+> To fix it, either the driver should expose dsa-1dwq only, or the target
+> dsa-2dwq needs to be destroyed and reallocated via dsa-1dwq x 30.
 
-You are right, it's basically dead code then. I'll drop this patch for
-now, or come up with something better. It was from an earlier attempt
-where test-qga was running under !linux. I will try that again.
+AFAIU, these are mdev types, aren't they? So, basically, any management
+software needs to take care to use the matching mdev type on the target
+system for device creation?
 
 
