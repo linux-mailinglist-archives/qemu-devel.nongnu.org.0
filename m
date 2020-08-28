@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFC19255A7F
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 14:47:24 +0200 (CEST)
-Received: from localhost ([::1]:47334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A42AF255A81
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Aug 2020 14:47:26 +0200 (CEST)
+Received: from localhost ([::1]:47438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBdmt-0000OD-Oa
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 08:47:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40064)
+	id 1kBdmv-0000Qp-Ju
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 08:47:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kBdl3-0007AS-Ot
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 08:45:29 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:28963
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1kBdl7-0007Bv-RN
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 08:45:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56621)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kBdl1-0006G2-QQ
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 08:45:29 -0400
+ id 1kBdl4-0006If-CC
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 08:45:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598618726;
+ s=mimecast20190719; t=1598618729;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XzLBrjmc2gvzMbHC8xI5ss3GtnAalCmrC5gAURzAcMw=;
- b=GfWPNM3NZ354cpm2H04eTWnfCDFGj62NonmafYRkn1mUNgbW8CB/GPeWc7yoCJzADSxfG2
- L+sGBLHOc7ysL+MaumSd9ZM/FFoJodKB35JbKG8MNiMVFc0EvifR+HEnPWBHD0ciK71rga
- Ut0TkxcYoniYRjqqwjdfEY9MtJ3z+fw=
+ bh=t73ewfhGZEjgSMUi7kGzfxkTAmXERrI2xtvf7jXFApM=;
+ b=foIT7yyoyu/an+k7hsQFYszCGygw5lKgg9GFtUgWAeqLDKBnilBlVCyVVE1qbWpo1VVe3z
+ 3i1akhH5qQca5yjPZoO7PPTxSmLXryyiCMSBsTi8AL9P4ytvV/66AY2rwxOWcukXMoqJ6k
+ iOXo0jK6hjnBDeg4LduS5i+tBtjjMvA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-471-eFvQ-yKBPEeLsuO3b5NbCg-1; Fri, 28 Aug 2020 08:45:24 -0400
-X-MC-Unique: eFvQ-yKBPEeLsuO3b5NbCg-1
+ us-mta-53-w6TCohBiMCi0n614JV49xg-1; Fri, 28 Aug 2020 08:45:27 -0400
+X-MC-Unique: w6TCohBiMCi0n614JV49xg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9E4E189E61A;
- Fri, 28 Aug 2020 12:45:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 817B480EF84;
+ Fri, 28 Aug 2020 12:45:25 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-100.ams2.redhat.com
  [10.36.114.100])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4732974E12;
- Fri, 28 Aug 2020 12:45:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0F43774E12;
+ Fri, 28 Aug 2020 12:45:23 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com,
  slp@redhat.com, yezhenyu2@huawei.com, longpeng2@huawei.com,
  berrange@redhat.com
-Subject: [PULL 3/8] migration: improve error reporting of block driver state
- name
-Date: Fri, 28 Aug 2020 13:45:04 +0100
-Message-Id: <20200828124509.311210-4-dgilbert@redhat.com>
+Subject: [PULL 4/8] migration: tls: fix memory leak in migration_tls_get_creds
+Date: Fri, 28 Aug 2020 13:45:05 +0100
+Message-Id: <20200828124509.311210-5-dgilbert@redhat.com>
 In-Reply-To: <20200828124509.311210-1-dgilbert@redhat.com>
 References: <20200828124509.311210-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0.003
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 01:02:42
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 02:09:03
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,95 +86,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel P. Berrangé <berrange@redhat.com>
+From: Zhenyu Ye <yezhenyu2@huawei.com>
 
-With blockdev, a BlockDriverState may not have a device name,
-so using a node name is required as an alternative.
+Currently migration_tls_get_creds() adds the reference of creds
+but there was no place to unref it.  So the OBJECT(creds) will
+never be freed and result in memory leak.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20200827111606.1408275-2-berrange@redhat.com>
+The leak stack:
+Direct leak of 104 byte(s) in 1 object(s) allocated from:
+    #0 0xffffa88bd20b in __interceptor_malloc (/usr/lib64/libasan.so.4+0xd320b)
+    #1 0xffffa7f0cb1b in g_malloc (/usr/lib64/libglib-2.0.so.0+0x58b1b)
+    #2 0x14b58cb in object_new_with_type qom/object.c:634
+    #3 0x14b597b in object_new qom/object.c:645
+    #4 0x14c0e4f in user_creatable_add_type qom/object_interfaces.c:59
+    #5 0x141c78b in qmp_object_add qom/qom-qmp-cmds.c:312
+    #6 0x140e513 in qmp_marshal_object_add qapi/qapi-commands-qom.c:279
+    #7 0x176ba97 in do_qmp_dispatch qapi/qmp-dispatch.c:165
+    #8 0x176bee7 in qmp_dispatch qapi/qmp-dispatch.c:208
+    #9 0x136e337 in monitor_qmp_dispatch monitor/qmp.c:150
+    #10 0x136eae3 in monitor_qmp_bh_dispatcher monitor/qmp.c:239
+    #11 0x1852e93 in aio_bh_call util/async.c:89
+    #12 0x18531b7 in aio_bh_poll util/async.c:117
+    #13 0x18616bf in aio_dispatch util/aio-posix.c:459
+    #14 0x1853f37 in aio_ctx_dispatch util/async.c:268
+    #15 0xffffa7f06a7b in g_main_context_dispatch (/usr/lib64/libglib-2.0.so.0+0x52a7b)
+
+Since we're fine to use the borrowed reference when using the creds,
+so just remove the object_ref() in migration_tls_get_creds().
+
+Signed-off-by: Zhenyu Ye <yezhenyu2@huawei.com>
+Message-Id: <20200722033228.71-1-yezhenyu2@huawei.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/savevm.c         | 12 ++++++------
- tests/qemu-iotests/267.out |  4 ++--
- 2 files changed, 8 insertions(+), 8 deletions(-)
+ migration/tls.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/migration/savevm.c b/migration/savevm.c
-index a843d202b5..304d98ff78 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -2682,7 +2682,7 @@ int save_snapshot(const char *name, Error **errp)
- 
-     if (!bdrv_all_can_snapshot(&bs)) {
-         error_setg(errp, "Device '%s' is writable but does not support "
--                   "snapshots", bdrv_get_device_name(bs));
-+                   "snapshots", bdrv_get_device_or_node_name(bs));
-         return ret;
+diff --git a/migration/tls.c b/migration/tls.c
+index 5171afc6c4..7a02ec8656 100644
+--- a/migration/tls.c
++++ b/migration/tls.c
+@@ -58,7 +58,6 @@ migration_tls_get_creds(MigrationState *s,
+         return NULL;
      }
  
-@@ -2691,7 +2691,7 @@ int save_snapshot(const char *name, Error **errp)
-         ret = bdrv_all_delete_snapshot(name, &bs1, errp);
-         if (ret < 0) {
-             error_prepend(errp, "Error while deleting snapshot on device "
--                          "'%s': ", bdrv_get_device_name(bs1));
-+                          "'%s': ", bdrv_get_device_or_node_name(bs1));
-             return ret;
-         }
-     }
-@@ -2766,7 +2766,7 @@ int save_snapshot(const char *name, Error **errp)
-     ret = bdrv_all_create_snapshot(sn, bs, vm_state_size, &bs);
-     if (ret < 0) {
-         error_setg(errp, "Error while creating snapshot on '%s'",
--                   bdrv_get_device_name(bs));
-+                   bdrv_get_device_or_node_name(bs));
-         goto the_end;
-     }
+-    object_ref(OBJECT(ret));
+     return ret;
+ }
  
-@@ -2884,14 +2884,14 @@ int load_snapshot(const char *name, Error **errp)
-     if (!bdrv_all_can_snapshot(&bs)) {
-         error_setg(errp,
-                    "Device '%s' is writable but does not support snapshots",
--                   bdrv_get_device_name(bs));
-+                   bdrv_get_device_or_node_name(bs));
-         return -ENOTSUP;
-     }
-     ret = bdrv_all_find_snapshot(name, &bs);
-     if (ret < 0) {
-         error_setg(errp,
-                    "Device '%s' does not have the requested snapshot '%s'",
--                   bdrv_get_device_name(bs), name);
-+                   bdrv_get_device_or_node_name(bs), name);
-         return ret;
-     }
- 
-@@ -2920,7 +2920,7 @@ int load_snapshot(const char *name, Error **errp)
-     ret = bdrv_all_goto_snapshot(name, &bs, errp);
-     if (ret < 0) {
-         error_prepend(errp, "Could not load snapshot '%s' on '%s': ",
--                      name, bdrv_get_device_name(bs));
-+                      name, bdrv_get_device_or_node_name(bs));
-         goto err_drain;
-     }
- 
-diff --git a/tests/qemu-iotests/267.out b/tests/qemu-iotests/267.out
-index d6d80c099f..215902b3ad 100644
---- a/tests/qemu-iotests/267.out
-+++ b/tests/qemu-iotests/267.out
-@@ -81,11 +81,11 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
- Testing: -blockdev driver=file,filename=TEST_DIR/t.IMGFMT,node-name=file
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) savevm snap0
--Error: Device '' is writable but does not support snapshots
-+Error: Device 'file' is writable but does not support snapshots
- (qemu) info snapshots
- No available block device supports snapshots
- (qemu) loadvm snap0
--Error: Device '' is writable but does not support snapshots
-+Error: Device 'file' is writable but does not support snapshots
- (qemu) quit
- 
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
 -- 
 2.26.2
 
