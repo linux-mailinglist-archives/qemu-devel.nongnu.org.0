@@ -2,68 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 179212567FB
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Aug 2020 15:56:20 +0200 (CEST)
-Received: from localhost ([::1]:59618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C6192567F8
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Aug 2020 15:52:19 +0200 (CEST)
+Received: from localhost ([::1]:51328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kC1L9-0001X5-6h
-	for lists+qemu-devel@lfdr.de; Sat, 29 Aug 2020 09:56:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58944)
+	id 1kC1HG-0006QE-FP
+	for lists+qemu-devel@lfdr.de; Sat, 29 Aug 2020 09:52:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kC1KV-00016M-7B
- for qemu-devel@nongnu.org; Sat, 29 Aug 2020 09:55:39 -0400
-Received: from indium.canonical.com ([91.189.90.7]:39368)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kC1GQ-0005pV-W6
+ for qemu-devel@nongnu.org; Sat, 29 Aug 2020 09:51:27 -0400
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:35383)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kC1KT-0003jz-JM
- for qemu-devel@nongnu.org; Sat, 29 Aug 2020 09:55:38 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kC1KS-0000XJ-22
- for <qemu-devel@nongnu.org>; Sat, 29 Aug 2020 13:55:36 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0614C2E80DB
- for <qemu-devel@nongnu.org>; Sat, 29 Aug 2020 13:55:36 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kC1GP-00037X-5b
+ for qemu-devel@nongnu.org; Sat, 29 Aug 2020 09:51:26 -0400
+Received: by mail-ed1-x542.google.com with SMTP id ba12so1592902edb.2
+ for <qemu-devel@nongnu.org>; Sat, 29 Aug 2020 06:51:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9KH9nr6joWT50Gqz1LjlhoH5FgAQwIqhLeZ95q8fYRM=;
+ b=L24Cjb2dhWhZen6EmLvpzVFVaEBU8UitY2T4QuVyv88+8Zp9GW4Cv4RvUYhCuW4YKb
+ R9uWfR9EnFSusK7uFtJT6MEkm/ciR/11MhWky+EigzHxXd4CyZhYdSodRpfELqge8tiF
+ 3fH/W8KMfqVfidkaQMRzpXfUIVkPTftfqmBpGkVDD1MlJBynafOeNKZNtuhMfXD9HayN
+ F7CJFlKToUt3GXcdD4s4RFM1SydaiSfeT8DVyh4qXtDqZsAz8/k6P3bnneEJWm5+IcWJ
+ ErQ0B0gwMzvS+SO/Ellcw/FATqMJgWH27cgVci1qhjXVYZRIzR9/I1EuVfm81uxoGR81
+ 60QA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9KH9nr6joWT50Gqz1LjlhoH5FgAQwIqhLeZ95q8fYRM=;
+ b=EIdbCZQ+fQCQ1djMtQ6An/CQQSWwT5nwwf9C59n0mrKn3zoKrIk8kU5zZfaBL0kgjy
+ TEUUG/aK4w3K1WS4XGWWebs/M9EqeL6mDsc5K7NETTpVoBGmY2EuHkHdM4zjja3GIszs
+ HJwGlQiulpWswY4uC0NLrm+LcdS1CEQJ7H45bJgk92Ieoknezg2841BCrz23plMq5csU
+ M2SHE6yZHd/rK06P/xPf86cs+APk7HkFMKoMtQdwON9r5DHGube2BkPy/QdUpjoRuWxg
+ U0gt+hbxtGtWep9q8LyKadegYp4Tpe8+vwxSQw7ZgUeyTLhroSbmZwpHbf1pmT7T1Qe/
+ CXog==
+X-Gm-Message-State: AOAM532LftO1GpiElZeKV40wedLKrZ7I8bNJ3Nb1Xu8HYJvLPigAVfSK
+ YpMVVzT1vGrxWr28XbJ0vUITB1oZ6dr7EmOwLMpFVA==
+X-Google-Smtp-Source: ABdhPJzwHpZYsmvX7RjjbpX8AarmRNm7V/ZCTsgAkzca8IBzsA5zTf8cVyr7OZJUobOe2QgxodjXstgcGA75Qap/5wc=
+X-Received: by 2002:a50:f28b:: with SMTP id f11mr700070edm.44.1598709083473;
+ Sat, 29 Aug 2020 06:51:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 29 Aug 2020 13:50:08 -0000
-From: Laurent Vivier <1893010@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: laurent-vivier mike.dld
-X-Launchpad-Bug-Reporter: Mike Gelfand (mike.dld)
-X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
-References: <159843096085.1469.8304847352897420087.malonedeb@wampee.canonical.com>
-Message-Id: <159870900810.23118.6054859299859615906.malone@wampee.canonical.com>
-Subject: [Bug 1893010] Re: qemu linux-user doesn't support OFD fcntl locks
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="195cbfa84cb75815472f69dd83d46f006869050b"; Instance="production"
-X-Launchpad-Hash: 83482d45826459c091b1c32e3e9b29923b6e3ce0
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/29 09:50:34
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20200828183354.27913-1-peter.maydell@linaro.org>
+ <20200828183354.27913-44-peter.maydell@linaro.org>
+ <a9995eb6-6cb6-f041-ea09-9104e9dc293e@linaro.org>
+In-Reply-To: <a9995eb6-6cb6-f041-ea09-9104e9dc293e@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 29 Aug 2020 14:51:12 +0100
+Message-ID: <CAFEAcA_w4t4XsDbkws3MgDVW-9V6pzCY09pNU++9WGvtCCma2Q@mail.gmail.com>
+Subject: Re: [PATCH v2 43/45] target/arm/vec_helper: Add gvec fp indexed
+ multiply-and-add operations
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x542.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,44 +81,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1893010 <1893010@bugs.launchpad.net>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Please check qemu-5.1.0.
+On Sat, 29 Aug 2020 at 00:24, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 8/28/20 11:33 AM, Peter Maydell wrote:
+> > +#define float16_nop(N, M, S) (M)
+> > +#define float32_nop(N, M, S) (M)
+> > +#define float64_nop(N, M, S) (M)
+> >
+> > +DO_FMUL_IDX(gvec_fmul_idx_h, nop, float16, H2)
+> > +DO_FMUL_IDX(gvec_fmul_idx_s, nop, float32, H4)
+> > +DO_FMUL_IDX(gvec_fmul_idx_d, nop, float64, )
+> > +
+> > +/*
+> > + * Non-fused multiply-accumulate operations, for Neon. NB that unlike
+> > + * the fused ops below they assume accumulate both from and into Vd.
+> > + */
+> > +DO_FMUL_IDX(gvec_fmla_nf_idx_h, add, float16, H2)
+> > +DO_FMUL_IDX(gvec_fmla_nf_idx_s, add, float32, H4)
+> > +DO_FMUL_IDX(gvec_fmls_nf_idx_h, sub, float16, H2)
+> > +DO_FMUL_IDX(gvec_fmls_nf_idx_s, sub, float32, H4)
+> > +
+> > +#undef float16_nop
+> > +#undef float32_nop
+> > +#undef float64_nop
+>
+> This floatN_nop stuff is pretty ugly.
+>
+> Better to pass in either floatN_mul, or the floatN_muladd_nf helpers that you
+> added earlier.  Although I guess you're missing float64_muladd_nf so far.
 
-This has been fixed by:
+I thought about doing that, but the float*_muladd_nf functions
+don't have the same signature as float*_mul -- they take
+(dest, op1, op2, stat) and float*_mul only takes (op1, op2, stat) --
+so it doesn't work. You'd have to construct a wrapper for
+the mul function that took and ignored the dest argument,
+or split out mul entirely into its own macro rather than
+using DO_FMUL_IDX for mul and muladd. The nop macros seemed
+the simplest.
 
-  2d92c6827ca0 ("linux-user: implement OFD locks")
-  https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D2d92c6827ca0
-
-perhaps you can send a patch to the qemu-devel ML to add the strace
-part.
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1893010
-
-Title:
-  qemu linux-user doesn't support OFD fcntl locks
-
-Status in QEMU:
-  New
-
-Bug description:
-  "Open file description locks (non-POSIX)", as they are described in
-  fcntl(2) man page, aren't supported by qemu-user  and attempting to
-  use those results in EINVAL. I'm on Gentoo with latest QEMU version
-  currently available (5.0.0-r2), and trying to emulate ppc64 and s390x
-  on x86_64.
-
-  Looking at linux-user/syscall.c, I'm guessing the issue is in (at
-  least) `target_to_host_fcntl_cmd` where switch reaches the default
-  clause as there're no cases for F_OFD_SETLK / F_OFD_SETLKW /
-  F_OFD_GETLK.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1893010/+subscriptions
+thanks
+-- PMM
 
