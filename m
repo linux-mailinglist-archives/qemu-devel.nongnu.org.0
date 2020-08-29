@@ -2,82 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A895256438
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Aug 2020 04:51:06 +0200 (CEST)
-Received: from localhost ([::1]:58680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBCBA25642B
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Aug 2020 04:44:43 +0200 (CEST)
+Received: from localhost ([::1]:41810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBqxN-0006zE-2J
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 22:51:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50836)
+	id 1kBqr3-0008OE-3S
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 22:44:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBqwR-0006Tz-43
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 22:50:07 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:42731)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBqwF-0003cB-Hb
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 22:50:06 -0400
-Received: by mail-pl1-x641.google.com with SMTP id j11so498719plk.9
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 19:49:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Ffdk4Spkl+Lz/tuDSx6BMqEeT7Nmd8Lu0O0pOzmDuMk=;
- b=svYRMJBMol6RzaSADRCc+oIaHjxGBmHO0iojj+vJv/exDJsm3qmFpdGJLgMWz1QYVF
- aZuj9xwvmkcu68kmmbxEHiAaQAb9Z+b+SP5/E/36H15qWqT+bEVxzBuIlhOH7snpmhvw
- 8xAbsvBzVsB9YDmJ8CbhQWuLSDBd1WJSZUL6a+pr5wi1vjqwXg2UhIIe7k6Q4h9OEQKo
- Pb91rD0xddP3Ig1QcWyLyxoqUWxRVkDu5wEDJmMFGaLC1OAHiu+DupkQhVf8/3A9c4Hi
- lc1OP7m7EvuqhPiAT3k79EYAPyCdLXH00dYZzyH0xxxMj/rzx0you/HsoqTq+DPt+wJy
- PkYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Ffdk4Spkl+Lz/tuDSx6BMqEeT7Nmd8Lu0O0pOzmDuMk=;
- b=gmdNG2V3mfNxezCRJPR+zPlbCnHDxMhBEG+oBJo/MjltjAQ2aGJDCc412KlUSbJs3D
- fq2oU/H4v8j7KLdmMddEb++Wwx6RQZclQjzktViM3nJyvQN92UQuVHk6spc9zBJFst92
- RwgLuN4om6RQ70gIXwkSwzTXdn/g8K4u+3ne2r+iYYSBOoXStFGt3uYVhWWR5W/uwHFd
- 9kNGx3fj16t5FWoHjPU8w2zRvqAt1Ovp07GVO/2dCaT6fXz0E8CNiS3//mbiapCMRWGs
- 8rSZhwpW2V/Q2zjWtWECip1OjkavRgObJp7dD5QL7tyCKZ0tJEpdLI1qEAkB/q55N33v
- FqsQ==
-X-Gm-Message-State: AOAM533p/v51JO5Z0001PrIYlZfg0SmPAcg2eKyeP9JbU+O+Je+9eijw
- 6p0QNummM/Bd06Il920rsA1PwA==
-X-Google-Smtp-Source: ABdhPJxT+0I5Pww8jeb6GxdUhuTZpM9u065gSO4O+AyAE6Why2HYULXdHeZ88fX4TPUgynDpFpAPMQ==
-X-Received: by 2002:a17:90a:6343:: with SMTP id
- v3mr1506607pjs.163.1598669393648; 
- Fri, 28 Aug 2020 19:49:53 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id ev10sm579466pjb.35.2020.08.28.19.49.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Aug 2020 19:49:52 -0700 (PDT)
-Subject: Re: [RFC PATCH v3 31/34] Hexagon (target/hexagon) translation
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-References: <1597765847-16637-1-git-send-email-tsimpson@quicinc.com>
- <1597765847-16637-32-git-send-email-tsimpson@quicinc.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <00686989-8fdb-2334-d8f3-93c6301c142d@linaro.org>
-Date: Fri, 28 Aug 2020 19:49:50 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1kBqoY-0003U1-4B
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 22:41:58 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:4668 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1kBqoV-0001wk-Sr
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 22:41:57 -0400
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 7BEC097907D4172C1D2E;
+ Sat, 29 Aug 2020 10:41:43 +0800 (CST)
+Received: from huawei.com (10.175.101.6) by DGGEMS413-HUB.china.huawei.com
+ (10.3.19.213) with Microsoft SMTP Server id 14.3.487.0; Sat, 29 Aug 2020
+ 10:41:34 +0800
+From: Chuan Zheng <zhengchuan@huawei.com>
+To: <quintela@redhat.com>, <eblake@redhat.com>, <dgilbert@redhat.com>,
+ <berrange@redhat.com>, <dme@dme.org>
+Subject: [PATCH v6 00/12] *** A Method for evaluating dirty page rate ***
+Date: Sat, 29 Aug 2020 10:52:45 +0800
+Message-ID: <1598669577-76914-1-git-send-email-zhengchuan@huawei.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-In-Reply-To: <1597765847-16637-32-git-send-email-tsimpson@quicinc.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x641.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.809,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [10.175.101.6]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190;
+ envelope-from=zhengchuan@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 22:41:44
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,261 +58,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ale@rev.ng, riku.voipio@iki.fi, philmd@redhat.com, laurent@vivier.eu,
- aleksandar.m.mail@gmail.com
+Cc: alex.chen@huawei.com, ann.zhuangyanying@huawei.com,
+ zhang.zhanghailiang@huawei.com, xiexiangyou@huawei.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/18/20 8:50 AM, Taylor Simpson wrote:
-> Read the instruction memory
-> Create a packet data structure
-> Generate TCG code for the start of the packet
-> Invoke the generate function for each instruction
-> Generate TCG code for the end of the packet
-> 
-> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
-> ---
->  target/hexagon/translate.h | 103 +++++++
->  target/hexagon/translate.c | 730 +++++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 833 insertions(+)
->  create mode 100644 target/hexagon/translate.h
->  create mode 100644 target/hexagon/translate.c
-> 
-> diff --git a/target/hexagon/translate.h b/target/hexagon/translate.h
-> new file mode 100644
-> index 0000000..144140f
-> --- /dev/null
-> +++ b/target/hexagon/translate.h
-> @@ -0,0 +1,103 @@
-> +/*
-> + *  Copyright(c) 2019-2020 Qualcomm Innovation Center, Inc. All Rights Reserved.
-> + *
-> + *  This program is free software; you can redistribute it and/or modify
-> + *  it under the terms of the GNU General Public License as published by
-> + *  the Free Software Foundation; either version 2 of the License, or
-> + *  (at your option) any later version.
-> + *
-> + *  This program is distributed in the hope that it will be useful,
-> + *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> + *  GNU General Public License for more details.
-> + *
-> + *  You should have received a copy of the GNU General Public License
-> + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#ifndef HEXAGON_TRANSLATE_H
-> +#define HEXAGON_TRANSLATE_H
-> +
-> +#include "cpu.h"
-> +#include "exec/translator.h"
-> +#include "tcg/tcg-op.h"
-> +#include "internal.h"
-> +
-> +typedef struct DisasContext {
-> +    DisasContextBase base;
-> +    uint32_t mem_idx;
-> +    int reg_log[REG_WRITES_MAX];
-> +    int reg_log_idx;
-> +    int preg_log[PRED_WRITES_MAX];
-> +    int preg_log_idx;
-> +    uint8_t store_width[STORES_MAX];
-> +} DisasContext;
-> +
-> +static inline void ctx_log_reg_write(DisasContext *ctx, int rnum)
-> +{
-> +#if HEX_DEBUG
-> +    int i;
-> +    for (i = 0; i < ctx->reg_log_idx; i++) {
-> +        if (ctx->reg_log[i] == rnum) {
-> +            HEX_DEBUG_LOG("WARNING: Multiple writes to r%d\n", rnum);
-> +        }
-> +    }
-> +#endif
-> +    ctx->reg_log[ctx->reg_log_idx] = rnum;
-> +    ctx->reg_log_idx++;
-> +}
+v5 -> v6:
+    fix coding style according to review
+    use TARGET_PAGE_SIZE and TARGET_PAGE_BITS instead of self-defined macros
+    return start-time and calc-time by qmp command
 
-Why not just keep a bitmask of the rnum written?
-Does the order of this log really matter?
+v4 -> v5:
+    fix git apply failed due to meson-build
+    add review-by for patches in v3
 
-> +static inline bool is_preloaded(DisasContext *ctx, int num)
-> +{
-> +    int i;
-> +    for (i = 0; i < ctx->reg_log_idx; i++) {
-> +        if (ctx->reg_log[i] == num) {
-> +            return true;
-> +        }
-> +    }
-> +    return false;
-> +}
+v3 -> v4:
+    use crc32 to get hash result instead of md5
+    add DirtyRateStatus to denote calculation status
+    add some trace_calls to make it easier to debug
+    fix some comments accroding to review
 
-It would mean this one becomes constant time.
+v2 -> v3:
+    fix size_t compile warning
+    fix codestyle checked by checkpatch.pl
 
-> +static inline void gen_slot_cancelled_check(TCGv check, int slot_num)
-> +{
-> +    TCGv mask = tcg_const_tl(1 << slot_num);
-> +    TCGv one = tcg_const_tl(1);
-> +    TCGv zero = tcg_const_tl(0);
-> +
-> +    tcg_gen_and_tl(mask, hex_slot_cancelled, mask);
-> +    tcg_gen_movcond_tl(TCG_COND_NE, check, mask, zero, one, zero);
+v1 -> v2:
+    use g_rand_new() to generate rand_buf
+    move RAMBLOCK_FOREACH_MIGRATABLE into migration/ram.h
+    add skip_sample_ramblock to filter sampled ramblock
+    fix multi-numa vm coredump when query dirtyrate
+    rename qapi interface and rename some structures and functions
+    succeed to compile by appling each patch
+    add test for migrating vm
 
-This is a bit silly.  Better as
+Sometimes it is neccessary to evaluate dirty page rate before migration.
+Users could decide whether to proceed migration based on the evaluation
+in case of vm performance loss due to heavy workload.
+Unlikey simulating dirtylog sync which could do harm on runnning vm,
+we provide a sample-hash method to compare hash results for samping page.
+In this way, it would have hardly no impact on vm performance.
 
-    tcg_gen_extract_i32(check, hex_slot_cancelled, slot_num, 1);
+Evaluate the dirtypage rate both on running and migration vm.
+The VM specifications for migration are as follows:
+- VM use 4-K page;
+- the number of VCPU is 32;
+- the total memory is 32Gigabit;
+- use 'mempress' tool to pressurize VM(mempress 4096 1024);
+- migration bandwidth is 1GB/s
 
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+|                      |  running  |                  migrating                           |
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+| no mempress          |   4MB/s   |          8MB/s      (migrated success)               |
+-------------------------------------------------------------------------------------------
+| mempress 4096 1024   |  1060MB/s |     456MB/s ~ 1142MB/s (cpu throttle triggered)      |
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+| mempress 4096 4096   |  4114MB/s |     688MB/s ~ 4132MB/s (cpu throttle triggered)      |
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-> +static int read_packet_words(CPUHexagonState *env, DisasContext *ctx,
-> +                             uint32_t words[])
-> +{
-> +    bool found_end = false;
-> +    int max_words;
-> +    int nwords;
-> +    int i;
-> +
-> +    /* Make sure we don't cross a page boundary */
-> +    max_words = -(ctx->base.pc_next | TARGET_PAGE_MASK) / sizeof(uint32_t);
-> +    if (max_words < PACKET_WORDS_MAX) {
-> +        /* Might cross a page boundary */
-> +        if (ctx->base.num_insns == 1) {
-> +            /* OK if it's the first packet in the TB */
-> +            max_words = PACKET_WORDS_MAX;
-> +        }
-> +    } else {
-> +        max_words = PACKET_WORDS_MAX;
-> +    }
-> +
-> +    memset(words, 0, PACKET_WORDS_MAX * sizeof(uint32_t));
-> +    for (nwords = 0; !found_end && nwords < max_words; nwords++) {
-> +        words[nwords] = cpu_ldl_code(env,
-> +                                ctx->base.pc_next + nwords * sizeof(uint32_t));
-> +        found_end = is_packet_end(words[nwords]);
-> +    }
-> +    if (!found_end) {
-> +        if (nwords == PACKET_WORDS_MAX) {
-> +            /* Read too many words without finding the end */
-> +            gen_exception(HEX_EXCP_INVALID_PACKET);
-> +            ctx->base.is_jmp = DISAS_NORETURN;
-> +            return 0;
-> +        }
-> +        /* Crosses page boundary - defer to next TB */
-> +        ctx->base.is_jmp = DISAS_TOO_MANY;
+Test dirtyrate by qmp command like this:
+1.  virsh qemu-monitor-command [vmname] '{"execute":"calc-dirty-rate", "arguments": {"calc-time": [sleep-time]}}'; 
+2.  sleep specific time which is a bit larger than sleep-time
+3.  virsh qemu-monitor-command [vmname] '{"execute":"query-dirty-rate"}'
 
-The problem with this is that the translator has asked for the next insn, and
-you havn't provided it.
+The qmp command returns like this:
+{"return":{"status":"measured","dirty-rate":374,"start-time":3718293,"calc-time":1},"id":"libvirt-15"}
 
-One way to fix this might be to decrement ctx->base.num_insns, to compensate
-for the increment that *will* happen after you return.
+Further test dirtyrate by libvirt api like this:
+virsh getdirtyrate [vmname] [sleep-time]
 
-Another way, which involves less poking about into internals is to look for the
-next packet once you've completed the current packet.  This is what Arm does
-for thumb2 insns:
+Chuan Zheng (12):
+  migration/dirtyrate: setup up query-dirtyrate framwork
+  migration/dirtyrate: add DirtyRateStatus to denote calculation status
+  migration/dirtyrate: Add RamblockDirtyInfo to store sampled page info
+  migration/dirtyrate: Add dirtyrate statistics series functions
+  migration/dirtyrate: move RAMBLOCK_FOREACH_MIGRATABLE into ram.h
+  migration/dirtyrate: Record hash results for each sampled page
+  migration/dirtyrate: Compare page hash results for recorded sampled
+    page
+  migration/dirtyrate: skip sampling ramblock with size below
+    MIN_RAMBLOCK_SIZE
+  migration/dirtyrate: Implement set_sample_page_period() and
+    get_sample_page_period()
+  migration/dirtyrate: Implement calculate_dirtyrate() function
+  migration/dirtyrate: Implement
+    qmp_cal_dirty_rate()/qmp_get_dirty_rate() function
+  migration/dirtyrate: Add trace_calls to make it easier to debug
 
->     if (dc->base.is_jmp == DISAS_NEXT
->         && (dc->base.pc_next - dc->page_start >= TARGET_PAGE_SIZE
->             || (dc->base.pc_next - dc->page_start >= TARGET_PAGE_SIZE - 3
->                 && insn_crosses_page(env, dc)))) {
->         dc->base.is_jmp = DISAS_TOO_MANY;
->     }
+ migration/dirtyrate.c  | 436 +++++++++++++++++++++++++++++++++++++++++++++++++
+ migration/dirtyrate.h  |  70 ++++++++
+ migration/meson.build  |   2 +-
+ migration/ram.c        |  11 +-
+ migration/ram.h        |  10 ++
+ migration/trace-events |   8 +
+ qapi/migration.json    |  67 ++++++++
+ 7 files changed, 593 insertions(+), 11 deletions(-)
+ create mode 100644 migration/dirtyrate.c
+ create mode 100644 migration/dirtyrate.h
 
-I.e. you only have to do this for the few packets that are near enough to the
-end of the page that PACKET_WORDS_MAX crosses.
+-- 
+1.8.3.1
 
-> +    tcg_gen_movi_tl(hex_gpr[HEX_REG_PC], ctx->base.pc_next);
-> +    tcg_gen_movi_tl(hex_slot_cancelled, 0);
-> +    if (pkt->pkt_has_cof) {
-> +        tcg_gen_movi_tl(hex_branch_taken, 0);
-> +        tcg_gen_movi_tl(hex_next_PC, next_PC);
-> +    }
-> +    tcg_gen_movi_tl(hex_pred_written, 0);
-> +}
-
-Surely you don't need to actually set PC for every PC?
-Nor set hex_slot_cancelled if the packet contains nothing that can cancel
-anything.  Nor set hex_pred_written if no predicates are written.
-
-> +    TCGv cancelled = tcg_temp_local_new();
-> +    TCGLabel *label_end = gen_new_label();
-> +
-> +    /* Don't do anything if the slot was cancelled */
-> +    gen_slot_cancelled_check(cancelled, slot_num);
-> +    tcg_gen_brcondi_tl(TCG_COND_NE, cancelled, 0, label_end);
-
-cancelled does not need to be local; it is consumed by the branch and not
-consumed afterward.  Just free it here.
-
-> +        /*
-> +         * If we know the width from the DisasContext, we can
-> +         * generate much cleaner code.
-> +         * Unfortunately, not all instructions execute the fSTORE
-> +         * macro during code generation.  Anything that uses the
-> +         * generic helper will have this problem.  Instructions
-> +         * that use fWRAP to generate proper TCG code will be OK.
-> +         */
-
-OMG.  How disgusting.
-
-> +            value = tcg_temp_new();
-> +            tcg_gen_mov_tl(value, hex_store_val32[slot_num]);
-> +            tcg_gen_qemu_st8(value, address, ctx->mem_idx);
-> +            tcg_temp_free(value);
-
-Why are you copying to a temporary?
-
-> +        default:
-> +            /*
-> +             * If we get to here, we don't know the width at
-> +             * TCG generation time, we'll generate branching
-> +             * based on the width at runtime.
-> +             */
-> +            label_w2 = gen_new_label();
-> +            label_w4 = gen_new_label();
-> +            label_w8 = gen_new_label();
-> +            TCGv width = tcg_temp_local_new();
-
-You might as well make this a helper.  This is going to generate a *lot* of code.
-
-> +static void gen_exec_counters(packet_t *pkt)
-> +{
-> +    int num_insns = pkt->num_insns;
-> +    int num_real_insns = 0;
-> +    int i;
-> +
-> +    for (i = 0; i < num_insns; i++) {
-> +        if (!pkt->insn[i].is_endloop &&
-> +            !pkt->insn[i].part1 &&
-> +            !GET_ATTRIB(pkt->insn[i].opcode, A_IT_NOP)) {
-> +            num_real_insns++;
-> +        }
-> +    }
-> +
-> +    tcg_gen_addi_tl(hex_gpr[HEX_REG_QEMU_PKT_CNT],
-> +                    hex_gpr[HEX_REG_QEMU_PKT_CNT], 1);
-> +    if (num_real_insns) {
-> +        tcg_gen_addi_tl(hex_gpr[HEX_REG_QEMU_INSN_CNT],
-> +                        hex_gpr[HEX_REG_QEMU_INSN_CNT], num_real_insns);
-> +    }
-
-tcg_gen_addi_tl will check for the immediate == 0.
-
-As with updating PC for every insn, this is going to be expensive.
-
-You could accumulate these values through the TB and then update them at the
-end.  You'd need to store the intermediate values in the space managed by
-TARGET_INSN_START_EXTRA_WORDS, so that you can update them on any exceptional
-path out of the TB, in restore_state_to_opc().
-
-> +    if (end_tb) {
-> +        tcg_gen_exit_tb(NULL, 0);
-
-This misses out on ctx->base.singlestep_enabled, and almost certainly belongs
-in hexagon_tr_tb_stop.  Use
-
-#define DISAS_EXIT  DISAS_TARGET_0
-
-or some other appropriate naming.
-
-
-r~
 
