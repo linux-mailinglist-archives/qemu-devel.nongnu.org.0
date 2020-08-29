@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A980256441
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Aug 2020 05:00:07 +0200 (CEST)
-Received: from localhost ([::1]:33232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C648256447
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Aug 2020 05:06:40 +0200 (CEST)
+Received: from localhost ([::1]:35458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBr66-000087-Dt
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 23:00:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52178)
+	id 1kBrCR-0001WX-Ne
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 23:06:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBr5Q-00089g-UG
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 22:59:24 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:33802)
+ id 1kBrBf-00017F-MR
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 23:05:51 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:33833)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kBr5P-0006ms-Ap
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 22:59:24 -0400
-Received: by mail-pl1-x641.google.com with SMTP id v16so525317plo.1
- for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 19:59:22 -0700 (PDT)
+ id 1kBrBc-0000ZT-Gh
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 23:05:51 -0400
+Received: by mail-pl1-x642.google.com with SMTP id v16so530233plo.1
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 20:05:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=opQefAA4NTAdDH36EP305N6VJ35Rn2Nt8M5rBoQapRw=;
- b=HGLTei5lywkd9giMzKtFcNH/xNDcQkqPp146Nc2DeWKjv6v9Xs1ffS2BW9z+lG+SVA
- U+LzQcFZEegL+9vRVYI7/QsBoYGU4hhwyDaS6C5YRGjejPvHZVGZQraAHzkkBV6Cf4aR
- zgvRyhwwhTxWwzgoR+hGHwaoIIwu7zoq9Sj7gBYEqe0WuSPAn0EKOyNL3MzZKZIHyw8C
- W0uX7BnJFZTlWZ19lFRwILRKkT27+U/OL7kMSGwKHIGUA/+Ng+SwDoQ9R/1iRgwjSdPY
- 9jSQUt4M7l/15FVCNor4t6dWXx+mIWjK5uEsFcLbMbgpn8HGih7ZEJ4IRG3juMv+mWgM
- zvKw==
+ bh=SDcZulBgMcPwQLSfSOtHqYtt1Ham5FNBYNeTsT45H5M=;
+ b=upu9tEGEOxHKoRK0Iwdu9bYhTtCEEMV9J7gpBIo+bXxXf8JyAVqQWRd4wwXssfiJCY
+ 2k6Z/opDI6K2JStFXAt9uHFRNOI6vh2RBTfPUj0fF9F/hfV7N/ZnMFgKU83mMTFgoyZf
+ 5aQHYRADE8uPwr7qGNLvEsRvwU8YUO4apY/nWtvev0QcRMRiR9PPcTRxy0vWzXsiamHq
+ KyHHVyJqsoGM8UL1s8XmaLaZ8vXVyp7bRTnB6MIa2zH8emHslEPLGjmsISORGM9Zk7fw
+ RTZvpX+mMr41HC0fgCbvMyi/ANAc+fl30V2Ao8d14L8cyHMVUBhWSCJUY0JNeCsQQ7AE
+ vT8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=opQefAA4NTAdDH36EP305N6VJ35Rn2Nt8M5rBoQapRw=;
- b=iSExsXggZNnVopGCn7N818B4cGUPl+RiX1e9/WLAaQUo3sSLg9QcVyl8aFX4fp2b90
- /uwoZCLLgFThHAvCeYMI4rip1lKsSITvT8DhWCBlzO2N/TFmH9RfdXU1jXTGK44JXaAl
- 7ZoPKASMvhrZqeKGJY49UVMSUI37HwFtukE6Wt8i0Dwd9mqsgGJVM5tMJwjIEWHoKo2A
- NLIK8kY2iNDmIcbaXfwZdB/iITM56x6kdWvoaYmzyJ6zh9W6XBfVsULisjxA4aRt7vIG
- 45kfPBiWX0CI9b750OFZwQZa5UzscPJvAlPn/50FT9CdCQE3x7Pd7uhB5+ibKjWm9QXn
- PFPQ==
-X-Gm-Message-State: AOAM5315dKnF4/YUAazZIPFAtdoAOk/cgJnzMZYV85/91MDt9/3aNjw7
- VNtQB/YGO+GXMNwafQJiRj+HHw==
-X-Google-Smtp-Source: ABdhPJyU5Pc17xchIykcypR4bPNF+xYC9ToCq+OCcI2EiyM5UcCTOW9VfsG7fZY8cV4usGENHr1iSA==
-X-Received: by 2002:a17:902:8d89:: with SMTP id
- v9mr1356389plo.289.1598669962065; 
- Fri, 28 Aug 2020 19:59:22 -0700 (PDT)
+ bh=SDcZulBgMcPwQLSfSOtHqYtt1Ham5FNBYNeTsT45H5M=;
+ b=U0JG93K0bkXpNJ9P8xTDAgVhguusW9KYtxAv0Lac9DWAVrShMRw8zUMNobus4/ldj+
+ AqGYR3TFCO648Xeuc7AR/mDtZeyJ6rNZkzhDeVcnUw8dZbHKA6dQr66SBd7A2niPiJU5
+ 9o1WoxvXC1QZLI0dwxLh7j1/gDw8aBOsxiiV69FREPvcfvI1xEqW1+Un7WnCkrBQQ1cc
+ P9AXf3tFKDVPgym3qwrWU+kpf3YLWawOKHBW2sHjkYotCLf1S1yvJ21l1yoHlrytTsY2
+ 7r6hEU0qX53nc27WWcbO2AMw6uy1OxcPNbucIia06qdSDNkS4NVKg//g0ocrTl4D/gIH
+ lOQQ==
+X-Gm-Message-State: AOAM5318xrngb2BXXKg124jx+0fGBHfJZKwr+wtbJhBn+zPR1KicbtyR
+ mH4HEog65Qz15DinwC9yZu3b3g==
+X-Google-Smtp-Source: ABdhPJymlZWVf8JUFDK5e6acgjw++WAgJYh0T8BMDXV04hNLKkWYvVU3PuO4w1puu6eATLpYVeypcw==
+X-Received: by 2002:a17:902:a982:: with SMTP id
+ bh2mr1385398plb.182.1598670347073; 
+ Fri, 28 Aug 2020 20:05:47 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id b12sm806216pgr.34.2020.08.28.19.59.20
+ by smtp.gmail.com with ESMTPSA id c2sm777540pgb.52.2020.08.28.20.05.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Aug 2020 19:59:21 -0700 (PDT)
-Subject: Re: [RFC PATCH v3 32/34] Hexagon (linux-user/hexagon) Linux user
- emulation
+ Fri, 28 Aug 2020 20:05:46 -0700 (PDT)
+Subject: Re: [RFC PATCH v3 33/34] Hexagon (tests/tcg/hexagon) TCG tests
 To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
 References: <1597765847-16637-1-git-send-email-tsimpson@quicinc.com>
- <1597765847-16637-33-git-send-email-tsimpson@quicinc.com>
+ <1597765847-16637-34-git-send-email-tsimpson@quicinc.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ea1f844e-0efb-6d98-e799-6dd00c16d9fb@linaro.org>
-Date: Fri, 28 Aug 2020 19:59:18 -0700
+Message-ID: <b7ec9b4c-2a2e-2030-4075-45cf8920c41c@linaro.org>
+Date: Fri, 28 Aug 2020 20:05:44 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <1597765847-16637-33-git-send-email-tsimpson@quicinc.com>
+In-Reply-To: <1597765847-16637-34-git-send-email-tsimpson@quicinc.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x641.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -28
@@ -91,21 +90,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ale@rev.ng, riku.voipio@iki.fi, philmd@redhat.com, laurent@vivier.eu,
+Cc: ale@rev.ng, philmd@redhat.com, riku.voipio@iki.fi, laurent@vivier.eu,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  aleksandar.m.mail@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/18/20 8:50 AM, Taylor Simpson wrote:
-> Implementation of Linux user emulation for Hexagon
-> Some common files modified in addition to new files in linux-user/hexagon
+> Modify tests/tcg/configure.sh
+> Add reference files to tests/tcg/hexagon
+> Add Hexagon-specific tests
 > 
 > Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
 > ---
 
-Looks plausible.
+Looks ok.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Could you please work with Alex Bennee to set up a tests/docker/dockerfile/
+script containing the cross-compiler from the Qualcomm SDK?  That way these
+tests can be run automatically.
+
+Compare debian-xtensa-cross.docker, which is similar.
+
 
 r~
 
