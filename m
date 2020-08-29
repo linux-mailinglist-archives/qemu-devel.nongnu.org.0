@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF8CB25689C
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Aug 2020 17:22:11 +0200 (CEST)
-Received: from localhost ([::1]:43142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B00EE2568AF
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Aug 2020 17:30:58 +0200 (CEST)
+Received: from localhost ([::1]:40724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kC2gE-0006UO-O3
-	for lists+qemu-devel@lfdr.de; Sat, 29 Aug 2020 11:22:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44736)
+	id 1kC2oj-0000OF-QE
+	for lists+qemu-devel@lfdr.de; Sat, 29 Aug 2020 11:30:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kC2dJ-0001Ze-Sv; Sat, 29 Aug 2020 11:19:10 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:39751)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kC2dH-0005GY-ED; Sat, 29 Aug 2020 11:19:09 -0400
-Received: by mail-ot1-x343.google.com with SMTP id r8so1787245ota.6;
- Sat, 29 Aug 2020 08:19:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=1beGznQG533V78BCqqj/QrYnc/FOqiQEqa+BFrJTWkg=;
- b=eOszRc5Fc7QJ3MIwf3cQzyhNTnh9WAucm2ZiNb1I9mYc5vh5D3SGM5WXindwbKqKhV
- oUidBrRkuUbW7PTi1OYjcCY5wCSdw0RxpimE2x51b7w6xUAb2NZGVI1IUqoxSJpA2jd4
- Er5ePi9kRRMyzJMKT1dGnFoMOk9th2y3oOFxOIyaL5j9yRaoQxLluQ3Bc80UU01NMIUG
- +Fza7sE8KcA2YNPXk0Q9hS9S8YVcVFbh8BRxQtLfdlUOMD7/+jzezBs8OGm8vCBw4rRJ
- +ubbWKxatCG8FtdYABc03hMKAVUHmXZL/1YIEq7swErRFh7g9Yh2a7Cbg4jEhF+z+a4o
- WRVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=1beGznQG533V78BCqqj/QrYnc/FOqiQEqa+BFrJTWkg=;
- b=t8vdtfUEGrZWSPiXZNn/5Hz9KvWJahiOiObD6Z4FHxxA+tyFkA9asfAdGCNXc7kCVX
- /yN8VRAULq8ctZ+Dlc4493Ai69o4uIsw6DVuUw6s6rD1vcqqTije09Rae1oTXM/3q/iw
- 0J3m4P30ZgrREw1VSAfig3P26hKXUQSvI+1T73Pl7L0WxyDtC4nu2rKcoiV4VxWWMCq6
- 1NZujOurzkGQE5L1A2pkIkC4ufrf4PL2zZdUe+vqAsvoU74E3eh95PabbUD79VlgUhCX
- h2yXUkulkCu0GoljTgP82T2NC1sbMcmdZLfqfo8ukMjo82YVV4mK6EdqE4sGdMsOzncA
- BYOQ==
-X-Gm-Message-State: AOAM532rW8+Br0DVwvPYE22uZ923TLC+3GzfYXT31oWKPhNVcrrUYYQ5
- wBcZsfrNEF6abWdgZd0In4c=
-X-Google-Smtp-Source: ABdhPJxkJEKrovky7WqcAuj0baoA+P6Oql2fQLA1vBijunm/ZhRAzpesBEwgbMdwGULaCJvEuFl0BA==
-X-Received: by 2002:a05:6830:20d5:: with SMTP id
- z21mr2310929otq.169.1598714346059; 
- Sat, 29 Aug 2020 08:19:06 -0700 (PDT)
-Received: from pek-vx-bsp2.wrs.com (unknown-146-144.windriver.com.
- [147.11.146.144])
- by smtp.gmail.com with ESMTPSA id f50sm58181otf.47.2020.08.29.08.19.02
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sat, 29 Aug 2020 08:19:05 -0700 (PDT)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Alistair Francis <Alistair.Francis@wdc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Palmer Dabbelt <palmerdabbelt@google.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-Subject: [PATCH v2 16/16] hw/riscv: sifive_u: Connect a DMA controller
-Date: Sat, 29 Aug 2020 23:17:40 +0800
-Message-Id: <1598714261-8320-17-git-send-email-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1598714261-8320-1-git-send-email-bmeng.cn@gmail.com>
-References: <1598714261-8320-1-git-send-email-bmeng.cn@gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ot1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1kC2gA-0007RA-5T
+ for qemu-devel@nongnu.org; Sat, 29 Aug 2020 11:22:06 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:37968
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1kC2g7-0005fv-4K
+ for qemu-devel@nongnu.org; Sat, 29 Aug 2020 11:22:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598714521;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KsoHPe0fo4kmuIZOpXevYhG1xyEG71KI6rwlL1Gqtac=;
+ b=NXVbaxeay9Pp7SIMoZXfSxSiaF4jEM3W1/Thj4GH8eNom3GGiYCsajD7wtUJkXfAsgkpS3
+ +iHx/rvYJaj2noteyWeb4cGe/Bm/+S1oQOtVpU7s/Ab6ZTUkPaJZZlbRYh+1FxnAQRpJxo
+ Ja3x3O+UbObIGe3SEVoF0KsyC1onnTU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-102-B9mG1uoxPgS6ntTnljdy1A-1; Sat, 29 Aug 2020 11:21:59 -0400
+X-MC-Unique: B9mG1uoxPgS6ntTnljdy1A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E196B802B6A;
+ Sat, 29 Aug 2020 15:21:57 +0000 (UTC)
+Received: from [10.36.112.112] (ovpn-112-112.ams2.redhat.com [10.36.112.112])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 43D895D9D2;
+ Sat, 29 Aug 2020 15:21:56 +0000 (UTC)
+Subject: Re: [PATCH 6/7] hw/arm/virt: spe: Add SPE fdt binding for virt machine
+To: Haibo Xu <haibo.xu@linaro.org>, peter.maydell@linaro.org
+References: <cover.1596768588.git.haibo.xu@linaro.org>
+ <1663d06172cffa723e00893837ba04634f061fc8.1596768588.git.haibo.xu@linaro.org>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <4e6b3ee2-7f81-7c72-c4a9-0e8d330215ab@redhat.com>
+Date: Sat, 29 Aug 2020 17:21:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <1663d06172cffa723e00893837ba04634f061fc8.1596768588.git.haibo.xu@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=205.139.110.61;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/29 11:22:01
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.809, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,153 +86,188 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>
+Cc: drjones@redhat.com, qemu-arm@nongnu.org, philmd@redhat.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+Hi Haibo,
 
-SiFive FU540 SoC integrates a platform DMA controller with 4 DMA
-channels. This connects the exsiting SiFive PDMA model to the SoC,
-and adds its device tree data as well.
+On 8/7/20 10:10 AM, Haibo Xu wrote:
+> Add a virtual SPE device for virt machine while using PPI 
+> 5 for SPE overflow interrupt number.
+> 
+> Signed-off-by: Haibo Xu <haibo.xu@linaro.org>
+> ---
+>  hw/arm/virt-acpi-build.c    |  3 +++ 
+>  hw/arm/virt.c               | 42 +++++++++++++++++++++++++++++++++++++
+>  include/hw/acpi/acpi-defs.h |  1 + 
+>  include/hw/arm/virt.h       |  1 + 
+>  target/arm/cpu.c            |  2 ++
+>  target/arm/cpu.h            |  2 ++
+>  target/arm/kvm.c            |  6 ++++++
+>  7 files changed, 57 insertions(+)
+> 
+> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> index 91f0df7b13..5073ba22a5 100644
+> --- a/hw/arm/virt-acpi-build.c
+> +++ b/hw/arm/virt-acpi-build.c
+> @@ -666,6 +666,9 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+>          if (arm_feature(&armcpu->env, ARM_FEATURE_PMU)) {
+>              gicc->performance_interrupt = cpu_to_le32(PPI(VIRTUAL_PMU_IRQ));
+>          }
+> +        if (arm_feature(&armcpu->env, ARM_FEATURE_SPE)) {
+> +            gicc->spe_interrupt = cpu_to_le32(PPI(VIRTUAL_SPE_IRQ));
+> +        }
+>          if (vms->virt) {
+>              gicc->vgic_interrupt = cpu_to_le32(PPI(ARCH_GIC_MAINT_IRQ));
+>          }
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index ecfee362a1..c40819705d 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -555,6 +555,42 @@ static void fdt_add_pmu_nodes(const VirtMachineState *vms)
+>      }
+>  }
+> 
+> +static void fdt_add_spe_nodes(const VirtMachineState *vms)
+> +{
+> +    CPUState *cpu;
+> +    ARMCPU *armcpu;
+> +    uint32_t irqflags = GIC_FDT_IRQ_FLAGS_LEVEL_HI;
+> +
+> +    CPU_FOREACH(cpu) {
+> +        armcpu = ARM_CPU(cpu);
+> +        if (!arm_feature(&armcpu->env, ARM_FEATURE_SPE)) {
+> +            return;
+> +        }
+> +        if (kvm_enabled()) {
+> +            if (kvm_irqchip_in_kernel()) {
+> +                kvm_arm_spe_set_irq(cpu, PPI(VIRTUAL_SPE_IRQ));
+> +            }
+> +            kvm_arm_spe_init(cpu);
+> +        }
+> +    }
+> +
+> +    if (vms->gic_version == VIRT_GIC_VERSION_2) {
+> +        irqflags = deposit32(irqflags, GIC_FDT_IRQ_PPI_CPU_START,
+> +                             GIC_FDT_IRQ_PPI_CPU_WIDTH,
+> +                             (1 << vms->smp_cpus) - 1);
+> +    }
+> +
+> +    armcpu = ARM_CPU(qemu_get_cpu(0));
+> +    qemu_fdt_add_subnode(vms->fdt, "/spe");
+> +    if (arm_feature(&armcpu->env, ARM_FEATURE_V8)) {
+> +        const char compat[] = "arm,statistical-profiling-extension-v1";
+> +        qemu_fdt_setprop(vms->fdt, "/spe", "compatible",
+> +                         compat, sizeof(compat));
+> +        qemu_fdt_setprop_cells(vms->fdt, "/spe", "interrupts",
+> +                               GIC_FDT_IRQ_TYPE_PPI, VIRTUAL_SPE_IRQ, irqflags);
+> +    }
+> +}
+> +
+>  static inline DeviceState *create_acpi_ged(VirtMachineState *vms)
+>  {
+>      DeviceState *dev;
+> @@ -727,6 +763,10 @@ static void create_gic(VirtMachineState *vms)
+>                                      qdev_get_gpio_in(vms->gic, ppibase
+>                                                       + VIRTUAL_PMU_IRQ));
+> 
+> +        qdev_connect_gpio_out_named(cpudev, "spe-interrupt", 0,
+> +                                    qdev_get_gpio_in(vms->gic, ppibase
+> +                                                     + VIRTUAL_SPE_IRQ));
+> +
+>          sysbus_connect_irq(gicbusdev, i, qdev_get_gpio_in(cpudev, ARM_CPU_IRQ));
+>          sysbus_connect_irq(gicbusdev, i + smp_cpus,
+>                             qdev_get_gpio_in(cpudev, ARM_CPU_FIQ));
+> @@ -1915,6 +1955,8 @@ static void machvirt_init(MachineState *machine)
+> 
+>      fdt_add_pmu_nodes(vms);
+> 
+> +    fdt_add_spe_nodes(vms);
+> +
+>      create_uart(vms, VIRT_UART, sysmem, serial_hd(0));
+> 
+>      if (vms->secure) {
+> diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
+> index 38a42f409a..56a7f38ae4 100644
+> --- a/include/hw/acpi/acpi-defs.h
+> +++ b/include/hw/acpi/acpi-defs.h
+> @@ -302,6 +302,7 @@ struct AcpiMadtGenericCpuInterface {
+>      uint32_t vgic_interrupt;
+>      uint64_t gicr_base_address;
+>      uint64_t arm_mpidr;
+> +    uint16_t spe_interrupt; /* ACPI 6.3 */
+This does not work for me.
+You miss 2 uint8_t fields inbetween arm_mpdir and spe_interrupt:
+Processor Power Efficiency Class and Reserved.
 
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
----
+At the moment arm_spe_acpi_register_device() silently fails on guest
+side since
+gicc->header.length < ACPI_MADT_GICC_SPE
 
-(no changes since v1)
+Thanks
 
- include/hw/riscv/sifive_u.h | 11 +++++++++++
- hw/riscv/sifive_u.c         | 30 ++++++++++++++++++++++++++++++
- hw/riscv/Kconfig            |  1 +
- 3 files changed, 42 insertions(+)
+Eric
 
-diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-index d3c0c00..793000a 100644
---- a/include/hw/riscv/sifive_u.h
-+++ b/include/hw/riscv/sifive_u.h
-@@ -19,6 +19,7 @@
- #ifndef HW_SIFIVE_U_H
- #define HW_SIFIVE_U_H
- 
-+#include "hw/dma/sifive_pdma.h"
- #include "hw/net/cadence_gem.h"
- #include "hw/riscv/riscv_hart.h"
- #include "hw/riscv/sifive_cpu.h"
-@@ -43,6 +44,7 @@ typedef struct SiFiveUSoCState {
-     SiFiveUPRCIState prci;
-     SIFIVEGPIOState gpio;
-     SiFiveUOTPState otp;
-+    SiFivePDMAState dma;
-     CadenceGEMState gem;
- 
-     uint32_t serial;
-@@ -72,6 +74,7 @@ enum {
-     SIFIVE_U_MROM,
-     SIFIVE_U_CLINT,
-     SIFIVE_U_L2CC,
-+    SIFIVE_U_PDMA,
-     SIFIVE_U_L2LIM,
-     SIFIVE_U_PLIC,
-     SIFIVE_U_PRCI,
-@@ -108,6 +111,14 @@ enum {
-     SIFIVE_U_GPIO_IRQ13 = 20,
-     SIFIVE_U_GPIO_IRQ14 = 21,
-     SIFIVE_U_GPIO_IRQ15 = 22,
-+    SIFIVE_U_PDMA_IRQ0 = 23,
-+    SIFIVE_U_PDMA_IRQ1 = 24,
-+    SIFIVE_U_PDMA_IRQ2 = 25,
-+    SIFIVE_U_PDMA_IRQ3 = 26,
-+    SIFIVE_U_PDMA_IRQ4 = 27,
-+    SIFIVE_U_PDMA_IRQ5 = 28,
-+    SIFIVE_U_PDMA_IRQ6 = 29,
-+    SIFIVE_U_PDMA_IRQ7 = 30,
-     SIFIVE_U_GEM_IRQ = 0x35
- };
- 
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 2bc3992..7997537 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -14,6 +14,7 @@
-  * 4) GPIO (General Purpose Input/Output Controller)
-  * 5) OTP (One-Time Programmable) memory with stored serial number
-  * 6) GEM (Gigabit Ethernet Controller) and management block
-+ * 7) DMA (Direct Memory Access Controller)
-  *
-  * This board currently generates devicetree dynamically that indicates at least
-  * two harts and up to five harts.
-@@ -73,6 +74,7 @@ static const struct MemmapEntry {
-     [SIFIVE_U_MROM] =     {     0x1000,     0xf000 },
-     [SIFIVE_U_CLINT] =    {  0x2000000,    0x10000 },
-     [SIFIVE_U_L2CC] =     {  0x2010000,     0x1000 },
-+    [SIFIVE_U_PDMA] =     {  0x3000000,   0x100000 },
-     [SIFIVE_U_L2LIM] =    {  0x8000000,  0x2000000 },
-     [SIFIVE_U_PLIC] =     {  0xc000000,  0x4000000 },
-     [SIFIVE_U_PRCI] =     { 0x10000000,     0x1000 },
-@@ -303,6 +305,22 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
-     qemu_fdt_setprop_string(fdt, nodename, "compatible", "gpio-restart");
-     g_free(nodename);
- 
-+    nodename = g_strdup_printf("/soc/dma@%lx",
-+        (long)memmap[SIFIVE_U_PDMA].base);
-+    qemu_fdt_add_subnode(fdt, nodename);
-+    qemu_fdt_setprop_cell(fdt, nodename, "#dma-cells", 1);
-+    qemu_fdt_setprop_cells(fdt, nodename, "interrupts",
-+        SIFIVE_U_PDMA_IRQ0, SIFIVE_U_PDMA_IRQ1, SIFIVE_U_PDMA_IRQ2,
-+        SIFIVE_U_PDMA_IRQ3, SIFIVE_U_PDMA_IRQ4, SIFIVE_U_PDMA_IRQ5,
-+        SIFIVE_U_PDMA_IRQ6, SIFIVE_U_PDMA_IRQ7);
-+    qemu_fdt_setprop_cell(fdt, nodename, "interrupt-parent", plic_phandle);
-+    qemu_fdt_setprop_cells(fdt, nodename, "reg",
-+        0x0, memmap[SIFIVE_U_PDMA].base,
-+        0x0, memmap[SIFIVE_U_PDMA].size);
-+    qemu_fdt_setprop_string(fdt, nodename, "compatible",
-+                            "sifive,fu540-c000-pdma");
-+    g_free(nodename);
-+
-     nodename = g_strdup_printf("/soc/cache-controller@%lx",
-         (long)memmap[SIFIVE_U_L2CC].base);
-     qemu_fdt_add_subnode(fdt, nodename);
-@@ -627,6 +645,7 @@ static void sifive_u_soc_instance_init(Object *obj)
-     object_initialize_child(obj, "otp", &s->otp, TYPE_SIFIVE_U_OTP);
-     object_initialize_child(obj, "gem", &s->gem, TYPE_CADENCE_GEM);
-     object_initialize_child(obj, "gpio", &s->gpio, TYPE_SIFIVE_GPIO);
-+    object_initialize_child(obj, "pdma", &s->dma, TYPE_SIFIVE_PDMA);
- }
- 
- static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
-@@ -730,6 +749,17 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
-                                             SIFIVE_U_GPIO_IRQ0 + i));
-     }
- 
-+    /* PDMA */
-+    sysbus_realize(SYS_BUS_DEVICE(&s->dma), errp);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->dma), 0, memmap[SIFIVE_U_PDMA].base);
-+
-+    /* Connect PDMA interrupts to the PLIC */
-+    for (i = 0; i < SIFIVE_PDMA_IRQS; i++) {
-+        sysbus_connect_irq(SYS_BUS_DEVICE(&s->dma), i,
-+                           qdev_get_gpio_in(DEVICE(s->plic),
-+                                            SIFIVE_U_PDMA_IRQ0 + i));
-+    }
-+
-     qdev_prop_set_uint32(DEVICE(&s->otp), "serial", s->serial);
-     if (!sysbus_realize(SYS_BUS_DEVICE(&s->otp), errp)) {
-         return;
-diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-index 9032cb0..e53ab1e 100644
---- a/hw/riscv/Kconfig
-+++ b/hw/riscv/Kconfig
-@@ -22,6 +22,7 @@ config SIFIVE_U
-     select CADENCE
-     select HART
-     select SIFIVE
-+    select SIFIVE_PDMA
-     select UNIMP
- 
- config SPIKE
--- 
-2.7.4
+>  } QEMU_PACKED;
+> 
+>  typedef struct AcpiMadtGenericCpuInterface AcpiMadtGenericCpuInterface;
+> diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+> index dff67e1bef..56c83224d2 100644
+> --- a/include/hw/arm/virt.h
+> +++ b/include/hw/arm/virt.h
+> @@ -49,6 +49,7 @@
+>  #define ARCH_TIMER_NS_EL1_IRQ 14
+>  #define ARCH_TIMER_NS_EL2_IRQ 10
+> 
+> +#define VIRTUAL_SPE_IRQ 5
+>  #define VIRTUAL_PMU_IRQ 7
+> 
+>  #define PPI(irq) ((irq) + 16)
+> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+> index 40768b4d19..67ab0089fd 100644
+> --- a/target/arm/cpu.c
+> +++ b/target/arm/cpu.c
+> @@ -1038,6 +1038,8 @@ static void arm_cpu_initfn(Object *obj)
+>                               "gicv3-maintenance-interrupt", 1);
+>      qdev_init_gpio_out_named(DEVICE(cpu), &cpu->pmu_interrupt,
+>                               "pmu-interrupt", 1);
+> +    qdev_init_gpio_out_named(DEVICE(cpu), &cpu->spe_interrupt,
+> +                             "spe-interrupt", 1);
+>  #endif
+> 
+>      /* DTB consumers generally don't in fact care what the 'compatible'
+> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+> index fe0ac14386..4bf8591df8 100644
+> --- a/target/arm/cpu.h
+> +++ b/target/arm/cpu.h
+> @@ -790,6 +790,8 @@ struct ARMCPU {
+>      qemu_irq gicv3_maintenance_interrupt;
+>      /* GPIO output for the PMU interrupt */
+>      qemu_irq pmu_interrupt;
+> +    /* GPIO output for the SPE interrupt */
+> +    qemu_irq spe_interrupt;
+> 
+>      /* MemoryRegion to use for secure physical accesses */
+>      MemoryRegion *secure_memory;
+> diff --git a/target/arm/kvm.c b/target/arm/kvm.c
+> index 58f991e890..ecafdda364 100644
+> --- a/target/arm/kvm.c
+> +++ b/target/arm/kvm.c
+> @@ -820,6 +820,12 @@ MemTxAttrs kvm_arch_post_run(CPUState *cs, struct kvm_run *run)
+>              switched_level &= ~KVM_ARM_DEV_PMU;
+>          }
+> 
+> +        if (switched_level & KVM_ARM_DEV_SPE) {
+> +            qemu_set_irq(cpu->spe_interrupt,
+> +                         !!(run->s.regs.device_irq_level & KVM_ARM_DEV_SPE));
+> +            switched_level &= ~KVM_ARM_DEV_SPE;
+> +        }
+> +
+>          if (switched_level) {
+>              qemu_log_mask(LOG_UNIMP, "%s: unhandled in-kernel device IRQ %x\n",
+>                            __func__, switched_level);
+> 
 
 
