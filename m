@@ -2,52 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21BFC256432
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Aug 2020 04:47:12 +0200 (CEST)
-Received: from localhost ([::1]:54212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A980256441
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Aug 2020 05:00:07 +0200 (CEST)
+Received: from localhost ([::1]:33232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kBqtb-00053d-7I
-	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 22:47:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49658)
+	id 1kBr66-000087-Dt
+	for lists+qemu-devel@lfdr.de; Fri, 28 Aug 2020 23:00:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kBqod-0003gQ-Fw
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 22:42:03 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:4675 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kBqoa-000236-Fj
- for qemu-devel@nongnu.org; Fri, 28 Aug 2020 22:42:03 -0400
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 90302863C3DFA0DA8609;
- Sat, 29 Aug 2020 10:41:48 +0800 (CST)
-Received: from huawei.com (10.175.101.6) by DGGEMS413-HUB.china.huawei.com
- (10.3.19.213) with Microsoft SMTP Server id 14.3.487.0; Sat, 29 Aug 2020
- 10:41:41 +0800
-From: Chuan Zheng <zhengchuan@huawei.com>
-To: <quintela@redhat.com>, <eblake@redhat.com>, <dgilbert@redhat.com>,
- <berrange@redhat.com>, <dme@dme.org>
-Subject: [PATCH v6 12/12] migration/dirtyrate: Add trace_calls to make it
- easier to debug
-Date: Sat, 29 Aug 2020 10:52:57 +0800
-Message-ID: <1598669577-76914-13-git-send-email-zhengchuan@huawei.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1598669577-76914-1-git-send-email-zhengchuan@huawei.com>
-References: <1598669577-76914-1-git-send-email-zhengchuan@huawei.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kBr5Q-00089g-UG
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 22:59:24 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:33802)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kBr5P-0006ms-Ap
+ for qemu-devel@nongnu.org; Fri, 28 Aug 2020 22:59:24 -0400
+Received: by mail-pl1-x641.google.com with SMTP id v16so525317plo.1
+ for <qemu-devel@nongnu.org>; Fri, 28 Aug 2020 19:59:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=opQefAA4NTAdDH36EP305N6VJ35Rn2Nt8M5rBoQapRw=;
+ b=HGLTei5lywkd9giMzKtFcNH/xNDcQkqPp146Nc2DeWKjv6v9Xs1ffS2BW9z+lG+SVA
+ U+LzQcFZEegL+9vRVYI7/QsBoYGU4hhwyDaS6C5YRGjejPvHZVGZQraAHzkkBV6Cf4aR
+ zgvRyhwwhTxWwzgoR+hGHwaoIIwu7zoq9Sj7gBYEqe0WuSPAn0EKOyNL3MzZKZIHyw8C
+ W0uX7BnJFZTlWZ19lFRwILRKkT27+U/OL7kMSGwKHIGUA/+Ng+SwDoQ9R/1iRgwjSdPY
+ 9jSQUt4M7l/15FVCNor4t6dWXx+mIWjK5uEsFcLbMbgpn8HGih7ZEJ4IRG3juMv+mWgM
+ zvKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=opQefAA4NTAdDH36EP305N6VJ35Rn2Nt8M5rBoQapRw=;
+ b=iSExsXggZNnVopGCn7N818B4cGUPl+RiX1e9/WLAaQUo3sSLg9QcVyl8aFX4fp2b90
+ /uwoZCLLgFThHAvCeYMI4rip1lKsSITvT8DhWCBlzO2N/TFmH9RfdXU1jXTGK44JXaAl
+ 7ZoPKASMvhrZqeKGJY49UVMSUI37HwFtukE6Wt8i0Dwd9mqsgGJVM5tMJwjIEWHoKo2A
+ NLIK8kY2iNDmIcbaXfwZdB/iITM56x6kdWvoaYmzyJ6zh9W6XBfVsULisjxA4aRt7vIG
+ 45kfPBiWX0CI9b750OFZwQZa5UzscPJvAlPn/50FT9CdCQE3x7Pd7uhB5+ibKjWm9QXn
+ PFPQ==
+X-Gm-Message-State: AOAM5315dKnF4/YUAazZIPFAtdoAOk/cgJnzMZYV85/91MDt9/3aNjw7
+ VNtQB/YGO+GXMNwafQJiRj+HHw==
+X-Google-Smtp-Source: ABdhPJyU5Pc17xchIykcypR4bPNF+xYC9ToCq+OCcI2EiyM5UcCTOW9VfsG7fZY8cV4usGENHr1iSA==
+X-Received: by 2002:a17:902:8d89:: with SMTP id
+ v9mr1356389plo.289.1598669962065; 
+ Fri, 28 Aug 2020 19:59:22 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id b12sm806216pgr.34.2020.08.28.19.59.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Aug 2020 19:59:21 -0700 (PDT)
+Subject: Re: [RFC PATCH v3 32/34] Hexagon (linux-user/hexagon) Linux user
+ emulation
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+References: <1597765847-16637-1-git-send-email-tsimpson@quicinc.com>
+ <1597765847-16637-33-git-send-email-tsimpson@quicinc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <ea1f844e-0efb-6d98-e799-6dd00c16d9fb@linaro.org>
+Date: Fri, 28 Aug 2020 19:59:18 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.101.6]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190;
- envelope-from=zhengchuan@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/28 22:41:44
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+In-Reply-To: <1597765847-16637-33-git-send-email-tsimpson@quicinc.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x641.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.809,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,99 +91,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.chen@huawei.com, ann.zhuangyanying@huawei.com,
- zhang.zhanghailiang@huawei.com, xiexiangyou@huawei.com, qemu-devel@nongnu.org
+Cc: ale@rev.ng, riku.voipio@iki.fi, philmd@redhat.com, laurent@vivier.eu,
+ aleksandar.m.mail@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add trace_calls to  make it easier to debug
+On 8/18/20 8:50 AM, Taylor Simpson wrote:
+> Implementation of Linux user emulation for Hexagon
+> Some common files modified in addition to new files in linux-user/hexagon
+> 
+> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
+> ---
 
-Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- migration/dirtyrate.c  | 9 +++++++++
- migration/trace-events | 8 ++++++++
- 2 files changed, 17 insertions(+)
+Looks plausible.
 
-diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index fa1a12d..2a8f4ff 100644
---- a/migration/dirtyrate.c
-+++ b/migration/dirtyrate.c
-@@ -22,6 +22,7 @@
- #include "qapi/qapi-commands-migration.h"
- #include "migration.h"
- #include "ram.h"
-+#include "trace.h"
- #include "dirtyrate.h"
- 
- static int CalculatingState = DIRTY_RATE_STATUS_UNSTARTED;
-@@ -54,6 +55,7 @@ static bool get_sample_page_period(int64_t sec)
- static int dirtyrate_set_state(int *state, int old_state, int new_state)
- {
-     assert(new_state < DIRTY_RATE_STATUS__MAX);
-+    trace_dirtyrate_set_state(DirtyRateStatus_str(new_state));
-     if (atomic_cmpxchg(state, old_state, new_state) == old_state) {
-         return 0;
-     } else {
-@@ -76,6 +78,8 @@ static struct DirtyRateInfo *query_dirty_rate_info(void)
-     info->start_time = DirtyStat.start_time;
-     info->calc_time = DirtyStat.calc_time;
- 
-+    trace_query_dirty_rate_info(DirtyRateStatus_str(CalculatingState));
-+
-     return info;
- }
- 
-@@ -123,6 +127,7 @@ static uint32_t get_ramblock_vfn_hash(struct RamblockDirtyInfo *info,
-     crc = crc32(0, (info->ramblock_addr +
-                 vfn * TARGET_PAGE_SIZE), TARGET_PAGE_SIZE);
- 
-+    trace_get_ramblock_vfn_hash(info->idstr, vfn, crc);
-     return crc;
- }
- 
-@@ -228,6 +233,8 @@ static bool skip_sample_ramblock(RAMBlock *block)
-      * want to sample.
-      */
-     if (qemu_ram_get_used_length(block) < (MIN_RAMBLOCK_SIZE << 10)) {
-+        trace_skip_sample_ramblock(block->idstr,
-+                                   qemu_ram_get_used_length(block));
-         return true;
-     }
- 
-@@ -274,6 +281,7 @@ static void calc_page_dirty_rate(struct RamblockDirtyInfo *info)
-     for (i = 0; i < info->sample_pages_count; i++) {
-         crc = get_ramblock_vfn_hash(info, info->sample_page_vfn[i]);
-         if (crc != info->hash_result[i]) {
-+            trace_calc_page_dirty_rate(info->idstr, crc, info->hash_result[i]);
-             info->sample_dirty_count++;
-         }
-     }
-@@ -299,6 +307,7 @@ find_page_matched(RAMBlock *block, int count,
-     if (infos[i].ramblock_addr != qemu_ram_get_host_addr(block) ||
-         infos[i].ramblock_pages !=
-             (qemu_ram_get_used_length(block) >> TARGET_PAGE_BITS)) {
-+        trace_find_page_matched(block->idstr);
-         return NULL;
-     }
- 
-diff --git a/migration/trace-events b/migration/trace-events
-index 4ab0a50..8c2b58f 100644
---- a/migration/trace-events
-+++ b/migration/trace-events
-@@ -312,3 +312,11 @@ dirty_bitmap_load_bits_zeroes(void) ""
- dirty_bitmap_load_header(uint32_t flags) "flags 0x%x"
- dirty_bitmap_load_enter(void) ""
- dirty_bitmap_load_success(void) ""
-+
-+# dirtyrate.c
-+dirtyrate_set_state(const char *new_state) "new state %s"
-+query_dirty_rate_info(const char *new_state) "current state %s"
-+get_ramblock_vfn_hash(const char *idstr, uint64_t vfn, uint32_t crc) "ramblock name: %s, vfn: %"PRIu64 ", crc: %" PRIu32
-+calc_page_dirty_rate(const char *idstr, uint32_t new_crc, uint32_t old_crc) "ramblock name: %s, new crc: %" PRIu32 ", old crc: %" PRIu32
-+skip_sample_ramblock(const char *idstr, uint64_t ramblock_size) "ramblock name: %s, ramblock size: %" PRIu64
-+find_page_matched(const char *idstr) "ramblock %s addr or size changed"
--- 
-1.8.3.1
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
+r~
 
