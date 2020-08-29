@@ -2,75 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 257B12567FA
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Aug 2020 15:54:17 +0200 (CEST)
-Received: from localhost ([::1]:56446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E7C5256884
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Aug 2020 17:06:29 +0200 (CEST)
+Received: from localhost ([::1]:54300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kC1JA-0008Vs-7u
-	for lists+qemu-devel@lfdr.de; Sat, 29 Aug 2020 09:54:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58188)
+	id 1kC2R1-00076G-Vn
+	for lists+qemu-devel@lfdr.de; Sat, 29 Aug 2020 11:06:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kC1IH-0007eX-1U
- for qemu-devel@nongnu.org; Sat, 29 Aug 2020 09:53:21 -0400
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:35862)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kC1IF-0003Eu-Lz
- for qemu-devel@nongnu.org; Sat, 29 Aug 2020 09:53:20 -0400
-Received: by mail-ed1-x541.google.com with SMTP id q4so1593706eds.3
- for <qemu-devel@nongnu.org>; Sat, 29 Aug 2020 06:53:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6X2MaBJ21+Alc6ewEhKXjcC4MPw0rJP61ITVoGTwtgw=;
- b=NYopsqdApAaWgO6PWSUHCdlZlE+1KKRrbraTStJBPx88LtRij+ppawAONSQXPUjdvt
- dW4uozf2S7AQIeTkiWYlUOl7tPFq7OaBU3L4wi1aWWzbnIbt+qh73qpOrI0PEOsmbEe/
- RsSumMpbz6m5O3bIPt8k/t6bacX2Pzd5CiqSe8dxBC3Svs8Efgp7BCAyIkS8WsSRdwHB
- xnEaM9E7xw7xC0H5+2HzI04X7j74tBikW5lQK3DJm2D3M0zGpfKdozKkyONtZDOTylXn
- w6b1CwlZPoM/szHtYhpNlSBeq1M9fd3G3uudyIJb7M4M5pE8RS10OHLLo+hFoqkU4zw5
- CWmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6X2MaBJ21+Alc6ewEhKXjcC4MPw0rJP61ITVoGTwtgw=;
- b=aDSJNk0XT7U1Noy/zc9/5ewy1kxFsGoGcN4WlyYM7XoJL+pDtdxuhSQXVTJ1EPZo5t
- nqvLGWzHcmJnTF0sipWubUB6Am03PqefdKKUaOLJXfHWC5nMYiWQj7E6o3bK+hnWu5KL
- ixnGDl+fMVihwotKDgdMc1WP2qrxJ1scO1o9RL/lm9lRFt88o6hmxx0SmvlByX7X5mvv
- fsY9W8sH6LbcPsrO4q933+cT/PhaxgoUCDc2J+pVKKIfOniifYylweTd204bH2bIM8TJ
- nfEbqkhWGqIXrdbjA59+ttFzJGeM5luU7QfVdCfseF+8m9VtreQRhH8RQY3euGzoe5oa
- c9Gw==
-X-Gm-Message-State: AOAM530gLevpurKKetqmVmYp3uIzM4kFmhym07Li4hM+IMTU7jPmXs81
- ih0YNuxUg5RmZ479ZAPsYWufTmwF6YvQcT+7BfqVGw==
-X-Google-Smtp-Source: ABdhPJwz+wNke6N9+VK/Xf3dZKWrE8BA/exm+fWWh6IatUFcLmPc5Ru072PQH+YV+wtUSTdsw2wcDuZOLHv0lrM6Hao=
-X-Received: by 2002:a50:da44:: with SMTP id a4mr3619638edk.36.1598709198143;
- Sat, 29 Aug 2020 06:53:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1kC2QE-0006eg-Bn
+ for qemu-devel@nongnu.org; Sat, 29 Aug 2020 11:05:38 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:54899)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1kC2Q7-0003ci-1c
+ for qemu-devel@nongnu.org; Sat, 29 Aug 2020 11:05:38 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.06561751|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_enroll_verification|0.0702077-0.000130234-0.929662;
+ FP=0|0|0|0|0|-1|-1|-1; HT=e02c03306; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
+ RN=2; RT=2; SR=0; TI=SMTPD_---.IPmSxL4_1598713511; 
+Received: from 192.168.3.36(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.IPmSxL4_1598713511) by smtp.aliyun-inc.com(10.147.40.7);
+ Sat, 29 Aug 2020 23:05:11 +0800
+Subject: Re: [PATCH] softfloat: Define comparison operations for bfloat16
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20200828175351.435119-1-richard.henderson@linaro.org>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <595aa258-dc1c-2c21-7081-41cfccb449a3@c-sky.com>
+Date: Sat, 29 Aug 2020 23:05:07 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-References: <20200828183354.27913-1-peter.maydell@linaro.org>
- <20200828183354.27913-25-peter.maydell@linaro.org>
- <55675521-a61c-186c-599f-7373e9165184@linaro.org>
- <CAFEAcA87JLog+Ly5wvRi2bOvwDvFVL5mjpnkeB3h+pckbnNMmQ@mail.gmail.com>
- <2007993d-9f64-dca5-5fd9-510c87cd8e86@linaro.org>
-In-Reply-To: <2007993d-9f64-dca5-5fd9-510c87cd8e86@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 29 Aug 2020 14:53:07 +0100
-Message-ID: <CAFEAcA8cEF4s8E5k=eKs8u3hRqWKDgSwe5yA+c+uVXnCt4ixBg@mail.gmail.com>
-Subject: Re: [PATCH v2 24/45] target/arm: Implement fp16 for Neon VRECPE,
- VRSQRTE using gvec
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::541;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20200828175351.435119-1-richard.henderson@linaro.org>
+Content-Type: multipart/alternative;
+ boundary="------------75460598582B99A98EF02006"
+Content-Language: en-US
+Received-SPF: none client-ip=121.197.200.217;
+ envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/29 11:05:16
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.809, SPF_HELO_NONE=0.001, T_SPF_TEMPERROR=0.01,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,25 +62,211 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 28 Aug 2020 at 23:53, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 8/28/20 2:40 PM, Peter Maydell wrote:
-> > The other approach would be to standardize on "the decodetree pattern
-> > always converts the size to the data-type size, regardless of how
-> > it's encoded in the insn fields", and then you could check against
-> > MO_16 here. Would that be better ?
->
-> That might be clearer, yes.  Otherwise it's hard to tell what "size" means
-> without looking at the manual for each instance.
+This is a multi-part message in MIME format.
+--------------75460598582B99A98EF02006
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Do you mind if I do that as a separate patchset after this one?
-I feel that will be easier than trying to weave the change into
-this series...
 
--- PMM
+
+On 2020/8/29 1:53, Richard Henderson wrote:
+> These operations were missed in Zhiwei's bfloat16 implementation.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   include/fpu/softfloat.h | 41 +++++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 41 insertions(+)
+>
+> diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
+> index 1233f98014..78ad5ca738 100644
+> --- a/include/fpu/softfloat.h
+> +++ b/include/fpu/softfloat.h
+> @@ -479,6 +479,47 @@ static inline bfloat16 bfloat16_set_sign(bfloat16 a, int sign)
+>       return (a & 0x7fff) | (sign << 15);
+>   }
+>   
+> +static inline bool bfloat16_eq(bfloat16 a, bfloat16 b, float_status *s)
+> +{
+> +    return bfloat16_compare(a, b, s) == float_relation_equal;
+> +}
+> +
+> +static inline bool bfloat16_le(bfloat16 a, bfloat16 b, float_status *s)
+> +{
+> +    return bfloat16_compare(a, b, s) <= float_relation_equal;
+> +}
+> +
+> +static inline bool bfloat16_lt(bfloat16 a, bfloat16 b, float_status *s)
+> +{
+> +    return bfloat16_compare(a, b, s) < float_relation_equal;
+> +}
+> +
+> +static inline bool bfloat16_unordered(bfloat16 a, bfloat16 b, float_status *s)
+> +{
+> +    return bfloat16_compare(a, b, s) == float_relation_unordered;
+> +}
+> +
+> +static inline bool bfloat16_eq_quiet(bfloat16 a, bfloat16 b, float_status *s)
+> +{
+> +    return bfloat16_compare_quiet(a, b, s) == float_relation_equal;
+> +}
+> +
+> +static inline bool bfloat16_le_quiet(bfloat16 a, bfloat16 b, float_status *s)
+> +{
+> +    return bfloat16_compare_quiet(a, b, s) <= float_relation_equal;
+> +}
+> +
+> +static inline bool bfloat16_lt_quiet(bfloat16 a, bfloat16 b, float_status *s)
+> +{
+> +    return bfloat16_compare_quiet(a, b, s) < float_relation_equal;
+> +}
+> +
+> +static inline bool bfloat16_unordered_quiet(bfloat16 a, bfloat16 b,
+> +                                           float_status *s)
+Indentation.
+> +{
+> +    return bfloat16_compare_quiet(a, b, s) == float_relation_unordered;
+> +}
+> +
+Hi Richard,
+
+If you have already applied the bfloat16 patch set,   I am afraid you 
+have to remove these lines.
+
+-int bfloat16_unordered_quiet(bfloat16, bfloat16, float_status *status);
+-int bfloat16_le(bfloat16, bfloat16, float_status *status);
+-int bfloat16_lt(bfloat16, bfloat16, float_status *status);
+-int bfloat16_eq_quiet(bfloat16, bfloat16, float_status *status);
+
+The corresponding float16 interfaces have been removed in the master 
+branch when I sent the bfloat16 patch set.
+So I deleted the implementations. But I forgot to remove the declarations.
+
+I see you have applied float16 comparison interfaces from Kito, and the 
+corresponding bfloat16
+interfaces have all been defined here. After remove the redundant 
+declarations,
+
+Reviewed-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+
+>   #define bfloat16_zero 0
+>   #define bfloat16_half 0x3f00
+>   #define bfloat16_one 0x3f80
+
+
+--------------75460598582B99A98EF02006
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <br>
+    <br>
+    <div class="moz-cite-prefix">On 2020/8/29 1:53, Richard Henderson
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:20200828175351.435119-1-richard.henderson@linaro.org">
+      <pre class="moz-quote-pre" wrap="">These operations were missed in Zhiwei's bfloat16 implementation.
+
+Signed-off-by: Richard Henderson <a class="moz-txt-link-rfc2396E" href="mailto:richard.henderson@linaro.org">&lt;richard.henderson@linaro.org&gt;</a>
+---
+ include/fpu/softfloat.h | 41 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
+
+diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
+index 1233f98014..78ad5ca738 100644
+--- a/include/fpu/softfloat.h
++++ b/include/fpu/softfloat.h
+@@ -479,6 +479,47 @@ static inline bfloat16 bfloat16_set_sign(bfloat16 a, int sign)
+     return (a &amp; 0x7fff) | (sign &lt;&lt; 15);
+ }
+ 
++static inline bool bfloat16_eq(bfloat16 a, bfloat16 b, float_status *s)
++{
++    return bfloat16_compare(a, b, s) == float_relation_equal;
++}
++
++static inline bool bfloat16_le(bfloat16 a, bfloat16 b, float_status *s)
++{
++    return bfloat16_compare(a, b, s) &lt;= float_relation_equal;
++}
++
++static inline bool bfloat16_lt(bfloat16 a, bfloat16 b, float_status *s)
++{
++    return bfloat16_compare(a, b, s) &lt; float_relation_equal;
++}
++
++static inline bool bfloat16_unordered(bfloat16 a, bfloat16 b, float_status *s)
++{
++    return bfloat16_compare(a, b, s) == float_relation_unordered;
++}
++
++static inline bool bfloat16_eq_quiet(bfloat16 a, bfloat16 b, float_status *s)
++{
++    return bfloat16_compare_quiet(a, b, s) == float_relation_equal;
++}
++
++static inline bool bfloat16_le_quiet(bfloat16 a, bfloat16 b, float_status *s)
++{
++    return bfloat16_compare_quiet(a, b, s) &lt;= float_relation_equal;
++}
++
++static inline bool bfloat16_lt_quiet(bfloat16 a, bfloat16 b, float_status *s)
++{
++    return bfloat16_compare_quiet(a, b, s) &lt; float_relation_equal;
++}
++
++static inline bool bfloat16_unordered_quiet(bfloat16 a, bfloat16 b,
++                                           float_status *s)</pre>
+    </blockquote>
+    Indentation.<br>
+    <blockquote type="cite"
+      cite="mid:20200828175351.435119-1-richard.henderson@linaro.org">
+      <pre class="moz-quote-pre" wrap="">
++{
++    return bfloat16_compare_quiet(a, b, s) == float_relation_unordered;
++}
++</pre>
+    </blockquote>
+    Hi Richard,<br>
+    <br>
+    If you have already applied the bfloat16 patch set,   I am afraid
+    you have to remove these lines.<br>
+    <pre>-int bfloat16_unordered_quiet(bfloat16, bfloat16, float_status *status);
+-int bfloat16_le(bfloat16, bfloat16, float_status *status);
+-int bfloat16_lt(bfloat16, bfloat16, float_status *status);
+-int bfloat16_eq_quiet(bfloat16, bfloat16, float_status *status);
+
+</pre>
+    The corresponding float16 interfaces have been removed in the master
+    branch when I sent the bfloat16 patch set.<br>
+    So I deleted the implementations. But I forgot to remove the
+    declarations.<br>
+    <br>
+    I see you have applied float16 comparison interfaces from Kito, and
+    the corresponding bfloat16<br>
+    interfaces have all been defined here. After remove the redundant
+    declarations,<br>
+    <br>
+    Reviewed-by: LIU Zhiwei <a class="moz-txt-link-rfc2396E" href="mailto:zhiwei_liu@c-sky.com">&lt;zhiwei_liu@c-sky.com&gt;</a><br>
+    <br>
+    <blockquote type="cite"
+      cite="mid:20200828175351.435119-1-richard.henderson@linaro.org">
+      <pre class="moz-quote-pre" wrap="">
+ #define bfloat16_zero 0
+ #define bfloat16_half 0x3f00
+ #define bfloat16_one 0x3f80
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------75460598582B99A98EF02006--
 
