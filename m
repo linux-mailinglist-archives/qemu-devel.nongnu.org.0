@@ -2,78 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B00EE2568AF
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Aug 2020 17:30:58 +0200 (CEST)
-Received: from localhost ([::1]:40724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E4692568B4
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Aug 2020 17:34:42 +0200 (CEST)
+Received: from localhost ([::1]:46310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kC2oj-0000OF-QE
-	for lists+qemu-devel@lfdr.de; Sat, 29 Aug 2020 11:30:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45342)
+	id 1kC2sL-0002rL-Je
+	for lists+qemu-devel@lfdr.de; Sat, 29 Aug 2020 11:34:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1kC2gA-0007RA-5T
- for qemu-devel@nongnu.org; Sat, 29 Aug 2020 11:22:06 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:37968
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1kC2g7-0005fv-4K
- for qemu-devel@nongnu.org; Sat, 29 Aug 2020 11:22:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598714521;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KsoHPe0fo4kmuIZOpXevYhG1xyEG71KI6rwlL1Gqtac=;
- b=NXVbaxeay9Pp7SIMoZXfSxSiaF4jEM3W1/Thj4GH8eNom3GGiYCsajD7wtUJkXfAsgkpS3
- +iHx/rvYJaj2noteyWeb4cGe/Bm/+S1oQOtVpU7s/Ab6ZTUkPaJZZlbRYh+1FxnAQRpJxo
- Ja3x3O+UbObIGe3SEVoF0KsyC1onnTU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-102-B9mG1uoxPgS6ntTnljdy1A-1; Sat, 29 Aug 2020 11:21:59 -0400
-X-MC-Unique: B9mG1uoxPgS6ntTnljdy1A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E196B802B6A;
- Sat, 29 Aug 2020 15:21:57 +0000 (UTC)
-Received: from [10.36.112.112] (ovpn-112-112.ams2.redhat.com [10.36.112.112])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 43D895D9D2;
- Sat, 29 Aug 2020 15:21:56 +0000 (UTC)
-Subject: Re: [PATCH 6/7] hw/arm/virt: spe: Add SPE fdt binding for virt machine
-To: Haibo Xu <haibo.xu@linaro.org>, peter.maydell@linaro.org
-References: <cover.1596768588.git.haibo.xu@linaro.org>
- <1663d06172cffa723e00893837ba04634f061fc8.1596768588.git.haibo.xu@linaro.org>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <4e6b3ee2-7f81-7c72-c4a9-0e8d330215ab@redhat.com>
-Date: Sat, 29 Aug 2020 17:21:54 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kC2lz-0006rJ-8y
+ for qemu-devel@nongnu.org; Sat, 29 Aug 2020 11:28:07 -0400
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:37325)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kC2lx-0006Qv-6Q
+ for qemu-devel@nongnu.org; Sat, 29 Aug 2020 11:28:06 -0400
+Received: by mail-pj1-x1042.google.com with SMTP id mw10so887127pjb.2
+ for <qemu-devel@nongnu.org>; Sat, 29 Aug 2020 08:28:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Bf+K9Z9xmGvjQb8nFKST0v197yf7vY++myTg2dcX7j4=;
+ b=vaVncUlY7wbfJ/b8MBlgjhigQycLWrAFlSn1op6tisv5XXLCRcNjfj2Jwor9PI88qT
+ Fy9E6kcts++qfsShFOpUkQAOchXIjcWDbMuS59BiOZNLYEomulmTXEg/TUCzoNxtvmKe
+ VHYKG4a/QiZQVVPlsNDSGXl0zjLn1gFGh4mpX5PtS+zLteKHJITgU/pPeqbo/hLBAtE7
+ KFCMrouJGbwI35trUIF0I3q/A6Dl6bs/AmOVPycvMzU++kfk/8YxsYIi+MKANCFUjpzH
+ lv4Vyrwev7siawDrCeJU0o0PyeEbGWuBH8nZKyxu7D7cBeri2d6/beCH+V/3ReQedpTV
+ eR4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Bf+K9Z9xmGvjQb8nFKST0v197yf7vY++myTg2dcX7j4=;
+ b=DfCLp8CmOcJGeu49lq6tCBKQqRa9IUekX/KWx6/zgQi9JCc+EHWXV4AJOX7q8MfFcg
+ h49ZpHqTnnnDg5SQEu8XKQLce/PNLvwf4Z6jjLt3nvv2H3F8nKunCi9x0F4IvaFrHCli
+ wH0lzGAC+HW54EAqOHazgz9ajYuPyCFKAZ6hNG2DiE99U4VMzjLzpWSCsYzOqUDimpDt
+ isJkWjA6xevnId4aMaajx3YSTzMR0UN6tBJ6oMN36t8LLUCMFAzhzMzZlElY/ZofOmT/
+ R4BT8mzf1D61pIGrN4hiIY2xfcI3Foy81aFUN9xTuXH0YAgXCF4tDorNxv0MH0FSjTW6
+ 5oYg==
+X-Gm-Message-State: AOAM533B1jCcjqgaRAw7UXUUmWgzvBqXUL4QiJXP1UXsB0eeqVodbeNw
+ uaVsewA4cZobZRvUqCQJWyfFbjYMFoBPxw==
+X-Google-Smtp-Source: ABdhPJy4UEQLjQhGMrO75YOW9I3PuVStmaX4BNNRfIjqFJOCNo7trqb0frRFeBR4Xzecjlthly+S2Q==
+X-Received: by 2002:a17:90b:384b:: with SMTP id
+ nl11mr3405045pjb.91.1598714883041; 
+ Sat, 29 Aug 2020 08:28:03 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id e142sm3179665pfh.108.2020.08.29.08.28.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 29 Aug 2020 08:28:02 -0700 (PDT)
+Subject: Re: [PATCH 62/77] target/microblaze: Try to keep imm and delay slot
+ together
+To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+References: <20200825205950.730499-1-richard.henderson@linaro.org>
+ <20200825205950.730499-63-richard.henderson@linaro.org>
+ <20200827191722.GP2954729@toto>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <b5871fb3-5bb9-1ea6-4412-b99530c3618b@linaro.org>
+Date: Sat, 29 Aug 2020 08:27:59 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <1663d06172cffa723e00893837ba04634f061fc8.1596768588.git.haibo.xu@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20200827191722.GP2954729@toto>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Received-SPF: pass client-ip=205.139.110.61;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/29 11:22:01
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.809, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1042.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.809,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,188 +92,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: drjones@redhat.com, qemu-arm@nongnu.org, philmd@redhat.com,
- qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Haibo,
+On 8/27/20 12:17 PM, Edgar E. Iglesias wrote:
+> On Tue, Aug 25, 2020 at 01:59:35PM -0700, Richard Henderson wrote:
+>> If the last insn on a page is imm, or a branch with delay slot,
+>> then end a tb early if this has not begun the tb.  If it has
+>> begun the tb, then we can allow the tb to span two pages as if
+>> the imm plus its consumer, or branch plus delay, or imm plus
+>> branch plus delay, are a single insn.
+>>
+>> If the insn in the delay slot faults, then the exception handler
+>> will have reset the PC to the beginning of this sequence anyway,
+>> via the stored D_FLAG and BIMM_FLAG bits.
+>>
+>> Disable all of this when single-stepping.
+> 
+> 
+> Hi Richard,
+> 
+> We've got a Linux boot that fails after applying this patch.
+> It goes from always working to only working like 1 out of 3 times.
+> It fails deep in user-space so I don't have a good log for it.
 
-On 8/7/20 10:10 AM, Haibo Xu wrote:
-> Add a virtual SPE device for virt machine while using PPI 
-> 5 for SPE overflow interrupt number.
-> 
-> Signed-off-by: Haibo Xu <haibo.xu@linaro.org>
-> ---
->  hw/arm/virt-acpi-build.c    |  3 +++ 
->  hw/arm/virt.c               | 42 +++++++++++++++++++++++++++++++++++++
->  include/hw/acpi/acpi-defs.h |  1 + 
->  include/hw/arm/virt.h       |  1 + 
->  target/arm/cpu.c            |  2 ++
->  target/arm/cpu.h            |  2 ++
->  target/arm/kvm.c            |  6 ++++++
->  7 files changed, 57 insertions(+)
-> 
-> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-> index 91f0df7b13..5073ba22a5 100644
-> --- a/hw/arm/virt-acpi-build.c
-> +++ b/hw/arm/virt-acpi-build.c
-> @@ -666,6 +666,9 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
->          if (arm_feature(&armcpu->env, ARM_FEATURE_PMU)) {
->              gicc->performance_interrupt = cpu_to_le32(PPI(VIRTUAL_PMU_IRQ));
->          }
-> +        if (arm_feature(&armcpu->env, ARM_FEATURE_SPE)) {
-> +            gicc->spe_interrupt = cpu_to_le32(PPI(VIRTUAL_SPE_IRQ));
-> +        }
->          if (vms->virt) {
->              gicc->vgic_interrupt = cpu_to_le32(PPI(ARCH_GIC_MAINT_IRQ));
->          }
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index ecfee362a1..c40819705d 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -555,6 +555,42 @@ static void fdt_add_pmu_nodes(const VirtMachineState *vms)
->      }
->  }
-> 
-> +static void fdt_add_spe_nodes(const VirtMachineState *vms)
-> +{
-> +    CPUState *cpu;
-> +    ARMCPU *armcpu;
-> +    uint32_t irqflags = GIC_FDT_IRQ_FLAGS_LEVEL_HI;
-> +
-> +    CPU_FOREACH(cpu) {
-> +        armcpu = ARM_CPU(cpu);
-> +        if (!arm_feature(&armcpu->env, ARM_FEATURE_SPE)) {
-> +            return;
-> +        }
-> +        if (kvm_enabled()) {
-> +            if (kvm_irqchip_in_kernel()) {
-> +                kvm_arm_spe_set_irq(cpu, PPI(VIRTUAL_SPE_IRQ));
-> +            }
-> +            kvm_arm_spe_init(cpu);
-> +        }
-> +    }
-> +
-> +    if (vms->gic_version == VIRT_GIC_VERSION_2) {
-> +        irqflags = deposit32(irqflags, GIC_FDT_IRQ_PPI_CPU_START,
-> +                             GIC_FDT_IRQ_PPI_CPU_WIDTH,
-> +                             (1 << vms->smp_cpus) - 1);
-> +    }
-> +
-> +    armcpu = ARM_CPU(qemu_get_cpu(0));
-> +    qemu_fdt_add_subnode(vms->fdt, "/spe");
-> +    if (arm_feature(&armcpu->env, ARM_FEATURE_V8)) {
-> +        const char compat[] = "arm,statistical-profiling-extension-v1";
-> +        qemu_fdt_setprop(vms->fdt, "/spe", "compatible",
-> +                         compat, sizeof(compat));
-> +        qemu_fdt_setprop_cells(vms->fdt, "/spe", "interrupts",
-> +                               GIC_FDT_IRQ_TYPE_PPI, VIRTUAL_SPE_IRQ, irqflags);
-> +    }
-> +}
-> +
->  static inline DeviceState *create_acpi_ged(VirtMachineState *vms)
->  {
->      DeviceState *dev;
-> @@ -727,6 +763,10 @@ static void create_gic(VirtMachineState *vms)
->                                      qdev_get_gpio_in(vms->gic, ppibase
->                                                       + VIRTUAL_PMU_IRQ));
-> 
-> +        qdev_connect_gpio_out_named(cpudev, "spe-interrupt", 0,
-> +                                    qdev_get_gpio_in(vms->gic, ppibase
-> +                                                     + VIRTUAL_SPE_IRQ));
-> +
->          sysbus_connect_irq(gicbusdev, i, qdev_get_gpio_in(cpudev, ARM_CPU_IRQ));
->          sysbus_connect_irq(gicbusdev, i + smp_cpus,
->                             qdev_get_gpio_in(cpudev, ARM_CPU_FIQ));
-> @@ -1915,6 +1955,8 @@ static void machvirt_init(MachineState *machine)
-> 
->      fdt_add_pmu_nodes(vms);
-> 
-> +    fdt_add_spe_nodes(vms);
-> +
->      create_uart(vms, VIRT_UART, sysmem, serial_hd(0));
-> 
->      if (vms->secure) {
-> diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
-> index 38a42f409a..56a7f38ae4 100644
-> --- a/include/hw/acpi/acpi-defs.h
-> +++ b/include/hw/acpi/acpi-defs.h
-> @@ -302,6 +302,7 @@ struct AcpiMadtGenericCpuInterface {
->      uint32_t vgic_interrupt;
->      uint64_t gicr_base_address;
->      uint64_t arm_mpidr;
-> +    uint16_t spe_interrupt; /* ACPI 6.3 */
-This does not work for me.
-You miss 2 uint8_t fields inbetween arm_mpdir and spe_interrupt:
-Processor Power Efficiency Class and Reserved.
+I think I've found it: do_rti, do_rtb, do_rte are acting as normal jumps.  They
+need to set DISAS_UPDATE so that they return to the main loop to re-evaluate
+interrupts.
 
-At the moment arm_spe_acpi_register_device() silently fails on guest
-side since
-gicc->header.length < ACPI_MADT_GICC_SPE
+I'll come back to this after we deal with the other 76 patches.
 
-Thanks
 
-Eric
-
->  } QEMU_PACKED;
-> 
->  typedef struct AcpiMadtGenericCpuInterface AcpiMadtGenericCpuInterface;
-> diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-> index dff67e1bef..56c83224d2 100644
-> --- a/include/hw/arm/virt.h
-> +++ b/include/hw/arm/virt.h
-> @@ -49,6 +49,7 @@
->  #define ARCH_TIMER_NS_EL1_IRQ 14
->  #define ARCH_TIMER_NS_EL2_IRQ 10
-> 
-> +#define VIRTUAL_SPE_IRQ 5
->  #define VIRTUAL_PMU_IRQ 7
-> 
->  #define PPI(irq) ((irq) + 16)
-> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-> index 40768b4d19..67ab0089fd 100644
-> --- a/target/arm/cpu.c
-> +++ b/target/arm/cpu.c
-> @@ -1038,6 +1038,8 @@ static void arm_cpu_initfn(Object *obj)
->                               "gicv3-maintenance-interrupt", 1);
->      qdev_init_gpio_out_named(DEVICE(cpu), &cpu->pmu_interrupt,
->                               "pmu-interrupt", 1);
-> +    qdev_init_gpio_out_named(DEVICE(cpu), &cpu->spe_interrupt,
-> +                             "spe-interrupt", 1);
->  #endif
-> 
->      /* DTB consumers generally don't in fact care what the 'compatible'
-> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> index fe0ac14386..4bf8591df8 100644
-> --- a/target/arm/cpu.h
-> +++ b/target/arm/cpu.h
-> @@ -790,6 +790,8 @@ struct ARMCPU {
->      qemu_irq gicv3_maintenance_interrupt;
->      /* GPIO output for the PMU interrupt */
->      qemu_irq pmu_interrupt;
-> +    /* GPIO output for the SPE interrupt */
-> +    qemu_irq spe_interrupt;
-> 
->      /* MemoryRegion to use for secure physical accesses */
->      MemoryRegion *secure_memory;
-> diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-> index 58f991e890..ecafdda364 100644
-> --- a/target/arm/kvm.c
-> +++ b/target/arm/kvm.c
-> @@ -820,6 +820,12 @@ MemTxAttrs kvm_arch_post_run(CPUState *cs, struct kvm_run *run)
->              switched_level &= ~KVM_ARM_DEV_PMU;
->          }
-> 
-> +        if (switched_level & KVM_ARM_DEV_SPE) {
-> +            qemu_set_irq(cpu->spe_interrupt,
-> +                         !!(run->s.regs.device_irq_level & KVM_ARM_DEV_SPE));
-> +            switched_level &= ~KVM_ARM_DEV_SPE;
-> +        }
-> +
->          if (switched_level) {
->              qemu_log_mask(LOG_UNIMP, "%s: unhandled in-kernel device IRQ %x\n",
->                            __func__, switched_level);
-> 
-
+r~
 
