@@ -2,84 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E4692568B4
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Aug 2020 17:34:42 +0200 (CEST)
-Received: from localhost ([::1]:46310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9007D2568B6
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Aug 2020 17:35:10 +0200 (CEST)
+Received: from localhost ([::1]:47424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kC2sL-0002rL-Je
-	for lists+qemu-devel@lfdr.de; Sat, 29 Aug 2020 11:34:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46056)
+	id 1kC2sn-0003LM-FS
+	for lists+qemu-devel@lfdr.de; Sat, 29 Aug 2020 11:35:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kC2lz-0006rJ-8y
- for qemu-devel@nongnu.org; Sat, 29 Aug 2020 11:28:07 -0400
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:37325)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kC2lx-0006Qv-6Q
- for qemu-devel@nongnu.org; Sat, 29 Aug 2020 11:28:06 -0400
-Received: by mail-pj1-x1042.google.com with SMTP id mw10so887127pjb.2
- for <qemu-devel@nongnu.org>; Sat, 29 Aug 2020 08:28:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Bf+K9Z9xmGvjQb8nFKST0v197yf7vY++myTg2dcX7j4=;
- b=vaVncUlY7wbfJ/b8MBlgjhigQycLWrAFlSn1op6tisv5XXLCRcNjfj2Jwor9PI88qT
- Fy9E6kcts++qfsShFOpUkQAOchXIjcWDbMuS59BiOZNLYEomulmTXEg/TUCzoNxtvmKe
- VHYKG4a/QiZQVVPlsNDSGXl0zjLn1gFGh4mpX5PtS+zLteKHJITgU/pPeqbo/hLBAtE7
- KFCMrouJGbwI35trUIF0I3q/A6Dl6bs/AmOVPycvMzU++kfk/8YxsYIi+MKANCFUjpzH
- lv4Vyrwev7siawDrCeJU0o0PyeEbGWuBH8nZKyxu7D7cBeri2d6/beCH+V/3ReQedpTV
- eR4g==
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1kC2oT-0000ek-V6
+ for qemu-devel@nongnu.org; Sat, 29 Aug 2020 11:30:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56069)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1kC2oR-0006jw-G6
+ for qemu-devel@nongnu.org; Sat, 29 Aug 2020 11:30:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598715037;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=s7ez+vd31owNB/bKRsxkb2Zns1WtBNfCz1pkRa7fmt0=;
+ b=fSOukpKeqTpTI9Faxmci12OVzW6Rpm96T5iWRwD9eVbXEn4lCUwpz4wMHf5DkXmMiDZak6
+ TahPBfwhnIfhU80HeOn1l7aa+JE4p8jFbd6DiicM5ecd1ReYHEPX3rXZj5C9JclMP4MywS
+ YVExPpfRWvuQHafqWa/hTVyv+7Ac5S8=
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-30-QbpSXv-mPae-tvxgKDmZsQ-1; Sat, 29 Aug 2020 11:30:32 -0400
+X-MC-Unique: QbpSXv-mPae-tvxgKDmZsQ-1
+Received: by mail-il1-f197.google.com with SMTP id m10so1608133ild.5
+ for <qemu-devel@nongnu.org>; Sat, 29 Aug 2020 08:30:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Bf+K9Z9xmGvjQb8nFKST0v197yf7vY++myTg2dcX7j4=;
- b=DfCLp8CmOcJGeu49lq6tCBKQqRa9IUekX/KWx6/zgQi9JCc+EHWXV4AJOX7q8MfFcg
- h49ZpHqTnnnDg5SQEu8XKQLce/PNLvwf4Z6jjLt3nvv2H3F8nKunCi9x0F4IvaFrHCli
- wH0lzGAC+HW54EAqOHazgz9ajYuPyCFKAZ6hNG2DiE99U4VMzjLzpWSCsYzOqUDimpDt
- isJkWjA6xevnId4aMaajx3YSTzMR0UN6tBJ6oMN36t8LLUCMFAzhzMzZlElY/ZofOmT/
- R4BT8mzf1D61pIGrN4hiIY2xfcI3Foy81aFUN9xTuXH0YAgXCF4tDorNxv0MH0FSjTW6
- 5oYg==
-X-Gm-Message-State: AOAM533B1jCcjqgaRAw7UXUUmWgzvBqXUL4QiJXP1UXsB0eeqVodbeNw
- uaVsewA4cZobZRvUqCQJWyfFbjYMFoBPxw==
-X-Google-Smtp-Source: ABdhPJy4UEQLjQhGMrO75YOW9I3PuVStmaX4BNNRfIjqFJOCNo7trqb0frRFeBR4Xzecjlthly+S2Q==
-X-Received: by 2002:a17:90b:384b:: with SMTP id
- nl11mr3405045pjb.91.1598714883041; 
- Sat, 29 Aug 2020 08:28:03 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id e142sm3179665pfh.108.2020.08.29.08.28.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 29 Aug 2020 08:28:02 -0700 (PDT)
-Subject: Re: [PATCH 62/77] target/microblaze: Try to keep imm and delay slot
- together
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-References: <20200825205950.730499-1-richard.henderson@linaro.org>
- <20200825205950.730499-63-richard.henderson@linaro.org>
- <20200827191722.GP2954729@toto>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <b5871fb3-5bb9-1ea6-4412-b99530c3618b@linaro.org>
-Date: Sat, 29 Aug 2020 08:27:59 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=s7ez+vd31owNB/bKRsxkb2Zns1WtBNfCz1pkRa7fmt0=;
+ b=Lzf0Ajnsq7+NsG2xhp9xT5uoyhFkblIwtsfe7G9DhFBBZqdYeIKhExBCbAoeJEIPKu
+ 7mmHelm+wwPsyXlRlr4Gla+jKecpvG8oitmF+9jSxMPEY3wpCQCUVz/uyb9TC/0NSKgW
+ 1gpTcRIqHzjJi7JnVCwQ1+TVu3ZbF7/2ngWBDzl8jgu6IAZbgNzzu9d4b3r0JAuVc1uB
+ UZtvQ+UBEkHmDywn17PykgjLJFlZ8f8W6o/+erWy52d7pz1YoxOuaVJqw/watZjtTACy
+ WRHXcDa3acb4DjudFsGHxndsInbCVpQLloYB2awCBiWfhI6UAo5mVr88H5h8SBGLqq09
+ ECfw==
+X-Gm-Message-State: AOAM532xcKNREX8kT1NfOXOzLfDUgHM1FwNp8DBNsX3EXuEDOA/qaxwy
+ B/VYgP88r6pscKSaLchO7gMSMMyLvGfcAS9daUKihJWuleeac3plxgyuRP6QqX+dlUwk0UFhpwo
+ ALbN98fnlvbTAYZNKeYJMsvhrUeQxRRU=
+X-Received: by 2002:a5d:97cd:: with SMTP id k13mr2847574ios.164.1598715031838; 
+ Sat, 29 Aug 2020 08:30:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyfH12KZTGLU/8V/MPBGB16fhQCBIOZMONw9qEnusRayXkKukmBP1f0II04nKJuRHUQNnMu3j8V1qSEoDCmzTI=
+X-Received: by 2002:a5d:97cd:: with SMTP id k13mr2847558ios.164.1598715031581; 
+ Sat, 29 Aug 2020 08:30:31 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200827191722.GP2954729@toto>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1042.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.809,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200828173841.33505-1-pbonzini@redhat.com>
+In-Reply-To: <20200828173841.33505-1-pbonzini@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Sat, 29 Aug 2020 19:30:20 +0400
+Message-ID: <CAMxuvayUswRjvxV4ZLOES5SzmN==LeNAe3p2CtX9ETy-83_HBg@mail.gmail.com>
+Subject: Re: [PATCH] meson: move zlib detection to meson
+To: Paolo Bonzini <pbonzini@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/29 11:30:37
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.959,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,37 +91,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/27/20 12:17 PM, Edgar E. Iglesias wrote:
-> On Tue, Aug 25, 2020 at 01:59:35PM -0700, Richard Henderson wrote:
->> If the last insn on a page is imm, or a branch with delay slot,
->> then end a tb early if this has not begun the tb.  If it has
->> begun the tb, then we can allow the tb to span two pages as if
->> the imm plus its consumer, or branch plus delay, or imm plus
->> branch plus delay, are a single insn.
->>
->> If the insn in the delay slot faults, then the exception handler
->> will have reset the PC to the beginning of this sequence anyway,
->> via the stored D_FLAG and BIMM_FLAG bits.
->>
->> Disable all of this when single-stepping.
-> 
-> 
-> Hi Richard,
-> 
-> We've got a Linux boot that fails after applying this patch.
-> It goes from always working to only working like 1 out of 3 times.
-> It fails deep in user-space so I don't have a good log for it.
+On Fri, Aug 28, 2020 at 9:38 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> Meson includes the same logic that tries to look for -lz if
+> pkg-config (and cmake) cannot find zlib.  The undocumented
+> --disable-zlib-test option becomes a no-op.
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-I think I've found it: do_rti, do_rtb, do_rte are acting as normal jumps.  They
-need to set DISAS_UPDATE so that they return to the main loop to re-evaluate
-interrupts.
+Nice! (special treatment since 0.54),
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-I'll come back to this after we deal with the other 76 patches.
+> ---
+>  Makefile    |  2 +-
+>  configure   | 32 +-------------------------------
+>  meson.build |  6 +-----
+>  3 files changed, 3 insertions(+), 37 deletions(-)
+>
+> diff --git a/Makefile b/Makefile
+> index 81794d5c34..1520a2eab5 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -132,7 +132,7 @@ configure: ;
+>
+>  $(call set-vpath, $(SRC_PATH))
+>
+> -LIBS+=3D-lz $(LIBS_TOOLS)
+> +LIBS+=3D$(LIBS_TOOLS)
+>
+>  SUBDIR_MAKEFLAGS=3D$(if $(V),,--no-print-directory --quiet) BUILD_DIR=3D=
+$(BUILD_DIR)
+>
+> diff --git a/configure b/configure
+> index 6ecaff429b..e035eb2868 100755
+> --- a/configure
+> +++ b/configure
+> @@ -501,7 +501,6 @@ opengl=3D""
+>  opengl_dmabuf=3D"no"
+>  cpuid_h=3D"no"
+>  avx2_opt=3D""
+> -zlib=3D"yes"
+>  capstone=3D""
+>  lzo=3D""
+>  snappy=3D""
+> @@ -1423,7 +1422,7 @@ for opt do
+>    ;;
+>    --enable-usb-redir) usb_redir=3D"yes"
+>    ;;
+> -  --disable-zlib-test) zlib=3D"no"
+> +  --disable-zlib-test)
+>    ;;
+>    --disable-lzo) lzo=3D"no"
+>    ;;
+> @@ -3898,30 +3897,6 @@ if ! compile_prog "$glib_cflags -Werror" "$glib_li=
+bs" ; then
+>      fi
+>  fi
+>
+> -#########################################
+> -# zlib check
+> -
+> -if test "$zlib" !=3D "no" ; then
+> -    if $pkg_config --exists zlib; then
+> -        zlib_cflags=3D$($pkg_config --cflags zlib)
+> -        zlib_libs=3D$($pkg_config --libs zlib)
+> -        QEMU_CFLAGS=3D"$zlib_cflags $QEMU_CFLAGS"
+> -        LIBS=3D"$zlib_libs $LIBS"
+> -    else
+> -        cat > $TMPC << EOF
+> -#include <zlib.h>
+> -int main(void) { zlibVersion(); return 0; }
+> -EOF
+> -        if compile_prog "" "-lz" ; then
+> -            zlib_libs=3D-lz
+> -            LIBS=3D"$LIBS $zlib_libs"
+> -        else
+> -            error_exit "zlib check failed" \
+> -                "Make sure to have the zlib libs and headers installed."
+> -        fi
+> -    fi
+> -fi
+> -
+>  ##########################################
+>  # SHA command probe for modules
+>  if test "$modules" =3D yes; then
+> @@ -7129,11 +7104,6 @@ fi
+>  if test "$posix_memalign" =3D "yes" ; then
+>    echo "CONFIG_POSIX_MEMALIGN=3Dy" >> $config_host_mak
+>  fi
+> -if test "$zlib" !=3D "no" ; then
+> -    echo "CONFIG_ZLIB=3Dy" >> $config_host_mak
+> -    echo "ZLIB_CFLAGS=3D$zlib_cflags" >> $config_host_mak
+> -    echo "ZLIB_LIBS=3D$zlib_libs" >> $config_host_mak
+> -fi
+>  if test "$spice" =3D "yes" ; then
+>    echo "CONFIG_SPICE=3Dy" >> $config_host_mak
+>    echo "SPICE_CFLAGS=3D$spice_cflags" >> $config_host_mak
+> diff --git a/meson.build b/meson.build
+> index 74f8ea0c2e..35e6f8688d 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -134,11 +134,7 @@ if 'CONFIG_AUTH_PAM' in config_host
+>    pam =3D cc.find_library('pam')
+>  endif
+>  libaio =3D cc.find_library('aio', required: false)
+> -zlib =3D not_found
+> -if 'CONFIG_ZLIB' in config_host
+> -  zlib =3D declare_dependency(compile_args: config_host['ZLIB_CFLAGS'].s=
+plit(),
+> -                            link_args: config_host['ZLIB_LIBS'].split())
+> -endif
+> +zlib =3D dependency('zlib', required: true)
+>  linux_io_uring =3D not_found
+>  if 'CONFIG_LINUX_IO_URING' in config_host
+>    linux_io_uring =3D declare_dependency(compile_args: config_host['LINUX=
+_IO_URING_CFLAGS'].split(),
+> --
+> 2.26.2
+>
 
-
-r~
 
