@@ -2,86 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 637D4256C9C
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 Aug 2020 09:33:20 +0200 (CEST)
-Received: from localhost ([::1]:39306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0430256CA8
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 Aug 2020 09:44:02 +0200 (CEST)
+Received: from localhost ([::1]:44294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCHq3-0002ol-FP
-	for lists+qemu-devel@lfdr.de; Sun, 30 Aug 2020 03:33:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33732)
+	id 1kCI0P-0005Mu-QH
+	for lists+qemu-devel@lfdr.de; Sun, 30 Aug 2020 03:44:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kCHp9-0002PC-OB
- for qemu-devel@nongnu.org; Sun, 30 Aug 2020 03:32:23 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:43190
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kCHp7-0006kc-Pi
- for qemu-devel@nongnu.org; Sun, 30 Aug 2020 03:32:23 -0400
-Received: from host217-42-19-185.range217-42.btcentralplus.com
- ([217.42.19.185] helo=[192.168.1.65])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kCHpV-0002Dx-KW; Sun, 30 Aug 2020 08:32:50 +0100
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Michael <macallan1888@gmail.com>
-References: <20200822142127.1316231-1-f4bug@amsat.org>
- <7300edf2-ab44-3676-6948-adf2c5af6c02@linaro.org>
- <20200829121341.59d8277b@glenfarclas>
- <CAAdtpL4Pi3w+5awNrohmSpySsZhmmPFQeby+a1-=TT8mJ7ZQVw@mail.gmail.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
- mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
- 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
- E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
- PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
- PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
- AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
- OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
- NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
- mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
- z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
- T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
- DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
- y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
- 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
- 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
- YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
- Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
- BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
- opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
- NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
- Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
- KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
- imgcU9TTGC5qd9g=
-Message-ID: <578210d0-059e-9fca-5ea9-b2cf12733f7e@ilande.co.uk>
-Date: Sun, 30 Aug 2020 08:32:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <natechancellor@gmail.com>)
+ id 1kCHza-0004lZ-Kr; Sun, 30 Aug 2020 03:43:10 -0400
+Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842]:45943)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <natechancellor@gmail.com>)
+ id 1kCHzY-0007px-La; Sun, 30 Aug 2020 03:43:10 -0400
+Received: by mail-qt1-x842.google.com with SMTP id z2so2674069qtv.12;
+ Sun, 30 Aug 2020 00:43:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=SYg2+G3dKCOTe5AARyDGUkkSUhFK9990y3j+lGB5Zt0=;
+ b=L3U0eft0HY/R1k608U+0Pu/JLxa2qb0dN+a5BOkjbZjRIeEN8gEbrZh/wB3TUGj1cX
+ GOpIZc95U1AVsHc3xSFtnKx+dIB0j+U5+S6WiZMrziiJohr3nHS9PbE7e7BqDNUyxZzd
+ ZeRr69CZy3L0Gu2zqOV90+i5J8c2+kAXuxPjEptsynmIs0xceISh1W1NXrkRy+uJnxB1
+ CgSICy5yosKeRWD1+g4x9DaSLXTFDGULRy/FJUVf+3cDwNX1xSKuepH7Awn0YmAix8hY
+ sOibFKbdT9ZgU0ltENDy8o8oufO/INzey74XzjHRHGt62SA/GvKNLpB48UtFoEy8Cqs7
+ sv3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=SYg2+G3dKCOTe5AARyDGUkkSUhFK9990y3j+lGB5Zt0=;
+ b=hvWE+ub12xEdyXb7tZ/rC9rSPpmHnTujl7/NGmAEhTRz8TafeQtLSwD6wd8IN0rU13
+ IZWoqj5S05xdnHft55xd5HvNFuS4llili9mdFjFyOI1JtaYxi2/RjtSDEoYQmdmVqwZ8
+ pTmCcbCZ7sMs2bx7XUcUjurAdNkhqkB2BaFcc004OnVGxEmo2ercsQ9PwQfex5lZS8kB
+ wOe78YFynGch8Rk0Vv683stNf1rsD2NuKa8Uw2iEdSbEIE/MPUgNV2wZVBB2jVG83Guy
+ JpM5HGxO3SoJl4ftj+bnblOkjhzLokFgJeW40uIT0RQ9sROwLxB/WX6r0fTqT8kRu6iw
+ m3oQ==
+X-Gm-Message-State: AOAM530QaIikT4sLGqbFIrl3U154v7uMWjj3/s9KSfUHXUbzNcFrhiPI
+ /M59jOQQS6HwFLY39SPzcZA=
+X-Google-Smtp-Source: ABdhPJxteLzs73nUj4rCK011cZW1EKSPmdRAitNtjBiQtfNUgoyndX6Xg0vhuxp/qZb4QKA1uvAbKQ==
+X-Received: by 2002:ac8:264e:: with SMTP id v14mr3770011qtv.229.1598773386987; 
+ Sun, 30 Aug 2020 00:43:06 -0700 (PDT)
+Received: from ubuntu-n2-xlarge-x86 ([2604:1380:45d1:2600::1])
+ by smtp.gmail.com with ESMTPSA id x29sm5151425qtv.80.2020.08.30.00.43.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 30 Aug 2020 00:43:06 -0700 (PDT)
+Date: Sun, 30 Aug 2020 00:43:04 -0700
+From: Nathan Chancellor <natechancellor@gmail.com>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH] memory: Revert "memory: accept mismatching sizes in
+ memory_region_access_valid"
+Message-ID: <20200830074304.GA2406902@ubuntu-n2-xlarge-x86>
+References: <20200610134731.1514409-1-mst@redhat.com>
+ <20200827053216.GA1515751@ubuntu-n2-xlarge-x86>
+ <20200830021939-mutt-send-email-mst@kernel.org>
+ <20200830064944.GA1073664@ubuntu-n2-xlarge-x86>
+ <2fd7a1df-db2b-9edd-1d73-7efa18312ace@ilande.co.uk>
 MIME-Version: 1.0
-In-Reply-To: <CAAdtpL4Pi3w+5awNrohmSpySsZhmmPFQeby+a1-=TT8mJ7ZQVw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 217.42.19.185
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [RFC PATCH v2] hw/display/tcx: Allow 64-bit accesses to
- framebuffer stippler and blitter
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2fd7a1df-db2b-9edd-1d73-7efa18312ace@ilande.co.uk>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::842;
+ envelope-from=natechancellor@gmail.com; helo=mail-qt1-x842.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.809,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,63 +87,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Lorenz <macallan@netbsd.org>, 1892540@bugs.launchpad.net,
- Andreas Gustafsson <gson@gson.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-riscv@nongnu.org, Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, qemu-stable@nongnu.org,
+ qemu-devel@nongnu.org, Alistair Francis <Alistair.Francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/08/2020 17:45, Philippe Mathieu-Daudé wrote:
+On Sun, Aug 30, 2020 at 08:24:15AM +0100, Mark Cave-Ayland wrote:
+> On 30/08/2020 07:49, Nathan Chancellor wrote:
+> 
+> > Unfortunately, it does not. I applied it on top of latest
+> > git (ac8b279f13865d1a4f1958d3bf34240c1c3af90d) and I can still
+> > reproduce my failure. Is it possible that type of fix is needed
+> > in a RISC-V specific driver?
+> > 
+> > Would you like me to comment on the Launchpad bug as well?
+> 
+> Hi Nathan,
+> 
+> I came up with a quick patch to enable some logging to catch memory accesses being
+> refused for a similar bug report at
+> https://bugs.launchpad.net/qemu/+bug/1886318/comments/13.
+> 
+> Can you apply the same change to your tree and report any messages on stderr as you
+> do your board reboot test?
+> 
+> 
+> ATB,
+> 
+> Mark.
 
-> Le sam. 29 août 2020 18:14, Michael <macallan1888@gmail.com
-> <mailto:macallan1888@gmail.com>> a écrit :
-> 
->     Hello,
-> 
->     since I wrote the NetBSD code in question, here are my 2 cent:
-> 
->     On Sat, 29 Aug 2020 08:41:43 -0700
->     Richard Henderson <richard.henderson@linaro.org
->     <mailto:richard.henderson@linaro.org>> wrote:
-> 
->     > On 8/22/20 7:21 AM, Philippe Mathieu-Daudé wrote:
->     > > The S24/TCX datasheet is listed as "Unable to locate" on [1].
-> 
->     I don't have it either, but someone did a lot of reverse engineering
->     and gave me his notes. The hardware isn't that complicated, but quite
->     weird.
-> 
->     > > However the NetBSD revision 1.32 of the driver introduced
->     > > 64-bit accesses to the stippler and blitter [2]. It is safe
->     > > to assume these memory regions are 64-bit accessible.
->     > > QEMU implementation is 32-bit, so fill the 'impl' fields.
-> 
->     IIRC the real hardware *requires* 64bit accesses for stipple and
->     blitter operations to work. For stipples you write a 64bit word into
->     STIP space, the address defines where in the framebuffer you want to
->     draw, the data contain a 32bit bitmask, foreground colour and a ROP.
->     BLIT space works similarly, the 64bit word contains an offset were to
->     read pixels from, and how many you want to copy.
-> 
-> 
-> Thanks Michael for this information! 
-> If you don't mind I'll amend it to the commit description so there is a reference for
-> posterity. 
-> 
-> I'm waiting for /Andreas Gustafsson to test it then will repost.
+Thanks Mark, that helped.
 
-Hi Philippe,
+...
+[    3.807738] reboot: Power down
+invalid size: riscv.sifive.test addr 0 size: 2
+sbi_trap_error: hart0: trap handler failed (error -2)
+sbi_trap_error: hart0: mcause=0x0000000000000007 mtval=0x0000000000100000
+sbi_trap_error: hart0: mepc=0x000000008000d4cc mstatus=0x0000000000001822
+sbi_trap_error: hart0: ra=0x000000008000999e sp=0x0000000080015c78
+sbi_trap_error: hart0: gp=0xffffffe000e765d0 tp=0xffffffe0081c0000
+sbi_trap_error: hart0: s0=0x0000000080015c88 s1=0x0000000000000040
+sbi_trap_error: hart0: a0=0x0000000000000000 a1=0x0000000080004024
+sbi_trap_error: hart0: a2=0x0000000080004024 a3=0x0000000080004024
+sbi_trap_error: hart0: a4=0x0000000000100000 a5=0x0000000000005555
+sbi_trap_error: hart0: a6=0x0000000000004024 a7=0x0000000080011158
+sbi_trap_error: hart0: s2=0x0000000000000000 s3=0x0000000080016000
+sbi_trap_error: hart0: s4=0x0000000000000000 s5=0x0000000000000000
+sbi_trap_error: hart0: s6=0x0000000000000001 s7=0x0000000000000000
+sbi_trap_error: hart0: s8=0x0000000000000000 s9=0x0000000000000000
+sbi_trap_error: hart0: s10=0x0000000000000000 s11=0x0000000000000008
+sbi_trap_error: hart0: t0=0x0000000000000000 t1=0x0000000000000000
+sbi_trap_error: hart0: t2=0x0000000000000000 t3=0x0000000000000000
+sbi_trap_error: hart0: t4=0x0000000000000000 t5=0x0000000000000000
+sbi_trap_error: hart0: t6=0x0000000000000000
 
-Thanks for coming up with this patch! Looks fine to me, just wondering if it should
-have a "Fixes: 5d971f9e67 ("memory: Revert "memory: accept mismatching sizes in
-memory_region_access_valid"") tag rather than the original commit since that's how
-other bugs exposed by that commit have been tagged?
+With this diff, I can successfully shut down the board. No idea if that
+is valid or not though.
 
+Cheers,
+Nathan
 
-ATB,
+============================================================
 
-Mark.
+diff --git a/hw/riscv/sifive_test.c b/hw/riscv/sifive_test.c
+index 0c78fb2c93..8c70dd69df 100644
+--- a/hw/riscv/sifive_test.c
++++ b/hw/riscv/sifive_test.c
+@@ -59,7 +59,7 @@ static const MemoryRegionOps sifive_test_ops = {
+     .write = sifive_test_write,
+     .endianness = DEVICE_NATIVE_ENDIAN,
+     .valid = {
+-        .min_access_size = 4,
++        .min_access_size = 2,
+         .max_access_size = 4
+     }
+ };
+
 
