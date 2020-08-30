@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6693E256B22
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 Aug 2020 03:58:55 +0200 (CEST)
-Received: from localhost ([::1]:56366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA8D6256B26
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 Aug 2020 04:17:47 +0200 (CEST)
+Received: from localhost ([::1]:60010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCCcQ-0006Bs-Gr
-	for lists+qemu-devel@lfdr.de; Sat, 29 Aug 2020 21:58:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49068)
+	id 1kCCug-0000QY-7K
+	for lists+qemu-devel@lfdr.de; Sat, 29 Aug 2020 22:17:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCCbT-0005J3-7p
- for qemu-devel@nongnu.org; Sat, 29 Aug 2020 21:57:55 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:38796)
+ id 1kCCtz-0008Np-71
+ for qemu-devel@nongnu.org; Sat, 29 Aug 2020 22:17:03 -0400
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:38473)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCCbR-0007ob-Ew
- for qemu-devel@nongnu.org; Sat, 29 Aug 2020 21:57:54 -0400
-Received: by mail-pg1-x541.google.com with SMTP id l191so2355419pgd.5
- for <qemu-devel@nongnu.org>; Sat, 29 Aug 2020 18:57:52 -0700 (PDT)
+ id 1kCCtw-00019b-Lm
+ for qemu-devel@nongnu.org; Sat, 29 Aug 2020 22:17:02 -0400
+Received: by mail-pf1-x430.google.com with SMTP id d22so2663053pfn.5
+ for <qemu-devel@nongnu.org>; Sat, 29 Aug 2020 19:17:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=779pfCYpx7jF6I9326Cb+3otTDHwxq0clqMd1vsKIw8=;
- b=PecPpWSnGP5TFyL+CJJ4CS6GPmGzkT0agrirQiz8s5hvC8jPozHCeX44JHezwleZkV
- LacrU61QvXkTovfrticfQqkayx7u+VVkQAW7qFJb3hpQH/baHqzDSsbrUfPVbYbiL6IO
- hMzB0G63nEClYYxgzL/RviWn4o+fzWw5y5IyQBcj5SCvuOeSx0j4c3dueoSqtXmbH+3B
- nfE70NsfD8gxwCjVBu7Ab6mxF5iBsoDkyhuKaqrISI7X/S2ih8Z8E3SVgLUkeHYp5mmZ
- tF8R9rvn3KyNA9HaYR8eWSvlIYLKLgGle9jIwm/89Ps/Tn3TrxwIK5yPBnUHO1FrmlpQ
- 1M9w==
+ bh=RauguQR3pk3b6pQKo4JV/Q6ZSIAXKh1a0agR88oj0NU=;
+ b=db1sQQhF0+AVYZ9GBPav24kKwX5hNe5BD0j1QKhswPmBME9bd/RS2sd+AM6tWtrAjc
+ Zluh65YY4rBYR2vLy8e6RykzNoexE8SUF+V4nFwiZxnj1tpLI3xsE2RsZoBmDQ6oA5Iq
+ zFshXzTLPs19ETXsWxXtjeRem5KSYW1k2oElJCpCmPV6ISSNthPISsdKnMgF9nyyCtWT
+ Edoz+59bfbzll2gPw6K1QDljwXkjTdyGr66cU6LD1txOtM2QwdUaw7w08r1XDQs8xNXX
+ pj2McM43qLGWb63BQgZt9hybWH/4eLbdfr4HNsUNldaoesUWsdqZ59ibF/5oH0QSVYi9
+ 1d2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=779pfCYpx7jF6I9326Cb+3otTDHwxq0clqMd1vsKIw8=;
- b=i4LOzLHYDVlzFYuwccgYkB4r+bzXnAil+afiEtHobQiHTqXcL6zavD7uxlWWvPTc/6
- NKv9vkOd5qSENOHac1W/eLeQvswBp9cukl+0EWZdUVZ1Brfm4sA2WTrMe/hlX7HGHORx
- OtDbtF85hfDufYhPjQXzvUHKeZY/ip7ukYRrqhcu8n9yy4K2PccRPyrCbpcjrSvEowua
- d7mCz57WfwXidCF5Xx8UVnjxzFrHOFu3e17CwHeX83Ce+Xo55vgLqPatz5Z6mR0pAGzx
- xOrNnKju/tj8TdPecxTlzSY/zmJM1H1GISZB7B6q3vgqNwkc14XGX8ZQNQYpD5vX9WnA
- M1Gw==
-X-Gm-Message-State: AOAM532WTXz4ZNjtPtmBAvfTxgk1ilcwmCheVwaEO4oPp7vX3ooHY5d7
- 65t41SQloB8c0nlilDfhPDs0kQ==
-X-Google-Smtp-Source: ABdhPJzVOjTs2+dMBHWrAV/Vzcpl3BqCPHapzm0L0pSFGPG/s89dAJmBRA8IZlzHxMEmkEC7NtPxcw==
-X-Received: by 2002:aa7:85d4:: with SMTP id z20mr4675435pfn.106.1598752672024; 
- Sat, 29 Aug 2020 18:57:52 -0700 (PDT)
+ bh=RauguQR3pk3b6pQKo4JV/Q6ZSIAXKh1a0agR88oj0NU=;
+ b=O1c8qk6miQ2M4go5hosdpkdIl2jRT3D9F4JwIG57aXzwOi4bCWCwIl/LsJke25o//V
+ lTbX/Y4eMWSf+H4iqAIsyWyTJKPAoSe/zDvqMLV4qJfjNyDT0hvgTBNQnrTIk8iRkBqW
+ u4nUuy9QoXtpjrA6KowjHGfNSWJ7epkoeFwDHEXKwSjq6vYWBrkKq3HdCtmZ7+fZ2dFn
+ 8fIlJzwCHSBhc/+4zeLeWoVjzcbkGlC5qihBqyoombO7VmBEgdqIvLjAMq/SLcja4bNY
+ hErpag5skhYeZLu+od50/yEXc2DzmGlrAKKMV/0Ic838FpvilMSc/HQYWvoaWtQqgyby
+ DKFg==
+X-Gm-Message-State: AOAM531y9Gat9zO3bIt+hTbVZQxTDm1Uk5pDz2ZMcLKPF6UOSfe1WBiR
+ VRQR7IXmHtIj9GLAsegJLzBORg==
+X-Google-Smtp-Source: ABdhPJw8DgIUUnwqllXbeSiW3qPbK9BNwiKFdmW+VkZ+IObb+w1TTCAAtNK1rD1edc24AUTjtdxnJA==
+X-Received: by 2002:a62:5a87:: with SMTP id o129mr4683942pfb.204.1598753818958; 
+ Sat, 29 Aug 2020 19:16:58 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id q10sm4026579pfn.206.2020.08.29.18.57.50
+ by smtp.gmail.com with ESMTPSA id i17sm3843308pfo.150.2020.08.29.19.16.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 29 Aug 2020 18:57:51 -0700 (PDT)
-Subject: Re: [RFC v4 70/70] target/riscv: gdb: support vector registers for
- rv32
+ Sat, 29 Aug 2020 19:16:58 -0700 (PDT)
+Subject: Re: [RFC v4 68/70] target/riscv: gdb: modify gdb csr xml file to
+ align with csr register map
 To: frank.chang@sifive.com, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
 References: <20200817084955.28793-1-frank.chang@sifive.com>
- <20200817084955.28793-71-frank.chang@sifive.com>
+ <20200817084955.28793-69-frank.chang@sifive.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <e767767b-fd50-3263-fb5e-b366df009595@linaro.org>
-Date: Sat, 29 Aug 2020 18:57:49 -0700
+Message-ID: <bb75a628-b94e-8c17-0bb0-55085bb96c04@linaro.org>
+Date: Sat, 29 Aug 2020 19:16:56 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200817084955.28793-71-frank.chang@sifive.com>
+In-Reply-To: <20200817084955.28793-69-frank.chang@sifive.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x541.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -28
@@ -77,7 +77,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.809,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,43 +90,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Greentime Hu <greentime.hu@sifive.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Hsiangkai Wang <kai.wang@sifive.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/17/20 1:49 AM, frank.chang@sifive.com wrote:
-> From: Greentime Hu <greentime.hu@sifive.com>
+> From: Hsiangkai Wang <kai.wang@sifive.com>
 > 
-> This patch adds vector support for rv32 gdb. It allows gdb client to access
-> vector registers correctly.
-> 
-> Signed-off-by: Greentime Hu <greentime.hu@sifive.com>
+> Signed-off-by: Hsiangkai Wang <kai.wang@sifive.com>
 > Signed-off-by: Frank Chang <frank.chang@sifive.com>
 > ---
->  gdb-xml/riscv-32bit-csr.xml | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/gdb-xml/riscv-32bit-csr.xml b/gdb-xml/riscv-32bit-csr.xml
-> index 3d2031da7dc..bb98b927995 100644
-> --- a/gdb-xml/riscv-32bit-csr.xml
-> +++ b/gdb-xml/riscv-32bit-csr.xml
-> @@ -248,4 +248,11 @@
->    <reg name="mucounteren" bitsize="32"/>
->    <reg name="mscounteren" bitsize="32"/>
->    <reg name="mhcounteren" bitsize="32"/>
-> +  <reg name="vstart" bitsize="32" group="vector"/>
-> +  <reg name="vxsat" bitsize="32" group="vector"/>
-> +  <reg name="vxrm" bitsize="32" group="vector"/>
-> +  <reg name="vcsr" bitsize="32" group="vector"/>
-> +  <reg name="vl" bitsize="32" group="vector"/>
-> +  <reg name="vtype" bitsize="32" group="vector"/>
-> +  <reg name="vlenb" bitsize="32" group="vector"/>
->  </feature>
-> 
+>  gdb-xml/riscv-32bit-csr.xml | 11 ++++++-----
+>  gdb-xml/riscv-64bit-csr.xml | 11 ++++++-----
+>  target/riscv/gdbstub.c      |  4 ++--
+>  3 files changed, 14 insertions(+), 12 deletions(-)
 
-As per comments in the previous patch, needs squashing.
+Looks ok, from a quick glance.
+
+I do think that this could stand to be auto-generated as well, from an extended
+csr_ops table.  Extended in that you'd want to include the name and the isa bit
+to which the register applies.
+
+I'll let Alistair weigh in on this.  But either way,
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
