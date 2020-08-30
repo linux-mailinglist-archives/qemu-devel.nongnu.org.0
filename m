@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 865A7256B30
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 Aug 2020 04:34:38 +0200 (CEST)
-Received: from localhost ([::1]:46220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F198256B2E
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 Aug 2020 04:33:33 +0200 (CEST)
+Received: from localhost ([::1]:39130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCDAz-00075A-Jn
-	for lists+qemu-devel@lfdr.de; Sat, 29 Aug 2020 22:34:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52810)
+	id 1kCD9w-0004FG-Ji
+	for lists+qemu-devel@lfdr.de; Sat, 29 Aug 2020 22:33:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCD8e-0002cL-ML
- for qemu-devel@nongnu.org; Sat, 29 Aug 2020 22:32:12 -0400
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:33343)
+ id 1kCD8g-0002en-0t
+ for qemu-devel@nongnu.org; Sat, 29 Aug 2020 22:32:14 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:38749)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCD8c-0002XG-O0
- for qemu-devel@nongnu.org; Sat, 29 Aug 2020 22:32:12 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id u20so2685743pfn.0
- for <qemu-devel@nongnu.org>; Sat, 29 Aug 2020 19:32:10 -0700 (PDT)
+ id 1kCD8d-0002XS-M8
+ for qemu-devel@nongnu.org; Sat, 29 Aug 2020 22:32:13 -0400
+Received: by mail-pl1-x632.google.com with SMTP id t11so1427531plr.5
+ for <qemu-devel@nongnu.org>; Sat, 29 Aug 2020 19:32:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2o0LpaVcYKa7uZBP60GqezuNuuAdNkWUvWUtF7iSdv4=;
- b=eujSZMG0/JDvnPfdM0oEMgzSKGBq+JEX7D1r3kCiXwk9WxvVnt7YXJpm9Mg6kFXynH
- nSNkHWRRBh7X55ghR2/JbXSfN6Nruszm+wvGF5Z8DyxcZp5VD9r3wnMqWjA70vnRGmog
- Hg9Lb4Zj7I1vzP13uOsUfynJvz31AaBnYlVYweXieYp8iOhxO9kTUyvm6ZlFrsAwK7oS
- 5R13Wl+aDuZmoa27Hvj/sW9IospFdTM+kn7TyWLs9FYF9UWYvoZphXn8XgYSauCiDfUs
- AzPVfb/3MN9ccTySf2quLmCgIKz8gfFQcuC8W7bPdgDpwxHbjrzjQWRdsorZfnoeWb/v
- EQ9g==
+ bh=+4RZCdMOsaMUmLqVgZAlaR32NMPZinL4K5nOFXnWb04=;
+ b=hNeXNvhovHKc8cmmSF6P3EICfYFuUE2EI0kMk3PNr1KehLlUhJNYU7uiRIZxohYzOu
+ nYfe3aSyqscHcVQhVwpbeTpnqtSl8VSY6VL0+xkW2XLVoXIEPncVxy2ctt12FRdMr/x2
+ J/BFgzdiZy7TxKwDHCoilY1blYZUaCWDs54uh65nO+cfcaK+UyjH9kAdTOlhCcxrouy4
+ +ZAJp5xLjSHImChQPKQdXOIwndK8LmjD+nNmdSfZzaNB/f4uZbtKk+AQLXpibnOSc082
+ qSKZorIam89ABBDFXL3yB4wAEfYtg67HlEu1/wS5eOP4BuPJl43FiDb88UOL/9NqeBhz
+ BTrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2o0LpaVcYKa7uZBP60GqezuNuuAdNkWUvWUtF7iSdv4=;
- b=RILAFOwCv1LYq4Udf0wpLXi8cnvgBAIw3xEpQF+SAxkj6IfwpH9DqjIo2lKfBWWdtq
- 0AZgJKs3zxS1ioRZmbMNT1GHofVcIJEJEM8z3FhCQd8EUW5VzSo4MtBg4hOsFR3E4qJG
- vyU9M9I1uArGfTGQLMFOJxSGUSSRN/1OiZsOJ+j6YWxL4VvNeZpN8kiIgOxbGHPsk1iM
- ngOtXuI2NWOrEC/FMy9yTM3m6wVQVImXMuKOwYNbcXbUEX3CeeTSVpOvWAYvtmcnrH87
- d0Z9lGG4D3fvZHhMSaKiglE62X86UL98sbn4D5aS1J9EOHGMIVtGBlUJea4rHs4Z5ESV
- TCJg==
-X-Gm-Message-State: AOAM533zQvDOfqzUl1V47nWvt/pd5fDKULFCHBnBXc3dnI5YojcjLJzU
- Kj5Eyhnh1pBTaHkACpiVhdMZQ5JCDc2mZg==
-X-Google-Smtp-Source: ABdhPJxXRw7rnxzcNbtJY2c8ipTjgkXmTO1PtqASMfw30neYE4zw0LtA/sOuG/eOMtDC2RyMpxM6iA==
-X-Received: by 2002:a63:cb0a:: with SMTP id p10mr44139pgg.314.1598754728656;
- Sat, 29 Aug 2020 19:32:08 -0700 (PDT)
+ bh=+4RZCdMOsaMUmLqVgZAlaR32NMPZinL4K5nOFXnWb04=;
+ b=OvUV0yRnkfYFXo7yvx+wuCjpqsL8eejHNZLBAHp7vVc7B/poNA+qrmz9d13KM75KXg
+ 5SjXReWaDPAlMhA9SMfhTW8oSVdA8GEhHx37X2MIDUngknECnKJd+E3MLszPyPn6kVOr
+ 2LSWnxSdpXajW/afsLbHpoSkzoEqxrZZONjkt/QbWOvx4LxLTezXUGntY+ek7Z3GcEsc
+ JB1zrKNG0sNsejSwfRabUdopql+S/NEF4PPXW+ruVnDHRoR1/A55HrMat5HdhdR82/ib
+ oY3L362ZcWYFikanyJaEV+eBLcWlxeb4+kChGaDIpKejbkmB0tMzDdpgs965m3pbc+fe
+ tZcQ==
+X-Gm-Message-State: AOAM530gjgq6y3jVPJFxPC55BbraVk1WwIG/bSeruYTkTP3Q4sR6Sinj
+ 05hfXRxIfvOIVvLZKf2s0d/iEY9APsCrkQ==
+X-Google-Smtp-Source: ABdhPJxvzL3ZmHsRSyu8LA+Knl+NpHDisS4v7Xenpz4tp2U8octUm48QA+yheaxKjGKPR7NSaQgcSg==
+X-Received: by 2002:a17:90b:95:: with SMTP id
+ bb21mr4971269pjb.68.1598754729948; 
+ Sat, 29 Aug 2020 19:32:09 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id l23sm3546269pgt.16.2020.08.29.19.32.07
+ by smtp.gmail.com with ESMTPSA id l23sm3546269pgt.16.2020.08.29.19.32.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 29 Aug 2020 19:32:08 -0700 (PDT)
+ Sat, 29 Aug 2020 19:32:09 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/7] softfloat: Add fp16 and uint8/int8 conversion functions
-Date: Sat, 29 Aug 2020 19:31:58 -0700
-Message-Id: <20200830023203.612312-3-richard.henderson@linaro.org>
+Subject: [PULL 3/7] softfloat: Add float16_is_normal
+Date: Sat, 29 Aug 2020 19:31:59 -0700
+Message-Id: <20200830023203.612312-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200830023203.612312-1-richard.henderson@linaro.org>
 References: <20200830023203.612312-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -85,149 +85,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frank Chang <frank.chang@sifive.com>, peter.maydell@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: peter.maydell@linaro.org, Stephen Long <steplong@quicinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frank Chang <frank.chang@sifive.com>
+From: Stephen Long <steplong@quicinc.com>
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Frank Chang <frank.chang@sifive.com>
-Message-Id: <1596102747-20226-4-git-send-email-chihmin.chao@sifive.com>
+This float16 predicate was missing from the normal set.
+
+Signed-off-by: Stephen Long <steplong@quicinc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/fpu/softfloat.h |  8 ++++++++
- fpu/softfloat.c         | 34 ++++++++++++++++++++++++++++++++++
- 2 files changed, 42 insertions(+)
+ include/fpu/softfloat.h | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
-index 573fce99bc..0a5a5e5d0b 100644
+index 0a5a5e5d0b..863dfc6151 100644
 --- a/include/fpu/softfloat.h
 +++ b/include/fpu/softfloat.h
-@@ -136,9 +136,11 @@ float16 uint16_to_float16_scalbn(uint16_t a, int, float_status *status);
- float16 uint32_to_float16_scalbn(uint32_t a, int, float_status *status);
- float16 uint64_to_float16_scalbn(uint64_t a, int, float_status *status);
- 
-+float16 int8_to_float16(int8_t a, float_status *status);
- float16 int16_to_float16(int16_t a, float_status *status);
- float16 int32_to_float16(int32_t a, float_status *status);
- float16 int64_to_float16(int64_t a, float_status *status);
-+float16 uint8_to_float16(uint8_t a, float_status *status);
- float16 uint16_to_float16(uint16_t a, float_status *status);
- float16 uint32_to_float16(uint32_t a, float_status *status);
- float16 uint64_to_float16(uint64_t a, float_status *status);
-@@ -187,10 +189,13 @@ float32 float16_to_float32(float16, bool ieee, float_status *status);
- float16 float64_to_float16(float64 a, bool ieee, float_status *status);
- float64 float16_to_float64(float16 a, bool ieee, float_status *status);
- 
-+int8_t  float16_to_int8_scalbn(float16, FloatRoundMode, int,
-+                               float_status *status);
- int16_t float16_to_int16_scalbn(float16, FloatRoundMode, int, float_status *);
- int32_t float16_to_int32_scalbn(float16, FloatRoundMode, int, float_status *);
- int64_t float16_to_int64_scalbn(float16, FloatRoundMode, int, float_status *);
- 
-+int8_t  float16_to_int8(float16, float_status *status);
- int16_t float16_to_int16(float16, float_status *status);
- int32_t float16_to_int32(float16, float_status *status);
- int64_t float16_to_int64(float16, float_status *status);
-@@ -199,6 +204,8 @@ int16_t float16_to_int16_round_to_zero(float16, float_status *status);
- int32_t float16_to_int32_round_to_zero(float16, float_status *status);
- int64_t float16_to_int64_round_to_zero(float16, float_status *status);
- 
-+uint8_t float16_to_uint8_scalbn(float16 a, FloatRoundMode,
-+                                int, float_status *status);
- uint16_t float16_to_uint16_scalbn(float16 a, FloatRoundMode,
-                                   int, float_status *status);
- uint32_t float16_to_uint32_scalbn(float16 a, FloatRoundMode,
-@@ -206,6 +213,7 @@ uint32_t float16_to_uint32_scalbn(float16 a, FloatRoundMode,
- uint64_t float16_to_uint64_scalbn(float16 a, FloatRoundMode,
-                                   int, float_status *status);
- 
-+uint8_t  float16_to_uint8(float16 a, float_status *status);
- uint16_t float16_to_uint16(float16 a, float_status *status);
- uint32_t float16_to_uint32(float16 a, float_status *status);
- uint64_t float16_to_uint64(float16 a, float_status *status);
-diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 33abc8207b..64de0b40f7 100644
---- a/fpu/softfloat.c
-+++ b/fpu/softfloat.c
-@@ -2109,6 +2109,13 @@ static int64_t round_to_int_and_pack(FloatParts in, FloatRoundMode rmode,
-     }
+@@ -272,6 +272,11 @@ static inline bool float16_is_zero_or_denormal(float16 a)
+     return (float16_val(a) & 0x7c00) == 0;
  }
  
-+int8_t float16_to_int8_scalbn(float16 a, FloatRoundMode rmode, int scale,
-+                              float_status *s)
++static inline bool float16_is_normal(float16 a)
 +{
-+    return round_to_int_and_pack(float16_unpack_canonical(a, s),
-+                                 rmode, scale, INT8_MIN, INT8_MAX, s);
++    return (((float16_val(a) >> 10) + 1) & 0x1f) >= 2;
 +}
 +
- int16_t float16_to_int16_scalbn(float16 a, FloatRoundMode rmode, int scale,
-                                 float_status *s)
+ static inline float16 float16_abs(float16 a)
  {
-@@ -2172,6 +2179,11 @@ int64_t float64_to_int64_scalbn(float64 a, FloatRoundMode rmode, int scale,
-                                  rmode, scale, INT64_MIN, INT64_MAX, s);
- }
- 
-+int8_t float16_to_int8(float16 a, float_status *s)
-+{
-+    return float16_to_int8_scalbn(a, s->float_rounding_mode, 0, s);
-+}
-+
- int16_t float16_to_int16(float16 a, float_status *s)
- {
-     return float16_to_int16_scalbn(a, s->float_rounding_mode, 0, s);
-@@ -2322,6 +2334,13 @@ static uint64_t round_to_uint_and_pack(FloatParts in, FloatRoundMode rmode,
-     }
- }
- 
-+uint8_t float16_to_uint8_scalbn(float16 a, FloatRoundMode rmode, int scale,
-+                                float_status *s)
-+{
-+    return round_to_uint_and_pack(float16_unpack_canonical(a, s),
-+                                  rmode, scale, UINT8_MAX, s);
-+}
-+
- uint16_t float16_to_uint16_scalbn(float16 a, FloatRoundMode rmode, int scale,
-                                   float_status *s)
- {
-@@ -2385,6 +2404,11 @@ uint64_t float64_to_uint64_scalbn(float64 a, FloatRoundMode rmode, int scale,
-                                   rmode, scale, UINT64_MAX, s);
- }
- 
-+uint8_t float16_to_uint8(float16 a, float_status *s)
-+{
-+    return float16_to_uint8_scalbn(a, s->float_rounding_mode, 0, s);
-+}
-+
- uint16_t float16_to_uint16(float16 a, float_status *s)
- {
-     return float16_to_uint16_scalbn(a, s->float_rounding_mode, 0, s);
-@@ -2539,6 +2563,11 @@ float16 int16_to_float16(int16_t a, float_status *status)
-     return int64_to_float16_scalbn(a, 0, status);
- }
- 
-+float16 int8_to_float16(int8_t a, float_status *status)
-+{
-+    return int64_to_float16_scalbn(a, 0, status);
-+}
-+
- float32 int64_to_float32_scalbn(int64_t a, int scale, float_status *status)
- {
-     FloatParts pa = int_to_float(a, scale, status);
-@@ -2664,6 +2693,11 @@ float16 uint16_to_float16(uint16_t a, float_status *status)
-     return uint64_to_float16_scalbn(a, 0, status);
- }
- 
-+float16 uint8_to_float16(uint8_t a, float_status *status)
-+{
-+    return uint64_to_float16_scalbn(a, 0, status);
-+}
-+
- float32 uint64_to_float32_scalbn(uint64_t a, int scale, float_status *status)
- {
-     FloatParts pa = uint_to_float(a, scale, status);
+     /* Note that abs does *not* handle NaN specially, nor does
 -- 
 2.25.1
 
