@@ -2,34 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 139C7257431
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 09:18:48 +0200 (CEST)
-Received: from localhost ([::1]:33238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CF3D25743A
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 09:21:44 +0200 (CEST)
+Received: from localhost ([::1]:48066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCe5W-0004H8-Uz
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 03:18:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54186)
+	id 1kCe8N-0001vC-A2
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 03:21:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pannengyuan@huawei.com>)
- id 1kCe48-0002bw-Fb
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 03:17:20 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:40248 helo=huawei.com)
+ id 1kCe49-0002dd-Vr
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 03:17:21 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:40252 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pannengyuan@huawei.com>)
- id 1kCe45-0005tD-Gu
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 03:17:20 -0400
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id C7662753174EF9D15823;
+ id 1kCe45-0005tF-HV
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 03:17:21 -0400
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 8E186DBBDF9FE29AF761;
  Mon, 31 Aug 2020 15:17:10 +0800 (CST)
 Received: from opensource.huawei.com (10.175.100.152) by
  DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
- 14.3.487.0; Mon, 31 Aug 2020 15:17:00 +0800
+ 14.3.487.0; Mon, 31 Aug 2020 15:17:01 +0800
 From: Pan Nengyuan <pannengyuan@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v2 04/10] target/i386/sev: Plug memleak in sev_read_file_base64
-Date: Mon, 31 Aug 2020 09:43:09 -0400
-Message-ID: <20200831134315.1221-5-pannengyuan@huawei.com>
+Subject: [PATCH v2 05/10] ui/gtk-gl-area: Plug memleak in
+ gd_gl_area_create_context()
+Date: Mon, 31 Aug 2020 09:43:10 -0400
+Message-ID: <20200831134315.1221-6-pannengyuan@huawei.com>
 X-Mailer: git-send-email 2.18.2
 In-Reply-To: <20200831134315.1221-1-pannengyuan@huawei.com>
 References: <20200831134315.1221-1-pannengyuan@huawei.com>
@@ -59,40 +60,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, euler.robot@huawei.com,
- Pan Nengyuan <pannengyuan@huawei.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, kuhn.chenqun@huawei.com,
- Richard Henderson <rth@twiddle.net>
+Cc: kuhn.chenqun@huawei.com, Gerd
+ Hoffmann <kraxel@redhat.com>, Pan Nengyuan <pannengyuan@huawei.com>,
+ zhang.zhanghailiang@huawei.com, euler.robot@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Missing g_error_free() in sev_read_file_base64() error path.
-Fix that.
+Receiving error in local variable err, and forgot to free it.
+This patch check the return value of 'gdk_window_create_gl_context'
+and 'gdk_gl_context_realize', then free err to fix it.
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
 ---
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 ---
-- v2: no changes in v2
+V2->V1: check the return value of  'gdk_window_create_gl_context'
+and 'gdk_gl_context_realize' instead of omitting it(Suggested by Li Qiang)
 ---
- target/i386/sev.c | 1 +
- 1 file changed, 1 insertion(+)
+ ui/gtk-gl-area.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/target/i386/sev.c b/target/i386/sev.c
-index c3ecf86704..de4818da6d 100644
---- a/target/i386/sev.c
-+++ b/target/i386/sev.c
-@@ -500,6 +500,7 @@ sev_read_file_base64(const char *filename, guchar **data, gsize *len)
- 
-     if (!g_file_get_contents(filename, &base64, &sz, &error)) {
-         error_report("failed to read '%s' (%s)", filename, error->message);
-+        g_error_free(error);
-         return -1;
-     }
+diff --git a/ui/gtk-gl-area.c b/ui/gtk-gl-area.c
+index 85f9d14c51..98c22d23f5 100644
+--- a/ui/gtk-gl-area.c
++++ b/ui/gtk-gl-area.c
+@@ -147,10 +147,21 @@ QEMUGLContext gd_gl_area_create_context(DisplayChangeListener *dcl,
+     gtk_gl_area_make_current(GTK_GL_AREA(vc->gfx.drawing_area));
+     window = gtk_widget_get_window(vc->gfx.drawing_area);
+     ctx = gdk_window_create_gl_context(window, &err);
++    if (err) {
++        g_printerr("Create gdk gl context failed: %s\n", err->message);
++        g_error_free(err);
++        return NULL;
++    }
+     gdk_gl_context_set_required_version(ctx,
+                                         params->major_ver,
+                                         params->minor_ver);
+     gdk_gl_context_realize(ctx, &err);
++    if (err) {
++        g_printerr("Realize gdk gl context failed: %s\n", err->message);
++        g_error_free(err);
++        g_clear_object(&ctx);
++        return NULL;
++    }
+     return ctx;
+ }
  
 -- 
 2.18.2
