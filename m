@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C50B1257EB5
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 18:26:36 +0200 (CEST)
-Received: from localhost ([::1]:41554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27EB5257EBE
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 18:27:56 +0200 (CEST)
+Received: from localhost ([::1]:50022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCmdf-0003Gq-QM
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 12:26:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34306)
+	id 1kCmex-0006fN-64
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 12:27:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCmKr-0005Vo-Tj
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:07:09 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:52760)
+ id 1kCmKt-0005bP-Un
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:07:11 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:35760)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCmKq-00064n-3N
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:07:09 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id o16so29089pjr.2
- for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 09:07:07 -0700 (PDT)
+ id 1kCmKr-000654-K5
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:07:11 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id g29so843086pgl.2
+ for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 09:07:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Jni1aHgtz1xoXSckuiw7DlpTrv9tJ1hfnOPizu6DAmk=;
- b=ckY9sN+WUn7AlY2+rkuto/4pq/OVmB/rjI0nPhU7+NDoyvJGcyGv2ufNF+xR6v0WiW
- 6Oda1WzW+a8y9059m1EAw6CgMPYYg9+42YqPMMdtLd8BU41+DfOHNLSQAT3JLJDPXdF3
- BbbhEzW7HWe5Djwn5s0F9ueA7aZO3GLDNiXjiegfxRH7BQmI7SJMqgUbuvikf6B7MgIS
- zrgNhOgKqs92wqNDE5Wvc33NVAN8F6ZnCd2xWqAqutwIjCBxIvVSc+L0N0V4TIs/ZHCn
- 7CfNCL+YhvQhwjrRHkfrwZiRR2TyRaVGU4oK45dURI4fR/x/dV8pgyoALsVa9xvGiaa4
- OP6Q==
+ bh=CtMYJ7CIPlKie9ABXlTJ3VIrDUZQvNuQ4dYjI8dHmfc=;
+ b=dh6R+LfjdJqDhGXWo7LQaLRwlevGDvTHWBhg4MML3A+vfvJJzMQ11kBUckAJRU9G+k
+ x3PEmew8b4XV3ph6cGyUa0ysifSNB5T4sXw0Sx+p/r/ui5OxUkU+8UngXXNMudXxxSue
+ 9M2XVjwAdgqYrMGzO60uLosJkAFk17TrB67jBiAURxSGThk7mO/bCCRmsbSQM1skAPk+
+ Mlodk3rskpubHQ3IsDtHwrW+peygbVYDZ13BIonVegwFB3A3yyuDRzZJ8GuN3OPUZBzJ
+ RRTs6mCe76H4/a1Grhvd768lozgvYAajvAT198CtlUS9wwZtaztKDU7cJ+bRNE+sjKF4
+ f0Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Jni1aHgtz1xoXSckuiw7DlpTrv9tJ1hfnOPizu6DAmk=;
- b=DJ8EPwjLL6q9S/HWtDg6j4eUYCbjnx5HNTrzM+qSaObFE0FTogzkSyX+XRbI0LU7W2
- VIpwWM513yUWVtpjnzgj8FhDn90je2ocp8J8sH3Jnv3kXINO/18z98AT/SEKuNaxZW6S
- s/jjcH8TITSEXFA8KaZPhBeYPQK8dYrkYw1ggZ1pdYjZJUkYT8HyranrEJVPoulAfHBB
- 7uUOGXFjdvMpy0f81e09HKGSnIoUpiFBjFMKX2kLamfbvcjbefBh/FpJjkGvsWPXFOr3
- 2qcKBzw78koTNCmPF8RZBo5LDbCfI8tFM2u5w3Z07aXFabP29SwAW+0p5eNQpe8kEEnK
- xWdw==
-X-Gm-Message-State: AOAM531i3gm3WkpGBcpZkrMLepjn7AoO6t5Q3md9Hr6zmZ2yqskSVhZT
- 11lhxiMBL+iAAqHIMJgAf+k61dpmtP0g8w==
-X-Google-Smtp-Source: ABdhPJxoHY3OYpr0HSn+WzPeZBnnPSTXlS029PIiM7ED8Jhi0A6aytj/tPq4TXBNt/nVXL4Qkhk07g==
-X-Received: by 2002:a17:90a:5a48:: with SMTP id m8mr64011pji.181.1598890026338; 
- Mon, 31 Aug 2020 09:07:06 -0700 (PDT)
+ bh=CtMYJ7CIPlKie9ABXlTJ3VIrDUZQvNuQ4dYjI8dHmfc=;
+ b=E/LAY+3YYH3P2zpPCXsKCZEWh1fg7FQU/5UZyQoNWK/SCms93uO1hVM/5hkHVuVnl9
+ A29uJF/cfIrcGqGj8t7lW94LBFzDIdt9GGOczTTUgeQCPNCWq3Di17RkES0H75fhDbcn
+ 2OzHOCStPDhrPBBiNSjvQb1CcVZrXsrtqbBZekHV+06ROW3BqD7xY246u69C4xzJDrJ1
+ cavMMjwDRgO+Hw5VinuiyXOMUXgD7fzCa4UWLGC5lCi5Sut4aHDo6WZdMNZ32lB00RSe
+ 9RdZ/yzJUO/2e3EKrCk3ybPREic4fM5IBSE8IqwmCTqc8+n5wXR1ZokBuMosgt7xDirF
+ lwOg==
+X-Gm-Message-State: AOAM531IgjIpQS6H0HHKpl4NvToM+Gu1SVuJs+TQfWn8B2dASmAPBGCI
+ L6PlI+FQEdf6VjLfOCnP6HMKTUngzSrQUw==
+X-Google-Smtp-Source: ABdhPJwf2bW++N7J2ihNwn7Co9YMc9h42p1B7dQGfVDTH0EMd4Q0SdkigDNvxRTgwsqKZ61JSzRICg==
+X-Received: by 2002:a63:e157:: with SMTP id h23mr1829095pgk.239.1598890027597; 
+ Mon, 31 Aug 2020 09:07:07 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id gt13sm17218pjb.43.2020.08.31.09.07.05
+ by smtp.gmail.com with ESMTPSA id gt13sm17218pjb.43.2020.08.31.09.07.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Aug 2020 09:07:05 -0700 (PDT)
+ Mon, 31 Aug 2020 09:07:06 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 46/76] target/microblaze: Convert dec_imm to decodetree
-Date: Mon, 31 Aug 2020 09:05:31 -0700
-Message-Id: <20200831160601.833692-47-richard.henderson@linaro.org>
+Subject: [PULL 47/76] target/microblaze: Convert dec_fpu to decodetree
+Date: Mon, 31 Aug 2020 09:05:32 -0700
+Message-Id: <20200831160601.833692-48-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200831160601.833692-1-richard.henderson@linaro.org>
 References: <20200831160601.833692-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,70 +88,232 @@ Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The current dec_check_fpuv2 test, raising an FPU exception for
+an unimplemented instruction, appears to be contradictory to
+the manual.  Drop that and merely check use_fpu == 2.
+
 Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/insns.decode |  2 ++
- target/microblaze/translate.c  | 18 +++++++++---------
- 2 files changed, 11 insertions(+), 9 deletions(-)
+ target/microblaze/insns.decode |  19 +++++
+ target/microblaze/translate.c  | 152 +++++++++------------------------
+ 2 files changed, 60 insertions(+), 111 deletions(-)
 
 diff --git a/target/microblaze/insns.decode b/target/microblaze/insns.decode
-index 4644defbfe..ad15c16f9b 100644
+index ad15c16f9b..87e8f5679b 100644
 --- a/target/microblaze/insns.decode
 +++ b/target/microblaze/insns.decode
-@@ -79,6 +79,8 @@ cmpu            000101 ..... ..... ..... 000 0000 0011  @typea
+@@ -76,6 +76,25 @@ clz             100100 ..... ..... 00000 000 1110 0000  @typea0
+ cmp             000101 ..... ..... ..... 000 0000 0001  @typea
+ cmpu            000101 ..... ..... ..... 000 0000 0011  @typea
+ 
++fadd            010110 ..... ..... ..... 0000 000 0000  @typea
++frsub           010110 ..... ..... ..... 0001 000 0000  @typea
++fmul            010110 ..... ..... ..... 0010 000 0000  @typea
++fdiv            010110 ..... ..... ..... 0011 000 0000  @typea
++fcmp_un         010110 ..... ..... ..... 0100 000 0000  @typea
++fcmp_lt         010110 ..... ..... ..... 0100 001 0000  @typea
++fcmp_eq         010110 ..... ..... ..... 0100 010 0000  @typea
++fcmp_le         010110 ..... ..... ..... 0100 011 0000  @typea
++fcmp_gt         010110 ..... ..... ..... 0100 100 0000  @typea
++fcmp_ne         010110 ..... ..... ..... 0100 101 0000  @typea
++fcmp_ge         010110 ..... ..... ..... 0100 110 0000  @typea
++
++# Note that flt and fint, unlike fsqrt, are documented as having the RB
++# operand which is unused.  So allow the field to be non-zero but discard
++# the value and treat as 2-operand insns.
++flt             010110 ..... ..... ----- 0101 000 0000  @typea0
++fint            010110 ..... ..... ----- 0110 000 0000  @typea0
++fsqrt           010110 ..... ..... 00000 0111 000 0000  @typea0
++
  idiv            010010 ..... ..... ..... 000 0000 0000  @typea
  idivu           010010 ..... ..... ..... 000 0000 0010  @typea
  
-+imm             101100 00000 00000 imm:16
-+
- mul             010000 ..... ..... ..... 000 0000 0000  @typea
- mulh            010000 ..... ..... ..... 000 0000 0001  @typea
- mulhu           010000 ..... ..... ..... 000 0000 0011  @typea
 diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index 964525f75e..54de136a16 100644
+index 54de136a16..72541905ec 100644
 --- a/target/microblaze/translate.c
 +++ b/target/microblaze/translate.c
-@@ -477,6 +477,15 @@ static void gen_idivu(TCGv_i32 out, TCGv_i32 ina, TCGv_i32 inb)
- DO_TYPEA_CFG(idiv, use_div, true, gen_idiv)
- DO_TYPEA_CFG(idivu, use_div, true, gen_idivu)
+@@ -318,6 +318,14 @@ static bool do_typeb_val(DisasContext *dc, arg_typeb *arg, bool side_effects,
+     static bool trans_##NAME(DisasContext *dc, arg_typeb *a) \
+     { return do_typeb_val(dc, a, SE, FN); }
  
-+static bool trans_imm(DisasContext *dc, arg_imm *arg)
-+{
-+    dc->ext_imm = arg->imm << 16;
-+    tcg_gen_movi_i32(cpu_imm, dc->ext_imm);
-+    dc->tb_flags |= IMM_FLAG;
-+    dc->clear_imm = 0;
-+    return true;
-+}
++#define ENV_WRAPPER2(NAME, HELPER) \
++    static void NAME(TCGv_i32 out, TCGv_i32 ina) \
++    { HELPER(out, cpu_env, ina); }
 +
- static void gen_mulh(TCGv_i32 out, TCGv_i32 ina, TCGv_i32 inb)
++#define ENV_WRAPPER3(NAME, HELPER) \
++    static void NAME(TCGv_i32 out, TCGv_i32 ina, TCGv_i32 inb) \
++    { HELPER(out, cpu_env, ina, inb); }
++
+ /* No input carry, but output carry. */
+ static void gen_add(TCGv_i32 out, TCGv_i32 ina, TCGv_i32 inb)
  {
-     TCGv_i32 tmp = tcg_temp_new_i32();
-@@ -848,14 +857,6 @@ static inline void sync_jmpstate(DisasContext *dc)
-     }
+@@ -464,6 +472,39 @@ static void gen_cmpu(TCGv_i32 out, TCGv_i32 ina, TCGv_i32 inb)
+ DO_TYPEA(cmp, false, gen_cmp)
+ DO_TYPEA(cmpu, false, gen_cmpu)
+ 
++ENV_WRAPPER3(gen_fadd, gen_helper_fadd)
++ENV_WRAPPER3(gen_frsub, gen_helper_frsub)
++ENV_WRAPPER3(gen_fmul, gen_helper_fmul)
++ENV_WRAPPER3(gen_fdiv, gen_helper_fdiv)
++ENV_WRAPPER3(gen_fcmp_un, gen_helper_fcmp_un)
++ENV_WRAPPER3(gen_fcmp_lt, gen_helper_fcmp_lt)
++ENV_WRAPPER3(gen_fcmp_eq, gen_helper_fcmp_eq)
++ENV_WRAPPER3(gen_fcmp_le, gen_helper_fcmp_le)
++ENV_WRAPPER3(gen_fcmp_gt, gen_helper_fcmp_gt)
++ENV_WRAPPER3(gen_fcmp_ne, gen_helper_fcmp_ne)
++ENV_WRAPPER3(gen_fcmp_ge, gen_helper_fcmp_ge)
++
++DO_TYPEA_CFG(fadd, use_fpu, true, gen_fadd)
++DO_TYPEA_CFG(frsub, use_fpu, true, gen_frsub)
++DO_TYPEA_CFG(fmul, use_fpu, true, gen_fmul)
++DO_TYPEA_CFG(fdiv, use_fpu, true, gen_fdiv)
++DO_TYPEA_CFG(fcmp_un, use_fpu, true, gen_fcmp_un)
++DO_TYPEA_CFG(fcmp_lt, use_fpu, true, gen_fcmp_lt)
++DO_TYPEA_CFG(fcmp_eq, use_fpu, true, gen_fcmp_eq)
++DO_TYPEA_CFG(fcmp_le, use_fpu, true, gen_fcmp_le)
++DO_TYPEA_CFG(fcmp_gt, use_fpu, true, gen_fcmp_gt)
++DO_TYPEA_CFG(fcmp_ne, use_fpu, true, gen_fcmp_ne)
++DO_TYPEA_CFG(fcmp_ge, use_fpu, true, gen_fcmp_ge)
++
++ENV_WRAPPER2(gen_flt, gen_helper_flt)
++ENV_WRAPPER2(gen_fint, gen_helper_fint)
++ENV_WRAPPER2(gen_fsqrt, gen_helper_fsqrt)
++
++DO_TYPEA0_CFG(flt, use_fpu >= 2, true, gen_flt)
++DO_TYPEA0_CFG(fint, use_fpu >= 2, true, gen_fint)
++DO_TYPEA0_CFG(fsqrt, use_fpu >= 2, true, gen_fsqrt)
++
++/* Does not use ENV_WRAPPER3, because arguments are swapped as well. */
+ static void gen_idiv(TCGv_i32 out, TCGv_i32 ina, TCGv_i32 inb)
+ {
+     gen_helper_divs(out, cpu_env, inb, ina);
+@@ -1403,116 +1444,6 @@ static void dec_rts(DisasContext *dc)
+     tcg_gen_add_i32(cpu_btarget, cpu_R[dc->ra], *dec_alu_op_b(dc));
  }
  
--static void dec_imm(DisasContext *dc)
+-static int dec_check_fpuv2(DisasContext *dc)
 -{
--    dc->ext_imm = dc->imm << 16;
--    tcg_gen_movi_i32(cpu_imm, dc->ext_imm);
--    dc->tb_flags |= IMM_FLAG;
--    dc->clear_imm = 0;
+-    if ((dc->cpu->cfg.use_fpu != 2) && (dc->tb_flags & MSR_EE_FLAG)) {
+-        gen_raise_hw_excp(dc, ESR_EC_FPU);
+-    }
+-    return (dc->cpu->cfg.use_fpu == 2) ? PVR2_USE_FPU2_MASK : 0;
 -}
 -
- static inline void compute_ldst_addr(DisasContext *dc, bool ea, TCGv t)
+-static void dec_fpu(DisasContext *dc)
+-{
+-    unsigned int fpu_insn;
+-
+-    if (trap_illegal(dc, !dc->cpu->cfg.use_fpu)) {
+-        return;
+-    }
+-
+-    fpu_insn = (dc->ir >> 7) & 7;
+-
+-    switch (fpu_insn) {
+-        case 0:
+-            gen_helper_fadd(cpu_R[dc->rd], cpu_env, cpu_R[dc->ra],
+-                            cpu_R[dc->rb]);
+-            break;
+-
+-        case 1:
+-            gen_helper_frsub(cpu_R[dc->rd], cpu_env, cpu_R[dc->ra],
+-                             cpu_R[dc->rb]);
+-            break;
+-
+-        case 2:
+-            gen_helper_fmul(cpu_R[dc->rd], cpu_env, cpu_R[dc->ra],
+-                            cpu_R[dc->rb]);
+-            break;
+-
+-        case 3:
+-            gen_helper_fdiv(cpu_R[dc->rd], cpu_env, cpu_R[dc->ra],
+-                            cpu_R[dc->rb]);
+-            break;
+-
+-        case 4:
+-            switch ((dc->ir >> 4) & 7) {
+-                case 0:
+-                    gen_helper_fcmp_un(cpu_R[dc->rd], cpu_env,
+-                                       cpu_R[dc->ra], cpu_R[dc->rb]);
+-                    break;
+-                case 1:
+-                    gen_helper_fcmp_lt(cpu_R[dc->rd], cpu_env,
+-                                       cpu_R[dc->ra], cpu_R[dc->rb]);
+-                    break;
+-                case 2:
+-                    gen_helper_fcmp_eq(cpu_R[dc->rd], cpu_env,
+-                                       cpu_R[dc->ra], cpu_R[dc->rb]);
+-                    break;
+-                case 3:
+-                    gen_helper_fcmp_le(cpu_R[dc->rd], cpu_env,
+-                                       cpu_R[dc->ra], cpu_R[dc->rb]);
+-                    break;
+-                case 4:
+-                    gen_helper_fcmp_gt(cpu_R[dc->rd], cpu_env,
+-                                       cpu_R[dc->ra], cpu_R[dc->rb]);
+-                    break;
+-                case 5:
+-                    gen_helper_fcmp_ne(cpu_R[dc->rd], cpu_env,
+-                                       cpu_R[dc->ra], cpu_R[dc->rb]);
+-                    break;
+-                case 6:
+-                    gen_helper_fcmp_ge(cpu_R[dc->rd], cpu_env,
+-                                       cpu_R[dc->ra], cpu_R[dc->rb]);
+-                    break;
+-                default:
+-                    qemu_log_mask(LOG_UNIMP,
+-                                  "unimplemented fcmp fpu_insn=%x pc=%x"
+-                                  " opc=%x\n",
+-                                  fpu_insn, (uint32_t)dc->base.pc_next,
+-                                  dc->opcode);
+-                    dc->abort_at_next_insn = 1;
+-                    break;
+-            }
+-            break;
+-
+-        case 5:
+-            if (!dec_check_fpuv2(dc)) {
+-                return;
+-            }
+-            gen_helper_flt(cpu_R[dc->rd], cpu_env, cpu_R[dc->ra]);
+-            break;
+-
+-        case 6:
+-            if (!dec_check_fpuv2(dc)) {
+-                return;
+-            }
+-            gen_helper_fint(cpu_R[dc->rd], cpu_env, cpu_R[dc->ra]);
+-            break;
+-
+-        case 7:
+-            if (!dec_check_fpuv2(dc)) {
+-                return;
+-            }
+-            gen_helper_fsqrt(cpu_R[dc->rd], cpu_env, cpu_R[dc->ra]);
+-            break;
+-
+-        default:
+-            qemu_log_mask(LOG_UNIMP, "unimplemented FPU insn fpu_insn=%x pc=%x"
+-                          " opc=%x\n",
+-                          fpu_insn, (uint32_t)dc->base.pc_next, dc->opcode);
+-            dc->abort_at_next_insn = 1;
+-            break;
+-    }
+-}
+-
+ static void dec_null(DisasContext *dc)
  {
-     /* Should be set to true if r1 is used by loadstores.  */
-@@ -1561,7 +1562,6 @@ static struct decoder_info {
- } decinfo[] = {
-     {DEC_LD, dec_load},
-     {DEC_ST, dec_store},
--    {DEC_IMM, dec_imm},
+     if (trap_illegal(dc, true)) {
+@@ -1565,7 +1496,6 @@ static struct decoder_info {
      {DEC_BR, dec_br},
      {DEC_BCC, dec_bcc},
      {DEC_RTS, dec_rts},
+-    {DEC_FPU, dec_fpu},
+     {DEC_MSR, dec_msr},
+     {DEC_STREAM, dec_stream},
+     {{0, 0}, dec_null}
 -- 
 2.25.1
 
