@@ -2,58 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D9DD2577F8
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 13:12:15 +0200 (CEST)
-Received: from localhost ([::1]:58338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21F5925780E
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 13:16:10 +0200 (CEST)
+Received: from localhost ([::1]:38676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kChjS-0007QL-F1
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 07:12:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49050)
+	id 1kChnF-0002ck-7T
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 07:16:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kChi0-0005kk-L4
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 07:10:44 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:4676 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kChhy-0000xJ-PV
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 07:10:44 -0400
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id DF633C797E7B8D6D9A63;
- Mon, 31 Aug 2020 19:10:38 +0800 (CST)
-Received: from [127.0.0.1] (10.174.186.4) by DGGEMS402-HUB.china.huawei.com
- (10.3.19.202) with Microsoft SMTP Server id 14.3.487.0; Mon, 31 Aug 2020
- 19:10:32 +0800
-Subject: Re: [PATCH v6 07/12] migration/dirtyrate: Compare page hash results
- for recorded sampled page
-To: David Edmondson <dme@dme.org>, <quintela@redhat.com>, <eblake@redhat.com>, 
- <dgilbert@redhat.com>, <berrange@redhat.com>
-References: <1598669577-76914-1-git-send-email-zhengchuan@huawei.com>
- <1598669577-76914-8-git-send-email-zhengchuan@huawei.com>
- <m23643chag.fsf@dme.org>
-From: Zheng Chuan <zhengchuan@huawei.com>
-Message-ID: <c878051f-4be9-3ede-0f3f-6752eddb3f94@huawei.com>
-Date: Mon, 31 Aug 2020 19:10:31 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kChmO-0002Cj-2V
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 07:15:16 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26300
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kChmM-0001VY-AV
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 07:15:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598872513;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ta6Pf8pjwmhnQp2iuv4zHskaw60g68HnPvxcL92VHY8=;
+ b=il6oAYapn6mRbAQjnvsfGMABOhDMWfg1XlN1gQZnS3pJxGvoPCQeUPWmJ/8aKVSbbeR5CP
+ PtuFQYyTZ9ky2tJoUcbmuVwE8eMNQoKtM01WKvNG2AVi1a7lxt7QyCGfM4QhZblhwpuM4m
+ eA+ZK66UPtxxsZLQ4vc2yg4/anXXAAY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-190-I863Xhp3O9eNc4NdNnvsfA-1; Mon, 31 Aug 2020 07:15:11 -0400
+X-MC-Unique: I863Xhp3O9eNc4NdNnvsfA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 91B6B10199AD
+ for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 11:15:10 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-174.ams2.redhat.com [10.36.112.174])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DC4065D9DC;
+ Mon, 31 Aug 2020 11:15:04 +0000 (UTC)
+Subject: Re: [PATCH] meson: fix keymaps witout qemu-keymap
+To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+References: <20200827102617.14448-1-kraxel@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <772abf5c-30e2-149f-2507-2c47c016dd7b@redhat.com>
+Date: Mon, 31 Aug 2020 13:15:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <m23643chag.fsf@dme.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
+In-Reply-To: <20200827102617.14448-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.186.4]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190;
- envelope-from=zhengchuan@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 07:10:39
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -62
-X-Spam_score: -6.3
-X-Spam_bar: ------
-X-Spam_report: (-6.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.13,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 02:13:08
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.13, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,107 +82,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.chen@huawei.com, ann.zhuangyanying@huawei.com,
- zhang.zhanghailiang@huawei.com, xiexiangyou@huawei.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 27/08/2020 12.26, Gerd Hoffmann wrote:
+> In case the qemu-keymap tool generating them is neither installed on the
+> system nor built from sources (due to xkbcommon not being available)
+> qemu will not find the keymaps when started directly from the build
+> tree,
+> 
+> This happens because commit ddcf607fa3d6 ("meson: drop keymaps symlink")
+> removed the symlink to the source tree, and the special handling for
+> install doesn't help in case we do not install qemu.
+> 
+> Lets fix that by simply copying over the file from the source tree as
+> fallback.
+> 
+> Reported-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  pc-bios/keymaps/meson.build | 28 +++++++++++++++++++---------
+>  1 file changed, 19 insertions(+), 9 deletions(-)
 
+Thanks, this fixes the acceptance tests on gitlab-CI for me!
 
-On 2020/8/31 17:10, David Edmondson wrote:
-> On Saturday, 2020-08-29 at 10:52:52 +08, Chuan Zheng wrote:
-> 
->> Compare page hash results for recorded sampled page.
->>
->> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
->> Signed-off-by: YanYing Zhuang <ann.zhuangyanying@huawei.com>
->> ---
->>  migration/dirtyrate.c | 63 +++++++++++++++++++++++++++++++++++++++++++++++++++
->>  1 file changed, 63 insertions(+)
->>
->> diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
->> index f4967fd..9cc2cbb 100644
->> --- a/migration/dirtyrate.c
->> +++ b/migration/dirtyrate.c
->> @@ -193,6 +193,69 @@ static int record_ramblock_hash_info(struct RamblockDirtyInfo **block_dinfo,
->>      return 0;
->>  }
->>  
->> +static void calc_page_dirty_rate(struct RamblockDirtyInfo *info)
->> +{
->> +    uint32_t crc;
->> +    int i;
->> +
->> +    for (i = 0; i < info->sample_pages_count; i++) {
->> +        crc = get_ramblock_vfn_hash(info, info->sample_page_vfn[i]);
->> +        if (crc != info->hash_result[i]) {
->> +            info->sample_dirty_count++;
->> +        }
->> +    }
->> +}
->> +
->> +static struct RamblockDirtyInfo *
->> +find_page_matched(RAMBlock *block, int count,
->> +                  struct RamblockDirtyInfo *infos)
->> +{
->> +    int i;
->> +    struct RamblockDirtyInfo *matched;
->> +
->> +    for (i = 0; i < count; i++) {
->> +        if (!strcmp(infos[i].idstr, qemu_ram_get_idstr(block))) {
->> +            break;
->> +        }
->> +    }
->> +
->> +    if (i == count) {
->> +        return NULL;
->> +    }
->> +
->> +    if (infos[i].ramblock_addr != qemu_ram_get_host_addr(block) ||
->> +        infos[i].ramblock_pages !=
->> +            (qemu_ram_get_used_length(block) >> TARGET_PAGE_BITS)) {
->> +        return NULL;
->> +    }
->> +
->> +    matched = &infos[i];
->> +
->> +    return matched;
->> +}
->> +
->> +static int compare_page_hash_info(struct RamblockDirtyInfo *info,
->> +                                  int block_index)
->> +{
->> +    struct RamblockDirtyInfo *block_dinfo = NULL;
->> +    RAMBlock *block = NULL;
->> +
->> +    RAMBLOCK_FOREACH_MIGRATABLE(block) {
->> +        block_dinfo = find_page_matched(block, block_index + 1, info);
->> +        if (block_dinfo == NULL) {
->> +            continue;
->> +        }
->> +        calc_page_dirty_rate(block_dinfo);
->> +        update_dirtyrate_stat(block_dinfo);
->> +    }
->> +
->> +    if (!DirtyStat.total_sample_count) {
-> 
-> total_sample_count isn't a boolean or pointer - comparing against 0
-> would be clearer.
-> OK, will fix it in V7
-
->> +        return -1;
->> +    }
->> +
->> +    return 0;
->> +}
->> +
->>  static void calculate_dirtyrate(struct DirtyRateConfig config)
->>  {
->>      /* todo */
->> -- 
->> 1.8.3.1
-> 
-> dme.
-> 
+Tested-by: Thomas Huth <thuth@redhat.com>
 
 
