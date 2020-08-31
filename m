@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A01D25815E
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 20:52:56 +0200 (CEST)
-Received: from localhost ([::1]:54016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0D5C258166
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 20:55:11 +0200 (CEST)
+Received: from localhost ([::1]:34260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCovH-0004BS-1v
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 14:52:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42672)
+	id 1kCoxS-0007jl-AN
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 14:55:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chihmin.chao@sifive.com>)
- id 1kCot0-0002Ip-J0
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 14:50:34 -0400
-Received: from mail-il1-x130.google.com ([2607:f8b0:4864:20::130]:45285)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kCovH-0005CG-CN
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 14:52:55 -0400
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:41809)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chihmin.chao@sifive.com>)
- id 1kCosy-0008W6-0o
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 14:50:34 -0400
-Received: by mail-il1-x130.google.com with SMTP id q6so1685718ild.12
- for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 11:50:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kCovE-0000Ls-2z
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 14:52:55 -0400
+Received: by mail-ej1-x643.google.com with SMTP id b17so9870809ejq.8
+ for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 11:52:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7MUXZC+mXIJp+jIPw0KzkHr23yG7+1R5ua9TjhMwqb0=;
- b=Ef6TE1MJVsCbjcmxnR2UgtfbYZw8ib6XFNlplAuJ/iioz+KJrV3p9C610fgRN0ijvz
- 0eY/DfkKFYbNiww0yglQ32uyyb2iXQJp/xpvFd6wAhnYP42o10MtUXMyF/kmTr3rW6Wj
- CrvzJe3w3Gg2Gj/at9AA5m71BPaUnEvqeqFWZeMohsXtH8xyaZxxa517Paq2EQOWTjst
- CjmzxmjTD9t2NUD4hCLA9CWDf8JjUuHHrCwiDTHBdPgW/B/3CpvzIdToCMIZUB0BbyHd
- LtlEBKgTbf9t0S+JSwxQjhJtWBjUe9KxSYibzw38pFj55NPxbomlIVX85hyUbcBXffp1
- nndA==
+ :cc; bh=tZG4mEf3mw2LldYqTv17dYwa9Wjjf+ZQLxvryr99ssQ=;
+ b=OSFumeiBKc+QoK/T7nH7ZuJ+7ecc4ATRJh4gjXqN+qdiNWXdHBDbAyckzDH4WcfkVE
+ 7rFiEqxuA7amXuTgWvc2L1RLvkm7WeR80EtwNSFTnJIwYER+tVv98wFUwPJQ22/7ema9
+ dtw2r/5eih4LbmzQS+pkX9RuixVahNEdVQjIhSFSFB43mndwCSORBTj0WVkrHMx0GSiU
+ HMRsMVkTy8IViY2KlyQoJJeOjHrkhKfvUp96zJ9OtjCXYAQ+ZjRvbHfWXL1Adcchc6T9
+ qCyE5q5NZMdUAxkDz7BCWU0tyO/jnlVLJe+wLx4tc8pDF9pgYDrQlnaHpvSevy6VL7nT
+ I+hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=7MUXZC+mXIJp+jIPw0KzkHr23yG7+1R5ua9TjhMwqb0=;
- b=uiyLK2I6mBNghGeJ5sJHehQZKfdBi7AvwWqmIPCzTbC2ptATabvaZfbBJQ4AebCWlY
- 7VVb+OsFgkfIYAHWLHL0vYm4Wt23f4l3R6pddhKaSdQtRbokhBZZ09cOqR5XhNIHxI/p
- S22Al2Zp+OoJ9VjvVkW4poNbkRJ/LBsTecU9PqGClcHF2WDJCycWk4KLG3x5ILT41Sq9
- dGIBVqCmj+MYWyhFU+wgevMw9OokfHtEyK+jz1SQzIuGnmtAQYVvLE/IrUHrr5qeRfuG
- skqQPweZr4QO5vr1fI9aW6RK52uPoT7n9CVw7EcYlOWc0ioRYwz0ugrsU7m+JzQJ3jfT
- c12A==
-X-Gm-Message-State: AOAM530d/RDqv33Zn4FDe/yXDNYVJ8dgNINpNvpd9DnPqgiOI97mDpEI
- yjzuV0cnGSHsSGVnMLiYFjbKeIvXhm15fMoZEoI65w==
-X-Google-Smtp-Source: ABdhPJz3H82KNXgLh681T0VBPAE8qqEQ4LwDqsWUskZMFwv8IXi2uNwToRE8itt1ATIgdN79Pbb2ilqjKoUg/tHqD6I=
-X-Received: by 2002:a05:6e02:c2e:: with SMTP id
- q14mr2654604ilg.286.1598899830406; 
- Mon, 31 Aug 2020 11:50:30 -0700 (PDT)
+ bh=tZG4mEf3mw2LldYqTv17dYwa9Wjjf+ZQLxvryr99ssQ=;
+ b=RvXm0ToLrpDZQyQVQ+sa5l9PRrSnTeBxZYj+w4hIumrqHCGjUHV2nSKfaRyVS0QAnv
+ UFSoZJBT1GxAfsSqqCJvN8QyErWpM8cWS1E3uL3hkeygw/kKH+fxQjD0fzvHNXhN5m7X
+ wPmBajmfM2Pp1I5PFLdipCzV0FooC0nPHy/09Fyv9XWw1rxPRkYVGes2lYEzheA02aXm
+ 2181kIcaM6YPtwK0Hnj9maPJchT5MP6KFUipICulqKvqsZRWiuDvKGxe5J/uHvJN+3vc
+ 9Yqh9heYCwTdeahV6KnHr0BIQGpjG5e5gas/e0fxWqm3TbpnrFy7BI/KSbiidWR2Gno5
+ Jlsg==
+X-Gm-Message-State: AOAM53213wqqYfJIstQB2SjnyPLdll+xecrSF/CKnx3efPgRDgww7hK+
+ 5O/hOw0ByZRyxZnevPyUJlfJ/ve2G4DHGKFnrKn+6w==
+X-Google-Smtp-Source: ABdhPJxIiPWnxXMQpCiqqu1N8Mme9Stf2qt0uqGj5xC/i2CUKXNkiTaU+64xVwzR0m7zLdY5+J4WLRw2oquRjZ+ntNA=
+X-Received: by 2002:a17:906:2cc2:: with SMTP id
+ r2mr2223485ejr.482.1598899970530; 
+ Mon, 31 Aug 2020 11:52:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200817084955.28793-1-frank.chang@sifive.com>
- <20200817084955.28793-56-frank.chang@sifive.com>
- <d94182cc-8846-9eb6-6a93-87968d0d32c1@linaro.org>
- <2cbf253f-8fe1-d840-50f1-582767bf600c@linaro.org>
-In-Reply-To: <2cbf253f-8fe1-d840-50f1-582767bf600c@linaro.org>
-From: Chih-Min Chao <chihmin.chao@sifive.com>
-Date: Tue, 1 Sep 2020 02:50:19 +0800
-Message-ID: <CAEiOBXXY4ZMoCfo2tmLw3g6hmj6EjDXMzm_ybHd-ENC3=zTwAg@mail.gmail.com>
-Subject: Re: [RFC v4 55/70] target/riscv: rvv-1.0: single-width floating-point
- reduction
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000006c7ec905ae30e07a"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::130;
- envelope-from=chihmin.chao@sifive.com; helo=mail-il1-x130.google.com
+References: <20200825192110.3528606-1-ehabkost@redhat.com>
+ <20200831172314.GA4940@habkost.net>
+In-Reply-To: <20200831172314.GA4940@habkost.net>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 31 Aug 2020 19:52:39 +0100
+Message-ID: <CAFEAcA8QawQfy1qOpf5T-Oqj_14cOCfPQVvEh5vL-FAug3pL1A@mail.gmail.com>
+Subject: Re: [PATCH v3 00/74] qom: Automated conversion of type checking
+ boilerplate
+To: Eduardo Habkost <ehabkost@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,70 +81,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Frank Chang <frank.chang@sifive.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ David Hildenbrand <david@redhat.com>,
+ Anthony PERARD <anthony.perard@citrix.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Peter Chubb <peter.chubb@nicta.com.au>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ Richard Henderson <rth@twiddle.net>,
+ "Daniel P. Berrange" <berrange@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-ppc <qemu-ppc@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000006c7ec905ae30e07a
-Content-Type: text/plain; charset="UTF-8"
-
-On Sun, Aug 30, 2020 at 7:58 AM Richard Henderson <
-richard.henderson@linaro.org> wrote:
-
-> On 8/29/20 4:50 PM, Richard Henderson wrote:
-> > It doesn't actually say anything about the way in which we've
-> implemented the
-> > *_noprop functions.
+On Mon, 31 Aug 2020 at 18:23, Eduardo Habkost <ehabkost@redhat.com> wrote:
 >
-> Ho hum.  It seems v2.2 has changed fmin/fmax for the fpu as well.
+> On Tue, Aug 25, 2020 at 03:19:56PM -0400, Eduardo Habkost wrote:
+> > git tree for this series:
+> > https://github.com/ehabkost/qemu-hacks/tree/work/qom-macros-autoconvert
+> >
+> > This is an extension of the series previously submitted by
+> > Daniel[1], including a script that will convert existing type
+> > checker macros automatically.
 >
-> We really should fix that too...
+> I'm now queueing the following on machine-next:
 >
->
-> r~
->
->
-The noprop is implemented in below patch and could  be applied to scalar
-part
-https://patchew.org/QEMU/1597908641-6293-1-git-send-email-chihmin.chao@sifive.com/
+> [PATCH v3 44/74] imx_ccm: Rename IMX_GET_CLASS macro
+> [PATCH v3 45/74] mos6522: Rename QOM macros
+> [PATCH v3 51/74] arm: Fix typo in AARCH64_CPU_GET_CLASS definition
+> [PATCH v3 52/74] rx: Rename QOM type check macros
+> [PATCH v3 53/74] rx: Move typedef RXCPU to cpu-qom.h
 
-Chih-Min Chao
+I've just sent reviewed-bys for these ones. (Wasn't sure enough
+about the other two.)
 
---0000000000006c7ec905ae30e07a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br clear=3D"all"><div><div dir=3D"ltr" c=
-lass=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr=
-"><br></div></div></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r" class=3D"gmail_attr">On Sun, Aug 30, 2020 at 7:58 AM Richard Henderson &=
-lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.henderson@linaro=
-.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
-ex">On 8/29/20 4:50 PM, Richard Henderson wrote:<br>
-&gt; It doesn&#39;t actually say anything about the way in which we&#39;ve =
-implemented the<br>
-&gt; *_noprop functions.<br>
-<br>
-Ho hum.=C2=A0 It seems v2.2 has changed fmin/fmax for the fpu as well.<br>
-<br>
-We really should fix that too...<br>
-<br>
-<br>
-r~<br>
-<br></blockquote><div><br></div><div>The noprop is implemented in below pat=
-ch and could=C2=A0 be applied to scalar part<br><a href=3D"https://patchew.=
-org/QEMU/1597908641-6293-1-git-send-email-chihmin.chao@sifive.com/">https:/=
-/patchew.org/QEMU/1597908641-6293-1-git-send-email-chihmin.chao@sifive.com/=
-</a><br></div><div><br></div><div><span style=3D"color:rgb(136,136,136)">Ch=
-ih-Min Chao</span><div style=3D"color:rgb(136,136,136)"><br></div></div></d=
-iv></div>
-
---0000000000006c7ec905ae30e07a--
+thanks
+-- PMM
 
