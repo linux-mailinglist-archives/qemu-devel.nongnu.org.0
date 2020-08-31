@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C991A257E9F
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 18:23:29 +0200 (CEST)
-Received: from localhost ([::1]:52966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDF24257EA9
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 18:24:48 +0200 (CEST)
+Received: from localhost ([::1]:33156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCmae-0004sM-Hz
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 12:23:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34238)
+	id 1kCmbv-0008Eo-SE
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 12:24:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCmKm-0005Hl-KI
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:07:04 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:33646)
+ id 1kCmKn-0005JQ-Ci
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:07:05 -0400
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:40973)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCmKj-00063e-Gz
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:07:04 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id np15so179866pjb.0
- for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 09:07:01 -0700 (PDT)
+ id 1kCmKk-00063n-Mm
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:07:05 -0400
+Received: by mail-pf1-x42a.google.com with SMTP id t9so805511pfq.8
+ for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 09:07:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=EI+R+4tP0x4knj3otgEq+jCMs+pFcf+NyvuwzVQpXIE=;
- b=LTfocQDJ5u07X2Wa1qppcpeAo9gjdFJZotwqEDmCYgSXk7VXF1aP5+O5+0Y8vHN1Ie
- sI8upcUbTY0yNb3f2AlTRRIMztnxHUg3LZNbZzD3dRqsslvYe1gDNIlooVjwW8B2LTUY
- aq/akQXn7GuAT72sxUS3jZNLV4IxdFrVYmyx8jcLe+qCqurIZHVrH7xiST8xRhHW3GuS
- oRBdZHw+6X12VZDJcEDPPIwjZMueY9chw/SgNNNB7X+iziz7S6b6KnWIeiN8GhC3drKn
- 4ulINwb8D2ByUsCJs2hpHltpA2gOCGdHKaS9aDCcWTD1X81IduchM7IEjqBjdn/BJBfW
- WY4A==
+ bh=rWOc9BwUZsVi//eDSn3YgBVyZRgNAuFh68+VKq4fp/Q=;
+ b=LD+/DsM68XC5buvs7Xbjn9dT4H3XqujGlPzBqjCCljAsvMWOlBzBtxKiJblJV9bxeb
+ DHu9OneExkDDpo7P6UzWJ1a6b3gN5Z5S4GmicVGazw9yPeRqkWxG9qeF+VcO5vBMSwSH
+ smoQ2+vknkB6VcVaW3twQTzocKwZk34FeHXGs/5pd9OijKBT08ge+J7wyqwW9L91la9i
+ YklEKvbhbCku64qbemYdcSmAJMF8AVDCSXNtUHRnmHF2Bqzw7MUAdC9QP8bD9xy4Dl2U
+ ufA+UYNv+q2j6FSdPCU7doAmD6n1NbCQhColaZI4Z+1ARmrcFv51kYJwyJZ+FE4NuC1m
+ 2Svg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=EI+R+4tP0x4knj3otgEq+jCMs+pFcf+NyvuwzVQpXIE=;
- b=aMBAu3LPizcO0gChoe1D2Os1RZlawMuiyO/AQnk6kfBXqSNon+SOgydxeXf6yYZgSb
- A1vDwIs95BzBLSSTTULNxuUYh+ceTfWjm/lWjorKMi4h2JKBJEiiWlfiWdQEwfHzQwWy
- UPK1wQz8o/LYZl/jlqeg1CclhGaS0wQbiEpgg5XBU/CEGORsNfKMurHo9eMl0kq4rV9S
- 9Y0MBh2dHEpnFgnkpOcqlj2XFvOD1Zj47hm7XpfOXzaMnvERfJ6UFZmtpVP1xZm3tAj3
- BERJ9PHXcxm+pXQjDfRxVuDCSlCx2Hu/B58FOtBul0iyhuP5WuxtUdznr3LVfO0L1sWE
- XKEg==
-X-Gm-Message-State: AOAM532CJ4VXzEiq8I4lU2lzX/bVVFEVd1nfSb3OHbKGKQMPJUwDITR5
- o9cgsMzAvzrSO7BX7DdVWyR7IZ5NgTI/fQ==
-X-Google-Smtp-Source: ABdhPJxSQ4hkTbCVwdXWubraq1s8aFldA8QMjrXDszXZAdNcazg0Cy2QxvNeIIZ4boI6u8vKAtMc+g==
-X-Received: by 2002:a17:90a:384c:: with SMTP id l12mr73115pjf.27.1598890019651; 
- Mon, 31 Aug 2020 09:06:59 -0700 (PDT)
+ bh=rWOc9BwUZsVi//eDSn3YgBVyZRgNAuFh68+VKq4fp/Q=;
+ b=fiBi9AmD5s7dtm4rGthFvHhYFhD8umDZ7EyyNWgrhBAay2/JCWtIRru55osHMIX4IW
+ wEPX8ybsnVXkN8m3BOZxNfKH9swR9oajPxE44UKPUuhUAh/QsEEqcaeiSjoUxa/KOcaA
+ TEXgJkK/ZYwiH1eoQcNqrtmXpLEfQJzvE09+Yp8it1dCSuIMxiuTWwUFh2iGHnhMI5nw
+ nZLIKVH5sXkaoVOhmUwueCARZpkrtp9QdA3z1vIc7W1ff3PGy4afG4y0mx7OgIXi3/Aa
+ ETBkZgzQeqTUDTDwc+Ue0/4cEIS2FfFW5Uep0arkb+SUHD0l4waLuHNDnI6MpRQ4U4Js
+ xFlA==
+X-Gm-Message-State: AOAM530gSuqxKJnyFD2Szs5v1WAC81C5XRnTXvDjxSElH9BkLMi9i60c
+ JuBQ7UXt+S1d+nSIC2MfnrYQEJPA5Ntpig==
+X-Google-Smtp-Source: ABdhPJxn3G7rL/Mvq5vfAM+WLA+6aQ3OSmJd6YS3qazc7FSu3UvMH59KeTZIiJZMs4YKKOEDWIlEFw==
+X-Received: by 2002:a63:4b61:: with SMTP id k33mr1708075pgl.195.1598890020925; 
+ Mon, 31 Aug 2020 09:07:00 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id gt13sm17218pjb.43.2020.08.31.09.06.58
+ by smtp.gmail.com with ESMTPSA id gt13sm17218pjb.43.2020.08.31.09.06.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Aug 2020 09:06:58 -0700 (PDT)
+ Mon, 31 Aug 2020 09:07:00 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 41/76] target/microblaze: Convert dec_mul to decodetree
-Date: Mon, 31 Aug 2020 09:05:26 -0700
-Message-Id: <20200831160601.833692-42-richard.henderson@linaro.org>
+Subject: [PULL 42/76] target/microblaze: Convert dec_div to decodetree
+Date: Mon, 31 Aug 2020 09:05:27 -0700
+Message-Id: <20200831160601.833692-43-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200831160601.833692-1-richard.henderson@linaro.org>
 References: <20200831160601.833692-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,136 +92,84 @@ Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/insns.decode |  6 +++
- target/microblaze/translate.c  | 77 ++++++++++++++--------------------
- 2 files changed, 37 insertions(+), 46 deletions(-)
+ target/microblaze/insns.decode |  3 +++
+ target/microblaze/translate.c  | 35 +++++++++++++---------------------
+ 2 files changed, 16 insertions(+), 22 deletions(-)
 
 diff --git a/target/microblaze/insns.decode b/target/microblaze/insns.decode
-index 93bd51c78b..1a2e22e44a 100644
+index 1a2e22e44a..b2dcbdf784 100644
 --- a/target/microblaze/insns.decode
 +++ b/target/microblaze/insns.decode
-@@ -50,6 +50,12 @@ andni           101011 ..... ..... ................     @typeb
+@@ -50,6 +50,9 @@ andni           101011 ..... ..... ................     @typeb
  cmp             000101 ..... ..... ..... 000 0000 0001  @typea
  cmpu            000101 ..... ..... ..... 000 0000 0011  @typea
  
-+mul             010000 ..... ..... ..... 000 0000 0000  @typea
-+mulh            010000 ..... ..... ..... 000 0000 0001  @typea
-+mulhu           010000 ..... ..... ..... 000 0000 0011  @typea
-+mulhsu          010000 ..... ..... ..... 000 0000 0010  @typea
-+muli            011000 ..... ..... ................     @typeb
++idiv            010010 ..... ..... ..... 000 0000 0000  @typea
++idivu           010010 ..... ..... ..... 000 0000 0010  @typea
 +
- or              100000 ..... ..... ..... 000 0000 0000  @typea
- ori             101000 ..... ..... ................     @typeb
- 
+ mul             010000 ..... ..... ..... 000 0000 0000  @typea
+ mulh            010000 ..... ..... ..... 000 0000 0001  @typea
+ mulhu           010000 ..... ..... ..... 000 0000 0011  @typea
 diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index a143f17e9d..617e208583 100644
+index 617e208583..9763b9d77c 100644
 --- a/target/microblaze/translate.c
 +++ b/target/microblaze/translate.c
-@@ -287,6 +287,10 @@ static bool do_typeb_val(DisasContext *dc, arg_typeb *arg, bool side_effects,
-     static bool trans_##NAME(DisasContext *dc, arg_typeb *a) \
-     { return do_typeb_imm(dc, a, SE, FNI); }
- 
-+#define DO_TYPEBI_CFG(NAME, CFG, SE, FNI) \
-+    static bool trans_##NAME(DisasContext *dc, arg_typeb *a) \
-+    { return dc->cpu->cfg.CFG && do_typeb_imm(dc, a, SE, FNI); }
-+
- #define DO_TYPEBV(NAME, SE, FN) \
-     static bool trans_##NAME(DisasContext *dc, arg_typeb *a) \
-     { return do_typeb_val(dc, a, SE, FN); }
-@@ -364,6 +368,33 @@ static void gen_cmpu(TCGv_i32 out, TCGv_i32 ina, TCGv_i32 inb)
+@@ -368,6 +368,19 @@ static void gen_cmpu(TCGv_i32 out, TCGv_i32 ina, TCGv_i32 inb)
  DO_TYPEA(cmp, false, gen_cmp)
  DO_TYPEA(cmpu, false, gen_cmpu)
  
-+static void gen_mulh(TCGv_i32 out, TCGv_i32 ina, TCGv_i32 inb)
++static void gen_idiv(TCGv_i32 out, TCGv_i32 ina, TCGv_i32 inb)
 +{
-+    TCGv_i32 tmp = tcg_temp_new_i32();
-+    tcg_gen_muls2_i32(tmp, out, ina, inb);
-+    tcg_temp_free_i32(tmp);
++    gen_helper_divs(out, cpu_env, inb, ina);
 +}
 +
-+static void gen_mulhu(TCGv_i32 out, TCGv_i32 ina, TCGv_i32 inb)
++static void gen_idivu(TCGv_i32 out, TCGv_i32 ina, TCGv_i32 inb)
 +{
-+    TCGv_i32 tmp = tcg_temp_new_i32();
-+    tcg_gen_mulu2_i32(tmp, out, ina, inb);
-+    tcg_temp_free_i32(tmp);
++    gen_helper_divu(out, cpu_env, inb, ina);
 +}
 +
-+static void gen_mulhsu(TCGv_i32 out, TCGv_i32 ina, TCGv_i32 inb)
-+{
-+    TCGv_i32 tmp = tcg_temp_new_i32();
-+    tcg_gen_mulsu2_i32(tmp, out, ina, inb);
-+    tcg_temp_free_i32(tmp);
-+}
++DO_TYPEA_CFG(idiv, use_div, true, gen_idiv)
++DO_TYPEA_CFG(idivu, use_div, true, gen_idivu)
 +
-+DO_TYPEA_CFG(mul, use_hw_mul, false, tcg_gen_mul_i32)
-+DO_TYPEA_CFG(mulh, use_hw_mul >= 2, false, gen_mulh)
-+DO_TYPEA_CFG(mulhu, use_hw_mul >= 2, false, gen_mulhu)
-+DO_TYPEA_CFG(mulhsu, use_hw_mul >= 2, false, gen_mulhsu)
-+DO_TYPEBI_CFG(muli, use_hw_mul, false, tcg_gen_muli_i32)
-+
- DO_TYPEA(or, false, tcg_gen_or_i32)
- DO_TYPEBI(ori, false, tcg_gen_ori_i32)
- 
-@@ -652,51 +683,6 @@ static void dec_msr(DisasContext *dc)
+ static void gen_mulh(TCGv_i32 out, TCGv_i32 ina, TCGv_i32 inb)
+ {
+     TCGv_i32 tmp = tcg_temp_new_i32();
+@@ -683,27 +696,6 @@ static void dec_msr(DisasContext *dc)
      }
  }
  
--/* Multiplier unit.  */
--static void dec_mul(DisasContext *dc)
+-/* Div unit.  */
+-static void dec_div(DisasContext *dc)
 -{
--    TCGv_i32 tmp;
--    unsigned int subcode;
+-    unsigned int u;
 -
--    if (trap_illegal(dc, !dc->cpu->cfg.use_hw_mul)) {
+-    u = dc->imm & 2; 
+-
+-    if (trap_illegal(dc, !dc->cpu->cfg.use_div)) {
 -        return;
 -    }
 -
--    subcode = dc->imm & 3;
--
--    if (dc->type_b) {
--        tcg_gen_mul_i32(cpu_R[dc->rd], cpu_R[dc->ra], *(dec_alu_op_b(dc)));
--        return;
--    }
--
--    /* mulh, mulhsu and mulhu are not available if C_USE_HW_MUL is < 2.  */
--    if (subcode >= 1 && subcode <= 3 && dc->cpu->cfg.use_hw_mul < 2) {
--        /* nop??? */
--    }
--
--    tmp = tcg_temp_new_i32();
--    switch (subcode) {
--        case 0:
--            tcg_gen_mul_i32(cpu_R[dc->rd], cpu_R[dc->ra], cpu_R[dc->rb]);
--            break;
--        case 1:
--            tcg_gen_muls2_i32(tmp, cpu_R[dc->rd],
--                              cpu_R[dc->ra], cpu_R[dc->rb]);
--            break;
--        case 2:
--            tcg_gen_mulsu2_i32(tmp, cpu_R[dc->rd],
--                               cpu_R[dc->ra], cpu_R[dc->rb]);
--            break;
--        case 3:
--            tcg_gen_mulu2_i32(tmp, cpu_R[dc->rd], cpu_R[dc->ra], cpu_R[dc->rb]);
--            break;
--        default:
--            cpu_abort(CPU(dc->cpu), "unknown MUL insn %x\n", subcode);
--            break;
--    }
--    tcg_temp_free_i32(tmp);
+-    if (u)
+-        gen_helper_divu(cpu_R[dc->rd], cpu_env, *(dec_alu_op_b(dc)),
+-                        cpu_R[dc->ra]);
+-    else
+-        gen_helper_divs(cpu_R[dc->rd], cpu_env, *(dec_alu_op_b(dc)),
+-                        cpu_R[dc->ra]);
+-    if (!dc->rd)
+-        tcg_gen_movi_i32(cpu_R[dc->rd], 0);
 -}
 -
- /* Div unit.  */
- static void dec_div(DisasContext *dc)
+ static void dec_barrel(DisasContext *dc)
  {
-@@ -1579,7 +1565,6 @@ static struct decoder_info {
+     TCGv_i32 t0;
+@@ -1565,7 +1557,6 @@ static struct decoder_info {
      {DEC_BCC, dec_bcc},
      {DEC_RTS, dec_rts},
      {DEC_FPU, dec_fpu},
--    {DEC_MUL, dec_mul},
-     {DEC_DIV, dec_div},
+-    {DEC_DIV, dec_div},
      {DEC_MSR, dec_msr},
      {DEC_STREAM, dec_stream},
+     {{0, 0}, dec_null}
 -- 
 2.25.1
 
