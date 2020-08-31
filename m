@@ -2,62 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B16A5257DEE
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 17:50:06 +0200 (CEST)
-Received: from localhost ([::1]:52590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3373C257E0E
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 17:57:04 +0200 (CEST)
+Received: from localhost ([::1]:36304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCm4L-0007OP-6A
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 11:50:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56154)
+	id 1kCmB4-0004u0-Um
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 11:57:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kCm3G-0005mJ-Ub
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 11:49:00 -0400
-Received: from mail-ej1-f67.google.com ([209.85.218.67]:46608)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kCm3E-0003Km-Ky
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 11:48:57 -0400
-Received: by mail-ej1-f67.google.com with SMTP id d11so9088367ejt.13
- for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 08:48:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9JbQ2L5CEXviABFZjA1WI+SKVNA86hi2b5i361b601Q=;
- b=dBxqkhThuFWq3ToinFatB0Br8+vfldqzmtarQliJ1e7XG4k4hw7Pt1zOlSfA+5bdmw
- XYmROB3i+S36Th/CotUuryIQMGLVSP+mgumiB0vBmlmDg5b8ok/jUhEjeoeY1ZTi8uxq
- ZgCMonjCQKkSX3BgWW7rHV6U8u7Q/EHFX3DSEZHJJOVPQV/gr0tF9z9TwZjy7zhrV/cf
- AEDB5X189IADiQ8CMqQMDM79Vj4jmpgBPV/iM4wCmZpxhUhYhcx8hzIX9HSHHjRaQVPB
- OEJbjFIhpnjhRKSuahP5K3FlDbDQDEF93hwxW4aUNX7cwK6blJhwwHmoPd6H2o2aPqBB
- 6/Lg==
-X-Gm-Message-State: AOAM5313bZtseZ3mK9u5E8D0NYufHD9s07wRzzGNIqozWKD4JwwRo4jP
- l+Vqo89tR8diNyzD8Ami3AumQtUWFJyAw8/Q4Ys=
-X-Google-Smtp-Source: ABdhPJxraFIhltL/UNhPf7KlPnLp6mGafr5LttLnjKtHQSDdQ+JqcJ1cPe+DVP9/PIYY64qSVIgdaP11V5198Z1bydA=
-X-Received: by 2002:a17:906:c1c3:: with SMTP id
- bw3mr1773968ejb.8.1598888934768; 
- Mon, 31 Aug 2020 08:48:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kCmAN-0004MD-Cu; Mon, 31 Aug 2020 11:56:19 -0400
+Resent-Date: Mon, 31 Aug 2020 11:56:19 -0400
+Resent-Message-Id: <E1kCmAN-0004MD-Cu@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21720)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kCmAK-0004e9-IZ; Mon, 31 Aug 2020 11:56:19 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1598889362; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Z8aoeyRkdtPN0CuijzLuA26AfQ82Zyp8XjDSO0bhJn27EAq/ZJgishAFIhjPFAHdCofVN8tGjhYanFbxbdsMUx2BgZ4r2e5eGT4MYS05yEekSknQP2Kbn9pt7TEqBtCtnTz+oDJSoFdeUZlUrs/TpVut1Wv8KdPJxOav+1wOAsY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1598889362;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=Rnd08LyEVdrnwdntxiYUK1EjcKAm9yTwumZnz4Vw7ZY=; 
+ b=ZuPJEGWYxjntmSpCerWl/LdSOLjLjtjwtLFFatwVlsCbJu884NhDCJJ5liq2juLKa/Sisfdfde9gVsigoIZ+6MM+bwXtL1AHoe6SPrV1Fbb2FoCxcS+s/72kvW34/jUw8pgFM54aRrPqKPfPhHv8nGRt/tlxC2m5gK61HWbvvY8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 159888935900611.333334314656895;
+ Mon, 31 Aug 2020 08:55:59 -0700 (PDT)
+Subject: Re: [PATCH 0/2] Replace posix_fallocate() with falloate()
+Message-ID: <159888935774.27000.4901880719963125119@66eaa9a8a123>
+In-Reply-To: <20200831140127.657134-1-nsoffer@redhat.com>
 MIME-Version: 1.0
-References: <20200830204640.482214-1-sw@weilnetz.de>
-In-Reply-To: <20200830204640.482214-1-sw@weilnetz.de>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Mon, 31 Aug 2020 17:48:13 +0200
-Message-ID: <CAAdtpL5eOO8JDZgGL-PzoM1UE2mshb+y7zNuQ+DdgtUdTgej6g@mail.gmail.com>
-Subject: Re: [PATCH] meson: add pixman dependency to chardev/baum module
-To: Stefan Weil <sw@weilnetz.de>
-Content-Type: multipart/alternative; boundary="000000000000fe055805ae2e560f"
-Received-SPF: pass client-ip=209.85.218.67;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-f67.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 11:48:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -15
-X-Spam_score: -1.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: nirsof@gmail.com
+Date: Mon, 31 Aug 2020 08:55:59 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 11:56:12
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,108 +67,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, armbru@redhat.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, nsoffer@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000fe055805ae2e560f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Le dim. 30 ao=C3=BBt 2020 22:47, Stefan Weil <sw@weilnetz.de> a =C3=A9crit =
-:
-
-> Signed-off-by: Stefan Weil <sw@weilnetz.de>
->
-
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-
----
->
->
-> Together with Paolo's patch (https://patchwork.kernel.org/patch/11745207/=
-)
-> this fixed the build with --enable-modules for me.
->
-> Stefan
->
->
->  chardev/meson.build | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/chardev/meson.build b/chardev/meson.build
-> index 7726837e34..27a9a28f4c 100644
-> --- a/chardev/meson.build
-> +++ b/chardev/meson.build
-> @@ -38,7 +38,7 @@ chardev_modules =3D {}
->
->  if config_host.has_key('CONFIG_BRLAPI') and sdl.found()
->    module_ss =3D ss.source_set()
-> -  module_ss.add(when: [sdl, brlapi], if_true: files('baum.c'))
-> +  module_ss.add(when: [sdl, brlapi], if_true: [files('baum.c'), pixman])
->    chardev_modules +=3D { 'baum': module_ss }
->  endif
->
-> --
-> 2.28.0
->
->
->
-
---000000000000fe055805ae2e560f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
-s=3D"gmail_attr">Le dim. 30 ao=C3=BBt 2020 22:47, Stefan Weil &lt;<a href=
-=3D"mailto:sw@weilnetz.de">sw@weilnetz.de</a>&gt; a =C3=A9crit=C2=A0:<br></=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
-t:1px #ccc solid;padding-left:1ex">Signed-off-by: Stefan Weil &lt;<a href=
-=3D"mailto:sw@weilnetz.de" target=3D"_blank" rel=3D"noreferrer">sw@weilnetz=
-.de</a>&gt;<br></blockquote></div></div><div dir=3D"auto"><br></div><div di=
-r=3D"auto"><span style=3D"font-family:sans-serif;font-size:13.696px">Review=
-ed-by: Philippe Mathieu-Daud=C3=A9 &lt;</span><a href=3D"mailto:f4bug@amsat=
-.org" style=3D"text-decoration:none;color:rgb(66,133,244);font-family:sans-=
-serif;font-size:13.696px">f4bug@amsat.org</a><span style=3D"font-family:san=
-s-serif;font-size:13.696px">&gt;</span><br></div><div dir=3D"auto"><br></di=
-v><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1e=
-x">
----<br>
-<br>
-<br>
-Together with Paolo&#39;s patch (<a href=3D"https://patchwork.kernel.org/pa=
-tch/11745207/" rel=3D"noreferrer noreferrer" target=3D"_blank">https://patc=
-hwork.kernel.org/patch/11745207/</a>)<br>
-this fixed the build with --enable-modules for me.<br>
-<br>
-Stefan<br>
-<br>
-<br>
-=C2=A0chardev/meson.build | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/chardev/meson.build b/chardev/meson.build<br>
-index 7726837e34..27a9a28f4c 100644<br>
---- a/chardev/meson.build<br>
-+++ b/chardev/meson.build<br>
-@@ -38,7 +38,7 @@ chardev_modules =3D {}<br>
-<br>
-=C2=A0if config_host.has_key(&#39;CONFIG_BRLAPI&#39;) and sdl.found()<br>
-=C2=A0 =C2=A0module_ss =3D ss.source_set()<br>
--=C2=A0 module_ss.add(when: [sdl, brlapi], if_true: files(&#39;baum.c&#39;)=
-)<br>
-+=C2=A0 module_ss.add(when: [sdl, brlapi], if_true: [files(&#39;baum.c&#39;=
-), pixman])<br>
-=C2=A0 =C2=A0chardev_modules +=3D { &#39;baum&#39;: module_ss }<br>
-=C2=A0endif<br>
-<br>
--- <br>
-2.28.0<br>
-<br>
-<br>
-</blockquote></div></div></div>
-
---000000000000fe055805ae2e560f--
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDgzMTE0MDEyNy42NTcx
+MzQtMS1uc29mZmVyQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2
+ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBp
+bmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIwMDgzMTE0MDEyNy42NTcx
+MzQtMS1uc29mZmVyQHJlZGhhdC5jb20KU3ViamVjdDogW1BBVENIIDAvMl0gUmVwbGFjZSBwb3Np
+eF9mYWxsb2NhdGUoKSB3aXRoIGZhbGxvYXRlKCkKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0K
+IyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQg
+Y29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZm
+LnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFt
+Ci4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQ
+VCBFTkQgPT09CgpGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQog
+KiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjAwODMxMTQwMTI3LjY1NzEzNC0xLW5zb2Zm
+ZXJAcmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIwMjAwODMxMTQwMTI3LjY1NzEzNC0xLW5zb2ZmZXJA
+cmVkaGF0LmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjcwZTM1ZWQgYmxvY2s6
+IGZpbGUtcG9zaXg6IFJlcGxhY2UgcG9zaXhfZmFsbG9jYXRlIHdpdGggZmFsbG9jYXRlCjM1ZDg5
+ZDEgYmxvY2s6IGZpbGUtcG9zaXg6IEV4dHJhY3QgcHJlYWxsb2NhdGUgaGVscGVycwoKPT09IE9V
+VFBVVCBCRUdJTiA9PT0KMS8yIENoZWNraW5nIGNvbW1pdCAzNWQ4OWQxMzAwZTQgKGJsb2NrOiBm
+aWxlLXBvc2l4OiBFeHRyYWN0IHByZWFsbG9jYXRlIGhlbHBlcnMpCkVSUk9SOiBicmFjZXMge30g
+YXJlIG5lY2Vzc2FyeSBmb3IgYWxsIGFybXMgb2YgdGhpcyBzdGF0ZW1lbnQKIzMzOiBGSUxFOiBi
+bG9jay9maWxlLXBvc2l4LmM6MTg0MToKKyAgICBpZiAob2Zmc2V0ID09IGN1cnJlbnRfbGVuZ3Ro
+KQpbLi4uXQoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCAyMzQgbGluZXMgY2hlY2tlZAoK
+UGF0Y2ggMS8yIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0
+aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRh
+aW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgoyLzIgQ2hlY2tpbmcgY29tbWl0
+IDcwZTM1ZWRhNWJjOSAoYmxvY2s6IGZpbGUtcG9zaXg6IFJlcGxhY2UgcG9zaXhfZmFsbG9jYXRl
+IHdpdGggZmFsbG9jYXRlKQpFUlJPUjogYnJhY2VzIHt9IGFyZSBuZWNlc3NhcnkgZm9yIGFsbCBh
+cm1zIG9mIHRoaXMgc3RhdGVtZW50CiMxMTA6IEZJTEU6IGJsb2NrL2ZpbGUtcG9zaXguYzoxOTY3
+OgorICAgICAgICBpZiAocmVzdWx0ICE9IC1FTk9UU1VQKQpbLi4uXQoKdG90YWw6IDEgZXJyb3Jz
+LCAwIHdhcm5pbmdzLCAxMDggbGluZXMgY2hlY2tlZAoKUGF0Y2ggMi8yIGhhcyBzdHlsZSBwcm9i
+bGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBv
+c2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4g
+TUFJTlRBSU5FUlMuCgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0
+aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5v
+cmcvbG9ncy8yMDIwMDgzMTE0MDEyNy42NTcxMzQtMS1uc29mZmVyQHJlZGhhdC5jb20vdGVzdGlu
+Zy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGlj
+YWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIg
+ZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
