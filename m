@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 636A2257E94
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 18:22:10 +0200 (CEST)
-Received: from localhost ([::1]:44980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49C6A257E76
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 18:18:22 +0200 (CEST)
+Received: from localhost ([::1]:52246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCmZN-0001j7-ER
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 12:22:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34042)
+	id 1kCmVh-0001je-8K
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 12:18:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCmKY-0004kJ-Tn
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:06:51 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:40493)
+ id 1kCmKb-0004p9-32
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:06:53 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:35325)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCmKX-00061d-0J
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:06:50 -0400
-Received: by mail-pg1-x541.google.com with SMTP id h12so831243pgm.7
- for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 09:06:48 -0700 (PDT)
+ id 1kCmKY-00061z-Rv
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:06:52 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id g6so32498pjl.0
+ for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 09:06:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8/3WDLS8b0IqACNGFAn6ZPwsL1jv2U3misGXJGmlm9U=;
- b=hMjqixW8wDfqzZh/oashrCrrsp68fpjiMQZgyeyawZUWBq0GA1a+r33mBfmk4z8pqQ
- u9oR7vLexxWV56ZhLsSsXwDBpv4+wuW2GhP1isW1SheE1rQVsG07vxE6aoyK3yJg7g8P
- lrRDbNMbk28bUyC4UDpPAdtcxPBejNHw+Fvtrc0x6jeuM2oyNL+eauE+a0mAEG2DpfUv
- ViwWyy7sVzGKNno46llcwb0O6qyiyptJ3cXftXxZKhIKaVRFUT+tbiqxQey7D41MjvsA
- vGKevJTS/YHZaCmQ9ubzPB1S7cCif62XHLTuf3sRZrJMQd4OqPpqPRBCBxUgmYHq35Qw
- J4Pg==
+ bh=y+eHAmaw1Ds6wITBRFmUibj1vZ5XgTDmW3pkg4vTY5U=;
+ b=BVSrvxe9v2grqSgRm2a3V5aH/USa2T8Pu6godMXVxUVZx7JZiRPV2GhmF6YrihqzcC
+ /NPNPw+BGxPI3hs7rHvPPilUGTFvJrUsWZ+5f4xh6OCYfNCZUemsqscBqdm9HKSC5Y2B
+ 9rmVWcahNJgXID/r39uqnVKCM8sBjGP27eAqcdJPaMEOt00bP2omsBpt6AZ2pwid1KIC
+ llvTtf6Cp0pejsmDOniDY15218dvW3o5hfMD44QnhbUmXk6NWwS5jKd4qm8GnjLJ10Em
+ v/Q2yc73HbLv1Htrc+tTrtozmg3e6MGvxAHrIp2D6xPhfhd8GJXLpq5rCMF3ngUUmzWu
+ FyKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8/3WDLS8b0IqACNGFAn6ZPwsL1jv2U3misGXJGmlm9U=;
- b=VzLmafOw4VPqyGH2NK+0HlyZsOPOYG30WVvoiwEpOnrnlIa3eGPFZWq1jmOI/CEGu/
- DYx9dfRG09Lmcw3UEn/IfKEAIrKRYNrCC8ubqgsN4OELfW2+oc4VBtB64ULcwflHKuum
- EOvuv6cKOLminQrMG6WnKaKdAT45HemWsN691rp4nssYFZ3+ebskAxrLvDHU99ao6ZrV
- w38xDzTSexQlnLZkaJtnkpAfOILf5T8rqze04sy9TINMiUhvj48S96nhg2i4PjSjmG62
- SNfrCk6Yr8dAWQnIAWEOxneEoGqBXwGWTJ/gwt7JUxC0tvqxohprNz3ANi48D2e4E7Lu
- 0VAQ==
-X-Gm-Message-State: AOAM5333dlKneUhGDiAsp2CzrDhbe0/xZduiMQVmTqToJyENoxHWYLx+
- eZZ135if/3Gh4+CxUhvh/DDxL0CtZtqh9A==
-X-Google-Smtp-Source: ABdhPJxZxdjiuSwfRvw+un39hcKojONKMAq+OXWJSL9baldA/a9tj0Uyy7QbzZak+5+iOLBefgELSA==
-X-Received: by 2002:a62:928d:: with SMTP id o135mr1888007pfd.22.1598890006946; 
- Mon, 31 Aug 2020 09:06:46 -0700 (PDT)
+ bh=y+eHAmaw1Ds6wITBRFmUibj1vZ5XgTDmW3pkg4vTY5U=;
+ b=i1oggWDgt2rOVrmyHN+Co4tuz9ccbkXF3hZw6uXz41W4miNiWu/7ZhubQWHddwSFKz
+ NeVRWBA8pX1FIY5fRPJEGomqoixmN7ZYuMb/AMiF1CeTGjPRtPVev8vBZ9p1RdmNfDgd
+ dS5kGLH7mIyFID2UvLYZZAkufBG+aSUa1E2DviRi2j5VLw55/ytdWkDhprRHbRwDPKoM
+ OvSoCPyspz1YMueUkCwS9T3k5wGWVy62mCQPjoUmOD/Xy/F2unNilDODqmZJh0TNJhsM
+ SX0O34c/DJLh6/+GzmUxNWBMsxDJshFWp9kJTHtQzZfY2TZ8h3q1BcaQm0ED2qgKh+I+
+ O2UQ==
+X-Gm-Message-State: AOAM531gAoAMRDC3C+TLzzJZ1uNcWeCIrzK2FuWyGL6r9PnWsEUCqPtX
+ K/+CTmoGjkZQgkHgWcNcdzv5FAh4J+aJnQ==
+X-Google-Smtp-Source: ABdhPJxdtHUgSUqLLr3olh7w0uPSCVZB3+cs/4W/mVOv1UpiNFIGsayFwscFtdec0/rvaugBeWAiLg==
+X-Received: by 2002:a17:90a:fb52:: with SMTP id
+ iq18mr93128pjb.162.1598890008607; 
+ Mon, 31 Aug 2020 09:06:48 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id gt13sm17218pjb.43.2020.08.31.09.06.45
+ by smtp.gmail.com with ESMTPSA id gt13sm17218pjb.43.2020.08.31.09.06.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Aug 2020 09:06:46 -0700 (PDT)
+ Mon, 31 Aug 2020 09:06:47 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 32/76] target/microblaze: Remove empty D macros
-Date: Mon, 31 Aug 2020 09:05:17 -0700
-Message-Id: <20200831160601.833692-33-richard.henderson@linaro.org>
+Subject: [PULL 33/76] target/microblaze: Remove LOG_DIS
+Date: Mon, 31 Aug 2020 09:05:18 -0700
+Message-Id: <20200831160601.833692-34-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200831160601.833692-1-richard.henderson@linaro.org>
 References: <20200831160601.833692-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x541.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,88 +89,361 @@ Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is never used in op_helper.c and translate.c.  There are
-two trivial uses in helper.c which can be improved by always
-logging MMU_EXCP to CPU_LOG_INT.
+Also remove the related defines, DISAS_MB and DEBUG_DISAS.
+Rely on print_insn_microblaze.
 
 Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/helper.c    | 11 ++++-------
- target/microblaze/op_helper.c |  2 --
- target/microblaze/translate.c |  2 --
- 3 files changed, 4 insertions(+), 11 deletions(-)
+ target/microblaze/translate.c | 78 +----------------------------------
+ 1 file changed, 1 insertion(+), 77 deletions(-)
 
-diff --git a/target/microblaze/helper.c b/target/microblaze/helper.c
-index 9a95456401..f8e2ca12a9 100644
---- a/target/microblaze/helper.c
-+++ b/target/microblaze/helper.c
-@@ -24,8 +24,6 @@
- #include "qemu/host-utils.h"
- #include "exec/log.h"
- 
--#define D(x)
--
- #if defined(CONFIG_USER_ONLY)
- 
- void mb_cpu_do_interrupt(CPUState *cs)
-@@ -155,10 +153,13 @@ void mb_cpu_do_interrupt(CPUState *cs)
-         case EXCP_MMU:
-             env->regs[17] = env->pc;
- 
-+            qemu_log_mask(CPU_LOG_INT,
-+                          "MMU exception at pc=%x iflags=%x ear=%" PRIx64 "\n",
-+                          env->pc, env->iflags, env->ear);
-+
-             env->esr &= ~(1 << 12);
-             /* Exception breaks branch + dslot sequence?  */
-             if (env->iflags & D_FLAG) {
--                D(qemu_log("D_FLAG set at exception bimm=%d\n", env->bimm));
-                 env->esr |= 1 << 12 ;
-                 env->btr = env->btarget;
- 
-@@ -166,14 +167,10 @@ void mb_cpu_do_interrupt(CPUState *cs)
-                 env->regs[17] -= 4;
-                 /* was the branch immprefixed?.  */
-                 if (env->bimm) {
--                    qemu_log_mask(CPU_LOG_INT,
--                                  "bimm exception at pc=%x iflags=%x\n",
--                                  env->pc, env->iflags);
-                     env->regs[17] -= 4;
-                     log_cpu_state_mask(CPU_LOG_INT, cs, 0);
-                 }
-             } else if (env->iflags & IMM_FLAG) {
--                D(qemu_log("IMM_FLAG set at exception\n"));
-                 env->regs[17] -= 4;
-             }
- 
-diff --git a/target/microblaze/op_helper.c b/target/microblaze/op_helper.c
-index d79202c3f8..decdca0fd8 100644
---- a/target/microblaze/op_helper.c
-+++ b/target/microblaze/op_helper.c
-@@ -26,8 +26,6 @@
- #include "exec/cpu_ldst.h"
- #include "fpu/softfloat.h"
- 
--#define D(x)
--
- void helper_put(uint32_t id, uint32_t ctrl, uint32_t data)
- {
-     int test = ctrl & STREAM_TEST;
 diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index 6757720776..860859324a 100644
+index 860859324a..133ec24870 100644
 --- a/target/microblaze/translate.c
 +++ b/target/microblaze/translate.c
-@@ -41,8 +41,6 @@
- #  define LOG_DIS(...) do { } while (0)
- #endif
+@@ -33,14 +33,6 @@
+ #include "trace-tcg.h"
+ #include "exec/log.h"
  
--#define D(x)
+-
+-#define DISAS_MB 1
+-#if DISAS_MB
+-#  define LOG_DIS(...) qemu_log_mask(CPU_LOG_TB_IN_ASM, ## __VA_ARGS__)
+-#else
+-#  define LOG_DIS(...) do { } while (0)
+-#endif
 -
  #define EXTRACT_FIELD(src, start, end) \
              (((src) >> start) & ((1 << (end - start + 1)) - 1))
  
+@@ -205,10 +197,6 @@ static void dec_add(DisasContext *dc)
+     k = dc->opcode & 4;
+     c = dc->opcode & 2;
+ 
+-    LOG_DIS("add%s%s%s r%d r%d r%d\n",
+-            dc->type_b ? "i" : "", k ? "k" : "", c ? "c" : "",
+-            dc->rd, dc->ra, dc->rb);
+-
+     /* Take care of the easy cases first.  */
+     if (k) {
+         /* k - keep carry, no need to update MSR.  */
+@@ -252,7 +240,6 @@ static void dec_sub(DisasContext *dc)
+     cmp = (dc->imm & 1) && (!dc->type_b) && k;
+ 
+     if (cmp) {
+-        LOG_DIS("cmp%s r%d, r%d ir=%x\n", u ? "u" : "", dc->rd, dc->ra, dc->ir);
+         if (dc->rd) {
+             if (u)
+                 gen_helper_cmpu(cpu_R[dc->rd], cpu_R[dc->ra], cpu_R[dc->rb]);
+@@ -262,9 +249,6 @@ static void dec_sub(DisasContext *dc)
+         return;
+     }
+ 
+-    LOG_DIS("sub%s%s r%d, r%d r%d\n",
+-             k ? "k" : "",  c ? "c" : "", dc->rd, dc->ra, dc->rb);
+-
+     /* Take care of the easy cases first.  */
+     if (k) {
+         /* k - keep carry, no need to update MSR.  */
+@@ -314,19 +298,16 @@ static void dec_pattern(DisasContext *dc)
+     switch (mode) {
+         case 0:
+             /* pcmpbf.  */
+-            LOG_DIS("pcmpbf r%d r%d r%d\n", dc->rd, dc->ra, dc->rb);
+             if (dc->rd)
+                 gen_helper_pcmpbf(cpu_R[dc->rd], cpu_R[dc->ra], cpu_R[dc->rb]);
+             break;
+         case 2:
+-            LOG_DIS("pcmpeq r%d r%d r%d\n", dc->rd, dc->ra, dc->rb);
+             if (dc->rd) {
+                 tcg_gen_setcond_i32(TCG_COND_EQ, cpu_R[dc->rd],
+                                    cpu_R[dc->ra], cpu_R[dc->rb]);
+             }
+             break;
+         case 3:
+-            LOG_DIS("pcmpne r%d r%d r%d\n", dc->rd, dc->ra, dc->rb);
+             if (dc->rd) {
+                 tcg_gen_setcond_i32(TCG_COND_NE, cpu_R[dc->rd],
+                                    cpu_R[dc->ra], cpu_R[dc->rb]);
+@@ -349,7 +330,6 @@ static void dec_and(DisasContext *dc)
+     }
+ 
+     not = dc->opcode & (1 << 1);
+-    LOG_DIS("and%s\n", not ? "n" : "");
+ 
+     if (!dc->rd)
+         return;
+@@ -367,7 +347,6 @@ static void dec_or(DisasContext *dc)
+         return;
+     }
+ 
+-    LOG_DIS("or r%d r%d r%d imm=%x\n", dc->rd, dc->ra, dc->rb, dc->imm);
+     if (dc->rd)
+         tcg_gen_or_i32(cpu_R[dc->rd], cpu_R[dc->ra], *(dec_alu_op_b(dc)));
+ }
+@@ -379,7 +358,6 @@ static void dec_xor(DisasContext *dc)
+         return;
+     }
+ 
+-    LOG_DIS("xor r%d\n", dc->rd);
+     if (dc->rd)
+         tcg_gen_xor_i32(cpu_R[dc->rd], cpu_R[dc->ra], *(dec_alu_op_b(dc)));
+ }
+@@ -433,9 +411,6 @@ static void dec_msr(DisasContext *dc)
+     if (clrset) {
+         bool clr = extract32(dc->ir, 16, 1);
+ 
+-        LOG_DIS("msr%s r%d imm=%x\n", clr ? "clr" : "set",
+-                dc->rd, dc->imm);
+-
+         if (!dc->cpu->cfg.use_msr_instr) {
+             /* nop??? */
+             return;
+@@ -478,7 +453,6 @@ static void dec_msr(DisasContext *dc)
+ 
+         sr &= 7;
+         tmp_sr = tcg_const_i32(sr);
+-        LOG_DIS("m%ss sr%d r%d imm=%x\n", to ? "t" : "f", sr, dc->ra, dc->imm);
+         if (to) {
+             gen_helper_mmu_write(cpu_env, tmp_ext, tmp_sr, cpu_R[dc->ra]);
+         } else {
+@@ -491,7 +465,6 @@ static void dec_msr(DisasContext *dc)
+ #endif
+ 
+     if (to) {
+-        LOG_DIS("m%ss sr%x r%d imm=%x\n", to ? "t" : "f", sr, dc->ra, dc->imm);
+         switch (sr) {
+             case SR_PC:
+                 break;
+@@ -535,8 +508,6 @@ static void dec_msr(DisasContext *dc)
+                 break;
+         }
+     } else {
+-        LOG_DIS("m%ss r%d sr%x imm=%x\n", to ? "t" : "f", dc->rd, sr, dc->imm);
+-
+         switch (sr) {
+             case SR_PC:
+                 tcg_gen_movi_i32(cpu_R[dc->rd], dc->base.pc_next);
+@@ -609,7 +580,6 @@ static void dec_mul(DisasContext *dc)
+     subcode = dc->imm & 3;
+ 
+     if (dc->type_b) {
+-        LOG_DIS("muli r%d r%d %x\n", dc->rd, dc->ra, dc->imm);
+         tcg_gen_mul_i32(cpu_R[dc->rd], cpu_R[dc->ra], *(dec_alu_op_b(dc)));
+         return;
+     }
+@@ -622,21 +592,17 @@ static void dec_mul(DisasContext *dc)
+     tmp = tcg_temp_new_i32();
+     switch (subcode) {
+         case 0:
+-            LOG_DIS("mul r%d r%d r%d\n", dc->rd, dc->ra, dc->rb);
+             tcg_gen_mul_i32(cpu_R[dc->rd], cpu_R[dc->ra], cpu_R[dc->rb]);
+             break;
+         case 1:
+-            LOG_DIS("mulh r%d r%d r%d\n", dc->rd, dc->ra, dc->rb);
+             tcg_gen_muls2_i32(tmp, cpu_R[dc->rd],
+                               cpu_R[dc->ra], cpu_R[dc->rb]);
+             break;
+         case 2:
+-            LOG_DIS("mulhsu r%d r%d r%d\n", dc->rd, dc->ra, dc->rb);
+             tcg_gen_mulsu2_i32(tmp, cpu_R[dc->rd],
+                                cpu_R[dc->ra], cpu_R[dc->rb]);
+             break;
+         case 3:
+-            LOG_DIS("mulhu r%d r%d r%d\n", dc->rd, dc->ra, dc->rb);
+             tcg_gen_mulu2_i32(tmp, cpu_R[dc->rd], cpu_R[dc->ra], cpu_R[dc->rb]);
+             break;
+         default:
+@@ -652,7 +618,6 @@ static void dec_div(DisasContext *dc)
+     unsigned int u;
+ 
+     u = dc->imm & 2; 
+-    LOG_DIS("div\n");
+ 
+     if (trap_illegal(dc, !dc->cpu->cfg.use_div)) {
+         return;
+@@ -688,10 +653,6 @@ static void dec_barrel(DisasContext *dc)
+     imm_w = extract32(dc->imm, 6, 5);
+     imm_s = extract32(dc->imm, 0, 5);
+ 
+-    LOG_DIS("bs%s%s%s r%d r%d r%d\n",
+-            e ? "e" : "",
+-            s ? "l" : "r", t ? "a" : "l", dc->rd, dc->ra, dc->rb);
+-
+     if (e) {
+         if (imm_w + imm_s > 32 || imm_w == 0) {
+             /* These inputs have an undefined behavior.  */
+@@ -742,7 +703,6 @@ static void dec_bit(DisasContext *dc)
+             /* src.  */
+             t0 = tcg_temp_new_i32();
+ 
+-            LOG_DIS("src r%d r%d\n", dc->rd, dc->ra);
+             tcg_gen_shli_i32(t0, cpu_msr_c, 31);
+             tcg_gen_andi_i32(cpu_msr_c, cpu_R[dc->ra], 1);
+             if (dc->rd) {
+@@ -755,8 +715,6 @@ static void dec_bit(DisasContext *dc)
+         case 0x1:
+         case 0x41:
+             /* srl.  */
+-            LOG_DIS("srl r%d r%d\n", dc->rd, dc->ra);
+-
+             tcg_gen_andi_i32(cpu_msr_c, cpu_R[dc->ra], 1);
+             if (dc->rd) {
+                 if (op == 0x41)
+@@ -766,11 +724,9 @@ static void dec_bit(DisasContext *dc)
+             }
+             break;
+         case 0x60:
+-            LOG_DIS("ext8s r%d r%d\n", dc->rd, dc->ra);
+             tcg_gen_ext8s_i32(cpu_R[dc->rd], cpu_R[dc->ra]);
+             break;
+         case 0x61:
+-            LOG_DIS("ext16s r%d r%d\n", dc->rd, dc->ra);
+             tcg_gen_ext16s_i32(cpu_R[dc->rd], cpu_R[dc->ra]);
+             break;
+         case 0x64:
+@@ -778,12 +734,10 @@ static void dec_bit(DisasContext *dc)
+         case 0x74:
+         case 0x76:
+             /* wdc.  */
+-            LOG_DIS("wdc r%d\n", dc->ra);
+             trap_userspace(dc, true);
+             break;
+         case 0x68:
+             /* wic.  */
+-            LOG_DIS("wic r%d\n", dc->ra);
+             trap_userspace(dc, true);
+             break;
+         case 0xe0:
+@@ -796,12 +750,10 @@ static void dec_bit(DisasContext *dc)
+             break;
+         case 0x1e0:
+             /* swapb */
+-            LOG_DIS("swapb r%d r%d\n", dc->rd, dc->ra);
+             tcg_gen_bswap32_i32(cpu_R[dc->rd], cpu_R[dc->ra]);
+             break;
+         case 0x1e2:
+             /*swaph */
+-            LOG_DIS("swaph r%d r%d\n", dc->rd, dc->ra);
+             tcg_gen_rotri_i32(cpu_R[dc->rd], cpu_R[dc->ra], 16);
+             break;
+         default:
+@@ -824,7 +776,6 @@ static inline void sync_jmpstate(DisasContext *dc)
+ 
+ static void dec_imm(DisasContext *dc)
+ {
+-    LOG_DIS("imm %x\n", dc->imm << 16);
+     tcg_gen_movi_i32(cpu_imm, (dc->imm << 16));
+     dc->tb_flags |= IMM_FLAG;
+     dc->clear_imm = 0;
+@@ -928,10 +879,6 @@ static void dec_load(DisasContext *dc)
+         return;
+     }
+ 
+-    LOG_DIS("l%d%s%s%s%s\n", size, dc->type_b ? "i" : "", rev ? "r" : "",
+-                                                        ex ? "x" : "",
+-                                                        ea ? "ea" : "");
+-
+     t_sync_flags(dc);
+     addr = tcg_temp_new();
+     compute_ldst_addr(dc, ea, addr);
+@@ -1039,9 +986,6 @@ static void dec_store(DisasContext *dc)
+ 
+     trap_userspace(dc, ea);
+ 
+-    LOG_DIS("s%d%s%s%s%s\n", size, dc->type_b ? "i" : "", rev ? "r" : "",
+-                                                        ex ? "x" : "",
+-                                                        ea ? "ea" : "");
+     t_sync_flags(dc);
+     /* If we get a fault on a dslot, the jmpstate better be in sync.  */
+     sync_jmpstate(dc);
+@@ -1184,7 +1128,6 @@ static void dec_bcc(DisasContext *dc)
+ 
+     cc = EXTRACT_FIELD(dc->ir, 21, 23);
+     dslot = dc->ir & (1 << 25);
+-    LOG_DIS("bcc%s r%d %x\n", dslot ? "d" : "", dc->ra, dc->imm);
+ 
+     dc->delayed_branch = 1;
+     if (dslot) {
+@@ -1217,8 +1160,6 @@ static void dec_br(DisasContext *dc)
+     if (mbar == 2 && dc->imm == 4) {
+         uint16_t mbar_imm = dc->rd;
+ 
+-        LOG_DIS("mbar %d\n", mbar_imm);
+-
+         /* Data access memory barrier.  */
+         if ((mbar_imm & 2) == 0) {
+             tcg_gen_mb(TCG_BAR_SC | TCG_MO_ALL);
+@@ -1228,8 +1169,6 @@ static void dec_br(DisasContext *dc)
+         if (mbar_imm & 16) {
+             TCGv_i32 tmp_1;
+ 
+-            LOG_DIS("sleep\n");
+-
+             if (trap_userspace(dc, true)) {
+                 /* Sleep is a privileged instruction.  */
+                 return;
+@@ -1253,11 +1192,6 @@ static void dec_br(DisasContext *dc)
+         return;
+     }
+ 
+-    LOG_DIS("br%s%s%s%s imm=%x\n",
+-             abs ? "a" : "", link ? "l" : "",
+-             dc->type_b ? "i" : "", dslot ? "d" : "",
+-             dc->imm);
+-
+     dc->delayed_branch = 1;
+     if (dslot) {
+         dec_setup_dslot(dc);
+@@ -1363,16 +1297,12 @@ static void dec_rts(DisasContext *dc)
+     dec_setup_dslot(dc);
+ 
+     if (i_bit) {
+-        LOG_DIS("rtid ir=%x\n", dc->ir);
+         dc->tb_flags |= DRTI_FLAG;
+     } else if (b_bit) {
+-        LOG_DIS("rtbd ir=%x\n", dc->ir);
+         dc->tb_flags |= DRTB_FLAG;
+     } else if (e_bit) {
+-        LOG_DIS("rted ir=%x\n", dc->ir);
+         dc->tb_flags |= DRTE_FLAG;
+-    } else
+-        LOG_DIS("rts ir=%x\n", dc->ir);
++    }
+ 
+     dc->jmp = JMP_INDIRECT;
+     tcg_gen_movi_i32(cpu_btaken, 1);
+@@ -1505,9 +1435,6 @@ static void dec_stream(DisasContext *dc)
+     TCGv_i32 t_id, t_ctrl;
+     int ctrl;
+ 
+-    LOG_DIS("%s%s imm=%x\n", dc->rd ? "get" : "put",
+-            dc->type_b ? "" : "d", dc->imm);
+-
+     if (trap_userspace(dc, true)) {
+         return;
+     }
+@@ -1565,7 +1492,6 @@ static inline void decode(DisasContext *dc, uint32_t ir)
+     int i;
+ 
+     dc->ir = ir;
+-    LOG_DIS("%8.8x\t", dc->ir);
+ 
+     if (ir == 0) {
+         trap_illegal(dc, dc->cpu->cfg.opcode_0_illegal);
+@@ -1744,10 +1670,8 @@ static void mb_tr_tb_stop(DisasContextBase *dcb, CPUState *cs)
+ 
+ static void mb_tr_disas_log(const DisasContextBase *dcb, CPUState *cs)
+ {
+-#ifdef DEBUG_DISAS
+     qemu_log("IN: %s\n", lookup_symbol(dcb->pc_first));
+     log_target_disas(cs, dcb->pc_first, dcb->tb->size);
+-#endif
+ }
+ 
+ static const TranslatorOps mb_tr_ops = {
 -- 
 2.25.1
 
