@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 138CE257EBF
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 18:27:58 +0200 (CEST)
-Received: from localhost ([::1]:50312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCBE4257E9C
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 18:22:50 +0200 (CEST)
+Received: from localhost ([::1]:49074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCmez-0006n2-1y
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 12:27:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34394)
+	id 1kCma1-0003LW-Nx
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 12:22:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCmKx-0005kQ-3o
+ id 1kCmKx-0005m9-Ly
  for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:07:15 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:37620)
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:46348)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCmKt-00065N-KL
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:07:14 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id mw10so28221pjb.2
- for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 09:07:11 -0700 (PDT)
+ id 1kCmKv-00065f-BR
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:07:15 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id 31so821045pgy.13
+ for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 09:07:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ySARoLfSzmE74D4LscfR58zxrdoE7jaYed6YBL0jQs8=;
- b=qhiGN9rIhhZTCZ+y5TeaYdycrJFmD5xCNU/1efZN8ESQDvCW8XtnJAm3In3XIyb42L
- O1Ub/fjZW+HexF3AJxOHJLFcu2IiN81+JNPYvOaI6Cx+sq+t7VQ9Dx/lcw/IxieLHhvX
- o0z6kOf9UgUD3lhGlbazNyAx52AbDNXu6180Y76UCDUiOuO4OjP65nrq2nGuaQuIAABQ
- sg6aMgKt0jiUCma3FKQD9aAWLGY3FiQpC9qnt++RYXXvPPY9Ob+v/2q+jKI4GHIa/NAv
- EVxpVy6JxigEgQVGnCKqclDPgPe6JCsMLVcL7eBB3EDG/N8CvSwYvIBopryX1zTSbR1G
- WPmg==
+ bh=6UAW/LQVnNBBxfSRwX11wMrvT5qNSW3Igjwiwe99RIE=;
+ b=EiJULW20SvMhyeruN+0+K4w63UPacbSAHPYsi4E+WLnH8BmlPXu19iH6R1ft1F9Lq2
+ DdoW+xk7fBQEERNOkqnn4fekIOeJMS1lDZciOQzfVGOBNXNYgW/tSWmMrDwscUOYmr42
+ syR0i8KCuaOH5pdUbBHx8l9/nxXVLZtAEzYJ6BH66Sq9Ow3DnOEfpgi429bzV2xUUI5H
+ K1/O1Td8vbF0ccqsl7k+vGFh29WV1Ayv62rjyRecoBB1HaoxD+IKSGq2KDYXr0W1e3Ls
+ bx4IbfMN2dseSIKGbjPmpEwbfKyGnoEgn0+AJPJnGTD6Fdr2JqBX5IoaurrwJ5fwPIT+
+ /eaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ySARoLfSzmE74D4LscfR58zxrdoE7jaYed6YBL0jQs8=;
- b=oVwMfl9SsEiAz4lwhTsTD+9ZC4FHCHiUQUgADGBTht4KLfBwMdLnDRv7TlVZ0E/mwI
- BNlkVuhato9Lz+FS/9yQEqwVrAOhnwrnoBvXWV+bmXDphpbD4QfXEkMJd03ISnpkYcjf
- ULcYaeLImEGKeXOyEo4jFQbLwuIrx2pEKGsDRXZrandBkAHflqdAL8MfJCgkz4ahS3Q0
- v0xCVJSCsRTsDtEDjA3OZB9yCxjL8mRCfjoQqSiHAvRT9yODPm1SPvEaSQz8Ni4VOOF3
- HmZhOwgu+f+6EameTVs+1t87r0y3O+ZTLvye15AlIYpPnwnhoRI7IeH/a1XXbufg584O
- pygg==
-X-Gm-Message-State: AOAM531JtVPLFnlEfyIyjA3/Hal3SeKJ6Gu1nvf/Z1Qa7J3LqN0MCd+O
- 0jGX5VexsjOoVQ9mymWQjemtgiy4ufONQA==
-X-Google-Smtp-Source: ABdhPJzGpkkHCP1WvXwZmRjCw+bv9KcD9FXFFZaRCk6sEbaZzjNeS8JBvV/frJY59vynRVJM27gkSQ==
-X-Received: by 2002:a17:902:42:: with SMTP id 60mr1027379pla.277.1598890029912; 
- Mon, 31 Aug 2020 09:07:09 -0700 (PDT)
+ bh=6UAW/LQVnNBBxfSRwX11wMrvT5qNSW3Igjwiwe99RIE=;
+ b=Oqe3BaNIv2NPBjreHwr2eEUdvApaLBVS0/fNq9+br64t16KsoDQhTP/6hQ55kUwO/d
+ y6Qul3VDm5YTb8T9KpVc0SCmOiAHCVqrXDBEhyCwevt15OD38OmkhQikZWXmtGHYB8nM
+ h/7SBUWNDP+5H+z85SPaV1TAj3/OIuO29oQGVCau70VvIpwglzLTLVwVWRPJh8dOWswu
+ KuPHv6Xn9LsI9Q2V6U4A5vZEAnUEYVuCU84IukGpCFLeeiqOV+rzHsussBb84SwdWjlC
+ 6OvWg1GdWpW5zyAa2cgUJ4a0nKFSYlDBQ7hMe8UcRjCyqdwvb3tMBAFjTh6sT06OX8l0
+ ekzw==
+X-Gm-Message-State: AOAM533ScXbPG3a0vPGzmcknSXwZV8s4JTHMk0jgqBCsk2hqEbCV/XY+
+ J3TZc7J+d+lPaBy8RxV8aOfAFaDy/accow==
+X-Google-Smtp-Source: ABdhPJwknj2YsWbOfIczvmeDnrWMjtaB/oTkn3wdSrKbDLf2+eBuYMLJkJ1bUYjZeLQRLnxzMXQwSQ==
+X-Received: by 2002:a63:511a:: with SMTP id f26mr1783362pgb.15.1598890031449; 
+ Mon, 31 Aug 2020 09:07:11 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id gt13sm17218pjb.43.2020.08.31.09.07.09
+ by smtp.gmail.com with ESMTPSA id gt13sm17218pjb.43.2020.08.31.09.07.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Aug 2020 09:07:09 -0700 (PDT)
+ Mon, 31 Aug 2020 09:07:10 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 49/76] target/microblaze: Mark fpu helpers TCG_CALL_NO_WG
-Date: Mon, 31 Aug 2020 09:05:34 -0700
-Message-Id: <20200831160601.833692-50-richard.henderson@linaro.org>
+Subject: [PULL 50/76] target/microblaze: Replace MSR_EE_FLAG with MSR_EE
+Date: Mon, 31 Aug 2020 09:05:35 -0700
+Message-Id: <20200831160601.833692-51-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200831160601.833692-1-richard.henderson@linaro.org>
 References: <20200831160601.833692-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,57 +88,55 @@ Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that FSR is no longer a tcg global temp, we can say that
-the fpu helpers do not write to tcg temps.  All temps are
-read implicitly by the fpu exception path.
+There's no reason to define MSR_EE_FLAG; we can just use the
+original MSR_EE define.  Document the other flags copied into
+tb_flags with iflag to reserve those bits.
 
 Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/helper.h | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+ target/microblaze/cpu.h       | 4 +++-
+ target/microblaze/translate.c | 4 ++--
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/target/microblaze/helper.h b/target/microblaze/helper.h
-index 79e1e8ecc7..64816c89e1 100644
---- a/target/microblaze/helper.h
-+++ b/target/microblaze/helper.h
-@@ -3,21 +3,21 @@ DEF_HELPER_FLAGS_2(raise_exception, TCG_CALL_NO_WG, noreturn, env, i32)
- DEF_HELPER_FLAGS_3(divs, TCG_CALL_NO_WG, i32, env, i32, i32)
- DEF_HELPER_FLAGS_3(divu, TCG_CALL_NO_WG, i32, env, i32, i32)
+diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
+index 013858b8e0..594501e4e7 100644
+--- a/target/microblaze/cpu.h
++++ b/target/microblaze/cpu.h
+@@ -254,7 +254,9 @@ struct CPUMBState {
  
--DEF_HELPER_3(fadd, i32, env, i32, i32)
--DEF_HELPER_3(frsub, i32, env, i32, i32)
--DEF_HELPER_3(fmul, i32, env, i32, i32)
--DEF_HELPER_3(fdiv, i32, env, i32, i32)
--DEF_HELPER_2(flt, i32, env, i32)
--DEF_HELPER_2(fint, i32, env, i32)
--DEF_HELPER_2(fsqrt, i32, env, i32)
-+DEF_HELPER_FLAGS_3(fadd, TCG_CALL_NO_WG, i32, env, i32, i32)
-+DEF_HELPER_FLAGS_3(frsub, TCG_CALL_NO_WG, i32, env, i32, i32)
-+DEF_HELPER_FLAGS_3(fmul, TCG_CALL_NO_WG, i32, env, i32, i32)
-+DEF_HELPER_FLAGS_3(fdiv, TCG_CALL_NO_WG, i32, env, i32, i32)
-+DEF_HELPER_FLAGS_2(flt, TCG_CALL_NO_WG, i32, env, i32)
-+DEF_HELPER_FLAGS_2(fint, TCG_CALL_NO_WG, i32, env, i32)
-+DEF_HELPER_FLAGS_2(fsqrt, TCG_CALL_NO_WG, i32, env, i32)
+     /* Internal flags.  */
+ #define IMM_FLAG	4
+-#define MSR_EE_FLAG     (1 << 8)
++/* MSR_EE               (1 << 8)  */
++/* MSR_UM               (1 << 11) */
++/* MSR_VM               (1 << 13) */
+ #define DRTI_FLAG	(1 << 16)
+ #define DRTE_FLAG	(1 << 17)
+ #define DRTB_FLAG	(1 << 18)
+diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
+index 72541905ec..1f6731e0af 100644
+--- a/target/microblaze/translate.c
++++ b/target/microblaze/translate.c
+@@ -162,7 +162,7 @@ static void gen_goto_tb(DisasContext *dc, int n, target_ulong dest)
+  */
+ static bool trap_illegal(DisasContext *dc, bool cond)
+ {
+-    if (cond && (dc->tb_flags & MSR_EE_FLAG)
++    if (cond && (dc->tb_flags & MSR_EE)
+         && dc->cpu->cfg.illegal_opcode_exception) {
+         gen_raise_hw_excp(dc, ESR_EC_ILLEGAL_OP);
+     }
+@@ -178,7 +178,7 @@ static bool trap_userspace(DisasContext *dc, bool cond)
+     int mem_index = cpu_mmu_index(&dc->cpu->env, false);
+     bool cond_user = cond && mem_index == MMU_USER_IDX;
  
--DEF_HELPER_3(fcmp_un, i32, env, i32, i32)
--DEF_HELPER_3(fcmp_lt, i32, env, i32, i32)
--DEF_HELPER_3(fcmp_eq, i32, env, i32, i32)
--DEF_HELPER_3(fcmp_le, i32, env, i32, i32)
--DEF_HELPER_3(fcmp_gt, i32, env, i32, i32)
--DEF_HELPER_3(fcmp_ne, i32, env, i32, i32)
--DEF_HELPER_3(fcmp_ge, i32, env, i32, i32)
-+DEF_HELPER_FLAGS_3(fcmp_un, TCG_CALL_NO_WG, i32, env, i32, i32)
-+DEF_HELPER_FLAGS_3(fcmp_lt, TCG_CALL_NO_WG, i32, env, i32, i32)
-+DEF_HELPER_FLAGS_3(fcmp_eq, TCG_CALL_NO_WG, i32, env, i32, i32)
-+DEF_HELPER_FLAGS_3(fcmp_le, TCG_CALL_NO_WG, i32, env, i32, i32)
-+DEF_HELPER_FLAGS_3(fcmp_gt, TCG_CALL_NO_WG, i32, env, i32, i32)
-+DEF_HELPER_FLAGS_3(fcmp_ne, TCG_CALL_NO_WG, i32, env, i32, i32)
-+DEF_HELPER_FLAGS_3(fcmp_ge, TCG_CALL_NO_WG, i32, env, i32, i32)
- 
- DEF_HELPER_FLAGS_2(pcmpbf, TCG_CALL_NO_RWG_SE, i32, i32, i32)
- #if !defined(CONFIG_USER_ONLY)
+-    if (cond_user && (dc->tb_flags & MSR_EE_FLAG)) {
++    if (cond_user && (dc->tb_flags & MSR_EE)) {
+         gen_raise_hw_excp(dc, ESR_EC_PRIVINSN);
+     }
+     return cond_user;
 -- 
 2.25.1
 
