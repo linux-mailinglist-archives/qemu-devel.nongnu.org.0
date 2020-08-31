@@ -2,45 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11DD3258495
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 01:55:26 +0200 (CEST)
-Received: from localhost ([::1]:59854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9E6F258494
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 01:54:33 +0200 (CEST)
+Received: from localhost ([::1]:57746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCte1-0003am-3V
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 19:55:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49692)
+	id 1kCtdA-0002Og-TX
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 19:54:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kCtaf-0007R8-3b; Mon, 31 Aug 2020 19:51:57 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:39469 helo=ozlabs.org)
+ id 1kCtaf-0007R6-2j; Mon, 31 Aug 2020 19:51:57 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:59687)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kCtab-0001lt-At; Mon, 31 Aug 2020 19:51:56 -0400
+ id 1kCtac-0001lw-6K; Mon, 31 Aug 2020 19:51:56 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BgRnJ3HlXz9sTS; Tue,  1 Sep 2020 09:51:48 +1000 (AEST)
+ id 4BgRnJ4B7gz9sVT; Tue,  1 Sep 2020 09:51:48 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1598917908;
- bh=MrGE/TpCR1qUcgPMnE2s3PEkLpFlXx8qX3wKLCtJ45w=;
+ bh=YhTpF2S5cA8sgSuuYTIKOFn5DFo7TadLfI5D6Np14L4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=KmQoLplhjSDGvc2pJDK1mlEcE9pGNruYViqDbO8AnJsF9buCY5773rObfg/1Ph52H
- N83TDPDF3o21uGHVB5dItlvTZDgAIxR/pBjSClXXBn3o13+fqyYwXc9jOVZvoxfyxA
- 3VT1Urqf9Ng4VyOtrmyfODcs2m+t8ULluxJBq7YU=
+ b=aA5vgBB4BtVa3kOFoi0Mkaw3ZM5AZu4G7Wd8Y9OuLX3WkFSKEJUtgDAh5kznSwIYg
+ d8wigODkCX51xKfrpYCkw5eaBRrEsu8G8YoOw/tUiPYEwHgGE7bgy+TiykzN6qSHQs
+ Bot1vQp3T/KoAzPudlbE5L/Ww51OewVTVRJiexLQ=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: ehabkost@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 1/3] adb: Correct class size on TYPE_ADB_DEVICE
-Date: Tue,  1 Sep 2020 09:51:44 +1000
-Message-Id: <20200831235146.36045-2-david@gibson.dropbear.id.au>
+Subject: [PATCH v2 2/3] ppc/pnv: Fix TypeInfo of PnvLpcController abstract
+ class
+Date: Tue,  1 Sep 2020 09:51:45 +1000
+Message-Id: <20200831235146.36045-3-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200831235146.36045-1-david@gibson.dropbear.id.au>
 References: <20200831235146.36045-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 19:51:49
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -65,27 +67,46 @@ Cc: qemu-ppc@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The TypeInfo incorrectly just lets the class size be inherited.  It won't
-actually break things, since the class is abstract, but we should get it
-right.
+From: Cédric Le Goater <clg@kaod.org>
 
+It was missing the instance_size field.
+
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Message-Id: <20200822083920.2668930-1-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/input/adb.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/ppc/pnv_lpc.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/hw/input/adb.c b/hw/input/adb.c
-index 013fcc9c54..84331b9fce 100644
---- a/hw/input/adb.c
-+++ b/hw/input/adb.c
-@@ -309,6 +309,7 @@ static void adb_device_class_init(ObjectClass *oc, void *data)
- static const TypeInfo adb_device_type_info = {
-     .name = TYPE_ADB_DEVICE,
-     .parent = TYPE_DEVICE,
-+    .class_size = sizeof(ADBDeviceClass),
-     .instance_size = sizeof(ADBDevice),
-     .abstract = true,
-     .class_init = adb_device_class_init,
+diff --git a/hw/ppc/pnv_lpc.c b/hw/ppc/pnv_lpc.c
+index b5ffa48dac..23f1e09492 100644
+--- a/hw/ppc/pnv_lpc.c
++++ b/hw/ppc/pnv_lpc.c
+@@ -646,7 +646,6 @@ static void pnv_lpc_power8_class_init(ObjectClass *klass, void *data)
+ static const TypeInfo pnv_lpc_power8_info = {
+     .name          = TYPE_PNV8_LPC,
+     .parent        = TYPE_PNV_LPC,
+-    .instance_size = sizeof(PnvLpcController),
+     .class_init    = pnv_lpc_power8_class_init,
+     .interfaces = (InterfaceInfo[]) {
+         { TYPE_PNV_XSCOM_INTERFACE },
+@@ -687,7 +686,6 @@ static void pnv_lpc_power9_class_init(ObjectClass *klass, void *data)
+ static const TypeInfo pnv_lpc_power9_info = {
+     .name          = TYPE_PNV9_LPC,
+     .parent        = TYPE_PNV_LPC,
+-    .instance_size = sizeof(PnvLpcController),
+     .class_init    = pnv_lpc_power9_class_init,
+ };
+ 
+@@ -768,6 +766,7 @@ static void pnv_lpc_class_init(ObjectClass *klass, void *data)
+ static const TypeInfo pnv_lpc_info = {
+     .name          = TYPE_PNV_LPC,
+     .parent        = TYPE_DEVICE,
++    .instance_size = sizeof(PnvLpcController),
+     .class_init    = pnv_lpc_class_init,
+     .class_size    = sizeof(PnvLpcClass),
+     .abstract      = true,
 -- 
 2.26.2
 
