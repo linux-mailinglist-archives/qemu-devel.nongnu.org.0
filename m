@@ -2,82 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFC692583AD
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 23:39:04 +0200 (CEST)
-Received: from localhost ([::1]:56688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D04C2583BC
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 23:43:57 +0200 (CEST)
+Received: from localhost ([::1]:46806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCrW3-0007mk-Li
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 17:39:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47522)
+	id 1kCram-0006v8-5K
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 17:43:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCrDa-0004L0-AK
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:19:58 -0400
-Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:40905)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kCrPO-0005ao-Rw
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:32:10 -0400
+Received: from mail-qk1-f195.google.com ([209.85.222.195]:44679)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCrDY-0001YI-FQ
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:19:57 -0400
-Received: by mail-pj1-x1043.google.com with SMTP id kx11so547058pjb.5
- for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 14:19:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=1BwTVD6X4hEAzrEYONfujXAn5wRXQaDQdFnvOyy2+C0=;
- b=YLqmHzLpEepN+bV6V8MuiH8rKdrlDTIdXqqRpgjtj3l1UzS2JOUfWTl583gR1CvGfD
- KOX7MVqgeQLF2O13121XkvFkTRvW7oB8gCX19xnCl+MPDhHOR91OlPnIDSlF+XpSOOlM
- qIbjLOhL8Fft6yqCsCsBXC9lWcXfEPgLRbPBd2j9sv4+kGb4ywMqA9OXplwlskIErlZJ
- zw7w/Pla6JDYbxkK6FBV2dyaCGBUAEQhKoy0MaXyPnkzcVDQrRuWSrPNnvS+Fu6opJds
- KE7MlFVoUhnM4am2/OCN06OTu5r0cmAAxOogbU4bCUTpnGRtB4NcDB56B/Ns/bg/jW6e
- VohA==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kCrPM-00035C-1G
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:32:10 -0400
+Received: by mail-qk1-f195.google.com with SMTP id p185so7587955qkb.11
+ for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 14:32:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=1BwTVD6X4hEAzrEYONfujXAn5wRXQaDQdFnvOyy2+C0=;
- b=pZ5xtzTcx3Fimsmcznh3ALMWXDYzKtmWc2hr4J/7hSB8yZTssiOI3jBE2xnFsB0Iyh
- Tny50TSzbl7NjXqkrGv0btFHBMA0j4bGL7VpbZYY0fHH4cRgaSTtohXyzOzMMo1b/ar2
- r2qn/UaLGXDa899act3Odz6xX3dO8zPp0OKOy8FFeTQoGDi2QtK6mV911QBokTHTRnTW
- +Lu6fRsxqp5i2GIBF10nRQqRzWwqs8mYYDzMIgOhcqCHj9L0cHM44oISd7RZjBRg348t
- EOtHjiDbC7VBEBR4keh2XTD4I1qt6fNdmBFmzaPy12R/XCCm3qIc77VK1PtP45phWl92
- LIqg==
-X-Gm-Message-State: AOAM531g/crcp0vzGL8TUKzgNj5vxHTfGkg2/SVoBVdJtytNPdCGB0aY
- lLVS3gKx9vJlkj51O5fxTtaZxw==
-X-Google-Smtp-Source: ABdhPJwaZLXkvH7WkUffFCfBkAaaPb3u5ouadWEORzAajOlTxkbfGjedq5he9OlY3NyzILM/Osf4Mg==
-X-Received: by 2002:a17:902:c24b:: with SMTP id
- 11mr2489937plg.64.1598908794963; 
- Mon, 31 Aug 2020 14:19:54 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id j19sm4475978pfi.51.2020.08.31.14.19.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Aug 2020 14:19:54 -0700 (PDT)
-Subject: Re: [PATCH v2 3/7] target/cris: add CRISCPUClass->do_interrupt_locked
-To: Robert Foley <robert.foley@linaro.org>, qemu-devel@nongnu.org
-References: <20200819182856.4893-1-robert.foley@linaro.org>
- <20200819182856.4893-4-robert.foley@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <4259ab85-888d-83b4-ea48-d1a93a3f8951@linaro.org>
-Date: Mon, 31 Aug 2020 14:19:52 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=W5vDlQkgW0x22zIQNsrYibjZRroebgqCHUKw7kVrt/g=;
+ b=r+d1wCVej1bo6dFj2djiKFd5hJL85IB7LCANbCeDa/P58HT8QQ8bYSiNy0qpH3Rii2
+ YU5bYumtfpyUfIgmNxAOQ5fPf1mk6H8VB8zvdD49ydXL8dHykKUPQnJLWf9YmBGeqiIR
+ 200tk4ph4Vp7BZ4brW6eYcrYZKET0GtseYHzw6sFjCs6kPFLIGq0K3E+i6Saryb3pB3r
+ o8wvSyQcRVZ90Eu22qXU+E4udKUQgmjohjZJzfneABj4EwBUVytUioRraNZKRFVDj/Mt
+ EcUhkTPw8/dxA/CZVNakFqcaAuLD0+Dpu8JlaAfyvATqXrlddJ8OOb6TNYqryri95Icx
+ T9Ng==
+X-Gm-Message-State: AOAM531qt3VViwYJQU3fe8W2wCWy1KZPkeWowlNFDzEoUsCu6p8WPGDX
+ xTaWuyVjWY4hDNo2O1RKrILqNR9lnnSeemQQC3c=
+X-Google-Smtp-Source: ABdhPJzwbQOSmC24c/Kbf36QvPtgeE2vXWcuC47SjGnUgTcBJUpZZTEbXFA4DfPLeyizlhhpHKn20nP4eDYukrcC6bY=
+X-Received: by 2002:a37:498e:: with SMTP id w136mr2843257qka.187.1598909527033; 
+ Mon, 31 Aug 2020 14:32:07 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200819182856.4893-4-robert.foley@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1043.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.13,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200831153228.229185-1-thuth@redhat.com>
+In-Reply-To: <20200831153228.229185-1-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Mon, 31 Aug 2020 23:31:51 +0200
+Message-ID: <CAAdtpL5vu9uO7tGiHLNTVCeZa3bw2zRE_PLn1tD=L-acMH_0Qw@mail.gmail.com>
+Subject: Re: [PATCH] gitlab-ci.yml: Run check-qtest and check-unit at the end
+ of the fuzzer job
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000630c3a05ae3322b8"
+Received-SPF: pass client-ip=209.85.222.195;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-qk1-f195.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 17:16:55
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,44 +70,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, peter.puhov@linaro.org,
- alex.bennee@linaro.org, pbonzini@redhat.com
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/19/20 11:28 AM, Robert Foley wrote:
-> Adding ->do_interrupt_locked to CRISCPUClass is preparation for
-> pushing the BQL down into the per-arch implementation of ->do_interrupt.
-> 
-> This is needed since Cris's *_cpu_exec_interrupt calls to *_do_interrupt.
-> With the push down of the BQL into *_cpu_exec_interrupt and
-> *_do_interrupt, *_cpu_exec_interrupt will call to ->do_interrupt
-> with lock held.  Since ->do_interrupt also has the lock, we need a way
-> to allow cpu_exec_interrupt to call do_interrupt with lock held.
-> This patch solves the issue of *_cpu_exec_interrupt needing
-> to call do_interrupt with lock held.
-> 
-> This patch is part of a series of transitions to move the
-> BQL down into the do_interrupt per arch functions.  This set of
-> transitions is needed to maintain bisectability.
-> 
-> This approach was suggested by Paolo Bonzini.
-> For reference, here are two key posts in the discussion, explaining
-> the reasoning/benefits of this approach.
-> https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg00784.html
-> https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg01517.html
-> https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg08731.html
-> https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg00044.html
-> 
-> Signed-off-by: Robert Foley <robert.foley@linaro.org>
+--000000000000630c3a05ae3322b8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Thomas,
+
+Le lun. 31 ao=C3=BBt 2020 17:33, Thomas Huth <thuth@redhat.com> a =C3=A9cri=
+t :
+
+> The fuzzer job finishes quite early, so we can run the unit tests and
+> qtests with -fsanitize=3Daddress here without extending the total test ti=
+me.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->  target/cris/cpu-qom.h | 3 +++
->  target/cris/cpu.c     | 6 ++++++
->  target/cris/helper.c  | 6 +++---
->  3 files changed, 12 insertions(+), 3 deletions(-)
+>  .gitlab-ci.yml | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index 17f1f8fad9..417fda6909 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -256,13 +256,14 @@ build-oss-fuzz:
+>      - mkdir build-oss-fuzz
+>      - CC=3D"clang" CXX=3D"clang++" CFLAGS=3D"-fsanitize=3Daddress"
+>        ./scripts/oss-fuzz/build.sh
+> +    - export ASAN_OPTIONS=3D"fast_unwind_on_malloc=3D0"
+>      - for fuzzer in $(find ./build-oss-fuzz/DEST_DIR/ -executable -type =
+f
+>                        | grep -v slirp); do
+>          grep "LLVMFuzzerTestOneInput" ${fuzzer} > /dev/null 2>&1 ||
+> continue ;
+>          echo Testing ${fuzzer} ... ;
+> -        ASAN_OPTIONS=3D"fast_unwind_on_malloc=3D0"
+> -         "${fuzzer}" -runs=3D1000 -seed=3D1 || exit 1 ;
+> +        "${fuzzer}" -runs=3D1000 -seed=3D1 || exit 1 ;
+>        done
+> +    - cd build-oss-fuzz && make check-qtest-i386 check-unit
+>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+As this does not use the fuzzer main entry point, what is the point of
+running that?
 
 
-r~
+>  build-tci:
+>    <<: *native_build_job_definition
+> --
+> 2.18.2
+>
+>
+>
+
+--000000000000630c3a05ae3322b8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div>Hi Thomas,<br><br><div class=3D"gmail_quote"><div di=
+r=3D"ltr" class=3D"gmail_attr">Le lun. 31 ao=C3=BBt 2020 17:33, Thomas Huth=
+ &lt;<a href=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; a =C3=A9c=
+rit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex">The fuzzer job finishes =
+quite early, so we can run the unit tests and<br>
+qtests with -fsanitize=3Daddress here without extending the total test time=
+.<br>
+<br>
+Signed-off-by: Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.com" target=
+=3D"_blank" rel=3D"noreferrer">thuth@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0.gitlab-ci.yml | 5 +++--<br>
+=C2=A01 file changed, 3 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml<br>
+index 17f1f8fad9..417fda6909 100644<br>
+--- a/.gitlab-ci.yml<br>
++++ b/.gitlab-ci.yml<br>
+@@ -256,13 +256,14 @@ build-oss-fuzz:<br>
+=C2=A0 =C2=A0 =C2=A0- mkdir build-oss-fuzz<br>
+=C2=A0 =C2=A0 =C2=A0- CC=3D&quot;clang&quot; CXX=3D&quot;clang++&quot; CFLA=
+GS=3D&quot;-fsanitize=3Daddress&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0./scripts/oss-fuzz/build.sh<br>
++=C2=A0 =C2=A0 - export ASAN_OPTIONS=3D&quot;fast_unwind_on_malloc=3D0&quot=
+;<br>
+=C2=A0 =C2=A0 =C2=A0- for fuzzer in $(find ./build-oss-fuzz/DEST_DIR/ -exec=
+utable -type f<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0| grep -v slirp); do<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0grep &quot;LLVMFuzzerTestOneInput&quot; $=
+{fuzzer} &gt; /dev/null 2&gt;&amp;1 || continue ;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo Testing ${fuzzer} ... ;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ASAN_OPTIONS=3D&quot;fast_unwind_on_malloc=3D0=
+&quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;${fuzzer}&quot; -runs=3D1000 -seed=
+=3D1 || exit 1 ;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;${fuzzer}&quot; -runs=3D1000 -seed=3D1 |=
+| exit 1 ;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0done<br>
++=C2=A0 =C2=A0 - cd build-oss-fuzz &amp;&amp; make check-qtest-i386 check-u=
+nit<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"aut=
+o">As this does not use the fuzzer main entry point, what is the point of r=
+unning that?</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=
+=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+=C2=A0build-tci:<br>
+=C2=A0 =C2=A0&lt;&lt;: *native_build_job_definition<br>
+-- <br>
+2.18.2<br>
+<br>
+<br>
+</blockquote></div></div></div>
+
+--000000000000630c3a05ae3322b8--
 
