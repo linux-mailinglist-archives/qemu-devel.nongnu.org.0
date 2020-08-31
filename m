@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A252C25837A
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 23:27:34 +0200 (CEST)
-Received: from localhost ([::1]:39814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B7BF25836F
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 23:23:53 +0200 (CEST)
+Received: from localhost ([::1]:54936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCrKv-0005Ml-Ki
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 17:27:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46614)
+	id 1kCrHL-0007w1-Vd
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 17:23:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kCr9c-0007Np-Mo
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:15:52 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:37977)
+ id 1kCr9e-0007R5-8W
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:15:54 -0400
+Received: from mail-qv1-f67.google.com ([209.85.219.67]:33776)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kCr9a-000194-VW
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:15:52 -0400
-Received: by mail-qt1-f195.google.com with SMTP id e5so5865337qth.5
- for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 14:15:50 -0700 (PDT)
+ id 1kCr9b-00019C-Ff
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:15:53 -0400
+Received: by mail-qv1-f67.google.com with SMTP id cy2so2602317qvb.0
+ for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 14:15:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=+hesfGwEK/+a5X4ELA7ADh3xp1XKsiCTQm3rde/w1qo=;
- b=gXUUtjdzoIIMgR0uordDNKACKOxiRrzS0e4iCp/PUpXBIioL9oRF1ss6ueoldNhpUW
- ccQhTJ9ODMVckYzx+YORxLtNFABcnLbbjlqT/6xf649wD6tLpAa6bTGKdUlZjfAsMGsf
- P6nrwxK62oGqnBp5snEX4IcvWvfsoN0r6AL3BIEC5J4OjKkp4GMX72GbWgfcB+4zlTPS
- dU+plu6Culd0D5e9pNp5qd4yRLBwMtUJVTGgaw72sCUpuY4uL3ri+ysoxtrzRaCxwxpP
- Ms4GVstLJeGGwRNaf4NrERAxSeHvGFuW57aD7F2WO+stwz7srgwNeJSNtycX9YaLGOL6
- jMLA==
-X-Gm-Message-State: AOAM531TWgbLgYyNmfNbdfSNGAIfiQAJg4f7CulIBPh5bsHc5vOmZuT9
- MRpAC6lg+2jCM76iqH4dnwUWgjM/bRHQsQ2G9Pw=
-X-Google-Smtp-Source: ABdhPJx0ntSzw7D7wgUJiV5Uqr62zjRVB/JbWYghqcHChvflQTToLku/0wkARmJ0h6kBImibCihqBwJSo6os4CP7rAw=
-X-Received: by 2002:ac8:7455:: with SMTP id h21mr3267497qtr.201.1598908550099; 
+ bh=erzc2eLbAg40TxtscfBgpusD+tqSFp/kZZ7XBm7Fu8M=;
+ b=ARDNd1/7WwUaEqZSZBTSAJEiR8QdTARq04ZUW0/iOu7G/W6cnkRPlYoCBV82LqowSv
+ pxdc1yIBTARmv2sMOajXHZerqEdBO1OTW6kvD3TMoMYLCglmZDa6AGaCm35Al88CHwJB
+ /AN5wqJLkp91iOfm89nQ22tCmmPWTMEZU1h6Gm0YG47Y+rHRDKJXi/SkeR8e6T9aF1Wf
+ c5uFEpHpJFDsRLgeXj6FyYaYlBCMs/ZMnMZYcUUYtmEXAOu9X5oLPKuRyPtkzJCC2LPP
+ QlzLniq0R1NUHsq5F8jrv6EI2MxBcLTV6siMd2bnJ5yiFCVQu/9pdIon20NvrkwNszHN
+ UjcQ==
+X-Gm-Message-State: AOAM531jRLj0/hT26W204D/TuEjOI45XSNKRa0pE6xsmm37nE6inSpdo
+ xijK1DvbkGN0O2efnsmLhwKzJM25C1BCBQJxAZf+LT5O
+X-Google-Smtp-Source: ABdhPJyt06m8ug6g+rXbVnz/B598U/G4//YeSxB4/QhhMdHBwFUIud58eSPWrzSwpzZGtREmrmmyeG4NS70Puw3D0do=
+X-Received: by 2002:a0c:f9cd:: with SMTP id j13mr2944802qvo.227.1598908550544; 
  Mon, 31 Aug 2020 14:15:50 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200828141929.77854-1-richard.henderson@linaro.org>
- <20200828141929.77854-3-richard.henderson@linaro.org>
-In-Reply-To: <20200828141929.77854-3-richard.henderson@linaro.org>
+ <20200828141929.77854-2-richard.henderson@linaro.org>
+In-Reply-To: <20200828141929.77854-2-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Mon, 31 Aug 2020 19:31:12 +0200
-Message-ID: <CAAdtpL7PtexnAPsLLFaiuFsVouSAqyyyTVozgdkek5PA_Nk4Dg@mail.gmail.com>
-Subject: Re: [PATCH v2 02/76] tests/tcg: Do not require FE_TOWARDZERO
+Date: Mon, 31 Aug 2020 19:32:10 +0200
+Message-ID: <CAAdtpL60CYWYGw4KvzsLn8o5RgYM8Qj9c8fRcJudJDVVnAA83A@mail.gmail.com>
+Subject: Re: [PATCH v2 01/76] tests/tcg: Add microblaze to arches filter
 To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000002837ee05ae32e800"
-Received-SPF: pass client-ip=209.85.160.195;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-qt1-f195.google.com
+Content-Type: multipart/alternative; boundary="0000000000002f025505ae32e805"
+Received-SPF: pass client-ip=209.85.219.67;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-qv1-f67.google.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 17:15:50
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: 0
@@ -57,8 +57,8 @@ X-Spam_bar: /
 X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
  FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
  HEADER_FROM_DIFFERENT_DOMAINS=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,15 +76,16 @@ Cc: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000002837ee05ae32e800
+--0000000000002f025505ae32e805
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Le ven. 28 ao=C3=BBt 2020 16:22, Richard Henderson <richard.henderson@linar=
+Le ven. 28 ao=C3=BBt 2020 16:20, Richard Henderson <richard.henderson@linar=
 o.org>
 a =C3=A9crit :
 
-> This is optional in ISO C, and not all cpus provide it.
+> Not attempting to use a single cross-compiler for both
+> big-endian and little-endian at this time.
 >
 > Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
@@ -93,56 +94,41 @@ a =C3=A9crit :
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
 ---
->  tests/tcg/multiarch/float_convs.c | 2 ++
->  tests/tcg/multiarch/float_madds.c | 2 ++
->  2 files changed, 4 insertions(+)
+>  tests/tcg/configure.sh | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/tests/tcg/multiarch/float_convs.c
-> b/tests/tcg/multiarch/float_convs.c
-> index 47e24b8b16..e9be75c2d5 100644
-> --- a/tests/tcg/multiarch/float_convs.c
-> +++ b/tests/tcg/multiarch/float_convs.c
-> @@ -30,7 +30,9 @@ float_mapping round_flags[] =3D {
->  #ifdef FE_DOWNWARD
->      { FE_DOWNWARD, "downwards" },
->  #endif
-> +#ifdef FE_TOWARDZERO
->      { FE_TOWARDZERO, "to zero" }
-> +#endif
->  };
->
->  static void print_input(float input)
-> diff --git a/tests/tcg/multiarch/float_madds.c
-> b/tests/tcg/multiarch/float_madds.c
-> index eceb4ae38b..e422608ccd 100644
-> --- a/tests/tcg/multiarch/float_madds.c
-> +++ b/tests/tcg/multiarch/float_madds.c
-> @@ -29,7 +29,9 @@ float_mapping round_flags[] =3D {
->  #ifdef FE_DOWNWARD
->      { FE_DOWNWARD, "downwards" },
->  #endif
-> +#ifdef FE_TOWARDZERO
->      { FE_TOWARDZERO, "to zero" }
-> +#endif
->  };
->
->
+> diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+> index 7d714f902a..598a50cd4f 100755
+> --- a/tests/tcg/configure.sh
+> +++ b/tests/tcg/configure.sh
+> @@ -94,7 +94,7 @@ for target in $target_list; do
+>      xtensa|xtensaeb)
+>        arches=3Dxtensa
+>        ;;
+> -    alpha|cris|hppa|i386|lm32|m68k|openrisc|riscv64|s390x|sh4|sparc64)
+> +
+> alpha|cris|hppa|i386|lm32|microblaze|microblazeel|m68k|openrisc|riscv64|s=
+390x|sh4|sparc64)
+>        arches=3D$target
+>        ;;
+>      *)
 > --
 > 2.25.1
 >
 >
 >
 
---0000000000002837ee05ae32e800
+--0000000000002f025505ae32e805
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"auto"><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
-s=3D"gmail_attr">Le ven. 28 ao=C3=BBt 2020 16:22, Richard Henderson &lt;<a =
+s=3D"gmail_attr">Le ven. 28 ao=C3=BBt 2020 16:20, Richard Henderson &lt;<a =
 href=3D"mailto:richard.henderson@linaro.org">richard.henderson@linaro.org</=
 a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">This is =
-optional in ISO C, and not all cpus provide it.<br>
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Not atte=
+mpting to use a single cross-compiler for both<br>
+big-endian and little-endian at this time.<br>
 <br>
 Reviewed-by: Edgar E. Iglesias &lt;<a href=3D"mailto:edgar.iglesias@xilinx.=
 com" target=3D"_blank" rel=3D"noreferrer">edgar.iglesias@xilinx.com</a>&gt;=
@@ -159,45 +145,29 @@ erif;font-size:13.696px">f4bug@amsat.org</a><span style=3D"font-family:sans=
 ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
 ">
 ---<br>
-=C2=A0tests/tcg/multiarch/float_convs.c | 2 ++<br>
-=C2=A0tests/tcg/multiarch/float_madds.c | 2 ++<br>
-=C2=A02 files changed, 4 insertions(+)<br>
+=C2=A0tests/tcg/configure.sh | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
 <br>
-diff --git a/tests/tcg/multiarch/float_convs.c b/tests/tcg/multiarch/float_=
-convs.c<br>
-index 47e24b8b16..e9be75c2d5 100644<br>
---- a/tests/tcg/multiarch/float_convs.c<br>
-+++ b/tests/tcg/multiarch/float_convs.c<br>
-@@ -30,7 +30,9 @@ float_mapping round_flags[] =3D {<br>
-=C2=A0#ifdef FE_DOWNWARD<br>
-=C2=A0 =C2=A0 =C2=A0{ FE_DOWNWARD, &quot;downwards&quot; },<br>
-=C2=A0#endif<br>
-+#ifdef FE_TOWARDZERO<br>
-=C2=A0 =C2=A0 =C2=A0{ FE_TOWARDZERO, &quot;to zero&quot; }<br>
-+#endif<br>
-=C2=A0};<br>
-<br>
-=C2=A0static void print_input(float input)<br>
-diff --git a/tests/tcg/multiarch/float_madds.c b/tests/tcg/multiarch/float_=
-madds.c<br>
-index eceb4ae38b..e422608ccd 100644<br>
---- a/tests/tcg/multiarch/float_madds.c<br>
-+++ b/tests/tcg/multiarch/float_madds.c<br>
-@@ -29,7 +29,9 @@ float_mapping round_flags[] =3D {<br>
-=C2=A0#ifdef FE_DOWNWARD<br>
-=C2=A0 =C2=A0 =C2=A0{ FE_DOWNWARD, &quot;downwards&quot; },<br>
-=C2=A0#endif<br>
-+#ifdef FE_TOWARDZERO<br>
-=C2=A0 =C2=A0 =C2=A0{ FE_TOWARDZERO, &quot;to zero&quot; }<br>
-+#endif<br>
-=C2=A0};<br>
-<br>
-<br>
+diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh<br>
+index 7d714f902a..598a50cd4f 100755<br>
+--- a/tests/tcg/configure.sh<br>
++++ b/tests/tcg/configure.sh<br>
+@@ -94,7 +94,7 @@ for target in $target_list; do<br>
+=C2=A0 =C2=A0 =C2=A0xtensa|xtensaeb)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0arches=3Dxtensa<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0;;<br>
+-=C2=A0 =C2=A0 alpha|cris|hppa|i386|lm32|m68k|openrisc|riscv64|s390x|sh4|sp=
+arc64)<br>
++=C2=A0 =C2=A0 alpha|cris|hppa|i386|lm32|microblaze|microblazeel|m68k|openr=
+isc|riscv64|s390x|sh4|sparc64)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0arches=3D$target<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0;;<br>
+=C2=A0 =C2=A0 =C2=A0*)<br>
 -- <br>
 2.25.1<br>
 <br>
 <br>
 </blockquote></div></div></div>
 
---0000000000002837ee05ae32e800--
+--0000000000002f025505ae32e805--
 
