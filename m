@@ -2,85 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92A4C2582F5
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 22:45:10 +0200 (CEST)
-Received: from localhost ([::1]:39522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D515F258367
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 23:21:48 +0200 (CEST)
+Received: from localhost ([::1]:47988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCqft-00019R-45
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 16:45:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40076)
+	id 1kCrFL-0004wD-T6
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 17:21:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCqep-0000iQ-6V
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 16:44:03 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:43488)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kCr9X-0007D0-TM
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:15:47 -0400
+Received: from mail-ej1-f67.google.com ([209.85.218.67]:42173)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCqel-0005X7-7c
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 16:44:02 -0400
-Received: by mail-pf1-x444.google.com with SMTP id f18so1316584pfa.10
- for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 13:43:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ze6htxbaSCIVkzRP7sFcFMNAbxMfwQybCVuTdLntVyg=;
- b=UHWgVOz29X1GodXvsHAGEZ7cRTDoX5SoSQ3D2AMDeZiahzEjcBUIts7vu3KCjCuAeY
- c37q81nJlBotWOkc0ynVtrkR5+oiYx4RAhvxkKzaMoy5gRnxm1se+Zt95dklVIirCY7q
- hxQGSrqaCJvVihGnbUEs3eDC60d+xsaKK/N1/A6TRUkG4ImIRM06RJFlXkvugQRzkv3l
- JZxCxQq96tLn5q/hDTmspjdyoQKSFdCcpqhdqWufitfNDdwABDooLpBUCXmF/dQtZVNO
- lUAUJIzH09H7naIXzAt8HIvrVRS8wJr/MOqGrxBYWWrjC9j51h8gwjP/6nRm/07PHPFs
- BY8Q==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kCr9W-00017a-0V
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:15:47 -0400
+Received: by mail-ej1-f67.google.com with SMTP id q13so6921266ejo.9
+ for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 14:15:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ze6htxbaSCIVkzRP7sFcFMNAbxMfwQybCVuTdLntVyg=;
- b=e2bCH1rz498ppYwgIyXe0glm5+BTggNbzgfju85r7C/+YQ6NV1OL5s4xC+R5zU6aNK
- mnQBDjOmx6HSSc/MBYDpWKNZGF/VNNVX6QthbObbB92CnB0i8+kjNVLG/saavM4AAs2h
- X/atf0ZTxMW9G+aRddPavu9GF4aCFe9zsn4oCB+DbIyh/FBlmf8UOXeeP9VKk8dpSMKQ
- brMy7dufPlOMMxumUcdPrKrQDA/Zlpepf5Bx0LbUr6N3HZ/BVD8GZhMI+lvKul0myLgm
- oYYXU74Q+TcQNel9ArwDYuzRCFyhpVUBwTrNnohkmzvhtfbXzQwVV5Rn6ndKubWw89aQ
- Pteg==
-X-Gm-Message-State: AOAM533DX1giyiDd+mD9JCsPSNTJO8QmbtMYGpTf0MkubMkS3hr+Blm6
- nlf7j5mdNzanzy56por2Cs4MWw==
-X-Google-Smtp-Source: ABdhPJxNGo2qGEwaywx0SPi/PuR2aT4XKzdBmfFREJiemJV07ejo2LsIRJ0XgzT/Fzocx7tSSkuQbg==
-X-Received: by 2002:a62:7a97:: with SMTP id v145mr2629506pfc.19.1598906637405; 
- Mon, 31 Aug 2020 13:43:57 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id in12sm461807pjb.29.2020.08.31.13.43.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Aug 2020 13:43:56 -0700 (PDT)
-Subject: Re: [RFC PATCH v3 00/34] Hexagon patch series
-To: Taylor Simpson <tsimpson@quicinc.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <1597765847-16637-1-git-send-email-tsimpson@quicinc.com>
- <fbb5a85b-6208-1791-0d3e-7e741e674a70@linaro.org>
- <BYAPR02MB48862BC00AD7217B715EBFC7DE500@BYAPR02MB4886.namprd02.prod.outlook.com>
- <78e5b8be-e7f4-a1b9-2810-e0855da23f00@linaro.org>
- <BYAPR02MB488699D87ED9C3ADBCF155BADE510@BYAPR02MB4886.namprd02.prod.outlook.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <97b529f8-6dff-8cd1-bed2-5ce450fe4b64@linaro.org>
-Date: Mon, 31 Aug 2020 13:43:54 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9W8NNLK/TmUATKVgycZSdsnaRkDE8aQGo8xB4Pn3WQI=;
+ b=E4T0k3nknNMqMcqEcxEL+dmqqSpNYNdPgGy1JNSq8o+fpH7UK9ujUskmCS14MCq5Mg
+ 8++p1nPmGszJ279s5VBDC+bsGa5i5fZyB8234uHqkw2C5KqSVEXx5PSV7zbexyNVxXEz
+ XMRpHsRvMMODsXeI6dCzQ2gVOu9CFpzzgV9LjxD3xSoYDZ0lifL35zVNLmU3Y1NlGyYa
+ ZTmkURCBZFwbsahwmk6JJp2aZCS+2gxvcFj/jkVHQ4RHdrvDVZYSzS/+e45mtceUipIu
+ 8RE9zxxVdVve7v501CAmpNWQTRtiGP99QcKuFm96mNd/RYCiwENl/Yy9szxUvZDuggG6
+ dCgw==
+X-Gm-Message-State: AOAM532wBzhkg1dxjNZSR76a2aB4LIPK+FcpCdQORNQwseZhpyAWJg18
+ /u98EdjypWSemjSVurhKrQuS4nh7Vtn5Sp0yPX0=
+X-Google-Smtp-Source: ABdhPJxj/Mlz5MCddPjxP+idWFKoMC0qb9xn85E2hCad9zflUpEwPi7baXwjZvEzIZeaMfbAzkZEc/vanjp9+o0BtzE=
+X-Received: by 2002:a17:906:454a:: with SMTP id
+ s10mr2682321ejq.138.1598908543551; 
+ Mon, 31 Aug 2020 14:15:43 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <BYAPR02MB488699D87ED9C3ADBCF155BADE510@BYAPR02MB4886.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.13,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200828180243.443016-1-richard.henderson@linaro.org>
+ <20200828180243.443016-2-richard.henderson@linaro.org>
+In-Reply-To: <20200828180243.443016-2-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Mon, 31 Aug 2020 19:17:13 +0200
+Message-ID: <CAAdtpL6q35O3Z4cDfuStAfiXN4m42MoE9B2UK6MPyaM0iesB4w@mail.gmail.com>
+Subject: Re: [PATCH 1/3] softmmu/cpus: Only set parallel_cpus for SMP
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000c44b0105ae32e75d"
+Received-SPF: pass client-ip=209.85.218.67;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-f67.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 17:15:43
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
+ FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,268 +72,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "ale@rev.ng" <ale@rev.ng>, "riku.voipio@iki.fi" <riku.voipio@iki.fi>,
- "philmd@redhat.com" <philmd@redhat.com>,
- "laurent@vivier.eu" <laurent@vivier.eu>,
- "aleksandar.m.mail@gmail.com" <aleksandar.m.mail@gmail.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/31/20 10:57 AM, Taylor Simpson wrote:
-> OK, here's the list of items.  Let me know if I missed anything.  I'll 
-> indicate which ones can be done quickly and which ones would take more time.
-> I added a column for blocker if you or anyone else has input on that.
-> 
-> PatchItemEffortBlocker
-> Use qemu softfloat??Yes
-
-Hmm, this table didn't render.  Below, yes/no for blocker column.
-
-> Use qemu decodetree.py??
-
-no
-
-> SeveralUse const when appropriatesmall
-
-yes
-
-> SeveralRemove anything after g_assert_not_reachedsmall
-
-yes
-
-> SeveralFix log_store32/64 add/remove/add in patch seriessmall
-
-yes
-
-> SeveralFollow naming guidelines for structs and enumssmall
-
-yes
-
-> 04Move decls to cpu-param.hsmall
-
-Yes.  The only reason this even compiled is that you don't do system mode yet.  ;-)
-
-> 04Remove CONFIG_USER_ONLY ifdef'ssmall
-
-yes
-
-> 04Remove DEBUG_HEXAGONsmall
-
-yes
-
-> 04Remove stack pointer modification hack, use qemu mechanismsmall
-
-yes
-
-> 04Add property x-lldb-compat to control output in logsmall
-
-yes
-
-> 06Include instruction and raw bytes in disassemblysmall
-
-yes
-
-> 07Use DEF_HELPER_FLAGSsmall
-
-no, but should be easy.
-
-> 07, 26Endianness of merge_bytessmall
-
-Yes, one way or another; hopefully by removing all of the merge_bytes and using
-probe_read.
-
-> 07Fix overlap testsmall
-
-yes
-
-> 07Remove HELPER(debug_value)/HELPER(debug_value_i64)small
-
-yes
-
-> 09Include "qemu/osdep.h" instead of <stdint.h>small
-
-yes
-
-> 10 (and others)Stick with stdint.h types except in imported filessmall
-
-yes
-
-> 11Remove description from reg field definitionssmall
-
-yes
-
-> 13Move regmap.h into decode.csmall
-
-yes
-
-> 14, 27Use bit mask instead of strings in decodingsmall
-
-no, but should be easy.
-
-> 14Add comments to decodersmall
-
-yes
-
-> 16Use qemu/int128.hmedium
-
-no
-
-> 17Squash patches dealing with imported filessmall
-
-yes
-
-> 24Use qemu/bitops.h for instruction attributessmall
-
-no
-
-> 24Fix initialization of opcode_short_semanticssmall
-
-yes
-
-> 24Change if (p == NULL) { g_assert_not_reached(); } to assert(p != NULL)small
-
-no
-
-> 25Expand DECL/READ/WRITE/FREE macros into generated codesmall
-
-Yes.
-
-In the end I think some of these will in the end want to be helper functions.
-As I was thinking how to best write A2_add, I was thinking
-
-/* TODO: You currently have an "offset" parameter to
-   DECL_REG.  I can't see that it is ever used?
-   I would *hope* that this could be resolved earlier,
-   so that by this time insn->regno[*] is absolute.  */
-static int resolve_regno(Insn *insn, int slot, int off);
-
-/* Return hex_new_value[regno]; log the write. */
-static TCGv reg_for_write(DisasContext *ctx, int regno);
-
-/* Return hex_reg[regno]; force up-to-date value for PC. */
-static TCGv reg_for_read(DisasContext *ctx, int regno);
-
-/* if (preg) hex_new_value[regno] = hex_reg[regno],
-   or !preg if !test_positive.
-   Leaves hex_new_value[] canonical for gen_reg_writes,
-   no extra temporary required. */
-static void gen_cancel_reg(DisasContext *ctx, int preg,
-                           int rreg, bool test_positive);
-
-DEF_TCG_FUNC(A2_add)
-{
-    int rd = resolve_regno(insn, 0, 0);
-    int rs = resolve_regno(insn, 1, 0);
-    int rt = resolve_regno(insn, 2, 0);
-
-    tcg_gen_add_tl(reg_for_write(ctx, rd),
-                   reg_for_read(ctx, rs),
-                   reg_for_read(ctx, rt));
-}
-
-DEF_TCG_FUNC(A2_paddit)
-{
-    int pu = resolve_regno(insn, 0, 0);
-    int rd = resolve_regno(insn, 1, 0);
-    int rs = resolve_regno(insn, 2, 0);
-    int rt = resolve_regno(insn, 3, 0);
-
-    tcg_gen_add_tl(reg_for_write(ctx, rd),
-                   reg_for_read(ctx, rs),
-                   reg_for_read(ctx, rt));
-    gen_cancel_reg(ctx, insn, rd, pu, true);
-}
-
-However, I don't think we have to have a comprehensive set of these now.  We
-can expand everything into the generator to start, then adjust the generator as
-we add helper functions and use them within the overrides.
-
-> 26Rewrite fINSERT*, fEXTRACT*, f?XTN macrossmall
-
-yes
-
-> 26Investigate fRND macrosmall
-
-no, but should be easy.
-
-> 26Change REG = REG to (VOID)REG to suppress compiler warningsmall
-
-yes
-
-> 27Remove multiple includes of imported/iclass.defsmall
-
-yes
-
-> 28Move genptr_helpers.h into genptr.csmall
-
-yes
-
-> 28Remove unneeded tempssmall
-
-no
-
-> 28Use tcg_gen_deposit_tl and tcg_gen_extract_tl when dealing with p3_0small
-
-no
-
-> 29Size opcode_genptr[] properly and initialize with [TAG] = generate_##TAGsmall
-
-yes; i think this will fall out of other changes.
-
-> 30Don't generate helpers for instructions that are overriddensmall
-
-yes
-
-> Don't include "gen_tcg.h" in helper.h
-
-yes
-
-> 31Use bitmask for ctx->reg_log instead of an arraysmall
-
-yes
-
-> 31Use tcg_gen_extract_i32 for gen_slot_cancelled_checksmall
-
-yes
-
-> 31Properly deal with reading instructions across a page boundary and toomedium
-> many instructions before finding end-of-packet
-
-Yes, this should be easy.  Unless there's some surprise in the code I have
-already suggested code.
-
-> 31Don't set PC at the beginning of every packetmedium
-
-no
-
-> 31Don't set slot_cancelled unless neededsmall
-
-no
-
-> 31Don't set hex_pred_written unless neededmedium
-
-no
-
-> 31Change cancelled variable to not localsmall
-
-yes
-
-> 31Remove unnecessary tempsmall
-
-yes
-
-> 31Let tcg_gen_addi_tl check for zerosmall
-
-yes
-
-> 31Move gen_exec_counters to end of TB instead of every packetmedium
-
-no
-
-> 31Move end of TB handling to hexagon_tr_tb_stopsmall
-
-yes
-
-
-r~
+--000000000000c44b0105ae32e75d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Le ven. 28 ao=C3=BBt 2020 20:04, Richard Henderson <richard.henderson@linar=
+o.org>
+a =C3=A9crit :
+
+> Do not set parallel_cpus if there is only one cpu instantiated.
+> This will allow tcg to use serial code to implement atomics.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>
+
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+
+---
+>  softmmu/cpus.c | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
+>
+> diff --git a/softmmu/cpus.c b/softmmu/cpus.c
+> index a802e899ab..e3b98065c9 100644
+> --- a/softmmu/cpus.c
+> +++ b/softmmu/cpus.c
+> @@ -1895,6 +1895,16 @@ static void qemu_tcg_init_vcpu(CPUState *cpu)
+>      if (!tcg_region_inited) {
+>          tcg_region_inited =3D 1;
+>          tcg_region_init();
+> +        /*
+> +         * If MTTCG, and we will create multiple cpus,
+> +         * then we will have cpus running in parallel.
+> +         */
+> +        if (qemu_tcg_mttcg_enabled()) {
+> +            MachineState *ms =3D MACHINE(qdev_get_machine());
+> +            if (ms->smp.max_cpus > 1) {
+> +                parallel_cpus =3D true;
+> +            }
+> +        }
+>      }
+>
+>      if (qemu_tcg_mttcg_enabled() || !single_tcg_cpu_thread) {
+> @@ -1904,7 +1914,6 @@ static void qemu_tcg_init_vcpu(CPUState *cpu)
+>
+>          if (qemu_tcg_mttcg_enabled()) {
+>              /* create a thread per vCPU with TCG (MTTCG) */
+> -            parallel_cpus =3D true;
+>              snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/TCG",
+>                   cpu->cpu_index);
+>
+> --
+> 2.25.1
+>
+>
+>
+
+--000000000000c44b0105ae32e75d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
+s=3D"gmail_attr">Le ven. 28 ao=C3=BBt 2020 20:04, Richard Henderson &lt;<a =
+href=3D"mailto:richard.henderson@linaro.org">richard.henderson@linaro.org</=
+a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Do not s=
+et parallel_cpus if there is only one cpu instantiated.<br>
+This will allow tcg to use serial code to implement atomics.<br>
+<br>
+Signed-off-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@li=
+naro.org" target=3D"_blank" rel=3D"noreferrer">richard.henderson@linaro.org=
+</a>&gt;<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=
+=3D"auto"><span style=3D"font-family:sans-serif;font-size:13.696px">Reviewe=
+d-by: Philippe Mathieu-Daud=C3=A9 &lt;</span><a href=3D"mailto:f4bug@amsat.=
+org" style=3D"text-decoration:none;color:rgb(66,133,244);font-family:sans-s=
+erif;font-size:13.696px">f4bug@amsat.org</a><span style=3D"font-family:sans=
+-serif;font-size:13.696px">&gt;</span><br></div><div dir=3D"auto"><span sty=
+le=3D"font-family:sans-serif;font-size:13.696px"><br></span></div><div dir=
+=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+---<br>
+=C2=A0softmmu/cpus.c | 11 ++++++++++-<br>
+=C2=A01 file changed, 10 insertions(+), 1 deletion(-)<br>
+<br>
+diff --git a/softmmu/cpus.c b/softmmu/cpus.c<br>
+index a802e899ab..e3b98065c9 100644<br>
+--- a/softmmu/cpus.c<br>
++++ b/softmmu/cpus.c<br>
+@@ -1895,6 +1895,16 @@ static void qemu_tcg_init_vcpu(CPUState *cpu)<br>
+=C2=A0 =C2=A0 =C2=A0if (!tcg_region_inited) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcg_region_inited =3D 1;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcg_region_init();<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* If MTTCG, and we will create multiple =
+cpus,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* then we will have cpus running in para=
+llel.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (qemu_tcg_mttcg_enabled()) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 MachineState *ms =3D MACHINE(qde=
+v_get_machine());<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ms-&gt;smp.max_cpus &gt; 1) =
+{<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 parallel_cpus =3D =
+true;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0if (qemu_tcg_mttcg_enabled() || !single_tcg_cpu_thread)=
+ {<br>
+@@ -1904,7 +1914,6 @@ static void qemu_tcg_init_vcpu(CPUState *cpu)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (qemu_tcg_mttcg_enabled()) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* create a thread per vCPU=
+ with TCG (MTTCG) */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 parallel_cpus =3D true;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0snprintf(thread_name, VCPU_=
+THREAD_NAME_SIZE, &quot;CPU %d/TCG&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cpu-&gt;cpu_=
+index);<br>
+<br>
+-- <br>
+2.25.1<br>
+<br>
+<br>
+</blockquote></div></div></div>
+
+--000000000000c44b0105ae32e75d--
 
