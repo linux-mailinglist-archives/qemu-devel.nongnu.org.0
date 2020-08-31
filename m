@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 483F3257E74
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 18:17:26 +0200 (CEST)
-Received: from localhost ([::1]:47858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07127257E70
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 18:16:01 +0200 (CEST)
+Received: from localhost ([::1]:43762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCmUn-0008PU-8D
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 12:17:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33658)
+	id 1kCmTQ-0006fn-2E
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 12:16:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCmKD-00042l-Tc
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:06:29 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:35329)
+ id 1kCmKF-00047A-JS
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:06:31 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:54430)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCmKC-0005xr-3V
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:06:29 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id g6so31883pjl.0
- for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 09:06:27 -0700 (PDT)
+ id 1kCmKD-0005yF-8J
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:06:31 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id mm21so22366pjb.4
+ for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 09:06:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=haB+kLrfuYUnX1QRhCRrExdmXpWhe0msojEhc/6IfBE=;
- b=Q+k2ihijyVPVWPtuvJ/wbicUttguv37ghqruVnOwXXEtxnNXmRf5wXaDKsvQHxvGBe
- ggBi+2QAJo05a+m08rnNA+52jv0W9eFZHop8Z16zVPyM0v+SEcMmbtEMqALrnIFkF4X6
- G22xvi7F7ZxL7+3EeHaKS3VDF1klgkSZraNYkoLS5217Vped4dtCT8u8aHXa03aDaXTg
- EJ8nMng8b2KapHZEejCo3oOpDI1e7ePje6fY2nU6r5j7bg9q/vF9NQse3Uniw8EkYVZP
- itl9Nh5/tJtX4vY9FccPck8TeRhv8YklCCESEmGNfqhfeaQ0vqo3XpspcSr15H7HOmk0
- 1eBQ==
+ bh=5ShF+BY48IwWmImvy13quKmLT6LR29ss78JGb2qClWk=;
+ b=e6H9RCuEKvAL+dLt6N7M3C0TcE2anGkJN9Z91jPzXhZEYoyYmMu+DD394dp6CGlApu
+ 04cwemSEhZ2q1QcrIrjbuCpF6UIYoMB0TiSyRGLGpA18eKJDefax0/LMj3p2E1STxzJl
+ Ea5aPjD8n+Wgf4rrgXORlgUeHQxlwuAdLlqXDk+MPTwPLUzO3mXJJmt5aTijoZGS6UHw
+ oSjpkmCMsA5kUNJKBty02udS1fhu9CVDsgiJnA62EUF/XB5A3Rucgu8MkG2IQhHIb7F3
+ Qa2KDzaelkVfWP2a7nE/MfMSN5PxO8cq9IeMLHdiqo0bDK4vU/di/xkk5u6XJVj4j2Zp
+ 8cSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=haB+kLrfuYUnX1QRhCRrExdmXpWhe0msojEhc/6IfBE=;
- b=AMZ8XWnSFxx9peKn4OzBpbpOowoi3MRnq54+HAXZrU22es73nK60JjuZGyOwsNfiGw
- GQsjoR4M68d9erc9+1MzEK58KZUoxbsHVgg3FSa686bgqPol3RgkQ5krbAxjwYQkHCl8
- G5gcWfCjPw12K0uSYp0JB9zJtd4Ft3F22rGuAR+MJqRqDrPYn2YhVrEed12hijpQO4Ov
- jpkyPH23s80LVGpfyDaz023JQ+n2rv+cko3ZzFfx7kd6qRlt+RknkkeNH1VCCi3VJAJZ
- ehOFTYY1cjT34ODEalfOt5mvBZtlOwil7VaI112r58eW1nrIT9wnE/qY2pEiPNC9xv+i
- CXcQ==
-X-Gm-Message-State: AOAM530R8jCdFCLz1/KL7LLJt3uFOd5iYpaWkvo4OwK1cR0hJbuHnEiU
- A7XXmH7rwL6e48jAEE2s5TCiHzt8Fxu3bg==
-X-Google-Smtp-Source: ABdhPJwhlinzqDCn05V6qfoBPN4IjdnoDHzGGPipwmfLWfR70chETlQOHTweapVJDpW3R0tX6V6gkg==
-X-Received: by 2002:a17:90a:7e15:: with SMTP id
- i21mr57021pjl.175.1598889986167; 
- Mon, 31 Aug 2020 09:06:26 -0700 (PDT)
+ bh=5ShF+BY48IwWmImvy13quKmLT6LR29ss78JGb2qClWk=;
+ b=Fd7tInKS2d4TOR5LZQFEOY+e8WZzXah8nQTz7AWQ0W+bvKmbYgV0DIOSs2pP+dV8fn
+ FdDQTGUPNxNYkseXfp0vT2gJ21EV+sB0O21kI83t9wepb4+vXZzvynLMxa0AFKR7mfIi
+ tLSMvfAkYZEvKjVnmcpeDSaMai3xMDoPmF67A2QSj7eNCF2MU4SXyD9BNTJElTQhzP4y
+ sMjaHEIO4/w1rL5Wn/XZudWi+cNL/kbGwmg7CBTib/5FK6QdzstLJao6zbzgi0YzL2OO
+ gYPAiGgX3IoQBqx5FhF2pppzm00MhwmoGr3JKLPOGoxQSsqE/ZuKgYuMl4CMJbzeLd+S
+ rVHA==
+X-Gm-Message-State: AOAM531xR2KIO2fDfW25A3XbZ6QXaVSOxPAyT2b+uynIGRmXVwwyknBH
+ OQrlN907chO/nufb2yQh23QNSi1YOpbogg==
+X-Google-Smtp-Source: ABdhPJxCaqwX9QsYEty3dBpZh2Z/R7ki45b2FnDnfSB5RFyz2eyXmeRUoV1C9sE4pXwTbqBU/Ixn+Q==
+X-Received: by 2002:a17:902:6ac3:: with SMTP id
+ i3mr1591333plt.21.1598889987492; 
+ Mon, 31 Aug 2020 09:06:27 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id gt13sm17218pjb.43.2020.08.31.09.06.24
+ by smtp.gmail.com with ESMTPSA id gt13sm17218pjb.43.2020.08.31.09.06.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Aug 2020 09:06:25 -0700 (PDT)
+ Mon, 31 Aug 2020 09:06:26 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/76] target/microblaze: Fix width of FSR
-Date: Mon, 31 Aug 2020 09:05:01 -0700
-Message-Id: <20200831160601.833692-17-richard.henderson@linaro.org>
+Subject: [PULL 17/76] target/microblaze: Fix width of BTR
+Date: Mon, 31 Aug 2020 09:05:02 -0700
+Message-Id: <20200831160601.833692-18-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200831160601.833692-1-richard.henderson@linaro.org>
 References: <20200831160601.833692-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,8 +89,8 @@ Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The exception status register is only 32-bits wide.  Do not use a
-64-bit type to represent it.  Since cpu_fsr is only used during
+The branch target register is only 32-bits wide.  Do not use a
+64-bit type to represent it.  Since cpu_btr is only used during
 MSR and MTR instructions, we can just as easily use an explicit
 load and store, so eliminate the variable.
 
@@ -99,72 +99,73 @@ Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
  target/microblaze/cpu.h       |  2 +-
- target/microblaze/translate.c | 11 +++++------
- 2 files changed, 6 insertions(+), 7 deletions(-)
+ target/microblaze/translate.c | 12 +++++-------
+ 2 files changed, 6 insertions(+), 8 deletions(-)
 
 diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
-index aaac0c9a6c..34177f9b28 100644
+index 34177f9b28..72f068a5fd 100644
 --- a/target/microblaze/cpu.h
 +++ b/target/microblaze/cpu.h
-@@ -240,7 +240,7 @@ struct CPUMBState {
-     uint32_t msr;
+@@ -241,7 +241,7 @@ struct CPUMBState {
      uint64_t ear;
      uint32_t esr;
--    uint64_t fsr;
-+    uint32_t fsr;
-     uint64_t btr;
+     uint32_t fsr;
+-    uint64_t btr;
++    uint32_t btr;
      uint64_t edr;
      float_status fp_status;
+     /* Stack protectors. Yes, it's a hw feature.  */
 diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index f63aae6de9..3fc2feda3d 100644
+index 3fc2feda3d..a2bba0fe61 100644
 --- a/target/microblaze/translate.c
 +++ b/target/microblaze/translate.c
 @@ -59,7 +59,6 @@ static TCGv_i32 cpu_pc;
  static TCGv_i32 cpu_msr;
  static TCGv_i64 cpu_ear;
  static TCGv_i32 cpu_esr;
--static TCGv_i64 cpu_fsr;
- static TCGv_i64 cpu_btr;
+-static TCGv_i64 cpu_btr;
  static TCGv_i64 cpu_edr;
  static TCGv_i32 env_imm;
-@@ -542,7 +541,8 @@ static void dec_msr(DisasContext *dc)
-                 tcg_gen_mov_i32(cpu_esr, cpu_R[dc->ra]);
+ static TCGv_i32 env_btaken;
+@@ -545,7 +544,8 @@ static void dec_msr(DisasContext *dc)
+                                cpu_env, offsetof(CPUMBState, fsr));
                  break;
-             case SR_FSR:
--                tcg_gen_extu_i32_i64(cpu_fsr, cpu_R[dc->ra]);
+             case SR_BTR:
+-                tcg_gen_extu_i32_i64(cpu_btr, cpu_R[dc->ra]);
 +                tcg_gen_st_i32(cpu_R[dc->ra],
-+                               cpu_env, offsetof(CPUMBState, fsr));
++                               cpu_env, offsetof(CPUMBState, btr));
+                 break;
+             case SR_EDR:
+                 tcg_gen_extu_i32_i64(cpu_edr, cpu_R[dc->ra]);
+@@ -587,7 +587,8 @@ static void dec_msr(DisasContext *dc)
+                                cpu_env, offsetof(CPUMBState, fsr));
                  break;
              case SR_BTR:
-                 tcg_gen_extu_i32_i64(cpu_btr, cpu_R[dc->ra]);
-@@ -583,7 +583,8 @@ static void dec_msr(DisasContext *dc)
-                 tcg_gen_mov_i32(cpu_R[dc->rd], cpu_esr);
-                 break;
-             case SR_FSR:
--                tcg_gen_extrl_i64_i32(cpu_R[dc->rd], cpu_fsr);
+-                tcg_gen_extrl_i64_i32(cpu_R[dc->rd], cpu_btr);
 +                tcg_gen_ld_i32(cpu_R[dc->rd],
-+                               cpu_env, offsetof(CPUMBState, fsr));
++                               cpu_env, offsetof(CPUMBState, btr));
                  break;
-             case SR_BTR:
-                 tcg_gen_extrl_i64_i32(cpu_R[dc->rd], cpu_btr);
-@@ -1798,7 +1799,7 @@ void mb_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+             case SR_EDR:
+                 tcg_gen_extrl_i64_i32(cpu_R[dc->rd], cpu_edr);
+@@ -1799,8 +1800,7 @@ void mb_cpu_dump_state(CPUState *cs, FILE *f, int flags)
      qemu_fprintf(f, "IN: PC=%x %s\n",
                   env->pc, lookup_symbol(env->pc));
      qemu_fprintf(f, "rmsr=%x resr=%x rear=%" PRIx64 " "
--                 "debug=%x imm=%x iflags=%x fsr=%" PRIx64 " "
-+                 "debug=%x imm=%x iflags=%x fsr=%x "
-                  "rbtr=%" PRIx64 "\n",
+-                 "debug=%x imm=%x iflags=%x fsr=%x "
+-                 "rbtr=%" PRIx64 "\n",
++                 "debug=%x imm=%x iflags=%x fsr=%x rbtr=%x\n",
                   env->msr, env->esr, env->ear,
                   env->debug, env->imm, env->iflags, env->fsr,
-@@ -1867,8 +1868,6 @@ void mb_tcg_init(void)
+                  env->btr);
+@@ -1868,8 +1868,6 @@ void mb_tcg_init(void)
          tcg_global_mem_new_i64(cpu_env, offsetof(CPUMBState, ear), "rear");
      cpu_esr =
          tcg_global_mem_new_i32(cpu_env, offsetof(CPUMBState, esr), "resr");
--    cpu_fsr =
--        tcg_global_mem_new_i64(cpu_env, offsetof(CPUMBState, fsr), "rfsr");
-     cpu_btr =
-         tcg_global_mem_new_i64(cpu_env, offsetof(CPUMBState, btr), "rbtr");
+-    cpu_btr =
+-        tcg_global_mem_new_i64(cpu_env, offsetof(CPUMBState, btr), "rbtr");
      cpu_edr =
+         tcg_global_mem_new_i64(cpu_env, offsetof(CPUMBState, edr), "redr");
+ }
 -- 
 2.25.1
 
