@@ -2,72 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 534612577ED
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 13:09:14 +0200 (CEST)
-Received: from localhost ([::1]:43260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC6992577EB
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 13:08:25 +0200 (CEST)
+Received: from localhost ([::1]:40376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kChgX-0001Dy-9m
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 07:09:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48030)
+	id 1kChfk-0008TB-LY
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 07:08:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kCheQ-00068f-LJ
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 07:07:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59422)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kCheO-0000Nu-UZ
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 07:07:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598872020;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=6wOofA9NB1IMuwXXUSEQIzql8pEf/WvvBNBuZh0rxEo=;
- b=N+j1Ezq8I5v6ReIwZvqPRsc5hQYVlnyvfd93l6zqMtDq9IGCCrYpv+BVTlHkjaFcy5PdbB
- bGl9+kBIi1lvfDckk2rYKOTPE0lbEFDRXK9ykAHnscw9Ku+FSpwPuxPXJJoYBppq6NfPGQ
- sT9TnZLUR8sSmaoTykitmc1fJyRPIpU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-106-UpZ6pSDfMNKO_5H6VvBAAg-1; Mon, 31 Aug 2020 07:06:57 -0400
-X-MC-Unique: UpZ6pSDfMNKO_5H6VvBAAg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2273D185BDE1
- for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 11:06:57 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-54.ams2.redhat.com
- [10.36.112.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CD2E65C221;
- Mon, 31 Aug 2020 11:06:56 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 80A87ED9; Mon, 31 Aug 2020 13:06:55 +0200 (CEST)
-Date: Mon, 31 Aug 2020 13:06:55 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] meson: use pkg-config method to find dependencies
-Message-ID: <20200831110655.uj6f2hq3yyygqqox@sirius.home.kraxel.org>
-References: <20200831102819.24334-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kChen-0006rw-J7
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 07:07:25 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:35781)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kChel-0000QP-NS
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 07:07:25 -0400
+Received: from localhost.localdomain ([82.252.135.186]) by
+ mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1N4yJ8-1kbpi10aou-010sl1; Mon, 31 Aug 2020 13:07:21 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/8] Linux user for 5.2 patches
+Date: Mon, 31 Aug 2020 13:07:08 +0200
+Message-Id: <20200831110716.536808-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20200831102819.24334-1-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 03:02:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:ZCkkQ+8a99l2SyMSjuAXJnwbXdqeOanhZ6/FvN6ExlHOOZQuGY+
+ iVc+3KuoWmeuhr7GgWl57uB9u48tn3vObU/53NOjjCxS9ze4++r+kB22IDizFxFP4/YfniA
+ XDJsuU7faOC03MXV8LpCd+L3JKVmXG3MftpSxNk/GYeV0kGEs6xn/g6Kdh7+ow1GvOokcei
+ J8M8rNBqHZKDvJrjST2LQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:lTaZAn7tHY4=:uYRK7CheEi+MnCq8jby6HS
+ 5xTV0rUwsIQxsb+lDmG8BaXh/UNHrKH7D/d4KYFNHfPAO01tVn3eCvnwUdv0oPjegDuynh3V6
+ 4xejhr33icmpy0wZ7bw86uxKd7TgV/4MnQAK1+96udUeLbIypF0Xv6vzcigBAHugoY0f/tizL
+ pKzTzOT8bm7SojWiBI/GE9bbLg/3q+LquBBcGiL2Rw7ZIMg1ez9/gs0EGtbRjX7ODP7xewevQ
+ 5qMa6KmyVTXF0Z/QZ/El+GNzynIUNbCai4w2rUQxYRju5rANpkQDetOe6XRebUBnzSxMF2nco
+ weOho47WwR7t3Ta4x8pA7Oec+UrzfDQh7HZ3fG1LnI3AXzt8YjRYZTyf0lUepV0LfguiciSp2
+ 5U9QbUreS0HhfYA8hDwU7iZv2/JmHu50DWNHxCWR/G+0Vh8cf422wXdiZAWlK/eVlNsZXkGvU
+ ro575J/QXIP8gGFlmE2J42SQJ2ZWdtlczX3yZ61+mCgsWk21ILrYl13/A0Hacglegz+djgcX6
+ CfBD+9wagul4NzGYzPk3QL6DVRfn+NX6Oxs+rSxV4r+HZih/sSxKraPCPMDjPManLyMU2PgWS
+ lz/Rw4aImXeQZwN+xGF+kQMits0EGq28QtBhe1XAUUzl+hjYBtaqnlW5qyZWG23hBBfD2f1+u
+ MqRz5qMhKNx/ttfREnzNeJ8bvBH5NQS4MUpgzxg0n2E2lp01CDNoa3cKD5VdzCaOS35m0xE+N
+ 7gwudTUpKCC6v6oxmq8WJEAseTvgoppqd3vYZ0eOjLG5ImNl9mDmwQFwqiqju58RC1LC2g5/f
+ cRvlhAQQ3kbGETifNgKzsiAu3zKosF9zINgWorzMm9ujGbFopf8kECH1sQkmxtAdNe+IuP8
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 07:07:21
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,23 +68,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
-
-> Keep "auto" for SDL so that it tries using
-> sdl-config too.
-
-> -  sdl = dependency('sdl2',
-> -                   required: get_option('sdl'),
-> +  sdl = dependency('sdl2', required: get_option('sdl'),
-> +                   method: 'pkg-config',
-
-code and commit message mismatch here.
-
-take care,
-  Gerd
-
+The following changes since commit 39335fab59e11cfda9b7cf63929825db2dd3a3e0=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-5.2-pul=
+l-=3D=0D
+request' into staging (2020-08-28 22:30:11 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://github.com/vivier/qemu.git tags/linux-user-for-5.2-pull-request=0D
+=0D
+for you to fetch changes up to d6676fc62a52e020df32abf927c2e7183781a2e3:=0D
+=0D
+  linux-user: Add support for btrfs ioctls used to scrub a filesystem (2020=
+-0=3D=0D
+8-29 10:14:52 +0200)=0D
+=0D
+----------------------------------------------------------------=0D
+Add btrfs support=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Filip Bozuta (8):=0D
+  linux-user: Add support for a group of btrfs ioctls used for=0D
+    subvolumes=0D
+  linux-user: Add support for a group of btrfs ioctls used for snapshots=0D
+  linux-user: Add support for btrfs ioctls used to manipulate with=0D
+    devices=0D
+  linux-user: Add support for btrfs ioctls used to get/set features=0D
+  linux-user: Add support for a group of btrfs inode ioctls=0D
+  linux-user: Add support for two btrfs ioctls used for subvolume=0D
+  linux-user: Add support for btrfs ioctls used to manage quota=0D
+  linux-user: Add support for btrfs ioctls used to scrub a filesystem=0D
+=0D
+ configure                  |   9 ++=0D
+ linux-user/ioctls.h        | 124 ++++++++++++++++++++++++++++=0D
+ linux-user/syscall.c       |   3 +=0D
+ linux-user/syscall_defs.h  |  37 +++++++++=0D
+ linux-user/syscall_types.h | 163 +++++++++++++++++++++++++++++++++++++=0D
+ 5 files changed, 336 insertions(+)=0D
+=0D
+--=3D20=0D
+2.26.2=0D
+=0D
 
