@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32C36258396
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 23:31:52 +0200 (CEST)
-Received: from localhost ([::1]:55340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF0472583A7
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 23:37:12 +0200 (CEST)
+Received: from localhost ([::1]:48796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCrP5-0003kv-4n
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 17:31:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47408)
+	id 1kCrUF-0004Tp-L0
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 17:37:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kCrD6-0003Xi-Vm
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:19:29 -0400
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:44291)
+ id 1kCrD8-0003aR-G6
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:19:30 -0400
+Received: from mail-qt1-f182.google.com ([209.85.160.182]:46645)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kCrD5-0001Wr-9z
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:19:28 -0400
-Received: by mail-qk1-f195.google.com with SMTP id p185so7555255qkb.11
- for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 14:19:26 -0700 (PDT)
+ id 1kCrD6-0001Wy-JN
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:19:30 -0400
+Received: by mail-qt1-f182.google.com with SMTP id b3so5831063qtg.13
+ for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 14:19:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=qKvgrwAbuO+EyqOMVk4tOCuKYE/8HRYizGKnvI8gtCM=;
- b=lk0u8pDcaF2T++HJseWKl9F/3q+f0jm7TuE4mlhXelNFK1FCWYIFgytKVr3LVKIGcF
- B70yb+xXl54iLTPdchsIXLP8ltl4i4MQxp61iAaXrNIvHYBpe8j1l+/bviwNqex0TU1O
- KAwZThpTQjKMngBdpqjDL5zzXfxGMIOOEzOQVQl4GJdEkniGr3TjrUDewuZBuhip2Enn
- IJYFgzvcEbVt+yxuPK0lQ/qUxX5ViZ/9i6LDbFNpKi7zxCZHK2s8qUMp/8TCF0N7lteu
- Y1wCXpgyXSFX9LEGbz3iRSJVO0V4M3CWdDqT33460QyluFnp6UK8dX6kcF8IbrKkZfaL
- Q4Fg==
-X-Gm-Message-State: AOAM533JffdQtZBQyBl1hsL4HesQ8U1dT+8YBsufV6kCz/sQ2NuDsnOd
- YpEshnirOfDoKPDtN8ox+FTyC3ydQBprpok5/Ys=
-X-Google-Smtp-Source: ABdhPJyt+0wQbWWjf/P1vhNjOxCzdMcjATXT2pFJP1nflQsBNs1CRUSfPe8Um05NTNx7uVhg8otOS/J3KaG6nrXqC90=
-X-Received: by 2002:ae9:f101:: with SMTP id k1mr3391904qkg.122.1598908766220; 
- Mon, 31 Aug 2020 14:19:26 -0700 (PDT)
+ bh=HQiv60Nk2oLaohYdcGV37/WqeKMe1EAPw29O2AALm0c=;
+ b=jdGPZrwtkn0qbRDaPYCJWtb4aLY3xiRuLoA/CbH/t5yGkxsIwEwcc3ranvAA5Ny5gr
+ GkK/03g/IY5jE+jxNpIm+Om4Ko1YHfPwsAeu92hCEN/czm/smj2b4M1N4no6dSam0tFv
+ y6FKftpLyo/y02vzUQen0DeYyneZJm0DT7wqNM7/MMbSm1Z8CsJcK8iY61yebgFtGd2p
+ V9oOrpJC2d8umtiUFbTC70WloJDXivG2HW8A66sIQ6IvDrLqkuRvAMSuJ82M29uG5vpf
+ UjRyQfm5zw9KtusYV4+kzexP5T/GzvjOYu957BIUm6WA14PQdzmQyCLLtXXzoXoDkT1v
+ 581A==
+X-Gm-Message-State: AOAM533ZzQLOqn5U2DUxtSqVlHfxF5Lb1o0OkCgVgacp4rxcowvJMRhF
+ HRUe51g4gLUd2gssyv8JrFHpJZ2tmXpgXelbn3Y=
+X-Google-Smtp-Source: ABdhPJz8VRNvfWL6UR2pX6cnqR63ggRzfEA7TT34+1vLKVs1T53GAOMcEvAd9LI6gkqLplhpRaelkXF6zLczwaZ91A0=
+X-Received: by 2002:ac8:660f:: with SMTP id c15mr3353563qtp.34.1598908767705; 
+ Mon, 31 Aug 2020 14:19:27 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200827113259.25064-1-peter.maydell@linaro.org>
- <AC5F071F-2965-4401-858C-2E4373C052E4@walle.cc>
-In-Reply-To: <AC5F071F-2965-4401-858C-2E4373C052E4@walle.cc>
+ <8385e0cf-b955-e62d-dfdc-51380b7c5433@redhat.com>
+ <CAFEAcA_3fiQ86aby8PALZNUukPE1RhgV+1+hjoEF+aCfCp3mbw@mail.gmail.com>
+ <0fd6bf04-f021-6716-c010-93def04c6f5d@redhat.com>
+In-Reply-To: <0fd6bf04-f021-6716-c010-93def04c6f5d@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Mon, 31 Aug 2020 22:08:57 +0200
-Message-ID: <CAAdtpL4mVd9qB3y1i0TJpQWi+0hyONckNj47cDho_Q5tD81Nkw@mail.gmail.com>
+Date: Mon, 31 Aug 2020 22:11:38 +0200
+Message-ID: <CAAdtpL761E3jrnSK4zfOh-EQSPuJGN709i-vqeancSvmdJuSgQ@mail.gmail.com>
 Subject: Re: [PATCH] Deprecate lm32 port
-To: Michael Walle <michael@walle.cc>
-Content-Type: multipart/alternative; boundary="00000000000009f67505ae32f533"
-Received-SPF: pass client-ip=209.85.222.195;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-qk1-f195.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 17:16:55
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000209f3105ae32f52d"
+Received-SPF: pass client-ip=209.85.160.182;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-qt1-f182.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 17:19:27
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -15
 X-Spam_score: -1.6
 X-Spam_bar: -
 X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
  FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,101 +72,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Michael Walle <michael@walle.cc>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
  "Daniel P. Berrange" <berrange@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000009f67505ae32f533
+--000000000000209f3105ae32f52d
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Le jeu. 27 ao=C3=BBt 2020 14:07, Michael Walle <michael@walle.cc> a =C3=A9c=
-rit :
+Le jeu. 27 ao=C3=BBt 2020 16:51, Thomas Huth <thuth@redhat.com> a =C3=A9cri=
+t :
 
-> Am 27. August 2020 13:32:59 MESZ schrieb Peter Maydell <
-> peter.maydell@linaro.org>:
-> >Deprecate our lm32 target support. Michael Walle (former lm32
-> >maintainer)
-> >suggested that we do this in 2019:
-> > https://www.mail-archive.com/qemu-devel@nongnu.org/msg605024.html
-> >because the only public user of the architecture is the many-years-dead
-> >milkymist project. (The Linux port to lm32 was never merged upstream.)
+> On 27/08/2020 16.19, Peter Maydell wrote:
+> > On Thu, 27 Aug 2020 at 14:52, Thomas Huth <thuth@redhat.com> wrote:
+> >> What's next? moxie? ... apart from the tree-wide clean-ups and trivial
+> >> fixes, moxie did not have any major updates since 2013 when it has bee=
+n
+> >> added, as far as I can see ... is anybody still using it?
 > >
-> >In commit 4b4d96c776f552e (March 2020) we marked it as 'orphan' in
-> >the MAINTAINERS file, but didn't officially deprecate it. Mark it
-> >deprecated now, with the intention of removing it from QEMU in
-> >mid-2021 before the 6.1 release.
+> > I was never very clear on how much use moxie had to start with...
 > >
-> >Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> > An extremely rough-and-ready guide to how well-loved a target
+> > is might be "did it get converted to TranslatorOps?". Unconverted:
+> >  * avr
+> >  * cris
+> >  * lm32 (deprecation in progress)
+> >  * microblaze (rth just posted patches for this)
+> >  * moxie
+> >  * nios2
+> >  * tilegx (deprecation in progress)
+> >  * unicore32 (deprecation in progress)
 >
-> Acked-by: Michael Walle <michael@walle.cc>
->
-
-Thanks Michael for your contributions. I could learn few things looking at
-the code and the git history.
-
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-
-
-> Thanks,
-> -michael
->
->
+> Another criteria might be: Do we have a tcg, qtest or acceptance test to
+> check that the target is still working?
 >
 
---00000000000009f67505ae32f533
+And to some extent "is there documentation publicly available?" as it makes
+maintenance by others possible.
+
+
+> - avr has an acceptance test
+>
+> - cris has tcg tests
+>
+> - lm32 has tcg tests
+>
+> - microblaze has acceptance tests (and one trivial qtest)
+>
+> - moxie ... has only one very trivial qtest (boot-serial-test)
+>
+> - nios2 has an acceptance test
+>
+> - tilegx does not have any tests at all
+>
+> - unicore32 does not have any tests at all
+>   (not counting the trivial machine-none-test)
+>
+> So from that point of view, unicore32, tilegx and moxie are the
+> candidates for deprecation.
+>
+> > I think dropping the moxie maintainer an email to ask about
+> > the architecture's status wouldn't be a bad idea if you
+> > wanted to start that ball rolling.
+>
+> Ok, good idea, I'll try to write a mail later today.
+>
+>  Thomas
+>
+>
+>
+
+--000000000000209f3105ae32f52d
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"auto"><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
-s=3D"gmail_attr">Le jeu. 27 ao=C3=BBt 2020 14:07, Michael Walle &lt;michael=
-@walle.cc&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">A=
-m 27. August 2020 13:32:59 MESZ schrieb Peter Maydell &lt;<a href=3D"mailto=
-:peter.maydell@linaro.org" target=3D"_blank" rel=3D"noreferrer">peter.mayde=
-ll@linaro.org</a>&gt;:<br>
-&gt;Deprecate our lm32 target support. Michael Walle (former lm32<br>
-&gt;maintainer)<br>
-&gt;suggested that we do this in 2019:<br>
-&gt; <a href=3D"https://www.mail-archive.com/qemu-devel@nongnu.org/msg60502=
-4.html" rel=3D"noreferrer noreferrer" target=3D"_blank">https://www.mail-ar=
-chive.com/qemu-devel@nongnu.org/msg605024.html</a><br>
-&gt;because the only public user of the architecture is the many-years-dead=
+s=3D"gmail_attr">Le jeu. 27 ao=C3=BBt 2020 16:51, Thomas Huth &lt;<a href=
+=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; a =C3=A9crit=C2=A0:<b=
+r></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
+-left:1px #ccc solid;padding-left:1ex">On 27/08/2020 16.19, Peter Maydell w=
+rote:<br>
+&gt; On Thu, 27 Aug 2020 at 14:52, Thomas Huth &lt;<a href=3D"mailto:thuth@=
+redhat.com" target=3D"_blank" rel=3D"noreferrer">thuth@redhat.com</a>&gt; w=
+rote:<br>
+&gt;&gt; What&#39;s next? moxie? ... apart from the tree-wide clean-ups and=
+ trivial<br>
+&gt;&gt; fixes, moxie did not have any major updates since 2013 when it has=
+ been<br>
+&gt;&gt; added, as far as I can see ... is anybody still using it?<br>
+&gt; <br>
+&gt; I was never very clear on how much use moxie had to start with...<br>
+&gt; <br>
+&gt; An extremely rough-and-ready guide to how well-loved a target<br>
+&gt; is might be &quot;did it get converted to TranslatorOps?&quot;. Unconv=
+erted:<br>
+&gt;=C2=A0 * avr<br>
+&gt;=C2=A0 * cris<br>
+&gt;=C2=A0 * lm32 (deprecation in progress)<br>
+&gt;=C2=A0 * microblaze (rth just posted patches for this)<br>
+&gt;=C2=A0 * moxie<br>
+&gt;=C2=A0 * nios2<br>
+&gt;=C2=A0 * tilegx (deprecation in progress)<br>
+&gt;=C2=A0 * unicore32 (deprecation in progress)<br>
 <br>
-&gt;milkymist project. (The Linux port to lm32 was never merged upstream.)<=
-br>
-&gt;<br>
-&gt;In commit 4b4d96c776f552e (March 2020) we marked it as &#39;orphan&#39;=
- in<br>
-&gt;the MAINTAINERS file, but didn&#39;t officially deprecate it. Mark it<b=
-r>
-&gt;deprecated now, with the intention of removing it from QEMU in<br>
-&gt;mid-2021 before the 6.1 release.<br>
-&gt;<br>
-&gt;Signed-off-by: Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro=
-.org" target=3D"_blank" rel=3D"noreferrer">peter.maydell@linaro.org</a>&gt;=
-<br>
-<br>
-Acked-by: Michael Walle &lt;michael@walle.cc&gt;<br></blockquote></div></di=
-v><div dir=3D"auto"><br></div><div dir=3D"auto">Thanks Michael for your con=
-tributions. I could learn few things looking at the code and the git histor=
-y.</div><div dir=3D"auto"><br></div><div dir=3D"auto"><span style=3D"font-f=
-amily:sans-serif;font-size:13.696px">Reviewed-by: Philippe Mathieu-Daud=C3=
-=A9 &lt;</span><a href=3D"mailto:f4bug@amsat.org" style=3D"text-decoration:=
-none;color:rgb(66,133,244);font-family:sans-serif;font-size:13.696px">f4bug=
-@amsat.org</a><span style=3D"font-family:sans-serif;font-size:13.696px">&gt=
-;</span><br></div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=
+Another criteria might be: Do we have a tcg, qtest or acceptance test to<br=
+>
+check that the target is still working?<br></blockquote></div></div><div di=
+r=3D"auto"><br></div><div dir=3D"auto">And to some extent &quot;is there do=
+cumentation publicly available?&quot; as it makes maintenance by others pos=
+sible.=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=
 =3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
 ex;border-left:1px #ccc solid;padding-left:1ex">
 <br>
-Thanks, <br>
--michael <br>
+- avr has an acceptance test<br>
+<br>
+- cris has tcg tests<br>
+<br>
+- lm32 has tcg tests<br>
+<br>
+- microblaze has acceptance tests (and one trivial qtest)<br>
+<br>
+- moxie ... has only one very trivial qtest (boot-serial-test)<br>
+<br>
+- nios2 has an acceptance test<br>
+<br>
+- tilegx does not have any tests at all<br>
+<br>
+- unicore32 does not have any tests at all<br>
+=C2=A0 (not counting the trivial machine-none-test)<br>
+<br>
+So from that point of view, unicore32, tilegx and moxie are the<br>
+candidates for deprecation.<br>
+<br>
+&gt; I think dropping the moxie maintainer an email to ask about<br>
+&gt; the architecture&#39;s status wouldn&#39;t be a bad idea if you<br>
+&gt; wanted to start that ball rolling.<br>
+<br>
+Ok, good idea, I&#39;ll try to write a mail later today.<br>
+<br>
+=C2=A0Thomas<br>
 <br>
 <br>
 </blockquote></div></div></div>
 
---00000000000009f67505ae32f533--
+--000000000000209f3105ae32f52d--
 
