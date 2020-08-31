@@ -2,78 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AF01257109
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 01:36:49 +0200 (CEST)
-Received: from localhost ([::1]:50482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9E6F2571DE
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 04:29:58 +0200 (CEST)
+Received: from localhost ([::1]:43224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCWsS-0001tb-8J
-	for lists+qemu-devel@lfdr.de; Sun, 30 Aug 2020 19:36:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43466)
+	id 1kCZa1-0005mB-DQ
+	for lists+qemu-devel@lfdr.de; Sun, 30 Aug 2020 22:29:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1kCWrf-0001I5-0u
- for qemu-devel@nongnu.org; Sun, 30 Aug 2020 19:35:59 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:40728)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1kCWrc-0005du-Rw
- for qemu-devel@nongnu.org; Sun, 30 Aug 2020 19:35:58 -0400
-Received: by mail-wm1-x344.google.com with SMTP id v4so3002385wmj.5
- for <qemu-devel@nongnu.org>; Sun, 30 Aug 2020 16:35:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=RASHodX0lMfHYt83QbTf2ezLNOxfAhKMutmXcqjpFuQ=;
- b=j8RBtorqaVEsLOmNgpW3EzUGHsToCN3xfe46gSDMurZJGFNEg18k0GvZKdOoScuO0k
- zlYrwS0pah7kXPLGqgfPBRxHOJGPX3hbhsI3IsaXdMIBVLnNEv98mTUVFnReYcAAxGPs
- sMg/fgdjTuC5L4ZV/psfBJMxu1gMdqqaZwLDPxgr1QUuEQZ1by7JTpF3LXNIgls9bR52
- fbo1mee/ZsECNW5HqyQcko3TlbS/htkuGhXweyfG8AEFHcNh24jV/7Uzha0LIsCp77WY
- 2j0lJeqJ5X2rWl35Ys3SW/QIPjgsfGETi4kpiHBODBy2jWGW/fLNKVxR38vIVBxqD2wL
- Tfhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=RASHodX0lMfHYt83QbTf2ezLNOxfAhKMutmXcqjpFuQ=;
- b=XwATiBoPkNpD1UKUPj7ZXqe2qqTd7/XPTewqRbrueiO28d2aXiC7XpW28Yhrl/4wu0
- evJwZm7PKcrTlPoCsncUbtRd7Lb2Lj2y1FdOte4V/t7HZM1RLUXp4IZY4VbBK/kbrPB3
- oOB7WD60GCfXSaEJjXckkxau6kd08D8qPvs54ge7ekFp+/Q4cipIWTHlG4uaZ82E8VIZ
- B1RzsGsmb8prs/wTD0I+7I8h98K/kRLJNNIopV3w41AFiJk5qXjv94bgV7lAx7ZFkDQQ
- 5rZf36ox7KTiWl0Onnp3Y9DyaGFTTZMP4crHiRPeyRqct4S2S2RtdN0ypMyqiCcII+UI
- 4WXw==
-X-Gm-Message-State: AOAM531+fbybjs5KJ0vBtSBQgQ7GMDZDdKMPw54VHWvIYh+VbUMJPFdI
- HupagZ9a8hpbp4b8Lm3b+cGanA==
-X-Google-Smtp-Source: ABdhPJxnrUjQW5Yi/f20qAyShWbhd5YUVdj0/CuqpJzH0j7u25Md01wYnJ7zSCsxCVI2pBPRk9H3XQ==
-X-Received: by 2002:a1c:4d12:: with SMTP id o18mr342678wmh.177.1598830555254; 
- Sun, 30 Aug 2020 16:35:55 -0700 (PDT)
-Received: from vanye ([2001:470:1f09:12f0:b26e:bfff:fea9:f1b8])
- by smtp.gmail.com with ESMTPSA id z6sm9218591wml.41.2020.08.30.16.35.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 30 Aug 2020 16:35:54 -0700 (PDT)
-Date: Mon, 31 Aug 2020 00:35:52 +0100
-From: Leif Lindholm <leif@nuviainc.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [PATCH v2 00/16] hw/riscv: Add Microchip PolarFire SoC Icicle
- Kit board support
-Message-ID: <20200830233552.GG20124@vanye>
-References: <1598714261-8320-1-git-send-email-bmeng.cn@gmail.com>
- <20200830125659.GD20124@vanye>
- <CAEUhbmVYpSVE+C+KyEa2Ono5p-SLtC1vE=YwE_3FJK6POEJCCg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
+ id 1kCZZO-0005Md-JX
+ for qemu-devel@nongnu.org; Sun, 30 Aug 2020 22:29:18 -0400
+Received: from mga04.intel.com ([192.55.52.120]:1322)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
+ id 1kCZZL-0006dg-L0
+ for qemu-devel@nongnu.org; Sun, 30 Aug 2020 22:29:17 -0400
+IronPort-SDR: YP8XdOpaNerOcb/cMgpzX3KD8vkBOuuZYCYeFjfleqxD6XfIxMSBYWvuyKDcbPfjypmWcgx4qQ
+ Oam2ENDShYYQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9729"; a="154308158"
+X-IronPort-AV: E=Sophos;i="5.76,374,1592895600"; d="scan'208";a="154308158"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Aug 2020 19:29:08 -0700
+IronPort-SDR: ig9Ov0e8B3bxE6l4ZMN9kDsqPqnIUQfDWZOo78hcn2EvtXM78vLfiJCEIXeA19KEqWefq21b3T
+ Af+2Zw1v2Nog==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,374,1592895600"; d="scan'208";a="330557019"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.16])
+ by orsmga008.jf.intel.com with ESMTP; 30 Aug 2020 19:29:02 -0700
+Date: Mon, 31 Aug 2020 10:23:38 +0800
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Subject: Re: device compatibility interface for live migration with assigned
+ devices
+Message-ID: <20200831022338.GA13784@joy-OptiPlex-7040>
+References: <20200818085527.GB20215@redhat.com>
+ <3a073222-dcfe-c02d-198b-29f6a507b2e1@redhat.com>
+ <20200818091628.GC20215@redhat.com>
+ <20200818113652.5d81a392.cohuck@redhat.com>
+ <20200820003922.GE21172@joy-OptiPlex-7040>
+ <20200819212234.223667b3@x1.home>
+ <20200820031621.GA24997@joy-OptiPlex-7040>
+ <20200825163925.1c19b0f0.cohuck@redhat.com>
+ <20200826064117.GA22243@joy-OptiPlex-7040>
+ <20200828154741.30cfc1a3.cohuck@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAEUhbmVYpSVE+C+KyEa2Ono5p-SLtC1vE=YwE_3FJK6POEJCCg@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=leif@nuviainc.com; helo=mail-wm1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200828154741.30cfc1a3.cohuck@redhat.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: pass client-ip=192.55.52.120; envelope-from=yan.y.zhao@intel.com;
+ helo=mga04.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/30 22:29:08
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,69 +77,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair@alistair23.me>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, Bin Meng <bin.meng@windriver.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Jason Wang <jasowang@redhat.com>, Palmer Dabbelt <palmerdabbelt@google.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <Alistair.Francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: kvm@vger.kernel.org, libvir-list@redhat.com,
+ Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org, kwankhede@nvidia.com,
+ eauger@redhat.com, xin-ran.wang@intel.com, corbet@lwn.net,
+ openstack-discuss@lists.openstack.org, shaohe.feng@intel.com,
+ kevin.tian@intel.com, Parav Pandit <parav@mellanox.com>,
+ jian-feng.ding@intel.com, dgilbert@redhat.com, zhenyuw@linux.intel.com,
+ hejie.xu@intel.com, bao.yumeng@zte.com.cn,
+ Alex Williamson <alex.williamson@redhat.com>, smooney@redhat.com,
+ intel-gvt-dev@lists.freedesktop.org,
+ Daniel =?iso-8859-1?Q?P=2EBerrang=E9?= <berrange@redhat.com>,
+ eskultet@redhat.com, Jiri Pirko <jiri@mellanox.com>, dinechin@redhat.com,
+ devel@ovirt.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 31, 2020 at 06:15:52 +0800, Bin Meng wrote:
-> Hi Leif,
+On Fri, Aug 28, 2020 at 03:47:41PM +0200, Cornelia Huck wrote:
+> On Wed, 26 Aug 2020 14:41:17 +0800
+> Yan Zhao <yan.y.zhao@intel.com> wrote:
 > 
-> > > The following perepherals are emulated:
-> > > - SiFive CLINT
-> > > - SiFive PLIC
-> > > - PolarFire SoC Multi-Mode UART
-> > > - SiFive PDMA
-> > > - Cadence eMMC/SDHCI controller
-> > > - Cadence Gigabit Ethernet MAC
-> > >
-> > > The BIOS image used by this machine is hss.bin, aka Hart Software
-> > > Services, which can be built from:
-> > > https://github.com/polarfire-soc/hart-software-services
-> >
-> > Are there any version requirements, or additional qemu patches, that
-> > need to be taken into account. Should I expect to see output on stdio?
+> > previously, we want to regard the two mdevs created with dsa-1dwq x 30 and
+> > dsa-2dwq x 15 as compatible, because the two mdevs consist equal resources.
+> > 
+> > But, as it's a burden to upper layer, we agree that if this condition
+> > happens, we still treat the two as incompatible.
+> > 
+> > To fix it, either the driver should expose dsa-1dwq only, or the target
+> > dsa-2dwq needs to be destroyed and reallocated via dsa-1dwq x 30.
 > 
-> Thanks for trying!
-> 
-> Did you apply the patch to skip the DDR memory initialization
-> mentioned in this page?
-> https://wiki.qemu.org/Documentation/Platforms/RISCV#Microchip_PolarFire_SoC_Icicle_Kit
+> AFAIU, these are mdev types, aren't they? So, basically, any management
+> software needs to take care to use the matching mdev type on the target
+> system for device creation?
+dsa-1dwq is the mdev type.
+there's no dsa-2dwq yet. and I think no dsa-2dwq should be provided in
+future according to our discussion.
 
-I did, but in honesty only after I sent the previous email :)
-(Since it made no difference, I didn't bother following up.)
+GVT currently does not support aggregator also.
+how to add the the aggregator attribute is currently uder discussion,
+and up to now it is recommended to be a vendor specific attributes.
 
-> > I tried to build hss 3faaaaf8ce0d, using
-> > https://github.com/riscv/riscv-gnu-toolchain (7f1f4ab5b0e0), which
-> > ends up being a gcc 10.1. That caused me to raise
-> > https://github.com/polarfire-soc/hart-software-services/issues/2.
-> 
-> Yes, GCC 10 does not build is a known issue. Currently I am using GCC
-> 9 to build HSS.
+https://lists.freedesktop.org/archives/intel-gvt-dev/2020-July/006854.html.
 
-Right, I can confirm that with commit 93f82dc18e1d riscv-gnu-toolchain
-(the last before changing to gcc 10.1), I generate a 9.2.0 gcc that
-builds a hss.bin that boots successfully with the minimal command line
-
-qemu-system-riscv64 -M microchip-icicle-kit -smp 5 -bios hss.bin \
-  -display none -serial stdio
-
-Thanks!
-
-(I haven't looked any further than the hss.bin yet, but I'm now
-unblocked to do so.)
-
-Best Regards,
-
-Leif
+Thanks
+Yan
 
