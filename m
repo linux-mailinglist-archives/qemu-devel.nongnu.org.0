@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EC8C2577E5
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 13:05:48 +0200 (CEST)
-Received: from localhost ([::1]:55792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 534612577ED
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 13:09:14 +0200 (CEST)
+Received: from localhost ([::1]:43260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kChdD-0002tq-G7
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 07:05:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47044)
+	id 1kChgX-0001Dy-9m
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 07:09:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kChbv-0001Da-OK
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 07:04:27 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46981
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kCheQ-00068f-LJ
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 07:07:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59422)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kChbt-0008Ma-Kp
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 07:04:27 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kCheO-0000Nu-UZ
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 07:07:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598871864;
+ s=mimecast20190719; t=1598872020;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=05wm/L/XPk6410ikRNnz1N7rEdTkTuz4gpHOoZ6FZPg=;
- b=Q1PjcLHdOKvfCB4bnKrTUOVgqqrz4FGwLyOnpQGC6zyF93VISWBEUCuyBcTibww2BU9NK1
- Mw9kOZLlSPeuoODEi8z0gzRwP6ndLiDPxeSQ5IVIhsNs4U1bHdPhwl3pLWdaZaXzjS+XT0
- VJytHa7ZnkvceFmZe5Y8v6naQBjuqJs=
+ bh=6wOofA9NB1IMuwXXUSEQIzql8pEf/WvvBNBuZh0rxEo=;
+ b=N+j1Ezq8I5v6ReIwZvqPRsc5hQYVlnyvfd93l6zqMtDq9IGCCrYpv+BVTlHkjaFcy5PdbB
+ bGl9+kBIi1lvfDckk2rYKOTPE0lbEFDRXK9ykAHnscw9Ku+FSpwPuxPXJJoYBppq6NfPGQ
+ sT9TnZLUR8sSmaoTykitmc1fJyRPIpU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-304-dnbMtM8lMlipSVZaSnZ2wA-1; Mon, 31 Aug 2020 07:04:22 -0400
-X-MC-Unique: dnbMtM8lMlipSVZaSnZ2wA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-106-UpZ6pSDfMNKO_5H6VvBAAg-1; Mon, 31 Aug 2020 07:06:57 -0400
+X-MC-Unique: UpZ6pSDfMNKO_5H6VvBAAg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8EA4518A224B;
- Mon, 31 Aug 2020 11:04:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2273D185BDE1
+ for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 11:06:57 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-54.ams2.redhat.com
  [10.36.112.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F36A31002D40;
- Mon, 31 Aug 2020 11:04:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CD2E65C221;
+ Mon, 31 Aug 2020 11:06:56 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 3AD4431E68; Mon, 31 Aug 2020 13:04:16 +0200 (CEST)
+ id 80A87ED9; Mon, 31 Aug 2020 13:06:55 +0200 (CEST)
+Date: Mon, 31 Aug 2020 13:06:55 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 5/5] ui/gtk: Update refresh interval after widget is realized
-Date: Mon, 31 Aug 2020 13:04:16 +0200
-Message-Id: <20200831110416.15176-6-kraxel@redhat.com>
-In-Reply-To: <20200831110416.15176-1-kraxel@redhat.com>
-References: <20200831110416.15176-1-kraxel@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] meson: use pkg-config method to find dependencies
+Message-ID: <20200831110655.uj6f2hq3yyygqqox@sirius.home.kraxel.org>
+References: <20200831102819.24334-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20200831102819.24334-1-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 03:56:57
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 03:02:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,131 +80,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Nikola Pavlica <pavlica.nikola@gmail.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+  Hi,
 
-Nikola reported on Windows when gd_vc_gfx_init() is called, the
-window is not yet realized, so we run gd_refresh_rate_millihz(NULL)
-which returns 0 milli-Hertz.
-When a Widget is realized, it fires a 'realized' event. We already
-have the gd_draw_event() handler registered for this even, so simply
-move the gd_refresh_rate_millihz() there. When the event fires, the
-window is known to exist.
-This completes commit c4c00922cc original intention.
+> Keep "auto" for SDL so that it tries using
+> sdl-config too.
 
-Reported-by: Nikola Pavlica <pavlica.nikola@gmail.com>
-Tested-by: Nikola Pavlica <pavlica.nikola@gmail.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20200817172331.598255-1-philmd@redhat.com
-Suggested-by: Nikola Pavlica <pavlica.nikola@gmail.com>
-Tested-by: Nikola Pavlica <pavlica.nikola@gmail.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- ui/gtk.c | 52 ++++++++++++++++++++++++++--------------------------
- 1 file changed, 26 insertions(+), 26 deletions(-)
+> -  sdl = dependency('sdl2',
+> -                   required: get_option('sdl'),
+> +  sdl = dependency('sdl2', required: get_option('sdl'),
+> +                   method: 'pkg-config',
 
-diff --git a/ui/gtk.c b/ui/gtk.c
-index b0cc08ad6da7..7a717ce8e5e4 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -744,6 +744,25 @@ static void gd_resize_event(GtkGLArea *area,
- 
- #endif
- 
-+/*
-+ * If available, return the refresh rate of the display in milli-Hertz,
-+ * else return 0.
-+ */
-+static int gd_refresh_rate_millihz(GtkWidget *window)
-+{
-+#ifdef GDK_VERSION_3_22
-+    GdkWindow *win = gtk_widget_get_window(window);
-+
-+    if (win) {
-+        GdkDisplay *dpy = gtk_widget_get_display(window);
-+        GdkMonitor *monitor = gdk_display_get_monitor_at_window(dpy, win);
-+
-+        return gdk_monitor_get_refresh_rate(monitor);
-+    }
-+#endif
-+    return 0;
-+}
-+
- static gboolean gd_draw_event(GtkWidget *widget, cairo_t *cr, void *opaque)
- {
-     VirtualConsole *vc = opaque;
-@@ -751,6 +770,7 @@ static gboolean gd_draw_event(GtkWidget *widget, cairo_t *cr, void *opaque)
-     int mx, my;
-     int ww, wh;
-     int fbw, fbh;
-+    int refresh_rate_millihz;
- 
- #if defined(CONFIG_OPENGL)
-     if (vc->gfx.gls) {
-@@ -771,6 +791,12 @@ static gboolean gd_draw_event(GtkWidget *widget, cairo_t *cr, void *opaque)
-         return FALSE;
-     }
- 
-+    refresh_rate_millihz = gd_refresh_rate_millihz(vc->window ?
-+                                                   vc->window : s->window);
-+    if (refresh_rate_millihz) {
-+        vc->gfx.dcl.update_interval = MILLISEC_PER_SEC / refresh_rate_millihz;
-+    }
-+
-     fbw = surface_width(vc->gfx.ds);
-     fbh = surface_height(vc->gfx.ds);
- 
-@@ -1949,31 +1975,11 @@ static GtkWidget *gd_create_menu_machine(GtkDisplayState *s)
-     return machine_menu;
- }
- 
--/*
-- * If available, return the refresh rate of the display in milli-Hertz,
-- * else return 0.
-- */
--static int gd_refresh_rate_millihz(GtkWidget *window)
--{
--#ifdef GDK_VERSION_3_22
--    GdkWindow *win = gtk_widget_get_window(window);
--
--    if (win) {
--        GdkDisplay *dpy = gtk_widget_get_display(window);
--        GdkMonitor *monitor = gdk_display_get_monitor_at_window(dpy, win);
--
--        return gdk_monitor_get_refresh_rate(monitor);
--    }
--#endif
--    return 0;
--}
--
- static GSList *gd_vc_gfx_init(GtkDisplayState *s, VirtualConsole *vc,
-                               QemuConsole *con, int idx,
-                               GSList *group, GtkWidget *view_menu)
- {
-     bool zoom_to_fit = false;
--    int refresh_rate_millihz;
- 
-     vc->label = qemu_console_get_label(con);
-     vc->s = s;
-@@ -2031,12 +2037,6 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, VirtualConsole *vc,
-     vc->gfx.kbd = qkbd_state_init(con);
-     vc->gfx.dcl.con = con;
- 
--    refresh_rate_millihz = gd_refresh_rate_millihz(vc->window ?
--                                                   vc->window : s->window);
--    if (refresh_rate_millihz) {
--        vc->gfx.dcl.update_interval = MILLISEC_PER_SEC / refresh_rate_millihz;
--    }
--
-     register_displaychangelistener(&vc->gfx.dcl);
- 
-     gd_connect_vc_gfx_signals(vc);
--- 
-2.27.0
+code and commit message mismatch here.
+
+take care,
+  Gerd
 
 
