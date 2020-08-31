@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1E27257586
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 10:37:10 +0200 (CEST)
-Received: from localhost ([::1]:46988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCA78257594
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 10:39:04 +0200 (CEST)
+Received: from localhost ([::1]:55290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCfJN-0006iB-Ox
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 04:37:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42042)
+	id 1kCfLD-0001eP-RV
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 04:39:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kCfCi-0004wF-0y
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 04:30:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24104)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kCfDa-0006JP-Lq
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 04:31:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35065)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kCfCf-00069z-IJ
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 04:30:15 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kCfDY-0006Oz-Sl
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 04:31:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598862612;
+ s=mimecast20190719; t=1598862668;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=v2uE0+ed78+UFuOqAdJL2VFp4mJybTxMVKwhf5ZD7i8=;
- b=JgM8zzqV/6ls1/D4zWswt1Mn4WtgtgHH9JbSKfvzNxRAPgWyGSLsRYnJHruXlvZgQCDvq0
- hGHLOj31EARHwKRZnTASGwPJ/7kGtvYqgbM7VpwEKCpq7AHaV36w4SmUqug5KfG3eo6eQf
- vnCUTHrrsFZLFNGaiyCW/DnsXYWzkSM=
+ bh=OTq9z7q+Fq1kqDy4vC8ryspcUmtNcOgnJbkgiLwnDhw=;
+ b=GJ24eEcXYVQcffA6o0PGuRsxMWqmcUgfPVt2qZdixD4D83dlh5CmDPf5jely+Fw6soMao3
+ at5x20vHPCS1pV5Ee43zWjXn1sBUGJSIDzQe16HkLsO2kuegJBepBzLy88EdQjagezuPyQ
+ MOHpDM8bhXIH9gXIurgcFohqtL4m6/I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-398-YnZJy_q6On-jVkfNBGzcew-1; Mon, 31 Aug 2020 04:30:10 -0400
-X-MC-Unique: YnZJy_q6On-jVkfNBGzcew-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-3-sHhKcD_EP2qhgo61P_9rrQ-1; Mon, 31 Aug 2020 04:31:05 -0400
+X-MC-Unique: sHhKcD_EP2qhgo61P_9rrQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8CE23802B77
- for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 08:30:09 +0000 (UTC)
-Received: from jason-ThinkPad-X1-Carbon-6th.redhat.com
- (ovpn-12-88.pek2.redhat.com [10.72.12.88])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 023D95D9E2;
- Mon, 31 Aug 2020 08:30:02 +0000 (UTC)
-From: Jason Wang <jasowang@redhat.com>
-To: jasowang@redhat.com,
-	qemu-devel@nongnu.org
-Subject: [PATCH 9/9] vhost-vdpa: allow pre-opend file descriptor
-Date: Mon, 31 Aug 2020 16:27:37 +0800
-Message-Id: <20200831082737.10983-10-jasowang@redhat.com>
-In-Reply-To: <20200831082737.10983-1-jasowang@redhat.com>
-References: <20200831082737.10983-1-jasowang@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20B85801AC3;
+ Mon, 31 Aug 2020 08:31:04 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-54.ams2.redhat.com
+ [10.36.112.54])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CF4C1100EBB8;
+ Mon, 31 Aug 2020 08:31:03 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id DC65917447; Mon, 31 Aug 2020 10:31:02 +0200 (CEST)
+Date: Mon, 31 Aug 2020 10:31:02 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PULL 00/18] Usb 20200828 patches
+Message-ID: <20200831083102.hghf3vi2xb7e32zl@sirius.home.kraxel.org>
+References: <20200828080845.28287-1-kraxel@redhat.com>
+ <CAFEAcA8rSCDnSvymWigeU4VPjyrEB-WMws57q0-Q3cNijQjEBw@mail.gmail.com>
+ <CABgObfbufQJza=XykCSp2V5xdTwzycx-GsWTD6jKEV3PnomRXQ@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <CABgObfbufQJza=XykCSp2V5xdTwzycx-GsWTD6jKEV3PnomRXQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 03:02:42
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 03:43:46
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -82,88 +82,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>, lulu@redhat.com, mst@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch allows to initialize vhost-vdpa network backend with pre
-opened vhost-vdpa file descriptor. This is useful for running
-unprivileged qemu through libvirt.
+On Fri, Aug 28, 2020 at 04:33:04PM +0200, Paolo Bonzini wrote:
+> Il ven 28 ago 2020, 16:14 Peter Maydell <peter.maydell@linaro.org> ha
+> scritto:
+> 
+> > Why is Meson trying to use CMake here? I don't think we want
+> > to bring in another build tool dependency...
+> >
+> 
+> It's asking cmake if it knows about the package, if pkg-config fails. This
+> is because cmake has its own incompatible mechanism to tell users about
+> compilation and linking flags, and the "dependency" line doesn't tell Meson
+> if u2f-emu has a pkg-config or a cmake description.
 
-Cc: Eric Blake <eblake@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>
-Signed-off-by: Jason Wang <jasowang@redhat.com>
----
- net/vhost-vdpa.c | 24 +++++++++++++++++++-----
- qapi/net.json    |  5 ++++-
- 2 files changed, 23 insertions(+), 6 deletions(-)
+It uses pkg-config, so we can explicitly say so.
 
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 9a6f0b63d3..f6385cd264 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -206,20 +206,34 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-                           (char *)name, errp)) {
-         return -1;
-     }
--    if (!opts->has_vhostdev) {
--        error_setg(errp, "vhost-vdpa requires vhostdev to be set");
-+    if (!(opts->has_vhostdev ^ opts->has_fd)) {
-+        error_setg(errp, "Vhost-vdpa requires either vhostdev or fd to be set");
-         return -1;
-     }
- 
-     assert(name);
- 
-     nc = qemu_new_net_client(&net_vhost_vdpa_info, peer, TYPE_VHOST_VDPA, name);
--    snprintf(nc->info_str, sizeof(nc->info_str), "vhostdev=%s", opts->vhostdev);
-+    if (opts->has_vhostdev) {
-+        snprintf(nc->info_str, sizeof(nc->info_str),
-+                 "vhostdev=%s", opts->vhostdev);
-+        vdpa_device_fd = qemu_open(opts->vhostdev, O_RDWR);
-+        if (vdpa_device_fd == -1) {
-+            error_setg(errp, "Fail to open vhost-vdpa device %s",
-+                       opts->vhostdev);
-+            return -errno;
-+        }
-+    } else {
-+        snprintf(nc->info_str, sizeof(nc->info_str), "fd=%s", opts->fd);
-+        vdpa_device_fd = monitor_fd_param(cur_mon, opts->fd, errp);
-+        if (vdpa_device_fd == -1) {
-+            return -1;
-+        }
-+    }
- 
-     s = DO_UPCAST(VhostVDPAState, nc, nc);
--    vdpa_device_fd = qemu_open(opts->vhostdev, O_RDWR);
-     if (vdpa_device_fd == -1) {
--        error_setg(errp, "Fail to open vhost-vdpa device %s", opts->vhostdev);
-+
-         return -errno;
-     }
-     s->vhost_vdpa.device_fd = vdpa_device_fd;
-diff --git a/qapi/net.json b/qapi/net.json
-index a2a94fad3e..5ad60c3045 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -442,12 +442,15 @@
- # @queues: number of queues to be created for multiqueue vhost-vdpa
- #          (default: 1)
- #
-+# @fd: file descriptor of an already opened vhost-vdpa (since 5.2)
-+#
- # Since: 5.1
- ##
- { 'struct': 'NetdevVhostVDPAOptions',
-   'data': {
-     '*vhostdev':     'str',
--    '*queues':       'int' } }
-+    '*queues':       'int',
-+    '*fd':           'str' } }
- 
- ##
- # @NetClientDriver:
--- 
-2.20.1
+> We can ask to use pkg-config only since none of our dependencies are
+> cmake-only; see https://mesonbuild.com/Dependencies.html#dependency-method.
+
+I'll send a new pull with that addressed (also the other 11/18 comments).
+
+thanks,
+  Gerd
 
 
