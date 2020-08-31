@@ -2,101 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D216258150
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 20:47:30 +0200 (CEST)
-Received: from localhost ([::1]:35384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FF7B258144
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 20:44:33 +0200 (CEST)
+Received: from localhost ([::1]:53324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCoq1-0004b8-C2
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 14:47:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40642)
+	id 1kConA-0000EK-7k
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 14:44:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
- id 1kColT-0006mh-Pp
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 14:42:47 -0400
-Received: from mail-dm6nam10on2072.outbound.protection.outlook.com
- ([40.107.93.72]:2528 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ id 1kColb-0006xO-20
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 14:42:55 -0400
+Received: from mail-dm6nam10on2048.outbound.protection.outlook.com
+ ([40.107.93.48]:39137 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
- id 1kColR-0007WY-MW
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 14:42:47 -0400
+ id 1kColZ-0007X7-82
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 14:42:54 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eoSa2gQe6eklvvaGxsmp+7KyEbY5wikfwx5j3YzHajlrV2xRdgf/SxVA/nJGTPxeQsxOR7atYgVFgViz+Rdg+qLxSru94ayS/vo7cUqJLGXMjuhMl2MnMGtlHJzzPbcn+GM5g1PYHgluv7NLvA2HJbO7LqHflPwbPtJJ6QlMFLTGeUm4Yd7F0cq0XuzWfeSIeUkvq50tb1ViwIIBFLjtZ0jxrN+lg562B/GuXI84h5EXZqvxJZN6FtomwVcDBc5JZPT2SOffr+U8L4+WK2Q8ftDJWI30vNsG3ymo1NgqibRYNGIhNIfNgjBftxW5FfonY2LFOm8xOqr1p+KKx9deKg==
+ b=RWX6e4WhsYDHC4yLEY8/oCOzFiZbi0xKIYxaulyKgdXhpStfPDD4N5n2mf9/nCw3J6EX3zEIGuI/nmNNxyvpZqgvxsX0Vi7tZlHwr7QYSJ/l948JPbc04FcqX4+aQzXp4WFzo2cbAFsED9T+EOZkWPfiOTQd3vG4emgvzDasi04usInqgT8EkvPqHOr3GVtfh0z6ovQCCDJSa1dP/nVe1b16qUOmhAiiKzMBehAbxgQUznGPpQtQ6Fzj1feaj4mGD87B5a2lVnMzlO6X8iSkul97LZ2eY4f+PVXCj8daM+Flbl+Yr9dKCyW0ox1ZK0qJUPWiK1c7Sq6AfXvPxZ52XQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DAcDXsVNONqLK6Vw/mK3T8qrdG4uwmiHFD/Uf7PptzE=;
- b=VUNC6+P2BBE1K3BAh4eux0JGEEiyGRLvD/YnXzs0OPIvZSMl4aeQlz7zK+FsfCtrAJMmfKLgNVVI5F4bqq4E/zDvb6B4YYGZ5ipdQ9rMQMPIJZArA5GE9NE0HlF8oL0e735nDQleId69PDGVQNb1n85FeAnXSIOKdI2aB+xOnVRp9bu/i4xy3mBlH3W1dBaTaXrUMsFslUaVhvexijDDZY6acMuUnPmsckW0EcnQOMrwehisfiP0VBOgd93sMBmfCceMn9Jte7i1z0Xkm6ZEDH4PHWW7JRAs5IWUMtApL0JuIJImQ3zLIElxWz+1FexGbsyGgXxQBtES1iw3DfAKmA==
+ bh=RRt2401dv7ssbjPZqebOfDuTFxwpaPHpzWq9zredbaw=;
+ b=l8BUzFAiuWJqN4HDWICST8jnWNUJi9DqldYxax/Rl7/VuJaVljZway/uduIR7ikUlpsC6vFvluHk2V7YIGOm+P3/kKI90CfLc7eITDf5+Y8EhYxL1cQnD1tmW1wIN8yNJdQX1o65U0WXMEWZA0HBxIHP7LQwDTbM4Qz8ILPkE0rml0JIQmOmb7l0JMfyuXQEMSKVJMtEJzYlHLl8q5YcfOzdQ2rirncK+PnUS41d27FhPjr8XHGKAXGhf/SOGb0P8giCCWeBplyb8XfIa0tO1DlrJUNJLngdRkmhgtEfKridmGjhLtFImQapU5z2ASM+VdJOpDwp2Rf2IZe3ucSegg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DAcDXsVNONqLK6Vw/mK3T8qrdG4uwmiHFD/Uf7PptzE=;
- b=Wr4gP9fAxQTonjr0SWcvz1g+267FXsLNtXdgCxfT9iT5Nvmx+nwyb3YfomgypUr7QIv0b+KCdqXk736VaSpMD9QqnR7JEzgK9B2F5x6KadDSbqJtjLbdPd6HfJLZM4Rw/7/3+nvRaNdFefJvdwtnsqisekZFwg4Lwjm84iPSGm4=
+ bh=RRt2401dv7ssbjPZqebOfDuTFxwpaPHpzWq9zredbaw=;
+ b=sAvJz901MoG4kk7EVovwp9KG5Ysp0iJA4L0l3GCk5sFjfL4Zdg4WmzQ27+WVCWCJORlTTrbFpkru/fOMkUL7DQ9cMTKp1J8x+/ACNjho+UQIsBU0GpgTcgtBsMzDyVlYb3yIT8oSPrAoZfK+L3S36t3HTUaaXGl/b1bT7j6N7xk=
 Authentication-Results: redhat.com; dkim=none (message not signed)
  header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
 Received: from SN1PR12MB2560.namprd12.prod.outlook.com (2603:10b6:802:26::19)
  by SA0PR12MB4383.namprd12.prod.outlook.com (2603:10b6:806:94::12)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.21; Mon, 31 Aug
- 2020 18:42:43 +0000
+ 2020 18:42:49 +0000
 Received: from SN1PR12MB2560.namprd12.prod.outlook.com
  ([fe80::ccd9:728:9577:200d]) by SN1PR12MB2560.namprd12.prod.outlook.com
  ([fe80::ccd9:728:9577:200d%4]) with mapi id 15.20.3326.025; Mon, 31 Aug 2020
- 18:42:43 +0000
-Subject: [PATCH v6 06/10] Revert "target/i386: Cleanup and use the EPYC mode
- topology functions"
+ 18:42:49 +0000
+Subject: [PATCH v6 07/10] Revert "hw/386: Add EPYC mode topology decoding
+ functions"
 From: Babu Moger <babu.moger@amd.com>
 To: pbonzini@redhat.com, rth@twiddle.net, ehabkost@redhat.com,
  imammedo@redhat.com
-Date: Mon, 31 Aug 2020 13:42:42 -0500
-Message-ID: <159889936257.21294.1786224705357428082.stgit@naples-babu.amd.com>
+Date: Mon, 31 Aug 2020 13:42:48 -0500
+Message-ID: <159889936871.21294.1454526726636639780.stgit@naples-babu.amd.com>
 In-Reply-To: <159889924378.21294.16494070903874534542.stgit@naples-babu.amd.com>
 References: <159889924378.21294.16494070903874534542.stgit@naples-babu.amd.com>
 User-Agent: StGit/unknown-version
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SN4PR0501CA0026.namprd05.prod.outlook.com
- (2603:10b6:803:40::39) To SN1PR12MB2560.namprd12.prod.outlook.com
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SN4PR0701CA0031.namprd07.prod.outlook.com
+ (2603:10b6:803:2d::34) To SN1PR12MB2560.namprd12.prod.outlook.com
  (2603:10b6:802:26::19)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from 255.255.255.255 (255.255.255.255) by
- SN4PR0501CA0026.namprd05.prod.outlook.com (2603:10b6:803:40::39) with
+ SN4PR0701CA0031.namprd07.prod.outlook.com (2603:10b6:803:2d::34) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.7 via Frontend
- Transport; Mon, 31 Aug 2020 18:42:43 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.19 via Frontend
+ Transport; Mon, 31 Aug 2020 18:42:49 +0000
 X-Originating-IP: [165.204.78.2]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: e3a957ee-0b22-4180-4617-08d84ddda59c
+X-MS-Office365-Filtering-Correlation-Id: 72c114a4-580c-48b1-e160-08d84ddda941
 X-MS-TrafficTypeDiagnostic: SA0PR12MB4383:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA0PR12MB4383ADC15C2C42C5ECA6D71295510@SA0PR12MB4383.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:334;
+X-Microsoft-Antispam-PRVS: <SA0PR12MB4383188AB72353265E9C31DE95510@SA0PR12MB4383.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:265;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: pYHUnZFlaReY8ECh42kuZ0LoaPK1eeiFg+50E56ZKTnYubdIWvxfmbxgJKFFM/rws3OOdEVSikWtfls6HQpVs81gy6WWBkpGbURF6I41OKzOMdCpApXrljCLmv3tiSFIZOS4jSCWob+v3hQoxnSrlxPCxzcutDmeLvrM+DskWsabdA6nACxHu9uEyjBmDMpIzKftp9ErKluPeZWLMsF6BxdJ3x3c5JrTTAEojzkPh3PSmhMzyInnk4EpyJNSZMHt3Gg0hZcEA3JQT3paAsqB0nL1VYsXhX2uhAWfsWpNS0wJH5VWBswKEuVyp+FGcKgpGmf9fXfGEmjRUJdmqEJnLg==
+X-Microsoft-Antispam-Message-Info: y65sflPYIWgIW4JbpOL+j40qplKMngrIzp4vnhW94uZBqF9KD26PKUDSmpy7L0dW1yLYikP97prNc4o6wYgfFfXRefjjhDThbKc0hEOAKwTlSwJpS7k8l9a96RJASlu7PZEHsYRSyQiX5Ku5eCQ3JtjRXCkPnV4zn7rV3EjU0SuzBDcmrc1WoFzdP79L6zsAVUwLdrl7sn1d5mux0P3x8Xbuka2XEL1LRw5yKHjXfdGDF/GHzJWpJos5zRyDaVA/X0j5Y0C+Mnls3QUkUVBMKzcH0O4iCLtOSoMinUJLUXLo94HaBcXiGxfDWcHohdtw7Su1ERYBBUnMnaYV44o92Q==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN1PR12MB2560.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(366004)(39860400002)(136003)(376002)(346002)(396003)(316002)(2906002)(26005)(66556008)(478600001)(6486002)(4326008)(186003)(956004)(83380400001)(8676002)(66946007)(86362001)(5660300002)(52116002)(103116003)(8936002)(66476007)(16576012)(44832011);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: kLbsr2JmcOc5RGoF/KjX8t16u19tOXs5FqJlFC6URXurfYUfawV6tjcDvxJx90Hux09t7KHXiCGt0NFp/1oQ2yxxvdDFRaGu4MAOjk4UR8g0AEluLrISHuxCrEGefDh8CkDc3Ws4iEcWhIJaO4081PsHyYb6PH1snKMf8SHIyRmD9vwa+TNNAL2P+LMSL8+vjulxYyH7JBr9/a3UP72pN6iRMJU7uB4+SFYHUayLHfDSEhvReFycrntGzrHh15cZ/VmUTwdAV8QGiU0oP853tweMXiyqyY26wbEqQSTJQEouJkW0ghFMJcDwnQtvunt24t6/otDhxlKINk+qOuxgtDsLf+h0RcLY1CNxxHsAcQOIaDeG8sNo6WLYrOOul4F5AOkLDltAnzWFvCbNnFVFLa4w+VCLWnZ704u3PYjLSzIfd/iO31zfntTUJHRLXPaoIiND84nCiG9BmSKAkdpgIvQX8xkchuA4zoqVCIRf9ELu272SiW6lVGd7BECIsUN74O2zdOJIU5BJjU+bl2cRQTcte51kx45vqJqOfpgLcA6PUQlZBzZJTY1aojWSok5cRjg5hUkPlHo23oAJb71Nv4a5ESrXay4xprXlEiTFR31Eby4ioH2Wv4hCSN3dSlZQPRpnhsVsYGRjlCxLCjTYHA==
+X-MS-Exchange-AntiSpam-MessageData: bw/OSFed5fQxKxO4Lm4t2Y3244ePZhqSW8G7yjrljLgSCydAozIHluET6NSvoyeRJEGt+421FN6FwBuGibvFqBoZswK09bejtr+NNFGPMjr1lrCN7SeM3ZcPm0YS1+PdcPy6Yo7I8YVblvhRPRtWt61mZmbBFTOproMdhaoxbfY8YCso2B2wrvmWn42vpERShBGUZxjJ6nrbEEMAFR5pJNChmFA6eTAC2Jc+cvjDLmw7FVKUXBdl7AR0X9d+yevhfzy33OVPpGZc6Ahuz7t2I1hBqdt81VlNdpDu31Dxz3tuvGWOn/1PjXxXB1G1wFBQQA/O2a4Q8uJsGqGTzx7UINesvh/UH34PlTfLXQDrIg1niM7CkP/7Leh8lmAb5Qh1F5YxU0L7vir/+9vPmqYPaPqu69lj4jJjqOj5AjhvO8DHDmZvYzbrS73EuEih+olxLRKtEAodJZZgMiZ1WAM8bqY4ZhffBgRd2dwRlfRy9IVJzdw2usyhI7L1QDG/PSX7Ye8Yc4Zc2T9GImjiN9N4ZTy0tR5yHHXydlX5+HjGOR535TklJ3NsLs71ltySa9avHzDu4iwTkz66+GpkO6SZwiOE2DOxI8HXjpEGIOvfoIXhcYuz/A5ruBPgCXYAwBkg71zTVqs7nhyJsduUr6hqxw==
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e3a957ee-0b22-4180-4617-08d84ddda59c
+X-MS-Exchange-CrossTenant-Network-Message-Id: 72c114a4-580c-48b1-e160-08d84ddda941
 X-MS-Exchange-CrossTenant-AuthSource: SN1PR12MB2560.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2020 18:42:43.5557 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2020 18:42:49.6522 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sHH15PhT94IkcZVM9wwh10cFtq38rLutvi84Ezc6Y9PpX/A6+5qxIEUENRdYEfsl
+X-MS-Exchange-CrossTenant-UserPrincipalName: EIzK+EpdLLi34Q9HCTDfdrYGYR8VlA3aoR1cxLBEo0eEYNHZLbB8JYV/02yN8/co
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4383
-Received-SPF: none client-ip=40.107.93.72; envelope-from=Babu.Moger@amd.com;
+Received-SPF: none client-ip=40.107.93.48; envelope-from=Babu.Moger@amd.com;
  helo=NAM10-DM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 14:42:44
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 14:42:50
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: 4
 X-Spam_score: 0.4
@@ -121,260 +121,140 @@ Cc: babu.moger@amd.com, qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This reverts commit dd08ef0318e2b61d14bc069590d174913f7f437a.
+This reverts commit 7568b205555a6405042f62c64af3268f4330aed5.
 
 Remove the EPYC specific apicid decoding and use the generic
 default decoding.
 
 Signed-off-by: Babu Moger <babu.moger@amd.com>
 ---
- target/i386/cpu.c |  161 ++++++++++++++++++++++++++++++++++++++++++-----------
- 1 file changed, 127 insertions(+), 34 deletions(-)
+ include/hw/i386/topology.h |  100 --------------------------------------------
+ 1 file changed, 100 deletions(-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index b72b4b08ac..256bfa669f 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -338,15 +338,68 @@ static void encode_cache_cpuid80000006(CPUCacheInfo *l2,
-     }
+diff --git a/include/hw/i386/topology.h b/include/hw/i386/topology.h
+index 07239f95f4..b9593b9905 100644
+--- a/include/hw/i386/topology.h
++++ b/include/hw/i386/topology.h
+@@ -47,7 +47,6 @@ typedef uint32_t apic_id_t;
+ 
+ typedef struct X86CPUTopoIDs {
+     unsigned pkg_id;
+-    unsigned node_id;
+     unsigned die_id;
+     unsigned core_id;
+     unsigned smt_id;
+@@ -89,11 +88,6 @@ static inline unsigned apicid_die_width(X86CPUTopoInfo *topo_info)
+     return apicid_bitwidth_for_count(topo_info->dies_per_pkg);
  }
  
-+/*
-+ * Definitions used for building CPUID Leaf 0x8000001D and 0x8000001E
-+ * Please refer to the AMD64 Architecture Programmer’s Manual Volume 3.
-+ * Define the constants to build the cpu topology. Right now, TOPOEXT
-+ * feature is enabled only on EPYC. So, these constants are based on
-+ * EPYC supported configurations. We may need to handle the cases if
-+ * these values change in future.
-+ */
-+/* Maximum core complexes in a node */
-+#define MAX_CCX 2
-+/* Maximum cores in a core complex */
-+#define MAX_CORES_IN_CCX 4
-+/* Maximum cores in a node */
-+#define MAX_CORES_IN_NODE 8
-+/* Maximum nodes in a socket */
-+#define MAX_NODES_PER_SOCKET 4
-+
-+/*
-+ * Figure out the number of nodes required to build this config.
-+ * Max cores in a node is 8
-+ */
-+static int nodes_in_socket(int nr_cores)
-+{
-+    int nodes;
-+
-+    nodes = DIV_ROUND_UP(nr_cores, MAX_CORES_IN_NODE);
-+
-+   /* Hardware does not support config with 3 nodes, return 4 in that case */
-+    return (nodes == 3) ? 4 : nodes;
-+}
-+
-+/*
-+ * Decide the number of cores in a core complex with the given nr_cores using
-+ * following set constants MAX_CCX, MAX_CORES_IN_CCX, MAX_CORES_IN_NODE and
-+ * MAX_NODES_PER_SOCKET. Maintain symmetry as much as possible
-+ * L3 cache is shared across all cores in a core complex. So, this will also
-+ * tell us how many cores are sharing the L3 cache.
-+ */
-+static int cores_in_core_complex(int nr_cores)
-+{
-+    int nodes;
-+
-+    /* Check if we can fit all the cores in one core complex */
-+    if (nr_cores <= MAX_CORES_IN_CCX) {
-+        return nr_cores;
-+    }
-+    /* Get the number of nodes required to build this config */
-+    nodes = nodes_in_socket(nr_cores);
-+
-+    /*
-+     * Divide the cores accros all the core complexes
-+     * Return rounded up value
-+     */
-+    return DIV_ROUND_UP(nr_cores, nodes * MAX_CCX);
-+}
-+
- /* Encode cache info for CPUID[8000001D] */
--static void encode_cache_cpuid8000001d(CPUCacheInfo *cache,
--                                       X86CPUTopoInfo *topo_info,
--                                       uint32_t *eax, uint32_t *ebx,
--                                       uint32_t *ecx, uint32_t *edx)
-+static void encode_cache_cpuid8000001d(CPUCacheInfo *cache, CPUState *cs,
-+                                uint32_t *eax, uint32_t *ebx,
-+                                uint32_t *ecx, uint32_t *edx)
- {
-     uint32_t l3_cores;
--    unsigned nodes = MAX(topo_info->nodes_per_pkg, 1);
+-/* Bit width of the node_id field per socket */
+-static inline unsigned apicid_node_width_epyc(X86CPUTopoInfo *topo_info)
+-{
+-    return apicid_bitwidth_for_count(MAX(topo_info->nodes_per_pkg, 1));
+-}
+ /* Bit offset of the Core_ID field
+  */
+ static inline unsigned apicid_core_offset(X86CPUTopoInfo *topo_info)
+@@ -114,100 +108,6 @@ static inline unsigned apicid_pkg_offset(X86CPUTopoInfo *topo_info)
+     return apicid_die_offset(topo_info) + apicid_die_width(topo_info);
+ }
+ 
+-#define NODE_ID_OFFSET 3 /* Minimum node_id offset if numa configured */
 -
-     assert(cache->size == cache->line_size * cache->associativity *
-                           cache->partitions * cache->sets);
- 
-@@ -355,13 +408,10 @@ static void encode_cache_cpuid8000001d(CPUCacheInfo *cache,
- 
-     /* L3 is shared among multiple cores */
-     if (cache->level == 3) {
--        l3_cores = DIV_ROUND_UP((topo_info->dies_per_pkg *
--                                 topo_info->cores_per_die *
--                                 topo_info->threads_per_core),
--                                 nodes);
--        *eax |= (l3_cores - 1) << 14;
-+        l3_cores = cores_in_core_complex(cs->nr_cores);
-+        *eax |= ((l3_cores * cs->nr_threads) - 1) << 14;
-     } else {
--        *eax |= ((topo_info->threads_per_core - 1) << 14);
-+        *eax |= ((cs->nr_threads - 1) << 14);
-     }
- 
-     assert(cache->line_size > 0);
-@@ -381,17 +431,55 @@ static void encode_cache_cpuid8000001d(CPUCacheInfo *cache,
-            (cache->complex_indexing ? CACHE_COMPLEX_IDX : 0);
- }
- 
-+/* Data structure to hold the configuration info for a given core index */
-+struct core_topology {
-+    /* core complex id of the current core index */
-+    int ccx_id;
-+    /*
-+     * Adjusted core index for this core in the topology
-+     * This can be 0,1,2,3 with max 4 cores in a core complex
-+     */
-+    int core_id;
-+    /* Node id for this core index */
-+    int node_id;
-+    /* Number of nodes in this config */
-+    int num_nodes;
-+};
-+
-+/*
-+ * Build the configuration closely match the EPYC hardware. Using the EPYC
-+ * hardware configuration values (MAX_CCX, MAX_CORES_IN_CCX, MAX_CORES_IN_NODE)
-+ * right now. This could change in future.
-+ * nr_cores : Total number of cores in the config
-+ * core_id  : Core index of the current CPU
-+ * topo     : Data structure to hold all the config info for this core index
-+ */
-+static void build_core_topology(int nr_cores, int core_id,
-+                                struct core_topology *topo)
-+{
-+    int nodes, cores_in_ccx;
-+
-+    /* First get the number of nodes required */
-+    nodes = nodes_in_socket(nr_cores);
-+
-+    cores_in_ccx = cores_in_core_complex(nr_cores);
-+
-+    topo->node_id = core_id / (cores_in_ccx * MAX_CCX);
-+    topo->ccx_id = (core_id % (cores_in_ccx * MAX_CCX)) / cores_in_ccx;
-+    topo->core_id = core_id % cores_in_ccx;
-+    topo->num_nodes = nodes;
-+}
-+
- /* Encode cache info for CPUID[8000001E] */
--static void encode_topo_cpuid8000001e(X86CPUTopoInfo *topo_info, X86CPU *cpu,
-+static void encode_topo_cpuid8000001e(CPUState *cs, X86CPU *cpu,
-                                        uint32_t *eax, uint32_t *ebx,
-                                        uint32_t *ecx, uint32_t *edx)
- {
--    X86CPUTopoIDs topo_ids = {0};
--    unsigned long nodes = MAX(topo_info->nodes_per_pkg, 1);
-+    struct core_topology topo = {0};
-+    unsigned long nodes;
-     int shift;
- 
--    x86_topo_ids_from_apicid_epyc(cpu->apic_id, topo_info, &topo_ids);
+-/*
+- * Bit offset of the node_id field
+- *
+- * Make sure nodes_per_pkg >  0 if numa configured else zero.
+- */
+-static inline unsigned apicid_node_offset_epyc(X86CPUTopoInfo *topo_info)
+-{
+-    unsigned offset = apicid_die_offset(topo_info) +
+-                      apicid_die_width(topo_info);
 -
-+    build_core_topology(cs->nr_cores, cpu->core_id, &topo);
-     *eax = cpu->apic_id;
-     /*
-      * CPUID_Fn8000001E_EBX
-@@ -408,8 +496,12 @@ static void encode_topo_cpuid8000001e(X86CPUTopoInfo *topo_info, X86CPU *cpu,
-      *             3 Core complex id
-      *           1:0 Core id
-      */
--    *ebx = ((topo_info->threads_per_core - 1) << 8) | (topo_ids.node_id << 3) |
--            (topo_ids.core_id);
-+    if (cs->nr_threads - 1) {
-+        *ebx = ((cs->nr_threads - 1) << 8) | (topo.node_id << 3) |
-+                (topo.ccx_id << 2) | topo.core_id;
-+    } else {
-+        *ebx = (topo.node_id << 4) | (topo.ccx_id << 3) | topo.core_id;
-+    }
-     /*
-      * CPUID_Fn8000001E_ECX
-      * 31:11 Reserved
-@@ -418,8 +510,9 @@ static void encode_topo_cpuid8000001e(X86CPUTopoInfo *topo_info, X86CPU *cpu,
-      *         2  Socket id
-      *       1:0  Node id
-      */
--    if (nodes <= 4) {
--        *ecx = ((nodes - 1) << 8) | (topo_ids.pkg_id << 2) | topo_ids.node_id;
-+    if (topo.num_nodes <= 4) {
-+        *ecx = ((topo.num_nodes - 1) << 8) | (cpu->socket_id << 2) |
-+                topo.node_id;
-     } else {
-         /*
-          * Node id fix up. Actual hardware supports up to 4 nodes. But with
-@@ -434,10 +527,10 @@ static void encode_topo_cpuid8000001e(X86CPUTopoInfo *topo_info, X86CPU *cpu,
-          * number of nodes. find_last_bit returns last set bit(0 based). Left
-          * shift(+1) the socket id to represent all the nodes.
-          */
--        nodes -= 1;
-+        nodes = topo.num_nodes - 1;
-         shift = find_last_bit(&nodes, 8);
--        *ecx = (nodes << 8) | (topo_ids.pkg_id << (shift + 1)) |
--               topo_ids.node_id;
-+        *ecx = ((topo.num_nodes - 1) << 8) | (cpu->socket_id << (shift + 1)) |
-+                topo.node_id;
-     }
-     *edx = 0;
- }
-@@ -5471,7 +5564,6 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-     uint32_t signature[3];
-     X86CPUTopoInfo topo_info;
- 
--    topo_info.nodes_per_pkg = env->nr_nodes;
-     topo_info.dies_per_pkg = env->nr_dies;
-     topo_info.cores_per_die = cs->nr_cores;
-     topo_info.threads_per_core = cs->nr_threads;
-@@ -5902,20 +5994,20 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-         }
-         switch (count) {
-         case 0: /* L1 dcache info */
--            encode_cache_cpuid8000001d(env->cache_info_amd.l1d_cache,
--                                       &topo_info, eax, ebx, ecx, edx);
-+            encode_cache_cpuid8000001d(env->cache_info_amd.l1d_cache, cs,
-+                                       eax, ebx, ecx, edx);
-             break;
-         case 1: /* L1 icache info */
--            encode_cache_cpuid8000001d(env->cache_info_amd.l1i_cache,
--                                       &topo_info, eax, ebx, ecx, edx);
-+            encode_cache_cpuid8000001d(env->cache_info_amd.l1i_cache, cs,
-+                                       eax, ebx, ecx, edx);
-             break;
-         case 2: /* L2 cache info */
--            encode_cache_cpuid8000001d(env->cache_info_amd.l2_cache,
--                                       &topo_info, eax, ebx, ecx, edx);
-+            encode_cache_cpuid8000001d(env->cache_info_amd.l2_cache, cs,
-+                                       eax, ebx, ecx, edx);
-             break;
-         case 3: /* L3 cache info */
--            encode_cache_cpuid8000001d(env->cache_info_amd.l3_cache,
--                                       &topo_info, eax, ebx, ecx, edx);
-+            encode_cache_cpuid8000001d(env->cache_info_amd.l3_cache, cs,
-+                                       eax, ebx, ecx, edx);
-             break;
-         default: /* end of info */
-             *eax = *ebx = *ecx = *edx = 0;
-@@ -5924,7 +6016,8 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-         break;
-     case 0x8000001E:
-         assert(cpu->core_id <= 255);
--        encode_topo_cpuid8000001e(&topo_info, cpu, eax, ebx, ecx, edx);
-+        encode_topo_cpuid8000001e(cs, cpu,
-+                                  eax, ebx, ecx, edx);
-         break;
-     case 0xC0000000:
-         *eax = env->cpuid_xlevel2;
+-    if (topo_info->nodes_per_pkg) {
+-        return MAX(NODE_ID_OFFSET, offset);
+-    } else {
+-        return offset;
+-    }
+-}
+-
+-/* Bit offset of the Pkg_ID (socket ID) field */
+-static inline unsigned apicid_pkg_offset_epyc(X86CPUTopoInfo *topo_info)
+-{
+-    return apicid_node_offset_epyc(topo_info) +
+-           apicid_node_width_epyc(topo_info);
+-}
+-
+-/*
+- * Make APIC ID for the CPU based on Pkg_ID, Core_ID, SMT_ID
+- *
+- * The caller must make sure core_id < nr_cores and smt_id < nr_threads.
+- */
+-static inline apic_id_t
+-x86_apicid_from_topo_ids_epyc(X86CPUTopoInfo *topo_info,
+-                              const X86CPUTopoIDs *topo_ids)
+-{
+-    return (topo_ids->pkg_id  << apicid_pkg_offset_epyc(topo_info)) |
+-           (topo_ids->node_id << apicid_node_offset_epyc(topo_info)) |
+-           (topo_ids->die_id  << apicid_die_offset(topo_info)) |
+-           (topo_ids->core_id << apicid_core_offset(topo_info)) |
+-           topo_ids->smt_id;
+-}
+-
+-static inline void x86_topo_ids_from_idx_epyc(X86CPUTopoInfo *topo_info,
+-                                              unsigned cpu_index,
+-                                              X86CPUTopoIDs *topo_ids)
+-{
+-    unsigned nr_nodes = MAX(topo_info->nodes_per_pkg, 1);
+-    unsigned nr_dies = topo_info->dies_per_pkg;
+-    unsigned nr_cores = topo_info->cores_per_die;
+-    unsigned nr_threads = topo_info->threads_per_core;
+-    unsigned cores_per_node = DIV_ROUND_UP((nr_dies * nr_cores * nr_threads),
+-                                            nr_nodes);
+-
+-    topo_ids->pkg_id = cpu_index / (nr_dies * nr_cores * nr_threads);
+-    topo_ids->node_id = (cpu_index / cores_per_node) % nr_nodes;
+-    topo_ids->die_id = cpu_index / (nr_cores * nr_threads) % nr_dies;
+-    topo_ids->core_id = cpu_index / nr_threads % nr_cores;
+-    topo_ids->smt_id = cpu_index % nr_threads;
+-}
+-
+-/*
+- * Calculate thread/core/package IDs for a specific topology,
+- * based on APIC ID
+- */
+-static inline void x86_topo_ids_from_apicid_epyc(apic_id_t apicid,
+-                                            X86CPUTopoInfo *topo_info,
+-                                            X86CPUTopoIDs *topo_ids)
+-{
+-    topo_ids->smt_id = apicid &
+-            ~(0xFFFFFFFFUL << apicid_smt_width(topo_info));
+-    topo_ids->core_id =
+-            (apicid >> apicid_core_offset(topo_info)) &
+-            ~(0xFFFFFFFFUL << apicid_core_width(topo_info));
+-    topo_ids->die_id =
+-            (apicid >> apicid_die_offset(topo_info)) &
+-            ~(0xFFFFFFFFUL << apicid_die_width(topo_info));
+-    topo_ids->node_id =
+-            (apicid >> apicid_node_offset_epyc(topo_info)) &
+-            ~(0xFFFFFFFFUL << apicid_node_width_epyc(topo_info));
+-    topo_ids->pkg_id = apicid >> apicid_pkg_offset_epyc(topo_info);
+-}
+-
+-/*
+- * Make APIC ID for the CPU 'cpu_index'
+- *
+- * 'cpu_index' is a sequential, contiguous ID for the CPU.
+- */
+-static inline apic_id_t x86_apicid_from_cpu_idx_epyc(X86CPUTopoInfo *topo_info,
+-                                                     unsigned cpu_index)
+-{
+-    X86CPUTopoIDs topo_ids;
+-    x86_topo_ids_from_idx_epyc(topo_info, cpu_index, &topo_ids);
+-    return x86_apicid_from_topo_ids_epyc(topo_info, &topo_ids);
+-}
+ /* Make APIC ID for the CPU based on Pkg_ID, Core_ID, SMT_ID
+  *
+  * The caller must make sure core_id < nr_cores and smt_id < nr_threads.
 
 
