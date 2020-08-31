@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 116B3257BD5
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 17:11:29 +0200 (CEST)
-Received: from localhost ([::1]:60214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76DAC257BA4
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 17:08:35 +0200 (CEST)
+Received: from localhost ([::1]:52216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kClSy-0001mA-3M
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 11:11:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44374)
+	id 1kClQA-0006p8-Ix
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 11:08:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1kClK0-0006i1-R3
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 11:02:12 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:40237
+ id 1kClJv-0006ZD-8Y
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 11:02:07 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:45301
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1kClJy-0004av-OD
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 11:02:12 -0400
+ id 1kClJt-0004Xv-3u
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 11:02:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598886130;
+ s=mimecast20190719; t=1598886124;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VpX/PWJFUx7NdHOUX10cT7htrNNEu4lX7nluG+6/dKI=;
- b=S5SaWBrIrA7NTjHlT+/13azDlQ/q8vPvFQGirNRR7YKsWhKegGkEcQIYRY5wDxr0ow9LY1
- pn2tc58LQ1vqISKNDdfGIo0O6Oierge0ZmtUMkY2OlfD2y0jf2b0A1hjWYccE0iohvGUvE
- /6bf7Re6DZ2eQWtn68w3gYzfsaNJilE=
+ bh=DTPbw5Stpehj5o9nWR+nVRhC09lOXlzzSCGaNl5AOQ0=;
+ b=KAlRG44g0nQQxxQ5uWSDZOciyn1eJwc+d0z2PYrT2Lh6TeJ1/6ZoEEDrBqXuxK7fbbN3nO
+ qB/h9j+TDXUuvA2eJ/N4LTjurZUr7Z1lTWVDoWwEzflyJa3PJvhyxBHOXECcI6+oMVLpVM
+ rmRhx/JmkP77gwxwXIHA7e6smiZFBc4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-64-B6BWyGr_MbqGUPsoqsK0Vw-1; Mon, 31 Aug 2020 11:01:53 -0400
-X-MC-Unique: B6BWyGr_MbqGUPsoqsK0Vw-1
+ us-mta-184-_Xa-f0oUN1uuMCwURKgigw-1; Mon, 31 Aug 2020 11:01:56 -0400
+X-MC-Unique: _Xa-f0oUN1uuMCwURKgigw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EEE83425DF;
- Mon, 31 Aug 2020 15:01:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF9C18015DB;
+ Mon, 31 Aug 2020 15:01:55 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.35.206.190])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DBDA419C4F;
- Mon, 31 Aug 2020 15:01:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 64FB219C4F;
+ Mon, 31 Aug 2020 15:01:53 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 6/9] scsi/scsi-bus: scsi_device_find: don't return
- unrealized devices
-Date: Mon, 31 Aug 2020 18:01:21 +0300
-Message-Id: <20200831150124.206267-7-mlevitsk@redhat.com>
+Subject: [PATCH v4 7/9] scsi/scsi_bus: Add scsi_device_get
+Date: Mon, 31 Aug 2020 18:01:22 +0300
+Message-Id: <20200831150124.206267-8-mlevitsk@redhat.com>
 In-Reply-To: <20200831150124.206267-1-mlevitsk@redhat.com>
 References: <20200831150124.206267-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
@@ -85,149 +84,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Fam Zheng <fam@euphon.net>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Maxim Levitsky <mlevitsk@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+ Stefan Hajnoczi <stefanha@gmail.com>, Maxim Levitsky <mlevitsk@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The device core first places a device on the bus and then realizes it.
-Make scsi_device_find avoid returing such devices to avoid
-races in drivers that use an iothread (currently virtio-scsi)
+Add scsi_device_get which finds the scsi device
+and takes a reference to it.
 
-Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=1812399
-
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Suggested-by: Stefan Hajnoczi <stefanha@gmail.com>
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- hw/scsi/scsi-bus.c | 88 ++++++++++++++++++++++++++++------------------
- 1 file changed, 53 insertions(+), 35 deletions(-)
+ hw/scsi/scsi-bus.c     | 22 +++++++++++++++++-----
+ include/hw/scsi/scsi.h |  1 +
+ 2 files changed, 18 insertions(+), 5 deletions(-)
 
 diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
-index 92d412b65c..7ceae2c92b 100644
+index 7ceae2c92b..feab20b76d 100644
 --- a/hw/scsi/scsi-bus.c
 +++ b/hw/scsi/scsi-bus.c
-@@ -51,6 +51,56 @@ static const TypeInfo scsi_bus_info = {
- };
+@@ -52,7 +52,7 @@ static const TypeInfo scsi_bus_info = {
  static int next_scsi_bus;
  
-+static SCSIDevice *_scsi_device_find(SCSIBus *bus, int channel, int id, int lun,
-+                                     bool include_unrealized)
-+{
-+    BusChild *kid;
-+    SCSIDevice *retval = NULL;
-+
-+    rcu_read_lock();
-+
-+    QTAILQ_FOREACH_RCU(kid, &bus->qbus.children, sibling) {
-+        DeviceState *qdev = kid->child;
-+        SCSIDevice *dev = SCSI_DEVICE(qdev);
-+
-+        if (dev->channel == channel && dev->id == id) {
-+            if (dev->lun == lun) {
-+                retval = dev;
-+                goto out;
-+            }
-+
-+            /*
-+             * If we don't find exact match (channel/bus/lun),
-+             * we will return the first device which matches channel/bus
-+             */
-+
-+            if (!retval) {
-+                retval = dev;
-+            }
-+        }
-+    }
-+out:
-+    /*
-+     * This function might run on the IO thread and we might race against
-+     * main thread hot-plugging the device.
-+     * We assume that as soon as .realized is set to true we can let
-+     * the user access the device.
-+     */
-+
-+    if (retval && !include_unrealized &&
-+        !atomic_load_acquire(&retval->qdev.realized)) {
-+        retval = NULL;
-+    }
-+
-+    rcu_read_unlock();
-+    return retval;
-+}
-+
-+SCSIDevice *scsi_device_find(SCSIBus *bus, int channel, int id, int lun)
-+{
-+    return _scsi_device_find(bus, channel, id, lun, false);
-+}
-+
- static void scsi_device_realize(SCSIDevice *s, Error **errp)
+ static SCSIDevice *_scsi_device_find(SCSIBus *bus, int channel, int id, int lun,
+-                                     bool include_unrealized)
++                                     bool include_unrealized, bool take_ref)
  {
-     SCSIDeviceClass *sc = SCSI_DEVICE_GET_CLASS(s);
-@@ -186,7 +236,7 @@ static void scsi_qdev_realize(DeviceState *qdev, Error **errp)
+     BusChild *kid;
+     SCSIDevice *retval = NULL;
+@@ -92,13 +92,22 @@ out:
+         retval = NULL;
+     }
+ 
++    if (take_ref) {
++        object_ref(OBJECT(retval));
++    }
++
+     rcu_read_unlock();
+     return retval;
+ }
+ 
+ SCSIDevice *scsi_device_find(SCSIBus *bus, int channel, int id, int lun)
+ {
+-    return _scsi_device_find(bus, channel, id, lun, false);
++    return _scsi_device_find(bus, channel, id, lun, false, false);
++}
++
++SCSIDevice *scsi_device_get(SCSIBus *bus, int channel, int id, int lun)
++{
++    return _scsi_device_find(bus, channel, id, lun, false, true);
+ }
+ 
+ static void scsi_device_realize(SCSIDevice *s, Error **errp)
+@@ -236,7 +245,8 @@ static void scsi_qdev_realize(DeviceState *qdev, Error **errp)
              dev->lun = 0;
          }
          do {
--            d = scsi_device_find(bus, dev->channel, ++id, dev->lun);
-+            d = _scsi_device_find(bus, dev->channel, ++id, dev->lun, true);
+-            d = _scsi_device_find(bus, dev->channel, ++id, dev->lun, true);
++            d = _scsi_device_find(bus, dev->channel, ++id, dev->lun,
++                                  true, false);
          } while (d && d->lun == dev->lun && id < bus->info->max_target);
          if (d && d->lun == dev->lun) {
              error_setg(errp, "no free target");
-@@ -196,7 +246,7 @@ static void scsi_qdev_realize(DeviceState *qdev, Error **errp)
+@@ -246,7 +256,8 @@ static void scsi_qdev_realize(DeviceState *qdev, Error **errp)
      } else if (dev->lun == -1) {
          int lun = -1;
          do {
--            d = scsi_device_find(bus, dev->channel, dev->id, ++lun);
-+            d = _scsi_device_find(bus, dev->channel, dev->id, ++lun, true);
+-            d = _scsi_device_find(bus, dev->channel, dev->id, ++lun, true);
++            d = _scsi_device_find(bus, dev->channel, dev->id, ++lun,
++                                 true, false);
          } while (d && d->lun == lun && lun < bus->info->max_lun);
          if (d && d->lun == lun) {
              error_setg(errp, "no free lun");
-@@ -204,7 +254,7 @@ static void scsi_qdev_realize(DeviceState *qdev, Error **errp)
+@@ -254,7 +265,8 @@ static void scsi_qdev_realize(DeviceState *qdev, Error **errp)
          }
          dev->lun = lun;
      } else {
--        d = scsi_device_find(bus, dev->channel, dev->id, dev->lun);
-+        d = _scsi_device_find(bus, dev->channel, dev->id, dev->lun, true);
+-        d = _scsi_device_find(bus, dev->channel, dev->id, dev->lun, true);
++        d = _scsi_device_find(bus, dev->channel, dev->id, dev->lun,
++                              true, false);
          assert(d);
          if (d->lun == dev->lun && dev != d) {
              error_setg(errp, "lun already used by '%s'", d->qdev.id);
-@@ -1573,38 +1623,6 @@ static char *scsibus_get_fw_dev_path(DeviceState *dev)
-                            qdev_fw_name(dev), d->id, d->lun);
- }
+diff --git a/include/hw/scsi/scsi.h b/include/hw/scsi/scsi.h
+index 2fc23e44ba..e939a81789 100644
+--- a/include/hw/scsi/scsi.h
++++ b/include/hw/scsi/scsi.h
+@@ -194,6 +194,7 @@ int scsi_device_get_sense(SCSIDevice *dev, uint8_t *buf, int len, bool fixed);
+ int scsi_SG_IO_FROM_DEV(BlockBackend *blk, uint8_t *cmd, uint8_t cmd_size,
+                         uint8_t *buf, uint8_t buf_size);
+ SCSIDevice *scsi_device_find(SCSIBus *bus, int channel, int target, int lun);
++SCSIDevice *scsi_device_get(SCSIBus *bus, int channel, int target, int lun);
  
--SCSIDevice *scsi_device_find(SCSIBus *bus, int channel, int id, int lun)
--{
--    BusChild *kid;
--    SCSIDevice *target_dev = NULL;
--
--    rcu_read_lock();
--
--    QTAILQ_FOREACH_RCU(kid, &bus->qbus.children, sibling) {
--        DeviceState *qdev = kid->child;
--        SCSIDevice *dev = SCSI_DEVICE(qdev);
--
--        if (dev->channel == channel && dev->id == id) {
--            if (dev->lun == lun) {
--                rcu_read_unlock();
--                return dev;
--            }
--
--            /*
--             * If we don't find exact match (channel/bus/lun),
--             * we will return the first device which matches channel/bus
--             */
--
--            if (!target_dev) {
--                target_dev = dev;
--            }
--        }
--    }
--
--    rcu_read_unlock();
--    return target_dev;
--}
--
- /* SCSI request list.  For simplicity, pv points to the whole device */
- 
- static int put_scsi_requests(QEMUFile *f, void *pv, size_t size,
+ /* scsi-generic.c. */
+ extern const SCSIReqOps scsi_generic_req_ops;
 -- 
 2.26.2
 
