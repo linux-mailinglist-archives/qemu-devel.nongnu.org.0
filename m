@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F888257EC0
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 18:27:59 +0200 (CEST)
-Received: from localhost ([::1]:50450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 261B5257EC5
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 18:29:34 +0200 (CEST)
+Received: from localhost ([::1]:58800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCmf0-0006qF-LM
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 12:27:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34434)
+	id 1kCmgX-0001jz-5Z
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 12:29:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCmKz-0005pw-HH
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:07:17 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:56169)
+ id 1kCmL1-0005wH-St
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:07:19 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:46515)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCmKx-000665-PW
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:07:17 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id 2so21065pjx.5
- for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 09:07:15 -0700 (PDT)
+ id 1kCmL0-00067e-7X
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:07:19 -0400
+Received: by mail-pg1-x543.google.com with SMTP id 31so821210pgy.13
+ for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 09:07:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2cPf8f8AdkhKlG+8ucMI1Z77vF2YecMji34EykTW4mg=;
- b=BckR/dk3q8enNYYRrlgBHDtOMtxv+XIONca/zQDIr8p+z7+h5rlvr3hCaLLSCLyvHz
- QfAdHc653Pjv2BM+Iia81ru9EJM0XEdLH5kNh3Eqz8QbGuS16VdzUmTO0Rzg0+9/ddmm
- FYv8sXBKiCC7zbhxPvom9ZhBit9l40Y6V91hmJYYRqa+OilH9CVzDux/JH7Pg6jWUGma
- Wg+0LqFFGU7poQ7hYSufwRSpCdml4mS191uMHn2zNZsbSA7vxXmFPvrtKQ/rIXCNt3on
- lyDUOc3ty+MS7w4izemic+Drf8pG8r8VpddWPgQ3pMbzFheFKwBpeUiZP2caHBEak0/T
- +ezA==
+ bh=+YTQPSRa7wIGfMOHKJcDIJtbiajs8gBf9sLY+UjyvJI=;
+ b=FpY8A4WEPbglTlZeEI7EV5gOhMujrXdRoz8G+oo80aWvAyeqpg5MCiWqgF+J9vpiN+
+ LY9c9J+B0bZnCGkX+SE+U/vttDGxajOd2+Emlh8umLnKsHxlOPYnRAWZpTIda0CyynB6
+ 9+7/SNJm+rrqnt/2ZURP6bha4YiEvRPmpbMFKwl4Gi8t9JY4SOVKAoQmOtvOMTEhGLrd
+ /EkBrVgVKR0i2Mt4QwRs9AHGziA6XDRMnpvy1xpxAqY2n8MflZ6LSE+e8TZCsIVZhMKN
+ zahGDdVyMn0zuOV+q0kB4GQYQBY6Xm2d9qmDVYmjSig9SIRZ7gz0isStbt+0H8QGcVQ/
+ 5OiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2cPf8f8AdkhKlG+8ucMI1Z77vF2YecMji34EykTW4mg=;
- b=C74eAQRn5awa5ypXEKFbFmH64FHMIhcpDyNMEUJqXYUOXLlTQk/PxL6r9kLH5EFrqp
- 8MIpfN0ZpVtBJIpOdo8AHyXenIyyfhjK9EhseO9Yy+BKD1LbpwoQa/MNUt2uGDmzP6rR
- hKBsRV85+7D1g+BTl9Mkvbtd8S7puLsRhH5F7qqnZU/swn+gqn7d63ZQjVkHyjVVsxTd
- d8eyol9UH6SEuf+9eAnP1YEC5ze9im/MtigFa3w1f+jctJY58iwCbNolacXaWV3+xg8i
- OFgSdRELmhjU05qCETmTngpLnoBxv86cXaAI6ZxSDsyWNpHOyNQcidz5gEZ6QMHJc+Id
- ey0w==
-X-Gm-Message-State: AOAM533HeQXGVDD25+t4BGxpMWIDaX2VOkhKumpboZCuxDXMCfHoHSTP
- gTp8H+hF5mmt+jKsgqtXwWAflJh0bpfW3w==
-X-Google-Smtp-Source: ABdhPJyuTR6ws67h4jZeyjkgEW4PO+6WFkt7iqbPvXC7Qnslyv4opOs4aYT3Kyy57ErjRzNSFPy0DQ==
-X-Received: by 2002:a17:902:6902:: with SMTP id j2mr1558149plk.2.1598890034024; 
- Mon, 31 Aug 2020 09:07:14 -0700 (PDT)
+ bh=+YTQPSRa7wIGfMOHKJcDIJtbiajs8gBf9sLY+UjyvJI=;
+ b=p64gD2pZ1983popEEitFK3vu/oNsDdqYHrP/jAXR7EohAtxY4Ya3BMYrtPliJHzirM
+ tkzW9eQR668WRZdqcQU0wCA3TQmc6hFid0ms7/torpMaN/8fTS2fl7ZvotH906y3hk3w
+ D0F/7eNlGoCbWj/waRzN2YlQisAeqWcrGG12xxVS0ErLKXl3P3Z0bmQfT+THW0qI3Tmc
+ ha8rwBfEVRJkCjEaMBk76wvtMfd6X4dfpP4t/saJtN/M+HeZWMxDvV4EYRgXZ8AgLoVp
+ 85jfnxvE+NRmaKH7KBAsb5CoM+JN/pGoLs1Gcsb/wTV4iEJRHqQCu0LM4af0JfWXvzdr
+ 1zbA==
+X-Gm-Message-State: AOAM5330cY5GIG85wHLgHGEzn5GNWzSO0TZeUmo+bb27mE+XrQzgwHFE
+ oDBspeNZUg8oF8HD6jqeHOWvEkYuhVom6g==
+X-Google-Smtp-Source: ABdhPJwSVlogUkYoObcMNbMKGsKurYVfMZ8nFpiiUaRh01JEQb87mKH1SkXTagh8gcRKwOuuqJjFqQ==
+X-Received: by 2002:a65:568b:: with SMTP id v11mr1749842pgs.396.1598890036570; 
+ Mon, 31 Aug 2020 09:07:16 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id gt13sm17218pjb.43.2020.08.31.09.07.12
+ by smtp.gmail.com with ESMTPSA id gt13sm17218pjb.43.2020.08.31.09.07.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Aug 2020 09:07:13 -0700 (PDT)
+ Mon, 31 Aug 2020 09:07:15 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 52/76] target/microblaze: Fix cpu unwind for stackprot
-Date: Mon, 31 Aug 2020 09:05:37 -0700
-Message-Id: <20200831160601.833692-53-richard.henderson@linaro.org>
+Subject: [PULL 54/76] target/microblaze: Assert no overlap in flags making up
+ tb_flags
+Date: Mon, 31 Aug 2020 09:05:39 -0700
+Message-Id: <20200831160601.833692-55-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200831160601.833692-1-richard.henderson@linaro.org>
 References: <20200831160601.833692-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,49 +89,47 @@ Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Restore the correct PC when an exception must be raised.
+Create MSR_TB_MASK.  Use it in cpu_get_tb_cpu_state, and check
+that IFLAGS_TB_MASK does not overlap.
 
 Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/helper.h    | 2 +-
- target/microblaze/op_helper.c | 6 +++++-
- 2 files changed, 6 insertions(+), 2 deletions(-)
+ target/microblaze/cpu.h | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/target/microblaze/helper.h b/target/microblaze/helper.h
-index 64816c89e1..a473c1867b 100644
---- a/target/microblaze/helper.h
-+++ b/target/microblaze/helper.h
-@@ -26,7 +26,7 @@ DEF_HELPER_4(mmu_write, void, env, i32, i32, i32)
- #endif
+diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
+index 594501e4e7..2fc7cf26f1 100644
+--- a/target/microblaze/cpu.h
++++ b/target/microblaze/cpu.h
+@@ -261,8 +261,11 @@ struct CPUMBState {
+ #define DRTE_FLAG	(1 << 17)
+ #define DRTB_FLAG	(1 << 18)
+ #define D_FLAG		(1 << 19)  /* Bit in ESR.  */
++
+ /* TB dependent CPUMBState.  */
+ #define IFLAGS_TB_MASK  (D_FLAG | IMM_FLAG | DRTI_FLAG | DRTE_FLAG | DRTB_FLAG)
++#define MSR_TB_MASK     (MSR_UM | MSR_VM | MSR_EE)
++
+     uint32_t iflags;
  
- DEF_HELPER_5(memalign, void, env, tl, i32, i32, i32)
--DEF_HELPER_2(stackprot, void, env, tl)
-+DEF_HELPER_FLAGS_2(stackprot, TCG_CALL_NO_WG, void, env, tl)
+ #if !defined(CONFIG_USER_ONLY)
+@@ -372,12 +375,14 @@ typedef MicroBlazeCPU ArchCPU;
  
- DEF_HELPER_2(get, i32, i32, i32)
- DEF_HELPER_3(put, void, i32, i32, i32)
-diff --git a/target/microblaze/op_helper.c b/target/microblaze/op_helper.c
-index 2c59d4492d..a99c467364 100644
---- a/target/microblaze/op_helper.c
-+++ b/target/microblaze/op_helper.c
-@@ -389,12 +389,16 @@ void helper_memalign(CPUMBState *env, target_ulong addr,
- void helper_stackprot(CPUMBState *env, target_ulong addr)
+ #include "exec/cpu-all.h"
+ 
++/* Ensure there is no overlap between the two masks. */
++QEMU_BUILD_BUG_ON(MSR_TB_MASK & IFLAGS_TB_MASK);
++
+ static inline void cpu_get_tb_cpu_state(CPUMBState *env, target_ulong *pc,
+                                         target_ulong *cs_base, uint32_t *flags)
  {
-     if (addr < env->slr || addr > env->shr) {
-+        CPUState *cs = env_cpu(env);
-+
-         qemu_log_mask(CPU_LOG_INT, "Stack protector violation at "
-                       TARGET_FMT_lx " %x %x\n",
-                       addr, env->slr, env->shr);
-+
-         env->ear = addr;
-         env->esr = ESR_EC_STACKPROT;
--        helper_raise_exception(env, EXCP_HW_EXCP);
-+        cs->exception_index = EXCP_HW_EXCP;
-+        cpu_loop_exit_restore(cs, GETPC());
-     }
+     *pc = env->pc;
+-    *flags = (env->iflags & IFLAGS_TB_MASK) |
+-             (env->msr & (MSR_UM | MSR_VM | MSR_EE));
++    *flags = (env->iflags & IFLAGS_TB_MASK) | (env->msr & MSR_TB_MASK);
+     *cs_base = (*flags & IMM_FLAG ? env->imm : 0);
  }
  
 -- 
