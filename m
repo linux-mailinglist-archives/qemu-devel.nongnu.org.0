@@ -2,58 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3373C257E0E
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 17:57:04 +0200 (CEST)
-Received: from localhost ([::1]:36304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 785BE257E33
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 18:07:35 +0200 (CEST)
+Received: from localhost ([::1]:54420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCmB4-0004u0-Um
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 11:57:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58654)
+	id 1kCmLG-00052g-Fo
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 12:07:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kCmAN-0004MD-Cu; Mon, 31 Aug 2020 11:56:19 -0400
-Resent-Date: Mon, 31 Aug 2020 11:56:19 -0400
-Resent-Message-Id: <E1kCmAN-0004MD-Cu@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21720)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kCmAK-0004e9-IZ; Mon, 31 Aug 2020 11:56:19 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1598889362; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Z8aoeyRkdtPN0CuijzLuA26AfQ82Zyp8XjDSO0bhJn27EAq/ZJgishAFIhjPFAHdCofVN8tGjhYanFbxbdsMUx2BgZ4r2e5eGT4MYS05yEekSknQP2Kbn9pt7TEqBtCtnTz+oDJSoFdeUZlUrs/TpVut1Wv8KdPJxOav+1wOAsY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1598889362;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=Rnd08LyEVdrnwdntxiYUK1EjcKAm9yTwumZnz4Vw7ZY=; 
- b=ZuPJEGWYxjntmSpCerWl/LdSOLjLjtjwtLFFatwVlsCbJu884NhDCJJ5liq2juLKa/Sisfdfde9gVsigoIZ+6MM+bwXtL1AHoe6SPrV1Fbb2FoCxcS+s/72kvW34/jUw8pgFM54aRrPqKPfPhHv8nGRt/tlxC2m5gK61HWbvvY8=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 159888935900611.333334314656895;
- Mon, 31 Aug 2020 08:55:59 -0700 (PDT)
-Subject: Re: [PATCH 0/2] Replace posix_fallocate() with falloate()
-Message-ID: <159888935774.27000.4901880719963125119@66eaa9a8a123>
-In-Reply-To: <20200831140127.657134-1-nsoffer@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kCmJx-0003PQ-6Y
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:06:13 -0400
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:43992)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kCmJt-0005tm-Bi
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:06:12 -0400
+Received: by mail-pg1-x52a.google.com with SMTP id d19so824297pgl.10
+ for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 09:06:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wCkbxWg1oiL1CpJwGfdvNlRiEgbiK2MdnjElLHXtWQI=;
+ b=pRjC4QcNKxHQHHgKXVFUXoDS8g2UHIzRAU8RVeQ31J4clReMtV8t7AhqWNBLkH2KQZ
+ TTglh1T58pRDmlj9/C9JdfQH36D8D4EiM/efXpc+rf6PmNJSoy/3/knN/M5tsxwiMnhM
+ qO5Lv0Ozav2+oB1ic+ChUdYH4Pk5OKYgktliV5qcNqoPV2l4BLy72cOB8yx8rvD45Yr2
+ MqJRIbk/vI9Ny6iWV4qbDtnEr5fNyXWSnv9TMjX/QZKISJ4LYSTdKzBeetYk1rX5OaIZ
+ O4LJjV3L9k9g8LH2mfY6VJXlZiVgw0HO0FlHtJMQskh5so/YFSVaqsluddwq3SSK3Mod
+ P+TQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wCkbxWg1oiL1CpJwGfdvNlRiEgbiK2MdnjElLHXtWQI=;
+ b=Ou5lan1rBfUUCjRFek7JMNGAPEeTi1s9r01yA5Dvv3kXOURgfjf1adLH2bcyL66fyH
+ kWl0Bt16ef8jiEQxZ3WH9Uo0KESGM7rzI3vv2fUDVuqtOgomZzSvkuebMWJUpWED5XH0
+ hjHYhhNZ7c0CKfQBmRIL/+L77p6lMCq5mYkQ4UMAXb3J/2Njc12tMtGuWN5MSYCvKfos
+ S9wgTPJpPnlLSbI3beypw0o/COzFYnqP0kYJo2mXEo/7D3nd9Nq9B46W7qJSd9Lb4nk1
+ vWIWhUUkr3WTsHdmGTuMF+t5W8YtO4L04Y4sUPfXkYb5np9k9gSeLVIttUe1T4JMj5oy
+ tsFw==
+X-Gm-Message-State: AOAM533y72BO96O2B5tYxf3+vH+R6VSWtUb/iEwBtOekDWeCLJYApZ1D
+ 6lfDuWKgzJbp5xB5l/rPyUS4oZKL3ooTvQ==
+X-Google-Smtp-Source: ABdhPJwxK4zFB3iHMfAm4UwEORYwzjfrd3SZCTi1UwzHBLuqk5TkAUCgDlwV9ojvatCbiP3amtbfHA==
+X-Received: by 2002:a63:e157:: with SMTP id h23mr1824828pgk.239.1598889964419; 
+ Mon, 31 Aug 2020 09:06:04 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id gt13sm17218pjb.43.2020.08.31.09.06.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 31 Aug 2020 09:06:03 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/76] target/microblaze improvements
+Date: Mon, 31 Aug 2020 09:04:45 -0700
+Message-Id: <20200831160601.833692-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: nirsof@gmail.com
-Date: Mon, 31 Aug 2020 08:55:59 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 11:56:12
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,47 +82,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, armbru@redhat.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, nsoffer@redhat.com
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDgzMTE0MDEyNy42NTcx
-MzQtMS1uc29mZmVyQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2
-ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBp
-bmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIwMDgzMTE0MDEyNy42NTcx
-MzQtMS1uc29mZmVyQHJlZGhhdC5jb20KU3ViamVjdDogW1BBVENIIDAvMl0gUmVwbGFjZSBwb3Np
-eF9mYWxsb2NhdGUoKSB3aXRoIGZhbGxvYXRlKCkKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0K
-IyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQg
-Y29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZm
-LnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFt
-Ci4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQ
-VCBFTkQgPT09CgpGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQog
-KiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjAwODMxMTQwMTI3LjY1NzEzNC0xLW5zb2Zm
-ZXJAcmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIwMjAwODMxMTQwMTI3LjY1NzEzNC0xLW5zb2ZmZXJA
-cmVkaGF0LmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjcwZTM1ZWQgYmxvY2s6
-IGZpbGUtcG9zaXg6IFJlcGxhY2UgcG9zaXhfZmFsbG9jYXRlIHdpdGggZmFsbG9jYXRlCjM1ZDg5
-ZDEgYmxvY2s6IGZpbGUtcG9zaXg6IEV4dHJhY3QgcHJlYWxsb2NhdGUgaGVscGVycwoKPT09IE9V
-VFBVVCBCRUdJTiA9PT0KMS8yIENoZWNraW5nIGNvbW1pdCAzNWQ4OWQxMzAwZTQgKGJsb2NrOiBm
-aWxlLXBvc2l4OiBFeHRyYWN0IHByZWFsbG9jYXRlIGhlbHBlcnMpCkVSUk9SOiBicmFjZXMge30g
-YXJlIG5lY2Vzc2FyeSBmb3IgYWxsIGFybXMgb2YgdGhpcyBzdGF0ZW1lbnQKIzMzOiBGSUxFOiBi
-bG9jay9maWxlLXBvc2l4LmM6MTg0MToKKyAgICBpZiAob2Zmc2V0ID09IGN1cnJlbnRfbGVuZ3Ro
-KQpbLi4uXQoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCAyMzQgbGluZXMgY2hlY2tlZAoK
-UGF0Y2ggMS8yIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0
-aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRh
-aW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgoyLzIgQ2hlY2tpbmcgY29tbWl0
-IDcwZTM1ZWRhNWJjOSAoYmxvY2s6IGZpbGUtcG9zaXg6IFJlcGxhY2UgcG9zaXhfZmFsbG9jYXRl
-IHdpdGggZmFsbG9jYXRlKQpFUlJPUjogYnJhY2VzIHt9IGFyZSBuZWNlc3NhcnkgZm9yIGFsbCBh
-cm1zIG9mIHRoaXMgc3RhdGVtZW50CiMxMTA6IEZJTEU6IGJsb2NrL2ZpbGUtcG9zaXguYzoxOTY3
-OgorICAgICAgICBpZiAocmVzdWx0ICE9IC1FTk9UU1VQKQpbLi4uXQoKdG90YWw6IDEgZXJyb3Jz
-LCAwIHdhcm5pbmdzLCAxMDggbGluZXMgY2hlY2tlZAoKUGF0Y2ggMi8yIGhhcyBzdHlsZSBwcm9i
-bGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBv
-c2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4g
-TUFJTlRBSU5FUlMuCgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0
-aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5v
-cmcvbG9ncy8yMDIwMDgzMTE0MDEyNy42NTcxMzQtMS1uc29mZmVyQHJlZGhhdC5jb20vdGVzdGlu
-Zy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGlj
-YWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIg
-ZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+At Edgar's request, generating the pull-request for this.
+
+r~
+
+
+
+The following changes since commit 39335fab59e11cfda9b7cf63929825db2dd3a3e0:
+
+  Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-5.2-pull-request' into staging (2020-08-28 22:30:11 +0100)
+
+are available in the Git repository at:
+
+  https://github.com/rth7680/qemu.git tags/pull-mb-20200831
+
+for you to fetch changes up to 7233c0d0b0f5b65fcf6d6423de069ddf9f916392:
+
+  target/microblaze: Reduce linux-user address space to 32-bit (2020-08-31 08:45:45 -0700)
+
+----------------------------------------------------------------
+Convert microblaze to generic translator loop
+Convert microblaze to decodetree
+Fix mb_cpu_transaction_failed
+Other misc cleanups
+
+----------------------------------------------------------------
+Richard Henderson (76):
+      tests/tcg: Add microblaze to arches filter
+      tests/tcg: Do not require FE_TOWARDZERO
+      tests/tcg: Do not require FE_* exception bits
+      target/microblaze: Tidy gdbstub
+      target/microblaze: Split out PC from env->sregs
+      target/microblaze: Split out MSR from env->sregs
+      target/microblaze: Split out EAR from env->sregs
+      target/microblaze: Split out ESR from env->sregs
+      target/microblaze: Split out FSR from env->sregs
+      target/microblaze: Split out BTR from env->sregs
+      target/microblaze: Split out EDR from env->sregs
+      target/microblaze: Split the cpu_SR array
+      target/microblaze: Fix width of PC and BTARGET
+      target/microblaze: Fix width of MSR
+      target/microblaze: Fix width of ESR
+      target/microblaze: Fix width of FSR
+      target/microblaze: Fix width of BTR
+      target/microblaze: Fix width of EDR
+      target/microblaze: Remove cpu_ear
+      target/microblaze: Tidy raising of exceptions
+      target/microblaze: Mark raise_exception as noreturn
+      target/microblaze: Remove helper_debug and env->debug
+      target/microblaze: Rename env_* tcg variables to cpu_*
+      target/microblaze: Tidy mb_tcg_init
+      target/microblaze: Split out MSR[C] to its own variable
+      target/microblaze: Use DISAS_NORETURN
+      target/microblaze: Check singlestep_enabled in gen_goto_tb
+      target/microblaze: Convert to DisasContextBase
+      target/microblaze: Convert to translator_loop
+      target/microblaze: Remove SIM_COMPAT
+      target/microblaze: Remove DISAS_GNU
+      target/microblaze: Remove empty D macros
+      target/microblaze: Remove LOG_DIS
+      target/microblaze: Ensure imm constant is always available
+      target/microblaze: Add decodetree infrastructure
+      target/microblaze: Convert dec_add to decodetree
+      target/microblaze: Convert dec_sub to decodetree
+      target/microblaze: Implement cmp and cmpu inline
+      target/microblaze: Convert dec_pattern to decodetree
+      target/microblaze: Convert dec_and, dec_or, dec_xor to decodetree
+      target/microblaze: Convert dec_mul to decodetree
+      target/microblaze: Convert dec_div to decodetree
+      target/microblaze: Unwind properly when raising divide-by-zero
+      target/microblaze: Convert dec_bit to decodetree
+      target/microblaze: Convert dec_barrel to decodetree
+      target/microblaze: Convert dec_imm to decodetree
+      target/microblaze: Convert dec_fpu to decodetree
+      target/microblaze: Fix cpu unwind for fpu exceptions
+      target/microblaze: Mark fpu helpers TCG_CALL_NO_WG
+      target/microblaze: Replace MSR_EE_FLAG with MSR_EE
+      target/microblaze: Cache mem_index in DisasContext
+      target/microblaze: Fix cpu unwind for stackprot
+      target/microblaze: Convert dec_load and dec_store to decodetree
+      target/microblaze: Assert no overlap in flags making up tb_flags
+      target/microblaze: Move bimm to BIMM_FLAG
+      target/microblaze: Fix no-op mb_cpu_transaction_failed
+      target/microblaze: Store "current" iflags in insn_start
+      tcg: Add tcg_get_insn_start_param
+      target/microblaze: Use cc->do_unaligned_access
+      target/microblaze: Replace clear_imm with tb_flags_to_set
+      target/microblaze: Replace delayed_branch with tb_flags_to_set
+      target/microblaze: Tidy mb_cpu_dump_state
+      target/microblaze: Convert brk and brki to decodetree
+      target/microblaze: Convert mbar to decodetree
+      target/microblaze: Reorganize branching
+      target/microblaze: Convert dec_br to decodetree
+      target/microblaze: Convert dec_bcc to decodetree
+      target/microblaze: Convert dec_rts to decodetree
+      target/microblaze: Tidy do_rti, do_rtb, do_rte
+      target/microblaze: Convert msrclr, msrset to decodetree
+      target/microblaze: Convert dec_msr to decodetree
+      target/microblaze: Convert dec_stream to decodetree
+      target/microblaze: Remove last of old decoder
+      target/microblaze: Remove cpu_R[0]
+      target/microblaze: Add flags markup to some helpers
+      target/microblaze: Reduce linux-user address space to 32-bit
+
+ include/tcg/tcg.h                     |   15 +
+ target/microblaze/cpu-param.h         |   15 +
+ target/microblaze/cpu.h               |   67 +-
+ target/microblaze/helper.h            |   49 +-
+ target/microblaze/microblaze-decode.h |   59 -
+ tests/tcg/multiarch/float_helpers.h   |   17 +
+ target/microblaze/insns.decode        |  256 +++
+ linux-user/elfload.c                  |    9 +-
+ linux-user/microblaze/cpu_loop.c      |   26 +-
+ linux-user/microblaze/signal.c        |    8 +-
+ target/microblaze/cpu.c               |    9 +-
+ target/microblaze/gdbstub.c           |  193 +-
+ target/microblaze/helper.c            |  164 +-
+ target/microblaze/mmu.c               |    4 +-
+ target/microblaze/op_helper.c         |  194 +-
+ target/microblaze/translate.c         | 3223 +++++++++++++++++----------------
+ tests/tcg/multiarch/float_convs.c     |    2 +
+ tests/tcg/multiarch/float_madds.c     |    2 +
+ target/microblaze/meson.build         |    3 +
+ tests/tcg/configure.sh                |    2 +-
+ 20 files changed, 2292 insertions(+), 2025 deletions(-)
+ delete mode 100644 target/microblaze/microblaze-decode.h
+ create mode 100644 target/microblaze/insns.decode
 
