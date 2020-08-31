@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AFDB25764B
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 11:15:33 +0200 (CEST)
-Received: from localhost ([::1]:39998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27A8E257645
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 11:13:44 +0200 (CEST)
+Received: from localhost ([::1]:36038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCfuW-000711-Ho
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 05:15:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52608)
+	id 1kCfsl-0005Jf-7k
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 05:13:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
- id 1kCftS-0006A6-Vk
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 05:14:26 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:51106)
+ id 1kCfs0-0004rv-Fu
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 05:12:56 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:49976)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
- id 1kCftR-0003Ot-9V
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 05:14:26 -0400
+ id 1kCfry-0003Fi-Iq
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 05:12:56 -0400
 Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07V8U4v7036332;
- Mon, 31 Aug 2020 09:14:17 GMT
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07V8UAGU036435;
+ Mon, 31 Aug 2020 09:12:47 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=to : cc : subject :
  in-reply-to : references : sender : from : date : message-id :
  mime-version : content-type; s=corp-2020-01-29;
- bh=ykio6Yfs/LEDqGI4oYnthvY5mVRVwUjbCQxUOon0HqQ=;
- b=QSF45/ZutNxdp6yQ+JMO0hofYPj7J9owjSgm+QM2VqD5XQYBUXCA7GutOt0Y/5MGJjyZ
- UaVPEZg98o/NWncBnO/J/9wnc8iz8sWuSy8vHzpyMxxuogUyM2Hho3GDgHO+IQiouo7M
- lXZkU7Hg0OuhhGDleTpyBnDF5N0DwRu8Kgx+zPbo86k7NsVXrVr6pXs1hGV4kHhGTk3/
- JtPXOeshGIrYI+eCb98lnCrHBrc9hpqIH+u25b/zo3Sewn/3hchbmxg2abGBRcXrBC6X
- 4TqbLDz/0zBEsGMcdlKkeOiM6LypguqvXEo7sa9dNTWaGmElbr2cVQCboaahpg+odI6U 5g== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by aserp2120.oracle.com with ESMTP id 337eykw728-1
+ bh=dcnkMy+m1ZqaSDGgxfkNERdf9EQ4/ec3L7LCZRO4WxM=;
+ b=vcGqfc+l/GnzpXgb34D4BWiDBy7lnwN+wT41FYqUBdhdzysNJXeV6HikxPTbRJ3AQqgC
+ pVoRbyFVLbyUkPhIiULMC+AYdlFWvO95L7KJDiS1NaO1QGiPVleiJWxiD2L4owVv5VUb
+ WeZgQNbUybOCzrgTWps3yyNfSuoYuWfNZvwoIKR6PxV1blfaaObX61z/ZXl9y0qlzrFB
+ BIq6Ue0+IRHr1VV3JOKoew01MCfVxTJjSS4rF3CtXF61Rgfhn6zn1mOAciHkUvAXXKF3
+ mKKytr0gT3S6lLNplD1EgWiRjmhE/mUJkv+Elum5qA5F+k0b3uuNof3DKnYidTCJZjHs GQ== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by aserp2120.oracle.com with ESMTP id 337eykw6sd-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 31 Aug 2020 09:14:17 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07V8TeqG170934;
- Mon, 31 Aug 2020 09:12:16 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3030.oracle.com with ESMTP id 3380xuf996-1
+ Mon, 31 Aug 2020 09:12:47 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07V8V7bj053081;
+ Mon, 31 Aug 2020 09:12:46 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3030.oracle.com with ESMTP id 3380kkcf1y-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 31 Aug 2020 09:12:16 +0000
-Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 07V9CFBr016031;
- Mon, 31 Aug 2020 09:12:15 GMT
+ Mon, 31 Aug 2020 09:12:46 +0000
+Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 07V9Ckc6009902;
+ Mon, 31 Aug 2020 09:12:46 GMT
 Received: from disaster-area.hh.sledj.net (/81.187.26.238)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 31 Aug 2020 02:12:14 -0700
+ with ESMTP ; Mon, 31 Aug 2020 02:12:46 -0700
 Received: from localhost (disaster-area.hh.sledj.net [local])
- by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 619efd25;
- Mon, 31 Aug 2020 09:12:12 +0000 (UTC)
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id ed5d9b7a;
+ Mon, 31 Aug 2020 09:12:43 +0000 (UTC)
 To: Chuan Zheng <zhengchuan@huawei.com>, quintela@redhat.com,
  eblake@redhat.com, dgilbert@redhat.com, berrange@redhat.com
-Subject: Re: [PATCH v6 08/12] migration/dirtyrate: skip sampling ramblock
- with size below MIN_RAMBLOCK_SIZE
-In-Reply-To: <1598669577-76914-9-git-send-email-zhengchuan@huawei.com>
+Subject: Re: [PATCH v6 09/12] migration/dirtyrate: Implement
+ set_sample_page_period() and get_sample_page_period()
+In-Reply-To: <1598669577-76914-10-git-send-email-zhengchuan@huawei.com>
 References: <1598669577-76914-1-git-send-email-zhengchuan@huawei.com>
- <1598669577-76914-9-git-send-email-zhengchuan@huawei.com>
+ <1598669577-76914-10-git-send-email-zhengchuan@huawei.com>
 X-HGTTG: heart-of-gold
 From: David Edmondson <david.edmondson@oracle.com>
-Date: Mon, 31 Aug 2020 10:12:12 +0100
-Message-ID: <m2zh6bb2mr.fsf@oracle.com>
+Date: Mon, 31 Aug 2020 10:12:43 +0100
+Message-ID: <m2wo1fb2lw.fsf@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9729
  signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- adultscore=0 phishscore=0
- malwarescore=0 bulkscore=0 mlxscore=0 mlxlogscore=999 suspectscore=1
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ spamscore=0 adultscore=0
+ mlxscore=0 suspectscore=1 malwarescore=0 mlxlogscore=999 bulkscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
  definitions=main-2008310051
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9729
@@ -108,81 +108,69 @@ Cc: alex.chen@huawei.com, ann.zhuangyanying@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Saturday, 2020-08-29 at 10:52:53 +08, Chuan Zheng wrote:
+On Saturday, 2020-08-29 at 10:52:54 +08, Chuan Zheng wrote:
 
-> In order to sample real RAM, skip ramblock with size below MIN_RAMBLOCK_SIZE
-> which is set as 128M.
+> Implement set_sample_page_period()/get_sample_page_period() to sleep
+> specific time between sample actions.
 >
 > Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
-
-Minor wordsmithing below, but...
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
 Reviewed-by: David Edmondson <david.edmondson@oracle.com>
 
 > ---
->  migration/dirtyrate.c | 19 +++++++++++++++++++
->  migration/dirtyrate.h |  5 +++++
->  2 files changed, 24 insertions(+)
+>  migration/dirtyrate.c | 24 ++++++++++++++++++++++++
+>  migration/dirtyrate.h |  6 ++++++
+>  2 files changed, 30 insertions(+)
 >
 > diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-> index 9cc2cbb..420fc59 100644
+> index 420fc59..850126d 100644
 > --- a/migration/dirtyrate.c
 > +++ b/migration/dirtyrate.c
-> @@ -164,6 +164,19 @@ alloc_ramblock_dirty_info(int *block_index,
->      return block_dinfo;
->  }
+> @@ -27,6 +27,30 @@
+>  static int CalculatingState = DIRTY_RATE_STATUS_UNSTARTED;
+>  static struct DirtyRateStat DirtyStat;
 >  
-> +static bool skip_sample_ramblock(RAMBlock *block)
+> +static int64_t set_sample_page_period(int64_t msec, int64_t initial_time)
 > +{
-> +    /*
-> +     * Consider ramblock with size larger than 128M is what we
-> +     * want to sample.
-
-"Sample only blocks larger than MIN_RAMBLOCK_SIZE."
-
-> +     */
-> +    if (qemu_ram_get_used_length(block) < (MIN_RAMBLOCK_SIZE << 10)) {
-> +        return true;
+> +    int64_t current_time;
+> +
+> +    current_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
+> +    if ((current_time - initial_time) >= msec) {
+> +        msec = current_time - initial_time;
+> +    } else {
+> +        g_usleep((msec + initial_time - current_time) * 1000);
 > +    }
 > +
-> +    return false;
+> +    return msec;
 > +}
 > +
->  static int record_ramblock_hash_info(struct RamblockDirtyInfo **block_dinfo,
->                                       struct DirtyRateConfig config,
->                                       int *block_index)
-> @@ -174,6 +187,9 @@ static int record_ramblock_hash_info(struct RamblockDirtyInfo **block_dinfo,
->      int index = 0;
->  
->      RAMBLOCK_FOREACH_MIGRATABLE(block) {
-> +        if (skip_sample_ramblock(block)) {
-> +            continue;
-> +        }
->          dinfo = alloc_ramblock_dirty_info(&index, dinfo);
->          if (dinfo == NULL) {
->              return -1;
-> @@ -241,6 +257,9 @@ static int compare_page_hash_info(struct RamblockDirtyInfo *info,
->      RAMBlock *block = NULL;
->  
->      RAMBLOCK_FOREACH_MIGRATABLE(block) {
-> +        if (skip_sample_ramblock(block)) {
-> +            continue;
-> +        }
->          block_dinfo = find_page_matched(block, block_index + 1, info);
->          if (block_dinfo == NULL) {
->              continue;
+> +static bool get_sample_page_period(int64_t sec)
+> +{
+> +    if (sec < MIN_FETCH_DIRTYRATE_TIME_SEC ||
+> +        sec > MAX_FETCH_DIRTYRATE_TIME_SEC) {
+> +        return false;
+> +    }
+> +
+> +    return true;
+> +}
+> +
+>  static int dirtyrate_set_state(int *state, int old_state, int new_state)
+>  {
+>      assert(new_state < DIRTY_RATE_STATUS__MAX);
 > diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
-> index a3ee305..faaf9da 100644
+> index faaf9da..8f9bc80 100644
 > --- a/migration/dirtyrate.h
 > +++ b/migration/dirtyrate.h
-> @@ -24,6 +24,11 @@
+> @@ -29,6 +29,12 @@
 >   */
->  #define RAMBLOCK_INFO_MAX_LEN                     256
+>  #define MIN_RAMBLOCK_SIZE                         128
 >  
 > +/*
-> + * Minimum RAMBlock size to sample, in megabytes.
+> + * Take 1s as minimum time for calculation duration
 > + */
-> +#define MIN_RAMBLOCK_SIZE                         128
+> +#define MIN_FETCH_DIRTYRATE_TIME_SEC              1
+> +#define MAX_FETCH_DIRTYRATE_TIME_SEC              60
 > +
 >  struct DirtyRateConfig {
 >      uint64_t sample_pages_per_gigabytes; /* sample pages per GB */
@@ -192,5 +180,5 @@ Reviewed-by: David Edmondson <david.edmondson@oracle.com>
 
 dme.
 -- 
-Jane was in her turtle neck, I was much happier then.
+Tonight I think I'll walk alone, I'll find my soul as I go home.
 
