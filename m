@@ -2,76 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1BA125841B
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 00:31:17 +0200 (CEST)
-Received: from localhost ([::1]:44996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 586F725842C
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 00:43:40 +0200 (CEST)
+Received: from localhost ([::1]:48728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCsKa-0004su-Pp
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 18:31:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33676)
+	id 1kCsWY-0007DG-TO
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 18:43:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCsJF-0003v0-MK
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 18:29:53 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:43606)
+ (Exim 4.90_1)
+ (envelope-from <bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com>)
+ id 1kCsVW-0006mt-Of
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 18:42:34 -0400
+Received: from do158-143.mg.gitlab.com ([192.237.158.143]:58291)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCsJD-00014o-JG
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 18:29:53 -0400
-Received: by mail-pl1-x641.google.com with SMTP id y6so3921180plk.10
- for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 15:29:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=qzG/+wPNG1iJoLQo3NWZTJdQt933K2Vouh6sdpq8zk4=;
- b=WjErwYD9m2quFHbyzB2CWglom+ru2pbIOX6UjmRjuyzP5WCkAydPBfX4vCGR929Wi5
- jw94fCk/aJAG5Z3xHR98zcze1w2bqjv4U+CJrpCAXgetGKJuxspoeA2bXNOoWykPmmIP
- qw640s22b5rHP8FcBabXwpj33r42ckJd4T/5/4gCikzf24X8+tXv166aDnXR5+yeivTY
- jBRiIPLxD8TVJHi9VFcJGafsJIXdkuMolVNx3lx4rSKRU8N1ItSZ9PVBynes+4RMO2Dk
- 4PuqUlcngAXgZPBEWwxBMfOp2KUK+7zDAWDwl5ZR+c60J2jZbx/rH+HNtwWJB0JmqTfV
- Yjfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=qzG/+wPNG1iJoLQo3NWZTJdQt933K2Vouh6sdpq8zk4=;
- b=G6js6c2iOxgsCAjyTnKNhz1St4lqEQI5dJXqcaXhhErLfctjGphJX9/MgDyczDfnkz
- aWiGJ3P6rLPykCHOaivIn9QSpDAqyADpKo5gK4zl9AueNHRjKBjtet2MNoxdDET4cCw3
- abps3jo3kdhkNeCBB3SVpOBGqs8sI+AuNd3DzoH7uOZ0UmocS4T6C+rk5z0ile4MNcz1
- tITreMInBo23VhhzBcFdLUuy+Cm8FhpKU79aJNMeiiNswuQwnLpqx/nZsETcnMG+mQVY
- w08ZEZAkla4RyJyXhyzMRBJu8UAh76eeZdAcBP6smJHJIGVxcFrvN3xYFrSQrhWD865O
- qMDw==
-X-Gm-Message-State: AOAM530uMmtfWhBpY4zvXkMTtefUIihfp5sIs6m3Mdd69hgkm9CN8zQ6
- AGUeF/Xwwqkllh8/FKhiwpoHE3DvbkQhWQ==
-X-Google-Smtp-Source: ABdhPJzkgwt3XUDZ72MoaCjEwYhXSQl0lh3rupdUJyMW0cuTIcKZfV29Oj7blUt/v2wpRE0DYgiS+g==
-X-Received: by 2002:a17:90a:19c2:: with SMTP id 2mr1333624pjj.6.1598912989031; 
- Mon, 31 Aug 2020 15:29:49 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id z126sm9391708pfc.94.2020.08.31.15.29.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Aug 2020 15:29:48 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 1/1] tcg: Adjust simd_desc size encoding
-Date: Mon, 31 Aug 2020 15:29:45 -0700
-Message-Id: <20200831222945.875453-2-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200831222945.875453-1-richard.henderson@linaro.org>
-References: <20200831222945.875453-1-richard.henderson@linaro.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x641.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1)
+ (envelope-from <bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com>)
+ id 1kCsVQ-0002XC-GD
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 18:42:34 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.gitlab.com;
+ q=dns/txt; 
+ s=mailo; t=1598913752; h=List-Id: Content-Transfer-Encoding:
+ Content-Type: Mime-Version: Subject: Message-ID: Reply-To: From: Date:
+ Sender; bh=Dzj2zPVZEc8LPh9QmfEyyP0GLOxd15cLEHWh7P2IuBU=;
+ b=YvSnRtxovGMXg7fVrshYSNmF/c4mAhit8UP0+FoFEZEHmqxsV+1REnUV3O45x924zrzIWvg0
+ 2QHzBw1UoRrOxuywLsIt7XPxcDHb5IciwSIJSMnxTKkWan9sFJuqYY72E2KYwP0R9lz3ggQH
+ ciKYm8hhlg+a3yR4dHnGy8NxRc4=
+X-Mailgun-Sending-Ip: 192.237.158.143
+X-Mailgun-Sid: WyI3MWYzYSIsICJxZW11LWRldmVsQG5vbmdudS5vcmciLCAiOTQ3YjQiXQ==
+Received: from mg.gitlab.com (67.90.74.34.bc.googleusercontent.com
+ [34.74.90.67]) by smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
+ 5f4d7cc29f3347551ffdcb50 (version=TLS1.3, cipher=TLS_AES_128_GCM_SHA256);
+ Mon, 31 Aug 2020 22:42:10 GMT
+Date: Mon, 31 Aug 2020 22:42:10 +0000
+Message-ID: <5f4d7cc243838_6aad3fe63895f64c408599@sidekiq-catchall-04-sv-gprd.mail>
+Subject: QEMU | Pipeline #184069766 has failed for master | 2f4c51c0
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="--==_mimepart_5f4d7cc239446_6aad3fe63895f64c4084d3";
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-GitLab-Project: QEMU
+X-GitLab-Project-Id: 11167699
+X-GitLab-Project-Path: qemu-project/qemu
+X-GitLab-Pipeline-Id: 184069766
+X-GitLab-Pipeline-Ref: master
+X-GitLab-Pipeline-Status: failed
+Auto-Submitted: auto-generated
+X-Auto-Response-Suppress: All
+Received-SPF: pass client-ip=192.237.158.143;
+ envelope-from=bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com;
+ helo=do158-143.mg.gitlab.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 02:09:13
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HTML_FONT_LOW_CONTRAST=0.001, HTML_MESSAGE=0.001, MISSING_HEADERS=1.021,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, REPLYTO_WITHOUT_TO_CC=1.552,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,139 +76,499 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: frank.chang@sifive.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: GitLab <noreply@gitlab.com>, GitLab <gitlab@mg.gitlab.com>
+From: GitLab via <qemu-devel@nongnu.org>
 
-With larger vector sizes, it turns out oprsz == maxsz, and we only
-need to represent mismatch for oprsz <= 32.  We do, however, need
-to represent larger oprsz and do so without reducing SIMD_DATA_BITS.
 
-Reduce the size of the oprsz field and increase the maxsz field.
-Steal the oprsz value of 24 to indicate equality with maxsz.
+----==_mimepart_5f4d7cc239446_6aad3fe63895f64c4084d3
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- include/tcg/tcg-gvec-desc.h | 38 ++++++++++++++++++++++++-------------
- tcg/tcg-op-gvec.c           | 35 ++++++++++++++++++++++++++--------
- 2 files changed, 52 insertions(+), 21 deletions(-)
 
-diff --git a/include/tcg/tcg-gvec-desc.h b/include/tcg/tcg-gvec-desc.h
-index 0224ac3e78..704bd86454 100644
---- a/include/tcg/tcg-gvec-desc.h
-+++ b/include/tcg/tcg-gvec-desc.h
-@@ -20,29 +20,41 @@
- #ifndef TCG_TCG_GVEC_DESC_H
- #define TCG_TCG_GVEC_DESC_H
- 
--/* ??? These bit widths are set for ARM SVE, maxing out at 256 byte vectors. */
--#define SIMD_OPRSZ_SHIFT   0
--#define SIMD_OPRSZ_BITS    5
-+/*
-+ * This configuration allows MAXSZ to represent 2048 bytes, and
-+ * OPRSZ to match MAXSZ, or represent the smaller values 8, 16, or 32.
-+ *
-+ * Encode this with:
-+ *   0, 1, 3 -> 8, 16, 32
-+ *   2       -> maxsz
-+ *
-+ * This steals the input that would otherwise map to 24 to match maxsz.
-+ */
-+#define SIMD_MAXSZ_SHIFT   0
-+#define SIMD_MAXSZ_BITS    8
- 
--#define SIMD_MAXSZ_SHIFT   (SIMD_OPRSZ_SHIFT + SIMD_OPRSZ_BITS)
--#define SIMD_MAXSZ_BITS    5
-+#define SIMD_OPRSZ_SHIFT   (SIMD_MAXSZ_SHIFT + SIMD_MAXSZ_BITS)
-+#define SIMD_OPRSZ_BITS    2
- 
--#define SIMD_DATA_SHIFT    (SIMD_MAXSZ_SHIFT + SIMD_MAXSZ_BITS)
-+#define SIMD_DATA_SHIFT    (SIMD_OPRSZ_SHIFT + SIMD_OPRSZ_BITS)
- #define SIMD_DATA_BITS     (32 - SIMD_DATA_SHIFT)
- 
- /* Create a descriptor from components.  */
- uint32_t simd_desc(uint32_t oprsz, uint32_t maxsz, int32_t data);
- 
--/* Extract the operation size from a descriptor.  */
--static inline intptr_t simd_oprsz(uint32_t desc)
--{
--    return (extract32(desc, SIMD_OPRSZ_SHIFT, SIMD_OPRSZ_BITS) + 1) * 8;
--}
--
- /* Extract the max vector size from a descriptor.  */
- static inline intptr_t simd_maxsz(uint32_t desc)
- {
--    return (extract32(desc, SIMD_MAXSZ_SHIFT, SIMD_MAXSZ_BITS) + 1) * 8;
-+    return extract32(desc, SIMD_MAXSZ_SHIFT, SIMD_MAXSZ_BITS) * 8 + 8;
-+}
-+
-+/* Extract the operation size from a descriptor.  */
-+static inline intptr_t simd_oprsz(uint32_t desc)
-+{
-+    uint32_t f = extract32(desc, SIMD_OPRSZ_SHIFT, SIMD_OPRSZ_BITS);
-+    intptr_t o = f * 8 + 8;
-+    intptr_t m = simd_maxsz(desc);
-+    return f == 2 ? m : o;
- }
- 
- /* Extract the operation-specific data from a descriptor.  */
-diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
-index 7ebd9e8298..ddbe06b71a 100644
---- a/tcg/tcg-op-gvec.c
-+++ b/tcg/tcg-op-gvec.c
-@@ -37,11 +37,21 @@ static const TCGOpcode vecop_list_empty[1] = { 0 };
-    of the operand offsets so that we can check them all at once.  */
- static void check_size_align(uint32_t oprsz, uint32_t maxsz, uint32_t ofs)
- {
--    uint32_t opr_align = oprsz >= 16 ? 15 : 7;
--    uint32_t max_align = maxsz >= 16 || oprsz >= 16 ? 15 : 7;
--    tcg_debug_assert(oprsz > 0);
--    tcg_debug_assert(oprsz <= maxsz);
--    tcg_debug_assert((oprsz & opr_align) == 0);
-+    uint32_t max_align;
-+
-+    switch (oprsz) {
-+    case 8:
-+    case 16:
-+    case 32:
-+        tcg_debug_assert(oprsz <= maxsz);
-+        break;
-+    default:
-+        tcg_debug_assert(oprsz == maxsz);
-+        break;
-+    }
-+    tcg_debug_assert(maxsz <= (8 << SIMD_MAXSZ_BITS));
-+
-+    max_align = maxsz >= 16 ? 15 : 7;
-     tcg_debug_assert((maxsz & max_align) == 0);
-     tcg_debug_assert((ofs & max_align) == 0);
- }
-@@ -77,12 +87,21 @@ uint32_t simd_desc(uint32_t oprsz, uint32_t maxsz, int32_t data)
- {
-     uint32_t desc = 0;
- 
--    assert(oprsz % 8 == 0 && oprsz <= (8 << SIMD_OPRSZ_BITS));
--    assert(maxsz % 8 == 0 && maxsz <= (8 << SIMD_MAXSZ_BITS));
--    assert(data == sextract32(data, 0, SIMD_DATA_BITS));
-+    check_size_align(oprsz, maxsz, 0);
-+    tcg_debug_assert(data == sextract32(data, 0, SIMD_DATA_BITS));
- 
-     oprsz = (oprsz / 8) - 1;
-     maxsz = (maxsz / 8) - 1;
-+
-+    /*
-+     * We have just asserted in check_size_align that either
-+     * oprsz is {8,16,32} or matches maxsz.  Encode the final
-+     * case with '2', as that would otherwise map to 24.
-+     */
-+    if (oprsz == maxsz) {
-+        oprsz = 2;
-+    }
-+
-     desc = deposit32(desc, SIMD_OPRSZ_SHIFT, SIMD_OPRSZ_BITS, oprsz);
-     desc = deposit32(desc, SIMD_MAXSZ_SHIFT, SIMD_MAXSZ_BITS, maxsz);
-     desc = deposit32(desc, SIMD_DATA_SHIFT, SIMD_DATA_BITS, data);
--- 
-2.25.1
 
+Your pipeline has failed.
+
+Project: QEMU ( https://gitlab.com/qemu-project/qemu )
+Branch: master ( https://gitlab.com/qemu-project/qemu/-/commits/master )
+
+Commit: 2f4c51c0 ( https://gitlab.com/qemu-project/qemu/-/commit/2f4c51c0=
+f384d7888a04b4815861e6d5fd244d75 )
+Commit Message: Merge remote-tracking branch 'remotes/kraxel/ta...
+Commit Author: Peter Maydell ( https://gitlab.com/pm215 )
+
+Pipeline #184069766 ( https://gitlab.com/qemu-project/qemu/-/pipelines/18=
+4069766 ) triggered by Alex Benn=C3=A9e ( https://gitlab.com/stsquad )
+had 1 failed build.
+
+Job #712520194 ( https://gitlab.com/qemu-project/qemu/-/jobs/712520194/ra=
+w )
+
+Stage: test
+Name: acceptance-system-centos
+Trace: 22:26:05 ERROR|   File "/builds/qemu-project/qemu/python/qemu/mach=
+ine.py", line 342, in launch
+    self._launch()
+
+22:26:05 ERROR|   File "/builds/qemu-project/qemu/python/qemu/machine.py"=
+, line 369, in _launch
+    self._post_launch()
+
+22:26:05 ERROR|   File "/builds/qemu-project/qemu/python/qemu/machine.py"=
+, line 288, in _post_launch
+    self._qmp.accept()
+
+22:26:05 ERROR|   File "/builds/qemu-project/qemu/python/qemu/qmp.py", li=
+ne 236, in accept
+    return self.__negotiate_capabilities()
+
+22:26:05 ERROR|   File "/builds/qemu-project/qemu/python/qemu/qmp.py", li=
+ne 129, in __negotiate_capabilities
+    resp =3D self.cmd('qmp_capabilities')
+
+22:26:05 ERROR|   File "/builds/qemu-project/qemu/python/qemu/qmp.py", li=
+ne 266, in cmd
+    return self.cmd_obj(qmp_cmd)
+
+22:26:05 ERROR|   File "/builds/qemu-project/qemu/python/qemu/qmp.py", li=
+ne 249, in cmd_obj
+    raise QMPConnectError("Unexpected empty reply from server")
+
+22:26:05 ERROR| qemu.qmp.QMPConnectError: Unexpected empty reply from ser=
+ver
+
+22:26:05 ERROR| ERROR 34-tests/acceptance/vnc.py:Vnc.test_change_password=
+ -> QMPConnectError: Unexpected empty reply from server
+22:26:05 INFO | =
+
+=1B[32;1m$ du -chs ${CI_PROJECT_DIR}/avocado-cache=1B[0;m
+1.2G	/builds/qemu-project/qemu/avocado-cache
+1.2G	total
+section_end:1598912770:after_script
+=1B[0K=1B[31;1mERROR: Job failed: exit code 1
+=1B[0;m
+
+
+-- =
+
+You're receiving this email because of your account on gitlab.com.
+
+
+
+
+----==_mimepart_5f4d7cc239446_6aad3fe63895f64c4084d3
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://ww=
+w.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns=3D"http://www.w3.org/1999/xhtml" lang=3D"en" xml:lang=3D"en">=
+
+<head>
+<meta content=3D"text/html; charset=3DUTF-8" http-equiv=3D"Content-Type" =
+/>
+<meta content=3D"width=3Ddevice-width, initial-scale=3D1" name=3D"viewpor=
+t" />
+<meta content=3D"IE=3Dedge" http-equiv=3D"X-UA-Compatible" />
+<title>QEMU | Pipeline #184069766 has failed for master | 2f4c51c0</title=
+>
+<style data-premailer=3D"ignore" type=3D"text/css">
+body,table,td,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}t=
+able,td{mso-table-lspace:0pt;mso-table-rspace:0pt}img{-ms-interpolation-m=
+ode:bicubic}.hidden{display:none !important;visibility:hidden !important}=
+a[x-apple-data-detectors]{color:inherit !important;text-decoration:none !=
+important;font-size:inherit !important;font-family:inherit !important;fon=
+t-weight:inherit !important;line-height:inherit !important}div[style*=3D'=
+margin: 16px 0']{margin:0 !important}@media only screen and (max-width: 6=
+39px){body,#body{min-width:320px !important}table.wrapper{width:100% !imp=
+ortant;min-width:320px !important}table.wrapper td.wrapper-cell{border-le=
+ft:0 !important;border-right:0 !important;border-radius:0 !important;padd=
+ing-left:10px !important;padding-right:10px !important}}
+
+</style>
+
+<style>body {
+margin: 0 !important; background-color: #fafafa; padding: 0; text-align: =
+center; min-width: 640px; width: 100%; height: 100%; font-family: "Helvet=
+ica Neue", Helvetica, Arial, sans-serif;
+}
+</style></head>
+<body style=3D"text-align: center; min-width: 640px; width: 100%; height:=
+ 100%; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-se=
+rif; margin: 0; padding: 0;" bgcolor=3D"#fafafa">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" id=3D"body" style=
+=3D"text-align: center; min-width: 640px; width: 100%; margin: 0; padding=
+: 0;" bgcolor=3D"#fafafa">
+<tbody>
+<tr class=3D"line">
+<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
+ans-serif; height: 4px; font-size: 4px; line-height: 4px;" bgcolor=3D"#6b=
+4fbb"></td>
+</tr>
+<tr class=3D"header">
+<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
+ans-serif; font-size: 13px; line-height: 1.6; color: #5c5c5c; padding: 25=
+px 0;">
+
+<img alt=3D"GitLab" src=3D"https://gitlab.com/assets/mailers/gitlab_heade=
+r_logo-153749eaa7ea6fafcb995161abd3247bc4c4500f31498b0c4024f50093983ac0.g=
+if" width=3D"55" height=3D"50" />
+</td>
+</tr>
+<tr>
+<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
+ans-serif;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"wrapper"=
+ style=3D"width: 640px; border-collapse: separate; border-spacing: 0; mar=
+gin: 0 auto;">
+<tbody>
+<tr>
+<td class=3D"wrapper-cell" style=3D"font-family: &quot;Helvetica Neue&quo=
+t;, Helvetica, Arial, sans-serif; border-radius: 3px; overflow: hidden; p=
+adding: 18px 25px; border: 1px solid #ededed;" align=3D"left" bgcolor=3D"=
+#fff">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"content"=
+ style=3D"width: 100%; border-collapse: separate; border-spacing: 0;">
+<tbody>
+<tr class=3D"alert">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
+rder-radius: 3px; font-size: 14px; line-height: 1.3; overflow: hidden; co=
+lor: #ffffff; padding: 10px;" align=3D"center" bgcolor=3D"#d22f57">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse; margin: 0 auto;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #ffffff; padding-right: 5px; line-height: 1;" align=3D"center" valig=
+n=3D"middle">
+<img alt=3D"&#10006;" height=3D"13" src=3D"https://gitlab.com/assets/mail=
+ers/ci_pipeline_notif_v1/icon-x-red-inverted-06edddd39ba2a7f9a32f6201e420=
+175db85a4b6ac0348203fdc069001b440149.gif" style=3D"display: block;" width=
+=3D"13" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #ffffff;" align=3D"center" valign=3D"middle">
+Your pipeline has failed.
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class=3D"spacer">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; he=
+ight: 18px; font-size: 18px; line-height: 18px;">
+&#160;
+</td>
+</tr>
+<tr class=3D"section">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
+rder-radius: 3px; overflow: hidden; padding: 0 15px; border: 1px solid #e=
+deded;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"table-in=
+fo" style=3D"width: 100%;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; margin=
+: 0; padding: 14px 0;">Project</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
+ 75%; margin: 0; padding: 14px 0 14px 5px;">
+<a class=3D"muted" href=3D"https://gitlab.com/qemu-project" style=3D"colo=
+r: #333333; text-decoration: none;">
+QEMU
+</a>
+/
+<a class=3D"muted" href=3D"https://gitlab.com/qemu-project/qemu" style=3D=
+"color: #333333; text-decoration: none;">
+QEMU
+</a>
+</td>
+</tr>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
+-top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
+in: 0; padding: 14px 0;">Branch</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
+ 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
+ solid; margin: 0; padding: 14px 0 14px 5px;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
+<img alt=3D"" height=3D"13" src=3D"https://gitlab.com/assets/mailers/ci_p=
+ipeline_notif_v1/icon-branch-gray-53618a7fc19d4d32ccbabac2f6d59bebe67202a=
+9f2f1255e3f72c69756c0dd9c.gif" style=3D"display: block;" width=3D"13" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4;" valign=3D"middle">
+<a class=3D"muted" href=3D"https://gitlab.com/qemu-project/qemu/-/commits=
+/master" style=3D"color: #333333; text-decoration: none;">
+master
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
+-top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
+in: 0; padding: 14px 0;">Commit</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; font-weight: 400; color: #333333; width:=
+ 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
+ solid; margin: 0; padding: 14px 0 14px 5px;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
+<img alt=3D"" height=3D"13" src=3D"https://gitlab.com/assets/mailers/ci_p=
+ipeline_notif_v1/icon-commit-gray-c10243ac24cde64b549aec91de35e6b49c8739b=
+506b86472b54614c10d8b4aac.gif" style=3D"display: block;" width=3D"13" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4;" valign=3D"middle">
+<a href=3D"https://gitlab.com/qemu-project/qemu/-/commit/2f4c51c0f384d788=
+8a04b4815861e6d5fd244d75" style=3D"color: #3777b0; text-decoration: none;=
+">
+2f4c51c0
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+<div class=3D"commit" style=3D"color: #5c5c5c; font-weight: 300;">
+Merge remote-tracking branch 'remotes/kraxel/ta...
+</div>
+</td>
+</tr>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
+-top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
+in: 0; padding: 14px 0;">Commit Author</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
+ 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
+ solid; margin: 0; padding: 14px 0 14px 5px;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
+<img alt=3D"" class=3D"avatar" height=3D"24" src=3D"https://secure.gravat=
+ar.com/avatar/98261ce19b4e9da714d577154686723a?s=3D48&amp;d=3Didenticon" =
+style=3D"display: block; border-radius: 12px; margin: -2px 0;" width=3D"2=
+4" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4;" valign=3D"middle">
+<a class=3D"muted" href=3D"https://gitlab.com/pm215" style=3D"color: #333=
+333; text-decoration: none;">
+Peter Maydell
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class=3D"spacer">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; he=
+ight: 18px; font-size: 18px; line-height: 18px;">
+&#160;
+</td>
+</tr>
+<tr class=3D"pre-section">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #333333; font-size: 15px; font-weight: 400; line-height: 1.4; paddin=
+g: 15px 5px 0;" align=3D"center">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse; margin: 0 auto;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; font-weight: 500; line-height: 1.4;" valign=3D"baseline">
+Pipeline
+<a href=3D"https://gitlab.com/qemu-project/qemu/-/pipelines/184069766" st=
+yle=3D"color: #3777b0; text-decoration: none;">
+#184069766
+</a>
+triggered by
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; padding-right: 5px; padding-left: 5px;" =
+width=3D"24" valign=3D"middle">
+<img alt=3D"" class=3D"avatar" height=3D"24" src=3D"https://secure.gravat=
+ar.com/avatar/a7d7f408c0b3370bbbeb98833d6c50e4?s=3D48&amp;d=3Didenticon" =
+style=3D"display: block; border-radius: 12px; margin: -2px 0;" width=3D"2=
+4" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; font-weight: 500; line-height: 1.4;" valign=3D"baseline">
+<a class=3D"muted" href=3D"https://gitlab.com/stsquad" style=3D"color: #3=
+33333; text-decoration: none;">
+Alex Benn&#233;e
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td colspan=3D"2" style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,=
+sans-serif; color: #333333; font-size: 14px; font-weight: 400; line-heigh=
+t: 1.4; padding: 0 8px 16px;" align=3D"center">
+had
+1
+failed
+build.
+</td>
+</tr>
+<tr class=3D"table-warning">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
+rder-radius: 4px 4px 0 0; overflow: hidden; color: #d22852; font-size: 14=
+px; line-height: 1.4; padding: 8px 16px; border-color: #ededed; border-st=
+yle: solid; border-width: 1px 1px 0;" align=3D"center" bgcolor=3D"#fdf4f6=
+">
+Logs may contain sensitive data. Please consider before forwarding this e=
+mail.
+</td>
+</tr>
+<tr class=3D"section">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; ov=
+erflow: hidden; border-radius: 0 0 4px 4px; padding: 0 16px; border-color=
+: #ededed; border-style: solid; border-width: 0 1px 1px;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"builds" =
+style=3D"width: 100%; border-collapse: collapse;">
+<tbody>
+<tr class=3D"build-state">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #8c8c8c; font-weight: 500; font-size: 14px; padding: 16px 0;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #d22f57; font-weight: 500; font-size: 16px; padding-right: 8px; line=
+-height: 10px;" valign=3D"middle">
+<img alt=3D"&#10006;" height=3D"10" src=3D"https://gitlab.com/assets/mail=
+ers/ci_pipeline_notif_v1/icon-x-red-67056b7b99899e30453df79abfbe16162f6a2=
+6ed789d8236f81afcaea216ffe6.gif" style=3D"display: block;" width=3D"10" /=
+>
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #8c8c8c; font-weight: 500; font-size: 14px;" valign=3D"middle">
+test
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+<td align=3D"right" style=3D"font-family: 'Helvetica Neue',Helvetica,Aria=
+l,sans-serif; color: #8c8c8c; font-weight: 500; font-size: 14px; padding:=
+ 16px 0;">
+<a href=3D"https://gitlab.com/qemu-project/qemu/-/jobs/712520194" style=3D=
+"color: #3777b0; text-decoration: none;">
+acceptance-system-centos
+</a>
+
+</td>
+</tr>
+<tr class=3D"build-log">
+<td colspan=3D"2" style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,=
+sans-serif; padding: 0 0 16px;">
+<pre style=3D"font-family: Monaco,'Lucida Console','Courier New',Courier,=
+monospace; background-color: #fafafa; border-radius: 4px; overflow: hidde=
+n; white-space: pre-wrap; word-break: break-all; font-size: 13px; line-he=
+ight: 1.4; color: #333333; margin: 0; padding: 16px 8px;"><span>22:26:05 =
+ERROR|   File "/builds/qemu-project/qemu/python/qemu/machine.py", line 34=
+2, in launch<br />    self._launch()<br /><br />22:26:05 ERROR|   File "/=
+builds/qemu-project/qemu/python/qemu/machine.py", line 369, in _launch<br=
+ />    self._post_launch()<br /><br />22:26:05 ERROR|   File "/builds/qem=
+u-project/qemu/python/qemu/machine.py", line 288, in _post_launch<br />  =
+  self._qmp.accept()<br /><br />22:26:05 ERROR|   File "/builds/qemu-proj=
+ect/qemu/python/qemu/qmp.py", line 236, in accept<br />    return self.__=
+negotiate_capabilities()<br /><br />22:26:05 ERROR|   File "/builds/qemu-=
+project/qemu/python/qemu/qmp.py", line 129, in __negotiate_capabilities<b=
+r />    resp =3D self.cmd('qmp_capabilities')<br /><br />22:26:05 ERROR| =
+  File "/builds/qemu-project/qemu/python/qemu/qmp.py", line 266, in cmd<b=
+r />    return self.cmd_obj(qmp_cmd)<br /><br />22:26:05 ERROR|   File "/=
+builds/qemu-project/qemu/python/qemu/qmp.py", line 249, in cmd_obj<br /> =
+   raise QMPConnectError("Unexpected empty reply from server")<br /><br /=
+>22:26:05 ERROR| qemu.qmp.QMPConnectError: Unexpected empty reply from se=
+rver<br /><br />22:26:05 ERROR| ERROR 34-tests/acceptance/vnc.py:Vnc.test=
+_change_password -&gt; QMPConnectError: Unexpected empty reply from serve=
+r<br />22:26:05 INFO | <br /></span><span class=3D"term-fg-l-green term-b=
+old">$ du -chs ${CI_PROJECT_DIR}/avocado-cache</span><span><br />1.2G	/bu=
+ilds/qemu-project/qemu/avocado-cache<br />1.2G	total<br /></span><span cl=
+ass=3D"term-fg-l-red term-bold">ERROR: Job failed: exit code 1<br /></spa=
+n></pre>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+
+
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+
+<tr class=3D"footer">
+<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
+ans-serif; font-size: 13px; line-height: 1.6; color: #5c5c5c; padding: 25=
+px 0;">
+<img alt=3D"GitLab" height=3D"33" src=3D"https://gitlab.com/assets/mailer=
+s/gitlab_footer_logo-078860f148cc9596195e6bb3fa7db31c30538355576c5c3b569c=
+414902e3d095.gif" width=3D"90" style=3D"display: block; margin: 0 auto 1e=
+m;" />
+<div>
+You're receiving this email because of your account on gitlab.com. <a cla=
+ss=3D"mng-notif-link" href=3D"https://gitlab.com/profile/notifications" s=
+tyle=3D"color: #3777b0; text-decoration: none;">Manage all notifications<=
+/a> &#183; <a class=3D"help-link" href=3D"https://gitlab.com/help" style=3D=
+"color: #3777b0; text-decoration: none;">Help</a>
+</div>
+</td>
+</tr>
+
+<tr>
+<td class=3D"footer-message" style=3D"font-family: &quot;Helvetica Neue&q=
+uot;, Helvetica, Arial, sans-serif; font-size: 13px; line-height: 1.6; co=
+lor: #5c5c5c; padding: 25px 0;">
+
+</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>
+
+----==_mimepart_5f4d7cc239446_6aad3fe63895f64c4084d3--
 
