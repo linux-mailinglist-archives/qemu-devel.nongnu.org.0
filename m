@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D515F258367
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 23:21:48 +0200 (CEST)
-Received: from localhost ([::1]:47988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED1A7258362
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 23:19:06 +0200 (CEST)
+Received: from localhost ([::1]:41736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCrFL-0004wD-T6
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 17:21:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46566)
+	id 1kCrCk-00027u-0k
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 17:19:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kCr9X-0007D0-TM
+ id 1kCr9X-0007D1-TB
  for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:15:47 -0400
-Received: from mail-ej1-f67.google.com ([209.85.218.67]:42173)
+Received: from mail-ej1-f65.google.com ([209.85.218.65]:34353)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kCr9W-00017a-0V
+ id 1kCr9W-00017k-7z
  for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:15:47 -0400
-Received: by mail-ej1-f67.google.com with SMTP id q13so6921266ejo.9
- for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 14:15:44 -0700 (PDT)
+Received: by mail-ej1-f65.google.com with SMTP id d26so10445812ejr.1
+ for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 14:15:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=9W8NNLK/TmUATKVgycZSdsnaRkDE8aQGo8xB4Pn3WQI=;
- b=E4T0k3nknNMqMcqEcxEL+dmqqSpNYNdPgGy1JNSq8o+fpH7UK9ujUskmCS14MCq5Mg
- 8++p1nPmGszJ279s5VBDC+bsGa5i5fZyB8234uHqkw2C5KqSVEXx5PSV7zbexyNVxXEz
- XMRpHsRvMMODsXeI6dCzQ2gVOu9CFpzzgV9LjxD3xSoYDZ0lifL35zVNLmU3Y1NlGyYa
- ZTmkURCBZFwbsahwmk6JJp2aZCS+2gxvcFj/jkVHQ4RHdrvDVZYSzS/+e45mtceUipIu
- 8RE9zxxVdVve7v501CAmpNWQTRtiGP99QcKuFm96mNd/RYCiwENl/Yy9szxUvZDuggG6
- dCgw==
-X-Gm-Message-State: AOAM532wBzhkg1dxjNZSR76a2aB4LIPK+FcpCdQORNQwseZhpyAWJg18
- /u98EdjypWSemjSVurhKrQuS4nh7Vtn5Sp0yPX0=
-X-Google-Smtp-Source: ABdhPJxj/Mlz5MCddPjxP+idWFKoMC0qb9xn85E2hCad9zflUpEwPi7baXwjZvEzIZeaMfbAzkZEc/vanjp9+o0BtzE=
-X-Received: by 2002:a17:906:454a:: with SMTP id
- s10mr2682321ejq.138.1598908543551; 
- Mon, 31 Aug 2020 14:15:43 -0700 (PDT)
+ bh=pH4AN0J1S8rxUY7tvtPyaKEI4oM9DyYokKXvKdxRSLo=;
+ b=P1Cj6CHINBenQCuAO+yFpeQKilv5ZvMAuqeCb+9vaWH0L7rYdkdbHZyr6oo82FFJVn
+ nND7uIPQbWpYTdx657IugsxibOFygJSzueQVR1pSztLOLwc7MrIv7C8ZrdbWwxsoFzKE
+ VbCA/qoqM2XQ67bufgmxjstDc+gnv+VPZcHRSLu8+Y+WgSPmELgX+lq7cm/08RpBXeBZ
+ s3zzrCN7Qck65m33Oetb3SHihsRdsJ9e78guLgUqIIGl6GQUp/wvGqgd9L8GILEi0Eya
+ DmXgRkFS9m434g5xd3k/1TB/0L3w73fdfenEHXCJPZWwFe01sV/R9al1qdu4u3ijxddq
+ NSWg==
+X-Gm-Message-State: AOAM533/TJ7Mc+7gKxnX9AnKku5th20RQULiZ2f63VLhQ1c7INV/d6Is
+ 9LNSO0E/jWn91A2O6wjjvBtMz9eTDLnE8qi033M=
+X-Google-Smtp-Source: ABdhPJxd94qNtlZM2xg6CGYJw+JaWr6DhybmdhMnI86xN1t+RoedsppLA6GHb5MRaxYictD1VRsZlTl2Evrcit6ZNlg=
+X-Received: by 2002:a17:906:24d2:: with SMTP id
+ f18mr191055ejb.510.1598908544361; 
+ Mon, 31 Aug 2020 14:15:44 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200828180243.443016-1-richard.henderson@linaro.org>
- <20200828180243.443016-2-richard.henderson@linaro.org>
-In-Reply-To: <20200828180243.443016-2-richard.henderson@linaro.org>
+ <20200828180243.443016-3-richard.henderson@linaro.org>
+In-Reply-To: <20200828180243.443016-3-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Mon, 31 Aug 2020 19:17:13 +0200
-Message-ID: <CAAdtpL6q35O3Z4cDfuStAfiXN4m42MoE9B2UK6MPyaM0iesB4w@mail.gmail.com>
-Subject: Re: [PATCH 1/3] softmmu/cpus: Only set parallel_cpus for SMP
+Date: Mon, 31 Aug 2020 19:18:26 +0200
+Message-ID: <CAAdtpL4dG6PeuOconfpnzSjq3u+s2H8ODTEny5viB4RULxi=4g@mail.gmail.com>
+Subject: Re: [PATCH 2/3] tcg: Eliminate one store for in-place 128-bit dup_mem
 To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000c44b0105ae32e75d"
-Received-SPF: pass client-ip=209.85.218.67;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-f67.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 17:15:43
+Content-Type: multipart/alternative; boundary="000000000000d0a72b05ae32e77e"
+Received-SPF: pass client-ip=209.85.218.65;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-f65.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 17:15:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: 0
 X-Spam_score: -0.1
@@ -76,7 +76,7 @@ Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000c44b0105ae32e75d
+--000000000000d0a72b05ae32e77e
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -84,8 +84,7 @@ Le ven. 28 ao=C3=BBt 2020 20:04, Richard Henderson <richard.henderson@linar=
 o.org>
 a =C3=A9crit :
 
-> Do not set parallel_cpus if there is only one cpu instantiated.
-> This will allow tcg to use serial code to implement atomics.
+> Do not store back to the exact memory from which we just loaded.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 >
@@ -93,45 +92,40 @@ a =C3=A9crit :
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
 ---
->  softmmu/cpus.c | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
+>  tcg/tcg-op-gvec.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-> index a802e899ab..e3b98065c9 100644
-> --- a/softmmu/cpus.c
-> +++ b/softmmu/cpus.c
-> @@ -1895,6 +1895,16 @@ static void qemu_tcg_init_vcpu(CPUState *cpu)
->      if (!tcg_region_inited) {
->          tcg_region_inited =3D 1;
->          tcg_region_init();
-> +        /*
-> +         * If MTTCG, and we will create multiple cpus,
-> +         * then we will have cpus running in parallel.
-> +         */
-> +        if (qemu_tcg_mttcg_enabled()) {
-> +            MachineState *ms =3D MACHINE(qdev_get_machine());
-> +            if (ms->smp.max_cpus > 1) {
-> +                parallel_cpus =3D true;
-> +            }
-> +        }
->      }
+> diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
+> index 793d4ba64c..fcc25b04e6 100644
+> --- a/tcg/tcg-op-gvec.c
+> +++ b/tcg/tcg-op-gvec.c
+> @@ -1581,7 +1581,7 @@ void tcg_gen_gvec_dup_mem(unsigned vece, uint32_t
+> dofs, uint32_t aofs,
+>              TCGv_vec in =3D tcg_temp_new_vec(TCG_TYPE_V128);
 >
->      if (qemu_tcg_mttcg_enabled() || !single_tcg_cpu_thread) {
-> @@ -1904,7 +1914,6 @@ static void qemu_tcg_init_vcpu(CPUState *cpu)
+>              tcg_gen_ld_vec(in, cpu_env, aofs);
+> -            for (i =3D 0; i < oprsz; i +=3D 16) {
+> +            for (i =3D (aofs =3D=3D dofs) * 16; i < oprsz; i +=3D 16) {
+>                  tcg_gen_st_vec(in, cpu_env, dofs + i);
+>              }
+>              tcg_temp_free_vec(in);
+> @@ -1591,7 +1591,7 @@ void tcg_gen_gvec_dup_mem(unsigned vece, uint32_t
+> dofs, uint32_t aofs,
 >
->          if (qemu_tcg_mttcg_enabled()) {
->              /* create a thread per vCPU with TCG (MTTCG) */
-> -            parallel_cpus =3D true;
->              snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/TCG",
->                   cpu->cpu_index);
->
+>              tcg_gen_ld_i64(in0, cpu_env, aofs);
+>              tcg_gen_ld_i64(in1, cpu_env, aofs + 8);
+> -            for (i =3D 0; i < oprsz; i +=3D 16) {
+> +            for (i =3D (aofs =3D=3D dofs) * 16; i < oprsz; i +=3D 16) {
+>                  tcg_gen_st_i64(in0, cpu_env, dofs + i);
+>                  tcg_gen_st_i64(in1, cpu_env, dofs + i + 8);
+>              }
 > --
 > 2.25.1
 >
 >
 >
 
---000000000000c44b0105ae32e75d
+--000000000000d0a72b05ae32e77e
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -140,8 +134,7 @@ s=3D"gmail_attr">Le ven. 28 ao=C3=BBt 2020 20:04, Richard Henderson &lt;<a =
 href=3D"mailto:richard.henderson@linaro.org">richard.henderson@linaro.org</=
 a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=
 =3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Do not s=
-et parallel_cpus if there is only one cpu instantiated.<br>
-This will allow tcg to use serial code to implement atomics.<br>
+tore back to the exact memory from which we just loaded.<br>
 <br>
 Signed-off-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@li=
 naro.org" target=3D"_blank" rel=3D"noreferrer">richard.henderson@linaro.org=
@@ -150,57 +143,54 @@ naro.org" target=3D"_blank" rel=3D"noreferrer">richard.henderson@linaro.org=
 d-by: Philippe Mathieu-Daud=C3=A9 &lt;</span><a href=3D"mailto:f4bug@amsat.=
 org" style=3D"text-decoration:none;color:rgb(66,133,244);font-family:sans-s=
 erif;font-size:13.696px">f4bug@amsat.org</a><span style=3D"font-family:sans=
--serif;font-size:13.696px">&gt;</span><br></div><div dir=3D"auto"><span sty=
-le=3D"font-family:sans-serif;font-size:13.696px"><br></span></div><div dir=
-=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+-serif;font-size:13.696px">&gt;</span><br></div><div dir=3D"auto"><br></div=
+><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
+">
 ---<br>
-=C2=A0softmmu/cpus.c | 11 ++++++++++-<br>
-=C2=A01 file changed, 10 insertions(+), 1 deletion(-)<br>
+=C2=A0tcg/tcg-op-gvec.c | 4 ++--<br>
+=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
 <br>
-diff --git a/softmmu/cpus.c b/softmmu/cpus.c<br>
-index a802e899ab..e3b98065c9 100644<br>
---- a/softmmu/cpus.c<br>
-+++ b/softmmu/cpus.c<br>
-@@ -1895,6 +1895,16 @@ static void qemu_tcg_init_vcpu(CPUState *cpu)<br>
-=C2=A0 =C2=A0 =C2=A0if (!tcg_region_inited) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcg_region_inited =3D 1;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcg_region_init();<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* If MTTCG, and we will create multiple =
-cpus,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* then we will have cpus running in para=
-llel.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (qemu_tcg_mttcg_enabled()) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 MachineState *ms =3D MACHINE(qde=
-v_get_machine());<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ms-&gt;smp.max_cpus &gt; 1) =
-{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 parallel_cpus =3D =
-true;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
+diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c<br>
+index 793d4ba64c..fcc25b04e6 100644<br>
+--- a/tcg/tcg-op-gvec.c<br>
++++ b/tcg/tcg-op-gvec.c<br>
+@@ -1581,7 +1581,7 @@ void tcg_gen_gvec_dup_mem(unsigned vece, uint32_t dof=
+s, uint32_t aofs,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0TCGv_vec in =3D tcg_temp_ne=
+w_vec(TCG_TYPE_V128);<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0if (qemu_tcg_mttcg_enabled() || !single_tcg_cpu_thread)=
- {<br>
-@@ -1904,7 +1914,6 @@ static void qemu_tcg_init_vcpu(CPUState *cpu)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcg_gen_ld_vec(in, cpu_env,=
+ aofs);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (i =3D 0; i &lt; oprsz; i +=
+=3D 16) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (i =3D (aofs =3D=3D dofs) * =
+16; i &lt; oprsz; i +=3D 16) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcg_gen_st_ve=
+c(in, cpu_env, dofs + i);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcg_temp_free_vec(in);<br>
+@@ -1591,7 +1591,7 @@ void tcg_gen_gvec_dup_mem(unsigned vece, uint32_t dof=
+s, uint32_t aofs,<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (qemu_tcg_mttcg_enabled()) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* create a thread per vCPU=
- with TCG (MTTCG) */<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 parallel_cpus =3D true;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0snprintf(thread_name, VCPU_=
-THREAD_NAME_SIZE, &quot;CPU %d/TCG&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cpu-&gt;cpu_=
-index);<br>
-<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcg_gen_ld_i64(in0, cpu_env=
+, aofs);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcg_gen_ld_i64(in1, cpu_env=
+, aofs + 8);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (i =3D 0; i &lt; oprsz; i +=
+=3D 16) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (i =3D (aofs =3D=3D dofs) * =
+16; i &lt; oprsz; i +=3D 16) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcg_gen_st_i6=
+4(in0, cpu_env, dofs + i);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcg_gen_st_i6=
+4(in1, cpu_env, dofs + i + 8);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
 -- <br>
 2.25.1<br>
 <br>
 <br>
 </blockquote></div></div></div>
 
---000000000000c44b0105ae32e75d--
+--000000000000d0a72b05ae32e77e--
 
