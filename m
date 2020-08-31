@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD86C2583BB
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 23:42:49 +0200 (CEST)
-Received: from localhost ([::1]:42840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21D412583BF
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 23:45:01 +0200 (CEST)
+Received: from localhost ([::1]:49230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCrZg-0005Hy-TU
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 17:42:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51736)
+	id 1kCrbo-0007uo-7v
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 17:45:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCrUk-0006ey-Po
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:37:42 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:45149)
+ id 1kCrb6-0007VF-O2
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:44:16 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:39749)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCrUh-0003h9-Sp
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:37:42 -0400
-Received: by mail-pg1-x542.google.com with SMTP id 67so1437372pgd.12
- for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 14:37:39 -0700 (PDT)
+ id 1kCrb4-0004Y9-4X
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:44:16 -0400
+Received: by mail-pl1-x644.google.com with SMTP id x18so2643077pll.6
+ for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 14:44:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=aF1TYW9+DmXTOxP0rCa7SthEkQoCWC6+zXjV5LlvHMQ=;
- b=x9nepgtxkHBfFxTs3l5K+WI7B4/dG6sa5gTKjEPEGKA1i5vT6JzRQJaSdCrvAj2qcj
- l4AgJLy+SFSEe6+fHkBRVCvjtfGQ74mPaSBEjO6Ch6+EmgbmHf6htxPuY2j6nJalxYn5
- HTw1NQ6UG+mo4m0s7Z3oUNl6YTjT2/nS3VdjRu1iYp0Aiqmq6J+YstIkF0HbaZTkoIst
- WJiO3EuBHTYr4TFqufi+VQ1i6tKkPobaZKkzV+v+JsjyoV45ByZGhAKD8j0kOrW+rHZN
- TJz99ZJ9Bb/z1O8MMzb+2SrIRiUduIdIQIvB1EcEhMN0vEFe0ZLFyxYMi+GjW10eBvjV
- 4F9A==
+ bh=mOj92M6z/DeAo1lowpDfxwqCpg/mExPdADSUPgU7FXA=;
+ b=CZ4Azo21j5A1bUE1UGG9UY06JgMLJ1omzK/nahnowncQd5AEutrE0L5ARZVk0xCu02
+ RRHFmDtPajI5nuiSIc51mzgdS4y3fhw0qrfOvG07wFugN7S824rnSLd9Ibl/JJod/vFD
+ GGuCuj7MZx563PnERUncMepqXn7iNESg6hl4Wi6WdvE0oyiEL+4GzIhdCLteCFMEy9jO
+ 7R3aDC3PYCloIoHzwXICHGKY7Gp5lxHpPQVR9EVGkojJ0oV3O+KCRP+3JY0hLm6Zw9Gs
+ EBmuvWA7+oMe4nYk97eQymAhXS5kSS42UWVsM8aS/ItU2bR6ibhTrhGivUUeKTyeesLA
+ VoEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=aF1TYW9+DmXTOxP0rCa7SthEkQoCWC6+zXjV5LlvHMQ=;
- b=ljjkBHZ7EwwRYSNZxSJhzCjn16spX6sNcnr/xkeAaRVAMRZYq4Dk89GqxYtrKL16Pn
- 1b5hOcwmWUW/IEKAspu8Ay0QFQFF8CWn4lU100QsM4LKTLwMrYEHbj3jVh+i1GRqWDp0
- nyvQGVfB4gN9gDEoEE54Jnem5Gzr6Cf8YdquWpylbmPsxaaF6UjZyb4166LdqxurkKAr
- 4nwfzjadSDLDXkmqf78plcsnutZFOxwBnROA/fZjU9OJ9yyqSMxa8s1aHuBVrTvpUgUB
- LCIlLA/8fTWPTpmCS1Szg9LpX+2/H4xBytFZTkutmmtX6cTseRzFqsiWLbcO7RPOxbDU
- 6dpg==
-X-Gm-Message-State: AOAM5310g5f+0oG1oU8r/TnJAP+HVTEywaVdYOi5ADLlJM/fgzBMVFVN
- XYAmXghPlsj2nycDUsSJk4QyZA==
-X-Google-Smtp-Source: ABdhPJzY9pX9FAI2tHfXc+NCEv0qzRv6gNhJkv6mav6Bw3GJSowl8ysxOYGftSt9JXFwE7ENfBsMbg==
-X-Received: by 2002:aa7:9556:: with SMTP id w22mr2885120pfq.245.1598909858396; 
- Mon, 31 Aug 2020 14:37:38 -0700 (PDT)
+ bh=mOj92M6z/DeAo1lowpDfxwqCpg/mExPdADSUPgU7FXA=;
+ b=SFsuIhsQqJ2lDb1DaAv5sRW6nybMQu6n/uDu7dV1IlNTJ8Rjlu935/M/9ZEfXrmxMT
+ EzlP4z5d7E9QHsPu+/NHU6zH42gBRsZTY5P7Dg1g99X9whIEdd4fjUNZIgBugNJmVD2y
+ ZEhcXkAedSPL9Q9neOkGEuAVq1YTiTDrOAdyCG6GWfIpYs0HQV3iL/4cI11R42ROObdo
+ Q2IH/58fecw1uKBD6G0PLFrKoq7wRM446odWM5tL2qc7GFRosMoI/+kdBRZUByXUjSUF
+ ZgdMtd2dCuEACBhLDNftrr3o9+HOGM80xwVLvPGmy2rDX/45IfjA2fs+ZXZNUtrWfW1M
+ jgDw==
+X-Gm-Message-State: AOAM533rPyWGrVArd/AOm14jPC76nEdIDD0+zWWopiF0XmWiUtSmASC+
+ JoLw/jtnsBaBaiwbrYPWI5F/cw==
+X-Google-Smtp-Source: ABdhPJy8SezVJYIE8Wgu5i3gLfpLhInvLfvr7gvTev0Tjmv0nfCRg2om5myplDE0zmkMaV51cT2C5w==
+X-Received: by 2002:a17:902:8a85:: with SMTP id
+ p5mr2581196plo.193.1598910252287; 
+ Mon, 31 Aug 2020 14:44:12 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id c1sm7936988pfi.136.2020.08.31.14.37.36
+ by smtp.gmail.com with ESMTPSA id lj3sm557589pjb.26.2020.08.31.14.44.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Aug 2020 14:37:37 -0700 (PDT)
-Subject: Re: [PATCH v2 4/7] target: Push BQL on ->do_interrupt down into
- per-arch implementation
+ Mon, 31 Aug 2020 14:44:11 -0700 (PDT)
+Subject: Re: [PATCH v2 5/7] accel/tcg: Change BQL critical section in
+ cpu_handle_interrupt
 To: Robert Foley <robert.foley@linaro.org>, qemu-devel@nongnu.org
 References: <20200819182856.4893-1-robert.foley@linaro.org>
- <20200819182856.4893-5-robert.foley@linaro.org>
+ <20200819182856.4893-6-robert.foley@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <047fe2b3-c51b-1840-8b93-f747684abea0@linaro.org>
-Date: Mon, 31 Aug 2020 14:37:34 -0700
+Message-ID: <945c4b19-9941-5628-214d-b3f2c83aef6c@linaro.org>
+Date: Mon, 31 Aug 2020 14:44:09 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200819182856.4893-5-robert.foley@linaro.org>
+In-Reply-To: <20200819182856.4893-6-robert.foley@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x542.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -41
@@ -77,7 +78,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.13,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,90 +91,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Sarah Harris <S.E.Harris@kent.ac.uk>, Chris Wulff <crwulff@gmail.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- David Hildenbrand <david@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "open list:S390 general arch..." <qemu-s390x@nongnu.org>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- Michael Rolnik <mrolnik@gmail.com>, peter.puhov@linaro.org,
- Stafford Horne <shorne@gmail.com>, alex.bennee@linaro.org,
- Richard Henderson <rth@twiddle.net>,
- "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- Michael Walle <michael@walle.cc>,
- "open list:PowerPC TCG CPUs" <qemu-ppc@nongnu.org>, pbonzini@redhat.com,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: pbonzini@redhat.com, peter.puhov@linaro.org, alex.bennee@linaro.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/19/20 11:28 AM, Robert Foley wrote:
-> avr is another exception.  avr, arm and cris all had a similar
-> case where their *_cpu_exec_interrupt was calling to
-> the CPUClass ->do_interrupt.  This causes an issue when we push
-> the lock down since ->do_interrupt will try to acquire the BQL, but
-> the calling context already has it.
-
-Alpha is in this lest as well, correct?
-
-> diff --git a/target/alpha/cpu.h b/target/alpha/cpu.h
-> index 4c6753df34..be29bdd530 100644
-> --- a/target/alpha/cpu.h
-> +++ b/target/alpha/cpu.h
-> @@ -276,7 +276,7 @@ struct AlphaCPU {
->  extern const VMStateDescription vmstate_alpha_cpu;
->  #endif
+> @@ -625,7 +624,6 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
+>          }
 >  
-> -void alpha_cpu_do_interrupt_locked(CPUState *cpu);
-> +void alpha_cpu_do_interrupt(CPUState *cpu);
->  bool alpha_cpu_exec_interrupt(CPUState *cpu, int int_req);
->  void alpha_cpu_dump_state(CPUState *cs, FILE *f, int flags);
->  hwaddr alpha_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
-> diff --git a/target/alpha/helper.c b/target/alpha/helper.c
-> index ff9a2a7765..e497dd269e 100644
-> --- a/target/alpha/helper.c
-> +++ b/target/alpha/helper.c
-> @@ -295,7 +295,7 @@ bool alpha_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
->  }
->  #endif /* USER_ONLY */
->  
-> -void alpha_cpu_do_interrupt_locked(CPUState *cs)
-> +static void alpha_cpu_do_interrupt_locked(CPUState *cs)
->  {
->      AlphaCPU *cpu = ALPHA_CPU(cs);
->      CPUAlphaState *env = &cpu->env;
-> @@ -407,6 +407,13 @@ void alpha_cpu_do_interrupt_locked(CPUState *cs)
->  #endif /* !USER_ONLY */
->  }
->  
-> +void alpha_cpu_do_interrupt(CPUState *cs)
-> +{
-> +    qemu_mutex_lock_iothread();
-> +    alpha_cpu_do_interrupt_locked(cs);
-> +    qemu_mutex_unlock_iothread();
-> +}
-> +
->  bool alpha_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
->  {
->      AlphaCPU *cpu = ALPHA_CPU(cs);
+>          /* If we exit via cpu_loop_exit/longjmp it is reset in cpu_exec */
+> -        qemu_mutex_unlock_iothread();
 
-This rename should have been done in patch 1, as with all others.
-Moreover, this leaves a bug in alpha_cpu_exec_interrupt in that it should be
-calling alpha_cpu_do_interrupt_locked.
+The comment no longer has an "it" to reference.
+We should probably expand that to mention which lock.
 
-That seems to be the only instance of this mistake.
+Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
