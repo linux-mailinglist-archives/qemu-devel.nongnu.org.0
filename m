@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 008A625760F
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 11:09:43 +0200 (CEST)
-Received: from localhost ([::1]:57850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD5092575FE
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 11:08:28 +0200 (CEST)
+Received: from localhost ([::1]:53720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCfos-0002Oi-3R
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 05:09:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50932)
+	id 1kCfnf-0000ds-WB
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 05:08:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
- id 1kCfnh-0001JL-Ky
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 05:08:29 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:46436)
+ id 1kCfmg-00006A-Mw
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 05:07:26 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:45556)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
- id 1kCfnf-0002Zl-UD
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 05:08:29 -0400
+ id 1kCfmd-0002Od-Bx
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 05:07:26 -0400
 Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07V8Snk9165210;
- Mon, 31 Aug 2020 09:08:06 GMT
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07V8TMeh165472;
+ Mon, 31 Aug 2020 09:07:14 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=to : cc : subject :
  in-reply-to : references : sender : from : date : message-id :
  mime-version : content-type; s=corp-2020-01-29;
- bh=Was0WEuOTYaxOW+EBlfLK5RfEo3fUlZIZe2MVoKJq4c=;
- b=JcYCfxGIYweaCPLr6WUOwuZDqiGZtocQBX84A9v6VHkavf1JrtbCveSPA+uVekPmHf9Q
- g/P2aKnHrs8NEkkfb4h5R5n5lxlNAbRopjRG5UEDeU/pyCm82hx+mPrl5Ouen8PTeB1O
- mmJFHmIhSBgyZlzNtzZpRkBKXL17qC20gmPu73qVxckIdpr5izU/OiWbufVh69jE2h0f
- 8r/PfYil2JeR6Qi/f6PiGzCtkJ5v994DtEisxoJMV7PBbUyk1BqcQWlobT0nNDjxjsVr
- JV9m/+OJ60QY7zE3If/bHg8Fkqo2LefkkxwDpGP2ue5s4g+NvpckF6zGfyMldLHoG6aC EQ== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2130.oracle.com with ESMTP id 337eeqn7bh-1
+ bh=9JmTOYvuGJwoahO/W46RvnA+0irNivlc9+uR2HO7MN4=;
+ b=aKVCzj4QLrdOndFSs5BQEHs5w+q+ktrkpP0xRK7M06co3atI81gUn9MoewPsdPo3oNqt
+ Ig2rywP2yiQDkUQKlwVEewIrzWBPPdICQEMUeuOxkzsTgNOQNMvcYxxvcyyxXLsJv1xe
+ h9pStgS1baXrEFmXs2tmauVTDG3RYd1RZz/gOi5SJ6iJqSyz1czW9T/srZJavx1kaEmw
+ KBnUTVMpxLEB0GYVwvye17K0ze2bY89AFknoTqCLMqHNJ00JFrG4g5u2goEkJsKmzqyk
+ 2qwe9CZlJZSRUm2rUlHGbacPVSAdKxZJ5ScXDWn66DW/0AgipBVwi6Z9lbIQn3jSmy68 nw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2130.oracle.com with ESMTP id 337eeqn75f-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 31 Aug 2020 09:08:06 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07V8V8VZ053310;
- Mon, 31 Aug 2020 09:06:05 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by aserp3030.oracle.com with ESMTP id 3380kkc8f9-1
+ Mon, 31 Aug 2020 09:07:14 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07V8UXj3122229;
+ Mon, 31 Aug 2020 09:07:14 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3020.oracle.com with ESMTP id 3380wyq2kq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 31 Aug 2020 09:06:05 +0000
-Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 07V964ki009072;
- Mon, 31 Aug 2020 09:06:04 GMT
+ Mon, 31 Aug 2020 09:07:13 +0000
+Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 07V97BqC021584;
+ Mon, 31 Aug 2020 09:07:12 GMT
 Received: from disaster-area.hh.sledj.net (/81.187.26.238)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 31 Aug 2020 02:06:04 -0700
+ with ESMTP ; Mon, 31 Aug 2020 02:07:11 -0700
 Received: from localhost (disaster-area.hh.sledj.net [local])
- by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 5e251fda;
- Mon, 31 Aug 2020 09:06:02 +0000 (UTC)
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 5744a2e9;
+ Mon, 31 Aug 2020 09:07:09 +0000 (UTC)
 To: Chuan Zheng <zhengchuan@huawei.com>, quintela@redhat.com,
  eblake@redhat.com, dgilbert@redhat.com, berrange@redhat.com
 Subject: Re: [PATCH v6 03/12] migration/dirtyrate: Add RamblockDirtyInfo to
@@ -61,15 +61,15 @@ References: <1598669577-76914-1-git-send-email-zhengchuan@huawei.com>
  <1598669577-76914-4-git-send-email-zhengchuan@huawei.com>
 X-HGTTG: heart-of-gold
 From: David Edmondson <david.edmondson@oracle.com>
-Date: Mon, 31 Aug 2020 10:06:01 +0100
-Message-ID: <m2eennchhi.fsf@oracle.com>
+Date: Mon, 31 Aug 2020 10:07:09 +0100
+Message-ID: <m2blirchfm.fsf@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9729
  signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- spamscore=0 adultscore=0
- mlxscore=0 suspectscore=1 malwarescore=0 mlxlogscore=999 bulkscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ spamscore=0 phishscore=0
+ mlxlogscore=999 adultscore=0 suspectscore=1 bulkscore=0 malwarescore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
  definitions=main-2008310051
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9729
@@ -160,5 +160,5 @@ Reviewed-by: David Edmondson <david.edmondson@oracle.com>
 
 dme.
 -- 
-This is the time. This is the record of the time.
+You make me feel like a natural woman.
 
