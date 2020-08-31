@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FC7E257568
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 10:30:56 +0200 (CEST)
-Received: from localhost ([::1]:50460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2071D257573
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 10:32:29 +0200 (CEST)
+Received: from localhost ([::1]:55828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCfDL-0004zD-Dj
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 04:30:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41498)
+	id 1kCfEq-0007EL-5e
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 04:32:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kCfAs-0001PX-Hp
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 04:28:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57456)
+ id 1kCfBZ-0002Ha-7w
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 04:29:05 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:27130
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kCfAo-0005pd-Uy
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 04:28:22 -0400
+ id 1kCfBX-000615-Ap
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 04:29:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598862496;
+ s=mimecast20190719; t=1598862542;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KZ5NCeGJm4EmgeA3oDH7PFBVHCkQ2/Sa67CewjIBd08=;
- b=GWgLHWxExssq1oHDcMyyhXtFgJsqZrrJ9rmB9IWhKp1OvPn3JECJ/G8vpTy6OopvMRgp4s
- c8yKWmy4th0g49IqU0NosZmWjwFnplOIJoeO74iKiKsz9m/Zxo8kT9nXy12K44/6WrdmQd
- gfgtKjTIl5YGmiMoRj1j1yqODZ5oCsE=
+ bh=5+BCakrOKFcEAOoI1USC566br9qYiCMgtiiLkMLNqrQ=;
+ b=Gd3cMDESvH9gAMOqbNERID5qxl3C4wLy++I2bUzp1RUNJG0nWg1D3+oqpapT2CC3KejRwe
+ FQ2mnblPSj7w/maALid1b63bYtyRhyRtSQoHgnNFOiq5V68D9IThSbRywM8KOH5qpqX7q2
+ vK6wbAxttzNN6t9Oji4ufCQOS4bh8a4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-142-GJs7O13DO36ee8kHUqYZUw-1; Mon, 31 Aug 2020 04:28:14 -0400
-X-MC-Unique: GJs7O13DO36ee8kHUqYZUw-1
+ us-mta-35-L8prCKE3Nl6fCGFyC79R4w-1; Mon, 31 Aug 2020 04:28:59 -0400
+X-MC-Unique: L8prCKE3Nl6fCGFyC79R4w-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87D808015DB
- for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 08:28:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EDDE910ABDA0
+ for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 08:28:58 +0000 (UTC)
 Received: from jason-ThinkPad-X1-Carbon-6th.redhat.com
  (ovpn-12-88.pek2.redhat.com [10.72.12.88])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5D9115D9D3;
- Mon, 31 Aug 2020 08:28:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 87D5D5D9D3;
+ Mon, 31 Aug 2020 08:28:45 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: jasowang@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PATCH 1/9] vhost-vdpa: remove the default devname
-Date: Mon, 31 Aug 2020 16:27:29 +0800
-Message-Id: <20200831082737.10983-2-jasowang@redhat.com>
+Subject: [PATCH 4/9] vhost-vdpa: refine info string
+Date: Mon, 31 Aug 2020 16:27:32 +0800
+Message-Id: <20200831082737.10983-5-jasowang@redhat.com>
 In-Reply-To: <20200831082737.10983-1-jasowang@redhat.com>
 References: <20200831082737.10983-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -59,17 +60,17 @@ X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 03:02:42
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 03:06:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,26 +87,35 @@ Cc: lulu@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The code doesn't have a default vhostdev, so remove the default
-description in net.json.
+We use "vhost-vdpa" as nic info string which is not useful, let's add
+the vhostdev path.
+
+before:
+info network
+v0: index=0,type=vhost-vdpa,vhost-vdpa
+
+after:
+info network
+v0: index=0,type=vhost-vdpa,vhostdev=/dev/vhost-vdpa-0
 
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- qapi/net.json | 1 -
- 1 file changed, 1 deletion(-)
+ net/vhost-vdpa.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/qapi/net.json b/qapi/net.json
-index ddb113e5e5..a2a94fad3e 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -438,7 +438,6 @@
- # specifications with a vendor specific control path.
- #
- # @vhostdev: path of vhost-vdpa device
--#            (default:'/dev/vhost-vdpa-0')
- #
- # @queues: number of queues to be created for multiqueue vhost-vdpa
- #          (default: 1)
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index c4568b885e..397d4d3082 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -181,7 +181,7 @@ static int net_vhost_vdpa_init(NetClientState *peer, const char *device,
+     int ret = 0;
+     assert(name);
+     nc = qemu_new_net_client(&net_vhost_vdpa_info, peer, device, name);
+-    snprintf(nc->info_str, sizeof(nc->info_str), TYPE_VHOST_VDPA);
++    snprintf(nc->info_str, sizeof(nc->info_str), "vhostdev=%s", vhostdev);
+     nc->queue_index = 0;
+     s = DO_UPCAST(VhostVDPAState, nc, nc);
+     vdpa_device_fd = qemu_open(vhostdev, O_RDWR);
 -- 
 2.20.1
 
