@@ -2,99 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DDF6257655
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 11:16:41 +0200 (CEST)
-Received: from localhost ([::1]:42442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78900257681
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 11:29:34 +0200 (CEST)
+Received: from localhost ([::1]:49260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCfvc-0008Ba-Bh
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 05:16:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52752)
+	id 1kCg85-0003cP-Hs
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 05:29:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
- id 1kCfu5-00071B-Av
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 05:15:05 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:51550)
+ (Exim 4.90_1) (envelope-from <dimastep@yandex-team.ru>)
+ id 1kCg6X-0001Tn-Du; Mon, 31 Aug 2020 05:27:57 -0400
+Received: from forwardcorp1o.mail.yandex.net ([2a02:6b8:0:1a2d::193]:40352)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
- id 1kCfu3-0003Ru-Ax
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 05:15:05 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07V8U4uN036292;
- Mon, 31 Aug 2020 09:14:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=to : cc : subject :
- in-reply-to : references : sender : from : date : message-id :
- mime-version : content-type; s=corp-2020-01-29;
- bh=5LdCJ7z/KA5qMDQ7LkrOYk9v4BYD0pigp9HUo0c3LhY=;
- b=Bs6MW6PtAB2eulViWCRJqajr5JrwhF3JrlE+xjsz2gxj9Rlpro/VjBcBLLN38jm8CuGl
- L/MxCfIXGpV0dADcjlISu8U4FfMOoxxH0uygmwa+FB2fiT6iQy82yVCFBJ/FUBBscJJ2
- yUPXTXxrAL49jsOYSDV4hGQXV+ipPPY2BFx8ROeDbI695IncsCrL/m0O1i5F1M63WpDZ
- 696bP0OoCV/hOaoDj3RcVMK4jv32BbSdWsgHNgrAWGVjQhApkmTrg4rjPtvIaxgu91Lb
- QpQW+7i2pXaZEOj6XHzpVdaGuAAUEHSVYhzBnM7LGtWvjPKfleDA0h9rbNfwDV+tBBkM ZA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2120.oracle.com with ESMTP id 337eykw75m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 31 Aug 2020 09:14:56 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07V8UXli122253;
- Mon, 31 Aug 2020 09:14:56 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by aserp3020.oracle.com with ESMTP id 3380wyqmru-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 31 Aug 2020 09:14:56 +0000
-Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 07V9EtOT012876;
- Mon, 31 Aug 2020 09:14:55 GMT
-Received: from disaster-area.hh.sledj.net (/81.187.26.238)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 31 Aug 2020 02:14:55 -0700
-Received: from localhost (disaster-area.hh.sledj.net [local])
- by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 37ca79f8;
- Mon, 31 Aug 2020 09:14:52 +0000 (UTC)
-To: Chuan Zheng <zhengchuan@huawei.com>, quintela@redhat.com,
- eblake@redhat.com, dgilbert@redhat.com, berrange@redhat.com
-Subject: Re: [PATCH v6 12/12] migration/dirtyrate: Add trace_calls to make
- it easier to debug
-In-Reply-To: <1598669577-76914-13-git-send-email-zhengchuan@huawei.com>
-References: <1598669577-76914-1-git-send-email-zhengchuan@huawei.com>
- <1598669577-76914-13-git-send-email-zhengchuan@huawei.com>
-X-HGTTG: heart-of-gold
-From: David Edmondson <david.edmondson@oracle.com>
-Date: Mon, 31 Aug 2020 10:14:52 +0100
-Message-ID: <m2r1rnb2ib.fsf@oracle.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9729
- signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- spamscore=0 phishscore=0
- mlxlogscore=999 adultscore=0 suspectscore=1 bulkscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2008310051
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9729
- signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
- adultscore=0
- priorityscore=1501 phishscore=0 mlxlogscore=999 mlxscore=0
- lowpriorityscore=0 clxscore=1015 spamscore=0 bulkscore=0 impostorscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2008310051
-Received-SPF: pass client-ip=141.146.126.78;
- envelope-from=david.edmondson@oracle.com; helo=aserp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 05:07:47
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <dimastep@yandex-team.ru>)
+ id 1kCg6S-0004z5-Fa; Mon, 31 Aug 2020 05:27:55 -0400
+Received: from sas1-ec30c78b6c5b.qloud-c.yandex.net
+ (sas1-ec30c78b6c5b.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c14:2704:0:640:ec30:c78b])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 219AF2E1626;
+ Mon, 31 Aug 2020 12:27:46 +0300 (MSK)
+Received: from sas1-58a37b48fb94.qloud-c.yandex.net
+ (sas1-58a37b48fb94.qloud-c.yandex.net [2a02:6b8:c08:1d1b:0:640:58a3:7b48])
+ by sas1-ec30c78b6c5b.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ RBo4qxwnzY-RivqYsno; Mon, 31 Aug 2020 12:27:46 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1598866066; bh=itJ2r95GMZFgORllrcPo8jUR1acyKjplg3KMOUIMX3U=;
+ h=Message-Id:Date:Subject:To:From:Cc;
+ b=DFDs+rKTz6ttuI34VrBEhecNs2aYIsvEMDagPkj7lclXiAHoi5MA4r7212O0Mud4q
+ gU7aRxu7ZuAiXa2SPQxvnoCz+PwoLhav1Ue9L6jwWjO0wI5ZbwBerm6T9VYWYtbOaW
+ l9C9VrGV1w5kRRSVwqq6cIETPMJyF+GRJB7DgolU=
+Authentication-Results: sas1-ec30c78b6c5b.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b081:216::1:a])
+ by sas1-58a37b48fb94.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ yaozkQMlmT-Rim8btnD; Mon, 31 Aug 2020 12:27:44 +0300
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (Client certificate not present)
+From: Dima Stepanov <dimastep@yandex-team.ru>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/7] vhost-user-blk: fix the migration issue and enhance
+ qtests
+Date: Mon, 31 Aug 2020 12:27:16 +0300
+Message-Id: <cover.1598865610.git.dimastep@yandex-team.ru>
+X-Mailer: git-send-email 2.7.4
+Received-SPF: pass client-ip=2a02:6b8:0:1a2d::193;
+ envelope-from=dimastep@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -103,107 +70,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.chen@huawei.com, ann.zhuangyanying@huawei.com,
- zhang.zhanghailiang@huawei.com, xiexiangyou@huawei.com, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, lvivier@redhat.com, thuth@redhat.com,
+ qemu-block@nongnu.org, mst@redhat.com, jasowang@redhat.com,
+ dgilbert@redhat.com, mreitz@redhat.com, fengli@smartx.com,
+ yc-core@yandex-team.ru, pbonzini@redhat.com, raphael.norwitz@nutanix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Saturday, 2020-08-29 at 10:52:57 +08, Chuan Zheng wrote:
+v2 -> v3:
+  - update commit message for the 
+    "vhost: recheck dev state in the vhost_migration_log routine" commit
+  - rename "started" field of the VhostUserBlk structure to
+    "started_vu", so there will be no confustion with the VHOST started
+    field
+  - update vhost-user-test.c to always initialize nq local variable
+    (spotted by patchew)
 
-> Add trace_calls to  make it easier to debug
->
-> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+v1 -> v2:
+  - add comments to connected/started fields in the header file
+  - move the "s->started" logic from the vhost_user_blk_disconnect
+    routine to the vhost_user_blk_stop routine
 
-Reviewed-by: David Edmondson <david.edmondson@oracle.com>
+Reference e-mail threads:
+  - https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg01509.html
+  - https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg05241.html
 
-> ---
->  migration/dirtyrate.c  | 9 +++++++++
->  migration/trace-events | 8 ++++++++
->  2 files changed, 17 insertions(+)
->
-> diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-> index fa1a12d..2a8f4ff 100644
-> --- a/migration/dirtyrate.c
-> +++ b/migration/dirtyrate.c
-> @@ -22,6 +22,7 @@
->  #include "qapi/qapi-commands-migration.h"
->  #include "migration.h"
->  #include "ram.h"
-> +#include "trace.h"
->  #include "dirtyrate.h"
->  
->  static int CalculatingState = DIRTY_RATE_STATUS_UNSTARTED;
-> @@ -54,6 +55,7 @@ static bool get_sample_page_period(int64_t sec)
->  static int dirtyrate_set_state(int *state, int old_state, int new_state)
->  {
->      assert(new_state < DIRTY_RATE_STATUS__MAX);
-> +    trace_dirtyrate_set_state(DirtyRateStatus_str(new_state));
->      if (atomic_cmpxchg(state, old_state, new_state) == old_state) {
->          return 0;
->      } else {
-> @@ -76,6 +78,8 @@ static struct DirtyRateInfo *query_dirty_rate_info(void)
->      info->start_time = DirtyStat.start_time;
->      info->calc_time = DirtyStat.calc_time;
->  
-> +    trace_query_dirty_rate_info(DirtyRateStatus_str(CalculatingState));
-> +
->      return info;
->  }
->  
-> @@ -123,6 +127,7 @@ static uint32_t get_ramblock_vfn_hash(struct RamblockDirtyInfo *info,
->      crc = crc32(0, (info->ramblock_addr +
->                  vfn * TARGET_PAGE_SIZE), TARGET_PAGE_SIZE);
->  
-> +    trace_get_ramblock_vfn_hash(info->idstr, vfn, crc);
->      return crc;
->  }
->  
-> @@ -228,6 +233,8 @@ static bool skip_sample_ramblock(RAMBlock *block)
->       * want to sample.
->       */
->      if (qemu_ram_get_used_length(block) < (MIN_RAMBLOCK_SIZE << 10)) {
-> +        trace_skip_sample_ramblock(block->idstr,
-> +                                   qemu_ram_get_used_length(block));
->          return true;
->      }
->  
-> @@ -274,6 +281,7 @@ static void calc_page_dirty_rate(struct RamblockDirtyInfo *info)
->      for (i = 0; i < info->sample_pages_count; i++) {
->          crc = get_ramblock_vfn_hash(info, info->sample_page_vfn[i]);
->          if (crc != info->hash_result[i]) {
-> +            trace_calc_page_dirty_rate(info->idstr, crc, info->hash_result[i]);
->              info->sample_dirty_count++;
->          }
->      }
-> @@ -299,6 +307,7 @@ find_page_matched(RAMBlock *block, int count,
->      if (infos[i].ramblock_addr != qemu_ram_get_host_addr(block) ||
->          infos[i].ramblock_pages !=
->              (qemu_ram_get_used_length(block) >> TARGET_PAGE_BITS)) {
-> +        trace_find_page_matched(block->idstr);
->          return NULL;
->      }
->  
-> diff --git a/migration/trace-events b/migration/trace-events
-> index 4ab0a50..8c2b58f 100644
-> --- a/migration/trace-events
-> +++ b/migration/trace-events
-> @@ -312,3 +312,11 @@ dirty_bitmap_load_bits_zeroes(void) ""
->  dirty_bitmap_load_header(uint32_t flags) "flags 0x%x"
->  dirty_bitmap_load_enter(void) ""
->  dirty_bitmap_load_success(void) ""
-> +
-> +# dirtyrate.c
-> +dirtyrate_set_state(const char *new_state) "new state %s"
-> +query_dirty_rate_info(const char *new_state) "current state %s"
-> +get_ramblock_vfn_hash(const char *idstr, uint64_t vfn, uint32_t crc) "ramblock name: %s, vfn: %"PRIu64 ", crc: %" PRIu32
-> +calc_page_dirty_rate(const char *idstr, uint32_t new_crc, uint32_t old_crc) "ramblock name: %s, new crc: %" PRIu32 ", old crc: %" PRIu32
-> +skip_sample_ramblock(const char *idstr, uint64_t ramblock_size) "ramblock name: %s, ramblock size: %" PRIu64
-> +find_page_matched(const char *idstr) "ramblock %s addr or size changed"
-> -- 
-> 1.8.3.1
+If vhost-user daemon is used as a backend for the vhost device, then we
+should consider a possibility of disconnect at any moment. There was a general
+question here: should we consider it as an error or okay state for the vhost-user
+devices during migration process?
+I think the disconnect event for the vhost-user devices should not break the
+migration process, because:
+  - the device will be in the stopped state, so it will not be changed
+    during migration
+  - if reconnect will be made the migration log will be reinitialized as
+    part of reconnect/init process:
+    #0  vhost_log_global_start (listener=0x563989cf7be0)
+    at hw/virtio/vhost.c:920
+    #1  0x000056398603d8bc in listener_add_address_space (listener=0x563989cf7be0,
+        as=0x563986ea4340 <address_space_memory>)
+    at softmmu/memory.c:2664
+    #2  0x000056398603dd30 in memory_listener_register (listener=0x563989cf7be0,
+        as=0x563986ea4340 <address_space_memory>)
+    at softmmu/memory.c:2740
+    #3  0x0000563985fd6956 in vhost_dev_init (hdev=0x563989cf7bd8,
+        opaque=0x563989cf7e30, backend_type=VHOST_BACKEND_TYPE_USER,
+        busyloop_timeout=0)
+    at hw/virtio/vhost.c:1385
+    #4  0x0000563985f7d0b8 in vhost_user_blk_connect (dev=0x563989cf7990)
+    at hw/block/vhost-user-blk.c:315
+    #5  0x0000563985f7d3f6 in vhost_user_blk_event (opaque=0x563989cf7990,
+        event=CHR_EVENT_OPENED)
+    at hw/block/vhost-user-blk.c:379
+The first patch in the patchset fixes this issue by setting vhost device to the
+stopped state in the disconnect handler and check it the vhost_migration_log()
+routine before returning from the function.
+qtest framework was updated to test vhost-user-blk functionality. The
+vhost-user-blk/vhost-user-blk-tests/migrate_reconnect test was added to reproduce
+the original issue found.
 
-dme.
+Dima Stepanov (7):
+  vhost: recheck dev state in the vhost_migration_log routine
+  vhost: check queue state in the vhost_dev_set_log routine
+  tests/qtest/vhost-user-test: prepare the tests for adding new dev
+    class
+  tests/qtest/libqos/virtio-blk: add support for vhost-user-blk
+  tests/qtest/vhost-user-test: add support for the vhost-user-blk device
+  tests/qtest/vhost-user-test: add migrate_reconnect test
+  tests/qtest/vhost-user-test: enable the reconnect tests
+
+ hw/block/vhost-user-blk.c          |  19 ++-
+ hw/virtio/vhost.c                  |  39 ++++-
+ include/hw/virtio/vhost-user-blk.h |  10 ++
+ tests/qtest/libqos/virtio-blk.c    |  14 ++
+ tests/qtest/vhost-user-test.c      | 290 +++++++++++++++++++++++++++++++------
+ 5 files changed, 323 insertions(+), 49 deletions(-)
+
 -- 
-All of us, we're going out tonight. We're gonna walk all over your cars.
+2.7.4
+
 
