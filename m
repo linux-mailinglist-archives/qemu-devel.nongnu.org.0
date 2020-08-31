@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79ABD2575FF
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 11:08:52 +0200 (CEST)
-Received: from localhost ([::1]:55314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 733C8257611
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 11:10:06 +0200 (CEST)
+Received: from localhost ([::1]:59442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCfo3-0001KE-J1
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 05:08:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50422)
+	id 1kCfpF-00033G-Fb
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 05:10:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
- id 1kCfn4-0000Rq-23
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 05:07:50 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:45922)
+ id 1kCfoL-0002An-TW
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 05:09:10 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:37838)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
- id 1kCfn2-0002SL-Ef
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 05:07:49 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07V8UAG2036435;
- Mon, 31 Aug 2020 09:07:41 GMT
+ id 1kCfoJ-0002dY-DW
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 05:09:09 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07V8TwCI074471;
+ Mon, 31 Aug 2020 09:08:59 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=to : cc : subject :
  in-reply-to : references : sender : from : date : message-id :
  mime-version : content-type; s=corp-2020-01-29;
- bh=9OucBOKZIrghkbGS8d7UaZOfp4BmVpdvfrUfbmC8i0k=;
- b=yaslxsC8mjSPBmCXO+ndvlKdfVXvcTlO8vHsdSY3fp3h7pJJiKNXvC1QB7HuCAapxbwz
- wOvz7zqlBQnstf0tqE+Vr21WywtxWsNSHwUQqCkyF7puLktsQb7bRxkgK1BhmVyixjJ8
- JtRmr8s8vlPMO37ev7oNVLf2ByE2PqF/4peibqPTZUmCSuulrr4f5eD0ZzyzqFDuwfTQ
- pZ8C8jO7589YUtPDFv6asorxudqGlDrccUMk3VwHurZP0UJT2GTRqW44pkX04KtfURhT
- Xw5cRHZDbgkQ3EoL/ZVjxBxyPsfpjSnYGEiR1R/C70aqdqpG10JmFRPajooAOLcBHIjV RA== 
+ bh=x3GnABfPtpip29IpGxryM0ve1UwnJQoBuBkgHVnK3Pg=;
+ b=FJsE9BNPKs+Bvujkfed2A3oOs12361onnA9is35iqFe2xtLY3cgisSDi71rzs7zqjNU0
+ FFrV7f1Yf2lua/yzmpDtimt7aNStY/VuMxyDzTE9MrNtONZjgLqmhI+ByYp8AeHp3wKI
+ a3XVsXr735/6x6bmOZVtubRzGDyclasj39PpYiRdoHZ8hbj7b+nvt1U4iV4HXxFnXG6c
+ NMtCQ5gLomLDYapoS94VZxGFdVJoIZzhH/yCxNBmKkXeEEt4pxN1RCDOoc2fDrKip/xo
+ SeJR4Hqk12T8zWA0HkIg9+eaGlARyYO9N58hbb6Q5O85PL2gv0VWPNkhtT+a6xEeid+T Ug== 
 Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2120.oracle.com with ESMTP id 337eykw5vf-1
+ by userp2120.oracle.com with ESMTP id 337qrhc909-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 31 Aug 2020 09:07:41 +0000
+ Mon, 31 Aug 2020 09:08:59 +0000
 Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07V8UtWB126610;
- Mon, 31 Aug 2020 09:07:40 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by userp3020.oracle.com with ESMTP id 3380spqjpc-1
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07V8UuLw126715;
+ Mon, 31 Aug 2020 09:08:59 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by userp3020.oracle.com with ESMTP id 3380spqkpg-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 31 Aug 2020 09:07:40 +0000
-Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 07V97dt3021885;
- Mon, 31 Aug 2020 09:07:39 GMT
+ Mon, 31 Aug 2020 09:08:58 +0000
+Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 07V98v03014509;
+ Mon, 31 Aug 2020 09:08:58 GMT
 Received: from disaster-area.hh.sledj.net (/81.187.26.238)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 31 Aug 2020 02:07:39 -0700
+ with ESMTP ; Mon, 31 Aug 2020 02:08:57 -0700
 Received: from localhost (disaster-area.hh.sledj.net [local])
- by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 2827759b;
- Mon, 31 Aug 2020 09:07:36 +0000 (UTC)
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id a22c6d32;
+ Mon, 31 Aug 2020 09:08:55 +0000 (UTC)
 To: Chuan Zheng <zhengchuan@huawei.com>, quintela@redhat.com,
  eblake@redhat.com, dgilbert@redhat.com, berrange@redhat.com
-Subject: Re: [PATCH v6 05/12] migration/dirtyrate: move
- RAMBLOCK_FOREACH_MIGRATABLE into ram.h
-In-Reply-To: <1598669577-76914-6-git-send-email-zhengchuan@huawei.com>
+Subject: Re: [PATCH v6 06/12] migration/dirtyrate: Record hash results for
+ each sampled page
+In-Reply-To: <1598669577-76914-7-git-send-email-zhengchuan@huawei.com>
 References: <1598669577-76914-1-git-send-email-zhengchuan@huawei.com>
- <1598669577-76914-6-git-send-email-zhengchuan@huawei.com>
+ <1598669577-76914-7-git-send-email-zhengchuan@huawei.com>
 X-HGTTG: heart-of-gold
 From: David Edmondson <david.edmondson@oracle.com>
-Date: Mon, 31 Aug 2020 10:07:36 +0100
-Message-ID: <m28sdvchev.fsf@oracle.com>
+Date: Mon, 31 Aug 2020 10:08:54 +0100
+Message-ID: <m25z8zchcp.fsf@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9729
@@ -70,19 +70,19 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9729
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
  adultscore=0
  phishscore=0 malwarescore=0 mlxscore=0 spamscore=0 bulkscore=0
- suspectscore=1 classifier=spam adjust=0 reason=mlx scancount=1
+ suspectscore=5 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2006250000 definitions=main-2008310051
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9729
  signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
- adultscore=0
- priorityscore=1501 phishscore=0 mlxlogscore=999 mlxscore=0
- lowpriorityscore=0 clxscore=1015 spamscore=0 bulkscore=0 impostorscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ bulkscore=0
+ adultscore=0 mlxscore=0 lowpriorityscore=0 phishscore=0 clxscore=1015
+ suspectscore=5 priorityscore=1501 spamscore=0 malwarescore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2006250000 definitions=main-2008310051
-Received-SPF: pass client-ip=141.146.126.78;
- envelope-from=david.edmondson@oracle.com; helo=aserp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 05:07:47
+Received-SPF: pass client-ip=156.151.31.85;
+ envelope-from=david.edmondson@oracle.com; helo=userp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 04:54:28
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -108,86 +108,167 @@ Cc: alex.chen@huawei.com, ann.zhuangyanying@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Saturday, 2020-08-29 at 10:52:50 +08, Chuan Zheng wrote:
+On Saturday, 2020-08-29 at 10:52:51 +08, Chuan Zheng wrote:
 
-> RAMBLOCK_FOREACH_MIGRATABLE is need in dirtyrate measure,
-> move the existing definition up into migration/ram.h
+> Record hash results for each sampled page, crc32 is taken to calculate
+> hash results for each sampled length in TARGET_PAGE_SIZE.
 >
 > Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: YanYing Zhuang <ann.zhuangyanying@huawei.com>
 
 Reviewed-by: David Edmondson <david.edmondson@oracle.com>
 
 > ---
->  migration/dirtyrate.c |  1 +
->  migration/ram.c       | 11 +----------
->  migration/ram.h       | 10 ++++++++++
->  3 files changed, 12 insertions(+), 10 deletions(-)
+>  migration/dirtyrate.c | 125 ++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 125 insertions(+)
 >
 > diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-> index fa7a1db..35b5c69 100644
+> index 35b5c69..f4967fd 100644
 > --- a/migration/dirtyrate.c
 > +++ b/migration/dirtyrate.c
-> @@ -20,6 +20,7 @@
->  #include "qemu/rcu_queue.h"
->  #include "qapi/qapi-commands-migration.h"
->  #include "migration.h"
-> +#include "ram.h"
->  #include "dirtyrate.h"
+> @@ -10,6 +10,7 @@
+>   * See the COPYING file in the top-level directory.
+>   */
 >  
->  static int CalculatingState = DIRTY_RATE_STATUS_UNSTARTED;
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 76d4fee..37ef0da 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -158,21 +158,12 @@ out:
->      return ret;
+> +#include <zlib.h>
+>  #include "qemu/osdep.h"
+>  #include "qapi/error.h"
+>  #include "cpu.h"
+> @@ -68,6 +69,130 @@ static void update_dirtyrate(uint64_t msec)
+>      DirtyStat.dirty_rate = dirtyrate;
 >  }
 >  
-> -static bool ramblock_is_ignored(RAMBlock *block)
-> +bool ramblock_is_ignored(RAMBlock *block)
+> +/*
+> + * get hash result for the sampled memory with length of TARGET_PAGE_SIZE
+> + * in ramblock, which starts from ramblock base address.
+> + */
+> +static uint32_t get_ramblock_vfn_hash(struct RamblockDirtyInfo *info,
+> +                                      uint64_t vfn)
+> +{
+> +    uint32_t crc;
+> +
+> +    crc = crc32(0, (info->ramblock_addr +
+> +                vfn * TARGET_PAGE_SIZE), TARGET_PAGE_SIZE);
+> +
+> +    return crc;
+> +}
+> +
+> +static int save_ramblock_hash(struct RamblockDirtyInfo *info)
+> +{
+> +    unsigned int sample_pages_count;
+> +    int i;
+> +    GRand *rand;
+> +
+> +    sample_pages_count = info->sample_pages_count;
+> +
+> +    /* ramblock size less than one page, return success to skip this ramblock */
+> +    if (unlikely(info->ramblock_pages == 0 || sample_pages_count == 0)) {
+> +        return 0;
+> +    }
+> +
+> +    info->hash_result = g_try_malloc0_n(sample_pages_count,
+> +                                        sizeof(uint32_t));
+> +    if (!info->hash_result) {
+> +        return -1;
+> +    }
+> +
+> +    info->sample_page_vfn = g_try_malloc0_n(sample_pages_count,
+> +                                            sizeof(uint64_t));
+> +    if (!info->sample_page_vfn) {
+> +        g_free(info->hash_result);
+> +        return -1;
+> +    }
+> +
+> +    rand  = g_rand_new();
+> +    for (i = 0; i < sample_pages_count; i++) {
+> +        info->sample_page_vfn[i] = g_rand_int_range(rand, 0,
+> +                                                    info->ramblock_pages - 1);
+> +        info->hash_result[i] = get_ramblock_vfn_hash(info,
+> +                                                     info->sample_page_vfn[i]);
+> +    }
+> +    g_rand_free(rand);
+> +
+> +    return 0;
+> +}
+> +
+> +static void get_ramblock_dirty_info(RAMBlock *block,
+> +                                    struct RamblockDirtyInfo *info,
+> +                                    struct DirtyRateConfig *config)
+> +{
+> +    uint64_t sample_pages_per_gigabytes = config->sample_pages_per_gigabytes;
+> +
+> +    /* Right shift 30 bits to calc ramblock size in GB */
+> +    info->sample_pages_count = (qemu_ram_get_used_length(block) *
+> +                                sample_pages_per_gigabytes) >> 30;
+> +    /* Right shift TARGET_PAGE_BITS to calc page count */
+> +    info->ramblock_pages = qemu_ram_get_used_length(block) >>
+> +                           TARGET_PAGE_BITS;
+> +    info->ramblock_addr = qemu_ram_get_host_addr(block);
+> +    strcpy(info->idstr, qemu_ram_get_idstr(block));
+> +}
+> +
+> +static struct RamblockDirtyInfo *
+> +alloc_ramblock_dirty_info(int *block_index,
+> +                          struct RamblockDirtyInfo *block_dinfo)
+> +{
+> +    struct RamblockDirtyInfo *info = NULL;
+> +    int index = *block_index;
+> +
+> +    if (!block_dinfo) {
+> +        index = 0;
+> +        block_dinfo = g_try_new(struct RamblockDirtyInfo, 1);
+> +    } else {
+> +        index++;
+> +        block_dinfo = g_try_realloc(block_dinfo, (index + 1) *
+> +                                    sizeof(struct RamblockDirtyInfo));
+> +    }
+> +    if (!block_dinfo) {
+> +        return NULL;
+> +    }
+> +
+> +    info = &block_dinfo[index];
+> +    *block_index = index;
+> +    memset(info, 0, sizeof(struct RamblockDirtyInfo));
+> +
+> +    return block_dinfo;
+> +}
+> +
+> +static int record_ramblock_hash_info(struct RamblockDirtyInfo **block_dinfo,
+> +                                     struct DirtyRateConfig config,
+> +                                     int *block_index)
+> +{
+> +    struct RamblockDirtyInfo *info = NULL;
+> +    struct RamblockDirtyInfo *dinfo = NULL;
+> +    RAMBlock *block = NULL;
+> +    int index = 0;
+> +
+> +    RAMBLOCK_FOREACH_MIGRATABLE(block) {
+> +        dinfo = alloc_ramblock_dirty_info(&index, dinfo);
+> +        if (dinfo == NULL) {
+> +            return -1;
+> +        }
+> +        info = &dinfo[index];
+> +        get_ramblock_dirty_info(block, info, &config);
+> +        if (save_ramblock_hash(info) < 0) {
+> +            *block_dinfo = dinfo;
+> +            *block_index = index;
+> +            return -1;
+> +        }
+> +    }
+> +
+> +    *block_dinfo = dinfo;
+> +    *block_index = index;
+> +
+> +    return 0;
+> +}
+> +
+>  static void calculate_dirtyrate(struct DirtyRateConfig config)
 >  {
->      return !qemu_ram_is_migratable(block) ||
->             (migrate_ignore_shared() && qemu_ram_is_shared(block));
->  }
->  
-> -/* Should be holding either ram_list.mutex, or the RCU lock. */
-> -#define RAMBLOCK_FOREACH_NOT_IGNORED(block)            \
-> -    INTERNAL_RAMBLOCK_FOREACH(block)                   \
-> -        if (ramblock_is_ignored(block)) {} else
-> -
-> -#define RAMBLOCK_FOREACH_MIGRATABLE(block)             \
-> -    INTERNAL_RAMBLOCK_FOREACH(block)                   \
-> -        if (!qemu_ram_is_migratable(block)) {} else
-> -
->  #undef RAMBLOCK_FOREACH
->  
->  int foreach_not_ignored_block(RAMBlockIterFunc func, void *opaque)
-> diff --git a/migration/ram.h b/migration/ram.h
-> index 2eeaacf..011e854 100644
-> --- a/migration/ram.h
-> +++ b/migration/ram.h
-> @@ -37,6 +37,16 @@ extern MigrationStats ram_counters;
->  extern XBZRLECacheStats xbzrle_counters;
->  extern CompressionStats compression_counters;
->  
-> +bool ramblock_is_ignored(RAMBlock *block);
-> +/* Should be holding either ram_list.mutex, or the RCU lock. */
-> +#define RAMBLOCK_FOREACH_NOT_IGNORED(block)            \
-> +    INTERNAL_RAMBLOCK_FOREACH(block)                   \
-> +        if (ramblock_is_ignored(block)) {} else
-> +
-> +#define RAMBLOCK_FOREACH_MIGRATABLE(block)             \
-> +    INTERNAL_RAMBLOCK_FOREACH(block)                   \
-> +        if (!qemu_ram_is_migratable(block)) {} else
-> +
->  int xbzrle_cache_resize(int64_t new_size, Error **errp);
->  uint64_t ram_bytes_remaining(void);
->  uint64_t ram_bytes_total(void);
+>      /* todo */
 > -- 
 > 1.8.3.1
 
 dme.
 -- 
-When you were the brightest star, who were the shadows?
+Please don't stand so close to me.
 
