@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C07C257E91
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 18:21:32 +0200 (CEST)
-Received: from localhost ([::1]:40738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96FEF257EB8
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 18:26:40 +0200 (CEST)
+Received: from localhost ([::1]:41950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCmYl-0008Sd-Li
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 12:21:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34258)
+	id 1kCmdj-0003Qb-Jg
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 12:26:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCmKo-0005LS-6h
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:07:06 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:33295)
+ id 1kCmKp-0005Qz-Vc
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:07:08 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:34010)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCmKm-000644-F2
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:07:05 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id h2so3257503plr.0
- for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 09:07:03 -0700 (PDT)
+ id 1kCmKn-00064I-Ju
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:07:07 -0400
+Received: by mail-pg1-x534.google.com with SMTP id i10so844692pgk.1
+ for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 09:07:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MvUJVsNPWoeKhWUV8ldYPjhJGjA7j8IztAPyoO2B77I=;
- b=QWjYyzpkXE546IWmGaBX2ohT/h97DP9toSleezV5UkZsbg1OkyjUL5iERFX0NQCdvA
- Co+rjX9X06vlGv5dLzUiDJqBlfeyKun8zbzo+wzcMAnpj9YKoqlxAPLcrPVfd+sOymeO
- 1rl1UtJ5GGjs1vNTn8Ci5LbY9sXY4sBaZbbSjKgQpUgGFwNOzFBMMoPXurTdyjpJ1+9L
- kJ1k4d4kH79sTdp1KzeEISbSPW/NE5mPaeqVCOwDSa7ooXCTWHERR4iGEkog/rh/sMv0
- XfU5bdCgXxpaecAh7w9SZzaaI4dr01mLjTmiQZ5YO42UcqdaFlGij6hfarNPsyiYsSDe
- jWJA==
+ bh=POrx1e7tQeBQnqQjkRXe3vAU3cEgwFbJYpvJaAU7rEQ=;
+ b=p5VrgDqrVMExsNUnoiIeacABBU5mxouJ1ILFIRpXCI/He22+Sd0STMTsaHc7qe6xUp
+ m1xmSsaKqZFplIWYQYXsMBOrt9Yu/jcU0cLR5bqjTkNK6iYwRBuN8zdvHlFYd/aEIuPw
+ 7qhpx7hx5qtOj3vrTXZPe+jXkDADTneUIcOz9jN2o1dAnvP7KzdqetY1dsV0V14oMZ10
+ 6qj5cD7lmzy/ZrxRbsZhthZpbjY8svDw83zgQRFfk8RkyR16szJrt4rtXbJgp6h8AO55
+ vg7qivawIJ6GsERWqKFj7eN5TbgaVxeCs72xsY1bHhUes/3HCGEzHtSOa+7lIUv3B1R1
+ ub2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=MvUJVsNPWoeKhWUV8ldYPjhJGjA7j8IztAPyoO2B77I=;
- b=AxFwuLXpZrRIjx6tsoCaScUTNw06P3uP8iIIpV41kafwkQsvshCuIqOrp3NOGO2Yz9
- ehV+UJJ2FmpeEPP4nHHVTXkGD+nthtlwY50RfmyLVRiHOeBPxAxG30k63pi4dYsHenWH
- im9676vrbkb3mZdhQd/eNCXg/JFfVeXsJddIFhYAz07EIYqQkMfNbKox9fty1onKioWR
- sRBjuHrdBQyC2/iNR8VTaIv25sZ87aSCDfLf1u4zFX3B2wWteeU4ZNw9II1i8bVaAtOM
- SjcZ1ZMIt6ta+/F/ssz+qUIfOo5GGDi2rOQ4S5SjrCj8jF9MgNjWZPHS3jcBkzgvc8y3
- QHdQ==
-X-Gm-Message-State: AOAM533hDTyOKTPn8SV1UXQXASBuubd1oHqA28i22evX8mNP0hfGo96g
- Vv+yDUeHJZeXotc/tRHCDAblusYNmBqy+w==
-X-Google-Smtp-Source: ABdhPJx9nwMaYOhGD4nkqqRF3aWcCln4aLW5ffiKGmhVpFyHh9txnNNLoS7zpLrhNRZ3IyPB1XHghw==
-X-Received: by 2002:a17:90a:d496:: with SMTP id
- s22mr61847pju.167.1598890022534; 
- Mon, 31 Aug 2020 09:07:02 -0700 (PDT)
+ bh=POrx1e7tQeBQnqQjkRXe3vAU3cEgwFbJYpvJaAU7rEQ=;
+ b=txMeI3POpr0+mAxyQ/uxOFnuzTtZIlxBN5n4VtGDUupRKudYD8PFrsHa+q8N3M4bVd
+ 1ucZI6QI7qSCjy3FOrnXEZiefjAluNnIhuruccuDjIagIK5pFnJfpuJEF6a43GI0iBcT
+ F51xNfjwnxGOhHW9YPsg2mRgKXw0Lyfffucgb25eZbmm35ZO7h95gHkhyJHgtLj0zF+T
+ u+4weDc5nVkdfvhT4jnKB0ZmfZgMV8Zbg0Dbz11E1y8NtTg7mLTVPlMw3LtrgMldgum+
+ JEyL2XNfFh+FS26l5X9j3FXvbftcfaSiZ4dCo38avnVoCvRONsOk7ovgIjrVVKYbOQdJ
+ +h3Q==
+X-Gm-Message-State: AOAM533DkIvm9WYIP+JHkgdi8XGI5RyPrpL1AXIEw8eic7WtlCBn4fbN
+ RF8wyEvsH+71tRC13lhI8B8aDxAvRpbN6g==
+X-Google-Smtp-Source: ABdhPJwWJPKCQkjWey0nywQ//x6Ll9GNWxw0qf0sFpGiPRupB4HT9mCPxc4MhUzrXR2Kq9k/xc79vg==
+X-Received: by 2002:a63:c551:: with SMTP id g17mr1711857pgd.399.1598890023755; 
+ Mon, 31 Aug 2020 09:07:03 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id gt13sm17218pjb.43.2020.08.31.09.07.01
+ by smtp.gmail.com with ESMTPSA id gt13sm17218pjb.43.2020.08.31.09.07.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Aug 2020 09:07:01 -0700 (PDT)
+ Mon, 31 Aug 2020 09:07:03 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 43/76] target/microblaze: Unwind properly when raising
- divide-by-zero
-Date: Mon, 31 Aug 2020 09:05:28 -0700
-Message-Id: <20200831160601.833692-44-richard.henderson@linaro.org>
+Subject: [PULL 44/76] target/microblaze: Convert dec_bit to decodetree
+Date: Mon, 31 Aug 2020 09:05:29 -0700
+Message-Id: <20200831160601.833692-45-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200831160601.833692-1-richard.henderson@linaro.org>
 References: <20200831160601.833692-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,82 +88,259 @@ Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Restore the correct pc when raising divide-by-zero.  Also, the
-MSR[DZO] bit is sticky -- it is not cleared with a successful divide.
-
 Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/helper.h    |  4 ++--
- target/microblaze/op_helper.c | 23 ++++++++++++-----------
- 2 files changed, 14 insertions(+), 13 deletions(-)
+ target/microblaze/insns.decode |  20 +++++
+ target/microblaze/translate.c  | 148 +++++++++++++++++----------------
+ 2 files changed, 95 insertions(+), 73 deletions(-)
 
-diff --git a/target/microblaze/helper.h b/target/microblaze/helper.h
-index 6f7f96421f..79e1e8ecc7 100644
---- a/target/microblaze/helper.h
-+++ b/target/microblaze/helper.h
-@@ -1,7 +1,7 @@
- DEF_HELPER_FLAGS_2(raise_exception, TCG_CALL_NO_WG, noreturn, env, i32)
+diff --git a/target/microblaze/insns.decode b/target/microblaze/insns.decode
+index b2dcbdf784..d265e36044 100644
+--- a/target/microblaze/insns.decode
++++ b/target/microblaze/insns.decode
+@@ -17,6 +17,7 @@
+ # License along with this library; if not, see <http://www.gnu.org/licenses/>.
+ #
  
--DEF_HELPER_3(divs, i32, env, i32, i32)
--DEF_HELPER_3(divu, i32, env, i32, i32)
-+DEF_HELPER_FLAGS_3(divs, TCG_CALL_NO_WG, i32, env, i32, i32)
-+DEF_HELPER_FLAGS_3(divu, TCG_CALL_NO_WG, i32, env, i32, i32)
++&typea0         rd ra
+ &typea          rd ra rb
+ &typeb          rd ra imm
  
- DEF_HELPER_3(fadd, i32, env, i32, i32)
- DEF_HELPER_3(frsub, i32, env, i32, i32)
-diff --git a/target/microblaze/op_helper.c b/target/microblaze/op_helper.c
-index f976d112eb..d99d98051a 100644
---- a/target/microblaze/op_helper.c
-+++ b/target/microblaze/op_helper.c
-@@ -69,26 +69,27 @@ void helper_raise_exception(CPUMBState *env, uint32_t index)
-     cpu_loop_exit(cs);
- }
+@@ -26,6 +27,9 @@
+ @typea          ...... rd:5 ra:5 rb:5 ... .... ....     &typea
+ @typeb          ...... rd:5 ra:5 ................       &typeb imm=%extimm
  
--static inline int div_prepare(CPUMBState *env, uint32_t a, uint32_t b)
-+static bool check_divz(CPUMBState *env, uint32_t a, uint32_t b, uintptr_t ra)
- {
--    MicroBlazeCPU *cpu = env_archcpu(env);
--
--    if (b == 0) {
-+    if (unlikely(b == 0)) {
-         env->msr |= MSR_DZ;
- 
--        if ((env->msr & MSR_EE) && cpu->cfg.div_zero_exception) {
-+        if ((env->msr & MSR_EE) &&
-+            env_archcpu(env)->cfg.div_zero_exception) {
-+            CPUState *cs = env_cpu(env);
++# Officially typea, but with rb==0, which is not used.
++@typea0         ...... rd:5 ra:5 ................       &typea0
 +
-             env->esr = ESR_EC_DIVZERO;
--            helper_raise_exception(env, EXCP_HW_EXCP);
-+            cs->exception_index = EXCP_HW_EXCP;
-+            cpu_loop_exit_restore(cs, ra);
-         }
--        return 0;
-+        return false;
-     }
--    env->msr &= ~MSR_DZ;
--    return 1;
-+    return true;
+ ###
+ 
+ {
+@@ -47,6 +51,8 @@ andi            101001 ..... ..... ................     @typeb
+ andn            100011 ..... ..... ..... 000 0000 0000  @typea
+ andni           101011 ..... ..... ................     @typeb
+ 
++clz             100100 ..... ..... 00000 000 1110 0000  @typea0
++
+ cmp             000101 ..... ..... ..... 000 0000 0001  @typea
+ cmpu            000101 ..... ..... ..... 000 0000 0011  @typea
+ 
+@@ -76,5 +82,19 @@ rsubic          001011 ..... ..... ................     @typeb
+ rsubik          001101 ..... ..... ................     @typeb
+ rsubikc         001111 ..... ..... ................     @typeb
+ 
++sext8           100100 ..... ..... 00000 000 0110 0000  @typea0
++sext16          100100 ..... ..... 00000 000 0110 0001  @typea0
++
++sra             100100 ..... ..... 00000 000 0000 0001  @typea0
++src             100100 ..... ..... 00000 000 0010 0001  @typea0
++srl             100100 ..... ..... 00000 000 0100 0001  @typea0
++
++swapb           100100 ..... ..... 00000 001 1110 0000  @typea0
++swaph           100100 ..... ..... 00000 001 1110 0010  @typea0
++
++# Cache operations have no effect in qemu: discard the arguments.
++wdic            100100 00000 ----- ----- -00 -11- 01-0  # wdc
++wdic            100100 00000 ----- ----- 000 0110 1000  # wic
++
+ xor             100010 ..... ..... ..... 000 0000 0000  @typea
+ xori            101010 ..... ..... ................     @typeb
+diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
+index 9763b9d77c..2d57f76548 100644
+--- a/target/microblaze/translate.c
++++ b/target/microblaze/translate.c
+@@ -241,6 +241,21 @@ static bool do_typea(DisasContext *dc, arg_typea *arg, bool side_effects,
+     return true;
  }
  
- uint32_t helper_divs(CPUMBState *env, uint32_t a, uint32_t b)
++static bool do_typea0(DisasContext *dc, arg_typea0 *arg, bool side_effects,
++                      void (*fn)(TCGv_i32, TCGv_i32))
++{
++    TCGv_i32 rd, ra;
++
++    if (arg->rd == 0 && !side_effects) {
++        return true;
++    }
++
++    rd = reg_for_write(dc, arg->rd);
++    ra = reg_for_read(dc, arg->ra);
++    fn(rd, ra);
++    return true;
++}
++
+ static bool do_typeb_imm(DisasContext *dc, arg_typeb *arg, bool side_effects,
+                          void (*fni)(TCGv_i32, TCGv_i32, int32_t))
  {
--    if (!div_prepare(env, a, b)) {
-+    if (!check_divz(env, a, b, GETPC())) {
-         return 0;
-     }
-     return (int32_t)a / (int32_t)b;
-@@ -96,7 +97,7 @@ uint32_t helper_divs(CPUMBState *env, uint32_t a, uint32_t b)
+@@ -283,6 +298,14 @@ static bool do_typeb_val(DisasContext *dc, arg_typeb *arg, bool side_effects,
+     static bool trans_##NAME(DisasContext *dc, arg_typea *a) \
+     { return dc->cpu->cfg.CFG && do_typea(dc, a, SE, FN); }
  
- uint32_t helper_divu(CPUMBState *env, uint32_t a, uint32_t b)
++#define DO_TYPEA0(NAME, SE, FN) \
++    static bool trans_##NAME(DisasContext *dc, arg_typea0 *a) \
++    { return do_typea0(dc, a, SE, FN); }
++
++#define DO_TYPEA0_CFG(NAME, CFG, SE, FN) \
++    static bool trans_##NAME(DisasContext *dc, arg_typea0 *a) \
++    { return dc->cpu->cfg.CFG && do_typea0(dc, a, SE, FN); }
++
+ #define DO_TYPEBI(NAME, SE, FNI) \
+     static bool trans_##NAME(DisasContext *dc, arg_typeb *a) \
+     { return do_typeb_imm(dc, a, SE, FNI); }
+@@ -345,6 +368,13 @@ DO_TYPEBI(andi, false, tcg_gen_andi_i32)
+ DO_TYPEA(andn, false, tcg_gen_andc_i32)
+ DO_TYPEBI(andni, false, gen_andni)
+ 
++static void gen_clz(TCGv_i32 out, TCGv_i32 ina)
++{
++    tcg_gen_clzi_i32(out, ina, 32);
++}
++
++DO_TYPEA0_CFG(clz, use_pcmp_instr, false, gen_clz)
++
+ static void gen_cmp(TCGv_i32 out, TCGv_i32 ina, TCGv_i32 inb)
  {
--    if (!div_prepare(env, a, b)) {
-+    if (!check_divz(env, a, b, GETPC())) {
-         return 0;
+     TCGv_i32 lt = tcg_temp_new_i32();
+@@ -474,6 +504,51 @@ DO_TYPEBV(rsubic, true, gen_rsubc)
+ DO_TYPEBV(rsubik, false, gen_rsubk)
+ DO_TYPEBV(rsubikc, true, gen_rsubkc)
+ 
++DO_TYPEA0(sext8, false, tcg_gen_ext8s_i32)
++DO_TYPEA0(sext16, false, tcg_gen_ext16s_i32)
++
++static void gen_sra(TCGv_i32 out, TCGv_i32 ina)
++{
++    tcg_gen_andi_i32(cpu_msr_c, ina, 1);
++    tcg_gen_sari_i32(out, ina, 1);
++}
++
++static void gen_src(TCGv_i32 out, TCGv_i32 ina)
++{
++    TCGv_i32 tmp = tcg_temp_new_i32();
++
++    tcg_gen_mov_i32(tmp, cpu_msr_c);
++    tcg_gen_andi_i32(cpu_msr_c, ina, 1);
++    tcg_gen_extract2_i32(out, ina, tmp, 1);
++
++    tcg_temp_free_i32(tmp);
++}
++
++static void gen_srl(TCGv_i32 out, TCGv_i32 ina)
++{
++    tcg_gen_andi_i32(cpu_msr_c, ina, 1);
++    tcg_gen_shri_i32(out, ina, 1);
++}
++
++DO_TYPEA0(sra, false, gen_sra)
++DO_TYPEA0(src, false, gen_src)
++DO_TYPEA0(srl, false, gen_srl)
++
++static void gen_swaph(TCGv_i32 out, TCGv_i32 ina)
++{
++    tcg_gen_rotri_i32(out, ina, 16);
++}
++
++DO_TYPEA0(swapb, false, tcg_gen_bswap32_i32)
++DO_TYPEA0(swaph, false, gen_swaph)
++
++static bool trans_wdic(DisasContext *dc, arg_wdic *a)
++{
++    /* Cache operations are nops: only check for supervisor mode.  */
++    trap_userspace(dc, true);
++    return true;
++}
++
+ DO_TYPEA(xor, false, tcg_gen_xor_i32)
+ DO_TYPEBI(xori, false, tcg_gen_xori_i32)
+ 
+@@ -754,78 +829,6 @@ static void dec_barrel(DisasContext *dc)
      }
-     return a / b;
+ }
+ 
+-static void dec_bit(DisasContext *dc)
+-{
+-    CPUState *cs = CPU(dc->cpu);
+-    TCGv_i32 t0;
+-    unsigned int op;
+-
+-    op = dc->ir & ((1 << 9) - 1);
+-    switch (op) {
+-        case 0x21:
+-            /* src.  */
+-            t0 = tcg_temp_new_i32();
+-
+-            tcg_gen_shli_i32(t0, cpu_msr_c, 31);
+-            tcg_gen_andi_i32(cpu_msr_c, cpu_R[dc->ra], 1);
+-            if (dc->rd) {
+-                tcg_gen_shri_i32(cpu_R[dc->rd], cpu_R[dc->ra], 1);
+-                tcg_gen_or_i32(cpu_R[dc->rd], cpu_R[dc->rd], t0);
+-            }
+-            tcg_temp_free_i32(t0);
+-            break;
+-
+-        case 0x1:
+-        case 0x41:
+-            /* srl.  */
+-            tcg_gen_andi_i32(cpu_msr_c, cpu_R[dc->ra], 1);
+-            if (dc->rd) {
+-                if (op == 0x41)
+-                    tcg_gen_shri_i32(cpu_R[dc->rd], cpu_R[dc->ra], 1);
+-                else
+-                    tcg_gen_sari_i32(cpu_R[dc->rd], cpu_R[dc->ra], 1);
+-            }
+-            break;
+-        case 0x60:
+-            tcg_gen_ext8s_i32(cpu_R[dc->rd], cpu_R[dc->ra]);
+-            break;
+-        case 0x61:
+-            tcg_gen_ext16s_i32(cpu_R[dc->rd], cpu_R[dc->ra]);
+-            break;
+-        case 0x64:
+-        case 0x66:
+-        case 0x74:
+-        case 0x76:
+-            /* wdc.  */
+-            trap_userspace(dc, true);
+-            break;
+-        case 0x68:
+-            /* wic.  */
+-            trap_userspace(dc, true);
+-            break;
+-        case 0xe0:
+-            if (trap_illegal(dc, !dc->cpu->cfg.use_pcmp_instr)) {
+-                return;
+-            }
+-            if (dc->cpu->cfg.use_pcmp_instr) {
+-                tcg_gen_clzi_i32(cpu_R[dc->rd], cpu_R[dc->ra], 32);
+-            }
+-            break;
+-        case 0x1e0:
+-            /* swapb */
+-            tcg_gen_bswap32_i32(cpu_R[dc->rd], cpu_R[dc->ra]);
+-            break;
+-        case 0x1e2:
+-            /*swaph */
+-            tcg_gen_rotri_i32(cpu_R[dc->rd], cpu_R[dc->ra], 16);
+-            break;
+-        default:
+-            cpu_abort(cs, "unknown bit oc=%x op=%x rd=%d ra=%d rb=%d\n",
+-                      (uint32_t)dc->base.pc_next, op, dc->rd, dc->ra, dc->rb);
+-            break;
+-    }
+-}
+-
+ static inline void sync_jmpstate(DisasContext *dc)
+ {
+     if (dc->jmp == JMP_DIRECT || dc->jmp == JMP_DIRECT_CC) {
+@@ -1548,7 +1551,6 @@ static struct decoder_info {
+     };
+     void (*dec)(DisasContext *dc);
+ } decinfo[] = {
+-    {DEC_BIT, dec_bit},
+     {DEC_BARREL, dec_barrel},
+     {DEC_LD, dec_load},
+     {DEC_ST, dec_store},
 -- 
 2.25.1
 
