@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A07025757B
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 10:34:38 +0200 (CEST)
-Received: from localhost ([::1]:33678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F25772575AA
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 10:42:52 +0200 (CEST)
+Received: from localhost ([::1]:46798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCfGv-0001LD-3t
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 04:34:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42756)
+	id 1kCfOt-0001GS-Vs
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 04:42:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kCfFX-00085D-Hi
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 04:33:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38171)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kCfFd-0008Iq-T6
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 04:33:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56202)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kCfFV-0006ZQ-L1
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 04:33:11 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kCfFZ-0006an-GZ
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 04:33:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598862788;
+ s=mimecast20190719; t=1598862792;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7/J0K4csVztYP7o+7FyVdDGJsxMvUqrrvTDjsw7WPVs=;
- b=a8chflFx0/vbZ3Aycj8xX7B52ya36db+QCsOusjXD7KfpP4mQzreE4md6BVYxIDQ1n9fVo
- gf20ygDkJKq8rD58JeBuhE3X53oSfslNVjZNQuC700FCi3fVtW/WlOqNioTNu6F8kIOUWK
- tdqSTjZXVvV8IvNqxaP5rjmiDGB5KcM=
+ bh=1xSE0n02diYqExNHwLoM1kNSqbWL0PPkSAmvh8Hm6qA=;
+ b=TXewZU9is78HD6S9NVTa4SsoI+qs2EprlauuKpUwAd1/s0aDiDdz9uvWvWsUnk9RmbBeJI
+ rtTtqEZyyN/XjuMf9wxY9/IjLPMm0ZZ95uI7W9OPk9dYhBB/MFMPmtdvrLVWZ2nENULDSu
+ xUfdy9TRN+7ciGf3MOn8lyrMHkRhSFM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-286-CsdYJ_B6MGyikCWTAhkR0g-1; Mon, 31 Aug 2020 04:33:06 -0400
-X-MC-Unique: CsdYJ_B6MGyikCWTAhkR0g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-362-kxFImsXYNmKC6RuYLMbwaA-1; Mon, 31 Aug 2020 04:33:08 -0400
+X-MC-Unique: kxFImsXYNmKC6RuYLMbwaA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D73BC10ABDAD
- for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 08:33:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76B02801AC3;
+ Mon, 31 Aug 2020 08:33:07 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-54.ams2.redhat.com
  [10.36.112.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C9DE92616B;
- Mon, 31 Aug 2020 08:33:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DAC823A40;
+ Mon, 31 Aug 2020 08:33:06 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 0C23645B2; Mon, 31 Aug 2020 10:33:02 +0200 (CEST)
+ id 183CA1FCEE; Mon, 31 Aug 2020 10:33:02 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/18] ehci: drop pointless warn_report for guest bugs.
-Date: Mon, 31 Aug 2020 10:32:47 +0200
-Message-Id: <20200831083301.6357-5-kraxel@redhat.com>
+Subject: [PULL 05/18] hw/usb: Regroup USB HID protocol values
+Date: Mon, 31 Aug 2020 10:32:48 +0200
+Message-Id: <20200831083301.6357-6-kraxel@redhat.com>
 In-Reply-To: <20200831083301.6357-1-kraxel@redhat.com>
 References: <20200831083301.6357-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0.002
@@ -82,34 +82,162 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ =?UTF-8?q?C=C3=A9sar=20Belley?= <cesar.belley@lse.epita.fr>,
+ Gerd Hoffmann <kraxel@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We have a tracepoint at the same place which can be enabled if needed.
+From: César Belley <cesar.belley@lse.epita.fr>
 
-Buglink: https://bugzilla.redhat.com//show_bug.cgi?id=1859236
+Group some HID values that are used pretty much everywhere when
+dealing with HID devices.
+
+Signed-off-by: César Belley <cesar.belley@lse.epita.fr>
+Message-id: 20200812094135.20550-2-cesar.belley@lse.epita.fr
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200722072613.10390-1-kraxel@redhat.com>
 ---
- hw/usb/hcd-ehci.c | 1 -
- 1 file changed, 1 deletion(-)
+ include/hw/usb/hid.h | 17 +++++++++++++++++
+ hw/usb/dev-hid.c     | 26 +++++++-------------------
+ hw/usb/dev-wacom.c   | 12 +++---------
+ 3 files changed, 27 insertions(+), 28 deletions(-)
+ create mode 100644 include/hw/usb/hid.h
 
-diff --git a/hw/usb/hcd-ehci.c b/hw/usb/hcd-ehci.c
-index 4da446d2de6b..2b995443fbfd 100644
---- a/hw/usb/hcd-ehci.c
-+++ b/hw/usb/hcd-ehci.c
-@@ -352,7 +352,6 @@ static void ehci_trace_sitd(EHCIState *s, hwaddr addr,
- static void ehci_trace_guest_bug(EHCIState *s, const char *message)
- {
-     trace_usb_ehci_guest_bug(message);
--    warn_report("%s", message);
- }
+diff --git a/include/hw/usb/hid.h b/include/hw/usb/hid.h
+new file mode 100644
+index 000000000000..1c142584ffab
+--- /dev/null
++++ b/include/hw/usb/hid.h
+@@ -0,0 +1,17 @@
++#ifndef HW_USB_HID_H
++#define HW_USB_HID_H
++
++/* HID interface requests */
++#define HID_GET_REPORT   0xa101
++#define HID_GET_IDLE     0xa102
++#define HID_GET_PROTOCOL 0xa103
++#define HID_SET_REPORT   0x2109
++#define HID_SET_IDLE     0x210a
++#define HID_SET_PROTOCOL 0x210b
++
++/* HID descriptor types */
++#define USB_DT_HID    0x21
++#define USB_DT_REPORT 0x22
++#define USB_DT_PHY    0x23
++
++#endif
+diff --git a/hw/usb/dev-hid.c b/hw/usb/dev-hid.c
+index 89f63b698b8a..c73f7b2fe2c5 100644
+--- a/hw/usb/dev-hid.c
++++ b/hw/usb/dev-hid.c
+@@ -32,21 +32,9 @@
+ #include "qemu/module.h"
+ #include "qemu/timer.h"
+ #include "hw/input/hid.h"
++#include "hw/usb/hid.h"
+ #include "hw/qdev-properties.h"
  
- static inline bool ehci_enabled(EHCIState *s)
+-/* HID interface requests */
+-#define GET_REPORT   0xa101
+-#define GET_IDLE     0xa102
+-#define GET_PROTOCOL 0xa103
+-#define SET_REPORT   0x2109
+-#define SET_IDLE     0x210a
+-#define SET_PROTOCOL 0x210b
+-
+-/* HID descriptor types */
+-#define USB_DT_HID    0x21
+-#define USB_DT_REPORT 0x22
+-#define USB_DT_PHY    0x23
+-
+ typedef struct USBHIDState {
+     USBDevice dev;
+     USBEndpoint *intr;
+@@ -618,38 +606,38 @@ static void usb_hid_handle_control(USBDevice *dev, USBPacket *p,
+             goto fail;
+         }
+         break;
+-    case GET_REPORT:
++    case HID_GET_REPORT:
+         if (hs->kind == HID_MOUSE || hs->kind == HID_TABLET) {
+             p->actual_length = hid_pointer_poll(hs, data, length);
+         } else if (hs->kind == HID_KEYBOARD) {
+             p->actual_length = hid_keyboard_poll(hs, data, length);
+         }
+         break;
+-    case SET_REPORT:
++    case HID_SET_REPORT:
+         if (hs->kind == HID_KEYBOARD) {
+             p->actual_length = hid_keyboard_write(hs, data, length);
+         } else {
+             goto fail;
+         }
+         break;
+-    case GET_PROTOCOL:
++    case HID_GET_PROTOCOL:
+         if (hs->kind != HID_KEYBOARD && hs->kind != HID_MOUSE) {
+             goto fail;
+         }
+         data[0] = hs->protocol;
+         p->actual_length = 1;
+         break;
+-    case SET_PROTOCOL:
++    case HID_SET_PROTOCOL:
+         if (hs->kind != HID_KEYBOARD && hs->kind != HID_MOUSE) {
+             goto fail;
+         }
+         hs->protocol = value;
+         break;
+-    case GET_IDLE:
++    case HID_GET_IDLE:
+         data[0] = hs->idle;
+         p->actual_length = 1;
+         break;
+-    case SET_IDLE:
++    case HID_SET_IDLE:
+         hs->idle = (uint8_t) (value >> 8);
+         hid_set_next_idle(hs);
+         if (hs->kind == HID_MOUSE || hs->kind == HID_TABLET) {
+diff --git a/hw/usb/dev-wacom.c b/hw/usb/dev-wacom.c
+index 8aba44b8bc3d..76fc5a5dabf3 100644
+--- a/hw/usb/dev-wacom.c
++++ b/hw/usb/dev-wacom.c
+@@ -29,6 +29,7 @@
+ #include "qemu/osdep.h"
+ #include "ui/console.h"
+ #include "hw/usb.h"
++#include "hw/usb/hid.h"
+ #include "migration/vmstate.h"
+ #include "qemu/module.h"
+ #include "desc.h"
+@@ -37,13 +38,6 @@
+ #define WACOM_GET_REPORT	0x2101
+ #define WACOM_SET_REPORT	0x2109
+ 
+-/* HID interface requests */
+-#define HID_GET_REPORT		0xa101
+-#define HID_GET_IDLE		0xa102
+-#define HID_GET_PROTOCOL	0xa103
+-#define HID_SET_IDLE		0x210a
+-#define HID_SET_PROTOCOL	0x210b
+-
+ typedef struct USBWacomState {
+     USBDevice dev;
+     USBEndpoint *intr;
+@@ -86,11 +80,11 @@ static const USBDescIface desc_iface_wacom = {
+             /* HID descriptor */
+             .data = (uint8_t[]) {
+                 0x09,          /*  u8  bLength */
+-                0x21,          /*  u8  bDescriptorType */
++                USB_DT_HID,    /*  u8  bDescriptorType */
+                 0x01, 0x10,    /*  u16 HID_class */
+                 0x00,          /*  u8  country_code */
+                 0x01,          /*  u8  num_descriptors */
+-                0x22,          /*  u8  type: Report */
++                USB_DT_REPORT, /*  u8  type: Report */
+                 0x6e, 0,       /*  u16 len */
+             },
+         },
 -- 
 2.27.0
 
