@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C36D62583A8
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 23:37:28 +0200 (CEST)
-Received: from localhost ([::1]:50040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB13B25839B
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 23:32:48 +0200 (CEST)
+Received: from localhost ([::1]:58148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCrUV-0004zj-PY
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 17:37:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47438)
+	id 1kCrPz-0004wS-MZ
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 17:32:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kCrD9-0003be-2T
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:19:31 -0400
-Received: from mail-qv1-f46.google.com ([209.85.219.46]:46861)
+ id 1kCrDT-00045u-W4
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:19:52 -0400
+Received: from mail-qk1-f193.google.com ([209.85.222.193]:33035)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kCrD6-0001Wz-JE
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:19:30 -0400
-Received: by mail-qv1-f46.google.com with SMTP id di5so3039982qvb.13
- for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 14:19:28 -0700 (PDT)
+ id 1kCrDR-0001Xh-VJ
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:19:51 -0400
+Received: by mail-qk1-f193.google.com with SMTP id p4so7638872qkf.0
+ for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 14:19:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=jitkdYcjeayspJVVJ0UxUprYAeKS3h1ZR5VKH/KAGWM=;
- b=HbOd1EVxzSUJAkScfgWs3+dE5hOFhHHUPYrlJRW3Ng5/lVLY8cATjZaokgAq5TFUnA
- N034nCxjhjm7G12Aohei7Mk7Fq631C7Jg6uQBRkElJ6nYPyY0k7XK2t1qyU+Rg9wff4Q
- q20o/3Lhrh/RL1CPWUrK+f4e2z3PsMOV/G+xKhsyVbKhietInDRfmaSPCZx9pY/n/2yr
- oDVrJv1SAAXtxAul319CQmPIUXJADkyyTV4Lm01Ebj8poy8rkVjv0FvhUqgNblzSTInm
- qWbbtfC2byz0wk8z7IqG8GEV4RGmnMv8asMI5AphX+fVCv694emM9VMSDDjqWXDOOPV/
- mBCA==
-X-Gm-Message-State: AOAM530NVROm2Ie8f0B+gG+OUOmH1j5Kip0Wv1ie6IKr5Ny9ZpEYoYr8
- 0bGF1iDe3q4MAdvVlsaBrGwUH5F2ttPwJXH2RF2Nzqgs
-X-Google-Smtp-Source: ABdhPJy1A/LN0Av7gXcZ9usoo3Lzt26VImwuHKHryL2+UUtFEd+d+F4CSb9OwgmaNEfp84HDLqgdFEAkmFDDppQcKVg=
-X-Received: by 2002:a0c:dc90:: with SMTP id n16mr3018564qvk.168.1598908767694; 
- Mon, 31 Aug 2020 14:19:27 -0700 (PDT)
+ bh=IQ02CL8guGtLAyYApAPd+sO96HmXokSkOgW1+tk0TRM=;
+ b=N/ZRCVfLdznmuQ20iUxALFpz0hrewf+Wxv30QcE55njOny7d9P1qBwj5vwePFEpJNx
+ bGDpPs5kLDKlWSUEb5flvG0DTKDvP5CP0l49od4xlTz9zzS1kBkWfTk6Pn2MC67u+i0t
+ +F/x7Dyabrl76FV5/6QoQ182yDyeYAZCqjVNCfSHO9hGdSoR7oQ11Wxf+NUxAuDIuogW
+ AtMDL7Ht+u/nps0YxsDSV6TElOO98IJNeMEzApv3mWbOd75EVxcAhSGY6gpUF+mzY+Ei
+ vupSAt4crvhjIfepIKziFyhMX0sFuMQxK2VPgqyxy5NudpZWxmYjfAHzROu4fC1/qcsQ
+ H2yQ==
+X-Gm-Message-State: AOAM530NTF6g7RhW5adDbE6+SgiLf1k5U6UMr0TjZPXRQzK4yaT9RSXU
+ LqnpxRNHah/XsHGLBuaHhsEUrsiBNNcH3iFyc8Q=
+X-Google-Smtp-Source: ABdhPJxsNbsOPyte1W8r86rDbfaj6XTiYAq/NtM+IIO1g5Hg8meBkxhN1q9dWOWKLZWXhtBbA3hX6lZbJAvloP10INA=
+X-Received: by 2002:a05:620a:3c8:: with SMTP id
+ r8mr3448958qkm.84.1598908789132; 
+ Mon, 31 Aug 2020 14:19:49 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200827142915.108730-1-stefanha@redhat.com>
- <20200827142915.108730-2-stefanha@redhat.com>
-In-Reply-To: <20200827142915.108730-2-stefanha@redhat.com>
+ <20200827142915.108730-4-stefanha@redhat.com>
+In-Reply-To: <20200827142915.108730-4-stefanha@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Mon, 31 Aug 2020 22:17:42 +0200
-Message-ID: <CAAdtpL41qk-+Yo=S_gRH=XWGa=dCBqDHkjXCzuJkWefeXae2_g@mail.gmail.com>
-Subject: Re: [PATCH 1/4] tracetool: add output filename command-line argument
+Date: Mon, 31 Aug 2020 22:20:26 +0200
+Message-ID: <CAAdtpL67FPFB8hW7WZ-ZjLM-_oHbXgNWaGELTby8RjyscYHKvQ@mail.gmail.com>
+Subject: Re: [PATCH 3/4] tracetool: add input filename and line number to Event
 To: Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000020718a05ae32f5c2"
-Received-SPF: pass client-ip=209.85.219.46;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-qv1-f46.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 17:19:27
+Content-Type: multipart/alternative; boundary="00000000000067932b05ae32f666"
+Received-SPF: pass client-ip=209.85.222.193;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-qk1-f193.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 17:16:08
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -15
 X-Spam_score: -1.6
@@ -76,587 +77,285 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000020718a05ae32f5c2
+--00000000000067932b05ae32f666
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Le jeu. 27 ao=C3=BBt 2020 16:30, Stefan Hajnoczi <stefanha@redhat.com> a =
+Le jeu. 27 ao=C3=BBt 2020 16:32, Stefan Hajnoczi <stefanha@redhat.com> a =
 =C3=A9crit :
 
-> The tracetool.py script writes to stdout. This means the output filename
-> is not available to the script. Add the output filename to the
-> command-line so that the script has access to the filename.
+> Store the input filename and line number in Event.
 >
-> This also simplifies the tracetool.py invocation. It's no longer
-> necessary to use meson's custom_build(capture : true) to save output.
+> A later patch will use this to improve error messages.
 >
 > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  docs/devel/tracing.txt        |  3 ++-
->  meson.build                   |  3 +--
->  scripts/tracetool.py          | 12 +++++++-----
->  scripts/tracetool/__init__.py | 18 ++++++++++++++++--
->  trace/meson.build             | 23 ++++++++---------------
->  5 files changed, 34 insertions(+), 25 deletions(-)
->
-> diff --git a/docs/devel/tracing.txt b/docs/devel/tracing.txt
-> index 6144d9921b..c84d4c00ac 100644
-> --- a/docs/devel/tracing.txt
-> +++ b/docs/devel/tracing.txt
-> @@ -318,7 +318,8 @@ probes:
->                           --target-type system \
->                           --target-name x86_64 \
->                           --group=3Dall \
-> -                         trace-events-all >qemu.stp
-> +                         trace-events-all \
-> +                         qemu.stp
->
->  To facilitate simple usage of systemtap where there merely needs to be
-> printf
->  logging of certain probes, a helper script "qemu-trace-stap" is provided=
-.
-> diff --git a/meson.build b/meson.build
-> index f0fe5f8799..fadeb0c268 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1037,7 +1037,6 @@ foreach target : target_dirs
->          custom_target(exe_name + stp['ext'],
->                        input: trace_events_all,
->                        output: exe_name + stp['ext'],
-> -                      capture: true,
->                        install: stp['install'],
->                        install_dir: config_host['qemu_datadir'] /
-> '../systemtap/tapset',
->                        command: [
-> @@ -1046,7 +1045,7 @@ foreach target : target_dirs
->                          '--target-name=3D' + target_name,
->                          '--target-type=3D' + target_type,
->                          '--probe-prefix=3Dqemu.' + target_type + '.' +
-> target_name,
-> -                        '@INPUT@',
-> +                        '@INPUT@', '@OUTPUT@'
->                        ])
->        endforeach
->      endif
-> diff --git a/scripts/tracetool.py b/scripts/tracetool.py
-> index 31146242b7..ab7653a5ce 100644
-> --- a/scripts/tracetool.py
-> +++ b/scripts/tracetool.py
-> @@ -16,7 +16,7 @@ __email__      =3D "stefanha@redhat.com"
->  import sys
->  import getopt
->
-> -from tracetool import error_write, out
-> +from tracetool import error_write, out, out_open
->  import tracetool.backend
->  import tracetool.format
->
-> @@ -32,7 +32,7 @@ def error_opt(msg =3D None):
->      format_descr =3D "\n".join([ "    %-15s %s" % (n, d)
->                                 for n,d in tracetool.format.get_list() ])
->      error_write("""\
-> -Usage: %(script)s --format=3D<format> --backends=3D<backends> [<options>=
-]
-> +Usage: %(script)s --format=3D<format> --backends=3D<backends> [<options>=
-]
-> <trace-events> ... <output>
->
->  Backends:
->  %(backends)s
-> @@ -135,13 +135,15 @@ def main(args):
->          if probe_prefix is None:
->              probe_prefix =3D ".".join(["qemu", target_type, target_name]=
-)
->
-> -    if len(args) < 1:
-> -        error_opt("missing trace-events filepath")
-> +    if len(args) < 2:
-> +        error_opt("missing trace-events and output filepaths")
->      events =3D []
-> -    for arg in args:
-> +    for arg in args[:-1]:
->          with open(arg, "r") as fh:
->              events.extend(tracetool.read_events(fh, arg))
->
-> +    out_open(args[-1])
-> +
->      try:
->          tracetool.generate(events, arg_group, arg_format, arg_backends,
->                             binary=3Dbinary, probe_prefix=3Dprobe_prefix)
-> diff --git a/scripts/tracetool/__init__.py b/scripts/tracetool/__init__.p=
-y
-> index 3ccfa1e116..98104fa50e 100644
-> --- a/scripts/tracetool/__init__.py
-> +++ b/scripts/tracetool/__init__.py
-> @@ -31,14 +31,28 @@ def error(*lines):
->      sys.exit(1)
->
->
-> +out_filename =3D '<none>'
-> +out_fobj =3D sys.stdout
 >
 
-These appear to be always overwritten (is initialization useful?)
-
-Anyway:
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-+
-> +def out_open(filename):
-> +    global out_filename, out_fobj
-> +    out_filename =3D filename
-> +    out_fobj =3D open(filename, 'wt')
-> +
->  def out(*lines, **kwargs):
->      """Write a set of output lines.
+---
+>  scripts/tracetool/__init__.py | 27 ++++++++++++++++++++++-----
+>  1 file changed, 22 insertions(+), 5 deletions(-)
 >
->      You can use kwargs as a shorthand for mapping variables when
-> formating all
->      the strings in lines.
-> +
-> +    The 'out_filename' kwarg is automatically added with the output
-> filename.
+> diff --git a/scripts/tracetool/__init__.py b/scripts/tracetool/__init__.p=
+y
+> index e4ee4d5e61..1a6e2fa64a 100644
+> --- a/scripts/tracetool/__init__.py
+> +++ b/scripts/tracetool/__init__.py
+> @@ -218,6 +218,10 @@ class Event(object):
+>          Properties of the event.
+>      args : Arguments
+>          The event arguments.
+> +    lineno : int
+> +        The line number in the input file.
+> +    filename : str
+> +        The path to the input file.
+>
 >      """
-> -    lines =3D [ l % kwargs for l in lines ]
-> -    sys.stdout.writelines("\n".join(lines) + "\n")
-> +    output =3D []
-> +    for l in lines:
-> +        kwargs['out_filename'] =3D out_filename
-> +        output.append(l % kwargs)
-> +
-> +    out_fobj.writelines("\n".join(output) + "\n")
 >
->  # We only want to allow standard C types or fixed sized
->  # integer types. We don't want QEMU specific types
-> diff --git a/trace/meson.build b/trace/meson.build
-> index 56e870848e..16eccc0c22 100644
-> --- a/trace/meson.build
-> +++ b/trace/meson.build
-> @@ -11,20 +11,17 @@ foreach dir : [ '.' ] + trace_events_subdirs
->    trace_h =3D custom_target(fmt.format('trace', 'h'),
->                            output: fmt.format('trace', 'h'),
->                            input: trace_events_file,
-> -                          command: [ tracetool, group, '--format=3Dh',
-> '@INPUT@' ],
-> -                          capture: true)
-> +                          command: [ tracetool, group, '--format=3Dh',
-> '@INPUT@', '@OUTPUT@' ])
->    genh +=3D trace_h
->    trace_c =3D custom_target(fmt.format('trace', 'c'),
->                            output: fmt.format('trace', 'c'),
->                            input: trace_events_file,
-> -                          command: [ tracetool, group, '--format=3Dc',
-> '@INPUT@' ],
-> -                          capture: true)
-> +                          command: [ tracetool, group, '--format=3Dc',
-> '@INPUT@', '@OUTPUT@' ])
->    if 'CONFIG_TRACE_UST' in config_host
->      trace_ust_h =3D custom_target(fmt.format('trace-ust', 'h'),
->                                  output: fmt.format('trace-ust', 'h'),
->                                  input: trace_events_file,
-> -                                command: [ tracetool, group,
-> '--format=3Dust-events-h', '@INPUT@' ],
-> -                                capture: true)
-> +                                command: [ tracetool, group,
-> '--format=3Dust-events-h', '@INPUT@', '@OUTPUT@' ])
->      trace_ss.add(trace_ust_h, lttng, urcubp)
->      genh +=3D trace_ust_h
->    endif
-> @@ -33,8 +30,7 @@ foreach dir : [ '.' ] + trace_events_subdirs
->      trace_dtrace =3D custom_target(fmt.format('trace-dtrace', 'dtrace'),
->                                   output: fmt.format('trace-dtrace',
-> 'dtrace'),
->                                   input: trace_events_file,
-> -                                 command: [ tracetool, group,
-> '--format=3Dd', '@INPUT@' ],
-> -                                 capture: true)
-> +                                 command: [ tracetool, group,
-> '--format=3Dd', '@INPUT@', '@OUTPUT@' ])
->      trace_dtrace_h =3D custom_target(fmt.format('trace-dtrace', 'h'),
->                                     output: fmt.format('trace-dtrace',
-> 'h'),
->                                     input: trace_dtrace,
-> @@ -66,9 +62,8 @@ foreach d : [
->    gen =3D custom_target(d[0],
->                  output: d[0],
->                  input: meson.source_root() / 'trace-events',
-> -                command: [ tracetool, '--group=3Droot', '--format=3D@0@'=
-.format(d[1]),
-> '@INPUT@' ],
-> -                build_by_default: true, # to be removed when added to a
-> target
-> -                capture: true)
-> +                command: [ tracetool, '--group=3Droot', '--format=3D@0@'=
-.format(d[1]),
-> '@INPUT@', '@OUTPUT@' ],
-> +                build_by_default: true) # to be removed when added to a
-> target
->    specific_ss.add(gen)
->  endforeach
+> @@ -230,7 +234,7 @@ class Event(object):
 >
-> @@ -76,13 +71,11 @@ if 'CONFIG_TRACE_UST' in config_host
->    trace_ust_all_h =3D custom_target('trace-ust-all.h',
->                                    output: 'trace-ust-all.h',
->                                    input: trace_events_files,
-> -                                  command: [ tracetool, '--group=3Dall',
-> '--format=3Dust-events-h', '@INPUT@' ],
-> -                                  capture: true)
-> +                                  command: [ tracetool, '--group=3Dall',
-> '--format=3Dust-events-h', '@INPUT@', '@OUTPUT@' ])
->    trace_ust_all_c =3D custom_target('trace-ust-all.c',
->                                    output: 'trace-ust-all.c',
->                                    input: trace_events_files,
-> -                                  command: [ tracetool, '--group=3Dall',
-> '--format=3Dust-events-c', '@INPUT@' ],
-> -                                  capture: true)
-> +                                  command: [ tracetool, '--group=3Dall',
-> '--format=3Dust-events-c', '@INPUT@', '@OUTPUT@' ])
->    trace_ss.add(trace_ust_all_h, trace_ust_all_c)
->    genh +=3D trace_ust_all_h
->  endif
+>      _VALID_PROPS =3D set(["disable", "tcg", "tcg-trans", "tcg-exec",
+> "vcpu"])
+>
+> -    def __init__(self, name, props, fmt, args, orig=3DNone,
+> +    def __init__(self, name, props, fmt, args, lineno, filename,
+> orig=3DNone,
+>                   event_trans=3DNone, event_exec=3DNone):
+>          """
+>          Parameters
+> @@ -243,6 +247,10 @@ class Event(object):
+>              Event printing format string(s).
+>          args : Arguments
+>              Event arguments.
+> +        lineno : int
+> +            The line number in the input file.
+> +        filename : str
+> +            The path to the input file.
+>          orig : Event or None
+>              Original Event before transformation/generation.
+>          event_trans : Event or None
+> @@ -255,6 +263,8 @@ class Event(object):
+>          self.properties =3D props
+>          self.fmt =3D fmt
+>          self.args =3D args
+> +        self.lineno =3D int(lineno)
+> +        self.filename =3D str(filename)
+>          self.event_trans =3D event_trans
+>          self.event_exec =3D event_exec
+>
+> @@ -276,16 +286,21 @@ class Event(object):
+>      def copy(self):
+>          """Create a new copy."""
+>          return Event(self.name, list(self.properties), self.fmt,
+> -                     self.args.copy(), self, self.event_trans,
+> self.event_exec)
+> +                     self.args.copy(), self.lineno, self.filename,
+> +                     self, self.event_trans, self.event_exec)
+>
+>      @staticmethod
+> -    def build(line_str):
+> +    def build(line_str, lineno, filename):
+>          """Build an Event instance from a string.
+>
+>          Parameters
+>          ----------
+>          line_str : str
+>              Line describing the event.
+> +        lineno : int
+> +            Line number in input file.
+> +        filename : str
+> +            Path to input file.
+>          """
+>          m =3D Event._CRE.match(line_str)
+>          assert m is not None
+> @@ -315,7 +330,7 @@ class Event(object):
+>          if "tcg" in props and isinstance(fmt, str):
+>              raise ValueError("Events with 'tcg' property must have two
+> format strings")
+>
+> -        event =3D Event(name, props, fmt, args)
+> +        event =3D Event(name, props, fmt, args, lineno, filename)
+>
+>          # add implicit arguments when using the 'vcpu' property
+>          import tracetool.vcpu
+> @@ -360,6 +375,8 @@ class Event(object):
+>                       list(self.properties),
+>                       self.fmt,
+>                       self.args.transform(*trans),
+> +                     self.lineno,
+> +                     self.filename,
+>                       self)
+>
+>
+> @@ -386,7 +403,7 @@ def read_events(fobj, fname):
+>              continue
+>
+>          try:
+> -            event =3D Event.build(line)
+> +            event =3D Event.build(line, lineno, fname)
+>          except ValueError as e:
+>              arg0 =3D 'Error at %s:%d: %s' % (fname, lineno, e.args[0])
+>              e.args =3D (arg0,) + e.args[1:]
 > --
 > 2.26.2
 >
 >
 
---00000000000020718a05ae32f5c2
+--00000000000067932b05ae32f666
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Le jeu. 27 ao=C3=BBt 2020 16:30, Stefan Hajnoczi &lt;<=
+class=3D"gmail_attr">Le jeu. 27 ao=C3=BBt 2020 16:32, Stefan Hajnoczi &lt;<=
 a href=3D"mailto:stefanha@redhat.com">stefanha@redhat.com</a>&gt; a =C3=A9c=
 rit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex">The tracetool.py script =
-writes to stdout. This means the output filename<br>
-is not available to the script. Add the output filename to the<br>
-command-line so that the script has access to the filename.<br>
+ .8ex;border-left:1px #ccc solid;padding-left:1ex">Store the input filename=
+ and line number in Event.<br>
 <br>
-This also simplifies the tracetool.py invocation. It&#39;s no longer<br>
-necessary to use meson&#39;s custom_build(capture : true) to save output.<b=
-r>
+A later patch will use this to improve error messages.<br>
 <br>
 Signed-off-by: Stefan Hajnoczi &lt;<a href=3D"mailto:stefanha@redhat.com" t=
-arget=3D"_blank" rel=3D"noreferrer">stefanha@redhat.com</a>&gt;<br>
+arget=3D"_blank" rel=3D"noreferrer">stefanha@redhat.com</a>&gt;<br></blockq=
+uote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto"><span style=
+=3D"font-family:sans-serif;font-size:13.696px">Reviewed-by: Philippe Mathie=
+u-Daud=C3=A9 &lt;</span><a href=3D"mailto:f4bug@amsat.org" style=3D"text-de=
+coration:none;color:rgb(66,133,244);font-family:sans-serif;font-size:13.696=
+px">f4bug@amsat.org</a><span style=3D"font-family:sans-serif;font-size:13.6=
+96px">&gt;</span><br></div><div dir=3D"auto"><br></div><div dir=3D"auto"><d=
+iv class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:=
+0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
 ---<br>
-=C2=A0docs/devel/tracing.txt=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 3 ++-<br>
-=C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0|=C2=A0 3 +--<br>
-=C2=A0scripts/tracetool.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 12 +++++++--=
----<br>
-=C2=A0scripts/tracetool/__init__.py | 18 ++++++++++++++++--<br>
-=C2=A0trace/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 23=
- ++++++++---------------<br>
-=C2=A05 files changed, 34 insertions(+), 25 deletions(-)<br>
+=C2=A0scripts/tracetool/__init__.py | 27 ++++++++++++++++++++++-----<br>
+=C2=A01 file changed, 22 insertions(+), 5 deletions(-)<br>
 <br>
-diff --git a/docs/devel/tracing.txt b/docs/devel/tracing.txt<br>
-index 6144d9921b..c84d4c00ac 100644<br>
---- a/docs/devel/tracing.txt<br>
-+++ b/docs/devel/tracing.txt<br>
-@@ -318,7 +318,8 @@ probes:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 --target-type system \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 --target-name x86_64 \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 --group=3Dall \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0trace-events-all &gt;qemu.stp<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0trace-events-all \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0qemu.stp<br>
-<br>
-=C2=A0To facilitate simple usage of systemtap where there merely needs to b=
-e printf<br>
-=C2=A0logging of certain probes, a helper script &quot;qemu-trace-stap&quot=
-; is provided.<br>
-diff --git a/meson.build b/meson.build<br>
-index f0fe5f8799..fadeb0c268 100644<br>
---- a/meson.build<br>
-+++ b/meson.build<br>
-@@ -1037,7 +1037,6 @@ foreach target : target_dirs<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0custom_target(exe_name + stp[&#39;ext&#39=
-;],<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0input: trace_events_all,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0output: exe_name + stp[&#39;ext&#39;],<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 capture: true,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0install: stp[&#39;install&#39;],<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0install_dir: config_host[&#39;qemu_datadir&#39;] / &#39;../system=
-tap/tapset&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0command: [<br>
-@@ -1046,7 +1045,7 @@ foreach target : target_dirs<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0&#39;--target-name=3D&#39; + target_name,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0&#39;--target-type=3D&#39; + target_type,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0&#39;--probe-prefix=3Dqemu.&#39; + target_type + &#39;.&#3=
-9; + target_name,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 &#39;@INPUT@&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 &#39;@INPUT@&#39;, &#39;@OUTPUT@&#39;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0])<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0endforeach<br>
-=C2=A0 =C2=A0 =C2=A0endif<br>
-diff --git a/scripts/tracetool.py b/scripts/tracetool.py<br>
-index 31146242b7..ab7653a5ce 100644<br>
---- a/scripts/tracetool.py<br>
-+++ b/scripts/tracetool.py<br>
-@@ -16,7 +16,7 @@ __email__=C2=A0 =C2=A0 =C2=A0 =3D &quot;<a href=3D"mailto=
-:stefanha@redhat.com" target=3D"_blank" rel=3D"noreferrer">stefanha@redhat.=
-com</a>&quot;<br>
-=C2=A0import sys<br>
-=C2=A0import getopt<br>
-<br>
--from tracetool import error_write, out<br>
-+from tracetool import error_write, out, out_open<br>
-=C2=A0import tracetool.backend<br>
-=C2=A0import tracetool.format<br>
-<br>
-@@ -32,7 +32,7 @@ def error_opt(msg =3D None):<br>
-=C2=A0 =C2=A0 =C2=A0format_descr =3D &quot;\n&quot;.join([ &quot;=C2=A0 =C2=
-=A0 %-15s %s&quot; % (n, d)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for n,d in tracetool.format.get_list=
-() ])<br>
-=C2=A0 =C2=A0 =C2=A0error_write(&quot;&quot;&quot;\<br>
--Usage: %(script)s --format=3D&lt;format&gt; --backends=3D&lt;backends&gt; =
-[&lt;options&gt;]<br>
-+Usage: %(script)s --format=3D&lt;format&gt; --backends=3D&lt;backends&gt; =
-[&lt;options&gt;] &lt;trace-events&gt; ... &lt;output&gt;<br>
-<br>
-=C2=A0Backends:<br>
-=C2=A0%(backends)s<br>
-@@ -135,13 +135,15 @@ def main(args):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if probe_prefix is None:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0probe_prefix =3D &quot;.&qu=
-ot;.join([&quot;qemu&quot;, target_type, target_name])<br>
-<br>
--=C2=A0 =C2=A0 if len(args) &lt; 1:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_opt(&quot;missing trace-events filepath&=
-quot;)<br>
-+=C2=A0 =C2=A0 if len(args) &lt; 2:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_opt(&quot;missing trace-events and outpu=
-t filepaths&quot;)<br>
-=C2=A0 =C2=A0 =C2=A0events =3D []<br>
--=C2=A0 =C2=A0 for arg in args:<br>
-+=C2=A0 =C2=A0 for arg in args[:-1]:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0with open(arg, &quot;r&quot;) as fh:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0events.extend(tracetool.rea=
-d_events(fh, arg))<br>
-<br>
-+=C2=A0 =C2=A0 out_open(args[-1])<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0try:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tracetool.generate(events, arg_group, arg=
-_format, arg_backends,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 binary=3Dbinary, probe_prefix=3Dprobe_prefix)<br>
 diff --git a/scripts/tracetool/__init__.py b/scripts/tracetool/__init__.py<=
 br>
-index 3ccfa1e116..98104fa50e 100644<br>
+index e4ee4d5e61..1a6e2fa64a 100644<br>
 --- a/scripts/tracetool/__init__.py<br>
 +++ b/scripts/tracetool/__init__.py<br>
-@@ -31,14 +31,28 @@ def error(*lines):<br>
-=C2=A0 =C2=A0 =C2=A0sys.exit(1)<br>
+@@ -218,6 +218,10 @@ class Event(object):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Properties of the event.<br>
+=C2=A0 =C2=A0 =C2=A0args : Arguments<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0The event arguments.<br>
++=C2=A0 =C2=A0 lineno : int<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 The line number in the input file.<br>
++=C2=A0 =C2=A0 filename : str<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 The path to the input file.<br>
 <br>
-<br>
-+out_filename =3D &#39;&lt;none&gt;&#39;<br>
-+out_fobj =3D sys.stdout<br></blockquote></div></div><div dir=3D"auto"><br>=
-</div><div dir=3D"auto">These appear to be always overwritten (is initializ=
-ation useful?)</div><div dir=3D"auto"><br></div><div dir=3D"auto">Anyway:</=
-div><div dir=3D"auto"><span style=3D"font-family:sans-serif;font-size:13.69=
-6px">Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;</span><a href=3D"mailto:=
-f4bug@amsat.org" style=3D"text-decoration:none;color:rgb(66,133,244);font-f=
-amily:sans-serif;font-size:13.696px">f4bug@amsat.org</a><span style=3D"font=
--family:sans-serif;font-size:13.696px">&gt;</span><br></div><div dir=3D"aut=
-o"><span style=3D"font-family:sans-serif;font-size:13.696px"><br></span></d=
-iv><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_=
-quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
-ex">
-+<br>
-+def out_open(filename):<br>
-+=C2=A0 =C2=A0 global out_filename, out_fobj<br>
-+=C2=A0 =C2=A0 out_filename =3D filename<br>
-+=C2=A0 =C2=A0 out_fobj =3D open(filename, &#39;wt&#39;)<br>
-+<br>
-=C2=A0def out(*lines, **kwargs):<br>
-=C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;Write a set of output lines.<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0You can use kwargs as a shorthand for mapping variables=
- when formating all<br>
-=C2=A0 =C2=A0 =C2=A0the strings in lines.<br>
-+<br>
-+=C2=A0 =C2=A0 The &#39;out_filename&#39; kwarg is automatically added with=
- the output filename.<br>
 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
--=C2=A0 =C2=A0 lines =3D [ l % kwargs for l in lines ]<br>
--=C2=A0 =C2=A0 sys.stdout.writelines(&quot;\n&quot;.join(lines) + &quot;\n&=
-quot;)<br>
-+=C2=A0 =C2=A0 output =3D []<br>
-+=C2=A0 =C2=A0 for l in lines:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 kwargs[&#39;out_filename&#39;] =3D out_filenam=
-e<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 output.append(l % kwargs)<br>
-+<br>
-+=C2=A0 =C2=A0 out_fobj.writelines(&quot;\n&quot;.join(output) + &quot;\n&q=
-uot;)<br>
 <br>
-=C2=A0# We only want to allow standard C types or fixed sized<br>
-=C2=A0# integer types. We don&#39;t want QEMU specific types<br>
-diff --git a/trace/meson.build b/trace/meson.build<br>
-index 56e870848e..16eccc0c22 100644<br>
---- a/trace/meson.build<br>
-+++ b/trace/meson.build<br>
-@@ -11,20 +11,17 @@ foreach dir : [ &#39;.&#39; ] + trace_events_subdirs<br=
->
-=C2=A0 =C2=A0trace_h =3D custom_target(fmt.format(&#39;trace&#39;, &#39;h&#=
-39;),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0output: fmt.format(&#39;trace&#39;, &#39;h&#39;),<b=
-r>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0input: trace_events_file,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 command: [ tracetool, group, &#39;--format=3Dh&#39;, &#39=
-;@INPUT@&#39; ],<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 capture: true)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 command: [ tracetool, group, &#39;--format=3Dh&#39;, &#39=
-;@INPUT@&#39;, &#39;@OUTPUT@&#39; ])<br>
-=C2=A0 =C2=A0genh +=3D trace_h<br>
-=C2=A0 =C2=A0trace_c =3D custom_target(fmt.format(&#39;trace&#39;, &#39;c&#=
-39;),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0output: fmt.format(&#39;trace&#39;, &#39;c&#39;),<b=
-r>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0input: trace_events_file,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 command: [ tracetool, group, &#39;--format=3Dc&#39;, &#39=
-;@INPUT@&#39; ],<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 capture: true)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 command: [ tracetool, group, &#39;--format=3Dc&#39;, &#39=
-;@INPUT@&#39;, &#39;@OUTPUT@&#39; ])<br>
-=C2=A0 =C2=A0if &#39;CONFIG_TRACE_UST&#39; in config_host<br>
-=C2=A0 =C2=A0 =C2=A0trace_ust_h =3D custom_target(fmt.format(&#39;trace-ust=
-&#39;, &#39;h&#39;),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0output: fmt.format(&#39;trace-=
-ust&#39;, &#39;h&#39;),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0input: trace_events_file,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 command: [ tracetool, group, &#39;--=
-format=3Dust-events-h&#39;, &#39;@INPUT@&#39; ],<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 capture: true)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 command: [ tracetool, group, &#39;--=
-format=3Dust-events-h&#39;, &#39;@INPUT@&#39;, &#39;@OUTPUT@&#39; ])<br>
-=C2=A0 =C2=A0 =C2=A0trace_ss.add(trace_ust_h, lttng, urcubp)<br>
-=C2=A0 =C2=A0 =C2=A0genh +=3D trace_ust_h<br>
-=C2=A0 =C2=A0endif<br>
-@@ -33,8 +30,7 @@ foreach dir : [ &#39;.&#39; ] + trace_events_subdirs<br>
-=C2=A0 =C2=A0 =C2=A0trace_dtrace =3D custom_target(fmt.format(&#39;trace-dt=
-race&#39;, &#39;dtrace&#39;),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 output: fmt.format(&#39;trace=
--dtrace&#39;, &#39;dtrace&#39;),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 input: trace_events_file,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0command: [ tracetool, group, &=
-#39;--format=3Dd&#39;, &#39;@INPUT@&#39; ],<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0capture: true)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0command: [ tracetool, group, &=
-#39;--format=3Dd&#39;, &#39;@INPUT@&#39;, &#39;@OUTPUT@&#39; ])<br>
-=C2=A0 =C2=A0 =C2=A0trace_dtrace_h =3D custom_target(fmt.format(&#39;trace-=
-dtrace&#39;, &#39;h&#39;),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 output: fmt.format(&#3=
-9;trace-dtrace&#39;, &#39;h&#39;),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 input: trace_dtrace,<b=
-r>
-@@ -66,9 +62,8 @@ foreach d : [<br>
-=C2=A0 =C2=A0gen =3D custom_target(d[0],<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0output: d[0],=
+@@ -230,7 +234,7 @@ class Event(object):<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0input: meson.=
-source_root() / &#39;trace-events&#39;,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 command: [ traceto=
-ol, &#39;--group=3Droot&#39;, &#39;--format=3D@0@&#39;.format(d[1]), &#39;@=
-INPUT@&#39; ],<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 build_by_default: =
-true, # to be removed when added to a target<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 capture: true)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 command: [ traceto=
-ol, &#39;--group=3Droot&#39;, &#39;--format=3D@0@&#39;.format(d[1]), &#39;@=
-INPUT@&#39;, &#39;@OUTPUT@&#39; ],<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 build_by_default: =
-true) # to be removed when added to a target<br>
-=C2=A0 =C2=A0specific_ss.add(gen)<br>
-=C2=A0endforeach<br>
+=C2=A0 =C2=A0 =C2=A0_VALID_PROPS =3D set([&quot;disable&quot;, &quot;tcg&qu=
+ot;, &quot;tcg-trans&quot;, &quot;tcg-exec&quot;, &quot;vcpu&quot;])<br>
 <br>
-@@ -76,13 +71,11 @@ if &#39;CONFIG_TRACE_UST&#39; in config_host<br>
-=C2=A0 =C2=A0trace_ust_all_h =3D custom_target(&#39;trace-ust-all.h&#39;,<b=
-r>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0output: &#39;trace-ust-=
-all.h&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0input: trace_events_fil=
-es,<br>
+-=C2=A0 =C2=A0 def __init__(self, name, props, fmt, args, orig=3DNone,<br>
++=C2=A0 =C2=A0 def __init__(self, name, props, fmt, args, lineno, filename,=
+ orig=3DNone,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 event_trans=
+=3DNone, event_exec=3DNone):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Parameters<br>
+@@ -243,6 +247,10 @@ class Event(object):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Event printing format strin=
+g(s).<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0args : Arguments<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Event arguments.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 lineno : int<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 The line number in the input fil=
+e.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 filename : str<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 The path to the input file.<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0orig : Event or None<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Original Event before trans=
+formation/generation.<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0event_trans : Event or None<br>
+@@ -255,6 +263,8 @@ class Event(object):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.properties =3D props<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.fmt =3D fmt<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.args =3D args<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.lineno =3D int(lineno)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.filename =3D str(filename)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.event_trans =3D event_trans<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.event_exec =3D event_exec<br>
+<br>
+@@ -276,16 +286,21 @@ class Event(object):<br>
+=C2=A0 =C2=A0 =C2=A0def copy(self):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;Create a new copy.&quot=
+;&quot;&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return Event(<a href=3D"http://self.name"=
+ rel=3D"noreferrer noreferrer" target=3D"_blank">self.name</a>, list(self.p=
+roperties), self.fmt,<br>
 -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 command: [ tracetool, &#39;--=
-group=3Dall&#39;, &#39;--format=3Dust-events-h&#39;, &#39;@INPUT@&#39; ],<b=
-r>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 capture: true)<br>
+=A0self.args.copy(), self, self.event_trans, self.event_exec)<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 command: [ tracetool, &#39;--=
-group=3Dall&#39;, &#39;--format=3Dust-events-h&#39;, &#39;@INPUT@&#39;, &#3=
-9;@OUTPUT@&#39; ])<br>
-=C2=A0 =C2=A0trace_ust_all_c =3D custom_target(&#39;trace-ust-all.c&#39;,<b=
-r>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0output: &#39;trace-ust-=
-all.c&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0input: trace_events_fil=
-es,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 command: [ tracetool, &#39;--=
-group=3Dall&#39;, &#39;--format=3Dust-events-c&#39;, &#39;@INPUT@&#39; ],<b=
-r>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 capture: true)<br>
+=A0self.args.copy(), self.lineno, self.filename,<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 command: [ tracetool, &#39;--=
-group=3Dall&#39;, &#39;--format=3Dust-events-c&#39;, &#39;@INPUT@&#39;, &#3=
-9;@OUTPUT@&#39; ])<br>
-=C2=A0 =C2=A0trace_ss.add(trace_ust_all_h, trace_ust_all_c)<br>
-=C2=A0 =C2=A0genh +=3D trace_ust_all_h<br>
-=C2=A0endif<br>
+=A0self, self.event_trans, self.event_exec)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0@staticmethod<br>
+-=C2=A0 =C2=A0 def build(line_str):<br>
++=C2=A0 =C2=A0 def build(line_str, lineno, filename):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;Build an Event instance=
+ from a string.<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Parameters<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0----------<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0line_str : str<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Line describing the event.<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 lineno : int<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Line number in input file.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 filename : str<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Path to input file.<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0m =3D Event._CRE.match(line_str)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0assert m is not None<br>
+@@ -315,7 +330,7 @@ class Event(object):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if &quot;tcg&quot; in props and isinstanc=
+e(fmt, str):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0raise ValueError(&quot;Even=
+ts with &#39;tcg&#39; property must have two format strings&quot;)<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 event =3D Event(name, props, fmt, args)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 event =3D Event(name, props, fmt, args, lineno=
+, filename)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# add implicit arguments when using the &=
+#39;vcpu&#39; property<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0import tracetool.vcpu<br>
+@@ -360,6 +375,8 @@ class Event(object):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 list(self.properties),<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 self.fmt,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 self.args.transform(*trans),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0self.lineno,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0self.filename,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 self)<br>
+<br>
+<br>
+@@ -386,7 +403,7 @@ def read_events(fobj, fname):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0continue<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0try:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 event =3D Event.build(line)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 event =3D Event.build(line, line=
+no, fname)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0except ValueError as e:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0arg0 =3D &#39;Error at %s:%=
+d: %s&#39; % (fname, lineno, e.args[0])<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0e.args =3D (arg0,) + e.args=
+[1:]<br>
 -- <br>
 2.26.2<br>
 <br>
 </blockquote></div></div></div>
 
---00000000000020718a05ae32f5c2--
+--00000000000067932b05ae32f666--
 
