@@ -2,66 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C720257415
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 09:13:53 +0200 (CEST)
-Received: from localhost ([::1]:55968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0251125743C
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 09:23:05 +0200 (CEST)
+Received: from localhost ([::1]:53808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCe0m-0001fw-5X
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 03:13:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52928)
+	id 1kCe9g-0004E1-2H
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 03:23:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kCe06-0001EP-O1
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 03:13:10 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:35787
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kCe6H-0006vb-SX
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 03:19:33 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27297
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kCe04-0005Kf-Lm
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 03:13:10 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kCe6C-00066N-Dl
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 03:19:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598857987;
+ s=mimecast20190719; t=1598858367;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mPK86FLmpOats8qjh1dqdyqLXy8NURBXZnOb89hUJ9U=;
- b=NA7jDWca38RMrLyVbAi3RHcZ/X9uux+Zgg6mjFn/jPqjl6aWpTE5+dvAqXbTzxlvKvkzpA
- tReBMcGP6lfGlWWqZKHPhe0vubSbLSQWWG+Oofc2SRqscd/OmrAVYoyU9Q5pHubq2s7dXf
- XtaDT6CGLGNPlQ/lgqQ+D0AYPuS0d0g=
+ bh=jdeAaVut09UT8eEDpG+qFLrjobpw+cimu2nuwbBoMas=;
+ b=RK8OM0vEJxHScn//SV+rEvn6aTkrRQf0AwALolL70oMBav462E4ICGcEw4njERgEDfejeB
+ mS0A0XAxK2E71O3slgdY6wkFnOpZXQxKdWzBKk6CVt6SgKkFzdjp21islBO80UtP2Sz/+i
+ NrlodAL+W3Y36RBN/gGZcvtSBEXhTO8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-443-rkRGNV3tPN2ze1dKUNekzA-1; Mon, 31 Aug 2020 03:13:04 -0400
-X-MC-Unique: rkRGNV3tPN2ze1dKUNekzA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-453-wpWkGDYuPIyZJTtIY2QUfQ-1; Mon, 31 Aug 2020 03:19:25 -0400
+X-MC-Unique: wpWkGDYuPIyZJTtIY2QUfQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 455C0802B6A;
- Mon, 31 Aug 2020 07:13:03 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-54.ams2.redhat.com
- [10.36.112.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A62EE614F9;
- Mon, 31 Aug 2020 07:12:59 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C14DC17447; Mon, 31 Aug 2020 09:12:58 +0200 (CEST)
-Date: Mon, 31 Aug 2020 09:12:58 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-Subject: Re: [PATCH v4 7/7] Versal: Connect DWC3 controller with virt-versal
-Message-ID: <20200831071258.pkjkqss76tiuc7i2@sirius.home.kraxel.org>
-References: <1598642380-27817-1-git-send-email-sai.pavan.boddu@xilinx.com>
- <1598642380-27817-8-git-send-email-sai.pavan.boddu@xilinx.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A5E518BE160;
+ Mon, 31 Aug 2020 07:19:24 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-68.ams2.redhat.com
+ [10.36.113.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 96B3D1055813;
+ Mon, 31 Aug 2020 07:19:23 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 1BA8E113864A; Mon, 31 Aug 2020 09:19:22 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v2 (BROKEN) 0/6] migration: bring improved
+ savevm/loadvm/delvm to QMP
+References: <20200727150843.3419256-1-berrange@redhat.com>
+ <877dtls8ux.fsf@dusky.pond.sub.org>
+ <20200826182824.GA190807@redhat.com>
+ <20200826183425.GA191632@redhat.com>
+ <87zh6gmjq1.fsf@dusky.pond.sub.org>
+ <20200827131301.GA5520@linux.fritz.box>
+ <87sgc747hb.fsf@dusky.pond.sub.org>
+ <20200828084627.GA10263@linux.fritz.box>
+Date: Mon, 31 Aug 2020 09:19:22 +0200
+In-Reply-To: <20200828084627.GA10263@linux.fritz.box> (Kevin Wolf's message of
+ "Fri, 28 Aug 2020 10:46:27 +0200")
+Message-ID: <87eenne0zp.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <1598642380-27817-8-git-send-email-sai.pavan.boddu@xilinx.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 03:06:35
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 02:54:46
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -69,7 +79,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,43 +92,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Vikram Garhwal <fnuv@xilinx.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Francisco Iglesias <francisco.iglesias@xilinx.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- =?utf-8?Q?'Marc-Andr=C3=A9?= Lureau' <marcandre.lureau@redhat.com>,
- Ying Fang <fangying1@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Paul Zimmerman <pauldzim@gmail.com>,
- 'Philippe =?utf-8?Q?Mathieu-Daud=C3=A9'?= <philmd@redhat.com>
+Cc: Peter Krempa <pkrempa@redhat.com>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ "Denis V. Lunev" <den@virtuozzo.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+Kevin Wolf <kwolf@redhat.com> writes:
 
-> +        unsigned int irq = VERSAL_USB0_IRQ_0;
-> +        const char intName[] = "dwc_usb3";
-> +        qemu_fdt_setprop(s->fdt, name, "interrupt-names",
-> +                         intName, sizeof(intName));
-> +        qemu_fdt_setprop_cells(s->fdt, name, "interrupts",
-> +                                   GIC_FDT_IRQ_TYPE_SPI, irq,
-> +                                   GIC_FDT_IRQ_FLAGS_LEVEL_HI);
+> Am 28.08.2020 um 08:20 hat Markus Armbruster geschrieben:
+>> Kevin Wolf <kwolf@redhat.com> writes:
+>>=20
+>> > Am 27.08.2020 um 13:06 hat Markus Armbruster geschrieben:
+>> >> Daniel P. Berrang=C3=83=C6=92=C3=82=C2=A9 <berrange@redhat.com> write=
+s:
+>> >>=20
+>> >> > On Wed, Aug 26, 2020 at 07:28:24PM +0100, Daniel P. Berrang=C3=83=
+=C6=92=C3=82=C2=A9 wrote:
+>> >> >> On Wed, Aug 26, 2020 at 05:52:06PM +0200, Markus Armbruster wrote:
+>> >> >> > Open questions:
+>> >> >> >=20
+>> >> >> > * Do we want the QMP command to delete existing snapshots with
+>> >> >> >   conflicting tag / ID, like HMP savevm does?  Or do we want it =
+to fail
+>> >> >> >   the transaction?
+>> >> >>=20
+>> >> >> The intent is for the QMP commands to operate exclusively on
+>> >> >> 'tags', and never consider "ID".
+>> >> >
+>> >> > I forgot that even HMP ignores "ID" now and works exclusively in te=
+rms
+>> >> > of tags since:
+>> >> >
+>> >> >
+>> >> >   commit 6ca080453ea403959ccde661030ca16264acc181
+>> >> >   Author: Daniel Henrique Barboza <danielhb413@gmail.com>
+>> >> >   Date:   Wed Nov 7 11:09:58 2018 -0200
+>> >> >
+>> >> >     block/snapshot.c: eliminate use of ID input in snapshot operati=
+ons
+>> >>=20
+>> >> Almost a year after I sent the memo I quoted.  It's an incompatible
+>> >> change, but nobody complained, and I'm glad we got this issue out of =
+the
+>> >> way.
+>> >
+>> > FWIW, I would have ignored any complaint about incompatible changes in
+>> > HMP. It's not supposed to be a stable API, but UI.
+>>=20
+>> The iffy part is actually the loss of ability to access snapshots that
+>> lack a name.  Complaints about that would have been valid, I think.
+>> Fortunately, there have been none.
+>
+> 'loadvm ""' should do the trick for these.
 
-This seems to declare one IRQ in the FDT.
+As long as you have at most one.
 
-> +    qdev_prop_set_uint32(xhci_dev, "intrs", 4);
+>                                            The same way as you have to
+> use with 'savevm' to create them in non-prehistoric versions of QEMU.
+> We stopped creating snapshots with empty names by default in 0.14, so
+> they are probably not very relevant any more. (Versioned machine types
+> go back "only" to 1.0, so good luck loading a snapshot from an older
+> version. And I wouldn't bet money either on a 1.0 snapshot still working
+> with that machine type...)
 
-Here you configure 4 IRQs for xhci-sysbus.
-
-> +    sysbus_connect_irq(SYS_BUS_DEVICE(xhci_dev), 0, pic[VERSAL_USB0_IRQ_0]);
-
-Also a single IRQ only.
-
-I'm wondering which is correct?  Probably one IRQ?  Do we need support
-for multiple IRQs in xhci-sysbus in the first place?
-
-take care,
-  Gerd
+No argument.
 
 
