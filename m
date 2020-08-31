@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACA48257EDE
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 18:35:56 +0200 (CEST)
-Received: from localhost ([::1]:33456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D884257EF9
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 18:43:39 +0200 (CEST)
+Received: from localhost ([::1]:35796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCmmh-00062d-NI
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 12:35:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34860)
+	id 1kCmuA-000239-JP
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 12:43:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCmLS-0006sj-R1
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:07:46 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:46618)
+ id 1kCmLU-0006wL-4F
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:07:48 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:52138)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCmLR-0006Bh-3m
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:07:46 -0400
-Received: by mail-pl1-x642.google.com with SMTP id k13so3225923plk.13
- for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 09:07:44 -0700 (PDT)
+ id 1kCmLS-0006By-C4
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:07:47 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id ds1so32988pjb.1
+ for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 09:07:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NFMrG515781fPkhuV8GqRES+jyHXpSFNJfiQ1prWFi4=;
- b=Eq2G/QjMwh1Lud9/DfzphAKW/OOoMT9096Ls4XhI0plD82Ti/L9FE6SxHlUEzXllmo
- OAZqmCFsmiFpU3PTjLwvduWtSMh4gxca9SPyA6Qastx2hZgkgFF2KO03ybOMCKxNO+xM
- w4hQ/YaBPYADuNKL962McDeBV9+bnNjt4V8R7uGv3uUWNL8GZgPVu7SgAzSPV41fdDP2
- LDs69udQczV0lIic5dEWKggEE4cWkd/G+Nt5tkYHz6rjueBbQcX1a1oQxB9+epP3YOwF
- TXMQCgd+7UQOzrljVY4co3dQbGKuB4kdxw0whpm3FRIYBdS6OJ6XmnAE+9DlKMiVHa74
- 0vqA==
+ bh=b/gvE9gRrBdUc3JON5McXpRJVtB1reGxqOBY4wQzJOY=;
+ b=oTjhePcCcl59mZVSlQQ5cEys26p1YinKmHKROoaM8d8m8w/dvrW/3nDg2HcxHJRL8J
+ mKL+IJy8VvfJ6owhVbuFAyo1MENokHLKRzGY2oSQVWj1fLjph86FMgK/D3B+R+SnSAsQ
+ tijzlIzI7L40DwaSUdE8I1qWZY1/ljQi63npgdg2QRkw5iIatqKnFzisdSsYkkMlJARY
+ 3bvD3Ke7WIwGe6uAusNHsk3h2Ei7T67PKilnsaQ2n4OdphalUIyQP+MN6wwJhLNVaLxB
+ vyCvA1Y0s8CIjFY5xTPLSk3zNqzp75yFE+Kv9yuHSivKwl4mS/ModOjibn4ANN4bgwnO
+ LP8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NFMrG515781fPkhuV8GqRES+jyHXpSFNJfiQ1prWFi4=;
- b=nUS0oTFDaWVNTH52Ut4x5kmKD+u84mVX37HmZnLzyhSVess2SAaAy/KveS4RjHqbNy
- RLvSpt1erv9KFyM4YqgeOZiE3QssikgEUH2qlkeuS24pamwqq9nTuKThvyOdCCdwMg0i
- waQC4pXcifd3UpAJn4IE0J98c7x4FhptEzfKHHBP5/Jg9KPRecbMb7v4KAyMRuQJnzj6
- UC/TnGMVRPqbINnxiQdxlCh4ta5Xam7imabZBAtoGkCSHuMK+cnym5GT1DUFcO1QOneO
- X/sk666TX7Jx6fOGcfM3Wg8Ki4JLPYaHyTJDopo6tLQQ2C1nKy0DTGXt1mJVCHCL9Mo/
- a5jw==
-X-Gm-Message-State: AOAM5308vdKXFhVTXNpDFeqe5+79L7PdVm8YF7fzAOarw9ROx67W/zH1
- YSevufG6bav+ofiR6tBl7KSjF4v5RqnLmA==
-X-Google-Smtp-Source: ABdhPJwQnPRqEYc24API2DgEvxKw9MmSElFjqQ5Tm1LLagQjvxcSIPH7SzbHM+hq906YM/LH42pjVg==
-X-Received: by 2002:a17:90a:2b88:: with SMTP id u8mr76295pjd.37.1598890063437; 
- Mon, 31 Aug 2020 09:07:43 -0700 (PDT)
+ bh=b/gvE9gRrBdUc3JON5McXpRJVtB1reGxqOBY4wQzJOY=;
+ b=Qp2oj6i1L7BqqoCskVD7zF+E/uJfuDPIvYK+md9hvVc2y24rlFRmB5yqrvsyqM9YTl
+ reO4VlDvyQ44zxOSeONIo+EX0T0muFKND0ZvF3eNI83uh/q6uJ4ZxbnPQXfA/zue/AMp
+ 3lnSNd/85vWdZf8Y/kfAG66lDu4KbxnA1763AKCE58hAlDtmELq0Kwz8UQrLT0u5/uYe
+ BldAnG7n+OtBVuVBKI+VJwAGNRNBzQcQs/VODr+mGPe6BZ5BzYWZ0Gx7xN8WSTXjoqnn
+ PeEJ8EKK4bOgnprdP9FPhbRwIe/mnrfg8ttAC62gM5DgXctZ4XLyysi3AYPZL7IUy/6w
+ GY+A==
+X-Gm-Message-State: AOAM531wUCEIFQWNfvZL0oVZQin1IPcueYLpKL4SZn/1LiZiKTCE2ofW
+ 1EGhWeWxc1ThT/YeJFB7FU7vb+/cEbcZqw==
+X-Google-Smtp-Source: ABdhPJw1zO/15yWVZQHzg82Co05z/6pC52SDbb7r0jrz85WQNO3U7UKbh0WlxfAuIVzsImdIk1o1iw==
+X-Received: by 2002:a17:90b:4b89:: with SMTP id
+ lr9mr96294pjb.190.1598890064662; 
+ Mon, 31 Aug 2020 09:07:44 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id gt13sm17218pjb.43.2020.08.31.09.07.42
+ by smtp.gmail.com with ESMTPSA id gt13sm17218pjb.43.2020.08.31.09.07.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Aug 2020 09:07:42 -0700 (PDT)
+ Mon, 31 Aug 2020 09:07:44 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 74/76] target/microblaze: Remove cpu_R[0]
-Date: Mon, 31 Aug 2020 09:05:59 -0700
-Message-Id: <20200831160601.833692-75-richard.henderson@linaro.org>
+Subject: [PULL 75/76] target/microblaze: Add flags markup to some helpers
+Date: Mon, 31 Aug 2020 09:06:00 -0700
+Message-Id: <20200831160601.833692-76-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200831160601.833692-1-richard.henderson@linaro.org>
 References: <20200831160601.833692-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,35 +89,36 @@ Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do not initialize cpu_R[0], as this should be totally unused.
-The cpu_for_read and cpu_for_write functions use a local temp.
+The mmu_read, mmu_write, get, and put helpers do not touch the
+general registers, or any of the other variables managed by tcg.
 
 Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/translate.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ target/microblaze/helper.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index 8f69ca50b2..8c287457a9 100644
---- a/target/microblaze/translate.c
-+++ b/target/microblaze/translate.c
-@@ -1842,7 +1842,13 @@ void mb_tcg_init(void)
-     static const struct {
-         TCGv_i32 *var; int ofs; char name[8];
-     } i32s[] = {
--        R(0),  R(1),  R(2),  R(3),  R(4),  R(5),  R(6),  R(7),
-+        /*
-+         * Note that r0 is handled specially in reg_for_read
-+         * and reg_for_write.  Nothing should touch cpu_R[0].
-+         * Leave that element NULL, which will assert quickly
-+         * inside the tcg generator functions.
-+         */
-+               R(1),  R(2),  R(3),  R(4),  R(5),  R(6),  R(7),
-         R(8),  R(9),  R(10), R(11), R(12), R(13), R(14), R(15),
-         R(16), R(17), R(18), R(19), R(20), R(21), R(22), R(23),
-         R(24), R(25), R(26), R(27), R(28), R(29), R(30), R(31),
+diff --git a/target/microblaze/helper.h b/target/microblaze/helper.h
+index 3980fba797..f740835fcb 100644
+--- a/target/microblaze/helper.h
++++ b/target/microblaze/helper.h
+@@ -21,11 +21,11 @@ DEF_HELPER_FLAGS_3(fcmp_ge, TCG_CALL_NO_WG, i32, env, i32, i32)
+ 
+ DEF_HELPER_FLAGS_2(pcmpbf, TCG_CALL_NO_RWG_SE, i32, i32, i32)
+ #if !defined(CONFIG_USER_ONLY)
+-DEF_HELPER_3(mmu_read, i32, env, i32, i32)
+-DEF_HELPER_4(mmu_write, void, env, i32, i32, i32)
++DEF_HELPER_FLAGS_3(mmu_read, TCG_CALL_NO_RWG, i32, env, i32, i32)
++DEF_HELPER_FLAGS_4(mmu_write, TCG_CALL_NO_RWG, void, env, i32, i32, i32)
+ #endif
+ 
+ DEF_HELPER_FLAGS_2(stackprot, TCG_CALL_NO_WG, void, env, tl)
+ 
+-DEF_HELPER_2(get, i32, i32, i32)
+-DEF_HELPER_3(put, void, i32, i32, i32)
++DEF_HELPER_FLAGS_2(get, TCG_CALL_NO_RWG, i32, i32, i32)
++DEF_HELPER_FLAGS_3(put, TCG_CALL_NO_RWG, void, i32, i32, i32)
 -- 
 2.25.1
 
