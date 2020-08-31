@@ -2,59 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E294525839D
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 23:34:12 +0200 (CEST)
-Received: from localhost ([::1]:35586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4928C2583B2
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 23:40:56 +0200 (CEST)
+Received: from localhost ([::1]:35136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCrRL-0007Me-Rt
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 17:34:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47484)
+	id 1kCrXr-00020l-Bx
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 17:40:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kCrDX-0004Eg-IP; Mon, 31 Aug 2020 17:19:55 -0400
-Received: from mail-qv1-f48.google.com ([209.85.219.48]:35394)
+ id 1kCrDe-0004Rg-Tc
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:20:02 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:35674)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kCrDV-0001Xx-Ld; Mon, 31 Aug 2020 17:19:55 -0400
-Received: by mail-qv1-f48.google.com with SMTP id b13so3181873qvl.2;
- Mon, 31 Aug 2020 14:19:52 -0700 (PDT)
+ id 1kCrDc-0001Yn-W0
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:20:02 -0400
+Received: by mail-qt1-f195.google.com with SMTP id p65so5898324qtd.2
+ for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 14:20:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=zGJ5M0aRFmWCGsr1aaGK/L8xV1bL+0o/NJ2U/Ijf3kg=;
- b=QZIRRqXBpeHy2Uz/+0kbMEBX80baaG/onP1vkzXPviGnQTiham7i1amOdAdH+yOOH/
- tgktdl5U3OgGFZSxzSYqd0AtFb4w/0hE8AHBo4MEpa/vtVOCb5s4hYluPVySDSialLbE
- 40xYR/h/9ZYkKyDQypMpyRyYeJshBZY6DXPFSxkz4Ln2qigiym/0J5sqsbo44zMUeXZt
- Zs14gIhbSsa2YBjMZosKf1bU7uJwuphaMB5sKzxX6po/ZkngOixSxWifzINOaVHPpMfu
- 97s4lO5dImlH7dJy8Rtlw/szTUt/P+exyC2cHKCTE9RSV07BTmlvvROZsldOiPmlYsD+
- 3cIg==
-X-Gm-Message-State: AOAM530VaDWCnv1PjDK6lsAUVJ94l1JwEH4o52zyXxs5/dr+5AKt9E4M
- mEEXhjlqe3/nfYp4DhGkWH2p57l6Y5Qi7TV5E7dC0mzA
-X-Google-Smtp-Source: ABdhPJyuWICbB7b6xYHn790qp1yI51ON4VF6m2lqwrT8qQwun0PluimMbAff6kNrZ7aCf4WYXXotUkz+Lj6tsqsr+jo=
-X-Received: by 2002:a0c:f491:: with SMTP id i17mr3005633qvm.85.1598908792490; 
- Mon, 31 Aug 2020 14:19:52 -0700 (PDT)
+ bh=/gKKHLYgrCm3RF7D2iv78T5YKZYhOS467RhQBHNiTXg=;
+ b=U1IlEU5g4KPzHUhCJ1H9r7BLbZePllEhckQFCyDZImlT9g5m0dg0sv6yFUY93c/H6G
+ usGh5TLMd7CRqxqiI5VfpZqd5FLJk18G5Bnzs181qbryx/NaTHmQIUfrP5eGrVPgb9EW
+ R0CS+2AUJyI1Vt/1KapZUiSYcDwdvDKFPLzjzWjbdoKot7+NQdSn6UOmlmGOfirCttx5
+ 7MpoqQBNqY4EznT8sAB0nefleCJTKYVzzMyghegCDEQjqO9uwqsSJPHDxgujSqFozlB0
+ wdayP6JwCHi74bLw23tXRJmtuOV/Yqn3oYt1ma2DiSBs5HUM6aJkG45x4jY7glJR/vxs
+ g9ZA==
+X-Gm-Message-State: AOAM532W5LwWwswTsRrNAMqhVniKHGGYIl2pp7uEA1CycREwSrX+p90t
+ fWMF9h8oucfrC4PeSFXmnJJmqnT0uuRLJFGA2amXL7mr
+X-Google-Smtp-Source: ABdhPJxOHbVsgCj2VSwMMeWdzKzsmgWiIvnbMytxcXpqesU2nzUqmENAbYdIu/iHQxGXAHuJ+dByBUW8rLo5x3jNMMY=
+X-Received: by 2002:ac8:f86:: with SMTP id b6mr3333909qtk.252.1598908800174;
+ Mon, 31 Aug 2020 14:20:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200827114428.1850912-1-ppandit@redhat.com>
-In-Reply-To: <20200827114428.1850912-1-ppandit@redhat.com>
+References: <20200827123859.81793-1-ysato@users.sourceforge.jp>
+In-Reply-To: <20200827123859.81793-1-ysato@users.sourceforge.jp>
 From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Mon, 31 Aug 2020 22:27:59 +0200
-Message-ID: <CAAdtpL6o7_Cvnui+dsaobNaY93Noj7fcLWYx37mEGd3kTBv56Q@mail.gmail.com>
-Subject: Re: [PATCH] hw/ide: check null block pointer before blk_drain
-To: P J P <ppandit@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000009ad55305ae32f65b"
-Received-SPF: pass client-ip=209.85.219.48;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-qv1-f48.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 17:19:52
+Date: Mon, 31 Aug 2020 22:38:37 +0200
+Message-ID: <CAAdtpL4tyCfa-vEnYVP1i_3ksjBkAaDVx1wwMfBVHfA+BhS_wA@mail.gmail.com>
+Subject: Re: [PATCH 00/20] RX target update
+To: Yoshinori Sato <ysato@users.sourceforge.jp>
+Content-Type: multipart/alternative; boundary="00000000000010135305ae32f7a9"
+Received-SPF: pass client-ip=209.85.160.195;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-qt1-f195.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 17:15:50
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -15
 X-Spam_score: -1.6
 X-Spam_bar: -
 X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
  FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,139 +69,269 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ruhr-University <bugs-syssec@rub.de>, John Snow <jsnow@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-block@nongnu.org,
- Prasad J Pandit <pjp@fedoraproject.org>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000009ad55305ae32f65b
+--00000000000010135305ae32f7a9
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Le jeu. 27 ao=C3=BBt 2020 13:47, P J P <ppandit@redhat.com> a =C3=A9crit :
+Hello Yoshinori,
 
-> From: Prasad J Pandit <pjp@fedoraproject.org>
+Le jeu. 27 ao=C3=BBt 2020 14:43, Yoshinori Sato <ysato@users.sourceforge.jp=
+> a
+=C3=A9crit :
+
+> Hello.
+> This series Renesas RX updates.
 >
-> While cancelling an i/o operation via ide_cancel_dma_sync(),
-> check for null block pointer before calling blk_drain(). Avoid
-> null pointer dereference.
->
->  ->
-> https://ruhr-uni-bochum.sciebo.de/s/NNWP2GfwzYKeKwE?path=3D%2Fide_nullptr=
-1
->     =3D=3D1803100=3D=3DHint: address points to the zero page.
->     #0 blk_bs ../block/block-backend.c:714
->     #1 blk_drain ../block/block-backend.c:1715
->     #2 ide_cancel_dma_sync ../hw/ide/core.c:723
->     #3 bmdma_cmd_writeb ../hw/ide/pci.c:298
->     #4 bmdma_write ../hw/ide/piix.c:75
->     #5 memory_region_write_accessor ../softmmu/memory.c:483
->     #6 access_with_adjusted_size ../softmmu/memory.c:544
->     #7 memory_region_dispatch_write ../softmmu/memory.c:1465
->     #8 flatview_write_continue ../exec.c:3176
->     ...
->
-> Reported-by: Ruhr-University <bugs-syssec@rub.de>
-> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-> ---
->  hw/ide/core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/hw/ide/core.c b/hw/ide/core.c
-> index d997a78e47..038af1cd6b 100644
-> --- a/hw/ide/core.c
-> +++ b/hw/ide/core.c
-> @@ -718,7 +718,7 @@ void ide_cancel_dma_sync(IDEState *s)
->       * whole DMA operation will be submitted to disk with a single
->       * aio operation with preadv/pwritev.
->       */
-> -    if (s->bus->dma->aiocb) {
-> +    if (s->blk && s->bus->dma->aiocb) {
+> It consists of the following contents.
+> * Update firmware loader.
+> * Rewrite peripheal modules (Timer and SCI).
+>   - Unified SH4 module.
+>   - Using clock API
+> * New peripheal modules.
+>   - On-chip clock generator.
+>   - Multi-function timer.
+>   - Ethernet MAC.
+> * New real hardware target.
+>   - TokushudenshiKairo TKDN-RX62N-BRD.
+>   - CQ publishing CQ-FRK-RX62N
 >
 
-But s->blk mustn't be null here... IMHO we should assert() here and add a
-check earlier.
+How can we test them?
 
-Don't we already have a Launchpad bug for this BTW?
 
-         trace_ide_cancel_dma_sync_remaining();
->          blk_drain(s->blk);
->          assert(s->bus->dma->aiocb =3D=3D NULL);
+> Yoshinori Sato (20):
+>   loader.c: Add support Motrola S-record format.
+>   include/elf.h: Add EM_RX.
+>   hw/rx: Firmware and kernel loader.
+>   hw/rx: New firmware loader.
+>   hw/rx: Add RX62N Clock generator
+>   hw/timer: Renesas 8bit timer emulation.
+>   hw/rx: RX62N convert new 8bit timer.
+>   hw/timer: Renesas TMU/CMT module.
+>   hw/timer: Remove renesas_cmt.
+>   hw/rx: Convert to renesas_timer
+>   hw/char: Renesas SCI module.
+>   hw/rx/rx62n: Use New SCI module.
+>   hw/timer: Add Renesas MTU2
+>   hw/rx/rx62n: RX62N Add MTU module
+>   hw/net: Add generic Bit-bang MDIO PHY.
+>   hw/net: Add Renesas On-chip Ethernet MAC
+>   hw/rx/rx62n: Add Ethernet support.
+>   hw/rx: Add Tokudenkairo TKDN-RX62N-BRD
+>   hw/rx: Add CQ-FRK-RX62N target
+>   MAINTAINERS: Update RX entry
+>
+>  default-configs/rx-softmmu.mak   |    2 +
+>  include/elf.h                    |    2 +
+>  include/hw/char/renesas_sci.h    |  129 ++-
+>  include/hw/loader.h              |   14 +
+>  include/hw/net/mdio.h            |  126 +++
+>  include/hw/net/renesas_eth.h     |   57 ++
+>  include/hw/rx/loader.h           |   35 +
+>  include/hw/rx/rx62n-cpg.h        |   72 ++
+>  include/hw/rx/rx62n.h            |   36 +-
+>  include/hw/timer/renesas_cmt.h   |   40 -
+>  include/hw/timer/renesas_mtu.h   |   90 ++
+>  include/hw/timer/renesas_timer.h |  103 +++
+>  include/hw/timer/renesas_tmr.h   |   55 --
+>  include/hw/timer/renesas_tmr8.h  |   67 ++
+>  hw/char/renesas_sci.c            | 1040 ++++++++++++++++++-----
+>  hw/core/loader.c                 |  208 +++++
+>  hw/net/mdio.c                    |  264 ++++++
+>  hw/net/renesas_eth.c             |  875 ++++++++++++++++++++
+>  hw/rx/cq-frk-rx62n.c             |   94 +++
+>  hw/rx/loader.c                   |  182 +++++
+>  hw/rx/rx-gdbsim.c                |   98 +--
+>  hw/rx/rx62n-cpg.c                |  344 ++++++++
+>  hw/rx/rx62n.c                    |  140 ++--
+>  hw/rx/tkdn-rx62n.c               |  192 +++++
+>  hw/timer/renesas_cmt.c           |  283 -------
+>  hw/timer/renesas_mtu.c           | 1312 ++++++++++++++++++++++++++++++
+>  hw/timer/renesas_timer.c         |  639 +++++++++++++++
+>  hw/timer/renesas_tmr.c           |  477 -----------
+>  hw/timer/renesas_tmr8.c          |  540 ++++++++++++
+>  MAINTAINERS                      |    2 +
+>  hw/net/Kconfig                   |    8 +
+>  hw/net/meson.build               |    3 +
+>  hw/rx/Kconfig                    |   16 +-
+>  hw/rx/meson.build                |    5 +-
+>  hw/timer/Kconfig                 |    9 +-
+>  hw/timer/meson.build             |    5 +-
+>  36 files changed, 6391 insertions(+), 1173 deletions(-)
+>  create mode 100644 include/hw/net/mdio.h
+>  create mode 100644 include/hw/net/renesas_eth.h
+>  create mode 100644 include/hw/rx/loader.h
+>  create mode 100644 include/hw/rx/rx62n-cpg.h
+>  delete mode 100644 include/hw/timer/renesas_cmt.h
+>  create mode 100644 include/hw/timer/renesas_mtu.h
+>  create mode 100644 include/hw/timer/renesas_timer.h
+>  delete mode 100644 include/hw/timer/renesas_tmr.h
+>  create mode 100644 include/hw/timer/renesas_tmr8.h
+>  create mode 100644 hw/net/mdio.c
+>  create mode 100644 hw/net/renesas_eth.c
+>  create mode 100644 hw/rx/cq-frk-rx62n.c
+>  create mode 100644 hw/rx/loader.c
+>  create mode 100644 hw/rx/rx62n-cpg.c
+>  create mode 100644 hw/rx/tkdn-rx62n.c
+>  delete mode 100644 hw/timer/renesas_cmt.c
+>  create mode 100644 hw/timer/renesas_mtu.c
+>  create mode 100644 hw/timer/renesas_timer.c
+>  delete mode 100644 hw/timer/renesas_tmr.c
+>  create mode 100644 hw/timer/renesas_tmr8.c
+>
 > --
-> 2.26.2
+> 2.20.1
 >
 >
 >
 
---0000000000009ad55305ae32f65b
+--00000000000010135305ae32f7a9
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto"><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
-s=3D"gmail_attr">Le jeu. 27 ao=C3=BBt 2020 13:47, P J P &lt;<a href=3D"mail=
-to:ppandit@redhat.com">ppandit@redhat.com</a>&gt; a =C3=A9crit=C2=A0:<br></=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
-t:1px #ccc solid;padding-left:1ex">From: Prasad J Pandit &lt;<a href=3D"mai=
-lto:pjp@fedoraproject.org" target=3D"_blank" rel=3D"noreferrer">pjp@fedorap=
-roject.org</a>&gt;<br>
+<div dir=3D"auto"><div>Hello Yoshinori,<div dir=3D"auto"><br></div><div cla=
+ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Le jeu. 27 ao=C3=
+=BBt 2020 14:43, Yoshinori Sato &lt;<a href=3D"mailto:ysato@users.sourcefor=
+ge.jp">ysato@users.sourceforge.jp</a>&gt; a =C3=A9crit=C2=A0:<br></div><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #c=
+cc solid;padding-left:1ex">Hello.<br>
+This series Renesas RX updates.<br>
 <br>
-While cancelling an i/o operation via ide_cancel_dma_sync(),<br>
-check for null block pointer before calling blk_drain(). Avoid<br>
-null pointer dereference.<br>
+It consists of the following contents.<br>
+* Update firmware loader.<br>
+* Rewrite peripheal modules (Timer and SCI).<br>
+=C2=A0 - Unified SH4 module.<br>
+=C2=A0 - Using clock API<br>
+* New peripheal modules.<br>
+=C2=A0 - On-chip clock generator.<br>
+=C2=A0 - Multi-function timer.<br>
+=C2=A0 - Ethernet MAC.<br>
+* New real hardware target.<br>
+=C2=A0 - TokushudenshiKairo TKDN-RX62N-BRD.<br>
+=C2=A0 - CQ publishing CQ-FRK-RX62N<br></blockquote></div></div><div dir=3D=
+"auto"><br></div><div dir=3D"auto">How can we test them?=C2=A0</div><div di=
+r=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
+lid;padding-left:1ex">
 <br>
-=C2=A0-&gt; <a href=3D"https://ruhr-uni-bochum.sciebo.de/s/NNWP2GfwzYKeKwE?=
-path=3D%2Fide_nullptr1" rel=3D"noreferrer noreferrer" target=3D"_blank">htt=
-ps://ruhr-uni-bochum.sciebo.de/s/NNWP2GfwzYKeKwE?path=3D%2Fide_nullptr1</a>=
+Yoshinori Sato (20):<br>
+=C2=A0 loader.c: Add support Motrola S-record format.<br>
+=C2=A0 include/elf.h: Add EM_RX.<br>
+=C2=A0 hw/rx: Firmware and kernel loader.<br>
+=C2=A0 hw/rx: New firmware loader.<br>
+=C2=A0 hw/rx: Add RX62N Clock generator<br>
+=C2=A0 hw/timer: Renesas 8bit timer emulation.<br>
+=C2=A0 hw/rx: RX62N convert new 8bit timer.<br>
+=C2=A0 hw/timer: Renesas TMU/CMT module.<br>
+=C2=A0 hw/timer: Remove renesas_cmt.<br>
+=C2=A0 hw/rx: Convert to renesas_timer<br>
+=C2=A0 hw/char: Renesas SCI module.<br>
+=C2=A0 hw/rx/rx62n: Use New SCI module.<br>
+=C2=A0 hw/timer: Add Renesas MTU2<br>
+=C2=A0 hw/rx/rx62n: RX62N Add MTU module<br>
+=C2=A0 hw/net: Add generic Bit-bang MDIO PHY.<br>
+=C2=A0 hw/net: Add Renesas On-chip Ethernet MAC<br>
+=C2=A0 hw/rx/rx62n: Add Ethernet support.<br>
+=C2=A0 hw/rx: Add Tokudenkairo TKDN-RX62N-BRD<br>
+=C2=A0 hw/rx: Add CQ-FRK-RX62N target<br>
+=C2=A0 MAINTAINERS: Update RX entry<br>
 <br>
-=C2=A0 =C2=A0 =3D=3D1803100=3D=3DHint: address points to the zero page.<br>
-=C2=A0 =C2=A0 #0 blk_bs ../block/block-backend.c:714<br>
-=C2=A0 =C2=A0 #1 blk_drain ../block/block-backend.c:1715<br>
-=C2=A0 =C2=A0 #2 ide_cancel_dma_sync ../hw/ide/core.c:723<br>
-=C2=A0 =C2=A0 #3 bmdma_cmd_writeb ../hw/ide/pci.c:298<br>
-=C2=A0 =C2=A0 #4 bmdma_write ../hw/ide/piix.c:75<br>
-=C2=A0 =C2=A0 #5 memory_region_write_accessor ../softmmu/memory.c:483<br>
-=C2=A0 =C2=A0 #6 access_with_adjusted_size ../softmmu/memory.c:544<br>
-=C2=A0 =C2=A0 #7 memory_region_dispatch_write ../softmmu/memory.c:1465<br>
-=C2=A0 =C2=A0 #8 flatview_write_continue ../exec.c:3176<br>
-=C2=A0 =C2=A0 ...<br>
+=C2=A0default-configs/rx-softmmu.mak=C2=A0 =C2=A0|=C2=A0 =C2=A0 2 +<br>
+=C2=A0include/elf.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 |=C2=A0 =C2=A0 2 +<br>
+=C2=A0include/hw/char/renesas_sci.h=C2=A0 =C2=A0 |=C2=A0 129 ++-<br>
+=C2=A0include/hw/loader.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 =C2=A014 +<br>
+=C2=A0include/hw/net/mdio.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
+=A0 126 +++<br>
+=C2=A0include/hw/net/renesas_eth.h=C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A057 ++<b=
+r>
+=C2=A0include/hw/rx/loader.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
+=A0 =C2=A035 +<br>
+=C2=A0include/hw/rx/rx62n-cpg.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A072=
+ ++<br>
+=C2=A0include/hw/rx/rx62n.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
+=A0 =C2=A036 +-<br>
+=C2=A0include/hw/timer/renesas_cmt.h=C2=A0 =C2=A0|=C2=A0 =C2=A040 -<br>
+=C2=A0include/hw/timer/renesas_mtu.h=C2=A0 =C2=A0|=C2=A0 =C2=A090 ++<br>
+=C2=A0include/hw/timer/renesas_timer.h |=C2=A0 103 +++<br>
+=C2=A0include/hw/timer/renesas_tmr.h=C2=A0 =C2=A0|=C2=A0 =C2=A055 --<br>
+=C2=A0include/hw/timer/renesas_tmr8.h=C2=A0 |=C2=A0 =C2=A067 ++<br>
+=C2=A0hw/char/renesas_sci.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 1040=
+ ++++++++++++++++++-----<br>
+=C2=A0hw/core/loader.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0|=C2=A0 208 +++++<br>
+=C2=A0hw/net/mdio.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 |=C2=A0 264 ++++++<br>
+=C2=A0hw/net/renesas_eth.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 875 ++++++++++++++++++++<br>
+=C2=A0hw/rx/cq-frk-rx62n.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 =C2=A094 +++<br>
+=C2=A0hw/rx/loader.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0|=C2=A0 182 +++++<br>
+=C2=A0hw/rx/rx-gdbsim.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 |=C2=A0 =C2=A098 +--<br>
+=C2=A0hw/rx/rx62n-cpg.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 |=C2=A0 344 ++++++++<br>
+=C2=A0hw/rx/rx62n.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 |=C2=A0 140 ++--<br>
+=C2=A0hw/rx/tkdn-rx62n.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0|=C2=A0 192 +++++<br>
+=C2=A0hw/timer/renesas_cmt.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
+=A0 283 -------<br>
+=C2=A0hw/timer/renesas_mtu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 1312=
+ ++++++++++++++++++++++++++++++<br>
+=C2=A0hw/timer/renesas_timer.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 639=
+ +++++++++++++++<br>
+=C2=A0hw/timer/renesas_tmr.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
+=A0 477 -----------<br>
+=C2=A0hw/timer/renesas_tmr8.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 540=
+ ++++++++++++<br>
+=C2=A0MAINTAINERS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 2 +<br>
+=C2=A0hw/net/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0|=C2=A0 =C2=A0 8 +<br>
+=C2=A0hw/net/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0|=C2=A0 =C2=A0 3 +<br>
+=C2=A0hw/rx/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 |=C2=A0 =C2=A016 +-<br>
+=C2=A0hw/rx/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 |=C2=A0 =C2=A0 5 +-<br>
+=C2=A0hw/timer/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0|=C2=A0 =C2=A0 9 +-<br>
+=C2=A0hw/timer/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 =C2=A0 5 +-<br>
+=C2=A036 files changed, 6391 insertions(+), 1173 deletions(-)<br>
+=C2=A0create mode 100644 include/hw/net/mdio.h<br>
+=C2=A0create mode 100644 include/hw/net/renesas_eth.h<br>
+=C2=A0create mode 100644 include/hw/rx/loader.h<br>
+=C2=A0create mode 100644 include/hw/rx/rx62n-cpg.h<br>
+=C2=A0delete mode 100644 include/hw/timer/renesas_cmt.h<br>
+=C2=A0create mode 100644 include/hw/timer/renesas_mtu.h<br>
+=C2=A0create mode 100644 include/hw/timer/renesas_timer.h<br>
+=C2=A0delete mode 100644 include/hw/timer/renesas_tmr.h<br>
+=C2=A0create mode 100644 include/hw/timer/renesas_tmr8.h<br>
+=C2=A0create mode 100644 hw/net/mdio.c<br>
+=C2=A0create mode 100644 hw/net/renesas_eth.c<br>
+=C2=A0create mode 100644 hw/rx/cq-frk-rx62n.c<br>
+=C2=A0create mode 100644 hw/rx/loader.c<br>
+=C2=A0create mode 100644 hw/rx/rx62n-cpg.c<br>
+=C2=A0create mode 100644 hw/rx/tkdn-rx62n.c<br>
+=C2=A0delete mode 100644 hw/timer/renesas_cmt.c<br>
+=C2=A0create mode 100644 hw/timer/renesas_mtu.c<br>
+=C2=A0create mode 100644 hw/timer/renesas_timer.c<br>
+=C2=A0delete mode 100644 hw/timer/renesas_tmr.c<br>
+=C2=A0create mode 100644 hw/timer/renesas_tmr8.c<br>
 <br>
-Reported-by: Ruhr-University &lt;<a href=3D"mailto:bugs-syssec@rub.de" targ=
-et=3D"_blank" rel=3D"noreferrer">bugs-syssec@rub.de</a>&gt;<br>
-Signed-off-by: Prasad J Pandit &lt;<a href=3D"mailto:pjp@fedoraproject.org"=
- target=3D"_blank" rel=3D"noreferrer">pjp@fedoraproject.org</a>&gt;<br>
----<br>
-=C2=A0hw/ide/core.c | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/hw/ide/core.c b/hw/ide/core.c<br>
-index d997a78e47..038af1cd6b 100644<br>
---- a/hw/ide/core.c<br>
-+++ b/hw/ide/core.c<br>
-@@ -718,7 +718,7 @@ void ide_cancel_dma_sync(IDEState *s)<br>
-=C2=A0 =C2=A0 =C2=A0 * whole DMA operation will be submitted to disk with a=
- single<br>
-=C2=A0 =C2=A0 =C2=A0 * aio operation with preadv/pwritev.<br>
-=C2=A0 =C2=A0 =C2=A0 */<br>
--=C2=A0 =C2=A0 if (s-&gt;bus-&gt;dma-&gt;aiocb) {<br>
-+=C2=A0 =C2=A0 if (s-&gt;blk &amp;&amp; s-&gt;bus-&gt;dma-&gt;aiocb) {<br><=
-/blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">But s=
--&gt;blk mustn&#39;t be null here... IMHO we should assert() here and add a=
- check earlier.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Don&#39;=
-t we already have a Launchpad bug for this BTW?</div><div dir=3D"auto"><br>=
-</div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gma=
-il_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-lef=
-t:1ex">
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0trace_ide_cancel_dma_sync_remaining();<br=
->
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0blk_drain(s-&gt;blk);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0assert(s-&gt;bus-&gt;dma-&gt;aiocb =3D=3D=
- NULL);<br>
 -- <br>
-2.26.2<br>
+2.20.1<br>
 <br>
 <br>
 </blockquote></div></div></div>
 
---0000000000009ad55305ae32f65b--
+--00000000000010135305ae32f7a9--
 
