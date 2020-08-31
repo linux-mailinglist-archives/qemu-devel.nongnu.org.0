@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CC1D2583A5
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 23:36:47 +0200 (CEST)
-Received: from localhost ([::1]:47970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEC702583AC
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 23:38:55 +0200 (CEST)
+Received: from localhost ([::1]:55732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCrTq-00047R-Jy
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 17:36:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47618)
+	id 1kCrVu-0007PP-PB
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 17:38:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kCrDp-0004a9-DZ
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:20:13 -0400
-Received: from mail-qv1-f66.google.com ([209.85.219.66]:42217)
+ id 1kCrED-0004oY-1d
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:20:37 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:42003)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kCrDm-0001ZQ-F7
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:20:13 -0400
-Received: by mail-qv1-f66.google.com with SMTP id h1so1796429qvo.9
- for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 14:20:10 -0700 (PDT)
+ id 1kCrEB-0001bj-8w
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:20:36 -0400
+Received: by mail-qt1-f193.google.com with SMTP id 60so5861710qtc.9
+ for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 14:20:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=MzfXW+TMY6CFyIVBla0E0+8dA5AuvzaqhAaHY6HHukE=;
- b=CKnBbizgUxqg43epZ/J2PpwWu6TZXsn6204Phe6jr34muPEaCNujZ0dGlOmfA5Z5eg
- EOym+4Gz0aCV5ivuYbUaoL8vDazdffB8EHHyoZHHvOEJGundp6fFmxrnftbmlbyRj0Dx
- vXhOEwAy1vtChr2hoV/+WsspvJ1DkSlXmHERGj3bmnXNkKYCALsuf8pQObIBDkE7WN8R
- +Lyvfle27SJRcPtOk2EKYSlkCZETfm3yeVKJJ+z20sVzcp/GWVXHP9zQPS+NFk8roYaT
- HCBHyVVienECwTAwbkEYkSrFZSBp2gxzvjoZM3fSOvJHyLMOTJoqsmjTurtfYZzO49nx
- eqMw==
-X-Gm-Message-State: AOAM532WigqB7JXHdsT9hf9Mpo+xh/eHzXhg+NOVJKEGXSQvC6wUzEBk
- MogYEXaaZajXTxrlTl4Xxo02OkV6o7N7I0TzjNY=
-X-Google-Smtp-Source: ABdhPJwajZYKO8UNA/Jgc7aLJDD+DsHjVMf3ZwM1pZGwjKvrJ9bQiw6aaReecbHJVVGoYrU2v9FHXsv/17Py9/kY8Wg=
-X-Received: by 2002:a0c:f9cd:: with SMTP id j13mr2960363qvo.227.1598908809546; 
- Mon, 31 Aug 2020 14:20:09 -0700 (PDT)
+ bh=pCmtxGndWY1jSvNkpUW/5RRpw0F/DVmJxZUZIEWA+0w=;
+ b=We2ZjqrZvBC2aUasptLNBEShrMCzzCjlknl1eVOCKjGeQ7hz/Ltr8O+FKtdbO9y2Dz
+ qEsN/Ym6Jhs6fGHtHJmdrGJgfP2RFszrK0pP/oEyY9/HAhiWaDfsSxFy4u5PA3/MpIYR
+ TrxadtruupQjn2++Y23LNLRxHIU/IFfu3NhsjIDzUuiiSGTqtW8q5ifZ7mZQGbqWbbU0
+ gux1geLuuL9Cnvyvm/2pt34I8mfga1cv9gQhcoMeTbCkT0uc63jPW0xy6hJtspKHINE0
+ 0UuQxwH3l1DBA3xYYfLUsruzMOmN0mpGQD70zbsAtKlxPGCx6gjtukbN2ryza6E5rjDB
+ ChIA==
+X-Gm-Message-State: AOAM532WNlYZOyaliZxo1TR6cWB6SPQL+g2wEgF/Yv9HIjqOI3TDctm8
+ ffXAadsxqQnOANsj495kOQIDCkZ+iG5RKEyN5Sg=
+X-Google-Smtp-Source: ABdhPJzigCQzvuejF9XV3oHnOQqhQeMe+CjsI6SBO8tw2waK9flMTGis5hO1EaOCkhL3TkUxCnZHl2mq9xeIuBq8dsc=
+X-Received: by 2002:aed:21a6:: with SMTP id l35mr3339526qtc.178.1598908830310; 
+ Mon, 31 Aug 2020 14:20:30 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200828141929.77854-1-richard.henderson@linaro.org>
- <20200828141929.77854-11-richard.henderson@linaro.org>
-In-Reply-To: <20200828141929.77854-11-richard.henderson@linaro.org>
+ <20200828141929.77854-63-richard.henderson@linaro.org>
+In-Reply-To: <20200828141929.77854-63-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Mon, 31 Aug 2020 22:53:59 +0200
-Message-ID: <CAAdtpL5kz4fBLDYp1mDg9YRRJX3FU8U+jzWdBdAnNysUxZrvMw@mail.gmail.com>
-Subject: Re: [PATCH v2 10/76] target/microblaze: Split out BTR from env->sregs
+Date: Mon, 31 Aug 2020 23:08:14 +0200
+Message-ID: <CAAdtpL5PueR0ezHJ7ATH-qD6K+8OaSGqqd4jBSy+D6+9CCaSaw@mail.gmail.com>
+Subject: Re: [PATCH v2 62/76] target/microblaze: Tidy mb_cpu_dump_state
 To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000009f0fe805ae32f775"
-Received-SPF: pass client-ip=209.85.219.66;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-qv1-f66.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 17:20:09
+Content-Type: multipart/alternative; boundary="000000000000dbe80d05ae32f84d"
+Received-SPF: pass client-ip=209.85.160.193;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-qt1-f193.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 17:20:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -15
 X-Spam_score: -1.6
 X-Spam_bar: -
 X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
  FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,273 +75,283 @@ Cc: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000009f0fe805ae32f775
+--000000000000dbe80d05ae32f84d
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Le ven. 28 ao=C3=BBt 2020 16:26, Richard Henderson <richard.henderson@linar=
+Hi Richard,
+
+Le ven. 28 ao=C3=BBt 2020 16:46, Richard Henderson <richard.henderson@linar=
 o.org>
 a =C3=A9crit :
 
-> Continue eliminating the sregs array in favor of individual members.
-> Does not correct the width of BTR, yet.
+> Using lookup_symbol is quite slow; remove that.  Decode the
+>
+
+Can we add some runtime option to enable its use instead?
+
+various bits of iflags; only show imm, btaken, btarget when
+> they are relevant to iflags.  Improve formatting.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/microblaze/translate.c | 67 +++++++++++++++++++++--------------
+>  1 file changed, 41 insertions(+), 26 deletions(-)
 >
-
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-
----
->  target/microblaze/cpu.h       | 1 +
->  target/microblaze/gdbstub.c   | 4 ++--
->  target/microblaze/helper.c    | 4 ++--
->  target/microblaze/translate.c | 6 ++++--
->  4 files changed, 9 insertions(+), 6 deletions(-)
->
-> diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
-> index bcafef99b0..deddb47abb 100644
-> --- a/target/microblaze/cpu.h
-> +++ b/target/microblaze/cpu.h
-> @@ -241,6 +241,7 @@ struct CPUMBState {
->      uint64_t ear;
->      uint64_t esr;
->      uint64_t fsr;
-> +    uint64_t btr;
->      uint64_t sregs[14];
->      float_status fp_status;
->      /* Stack protectors. Yes, it's a hw feature.  */
-> diff --git a/target/microblaze/gdbstub.c b/target/microblaze/gdbstub.c
-> index 2634ce49fc..cde8c169bf 100644
-> --- a/target/microblaze/gdbstub.c
-> +++ b/target/microblaze/gdbstub.c
-> @@ -74,7 +74,7 @@ int mb_cpu_gdb_read_register(CPUState *cs, GByteArray
-> *mem_buf, int n)
->          val =3D env->fsr;
->          break;
->      case GDB_BTR:
-> -        val =3D env->sregs[SR_BTR];
-> +        val =3D env->btr;
->          break;
->      case GDB_PVR0 ... GDB_PVR11:
->          /* PVR12 is intentionally skipped */
-> @@ -130,7 +130,7 @@ int mb_cpu_gdb_write_register(CPUState *cs, uint8_t
-> *mem_buf, int n)
->          env->fsr =3D tmp;
->          break;
->      case GDB_BTR:
-> -        env->sregs[SR_BTR] =3D tmp;
-> +        env->btr =3D tmp;
->          break;
->      case GDB_PVR0 ... GDB_PVR11:
->          /* PVR12 is intentionally skipped */
-> diff --git a/target/microblaze/helper.c b/target/microblaze/helper.c
-> index ea290be780..b240dc76f6 100644
-> --- a/target/microblaze/helper.c
-> +++ b/target/microblaze/helper.c
-> @@ -132,7 +132,7 @@ void mb_cpu_do_interrupt(CPUState *cs)
->              /* Exception breaks branch + dslot sequence?  */
->              if (env->iflags & D_FLAG) {
->                  env->esr |=3D 1 << 12 ;
-> -                env->sregs[SR_BTR] =3D env->btarget;
-> +                env->btr =3D env->btarget;
->              }
->
->              /* Disable the MMU.  */
-> @@ -160,7 +160,7 @@ void mb_cpu_do_interrupt(CPUState *cs)
->              if (env->iflags & D_FLAG) {
->                  D(qemu_log("D_FLAG set at exception bimm=3D%d\n",
-> env->bimm));
->                  env->esr |=3D 1 << 12 ;
-> -                env->sregs[SR_BTR] =3D env->btarget;
-> +                env->btr =3D env->btarget;
->
->                  /* Reexecute the branch.  */
->                  env->regs[17] -=3D 4;
 > diff --git a/target/microblaze/translate.c b/target/microblaze/translate.=
 c
-> index c58c49ea8f..469e1f103a 100644
+> index 811c92d23b..3b63fd79e5 100644
 > --- a/target/microblaze/translate.c
 > +++ b/target/microblaze/translate.c
-> @@ -1811,7 +1811,7 @@ void mb_cpu_dump_state(CPUState *cs, FILE *f, int
+> @@ -1818,41 +1818,56 @@ void mb_cpu_dump_state(CPUState *cs, FILE *f, int
 > flags)
->                   "rbtr=3D%" PRIx64 "\n",
->                   env->msr, env->esr, env->ear,
->                   env->debug, env->imm, env->iflags, env->fsr,
-> -                 env->sregs[SR_BTR]);
-> +                 env->btr);
->      qemu_fprintf(f, "btaken=3D%d btarget=3D%" PRIx64 " mode=3D%s(saved=
-=3D%s) "
->                   "eip=3D%d ie=3D%d\n",
->                   env->btaken, env->btarget,
-> @@ -1879,8 +1879,10 @@ void mb_tcg_init(void)
->          tcg_global_mem_new_i64(cpu_env, offsetof(CPUMBState, esr),
-> "resr");
->      cpu_SR[SR_FSR] =3D
->          tcg_global_mem_new_i64(cpu_env, offsetof(CPUMBState, fsr),
-> "rfsr");
-> +    cpu_SR[SR_BTR] =3D
-> +        tcg_global_mem_new_i64(cpu_env, offsetof(CPUMBState, btr),
-> "rbtr");
+>  {
+>      MicroBlazeCPU *cpu =3D MICROBLAZE_CPU(cs);
+>      CPUMBState *env =3D &cpu->env;
+> +    uint32_t iflags;
+>      int i;
 >
-> -    for (i =3D SR_FSR + 1; i < ARRAY_SIZE(cpu_SR); i++) {
-> +    for (i =3D SR_BTR + 1; i < ARRAY_SIZE(cpu_SR); i++) {
->          cpu_SR[i] =3D tcg_global_mem_new_i64(cpu_env,
->                            offsetof(CPUMBState, sregs[i]),
->                            special_regnames[i]);
+> -    if (!env) {
+> -        return;
+> -    }
+> -
+> -    qemu_fprintf(f, "IN: PC=3D%x %s\n",
+> -                 env->pc, lookup_symbol(env->pc));
+> -    qemu_fprintf(f, "rmsr=3D%x resr=3D%x rear=3D%" PRIx64 " "
+> -                 "imm=3D%x iflags=3D%x fsr=3D%x rbtr=3D%x\n",
+> -                 env->msr, env->esr, env->ear,
+> -                 env->imm, env->iflags, env->fsr, env->btr);
+> -    qemu_fprintf(f, "btaken=3D%d btarget=3D%x mode=3D%s(saved=3D%s) eip=
+=3D%d
+> ie=3D%d\n",
+> -                 env->btaken, env->btarget,
+> +    qemu_fprintf(f, "pc=3D0x%08x msr=3D0x%05x mode=3D%s(saved=3D%s) eip=
+=3D%d
+> ie=3D%d\n",
+> +                 env->pc, env->msr,
+>                   (env->msr & MSR_UM) ? "user" : "kernel",
+>                   (env->msr & MSR_UMS) ? "user" : "kernel",
+>                   (bool)(env->msr & MSR_EIP),
+>                   (bool)(env->msr & MSR_IE));
+> -    for (i =3D 0; i < 12; i++) {
+> -        qemu_fprintf(f, "rpvr%2.2d=3D%8.8x ", i, env->pvr.regs[i]);
+> -        if ((i + 1) % 4 =3D=3D 0) {
+> -            qemu_fprintf(f, "\n");
+> -        }
+> +
+> +    iflags =3D env->iflags;
+> +    qemu_fprintf(f, "iflags: 0x%08x", iflags);
+> +    if (iflags & IMM_FLAG) {
+> +        qemu_fprintf(f, " IMM(0x%08x)", env->imm);
+> +    }
+> +    if (iflags & BIMM_FLAG) {
+> +        qemu_fprintf(f, " BIMM");
+> +    }
+> +    if (iflags & D_FLAG) {
+> +        qemu_fprintf(f, " D(btaken=3D%d btarget=3D0x%08x)",
+> +                     env->btaken, env->btarget);
+> +    }
+> +    if (iflags & DRTI_FLAG) {
+> +        qemu_fprintf(f, " DRTI");
+> +    }
+> +    if (iflags & DRTE_FLAG) {
+> +        qemu_fprintf(f, " DRTE");
+> +    }
+> +    if (iflags & DRTB_FLAG) {
+> +        qemu_fprintf(f, " DRTB");
+> +    }
+> +    if (iflags & ESR_ESS_FLAG) {
+> +        qemu_fprintf(f, " ESR_ESS(0x%04x)", iflags & ESR_ESS_MASK);
+> +    }
+> +
+> +    qemu_fprintf(f, "\nesr=3D0x%04x fsr=3D0x%02x btr=3D0x%08x edr=3D0x%x=
+\n"
+> +                 "ear=3D0x%016" PRIx64 " slr=3D0x%x shr=3D0x%x\n",
+> +                 env->esr, env->fsr, env->btr, env->edr,
+> +                 env->ear, env->slr, env->shr);
+> +
+> +    for (i =3D 0; i < 12; i++) {
+> +        qemu_fprintf(f, "rpvr%-2d=3D%08x%c",
+> +                     i, env->pvr.regs[i], i % 4 =3D=3D 3 ? '\n' : ' ');
+>      }
+>
+> -    /* Registers that aren't modeled are reported as 0 */
+> -    qemu_fprintf(f, "redr=3D%x rpid=3D0 rzpr=3D0 rtlbx=3D0 rtlbsx=3D0 "
+> -                    "rtlblo=3D0 rtlbhi=3D0\n", env->edr);
+> -    qemu_fprintf(f, "slr=3D%x shr=3D%x\n", env->slr, env->shr);
+>      for (i =3D 0; i < 32; i++) {
+> -        qemu_fprintf(f, "r%2.2d=3D%8.8x ", i, env->regs[i]);
+> -        if ((i + 1) % 4 =3D=3D 0)
+> -            qemu_fprintf(f, "\n");
+> -        }
+> -    qemu_fprintf(f, "\n\n");
+> +        qemu_fprintf(f, "r%2.2d=3D%08x%c",
+> +                     i, env->regs[i], i % 4 =3D=3D 3 ? '\n' : ' ');
+> +    }
+> +    qemu_fprintf(f, "\n");
+>  }
+>
+>  void mb_tcg_init(void)
 > --
 > 2.25.1
 >
 >
 >
 
---0000000000009f0fe805ae32f775
+--000000000000dbe80d05ae32f84d
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Le ven. 28 ao=C3=BBt 2020 16:26, Richard Henderson &lt=
-;<a href=3D"mailto:richard.henderson@linaro.org">richard.henderson@linaro.o=
-rg</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Cont=
-inue eliminating the sregs array in favor of individual members.<br>
-Does not correct the width of BTR, yet.<br>
+<div dir=3D"auto"><div>Hi Richard,=C2=A0<br><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Le ven. 28 ao=C3=BBt 2020 16:46, Rich=
+ard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.h=
+enderson@linaro.org</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex">Using lookup_symbol is quite slow; remove that.=C2=A0 Decode =
+the<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"aut=
+o">Can we add some runtime option to enable its use instead?</div><div dir=
+=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
+id;padding-left:1ex">
+various bits of iflags; only show imm, btaken, btarget when<br>
+they are relevant to iflags.=C2=A0 Improve formatting.<br>
 <br>
 Signed-off-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@li=
 naro.org" target=3D"_blank" rel=3D"noreferrer">richard.henderson@linaro.org=
-</a>&gt;<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=
-=3D"auto"><span style=3D"font-family:sans-serif;font-size:13.696px">Reviewe=
-d-by: Philippe Mathieu-Daud=C3=A9 &lt;</span><a href=3D"mailto:f4bug@amsat.=
-org" style=3D"text-decoration:none;color:rgb(66,133,244);font-family:sans-s=
-erif;font-size:13.696px">f4bug@amsat.org</a><span style=3D"font-family:sans=
--serif;font-size:13.696px">&gt;</span><br></div><div dir=3D"auto"><br></div=
-><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
-">
+</a>&gt;<br>
 ---<br>
-=C2=A0target/microblaze/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0| 1 +<br>
-=C2=A0target/microblaze/gdbstub.c=C2=A0 =C2=A0| 4 ++--<br>
-=C2=A0target/microblaze/helper.c=C2=A0 =C2=A0 | 4 ++--<br>
-=C2=A0target/microblaze/translate.c | 6 ++++--<br>
-=C2=A04 files changed, 9 insertions(+), 6 deletions(-)<br>
+=C2=A0target/microblaze/translate.c | 67 +++++++++++++++++++++-------------=
+-<br>
+=C2=A01 file changed, 41 insertions(+), 26 deletions(-)<br>
 <br>
-diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h<br>
-index bcafef99b0..deddb47abb 100644<br>
---- a/target/microblaze/cpu.h<br>
-+++ b/target/microblaze/cpu.h<br>
-@@ -241,6 +241,7 @@ struct CPUMBState {<br>
-=C2=A0 =C2=A0 =C2=A0uint64_t ear;<br>
-=C2=A0 =C2=A0 =C2=A0uint64_t esr;<br>
-=C2=A0 =C2=A0 =C2=A0uint64_t fsr;<br>
-+=C2=A0 =C2=A0 uint64_t btr;<br>
-=C2=A0 =C2=A0 =C2=A0uint64_t sregs[14];<br>
-=C2=A0 =C2=A0 =C2=A0float_status fp_status;<br>
-=C2=A0 =C2=A0 =C2=A0/* Stack protectors. Yes, it&#39;s a hw feature.=C2=A0 =
-*/<br>
-diff --git a/target/microblaze/gdbstub.c b/target/microblaze/gdbstub.c<br>
-index 2634ce49fc..cde8c169bf 100644<br>
---- a/target/microblaze/gdbstub.c<br>
-+++ b/target/microblaze/gdbstub.c<br>
-@@ -74,7 +74,7 @@ int mb_cpu_gdb_read_register(CPUState *cs, GByteArray *me=
-m_buf, int n)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0val =3D env-&gt;fsr;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-=C2=A0 =C2=A0 =C2=A0case GDB_BTR:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 val =3D env-&gt;sregs[SR_BTR];<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 val =3D env-&gt;btr;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-=C2=A0 =C2=A0 =C2=A0case GDB_PVR0 ... GDB_PVR11:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* PVR12 is intentionally skipped */<br>
-@@ -130,7 +130,7 @@ int mb_cpu_gdb_write_register(CPUState *cs, uint8_t *me=
-m_buf, int n)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0env-&gt;fsr =3D tmp;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-=C2=A0 =C2=A0 =C2=A0case GDB_BTR:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;sregs[SR_BTR] =3D tmp;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;btr =3D tmp;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-=C2=A0 =C2=A0 =C2=A0case GDB_PVR0 ... GDB_PVR11:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* PVR12 is intentionally skipped */<br>
-diff --git a/target/microblaze/helper.c b/target/microblaze/helper.c<br>
-index ea290be780..b240dc76f6 100644<br>
---- a/target/microblaze/helper.c<br>
-+++ b/target/microblaze/helper.c<br>
-@@ -132,7 +132,7 @@ void mb_cpu_do_interrupt(CPUState *cs)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Exception breaks branch =
-+ dslot sequence?=C2=A0 */<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (env-&gt;iflags &amp; D_=
-FLAG) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0env-&gt;esr |=
-=3D 1 &lt;&lt; 12 ;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;sregs[SR_B=
-TR] =3D env-&gt;btarget;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;btr =3D en=
-v-&gt;btarget;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Disable the MMU.=C2=A0 *=
-/<br>
-@@ -160,7 +160,7 @@ void mb_cpu_do_interrupt(CPUState *cs)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (env-&gt;iflags &amp; D_=
-FLAG) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0D(qemu_log(&q=
-uot;D_FLAG set at exception bimm=3D%d\n&quot;, env-&gt;bimm));<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0env-&gt;esr |=
-=3D 1 &lt;&lt; 12 ;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;sregs[SR_B=
-TR] =3D env-&gt;btarget;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;btr =3D en=
-v-&gt;btarget;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Reexecute =
-the branch.=C2=A0 */<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0env-&gt;regs[=
-17] -=3D 4;<br>
 diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c<=
 br>
-index c58c49ea8f..469e1f103a 100644<br>
+index 811c92d23b..3b63fd79e5 100644<br>
 --- a/target/microblaze/translate.c<br>
 +++ b/target/microblaze/translate.c<br>
-@@ -1811,7 +1811,7 @@ void mb_cpu_dump_state(CPUState *cs, FILE *f, int fla=
-gs)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;rbtr=
-=3D%&quot; PRIx64 &quot;\n&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;msr,=
- env-&gt;esr, env-&gt;ear,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;debu=
-g, env-&gt;imm, env-&gt;iflags, env-&gt;fsr,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0env-&gt;sreg=
-s[SR_BTR]);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0env-&gt;btr)=
-;<br>
-=C2=A0 =C2=A0 =C2=A0qemu_fprintf(f, &quot;btaken=3D%d btarget=3D%&quot; PRI=
-x64 &quot; mode=3D%s(saved=3D%s) &quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;eip=3D=
-%d ie=3D%d\n&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;btak=
-en, env-&gt;btarget,<br>
-@@ -1879,8 +1879,10 @@ void mb_tcg_init(void)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcg_global_mem_new_i64(cpu_env, offsetof(=
-CPUMBState, esr), &quot;resr&quot;);<br>
-=C2=A0 =C2=A0 =C2=A0cpu_SR[SR_FSR] =3D<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcg_global_mem_new_i64(cpu_env, offsetof(=
-CPUMBState, fsr), &quot;rfsr&quot;);<br>
-+=C2=A0 =C2=A0 cpu_SR[SR_BTR] =3D<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_global_mem_new_i64(cpu_env, offsetof(CPUMB=
-State, btr), &quot;rbtr&quot;);<br>
+@@ -1818,41 +1818,56 @@ void mb_cpu_dump_state(CPUState *cs, FILE *f, int f=
+lags)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0MicroBlazeCPU *cpu =3D MICROBLAZE_CPU(cs);<br>
+=C2=A0 =C2=A0 =C2=A0CPUMBState *env =3D &amp;cpu-&gt;env;<br>
++=C2=A0 =C2=A0 uint32_t iflags;<br>
+=C2=A0 =C2=A0 =C2=A0int i;<br>
 <br>
--=C2=A0 =C2=A0 for (i =3D SR_FSR + 1; i &lt; ARRAY_SIZE(cpu_SR); i++) {<br>
-+=C2=A0 =C2=A0 for (i =3D SR_BTR + 1; i &lt; ARRAY_SIZE(cpu_SR); i++) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cpu_SR[i] =3D tcg_global_mem_new_i64(cpu_=
-env,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0offsetof(CPUMBState, sregs[i]),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0special_regnames[i]);<br>
+-=C2=A0 =C2=A0 if (!env) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+-=C2=A0 =C2=A0 }<br>
+-<br>
+-=C2=A0 =C2=A0 qemu_fprintf(f, &quot;IN: PC=3D%x %s\n&quot;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0env-&gt;pc, =
+lookup_symbol(env-&gt;pc));<br>
+-=C2=A0 =C2=A0 qemu_fprintf(f, &quot;rmsr=3D%x resr=3D%x rear=3D%&quot; PRI=
+x64 &quot; &quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;imm=3D=
+%x iflags=3D%x fsr=3D%x rbtr=3D%x\n&quot;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0env-&gt;msr,=
+ env-&gt;esr, env-&gt;ear,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0env-&gt;imm,=
+ env-&gt;iflags, env-&gt;fsr, env-&gt;btr);<br>
+-=C2=A0 =C2=A0 qemu_fprintf(f, &quot;btaken=3D%d btarget=3D%x mode=3D%s(sav=
+ed=3D%s) eip=3D%d ie=3D%d\n&quot;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0env-&gt;btak=
+en, env-&gt;btarget,<br>
++=C2=A0 =C2=A0 qemu_fprintf(f, &quot;pc=3D0x%08x msr=3D0x%05x mode=3D%s(sav=
+ed=3D%s) eip=3D%d ie=3D%d\n&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0env-&gt;pc, =
+env-&gt;msr,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (env-&gt;msr=
+ &amp; MSR_UM) ? &quot;user&quot; : &quot;kernel&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (env-&gt;msr=
+ &amp; MSR_UMS) ? &quot;user&quot; : &quot;kernel&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (bool)(env-&=
+gt;msr &amp; MSR_EIP),<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (bool)(env-&=
+gt;msr &amp; MSR_IE));<br>
+-=C2=A0 =C2=A0 for (i =3D 0; i &lt; 12; i++) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_fprintf(f, &quot;rpvr%2.2d=3D%8.8x &quot;=
+, i, env-&gt;pvr.regs[i]);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if ((i + 1) % 4 =3D=3D 0) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_fprintf(f, &quot;\n&quot;);=
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 iflags =3D env-&gt;iflags;<br>
++=C2=A0 =C2=A0 qemu_fprintf(f, &quot;iflags: 0x%08x&quot;, iflags);<br>
++=C2=A0 =C2=A0 if (iflags &amp; IMM_FLAG) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_fprintf(f, &quot; IMM(0x%08x)&quot;, env-=
+&gt;imm);<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 if (iflags &amp; BIMM_FLAG) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_fprintf(f, &quot; BIMM&quot;);<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 if (iflags &amp; D_FLAG) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_fprintf(f, &quot; D(btaken=3D%d btarget=
+=3D0x%08x)&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0env-&gt;btaken, env-&gt;btarget);<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 if (iflags &amp; DRTI_FLAG) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_fprintf(f, &quot; DRTI&quot;);<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 if (iflags &amp; DRTE_FLAG) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_fprintf(f, &quot; DRTE&quot;);<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 if (iflags &amp; DRTB_FLAG) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_fprintf(f, &quot; DRTB&quot;);<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 if (iflags &amp; ESR_ESS_FLAG) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_fprintf(f, &quot; ESR_ESS(0x%04x)&quot;, =
+iflags &amp; ESR_ESS_MASK);<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 qemu_fprintf(f, &quot;\nesr=3D0x%04x fsr=3D0x%02x btr=3D0x%0=
+8x edr=3D0x%x\n&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;ear=3D=
+0x%016&quot; PRIx64 &quot; slr=3D0x%x shr=3D0x%x\n&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0env-&gt;esr,=
+ env-&gt;fsr, env-&gt;btr, env-&gt;edr,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0env-&gt;ear,=
+ env-&gt;slr, env-&gt;shr);<br>
++<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; 12; i++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_fprintf(f, &quot;rpvr%-2d=3D%08x%c&quot;,=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0i, env-&gt;pvr.regs[i], i % 4 =3D=3D 3 ? &#39;\n&#39; : &#39; &#39;);<br=
+>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+-=C2=A0 =C2=A0 /* Registers that aren&#39;t modeled are reported as 0 */<br=
+>
+-=C2=A0 =C2=A0 qemu_fprintf(f, &quot;redr=3D%x rpid=3D0 rzpr=3D0 rtlbx=3D0 =
+rtlbsx=3D0 &quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quo=
+t;rtlblo=3D0 rtlbhi=3D0\n&quot;, env-&gt;edr);<br>
+-=C2=A0 =C2=A0 qemu_fprintf(f, &quot;slr=3D%x shr=3D%x\n&quot;, env-&gt;slr=
+, env-&gt;shr);<br>
+=C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; 32; i++) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_fprintf(f, &quot;r%2.2d=3D%8.8x &quot;, i=
+, env-&gt;regs[i]);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if ((i + 1) % 4 =3D=3D 0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_fprintf(f, &quot;\n&quot;);=
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 qemu_fprintf(f, &quot;\n\n&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_fprintf(f, &quot;r%2.2d=3D%08x%c&quot;,<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0i, env-&gt;regs[i], i % 4 =3D=3D 3 ? &#39;\n&#39; : &#39; &#39;);<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 qemu_fprintf(f, &quot;\n&quot;);<br>
+=C2=A0}<br>
+<br>
+=C2=A0void mb_tcg_init(void)<br>
 -- <br>
 2.25.1<br>
 <br>
 <br>
 </blockquote></div></div></div>
 
---0000000000009f0fe805ae32f775--
+--000000000000dbe80d05ae32f84d--
 
