@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 357A7257813
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 13:17:21 +0200 (CEST)
-Received: from localhost ([::1]:40794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6367F25783B
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 13:24:12 +0200 (CEST)
+Received: from localhost ([::1]:47864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kChoO-0003bJ-9n
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 07:17:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50332)
+	id 1kChv1-0006pc-G9
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 07:24:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kChnf-0003Bq-IL
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 07:16:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44539)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kChuN-0006Om-Jp
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 07:23:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56850)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kChnd-0001mJ-Tz
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 07:16:35 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kChuM-0002jl-5y
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 07:23:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598872592;
+ s=mimecast20190719; t=1598873009;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=REddvQ3Eb7LDETn3pP4UgByz3BIxQ5MHAfLon7fhQSs=;
- b=cwvPeMW8k3HLy73xq/g+Cn+o4wnsfwfwIk9n4TxXswWlqk0LpT40Z95pMtLTjutZslVpFG
- nbNy1OzI8k5PZYPJ0nD5jM4D8ZQ8dVuTXbUitAuWkP7PCwZX75KDk9mGyClaLpIdiuc0bp
- f8uO3hxAeyocaWZ5ttGdYrY+8vQ6VFg=
+ bh=QUnV2kEC8ebPCiwGi0p9JRUuse8JSUOMISydRCsIIM4=;
+ b=DwV0PAkKhib3KRYxJQEZhCPMCDuXhMSFXCrWe6X0QVRmIzluhSeMnttuGMYXBcVm7JYoOn
+ jRQo+S72vDlo6VmDM4hZHWMohaZoPn7tku3X7GR+qVutVxd9Fkht6hjvo6/0/aIG53wS2z
+ 2hGWhSLzB/Qwbj+4CO+3DMUH3nnKc3w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-416-ATEcJVciO1aK5W79cKpWQQ-1; Mon, 31 Aug 2020 07:16:31 -0400
-X-MC-Unique: ATEcJVciO1aK5W79cKpWQQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-506-NexDDuO4P4yoQoZzT1p2qw-1; Mon, 31 Aug 2020 07:23:25 -0400
+X-MC-Unique: NexDDuO4P4yoQoZzT1p2qw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3EDD2801AE2;
- Mon, 31 Aug 2020 11:16:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1FD710ABDA0;
+ Mon, 31 Aug 2020 11:23:23 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-54.ams2.redhat.com
  [10.36.112.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D17E95D98F;
- Mon, 31 Aug 2020 11:16:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A4AF47EB7B;
+ Mon, 31 Aug 2020 11:23:23 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id E29CCED9; Mon, 31 Aug 2020 13:16:25 +0200 (CEST)
-Date: Mon, 31 Aug 2020 13:16:25 +0200
+ id D7D7FED9; Mon, 31 Aug 2020 13:23:22 +0200 (CEST)
+Date: Mon, 31 Aug 2020 13:23:22 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
-To: Li Zhijian <lizhijian@cn.fujitsu.com>
-Subject: Re: [PATCH v3] virtio-gpu: fix unmap the already mapped items
-Message-ID: <20200831111625.g5zeygolr4f45zo6@sirius.home.kraxel.org>
-References: <20200827035855.24354-1-lizhijian@cn.fujitsu.com>
+To: Li Qiang <liq3ea@gmail.com>
+Subject: Re: [PATCH] cirrus: handle wraparound in cirrus_invalidate_region
+Message-ID: <20200831112322.rkzv6acsw7iza6w7@sirius.home.kraxel.org>
+References: <20200821082622.7169-1-kraxel@redhat.com>
+ <CAKXe6SKZuuCnzAF2uwHO=sh=o2XdAU1+dG6OO-eLYnubX9KikA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200827035855.24354-1-lizhijian@cn.fujitsu.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <CAKXe6SKZuuCnzAF2uwHO=sh=o2XdAU1+dG6OO-eLYnubX9KikA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -80,20 +81,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Li Qiang <liq3ea@gmail.com>, qemu-devel@nongnu.org, mst@redhat.com
+Cc: Alexander Bulekov <alxndr@bu.edu>, Li Qiang <liq3ea@163.com>,
+ Qemu Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 27, 2020 at 11:58:55AM +0800, Li Zhijian wrote:
-> we go here either (!(*iov)[i].iov_base) or (len != l), so we need to consider
-> to unmap the 'i'th item as well when the 'i'th item is not nil
+> >      for (y = 0; y < lines; y++) {
+> > -        off_cur = off_begin;
+> > +        off_cur = off_begin & s->cirrus_addr_mask;
+> >          off_cur_end = ((off_cur + bytesperline - 1) & s->cirrus_addr_mask) + 1;
+> > -        assert(off_cur_end >= off_cur);
+> > -        memory_region_set_dirty(&s->vga.vram, off_cur, off_cur_end - off_cur);
+> > +        if (off_cur_end >= off_cur) {
+> > +            memory_region_set_dirty(&s->vga.vram, off_cur, off_cur_end - off_cur);
+> > +        } else {
+> > +            /* wraparound */
+> > +            memory_region_set_dirty(&s->vga.vram, off_cur, s->cirrus_addr_mask - off_cur);
 > 
-> CC: Li Qiang <liq3ea@gmail.com>
-> Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
+> Should here be 's->cirrus_addr_mask + 1 - off_cur'
 
-Added to vga queue.
+Yes (mask != size).
 
-thanks,
+> > +            memory_region_set_dirty(&s->vga.vram, 0, off_cur_end);
+> 
+> And here be 'off_cur_end -1'
+
+--verbose please.  I think this one is correct.
+
+take care,
   Gerd
 
 
