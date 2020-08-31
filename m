@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E31DC2583A2
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 23:35:30 +0200 (CEST)
-Received: from localhost ([::1]:41698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32C36258396
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 23:31:52 +0200 (CEST)
+Received: from localhost ([::1]:55340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCrSb-0001Qq-Uf
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 17:35:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47372)
+	id 1kCrP5-0003kv-4n
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 17:31:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kCrCw-0003KM-HL
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:19:18 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:37523)
+ id 1kCrD6-0003Xi-Vm
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:19:29 -0400
+Received: from mail-qk1-f195.google.com ([209.85.222.195]:44291)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kCrCu-0001Vt-VM
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:19:18 -0400
-Received: by mail-qt1-f195.google.com with SMTP id d27so5894873qtg.4
- for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 14:19:16 -0700 (PDT)
+ id 1kCrD5-0001Wr-9z
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:19:28 -0400
+Received: by mail-qk1-f195.google.com with SMTP id p185so7555255qkb.11
+ for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 14:19:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=PXHuyGMFN8Fp0t7Q1JaJVdLkVmSaGYKuDGs7sODlsMo=;
- b=nQObQmpOzbACA3QpaDzJeqak79fj2KeULY7XvuG3Vrxne+S9K2XfhqPWX0rg25CeDS
- pAhN5NJNZtBLW2BBgvNrIxALWOXaHAcY6XqIWYsp3NsiyFQLCt1cUkz1+hVMyKY1Avtx
- S0kS5ytcPB0pynt1hCru8srtTYr3J/ZOZ0pTh5uiv+Zh534hWVsghRoDpyOKItKGtJyf
- N9usvJ6qM3XIw9LdgyDv59tNOV8ur9DsKkN9pubGVQGwJvwjV/nNm6R9eDXAOu2xn4nq
- 7qiLzPUkDwlwDiskTTrIsAT4zl1o6/9/iLALoURdaMmNgjMGtaQPbM8ECgaZ/H2mrVAI
- SuQA==
-X-Gm-Message-State: AOAM533010Ti95rlCn4THh2ZNFxbDpunIfIvOFo2nNhor/fg1XQtnrQ6
- MjK7EbMHclgd2ptQ8cYxxm6Eo8Yszbt0ddS9uw6VEtUs
-X-Google-Smtp-Source: ABdhPJwQqJHSrMYUlqw//cPzyf4WFiBR1s7TCmDK3v202z9wo//GDvqDGeBJaLNvnjQNJC9pnn7bucJvG0cLzuHmfrs=
-X-Received: by 2002:aed:21a6:: with SMTP id l35mr3334674qtc.178.1598908756251; 
- Mon, 31 Aug 2020 14:19:16 -0700 (PDT)
+ bh=qKvgrwAbuO+EyqOMVk4tOCuKYE/8HRYizGKnvI8gtCM=;
+ b=lk0u8pDcaF2T++HJseWKl9F/3q+f0jm7TuE4mlhXelNFK1FCWYIFgytKVr3LVKIGcF
+ B70yb+xXl54iLTPdchsIXLP8ltl4i4MQxp61iAaXrNIvHYBpe8j1l+/bviwNqex0TU1O
+ KAwZThpTQjKMngBdpqjDL5zzXfxGMIOOEzOQVQl4GJdEkniGr3TjrUDewuZBuhip2Enn
+ IJYFgzvcEbVt+yxuPK0lQ/qUxX5ViZ/9i6LDbFNpKi7zxCZHK2s8qUMp/8TCF0N7lteu
+ Y1wCXpgyXSFX9LEGbz3iRSJVO0V4M3CWdDqT33460QyluFnp6UK8dX6kcF8IbrKkZfaL
+ Q4Fg==
+X-Gm-Message-State: AOAM533JffdQtZBQyBl1hsL4HesQ8U1dT+8YBsufV6kCz/sQ2NuDsnOd
+ YpEshnirOfDoKPDtN8ox+FTyC3ydQBprpok5/Ys=
+X-Google-Smtp-Source: ABdhPJyt+0wQbWWjf/P1vhNjOxCzdMcjATXT2pFJP1nflQsBNs1CRUSfPe8Um05NTNx7uVhg8otOS/J3KaG6nrXqC90=
+X-Received: by 2002:ae9:f101:: with SMTP id k1mr3391904qkg.122.1598908766220; 
+ Mon, 31 Aug 2020 14:19:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200827173051.31050-1-sw@weilnetz.de>
-In-Reply-To: <20200827173051.31050-1-sw@weilnetz.de>
+References: <20200827113259.25064-1-peter.maydell@linaro.org>
+ <AC5F071F-2965-4401-858C-2E4373C052E4@walle.cc>
+In-Reply-To: <AC5F071F-2965-4401-858C-2E4373C052E4@walle.cc>
 From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Mon, 31 Aug 2020 22:01:07 +0200
-Message-ID: <CAAdtpL508gaCmuencEu31H0bcQorUhywUXGkD-3ZukafjsdLzw@mail.gmail.com>
-Subject: Re: [PATCH] docs/system: Fix grammar in documentation
-To: Stefan Weil <sw@weilnetz.de>
-Content-Type: multipart/alternative; boundary="00000000000071d72b05ae32f44d"
-Received-SPF: pass client-ip=209.85.160.195;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-qt1-f195.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 17:15:50
+Date: Mon, 31 Aug 2020 22:08:57 +0200
+Message-ID: <CAAdtpL4mVd9qB3y1i0TJpQWi+0hyONckNj47cDho_Q5tD81Nkw@mail.gmail.com>
+Subject: Re: [PATCH] Deprecate lm32 port
+To: Michael Walle <michael@walle.cc>
+Content-Type: multipart/alternative; boundary="00000000000009f67505ae32f533"
+Received-SPF: pass client-ip=209.85.222.195;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-qk1-f195.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 17:16:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -15
 X-Spam_score: -1.6
 X-Spam_bar: -
 X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
  FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,116 +70,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000071d72b05ae32f44d
+--00000000000009f67505ae32f533
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Le jeu. 27 ao=C3=BBt 2020 19:31, Stefan Weil <sw@weilnetz.de> a =C3=A9crit =
-:
+Le jeu. 27 ao=C3=BBt 2020 14:07, Michael Walle <michael@walle.cc> a =C3=A9c=
+rit :
 
-> Signed-off-by: Stefan Weil <sw@weilnetz.de>
+> Am 27. August 2020 13:32:59 MESZ schrieb Peter Maydell <
+> peter.maydell@linaro.org>:
+> >Deprecate our lm32 target support. Michael Walle (former lm32
+> >maintainer)
+> >suggested that we do this in 2019:
+> > https://www.mail-archive.com/qemu-devel@nongnu.org/msg605024.html
+> >because the only public user of the architecture is the many-years-dead
+> >milkymist project. (The Linux port to lm32 was never merged upstream.)
+> >
+> >In commit 4b4d96c776f552e (March 2020) we marked it as 'orphan' in
+> >the MAINTAINERS file, but didn't officially deprecate it. Mark it
+> >deprecated now, with the intention of removing it from QEMU in
+> >mid-2021 before the 6.1 release.
+> >
+> >Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 >
+> Acked-by: Michael Walle <michael@walle.cc>
+>
+
+Thanks Michael for your contributions. I could learn few things looking at
+the code and the git history.
 
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
----
->  docs/system/build-platforms.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/docs/system/build-platforms.rst
-> b/docs/system/build-platforms.rst
-> index c2b92a9698..9734eba2f1 100644
-> --- a/docs/system/build-platforms.rst
-> +++ b/docs/system/build-platforms.rst
-> @@ -57,12 +57,12 @@ macOS
->  -----
->
->  The project supports building with the two most recent versions of
-> -macOS, with the current homebrew package set available.
-> +macOS, with the current Homebrew package set available.
->
->  FreeBSD
->  -------
->
-> -The project aims to support the all the versions which are not end of
-> +The project aims to support all versions which are not end of
->  life.
->
->  NetBSD
-> @@ -75,5 +75,5 @@ new major version is released.
->  OpenBSD
->  -------
->
-> -The project aims to support the all the versions which are not end of
-> +The project aims to support all versions which are not end of
->  life.
-> --
-> 2.28.0
+
+> Thanks,
+> -michael
 >
 >
 >
 
---00000000000071d72b05ae32f44d
+--00000000000009f67505ae32f533
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Le jeu. 27 ao=C3=BBt 2020 19:31, Stefan Weil &lt;<a hr=
-ef=3D"mailto:sw@weilnetz.de">sw@weilnetz.de</a>&gt; a =C3=A9crit=C2=A0:<br>=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
-eft:1px #ccc solid;padding-left:1ex">Signed-off-by: Stefan Weil &lt;<a href=
-=3D"mailto:sw@weilnetz.de" target=3D"_blank" rel=3D"noreferrer">sw@weilnetz=
-.de</a>&gt;<br></blockquote></div></div><div dir=3D"auto"><br></div><div di=
-r=3D"auto"><span style=3D"font-family:sans-serif;font-size:13.696px">Review=
-ed-by: Philippe Mathieu-Daud=C3=A9 &lt;</span><a href=3D"mailto:f4bug@amsat=
-.org" style=3D"text-decoration:none;color:rgb(66,133,244);font-family:sans-=
-serif;font-size:13.696px">f4bug@amsat.org</a><span style=3D"font-family:san=
-s-serif;font-size:13.696px">&gt;</span><br></div><div dir=3D"auto"><br></di=
-v><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1e=
-x">
----<br>
-=C2=A0docs/system/build-platforms.rst | 6 +++---<br>
-=C2=A01 file changed, 3 insertions(+), 3 deletions(-)<br>
+<div dir=3D"auto"><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
+s=3D"gmail_attr">Le jeu. 27 ao=C3=BBt 2020 14:07, Michael Walle &lt;michael=
+@walle.cc&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">A=
+m 27. August 2020 13:32:59 MESZ schrieb Peter Maydell &lt;<a href=3D"mailto=
+:peter.maydell@linaro.org" target=3D"_blank" rel=3D"noreferrer">peter.mayde=
+ll@linaro.org</a>&gt;:<br>
+&gt;Deprecate our lm32 target support. Michael Walle (former lm32<br>
+&gt;maintainer)<br>
+&gt;suggested that we do this in 2019:<br>
+&gt; <a href=3D"https://www.mail-archive.com/qemu-devel@nongnu.org/msg60502=
+4.html" rel=3D"noreferrer noreferrer" target=3D"_blank">https://www.mail-ar=
+chive.com/qemu-devel@nongnu.org/msg605024.html</a><br>
+&gt;because the only public user of the architecture is the many-years-dead=
 <br>
-diff --git a/docs/system/build-platforms.rst b/docs/system/build-platforms.=
-rst<br>
-index c2b92a9698..9734eba2f1 100644<br>
---- a/docs/system/build-platforms.rst<br>
-+++ b/docs/system/build-platforms.rst<br>
-@@ -57,12 +57,12 @@ macOS<br>
-=C2=A0-----<br>
+&gt;milkymist project. (The Linux port to lm32 was never merged upstream.)<=
+br>
+&gt;<br>
+&gt;In commit 4b4d96c776f552e (March 2020) we marked it as &#39;orphan&#39;=
+ in<br>
+&gt;the MAINTAINERS file, but didn&#39;t officially deprecate it. Mark it<b=
+r>
+&gt;deprecated now, with the intention of removing it from QEMU in<br>
+&gt;mid-2021 before the 6.1 release.<br>
+&gt;<br>
+&gt;Signed-off-by: Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro=
+.org" target=3D"_blank" rel=3D"noreferrer">peter.maydell@linaro.org</a>&gt;=
 <br>
-=C2=A0The project supports building with the two most recent versions of<br=
->
--macOS, with the current homebrew package set available.<br>
-+macOS, with the current Homebrew package set available.<br>
 <br>
-=C2=A0FreeBSD<br>
-=C2=A0-------<br>
+Acked-by: Michael Walle &lt;michael@walle.cc&gt;<br></blockquote></div></di=
+v><div dir=3D"auto"><br></div><div dir=3D"auto">Thanks Michael for your con=
+tributions. I could learn few things looking at the code and the git histor=
+y.</div><div dir=3D"auto"><br></div><div dir=3D"auto"><span style=3D"font-f=
+amily:sans-serif;font-size:13.696px">Reviewed-by: Philippe Mathieu-Daud=C3=
+=A9 &lt;</span><a href=3D"mailto:f4bug@amsat.org" style=3D"text-decoration:=
+none;color:rgb(66,133,244);font-family:sans-serif;font-size:13.696px">f4bug=
+@amsat.org</a><span style=3D"font-family:sans-serif;font-size:13.696px">&gt=
+;</span><br></div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=
+=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex">
 <br>
--The project aims to support the all the versions which are not end of<br>
-+The project aims to support all versions which are not end of<br>
-=C2=A0life.<br>
-<br>
-=C2=A0NetBSD<br>
-@@ -75,5 +75,5 @@ new major version is released.<br>
-=C2=A0OpenBSD<br>
-=C2=A0-------<br>
-<br>
--The project aims to support the all the versions which are not end of<br>
-+The project aims to support all versions which are not end of<br>
-=C2=A0life.<br>
--- <br>
-2.28.0<br>
+Thanks, <br>
+-michael <br>
 <br>
 <br>
 </blockquote></div></div></div>
 
---00000000000071d72b05ae32f44d--
+--00000000000009f67505ae32f533--
 
