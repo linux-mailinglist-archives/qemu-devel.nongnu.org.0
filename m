@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED1A7258362
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 23:19:06 +0200 (CEST)
-Received: from localhost ([::1]:41736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EA5125836E
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 23:22:53 +0200 (CEST)
+Received: from localhost ([::1]:51684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCrCk-00027u-0k
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 17:19:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46568)
+	id 1kCrGO-0006Y3-4T
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 17:22:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kCr9X-0007D1-TB
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:15:47 -0400
-Received: from mail-ej1-f65.google.com ([209.85.218.65]:34353)
+ id 1kCr9c-0007Ni-ND
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:15:52 -0400
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:35298)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kCr9W-00017k-7z
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:15:47 -0400
-Received: by mail-ej1-f65.google.com with SMTP id d26so10445812ejr.1
- for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 14:15:45 -0700 (PDT)
+ id 1kCr9a-000192-VI
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:15:52 -0400
+Received: by mail-qt1-f194.google.com with SMTP id p65so5889712qtd.2
+ for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 14:15:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=pH4AN0J1S8rxUY7tvtPyaKEI4oM9DyYokKXvKdxRSLo=;
- b=P1Cj6CHINBenQCuAO+yFpeQKilv5ZvMAuqeCb+9vaWH0L7rYdkdbHZyr6oo82FFJVn
- nND7uIPQbWpYTdx657IugsxibOFygJSzueQVR1pSztLOLwc7MrIv7C8ZrdbWwxsoFzKE
- VbCA/qoqM2XQ67bufgmxjstDc+gnv+VPZcHRSLu8+Y+WgSPmELgX+lq7cm/08RpBXeBZ
- s3zzrCN7Qck65m33Oetb3SHihsRdsJ9e78guLgUqIIGl6GQUp/wvGqgd9L8GILEi0Eya
- DmXgRkFS9m434g5xd3k/1TB/0L3w73fdfenEHXCJPZWwFe01sV/R9al1qdu4u3ijxddq
- NSWg==
-X-Gm-Message-State: AOAM533/TJ7Mc+7gKxnX9AnKku5th20RQULiZ2f63VLhQ1c7INV/d6Is
- 9LNSO0E/jWn91A2O6wjjvBtMz9eTDLnE8qi033M=
-X-Google-Smtp-Source: ABdhPJxd94qNtlZM2xg6CGYJw+JaWr6DhybmdhMnI86xN1t+RoedsppLA6GHb5MRaxYictD1VRsZlTl2Evrcit6ZNlg=
-X-Received: by 2002:a17:906:24d2:: with SMTP id
- f18mr191055ejb.510.1598908544361; 
- Mon, 31 Aug 2020 14:15:44 -0700 (PDT)
+ bh=xWyvVdZky9Qv2jjfumWc2Uyaq0fWEqGgZVNopR5iiHs=;
+ b=oSX2ElvXUrn2Bi9lc7zfO6v29YYQnWHumVINljO2L7CJomZI2xNow6Tjuo25dIH/s9
+ yzFu2W3gj0qpOPzIg7K4KlRjYEthEmtbeu6NesLQ3ZLPlBz2Mdg6x/Ley29yy4qCgYR0
+ IH/KLsQhGX+V6maT2mhZFcp7tCMeePJS1mq5WV3kG9ucQNM1qiRIM4lv8IIiG7qi7Y9i
+ PSW0AJMtSwMj2kHptqB6+DRl47Omo/8nCuYxMPNmyrNtoScmdGgRgRDcVkB41+vGlzDz
+ KpUBYRjeZp04dQWxT7Zbqm3FLJEW80NNmqVAhA0azzB7NkXQ5OJrdD9gv5sU3pObiQwE
+ qH2g==
+X-Gm-Message-State: AOAM5313gdmvAhwiYpmX3IDhtu5WFWhkH7jRH/ZlBZeGAeRiTjq8Om2k
+ HBLYf0CLOKkW4d9ZG5vo7kZmIl94b9BIB6ombBY=
+X-Google-Smtp-Source: ABdhPJzp/mATFfSUNpbp8Lq6WoiQdMTVs3LDYbmcCszjka8/zii7yH7WsBlhGVqLkHKlj/FY8Vhd2K21Kid0FpoGyek=
+X-Received: by 2002:ac8:660f:: with SMTP id c15mr3340119qtp.34.1598908549971; 
+ Mon, 31 Aug 2020 14:15:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200828180243.443016-1-richard.henderson@linaro.org>
- <20200828180243.443016-3-richard.henderson@linaro.org>
-In-Reply-To: <20200828180243.443016-3-richard.henderson@linaro.org>
+References: <20200828141929.77854-1-richard.henderson@linaro.org>
+ <20200828141929.77854-4-richard.henderson@linaro.org>
+In-Reply-To: <20200828141929.77854-4-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Mon, 31 Aug 2020 19:18:26 +0200
-Message-ID: <CAAdtpL4dG6PeuOconfpnzSjq3u+s2H8ODTEny5viB4RULxi=4g@mail.gmail.com>
-Subject: Re: [PATCH 2/3] tcg: Eliminate one store for in-place 128-bit dup_mem
+Date: Mon, 31 Aug 2020 19:30:28 +0200
+Message-ID: <CAAdtpL68otRME2p8X1NQBA3uwNXSUKgA6suVE+uyZ+UbMutU7w@mail.gmail.com>
+Subject: Re: [PATCH v2 03/76] tests/tcg: Do not require FE_* exception bits
 To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000d0a72b05ae32e77e"
-Received-SPF: pass client-ip=209.85.218.65;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-f65.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 17:15:44
+Content-Type: multipart/alternative; boundary="00000000000026432305ae32e856"
+Received-SPF: pass client-ip=209.85.160.194;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-qt1-f194.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 17:15:50
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: 0
 X-Spam_score: -0.1
@@ -72,69 +71,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d0a72b05ae32e77e
+--00000000000026432305ae32e856
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Le ven. 28 ao=C3=BBt 2020 20:04, Richard Henderson <richard.henderson@linar=
+Le ven. 28 ao=C3=BBt 2020 16:22, Richard Henderson <richard.henderson@linar=
 o.org>
 a =C3=A9crit :
 
-> Do not store back to the exact memory from which we just loaded.
+> Define anything that is missing as 0, so that flags & FE_FOO
+> is false for any missing FOO.
 >
+> Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 >
 
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
 ---
->  tcg/tcg-op-gvec.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  tests/tcg/multiarch/float_helpers.h | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
 >
-> diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
-> index 793d4ba64c..fcc25b04e6 100644
-> --- a/tcg/tcg-op-gvec.c
-> +++ b/tcg/tcg-op-gvec.c
-> @@ -1581,7 +1581,7 @@ void tcg_gen_gvec_dup_mem(unsigned vece, uint32_t
-> dofs, uint32_t aofs,
->              TCGv_vec in =3D tcg_temp_new_vec(TCG_TYPE_V128);
+> diff --git a/tests/tcg/multiarch/float_helpers.h
+> b/tests/tcg/multiarch/float_helpers.h
+> index 6337bc66c1..309f3f4bf1 100644
+> --- a/tests/tcg/multiarch/float_helpers.h
+> +++ b/tests/tcg/multiarch/float_helpers.h
+> @@ -8,6 +8,23 @@
 >
->              tcg_gen_ld_vec(in, cpu_env, aofs);
-> -            for (i =3D 0; i < oprsz; i +=3D 16) {
-> +            for (i =3D (aofs =3D=3D dofs) * 16; i < oprsz; i +=3D 16) {
->                  tcg_gen_st_vec(in, cpu_env, dofs + i);
->              }
->              tcg_temp_free_vec(in);
-> @@ -1591,7 +1591,7 @@ void tcg_gen_gvec_dup_mem(unsigned vece, uint32_t
-> dofs, uint32_t aofs,
+>  #include <inttypes.h>
 >
->              tcg_gen_ld_i64(in0, cpu_env, aofs);
->              tcg_gen_ld_i64(in1, cpu_env, aofs + 8);
-> -            for (i =3D 0; i < oprsz; i +=3D 16) {
-> +            for (i =3D (aofs =3D=3D dofs) * 16; i < oprsz; i +=3D 16) {
->                  tcg_gen_st_i64(in0, cpu_env, dofs + i);
->                  tcg_gen_st_i64(in1, cpu_env, dofs + i + 8);
->              }
+> +/* Some hosts do not have support for all of these; not required by ISO
+> C. */
+> +#ifndef FE_OVERFLOW
+> +#define FE_OVERFLOW 0
+> +#endif
+> +#ifndef FE_UNDERFLOW
+> +#define FE_UNDERFLOW 0
+> +#endif
+> +#ifndef FE_DIVBYZERO
+> +#define FE_DIVBYZERO 0
+> +#endif
+> +#ifndef FE_INEXACT
+> +#define FE_INEXACT 0
+> +#endif
+> +#ifndef FE_INVALID
+> +#define FE_INVALID 0
+> +#endif
+> +
+>  /* Number of constants in each table */
+>  int get_num_f16(void);
+>  int get_num_f32(void);
 > --
 > 2.25.1
 >
 >
 >
 
---000000000000d0a72b05ae32e77e
+--00000000000026432305ae32e856
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"auto"><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
-s=3D"gmail_attr">Le ven. 28 ao=C3=BBt 2020 20:04, Richard Henderson &lt;<a =
+s=3D"gmail_attr">Le ven. 28 ao=C3=BBt 2020 16:22, Richard Henderson &lt;<a =
 href=3D"mailto:richard.henderson@linaro.org">richard.henderson@linaro.org</=
 a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Do not s=
-tore back to the exact memory from which we just loaded.<br>
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Define a=
+nything that is missing as 0, so that flags &amp; FE_FOO<br>
+is false for any missing FOO.<br>
+<br>
+Reviewed-by: Edgar E. Iglesias &lt;<a href=3D"mailto:edgar.iglesias@xilinx.=
+com" target=3D"_blank" rel=3D"noreferrer">edgar.iglesias@xilinx.com</a>&gt;=
 <br>
 Signed-off-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@li=
 naro.org" target=3D"_blank" rel=3D"noreferrer">richard.henderson@linaro.org=
@@ -148,49 +160,44 @@ erif;font-size:13.696px">f4bug@amsat.org</a><span style=3D"font-family:sans=
 ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
 ">
 ---<br>
-=C2=A0tcg/tcg-op-gvec.c | 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
+=C2=A0tests/tcg/multiarch/float_helpers.h | 17 +++++++++++++++++<br>
+=C2=A01 file changed, 17 insertions(+)<br>
 <br>
-diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c<br>
-index 793d4ba64c..fcc25b04e6 100644<br>
---- a/tcg/tcg-op-gvec.c<br>
-+++ b/tcg/tcg-op-gvec.c<br>
-@@ -1581,7 +1581,7 @@ void tcg_gen_gvec_dup_mem(unsigned vece, uint32_t dof=
-s, uint32_t aofs,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0TCGv_vec in =3D tcg_temp_ne=
-w_vec(TCG_TYPE_V128);<br>
+diff --git a/tests/tcg/multiarch/float_helpers.h b/tests/tcg/multiarch/floa=
+t_helpers.h<br>
+index 6337bc66c1..309f3f4bf1 100644<br>
+--- a/tests/tcg/multiarch/float_helpers.h<br>
++++ b/tests/tcg/multiarch/float_helpers.h<br>
+@@ -8,6 +8,23 @@<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcg_gen_ld_vec(in, cpu_env,=
- aofs);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (i =3D 0; i &lt; oprsz; i +=
-=3D 16) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (i =3D (aofs =3D=3D dofs) * =
-16; i &lt; oprsz; i +=3D 16) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcg_gen_st_ve=
-c(in, cpu_env, dofs + i);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcg_temp_free_vec(in);<br>
-@@ -1591,7 +1591,7 @@ void tcg_gen_gvec_dup_mem(unsigned vece, uint32_t dof=
-s, uint32_t aofs,<br>
+=C2=A0#include &lt;inttypes.h&gt;<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcg_gen_ld_i64(in0, cpu_env=
-, aofs);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcg_gen_ld_i64(in1, cpu_env=
-, aofs + 8);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (i =3D 0; i &lt; oprsz; i +=
-=3D 16) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (i =3D (aofs =3D=3D dofs) * =
-16; i &lt; oprsz; i +=3D 16) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcg_gen_st_i6=
-4(in0, cpu_env, dofs + i);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcg_gen_st_i6=
-4(in1, cpu_env, dofs + i + 8);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++/* Some hosts do not have support for all of these; not required by ISO C.=
+ */<br>
++#ifndef FE_OVERFLOW<br>
++#define FE_OVERFLOW 0<br>
++#endif<br>
++#ifndef FE_UNDERFLOW<br>
++#define FE_UNDERFLOW 0<br>
++#endif<br>
++#ifndef FE_DIVBYZERO<br>
++#define FE_DIVBYZERO 0<br>
++#endif<br>
++#ifndef FE_INEXACT<br>
++#define FE_INEXACT 0<br>
++#endif<br>
++#ifndef FE_INVALID<br>
++#define FE_INVALID 0<br>
++#endif<br>
++<br>
+=C2=A0/* Number of constants in each table */<br>
+=C2=A0int get_num_f16(void);<br>
+=C2=A0int get_num_f32(void);<br>
 -- <br>
 2.25.1<br>
 <br>
 <br>
 </blockquote></div></div></div>
 
---000000000000d0a72b05ae32e77e--
+--00000000000026432305ae32e856--
 
