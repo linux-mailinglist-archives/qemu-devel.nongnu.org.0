@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3B9C258385
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 23:30:21 +0200 (CEST)
-Received: from localhost ([::1]:50582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54461258375
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 23:26:11 +0200 (CEST)
+Received: from localhost ([::1]:33790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCrNa-0001aX-SY
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 17:30:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46926)
+	id 1kCrJa-0002dx-Bt
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 17:26:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kCrAg-0000il-DK
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:16:58 -0400
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:45149)
+ id 1kCr9u-0007tb-W3
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:16:11 -0400
+Received: from mail-qk1-f193.google.com ([209.85.222.193]:41151)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kCrAe-0001Lp-Ds
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:16:58 -0400
-Received: by mail-qk1-f195.google.com with SMTP id o5so245238qke.12
- for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 14:16:56 -0700 (PDT)
+ id 1kCr9t-0001EQ-CH
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:16:10 -0400
+Received: by mail-qk1-f193.google.com with SMTP id g72so7052856qke.8
+ for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 14:16:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=3BmZw6TT/RtFu1WOtUkX75t7jyI9lJT/TCFegZ5kmBU=;
- b=QrhEAXMH4oEud63PvUUcpSNx8xYHirDa/lgrpfvrYGpnNQn/VVWTCxAU1m/JHTikzB
- 8AMLF5l7eUofWXnP23UQMU/Oj25HWpqowAW9Y24qjYQ+zJOAz6n/oyz1wUBDA98SYWW9
- JqemoMAxWb9OIkzjV0eQ4YVhr/rV3IRnDR7tklzzOKrWiLBYliabkXg+ARVXgk0IlTCh
- c4UTiXHTVVnxu3GN/VGCH4mG/qy/Wib+inZi0RswKds0sIl+plVO35NpgUtyMTHvduu2
- or4755lpsl8NJnVHqSN+G/dh9Svm900g/5NbIVbWKpeWCQgiXkn7Qrv0+6CmXstvQpyl
- 0X7Q==
-X-Gm-Message-State: AOAM533bfA63enDo/CNdRpK3yzO3Fs6UPwqGky72wfhTWURvYb9cELu7
- 5f/elF3NjBOaEeSmqyxKxboQwpuIiTQfmYhApWjF3tA8
-X-Google-Smtp-Source: ABdhPJweFowWAeIpAWCG2ZWESerqi/Dg+AWQ34JsZJ24r0cXOQbhyS1Ub+/UHGBqhCmkp5mXjCL4nu0b7PeqlNZ8PDo=
-X-Received: by 2002:ae9:f101:: with SMTP id k1mr3382376qkg.122.1598908615544; 
- Mon, 31 Aug 2020 14:16:55 -0700 (PDT)
+ bh=T2IJt0HY5ar8kHsx6q901E6vxHdx+vVPkomTRz1zBls=;
+ b=My8HpewB2P/j4HqyxN21u27BylNB4ACCx6njWo1lFQiGhMJzvpYFMItQuT/GzPkhjb
+ lcIEgpOurYPomHv7WCAJtM7dhIeQHnp4+NkZqjhzzt2QRwpI9PJe4qm4bQN8+cd1yAzS
+ vPiZw85EDV9GXzgjlC2ZX4xMRZ6YXhLQ3tk646cp9tCIrSU3vOTgvoOWH20XULZ6TcR3
+ gL2MEuGOMPZ56Ura4oN82xYdq79qe5fo5hp+z7DDFZVSAWVmgx3bdxkIDJ/G0FCXAObS
+ WC5cxHxaseastk+fUVmrRZnKHps/92E4MIqbIlO8vc6l+Lge1AZf8ItMIU8v9ic0vehg
+ E4+g==
+X-Gm-Message-State: AOAM5308GUpoE0NJmqhKSusxjk9WDzWKqZ8BilMcvM1jqBK8MWhPUcQO
+ 2SbO4+Lds3ri2vUD5o+45c12W/uMQRe0K2ZqahoGLP9x
+X-Google-Smtp-Source: ABdhPJxu5zBNlf2S6zicD8zGxnDiIGIijpn5bWQlPl1I+90/u7C/dlRJcd2YvUadiyFK1UHm5/o7O20gOkvfDVRp6mw=
+X-Received: by 2002:a37:9c57:: with SMTP id f84mr3535042qke.372.1598908568524; 
+ Mon, 31 Aug 2020 14:16:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200828110734.1638685-1-marcandre.lureau@redhat.com>
- <20200828110734.1638685-13-marcandre.lureau@redhat.com>
-In-Reply-To: <20200828110734.1638685-13-marcandre.lureau@redhat.com>
+References: <20200826171005.4055015-1-ehabkost@redhat.com>
+ <20200826171005.4055015-3-ehabkost@redhat.com>
+In-Reply-To: <20200826171005.4055015-3-ehabkost@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Mon, 31 Aug 2020 19:43:05 +0200
-Message-ID: <CAAdtpL6xB3_YhuDExyWHxtTe=RRAnLgXOqQ5GSn28BBYsp2geg@mail.gmail.com>
-Subject: Re: [PATCH 12/16] tests: do not print benchmark output to stdout
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000000ed66c05ae32ec50"
-Received-SPF: pass client-ip=209.85.222.195;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-qk1-f195.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 17:16:55
+Date: Mon, 31 Aug 2020 21:44:08 +0200
+Message-ID: <CAAdtpL7b0OrHd_zVr=2C_ePeGkvR_oqNrPAtap5x6=Df7NJZfQ@mail.gmail.com>
+Subject: Re: [PATCH 2/4] hda-audio: Set instance_size at base class
+To: Eduardo Habkost <ehabkost@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000415a5705ae32e97b"
+Received-SPF: pass client-ip=209.85.222.193;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-qk1-f193.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 17:16:08
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
- FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.001, HTML_MESSAGE=0.001,
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.001, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -72,214 +71,169 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000000ed66c05ae32ec50
+--000000000000415a5705ae32e97b
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Le ven. 28 ao=C3=BBt 2020 13:11, <marcandre.lureau@redhat.com> a =C3=A9crit=
- :
+Le mer. 26 ao=C3=BBt 2020 19:12, Eduardo Habkost <ehabkost@redhat.com> a =
+=C3=A9crit :
 
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Setting instance_size correctly at the base class will help us
+> avoid mistakes when declaring new subclasses.
 >
-> As this makes the TAP output invalid. Use g_test_message().
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 >
 
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
 ---
->  tests/benchmark-crypto-cipher.c | 8 ++++----
->  tests/benchmark-crypto-hash.c   | 2 +-
->  tests/benchmark-crypto-hmac.c   | 8 ++++----
->  3 files changed, 9 insertions(+), 9 deletions(-)
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: qemu-devel@nongnu.org
+> ---
+>  hw/audio/hda-codec.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
 >
-> diff --git a/tests/benchmark-crypto-cipher.c
-> b/tests/benchmark-crypto-cipher.c
-> index 53032334ec..1936aa4ae0 100644
-> --- a/tests/benchmark-crypto-cipher.c
-> +++ b/tests/benchmark-crypto-cipher.c
-> @@ -70,8 +70,8 @@ static void test_cipher_speed(size_t chunk_size,
->      }
->      g_test_timer_elapsed();
+> diff --git a/hw/audio/hda-codec.c b/hw/audio/hda-codec.c
+> index cbd92b72f2..2d16448181 100644
+> --- a/hw/audio/hda-codec.c
+> +++ b/hw/audio/hda-codec.c
+> @@ -898,6 +898,7 @@ static void hda_audio_base_class_init(ObjectClass
+> *klass, void *data)
+>  static const TypeInfo hda_audio_info =3D {
+>      .name          =3D TYPE_HDA_AUDIO,
+>      .parent        =3D TYPE_HDA_CODEC_DEVICE,
+> +    .instance_size =3D sizeof(HDAAudioState),
+>      .class_init    =3D hda_audio_base_class_init,
+>      .abstract      =3D true,
+>  };
+> @@ -914,7 +915,6 @@ static void hda_audio_output_class_init(ObjectClass
+> *klass, void *data)
+>  static const TypeInfo hda_audio_output_info =3D {
+>      .name          =3D "hda-output",
+>      .parent        =3D TYPE_HDA_AUDIO,
+> -    .instance_size =3D sizeof(HDAAudioState),
+>      .class_init    =3D hda_audio_output_class_init,
+>  };
 >
-> -    g_print("Enc chunk %zu bytes ", chunk_size);
-> -    g_print("%.2f MB/sec ", (double)total / MiB / g_test_timer_last());
-> +    g_test_message("Enc chunk %zu bytes ", chunk_size);
-> +    g_test_message("%.2f MB/sec ", (double)total / MiB /
-> g_test_timer_last());
+> @@ -930,7 +930,6 @@ static void hda_audio_duplex_class_init(ObjectClass
+> *klass, void *data)
+>  static const TypeInfo hda_audio_duplex_info =3D {
+>      .name          =3D "hda-duplex",
+>      .parent        =3D TYPE_HDA_AUDIO,
+> -    .instance_size =3D sizeof(HDAAudioState),
+>      .class_init    =3D hda_audio_duplex_class_init,
+>  };
 >
->      g_test_timer_start();
->      remain =3D total;
-> @@ -85,8 +85,8 @@ static void test_cipher_speed(size_t chunk_size,
->      }
->      g_test_timer_elapsed();
+> @@ -946,7 +945,6 @@ static void hda_audio_micro_class_init(ObjectClass
+> *klass, void *data)
+>  static const TypeInfo hda_audio_micro_info =3D {
+>      .name          =3D "hda-micro",
+>      .parent        =3D TYPE_HDA_AUDIO,
+> -    .instance_size =3D sizeof(HDAAudioState),
+>      .class_init    =3D hda_audio_micro_class_init,
+>  };
 >
-> -    g_print("Dec chunk %zu bytes ", chunk_size);
-> -    g_print("%.2f MB/sec ", (double)total / MiB / g_test_timer_last());
-> +    g_test_message("Dec chunk %zu bytes ", chunk_size);
-> +    g_test_message("%.2f MB/sec ", (double)total / MiB /
-> g_test_timer_last());
->
->      qcrypto_cipher_free(cipher);
->      g_free(plaintext);
-> diff --git a/tests/benchmark-crypto-hash.c b/tests/benchmark-crypto-hash.=
-c
-> index d16837d00a..598111e75a 100644
-> --- a/tests/benchmark-crypto-hash.c
-> +++ b/tests/benchmark-crypto-hash.c
-> @@ -48,7 +48,7 @@ static void test_hash_speed(const void *opaque)
->      }
->      g_test_timer_elapsed();
->
-> -    g_print("%.2f MB/sec ", (double)total / MiB / g_test_timer_last());
-> +    g_test_message("%.2f MB/sec ", (double)total / MiB /
-> g_test_timer_last());
->
->      g_free(out);
->      g_free(in);
-> diff --git a/tests/benchmark-crypto-hmac.c b/tests/benchmark-crypto-hmac.=
-c
-> index f1dfa240cb..f9fa22df95 100644
-> --- a/tests/benchmark-crypto-hmac.c
-> +++ b/tests/benchmark-crypto-hmac.c
-> @@ -55,10 +55,10 @@ static void test_hmac_speed(const void *opaque)
->      } while (g_test_timer_elapsed() < 5.0);
->
->      total /=3D MiB;
-> -    g_print("hmac(sha256): ");
-> -    g_print("Testing chunk_size %zu bytes ", chunk_size);
-> -    g_print("done: %.2f MB in %.2f secs: ", total, g_test_timer_last());
-> -    g_print("%.2f MB/sec\n", total / g_test_timer_last());
-> +    g_test_message("hmac(sha256): ");
-> +    g_test_message("Testing chunk_size %zu bytes ", chunk_size);
-> +    g_test_message("done: %.2f MB in %.2f secs: ", total,
-> g_test_timer_last());
-> +    g_test_message("%.2f MB/sec\n", total / g_test_timer_last());
->
->      g_free(out);
->      g_free(in);
 > --
 > 2.26.2
 >
 >
 >
 
---0000000000000ed66c05ae32ec50
+--000000000000415a5705ae32e97b
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Le ven. 28 ao=C3=BBt 2020 13:11,  &lt;<a href=3D"mailt=
-o:marcandre.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt; a =C3=A9=
-crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex">From: Marc-Andr=C3=A9 L=
-ureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com" target=3D"_blank" =
-rel=3D"noreferrer">marcandre.lureau@redhat.com</a>&gt;<br>
+<div dir=3D"auto"><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
+s=3D"gmail_attr">Le mer. 26 ao=C3=BBt 2020 19:12, Eduardo Habkost &lt;<a hr=
+ef=3D"mailto:ehabkost@redhat.com">ehabkost@redhat.com</a>&gt; a =C3=A9crit=
+=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex">Setting instance_size corre=
+ctly at the base class will help us<br>
+avoid mistakes when declaring new subclasses.<br>
 <br>
-As this makes the TAP output invalid. Use g_test_message().<br>
-<br>
-Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lurea=
-u@redhat.com" target=3D"_blank" rel=3D"noreferrer">marcandre.lureau@redhat.=
-com</a>&gt;<br></blockquote></div></div><div dir=3D"auto"><br></div><div di=
-r=3D"auto"><span style=3D"font-family:sans-serif;font-size:13.696px">Review=
-ed-by: Philippe Mathieu-Daud=C3=A9 &lt;</span><a href=3D"mailto:f4bug@amsat=
-.org" style=3D"text-decoration:none;color:rgb(66,133,244);font-family:sans-=
-serif;font-size:13.696px">f4bug@amsat.org</a><span style=3D"font-family:san=
-s-serif;font-size:13.696px">&gt;</span><br></div><div dir=3D"auto"><br></di=
-v><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1e=
-x">
+Signed-off-by: Eduardo Habkost &lt;<a href=3D"mailto:ehabkost@redhat.com" t=
+arget=3D"_blank" rel=3D"noreferrer">ehabkost@redhat.com</a>&gt;<br></blockq=
+uote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto"><span style=
+=3D"font-family:sans-serif;font-size:13.696px">Reviewed-by: Philippe Mathie=
+u-Daud=C3=A9 &lt;</span><a href=3D"mailto:f4bug@amsat.org" style=3D"text-de=
+coration:none;color:rgb(66,133,244);font-family:sans-serif;font-size:13.696=
+px">f4bug@amsat.org</a><span style=3D"font-family:sans-serif;font-size:13.6=
+96px">&gt;</span><br></div><div dir=3D"auto"><span style=3D"font-family:san=
+s-serif;font-size:13.696px"><br></span></div><div dir=3D"auto"><div class=
+=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex">
 ---<br>
-=C2=A0tests/benchmark-crypto-cipher.c | 8 ++++----<br>
-=C2=A0tests/benchmark-crypto-hash.c=C2=A0 =C2=A0| 2 +-<br>
-=C2=A0tests/benchmark-crypto-hmac.c=C2=A0 =C2=A0| 8 ++++----<br>
-=C2=A03 files changed, 9 insertions(+), 9 deletions(-)<br>
+Cc: Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" target=3D"_blank=
+" rel=3D"noreferrer">kraxel@redhat.com</a>&gt;<br>
+Cc: <a href=3D"mailto:qemu-devel@nongnu.org" target=3D"_blank" rel=3D"noref=
+errer">qemu-devel@nongnu.org</a><br>
+---<br>
+=C2=A0hw/audio/hda-codec.c | 4 +---<br>
+=C2=A01 file changed, 1 insertion(+), 3 deletions(-)<br>
 <br>
-diff --git a/tests/benchmark-crypto-cipher.c b/tests/benchmark-crypto-ciphe=
-r.c<br>
-index 53032334ec..1936aa4ae0 100644<br>
---- a/tests/benchmark-crypto-cipher.c<br>
-+++ b/tests/benchmark-crypto-cipher.c<br>
-@@ -70,8 +70,8 @@ static void test_cipher_speed(size_t chunk_size,<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0g_test_timer_elapsed();<br>
+diff --git a/hw/audio/hda-codec.c b/hw/audio/hda-codec.c<br>
+index cbd92b72f2..2d16448181 100644<br>
+--- a/hw/audio/hda-codec.c<br>
++++ b/hw/audio/hda-codec.c<br>
+@@ -898,6 +898,7 @@ static void hda_audio_base_class_init(ObjectClass *klas=
+s, void *data)<br>
+=C2=A0static const TypeInfo hda_audio_info =3D {<br>
+=C2=A0 =C2=A0 =C2=A0.name=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D TYPE_HDA_AU=
+DIO,<br>
+=C2=A0 =C2=A0 =C2=A0.parent=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D TYPE_HDA_CODEC_D=
+EVICE,<br>
++=C2=A0 =C2=A0 .instance_size =3D sizeof(HDAAudioState),<br>
+=C2=A0 =C2=A0 =C2=A0.class_init=C2=A0 =C2=A0 =3D hda_audio_base_class_init,=
 <br>
--=C2=A0 =C2=A0 g_print(&quot;Enc chunk %zu bytes &quot;, chunk_size);<br>
--=C2=A0 =C2=A0 g_print(&quot;%.2f MB/sec &quot;, (double)total / MiB / g_te=
-st_timer_last());<br>
-+=C2=A0 =C2=A0 g_test_message(&quot;Enc chunk %zu bytes &quot;, chunk_size)=
-;<br>
-+=C2=A0 =C2=A0 g_test_message(&quot;%.2f MB/sec &quot;, (double)total / MiB=
- / g_test_timer_last());<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0g_test_timer_start();<br>
-=C2=A0 =C2=A0 =C2=A0remain =3D total;<br>
-@@ -85,8 +85,8 @@ static void test_cipher_speed(size_t chunk_size,<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0g_test_timer_elapsed();<br>
-<br>
--=C2=A0 =C2=A0 g_print(&quot;Dec chunk %zu bytes &quot;, chunk_size);<br>
--=C2=A0 =C2=A0 g_print(&quot;%.2f MB/sec &quot;, (double)total / MiB / g_te=
-st_timer_last());<br>
-+=C2=A0 =C2=A0 g_test_message(&quot;Dec chunk %zu bytes &quot;, chunk_size)=
-;<br>
-+=C2=A0 =C2=A0 g_test_message(&quot;%.2f MB/sec &quot;, (double)total / MiB=
- / g_test_timer_last());<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0qcrypto_cipher_free(cipher);<br>
-=C2=A0 =C2=A0 =C2=A0g_free(plaintext);<br>
-diff --git a/tests/benchmark-crypto-hash.c b/tests/benchmark-crypto-hash.c<=
+=C2=A0 =C2=A0 =C2=A0.abstract=C2=A0 =C2=A0 =C2=A0 =3D true,<br>
+=C2=A0};<br>
+@@ -914,7 +915,6 @@ static void hda_audio_output_class_init(ObjectClass *kl=
+ass, void *data)<br>
+=C2=A0static const TypeInfo hda_audio_output_info =3D {<br>
+=C2=A0 =C2=A0 =C2=A0.name=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;hda-o=
+utput&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0.parent=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D TYPE_HDA_AUDIO,<=
 br>
-index d16837d00a..598111e75a 100644<br>
---- a/tests/benchmark-crypto-hash.c<br>
-+++ b/tests/benchmark-crypto-hash.c<br>
-@@ -48,7 +48,7 @@ static void test_hash_speed(const void *opaque)<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0g_test_timer_elapsed();<br>
+-=C2=A0 =C2=A0 .instance_size =3D sizeof(HDAAudioState),<br>
+=C2=A0 =C2=A0 =C2=A0.class_init=C2=A0 =C2=A0 =3D hda_audio_output_class_ini=
+t,<br>
+=C2=A0};<br>
 <br>
--=C2=A0 =C2=A0 g_print(&quot;%.2f MB/sec &quot;, (double)total / MiB / g_te=
-st_timer_last());<br>
-+=C2=A0 =C2=A0 g_test_message(&quot;%.2f MB/sec &quot;, (double)total / MiB=
- / g_test_timer_last());<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0g_free(out);<br>
-=C2=A0 =C2=A0 =C2=A0g_free(in);<br>
-diff --git a/tests/benchmark-crypto-hmac.c b/tests/benchmark-crypto-hmac.c<=
+@@ -930,7 +930,6 @@ static void hda_audio_duplex_class_init(ObjectClass *kl=
+ass, void *data)<br>
+=C2=A0static const TypeInfo hda_audio_duplex_info =3D {<br>
+=C2=A0 =C2=A0 =C2=A0.name=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;hda-d=
+uplex&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0.parent=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D TYPE_HDA_AUDIO,<=
 br>
-index f1dfa240cb..f9fa22df95 100644<br>
---- a/tests/benchmark-crypto-hmac.c<br>
-+++ b/tests/benchmark-crypto-hmac.c<br>
-@@ -55,10 +55,10 @@ static void test_hmac_speed(const void *opaque)<br>
-=C2=A0 =C2=A0 =C2=A0} while (g_test_timer_elapsed() &lt; 5.0);<br>
+-=C2=A0 =C2=A0 .instance_size =3D sizeof(HDAAudioState),<br>
+=C2=A0 =C2=A0 =C2=A0.class_init=C2=A0 =C2=A0 =3D hda_audio_duplex_class_ini=
+t,<br>
+=C2=A0};<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0total /=3D MiB;<br>
--=C2=A0 =C2=A0 g_print(&quot;hmac(sha256): &quot;);<br>
--=C2=A0 =C2=A0 g_print(&quot;Testing chunk_size %zu bytes &quot;, chunk_siz=
-e);<br>
--=C2=A0 =C2=A0 g_print(&quot;done: %.2f MB in %.2f secs: &quot;, total, g_t=
-est_timer_last());<br>
--=C2=A0 =C2=A0 g_print(&quot;%.2f MB/sec\n&quot;, total / g_test_timer_last=
-());<br>
-+=C2=A0 =C2=A0 g_test_message(&quot;hmac(sha256): &quot;);<br>
-+=C2=A0 =C2=A0 g_test_message(&quot;Testing chunk_size %zu bytes &quot;, ch=
-unk_size);<br>
-+=C2=A0 =C2=A0 g_test_message(&quot;done: %.2f MB in %.2f secs: &quot;, tot=
-al, g_test_timer_last());<br>
-+=C2=A0 =C2=A0 g_test_message(&quot;%.2f MB/sec\n&quot;, total / g_test_tim=
-er_last());<br>
+@@ -946,7 +945,6 @@ static void hda_audio_micro_class_init(ObjectClass *kla=
+ss, void *data)<br>
+=C2=A0static const TypeInfo hda_audio_micro_info =3D {<br>
+=C2=A0 =C2=A0 =C2=A0.name=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;hda-m=
+icro&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0.parent=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D TYPE_HDA_AUDIO,<=
+br>
+-=C2=A0 =C2=A0 .instance_size =3D sizeof(HDAAudioState),<br>
+=C2=A0 =C2=A0 =C2=A0.class_init=C2=A0 =C2=A0 =3D hda_audio_micro_class_init=
+,<br>
+=C2=A0};<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0g_free(out);<br>
-=C2=A0 =C2=A0 =C2=A0g_free(in);<br>
 -- <br>
 2.26.2<br>
 <br>
 <br>
 </blockquote></div></div></div>
 
---0000000000000ed66c05ae32ec50--
+--000000000000415a5705ae32e97b--
 
