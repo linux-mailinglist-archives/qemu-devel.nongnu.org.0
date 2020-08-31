@@ -2,81 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D4E6258379
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 23:27:28 +0200 (CEST)
-Received: from localhost ([::1]:39008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B59A25839A
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 23:32:30 +0200 (CEST)
+Received: from localhost ([::1]:57538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCrKp-00051a-FA
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 17:27:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47236)
+	id 1kCrPh-0004hG-5G
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 17:32:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCrCK-0002an-Qd
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:18:40 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:38548)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kCr9a-0007ID-60
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:15:50 -0400
+Received: from mail-qv1-f65.google.com ([209.85.219.65]:44167)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCrCJ-0001TG-40
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:18:40 -0400
-Received: by mail-pf1-x444.google.com with SMTP id d22so1395395pfn.5
- for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 14:18:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=lEAC0sSRDk8AHWvjEH7biZuBF1C2T1sYg1EOKUCzcd8=;
- b=UP+mQycbq8qhOGg+R+Nbn2/6U2WQeAY/M+4L5sTvCUWEGJs5avlsdIL0ZL3d4iaX2B
- oGF4ARyvz7NWjpMgm54mhPHBC+3F2pg23Lxdc0BPyWx3/1og8RNy9dtQgRqkgi9sgBvx
- 3jwc8MtsKPLmq0T8ODfiPDxIqxcSMpgmflmEuJJluB8pq6RiC8c5fDBR2AOynNmiwB+x
- EEQ3CavDNtNztvgUZM6c3IIn45Ssl/CVwBnwAECTSkyBK+0a4qRdqS9/W+WkCNxO4OgH
- 9xf+Fty8ho4tZ7hPUeha12/bEybk3O7JBMx4SHrIQbYdw8bHLIhOUeV4ZRwtVsXVMrm0
- aogg==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kCr9Y-00018J-Bj
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:15:49 -0400
+Received: by mail-qv1-f65.google.com with SMTP id j10so3325832qvk.11
+ for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 14:15:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=lEAC0sSRDk8AHWvjEH7biZuBF1C2T1sYg1EOKUCzcd8=;
- b=Fdmyo/Tok/GCsvjW0Vs/nFSG3JidyQvRHG70l8BSDZNj8fkF1r1a55arMZLaI7gDw5
- Mrbi2ITzF9EHg+r0n8q3cvToG96m11UwsU9w/MOTuRMszlfpDW8XmDiYJbukNlIRmain
- gqcnuJzYpksOiGF7E5LhOzDSptny0KgGXq7VXu3R47yP51wiurWbXTyhg55joPrRggvw
- AeznMtZc1JoNXAS6T6/scwjIfcgKM5tKn1u10Vut6GlYsfnRvTWj5K+qNJFwE5oKayhy
- VZG7MIVO/466MBHE+qzvbcVD5glRz8C56RuXxVr08pO5dETJXFdn5kr5aK9W0l5YRR4S
- 5Y4g==
-X-Gm-Message-State: AOAM532An8oiiMezfGgdAxa82SROs4CHkZ2tnSERPxwu5VdV9Df7gYUt
- 1ApkmuTqwm1IhZeOiBTPMRAwk6eMxzkrJg==
-X-Google-Smtp-Source: ABdhPJwob5F+J4hvu2kqcbA4eoWCZuUSVY7YjdaQZoFfEXrmRvMHTNh5NloGp+HtCeXEVBBVibWA/g==
-X-Received: by 2002:aa7:8c42:: with SMTP id e2mr2776241pfd.181.1598908717468; 
- Mon, 31 Aug 2020 14:18:37 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id 193sm8818709pfu.169.2020.08.31.14.18.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Aug 2020 14:18:36 -0700 (PDT)
-Subject: Re: [PATCH v2 2/7] target/arm: add ARMCPUClass->do_interrupt_locked
-To: Robert Foley <robert.foley@linaro.org>, qemu-devel@nongnu.org
-References: <20200819182856.4893-1-robert.foley@linaro.org>
- <20200819182856.4893-3-robert.foley@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <439e8b14-adc1-b7ea-edaa-d11069863007@linaro.org>
-Date: Mon, 31 Aug 2020 14:18:34 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=gYylauk4tPiAZzGE4jC1Jcm9V0EkQZWJ0uSFfEH2UZ4=;
+ b=FZGySwc8N3ow1hcli121RaZTVs9Y7f6mwd4kruMs7FGhhVjivHJPZs2MjjT2vGaeyt
+ mK1xiQmiiPhsYmrmQAn1vFMyLxs+QNYYVn/Og7c+ds+7fMcIk5mokbaFHdipbgyBkcRI
+ A+b29cMRyzFMd+vdX1aWKgp7CJBiNTTNNug5AD/WBDMgyPC4KTuMXjAYg/YysrpgO+TC
+ gTVXyrBeNYkjmCY0PU0OO7K6vefJNBMy15VtxfFwJvFpMJJhPSzA/qT8VZulWRCQn2ld
+ oVNEyGVlWdGHkVBp3U/dQyo9YFxFd5tXAt3FpCgJW2XP2PCYGl65xXeWHtx+tv1ElNAH
+ a37w==
+X-Gm-Message-State: AOAM531TLc0DVQvOs0casYIFmDBnG14YKQm0jQx5UqJLrRWUJ+izTvEc
+ 00f7S/LbtWnzum0o5QMTJmIbcghUhnlpO5cpYlc=
+X-Google-Smtp-Source: ABdhPJyhSqpmr6DPwNGqietDiHkyApA5fIdQHGvp84fB1a54fSVLSvB6pORRvp65rVt+HGrvSWUtxJmT1f4HAA9Wtoc=
+X-Received: by 2002:ad4:59d0:: with SMTP id el16mr3012799qvb.116.1598908547460; 
+ Mon, 31 Aug 2020 14:15:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200819182856.4893-3-robert.foley@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.13,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20200828180243.443016-1-richard.henderson@linaro.org>
+ <20200828180243.443016-4-richard.henderson@linaro.org>
+In-Reply-To: <20200828180243.443016-4-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Mon, 31 Aug 2020 19:23:23 +0200
+Message-ID: <CAAdtpL4yGUaWZe6w3PxCDkhwXy60gw_Fqcz2bw0gws_2Gyhfcg@mail.gmail.com>
+Subject: Re: [PATCH 3/3] tcg: Implement 256-bit dup for tcg_gen_gvec_dup_mem
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000fff14405ae32e786"
+Received-SPF: pass client-ip=209.85.219.65;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-qv1-f65.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 17:15:47
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
+ FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,45 +71,242 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>, alex.bennee@linaro.org,
- pbonzini@redhat.com, peter.puhov@linaro.org
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/19/20 11:28 AM, Robert Foley wrote:
-> Adding ->do_interrupt_locked to ARMCPUClass is preparation for
-> pushing the BQL down into the per-arch implementation of ->do_interrupt.
-> 
-> This is needed since ARM's *_cpu_exec_interrupt calls to *_do_interrupt.
-> With the push down of the BQL into *_cpu_exec_interrupt and
-> *_do_interrupt, *_cpu_exec_interrupt will call to ->do_interrupt
-> with lock held.  Since ->do_interrupt also has the lock, we need a way
-> to allow cpu_exec_interrupt to call do_interrupt with lock held.
-> This patch solves this issue of *_cpu_exec_interrupt needing
-> to call do_interrupt with lock held.
-> 
-> This patch is part of a series of transitions to move the
-> BQL down into the do_interrupt per arch functions.  This set of
-> transitions is needed to maintain bisectability.
-> 
-> This approach was suggested by Paolo Bonzini.
-> For reference, here are two key posts in the discussion, explaining
-> the reasoning/benefits of this approach.
-> https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg00784.html
-> https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg01517.html
-> https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg08731.html
-> https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg00044.html
-> 
-> Signed-off-by: Robert Foley <robert.foley@linaro.org>
-> ---
->  target/arm/cpu-qom.h | 3 +++
->  target/arm/cpu.c     | 5 +++--
->  target/arm/cpu_tcg.c | 5 +++--
->  3 files changed, 9 insertions(+), 4 deletions(-)
+--000000000000fff14405ae32e786
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Le ven. 28 ao=C3=BBt 2020 20:04, Richard Henderson <richard.henderson@linar=
+o.org>
+a =C3=A9crit :
 
+> We already support duplication of 128-bit blocks.  This extends
+> that support to 256-bit blocks.  This will be needed by SVE2.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>
 
-r~
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+
+---
+>  tcg/tcg-op-gvec.c | 52 ++++++++++++++++++++++++++++++++++++++++++++---
+>  1 file changed, 49 insertions(+), 3 deletions(-)
+>
+> diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
+> index fcc25b04e6..7ebd9e8298 100644
+> --- a/tcg/tcg-op-gvec.c
+> +++ b/tcg/tcg-op-gvec.c
+> @@ -1570,12 +1570,10 @@ void tcg_gen_gvec_dup_mem(unsigned vece, uint32_t
+> dofs, uint32_t aofs,
+>              do_dup(vece, dofs, oprsz, maxsz, NULL, in, 0);
+>              tcg_temp_free_i64(in);
+>          }
+> -    } else {
+> +    } else if (vece =3D=3D 4) {
+>          /* 128-bit duplicate.  */
+> -        /* ??? Dup to 256-bit vector.  */
+>          int i;
+>
+> -        tcg_debug_assert(vece =3D=3D 4);
+>          tcg_debug_assert(oprsz >=3D 16);
+>          if (TCG_TARGET_HAS_v128) {
+>              TCGv_vec in =3D tcg_temp_new_vec(TCG_TYPE_V128);
+> @@ -1601,6 +1599,54 @@ void tcg_gen_gvec_dup_mem(unsigned vece, uint32_t
+> dofs, uint32_t aofs,
+>          if (oprsz < maxsz) {
+>              expand_clr(dofs + oprsz, maxsz - oprsz);
+>          }
+> +    } else if (vece =3D=3D 5) {
+> +        /* 256-bit duplicate.  */
+> +        int i;
+> +
+> +        tcg_debug_assert(oprsz >=3D 32);
+> +        tcg_debug_assert(oprsz % 32 =3D=3D 0);
+> +        if (TCG_TARGET_HAS_v256) {
+> +            TCGv_vec in =3D tcg_temp_new_vec(TCG_TYPE_V256);
+> +
+> +            tcg_gen_ld_vec(in, cpu_env, aofs);
+> +            for (i =3D (aofs =3D=3D dofs) * 32; i < oprsz; i +=3D 32) {
+> +                tcg_gen_st_vec(in, cpu_env, dofs + i);
+> +            }
+> +            tcg_temp_free_vec(in);
+> +        } else if (TCG_TARGET_HAS_v128) {
+> +            TCGv_vec in0 =3D tcg_temp_new_vec(TCG_TYPE_V128);
+> +            TCGv_vec in1 =3D tcg_temp_new_vec(TCG_TYPE_V128);
+> +
+> +            tcg_gen_ld_vec(in0, cpu_env, aofs);
+> +            tcg_gen_ld_vec(in1, cpu_env, aofs + 16);
+> +            for (i =3D (aofs =3D=3D dofs) * 32; i < oprsz; i +=3D 32) {
+> +                tcg_gen_st_vec(in0, cpu_env, dofs + i);
+> +                tcg_gen_st_vec(in1, cpu_env, dofs + i + 16);
+> +            }
+> +            tcg_temp_free_vec(in0);
+> +            tcg_temp_free_vec(in1);
+> +        } else {
+> +            TCGv_i64 in[4];
+> +            int j;
+> +
+> +            for (j =3D 0; j < 4; ++j) {
+> +                in[j] =3D tcg_temp_new_i64();
+> +                tcg_gen_ld_i64(in[j], cpu_env, aofs + j * 8);
+> +            }
+> +            for (i =3D (aofs =3D=3D dofs) * 32; i < oprsz; i +=3D 32) {
+> +                for (j =3D 0; j < 4; ++j) {
+> +                    tcg_gen_st_i64(in[j], cpu_env, dofs + i + j * 8);
+> +                }
+> +            }
+> +            for (j =3D 0; j < 4; ++j) {
+> +                tcg_temp_free_i64(in[j]);
+> +            }
+> +        }
+> +        if (oprsz < maxsz) {
+> +            expand_clr(dofs + oprsz, maxsz - oprsz);
+> +        }
+> +    } else {
+> +        g_assert_not_reached();
+>      }
+>  }
+>
+> --
+> 2.25.1
+>
+>
+>
+
+--000000000000fff14405ae32e786
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
+s=3D"gmail_attr">Le ven. 28 ao=C3=BBt 2020 20:04, Richard Henderson &lt;<a =
+href=3D"mailto:richard.henderson@linaro.org">richard.henderson@linaro.org</=
+a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">We alrea=
+dy support duplication of 128-bit blocks.=C2=A0 This extends<br>
+that support to 256-bit blocks.=C2=A0 This will be needed by SVE2.<br>
+<br>
+Signed-off-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@li=
+naro.org" target=3D"_blank" rel=3D"noreferrer">richard.henderson@linaro.org=
+</a>&gt;<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=
+=3D"auto"><span style=3D"font-family:sans-serif;font-size:13.696px">Reviewe=
+d-by: Philippe Mathieu-Daud=C3=A9 &lt;</span><a href=3D"mailto:f4bug@amsat.=
+org" style=3D"text-decoration:none;color:rgb(66,133,244);font-family:sans-s=
+erif;font-size:13.696px">f4bug@amsat.org</a><span style=3D"font-family:sans=
+-serif;font-size:13.696px">&gt;</span><br></div><div dir=3D"auto"><br></div=
+><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
+">
+---<br>
+=C2=A0tcg/tcg-op-gvec.c | 52 ++++++++++++++++++++++++++++++++++++++++++++--=
+-<br>
+=C2=A01 file changed, 49 insertions(+), 3 deletions(-)<br>
+<br>
+diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c<br>
+index fcc25b04e6..7ebd9e8298 100644<br>
+--- a/tcg/tcg-op-gvec.c<br>
++++ b/tcg/tcg-op-gvec.c<br>
+@@ -1570,12 +1570,10 @@ void tcg_gen_gvec_dup_mem(unsigned vece, uint32_t d=
+ofs, uint32_t aofs,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0do_dup(vece, dofs, oprsz, m=
+axsz, NULL, in, 0);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcg_temp_free_i64(in);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+-=C2=A0 =C2=A0 } else {<br>
++=C2=A0 =C2=A0 } else if (vece =3D=3D 4) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* 128-bit duplicate.=C2=A0 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* ??? Dup to 256-bit vector.=C2=A0 */<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int i;<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_debug_assert(vece =3D=3D 4);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcg_debug_assert(oprsz &gt;=3D 16);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (TCG_TARGET_HAS_v128) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0TCGv_vec in =3D tcg_temp_ne=
+w_vec(TCG_TYPE_V128);<br>
+@@ -1601,6 +1599,54 @@ void tcg_gen_gvec_dup_mem(unsigned vece, uint32_t do=
+fs, uint32_t aofs,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (oprsz &lt; maxsz) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0expand_clr(dofs + oprsz, ma=
+xsz - oprsz);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 } else if (vece =3D=3D 5) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* 256-bit duplicate.=C2=A0 */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 int i;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_debug_assert(oprsz &gt;=3D 32);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_debug_assert(oprsz % 32 =3D=3D 0);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (TCG_TARGET_HAS_v256) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 TCGv_vec in =3D tcg_temp_new_vec=
+(TCG_TYPE_V256);<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_ld_vec(in, cpu_env, aofs=
+);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (i =3D (aofs =3D=3D dofs) * =
+32; i &lt; oprsz; i +=3D 32) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_st_vec(in,=
+ cpu_env, dofs + i);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_temp_free_vec(in);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (TCG_TARGET_HAS_v128) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 TCGv_vec in0 =3D tcg_temp_new_ve=
+c(TCG_TYPE_V128);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 TCGv_vec in1 =3D tcg_temp_new_ve=
+c(TCG_TYPE_V128);<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_ld_vec(in0, cpu_env, aof=
+s);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_ld_vec(in1, cpu_env, aof=
+s + 16);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (i =3D (aofs =3D=3D dofs) * =
+32; i &lt; oprsz; i +=3D 32) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_st_vec(in0=
+, cpu_env, dofs + i);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_st_vec(in1=
+, cpu_env, dofs + i + 16);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_temp_free_vec(in0);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_temp_free_vec(in1);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 TCGv_i64 in[4];<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int j;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (j =3D 0; j &lt; 4; ++j) {<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 in[j] =3D tcg_temp=
+_new_i64();<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_ld_i64(in[=
+j], cpu_env, aofs + j * 8);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (i =3D (aofs =3D=3D dofs) * =
+32; i &lt; oprsz; i +=3D 32) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (j =3D 0; j &l=
+t; 4; ++j) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_=
+gen_st_i64(in[j], cpu_env, dofs + i + j * 8);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (j =3D 0; j &lt; 4; ++j) {<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_temp_free_i64(=
+in[j]);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (oprsz &lt; maxsz) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 expand_clr(dofs + oprsz, maxsz -=
+ oprsz);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 } else {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_assert_not_reached();<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0}<br>
+<br>
+-- <br>
+2.25.1<br>
+<br>
+<br>
+</blockquote></div></div></div>
+
+--000000000000fff14405ae32e786--
 
