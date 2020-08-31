@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5551257EDB
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 18:34:41 +0200 (CEST)
-Received: from localhost ([::1]:55474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61F8B257EF6
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 18:42:30 +0200 (CEST)
+Received: from localhost ([::1]:59696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCmlU-0003Yo-UC
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 12:34:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34784)
+	id 1kCmsy-0000J4-35
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 12:42:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCmLO-0006gw-Bb
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:07:42 -0400
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:55319)
+ id 1kCmLP-0006l2-SR
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:07:43 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:44882)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCmLM-0006Ai-1q
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:07:41 -0400
-Received: by mail-pj1-x1042.google.com with SMTP id 2so21717pjx.5
- for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 09:07:39 -0700 (PDT)
+ id 1kCmLN-0006B0-DK
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:07:43 -0400
+Received: by mail-pl1-x642.google.com with SMTP id q3so3234680pls.11
+ for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 09:07:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qD9TO6jGFspxgEuw853gVRm0hcTBzuluIXG7+nD8HAE=;
- b=it6gFr26EkQ4zo09ApJAmMqAT8cdh8Z8KCxVnMKlTHx0FF9qPpTxFlqaTEM4gC4jB/
- Wmy9yt47pENq5WxxWMhT4kJZFJ+iX6cMsELMCBVV3MD3lNYHdhbtdHAbJXkRSHRlzfff
- QeFaKcUPpKKCv4IUJnZ+0cwmVwLvcnQ+fimHzzn0MKA6gRyqi+WMh1ed14ZTat2145YV
- NkjHv4FfGA9LsnA03e+66IKfMR5ZbPk+R8IHjOBuhnAUpKaGe5GYEkJO3QdNEYicFS+A
- dIU7KFrJ2gyondW02IOLFNloMQMCiuziILKBZaG5SnsIW5Tx+iyIkSPrvvEqt9OV/J4t
- HEMg==
+ bh=Hba68ezEWb+nS0e4nSSkWGW78a7UsmlXp2xiIpotygQ=;
+ b=WzoIcbAPp9R7brAgHL5BISzHwIOYaCl+YKm4rFuUOLMHGfLCu35dev5PFuYeg2sVLl
+ PddIUAYIGFI9uMy46kO8/3yZLo0OncFg0gW9C4HWsBZxBlstMrzoSiQ4MO2OLd5X5UR3
+ 3sbrDCyRk0nEz+654EzqJe0MeifuCzWHz3LrhY35J34p+4exOdGmkFyW45gQ4c78zdzx
+ 6AvQcC2NGMWHeIJIH0weCGW6NUW9Rq1hCLmOIDl/ynVpbkjrLwbbJTJElV131cfYPC26
+ E/cTePPKlpzBvZlPSU1X6fLqNVyswHq4OlYuLACnbKnHxs/axETB5nLOKPrb8GBgueV6
+ mCbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qD9TO6jGFspxgEuw853gVRm0hcTBzuluIXG7+nD8HAE=;
- b=P3nOBBntVHDTYXdPObk0dhQmiSS113jE+WaoiwUA8UbaroNJQddQYvD7zFAzYzDdvh
- oDkdTmJ1Fzn6+TTNwBo3hn14b/8xKSitNgFxYuwT3UW++tZixyYPKyB1Ks1XTcD+PX5A
- U6W+EmRRjmAQeUlSlMHS8bD7iKBP/dFKCj7aC6EoyEEPUim0LYHLH6zs3UhyqBbUzxg5
- 5n82CXrGWKFk9dWcTKP8Zeq/5mzjnlpGMjBxzPUimMv1E9YfkvcA+nfkI/8H6+8MzjJd
- WxcOkDzb6MYyEXkK0BWEIDzb+vK4H/Khqp+Ao1eM62QCUa3rTUfBTYw4sToNPOEHPcAl
- Lcww==
-X-Gm-Message-State: AOAM531LbSKPa6bswsnNOsSkwfo1dIvKTCTuhtig1uFQvuRluFyIo4Yh
- /JJlViykVc91QofI+chZAcHg617MO9GZ6g==
-X-Google-Smtp-Source: ABdhPJyrwMu1p78EmpJJLxe3yoWFxhh9H6yCyeoZmSyLMls9BFx5kBJOvWx1bPNwwnKHnHb7OrkkfA==
-X-Received: by 2002:a17:90a:bc8c:: with SMTP id
- x12mr97622pjr.106.1598890058276; 
- Mon, 31 Aug 2020 09:07:38 -0700 (PDT)
+ bh=Hba68ezEWb+nS0e4nSSkWGW78a7UsmlXp2xiIpotygQ=;
+ b=CBXFspi333dB1Z3cf1DjiFerIFuy6HPrKXLbTjZ73Cldn3Q1w6kS3gTg448Tq7Ahav
+ 2fbMYarEZdtMilrxR5qJhPOpArCU9cv9jQvwy78JpKZq4IZejdEvI19yDMPY+z+1saC7
+ UI0BcpuXb+ygLo/uSIRLZyWW3nw9mIJ+L4Qmz5fLaogiuwdNa+H4aGvYgteucS76vld+
+ 5m3kNwUPsj5PAM5gUBoENS2Z9Se0BQnc91vH0F6TgoIFQwB9vESauE05Ri498iTKefFf
+ GsWEXUZRUU327FgCjF8AIbhu3knGGkP16J2Hk58g+UNuQTI7YlZ0/D9zu+x3oObXSj0f
+ +1xQ==
+X-Gm-Message-State: AOAM531FHsy1x85YMm861jqBAYICr3NZvN6el6i+xG8+nkyCyuJiuwaS
+ DwzTgNzvysgTihYxm4imrRGpjJYTMQJoJw==
+X-Google-Smtp-Source: ABdhPJyeY9Vz59LpQIyQvzlKSZpNhQ/pIvxnkKYEfofJR0DWGU0Unz5QBqbNRpMrBFuYnqAO5+JR4Q==
+X-Received: by 2002:a17:90b:1988:: with SMTP id mv8mr85832pjb.23.1598890059551; 
+ Mon, 31 Aug 2020 09:07:39 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id gt13sm17218pjb.43.2020.08.31.09.07.37
+ by smtp.gmail.com with ESMTPSA id gt13sm17218pjb.43.2020.08.31.09.07.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Aug 2020 09:07:37 -0700 (PDT)
+ Mon, 31 Aug 2020 09:07:38 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 70/76] target/microblaze: Convert msrclr, msrset to decodetree
-Date: Mon, 31 Aug 2020 09:05:55 -0700
-Message-Id: <20200831160601.833692-71-richard.henderson@linaro.org>
+Subject: [PULL 71/76] target/microblaze: Convert dec_msr to decodetree
+Date: Mon, 31 Aug 2020 09:05:56 -0700
+Message-Id: <20200831160601.833692-72-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200831160601.833692-1-richard.henderson@linaro.org>
 References: <20200831160601.833692-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1042.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,157 +88,342 @@ Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Split this out of dec_msr.
-
 Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/insns.decode |  6 +++
- target/microblaze/translate.c  | 85 +++++++++++++++++++---------------
- 2 files changed, 54 insertions(+), 37 deletions(-)
+ target/microblaze/insns.decode |   3 +
+ target/microblaze/translate.c  | 270 +++++++++++++++++----------------
+ 2 files changed, 139 insertions(+), 134 deletions(-)
 
 diff --git a/target/microblaze/insns.decode b/target/microblaze/insns.decode
-index 8906058a29..ed3312982f 100644
+index ed3312982f..43c9e16819 100644
 --- a/target/microblaze/insns.decode
 +++ b/target/microblaze/insns.decode
-@@ -24,6 +24,7 @@
- &typeb          rd ra imm
- &typeb_br       rd imm
- &typeb_bc       ra imm
-+&type_msr       rd imm
- 
- # Include any IMM prefix in the value reported.
- %extimm         0:s16 !function=typeb_imm
-@@ -55,6 +56,8 @@
- %ieimm          6:5 0:5
- @typeb_ie       ...... rd:5 ra:5 ..... ..... . .....    &typeb imm=%ieimm
- 
-+@type_msr       ...... rd:5 ...... imm:15               &type_msr
-+
- ###
- 
- {
-@@ -179,6 +182,9 @@ lwi             111010 ..... ..... ................     @typeb
+@@ -182,6 +182,9 @@ lwi             111010 ..... ..... ................     @typeb
  
  mbar            101110 imm:5 00010 0000 0000 0000 0100
  
-+msrclr          100101 ..... 100010 ...............     @type_msr
-+msrset          100101 ..... 100000 ...............     @type_msr
++mfs             100101 rd:5  0 e:1 000 10 rs:14
++mts             100101 0 e:1 000 ra:5  11 rs:14
 +
- mul             010000 ..... ..... ..... 000 0000 0000  @typea
- mulh            010000 ..... ..... ..... 000 0000 0001  @typea
- mulhu           010000 ..... ..... ..... 000 0000 0011  @typea
+ msrclr          100101 ..... 100010 ...............     @type_msr
+ msrset          100101 ..... 100000 ...............     @type_msr
+ 
 diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index 0872795038..9479dbc103 100644
+index 9479dbc103..582f5a1577 100644
 --- a/target/microblaze/translate.c
 +++ b/target/microblaze/translate.c
-@@ -1311,16 +1311,61 @@ static void msr_write(DisasContext *dc, TCGv_i32 v)
-     tcg_gen_andi_i32(cpu_msr, v, ~(MSR_C | MSR_CC | MSR_PVR));
+@@ -1300,6 +1300,7 @@ static void msr_read(DisasContext *dc, TCGv_i32 d)
+     tcg_temp_free_i32(t);
  }
  
-+static bool do_msrclrset(DisasContext *dc, arg_type_msr *arg, bool set)
-+{
-+    uint32_t imm = arg->imm;
-+
-+    if (trap_userspace(dc, imm != MSR_C)) {
-+        return true;
-+    }
-+
-+    if (arg->rd) {
-+        msr_read(dc, cpu_R[arg->rd]);
-+    }
-+
-+    /*
-+     * Handle the carry bit separately.
-+     * This is the only bit that userspace can modify.
-+     */
-+    if (imm & MSR_C) {
-+        tcg_gen_movi_i32(cpu_msr_c, set);
-+    }
-+
-+    /*
-+     * MSR_C and MSR_CC set above.
-+     * MSR_PVR is not writable, and is always clear.
-+     */
-+    imm &= ~(MSR_C | MSR_CC | MSR_PVR);
-+
-+    if (imm != 0) {
-+        if (set) {
-+            tcg_gen_ori_i32(cpu_msr, cpu_msr, imm);
-+        } else {
-+            tcg_gen_andi_i32(cpu_msr, cpu_msr, ~imm);
-+        }
-+        dc->cpustate_changed = 1;
-+    }
-+    return true;
-+}
-+
-+static bool trans_msrclr(DisasContext *dc, arg_type_msr *arg)
-+{
-+    return do_msrclrset(dc, arg, false);
-+}
-+
-+static bool trans_msrset(DisasContext *dc, arg_type_msr *arg)
-+{
-+    return do_msrclrset(dc, arg, true);
-+}
-+
- static void dec_msr(DisasContext *dc)
++#ifndef CONFIG_USER_ONLY
+ static void msr_write(DisasContext *dc, TCGv_i32 v)
  {
-     CPUState *cs = CPU(dc->cpu);
--    TCGv_i32 t0, t1;
-     unsigned int sr, rn;
--    bool to, clrset, extended = false;
-+    bool to, extended = false;
+     dc->cpustate_changed = 1;
+@@ -1310,6 +1311,7 @@ static void msr_write(DisasContext *dc, TCGv_i32 v)
+     /* Clear MSR_C and MSR_CC; MSR_PVR is not writable, and is always clear. */
+     tcg_gen_andi_i32(cpu_msr, v, ~(MSR_C | MSR_CC | MSR_PVR));
+ }
++#endif
  
-     sr = extract32(dc->imm, 0, 14);
-     to = extract32(dc->imm, 14, 1);
--    clrset = extract32(dc->imm, 15, 1) == 0;
-     dc->type_b = 1;
-     if (to) {
-         dc->cpustate_changed = 1;
-@@ -1334,40 +1379,6 @@ static void dec_msr(DisasContext *dc)
-         extended = extract32(dc->imm, e_bit[to], 1);
+ static bool do_msrclrset(DisasContext *dc, arg_type_msr *arg, bool set)
+ {
+@@ -1358,151 +1360,152 @@ static bool trans_msrset(DisasContext *dc, arg_type_msr *arg)
+     return do_msrclrset(dc, arg, true);
+ }
+ 
+-static void dec_msr(DisasContext *dc)
++static bool trans_mts(DisasContext *dc, arg_mts *arg)
+ {
+-    CPUState *cs = CPU(dc->cpu);
+-    unsigned int sr, rn;
+-    bool to, extended = false;
+-
+-    sr = extract32(dc->imm, 0, 14);
+-    to = extract32(dc->imm, 14, 1);
+-    dc->type_b = 1;
+-    if (to) {
+-        dc->cpustate_changed = 1;
++    if (trap_userspace(dc, true)) {
++        return true;
      }
  
--    /* msrclr and msrset.  */
--    if (clrset) {
--        bool clr = extract32(dc->ir, 16, 1);
+-    /* Extended MSRs are only available if addr_size > 32.  */
+-    if (dc->cpu->cfg.addr_size > 32) {
+-        /* The E-bit is encoded differently for To/From MSR.  */
+-        static const unsigned int e_bit[] = { 19, 24 };
 -
--        if (!dc->cpu->cfg.use_msr_instr) {
--            /* nop??? */
--            return;
--        }
--
--        if (trap_userspace(dc, dc->imm != 4 && dc->imm != 0)) {
--            return;
--        }
--
--        if (dc->rd)
--            msr_read(dc, cpu_R[dc->rd]);
--
--        t0 = tcg_temp_new_i32();
--        t1 = tcg_temp_new_i32();
--        msr_read(dc, t0);
--        tcg_gen_mov_i32(t1, *(dec_alu_op_b(dc)));
--
--        if (clr) {
--            tcg_gen_not_i32(t1, t1);
--            tcg_gen_and_i32(t0, t0, t1);
--        } else
--            tcg_gen_or_i32(t0, t0, t1);
--        msr_write(dc, t0);
--        tcg_temp_free_i32(t0);
--        tcg_temp_free_i32(t1);
--        tcg_gen_movi_i32(cpu_pc, dc->base.pc_next + 4);
--        dc->base.is_jmp = DISAS_UPDATE;
+-        extended = extract32(dc->imm, e_bit[to], 1);
++#ifdef CONFIG_USER_ONLY
++    g_assert_not_reached();
++#else
++    if (arg->e && arg->rs != 0x1003) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "Invalid extended mts reg 0x%x\n", arg->rs);
++        return true;
+     }
+ 
+-    if (trap_userspace(dc, to)) {
 -        return;
 -    }
--
-     if (trap_userspace(dc, to)) {
-         return;
++    TCGv_i32 src = reg_for_read(dc, arg->ra);
++    switch (arg->rs) {
++    case SR_MSR:
++        msr_write(dc, src);
++        break;
++    case SR_FSR:
++        tcg_gen_st_i32(src, cpu_env, offsetof(CPUMBState, fsr));
++        break;
++    case 0x800:
++        tcg_gen_st_i32(src, cpu_env, offsetof(CPUMBState, slr));
++        break;
++    case 0x802:
++        tcg_gen_st_i32(src, cpu_env, offsetof(CPUMBState, shr));
++        break;
+ 
+-#if !defined(CONFIG_USER_ONLY)
+-    /* Catch read/writes to the mmu block.  */
+-    if ((sr & ~0xff) == 0x1000) {
+-        TCGv_i32 tmp_ext = tcg_const_i32(extended);
+-        TCGv_i32 tmp_sr;
++    case 0x1000: /* PID */
++    case 0x1001: /* ZPR */
++    case 0x1002: /* TLBX */
++    case 0x1003: /* TLBLO */
++    case 0x1004: /* TLBHI */
++    case 0x1005: /* TLBSX */
++        {
++            TCGv_i32 tmp_ext = tcg_const_i32(arg->e);
++            TCGv_i32 tmp_reg = tcg_const_i32(arg->rs & 7);
+ 
+-        sr &= 7;
+-        tmp_sr = tcg_const_i32(sr);
+-        if (to) {
+-            gen_helper_mmu_write(cpu_env, tmp_ext, tmp_sr, cpu_R[dc->ra]);
+-        } else {
+-            gen_helper_mmu_read(cpu_R[dc->rd], cpu_env, tmp_ext, tmp_sr);
++            gen_helper_mmu_write(cpu_env, tmp_ext, tmp_reg, src);
++            tcg_temp_free_i32(tmp_reg);
++            tcg_temp_free_i32(tmp_ext);
+         }
+-        tcg_temp_free_i32(tmp_sr);
+-        tcg_temp_free_i32(tmp_ext);
+-        return;
++        break;
++
++    default:
++        qemu_log_mask(LOG_GUEST_ERROR, "Invalid mts reg 0x%x\n", arg->rs);
++        return true;
      }
++    dc->cpustate_changed = 1;
++    return true;
++#endif
++}
++
++static bool trans_mfs(DisasContext *dc, arg_mfs *arg)
++{
++    TCGv_i32 dest = reg_for_write(dc, arg->rd);
++
++    if (arg->e) {
++        switch (arg->rs) {
++        case SR_EAR:
++            {
++                TCGv_i64 t64 = tcg_temp_new_i64();
++                tcg_gen_ld_i64(t64, cpu_env, offsetof(CPUMBState, ear));
++                tcg_gen_extrh_i64_i32(dest, t64);
++                tcg_temp_free_i64(t64);
++            }
++            return true;
++#ifndef CONFIG_USER_ONLY
++        case 0x1003: /* TLBLO */
++            /* Handled below. */
++            break;
++#endif
++        case 0x2006 ... 0x2009:
++            /* High bits of PVR6-9 not implemented. */
++            tcg_gen_movi_i32(dest, 0);
++            return true;
++        default:
++            qemu_log_mask(LOG_GUEST_ERROR,
++                          "Invalid extended mfs reg 0x%x\n", arg->rs);
++            return true;
++        }
++    }
++
++    switch (arg->rs) {
++    case SR_PC:
++        tcg_gen_movi_i32(dest, dc->base.pc_next);
++        break;
++    case SR_MSR:
++        msr_read(dc, dest);
++        break;
++    case SR_EAR:
++        {
++            TCGv_i64 t64 = tcg_temp_new_i64();
++            tcg_gen_ld_i64(t64, cpu_env, offsetof(CPUMBState, ear));
++            tcg_gen_extrl_i64_i32(dest, t64);
++            tcg_temp_free_i64(t64);
++        }
++        break;
++    case SR_ESR:
++        tcg_gen_ld_i32(dest, cpu_env, offsetof(CPUMBState, esr));
++        break;
++    case SR_FSR:
++        tcg_gen_ld_i32(dest, cpu_env, offsetof(CPUMBState, fsr));
++        break;
++    case SR_BTR:
++        tcg_gen_ld_i32(dest, cpu_env, offsetof(CPUMBState, btr));
++        break;
++    case SR_EDR:
++        tcg_gen_ld_i32(dest, cpu_env, offsetof(CPUMBState, edr));
++        break;
++    case 0x800:
++        tcg_gen_ld_i32(dest, cpu_env, offsetof(CPUMBState, slr));
++        break;
++    case 0x802:
++        tcg_gen_ld_i32(dest, cpu_env, offsetof(CPUMBState, shr));
++        break;
++
++#ifndef CONFIG_USER_ONLY
++    case 0x1000: /* PID */
++    case 0x1001: /* ZPR */
++    case 0x1002: /* TLBX */
++    case 0x1003: /* TLBLO */
++    case 0x1004: /* TLBHI */
++    case 0x1005: /* TLBSX */
++        {
++            TCGv_i32 tmp_ext = tcg_const_i32(arg->e);
++            TCGv_i32 tmp_reg = tcg_const_i32(arg->rs & 7);
++
++            gen_helper_mmu_read(dest, cpu_env, tmp_ext, tmp_reg);
++            tcg_temp_free_i32(tmp_reg);
++            tcg_temp_free_i32(tmp_ext);
++        }
++        break;
+ #endif
+ 
+-    if (to) {
+-        switch (sr) {
+-            case SR_PC:
+-                break;
+-            case SR_MSR:
+-                msr_write(dc, cpu_R[dc->ra]);
+-                break;
+-            case SR_EAR:
+-                {
+-                    TCGv_i64 t64 = tcg_temp_new_i64();
+-                    tcg_gen_extu_i32_i64(t64, cpu_R[dc->ra]);
+-                    tcg_gen_st_i64(t64, cpu_env, offsetof(CPUMBState, ear));
+-                    tcg_temp_free_i64(t64);
+-                }
+-                break;
+-            case SR_ESR:
+-                tcg_gen_st_i32(cpu_R[dc->ra],
+-                               cpu_env, offsetof(CPUMBState, esr));
+-                break;
+-            case SR_FSR:
+-                tcg_gen_st_i32(cpu_R[dc->ra],
+-                               cpu_env, offsetof(CPUMBState, fsr));
+-                break;
+-            case SR_BTR:
+-                tcg_gen_st_i32(cpu_R[dc->ra],
+-                               cpu_env, offsetof(CPUMBState, btr));
+-                break;
+-            case SR_EDR:
+-                tcg_gen_st_i32(cpu_R[dc->ra],
+-                               cpu_env, offsetof(CPUMBState, edr));
+-                break;
+-            case 0x800:
+-                tcg_gen_st_i32(cpu_R[dc->ra],
+-                               cpu_env, offsetof(CPUMBState, slr));
+-                break;
+-            case 0x802:
+-                tcg_gen_st_i32(cpu_R[dc->ra],
+-                               cpu_env, offsetof(CPUMBState, shr));
+-                break;
+-            default:
+-                cpu_abort(CPU(dc->cpu), "unknown mts reg %x\n", sr);
+-                break;
+-        }
+-    } else {
+-        switch (sr) {
+-            case SR_PC:
+-                tcg_gen_movi_i32(cpu_R[dc->rd], dc->base.pc_next);
+-                break;
+-            case SR_MSR:
+-                msr_read(dc, cpu_R[dc->rd]);
+-                break;
+-            case SR_EAR:
+-                {
+-                    TCGv_i64 t64 = tcg_temp_new_i64();
+-                    tcg_gen_ld_i64(t64, cpu_env, offsetof(CPUMBState, ear));
+-                    if (extended) {
+-                        tcg_gen_extrh_i64_i32(cpu_R[dc->rd], t64);
+-                    } else {
+-                        tcg_gen_extrl_i64_i32(cpu_R[dc->rd], t64);
+-                    }
+-                    tcg_temp_free_i64(t64);
+-                }
+-                break;
+-            case SR_ESR:
+-                tcg_gen_ld_i32(cpu_R[dc->rd],
+-                               cpu_env, offsetof(CPUMBState, esr));
+-                break;
+-            case SR_FSR:
+-                tcg_gen_ld_i32(cpu_R[dc->rd],
+-                               cpu_env, offsetof(CPUMBState, fsr));
+-                break;
+-            case SR_BTR:
+-                tcg_gen_ld_i32(cpu_R[dc->rd],
+-                               cpu_env, offsetof(CPUMBState, btr));
+-                break;
+-            case SR_EDR:
+-                tcg_gen_ld_i32(cpu_R[dc->rd],
+-                               cpu_env, offsetof(CPUMBState, edr));
+-                break;
+-            case 0x800:
+-                tcg_gen_ld_i32(cpu_R[dc->rd],
+-                               cpu_env, offsetof(CPUMBState, slr));
+-                break;
+-            case 0x802:
+-                tcg_gen_ld_i32(cpu_R[dc->rd],
+-                               cpu_env, offsetof(CPUMBState, shr));
+-                break;
+-            case 0x2000 ... 0x200c:
+-                rn = sr & 0xf;
+-                tcg_gen_ld_i32(cpu_R[dc->rd],
+-                              cpu_env, offsetof(CPUMBState, pvr.regs[rn]));
+-                break;
+-            default:
+-                cpu_abort(cs, "unknown mfs reg %x\n", sr);
+-                break;
+-        }
+-    }
+-
+-    if (dc->rd == 0) {
+-        tcg_gen_movi_i32(cpu_R[0], 0);
++    case 0x2000 ... 0x200c:
++        tcg_gen_ld_i32(dest, cpu_env,
++                       offsetof(CPUMBState, pvr.regs[arg->rs - 0x2000]));
++        break;
++    default:
++        qemu_log_mask(LOG_GUEST_ERROR, "Invalid mfs reg 0x%x\n", arg->rs);
++        break;
+     }
++    return true;
+ }
+ 
+ static void do_rti(DisasContext *dc)
+@@ -1593,7 +1596,6 @@ static struct decoder_info {
+     };
+     void (*dec)(DisasContext *dc);
+ } decinfo[] = {
+-    {DEC_MSR, dec_msr},
+     {DEC_STREAM, dec_stream},
+     {{0, 0}, dec_null}
+ };
 -- 
 2.25.1
 
