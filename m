@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FE52257E32
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 18:07:28 +0200 (CEST)
-Received: from localhost ([::1]:54052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42D1A257E3D
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 18:09:06 +0200 (CEST)
+Received: from localhost ([::1]:34162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCmL9-0004sk-0h
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 12:07:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33330)
+	id 1kCmMj-0008Rx-9u
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 12:09:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCmJv-0003OW-D1
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:06:11 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:45381)
+ id 1kCmJw-0003Od-Ih
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:06:12 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:54427)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCmJr-0005td-SW
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:06:11 -0400
-Received: by mail-pl1-x633.google.com with SMTP id bh1so3225950plb.12
- for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 09:06:07 -0700 (PDT)
+ id 1kCmJs-0005tk-US
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:06:12 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id mm21so21775pjb.4
+ for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 09:06:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+Qj3xRWO6EliICZrXOPzUaS0C7IplaZERqwK2dfygrE=;
- b=SKkgiQZCcBx65/es52wy/nSwOdefuy/15lslalGHa1xke3Zb682mUXlbBDPgqExu1+
- zHb8B9oAH8BBr2O2WVxaIDt/p4NfTQn3dFzfkNm905F3P1ItqRqtKKnTnjJQEHzY3IsL
- VIXiiOBUmNukMpBilArRX7GOQ08HMhhcNXUni8Gg44ep2EQXJxkqZO20/Dp5Sxkr4krE
- rXPMGGQd5OUgpymcIqwEViebExSpswDAaG5HJyivIDEI26M23j2ssWqtX84O+G2HYhOB
- +MBwD5put/b1gTtUYVNqlqe6DNjBRW9Fqpu7LUPT2rGadhCzhjGtY452qaTK2ptZO1HY
- L5ng==
+ bh=4SYcyC7WRrB7DQoqG8Jlb5pwufeHvMZ+/v7u+myx2PU=;
+ b=d7LhMucORIONCqg2i3gR/PrClkr4YL03oYPiyxNr/RkK2dgmxxE5WzAAGw9tI7g8uw
+ VkIueu2ZfbdZVl7+FVcWh4VDqmAW5Xs2xUYy34E7n3pDGw4fN4K6yB88C6kLUHf16mt4
+ csGmS+B7F2S4GhH3F7Eh762+Jc6s7z3PfZMlVTFxtW+ZrWXIyZ0RTABM3ehB7jhlqvht
+ q/O3qJovqQx8IUHc7+PQ/lGz9T10sq7T7ZGxVZsYT1gNOhKOHjJxo5MKSl0bIERUuafD
+ j3LjlPEj6CPxQ5giBYlkTeWbV0n4NkJt4YqIRE118qgSks9jMWzdvOWt4dqR69dLZAyw
+ nTMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+Qj3xRWO6EliICZrXOPzUaS0C7IplaZERqwK2dfygrE=;
- b=AmlPO07cwkJh5rpszbAgAJz3OQ9AeAdisQbAtpTAqeBxrWv1xkb2MbXQXG1c6Xwy83
- nUGL5IsQDJdSto/Gfe/Cp0I1+FA+g5NUWIbuJtgmRDXhzrm6fGWln7iNKE35cZemyVCD
- r52yb8TlNttQP1QX1oYJKqovGUPiHSyc6EZd0jkhHGQ+VI4c5WBnwzWL5tyVxHGk0Jwn
- OM7uqHvmFvMsX+hh7/+lgOJHhS/yh1BiJcrsxWjgo/KftZN3u5ZUIqEB46j2PPAgPhkX
- HXLJl1Vp+AXgp6EPz/5eYGl/o/gKLJ/4xEoUvzCvPlaNofZOiQbpFuAbcn0mOby3bEAm
- w92Q==
-X-Gm-Message-State: AOAM532CvhNLglFJ4UkaLtEBBOCvi1h6c0xipvL6F/8wGf5DoRQvOcJ2
- E2VfhvuzSebmm/XPTrU1Gqyr6AU0kkmb4Q==
-X-Google-Smtp-Source: ABdhPJyYXgbdbcDN/qe/CXQPNYVsBLr4U4U5+Tv9bqq24SHnnGDsCFZsHtpbVZbTaSCkKgNS0EjNXg==
-X-Received: by 2002:a17:902:7083:: with SMTP id
- z3mr1503304plk.187.1598889965788; 
- Mon, 31 Aug 2020 09:06:05 -0700 (PDT)
+ bh=4SYcyC7WRrB7DQoqG8Jlb5pwufeHvMZ+/v7u+myx2PU=;
+ b=pYPLuQCN2eEtEvTHCBOIBofoX2NLItZQ6VHEhGzemCkZRzTWGL+HY21AP3TD08G7nC
+ HeqpmAetWFlsZHQ6aPsVSiKLpD5J4qevnkvj4fv33Nvi2hBdcIsYBIWWq4XjSf1inuZ7
+ TZo6x16tRaky1CFXfOAnRqvplufbAWmPnbOGhLQkKsQlbF2dPkBTHp2Cs3GzggaGv4RX
+ VzSK8HkckpvUrCZOfhKTc5LQxFABn1TiOsWqnJwuaIsKl89+PeU8FLlsa/mucJcG6sNE
+ d1mneFvKJR2c1JPeiQgsb5mk34zYrkIdmW6ZUXkSq1wDWVHyZObtlQbuu/4dOl5jvAOh
+ 1fbg==
+X-Gm-Message-State: AOAM5301i3APVgHE1N09zEpYJjSw44IVnhmsls00Z+yAnup+alDMfN+A
+ FqJ0+P/ifZsAjkvYCbT4luHKhknrGVUH8A==
+X-Google-Smtp-Source: ABdhPJzApW96pj/9JW00R2DM/ZzsuuHyUo76E2/pS4u+QZTw/0DuK3fJ6cxK9QblLD3p8DN3roFRFQ==
+X-Received: by 2002:a17:902:6902:: with SMTP id j2mr1554291plk.2.1598889967255; 
+ Mon, 31 Aug 2020 09:06:07 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id gt13sm17218pjb.43.2020.08.31.09.06.04
+ by smtp.gmail.com with ESMTPSA id gt13sm17218pjb.43.2020.08.31.09.06.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Aug 2020 09:06:05 -0700 (PDT)
+ Mon, 31 Aug 2020 09:06:06 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/76] tests/tcg: Add microblaze to arches filter
-Date: Mon, 31 Aug 2020 09:04:46 -0700
-Message-Id: <20200831160601.833692-2-richard.henderson@linaro.org>
+Subject: [PULL 02/76] tests/tcg: Do not require FE_TOWARDZERO
+Date: Mon, 31 Aug 2020 09:04:47 -0700
+Message-Id: <20200831160601.833692-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200831160601.833692-1-richard.henderson@linaro.org>
 References: <20200831160601.833692-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,29 +88,44 @@ Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Not attempting to use a single cross-compiler for both
-big-endian and little-endian at this time.
+This is optional in ISO C, and not all cpus provide it.
 
 Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/tcg/configure.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/tcg/multiarch/float_convs.c | 2 ++
+ tests/tcg/multiarch/float_madds.c | 2 ++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index 7d714f902a..598a50cd4f 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -94,7 +94,7 @@ for target in $target_list; do
-     xtensa|xtensaeb)
-       arches=xtensa
-       ;;
--    alpha|cris|hppa|i386|lm32|m68k|openrisc|riscv64|s390x|sh4|sparc64)
-+    alpha|cris|hppa|i386|lm32|microblaze|microblazeel|m68k|openrisc|riscv64|s390x|sh4|sparc64)
-       arches=$target
-       ;;
-     *)
+diff --git a/tests/tcg/multiarch/float_convs.c b/tests/tcg/multiarch/float_convs.c
+index 47e24b8b16..e9be75c2d5 100644
+--- a/tests/tcg/multiarch/float_convs.c
++++ b/tests/tcg/multiarch/float_convs.c
+@@ -30,7 +30,9 @@ float_mapping round_flags[] = {
+ #ifdef FE_DOWNWARD
+     { FE_DOWNWARD, "downwards" },
+ #endif
++#ifdef FE_TOWARDZERO
+     { FE_TOWARDZERO, "to zero" }
++#endif
+ };
+ 
+ static void print_input(float input)
+diff --git a/tests/tcg/multiarch/float_madds.c b/tests/tcg/multiarch/float_madds.c
+index eceb4ae38b..e422608ccd 100644
+--- a/tests/tcg/multiarch/float_madds.c
++++ b/tests/tcg/multiarch/float_madds.c
+@@ -29,7 +29,9 @@ float_mapping round_flags[] = {
+ #ifdef FE_DOWNWARD
+     { FE_DOWNWARD, "downwards" },
+ #endif
++#ifdef FE_TOWARDZERO
+     { FE_TOWARDZERO, "to zero" }
++#endif
+ };
+ 
+ 
 -- 
 2.25.1
 
