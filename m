@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4B86257E62
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 18:13:46 +0200 (CEST)
-Received: from localhost ([::1]:59770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B5D8257E6A
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 18:15:01 +0200 (CEST)
+Received: from localhost ([::1]:39712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCmRF-0001qx-RS
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 12:13:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33824)
+	id 1kCmSS-00054a-6a
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 12:15:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCmKJ-0004Ih-T3
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:06:35 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:41753)
+ id 1kCmKL-0004NJ-Tu
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:06:37 -0400
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:35652)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCmKI-0005zF-5L
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:06:35 -0400
-Received: by mail-pl1-x634.google.com with SMTP id l9so1610571plt.8
- for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 09:06:33 -0700 (PDT)
+ id 1kCmKJ-0005zZ-Tt
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:06:37 -0400
+Received: by mail-pf1-x429.google.com with SMTP id o68so816367pfg.2
+ for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 09:06:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=m3MYH1ZpDTZxIcPbri13lEz6BY7Q37pNtVKufrg+PL0=;
- b=iO2f8HVeuM/oIfYyxVyt2Vo5YvVjQ16mVl2in0qFsBq5wHHT1RLRfyPXqxChF5kw4N
- WsAJp9ZE2mdD9GNuSHDyJTkJhZr/yEryba8nQP/Ug8a7SfcWE6Enad6lJ7BSEm15723O
- c4xEKiSti9Hy1sF8YqVkA/ufzUHPQnOWOwwGrmT7cqiY6Q/QI3dVBY5wKmqQ79kAC4uw
- s6B0OWT6onLiN5G9K9Aul+AsHq2gJMnNlHNCKQQwHsMnm6WJRq0ro4BZXlueyvrZXLe7
- gGzWOGFDEwBWC7uz/IlElW2ZXZhEYKObQT6Soy1aqjUFsGvd/bNl2cmQ1g0o3s2cs4JB
- taQw==
+ bh=392OYT6LHbH2eWUoF1akQuoZ1nr82ScpvX4flFh2VTg=;
+ b=QvLWtPYiDmT/JFY+iWf7kBEhWERphk0tnv7rZxz1sh1y8oYKyAMRbmM43MuLX8FZli
+ ejpBvfklhRwz71cdg9LU0UxnxjKF5slDWRhpiS9+no/PdvxMdIsnY99NsQU5z0t2w90g
+ u3wIYMWh7vKSrPL14mKvlj4lA4ngqwM/uCYj73aTls6vCrmmzqEY3/JlsbRv3MDwjXbz
+ RFvQk7tDCvq1+y8GoweUGJqFReF8m4qd3nurI42NcyrCSPDIlh+jjMfGVwPphtsLuAFW
+ ALOpFx4IYQcdpot5v52fS43dNL+9Ur6YaIcN15OIq6v+EfpCiRzQBnvH9QPbNuu/7LHU
+ SUzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=m3MYH1ZpDTZxIcPbri13lEz6BY7Q37pNtVKufrg+PL0=;
- b=lWFZb/tVWoJOHXu7KOAUy4lzAXlYC3tGuhpS+bfJjYtZBSIvL77fNFVTrMwdXqdTPw
- 7Qr0seUwPfTxTfGymYQqgfv8CwhkjBLEMVdxJzWy6eY4bG1q1/qYtvtNlWzp4G15hVqk
- TIYplKHPn4w/g+nr84e3t10lmOdmWyw2hQrc58qsuxgsnUZBCTx+aqFh+s8+WyypBUSQ
- QNDd1QOkZS1s8rAfXDXatbKvezYTasfa1RRVnMBGAcwTYnRk1VpO5rDMBetPYx6Z+3fp
- P6i8j8KblxE/66Izsqi2C3IjXVRR+imnHvQmtX2uaoz5qZT+rIbv1/mODz6gGdQDoEbL
- KnEw==
-X-Gm-Message-State: AOAM531iaG1yM/fQZu/3zmZkCJwdXMPxk4uEbcMRW5EyCf0Yye03ccxp
- NAIar2L2tevcWEDt+1Lrm6IvXx3Ticbz8A==
-X-Google-Smtp-Source: ABdhPJzYVNkDh76QEFpxW9rTCs4yTIbmM0jRdJyhBG7T/7n9hcbh6awL/Rj0K18MX4l0QZlOILlBkw==
-X-Received: by 2002:a17:902:a58c:: with SMTP id
- az12mr1585331plb.109.1598889992311; 
- Mon, 31 Aug 2020 09:06:32 -0700 (PDT)
+ bh=392OYT6LHbH2eWUoF1akQuoZ1nr82ScpvX4flFh2VTg=;
+ b=klzPCJhRfZ56AZWuRSn0tMtgBP3F1Uk7RgOKQmXAH75sRdHq2QBslvm2KCLnerkoFq
+ 6UqVBIcrMG22C1EMLZztjX1VarFozmYm4fUlrUTXSgwzp3aBji+sdn8HsW+DLifV6oMR
+ f31FnCu+mf1pA4W1978inlPolNWXkKtOADmbjfGfMaz9Em7R4O2Q9E8iiPYYLPl4QzJx
+ /YNPwhHpBr87bBBC6v2hsky+sVsWoC6OkRiqO+Wa0PoTKNMAcslGAhEtY8IR5bbRjbld
+ /xEg1/OceYi3SCYCgWLl8nCmTj6t7rcDZ1dQuNX7yrdUNK7aS/tvmQ9BaaeA7w/tPpJQ
+ p4dQ==
+X-Gm-Message-State: AOAM531solpkcPg3fBz6mBS7txQJN0WuKT5DEhxRuGlnYApvSG0WT0Yb
+ 5ZOWw9SDBntF9YR9EdCgMnMQdxGKD8tM/Q==
+X-Google-Smtp-Source: ABdhPJzH4uWXzHQpeG7zx9Zzx678DofsA+zYdAYwQ4TkVCtfZHTjcMKpA6m+aFhMqrwAcAtvDVmHAw==
+X-Received: by 2002:a65:670d:: with SMTP id u13mr1761993pgf.280.1598889993678; 
+ Mon, 31 Aug 2020 09:06:33 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id gt13sm17218pjb.43.2020.08.31.09.06.31
+ by smtp.gmail.com with ESMTPSA id gt13sm17218pjb.43.2020.08.31.09.06.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Aug 2020 09:06:31 -0700 (PDT)
+ Mon, 31 Aug 2020 09:06:33 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/76] target/microblaze: Mark raise_exception as noreturn
-Date: Mon, 31 Aug 2020 09:05:06 -0700
-Message-Id: <20200831160601.833692-22-richard.henderson@linaro.org>
+Subject: [PULL 22/76] target/microblaze: Remove helper_debug and env->debug
+Date: Mon, 31 Aug 2020 09:05:07 -0700
+Message-Id: <20200831160601.833692-23-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200831160601.833692-1-richard.henderson@linaro.org>
 References: <20200831160601.833692-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,26 +88,123 @@ Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will allow tcg to remove any dead code that might
-follow an exception.
+This is not used, and seems redundant with -d cpu.
 
 Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/helper.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/microblaze/cpu.h       |  1 -
+ target/microblaze/helper.h    |  1 -
+ target/microblaze/op_helper.c | 23 -----------------------
+ target/microblaze/translate.c | 16 ++--------------
+ 4 files changed, 2 insertions(+), 39 deletions(-)
 
+diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
+index b88acba12b..7708c9a3d3 100644
+--- a/target/microblaze/cpu.h
++++ b/target/microblaze/cpu.h
+@@ -229,7 +229,6 @@ typedef struct CPUMBState CPUMBState;
+ #define STREAM_NONBLOCK  (1 << 4)
+ 
+ struct CPUMBState {
+-    uint32_t debug;
+     uint32_t btaken;
+     uint32_t btarget;
+     uint32_t bimm;
 diff --git a/target/microblaze/helper.h b/target/microblaze/helper.h
-index 2f8bdea22b..820711366d 100644
+index 820711366d..9309142f8d 100644
 --- a/target/microblaze/helper.h
 +++ b/target/microblaze/helper.h
-@@ -1,4 +1,4 @@
--DEF_HELPER_2(raise_exception, void, env, i32)
-+DEF_HELPER_FLAGS_2(raise_exception, TCG_CALL_NO_WG, noreturn, env, i32)
- DEF_HELPER_1(debug, void, env)
+@@ -1,5 +1,4 @@
+ DEF_HELPER_FLAGS_2(raise_exception, TCG_CALL_NO_WG, noreturn, env, i32)
+-DEF_HELPER_1(debug, void, env)
  DEF_HELPER_FLAGS_3(carry, TCG_CALL_NO_RWG_SE, i32, i32, i32, i32)
  DEF_HELPER_2(cmp, i32, i32, i32)
+ DEF_HELPER_2(cmpu, i32, i32, i32)
+diff --git a/target/microblaze/op_helper.c b/target/microblaze/op_helper.c
+index dc2bec0c99..d79202c3f8 100644
+--- a/target/microblaze/op_helper.c
++++ b/target/microblaze/op_helper.c
+@@ -71,29 +71,6 @@ void helper_raise_exception(CPUMBState *env, uint32_t index)
+     cpu_loop_exit(cs);
+ }
+ 
+-void helper_debug(CPUMBState *env)
+-{
+-    int i;
+-
+-    qemu_log("PC=%08x\n", env->pc);
+-    qemu_log("rmsr=%x resr=%x rear=%" PRIx64 " "
+-             "debug[%x] imm=%x iflags=%x\n",
+-             env->msr, env->esr, env->ear,
+-             env->debug, env->imm, env->iflags);
+-    qemu_log("btaken=%d btarget=%x mode=%s(saved=%s) eip=%d ie=%d\n",
+-             env->btaken, env->btarget,
+-             (env->msr & MSR_UM) ? "user" : "kernel",
+-             (env->msr & MSR_UMS) ? "user" : "kernel",
+-             (bool)(env->msr & MSR_EIP),
+-             (bool)(env->msr & MSR_IE));
+-    for (i = 0; i < 32; i++) {
+-        qemu_log("r%2.2d=%8.8x ", i, env->regs[i]);
+-        if ((i + 1) % 4 == 0)
+-            qemu_log("\n");
+-    }
+-    qemu_log("\n\n");
+-}
+-
+ static inline uint32_t compute_carry(uint32_t a, uint32_t b, uint32_t cin)
+ {
+     uint32_t cout = 0;
+diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
+index 9a00a78b8a..ecfa6b86a4 100644
+--- a/target/microblaze/translate.c
++++ b/target/microblaze/translate.c
+@@ -53,7 +53,6 @@
+ #define DISAS_UPDATE  DISAS_TARGET_1 /* cpu state was modified dynamically */
+ #define DISAS_TB_JUMP DISAS_TARGET_2 /* only pc was modified statically */
+ 
+-static TCGv_i32 env_debug;
+ static TCGv_i32 cpu_R[32];
+ static TCGv_i32 cpu_pc;
+ static TCGv_i32 cpu_msr;
+@@ -1675,13 +1674,6 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+         tcg_gen_insn_start(dc->pc);
+         num_insns++;
+ 
+-#if SIM_COMPAT
+-        if (qemu_loglevel_mask(CPU_LOG_TB_IN_ASM)) {
+-            tcg_gen_movi_i32(cpu_pc, dc->pc);
+-            gen_helper_debug();
+-        }
+-#endif
+-
+         if (unlikely(cpu_breakpoint_test(cs, dc->pc, BP_ANY))) {
+             gen_raise_exception_sync(dc, EXCP_DEBUG);
+             /* The address covered by the breakpoint must be included in
+@@ -1824,10 +1816,9 @@ void mb_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+     qemu_fprintf(f, "IN: PC=%x %s\n",
+                  env->pc, lookup_symbol(env->pc));
+     qemu_fprintf(f, "rmsr=%x resr=%x rear=%" PRIx64 " "
+-                 "debug=%x imm=%x iflags=%x fsr=%x rbtr=%x\n",
++                 "imm=%x iflags=%x fsr=%x rbtr=%x\n",
+                  env->msr, env->esr, env->ear,
+-                 env->debug, env->imm, env->iflags, env->fsr,
+-                 env->btr);
++                 env->imm, env->iflags, env->fsr, env->btr);
+     qemu_fprintf(f, "btaken=%d btarget=%x mode=%s(saved=%s) eip=%d ie=%d\n",
+                  env->btaken, env->btarget,
+                  (env->msr & MSR_UM) ? "user" : "kernel",
+@@ -1857,9 +1848,6 @@ void mb_tcg_init(void)
+ {
+     int i;
+ 
+-    env_debug = tcg_global_mem_new_i32(cpu_env,
+-                    offsetof(CPUMBState, debug),
+-                    "debug0");
+     env_iflags = tcg_global_mem_new_i32(cpu_env,
+                     offsetof(CPUMBState, iflags),
+                     "iflags");
 -- 
 2.25.1
 
