@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EDDC258371
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 23:25:18 +0200 (CEST)
-Received: from localhost ([::1]:59060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E69C0258378
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 23:27:00 +0200 (CEST)
+Received: from localhost ([::1]:36418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCrIj-0001Jz-0P
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 17:25:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45318)
+	id 1kCrKN-0003rN-U1
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 17:26:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kCr3g-0006re-1A
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:09:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36045)
+ id 1kCr3i-0006tI-Ev
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:09:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48355)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kCr3e-0000J5-6N
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:09:43 -0400
+ id 1kCr3f-0000JH-H4
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:09:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598908181;
+ s=mimecast20190719; t=1598908182;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L6b4xBWy8WQuhQthmWGIy2Zb3NGXH6qeT5Yf4lCM9IA=;
- b=ZpJ5NcYhkw85Ueek7OHyZy9VRhi8JntMq/hBrMjDL/Z/T9WIusF0Ne2YtvpVAUPzRtxqkh
- /Kcj4maqqyuvYgF5Xx6ZTB+uEPRLg7rWbSvkj/d0/Cm/oaCdPT+78sZIs0b70tDEDkjafW
- saC6sEL/+g7LvtYwWMIaGT/5/VIxaC0=
+ bh=Wbzi430Kpadf0ivRBdvVfzRyP76PlwJUtCXjcSq46Ns=;
+ b=LX6Jxs+e/Hq/iAQhpsnZHI5TZ4JRQG7ueBdmbevCNHtaFk5LFFikPfxE3A6ZJFsUizvj06
+ 2EQfI/iBIxQENj4hWvhEANYEef0TJfsRqo1R6ECc+cCQNAaVcPQ2/DS6qfKtnhKlVaTc/q
+ qUX4mCoo8vnnd11wP3XiXSCe8rnoot8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-hDT5kukYNOOqRmOgWWZHlw-1; Mon, 31 Aug 2020 17:09:39 -0400
-X-MC-Unique: hDT5kukYNOOqRmOgWWZHlw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-161-OhSkuY7nNgKFd-eGMJyAFg-1; Mon, 31 Aug 2020 17:09:40 -0400
+X-MC-Unique: OhSkuY7nNgKFd-eGMJyAFg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6AC921888A0A;
- Mon, 31 Aug 2020 21:09:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F881801AB2;
+ Mon, 31 Aug 2020 21:09:39 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 351435D9CD;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0D8BF16E27;
  Mon, 31 Aug 2020 21:09:38 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 16/18] [automated] Use OBJECT_DECLARE_TYPE where possible
- (pass 2)
-Date: Mon, 31 Aug 2020 17:07:38 -0400
-Message-Id: <20200831210740.126168-17-ehabkost@redhat.com>
+Subject: [PATCH v4 17/18] [automated] Use OBJECT_DECLARE_TYPE where possible
+ (pass 3)
+Date: Mon, 31 Aug 2020 17:07:39 -0400
+Message-Id: <20200831210740.126168-18-ehabkost@redhat.com>
 In-Reply-To: <20200831210740.126168-1-ehabkost@redhat.com>
 References: <20200831210740.126168-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 13:03:24
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 15:34:32
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -81,11 +81,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-ppc@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm@nongnu.org,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -99,64 +97,38 @@ $ ./scripts/codeconverter/converter.py -i \
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-Changes v3 -> v4: none
+Changes series v3 -> v4: this is a new patch added in series v4
 
-Changes series v2 -> v3: this is a new patch added in series v3
-
-The script was re-run after rebase and after additional patches
-were added to this series.
+The script was re-run after series rebase.
 
 This is being submitted as a separate patch to make review
 easier, but it can be squashed into the previous patch once it
 gets reviewed.
-
 ---
-Cc: David Gibson <david@gibson.dropbear.id.au>
-Cc: "Cédric Le Goater" <clg@kaod.org>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
-Cc: qemu-ppc@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-arm@nongnu.org
 Cc: qemu-devel@nongnu.org
 ---
- include/hw/ppc/xive.h | 6 ++----
- target/rx/cpu-qom.h   | 6 ++----
- 2 files changed, 4 insertions(+), 8 deletions(-)
+ include/hw/arm/armsse.h | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-index 48595ab641..482fafccfd 100644
---- a/include/hw/ppc/xive.h
-+++ b/include/hw/ppc/xive.h
-@@ -345,12 +345,10 @@ struct XiveRouter {
+diff --git a/include/hw/arm/armsse.h b/include/hw/arm/armsse.h
+index 452cbb5793..b844ef6bc0 100644
+--- a/include/hw/arm/armsse.h
++++ b/include/hw/arm/armsse.h
+@@ -108,10 +108,8 @@
+ #include "qom/object.h"
  
-     XiveFabric *xfb;
- };
--typedef struct XiveRouter XiveRouter;
- 
- #define TYPE_XIVE_ROUTER "xive-router"
--typedef struct XiveRouterClass XiveRouterClass;
--DECLARE_OBJ_CHECKERS(XiveRouter, XiveRouterClass,
--                     XIVE_ROUTER, TYPE_XIVE_ROUTER)
-+OBJECT_DECLARE_TYPE(XiveRouter, XiveRouterClass,
-+                    xive_router, XIVE_ROUTER)
- 
- struct XiveRouterClass {
-     SysBusDeviceClass parent;
-diff --git a/target/rx/cpu-qom.h b/target/rx/cpu-qom.h
-index 05f5773ab1..6c5321078d 100644
---- a/target/rx/cpu-qom.h
-+++ b/target/rx/cpu-qom.h
-@@ -26,10 +26,8 @@
- 
- #define TYPE_RX62N_CPU RX_CPU_TYPE_NAME("rx62n")
- 
--typedef struct RXCPU RXCPU;
--typedef struct RXCPUClass RXCPUClass;
--DECLARE_OBJ_CHECKERS(RXCPU, RXCPUClass,
--                     RX_CPU, TYPE_RX_CPU)
-+OBJECT_DECLARE_TYPE(RXCPU, RXCPUClass,
-+                    rx_cpu, RX_CPU)
+ #define TYPE_ARM_SSE "arm-sse"
+-typedef struct ARMSSE ARMSSE;
+-typedef struct ARMSSEClass ARMSSEClass;
+-DECLARE_OBJ_CHECKERS(ARMSSE, ARMSSEClass,
+-                     ARM_SSE, TYPE_ARM_SSE)
++OBJECT_DECLARE_TYPE(ARMSSE, ARMSSEClass,
++                    arm_sse, ARM_SSE)
  
  /*
-  * RXCPUClass:
+  * These type names are for specific IoTKit subsystems; other than
 -- 
 2.26.2
 
