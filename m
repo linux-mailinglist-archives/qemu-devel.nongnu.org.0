@@ -2,61 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4928C2583B2
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 23:40:56 +0200 (CEST)
-Received: from localhost ([::1]:35136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 516A62583A3
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 23:35:55 +0200 (CEST)
+Received: from localhost ([::1]:43980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCrXr-00020l-Bx
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 17:40:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47546)
+	id 1kCrT0-0002PK-CM
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 17:35:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kCrDe-0004Rg-Tc
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:20:02 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:35674)
+ id 1kCrDg-0004Sl-HX; Mon, 31 Aug 2020 17:20:04 -0400
+Received: from mail-qv1-f65.google.com ([209.85.219.65]:40178)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kCrDc-0001Yn-W0
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 17:20:02 -0400
-Received: by mail-qt1-f195.google.com with SMTP id p65so5898324qtd.2
- for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 14:20:00 -0700 (PDT)
+ id 1kCrDe-0001Yr-1U; Mon, 31 Aug 2020 17:20:04 -0400
+Received: by mail-qv1-f65.google.com with SMTP id s15so3336906qvv.7;
+ Mon, 31 Aug 2020 14:20:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=/gKKHLYgrCm3RF7D2iv78T5YKZYhOS467RhQBHNiTXg=;
- b=U1IlEU5g4KPzHUhCJ1H9r7BLbZePllEhckQFCyDZImlT9g5m0dg0sv6yFUY93c/H6G
- usGh5TLMd7CRqxqiI5VfpZqd5FLJk18G5Bnzs181qbryx/NaTHmQIUfrP5eGrVPgb9EW
- R0CS+2AUJyI1Vt/1KapZUiSYcDwdvDKFPLzjzWjbdoKot7+NQdSn6UOmlmGOfirCttx5
- 7MpoqQBNqY4EznT8sAB0nefleCJTKYVzzMyghegCDEQjqO9uwqsSJPHDxgujSqFozlB0
- wdayP6JwCHi74bLw23tXRJmtuOV/Yqn3oYt1ma2DiSBs5HUM6aJkG45x4jY7glJR/vxs
- g9ZA==
-X-Gm-Message-State: AOAM532W5LwWwswTsRrNAMqhVniKHGGYIl2pp7uEA1CycREwSrX+p90t
- fWMF9h8oucfrC4PeSFXmnJJmqnT0uuRLJFGA2amXL7mr
-X-Google-Smtp-Source: ABdhPJxOHbVsgCj2VSwMMeWdzKzsmgWiIvnbMytxcXpqesU2nzUqmENAbYdIu/iHQxGXAHuJ+dByBUW8rLo5x3jNMMY=
-X-Received: by 2002:ac8:f86:: with SMTP id b6mr3333909qtk.252.1598908800174;
+ bh=F2QmUjKxgknkTpjif27qNU+W0a1swYhjYlyfFRQE5ps=;
+ b=UDMuFGn5LZI/xK+itCBMwDrJV45cBvPnS5pWtkfXA4/TSHfEH7w6AJegj+NFo9qG8H
+ l/oEFH8a5ngg/5Q47x7lZ6VUlRipwfKGOKBkXv+fbnf352XsFdhsVXMTZGLxyEAg9zgp
+ uCy3yCGpFnfNgun7CHLexhjUXoIFFUCtgfhHdJ/TyEVXzayJzb2N0DB57puUkoOWCs9z
+ qyaVw2OOachbpmesxHAVJNpQQuKWko61iPG7VdhB6VhKYVfDD3Hagdlc03qDaVGxtlHx
+ 3YjLM6HIgHUaxi93W40SkRW9vDyzUs9qVF8N+BMJH4bdW/Cwa4eRlp3Ss3Vi6k9/T5M4
+ SB3w==
+X-Gm-Message-State: AOAM531SVd31oKgeIMiREI8FVIx7X5f8ilg+evOTtr4sQxPO6ODLERRo
+ tHZ2YCCfLSN3ppZ+H0PDJwtphagdBCipI9d2MaA=
+X-Google-Smtp-Source: ABdhPJxlfYefVSpGHj3LcvER2ERQs9doqFE2fB12FC0NJob71KVT19K96pAdemnYxauGquUWL/PArQr4Yn5e4Tr9Bxw=
+X-Received: by 2002:a0c:f493:: with SMTP id i19mr3017469qvm.84.1598908800880; 
  Mon, 31 Aug 2020 14:20:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200827123859.81793-1-ysato@users.sourceforge.jp>
-In-Reply-To: <20200827123859.81793-1-ysato@users.sourceforge.jp>
+References: <20200827124335.30586-1-leif@nuviainc.com>
+In-Reply-To: <20200827124335.30586-1-leif@nuviainc.com>
 From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Mon, 31 Aug 2020 22:38:37 +0200
-Message-ID: <CAAdtpL4tyCfa-vEnYVP1i_3ksjBkAaDVx1wwMfBVHfA+BhS_wA@mail.gmail.com>
-Subject: Re: [PATCH 00/20] RX target update
-To: Yoshinori Sato <ysato@users.sourceforge.jp>
-Content-Type: multipart/alternative; boundary="00000000000010135305ae32f7a9"
-Received-SPF: pass client-ip=209.85.160.195;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-qt1-f195.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 17:15:50
+Date: Mon, 31 Aug 2020 22:41:41 +0200
+Message-ID: <CAAdtpL6LAa9h2sBNN9v=3kvwqOabd4KwE4CksPAwK6ERYw0C5g@mail.gmail.com>
+Subject: Re: [PATCH v2] hw/arm/sbsa-ref: add "reg" property to DT cpu nodes
+To: Leif Lindholm <leif@nuviainc.com>
+Content-Type: multipart/alternative; boundary="0000000000001ad54305ae32f72e"
+Received-SPF: pass client-ip=209.85.219.65;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-qv1-f65.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 17:15:47
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -15
 X-Spam_score: -1.6
 X-Spam_bar: -
 X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
  FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,269 +67,252 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Graeme Gregory <graeme@nuviainc.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Tanmay Jagdale <tanmay.jagdale@linaro.org>,
+ Radoslaw Biernacki <rad@semihalf.com>, qemu-devel@nongnu.org,
+ qemu-arm <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000010135305ae32f7a9
+--0000000000001ad54305ae32f72e
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hello Yoshinori,
+Le jeu. 27 ao=C3=BBt 2020 14:45, Leif Lindholm <leif@nuviainc.com> a =C3=A9=
+crit :
 
-Le jeu. 27 ao=C3=BBt 2020 14:43, Yoshinori Sato <ysato@users.sourceforge.jp=
-> a
-=C3=A9crit :
-
-> Hello.
-> This series Renesas RX updates.
+> The sbsa-ref platform uses a minimal device tree to pass amount of memory
+> as well as number of cpus to the firmware. However, when dumping that
+> minimal dtb (with -M sbsa-virt,dumpdtb=3D<file>), the resulting blob
+> generates a warning when decompiled by dtc due to lack of reg property.
 >
-> It consists of the following contents.
-> * Update firmware loader.
-> * Rewrite peripheal modules (Timer and SCI).
->   - Unified SH4 module.
->   - Using clock API
-> * New peripheal modules.
->   - On-chip clock generator.
->   - Multi-function timer.
->   - Ethernet MAC.
-> * New real hardware target.
->   - TokushudenshiKairo TKDN-RX62N-BRD.
->   - CQ publishing CQ-FRK-RX62N
+> Add a simple reg property per cpu, representing a 64-bit MPIDR_EL1.
+>
+> This also ends up being cleaner than having the firmware calculating its
+> own IDs for generating APCI.
+>
+> Signed-off-by: Leif Lindholm <leif@nuviainc.com>
 >
 
-How can we test them?
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-
-> Yoshinori Sato (20):
->   loader.c: Add support Motrola S-record format.
->   include/elf.h: Add EM_RX.
->   hw/rx: Firmware and kernel loader.
->   hw/rx: New firmware loader.
->   hw/rx: Add RX62N Clock generator
->   hw/timer: Renesas 8bit timer emulation.
->   hw/rx: RX62N convert new 8bit timer.
->   hw/timer: Renesas TMU/CMT module.
->   hw/timer: Remove renesas_cmt.
->   hw/rx: Convert to renesas_timer
->   hw/char: Renesas SCI module.
->   hw/rx/rx62n: Use New SCI module.
->   hw/timer: Add Renesas MTU2
->   hw/rx/rx62n: RX62N Add MTU module
->   hw/net: Add generic Bit-bang MDIO PHY.
->   hw/net: Add Renesas On-chip Ethernet MAC
->   hw/rx/rx62n: Add Ethernet support.
->   hw/rx: Add Tokudenkairo TKDN-RX62N-BRD
->   hw/rx: Add CQ-FRK-RX62N target
->   MAINTAINERS: Update RX entry
+---
 >
->  default-configs/rx-softmmu.mak   |    2 +
->  include/elf.h                    |    2 +
->  include/hw/char/renesas_sci.h    |  129 ++-
->  include/hw/loader.h              |   14 +
->  include/hw/net/mdio.h            |  126 +++
->  include/hw/net/renesas_eth.h     |   57 ++
->  include/hw/rx/loader.h           |   35 +
->  include/hw/rx/rx62n-cpg.h        |   72 ++
->  include/hw/rx/rx62n.h            |   36 +-
->  include/hw/timer/renesas_cmt.h   |   40 -
->  include/hw/timer/renesas_mtu.h   |   90 ++
->  include/hw/timer/renesas_timer.h |  103 +++
->  include/hw/timer/renesas_tmr.h   |   55 --
->  include/hw/timer/renesas_tmr8.h  |   67 ++
->  hw/char/renesas_sci.c            | 1040 ++++++++++++++++++-----
->  hw/core/loader.c                 |  208 +++++
->  hw/net/mdio.c                    |  264 ++++++
->  hw/net/renesas_eth.c             |  875 ++++++++++++++++++++
->  hw/rx/cq-frk-rx62n.c             |   94 +++
->  hw/rx/loader.c                   |  182 +++++
->  hw/rx/rx-gdbsim.c                |   98 +--
->  hw/rx/rx62n-cpg.c                |  344 ++++++++
->  hw/rx/rx62n.c                    |  140 ++--
->  hw/rx/tkdn-rx62n.c               |  192 +++++
->  hw/timer/renesas_cmt.c           |  283 -------
->  hw/timer/renesas_mtu.c           | 1312 ++++++++++++++++++++++++++++++
->  hw/timer/renesas_timer.c         |  639 +++++++++++++++
->  hw/timer/renesas_tmr.c           |  477 -----------
->  hw/timer/renesas_tmr8.c          |  540 ++++++++++++
->  MAINTAINERS                      |    2 +
->  hw/net/Kconfig                   |    8 +
->  hw/net/meson.build               |    3 +
->  hw/rx/Kconfig                    |   16 +-
->  hw/rx/meson.build                |    5 +-
->  hw/timer/Kconfig                 |    9 +-
->  hw/timer/meson.build             |    5 +-
->  36 files changed, 6391 insertions(+), 1173 deletions(-)
->  create mode 100644 include/hw/net/mdio.h
->  create mode 100644 include/hw/net/renesas_eth.h
->  create mode 100644 include/hw/rx/loader.h
->  create mode 100644 include/hw/rx/rx62n-cpg.h
->  delete mode 100644 include/hw/timer/renesas_cmt.h
->  create mode 100644 include/hw/timer/renesas_mtu.h
->  create mode 100644 include/hw/timer/renesas_timer.h
->  delete mode 100644 include/hw/timer/renesas_tmr.h
->  create mode 100644 include/hw/timer/renesas_tmr8.h
->  create mode 100644 hw/net/mdio.c
->  create mode 100644 hw/net/renesas_eth.c
->  create mode 100644 hw/rx/cq-frk-rx62n.c
->  create mode 100644 hw/rx/loader.c
->  create mode 100644 hw/rx/rx62n-cpg.c
->  create mode 100644 hw/rx/tkdn-rx62n.c
->  delete mode 100644 hw/timer/renesas_cmt.c
->  create mode 100644 hw/timer/renesas_mtu.c
->  create mode 100644 hw/timer/renesas_timer.c
->  delete mode 100644 hw/timer/renesas_tmr.c
->  create mode 100644 hw/timer/renesas_tmr8.c
+> As per Graeme's feedback, properly represent the MPIDR topology info
+> in the reg property rather than just counting cores (and update the
+> commit message on why this is useful).
+> I'm using the local helper function sbsa_ref_cpu_mp_affinity() for this,
+> and moving it up somewhat rather than adding a forward declaration.
 >
+>  hw/arm/sbsa-ref.c | 29 +++++++++++++++++++++++------
+>  1 file changed, 23 insertions(+), 6 deletions(-)
+>
+> diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+> index f030a416fd..3e65ded9a0 100644
+> --- a/hw/arm/sbsa-ref.c
+> +++ b/hw/arm/sbsa-ref.c
+> @@ -138,6 +138,12 @@ static const int sbsa_ref_irqmap[] =3D {
+>      [SBSA_EHCI] =3D 11,
+>  };
+>
+> +static uint64_t sbsa_ref_cpu_mp_affinity(SBSAMachineState *sms, int idx)
+> +{
+> +    uint8_t clustersz =3D ARM_DEFAULT_CPUS_PER_CLUSTER;
+> +    return arm_cpu_mp_affinity(idx, clustersz);
+> +}
+> +
+>  /*
+>   * Firmware on this machine only uses ACPI table to load OS, these limit=
+ed
+>   * device tree nodes are just to let firmware know the info which varies
+> from
+> @@ -183,14 +189,31 @@ static void create_fdt(SBSAMachineState *sms)
+>          g_free(matrix);
+>      }
+>
+> +    /*
+> +     * From Documentation/devicetree/bindings/arm/cpus.yaml
+> +     *  On ARM v8 64-bit systems this property is required
+> +     *    and matches the MPIDR_EL1 register affinity bits.
+> +     *
+> +     *    * If cpus node's #address-cells property is set to 2
+> +     *
+> +     *      The first reg cell bits [7:0] must be set to
+> +     *      bits [39:32] of MPIDR_EL1.
+> +     *
+> +     *      The second reg cell bits [23:0] must be set to
+> +     *      bits [23:0] of MPIDR_EL1.
+> +     */
+>      qemu_fdt_add_subnode(sms->fdt, "/cpus");
+> +    qemu_fdt_setprop_cell(sms->fdt, "/cpus", "#address-cells", 2);
+> +    qemu_fdt_setprop_cell(sms->fdt, "/cpus", "#size-cells", 0x0);
+>
+>      for (cpu =3D sms->smp_cpus - 1; cpu >=3D 0; cpu--) {
+>          char *nodename =3D g_strdup_printf("/cpus/cpu@%d", cpu);
+>          ARMCPU *armcpu =3D ARM_CPU(qemu_get_cpu(cpu));
+>          CPUState *cs =3D CPU(armcpu);
+> +        uint64_t mpidr =3D sbsa_ref_cpu_mp_affinity(sms, cpu);
+>
+>          qemu_fdt_add_subnode(sms->fdt, nodename);
+> +        qemu_fdt_setprop_u64(sms->fdt, nodename, "reg", mpidr);
+>
+>          if (ms->possible_cpus->cpus[cs->cpu_index].props.has_node_id) {
+>              qemu_fdt_setprop_cell(sms->fdt, nodename, "numa-node-id",
+> @@ -717,12 +740,6 @@ static void sbsa_ref_init(MachineState *machine)
+>      arm_load_kernel(ARM_CPU(first_cpu), machine, &sms->bootinfo);
+>  }
+>
+> -static uint64_t sbsa_ref_cpu_mp_affinity(SBSAMachineState *sms, int idx)
+> -{
+> -    uint8_t clustersz =3D ARM_DEFAULT_CPUS_PER_CLUSTER;
+> -    return arm_cpu_mp_affinity(idx, clustersz);
+> -}
+> -
+>  static const CPUArchIdList *sbsa_ref_possible_cpu_arch_ids(MachineState
+> *ms)
+>  {
+>      unsigned int max_cpus =3D ms->smp.max_cpus;
 > --
 > 2.20.1
 >
 >
 >
 
---00000000000010135305ae32f7a9
+--0000000000001ad54305ae32f72e
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto"><div>Hello Yoshinori,<div dir=3D"auto"><br></div><div cla=
-ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Le jeu. 27 ao=C3=
-=BBt 2020 14:43, Yoshinori Sato &lt;<a href=3D"mailto:ysato@users.sourcefor=
-ge.jp">ysato@users.sourceforge.jp</a>&gt; a =C3=A9crit=C2=A0:<br></div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #c=
-cc solid;padding-left:1ex">Hello.<br>
-This series Renesas RX updates.<br>
+<div dir=3D"auto"><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
+s=3D"gmail_attr">Le jeu. 27 ao=C3=BBt 2020 14:45, Leif Lindholm &lt;<a href=
+=3D"mailto:leif@nuviainc.com">leif@nuviainc.com</a>&gt; a =C3=A9crit=C2=A0:=
+<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
+er-left:1px #ccc solid;padding-left:1ex">The sbsa-ref platform uses a minim=
+al device tree to pass amount of memory<br>
+as well as number of cpus to the firmware. However, when dumping that<br>
+minimal dtb (with -M sbsa-virt,dumpdtb=3D&lt;file&gt;), the resulting blob<=
+br>
+generates a warning when decompiled by dtc due to lack of reg property.<br>
 <br>
-It consists of the following contents.<br>
-* Update firmware loader.<br>
-* Rewrite peripheal modules (Timer and SCI).<br>
-=C2=A0 - Unified SH4 module.<br>
-=C2=A0 - Using clock API<br>
-* New peripheal modules.<br>
-=C2=A0 - On-chip clock generator.<br>
-=C2=A0 - Multi-function timer.<br>
-=C2=A0 - Ethernet MAC.<br>
-* New real hardware target.<br>
-=C2=A0 - TokushudenshiKairo TKDN-RX62N-BRD.<br>
-=C2=A0 - CQ publishing CQ-FRK-RX62N<br></blockquote></div></div><div dir=3D=
-"auto"><br></div><div dir=3D"auto">How can we test them?=C2=A0</div><div di=
-r=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
-lid;padding-left:1ex">
+Add a simple reg property per cpu, representing a 64-bit MPIDR_EL1.<br>
 <br>
-Yoshinori Sato (20):<br>
-=C2=A0 loader.c: Add support Motrola S-record format.<br>
-=C2=A0 include/elf.h: Add EM_RX.<br>
-=C2=A0 hw/rx: Firmware and kernel loader.<br>
-=C2=A0 hw/rx: New firmware loader.<br>
-=C2=A0 hw/rx: Add RX62N Clock generator<br>
-=C2=A0 hw/timer: Renesas 8bit timer emulation.<br>
-=C2=A0 hw/rx: RX62N convert new 8bit timer.<br>
-=C2=A0 hw/timer: Renesas TMU/CMT module.<br>
-=C2=A0 hw/timer: Remove renesas_cmt.<br>
-=C2=A0 hw/rx: Convert to renesas_timer<br>
-=C2=A0 hw/char: Renesas SCI module.<br>
-=C2=A0 hw/rx/rx62n: Use New SCI module.<br>
-=C2=A0 hw/timer: Add Renesas MTU2<br>
-=C2=A0 hw/rx/rx62n: RX62N Add MTU module<br>
-=C2=A0 hw/net: Add generic Bit-bang MDIO PHY.<br>
-=C2=A0 hw/net: Add Renesas On-chip Ethernet MAC<br>
-=C2=A0 hw/rx/rx62n: Add Ethernet support.<br>
-=C2=A0 hw/rx: Add Tokudenkairo TKDN-RX62N-BRD<br>
-=C2=A0 hw/rx: Add CQ-FRK-RX62N target<br>
-=C2=A0 MAINTAINERS: Update RX entry<br>
+This also ends up being cleaner than having the firmware calculating its<br=
+>
+own IDs for generating APCI.<br>
 <br>
-=C2=A0default-configs/rx-softmmu.mak=C2=A0 =C2=A0|=C2=A0 =C2=A0 2 +<br>
-=C2=A0include/elf.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 =C2=A0 2 +<br>
-=C2=A0include/hw/char/renesas_sci.h=C2=A0 =C2=A0 |=C2=A0 129 ++-<br>
-=C2=A0include/hw/loader.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 =C2=A014 +<br>
-=C2=A0include/hw/net/mdio.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
-=A0 126 +++<br>
-=C2=A0include/hw/net/renesas_eth.h=C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A057 ++<b=
+Signed-off-by: Leif Lindholm &lt;<a href=3D"mailto:leif@nuviainc.com" targe=
+t=3D"_blank" rel=3D"noreferrer">leif@nuviainc.com</a>&gt;<br></blockquote><=
+/div></div><div dir=3D"auto"><br></div><div dir=3D"auto"><span style=3D"fon=
+t-family:sans-serif;font-size:13.696px">Reviewed-by: Philippe Mathieu-Daud=
+=C3=A9 &lt;</span><a href=3D"mailto:f4bug@amsat.org" style=3D"text-decorati=
+on:none;color:rgb(66,133,244);font-family:sans-serif;font-size:13.696px">f4=
+bug@amsat.org</a><span style=3D"font-family:sans-serif;font-size:13.696px">=
+&gt;</span><br></div><div dir=3D"auto"><br></div><div dir=3D"auto"><div cla=
+ss=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex">
+---<br>
+<br>
+As per Graeme&#39;s feedback, properly represent the MPIDR topology info<br=
+>
+in the reg property rather than just counting cores (and update the<br>
+commit message on why this is useful).<br>
+I&#39;m using the local helper function sbsa_ref_cpu_mp_affinity() for this=
+,<br>
+and moving it up somewhat rather than adding a forward declaration.<br>
+<br>
+=C2=A0hw/arm/sbsa-ref.c | 29 +++++++++++++++++++++++------<br>
+=C2=A01 file changed, 23 insertions(+), 6 deletions(-)<br>
+<br>
+diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c<br>
+index f030a416fd..3e65ded9a0 100644<br>
+--- a/hw/arm/sbsa-ref.c<br>
++++ b/hw/arm/sbsa-ref.c<br>
+@@ -138,6 +138,12 @@ static const int sbsa_ref_irqmap[] =3D {<br>
+=C2=A0 =C2=A0 =C2=A0[SBSA_EHCI] =3D 11,<br>
+=C2=A0};<br>
+<br>
++static uint64_t sbsa_ref_cpu_mp_affinity(SBSAMachineState *sms, int idx)<b=
 r>
-=C2=A0include/hw/rx/loader.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
-=A0 =C2=A035 +<br>
-=C2=A0include/hw/rx/rx62n-cpg.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A072=
- ++<br>
-=C2=A0include/hw/rx/rx62n.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
-=A0 =C2=A036 +-<br>
-=C2=A0include/hw/timer/renesas_cmt.h=C2=A0 =C2=A0|=C2=A0 =C2=A040 -<br>
-=C2=A0include/hw/timer/renesas_mtu.h=C2=A0 =C2=A0|=C2=A0 =C2=A090 ++<br>
-=C2=A0include/hw/timer/renesas_timer.h |=C2=A0 103 +++<br>
-=C2=A0include/hw/timer/renesas_tmr.h=C2=A0 =C2=A0|=C2=A0 =C2=A055 --<br>
-=C2=A0include/hw/timer/renesas_tmr8.h=C2=A0 |=C2=A0 =C2=A067 ++<br>
-=C2=A0hw/char/renesas_sci.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 1040=
- ++++++++++++++++++-----<br>
-=C2=A0hw/core/loader.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0|=C2=A0 208 +++++<br>
-=C2=A0hw/net/mdio.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 264 ++++++<br>
-=C2=A0hw/net/renesas_eth.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 875 ++++++++++++++++++++<br>
-=C2=A0hw/rx/cq-frk-rx62n.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 =C2=A094 +++<br>
-=C2=A0hw/rx/loader.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0|=C2=A0 182 +++++<br>
-=C2=A0hw/rx/rx-gdbsim.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 =C2=A098 +--<br>
-=C2=A0hw/rx/rx62n-cpg.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 344 ++++++++<br>
-=C2=A0hw/rx/rx62n.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 140 ++--<br>
-=C2=A0hw/rx/tkdn-rx62n.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0|=C2=A0 192 +++++<br>
-=C2=A0hw/timer/renesas_cmt.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
-=A0 283 -------<br>
-=C2=A0hw/timer/renesas_mtu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 1312=
- ++++++++++++++++++++++++++++++<br>
-=C2=A0hw/timer/renesas_timer.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 639=
- +++++++++++++++<br>
-=C2=A0hw/timer/renesas_tmr.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
-=A0 477 -----------<br>
-=C2=A0hw/timer/renesas_tmr8.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 540=
- ++++++++++++<br>
-=C2=A0MAINTAINERS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 2 +<br>
-=C2=A0hw/net/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0|=C2=A0 =C2=A0 8 +<br>
-=C2=A0hw/net/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0|=C2=A0 =C2=A0 3 +<br>
-=C2=A0hw/rx/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 =C2=A016 +-<br>
-=C2=A0hw/rx/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 =C2=A0 5 +-<br>
-=C2=A0hw/timer/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0|=C2=A0 =C2=A0 9 +-<br>
-=C2=A0hw/timer/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 =C2=A0 5 +-<br>
-=C2=A036 files changed, 6391 insertions(+), 1173 deletions(-)<br>
-=C2=A0create mode 100644 include/hw/net/mdio.h<br>
-=C2=A0create mode 100644 include/hw/net/renesas_eth.h<br>
-=C2=A0create mode 100644 include/hw/rx/loader.h<br>
-=C2=A0create mode 100644 include/hw/rx/rx62n-cpg.h<br>
-=C2=A0delete mode 100644 include/hw/timer/renesas_cmt.h<br>
-=C2=A0create mode 100644 include/hw/timer/renesas_mtu.h<br>
-=C2=A0create mode 100644 include/hw/timer/renesas_timer.h<br>
-=C2=A0delete mode 100644 include/hw/timer/renesas_tmr.h<br>
-=C2=A0create mode 100644 include/hw/timer/renesas_tmr8.h<br>
-=C2=A0create mode 100644 hw/net/mdio.c<br>
-=C2=A0create mode 100644 hw/net/renesas_eth.c<br>
-=C2=A0create mode 100644 hw/rx/cq-frk-rx62n.c<br>
-=C2=A0create mode 100644 hw/rx/loader.c<br>
-=C2=A0create mode 100644 hw/rx/rx62n-cpg.c<br>
-=C2=A0create mode 100644 hw/rx/tkdn-rx62n.c<br>
-=C2=A0delete mode 100644 hw/timer/renesas_cmt.c<br>
-=C2=A0create mode 100644 hw/timer/renesas_mtu.c<br>
-=C2=A0create mode 100644 hw/timer/renesas_timer.c<br>
-=C2=A0delete mode 100644 hw/timer/renesas_tmr.c<br>
-=C2=A0create mode 100644 hw/timer/renesas_tmr8.c<br>
++{<br>
++=C2=A0 =C2=A0 uint8_t clustersz =3D ARM_DEFAULT_CPUS_PER_CLUSTER;<br>
++=C2=A0 =C2=A0 return arm_cpu_mp_affinity(idx, clustersz);<br>
++}<br>
++<br>
+=C2=A0/*<br>
+=C2=A0 * Firmware on this machine only uses ACPI table to load OS, these li=
+mited<br>
+=C2=A0 * device tree nodes are just to let firmware know the info which var=
+ies from<br>
+@@ -183,14 +189,31 @@ static void create_fdt(SBSAMachineState *sms)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_free(matrix);<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
 <br>
++=C2=A0 =C2=A0 /*<br>
++=C2=A0 =C2=A0 =C2=A0* From Documentation/devicetree/bindings/arm/cpus.yaml=
+<br>
++=C2=A0 =C2=A0 =C2=A0*=C2=A0 On ARM v8 64-bit systems this property is requ=
+ired<br>
++=C2=A0 =C2=A0 =C2=A0*=C2=A0 =C2=A0 and matches the MPIDR_EL1 register affi=
+nity bits.<br>
++=C2=A0 =C2=A0 =C2=A0*<br>
++=C2=A0 =C2=A0 =C2=A0*=C2=A0 =C2=A0 * If cpus node&#39;s #address-cells pro=
+perty is set to 2<br>
++=C2=A0 =C2=A0 =C2=A0*<br>
++=C2=A0 =C2=A0 =C2=A0*=C2=A0 =C2=A0 =C2=A0 The first reg cell bits [7:0] mu=
+st be set to<br>
++=C2=A0 =C2=A0 =C2=A0*=C2=A0 =C2=A0 =C2=A0 bits [39:32] of MPIDR_EL1.<br>
++=C2=A0 =C2=A0 =C2=A0*<br>
++=C2=A0 =C2=A0 =C2=A0*=C2=A0 =C2=A0 =C2=A0 The second reg cell bits [23:0] =
+must be set to<br>
++=C2=A0 =C2=A0 =C2=A0*=C2=A0 =C2=A0 =C2=A0 bits [23:0] of MPIDR_EL1.<br>
++=C2=A0 =C2=A0 =C2=A0*/<br>
+=C2=A0 =C2=A0 =C2=A0qemu_fdt_add_subnode(sms-&gt;fdt, &quot;/cpus&quot;);<b=
+r>
++=C2=A0 =C2=A0 qemu_fdt_setprop_cell(sms-&gt;fdt, &quot;/cpus&quot;, &quot;=
+#address-cells&quot;, 2);<br>
++=C2=A0 =C2=A0 qemu_fdt_setprop_cell(sms-&gt;fdt, &quot;/cpus&quot;, &quot;=
+#size-cells&quot;, 0x0);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0for (cpu =3D sms-&gt;smp_cpus - 1; cpu &gt;=3D 0; cpu--=
+) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0char *nodename =3D g_strdup_printf(&quot;=
+/cpus/cpu@%d&quot;, cpu);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ARMCPU *armcpu =3D ARM_CPU(qemu_get_cpu(c=
+pu));<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0CPUState *cs =3D CPU(armcpu);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint64_t mpidr =3D sbsa_ref_cpu_mp_affinity(sm=
+s, cpu);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_fdt_add_subnode(sms-&gt;fdt, nodenam=
+e);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_fdt_setprop_u64(sms-&gt;fdt, nodename, &q=
+uot;reg&quot;, mpidr);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ms-&gt;possible_cpus-&gt;cpus[cs-&gt;=
+cpu_index].props.has_node_id) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_fdt_setprop_cell(sms-&=
+gt;fdt, nodename, &quot;numa-node-id&quot;,<br>
+@@ -717,12 +740,6 @@ static void sbsa_ref_init(MachineState *machine)<br>
+=C2=A0 =C2=A0 =C2=A0arm_load_kernel(ARM_CPU(first_cpu), machine, &amp;sms-&=
+gt;bootinfo);<br>
+=C2=A0}<br>
+<br>
+-static uint64_t sbsa_ref_cpu_mp_affinity(SBSAMachineState *sms, int idx)<b=
+r>
+-{<br>
+-=C2=A0 =C2=A0 uint8_t clustersz =3D ARM_DEFAULT_CPUS_PER_CLUSTER;<br>
+-=C2=A0 =C2=A0 return arm_cpu_mp_affinity(idx, clustersz);<br>
+-}<br>
+-<br>
+=C2=A0static const CPUArchIdList *sbsa_ref_possible_cpu_arch_ids(MachineSta=
+te *ms)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0unsigned int max_cpus =3D ms-&gt;smp.max_cpus;<br>
 -- <br>
 2.20.1<br>
 <br>
 <br>
 </blockquote></div></div></div>
 
---00000000000010135305ae32f7a9--
+--0000000000001ad54305ae32f72e--
 
