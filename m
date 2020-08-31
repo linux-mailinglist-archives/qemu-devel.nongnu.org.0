@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB3C425813A
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 20:40:21 +0200 (CEST)
-Received: from localhost ([::1]:35406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FE67258140
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 20:41:53 +0200 (CEST)
+Received: from localhost ([::1]:41122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCoj6-0001Ir-Nd
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 14:40:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39620)
+	id 1kCoka-0003ih-FO
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 14:41:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kCoi3-0000tD-F3
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 14:39:15 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:40543)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kCojA-0001fc-TH
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 14:40:24 -0400
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:44179)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kCoi1-000721-75
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 14:39:15 -0400
-Received: by mail-ej1-x636.google.com with SMTP id o18so9838339eje.7
- for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 11:39:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kCoj8-0007AK-OZ
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 14:40:24 -0400
+Received: by mail-pf1-x430.google.com with SMTP id o20so1073890pfp.11
+ for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 11:40:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dICnIPZASVNKKrmh6ZmzExC0Ryd6kHigLRkpWqX9NQY=;
- b=h/3YYDoDynXglnHPxb5PBIQifNmbvChkyq1cniPmjkKwCgkxfM9t11MOBGP98BzLsW
- NZF/mHPAX4DzQ8Lem4RlW9D1if/o8r8MranJ+yuc2vpr7NcPi9HwAcC4lREBssa2MKAa
- 71HYt95yYnobt2z0e9yN/y22VwHsDQeLQRX6j7DIg8bjn/wdVlnsuLp2SJzzMfLIYtM6
- skGMoEPYREEjtO04lepnkqJfBK0NDp2iRJAWf+Bv9wi/k6SBcjCin/OAna8VY/9MdDnG
- EPuGFNrooCS1+dfwKVdr1sKap8QEeTz30wFfY9MKuZCR5tkbitmRoyEEDWhTLfjPNyFp
- tOZQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=m6pgdynR0VeZCI36OMiuEL47OfF+3c/eQ/RKBt4vgFo=;
+ b=wFOUoya2qauJvFJw0thWVkTnOGMKDKUnb2YmDAvANYYcwYKXMSN4MjuR2E0sE2rzt8
+ 6Q8hlUPjI3WXC1lD8Nfzrl30RR4dAzWXrxdh71yaSs2VgvVaPuQhlXVkm1s8IlYIJpWV
+ tzfwoztqi7ODfCUL5dl3IoIJoqhiKL1FB0KoPinQdxptkE7R09q/JQ4r1ah3dCzDqh0O
+ 2Kc6ucYN9Btw6gKz46NfGQL1w0AOznpX75aikxVsY6Bxcr/8qUmPY8EteBVs1HW5iTt0
+ zNDPGybjrJo/QD85L134I2h7O99lOPyDUbyCUe09QTSDdBE85mnnK0OCAfH21v5WJihk
+ RPTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=dICnIPZASVNKKrmh6ZmzExC0Ryd6kHigLRkpWqX9NQY=;
- b=O/XKk/2rWFIJDUHjfSaqVv1yp3iCN6UptwP8LwE9l9jZYvIcDK2zrFsCfyab/CS6y4
- buUCaJ8o3dqqrg+tvowqeHEs96H7rhYGPMykhm6KCW1qdCTsJbnxPGUF9fscUd2B0zS5
- VV9RhJnCSemFpEGVUmYVzZ4gW1x8kRx8NGdaaqGhkzAulTD+4UwdMq6H9dM/2F4q4SOb
- G4RuWZhvjAfjIKY2S9+RZ6/oagI8Epm/GQro50syLfd4t4QzLS6YtZTRHrigI33/TXYM
- 806+oCMevh4Kv07wo9qfmOkJ16fdq+GLfi+WqJAyLQyXMXYkPnUclcAeZ+bm+uGzjaro
- QF5g==
-X-Gm-Message-State: AOAM530yqz2qc44izpD3NfoPBG46PSH59fZNwatxQkO3kNQ+hiYdBLOZ
- 2zXyinHAIHoGepZ/jRA9z+Y13e42BwB/ADHOT6od7A==
-X-Google-Smtp-Source: ABdhPJxErron6DsMNwVR5UWL0ACRTa3Av3zory3IgWrgoKn2RiQOKn0nEeJeQtEvwef0UNmz07+9vDq1lOlRJwfhdOY=
-X-Received: by 2002:a17:906:71c9:: with SMTP id
- i9mr2183605ejk.250.1598899151072; 
- Mon, 31 Aug 2020 11:39:11 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=m6pgdynR0VeZCI36OMiuEL47OfF+3c/eQ/RKBt4vgFo=;
+ b=ZLdwNZgp/QDxogD4PqOnLEfJTxCaXMj90wrzyxPFD5Ux5W3hXVdZ+VjfzkDZz8VQ9f
+ AEVf0LUPp4vBRgVdpD6zcbO5GJaVsfYzsgF3f/wyqzKq680CklQvrlfcLuyL4ILgxg9Z
+ ny1+FILqtci3ubDJsB98F4haT6n5QIrS7C9JUu7ICkDR6XzcjuNGq+X6nriqFMOrUgpC
+ nn3W1SR81vLyM1sUPR3ac/fb7xkY1aQjQMKhwj33vn37U0/BJBf0Tu6hiP1hcRFfS2i+
+ 5qGRHZsVL8jjsWeH9TFZiI3rVqUZRwtoeN7pSRmvbfbVli6doW1q+Aw2gRpVFdL9eFfK
+ yj8Q==
+X-Gm-Message-State: AOAM533huCQnfmGL5TZhu6AbSkxQTIaG0J1MbXfMzr1H9nbl9FCEq5xR
+ DECFRL3wfIN1e62NylCcmA2D6/o/kpQFJQ==
+X-Google-Smtp-Source: ABdhPJz7QMdrHcRR7WRhd0W5pbNgApXADet4nTyq4Gk2QOhTvUilnhyfVPoT04Xtq3xNrzM0YzpE2A==
+X-Received: by 2002:a62:3641:: with SMTP id d62mr2374997pfa.82.1598899220527; 
+ Mon, 31 Aug 2020 11:40:20 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id y195sm5757580pfc.137.2020.08.31.11.40.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 31 Aug 2020 11:40:19 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/6] target/microblaze: Use tcg_gen_lookup_and_goto_ptr
+Date: Mon, 31 Aug 2020 11:40:12 -0700
+Message-Id: <20200831184018.839906-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200830023203.612312-1-richard.henderson@linaro.org>
-In-Reply-To: <20200830023203.612312-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 31 Aug 2020 19:38:59 +0100
-Message-ID: <CAFEAcA9WsDs1J5tqWdh8KbkasGd4b8GA=+k11-7fy9ivhw-YwQ@mail.gmail.com>
-Subject: Re: [PULL 0/7] softfloat patch queue
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -79,36 +82,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: edgar.iglesias@xilinx.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 30 Aug 2020 at 03:32, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> The following changes since commit ea1bb830cb021cca2e361091cf728aaabc8c0654:
->
->   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200828' into staging (2020-08-28 15:14:40 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/rth7680/qemu.git tags/pull-sf-20200829
->
-> for you to fetch changes up to c53b1079334c41b342a8ad3b7ccfd51bf5427f5a:
->
->   softfloat: Define comparison operations for bfloat16 (2020-08-29 19:25:42 -0700)
->
-> ----------------------------------------------------------------
-> * float16 comparison wrappers
-> * float16 conversions to/from 8-bit integers
-> * bfloat16 support
->
+Based-on: <20200831160601.833692-1-richard.henderson@linaro.org>
+("[PULL 00/76] target/microblaze improvements")
+
+Hello again, Edgar.
+
+I had dropped the tcg_gen_lookup_and_goto_ptr patch from the
+previous omnibus patch set, as you had reported lockups.
+
+I have identified, by inspection, two cases in which we failed
+to return to the main loop even though we should have:
+
+(1) Return-from-exception type instructions.
+
+I had missed these before because they hadn't set cpustate_changed.
+This still worked fine because they are all indirect branches, and
+had exited immediately.
+
+Fixed by distinguishing these cases from normal indirect branches
+before we start using lookup_and_goto_ptr.
+
+(2) MTS in a branch delay slot.
+
+We did not check dc->cpustate_changed before setting
+dc->base.is_jmp to DISAS_JUMP, which lost the fact that we
+need to return to the main loop.
+
+This mostly works fine without lookup_and_goto_ptr, because
+we either (a) finished an indirect branch and returned to the
+main loop anyway or (b) we'd return to the main loop via some
+subsequent indirect branch, which would happen "soon enough".
+
+We should have been able to see soft-lockup with the existing
+code in the case of a cpustate_changed in the delay slot of
+a loop of direct branches that all use goto_tb.  E.g.
+
+	brid	0
+	 msrset MSR_IE
+
+I.e. an immediate branch back to the same branch insn,
+re-enabling interrupts in the delay slot.  Probably not
+something that shows up in the wild.
+
+----
+
+Follow-up question: The manual says that several classes of
+instructions are invalid in a branch delay slot, but does
+not say what action is taken, if any.
+
+Some of these invalid cases could leave qemu in an inconsistent
+state.  Would it be legal for us to diagnose these cases with
+trap_illegal?  If not, what *should* we be doing?  We could also
+LOG_GUEST_ERROR for these either way.
+
+I've added some TODO comments in these patches that are relevant.
+
+Thanks,
 
 
-Applied, thanks.
+r~
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
 
--- PMM
+Richard Henderson (6):
+  target/microblaze: Rename DISAS_UPDATE to DISAS_EXIT
+  target/microblaze: Introduce DISAS_EXIT_NEXT, DISAS_EXIT_JUMP
+  target/microblaze: Replace cpustate_changed with DISAS_EXIT_NEXT
+  target/microblaze: Handle DISAS_EXIT_NEXT in delay slot
+  target/microblaze: Force rtid, rted, rtbd to exit
+  target/microblaze: Use tcg_gen_lookup_and_goto_ptr
+
+ target/microblaze/translate.c | 128 ++++++++++++++++++++++------------
+ 1 file changed, 82 insertions(+), 46 deletions(-)
+
+-- 
+2.25.1
+
 
