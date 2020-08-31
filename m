@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78401257ECA
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 18:31:19 +0200 (CEST)
-Received: from localhost ([::1]:38992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A887F257ED1
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Aug 2020 18:33:03 +0200 (CEST)
+Received: from localhost ([::1]:46726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCmiE-00059n-G3
-	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 12:31:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34486)
+	id 1kCmju-0008RD-Mc
+	for lists+qemu-devel@lfdr.de; Mon, 31 Aug 2020 12:33:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCmL4-00061q-4U
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:07:22 -0400
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:46348)
+ id 1kCmL6-00066z-KC
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:07:24 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:36788)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kCmL2-00067k-9r
- for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:07:21 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id b124so794988pfg.13
- for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 09:07:19 -0700 (PDT)
+ id 1kCmL4-000680-If
+ for qemu-devel@nongnu.org; Mon, 31 Aug 2020 12:07:24 -0400
+Received: by mail-pg1-x542.google.com with SMTP id p37so841156pgl.3
+ for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 09:07:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9yukNREp9KLx7ngPQjIPDt7zSrwG6GvjIbptJAOWSaU=;
- b=S1UuJNZgcEJpKE9BCCMllrjEz+ym5UOpgwvm0aohS/w+SqoiWqqSDj1lZHKM0XlTHh
- 1tHf2Zm1IJryROZkrjHsqmcKW4ZCc9NkUfZJI8AGi6KgnbEOd/5SXXGDyCSNwNhZ3ydO
- zR5OjdQHiB2m6kU5aRcllqRJVtEEXKk/xXluyCuS/YOeNb2+s1+7zGBzfp2hUZQDRrm8
- 52hxWsTRjM4z/lwcJXSxI2ZkDYRjcRtdMAzYUgEYJLn73RB2xUh5xwWZ/7AnR/o0Ov+L
- xpjzufxA1LYso56u/9Zdg1aItJfvPb4PpaotgssZK+1+Ya5EjbiBiGAry8IdjNriftQv
- PKYw==
+ bh=JvfZllGqlVqD0CA01I4iiAGGIf7AsK3G+Mi2JTCVFGs=;
+ b=Ev6EIxf0n7M8vi8k/883pvGf4f/auC7RojkaSpBla3XvHHbbt6b0m2P96Ei02cvVvU
+ mgKWzMQFxB8VIeIqIxkOE362LjefsgV6OuM8YEiEEGO2F7xzN2K8iHQrMkuefe2/z/fm
+ Sa8BwVXc6YJ2SryRG0++LQm0rz/gm70XYyABAT4pQsVHU55jO1Wi8To370Zj22mGzhcC
+ 3jBIXJvw5iVHxCVFIXkmxLWHqoBCjfJWRsa5vPu2AnfG55lVIqvO+LVRr73TPkQn7xRO
+ eLdEk1cjZUtNNAvgrzk9cMSsFMhcSgT+G0FV5VHigdezx7zcveYsMjzPqsRHndr+DnYg
+ F9qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9yukNREp9KLx7ngPQjIPDt7zSrwG6GvjIbptJAOWSaU=;
- b=JKte2rFEe+M1RZaeYerptUFtTkgH0IwE7GkTnMRNHUQEmMcBp8roUqDBk+18tnx+4N
- HGyT/Burv5f0U1qshFJ/1mtJKQ60/r4DfJpMmJtRnm2jvdVZNlVj6azju+EvbFnZXCvV
- xvY1Ib4JMZ49d/BqrDumEPwecWg6BWYUzdOncR3elbTzDoufy3GWMe0YHXhZOmJeXCac
- kUQCwqV9bUnC1/+xzTOQHM7dtHs/OsFlwzx9p1jAP8DpGQ4rRkMZcrEV7S+7X8KqX0mv
- /4dtfgSxdwW/KwmBUC0czjeYeYpGqJ+m9AQuMUtDePita1crSlNA43EQ/pbjjc9s78Uc
- n63w==
-X-Gm-Message-State: AOAM533Z+BUsLt3frszq9GETDhyAzszjXSD3w2ugEvJfUrU5Uufe+nno
- NA2xFUe745ZOnjrc3HUhDyqauW7u775unQ==
-X-Google-Smtp-Source: ABdhPJyCIl2//S1sme32PHVoesqNPnzRJdjlq9iLxNofGGl6XXcxT0a6Km984/SoLWkOuqzFmxGuyw==
-X-Received: by 2002:aa7:96b0:: with SMTP id g16mr1875113pfk.46.1598890038007; 
- Mon, 31 Aug 2020 09:07:18 -0700 (PDT)
+ bh=JvfZllGqlVqD0CA01I4iiAGGIf7AsK3G+Mi2JTCVFGs=;
+ b=BijTuBRwSjGwSNi14f8KlFGABqdN7yRnoz/WLxBzst1IalRkHsFdfVm6L169yGM25c
+ GZM9Yz5guRQZswkeVkDR1w7LtBBtwnDH8EY0zZeb1F/4ZRknCA4M+PUfP0K6vlAV4beE
+ lxzFrN+OHUqf3xHKkcW35UeSekZVUksJhCq58o7wK/eHm5b5uN96TKHRDLw8qB0MJnyj
+ 07dL4aEmrjExbZz+Dw9VFrKpyhQ+0gnFKj2tYYEYaCWd4SW0k8SBC5UkC7kVymT7eQCU
+ o7xrtRbdiPg7WC1hqatNa/khTwLfzpFdZucHdlXZA58C37pq0+R5MvCQU/GFhaue90oy
+ UI0A==
+X-Gm-Message-State: AOAM531z69nohJWG5KZvJ9u/TG2pKIwitRCxFywH9TRuq6UWqVexHpzi
+ ANN5h0DBax+1TpJhzcOHHvnRdVrlZVTpMw==
+X-Google-Smtp-Source: ABdhPJzznIN/8OJep7ud9Q4C+BKgFVHoZ5n1+ORPSjXJtkUQcyJiQdPFj6K3XWCxnGLCYxgdyd6jjQ==
+X-Received: by 2002:aa7:9795:: with SMTP id o21mr1820676pfp.26.1598890040779; 
+ Mon, 31 Aug 2020 09:07:20 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id gt13sm17218pjb.43.2020.08.31.09.07.16
+ by smtp.gmail.com with ESMTPSA id gt13sm17218pjb.43.2020.08.31.09.07.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Aug 2020 09:07:17 -0700 (PDT)
+ Mon, 31 Aug 2020 09:07:19 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 55/76] target/microblaze: Move bimm to BIMM_FLAG
-Date: Mon, 31 Aug 2020 09:05:40 -0700
-Message-Id: <20200831160601.833692-56-richard.henderson@linaro.org>
+Subject: [PULL 57/76] target/microblaze: Store "current" iflags in insn_start
+Date: Mon, 31 Aug 2020 09:05:42 -0700
+Message-Id: <20200831160601.833692-58-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200831160601.833692-1-richard.henderson@linaro.org>
 References: <20200831160601.833692-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,80 +88,134 @@ Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It makes sense to keep BIMM with D_FLAG, as they can be written
-back to iflags at the same time.  BIMM_FLAG does not need to be
-added to IFLAGS_TB_MASK because it does not affect the next TB,
-only the exception path out of the current TB.  Renumber IMM_FLAG,
-as the value 4 holds no particular significance; pack these two
-flags at the bottom of the bitfield.
+This data is available during exception unwinding, thus
+we can restore it from there directly, rather than saving
+it during the TB.  Thus we may remove the t_sync_flags()
+calls in the load/store operations.
+
+Note that these calls were missing from the other places
+where runtime exceptions may be raised, such as idiv and
+the floating point operations.
 
 Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/cpu.h       |  4 ++--
- target/microblaze/helper.c    |  2 +-
- target/microblaze/translate.c | 12 +++++-------
- 3 files changed, 8 insertions(+), 10 deletions(-)
+ target/microblaze/cpu.h       |  2 ++
+ target/microblaze/translate.c | 24 +++++++++++++-----------
+ 2 files changed, 15 insertions(+), 11 deletions(-)
 
 diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
-index 2fc7cf26f1..a5df1fa28f 100644
+index a5df1fa28f..83fadd36a5 100644
 --- a/target/microblaze/cpu.h
 +++ b/target/microblaze/cpu.h
-@@ -231,7 +231,6 @@ typedef struct CPUMBState CPUMBState;
+@@ -228,6 +228,8 @@ typedef struct CPUMBState CPUMBState;
+ #define STREAM_CONTROL   (1 << 3)
+ #define STREAM_NONBLOCK  (1 << 4)
+ 
++#define TARGET_INSN_START_EXTRA_WORDS 1
++
  struct CPUMBState {
      uint32_t btaken;
      uint32_t btarget;
--    uint32_t bimm;
- 
-     uint32_t imm;
-     uint32_t regs[32];
-@@ -253,7 +252,8 @@ struct CPUMBState {
-     uint32_t res_val;
- 
-     /* Internal flags.  */
--#define IMM_FLAG	4
-+#define IMM_FLAG        (1 << 0)
-+#define BIMM_FLAG       (1 << 1)
- /* MSR_EE               (1 << 8)  */
- /* MSR_UM               (1 << 11) */
- /* MSR_VM               (1 << 13) */
-diff --git a/target/microblaze/helper.c b/target/microblaze/helper.c
-index f8e2ca12a9..06f4322e09 100644
---- a/target/microblaze/helper.c
-+++ b/target/microblaze/helper.c
-@@ -166,7 +166,7 @@ void mb_cpu_do_interrupt(CPUState *cs)
-                 /* Reexecute the branch.  */
-                 env->regs[17] -= 4;
-                 /* was the branch immprefixed?.  */
--                if (env->bimm) {
-+                if (env->iflags & BIMM_FLAG) {
-                     env->regs[17] -= 4;
-                     log_cpu_state_mask(CPU_LOG_INT, cs, 0);
-                 }
 diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index d2baa7db0e..97a436c8d5 100644
+index 97a436c8d5..d2ee163294 100644
 --- a/target/microblaze/translate.c
 +++ b/target/microblaze/translate.c
-@@ -1351,13 +1351,11 @@ static void eval_cond_jmp(DisasContext *dc, TCGv_i32 pc_true, TCGv_i32 pc_false)
+@@ -58,6 +58,9 @@ typedef struct DisasContext {
+     DisasContextBase base;
+     MicroBlazeCPU *cpu;
  
- static void dec_setup_dslot(DisasContext *dc)
++    /* TCG op of the current insn_start.  */
++    TCGOp *insn_start;
++
+     TCGv_i32 r0;
+     bool r0_set;
+ 
+@@ -71,7 +74,7 @@ typedef struct DisasContext {
+ 
+     unsigned int cpustate_changed;
+     unsigned int delayed_branch;
+-    unsigned int tb_flags, synced_flags; /* tb dependent flags.  */
++    unsigned int tb_flags;
+     unsigned int clear_imm;
+     int mem_index;
+ 
+@@ -96,12 +99,11 @@ static int typeb_imm(DisasContext *dc, int x)
+ /* Include the auto-generated decoder.  */
+ #include "decode-insns.c.inc"
+ 
+-static inline void t_sync_flags(DisasContext *dc)
++static void t_sync_flags(DisasContext *dc)
  {
--        TCGv_i32 tmp = tcg_const_i32(dc->type_b && (dc->tb_flags & IMM_FLAG));
--
--        dc->delayed_branch = 2;
--        dc->tb_flags |= D_FLAG;
--
--        tcg_gen_st_i32(tmp, cpu_env, offsetof(CPUMBState, bimm));
--        tcg_temp_free_i32(tmp);
-+    dc->delayed_branch = 2;
-+    dc->tb_flags |= D_FLAG;
-+    if (dc->type_b && (dc->tb_flags & IMM_FLAG)) {
-+        dc->tb_flags |= BIMM_FLAG;
-+    }
+     /* Synch the tb dependent flags between translator and runtime.  */
+-    if (dc->tb_flags != dc->synced_flags) {
+-        tcg_gen_movi_i32(cpu_iflags, dc->tb_flags);
+-        dc->synced_flags = dc->tb_flags;
++    if ((dc->tb_flags ^ dc->base.tb->flags) & ~MSR_TB_MASK) {
++        tcg_gen_movi_i32(cpu_iflags, dc->tb_flags & ~MSR_TB_MASK);
+     }
  }
  
- static void dec_bcc(DisasContext *dc)
+@@ -770,7 +772,6 @@ static bool do_load(DisasContext *dc, int rd, TCGv addr, MemOp mop,
+         }
+     }
+ 
+-    t_sync_flags(dc);
+     sync_jmpstate(dc);
+ 
+     /*
+@@ -893,7 +894,6 @@ static bool trans_lwx(DisasContext *dc, arg_typea *arg)
+     /* lwx does not throw unaligned access errors, so force alignment */
+     tcg_gen_andi_tl(addr, addr, ~3);
+ 
+-    t_sync_flags(dc);
+     sync_jmpstate(dc);
+ 
+     tcg_gen_qemu_ld_i32(cpu_res_val, addr, dc->mem_index, MO_TEUL);
+@@ -929,7 +929,6 @@ static bool do_store(DisasContext *dc, int rd, TCGv addr, MemOp mop,
+         }
+     }
+ 
+-    t_sync_flags(dc);
+     sync_jmpstate(dc);
+ 
+     tcg_gen_qemu_st_i32(reg_for_read(dc, rd), addr, mem_index, mop);
+@@ -1046,7 +1045,6 @@ static bool trans_swx(DisasContext *dc, arg_typea *arg)
+     TCGLabel *swx_fail = gen_new_label();
+     TCGv_i32 tval;
+ 
+-    t_sync_flags(dc);
+     sync_jmpstate(dc);
+ 
+     /* swx does not throw unaligned access errors, so force alignment */
+@@ -1655,7 +1653,7 @@ static void mb_tr_init_disas_context(DisasContextBase *dcb, CPUState *cs)
+     int bound;
+ 
+     dc->cpu = cpu;
+-    dc->synced_flags = dc->tb_flags = dc->base.tb->flags;
++    dc->tb_flags = dc->base.tb->flags;
+     dc->delayed_branch = !!(dc->tb_flags & D_FLAG);
+     dc->jmp = dc->delayed_branch ? JMP_INDIRECT : JMP_NOJMP;
+     dc->cpustate_changed = 0;
+@@ -1675,7 +1673,10 @@ static void mb_tr_tb_start(DisasContextBase *dcb, CPUState *cs)
+ 
+ static void mb_tr_insn_start(DisasContextBase *dcb, CPUState *cs)
+ {
+-    tcg_gen_insn_start(dcb->pc_next);
++    DisasContext *dc = container_of(dcb, DisasContext, base);
++
++    tcg_gen_insn_start(dc->base.pc_next, dc->tb_flags & ~MSR_TB_MASK);
++    dc->insn_start = tcg_last_op();
+ }
+ 
+ static bool mb_tr_breakpoint_check(DisasContextBase *dcb, CPUState *cs,
+@@ -1917,4 +1918,5 @@ void restore_state_to_opc(CPUMBState *env, TranslationBlock *tb,
+                           target_ulong *data)
+ {
+     env->pc = data[0];
++    env->iflags = data[1];
+ }
 -- 
 2.25.1
 
