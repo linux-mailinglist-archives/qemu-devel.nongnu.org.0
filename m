@@ -2,28 +2,28 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF793258C62
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 12:09:29 +0200 (CEST)
-Received: from localhost ([::1]:34590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51CBC258C6C
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 12:11:35 +0200 (CEST)
+Received: from localhost ([::1]:40966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD3EG-0007DW-Ug
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 06:09:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47896)
+	id 1kD3GI-0001RP-DL
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 06:11:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD3D3-0005r3-SU; Tue, 01 Sep 2020 06:08:13 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:44113)
+ id 1kD3F3-0000Ol-Dd; Tue, 01 Sep 2020 06:10:17 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:34447)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD3D2-0005bi-1U; Tue, 01 Sep 2020 06:08:13 -0400
+ id 1kD3F1-0005o8-8l; Tue, 01 Sep 2020 06:10:17 -0400
 Received: from [192.168.100.1] ([82.252.135.186]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MkprN-1krdIO1Hd1-00mKaM; Tue, 01 Sep 2020 12:08:07 +0200
-Subject: Re: [PATCH] main-loop: Fix comment
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1McHM2-1kj4fv23ZM-00chlO; Tue, 01 Sep 2020 12:10:11 +0200
+Subject: Re: [PATCH] docs/system: Fix grammar in documentation
 To: Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org,
  Paolo Bonzini <pbonzini@redhat.com>
-References: <20200827175520.32355-1-sw@weilnetz.de>
+References: <20200827173051.31050-1-sw@weilnetz.de>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -67,32 +67,32 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <f87f4efc-acd6-c06f-d847-51e4b312e0b0@vivier.eu>
-Date: Tue, 1 Sep 2020 12:08:06 +0200
+Message-ID: <39a4a6a3-fcfc-4a85-71a9-2642c002344c@vivier.eu>
+Date: Tue, 1 Sep 2020 12:10:09 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200827175520.32355-1-sw@weilnetz.de>
+In-Reply-To: <20200827173051.31050-1-sw@weilnetz.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:2eitXgq9A69Obl/6NBB+fynwKV3EA1NjwydD982YQS4F5WzEqto
- 6p6MTovTE73kgX2h9IFwPSU/rVU8phrw9k/N/q0aH8Azxpz4+XLqGSdvhesT1lVD53f9st9
- KqTt44/LokKdAsZFUs1CmykQa3Jr0VD5FPeW/TLhB3Pmj1jK7VQAqoFWyT2xmvPVxdkhTd8
- n+BRBAzxX1RWYLov/1UBg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:JxWwrSh3iHw=:DtuESyijIs7TviQN99P54o
- RMH2KdSDa/lvsDfXvCTRE5dHDIbDftGqfpgDvW3H+68bkKsccFEsr/kfgIiLsDv1zwb65C4yR
- 0JG5NkSF7qrOdi9J4bCXYbZxNF2F03Hmvtv2vsB35R0aHcyhCn7CUOhTYzHhnYnJFKnneij0J
- epN7LZpYWPSrRS3aHb5DZXOg6rLoQefM3OMqHfSnMCu+cuwhIKB1oUlOsklg35+0aEfS5Epuy
- Y1SvX9L2GGobffvdKtTbw8AcVwC7PYkT0gir52McOLtsYTIzvj90Svd/xT4CZShQxnGUixDlu
- P6GUX4VJXwNrmKcWx5h/zBjLHjkR62hub0QsqbXIFbt0AXiqGA99v1lEzRdKfmv9FW9nfZNFe
- jCE2phRfNOc0bCf6CAH6FtH/gQ05RgKyfeXTAaXQ1Q9mf7/pIuPY4AUIvSRngl+HN6Zccxymi
- SieNX9RhSlUKOS8fUZ/a9b6/PGtPs5BoPWu+tjKD02BF3zFyk+gbr+7ZNf6pn+8HqPxLl17bK
- hNdteNylkpZXgutIq2ZPzv6tL+1B8A6eTsLhmWewx/AUaBcUtTNEEbw/xVlz3MWXP3FxaEArl
- e0svpCqESZK8rrrNBGarbxD4lWG8OvmI3k+R0vTT8uoS1wm0zCcFbZoBoFrMREZAM8IGbXJe4
- siIVjdiyrMN/m1WGm9wTEDuv6NzU+eXgdKwLhwaFllahF6FW7ynsGZxTLxWzzvr0osrYM1cqK
- tk1sc22TmGyGY9sXCWAnNSnQoxQ0pPyOUglEekCXIrulZyH8ndje6LIGQSgbVFU6IW0WtVMGs
- YIo44nBG/7+MwQXzXXTMqVwAjDzjkG/9nSIfRBjFCJqaS3LsumulItpvt40F9UI9ilXWlMk
+X-Provags-ID: V03:K1:ZdyUzNGbO2vg6BETqP6b0mCGlCeupmLkeprrxcbxMLtlfAirnoQ
+ g7eTczzNxrD3kjw2+UsqlWwKl39dZZPtHkf/OkMcGtRjXk9fc5Rb+/lPXtdtHwlhrJqh9NG
+ 7S8dCVZKfy3qIplqIWCJxZ4441EKUmJ20UyLbW1OsHjDo4uRolTPuS+sxchBVb+SrlzCeqk
+ 1bmzeJhdBM6nmWRhUBIuA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:zl8Rs7pkHww=:ncgzZYB+6Ordmw0Bzbl2oS
+ FcnMy8cJp9d2nTHHovOZlbjTcrvCvuGpKGIKvD9+vB96EXbcW6+hueMRpU51L31/cpzMUG7Mn
+ z/aTm8jC2MttR1AN2rGQgyt7IlQI3puyYRQfPzuTX/4GngyEVq/x/A4p1Gg2pMRgtQGk/6sJC
+ 5FmGZsrT1HUJZ8GlBonx4RgFdEuOt6D01AITSoKj9Q/kP0KjF9n8U4oDa6046ELkzHdMXr3qZ
+ L5ClS5TvUIzRASI/CxR/3+cSW66QHSXEa8g9B59yag04cm/bNl2ZSUaXYJmwM8Bdy/gG2gDof
+ guNltlkm/GdYGxcjbvWgBpAoj37HMM1qLEEnZZ7TluEC2Q7/7/+J3YRD3EZW2Tm7eu1QwSKPG
+ Pl9qQ30cmWKDLdMAtfQ9oOboE2GlG+53NYWurzzrQVPErk8j6zVJ2Pe3WVAZJcfI73ZdrJvCb
+ 6E1QwafvpYn4KhRxNHK1XoWPysxCHOltFnCciYbcIZREfZN7OdCiU8CEcfCyDQc9rhKWWYeBH
+ RGZEX9kuxokbnSPtm3IunkJmUwRMTV4NS79R6LANOKqRJY9OmbRxg5DJdywG77SRuRKn75u2m
+ WMfyb0WBjBdMp5dFOvvPUSisYzYwGKDKrpHw6jpVGBBuHUxpskXMEYv4VSMHrhR9/KnlnKZqW
+ utiSH7cHX83sbH6ERBr3kufgPGa5NGK5CTaeoN5f6sFdFjS6i2C3YuUmp+i3LNPP7fbfCEh1g
+ OYUSNOdbGx4Jj+RXU3r204bdu8h9qPjo/Ydick0C6dlRMifqc1ENdxqAmxVZvPWVaLrqWYVhO
+ SnACQtn1eVI4DHvyNLs9oT0yXpGo4AWJmHN7vTooUuBYsThOwlMn/Dy+XjTI1KfheaOap9p
 Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 06:08:10
@@ -115,33 +115,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org
+Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 27/08/2020 à 19:55, Stefan Weil a écrit :
+Le 27/08/2020 à 19:30, Stefan Weil a écrit :
 > Signed-off-by: Stefan Weil <sw@weilnetz.de>
 > ---
->  include/qemu/main-loop.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  docs/system/build-platforms.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
-> index 8e98613656..d6892fd208 100644
-> --- a/include/qemu/main-loop.h
-> +++ b/include/qemu/main-loop.h
-> @@ -52,7 +52,7 @@ int qemu_init_main_loop(Error **errp);
->   * repeatedly calls main_loop_wait(false).
->   *
->   * Main loop services include file descriptor callbacks, bottom halves
-> - * and timers (defined in qemu-timer.h).  Bottom halves are similar to timers
-> + * and timers (defined in qemu/timer.h).  Bottom halves are similar to timers
->   * that execute immediately, but have a lower overhead and scheduling them
->   * is wait-free, thread-safe and signal-safe.
->   *
+> diff --git a/docs/system/build-platforms.rst b/docs/system/build-platforms.rst
+> index c2b92a9698..9734eba2f1 100644
+> --- a/docs/system/build-platforms.rst
+> +++ b/docs/system/build-platforms.rst
+> @@ -57,12 +57,12 @@ macOS
+>  -----
+>  
+>  The project supports building with the two most recent versions of
+> -macOS, with the current homebrew package set available.
+> +macOS, with the current Homebrew package set available.
+>  
+>  FreeBSD
+>  -------
+>  
+> -The project aims to support the all the versions which are not end of
+> +The project aims to support all versions which are not end of
+>  life.
+>  
+>  NetBSD
+> @@ -75,5 +75,5 @@ new major version is released.
+>  OpenBSD
+>  -------
+>  
+> -The project aims to support the all the versions which are not end of
+> +The project aims to support all versions which are not end of
+>  life.
 > 
 
 Applied to my trivial-patches branch.
 
 Thanks,
 Laurent
+
 
