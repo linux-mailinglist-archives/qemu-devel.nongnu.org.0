@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72AF7258857
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 08:38:32 +0200 (CEST)
-Received: from localhost ([::1]:39502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0A9A25885D
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 08:39:49 +0200 (CEST)
+Received: from localhost ([::1]:43688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCzw7-00081c-6W
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 02:38:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47428)
+	id 1kCzxM-0001KL-Oc
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 02:39:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kCzuw-0007V1-Go; Tue, 01 Sep 2020 02:37:18 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:59381)
+ id 1kCzvP-00085U-Af; Tue, 01 Sep 2020 02:37:47 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:51215)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kCzuu-0002ml-TW; Tue, 01 Sep 2020 02:37:18 -0400
+ id 1kCzvN-0002pK-Md; Tue, 01 Sep 2020 02:37:47 -0400
 Received: from [192.168.100.1] ([82.252.135.186]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MMWcT-1juVK42gZr-00JZA5; Tue, 01 Sep 2020 08:37:03 +0200
-Subject: Re: [PATCH 07/12] vnc: Remove the superfluous break
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1M42fG-1kCzvG1Rq4-0005Km; Tue, 01 Sep 2020 08:37:38 +0200
+Subject: Re: [PATCH 08/12] block/vmdk: Remove superfluous breaks
 To: Thomas Huth <thuth@redhat.com>, Yi Wang <wang.yi59@zte.com.cn>,
  qemu-devel@nongnu.org
-References: <1594631086-36509-1-git-send-email-wang.yi59@zte.com.cn>
- <41e392cd-bb46-242f-197d-a82f6e277df9@redhat.com>
+References: <1594631107-36574-1-git-send-email-wang.yi59@zte.com.cn>
+ <ea32b527-7d78-1c7a-a2a2-30ffa2a9e528@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -68,32 +68,32 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <e1ab07ae-b06e-62b8-8551-26ac85b273c0@vivier.eu>
-Date: Tue, 1 Sep 2020 08:37:01 +0200
+Message-ID: <ad7366a2-64e9-c088-d988-abdecba8067d@vivier.eu>
+Date: Tue, 1 Sep 2020 08:37:37 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <41e392cd-bb46-242f-197d-a82f6e277df9@redhat.com>
+In-Reply-To: <ea32b527-7d78-1c7a-a2a2-30ffa2a9e528@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:HTSoHnp56anmGOTC7cmHD/UT6i35arFc0ZAk/CSHRstT8prXovl
- lMPzEzKHDaLI8IBWf0IqMQ1IigaDL0y+0xKKsnM5+hCUsjLjr885uRhUpaU1/tlhsulJ5Iu
- KQoERu+DWag0HhX2Meqs5PK4a7x+XcqB1I1AQcmuj/NOdYmhfClQ3hF55rzC7KGX/V2mv63
- 7h9AO+ue6sZmDranl0kwQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:OxsyMkfIsXM=:XHZMXrswHwIFc4bNHald9y
- YmxM5q1yJl4BvD5FOvGVkRJj6Fs2bnJYwA4elHYV3tR5EN5N+4Jl1z8apbwcb1qAPp7k09hdb
- FBkRqrHwNYyNtL/t8lXpE13D8qDtLqkD+X5hSJBUCIeFeDFwijCeq71K0KrQyTycLg0Qle5ZJ
- rwZNRqzuhBPh8+qSPI55eeale+Dpbo+U7+EsOdHJCzGOnA9s3dtCVL7+ewRYaDNwUNHyqvPtC
- Ux6FE3rPQ9inCTAdsovqVRMtD1sAmJUh6CkbG+XLllTsn30Yp46CXapAQSDvcbmyQav5lAdAl
- rzaZgHXGmDhfKtU+SiZMnn0+ee96/Jcn34k/DBEurz44aGmqfB9vC7CcB4b1HeQ1dCLtnsvPW
- ReejuLZmYv5iA/WTpRdKwiBBm0nM1bxRsbhUCif/tdEVItJkmBv/jbd7D/fcebbhN6h7xDMNc
- o/f5/M2OBpm4koiV658OLetIGQJqSnYZHSZl58pHGqTSBEj1ixA+z40/WWnYZpi/mW84f0RqB
- Yg2XVMwSWAoTvfallNq4Kt8JXu8NP9SRFnaa/2Z8IoyamDYH4phkaZ0T86+vuLksoziWXp+gM
- pSla95kvgEKcve68rNx7tOq44Xu9QVLGDNENxqGjIeYFiQSKfzfMqJnzDnjBpnOdf7LJ0+oNs
- p7246i7e373ojVzmJHlJoj4UhsanqtZBVVEGUPYgDZLlYwa2mswwkPPnxWyLvgWR7B6qHDc86
- k1ktEgwiAm7DQJPcKNTpj3FeFqgS8/uHum/AnQRwFV6elmYRwfOycw2ft3GPQKXO/X3Yu3Oa6
- 2fHDYDfKzmR59x4iyVFznanybNCUoKdQnxcg9mA0v1F9tc91NjWICasdyv2WUg6KJ4TZg6T
+X-Provags-ID: V03:K1:GtLufzURPVJUpet6Yc4lYhCeFrvXHm6g73WgU8h7lGykVBbR+33
+ IQxZnQe3Dco9+OwzXQcoF3DP3kOVgGckRWxsdv8Xv+B9JVAwavlfsoMHmOXdfqW+R/GSTyG
+ xPd/qRuoalFurEzrwRFzgZmKb5aY1jttjt+Zh6Q4L/soqmjQUhwy/ntsw+7kUSSRsGuhWfN
+ yLvjGK3eLIsl8YK7CVShw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:zRGVja6Lrvw=:28VSRAQ0amDoB87pnYu8JX
+ qge05JmnCWQ7L9PomyMRxpNnFFqB4Jo0/gxVl88KVY+z1mtQHJlUWXAyb0kKLBMenEgO6DFvm
+ aubIbVMHSF+Ukf52M/ZfVd22mc2J1Lf6+kdd6Bw0x0vYVjvfipw1nYInvG3yl5eEq85sellCb
+ 5KhbwW95A9T519W4BjzxidGsxX6Fr66x2VIld/hw+Rv8LJoy/bFrSoJzedLA+4wLJ9LVR+usi
+ Vzn8PTnzSRMKQn7PJBtoD9w5jvj7KXTJ8UHenY8ZUTgGc8VRl49qAIG0UOUPAsblNnKQXbv01
+ 4O/my3V2lVPE4n8k43NkChdf+5XtcxyKuCN+8yh7P67kn9gYXteoXuTRmfeVLFyusan2QzBeN
+ yxcAm0t+k++b+mhUL9jKpourqHTVvKHMgYQjOMVR1Q2U4NMlm9gKXTeI/FK79685gykVorkGf
+ LrW/mShOfofL56Fu1J/iUFQyQF72HcMTfOM8Kwn0liGweJUOTIDQ1qzLoQdHX6SUXNwZPpk8h
+ u/igDjX/Nrb8J5cgQUgHMSTDaGBZO7xxGFkRNTXPoGnmvkFsgzgQm3ik3zMr9B6vuT7HXdTxc
+ ydyPFa041JU77MCR1rHjgUXcuYArujvAGxq438iOJSNdh8bpmN+BFqw1SA8NKj9APU/v4h8FO
+ NE6ARnL6LPKioGu7SEQu6kymaXwl9AStJHpH/3hA6VCZnO7PBF0KWidyfI24A753QVC8pm2lj
+ ZcIucj5E5kJqs3ibMMVjoqrsEcvoMneaB7Rw+IwUQXjRLxxKCrjQXVhy+R0C/CLFU+q/Td80K
+ iTXVRL/TDo8wXPRPdymVIXWYsTJHpn8C6yyz4Tf3E/+kYInBP4N0AikxLlM6s/2P7T/CnWu
 Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 02:33:59
@@ -116,37 +116,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- Liao Pingfang <liao.pingfang@zte.com.cn>, wang.liang82@zte.com.cn,
- xue.zhihong@zte.com.cn, Gerd Hoffmann <kraxel@redhat.com>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, wang.liang82@zte.com.cn,
+ Liao Pingfang <liao.pingfang@zte.com.cn>, Qemu-block <qemu-block@nongnu.org>,
+ xue.zhihong@zte.com.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 13/07/2020 à 11:35, Thomas Huth a écrit :
-> On 13/07/2020 11.04, Yi Wang wrote:
+Le 13/07/2020 à 11:36, Thomas Huth a écrit :
+> On 13/07/2020 11.05, Yi Wang wrote:
 >> From: Liao Pingfang <liao.pingfang@zte.com.cn>
 >>
->> Remove the superfluous break, as there is a "return" before.
+>> Remove superfluous breaks, as there is a "return" before them.
 >>
->> Signed-off-by: Liao Pingfang <liao.pingfang@zte.com.cn>a
+>> Signed-off-by: Liao Pingfang <liao.pingfang@zte.com.cn>
 >> Signed-off-by: Yi Wang <wang.yi59@zte.com.cn>
 >> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 >> ---
->>  ui/vnc-enc-tight.c | 1 -
->>  1 file changed, 1 deletion(-)
+>>  block/vmdk.c | 3 ---
+>>  1 file changed, 3 deletions(-)
 >>
->> diff --git a/ui/vnc-enc-tight.c b/ui/vnc-enc-tight.c
->> index 1e08518..cebd358 100644
->> --- a/ui/vnc-enc-tight.c
->> +++ b/ui/vnc-enc-tight.c
->> @@ -1125,7 +1125,6 @@ static int send_palette_rect(VncState *vs, int x, int y,
+>> diff --git a/block/vmdk.c b/block/vmdk.c
+>> index 28cec50..8f222e3 100644
+>> --- a/block/vmdk.c
+>> +++ b/block/vmdk.c
+>> @@ -1053,14 +1053,11 @@ static int vmdk_open_sparse(BlockDriverState *bs, BdrvChild *file, int flags,
+>>      switch (magic) {
+>>          case VMDK3_MAGIC:
+>>              return vmdk_open_vmfs_sparse(bs, file, flags, errp);
+>> -            break;
+>>          case VMDK4_MAGIC:
+>>              return vmdk_open_vmdk4(bs, file, flags, options, errp);
+>> -            break;
+>>          default:
+>>              error_setg(errp, "Image not in VMDK format");
+>>              return -EINVAL;
+>> -            break;
 >>      }
->>      default:
->>          return -1; /* No palette for 8bits colors */
->> -        break;
->>      }
->>      bytes = w * h;
->>      vs->tight->tight.offset = bytes;
+>>  }
+>>  
 >>
 > 
 > Reviewed-by: Thomas Huth <thuth@redhat.com>
