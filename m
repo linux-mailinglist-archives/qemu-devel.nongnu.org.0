@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB19B258C3C
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 12:01:08 +0200 (CEST)
-Received: from localhost ([::1]:50008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D4A7258C51
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 12:06:18 +0200 (CEST)
+Received: from localhost ([::1]:47018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD36C-0007J6-0c
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 06:01:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43514)
+	id 1kD3BB-0000uQ-5C
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 06:06:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD2yi-0002VP-GZ; Tue, 01 Sep 2020 05:53:24 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:59987)
+ id 1kD2zL-0003A2-VH; Tue, 01 Sep 2020 05:54:03 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:58957)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD2yf-0003S8-7L; Tue, 01 Sep 2020 05:53:24 -0400
+ id 1kD2zK-0003bp-4g; Tue, 01 Sep 2020 05:54:03 -0400
 Received: from [192.168.100.1] ([82.252.135.186]) by mrelayeu.kundenserver.de
  (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MWiYo-1k6Wcv17l2-00X3Sv; Tue, 01 Sep 2020 11:53:09 +0200
-Subject: Re: [PATCH v3 01/10] hw/arm/virt-acpi-build:Remove dead assignment in
- build_madt()
+ 1MNKuK-1jx8h6315u-00Olt5; Tue, 01 Sep 2020 11:53:54 +0200
+Subject: Re: [PATCH v3 02/10] hw/arm/omap1:Remove redundant statement in
+ omap_clkdsp_read()
 To: Chen Qun <kuhn.chenqun@huawei.com>, qemu-devel@nongnu.org,
  qemu-trivial@nongnu.org
 References: <20200827110311.164316-1-kuhn.chenqun@huawei.com>
- <20200827110311.164316-2-kuhn.chenqun@huawei.com>
+ <20200827110311.164316-3-kuhn.chenqun@huawei.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -69,32 +69,32 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <eb8949b0-9aec-5543-c91b-d1f794abc1f4@vivier.eu>
-Date: Tue, 1 Sep 2020 11:53:05 +0200
+Message-ID: <de1fd7c5-6bd3-39e0-e040-b10da548edf5@vivier.eu>
+Date: Tue, 1 Sep 2020 11:53:53 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200827110311.164316-2-kuhn.chenqun@huawei.com>
+In-Reply-To: <20200827110311.164316-3-kuhn.chenqun@huawei.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:0LMOGjzNdM9/reHRYXjRTnDUOypQRARhiQc8/eRxZHqRkW0zNnh
- 4QcqZ/QPym+VBm7Wak6sP3i0/IBHFTChgjEcEoxXvHdTOe+F8KSDkQ/o6dUVJCQyGxh5d3S
- 9M8fguUI0j4bCcx09pmCGOx9l26bs671VzrTJMeWAARIbOZAAfhgrqEszADowDESBiZK3wc
- cpVWITpsPiQ1h0e57/poA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:KTdMgbEHUXs=:8AHvfgA9jUEebuMfC0n/1g
- UTPB4ZpzvqPRJPTCDVwxrnJ946A4ddz4SwzWzMQXZzyXGKY8nPVumDXhJc8fHkypn0AU8znF4
- PCXrbrpFyOOZxJCJbw0xwIfJluWK1FdGVl1CGDpfr6fbDUmcpk87uphkMQH+dRoTl8Bn3ZP1h
- P3hrehtY2pOvlUEQWAGU7p5uI8MMS0kGGsSU0hJPVg5FHD+x+rWzu8nk0+mlaL3x+CTiu1QPx
- lSjh+zJigQyXgQ9B+NDIviO1+ve+GWFKJrwkmD5W2u35LrM596ZEWxfPDhTcNK3YZ7p4yHbwm
- T1GQGROsiOldy3GIwm1qho8kQcv1noFrdyNDWXRXsJ4//5F2oBlOOTpY7zrTDK5aIOUhl0G77
- xeu1m+2MCbMG177TcolFktrNYlSsr/nP5wWKAQm71EP2bXIP2+XxqHUmoV/06yKJV7TvCEqY2
- O0tjS6ncXLsSYWx5KKKl4Y+/dXHV2X4cWHUIuDT8Vi4XISntBCIt+9iy3mZY9xtSNCasZqtmX
- 5kk7tx07qMRiOL2fkE//NcYEqcSTsAse5xdwdFfB2HDbBsZhh5fxxW5hakOJJEo0ECRDmbmcy
- XvobCycUemqWhS0/X5dXE3aP2ryhuYWF2ew99Gj41LQ4U38OuopM58hUBTu18hrMWHGmla42c
- rG6cfDwg2wdsxFoCuwyj6bUp6B1iDFzyKztl41KZ6nHw+xGP0+4gpwb6SUWUM4ttfacQ4z3Y4
- ayam61d3IF/h412BxbfcHPcYPsPblJZ65TrkR5h4kCw+ZK+qdAQnSG43GnsDSZe13M8lLrCbS
- Z9LFwAwIasD1hNHQwxeqhFOM/jcO51x2UbTtKqy4sJa19Kx82qYC2SdVf4m8Z4GBD46CaNO
+X-Provags-ID: V03:K1:gFTRsUiCDzWWFawcLJ3MHA2mEXDIRWiQMWEMJHA5XX7m+Tj6lGD
+ R5xQahQZX7l0Irc02yRbBqqUU0RsZ74PyZbcBuqSNDFvqTA+kJjZ+nFL+sfDykqhk84Eo/C
+ 6/hgceptOA4PhfFvLHc/Ho8jzdN48VHTdODsTbUBDNirP4EzmnANEY1X/dOvzR/0wDldhki
+ 1URJjDXMnTyh9bI5lrHGg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:RX5m1ijYb4s=:h8EK1n1XwnjZ1aj5EfaKTS
+ VErABeICJOPOkYku8VxbxPVTHNfFUbbSS1HekyIDGQdA0G8dsRky7OP73s68Kty4V47E0GNSI
+ WkRJlLhMgGP7/LrNn75BYW/wGzlUVedELzUO7rSstjw14GPDx/Rp2HV6KKRr41JSDfsGF7nNH
+ nElKYFZPybU2p/0Xzb3SQRwwCohyt4TaHuuZjH7OW8hLCeTRxUGUQflDs1wkU4siy+SeAkB2a
+ 08sDsrDwgC2nVkH+EOIAip1y4OOaj2n0nqBNdQ9F457OW98+KMG8xjWiCxMLeemHzIS31HUxT
+ kxLRWUpP4EzvYaJbko94xrBgL2SQCYI9cgIeI3TNz2Fv9zJ8vxTk6lFgYkUPpCVIfI5eeyrAE
+ gZNpyE+Kcv/4gNzlGZjoARdlYFVNgKJwO+RDq+ZDkcfJy5pokT0TS2chwAq96dIxR9Z1TcVGJ
+ WIL3e6xEp5B2sSvBMOVIHAZ2BpKKCCD5fbzqcdrYIAz9v7hNM23IOUfjgCJ+KrdyxAvtYInoX
+ g1pYPjkdDVnm7w9dt1U4UdS/8nXB1divsNm05v9/I7Ma7Vs3Mz+Wis9CfvAVIbR5aObA9lIzi
+ F9j15mOXsHyXXy7y4KOVOzGqvnq4L9YZqZl4SPWQMMo44DMgYFrfQMnzaCrTTJTgECdsi7iCR
+ vpmkRc79LMoYHZxZ1fYP2/SWYb/kPb5IifdcAVNusUJA2wsxiimjUMGJU/Uf7gSjCjCOfLNuh
+ SdQZ+T+5/FUFXQFA4ef+SKB0H+oYYkp7j3vH9opx2D7pIAn3djmJDUVQGe0Fv5i0JSwfYliIb
+ /aEuqk5qaaBKRg750gMqD8eEbQXtDxb/gpXwg0o2jVpj026DxkW0nN1yJOCN3PsgvtCZIfM
 Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 05:47:22
@@ -118,51 +118,41 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, zhang.zhanghailiang@huawei.com,
- "Michael S. Tsirkin" <mst@redhat.com>, pannengyuan@huawei.com,
- Li Qiang <liq3ea@gmail.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
- qemu-arm@nongnu.org, Euler Robot <euler.robot@huawei.com>,
- Igor Mammedov <imammedo@redhat.com>
+ pannengyuan@huawei.com, Li Qiang <liq3ea@gmail.com>, qemu-arm@nongnu.org,
+ Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 27/08/2020 à 13:03, Chen Qun a écrit :
 > Clang static code analyzer show warning:
-> hw/arm/virt-acpi-build.c:641:5: warning: Value stored to 'madt' is never read
->     madt = acpi_data_push(table_data, sizeof *madt);
->     ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> hw/arm/omap1.c:1760:15: warning: Value stored to 'cpu' during its
+> initialization is never read
+>     CPUState *cpu = CPU(s->cpu);
+>               ^~~   ~~~~~~~~~~~
 > 
 > Reported-by: Euler Robot <euler.robot@huawei.com>
 > Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 > Reviewed-by: Li Qiang <liq3ea@gmail.com>
 > ---
-> Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
 > Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> Cc: Igor Mammedov <imammedo@redhat.com>
 > Cc: qemu-arm@nongnu.org
 > ---
->  hw/arm/virt-acpi-build.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+>  hw/arm/omap1.c | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-> index 91f0df7b13..f830f9b779 100644
-> --- a/hw/arm/virt-acpi-build.c
-> +++ b/hw/arm/virt-acpi-build.c
-> @@ -633,12 +633,11 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
->      int madt_start = table_data->len;
->      const MemMapEntry *memmap = vms->memmap;
->      const int *irqmap = vms->irqmap;
-> -    AcpiMultipleApicTable *madt;
->      AcpiMadtGenericDistributor *gicd;
->      AcpiMadtGenericMsiFrame *gic_msi;
->      int i;
+> diff --git a/hw/arm/omap1.c b/hw/arm/omap1.c
+> index 6ba0df6b6d..02c0f66431 100644
+> --- a/hw/arm/omap1.c
+> +++ b/hw/arm/omap1.c
+> @@ -1774,7 +1774,6 @@ static uint64_t omap_clkdsp_read(void *opaque, hwaddr addr,
+>          return s->clkm.dsp_rstct2;
 >  
-> -    madt = acpi_data_push(table_data, sizeof *madt);
-> +    acpi_data_push(table_data, sizeof(AcpiMultipleApicTable));
->  
->      gicd = acpi_data_push(table_data, sizeof *gicd);
->      gicd->type = ACPI_APIC_GENERIC_DISTRIBUTOR;
+>      case 0x18:	/* DSP_SYSST */
+> -        cpu = CPU(s->cpu);
+>          return (s->clkm.clocking_scheme << 11) | s->clkm.cold_start |
+>                  (cpu->halted << 6);      /* Quite useless... */
+>      }
 > 
 
 Applied to my trivial-patches branch.
