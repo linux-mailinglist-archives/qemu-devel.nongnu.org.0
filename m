@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39BD7258ECF
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 15:02:00 +0200 (CEST)
-Received: from localhost ([::1]:43390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B15E258EDD
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 15:06:09 +0200 (CEST)
+Received: from localhost ([::1]:60588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD5vD-0008Mn-7h
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 09:01:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36418)
+	id 1kD5zE-0006xZ-EQ
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 09:06:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kD5qW-0001WR-6e; Tue, 01 Sep 2020 08:57:08 -0400
-Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842]:43933)
+ id 1kD5qX-0001b0-Ix; Tue, 01 Sep 2020 08:57:09 -0400
+Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:41835)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kD5qU-0002nK-8H; Tue, 01 Sep 2020 08:57:07 -0400
-Received: by mail-qt1-x842.google.com with SMTP id g3so669576qtq.10;
- Tue, 01 Sep 2020 05:57:05 -0700 (PDT)
+ id 1kD5qV-0002o4-Os; Tue, 01 Sep 2020 08:57:09 -0400
+Received: by mail-qt1-x843.google.com with SMTP id t20so738474qtr.8;
+ Tue, 01 Sep 2020 05:57:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=44LN6WKw2NuzFJmsrJlYdSX6iSr07Frryi3h99Vzf9c=;
- b=LdLRs+7uYDbI+TLDEdAnDa69/GWygdQo5mCMybauUFJ09vEUS4iCfMXD4eBkhpuotc
- onpcHxA9dp4QXetVyklDNT4IrdK83rwJ01QlMblyDPjrIqzanWtNBfy5EkujgjzMLAb4
- 8tmVMkv2tm8aYPBbyNgn6ZNTvmKrZN8fIFUmYHPDNP07juBuXS3WMyySlfLxNfDQ1xpC
- C+FX53a7V7ohIgEUaYxlcfBx4Xp0RUtCUOuwZgWxxUELtkG7rsrsZX/8V1re9Ce4pvIb
- ESQNoEWqqDjOC7fBDsdu8+oM/lrOJTZQ65SHtYmHooZi0Ra0GicmXWGN/OUWWZr5dPjY
- TE6w==
+ bh=0Dg2hr+Km79kta4Vbo921CtoCw0M28LSvQZWr2OX06o=;
+ b=nLJ0b1JJpiYHL1Kmgp8cgZm05Jy9SjjnxYGhrYEEEG+M0IhcOgtgpHLUN/adTN4F3T
+ XrjA3Kp3Pl0FRBWMuBgsCdli3UhvMy9E/HIRUhp22FKu9h8SstnBf9XKCJ1v5LxtDgPt
+ Gv/5DkAPP6WpzRsYfgUrGT8I26p6OJ54c2aidYb+RPyQDvqaxpU6t2LI1/X/dlHZd40i
+ pB9lWVl34DZADLkIh5ruylqNVCkz0mVvBRY+moEGpZcxkRpgFlIbcyzxNPALyknGk1X2
+ IlXATIU6vU80apcQIDBM/6rJ4CQE37PdQKVse1IrCiwK2tNRS2GmhjCgQwMIof8GPduZ
+ NKhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=44LN6WKw2NuzFJmsrJlYdSX6iSr07Frryi3h99Vzf9c=;
- b=ZFB2eDjRuacGpb71kXm/+h57RUsEBlSekg3yDVi6OKSV73p9BZwA8uK1CFvrDTFeAc
- qpVAs4XSNMxaxmnj5qBrsLUlw8U1e+k52Aw6Vvpoo5NXKm+GfOo4tO0ffOzGv8iwLOG8
- C9eUFgpISJ1N/womCyzfHJBokE65rnaHRYsy5w7r9fQ59UjD1Wprq3PuJQ4l2hD19fPx
- v5hkDPmndFOa5EJnoMmfdX7VS4DkSXhJgE/3+/kY7QBRE/8XcnqA8BvoJ9+H8CC2K4U6
- l6p4CUUfnfe7dEBB8rk/0UqVF8FlsNsB+oYU7MFKidNk2cwoghQsbg116tkARhBm+BcZ
- ZLIQ==
-X-Gm-Message-State: AOAM5338NacpTIgOG/Gf8ztXd8o+Dx0pLEKt8B7CI7a6A3KW+UhuWu/r
- HJWpdkZWcV3wDmPcSx+AgiFUIggHI0XfdQ==
-X-Google-Smtp-Source: ABdhPJxzDfXgbYc/jJjEtH93nC6SK3mRSyU+AiN3e2sm4XB9KvH4cE64YC9A/9ZEKGiFnJi9nYHEIQ==
-X-Received: by 2002:ac8:43cf:: with SMTP id w15mr1625104qtn.55.1598965024649; 
- Tue, 01 Sep 2020 05:57:04 -0700 (PDT)
+ bh=0Dg2hr+Km79kta4Vbo921CtoCw0M28LSvQZWr2OX06o=;
+ b=VZnnamAkdj7aLRzt54eT58MhWVTNFgy5Mr01uE7u29Y/aMd3u77eKVq9obtXKpuI8p
+ 7c+V5OFOfeO5LTU5Zl8cMFjVt3+eDSf/g8oP6kX/UjzAnNN2qArZIpRpxY6US73Yf+qn
+ ZfvOyOeEvPo9hovJFZUqh7hAXyZ+dlaG6EnA4a0mwjrulcz4G0TvvMHSr++3Xft4X9Vx
+ iCapkhkkB1eumpfsJYBMb6ysIzGszuOL/aWttVc2OJvC2f4EtqC5WX+8021XxkcvUR6N
+ yTG8z9bNzK3E3U2G9ee2nWAuLUxVR+hu55VZgXTlL6YVezIfWg2PfJmTci7FvE0zsdHn
+ Ut8Q==
+X-Gm-Message-State: AOAM532Eo8tZDyyum84Yve0aw/2hRPts1XaiWqp0Ds/bUOA/BOY4foYz
+ vwC3k4OyS4vuqKULBqMTryivrrzoiI501A==
+X-Google-Smtp-Source: ABdhPJyjHI22maHuZj4Nu78N30tCOAZbtGlbn/gbZUzB6gVQTfCMadpCg7lxIFQ0BD5kOTFMwEUK3g==
+X-Received: by 2002:ac8:614b:: with SMTP id d11mr1579767qtm.271.1598965026369; 
+ Tue, 01 Sep 2020 05:57:06 -0700 (PDT)
 Received: from rekt.ibmuc.com ([2804:431:c7c7:6be:f6e3:c671:cefe:b943])
- by smtp.gmail.com with ESMTPSA id q7sm1430164qkf.35.2020.09.01.05.57.03
+ by smtp.gmail.com with ESMTPSA id q7sm1430164qkf.35.2020.09.01.05.57.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Sep 2020 05:57:04 -0700 (PDT)
+ Tue, 01 Sep 2020 05:57:05 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 6/7] spapr_numa: move NVLink2 associativity handling to
- spapr_numa.c
-Date: Tue,  1 Sep 2020 09:56:44 -0300
-Message-Id: <20200901125645.118026-7-danielhb413@gmail.com>
+Subject: [PATCH v2 7/7] spapr_hcall: h_home_node_associativity now reads
+ numa_assoc_array
+Date: Tue,  1 Sep 2020 09:56:45 -0300
+Message-Id: <20200901125645.118026-8-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200901125645.118026-1-danielhb413@gmail.com>
 References: <20200901125645.118026-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::842;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x842.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::843;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x843.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -89,129 +89,62 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds a new spapr_numa_write_assoc_nvlink2() helper
-to handle the ibm,associativity for NVLink2 GPUs.
+home_node_associativity reply now uses the associativity
+values for tcpu->node_id provided by numa_assoc_array.
+
+This will avoid further changes in this code when numa_assoc_array
+changes values, but it won't be enough to prevent further changes
+if (falar aqui q se mudar o tamanho do array tem q mexer nessa
+funcao tambem, falar q a macro associativity() deixa a automacao
+de tudo mto unreadable)
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/spapr_numa.c         | 23 +++++++++++++++++++++++
- hw/ppc/spapr_pci_nvlink2.c  | 19 ++-----------------
- include/hw/ppc/spapr_numa.h |  3 +++
- 3 files changed, 28 insertions(+), 17 deletions(-)
+ hw/ppc/spapr_hcall.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
-diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-index 9eb4bdbe80..785cc24624 100644
---- a/hw/ppc/spapr_numa.c
-+++ b/hw/ppc/spapr_numa.c
-@@ -15,6 +15,8 @@
- #include "hw/ppc/spapr_numa.h"
- #include "hw/ppc/fdt.h"
- 
-+/* Moved from hw/ppc/spapr_pci_nvlink2.c */
-+#define SPAPR_GPU_NUMA_ID           (cpu_to_be32(1))
- 
- void spapr_numa_associativity_init(MachineState *machine)
+diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+index c1d01228c6..2ec30efdcb 100644
+--- a/hw/ppc/spapr_hcall.c
++++ b/hw/ppc/spapr_hcall.c
+@@ -1878,9 +1878,13 @@ static target_ulong h_home_node_associativity(PowerPCCPU *cpu,
+                                               target_ulong opcode,
+                                               target_ulong *args)
  {
-@@ -114,6 +116,27 @@ int spapr_numa_write_assoc_lookup_arrays(SpaprMachineState *spapr, void *fdt,
-     return ret;
- }
++    SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
+     target_ulong flags = args[0];
+     target_ulong procno = args[1];
+     PowerPCCPU *tcpu;
++    uint32_t assoc_domain1;
++    uint32_t assoc_domain2;
++    uint32_t assoc_domain3;
+     int idx;
  
-+void spapr_numa_write_assoc_nvlink2(void *fdt, int offset, int numa_id,
-+                                    SpaprPhbState *sphb)
-+{
-+    uint32_t associativity[NUMA_ASSOC_SIZE];
-+    int i;
+     /* only support procno from H_REGISTER_VPA */
+@@ -1893,13 +1897,21 @@ static target_ulong h_home_node_associativity(PowerPCCPU *cpu,
+         return H_P2;
+     }
+ 
++    /*
++     * Index 0 is the ibm,associativity size of the node,
++     * which isn't relevant here.
++     */
++    assoc_domain1 = smc->numa_assoc_array[tcpu->node_id][1];
++    assoc_domain2 = smc->numa_assoc_array[tcpu->node_id][2];
++    assoc_domain3 = smc->numa_assoc_array[tcpu->node_id][3];
 +
-+    associativity[0] = cpu_to_be32(MAX_DISTANCE_REF_POINTS);
-+    for (i = 1; i < NUMA_ASSOC_SIZE; i++) {
-+        associativity[i] = cpu_to_be32(numa_id);
-+    };
-+
-+    if (sphb->pre_5_1_assoc) {
-+        associativity[1] = SPAPR_GPU_NUMA_ID;
-+        associativity[2] = SPAPR_GPU_NUMA_ID;
-+        associativity[3] = SPAPR_GPU_NUMA_ID;
-+    }
-+
-+    _FDT((fdt_setprop(fdt, offset, "ibm,associativity", associativity,
-+                      sizeof(associativity))));
-+}
-+
- /*
-  * Helper that writes ibm,associativity-reference-points and
-  * max-associativity-domains in the RTAS pointed by @rtas
-diff --git a/hw/ppc/spapr_pci_nvlink2.c b/hw/ppc/spapr_pci_nvlink2.c
-index 76ae77ebc8..662a0af990 100644
---- a/hw/ppc/spapr_pci_nvlink2.c
-+++ b/hw/ppc/spapr_pci_nvlink2.c
-@@ -29,6 +29,7 @@
- #include "qemu/error-report.h"
- #include "hw/ppc/fdt.h"
- #include "hw/pci/pci_bridge.h"
-+#include "hw/ppc/spapr_numa.h"
+     /* sequence is the same as in the "ibm,associativity" property */
  
- #define PHANDLE_PCIDEV(phb, pdev)    (0x12000000 | \
-                                      (((phb)->index) << 16) | ((pdev)->devfn))
-@@ -37,8 +38,6 @@
- #define PHANDLE_NVLINK(phb, gn, nn)  (0x00130000 | (((phb)->index) << 8) | \
-                                      ((gn) << 4) | (nn))
- 
--#define SPAPR_GPU_NUMA_ID           (cpu_to_be32(1))
--
- typedef struct SpaprPhbPciNvGpuSlot {
-         uint64_t tgt;
-         uint64_t gpa;
-@@ -360,13 +359,6 @@ void spapr_phb_nvgpu_ram_populate_dt(SpaprPhbState *sphb, void *fdt)
-         Object *nv_mrobj = object_property_get_link(OBJECT(nvslot->gpdev),
-                                                     "nvlink2-mr[0]",
-                                                     &error_abort);
--        uint32_t associativity[] = {
--            cpu_to_be32(0x4),
--            cpu_to_be32(nvslot->numa_id),
--            cpu_to_be32(nvslot->numa_id),
--            cpu_to_be32(nvslot->numa_id),
--            cpu_to_be32(nvslot->numa_id)
--        };
-         uint64_t size = object_property_get_uint(nv_mrobj, "size", NULL);
-         uint64_t mem_reg[2] = { cpu_to_be64(nvslot->gpa), cpu_to_be64(size) };
-         char *mem_name = g_strdup_printf("memory@%"PRIx64, nvslot->gpa);
-@@ -376,14 +368,7 @@ void spapr_phb_nvgpu_ram_populate_dt(SpaprPhbState *sphb, void *fdt)
-         _FDT((fdt_setprop_string(fdt, off, "device_type", "memory")));
-         _FDT((fdt_setprop(fdt, off, "reg", mem_reg, sizeof(mem_reg))));
- 
--        if (sphb->pre_5_1_assoc) {
--            associativity[1] = SPAPR_GPU_NUMA_ID;
--            associativity[2] = SPAPR_GPU_NUMA_ID;
--            associativity[3] = SPAPR_GPU_NUMA_ID;
--        }
--
--        _FDT((fdt_setprop(fdt, off, "ibm,associativity", associativity,
--                          sizeof(associativity))));
-+        spapr_numa_write_assoc_nvlink2(fdt, off, nvslot->numa_id, sphb);
- 
-         _FDT((fdt_setprop_string(fdt, off, "compatible",
-                                  "ibm,coherent-device-memory")));
-diff --git a/include/hw/ppc/spapr_numa.h b/include/hw/ppc/spapr_numa.h
-index f6127501a6..b6e0721b07 100644
---- a/include/hw/ppc/spapr_numa.h
-+++ b/include/hw/ppc/spapr_numa.h
-@@ -15,6 +15,7 @@
- 
- #include "hw/boards.h"
- #include "hw/ppc/spapr.h"
-+#include "hw/pci-host/spapr.h"
- 
- void spapr_numa_associativity_init(MachineState *machine);
- void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas);
-@@ -24,6 +25,8 @@ int spapr_numa_fixup_cpu_dt(SpaprMachineState *spapr, void *fdt,
-                             int offset, PowerPCCPU *cpu);
- int spapr_numa_write_assoc_lookup_arrays(SpaprMachineState *spapr, void *fdt,
-                                          int offset);
-+void spapr_numa_write_assoc_nvlink2(void *fdt, int offset, int numa_id,
-+                                    SpaprPhbState *sphb);
- 
- 
- #endif /* HW_SPAPR_NUMA_H */
+     idx = 0;
+ #define ASSOCIATIVITY(a, b) (((uint64_t)(a) << 32) | \
+                              ((uint64_t)(b) & 0xffffffff))
+-    args[idx++] = ASSOCIATIVITY(0, 0);
+-    args[idx++] = ASSOCIATIVITY(0, tcpu->node_id);
++    args[idx++] = ASSOCIATIVITY(assoc_domain1, assoc_domain2);
++    args[idx++] = ASSOCIATIVITY(assoc_domain3, tcpu->node_id);
+     args[idx++] = ASSOCIATIVITY(procno, -1);
+     for ( ; idx < 6; idx++) {
+         args[idx] = -1;
 -- 
 2.26.2
 
