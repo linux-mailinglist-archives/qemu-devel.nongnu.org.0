@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BB02259084
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:33:25 +0200 (CEST)
-Received: from localhost ([::1]:58604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCCAE25909A
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:36:11 +0200 (CEST)
+Received: from localhost ([::1]:43462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD7Lg-0002lJ-E1
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:33:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55640)
+	id 1kD7OM-0008VR-IX
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:36:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6za-0006B3-8A; Tue, 01 Sep 2020 10:10:34 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:39751)
+ id 1kD6zb-0006Fv-Sw; Tue, 01 Sep 2020 10:10:35 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:49875)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zY-00040U-CR; Tue, 01 Sep 2020 10:10:33 -0400
+ id 1kD6zZ-00041C-Qm; Tue, 01 Sep 2020 10:10:35 -0400
 Received: from localhost.localdomain ([82.252.135.186]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MWAaw-1k5uuj3tyk-00Xd95; Tue, 01 Sep 2020 16:10:24 +0200
+ id 1N0X4e-1kY3eO2yOa-00wXVp; Tue, 01 Sep 2020 16:10:25 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 39/44] vfio/platform: Remove dead assignment in
- vfio_intp_interrupt()
-Date: Tue,  1 Sep 2020 16:09:49 +0200
-Message-Id: <20200901140954.889743-40-laurent@vivier.eu>
+Subject: [PULL 40/44] usb/bus: Remove dead assignment in usb_get_fw_dev_path()
+Date: Tue,  1 Sep 2020 16:09:50 +0200
+Message-Id: <20200901140954.889743-41-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200901140954.889743-1-laurent@vivier.eu>
 References: <20200901140954.889743-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:lsDR0dEHCtExKSd9N3oIN428thZ82nBF4fKg8HBPzQNzaeOTCIY
- 7Bs0o+KvIhLj5toScUInS9nf7Aez3cWSEI6dPi2r4HpR68D28Zq1zXbCn8jhFFkKFKVX2iP
- NWuGBRINpnAdiONWZf/i/dj7KkcoZ/LHchSm6y1vAcdg9gMI/Ufc1hHRjLu042SOEx0l60E
- SPjxYrZqSM0+GkZRpyhtQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Jdfz80TC3Hk=:UQy0koX5hT1Lb8VX/HsC5e
- kqORgrLW6dYbqBg8lvU9dChVvVnfVrLYrIiE3BGp/m+5DJk7e6+pqWUldwOvAeMPnjhZ1nBRa
- T1w6mF+tB0B2ytkPys5Gs5aIDnSJChFDxj7AHV/IjgDMHgKDoRWaBOOdtlNgEDfa3k27tMtdi
- 2VUdySM1x6u84yYuHar96QcxUp5kWOhKGspoKDYYC9ZCwl2L9XmTrLq5OduTULz/7askIhs/4
- +Z/q1lX6a+2eIPPw7Wb1UzfAPavxdtAcuRVg5qnUxFd2FCtkons/o3tKm/x0gk4U4b+I47poO
- zTGRqzbk1VqVONaeDj0XpJrOAZzQBMNfEV3X8w148usu59AX8c8ZBrhvsGIkocag7PZGo76lG
- vpuZIbJh2ssNzMzsrV0neO/IJqIGVUjDq19JdlJL9t3jmWkZ5PlaBY+Ct1tdJ8EHgfArO7C8l
- LFO51FIUP4c0lYhe4tyv8nkvQ0R0EdjWAK5sMVFPear70M8lqzw4TfczgzoJS2UfGZmwrFaKa
- uft+a0SucrfSrAkcqIg8GrNv/5O/+se2bQSM98lp7JHdFkmwN72CNtiK/sKEszfSaoHLFXqR0
- P3zCub+IRdNdVueXaSzHLVV/xWfcwv5qf4vFsRfo/ixLIZzyctSnXt3gMEAY6+mA2r5ek5l3S
- moPUpY4d96s6/ZPiKeoxf36c0eUlhWZ5K8BXbjnUsWuGkkWzWgnhnD1CmJ5Vv3Sq2pfX5Vg5S
- nhAdh3Ku5rk2wEoblZ/pTheJZmzuBTbOmal1B6qNvpWJzunoJKUD6JNxrB8a03I3m4N5L7+gh
- j+18nEtBL3xh2nady720Pc8CFmDGY1Z6HYmMWMINTZKQfgXkvnvgVoN+yB1i52hienGdyBs
+X-Provags-ID: V03:K1:fde0JeXMtmvEuG6BD+FGbBr2ZW7adftAP1LOT4aUDPUX5ab2HO+
+ RLIoJfCid5/jFRFUEPKiZvqKrA1w7OfiS3b8t3Ii51b4wOehEsxki0FNyywxqr0lp4dTrYS
+ 9mbnfwvWo90EMi359IUOxb2xa16QZgpSRdw5ZQ0bbgdW8NjxjUnn9xO2dLPs9Nh4jR+buXS
+ yJGsJ6gxiTNDzMDmyUu5A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:wYIVgo2wF7Y=:DQaAn1e4j/icgNtKwXPzm6
+ iiaBkeBweCMqVLaQ6+Ba0cl+vZb+UCQhifGw4qo2tKiyQLH0ID5n89O3q0w9ErQECU9mZdeck
+ FSUyea/BtFZDAFgDieulLO5JJKwHPrpXt9RUZKMt2r/oM2QRxZ2oKTqwKPxoDyOmKWxZnjeK4
+ bQlzSsp1xaLUbTBmX+96mOrzBBnxIc/2tKJ6cTVFb1v689t9p9RQ9dC4XGT7CpE3Np5FDlo5A
+ isnO6ezfPP7+01KGfSW9pD/tRVat1SY2MHynQtJLox5rIv8RA8MLMXNQbG10+CbDLpbihHQ11
+ syyU+lxUgqlyUmGOI28T0vHZxr+jnfxoJjJlkvXFJ/MArLAm7mP+rYejXeSxCpkgsF2Ua5/RK
+ PCylaQ9oBahzXfvlWyWFPdqcI6J44cjB4jKJtcAUocAYtt1EIr7ncEX9HhruC5Tixl1dCwFVB
+ BwE21wjC7UBmArnIme7+i1uYinLMcEU7afw+lkAVxE49ML/8w66rs+WKu9ehKRA8T8RkGjVyY
+ 7vP4obr5PR0whXGBRDaaKxz6obsHTeqG/ffn0+uxLUo7VOdwuzCqBgCZRFz60qwQhd0P0v0Q8
+ ljC98uqC0UZVXoPQLM/WhJQHtT8lVx7Lw9//+b/8EItWpbqVRTQjknYK9swSyNa/7Bw+Qz/Uw
+ kYeh5APB75tCFLvNloFQvm9hgq7+gKkD3B5f8R1OJIgifiHpHQehIQTvwvfmWUoE8uAxV5Scj
+ MLkhLA+l2wVZjr6GlXZEOnmnB0jgIl0GP81/P3DlL0r046wfloDq/09uWvlkZaVjuMwN+r2Gc
+ R6aa4XxV4xLQ8kwePcTG16pOtms7lDo4Zogt9MI+ET95XoWf4LmrJSS15r0yXKRqV7hT0L+
 Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:10:08
@@ -70,44 +69,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Li Qiang <liq3ea@gmail.com>,
- Laurent Vivier <laurent@vivier.eu>, Eric Auger <eric.auger@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Euler Robot <euler.robot@huawei.com>,
- Chen Qun <kuhn.chenqun@huawei.com>
+Cc: qemu-trivial@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
+ Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Euler Robot <euler.robot@huawei.com>, Chen Qun <kuhn.chenqun@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Chen Qun <kuhn.chenqun@huawei.com>
 
 Clang static code analyzer show warning:
-hw/vfio/platform.c:239:9: warning: Value stored to 'ret' is never read
-        ret = event_notifier_test_and_clear(intp->interrupt);
-        ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+qemu/hw/usb/bus.c:615:13: warning: Value stored to 'pos' is never read
+            pos += snprintf(fw_path + pos, fw_len - pos, "%s@%lx",
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
-Message-Id: <20200827110311.164316-8-kuhn.chenqun@huawei.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
+Message-Id: <20200827110311.164316-9-kuhn.chenqun@huawei.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/vfio/platform.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/usb/bus.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/vfio/platform.c b/hw/vfio/platform.c
-index ac2cefc9b184..869ed2c39dcd 100644
---- a/hw/vfio/platform.c
-+++ b/hw/vfio/platform.c
-@@ -236,7 +236,7 @@ static void vfio_intp_interrupt(VFIOINTp *intp)
-         trace_vfio_intp_interrupt_set_pending(intp->pin);
-         QSIMPLEQ_INSERT_TAIL(&vdev->pending_intp_queue,
-                              intp, pqnext);
--        ret = event_notifier_test_and_clear(intp->interrupt);
-+        event_notifier_test_and_clear(intp->interrupt);
-         return;
+diff --git a/hw/usb/bus.c b/hw/usb/bus.c
+index b17bda3b29ef..2b1104145157 100644
+--- a/hw/usb/bus.c
++++ b/hw/usb/bus.c
+@@ -612,8 +612,8 @@ static char *usb_get_fw_dev_path(DeviceState *qdev)
+             in++;
+         } else {
+             /* the device itself */
+-            pos += snprintf(fw_path + pos, fw_len - pos, "%s@%lx",
+-                            qdev_fw_name(qdev), nr);
++            snprintf(fw_path + pos, fw_len - pos, "%s@%lx",
++                     qdev_fw_name(qdev), nr);
+             break;
+         }
      }
- 
 -- 
 2.26.2
 
