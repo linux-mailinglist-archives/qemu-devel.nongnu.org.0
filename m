@@ -2,50 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A8AE259473
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:39:58 +0200 (CEST)
-Received: from localhost ([::1]:54934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A0222593F5
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:33:44 +0200 (CEST)
+Received: from localhost ([::1]:55748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD8O5-0006Ec-M5
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:39:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48900)
+	id 1kD8I3-00034n-Fl
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:33:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kD85m-0004rL-Hk
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:21:02 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24981
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kD860-0005QU-SP
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:21:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25240)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kD85i-0006fM-Pw
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:21:01 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kD85y-0006hi-3H
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:21:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598973657;
+ s=mimecast20190719; t=1598973672;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=3yergm6UiMsGDZZ2WL9UqGL3SYwlh/osV8DKNRQXg2U=;
- b=Oh9sgMJdFU9cnPdKQ1v6ONQnYZYYsHeGOpRUZGrmxVRuVhk3cVtzjN4EU8th8bCqQRYFRP
- ajUl9tb1duwb9Csxau5d8RW6EZF/rY/D5b2q+6nrzURWKITehMjG98tD4jE/ynZXSfH/oB
- RIRHYsCXC7FQX99x80Tvtp0Xdzwsods=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vr9JKiFkYHddlOXTHhjVb/SVP9gNMO8JYk290bn7LfY=;
+ b=HQZ4nrxJSJGSu/Bf/ZE0YlsP8NjKkSyZoEXNaXzKNG7QGSErQKAgWXADbDMqWTg7NB5NBF
+ /6O4xdt+pyzLbhvDitdU+sdIlhLi7tESObVH6urY0iZoGm25YfsyBGeK2ZqsvrJ8hp0XeI
+ XBOHJt87ns3cdPx88dIfYKsnt2F69M4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-541-KBLbEJqOMDirqI5MWPT6dQ-1; Tue, 01 Sep 2020 11:20:55 -0400
-X-MC-Unique: KBLbEJqOMDirqI5MWPT6dQ-1
+ us-mta-40-EwtYgrGrOcO7mpIuSLc2Mg-1; Tue, 01 Sep 2020 11:20:58 -0400
+X-MC-Unique: EwtYgrGrOcO7mpIuSLc2Mg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF373425DC;
- Tue,  1 Sep 2020 15:20:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 559DC8030A4;
+ Tue,  1 Sep 2020 15:20:56 +0000 (UTC)
 Received: from thuth.com (ovpn-112-188.ams2.redhat.com [10.36.112.188])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0D51C5D9CC;
- Tue,  1 Sep 2020 15:20:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 18E965D9CC;
+ Tue,  1 Sep 2020 15:20:54 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 0/8] Cirrus-CI improvements, and other CI-related fixes, m68k
-Date: Tue,  1 Sep 2020 17:20:42 +0200
-Message-Id: <20200901152050.255165-1-thuth@redhat.com>
+Subject: [PULL 1/8] configure: Fix atomic64 test for --enable-werror on macOS
+Date: Tue,  1 Sep 2020 17:20:43 +0200
+Message-Id: <20200901152050.255165-2-thuth@redhat.com>
+In-Reply-To: <20200901152050.255165-1-thuth@redhat.com>
+References: <20200901152050.255165-1-thuth@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
@@ -54,17 +56,17 @@ X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 00:57:59
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 23:17:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,44 +83,59 @@ Cc: Ed Maste <emaste@freebsd.org>, Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
- Hi Peter,
- 
-the following changes since commit 2f4c51c0f384d7888a04b4815861e6d5fd244d75:
+When using --enable-werror for the macOS builders in the Cirrus-CI,
+the atomic64 test is currently failing, and config.log shows a bunch
+of error messages like this:
 
-  Merge remote-tracking branch 'remotes/kraxel/tags/usb-20200831-pull-request' into staging (2020-08-31 19:39:13 +0100)
+ config-temp/qemu-conf.c:6:7: error: implicit declaration of function
+ '__atomic_load_8' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+  y = __atomic_load_8(&x, 0);
+      ^
+ config-temp/qemu-conf.c:6:7: error: this function declaration is not a
+ prototype [-Werror,-Wstrict-prototypes]
 
-are available in the Git repository at:
+Seems like these __atomic_*_8 functions are available in one of the
+libraries there, so that the test links and passes there when not
+using --enable-werror. But there does not seem to be a valid prototype
+for them in any of the header files, so that the test fails when using
+--enable-werror.
 
-  https://gitlab.com/huth/qemu.git tags/pull-request-2020-09-01
+Fix it by using the "official" built-in functions instead (see e.g.
+https://gcc.gnu.org/onlinedocs/gcc/_005f_005fatomic-Builtins.html).
+We are not using the *_8 variants in QEMU anyway.
 
-for you to fetch changes up to df496fb0532758cffb5ad4075b4e60a43c723492:
+Suggested-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Tested-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20200728074405.13118-2-thuth@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ configure | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-  hw/m68k: QOMify the mcf5206 system integration module (2020-09-01 17:09:17 +0200)
-
-----------------------------------------------------------------
-- Cirrus-CI improvements and fixes (compile with -Werror & fix for 1h problem)
-- Two build system fixes to fix some failures the CI
-- One m68k QOMification patch
-----------------------------------------------------------------
-
-Gerd Hoffmann (1):
-      meson: fix keymaps without qemu-keymap
-
-Thomas Huth (7):
-      configure: Fix atomic64 test for --enable-werror on macOS
-      cirrus.yml: Compile FreeBSD with -Werror
-      cirrus.yml: Compile macOS with -Werror
-      cirrus.yml: Update the macOS jobs to Catalina
-      cirrus.yml: Split FreeBSD job into two parts
-      configure: Add system = 'linux' for meson when cross-compiling
-      hw/m68k: QOMify the mcf5206 system integration module
-
- .cirrus.yml                 | 43 +++++++++++++++++++++++++++++++++----------
- configure                   | 13 ++++++++-----
- hw/m68k/an5206.c            | 14 ++++++++++++--
- hw/m68k/mcf5206.c           | 44 +++++++++++++++++++++++++++++++++++---------
- include/hw/m68k/mcf.h       |  3 +--
- pc-bios/keymaps/meson.build | 28 +++++++++++++++++++---------
- 6 files changed, 108 insertions(+), 37 deletions(-)
+diff --git a/configure b/configure
+index 8dc981684b..59b7310e15 100755
+--- a/configure
++++ b/configure
+@@ -5780,11 +5780,11 @@ int main(void)
+ {
+   uint64_t x = 0, y = 0;
+ #ifdef __ATOMIC_RELAXED
+-  y = __atomic_load_8(&x, 0);
+-  __atomic_store_8(&x, y, 0);
+-  __atomic_compare_exchange_8(&x, &y, x, 0, 0, 0);
+-  __atomic_exchange_8(&x, y, 0);
+-  __atomic_fetch_add_8(&x, y, 0);
++  y = __atomic_load_n(&x, __ATOMIC_RELAXED);
++  __atomic_store_n(&x, y, __ATOMIC_RELAXED);
++  __atomic_compare_exchange_n(&x, &y, x, 0, __ATOMIC_RELAXED, __ATOMIC_RELAXED);
++  __atomic_exchange_n(&x, y, __ATOMIC_RELAXED);
++  __atomic_fetch_add(&x, y, __ATOMIC_RELAXED);
+ #else
+   typedef char is_host64[sizeof(void *) >= sizeof(uint64_t) ? 1 : -1];
+   __sync_lock_test_and_set(&x, y);
+-- 
+2.18.2
 
 
