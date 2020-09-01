@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7473E25885C
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 08:39:35 +0200 (CEST)
-Received: from localhost ([::1]:42762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F153F25885E
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 08:40:19 +0200 (CEST)
+Received: from localhost ([::1]:46502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCzx8-0000xZ-Gk
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 02:39:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47590)
+	id 1kCzxr-0002UN-34
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 02:40:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kCzw1-0008MF-Kk; Tue, 01 Sep 2020 02:38:25 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:57763)
+ id 1kCzwo-0001Hi-9P; Tue, 01 Sep 2020 02:39:14 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:47697)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kCzvz-0002sl-F1; Tue, 01 Sep 2020 02:38:25 -0400
+ id 1kCzwm-0002wE-Em; Tue, 01 Sep 2020 02:39:14 -0400
 Received: from [192.168.100.1] ([82.252.135.186]) by mrelayeu.kundenserver.de
  (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MG9wg-1kMrpl0Q7Y-00Gc9a; Tue, 01 Sep 2020 08:38:09 +0200
-Subject: Re: [PATCH 09/12] hw: Remove superfluous breaks
+ 1Mv2gw-1kUOIl3XxA-00qwmN; Tue, 01 Sep 2020 08:38:52 +0200
+Subject: Re: [PATCH 11/12] target/sh4: Remove superfluous breaks
 To: Thomas Huth <thuth@redhat.com>, Yi Wang <wang.yi59@zte.com.cn>,
  qemu-devel@nongnu.org
-References: <1594631126-36631-1-git-send-email-wang.yi59@zte.com.cn>
- <728da22b-18db-cec9-1cb8-b17202a62846@redhat.com>
+References: <1594631142-36745-1-git-send-email-wang.yi59@zte.com.cn>
+ <038e7f75-8c34-0a26-1451-75120d703c3d@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -68,35 +68,35 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <da57820c-f059-16fb-d4de-dbf18c494ef3@vivier.eu>
-Date: Tue, 1 Sep 2020 08:38:08 +0200
+Message-ID: <be244055-0fc4-bc7a-776e-32cdede9636c@vivier.eu>
+Date: Tue, 1 Sep 2020 08:38:50 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <728da22b-18db-cec9-1cb8-b17202a62846@redhat.com>
+In-Reply-To: <038e7f75-8c34-0a26-1451-75120d703c3d@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:3LuAQFXj/bK6tmmIFEk75EUNdjoB1eeyJmSSWjMHtjUSOwecdw9
- ZXAQ0e4ofq1/eRHxteGYJl3H1MALRMig8MCTjkWibjbHhw8F7rTznIgptl27xDK4vietBvw
- /kHhZ372QqHEZo9zXM7OVWA3gk97dePQpLmUaBPugf1LYUjbRB6AgKJ+mnQ9fUlBZViPfgx
- ASNETZNyC8voX6GRd32Yg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:l3Ken/RFWoE=:1mPX2LPjf7GQM0f2ZEuvPc
- ULqlWB2EfWDQXcZWUba2WF3qjZs18s8YJsOXntRjxVc05h+smBcmJbkdrD12DIUbv2dTUeTwj
- KwX0wg9y/7Wg/sWCuUkp+vtgaw/CpO1aYwt17rIao2Zc4T3s1CbUHulWUUbtWb1YxFR99GRhi
- Rog/6PV1l9mav5+IoG/uccBTCiHga/6eVA4jkTVbsMxwc9sWg564tP960hEHUGCHDjVI+Y/Gj
- zGUUOW1C1lufWaNYF6Jyn/pWv7wQr0zKYJU7oDOBfU8NV8l5kmRKFC8icGgl1gfFMk2OKfjea
- 2jD3vNCCy7PX7UcX6/8iQnEC7wnykX+3AnpP8qXMKHoBb0T736GD+ug77lclu71W+EXK6VHQo
- 5CQ30g74kakx7b2jwt1TryV49xB2BFMkiiPSDUhr+XCxdSN+o02Wk77AQYPTyJwPv8eW7uafZ
- 9phuQi6Mc9esUi5N7nYkaE4Wk/RDOxB/hCqaVR88xGDlN2BE6GOq3VQ01AT/h4qBKkaI+yXOg
- SdIxBczlpB+cFA/jfJtV1uB0M4tve5ne2DJ3OW4ilfaSqjxJtAzeSyt853+Si+3GgjtC0nlyi
- 7vlq3EcPW6CvGXb5cV1YPPjs4J74Z63gLsqHH/QDRQhA33hqJSy0Z2uXDn3wr3hpRmZjv8vqr
- fBgh88YF6UxyN4LxsI2dOc69M4MH6EklDSL+xt7JtPZnBoz9i7WKPlEjzbPgjMtKpWz6zoOHG
- lP7iNWDlvqeHEVmcQtZrsdIbe5FNSXF3TBfJDKfK1piotYekNzUfOjMaAqd3wt9uprQ3uyHjM
- YhydqATgKKpB4vfjQ9mnIZfuNSA5ABSr3WM2Xmr7/eOdkzasEyFnK33TPjiyb7za6vaCjun
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:BlxzRNxxMsvhHyv5MfGELEvgY/rPpnnBYVA1fTPRGv/TuZ+kkVp
+ brGOBzd/izODXElWsF0F2icsBVOvyCy9MSlrhLG4uNLonCors4c4FEdD+PkPg+3xSy7VBjF
+ 4VcrAShT3JtfQDXn4Ns1cg3hNgDe3bRdtTZSd8kkrtd7C+xGYn625OPGXhrukGFSw8bS1CF
+ iIMBnIYxX7t5sS2B5t99w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:lKUQvxnqQyk=:QPS17tl8z7d1BLklwnuyZw
+ kGdU1Cxnu0zBXEdQ/7HDwd57AcPQehkzMgHAwlXHURodXma8x59XDyxMCoF2dujQOfn9eD5IF
+ HQtAuxq88fk2WSotwgnFqHizscdnpblt4AV9Zcs1DXRNaiCbFItEmZTCVBXe4gqa2sdTL7112
+ CwPBV5WYv7Cv9T5mX/zVJBiOGlwpwameYEJeRXJFxupDW104X4aCzuINzYK7TESGkZgWG4wPg
+ +V9qQqwmODVU88ZHZavatgf7zylqxD+kWXfXpcttj9xO6Nn5sLcA/LUipSerhJDIQCw3OCaaQ
+ kjI7A0q2qy7AfHPNul3IFQvCliuPb7rpFYn8esGI+8Tpkgo+MS96GFyAd/g3TTtdg5fm79s1Z
+ opUyS50rIbtoFU+QeqKAMCSFuXBtytFieuuBkEJYdHpnOj62/YW+c3qj2uycP3b7AXt8VrtyC
+ JJkbmQiIXdUwUj5+BCOoyyEPj9oWnM0vDlMQe17vgub4NghHLptqJiSEKAPYwcLjfwZ1VDNCD
+ V15dCvhA6CnKjGosvfglH7XASBHWvkuzlK6QR5quqJ2Fvl8dUqkg9jIe68EtHfuxJsqCc7Fj0
+ iw49J/4/VrdphgUaWyo3qVjsQb1oCLNmUSA8URQ1hUryfX26eX7m6P6Qs7lUgfdcKCI6YF6zB
+ CzSKMVI6Qi2yOuYXxiOeHOzwWLSatQ0dAbCIeLyKSBh5STl4mbXWXZlCy8ufgP0PEYtHIHCY2
+ 3/2Xn/osP/KB+jv2DlB+gfDjqRIDUPHb65i57E6+RuwnbfS0oNNTFdS1otfk8OnL35eoYDceB
+ rXsY8BiGlF0+msT+87eOJ7nvW8Dr8naDfJT9feFC0MXhvSD6ruSjVR9MjyOSpuSF3unYPEk
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 02:34:36
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 02:33:59
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -39
 X-Spam_score: -4.0
@@ -118,11 +118,11 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
  Liao Pingfang <liao.pingfang@zte.com.cn>, wang.liang82@zte.com.cn,
- xue.zhihong@zte.com.cn
+ xue.zhihong@zte.com.cn, Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 13/07/2020 à 11:37, Thomas Huth a écrit :
+Le 13/07/2020 à 11:38, Thomas Huth a écrit :
 > On 13/07/2020 11.05, Yi Wang wrote:
 >> From: Liao Pingfang <liao.pingfang@zte.com.cn>
 >>
@@ -132,183 +132,37 @@ Le 13/07/2020 à 11:37, Thomas Huth a écrit :
 >> Signed-off-by: Yi Wang <wang.yi59@zte.com.cn>
 >> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 >> ---
->>  hw/block/pflash_cfi01.c     |  1 -
->>  hw/display/cirrus_vga.c     |  1 -
->>  hw/display/qxl-logger.c     |  2 --
->>  hw/gpio/max7310.c           |  3 ---
->>  hw/i386/intel_iommu.c       |  1 -
->>  hw/input/pxa2xx_keypad.c    | 10 ----------
->>  hw/intc/armv7m_nvic.c       |  1 -
->>  hw/net/lan9118.c            |  2 --
->>  hw/usb/ccid-card-emulated.c |  1 -
->>  9 files changed, 22 deletions(-)
+>>  target/sh4/translate.c | 3 ---
+>>  1 file changed, 3 deletions(-)
 >>
->> diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
->> index 8ab1d66..f0fcd63 100644
->> --- a/hw/block/pflash_cfi01.c
->> +++ b/hw/block/pflash_cfi01.c
->> @@ -213,7 +213,6 @@ static uint32_t pflash_devid_query(PFlashCFI01 *pfl, hwaddr offset)
->>      default:
->>          trace_pflash_device_info(offset);
->>          return 0;
+>> diff --git a/target/sh4/translate.c b/target/sh4/translate.c
+>> index 6192d83..60c863d 100644
+>> --- a/target/sh4/translate.c
+>> +++ b/target/sh4/translate.c
+>> @@ -1542,7 +1542,6 @@ static void _decode_opc(DisasContext * ctx)
+>>          tcg_gen_qemu_ld_i32(REG(0), REG(B11_8), ctx->memidx,
+>>                              MO_TEUL | MO_UNALN);
+>>          return;
 >> -        break;
->>      }
->>      /* Replicate responses for each device in bank. */
->>      if (pfl->device_width < pfl->bank_width) {
->> diff --git a/hw/display/cirrus_vga.c b/hw/display/cirrus_vga.c
->> index 212d6f5..02d9ed0 100644
->> --- a/hw/display/cirrus_vga.c
->> +++ b/hw/display/cirrus_vga.c
->> @@ -1637,7 +1637,6 @@ static int cirrus_vga_read_cr(CirrusVGAState * s, unsigned reg_index)
->>  	return s->vga.cr[s->vga.cr_index];
->>      case 0x26:			// Attribute Controller Index Readback (R)
->>  	return s->vga.ar_index & 0x3f;
->> -	break;
->>      default:
->>          qemu_log_mask(LOG_GUEST_ERROR,
->>                        "cirrus: inport cr_index 0x%02x\n", reg_index);
->> diff --git a/hw/display/qxl-logger.c b/hw/display/qxl-logger.c
->> index 2ec6d8f..c15175b 100644
->> --- a/hw/display/qxl-logger.c
->> +++ b/hw/display/qxl-logger.c
->> @@ -161,7 +161,6 @@ static int qxl_log_cmd_draw(PCIQXLDevice *qxl, QXLDrawable *draw, int group_id)
->>      switch (draw->type) {
->>      case QXL_DRAW_COPY:
->>          return qxl_log_cmd_draw_copy(qxl, &draw->u.copy, group_id);
+>>      case 0x40e9:                /* movua.l @Rm+,R0 */
+>>          CHECK_SH4A
+>>          /* Load non-boundary-aligned data */
+>> @@ -1550,7 +1549,6 @@ static void _decode_opc(DisasContext * ctx)
+>>                              MO_TEUL | MO_UNALN);
+>>          tcg_gen_addi_i32(REG(B11_8), REG(B11_8), 4);
+>>          return;
 >> -        break;
->>      }
->>      return 0;
->>  }
->> @@ -180,7 +179,6 @@ static int qxl_log_cmd_draw_compat(PCIQXLDevice *qxl, QXLCompatDrawable *draw,
->>      switch (draw->type) {
->>      case QXL_DRAW_COPY:
->>          return qxl_log_cmd_draw_copy(qxl, &draw->u.copy, group_id);
+>>      case 0x0029:		/* movt Rn */
+>>          tcg_gen_mov_i32(REG(B11_8), cpu_sr_t);
+>>  	return;
+>> @@ -1638,7 +1636,6 @@ static void _decode_opc(DisasContext * ctx)
+>>          CHECK_SH4A
+>>          tcg_gen_mb(TCG_MO_ALL | TCG_BAR_SC);
+>>          return;
 >> -        break;
->>      }
->>      return 0;
->>  }
->> diff --git a/hw/gpio/max7310.c b/hw/gpio/max7310.c
->> index bebb403..4f78774 100644
->> --- a/hw/gpio/max7310.c
->> +++ b/hw/gpio/max7310.c
->> @@ -51,11 +51,9 @@ static uint8_t max7310_rx(I2CSlave *i2c)
->>      switch (s->command) {
->>      case 0x00:	/* Input port */
->>          return s->level ^ s->polarity;
->> -        break;
->>  
->>      case 0x01:	/* Output port */
->>          return s->level & ~s->direction;
->> -        break;
->>  
->>      case 0x02:	/* Polarity inversion */
->>          return s->polarity;
->> @@ -65,7 +63,6 @@ static uint8_t max7310_rx(I2CSlave *i2c)
->>  
->>      case 0x04:	/* Timeout */
->>          return s->status;
->> -        break;
->>  
->>      case 0xff:	/* Reserved */
->>          return 0xff;
->> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
->> index c56398e..7b390ca 100644
->> --- a/hw/i386/intel_iommu.c
->> +++ b/hw/i386/intel_iommu.c
->> @@ -3163,7 +3163,6 @@ static int vtd_irte_get(IntelIOMMUState *iommu, uint16_t index,
->>                                index, entry->irte.sid_vtype);
->>              /* Take this as verification failure. */
->>              return -VTD_FR_IR_SID_ERR;
->> -            break;
->>          }
->>      }
->>  
->> diff --git a/hw/input/pxa2xx_keypad.c b/hw/input/pxa2xx_keypad.c
->> index 62aa6f6..7f2f739 100644
->> --- a/hw/input/pxa2xx_keypad.c
->> +++ b/hw/input/pxa2xx_keypad.c
->> @@ -192,10 +192,8 @@ static uint64_t pxa2xx_keypad_read(void *opaque, hwaddr offset,
->>              s->kpc &= ~(KPC_DI);
->>          qemu_irq_lower(s->irq);
->>          return tmp;
->> -        break;
->>      case KPDK:
->>          return s->kpdk;
->> -        break;
->>      case KPREC:
->>          tmp = s->kprec;
->>          if(tmp & KPREC_OF1)
->> @@ -207,31 +205,23 @@ static uint64_t pxa2xx_keypad_read(void *opaque, hwaddr offset,
->>          if(tmp & KPREC_UF0)
->>              s->kprec &= ~(KPREC_UF0);
->>          return tmp;
->> -        break;
->>      case KPMK:
->>          tmp = s->kpmk;
->>          if(tmp & KPMK_MKP)
->>              s->kpmk &= ~(KPMK_MKP);
->>          return tmp;
->> -        break;
->>      case KPAS:
->>          return s->kpas;
->> -        break;
->>      case KPASMKP0:
->>          return s->kpasmkp[0];
->> -        break;
->>      case KPASMKP1:
->>          return s->kpasmkp[1];
->> -        break;
->>      case KPASMKP2:
->>          return s->kpasmkp[2];
->> -        break;
->>      case KPASMKP3:
->>          return s->kpasmkp[3];
->> -        break;
->>      case KPKDI:
->>          return s->kpkdi;
->> -        break;
->>      default:
->>          qemu_log_mask(LOG_GUEST_ERROR,
->>                        "%s: Bad read offset 0x%"HWADDR_PRIx"\n",
->> diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
->> index 3c4b6e6..720ac97 100644
->> --- a/hw/intc/armv7m_nvic.c
->> +++ b/hw/intc/armv7m_nvic.c
->> @@ -1275,7 +1275,6 @@ static uint32_t nvic_readl(NVICState *s, uint32_t offset, MemTxAttrs attrs)
->>      case 0xd90: /* MPU_TYPE */
->>          /* Unified MPU; if the MPU is not present this value is zero */
->>          return cpu->pmsav7_dregion << 8;
->> -        break;
->>      case 0xd94: /* MPU_CTRL */
->>          return cpu->env.v7m.mpu_ctrl[attrs.secure];
->>      case 0xd98: /* MPU_RNR */
->> diff --git a/hw/net/lan9118.c b/hw/net/lan9118.c
->> index 8e2a432..e35f00f 100644
->> --- a/hw/net/lan9118.c
->> +++ b/hw/net/lan9118.c
->> @@ -931,10 +931,8 @@ static uint32_t do_mac_read(lan9118_state *s, int reg)
->>                 | (s->conf.macaddr.a[2] << 16) | (s->conf.macaddr.a[3] << 24);
->>      case MAC_HASHH:
->>          return s->mac_hashh;
->> -        break;
->>      case MAC_HASHL:
->>          return s->mac_hashl;
->> -        break;
->>      case MAC_MII_ACC:
->>          return s->mac_mii_acc;
->>      case MAC_MII_DATA:
->> diff --git a/hw/usb/ccid-card-emulated.c b/hw/usb/ccid-card-emulated.c
->> index 7d6105e..0f1afd6 100644
->> --- a/hw/usb/ccid-card-emulated.c
->> +++ b/hw/usb/ccid-card-emulated.c
->> @@ -350,7 +350,6 @@ static void *event_thread(void *arg)
->>          case VEVENT_LAST: /* quit */
->>              vevent_delete(event);
->>              return NULL;
->> -            break;
->>          default:
->>              break;
->>          }
+>>      case 0x4024:		/* rotcl Rn */
+>>  	{
+>>  	    TCGv tmp = tcg_temp_new();
 >>
 > 
 > Reviewed-by: Thomas Huth <thuth@redhat.com>
