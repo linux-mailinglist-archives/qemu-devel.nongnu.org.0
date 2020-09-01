@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57042258FC8
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:05:23 +0200 (CEST)
-Received: from localhost ([::1]:38942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9640C258FCD
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:06:37 +0200 (CEST)
+Received: from localhost ([::1]:44662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD6uY-0005Yk-CB
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:05:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53174)
+	id 1kD6vk-0007ww-Ls
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:06:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kD6tV-0003uj-Hm; Tue, 01 Sep 2020 10:04:17 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:38814)
+ id 1kD6tX-0003xG-1C; Tue, 01 Sep 2020 10:04:19 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46334)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kD6tT-0002m9-Qd; Tue, 01 Sep 2020 10:04:17 -0400
-Received: by mail-wm1-x341.google.com with SMTP id l9so1280507wme.3;
- Tue, 01 Sep 2020 07:04:15 -0700 (PDT)
+ id 1kD6tV-0002mm-FV; Tue, 01 Sep 2020 10:04:18 -0400
+Received: by mail-wr1-x443.google.com with SMTP id o5so1652393wrn.13;
+ Tue, 01 Sep 2020 07:04:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=bbQjn7jdICczKXWnuGrKW0cjDhzzaQp/zOw9b8QB4zM=;
- b=r9nQMdBxf3iv1KSRlQO2MPX49mIPJIMMKxCqVibBhtDtquZf11R00kUwekWSTduwi5
- D9Lj8T1YV8Kad7oSklgQz6A8MWESisf7Iwapu8rGt/YBFjr4sUYD+NuiW/2C1a8Ywu6+
- K+aCHF5HGwfkHKEogtyendq/7NBHulHUmXxJZE6L4oTMRZKn9kKcuy2aJG09axvgD/3Z
- wwC05UjiWKc77V2nlwqweBfyweXdDz7C6fgFLguQamTph5Ucm6DhqXPJlNqrYGTj1ESl
- 03Nsk8dG0iq+I3ZOM4CCVa1GTktA+1c9nU4/pRfc0IBWR1dhn2Hd3HRV8xC7V7b5rmtl
- u3hA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=nVzUwFb/Pru0mu/Wze/TshCcACe4nWk3tSS2yGusfjU=;
+ b=YSW7gXTErhA8CgLNJvuA23gm6mNXiDk/En+AaYxJ71kpBt2hAaeH7C6k8/wtb9uHcj
+ toGBzVuwY1yS4wzogAfFLJ+XPg7qKPZbqDtexrMk52piNaUCvZEeBZTi43Pk2juLrSGj
+ bB+aD2MiVyEU5du/LfBPT7EXmoYJrLtHM6WsVQULYHP0FYAbe08yYcfw3tfUiV8TZcR7
+ U4IcI2tz+bg/bNgnaySzHnoK3kTZI3sM4fELu3lHzrV6GLp0TlSQxfjrV4RyqCQFABoC
+ W9Re0IS4u/t8m1j4nc3p+8kWgLwn3acb8Qu+HdsMA86kwJV7zUF74Bb7lSAIVrONjAy4
+ 3KSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=bbQjn7jdICczKXWnuGrKW0cjDhzzaQp/zOw9b8QB4zM=;
- b=bMZv7b0HzCg57JiV0qJpEtBbvitC4Vq2Ft2Mxb/WZEul5Fo752xHxzol60toLme6iI
- WIGpzh9NYE+J+B1OtQlX8BqrYvbn9XEJtC1ThjQggMWvVttyfQLVaVYtfZPMAENL2nlY
- 35TIatmg34mp83C4zupMboktiqsRw7GDzvneox1gMNugbbSjxxTrtRQbeVWpEEmXotni
- oPiiquicF3XoMrXYWORIj53LmUp2rf54ZJVLXg/Yo4wE09+07BHgqx0tKB+EMRyFO3V8
- QA+GHNEVLNMyfU2pr36C3lhiD3FnxDWEg69t0DXvk3Y0/f/ECOLzXMENCvHThgktUoet
- 6ClA==
-X-Gm-Message-State: AOAM5338HAdJZGcd3gY4uWwK6T5BUC9teN+f/e6+lUoqFvyRzjsj+FJ8
- EjBqJj9RzWMoakRvSS8nfBeTpewhVzk=
-X-Google-Smtp-Source: ABdhPJzJ7XUuaaJdggiyyHgGojGKodn213Ii4jiXVNQgNcB8mI7weXySYaBM+gdK3UMNzKNKXHN7lw==
-X-Received: by 2002:a1c:ba42:: with SMTP id k63mr1899367wmf.31.1598969053628; 
- Tue, 01 Sep 2020 07:04:13 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=nVzUwFb/Pru0mu/Wze/TshCcACe4nWk3tSS2yGusfjU=;
+ b=I+S2WXIYyNskopT9+z8ZhpHWUC2xMUo08zVc6txN+DjOY2uubvVwbX6FKqPXewYRhd
+ ixS2Tz9cZbQ4o5eMZ+gsp/e4SgqCDY9fRU5vEAHDhPYeQblRMVJcF6vi0xpxYOtL+lN/
+ VDqHLXNZ/SPdcHh6X2WdYUljQRnv+3d1chSD2GV46QBnKtz9PIRzQ5MIc1DF0Z7iLqmQ
+ dBgL5NhXta8xSd/cjlxtuikhhK3eCJtsrvTz+D+9tIWSnk60Clwe3xuVoNWnwzuG9akn
+ 6qgR/ZYVlNWborazcnhCa0NNNF8eWJVjJFRfQdxMBLGAdvLvc70tdICmi6/jmn7JTT2L
+ NSAw==
+X-Gm-Message-State: AOAM533oaRg3HxP87EINFG1HMJa8B2Cff1b6/V8EkEx+wAgdTqACc6Sy
+ K/0SHcCubJ/gd8cJZ+X6PjzK/Dw3neI=
+X-Google-Smtp-Source: ABdhPJzXi4qPizW450aFl/1wmOy0dnd8Tci92ijCNLKFzo75+bsU9mWCfT5qMUxaQpTPMAjk9sp45A==
+X-Received: by 2002:a05:6000:110a:: with SMTP id
+ z10mr2183221wrw.374.1598969054946; 
+ Tue, 01 Sep 2020 07:04:14 -0700 (PDT)
 Received: from localhost.localdomain (50.red-83-52-54.dynamicip.rima-tde.net.
  [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id p22sm1872505wmc.38.2020.09.01.07.04.12
+ by smtp.gmail.com with ESMTPSA id p22sm1872505wmc.38.2020.09.01.07.04.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Sep 2020 07:04:13 -0700 (PDT)
+ Tue, 01 Sep 2020 07:04:14 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/3] hw/sd/sdhci: Fix DMA Transfer Block Size field width
-Date: Tue,  1 Sep 2020 16:04:08 +0200
-Message-Id: <20200901140411.112150-1-f4bug@amsat.org>
+Subject: [PATCH v2 1/3] hw/sd/sdhci: Fix qemu_log_mask() format string
+Date: Tue,  1 Sep 2020 16:04:09 +0200
+Message-Id: <20200901140411.112150-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200901140411.112150-1-f4bug@amsat.org>
+References: <20200901140411.112150-1-f4bug@amsat.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -83,29 +87,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, bugs-syssec@rub.de,
- Prasad J Pandit <pjp@fedoraproject.org>, qemu-block@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Prasad J Pandit <pjp@fedoraproject.org>, qemu-block@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Alexander Bulekov <alxndr@bu.edu>, bugs-syssec@rub.de,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix the SDHCI issue reported last week by Alexander:
-https://bugs.launchpad.net/qemu/+bug/1892960
+Add missing newline character in qemu_log_mask() format.
 
-The field is 12-bit (4KiB) but the guest can set
-up to 16-bit (64KiB), leading to OOB access.
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/sd/sdhci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-since v1:
-commited unstaged change in patch #3...
-
-Philippe Mathieu-Daudé (3):
-  hw/sd/sdhci: Fix qemu_log_mask() format string
-  hw/sd/sdhci: Document the datasheet used
-  hw/sd/sdhci: Fix DMA Transfer Block Size field
-
- hw/sd/sdhci.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
+diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
+index 1785d7e1f79..e2ef288052e 100644
+--- a/hw/sd/sdhci.c
++++ b/hw/sd/sdhci.c
+@@ -1109,7 +1109,7 @@ sdhci_write(void *opaque, hwaddr offset, uint64_t val, unsigned size)
+         /* Limit block size to the maximum buffer size */
+         if (extract32(s->blksize, 0, 12) > s->buf_maxsz) {
+             qemu_log_mask(LOG_GUEST_ERROR, "%s: Size 0x%x is larger than "
+-                          "the maximum buffer 0x%x", __func__, s->blksize,
++                          "the maximum buffer 0x%x\n", __func__, s->blksize,
+                           s->buf_maxsz);
+ 
+             s->blksize = deposit32(s->blksize, 0, 12, s->buf_maxsz);
 -- 
 2.26.2
 
