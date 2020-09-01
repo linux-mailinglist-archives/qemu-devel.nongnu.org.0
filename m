@@ -2,61 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C82BD2592F3
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:19:36 +0200 (CEST)
-Received: from localhost ([::1]:44634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 916642593B6
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:30:03 +0200 (CEST)
+Received: from localhost ([::1]:38800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD84N-0000S8-R8
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:19:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47480)
+	id 1kD8EU-0004Ob-H6
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:30:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kD839-00076J-Vm
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:18:20 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:59545)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kD836-000681-Ow
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:18:19 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.141])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id BAB76564BCFF;
- Tue,  1 Sep 2020 17:18:12 +0200 (CEST)
-Received: from kaod.org (37.59.142.104) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Tue, 1 Sep 2020
- 17:18:12 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-104R00546fa60f4-8e55-43ad-81e8-3e7074f0d660,
- DF2AD85881EC9B15757C33AEE529973A5D0472CE) smtp.auth=groug@kaod.org
-Date: Tue, 1 Sep 2020 17:18:11 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Connor Kuehl <ckuehl@redhat.com>
-Subject: Re: [PATCH 1/2] Makefile: Add back TAGS/ctags/cscope rules
-Message-ID: <20200901171811.24debd1d@bahia.lan>
-In-Reply-To: <f31b9650-9db4-e038-9e4d-bd5faf1f5b96@redhat.com>
-References: <159896923655.442705.11922948674073863022.stgit@bahia.lan>
- <159897001005.442705.16516671603870288336.stgit@bahia.lan>
- <f31b9650-9db4-e038-9e4d-bd5faf1f5b96@redhat.com>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kD848-0000yP-PP
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:19:20 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:38116)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kD847-0006JZ-0O
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:19:20 -0400
+Received: by mail-wm1-x332.google.com with SMTP id l9so1557456wme.3
+ for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 08:19:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=orWFWQdBiy0l07k+YHsGr48Jib1CJiHPrId3hecl41Y=;
+ b=plVQaa36olI7jLkZunCQSvlsWYa4zD5cCR7MqSu+S2+MkcN1mLmAkCXwrp5ekGb+ez
+ 5xZiIBDq/rgwjhBL3cpp3oqGIAZyYrCGQm2h/4muZghWGIttwNiiwy46mnLtxwfeiRMj
+ nYjQAr7lQYHtkIswbUNl0FsdnI9EtLcibmhJIiZz6FzNo62QbWLjoo36EAHQJbcYPQTz
+ 7I8HmyIbVscB63JFasbBKxRsR1WG4Oklg8jQrxVxy5zvu00fRN6v4+efsEWsOmgtZf5F
+ 7aAxBtwDaA+vzPU8/CZmKhoVhk2TKbsZKfX4trL0QXGSaMQe8GMeBgua/FQUVcoDarlY
+ rYDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=orWFWQdBiy0l07k+YHsGr48Jib1CJiHPrId3hecl41Y=;
+ b=fzDqeB1/XRJovmEq+81kichVtlebvuBqg1fJE9+EAwAoXvNKJyj4D4ylElJ1BdW3l/
+ p8Uoyvvf3EcDdmILx7M9R4q/qyegiUaPQakIewThhprnKDZ7vkgDGRQkAZp20eBwsN+x
+ 7GrDswxV7ZVbp/nXuWwsm8ypfB7lN1YUQAvKkBhY2K4NDPjwHp/YFaWvFdsT+1LY0/QY
+ Px18lqtcifadU2BGIS4MPGopKJit8AJJK/0JnmOEzmQvvxjqNdnyFJt8EOoWvozaFH8Y
+ t0Y3Hn3tTsEjfAW6F4o/7e4kweLJgz9avPAf/ePq2SLSKholnsUgZTIHxb/qGihrpHrv
+ y92w==
+X-Gm-Message-State: AOAM530fVaRBlZmdYGDWwPCnhEO18bbO0vBZOwiavOoqRrRGvDmdsTTA
+ tua9La1ON7Cd4vu05O0URPTliKeAK12UlDUA
+X-Google-Smtp-Source: ABdhPJx95xR4hWCucp7+RXV9wN54OnzanXiL7t+r35sCIGD/jNzrf7vPCyJs9kUFtZePV4Xn2Bw6DA==
+X-Received: by 2002:a7b:c084:: with SMTP id r4mr2292967wmh.20.1598973557267;
+ Tue, 01 Sep 2020 08:19:17 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id z9sm2242317wma.4.2020.09.01.08.19.16
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Sep 2020 08:19:16 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 42/47] target/arm/vec_helper: Add gvec fp indexed
+ multiply-and-add operations
+Date: Tue,  1 Sep 2020 16:18:18 +0100
+Message-Id: <20200901151823.29785-43-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200901151823.29785-1-peter.maydell@linaro.org>
+References: <20200901151823.29785-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 8a8e3064-4186-405e-9b4d-ca12c443fb37
-X-Ovh-Tracer-Id: 7364511290961598941
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrudefjedgkeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehgeegvddvtefhtddtvdfhiedutedvgfejtddutefgveehieejieelveffgeekheenucffohhmrghinhepqhgvmhhurdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehpsghonhiiihhnihesrhgvughhrghtrdgtohhm
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 08:45:33
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,121 +86,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 1 Sep 2020 09:59:23 -0500
-Connor Kuehl <ckuehl@redhat.com> wrote:
+Add gvec helpers for doing Neon-style indexed non-fused fp
+multiply-and-accumulate operations.
 
-> On 9/1/20 9:20 AM, Greg Kurz wrote:
-> > It is a bit of a pain to be forced to run configure before being able
-> > to use cscope and friends. Add back the rules to build them in-tree
-> > as before commit a56650518f5b.
-> > 
-> > Fixes: a56650518f5b ("configure: integrate Meson in the build system")
-> > Signed-off-by: Greg Kurz <groug@kaod.org>
-> 
-> This might be a user error on my part, but the way I read this it sounds 
-> like I could do this:
-> 
-> 	$ rm -rf build
-> 	$ make cscope
-> 
-> and have it emit a cscope file,  but when I do so it complains about the 
-> build dir not existing. As I understand it, running ./configure (or 
-> meson build) is what generates that build dir. Here's the error for 
-> posterity:
-> 
-> changing dir to build for make "cscope"...
-> make[1]: *** build: No such file or directory.  Stop.
-> make: *** [GNUmakefile:11: cscope] Error 2
-> 
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Message-id: 20200828183354.27913-44-peter.maydell@linaro.org
+---
+ target/arm/helper.h     | 10 ++++++++++
+ target/arm/vec_helper.c | 27 ++++++++++++++++++++++-----
+ 2 files changed, 32 insertions(+), 5 deletions(-)
 
-My use case is :
+diff --git a/target/arm/helper.h b/target/arm/helper.h
+index cbdbf824d8d..8defd7c8019 100644
+--- a/target/arm/helper.h
++++ b/target/arm/helper.h
+@@ -740,6 +740,16 @@ DEF_HELPER_FLAGS_5(gvec_fmul_idx_s, TCG_CALL_NO_RWG,
+ DEF_HELPER_FLAGS_5(gvec_fmul_idx_d, TCG_CALL_NO_RWG,
+                    void, ptr, ptr, ptr, ptr, i32)
+ 
++DEF_HELPER_FLAGS_5(gvec_fmla_nf_idx_h, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(gvec_fmla_nf_idx_s, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++
++DEF_HELPER_FLAGS_5(gvec_fmls_nf_idx_h, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(gvec_fmls_nf_idx_s, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++
+ DEF_HELPER_FLAGS_6(gvec_fmla_idx_h, TCG_CALL_NO_RWG,
+                    void, ptr, ptr, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_6(gvec_fmla_idx_s, TCG_CALL_NO_RWG,
+diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
+index b27b90e1dd8..a973454e4f4 100644
+--- a/target/arm/vec_helper.c
++++ b/target/arm/vec_helper.c
+@@ -1085,7 +1085,7 @@ DO_MLA_IDX(gvec_mls_idx_d, uint64_t, -,   )
+ 
+ #undef DO_MLA_IDX
+ 
+-#define DO_FMUL_IDX(NAME, TYPE, H) \
++#define DO_FMUL_IDX(NAME, ADD, TYPE, H)                                    \
+ void HELPER(NAME)(void *vd, void *vn, void *vm, void *stat, uint32_t desc) \
+ {                                                                          \
+     intptr_t i, j, oprsz = simd_oprsz(desc);                               \
+@@ -1095,16 +1095,33 @@ void HELPER(NAME)(void *vd, void *vn, void *vm, void *stat, uint32_t desc) \
+     for (i = 0; i < oprsz / sizeof(TYPE); i += segment) {                  \
+         TYPE mm = m[H(i + idx)];                                           \
+         for (j = 0; j < segment; j++) {                                    \
+-            d[i + j] = TYPE##_mul(n[i + j], mm, stat);                     \
++            d[i + j] = TYPE##_##ADD(d[i + j],                              \
++                                    TYPE##_mul(n[i + j], mm, stat), stat); \
+         }                                                                  \
+     }                                                                      \
+     clear_tail(d, oprsz, simd_maxsz(desc));                                \
+ }
+ 
+-DO_FMUL_IDX(gvec_fmul_idx_h, float16, H2)
+-DO_FMUL_IDX(gvec_fmul_idx_s, float32, H4)
+-DO_FMUL_IDX(gvec_fmul_idx_d, float64, )
++#define float16_nop(N, M, S) (M)
++#define float32_nop(N, M, S) (M)
++#define float64_nop(N, M, S) (M)
+ 
++DO_FMUL_IDX(gvec_fmul_idx_h, nop, float16, H2)
++DO_FMUL_IDX(gvec_fmul_idx_s, nop, float32, H4)
++DO_FMUL_IDX(gvec_fmul_idx_d, nop, float64, )
++
++/*
++ * Non-fused multiply-accumulate operations, for Neon. NB that unlike
++ * the fused ops below they assume accumulate both from and into Vd.
++ */
++DO_FMUL_IDX(gvec_fmla_nf_idx_h, add, float16, H2)
++DO_FMUL_IDX(gvec_fmla_nf_idx_s, add, float32, H4)
++DO_FMUL_IDX(gvec_fmls_nf_idx_h, sub, float16, H2)
++DO_FMUL_IDX(gvec_fmls_nf_idx_s, sub, float32, H4)
++
++#undef float16_nop
++#undef float32_nop
++#undef float64_nop
+ #undef DO_FMUL_IDX
+ 
+ #define DO_FMLA_IDX(NAME, TYPE, H)                                         \
+-- 
+2.20.1
 
-$ git clone git://git.qemu.org/qemu.git && cd qemu && make cscope
-Cloning into 'qemu'...
-remote: Counting objects: 510519, done.
-remote: Compressing objects: 100% (91407/91407), done.
-remote: Total 510519 (delta 420069), reused 507399 (delta 417643)
-Receiving objects: 100% (510519/510519), 180.42 MiB | 29.30 MiB/s, done.
-Resolving deltas: 100% (420069/420069), done.
-make: Nothing to be done for 'cscope'.
-
-> One comment inline
-> 
-> > ---
-> >   Makefile |   17 ++++++++++++++++-
-> >   1 file changed, 16 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/Makefile b/Makefile
-> > index 81794d5c34a2..8ffe2872915d 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -62,7 +62,7 @@ ninja-distclean::
-> >   build.ninja: config-host.mak
-> >   
-> >   Makefile.ninja: build.ninja ninjatool
-> > -	./ninjatool -t ninja2make --omit clean dist uninstall < $< > $@
-> > +	./ninjatool -t ninja2make --omit clean dist uninstall cscope TAGS ctags < $< > $@
-> >   -include Makefile.ninja
-> >   
-> >   ${ninja-targets-c_COMPILER} ${ninja-targets-cpp_COMPILER}: .var.command += -MP
-> > @@ -229,6 +229,21 @@ distclean: clean ninja-distclean
-> >   	rm -f linux-headers/asm
-> >   	rm -Rf .sdk
-> >   
-> > +.PHONY: ctags
-> > +ctags:
-> > +	rm -f tags
-> > +	find "$(SRC_PATH)" -name '*.[hc]' -exec ctags --append {} +
-> > +
-> > +.PHONY: TAGS
-> > +TAGS:
-> > +	rm -f TAGS
-> > +	find "$(SRC_PATH)" -name '*.[hc]' -exec etags --append {} +
-> > +
-> > +cscope:
-> 
-> Since this recipe doesn't output an artifact called "cscope" I wonder if 
-> this should be:
-> 
-> .PHONY: cscope
-
-We already have it somewhere else in the makefile:
-
-.PHONY: all clean cscope distclean install \
-
-Since this patch is a partial revert of a56650518f5b, I didn't consider
-moving it here.
-
-
-Cheers,
-
---
-Greg
-
-> cscope:
-> 	...
-> 
-> or alternatively:
-> 
-> cscope.out:
-> 	...
-> 
-> 
-> > +	rm -f "$(SRC_PATH)"/cscope.*
-> > +	find "$(SRC_PATH)/" -name "*.[chsS]" -print | sed -e 's,^\./,,' > "$(SRC_PATH)/cscope.files"
-> > +	cscope -b -i"$(SRC_PATH)/cscope.files"
-> > +
-> >   ifdef INSTALL_BLOBS
-> >   BLOBS=bios.bin bios-256k.bin bios-microvm.bin sgabios.bin vgabios.bin vgabios-cirrus.bin \
-> >   vgabios-stdvga.bin vgabios-vmware.bin vgabios-qxl.bin vgabios-virtio.bin \
-> > 
-> > 
-> > 
-> 
-> Connor
-> 
 
