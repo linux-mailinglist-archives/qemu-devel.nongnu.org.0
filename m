@@ -2,115 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB801258C1F
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 11:53:01 +0200 (CEST)
-Received: from localhost ([::1]:42838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C980258C34
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 11:59:41 +0200 (CEST)
+Received: from localhost ([::1]:43594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD2yK-0000uS-VJ
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 05:53:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43114)
+	id 1kD34m-0004dj-49
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 05:59:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kD2xK-0007uW-4c
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:51:58 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:36254
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kD2xH-0003HJ-Ls
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:51:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598953914;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=NWH0FVOZ4eV1moSjNBeSjjsRcknOmRVzvIu/WuwPeyE=;
- b=LFVI7B1q+Bg8MAuzUR9pDlpuHahN0BzNFSrr1bJ27CdToIfjAO9Xr/6fgjfcKThBI773eb
- qDwOFUEIMrlKh8OnLpAj6SsuFkbF2ecXXoIy9tbahXm60Y9heF9poyWw1NBH6Se8dIBTHU
- spgrxeZL+6a8XzOAmhsMi7bSJndRpTQ=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-35-6OUZH_S0M2eD202m1U7t-A-1; Tue, 01 Sep 2020 05:51:53 -0400
-X-MC-Unique: 6OUZH_S0M2eD202m1U7t-A-1
-Received: by mail-wr1-f69.google.com with SMTP id l17so356190wrw.11
- for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 02:51:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kD2xp-0000jI-PB
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:52:29 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:36984)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kD2xo-0003MD-4M
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:52:29 -0400
+Received: by mail-oi1-x243.google.com with SMTP id e6so623260oii.4
+ for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 02:52:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=y36gKxXjdFleZJ9I4tSMoU3tvP54P/Bs++5Hc7QLbQE=;
+ b=C7fXOuvsQa4d4a5QZ9JJ0LQQFtttGYGFDArBZra/HftIZdaazbHisQSMf835hBZCht
+ ynudQU71wYkdvv7WunMqFHUIMfnAkpv3t8a239JHi/uRlmKnaQJt6JaXztbeoIGormuJ
+ GwYc2Jl5ceJE9neD6P34r9tQto2nrYzudYfTUPef9kl0plQB3jGtd0ubcZ+qElYqiLr3
+ FUA0ZCpvq5DJr1wJrBzsVXSl+P7946jRpumsfDMhuUsURYOD9c5SR8pYTUTW259xvH55
+ HgLrPpU4yX94+dWC35v/21rUFU1hZjaeFQl7ZSHoWIfY4+PRhreKH1YjktjOOfCcm6l4
+ 1uZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=NWH0FVOZ4eV1moSjNBeSjjsRcknOmRVzvIu/WuwPeyE=;
- b=tHkch09NPK7t8umCrRLbk84oZyK+F6BUDQceTuYEDCl59mAZOjtHcCGVBJDBN97/qn
- hOGz2PmGzgy9dJo5AsNwf8memFs934bx4+fIPfl4640H09JfMB6ewNl15j5mc4MJTOPi
- aKljqoirIMU7YAKnnSjVDu9Mnme9ZeYw0/AaisfV757KP/gq6qCLcKs3sLEb9xeLwBCA
- fWbMFgs/e9EWJ+snsOfC7HRIwVLgyLMX/5biHbbsTizQIDN+SHbLzchihjeLYEYl+iN6
- ZjiTse/fRcUz4tCJGBKLqBkpq/Cumw6SFFVM0e9AYaojTUjysDeNLWl66nxg7DEMDIqf
- ceiA==
-X-Gm-Message-State: AOAM533PX3XaOjrmRbjcXhogjbNlEXaNyCLEv+7M+itkfXFDmC79mPRG
- 7cdresGsjZZcrYqWvmDslI9aWuGNEUbz3TUyPgwAEZNDIt0vpju3A4JQ7JIh7MGZdDcrkQo7Lkz
- Zzy5Aw8t62fCKtg8=
-X-Received: by 2002:a7b:cd05:: with SMTP id f5mr968123wmj.116.1598953912084;
- Tue, 01 Sep 2020 02:51:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw2kSo+Ohxn6wzL62i59l51lXAPf1NEjsCio+UJRBVCtSOqq23AZzJ8w6IzH3ST0JLkR90kyw==
-X-Received: by 2002:a7b:cd05:: with SMTP id f5mr968094wmj.116.1598953911908;
- Tue, 01 Sep 2020 02:51:51 -0700 (PDT)
-Received: from [192.168.1.36] (50.red-83-52-54.dynamicip.rima-tde.net.
- [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id f1sm1526216wrt.20.2020.09.01.02.51.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Sep 2020 02:51:51 -0700 (PDT)
-Subject: Re: [PATCH v7 4/8] ppc/e500: Use start-powered-off CPUState property
-To: Thiago Jung Bauermann <bauerman@linux.ibm.com>, qemu-ppc@nongnu.org
-References: <20200826055535.951207-1-bauerman@linux.ibm.com>
- <20200826055535.951207-5-bauerman@linux.ibm.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <eed4a3dd-2431-8f58-f716-067e86ddcdef@redhat.com>
-Date: Tue, 1 Sep 2020 11:51:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=y36gKxXjdFleZJ9I4tSMoU3tvP54P/Bs++5Hc7QLbQE=;
+ b=r/+YaGZwWMLle2oWtG46hP+DZkH1AD0g42+/a5Flio2qLYYRmn9ZkjwCeW/yFe9KA+
+ 71LbyB9keKel/DrYA/MjfEW4ApefKS0N1WFwhNG+wOtaOTtZArhSXzwi7zrHqZf9B3Jt
+ DGh1L61VTiTpe+h6ET7HtEvtk3hbdToEon7iks+RR2/1dHOOmjp+JzATnkS+F/OH4Gq5
+ 923GgQaX4Kz6QznwyAlRK7up+jv0rlg/VH60qj6QxcbgJ5oJxsUcLDyRisHehbuTvxmk
+ JYXULMnSLBOYXwGH+JVPFNLvM+M8Ix8onB2j32g3ei6xSZbWEIHn8PRLbd7dTNbZkQzO
+ mJYQ==
+X-Gm-Message-State: AOAM533t6ofpr6UW6ZSZz2HO1Hg+i3/2WRyDomlP6jINkwaH6+hGDE3Z
+ b3UQWwBWLh1ofhLbpirSkYW3BoURyalupc8T4qE=
+X-Google-Smtp-Source: ABdhPJy+ZTiMeYbj32QgCBUHHloQIzylZPdWrMquDU595VLjQOAyhWVo8PEtpULOB45XA4dyrRoJaBo4nPoDKkHGhpc=
+X-Received: by 2002:aca:c0c1:: with SMTP id q184mr631355oif.56.1598953946841; 
+ Tue, 01 Sep 2020 02:52:26 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200826055535.951207-5-bauerman@linux.ibm.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 02:08:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.13, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200901052723.15492-1-kraxel@redhat.com>
+In-Reply-To: <20200901052723.15492-1-kraxel@redhat.com>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Tue, 1 Sep 2020 17:51:50 +0800
+Message-ID: <CAKXe6S+Vs6=KchQ4gi3wg9e1J6iWfGWYJUx7k5udB41m589ZPA@mail.gmail.com>
+Subject: Re: [PATCH] usb: call usb_packet_cleanup on usb_packet_map failure
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=liq3ea@gmail.com; helo=mail-oi1-x243.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -123,37 +78,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Thomas Huth <thuth@redhat.com>, David Gibson <david@gibson.dropbear.id.au>,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Greg Kurz <groug@kaod.org>,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>, Cornelia Huck <cohuck@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Qemu Developers <qemu-devel@nongnu.org>, P J P <ppandit@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/26/20 7:55 AM, Thiago Jung Bauermann wrote:
-> Instead of setting CPUState::halted to 1 in ppce500_cpu_reset_sec(), use
-> the start-powered-off property which makes cpu_common_reset() initialize it
-> to 1 in common code.
-> 
-> Also change creation of CPU object from cpu_create() to object_new() and
-> qdev_realize_and_unref() because cpu_create() realizes the CPU and it's not
-> possible to set a property after the object is realized.
-> 
-> Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+Gerd Hoffmann <kraxel@redhat.com> =E4=BA=8E2020=E5=B9=B49=E6=9C=881=E6=97=
+=A5=E5=91=A8=E4=BA=8C =E4=B8=8B=E5=8D=881:28=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 > ---
->  hw/ppc/e500.c | 13 +++++++++----
->  1 file changed, 9 insertions(+), 4 deletions(-)
+>  hw/usb/hcd-ehci.c | 2 ++
+>  hw/usb/hcd-xhci.c | 1 +
+>  2 files changed, 3 insertions(+)
+>
+> diff --git a/hw/usb/hcd-ehci.c b/hw/usb/hcd-ehci.c
+> index 2b995443fbfd..67847a9cf5f1 100644
+> --- a/hw/usb/hcd-ehci.c
+> +++ b/hw/usb/hcd-ehci.c
+> @@ -1373,6 +1373,7 @@ static int ehci_execute(EHCIPacket *p, const char *=
+action)
+>          usb_packet_setup(&p->packet, p->pid, ep, 0, p->qtdaddr, spd,
+>                           (p->qtd.token & QTD_TOKEN_IOC) !=3D 0);
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Hi Gerd,
 
+=E2=80=99usb_packet_setup=E2=80=98 doesn't modify the 'iov' and other resou=
+rces.
+
+'usb_packet_cleanup' is paired with 'usb_packet_init' which I think should =
+be
+processed in the more up layer.
+
+If 'usb_packet_map' fails, we need to clean the 'iov' in
+'usb_packet_map' itself.
+
+
+Thanks,
+Li Qiang
+
+>          if (usb_packet_map(&p->packet, &p->sgl)) {
+> +            usb_packet_cleanup(&p->packet);
+>              qemu_sglist_destroy(&p->sgl);
+>              return -1;
+>          }
+> @@ -1456,6 +1457,7 @@ static int ehci_process_itd(EHCIState *ehci,
+>                  usb_packet_setup(&ehci->ipacket, pid, ep, 0, addr, false=
+,
+>                                   (itd->transact[i] & ITD_XACT_IOC) !=3D =
+0);
+>                  if (usb_packet_map(&ehci->ipacket, &ehci->isgl)) {
+> +                    usb_packet_cleanup(&ehci->ipacket);
+>                      qemu_sglist_destroy(&ehci->isgl);
+>                      return -1;
+>                  }
+> diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
+> index 46a2186d912a..9b156048920d 100644
+> --- a/hw/usb/hcd-xhci.c
+> +++ b/hw/usb/hcd-xhci.c
+> @@ -1616,6 +1616,7 @@ static int xhci_setup_packet(XHCITransfer *xfer)
+>      usb_packet_setup(&xfer->packet, dir, ep, xfer->streamid,
+>                       xfer->trbs[0].addr, false, xfer->int_req);
+>      if (usb_packet_map(&xfer->packet, &xfer->sgl)) {
+> +        usb_packet_cleanup(&xfer->packet);
+>          qemu_sglist_destroy(&xfer->sgl);
+>          return -1;
+>      }
+> --
+> 2.27.0
+>
+>
 
