@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A8A62588EE
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 09:23:48 +0200 (CEST)
-Received: from localhost ([::1]:32822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDCF6258908
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 09:30:33 +0200 (CEST)
+Received: from localhost ([::1]:38866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD0dv-0005ph-9m
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 03:23:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57818)
+	id 1kD0kS-0003Mp-RB
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 03:30:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <green.wan@sifive.com>)
- id 1kD0cv-0004O4-1B
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 03:22:45 -0400
-Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:34135)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <green.wan@sifive.com>)
- id 1kD0cs-0008NX-Ro
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 03:22:44 -0400
-Received: by mail-qk1-x741.google.com with SMTP id w186so105157qkd.1
- for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 00:22:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Fzl3V/fzSJoJLMxxy5h00MuVHG+2CUth3EhTKYo7jC4=;
- b=B27VaGb0SeupYxUdMeRH4eyn3Cr9MH4ELQYYy8+7IN/v7jjiA80st+HaRyEeeIqnxx
- wC5tAJr/vfIZX0foCQDVPdsnemvC4vDceNI+JQ3UZgYTASi4TgJtc0U0dNAfH2ZLo6Mm
- 6kRKnH4xAwYjGagutLNRYiugbZ8PhWyXcWbegw+NpxqNJ3Z0qbmLa2pXLjAAecKwrCA1
- eyFjir3RlbBXCfVzwLH2SUtjoNmQT25+Je2fw03UWr+Z15strD1cH33kKWXcS3APZxaw
- JRklU5iTtbTnZjDWAe2jPiHY/iumEgnClMNMPwM6x8PR89tMPaKKA59hHV/oufAFcTWU
- fNEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Fzl3V/fzSJoJLMxxy5h00MuVHG+2CUth3EhTKYo7jC4=;
- b=lVTNceaNkOpKoLVdRxwAb2sgsjCeAsUz88IOlATrMBei+sfTJ2po3gPBCy02r8MQ4n
- IfccX4aynNaC125TsDgZmno6ddRRYCccGf/u/upNjVwj4G7M2+nE3T83EJZa0jdWu/5t
- 9mQjpOkJu5cLuHN1DfqtmXuevDFZ7TEMnXHMCXzWgY60pk9lZotZJaI/EKPIbkMjwecB
- NvNi23V9AxM9pEF2ekOLzxdW/hDaXPWYaL8HjrDoikS9NyEax7l77iKymgKvMcuqPCJ0
- oCd+sQg87Fuiy1q++B45sxlSOScL0XBKCOFi7x+RP3D3IJZuEPJVfELVG64yTeRMyRUp
- A/Ag==
-X-Gm-Message-State: AOAM531bhSSTPL2EI/n7I7APOsSMizx17e319HM1dgJ4Hb4w8gucVGdY
- z00wB10PFaY4fSpN+O+z7egEu2/ARLaU1wgQXCNxWw==
-X-Google-Smtp-Source: ABdhPJxiMDGTn1eUGPaccpP1jLAmLec+ihmGiexxVFXJCigwP8cviCxd0AoQbr5WXZirHr1b/Zr3MHARsY6LJi4W0aY=
-X-Received: by 2002:a05:620a:15ac:: with SMTP id
- f12mr509657qkk.19.1598944961109; 
- Tue, 01 Sep 2020 00:22:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kD0eM-0007af-7C
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 03:24:15 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47104
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kD0eJ-00007t-3d
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 03:24:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598945050;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=JqyxXFPQcSkIAR2POo9MMQM7i6HqM+Ttzl+h9zj6moA=;
+ b=OZFf9tngGcU2ccPlDyKs5ye11FKCDq5axk+VU3cQsu+UIm80UHvJEX3rz3MpHBMJyxpOcR
+ ZE3a8gpfol9DmBPVgaHMVcg7o0yZjVlBjriCbzSc99KgB+fa5jPSnmkiLoxQc7bkgb3HpC
+ VhuIxicXs6UsH+rdm6W1399yO/UGktA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-113-L2mHIKUpPJ-NK1IGQyk75g-1; Tue, 01 Sep 2020 03:24:08 -0400
+X-MC-Unique: L2mHIKUpPJ-NK1IGQyk75g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7DA72801AC9
+ for <qemu-devel@nongnu.org>; Tue,  1 Sep 2020 07:24:07 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3D8617D897;
+ Tue,  1 Sep 2020 07:24:07 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] configure: remove dead code for in-tree builds
+Date: Tue,  1 Sep 2020 03:24:06 -0400
+Message-Id: <20200901072406.15844-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-References: <20200827074638.21451-1-green.wan@sifive.com>
- <20200827074638.21451-2-green.wan@sifive.com>
- <CAEUhbmUXDiBHzy=CMQAYVzt0NY-JK_KVn-QL-Equw6pRxEiu8w@mail.gmail.com>
-In-Reply-To: <CAEUhbmUXDiBHzy=CMQAYVzt0NY-JK_KVn-QL-Equw6pRxEiu8w@mail.gmail.com>
-From: Green Wan <green.wan@sifive.com>
-Date: Tue, 1 Sep 2020 15:22:30 +0800
-Message-ID: <CAJivOr564gqdmTdFe=3REXYYbW29Sg_1VOOpYZMFP8GPyvascw@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 1/2] hw/riscv: sifive_u: Add backend drive support
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::741;
- envelope-from=green.wan@sifive.com; helo=mail-qk1-x741.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 00:57:59
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,164 +79,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Bin,
+The $pwd_is_source_path variable is never "y", since
+configure re-executes itself from a build directory.
+Remove code that will never run.
 
-Thanks for the remindings. I didn't notice the write operation and
-will add the write functionality based on bit by bit mechanism.
+Cc: Daniel P. Berrangé <berrange@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ configure | 14 ++------------
+ 1 file changed, 2 insertions(+), 12 deletions(-)
 
-Regards,
-Green
+diff --git a/configure b/configure
+index 8a3acef89d..7598bfbe4d 100755
+--- a/configure
++++ b/configure
+@@ -665,14 +665,6 @@ QEMU_INCLUDES="$QEMU_INCLUDES -iquote ${source_path}/disas/libvixl"
+ CFLAGS="-std=gnu99 -Wall"
+ 
+ 
+-# running configure in the source tree?
+-# we know that's the case if configure is there.
+-if test -f "./configure"; then
+-    pwd_is_source_path="y"
+-else
+-    pwd_is_source_path="n"
+-fi
+-
+ check_define() {
+ cat > $TMPC <<EOF
+ #if !defined($1)
+@@ -4261,9 +4253,7 @@ EOF
+       if test -d "${source_path}/dtc/libfdt" || test -e "${source_path}/.git" ; then
+           fdt=git
+           mkdir -p dtc
+-          if [ "$pwd_is_source_path" != "y" ] ; then
+-              symlink "$source_path/dtc/Makefile" "dtc/Makefile"
+-          fi
++          symlink "$source_path/dtc/Makefile" "dtc/Makefile"
+           fdt_cflags="-I${source_path}/dtc/libfdt"
+           fdt_ldflags="-L$PWD/dtc/libfdt"
+           fdt_libs="$fdt_libs"
+@@ -8097,7 +8087,7 @@ do
+ done
+ mkdir -p $DIRS
+ for f in $LINKS ; do
+-    if [ -e "$source_path/$f" ] && [ "$pwd_is_source_path" != "y" ]; then
++    if [ -e "$source_path/$f" ]; then
+         symlink "$source_path/$f" "$f"
+     fi
+ done
+-- 
+2.26.2
 
-
-On Fri, Aug 28, 2020 at 8:54 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> Hi Green,
->
-> On Thu, Aug 27, 2020 at 3:47 PM Green Wan <green.wan@sifive.com> wrote:
-> >
-> > Add '-drive' support to OTP device. Allow users to assign a raw file
-> > as OTP image.
-> >
-> > Signed-off-by: Green Wan <green.wan@sifive.com>
-> > ---
-> >  hw/riscv/sifive_u_otp.c         | 50 +++++++++++++++++++++++++++++++++
-> >  include/hw/riscv/sifive_u_otp.h |  2 ++
-> >  2 files changed, 52 insertions(+)
-> >
-> > diff --git a/hw/riscv/sifive_u_otp.c b/hw/riscv/sifive_u_otp.c
-> > index f6ecbaa2ca..aab2220494 100644
-> > --- a/hw/riscv/sifive_u_otp.c
-> > +++ b/hw/riscv/sifive_u_otp.c
-> > @@ -24,6 +24,8 @@
-> >  #include "qemu/log.h"
-> >  #include "qemu/module.h"
-> >  #include "hw/riscv/sifive_u_otp.h"
-> > +#include "sysemu/blockdev.h"
-> > +#include "sysemu/block-backend.h"
-> >
-> >  static uint64_t sifive_u_otp_read(void *opaque, hwaddr addr, unsigned int size)
-> >  {
-> > @@ -46,6 +48,16 @@ static uint64_t sifive_u_otp_read(void *opaque, hwaddr addr, unsigned int size)
-> >          if ((s->pce & SIFIVE_U_OTP_PCE_EN) &&
-> >              (s->pdstb & SIFIVE_U_OTP_PDSTB_EN) &&
-> >              (s->ptrim & SIFIVE_U_OTP_PTRIM_EN)) {
-> > +
-> > +            /* read from backend */
-> > +            if (s->blk) {
-> > +                int32_t buf;
-> > +
-> > +                blk_pread(s->blk, s->pa * SIFIVE_U_OTP_FUSE_WORD, &buf,
-> > +                          SIFIVE_U_OTP_FUSE_WORD);
-> > +                return buf;
-> > +            }
-> > +
-> >              return s->fuse[s->pa & SIFIVE_U_OTP_PA_MASK];
-> >          } else {
-> >              return 0xff;
-> > @@ -123,6 +135,12 @@ static void sifive_u_otp_write(void *opaque, hwaddr addr,
-> >          s->ptrim = val32;
-> >          break;
-> >      case SIFIVE_U_OTP_PWE:
-> > +        /* write to backend */
-> > +        if (s->blk) {
-> > +            blk_pwrite(s->blk, s->pa * SIFIVE_U_OTP_FUSE_WORD, &val32,
->
-> The logic looks wrong to me. According to the U-Boot driver
-> (sifive-otp.c) the content to be written to the OTP memory comes from
-> s->pdin bit by bit. Here val32 represents whether to disable write or
-> enable write.
->
-> I think we should arrange patches like this:
->
-> patch 1 to add OTP write functionality, to the existing s->fuse[] mechanism
-> patch 2 to add file based backend write support
->
-> > +                       SIFIVE_U_OTP_FUSE_WORD, 0);
-> > +        }
-> > +
-> >          s->pwe = val32;
-> >          break;
-> >      default:
-> > @@ -143,16 +161,48 @@ static const MemoryRegionOps sifive_u_otp_ops = {
-> >
-> >  static Property sifive_u_otp_properties[] = {
-> >      DEFINE_PROP_UINT32("serial", SiFiveUOTPState, serial, 0),
-> > +    DEFINE_PROP_DRIVE("drive", SiFiveUOTPState, blk),
-> >      DEFINE_PROP_END_OF_LIST(),
-> >  };
-> >
-> >  static void sifive_u_otp_realize(DeviceState *dev, Error **errp)
-> >  {
-> >      SiFiveUOTPState *s = SIFIVE_U_OTP(dev);
-> > +    DriveInfo *dinfo;
-> >
-> >      memory_region_init_io(&s->mmio, OBJECT(dev), &sifive_u_otp_ops, s,
-> >                            TYPE_SIFIVE_U_OTP, SIFIVE_U_OTP_REG_SIZE);
-> >      sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->mmio);
-> > +
-> > +    dinfo = drive_get_next(IF_NONE);
-> > +    if (dinfo) {
-> > +        int ret;
-> > +        uint64_t perm;
-> > +        int filesize;
-> > +        BlockBackend *blk;
-> > +
-> > +        blk = blk_by_legacy_dinfo(dinfo);
-> > +        filesize = SIFIVE_U_OTP_NUM_FUSES * SIFIVE_U_OTP_FUSE_WORD;
-> > +        if (blk_getlength(blk) < filesize) {
-> > +            qemu_log_mask(LOG_GUEST_ERROR, "OTP drive size < 16K\n");
-> > +            return;
-> > +        }
-> > +
-> > +        qdev_prop_set_drive(dev, "drive", blk);
-> > +
-> > +        perm = BLK_PERM_CONSISTENT_READ |
-> > +                        (blk_is_read_only(s->blk) ? 0 : BLK_PERM_WRITE);
-> > +        ret = blk_set_perm(s->blk, perm, BLK_PERM_ALL, errp);
-> > +        if (ret < 0) {
-> > +            qemu_log_mask(LOG_GUEST_ERROR, "set perm error.");
-> > +        }
-> > +
-> > +        if (blk_pread(s->blk, 0, s->fuse, filesize) != filesize) {
-> > +            qemu_log_mask(LOG_GUEST_ERROR,
-> > +                          "failed to read the initial flash content");
-> > +            return;
-> > +        }
-> > +    }
-> >  }
-> >
-> >  static void sifive_u_otp_reset(DeviceState *dev)
-> > diff --git a/include/hw/riscv/sifive_u_otp.h b/include/hw/riscv/sifive_u_otp.h
-> > index 639297564a..13d2552e43 100644
-> > --- a/include/hw/riscv/sifive_u_otp.h
-> > +++ b/include/hw/riscv/sifive_u_otp.h
-> > @@ -43,6 +43,7 @@
-> >
-> >  #define SIFIVE_U_OTP_PA_MASK        0xfff
-> >  #define SIFIVE_U_OTP_NUM_FUSES      0x1000
-> > +#define SIFIVE_U_OTP_FUSE_WORD      4
-> >  #define SIFIVE_U_OTP_SERIAL_ADDR    0xfc
-> >
-> >  #define SIFIVE_U_OTP_REG_SIZE       0x1000
-> > @@ -75,6 +76,7 @@ typedef struct SiFiveUOTPState {
-> >      uint32_t fuse[SIFIVE_U_OTP_NUM_FUSES];
-> >      /* config */
-> >      uint32_t serial;
-> > +    BlockBackend *blk;
-> >  } SiFiveUOTPState;
-> >
-> >  #endif /* HW_SIFIVE_U_OTP_H */
-> > --
->
-> Regards,
-> Bin
 
