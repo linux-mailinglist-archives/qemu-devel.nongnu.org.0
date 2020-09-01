@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44CCC259547
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:50:08 +0200 (CEST)
-Received: from localhost ([::1]:38870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8591325957B
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:52:33 +0200 (CEST)
+Received: from localhost ([::1]:49120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD8Xv-000670-BS
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:50:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55232)
+	id 1kD8aG-00021u-Iz
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:52:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <green.wan@sifive.com>)
- id 1kD8Vd-0002GJ-8Q
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:47:45 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:43595)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kD8ZO-00014f-SC
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:51:38 -0400
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:34581)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <green.wan@sifive.com>)
- id 1kD8Vb-00026i-EB
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:47:44 -0400
-Received: by mail-pl1-x643.google.com with SMTP id y6so721964plk.10
- for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 08:47:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Dka4kGmZfMcbFE4G/5IsI7nQ8gtf9IAo5wRmBXJcgzA=;
- b=FxjfpQyHEdjUQ2UKZUinwwi/zNqDX7YQ4XSlDjIplvJteba8JM40xdPF8EHFQknvUV
- yEGL6M2T9ATkyos33QH2Fun4kdJYaBEIsH27EsJP/XGQcDiE4fj6QEE3pk7d1/LcMc4e
- 29X5K/UB8VfVBgUgz2fEiOZu3fG/aOz62ugnozjCB1heA7SWA7hjYr7s7Ru3QeZgQv3s
- qRVjGID6sx3Acd/QuBVQ45fYf7/m6asuDaFS2//3QemMLLIczckME8AOEqiYNWJsKTNV
- c1SQe0KFNlFxUXZeeHDWQUn50Ds8uwIfwDts4bSbRS1CA4b9FlnrBaNymgA05aYFWWgt
- IMTg==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kD8ZM-0002n7-5D
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:51:38 -0400
+Received: by mail-ed1-x541.google.com with SMTP id q21so1954721edv.1
+ for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 08:51:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=/3r0V5XaWzpq03UXQxRhWPAEfoInKgh4VrLacrOfRHk=;
+ b=y2FoEqnTpKJ8yZ6xQbESB03fyV4FpWOkpiXvUxfH9A2HnDGKr/Q9mrWG+TTBPWS9aK
+ Tt5Q1ZVhKxYG7qqqgR3XMEU95d6rZxmzmf30M6BWVB7GJQA68SaG0qqbR+MYnxHAvAhb
+ GbEgA2w/EMXKNZrNlHb+Qh/WkcQLXGBPJENxkPLlQ06IRsq7hHM4Os4YcfhjGNwfbcAI
+ j/4O2UGeI86G45RqcHBb6i9ETm6eCjTEx0MJbqZeCPAJrJj7SIu49EeSZ3F+ilH3VpSE
+ sjeXkd3zsXHtsMMGwGmUa/jhJ2/B65N39MoDZa2clraA9qthsZTVj3/Nv0NHSIOnWvGG
+ cEXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=Dka4kGmZfMcbFE4G/5IsI7nQ8gtf9IAo5wRmBXJcgzA=;
- b=QFDaVd7JiYHg1o1NF52lKQEAhRnwbqVls4o6cKSgHfegvboLePu/6ygLhCcWkb2VLW
- lvhwPuIoVgCBoxQ+9c5y/b/6sdt/PrQkwcsN0oyc3W7fhgsQB12LVW6qA2OKJryOHMld
- lbdZDCif5G3iD9SY0kUyzHJhYhrCHlsfUMSfsnKLcPmktcJF0U/kXgw6BOXJxc3kERMZ
- rq/P+DOwdFdSZ1yTA+QwCv9dbqBGD2ekLWJAEEJT9lAR8qf6drFJ84RwVSZsNs/jpeZr
- hae5HZqVp0DwFLxSqZvvfOvRAROboETiCSndlg5ykfO6BUqDxDZ+1Li0GwgoEuyuuWvX
- q7vg==
-X-Gm-Message-State: AOAM531ao+Gp4DQK2RO+olwRptUpY0oEPWLVm8/8jPGvJbs5HqbmhO41
- 8zuxN1RMQvkH7j7Okooy2ZQvLRxyFmMEFTZH
-X-Google-Smtp-Source: ABdhPJwuZaYYkJSIQ7Qox7m2qFd3c6hdvqfw489NgESG+2Qau1UJoTI8STjSfRfy4hIQmsmXakp2ow==
-X-Received: by 2002:a17:90b:282:: with SMTP id
- az2mr2224329pjb.66.1598975261902; 
- Tue, 01 Sep 2020 08:47:41 -0700 (PDT)
-Received: from localhost.localdomain (111-241-104-82.dynamic-ip.hinet.net.
- [111.241.104.82])
- by smtp.gmail.com with ESMTPSA id e17sm2485344pfm.60.2020.09.01.08.47.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Sep 2020 08:47:41 -0700 (PDT)
-From: Green Wan <green.wan@sifive.com>
-To: 
-Subject: [RFC PATCH v5 2/2] hw/riscv: sifive_u: Add backend drive support
-Date: Tue,  1 Sep 2020 23:47:11 +0800
-Message-Id: <20200901154711.18457-3-green.wan@sifive.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200901154711.18457-1-green.wan@sifive.com>
-References: <20200901154711.18457-1-green.wan@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
- envelope-from=green.wan@sifive.com; helo=mail-pl1-x643.google.com
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=/3r0V5XaWzpq03UXQxRhWPAEfoInKgh4VrLacrOfRHk=;
+ b=coHDmbNkvKkjJFcgekogOcUz9EZSI0XMYnzQeDv+RmpyKXI4FInGk5otJZzkPvgCrZ
+ NSOaQbp6RNIH7gxg6vY469xbX7Iy4xgzwF6qtNcgoiRnH5W27ZEscX4pblkp1mwKt8ht
+ eXJn7Wm9toIgaYrqihu0r4q344aTxphPvq8XjHSKww3riCrqxB2/ZvM1gN5Nx28I0nMP
+ srkvNR2jL7uCCfj9WViqN5nXeCBzOVnoqahw1tAEOky1eVPbcMbHcvtmnFB9kPnlM6/x
+ 4qQbk63WwTkz/qrS6Wty0Fuv8ULhJ5gu8uMixzQ7wLnAvJ7DhgDscLr8/raWF4qICCuj
+ XZLg==
+X-Gm-Message-State: AOAM5301sUE8BAIUx56OyZsgEQQVR+NzooXGYiPWcLkkZpi2P+qAHKzO
+ owYBM9NgIN53GSlm/MzMAfkn2lG0267WTk/gO3KzWg==
+X-Google-Smtp-Source: ABdhPJwNfFpSHwO1xiJbcqKIqWq8tcKjeBQs9PJeYoxt7WHzXpjVw8/7yjcLcZedTErCJYNQogfmw1ctnMcsD5D97JA=
+X-Received: by 2002:aa7:d596:: with SMTP id r22mr2344387edq.204.1598975494113; 
+ Tue, 01 Sep 2020 08:51:34 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200901140803.888852-1-laurent@vivier.eu>
+ <c63cde35-2959-f119-5c22-fccdf23a23d7@vivier.eu>
+In-Reply-To: <c63cde35-2959-f119-5c22-fccdf23a23d7@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 1 Sep 2020 16:51:20 +0100
+Message-ID: <CAFEAcA-OMRhuZFZO3S4-g7BCX0BQVvqaivSN6E5WXCxeoo_eAg@mail.gmail.com>
+Subject: Re: [PULL 00/44] Trivial branch for 5.2 patches
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::541;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -70,7 +68,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,135 +81,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, qemu-devel@nongnu.org,
- Green Wan <green.wan@sifive.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, bmeng.cn@gmail.com
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add '-drive' support to OTP device. Allow users to assign a raw file
-as OTP image.
+On Tue, 1 Sep 2020 at 15:42, Laurent Vivier <laurent@vivier.eu> wrote:
+>
+> Le 01/09/2020 =C3=A0 16:07, Laurent Vivier a =C3=A9crit :
+> > The following changes since commit 39335fab59e11cfda9b7cf63929825db2dd3=
+a3e0:
+> >
+> >   Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-5.2=
+-pull-=3D
+> > request' into staging (2020-08-28 22:30:11 +0100)
+> >
+> > are available in the Git repository at:
+> >
+> >   git://github.com/vivier/qemu.git tags/trivial-branch-for-5.2-pull-req=
+uest
+> >
+> > for you to fetch changes up to 1eef4ba6be30f8b95c8cda1bcb50a176d680a34d=
+:
+> >
+> >   docs/system: Fix grammar in documentation (2020-09-01 12:09:30 +0200)
 
-Signed-off-by: Green Wan <green.wan@sifive.com>
----
- hw/riscv/sifive_u_otp.c         | 50 +++++++++++++++++++++++++++++++++
- include/hw/riscv/sifive_u_otp.h |  2 ++
- 2 files changed, 52 insertions(+)
+> Please ignore this PR, it failed after the first patch.
+>
+> The second attempt is the one to take (same name, no versioning but
+> completed).
 
-diff --git a/hw/riscv/sifive_u_otp.c b/hw/riscv/sifive_u_otp.c
-index b8369e9035..477c54c7b8 100644
---- a/hw/riscv/sifive_u_otp.c
-+++ b/hw/riscv/sifive_u_otp.c
-@@ -24,6 +24,8 @@
- #include "qemu/log.h"
- #include "qemu/module.h"
- #include "hw/riscv/sifive_u_otp.h"
-+#include "sysemu/blockdev.h"
-+#include "sysemu/block-backend.h"
- 
- #define WRITTEN_BIT_ON 0x1
- 
-@@ -54,6 +56,16 @@ static uint64_t sifive_u_otp_read(void *opaque, hwaddr addr, unsigned int size)
-         if ((s->pce & SIFIVE_U_OTP_PCE_EN) &&
-             (s->pdstb & SIFIVE_U_OTP_PDSTB_EN) &&
-             (s->ptrim & SIFIVE_U_OTP_PTRIM_EN)) {
-+
-+            /* read from backend */
-+            if (s->blk) {
-+                int32_t buf;
-+
-+                blk_pread(s->blk, s->pa * SIFIVE_U_OTP_FUSE_WORD, &buf,
-+                          SIFIVE_U_OTP_FUSE_WORD);
-+                return buf;
-+            }
-+
-             return s->fuse[s->pa & SIFIVE_U_OTP_PA_MASK];
-         } else {
-             return 0xff;
-@@ -145,6 +157,12 @@ static void sifive_u_otp_write(void *opaque, hwaddr addr,
-             /* write bit data */
-             SET_FUSEARRAY_BIT(s->fuse, s->pa, s->paio, s->pdin);
- 
-+            /* write to backend */
-+            if (s->blk) {
-+                blk_pwrite(s->blk, s->pa * SIFIVE_U_OTP_FUSE_WORD, &val32,
-+                           SIFIVE_U_OTP_FUSE_WORD, 0);
-+            }
-+
-             /* update written bit */
-             SET_FUSEARRAY_BIT(s->fuse_wo, s->pa, s->paio, WRITTEN_BIT_ON);
-         }
-@@ -168,16 +186,48 @@ static const MemoryRegionOps sifive_u_otp_ops = {
- 
- static Property sifive_u_otp_properties[] = {
-     DEFINE_PROP_UINT32("serial", SiFiveUOTPState, serial, 0),
-+    DEFINE_PROP_DRIVE("drive", SiFiveUOTPState, blk),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
- static void sifive_u_otp_realize(DeviceState *dev, Error **errp)
- {
-     SiFiveUOTPState *s = SIFIVE_U_OTP(dev);
-+    DriveInfo *dinfo;
- 
-     memory_region_init_io(&s->mmio, OBJECT(dev), &sifive_u_otp_ops, s,
-                           TYPE_SIFIVE_U_OTP, SIFIVE_U_OTP_REG_SIZE);
-     sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->mmio);
-+
-+    dinfo = drive_get_next(IF_NONE);
-+    if (dinfo) {
-+        int ret;
-+        uint64_t perm;
-+        int filesize;
-+        BlockBackend *blk;
-+
-+        blk = blk_by_legacy_dinfo(dinfo);
-+        filesize = SIFIVE_U_OTP_NUM_FUSES * SIFIVE_U_OTP_FUSE_WORD;
-+        if (blk_getlength(blk) < filesize) {
-+            qemu_log_mask(LOG_GUEST_ERROR, "OTP drive size < 16K\n");
-+            return;
-+        }
-+
-+        qdev_prop_set_drive(dev, "drive", blk);
-+
-+        perm = BLK_PERM_CONSISTENT_READ |
-+                        (blk_is_read_only(s->blk) ? 0 : BLK_PERM_WRITE);
-+        ret = blk_set_perm(s->blk, perm, BLK_PERM_ALL, errp);
-+        if (ret < 0) {
-+            qemu_log_mask(LOG_GUEST_ERROR, "set perm error.");
-+        }
-+
-+        if (blk_pread(s->blk, 0, s->fuse, filesize) != filesize) {
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                          "failed to read the initial flash content");
-+            return;
-+        }
-+    }
- }
- 
- static void sifive_u_otp_reset(DeviceState *dev)
-diff --git a/include/hw/riscv/sifive_u_otp.h b/include/hw/riscv/sifive_u_otp.h
-index 4a5a0acf48..9bc781fd4f 100644
---- a/include/hw/riscv/sifive_u_otp.h
-+++ b/include/hw/riscv/sifive_u_otp.h
-@@ -45,6 +45,7 @@
- 
- #define SIFIVE_U_OTP_PA_MASK        0xfff
- #define SIFIVE_U_OTP_NUM_FUSES      0x1000
-+#define SIFIVE_U_OTP_FUSE_WORD      4
- #define SIFIVE_U_OTP_SERIAL_ADDR    0xfc
- 
- #define SIFIVE_U_OTP_REG_SIZE       0x1000
-@@ -78,6 +79,7 @@ typedef struct SiFiveUOTPState {
-     uint32_t fuse_wo[SIFIVE_U_OTP_NUM_FUSES];
-     /* config */
-     uint32_t serial;
-+    BlockBackend *blk;
- } SiFiveUOTPState;
- 
- #endif /* HW_SIFIVE_U_OTP_H */
--- 
-2.17.1
+The two are identical from my point of view because they refer
+to the same tag (and even the same commit hash in this case).
+The merge process doesn't care about the emails that go to the
+list: those are just for others' information and the historical
+record.
 
+
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+for any user-visible changes.
+
+-- PMM
 
