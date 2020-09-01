@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E53FD2593D3
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:31:39 +0200 (CEST)
-Received: from localhost ([::1]:45246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4394425947C
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:40:20 +0200 (CEST)
+Received: from localhost ([::1]:55954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD8G2-000740-Px
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:31:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48214)
+	id 1kD8OR-0006dk-Au
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:40:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kD841-0000cc-19
+ id 1kD841-0000ez-Pd
  for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:19:13 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:39310)
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:33297)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kD83y-0006Hg-Ag
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:19:12 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id b79so1547270wmb.4
- for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 08:19:09 -0700 (PDT)
+ id 1kD83z-0006I0-J0
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:19:13 -0400
+Received: by mail-wm1-x332.google.com with SMTP id e11so1185535wme.0
+ for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 08:19:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=iu8h7Tl7CzBF+w9whyh1jVt1Sw/rmBmwBzGlhSDazO8=;
- b=dXNSDOYlvjDSlRJryv0wPt+A8I8fC7ezqzLCi9BQ4cZfuR5Tmnpk303HSfDs2wGI3e
- MlnLiL8v6e8CJdRW2jHpifIiAB7d4g938Dvv4AS3DwjuXRRx5XA9s5104j+yQoCuaywk
- VuKD0dET2KzZmWqiIIuI8rhXa9OoHBkjxk5dP/xQuFmHqcm9/iKtWVJneEJBDymVlvpd
- 9F9tJNNxr3d3X9lO54yr1UySF5Ty0ZhbBidTQRv1bvuhPQwmbRwWjQmGnJQ1MAWAVSXU
- r7ii3bvdoj4ysN8kKnRZrKKCRmP6S9VPZ+K3fP2aDVM6J29LyinytsvKf6qvwuSO+Evw
- HG8g==
+ bh=j46OVS7erArobrPBcvwOw1jqk4UsFIeKb2ubQ91KiuU=;
+ b=xvmjt4UQt+sKqY8kOfnVDsPrypDPKcM29ur1kA9d5HPWvmP1EEOQ5aMrVfgOx80WIl
+ EgQI1/jgBsn4/khBjZY4YnEHI3OIOjIwBU+IxpbmLCsodMQ8QYbmV1k6v57+sILRb6Ak
+ vbV1ZqcQ4kp3NF7O7ju77+gnI77Hl+ya28X7/0T+vpFYySgilP0ykidvRw09lqoMcj+w
+ ayNTz8wIT3hwhelZ5WCGrLHdqfWSQtbaJ94LR3Q78UlFJEXnKlYIGcRJTMG5lPu1w+9b
+ +HQvhoHuOhWb0Nko+5yS/VKs3J5I4uvYVw74qa62WoiD1ic4I8J3FN80ixFIF37zc6cP
+ ZaCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iu8h7Tl7CzBF+w9whyh1jVt1Sw/rmBmwBzGlhSDazO8=;
- b=qhFeyxxvrRUvHdWJv0sCtTyCKOtk82HscDVjfifqH+255KjAPPiVgITf7Gk6ybBzAn
- l7VDbvTs07Yy/wLar03ApCKOArXKBpMAPLYG/J/RBwWzbcP68v1SaTSsv3FUX92SWKSC
- WdtvX0LrXmhFqfR0WDdDjzvt4syHmx8F/7Gd+nP53N9XvR40ZxSq1MNDpH+vuuTIiHxK
- Bn8a2TUsbKOPnR6uPVDG2Dv/p/goP293NPleL0OWdvNPJlQFvBfLmAz9rEqLfnI6YNFf
- tE04HUgre1uynplqt9lsFCR+lk0eAnVZPolEoSRyU/szi7oZtYYbvP5Fgn0qHOQr5vsP
- e7/A==
-X-Gm-Message-State: AOAM533VBVE0hi9VNjDhrzBW2PXU5emXMzpbKDt2QPa+2E3ShQZt3q4H
- ceOnAv8DjS4TUVxgYXXKGZNpcE1MI67q3nKA
-X-Google-Smtp-Source: ABdhPJyshhxAmyf+lmkYiUAwZbGdukyfgFmwJf99XTgJ96SklROLBmjIYVbpDDB5Q6K1JWnq/7ILSQ==
-X-Received: by 2002:a1c:c256:: with SMTP id s83mr2288702wmf.93.1598973548576; 
- Tue, 01 Sep 2020 08:19:08 -0700 (PDT)
+ bh=j46OVS7erArobrPBcvwOw1jqk4UsFIeKb2ubQ91KiuU=;
+ b=peDsUAFzL2MmVKonwscTEJinY6ZISw194y/v58doWXahtXAWO1zjbYrC2chRA0X8Yh
+ 52nUr9mOwTNngnjPiS62TCETb3SQsdzUvRcKoVr8moqN6XrqIUwhAS3M+P7t09cVG/Rr
+ c/rvWErswaflVbhXs7Kb+ay87GbCrae1PuvXBJFYzY7ea2Z9daY1AyoC+s/CPFovOaHW
+ zTdZoJc+sWNEV6Lg1gnW0FlWwhyFXrvwjfVboCnEApqP2ef2kcYVkQI77mBYhBEM6u8Z
+ 2/XjsGKhgs8xjAgXOmT35x/GuQEHpjYajh77wQ+7FvGFpbZBYJk+omEZMXLve/R5jzk3
+ pyaw==
+X-Gm-Message-State: AOAM533rLOKx2ajEtfvkTo4zllmyqakOBoTHhldweQkhG9R7RYSwZIUY
+ 6bOAq/ayl/dYBl6XFA2DgM5tmsD6ZufDXeQK
+X-Google-Smtp-Source: ABdhPJyVnbqV0dNGEGBe8lLxaItHZZ9ri5ewn2+eeCkcKhvCvt9rya1tuWvHIhSfzZ++i6y2NItSjg==
+X-Received: by 2002:a1c:7907:: with SMTP id l7mr2245298wme.89.1598973549687;
+ Tue, 01 Sep 2020 08:19:09 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id z9sm2242317wma.4.2020.09.01.08.19.07
+ by smtp.gmail.com with ESMTPSA id z9sm2242317wma.4.2020.09.01.08.19.08
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Sep 2020 08:19:07 -0700 (PDT)
+ Tue, 01 Sep 2020 08:19:08 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 34/47] target/arm: Implement fp16 for Neon pairwise fp ops
-Date: Tue,  1 Sep 2020 16:18:10 +0100
-Message-Id: <20200901151823.29785-35-peter.maydell@linaro.org>
+Subject: [PULL 35/47] target/arm: Implement fp16 for Neon float-integer VCVT
+Date: Tue,  1 Sep 2020 16:18:11 +0100
+Message-Id: <20200901151823.29785-36-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200901151823.29785-1-peter.maydell@linaro.org>
 References: <20200901151823.29785-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,164 +88,123 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert the Neon pairwise fp ops to use a single gvic-style
-helper to do the full operation instead of one helper call
-for each 32-bit part. This allows us to use the same
-framework to implement the fp16.
+Convert the Neon float-integer VCVT insns to gvec, and use this
+to implement fp16 support for them.
+
+Note that unlike the VFP int<->fp16 VCVT insns we converted
+earlier and which convert to/from a 32-bit integer, these
+Neon insns convert to/from 16-bit integers. So we can use
+the existing vfp conversion helpers for the f32<->u32/i32
+case but need to provide our own for f16<->u16/i16.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200828183354.27913-36-peter.maydell@linaro.org
+Message-id: 20200828183354.27913-37-peter.maydell@linaro.org
 ---
- target/arm/helper.h             |  7 +++++
- target/arm/vec_helper.c         | 45 +++++++++++++++++++++++++++++++++
- target/arm/translate-neon.c.inc | 42 ++++++++++++------------------
- 3 files changed, 68 insertions(+), 26 deletions(-)
+ target/arm/helper.h             |  9 +++++++++
+ target/arm/vec_helper.c         | 29 +++++++++++++++++++++++++++++
+ target/arm/translate-neon.c.inc | 15 ++++-----------
+ 3 files changed, 42 insertions(+), 11 deletions(-)
 
 diff --git a/target/arm/helper.h b/target/arm/helper.h
-index 5a716498913..f1f33c696d9 100644
+index f1f33c696d9..1d8badf4a21 100644
 --- a/target/arm/helper.h
 +++ b/target/arm/helper.h
-@@ -607,6 +607,13 @@ DEF_HELPER_FLAGS_5(gvec_fcmlas_idx, TCG_CALL_NO_RWG,
- DEF_HELPER_FLAGS_5(gvec_fcmlad, TCG_CALL_NO_RWG,
-                    void, ptr, ptr, ptr, ptr, i32)
+@@ -614,6 +614,15 @@ DEF_HELPER_FLAGS_5(neon_padds, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_5(neon_pmaxs, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_5(neon_pmins, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
  
-+DEF_HELPER_FLAGS_5(neon_paddh, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(neon_pmaxh, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(neon_pminh, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(neon_padds, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(neon_pmaxs, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(neon_pmins, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(gvec_sstoh, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(gvec_sitos, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(gvec_ustoh, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(gvec_uitos, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(gvec_tosszh, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(gvec_tosizs, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(gvec_touszh, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(gvec_touizs, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
 +
  DEF_HELPER_FLAGS_4(gvec_frecpe_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
  DEF_HELPER_FLAGS_4(gvec_frecpe_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
  DEF_HELPER_FLAGS_4(gvec_frecpe_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
 diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
-index e5bb5e395cb..46623d401e7 100644
+index 46623d401e7..6ea9807b790 100644
 --- a/target/arm/vec_helper.c
 +++ b/target/arm/vec_helper.c
-@@ -1771,3 +1771,48 @@ DO_ABA(gvec_uaba_s, uint32_t)
- DO_ABA(gvec_uaba_d, uint64_t)
- 
- #undef DO_ABA
-+
-+#define DO_NEON_PAIRWISE(NAME, OP)                                      \
-+    void HELPER(NAME##s)(void *vd, void *vn, void *vm,                  \
-+                         void *stat, uint32_t oprsz)                    \
-+    {                                                                   \
-+        float_status *fpst = stat;                                      \
-+        float32 *d = vd;                                                \
-+        float32 *n = vn;                                                \
-+        float32 *m = vm;                                                \
-+        float32 r0, r1;                                                 \
-+                                                                        \
-+        /* Read all inputs before writing outputs in case vm == vd */   \
-+        r0 = float32_##OP(n[H4(0)], n[H4(1)], fpst);                    \
-+        r1 = float32_##OP(m[H4(0)], m[H4(1)], fpst);                    \
-+                                                                        \
-+        d[H4(0)] = r0;                                                  \
-+        d[H4(1)] = r1;                                                  \
-+    }                                                                   \
-+                                                                        \
-+    void HELPER(NAME##h)(void *vd, void *vn, void *vm,                  \
-+                         void *stat, uint32_t oprsz)                    \
-+    {                                                                   \
-+        float_status *fpst = stat;                                      \
-+        float16 *d = vd;                                                \
-+        float16 *n = vn;                                                \
-+        float16 *m = vm;                                                \
-+        float16 r0, r1, r2, r3;                                         \
-+                                                                        \
-+        /* Read all inputs before writing outputs in case vm == vd */   \
-+        r0 = float16_##OP(n[H2(0)], n[H2(1)], fpst);                    \
-+        r1 = float16_##OP(n[H2(2)], n[H2(3)], fpst);                    \
-+        r2 = float16_##OP(m[H2(0)], m[H2(1)], fpst);                    \
-+        r3 = float16_##OP(m[H2(2)], m[H2(3)], fpst);                    \
-+                                                                        \
-+        d[H4(0)] = r0;                                                  \
-+        d[H4(1)] = r1;                                                  \
-+        d[H4(2)] = r2;                                                  \
-+        d[H4(3)] = r3;                                                  \
-+    }
-+
-+DO_NEON_PAIRWISE(neon_padd, add)
-+DO_NEON_PAIRWISE(neon_pmax, max)
-+DO_NEON_PAIRWISE(neon_pmin, min)
-+
-+#undef DO_NEON_PAIRWISE
-diff --git a/target/arm/translate-neon.c.inc b/target/arm/translate-neon.c.inc
-index 4c6d63be3d3..d13075986e5 100644
---- a/target/arm/translate-neon.c.inc
-+++ b/target/arm/translate-neon.c.inc
-@@ -1112,10 +1112,10 @@ static bool trans_VMINNM_fp_3s(DisasContext *s, arg_3same *a)
-     return do_3same(s, a, gen_VMINNM_fp32_3s);
+@@ -711,6 +711,26 @@ static uint32_t float32_acgt(float32 op1, float32 op2, float_status *stat)
+     return -float32_lt(float32_abs(op2), float32_abs(op1), stat);
  }
  
--static bool do_3same_fp_pair(DisasContext *s, arg_3same *a, VFPGen3OpSPFn *fn)
-+static bool do_3same_fp_pair(DisasContext *s, arg_3same *a,
-+                             gen_helper_gvec_3_ptr *fn)
- {
--    /* FP operations handled pairwise 32 bits at a time */
--    TCGv_i32 tmp, tmp2, tmp3;
-+    /* FP pairwise operations */
-     TCGv_ptr fpstatus;
++static int16_t vfp_tosszh(float16 x, void *fpstp)
++{
++    float_status *fpst = fpstp;
++    if (float16_is_any_nan(x)) {
++        float_raise(float_flag_invalid, fpst);
++        return 0;
++    }
++    return float16_to_int16_round_to_zero(x, fpst);
++}
++
++static uint16_t vfp_touszh(float16 x, void *fpstp)
++{
++    float_status *fpst = fpstp;
++    if (float16_is_any_nan(x)) {
++        float_raise(float_flag_invalid, fpst);
++        return 0;
++    }
++    return float16_to_uint16_round_to_zero(x, fpst);
++}
++
+ #define DO_2OP(NAME, FUNC, TYPE) \
+ void HELPER(NAME)(void *vd, void *vn, void *stat, uint32_t desc)  \
+ {                                                                 \
+@@ -730,6 +750,15 @@ DO_2OP(gvec_frsqrte_h, helper_rsqrte_f16, float16)
+ DO_2OP(gvec_frsqrte_s, helper_rsqrte_f32, float32)
+ DO_2OP(gvec_frsqrte_d, helper_rsqrte_f64, float64)
  
-     if (!arm_dc_feature(s, ARM_FEATURE_NEON)) {
-@@ -1134,26 +1134,14 @@ static bool do_3same_fp_pair(DisasContext *s, arg_3same *a, VFPGen3OpSPFn *fn)
- 
-     assert(a->q == 0); /* enforced by decode patterns */
- 
--    /*
--     * Note that we have to be careful not to clobber the source operands
--     * in the "vm == vd" case by storing the result of the first pass too
--     * early. Since Q is 0 there are always just two passes, so instead
--     * of a complicated loop over each pass we just unroll.
--     */
--    fpstatus = fpstatus_ptr(FPST_STD);
--    tmp = neon_load_reg(a->vn, 0);
--    tmp2 = neon_load_reg(a->vn, 1);
--    fn(tmp, tmp, tmp2, fpstatus);
--    tcg_temp_free_i32(tmp2);
- 
--    tmp3 = neon_load_reg(a->vm, 0);
--    tmp2 = neon_load_reg(a->vm, 1);
--    fn(tmp3, tmp3, tmp2, fpstatus);
--    tcg_temp_free_i32(tmp2);
-+    fpstatus = fpstatus_ptr(a->size != 0 ? FPST_STD_F16 : FPST_STD);
-+    tcg_gen_gvec_3_ptr(vfp_reg_offset(1, a->vd),
-+                       vfp_reg_offset(1, a->vn),
-+                       vfp_reg_offset(1, a->vm),
-+                       fpstatus, 8, 8, 0, fn);
-     tcg_temp_free_ptr(fpstatus);
- 
--    neon_store_reg(a->vd, 0, tmp);
--    neon_store_reg(a->vd, 1, tmp3);
++DO_2OP(gvec_sitos, helper_vfp_sitos, int32_t)
++DO_2OP(gvec_uitos, helper_vfp_uitos, uint32_t)
++DO_2OP(gvec_tosizs, helper_vfp_tosizs, float32)
++DO_2OP(gvec_touizs, helper_vfp_touizs, float32)
++DO_2OP(gvec_sstoh, int16_to_float16, int16_t)
++DO_2OP(gvec_ustoh, uint16_to_float16, uint16_t)
++DO_2OP(gvec_tosszh, vfp_tosszh, float16)
++DO_2OP(gvec_touszh, vfp_touszh, float16)
++
+ #define WRAP_CMP0_FWD(FN, CMPOP, TYPE)                          \
+     static TYPE TYPE##_##FN##0(TYPE op, float_status *stat)     \
+     {                                                           \
+diff --git a/target/arm/translate-neon.c.inc b/target/arm/translate-neon.c.inc
+index d13075986e5..5aaea867d8c 100644
+--- a/target/arm/translate-neon.c.inc
++++ b/target/arm/translate-neon.c.inc
+@@ -3714,17 +3714,6 @@ static bool do_2misc_fp(DisasContext *s, arg_2misc *a,
      return true;
  }
  
-@@ -1165,15 +1153,17 @@ static bool do_3same_fp_pair(DisasContext *s, arg_3same *a, VFPGen3OpSPFn *fn)
-     static bool trans_##INSN##_fp_3s(DisasContext *s, arg_3same *a) \
-     {                                                               \
-         if (a->size != 0) {                                         \
--            /* TODO fp16 support */                                 \
--            return false;                                           \
-+            if (!dc_isar_feature(aa32_fp16_arith, s)) {             \
-+                return false;                                       \
-+            }                                                       \
-+            return do_3same_fp_pair(s, a, FUNC##h);                 \
-         }                                                           \
--        return do_3same_fp_pair(s, a, FUNC);                        \
-+        return do_3same_fp_pair(s, a, FUNC##s);                     \
-     }
+-#define DO_2MISC_FP(INSN, FUNC)                                 \
+-    static bool trans_##INSN(DisasContext *s, arg_2misc *a)     \
+-    {                                                           \
+-        return do_2misc_fp(s, a, FUNC);                         \
+-    }
+-
+-DO_2MISC_FP(VCVT_FS, gen_helper_vfp_sitos)
+-DO_2MISC_FP(VCVT_FU, gen_helper_vfp_uitos)
+-DO_2MISC_FP(VCVT_SF, gen_helper_vfp_tosizs)
+-DO_2MISC_FP(VCVT_UF, gen_helper_vfp_touizs)
+-
+ #define DO_2MISC_FP_VEC(INSN, HFUNC, SFUNC)                             \
+     static void gen_##INSN(unsigned vece, uint32_t rd_ofs,              \
+                            uint32_t rm_ofs,                             \
+@@ -3758,6 +3747,10 @@ DO_2MISC_FP_VEC(VCGE0_F, gen_helper_gvec_fcge0_h, gen_helper_gvec_fcge0_s)
+ DO_2MISC_FP_VEC(VCEQ0_F, gen_helper_gvec_fceq0_h, gen_helper_gvec_fceq0_s)
+ DO_2MISC_FP_VEC(VCLT0_F, gen_helper_gvec_fclt0_h, gen_helper_gvec_fclt0_s)
+ DO_2MISC_FP_VEC(VCLE0_F, gen_helper_gvec_fcle0_h, gen_helper_gvec_fcle0_s)
++DO_2MISC_FP_VEC(VCVT_FS, gen_helper_gvec_sstoh, gen_helper_gvec_sitos)
++DO_2MISC_FP_VEC(VCVT_FU, gen_helper_gvec_ustoh, gen_helper_gvec_uitos)
++DO_2MISC_FP_VEC(VCVT_SF, gen_helper_gvec_tosszh, gen_helper_gvec_tosizs)
++DO_2MISC_FP_VEC(VCVT_UF, gen_helper_gvec_touszh, gen_helper_gvec_touizs)
  
--DO_3S_FP_PAIR(VPADD, gen_helper_vfp_adds)
--DO_3S_FP_PAIR(VPMAX, gen_helper_vfp_maxs)
--DO_3S_FP_PAIR(VPMIN, gen_helper_vfp_mins)
-+DO_3S_FP_PAIR(VPADD, gen_helper_neon_padd)
-+DO_3S_FP_PAIR(VPMAX, gen_helper_neon_pmax)
-+DO_3S_FP_PAIR(VPMIN, gen_helper_neon_pmin)
- 
- static bool do_vector_2sh(DisasContext *s, arg_2reg_shift *a, GVecGen2iFn *fn)
+ static bool trans_VRINTX(DisasContext *s, arg_2misc *a)
  {
 -- 
 2.20.1
