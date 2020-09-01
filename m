@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B661A258B6C
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 11:24:16 +0200 (CEST)
-Received: from localhost ([::1]:46196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7582B258B3D
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 11:17:01 +0200 (CEST)
+Received: from localhost ([::1]:43196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD2WV-0000Rr-RD
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 05:24:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33810)
+	id 1kD2PU-0004kO-EO
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 05:17:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kD2KU-0003a8-E3
+ id 1kD2KU-0003ax-KO
  for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:11:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22447)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29773)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kD2KS-0006rc-KM
+ id 1kD2KS-0006rl-Ub
  for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:11:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598951507;
+ s=mimecast20190719; t=1598951508;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=X/Fax2FNyxBxy5u0eoIHCfhXtcAhzrgVnFOsa7MwnFk=;
- b=e63e8n98YGp1Y1TgD5AHFbpqOHGO8P24Q1cuu0xZRd8WzP61PgpSIdKk05qr+eEO0lT3pk
- BEVU2ZfSUqyjnV9WK3LrWdZSVHiGmO6qBjEmqd+BWTeG7WO+wo8bUjANsL+cs2Gn5fl/05
- sIjQJLKhxHSr0mSBqc3gtUJsZbi9Ahk=
+ bh=gOEB/WpowKRx2byhYj9Iw6P/49jTFJNd8n+vHCWtje4=;
+ b=dmLnX8Q1w9Th6ZSrM0YlNOj3W3juHdJs229hFTDnXX6kf/4NsFEks3nnIDcRjUARdNzg0p
+ bJsWY/MR0S/yO+IpOMj+pzAUqHsau0in1E9HUwkGVyr55HF2SAOEZjhy1BQrCWs9PfLV/Q
+ ruuY5lAe2b0uG6eR73ZR+07Wbt7hGow=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-302-FyLfm9tSOYCxLTWUuo9OZw-1; Tue, 01 Sep 2020 05:11:46 -0400
-X-MC-Unique: FyLfm9tSOYCxLTWUuo9OZw-1
+ us-mta-194-wG5wUM0cNUenUXUmdrlcDA-1; Tue, 01 Sep 2020 05:11:46 -0400
+X-MC-Unique: wG5wUM0cNUenUXUmdrlcDA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74C871074641;
- Tue,  1 Sep 2020 09:11:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C37F2801AC5
+ for <qemu-devel@nongnu.org>; Tue,  1 Sep 2020 09:11:45 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F2A6B78B40;
- Tue,  1 Sep 2020 09:11:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 90C8D78B4D
+ for <qemu-devel@nongnu.org>; Tue,  1 Sep 2020 09:11:45 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/24] meson: add pixman dependency to UI modules
-Date: Tue,  1 Sep 2020 05:11:28 -0400
-Message-Id: <20200901091132.29601-21-pbonzini@redhat.com>
+Subject: [PULL 21/24] configure: do not include ${prefix} in firmwarepath
+Date: Tue,  1 Sep 2020 05:11:29 -0400
+Message-Id: <20200901091132.29601-22-pbonzini@redhat.com>
 In-Reply-To: <20200901091132.29601-1-pbonzini@redhat.com>
 References: <20200901091132.29601-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -81,53 +81,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Weil <sw@weilnetz.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Pixman used to be included directly in QEMU_CFLAGS and therefore the
-include path was added to every compiler invocation.  Now that (just
-like basically everything else) it is a separate dependency, we
-need to add it to all build target, especially UI modules that need
-it due to their including ui/console.h.
+Left out in commit 22a87800e6 ("configure: expand path variables for
+meson configure", 2020-08-21), do it now.
 
-Reported-by: Stefan Weil <sw@weilnetz.de>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- ui/meson.build | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/ui/meson.build b/ui/meson.build
-index aa8aa31516..82f60756d9 100644
---- a/ui/meson.build
-+++ b/ui/meson.build
-@@ -40,7 +40,7 @@ ui_modules = {}
+diff --git a/configure b/configure
+index b9e977f13d..8a3acef89d 100755
+--- a/configure
++++ b/configure
+@@ -473,7 +473,6 @@ LDFLAGS_SHARED="-shared"
+ modules="no"
+ module_upgrades="no"
+ prefix="/usr/local"
+-firmwarepath="\${prefix}/share/qemu-firmware"
+ qemu_suffix="qemu"
+ slirp=""
+ oss_lib=""
+@@ -1677,6 +1676,7 @@ for opt do
+   esac
+ done
  
- if config_host.has_key('CONFIG_CURSES')
-   curses_ss = ss.source_set()
--  curses_ss.add(when: [curses, iconv], if_true: files('curses.c'))
-+  curses_ss.add(when: [curses, iconv], if_true: [files('curses.c'), pixman])
-   ui_modules += {'curses' : curses_ss}
- endif
- 
-@@ -48,7 +48,7 @@ if config_host.has_key('CONFIG_GTK')
-   softmmu_ss.add(when: 'CONFIG_WIN32', if_true: files('win32-kbd-hook.c'))
- 
-   gtk_ss = ss.source_set()
--  gtk_ss.add(gtk, vte, files('gtk.c'))
-+  gtk_ss.add(gtk, vte, pixman, files('gtk.c'))
-   gtk_ss.add(when: [x11, 'CONFIG_X11'], if_true: files('x_keymap.c'))
-   gtk_ss.add(when: [opengl, 'CONFIG_OPENGL'], if_true: files('gtk-egl.c'))
-   gtk_ss.add(when: [opengl, 'CONFIG_GTK_GL'], if_true: files('gtk-gl-area.c'))
-@@ -71,7 +71,7 @@ endif
- 
- if config_host.has_key('CONFIG_SPICE') and config_host.has_key('CONFIG_GIO')
-   spice_ss = ss.source_set()
--  spice_ss.add(spice, gio, files('spice-app.c'))
-+  spice_ss.add(spice, gio, pixman, files('spice-app.c'))
-   ui_modules += {'spice-app': spice_ss}
- endif
- 
++firmwarepath="${firmwarepath:-$prefix/share/qemu-firmware}"
+ libdir="${libdir:-$prefix/lib}"
+ libexecdir="${libexecdir:-$prefix/libexec}"
+ includedir="${includedir:-$prefix/include}"
 -- 
 2.26.2
 
