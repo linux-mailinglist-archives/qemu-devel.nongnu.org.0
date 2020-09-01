@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3DF8258EB9
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 14:56:16 +0200 (CEST)
-Received: from localhost ([::1]:48340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90FB0258EBE
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 14:57:33 +0200 (CEST)
+Received: from localhost ([::1]:53208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD5pf-00077m-M3
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 08:56:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34790)
+	id 1kD5qu-0000mZ-JH
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 08:57:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kD5jg-0005Df-OM
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:50:04 -0400
-Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:35312)
+ id 1kD5kQ-0006JR-Q1
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:50:50 -0400
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:40597)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kD5jf-0001p5-3y
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:50:04 -0400
-Received: by mail-ed1-x542.google.com with SMTP id ba12so1316348edb.2
- for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 05:50:02 -0700 (PDT)
+ id 1kD5kP-00023E-8l
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:50:50 -0400
+Received: by mail-ej1-x642.google.com with SMTP id z22so1451056ejl.7
+ for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 05:50:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=peHf4GtgUeg0RgYEQ72lb96CS7Od5ddK7dRVhswRxn4=;
- b=Yh2gQUbN5X/J7lPXJKGpdOkTrDFLez2UMio8RBaJJbIV9qPc0eqDUOzoTPhmm++jhI
- 360z0aHmiW6mGxWoBvCIJkFm0t3kx2/aNmdh/arhjwHpTXL0pTeyhyEpSi1dBCjM1tAf
- 7QqLnPPWIHB9OU8IoH6bmen+8/HbxKAfbRwAPDcFMuVKgXxSTq4ifxak77Egk8xARz0l
- Bzqmej17JlGZ06dRi4+2mT4DDfd3C6AG2efj5ly4EMPLx0R4djeYkiw4PQANWrprj7eo
- /gXh60HMfqrIasYcoJwvOSSz/1852sAYD0iEkZbfU27Bdkw9UGIduYFbEc7YytEFbd35
- /Aeg==
+ :cc; bh=xiH9w16QnZ8MhSAJhQUehcZF69w548sdcPSigukhTRk=;
+ b=OSzAZLpzB+o2WtFYm6JSvBQkIVDO/pmL80gXMQvgOWf4flbYUC/0RmTsPhRscb9AHP
+ XOX0iUrTmj4SCcRnei6Mv0Itv8tCyDXI1DF5n3IFMaCmBenkJLaXGOf71I8vdoAvEksK
+ z6CiF0KbxSihEml1wFIoZfzgiC0j1eLVAMN4RsezgMQ/VNCeosXl4vSDuujKE1DjjT0H
+ MlxlKW0ELJzsiBKS9BM4pLWJ5K9T3MEnw1fdfmtx2FuCA8VZg2TyADC3Zu14l893TtZJ
+ WHiYYvvgCi6g9Dw/V9/4sZS2lS0ow2DmVNesd2zbK83aWzAKUEy5OtuN0oKZH5YS5qEn
+ NgtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=peHf4GtgUeg0RgYEQ72lb96CS7Od5ddK7dRVhswRxn4=;
- b=By0UTTSZ1eVcYlxXzgcLgk4Bq1Wu6dro+5FN1amo0FNcbqBLok70+1brljbNnBytXA
- bGT0AafpnYA3Zyw84/dX9VyL1KUPGc73Vp3kvXmcISuylMOQPrxDfMQfNQI1zrSTjlwj
- sjE+PSgkfwJu9sTGX7anuUrOmS5HZjA/iEe2GY4UnQcXq0AClg3ePR2Eu7rOXtq8XavF
- FCwUyG+iyWEwJn51kKKFLLX4bPOdX1eHaYdHhULkKP5p3znmjFzMGUk7xlDTcvEn6rUu
- qwQbpxoo1BM+KKY9QFw+QDLwmn6MNnLb6Xo2HE8dIJ56hO0OXW0gdKf6uy4Q680E4KiK
- vWAA==
-X-Gm-Message-State: AOAM530MjErpXsC8WD4gsD7SCsqu5DCXllPATb75cg3sqKb/dxGG4huN
- gJrHVxDy65iE0Wjd3SB5hVNzlfIUxIHKLQdOfD/TVQ==
-X-Google-Smtp-Source: ABdhPJwOFVBFS9Nit2xTq0hTbEOwa/C5VC00FhQnt1LK7zddYifZqDzMhBeLMr2wABCCqyqY7Mp3VdEUw54Nala5tDM=
-X-Received: by 2002:aa7:d596:: with SMTP id r22mr1628331edq.204.1598964601252; 
- Tue, 01 Sep 2020 05:50:01 -0700 (PDT)
+ bh=xiH9w16QnZ8MhSAJhQUehcZF69w548sdcPSigukhTRk=;
+ b=V2DZ/mEa+c6MZzwGB5eNY32jmpoaUIG0x41MCNer0Nla6/FV9g5NldPf+xIpTSxUKk
+ HEg6nEpIQGgXOtU/tB2WvGq1B5FkBhNG7qAKWqDQMWsVyDHp8yh+3cg6kdjtG0JuDsIe
+ KYt+rwAsYHbd95itFVggJqxTI/48S5bBWRbQDp4fUPYMYGujB9nluzxqZ2mBRH9A0ika
+ 9yyseZiIrv99PPReEMZGhl1mkLqK4cIRgsbcoi3ZjN74zhEIBMGva8N2SvpXcMQj05qN
+ wsVbzQOcuQx8L6zv1HCV3MADqoJiKGLz70v4+9Xfm8/+TmO52espD1pDrWCpc8z+SQV2
+ LiZg==
+X-Gm-Message-State: AOAM532eK1r22BIkjUO6PIa2uvlhwTu0pnjhmaAFjIcIZLS6cw0WLAEO
+ fyPrUQHwQIJXs2wn+sHrCvWHZj6iNnuYvmBR21SXVDwkGe6BNQ==
+X-Google-Smtp-Source: ABdhPJwP+mIZxCJv7UBB1alCmz0chSPyICVz88lEFJyXAI9T7k0qFh6ktP7eFojmqN+ZeB2EFfrpWErH3dpc9rmjfA4=
+X-Received: by 2002:a17:906:24d6:: with SMTP id
+ f22mr1260143ejb.85.1598964647980; 
+ Tue, 01 Sep 2020 05:50:47 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200827142915.108730-1-stefanha@redhat.com>
- <20200827142915.108730-3-stefanha@redhat.com>
-In-Reply-To: <20200827142915.108730-3-stefanha@redhat.com>
+ <20200827142915.108730-4-stefanha@redhat.com>
+In-Reply-To: <20200827142915.108730-4-stefanha@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 1 Sep 2020 13:49:48 +0100
-Message-ID: <CAFEAcA9rSvcK8GoBtg_LHroOgcns4TvRk3r1MfSgfPwWEosYsw@mail.gmail.com>
-Subject: Re: [PATCH 2/4] tracetool: add out_lineno and out_next_lineno to out()
+Date: Tue, 1 Sep 2020 13:50:36 +0100
+Message-ID: <CAFEAcA_VYRKQq-3TU0xjoowbnaHsuHxxhnG8VSmsWrM=bKemFg@mail.gmail.com>
+Subject: Re: [PATCH 3/4] tracetool: add input filename and line number to Event
 To: Stefan Hajnoczi <stefanha@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::542;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x542.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,8 +87,7 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Thu, 27 Aug 2020 at 15:29, Stefan Hajnoczi <stefanha@redhat.com> wrote:
 >
-> Make the output file line number and next line number available to
-> out().
+> Store the input filename and line number in Event.
 >
 > A later patch will use this to improve error messages.
 >
