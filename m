@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DEEA259022
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:18:01 +0200 (CEST)
-Received: from localhost ([::1]:37696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C03CE259052
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:26:08 +0200 (CEST)
+Received: from localhost ([::1]:53774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD76m-0003oA-HV
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:18:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55208)
+	id 1kD7Ed-0005ak-R1
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:26:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zJ-0005Ok-TX; Tue, 01 Sep 2020 10:10:17 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:47201)
+ id 1kD6zQ-0005iK-Q7; Tue, 01 Sep 2020 10:10:24 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:54469)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zE-0003lu-C5; Tue, 01 Sep 2020 10:10:17 -0400
+ id 1kD6zN-0003uZ-VA; Tue, 01 Sep 2020 10:10:24 -0400
 Received: from localhost.localdomain ([82.252.135.186]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MGQaz-1kNJB93WBh-00GmgK; Tue, 01 Sep 2020 16:10:03 +0200
+ id 1MirfI-1kpj3P28pg-00es6T; Tue, 01 Sep 2020 16:10:03 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/44] target/sh4: Remove superfluous breaks
-Date: Tue,  1 Sep 2020 16:09:18 +0200
-Message-Id: <20200901140954.889743-9-laurent@vivier.eu>
+Subject: [PULL 09/44] target/cris: Remove superfluous breaks
+Date: Tue,  1 Sep 2020 16:09:19 +0200
+Message-Id: <20200901140954.889743-10-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200901140954.889743-1-laurent@vivier.eu>
 References: <20200901140954.889743-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Mcik9TkeaKMGYqCdcFrXhfx40gE1qlW7PBlZrqP4zLUPcyVZChD
- 13lly84avryWHAnP6r2HXf23Vj9QwmaZwbXjcdLujdMtBEOONUNeOv1mfGXO6Xaujy7S+Yp
- V1wBXrgbndhh0Tr95doz0VYWZku5zv9v17j3+3HEyiWGHB1uHkfRc2VA0E7q5llY/qYDjH+
- WJCfPtfftNBNch+mjBRYg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Kb4Txv76HBI=:fO/W8IRpcaTuf6XW8+J3wI
- u0wuLJYEWvURKE1Xa+Pf66/A9b+NQ0tCbMtoSkR8yP9qwstunYkw9SaEHi7mj5wyuBtoftExF
- tD6bTBoSEanWiahEXYMk4X2MaxbeHK0VmjL59hPjqAAN6m4V6gXVHSeeMzCucE5D5lJDwUjn0
- dBR2qcvETPfEWeB3IdnAnO/QR8jnoobe624jnfGCfsWb/+M0TADuI03XUgMAZ9718pG+39QrI
- XDmw9T+vH0ZC+asYfpUT3X/0i7UnCeiBAVMrHM+WQOHYWGkICWDA4oafXGFqAHrARGMO7uY+I
- HBddrBHguFlYqZUewWOo3btcMaB1HhfQM4D89cRs/F5m5FHsg222r7GbXZ3TIlrbt/U3JtTCC
- 3UtFJDyVNVfxXrOz9HSstVAuCqfJHhj90n1GjgoNDMYJ7BQGSEexk18km5OIXjUu2UNmyo/DB
- Rs5V8+G10MJS+F6x4LAlqGqRs6dJB6AloOpHaY2CEysDN2qe7lP0whSfh9ItVp52PO2Y8zB09
- 55L+fhhAwqG97LxGsOuHbuvM6+0drTZhXv8l7v3+ruqkqBlXHMFACZi195UHSemEBJSQBDBCX
- S9m/P3wYXAecPXzrwIDutBPtCo+JeafrkSNyVyyCex33pqFpQLm4IFVRs/Tk+qXl+aPWHkDid
- rAov4aLWwEIeYgx8e4lRL9Jy0S6SFspE0M1fl3/fQ/SW4sVOOwTZLvdh2yaosHd+W9y44p9Qb
- B8ITVVL/89IRvPYgRfg8/59jaAY8PzAdQY5nuolL4dem0R0uYTvoOmkuucTr1igoyWwxTtfvA
- NYplVdTEkoyk9cYS2uu2JK44nt91C8ewqJgoy1yn3QiG23bsfUUtEJMhtcCvm8GM8Qh8SUD
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:XPGk1ppX/yIcmerFfjdQ8YEXT48yPdytcScu35k7J4MP4OtT53r
+ eWf/sK8GFUOSw71FV2s7xmY/QBP0WSp8FGJPSmdKB/4jRSwLdWTZBdYpmyCYnmqrMBhzhcE
+ QXiOk1SQ4cckOUe5h/eRktxlLA116LEaTibX7B7yVkQbkybzftKYJJCqofwwQHaFfnjEH0f
+ knnYmomER83ZRAOLx841w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:2yHF8nSWOIs=:sBPsy+AaCj1nt0Aou7cjxw
+ C2Q4pP+qftH+i6TNfTN3BLrfAGeXchsK+bqY92ENQiZw/Q93SJhRPvIB542m8FZnhTa3lp0lO
+ 00fhUj94INR2WytAflneLLgz0Rs9JfEzpIKNeGpAa2qTdemZY5AA+4taa1WqnMsnfKpnDJl7a
+ rbsrafxfnf4Jhec0T2l28W+2UJcd6ZZ0rlyZpqjDv9lKYgERcFHGmpDvJRe/c4wr51FDurLXI
+ o8m0zPuaXmr4YDXPFRly/2xWxaEgW7foRvpPDXd0RUzBy3M1Keft4ET9TyrwWROFNY1AxTqcO
+ iQaGoOfNeQpSez9V0nIYNg2Utz8x7KvixO5zy6F3ZcyC+N1xf8HEtPs2DPOm0Xv6fUGpD6QFo
+ ooY+pYkXU1De1nGQStb0/h7LXlgi/B0bLDXDw36yyC2ChNJBY5TgtZXWrr6AMESg9RiKQJQNM
+ ofe9joVixHz/RcgvcmIpTY+iJLCTKzzic8Xvk+xjWwtfCbCx71F4eD8b4l4lDhXyaL/pLzGE2
+ nZvfn5m5+XpMa3YQM9Z9P5SMGXm6FUektosEN7KxHgCmhvvXQfzrFVCvw87tNDgANNVkf4Rqu
+ Lz07MreGe5gxSrmMvOJtr3qrLgewM8pnDR1C4nzUwunD+X8n45/JL7Dxs2qGLpKSxa3S5HeIh
+ YtOQ+p7cSOBkcIWCTsXXJum2XfNpkb0sI9R92Xh8krt6UvMriDq0AIdeQFjoqTKcqAe8KFKVi
+ erNHLtuf29tWwc1eggXnvVdLwnGEqlzT9YqJhl0u7gi4zwoxcX3brkgQ+BisYdgbpCBN8PsOO
+ qsEtORnC7zBeFYpVHcXeRqPkgQUCn22Qzj9wLqGq20umRDOmgAD+DwDV3vdAtrRvjGdLCMo
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:10:08
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:10:10
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -85,40 +85,48 @@ Signed-off-by: Liao Pingfang <liao.pingfang@zte.com.cn>
 Signed-off-by: Yi Wang <wang.yi59@zte.com.cn>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <1594631142-36745-1-git-send-email-wang.yi59@zte.com.cn>
+Message-Id: <1594631150-36801-1-git-send-email-wang.yi59@zte.com.cn>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- target/sh4/translate.c | 3 ---
- 1 file changed, 3 deletions(-)
+ target/cris/translate.c         | 7 +++----
+ target/cris/translate_v10.c.inc | 2 --
+ 2 files changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/target/sh4/translate.c b/target/sh4/translate.c
-index 6192d83e8c66..60c863d9e1b0 100644
---- a/target/sh4/translate.c
-+++ b/target/sh4/translate.c
-@@ -1542,7 +1542,6 @@ static void _decode_opc(DisasContext * ctx)
-         tcg_gen_qemu_ld_i32(REG(0), REG(B11_8), ctx->memidx,
-                             MO_TEUL | MO_UNALN);
-         return;
+diff --git a/target/cris/translate.c b/target/cris/translate.c
+index ee5e359c7788..c312e6f8a65f 100644
+--- a/target/cris/translate.c
++++ b/target/cris/translate.c
+@@ -1178,12 +1178,11 @@ static inline void t_gen_zext(TCGv d, TCGv s, int size)
+ static char memsize_char(int size)
+ {
+     switch (size) {
+-    case 1: return 'b';  break;
+-    case 2: return 'w';  break;
+-    case 4: return 'd';  break;
++    case 1: return 'b';
++    case 2: return 'w';
++    case 4: return 'd';
+     default:
+         return 'x';
 -        break;
-     case 0x40e9:                /* movua.l @Rm+,R0 */
-         CHECK_SH4A
-         /* Load non-boundary-aligned data */
-@@ -1550,7 +1549,6 @@ static void _decode_opc(DisasContext * ctx)
-                             MO_TEUL | MO_UNALN);
-         tcg_gen_addi_i32(REG(B11_8), REG(B11_8), 4);
-         return;
--        break;
-     case 0x0029:		/* movt Rn */
-         tcg_gen_mov_i32(REG(B11_8), cpu_sr_t);
- 	return;
-@@ -1638,7 +1636,6 @@ static void _decode_opc(DisasContext * ctx)
-         CHECK_SH4A
-         tcg_gen_mb(TCG_MO_ALL | TCG_BAR_SC);
-         return;
--        break;
-     case 0x4024:		/* rotcl Rn */
- 	{
- 	    TCGv tmp = tcg_temp_new();
+     }
+ }
+ #endif
+diff --git a/target/cris/translate_v10.c.inc b/target/cris/translate_v10.c.inc
+index ae34a0d1a3d8..7f38fd215eae 100644
+--- a/target/cris/translate_v10.c.inc
++++ b/target/cris/translate_v10.c.inc
+@@ -1026,10 +1026,8 @@ static unsigned int dec10_ind(CPUCRISState *env, DisasContext *dc)
+         switch (dc->opcode) {
+             case CRISV10_IND_MOVE_M_R:
+                 return dec10_ind_move_m_r(env, dc, size);
+-                break;
+             case CRISV10_IND_MOVE_R_M:
+                 return dec10_ind_move_r_m(dc, size);
+-                break;
+             case CRISV10_IND_CMP:
+                 LOG_DIS("cmp size=%d op=%d %d\n",  size, dc->src, dc->dst);
+                 cris_cc_mask(dc, CC_MASK_NZVC);
 -- 
 2.26.2
 
