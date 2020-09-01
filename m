@@ -2,109 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81617258EDE
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 15:07:03 +0200 (CEST)
-Received: from localhost ([::1]:36084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2676258ED8
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 15:03:54 +0200 (CEST)
+Received: from localhost ([::1]:52954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD606-00009s-K3
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 09:07:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37840)
+	id 1kD5x3-0003nE-Sk
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 09:03:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jjherne@linux.ibm.com>)
- id 1kD5vo-0002GJ-Gx; Tue, 01 Sep 2020 09:02:36 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:5702)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jjherne@linux.ibm.com>)
- id 1kD5vm-0003VP-AF; Tue, 01 Sep 2020 09:02:36 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 081CWmoW126741; Tue, 1 Sep 2020 09:02:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=reply-to : subject : to
- : references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=l98Ap7g/+P+Gfsqv+10R2fd9rDdA4JpDZZ6cblYzFG8=;
- b=lB/n4Svk+x1HOhHErlYoZ6ibD8qnk90lgR6OBY2icW+U/RyWrkH5rhmzljm4RJ3CfAkd
- V05xROnmlpIY7jrLZ1Tgjvxhb00IrZdF9SD0TsEtlj9+V3z+s4PixPumNhQrvrM7HaCO
- MWPOeW9d3VX0JSe3szg9wgLaTz242RugHzNsyl9RKS4jdg7fYSwOCDJGNtJDu12mvnk1
- 7DVPbBpikCMVpt+O7Dr4rs8K7i+rYYBS+cInNax650gr/irvQdysQ5Ha6eE29zBDq6NA
- JoUsiQb1jWhlMCL4Y62G7spOZ5O70dNx73VFxeEhqM1w1+lOSMycBm6EZdrdnb5r9KRG dQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 339n1ebngn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Sep 2020 09:02:31 -0400
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 081CWq5k127131;
- Tue, 1 Sep 2020 09:02:30 -0400
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com with ESMTP id 339n1ebng1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Sep 2020 09:02:30 -0400
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 081CrHbT001338;
- Tue, 1 Sep 2020 13:02:29 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma02wdc.us.ibm.com with ESMTP id 337en9fysh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Sep 2020 13:02:29 +0000
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
- [9.57.199.108])
- by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 081D2SPO55312688
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 1 Sep 2020 13:02:28 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D043DB2064;
- Tue,  1 Sep 2020 13:02:28 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9D60BB2066;
- Tue,  1 Sep 2020 13:02:28 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.85.189.250])
- by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  1 Sep 2020 13:02:28 +0000 (GMT)
-Subject: Re: [PATCH] pc-bios/s390x: Pack ResetInfo struct
-To: Thomas Huth <thuth@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org, cohuck@redhat.com
-References: <20200205182126.13010-1-jjherne@linux.ibm.com>
- <e3baa1e0-e1d3-d67c-cca9-a626d42c5489@de.ibm.com>
- <896302f7-ec21-6108-6dde-f5a7439d87ab@redhat.com>
- <caefcdbf-e68c-ba05-2ec4-17f127109434@de.ibm.com>
- <d9891265-2254-ee64-c009-0105f7a8b02b@linux.ibm.com>
- <12e6fb00-bf1c-268b-baee-ccf1eb73bece@redhat.com>
-From: "Jason J. Herne" <jjherne@linux.ibm.com>
-Organization: IBM
-Message-ID: <c5c3abb3-4279-7f4e-4a3c-6346b785fc61@linux.ibm.com>
-Date: Tue, 1 Sep 2020 09:02:28 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kD5vz-0002Ya-7u
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 09:02:50 -0400
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:38270)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kD5vw-0003Y1-D9
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 09:02:46 -0400
+Received: by mail-ed1-x541.google.com with SMTP id c8so1354390edv.5
+ for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 06:02:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iMZrEZKXjCIFEtYK2ltrm7qy4+QL6LNzUVQ2d/yVhyw=;
+ b=N3zAOCnplMf9fAZhZAu6gGjFp+gdpQ4gA2fWvwW0vabF8ldXAw+R0h5hc8AkuPA+Fg
+ Nn5QRU2zq0qz1W0QtqO4xQzYwDsq+HsVWNffqtNTOGRYpf4DsUPSi1XSik8jrXNRGpHu
+ grdUVTPrCMAyjFHQ0uPFFnwzEGNF/XycO7CTQ4DhhENhDnJj2WfT8GvJ0fBzGjKAQLth
+ 2k90A5OuQgfd4hazm76WnzRv1CDfyTJ84+lfx9X5ECAtvl11fLkx7+VLUneyPAX0TTUa
+ 26xzgjbxd9ZiBdpxCrKnsscao7TwCXhf8epSjoaeRldMzfODOcSmLAEyZsApDXqZa/qs
+ QtbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iMZrEZKXjCIFEtYK2ltrm7qy4+QL6LNzUVQ2d/yVhyw=;
+ b=T212evd980/m+UBlFAuESYyFQOpW0j7TN7Yd2YGPqrJKGSw6FfTRJJOh8FG7Z2ZsAK
+ YGbQ3So7CzcH9F4wmTJ9qmWrDb/fh3zIzCiLWAAwQd+tkQ+t9GVshQmoJbQuaG8HrEnf
+ MpIvm0Wp8U+/oTTXpaY25cD4UDN/rUxf6UgNy9VMPOLA8jNDHhHtTAuLDjyT2TJCjmoH
+ hLLLerz3JZ1+ok5Gh9NbVYHdyxgE2T5Ke2NVtcG7VBE1tSFRuptS9wRTpavX3qKmOW+c
+ q7DnAEmBuExoTKM5JA5qQKmGVttoQE8GUXnA6WJqiM8sVeHLEcG3INVPjtjgEVQUuN+v
+ ZPlA==
+X-Gm-Message-State: AOAM533bCThTF+QEPTB2L4fRRaOzdbI3c54A5R/vvpXWWih+hmeJTKou
+ jyEZ9qZerUT8bbaxqqFtLvXaEznBbITSwNApiGYI6Q==
+X-Google-Smtp-Source: ABdhPJzrnbxS9isRX3Z+TgMgj3Ft6NUFpGHRfj6G0hXZ0IaS70Id3yvSFqDzKRDZHPPCRZ75pC39NfysFu1FA7hMht0=
+X-Received: by 2002:aa7:d596:: with SMTP id r22mr1669768edq.204.1598965362824; 
+ Tue, 01 Sep 2020 06:02:42 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <12e6fb00-bf1c-268b-baee-ccf1eb73bece@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-09-01_08:2020-09-01,
- 2020-09-01 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=908
- malwarescore=0 phishscore=0 suspectscore=0 adultscore=0 spamscore=0
- priorityscore=1501 mlxscore=0 bulkscore=0 impostorscore=0 clxscore=1015
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009010109
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=jjherne@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 09:02:31
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -47
-X-Spam_score: -4.8
-X-Spam_bar: ----
-X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.13,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20200826141952.136164-1-graeme@nuviainc.com>
+In-Reply-To: <20200826141952.136164-1-graeme@nuviainc.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 1 Sep 2020 14:02:28 +0100
+Message-ID: <CAFEAcA8Kuk4XZ6W9D77nVphH=-vaFF4ciDOJmUTGSuckjT8=TA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] Add an embedded controller to sbsa-ref machine
+To: Graeme Gregory <graeme@nuviainc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::541;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -118,61 +78,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: jjherne@linux.ibm.com
+Cc: Leif Lindholm <leif@nuviainc.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Radoslaw Biernacki <rad@semihalf.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/27/20 6:07 AM, Thomas Huth wrote:
-> On 07/02/2020 15.02, Jason J. Herne wrote:
->> On 2/7/20 6:28 AM, Christian Borntraeger wrote:
->>> Jason,
->>>
->>> can you run objdump -Sdr on jump2ipl.o on a broken variant?
->>>
->>>
->> To keep the volume lower, I've only pasted the output that I think
->> you're interested in. If you want to see the entire thing just let me know.
->>
->> static void jump_to_IPL_2(void)
->> {
->>   1d0:    eb bf f0 58 00 24     stmg    %r11,%r15,88(%r15)
->>   1d6:    a7 fb ff 50           aghi    %r15,-176
->>   1da:    b9 04 00 bf           lgr    %r11,%r15
->>      ResetInfo *current = 0;
->>   1de:    a7 19 00 00           lghi    %r1,0
->>   1e2:    e3 10 b0 a8 00 24     stg    %r1,168(%r11)
->>
->>      void (*ipl)(void) = (void *) (uint64_t) current->ipl_continue;
->>   1e8:    e3 10 b0 a8 00 04     lg    %r1,168(%r11)
->>   1ee:    58 10 10 08           l    %r1,8(%r1)
->>   1f2:    b9 16 00 11           llgfr    %r1,%r1
->>   1f6:    e3 10 b0 a0 00 24     stg    %r1,160(%r11)
->>      *current = save;
->>   1fc:    e3 10 b0 a8 00 04     lg    %r1,168(%r11)
->>   202:    c0 20 00 00 00 00     larl    %r2,202 <jump_to_IPL_2+0x32>
->>              204: R_390_PC32DBL    .bss+0x2
->>   208:    eb 23 20 00 00 04     lmg    %r2,%r3,0(%r2)
->>   20e:    eb 23 10 00 00 24     stmg    %r2,%r3,0(%r1)
->>      ipl(); /* should not return */
->>   214:    e3 10 b0 a0 00 04     lg    %r1,160(%r11)
->>   21a:    0d e1                 basr    %r14,%r1
->> }
->>   21c:    18 00                 lr    %r0,%r0
->>   21e:    eb bf b1 08 00 04     lmg    %r11,%r15,264(%r11)
->>   224:    07 fe                 br    %r14
->>   226:    07 07                 nopr    %r7
-> 
-> I'm currently looking through the past s390-ccw bios patches that still
-> might need attention ... was there ever a follow up on this discussion?
-> Do we need to clear the registers before jumping to the OS?
-> And looking at the disassembly, should we declar the ipl function
-> pointer with __attribute__((noreturn)) ?
-> 
+On Wed, 26 Aug 2020 at 15:19, Graeme Gregory <graeme@nuviainc.com> wrote:
+>
+> This series is to an add embedded controller to the sbsa-ref machine
+> so that PSCI can communicate platform power states to the platform
+> which in this case is QEMU.
+>
+> v1->v2
+>  - broke out the EC itself as hw/misc/sbsa_ec.c as seperate patch
+>  - applied review comments to date
+>
 
-Janosch has done some cleanup work that has not hit master yet. This work, if accepted, 
-would fix this problem and eliminate the need for this patch. So I think we should wait to 
-see how that plays out before we revisit this.
 
--- 
--- Jason J. Herne (jjherne@linux.ibm.com)
+
+Applied to target-arm.next, thanks.
+
+-- PMM
 
