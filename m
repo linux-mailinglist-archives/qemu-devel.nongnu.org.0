@@ -2,68 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93CDF25A1AA
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 00:51:50 +0200 (CEST)
-Received: from localhost ([::1]:42658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4869225A1C9
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 01:03:58 +0200 (CEST)
+Received: from localhost ([::1]:45532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDF81-0007vX-2c
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 18:51:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45662)
+	id 1kDFJk-0001bH-QO
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 19:03:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com>)
- id 1kDF71-0007Wp-GI
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 18:50:47 -0400
-Received: from do158-143.mg.gitlab.com ([192.237.158.143]:31952)
+ (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
+ id 1kDFIw-0001Az-5q
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 19:03:06 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:52734)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1)
- (envelope-from <bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com>)
- id 1kDF6y-0003za-Rp
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 18:50:47 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.gitlab.com;
- q=dns/txt; 
- s=mailo; t=1599000644; h=List-Id: Content-Transfer-Encoding:
- Content-Type: Mime-Version: Subject: Message-ID: Reply-To: From: Date:
- Sender; bh=G7755Gui4s6Zdaropp6DmBMi3zewATFXI/Ey409rL8k=;
- b=mlcZI32s2LviK3XP6qIF9mTLFYL05qg92CTTblWF8JBsCjQPvRN4k9pOzdQGUF35qD7Z+Gm1
- FdByAT5djooaRE1wvlYT5BiooT0P20gdM5jMM0PZxc/V1XPwk0q9aaDfycyT7ZiRnIOQcX/F
- m4iBPpYPtkAeeEwiqfCzDnlJR8Y=
-X-Mailgun-Sending-Ip: 192.237.158.143
-X-Mailgun-Sid: WyI3MWYzYSIsICJxZW11LWRldmVsQG5vbmdudS5vcmciLCAiOTQ3YjQiXQ==
-Received: from mg.gitlab.com (65.90.74.34.bc.googleusercontent.com
- [34.74.90.65]) by smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
- 5f4ed0424ba82a82fd29ef20 (version=TLS1.3, cipher=TLS_AES_128_GCM_SHA256);
- Tue, 01 Sep 2020 22:50:42 GMT
-Date: Tue, 01 Sep 2020 22:50:41 +0000
-Message-ID: <5f4ed0416abb6_41ce3fa02547ba585207db@sidekiq-catchall-02-sv-gprd.mail>
-Subject: QEMU | Pipeline #184542228 has failed for master | 8d90bfc5
-Mime-Version: 1.0
+ (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
+ id 1kDFIq-0005Nt-7z
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 19:03:05 -0400
+Received: by mail-wm1-x333.google.com with SMTP id q9so2637466wmj.2
+ for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 16:02:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=message-id:mime-version:from:to:date:subject;
+ bh=SHV6GUYqimQItxw/Dri73yx6aVBp+GJl9w6Bv/WzWC4=;
+ b=u0gTkCwRIC2D/rEXfJoPO2GIyx0b9a3r3lSdZeDrQE5N9lK8JoLIXy42CY5NZfHCqo
+ p7KTWmaoEPmV3+ndIamI1RQ8zgJqW3/wPkYhUDvFhKhS3qar1LBRjlVcuVrhjDTS5J9/
+ 8ORUqShgDOx+JHnnaLXkCV363SyaRtJeMAPItKEV9BlRAIVFeb5uXIkV5vXRKOsMNVg/
+ h2jXUbVBC9zyEBhjaR2gCVKx0oBnRniROLe++cEwJ3JBeUahcei9aNz5CNyGO0JIh7GQ
+ OBLLI1+pld4zr8nIy8yw8W1mddQGEf88oBVig/rYSWL3c2R1//MOfSwgigHTqYJLlym9
+ x5QA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:mime-version:from:to:date:subject;
+ bh=SHV6GUYqimQItxw/Dri73yx6aVBp+GJl9w6Bv/WzWC4=;
+ b=A3WrySKPHtKMw4K0Wt73xO2VMdCQohPnlqK8Zi4D/7GKmHTOqx4DiyQ4DXvq55oR43
+ 3OCMD1nE3bLY2wXZhNn4V5YGJYOnOtv1qA0qBAqsLxl3Abkf60OM3DA15SRLcAdSjs4y
+ lhLrYYakinBSJC5//8PQOfCX5W1xnTNRpbKA8sx7LjXWf0qy4fMlYiBsToaOYCc2Is2p
+ Lc5yOStaehyTycreVYxjT48Guc0+emhUksXwBMIinPd2DZzOVYJWsy4dV9Oglw6GSWky
+ fnqwfY3InvHYKqbVx06BC792xH4QXInLe7Yi7IIeaA6vNy5iXZsJElYwJrf9r8GwiIcV
+ drGA==
+X-Gm-Message-State: AOAM5324eKZpxV5JXALqWMQq55Yvtgiyz+Qtmb2ScHSeHdazg/EL8QUI
+ TWKHvHSaDlFqTPg5E4wWfKFfYuaRHfY=
+X-Google-Smtp-Source: ABdhPJwYQpz25SQLjQeV30nUvGyCdr4+QJPaDgVvu6J+N8IMwedP1gq3uvqN0YAq0HZuS8+ZTuSqpg==
+X-Received: by 2002:a1c:a185:: with SMTP id k127mr4030057wme.142.1599001376340; 
+ Tue, 01 Sep 2020 16:02:56 -0700 (PDT)
+Received: from [127.0.1.1] ([197.58.14.227])
+ by smtp.gmail.com with ESMTPSA id k184sm3643485wme.1.2020.09.01.16.02.53
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Sep 2020 16:02:55 -0700 (PDT)
+Message-ID: <5f4ed31f.1c69fb81.eef5a.bf6f@mx.google.com>
 Content-Type: multipart/alternative;
- boundary="--==_mimepart_5f4ed04125af4_41ce3fa02547ba5852065";
- charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-GitLab-Project: QEMU
-X-GitLab-Project-Id: 11167699
-X-GitLab-Project-Path: qemu-project/qemu
-X-GitLab-Pipeline-Id: 184542228
-X-GitLab-Pipeline-Ref: master
-X-GitLab-Pipeline-Status: failed
-Auto-Submitted: auto-generated
-X-Auto-Response-Suppress: All
-Received-SPF: pass client-ip=192.237.158.143;
- envelope-from=bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com;
- helo=do158-143.mg.gitlab.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 17:09:43
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -16
-X-Spam_score: -1.7
+ boundary="===============8620899110224784868=="
+MIME-Version: 1.0
+From: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
+To: qemu-devel@nongnu.org
+Date: Wed, 02 Sep 2020 01:02:51 +0200
+Subject: [REPORT] Nightly Performance Tests - Tuesday, September 1, 2020
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=ahmedkhaledkaraman@gmail.com; helo=mail-wm1-x333.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -11
+X-Spam_score: -1.2
 X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HTML_FONT_LOW_CONTRAST=0.001, HTML_MESSAGE=0.001, MISSING_HEADERS=1.021,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, REPLYTO_WITHOUT_TO_CC=1.552,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, MIME_HTML_ONLY=0.1, MIME_HTML_ONLY_MULTI=0.001,
+ MPART_ALT_DIFF=0.79, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,497 +84,239 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: GitLab <noreply@gitlab.com>, GitLab <gitlab@mg.gitlab.com>
-From: GitLab via <qemu-devel@nongnu.org>
+
+--===============8620899110224784868==
+Content-Type: text/html; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+
+<html><body><pre>
+Host CPU         : Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz
+Host Memory      : 15.49 GB
+
+Start Time (UTC) : 2020-09-01 22:30:02
+End Time (UTC)   : 2020-09-01 23:02:51
+Execution Time   : 0:32:49.638129
+
+Status           : SUCCESS
+
+Note:
+Changes denoted by '-----' are less than 0.01%.
+
+--------------------------------------------------------
+            SUMMARY REPORT - COMMIT 8d90bfc5
+--------------------------------------------------------
+                    AVERAGE RESULTS
+--------------------------------------------------------
+Target              Instructions      Latest      v5.1.0
+----------  --------------------  ----------  ----------
+aarch64            2 158 350 999       -----     +1.693%
+alpha              1 914 981 010       -----     +3.525%
+arm                8 076 531 001       -----     +2.308%
+hppa               4 261 662 287       -----     +3.163%
+m68k               2 690 302 840       -----     +7.135%
+mips               1 862 054 380       -----     +2.495%
+mipsel             2 008 241 001       -----     +2.676%
+mips64             1 918 633 852       -----     +2.818%
+mips64el           2 051 567 365       -----     +3.026%
+ppc                2 480 164 517       -----     +3.109%
+ppc64              2 576 708 166       -----     +3.142%
+ppc64le            2 558 867 362       -----     +3.174%
+riscv64            1 406 721 465       -----     +2.651%
+s390x              3 158 148 058       -----     +3.119%
+sh4                2 364 478 840       -----     +3.333%
+sparc64            3 318 819 982       -----     +3.861%
+x86_64             1 775 817 408       -----     +2.157%
+--------------------------------------------------------
+
+                   DETAILED RESULTS
+--------------------------------------------------------
+Test Program: dijkstra_double
+--------------------------------------------------------
+Target              Instructions      Latest      v5.1.0
+----------  --------------------  ----------  ----------
+aarch64            3 062 583 254       -----     +1.424%
+alpha              3 191 875 753       -----     +3.696%
+arm               16 357 301 960       -----     +2.348%
+hppa               7 228 378 025       -----     +3.086%
+m68k               4 294 068 499       -----     +9.693%
+mips               3 051 468 311       -----     +2.428%
+mipsel             3 231 549 756       -----      +2.87%
+mips64             3 245 827 156       -----     +2.596%
+mips64el           3 414 230 354       -----     +3.022%
+ppc                4 914 550 074       -----      +4.74%
+ppc64              5 098 147 947       -----     +4.565%
+ppc64le            5 082 418 836       -----      +4.58%
+riscv64            2 192 306 931       -----     +1.956%
+s390x              4 584 596 667       -----     +2.898%
+sh4                3 949 069 729       -----     +3.465%
+sparc64            4 586 225 467       -----     +4.238%
+x86_64             2 484 124 345       -----     +1.752%
+--------------------------------------------------------
+--------------------------------------------------------
+Test Program: dijkstra_int32
+--------------------------------------------------------
+Target              Instructions      Latest      v5.1.0
+----------  --------------------  ----------  ----------
+aarch64            2 210 199 232       -----     +1.494%
+alpha              1 494 147 129       -----     +2.151%
+arm                8 263 046 429       -----     +2.667%
+hppa               5 207 295 544       -----     +3.046%
+m68k               1 725 886 990       -----     +2.528%
+mips               1 495 261 093       -----     +1.494%
+mipsel             1 497 168 507       -----      +1.48%
+mips64             1 715 429 703       -----     +1.894%
+mips64el           1 695 229 035       -----      +1.91%
+ppc                2 014 590 358       -----     +1.821%
+ppc64              2 206 264 813       -----     +2.138%
+ppc64le            2 198 017 266       -----     +2.147%
+riscv64            1 354 917 032       -----     +2.396%
+s390x              2 916 104 780       -----     +1.236%
+sh4                1 990 565 824       -----     +2.671%
+sparc64            2 874 261 717       -----     +3.831%
+x86_64             1 554 014 845       -----     +2.122%
+--------------------------------------------------------
+--------------------------------------------------------
+Test Program: matmult_double
+--------------------------------------------------------
+Target              Instructions      Latest      v5.1.0
+----------  --------------------  ----------  ----------
+aarch64            1 412 256 280       -----       +0.3%
+alpha              3 234 002 720       -----     +7.474%
+arm                8 545 305 325       -----      +1.09%
+hppa               3 483 506 497       -----     +4.466%
+m68k               3 919 120 341       -----    +18.433%
+mips               2 344 798 117       -----     +4.092%
+mipsel             3 329 921 914       -----     +5.178%
+mips64             2 359 037 334       -----     +4.075%
+mips64el           3 343 652 736       -----     +5.166%
+ppc                3 209 486 564       -----     +3.247%
+ppc64              3 287 498 098       -----     +3.173%
+ppc64le            3 287 188 859       -----     +3.173%
+riscv64            1 221 642 452       -----      +0.28%
+s390x              2 874 172 518       -----     +5.826%
+sh4                3 543 976 810       -----     +6.417%
+sparc64            3 426 216 148       -----     +7.141%
+x86_64             1 248 950 444       -----     +0.325%
+--------------------------------------------------------
+--------------------------------------------------------
+Test Program: matmult_int32
+--------------------------------------------------------
+Target              Instructions      Latest      v5.1.0
+----------  --------------------  ----------  ----------
+aarch64              598 685 511       -----     +0.586%
+alpha                372 454 280       -----     +0.681%
+arm                  746 704 042     +0.014%     +1.479%
+hppa                 674 249 118       -----     +1.179%
+m68k                 410 582 785       -----     +0.922%
+mips                 499 720 374       -----     +0.535%
+mipsel               499 533 155       -----     +0.504%
+mips64               481 545 031       -----     +0.597%
+mips64el             465 064 506       -----     +0.621%
+ppc                  341 362 029       -----     +0.952%
+ppc64                393 787 545       -----     +0.964%
+ppc64le              393 992 576       -----     +0.968%
+riscv64              351 720 561       -----     +0.788%
+s390x                494 459 676       -----     +0.606%
+sh4                  402 704 215       -----     +0.908%
+sparc64              495 981 990       -----     +1.198%
+x86_64               402 961 505       -----     +0.841%
+--------------------------------------------------------
+--------------------------------------------------------
+Test Program: qsort_double
+--------------------------------------------------------
+Target              Instructions      Latest      v5.1.0
+----------  --------------------  ----------  ----------
+aarch64            2 709 683 813       -----     +2.417%
+alpha              1 969 476 546       -----     +3.681%
+arm                8 323 168 021       -----     +2.589%
+hppa               3 188 296 012       -----       +2.9%
+m68k               4 953 957 076       -----    +15.153%
+mips               2 123 943 136       -----     +3.057%
+mipsel             2 124 247 560       -----     +3.049%
+mips64             1 999 038 487       -----     +3.405%
+mips64el           1 996 433 059       -----     +3.409%
+ppc                2 819 283 467       -----     +5.435%
+ppc64              2 768 180 707       -----     +5.512%
+ppc64le            2 724 819 194       -----     +5.604%
+riscv64            1 638 349 718       -----     +4.022%
+s390x              2 519 130 148       -----     +3.364%
+sh4                2 595 578 101       -----     +2.995%
+sparc64            3 989 014 331       -----     +2.748%
+x86_64             2 033 500 441       -----     +3.236%
+--------------------------------------------------------
+--------------------------------------------------------
+Test Program: qsort_int32
+--------------------------------------------------------
+Target              Instructions      Latest      v5.1.0
+----------  --------------------  ----------  ----------
+aarch64            2 193 401 154       -----     +2.916%
+alpha              1 521 305 722       -----     +4.194%
+arm                3 465 582 409       -----      +2.76%
+hppa               2 280 014 178       -----      +3.82%
+m68k               1 843 195 878       -----     +3.584%
+mips               1 558 052 910       -----     +3.864%
+mipsel             1 560 658 212       -----     +3.851%
+mips64             1 563 411 693       -----     +4.412%
+mips64el           1 542 686 339       -----     +4.475%
+ppc                1 728 731 416       -----     +3.667%
+ppc64              1 842 438 893       -----     +3.555%
+ppc64le            1 791 837 077       -----     +3.662%
+riscv64            1 348 906 013       -----     +4.657%
+s390x              2 184 095 700       -----      +3.32%
+sh4                1 946 526 215       -----     +3.626%
+sparc64            3 452 242 095       -----     +2.938%
+x86_64             1 813 577 234       -----     +3.539%
+--------------------------------------------------------
+--------------------------------------------------------
+Test Program: qsort_string
+--------------------------------------------------------
+Target              Instructions      Latest      v5.1.0
+----------  --------------------  ----------  ----------
+aarch64            2 592 201 490       -----     +2.467%
+alpha              1 855 848 469       -----     +3.488%
+arm                7 347 826 305       -----     +2.684%
+hppa               4 758 735 014       -----     +3.542%
+m68k               2 376 791 024       -----     +3.566%
+mips               2 166 602 314       -----     +2.532%
+mipsel             2 163 392 855       -----     +2.528%
+mips64             2 029 247 583       -----     +3.117%
+mips64el           2 011 636 779       -----     +3.145%
+ppc                2 492 952 321       -----     +2.673%
+ppc64              2 464 696 579       -----     +2.487%
+ppc64le            2 445 268 891       -----     +2.506%
+riscv64            1 625 059 833       -----     +3.954%
+s390x              4 194 627 835       -----     +6.623%
+sh4                2 164 157 870       -----     +3.167%
+sparc64            4 299 516 447       -----     +4.065%
+x86_64             2 940 037 651       -----     +2.634%
+--------------------------------------------------------
+--------------------------------------------------------
+Test Program: search_string
+--------------------------------------------------------
+Target              Instructions      Latest      v5.1.0
+----------  --------------------  ----------  ----------
+aarch64            2 487 797 262       -----     +1.939%
+alpha              1 680 737 463       -----     +2.836%
+arm               11 563 313 522       -----     +2.849%
+hppa               7 272 823 910       -----     +3.263%
+m68k               1 998 820 131       -----     +3.198%
+mips               1 656 588 785       -----     +1.959%
+mipsel             1 659 456 049       -----     +1.947%
+mips64             1 955 533 834       -----     +2.447%
+mips64el           1 943 606 112       -----     +2.463%
+ppc                2 320 359 914       -----     +2.333%
+ppc64              2 552 650 749       -----     +2.742%
+ppc64le            2 547 396 197       -----     +2.749%
+riscv64            1 520 869 186       -----     +3.159%
+s390x              5 497 997 146       -----     +1.078%
+sh4                2 323 251 963       -----     +3.411%
+sparc64            3 427 101 663       -----      +4.73%
+x86_64             1 729 372 801       -----     +2.807%
+--------------------------------------------------------
 
 
-----==_mimepart_5f4ed04125af4_41ce3fa02547ba5852065
-Content-Type: text/plain;
- charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+</pre></body></html>
 
-
-
-Your pipeline has failed.
-
-Project: QEMU ( https://gitlab.com/qemu-project/qemu )
-Branch: master ( https://gitlab.com/qemu-project/qemu/-/commits/master )
-
-Commit: 8d90bfc5 ( https://gitlab.com/qemu-project/qemu/-/commit/8d90bfc5=
-c31ad60f6049dd39be636b06bc00b652 )
-Commit Message: Merge remote-tracking branch 'remotes/pmaydell/...
-Commit Author: Peter Maydell ( https://gitlab.com/pm215 )
-
-Pipeline #184542228 ( https://gitlab.com/qemu-project/qemu/-/pipelines/18=
-4542228 ) triggered by Alex Benn=C3=A9e ( https://gitlab.com/stsquad )
-had 1 failed build.
-
-Job #714694543 ( https://gitlab.com/qemu-project/qemu/-/jobs/714694543/ra=
-w )
-
-Stage: test
-Name: acceptance-system-centos
-Trace: 22:36:11 ERROR|   File "/builds/qemu-project/qemu/python/qemu/mach=
-ine.py", line 342, in launch
-    self._launch()
-
-22:36:11 ERROR|   File "/builds/qemu-project/qemu/python/qemu/machine.py"=
-, line 369, in _launch
-    self._post_launch()
-
-22:36:11 ERROR|   File "/builds/qemu-project/qemu/python/qemu/machine.py"=
-, line 288, in _post_launch
-    self._qmp.accept()
-
-22:36:11 ERROR|   File "/builds/qemu-project/qemu/python/qemu/qmp.py", li=
-ne 236, in accept
-    return self.__negotiate_capabilities()
-
-22:36:11 ERROR|   File "/builds/qemu-project/qemu/python/qemu/qmp.py", li=
-ne 129, in __negotiate_capabilities
-    resp =3D self.cmd('qmp_capabilities')
-
-22:36:11 ERROR|   File "/builds/qemu-project/qemu/python/qemu/qmp.py", li=
-ne 266, in cmd
-    return self.cmd_obj(qmp_cmd)
-
-22:36:11 ERROR|   File "/builds/qemu-project/qemu/python/qemu/qmp.py", li=
-ne 249, in cmd_obj
-    raise QMPConnectError("Unexpected empty reply from server")
-
-22:36:11 ERROR| qemu.qmp.QMPConnectError: Unexpected empty reply from ser=
-ver
-
-22:36:11 ERROR| ERROR 34-tests/acceptance/vnc.py:Vnc.test_change_password=
- -> QMPConnectError: Unexpected empty reply from server
-22:36:11 INFO | =
-
-=1B[32;1m$ du -chs ${CI_PROJECT_DIR}/avocado-cache=1B[0;m
-1.2G	/builds/qemu-project/qemu/avocado-cache
-1.2G	total
-section_end:1598999776:after_script
-=1B[0K=1B[31;1mERROR: Job failed: exit code 1
-=1B[0;m
-
-
--- =
-
-You're receiving this email because of your account on gitlab.com.
-
-
-
-
-----==_mimepart_5f4ed04125af4_41ce3fa02547ba5852065
-Content-Type: text/html;
- charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://ww=
-w.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns=3D"http://www.w3.org/1999/xhtml" lang=3D"en" xml:lang=3D"en">=
-
-<head>
-<meta content=3D"text/html; charset=3DUTF-8" http-equiv=3D"Content-Type" =
-/>
-<meta content=3D"width=3Ddevice-width, initial-scale=3D1" name=3D"viewpor=
-t" />
-<meta content=3D"IE=3Dedge" http-equiv=3D"X-UA-Compatible" />
-<title>QEMU | Pipeline #184542228 has failed for master | 8d90bfc5</title=
->
-<style data-premailer=3D"ignore" type=3D"text/css">
-body,table,td,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}t=
-able,td{mso-table-lspace:0pt;mso-table-rspace:0pt}img{-ms-interpolation-m=
-ode:bicubic}.hidden{display:none !important;visibility:hidden !important}=
-a[x-apple-data-detectors]{color:inherit !important;text-decoration:none !=
-important;font-size:inherit !important;font-family:inherit !important;fon=
-t-weight:inherit !important;line-height:inherit !important}div[style*=3D'=
-margin: 16px 0']{margin:0 !important}@media only screen and (max-width: 6=
-39px){body,#body{min-width:320px !important}table.wrapper{width:100% !imp=
-ortant;min-width:320px !important}table.wrapper td.wrapper-cell{border-le=
-ft:0 !important;border-right:0 !important;border-radius:0 !important;padd=
-ing-left:10px !important;padding-right:10px !important}}
-
-</style>
-
-<style>body {
-margin: 0 !important; background-color: #fafafa; padding: 0; text-align: =
-center; min-width: 640px; width: 100%; height: 100%; font-family: "Helvet=
-ica Neue", Helvetica, Arial, sans-serif;
-}
-</style></head>
-<body style=3D"text-align: center; min-width: 640px; width: 100%; height:=
- 100%; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-se=
-rif; margin: 0; padding: 0;" bgcolor=3D"#fafafa">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" id=3D"body" style=
-=3D"text-align: center; min-width: 640px; width: 100%; margin: 0; padding=
-: 0;" bgcolor=3D"#fafafa">
-<tbody>
-<tr class=3D"line">
-<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
-ans-serif; height: 4px; font-size: 4px; line-height: 4px;" bgcolor=3D"#6b=
-4fbb"></td>
-</tr>
-<tr class=3D"header">
-<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
-ans-serif; font-size: 13px; line-height: 1.6; color: #5c5c5c; padding: 25=
-px 0;">
-
-<img alt=3D"GitLab" src=3D"https://gitlab.com/assets/mailers/gitlab_heade=
-r_logo-153749eaa7ea6fafcb995161abd3247bc4c4500f31498b0c4024f50093983ac0.g=
-if" width=3D"55" height=3D"50" />
-</td>
-</tr>
-<tr>
-<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
-ans-serif;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"wrapper"=
- style=3D"width: 640px; border-collapse: separate; border-spacing: 0; mar=
-gin: 0 auto;">
-<tbody>
-<tr>
-<td class=3D"wrapper-cell" style=3D"font-family: &quot;Helvetica Neue&quo=
-t;, Helvetica, Arial, sans-serif; border-radius: 3px; overflow: hidden; p=
-adding: 18px 25px; border: 1px solid #ededed;" align=3D"left" bgcolor=3D"=
-#fff">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"content"=
- style=3D"width: 100%; border-collapse: separate; border-spacing: 0;">
-<tbody>
-<tr class=3D"alert">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
-rder-radius: 3px; font-size: 14px; line-height: 1.3; overflow: hidden; co=
-lor: #ffffff; padding: 10px;" align=3D"center" bgcolor=3D"#d22f57">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse; margin: 0 auto;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #ffffff; padding-right: 5px; line-height: 1;" align=3D"center" valig=
-n=3D"middle">
-<img alt=3D"&#10006;" height=3D"13" src=3D"https://gitlab.com/assets/mail=
-ers/ci_pipeline_notif_v1/icon-x-red-inverted-06edddd39ba2a7f9a32f6201e420=
-175db85a4b6ac0348203fdc069001b440149.gif" style=3D"display: block;" width=
-=3D"13" />
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #ffffff;" align=3D"center" valign=3D"middle">
-Your pipeline has failed.
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr class=3D"spacer">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; he=
-ight: 18px; font-size: 18px; line-height: 18px;">
-&#160;
-</td>
-</tr>
-<tr class=3D"section">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
-rder-radius: 3px; overflow: hidden; padding: 0 15px; border: 1px solid #e=
-deded;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"table-in=
-fo" style=3D"width: 100%;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; margin=
-: 0; padding: 14px 0;">Project</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
- 75%; margin: 0; padding: 14px 0 14px 5px;">
-<a class=3D"muted" href=3D"https://gitlab.com/qemu-project" style=3D"colo=
-r: #333333; text-decoration: none;">
-QEMU
-</a>
-/
-<a class=3D"muted" href=3D"https://gitlab.com/qemu-project/qemu" style=3D=
-"color: #333333; text-decoration: none;">
-QEMU
-</a>
-</td>
-</tr>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
--top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
-in: 0; padding: 14px 0;">Branch</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
- 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
- solid; margin: 0; padding: 14px 0 14px 5px;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
-<img alt=3D"" height=3D"13" src=3D"https://gitlab.com/assets/mailers/ci_p=
-ipeline_notif_v1/icon-branch-gray-53618a7fc19d4d32ccbabac2f6d59bebe67202a=
-9f2f1255e3f72c69756c0dd9c.gif" style=3D"display: block;" width=3D"13" />
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4;" valign=3D"middle">
-<a class=3D"muted" href=3D"https://gitlab.com/qemu-project/qemu/-/commits=
-/master" style=3D"color: #333333; text-decoration: none;">
-master
-</a>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
--top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
-in: 0; padding: 14px 0;">Commit</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; font-weight: 400; color: #333333; width:=
- 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
- solid; margin: 0; padding: 14px 0 14px 5px;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
-<img alt=3D"" height=3D"13" src=3D"https://gitlab.com/assets/mailers/ci_p=
-ipeline_notif_v1/icon-commit-gray-c10243ac24cde64b549aec91de35e6b49c8739b=
-506b86472b54614c10d8b4aac.gif" style=3D"display: block;" width=3D"13" />
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4;" valign=3D"middle">
-<a href=3D"https://gitlab.com/qemu-project/qemu/-/commit/8d90bfc5c31ad60f=
-6049dd39be636b06bc00b652" style=3D"color: #3777b0; text-decoration: none;=
-">
-8d90bfc5
-</a>
-</td>
-</tr>
-</tbody>
-</table>
-<div class=3D"commit" style=3D"color: #5c5c5c; font-weight: 300;">
-Merge remote-tracking branch 'remotes/pmaydell/...
-</div>
-</td>
-</tr>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
--top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
-in: 0; padding: 14px 0;">Commit Author</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
- 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
- solid; margin: 0; padding: 14px 0 14px 5px;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
-<img alt=3D"" class=3D"avatar" height=3D"24" src=3D"https://secure.gravat=
-ar.com/avatar/98261ce19b4e9da714d577154686723a?s=3D48&amp;d=3Didenticon" =
-style=3D"display: block; border-radius: 12px; margin: -2px 0;" width=3D"2=
-4" />
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4;" valign=3D"middle">
-<a class=3D"muted" href=3D"https://gitlab.com/pm215" style=3D"color: #333=
-333; text-decoration: none;">
-Peter Maydell
-</a>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr class=3D"spacer">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; he=
-ight: 18px; font-size: 18px; line-height: 18px;">
-&#160;
-</td>
-</tr>
-<tr class=3D"pre-section">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #333333; font-size: 15px; font-weight: 400; line-height: 1.4; paddin=
-g: 15px 5px 0;" align=3D"center">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse; margin: 0 auto;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; font-weight: 500; line-height: 1.4;" valign=3D"baseline">
-Pipeline
-<a href=3D"https://gitlab.com/qemu-project/qemu/-/pipelines/184542228" st=
-yle=3D"color: #3777b0; text-decoration: none;">
-#184542228
-</a>
-triggered by
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; padding-right: 5px; padding-left: 5px;" =
-width=3D"24" valign=3D"middle">
-<img alt=3D"" class=3D"avatar" height=3D"24" src=3D"https://secure.gravat=
-ar.com/avatar/a7d7f408c0b3370bbbeb98833d6c50e4?s=3D48&amp;d=3Didenticon" =
-style=3D"display: block; border-radius: 12px; margin: -2px 0;" width=3D"2=
-4" />
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; font-weight: 500; line-height: 1.4;" valign=3D"baseline">
-<a class=3D"muted" href=3D"https://gitlab.com/stsquad" style=3D"color: #3=
-33333; text-decoration: none;">
-Alex Benn&#233;e
-</a>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr>
-<td colspan=3D"2" style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,=
-sans-serif; color: #333333; font-size: 14px; font-weight: 400; line-heigh=
-t: 1.4; padding: 0 8px 16px;" align=3D"center">
-had
-1
-failed
-build.
-</td>
-</tr>
-<tr class=3D"table-warning">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
-rder-radius: 4px 4px 0 0; overflow: hidden; color: #d22852; font-size: 14=
-px; line-height: 1.4; padding: 8px 16px; border-color: #ededed; border-st=
-yle: solid; border-width: 1px 1px 0;" align=3D"center" bgcolor=3D"#fdf4f6=
-">
-Logs may contain sensitive data. Please consider before forwarding this e=
-mail.
-</td>
-</tr>
-<tr class=3D"section">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; ov=
-erflow: hidden; border-radius: 0 0 4px 4px; padding: 0 16px; border-color=
-: #ededed; border-style: solid; border-width: 0 1px 1px;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"builds" =
-style=3D"width: 100%; border-collapse: collapse;">
-<tbody>
-<tr class=3D"build-state">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #8c8c8c; font-weight: 500; font-size: 14px; padding: 16px 0;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #d22f57; font-weight: 500; font-size: 16px; padding-right: 8px; line=
--height: 10px;" valign=3D"middle">
-<img alt=3D"&#10006;" height=3D"10" src=3D"https://gitlab.com/assets/mail=
-ers/ci_pipeline_notif_v1/icon-x-red-67056b7b99899e30453df79abfbe16162f6a2=
-6ed789d8236f81afcaea216ffe6.gif" style=3D"display: block;" width=3D"10" /=
->
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #8c8c8c; font-weight: 500; font-size: 14px;" valign=3D"middle">
-test
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-<td align=3D"right" style=3D"font-family: 'Helvetica Neue',Helvetica,Aria=
-l,sans-serif; color: #8c8c8c; font-weight: 500; font-size: 14px; padding:=
- 16px 0;">
-<a href=3D"https://gitlab.com/qemu-project/qemu/-/jobs/714694543" style=3D=
-"color: #3777b0; text-decoration: none;">
-acceptance-system-centos
-</a>
-
-</td>
-</tr>
-<tr class=3D"build-log">
-<td colspan=3D"2" style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,=
-sans-serif; padding: 0 0 16px;">
-<pre style=3D"font-family: Monaco,'Lucida Console','Courier New',Courier,=
-monospace; background-color: #fafafa; border-radius: 4px; overflow: hidde=
-n; white-space: pre-wrap; word-break: break-all; font-size: 13px; line-he=
-ight: 1.4; color: #333333; margin: 0; padding: 16px 8px;"><span>22:36:11 =
-ERROR|   File "/builds/qemu-project/qemu/python/qemu/machine.py", line 34=
-2, in launch<br />    self._launch()<br /><br />22:36:11 ERROR|   File "/=
-builds/qemu-project/qemu/python/qemu/machine.py", line 369, in _launch<br=
- />    self._post_launch()<br /><br />22:36:11 ERROR|   File "/builds/qem=
-u-project/qemu/python/qemu/machine.py", line 288, in _post_launch<br />  =
-  self._qmp.accept()<br /><br />22:36:11 ERROR|   File "/builds/qemu-proj=
-ect/qemu/python/qemu/qmp.py", line 236, in accept<br />    return self.__=
-negotiate_capabilities()<br /><br />22:36:11 ERROR|   File "/builds/qemu-=
-project/qemu/python/qemu/qmp.py", line 129, in __negotiate_capabilities<b=
-r />    resp =3D self.cmd('qmp_capabilities')<br /><br />22:36:11 ERROR| =
-  File "/builds/qemu-project/qemu/python/qemu/qmp.py", line 266, in cmd<b=
-r />    return self.cmd_obj(qmp_cmd)<br /><br />22:36:11 ERROR|   File "/=
-builds/qemu-project/qemu/python/qemu/qmp.py", line 249, in cmd_obj<br /> =
-   raise QMPConnectError("Unexpected empty reply from server")<br /><br /=
->22:36:11 ERROR| qemu.qmp.QMPConnectError: Unexpected empty reply from se=
-rver<br /><br />22:36:11 ERROR| ERROR 34-tests/acceptance/vnc.py:Vnc.test=
-_change_password -&gt; QMPConnectError: Unexpected empty reply from serve=
-r<br />22:36:11 INFO | <br /></span><span class=3D"term-fg-l-green term-b=
-old">$ du -chs ${CI_PROJECT_DIR}/avocado-cache</span><span><br />1.2G	/bu=
-ilds/qemu-project/qemu/avocado-cache<br />1.2G	total<br /></span><span cl=
-ass=3D"term-fg-l-red term-bold">ERROR: Job failed: exit code 1<br /></spa=
-n></pre>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-
-
-</tbody>
-</table>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-
-<tr class=3D"footer">
-<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
-ans-serif; font-size: 13px; line-height: 1.6; color: #5c5c5c; padding: 25=
-px 0;">
-<img alt=3D"GitLab" height=3D"33" src=3D"https://gitlab.com/assets/mailer=
-s/gitlab_footer_logo-078860f148cc9596195e6bb3fa7db31c30538355576c5c3b569c=
-414902e3d095.gif" width=3D"90" style=3D"display: block; margin: 0 auto 1e=
-m;" />
-<div>
-You're receiving this email because of your account on gitlab.com. <a cla=
-ss=3D"mng-notif-link" href=3D"https://gitlab.com/profile/notifications" s=
-tyle=3D"color: #3777b0; text-decoration: none;">Manage all notifications<=
-/a> &#183; <a class=3D"help-link" href=3D"https://gitlab.com/help" style=3D=
-"color: #3777b0; text-decoration: none;">Help</a>
-</div>
-</td>
-</tr>
-
-<tr>
-<td class=3D"footer-message" style=3D"font-family: &quot;Helvetica Neue&q=
-uot;, Helvetica, Arial, sans-serif; font-size: 13px; line-height: 1.6; co=
-lor: #5c5c5c; padding: 25px 0;">
-
-</td>
-</tr>
-</tbody>
-</table>
-</body>
-</html>
-
-----==_mimepart_5f4ed04125af4_41ce3fa02547ba5852065--
+--===============8620899110224784868==--
 
