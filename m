@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC113258C44
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 12:04:04 +0200 (CEST)
-Received: from localhost ([::1]:34370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEAB4258C71
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 12:12:04 +0200 (CEST)
+Received: from localhost ([::1]:42242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD391-0004AS-PM
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 06:04:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45760)
+	id 1kD3Gl-0001yA-OF
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 06:12:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD35f-0007ae-GC; Tue, 01 Sep 2020 06:00:35 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:60041)
+ id 1kD38J-0003YF-8g; Tue, 01 Sep 2020 06:03:19 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:47005)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD35b-0004lK-Ke; Tue, 01 Sep 2020 06:00:35 -0400
+ id 1kD38F-0004zV-Qw; Tue, 01 Sep 2020 06:03:18 -0400
 Received: from [192.168.100.1] ([82.252.135.186]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MkYsS-1krMRU2wSE-00m3MR; Tue, 01 Sep 2020 12:00:22 +0200
-Subject: Re: [PATCH v3 06/10] hw/net/virtio-net:Remove redundant statement in
- virtio_net_rsc_tcp_ctrl_check()
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MK3a4-1jretS48Hm-00LUDr; Tue, 01 Sep 2020 12:03:05 +0200
+Subject: Re: [PATCH v3 07/10] vfio/platform: Remove dead assignment in
+ vfio_intp_interrupt()
 To: Chen Qun <kuhn.chenqun@huawei.com>, qemu-devel@nongnu.org,
  qemu-trivial@nongnu.org
 References: <20200827110311.164316-1-kuhn.chenqun@huawei.com>
- <20200827110311.164316-7-kuhn.chenqun@huawei.com>
+ <20200827110311.164316-8-kuhn.chenqun@huawei.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -69,35 +69,35 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <290e1a37-46c3-b282-2cd6-5fecbcc4b64f@vivier.eu>
-Date: Tue, 1 Sep 2020 12:00:21 +0200
+Message-ID: <53786935-5695-4e1b-a8e4-e7ae5ca5b616@vivier.eu>
+Date: Tue, 1 Sep 2020 12:03:02 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200827110311.164316-7-kuhn.chenqun@huawei.com>
+In-Reply-To: <20200827110311.164316-8-kuhn.chenqun@huawei.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:OuVLr3SD5gwnOEv9orT+8BHbDOAIHkfKN93LqDYh0LW20CVhHu/
- Xu0AOcFAfGNUeS2q8O71U9qe/3+XNaVjO1KOI5Z13VC5LMvK2VGa8Ovz4/5SU9og1F8D4uI
- GZQrdC1+Yyuf02KWaUB9sjL8xoLU3t8H7f4a92dGxIPX7zoKUl7nk6f4zPDPIDPV/HrvZt0
- V5Cws1I5TsLv/o+mT5e7Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:8OI62L09uuU=:SsyI8NqGA7Qc7OXCT417TI
- ZaOXbnrFoYOG0VeCrm4Dz77C1l76qFUi2EdxI0JGFR5BcbV6HMmZH12Myy0n772R+d2hskSBd
- b4bKyUY2DhDgn+gnEcB9yGmaqDwJTaxfVnRO2fMDC9cfecTnZSY8eUxvXpiLnf/P25mUoGp0a
- VGroVXj/TJW33FtmvGG9Pk8FiFDrNteFIhnJJDRiKvcXfAWfDi02U0KZZxXhC1AaXJLAOlgZT
- RtnbzzPkPtpUQAvHaI9AYbEERQsG77/sQmj5Ypvk+bp2LvPWVSVjQRomHzRtX+JMg6Jkxt0T4
- 9ShZj3W5dwuBXjr4LViqd1mEUVvK3M2TtmO6fd02/UyDq78l9M/yc2g2O0VG5abpeLiX0cXWH
- PqewFCTTZV/MSBjsJ/DEdO+B4y5QXm0ts6jUTLqzy26yolLbVOoN88M+EcSRXQfvIfcwrFK4K
- reUMP3dOScshO7hwsKTFkbRuP1Himl9tTmI1zeOWndN81+QzbGV1an7COrILV9pASL9sF9c66
- V2c45StlUTr/maHlwubVPs/ZMT1iR8su+pKRr/KW1t1rg6XGaxEOKBAA4CcfSsrZlWjN5RcBg
- arhNDiSl5vC0h/n++lrJvq58OGW8gi6s1ElU8wBXtKlqd8Ggp/h1imRO5GawPHXxaJOhvTtol
- w1YYUeb7OUrIE8PomIlTj20t9L6lpCtRbJKtq4RfAIOxaVRDwecabjlqSAv0dngsGu8NRbreu
- X+IrgTcZYG6iXoK6tVlSVunIDS+lRHF3jz9opgzsTYghRq7hnSv+xvZd3rpJ4999QgyomxWxL
- pE5/D2hm6eEe2MT6Blwi9/x+qI2g7nmNU9AuNWFumNispCz3SJZh2LJV593y33Rh7k1avx+
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:uqieTAQNDs50CLq3ZLEjfQeX9NosyJROJ+/shco887RHcqBaaAJ
+ p5ExoItOTUikC6tN6zOw7mXwk/p8vWcTPmp7BduyQmEcrUOygT59+vdeS36fhGFZ0AFsmVR
+ /pJeUwISc15ca7Cu3I+eO/fu7U19K7YidO+qwF4ESxmd2HCxDMOcpVKNkAwcwL89e1Y6Hke
+ zlETs5v0lMswgfxNyQfig==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:hVkDWTjahPA=:8dADmCXOlwlBIxSRpeOGx3
+ NfU+dQm9Fs6xtvoxSj6MTaG2GKq/cJiw0JezbPFK5uQugaOLmQJLnFpuJZ8/BiXEwp2o/7nYZ
+ XGob4y8QWkitxYycGe9ATZuvSzAxC+x0IRS9wwHbN2x5y7O2fXGZ9RWbqo2u/lXhpwE1PV1gT
+ apZUh+sSjvsrTIaoiV+/4yMGv9jAYUKJuIV2PjOw90KyNLGPKmxOqoOG+2ZLb4/ftSZmC0tWv
+ cu1fY8BZG+RSa1zRO5488mbj1CEv6Gz70swEv/irwP3nC+f2MnwD/V0tJBY1B1f1XGms7ZRUJ
+ x2Jp4xGZn1nY5HKuMBtIWwRAne0kpTGbH2uXEHPHAPEyO9EeKarZgpCVn7KvSfF8wTOzsC/U/
+ QMs229joUwuesI0zTC9O0plbPfcVXQMcSC9qcZtU7nEtkqwg6TL2rJ9490R1FOqa0Q4dBsKK4
+ 8Dw9McYkEWjabgkZZJAkFa5CdVT49hzy2HIpwFOOjVvqi83D1YQgV1+bx585BNPMDh+XYcoLL
+ BYufM0rdiMXiEMP4OPUBDvdBfHuhoMqAgR58gu9cdDV5qp1mJx8456fu7G3ENRaKOSL9EOEkc
+ t1cprGm40LN2Xe0vL5AoOCCBe+11sRssw+FoW4rwpgzxzZ+LMykwiqzcNEm/tW3LUpJTWRfAz
+ Lxy50n8x6Y+8A24c5/qs95Vw3xb2uWj3YmiMTj1MzllKHynhgEH+IYMeZZLPExmhEbyyT8YeB
+ nHNckWS6/wk1IwfOKSShtAM1RvVqPj/3GmbfuWZe0onqdIluOyuz6xVhaGq+tEU1rgt6Y5G+D
+ NPeXaHjm1jx6axNnXpMTcLXbAWnZk55foqOQoE07N19QvhihOBqzMgsO2ODpuTvUPEtm/gV
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 05:47:22
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 02:34:36
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -39
 X-Spam_score: -4.0
@@ -117,45 +117,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, "Michael S. Tsirkin" <mst@redhat.com>,
- pannengyuan@huawei.com, Jason Wang <jasowang@redhat.com>,
- Li Qiang <liq3ea@gmail.com>, Euler Robot <euler.robot@huawei.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: zhang.zhanghailiang@huawei.com, Li Qiang <liq3ea@gmail.com>,
+ pannengyuan@huawei.com, Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 27/08/2020 à 13:03, Chen Qun a écrit :
 > Clang static code analyzer show warning:
-> hw/net/virtio-net.c:2077:5: warning: Value stored to 'tcp_flag' is never read
->     tcp_flag &= VIRTIO_NET_TCP_FLAG;
->     ^           ~~~~~~~~~~~~~~~~~~~
-> 
-> The 'VIRTIO_NET_TCP_FLAG' is '0x3F'. The last ‘tcp_flag’ assignment statement is
->  the same as that of the first two statements.
+> hw/vfio/platform.c:239:9: warning: Value stored to 'ret' is never read
+>         ret = event_notifier_test_and_clear(intp->interrupt);
+>         ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > 
 > Reported-by: Euler Robot <euler.robot@huawei.com>
 > Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Reviewed-by: Eric Auger <eric.auger@redhat.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 > Reviewed-by: Li Qiang <liq3ea@gmail.com>
 > ---
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> Cc: Jason Wang <jasowang@redhat.com>
+> Cc: Alex Williamson <alex.williamson@redhat.com>
+> Cc: Eric Auger <eric.auger@redhat.com>
+> Cc: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->  hw/net/virtio-net.c | 1 -
->  1 file changed, 1 deletion(-)
+>  hw/vfio/platform.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index a1fe9e9285..cb0d27084c 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -2075,7 +2075,6 @@ static int virtio_net_rsc_tcp_ctrl_check(VirtioNetRscChain *chain,
->      tcp_flag = htons(tcp->th_offset_flags);
->      tcp_hdr = (tcp_flag & VIRTIO_NET_TCP_HDR_LENGTH) >> 10;
->      tcp_flag &= VIRTIO_NET_TCP_FLAG;
-> -    tcp_flag = htons(tcp->th_offset_flags) & 0x3F;
->      if (tcp_flag & TH_SYN) {
->          chain->stat.tcp_syn++;
->          return RSC_BYPASS;
+> diff --git a/hw/vfio/platform.c b/hw/vfio/platform.c
+> index ac2cefc9b1..869ed2c39d 100644
+> --- a/hw/vfio/platform.c
+> +++ b/hw/vfio/platform.c
+> @@ -236,7 +236,7 @@ static void vfio_intp_interrupt(VFIOINTp *intp)
+>          trace_vfio_intp_interrupt_set_pending(intp->pin);
+>          QSIMPLEQ_INSERT_TAIL(&vdev->pending_intp_queue,
+>                               intp, pqnext);
+> -        ret = event_notifier_test_and_clear(intp->interrupt);
+> +        event_notifier_test_and_clear(intp->interrupt);
+>          return;
+>      }
+>  
 > 
 
 Applied to my trivial-patches branch.
