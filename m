@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22376258E9A
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 14:52:07 +0200 (CEST)
-Received: from localhost ([::1]:57980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3DF8258EB9
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 14:56:16 +0200 (CEST)
+Received: from localhost ([::1]:48340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD5le-00084u-44
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 08:52:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33850)
+	id 1kD5pf-00077m-M3
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 08:56:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dacohen@zohomail.com>)
- id 1kD5fp-0005JD-UD
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:46:05 -0400
-Received: from sender4-pp-o95.zoho.com ([136.143.188.95]:25523)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dacohen@zohomail.com>)
- id 1kD5fl-0001WY-Io
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:46:05 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1598964358; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=NWZSamrfca0Ug0Oo4am6hLnIpVnTbVZfLsXxXw3MwCOmHqHYLEbOO5FY5eTpG66zfIS1u7mhqPFgNhy6WDWkIZR/xjwFso9pu9u5ZC4Z7JEui+sMDNQt50CAJCb5ykloTo/JQGQ/IMwPDCozYRevh8j1NIgbDo4xq2KuL147u9k=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1598964358;
- h=Content-Type:Content-Transfer-Encoding:Date:From:MIME-Version:Message-ID:Subject:To;
- bh=5TW+zewYKljC/CEpnCMVFx1AV6rAgZQDJjJfMry849o=; 
- b=klpKJuP++CEWCKnsFF0AhMKOaqfkNUgK1gAXhRqWUQ3uKteID15szizrDMFmpxXKK9/HVfSfQ+1dy+QQp7gA0kcGFC7uUJZ1nDiGA8Legg7Mp+9TyZnV3JWgYLjh6mK36vFXCADJmBU8+DVN5/tU7ve+phgW1556ExecgbVGJtQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=zohomail.com;
- spf=pass  smtp.mailfrom=dacohen@zohomail.com;
- dmarc=pass header.from=<dacohen@zohomail.com>
- header.from=<dacohen@zohomail.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1598964358; 
- s=zm2020; d=zohomail.com; i=dacohen@zohomail.com;
- h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:Content-Transfer-Encoding;
- bh=5TW+zewYKljC/CEpnCMVFx1AV6rAgZQDJjJfMry849o=;
- b=Vh1FS+QdfjoU6ULErYbn6Hak+l3pZmETD/krtDIWhoJ48tyNRlqR0XZTYdxjFwfh
- q8S3a2l7kYp286yYuWf1h1cORyq9ApL07/MoYJal6Lhuddrheg+84AmsnOaVMUdp9sL
- gYWZRgexPV79OQdwjHTA67Xrmub7ncjYkYyxNBis=
-Received: from Davids-iMac.local (cpe-24-27-46-206.austin.res.rr.com
- [24.27.46.206]) by mx.zohomail.com
- with SMTPS id 1598964356865630.2277097234039;
- Tue, 1 Sep 2020 05:45:56 -0700 (PDT)
-To: qemu-devel@nongnu.org
-From: David Cohen <dacohen@zohomail.com>
-Subject: qemu panic on OSX 10.15.6
-Message-ID: <a1f5ea65-073c-6130-1151-722d66d1564e@zohomail.com>
-Date: Tue, 1 Sep 2020 07:45:55 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.2.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kD5jg-0005Df-OM
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:50:04 -0400
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:35312)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kD5jf-0001p5-3y
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:50:04 -0400
+Received: by mail-ed1-x542.google.com with SMTP id ba12so1316348edb.2
+ for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 05:50:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=peHf4GtgUeg0RgYEQ72lb96CS7Od5ddK7dRVhswRxn4=;
+ b=Yh2gQUbN5X/J7lPXJKGpdOkTrDFLez2UMio8RBaJJbIV9qPc0eqDUOzoTPhmm++jhI
+ 360z0aHmiW6mGxWoBvCIJkFm0t3kx2/aNmdh/arhjwHpTXL0pTeyhyEpSi1dBCjM1tAf
+ 7QqLnPPWIHB9OU8IoH6bmen+8/HbxKAfbRwAPDcFMuVKgXxSTq4ifxak77Egk8xARz0l
+ Bzqmej17JlGZ06dRi4+2mT4DDfd3C6AG2efj5ly4EMPLx0R4djeYkiw4PQANWrprj7eo
+ /gXh60HMfqrIasYcoJwvOSSz/1852sAYD0iEkZbfU27Bdkw9UGIduYFbEc7YytEFbd35
+ /Aeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=peHf4GtgUeg0RgYEQ72lb96CS7Od5ddK7dRVhswRxn4=;
+ b=By0UTTSZ1eVcYlxXzgcLgk4Bq1Wu6dro+5FN1amo0FNcbqBLok70+1brljbNnBytXA
+ bGT0AafpnYA3Zyw84/dX9VyL1KUPGc73Vp3kvXmcISuylMOQPrxDfMQfNQI1zrSTjlwj
+ sjE+PSgkfwJu9sTGX7anuUrOmS5HZjA/iEe2GY4UnQcXq0AClg3ePR2Eu7rOXtq8XavF
+ FCwUyG+iyWEwJn51kKKFLLX4bPOdX1eHaYdHhULkKP5p3znmjFzMGUk7xlDTcvEn6rUu
+ qwQbpxoo1BM+KKY9QFw+QDLwmn6MNnLb6Xo2HE8dIJ56hO0OXW0gdKf6uy4Q680E4KiK
+ vWAA==
+X-Gm-Message-State: AOAM530MjErpXsC8WD4gsD7SCsqu5DCXllPATb75cg3sqKb/dxGG4huN
+ gJrHVxDy65iE0Wjd3SB5hVNzlfIUxIHKLQdOfD/TVQ==
+X-Google-Smtp-Source: ABdhPJwOFVBFS9Nit2xTq0hTbEOwa/C5VC00FhQnt1LK7zddYifZqDzMhBeLMr2wABCCqyqY7Mp3VdEUw54Nala5tDM=
+X-Received: by 2002:aa7:d596:: with SMTP id r22mr1628331edq.204.1598964601252; 
+ Tue, 01 Sep 2020 05:50:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.95; envelope-from=dacohen@zohomail.com;
- helo=sender4-pp-o95.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 08:45:59
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+References: <20200827142915.108730-1-stefanha@redhat.com>
+ <20200827142915.108730-3-stefanha@redhat.com>
+In-Reply-To: <20200827142915.108730-3-stefanha@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 1 Sep 2020 13:49:48 +0100
+Message-ID: <CAFEAcA9rSvcK8GoBtg_LHroOgcns4TvRk3r1MfSgfPwWEosYsw@mail.gmail.com>
+Subject: Re: [PATCH 2/4] tracetool: add out_lineno and out_next_lineno to out()
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x542.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,37 +79,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On Thu, 27 Aug 2020 at 15:29, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>
+> Make the output file line number and next line number available to
+> out().
+>
+> A later patch will use this to improve error messages.
+>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-I'm trying to use qemu on OSX Catalina using HVF hypervisor, but it's 
-currently panic'ing upon booting Linux guest.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-These are the args I'm using:
-build % ./qemu-system-x86_64 -cdrom 
-~/Downloads/archlinux-2020.08.01-x86_64.iso -smp 4 -m 4G -vga virtio 
--accel hvf -cpu host
-
-I could trace the failure to test_pt_entry(), in this exact position:
-
-build % git diff
-diff --git a/target/i386/hvf/x86_mmu.c b/target/i386/hvf/x86_mmu.c
-index 65d4603dbf..8f04a94cc6 100644
---- a/target/i386/hvf/x86_mmu.c
-+++ b/target/i386/hvf/x86_mmu.c
-@@ -113,6 +113,7 @@ static bool test_pt_entry(struct CPUState *cpu, 
-struct gpt_translation *pt,
-      }
-
-      if (!pte_present(pte)) {
-+        printf("Code is failing here");
-          return false;
-      }
-
-
-Is anyone aware of this issue?
-
-Br, David Cohen
+thanks
+-- PMM
 
