@@ -2,109 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D4A7258C51
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 12:06:18 +0200 (CEST)
-Received: from localhost ([::1]:47018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8015258C59
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 12:07:29 +0200 (CEST)
+Received: from localhost ([::1]:52666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD3BB-0000uQ-5C
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 06:06:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43882)
+	id 1kD3CL-00039m-19
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 06:07:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD2zL-0003A2-VH; Tue, 01 Sep 2020 05:54:03 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:58957)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD2zK-0003bp-4g; Tue, 01 Sep 2020 05:54:03 -0400
-Received: from [192.168.100.1] ([82.252.135.186]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MNKuK-1jx8h6315u-00Olt5; Tue, 01 Sep 2020 11:53:54 +0200
-Subject: Re: [PATCH v3 02/10] hw/arm/omap1:Remove redundant statement in
- omap_clkdsp_read()
-To: Chen Qun <kuhn.chenqun@huawei.com>, qemu-devel@nongnu.org,
- qemu-trivial@nongnu.org
-References: <20200827110311.164316-1-kuhn.chenqun@huawei.com>
- <20200827110311.164316-3-kuhn.chenqun@huawei.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <de1fd7c5-6bd3-39e0-e040-b10da548edf5@vivier.eu>
-Date: Tue, 1 Sep 2020 11:53:53 +0200
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kD30M-0004gk-11
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:55:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49400)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kD30K-0003hn-3m
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:55:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598954103;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ge0H5ZBrf27oPyk+7JrfmbQuYls4XE7mP+afTEUCt6w=;
+ b=BdpLUKPVxCw5HEo10IFVhD9Q1zO6z/75puOR2UepLcbZupEuCpvWrfWFL8LS0mflWTaJET
+ 6ogogXGCWMVNyzJqU3CxA3tOKo5WLFGWcZY5uiigsVzdevZhmM1Pj2xC8Y9cabGtO72FwA
+ 4bwqc2KukgALYw32bcqZjcV1cRa2Kac=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-432-FnZpdwCsMRmCJhToIVS5ZA-1; Tue, 01 Sep 2020 05:55:01 -0400
+X-MC-Unique: FnZpdwCsMRmCJhToIVS5ZA-1
+Received: by mail-wr1-f71.google.com with SMTP id l15so362829wro.10
+ for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 02:55:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=ge0H5ZBrf27oPyk+7JrfmbQuYls4XE7mP+afTEUCt6w=;
+ b=p0Y/+ZM9llZS8AJKN1FN2SAm9FfkC6Z48HqUaP3VwcwkP+W7rx1VL/zjjqrUsZ9QCA
+ yxUeUHFsLcsarNEQqe/+mtD+eBPMZTHrphfmCcP69MebIYJ/OKZ6SDZ8bUwYfLJhJI55
+ mQo3gFsIctX6vRZTGezga2vsCwxl+kwGz1WgCbsLwf2teLsQymPgpuzi0RTInm1l8Tdt
+ 04G53P9bvmLyC3Sh+BYU3G2/NhzC743kTXatR+WRQQcRQ9pqtyrOmU1+U7mcrtRTxK1I
+ ECdYGr+FWQEi0xIcRr6fwfOknSL3t685+XzteRfbN9iXBCGXKn4P9+uTIsFgCi8JFJwE
+ +qMA==
+X-Gm-Message-State: AOAM5331ydGKPpeHY1dGCZtBKtT2hrks6TnWawz3RrqrQYnE+w1OKONK
+ JvXZBDK5aEal5PNq2gk5TT6/EwK/Y1Cwd5p+i+zq0gtpDAIGg797zxPTJIjQH0PTfRUSShph+bn
+ H+0vou3dwH/hCoq4=
+X-Received: by 2002:a5d:4811:: with SMTP id l17mr1043108wrq.252.1598954100613; 
+ Tue, 01 Sep 2020 02:55:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxbUKDo8WuUquLYgqmnRPeU3WHmskc+i1Q25C0HqTXAgoLZAlEhoDZJYPmO7sPVRnzEKTF9IA==
+X-Received: by 2002:a5d:4811:: with SMTP id l17mr1043095wrq.252.1598954100434; 
+ Tue, 01 Sep 2020 02:55:00 -0700 (PDT)
+Received: from [192.168.1.36] (50.red-83-52-54.dynamicip.rima-tde.net.
+ [83.52.54.50])
+ by smtp.gmail.com with ESMTPSA id l10sm1487594wru.59.2020.09.01.02.54.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Sep 2020 02:54:59 -0700 (PDT)
+Subject: Re: [PATCH v7 7/8] sparc/sun4m: Use start-powered-off CPUState
+ property
+To: Thiago Jung Bauermann <bauerman@linux.ibm.com>, qemu-ppc@nongnu.org
+References: <20200826055535.951207-1-bauerman@linux.ibm.com>
+ <20200826055535.951207-8-bauerman@linux.ibm.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <0f5fc8af-081a-3d2f-83a8-88303fe4e3d0@redhat.com>
+Date: Tue, 1 Sep 2020 11:54:58 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200827110311.164316-3-kuhn.chenqun@huawei.com>
+In-Reply-To: <20200826055535.951207-8-bauerman@linux.ibm.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:gFTRsUiCDzWWFawcLJ3MHA2mEXDIRWiQMWEMJHA5XX7m+Tj6lGD
- R5xQahQZX7l0Irc02yRbBqqUU0RsZ74PyZbcBuqSNDFvqTA+kJjZ+nFL+sfDykqhk84Eo/C
- 6/hgceptOA4PhfFvLHc/Ho8jzdN48VHTdODsTbUBDNirP4EzmnANEY1X/dOvzR/0wDldhki
- 1URJjDXMnTyh9bI5lrHGg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:RX5m1ijYb4s=:h8EK1n1XwnjZ1aj5EfaKTS
- VErABeICJOPOkYku8VxbxPVTHNfFUbbSS1HekyIDGQdA0G8dsRky7OP73s68Kty4V47E0GNSI
- WkRJlLhMgGP7/LrNn75BYW/wGzlUVedELzUO7rSstjw14GPDx/Rp2HV6KKRr41JSDfsGF7nNH
- nElKYFZPybU2p/0Xzb3SQRwwCohyt4TaHuuZjH7OW8hLCeTRxUGUQflDs1wkU4siy+SeAkB2a
- 08sDsrDwgC2nVkH+EOIAip1y4OOaj2n0nqBNdQ9F457OW98+KMG8xjWiCxMLeemHzIS31HUxT
- kxLRWUpP4EzvYaJbko94xrBgL2SQCYI9cgIeI3TNz2Fv9zJ8vxTk6lFgYkUPpCVIfI5eeyrAE
- gZNpyE+Kcv/4gNzlGZjoARdlYFVNgKJwO+RDq+ZDkcfJy5pokT0TS2chwAq96dIxR9Z1TcVGJ
- WIL3e6xEp5B2sSvBMOVIHAZ2BpKKCCD5fbzqcdrYIAz9v7hNM23IOUfjgCJ+KrdyxAvtYInoX
- g1pYPjkdDVnm7w9dt1U4UdS/8nXB1divsNm05v9/I7Ma7Vs3Mz+Wis9CfvAVIbR5aObA9lIzi
- F9j15mOXsHyXXy7y4KOVOzGqvnq4L9YZqZl4SPWQMMo44DMgYFrfQMnzaCrTTJTgECdsi7iCR
- vpmkRc79LMoYHZxZ1fYP2/SWYb/kPb5IifdcAVNusUJA2wsxiimjUMGJU/Uf7gSjCjCOfLNuh
- SdQZ+T+5/FUFXQFA4ef+SKB0H+oYYkp7j3vH9opx2D7pIAn3djmJDUVQGe0Fv5i0JSwfYliIb
- /aEuqk5qaaBKRg750gMqD8eEbQXtDxb/gpXwg0o2jVpj026DxkW0nN1yJOCN3PsgvtCZIfM
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 05:47:22
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -39
-X-Spam_score: -4.0
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 23:17:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.13,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.13, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -117,47 +124,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, zhang.zhanghailiang@huawei.com,
- pannengyuan@huawei.com, Li Qiang <liq3ea@gmail.com>, qemu-arm@nongnu.org,
- Euler Robot <euler.robot@huawei.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Hildenbrand <david@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Thomas Huth <thuth@redhat.com>, David Gibson <david@gibson.dropbear.id.au>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Greg Kurz <groug@kaod.org>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>, Cornelia Huck <cohuck@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 27/08/2020 à 13:03, Chen Qun a écrit :
-> Clang static code analyzer show warning:
-> hw/arm/omap1.c:1760:15: warning: Value stored to 'cpu' during its
-> initialization is never read
->     CPUState *cpu = CPU(s->cpu);
->               ^~~   ~~~~~~~~~~~
+On 8/26/20 7:55 AM, Thiago Jung Bauermann wrote:
+> Instead of setting CPUState::halted to 1 in secondary_cpu_reset(), use the
+> start-powered-off property which makes cpu_common_reset() initialize it
+> to 1 in common code.
 > 
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Reviewed-by: Li Qiang <liq3ea@gmail.com>
-> ---
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: qemu-arm@nongnu.org
-> ---
->  hw/arm/omap1.c | 1 -
->  1 file changed, 1 deletion(-)
+> Now secondary_cpu_reset() becomes equivalent to main_cpu_reset() so rename
+> the function to sun4m_cpu_reset().
 > 
-> diff --git a/hw/arm/omap1.c b/hw/arm/omap1.c
-> index 6ba0df6b6d..02c0f66431 100644
-> --- a/hw/arm/omap1.c
-> +++ b/hw/arm/omap1.c
-> @@ -1774,7 +1774,6 @@ static uint64_t omap_clkdsp_read(void *opaque, hwaddr addr,
->          return s->clkm.dsp_rstct2;
+> Also remove setting of cs->halted from cpu_devinit(), which seems out of
+> place when compared to similar code in other architectures (e.g.,
+> ppce500_init() in hw/ppc/e500.c).
+> 
+> Finally, change creation of CPU object from cpu_create() to object_new()
+> and qdev_realize_and_unref() because cpu_create() realizes the CPU and it's
+> not possible to set a property after the object is realized.
+> 
+> Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+> ---
+>  hw/sparc/sun4m.c | 25 ++++++-------------------
+>  1 file changed, 6 insertions(+), 19 deletions(-)
+> 
+> diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
+> index 7484aa4438..6bf9d27d8a 100644
+> --- a/hw/sparc/sun4m.c
+> +++ b/hw/sparc/sun4m.c
+> @@ -218,7 +218,7 @@ static void dummy_cpu_set_irq(void *opaque, int irq, int level)
+>  {
+>  }
 >  
->      case 0x18:	/* DSP_SYSST */
-> -        cpu = CPU(s->cpu);
->          return (s->clkm.clocking_scheme << 11) | s->clkm.cold_start |
->                  (cpu->halted << 6);      /* Quite useless... */
->      }
+> -static void main_cpu_reset(void *opaque)
+> +static void sun4m_cpu_reset(void *opaque)
+>  {
+>      SPARCCPU *cpu = opaque;
+>      CPUState *cs = CPU(cpu);
+> @@ -226,15 +226,6 @@ static void main_cpu_reset(void *opaque)
+>      cpu_reset(cs);
+>  }
+>  
+> -static void secondary_cpu_reset(void *opaque)
+> -{
+> -    SPARCCPU *cpu = opaque;
+> -    CPUState *cs = CPU(cpu);
+> -
+> -    cpu_reset(cs);
+> -    cs->halted = 1;
+> -}
+> -
+>  static void cpu_halt_signal(void *opaque, int irq, int level)
+>  {
+>      if (level && current_cpu) {
+> @@ -818,21 +809,17 @@ static const TypeInfo ram_info = {
+>  static void cpu_devinit(const char *cpu_type, unsigned int id,
+>                          uint64_t prom_addr, qemu_irq **cpu_irqs)
+>  {
+> -    CPUState *cs;
+>      SPARCCPU *cpu;
+>      CPUSPARCState *env;
+>  
+> -    cpu = SPARC_CPU(cpu_create(cpu_type));
+> +    cpu = SPARC_CPU(object_new(cpu_type));
+>      env = &cpu->env;
+>  
+>      cpu_sparc_set_id(env, id);
+> -    if (id == 0) {
+> -        qemu_register_reset(main_cpu_reset, cpu);
+> -    } else {
+> -        qemu_register_reset(secondary_cpu_reset, cpu);
+> -        cs = CPU(cpu);
+> -        cs->halted = 1;
+> -    }
+> +    qemu_register_reset(sun4m_cpu_reset, cpu);
+> +    object_property_set_bool(OBJECT(cpu), "start-powered-off", id != 0,
+> +                             &error_fatal);
+> +    qdev_realize_and_unref(DEVICE(cpu), NULL, &error_fatal);
+
+It is cleaner to call qemu_register_reset() after realize().
+
+Anyway,
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+>      *cpu_irqs = qemu_allocate_irqs(cpu_set_irq, cpu, MAX_PILS);
+>      env->prom_addr = prom_addr;
+>  }
 > 
-
-Applied to my trivial-patches branch.
-
-Thanks,
-Laurent
 
 
