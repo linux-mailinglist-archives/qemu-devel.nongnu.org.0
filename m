@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68105259193
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:53:11 +0200 (CEST)
-Received: from localhost ([::1]:41204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E779259168
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:50:50 +0200 (CEST)
+Received: from localhost ([::1]:56992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD7eo-00015Q-F5
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:53:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33982)
+	id 1kD7cW-0004Ea-VU
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:50:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kD7NG-00086H-Af
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:35:02 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51172
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kD7NH-00088v-9M
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:35:03 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24208
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kD7NE-00077v-6X
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:35:01 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kD7NF-00077z-As
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:35:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598970899;
+ s=mimecast20190719; t=1598970900;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xlQTr8J/aMCDQof7QJL5EONApIgg8XjsZA9lJtwv93c=;
- b=hAuRVTt1yAybA8ZKEo9iKPp21bK23tkhEw/HISmjPE5VO2o0fw09yYtAy6YcG9sPBzbjPS
- kp6ge6S/zRYCM18o2f4R0dZ4j+NHtHMiVkXiaPeFP6HlJqUFiKcrvwx+APIDDlMYJc36mA
- JXCTaU+PoXfwQj8lnkWJYVJbVgeSVWU=
+ bh=TaoB87eZ5vIpan2tP/K5uD6MYsFfV5Q0Wy9TbkvP+ok=;
+ b=OKc1EnGgw1folYknbMVFWc7sc5w7gDL/CcjD3woXyj7S/O/4nrXb/+5szO78f+QpWBJvud
+ 2eiQlMtQQmvOdQrEmbhy7Ml4QmpGhFJ9UiLSfjGNSC+DP4rjc/SGrXMWBnaMIWfz/oTI63
+ RllFsFA0DO9OIUYX6hKuX/8hJkq1rpc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-123-X5LLX9gpP4WVEtCN5AOeug-1; Tue, 01 Sep 2020 10:34:56 -0400
-X-MC-Unique: X5LLX9gpP4WVEtCN5AOeug-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-313-rrlxhX7DPOiSKYWAvOw_Dg-1; Tue, 01 Sep 2020 10:34:59 -0400
+X-MC-Unique: rrlxhX7DPOiSKYWAvOw_Dg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 800CE18B9F5A;
- Tue,  1 Sep 2020 14:34:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BACCD8015DB;
+ Tue,  1 Sep 2020 14:34:57 +0000 (UTC)
 Received: from localhost (ovpn-113-83.ams2.redhat.com [10.36.113.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C183E5D9CC;
- Tue,  1 Sep 2020 14:34:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5A86B7DA24;
+ Tue,  1 Sep 2020 14:34:57 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v8 12/43] stream: Deal with filters
-Date: Tue,  1 Sep 2020 16:33:53 +0200
-Message-Id: <20200901143424.884735-13-mreitz@redhat.com>
+Subject: [PATCH v8 13/43] block: Use CAFs when working with backing chains
+Date: Tue,  1 Sep 2020 16:33:54 +0200
+Message-Id: <20200901143424.884735-14-mreitz@redhat.com>
 In-Reply-To: <20200901143424.884735-1-mreitz@redhat.com>
 References: <20200901143424.884735-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0.001
@@ -86,211 +86,130 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Because of the (not so recent anymore) changes that make the stream job
-independent of the base node and instead track the node above it, we
-have to split that "bottom" node into two cases: The bottom COW node,
-and the node directly above the base node (which may be an R/W filter
-or the bottom COW node).
+Use child access functions when iterating through backing chains so
+filters do not break the chain.
+
+In addition, bdrv_find_overlay() will now always return the actual
+overlay; that is, it will never return a filter node but only one with a
+COW backing file (there may be filter nodes between that node and @bs).
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- qapi/block-core.json | 13 ++++++---
- block/stream.c       | 63 ++++++++++++++++++++++++++++++++------------
- blockdev.c           |  4 ++-
- 3 files changed, 59 insertions(+), 21 deletions(-)
+ block.c | 44 ++++++++++++++++++++++++++++++--------------
+ 1 file changed, 30 insertions(+), 14 deletions(-)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index db08c58d78..f8f42cc836 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -2484,13 +2484,20 @@
- # of 'device'.
- #
- # If a base file is specified then sectors are not copied from that base file and
--# its backing chain.  When streaming completes the image file will have the base
--# file as its backing file.  This can be used to stream a subset of the backing
--# file chain instead of flattening the entire image.
-+# its backing chain.  This can be used to stream a subset of the backing file
-+# chain instead of flattening the entire image.
-+# When streaming completes the image file will have the base file as its backing
-+# file, unless that node was changed while the job was running.  In that case,
-+# base's parent's backing (or filtered, whichever exists) child (i.e., base at
-+# the beginning of the job) will be the new backing file.
- #
- # On successful completion the image file is updated to drop the backing file
- # and the BLOCK_JOB_COMPLETED event is emitted.
- #
-+# In case @device is a filter node, block-stream modifies the first non-filter
-+# overlay node below it to point to the new backing node instead of modifying
-+# @device itself.
-+#
- # @job-id: identifier for the newly-created block job. If
- #          omitted, the device name will be used. (Since 2.7)
- #
-diff --git a/block/stream.c b/block/stream.c
-index 310ccbaa4c..8ce6729a33 100644
---- a/block/stream.c
-+++ b/block/stream.c
-@@ -31,7 +31,8 @@ enum {
- 
- typedef struct StreamBlockJob {
-     BlockJob common;
--    BlockDriverState *bottom;
-+    BlockDriverState *base_overlay; /* COW overlay (stream from this) */
-+    BlockDriverState *above_base;   /* Node directly above the base */
-     BlockdevOnError on_error;
-     char *backing_file_str;
-     bool bs_read_only;
-@@ -53,7 +54,7 @@ static void stream_abort(Job *job)
- 
-     if (s->chain_frozen) {
-         BlockJob *bjob = &s->common;
--        bdrv_unfreeze_backing_chain(blk_bs(bjob->blk), s->bottom);
-+        bdrv_unfreeze_backing_chain(blk_bs(bjob->blk), s->above_base);
-     }
+diff --git a/block.c b/block.c
+index 887c125400..96bf8672f1 100644
+--- a/block.c
++++ b/block.c
+@@ -4745,9 +4745,9 @@ int bdrv_change_backing_file(BlockDriverState *bs, const char *backing_file,
  }
  
-@@ -62,14 +63,15 @@ static int stream_prepare(Job *job)
-     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
-     BlockJob *bjob = &s->common;
-     BlockDriverState *bs = blk_bs(bjob->blk);
--    BlockDriverState *base = backing_bs(s->bottom);
-+    BlockDriverState *unfiltered_bs = bdrv_skip_filters(bs);
-+    BlockDriverState *base = bdrv_filter_or_cow_bs(s->above_base);
-     Error *local_err = NULL;
-     int ret = 0;
- 
--    bdrv_unfreeze_backing_chain(bs, s->bottom);
-+    bdrv_unfreeze_backing_chain(bs, s->above_base);
-     s->chain_frozen = false;
- 
--    if (bs->backing) {
-+    if (bdrv_cow_child(unfiltered_bs)) {
-         const char *base_id = NULL, *base_fmt = NULL;
-         if (base) {
-             base_id = s->backing_file_str;
-@@ -77,8 +79,8 @@ static int stream_prepare(Job *job)
-                 base_fmt = base->drv->format_name;
-             }
-         }
--        bdrv_set_backing_hd(bs, base, &local_err);
--        ret = bdrv_change_backing_file(bs, base_id, base_fmt, false);
-+        bdrv_set_backing_hd(unfiltered_bs, base, &local_err);
-+        ret = bdrv_change_backing_file(unfiltered_bs, base_id, base_fmt, false);
-         if (local_err) {
-             error_report_err(local_err);
-             return -EPERM;
-@@ -109,14 +111,15 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
-     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
-     BlockBackend *blk = s->common.blk;
-     BlockDriverState *bs = blk_bs(blk);
--    bool enable_cor = !backing_bs(s->bottom);
-+    BlockDriverState *unfiltered_bs = bdrv_skip_filters(bs);
-+    bool enable_cor = !bdrv_cow_child(s->base_overlay);
-     int64_t len;
-     int64_t offset = 0;
-     uint64_t delay_ns = 0;
-     int error = 0;
-     int64_t n = 0; /* bytes */
- 
--    if (bs == s->bottom) {
-+    if (unfiltered_bs == s->base_overlay) {
-         /* Nothing to stream */
-         return 0;
-     }
-@@ -150,13 +153,14 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
- 
-         copy = false;
- 
--        ret = bdrv_is_allocated(bs, offset, STREAM_CHUNK, &n);
-+        ret = bdrv_is_allocated(unfiltered_bs, offset, STREAM_CHUNK, &n);
-         if (ret == 1) {
-             /* Allocated in the top, no need to copy.  */
-         } else if (ret >= 0) {
-             /* Copy if allocated in the intermediate images.  Limit to the
-              * known-unallocated area [offset, offset+n*BDRV_SECTOR_SIZE).  */
--            ret = bdrv_is_allocated_above(backing_bs(bs), s->bottom, true,
-+            ret = bdrv_is_allocated_above(bdrv_cow_bs(unfiltered_bs),
-+                                          s->base_overlay, true,
-                                           offset, n, &n);
-             /* Finish early if end of backing file has been reached */
-             if (ret == 0 && n == 0) {
-@@ -223,9 +227,29 @@ void stream_start(const char *job_id, BlockDriverState *bs,
-     BlockDriverState *iter;
-     bool bs_read_only;
-     int basic_flags = BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE_UNCHANGED;
--    BlockDriverState *bottom = bdrv_find_overlay(bs, base);
-+    BlockDriverState *base_overlay = bdrv_find_overlay(bs, base);
-+    BlockDriverState *above_base;
- 
--    if (bdrv_freeze_backing_chain(bs, bottom, errp) < 0) {
-+    if (!base_overlay) {
-+        error_setg(errp, "'%s' is not in the backing chain of '%s'",
-+                   base->node_name, bs->node_name);
-+        return;
-+    }
+ /*
+- * Finds the image layer in the chain that has 'bs' as its backing file.
+- *
+- * active is the current topmost image.
++ * Finds the first non-filter node above bs in the chain between
++ * active and bs.  The returned node is either an immediate parent of
++ * bs, or there are only filter nodes between the two.
+  *
+  * Returns NULL if bs is not found in active's image chain,
+  * or if active == bs.
+@@ -4757,11 +4757,18 @@ int bdrv_change_backing_file(BlockDriverState *bs, const char *backing_file,
+ BlockDriverState *bdrv_find_overlay(BlockDriverState *active,
+                                     BlockDriverState *bs)
+ {
+-    while (active && bs != backing_bs(active)) {
+-        active = backing_bs(active);
++    bs = bdrv_skip_filters(bs);
++    active = bdrv_skip_filters(active);
 +
-+    /*
-+     * Find the node directly above @base.  @base_overlay is a COW overlay, so
-+     * it must have a bdrv_cow_child(), but it is the immediate overlay of
-+     * @base, so between the two there can only be filters.
-+     */
-+    above_base = base_overlay;
-+    if (bdrv_cow_bs(above_base) != base) {
-+        above_base = bdrv_cow_bs(above_base);
-+        while (bdrv_filter_bs(above_base) != base) {
-+            above_base = bdrv_filter_bs(above_base);
++    while (active) {
++        BlockDriverState *next = bdrv_backing_chain_next(active);
++        if (bs == next) {
++            return active;
 +        }
-+    }
-+
-+    if (bdrv_freeze_backing_chain(bs, above_base, errp) < 0) {
-         return;
++        active = next;
      }
  
-@@ -255,14 +279,19 @@ void stream_start(const char *job_id, BlockDriverState *bs,
-      * and resizes. Reassign the base node pointer because the backing BS of the
-      * bottom node might change after the call to bdrv_reopen_set_read_only()
-      * due to parallel block jobs running.
-+     * above_base node might change after the call to
-+     * bdrv_reopen_set_read_only() due to parallel block jobs running.
-      */
--    base = backing_bs(bottom);
--    for (iter = backing_bs(bs); iter && iter != base; iter = backing_bs(iter)) {
-+    base = bdrv_filter_or_cow_bs(above_base);
-+    for (iter = bdrv_filter_or_cow_bs(bs); iter != base;
-+         iter = bdrv_filter_or_cow_bs(iter))
-+    {
-         block_job_add_bdrv(&s->common, "intermediate node", iter, 0,
-                            basic_flags, &error_abort);
-     }
- 
--    s->bottom = bottom;
-+    s->base_overlay = base_overlay;
-+    s->above_base = above_base;
-     s->backing_file_str = g_strdup(backing_file_str);
-     s->bs_read_only = bs_read_only;
-     s->chain_frozen = true;
-@@ -276,5 +305,5 @@ fail:
-     if (bs_read_only) {
-         bdrv_reopen_set_read_only(bs, true, NULL);
-     }
--    bdrv_unfreeze_backing_chain(bs, bottom);
-+    bdrv_unfreeze_backing_chain(bs, above_base);
+-    return active;
++    return NULL;
  }
-diff --git a/blockdev.c b/blockdev.c
-index 3848a9c8ab..862aa1b9aa 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -2528,7 +2528,9 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
+ 
+ /* Given a BDS, searches for the base layer. */
+@@ -4913,9 +4920,7 @@ int bdrv_drop_intermediate(BlockDriverState *top, BlockDriverState *base,
+      * other intermediate nodes have been dropped.
+      * If 'top' is an implicit node (e.g. "commit_top") we should skip
+      * it because no one inherits from it. We use explicit_top for that. */
+-    while (explicit_top && explicit_top->implicit) {
+-        explicit_top = backing_bs(explicit_top);
+-    }
++    explicit_top = bdrv_skip_implicit_filters(explicit_top);
+     update_inherits_from = bdrv_inherits_from_recursive(base, explicit_top);
+ 
+     /* success - we can delete the intermediate states, and link top->base */
+@@ -5372,7 +5377,7 @@ BlockDriverState *bdrv_lookup_bs(const char *device,
+ bool bdrv_chain_contains(BlockDriverState *top, BlockDriverState *base)
+ {
+     while (top && top != base) {
+-        top = backing_bs(top);
++        top = bdrv_filter_or_cow_bs(top);
      }
  
-     /* Check for op blockers in the whole chain between bs and base */
--    for (iter = bs; iter && iter != base_bs; iter = backing_bs(iter)) {
-+    for (iter = bs; iter && iter != base_bs;
-+         iter = bdrv_filter_or_cow_bs(iter))
+     return top != NULL;
+@@ -5613,6 +5618,7 @@ BlockDriverState *bdrv_find_backing_image(BlockDriverState *bs,
+     int is_protocol = 0;
+     BlockDriverState *curr_bs = NULL;
+     BlockDriverState *retval = NULL;
++    BlockDriverState *bs_below;
+ 
+     if (!bs || !bs->drv || !backing_file) {
+         return NULL;
+@@ -5623,7 +5629,17 @@ BlockDriverState *bdrv_find_backing_image(BlockDriverState *bs,
+ 
+     is_protocol = path_has_protocol(backing_file);
+ 
+-    for (curr_bs = bs; curr_bs->backing; curr_bs = curr_bs->backing->bs) {
++    /*
++     * Being largely a legacy function, skip any filters here
++     * (because filters do not have normal filenames, so they cannot
++     * match anyway; and allowing json:{} filenames is a bit out of
++     * scope).
++     */
++    for (curr_bs = bdrv_skip_filters(bs);
++         bdrv_cow_child(curr_bs) != NULL;
++         curr_bs = bs_below)
 +    {
-         if (bdrv_op_is_blocked(iter, BLOCK_OP_TYPE_STREAM, errp)) {
-             goto out;
++        bs_below = bdrv_backing_chain_next(curr_bs);
+ 
+         /* If either of the filename paths is actually a protocol, then
+          * compare unmodified paths; otherwise make paths relative */
+@@ -5631,7 +5647,7 @@ BlockDriverState *bdrv_find_backing_image(BlockDriverState *bs,
+             char *backing_file_full_ret;
+ 
+             if (strcmp(backing_file, curr_bs->backing_file) == 0) {
+-                retval = curr_bs->backing->bs;
++                retval = bs_below;
+                 break;
+             }
+             /* Also check against the full backing filename for the image */
+@@ -5641,7 +5657,7 @@ BlockDriverState *bdrv_find_backing_image(BlockDriverState *bs,
+                 bool equal = strcmp(backing_file, backing_file_full_ret) == 0;
+                 g_free(backing_file_full_ret);
+                 if (equal) {
+-                    retval = curr_bs->backing->bs;
++                    retval = bs_below;
+                     break;
+                 }
+             }
+@@ -5667,7 +5683,7 @@ BlockDriverState *bdrv_find_backing_image(BlockDriverState *bs,
+             g_free(filename_tmp);
+ 
+             if (strcmp(backing_file_full, filename_full) == 0) {
+-                retval = curr_bs->backing->bs;
++                retval = bs_below;
+                 break;
+             }
          }
 -- 
 2.26.2
