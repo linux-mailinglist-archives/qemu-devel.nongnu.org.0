@@ -2,37 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CF00258E9B
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 14:52:08 +0200 (CEST)
-Received: from localhost ([::1]:58182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AB86258E9D
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 14:52:11 +0200 (CEST)
+Received: from localhost ([::1]:58424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD5lf-00089w-Id
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 08:52:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33704)
+	id 1kD5li-0008GC-35
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 08:52:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kD5fT-0004je-1t
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:45:43 -0400
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:51309)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kD5fW-0004sQ-Ck
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:45:46 -0400
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:53923)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kD5fP-0001UA-IK
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:45:42 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.103])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id EF5695CC5369;
- Tue,  1 Sep 2020 14:45:33 +0200 (CEST)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kD5fP-0001U9-IX
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:45:46 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.118])
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 49FEA5CC536C;
+ Tue,  1 Sep 2020 14:45:34 +0200 (CEST)
 Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Tue, 1 Sep 2020
  14:45:33 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-99G00332cc62d9-c584-466e-96c6-1195bd14ad9f,
+ (GARM-99G003cd17b65e-ab21-462c-a3f4-a3abb94ea6c6,
  38EE1E9FF4E34D4C85F4190D418CEE501B878519) smtp.auth=clg@kaod.org
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: <qemu-devel@nongnu.org>
-Subject: [PULL 09/20] ftgmac100: Fix interrupt status "Packet transmitted on
- ethernet"
-Date: Tue, 1 Sep 2020 14:45:14 +0200
-Message-ID: <20200901124525.220252-10-clg@kaod.org>
+Subject: [PULL 10/20] ftgmac100: Fix interrupt status "Packet moved to RX FIFO"
+Date: Tue, 1 Sep 2020 14:45:15 +0200
+Message-ID: <20200901124525.220252-11-clg@kaod.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20200901124525.220252-1-clg@kaod.org>
 References: <20200901124525.220252-1-clg@kaod.org>
@@ -42,8 +41,8 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.99]
 X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 9e9a9f52-2e93-442a-ab7c-0a79ec653a1f
-X-Ovh-Tracer-Id: 4786481983226022819
+X-Ovh-Tracer-GUID: 46bf8e90-227c-4dab-abd6-5d6e320b7a21
+X-Ovh-Tracer-Id: 4786763454875012003
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrudefjedgheejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfhisehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheehfeegjeeitdfffeetjeduveejueefuefgtdefueelueetveeliefhhffgtdelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
@@ -75,37 +74,38 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Joel Stanley <joel@jms.id.au>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The second field of the TX descriptor has a set of flags to choose
-when the transmit interrupt is raised : after the packet has been sent
-on the ethernet or after it has been moved into the TX FIFO. But we
-don't model that today.
-
-Simply raise the "Packet transmitted on ethernet" interrupt status bit
-as soon as the packet is sent by QEMU.
+As we don't model the RX or TX FIFO, raise the "Packet moved to RX
+FIFO" interrupt status bit as soon as we are handling a RX packet.
 
 Cc: Frederic Konrad <konrad.frederic@yahoo.fr>
 Reviewed-by: Joel Stanley <joel@jms.id.au>
-Message-Id: <20200819100956.2216690-11-clg@kaod.org>
+Message-Id: <20200819100956.2216690-12-clg@kaod.org>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/net/ftgmac100.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ hw/net/ftgmac100.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/hw/net/ftgmac100.c b/hw/net/ftgmac100.c
-index 0348fcf45676..aa3c05ef9882 100644
+index aa3c05ef9882..5c0fe2d8cb75 100644
 --- a/hw/net/ftgmac100.c
 +++ b/hw/net/ftgmac100.c
-@@ -547,9 +547,7 @@ static void ftgmac100_do_tx(FTGMAC100State *s, uint32_t tx_ring,
-             qemu_send_packet(qemu_get_queue(s->nic), s->frame, frame_size);
-             ptr = s->frame;
-             frame_size = 0;
--            if (flags & FTGMAC100_TXDES1_TXIC) {
--                s->isr |= FTGMAC100_INT_XPKT_ETH;
--            }
-+            s->isr |= FTGMAC100_INT_XPKT_ETH;
-         }
+@@ -950,6 +950,7 @@ static ssize_t ftgmac100_receive(NetClientState *nc, const uint8_t *buf,
+         break;
+     }
  
-         if (flags & FTGMAC100_TXDES1_TX2FIC) {
++    s->isr |= FTGMAC100_INT_RPKT_FIFO;
+     addr = s->rx_descriptor;
+     while (size > 0) {
+         if (!ftgmac100_can_receive(nc)) {
+@@ -1001,8 +1002,6 @@ static ssize_t ftgmac100_receive(NetClientState *nc, const uint8_t *buf,
+             /* Last buffer in frame.  */
+             bd.des0 |= flags | FTGMAC100_RXDES0_LRS;
+             s->isr |= FTGMAC100_INT_RPKT_BUF;
+-        } else {
+-            s->isr |= FTGMAC100_INT_RPKT_FIFO;
+         }
+         ftgmac100_write_bd(&bd, addr);
+         if (bd.des0 & s->rxdes0_edorr) {
 -- 
 2.25.4
 
