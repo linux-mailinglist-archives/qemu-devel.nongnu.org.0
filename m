@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A15D0259531
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:48:48 +0200 (CEST)
-Received: from localhost ([::1]:60504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44CCC259547
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:50:08 +0200 (CEST)
+Received: from localhost ([::1]:38870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD8Wd-0003PF-Ny
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:48:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55166)
+	id 1kD8Xv-000670-BS
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:50:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <green.wan@sifive.com>)
- id 1kD8VY-00025c-Nf
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:47:40 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:34965)
+ id 1kD8Vd-0002GJ-8Q
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:47:45 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:43595)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <green.wan@sifive.com>)
- id 1kD8VX-00026E-2W
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:47:40 -0400
-Received: by mail-pl1-x644.google.com with SMTP id a8so734372plm.2
- for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 08:47:38 -0700 (PDT)
+ id 1kD8Vb-00026i-EB
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:47:44 -0400
+Received: by mail-pl1-x643.google.com with SMTP id y6so721964plk.10
+ for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 08:47:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id;
- bh=ZDsCNyj6WhZAOI4rsJioOTLR6n+cb2uPbSrQX9rvh4Y=;
- b=Rq+2qMsY7ox6cgTOMCLe8fsuOhoyDlCEdJodfaSg8cuI+uG1QAlrDFT9RqKiIqncgH
- AWIQPN2F48bvC18Yjm8EXKKttd1VPuzf/Bn4Dcqo0CkyglpbyTjuNob42L8oIuWPOql/
- 9fnbQAOdfp+MXL36LkbtPBXLf9TtV1ttdd2ClmbTlZe2Q+pDNyMyx3czw6z+La7RrHuj
- 1e2vcodwpIoLipygFrd68Zo89U5nn3eJ2YcCO3t4ocpx0FQxnwPuU1ehZRUwSclF9Pey
- X1t7Gows7fcEU8qqFCGa/8MPrMecvSdPP5Xrfutx6svZD6h7csDmnHHpBOl9YEfFHUBi
- s19Q==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=Dka4kGmZfMcbFE4G/5IsI7nQ8gtf9IAo5wRmBXJcgzA=;
+ b=FxjfpQyHEdjUQ2UKZUinwwi/zNqDX7YQ4XSlDjIplvJteba8JM40xdPF8EHFQknvUV
+ yEGL6M2T9ATkyos33QH2Fun4kdJYaBEIsH27EsJP/XGQcDiE4fj6QEE3pk7d1/LcMc4e
+ 29X5K/UB8VfVBgUgz2fEiOZu3fG/aOz62ugnozjCB1heA7SWA7hjYr7s7Ru3QeZgQv3s
+ qRVjGID6sx3Acd/QuBVQ45fYf7/m6asuDaFS2//3QemMLLIczckME8AOEqiYNWJsKTNV
+ c1SQe0KFNlFxUXZeeHDWQUn50Ds8uwIfwDts4bSbRS1CA4b9FlnrBaNymgA05aYFWWgt
+ IMTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=ZDsCNyj6WhZAOI4rsJioOTLR6n+cb2uPbSrQX9rvh4Y=;
- b=mKEdd88Rl6xytMng5H3YCOXgE/5APpOB7PTarzcSyMikgqDFiZqbbxWpey1AzgRF8E
- 3p/xlqFQQfI5gb2RH/COIxdCuFk8lFUHdzer7ECJDXawVG14nukQtps1deVY292QxeiI
- ypncOWWft3JcP+axHRWQG5VyR0CR2Qg9au9MvaQnoR9MOc/rjVLr7zJLWueS9ZLrjE5j
- p40bhIaKdcosR5G5k1jgx7vwFBpsPWUeownV/72GLhAoGo3ro9nAoV83YyyRDKjvZf/0
- 9Pp4Lxm3Dpt7tvOdfGyujV8k/vIn5rJlldyyaI81HzSuTE+lgqGmAgxDX4lZK7z+6Cxe
- rPaQ==
-X-Gm-Message-State: AOAM533ZDhvn3xn3gj2VDW8t/LUnB9ROpU8WRobC9joDr/c0fzdpzPkx
- qTF8d100OVQ50Hg8hxJCJ+KcbQ==
-X-Google-Smtp-Source: ABdhPJwpxAj4plms/efop/+9Zf8UwUqvxO8y9Diwu3+gsjM0KlBvjIm6imUgbmkBZAjTL7D+QXbC+A==
-X-Received: by 2002:a17:90b:34e:: with SMTP id
- fh14mr2196202pjb.186.1598975257318; 
- Tue, 01 Sep 2020 08:47:37 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=Dka4kGmZfMcbFE4G/5IsI7nQ8gtf9IAo5wRmBXJcgzA=;
+ b=QFDaVd7JiYHg1o1NF52lKQEAhRnwbqVls4o6cKSgHfegvboLePu/6ygLhCcWkb2VLW
+ lvhwPuIoVgCBoxQ+9c5y/b/6sdt/PrQkwcsN0oyc3W7fhgsQB12LVW6qA2OKJryOHMld
+ lbdZDCif5G3iD9SY0kUyzHJhYhrCHlsfUMSfsnKLcPmktcJF0U/kXgw6BOXJxc3kERMZ
+ rq/P+DOwdFdSZ1yTA+QwCv9dbqBGD2ekLWJAEEJT9lAR8qf6drFJ84RwVSZsNs/jpeZr
+ hae5HZqVp0DwFLxSqZvvfOvRAROboETiCSndlg5ykfO6BUqDxDZ+1Li0GwgoEuyuuWvX
+ q7vg==
+X-Gm-Message-State: AOAM531ao+Gp4DQK2RO+olwRptUpY0oEPWLVm8/8jPGvJbs5HqbmhO41
+ 8zuxN1RMQvkH7j7Okooy2ZQvLRxyFmMEFTZH
+X-Google-Smtp-Source: ABdhPJwuZaYYkJSIQ7Qox7m2qFd3c6hdvqfw489NgESG+2Qau1UJoTI8STjSfRfy4hIQmsmXakp2ow==
+X-Received: by 2002:a17:90b:282:: with SMTP id
+ az2mr2224329pjb.66.1598975261902; 
+ Tue, 01 Sep 2020 08:47:41 -0700 (PDT)
 Received: from localhost.localdomain (111-241-104-82.dynamic-ip.hinet.net.
  [111.241.104.82])
- by smtp.gmail.com with ESMTPSA id e17sm2485344pfm.60.2020.09.01.08.47.35
+ by smtp.gmail.com with ESMTPSA id e17sm2485344pfm.60.2020.09.01.08.47.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Sep 2020 08:47:36 -0700 (PDT)
+ Tue, 01 Sep 2020 08:47:41 -0700 (PDT)
 From: Green Wan <green.wan@sifive.com>
 To: 
-Subject: [RFC PATCH v5 0/2] Add file-backed and write-once features to OTP
-Date: Tue,  1 Sep 2020 23:47:09 +0800
-Message-Id: <20200901154711.18457-1-green.wan@sifive.com>
+Subject: [RFC PATCH v5 2/2] hw/riscv: sifive_u: Add backend drive support
+Date: Tue,  1 Sep 2020 23:47:11 +0800
+Message-Id: <20200901154711.18457-3-green.wan@sifive.com>
 X-Mailer: git-send-email 2.17.1
-Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
- envelope-from=green.wan@sifive.com; helo=mail-pl1-x644.google.com
+In-Reply-To: <20200901154711.18457-1-green.wan@sifive.com>
+References: <20200901154711.18457-1-green.wan@sifive.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
+ envelope-from=green.wan@sifive.com; helo=mail-pl1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,35 +90,127 @@ Cc: qemu-riscv@nongnu.org, Sagar Karandikar <sagark@eecs.berkeley.edu>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Based RFC v4 to fix:
- - Change the patch order
- - Add write operation to update pdin to fuse[] bit by bit 
- - Fix wrong protection for offset 0x0~0x38
- - Add SIFIVE_U_OTP_PWE_EN definition
- - Refine access macro for fuse[] and fuse_wo[]
+Add '-drive' support to OTP device. Allow users to assign a raw file
+as OTP image.
 
-Summary of Patches 
- - First patch is to add write opertion to update pdin data to fuse[] bit
-   by bit. Add 'write-once' feature to block second write to same bit of
-   the OTP memory.
+Signed-off-by: Green Wan <green.wan@sifive.com>
+---
+ hw/riscv/sifive_u_otp.c         | 50 +++++++++++++++++++++++++++++++++
+ include/hw/riscv/sifive_u_otp.h |  2 ++
+ 2 files changed, 52 insertions(+)
 
- - Second patch is to add file-backed implementation to allow users to use
-   '-drive' to assign an OTP raw image file. OTP image file must be bigger
-   than 16K.
-
-       For example, '-drive if=none,format=raw,file=otp.img'
-
-Testing
- - Tested on sifive_u for both qemu and u-boot.
-
-Green Wan (2):
-  hw/riscv: sifive_u: Add write operation and write-once protection
-  hw/riscv: sifive_u: Add backend drive support
-
- hw/riscv/sifive_u_otp.c         | 80 ++++++++++++++++++++++++++++++++-
- include/hw/riscv/sifive_u_otp.h |  5 +++
- 2 files changed, 84 insertions(+), 1 deletion(-)
-
+diff --git a/hw/riscv/sifive_u_otp.c b/hw/riscv/sifive_u_otp.c
+index b8369e9035..477c54c7b8 100644
+--- a/hw/riscv/sifive_u_otp.c
++++ b/hw/riscv/sifive_u_otp.c
+@@ -24,6 +24,8 @@
+ #include "qemu/log.h"
+ #include "qemu/module.h"
+ #include "hw/riscv/sifive_u_otp.h"
++#include "sysemu/blockdev.h"
++#include "sysemu/block-backend.h"
+ 
+ #define WRITTEN_BIT_ON 0x1
+ 
+@@ -54,6 +56,16 @@ static uint64_t sifive_u_otp_read(void *opaque, hwaddr addr, unsigned int size)
+         if ((s->pce & SIFIVE_U_OTP_PCE_EN) &&
+             (s->pdstb & SIFIVE_U_OTP_PDSTB_EN) &&
+             (s->ptrim & SIFIVE_U_OTP_PTRIM_EN)) {
++
++            /* read from backend */
++            if (s->blk) {
++                int32_t buf;
++
++                blk_pread(s->blk, s->pa * SIFIVE_U_OTP_FUSE_WORD, &buf,
++                          SIFIVE_U_OTP_FUSE_WORD);
++                return buf;
++            }
++
+             return s->fuse[s->pa & SIFIVE_U_OTP_PA_MASK];
+         } else {
+             return 0xff;
+@@ -145,6 +157,12 @@ static void sifive_u_otp_write(void *opaque, hwaddr addr,
+             /* write bit data */
+             SET_FUSEARRAY_BIT(s->fuse, s->pa, s->paio, s->pdin);
+ 
++            /* write to backend */
++            if (s->blk) {
++                blk_pwrite(s->blk, s->pa * SIFIVE_U_OTP_FUSE_WORD, &val32,
++                           SIFIVE_U_OTP_FUSE_WORD, 0);
++            }
++
+             /* update written bit */
+             SET_FUSEARRAY_BIT(s->fuse_wo, s->pa, s->paio, WRITTEN_BIT_ON);
+         }
+@@ -168,16 +186,48 @@ static const MemoryRegionOps sifive_u_otp_ops = {
+ 
+ static Property sifive_u_otp_properties[] = {
+     DEFINE_PROP_UINT32("serial", SiFiveUOTPState, serial, 0),
++    DEFINE_PROP_DRIVE("drive", SiFiveUOTPState, blk),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+ static void sifive_u_otp_realize(DeviceState *dev, Error **errp)
+ {
+     SiFiveUOTPState *s = SIFIVE_U_OTP(dev);
++    DriveInfo *dinfo;
+ 
+     memory_region_init_io(&s->mmio, OBJECT(dev), &sifive_u_otp_ops, s,
+                           TYPE_SIFIVE_U_OTP, SIFIVE_U_OTP_REG_SIZE);
+     sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->mmio);
++
++    dinfo = drive_get_next(IF_NONE);
++    if (dinfo) {
++        int ret;
++        uint64_t perm;
++        int filesize;
++        BlockBackend *blk;
++
++        blk = blk_by_legacy_dinfo(dinfo);
++        filesize = SIFIVE_U_OTP_NUM_FUSES * SIFIVE_U_OTP_FUSE_WORD;
++        if (blk_getlength(blk) < filesize) {
++            qemu_log_mask(LOG_GUEST_ERROR, "OTP drive size < 16K\n");
++            return;
++        }
++
++        qdev_prop_set_drive(dev, "drive", blk);
++
++        perm = BLK_PERM_CONSISTENT_READ |
++                        (blk_is_read_only(s->blk) ? 0 : BLK_PERM_WRITE);
++        ret = blk_set_perm(s->blk, perm, BLK_PERM_ALL, errp);
++        if (ret < 0) {
++            qemu_log_mask(LOG_GUEST_ERROR, "set perm error.");
++        }
++
++        if (blk_pread(s->blk, 0, s->fuse, filesize) != filesize) {
++            qemu_log_mask(LOG_GUEST_ERROR,
++                          "failed to read the initial flash content");
++            return;
++        }
++    }
+ }
+ 
+ static void sifive_u_otp_reset(DeviceState *dev)
+diff --git a/include/hw/riscv/sifive_u_otp.h b/include/hw/riscv/sifive_u_otp.h
+index 4a5a0acf48..9bc781fd4f 100644
+--- a/include/hw/riscv/sifive_u_otp.h
++++ b/include/hw/riscv/sifive_u_otp.h
+@@ -45,6 +45,7 @@
+ 
+ #define SIFIVE_U_OTP_PA_MASK        0xfff
+ #define SIFIVE_U_OTP_NUM_FUSES      0x1000
++#define SIFIVE_U_OTP_FUSE_WORD      4
+ #define SIFIVE_U_OTP_SERIAL_ADDR    0xfc
+ 
+ #define SIFIVE_U_OTP_REG_SIZE       0x1000
+@@ -78,6 +79,7 @@ typedef struct SiFiveUOTPState {
+     uint32_t fuse_wo[SIFIVE_U_OTP_NUM_FUSES];
+     /* config */
+     uint32_t serial;
++    BlockBackend *blk;
+ } SiFiveUOTPState;
+ 
+ #endif /* HW_SIFIVE_U_OTP_H */
 -- 
 2.17.1
 
