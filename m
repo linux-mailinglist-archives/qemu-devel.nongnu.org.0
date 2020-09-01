@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 477E8259086
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:34:03 +0200 (CEST)
-Received: from localhost ([::1]:34366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AF7D2590B0
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:37:00 +0200 (CEST)
+Received: from localhost ([::1]:47862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD7MI-0004Vo-9i
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:34:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55642)
+	id 1kD7P9-0002Kg-16
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:36:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6za-0006Bx-Jt; Tue, 01 Sep 2020 10:10:34 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:40129)
+ id 1kD6zc-0006Io-SX; Tue, 01 Sep 2020 10:10:36 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:55425)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zY-00040c-IA; Tue, 01 Sep 2020 10:10:34 -0400
+ id 1kD6zb-00041Z-4s; Tue, 01 Sep 2020 10:10:36 -0400
 Received: from localhost.localdomain ([82.252.135.186]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MrhLw-1kyYlR2DMy-00ndWr; Tue, 01 Sep 2020 16:10:25 +0200
+ id 1MLR5f-1jvASv0q1r-00IY4E; Tue, 01 Sep 2020 16:10:26 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 41/44] hw/intc: fix default registers value in
- exynos4210_combiner_read()
-Date: Tue,  1 Sep 2020 16:09:51 +0200
-Message-Id: <20200901140954.889743-42-laurent@vivier.eu>
+Subject: [PULL 42/44] hw/display/vga:Remove redundant statement in
+ vga_draw_graphic()
+Date: Tue,  1 Sep 2020 16:09:52 +0200
+Message-Id: <20200901140954.889743-43-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200901140954.889743-1-laurent@vivier.eu>
 References: <20200901140954.889743-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:HV333Pu56tdjA+Fq+Yyh+2C6PRpyef9rXpWQpiOOskLJS+eG3ss
- yqhpAtMASB4K5xTEX+CsKrUUSR4BxjZqRl9FCk2rZQCr4HIDu8xS/dSCz/oKXL+M2WXSWpC
- dOfV82UT/Sdu0AeCRKoGCBafMrWSJPc+R/WV7bk59Uxd41ShRQqIhymul3DgPOikNtbdfOK
- 3jX/0YZNw3SDrpqGQSF3g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ha64hrP9JQs=:iaPbmguc0rMKmiCNFs7rUD
- svrXyQ1mLix2iXZpT22HNJfA7Vtpg/f+UuEms5LvTC10yV2NayahpvEfx6NZKUozC8uB2ibjN
- Wj8+pxkwAC/XNqUDBUELiPHbwDb7/k1rL1cs3UXyc89C+vpNhqAumzScpk8kffpDSgU0BAPpZ
- 0GZ4ImjEQXk+pTZe8p0qrYzAxaIo45fo207pQodN0oaOJkbf8nNivDg4c5b+82p8NgaHNXTuC
- e1yzRb5ibJFGzWoL8hFLASFOVNR5W0P+zCW2IBRvO9WnZeVAQUs5BBhST7CP4D9eTNj9NU2af
- eiyTSlTDdg+cu8jrA240nmhIl36KyWjPuzaEwIFYRuOYAeFhpJ4RNaTM0VLDrvWEBayTRP3/7
- KIFvycg20M80NwT26fru3rFT08rguN1fCCwbmotCYDSvjgGW2AmyQiIu2Cit8L4/eQk3ZS6GI
- 4iqSucn+M7JtTupaWfcBPAukJIjkwG5WkAlveV6WK5CTBOaRgLJDhEu+Gg1HeexDoMfbbKGEh
- hhtD6x6/vbi04xAa9Ro5BWSyFJCkKeEUNL537PQ+7zPz98GmUdW20W4I77qb1B/41rkRq6NCE
- fl8eyGO+Pt2BHRwFwxiX4oLQ3X6zk5tj1zb1mOeymAQXBT+HCP32ejVcDZYbspAlOZK7eL5ek
- Fc3wFiTnb889/W3/f68aUeLqtb7m9aoAAxTDsV1ZwSkiLa3MdcP+NAxKOqT8Mu4bbHc7B+s7R
- fsyt5zrajHjrJxPDVhDjCVIQDnxkBtaMz/DaYokn0q02XOu4vRbmgFoDRNnmv8Zkt0cWaukL9
- ogbkf2fv0rrf3q9iZ2MsRZri0O0hbwq4/f/z5iOxPOJtv5GcQ3TxKyqgmBdm7VIGRyBW+l4
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:CpWqSw0iYOifLykI8qXVEfPyPNaZdTJdWWVn3nfPRIrxI8nS2Lu
+ 6AUIIcS9f7U6xRKXU7NLJ8nKrAGS4DDnXYpNMWJuiz2/RcrCicgMvkd84a8sARxVaD5TbFz
+ zyr3/5T0hDNwlvd+CVDAL0pH7Oab+D/ZOV3YZm0RnTNbOV2So9LN3tvMe9Q5tuDtRIOLSuj
+ I2xuOAGwHRZ3K9bhfm5eA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:10m+KQOEWnQ=:Ts4yNXi6sW2f9VcwdVRYMQ
+ v12G155yBP1mBRMEU+gMd3rjnbTqpDPPj9RFquSpG1v1SFnitt0BCH35AYDBkeB3Ge24lhVpb
+ O/NnAdgq/FWZClHAVSKf1Vt7BoPgvMigR4qTI0RaUPBqyBmvIFMwCxncEpqvEDRnQoH0VoBgE
+ EBJsyYFxIzQ50EnkhRY4gPMYl9hNur6O0R2MdcP2Lg9M/RK37wreXbpeqE85UZxyLoqvVFag2
+ BluMxlQQr8hdiMs/f9sCgajIVqxllPWnJaoCYk56ooohs6lxrTMub6PQJ5CGy0yrXvnlBh9Jm
+ yy41a7gAuerwgVsGenZrXxQFqR5LXGqCe10RSxiCxO1aNzZ+Z1mSlwbTSH+lATSbU7kJoLPg2
+ neIRKDhkiG6VlAPNaGvcscI09anYsdVNOGMlNWlkAFLd2u7KsJWoiUHlUJGNTGkP5HJo/Yda1
+ G8UKpMZC5V5sZWr3IOYIfDZQsEJOMH1J7dNOcGa+ITadk7AGlqKAwc3TVDvp1QOSb9psYdmLr
+ 2zLcrReZmDyERy6WNXGV9lsjF651Dl2ULlOna2D04iXku8ogUkOG5ixU6ej9+25hDDOU5Jkbm
+ tMA6edB2BHFpR/wsVsFQ44WHLz9m5E4FVgBE4GvAj+otFr8eZLgOi+OVOUno1/06Tb/F9xjHd
+ KMB5xUn/g5oOJHyIZ5W2H+Gjr5evjjbEt/TX3rnloZ6xJJ6SpQ8Xtc7UIgs0p8ARqI8wQeMT6
+ QHtj85dwwrxhOdFEk5WV7kBwej8WWmXKY+IjwTXwxFQxCPX/UudsSNHbfaeyQJqlK2SkW4hwt
+ 1+QRaTkxak9NoLUCZLSA7NMkP94ztS4131jgRWw6kp6fYGWkQxT7mi7U1AwJAuXcpa3CJVn
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:10:03
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:10:08
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -70,41 +70,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Chen Qun <kuhn.chenqun@huawei.com>,
- Peter Maydell <peter.maydell@linaro.org>, Laurent Vivier <laurent@vivier.eu>,
- Euler Robot <euler.robot@huawei.com>
+Cc: qemu-trivial@nongnu.org, Li Qiang <liq3ea@gmail.com>,
+ Laurent Vivier <laurent@vivier.eu>, Gerd Hoffmann <kraxel@redhat.com>,
+ Euler Robot <euler.robot@huawei.com>, Chen Qun <kuhn.chenqun@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Chen Qun <kuhn.chenqun@huawei.com>
 
 Clang static code analyzer show warning:
-hw/intc/exynos4210_combiner.c:231:9: warning: Value stored to 'val' is never read
-        val = s->reg_set[offset >> 2];
-
-The default register return value should be return 'val'.
+hw/display/vga.c:1677:9: warning: Value stored to 'update' is never read
+        update = full_update;
+        ^        ~~~~~~~~~~~
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20200827110311.164316-10-kuhn.chenqun@huawei.com>
+Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Message-Id: <20200827110311.164316-11-kuhn.chenqun@huawei.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/intc/exynos4210_combiner.c | 1 -
+ hw/display/vga.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/hw/intc/exynos4210_combiner.c b/hw/intc/exynos4210_combiner.c
-index b8561e418037..59dd27fb16e5 100644
---- a/hw/intc/exynos4210_combiner.c
-+++ b/hw/intc/exynos4210_combiner.c
-@@ -229,7 +229,6 @@ exynos4210_combiner_read(void *opaque, hwaddr offset, unsigned size)
-                     TARGET_FMT_plx "offset\n", offset);
+diff --git a/hw/display/vga.c b/hw/display/vga.c
+index 061fd9ab8f6c..836ad50c7b6d 100644
+--- a/hw/display/vga.c
++++ b/hw/display/vga.c
+@@ -1674,7 +1674,6 @@ static void vga_draw_graphic(VGACommonState *s, int full_update)
+         if (!(s->cr[VGA_CRTC_MODE] & 2)) {
+             addr = (addr & ~0x8000) | ((y1 & 2) << 14);
          }
-         val = s->reg_set[offset >> 2];
--        return 0;
-     }
-     return val;
- }
+-        update = full_update;
+         page0 = addr & s->vbe_size_mask;
+         page1 = (addr + bwidth - 1) & s->vbe_size_mask;
+         if (full_update) {
 -- 
 2.26.2
 
