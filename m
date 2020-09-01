@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CAC525906D
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:30:08 +0200 (CEST)
-Received: from localhost ([::1]:45752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57CBD25905E
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:27:59 +0200 (CEST)
+Received: from localhost ([::1]:33058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD7IV-0005g2-Cm
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:30:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55652)
+	id 1kD7GQ-0000Lb-97
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:27:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zb-0006E5-8d; Tue, 01 Sep 2020 10:10:35 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:50439)
+ id 1kD6zY-00065l-HK; Tue, 01 Sep 2020 10:10:32 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:60195)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zY-00040g-Ql; Tue, 01 Sep 2020 10:10:34 -0400
+ id 1kD6zW-0003zh-Fd; Tue, 01 Sep 2020 10:10:32 -0400
 Received: from localhost.localdomain ([82.252.135.186]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1Myb8P-1kW8uZ1oGz-00z1Ps; Tue, 01 Sep 2020 16:10:22 +0200
+ id 1M3UhO-1kCYl63QFG-000bfz; Tue, 01 Sep 2020 16:10:27 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 37/44] hw/virtio/vhost-user:Remove dead assignment in
- scrub_shadow_regions()
-Date: Tue,  1 Sep 2020 16:09:47 +0200
-Message-Id: <20200901140954.889743-38-laurent@vivier.eu>
+Subject: [PULL 43/44] main-loop: Fix comment
+Date: Tue,  1 Sep 2020 16:09:53 +0200
+Message-Id: <20200901140954.889743-44-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200901140954.889743-1-laurent@vivier.eu>
 References: <20200901140954.889743-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:fHDxDkU2JPw6dE9t8b8F4PHzV3yVfSYjKGTRPDjQRQXzP3eP3q1
- WJqL2BVmt4/vKoOR2m9opkFLV7ABY3bCRoUH/325/cJ01t/vCv8veEEbtda31L4uB5Tu80p
- vlml08qkt4TTWO3VxU3nfJlE3KIK3krSdQvP5DOECNW/kforhCr82Ydyu94Cah+RIQLDj1y
- 2evz4eJ+1VWs4aOLmUr6w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:4iRK4LVdoss=:fkLmCagZ7QsGJ3gLJPVOQq
- yd68jVHacc/qgGAi4sIt+yupdyoSpGff3KeLGoemt3KZBOGW+iVtx5OBPKl2CQF6yD44g5mZn
- M2DMcR6NRrJr07+bg6LneIRRNBqzNA87zKFc4Fwej/vJYf8OQPU55gyEFWioAoSUDFsdRC7i6
- Rzy3cJcq3gCUedXgPYgQSGe4TSXfV8i6KT84VbG7G64hTekGbn7vwfR3FbMhZWFXZDAOwHjAG
- GzE1CeaKaie3KbIu/kJBQS7pTaNhSmJ4fuffgHw5nB8W/HUaFglEi97CrhUqmGiGL4yKNNUO8
- UicZz5EWK0WbkqJSYcp1K6UFTdqeb4WQYrxxP3l7xN0ssjSTtqnxtN2BWULT5arU+ed5bBUrg
- JfJBoYZhHE+U+8I+/s3CK6FOJ2SKq9Ujba3VGoFpBmL+h1OY906W0kIXp3CWscmeMV+P+/AS2
- /81aViOfFw6HdZHW0YdwK1VO922gouRQ4Yh0ZLGsUlFJsXtUymC0ko8jLUNa2uyHmN14VmjWu
- MqD5YZSMPPiLReAO1N2/d5SeB1XPQX3Ub2wKInJarWOYMraFi3lCqabqtqpei40lti31pqzc4
- 0OSlTVvrPvFOIbtSTNNcsvbwdp0e8T26NqQKr1m6wsJdYfvlyhte0Uso+vE5PoMeHGbqVCDe3
- LaCJjofukIxSQrT1D8dp1X41PBtTVmCKyetwVNPZiJhOk2JwD/8tWfgovuB638rOT6Lcb0EoB
- dLHI+Hp62o+ktIg9t4MuUQ3Fhw9p6EXFiSn4TtAZH9auLjC85i8z2DxciSxuU+I59zx3ics18
- 7GhBDiTDCzoToimCUiWENMiAfotPzCCZnItZEbEC6kl0F4eT7jTxAE5uoRilnfHNRIVN3ha
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:4o6sYvUCQ0ApSDMYsDaRZRjFjlLFBTF4rHH7ZGvjZc662nk7M2a
+ b+xdzOQSlA7jZQiQ3VIa+yCMvGUaOdUbjLfTggHDvafoxgbSZDHCvY8eJLDemdYmvcCaDXC
+ dOfJ5wwr/1RylQo+NclfulfGIUG/WOftxvTgOvKzTBGQPkvzHaP6En0km2rwiIjburVJWHV
+ WvWHk3gznKqx3ll3x6WSg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:H9mzzYJ0XsI=:QeAI3orvbdrQ0iw8nzXxEF
+ JHq40zQEB/oC+x5FT92VAkchIsxqCpIxN7tCPVupCvSsMrhmgCCJGAL8Wwvfuar4MzK5kYsY9
+ 0ckiKIpQqyYVpzUdUyz2KAR/hov7xmv+32Q4Sp1EDZeYkSZ6HpzZ2XKVTkz8NjKbuqXyovbq6
+ oxDODCNjvvjnzzyW7WcZxBoslv2EK5tr6M52eRoNLdPeoaOhoJmE1WSgHgE+w5P1eRmaUF/lk
+ 3c0klglQxSGlSb5K33Bp7UAWX0gbZEGBUvBfiWpzBXZlmH5ChN5hoVQZAmSkJeY3dQpW1LG78
+ d6xxsLhfpNY5xMQ7xYnTCD/PGj3TVvFfMe7EDclBPs2TfC2btMr26kGo0YjwlouVslDPf/xH3
+ fjCVayRkFlDLp0PByC5P6gYJUUOx9oILEFwoRUfZhlsuPGwEoRZSEduWi8oRnV5bM/7h754j/
+ njshmXl1O7Q4U6U0/WhCDbLty4+ZLS1KWzidix76sDRnhpjcJjzMG6IcpO4a3AUd1rzutL9J/
+ L+VoefHGXcoepJH7XUfj2cPMgjIHkn/EGc5b+aCopX5pmdiTpEL7LZPxZjxWAQjD7wu8GMOcI
+ 6Ms/keBAdW7ZrHVe1XEJJqy0NHusff0i0QOQGdjXWX6TTm7huzoa3jWvGPVI1WE62UcfUiKSP
+ RwFGThlCmuWG4ptg5sK8LBU120dbSbTYpES3AdcoaVRulGrtTTnvjrvPukuZmo8GjwopCF7qj
+ KRck312NPaFzBMO7pjPILwergGlTm2oo8q6GkU1UJ7va3rChLjuNIrRimMRzZzMblVnCmJu8H
+ S+IGxkZh9mT9ZbxzVpxE3mUWew8ZCER4KI3vKJ6TXlDnJdOmduETZgUKitsyWLoLbzBLEzJ
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:10:07
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:09:57
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -70,43 +70,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
+Cc: qemu-trivial@nongnu.org, Stefan Weil <sw@weilnetz.de>,
  Laurent Vivier <laurent@vivier.eu>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Euler Robot <euler.robot@huawei.com>, Chen Qun <kuhn.chenqun@huawei.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Chen Qun <kuhn.chenqun@huawei.com>
+From: Stefan Weil <sw@weilnetz.de>
 
-Clang static code analyzer show warning:
-hw/virtio/vhost-user.c:606:9: warning: Value stored to 'mr' is never read
-        mr = vhost_user_get_mr_data(reg->userspace_addr, &offset, &fd);
-        ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <20200827110311.164316-6-kuhn.chenqun@huawei.com>
+Signed-off-by: Stefan Weil <sw@weilnetz.de>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20200827175520.32355-1-sw@weilnetz.de>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/virtio/vhost-user.c | 2 +-
+ include/qemu/main-loop.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index d7e24237625f..9c5b4f7fbcda 100644
---- a/hw/virtio/vhost-user.c
-+++ b/hw/virtio/vhost-user.c
-@@ -603,7 +603,7 @@ static void scrub_shadow_regions(struct vhost_dev *dev,
-      */
-     for (i = 0; i < dev->mem->nregions; i++) {
-         reg = &dev->mem->regions[i];
--        mr = vhost_user_get_mr_data(reg->userspace_addr, &offset, &fd);
-+        vhost_user_get_mr_data(reg->userspace_addr, &offset, &fd);
-         if (fd > 0) {
-             ++fd_num;
-         }
+diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
+index 8e98613656ff..d6892fd2081a 100644
+--- a/include/qemu/main-loop.h
++++ b/include/qemu/main-loop.h
+@@ -52,7 +52,7 @@ int qemu_init_main_loop(Error **errp);
+  * repeatedly calls main_loop_wait(false).
+  *
+  * Main loop services include file descriptor callbacks, bottom halves
+- * and timers (defined in qemu-timer.h).  Bottom halves are similar to timers
++ * and timers (defined in qemu/timer.h).  Bottom halves are similar to timers
+  * that execute immediately, but have a lower overhead and scheduling them
+  * is wait-free, thread-safe and signal-safe.
+  *
 -- 
 2.26.2
 
