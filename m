@@ -2,73 +2,117 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5368C259322
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:22:29 +0200 (CEST)
-Received: from localhost ([::1]:59332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53C0A259277
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:12:50 +0200 (CEST)
+Received: from localhost ([::1]:48504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD87A-0006WB-By
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:22:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44634)
+	id 1kD7xp-00075F-Bi
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:12:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kD7v0-0004Zx-7E
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:09:55 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:35912)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kD7ux-0004bi-Mf
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:09:53 -0400
-Received: by mail-pl1-x643.google.com with SMTP id y6so678911plt.3
- for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 08:09:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Cr4XHulQO9fR/HQsLEEkrXwNCbZttZVEViWwSbm5i7E=;
- b=eJRjdjLZTQeMTnZ1G6iDq27E4TtBpk5XHnlvRIU6WHA8NysXJsgrL3u6j+Hel/DO2C
- RBiI8fpB2Z2/pOsckxEDh8231DJA9CjGL3RWN5eKE0vPXzrh4RGScgd8JOq3kQSOHlyV
- DkEZb1HPXFl3kBnXqIT8PWnb47q5OvAsDlvTlwbxuMdvngeoV8czn27Q5yBMrMME2lR1
- fCLy2ZjSmuj9Www3b8cmz5a4P1YK6tCwYeOq51dMxQ4WPlQso7EIMaD10Dy8sIz2fqL8
- eJ6k+z2aigUOt1YYbG4KL2AJuKclKZ4+JPChR8qYfGft7houY2VUEOUBIDmTZ1b2ffyc
- wGdg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kD7vZ-0005Fb-Ln
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:10:29 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:45843
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kD7vX-0004ny-Gr
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:10:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598973026;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=/nPcvBp1sTrFhUeBQJsXuAek+7Hcxh1gFmbtI9gpHIs=;
+ b=YI4AU6p7YjEQfIJgEY9Yeg8AJC2akri8wE0uIO5hgHcBIUTf9kavtzh0Eko3i89gcrVJcx
+ F7iRiXahS8vfcnHSgQ1+sWvbkVwA/lapN0kZHM204+OVwhNsV/eAakvOMK7XwwmCIU0nBW
+ 3Vu0XP2BIvfcihg/egn0s/IDMeoxEu0=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-462-rlRU7nVwNdCwDaE8cPNtcA-1; Tue, 01 Sep 2020 11:10:23 -0400
+X-MC-Unique: rlRU7nVwNdCwDaE8cPNtcA-1
+Received: by mail-wr1-f72.google.com with SMTP id g3so708555wrx.1
+ for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 08:10:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=Cr4XHulQO9fR/HQsLEEkrXwNCbZttZVEViWwSbm5i7E=;
- b=OJHhFLrK05h/PjRpE9bITGsInoT9D0nWehASKrqxf7ZDRQIz1b3pnyPHOQdwFiLuqN
- vRsZ8jI1GFGBcYhBTzdcxExX2neMxCwT8OrfSiJpBS/VNCqKtl6mVoTWKhbbj3tuF4GI
- CQ3bbOfer+qVrFKLHX1AY/8JnDgmlBqNzW6Eb+flM3dOmn80+jrcUJvARsWDM1Sux+9D
- wAs/X6gDoSH78Fzz5RBGCkdiNDGKOYWtC29SPRdDwvWXst3QiT9d6o1dzqaKJuDBeZxt
- T4H3+GYD7rioqRJg7WVg8yRUc4R56t8xTrOHvodEmhuF69o7nZolYadyVREP5Cv47e9K
- xB6Q==
-X-Gm-Message-State: AOAM531o69yPcbkcxSB2h6W3ZZ6mauofwt72ff+EkRXB3ff+ok+GILFv
- EnfMpKbNqC6JMzzh/e2cROCpOex6OToV89pz
-X-Google-Smtp-Source: ABdhPJyOWrHHEdP19UtNk/U1L2KPRFyMoK2uTzS7FF8QfOViQNCN6ij2Ac5eks8wZ595M4JpVeA60Q==
-X-Received: by 2002:a17:902:b18b:: with SMTP id
- s11mr1771378plr.211.1598972989341; 
- Tue, 01 Sep 2020 08:09:49 -0700 (PDT)
-Received: from localhost.localdomain ([203.163.237.89])
- by smtp.googlemail.com with ESMTPSA id gk19sm3315777pjb.2.2020.09.01.08.09.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Sep 2020 08:09:48 -0700 (PDT)
-From: Ani Sinha <ani@anisinha.ca>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/3] tests/acpi: add a new ACPI table in order to test root
- pci hotplug on/off
-Date: Tue,  1 Sep 2020 20:39:28 +0530
-Message-Id: <20200901150928.12428-3-ani@anisinha.ca>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200901150928.12428-1-ani@anisinha.ca>
-References: <20200901150928.12428-1-ani@anisinha.ca>
-Received-SPF: none client-ip=2607:f8b0:4864:20::643;
- envelope-from=ani@anisinha.ca; helo=mail-pl1-x643.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_FILL_THIS_FORM_SHORT=0.01 autolearn=ham autolearn_force=no
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=/nPcvBp1sTrFhUeBQJsXuAek+7Hcxh1gFmbtI9gpHIs=;
+ b=gz9yahVjNKbifdTp6SJw18nSE8n7MIzZ/Ou4AJnD1Zt+sGLgJS+bWtVg0Kz/VRvOlF
+ 6N/h6e2JuLu9ELbnlKb+DFvkfwblW6zumba+Q02lfEm9PDOQWFe3jdMnYAlG29DjzM9C
+ yTexCWJrmKDuJdKZi9+cw8GMMl9In5vuuB99/4DjEUHrt0rV4h1RWRgLKYFLcA2xBZj6
+ MnICQsaHW+3w6uM1S2BBhQNWGFTsebfT/tl0/Gm+iEgJ113Koz00s8QcwGUjY9o/AAcW
+ GdnpPA8eaEFSzSfDAjZseyjqoW92yif2cWTzAVJ6nN9eKSaqjGQZntzDIZCeyJQHim99
+ /UJQ==
+X-Gm-Message-State: AOAM533Ly2HPYzvhdjdbhlBeotPcqkuL9y8Rh4rwiuXbvxIEQhrfs6Jg
+ ZNZCl9nuTbfzcv8YIu81X/dfsPPotkWr3aD8RC/O1s09pg9hsZ8L6fHQziuCpxEmIpdUEdJXaaI
+ nbvKZu/Hg0qEjTJo=
+X-Received: by 2002:a1c:c913:: with SMTP id f19mr2157667wmb.173.1598973021987; 
+ Tue, 01 Sep 2020 08:10:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxHvN0nOjTKmNCry4+yDCksvrZ69DXtsuD3ZYykxGT9EzPPpshSVBUJT3kP9tiVeY+E47kYgg==
+X-Received: by 2002:a1c:c913:: with SMTP id f19mr2157647wmb.173.1598973021729; 
+ Tue, 01 Sep 2020 08:10:21 -0700 (PDT)
+Received: from [192.168.1.36] (50.red-83-52-54.dynamicip.rima-tde.net.
+ [83.52.54.50])
+ by smtp.gmail.com with ESMTPSA id c145sm2099263wmd.7.2020.09.01.08.10.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Sep 2020 08:10:21 -0700 (PDT)
+Subject: Re: [PATCH v2 2/2] gitlab: expand test coverage for crypto builds
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200901133050.381844-1-berrange@redhat.com>
+ <20200901133050.381844-3-berrange@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <577ced18-4a9a-3532-e797-0fe0708340bc@redhat.com>
+Date: Tue, 1 Sep 2020 17:10:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
+MIME-Version: 1.0
+In-Reply-To: <20200901133050.381844-3-berrange@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:16:33
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.13, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,638 +125,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, jusual@redhat.com,
- Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A new binary ACPI table tests/data/acpi/pc/DSDT.roothp is added in order
-to unit test hotplug on/off capability on the root pci bus for i440fx.
-The diff between the table DSDT.bridge and DSDT.roothp is listed below:
+On 9/1/20 3:30 PM, Daniel P. Berrangé wrote:
+> Most jobs test the latest nettle library. This adds explicit coverage
+> for latest gcrypt using Fedora, and old gcrypt and nettle using
+> CentOS-7. The latter does a minimal tools-only build, as we only need to
+> validate that the crypto code builds and unit tests pass. Finally a job
+> disabling both nettle and gcrypt is provided to validate that gnutls
+> still works.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  .gitlab-ci.yml                          | 69 +++++++++++++++++++++++++
+>  tests/docker/dockerfiles/centos7.docker |  2 +
+>  tests/docker/dockerfiles/centos8.docker |  1 +
+>  3 files changed, 72 insertions(+)
+> 
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index b7967b9a13..a74b16ff04 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -130,6 +130,7 @@ build-system-fedora:
+>    <<: *native_build_job_definition
+>    variables:
+>      IMAGE: fedora
+> +    CONFIGURE_ARGS: --disable-gcrypt --enable-nettle
+>      TARGETS: tricore-softmmu unicore32-softmmu microblaze-softmmu mips-softmmu
+>        xtensa-softmmu m68k-softmmu riscv32-softmmu ppc-softmmu sparc64-softmmu
+>      MAKE_CHECK_ARGS: check-build
+> @@ -160,6 +161,7 @@ build-system-centos:
+>    <<: *native_build_job_definition
+>    variables:
+>      IMAGE: centos8
+> +    CONFIGURE_ARGS: --disable-nettle --enable-gcrypt
+>      TARGETS: ppc64-softmmu lm32-softmmu or1k-softmmu s390x-softmmu
+>        x86_64-softmmu rx-softmmu sh4-softmmu nios2-softmmu
+>      MAKE_CHECK_ARGS: check-build
+> @@ -196,6 +198,7 @@ build-disabled:
+>        --disable-guest-agent --disable-curses --disable-libxml2 --disable-tpm
+>        --disable-qom-cast-debug --disable-spice --disable-vhost-vsock
+>        --disable-vhost-net --disable-vhost-crypto --disable-vhost-user
+> +      --disable-nettle --disable-gcrypt --disable-gnutls
+>      TARGETS: i386-softmmu ppc64-softmmu mips64-softmmu i386-linux-user
+>      MAKE_CHECK_ARGS: check-qtest SPEED=slow
+>  
+> @@ -271,3 +274,69 @@ build-tci:
+>        done
+>      - QTEST_QEMU_BINARY="./qemu-system-x86_64" ./tests/qtest/pxe-test
+>      - QTEST_QEMU_BINARY="./qemu-system-s390x" ./tests/qtest/pxe-test -m slow
+> +
+> +# Most jobs test latest gcrypt or nettle builds
+> +#
+> +# These jobs test old gcrypt and nettle from RHEL7
+> +# which had some API differences.
+> +build-crypto-old-nettle:
+> +  <<: *native_build_job_definition
+> +  variables:
+> +    IMAGE: centos7
+> +    TARGETS: x86_64-softmmu x86_64-linux-user
+> +    CONFIGURE_ARGS: --disable-gcrypt --enable-nettle
+> +    MAKE_CHECK_ARGS: check-build
+> +  artifacts:
+> +    paths:
+> +      - build
+> +
+> +check-crypto-old-nettle:
+> +  <<: *native_test_job_definition
+> +  needs:
+> +    - job: build-crypto-old-nettle
+> +      artifacts: true
+> +  variables:
+> +    IMAGE: centos7
+> +    MAKE_CHECK_ARGS: check
+> +
+> +
 
-@@ -1,30 +1,30 @@
- /*
-  * Intel ACPI Component Architecture
-  * AML/ASL+ Disassembler version 20180105 (64-bit version)
-  * Copyright (c) 2000 - 2018 Intel Corporation
-  *
-  * Disassembling to symbolic ASL+ operators
-  *
-- * Disassembly of tests/data/acpi/pc/DSDT.bridge, Tue Sep  1 20:02:44 2020
-+ * Disassembly of /tmp/aml-4FIZP0, Tue Sep  1 20:02:44 2020
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-- *     Length           0x00001A89 (6793)
-+ *     Length           0x0000140A (5130)
-  *     Revision         0x01 **** 32-bit table (V1), no 64-bit math support
-- *     Checksum         0x08
-+ *     Checksum         0xE5
-  *     OEM ID           "BOCHS "
-  *     OEM Table ID     "BXPCDSDT"
-  *     OEM Revision     0x00000001 (1)
-  *     Compiler ID      "BXPC"
-  *     Compiler Version 0x00000001 (1)
-  */
- DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPCDSDT", 0x00000001)
- {
-     Scope (\)
-     {
-         OperationRegion (DBG, SystemIO, 0x0402, One)
-         Field (DBG, ByteAcc, NoLock, Preserve)
-         {
-             DBGB,   8
-         }
+I'd copy the same comment for each library... In case
+we add more jobs in the middle.
 
-@@ -831,61 +831,60 @@
-             Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
-             {
-                 IO (Decode16,
-                     0x0510,             // Range Minimum
-                     0x0510,             // Range Maximum
-                     0x01,               // Alignment
-                     0x0C,               // Length
-                     )
-             })
-         }
-     }
+> +build-crypto-old-gcrypt:
+> +  <<: *native_build_job_definition
+> +  variables:
+> +    IMAGE: centos7
+> +    TARGETS: x86_64-softmmu x86_64-linux-user
+> +    CONFIGURE_ARGS: --disable-nettle --enable-gcrypt
+> +    MAKE_CHECK_ARGS: check-build
+> +  artifacts:
+> +    paths:
+> +      - build
+> +
+> +check-crypto-old-gcrypt:
+> +  <<: *native_test_job_definition
+> +  needs:
+> +    - job: build-crypto-old-gcrypt
+> +      artifacts: true
+> +  variables:
+> +    IMAGE: centos7
+> +    MAKE_CHECK_ARGS: check
+> +
+> +
+> +build-crypto-only-gnutls:
 
-     Scope (\_SB)
-     {
-         Scope (PCI0)
-         {
--            Name (BSEL, Zero)
-             Device (S00)
-             {
-                 Name (_ADR, Zero)  // _ADR: Address
-             }
+Aren't these 'old' jobs too (centos 7, not 8)?
 
-             Device (S10)
-             {
-                 Name (_ADR, 0x00020000)  // _ADR: Address
-                 Method (_S1D, 0, NotSerialized)  // _S1D: S1 Device State
-                 {
-                     Return (Zero)
-                 }
+> +  <<: *native_build_job_definition
+> +  variables:
+> +    IMAGE: centos7
+> +    TARGETS: x86_64-softmmu x86_64-linux-user
+> +    CONFIGURE_ARGS: --disable-nettle --disable-gcrypt --enable-gnutls
+> +    MAKE_CHECK_ARGS: check-build
+> +  artifacts:
+> +    paths:
+> +      - build
+> +
+> +check-crypto-only-gnutls:
+> +  <<: *native_test_job_definition
+> +  needs:
+> +    - job: build-crypto-only-gnutls
+> +      artifacts: true
+> +  variables:
+> +    IMAGE: centos7
+> +    MAKE_CHECK_ARGS: check
+> diff --git a/tests/docker/dockerfiles/centos7.docker b/tests/docker/dockerfiles/centos7.docker
+> index e197acdc3c..46277773bf 100644
+> --- a/tests/docker/dockerfiles/centos7.docker
+> +++ b/tests/docker/dockerfiles/centos7.docker
+> @@ -15,9 +15,11 @@ ENV PACKAGES \
+>      gettext \
+>      git \
+>      glib2-devel \
+> +    gnutls-devel \
+>      libaio-devel \
+>      libepoxy-devel \
+>      libfdt-devel \
+> +    libgcrypt-devel \
+>      librdmacm-devel \
+>      libzstd-devel \
+>      lzo-devel \
 
-                 Method (_S2D, 0, NotSerialized)  // _S2D: S2 Device State
-                 {
-                     Return (Zero)
-                 }
+We should try to keep the same set of packages installed (if possible)
+in the older distrib supported and in the more recent one. Not sure
+what the best way to do that though.
 
-                 Method (_S3D, 0, NotSerialized)  // _S3D: S3 Device State
-                 {
-                     Return (Zero)
-                 }
-             }
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-             Device (S18)
-             {
-                 Name (_ADR, 0x00030000)  // _ADR: Address
--                Name (BSEL, One)
-+                Name (BSEL, Zero)
-                 Device (S00)
-                 {
-                     Name (_SUN, Zero)  // _SUN: Slot User Number
-                     Name (_ADR, Zero)  // _ADR: Address
-                     Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
-                     {
-                         PCEJ (BSEL, _SUN)
-                     }
-                 }
-
-                 Device (S08)
-                 {
-                     Name (_SUN, One)  // _SUN: Slot User Number
-                     Name (_ADR, 0x00010000)  // _ADR: Address
-                     Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
-                     {
-@@ -1345,456 +1344,30 @@
-                         Notify (SE8, Arg1)
-                     }
-
-                     If ((Arg0 & 0x40000000))
-                     {
-                         Notify (SF0, Arg1)
-                     }
-
-                     If ((Arg0 & 0x80000000))
-                     {
-                         Notify (SF8, Arg1)
-                     }
-                 }
-
-                 Method (PCNT, 0, NotSerialized)
-                 {
--                    BNUM = One
-+                    BNUM = Zero
-                     DVNT (PCIU, One)
-                     DVNT (PCID, 0x03)
-                 }
-             }
-
--            Device (S20)
--            {
--                Name (_SUN, 0x04)  // _SUN: Slot User Number
--                Name (_ADR, 0x00040000)  // _ADR: Address
--                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
--                {
--                    PCEJ (BSEL, _SUN)
--                }
--            }
--
--            Device (S28)
--            {
--                Name (_SUN, 0x05)  // _SUN: Slot User Number
--                Name (_ADR, 0x00050000)  // _ADR: Address
--                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
--                {
--                    PCEJ (BSEL, _SUN)
--                }
--            }
--
--            Device (S30)
--            {
--                Name (_SUN, 0x06)  // _SUN: Slot User Number
--                Name (_ADR, 0x00060000)  // _ADR: Address
--                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
--                {
--                    PCEJ (BSEL, _SUN)
--                }
--            }
--
--            Device (S38)
--            {
--                Name (_SUN, 0x07)  // _SUN: Slot User Number
--                Name (_ADR, 0x00070000)  // _ADR: Address
--                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
--                {
--                    PCEJ (BSEL, _SUN)
--                }
--            }
--
--            Device (S40)
--            {
--                Name (_SUN, 0x08)  // _SUN: Slot User Number
--                Name (_ADR, 0x00080000)  // _ADR: Address
--                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
--                {
--                    PCEJ (BSEL, _SUN)
--                }
--            }
--
--            Device (S48)
--            {
--                Name (_SUN, 0x09)  // _SUN: Slot User Number
--                Name (_ADR, 0x00090000)  // _ADR: Address
--                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
--                {
--                    PCEJ (BSEL, _SUN)
--                }
--            }
--
--            Device (S50)
--            {
--                Name (_SUN, 0x0A)  // _SUN: Slot User Number
--                Name (_ADR, 0x000A0000)  // _ADR: Address
--                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
--                {
--                    PCEJ (BSEL, _SUN)
--                }
--            }
--
--            Device (S58)
--            {
--                Name (_SUN, 0x0B)  // _SUN: Slot User Number
--                Name (_ADR, 0x000B0000)  // _ADR: Address
--                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
--                {
--                    PCEJ (BSEL, _SUN)
--                }
--            }
--
--            Device (S60)
--            {
--                Name (_SUN, 0x0C)  // _SUN: Slot User Number
--                Name (_ADR, 0x000C0000)  // _ADR: Address
--                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
--                {
--                    PCEJ (BSEL, _SUN)
--                }
--            }
--
--            Device (S68)
--            {
--                Name (_SUN, 0x0D)  // _SUN: Slot User Number
--                Name (_ADR, 0x000D0000)  // _ADR: Address
--                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
--                {
--                    PCEJ (BSEL, _SUN)
--                }
--            }
--
--            Device (S70)
--            {
--                Name (_SUN, 0x0E)  // _SUN: Slot User Number
--                Name (_ADR, 0x000E0000)  // _ADR: Address
--                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
--                {
--                    PCEJ (BSEL, _SUN)
--                }
--            }
--
--            Device (S78)
--            {
--                Name (_SUN, 0x0F)  // _SUN: Slot User Number
--                Name (_ADR, 0x000F0000)  // _ADR: Address
--                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
--                {
--                    PCEJ (BSEL, _SUN)
--                }
--            }
--
--            Device (S80)
--            {
--                Name (_SUN, 0x10)  // _SUN: Slot User Number
--                Name (_ADR, 0x00100000)  // _ADR: Address
--                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
--                {
--                    PCEJ (BSEL, _SUN)
--                }
--            }
--
--            Device (S88)
--            {
--                Name (_SUN, 0x11)  // _SUN: Slot User Number
--                Name (_ADR, 0x00110000)  // _ADR: Address
--                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
--                {
--                    PCEJ (BSEL, _SUN)
--                }
--            }
--
--            Device (S90)
--            {
--                Name (_SUN, 0x12)  // _SUN: Slot User Number
--                Name (_ADR, 0x00120000)  // _ADR: Address
--                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
--                {
--                    PCEJ (BSEL, _SUN)
--                }
--            }
--
--            Device (S98)
--            {
--                Name (_SUN, 0x13)  // _SUN: Slot User Number
--                Name (_ADR, 0x00130000)  // _ADR: Address
--                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
--                {
--                    PCEJ (BSEL, _SUN)
--                }
--            }
--
--            Device (SA0)
--            {
--                Name (_SUN, 0x14)  // _SUN: Slot User Number
--                Name (_ADR, 0x00140000)  // _ADR: Address
--                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
--                {
--                    PCEJ (BSEL, _SUN)
--                }
--            }
--
--            Device (SA8)
--            {
--                Name (_SUN, 0x15)  // _SUN: Slot User Number
--                Name (_ADR, 0x00150000)  // _ADR: Address
--                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
--                {
--                    PCEJ (BSEL, _SUN)
--                }
--            }
--
--            Device (SB0)
--            {
--                Name (_SUN, 0x16)  // _SUN: Slot User Number
--                Name (_ADR, 0x00160000)  // _ADR: Address
--                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
--                {
--                    PCEJ (BSEL, _SUN)
--                }
--            }
--
--            Device (SB8)
--            {
--                Name (_SUN, 0x17)  // _SUN: Slot User Number
--                Name (_ADR, 0x00170000)  // _ADR: Address
--                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
--                {
--                    PCEJ (BSEL, _SUN)
--                }
--            }
--
--            Device (SC0)
--            {
--                Name (_SUN, 0x18)  // _SUN: Slot User Number
--                Name (_ADR, 0x00180000)  // _ADR: Address
--                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
--                {
--                    PCEJ (BSEL, _SUN)
--                }
--            }
--
--            Device (SC8)
--            {
--                Name (_SUN, 0x19)  // _SUN: Slot User Number
--                Name (_ADR, 0x00190000)  // _ADR: Address
--                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
--                {
--                    PCEJ (BSEL, _SUN)
--                }
--            }
--
--            Device (SD0)
--            {
--                Name (_SUN, 0x1A)  // _SUN: Slot User Number
--                Name (_ADR, 0x001A0000)  // _ADR: Address
--                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
--                {
--                    PCEJ (BSEL, _SUN)
--                }
--            }
--
--            Device (SD8)
--            {
--                Name (_SUN, 0x1B)  // _SUN: Slot User Number
--                Name (_ADR, 0x001B0000)  // _ADR: Address
--                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
--                {
--                    PCEJ (BSEL, _SUN)
--                }
--            }
--
--            Device (SE0)
--            {
--                Name (_SUN, 0x1C)  // _SUN: Slot User Number
--                Name (_ADR, 0x001C0000)  // _ADR: Address
--                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
--                {
--                    PCEJ (BSEL, _SUN)
--                }
--            }
--
--            Device (SE8)
--            {
--                Name (_SUN, 0x1D)  // _SUN: Slot User Number
--                Name (_ADR, 0x001D0000)  // _ADR: Address
--                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
--                {
--                    PCEJ (BSEL, _SUN)
--                }
--            }
--
--            Device (SF0)
--            {
--                Name (_SUN, 0x1E)  // _SUN: Slot User Number
--                Name (_ADR, 0x001E0000)  // _ADR: Address
--                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
--                {
--                    PCEJ (BSEL, _SUN)
--                }
--            }
--
--            Device (SF8)
--            {
--                Name (_SUN, 0x1F)  // _SUN: Slot User Number
--                Name (_ADR, 0x001F0000)  // _ADR: Address
--                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
--                {
--                    PCEJ (BSEL, _SUN)
--                }
--            }
--
--            Method (DVNT, 2, NotSerialized)
--            {
--                If ((Arg0 & 0x10))
--                {
--                    Notify (S20, Arg1)
--                }
--
--                If ((Arg0 & 0x20))
--                {
--                    Notify (S28, Arg1)
--                }
--
--                If ((Arg0 & 0x40))
--                {
--                    Notify (S30, Arg1)
--                }
--
--                If ((Arg0 & 0x80))
--                {
--                    Notify (S38, Arg1)
--                }
--
--                If ((Arg0 & 0x0100))
--                {
--                    Notify (S40, Arg1)
--                }
--
--                If ((Arg0 & 0x0200))
--                {
--                    Notify (S48, Arg1)
--                }
--
--                If ((Arg0 & 0x0400))
--                {
--                    Notify (S50, Arg1)
--                }
--
--                If ((Arg0 & 0x0800))
--                {
--                    Notify (S58, Arg1)
--                }
--
--                If ((Arg0 & 0x1000))
--                {
--                    Notify (S60, Arg1)
--                }
--
--                If ((Arg0 & 0x2000))
--                {
--                    Notify (S68, Arg1)
--                }
--
--                If ((Arg0 & 0x4000))
--                {
--                    Notify (S70, Arg1)
--                }
--
--                If ((Arg0 & 0x8000))
--                {
--                    Notify (S78, Arg1)
--                }
--
--                If ((Arg0 & 0x00010000))
--                {
--                    Notify (S80, Arg1)
--                }
--
--                If ((Arg0 & 0x00020000))
--                {
--                    Notify (S88, Arg1)
--                }
--
--                If ((Arg0 & 0x00040000))
--                {
--                    Notify (S90, Arg1)
--                }
--
--                If ((Arg0 & 0x00080000))
--                {
--                    Notify (S98, Arg1)
--                }
--
--                If ((Arg0 & 0x00100000))
--                {
--                    Notify (SA0, Arg1)
--                }
--
--                If ((Arg0 & 0x00200000))
--                {
--                    Notify (SA8, Arg1)
--                }
--
--                If ((Arg0 & 0x00400000))
--                {
--                    Notify (SB0, Arg1)
--                }
--
--                If ((Arg0 & 0x00800000))
--                {
--                    Notify (SB8, Arg1)
--                }
--
--                If ((Arg0 & 0x01000000))
--                {
--                    Notify (SC0, Arg1)
--                }
--
--                If ((Arg0 & 0x02000000))
--                {
--                    Notify (SC8, Arg1)
--                }
--
--                If ((Arg0 & 0x04000000))
--                {
--                    Notify (SD0, Arg1)
--                }
--
--                If ((Arg0 & 0x08000000))
--                {
--                    Notify (SD8, Arg1)
--                }
--
--                If ((Arg0 & 0x10000000))
--                {
--                    Notify (SE0, Arg1)
--                }
--
--                If ((Arg0 & 0x20000000))
--                {
--                    Notify (SE8, Arg1)
--                }
--
--                If ((Arg0 & 0x40000000))
--                {
--                    Notify (SF0, Arg1)
--                }
--
--                If ((Arg0 & 0x80000000))
--                {
--                    Notify (SF8, Arg1)
--                }
--            }
--
-             Method (PCNT, 0, NotSerialized)
-             {
--                BNUM = Zero
--                DVNT (PCIU, One)
--                DVNT (PCID, 0x03)
-                 ^S18.PCNT ()
-             }
-         }
-     }
- }
-
-Signed-off-by: Ani Sinha <ani@anisinha.ca>
----
- tests/data/acpi/pc/DSDT.roothp              | Bin 0 -> 5130 bytes
- tests/qtest/bios-tables-test-allowed-diff.h |   1 -
- 2 files changed, 1 deletion(-)
- create mode 100644 tests/data/acpi/pc/DSDT.roothp
-
-diff --git a/tests/data/acpi/pc/DSDT.roothp b/tests/data/acpi/pc/DSDT.roothp
-new file mode 100644
-index 0000000000000000000000000000000000000000..be3e3bfaff7e4e2cfc51e11ca88e4e113aa5e6c8
-GIT binary patch
-literal 5130
-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
-
-literal 0
-HcmV?d00001
-
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index ac864fc982..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,2 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/pc/DSDT.roothp",
--- 
-2.17.1
+> diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
+> index 9852c5b9ee..f435616d6a 100644
+> --- a/tests/docker/dockerfiles/centos8.docker
+> +++ b/tests/docker/dockerfiles/centos8.docker
+> @@ -13,6 +13,7 @@ ENV PACKAGES \
+>      glib2-devel \
+>      libaio-devel \
+>      libepoxy-devel \
+> +    libgcrypt-devel \
+>      lzo-devel \
+>      make \
+>      mesa-libEGL-devel \
+> 
 
 
