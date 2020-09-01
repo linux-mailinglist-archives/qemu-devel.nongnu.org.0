@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCCAE25909A
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:36:11 +0200 (CEST)
-Received: from localhost ([::1]:43462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 477E8259086
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:34:03 +0200 (CEST)
+Received: from localhost ([::1]:34366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD7OM-0008VR-IX
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:36:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55670)
+	id 1kD7MI-0004Vo-9i
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:34:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zb-0006Fv-Sw; Tue, 01 Sep 2020 10:10:35 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:49875)
+ id 1kD6za-0006Bx-Jt; Tue, 01 Sep 2020 10:10:34 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:40129)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zZ-00041C-Qm; Tue, 01 Sep 2020 10:10:35 -0400
+ id 1kD6zY-00040c-IA; Tue, 01 Sep 2020 10:10:34 -0400
 Received: from localhost.localdomain ([82.252.135.186]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N0X4e-1kY3eO2yOa-00wXVp; Tue, 01 Sep 2020 16:10:25 +0200
+ id 1MrhLw-1kyYlR2DMy-00ndWr; Tue, 01 Sep 2020 16:10:25 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 40/44] usb/bus: Remove dead assignment in usb_get_fw_dev_path()
-Date: Tue,  1 Sep 2020 16:09:50 +0200
-Message-Id: <20200901140954.889743-41-laurent@vivier.eu>
+Subject: [PULL 41/44] hw/intc: fix default registers value in
+ exynos4210_combiner_read()
+Date: Tue,  1 Sep 2020 16:09:51 +0200
+Message-Id: <20200901140954.889743-42-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200901140954.889743-1-laurent@vivier.eu>
 References: <20200901140954.889743-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:fde0JeXMtmvEuG6BD+FGbBr2ZW7adftAP1LOT4aUDPUX5ab2HO+
- RLIoJfCid5/jFRFUEPKiZvqKrA1w7OfiS3b8t3Ii51b4wOehEsxki0FNyywxqr0lp4dTrYS
- 9mbnfwvWo90EMi359IUOxb2xa16QZgpSRdw5ZQ0bbgdW8NjxjUnn9xO2dLPs9Nh4jR+buXS
- yJGsJ6gxiTNDzMDmyUu5A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:wYIVgo2wF7Y=:DQaAn1e4j/icgNtKwXPzm6
- iiaBkeBweCMqVLaQ6+Ba0cl+vZb+UCQhifGw4qo2tKiyQLH0ID5n89O3q0w9ErQECU9mZdeck
- FSUyea/BtFZDAFgDieulLO5JJKwHPrpXt9RUZKMt2r/oM2QRxZ2oKTqwKPxoDyOmKWxZnjeK4
- bQlzSsp1xaLUbTBmX+96mOrzBBnxIc/2tKJ6cTVFb1v689t9p9RQ9dC4XGT7CpE3Np5FDlo5A
- isnO6ezfPP7+01KGfSW9pD/tRVat1SY2MHynQtJLox5rIv8RA8MLMXNQbG10+CbDLpbihHQ11
- syyU+lxUgqlyUmGOI28T0vHZxr+jnfxoJjJlkvXFJ/MArLAm7mP+rYejXeSxCpkgsF2Ua5/RK
- PCylaQ9oBahzXfvlWyWFPdqcI6J44cjB4jKJtcAUocAYtt1EIr7ncEX9HhruC5Tixl1dCwFVB
- BwE21wjC7UBmArnIme7+i1uYinLMcEU7afw+lkAVxE49ML/8w66rs+WKu9ehKRA8T8RkGjVyY
- 7vP4obr5PR0whXGBRDaaKxz6obsHTeqG/ffn0+uxLUo7VOdwuzCqBgCZRFz60qwQhd0P0v0Q8
- ljC98uqC0UZVXoPQLM/WhJQHtT8lVx7Lw9//+b/8EItWpbqVRTQjknYK9swSyNa/7Bw+Qz/Uw
- kYeh5APB75tCFLvNloFQvm9hgq7+gKkD3B5f8R1OJIgifiHpHQehIQTvwvfmWUoE8uAxV5Scj
- MLkhLA+l2wVZjr6GlXZEOnmnB0jgIl0GP81/P3DlL0r046wfloDq/09uWvlkZaVjuMwN+r2Gc
- R6aa4XxV4xLQ8kwePcTG16pOtms7lDo4Zogt9MI+ET95XoWf4LmrJSS15r0yXKRqV7hT0L+
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:HV333Pu56tdjA+Fq+Yyh+2C6PRpyef9rXpWQpiOOskLJS+eG3ss
+ yqhpAtMASB4K5xTEX+CsKrUUSR4BxjZqRl9FCk2rZQCr4HIDu8xS/dSCz/oKXL+M2WXSWpC
+ dOfV82UT/Sdu0AeCRKoGCBafMrWSJPc+R/WV7bk59Uxd41ShRQqIhymul3DgPOikNtbdfOK
+ 3jX/0YZNw3SDrpqGQSF3g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ha64hrP9JQs=:iaPbmguc0rMKmiCNFs7rUD
+ svrXyQ1mLix2iXZpT22HNJfA7Vtpg/f+UuEms5LvTC10yV2NayahpvEfx6NZKUozC8uB2ibjN
+ Wj8+pxkwAC/XNqUDBUELiPHbwDb7/k1rL1cs3UXyc89C+vpNhqAumzScpk8kffpDSgU0BAPpZ
+ 0GZ4ImjEQXk+pTZe8p0qrYzAxaIo45fo207pQodN0oaOJkbf8nNivDg4c5b+82p8NgaHNXTuC
+ e1yzRb5ibJFGzWoL8hFLASFOVNR5W0P+zCW2IBRvO9WnZeVAQUs5BBhST7CP4D9eTNj9NU2af
+ eiyTSlTDdg+cu8jrA240nmhIl36KyWjPuzaEwIFYRuOYAeFhpJ4RNaTM0VLDrvWEBayTRP3/7
+ KIFvycg20M80NwT26fru3rFT08rguN1fCCwbmotCYDSvjgGW2AmyQiIu2Cit8L4/eQk3ZS6GI
+ 4iqSucn+M7JtTupaWfcBPAukJIjkwG5WkAlveV6WK5CTBOaRgLJDhEu+Gg1HeexDoMfbbKGEh
+ hhtD6x6/vbi04xAa9Ro5BWSyFJCkKeEUNL537PQ+7zPz98GmUdW20W4I77qb1B/41rkRq6NCE
+ fl8eyGO+Pt2BHRwFwxiX4oLQ3X6zk5tj1zb1mOeymAQXBT+HCP32ejVcDZYbspAlOZK7eL5ek
+ Fc3wFiTnb889/W3/f68aUeLqtb7m9aoAAxTDsV1ZwSkiLa3MdcP+NAxKOqT8Mu4bbHc7B+s7R
+ fsyt5zrajHjrJxPDVhDjCVIQDnxkBtaMz/DaYokn0q02XOu4vRbmgFoDRNnmv8Zkt0cWaukL9
+ ogbkf2fv0rrf3q9iZ2MsRZri0O0hbwq4/f/z5iOxPOJtv5GcQ3TxKyqgmBdm7VIGRyBW+l4
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:10:08
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:10:03
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -69,43 +70,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
- Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Euler Robot <euler.robot@huawei.com>, Chen Qun <kuhn.chenqun@huawei.com>
+Cc: qemu-trivial@nongnu.org, Chen Qun <kuhn.chenqun@huawei.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Laurent Vivier <laurent@vivier.eu>,
+ Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Chen Qun <kuhn.chenqun@huawei.com>
 
 Clang static code analyzer show warning:
-qemu/hw/usb/bus.c:615:13: warning: Value stored to 'pos' is never read
-            pos += snprintf(fw_path + pos, fw_len - pos, "%s@%lx",
+hw/intc/exynos4210_combiner.c:231:9: warning: Value stored to 'val' is never read
+        val = s->reg_set[offset >> 2];
+
+The default register return value should be return 'val'.
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-Id: <20200827110311.164316-9-kuhn.chenqun@huawei.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20200827110311.164316-10-kuhn.chenqun@huawei.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/usb/bus.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/intc/exynos4210_combiner.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/hw/usb/bus.c b/hw/usb/bus.c
-index b17bda3b29ef..2b1104145157 100644
---- a/hw/usb/bus.c
-+++ b/hw/usb/bus.c
-@@ -612,8 +612,8 @@ static char *usb_get_fw_dev_path(DeviceState *qdev)
-             in++;
-         } else {
-             /* the device itself */
--            pos += snprintf(fw_path + pos, fw_len - pos, "%s@%lx",
--                            qdev_fw_name(qdev), nr);
-+            snprintf(fw_path + pos, fw_len - pos, "%s@%lx",
-+                     qdev_fw_name(qdev), nr);
-             break;
+diff --git a/hw/intc/exynos4210_combiner.c b/hw/intc/exynos4210_combiner.c
+index b8561e418037..59dd27fb16e5 100644
+--- a/hw/intc/exynos4210_combiner.c
++++ b/hw/intc/exynos4210_combiner.c
+@@ -229,7 +229,6 @@ exynos4210_combiner_read(void *opaque, hwaddr offset, unsigned size)
+                     TARGET_FMT_plx "offset\n", offset);
          }
+         val = s->reg_set[offset >> 2];
+-        return 0;
      }
+     return val;
+ }
 -- 
 2.26.2
 
