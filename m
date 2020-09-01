@@ -2,73 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8591325957B
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:52:33 +0200 (CEST)
-Received: from localhost ([::1]:49120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CDED259599
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:53:55 +0200 (CEST)
+Received: from localhost ([::1]:54018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD8aG-00021u-Iz
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:52:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56672)
+	id 1kD8ba-0004Nt-If
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:53:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kD8ZO-00014f-SC
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:51:38 -0400
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:34581)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1kD8Zn-0001lH-6Y; Tue, 01 Sep 2020 11:52:03 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:48690)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kD8ZM-0002n7-5D
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:51:38 -0400
-Received: by mail-ed1-x541.google.com with SMTP id q21so1954721edv.1
- for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 08:51:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=/3r0V5XaWzpq03UXQxRhWPAEfoInKgh4VrLacrOfRHk=;
- b=y2FoEqnTpKJ8yZ6xQbESB03fyV4FpWOkpiXvUxfH9A2HnDGKr/Q9mrWG+TTBPWS9aK
- Tt5Q1ZVhKxYG7qqqgR3XMEU95d6rZxmzmf30M6BWVB7GJQA68SaG0qqbR+MYnxHAvAhb
- GbEgA2w/EMXKNZrNlHb+Qh/WkcQLXGBPJENxkPLlQ06IRsq7hHM4Os4YcfhjGNwfbcAI
- j/4O2UGeI86G45RqcHBb6i9ETm6eCjTEx0MJbqZeCPAJrJj7SIu49EeSZ3F+ilH3VpSE
- sjeXkd3zsXHtsMMGwGmUa/jhJ2/B65N39MoDZa2clraA9qthsZTVj3/Nv0NHSIOnWvGG
- cEXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=/3r0V5XaWzpq03UXQxRhWPAEfoInKgh4VrLacrOfRHk=;
- b=coHDmbNkvKkjJFcgekogOcUz9EZSI0XMYnzQeDv+RmpyKXI4FInGk5otJZzkPvgCrZ
- NSOaQbp6RNIH7gxg6vY469xbX7Iy4xgzwF6qtNcgoiRnH5W27ZEscX4pblkp1mwKt8ht
- eXJn7Wm9toIgaYrqihu0r4q344aTxphPvq8XjHSKww3riCrqxB2/ZvM1gN5Nx28I0nMP
- srkvNR2jL7uCCfj9WViqN5nXeCBzOVnoqahw1tAEOky1eVPbcMbHcvtmnFB9kPnlM6/x
- 4qQbk63WwTkz/qrS6Wty0Fuv8ULhJ5gu8uMixzQ7wLnAvJ7DhgDscLr8/raWF4qICCuj
- XZLg==
-X-Gm-Message-State: AOAM5301sUE8BAIUx56OyZsgEQQVR+NzooXGYiPWcLkkZpi2P+qAHKzO
- owYBM9NgIN53GSlm/MzMAfkn2lG0267WTk/gO3KzWg==
-X-Google-Smtp-Source: ABdhPJwNfFpSHwO1xiJbcqKIqWq8tcKjeBQs9PJeYoxt7WHzXpjVw8/7yjcLcZedTErCJYNQogfmw1ctnMcsD5D97JA=
-X-Received: by 2002:aa7:d596:: with SMTP id r22mr2344387edq.204.1598975494113; 
- Tue, 01 Sep 2020 08:51:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1kD8Zk-0002pC-J1; Tue, 01 Sep 2020 11:52:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=KNr5mbVqX0pAOpsy3E3+gsRYlh1KeJDiFVrABwAXuYo=; 
+ b=CuJL8E1GxYWE4m3sU5W3/gEIaaXWR3nMr0GIsZPryy6lHg7dajCG7SQ/jRmKq1sbhtx05jX4co0FwxHwYaB6o+stNq8DkEI6uL1A3BIPwpK/kgX7n7uAPiwSW7qfQpXVHoKhFyNUoi+Om1ykwHbjG9hqNZ/jfWKce4Obp4o3HLUhovz3NAqJbFvnCkqnPEUSgWZUPVWXC4tELOCREy+XQXlEEyMcHBXIvjUGaMqYjJgEnf5mJTEp3d9fRN6FrC+D+j0k1MnHiE389K3A6bUUAixIaXQOR/m9+GQ/Z/cui/Sj8plObUGneeHGdqsp+sTHLZ3QJrMxkIy5dRLeXAzE0g==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1kD8Zg-0007Zu-2Z; Tue, 01 Sep 2020 17:51:56 +0200
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1kD8Zf-0003sI-Ne; Tue, 01 Sep 2020 17:51:55 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: Nir Soffer <nirsof@gmail.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH 2/2] block: file-posix: Replace posix_fallocate with
+ fallocate
+In-Reply-To: <20200831140127.657134-3-nsoffer@redhat.com>
+References: <20200831140127.657134-1-nsoffer@redhat.com>
+ <20200831140127.657134-3-nsoffer@redhat.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Tue, 01 Sep 2020 17:51:55 +0200
+Message-ID: <w51y2lt7aw4.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-References: <20200901140803.888852-1-laurent@vivier.eu>
- <c63cde35-2959-f119-5c22-fccdf23a23d7@vivier.eu>
-In-Reply-To: <c63cde35-2959-f119-5c22-fccdf23a23d7@vivier.eu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 1 Sep 2020 16:51:20 +0100
-Message-ID: <CAFEAcA-OMRhuZFZO3S4-g7BCX0BQVvqaivSN6E5WXCxeoo_eAg@mail.gmail.com>
-Subject: Re: [PULL 00/44] Trivial branch for 5.2 patches
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::541;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Content-Type: text/plain
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 09:30:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,47 +63,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 1 Sep 2020 at 15:42, Laurent Vivier <laurent@vivier.eu> wrote:
+On Mon 31 Aug 2020 04:01:27 PM CEST, Nir Soffer wrote:
+> If fallocate() is not supported, posix_fallocate() falls back to
+> inefficient allocation, writing one byte for every 4k bytes[1]. This is
+> very slow compared with writing zeros. In oVirt we measured ~400%
+> improvement in allocation time when replacing posix_fallocate() with
+> manually writing zeroes[2].
 >
-> Le 01/09/2020 =C3=A0 16:07, Laurent Vivier a =C3=A9crit :
-> > The following changes since commit 39335fab59e11cfda9b7cf63929825db2dd3=
-a3e0:
-> >
-> >   Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-5.2=
--pull-=3D
-> > request' into staging (2020-08-28 22:30:11 +0100)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://github.com/vivier/qemu.git tags/trivial-branch-for-5.2-pull-req=
-uest
-> >
-> > for you to fetch changes up to 1eef4ba6be30f8b95c8cda1bcb50a176d680a34d=
-:
-> >
-> >   docs/system: Fix grammar in documentation (2020-09-01 12:09:30 +0200)
-
-> Please ignore this PR, it failed after the first patch.
+> We also know that posix_fallocated() does not work well when using OFD
+> locks[3]. We don't know the reason yet for this issue yet.
 >
-> The second attempt is the one to take (same name, no versioning but
-> completed).
-
-The two are identical from my point of view because they refer
-to the same tag (and even the same commit hash in this case).
-The merge process doesn't care about the emails that go to the
-list: those are just for others' information and the historical
-record.
+> Change preallocate_falloc() to use fallocate() instead of
+> posix_falloate(), and fall back to full preallocation if not
+> supported.
 
 
-Applied, thanks.
+>      case PREALLOC_MODE_FALLOC:
+>          result = preallocate_falloc(fd, current_length, offset, errp);
+> -        goto out;
+> +        if (result != -ENOTSUP)
+> +            goto out;
+> +        /* If fallocate() is not supported, fallback to full preallocation. */
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
+With the missing braces in this if statement,
 
--- PMM
+Reviewed-by: Alberto Garcia <berto@igalia.com>
+
+Berto
 
