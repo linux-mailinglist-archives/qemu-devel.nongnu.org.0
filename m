@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD79E258BFD
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 11:48:30 +0200 (CEST)
-Received: from localhost ([::1]:47812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C74B9258C07
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 11:49:54 +0200 (CEST)
+Received: from localhost ([::1]:54240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD2tx-0008E1-PW
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 05:48:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41794)
+	id 1kD2vJ-0002Og-QI
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 05:49:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kD2ry-0005gP-LK
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:46:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53901)
+ id 1kD2sW-0006Xv-4d
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:47:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48317)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kD2rw-0002aL-QU
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:46:26 -0400
+ id 1kD2sT-0002dY-2t
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:46:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598953583;
+ s=mimecast20190719; t=1598953616;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LGid5aDKISTEYpkoli7vN43mg8iSmdITU6ES14zzLVY=;
- b=gWsWh2HXk3SRr9mw7ltXb/en2ldxzsZny8vYvND13aEO87HEMhinM3Nxpt6saGJbT59Cyi
- Js4ZwS/xrJKBepvVgGUERyx45/hFIHwmKGLCso6k+rT1fvmbrByYgeETfEJ1wHa7gw/c/L
- 3ttQEet63o1WjrDYNkEx8WWQgul59U4=
+ bh=LM2evUXCjVgvYdezqVUiLzbaKBwveZFp0nKT6vK6UHQ=;
+ b=I//MWgSJtffINhUMVyJ5eJzlmZx0EqVd+eTY/N4d7WhQhCK67khRy4zAF8zBddPB85YEVV
+ F8f5KSSftjjG38L2c/ryepxaZ8+614evaubE9iD82jvNZa5axFc3naQ5MSKSyQxfHUW7oE
+ KcV5ey9gslJ5AI9Ta055K5nTXZ/ezmc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-512-UnwfYw6LMQqV00akpjI-oQ-1; Tue, 01 Sep 2020 05:46:19 -0400
-X-MC-Unique: UnwfYw6LMQqV00akpjI-oQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-338-KAXeQnlSMEC1lRafAST7eg-1; Tue, 01 Sep 2020 05:46:54 -0400
+X-MC-Unique: KAXeQnlSMEC1lRafAST7eg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9B3781CAFB;
- Tue,  1 Sep 2020 09:46:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B07DC10ABDAA;
+ Tue,  1 Sep 2020 09:46:53 +0000 (UTC)
 Received: from redhat.com (ovpn-114-215.ams2.redhat.com [10.36.114.215])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 683BE78B40;
- Tue,  1 Sep 2020 09:46:12 +0000 (UTC)
-Date: Tue, 1 Sep 2020 10:46:09 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D72E7EB72;
+ Tue,  1 Sep 2020 09:46:48 +0000 (UTC)
+Date: Tue, 1 Sep 2020 10:46:45 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Lukas Straub <lukasstraub2@web.de>
-Subject: Re: [PATCH v8 4/8] migration: Add yank feature
-Message-ID: <20200901094609.GH345480@redhat.com>
+Subject: Re: [PATCH v8 6/8] io: Document qmp oob suitability of
+ qio_channel_shutdown and io_shutdown
+Message-ID: <20200901094645.GI345480@redhat.com>
 References: <cover.1598951375.git.lukasstraub2@web.de>
- <1a2255fed79dbbc60ba2fd53d9dee23e00a9ba76.1598951375.git.lukasstraub2@web.de>
+ <cd6eaf1915c834e7070a5c3cad083372a43edb82.1598951375.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-In-Reply-To: <1a2255fed79dbbc60ba2fd53d9dee23e00a9ba76.1598951375.git.lukasstraub2@web.de>
+In-Reply-To: <cd6eaf1915c834e7070a5c3cad083372a43edb82.1598951375.git.lukasstraub2@web.de>
 User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
@@ -94,19 +95,16 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 01, 2020 at 11:15:18AM +0200, Lukas Straub wrote:
-> Register yank functions on sockets to shut them down.
+On Tue, Sep 01, 2020 at 11:15:25AM +0200, Lukas Straub wrote:
+> Migration and yank code assume that qio_channel_shutdown is thread
+> -safe and can be called from qmp oob handler. Document this after
+> checking the code.
 > 
 > Signed-off-by: Lukas Straub <lukasstraub2@web.de>
 > Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
-> Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 > ---
->  migration/channel.c           | 12 ++++++++++++
->  migration/migration.c         | 25 +++++++++++++++++++++++++
->  migration/multifd.c           | 10 ++++++++++
->  migration/qemu-file-channel.c |  6 ++++++
->  migration/savevm.c            |  6 ++++++
->  5 files changed, 59 insertions(+)
+>  include/io/channel.h | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
