@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43C47259EC7
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 20:56:44 +0200 (CEST)
-Received: from localhost ([::1]:56796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B959259EE1
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 20:59:53 +0200 (CEST)
+Received: from localhost ([::1]:36272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDBSV-0002Qv-BS
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 14:56:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49036)
+	id 1kDBVY-0005gd-1i
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 14:59:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kDBCH-0004qQ-HM
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 14:39:57 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:32928
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1kDBDS-0005am-6k
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 14:41:10 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21172
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kDBCE-0000M3-TR
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 14:39:56 -0400
+ id 1kDBDP-0000b8-T5
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 14:41:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598985592;
+ s=mimecast20190719; t=1598985666;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DkSDBu6l+Ztxj669gfGIYzTYqrHGhUz76mCIJLj7uKk=;
- b=UXJ5rUBXjmmH206exwEeqQrs8NGXqDppCpRBQUn/x8l2is/dO5UROP+L/y8+DhRzeMxXq5
- mnyHOSSWPKAzB2Got60FLXpGuTtM9zj+BwAqKLvDLqajiKyncduGPlQFjvaBPNdTvsEiMM
- eS2COLGpNZEi7PYhXADgO45mqdu+/K0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-82-5GIBFAV-Moazb9rhoH3kVQ-1; Tue, 01 Sep 2020 14:39:51 -0400
-X-MC-Unique: 5GIBFAV-Moazb9rhoH3kVQ-1
-Received: by mail-wr1-f70.google.com with SMTP id j2so912986wrr.14
- for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 11:39:50 -0700 (PDT)
+ bh=cHnibG0oY+2YPBeaoqJM72SJmM+iyP39BF0RO3DNpvE=;
+ b=AERScBusxgZQq7AoRIzaDTVIMn/JSb0yE6/MGZdO5wEXF4GceeuKejcc0uyeLTNtLlGs9K
+ 8dv9IrxsJbr+EuXJsKFLK8B8X6ks5fifRN0LVeqdjuHYTQdEIsT+N0LtsCASiTmKFPzZa+
+ UowjgKIc14NEE01y9OkL3+LEgUjtmLw=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-182-S0kuQMTOMuuk8sTy0wUrcA-1; Tue, 01 Sep 2020 14:41:01 -0400
+X-MC-Unique: S0kuQMTOMuuk8sTy0wUrcA-1
+Received: by mail-wr1-f72.google.com with SMTP id v12so916176wrm.9
+ for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 11:41:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=DkSDBu6l+Ztxj669gfGIYzTYqrHGhUz76mCIJLj7uKk=;
- b=jFfN1r8tdA/orCVswYxyWs/wCdNPr+DoSdhCgQ3PYyflfsjPnpbZWKR0CP7KhIaOR9
- rNCdgV3ou0vuYB5R+Ad5wkVhsIXx26lA/3vctRAQml6Ti00RWzxe5Bf23oAg/jMHbkvf
- 19TNR5RPlOvAEhbdH2/MT9XGOBdHjbaAbGjo9K6DhQTJ+kV40lKBIWYe0bdgA5iw1MTI
- xCuN5eLQA9ULpo+BV3706dVVaOzUEhj3uOPBTy7CXfd2h+vvGpMXdyERKPHhbPUq0sHr
- 1kDzhyGa68VvwCbwWeiJUe/bLMUO2vCLO+tqFcEcYd8dlPm3jeKuNwnwWqiSG1f5h/tx
- x1Bw==
-X-Gm-Message-State: AOAM532bo/Duv8RUGXQr5nbcQoe31+diTy9QncwxUA0vfBoq0b9TGZJE
- 09DHLPe9EpOAFrx9iKM5JNBtUZpggP0TTTp49TR1ZLfB34iZQ+TersiLjHd8gPeWfun3ivLBFd7
- OWbmcpqX5dl8q8zw=
-X-Received: by 2002:a5d:610d:: with SMTP id v13mr3095430wrt.23.1598985589950; 
- Tue, 01 Sep 2020 11:39:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwyR0BUQ3ZRoKpybDP4ABk4f4ym2P1JiMa4bO5mmw2swLf9I2nBD0wDoZV5Hw2/8SQpMs4kWg==
-X-Received: by 2002:a5d:610d:: with SMTP id v13mr3095416wrt.23.1598985589770; 
- Tue, 01 Sep 2020 11:39:49 -0700 (PDT)
+ bh=cHnibG0oY+2YPBeaoqJM72SJmM+iyP39BF0RO3DNpvE=;
+ b=erzzS5bpkjeb915N3ejp5KkIKhTAi2dc2w81iE/06TvHsA/o9J9rAGGeflh4BaZfoG
+ yNLi3nVZaFx6lVKXP9J3MPTYzTg7395JSuiwopSkWP3viwHzJgffp6sa/5OzTZwxx5rM
+ vLWUkoxrYf908Id/t/HXFkUpyeqtFPzsR7QJ2mrh75ky11KiTRA9rKHkH/8Gm8+roozq
+ YEQi59++Sn6TIGuK+06tjrrjD73Lvkc/Qd65cbLhOMBTBW0ITXMI8yfX865Wf7g7tW9/
+ vYMaXbqhiEI7dDZAbh8fHYpp/22PCXVcRt2msBoaL93M/QFi/PIY9qBLvsdYAgLmpFSV
+ fvKw==
+X-Gm-Message-State: AOAM532vk/aCHTgv9U347CuxH6j5E+ogGOdPs0Pz/KgNCSXxs1jv5ndJ
+ mr57oSeUCtBAsuk279aAuMmUQXy63E+KUrmo+XsHXVb94wns2szXWLPj3jqnAAkNW1yuy2UGHWv
+ R8EqUgw2ewYQVF8o=
+X-Received: by 2002:a7b:cc90:: with SMTP id p16mr3182446wma.100.1598985660318; 
+ Tue, 01 Sep 2020 11:41:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyB2uUsmAMGlkSZcr01tWWvyyS7Sc9/A2dqh30tGZQK7k3UNVNKiyOHP4wLqFuI1nJPJbqe9g==
+X-Received: by 2002:a7b:cc90:: with SMTP id p16mr3182430wma.100.1598985660129; 
+ Tue, 01 Sep 2020 11:41:00 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:7fbd:8007:1fa7:ed17?
  ([2001:b07:6468:f312:7fbd:8007:1fa7:ed17])
- by smtp.gmail.com with ESMTPSA id u66sm3048352wmg.44.2020.09.01.11.39.48
+ by smtp.gmail.com with ESMTPSA id l9sm2857616wmh.1.2020.09.01.11.40.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Sep 2020 11:39:49 -0700 (PDT)
-Subject: Re: [PATCH] fuzz: Add support for custom fuzzing library
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-References: <9dfe703d-5c78-36d0-bc15-17ff6f9179d7@redhat.com>
- <20200901181800.326382-1-alxndr@bu.edu>
+ Tue, 01 Sep 2020 11:40:59 -0700 (PDT)
+Subject: Re: [PATCH 03/13] oslib-posix: default exec_dir to bindir
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20200901062020.26660-1-pbonzini@redhat.com>
+ <20200901062020.26660-4-pbonzini@redhat.com>
+ <b922b8e3-4ba0-f035-014e-c77df254d6de@linaro.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <dde8a8f1-a4b0-11ec-6247-c35004863598@redhat.com>
-Date: Tue, 1 Sep 2020 20:39:48 +0200
+Message-ID: <d0a52a88-25c1-9d18-6ab5-10dc86c989f7@redhat.com>
+Date: Tue, 1 Sep 2020 20:40:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200901181800.326382-1-alxndr@bu.edu>
+In-Reply-To: <b922b8e3-4ba0-f035-014e-c77df254d6de@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0.001
@@ -79,18 +80,17 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:16:33
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 05:11:36
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.13, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.13, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,18 +103,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Bandan Das <bsd@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/09/20 20:18, Alexander Bulekov wrote:
-> Maybe if I can get the oss-fuzz LIB_FUZZING_ENGINE
-> (/usr/lib/libFuzzingEngine.a) into the --start-group, that could also
-> solve the issue... I'll take another look at exactly what the oss-fuzz
-> build container does.
+On 01/09/20 20:04, Richard Henderson wrote:
+> On 8/31/20 11:20 PM, Paolo Bonzini wrote:
+>> +        exec_dir = g_strdup(CONFIG_BINDIR);
+> 
+> Why the strdup?  The string constant should be fine, IIUC.
 
-Yeah, that might do it.  You can try adding it to the fork_fuzz dependency.
+Of course it is.
 
 Paolo
 
