@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0A61259237
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:06:07 +0200 (CEST)
-Received: from localhost ([::1]:48350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9CF325924D
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:07:37 +0200 (CEST)
+Received: from localhost ([::1]:56794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD7rK-0003Y0-Qx
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:06:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34916)
+	id 1kD7sm-0006yA-LM
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:07:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kD7OO-0001nP-8T
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:36:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36762)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kD7OS-0001yt-Me
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:36:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40407)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kD7OM-0007Ui-5g
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:36:11 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kD7OQ-0007Vw-RZ
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:36:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598970965;
+ s=mimecast20190719; t=1598970974;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ulimzNEL0OebYKLchj/jnvciYR7O1dWP7X6ueYqVugk=;
- b=KCS1bedUXcVDdddgp2Ge0Mntjpw/wPrr3ykBtl8547/0CnI9LMCJucFdIgCNMROb6BhI7L
- r26A2tx3FA3d0qkHFvGLRyfY05jE3CqHphY3o7dw+P90b1oHArPcj/sUAwz8GKRBD+OQcn
- k/3dkf4feg9u+BpRLMNMi2N84Glg74c=
+ bh=kEDD8EZ3NXR+WBah5o0bCJv3QQm2e9NsGt4o5bHQHNk=;
+ b=hRigcn1kUvJKwMqRZ3PZp26vUtXgaS5+TtW7W6RZWsf2usHPCgpXrVVVxRy/NtjrigFaO8
+ a7HMZtV+pgigN1n1GGeizLYUPQ6Q+WX20DUtmsDfEfPbnVrk75QnUn0zdznjD56SSoa0g2
+ lmKn0Byu6NHkPCTbbS4VtpoyvRevoqQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-190-xeyiFwbcPn66DHjPqtzHfw-1; Tue, 01 Sep 2020 10:36:00 -0400
-X-MC-Unique: xeyiFwbcPn66DHjPqtzHfw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-458-sd79CdFQMC2eSa35xPMr0g-1; Tue, 01 Sep 2020 10:36:12 -0400
+X-MC-Unique: sd79CdFQMC2eSa35xPMr0g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D57C818BA283;
- Tue,  1 Sep 2020 14:35:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 464BB10ABDA8;
+ Tue,  1 Sep 2020 14:36:11 +0000 (UTC)
 Received: from localhost (ovpn-113-83.ams2.redhat.com [10.36.113.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 72DA47C564;
- Tue,  1 Sep 2020 14:35:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DB38019C4F;
+ Tue,  1 Sep 2020 14:36:10 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v8 38/43] iotests: Test that qcow2's data-file is flushed
-Date: Tue,  1 Sep 2020 16:34:19 +0200
-Message-Id: <20200901143424.884735-39-mreitz@redhat.com>
+Subject: [PATCH v8 43/43] iotests: Test committing to overridden backing
+Date: Tue,  1 Sep 2020 16:34:24 +0200
+Message-Id: <20200901143424.884735-44-mreitz@redhat.com>
 In-Reply-To: <20200901143424.884735-1-mreitz@redhat.com>
 References: <20200901143424.884735-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
@@ -65,7 +65,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,93 +85,98 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Flushing a qcow2 node must lead to the data-file node being flushed as
-well.
-
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/qemu-iotests/244     | 49 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/244.out |  7 ++++++
- 2 files changed, 56 insertions(+)
+ tests/qemu-iotests/040     | 61 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/040.out |  4 +--
+ 2 files changed, 63 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qemu-iotests/244 b/tests/qemu-iotests/244
-index efe3c0428b..f2b2dddf1c 100755
---- a/tests/qemu-iotests/244
-+++ b/tests/qemu-iotests/244
-@@ -217,6 +217,55 @@ $QEMU_IMG amend -f $IMGFMT -o "data_file=blkdebug::$TEST_IMG.data" "$TEST_IMG"
- $QEMU_IMG convert -f $IMGFMT -O $IMGFMT -n -C "$TEST_IMG.src" "$TEST_IMG"
- $QEMU_IMG compare -f $IMGFMT -F $IMGFMT "$TEST_IMG.src" "$TEST_IMG"
+diff --git a/tests/qemu-iotests/040 b/tests/qemu-iotests/040
+index 71c6d7f621..2a54f9ad21 100755
+--- a/tests/qemu-iotests/040
++++ b/tests/qemu-iotests/040
+@@ -911,6 +911,67 @@ class TestCommitWithFilters(iotests.QMPTestCase):
+         # 3 has been comitted into 2
+         self.pattern_files[3] = self.img2
  
-+echo
-+echo "=== Flushing should flush the data file ==="
-+echo
++class TestCommitWithOverriddenBacking(iotests.QMPTestCase):
++    img_base_a = os.path.join(iotests.test_dir, 'base_a.img')
++    img_base_b = os.path.join(iotests.test_dir, 'base_b.img')
++    img_top = os.path.join(iotests.test_dir, 'top.img')
 +
-+# We are going to flush a qcow2 file with a blkdebug node inserted
-+# between the qcow2 node and its data file node.  The blkdebug node
-+# will return an error for all flushes and so we if the data file is
-+# flushed, we will see qemu-io return an error.
++    def setUp(self):
++        qemu_img('create', '-f', iotests.imgfmt, self.img_base_a, '1M')
++        qemu_img('create', '-f', iotests.imgfmt, self.img_base_b, '1M')
++        qemu_img('create', '-f', iotests.imgfmt, '-b', self.img_base_a, \
++                 self.img_top)
 +
-+# We need to write something or the flush will not do anything; we
-+# also need -t writeback so the write is not done as a FUA write
-+# (which would then fail thanks to the implicit flush)
-+$QEMU_IO -c 'write 0 512' -c flush \
-+    -t writeback \
-+    "json:{
-+         'driver': 'qcow2',
-+         'file': {
-+             'driver': 'file',
-+             'filename': '$TEST_IMG'
-+         },
-+         'data-file': {
-+             'driver': 'blkdebug',
-+             'inject-error': [{
-+                 'event': 'none',
-+                 'iotype': 'flush'
-+             }],
-+             'image': {
-+                 'driver': 'file',
-+                 'filename': '$TEST_IMG.data'
-+             }
-+         }
-+     }" \
-+    | _filter_qemu_io
++        self.vm = iotests.VM()
++        self.vm.launch()
 +
-+result=${PIPESTATUS[0]}
-+echo
++        # Use base_b instead of base_a as the backing of top
++        result = self.vm.qmp('blockdev-add', **{
++                                'node-name': 'top',
++                                'driver': iotests.imgfmt,
++                                'file': {
++                                    'driver': 'file',
++                                    'filename': self.img_top
++                                },
++                                'backing': {
++                                    'node-name': 'base',
++                                    'driver': iotests.imgfmt,
++                                    'file': {
++                                        'driver': 'file',
++                                        'filename': self.img_base_b
++                                    }
++                                }
++                            })
++        self.assert_qmp(result, 'return', {})
 +
-+case $result in
-+    0)
-+        echo "ERROR: qemu-io succeeded, so the data file was not flushed"
-+        ;;
-+    1)
-+        echo "Success: qemu-io failed, so the data file was flushed"
-+        ;;
-+    *)
-+        echo "ERROR: qemu-io returned unknown exit code $result"
-+        ;;
-+esac
++    def tearDown(self):
++        self.vm.shutdown()
++        os.remove(self.img_top)
++        os.remove(self.img_base_a)
++        os.remove(self.img_base_b)
 +
- # success, all done
- echo "*** done"
- rm -f $seq.full
-diff --git a/tests/qemu-iotests/244.out b/tests/qemu-iotests/244.out
-index dbab7359a9..7269b4295a 100644
---- a/tests/qemu-iotests/244.out
-+++ b/tests/qemu-iotests/244.out
-@@ -131,4 +131,11 @@ Offset          Length          Mapped to       File
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864 data_file=TEST_DIR/t.IMGFMT.data
- Images are identical.
- Images are identical.
++    def test_commit_to_a(self):
++        # Try committing to base_a (which should fail, as top's
++        # backing image is base_b instead)
++        result = self.vm.qmp('block-commit',
++                             job_id='commit',
++                             device='top',
++                             base=self.img_base_a)
++        self.assert_qmp(result, 'error/class', 'GenericError')
 +
-+=== Flushing should flush the data file ===
++    def test_commit_to_b(self):
++        # Try committing to base_b (which should work, since that is
++        # actually top's backing image)
++        result = self.vm.qmp('block-commit',
++                             job_id='commit',
++                             device='top',
++                             base=self.img_base_b)
++        self.assert_qmp(result, 'return', {})
 +
-+wrote 512/512 bytes at offset 0
-+512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++        self.vm.event_wait('BLOCK_JOB_READY')
++        self.vm.qmp('block-job-complete', device='commit')
++        self.vm.event_wait('BLOCK_JOB_COMPLETED')
 +
-+Success: qemu-io failed, so the data file was flushed
- *** done
+ if __name__ == '__main__':
+     iotests.main(supported_fmts=['qcow2', 'qed'],
+                  supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/040.out b/tests/qemu-iotests/040.out
+index 4823c113d5..1bb1dc5f0e 100644
+--- a/tests/qemu-iotests/040.out
++++ b/tests/qemu-iotests/040.out
+@@ -1,5 +1,5 @@
+-...............................................................
++.................................................................
+ ----------------------------------------------------------------------
+-Ran 63 tests
++Ran 65 tests
+ 
+ OK
 -- 
 2.26.2
 
