@@ -2,104 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DE2F259270
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:12:22 +0200 (CEST)
-Received: from localhost ([::1]:47164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5F342592C3
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:16:50 +0200 (CEST)
+Received: from localhost ([::1]:34846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD7xN-0006Vh-9J
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:12:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41508)
+	id 1kD81h-0004kJ-TF
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:16:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mhartmay@linux.ibm.com>)
- id 1kD7ly-0002wL-5A
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:00:34 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:25366)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mhartmay@linux.ibm.com>)
- id 1kD7lv-0002OE-4M
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:00:33 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 081EVnag113892
- for <qemu-devel@nongnu.org>; Tue, 1 Sep 2020 11:00:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=AFrP5xpKGk9YZFebhPC5b5mu0I0WwNASnFEw69AXuDE=;
- b=pUpi/kuEf1fR7c7xRiRYUMC2XUq6o5Q8GReSxBos9w5AR9Jntp3s5RR2Uz2Tz0rXHJRz
- YLh7Pox9H2tWDPDpv/JYuuqnW+aqHj8wv6/F6Fk13S709GCkRBGFqMJoIaaPll6IRr5W
- JsuMeW6q3LKw9L0zpmmhsnyNkXLQaiPoEHEJmbvua2XKezH5WGXPRM4aUwNpHzXn2Xj2
- /mOqivctkMMRMgQOmVexYN3FRA9jVCVMTa64ZTCiqyPgzAUnWeM/nehjYZzu7ZslqrO7
- 5E92PbdQwOZtSYdD98xaGk2iEX1dgAdgCEnjZollMxOFbfDazl8QvaMyCGJooyq0pI7l qQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 339qdu2xsu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 11:00:28 -0400
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 081EWFBY115713
- for <qemu-devel@nongnu.org>; Tue, 1 Sep 2020 11:00:28 -0400
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0a-001b2d01.pphosted.com with ESMTP id 339qdu2xrk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Sep 2020 11:00:27 -0400
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 081Ei0TH015471;
- Tue, 1 Sep 2020 15:00:26 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma04fra.de.ibm.com with ESMTP id 339ap7rg3e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Sep 2020 15:00:25 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 081F0N6017367494
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 1 Sep 2020 15:00:23 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 33A904C089;
- Tue,  1 Sep 2020 15:00:23 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CE6714C090;
- Tue,  1 Sep 2020 15:00:22 +0000 (GMT)
-Received: from marcibm.ibmuc.com (unknown [9.145.15.189])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue,  1 Sep 2020 15:00:22 +0000 (GMT)
-From: Marc Hartmayer <mhartmay@linux.ibm.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH v2 2/2] libvhost-user: handle endianness as mandated by the
- spec
-Date: Tue,  1 Sep 2020 17:00:19 +0200
-Message-Id: <20200901150019.29229-3-mhartmay@linux.ibm.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200901150019.29229-1-mhartmay@linux.ibm.com>
-References: <20200901150019.29229-1-mhartmay@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kD7sg-0007wK-Ub
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:07:30 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48677
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kD7sc-0004B2-VU
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:07:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598972845;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=DjSk/e5SXMdCtxWQeU7ZGcAUJHMwTAmNVplEoQQtlYE=;
+ b=dpnp7mSC3t7hfa03oOp9AAg6QcNy4PROnlQ1klbaiA8OJYA/jwKr9ipuPmIZ7VdBAMKb+O
+ 7tKv8ighD6Ma4HBhpKpLk9ao00NXIPpc5H0fr8Xoji58xlIo3KyTA30Oa0X5k8ik3G/bMv
+ v2I2EgbM1eIWkFGRZlRosNmoa+PmPQc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-323-1JMOkRucM0SQq0RJjjHYZA-1; Tue, 01 Sep 2020 11:07:23 -0400
+X-MC-Unique: 1JMOkRucM0SQq0RJjjHYZA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF3268015A8;
+ Tue,  1 Sep 2020 15:07:21 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-83.ams2.redhat.com
+ [10.36.113.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B2FA619C66;
+ Tue,  1 Sep 2020 15:07:16 +0000 (UTC)
+Subject: Re: [PATCH v5 00/10] preallocate filter
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20200821141123.28538-1-vsementsov@virtuozzo.com>
+ <3a810fb7-eedc-bd54-4319-f1862b5382c0@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <1c027e2c-651c-7077-09e3-f94c71c6dde7@redhat.com>
+Date: Tue, 1 Sep 2020 17:07:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-09-01_08:2020-09-01,
- 2020-09-01 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 phishscore=0
- clxscore=1015 lowpriorityscore=0 spamscore=0 priorityscore=1501
- suspectscore=0 mlxlogscore=999 malwarescore=0 impostorscore=0 mlxscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009010118
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=mhartmay@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 11:00:28
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <3a810fb7-eedc-bd54-4319-f1862b5382c0@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="wVzrZ1owYKa5uZaIm51SADd4IX81VQCxR"
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 00:57:59
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.13, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -112,280 +108,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ nsoffer@redhat.com, stefanha@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since virtio existed even before it got standardized, the virtio
-standard defines the following types of virtio devices:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--wVzrZ1owYKa5uZaIm51SADd4IX81VQCxR
+Content-Type: multipart/mixed; boundary="qy7IAreQaHzq0KRNV7YB2ldsD5ACN7OFz"
 
- + legacy device (pre-virtio 1.0)
- + non-legacy or VIRTIO 1.0 device
- + transitional device (which can act both as legacy and non-legacy)
+--qy7IAreQaHzq0KRNV7YB2ldsD5ACN7OFz
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Virtio 1.0 defines the fields of the virtqueues as little endian,
-while legacy uses guest's native endian [1]. Currently libvhost-user
-does not handle virtio endianness at all, i.e. it works only if the
-native endianness matches with whatever is actually needed. That means
-things break spectacularly on big-endian targets. Let us handle virtio
-endianness for non-legacy as required by the virtio specification [1]
-and fence legacy virtio, as there is no safe way to figure out the
-needed endianness conversions for all cases. The fencing of legacy
-virtio devices is done in `vu_set_features_exec`.
+On 27.08.20 23:08, Vladimir Sementsov-Ogievskiy wrote:
+> 21.08.2020 17:11, Vladimir Sementsov-Ogievskiy wrote:
+>> Hi all!
+>>
+>> Here is a filter, which does preallocation on write.
+>>
+>> In Virtuozzo we have to deal with some custom distributed storage
+>> solution, where allocation is relatively expensive operation. We have to
+>> workaround it in Qemu, so here is a new filter.
+>=20
+> I have a problem now with this thing.
+>=20
+> We need preallocation. But we don't want to explicitly specify it in all
+> the management tools.
 
-[1] https://docs.oasis-open.org/virtio/virtio/v1.1/cs01/virtio-v1.1-cs01.html#x1-210003
+Why?
 
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Marc Hartmayer <mhartmay@linux.ibm.com>
----
- contrib/libvhost-user/libvhost-user.c | 77 +++++++++++++++------------
- 1 file changed, 43 insertions(+), 34 deletions(-)
+> So it should be inserted by default.
 
-diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-user/libvhost-user.c
-index 53f16bdf082c..e2238a0400c9 100644
---- a/contrib/libvhost-user/libvhost-user.c
-+++ b/contrib/libvhost-user/libvhost-user.c
-@@ -42,6 +42,7 @@
- 
- #include "qemu/atomic.h"
- #include "qemu/osdep.h"
-+#include "qemu/bswap.h"
- #include "qemu/memfd.h"
- 
- #include "libvhost-user.h"
-@@ -539,6 +540,14 @@ vu_set_features_exec(VuDev *dev, VhostUserMsg *vmsg)
-     DPRINT("u64: 0x%016"PRIx64"\n", vmsg->payload.u64);
- 
-     dev->features = vmsg->payload.u64;
-+    if (!vu_has_feature(dev, VIRTIO_F_VERSION_1)) {
-+        /*
-+         * We only support devices conforming to VIRTIO 1.0 or
-+         * later
-+         */
-+        vu_panic(dev, "virtio legacy devices aren't supported by libvhost-user");
-+        return false;
-+    }
- 
-     if (!(dev->features & VHOST_USER_F_PROTOCOL_FEATURES)) {
-         vu_set_enable_all_rings(dev, true);
-@@ -1074,7 +1083,7 @@ vu_set_vring_addr_exec(VuDev *dev, VhostUserMsg *vmsg)
-         return false;
-     }
- 
--    vq->used_idx = vq->vring.used->idx;
-+    vq->used_idx = lduw_le_p(&vq->vring.used->idx);
- 
-     if (vq->last_avail_idx != vq->used_idx) {
-         bool resume = dev->iface->queue_is_processed_in_order &&
-@@ -1191,7 +1200,7 @@ vu_check_queue_inflights(VuDev *dev, VuVirtq *vq)
-         return 0;
-     }
- 
--    vq->used_idx = vq->vring.used->idx;
-+    vq->used_idx = lduw_le_p(&vq->vring.used->idx);
-     vq->resubmit_num = 0;
-     vq->resubmit_list = NULL;
-     vq->counter = 0;
-@@ -2021,13 +2030,13 @@ vu_queue_started(const VuDev *dev, const VuVirtq *vq)
- static inline uint16_t
- vring_avail_flags(VuVirtq *vq)
- {
--    return vq->vring.avail->flags;
-+    return lduw_le_p(&vq->vring.avail->flags);
- }
- 
- static inline uint16_t
- vring_avail_idx(VuVirtq *vq)
- {
--    vq->shadow_avail_idx = vq->vring.avail->idx;
-+    vq->shadow_avail_idx = lduw_le_p(&vq->vring.avail->idx);
- 
-     return vq->shadow_avail_idx;
- }
-@@ -2035,7 +2044,7 @@ vring_avail_idx(VuVirtq *vq)
- static inline uint16_t
- vring_avail_ring(VuVirtq *vq, int i)
- {
--    return vq->vring.avail->ring[i];
-+    return lduw_le_p(&vq->vring.avail->ring[i]);
- }
- 
- static inline uint16_t
-@@ -2123,12 +2132,12 @@ virtqueue_read_next_desc(VuDev *dev, struct vring_desc *desc,
-                          int i, unsigned int max, unsigned int *next)
- {
-     /* If this descriptor says it doesn't chain, we're done. */
--    if (!(desc[i].flags & VRING_DESC_F_NEXT)) {
-+    if (!(lduw_le_p(&desc[i].flags) & VRING_DESC_F_NEXT)) {
-         return VIRTQUEUE_READ_DESC_DONE;
-     }
- 
-     /* Check they're not leading us off end of descriptors. */
--    *next = desc[i].next;
-+    *next = lduw_le_p(&desc[i].next);
-     /* Make sure compiler knows to grab that: we don't want it changing! */
-     smp_wmb();
- 
-@@ -2171,8 +2180,8 @@ vu_queue_get_avail_bytes(VuDev *dev, VuVirtq *vq, unsigned int *in_bytes,
-         }
-         desc = vq->vring.desc;
- 
--        if (desc[i].flags & VRING_DESC_F_INDIRECT) {
--            if (desc[i].len % sizeof(struct vring_desc)) {
-+        if (lduw_le_p(&desc[i].flags) & VRING_DESC_F_INDIRECT) {
-+            if (ldl_le_p(&desc[i].len) % sizeof(struct vring_desc)) {
-                 vu_panic(dev, "Invalid size for indirect buffer table");
-                 goto err;
-             }
-@@ -2185,8 +2194,8 @@ vu_queue_get_avail_bytes(VuDev *dev, VuVirtq *vq, unsigned int *in_bytes,
- 
-             /* loop over the indirect descriptor table */
-             indirect = 1;
--            desc_addr = desc[i].addr;
--            desc_len = desc[i].len;
-+            desc_addr = ldq_le_p(&desc[i].addr);
-+            desc_len = ldl_le_p(&desc[i].len);
-             max = desc_len / sizeof(struct vring_desc);
-             read_len = desc_len;
-             desc = vu_gpa_to_va(dev, &read_len, desc_addr);
-@@ -2213,10 +2222,10 @@ vu_queue_get_avail_bytes(VuDev *dev, VuVirtq *vq, unsigned int *in_bytes,
-                 goto err;
-             }
- 
--            if (desc[i].flags & VRING_DESC_F_WRITE) {
--                in_total += desc[i].len;
-+            if (lduw_le_p(&desc[i].flags) & VRING_DESC_F_WRITE) {
-+                in_total += ldl_le_p(&desc[i].len);
-             } else {
--                out_total += desc[i].len;
-+                out_total += ldl_le_p(&desc[i].len);
-             }
-             if (in_total >= max_in_bytes && out_total >= max_out_bytes) {
-                 goto done;
-@@ -2367,7 +2376,7 @@ vring_used_flags_set_bit(VuVirtq *vq, int mask)
- 
-     flags = (uint16_t *)((char*)vq->vring.used +
-                          offsetof(struct vring_used, flags));
--    *flags |= mask;
-+    stw_le_p(flags, lduw_le_p(flags) | mask);
- }
- 
- static inline void
-@@ -2377,7 +2386,7 @@ vring_used_flags_unset_bit(VuVirtq *vq, int mask)
- 
-     flags = (uint16_t *)((char*)vq->vring.used +
-                          offsetof(struct vring_used, flags));
--    *flags &= ~mask;
-+    stw_le_p(flags, lduw_le_p(flags) & ~mask);
- }
- 
- static inline void
-@@ -2387,7 +2396,7 @@ vring_set_avail_event(VuVirtq *vq, uint16_t val)
-         return;
-     }
- 
--    *((uint16_t *) &vq->vring.used->ring[vq->vring.num]) = val;
-+    stw_le_p(&vq->vring.used->ring[vq->vring.num], val);
- }
- 
- void
-@@ -2476,14 +2485,14 @@ vu_queue_map_desc(VuDev *dev, VuVirtq *vq, unsigned int idx, size_t sz)
-     struct vring_desc desc_buf[VIRTQUEUE_MAX_SIZE];
-     int rc;
- 
--    if (desc[i].flags & VRING_DESC_F_INDIRECT) {
--        if (desc[i].len % sizeof(struct vring_desc)) {
-+    if (lduw_le_p(&desc[i].flags) & VRING_DESC_F_INDIRECT) {
-+        if (ldl_le_p(&desc[i].len) % sizeof(struct vring_desc)) {
-             vu_panic(dev, "Invalid size for indirect buffer table");
-         }
- 
-         /* loop over the indirect descriptor table */
--        desc_addr = desc[i].addr;
--        desc_len = desc[i].len;
-+        desc_addr = ldq_le_p(&desc[i].addr);
-+        desc_len = ldl_le_p(&desc[i].len);
-         max = desc_len / sizeof(struct vring_desc);
-         read_len = desc_len;
-         desc = vu_gpa_to_va(dev, &read_len, desc_addr);
-@@ -2505,10 +2514,10 @@ vu_queue_map_desc(VuDev *dev, VuVirtq *vq, unsigned int idx, size_t sz)
- 
-     /* Collect all the descriptors */
-     do {
--        if (desc[i].flags & VRING_DESC_F_WRITE) {
-+        if (lduw_le_p(&desc[i].flags) & VRING_DESC_F_WRITE) {
-             virtqueue_map_desc(dev, &in_num, iov + out_num,
-                                VIRTQUEUE_MAX_SIZE - out_num, true,
--                               desc[i].addr, desc[i].len);
-+                               ldq_le_p(&desc[i].addr), ldl_le_p(&desc[i].len));
-         } else {
-             if (in_num) {
-                 vu_panic(dev, "Incorrect order for descriptors");
-@@ -2516,7 +2525,7 @@ vu_queue_map_desc(VuDev *dev, VuVirtq *vq, unsigned int idx, size_t sz)
-             }
-             virtqueue_map_desc(dev, &out_num, iov,
-                                VIRTQUEUE_MAX_SIZE, false,
--                               desc[i].addr, desc[i].len);
-+                               ldq_le_p(&desc[i].addr), ldl_le_p(&desc[i].len));
-         }
- 
-         /* If we've got too many, that implies a descriptor loop. */
-@@ -2712,14 +2721,14 @@ vu_log_queue_fill(VuDev *dev, VuVirtq *vq,
-     max = vq->vring.num;
-     i = elem->index;
- 
--    if (desc[i].flags & VRING_DESC_F_INDIRECT) {
--        if (desc[i].len % sizeof(struct vring_desc)) {
-+    if (lduw_le_p(&desc[i].flags) & VRING_DESC_F_INDIRECT) {
-+        if (ldl_le_p(&desc[i].len) % sizeof(struct vring_desc)) {
-             vu_panic(dev, "Invalid size for indirect buffer table");
-         }
- 
-         /* loop over the indirect descriptor table */
--        desc_addr = desc[i].addr;
--        desc_len = desc[i].len;
-+        desc_addr = ldq_le_p(&desc[i].addr);
-+        desc_len = ldl_le_p(&desc[i].len);
-         max = desc_len / sizeof(struct vring_desc);
-         read_len = desc_len;
-         desc = vu_gpa_to_va(dev, &read_len, desc_addr);
-@@ -2745,9 +2754,9 @@ vu_log_queue_fill(VuDev *dev, VuVirtq *vq,
-             return;
-         }
- 
--        if (desc[i].flags & VRING_DESC_F_WRITE) {
--            min = MIN(desc[i].len, len);
--            vu_log_write(dev, desc[i].addr, min);
-+        if (lduw_le_p(&desc[i].flags) & VRING_DESC_F_WRITE) {
-+            min = MIN(ldl_le_p(&desc[i].len), len);
-+            vu_log_write(dev, ldq_le_p(&desc[i].addr), min);
-             len -= min;
-         }
- 
-@@ -2772,15 +2781,15 @@ vu_queue_fill(VuDev *dev, VuVirtq *vq,
- 
-     idx = (idx + vq->used_idx) % vq->vring.num;
- 
--    uelem.id = elem->index;
--    uelem.len = len;
-+    stl_le_p(&uelem.id, elem->index);
-+    stl_le_p(&uelem.len, len);
-     vring_used_write(dev, vq, &uelem, idx);
- }
- 
- static inline
- void vring_used_idx_set(VuDev *dev, VuVirtq *vq, uint16_t val)
- {
--    vq->vring.used->idx = val;
-+    stw_le_p(&vq->vring.used->idx, val);
-     vu_log_write(dev,
-                  vq->vring.log_guest_addr + offsetof(struct vring_used, idx),
-                  sizeof(vq->vring.used->idx));
--- 
-2.25.4
+Why?  You mean without any option?  That seems...  Interesting?
+
+(Also like a recipe for reports of performance regression in some cases.)
+
+> It's OK for
+> us to keep this default different from upstream... But there are
+> problems with the implicitly inserted filter (actually iotests fail and
+> I failed to fix them)
+
+I would suspect even if the iotests passed we would end up with a heap
+of problems that we would only notice at some later point.  I thought
+you too weren=E2=80=99t too fond of the idea of implicit filters.
+
+> 1. I have to set bs->inherits_from for filter and it's child by hand
+> after bdrv_replace_node(), otherwise bdrv_check_perm doesn't work.
+>=20
+> 2. I have to set filter_bs->implicit and teach bdrv_refresh_filename()
+> to ignore implicit filters when it checks for drv->bdrv_file_open, to
+> avoid appearing of json in backing file names
+>=20
+> 3. And the real design problem, which seems impossible to fix: reopen is
+> broken, just because user is not prepared to the fact that file child is
+> a filter, not a file node and has another options, and don't support
+> options of file-posix.
+
+Well, what should I say.  I feel like we have made efforts in the past
+years to make the block graph fully visible to users and yield the
+responsibility of managing it to the users, too, so I=E2=80=99m not surpris=
+ed if
+a step backwards breaks that.
+
+> And seems all it (and mostly [3]) shows that implicitly inserting the
+> filter is near to be impossible..
+>=20
+> So, what are possible solutions?
+>=20
+> In virtuozzo7 we have preallocation feature done inside qcow2 driver.
+> This is very uncomfortable: we should to handle each possible over-EOF
+> write to underlying node (to keep data_end in sync to be able to shrink
+> preallocation on close()).. I don't like this way and don't want to port
+> it..
+>=20
+> Another option is implementing preallocation inside file-posix driver.
+> Then, instead of BDRV_REQ_NO_WAIT flag I'll need to extend serialising
+> requests API (bdrv_make_request_serialising() is already used in
+> file-posix.c) to dupport no-wait behavior + expanding the serialising
+> request bounds. This option seems feasible, so I'll try this way if no
+> other ideas.
+
+Possible, but you haven=E2=80=99t yet explained what the problem with the
+management layer inserting the preallocation filter is.
+
+> Filter is obviously the true way: we use generic block layer for native
+> request serialising, don't need to catch every write in qcow2 driver,
+> don't need to modify any other driver and get a universal thing. But how
+> to insert it implicitly (or at least automatically in some cases) and
+> avoid all the problems?
+
+I don=E2=80=99t understand why inserting it implicitly is important.
+
+Max
+
+
+--qy7IAreQaHzq0KRNV7YB2ldsD5ACN7OFz--
+
+--wVzrZ1owYKa5uZaIm51SADd4IX81VQCxR
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl9OY6IACgkQ9AfbAGHV
+z0AMFQgAozEDZeU/1iQR9vtRi3rLSjRcauJEYSlA8Jp5a5VBd9ECEM/sm2PxKTTd
+UiuVwk+GTjJAP9u/pNKiofo82zLQPlEMBYugdMaqpBxTrg/Al606GPLteoUBZNYF
+jUN5JJnwIfIeRjuMMkzdSmDVgGJH0ovqzW0RDANC2/bosDAyTOPzCiKKpFyGr8jT
+wZnVO/sL8oyzrwmMCZzY+5N0dF4ve+GYqs/adtsycWD/A4uGSU0W7AzGAZ2hnZzF
+2ylXlUKTs6eqgj3tiWnjpMzZBfy/5Xn+wvXVxjfSki8wW+dqF2gHh/8wZ2VxlySL
+gZkQG+AG/tnt42jCoFf2WIYNMFNXng==
+=MG6k
+-----END PGP SIGNATURE-----
+
+--wVzrZ1owYKa5uZaIm51SADd4IX81VQCxR--
 
 
