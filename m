@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33400258E7B
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 14:47:15 +0200 (CEST)
-Received: from localhost ([::1]:33614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D028258E79
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 14:47:13 +0200 (CEST)
+Received: from localhost ([::1]:33344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD5gw-0006OE-4n
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 08:47:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33646)
+	id 1kD5gu-0006Hg-3L
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 08:47:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kD5fQ-0004dG-Gb
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:45:40 -0400
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:42631)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kD5fO-0004bZ-KO
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:45:38 -0400
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:45437)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kD5fL-0001PT-Sf
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:45:40 -0400
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kD5fL-0001Pd-SV
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:45:38 -0400
 Received: from mxplan5.mail.ovh.net (unknown [10.109.138.188])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 240525CC5355;
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 577285CC5358;
  Tue,  1 Sep 2020 14:45:31 +0200 (CEST)
 Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Tue, 1 Sep 2020
  14:45:30 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-99G003393a8f20-65bd-4d7f-b31e-17dd5b6fe3f5,
+ (GARM-99G0039899d085-dbe3-4954-b709-d43aadecbaac,
  38EE1E9FF4E34D4C85F4190D418CEE501B878519) smtp.auth=clg@kaod.org
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: <qemu-devel@nongnu.org>
-Subject: [PULL 01/20] m25p80: Return the JEDEC ID twice for mx25l25635e
-Date: Tue, 1 Sep 2020 14:45:06 +0200
-Message-ID: <20200901124525.220252-2-clg@kaod.org>
+Subject: [PULL 02/20] m25p80: Add support for n25q512ax3
+Date: Tue, 1 Sep 2020 14:45:07 +0200
+Message-ID: <20200901124525.220252-3-clg@kaod.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20200901124525.220252-1-clg@kaod.org>
 References: <20200901124525.220252-1-clg@kaod.org>
@@ -41,11 +41,11 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.99]
 X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: a5c907b7-7bca-4074-9967-54a108aaafbb
-X-Ovh-Tracer-Id: 4785637558170651616
+X-Ovh-Tracer-GUID: b5edaceb-d5c4-4926-adf0-679260891b16
+X-Ovh-Tracer-Id: 4785919029466991584
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrudefjedgheejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfhisehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheehfeegjeeitdfffeetjeduveejueefuefgtdefueelueetveeliefhhffgtdelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrudefjedgheejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfhisehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephfekveeuieehvddvgeefhfevieeiieehuedutedtuefhueehhfdttdehgeeigeehnecuffhomhgrihhnpehmihgtrhhonhdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
 Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
  helo=smtpout1.mo804.mail-out.ovh.net
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 08:45:31
@@ -69,38 +69,34 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Erik Smit <erik.lucas.smit@gmail.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The mx25l25635e returns the JEDEC ID twice when issuing a RDID command :
+Datasheet available here :
 
-  [    2.512027] aspeed-smc 1e630000.spi: reading JEDEC ID C2:20:19:C2:20:19
+https://www.micron.com/-/media/client/global/Documents/Products/Data%20Sheet/NOR%20Flash/Serial%20NOR/N25Q/n25q_512mb_1ce_3v_65nm.pdf
 
-This can break some firmware testing for this condition on the
-supermicrox11-bmc machine.
-
-Reported-by: Erik Smit <erik.lucas.smit@gmail.com>
-Message-Id: <20200819100956.2216690-2-clg@kaod.org>
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+Message-Id: <20200819100956.2216690-4-clg@kaod.org>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/block/m25p80.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/block/m25p80.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-index 82270884416e..605ff55c6756 100644
+index 605ff55c6756..62ba6aaf01cf 100644
 --- a/hw/block/m25p80.c
 +++ b/hw/block/m25p80.c
-@@ -217,7 +217,7 @@ static const FlashPartInfo known_devices[] = {
-     { INFO("mx25l6405d",  0xc22017,      0,  64 << 10, 128, 0) },
-     { INFO("mx25l12805d", 0xc22018,      0,  64 << 10, 256, 0) },
-     { INFO("mx25l12855e", 0xc22618,      0,  64 << 10, 256, 0) },
--    { INFO("mx25l25635e", 0xc22019,      0,  64 << 10, 512, 0) },
-+    { INFO6("mx25l25635e", 0xc22019,     0xc22019,  64 << 10, 512, 0) },
-     { INFO("mx25l25655e", 0xc22619,      0,  64 << 10, 512, 0) },
-     { INFO("mx66u51235f", 0xc2253a,      0,  64 << 10, 1024, ER_4K | ER_32K) },
-     { INFO("mx66u1g45g",  0xc2253b,      0,  64 << 10, 2048, ER_4K | ER_32K) },
+@@ -237,6 +237,7 @@ static const FlashPartInfo known_devices[] = {
+     { INFO("n25q128",     0x20ba18,      0,  64 << 10, 256, 0) },
+     { INFO("n25q256a",    0x20ba19,      0,  64 << 10, 512, ER_4K) },
+     { INFO("n25q512a",    0x20ba20,      0,  64 << 10, 1024, ER_4K) },
++    { INFO("n25q512ax3",  0x20ba20,  0x1000,  64 << 10, 1024, ER_4K) },
+     { INFO_STACKED("n25q00",    0x20ba21, 0x1000, 64 << 10, 2048, ER_4K, 4) },
+     { INFO_STACKED("n25q00a",   0x20bb21, 0x1000, 64 << 10, 2048, ER_4K, 4) },
+     { INFO_STACKED("mt25ql01g", 0x20ba21, 0x1040, 64 << 10, 2048, ER_4K, 2) },
 -- 
 2.25.4
 
