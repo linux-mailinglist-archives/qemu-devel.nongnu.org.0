@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37E05259206
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:01:14 +0200 (CEST)
-Received: from localhost ([::1]:55752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D05D6259221
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:03:33 +0200 (CEST)
+Received: from localhost ([::1]:35838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD7mb-0002Rp-5E
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:01:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34318)
+	id 1kD7oq-0006KN-NG
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:03:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kD7Ne-0000aP-5s
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:35:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59587)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kD7Nm-0000hP-5C
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:35:34 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43494
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kD7Nc-0007F6-3a
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:35:25 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kD7Nh-0007HV-1R
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:35:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598970923;
+ s=mimecast20190719; t=1598970927;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TvKvP8KeUw6D2bShzwL6aIobar4U4V215XPyrVyatIs=;
- b=G7soeZzak3q4jNd8YZjnYGPim6Vggz2NEu/BE+/YEbmUBnw7wvggUQq+E+duvL1HSzqwhY
- MHKHiQ7KVx7dkHfNjorbOivUYY4Og0cgk3f9O27tr4TTyGfDTjNFpEWQjq9uNk+y1BCkkg
- uo84XlpdsJT1uihuTsgsYWw/zy7lw6s=
+ bh=qHLEjMtBt7F7cNQsVcsHosnooGWLOpmL44yUhTZ+o2c=;
+ b=cw7/VxJpcQC7Vc6i4d5SMQz4x4vILSl+PyM10TfvNW4iti2vT1y1HnA+bMNSdLTnPsJB7w
+ tir4Lhn6d3xeV010NCyrETQnLxz7AxVAqNWyzTjvgHIkriFCVnAJdoMF/WQUYuKzAYfypd
+ hSg1uTLBwMipGGN2mTCSJkhwamnrpCU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-187-vLHntcstMNCi3yZU6z0UuA-1; Tue, 01 Sep 2020 10:35:19 -0400
-X-MC-Unique: vLHntcstMNCi3yZU6z0UuA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-541-SD89FdEhOR6txIy6iGdT1A-1; Tue, 01 Sep 2020 10:35:25 -0400
+X-MC-Unique: SD89FdEhOR6txIy6iGdT1A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCF1B1005E63;
- Tue,  1 Sep 2020 14:35:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0E0F802B4B;
+ Tue,  1 Sep 2020 14:35:24 +0000 (UTC)
 Received: from localhost (ovpn-113-83.ams2.redhat.com [10.36.113.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E13F1002D4E;
- Tue,  1 Sep 2020 14:35:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 46EE87DA24;
+ Tue,  1 Sep 2020 14:35:24 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v8 22/43] block: Use CAFs for debug breakpoints
-Date: Tue,  1 Sep 2020 16:34:03 +0200
-Message-Id: <20200901143424.884735-23-mreitz@redhat.com>
+Subject: [PATCH v8 25/43] blockdev: Use CAF in external_snapshot_prepare()
+Date: Tue,  1 Sep 2020 16:34:06 +0200
+Message-Id: <20200901143424.884735-26-mreitz@redhat.com>
 In-Reply-To: <20200901143424.884735-1-mreitz@redhat.com>
 References: <20200901143424.884735-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 01:27:29
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 00:57:59
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,58 +86,35 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When looking for a blkdebug node (which implements debug breakpoints),
-use bdrv_primary_bs() to iterate through the graph, because that is
-where a blkdebug node would be.
+This allows us to differentiate between filters and nodes with COW
+backing files: Filters cannot be used as overlays at all (for this
+function).
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block.c | 16 +++-------------
- 1 file changed, 3 insertions(+), 13 deletions(-)
+ blockdev.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/block.c b/block.c
-index ed29d1edb4..ac4ab07f07 100644
---- a/block.c
-+++ b/block.c
-@@ -5568,17 +5568,7 @@ void bdrv_debug_event(BlockDriverState *bs, BlkdebugEvent event)
- static BlockDriverState *bdrv_find_debug_node(BlockDriverState *bs)
- {
-     while (bs && bs->drv && !bs->drv->bdrv_debug_breakpoint) {
--        if (bs->file) {
--            bs = bs->file->bs;
--            continue;
--        }
--
--        if (bs->drv->is_filter && bs->backing) {
--            bs = bs->backing->bs;
--            continue;
--        }
--
--        break;
-+        bs = bdrv_primary_bs(bs);
+diff --git a/blockdev.c b/blockdev.c
+index 862aa1b9aa..57ee41b73e 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -1562,7 +1562,12 @@ static void external_snapshot_prepare(BlkActionState *common,
+         goto out;
      }
  
-     if (bs && bs->drv && bs->drv->bdrv_debug_breakpoint) {
-@@ -5613,7 +5603,7 @@ int bdrv_debug_remove_breakpoint(BlockDriverState *bs, const char *tag)
- int bdrv_debug_resume(BlockDriverState *bs, const char *tag)
- {
-     while (bs && (!bs->drv || !bs->drv->bdrv_debug_resume)) {
--        bs = bs->file ? bs->file->bs : NULL;
-+        bs = bdrv_primary_bs(bs);
+-    if (state->new_bs->backing != NULL) {
++    if (state->new_bs->drv->is_filter) {
++        error_setg(errp, "Filters cannot be used as overlays");
++        goto out;
++    }
++
++    if (bdrv_cow_child(state->new_bs)) {
+         error_setg(errp, "The overlay already has a backing image");
+         goto out;
      }
- 
-     if (bs && bs->drv && bs->drv->bdrv_debug_resume) {
-@@ -5626,7 +5616,7 @@ int bdrv_debug_resume(BlockDriverState *bs, const char *tag)
- bool bdrv_debug_is_suspended(BlockDriverState *bs, const char *tag)
- {
-     while (bs && bs->drv && !bs->drv->bdrv_debug_is_suspended) {
--        bs = bs->file ? bs->file->bs : NULL;
-+        bs = bdrv_primary_bs(bs);
-     }
- 
-     if (bs && bs->drv && bs->drv->bdrv_debug_is_suspended) {
 -- 
 2.26.2
 
