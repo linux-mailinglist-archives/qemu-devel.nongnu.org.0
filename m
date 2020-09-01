@@ -2,115 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B80B4259500
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:45:36 +0200 (CEST)
-Received: from localhost ([::1]:48870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD182259411
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:35:47 +0200 (CEST)
+Received: from localhost ([::1]:35814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD8TX-0006tL-Ou
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:45:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50528)
+	id 1kD8K2-0006Zu-Q5
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:35:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kD8C2-0000BK-Fc
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:27:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48879)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kD8CD-0000fo-0v
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:27:41 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:59589
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kD8C0-0007Uc-RR
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:27:30 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kD8CB-0007V8-03
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:27:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598974048;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1598974058;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=tIkB5Mw3pDQxycyw0vifTahZCjB4LDPe5cBJOsFvgCk=;
- b=WqEfERB8rqyeHaU7A+NdEifO5giNCBwLLUXPajrdRgl5XKaT439+9IilCq6h1fDOCSNbXN
- yFajQkQpBvSfbDh9uYc1R1aDJJ3kQ8A+7jOHjvDBApBw+y4dMrCEB2ozPd08SHglplhGR6
- AJ45b688lGZtqVk59xSkV+zhZxovkRU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-159-HGnO89oIN8-YEwRF6L_0hQ-1; Tue, 01 Sep 2020 11:27:23 -0400
-X-MC-Unique: HGnO89oIN8-YEwRF6L_0hQ-1
-Received: by mail-wm1-f72.google.com with SMTP id d5so527981wmb.2
- for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 08:27:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=tIkB5Mw3pDQxycyw0vifTahZCjB4LDPe5cBJOsFvgCk=;
- b=JVPClsXUm0XM2LFJDqTMM8CLyeaa2FjCJOW0AWcLN90KolalwSaopR0qiKs0AUiuYW
- zt6Dk9XiOsHqYnA+4eXE84I51kbp+XGPy7XXKIVHnhP9ejDvxgzkw74VtTbY32CIJQzI
- KikPYshSLC/UDGRyw6nRpcsFuOorjdb+5PMt+Woj8bdVsUmqOAHEA3MJ+LBrV+0rig/t
- 9a7EBX3coPbWHC90jtqyK+EgfxMphkiyYfLCeYPKFayEh2pFPIz0BTXPEUjf8qoRt4oT
- hZTYN0hdwFzIjylGQvdFobdBRdLEQSr9HYBgLrX+mjA+IHL2kvYCsboDlPxtZYQkXEX/
- lHaA==
-X-Gm-Message-State: AOAM533CrnJVSYzY5TO3fa4Ult7B5WKM08WBEtDxop5Lv0fWEvQl9Gf4
- u01t2s4l/Dt6oc5QdJeN4qaG/wbpQSDlM/m7VJCpFsDxNr1utTFUaJSavdcc8tHNYFk5UcF8k51
- smuO9XX3IO9uGfNI=
-X-Received: by 2002:adf:fec6:: with SMTP id q6mr2499518wrs.59.1598974042218;
- Tue, 01 Sep 2020 08:27:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyuY+s9Gb7SIb78y7xhPoZlMHQNMyMfjQwQQAfTVU3Y0wqzZF8QDwjmhZFJ2Tj9gZbpAOqbsQ==
-X-Received: by 2002:adf:fec6:: with SMTP id q6mr2499497wrs.59.1598974042015;
- Tue, 01 Sep 2020 08:27:22 -0700 (PDT)
-Received: from [192.168.1.36] (50.red-83-52-54.dynamicip.rima-tde.net.
- [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id d18sm2550987wrm.10.2020.09.01.08.27.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Sep 2020 08:27:21 -0700 (PDT)
-Subject: Re: [PATCH v6 00/15] block/nvme: Various cleanups required to use
- multiple queues
-To: qemu-devel@nongnu.org
-References: <20200821195359.1285345-1-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <17b0c440-f846-8eb4-2d3d-cf35ff684a5a@redhat.com>
-Date: Tue, 1 Sep 2020 17:27:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ in-reply-to:in-reply-to:references:references;
+ bh=R+JNtO5odleeqYVzdLyAgHNJyorv6ejgMQ5H6aaAlMc=;
+ b=fskv0wG/9ZpnNRztQ7eGehaPAdl2ft3x7KbDKB4N3y5Mvs8jTnuxkK1TKdqyu4oI2uYLrR
+ 2Lq/3v0CPsyaUyGINz0F7fG3NNiuNa4EBaNyG/96biLYiaIiwr5ZS478PmQvwPf0Q/XoTd
+ WqXvACoWJPmQtfBt0sev2wzN0+EpIOM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-341-3wc9d-I7MjmZitbohlgsDA-1; Tue, 01 Sep 2020 11:27:36 -0400
+X-MC-Unique: 3wc9d-I7MjmZitbohlgsDA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D66D91DDF8;
+ Tue,  1 Sep 2020 15:27:34 +0000 (UTC)
+Received: from redhat.com (ovpn-114-215.ams2.redhat.com [10.36.114.215])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4E9395D9CC;
+ Tue,  1 Sep 2020 15:27:29 +0000 (UTC)
+Date: Tue, 1 Sep 2020 16:27:21 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v2 2/2] gitlab: expand test coverage for crypto builds
+Message-ID: <20200901152721.GP345480@redhat.com>
+References: <20200901133050.381844-1-berrange@redhat.com>
+ <20200901133050.381844-3-berrange@redhat.com>
+ <577ced18-4a9a-3532-e797-0fe0708340bc@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200821195359.1285345-1-philmd@redhat.com>
+In-Reply-To: <577ced18-4a9a-3532-e797-0fe0708340bc@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.002
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0.003
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 01:27:29
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 02:08:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.13, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -123,43 +86,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/21/20 9:53 PM, Philippe Mathieu-Daudé wrote:
-> Hi Kevin,
+On Tue, Sep 01, 2020 at 05:10:20PM +0200, Philippe Mathieu-Daudé wrote:
+> On 9/1/20 3:30 PM, Daniel P. Berrangé wrote:
+> > Most jobs test the latest nettle library. This adds explicit coverage
+> > for latest gcrypt using Fedora, and old gcrypt and nettle using
+> > CentOS-7. The latter does a minimal tools-only build, as we only need to
+> > validate that the crypto code builds and unit tests pass. Finally a job
+> > disabling both nettle and gcrypt is provided to validate that gnutls
+> > still works.
+> > 
+> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> > ---
+> >  .gitlab-ci.yml                          | 69 +++++++++++++++++++++++++
+> >  tests/docker/dockerfiles/centos7.docker |  2 +
+> >  tests/docker/dockerfiles/centos8.docker |  1 +
+> >  3 files changed, 72 insertions(+)
+> > 
+> > diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> > index b7967b9a13..a74b16ff04 100644
+> > --- a/.gitlab-ci.yml
+> > +++ b/.gitlab-ci.yml
+> > @@ -130,6 +130,7 @@ build-system-fedora:
+> >    <<: *native_build_job_definition
+> >    variables:
+> >      IMAGE: fedora
+> > +    CONFIGURE_ARGS: --disable-gcrypt --enable-nettle
+> >      TARGETS: tricore-softmmu unicore32-softmmu microblaze-softmmu mips-softmmu
+> >        xtensa-softmmu m68k-softmmu riscv32-softmmu ppc-softmmu sparc64-softmmu
+> >      MAKE_CHECK_ARGS: check-build
+> > @@ -160,6 +161,7 @@ build-system-centos:
+> >    <<: *native_build_job_definition
+> >    variables:
+> >      IMAGE: centos8
+> > +    CONFIGURE_ARGS: --disable-nettle --enable-gcrypt
+> >      TARGETS: ppc64-softmmu lm32-softmmu or1k-softmmu s390x-softmmu
+> >        x86_64-softmmu rx-softmmu sh4-softmmu nios2-softmmu
+> >      MAKE_CHECK_ARGS: check-build
+> > @@ -196,6 +198,7 @@ build-disabled:
+> >        --disable-guest-agent --disable-curses --disable-libxml2 --disable-tpm
+> >        --disable-qom-cast-debug --disable-spice --disable-vhost-vsock
+> >        --disable-vhost-net --disable-vhost-crypto --disable-vhost-user
+> > +      --disable-nettle --disable-gcrypt --disable-gnutls
+> >      TARGETS: i386-softmmu ppc64-softmmu mips64-softmmu i386-linux-user
+> >      MAKE_CHECK_ARGS: check-qtest SPEED=slow
+> >  
+> > @@ -271,3 +274,69 @@ build-tci:
+> >        done
+> >      - QTEST_QEMU_BINARY="./qemu-system-x86_64" ./tests/qtest/pxe-test
+> >      - QTEST_QEMU_BINARY="./qemu-system-s390x" ./tests/qtest/pxe-test -m slow
+> > +
+> > +# Most jobs test latest gcrypt or nettle builds
+> > +#
+> > +# These jobs test old gcrypt and nettle from RHEL7
+> > +# which had some API differences.
+> > +build-crypto-old-nettle:
+> > +  <<: *native_build_job_definition
+> > +  variables:
+> > +    IMAGE: centos7
+> > +    TARGETS: x86_64-softmmu x86_64-linux-user
+> > +    CONFIGURE_ARGS: --disable-gcrypt --enable-nettle
+> > +    MAKE_CHECK_ARGS: check-build
+> > +  artifacts:
+> > +    paths:
+> > +      - build
+> > +
+> > +check-crypto-old-nettle:
+> > +  <<: *native_test_job_definition
+> > +  needs:
+> > +    - job: build-crypto-old-nettle
+> > +      artifacts: true
+> > +  variables:
+> > +    IMAGE: centos7
+> > +    MAKE_CHECK_ARGS: check
+> > +
+> > +
 > 
-> This series is mostly code rearrangement (cleanups) to be
-> able to split the hardware code from the block driver code,
-> to be able to use multiple queues on the same hardware, or
-> multiple block drivers on the same hardware.
+> I'd copy the same comment for each library... In case
+> we add more jobs in the middle.
 > 
-> All this series is reviewed.
+> > +build-crypto-old-gcrypt:
+> > +  <<: *native_build_job_definition
+> > +  variables:
+> > +    IMAGE: centos7
+> > +    TARGETS: x86_64-softmmu x86_64-linux-user
+> > +    CONFIGURE_ARGS: --disable-nettle --enable-gcrypt
+> > +    MAKE_CHECK_ARGS: check-build
+> > +  artifacts:
+> > +    paths:
+> > +      - build
+> > +
+> > +check-crypto-old-gcrypt:
+> > +  <<: *native_test_job_definition
+> > +  needs:
+> > +    - job: build-crypto-old-gcrypt
+> > +      artifacts: true
+> > +  variables:
+> > +    IMAGE: centos7
+> > +    MAKE_CHECK_ARGS: check
+> > +
+> > +
+> > +build-crypto-only-gnutls:
+> 
+> Aren't these 'old' jobs too (centos 7, not 8)?
 
-ping? :)
+It doesn't matter what distro this job builds on - centos 7 was
+essentially just a cut+paste choice. The key point is this is only
+enabling GNUTLS - the age of gnutls/gcrypt/nettle doesn't matter.
 
-> Philippe Mathieu-Daudé (15):
->   block/nvme: Replace magic value by SCALE_MS definition
->   block/nvme: Avoid further processing if trace event not enabled
->   block/nvme: Let nvme_create_queue_pair() fail gracefully
->   block/nvme: Define INDEX macros to ease code review
->   block/nvme: Improve error message when IO queue creation failed
->   block/nvme: Use common error path in nvme_add_io_queue()
->   block/nvme: Rename local variable
->   block/nvme: Use union of NvmeIdCtrl / NvmeIdNs structures
->   block/nvme: Replace qemu_try_blockalign0 by qemu_try_blockalign/memset
->   block/nvme: Replace qemu_try_blockalign(bs) by
->     qemu_try_memalign(pg_sz)
->   block/nvme: Simplify nvme_init_queue() arguments
->   block/nvme: Replace BDRV_POLL_WHILE by AIO_WAIT_WHILE
->   block/nvme: Simplify nvme_create_queue_pair() arguments
->   block/nvme: Extract nvme_poll_queue()
->   block/nvme: Use an array of EventNotifier
 > 
->  block/nvme.c | 211 ++++++++++++++++++++++++++++++---------------------
->  1 file changed, 125 insertions(+), 86 deletions(-)
-> 
+> > +  <<: *native_build_job_definition
+> > +  variables:
+> > +    IMAGE: centos7
+> > +    TARGETS: x86_64-softmmu x86_64-linux-user
+> > +    CONFIGURE_ARGS: --disable-nettle --disable-gcrypt --enable-gnutls
+> > +    MAKE_CHECK_ARGS: check-build
+> > +  artifacts:
+> > +    paths:
+> > +      - build
+> > +
+> > +check-crypto-only-gnutls:
+> > +  <<: *native_test_job_definition
+> > +  needs:
+> > +    - job: build-crypto-only-gnutls
+> > +      artifacts: true
+> > +  variables:
+> > +    IMAGE: centos7
+> > +    MAKE_CHECK_ARGS: check
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
