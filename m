@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9E61258B42
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 11:17:54 +0200 (CEST)
-Received: from localhost ([::1]:47950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05AB5258B5B
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 11:20:26 +0200 (CEST)
+Received: from localhost ([::1]:60828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD2QL-0006dm-PY
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 05:17:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33826)
+	id 1kD2Sn-0003JV-3z
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 05:20:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kD2KV-0003dF-DY
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:11:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28118)
+ id 1kD2KY-0003ka-Mm
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:11:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49238)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kD2KT-0006rv-Hz
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:11:51 -0400
+ id 1kD2KV-0006sR-W9
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:11:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598951508;
+ s=mimecast20190719; t=1598951511;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=b9AKTtufJsM2KUAdKcbxs9ux5QGHnOstuHgTA3nWgas=;
- b=TmAM3eYYczgzYS3cUkUzgnTJrEpqEO17z/JBUivVXMlLUMcLwxaQRC3XeYu5ji3/Y9lVtx
- DvlTfOw1kk6qso1bqrKPi1J7BK1GApXsl/IY4Co+5d1uXnr/U1p3AgiRZuiU64XMRpp0IP
- q0v2f5zu3HQQLF7C8yJNTEvf1xrrFFM=
+ bh=pH3w6LJvCAG1/nlkX1a54epExI22nXwFJso3ShzjTwQ=;
+ b=XW5vxZZCR0nE2C+yn4C19tVQltxjm579d9T8lbivjyuDCsleHORHa+8uPHoliFa57vUdhC
+ 3gR9ar7jvw5/4mNply6gcE1+yrPC5gcsU8HHEVzZnlHVqsY56Y1FRFQlcr8GDXWYCRyosV
+ RfmpwT/xqBG3G373z4Tk9Y2fUvZJ80Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-342---aZYPn4M22r4u2TadzsuA-1; Tue, 01 Sep 2020 05:11:46 -0400
-X-MC-Unique: --aZYPn4M22r4u2TadzsuA-1
+ us-mta-354--zvGWfLHMQ-IuG0XdtU3yw-1; Tue, 01 Sep 2020 05:11:47 -0400
+X-MC-Unique: -zvGWfLHMQ-IuG0XdtU3yw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1ED4F10082E6
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8FCBD10082E8
  for <qemu-devel@nongnu.org>; Tue,  1 Sep 2020 09:11:46 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DF56A78B45
- for <qemu-devel@nongnu.org>; Tue,  1 Sep 2020 09:11:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3995678B45;
+ Tue,  1 Sep 2020 09:11:46 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 22/24] meson: use pkg-config method to find dependencies
-Date: Tue,  1 Sep 2020 05:11:30 -0400
-Message-Id: <20200901091132.29601-23-pbonzini@redhat.com>
+Subject: [PULL 23/24] build: fix recurse-all target
+Date: Tue,  1 Sep 2020 05:11:31 -0400
+Message-Id: <20200901091132.29601-24-pbonzini@redhat.com>
 In-Reply-To: <20200901091132.29601-1-pbonzini@redhat.com>
 References: <20200901091132.29601-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
@@ -81,127 +81,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Miroslav Rezanina <mrezanin@redhat.com>, Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We do not need to ask cmake for the dependencies, so just use the
-pkg-config mechanism.  Keep "auto" for SDL so that it tries using
-sdl-config too.
+The missing "/all" suffix prevents the pc-bios/ parts of the build
+from running.
 
-The documentation is adjusted to use SDL2_image as the example,
-rather than SDL which does not use the "pkg-config" method.
+In the meanwhile, -Wall has moved from QEMU_CFLAGS to CFLAGS.  Simplify
+everything by not passing down CFLAGS, and add -Wall in the recursive
+Makefiles.
 
+Reported-by: Miroslav Rezanina <mrezanin@redhat.com>
+Reviewed-by: Miroslav Rezanina <mrezanin@redhat.com>
+Tested-by: Thomas Huth <thuth@redhat.com>
+Fixes: 5e6d1573b4 ("remove Makefile.target", 2020-08-21)
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/devel/build-system.rst | 27 ++++++++++++++-------------
- meson.build                 |  8 ++++----
- 2 files changed, 18 insertions(+), 17 deletions(-)
+ Makefile                   |  4 ++--
+ pc-bios/optionrom/Makefile | 10 +++-------
+ pc-bios/s390-ccw/Makefile  |  3 ++-
+ 3 files changed, 7 insertions(+), 10 deletions(-)
 
-diff --git a/docs/devel/build-system.rst b/docs/devel/build-system.rst
-index 58bf392430..0c09fb9a54 100644
---- a/docs/devel/build-system.rst
-+++ b/docs/devel/build-system.rst
-@@ -66,46 +66,47 @@ following tasks:
-    upon completion.
+diff --git a/Makefile b/Makefile
+index f187ddf47a..c1a93c66a0 100644
+--- a/Makefile
++++ b/Makefile
+@@ -186,10 +186,10 @@ ROM_DIRS_RULES=$(foreach t, all clean, $(addsuffix /$(t), $(ROM_DIRS)))
+ # Only keep -O and -g cflags
+ .PHONY: $(ROM_DIRS_RULES)
+ $(ROM_DIRS_RULES):
+-	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) -C $(dir $@) V="$(V)" TARGET_DIR="$(dir $@)" CFLAGS="$(filter -O% -g%,$(CFLAGS))" $(notdir $@),)
++	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) -C $(dir $@) V="$(V)" TARGET_DIR="$(dir $@)" $(notdir $@),)
  
+ .PHONY: recurse-all recurse-clean
+-recurse-all: $(ROM_DIRS)
++recurse-all: $(addsuffix /all, $(ROM_DIRS))
+ recurse-clean: $(addsuffix /clean, $(ROM_DIRS))
  
--Taking the probe for SDL as an example, we have the following pieces
-+Taking the probe for SDL2_Image as an example, we have the following pieces
- in configure::
+ ######################################################################
+diff --git a/pc-bios/optionrom/Makefile b/pc-bios/optionrom/Makefile
+index 51cb6ca9d8..084fc10f05 100644
+--- a/pc-bios/optionrom/Makefile
++++ b/pc-bios/optionrom/Makefile
+@@ -8,15 +8,12 @@ all: multiboot.bin linuxboot.bin linuxboot_dma.bin kvmvapic.bin pvh.bin
+ 	@true
  
-   # Initial variable state
--  sdl=auto
-+  sdl_image=auto
+ include ../../config-host.mak
++CFLAGS = -O2 -g
  
-   ..snip..
+ quiet-command = $(if $(V),$1,$(if $(2),@printf "  %-7s %s\n" $2 $3 && $1, @$1))
+-cc-option = $(if $(shell $(CC) $1 -S -o /dev/null -xc /dev/null >/dev/null 2>&1 && echo OK), $1, $2)
++cc-option = $(if $(shell $(CC) $1 -c -o /dev/null -xc /dev/null >/dev/null 2>&1 && echo OK), $1, $2)
  
-   # Configure flag processing
--  --disable-gnutls) sdl=disabled
-+  --disable-sdl-image) sdl_image=disabled
-   ;;
--  --enable-gnutls) sdl=enabled
-+  --enable-sdl-image) sdl_image=enabled
-   ;;
+-# Compiling with no optimization creates ROMs that are too large
+-ifeq ($(lastword $(filter -O%, -O0 $(CFLAGS))),-O0)
+-override CFLAGS += -O2
+-endif
+-override CFLAGS += -march=i486
++override CFLAGS += -march=i486 -Wall
  
-   ..snip..
+ # Flags for dependency generation
+ override CPPFLAGS += -MMD -MP -MT $@ -MF $(@D)/$(*F).d
+@@ -42,7 +39,6 @@ Wa = -Wa,
+ override ASFLAGS += -32
+ override CFLAGS += $(call cc-option, $(Wa)-32)
  
-   # Help output feature message
--  sdl             SDL UI
-+  sdl-image         SDL Image support for icons
+-
+ LD_I386_EMULATION ?= elf_i386
+ override LDFLAGS = -m $(LD_I386_EMULATION) -T $(SRC_DIR)/flat.lds
+ override LDFLAGS += $(LDFLAGS_NOPIE)
+diff --git a/pc-bios/s390-ccw/Makefile b/pc-bios/s390-ccw/Makefile
+index cc0f77baa6..3eb785048a 100644
+--- a/pc-bios/s390-ccw/Makefile
++++ b/pc-bios/s390-ccw/Makefile
+@@ -3,6 +3,7 @@ all: build-all
+ 	@true
  
-   ..snip..
+ include ../../config-host.mak
++CFLAGS = -O2 -g
  
-   # Meson invocation
--  -Dsdl=$sdl
-+  -Dsdl_image=$sdl_image
+ quiet-command = $(if $(V),$1,$(if $(2),@printf "  %-7s %s\n" $2 $3 && $1, @$1))
+ cc-option = $(if $(shell $(CC) $1 -S -o /dev/null -xc /dev/null > /dev/null \
+@@ -28,7 +29,7 @@ QEMU_DGFLAGS = -MMD -MP -MT $@ -MF $(@D)/$(*F).d
+ OBJECTS = start.o main.o bootmap.o jump2ipl.o sclp.o menu.o \
+ 	  virtio.o virtio-scsi.o virtio-blkdev.o libc.o cio.o dasd-ipl.o
  
- In meson_options.txt::
- 
--  option('sdl', type : 'feature', value : 'auto')
-+  option('sdl', type : 'feature', value : 'auto',
-+         description: 'SDL Image support for icons')
- 
- In meson.build::
- 
-   # Detect dependency
--  sdl = dependency('sdl2',
--                   required: get_option('sdl'),
--                   static: enable_static)
-+  sdl_image = dependency('SDL2_image', required: get_option('sdl_image'),
-+                         method: 'pkg-config',
-+                         static: enable_static)
- 
--  # Create config-host.h
--  config_host_data.set('CONFIG_SDL', sdl.found())
-+  # Create config-host.h (if applicable)
-+  config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
- 
-   # Summary
--  summary_info += {'SDL support':       sdl.found()}
-+  summary_info += {'SDL image support': sdl_image.found()}
- 
- 
- 
-diff --git a/meson.build b/meson.build
-index 78ac86f3a1..0e2d884f5c 100644
---- a/meson.build
-+++ b/meson.build
-@@ -129,7 +129,7 @@ endif
- pixman = not_found
- if have_system or have_tools
-   pixman = dependency('pixman-1', required: have_system, version:'>=0.21.8',
--                      static: enable_static)
-+                      method: 'pkg-config', static: enable_static)
- endif
- pam = not_found
- if 'CONFIG_AUTH_PAM' in config_host
-@@ -168,7 +168,7 @@ if get_option('xkbcommon').auto() and not have_system and not have_tools
-   xkbcommon = not_found
- else
-   xkbcommon = dependency('xkbcommon', required: get_option('xkbcommon'),
--                         static: enable_static)
-+                         method: 'pkg-config', static: enable_static)
- endif
- slirp = not_found
- if config_host.has_key('CONFIG_SLIRP')
-@@ -247,7 +247,7 @@ if sdl.found()
-   sdl = declare_dependency(compile_args: '-Wno-undef',
-                            dependencies: sdl)
-   sdl_image = dependency('SDL2_image', required: get_option('sdl_image'),
--                         static: enable_static)
-+                         method: 'pkg-config', static: enable_static)
- else
-   if get_option('sdl_image').enabled()
-     error('sdl-image required, but SDL was @0@',
-@@ -332,7 +332,7 @@ sasl = not_found
- if get_option('vnc').enabled()
-   vnc = declare_dependency() # dummy dependency
-   png = dependency('libpng', required: get_option('vnc_png'),
--                   static: enable_static)
-+                   method: 'pkg-config', static: enable_static)
-   jpeg = cc.find_library('jpeg', has_headers: ['jpeglib.h'],
-                          required: get_option('vnc_jpeg'),
-                          static: enable_static)
+-QEMU_CFLAGS := $(filter -W%, $(QEMU_CFLAGS))
++QEMU_CFLAGS := -Wall $(filter -W%, $(QEMU_CFLAGS))
+ QEMU_CFLAGS += -ffreestanding -fno-delete-null-pointer-checks -msoft-float
+ QEMU_CFLAGS += -march=z900 -fPIE -fno-strict-aliasing
+ QEMU_CFLAGS += -fno-asynchronous-unwind-tables
 -- 
 2.26.2
 
