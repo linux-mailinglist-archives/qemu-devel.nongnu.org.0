@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB7CC2594B5
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:42:37 +0200 (CEST)
-Received: from localhost ([::1]:38450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4F672595F0
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:58:09 +0200 (CEST)
+Received: from localhost ([::1]:39230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD8Qe-0002bn-RM
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:42:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48416)
+	id 1kD8fg-0001eI-U9
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:58:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kD84C-000184-1U
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:19:24 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:51438)
+ id 1kD84D-0001Aq-8t
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:19:25 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:37384)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kD84A-0006LL-8q
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:19:23 -0400
-Received: by mail-wm1-x344.google.com with SMTP id w2so1550014wmi.1
- for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 08:19:21 -0700 (PDT)
+ id 1kD84B-0006Lh-C1
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:19:24 -0400
+Received: by mail-wm1-x335.google.com with SMTP id a9so1558643wmm.2
+ for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 08:19:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=KXRF7dKCMKNyNPHCpFwJuF+ejPlwLK3/fbYiZ44r5oU=;
- b=zrzoEfzsDLRhwM4Uy1TpUCviXcY8Q+EaCLs3x14CRyxCoF3nHsuzUsjoCH5APa+Z3H
- dhMI8R+aYOHBeDbHTNdl5N8g3sqatEhrgGblGv7+oVnTkiMHprc30HYOJRTBpXB95OIy
- TUOYzEtR4ZByJ0cAPgpxpNHFqiuntJ+7X9bjU5Llz9JgcF661EWj/SBVH/Z+1OmItKms
- ji7opVvoXnzMA+Hp36W4lE5ABQUXYNig5THBDAa8WI67tJOz2Map93jpFe7uQ+nwtn4Z
- 2A0gLEUt2cVbAyEgw22GvqUQZmBRi9kBoaWlJP9bYpQnzcmJb5ah35O+esALxK5rrx8s
- w1lg==
+ bh=t+lM5dln5QeSS2yYj3HP1RzZbw3t/4bGgxiwxrpJaOg=;
+ b=hF4sftd4+vRrnQrpswPoBibFsxFtlHRiju5p/WIDNIDHzZ69ynRo6PUgksA5bWvfDd
+ 5RoMwpcWDMkHR7NMVWE/6xH2/42eagW5Jt6G8bCRjmBSq2HjsPPmkN9WD6Rb9iksaWLA
+ p4lokyIBeDA2HxM2mHVFtckHk3O2K8rsEYL4s6gpQjHn6f1cTNN2JN6awNT7Ouz4FCed
+ o+uRwRAzEDB7wIQsthpDsql/4ZLLur4/hL0S+MT68RX/X9Fw1hTU0fznHfP/tW/0xrMM
+ ZOdF9CmJQqLNnHtR/AYkax1r+3MpZydoyek/JLK5oEYYPeqlvirga52aL/2hKfeI2LCS
+ LWWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KXRF7dKCMKNyNPHCpFwJuF+ejPlwLK3/fbYiZ44r5oU=;
- b=ThLxrGeYN+8dGVR7t/Fh1lYvxY1T+7/WmvkYYsomFBi87U+qJx4Nl/uiJaEVUXyXc0
- xiMpLFJ36er+wdMbabOn8YHav/DprAHQQY6j0Z574qBxVo+SJbHVAgB9qCCAmCcxuYa9
- kFH2fC9EAqf79qrc2alxnru/jn1e2Gb8yNkad0hxq031vlplF+B9VWVlrj1G8vc6gAHc
- TI0HXwlU+LH9uPCzI2G19EsOdqlC4s8wPROTGUHnLiBPHZPWyqhV5+ihpAB5Y4mvfLg/
- +KWdZrvHrU+xUHd6BM0qpRVGS3rvAW0sFQwj9Frt49hSWyQLv5o7Utwb8HDVvt2UyD9g
- L4uA==
-X-Gm-Message-State: AOAM531k+J0FKkPwjIPKY8mM5aJdLWBMKsnLIcPs+FNePh6RB7L2hSHH
- ZOvVxvHf5kTJuSNRbG3Vr9cEjBtOwl2V9XkJ
-X-Google-Smtp-Source: ABdhPJwhfOCDgACcinqpKrkJ8y6WMQPaQXQYmf4HsL+UvKWekKfiX9h7EnbRYY1hOUb8ZfkZtrfbzQ==
-X-Received: by 2002:a1c:24c4:: with SMTP id k187mr2266224wmk.148.1598973560529; 
- Tue, 01 Sep 2020 08:19:20 -0700 (PDT)
+ bh=t+lM5dln5QeSS2yYj3HP1RzZbw3t/4bGgxiwxrpJaOg=;
+ b=M6mbMtLcn7qhIl2uIYbOK52P3SPtnztZR4mst9gfxjSQ4HUO9LhOuN+nxFjlhaAWel
+ qvEJWe/xDm6SV3VeBSS5SHUqw+SR+wVmU31hQgJzC5Ufn3MXMtokqy0grxbI5/EJqi05
+ 9hAUFlwMO1D+IWd99NAntHXQOfURZfQ9xfmy0OJJiinPboUztd5Lz5fVOgc4bEXDM+3R
+ ejLYyRy0gH82FzNxdz7QXN5Te8DzuvQjSYG5xNTjI3MAVS7qt2SZ7mC5eXePLY7Nbz5x
+ VwMqXA/5N3GV14kIJ329SKQY4UdI1AkYaiHtm3RDv3zNiWjlrRWvp9hKYaWZFRo21+a/
+ Knqg==
+X-Gm-Message-State: AOAM533ddgmULKG3gYLWVy44YDMfJPyuU5WdB5EzF7lCWdT7kB7eWT/O
+ oN2cdXFhEMa93o0/aqgnY2oPAYwJs+BZYe/T
+X-Google-Smtp-Source: ABdhPJz06gWBpVKtt/9i0Q4Eu1ptwGL6go5wyavv234OWqdB0zbYZ8l5ZcVBHXHGnexr1k0LvaVjSg==
+X-Received: by 2002:a7b:c2aa:: with SMTP id c10mr2276787wmk.86.1598973561682; 
+ Tue, 01 Sep 2020 08:19:21 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id z9sm2242317wma.4.2020.09.01.08.19.19
+ by smtp.gmail.com with ESMTPSA id z9sm2242317wma.4.2020.09.01.08.19.20
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Sep 2020 08:19:19 -0700 (PDT)
+ Tue, 01 Sep 2020 08:19:20 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 45/47] hw/arm/sbsa-ref: add "reg" property to DT cpu nodes
-Date: Tue,  1 Sep 2020 16:18:21 +0100
-Message-Id: <20200901151823.29785-46-peter.maydell@linaro.org>
+Subject: [PULL 46/47] hw/misc/sbsa_ec : Add an embedded controller for sbsa-ref
+Date: Tue,  1 Sep 2020 16:18:22 +0100
+Message-Id: <20200901151823.29785-47-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200901151823.29785-1-peter.maydell@linaro.org>
 References: <20200901151823.29785-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,88 +88,142 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Leif Lindholm <leif@nuviainc.com>
+From: Graeme Gregory <graeme@nuviainc.com>
 
-The sbsa-ref platform uses a minimal device tree to pass amount of memory
-as well as number of cpus to the firmware. However, when dumping that
-minimal dtb (with -M sbsa-virt,dumpdtb=<file>), the resulting blob
-generates a warning when decompiled by dtc due to lack of reg property.
+A difference between sbsa platform and the virt platform is PSCI is
+handled by ARM-TF in the sbsa platform. This means that the PSCI code
+there needs to communicate some of the platform power changes down
+to the qemu code for things like shutdown/reset control.
 
-Add a simple reg property per cpu, representing a 64-bit MPIDR_EL1.
+Space has been left to extend the EC if we find other use cases in
+future where ARM-TF and qemu need to communicate.
 
-This also ends up being cleaner than having the firmware calculating its
-own IDs for generating APCI.
-
-Signed-off-by: Leif Lindholm <leif@nuviainc.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20200827124335.30586-1-leif@nuviainc.com
+Signed-off-by: Graeme Gregory <graeme@nuviainc.com>
+Reviewed-by: Leif Lindholm <leif@nuviainc.com>
+Tested-by: Leif Lindholm <leif@nuviainc.com>
+Message-id: 20200826141952.136164-2-graeme@nuviainc.com
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/sbsa-ref.c | 29 +++++++++++++++++++++++------
- 1 file changed, 23 insertions(+), 6 deletions(-)
+ hw/misc/sbsa_ec.c   | 98 +++++++++++++++++++++++++++++++++++++++++++++
+ hw/misc/meson.build |  2 +
+ 2 files changed, 100 insertions(+)
+ create mode 100644 hw/misc/sbsa_ec.c
 
-diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-index 2a7d9a61fc7..7475aac0dfa 100644
---- a/hw/arm/sbsa-ref.c
-+++ b/hw/arm/sbsa-ref.c
-@@ -138,6 +138,12 @@ static const int sbsa_ref_irqmap[] = {
-     [SBSA_EHCI] = 11,
- };
- 
-+static uint64_t sbsa_ref_cpu_mp_affinity(SBSAMachineState *sms, int idx)
+diff --git a/hw/misc/sbsa_ec.c b/hw/misc/sbsa_ec.c
+new file mode 100644
+index 00000000000..9a7d7f914a9
+--- /dev/null
++++ b/hw/misc/sbsa_ec.c
+@@ -0,0 +1,98 @@
++/*
++ * ARM SBSA Reference Platform Embedded Controller
++ *
++ * A device to allow PSCI running in the secure side of sbsa-ref machine
++ * to communicate platform power states to qemu.
++ *
++ * Copyright (c) 2020 Nuvia Inc
++ * Written by Graeme Gregory <graeme@nuviainc.com>
++ *
++ * SPDX-License-Identifer: GPL-2.0-or-later
++ */
++
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++#include "qemu/log.h"
++#include "hw/sysbus.h"
++#include "sysemu/runstate.h"
++
++typedef struct {
++    SysBusDevice parent_obj;
++    MemoryRegion iomem;
++} SECUREECState;
++
++#define TYPE_SBSA_EC      "sbsa-ec"
++#define SECURE_EC(obj) OBJECT_CHECK(SECUREECState, (obj), TYPE_SBSA_EC)
++
++enum sbsa_ec_powerstates {
++    SBSA_EC_CMD_POWEROFF = 0x01,
++    SBSA_EC_CMD_REBOOT = 0x02,
++};
++
++static uint64_t sbsa_ec_read(void *opaque, hwaddr offset, unsigned size)
 +{
-+    uint8_t clustersz = ARM_DEFAULT_CPUS_PER_CLUSTER;
-+    return arm_cpu_mp_affinity(idx, clustersz);
++    /* No use for this currently */
++    qemu_log_mask(LOG_GUEST_ERROR, "sbsa-ec: no readable registers");
++    return 0;
 +}
 +
- /*
-  * Firmware on this machine only uses ACPI table to load OS, these limited
-  * device tree nodes are just to let firmware know the info which varies from
-@@ -183,14 +189,31 @@ static void create_fdt(SBSAMachineState *sms)
-         g_free(matrix);
-     }
++static void sbsa_ec_write(void *opaque, hwaddr offset,
++                     uint64_t value, unsigned size)
++{
++    if (offset == 0) { /* PSCI machine power command register */
++        switch (value) {
++        case SBSA_EC_CMD_POWEROFF:
++            qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
++            break;
++        case SBSA_EC_CMD_REBOOT:
++            qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
++            break;
++        default:
++            qemu_log_mask(LOG_GUEST_ERROR,
++                          "sbsa-ec: unknown power command");
++        }
++    } else {
++        qemu_log_mask(LOG_GUEST_ERROR, "sbsa-ec: unknown EC register");
++    }
++}
++
++static const MemoryRegionOps sbsa_ec_ops = {
++    .read = sbsa_ec_read,
++    .write = sbsa_ec_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++    .valid.min_access_size = 4,
++    .valid.max_access_size = 4,
++};
++
++static void sbsa_ec_init(Object *obj)
++{
++    SECUREECState *s = SECURE_EC(obj);
++    SysBusDevice *dev = SYS_BUS_DEVICE(obj);
++
++    memory_region_init_io(&s->iomem, obj, &sbsa_ec_ops, s, "sbsa-ec",
++                          0x1000);
++    sysbus_init_mmio(dev, &s->iomem);
++}
++
++static void sbsa_ec_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    /* No vmstate or reset required: device has no internal state */
++    dc->user_creatable = false;
++}
++
++static const TypeInfo sbsa_ec_info = {
++    .name          = TYPE_SBSA_EC,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(SECUREECState),
++    .instance_init = sbsa_ec_init,
++    .class_init    = sbsa_ec_class_init,
++};
++
++static void sbsa_ec_register_type(void)
++{
++    type_register_static(&sbsa_ec_info);
++}
++
++type_init(sbsa_ec_register_type);
+diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+index 84fed0494d2..e1576b81cf9 100644
+--- a/hw/misc/meson.build
++++ b/hw/misc/meson.build
+@@ -97,3 +97,5 @@ specific_ss.add(when: 'CONFIG_MAC_VIA', if_true: files('mac_via.c'))
  
-+    /*
-+     * From Documentation/devicetree/bindings/arm/cpus.yaml
-+     *  On ARM v8 64-bit systems this property is required
-+     *    and matches the MPIDR_EL1 register affinity bits.
-+     *
-+     *    * If cpus node's #address-cells property is set to 2
-+     *
-+     *      The first reg cell bits [7:0] must be set to
-+     *      bits [39:32] of MPIDR_EL1.
-+     *
-+     *      The second reg cell bits [23:0] must be set to
-+     *      bits [23:0] of MPIDR_EL1.
-+     */
-     qemu_fdt_add_subnode(sms->fdt, "/cpus");
-+    qemu_fdt_setprop_cell(sms->fdt, "/cpus", "#address-cells", 2);
-+    qemu_fdt_setprop_cell(sms->fdt, "/cpus", "#size-cells", 0x0);
- 
-     for (cpu = sms->smp_cpus - 1; cpu >= 0; cpu--) {
-         char *nodename = g_strdup_printf("/cpus/cpu@%d", cpu);
-         ARMCPU *armcpu = ARM_CPU(qemu_get_cpu(cpu));
-         CPUState *cs = CPU(armcpu);
-+        uint64_t mpidr = sbsa_ref_cpu_mp_affinity(sms, cpu);
- 
-         qemu_fdt_add_subnode(sms->fdt, nodename);
-+        qemu_fdt_setprop_u64(sms->fdt, nodename, "reg", mpidr);
- 
-         if (ms->possible_cpus->cpus[cs->cpu_index].props.has_node_id) {
-             qemu_fdt_setprop_cell(sms->fdt, nodename, "numa-node-id",
-@@ -717,12 +740,6 @@ static void sbsa_ref_init(MachineState *machine)
-     arm_load_kernel(ARM_CPU(first_cpu), machine, &sms->bootinfo);
- }
- 
--static uint64_t sbsa_ref_cpu_mp_affinity(SBSAMachineState *sms, int idx)
--{
--    uint8_t clustersz = ARM_DEFAULT_CPUS_PER_CLUSTER;
--    return arm_cpu_mp_affinity(idx, clustersz);
--}
--
- static const CPUArchIdList *sbsa_ref_possible_cpu_arch_ids(MachineState *ms)
- {
-     unsigned int max_cpus = ms->smp.max_cpus;
+ specific_ss.add(when: 'CONFIG_MIPS_CPS', if_true: files('mips_cmgcr.c', 'mips_cpc.c'))
+ specific_ss.add(when: 'CONFIG_MIPS_ITU', if_true: files('mips_itu.c'))
++
++specific_ss.add(when: 'CONFIG_SBSA_REF', if_true: files('sbsa_ec.c'))
 -- 
 2.20.1
 
