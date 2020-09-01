@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF4B225908B
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:34:53 +0200 (CEST)
-Received: from localhost ([::1]:38572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BB02259084
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:33:25 +0200 (CEST)
+Received: from localhost ([::1]:58604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD7N6-0006MQ-W1
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:34:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55634)
+	id 1kD7Lg-0002lJ-E1
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:33:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zZ-0006A5-SJ; Tue, 01 Sep 2020 10:10:33 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:45153)
+ id 1kD6za-0006B3-8A; Tue, 01 Sep 2020 10:10:34 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:39751)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zX-00040M-U7; Tue, 01 Sep 2020 10:10:33 -0400
+ id 1kD6zY-00040U-CR; Tue, 01 Sep 2020 10:10:33 -0400
 Received: from localhost.localdomain ([82.252.135.186]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MkpjD-1kri4W0g07-00mHgY; Tue, 01 Sep 2020 16:10:23 +0200
+ id 1MWAaw-1k5uuj3tyk-00Xd95; Tue, 01 Sep 2020 16:10:24 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 38/44] hw/net/virtio-net:Remove redundant statement in
- virtio_net_rsc_tcp_ctrl_check()
-Date: Tue,  1 Sep 2020 16:09:48 +0200
-Message-Id: <20200901140954.889743-39-laurent@vivier.eu>
+Subject: [PULL 39/44] vfio/platform: Remove dead assignment in
+ vfio_intp_interrupt()
+Date: Tue,  1 Sep 2020 16:09:49 +0200
+Message-Id: <20200901140954.889743-40-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200901140954.889743-1-laurent@vivier.eu>
 References: <20200901140954.889743-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:GpwwH3w0iP+ROO0G5v0szD4r3uVxpbrANqTycm0vX5WOZteZR3r
- ciwv50BXPB9l7ItFtSRftIs+M9qgzDkVcIUcRCpizwoic0icTL6Fs+/Zzhef8uZAW5YMSTt
- R1ZnnwiEetUbXiGDW2cUNbPd73JKz3TNB4hIWDPink4N/9XoVKU7kGp/neZFRRHnLqWZNmD
- 7/1kms6yn2aaVRdKMKMfA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:6fEAJAzPqzQ=:0OBQLBVFGA5XJ6QPnY4gJC
- P+9g17uUb8xDTIbnGnwqtSObAk1xH15tRQey3XRciM6FONoobxqilr6w/ahfOR2mV6D0YB+lK
- HWLz2otoNARPeQg64tJfOMm+QpXxCTrGeHM58AuNolHAq4wluQWEV/HnwVvsR4k6mjqgzHC81
- sIIe4c5hC+LIWbh7W2fZ3HYpVD/gjXoWxcrHf+2E/fJmtBvVNQBxgHj9+rMsLDav5rJZuDf7c
- k4Cad1DYQqMilqDe0mqkQGdxlB95Kh6pg8j8VgKFbX1PeB+zXMaMO9wlmrm+euQpbjSTFwW6B
- YaF0u/N2HQEU4BHSBaoSHrFdD5S6Y91ZJ3O/NsdNuC1kXhj2UZeaZKop7Xr93x8NRtSBXqPEV
- nIGph7TisjnHoSkxZCVDQNdF/v6ELB9uxiIn9UefKnMQQGUz49oHT/Bpb9+o6akuds6QOZT0n
- KABrzmP5mIAMrV/wtFWLTevKp11afo/p/4+1n1i69w8fLrU7Lypi5PaFuRkB9ngpiZZfFN/To
- rUvpCVNM54OW8POY1aBc505m4lVYO2cD3TZN+hLplElPzIF0t220UMG9S6ndkKz4sLTyvizze
- XvcXcBhTEgqdW5p2UDN2NL+40i8JxePAmc4DYitSA/vbYz0rIJ26QOt9s/A4Qv6oJ9idfxm0L
- wJkFeBCBKVHYvOER4T1PcL/ymfZmMIYjv/yg3nUL5j25gpanCohBMLVR8LuV/0sbbyVMJWNps
- yPXGL0fRiXQ0n4/wbpkhCKfH+kBmXPfn41ZMc1ogAKdE+7GyLoy/hHIF0OJRvGa7m5EwALOrE
- 5G58ksT68kLjhSD9jD0kcP++/UEedoPz5IrgrPZjf0qTfQC5R0+TIhf2kGwTgkF7XyvOnnQ
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:lsDR0dEHCtExKSd9N3oIN428thZ82nBF4fKg8HBPzQNzaeOTCIY
+ 7Bs0o+KvIhLj5toScUInS9nf7Aez3cWSEI6dPi2r4HpR68D28Zq1zXbCn8jhFFkKFKVX2iP
+ NWuGBRINpnAdiONWZf/i/dj7KkcoZ/LHchSm6y1vAcdg9gMI/Ufc1hHRjLu042SOEx0l60E
+ SPjxYrZqSM0+GkZRpyhtQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Jdfz80TC3Hk=:UQy0koX5hT1Lb8VX/HsC5e
+ kqORgrLW6dYbqBg8lvU9dChVvVnfVrLYrIiE3BGp/m+5DJk7e6+pqWUldwOvAeMPnjhZ1nBRa
+ T1w6mF+tB0B2ytkPys5Gs5aIDnSJChFDxj7AHV/IjgDMHgKDoRWaBOOdtlNgEDfa3k27tMtdi
+ 2VUdySM1x6u84yYuHar96QcxUp5kWOhKGspoKDYYC9ZCwl2L9XmTrLq5OduTULz/7askIhs/4
+ +Z/q1lX6a+2eIPPw7Wb1UzfAPavxdtAcuRVg5qnUxFd2FCtkons/o3tKm/x0gk4U4b+I47poO
+ zTGRqzbk1VqVONaeDj0XpJrOAZzQBMNfEV3X8w148usu59AX8c8ZBrhvsGIkocag7PZGo76lG
+ vpuZIbJh2ssNzMzsrV0neO/IJqIGVUjDq19JdlJL9t3jmWkZ5PlaBY+Ct1tdJ8EHgfArO7C8l
+ LFO51FIUP4c0lYhe4tyv8nkvQ0R0EdjWAK5sMVFPear70M8lqzw4TfczgzoJS2UfGZmwrFaKa
+ uft+a0SucrfSrAkcqIg8GrNv/5O/+se2bQSM98lp7JHdFkmwN72CNtiK/sKEszfSaoHLFXqR0
+ P3zCub+IRdNdVueXaSzHLVV/xWfcwv5qf4vFsRfo/ixLIZzyctSnXt3gMEAY6+mA2r5ek5l3S
+ moPUpY4d96s6/ZPiKeoxf36c0eUlhWZ5K8BXbjnUsWuGkkWzWgnhnD1CmJ5Vv3Sq2pfX5Vg5S
+ nhAdh3Ku5rk2wEoblZ/pTheJZmzuBTbOmal1B6qNvpWJzunoJKUD6JNxrB8a03I3m4N5L7+gh
+ j+18nEtBL3xh2nady720Pc8CFmDGY1Z6HYmMWMINTZKQfgXkvnvgVoN+yB1i52hienGdyBs
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:10:07
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:10:08
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -71,46 +70,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
- Li Qiang <liq3ea@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
- Euler Robot <euler.robot@huawei.com>, Chen Qun <kuhn.chenqun@huawei.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-trivial@nongnu.org, Li Qiang <liq3ea@gmail.com>,
+ Laurent Vivier <laurent@vivier.eu>, Eric Auger <eric.auger@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Euler Robot <euler.robot@huawei.com>,
+ Chen Qun <kuhn.chenqun@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Chen Qun <kuhn.chenqun@huawei.com>
 
 Clang static code analyzer show warning:
-hw/net/virtio-net.c:2077:5: warning: Value stored to 'tcp_flag' is never read
-    tcp_flag &= VIRTIO_NET_TCP_FLAG;
-    ^           ~~~~~~~~~~~~~~~~~~~
-
-The 'VIRTIO_NET_TCP_FLAG' is '0x3F'. The last ‘tcp_flag’ assignment statement is
- the same as that of the first two statements.
+hw/vfio/platform.c:239:9: warning: Value stored to 'ret' is never read
+        ret = event_notifier_test_and_clear(intp->interrupt);
+        ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Li Qiang <liq3ea@gmail.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <20200827110311.164316-7-kuhn.chenqun@huawei.com>
+Message-Id: <20200827110311.164316-8-kuhn.chenqun@huawei.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/net/virtio-net.c | 1 -
- 1 file changed, 1 deletion(-)
+ hw/vfio/platform.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index a1fe9e928533..cb0d27084c10 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -2075,7 +2075,6 @@ static int virtio_net_rsc_tcp_ctrl_check(VirtioNetRscChain *chain,
-     tcp_flag = htons(tcp->th_offset_flags);
-     tcp_hdr = (tcp_flag & VIRTIO_NET_TCP_HDR_LENGTH) >> 10;
-     tcp_flag &= VIRTIO_NET_TCP_FLAG;
--    tcp_flag = htons(tcp->th_offset_flags) & 0x3F;
-     if (tcp_flag & TH_SYN) {
-         chain->stat.tcp_syn++;
-         return RSC_BYPASS;
+diff --git a/hw/vfio/platform.c b/hw/vfio/platform.c
+index ac2cefc9b184..869ed2c39dcd 100644
+--- a/hw/vfio/platform.c
++++ b/hw/vfio/platform.c
+@@ -236,7 +236,7 @@ static void vfio_intp_interrupt(VFIOINTp *intp)
+         trace_vfio_intp_interrupt_set_pending(intp->pin);
+         QSIMPLEQ_INSERT_TAIL(&vdev->pending_intp_queue,
+                              intp, pqnext);
+-        ret = event_notifier_test_and_clear(intp->interrupt);
++        event_notifier_test_and_clear(intp->interrupt);
+         return;
+     }
+ 
 -- 
 2.26.2
 
