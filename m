@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 871F6259312
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:21:10 +0200 (CEST)
-Received: from localhost ([::1]:52968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E04F7259373
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:26:26 +0200 (CEST)
+Received: from localhost ([::1]:48678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD85t-0003vb-AN
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:21:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47512)
+	id 1kD8Az-0005O6-TK
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:26:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kD83L-0007Gr-Cl
+ id 1kD83L-0007Hp-MQ
  for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:18:31 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:38422)
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:34047)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kD83I-00069a-Ep
+ id 1kD83J-00069c-4e
  for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:18:31 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id g4so1493771wrs.5
+Received: by mail-wr1-x434.google.com with SMTP id t10so1140665wrv.1
  for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 08:18:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=aevIgEm+B5kgZFapzqkKHf9iqIOu0mXm/5QZrA+DeW4=;
- b=R0kfW6qA4J1to1fZAGJBrRza4prK0Js7xe6FNkqqAHMpEGjWesplmTcBwaHBdEhAhq
- o4HXIfTm7SIq9iMVwjPWK2bctaLqcw41cqQIFoJ3+qzFKupkXlK8GSjR6tjczx41NrCT
- y8AJRSNMw+K1cLuNwGdoJwlgm14r2qmGZTFYKFnO3z7u2XLO8tznxeHIBic7z8hzH49g
- xD9SSqmcs6yeQRt6GB2lg2TPNacA2NnVQcMs8vCfS+MwE6e3fqSO+20cND8IiwdBkqYa
- H7l6G3uLzHm6gJgnlRGUQ2sfcFEOSS6Wlppk+Yqk7mj1rcch/vdvlrM4ybhVR38D2B9p
- qZng==
+ bh=DxK53YpFTp+YktfbiVN38wkS45bmg8hIgJqiRfg6/KA=;
+ b=IIdj+w3ffqoS+vYLz9SRmSRqTIH5E/LGITcl5wyVKUY1uqrUhNL+OIUvJhvUsxT+2O
+ 8glYKkaTubwhHtn2NF5uPtVtvvtkSUoEi497r78t/iCU5BBUNWaBycaXOeOl9tCQUBj0
+ fCeY1K/4/gqwwf9Ja73WQce20fSz0PjK9KKOkUFu4y8GpMlaa2UbwoE37ZM/RsmOBfWS
+ he1IWo3izkg6G89NSDFcDNB/OAcUqhQ3IYaPIuDZxMHANBuEmiDKtNqKj61cYvq78IqC
+ j3FIxglWJoCQPfQNa5ZWJVTnj/WzSGVP3OYjKZX5Xf8bWXSgG4nmociNkSTLDSlkPiaD
+ qhWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=aevIgEm+B5kgZFapzqkKHf9iqIOu0mXm/5QZrA+DeW4=;
- b=b89/B31Z7Qvbh6899IE9sMaLuCrF/ERSgi0tGBYn7mdEfKnCYspzW0Nfmqtx5zYqw5
- adfiTUYZ+ryXcSzBYTOvcue7ytIxAbWY8hTOPgtTDCUftHhCAudj9Gj9VC/CKTNWB7ey
- xjkErrmTCPXREw17hnLz5GseMy9yxQDpv7qeQVmrGM0NNd/z8q2wftSLyVs7km8ga42O
- CqAioOu5MeFISt6PVFjNo4gmSRzEwWVw/0pP3+Rhk2WOaucF37kVsFRFqrzD3RiGjefQ
- WXeQSovtKzSLoaeigX+8asPhxG33pQDv6yrGeT25kvdfTRSPzLGXRPSPweyIPWgI+LVC
- XEMg==
-X-Gm-Message-State: AOAM5316oL9z2Jp5oe5PuPZf7vMKNJVLNfAVUE1wDnL/6a1b/5g0mv43
- DEX6KY6kp2RSlTZhsbW8p9aZUHi1Y47TGPYp
-X-Google-Smtp-Source: ABdhPJzTmViv2oatWc5FmwJZm5ZGZ4gGTOtYcw1+q+DONPN7fWZE1bAH/Wz1DyytfAhGUfJNNy6wSQ==
-X-Received: by 2002:a5d:6685:: with SMTP id l5mr2508035wru.264.1598973505943; 
- Tue, 01 Sep 2020 08:18:25 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=DxK53YpFTp+YktfbiVN38wkS45bmg8hIgJqiRfg6/KA=;
+ b=oX0ZmAiSJq4VIerFvxADcnt4u5SaT/rTKH0olg4OUOXOc+U4sfGBjuvSKpLcy1CZGd
+ mGaa4ingWToNRkclrAmz+GtyFLhQIr+BvyM2StHpBY2zWIC1pqLcZn1BS/qI2M1kh1J+
+ I+zbSGWHuXKgAlGkVsnKThCVp2VSYQnPaG5/TYuFlr6WGOomIs2bRL0s5WHHwBrARvd/
+ 3a0smpEZ7qKrR4fU4RqQTG4n6r2ENCNoAuyvSAk9ZAu1/i6m39F70UihTfpWJWc/9JWa
+ 0epYfmJSI5AbSdxuPU3qcBlz2LwHOyLQ0aWVAuqaaMuA9oAdVZhG7iY+fwoSoMp0gH4u
+ /zbg==
+X-Gm-Message-State: AOAM533X53W/5HhDm7B/kz9UsU7TTmka2KJc54TNMt4xbIy2HAR8tRTV
+ VbKbdNCS7MZaZMTawjllwaqU2F2NrOYVlpYQ
+X-Google-Smtp-Source: ABdhPJy3FKKrIHWl/hXFxU+wq4gvhqabP9fRoFQF3iwzp91TzdyFhhHzZ26fNpJ3lrfqMzR89C2EMA==
+X-Received: by 2002:adf:8187:: with SMTP id 7mr2485014wra.266.1598973506831;
+ Tue, 01 Sep 2020 08:18:26 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id z9sm2242317wma.4.2020.09.01.08.18.24
+ by smtp.gmail.com with ESMTPSA id z9sm2242317wma.4.2020.09.01.08.18.26
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Sep 2020 08:18:25 -0700 (PDT)
+ Tue, 01 Sep 2020 08:18:26 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/47] target-arm queue
-Date: Tue,  1 Sep 2020 16:17:36 +0100
-Message-Id: <20200901151823.29785-1-peter.maydell@linaro.org>
+Subject: [PULL 01/47] target/arm: Remove local definitions of float constants
+Date: Tue,  1 Sep 2020 16:17:37 +0100
+Message-Id: <20200901151823.29785-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200901151823.29785-1-peter.maydell@linaro.org>
+References: <20200901151823.29785-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,100 +88,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just my fp16 work, plus some small stuff for the sbsa-ref board;
-but my rule of thumb is to send a pullreq once I get over about
-30 patches...
+In several places the target/arm code defines local float constants
+for 2, 3 and 1.5, which are also provided by include/fpu/softfloat.h.
+Remove the unnecessary local duplicate versions.
 
--- PMM
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20200828183354.27913-2-peter.maydell@linaro.org
+---
+ target/arm/helper-a64.c    | 11 -----------
+ target/arm/translate-sve.c |  4 ----
+ target/arm/vfp_helper.c    |  4 ----
+ 3 files changed, 19 deletions(-)
 
-The following changes since commit 2f4c51c0f384d7888a04b4815861e6d5fd244d75:
+diff --git a/target/arm/helper-a64.c b/target/arm/helper-a64.c
+index 8682630ff6c..030821489b3 100644
+--- a/target/arm/helper-a64.c
++++ b/target/arm/helper-a64.c
+@@ -234,17 +234,6 @@ uint64_t HELPER(neon_cgt_f64)(float64 a, float64 b, void *fpstp)
+  * versions, these do a fully fused multiply-add or
+  * multiply-add-and-halve.
+  */
+-#define float16_two make_float16(0x4000)
+-#define float16_three make_float16(0x4200)
+-#define float16_one_point_five make_float16(0x3e00)
+-
+-#define float32_two make_float32(0x40000000)
+-#define float32_three make_float32(0x40400000)
+-#define float32_one_point_five make_float32(0x3fc00000)
+-
+-#define float64_two make_float64(0x4000000000000000ULL)
+-#define float64_three make_float64(0x4008000000000000ULL)
+-#define float64_one_point_five make_float64(0x3FF8000000000000ULL)
+ 
+ uint32_t HELPER(recpsf_f16)(uint32_t a, uint32_t b, void *fpstp)
+ {
+diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
+index 15ad6c7d323..e4cd6b62517 100644
+--- a/target/arm/translate-sve.c
++++ b/target/arm/translate-sve.c
+@@ -3803,10 +3803,6 @@ static bool trans_##NAME##_zpzi(DisasContext *s, arg_rpri_esz *a)         \
+     return true;                                                          \
+ }
+ 
+-#define float16_two  make_float16(0x4000)
+-#define float32_two  make_float32(0x40000000)
+-#define float64_two  make_float64(0x4000000000000000ULL)
+-
+ DO_FP_IMM(FADD, fadds, half, one)
+ DO_FP_IMM(FSUB, fsubs, half, one)
+ DO_FP_IMM(FMUL, fmuls, half, two)
+diff --git a/target/arm/vfp_helper.c b/target/arm/vfp_helper.c
+index 64266ece620..02ab8d7f2d8 100644
+--- a/target/arm/vfp_helper.c
++++ b/target/arm/vfp_helper.c
+@@ -582,10 +582,6 @@ uint32_t HELPER(vfp_fcvt_f64_to_f16)(float64 a, void *fpstp, uint32_t ahp_mode)
+     return r;
+ }
+ 
+-#define float32_two make_float32(0x40000000)
+-#define float32_three make_float32(0x40400000)
+-#define float32_one_point_five make_float32(0x3fc00000)
+-
+ float32 HELPER(recps_f32)(CPUARMState *env, float32 a, float32 b)
+ {
+     float_status *s = &env->vfp.standard_fp_status;
+-- 
+2.20.1
 
-  Merge remote-tracking branch 'remotes/kraxel/tags/usb-20200831-pull-request' into staging (2020-08-31 19:39:13 +0100)
-
-are available in the Git repository at:
-
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20200901
-
-for you to fetch changes up to 3f462bf0f6ea6382dd1502d4eb1fcd33c8e774f5:
-
-  hw/arm/sbsa-ref : Add embedded controller in secure memory (2020-09-01 14:01:34 +0100)
-
-----------------------------------------------------------------
-target-arm queue:
- * Implement fp16 support for AArch32 VFP and Neon
- * hw/arm/sbsa-ref: add "reg" property to DT cpu nodes
- * hw/arm/sbsa-ref : Add embedded controller in secure memory
-
-----------------------------------------------------------------
-Graeme Gregory (2):
-      hw/misc/sbsa_ec : Add an embedded controller for sbsa-ref
-      hw/arm/sbsa-ref : Add embedded controller in secure memory
-
-Leif Lindholm (1):
-      hw/arm/sbsa-ref: add "reg" property to DT cpu nodes
-
-Peter Maydell (44):
-      target/arm: Remove local definitions of float constants
-      target/arm: Use correct ID register check for aa32_fp16_arith
-      target/arm: Implement VFP fp16 for VFP_BINOP operations
-      target/arm: Implement VFP fp16 VMLA, VMLS, VNMLS, VNMLA, VNMUL
-      target/arm: Macroify trans functions for VFMA, VFMS, VFNMA, VFNMS
-      target/arm: Implement VFP fp16 for fused-multiply-add
-      target/arm: Macroify uses of do_vfp_2op_sp() and do_vfp_2op_dp()
-      target/arm: Implement VFP fp16 for VABS, VNEG, VSQRT
-      target/arm: Implement VFP fp16 for VMOV immediate
-      target/arm: Implement VFP fp16 VCMP
-      target/arm: Implement VFP fp16 VLDR and VSTR
-      target/arm: Implement VFP fp16 VCVT between float and integer
-      target/arm: Make VFP_CONV_FIX macros take separate float type and float size
-      target/arm: Use macros instead of open-coding fp16 conversion helpers
-      target/arm: Implement VFP fp16 VCVT between float and fixed-point
-      target/arm: Implement VFP vp16 VCVT-with-specified-rounding-mode
-      target/arm: Implement VFP fp16 VSEL
-      target/arm: Implement VFP fp16 VRINT*
-      target/arm: Implement new VFP fp16 insn VINS
-      target/arm: Implement new VFP fp16 insn VMOVX
-      target/arm: Implement VFP fp16 VMOV between gp and halfprec registers
-      target/arm: Implement FP16 for Neon VADD, VSUB, VABD, VMUL
-      target/arm: Implement fp16 for Neon VRECPE, VRSQRTE using gvec
-      target/arm: Implement fp16 for Neon VABS, VNEG of floats
-      target/arm: Implement fp16 for VCEQ, VCGE, VCGT comparisons
-      target/arm: Implement fp16 for VACGE, VACGT
-      target/arm: Implement fp16 for Neon VMAX, VMIN
-      target/arm: Implement fp16 for Neon VMAXNM, VMINNM
-      target/arm: Implement fp16 for Neon VMLA, VMLS operations
-      target/arm: Implement fp16 for Neon VFMA, VMFS
-      target/arm: Implement fp16 for Neon fp compare-vs-0
-      target/arm: Implement fp16 for Neon VRECPS
-      target/arm: Implement fp16 for Neon VRSQRTS
-      target/arm: Implement fp16 for Neon pairwise fp ops
-      target/arm: Implement fp16 for Neon float-integer VCVT
-      target/arm: Convert Neon VCVT fixed-point to gvec
-      target/arm: Implement fp16 for Neon VCVT fixed-point
-      target/arm: Implement fp16 for Neon VCVT with rounding modes
-      target/arm: Implement fp16 for Neon VRINT-with-specified-rounding-mode
-      target/arm: Implement fp16 for Neon VRINTX
-      target/arm/vec_helper: Handle oprsz less than 16 bytes in indexed operations
-      target/arm/vec_helper: Add gvec fp indexed multiply-and-add operations
-      target/arm: Implement fp16 for Neon VMUL, VMLA, VMLS
-      target/arm: Enable FP16 in '-cpu max'
-
- target/arm/cpu.h                |   7 +-
- target/arm/helper.h             | 133 ++++++-
- target/arm/neon-dp.decode       |   8 +-
- target/arm/vfp-uncond.decode    |  27 +-
- target/arm/vfp.decode           |  34 +-
- hw/arm/sbsa-ref.c               |  43 ++-
- hw/misc/sbsa_ec.c               |  98 +++++
- target/arm/cpu.c                |   3 +-
- target/arm/cpu64.c              |  10 +-
- target/arm/helper-a64.c         |  11 -
- target/arm/translate-sve.c      |   4 -
- target/arm/vec_helper.c         | 431 ++++++++++++++++++++-
- target/arm/vfp_helper.c         | 244 +++++-------
- hw/misc/meson.build             |   2 +
- target/arm/translate-neon.c.inc | 755 +++++++++++++------------------------
- target/arm/translate-vfp.c.inc  | 810 ++++++++++++++++++++++++++++++++++++----
- 16 files changed, 1819 insertions(+), 801 deletions(-)
- create mode 100644 hw/misc/sbsa_ec.c
 
