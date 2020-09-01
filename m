@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A31B9259496
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:41:22 +0200 (CEST)
-Received: from localhost ([::1]:60728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AF3025953B
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:49:22 +0200 (CEST)
+Received: from localhost ([::1]:35270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD8PR-0000CS-P7
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:41:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48946)
+	id 1kD8XB-0004dN-DT
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:49:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kD85r-0004zA-8B
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:21:07 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:41947)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kD85j-0006fO-BT
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:21:06 -0400
-Received: by mail-pl1-x629.google.com with SMTP id l9so686881plt.8
- for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 08:20:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=cJQwd8RXC2jtaqIhnYKg7+XP5Yhz5tiCGX7IypB/AME=;
- b=NcUqBCiT0fEmG13b6YB85xbPjL/39kA4HDBESchCm8lgXzUmhbMhZXRPlf2t4hRG00
- dHt95dh/yx1mmZInsr/gaTAg7PvYxwooVa4lyz0mBCtbWeRJsJHbsWVcvPGy54R0PwXJ
- +kxFMIYRGm079x2Lv04to3W3DCFL0DTBp3UXI5cfe7l80vNtLu8SEGS3r3g0fmqWfAEu
- FUmGpX5opey314MKJI/IAf085g9pkVZn/unu0HGiPDk2NexMazyLz/EvDWRMgT+TZY5Y
- wUI00nNgguXxTai1SUbTh7RuyO3l5NDFc2G5b4/PiO9dPNMSqUOimskRtMYm53LW09MF
- lDGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=cJQwd8RXC2jtaqIhnYKg7+XP5Yhz5tiCGX7IypB/AME=;
- b=exn1PcNuaVOEP+jCdGLwWkPyPqy+ZNh7dneLL8KNLRefV8hh9aN2mLDynZeTNMgGmV
- 4g7NOW6AlRtwkir14htyiYvAWHFVsomTP1BOPlNTLVCHcy3Ur8ms/7K/EPleEtmKw4ee
- JAKBd6c9968pAA5O9W8ou8HGnvj/ZoXH1Ui2wVa3KEsAow2D8aW3U+MqUMJzZZXTr/bZ
- Q4Oxk2WnaBIhstYumnEESKT5ZN6Up4NYIEj+MfFQMtSUNrMD7k+KYGJJkujoAV8R4OcY
- hibTbq7wj4ZOEAQ/qEDFW59nXD5QUjdCdDWrxrqIq1rHJPCBIdloU648/Cs3k0r9aATw
- KVUA==
-X-Gm-Message-State: AOAM532qvXUA1hJmdnmGqHjDHG+EamqBbY4zqH8Sy7j/ZXvGAkDBozQj
- 5JK3nKJ+wMsVBjJYpgwM9KrANfjexLNzfw==
-X-Google-Smtp-Source: ABdhPJwM59XWZmaQc3f6OZhVNZzTq2HCD03cWS83E/lyM/9P7xZGdIQvQ2YqyefLVJFO1e9RREGHlQ==
-X-Received: by 2002:a17:90a:a50d:: with SMTP id
- a13mr2051816pjq.180.1598973657320; 
- Tue, 01 Sep 2020 08:20:57 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id f28sm2402473pfq.191.2020.09.01.08.20.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Sep 2020 08:20:56 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL v2 58/76] tcg: Add tcg_get_insn_start_param
-Date: Tue,  1 Sep 2020 08:20:54 -0700
-Message-Id: <20200901152054.922595-2-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200901152054.922595-1-richard.henderson@linaro.org>
-References: <20200901152054.922595-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kD87z-0000z0-Mk
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:23:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32987)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kD87x-0006rd-3k
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:23:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598973796;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=R4ilDNmcENKf88JVo+QQQWiziBYkVYzcxWLhbUqyl+k=;
+ b=FP1BY+2cZnjYey7S5N0S8mECRuqxgc+9/DUPEFm8yRpyUkp2zUmckZYdritUciETNrf8FC
+ zw83eJRL3MhT+BpBsP/48BHmu+6RnIa2I/mFJUKMOuyEP+i1SojJ+i1N2dKkYC9Knwp5W9
+ 11Ye5PwK7jVTOEsPYX+5VYiCGEsQIEE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-462-DbOJnrmGNpuWH8YA3HUfzQ-1; Tue, 01 Sep 2020 11:23:07 -0400
+X-MC-Unique: DbOJnrmGNpuWH8YA3HUfzQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A880E1007471;
+ Tue,  1 Sep 2020 15:23:06 +0000 (UTC)
+Received: from redhat.com (ovpn-114-215.ams2.redhat.com [10.36.114.215])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DD77219C66;
+ Tue,  1 Sep 2020 15:23:01 +0000 (UTC)
+Date: Tue, 1 Sep 2020 16:22:59 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v8 1/8] Introduce yank feature
+Message-ID: <20200901152259.GO345480@redhat.com>
+References: <cover.1598951375.git.lukasstraub2@web.de>
+ <ab5c04766f270d53e90f17f76c0af7e5b66f8623.1598951375.git.lukasstraub2@web.de>
+ <874kohsgsp.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <874kohsgsp.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 23:17:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,52 +82,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>, peter.maydell@linaro.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Lukas Straub <lukasstraub2@web.de>,
+ qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MicroBlaze will shortly need to update a parameter in place.
-Add an interface to read to match that for write.
+On Tue, Sep 01, 2020 at 04:38:46PM +0200, Markus Armbruster wrote:
+> One more question...
+> 
+> Lukas Straub <lukasstraub2@web.de> writes:
+> 
+> > The yank feature allows to recover from hanging qemu by "yanking"
+> > at various parts. Other qemu systems can register themselves and
+> > multiple yank functions. Then all yank functions for selected
+> > instances can be called by the 'yank' out-of-band qmp command.
+> > Available instances can be queried by a 'query-yank' oob command.
+> >
+> > Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+> > Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
+> [...]
+> > diff --git a/qapi/misc.json b/qapi/misc.json
+> > index 9d32820dc1..7de330416a 100644
+> > --- a/qapi/misc.json
+> > +++ b/qapi/misc.json
+> > @@ -1615,3 +1615,65 @@
+> >  ##
+> >  { 'command': 'query-vm-generation-id', 'returns': 'GuidInfo' }
+> >
+> > +##
+> > +# @YankInstances:
+> > +#
+> > +# @instances: List of yank instances.
+> > +#
+> > +# A yank instance can be yanked with the "yank" qmp command to recover from a
+> > +# hanging qemu.
+> > +#
+> > +# Yank instances are named after the following schema:
+> > +# "blockdev:<node-name>" refers to a block device. Currently only nbd block
+> > +# devices are implemented.
+> > +# "chardev:<chardev-name>" refers to a chardev. Currently only socket chardevs
+> > +# are implemented.
+> > +# "migration" refers to the migration currently in progress.
+> > +#
+> > +# Currently implemented yank instances:
+> > +#  -nbd block device:
+> > +#   Yanking it will shutdown the connection to the nbd server without
+> > +#   attempting to reconnect.
+> > +#  -socket chardev:
+> > +#   Yanking it will shutdown the connected socket.
+> > +#  -migration:
+> > +#   Yanking it will shutdown all migration connections.
+> 
+> How is yanking migration related to command migrate_cancel?
 
-Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- include/tcg/tcg.h | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+migrate_cancel will do a shutdown() on the primary migration socket only.
+In addition it will toggle the migration state.
 
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index d40c925d04..53ce94c2c5 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -777,11 +777,26 @@ static inline TCGv_i32 TCGV_HIGH(TCGv_i64 t)
- }
- #endif
- 
-+static inline TCGArg tcg_get_insn_param(TCGOp *op, int arg)
-+{
-+    return op->args[arg];
-+}
-+
- static inline void tcg_set_insn_param(TCGOp *op, int arg, TCGArg v)
- {
-     op->args[arg] = v;
- }
- 
-+static inline target_ulong tcg_get_insn_start_param(TCGOp *op, int arg)
-+{
-+#if TARGET_LONG_BITS <= TCG_TARGET_REG_BITS
-+    return tcg_get_insn_param(op, arg);
-+#else
-+    return tcg_get_insn_param(op, arg * 2) |
-+           ((uint64_t)tcg_get_insn_param(op, arg * 2 + 1) << 32);
-+#endif
-+}
-+
- static inline void tcg_set_insn_start_param(TCGOp *op, int arg, target_ulong v)
- {
- #if TARGET_LONG_BITS <= TCG_TARGET_REG_BITS
+Yanking will do a shutdown on all migration sockets (important for
+multifd), but won't touch migration state or any other aspect of QEMU
+code.
+
+Overall yanking has less potential for things to go wrong than the
+migrate_cancel method, as it doesn't try to do any kind of cleanup
+or migration.
+
+
+Regards,
+Daniel
 -- 
-2.25.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
