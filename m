@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 563F6258E8F
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 14:50:35 +0200 (CEST)
-Received: from localhost ([::1]:50038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACFA8258E82
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 14:48:53 +0200 (CEST)
+Received: from localhost ([::1]:41626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD5kA-0004hO-AQ
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 08:50:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33650)
+	id 1kD5iW-0001CD-OQ
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 08:48:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kD5fQ-0004dY-KS
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:45:40 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:33779)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kD5fP-0004cC-UX
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:45:39 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:37563)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kD5fM-0001RE-C7
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:45:40 -0400
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kD5fM-0001RI-C7
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:45:39 -0400
 Received: from mxplan5.mail.ovh.net (unknown [10.108.4.108])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 33193563B958;
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 892E1563B95D;
  Tue,  1 Sep 2020 14:45:33 +0200 (CEST)
 Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Tue, 1 Sep 2020
- 14:45:32 +0200
+ 14:45:33 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-99G003c25efb09-f62d-462a-8264-0cbfbb349265,
+ (GARM-99G003d0e3953c-bcca-4e9f-adf3-e0c47fa0b0fe,
  38EE1E9FF4E34D4C85F4190D418CEE501B878519) smtp.auth=clg@kaod.org
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: <qemu-devel@nongnu.org>
-Subject: [PULL 07/20] aspeed/sdhci: Fix reset sequence
-Date: Tue, 1 Sep 2020 14:45:12 +0200
-Message-ID: <20200901124525.220252-8-clg@kaod.org>
+Subject: [PULL 08/20] ftgmac100: Fix registers that can be read
+Date: Tue, 1 Sep 2020 14:45:13 +0200
+Message-ID: <20200901124525.220252-9-clg@kaod.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20200901124525.220252-1-clg@kaod.org>
 References: <20200901124525.220252-1-clg@kaod.org>
@@ -41,8 +41,8 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.99]
 X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 92f8a6a4-1429-4caa-8fbe-2208d6fb91b6
-X-Ovh-Tracer-Id: 4786481982081633187
+X-Ovh-Tracer-GUID: 7a8a2380-a0b2-4d45-87a3-5a52e0a54a7f
+X-Ovh-Tracer-Id: 4786481982425238310
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrudefjedgheejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfhisehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheehfeegjeeitdfffeetjeduveejueefuefgtdefueelueetveeliefhhffgtdelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
@@ -69,67 +69,41 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eddie James <eajames@linux.ibm.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Joel Stanley <joel@jms.id.au>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Joel Stanley <joel@jms.id.au>
+ Frederic Konrad <konrad.frederic@yahoo.fr>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-BIT(0) of the ASPEED_SDHCI_INFO register is set by SW and polled until
-the bit is cleared by HW.
+Receive Ring Base Address Register (RXR_BADR) and the Normal Priority
+Transmit Receive Ring Base Address Register (NPTXR_BADR) can also be
+read.
 
-Use the number of supported slots to define the default value of this
-register (The AST2600 eMMC Controller only has one). Fix the reset
-sequence by clearing automatically the RESET bit.
-
-Cc: Eddie James <eajames@linux.ibm.com>
-Fixes: 2bea128c3d0b ("hw/sd/aspeed_sdhci: New device")
+Cc: Frederic Konrad <konrad.frederic@yahoo.fr>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Joel Stanley <joel@jms.id.au>
-Message-Id: <20200819100956.2216690-9-clg@kaod.org>
+Message-Id: <20200819100956.2216690-10-clg@kaod.org>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/sd/aspeed_sdhci.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ hw/net/ftgmac100.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/hw/sd/aspeed_sdhci.c b/hw/sd/aspeed_sdhci.c
-index 22cafce0fbdc..4f24b7d2f942 100644
---- a/hw/sd/aspeed_sdhci.c
-+++ b/hw/sd/aspeed_sdhci.c
-@@ -16,7 +16,9 @@
- #include "hw/qdev-properties.h"
- 
- #define ASPEED_SDHCI_INFO            0x00
--#define  ASPEED_SDHCI_INFO_RESET     0x00030000
-+#define  ASPEED_SDHCI_INFO_SLOT1     (1 << 17)
-+#define  ASPEED_SDHCI_INFO_SLOT0     (1 << 16)
-+#define  ASPEED_SDHCI_INFO_RESET     (1 << 0)
- #define ASPEED_SDHCI_DEBOUNCE        0x04
- #define  ASPEED_SDHCI_DEBOUNCE_RESET 0x00000005
- #define ASPEED_SDHCI_BUS             0x08
-@@ -67,6 +69,10 @@ static void aspeed_sdhci_write(void *opaque, hwaddr addr, uint64_t val,
-     AspeedSDHCIState *sdhci = opaque;
- 
-     switch (addr) {
-+    case ASPEED_SDHCI_INFO:
-+        /* The RESET bit automatically clears. */
-+        sdhci->regs[TO_REG(addr)] = (uint32_t)val & ~ASPEED_SDHCI_INFO_RESET;
-+        break;
-     case ASPEED_SDHCI_SDIO_140:
-         sdhci->slots[0].capareg = (uint64_t)(uint32_t)val;
-         break;
-@@ -155,7 +161,11 @@ static void aspeed_sdhci_reset(DeviceState *dev)
-     AspeedSDHCIState *sdhci = ASPEED_SDHCI(dev);
- 
-     memset(sdhci->regs, 0, ASPEED_SDHCI_REG_SIZE);
--    sdhci->regs[TO_REG(ASPEED_SDHCI_INFO)] = ASPEED_SDHCI_INFO_RESET;
-+
-+    sdhci->regs[TO_REG(ASPEED_SDHCI_INFO)] = ASPEED_SDHCI_INFO_SLOT0;
-+    if (sdhci->num_slots == 2) {
-+        sdhci->regs[TO_REG(ASPEED_SDHCI_INFO)] |= ASPEED_SDHCI_INFO_SLOT1;
-+    }
-     sdhci->regs[TO_REG(ASPEED_SDHCI_DEBOUNCE)] = ASPEED_SDHCI_DEBOUNCE_RESET;
- }
- 
+diff --git a/hw/net/ftgmac100.c b/hw/net/ftgmac100.c
+index 5f4b26fc5f3c..0348fcf45676 100644
+--- a/hw/net/ftgmac100.c
++++ b/hw/net/ftgmac100.c
+@@ -669,6 +669,10 @@ static uint64_t ftgmac100_read(void *opaque, hwaddr addr, unsigned size)
+         return s->math[0];
+     case FTGMAC100_MATH1:
+         return s->math[1];
++    case FTGMAC100_RXR_BADR:
++        return s->rx_ring;
++    case FTGMAC100_NPTXR_BADR:
++        return s->tx_ring;
+     case FTGMAC100_ITC:
+         return s->itc;
+     case FTGMAC100_DBLAC:
 -- 
 2.25.4
 
