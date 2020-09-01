@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A9A925904C
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:24:49 +0200 (CEST)
-Received: from localhost ([::1]:47490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8AF525903E
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:22:14 +0200 (CEST)
+Received: from localhost ([::1]:60000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD7DM-0002tF-GE
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:24:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55474)
+	id 1kD7Ar-0004gi-TT
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:22:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zS-0005mA-8o; Tue, 01 Sep 2020 10:10:26 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:37339)
+ id 1kD6zQ-0005hX-IS; Tue, 01 Sep 2020 10:10:24 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:52125)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zO-0003wY-Od; Tue, 01 Sep 2020 10:10:25 -0400
+ id 1kD6zN-0003uX-Un; Tue, 01 Sep 2020 10:10:24 -0400
 Received: from localhost.localdomain ([82.252.135.186]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MoNy4-1kxTNF3wSW-00okWT; Tue, 01 Sep 2020 16:10:14 +0200
+ id 1MYvTs-1k8f0I2cWe-00UsG5; Tue, 01 Sep 2020 16:10:14 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/44] hw/ide/core: Trivial typo fix
-Date: Tue,  1 Sep 2020 16:09:35 +0200
-Message-Id: <20200901140954.889743-26-laurent@vivier.eu>
+Subject: [PULL 26/44] hw/ide/ahci: Replace magic '512' value by
+ BDRV_SECTOR_SIZE
+Date: Tue,  1 Sep 2020 16:09:36 +0200
+Message-Id: <20200901140954.889743-27-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200901140954.889743-1-laurent@vivier.eu>
 References: <20200901140954.889743-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Pyw0ZMEU7SgQFHutlITOWvz+cr+9whX18HAoSlliGteLCv9PN8T
- kbvHU2RKMwLZPzhmEOwgSOnOHU6yk11YBWl2nIo3al5XL5Y6FsBdZyc658kIsPxZDYGWJsS
- R2j8kZcjBul7QUZDUSEX171jbO2/M5+ccFx4CA1TGmBEhq9XgEl3FUebAO5LL78005OGONG
- qy2XHqpzgqC0DvzBKqngA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:oMPzd5tmRqc=:lByhKLSp9ibkziAngfx7Cp
- CJ7cJsOaPyLZZyB+fhYAU9MoVcV0Tsr60IMyl8wgjrAK/mvuTfgt8znOfVKw19lf7c3L8Kl/Z
- HUwFQdxKnd7ZC3od4nQWoELw8WV4gAdXdT7aomkotP23LFhO0oTzXErQysLvC3uuTDJbYw4nI
- VPz9Oq2xI0p8dt0smOehiwD/iuzUYMTF47zBLu3enH9qJZxfLsUM7ly+vxu0OZs4ftX9iYhXw
- 5Fog0/YQtt3TvATmdARBA3bBTfjNsRERDDertulSDQC6qKknB+1BdkMmzdojBLwYknMkTuESe
- NOJsTjhaDUi7B7g3CkWxv/OIQQj2rYbYRPxgPGjVOT3nhu3eA4VCF8fXkzMRl+SuBt/ntIKRp
- lbJ0eKcnqg1gN3xYpQBeZnJv1MCdF+OORbILg9hp47souZygH1D29kp/yd5D93rfcl289ZdAl
- TjFVWl3b2I4QCyG7v8xOYvZBfQI7cJZkpIwXz3a4QS21NdaYWOt6mRpnqwty2KJLlC7+Sifrs
- FffHTXGjH76881GSSm3uvZmga/gHsfRBkXgkfeOhNuFldNOwJcA+AuaLkgV7Hsi+bfGZgmcB7
- oVLIiF/iLGJ02eqPKXaprUJrsB79y9lDx3S+IQGz5yUmBhS99bMT02AG+0GuqmjxNNHjY/ioN
- WR8fB4B+PWxK9fpoGm1JogAkEe0SOOO3Wo1lp9ixv3BKWSCM5SpkgoKZo8EKwc6eewciBwZ3X
- UutV8ulSs3T51Ag8J57PNBw2Pc93z8VEmLEjudZXYS3WyLPZIXZ+yw+cHJhs3QQX2FbeDv3S5
- qElKGz6ZlYHS7Lm3Tf95ujoI0k/QxCB05BxJLRQ8WfRRu4YfnSm03AZgwpfE1fmb8DmdA+a
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:xxDhq+TV0IfhP9YC17vf1ffp70QmhzJ+LSLjKKD9ZRHGqPWKsWI
+ dfMp6LQG9bu0HuMAOhgCjrfL4jmvrzdVCMHJCKzHMrTMO8pTnrj0JUXGDPhqy9RjENZYxDk
+ ZeqE0vMA+F9m07Q7KsL1ucznABmEKRh3aBMiRuLFOzEjexUZQCJaH95fnYrNdju4X0N+bqu
+ ml90btsCLsq6qiwbXix/w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:D8jVz6yqPOU=:xLlTOrRID3d6tMfvRLF1Mp
+ M7hjRbUmlidApPd0IsDWxMTLXVM1V8yTNCkMIZh9mUa3yLQPpK7T8zbEoUWvGMJN5H8NO5XCN
+ CInWGHTtdKkKGeV9dCT8grtgUPLntUJuPCttFshMnLjgPOH0UqL7UvTVXca9GWb4na2+s0ANl
+ rH5PV23JuqZSkCIcxhcHR3CD42/GHyzUb+dKdMFVXkBIJWS6Y01OB+9n7MhpT0pmKc3ICetvn
+ rSzQac05LCNWWxdawI0uJtQBeMjTVSmkM5sdaQi8Bo37OepCT2llLZVLqfr0wW6XUyE1sy+v/
+ byj5SxvFZOYX9bPF3LhmfYWK9+VMv62e3MW0xfKToZMFRVgkbZ+aZl1i0sv2OSxejO51fcQjY
+ FKddVNk1MLTNRz8Wh4cfXC0yTxExLqYSbG9t14XeoGnDfx53dc0Kph4m3Fl4BjB5N51A+zAw1
+ 1e983eLJBN2ORK4UQVMqKCwj4q/+XWwRrxZVdkp2iR/AdQ+b7hXeCY2ZC5iIBgIx6k+T/3zSu
+ Fvrq/96h/cYNpzuiJV8N/8Ovdhdp4YYEZtDOIGGagXsQuMkOROIvdkl0mHlKwfF2mc8xijNRb
+ BnKu7JiOE5OENTWSiNHHPAy7k7RNDLf4Aj9+PLdowls3PZMyeDckmBI2lg7ZbU0IMCsF+zkUu
+ ssOaLBYXD2cnXa2LwS+xqQCk9QGsupLJEikydcjCufwJ0zkoGjhb5JOkKK4UzNbZobPQRt1ES
+ 5eLDYu21KGZMdqjcq3rzeZ5Us6QrHVbDgy0/s8qPQkClJqlEjGjniD4LD3Z/cVZzRCkcXee1m
+ xgZeNSXjowMALY5VkOXiXqVMydB4KVX1ZAeZfCmN7oUThp/afhMt8VqLdiYN4q92jeYInAy
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:10:10
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:10:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -70,8 +71,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-trivial@nongnu.org,
- Li Qiang <liq3ea@gmail.com>, Richard Henderson <richard.henderson@linaro.org>,
+Cc: qemu-trivial@nongnu.org, Li Qiang <liq3ea@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Stefano Garzarella <sgarzare@redhat.com>
@@ -80,30 +81,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
+Use self-explicit definitions instead of magic '512' value.
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Reviewed-by: Li Qiang <liq3ea@gmail.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Message-Id: <20200814082841.27000-3-f4bug@amsat.org>
+Message-Id: <20200814082841.27000-5-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/ide/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/ide/ahci.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/hw/ide/core.c b/hw/ide/core.c
-index d997a78e47fe..f76f7e5234bc 100644
---- a/hw/ide/core.c
-+++ b/hw/ide/core.c
-@@ -709,7 +709,7 @@ void ide_cancel_dma_sync(IDEState *s)
-     /*
-      * We can't cancel Scatter Gather DMA in the middle of the
-      * operation or a partial (not full) DMA transfer would reach
--     * the storage so we wait for completion instead (we beahve
-+     * the storage so we wait for completion instead (we behave
-      * like if the DMA was completed by the time the guest trying
-      * to cancel dma with bmdma_cmd_writeb with BM_CMD_START not
-      * set).
+diff --git a/hw/ide/ahci.c b/hw/ide/ahci.c
+index 009120f88b78..b696c6291a38 100644
+--- a/hw/ide/ahci.c
++++ b/hw/ide/ahci.c
+@@ -1151,7 +1151,7 @@ static void process_ncq_command(AHCIState *s, int port, uint8_t *cmd_fis,
+     if (!ncq_tfs->sector_count) {
+         ncq_tfs->sector_count = 0x10000;
+     }
+-    size = ncq_tfs->sector_count * 512;
++    size = ncq_tfs->sector_count * BDRV_SECTOR_SIZE;
+     ahci_populate_sglist(ad, &ncq_tfs->sglist, ncq_tfs->cmdh, size, 0);
+ 
+     if (ncq_tfs->sglist.size < size) {
+@@ -1703,7 +1703,8 @@ static int ahci_state_post_load(void *opaque, int version_id)
+                 return -1;
+             }
+             ahci_populate_sglist(ncq_tfs->drive, &ncq_tfs->sglist,
+-                                 ncq_tfs->cmdh, ncq_tfs->sector_count * 512,
++                                 ncq_tfs->cmdh,
++                                 ncq_tfs->sector_count * BDRV_SECTOR_SIZE,
+                                  0);
+             if (ncq_tfs->sector_count != ncq_tfs->sglist.size >> 9) {
+                 return -1;
 -- 
 2.26.2
 
