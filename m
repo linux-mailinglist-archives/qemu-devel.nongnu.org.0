@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEC912591EE
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:57:44 +0200 (CEST)
-Received: from localhost ([::1]:39076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75A302591FB
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:59:21 +0200 (CEST)
+Received: from localhost ([::1]:47548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD7jD-0003l6-Qq
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:57:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34992)
+	id 1kD7km-0007MS-GM
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:59:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kD7OR-0001uV-5p
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:36:15 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49239
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kD7OT-00022o-UA
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:36:17 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:55416
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kD7OO-0007VZ-OC
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:36:14 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kD7OQ-0007W1-U4
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:36:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598970971;
+ s=mimecast20190719; t=1598970974;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=01Pp/2cvfi1jYvxDkdl8bLU++4JhKcpZOA1HDPfsfbY=;
- b=MYh1jqWvlPeBLte/g3q52+cytZ5KWfCSMfkEDc3XJZpGySI5TdDyi/SOOjDS3//hVWep6Y
- il44ds6cWQLOjT/CkPiAgY1ViaXoNeXdMMDldz7fl1+01j4UcaRJsZd0XiCNkUXeHZyBu9
- Ej9MfTULcFMHJjkoe/aGpg7eLrslb2c=
+ bh=SfRbSD7CvrY7rU++lJ4+89wpJRu6V2Zzk8T5NDMc+/o=;
+ b=KE7B7Q7Btstw+xZm2DsB3pnV+ubqMoXnzgxImxF8WW4BGOuzg6nezr2wVx/tnG5Mm00QMf
+ Hnql6evanHJUpSEI6+xXFd4QlXUK1Wzk1rm8IdSiYffOomjufYZqz5buKUagL/lfqgi7DO
+ ats306T+QQPemS/+XtFH8lew9EKnvjg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-352-T1zOUSGzOuGTb0werdVA7Q-1; Tue, 01 Sep 2020 10:36:08 -0400
-X-MC-Unique: T1zOUSGzOuGTb0werdVA7Q-1
+ us-mta-224-IhGyAPRNNeSJ6UraqSoJHg-1; Tue, 01 Sep 2020 10:36:10 -0400
+X-MC-Unique: IhGyAPRNNeSJ6UraqSoJHg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFDCE8015DB;
- Tue,  1 Sep 2020 14:36:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15B1810ABDA8;
+ Tue,  1 Sep 2020 14:36:09 +0000 (UTC)
 Received: from localhost (ovpn-113-83.ams2.redhat.com [10.36.113.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5C9ED7EEA2;
- Tue,  1 Sep 2020 14:36:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ABF2F7EB94;
+ Tue,  1 Sep 2020 14:36:08 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v8 41/43] iotests: Add filter mirror test cases
-Date: Tue,  1 Sep 2020 16:34:22 +0200
-Message-Id: <20200901143424.884735-42-mreitz@redhat.com>
+Subject: [PATCH v8 42/43] iotests: Add test for commit in sub directory
+Date: Tue,  1 Sep 2020 16:34:23 +0200
+Message-Id: <20200901143424.884735-43-mreitz@redhat.com>
 In-Reply-To: <20200901143424.884735-1-mreitz@redhat.com>
 References: <20200901143424.884735-1-mreitz@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 05:11:36
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:16:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,196 +86,96 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds some test cases how mirroring relates to filters.  One
-of them tests what happens when you mirror off a filtered COW node, two
-others use the mirror filter node as basically our only example of an
-implicitly created filter node so far (besides the commit filter).
+Add a test for committing an overlay in a sub directory to one of the
+images in its backing chain, using both relative and absolute filenames.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/qemu-iotests/041     | 146 ++++++++++++++++++++++++++++++++++++-
- tests/qemu-iotests/041.out |   4 +-
- 2 files changed, 147 insertions(+), 3 deletions(-)
+ tests/qemu-iotests/020     | 44 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/020.out | 10 +++++++++
+ 2 files changed, 54 insertions(+)
 
-diff --git a/tests/qemu-iotests/041 b/tests/qemu-iotests/041
-index f0a7bf6650..cdbef3ba20 100755
---- a/tests/qemu-iotests/041
-+++ b/tests/qemu-iotests/041
-@@ -21,8 +21,9 @@
- import time
- import os
- import re
-+import json
- import iotests
--from iotests import qemu_img, qemu_io
-+from iotests import qemu_img, qemu_img_pipe, qemu_io
+diff --git a/tests/qemu-iotests/020 b/tests/qemu-iotests/020
+index a0782937b0..596505be2d 100755
+--- a/tests/qemu-iotests/020
++++ b/tests/qemu-iotests/020
+@@ -31,6 +31,11 @@ _cleanup()
+     _cleanup_test_img
+     _rm_test_img "$TEST_IMG.base"
+     _rm_test_img "$TEST_IMG.orig"
++
++    _rm_test_img "$TEST_DIR/subdir/t.$IMGFMT.base"
++    _rm_test_img "$TEST_DIR/subdir/t.$IMGFMT.mid"
++    _rm_test_img "$TEST_DIR/subdir/t.$IMGFMT"
++    rmdir "$TEST_DIR/subdir" &> /dev/null
+ }
+ trap "_cleanup; exit \$status" 0 1 2 3 15
  
- backing_img = os.path.join(iotests.test_dir, 'backing.img')
- target_backing_img = os.path.join(iotests.test_dir, 'target-backing.img')
-@@ -1288,6 +1289,149 @@ class TestReplaces(iotests.QMPTestCase):
+@@ -139,6 +144,45 @@ $QEMU_IO -c 'writev 0 64k' "$TEST_IMG" | _filter_qemu_io
+ $QEMU_IMG commit "$TEST_IMG"
+ _cleanup
  
-         self.vm.assert_block_path('filter0', '/file', 'target')
- 
-+# Tests for mirror with filters (and how the mirror filter behaves, as
-+# an example for an implicit filter)
-+class TestFilters(iotests.QMPTestCase):
-+    def setUp(self):
-+        qemu_img('create', '-f', iotests.imgfmt, backing_img, '1M')
-+        qemu_img('create', '-f', iotests.imgfmt, '-b', backing_img, test_img)
-+        qemu_img('create', '-f', iotests.imgfmt, '-b', backing_img, target_img)
 +
-+        qemu_io('-c', 'write -P 1 0 512k', backing_img)
-+        qemu_io('-c', 'write -P 2 512k 512k', test_img)
++echo
++echo 'Testing commit in sub-directory with relative filenames'
++echo
 +
-+        self.vm = iotests.VM()
-+        self.vm.launch()
++pushd "$TEST_DIR" > /dev/null
 +
-+        result = self.vm.qmp('blockdev-add', **{
-+                                'node-name': 'target',
-+                                'driver': iotests.imgfmt,
-+                                'file': {
-+                                    'driver': 'file',
-+                                    'filename': target_img
-+                                },
-+                                'backing': None
-+                            })
-+        self.assert_qmp(result, 'return', {})
++mkdir subdir
 +
-+        self.filterless_chain = {
-+                'node-name': 'source',
-+                'driver': iotests.imgfmt,
-+                'file': {
-+                    'driver': 'file',
-+                    'filename': test_img
-+                },
-+                'backing': {
-+                    'node-name': 'backing',
-+                    'driver': iotests.imgfmt,
-+                    'file': {
-+                        'driver': 'file',
-+                        'filename': backing_img
-+                    }
-+                }
-+            }
++TEST_IMG="subdir/t.$IMGFMT.base" _make_test_img 1M
++TEST_IMG="subdir/t.$IMGFMT.mid" _make_test_img -b "t.$IMGFMT.base" -F $IMGFMT
++TEST_IMG="subdir/t.$IMGFMT" _make_test_img -b "t.$IMGFMT.mid" -F $IMGFMT
 +
-+    def tearDown(self):
-+        self.vm.shutdown()
++# Should work
++$QEMU_IMG commit -b "t.$IMGFMT.mid" "subdir/t.$IMGFMT"
 +
-+        os.remove(test_img)
-+        os.remove(target_img)
-+        os.remove(backing_img)
++# Might theoretically work, but does not in practice (we have to
++# decide between this and the above; and since we always represent
++# backing file names as relative to the overlay, we go for the above)
++$QEMU_IMG commit -b "subdir/t.$IMGFMT.mid" "subdir/t.$IMGFMT" 2>&1 | \
++    _filter_imgfmt
 +
-+    def test_cor(self):
-+        result = self.vm.qmp('blockdev-add', **{
-+                                'node-name': 'filter',
-+                                'driver': 'copy-on-read',
-+                                'file': self.filterless_chain
-+                            })
-+        self.assert_qmp(result, 'return', {})
++# This should work as well
++$QEMU_IMG commit -b "$TEST_DIR/subdir/t.$IMGFMT.mid" "subdir/t.$IMGFMT"
 +
-+        result = self.vm.qmp('blockdev-mirror',
-+                             job_id='mirror',
-+                             device='filter',
-+                             target='target',
-+                             sync='top')
-+        self.assert_qmp(result, 'return', {})
++popd > /dev/null
 +
-+        self.complete_and_wait('mirror')
++# Now let's try with just absolute filenames
++# (This will not work with external data files, though, because when
++# using relative paths for those, qemu will always resolve them
++# relative to its CWD.  Therefore, it cannot find those data files now
++# that we left $TEST_DIR.)
++if _get_data_file '' > /dev/null; then
++    echo 'Image committed.' # Skip test
++else
++    $QEMU_IMG commit -b "$TEST_DIR/subdir/t.$IMGFMT.mid" \
++        "$TEST_DIR/subdir/t.$IMGFMT"
++fi
 +
-+        self.vm.qmp('blockdev-del', node_name='target')
+ # success, all done
+ echo "*** done"
+ rm -f $seq.full
+diff --git a/tests/qemu-iotests/020.out b/tests/qemu-iotests/020.out
+index 5936bc1cae..a5db1962ad 100644
+--- a/tests/qemu-iotests/020.out
++++ b/tests/qemu-iotests/020.out
+@@ -1083,4 +1083,14 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 backing_file=json:{'driv
+ wrote 65536/65536 bytes at offset 0
+ 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ qemu-img: Block job failed: No space left on device
 +
-+        target_map = qemu_img_pipe('map', '--output=json', target_img)
-+        target_map = json.loads(target_map)
++Testing commit in sub-directory with relative filenames
 +
-+        assert target_map[0]['start'] == 0
-+        assert target_map[0]['length'] == 512 * 1024
-+        assert target_map[0]['depth'] == 1
-+
-+        assert target_map[1]['start'] == 512 * 1024
-+        assert target_map[1]['length'] == 512 * 1024
-+        assert target_map[1]['depth'] == 0
-+
-+    def test_implicit_mirror_filter(self):
-+        result = self.vm.qmp('blockdev-add', **self.filterless_chain)
-+        self.assert_qmp(result, 'return', {})
-+
-+        # We need this so we can query from above the mirror node
-+        result = self.vm.qmp('device_add',
-+                             driver='virtio-blk',
-+                             id='virtio',
-+                             bus='pci.0',
-+                             drive='source')
-+        self.assert_qmp(result, 'return', {})
-+
-+        result = self.vm.qmp('blockdev-mirror',
-+                             job_id='mirror',
-+                             device='source',
-+                             target='target',
-+                             sync='top')
-+        self.assert_qmp(result, 'return', {})
-+
-+        # The mirror filter is now an implicit node, so it should be
-+        # invisible when querying the backing chain
-+        device_info = self.vm.qmp('query-block')['return'][0]
-+        assert device_info['qdev'] == '/machine/peripheral/virtio/virtio-backend'
-+
-+        assert device_info['inserted']['node-name'] == 'source'
-+
-+        image_info = device_info['inserted']['image']
-+        assert image_info['filename'] == test_img
-+        assert image_info['backing-image']['filename'] == backing_img
-+
-+        self.complete_and_wait('mirror')
-+
-+    def test_explicit_mirror_filter(self):
-+        # Same test as above, but this time we give the mirror filter
-+        # a node-name so it will not be invisible
-+        result = self.vm.qmp('blockdev-add', **self.filterless_chain)
-+        self.assert_qmp(result, 'return', {})
-+
-+        # We need this so we can query from above the mirror node
-+        result = self.vm.qmp('device_add',
-+                             driver='virtio-blk',
-+                             id='virtio',
-+                             bus='pci.0',
-+                             drive='source')
-+        self.assert_qmp(result, 'return', {})
-+
-+        result = self.vm.qmp('blockdev-mirror',
-+                             job_id='mirror',
-+                             device='source',
-+                             target='target',
-+                             sync='top',
-+                             filter_node_name='mirror-filter')
-+        self.assert_qmp(result, 'return', {})
-+
-+        # With a node-name given to it, the mirror filter should now
-+        # be visible
-+        device_info = self.vm.qmp('query-block')['return'][0]
-+        assert device_info['qdev'] == '/machine/peripheral/virtio/virtio-backend'
-+
-+        assert device_info['inserted']['node-name'] == 'mirror-filter'
-+
-+        self.complete_and_wait('mirror')
-+
-+
- if __name__ == '__main__':
-     iotests.main(supported_fmts=['qcow2', 'qed'],
-                  supported_protocols=['file'],
-diff --git a/tests/qemu-iotests/041.out b/tests/qemu-iotests/041.out
-index 53abe11d73..46651953e8 100644
---- a/tests/qemu-iotests/041.out
-+++ b/tests/qemu-iotests/041.out
-@@ -1,5 +1,5 @@
--........................................................................................................
-+...........................................................................................................
- ----------------------------------------------------------------------
--Ran 104 tests
-+Ran 107 tests
- 
- OK
++Formatting 'subdir/t.IMGFMT.base', fmt=IMGFMT size=1048576
++Formatting 'subdir/t.IMGFMT.mid', fmt=IMGFMT size=1048576 backing_file=t.IMGFMT.base backing_fmt=IMGFMT
++Formatting 'subdir/t.IMGFMT', fmt=IMGFMT size=1048576 backing_file=t.IMGFMT.mid backing_fmt=IMGFMT
++Image committed.
++qemu-img: Did not find 'subdir/t.IMGFMT.mid' in the backing chain of 'subdir/t.IMGFMT'
++Image committed.
++Image committed.
+ *** done
 -- 
 2.26.2
 
