@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEABC258FC9
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:05:33 +0200 (CEST)
-Received: from localhost ([::1]:39936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F939258FD5
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:07:56 +0200 (CEST)
+Received: from localhost ([::1]:49382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD6ui-0005xP-O6
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:05:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53238)
+	id 1kD6x1-0001TH-4s
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:07:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kD6tb-0004Ao-TA; Tue, 01 Sep 2020 10:04:23 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:45259)
+ id 1kD6tZ-00045X-RG; Tue, 01 Sep 2020 10:04:21 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:38204)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kD6tW-0002ms-1o; Tue, 01 Sep 2020 10:04:23 -0400
-Received: by mail-wr1-x443.google.com with SMTP id x14so1665950wrl.12;
- Tue, 01 Sep 2020 07:04:17 -0700 (PDT)
+ id 1kD6tX-0002nF-Qp; Tue, 01 Sep 2020 10:04:21 -0400
+Received: by mail-wr1-x441.google.com with SMTP id g4so1191460wrs.5;
+ Tue, 01 Sep 2020 07:04:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=t2knO10CUldXHrGS1mVbE8WYMZ+tYlhkgjwBqXs9AEE=;
- b=Wx2LYNRzQ3tNXOzmat5fEMKtdFqNTTMd1mmaRXzY9udP4qSD/KxVn/fxGmVHpIztjq
- Vu4rloG7GVMl4JwqYVkgq5xHrqrBy/EMmoTTz1YftIerMIsN7OYjFQXKgNI17tDwDkUg
- 8TC5+RtaQVyR1BKkLLBjfUt0NZPo8771h6OKCUN6IHiw4c+89eVrAmlCs0Af5K7667yk
- vbMyPGHrWsRjAienPdPvlM4f77bJFa3v44lZk8LFn5ISYS38v30DNbNaoXLkZRIkjeTa
- kOsdSzrm7tJ2nEVmVSs5iVSyhCoALPr0N4Lm782JTSkS99xEeW+ItxU+AcPzIdpvZrcX
- obgg==
+ bh=7Iy4WwGvN3Gz4Zd774fBlzCPud190ropj83rLlS3/Tg=;
+ b=ADpbKxGeSSNLywBua3yoYyYkw0AVDjQG8X+XEIrcYB9DV1hVlVcbkPsmuI4FaNdY4U
+ dk4MGbcdNEU1EmRXmg70aqSFh3ikqMzSdt2mvcV+9VdB0rzYzYNdDprpByWCjVI6jV9+
+ +B/5XCx/qrdKJu1QvdauHVkF8sdnWy9ZF90hUGt9HFnODRoBzx52qwNznE+RuhVr4XBn
+ pjTDhx5Ga/qeeYkiCLPhFE31IqBqjae6hAvCMNsp6fSWQbwj/OMCPjHl2ZcGlZiJrPAO
+ OxojhGkx+lSlu13LUKxDZjeHlgk5dYl+uqW9v91+QuYnozAaYt2RFhlaNQ3vbdcbGF8v
+ hp6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=t2knO10CUldXHrGS1mVbE8WYMZ+tYlhkgjwBqXs9AEE=;
- b=jzVNB5aadjhJpEhcJ53XQrRvy6SXP+An8XOsMSzPzTgLxIzDa9G5LdONeVI/lVsbCi
- o6fUCam3fhxBLTxxN5F2GM0ofHUvbClCVAfO4PPa7e1bCEOQtU8tX8GKIXI/4VjIi5rv
- hSqB1m/18ZyRkzzl+Hr4u5DJOj6/iTxUPMo1rl+BX6KHuL7Lrwkcyi07b+Tzgj7MMGZl
- WMVjxpl7L8AhqrONW4BwxOX81H5qFYFDiHh4/9amw6nZqmAF+QvrId+fBt8nU1hDfbjx
- FHWloOBIf1uJ16YhiWPMN+bkxbUeUA1HUDhwKNo6P5CVrQs8WQfWV6cw7obVNTEePK6Q
- 71kw==
-X-Gm-Message-State: AOAM531R/mj67hlTde3i8nsn24AbGOy/nmchRfHGCXAkYieyD0JAM5fp
- V/isvRQuywe6swb8bPKOojHfVB/TEcs=
-X-Google-Smtp-Source: ABdhPJzqmYrDvOq3yuM8DK/tLkD/qOsHtbvB5LPp0DBdZuLWPKCuOSW41reNg+A96QPqm6j6eWUb2g==
-X-Received: by 2002:a5d:43c7:: with SMTP id v7mr2198853wrr.27.1598969056198;
- Tue, 01 Sep 2020 07:04:16 -0700 (PDT)
+ bh=7Iy4WwGvN3Gz4Zd774fBlzCPud190ropj83rLlS3/Tg=;
+ b=aSrmgeyt8Dskm/9sp8691ejgPiu+xPpjiEsl2T/pWeA2z75prDwFoy+upWaa7R+FrZ
+ 99C8vsBb8P21lBIiwCdRKUjGIVYT7nAcNbwFL1H2XQBmiHKyJQ3hcjHOASBcieHhlg0U
+ 4V2Pk0QTyyYsWJGfXNAcDu9My9pcmDF0t26MGmbuRma32kiYVFMBnF7t/Fv1M6woCxjX
+ TkYsoUkabTwuNMW0LTDiwcDNrlGZHX0f+bdh6pzHnppqNt6H22O0wzi9a7V6OVceZrJI
+ S+52WYCl+vCpoByA5XUyABBTK0xVZGO610j7NevX8dhiBaab4ORFWStodyp+xOdF7MNY
+ Kw8g==
+X-Gm-Message-State: AOAM531rr3V8AyFKX7WAeqEF+zKwL+fEA3ZFi3jHK3vJo6KS6iky4rLw
+ VmqsRl6OSHov++y7/BR4vm8oVvgQsPE=
+X-Google-Smtp-Source: ABdhPJztzeN54Xd/4b+iMFmbR6QmcuSKGF7G4sRCI13zjRk38j2/7FGDD9HilATkSf1Km2aNamIDfw==
+X-Received: by 2002:a5d:5272:: with SMTP id l18mr2035832wrc.89.1598969057397; 
+ Tue, 01 Sep 2020 07:04:17 -0700 (PDT)
 Received: from localhost.localdomain (50.red-83-52-54.dynamicip.rima-tde.net.
  [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id p22sm1872505wmc.38.2020.09.01.07.04.15
+ by smtp.gmail.com with ESMTPSA id p22sm1872505wmc.38.2020.09.01.07.04.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Sep 2020 07:04:15 -0700 (PDT)
+ Tue, 01 Sep 2020 07:04:16 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/3] hw/sd/sdhci: Document the datasheet used
-Date: Tue,  1 Sep 2020 16:04:10 +0200
-Message-Id: <20200901140411.112150-3-f4bug@amsat.org>
+Subject: [PATCH v2 3/3] hw/sd/sdhci: Fix DMA Transfer Block Size field
+Date: Tue,  1 Sep 2020 16:04:11 +0200
+Message-Id: <20200901140411.112150-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200901140411.112150-1-f4bug@amsat.org>
 References: <20200901140411.112150-1-f4bug@amsat.org>
@@ -62,8 +62,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -87,35 +87,43 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Prasad J Pandit <pjp@fedoraproject.org>, qemu-block@nongnu.org,
+ 1892960@bugs.launchpad.net, Igor Mitsyanko <i.mitsyanko@gmail.com>,
+ qemu-stable@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Alexander Bulekov <alxndr@bu.edu>, bugs-syssec@rub.de,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add datasheet name in the file header.
+The 'Transfer Block Size' field is 12-bit wide.
 
-We can not add the direct download link since there is a disclaimers
-to agree first on the SD Association website (www.sdcard.org).
+See section '2.2.2. Block Size Register (Offset 004h)' in datasheet.
 
+Cc: qemu-stable@nongnu.org
+Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>
+Buglink: https://bugs.launchpad.net/qemu/+bug/1892960
+Fixes: d7dfca0807a ("hw/sdhci: introduce standard SD host controller")
+Reported-by: Alexander Bulekov <alxndr@bu.edu>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sd/sdhci.c | 2 ++
- 1 file changed, 2 insertions(+)
+Cc: 1892960@bugs.launchpad.net
+---
+ hw/sd/sdhci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
-index e2ef288052e..60f083b84c1 100644
+index 60f083b84c1..ecbf84e9d3f 100644
 --- a/hw/sd/sdhci.c
 +++ b/hw/sd/sdhci.c
-@@ -1,6 +1,8 @@
- /*
-  * SD Association Host Standard Specification v2.0 controller emulation
-  *
-+ * Datasheet: PartA2_SD_Host_Controller_Simplified_Specification_Ver2.00.pdf
-+ *
-  * Copyright (c) 2011 Samsung Electronics Co., Ltd.
-  * Mitsyanko Igor <i.mitsyanko@samsung.com>
-  * Peter A.G. Crosthwaite <peter.crosthwaite@petalogix.com>
+@@ -1104,7 +1104,7 @@ sdhci_write(void *opaque, hwaddr offset, uint64_t val, unsigned size)
+         break;
+     case SDHC_BLKSIZE:
+         if (!TRANSFERRING_DATA(s->prnsts)) {
+-            MASKED_WRITE(s->blksize, mask, value);
++            MASKED_WRITE(s->blksize, mask, extract32(value, 0, 12));
+             MASKED_WRITE(s->blkcnt, mask >> 16, value >> 16);
+         }
+ 
 -- 
 2.26.2
 
