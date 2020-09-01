@@ -2,74 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AF3025953B
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:49:22 +0200 (CEST)
-Received: from localhost ([::1]:35270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1259425954C
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:50:42 +0200 (CEST)
+Received: from localhost ([::1]:41864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD8XB-0004dN-DT
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:49:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49564)
+	id 1kD8YT-0007Lf-4M
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:50:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kD87z-0000z0-Mk
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:23:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32987)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kD87x-0006rd-3k
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:23:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598973796;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=R4ilDNmcENKf88JVo+QQQWiziBYkVYzcxWLhbUqyl+k=;
- b=FP1BY+2cZnjYey7S5N0S8mECRuqxgc+9/DUPEFm8yRpyUkp2zUmckZYdritUciETNrf8FC
- zw83eJRL3MhT+BpBsP/48BHmu+6RnIa2I/mFJUKMOuyEP+i1SojJ+i1N2dKkYC9Knwp5W9
- 11Ye5PwK7jVTOEsPYX+5VYiCGEsQIEE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-462-DbOJnrmGNpuWH8YA3HUfzQ-1; Tue, 01 Sep 2020 11:23:07 -0400
-X-MC-Unique: DbOJnrmGNpuWH8YA3HUfzQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A880E1007471;
- Tue,  1 Sep 2020 15:23:06 +0000 (UTC)
-Received: from redhat.com (ovpn-114-215.ams2.redhat.com [10.36.114.215])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DD77219C66;
- Tue,  1 Sep 2020 15:23:01 +0000 (UTC)
-Date: Tue, 1 Sep 2020 16:22:59 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v8 1/8] Introduce yank feature
-Message-ID: <20200901152259.GO345480@redhat.com>
-References: <cover.1598951375.git.lukasstraub2@web.de>
- <ab5c04766f270d53e90f17f76c0af7e5b66f8623.1598951375.git.lukasstraub2@web.de>
- <874kohsgsp.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kD89H-0003i0-Tw; Tue, 01 Sep 2020 11:24:39 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:53027)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kD89G-000734-8G; Tue, 01 Sep 2020 11:24:39 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id q9so1571635wmj.2;
+ Tue, 01 Sep 2020 08:24:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=6CDUTU1D+7Ao3iWeCaQFsPzGscbCBBSxZK330pNOH+c=;
+ b=co89W7Olc02pGyV1Epaiscfzch8qtL9BJ1+0kFvG9MUOTAuVdcA0JbBWWFUKph8km8
+ ZIjz8qxRx99FKwca1yytAwwWdCWGXsiDhclaTMZgsPc86r46YWpg8ihUHITkVFYHvWsa
+ NZawQUDMJaasbZ8xzutGFiTps7s/SGv520Y8h0CMzTqPM2UzR/pGGthSJvIObpZxbkX2
+ nzGf2HGoHmIQJMx/R7FLvrZ5RuKu8x3z37gC1HUo6lw7lF16uQh+rD0BdTQh3bICdbzk
+ zL9DOHbt19twpZFK1fQT/kv+39W5NjtE2vYK3BIHTkr6ni+VxhWN7qolF26zQcDv/hYf
+ 1pBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=6CDUTU1D+7Ao3iWeCaQFsPzGscbCBBSxZK330pNOH+c=;
+ b=ptMcmfjFyI0z8teYCjCQ2XjyzNjCQWt24xhRpjazpc4CYqb1tuuIH7Xbg4jewXXVE0
+ LlQvrKcYjLpxokoRzqwDldco71p4ZtDkDoiE7fWuUX3ClELAvs9bT47LPLVNIFapHPAH
+ Crn3kXe2EsYcaUFjqhjA0cldEckDxVGr6izqIniveGFALX/27KfT/mtymhig7B06Te2y
+ OuAQLUeFQDFvxkdT2e9cUeBRKxOlCBTuTrrkZZTxMjv+wqnyd0TCqvTid4Yi+lOctuGB
+ w8q+5l8YNB+wquTdrjAEYDCVNIXSncmD8ZTEUHnrfiT1UutSmdV/DcxDb4OhfOpvWdW0
+ 45JA==
+X-Gm-Message-State: AOAM533cUmUPNp8e0wu50rVGTIu+GBERPPzb7X5J4Akqy05XE/0hS0Sj
+ KhRd7XZ3123UdCx6XlYdvm4r4yAa2Ow=
+X-Google-Smtp-Source: ABdhPJzl4q4KcAgNKCq/vOoP96C1+mz2VkxQyIzR+lT/5vOdrI2TPlcVib4k92kEPJINWUNf1bzn9Q==
+X-Received: by 2002:a1c:4303:: with SMTP id q3mr2250298wma.158.1598973876003; 
+ Tue, 01 Sep 2020 08:24:36 -0700 (PDT)
+Received: from [192.168.1.36] (50.red-83-52-54.dynamicip.rima-tde.net.
+ [83.52.54.50])
+ by smtp.gmail.com with ESMTPSA id v12sm2905740wri.47.2020.09.01.08.24.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Sep 2020 08:24:35 -0700 (PDT)
+Subject: Re: [PATCH-for-5.1] hw/misc/milkymist-pfpu: Fix pFPU region size
+To: Laurent Vivier <laurent@vivier.eu>
+References: <20200718093705.7271-1-f4bug@amsat.org>
+ <b0eb3028f61e6eaaf9c1f4aedefeaa20@walle.cc>
+ <1819668f-4747-0cb7-69c0-e167af71e8ba@vivier.eu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <86a4c1c1-04b2-6a36-47ec-0cd0fba699df@amsat.org>
+Date: Tue, 1 Sep 2020 17:24:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <874kohsgsp.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <1819668f-4747-0cb7-69c0-e167af71e8ba@vivier.eu>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 23:17:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.001, NICE_REPLY_A=-2.13,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,81 +90,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Lukas Straub <lukasstraub2@web.de>,
- qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-trivial@nongnu.org, Michael Walle <michael@walle.cc>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 01, 2020 at 04:38:46PM +0200, Markus Armbruster wrote:
-> One more question...
+On 9/1/20 8:57 AM, Laurent Vivier wrote:
+> Le 19/07/2020 à 19:23, Michael Walle a écrit :
+>> Hi Philippe,
+>>
+>> Am 2020-07-18 11:37, schrieb Philippe Mathieu-Daudé:
+>>> The last microcode word (address 0x6000.6ffc) is not reachable.
+>>> Correct the programmable FPU I/O size (which is 4 KiB) to be
+>>> able to use all the microcode area.
+>>>
+>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>> ---
+>>>  hw/misc/milkymist-pfpu.c | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/hw/misc/milkymist-pfpu.c b/hw/misc/milkymist-pfpu.c
+>>> index 516825e83d..4fbe3e8971 100644
+>>> --- a/hw/misc/milkymist-pfpu.c
+>>> +++ b/hw/misc/milkymist-pfpu.c
+>>> @@ -507,7 +507,7 @@ static void milkymist_pfpu_realize(DeviceState
+>>> *dev, Error **errp)
+>>>      sysbus_init_irq(sbd, &s->irq);
+>>>
+>>>      memory_region_init_io(&s->regs_region, OBJECT(dev),
+>>> &pfpu_mmio_ops, s,
+>>> -            "milkymist-pfpu", MICROCODE_END * 4);
+>>> +                          "milkymist-pfpu", 0x1000);
+>>
+>> Could you use one of the MICROCODE_ macros instead? maybe
+>> (MICROCODE_WORDS * 2)?
+>>
+>> With that fixed:
+>> Reviewed-by: Michael Walle <michael@walle.cc>
+>>
 > 
-> Lukas Straub <lukasstraub2@web.de> writes:
+> Philippe,
 > 
-> > The yank feature allows to recover from hanging qemu by "yanking"
-> > at various parts. Other qemu systems can register themselves and
-> > multiple yank functions. Then all yank functions for selected
-> > instances can be called by the 'yank' out-of-band qmp command.
-> > Available instances can be queried by a 'query-yank' oob command.
-> >
-> > Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-> > Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
-> [...]
-> > diff --git a/qapi/misc.json b/qapi/misc.json
-> > index 9d32820dc1..7de330416a 100644
-> > --- a/qapi/misc.json
-> > +++ b/qapi/misc.json
-> > @@ -1615,3 +1615,65 @@
-> >  ##
-> >  { 'command': 'query-vm-generation-id', 'returns': 'GuidInfo' }
-> >
-> > +##
-> > +# @YankInstances:
-> > +#
-> > +# @instances: List of yank instances.
-> > +#
-> > +# A yank instance can be yanked with the "yank" qmp command to recover from a
-> > +# hanging qemu.
-> > +#
-> > +# Yank instances are named after the following schema:
-> > +# "blockdev:<node-name>" refers to a block device. Currently only nbd block
-> > +# devices are implemented.
-> > +# "chardev:<chardev-name>" refers to a chardev. Currently only socket chardevs
-> > +# are implemented.
-> > +# "migration" refers to the migration currently in progress.
-> > +#
-> > +# Currently implemented yank instances:
-> > +#  -nbd block device:
-> > +#   Yanking it will shutdown the connection to the nbd server without
-> > +#   attempting to reconnect.
-> > +#  -socket chardev:
-> > +#   Yanking it will shutdown the connected socket.
-> > +#  -migration:
-> > +#   Yanking it will shutdown all migration connections.
+> do you plan to repost with the change suggested by Michael?
+
+Unfortunately I won't :( I spent 3h trying to do that, then found
+myself rewriting half of the pfpu because this is not that easy, and
+this code is now scheduled for deprecation. Not worth my time :(
+
 > 
-> How is yanking migration related to command migrate_cancel?
-
-migrate_cancel will do a shutdown() on the primary migration socket only.
-In addition it will toggle the migration state.
-
-Yanking will do a shutdown on all migration sockets (important for
-multifd), but won't touch migration state or any other aspect of QEMU
-code.
-
-Overall yanking has less potential for things to go wrong than the
-migrate_cancel method, as it doesn't try to do any kind of cleanup
-or migration.
-
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+> Thanks,
+> Laurent
+> 
 
