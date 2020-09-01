@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B3BA25A048
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 22:57:38 +0200 (CEST)
-Received: from localhost ([::1]:52902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BD3725A073
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 23:07:12 +0200 (CEST)
+Received: from localhost ([::1]:58430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDDLV-0003PU-AU
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 16:57:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50000)
+	id 1kDDUl-0006sE-Ds
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 17:07:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kDDKW-0002ra-Hr
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 16:56:36 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48337
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kDDTL-0005zi-EO
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 17:05:43 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24697
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kDDKU-0008J2-Oh
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 16:56:36 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kDDTJ-0000pU-RN
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 17:05:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598993793;
+ s=mimecast20190719; t=1598994341;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lBeqwJpFmXl9ayNaMgeeCPdRJV+bQn685kYWhyYuFoc=;
- b=F4DPHEHQ3hVH9FR9Aj5JzRRuRRxI2J+JHz01biC+a050REQTmdd+IrlYOA6yTUDRoEQlH5
- csrm6YAaZ8f22PyDRc65UkuRSBFc35+ke7CuFiX6vAQp3eSQkslktc+lUnGh4jN1Znbrl7
- vwH8bkBCS1wIep0eTth4/IhvnFczwWY=
+ bh=xORFC1as1KQ6Pol7M21VvQKUC3hR2jQ7vAJIcyMNB4E=;
+ b=UBjBFZ2kkuHXotIh+E41GZVdCW1dlXHb5i/r/zbihiV64l8CXxMTndeUK/MhYZ94QR0oi9
+ PiBMD3h/VitnB9fDzBkpQo+ZqP3j8qtrANLdFyILRTbSZORA+HV2E1YvOFqRuPb8Y60ruC
+ RH7bdlhHmYeYdw8AZ9eAoyMMWXGiirw=
 Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
  [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-546-GUmeZl21P5ej4HJal_v2Tg-1; Tue, 01 Sep 2020 16:56:32 -0400
-X-MC-Unique: GUmeZl21P5ej4HJal_v2Tg-1
-Received: by mail-qk1-f200.google.com with SMTP id y187so1845734qka.10
- for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 13:56:32 -0700 (PDT)
+ us-mta-202-jAPQ7NEOPBiFb6HESx9ZTw-1; Tue, 01 Sep 2020 16:44:05 -0400
+X-MC-Unique: jAPQ7NEOPBiFb6HESx9ZTw-1
+Received: by mail-qk1-f200.google.com with SMTP id t1so1828148qkh.13
+ for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 13:44:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=lBeqwJpFmXl9ayNaMgeeCPdRJV+bQn685kYWhyYuFoc=;
- b=OCPGriNwq3OMu3gpoW1ADuuXbkT0LZlsHEb7xlbRUBjI+SlxYJEYc5IV/mV6CpplYf
- WP++OB8Djk8TGEvjdU1WBvIFdBxWgepqVaqQUVbJwYwTROlz3pxfg88SMDhox0T1cxOG
- Tm9T46wegG4qxMWw3Pllw+pUOHMkSwYEdOsH2D/b5XOp0sq+vo2efLVzna3/w+39ujec
- CWdGOVNRJo1lOHduBYkHo6y3d4Y2H1aJaigr9sbntVYNzvLQdvrRwnyhUTEIiKhCu+kA
- ZK8RCRxUmkGNDZHASwCqSXoWkn+hNA9W4eepjKoiGzMAnEc8U6wBU5JveHUs9URcfn9c
- Eavw==
-X-Gm-Message-State: AOAM532o1zotbF30dKeMcUCPUl/pRpEAQPKS9bzCMfaYzkuS+B73txXw
- HLDfS22haxuo8XtInhFGlHkwLzyfXl+yHBmLd2S4JYFUSZxcrodUL2OULQqawop8/K9/0pI+aDS
- iozmOiY5NlaLSdRI=
-X-Received: by 2002:a05:620a:16c4:: with SMTP id
- a4mr3861357qkn.333.1598993791961; 
- Tue, 01 Sep 2020 13:56:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxIPbN2mVbzwN1U4aeukpOcyCQ1ZpPyVmRNDUeDzXtEXoE0zuA51W3bZhqQSSpPeIIeiSj3MQ==
-X-Received: by 2002:a05:620a:16c4:: with SMTP id
- a4mr3861342qkn.333.1598993791775; 
- Tue, 01 Sep 2020 13:56:31 -0700 (PDT)
+ bh=xORFC1as1KQ6Pol7M21VvQKUC3hR2jQ7vAJIcyMNB4E=;
+ b=Q87JcZK3KIzVTlnPQ6dEOT2oJpOzqmW+iMTmd6Qr9LzvwFK2L8dZJ/nqb/KNeurpWD
+ Mvnw5QepijoyScRQOJGi4/ibP84zRAgfgrKsQ16CD7+augojtyMTRwQSXiUW2kd6sAGo
+ nDVHp7kw+BTghjbB0ruapRh78ETDGB9/nzaEyb8/Fmu9UaI7addcaKl93iMe6xNOCb1Q
+ 5CNPspuNEK5kgV0aYL36hYNwq1HF1te243U1zlBeMsDsVNK1fDe8XkfswZyD5mkJLKmK
+ L0HydLmrTI6NJMEoEQoUXpYNqoOAghwlPa3BDW5QYDUdNq0jHmtlcMaMJccV1PIDlzGs
+ i9zw==
+X-Gm-Message-State: AOAM531L0YGIOSfqH9AsAo+5tS4PAZ7JYVoI8nCMhaRPa/YU4jtWzUj3
+ lpNW+U5RkRF0MO1y9sU2STOrZHXGJaFdmssbHtftw8WXy7V4/kuHG0H1vrtEx6oWc6c8W3JG+N5
+ X79GU0wr8JSAJ/C0=
+X-Received: by 2002:a0c:a342:: with SMTP id u60mr3828780qvu.2.1598993045332;
+ Tue, 01 Sep 2020 13:44:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwHg3deF/TKGTfey+7WeLuexBLJoOZHUGYC8+GK0f+yuOXPVxjY6HBEhJ5iR04iivaUTqMhiA==
+X-Received: by 2002:a0c:a342:: with SMTP id u60mr3828740qvu.2.1598993045014;
+ Tue, 01 Sep 2020 13:44:05 -0700 (PDT)
 Received: from xz-x1 (bras-vprn-toroon474qw-lp130-11-70-53-122-15.dsl.bell.ca.
  [70.53.122.15])
- by smtp.gmail.com with ESMTPSA id t69sm2876350qka.73.2020.09.01.13.56.30
+ by smtp.gmail.com with ESMTPSA id x49sm3032800qtc.94.2020.09.01.13.44.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Sep 2020 13:56:31 -0700 (PDT)
-Date: Tue, 1 Sep 2020 16:56:29 -0400
+ Tue, 01 Sep 2020 13:44:04 -0700 (PDT)
+Date: Tue, 1 Sep 2020 16:44:02 -0400
 From: Peter Xu <peterx@redhat.com>
 To: Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>
-Subject: Re: [RFC v8 3/5] memory: Add IOMMU_DEVIOTLB_UNMAP
- IOMMUTLBNotificationType
-Message-ID: <20200901205629.GE3053@xz-x1>
+Subject: Re: [RFC v8 1/5] memory: Rename memory_region_notify_one to
+ memory_region_notify_iommu_one
+Message-ID: <20200901204402.GC3053@xz-x1>
 References: <20200901142608.24481-1-eperezma@redhat.com>
- <20200901142608.24481-4-eperezma@redhat.com>
+ <20200901142608.24481-2-eperezma@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200901142608.24481-4-eperezma@redhat.com>
+In-Reply-To: <20200901142608.24481-2-eperezma@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0.002
@@ -88,7 +86,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -114,8 +112,8 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 01, 2020 at 04:26:06PM +0200, Eugenio Pérez wrote:
-> Adapt intel and vhost to use this new notification type
+On Tue, Sep 01, 2020 at 04:26:04PM +0200, Eugenio Pérez wrote:
+> Previous name didn't reflect the iommu operation.
 > 
 > Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 
