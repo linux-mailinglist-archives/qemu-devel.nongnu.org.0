@@ -2,37 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7873258E90
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 14:50:35 +0200 (CEST)
-Received: from localhost ([::1]:50068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFEC9258EA7
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 14:54:06 +0200 (CEST)
+Received: from localhost ([::1]:38500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD5kA-0004iG-SV
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 08:50:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33756)
+	id 1kD5nZ-0003BY-LJ
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 08:54:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kD5fU-0004oQ-T7
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:45:44 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:41615)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kD5fX-0004vC-Ck
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:45:47 -0400
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:59491)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kD5fQ-0001UI-0u
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:45:44 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.120])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 4F090563B98F;
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kD5fR-0001Ut-6b
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:45:46 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.59])
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id B9C8A5CC5388;
  Tue,  1 Sep 2020 14:45:37 +0200 (CEST)
 Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Tue, 1 Sep 2020
- 14:45:36 +0200
+ 14:45:37 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-99G00355cbe9b0-2869-45ad-9ff4-7794dc6ffac6,
+ (GARM-99G003f223603c-1975-4c9d-84a0-a570bc32bfdd,
  38EE1E9FF4E34D4C85F4190D418CEE501B878519) smtp.auth=clg@kaod.org
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: <qemu-devel@nongnu.org>
-Subject: [PULL 18/20] aspeed/smc: Open AHB window of the second chip of the
- AST2600 FMC controller
-Date: Tue, 1 Sep 2020 14:45:23 +0200
-Message-ID: <20200901124525.220252-19-clg@kaod.org>
+Subject: [PULL 19/20] arm: aspeed: add strap define `25HZ` of AST2500
+Date: Tue, 1 Sep 2020 14:45:24 +0200
+Message-ID: <20200901124525.220252-20-clg@kaod.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20200901124525.220252-1-clg@kaod.org>
 References: <20200901124525.220252-1-clg@kaod.org>
@@ -42,14 +41,14 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.99]
 X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: c8d9690e-d1bb-480e-a3b6-b7ca4f532d6f
-X-Ovh-Tracer-Id: 4787607879833390048
+X-Ovh-Tracer-GUID: 20935444-2da4-4470-bbbd-6a3a2737a2b7
+X-Ovh-Tracer-Id: 4787607879411731424
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrudefjedgheejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfhisehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheehfeegjeeitdfffeetjeduveejueefuefgtdefueelueetveeliefhhffgtdelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 08:45:33
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrudefjedgheejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfhisehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheehfeegjeeitdfffeetjeduveejueefuefgtdefueelueetveeliefhhffgtdelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpeehnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo804.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 08:45:31
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -70,36 +69,36 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Joel Stanley <joel@jms.id.au>
+ Igor Kononenko <i.kononenko@yadro.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This change works around the HW default values to be able to test the
-Tacoma board with -kernel command line option. This was required when
-we had both flash chips enabled in the device tree, otherwise Linux
-would fail to probe the entire controller leaving it with no rootfs.
+From: Igor Kononenko <i.kononenko@yadro.com>
 
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-Message-Id: <20200819100956.2216690-20-clg@kaod.org>
+Provide a definition for the "25Hz reference clock input mode" strap
+
+Signed-off-by: Igor Kononenko <i.kononenko@yadro.com>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Message-Id: <20200811203502.20382-1-i.kononenko@yadro.com>
+Message-Id: <20200819100956.2216690-21-clg@kaod.org>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/ssi/aspeed_smc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/hw/misc/aspeed_scu.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
-index 8c79a5552f93..795784e5f364 100644
---- a/hw/ssi/aspeed_smc.c
-+++ b/hw/ssi/aspeed_smc.c
-@@ -230,7 +230,7 @@ static void aspeed_smc_reg_to_segment(const AspeedSMCState *s, uint32_t reg,
+diff --git a/include/hw/misc/aspeed_scu.h b/include/hw/misc/aspeed_scu.h
+index a6739bb846b6..9cd530afa23a 100644
+--- a/include/hw/misc/aspeed_scu.h
++++ b/include/hw/misc/aspeed_scu.h
+@@ -286,6 +286,7 @@ uint32_t aspeed_scu_get_apb_freq(AspeedSCUState *s);
+ #define SCU_AST2500_HW_STRAP_ESPI_FLASH_ENABLE     (0x1 << 26)
+ #define SCU_AST2500_HW_STRAP_ESPI_ENABLE           (0x1 << 25)
+ #define SCU_AST2500_HW_STRAP_DDR4_ENABLE           (0x1 << 24)
++#define SCU_AST2500_HW_STRAP_25HZ_CLOCK_MODE       (0x1 << 23)
  
- static const AspeedSegments aspeed_segments_ast2600_fmc[] = {
-     { 0x0, 128 * MiB }, /* start address is readonly */
--    { 0x0, 0 }, /* disabled */
-+    { 128 * MiB, 128 * MiB }, /* default is disabled but needed for -kernel */
-     { 0x0, 0 }, /* disabled */
- };
- 
+ #define SCU_AST2500_HW_STRAP_ACPI_ENABLE           (0x1 << 19)
+ #define SCU_AST2500_HW_STRAP_USBCKI_FREQ           (0x1 << 18)
 -- 
 2.25.4
 
