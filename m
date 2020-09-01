@@ -2,77 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AD89258BDF
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 11:43:19 +0200 (CEST)
-Received: from localhost ([::1]:57304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E71CB258C24
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 11:55:22 +0200 (CEST)
+Received: from localhost ([::1]:44946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD2ow-0000Iy-9Q
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 05:43:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34834)
+	id 1kD30b-0001lQ-KM
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 05:55:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1kD2OD-0002tu-Ld; Tue, 01 Sep 2020 05:15:42 -0400
-Received: from mout.web.de ([217.72.192.78]:42531)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1kD2OB-0007OA-Gw; Tue, 01 Sep 2020 05:15:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1598951734;
- bh=5Ru4+rBV+K+onBUzRUv2vnLe/gWCnDAJyTD5IvZPjAI=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=MxgByNQUcLF/Wr4p0DDeQ9tm47isswj+WbNY4oBoSSCwA+k8wMfpn50zSdFkF+oRI
- CH7lLGHuGuoP2Empeu30ZG5xH8Ph49A4MPs/Oro87kJazqZ2PuQ3ibyQhX/OkLgigp
- IUdZjcwE9zrV8tNDmlQv99YeVukxhMA2203kXoAk=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([88.130.61.220]) by smtp.web.de (mrweb101
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0LiCx5-1kzJcj2urD-00nNDr; Tue, 01
- Sep 2020 11:15:34 +0200
-Date: Tue, 1 Sep 2020 11:15:33 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v8 8/8] tests/test-char.c: Wait for the chardev to connect
- in char_socket_client_dupid_test
-Message-ID: <613e42af4f7219cba082acb2533fcdf95fc098cb.1598951375.git.lukasstraub2@web.de>
-In-Reply-To: <cover.1598951375.git.lukasstraub2@web.de>
-References: <cover.1598951375.git.lukasstraub2@web.de>
+ (Exim 4.90_1) (envelope-from <alexandru.elisei@arm.com>)
+ id 1kD2WM-0000db-Dn
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:24:06 -0400
+Received: from foss.arm.com ([217.140.110.172]:59946)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <alexandru.elisei@arm.com>) id 1kD2WJ-0008Bd-FR
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:24:05 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BC94D30E;
+ Tue,  1 Sep 2020 02:24:00 -0700 (PDT)
+Received: from [192.168.0.110] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5E6123F71F;
+ Tue,  1 Sep 2020 02:23:59 -0700 (PDT)
+Subject: Re: [kvm-unit-tests RFC 0/4] KVM: arm64: Statistical Profiling
+ Extension Tests
+To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
+ kvm@vger.kernel.org, kvmarm@lists.cs.columbia.edu, qemu-devel@nongnu.org,
+ drjones@redhat.com, andrew.murray@arm.com, sudeep.holla@arm.com,
+ maz@kernel.org, will@kernel.org, haibo.xu@linaro.org
+References: <20200831193414.6951-1-eric.auger@redhat.com>
+From: Alexandru Elisei <alexandru.elisei@arm.com>
+Message-ID: <b5eb2cd0-9798-6e40-7690-78992eca30fd@arm.com>
+Date: Tue, 1 Sep 2020 10:24:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/SyW1wVCwxX5bhE85ag8/sy9";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:r9EJSI9MAlnesvO4kWkt1JtcVh32jssS9wMze4dW2So/znYxAqm
- Fg1WX8Qx2929IjCvQkXx9NKrig6hapiizA0aeIVXrlamiCmAw2W0ZAcLkCpm8edb5CVUOqL
- /5qaJcH1sCnAwv+4Qz0RSXZFiBh4TwWY10VBUesKLbd5V/EI4/k/QZpU1+gw/MD5gJ3/kG3
- mtAClBzTQRZ5uTSZykjwQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:e3PCHK0CH4c=:VubaWAuSmReSSNCqBnmXlw
- FJl0j2MgvuzViKohQk15M9kxF3BwJ81U5Jeo/yt4yON7le6Q7UnlRI9v+GNIDrdLsw0JxvNDz
- 14neHPu3Xg6lE80IuGED2xxdLudJg3bJbFktfJCcOn+9Cvonk8jAIuZ1e5M/j075aO4otIutG
- VkP33xZLKpoXR8c7zdlftyL9HRu7MhxAOjYfGjtLbMln+udyy28Zo3iUc5YQaS6h+vkJ/g/z2
- FE7snDPtB9eG0OjWt1oGpeo7qrWQIDAJucs7odj2VobMBkB3hpJuxqMy9uwpt95YGk8/7KG0L
- 2coJwRWUsM+qCizlIIcY6XRPja0Yvl9t4D1kk/QkDZBbHLUoJdze1ioU3HevefolE3LG5h+GO
- kKjKuvfNXnZCCZxkhiHiW5mowXKEJB5/3mGxGHzvFOp2zdu3FIrg9YQshE+v0Nms9K0D5N9sJ
- hkSdcWbtWAzFReKGIAw6umXM73pGO/hZ98F1NEtsOy/U+ssnE/cfZSqFGNu4Scc8eE74DRSao
- FI5GyWNPvg+GcjrTdUxuXXxTkt3LOYhSV5r9RIZqAoweZw2GzBqvCZEME6RZRrxe8HB1ouL2V
- z3Qe0gbgG//NENqRCDdoHajjlqBAPECke5am96f5Go0zlnkJWHhy2usFiQoFeesU/zlgp9ANx
- 06MK+p/b2c1jYXJUCzhTjkv4MZu1Vlu996EgRxqsjOfd5J9lenN/ZpJTuNjLSI4NIpiI6noDt
- r+3DKn4MKODFS5zB1UlozFrHyi92Y1WktKPcwpPs3V492x3Jl3++i6OixYhYHHaVvRzEYI+2P
- 5VKm1gX6N5otZufmwkP1ruRZ04ThaWAAxKOWh8ijdgfVO2H2BQQR9obhXrfT7a4xc8dlliO0C
- WXV0sD5UczBDz4Z6PSdAh7/2+LNq61ahuVdPjCh+AqZhoet2uTmRlDqcQ2BOcx4cT8Ecb4uoJ
- 74B2l2lofNE/dpJqGNykYMNiwbrmaeKqIt0OusPZ/PjKixDwMO43I/XUV2jtNzhtvrzWHWW3f
- 5+5uL38rpbSyr9MQsjU7wl8Q6Pv+DPKYw31qv1j3+aBoTd9s4rAN0XnDZprKNkxejrEfCcMt3
- RdjCBbprwk/BmBABM5vbqAOL31U5n0+O3dVLIv4y3NaTsT+KDG2+HMGJ0GzNwQZ1xjtoSZlRa
- uLddVewP90tJ6tLUi9s2KK15um20lm9CNlcz7F9k28CuoajzCo57Ayk36kTOyJGHOrbIxd6uz
- VZVcTWcCL+xVw0k50FFLhJteYG237X9pLMTootA==
-Received-SPF: pass client-ip=217.72.192.78; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 05:15:08
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20200831193414.6951-1-eric.auger@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=alexandru.elisei@arm.com; helo=foss.arm.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 05:24:00
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -62
+X-Spam_score: -6.3
+X-Spam_bar: ------
+X-Spam_report: (-6.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.13,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,69 +63,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRy?= =?UTF-8?B?w6k=?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/SyW1wVCwxX5bhE85ag8/sy9
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Hi Eric,
 
-A connecting chardev object has an additional reference by the connecting
-thread, so if the chardev is still connecting by the end of the test,
-then the chardev object won't be freed. This in turn means that the yank
-instance won't be unregistered and when running the next test-case
-yank_register_instance will abort, because the yank instance is
-already/still registered.
+These patches are extremely welcome! I took over the KVM SPE patches from Andrew
+Murray, and I was working on something similar to help with development.
 
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
----
- tests/test-char.c | 1 +
- 1 file changed, 1 insertion(+)
+The KVM series on the public mailing list work only by chance because it is
+impossible to reliably map the SPE buffer at EL2 when profiling triggers a stage 2
+data abort. That's because the DABT is reported asynchronously via the buffer
+management interrupt and the faulting IPA is not reported anywhere. I'm trying to
+fix this issue in the next iteration of the series, and then I'll come back to
+your patches for review and testing.
 
-diff --git a/tests/test-char.c b/tests/test-char.c
-index d35cc839bc..2ced07de69 100644
---- a/tests/test-char.c
-+++ b/tests/test-char.c
-@@ -937,6 +937,7 @@ static void char_socket_client_dupid_test(gconstpointer=
- opaque)
-     g_assert_nonnull(opts);
-     chr1 =3D qemu_chr_new_from_opts(opts, NULL, &error_abort);
-     g_assert_nonnull(chr1);
-+    qemu_chr_wait_connected(chr1, &error_abort);
+Thanks,
 
-     chr2 =3D qemu_chr_new_from_opts(opts, NULL, &local_err);
-     g_assert_null(chr2);
---
-2.20.1
+Alex
 
---Sig_/SyW1wVCwxX5bhE85ag8/sy9
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl9OETUACgkQNasLKJxd
-slgYoBAAgrlkduKYqkrzRw/lwpuqroimrFPAjEAl0aLrA6QBHePtYtS4r67iULwv
-oR+pVUOaBn+LpEyOb3hNuBlNzqxHXtMbMMNk0tVlXotS6KAKfZN1Q9PPn4RFn1hQ
-cqertEZnZFqRKyApzMckyJ47V7pi47a7/ikan7mf6v9/XJKpgLK2p3TxvTZ2JhHu
-ITnhPmWEC1488abRm8Bee66a4Yidiia2CbtWbPBY6JGzrUhZI125qTkA11N6m8sn
-1/HrsmMBH9NHqpoozCvePg1OKCKHs3FGsS5aJFIpm8ZJa0ouoTHdh8VpOfZ8fAFi
-C1uCf7mBbwjXuM5oftRkE/2Tr1tXPc6dnydCRi39Wdaogemex1cAE6v/eFYxn/te
-Pwai21HADMyTbk4fRx6Hn5+qN+sgSInqoddJo2Z0OSatXvo83GXc8X1/tngXkm9p
-1x/2w70ntd+moMXIqp9Q39LLbY2ZavQ762V2YsC5Y8OP3F1pNgAOnQvR07yPUtON
-CLBnruodpE0aSIBs/ep10q8MMZM1Ec3vU5/sdzOM0+7cH3ydve6Hwpzg5W2HbGCG
-/rfpRGutRDFCQfktOBmXEXNm5kxSsYZQgMQeov5yiy+eciqyjzQy+6PkVWDGzQ6/
-VwcjlKrctUHZLYvH+QRytcHCjYMdhuBq8o3g0gcrujiO8NZoIPg=
-=FpIY
------END PGP SIGNATURE-----
-
---Sig_/SyW1wVCwxX5bhE85ag8/sy9--
+On 8/31/20 8:34 PM, Eric Auger wrote:
+> This series implements tests exercising the Statistical Profiling
+> Extensions.
+>
+> This was tested with associated unmerged kernel [1] and QEMU [2]
+> series.
+>
+> Depending on the comments, I can easily add other tests checking
+> more configs, additional events and testing migration too. I hope
+> this can be useful when respinning both series.
+>
+> All SPE tests can be launched with:
+> ./run_tests.sh -g spe
+> Tests also can be launched individually. For example:
+> ./arm-run arm/spe.flat -append 'spe-buffer'
+>
+> The series can be found at:
+> https://github.com/eauger/kut/tree/spe_rfc
+>
+> References:
+> [1] [PATCH v2 00/18] arm64: KVM: add SPE profiling support
+> [2] [PATCH 0/7] target/arm: Add vSPE support to KVM guest
+>
+> Eric Auger (4):
+>   arm64: Move get_id_aa64dfr0() in processor.h
+>   spe: Probing and Introspection Test
+>   spe: Add profiling buffer test
+>   spe: Test Profiling Buffer Events
+>
+>  arm/Makefile.common       |   1 +
+>  arm/pmu.c                 |   1 -
+>  arm/spe.c                 | 463 ++++++++++++++++++++++++++++++++++++++
+>  arm/unittests.cfg         |  24 ++
+>  lib/arm64/asm/barrier.h   |   1 +
+>  lib/arm64/asm/processor.h |   5 +
+>  6 files changed, 494 insertions(+), 1 deletion(-)
+>  create mode 100644 arm/spe.c
+>
 
