@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C980258C34
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 11:59:41 +0200 (CEST)
-Received: from localhost ([::1]:43594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7876F258C29
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 11:58:31 +0200 (CEST)
+Received: from localhost ([::1]:35826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD34m-0004dj-49
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 05:59:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43340)
+	id 1kD33e-0001Tx-GN
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 05:58:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kD2xp-0000jI-PB
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:52:29 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:36984)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kD2xm-0000bc-R2
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:52:26 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:46043)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kD2xo-0003MD-4M
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:52:29 -0400
-Received: by mail-oi1-x243.google.com with SMTP id e6so623260oii.4
- for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 02:52:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kD2xk-0003Lc-IO
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:52:26 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id i26so713083ejb.12
+ for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 02:52:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=y36gKxXjdFleZJ9I4tSMoU3tvP54P/Bs++5Hc7QLbQE=;
- b=C7fXOuvsQa4d4a5QZ9JJ0LQQFtttGYGFDArBZra/HftIZdaazbHisQSMf835hBZCht
- ynudQU71wYkdvv7WunMqFHUIMfnAkpv3t8a239JHi/uRlmKnaQJt6JaXztbeoIGormuJ
- GwYc2Jl5ceJE9neD6P34r9tQto2nrYzudYfTUPef9kl0plQB3jGtd0ubcZ+qElYqiLr3
- FUA0ZCpvq5DJr1wJrBzsVXSl+P7946jRpumsfDMhuUsURYOD9c5SR8pYTUTW259xvH55
- HgLrPpU4yX94+dWC35v/21rUFU1hZjaeFQl7ZSHoWIfY4+PRhreKH1YjktjOOfCcm6l4
- 1uZg==
+ :cc; bh=Hb63U+aHLaO1yLixJr9yuKIfM8hxtHyZsRoKgMNGRP4=;
+ b=T+wBJBFEepn1dzrK8mHEwjwhVmenxIg6FwVn8r50R5m++yhGUgZ+lNzno4+05NILuE
+ qS44y84yAbarGN5G0HNy2Igz9mQq0VMInoTGwA7SGRJzIeSTvXxXS/W/WLndBC3YhfMF
+ KwSSSRsGQ31lFY6As3++R7D7jPiUhrU8Cu6JOoBclx7jPTTsH//E74MTp/Yw1nFAh9Nr
+ 4gej7rHpOaKg6yjuU+IcTVazBH4qhU5XtMeVSFIH+hcMxZyrUi7d6vwlPDwSDtKY4H3c
+ UWFaL940eu+GljXsYwYb+SUmkYyNyzCcabRL1Dmh0mwzQyYQ1tCM4M7yM3oW9iZwlmdF
+ drWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=y36gKxXjdFleZJ9I4tSMoU3tvP54P/Bs++5Hc7QLbQE=;
- b=r/+YaGZwWMLle2oWtG46hP+DZkH1AD0g42+/a5Flio2qLYYRmn9ZkjwCeW/yFe9KA+
- 71LbyB9keKel/DrYA/MjfEW4ApefKS0N1WFwhNG+wOtaOTtZArhSXzwi7zrHqZf9B3Jt
- DGh1L61VTiTpe+h6ET7HtEvtk3hbdToEon7iks+RR2/1dHOOmjp+JzATnkS+F/OH4Gq5
- 923GgQaX4Kz6QznwyAlRK7up+jv0rlg/VH60qj6QxcbgJ5oJxsUcLDyRisHehbuTvxmk
- JYXULMnSLBOYXwGH+JVPFNLvM+M8Ix8onB2j32g3ei6xSZbWEIHn8PRLbd7dTNbZkQzO
- mJYQ==
-X-Gm-Message-State: AOAM533t6ofpr6UW6ZSZz2HO1Hg+i3/2WRyDomlP6jINkwaH6+hGDE3Z
- b3UQWwBWLh1ofhLbpirSkYW3BoURyalupc8T4qE=
-X-Google-Smtp-Source: ABdhPJy+ZTiMeYbj32QgCBUHHloQIzylZPdWrMquDU595VLjQOAyhWVo8PEtpULOB45XA4dyrRoJaBo4nPoDKkHGhpc=
-X-Received: by 2002:aca:c0c1:: with SMTP id q184mr631355oif.56.1598953946841; 
- Tue, 01 Sep 2020 02:52:26 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=Hb63U+aHLaO1yLixJr9yuKIfM8hxtHyZsRoKgMNGRP4=;
+ b=QaS3vh1p+AMMgw8159uakA70ske3Eh1ft/RMf5kJ3BNRw5fPtnvc5HMN4hLQvaDMEi
+ dumzMXuwe9lcofa29h91FTWE+xY/tY0fY4s4hmL5RKcJPovpMfqeSo2BY/hxKHoksPEG
+ VkwtI76N/cZptbuXOcvPM5XgB/7GBeapqhqbuW8COJYrs7krhAhrq+hcCiJX+Xs7k9lm
+ eWS6ciyvR+9Uf9NZuSyz3v3E33iQYPACjARXP/+2KmpeZNcPm2lWY5a4aPiQnDHF6rO1
+ fFI2BXvWQF2PqufoBq3wZGfBMyELVaOC2PIeHSJFUVGQ41ak9tlOm/sOWG5DyWhTtKAw
+ vBpA==
+X-Gm-Message-State: AOAM532Dyfj460Dfv1L49cJ9L0ncsgo2Nr/uOyM7lOX7bwc/R90Awh9+
+ 5+rIT9o/5FMFj9PHwsIwU76RaDHbShF3S5+erEZN6Vk4OmfJ84Nj
+X-Google-Smtp-Source: ABdhPJzYlGpLl72t3jlYgmfkVcTwwH8ve5Qyr76+ISCkBTedcmjjyDH27PsNw8SgqLCBT2agcXOaCf1y+wfG4BOKDnU=
+X-Received: by 2002:a17:906:24d6:: with SMTP id
+ f22mr709028ejb.85.1598953942728; 
+ Tue, 01 Sep 2020 02:52:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200901052723.15492-1-kraxel@redhat.com>
-In-Reply-To: <20200901052723.15492-1-kraxel@redhat.com>
-From: Li Qiang <liq3ea@gmail.com>
-Date: Tue, 1 Sep 2020 17:51:50 +0800
-Message-ID: <CAKXe6S+Vs6=KchQ4gi3wg9e1J6iWfGWYJUx7k5udB41m589ZPA@mail.gmail.com>
-Subject: Re: [PATCH] usb: call usb_packet_cleanup on usb_packet_map failure
+References: <20200831110416.15176-1-kraxel@redhat.com>
+In-Reply-To: <20200831110416.15176-1-kraxel@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 1 Sep 2020 10:52:11 +0100
+Message-ID: <CAFEAcA99xWV2=12YeZL2Aq+U5kDGLx9eC2vfEVtbqs=Avz78Pw@mail.gmail.com>
+Subject: Re: [PULL 0/5] Ui 20200831 patches
 To: Gerd Hoffmann <kraxel@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=liq3ea@gmail.com; helo=mail-oi1-x243.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -78,73 +79,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Qemu Developers <qemu-devel@nongnu.org>, P J P <ppandit@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Gerd Hoffmann <kraxel@redhat.com> =E4=BA=8E2020=E5=B9=B49=E6=9C=881=E6=97=
-=A5=E5=91=A8=E4=BA=8C =E4=B8=8B=E5=8D=881:28=E5=86=99=E9=81=93=EF=BC=9A
+On Mon, 31 Aug 2020 at 12:05, Gerd Hoffmann <kraxel@redhat.com> wrote:
 >
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  hw/usb/hcd-ehci.c | 2 ++
->  hw/usb/hcd-xhci.c | 1 +
->  2 files changed, 3 insertions(+)
+> The following changes since commit 39335fab59e11cfda9b7cf63929825db2dd3a3e0:
 >
-> diff --git a/hw/usb/hcd-ehci.c b/hw/usb/hcd-ehci.c
-> index 2b995443fbfd..67847a9cf5f1 100644
-> --- a/hw/usb/hcd-ehci.c
-> +++ b/hw/usb/hcd-ehci.c
-> @@ -1373,6 +1373,7 @@ static int ehci_execute(EHCIPacket *p, const char *=
-action)
->          usb_packet_setup(&p->packet, p->pid, ep, 0, p->qtdaddr, spd,
->                           (p->qtd.token & QTD_TOKEN_IOC) !=3D 0);
-
-Hi Gerd,
-
-=E2=80=99usb_packet_setup=E2=80=98 doesn't modify the 'iov' and other resou=
-rces.
-
-'usb_packet_cleanup' is paired with 'usb_packet_init' which I think should =
-be
-processed in the more up layer.
-
-If 'usb_packet_map' fails, we need to clean the 'iov' in
-'usb_packet_map' itself.
-
-
-Thanks,
-Li Qiang
-
->          if (usb_packet_map(&p->packet, &p->sgl)) {
-> +            usb_packet_cleanup(&p->packet);
->              qemu_sglist_destroy(&p->sgl);
->              return -1;
->          }
-> @@ -1456,6 +1457,7 @@ static int ehci_process_itd(EHCIState *ehci,
->                  usb_packet_setup(&ehci->ipacket, pid, ep, 0, addr, false=
-,
->                                   (itd->transact[i] & ITD_XACT_IOC) !=3D =
-0);
->                  if (usb_packet_map(&ehci->ipacket, &ehci->isgl)) {
-> +                    usb_packet_cleanup(&ehci->ipacket);
->                      qemu_sglist_destroy(&ehci->isgl);
->                      return -1;
->                  }
-> diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
-> index 46a2186d912a..9b156048920d 100644
-> --- a/hw/usb/hcd-xhci.c
-> +++ b/hw/usb/hcd-xhci.c
-> @@ -1616,6 +1616,7 @@ static int xhci_setup_packet(XHCITransfer *xfer)
->      usb_packet_setup(&xfer->packet, dir, ep, xfer->streamid,
->                       xfer->trbs[0].addr, false, xfer->int_req);
->      if (usb_packet_map(&xfer->packet, &xfer->sgl)) {
-> +        usb_packet_cleanup(&xfer->packet);
->          qemu_sglist_destroy(&xfer->sgl);
->          return -1;
->      }
-> --
-> 2.27.0
+>   Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-5.2-pull-=
+> request' into staging (2020-08-28 22:30:11 +0100)
 >
+> are available in the Git repository at:
 >
+>   git://git.kraxel.org/qemu tags/ui-20200831-pull-request
+>
+> for you to fetch changes up to e54635710f1cf667191a0a1d9df9a37d1c9b0ad0:
+>
+>   ui/gtk: Update refresh interval after widget is realized (2020-08-31 10:41:=
+> 43 +0200)
+>
+> ----------------------------------------------------------------
+> ui: memleak fixes.
+> gtk: refresh interval fix.
+> keymaps: don't require qemu-keymap (fix gitlab ci).
+> spice: add mouse buttons.
+>
+> ----------------------------------------------------------------
+>
+> Frediano Ziglio (1):
+>   ui: Add more mouse buttons to SPICE
+>
+> Gerd Hoffmann (1):
+>   meson: fix keymaps witout qemu-keymap
+>
+> Pan Nengyuan (2):
+>   ui/gtk-gl-area: Plug memleak in gd_gl_area_create_context()
+>   vnc-auth-sasl: Plug memleak in vnc_socket_ip_addr_string
+>
+> Philippe Mathieu-Daud=C3=A9 (1):
+>   ui/gtk: Update refresh interval after widget is realized
+
+NB: something in your cover letter creation process is mangling UTF-8.
+
+Fails to build, windows crossbuild:
+
+./ninjatool -t ninja2make --omit clean dist uninstall < build.ninja >
+Makefile.ninja
+make[1]: Entering directory '/home/petmay01/qemu-for-merges/slirp'
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/home/petmay01/qemu-for-merges/slirp'
+Generating qemu-version.h with a meson_exe.py custom command
+Generating ar with a custom command
+cp: '../../pc-bios/keymaps/ar' and 'pc-bios/keymaps/ar' are the same file
+Generating bepo with a custom command
+cp: '../../pc-bios/keymaps/bepo' and 'pc-bios/keymaps/bepo' are the same file
+Makefile.ninja:5172: recipe for target 'pc-bios/keymaps/ar.stamp' failed
+make: *** [pc-bios/keymaps/ar.stamp] Error 1
+make: *** Waiting for unfinished jobs....
+Makefile.ninja:5174: recipe for target 'pc-bios/keymaps/bepo.stamp' failed
+make: *** [pc-bios/keymaps/bepo.stamp] Error 1
+Generating cz with a custom command
+cp: '../../pc-bios/keymaps/cz' and 'pc-bios/keymaps/cz' are the same file
+Makefile.ninja:5176: recipe for target 'pc-bios/keymaps/cz.stamp' failed
+make: *** [pc-bios/keymaps/cz.stamp] Error 1
+make: Leaving directory '/home/petmay01/qemu-for-merges/build/w64'
+
+Fails to build, x86:
+
+[...]
+Configuring 50-edk2-i386-secure.json using configuration
+Configuring 50-edk2-x86_64-secure.json using configuration
+Configuring 60-edk2-aarch64.json using configuration
+Configuring 60-edk2-arm.json using configuration
+Configuring 60-edk2-i386.json using configuration
+Configuring 60-edk2-x86_64.json using configuration
+Program qemu-keymap found: NO
+../../pc-bios/keymaps/meson.build:58: WARNING: Custom target input
+'ar' can't be converted to File object(s).
+This will become a hard error in the future.
+../../pc-bios/keymaps/meson.build:58: WARNING: Custom target input
+'bepo' can't be converted to File object(s).
+This will become a hard error in the future.
+../../pc-bios/keymaps/meson.build:58: WARNING: Custom target input
+'cz' can't be converted to File object(s).
+This will become a hard error in the future.
+../../pc-bios/keymaps/meson.build:58: WARNING: Custom target input
+'da' can't be converted to File object(s).
+This will become a hard error in the future.
+../../pc-bios/keymaps/meson.build:58: WARNING: Custom target input
+'de' can't be converted to File object(s).
+This will become a hard error in the future.
+[...]
+
+Command line for building ['libcommon.fa'] is long, using a response file
+Command line for building ['libqemu-aarch64-softmmu.fa'] is long,
+using a response file
+Command line for building ['qemu-system-aarch64'] is long, using a response file
+Command line for building ['qemu-system-arm'] is long, using a response file
+make: Leaving directory '/home/petmay01/linaro/qemu-for-merges/build/all'
+make: Entering directory '/home/petmay01/linaro/qemu-for-merges/build/all'
+/usr/bin/python3 -B
+/home/petmay01/linaro/qemu-for-merges/meson/meson.py introspect
+--tests | /usr/bin/python3 -B scripts/mtest2make.py > Makefile.mtest
+make: Leaving directory '/home/petmay01/linaro/qemu-for-merges/build/all'
+make: Entering directory '/home/petmay01/linaro/qemu-for-merges/build/all'
+./ninjatool -t ninja2make --omit clean dist uninstall < build.ninja >
+Makefile.ninja
+make: Leaving directory '/home/petmay01/linaro/qemu-for-merges/build/all'
+make: Entering directory '/home/petmay01/linaro/qemu-for-merges/build/all'
+  GIT     ui/keycodemapdb tests/fp/berkeley-testfloat-3
+tests/fp/berkeley-softfloat-3 meson dtc capstone slirp
+make: Leaving directory '/home/petmay01/linaro/qemu-for-merges/build/all'
+make[1]: Nothing to be done for 'all'.
+make: *** No rule to make target '../../pc-bios/keymaps/ar', needed by
+'pc-bios/keymaps/ar.stamp'. Stop.
+make: *** Waiting for unfinished jobs....
+
+thanks
+-- PMM
 
