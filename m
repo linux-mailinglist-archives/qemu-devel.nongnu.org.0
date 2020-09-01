@@ -2,63 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10970259055
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:26:46 +0200 (CEST)
-Received: from localhost ([::1]:55526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C0492590E8
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:41:33 +0200 (CEST)
+Received: from localhost ([::1]:43048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD7FF-0006IC-3o
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:26:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55594)
+	id 1kD7TY-0003iJ-JP
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:41:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zY-000666-Id; Tue, 01 Sep 2020 10:10:32 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:59677)
+ (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1kD33H-0001er-Ou
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:58:07 -0400
+Received: from rev.ng ([5.9.113.41]:39863)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zW-0003zt-NN; Tue, 01 Sep 2020 10:10:32 -0400
-Received: from localhost.localdomain ([82.252.135.186]) by
- mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N6bsM-1ke9Gf1l1C-0183pD; Tue, 01 Sep 2020 16:10:27 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PULL 44/44] docs/system: Fix grammar in documentation
-Date: Tue,  1 Sep 2020 16:09:54 +0200
-Message-Id: <20200901140954.889743-45-laurent@vivier.eu>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200901140954.889743-1-laurent@vivier.eu>
-References: <20200901140954.889743-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1kD33F-0004FF-H2
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:58:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
+ s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
+ In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=ExNJzxf5kdXyYvMc7E4jW1CbiPLvZaN1L6WMRVZKYD8=; b=nuy7aOvtWLRdyREe8idXNPStV5
+ pioZpjWLSn4RUEQ7xQRXVjnrjq5ynw/Hoywdzr0JBqVmp2hrmDz2dwpwlCh+uKS0Vdt5ntMkvb9fQ
+ RoMduJCMu9P4rbqrALtZ4iJQ6f8Hv/djMTVEUMyOJalKhxdGaWowBoWqOMaN90EF+C0g=;
+Date: Tue, 1 Sep 2020 11:57:50 +0200
+From: Alessandro Di Federico <ale@rev.ng>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Subject: Re: [RFC PATCH v3 33/34] Hexagon (tests/tcg/hexagon) TCG tests
+Message-ID: <20200901115750.05c25ba9@orange>
+In-Reply-To: <b7ec9b4c-2a2e-2030-4075-45cf8920c41c@linaro.org>
+References: <1597765847-16637-1-git-send-email-tsimpson@quicinc.com>
+ <1597765847-16637-34-git-send-email-tsimpson@quicinc.com>
+ <b7ec9b4c-2a2e-2030-4075-45cf8920c41c@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:7L1YI38AnTxw8KGs1szZB3nJpEddnBvc3/Yy/tk98nSmivRkKzW
- NRoBAe7hIrdpBwO+0keWhvVKogCZ+DZgks69Z3HwLyfRsnb24YFwgXtjmnaugxw55T+ehI5
- n/g/zyXHbXBMxZdsq02QMeL48tqzottUReKPFoWzikYJP+d/VRoVaXdh8i/D5VVomxykPCM
- eZfKSgOrJCChuoicfHcpg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:TzroLXl3Brg=:lKGWd3nt6vvRvdwA8n39sO
- NKrZbk0uwYSGDwWnlXnQQkMatoDj0eY7Ulvrfk/3RkqkxaG/qCW8oL9RSl7KuGvJ368FKaBv1
- qbW56xSi5dn/z1BZOkHyGpU5KgD9yaR7NH3tnuK1uh1TpnYDIlVCUvcEt0epUWp9cWzTRnp7C
- MVmg5GpgZF/WTXXiXxV3Hv5kBpTmRRiKPWoudE7vvkXmTf7gjH5QRoh//hLlaxyvySVd6Ynim
- RhaW2NtUPoQ60FKbvMlQiCIRUMmYomsgZT4KTvrNXfHM2+6QlC3RFky9ICwoWNWvcVH9xMaT3
- oNVl6D2R+q8jw9SYSrAfxC6k9TAT5SruQfXmSJ5uwfbqs3YxbHTIQlt0w5kCb+BTKt5CLph4C
- nonabsvy8PLJN8xHnlF+wJ7COr4t3Mk/lcXn8RG3hvyCrRtpP/LQmzYFVw7h3XGWy+x5LkmsR
- X2wlsSDMRLpe0FAa/SgsFZp5yC6UGDnGknlykeItkmehHtJW+CoWwYl3AFXjJ4W5O3EUdXxZm
- po0qD8aCkbMM+VRXxLSuAqtM1UzPouIxxWO96RMxghIUwTXLJYeAleuE+fQvFPfSa5r7PT9J5
- rlundj79jXJFLxDEcZwClO4B4qvxLMy9OkJ/olZql9BFiuvmyOjDiZEkSD7J6n3YU8apQnPm3
- fXUc1vojz5OTA6IO9tssfNeFTo7ZAYVAgYh7bJq9jQ34CQ6KmoD3/53uuyohqsM376LBIymab
- Ze2iOl6Azp7mJ7/oxI3iKCUQf9WXOsiw8CwFwq8iH0d5sHFAzUT7o4zq+fUMUijmow1RSBeZh
- s6paYKCkLi6asfuGxvAO4+4qElJekS/DphaUECOji9PPmj+unI93cITnb/zn/eWT/l1oqi6
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:10:08
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=5.9.113.41; envelope-from=ale@rev.ng; helo=rev.ng
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 05:57:57
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 01 Sep 2020 10:27:00 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,50 +60,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Stefan Weil <sw@weilnetz.de>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>, Peter Maydell <peter.maydell@linaro.org>
+Cc: philmd@redhat.com, riku.voipio@iki.fi, laurent@vivier.eu,
+ Taylor Simpson <tsimpson@quicinc.com>,
+ Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>,
+ aleksandar.m.mail@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Weil <sw@weilnetz.de>
+On Fri, 28 Aug 2020 20:05:44 -0700
+Richard Henderson <richard.henderson@linaro.org> wrote:
 
-Signed-off-by: Stefan Weil <sw@weilnetz.de>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200827173051.31050-1-sw@weilnetz.de>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- docs/system/build-platforms.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+> Could you please work with Alex Bennee to set up a
+> tests/docker/dockerfile/ script containing the cross-compiler from
+> the Qualcomm SDK?  That way these tests can be run automatically.
+> 
+> Compare debian-xtensa-cross.docker, which is similar.
 
-diff --git a/docs/system/build-platforms.rst b/docs/system/build-platforms.rst
-index c2b92a96987c..9734eba2f180 100644
---- a/docs/system/build-platforms.rst
-+++ b/docs/system/build-platforms.rst
-@@ -57,12 +57,12 @@ macOS
- -----
- 
- The project supports building with the two most recent versions of
--macOS, with the current homebrew package set available.
-+macOS, with the current Homebrew package set available.
- 
- FreeBSD
- -------
- 
--The project aims to support the all the versions which are not end of
-+The project aims to support all versions which are not end of
- life.
- 
- NetBSD
-@@ -75,5 +75,5 @@ new major version is released.
- OpenBSD
- -------
- 
--The project aims to support the all the versions which are not end of
-+The project aims to support all versions which are not end of
- life.
+We already have something similar, but it didn't make it in this
+patchset. We put an effort in putting together a fully open source
+toolchain.
+
+It takes a while to build, but we'll provide a pre-built image on
+dockerhub.
+Eventually, upstream LLVM and musl will be in sync and it will be no
+longer necessary to build it by hand.
+
 -- 
-2.26.2
+Alessandro Di Federico
+rev.ng
 
+P.S. Richard: thanks a lot for the thorough reviews.
 
