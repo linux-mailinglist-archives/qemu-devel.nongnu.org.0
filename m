@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F315259042
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:22:58 +0200 (CEST)
-Received: from localhost ([::1]:36812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 009DF259048
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:24:22 +0200 (CEST)
+Received: from localhost ([::1]:45258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD7BZ-0006tB-N2
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:22:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55384)
+	id 1kD7Cv-00020R-2Q
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:24:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zP-0005dD-4m; Tue, 01 Sep 2020 10:10:23 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:38033)
+ id 1kD6zP-0005e5-GA; Tue, 01 Sep 2020 10:10:23 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:57709)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zK-0003qW-43; Tue, 01 Sep 2020 10:10:22 -0400
+ id 1kD6zJ-0003q8-HW; Tue, 01 Sep 2020 10:10:23 -0400
 Received: from localhost.localdomain ([82.252.135.186]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MVeDs-1k3Apo3JLQ-00RaTR; Tue, 01 Sep 2020 16:10:00 +0200
+ id 1MdNTs-1kmRnl1vAu-00ZOSj; Tue, 01 Sep 2020 16:10:01 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/44] vnc: Remove the superfluous break
-Date: Tue,  1 Sep 2020 16:09:15 +0200
-Message-Id: <20200901140954.889743-6-laurent@vivier.eu>
+Subject: [PULL 06/44] block/vmdk: Remove superfluous breaks
+Date: Tue,  1 Sep 2020 16:09:16 +0200
+Message-Id: <20200901140954.889743-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200901140954.889743-1-laurent@vivier.eu>
 References: <20200901140954.889743-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Pdv3G5Oqe3F2hu2/7gXBOoL5WAz0XamQawEsYgcNF5YJP/+Ca2e
- uOh/8pgWD95l4+aXRbKkcS2L8wlzNnsLkCqOQeXPQPezwSpu4Fbx1AgRX+3PDidXqnLTjz1
- /o8JqoRu+huLR2afrbh8O9XGvEjdXRTWwQGM2oSLGfKdTN40dy1hRjGpsuIJka2ncQaQcFF
- yTeU3ySy+s0gU/0nxSI1A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:NBEvsUduZJk=:wiYh741gjlNi3HyZ5q/vZX
- tKaY8C/UQgnh7K67xFxkgIYsuxcOFkLirpNbGpKiJZierlUpL2V7QGuUsuS0IjcgsnCSoHzDK
- 6kd0XGKB7VVNDXsjlOMjTnJd4Phdaw/V/CwBd9CtCa09gojNJP6CJ85fU5lpoG8LWfJm1qSyG
- xedyQA2PGl16zp1QtQ+Dc+vdbi5hUanQwpESSWcE2BRLTNyL41PnLjKaO8eEVk0fmRUq5qdtj
- K6TDAfW+pJ72N5zDdqcuE4WnJl579jBWTyHwCoUleZ4Xo2QaJE9DbODCdFGWI3enB9FuRwQYF
- Y8TBLKqDgceLBgdH+e03TiZLvdTYZTECrJBcgomVUYX3soCTnauwmVSkf7w8ZSs6j0OqLWT1K
- Ym0vpEZfkFa8avOFq/cEcu6QmBpLpzHSfivy74zWeYZxrNNoF1oWByF7sUu4NzUz+U9TYrtSg
- +JMu4Qy8rF9uwFhst9e2JH4Pa7ET37oGMxRFu/+Cy55qRi/DqrqCkBbjhju0C1GOrXkZbjKyV
- iPA1eMMHOFBA7DJ+x+Vk6lkVcAgbkG0YIfTznUGw852ROmLehJMcZIAPWoPZor+rWlh8N2Ra+
- cw44jaFID4795kyL/rgkiJ1Vt7fmovn1wme34yTKYzBOk4KLPAKRtf1SMXkDwuvaryqKizC/d
- qcXFtja/xcYUOxYHUrmXf/6uVPUaBz3K6LQ033doMwm4ZAQSJD9KXZGtJPT4ml/fZHs59d9oc
- J72D41vKp3k3NzStFsB7eXP+iVBcpj2E0ImfgfeIxYrTj92x5iqWWkr8B9pBmKYHQudovRnX0
- RqXZQsTTRjmMA/RZLrbUR4hhzFmob3Czp2yxvYPK2so7fkLA/wjiWEk512hmeJzIzrl9Mlw
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:9wtfzMg5h42L8zLIZ5MY4d1StIUcSwuyoMS1KXY1qPL9bKgHQGG
+ gcqTAG2jl9PCl4Mpscv2LUEL0i6o7f6BZY5Rggc4E8ibppLpuV4+C8JUqAXtsGdKrGRhfhj
+ L8ghfwYhgNZrKY8Hx1GJf+MNNZg5vZINf9+Z7wyNuAnH3xMNorSDdz5KDf5RWqH+q0TRMQx
+ 6VAH8GdbXM0EQtmkz/RKQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:JXSwrQqWkOQ=:yHcjmdYNlpacSrQivakCb3
+ l5Qf7W9ACAeCuhz+HMkeqeEp5yanC8ON3NJPAzA6qK7T+J09/uoKd1fYdJ6HejeKxYkgZp8qE
+ +Xx94VxW3HkmKIL2980elyRkDzmkLz+twpXNbm2W/hZ0MFL3k2qhAsVs162mto7XuOITG3vHz
+ 1uEmtFW+LZXBlKuliPbPiQjFPdonnIE+T+fNUP77sWJlwHgVbJykBga4DrI0lKKgZ+UNYe9r7
+ AwOaSGU0vwHt1pX7hGjlY9p7pkYXgw36jzAmLGLczfwVI5M/2kuqSolT3nfpbNDXbX1O/N9gn
+ OqGWaAjrszW/ly7ou4XFcp+7jY9ilVI+vvP4pBK9u3cxUvpKZ4fwqhnUs9uLvy5+F61ICJzvb
+ /yzIyLRE8RDYM0CBfM+t1twM+RM9at+Ud/CEyCMiEDFhptkDsU3bNUW9XhtnTPLFmIDt65/N+
+ ESBZLAXJ+7msJe3g6bmKrNBYPUCsco9V16ldu/pGftgSEUS8Uk8jChqKZkqhG6/Bbi2GQ1329
+ pd/HZzOE62Q7gmZkjk8WJg1HA2h67xySQeQ66fZW9G7ysTJi+L9Z0elgKMK9eItdOcC8LaUbX
+ AuyARP8EVKpkjEznq7oi7ujGjufE/vV1uj0HvKKn05Yj8pnqAukqYZHeOl9xvcEHiMm8UgNVC
+ G7bIXwoc+dmZF+MAlaHyaeLfvXpBM/pixBR900Ml8G83aMNqDIWJ8h5qImlUDSaTnW7Bzi9wP
+ B99jaCyA1xtoiMD5Pxew/1g9wD117zqwAoJDyHnIoLZ1XHIx3GJUkUM4SyN5X1+ypxpaJh83O
+ FnYDp10aL4VOD9swMuafrmQY5Df+/TDoP0VFLRrP8/jBFAHXaRg1X6EAsdOsdS6QlMjGuEM
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:09:57
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:10:03
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -71,8 +71,7 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Yi Wang <wang.yi59@zte.com.cn>, Thomas Huth <thuth@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-trivial@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>,
+ qemu-trivial@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Liao Pingfang <liao.pingfang@zte.com.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -80,31 +79,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Liao Pingfang <liao.pingfang@zte.com.cn>
 
-Remove the superfluous break, as there is a "return" before.
+Remove superfluous breaks, as there is a "return" before them.
 
-Signed-off-by: Liao Pingfang <liao.pingfang@zte.com.cn>a
+Signed-off-by: Liao Pingfang <liao.pingfang@zte.com.cn>
 Signed-off-by: Yi Wang <wang.yi59@zte.com.cn>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-Message-Id: <1594631086-36509-1-git-send-email-wang.yi59@zte.com.cn>
+Message-Id: <1594631107-36574-1-git-send-email-wang.yi59@zte.com.cn>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- ui/vnc-enc-tight.c | 1 -
- 1 file changed, 1 deletion(-)
+ block/vmdk.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/ui/vnc-enc-tight.c b/ui/vnc-enc-tight.c
-index 1e0851826a84..cebd35841a92 100644
---- a/ui/vnc-enc-tight.c
-+++ b/ui/vnc-enc-tight.c
-@@ -1125,7 +1125,6 @@ static int send_palette_rect(VncState *vs, int x, int y,
+diff --git a/block/vmdk.c b/block/vmdk.c
+index bf9df5ce92ed..d90855446af4 100644
+--- a/block/vmdk.c
++++ b/block/vmdk.c
+@@ -1053,14 +1053,11 @@ static int vmdk_open_sparse(BlockDriverState *bs, BdrvChild *file, int flags,
+     switch (magic) {
+         case VMDK3_MAGIC:
+             return vmdk_open_vmfs_sparse(bs, file, flags, errp);
+-            break;
+         case VMDK4_MAGIC:
+             return vmdk_open_vmdk4(bs, file, flags, options, errp);
+-            break;
+         default:
+             error_setg(errp, "Image not in VMDK format");
+             return -EINVAL;
+-            break;
      }
-     default:
-         return -1; /* No palette for 8bits colors */
--        break;
-     }
-     bytes = w * h;
-     vs->tight->tight.offset = bytes;
+ }
+ 
 -- 
 2.26.2
 
