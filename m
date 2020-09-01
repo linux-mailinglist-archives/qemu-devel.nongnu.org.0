@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D028258E79
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 14:47:13 +0200 (CEST)
-Received: from localhost ([::1]:33344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20374258E85
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 14:48:59 +0200 (CEST)
+Received: from localhost ([::1]:41914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD5gu-0006Hg-3L
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 08:47:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33590)
+	id 1kD5ic-0001JS-5x
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 08:48:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kD5fO-0004bZ-KO
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:45:38 -0400
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:45437)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kD5fR-0004ed-8L
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:45:41 -0400
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:46147)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kD5fL-0001Pd-SV
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:45:38 -0400
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kD5fM-0001Pf-C8
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:45:40 -0400
 Received: from mxplan5.mail.ovh.net (unknown [10.109.138.188])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 577285CC5358;
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id E95295CC535B;
  Tue,  1 Sep 2020 14:45:31 +0200 (CEST)
 Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Tue, 1 Sep 2020
- 14:45:30 +0200
+ 14:45:31 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-99G0039899d085-dbe3-4954-b709-d43aadecbaac,
+ (GARM-99G003761c2c86-22b6-42bc-808a-1d1cdfac51cb,
  38EE1E9FF4E34D4C85F4190D418CEE501B878519) smtp.auth=clg@kaod.org
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: <qemu-devel@nongnu.org>
-Subject: [PULL 02/20] m25p80: Add support for n25q512ax3
-Date: Tue, 1 Sep 2020 14:45:07 +0200
-Message-ID: <20200901124525.220252-3-clg@kaod.org>
+Subject: [PULL 03/20] aspeed/scu: Fix valid access size on AST2400
+Date: Tue, 1 Sep 2020 14:45:08 +0200
+Message-ID: <20200901124525.220252-4-clg@kaod.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20200901124525.220252-1-clg@kaod.org>
 References: <20200901124525.220252-1-clg@kaod.org>
@@ -41,11 +41,11 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.99]
 X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: b5edaceb-d5c4-4926-adf0-679260891b16
-X-Ovh-Tracer-Id: 4785919029466991584
+X-Ovh-Tracer-GUID: 2063d41f-e671-4fc5-bf20-ad7ab33a329b
+X-Ovh-Tracer-Id: 4785919032676158371
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrudefjedgheejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfhisehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephfekveeuieehvddvgeefhfevieeiieehuedutedtuefhueehhfdttdehgeeigeehnecuffhomhgrihhnpehmihgtrhhonhdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrudefjedgheejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfhisehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheehfeegjeeitdfffeetjeduveejueefuefgtdefueelueetveeliefhhffgtdelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
 Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
  helo=smtpout1.mo804.mail-out.ovh.net
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 08:45:31
@@ -69,34 +69,48 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Erik Smit <erik.lucas.smit@gmail.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Datasheet available here :
+The read access size of the SCU registers can be 1/2/4 bytes and write
+is 4 bytes and all Aspeed models would need a .valid.accepts() handler.
 
-https://www.micron.com/-/media/client/global/Documents/Products/Data%20Sheet/NOR%20Flash/Serial%20NOR/N25Q/n25q_512mb_1ce_3v_65nm.pdf
+For the moment, set the min access size to 1 byte to cover both read
+and write operations on the AST2400 but keep the min access size of
+the other SoCs to 4 bytes as this is an unusual access size.
 
+This fixes support for some old firmware doing 2 bytes reads on the
+AST2400 SoC.
+
+Reported-by: Erik Smit <erik.lucas.smit@gmail.com>
 Reviewed-by: Joel Stanley <joel@jms.id.au>
-Message-Id: <20200819100956.2216690-4-clg@kaod.org>
+Message-Id: <20200819100956.2216690-5-clg@kaod.org>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/block/m25p80.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/misc/aspeed_scu.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-index 605ff55c6756..62ba6aaf01cf 100644
---- a/hw/block/m25p80.c
-+++ b/hw/block/m25p80.c
-@@ -237,6 +237,7 @@ static const FlashPartInfo known_devices[] = {
-     { INFO("n25q128",     0x20ba18,      0,  64 << 10, 256, 0) },
-     { INFO("n25q256a",    0x20ba19,      0,  64 << 10, 512, ER_4K) },
-     { INFO("n25q512a",    0x20ba20,      0,  64 << 10, 1024, ER_4K) },
-+    { INFO("n25q512ax3",  0x20ba20,  0x1000,  64 << 10, 1024, ER_4K) },
-     { INFO_STACKED("n25q00",    0x20ba21, 0x1000, 64 << 10, 2048, ER_4K, 4) },
-     { INFO_STACKED("n25q00a",   0x20bb21, 0x1000, 64 << 10, 2048, ER_4K, 4) },
-     { INFO_STACKED("mt25ql01g", 0x20ba21, 0x1040, 64 << 10, 2048, ER_4K, 2) },
+diff --git a/hw/misc/aspeed_scu.c b/hw/misc/aspeed_scu.c
+index ec4fef900e27..764222404bef 100644
+--- a/hw/misc/aspeed_scu.c
++++ b/hw/misc/aspeed_scu.c
+@@ -328,9 +328,10 @@ static const MemoryRegionOps aspeed_ast2400_scu_ops = {
+     .read = aspeed_scu_read,
+     .write = aspeed_ast2400_scu_write,
+     .endianness = DEVICE_LITTLE_ENDIAN,
+-    .valid.min_access_size = 4,
+-    .valid.max_access_size = 4,
+-    .valid.unaligned = false,
++    .valid = {
++        .min_access_size = 1,
++        .max_access_size = 4,
++    },
+ };
+ 
+ static const MemoryRegionOps aspeed_ast2500_scu_ops = {
 -- 
 2.25.4
 
