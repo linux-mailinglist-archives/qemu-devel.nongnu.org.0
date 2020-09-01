@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93C17259252
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:09:02 +0200 (CEST)
-Received: from localhost ([::1]:37268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 934DE259262
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:10:59 +0200 (CEST)
+Received: from localhost ([::1]:43752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD7u9-00029p-Jt
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:09:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36708)
+	id 1kD7w2-0004t7-J0
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:10:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kD7T8-0004Bm-Dl; Tue, 01 Sep 2020 10:41:06 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:40384)
+ id 1kD7T9-0004DD-Mp; Tue, 01 Sep 2020 10:41:07 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37110)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kD7T6-0008RS-U0; Tue, 01 Sep 2020 10:41:06 -0400
-Received: by mail-wm1-x336.google.com with SMTP id v4so1406175wmj.5;
- Tue, 01 Sep 2020 07:41:04 -0700 (PDT)
+ id 1kD7T8-0008Rc-9U; Tue, 01 Sep 2020 10:41:07 -0400
+Received: by mail-wm1-x343.google.com with SMTP id a9so1414041wmm.2;
+ Tue, 01 Sep 2020 07:41:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=UEPkPNTZPjY3iFtK/yQQSSFXpy6Vn5YNcxLoyxOWu68=;
- b=JjGP/N37eCqCPdnn6O7iwffbQ/OkrURsRnXwZM1o3xhqTaqq2ZBPHwku0FA4PssZEK
- c9+6jch+ESEqK5jOc+KqJo2GUZ3jAfr/J7l2Nj+WihuiaDBVZmI7XC5wksSX4Hb9yCpu
- yZGdCF22MgcTXZB5SYuggxYr6aJODzkijDkR7iB0f5jOha7zeM+hNoO2jg+gSdbbliKz
- vMuYaJcbYeHUv6ALWCqeGGYwxe8Ib0zgR5gkhDA4MCJPz77NbQ1ecITu2C3CrYhV2BgM
- 2I3aGk+XciHDmw8OuGt/KWYkhFsX4r+VBmn3xNCUFa7Xek+fS6qtCk80eGGvPnXl2zjg
- WGWQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=euJaN/gf4+eh8HEs7Y0AxRG4hxPSo1ZS1DUgn6b7SL8=;
+ b=uxs7mjyLDJPlzC1SMB1NsAN4AjZFqJecdwaXbvbY58lmcKhoNUuSwUCxzaSQW+INOR
+ HOVE/xby/QdhADWlOvZv0IGm8bcgzLAL9ONLecKOXwawuKihItXER8nXo9yM3OZIO/nL
+ +w8oqVwf+iQmuTLdubMGdHbaUQ5rwEJQj6fQMYkhvCl7my/INSdNvFBNbIcJvfzZCwy1
+ Y5TBrFNhPGIkzqYJQsPuaZ1ePMlNISVjzNrd5b++Q+RzN+NrpKVcl2tdQZ7kbvfrsSfw
+ M4sve7a55NdZlvOiBqHLg83/apAfpHMHwq7P1bbZwDCEeONKXP7kQq7Z55d5L/4pVt2G
+ fmPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=UEPkPNTZPjY3iFtK/yQQSSFXpy6Vn5YNcxLoyxOWu68=;
- b=OdMm+SeR+lflYmfs+g6QSimlVNV6mbeTffTfHKDZvVKlyqccU4jiSkLU2CmzH/sBKr
- oI9LryJfdw/bGjhRGuXnit9CShfLrSH3E6+ybPuDWQcrfHwwe8SF0utGy9LQL7iyq/MM
- 6Pml7Jzew22cDNZ+rRHMyiPp2ZZ721U7U73wLV2KrtNQnHZtFzNATIp2m+4QomhYJ3kM
- cLB99s48SfCVmrcKsjrhc4KEbin7DZOMW/DUMxFXKucrfUn6+caVevk5AaizyXghxgnZ
- IaBfOSP4IZfAn/2HB77Fbqbh2bjXLqse2IXeB6SykURG4jyePV+tRovqaHTlCmi8DXm5
- Kf6g==
-X-Gm-Message-State: AOAM532XQyT2Dh+GHkr6e8V+hueGIDB1PBaHqVNXfVUX0BUTJdoFOnzL
- ZM3BLPEnCZZbPVxfW+x5nWgrto39liE=
-X-Google-Smtp-Source: ABdhPJwMGlojI0NYyigI9+6SJH3B5wpIHCUVKCci2LOJ0pONdnlI1MGyieuV3zWlKUSs6j/7mdT0Dw==
-X-Received: by 2002:a1c:7918:: with SMTP id l24mr2208633wme.46.1598971262564; 
- Tue, 01 Sep 2020 07:41:02 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=euJaN/gf4+eh8HEs7Y0AxRG4hxPSo1ZS1DUgn6b7SL8=;
+ b=oq3df9gX8vqZz1IlD39MIKjRE7PjUn9xcF8maYONcVSzLo8RtTF7jWP7xuDCm0oVYE
+ 0ahmR89e9zsS/wW15Y5bZu/1aeRwjyFYLU+vrU0AF1//peC7mynGEuvdpp/KYn4ahdmo
+ O1uWKDO3V54Q6iHRXZvmQrIRxftCC095qRkXo2Ms7H6ideEpgR5tmdB71iBdNkCsD86S
+ 1rhHyTBvBAp4AQPbd14FP5k9bLm59L5RdmueU/2Lu+pS0ZE60lNVM/oNe+X0eG8eVoI5
+ +qUf5tAHnLdxerj4gX+l7ksv5gpZjXRZDGtLzGIaQtqfO3UlMqOZZSUdty14gnnTeXen
+ wnkg==
+X-Gm-Message-State: AOAM531a+TagHXSlEKD9vjAWY05HlHmCZiTM7t9VqZt1XHoCNJrxz9mI
+ 1ABlNBfQh9Gydi5WRBfoLRfTCWo/2w4=
+X-Google-Smtp-Source: ABdhPJy4Iqv7ig2e0CWczw1PiG+e5PfVlpB9y++O/kdFr9+NvuaTHnLAbE0fI7quwRodBFRb15HFhg==
+X-Received: by 2002:a1c:105:: with SMTP id 5mr2227939wmb.83.1598971264123;
+ Tue, 01 Sep 2020 07:41:04 -0700 (PDT)
 Received: from localhost.localdomain (50.red-83-52-54.dynamicip.rima-tde.net.
  [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id a82sm2213204wmc.45.2020.09.01.07.41.01
+ by smtp.gmail.com with ESMTPSA id a82sm2213204wmc.45.2020.09.01.07.41.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Sep 2020 07:41:01 -0700 (PDT)
+ Tue, 01 Sep 2020 07:41:03 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/4] hw/misc/a9scu: Verify CPU count is valid and simplify a
- bit
-Date: Tue,  1 Sep 2020 16:40:56 +0200
-Message-Id: <20200901144100.116742-1-f4bug@amsat.org>
+Subject: [PATCH 1/4] hw/misc/a9scu: Do not allow invalid CPU count
+Date: Tue,  1 Sep 2020 16:40:57 +0200
+Message-Id: <20200901144100.116742-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200901144100.116742-1-f4bug@amsat.org>
+References: <20200901144100.116742-1-f4bug@amsat.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -89,20 +91,73 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Trivial patches:
-- verify the A9 CPU count is in range,
-- simplify using MemoryRegionOps valid/impl,
-- log unimplemented registers.
+Per the datasheet (DDI0407 r2p0):
 
-Philippe Mathieu-Daudé (4):
-  hw/misc/a9scu: Do not allow invalid CPU count
-  hw/misc/a9scu: Simplify setting MemoryRegionOps::valid fields
-  hw/misc/a9scu: Simplify setting MemoryRegionOps::impl fields
-  hw/misc/a9scu: Report unimplemented accesses with qemu_log_mask(UNIMP)
+  "The SCU connects one to four Cortex-A9 processors to
+   the memory system through the AXI interfaces."
 
- hw/misc/a9scu.c | 59 +++++++++++++++++++++++--------------------------
- 1 file changed, 28 insertions(+), 31 deletions(-)
+Change the instance_init() handler to a device_realize()
+one so we can verify the property is in range, and return
+an error to the caller if not.
 
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/misc/a9scu.c | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
+
+diff --git a/hw/misc/a9scu.c b/hw/misc/a9scu.c
+index 324371a1c00..915f127761e 100644
+--- a/hw/misc/a9scu.c
++++ b/hw/misc/a9scu.c
+@@ -12,8 +12,11 @@
+ #include "hw/misc/a9scu.h"
+ #include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
++#include "qapi/error.h"
+ #include "qemu/module.h"
+ 
++#define A9_SCU_CPU_MAX  4
++
+ static uint64_t a9_scu_read(void *opaque, hwaddr offset,
+                             unsigned size)
+ {
+@@ -105,12 +108,17 @@ static void a9_scu_reset(DeviceState *dev)
+     s->control = 0;
+ }
+ 
+-static void a9_scu_init(Object *obj)
++static void a9_scu_realize(DeviceState *dev, Error **errp)
+ {
+-    A9SCUState *s = A9_SCU(obj);
+-    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
++    A9SCUState *s = A9_SCU(dev);
++    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+ 
+-    memory_region_init_io(&s->iomem, obj, &a9_scu_ops, s,
++    if (!s->num_cpu || s->num_cpu > A9_SCU_CPU_MAX) {
++        error_setg(errp, "Illegal CPU count: %u", s->num_cpu);
++        return;
++    }
++
++    memory_region_init_io(&s->iomem, OBJECT(s), &a9_scu_ops, s,
+                           "a9-scu", 0x100);
+     sysbus_init_mmio(sbd, &s->iomem);
+ }
+@@ -138,13 +146,13 @@ static void a9_scu_class_init(ObjectClass *klass, void *data)
+     device_class_set_props(dc, a9_scu_properties);
+     dc->vmsd = &vmstate_a9_scu;
+     dc->reset = a9_scu_reset;
++    dc->realize = a9_scu_realize;
+ }
+ 
+ static const TypeInfo a9_scu_info = {
+     .name          = TYPE_A9_SCU,
+     .parent        = TYPE_SYS_BUS_DEVICE,
+     .instance_size = sizeof(A9SCUState),
+-    .instance_init = a9_scu_init,
+     .class_init    = a9_scu_class_init,
+ };
+ 
 -- 
 2.26.2
 
