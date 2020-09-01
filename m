@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16C11258EBF
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 14:57:45 +0200 (CEST)
-Received: from localhost ([::1]:53950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C6AB258EC7
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 14:59:29 +0200 (CEST)
+Received: from localhost ([::1]:34090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD5r6-00014V-5G
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 08:57:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36086)
+	id 1kD5sm-0004VG-Kp
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 08:59:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kD5pW-0007wZ-0K
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:56:06 -0400
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:38416)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1kD5qQ-0001IV-SU; Tue, 01 Sep 2020 08:57:02 -0400
+Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:41864)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kD5pU-0002hh-E5
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:56:05 -0400
-Received: by mail-ej1-x644.google.com with SMTP id i22so1481417eja.5
- for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 05:56:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1J2vSdyTtg9FrxAIybA+DnjZDIQEV7Yg4BzOl495Qfs=;
- b=iJPso4QuzDt33drrZ5NiIOdAG4v9B7bIullyKKK1p4jH4sw2AsdQWIObYBCsG/upxO
- xFjMKsb9gc5Z4GCCaudoaEKpMWorsCDFgbugXb/sIqab/acqXMSgyIbbVMFOau0jCd1O
- 1W+IW4WQ75WJ/g8ByjDKGSElgYDjlwFTmVFcqzs0b9ZhWhK3H2Lhtjy4Y9VcaXMfvGNz
- GVvsV0hM+djRly6GA5iuXaA524eUYHzVPUg7n0N2/ZuIkRgovbM4T94QD1JNem9C/LWa
- sOpkTfxRy0VfNKzv4SYfQeyChvDawj397f2HmhTSfa8MMh2/5WU485QCV5b9N8AILacL
- 1e7Q==
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1kD5qP-0002mI-7Z; Tue, 01 Sep 2020 08:57:02 -0400
+Received: by mail-qk1-x741.google.com with SMTP id g72so766990qke.8;
+ Tue, 01 Sep 2020 05:56:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=rPSJXCdnCjZN031MOhXLn7MojgWPIyyf26HWbCzojXM=;
+ b=E/+hOrORxVytuOCfJt2Z1p8yBu98n5NvWpdrgWYvpzrQtpiXiEdAe5RdiNjuNqn7Np
+ tz9dUDDx0naGD9K9qKwRrUlQakiUu1/qhLHXPV/FWXNx4AkROXatDju1K2q1GiTXVH/i
+ QTFZ5iei2BobqQxuiSG1846AuCZYRQKOfuzOxmeqvYsGIrnGJ1rW80QeIwozYA90rFjy
+ IqhO4q1HGu1tT83JnMz74gSaXN/d2CcSi7Bky6ydX35vbS5zMuHvns/vmxN8kL2+rFOe
+ UepEPOC41vfM8Hk+2su/QbiOcsFy5vzzA5FVpcvYf9d/vUa/Mbb0tur6qKdRYlixTXRV
+ 9gMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1J2vSdyTtg9FrxAIybA+DnjZDIQEV7Yg4BzOl495Qfs=;
- b=Mgj3qJvJTxBE1Of8zEu7hPxPq+8PQsfuJXK+bTrxiZzujT3npO5EKRTmKfSX1oUfUf
- AAKBH1NKWNoVy6R9Rdz0533p0hKT1pbCE8asGuC14TwM/orydlJKWxWhz+gBiYeWynWM
- 9uU4GWTYlz9ZhMSsBQ74RR6l3rwQ5ftbd88wencbZJZGXtM5dI6yW2T9Zmg4jBr7T7k/
- o9JXJ9DdA3pApEHxFyxUEABJ99/qyN1L0V3zlRrc2tPqK8UR6UqweMCCxUsm0qc/3iKC
- PhoBHk7SNl+dFt2OmjwL0dWzjiVk65UhUkX5aOMzedOYMd9zzlC/MOEsLzJ00opYjlXk
- lokQ==
-X-Gm-Message-State: AOAM533r3KYw3zC61DHe5AyZAlyflyF/eNOoLsNLaSNPZOQnlzLNs1v3
- 0snsKB/zo9um/c36wYiNb6R7F6LM4GYeCs9XrqxQ8Q==
-X-Google-Smtp-Source: ABdhPJyXlw5PFJ8VAbXDek7Q7nQhf4tDnD3O8BqDiwh6/duKXPqq4bw7l5iCqyoWnrAN9ocVCpVrgPs4cIeJjelMGXc=
-X-Received: by 2002:a17:906:f28b:: with SMTP id
- gu11mr1275999ejb.407.1598964962965; 
- Tue, 01 Sep 2020 05:56:02 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=rPSJXCdnCjZN031MOhXLn7MojgWPIyyf26HWbCzojXM=;
+ b=LFzsT2oMlpQf24JTbkjRaHnnarL7WaH/N1Lw6w1yeHeKtXCn8fcCfec+fpcAMepauq
+ 1Q7JwCv2EY5e4FTarjAU9nvf/dpzUhU/ipVLuFJiewJVHA60usNPDlbKhA6ooJxm9qYe
+ 7RLadJYt4NOQ22TfYn+H7OXuakQkUF7rIbzmHrqyYoyN0AHLwM3prYsbgQNiMj7VgU24
+ sB7JvT/c9x8C5Byx3MIam28r3SxzM/lfgDmKOatPx1BbrEXhSLjL0W2S8n7pXZ8BnOef
+ oREOLBYCC4lxPYXLQVXIc5LNzqu921U2IzH9TBObz3OXxbdXaDSx1mQZlr5pDU3E9m60
+ cP4w==
+X-Gm-Message-State: AOAM532+h9yv1IrE3bdJcbxbS0cujORnORCesVdkQgqy/C7gM6x8V2xi
+ iFZKs456Hl7ahZrDhMmcCbDbRfBtqbSZ+Q==
+X-Google-Smtp-Source: ABdhPJzcSm67GpOXYeZNx5fVkC3vwNnRLHb2jeMTY+hwZjaVno30YCHnxDOwuA5790AW9voIgX//FQ==
+X-Received: by 2002:a05:620a:a0b:: with SMTP id
+ i11mr1787558qka.65.1598965017767; 
+ Tue, 01 Sep 2020 05:56:57 -0700 (PDT)
+Received: from rekt.ibmuc.com ([2804:431:c7c7:6be:f6e3:c671:cefe:b943])
+ by smtp.gmail.com with ESMTPSA id q7sm1430164qkf.35.2020.09.01.05.56.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Sep 2020 05:56:57 -0700 (PDT)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 2/7] ppc/spapr_nvdimm: turn spapr_dt_nvdimm() static
+Date: Tue,  1 Sep 2020 09:56:40 -0300
+Message-Id: <20200901125645.118026-3-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200901125645.118026-1-danielhb413@gmail.com>
+References: <20200901125645.118026-1-danielhb413@gmail.com>
 MIME-Version: 1.0
-References: <20200827142915.108730-1-stefanha@redhat.com>
- <20200827142915.108730-2-stefanha@redhat.com>
-In-Reply-To: <20200827142915.108730-2-stefanha@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 1 Sep 2020 13:55:51 +0100
-Message-ID: <CAFEAcA_Qg5pBMkw2HjNwhBBhKwW9=h-rXUOtxHjTzFmu2bHA5Q@mail.gmail.com>
-Subject: Re: [PATCH 1/4] tracetool: add output filename command-line argument
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x644.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::741;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x741.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -80,25 +84,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 27 Aug 2020 at 15:29, Stefan Hajnoczi <stefanha@redhat.com> wrote:
->
-> The tracetool.py script writes to stdout. This means the output filename
-> is not available to the script. Add the output filename to the
-> command-line so that the script has access to the filename.
->
-> This also simplifies the tracetool.py invocation. It's no longer
-> necessary to use meson's custom_build(capture : true) to save output.
->
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
+This function is only used inside spapr_nvdimm.c.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ hw/ppc/spapr_nvdimm.c         | 22 +++++++++++-----------
+ include/hw/ppc/spapr_nvdimm.h |  1 -
+ 2 files changed, 11 insertions(+), 12 deletions(-)
 
-thanks
--- PMM
+diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
+index 95cbc30528..5188e2f503 100644
+--- a/hw/ppc/spapr_nvdimm.c
++++ b/hw/ppc/spapr_nvdimm.c
+@@ -106,16 +106,6 @@ void spapr_add_nvdimm(DeviceState *dev, uint64_t slot, Error **errp)
+     }
+ }
+ 
+-int spapr_pmem_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
+-                           void *fdt, int *fdt_start_offset, Error **errp)
+-{
+-    NVDIMMDevice *nvdimm = NVDIMM(drc->dev);
+-
+-    *fdt_start_offset = spapr_dt_nvdimm(fdt, 0, nvdimm);
+-
+-    return 0;
+-}
+-
+ void spapr_create_nvdimm_dr_connectors(SpaprMachineState *spapr)
+ {
+     MachineState *machine = MACHINE(spapr);
+@@ -127,7 +117,7 @@ void spapr_create_nvdimm_dr_connectors(SpaprMachineState *spapr)
+ }
+ 
+ 
+-int spapr_dt_nvdimm(void *fdt, int parent_offset,
++static int spapr_dt_nvdimm(void *fdt, int parent_offset,
+                            NVDIMMDevice *nvdimm)
+ {
+     int child_offset;
+@@ -184,6 +174,16 @@ int spapr_dt_nvdimm(void *fdt, int parent_offset,
+     return child_offset;
+ }
+ 
++int spapr_pmem_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
++                           void *fdt, int *fdt_start_offset, Error **errp)
++{
++    NVDIMMDevice *nvdimm = NVDIMM(drc->dev);
++
++    *fdt_start_offset = spapr_dt_nvdimm(fdt, 0, nvdimm);
++
++    return 0;
++}
++
+ void spapr_dt_persistent_memory(void *fdt)
+ {
+     int offset = fdt_subnode_offset(fdt, 0, "persistent-memory");
+diff --git a/include/hw/ppc/spapr_nvdimm.h b/include/hw/ppc/spapr_nvdimm.h
+index fd1736634c..10a6d9dbbc 100644
+--- a/include/hw/ppc/spapr_nvdimm.h
++++ b/include/hw/ppc/spapr_nvdimm.h
+@@ -27,7 +27,6 @@ QEMU_BUILD_BUG_ON(SPAPR_MINIMUM_SCM_BLOCK_SIZE % SPAPR_MEMORY_BLOCK_SIZE);
+ 
+ int spapr_pmem_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
+                            void *fdt, int *fdt_start_offset, Error **errp);
+-int spapr_dt_nvdimm(void *fdt, int parent_offset, NVDIMMDevice *nvdimm);
+ void spapr_dt_persistent_memory(void *fdt);
+ void spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
+                            uint64_t size, Error **errp);
+-- 
+2.26.2
+
 
