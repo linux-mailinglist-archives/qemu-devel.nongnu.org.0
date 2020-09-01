@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 257472591FA
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:59:20 +0200 (CEST)
-Received: from localhost ([::1]:47332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9089E259196
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:53:16 +0200 (CEST)
+Received: from localhost ([::1]:41762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD7kl-0007H4-4q
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:59:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34290)
+	id 1kD7et-0001Jv-JZ
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:53:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kD7Nb-0000Ze-A0
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:35:24 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43355
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kD7Nf-0000b4-Mf
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:35:29 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60183
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kD7NZ-0007D2-7r
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:35:23 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kD7Ne-0007GT-12
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:35:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598970920;
+ s=mimecast20190719; t=1598970924;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7fK+xuHGvbMdfO2Xqz+6EIV+hLwxBQT3FZX02s6iu1w=;
- b=dKHSDXegj2iVRfU1gYBUAXOkrgF/DDKdk1ZSFo9vdLjTar8ZCZQ/ljImqHcHjOqyP0IBNy
- k+h1lkb991teDvctdKEToxkR9yJfaoMu/+cCaNSDRH4ad4T07KGICxluBWsyRsTihVK+W2
- gyKDLY7eTacS3yCC/ZKBPha3OlH7qtQ=
+ bh=KXt2MFYa9yWzNA3K/qT6CdMrIi9tO+WUhUeDU0tW060=;
+ b=dnDpjFLZfRwo9xaLriE8y55D3UsFwq2PF4NkGCJr7k4jEA2tRvrDvesYfGi7vAqNGR8LZh
+ UmrLF3Dp4M8GGSqpI6q7bGPps6jSajmMkDaO46yFAxjoNNY5ho3t7ZStcsD/8XCkhineaE
+ GB/pdy/4WFkTFVsULt93J8FpXN37jIQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-11-k9H4yp8dOrG6bZxBEs_5FQ-1; Tue, 01 Sep 2020 10:35:16 -0400
-X-MC-Unique: k9H4yp8dOrG6bZxBEs_5FQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-153-BRog0jc7Nziz-761eNyPiw-1; Tue, 01 Sep 2020 10:35:21 -0400
+X-MC-Unique: BRog0jc7Nziz-761eNyPiw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F68C801AB7;
- Tue,  1 Sep 2020 14:35:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 208FC8015A8;
+ Tue,  1 Sep 2020 14:35:20 +0000 (UTC)
 Received: from localhost (ovpn-113-83.ams2.redhat.com [10.36.113.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 16ED878B59;
- Tue,  1 Sep 2020 14:35:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B87521002D4E;
+ Tue,  1 Sep 2020 14:35:19 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v8 21/43] block/snapshot: Fix fallback
-Date: Tue,  1 Sep 2020 16:34:02 +0200
-Message-Id: <20200901143424.884735-22-mreitz@redhat.com>
+Subject: [PATCH v8 23/43] block: Improve get_allocated_file_size's default
+Date: Tue,  1 Sep 2020 16:34:04 +0200
+Message-Id: <20200901143424.884735-24-mreitz@redhat.com>
 In-Reply-To: <20200901143424.884735-1-mreitz@redhat.com>
 References: <20200901143424.884735-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 02:08:15
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 00:57:59
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -86,217 +86,87 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the top node's driver does not provide snapshot functionality and we
-want to fall back to a node down the chain, we need to snapshot all
-non-COW children.  For simplicity's sake, just do not fall back if there
-is more than one such child.  Furthermore, we really only can fall back
-to bs->file and bs->backing, because bdrv_snapshot_goto() has to modify
-the child link (notably, set it to NULL).
+There are two practical problems with bdrv_get_allocated_file_size()'s
+default right now:
+(1) For drivers with children, we should generally sum all their sizes
+    instead of just passing the request through to bs->file.  The latter
+    is good for filters, but not so much for format drivers.
 
-Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+(2) Filters need not have bs->file, so we should actually go to the
+    filtered child instead of hard-coding bs->file.
+
+Fix this by splitting the default implementation into three branches:
+(1) For filter drivers: Return the size of the filtered child
+(2) For protocol drivers: Return -ENOTSUP, because the default
+    implementation cannot make a guess
+(3) For other drivers: Sum all data-bearing children's sizes
+
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/snapshot.c | 104 +++++++++++++++++++++++++++++++++++++----------
- 1 file changed, 83 insertions(+), 21 deletions(-)
+ block.c | 42 +++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 39 insertions(+), 3 deletions(-)
 
-diff --git a/block/snapshot.c b/block/snapshot.c
-index bd9fb01817..a2bf3a54eb 100644
---- a/block/snapshot.c
-+++ b/block/snapshot.c
-@@ -147,6 +147,56 @@ bool bdrv_snapshot_find_by_id_and_name(BlockDriverState *bs,
+diff --git a/block.c b/block.c
+index ac4ab07f07..63c7d9b1a7 100644
+--- a/block.c
++++ b/block.c
+@@ -5005,6 +5005,31 @@ exit:
      return ret;
  }
  
 +/**
-+ * Return a pointer to the child BDS pointer to which we can fall
-+ * back if the given BDS does not support snapshots.
-+ * Return NULL if there is no BDS to (safely) fall back to.
-+ *
-+ * We need to return an indirect pointer because bdrv_snapshot_goto()
-+ * has to modify the BdrvChild pointer.
++ * Implementation of BlockDriver.bdrv_get_allocated_file_size() that
++ * sums the size of all data-bearing children.  (This excludes backing
++ * children.)
 + */
-+static BdrvChild **bdrv_snapshot_fallback_ptr(BlockDriverState *bs)
++static int64_t bdrv_sum_allocated_file_size(BlockDriverState *bs)
 +{
-+    BdrvChild **fallback;
 +    BdrvChild *child;
++    int64_t child_size, sum = 0;
 +
-+    /*
-+     * The only BdrvChild pointers that are safe to modify (and which
-+     * we can thus return a reference to) are bs->file and
-+     * bs->backing.
-+     */
-+    fallback = &bs->file;
-+    if (!*fallback && bs->drv && bs->drv->is_filter) {
-+        fallback = &bs->backing;
-+    }
-+
-+    if (!*fallback) {
-+        return NULL;
-+    }
-+
-+    /*
-+     * Check that there are no other children that would need to be
-+     * snapshotted.  If there are, it is not safe to fall back to
-+     * *fallback.
-+     */
 +    QLIST_FOREACH(child, &bs->children, next) {
 +        if (child->role & (BDRV_CHILD_DATA | BDRV_CHILD_METADATA |
-+                           BDRV_CHILD_FILTERED) &&
-+            child != *fallback)
++                           BDRV_CHILD_FILTERED))
 +        {
-+            return NULL;
++            child_size = bdrv_get_allocated_file_size(child->bs);
++            if (child_size < 0) {
++                return child_size;
++            }
++            sum += child_size;
 +        }
 +    }
 +
-+    return fallback;
++    return sum;
 +}
 +
-+static BlockDriverState *bdrv_snapshot_fallback(BlockDriverState *bs)
-+{
-+    BdrvChild **child_ptr = bdrv_snapshot_fallback_ptr(bs);
-+    return child_ptr ? (*child_ptr)->bs : NULL;
-+}
-+
- int bdrv_can_snapshot(BlockDriverState *bs)
- {
-     BlockDriver *drv = bs->drv;
-@@ -155,8 +205,9 @@ int bdrv_can_snapshot(BlockDriverState *bs)
-     }
- 
-     if (!drv->bdrv_snapshot_create) {
--        if (bs->file != NULL) {
--            return bdrv_can_snapshot(bs->file->bs);
-+        BlockDriverState *fallback_bs = bdrv_snapshot_fallback(bs);
-+        if (fallback_bs) {
-+            return bdrv_can_snapshot(fallback_bs);
-         }
-         return 0;
-     }
-@@ -168,14 +219,15 @@ int bdrv_snapshot_create(BlockDriverState *bs,
-                          QEMUSnapshotInfo *sn_info)
- {
-     BlockDriver *drv = bs->drv;
-+    BlockDriverState *fallback_bs = bdrv_snapshot_fallback(bs);
-     if (!drv) {
-         return -ENOMEDIUM;
-     }
-     if (drv->bdrv_snapshot_create) {
-         return drv->bdrv_snapshot_create(bs, sn_info);
+ /**
+  * Length of a allocated file in bytes. Sparse files are counted by actual
+  * allocated space. Return < 0 if error or unknown.
+@@ -5018,10 +5043,21 @@ int64_t bdrv_get_allocated_file_size(BlockDriverState *bs)
+     if (drv->bdrv_get_allocated_file_size) {
+         return drv->bdrv_get_allocated_file_size(bs);
      }
 -    if (bs->file) {
--        return bdrv_snapshot_create(bs->file->bs, sn_info);
-+    if (fallback_bs) {
-+        return bdrv_snapshot_create(fallback_bs, sn_info);
+-        return bdrv_get_allocated_file_size(bs->file->bs);
++
++    if (drv->bdrv_file_open) {
++        /*
++         * Protocol drivers default to -ENOTSUP (most of their data is
++         * not stored in any of their children (if they even have any),
++         * so there is no generic way to figure it out).
++         */
++        return -ENOTSUP;
++    } else if (drv->is_filter) {
++        /* Filter drivers default to the size of their filtered child */
++        return bdrv_get_allocated_file_size(bdrv_filter_bs(bs));
++    } else {
++        /* Other drivers default to summing their children's sizes */
++        return bdrv_sum_allocated_file_size(bs);
      }
-     return -ENOTSUP;
+-    return -ENOTSUP;
  }
-@@ -185,6 +237,7 @@ int bdrv_snapshot_goto(BlockDriverState *bs,
-                        Error **errp)
- {
-     BlockDriver *drv = bs->drv;
-+    BdrvChild **fallback_ptr;
-     int ret, open_ret;
  
-     if (!drv) {
-@@ -205,39 +258,46 @@ int bdrv_snapshot_goto(BlockDriverState *bs,
-         return ret;
-     }
- 
--    if (bs->file) {
--        BlockDriverState *file;
--        QDict *options = qdict_clone_shallow(bs->options);
-+    fallback_ptr = bdrv_snapshot_fallback_ptr(bs);
-+    if (fallback_ptr) {
-+        QDict *options;
-         QDict *file_options;
-         Error *local_err = NULL;
-+        BlockDriverState *fallback_bs = (*fallback_ptr)->bs;
-+        char *subqdict_prefix = g_strdup_printf("%s.", (*fallback_ptr)->name);
-+
-+        options = qdict_clone_shallow(bs->options);
- 
--        file = bs->file->bs;
-         /* Prevent it from getting deleted when detached from bs */
--        bdrv_ref(file);
-+        bdrv_ref(fallback_bs);
- 
--        qdict_extract_subqdict(options, &file_options, "file.");
-+        qdict_extract_subqdict(options, &file_options, subqdict_prefix);
-         qobject_unref(file_options);
--        qdict_put_str(options, "file", bdrv_get_node_name(file));
-+        g_free(subqdict_prefix);
-+
-+        qdict_put_str(options, (*fallback_ptr)->name,
-+                      bdrv_get_node_name(fallback_bs));
- 
-         if (drv->bdrv_close) {
-             drv->bdrv_close(bs);
-         }
--        bdrv_unref_child(bs, bs->file);
--        bs->file = NULL;
- 
--        ret = bdrv_snapshot_goto(file, snapshot_id, errp);
-+        bdrv_unref_child(bs, *fallback_ptr);
-+        *fallback_ptr = NULL;
-+
-+        ret = bdrv_snapshot_goto(fallback_bs, snapshot_id, errp);
-         open_ret = drv->bdrv_open(bs, options, bs->open_flags, &local_err);
-         qobject_unref(options);
-         if (open_ret < 0) {
--            bdrv_unref(file);
-+            bdrv_unref(fallback_bs);
-             bs->drv = NULL;
-             /* A bdrv_snapshot_goto() error takes precedence */
-             error_propagate(errp, local_err);
-             return ret < 0 ? ret : open_ret;
-         }
- 
--        assert(bs->file->bs == file);
--        bdrv_unref(file);
-+        assert(fallback_bs == (*fallback_ptr)->bs);
-+        bdrv_unref(fallback_bs);
-         return ret;
-     }
- 
-@@ -273,6 +333,7 @@ int bdrv_snapshot_delete(BlockDriverState *bs,
-                          Error **errp)
- {
-     BlockDriver *drv = bs->drv;
-+    BlockDriverState *fallback_bs = bdrv_snapshot_fallback(bs);
-     int ret;
- 
-     if (!drv) {
-@@ -289,8 +350,8 @@ int bdrv_snapshot_delete(BlockDriverState *bs,
- 
-     if (drv->bdrv_snapshot_delete) {
-         ret = drv->bdrv_snapshot_delete(bs, snapshot_id, name, errp);
--    } else if (bs->file) {
--        ret = bdrv_snapshot_delete(bs->file->bs, snapshot_id, name, errp);
-+    } else if (fallback_bs) {
-+        ret = bdrv_snapshot_delete(fallback_bs, snapshot_id, name, errp);
-     } else {
-         error_setg(errp, "Block format '%s' used by device '%s' "
-                    "does not support internal snapshot deletion",
-@@ -306,14 +367,15 @@ int bdrv_snapshot_list(BlockDriverState *bs,
-                        QEMUSnapshotInfo **psn_info)
- {
-     BlockDriver *drv = bs->drv;
-+    BlockDriverState *fallback_bs = bdrv_snapshot_fallback(bs);
-     if (!drv) {
-         return -ENOMEDIUM;
-     }
-     if (drv->bdrv_snapshot_list) {
-         return drv->bdrv_snapshot_list(bs, psn_info);
-     }
--    if (bs->file) {
--        return bdrv_snapshot_list(bs->file->bs, psn_info);
-+    if (fallback_bs) {
-+        return bdrv_snapshot_list(fallback_bs, psn_info);
-     }
-     return -ENOTSUP;
- }
+ /*
 -- 
 2.26.2
 
