@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E650A258C50
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 12:06:01 +0200 (CEST)
-Received: from localhost ([::1]:45386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65B29258C5B
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 12:08:08 +0200 (CEST)
+Received: from localhost ([::1]:56592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD3Au-00009Q-WF
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 06:06:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47048)
+	id 1kD3Cx-0004jI-F8
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 06:08:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD39v-0007J0-MT; Tue, 01 Sep 2020 06:04:59 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:38165)
+ id 1kD3Ai-0000oA-IH; Tue, 01 Sep 2020 06:05:48 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:40307)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD39t-0005AM-MT; Tue, 01 Sep 2020 06:04:59 -0400
+ id 1kD3Ag-0005Lv-Nz; Tue, 01 Sep 2020 06:05:48 -0400
 Received: from [192.168.100.1] ([82.252.135.186]) by mrelayeu.kundenserver.de
  (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1Mzz2e-1kXaJq2ynO-00x34Z; Tue, 01 Sep 2020 12:04:48 +0200
-Subject: Re: [PATCH v3 08/10] usb/bus: Remove dead assignment in
- usb_get_fw_dev_path()
+ 1MtwMc-1kRXe747zA-00uH80; Tue, 01 Sep 2020 12:05:36 +0200
+Subject: Re: [PATCH v3 09/10] hw/intc: fix default registers value in
+ exynos4210_combiner_read()
 To: Chen Qun <kuhn.chenqun@huawei.com>, qemu-devel@nongnu.org,
  qemu-trivial@nongnu.org
 References: <20200827110311.164316-1-kuhn.chenqun@huawei.com>
- <20200827110311.164316-9-kuhn.chenqun@huawei.com>
+ <20200827110311.164316-10-kuhn.chenqun@huawei.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -69,35 +69,35 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <febed4c6-9fe1-6c7f-da3f-8437656b1132@vivier.eu>
-Date: Tue, 1 Sep 2020 12:04:47 +0200
+Message-ID: <07116f8e-8fd5-9c03-7c0c-d625a1915fbd@vivier.eu>
+Date: Tue, 1 Sep 2020 12:05:34 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200827110311.164316-9-kuhn.chenqun@huawei.com>
+In-Reply-To: <20200827110311.164316-10-kuhn.chenqun@huawei.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:iM9bShvqYoETd0r64PiicV8OqiiQOb6NzRVQYhSUHLzLH8or8Hr
- C43SOoRNvFfSpZbdkL04IevsPfRkHvBdaLFvYGPjB0pH6hUGQggbUWfWydpeSEnyIN36I5a
- XZZfHjyiMOFQfCE3TLP8hy3RNJ0/94RJjZqJlQTilh4hfGv1jgIUDn1glDa3JhusicLCk/Z
- Nb1BNZtrzanLFi4LblqrQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:904L66kZorw=:gpjpUEqQ+Kl8U7TGklpoc/
- 6rLkMcOiI7jQKBNN1NaLktYQ1xZOCv65n7qBinb3eC/CFMNRrFIIH1syNb89xHHR2nBWYWfCO
- trTKpGtWyhtFGAP1bdkEZtAaywQ1AaErVOawVMQhrLyXZEM69GYDqO3xFgUtiIbZPz5VB6rX/
- 5Gh0ONe9rQc+ZsoV00br260hMtj8aWPg6T60/Bpo3UjivhIfNJfQ2HxehkCh6x3CyewX1oouu
- aVOIa55TdD/hLckTk4oDYOSrOiQGHAGHsw9Q0NNKlSslcLMp7ll8SIfgoSD5C2OwXUZyUHcdm
- 4gcAog/z0qtKS625lB+f/zUzH7X09vv2+1E8tko3lWPghKN+MeRgF3JV37w7+hmiPK2MnBeEP
- yRX8gtVjVwGd/9xfZ9G21Cj0M+VLPwL/gb2EX4XaXBKKRFiMtuXX0b8kpcstOPiiaS12gdtzh
- Ycmq+pIAq5qFKrpLuvf9n/RvL1EHI/WrFYTmNBhrK8aDzGQB/Gg6jMniaUe4ec9ymi4frE2O7
- 4N4LVBc/Uf/U7NxpvsgI6v+xA0vThPyAjQlKW1Gib+JYwO60DHQ6UfM93HHFNcb/CtNEkMM2E
- 5OvfT0PBxaLUogSvdpz37uRjVz95RhaA9WE5OdAy0iUNQDwohy0pTlQXEHxwwEASNVY9i0m9a
- SRExnkRfhmQDAzcRo3elCQSZ7Ifv7A5m9+QbdilfF0ABuUU+qzbaX+o3LsoBtCvXBhBIdjhZ/
- NXwiqhUygxVcRIM2lZ7T4x4jW9gxQYK+0kZdV3RZyTOsUE5JANBBYb2sF+1b7M7FbdjU3H7OE
- DBR+1EkQ3hY2P17xRJ4Yh6Jn8DtALccZ8lO1uM54RBxjIDTAt7GYjWL5+1gDU2Aw6y71mxw
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:5Dx/TNONSq/s4YCc+EIpdo6Wg579egnQ1CMeorCrN7Lmpu3/vQ4
+ Mg9HTZMdzzoaAr06slL+oF3Ch3AgYRyNpDy+b2oqsPZ1U3UK/6Rlkik3fX34f5ONa/QGpAJ
+ MlmY0Fdii1khAI7IeK5QHGpguu1qeLOnGbTAafy1mXiRp50mrgaUNUSYOqbkoyujxycV5AJ
+ tu/DanlTQN9cRKNgvrvRg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:/Q8Qzdwv1QE=:WVWCEdLKGjgQBvqq+9jiIT
+ ANijTeG6sF2pMEsmjJ3oc/yPQtw7Vi7NxfkFarHD8vhkRVfl+Y1CMClZazgm2XFFb5P04gQFU
+ +rLO2hL2PxQ92bekXnjeQi2Oqz3CFShteaSlKYcZ/huR7KDrLipfiG7EeS4MB5D2Id+qUiugL
+ 6N1+aQtSP+ulXSXy5Sm34HVOhSQyjHvPnJltP9e+Kay7djyRHIA4jA3mT7CJkB8yVdcKGaiLc
+ rue94KaxWEMpFyyc/QxGEsxptN4FoAE1KoeEa0cIE4Cvz0IyFjcgxwXs07R5j41AaBhUbSAYI
+ CjnkBjc99qnu5tYSXr+G2B9rn2BnhP/wax7vyWzNmw4t3hWZe9F6CaMoN9BIgHnBAMe+T0Un5
+ f+GT0F9AF80J7B7A5xY6H5Xd04W/89CyyAWW1ULq0qPlNvgDqPiUWMCbciVMTcaPwfc1oznZ2
+ 9HpTmjw6LzHqAsh6Hz4zXDqj/yxB+dbZZ6vtxr64Z7QrsnIotIKd1puaXpWXS1yOui57Uh5VZ
+ EFWnuWeXOxjYJY8qyJCZ1VEqQFLYS4sJpCYTAyCcb99Gt0+plV7VZchGIsB7mutpQcd7dbY6p
+ O7yZPDHI1zJImqXIB/3LElC/OTFGYUmFBFQuQiT1uNJYRQ+NLrcAAPipzPNh4DGbe836Y6DVz
+ tXhxpK3HeMlJPLZA0iyOfl4AOxHJtZgW4/MfHe7vxuJ0bATNv97ooyiBRnoTAyL7fivRG7c4O
+ u2U6QoDdBJQmlaJE5po39LqURH1+k3WHiaWovtGRCs6URQ2D7Hf1K6hUMV+gpI6TLVsNndxxR
+ mapRCe4KnUtdJXaYM8tl+uYla0uNuj4tp8Wai/lxS2ULXL5IoxCsadlypLnZ+BHQWZz7v9V
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 02:34:36
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 05:06:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -39
 X-Spam_score: -4.0
@@ -117,44 +117,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Euler Robot <euler.robot@huawei.com>,
- pannengyuan@huawei.com, zhang.zhanghailiang@huawei.com,
- Markus Armbruster <armbru@redhat.com>
+Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>, pannengyuan@huawei.com,
+ zhang.zhanghailiang@huawei.com, Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 27/08/2020 à 13:03, Chen Qun a écrit :
 > Clang static code analyzer show warning:
-> qemu/hw/usb/bus.c:615:13: warning: Value stored to 'pos' is never read
->             pos += snprintf(fw_path + pos, fw_len - pos, "%s@%lx",
+> hw/intc/exynos4210_combiner.c:231:9: warning: Value stored to 'val' is never read
+>         val = s->reg_set[offset >> 2];
+> 
+> The default register return value should be return 'val'.
 > 
 > Reported-by: Euler Robot <euler.robot@huawei.com>
 > Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
 > ---
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Markus Armbruster <armbru@redhat.com>
+> Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
 > 
-> v2->v3: The format of the snprintf statement is modified(Base on Markus review).
+> v2->v3: Change default register return value from '0' to 'val = s->reg_set[offset >> 2]'.
 > ---
->  hw/usb/bus.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  hw/intc/exynos4210_combiner.c | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> diff --git a/hw/usb/bus.c b/hw/usb/bus.c
-> index b17bda3b29..2b11041451 100644
-> --- a/hw/usb/bus.c
-> +++ b/hw/usb/bus.c
-> @@ -612,8 +612,8 @@ static char *usb_get_fw_dev_path(DeviceState *qdev)
->              in++;
->          } else {
->              /* the device itself */
-> -            pos += snprintf(fw_path + pos, fw_len - pos, "%s@%lx",
-> -                            qdev_fw_name(qdev), nr);
-> +            snprintf(fw_path + pos, fw_len - pos, "%s@%lx",
-> +                     qdev_fw_name(qdev), nr);
->              break;
+> diff --git a/hw/intc/exynos4210_combiner.c b/hw/intc/exynos4210_combiner.c
+> index b8561e4180..59dd27fb16 100644
+> --- a/hw/intc/exynos4210_combiner.c
+> +++ b/hw/intc/exynos4210_combiner.c
+> @@ -229,7 +229,6 @@ exynos4210_combiner_read(void *opaque, hwaddr offset, unsigned size)
+>                      TARGET_FMT_plx "offset\n", offset);
 >          }
+>          val = s->reg_set[offset >> 2];
+> -        return 0;
 >      }
+>      return val;
+>  }
 > 
 
 Applied to my trivial-patches branch.
