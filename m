@@ -2,73 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6C23259E12
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 20:26:02 +0200 (CEST)
-Received: from localhost ([::1]:54078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01956259E20
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 20:34:45 +0200 (CEST)
+Received: from localhost ([::1]:36148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDAyo-0004O0-0D
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 14:26:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45190)
+	id 1kDB7D-0000yZ-IY
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 14:34:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lekiravi@yandex-team.ru>)
- id 1kDAwm-0002ZU-IZ
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 14:23:56 -0400
-Received: from forwardcorp1p.mail.yandex.net
- ([2a02:6b8:0:1472:2741:0:8b6:217]:47974)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kDB5x-0000WB-Sy
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 14:33:26 -0400
+Received: from mail-mw2nam10on2126.outbound.protection.outlook.com
+ ([40.107.94.126]:46072 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lekiravi@yandex-team.ru>)
- id 1kDAwk-0006ii-3m
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 14:23:56 -0400
-Received: from sas1-ec30c78b6c5b.qloud-c.yandex.net
- (sas1-ec30c78b6c5b.qloud-c.yandex.net
- [IPv6:2a02:6b8:c14:2704:0:640:ec30:c78b])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id A1B022E0EBF;
- Tue,  1 Sep 2020 21:23:50 +0300 (MSK)
-Received: from sas1-58a37b48fb94.qloud-c.yandex.net
- (sas1-58a37b48fb94.qloud-c.yandex.net [2a02:6b8:c08:1d1b:0:640:58a3:7b48])
- by sas1-ec30c78b6c5b.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- Ht6j1e5fiZ-NmQanTad; Tue, 01 Sep 2020 21:23:50 +0300
-Precedence: bulk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1598984630; bh=6jEzuO71aC+APzpktUBoITSzJmpA+Z6I6rKaMr9jB6A=;
- h=In-Reply-To:Message-Id:References:Date:Subject:To:From:Cc;
- b=Oxhj9k3AaxTR0x+GF8XxWP80j1E+MqY9tlaJPk0hQaMmBxrqOnfzUw97VfUjhMtQ/
- e+9QawQEHQ7irSSWkcc2p3zSmfJwLRjyJPp9KoXTMlBjWJVyAh5LVGHd5oFu4CrgkU
- KcfKcDygiw9zbQ6ILGeaATAfPmfrQawvumZ51oZQ=
-Authentication-Results: sas1-ec30c78b6c5b.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
- [2a02:6b8:b080:8026::1:2])
- by sas1-58a37b48fb94.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- kKjd0SHRPh-Nllu9HNx; Tue, 01 Sep 2020 21:23:48 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-From: Alexey Kirillov <lekiravi@yandex-team.ru>
-To: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Jason Wang <jasowang@redhat.com>
-Subject: [PATCH v3 4/4] net: Do not use legacy info_str for backends
-Date: Tue,  1 Sep 2020 21:23:26 +0300
-Message-Id: <20200901182326.59633-5-lekiravi@yandex-team.ru>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200901182326.59633-1-lekiravi@yandex-team.ru>
-References: <20200901182326.59633-1-lekiravi@yandex-team.ru>
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kDB5v-0007zX-TN
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 14:33:25 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gYiyYo5MWy096PXGratcxe0Pu+fecLQ8U60wP9Iz26W9Z33DOyVz2ExB+bm/dIOMmH+mvF6JZ5lnsitIkgaZDFeA6ldiKu2tNTCXAUAlHCpLBmixMko3w32wMBqA7EjlUOUmIhwUOAoQU0DctggGp8xrhu/mZaz5BPMPcEgI1mNVdZvRBkg18kSr2agApv0SlTcxUMFDb1KtarVTsMw/zqs8g7klWHAufRlKjB+gKbAmz79QUP9pxArsIox4HL/3zoi9g86IylKT4LiXMtT99dn4NtfUCa1bthKFp+g/YlWiCJWRhuy2oZwOI4lhd3WZQA6BfxNIOuoceBWFlKc3Zw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HKYCJPDuuNmjcoHzOd9k1+4sks/ENLm2Q7530ECIkEQ=;
+ b=Lky9NTpS+0l7phBV+uR1w0HL8VFM5nbBshB9NPksdNlmzVhKqxeJ/RTHe9xReGYNDvce3kExZp5kYO4aE3k4vVxsQnlTYn2AZXSGAlmYakT9in9xXWfaz+B8K0WFhaWXBPkkvTJnFqsGW75n0I9Fm6Qh2tyhIZtB2hksChhaHFhZzGS2Fjg1OX5btRlkavnIwfw1HgpwvMsEphp7wYOMuSD6ZbDo5pI70rsG+n0qHbH3h6bIwQkghWzYACuTOr+F5ZVNJYoWedFW5yz9tiTogi+KBKaSbBMKoesFRIZ9NVQyBA9tOVt8wgTmeTXO+WUdmCyvK4uSVpJ6stuAhkstrw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
+ header.d=bu.edu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HKYCJPDuuNmjcoHzOd9k1+4sks/ENLm2Q7530ECIkEQ=;
+ b=Gur/KMphJzm2mA9ESkwFPe/TqkWU26Iw/EgbkMTfWzi81KB4d/gNL0SmEZiTYp9tjN/8dlEp9KeXtqFqBTP67nkgauZyTLHLJlAiPK1TStJUOImGbyGIijCMvtsZ+hopTggYweCNo6IZUqia1Juqaw8azayvwmbS+Okr3VEKSRw=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
+ by SN6PR03MB3983.namprd03.prod.outlook.com (2603:10b6:805:6a::29)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.23; Tue, 1 Sep
+ 2020 18:18:17 +0000
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::61ae:93a8:b26c:77b8]) by SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::61ae:93a8:b26c:77b8%4]) with mapi id 15.20.3326.025; Tue, 1 Sep 2020
+ 18:18:17 +0000
+From: Alexander Bulekov <alxndr@bu.edu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] fuzz: Add support for custom fuzzing library
+Date: Tue,  1 Sep 2020 14:18:00 -0400
+Message-Id: <20200901181800.326382-1-alxndr@bu.edu>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <9dfe703d-5c78-36d0-bc15-17ff6f9179d7@redhat.com>
+References: <9dfe703d-5c78-36d0-bc15-17ff6f9179d7@redhat.com>
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
- envelope-from=lekiravi@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 14:23:51
-X-ACL-Warn: Detected OS   = ???
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-ClientProxiedBy: MN2PR10CA0016.namprd10.prod.outlook.com
+ (2603:10b6:208:120::29) To SN6PR03MB3871.namprd03.prod.outlook.com
+ (2603:10b6:805:6d::32)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from 255.255.255.255 (255.255.255.255) by
+ MN2PR10CA0016.namprd10.prod.outlook.com (2603:10b6:208:120::29) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.19 via Frontend
+ Transport; Tue, 1 Sep 2020 18:18:16 +0000
+X-Mailer: git-send-email 2.28.0
+X-Originating-IP: [72.93.72.163]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f46034aa-2779-4d9a-0922-08d84ea365e9
+X-MS-TrafficTypeDiagnostic: SN6PR03MB3983:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN6PR03MB3983AF254A75166997ADAF26BA2E0@SN6PR03MB3983.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: fJ+/v6PAjEP5vUfYQZNezmelSiHIU68pvMZRTqFSSmBrRjfpSizVDimavTyBthz8K7ehNOSEovMv0EEIjFEcOUmFJYKP4t0DsYdi7JzKIWvyMWsC9LXlA0QRmNspUiySm/unAJKq5psYNIaiyh9mgofILy2yxkF2rQC/2o8JJdd+fAvYAlOKwShUZKmE8yzhJ+PNsZV4/yWV3mMcX0yzzYsVe3HPiS6bVZSiTUH9i7zqNuOD9KY0zOcJ5wjV8waX0goPRP2NGR/GpEmIrBAmhMtYwVYg4XFKZaELNp/wl/ASGHfxacfelZG64xtTlxf72D0V9RMCkRF/F3bEmXiZvbBb4jDSHaeC8kdv2ZcJZeCkhBFxH++l8m2aLfGC+04O
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(136003)(396003)(39860400002)(376002)(346002)(316002)(6916009)(16576012)(36756003)(1076003)(8936002)(478600001)(75432002)(8676002)(54906003)(5660300002)(83380400001)(86362001)(26005)(66476007)(66556008)(786003)(66946007)(6486002)(956004)(2616005)(6666004)(4326008)(52116002)(186003)(2906002)(21314003);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: tX1DwKkLc/bgd8lEgoTCUCAT1Tz8n/c8I26NbVFujW6ZvPai+bKwbW1LAvp+Ij4DWNNMLggfv0TwvQi/R9Z9GkE1KL+AUQP5tjEVnJ/GMcAoKEMPpZGHVaeUp9zuAs4ywMUtFdw/vvsoWsKrYsRfFKHhJqIB2+i3IHx1rAyZT0MHlD2SW2TE0BUBNTudKsirW2HDOjal2U8XDuwXWt7hJLLiw/+woetwPCpbHrb7aXqtU7sKucpISWotm+UQN3MNmVq35Ix/K1Q7PkwK4HvKgFOl77fchmb27+ih0r/axNrja6MVEWAVMxka8kswxMDCJmKR4drBAtC+s5NEjoLAKyp3iu7VAcK5V6ZpsulZzC50V0U5JjueDsa9pIRK7KbSSfHJQURV+AVBM7nIl+1+2zXWGcJmrz/PrNYcsXPMqIIH9Q9kVrrNwp1cLJVyxWu+WCdNROiG+l+T7pahFAk7QBMrfu5UKQdPgmKiaexiwdoVLWcxtN6ktK4AqEhSM2qThH1RIv675BUyUy262yCU/gmVQ3bZw8In8N/6iFaV6JgElFr9n+0CdC5sp3m0vcxXoZeaA+60vpaiYcnRgrdnG1agoJxnw0UG3v4Lvxb+ajmQLn1oVGf+OordhgHb1k1cdQf3tjYqMlJGAvEaUyNZ4A==
+X-OriginatorOrg: bu.edu
+X-MS-Exchange-CrossTenant-Network-Message-Id: f46034aa-2779-4d9a-0922-08d84ea365e9
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2020 18:18:17.3839 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: k+62OU5BK6T2SaMJuVa5bxsxFh14GXLqqki60mwHoBWgmo9EvWqBV8CdFMcKlWf/
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB3983
+Received-SPF: pass client-ip=40.107.94.126; envelope-from=alxndr@bu.edu;
+ helo=NAM10-MW2-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 14:33:21
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: 4
+X-Spam_score: 0.4
+X-Spam_bar: /
+X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999, MSGID_FROM_MTA_HEADER=0.001,
+ RCVD_ILLEGAL_IP=1.3, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,238 +113,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org,
- Vincenzo Maffione <v.maffione@gmail.com>, yc-core@yandex-team.ru,
- Paolo Bonzini <pbonzini@redhat.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Giuseppe Lettieri <g.lettieri@iet.unipi.it>, Luigi Rizzo <rizzo@iet.unipi.it>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As we use QMP query-netdevs to store and get information about
-backend network devices, we can drop usage legacy field info_str
-for them.
-We still use this field for NIC and hubports, so we can not
-completely remove it.
-
-Signed-off-by: Alexey Kirillov <lekiravi@yandex-team.ru>
 ---
- net/l2tpv3.c     |  2 --
- net/slirp.c      |  4 ----
- net/socket.c     | 22 ----------------------
- net/tap-win32.c  |  3 ---
- net/tap.c        | 12 ------------
- net/vde.c        |  3 ---
- net/vhost-user.c |  2 --
- net/vhost-vdpa.c |  1 -
- 8 files changed, 49 deletions(-)
+ configure                    | 12 ++++++++++--
+ meson.build                  |  6 +++++-
+ tests/qtest/fuzz/meson.build |  5 ++---
+ 3 files changed, 17 insertions(+), 6 deletions(-)
 
-diff --git a/net/l2tpv3.c b/net/l2tpv3.c
-index f4e45e7b28..7473619712 100644
---- a/net/l2tpv3.c
-+++ b/net/l2tpv3.c
-@@ -745,8 +745,6 @@ int net_init_l2tpv3(const Netdev *netdev,
-         stored->dstport = g_strdup(l2tpv3->dstport);
-     }
+
+Hi Paolo,
+Here I'm trying to specify the linker-script with
+add_project_link_arguments. How I'm testing this:
+
+$ CC=clang-10 CXX=clang++-10 ../configure --enable-fuzzing
+$ make V=1 "-j$(nproc)" qemu-fuzz-i386
+
+clang++-10  -o qemu-fuzz-i386 qemu-fuzz-i386.p/tests_qtest_fuzz_qtest_wrappers.c.o \
+... libblock.fa chardev/libchardev.fa \
+-Wl,--start-group tests/qtest/libqos/libqos.a -Wl,--no-whole-archive \
+-Wl,-T,/home/alxndr/Development/qemu/tests/qtest/fuzz/fork_fuzz.ld \
+... \
+-Wl,-rpath-link,/home/alxndr/Development/qemu/build/ -lstdc++ -Wl,--end-group
+
+Maybe if I can get the oss-fuzz LIB_FUZZING_ENGINE
+(/usr/lib/libFuzzingEngine.a) into the --start-group, that could also
+solve the issue... I'll take another look at exactly what the oss-fuzz
+build container does.
+
+-Alex
+
+diff --git a/configure b/configure
+index 6ecaff429b..d31b91850c 100755
+--- a/configure
++++ b/configure
+@@ -6165,7 +6165,7 @@ fi
  
--    snprintf(s->nc.info_str, sizeof(s->nc.info_str),
--             "l2tpv3: connected");
-     return 0;
- outerr:
-     qemu_del_net_client(nc);
-diff --git a/net/slirp.c b/net/slirp.c
-index 54c33d1173..4032829a1e 100644
---- a/net/slirp.c
-+++ b/net/slirp.c
-@@ -670,10 +670,6 @@ static int net_slirp_init(NetClientState *peer, const char *model,
-         stored->tftp_server_name = g_strdup(tftp_server_name);
-     }
+ ##########################################
+ # checks for fuzzer
+-if test "$fuzzing" = "yes" ; then
++if test "$fuzzing" = "yes" && test -z "${LIB_FUZZING_ENGINE+xxx}"; then
+   write_c_fuzzer_skeleton
+   if compile_prog "$CPU_CFLAGS -Werror -fsanitize=fuzzer" ""; then
+     have_fuzzer=yes
+@@ -7505,7 +7505,14 @@ if test "$have_mlockall" = "yes" ; then
+   echo "HAVE_MLOCKALL=y" >> $config_host_mak
+ fi
+ if test "$fuzzing" = "yes" ; then
+-  QEMU_CFLAGS="$QEMU_CFLAGS -fsanitize=fuzzer-no-link"
++  # If LIB_FUZZING_ENGINE is set, assume we are running on OSS-Fuzz, and the
++  # needed CFLAGS have already been provided
++  if test -z "${LIB_FUZZING_ENGINE+xxx}" ; then
++    QEMU_CFLAGS="$QEMU_CFLAGS -fsanitize=fuzzer-no-link"
++    FUZZ_LINK_COMMAND="-fsanitize=fuzzer"
++  else
++    FUZZ_LINK_COMMAND="$LIB_FUZZING_ENGINE"
++  fi
+ fi
  
--    snprintf(nc->info_str, sizeof(nc->info_str),
--             "net=%s,restrict=%s", inet_ntoa(net),
--             restricted ? "on" : "off");
--
-     s = DO_UPCAST(SlirpState, nc, nc);
+ if test "$plugins" = "yes" ; then
+@@ -7619,6 +7626,7 @@ if test "$libudev" != "no"; then
+ fi
+ if test "$fuzzing" != "no"; then
+     echo "CONFIG_FUZZ=y" >> $config_host_mak
++    echo "FUZZ_LINK_COMMAND=$FUZZ_LINK_COMMAND" >> $config_host_mak
+ fi
  
-     s->slirp = slirp_init(restricted, ipv4, net, mask, host,
-diff --git a/net/socket.c b/net/socket.c
-index 4a60de08e3..118b96b3e1 100644
---- a/net/socket.c
-+++ b/net/socket.c
-@@ -180,7 +180,6 @@ static void net_socket_send(void *opaque)
-         s->fd = -1;
-         net_socket_rs_init(&s->rs, net_socket_rs_finalize, false);
-         s->nc.link_down = true;
--        memset(s->nc.info_str, 0, sizeof(s->nc.info_str));
+ if test "$edk2_blobs" = "yes" ; then
+diff --git a/meson.build b/meson.build
+index 74f8ea0c2e..3a5205040f 100644
+--- a/meson.build
++++ b/meson.build
+@@ -35,11 +35,16 @@ add_project_arguments(config_host['QEMU_CFLAGS'].split(),
+                       native: false, language: ['c', 'objc'])
+ add_project_arguments(config_host['QEMU_CXXFLAGS'].split(),
+                       native: false, language: 'cpp')
++if 'CONFIG_FUZZ' in config_host
++   add_project_link_arguments(['-Wl,-T,' + (meson.current_source_dir() / 'tests/qtest/fuzz/fork_fuzz.ld')],
++   native: false, language: ['c', 'cpp', 'objc'])
++endif
+ add_project_link_arguments(config_host['QEMU_LDFLAGS'].split(),
+                            native: false, language: ['c', 'cpp', 'objc'])
+ add_project_arguments(config_host['QEMU_INCLUDES'].split(),
+                       language: ['c', 'cpp', 'objc'])
  
-         return;
-     }
-@@ -400,16 +399,10 @@ static NetSocketState *net_socket_fd_init_dgram(NetClientState *peer,
-         stored->mcast = g_strdup(mcast);
++
+ python = import('python').find_installation()
  
-         s->dgram_dst = saddr;
--        snprintf(nc->info_str, sizeof(nc->info_str),
--                 "socket: fd=%d (cloned mcast=%s:%d)",
--                 fd, inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
-     } else {
-         if (sa_type == SOCKET_ADDRESS_TYPE_UNIX) {
-             s->dgram_dst.sin_family = AF_UNIX;
-         }
--
--        snprintf(nc->info_str, sizeof(nc->info_str),
--                 "socket: fd=%d %s", fd, SocketAddressType_str(sa_type));
-     }
- 
-     return s;
-@@ -444,8 +437,6 @@ static NetSocketState *net_socket_fd_init_stream(NetClientState *peer,
- 
-     nc = qemu_new_net_client(&net_socket_info, peer, model, name);
- 
--    snprintf(nc->info_str, sizeof(nc->info_str), "socket: fd=%d", fd);
--
-     s = DO_UPCAST(NetSocketState, nc, nc);
- 
-     s->fd = fd;
-@@ -527,10 +518,6 @@ static void net_socket_accept(void *opaque)
- 
-     stored->has_fd = true;
-     stored->fd = g_strdup_printf("%d", fd);
--
--    snprintf(s->nc.info_str, sizeof(s->nc.info_str),
--             "socket: connection from %s:%d",
--             inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
- }
- 
- static int net_socket_listen_init(NetClientState *peer,
-@@ -645,9 +632,6 @@ static int net_socket_connect_init(NetClientState *peer,
-     stored->has_connect = true;
-     stored->connect = g_strdup(host_str);
- 
--    snprintf(s->nc.info_str, sizeof(s->nc.info_str),
--             "socket: connect to %s:%d",
--             inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
-     return 0;
- }
- 
-@@ -704,9 +688,6 @@ static int net_socket_mcast_init(NetClientState *peer,
-         stored->localaddr = g_strdup(localaddr_str);
-     }
- 
--    snprintf(s->nc.info_str, sizeof(s->nc.info_str),
--             "socket: mcast=%s:%d",
--             inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
-     return 0;
- 
- }
-@@ -769,9 +750,6 @@ static int net_socket_udp_init(NetClientState *peer,
-     stored->has_udp = true;
-     stored->udp = g_strdup(rhost);
- 
--    snprintf(s->nc.info_str, sizeof(s->nc.info_str),
--             "socket: udp=%s:%d",
--             inet_ntoa(raddr.sin_addr), ntohs(raddr.sin_port));
-     return 0;
- }
- 
-diff --git a/net/tap-win32.c b/net/tap-win32.c
-index 20ba0b1dc8..54d4b1e25e 100644
---- a/net/tap-win32.c
-+++ b/net/tap-win32.c
-@@ -787,9 +787,6 @@ static int tap_win32_init(NetClientState *peer, const char *model,
-     stored->has_ifname = true;
-     stored->ifname = g_strdup(ifname);
- 
--    snprintf(s->nc.info_str, sizeof(s->nc.info_str),
--             "tap: ifname=%s", ifname);
--
-     s->handle = handle;
- 
-     qemu_add_wait_object(s->handle->tap_semaphore, tap_win32_send, s);
-diff --git a/net/tap.c b/net/tap.c
-index 7a7cf4caea..e59d85cba9 100644
---- a/net/tap.c
-+++ b/net/tap.c
-@@ -621,9 +621,6 @@ int net_init_bridge(const Netdev *netdev, const char *name,
-         stored->helper = g_strdup(helper);
-     }
- 
--    snprintf(s->nc.info_str, sizeof(s->nc.info_str), "helper=%s,br=%s", helper,
--             br);
--
-     return 0;
- }
- 
-@@ -709,8 +706,6 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
-             stored->fds = g_strdup_printf("%s:%d", stored->fds, fd);
-             g_free(tmp_s);
-         }
--
--        snprintf(s->nc.info_str, sizeof(s->nc.info_str), "fd=%d", fd);
-     } else if (tap->has_helper) {
-         if (!stored->has_helper) {
-             stored->has_helper = true;
-@@ -722,9 +717,6 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
-             stored->br = tap->has_br ? g_strdup(tap->br) :
-                                        g_strdup(DEFAULT_BRIDGE_INTERFACE);
-         }
--
--        snprintf(s->nc.info_str, sizeof(s->nc.info_str), "helper=%s",
--                 tap->helper);
-     } else {
-         if (ifname && !stored->has_ifname) {
-             stored->has_ifname = true;
-@@ -741,10 +733,6 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
-             stored->downscript = g_strdup(downscript);
-         }
- 
--        snprintf(s->nc.info_str, sizeof(s->nc.info_str),
--                 "ifname=%s,script=%s,downscript=%s", ifname, script,
--                 downscript);
--
-         if (strcmp(downscript, "no") != 0) {
-             snprintf(s->down_script, sizeof(s->down_script), "%s", downscript);
-             snprintf(s->down_script_arg, sizeof(s->down_script_arg),
-diff --git a/net/vde.c b/net/vde.c
-index c4edf5cba1..125433a89b 100644
---- a/net/vde.c
-+++ b/net/vde.c
-@@ -100,9 +100,6 @@ static int net_vde_init(NetClientState *peer, const char *model,
- 
-     nc = qemu_new_net_client(&net_vde_info, peer, model, name);
- 
--    snprintf(nc->info_str, sizeof(nc->info_str), "sock=%s,fd=%d",
--             sock, vde_datafd(vde));
--
-     s = DO_UPCAST(VDEState, nc, nc);
- 
-     s->vde = vde;
-diff --git a/net/vhost-user.c b/net/vhost-user.c
-index aa2dc53179..dcc60f9c34 100644
---- a/net/vhost-user.c
-+++ b/net/vhost-user.c
-@@ -323,8 +323,6 @@ static int net_vhost_user_init(NetClientState *peer, const char *device,
-     user = g_new0(struct VhostUserState, 1);
-     for (i = 0; i < queues; i++) {
-         nc = qemu_new_net_client(&net_vhost_user_info, peer, device, name);
--        snprintf(nc->info_str, sizeof(nc->info_str), "vhost-user%d to %s",
--                 i, chr->label);
-         nc->queue_index = i;
-         if (!nc0) {
-             nc0 = nc;
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 088033cfc9..6143a5e9e5 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -195,7 +195,6 @@ static int net_vhost_vdpa_init(NetClientState *peer, const char *device,
-     stored->has_queues = true;
-     stored->queues = 1; /* TODO: change when support multiqueue */
- 
--    snprintf(nc->info_str, sizeof(nc->info_str), TYPE_VHOST_VDPA);
-     nc->queue_index = 0;
-     s = DO_UPCAST(VhostVDPAState, nc, nc);
-     vdpa_device_fd = qemu_open(vhostdev, O_RDWR);
+ link_language = meson.get_external_property('link_language', 'cpp')
+@@ -1019,7 +1024,6 @@ foreach target : target_dirs
+         'gui': false,
+         'sources': specific_fuzz.sources(),
+         'dependencies': specific_fuzz.dependencies(),
+-        'link_depends': [files('tests/qtest/fuzz/fork_fuzz.ld')],
+       }]
+     endif
+   else
+diff --git a/tests/qtest/fuzz/meson.build b/tests/qtest/fuzz/meson.build
+index bb0a3f271d..c0accc8af9 100644
+--- a/tests/qtest/fuzz/meson.build
++++ b/tests/qtest/fuzz/meson.build
+@@ -9,9 +9,8 @@ specific_fuzz_ss.add(when: 'CONFIG_VIRTIO_SCSI', if_true: files('virtio_scsi_fuz
+ # unfortunately declare_dependency does not support link_depends, so
+ # this will be duplicated in meson.build
+ fork_fuzz = declare_dependency(
+-  link_args: ['-fsanitize=fuzzer',
+-              '-Wl,-T,' + (meson.current_source_dir() / 'fork_fuzz.ld'),
+-              '-Wl,-wrap,qtest_inb',
++  link_args: config_host['FUZZ_LINK_COMMAND'].split() +
++              ['-Wl,-wrap,qtest_inb',
+               '-Wl,-wrap,qtest_inw',
+               '-Wl,-wrap,qtest_inl',
+               '-Wl,-wrap,qtest_outb',
 -- 
-2.25.1
+2.28.0
 
 
