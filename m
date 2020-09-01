@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFBB9258CFE
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 12:46:46 +0200 (CEST)
-Received: from localhost ([::1]:53788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B953258CFA
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 12:45:15 +0200 (CEST)
+Received: from localhost ([::1]:46660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD3oL-00068J-BX
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 06:46:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57540)
+	id 1kD3ms-00035v-3k
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 06:45:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kD3kQ-0008IQ-IS; Tue, 01 Sep 2020 06:42:42 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:37691)
+ id 1kD3kR-0008MQ-QJ; Tue, 01 Sep 2020 06:42:43 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:33973)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kD3kO-00024H-Rn; Tue, 01 Sep 2020 06:42:42 -0400
-Received: by mail-wm1-x344.google.com with SMTP id a9so672555wmm.2;
- Tue, 01 Sep 2020 03:42:39 -0700 (PDT)
+ id 1kD3kP-00024W-M0; Tue, 01 Sep 2020 06:42:43 -0400
+Received: by mail-wm1-x341.google.com with SMTP id c19so679320wmd.1;
+ Tue, 01 Sep 2020 03:42:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=EVwru8QefO28g6zuQPi1gYOba0DhzrEbVlsJ/k3IAUU=;
- b=FDmPDV0AiezhrXiEgWW1ImO/qAXvkwiFDwQJec+ITgfbJRe4Ta7BceBuxPENvTn2JC
- 7WFoIkEUJfowqeaiVQde75uOmN58ByiSnm0uFHNtMnR6X4XILqbowy85isykuWTNLA21
- K2gW0wx5G+7yiStL2u7Dk63MWFCYKzUteuLqlAlmRPWVNuOLDxF8pL7sYTNgUoS9is2f
- KGWafk8poQAm0DjlEoIQsEQbyre5A4gHpBUB1B/j9r5obH3cY46eqhQTpZyMcLzyB1UI
- IvJ03Tax7mBHWeWs98OhiryK2eH5232ZeTM/n9ESCOGSaZdQN1aKTqP3lLZE7gBCZO3P
- 2fYA==
+ bh=fqHTEPlAjV9bvBkHlzkr+R6J+o6iCqiuHYjcb5bwgeI=;
+ b=q7YmGjHfJ1jHHFk7ho5O78GGMi5CDWGeRX6lG0mOAkHD7+r2TAU5O4bFLJ9lPrxJob
+ 8GcLl5JHVEWbr0qDkxtTjtGim1VffAmgiS4k4P7tMUJ/Di6qtiKvj8KdSmzkwykHXe9k
+ W9hORW0EUHyd4EMHc4g0I+WznXuOC4WSmfGxhfaVBZPEsAoKDeT6i9//p87A2bhMCQUM
+ 6MpUFcaBzT4WVD1Lv5OXUBqMvSfjRmzuG6t19ngd1AR5krTotVRQNOA2SxoMmpQEXDj6
+ 0loiU0pXbaTPXrD3uKl0HqDzVg5f9H2W4CDbHv7V+4lpvNETZbrLmz9Ez9sUkDIfTavv
+ rOhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=EVwru8QefO28g6zuQPi1gYOba0DhzrEbVlsJ/k3IAUU=;
- b=ah9kF/OxqJ8WRunNLg6H73gKnJmaRnHnzpTgWwSJzvxXkLJxL9VyDj0Moy+gAG+xz4
- O3/SrwulV1+lF63l481R+ELB/XU7F4fFzItV26BelcNpMo6TeodRoOi7WlahxC9L0Xua
- Ung0Li+zITBQfD+mGD4dDMy+8lXmSU8rfdRBQGB8JDL7v6zsKyD8QpuLj2x55NQJKfWT
- 9fCDM5xV0ItSLHi+zuAsjofiPCkyboTQHMcHg8c9ElJZKXpmPrYbZ/E/CZkBVSosiFxv
- lhqzJYtviQZNci4e+4I8fK/WujfFVBPAdTd9hePro7D3Ujiq+hnoDHZUSNZtN+ArYu92
- pHVQ==
-X-Gm-Message-State: AOAM532lpYdvhYol+9BAgkS0dSOX+9Oj22bkIIeTRpZbqU1Jc9kx0bhj
- wjT3NcxzNqLzF6eKs1MGRZKBsk6cSUM=
-X-Google-Smtp-Source: ABdhPJypEr+vaB2RF6vlq5MimhR66P+QUc5YEOr62cjKqp5COsGq+QLjspGpkV0oXoAzOBSzIxn9yw==
-X-Received: by 2002:a7b:c40b:: with SMTP id k11mr1114027wmi.135.1598956958026; 
- Tue, 01 Sep 2020 03:42:38 -0700 (PDT)
+ bh=fqHTEPlAjV9bvBkHlzkr+R6J+o6iCqiuHYjcb5bwgeI=;
+ b=lvr8mwCpS4KY2v7v64X1+0BkM6AoSkly3q97OoG3t8OEe0v6GM+4a+KWtZwIfEWyVP
+ QnD93sv7EzOjD11xFDDw1JGryjnhKCLNgfhsE2BQmHq3PgdRgQEjPeiuueKlT+Givmsy
+ BGoPfTjeA8LjGbq4snl/PvvqQpRCO9lWbUZ3xLaLMMSDxmOvbaSODfvVYyehmZ7Y+kwH
+ xjifDjP1xO9zS0PnGpszogCuvexu0xX4ms5Y+u8vuWRV0TKG84MEiBwq6A9tadr9tiVP
+ SCFGckZj1PS3SM8GNpbIJz+l5lltqzoy4tFivDZzUgglh+BO4DbP8qOqAX9rAnJuJcoQ
+ Zzlw==
+X-Gm-Message-State: AOAM532OphNEugdiRUqkCJt12PmyZOPM5HDinLUPy2moH+rnTaVze1PG
+ STQcn4UwH0hdUISPxe4ChzJbrdYq6q8=
+X-Google-Smtp-Source: ABdhPJy+IJY8M8CU8l8ULDDy1r5oSLd42U7S0454oTBxLt8sggJQZChyv6i9K8neGTvtBU+4cEpMVg==
+X-Received: by 2002:a1c:6083:: with SMTP id u125mr1122066wmb.161.1598956959216; 
+ Tue, 01 Sep 2020 03:42:39 -0700 (PDT)
 Received: from localhost.localdomain (50.red-83-52-54.dynamicip.rima-tde.net.
  [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id l8sm1693217wrx.22.2020.09.01.03.42.37
+ by smtp.gmail.com with ESMTPSA id l8sm1693217wrx.22.2020.09.01.03.42.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Sep 2020 03:42:37 -0700 (PDT)
+ Tue, 01 Sep 2020 03:42:38 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] hw/gpio/omap_gpio: Replace fprintf() by
- qemu_log_mask(GUEST_ERROR)
-Date: Tue,  1 Sep 2020 12:42:33 +0200
-Message-Id: <20200901104234.92159-2-f4bug@amsat.org>
+Subject: [PATCH 2/2] hw/gpio/max7310: Replace disabled printf() by
+ qemu_log_mask(UNIMP)
+Date: Tue,  1 Sep 2020 12:42:34 +0200
+Message-Id: <20200901104234.92159-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200901104234.92159-1-f4bug@amsat.org>
 References: <20200901104234.92159-1-f4bug@amsat.org>
@@ -63,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -93,30 +93,49 @@ Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace fprintf() by qemu_log_mask(LOG_GUEST_ERROR).
+Replace disabled printf() by qemu_log_mask(UNIMP).
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/gpio/omap_gpio.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ hw/gpio/max7310.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/hw/gpio/omap_gpio.c b/hw/gpio/omap_gpio.c
-index f662c4cb958..e25084b40c9 100644
---- a/hw/gpio/omap_gpio.c
-+++ b/hw/gpio/omap_gpio.c
-@@ -392,8 +392,10 @@ static void omap2_gpio_module_write(void *opaque, hwaddr addr,
-         break;
+diff --git a/hw/gpio/max7310.c b/hw/gpio/max7310.c
+index 7f5de189acf..c58a1996418 100644
+--- a/hw/gpio/max7310.c
++++ b/hw/gpio/max7310.c
+@@ -11,6 +11,7 @@
+ #include "hw/i2c/i2c.h"
+ #include "hw/irq.h"
+ #include "migration/vmstate.h"
++#include "qemu/log.h"
+ #include "qemu/module.h"
  
-     case 0x10:	/* GPIO_SYSCONFIG */
--        if (((value >> 3) & 3) == 3)
--            fprintf(stderr, "%s: bad IDLEMODE value\n", __func__);
-+        if (((value >> 3) & 3) == 3) {
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                          "%s: Illegal IDLEMODE value: 3\n", __func__);
-+        }
-         if (value & 2)
-             omap2_gpio_module_reset(s);
-         s->config[0] = value & 0x1d;
+ #define TYPE_MAX7310 "max7310"
+@@ -69,9 +70,8 @@ static uint8_t max7310_rx(I2CSlave *i2c)
+         return 0xff;
+ 
+     default:
+-#ifdef VERBOSE
+-        printf("%s: unknown register %02x\n", __func__, s->command);
+-#endif
++        qemu_log_mask(LOG_UNIMP, "%s: Unsupported register 0x02%" PRIx8 "\n",
++                      __func__, s->command);
+         break;
+     }
+     return 0xff;
+@@ -123,9 +123,8 @@ static int max7310_tx(I2CSlave *i2c, uint8_t data)
+     case 0x00:	/* Input port - ignore writes */
+         break;
+     default:
+-#ifdef VERBOSE
+-        printf("%s: unknown register %02x\n", __func__, s->command);
+-#endif
++        qemu_log_mask(LOG_UNIMP, "%s: Unsupported register 0x02%" PRIx8 "\n",
++                      __func__, s->command);
+         return 1;
+     }
+ 
 -- 
 2.26.2
 
