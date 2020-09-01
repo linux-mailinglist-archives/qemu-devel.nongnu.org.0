@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DE69259041
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:22:54 +0200 (CEST)
-Received: from localhost ([::1]:36206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31B2C259044
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:23:20 +0200 (CEST)
+Received: from localhost ([::1]:39060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD7BV-0006cS-99
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:22:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55466)
+	id 1kD7Bv-0007sQ-53
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:23:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zS-0005lO-17; Tue, 01 Sep 2020 10:10:26 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:34003)
+ id 1kD6zR-0005jW-9W; Tue, 01 Sep 2020 10:10:25 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:57419)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zO-0003vM-9z; Tue, 01 Sep 2020 10:10:25 -0400
+ id 1kD6zO-0003ut-3A; Tue, 01 Sep 2020 10:10:24 -0400
 Received: from localhost.localdomain ([82.252.135.186]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MF39M-1kO8YZ1I88-00FPlt; Tue, 01 Sep 2020 16:10:15 +0200
+ id 1MuluN-1kUVHQ4BVr-00rsoo; Tue, 01 Sep 2020 16:10:16 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/44] hw/ide/atapi: Replace magic '512' value by
- BDRV_SECTOR_SIZE
-Date: Tue,  1 Sep 2020 16:09:37 +0200
-Message-Id: <20200901140954.889743-28-laurent@vivier.eu>
+Subject: [PULL 28/44] hw/ide/pci: Replace magic '512' value by BDRV_SECTOR_SIZE
+Date: Tue,  1 Sep 2020 16:09:38 +0200
+Message-Id: <20200901140954.889743-29-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200901140954.889743-1-laurent@vivier.eu>
 References: <20200901140954.889743-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:XxvDiAfEEf/04NBgoBcF9pZo4GWfl/h/H5eA0RtNc1GoJBaRxzA
- 7a9L0pf3xltRzut/4I+nLUEaJWFqpMvKfrOeDM9I3xERbD43UbkrUA+9p8hBPwXlyArULK1
- CXzApjMmspuv/hmZwE9HWixkBa0meLnVX/A4V/jz2fb6SceC86ExY8ufbQPWnC76aCxbkAh
- WUsHLH/egpmzl9uyynddg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:0j5L6IFBVXQ=:YWRmFRVEYEl7NwFBvgwZ1N
- zvL1EzYmCwBE3cQcgxjRRWGUkAn/zT9b480225Dn7QoLaWOZzaiuNjr7r20X0Jvll/vMAPLNF
- OsMIlYBe6H5cR87DnZ/UP9OkF+HYLozgPSE3TWiChI2hsjWZehXbrFFiAB10wjmN0ldbXAtsx
- po0/k4V3Ix58G9Qtlj9HRgbEnhaK+DxOxSD2Sl029CW+04PyLMtv19P5dKwBVPAHVncn55cm2
- a2Rq3zClLO5LDeDtgkboMfJTTZkXr1GhpwzbYfirbEeOov3gwJ2R30BbSGIJsf7fZRwiCMp/R
- sEMHu4YgujNHRRWEaZoaS3fVAb4OdZUoCEbmZ6QGHanAY7SrJXDHZ7gt2feuXWUv3x0B+D2QU
- 0Ui1GHmCXFeIRcNH2bOF+Oly2niUMmEQNss2KVsuuJ/GcQ1kgiVFJ6G4TQuGqqVjOXtiQH7JF
- m+fIfvvXYV9tyq/4yygp0tMledU2QKZDHIHj6t0X8FYmGuFjN1tpAUlLCxvOsoMx+9h0v663v
- em5i36dE/z+3bhich2E9j0QA9NurAsGznT5kTJGkBVGA1xEX9fNuIC10WLUKseNs0evqf1Zfe
- W2Dt6Llncn1OSQ0S2Wn5m3crZbgUg4uDwF8jvUsdUJcEYxHYFPKSGzUaqglEEwpyrlwQ0lHFc
- F5xQ54UzUq0VQ0jmmt/LT4s3QIdmtJey1FEcB5gBquhz+CAwYxkLynTQ2VG91Tto68/77QXQZ
- RYwwsAfZlD3HzaDrIKdrcm2M+nebtiGKKrbiUqahq5TYEzLVhqMMg6wdMQAe6gecSR2VQDeYi
- KYWuECHweCBd7bOzY3tSfV0SJ0cod7/ZE5/btHURtriSyFysd4VTIQmmKUXFtxlpHo16cN+
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:bTgl6P/Ee+6znIidnx6ahoDV8qX8jOCR51ZVN3cq8jLGLm1bL/4
+ 2Q6GsgZd1K+bSzlc1wt0bdU0Ek8ieKjHBRyxkwu9YvLE2HyyzOvyo12c0hRQnFdr0GBEqLL
+ IDxikjRmln9enzwX2Yi7yhuDvEmZefmv7nsRBkiR2grkNFkMUHekX7sXZRgSKL87y19j3E/
+ VOPkDffIJIlHnp72Iln+A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:tg9Os5e/Y28=:hkidTrcs+hBv1EBwiT3E8G
+ 0Ncaz796ymjoBOrgk5r/H2B77OBq40wdquxm0a7QGA15t+ZJyR2qVpHR9PAzq8EJ4ZtOJYiuq
+ +Nyb/7uHyj9htE7o7t3/eU8r74/C9dNTw11hVohkSNUndih00cvbJ64Go+XoQBr30/vdaFm48
+ xjsR94QgVTEtBwHrqy/E+4uRWfr3qQ7MvEq1rMlpDFG0P8oPBjlZVd92sUX/JgClfzihUu2zP
+ I06fEHO3KJixOI9KDoDZcIQlZCwOrOFsIjXAkbsMUL0RtKb4f9oIVRtlvCApVGhoSSQwjH+33
+ wQbCriH9bKA2v9WBMeP8WEjpU03yeT0ORTEL6vJXsflLGh2DFKMXXrOozg1OaZZDCCyD83oEB
+ 8Qjtp+cvfTxz5VsicEOxFn1v/z3bKAW+0fRmZpNaSMBo4PUdfiAsHf2xJBR/YiW3EjOusrpO7
+ Leb5PxUwQTCRo+KAfwtlLlVfFftsdpuLyu/5sVuDh3hRlEXcWgE4Yb2Id/D9o1ndhYtjP+BlE
+ zOpMwQeFeg7RbsuTZonDLPsJdtuReVxq4N2h9b8hm4PZLX89dhlU/oMJJycvCIE74AHESXEtq
+ JsEPQqZQoh4mgUNgsByNW7rBfWsKOz5cjr1tYoOt+D0m185Vcs8qD+g5FLEnuOdf08yOYZo8o
+ WfBmRaEZy0+iZV+SaHup4344TR2F4/vzZ7OBcyH+Ox3wp/rhNWWOP6ZeOhPb/qcsVGesaZxjA
+ K6zgD/GfR26ounsHeHx9uDJyGioDnGgRmCdAlFEFXV6qKOs1VvSofN0rwO+eXaxuSVoTzZb9Q
+ niizjZdMwWgIl/WCnJa+IU1OufAf2vnXA1BkIbdLZPlDhh2oeYMQLCOLBB38tbqa8TNCJDt
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:10:10
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:10:03
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -87,39 +86,25 @@ Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Li Qiang <liq3ea@gmail.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Message-Id: <20200814082841.27000-6-f4bug@amsat.org>
+Message-Id: <20200814082841.27000-7-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/ide/atapi.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ hw/ide/pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/ide/atapi.c b/hw/ide/atapi.c
-index 17a9d635d842..14a2b0bb2f8a 100644
---- a/hw/ide/atapi.c
-+++ b/hw/ide/atapi.c
-@@ -824,9 +824,9 @@ static void cmd_get_configuration(IDEState *s, uint8_t *buf)
-      *
-      *      Only a problem if the feature/profiles grow.
-      */
--    if (max_len > 512) {
-+    if (max_len > BDRV_SECTOR_SIZE) {
-         /* XXX: assume 1 sector */
--        max_len = 512;
-+        max_len = BDRV_SECTOR_SIZE;
-     }
+diff --git a/hw/ide/pci.c b/hw/ide/pci.c
+index 5e85c4ad17e0..b50091b615cb 100644
+--- a/hw/ide/pci.c
++++ b/hw/ide/pci.c
+@@ -138,7 +138,7 @@ static int32_t bmdma_prepare_buf(const IDEDMA *dma, int32_t limit)
+     int l, len;
  
-     memset(buf, 0, max_len);
-@@ -1186,8 +1186,8 @@ static void cmd_read_dvd_structure(IDEState *s, uint8_t* buf)
-         }
-     }
- 
--    memset(buf, 0, max_len > IDE_DMA_BUF_SECTORS * 512 + 4 ?
--           IDE_DMA_BUF_SECTORS * 512 + 4 : max_len);
-+    memset(buf, 0, max_len > IDE_DMA_BUF_SECTORS * BDRV_SECTOR_SIZE + 4 ?
-+           IDE_DMA_BUF_SECTORS * BDRV_SECTOR_SIZE + 4 : max_len);
- 
-     switch (format) {
-         case 0x00 ... 0x7f:
+     pci_dma_sglist_init(&s->sg, pci_dev,
+-                        s->nsector / (BMDMA_PAGE_SIZE / 512) + 1);
++                        s->nsector / (BMDMA_PAGE_SIZE / BDRV_SECTOR_SIZE) + 1);
+     s->io_buffer_size = 0;
+     for(;;) {
+         if (bm->cur_prd_len == 0) {
 -- 
 2.26.2
 
