@@ -2,75 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32330258B93
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 11:30:40 +0200 (CEST)
-Received: from localhost ([::1]:34048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF084258B8C
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 11:28:50 +0200 (CEST)
+Received: from localhost ([::1]:56036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD2ch-00074y-8H
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 05:30:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35464)
+	id 1kD2av-0004XY-UA
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 05:28:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kD2Qz-0000G9-BB
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:18:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33839)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kD2Qx-0007bo-Oh
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:18:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598951911;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JMiv4njupBsoLVcYiI64Em4TfoWbb1G9ea2HEChm90U=;
- b=R8AvVW+9aauiPKBo9DhZeYWBUVrw65FFzX64PloE92A3nhJ0tF8bHqnkihozYcMHkrVVwc
- KFlFAg3fJW0DdfWuuqOSLhnetcj+U38ygxm9MvAn9KLRQkJaudgtfXS3n+mMHtXfWqOASS
- WHtEQDj1+Ax9gBdaCykynAEAmvVxFxw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-173-OURInY_KPfmLJwqasBM01Q-1; Tue, 01 Sep 2020 05:18:27 -0400
-X-MC-Unique: OURInY_KPfmLJwqasBM01Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6ABA48015C5;
- Tue,  1 Sep 2020 09:18:26 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-188.ams2.redhat.com [10.36.112.188])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6BDDD19C4F;
- Tue,  1 Sep 2020 09:18:25 +0000 (UTC)
-Subject: Re: [PATCH 01/13] fuzz: use qemu_get_exec_dir
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20200901062020.26660-1-pbonzini@redhat.com>
- <20200901062020.26660-2-pbonzini@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <71056f13-532a-94dc-d3ff-3616511de076@redhat.com>
-Date: Tue, 1 Sep 2020 11:18:19 +0200
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1kD2a1-0003u4-49; Tue, 01 Sep 2020 05:27:53 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:56433)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1kD2Zz-0000Ot-Ay; Tue, 01 Sep 2020 05:27:52 -0400
+Received: from [192.168.100.1] ([82.252.135.186]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1N6bsG-1keDgR14jG-0182Jm; Tue, 01 Sep 2020 11:27:33 +0200
+Subject: Re: [PATCH 0/7] block: Use definitions instead of magic values
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20200814082841.27000-1-f4bug@amsat.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <e232bf0a-1362-a90d-31ff-95d90ad7ebc8@vivier.eu>
+Date: Tue, 1 Sep 2020 11:27:29 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200901062020.26660-2-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20200814082841.27000-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 01:27:29
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:uBjerWWhZWgGSVDS4OhqFnDa+CGQa4pZJbTOVEXjGapqa03volP
+ veRTr3xOr+b2qTLJepGU1NLsBIqwQGa6GmTgGABJGM5a2O8WlxDEcxP1a0A2kCro4dueScz
+ Cr5bioNZQg9c9iqzZRueD10D84A1NQ1MFJVgrUtdoG2Em42E1l+LeD80+uxeKOOAJJRQsdv
+ PW0I0TGYY9O8PCFreLjrw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:MsSHszpiIHc=:45yR1aVIv+HZw7jes9WAjm
+ n69LVdaSDoPwd3n9TevVTlKfakmswRtn6OTiy9jtl51CajEX+lPJpp7FQDlMUGiJs3WASV9i5
+ gIwmJk5l8hURZuNsRtTiclsLi9b+q4ZCx4YQBB/FpBeWQbRdXGWuI7xN67kgu1BepagMKeYVH
+ 8IU2TZ69iPH9HZ2MDLmxQmJLrGnVJ7tzRHy5eE5Nhqv8Z+Qn3/nH4vWI72uqXa+ch3RG4R+De
+ f4T4LaXem1kg+u7EaA1hwUvOrp/eTDmZchAqVI88LLv+Mi7mRezQNdswe6C2yxEKGvx3R5xjY
+ AeZNyJq2d8qk9NXv7bswmF7U84uwKYtowqTWF4UlvaDW3UUI/QqF41OliDaCX8yY3u/Azlx8r
+ JKBNezS2RwaaYqTq8D/KENaz5m37aTdbdyQMjMVYeW7YyKLN6zIAimx7f4CX73iMFIaPGlpoj
+ ksjHQ3uh5epOJZM3kVYO8Sox5wB/zydDdOf5hJYTh9Y9QM9xKMCYAR1918QwPoyUil/Am2+u/
+ MZCrnXLYP0Bf1zGiGTAPUuT/Nm2CTqsWmuciIAKve2OncvOjl7WyakcQCtSmAPqy8CbG/52U7
+ 5BriGerzYKOujBFXgSq+ohewp8Wo1O2AUJaLk8Df6y+bk9K/g2RcAhvr3cG9FQrm+nJHTDXIw
+ 4njtU1KWwzLsUrLBhEWZriVhOJ0Sa+NdssF8IGp/sywIsgZV5DiH6otOfMJ3py94XKaXTMFbs
+ xaDW58ISmA5Kvd+sOIV/WUHuqigiHPbMGJMBtIIUHFDfiP9h+2WA+BemMzuvZ4qsxuUxbkoir
+ 26TAVSKs/7ln7Hmmc/BM2XBaRVcd59zzG0ZL2LpfmqiSuCyjcrnEKRwwJlMVJaZfmF/AAwG
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 05:13:18
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -39
+X-Spam_score: -4.0
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.13, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.13,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,44 +115,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, qemu-trivial@nongnu.org,
+ Michael Tokarev <mjt@tls.msk.ru>, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/09/2020 08.20, Paolo Bonzini wrote:
-> Make things consistent with how softmmu/vl.c uses os_find_datadir.
-> Initializing the path to the executables will also be needed for
-> get_relocatable_path to work.
+Le 14/08/2020 à 10:28, Philippe Mathieu-Daudé a écrit :
+> Trivial block patches:
+> - Fix a typo
+> - Replace '1 << 30' by '1 * GiB' in null-co
+> - Replace 512 by BDRV_SECTOR_SIZE when appropriate.
 > 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  tests/qtest/fuzz/fuzz.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+> Philippe Mathieu-Daudé (7):
+>   block/null: Make more explicit the driver default size is 1GiB
+>   hw/ide/core: Trivial typo fix
+>   hw/ide/core: Replace magic '512' value by BDRV_SECTOR_SIZE
+>   hw/ide/ahci: Replace magic '512' value by BDRV_SECTOR_SIZE
+>   hw/ide/atapi: Replace magic '512' value by BDRV_SECTOR_SIZE
+>   hw/ide/pci: Replace magic '512' value by BDRV_SECTOR_SIZE
+>   hw/scsi/scsi-disk: Replace magic '512' value by BDRV_SECTOR_SIZE
 > 
-> diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
-> index 1ceea84702..391223219d 100644
-> --- a/tests/qtest/fuzz/fuzz.c
-> +++ b/tests/qtest/fuzz/fuzz.c
-> @@ -152,6 +152,7 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
->      module_call_init(MODULE_INIT_QOM);
->      module_call_init(MODULE_INIT_LIBQOS);
->  
-> +    qemu_init_exec_dir(**argv);
->      target_name = strstr(**argv, "-target-");
->      if (target_name) {        /* The binary name specifies the target */
->          target_name += strlen("-target-");
-> @@ -164,7 +165,7 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
->           * location of the executable. Using this we add exec_dir/pc-bios to
->           * the datadirs.
->           */
-> -        bindir = g_path_get_dirname(**argv);
-> +        bindir = qemu_get_exec_dir();
->          datadir = g_build_filename(bindir, "pc-bios", NULL);
->          g_free(bindir);
->          if (g_file_test(datadir, G_FILE_TEST_IS_DIR)) {
+>  block/null.c        |  4 +++-
+>  hw/ide/ahci.c       |  5 +++--
+>  hw/ide/atapi.c      |  8 ++++----
+>  hw/ide/core.c       | 25 +++++++++++++------------
+>  hw/ide/pci.c        |  2 +-
+>  hw/scsi/scsi-disk.c | 44 +++++++++++++++++++++++---------------------
+>  6 files changed, 47 insertions(+), 41 deletions(-)
 > 
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Applied to my trivial-patches branch.
 
+Except the following ones that have comment from Kevin:
+
+[PATCH 1/7] block/null: Make more explicit the driver default size is 1GiB
+[PATCH 3/7] hw/ide/core: Replace magic '512' value by BDRV_SECTOR_SIZE
+
+Thanks,
+Laurent
 
