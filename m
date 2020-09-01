@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0FB7259065
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:29:13 +0200 (CEST)
-Received: from localhost ([::1]:40994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0026259057
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:26:48 +0200 (CEST)
+Received: from localhost ([::1]:55888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD7Hc-0003fp-Tf
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:29:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55496)
+	id 1kD7FH-0006Qu-SP
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:26:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zT-0005rV-K3; Tue, 01 Sep 2020 10:10:27 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:49385)
+ id 1kD6zT-0005t4-W2; Tue, 01 Sep 2020 10:10:28 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:35029)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zR-0003yK-Pm; Tue, 01 Sep 2020 10:10:27 -0400
+ id 1kD6zP-0003wz-Do; Tue, 01 Sep 2020 10:10:27 -0400
 Received: from localhost.localdomain ([82.252.135.186]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1Mv2tE-1kUmOf3Bi4-00r3s5; Tue, 01 Sep 2020 16:10:17 +0200
+ id 1MfpGL-1koumZ1XwH-00gG4y; Tue, 01 Sep 2020 16:10:18 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/44] hw/net/xilinx_axienet: Remove unused code
-Date: Tue,  1 Sep 2020 16:09:40 +0200
-Message-Id: <20200901140954.889743-31-laurent@vivier.eu>
+Subject: [PULL 31/44] util/vfio-helpers: Unify trace-events size format
+Date: Tue,  1 Sep 2020 16:09:41 +0200
+Message-Id: <20200901140954.889743-32-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200901140954.889743-1-laurent@vivier.eu>
 References: <20200901140954.889743-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:n+vFiyHYyYBQqQfH6cYkSjR6+cxuqFt5Hp+vTdtSzSMNljrGceV
- 3i8MU/Kt/Ke/8vIGr3QSRDFuJ8dBVdaLuAJFGrsFSoQJE2b4YeGdWlchQQRnvcfIUbqgqh1
- uzmYh1/F1FqSIvlHOjnRSmzx5vVEoleHAOo+RN8fD5LemhsGY/VgOKD9KKXbdPWIIV2/E4O
- xfBgMQqvvE4c5fs8578qw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ieP0z49afpw=:+o2uGUoye/c2L4x+d/FpJt
- UekgvLNw73+PzFQtQp6K5yBgxLlmqTJvF6bwv7bCbywF6R/3AlMyrva+nnpr8pw4NqJ7dvdmO
- mgpbVnubL8l0hx94FSwsTOwu/+6FmUutSBQGRfRCZEGhSsUuu4hac3cmOz3j5jtrzBMNrt/HT
- RRFrsnY8wrfxC0R+mzpD160h2OR49bEK5LMh+jyuLtkgazPgMHiYxWtuNKdzPjqv7PGKOqKSI
- uJTokeLr6u7UOWJzICQvGWOLwDHZcZ5/ZIh2DOkpdqnO7K9dhcST99Dv4Q7H00dDxtalAtNlr
- qqmmLI/R4yUY2wRMldxiX7iVhBpDKFiTdQdl0yMAq2N+1gW3d3f85xBMo8tk39nD9pMKWyuMi
- 8oojV3MrDw7B//ZsXHFCUMl6ZL0KlrqXO09P3BMhPIhY9gtiZLF8vIZcyom6TjOqf9/X+Oq1A
- NPrUu2bDUZFFl2HbUurIl41CMWzQsK9PD6xcmktldgqygQsbv9qskL9qnK62Tv6xVmhhThVGz
- TJV8UHulJbwjlhwg955IuU3QgJ2hPkTZ2yGNmvDFv0c5B7GR7uSM4GehDpbaSPduN9gCbz6+o
- PeAHrAhsv4kElOOYp952hnVWZT9TOyGxPTR1FOMsnY+QgjqdprAcpJp0Q3ukYhftQMT3Yr/B+
- 5D14l+Jz8C+6Hu5KnTcavxml2Mr1ko4gCoQZh6y++pmPJzMLmNsh2IhRJ8A88LF/3tAbXqiWp
- DH1FOpwxkRew0r7l2z72Basbowa69rb4dZLo2lwwfGh2rtMuKNBIuBDvC2Q5XSAYaI5tyyHBB
- bw4DUdfupS+zf0UT4B0MQ6YEdpoXJMl3vyW2jmunnuUIrDzwgRNP1sowIN69K880DPoMEIb
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:XuDq3Ce03C4SUF81OPoY07f5QjJcTQ80clUd/CiCZW6dkdn9M1t
+ t28F1yue3em7V5+lwnmMaaP/8vvLgaGnvgL0xQK/GQRa4X5BSUNtaBDVAX5Nlfu1XL70b6a
+ Id7K2XjkYY2OBPjWLv/Kn17yPO/FKQ8VWD1M7qVZDeeP18NpkycAoqzp3KKFtIi4duIDuZa
+ k99g0rwplU2ylAk3xg6hQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:zV4iK8yvxQA=:7Bv9M84nlan6nC8ZVf8vzP
+ aXztW8fTMT++TnPBcl7qUle3ptDAzn7xQp5rHhgDVO0jK+NfRCmFqBBcgKEkChchepqRcvl0d
+ OM43ixiO/+T3GpRB+aZFHAXHru9O8MRWzDYpJ64CdpBZ5SLjINldpBLBWE+l/kYi8ZhBUdaLx
+ 8mKBnYP0AhVXVDV/UwrZTwGCWsooNRRozPmoORNkTr4/bcs9cMHYeq2M1IqF2a0aQl2XkIYVH
+ vp82kAgz41GieCZFcC2QDkenTenjSVMwbkBIIM6eedXXNlHR/fYTLr5MaLWgtUB20C+XUwnJm
+ spDQQvcGfPAxD094SzwYyooIYJwl73Upk7SF4ebvBuBVHT4ztKysNWjr+0tBZDTCSnoJ5j6fb
+ nHC1F4eIJTuQUCW001SG16JmVHGMcEECaZ7eyqsJbsZQKUjGMAgyYE/+m+SmQxQo8JJA6N507
+ xZ+wQZra+G8VRXWvj3JlKn9j5GLlqNmu/x+Km9Pwo6hhK16+vqJo//RbkNEp4MIDHNM4AKQ1q
+ qt6HrejWPCXMhbX6bFa3LrQ5MEoDyzVnnZVckWJeX+QVCIofYHyxmGh4RHOlhels3uYd0NixT
+ CbVyC6d5iG1Fu8hOjUoDuVdxRoN56CigHTrxicSbo/dQDryg5fjClUBfsmTOXhJL2as3MRt8X
+ JiKnKw427ZnT9D/5yM6RTJnE924gOmZqkArgksv13PhCm+yMTM6Ax8LWTvYpxv/T3FrnuqqMg
+ 1wo6GqhhfScSiaP9KzgkuDn91Lp5rlCmz5C/afMMWAs9aooNQTuuIE120N9uyLrwInVSe7lZ9
+ N384fUfFSx+lLatYzdSqo3eQcuXfkgmRdlGE8Ik5DY4fjkSHwK2+pp18jlHML8mOlTBcFKa
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:10:07
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:10:08
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -70,68 +70,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-trivial@nongnu.org, Li Qiang <liq3ea@gmail.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Most of the MDIOBus fields are unused.  The ADVERTISE_10HALF
-definition is unused.  Remove unused code.
+Some 'qemu_vfio_*' trace events sizes are displayed using
+decimal notation, other using hexadecimal notation:
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Message-Id: <20200814133007.16850-1-f4bug@amsat.org>
+  qemu_vfio_ram_block_added s 0xaaaaf2448d90 host 0xffff5bc00000 size 0x4000000
+  qemu_vfio_dma_map s 0xaaaaf2448d90 host 0xffff5bc00000 size 67108864 temporary 0 iova (nil)
+  qemu_vfio_find_mapping s 0xaaaaf2448d90 host 0xffff5bc00000
+  qemu_vfio_new_mapping s 0xaaaaf2448d90 host 0xffff5bc00000 size 67108864 index 4 iova 0x114000
+  qemu_vfio_do_mapping s 0xaaaaf2448d90 host 0xffff5bc00000 size 67108864 iova 0x114000
+
+As it is hard to follow, unify using hexadecimal for all sizes:
+
+  qemu_vfio_ram_block_added s 0xaaaaf1c60d90 host 0xffff2bc00000 size 0x4000000
+  qemu_vfio_dma_map s 0xaaaaf1c60d90 host 0xffff2bc00000 size 0x4000000 temporary 0 iova (nil)
+  qemu_vfio_find_mapping s 0xaaaaf1c60d90 host 0xffff2bc00000
+  qemu_vfio_new_mapping s 0xaaaaf1c60d90 host 0xffff2bc00000 size 0x4000000 index 4 iova 0x114000
+  qemu_vfio_do_mapping s 0xaaaaf1c60d90 host 0xffff2bc00000 size 0x4000000 iova 0x114000
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Message-Id: <20200820171006.1140228-1-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/net/xilinx_axienet.c | 23 -----------------------
- 1 file changed, 23 deletions(-)
+ util/trace-events | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/net/xilinx_axienet.c b/hw/net/xilinx_axienet.c
-index 1e48eb70c9cc..2e89f236b4ab 100644
---- a/hw/net/xilinx_axienet.c
-+++ b/hw/net/xilinx_axienet.c
-@@ -54,7 +54,6 @@
-      TYPE_XILINX_AXI_ENET_CONTROL_STREAM)
- 
- /* Advertisement control register. */
--#define ADVERTISE_10HALF        0x0020  /* Try for 10mbps half-duplex  */
- #define ADVERTISE_10FULL        0x0040  /* Try for 10mbps full-duplex  */
- #define ADVERTISE_100HALF       0x0080  /* Try for 100mbps half-duplex */
- #define ADVERTISE_100FULL       0x0100  /* Try for 100mbps full-duplex */
-@@ -169,28 +168,6 @@ tdk_init(struct PHY *phy)
- }
- 
- struct MDIOBus {
--    /* bus.  */
--    int mdc;
--    int mdio;
--
--    /* decoder.  */
--    enum {
--        PREAMBLE,
--        SOF,
--        OPC,
--        ADDR,
--        REQ,
--        TURNAROUND,
--        DATA
--    } state;
--    unsigned int drive;
--
--    unsigned int cnt;
--    unsigned int addr;
--    unsigned int opc;
--    unsigned int req;
--    unsigned int data;
--
-     struct PHY *devs[32];
- };
- 
+diff --git a/util/trace-events b/util/trace-events
+index 0ce42822eba9..d9a0b4f8c63a 100644
+--- a/util/trace-events
++++ b/util/trace-events
+@@ -79,7 +79,7 @@ qemu_vfio_dma_reset_temporary(void *s) "s %p"
+ qemu_vfio_ram_block_added(void *s, void *p, size_t size) "s %p host %p size 0x%zx"
+ qemu_vfio_ram_block_removed(void *s, void *p, size_t size) "s %p host %p size 0x%zx"
+ qemu_vfio_find_mapping(void *s, void *p) "s %p host %p"
+-qemu_vfio_new_mapping(void *s, void *host, size_t size, int index, uint64_t iova) "s %p host %p size %zu index %d iova 0x%"PRIx64
+-qemu_vfio_do_mapping(void *s, void *host, size_t size, uint64_t iova) "s %p host %p size %zu iova 0x%"PRIx64
+-qemu_vfio_dma_map(void *s, void *host, size_t size, bool temporary, uint64_t *iova) "s %p host %p size %zu temporary %d iova %p"
++qemu_vfio_new_mapping(void *s, void *host, size_t size, int index, uint64_t iova) "s %p host %p size 0x%zx index %d iova 0x%"PRIx64
++qemu_vfio_do_mapping(void *s, void *host, size_t size, uint64_t iova) "s %p host %p size 0x%zx iova 0x%"PRIx64
++qemu_vfio_dma_map(void *s, void *host, size_t size, bool temporary, uint64_t *iova) "s %p host %p size 0x%zx temporary %d iova %p"
+ qemu_vfio_dma_unmap(void *s, void *host) "s %p host %p"
 -- 
 2.26.2
 
