@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D674925881D
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 08:25:01 +0200 (CEST)
-Received: from localhost ([::1]:45940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AF75258832
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 08:28:28 +0200 (CEST)
+Received: from localhost ([::1]:55578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCzj2-0006jB-Tw
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 02:25:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44418)
+	id 1kCzmN-0002eb-7N
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 02:28:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kCzem-0006Hn-7w
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 02:20:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51960)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kCzek-0000qO-At
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 02:20:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598941233;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=o0QobZlwjsT7Kc8fp1pirRRsg0TYlKZXjIQ1EVrG5A4=;
- b=ivhYmmDY4QHP5BTaSw6fUThdo3PRhRiyOd3za+VLoZfncmaTAczQTXRPx4HliCpLblLwWZ
- IQDP6bkNwcASwFZjhj18/vxnHSdzv8coVs32Olp/aOF3swWytsC4nPJz4WzYmdvkykLIp0
- w0YjbbimdQu68yZh4UXKbP34Rw3Pfa4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-384-fwH-5IC5OEiQMsBO_dhWVg-1; Tue, 01 Sep 2020 02:20:27 -0400
-X-MC-Unique: fwH-5IC5OEiQMsBO_dhWVg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7948C801AE2;
- Tue,  1 Sep 2020 06:20:26 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 376BE78B26;
- Tue,  1 Sep 2020 06:20:26 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 13/13] configure: use a platform-neutral prefix
-Date: Tue,  1 Sep 2020 02:20:20 -0400
-Message-Id: <20200901062020.26660-14-pbonzini@redhat.com>
-In-Reply-To: <20200901062020.26660-1-pbonzini@redhat.com>
-References: <20200901062020.26660-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kCzl5-0001sj-BY
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 02:27:07 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:45321)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kCzl3-0001fQ-PF
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 02:27:07 -0400
+Received: by mail-oi1-x241.google.com with SMTP id d189so187380oig.12
+ for <qemu-devel@nongnu.org>; Mon, 31 Aug 2020 23:27:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=5dV/+2xJJw3Y27euk5TX1X1H7daCpl6Na/5MIj+EuTc=;
+ b=Y/Dn6KshoTWzp8qttynK3q5nQF+uKjzvOaz3mpSFPWryR6nurnsLtJUGNX3jxqqw7m
+ Di4dSsi/GD3L2QL7tiANY+Ewfq3YoaeTWN6KrSJc4FFUmAkj/5JT1M7Yo6HogKUyGUVs
+ aQLGepEsNu/tXG918BGYbHBUK6yqSUu/k0QskOIGQT+PYlDvEpv9ejsQF0lL5sEkKdwx
+ Ce6IzRtEhigoNewhFv25wtGxfUcVhEk57xfa2Tiq3+IFNhKvgXcaYKQ1JxTvI/ZgTeHu
+ 9SHY6kizPa6OcWiAduWI2GWTYIA09HwaIinaDV8F7Gh+tetNKxRFQBd7q0p6m3V7SoNS
+ GQZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=5dV/+2xJJw3Y27euk5TX1X1H7daCpl6Na/5MIj+EuTc=;
+ b=Z9lAhy/iNv98Ap8/MqozKsQ8roOUTrND27IctX8jEbIflqwpNhzfKKZI/bRTvXpzq8
+ Zq7XKLIwtdi3m8Y1tWATPLoYJpuCbI5hEeYAehVcyZw3yN59s0CJNW0rDmJc4k7jF56e
+ 9fwZ+cIT3QeiXuXRZXuuECtIjnNe0urIzp/+rdwAP8QuzVMHZu1977efWenYCh6KwF4f
+ ibnzc8n0/wRAJraSCbxGb2jSQQKIzQNb50+z6dD8VAEWDi2NgnNMV043rxm397QLJzfb
+ YNe3TvD+SLKdo7RopQXTX10aokXH9hT1CC8JwT91ZpdIkb0sCqAL0XO4TcYj+Hk7Lart
+ L4+A==
+X-Gm-Message-State: AOAM532VIGg41MrIwH1B4HP6py1CUUDuV+UjQX/cS3f/1GWhcysdbFva
+ BOJYYvKHoVaKnk7YjaAdfZNLRezKjXYecRucXU8=
+X-Google-Smtp-Source: ABdhPJwSpVtWQNzpAeMouqfHNnmG041gWMTeJiYwNxPAFEsDIvH2dxGhqbsjzTeClin7wW7sRNt9TwzQkapM4CirKRc=
+X-Received: by 2002:aca:c0c1:: with SMTP id q184mr230565oif.56.1598941624389; 
+ Mon, 31 Aug 2020 23:27:04 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 23:17:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20200821082622.7169-1-kraxel@redhat.com>
+ <CAKXe6SKZuuCnzAF2uwHO=sh=o2XdAU1+dG6OO-eLYnubX9KikA@mail.gmail.com>
+ <20200831112322.rkzv6acsw7iza6w7@sirius.home.kraxel.org>
+ <CAKXe6SJLxQacG_TmSBZPCkDyz24FADqNc4R+hs4z1PxzsSjexQ@mail.gmail.com>
+ <20200901051530.hjdugb7c5r22n3ui@sirius.home.kraxel.org>
+In-Reply-To: <20200901051530.hjdugb7c5r22n3ui@sirius.home.kraxel.org>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Tue, 1 Sep 2020 14:26:25 +0800
+Message-ID: <CAKXe6SLOP9WPYoPP-Rf+RvwVk26J9siNod=CgkBj8dW0rMD25Q@mail.gmail.com>
+Subject: Re: [PATCH] cirrus: handle wraparound in cirrus_invalidate_region
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
+ envelope-from=liq3ea@gmail.com; helo=mail-oi1-x241.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,84 +82,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: Alexander Bulekov <alxndr@bu.edu>, Li Qiang <liq3ea@163.com>,
+ Qemu Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that the installation is relocatable, there is no need to compile a
-Windows-format prefix into Win32 binaries.  Instead, the prefix will
-only be used to compute installation-relative paths, and it can be
-any string.
+Gerd Hoffmann <kraxel@redhat.com> =E4=BA=8E2020=E5=B9=B49=E6=9C=881=E6=97=
+=A5=E5=91=A8=E4=BA=8C =E4=B8=8B=E5=8D=881:15=E5=86=99=E9=81=93=EF=BC=9A
+>
+>   Hi,
+>
+> > > > >          off_cur_end =3D ((off_cur + bytesperline - 1) & s->cirru=
+s_addr_mask) + 1;
+> [ ... ]
+> > > > > +            memory_region_set_dirty(&s->vga.vram, 0, off_cur_end=
+);
+> > > >
+> > > > And here be 'off_cur_end -1'
+> > >
+> > > --verbose please.  I think this one is correct.
+> >
+> > Here the 'off_cur_end' is size.
+>
+> Exactly.  And memory_region_set_dirty wants the size.  So everything is
+> fine, right?
 
-Drop the "Program Files" path completely: it is only usable on English
-versions of Windows; therefore, using the NSIS installer to get the
-"correct" path to the Program Files folder is recommended, and NSIS
-works just as well with any prefix.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- configure | 30 +++++++++++-------------------
- 1 file changed, 11 insertions(+), 19 deletions(-)
 
-diff --git a/configure b/configure
-index 105e780c09..558b3579db 100755
---- a/configure
-+++ b/configure
-@@ -1009,7 +1009,7 @@ if test "$mingw32" = "yes" ; then
-   if compile_prog "" "-liberty" ; then
-     LIBS="-liberty $LIBS"
-   fi
--  prefix="c:/Program Files/QEMU"
-+  prefix="/qemu"
-   qemu_suffix=""
-   libs_qga="-lws2_32 -lwinmm -lpowrprof -lwtsapi32 -lwininet -liphlpapi -lnetapi32 $libs_qga"
- fi
-@@ -8145,17 +8145,9 @@ echo "strip = $(meson_quote $strip)" >> $cross
- echo "windres = $(meson_quote $windres)" >> $cross
- if test -n "$cross_prefix"; then
-     cross_arg="--cross-file config-meson.cross"
--    # Hack: Meson expects an absolute path for the *build* machine
--    # for the prefix, so add a slash in front of a Windows path that
--    # includes a drive letter.
--    #
--    # See https://github.com/mesonbuild/meson/issues/7577.
-     echo "[host_machine]" >> $cross
-     if test "$mingw32" = "yes" ; then
-         echo "system = 'windows'" >> $cross
--        case $prefix in
--            ?:*) pre_prefix=/ ;;
--        esac
-     fi
-     case "$ARCH" in
-         i386|x86_64)
-@@ -8181,16 +8173,16 @@ mv $cross config-meson.cross
- 
- rm -rf meson-private meson-info meson-logs
- NINJA=${ninja:-$PWD/ninjatool} $meson setup \
--        --prefix "${pre_prefix}$prefix" \
--        --libdir "${pre_prefix}$libdir" \
--        --libexecdir "${pre_prefix}$libexecdir" \
--        --bindir "${pre_prefix}$bindir" \
--        --includedir "${pre_prefix}$includedir" \
--        --datadir "${pre_prefix}$datadir" \
--        --mandir "${pre_prefix}$mandir" \
--        --sysconfdir "${pre_prefix}$sysconfdir" \
--        --localstatedir "${pre_prefix}$local_statedir" \
--        -Ddocdir="${pre_prefix}$docdir" \
-+        --prefix "$prefix" \
-+        --libdir "$libdir" \
-+        --libexecdir "$libexecdir" \
-+        --bindir "$bindir" \
-+        --includedir "$includedir" \
-+        --datadir "$datadir" \
-+        --mandir "$mandir" \
-+        --sysconfdir "$sysconfdir" \
-+        --localstatedir "$local_statedir" \
-+        -Ddocdir="$docdir" \
-         -Dqemu_suffix="$qemu_suffix" \
-         -Doptimization=$(if test "$debug" = yes; then echo 0; else echo 2; fi) \
-         -Ddebug=$(if test "$debug_info" = yes; then echo true; else echo false; fi) \
--- 
-2.26.2
++        if (off_cur_end >=3D off_cur) {
++            memory_region_set_dirty(&s->vga.vram, off_cur,
+off_cur_end - off_cur);
++        } else {
++            /* wraparound */
++            memory_region_set_dirty(&s->vga.vram, off_cur,
+s->cirrus_addr_mask - off_cur);
 
+The s->cirrus_addr_mask can be reached. I mean we can do following:
+s->vga.vram[s->cirrus_addr_mask].
+
+If I understand correctly, the 'off_cur' and 's->cirrus_addr_mask' is both =
+index
+[off_cur, s->cirrus_addr_mask].
+
+So the len is 's->cirrus_addr_mask->off_cur+1'.
+
+
++            memory_region_set_dirty(&s->vga.vram, 0, off_cur_end);
+
+
+For the 'off_cur_end' here, why we add 1 at the first?:
+
+"off_cur_end =3D ((off_cur + bytesperline - 1) & s->cirrus_addr_mask) + 1;"
+This addition '1' is what I think should be substracted in wrapped cases.
+
+Thanks,
+Li Qiang
+
++        }
+         off_begin +=3D off_pitch;
+     }
+ }
+
+
+
+>
+> take care,
+>   Gerd
+>
 
