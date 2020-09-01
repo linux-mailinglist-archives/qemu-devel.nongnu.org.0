@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC1372590C2
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:38:33 +0200 (CEST)
-Received: from localhost ([::1]:56154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D21D25907B
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:32:11 +0200 (CEST)
+Received: from localhost ([::1]:53882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD7Qe-0005lC-PA
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:38:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55816)
+	id 1kD7KU-0000jb-Ds
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:32:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kD707-0007rd-CC
+ id 1kD707-0007qe-14
  for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:11:07 -0400
-Received: from indium.canonical.com ([91.189.90.7]:39334)
+Received: from indium.canonical.com ([91.189.90.7]:39354)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kD704-00048n-4S
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:11:07 -0400
+ id 1kD704-00048q-4U
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:11:06 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kD701-0001GW-US
- for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 14:11:01 +0000
+ id 1kD702-0001Du-S6
+ for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 14:11:02 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C00652E80EC
- for <qemu-devel@nongnu.org>; Tue,  1 Sep 2020 14:11:01 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id D13742E804B
+ for <qemu-devel@nongnu.org>; Tue,  1 Sep 2020 14:11:02 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 01 Sep 2020 14:01:27 -0000
+Date: Tue, 01 Sep 2020 14:03:01 -0000
 From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1892960@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -42,15 +42,16 @@ X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
 X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
  =?utf-8?q?=29?=
 References: <159840512781.15369.16521722289936881073.malonedeb@soybean.canonical.com>
-Message-Id: <20200901140127.111454-4-f4bug@amsat.org>
-Subject: [Bug 1892960] [PATCH 3/3] hw/sd/sdhci: Fix DMA Transfer Block Size
- field
+ <20200901140127.111454-4-f4bug@amsat.org>
+Message-Id: <ea02b3c2-96d8-a2a1-dbf0-832bc06df503@amsat.org>
+Subject: [Bug 1892960] Re: [PATCH 3/3] hw/sd/sdhci: Fix DMA Transfer Block
+ Size field
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="195cbfa84cb75815472f69dd83d46f006869050b"; Instance="production"
-X-Launchpad-Hash: 8adcecb963bb743aaec7ae7b570bd8bf94060f4c
+X-Launchpad-Hash: ea9110fbab73357c3b4a06eac7108b5966254e7e
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:11:02
@@ -77,40 +78,45 @@ Reply-To: Bug 1892960 <1892960@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 'Transfer Block Size' field is 12-bit wide.
+On 9/1/20 4:01 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> The 'Transfer Block Size' field is 12-bit wide.
+> =
 
-See section '2.2.2. Block Size Register (Offset 004h)' in datasheet.
+> See section '2.2.2. Block Size Register (Offset 004h)' in datasheet.
+> =
 
-Cc: qemu-stable@nongnu.org
-Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>
-Buglink: https://bugs.launchpad.net/qemu/+bug/1892960
-Fixes: d7dfca0807a ("hw/sdhci: introduce standard SD host controller")
-Reported-by: Alexander Bulekov <alxndr@bu.edu>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
----
-Cc: 1892960@bugs.launchpad.net
----
- hw/sd/sdhci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Cc: qemu-stable@nongnu.org
+> Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1892960
+> Fixes: d7dfca0807a ("hw/sdhci: introduce standard SD host controller")
+> Reported-by: Alexander Bulekov <alxndr@bu.edu>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+> Cc: 1892960@bugs.launchpad.net
+> ---
+>  hw/sd/sdhci.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> =
 
-diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
-index 60f083b84c1..beb7b7ea092 100644
---- a/hw/sd/sdhci.c
-+++ b/hw/sd/sdhci.c
-@@ -1104,7 +1104,7 @@ sdhci_write(void *opaque, hwaddr offset, uint64_t val=
-, unsigned size)
-         break;
-     case SDHC_BLKSIZE:
-         if (!TRANSFERRING_DATA(s->prnsts)) {
--            MASKED_WRITE(s->blksize, mask, value);
-+            MASKED_WRITE(s->blksize, mask, extract32(s->blksize, 0, 12));
-             MASKED_WRITE(s->blkcnt, mask >> 16, value >> 16);
-         }
- =
+> diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
+> index 60f083b84c1..beb7b7ea092 100644
+> --- a/hw/sd/sdhci.c
+> +++ b/hw/sd/sdhci.c
+> @@ -1104,7 +1104,7 @@ sdhci_write(void *opaque, hwaddr offset, uint64_t v=
+al, unsigned size)
+>          break;
+>      case SDHC_BLKSIZE:
+>          if (!TRANSFERRING_DATA(s->prnsts)) {
+> -            MASKED_WRITE(s->blksize, mask, value);
+> +            MASKED_WRITE(s->blksize, mask, extract32(s->blksize, 0, 12));
 
--- =
+Beh change unstaged, sorry, will repost.
 
-2.26.2
+>              MASKED_WRITE(s->blkcnt, mask >> 16, value >> 16);
+>          }
+>  =
+
+>
 
 -- =
 
