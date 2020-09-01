@@ -2,100 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5F342592C3
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:16:50 +0200 (CEST)
-Received: from localhost ([::1]:34846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E44252592A2
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:14:59 +0200 (CEST)
+Received: from localhost ([::1]:56800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD81h-0004kJ-TF
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:16:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43836)
+	id 1kD7zu-000279-W7
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:14:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kD7sg-0007wK-Ub
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:07:30 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48677
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kD7sc-0004B2-VU
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:07:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598972845;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=DjSk/e5SXMdCtxWQeU7ZGcAUJHMwTAmNVplEoQQtlYE=;
- b=dpnp7mSC3t7hfa03oOp9AAg6QcNy4PROnlQ1klbaiA8OJYA/jwKr9ipuPmIZ7VdBAMKb+O
- 7tKv8ighD6Ma4HBhpKpLk9ao00NXIPpc5H0fr8Xoji58xlIo3KyTA30Oa0X5k8ik3G/bMv
- v2I2EgbM1eIWkFGRZlRosNmoa+PmPQc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-323-1JMOkRucM0SQq0RJjjHYZA-1; Tue, 01 Sep 2020 11:07:23 -0400
-X-MC-Unique: 1JMOkRucM0SQq0RJjjHYZA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF3268015A8;
- Tue,  1 Sep 2020 15:07:21 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-83.ams2.redhat.com
- [10.36.113.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B2FA619C66;
- Tue,  1 Sep 2020 15:07:16 +0000 (UTC)
-Subject: Re: [PATCH v5 00/10] preallocate filter
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20200821141123.28538-1-vsementsov@virtuozzo.com>
- <3a810fb7-eedc-bd54-4319-f1862b5382c0@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <1c027e2c-651c-7077-09e3-f94c71c6dde7@redhat.com>
-Date: Tue, 1 Sep 2020 17:07:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-MIME-Version: 1.0
-In-Reply-To: <3a810fb7-eedc-bd54-4319-f1862b5382c0@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="wVzrZ1owYKa5uZaIm51SADd4IX81VQCxR"
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 00:57:59
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.13, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kD7ur-0004Fb-3W
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:09:45 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:36093)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kD7ul-0004Y9-Oc
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:09:44 -0400
+Received: by mail-pf1-x444.google.com with SMTP id m8so953515pfh.3
+ for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 08:09:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id;
+ bh=HHdiOGLkXts4NNVu4SCMzFcJi56aYTGQpkW5PEoj6js=;
+ b=xpg0nfHs3vBBqOclx5PpIQYvtk+nMAubfDzrHsDfOydLerfc1Io9M12Zr+grjqWbW4
+ /VhA7emac9RPaHt5Bp/IKJQUATgVHANNGF+FMgL7st1mb+9ki3ipJaoplGIaabvGKqih
+ p06DOvafBkmEEOs7/VOSzrh9fv79iDd7N34l7E3gJkFyppiPS6FtlLqZXuRxni54xwIa
+ qyLrc7eJV1Yp61ensP7i3x+LOl4NyheWYzkXdsmDqIqp2W62SmhqBNws1wki41/3v5vC
+ 9bPFaC3QYYcqwNin8nXc0I+7LI4i3qiFCFvCF9YcWYEACx57CyqednFX80qaSdiaX3qO
+ kI8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=HHdiOGLkXts4NNVu4SCMzFcJi56aYTGQpkW5PEoj6js=;
+ b=BgqsxiBreBIBZHpbiNdmtUwrSH5WsR0NNfLlDtejnotjstM5fosAw1FsEhF/yohOXa
+ nndzLFb22QP8+9TN52bc52bD1AFmyrZe9xQkL31n9dDxg7GtDCaIVkE6UMDQvHeDl8TI
+ l2WxW4reuR2qF1GTpryo6oCnR+BD9PxXRgGC5TLKtER9LT77Px2LBhNRAqmaolVJsy2Z
+ f5C8xH06cNxvgRgKtE5iYuEShX3zjTMf9qkRp7qYhca3gQad4m/CiKwOndbB+CMNTdVj
+ ZU0eiGfJd7P2/1nCuT9SYwnpLEXHHdHNnpkAFZiqBUhsOAZjqFK+YLsN0wVNrw0/kQ2w
+ FnSg==
+X-Gm-Message-State: AOAM532ldEnqfy0qUHKRCiVlfDpC7izoLej1giQeQVoCSdC4UDxFVqfu
+ LQTMcYRG1q4m8giJU9Sfsc29/OsBBh1XmFNg
+X-Google-Smtp-Source: ABdhPJxX1Kzq3BgulFXnCEHB31L0TNx3sK+u7zcjW7f/Kmn4ahfu6ckpX+Jw+u3ajvsad/Q3xI9zvQ==
+X-Received: by 2002:a63:d62:: with SMTP id 34mr1851524pgn.179.1598972977087;
+ Tue, 01 Sep 2020 08:09:37 -0700 (PDT)
+Received: from localhost.localdomain ([203.163.237.89])
+ by smtp.googlemail.com with ESMTPSA id gk19sm3315777pjb.2.2020.09.01.08.09.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Sep 2020 08:09:36 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 1/3] tests/acpi: document addition of table DSDT.roothp for
+ unit testing root pci hotplug on/off
+Date: Tue,  1 Sep 2020 20:39:26 +0530
+Message-Id: <20200901150928.12428-1-ani@anisinha.ca>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: none client-ip=2607:f8b0:4864:20::444;
+ envelope-from=ani@anisinha.ca; helo=mail-pf1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,121 +77,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
- nsoffer@redhat.com, stefanha@redhat.com, den@openvz.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, jusual@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---wVzrZ1owYKa5uZaIm51SADd4IX81VQCxR
-Content-Type: multipart/mixed; boundary="qy7IAreQaHzq0KRNV7YB2ldsD5ACN7OFz"
+A new binary acpi table tests/data/acpi/pc/DSDT.roothp is added in order to unit test
+the feature flag that can disable/enable root pci bus hotplug on i440fx. This feature was
+added with the commit:
+3d7e78aa7777f0 ("Introduce a new flag for i440fx to disable PCI hotplug on the root bus")
 
---qy7IAreQaHzq0KRNV7YB2ldsD5ACN7OFz
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+This change documents the fact that this new file addition was made as a part of the
+unit test change.
 
-On 27.08.20 23:08, Vladimir Sementsov-Ogievskiy wrote:
-> 21.08.2020 17:11, Vladimir Sementsov-Ogievskiy wrote:
->> Hi all!
->>
->> Here is a filter, which does preallocation on write.
->>
->> In Virtuozzo we have to deal with some custom distributed storage
->> solution, where allocation is relatively expensive operation. We have to
->> workaround it in Qemu, so here is a new filter.
->=20
-> I have a problem now with this thing.
->=20
-> We need preallocation. But we don't want to explicitly specify it in all
-> the management tools.
+Signed-off-by: Ani Sinha <ani@anisinha.ca>
+---
+ tests/qtest/bios-tables-test-allowed-diff.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-Why?
-
-> So it should be inserted by default.
-
-Why?  You mean without any option?  That seems...  Interesting?
-
-(Also like a recipe for reports of performance regression in some cases.)
-
-> It's OK for
-> us to keep this default different from upstream... But there are
-> problems with the implicitly inserted filter (actually iotests fail and
-> I failed to fix them)
-
-I would suspect even if the iotests passed we would end up with a heap
-of problems that we would only notice at some later point.  I thought
-you too weren=E2=80=99t too fond of the idea of implicit filters.
-
-> 1. I have to set bs->inherits_from for filter and it's child by hand
-> after bdrv_replace_node(), otherwise bdrv_check_perm doesn't work.
->=20
-> 2. I have to set filter_bs->implicit and teach bdrv_refresh_filename()
-> to ignore implicit filters when it checks for drv->bdrv_file_open, to
-> avoid appearing of json in backing file names
->=20
-> 3. And the real design problem, which seems impossible to fix: reopen is
-> broken, just because user is not prepared to the fact that file child is
-> a filter, not a file node and has another options, and don't support
-> options of file-posix.
-
-Well, what should I say.  I feel like we have made efforts in the past
-years to make the block graph fully visible to users and yield the
-responsibility of managing it to the users, too, so I=E2=80=99m not surpris=
-ed if
-a step backwards breaks that.
-
-> And seems all it (and mostly [3]) shows that implicitly inserting the
-> filter is near to be impossible..
->=20
-> So, what are possible solutions?
->=20
-> In virtuozzo7 we have preallocation feature done inside qcow2 driver.
-> This is very uncomfortable: we should to handle each possible over-EOF
-> write to underlying node (to keep data_end in sync to be able to shrink
-> preallocation on close()).. I don't like this way and don't want to port
-> it..
->=20
-> Another option is implementing preallocation inside file-posix driver.
-> Then, instead of BDRV_REQ_NO_WAIT flag I'll need to extend serialising
-> requests API (bdrv_make_request_serialising() is already used in
-> file-posix.c) to dupport no-wait behavior + expanding the serialising
-> request bounds. This option seems feasible, so I'll try this way if no
-> other ideas.
-
-Possible, but you haven=E2=80=99t yet explained what the problem with the
-management layer inserting the preallocation filter is.
-
-> Filter is obviously the true way: we use generic block layer for native
-> request serialising, don't need to catch every write in qcow2 driver,
-> don't need to modify any other driver and get a universal thing. But how
-> to insert it implicitly (or at least automatically in some cases) and
-> avoid all the problems?
-
-I don=E2=80=99t understand why inserting it implicitly is important.
-
-Max
-
-
---qy7IAreQaHzq0KRNV7YB2ldsD5ACN7OFz--
-
---wVzrZ1owYKa5uZaIm51SADd4IX81VQCxR
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl9OY6IACgkQ9AfbAGHV
-z0AMFQgAozEDZeU/1iQR9vtRi3rLSjRcauJEYSlA8Jp5a5VBd9ECEM/sm2PxKTTd
-UiuVwk+GTjJAP9u/pNKiofo82zLQPlEMBYugdMaqpBxTrg/Al606GPLteoUBZNYF
-jUN5JJnwIfIeRjuMMkzdSmDVgGJH0ovqzW0RDANC2/bosDAyTOPzCiKKpFyGr8jT
-wZnVO/sL8oyzrwmMCZzY+5N0dF4ve+GYqs/adtsycWD/A4uGSU0W7AzGAZ2hnZzF
-2ylXlUKTs6eqgj3tiWnjpMzZBfy/5Xn+wvXVxjfSki8wW+dqF2gHh/8wZ2VxlySL
-gZkQG+AG/tnt42jCoFf2WIYNMFNXng==
-=MG6k
------END PGP SIGNATURE-----
-
---wVzrZ1owYKa5uZaIm51SADd4IX81VQCxR--
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..ac864fc982 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,2 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/pc/DSDT.roothp",
+-- 
+2.17.1
 
 
