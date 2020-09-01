@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3EE7258F25
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 15:33:07 +0200 (CEST)
-Received: from localhost ([::1]:55932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0A44258F2E
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 15:34:07 +0200 (CEST)
+Received: from localhost ([::1]:60234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD6PJ-0001Ic-NU
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 09:33:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44430)
+	id 1kD6QI-00032x-U1
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 09:34:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kD6NU-0008Na-3K
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 09:31:12 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32983
+ id 1kD6Nh-00009g-Dl
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 09:31:27 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23555
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kD6NL-00075E-9q
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 09:31:11 -0400
+ id 1kD6Ne-000788-EA
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 09:31:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598967062;
+ s=mimecast20190719; t=1598967080;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=DVzEytBvexLhPQwpZZpKzUgjXa+Zor8NCj8/FALjqLw=;
- b=Z2zNnmkB/mLvQSrImrYdQSPlgAd/sXOPmEll9/iMRoVeVOHKAujKUS3PdkDoRze2E0XxyX
- 9REGZJa9XcBp2V5CydqC85el8PquhIqQRUUaE/XOR3IisxIp5oOs4LMRH4TyYi9w9qTZKf
- wm+WLuVqsrIo/HGIO7PBXjvIeTRSIag=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8IO3TFqPoX/OLObMBa229BdOGTxQ5xorxsF85TszboI=;
+ b=ffgHi83AyBpF11LP7buw3k0h6FWaHUz7ITnUf2MhPfq0tQ9jaFjmmtmypEfzVlIqKj18y3
+ s5WiyGpRPUs1aP8p+VK06Ve9qSGP0GdO3nm9x8D/5OzepBfrJ9B+dyUl3r9Fo6xl24utMR
+ hEeC8Sk/RF1Q93jnCDzx3BSd6/caklg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-363-B44C0XH0Nw-QPALfY3wuHw-1; Tue, 01 Sep 2020 09:30:59 -0400
-X-MC-Unique: B44C0XH0Nw-QPALfY3wuHw-1
+ us-mta-301-4qYGgUZfOC2boxFdmSVJ0Q-1; Tue, 01 Sep 2020 09:31:15 -0400
+X-MC-Unique: 4qYGgUZfOC2boxFdmSVJ0Q-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2989C801AE4;
- Tue,  1 Sep 2020 13:30:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A739425D0;
+ Tue,  1 Sep 2020 13:31:06 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-114-215.ams2.redhat.com
  [10.36.114.215])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D4D875D9CC;
- Tue,  1 Sep 2020 13:30:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BA6DD5D9CC;
+ Tue,  1 Sep 2020 13:30:58 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/2] crypto: fix build with gcrypt
-Date: Tue,  1 Sep 2020 14:30:48 +0100
-Message-Id: <20200901133050.381844-1-berrange@redhat.com>
+Subject: [PATCH v2 1/2] crypto: fix build with gcrypt enabled
+Date: Tue,  1 Sep 2020 14:30:49 +0100
+Message-Id: <20200901133050.381844-2-berrange@redhat.com>
+In-Reply-To: <20200901133050.381844-1-berrange@redhat.com>
+References: <20200901133050.381844-1-berrange@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 00:57:59
@@ -89,31 +92,127 @@ Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The build system failed to add gcrypt flags and also didn't link to=0D
-gnutls in all scenarios.  This was missed because of the lack of CI=0D
-coverage for various build scenarios=0D
-=0D
-Changed in v2:=0D
-=0D
- - Change way we add library dependencies in meson rules=0D
-   to fix linux-user build with gcrypt/gnutls too.=0D
- - Extend CI coverage to test 1 system and 1 linux-user=0D
-   build with each crypto combination, not merely tools.=0D
-=0D
-Daniel P. Berrang=C3=A9 (2):=0D
-  crypto: fix build with gcrypt enabled=0D
-  gitlab: expand test coverage for crypto builds=0D
-=0D
- .gitlab-ci.yml                          | 69 +++++++++++++++++++++++++=0D
- configure                               |  2 +=0D
- crypto/meson.build                      | 42 +++++++++++----=0D
- meson.build                             |  5 ++=0D
- tests/docker/dockerfiles/centos7.docker |  2 +=0D
- tests/docker/dockerfiles/centos8.docker |  1 +=0D
- 6 files changed, 110 insertions(+), 11 deletions(-)=0D
-=0D
---=20=0D
-2.26.2=0D
-=0D
+If nettle is disabled and gcrypt enabled, the compiler and linker flags
+needed for gcrypt are not passed.
+
+Gnutls was also not added as a dependancy when gcrypt is enabled.
+
+Attempting to add the library dependencies at the same time as the
+source dependencies is error prone, as there are alot of different
+rules for picking which sources to use, and some of the source files
+use code level conditionals intead. It is thus clearer to add the
+library dependencies separately.
+
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ configure          |  2 ++
+ crypto/meson.build | 42 +++++++++++++++++++++++++++++++-----------
+ meson.build        |  5 +++++
+ 3 files changed, 38 insertions(+), 11 deletions(-)
+
+diff --git a/configure b/configure
+index 8dc981684b..3dc2431722 100755
+--- a/configure
++++ b/configure
+@@ -6979,6 +6979,8 @@ if test "$gcrypt" = "yes" ; then
+   if test "$gcrypt_hmac" = "yes" ; then
+     echo "CONFIG_GCRYPT_HMAC=y" >> $config_host_mak
+   fi
++  echo "GCRYPT_CFLAGS=$gcrypt_cflags" >> $config_host_mak
++  echo "GCRYPT_LIBS=$gcrypt_libs" >> $config_host_mak
+ fi
+ if test "$nettle" = "yes" ; then
+   echo "CONFIG_NETTLE=y" >> $config_host_mak
+diff --git a/crypto/meson.build b/crypto/meson.build
+index 18da7c8541..f6f5ce1ecd 100644
+--- a/crypto/meson.build
++++ b/crypto/meson.build
+@@ -23,24 +23,35 @@ crypto_ss.add(files(
+   'tlssession.c',
+ ))
+ 
+-if 'CONFIG_GCRYPT' in config_host
+-  wo_nettle = files('hash-gcrypt.c', 'pbkdf-gcrypt.c')
++if 'CONFIG_NETTLE' in config_host
++  crypto_ss.add(files('hash-nettle.c', 'hmac-nettle.c', 'pbkdf-nettle.c'))
++elif 'CONFIG_GCRYPT' in config_host
++  crypto_ss.add(files('hash-gcrypt.c', 'pbkdf-gcrypt.c'))
++  if 'CONFIG_GCRYPT_HMAC' in config_host
++    crypto_ss.add(files('hmac-gcrypt.c'))
++  else
++    crypto_ss.add(files('hmac-glib.c'))
++  endif
+ else
+-  wo_nettle = files('hash-glib.c', 'pbkdf-stub.c')
+-endif
+-if 'CONFIG_GCRYPT_HMAC' not in config_host
+-  wo_nettle += files('hmac-glib.c')
++  crypto_ss.add(files('hash-glib.c', 'hmac-glib.c', 'pbkdf-stub.c'))
+ endif
+-crypto_ss.add(when: [nettle, 'CONFIG_NETTLE'],
+-             if_true: files('hash-nettle.c', 'hmac-nettle.c', 'pbkdf-nettle.c'),
+-             if_false: wo_nettle)
+ 
+ crypto_ss.add(when: 'CONFIG_SECRET_KEYRING', if_true: files('secret_keyring.c'))
+ crypto_ss.add(when: 'CONFIG_QEMU_PRIVATE_XTS', if_true: files('xts.c'))
+-crypto_ss.add(when: 'CONFIG_GCRYPT_HMAC', if_true: files('hmac-gcrypt.c'))
+ crypto_ss.add(when: 'CONFIG_AF_ALG', if_true: files('afalg.c', 'cipher-afalg.c', 'hash-afalg.c'))
+ crypto_ss.add(when: 'CONFIG_GNUTLS', if_true: files('tls-cipher-suites.c'))
+ 
++if 'CONFIG_NETTLE' in config_host
++  crypto_ss.add(nettle)
++elif 'CONFIG_GCRYPT' in config_host
++  crypto_ss.add(gcrypt)
++endif
++
++if 'CONFIG_GNUTLS' in config_host
++  crypto_ss.add(gnutls)
++endif
++
++
+ crypto_ss = crypto_ss.apply(config_host, strict: false)
+ libcrypto = static_library('crypto', crypto_ss.sources() + genh,
+                            dependencies: [crypto_ss.dependencies()],
+@@ -52,12 +63,21 @@ crypto = declare_dependency(link_whole: libcrypto,
+ 
+ util_ss.add(files('aes.c'))
+ util_ss.add(files('init.c'))
++
+ if 'CONFIG_GCRYPT' in config_host
+   util_ss.add(files('random-gcrypt.c'))
+ elif 'CONFIG_GNUTLS' in config_host
+-  util_ss.add(files('random-gnutls.c'), gnutls)
++  util_ss.add(files('random-gnutls.c'))
+ elif 'CONFIG_RNG_NONE' in config_host
+   util_ss.add(files('random-none.c'))
+ else
+   util_ss.add(files('random-platform.c'))
+ endif
++
++if 'CONFIG_GCRYPT' in config_host
++  util_ss.add(gcrypt)
++endif
++
++if 'CONFIG_GNUTLS' in config_host
++  util_ss.add(gnutls)
++endif
+diff --git a/meson.build b/meson.build
+index 1e7aee85e3..bc6aac4ce7 100644
+--- a/meson.build
++++ b/meson.build
+@@ -114,6 +114,11 @@ urcubp = not_found
+ if 'CONFIG_TRACE_UST' in config_host
+   urcubp = declare_dependency(link_args: config_host['URCU_BP_LIBS'].split())
+ endif
++gcrypt = not_found
++if 'CONFIG_GCRYPT' in config_host
++  gcrypt = declare_dependency(compile_args: config_host['GCRYPT_CFLAGS'].split(),
++                              link_args: config_host['GCRYPT_LIBS'].split())
++endif
+ nettle = not_found
+ if 'CONFIG_NETTLE' in config_host
+   nettle = declare_dependency(compile_args: config_host['NETTLE_CFLAGS'].split(),
+-- 
+2.26.2
 
 
