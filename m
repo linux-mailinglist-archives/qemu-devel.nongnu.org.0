@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3A69259331
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:22:53 +0200 (CEST)
-Received: from localhost ([::1]:32958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34ED2259354
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:24:36 +0200 (CEST)
+Received: from localhost ([::1]:41186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD87Y-0007I7-Nh
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:22:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47756)
+	id 1kD89D-0002GL-79
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:24:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kD83a-0007re-8X
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:18:46 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:54844)
+ id 1kD83b-0007vb-Nh
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:18:47 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:50296)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kD83Y-0006C0-Cu
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:18:45 -0400
-Received: by mail-wm1-x342.google.com with SMTP id s13so1541569wmh.4
- for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 08:18:43 -0700 (PDT)
+ id 1kD83Z-0006CE-HL
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:18:47 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id e17so1555124wme.0
+ for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 08:18:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ROW9Q5aXqXTZPIJJlI4YCR/TQMJwu0yJces49kV2nLI=;
- b=HG4M0hDe3ebCAwqyxHdCl858ln4o4vvx0GanPnHGGi38kSAUKyinG5ONFcrqhewyvJ
- 5R97mBCHt7YAbBgiBk8xZUGldMelzwmRaVf9uiRo+ljrluoVxoQS3KbETljZFQpa4fy5
- YaWPIT3AgFHqjRthJCcL+Jms/t+YNFtFQ5rHMjaJDzy6HkJNZduwWWJTCB0bcOLQodOC
- BCBtUXZW4ijttcUknnM+hWOSHdam6tBD8hxH8RMhoTbEdnaOgennjyBaWLz1radyAzfl
- WY2I+E3VCFxscChnCMTWl5VPh8gg9KAj1A89vT1S/hRKpclSiiJslXw3Avot2I0DcPpf
- PPIA==
+ bh=PJDZbq3VKGQkfm2EiY5IDDEcUJZ06L/YMln6Rib+R/I=;
+ b=h0QcpCHm3mtEGKk065aAmapTz3C8wA0da6pXm8G+fCaxexay11Yvmg1QQKlOVoP2N7
+ s7TC3Hl8qaPI27B0hAgF2iK5JvVDJTPJnKUhIYoF69W590dfG2Rz9NgdIZxliptyLtQ/
+ kgNh1aR3gn5tuTbVEaI8NuHvvgztH+wWvNCM2Xd1jJHlXA3R36r6ZrZVnpJLY+2cWGQ5
+ Ut1e9/zziPekXdUMe6SPPPq84iq7bc+SoA2TgCgl6G2KBRS1Jxyr7xrR3/MfQVvW3R59
+ wlvNjaUyD5o15pqfZtLoWV28r2qaWDSvYb0NxsdqSK8qxAb6oZtdOmJ4EOeGYHX9WB1R
+ 4/MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ROW9Q5aXqXTZPIJJlI4YCR/TQMJwu0yJces49kV2nLI=;
- b=TrO7I+asj99IXSAStb6qUT1JEFCGqEdnpVC2MbuyLLZEhpdG2KmuZdVPMaP9/xiR/K
- AEwtudG2vpULKFAAlyUNp82juVkAweFds40t5DaCAw03S80ibQRmfZAeIhSQpttHrTId
- 7i3X867sZOpXlGp5OO2MHyzc4bFC4Z9gTZwINaqjmQRwdMG4pCQUr67EmXuIZfH1ncZl
- SkAA98zaERL7imE7ekZ2RMabtSLiX7q+EtyM3LgMg1ylEsWvDTYYT0jr5IG1gsKf6QbT
- 5mYgoLeUN5ujRZHsh3FJqcYlg4MqvImYGRY82L6e8DN5+ktnWBGx9C4JwudXXVHjY2Z+
- 6i1A==
-X-Gm-Message-State: AOAM532W/fdBrIIhpYOX6neR6BGguOs7b1pyuLlVE3Itk+hLD31DCxE0
- xeLwrttgImDKpysM+/iBB+a7LR8zv6K0a4qo
-X-Google-Smtp-Source: ABdhPJzdqUzFDcILAipAfdEN27bOCFQ4uLJSsSpGjR4uXOuCNXQVCuVQtW2KPfVN4IzBM1cPC4lW+A==
-X-Received: by 2002:a7b:c084:: with SMTP id r4mr2290619wmh.20.1598973521352;
- Tue, 01 Sep 2020 08:18:41 -0700 (PDT)
+ bh=PJDZbq3VKGQkfm2EiY5IDDEcUJZ06L/YMln6Rib+R/I=;
+ b=jseKYp4AwryYpWDjbeM57mS33+CB+XwUQj0eME9ro2ggSoZAXxzAiVUGTauPZWwHSm
+ kEWCTBDHTBP4HUfamCEOQbbhbZvalunQTxgWzZBSOWg/DmsooOfYszqSfrejzPGbDiaT
+ 7MI0lbWvJSZgjFPpad7fnBnaZztyWs/25kfygEb2oguT7cseoqo4VmOiVKzi/TxA1tsS
+ wXcI7vdYO/gVJzfit52yfADiC5VheY3hXPtGs4idWNodmMcYNG/ShXUOX78HDkul+h7B
+ UH/dLZenNfaStX+8anqYC8EC7y12yEZbzZOG6KLJ8ZL5rQgLHFEvj+3+49U9oMxt51BQ
+ ac3A==
+X-Gm-Message-State: AOAM530iAttxMNU8oSsCDvE4KjdPHcPnSxA9LqQyG3iPATixBxTAB4zu
+ ppz11Xp0aOID0L0KddkBD39tC49EG+GUwW2/
+X-Google-Smtp-Source: ABdhPJxT7qsgS7awhocsE0JyN/DKopzsh0avcMMuC1/xP7hwcBYD7GSgrZoaG8RDXCiEKVrvXWw/JQ==
+X-Received: by 2002:a1c:9ed8:: with SMTP id h207mr2318484wme.116.1598973523767; 
+ Tue, 01 Sep 2020 08:18:43 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id z9sm2242317wma.4.2020.09.01.08.18.39
+ by smtp.gmail.com with ESMTPSA id z9sm2242317wma.4.2020.09.01.08.18.42
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Sep 2020 08:18:40 -0700 (PDT)
+ Tue, 01 Sep 2020 08:18:42 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/47] target/arm: Implement VFP fp16 VLDR and VSTR
-Date: Tue,  1 Sep 2020 16:17:47 +0100
-Message-Id: <20200901151823.29785-12-peter.maydell@linaro.org>
+Subject: [PULL 13/47] target/arm: Make VFP_CONV_FIX macros take separate float
+ type and float size
+Date: Tue,  1 Sep 2020 16:17:49 +0100
+Message-Id: <20200901151823.29785-14-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200901151823.29785-1-peter.maydell@linaro.org>
 References: <20200901151823.29785-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,76 +89,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the fp16 versions of the VFP VLDR/VSTR (immediate).
+Currently the VFP_CONV_FIX macros take a single fsz argument for the
+size of the float type, which is used both to select the name of
+the functions to call (eg float32_is_any_nan()) and also for the
+type to use for the float inputs and outputs (eg float32).
+
+Separate these into fsz and ftype arguments, so that we can use them
+for fp16, which uses 'float16' in the function names but is still
+passing inputs and outputs in a 32-bit sized type.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200828183354.27913-12-peter.maydell@linaro.org
+Message-id: 20200828183354.27913-14-peter.maydell@linaro.org
 ---
- target/arm/vfp.decode          |  3 +--
- target/arm/translate-vfp.c.inc | 35 ++++++++++++++++++++++++++++++++++
- 2 files changed, 36 insertions(+), 2 deletions(-)
+ target/arm/vfp_helper.c | 46 ++++++++++++++++++++---------------------
+ 1 file changed, 23 insertions(+), 23 deletions(-)
 
-diff --git a/target/arm/vfp.decode b/target/arm/vfp.decode
-index b213da4b55d..37f96e2d261 100644
---- a/target/arm/vfp.decode
-+++ b/target/arm/vfp.decode
-@@ -79,8 +79,7 @@ VMOV_single  ---- 1110 000 l:1 .... rt:4 1010 . 001 0000    vn=%vn_sp
- VMOV_64_sp   ---- 1100 010 op:1 rt2:4 rt:4 1010 00.1 ....   vm=%vm_sp
- VMOV_64_dp   ---- 1100 010 op:1 rt2:4 rt:4 1011 00.1 ....   vm=%vm_dp
- 
--# Note that the half-precision variants of VLDR and VSTR are
--# not part of this decodetree at all because they have bits [9:8] == 0b01
-+VLDR_VSTR_hp ---- 1101 u:1 .0 l:1 rn:4 .... 1001 imm:8      vd=%vd_sp
- VLDR_VSTR_sp ---- 1101 u:1 .0 l:1 rn:4 .... 1010 imm:8      vd=%vd_sp
- VLDR_VSTR_dp ---- 1101 u:1 .0 l:1 rn:4 .... 1011 imm:8      vd=%vd_dp
- 
-diff --git a/target/arm/translate-vfp.c.inc b/target/arm/translate-vfp.c.inc
-index 00a6363e1e1..59ef4d4fbc3 100644
---- a/target/arm/translate-vfp.c.inc
-+++ b/target/arm/translate-vfp.c.inc
-@@ -886,6 +886,41 @@ static bool trans_VMOV_64_dp(DisasContext *s, arg_VMOV_64_dp *a)
-     return true;
+diff --git a/target/arm/vfp_helper.c b/target/arm/vfp_helper.c
+index 55aa38f0ce8..7650890d440 100644
+--- a/target/arm/vfp_helper.c
++++ b/target/arm/vfp_helper.c
+@@ -394,13 +394,13 @@ float32 VFP_HELPER(fcvts, d)(float64 x, CPUARMState *env)
  }
  
-+static bool trans_VLDR_VSTR_hp(DisasContext *s, arg_VLDR_VSTR_sp *a)
-+{
-+    uint32_t offset;
-+    TCGv_i32 addr, tmp;
-+
-+    if (!dc_isar_feature(aa32_fp16_arith, s)) {
-+        return false;
-+    }
-+
-+    if (!vfp_access_check(s)) {
-+        return true;
-+    }
-+
-+    /* imm8 field is offset/2 for fp16, unlike fp32 and fp64 */
-+    offset = a->imm << 1;
-+    if (!a->u) {
-+        offset = -offset;
-+    }
-+
-+    /* For thumb, use of PC is UNPREDICTABLE.  */
-+    addr = add_reg_for_lit(s, a->rn, offset);
-+    tmp = tcg_temp_new_i32();
-+    if (a->l) {
-+        gen_aa32_ld16u(s, tmp, addr, get_mem_index(s));
-+        neon_store_reg32(tmp, a->vd);
-+    } else {
-+        neon_load_reg32(tmp, a->vd);
-+        gen_aa32_st16(s, tmp, addr, get_mem_index(s));
-+    }
-+    tcg_temp_free_i32(tmp);
-+    tcg_temp_free_i32(addr);
-+
-+    return true;
-+}
-+
- static bool trans_VLDR_VSTR_sp(DisasContext *s, arg_VLDR_VSTR_sp *a)
- {
-     uint32_t offset;
+ /* VFP3 fixed point conversion.  */
+-#define VFP_CONV_FIX_FLOAT(name, p, fsz, isz, itype) \
+-float##fsz HELPER(vfp_##name##to##p)(uint##isz##_t  x, uint32_t shift, \
++#define VFP_CONV_FIX_FLOAT(name, p, fsz, ftype, isz, itype)            \
++ftype HELPER(vfp_##name##to##p)(uint##isz##_t  x, uint32_t shift,      \
+                                      void *fpstp) \
+ { return itype##_to_##float##fsz##_scalbn(x, -shift, fpstp); }
+ 
+-#define VFP_CONV_FLOAT_FIX_ROUND(name, p, fsz, isz, itype, ROUND, suff)   \
+-uint##isz##_t HELPER(vfp_to##name##p##suff)(float##fsz x, uint32_t shift, \
++#define VFP_CONV_FLOAT_FIX_ROUND(name, p, fsz, ftype, isz, itype, ROUND, suff) \
++uint##isz##_t HELPER(vfp_to##name##p##suff)(ftype x, uint32_t shift,      \
+                                             void *fpst)                   \
+ {                                                                         \
+     if (unlikely(float##fsz##_is_any_nan(x))) {                           \
+@@ -410,30 +410,30 @@ uint##isz##_t HELPER(vfp_to##name##p##suff)(float##fsz x, uint32_t shift, \
+     return float##fsz##_to_##itype##_scalbn(x, ROUND, shift, fpst);       \
+ }
+ 
+-#define VFP_CONV_FIX(name, p, fsz, isz, itype)                   \
+-VFP_CONV_FIX_FLOAT(name, p, fsz, isz, itype)                     \
+-VFP_CONV_FLOAT_FIX_ROUND(name, p, fsz, isz, itype,               \
++#define VFP_CONV_FIX(name, p, fsz, ftype, isz, itype)            \
++VFP_CONV_FIX_FLOAT(name, p, fsz, ftype, isz, itype)              \
++VFP_CONV_FLOAT_FIX_ROUND(name, p, fsz, ftype, isz, itype,        \
+                          float_round_to_zero, _round_to_zero)    \
+-VFP_CONV_FLOAT_FIX_ROUND(name, p, fsz, isz, itype,               \
++VFP_CONV_FLOAT_FIX_ROUND(name, p, fsz, ftype, isz, itype,        \
+                          get_float_rounding_mode(fpst), )
+ 
+-#define VFP_CONV_FIX_A64(name, p, fsz, isz, itype)               \
+-VFP_CONV_FIX_FLOAT(name, p, fsz, isz, itype)                     \
+-VFP_CONV_FLOAT_FIX_ROUND(name, p, fsz, isz, itype,               \
++#define VFP_CONV_FIX_A64(name, p, fsz, ftype, isz, itype)        \
++VFP_CONV_FIX_FLOAT(name, p, fsz, ftype, isz, itype)              \
++VFP_CONV_FLOAT_FIX_ROUND(name, p, fsz, ftype, isz, itype,        \
+                          get_float_rounding_mode(fpst), )
+ 
+-VFP_CONV_FIX(sh, d, 64, 64, int16)
+-VFP_CONV_FIX(sl, d, 64, 64, int32)
+-VFP_CONV_FIX_A64(sq, d, 64, 64, int64)
+-VFP_CONV_FIX(uh, d, 64, 64, uint16)
+-VFP_CONV_FIX(ul, d, 64, 64, uint32)
+-VFP_CONV_FIX_A64(uq, d, 64, 64, uint64)
+-VFP_CONV_FIX(sh, s, 32, 32, int16)
+-VFP_CONV_FIX(sl, s, 32, 32, int32)
+-VFP_CONV_FIX_A64(sq, s, 32, 64, int64)
+-VFP_CONV_FIX(uh, s, 32, 32, uint16)
+-VFP_CONV_FIX(ul, s, 32, 32, uint32)
+-VFP_CONV_FIX_A64(uq, s, 32, 64, uint64)
++VFP_CONV_FIX(sh, d, 64, float64, 64, int16)
++VFP_CONV_FIX(sl, d, 64, float64, 64, int32)
++VFP_CONV_FIX_A64(sq, d, 64, float64, 64, int64)
++VFP_CONV_FIX(uh, d, 64, float64, 64, uint16)
++VFP_CONV_FIX(ul, d, 64, float64, 64, uint32)
++VFP_CONV_FIX_A64(uq, d, 64, float64, 64, uint64)
++VFP_CONV_FIX(sh, s, 32, float32, 32, int16)
++VFP_CONV_FIX(sl, s, 32, float32, 32, int32)
++VFP_CONV_FIX_A64(sq, s, 32, float32, 64, int64)
++VFP_CONV_FIX(uh, s, 32, float32, 32, uint16)
++VFP_CONV_FIX(ul, s, 32, float32, 32, uint32)
++VFP_CONV_FIX_A64(uq, s, 32, float32, 64, uint64)
+ 
+ #undef VFP_CONV_FIX
+ #undef VFP_CONV_FIX_FLOAT
 -- 
 2.20.1
 
