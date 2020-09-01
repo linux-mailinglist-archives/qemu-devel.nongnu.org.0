@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11D28258ED7
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 15:03:53 +0200 (CEST)
-Received: from localhost ([::1]:52738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36F7B258EDA
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 15:04:32 +0200 (CEST)
+Received: from localhost ([::1]:55428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD5x2-0003hu-46
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 09:03:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36398)
+	id 1kD5xe-0004nK-2r
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 09:04:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kD5qU-0001SB-GZ; Tue, 01 Sep 2020 08:57:06 -0400
-Received: from mail-qv1-xf43.google.com ([2607:f8b0:4864:20::f43]:41241)
+ id 1kD5qS-0001No-RF; Tue, 01 Sep 2020 08:57:04 -0400
+Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:35306)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kD5qL-0002m2-Fo; Tue, 01 Sep 2020 08:57:06 -0400
-Received: by mail-qv1-xf43.google.com with SMTP id ef16so428102qvb.8;
- Tue, 01 Sep 2020 05:56:56 -0700 (PDT)
+ id 1kD5qP-0002mS-GB; Tue, 01 Sep 2020 08:57:04 -0400
+Received: by mail-qk1-x741.google.com with SMTP id p25so783144qkp.2;
+ Tue, 01 Sep 2020 05:57:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Y1n4j8MWmzH3QTa58abB2b7OQGX7+9wfRdvkH69UYn8=;
- b=P4ZSj4A1M1q9lwZlJgsAbC454Rvh3CZwxVfaLedfKkt2b+npn+MsN7oWDT8pwSRF2z
- bsRYrO3wL42M30DRVDYKKD+h1xgFE3Kvb4FT+EFeO2OO6JywPlhyczhlSyfxd5F5gdDK
- BszP1mlwIrzoL4L87QWStlDzk/iHhZaCdb/nfpG2oiUUEcna+7MAjL+Xip49st7Griu7
- NCx8QAZMTjRtVgPzJcnAMt44gvENjEKJZt7ftRkHLvn8XXyUkKz7xOiBhXZ1NOwtBc3f
- gKQaBhpm5YiTmfdVqwFWFpfAkenvEfGu54/ccJ173hgi7DsA3uGhZFTQqKrd22qhUhxm
- Roxg==
+ bh=X4JeEPL4ZEeR7MtFOXVba+YwGV0pzjZM+YkE3+nJcS8=;
+ b=obZH9ZadJbTGB4kEHJ2XxtsuDXllSlyRtupbFuAVXVyooNnD2q4rLhdBi1B5h63SYi
+ /DkXNKL4SKvt4IcEoUeNwNxhOkPbABZDEKI+u5/VBs1HPikdWXB4EQZjRcWfZevthjt3
+ wNgDDzFX7iWoOOLZgDSM/2MgAwZhkX0DiSrPev2Q7UyfBBrNVAneqDvZq1xxD9EiCt/e
+ qcBHsd3Vg/hzLY56TuITSMRp/ScK9I1UpHcjZQOAmdG8pa9BUX3uf4LtfOybAoxnGknY
+ fqYhOGt3pReTbJlwWD6Tvqdc2vAt8Ejo1GU15/b3LtNtpSuw/WO6f/Be1AIpUmggJV3H
+ wyDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Y1n4j8MWmzH3QTa58abB2b7OQGX7+9wfRdvkH69UYn8=;
- b=OrkUVAOXnUbEcf/ilrFmO4gxR91IuDpjZHDB2HvyO7YVSmOZLKYL4e14AyESTumGTr
- 783eSbZL50FfqrZCZ0FyoBcHYxMzqYz2fcDCbPL1w6xX+6ZuBpIHFaZaZgsFEUTQ0jMF
- Rlc9PR4v+IRmPfBKNsWxLvB0xz8ks3h4yEtVu95p2UpP1l8Z4dZRHaq8AF8KnqjBL+NZ
- IBZtU/RX4FiQoDb/Nb8mI686GtVFig+/6+tjE4w4gVWaK4WSIOs4bZsaRvzh2M/pQt+T
- lnPa8oN6+y6OsrslVyLOmYByOqxG9B+Y7O3CJn5vUhgKUF1mGQCPgelmzmuI4bWWSmtk
- +U1g==
-X-Gm-Message-State: AOAM531g8HB3Czjm2Z96Ir/Wf7k9OSQ5vh7etgVRpkxaWf2h4wg0uEfe
- 0Ae7eXEPXn55+mzzHH3ubsSd0NqvCIbHtQ==
-X-Google-Smtp-Source: ABdhPJzayrWVpUUHw9fhuUsVAyYJKM1+31j2zwYQCKZNyQUw8zbxE/kfU5LI+PLZDwf3GJ3aDHBSiw==
-X-Received: by 2002:ad4:5749:: with SMTP id q9mr1744768qvx.56.1598965015946;
- Tue, 01 Sep 2020 05:56:55 -0700 (PDT)
+ bh=X4JeEPL4ZEeR7MtFOXVba+YwGV0pzjZM+YkE3+nJcS8=;
+ b=QemLPOmSBgViC8wrffawaGyGUc07EsfrKjz1kSPviAImf7KfWCAkX054FPjkFZrNNw
+ WJFF73QUSJ3cyKXCe+0ziVJOqTspQDxyyP0N6rx1di/HrajTbNg9MD4kFSi1FmDxPiVM
+ Gm1Xd9xUksVOo5adMkawEDvsLNzVdJFWCqOBwaDpny7Ms9TbmNa8B3gzkBLZPDUbND5y
+ R0rPMCsxBdu1q3u8ZId96sSzkkS/z6tWRrhm2Tqqx1Len4xPgRENV8FPNmI/pL8PNqAh
+ ZXWsTvobYGRuicZbuE4cP/EDP3bniMKdCfrh/NJywCMkvMUZSX8kFLGJviJxlKaZXU5G
+ P2EA==
+X-Gm-Message-State: AOAM530ysbgBNAUuFk4CPP3/KbAZJnStJ3B919efgAS7mMuFKXmm4QeQ
+ aP5ewKT8Qe90AQ2aqN26mpDMX3VfpUBHHQ==
+X-Google-Smtp-Source: ABdhPJyU1AX9Jyxe44eQ4bNryAI2ElSOZCRbheBPE6roFRqlX3E04Naax59EQb+6MlFpcem6s7mnZQ==
+X-Received: by 2002:a05:620a:141a:: with SMTP id
+ d26mr1668288qkj.217.1598965019682; 
+ Tue, 01 Sep 2020 05:56:59 -0700 (PDT)
 Received: from rekt.ibmuc.com ([2804:431:c7c7:6be:f6e3:c671:cefe:b943])
- by smtp.gmail.com with ESMTPSA id q7sm1430164qkf.35.2020.09.01.05.56.54
+ by smtp.gmail.com with ESMTPSA id q7sm1430164qkf.35.2020.09.01.05.56.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Sep 2020 05:56:55 -0700 (PDT)
+ Tue, 01 Sep 2020 05:56:59 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/7] ppc: introducing spapr_numa.c NUMA code helper
-Date: Tue,  1 Sep 2020 09:56:39 -0300
-Message-Id: <20200901125645.118026-2-danielhb413@gmail.com>
+Subject: [PATCH v2 3/7] spapr: introduce SpaprMachineClass::numa_assoc_array
+Date: Tue,  1 Sep 2020 09:56:41 -0300
+Message-Id: <20200901125645.118026-4-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200901125645.118026-1-danielhb413@gmail.com>
 References: <20200901125645.118026-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f43;
- envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf43.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::741;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x741.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -88,191 +89,323 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We're going to make changes in how spapr handles all
-ibm,associativity* related properties to enhance our current NUMA
-support.
+The next step to centralize all NUMA/associativity handling in
+the spapr machine is to create a 'one stop place' for all
+things ibm,associativity.
 
-At this moment we have associativity code scattered all around
-spapr_* files, with hardcoded values and array sizes. This
-makes it harder to change any NUMA specific parameters in
-the future. Having everything in the same place allows not
-only for easier tuning, but also easier understanding since all
-NUMA related code is on the same file.
+This patch introduces numa_assoc_array, a 2 dimensional array
+that will store all ibm,associativity arrays of all NUMA nodes.
+This array is initialized in a new spapr_numa_associativity_init()
+function, called in spapr_machine_init(). It is being initialized
+with the same values used in other ibm,associativity properties
+around spapr files (i.e. all zeros, last value is node_id).
+The idea is to remove all hardcoded definitions and FDT writes
+of ibm,associativity arrays, doing instead a call to the new
+helper spapr_numa_write_associativity_dt() helper, that will
+be able to write the DT with the correct values.
 
-This patch introduces a new file to gather all NUMA/associativity
-handling code in spapr, spapr_numa.c. To get things started, let's
-remove associativity-reference-points and max-associativity-domains
-code from spapr_dt_rtas() to a new helper called spapr_numa_write_rtas_dt().
-This will decouple spapr_dt_rtas() from the NUMA changes that
-are going to happen in those two properties.
+We'll start small, handling the trivial cases first. The
+remaining instances of ibm,associativity will be handled
+next.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/meson.build          |  3 ++-
- hw/ppc/spapr.c              | 26 ++-----------------
- hw/ppc/spapr_numa.c         | 50 +++++++++++++++++++++++++++++++++++++
- include/hw/ppc/spapr_numa.h | 20 +++++++++++++++
- 4 files changed, 74 insertions(+), 25 deletions(-)
- create mode 100644 hw/ppc/spapr_numa.c
- create mode 100644 include/hw/ppc/spapr_numa.h
+ hw/ppc/spapr.c                | 23 ++++++++++-------------
+ hw/ppc/spapr_numa.c           | 32 ++++++++++++++++++++++++++++++++
+ hw/ppc/spapr_nvdimm.c         | 19 +++++++------------
+ hw/ppc/spapr_pci.c            |  9 ++-------
+ include/hw/ppc/spapr.h        | 13 ++++++++++++-
+ include/hw/ppc/spapr_numa.h   |  5 +++++
+ include/hw/ppc/spapr_nvdimm.h |  2 +-
+ 7 files changed, 69 insertions(+), 34 deletions(-)
 
-diff --git a/hw/ppc/meson.build b/hw/ppc/meson.build
-index 918969b320..ffa2ec37fa 100644
---- a/hw/ppc/meson.build
-+++ b/hw/ppc/meson.build
-@@ -25,7 +25,8 @@ ppc_ss.add(when: 'CONFIG_PSERIES', if_true: files(
-   'spapr_irq.c',
-   'spapr_tpm_proxy.c',
-   'spapr_nvdimm.c',
--  'spapr_rtas_ddw.c'
-+  'spapr_rtas_ddw.c',
-+  'spapr_numa.c',
- ))
- ppc_ss.add(when: 'CONFIG_SPAPR_RNG', if_true: files('spapr_rng.c'))
- ppc_ss.add(when: ['CONFIG_PSERIES', 'CONFIG_LINUX'], if_true: files(
 diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index b0a04443fb..a45912acac 100644
+index a45912acac..fb9b2572fe 100644
 --- a/hw/ppc/spapr.c
 +++ b/hw/ppc/spapr.c
-@@ -81,6 +81,7 @@
- #include "hw/mem/memory-device.h"
- #include "hw/ppc/spapr_tpm_proxy.h"
- #include "hw/ppc/spapr_nvdimm.h"
-+#include "hw/ppc/spapr_numa.h"
+@@ -314,14 +314,9 @@ static void add_str(GString *s, const gchar *s1)
+     g_string_append_len(s, s1, strlen(s1) + 1);
+ }
  
- #include "monitor/monitor.h"
- 
-@@ -891,16 +892,9 @@ static int spapr_dt_rng(void *fdt)
- static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
+-static int spapr_dt_memory_node(void *fdt, int nodeid, hwaddr start,
+-                                hwaddr size)
++static int spapr_dt_memory_node(SpaprMachineState *spapr, void *fdt, int nodeid,
++                                hwaddr start, hwaddr size)
  {
-     MachineState *ms = MACHINE(spapr);
--    SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(ms);
-     int rtas;
-     GString *hypertas = g_string_sized_new(256);
-     GString *qemu_hypertas = g_string_sized_new(256);
--    uint32_t refpoints[] = {
--        cpu_to_be32(0x4),
--        cpu_to_be32(0x4),
--        cpu_to_be32(0x2),
+-    uint32_t associativity[] = {
+-        cpu_to_be32(0x4), /* length */
+-        cpu_to_be32(0x0), cpu_to_be32(0x0),
+-        cpu_to_be32(0x0), cpu_to_be32(nodeid)
 -    };
--    uint32_t nr_refpoints = ARRAY_SIZE(refpoints);
-     uint64_t max_device_addr = MACHINE(spapr)->device_memory->base +
-         memory_region_size(&MACHINE(spapr)->device_memory->mr);
-     uint32_t lrdr_capacity[] = {
-@@ -910,14 +904,6 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
-         cpu_to_be32(SPAPR_MEMORY_BLOCK_SIZE & 0xffffffff),
-         cpu_to_be32(ms->smp.max_cpus / ms->smp.threads),
-     };
--    uint32_t maxdomain = cpu_to_be32(spapr->gpu_numa_id > 1 ? 1 : 0);
--    uint32_t maxdomains[] = {
--        cpu_to_be32(4),
--        maxdomain,
--        maxdomain,
--        maxdomain,
--        cpu_to_be32(spapr->gpu_numa_id),
--    };
+     char mem_name[32];
+     uint64_t mem_reg_property[2];
+     int off;
+@@ -335,8 +330,7 @@ static int spapr_dt_memory_node(void *fdt, int nodeid, hwaddr start,
+     _FDT((fdt_setprop_string(fdt, off, "device_type", "memory")));
+     _FDT((fdt_setprop(fdt, off, "reg", mem_reg_property,
+                       sizeof(mem_reg_property))));
+-    _FDT((fdt_setprop(fdt, off, "ibm,associativity", associativity,
+-                      sizeof(associativity))));
++    spapr_numa_write_associativity_dt(spapr, fdt, off, nodeid);
+     return off;
+ }
  
-     _FDT(rtas = fdt_add_subnode(fdt, 0, "rtas"));
+@@ -649,7 +643,7 @@ static int spapr_dt_memory(SpaprMachineState *spapr, void *fdt)
+         if (!mem_start) {
+             /* spapr_machine_init() checks for rma_size <= node0_size
+              * already */
+-            spapr_dt_memory_node(fdt, i, 0, spapr->rma_size);
++            spapr_dt_memory_node(spapr, fdt, i, 0, spapr->rma_size);
+             mem_start += spapr->rma_size;
+             node_size -= spapr->rma_size;
+         }
+@@ -661,7 +655,7 @@ static int spapr_dt_memory(SpaprMachineState *spapr, void *fdt)
+                 sizetmp = 1ULL << ctzl(mem_start);
+             }
  
-@@ -953,15 +939,7 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
-                      qemu_hypertas->str, qemu_hypertas->len));
-     g_string_free(qemu_hypertas, TRUE);
+-            spapr_dt_memory_node(fdt, i, mem_start, sizetmp);
++            spapr_dt_memory_node(spapr, fdt, i, mem_start, sizetmp);
+             node_size -= sizetmp;
+             mem_start += sizetmp;
+         }
+@@ -1275,7 +1269,7 @@ void *spapr_build_fdt(SpaprMachineState *spapr, bool reset, size_t space)
  
--    if (smc->pre_5_1_assoc_refpoints) {
--        nr_refpoints = 2;
--    }
--
--    _FDT(fdt_setprop(fdt, rtas, "ibm,associativity-reference-points",
--                     refpoints, nr_refpoints * sizeof(refpoints[0])));
--
--    _FDT(fdt_setprop(fdt, rtas, "ibm,max-associativity-domains",
--                     maxdomains, sizeof(maxdomains)));
-+    spapr_numa_write_rtas_dt(spapr, fdt, rtas);
+     /* NVDIMM devices */
+     if (mc->nvdimm_supported) {
+-        spapr_dt_persistent_memory(fdt);
++        spapr_dt_persistent_memory(spapr, fdt);
+     }
  
-     /*
-      * FWNMI reserves RTAS_ERROR_LOG_MAX for the machine check error log,
+     return fdt;
+@@ -2810,6 +2804,9 @@ static void spapr_machine_init(MachineState *machine)
+      */
+     spapr->gpu_numa_id = MAX(1, machine->numa_state->num_nodes);
+ 
++    /* Init numa_assoc_array */
++    spapr_numa_associativity_init(machine);
++
+     if ((!kvm_enabled() || kvmppc_has_cap_mmu_radix()) &&
+         ppc_type_check_compat(machine->cpu_type, CPU_POWERPC_LOGICAL_3_00, 0,
+                               spapr->max_compat_pvr)) {
+@@ -3394,7 +3391,7 @@ int spapr_lmb_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
+     addr = spapr_drc_index(drc) * SPAPR_MEMORY_BLOCK_SIZE;
+     node = object_property_get_uint(OBJECT(drc->dev), PC_DIMM_NODE_PROP,
+                                     &error_abort);
+-    *fdt_start_offset = spapr_dt_memory_node(fdt, node, addr,
++    *fdt_start_offset = spapr_dt_memory_node(spapr, fdt, node, addr,
+                                              SPAPR_MEMORY_BLOCK_SIZE);
+     return 0;
+ }
 diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-new file mode 100644
-index 0000000000..cdf3288cbd
---- /dev/null
+index cdf3288cbd..2cfe13eaed 100644
+--- a/hw/ppc/spapr_numa.c
 +++ b/hw/ppc/spapr_numa.c
-@@ -0,0 +1,50 @@
-+/*
-+ * QEMU PowerPC pSeries Logical Partition NUMA associativity handling
-+ *
-+ * Copyright IBM Corp. 2020
-+ *
-+ * Authors:
-+ *  Daniel Henrique Barboza      <danielhb413@gmail.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
+@@ -15,6 +15,38 @@
+ #include "hw/ppc/spapr_numa.h"
+ #include "hw/ppc/fdt.h"
+ 
 +
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+#include "hw/ppc/spapr_numa.h"
-+#include "hw/ppc/fdt.h"
++void spapr_numa_associativity_init(MachineState *machine)
++{
++    SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(machine);
++    int nb_numa_nodes = machine->numa_state->num_nodes;
++    int i;
 +
-+/*
-+ * Helper that writes ibm,associativity-reference-points and
-+ * max-associativity-domains in the RTAS pointed by @rtas
-+ * in the DT @fdt.
-+ */
-+void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas)
++    /*
++     * For all associativity arrays: first position is the size,
++     * position MAX_DISTANCE_REF_POINTS is always the numa_id,
++     * represented by the index 'i'.
++     *
++     * This will break on sparse NUMA setups, when/if QEMU starts
++     * to support it, because there will be no more guarantee that
++     * 'i' will be a valid node_id set by the user.
++     */
++    for (i = 0; i < nb_numa_nodes; i++) {
++        smc->numa_assoc_array[i][0] = cpu_to_be32(MAX_DISTANCE_REF_POINTS);
++        smc->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] = cpu_to_be32(i);
++    }
++}
++
++void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *fdt,
++                                       int offset, int nodeid)
 +{
 +    SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
-+    uint32_t refpoints[] = {
-+        cpu_to_be32(0x4),
-+        cpu_to_be32(0x4),
-+        cpu_to_be32(0x2),
-+    };
-+    uint32_t nr_refpoints = ARRAY_SIZE(refpoints);
-+    uint32_t maxdomain = cpu_to_be32(spapr->gpu_numa_id > 1 ? 1 : 0);
-+    uint32_t maxdomains[] = {
-+        cpu_to_be32(4),
-+        maxdomain,
-+        maxdomain,
-+        maxdomain,
-+        cpu_to_be32(spapr->gpu_numa_id),
-+    };
 +
-+    if (smc->pre_5_1_assoc_refpoints) {
-+        nr_refpoints = 2;
-+    }
-+
-+    _FDT(fdt_setprop(fdt, rtas, "ibm,associativity-reference-points",
-+                     refpoints, nr_refpoints * sizeof(refpoints[0])));
-+
-+    _FDT(fdt_setprop(fdt, rtas, "ibm,max-associativity-domains",
-+                     maxdomains, sizeof(maxdomains)));
++    _FDT((fdt_setprop(fdt, offset, "ibm,associativity",
++                      smc->numa_assoc_array[nodeid],
++                      sizeof(smc->numa_assoc_array[nodeid]))));
 +}
-diff --git a/include/hw/ppc/spapr_numa.h b/include/hw/ppc/spapr_numa.h
-new file mode 100644
-index 0000000000..7a370a8768
---- /dev/null
-+++ b/include/hw/ppc/spapr_numa.h
-@@ -0,0 +1,20 @@
++
+ /*
+  * Helper that writes ibm,associativity-reference-points and
+  * max-associativity-domains in the RTAS pointed by @rtas
+diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
+index 5188e2f503..63872054f3 100644
+--- a/hw/ppc/spapr_nvdimm.c
++++ b/hw/ppc/spapr_nvdimm.c
+@@ -31,6 +31,7 @@
+ #include "hw/ppc/fdt.h"
+ #include "qemu/range.h"
+ #include "sysemu/sysemu.h"
++#include "hw/ppc/spapr_numa.h"
+ 
+ void spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
+                            uint64_t size, Error **errp)
+@@ -117,8 +118,8 @@ void spapr_create_nvdimm_dr_connectors(SpaprMachineState *spapr)
+ }
+ 
+ 
+-static int spapr_dt_nvdimm(void *fdt, int parent_offset,
+-                           NVDIMMDevice *nvdimm)
++static int spapr_dt_nvdimm(SpaprMachineState *spapr, void *fdt,
++                           int parent_offset, NVDIMMDevice *nvdimm)
+ {
+     int child_offset;
+     char *buf;
+@@ -128,11 +129,6 @@ static int spapr_dt_nvdimm(void *fdt, int parent_offset,
+                                              &error_abort);
+     uint64_t slot = object_property_get_uint(OBJECT(nvdimm), PC_DIMM_SLOT_PROP,
+                                              &error_abort);
+-    uint32_t associativity[] = {
+-        cpu_to_be32(0x4), /* length */
+-        cpu_to_be32(0x0), cpu_to_be32(0x0),
+-        cpu_to_be32(0x0), cpu_to_be32(node)
+-    };
+     uint64_t lsize = nvdimm->label_size;
+     uint64_t size = object_property_get_int(OBJECT(nvdimm), PC_DIMM_SIZE_PROP,
+                                             NULL);
+@@ -152,8 +148,7 @@ static int spapr_dt_nvdimm(void *fdt, int parent_offset,
+     _FDT((fdt_setprop_string(fdt, child_offset, "compatible", "ibm,pmemory")));
+     _FDT((fdt_setprop_string(fdt, child_offset, "device_type", "ibm,pmemory")));
+ 
+-    _FDT((fdt_setprop(fdt, child_offset, "ibm,associativity", associativity,
+-                      sizeof(associativity))));
++    spapr_numa_write_associativity_dt(spapr, fdt, child_offset, node);
+ 
+     buf = qemu_uuid_unparse_strdup(&nvdimm->uuid);
+     _FDT((fdt_setprop_string(fdt, child_offset, "ibm,unit-guid", buf)));
+@@ -179,12 +174,12 @@ int spapr_pmem_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
+ {
+     NVDIMMDevice *nvdimm = NVDIMM(drc->dev);
+ 
+-    *fdt_start_offset = spapr_dt_nvdimm(fdt, 0, nvdimm);
++    *fdt_start_offset = spapr_dt_nvdimm(spapr, fdt, 0, nvdimm);
+ 
+     return 0;
+ }
+ 
+-void spapr_dt_persistent_memory(void *fdt)
++void spapr_dt_persistent_memory(SpaprMachineState *spapr, void *fdt)
+ {
+     int offset = fdt_subnode_offset(fdt, 0, "persistent-memory");
+     GSList *iter, *nvdimms = nvdimm_get_device_list();
+@@ -202,7 +197,7 @@ void spapr_dt_persistent_memory(void *fdt)
+     for (iter = nvdimms; iter; iter = iter->next) {
+         NVDIMMDevice *nvdimm = iter->data;
+ 
+-        spapr_dt_nvdimm(fdt, offset, nvdimm);
++        spapr_dt_nvdimm(spapr, fdt, offset, nvdimm);
+     }
+     g_slist_free(nvdimms);
+ 
+diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+index 0a418f1e67..4d97ff6c70 100644
+--- a/hw/ppc/spapr_pci.c
++++ b/hw/ppc/spapr_pci.c
+@@ -52,6 +52,7 @@
+ #include "sysemu/kvm.h"
+ #include "sysemu/hostmem.h"
+ #include "sysemu/numa.h"
++#include "hw/ppc/spapr_numa.h"
+ 
+ /* Copied from the kernel arch/powerpc/platforms/pseries/msi.c */
+ #define RTAS_QUERY_FN           0
+@@ -2321,11 +2322,6 @@ int spapr_dt_phb(SpaprMachineState *spapr, SpaprPhbState *phb,
+         cpu_to_be32(1),
+         cpu_to_be32(RTAS_IBM_RESET_PE_DMA_WINDOW)
+     };
+-    uint32_t associativity[] = {cpu_to_be32(0x4),
+-                                cpu_to_be32(0x0),
+-                                cpu_to_be32(0x0),
+-                                cpu_to_be32(0x0),
+-                                cpu_to_be32(phb->numa_node)};
+     SpaprTceTable *tcet;
+     SpaprDrc *drc;
+     Error *err = NULL;
+@@ -2358,8 +2354,7 @@ int spapr_dt_phb(SpaprMachineState *spapr, SpaprPhbState *phb,
+ 
+     /* Advertise NUMA via ibm,associativity */
+     if (phb->numa_node != -1) {
+-        _FDT(fdt_setprop(fdt, bus_off, "ibm,associativity", associativity,
+-                         sizeof(associativity)));
++        spapr_numa_write_associativity_dt(spapr, fdt, bus_off, phb->numa_node);
+     }
+ 
+     /* Build the interrupt-map, this must matches what is done
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index a1e230ad39..140914f9a1 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -105,6 +105,16 @@ typedef enum {
+ 
+ #define FDT_MAX_SIZE                    0x100000
+ 
 +/*
-+ * QEMU PowerPC pSeries Logical Partition NUMA associativity handling
++ * NUMA related macros. MAX_DISTANCE_REF_POINTS was taken
++ * from Taken from Linux kernel arch/powerpc/mm/numa.h.
 + *
-+ * Copyright IBM Corp. 2020
-+ *
-+ * Authors:
-+ *  Daniel Henrique Barboza      <danielhb413@gmail.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
++ * NUMA_ASSOC_SIZE is the base array size of an ibm,associativity
++ * array for any non-CPU resource.
 + */
++#define MAX_DISTANCE_REF_POINTS    4
++#define NUMA_ASSOC_SIZE            (MAX_DISTANCE_REF_POINTS + 1)
 +
-+#ifndef HW_SPAPR_NUMA_H
-+#define HW_SPAPR_NUMA_H
+ typedef struct SpaprCapabilities SpaprCapabilities;
+ struct SpaprCapabilities {
+     uint8_t caps[SPAPR_CAP_NUM];
+@@ -131,9 +141,10 @@ struct SpaprMachineClass {
+     bool smp_threads_vsmt; /* set VSMT to smp_threads by default */
+     hwaddr rma_limit;          /* clamp the RMA to this size */
+     bool pre_5_1_assoc_refpoints;
++    uint32_t numa_assoc_array[MAX_NODES][NUMA_ASSOC_SIZE];
+ 
+     void (*phb_placement)(SpaprMachineState *spapr, uint32_t index,
+-                          uint64_t *buid, hwaddr *pio, 
++                          uint64_t *buid, hwaddr *pio,
+                           hwaddr *mmio32, hwaddr *mmio64,
+                           unsigned n_dma, uint32_t *liobns, hwaddr *nv2gpa,
+                           hwaddr *nv2atsd, Error **errp);
+diff --git a/include/hw/ppc/spapr_numa.h b/include/hw/ppc/spapr_numa.h
+index 7a370a8768..2625e3db67 100644
+--- a/include/hw/ppc/spapr_numa.h
++++ b/include/hw/ppc/spapr_numa.h
+@@ -13,8 +13,13 @@
+ #ifndef HW_SPAPR_NUMA_H
+ #define HW_SPAPR_NUMA_H
+ 
++#include "hw/boards.h"
+ #include "hw/ppc/spapr.h"
+ 
++void spapr_numa_associativity_init(MachineState *machine);
+ void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas);
++void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *fdt,
++                                       int offset, int nodeid);
 +
-+#include "hw/ppc/spapr.h"
-+
-+void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas);
-+
-+#endif /* HW_SPAPR_NUMA_H */
+ 
+ #endif /* HW_SPAPR_NUMA_H */
+diff --git a/include/hw/ppc/spapr_nvdimm.h b/include/hw/ppc/spapr_nvdimm.h
+index 10a6d9dbbc..3eb344e8e9 100644
+--- a/include/hw/ppc/spapr_nvdimm.h
++++ b/include/hw/ppc/spapr_nvdimm.h
+@@ -27,7 +27,7 @@ QEMU_BUILD_BUG_ON(SPAPR_MINIMUM_SCM_BLOCK_SIZE % SPAPR_MEMORY_BLOCK_SIZE);
+ 
+ int spapr_pmem_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
+                            void *fdt, int *fdt_start_offset, Error **errp);
+-void spapr_dt_persistent_memory(void *fdt);
++void spapr_dt_persistent_memory(SpaprMachineState *spapr, void *fdt);
+ void spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
+                            uint64_t size, Error **errp);
+ void spapr_add_nvdimm(DeviceState *dev, uint64_t slot, Error **errp);
 -- 
 2.26.2
 
