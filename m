@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E592A258B22
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 11:12:46 +0200 (CEST)
-Received: from localhost ([::1]:50556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DBA5258B2C
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 11:14:31 +0200 (CEST)
+Received: from localhost ([::1]:58976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD2LN-0004gT-Vz
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 05:12:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33520)
+	id 1kD2N4-00082c-7S
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 05:14:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kD2KI-0003B8-Hw
+ id 1kD2KI-0003B9-Ig
  for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:11:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55496)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51739)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kD2KG-0006oa-GH
+ id 1kD2KH-0006og-2U
  for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:11:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598951495;
+ s=mimecast20190719; t=1598951496;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kd76zrZSBhrtrv9l40KcQRV9zyPxef8ChsdSAadfHeU=;
- b=f8XVGEOlhikMG5r7aw+hg3VfQN5xqtKGQVHQKaZr/RgkBXlTgIq4bMIIPOC2SQqaP5yqxT
- 9pxSJ6m6lGjVLR7+40sEJW9cnV5T4Dl4lL6q/JKJ7eejiCQa8U1/bdE4LK+YAlVjU9KExa
- zMhEPF+a7Nb/asVtme/NZNBOVychn3w=
+ bh=x7MJbvEh1OB7aVH3KPkQw4pq5I4JgItwiVYVmNd7OOM=;
+ b=EgBsUCDcFdszWFVB+PC+aRLlOZn23ER25WL5NOEqiV7+kgbRwYar07ikE3r0Z1pPegBhrt
+ 80uXY0JLuRr8vnrctJEDs0IBDdeQZ/0ktf7/acPP3V/qXShL6MplnkcPnitzaJmNwkYWx8
+ 8KRcbz8RQmTJNmgfDbYdgreX7SKtk0M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-244-kMWK6rDzOoieqvg_c8nqFA-1; Tue, 01 Sep 2020 05:11:34 -0400
-X-MC-Unique: kMWK6rDzOoieqvg_c8nqFA-1
+ us-mta-416-w4kpHd5ePAuOkhFl2VwL1g-1; Tue, 01 Sep 2020 05:11:34 -0400
+X-MC-Unique: w4kpHd5ePAuOkhFl2VwL1g-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E3991074641
- for <qemu-devel@nongnu.org>; Tue,  1 Sep 2020 09:11:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC54B10082E8;
+ Tue,  1 Sep 2020 09:11:33 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1C51160C04;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7A30560C04;
  Tue,  1 Sep 2020 09:11:33 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/24] meson: bump submodule to 0.55.1
-Date: Tue,  1 Sep 2020 05:11:09 -0400
-Message-Id: <20200901091132.29601-2-pbonzini@redhat.com>
+Subject: [PULL 02/24] block: always link with zlib
+Date: Tue,  1 Sep 2020 05:11:10 -0400
+Message-Id: <20200901091132.29601-3-pbonzini@redhat.com>
 In-Reply-To: <20200901091132.29601-1-pbonzini@redhat.com>
 References: <20200901091132.29601-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
@@ -81,43 +81,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This version includes an important bugfix to avoid including unnecessary
--Wl,-rpath flags.  It also avoids the warnings on custom_targets with
-more than one output.
+The qcow2 driver needs the zlib dependency.  While emulators
+provided it through the migration code, this is not true of
+the tools.  Move the dependency from the qcow1 rule directly
+into block_ss so that it is included unconditionally.
 
-Reported-by: Laurent Vivier <lvivier@redhat.com>
-Reviewed-by: Laurent Vivier <lvivier@redhat.com>
-Tested-by: Laurent Vivier <lvivier@redhat.com>
+Fixes build with --disable-qcow1.
+
+Reported-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Cc: qemu-block@nongnu.org
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 2 +-
- meson     | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ block/meson.build | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/configure b/configure
-index 8dc981684b..f81900880a 100755
---- a/configure
-+++ b/configure
-@@ -2023,7 +2023,7 @@ python_version=$($python -c 'import sys; print("%d.%d.%d" % (sys.version_info[0]
- python="$python -B"
+diff --git a/block/meson.build b/block/meson.build
+index 4dbbfe60b4..a3e56b7cd1 100644
+--- a/block/meson.build
++++ b/block/meson.build
+@@ -40,9 +40,9 @@ block_ss.add(files(
+   'vmdk.c',
+   'vpc.c',
+   'write-threshold.c',
+-), zstd)
++), zstd, zlib)
  
- if test -z "$meson"; then
--    if test "$explicit_python" = no && has meson && version_ge "$(meson --version)" 0.55.0; then
-+    if test "$explicit_python" = no && has meson && version_ge "$(meson --version)" 0.55.1; then
-         meson=meson
-     elif test -e "${source_path}/.git" && test $git_update = 'yes' ; then
-         meson=git
-diff --git a/meson b/meson
-index d0c68dc115..68ed748f84 160000
---- a/meson
-+++ b/meson
-@@ -1 +1 @@
--Subproject commit d0c68dc11507a47b9b85de508e023d9590d60565
-+Subproject commit 68ed748f84f14c2d4e62dcbd123816e5898eb04c
+-block_ss.add(when: [zlib, 'CONFIG_QCOW1'], if_true: files('qcow.c'))
++block_ss.add(when: 'CONFIG_QCOW1', if_true: files('qcow.c'))
+ block_ss.add(when: 'CONFIG_VDI', if_true: files('vdi.c'))
+ block_ss.add(when: 'CONFIG_CLOOP', if_true: files('cloop.c'))
+ block_ss.add(when: 'CONFIG_BOCHS', if_true: files('bochs.c'))
 -- 
 2.26.2
 
