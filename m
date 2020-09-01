@@ -2,66 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7FA3258EC6
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 14:59:02 +0200 (CEST)
-Received: from localhost ([::1]:32932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16C11258EBF
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 14:57:45 +0200 (CEST)
+Received: from localhost ([::1]:53950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD5sL-000434-V2
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 08:59:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35390)
+	id 1kD5r6-00014V-5G
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 08:57:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kD5mA-00024G-EN
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:52:39 -0400
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:36201)
+ id 1kD5pW-0007wZ-0K
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:56:06 -0400
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:38416)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kD5m8-0002B5-At
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:52:38 -0400
-Received: by mail-ej1-x643.google.com with SMTP id e23so1480856eja.3
- for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 05:52:35 -0700 (PDT)
+ id 1kD5pU-0002hh-E5
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:56:05 -0400
+Received: by mail-ej1-x644.google.com with SMTP id i22so1481417eja.5
+ for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 05:56:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=UZKcb+HZdFLYaQRova8iFL3RXzbeN/HyhhSZqXEiHg8=;
- b=NSAqaMX0OLK72R1tZkytkcOaNo7XRmXiYVW0OgN3tF7B4tt77LCYYoLrOCEAcBrmE4
- R1408x3VzhSQjgvMUg/LSSAJdjA0d9m7jkC59a3YryvEfduPQaTHCIoWGjfB7V2lOau/
- OBFgoceHImOtJ1t5gu6CuKIPJkMF4+JpQnCFoHCw/6dYcrc9byYoNTMIRuwia2T1RsxT
- r1hRy80YVeZ2FA40tGsNBPoQfYTYdngKlYJe+GYqRycOVkyy4W/gpnZ65wBk/JZxZncd
- fgdk0m/7sw3PBkkvUcT2aIMCmrZYhQz0UBJu/eTNQ99ZKf4GsG0WMh+bHEfhyAX3V2qr
- hh+g==
+ :cc; bh=1J2vSdyTtg9FrxAIybA+DnjZDIQEV7Yg4BzOl495Qfs=;
+ b=iJPso4QuzDt33drrZ5NiIOdAG4v9B7bIullyKKK1p4jH4sw2AsdQWIObYBCsG/upxO
+ xFjMKsb9gc5Z4GCCaudoaEKpMWorsCDFgbugXb/sIqab/acqXMSgyIbbVMFOau0jCd1O
+ 1W+IW4WQ75WJ/g8ByjDKGSElgYDjlwFTmVFcqzs0b9ZhWhK3H2Lhtjy4Y9VcaXMfvGNz
+ GVvsV0hM+djRly6GA5iuXaA524eUYHzVPUg7n0N2/ZuIkRgovbM4T94QD1JNem9C/LWa
+ sOpkTfxRy0VfNKzv4SYfQeyChvDawj397f2HmhTSfa8MMh2/5WU485QCV5b9N8AILacL
+ 1e7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=UZKcb+HZdFLYaQRova8iFL3RXzbeN/HyhhSZqXEiHg8=;
- b=P6tzeQTd03HnRBcLuq76OziyRa0fePoptzQOJ9p0kDbWj0d0Ly9YuV7IgEUXkWRvvz
- WMONOyJmn3ncGwM0KFGtoI1iJk60Ap2FS69Qh9Tr7L/OSNkdgVfBlvMJypVTNg4IhXUt
- fdcg64/92vy1QtQ1t+oKxDoJkNbpXfWcEO0HOOVszRSlc2Ka8hWwA3GXdgwEsBIYG0k+
- UIkcuFxfPP9T+xyNdWvg9vjxp1YRWC+6rp1bRaJ0xfd7j18wUej5fU1hD4Ykz+YXGucx
- FSZL6yQPER0IIr4QvGT/ZfIUsKKyLChRNPsl4/kqDAF2jLungKaK9zSltLi0hmiJqHT4
- 09Vg==
-X-Gm-Message-State: AOAM531mdV6s3aXuBCt9cPhkcrSiKOmGz6jbw/i591bVb7nDVhxJEpLO
- BHiiDX8ENtuvY5DKLQ/l0nzjqZc4RakSALZxtb6MpQ==
-X-Google-Smtp-Source: ABdhPJygZqFX/8oP0aO88XNLjrh73SUKGzCIlgF+kldSeXOM3EUhJUHmxmMQjx0ZR4M7K8aYNDRs33+s0GTwaq3CQIU=
-X-Received: by 2002:a17:906:71c9:: with SMTP id
- i9mr1292852ejk.250.1598964755078; 
- Tue, 01 Sep 2020 05:52:35 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=1J2vSdyTtg9FrxAIybA+DnjZDIQEV7Yg4BzOl495Qfs=;
+ b=Mgj3qJvJTxBE1Of8zEu7hPxPq+8PQsfuJXK+bTrxiZzujT3npO5EKRTmKfSX1oUfUf
+ AAKBH1NKWNoVy6R9Rdz0533p0hKT1pbCE8asGuC14TwM/orydlJKWxWhz+gBiYeWynWM
+ 9uU4GWTYlz9ZhMSsBQ74RR6l3rwQ5ftbd88wencbZJZGXtM5dI6yW2T9Zmg4jBr7T7k/
+ o9JXJ9DdA3pApEHxFyxUEABJ99/qyN1L0V3zlRrc2tPqK8UR6UqweMCCxUsm0qc/3iKC
+ PhoBHk7SNl+dFt2OmjwL0dWzjiVk65UhUkX5aOMzedOYMd9zzlC/MOEsLzJ00opYjlXk
+ lokQ==
+X-Gm-Message-State: AOAM533r3KYw3zC61DHe5AyZAlyflyF/eNOoLsNLaSNPZOQnlzLNs1v3
+ 0snsKB/zo9um/c36wYiNb6R7F6LM4GYeCs9XrqxQ8Q==
+X-Google-Smtp-Source: ABdhPJyXlw5PFJ8VAbXDek7Q7nQhf4tDnD3O8BqDiwh6/duKXPqq4bw7l5iCqyoWnrAN9ocVCpVrgPs4cIeJjelMGXc=
+X-Received: by 2002:a17:906:f28b:: with SMTP id
+ gu11mr1275999ejb.407.1598964962965; 
+ Tue, 01 Sep 2020 05:56:02 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200827142915.108730-1-stefanha@redhat.com>
- <20200827142915.108730-5-stefanha@redhat.com>
-In-Reply-To: <20200827142915.108730-5-stefanha@redhat.com>
+ <20200827142915.108730-2-stefanha@redhat.com>
+In-Reply-To: <20200827142915.108730-2-stefanha@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 1 Sep 2020 13:52:24 +0100
-Message-ID: <CAFEAcA9VcT3jLosYZLfapM1hEuj_MLYd2iXWV95vAN+255Efeg@mail.gmail.com>
-Subject: Re: [PATCH 4/4] tracetool: show trace-events filename/lineno in fmt
- string errors
+Date: Tue, 1 Sep 2020 13:55:51 +0100
+Message-ID: <CAFEAcA_Qg5pBMkw2HjNwhBBhKwW9=h-rXUOtxHjTzFmu2bHA5Q@mail.gmail.com>
+Subject: Re: [PATCH 1/4] tracetool: add output filename command-line argument
 To: Stefan Hajnoczi <stefanha@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x643.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x644.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,29 +87,13 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Thu, 27 Aug 2020 at 15:29, Stefan Hajnoczi <stefanha@redhat.com> wrote:
 >
-> The compiler encounters trace event format strings in generated code.
-> Format strings are error-prone and therefore clear compiler errors are
-> important.
+> The tracetool.py script writes to stdout. This means the output filename
+> is not available to the script. Add the output filename to the
+> command-line so that the script has access to the filename.
 >
-> Use the #line directive to show the trace-events filename and line
-> number in format string errors:
-> https://gcc.gnu.org/onlinedocs/gcc-10.2.0/cpp/Line-Control.html
+> This also simplifies the tracetool.py invocation. It's no longer
+> necessary to use meson's custom_build(capture : true) to save output.
 >
-> For example, if the cpu_in trace event's %u is changed to %p the
-> following error is reported:
->
->   trace-events:29:18: error: format =E2=80=98%p=E2=80=99 expects argument=
- of type =E2=80=98void *=E2=80=99, but argument 7 has type =E2=80=98unsigne=
-d int=E2=80=99 [-Werror=3Dformat=3D]
->
-> Line 29 in trace-events is where cpu_in is defined. This works for any
-> trace-events file in the QEMU source tree and the correct path is
-> displayed.
->
-> Unfortunately there does not seem to be a way to set the column, so "18"
-> is not the right character on that line.
->
-> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
 
