@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68FB425902D
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:19:50 +0200 (CEST)
-Received: from localhost ([::1]:47306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07B8425901A
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:16:40 +0200 (CEST)
+Received: from localhost ([::1]:60118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD78X-0007lM-FP
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:19:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55258)
+	id 1kD75S-0001R5-UP
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:16:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zL-0005S8-81; Tue, 01 Sep 2020 10:10:19 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:35911)
+ id 1kD6zM-0005W2-FI; Tue, 01 Sep 2020 10:10:20 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:58905)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zH-0003nk-2p; Tue, 01 Sep 2020 10:10:18 -0400
+ id 1kD6zH-0003ob-PW; Tue, 01 Sep 2020 10:10:20 -0400
 Received: from localhost.localdomain ([82.252.135.186]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MlwBf-1kv0OQ3GUt-00iypq; Tue, 01 Sep 2020 16:10:09 +0200
+ id 1N6bsM-1ke9Gu2gpC-0183pD; Tue, 01 Sep 2020 16:10:10 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/44] .mailmap: Update Paul Burton email address
-Date: Tue,  1 Sep 2020 16:09:29 +0200
-Message-Id: <20200901140954.889743-20-laurent@vivier.eu>
+Subject: [PULL 20/44] hw/i2c: Fix typo in description
+Date: Tue,  1 Sep 2020 16:09:30 +0200
+Message-Id: <20200901140954.889743-21-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200901140954.889743-1-laurent@vivier.eu>
 References: <20200901140954.889743-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:g8Ho16oUxUbOqmfmigPDkiytVMUWXcCfrpPunxSV76MaDLvpp+S
- sRFosgigpHiyzxSd93VOHWobCOuk+WEI+hzz0HAzrEDVVUfi7js1r3OTXynH9/pt5c5fnV6
- a14TDsFfisVo6VhXBZoTxnBMtUjvceH+etwGQh6rXEuJzxSq+ojyX5NauXXFXrfBcNtbFLr
- 4MnGH7J4Y7IrLm14zWuQQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:QNr4C/M9WYU=:ouBpm/ttmPOKg0yBmeS+Tg
- zmCzi5FZBWCoe5+sDhGurxz10RxViJHHJY0XI8Sg4kz2Je3xHZosuUwIVcQuJv7lnPizwXX+4
- C+QgreV8Izj6V9yLVkcfW+iDiVhOPMsUsKgLarHNq8vHP178EAfAjA8D2HrjBn+i4zH9E19IM
- wpLBf649Lxk1MWU+kEDnyO49gDUarrkOxSH3QUkRBvpqIypaC86MMKE+rErspg3lItefUdxDo
- jSwHabuB3u48zdo/kjAX+v/eGkJGiICqnFXjrgV0f+nmMUEf4utWOognOo5Gb5/5dw8WmjaB7
- lsdKIWS5cEuPQA7f+XRV01tIEEb+1tfj1Hdx5/JkwPhqWRgDTDXbyE13kFeYWvag2ZubN3r7o
- /kNU2LjmHblfTUCzHzRxjAN3bE/mYLp07oJQi5/QbqZR5o8a+nsSuRd93THyLobOuy8zIIX6p
- Ncp6zN9YBui9zE9sgW6Xv271kpevtev6IgkO03yO9liUbcsj0T56/NRhOFRrpZXKcB6+G7prP
- EsdNkwcLsCcoS2pNjeVFLiEXfRqs/hDGwQRn9ELjX7AzwOs2hfMPElXODmOJfnvB9kvV9kIgZ
- FBd+o/prOqsfDGsN6G0Rtf21yuZeJoaBHmSZZ1yfA9/fStJZxWJFhHZknbegUbAf8Lzfdtxi9
- RoUVnWDDsU8zAyRRi/u2Tkb8WCCIOa6dlr0TQru/8KZKmj0yXLQPnBYEyrQcXD7+wABDzdzs5
- CkC9ALrzkyr8LWv1cIcD2paReV+xgjaA87cjIv1pS7SOsElvBcBynxLAc44gxoQzJxgGtRtkT
- TO1holQX2nwSWVyEWmHyudjm7/xjM3uLiLh34cTxV35mSBpGr5S7xsJJxBzJ09c6FjAq8ji
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:hYVfATmajBOJ5pMHRvVK/fipsf1zG1zZ/XtU8JI2X9WJq7CHULQ
+ mYpzqLoNZg1PKspU1/YvMNHLNUepZjpGzSJiD0hrP146o8ZxLfgpehL7byyIXDpMty138zb
+ 4T8zQCmMiuVkwUL52kM4W/Orl02L8SgxEB3cRCXYjIR13Mf3lPdfJ00oPD6XrwbS/RtkhfJ
+ CMnUXt6aYIMx9wCNhy12A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:kN98XEpLlwo=:O68hlzn1Ic//0t/WUETcAS
+ MahSO1PzRNOppKyucS8r4QyONTGGbFqxwk6VVUIU/NreYfaTa/P2H0eH96Chsb/NMwAxQn18Y
+ fD1PevIfY8Kd43/ZNWjhl6QjbQwJijM5YBZTzFdypNpiatGoa3rVcOzFMugb7us+QoFp6ymLz
+ tnl7miZFmTs+JdJtdNtn8P4tZuFO2rlrt2xSdmbG6AqOPIiIj/zFmG/K412ZhLGWQ/Vsz+SYn
+ CR6SiH3q/y40YLJ4jvp8OceyQ3lCLFlzTe0+j1TvjTl/3b+MKUYXWOlT2lqrjmUI4kmvGIoZZ
+ 5TWeccS7G3ixE/VE/X/vZsY7eiq10zDO61JM0aPoKyE0nG+ifPgTFZjBIUwWIStAVvySOEudr
+ Ypja26DcqQs8zbMurFI8U0KOXz0SAA6yLUTpHiea5N58gIYuSsRFvoQkhjHZhcjTtWT3u+QyV
+ HbNzmRAth8G8pJstV0ZaY8BUzHVcowP2FWNRO4EpUIfv9Vwn4+r7MBMB9lachyHQ5HKutiRZC
+ ShxNeRccIGKbuLNKB6dW5uFjl4/Bqc6h4NtBD9gnkqpD5P0aseMvWaw0c4DOPXBxYG4DQowjF
+ in1HyyjEUMYKWmDpt0ECfliPHdfzll8Azmy8syP7pfv9J1lWNsK60UWuze1GZ6F5+g211zcc7
+ bZUt+nukyzm6U75b/YvBYfhiKJ8iMyPGxWOZtJyAE+I+MqTCj1krZJchpWmidU9LOvEqpocy0
+ Pb/B8TvH+pWmh112rYZuzEteD5HzgUFYb96QWe97lH8gl6r85bfcvITN0+Gfv3u7XBUxjCBAd
+ JHoyxQN0+l/7zgJCwQRiAxwgkZ27zzFKOivHVMspJlXX9nYeU6/AclT1v8vBxDpY9EJvO7E
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:10:07
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:10:08
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -70,49 +70,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Paul Burton <paulburton@kernel.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Corey Minyard <cminyard@mvista.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
+ Li Qiang <liq3ea@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Following the Linux kernel equivalent patch posted on
-linux-mips@vger.kernel.org [*], update Paul Burton email
-address to avoid emails bouncing.
+Remove the second 'and' introduced in commit 73d5f22ecb
+("hw/i2c: Document the I2C qdev helpers").
 
-[*] 'MAINTAINERS: Use @kernel.org address for Paul Burton'
-https://lore.kernel.org/patchwork/patch/1140341/
-
-Cc: Paul Burton <paulburton@kernel.org>
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Acked-by: Paul Burton <paulburton@kernel.org>
-Message-Id: <20200707022544.24925-1-f4bug@amsat.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Corey Minyard <cminyard@mvista.com>
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20200811151643.21293-2-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- .mailmap | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ include/hw/i2c/i2c.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/.mailmap b/.mailmap
-index 2d97a14af3c6..4f40d1cc6e1b 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -51,9 +51,10 @@ Frederic Konrad <konrad@adacore.com> <fred.konrad@greensocs.com>
- James Hogan <jhogan@kernel.org> <james.hogan@imgtec.com>
- Leif Lindholm <leif@nuviainc.com> <leif.lindholm@linaro.org>
- Radoslaw Biernacki <rad@semihalf.com> <radoslaw.biernacki@linaro.org>
--Paul Burton <pburton@wavecomp.com> <paul.burton@mips.com>
--Paul Burton <pburton@wavecomp.com> <paul.burton@imgtec.com>
--Paul Burton <pburton@wavecomp.com> <paul@archlinuxmips.org>
-+Paul Burton <paulburton@kernel.org> <paul.burton@mips.com>
-+Paul Burton <paulburton@kernel.org> <paul.burton@imgtec.com>
-+Paul Burton <paulburton@kernel.org> <paul@archlinuxmips.org>
-+Paul Burton <paulburton@kernel.org> <pburton@wavecomp.com>
- Stefan Brankovic <stefan.brankovic@syrmia.com> <stefan.brankovic@rt-rk.com.com>
- Yongbok Kim <yongbok.kim@mips.com> <yongbok.kim@imgtec.com>
+diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
+index a9c030a51233..f57808851e22 100644
+--- a/include/hw/i2c/i2c.h
++++ b/include/hw/i2c/i2c.h
+@@ -102,7 +102,7 @@ I2CSlave *i2c_slave_new(const char *name, uint8_t addr);
+ I2CSlave *i2c_slave_create_simple(I2CBus *bus, const char *name, uint8_t addr);
  
+ /**
+- * Realize and and drop a reference an I2C slave device
++ * Realize and drop a reference an I2C slave device
+  * @dev: I2C slave device to realize
+  * @bus: I2C bus to put it on
+  * @addr: I2C address of the slave on the bus
 -- 
 2.26.2
 
