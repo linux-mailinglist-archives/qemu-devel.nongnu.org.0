@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CE55259078
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:32:01 +0200 (CEST)
-Received: from localhost ([::1]:53398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF4B225908B
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:34:53 +0200 (CEST)
+Received: from localhost ([::1]:38572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD7KK-0000US-B2
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:32:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55616)
+	id 1kD7N6-0006MQ-W1
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:34:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zZ-00068F-B5; Tue, 01 Sep 2020 10:10:33 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:50851)
+ id 1kD6zZ-0006A5-SJ; Tue, 01 Sep 2020 10:10:33 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:45153)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zW-0003zy-UZ; Tue, 01 Sep 2020 10:10:32 -0400
+ id 1kD6zX-00040M-U7; Tue, 01 Sep 2020 10:10:33 -0400
 Received: from localhost.localdomain ([82.252.135.186]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MNbtD-1jxMK82hqd-00P8ha; Tue, 01 Sep 2020 16:10:19 +0200
+ id 1MkpjD-1kri4W0g07-00mHgY; Tue, 01 Sep 2020 16:10:23 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 33/44] hw/arm/virt-acpi-build:Remove dead assignment in
- build_madt()
-Date: Tue,  1 Sep 2020 16:09:43 +0200
-Message-Id: <20200901140954.889743-34-laurent@vivier.eu>
+Subject: [PULL 38/44] hw/net/virtio-net:Remove redundant statement in
+ virtio_net_rsc_tcp_ctrl_check()
+Date: Tue,  1 Sep 2020 16:09:48 +0200
+Message-Id: <20200901140954.889743-39-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200901140954.889743-1-laurent@vivier.eu>
 References: <20200901140954.889743-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:oQPZDAL/Uc7IBntevT0HPBD1FgetWCj+mEEhbF4GaLWE73Ma14e
- YC5dcrZibK7QRywuVad+oaVSniXSvdILlwhqDM6cl1LMGL+r2AHrVf9GJL1wy7Bp5JIeXyu
- yVcEvn8uute6p59xF3hDcdo4AODoMqYDTeSu5t4xilrl95u/a32Lk4FzFbiVmPnddfdyqxv
- VGvzQGj/K+PRP8eDDKn2g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:AwjkbcbUPc4=:MMEFqkK3+JnoHhEcHFlzpK
- yNFJWPYv/ZizOOGcrntedaJoa2ZwJ5lfYvtg4+aDAhdJLj0pEvuWqc9JUNfAbVhiaUHIyLXst
- xout0blgGI177XH3FucHTd+Jg4bh9tkIhflMYfQR8NHAvwJhE5NPhVThz4poRTXeTzLPt2y53
- UueksoYujOeEyFBI8/GFvBx/2880ggFo6AYXvBIw/33P/ws8LathJrs/2E9LmNjIj00O/LM0d
- 8IAzk9YWEjOZea+Z+z2oYyjdYnJKwvL413uUHS9Aa9TRQN+t+7+2l8CLpWK2UhyCIM5ncKwbu
- nWi9fbVEkBOLPFS4wzbOrrhHVCrkPbu4iMz/XnTwDWjNXV+WebRg9tc5YzLoOu6ev/AQI3O2e
- sTN9Q6oNeQ1EFkHmB2X3lAgTZQsQkO2liWTqt8om7vTro9V4/8DAVK+l4hDayGzCltMtMjKlE
- MAJB6HNBbBN68LVw9ryEQGV6pWOVwcOu7udqgbhH+7biDiIRQpphDjopu91x1FgkvtPybQ85f
- TW7lRIoHaOdTZ4d0W4nEOe2ftls5w08bDrvKgzNHSmbKGFUHpIh6Kywlu0PmOBusQmEYcK2NV
- PM+4oF5vFgKG5duQvsYniE/1IUMIM2EGjX0B0nVsMrvgocTqdSq5rBqYadCpJaQo8x0iHxNtf
- mDU7DiWuNWZfjU03Rq3ZE7146h9W+2Bj200IbXzH9OOsVGzasbwlReesuwOFTZ2zY8+z8No43
- e4eWUactkOlJQT7yg5L+EqDuVlNVtL1c6FxMEJLoSmMDCKyZsGpUZNJH2cHohawhgZ7IqTJsj
- m+DgmbrRnH9Lv352kYZQBF9GxGI9KsF1GFVoPEOKevWA2jjgU1rbkB8gJgfI9ddUuB+N/Hl
+X-Provags-ID: V03:K1:GpwwH3w0iP+ROO0G5v0szD4r3uVxpbrANqTycm0vX5WOZteZR3r
+ ciwv50BXPB9l7ItFtSRftIs+M9qgzDkVcIUcRCpizwoic0icTL6Fs+/Zzhef8uZAW5YMSTt
+ R1ZnnwiEetUbXiGDW2cUNbPd73JKz3TNB4hIWDPink4N/9XoVKU7kGp/neZFRRHnLqWZNmD
+ 7/1kms6yn2aaVRdKMKMfA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:6fEAJAzPqzQ=:0OBQLBVFGA5XJ6QPnY4gJC
+ P+9g17uUb8xDTIbnGnwqtSObAk1xH15tRQey3XRciM6FONoobxqilr6w/ahfOR2mV6D0YB+lK
+ HWLz2otoNARPeQg64tJfOMm+QpXxCTrGeHM58AuNolHAq4wluQWEV/HnwVvsR4k6mjqgzHC81
+ sIIe4c5hC+LIWbh7W2fZ3HYpVD/gjXoWxcrHf+2E/fJmtBvVNQBxgHj9+rMsLDav5rJZuDf7c
+ k4Cad1DYQqMilqDe0mqkQGdxlB95Kh6pg8j8VgKFbX1PeB+zXMaMO9wlmrm+euQpbjSTFwW6B
+ YaF0u/N2HQEU4BHSBaoSHrFdD5S6Y91ZJ3O/NsdNuC1kXhj2UZeaZKop7Xr93x8NRtSBXqPEV
+ nIGph7TisjnHoSkxZCVDQNdF/v6ELB9uxiIn9UefKnMQQGUz49oHT/Bpb9+o6akuds6QOZT0n
+ KABrzmP5mIAMrV/wtFWLTevKp11afo/p/4+1n1i69w8fLrU7Lypi5PaFuRkB9ngpiZZfFN/To
+ rUvpCVNM54OW8POY1aBc505m4lVYO2cD3TZN+hLplElPzIF0t220UMG9S6ndkKz4sLTyvizze
+ XvcXcBhTEgqdW5p2UDN2NL+40i8JxePAmc4DYitSA/vbYz0rIJ26QOt9s/A4Qv6oJ9idfxm0L
+ wJkFeBCBKVHYvOER4T1PcL/ymfZmMIYjv/yg3nUL5j25gpanCohBMLVR8LuV/0sbbyVMJWNps
+ yPXGL0fRiXQ0n4/wbpkhCKfH+kBmXPfn41ZMc1ogAKdE+7GyLoy/hHIF0OJRvGa7m5EwALOrE
+ 5G58ksT68kLjhSD9jD0kcP++/UEedoPz5IrgrPZjf0qTfQC5R0+TIhf2kGwTgkF7XyvOnnQ
 Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:10:07
@@ -71,48 +72,45 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: "Michael S . Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
- Euler Robot <euler.robot@huawei.com>, Li Qiang <liq3ea@gmail.com>,
- Laurent Vivier <laurent@vivier.eu>, Igor Mammedov <imammedo@redhat.com>,
- Chen Qun <kuhn.chenqun@huawei.com>
+ Li Qiang <liq3ea@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
+ Euler Robot <euler.robot@huawei.com>, Chen Qun <kuhn.chenqun@huawei.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Chen Qun <kuhn.chenqun@huawei.com>
 
 Clang static code analyzer show warning:
-hw/arm/virt-acpi-build.c:641:5: warning: Value stored to 'madt' is never read
-    madt = acpi_data_push(table_data, sizeof *madt);
-    ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+hw/net/virtio-net.c:2077:5: warning: Value stored to 'tcp_flag' is never read
+    tcp_flag &= VIRTIO_NET_TCP_FLAG;
+    ^           ~~~~~~~~~~~~~~~~~~~
+
+The 'VIRTIO_NET_TCP_FLAG' is '0x3F'. The last ‘tcp_flag’ assignment statement is
+ the same as that of the first two statements.
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Li Qiang <liq3ea@gmail.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <20200827110311.164316-2-kuhn.chenqun@huawei.com>
+Message-Id: <20200827110311.164316-7-kuhn.chenqun@huawei.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/arm/virt-acpi-build.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ hw/net/virtio-net.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index 0a482ff6f734..9efd7a388150 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -633,12 +633,11 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-     int madt_start = table_data->len;
-     const MemMapEntry *memmap = vms->memmap;
-     const int *irqmap = vms->irqmap;
--    AcpiMultipleApicTable *madt;
-     AcpiMadtGenericDistributor *gicd;
-     AcpiMadtGenericMsiFrame *gic_msi;
-     int i;
- 
--    madt = acpi_data_push(table_data, sizeof *madt);
-+    acpi_data_push(table_data, sizeof(AcpiMultipleApicTable));
- 
-     gicd = acpi_data_push(table_data, sizeof *gicd);
-     gicd->type = ACPI_APIC_GENERIC_DISTRIBUTOR;
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index a1fe9e928533..cb0d27084c10 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -2075,7 +2075,6 @@ static int virtio_net_rsc_tcp_ctrl_check(VirtioNetRscChain *chain,
+     tcp_flag = htons(tcp->th_offset_flags);
+     tcp_hdr = (tcp_flag & VIRTIO_NET_TCP_HDR_LENGTH) >> 10;
+     tcp_flag &= VIRTIO_NET_TCP_FLAG;
+-    tcp_flag = htons(tcp->th_offset_flags) & 0x3F;
+     if (tcp_flag & TH_SYN) {
+         chain->stat.tcp_syn++;
+         return RSC_BYPASS;
 -- 
 2.26.2
 
