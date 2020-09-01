@@ -2,30 +2,28 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAC50258C87
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 12:14:57 +0200 (CEST)
-Received: from localhost ([::1]:55628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF793258C62
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 12:09:29 +0200 (CEST)
+Received: from localhost ([::1]:34590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD3JZ-0007L3-0h
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 06:14:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47574)
+	id 1kD3EG-0007DW-Ug
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 06:09:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD3Bq-00038K-CH; Tue, 01 Sep 2020 06:06:58 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:34161)
+ id 1kD3D3-0005r3-SU; Tue, 01 Sep 2020 06:08:13 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:44113)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD3Bo-0005Vv-Fh; Tue, 01 Sep 2020 06:06:58 -0400
+ id 1kD3D2-0005bi-1U; Tue, 01 Sep 2020 06:08:13 -0400
 Received: from [192.168.100.1] ([82.252.135.186]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1McGxG-1kj4cT4BES-00cjlf; Tue, 01 Sep 2020 12:06:46 +0200
-Subject: Re: [PATCH v3 10/10] hw/display/vga:Remove redundant statement in
- vga_draw_graphic()
-To: Chen Qun <kuhn.chenqun@huawei.com>, qemu-devel@nongnu.org,
- qemu-trivial@nongnu.org
-References: <20200827110311.164316-1-kuhn.chenqun@huawei.com>
- <20200827110311.164316-11-kuhn.chenqun@huawei.com>
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MkprN-1krdIO1Hd1-00mKaM; Tue, 01 Sep 2020 12:08:07 +0200
+Subject: Re: [PATCH] main-loop: Fix comment
+To: Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20200827175520.32355-1-sw@weilnetz.de>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -69,35 +67,35 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <61577913-6317-bbb4-f405-1857ef477c9e@vivier.eu>
-Date: Tue, 1 Sep 2020 12:06:44 +0200
+Message-ID: <f87f4efc-acd6-c06f-d847-51e4b312e0b0@vivier.eu>
+Date: Tue, 1 Sep 2020 12:08:06 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200827110311.164316-11-kuhn.chenqun@huawei.com>
+In-Reply-To: <20200827175520.32355-1-sw@weilnetz.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:KKifPMZ4DxHU8rdd9Gh2jsYTsrgDZ0KglrfVYl8Ly1OUeVjkE2r
- 7vVDPpzz88NnG49FJuDC5pe387m0FnypxwE5k2teaDo2aRCTEIxHC1MV9AEqIPMywPdMaQf
- lVK695qF4Wj3hZLu1qqG9pl/26sphHwv2TB2GpLVtXMTMIFZBYnvM/WiYXjF7clWvYVTpaT
- bQlGE/agHELiVAIUkYqdQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:F9EtzihvaWk=:x6+9wPMOIhIBQAutaPQpBh
- T+D8N5RQSQBilR1t932SVTAlu6bXPQiMXwfZbhXflmVff5j4dkAzOcC2upG/LiB8RHvWMv+RV
- 5Ay2BmYwf++zivII4eiNeSi6OS2vqEz+0fGOubbiMmXEKD4v5wwpd4G+PrueXFf/e+UiGSu0M
- 9Fo9mdYKD8bNsS7T4H+n/TTMMo+Y8coSYQ6w5aF/gOU9xpJTKuDIggs4u8fm4G4yyNNkumq/z
- JaDmqhE/FXeeujrk5EYER1oMU/vn4QqpqQlgLT+JVeu07K+GMum9lmuZIHmnVY7BUrrlz1aRS
- AK3MuNxT7tSmwyVHl0MkHwhUWp4r1i+gkdheWpDEkwSboBhCy3ZFgRTpg+8oBO20h8DWAm+t5
- myFbpix5ppIEmEk+2h9yOXDthHdKOB0Jm3ar+BoTNjVkhcQ9izgUUskqGGqeIrOWVEbQ1JDRd
- EiEHGp5PV0jzGKysIdAAvUahggxIaGb+jq9p4LgzSb4ESWglp4zOy4VnSbCs79iZ/SdsQdpig
- oXqE9gaO+4poOzl/u+SXnLLJdJmdGiTOHdLQkh0axiXsg9etebxvzc7STCzW3zdGnIFZWoL8p
- MmOGOoRL3GnRAub4TyLGFY4QLUMqEsyalbdxhSn9z216b0wU8KpYTzpwapOkXXtjJs1Cx9HjP
- BAk7MefQvizzRrdw80KWjlUJRxfRX5FVqLhC0Iv1c/TdzIN4xzeg7vDDBjKIJksuqtYT5lYuu
- slUX3xVjJhGsGIqmQdAElUG5NU5Vyz7gPR13k6JIGO4gJz9kikFc2ZCDDA/7epRYEubk1kJhR
- I7QQ+U1yEWD5qdOX0AZwPTDGpaOqxpnVLTZs4KNmYI/whzP1pnWclZNBGhPTCaqzukLIcLV
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:2eitXgq9A69Obl/6NBB+fynwKV3EA1NjwydD982YQS4F5WzEqto
+ 6p6MTovTE73kgX2h9IFwPSU/rVU8phrw9k/N/q0aH8Azxpz4+XLqGSdvhesT1lVD53f9st9
+ KqTt44/LokKdAsZFUs1CmykQa3Jr0VD5FPeW/TLhB3Pmj1jK7VQAqoFWyT2xmvPVxdkhTd8
+ n+BRBAzxX1RWYLov/1UBg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:JxWwrSh3iHw=:DtuESyijIs7TviQN99P54o
+ RMH2KdSDa/lvsDfXvCTRE5dHDIbDftGqfpgDvW3H+68bkKsccFEsr/kfgIiLsDv1zwb65C4yR
+ 0JG5NkSF7qrOdi9J4bCXYbZxNF2F03Hmvtv2vsB35R0aHcyhCn7CUOhTYzHhnYnJFKnneij0J
+ epN7LZpYWPSrRS3aHb5DZXOg6rLoQefM3OMqHfSnMCu+cuwhIKB1oUlOsklg35+0aEfS5Epuy
+ Y1SvX9L2GGobffvdKtTbw8AcVwC7PYkT0gir52McOLtsYTIzvj90Svd/xT4CZShQxnGUixDlu
+ P6GUX4VJXwNrmKcWx5h/zBjLHjkR62hub0QsqbXIFbt0AXiqGA99v1lEzRdKfmv9FW9nfZNFe
+ jCE2phRfNOc0bCf6CAH6FtH/gQ05RgKyfeXTAaXQ1Q9mf7/pIuPY4AUIvSRngl+HN6Zccxymi
+ SieNX9RhSlUKOS8fUZ/a9b6/PGtPs5BoPWu+tjKD02BF3zFyk+gbr+7ZNf6pn+8HqPxLl17bK
+ hNdteNylkpZXgutIq2ZPzv6tL+1B8A6eTsLhmWewx/AUaBcUtTNEEbw/xVlz3MWXP3FxaEArl
+ e0svpCqESZK8rrrNBGarbxD4lWG8OvmI3k+R0vTT8uoS1wm0zCcFbZoBoFrMREZAM8IGbXJe4
+ siIVjdiyrMN/m1WGm9wTEDuv6NzU+eXgdKwLhwaFllahF6FW7ynsGZxTLxWzzvr0osrYM1cqK
+ tk1sc22TmGyGY9sXCWAnNSnQoxQ0pPyOUglEekCXIrulZyH8ndje6LIGQSgbVFU6IW0WtVMGs
+ YIo44nBG/7+MwQXzXXTMqVwAjDzjkG/9nSIfRBjFCJqaS3LsumulItpvt40F9UI9ilXWlMk
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 05:06:41
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 06:08:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -39
 X-Spam_score: -4.0
@@ -117,45 +115,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Li Qiang <liq3ea@gmail.com>, Euler Robot <euler.robot@huawei.com>,
- pannengyuan@huawei.com, zhang.zhanghailiang@huawei.com,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-trivial@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 27/08/2020 à 13:03, Chen Qun a écrit :
-> Clang static code analyzer show warning:
-> hw/display/vga.c:1677:9: warning: Value stored to 'update' is never read
->         update = full_update;
->         ^        ~~~~~~~~~~~
-> 
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-> Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
-> Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Le 27/08/2020 à 19:55, Stefan Weil a écrit :
+> Signed-off-by: Stefan Weil <sw@weilnetz.de>
 > ---
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  hw/display/vga.c | 1 -
->  1 file changed, 1 deletion(-)
+>  include/qemu/main-loop.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/hw/display/vga.c b/hw/display/vga.c
-> index 061fd9ab8f..836ad50c7b 100644
-> --- a/hw/display/vga.c
-> +++ b/hw/display/vga.c
-> @@ -1674,7 +1674,6 @@ static void vga_draw_graphic(VGACommonState *s, int full_update)
->          if (!(s->cr[VGA_CRTC_MODE] & 2)) {
->              addr = (addr & ~0x8000) | ((y1 & 2) << 14);
->          }
-> -        update = full_update;
->          page0 = addr & s->vbe_size_mask;
->          page1 = (addr + bwidth - 1) & s->vbe_size_mask;
->          if (full_update) {
+> diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
+> index 8e98613656..d6892fd208 100644
+> --- a/include/qemu/main-loop.h
+> +++ b/include/qemu/main-loop.h
+> @@ -52,7 +52,7 @@ int qemu_init_main_loop(Error **errp);
+>   * repeatedly calls main_loop_wait(false).
+>   *
+>   * Main loop services include file descriptor callbacks, bottom halves
+> - * and timers (defined in qemu-timer.h).  Bottom halves are similar to timers
+> + * and timers (defined in qemu/timer.h).  Bottom halves are similar to timers
+>   * that execute immediately, but have a lower overhead and scheduling them
+>   * is wait-free, thread-safe and signal-safe.
+>   *
 > 
 
 Applied to my trivial-patches branch.
 
 Thanks,
 Laurent
-
 
