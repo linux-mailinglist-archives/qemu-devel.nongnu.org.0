@@ -2,71 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7398258FF9
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:13:31 +0200 (CEST)
-Received: from localhost ([::1]:43696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D83D825904E
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:25:35 +0200 (CEST)
+Received: from localhost ([::1]:51718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD72Q-0002z3-Tb
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:13:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55066)
+	id 1kD7E6-0004fC-T1
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:25:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kD6zF-0005C1-Cs
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:10:13 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28257
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kD6zC-0003kK-7q
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:10:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598969408;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=cNgVF9HWZy4RUr6DCucDvzASAeqTHl0TqesZxD7F8xs=;
- b=CgCKSGELaQASl2+mkUN3aHNiCDCq8j7bBiCEZibykwbNS8WEWnLP3nl+WJWU1ZoHtTcCTs
- 6nVrz1vUxs0Ms4oblHVKgo97LPjlwpOIy90hFxeJjbTOyCLhlKn+HB4L2Psw0vBYg8Hpe8
- sxPKqbpf4+g3k0DtAGgAab8ACai9SGs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-376-7XrF3pF1M8K0diA-ZOYiuA-1; Tue, 01 Sep 2020 10:09:53 -0400
-X-MC-Unique: 7XrF3pF1M8K0diA-ZOYiuA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3201818CBC41;
- Tue,  1 Sep 2020 14:09:52 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-54.ams2.redhat.com
- [10.36.112.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 04E2A7C584;
- Tue,  1 Sep 2020 14:09:46 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C0D7D17447; Tue,  1 Sep 2020 16:09:44 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1kD6zW-0005zg-KR; Tue, 01 Sep 2020 10:10:30 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:34829)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1kD6zU-0003z9-MP; Tue, 01 Sep 2020 10:10:30 -0400
+Received: from localhost.localdomain ([82.252.135.186]) by
+ mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MXY2Z-1k55ZD1aOd-00Z03W; Tue, 01 Sep 2020 16:10:20 +0200
+From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2] cirrus: handle wraparound in cirrus_invalidate_region
+Subject: [PULL 34/44] hw/arm/omap1:Remove redundant statement in
+ omap_clkdsp_read()
 Date: Tue,  1 Sep 2020 16:09:44 +0200
-Message-Id: <20200901140944.24101-1-kraxel@redhat.com>
+Message-Id: <20200901140954.889743-35-laurent@vivier.eu>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200901140954.889743-1-laurent@vivier.eu>
+References: <20200901140954.889743-1-laurent@vivier.eu>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 05:11:36
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:MRDOMqanYQOUngXE/hWOxXm+U7mswvnyvT8rtz9CyUxC1N2ozry
+ KfjHahMaJgHAyX5J6SrY5ItcL0K9bDEBJRN4fwbwGav5t0/TJxkb0k25YxFX7rtOSWI6m/9
+ PkgiZ9Up9AKkJWG/xd0yR31MHsEMR3pXZ+L4rTaN0ElPJHhYI2IRIP6IlrZRr/mEK8A9XFj
+ ibTiV8CUvO+CzegyGQdHA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:fLx71k1tseU=:p6PnZOAwUO/dqWc5UmRyxV
+ TBo7N6Oq5VAOUDLFslM4001DNVLaATdWZmcdizFTWhBQdaUfN4H2ZWWEzDJ3GhjD0ku2y41Gk
+ 9JjEnXUJ3hzGdz5Jkw+1SpNKSRFQ9uDD4A+wMmCtdZ4XjmEXvlQFHWH52w7Mqk35DyCrcWXlD
+ dDBJYjd1HLLTcgqRZa7spswoXkaYHZGeEkbwkweKTwtMX/7fLUi4ZPCn2sOXnDP1IUpRXN7sg
+ E67z8J0liIeKAiy+8H7f/a1wzl26hxBkypNqP6pXm1nCx5n3yU1GHmy7nkOcZzi7YJ5Nl/B6l
+ LgpR1tSE+/pgmarhTrUVI+KJ/UX3sgduNjBJHmIot2Rq7JwaR20cl3kRlFz1y0/M1GhoGm/fE
+ DIKEvUrLKDZpszFchyaRXCWmY2VfQ6Jr0c5b5FRlb7tSVOFzTAzqloYZe5pvzvIh26+WxFfDW
+ 9EmWOF+D6fgwsvqAJIHnroIyUK4roCcb4gZxIZb4vNZfWPH7TJYUaZ9wHBdNjs5y5eQv1CTAa
+ /tEEhlaj0auWxXSevkgblIhdswwJps92QxEFg2zmmcV/sz1X253e1ZIZ3tm5jzdnhBre5vivF
+ 7d1yt0UHH2QVNivbD55CpOtnP2cuYqQd60mlkwA6F7Ibh8q2VwrUjixdJdQjIHKFQMS1F0LcX
+ blJlnl79uDEFSpf8+SczWrx6+cH9bgTvO62QvZRz7xL2glE5U1DYqoTYhS5UhaNMbLJKdubzI
+ oA44A+aN3Dxgh0/pUiGlXmhcQdBs6PPx7fh+K80y35dWa4/GjuQ6qZkN7G1Fx+f7kZ+lRr/v4
+ 4C6hcOPqMJBoJo8POaU9C+YR3jnZCRYkKkkHRPyhhbYSp2PNWTh9jNoAUNd8qWD9T38eIqY
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:10:10
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,49 +70,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Li Qiang <liq3ea@163.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
+ Li Qiang <liq3ea@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
+ Euler Robot <euler.robot@huawei.com>, Chen Qun <kuhn.chenqun@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Code simply asserts that there is no wraparound instead of handling
-it properly.  The assert() can be triggered by the guest (must be
-privilidged inside the guest though).  Fix it.
+From: Chen Qun <kuhn.chenqun@huawei.com>
 
-Buglink: https://bugs.launchpad.net/qemu/+bug/1880189
-Cc: Li Qiang <liq3ea@163.com>
-Reported-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Clang static code analyzer show warning:
+hw/arm/omap1.c:1760:15: warning: Value stored to 'cpu' during its
+initialization is never read
+    CPUState *cpu = CPU(s->cpu);
+              ^~~   ~~~~~~~~~~~
+
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Message-Id: <20200827110311.164316-3-kuhn.chenqun@huawei.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/display/cirrus_vga.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ hw/arm/omap1.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/hw/display/cirrus_vga.c b/hw/display/cirrus_vga.c
-index 212d6f5e6145..5d1f62e50e67 100644
---- a/hw/display/cirrus_vga.c
-+++ b/hw/display/cirrus_vga.c
-@@ -640,10 +640,16 @@ static void cirrus_invalidate_region(CirrusVGAState * s, int off_begin,
-     }
+diff --git a/hw/arm/omap1.c b/hw/arm/omap1.c
+index 6ba0df6b6d09..02c0f66431b9 100644
+--- a/hw/arm/omap1.c
++++ b/hw/arm/omap1.c
+@@ -1774,7 +1774,6 @@ static uint64_t omap_clkdsp_read(void *opaque, hwaddr addr,
+         return s->clkm.dsp_rstct2;
  
-     for (y = 0; y < lines; y++) {
--        off_cur = off_begin;
-+        off_cur = off_begin & s->cirrus_addr_mask;
-         off_cur_end = ((off_cur + bytesperline - 1) & s->cirrus_addr_mask) + 1;
--        assert(off_cur_end >= off_cur);
--        memory_region_set_dirty(&s->vga.vram, off_cur, off_cur_end - off_cur);
-+        if (off_cur_end >= off_cur) {
-+            memory_region_set_dirty(&s->vga.vram, off_cur, off_cur_end - off_cur);
-+        } else {
-+            /* wraparound */
-+            memory_region_set_dirty(&s->vga.vram, off_cur,
-+                                    s->cirrus_addr_mask + 1 - off_cur);
-+            memory_region_set_dirty(&s->vga.vram, 0, off_cur_end);
-+        }
-         off_begin += off_pitch;
+     case 0x18:	/* DSP_SYSST */
+-        cpu = CPU(s->cpu);
+         return (s->clkm.clocking_scheme << 11) | s->clkm.cold_start |
+                 (cpu->halted << 6);      /* Quite useless... */
      }
- }
 -- 
-2.27.0
+2.26.2
 
 
