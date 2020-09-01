@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DAB7258B2E
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 11:14:43 +0200 (CEST)
-Received: from localhost ([::1]:59526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27628258B3A
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 11:16:30 +0200 (CEST)
+Received: from localhost ([::1]:39740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD2NF-0008G1-8x
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 05:14:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33632)
+	id 1kD2Oz-0003Kn-76
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 05:16:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kD2KN-0003G8-4O
+ id 1kD2KN-0003Gf-Dy
  for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:11:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38899)
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31420
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kD2KL-0006pS-8Y
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:11:42 -0400
+ id 1kD2KL-0006pd-Kb
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:11:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598951500;
+ s=mimecast20190719; t=1598951501;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1ZzSRczycqmp9PBXMjkOtQBBLOIhayetEpr+VUncjTU=;
- b=D8vvnGYeGcutPPhOOBAP2SSnkUcrOsnrl9OD27kqzRHLIVU8MhG02jxi4NO+twlP9GPx9N
- BfTnWFkY0qk1fPBNjfU10sAgiFRm0eS6AQLfKVEpz61r8zl3UeoIYSHDUJ2laXYhH5gK9x
- it7V4hQEdlX63v8+iQ+tPkSuwYhdiho=
+ bh=oPYm07pdt7b0LPaW8u7gz2M+Nt/MTH4OJWkZrN9NJzY=;
+ b=h877/E9NsGOg/odl7KWA/G39wrdpuhatWfqwjeUGyl2ueSX3wnx7sPemg6WDSbMrCQNJMb
+ NI9K2778aoGP+HyqApSoZ4+WH8P3n/npfKylKsAld8K/Le+j0pUyS24wh/GqM/NOvtcNaT
+ 3r59moyRuHv42M1j2l5Nw0cM6aymPVU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-574-cPki1YIXNVmtUo8yV6QQ-w-1; Tue, 01 Sep 2020 05:11:39 -0400
-X-MC-Unique: cPki1YIXNVmtUo8yV6QQ-w-1
+ us-mta-39--FSNXT8IMVaJ7j0uigYluQ-1; Tue, 01 Sep 2020 05:11:39 -0400
+X-MC-Unique: -FSNXT8IMVaJ7j0uigYluQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A6681074641
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 897FE800C60
  for <qemu-devel@nongnu.org>; Tue,  1 Sep 2020 09:11:38 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DA29A9F54;
- Tue,  1 Sep 2020 09:11:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 45F2860C04;
+ Tue,  1 Sep 2020 09:11:38 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/24] meson: install icons
-Date: Tue,  1 Sep 2020 05:11:14 -0400
-Message-Id: <20200901091132.29601-7-pbonzini@redhat.com>
+Subject: [PULL 07/24] meson: install desktop file
+Date: Tue,  1 Sep 2020 05:11:15 -0400
+Message-Id: <20200901091132.29601-8-pbonzini@redhat.com>
 In-Reply-To: <20200901091132.29601-1-pbonzini@redhat.com>
 References: <20200901091132.29601-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,17 +59,17 @@ X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 23:17:53
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 00:57:59
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,71 +89,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20200826130622.553318-4-marcandre.lureau@redhat.com>
+Message-Id: <20200826130622.553318-5-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile             | 12 ------------
- ui/icons/meson.build | 13 +++++++++++++
- ui/meson.build       |  1 +
- 3 files changed, 14 insertions(+), 12 deletions(-)
- create mode 100644 ui/icons/meson.build
+ Makefile       | 3 ---
+ ui/meson.build | 2 ++
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 058cf87f54..d1a3cd77a5 100644
+index d1a3cd77a5..dc3c20dd5e 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -239,22 +239,10 @@ ifeq ($(CONFIG_GUEST_AGENT),y)
- endif
- endif
- 
--ICON_SIZES=16x16 24x24 32x32 48x48 64x64 128x128 256x256 512x512
- 
+@@ -243,9 +243,6 @@ endif
  # Needed by "meson install"
  export DESTDIR
  install: all install-datadir install-localstatedir
--	for s in $(ICON_SIZES); do \
--		mkdir -p "$(DESTDIR)$(qemu_icondir)/hicolor/$${s}/apps"; \
--		$(INSTALL_DATA) $(SRC_PATH)/ui/icons/qemu_$${s}.png \
--			"$(DESTDIR)$(qemu_icondir)/hicolor/$${s}/apps/qemu.png"; \
--	done; \
--	mkdir -p "$(DESTDIR)$(qemu_icondir)/hicolor/32x32/apps"; \
--	$(INSTALL_DATA) $(SRC_PATH)/ui/icons/qemu_32x32.bmp \
--		"$(DESTDIR)$(qemu_icondir)/hicolor/32x32/apps/qemu.bmp"; \
--	mkdir -p "$(DESTDIR)$(qemu_icondir)/hicolor/scalable/apps"; \
--	$(INSTALL_DATA) $(SRC_PATH)/ui/icons/qemu.svg \
--		"$(DESTDIR)$(qemu_icondir)/hicolor/scalable/apps/qemu.svg"
- 	mkdir -p "$(DESTDIR)$(qemu_desktopdir)"
- 	$(INSTALL_DATA) $(SRC_PATH)/ui/qemu.desktop \
- 		"$(DESTDIR)$(qemu_desktopdir)/qemu.desktop"
-diff --git a/ui/icons/meson.build b/ui/icons/meson.build
-new file mode 100644
-index 0000000000..b6e21f6ad7
---- /dev/null
-+++ b/ui/icons/meson.build
-@@ -0,0 +1,13 @@
-+foreach s: [16, 24, 32, 48, 64, 128, 256, 512]
-+  s = '@0@x@0@'.format(s.to_string())
-+  install_data('qemu_@0@.png'.format(s),
-+               rename: 'qemu.png',
-+               install_dir: config_host['qemu_icondir'] / 'hicolor' / s / 'apps')
-+endforeach
-+
-+install_data('qemu_32x32.bmp',
-+             rename: 'qemu.bmp',
-+             install_dir: config_host['qemu_icondir'] / 'hicolor' / '32x32' / 'apps')
-+
-+install_data('qemu.svg',
-+             install_dir: config_host['qemu_icondir'] / 'hicolor' / 'scalable' / 'apps')
+-	mkdir -p "$(DESTDIR)$(qemu_desktopdir)"
+-	$(INSTALL_DATA) $(SRC_PATH)/ui/qemu.desktop \
+-		"$(DESTDIR)$(qemu_desktopdir)/qemu.desktop"
+ 	$(INSTALL_DIR) "$(DESTDIR)$(qemu_datadir)/keymaps"
+ 
+ ifdef CONFIG_WIN32
 diff --git a/ui/meson.build b/ui/meson.build
-index 962e776569..dddffc9a7a 100644
+index dddffc9a7a..aa8aa31516 100644
 --- a/ui/meson.build
 +++ b/ui/meson.build
-@@ -112,5 +112,6 @@ if have_system or xkbcommon.found()
- endif
- 
+@@ -114,4 +114,6 @@ endif
  subdir('shader')
-+subdir('icons')
+ subdir('icons')
  
++install_data('qemu.desktop', install_dir: config_host['qemu_desktopdir'])
++
  modules += {'ui': ui_modules}
 -- 
 2.26.2
