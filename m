@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C0EF258B2D
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 11:14:39 +0200 (CEST)
-Received: from localhost ([::1]:59416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DAB7258B2E
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 11:14:43 +0200 (CEST)
+Received: from localhost ([::1]:59526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD2NC-0008DX-Fx
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 05:14:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33612)
+	id 1kD2NF-0008G1-8x
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 05:14:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kD2KM-0003FK-NL
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:11:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50594)
+ id 1kD2KN-0003G8-4O
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:11:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38899)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kD2KK-0006pO-T0
+ id 1kD2KL-0006pS-8Y
  for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:11:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1598951500;
@@ -25,36 +25,36 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=t+dKI3qjYJg00VqsMnzVtH8QIjKITSYPyEy9jJCw6pk=;
- b=LUYlBIljTobX0Zi7I2ju1gs6lkv4IRowrxPfHR16cSXPJ+FprFw1PtEmSoaOP2jNzzG3jO
- ZAUt+yZ2r0JFWNbMp37i1QCDrTt2M2k7MB1OMBcgkcHZVBJNo1aExN8c5NJx2VpApkvjVo
- MEsgnrJG9pK2gZrmy1muSMRmRflvvec=
+ bh=1ZzSRczycqmp9PBXMjkOtQBBLOIhayetEpr+VUncjTU=;
+ b=D8vvnGYeGcutPPhOOBAP2SSnkUcrOsnrl9OD27kqzRHLIVU8MhG02jxi4NO+twlP9GPx9N
+ BfTnWFkY0qk1fPBNjfU10sAgiFRm0eS6AQLfKVEpz61r8zl3UeoIYSHDUJ2laXYhH5gK9x
+ it7V4hQEdlX63v8+iQ+tPkSuwYhdiho=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-52-HLu1Yt1ROd6139NgrMozuw-1; Tue, 01 Sep 2020 05:11:38 -0400
-X-MC-Unique: HLu1Yt1ROd6139NgrMozuw-1
+ us-mta-574-cPki1YIXNVmtUo8yV6QQ-w-1; Tue, 01 Sep 2020 05:11:39 -0400
+X-MC-Unique: cPki1YIXNVmtUo8yV6QQ-w-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE64F51B5
- for <qemu-devel@nongnu.org>; Tue,  1 Sep 2020 09:11:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A6681074641
+ for <qemu-devel@nongnu.org>; Tue,  1 Sep 2020 09:11:38 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7A99A60C04;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DA29A9F54;
  Tue,  1 Sep 2020 09:11:37 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/24] meson: install scripts/qemu-trace-stap
-Date: Tue,  1 Sep 2020 05:11:13 -0400
-Message-Id: <20200901091132.29601-6-pbonzini@redhat.com>
+Subject: [PULL 06/24] meson: install icons
+Date: Tue,  1 Sep 2020 05:11:14 -0400
+Message-Id: <20200901091132.29601-7-pbonzini@redhat.com>
 In-Reply-To: <20200901091132.29601-1-pbonzini@redhat.com>
 References: <20200901091132.29601-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -88,50 +88,72 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20200826130622.553318-3-marcandre.lureau@redhat.com>
+Message-Id: <20200826130622.553318-4-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile            | 3 ---
- meson.build         | 1 +
- scripts/meson.build | 3 +++
- 3 files changed, 4 insertions(+), 3 deletions(-)
- create mode 100644 scripts/meson.build
+ Makefile             | 12 ------------
+ ui/icons/meson.build | 13 +++++++++++++
+ ui/meson.build       |  1 +
+ 3 files changed, 14 insertions(+), 12 deletions(-)
+ create mode 100644 ui/icons/meson.build
 
 diff --git a/Makefile b/Makefile
-index 16b2ffa7fe..058cf87f54 100644
+index 058cf87f54..d1a3cd77a5 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -244,9 +244,6 @@ ICON_SIZES=16x16 24x24 32x32 48x48 64x64 128x128 256x256 512x512
+@@ -239,22 +239,10 @@ ifeq ($(CONFIG_GUEST_AGENT),y)
+ endif
+ endif
+ 
+-ICON_SIZES=16x16 24x24 32x32 48x48 64x64 128x128 256x256 512x512
+ 
  # Needed by "meson install"
  export DESTDIR
  install: all install-datadir install-localstatedir
--ifdef CONFIG_TRACE_SYSTEMTAP
--	$(INSTALL_PROG) "scripts/qemu-trace-stap" $(DESTDIR)$(bindir)
--endif
- 	for s in $(ICON_SIZES); do \
- 		mkdir -p "$(DESTDIR)$(qemu_icondir)/hicolor/$${s}/apps"; \
- 		$(INSTALL_DATA) $(SRC_PATH)/ui/icons/qemu_$${s}.png \
-diff --git a/meson.build b/meson.build
-index 3c919e32f1..6b2fc76933 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1138,6 +1138,7 @@ if have_tools
-   endif
+-	for s in $(ICON_SIZES); do \
+-		mkdir -p "$(DESTDIR)$(qemu_icondir)/hicolor/$${s}/apps"; \
+-		$(INSTALL_DATA) $(SRC_PATH)/ui/icons/qemu_$${s}.png \
+-			"$(DESTDIR)$(qemu_icondir)/hicolor/$${s}/apps/qemu.png"; \
+-	done; \
+-	mkdir -p "$(DESTDIR)$(qemu_icondir)/hicolor/32x32/apps"; \
+-	$(INSTALL_DATA) $(SRC_PATH)/ui/icons/qemu_32x32.bmp \
+-		"$(DESTDIR)$(qemu_icondir)/hicolor/32x32/apps/qemu.bmp"; \
+-	mkdir -p "$(DESTDIR)$(qemu_icondir)/hicolor/scalable/apps"; \
+-	$(INSTALL_DATA) $(SRC_PATH)/ui/icons/qemu.svg \
+-		"$(DESTDIR)$(qemu_icondir)/hicolor/scalable/apps/qemu.svg"
+ 	mkdir -p "$(DESTDIR)$(qemu_desktopdir)"
+ 	$(INSTALL_DATA) $(SRC_PATH)/ui/qemu.desktop \
+ 		"$(DESTDIR)$(qemu_desktopdir)/qemu.desktop"
+diff --git a/ui/icons/meson.build b/ui/icons/meson.build
+new file mode 100644
+index 0000000000..b6e21f6ad7
+--- /dev/null
++++ b/ui/icons/meson.build
+@@ -0,0 +1,13 @@
++foreach s: [16, 24, 32, 48, 64, 128, 256, 512]
++  s = '@0@x@0@'.format(s.to_string())
++  install_data('qemu_@0@.png'.format(s),
++               rename: 'qemu.png',
++               install_dir: config_host['qemu_icondir'] / 'hicolor' / s / 'apps')
++endforeach
++
++install_data('qemu_32x32.bmp',
++             rename: 'qemu.bmp',
++             install_dir: config_host['qemu_icondir'] / 'hicolor' / '32x32' / 'apps')
++
++install_data('qemu.svg',
++             install_dir: config_host['qemu_icondir'] / 'hicolor' / 'scalable' / 'apps')
+diff --git a/ui/meson.build b/ui/meson.build
+index 962e776569..dddffc9a7a 100644
+--- a/ui/meson.build
++++ b/ui/meson.build
+@@ -112,5 +112,6 @@ if have_system or xkbcommon.found()
  endif
  
-+subdir('scripts')
- subdir('tools')
- subdir('pc-bios')
- subdir('tests')
-diff --git a/scripts/meson.build b/scripts/meson.build
-new file mode 100644
-index 0000000000..e8cc63896d
---- /dev/null
-+++ b/scripts/meson.build
-@@ -0,0 +1,3 @@
-+if 'CONFIG_TRACE_SYSTEMTAP' in config_host
-+  install_data('qemu-trace-stap', install_dir: get_option('bindir'))
-+endif
+ subdir('shader')
++subdir('icons')
+ 
+ modules += {'ui': ui_modules}
 -- 
 2.26.2
 
