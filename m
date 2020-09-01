@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9640C258FCD
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:06:37 +0200 (CEST)
-Received: from localhost ([::1]:44662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEABC258FC9
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:05:33 +0200 (CEST)
+Received: from localhost ([::1]:39936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD6vk-0007ww-Ls
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:06:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53200)
+	id 1kD6ui-0005xP-O6
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:05:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kD6tX-0003xG-1C; Tue, 01 Sep 2020 10:04:19 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46334)
+ id 1kD6tb-0004Ao-TA; Tue, 01 Sep 2020 10:04:23 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:45259)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kD6tV-0002mm-FV; Tue, 01 Sep 2020 10:04:18 -0400
-Received: by mail-wr1-x443.google.com with SMTP id o5so1652393wrn.13;
- Tue, 01 Sep 2020 07:04:16 -0700 (PDT)
+ id 1kD6tW-0002ms-1o; Tue, 01 Sep 2020 10:04:23 -0400
+Received: by mail-wr1-x443.google.com with SMTP id x14so1665950wrl.12;
+ Tue, 01 Sep 2020 07:04:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nVzUwFb/Pru0mu/Wze/TshCcACe4nWk3tSS2yGusfjU=;
- b=YSW7gXTErhA8CgLNJvuA23gm6mNXiDk/En+AaYxJ71kpBt2hAaeH7C6k8/wtb9uHcj
- toGBzVuwY1yS4wzogAfFLJ+XPg7qKPZbqDtexrMk52piNaUCvZEeBZTi43Pk2juLrSGj
- bB+aD2MiVyEU5du/LfBPT7EXmoYJrLtHM6WsVQULYHP0FYAbe08yYcfw3tfUiV8TZcR7
- U4IcI2tz+bg/bNgnaySzHnoK3kTZI3sM4fELu3lHzrV6GLp0TlSQxfjrV4RyqCQFABoC
- W9Re0IS4u/t8m1j4nc3p+8kWgLwn3acb8Qu+HdsMA86kwJV7zUF74Bb7lSAIVrONjAy4
- 3KSQ==
+ bh=t2knO10CUldXHrGS1mVbE8WYMZ+tYlhkgjwBqXs9AEE=;
+ b=Wx2LYNRzQ3tNXOzmat5fEMKtdFqNTTMd1mmaRXzY9udP4qSD/KxVn/fxGmVHpIztjq
+ Vu4rloG7GVMl4JwqYVkgq5xHrqrBy/EMmoTTz1YftIerMIsN7OYjFQXKgNI17tDwDkUg
+ 8TC5+RtaQVyR1BKkLLBjfUt0NZPo8771h6OKCUN6IHiw4c+89eVrAmlCs0Af5K7667yk
+ vbMyPGHrWsRjAienPdPvlM4f77bJFa3v44lZk8LFn5ISYS38v30DNbNaoXLkZRIkjeTa
+ kOsdSzrm7tJ2nEVmVSs5iVSyhCoALPr0N4Lm782JTSkS99xEeW+ItxU+AcPzIdpvZrcX
+ obgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=nVzUwFb/Pru0mu/Wze/TshCcACe4nWk3tSS2yGusfjU=;
- b=I+S2WXIYyNskopT9+z8ZhpHWUC2xMUo08zVc6txN+DjOY2uubvVwbX6FKqPXewYRhd
- ixS2Tz9cZbQ4o5eMZ+gsp/e4SgqCDY9fRU5vEAHDhPYeQblRMVJcF6vi0xpxYOtL+lN/
- VDqHLXNZ/SPdcHh6X2WdYUljQRnv+3d1chSD2GV46QBnKtz9PIRzQ5MIc1DF0Z7iLqmQ
- dBgL5NhXta8xSd/cjlxtuikhhK3eCJtsrvTz+D+9tIWSnk60Clwe3xuVoNWnwzuG9akn
- 6qgR/ZYVlNWborazcnhCa0NNNF8eWJVjJFRfQdxMBLGAdvLvc70tdICmi6/jmn7JTT2L
- NSAw==
-X-Gm-Message-State: AOAM533oaRg3HxP87EINFG1HMJa8B2Cff1b6/V8EkEx+wAgdTqACc6Sy
- K/0SHcCubJ/gd8cJZ+X6PjzK/Dw3neI=
-X-Google-Smtp-Source: ABdhPJzXi4qPizW450aFl/1wmOy0dnd8Tci92ijCNLKFzo75+bsU9mWCfT5qMUxaQpTPMAjk9sp45A==
-X-Received: by 2002:a05:6000:110a:: with SMTP id
- z10mr2183221wrw.374.1598969054946; 
- Tue, 01 Sep 2020 07:04:14 -0700 (PDT)
+ bh=t2knO10CUldXHrGS1mVbE8WYMZ+tYlhkgjwBqXs9AEE=;
+ b=jzVNB5aadjhJpEhcJ53XQrRvy6SXP+An8XOsMSzPzTgLxIzDa9G5LdONeVI/lVsbCi
+ o6fUCam3fhxBLTxxN5F2GM0ofHUvbClCVAfO4PPa7e1bCEOQtU8tX8GKIXI/4VjIi5rv
+ hSqB1m/18ZyRkzzl+Hr4u5DJOj6/iTxUPMo1rl+BX6KHuL7Lrwkcyi07b+Tzgj7MMGZl
+ WMVjxpl7L8AhqrONW4BwxOX81H5qFYFDiHh4/9amw6nZqmAF+QvrId+fBt8nU1hDfbjx
+ FHWloOBIf1uJ16YhiWPMN+bkxbUeUA1HUDhwKNo6P5CVrQs8WQfWV6cw7obVNTEePK6Q
+ 71kw==
+X-Gm-Message-State: AOAM531R/mj67hlTde3i8nsn24AbGOy/nmchRfHGCXAkYieyD0JAM5fp
+ V/isvRQuywe6swb8bPKOojHfVB/TEcs=
+X-Google-Smtp-Source: ABdhPJzqmYrDvOq3yuM8DK/tLkD/qOsHtbvB5LPp0DBdZuLWPKCuOSW41reNg+A96QPqm6j6eWUb2g==
+X-Received: by 2002:a5d:43c7:: with SMTP id v7mr2198853wrr.27.1598969056198;
+ Tue, 01 Sep 2020 07:04:16 -0700 (PDT)
 Received: from localhost.localdomain (50.red-83-52-54.dynamicip.rima-tde.net.
  [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id p22sm1872505wmc.38.2020.09.01.07.04.13
+ by smtp.gmail.com with ESMTPSA id p22sm1872505wmc.38.2020.09.01.07.04.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Sep 2020 07:04:14 -0700 (PDT)
+ Tue, 01 Sep 2020 07:04:15 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/3] hw/sd/sdhci: Fix qemu_log_mask() format string
-Date: Tue,  1 Sep 2020 16:04:09 +0200
-Message-Id: <20200901140411.112150-2-f4bug@amsat.org>
+Subject: [PATCH v2 2/3] hw/sd/sdhci: Document the datasheet used
+Date: Tue,  1 Sep 2020 16:04:10 +0200
+Message-Id: <20200901140411.112150-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200901140411.112150-1-f4bug@amsat.org>
 References: <20200901140411.112150-1-f4bug@amsat.org>
@@ -94,26 +93,29 @@ Cc: Prasad J Pandit <pjp@fedoraproject.org>, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add missing newline character in qemu_log_mask() format.
+Add datasheet name in the file header.
+
+We can not add the direct download link since there is a disclaimers
+to agree first on the SD Association website (www.sdcard.org).
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sd/sdhci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/sd/sdhci.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
-index 1785d7e1f79..e2ef288052e 100644
+index e2ef288052e..60f083b84c1 100644
 --- a/hw/sd/sdhci.c
 +++ b/hw/sd/sdhci.c
-@@ -1109,7 +1109,7 @@ sdhci_write(void *opaque, hwaddr offset, uint64_t val, unsigned size)
-         /* Limit block size to the maximum buffer size */
-         if (extract32(s->blksize, 0, 12) > s->buf_maxsz) {
-             qemu_log_mask(LOG_GUEST_ERROR, "%s: Size 0x%x is larger than "
--                          "the maximum buffer 0x%x", __func__, s->blksize,
-+                          "the maximum buffer 0x%x\n", __func__, s->blksize,
-                           s->buf_maxsz);
- 
-             s->blksize = deposit32(s->blksize, 0, 12, s->buf_maxsz);
+@@ -1,6 +1,8 @@
+ /*
+  * SD Association Host Standard Specification v2.0 controller emulation
+  *
++ * Datasheet: PartA2_SD_Host_Controller_Simplified_Specification_Ver2.00.pdf
++ *
+  * Copyright (c) 2011 Samsung Electronics Co., Ltd.
+  * Mitsyanko Igor <i.mitsyanko@samsung.com>
+  * Peter A.G. Crosthwaite <peter.crosthwaite@petalogix.com>
 -- 
 2.26.2
 
