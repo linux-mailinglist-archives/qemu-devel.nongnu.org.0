@@ -2,30 +2,28 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA441258C33
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 11:59:39 +0200 (CEST)
-Received: from localhost ([::1]:43562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA8A7258C3D
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 12:02:10 +0200 (CEST)
+Received: from localhost ([::1]:53696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD34k-0004ck-U1
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 05:59:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45032)
+	id 1kD37B-0000W0-Q2
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 06:02:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD33D-0001Re-AE; Tue, 01 Sep 2020 05:58:03 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:47069)
+ id 1kD2sw-0007P6-8n; Tue, 01 Sep 2020 05:47:26 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:48147)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD33B-0004FJ-Dj; Tue, 01 Sep 2020 05:58:02 -0400
+ id 1kD2su-0002hu-8t; Tue, 01 Sep 2020 05:47:25 -0400
 Received: from [192.168.100.1] ([82.252.135.186]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MoNu2-1kxOLy2VU8-00op6x; Tue, 01 Sep 2020 11:57:54 +0200
-Subject: Re: [PATCH v3 04/10] target/arm/translate-a64:Remove redundant
- statement in disas_simd_two_reg_misc_fp16()
-To: Chen Qun <kuhn.chenqun@huawei.com>, qemu-devel@nongnu.org,
- qemu-trivial@nongnu.org
-References: <20200827110311.164316-1-kuhn.chenqun@huawei.com>
- <20200827110311.164316-5-kuhn.chenqun@huawei.com>
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MJW18-1jtJ6f1Mb2-00Jp7u; Tue, 01 Sep 2020 11:47:21 +0200
+Subject: Re: [PATCH] linux-user: Add strace support for printing OFD fcntl
+ operations
+To: Mike Gelfand <mikedld@mikedld.com>, qemu-devel@nongnu.org
+References: <20200830092242.31506-1-mikedld@mikedld.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -69,32 +67,32 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <b4135c25-4158-ebe8-4199-b2b9669c5209@vivier.eu>
-Date: Tue, 1 Sep 2020 11:57:53 +0200
+Message-ID: <1e2e300c-73e3-18ae-0bf3-5a65ac05673e@vivier.eu>
+Date: Tue, 1 Sep 2020 11:47:20 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200827110311.164316-5-kuhn.chenqun@huawei.com>
+In-Reply-To: <20200830092242.31506-1-mikedld@mikedld.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:HijNUrbLIJSVgO0hHbHN0j4hlj6U5z/NaZPZcc58Jx8wIFdyT3r
- DA+aFjjdWDzfiOTSHfqnzs2rKfJ42Yhmuxn9/EFkSs/XivaL1oS8W5TA2CkvGCLcZcYkjAx
- 3pOx4bJ68LNNtz0m4yYSge6CdT1tJmJIEY1fgwk9awI4ZEj86KSFsGcOtbAz+J56PbCGkKw
- W1I4ORoZd2XhnGEBthP+Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:zpQCU3r4ZNU=:tT1t7s6AWT0AYqx/QKgVRW
- 3KeT8qLQYYOZCzjumloy9R1+phhOpnDEC7VaIOAdjRTWwtsEivMRopdblWx/Q0NcJcLasWaGg
- Q/9lmGbaizfvR6xE2G/C+FXPHUlxWHMy5YCwgW0iyNaHWbDQn97na5PvxxyRefQfAQIQssjdz
- 9pMi2JTmhEVI5oxb8PM7Z2YC4vh+wZAY8ND2s76NzFB9jWR5MtsgMAhasVe2+/0/+0qw7iZD3
- kv+8HIcegfQDZ4a8JfDGcdmfjHG1UDUiYDyZfVT4QTEPewp2E7v87Fx8DA+Iy2wMJR+oCBWCn
- 3w4u8IFt+9rOA0DfvMVNkyP0m2/q7SuDGXL/AGOwofS2SsZGr9F9/8oRa442EMjTMY+MweEar
- NA9R69vT5To5E2Vh2uzl4hZLBXWdgf4OITQwoz8k9g9v1fmgRj6WzHVWdpwf1zW88a1l/Qr35
- QygDqULlWQHRhUFHnV5f2zsfiLYgseZcnoYQf6jZV1qJTuOaSqFVi/SFnZFaaHGlOhuzmusN8
- yAqxVryasGFzTRphndD43lRb0S9aZAvdWKalWXYtaiZ1GhIVeybMn8KJJZh8/hL3EtmiCrSa9
- NXVrLDjP7DP/RiT5W95StncaEUYz87jevyjxRq/9XPRl1wETHapdIGUxOx41Dslj1RN/bWL2z
- /FreOZmYrrDA+DSF45vcBIE7BalCIPP5D9gilWrBe1XChTTI9PUFqlhoXxzx90vObZdVDzbHN
- kUBvpLhljXJ+T+B9g3OV4pi7jAn+7ANqJ8ffq7kWgCIyCbKBfgZHw0D0fZyU1vbzgL66ouW/a
- X87/DXsmGeYi5UOJUG9UmLewvfSWZRb1DEoesj+JFW+jjmOCcRSHQxS/tU9of5pnqMnis/g
+X-Provags-ID: V03:K1:cljSet4TbINxjrSQGI6B3lAS+4dCPrfULPLgpW5eWgKwxy2Z0Pw
+ VgYC3ww+X4HDCGetP72Gi9iTSXQY+Jz4ZYYlVlpr51n0BUFzTPSTKG3dB7cZbQ50ffcvTw0
+ jzvSomqz8ej1rg6bOLeEkMxDJAtda9HeTXCc78IiyD3j/RJHpC8AEqYc5r9p+VtKFOU6l/N
+ vfFNl0Pc3yDp3oDVXmRVQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:tgvlesofVuY=:Zoo1KJIXIo5kUMRzAiIYJv
+ tnqruZrp7xVNYPVFj5NkltBb+ZolNdq+B9MBm4+WPuR1GbcXKAisgU1i2BfN/9faINWvjRUZd
+ z0LJXTUz425ifAmgVfPDds3HkFH/4Q2tIV9bLJ0zq5hjDhujba8uDlaxMfQeo/5b8v7t0Pgw7
+ UJzbVZdExvpyzabRnK91HDk0ipIpqyh885N7vJOJBqkgsA7TiDoIuwBUiIas9oztMfd8Lj3FU
+ 2/FcyPKYKk+savJW5nEpzyA6VSVVM0C8hdKD+YNDYBoRjBkELhcI50LyNVGZF1kLSN5uihwfq
+ fo7imZcTZB9DhsppN7BjchG5pnnRTL/fAndR2AinOau8adIQY5NCsTgA5VpjTeMBKZ9C+/k+/
+ NI/CTKrmjbZuVFdcWUux/9HI0TmWNQTJfKWvXiYuK8va2N8RlvszpnbSVgERDbWQ2Kxr2VGOn
+ AwK5aDCWMAML2mvJrZrvOeGiJiQis8ADIgj7unG3BbpB9o+6lI6nwFOAVKi7/oW9AK6HOuGCA
+ iHRN7gZUT5q+nTh6USM16HtGz1SPDuaKkJqJtI14qONjoqUJxRUr1CHsNtknY+EFY+GgLQohp
+ L5P4Z9u0HLkDOOe6Kdgv0lHAAX0GA8mGmlrpkxN17jMao2ullFLdGLOQ+XiJAgngiI3Mh8FCh
+ g/M0E3jlaTONf1jA6Lr/98617MbDalPfe1DgWaLN0gZTXXQ8aZsHMZaWnJMXpCl7h2JomwD2q
+ yMIhmkE+bu9PSH3pQNca2aJHu+v1pLnIZmbPpffvdT+hVqdQojKTXYT+BfbWuVfZVwqTZ4H/j
+ GVc+IdU1PXXGPX4IOh696s3IW8Y1Lgb1E2UZGgUg27ufe9O+vAjFyR8/U/axKJh1ep/9hqB
 Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 05:47:22
@@ -117,45 +115,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- pannengyuan@huawei.com, zhang.zhanghailiang@huawei.com,
- Euler Robot <euler.robot@huawei.com>
+Cc: qemu-trivial@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 27/08/2020 à 13:03, Chen Qun a écrit :
-> Clang static code analyzer show warning:
-> target/arm/translate-a64.c:13007:5: warning: Value stored to 'rd' is never read
->     rd = extract32(insn, 0, 5);
->     ^    ~~~~~~~~~~~~~~~~~~~~~
-> target/arm/translate-a64.c:13008:5: warning: Value stored to 'rn' is never read
->     rn = extract32(insn, 5, 5);
->     ^    ~~~~~~~~~~~~~~~~~~~~~
-> 
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Le 30/08/2020 à 11:22, Mike Gelfand a écrit :
+> Signed-off-by: Mike Gelfand <mikedld@mikedld.com>
 > ---
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: qemu-arm@nongnu.org
-> ---
->  target/arm/translate-a64.c | 3 ---
->  1 file changed, 3 deletions(-)
+>  linux-user/strace.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
 > 
-> diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-> index c83bb85e4e..47cce160d8 100644
-> --- a/target/arm/translate-a64.c
-> +++ b/target/arm/translate-a64.c
-> @@ -13016,9 +13016,6 @@ static void disas_simd_two_reg_misc_fp16(DisasContext *s, uint32_t insn)
->      fpop = deposit32(opcode, 5, 1, a);
->      fpop = deposit32(fpop, 6, 1, u);
->  
-> -    rd = extract32(insn, 0, 5);
-> -    rn = extract32(insn, 5, 5);
-> -
->      switch (fpop) {
->      case 0x1d: /* SCVTF */
->      case 0x5d: /* UCVTF */
+> diff --git a/linux-user/strace.c b/linux-user/strace.c
+> index 4f77b0cf76..11fea14fba 100644
+> --- a/linux-user/strace.c
+> +++ b/linux-user/strace.c
+> @@ -2056,6 +2056,18 @@ print_fcntl(void *cpu_env, const struct syscallname *name,
+>          print_pointer(arg2, 1);
+>          break;
+>  #endif
+> +    case TARGET_F_OFD_GETLK:
+> +        qemu_log("F_OFD_GETLK,");
+> +        print_pointer(arg2, 1);
+> +        break;
+> +    case TARGET_F_OFD_SETLK:
+> +        qemu_log("F_OFD_SETLK,");
+> +        print_pointer(arg2, 1);
+> +        break;
+> +    case TARGET_F_OFD_SETLKW:
+> +        qemu_log("F_OFD_SETLKW,");
+> +        print_pointer(arg2, 1);
+> +        break;
+>      case TARGET_F_SETLEASE:
+>          qemu_log("F_SETLEASE,");
+>          print_raw_param(TARGET_ABI_FMT_ld, arg2, 0);
 > 
 
 Applied to my trivial-patches branch.
