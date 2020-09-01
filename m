@@ -2,68 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06D7D258CF7
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 12:44:50 +0200 (CEST)
-Received: from localhost ([::1]:44548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E80D0258CFD
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 12:46:44 +0200 (CEST)
+Received: from localhost ([::1]:53782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD3mT-0002DG-0w
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 06:44:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57142)
+	id 1kD3oI-000685-UM
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 06:46:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kD3ik-0004ra-P6; Tue, 01 Sep 2020 06:40:58 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35777)
+ id 1kD3kP-0008EA-57; Tue, 01 Sep 2020 06:42:41 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:56070)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kD3ij-0001t5-9t; Tue, 01 Sep 2020 06:40:58 -0400
-Received: by mail-wr1-x444.google.com with SMTP id e16so965817wrm.2;
- Tue, 01 Sep 2020 03:40:55 -0700 (PDT)
+ id 1kD3kN-000249-Eb; Tue, 01 Sep 2020 06:42:40 -0400
+Received: by mail-wm1-x332.google.com with SMTP id a65so646527wme.5;
+ Tue, 01 Sep 2020 03:42:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=/6T9K6cB8UVV4OMBVpNqFssF0Hs6NHMYQ4tqHB6tDmc=;
- b=rSkZ7X8kUrd1wGRYX5B7WFEO/QF4TYJ+3JQmfHKvkF6SXIFOP0HKs/VwAZhLJkq+nq
- EaqwAdc4qz9b8RLL9cP/PLn6uV4CDyumJ37k1+JTisKFb8jANR3kMGFkRQD+c71TVwUc
- mreOAALZDYEgOX440Hvhp7XgAR82yq+VAmpjh3WHQ3EhUcVZFZJzslPIb34dN1UbAbDS
- iG+HFx60g3ryQrHHAYkv2d9rqfDkGO4lm0XWctqK7bhu6gL8tZymJIUSbwueyKzB8Wc/
- kvEJcJYi7PYw1Oi3umjGdc9VFxnyhIBWmwe1LCnJHuajdGQ7Hh19SkzLkSbFETc45WM9
- 8Sbg==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=enGnTRGa34Kg3obI/KeU8ABbZ2LlNRxAHq2KPmH8fTY=;
+ b=rcLlinTXgXZX9RBRi5f7aiY1561OAU9SdO9EBtAle3oXXDM9qAAc1Ai5IKNtdq6ZSC
+ cqoBOh0OAxLk6UtsZE3RgwbYhMoustKzGMhKH3REbuJYk2PezCbHiKof4xRclaxr7kZp
+ SzvjK6Ug0ry0DyDbzI6RuIOXyhy71crieWnR9rypPc3yTKuU9bSk2JoYEn+fIDdXgc3i
+ 8G9gmVTmr5hjfGHvee40bbTwOXrkQepN6aNQ00RGQU9/CCP1vBN1r9GgZIyRRURHPppA
+ 16tL6Tq8WXS4plqV+g1bvz81+FTSTB1r2BgViJ/8d8nEi4niPPvstkkOuLyenrsn0Lyb
+ U8XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=/6T9K6cB8UVV4OMBVpNqFssF0Hs6NHMYQ4tqHB6tDmc=;
- b=HcHzcnHSapCYCL/N2W2gXLi++i2hkNRfnLPbvie6ybSgqFfGGP5+eymhNW76gajzGe
- Y1Y6NRN/Vcl6Ww4Encn3PvA4wZfwyh6tvsVdn+CVG9inzYVxBKmYbRVAKjBJAK8aOVFF
- ft6wsFKSaQ7rzJ1R85vhPVGnnsyOFPiM6Shc10dbj4G2S8/vkLhYBStVhGgVUJ5tCSVP
- Ldoh0xR4I0JZAFtYbQkT+Q/W2EZ1GtN/1oaK2n6efwZa67XsjVXCrPj/uX4qUkGEZknh
- zkk4PMthsKZGXElDa5Y9rM7S7No+bJFjWiY9mSvN4URo7aFeI0Hk61Gp5nSoB9Rs5hLG
- /G7g==
-X-Gm-Message-State: AOAM530bB6VbQ6wpCt0CTH0BLnlEgQQSdOhHRh7BkguWYY/oezN9m26h
- 50X0qt8ajl1MrdGCkdYFe7lC13wtGdQ=
-X-Google-Smtp-Source: ABdhPJxyQyV0nXdaMnInamHSELiEe2+BOhW6gq7YYS31iXqk+TVi8a8hYpg2D/Ob+QWRsh/byW51cA==
-X-Received: by 2002:adf:eece:: with SMTP id a14mr1157824wrp.330.1598956854735; 
- Tue, 01 Sep 2020 03:40:54 -0700 (PDT)
+ :mime-version:content-transfer-encoding;
+ bh=enGnTRGa34Kg3obI/KeU8ABbZ2LlNRxAHq2KPmH8fTY=;
+ b=YaGXMgnoPCqh4ZOP1O7RsH8/XN6LvBWcQX65XHMeq5BuA4AuSd9Yn1gqndXlBgfdto
+ anHr39AA0fNN5c2/h3YmPtFqqdZwiIe9O3LpO3ZOLBghN45Mov5Pp9jRaw+dgwasIv4y
+ UR2H3A1gWwZ8KoTKtbq3rKvxQ1uTILH5M837fp8LqOS//OWMshMgCIRICQNbX+QYVR1w
+ bAWz6VYBtj1MDSAWrVrpvERbi5ygzwwosL8g3R4CnY5jjtAiceDxw2ygXc08Xoan93UQ
+ 1x6mTOp2rb/ZVPlzzhwyrt/tdmgO6i3mOwWJsOtm3zO/jsUyoetTTHLsp37argOXf7aa
+ 2z3g==
+X-Gm-Message-State: AOAM533Na0YwrjWTJK529yf/87pMjmVBKgPsQBqA5XfMvtz7mKbeT2a3
+ 35KQfzyVZ36OpUCnTSYiPWIqxXDkpvc=
+X-Google-Smtp-Source: ABdhPJwjI7Ph6TPM4Psko3S0GOMlEtQsWkUUKPz6h/lHm5MYKlZw8t9SW1kIoF2N5KNlR92kJwqelQ==
+X-Received: by 2002:a1c:2e08:: with SMTP id u8mr1234128wmu.156.1598956956890; 
+ Tue, 01 Sep 2020 03:42:36 -0700 (PDT)
 Received: from localhost.localdomain (50.red-83-52-54.dynamicip.rima-tde.net.
  [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id o9sm1541461wrw.58.2020.09.01.03.40.53
+ by smtp.gmail.com with ESMTPSA id l8sm1693217wrx.22.2020.09.01.03.42.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Sep 2020 03:40:54 -0700 (PDT)
+ Tue, 01 Sep 2020 03:42:36 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/5] hw/isa/isa-bus: Replace hw_error() by assert()
-Date: Tue,  1 Sep 2020 12:40:43 +0200
-Message-Id: <20200901104043.91383-6-f4bug@amsat.org>
+Subject: [PATCH 0/2] hw/gpio: Replace printf() calls by qemu_log_mask()
+Date: Tue,  1 Sep 2020 12:42:32 +0200
+Message-Id: <20200901104234.92159-1-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200901104043.91383-1-f4bug@amsat.org>
-References: <20200901104043.91383-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -86,60 +83,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-trivial@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>, qemu-arm@nongnu.org,
- qemu-ppc@nongnu.org, Huacai Chen <chenhc@lemote.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-arm@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As we can never have more than ISA_NUM_IRQS (16) ISA IRQs,
-replace the not very interesting hw_error() call by an
-assert() which is more useful to debug condition that can
-not happen.
+Trivial patches logging via qemu_log_mask() instead
+of using stdio directly.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/isa/isa-bus.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+Philippe Mathieu-Daudé (2):
+  hw/gpio/omap_gpio: Replace fprintf() by qemu_log_mask(GUEST_ERROR)
+  hw/gpio/max7310: Replace disabled printf() by qemu_log_mask(UNIMP)
 
-diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
-index 58fde178f92..10bb7ffa43a 100644
---- a/hw/isa/isa-bus.c
-+++ b/hw/isa/isa-bus.c
-@@ -21,7 +21,6 @@
- #include "qemu/error-report.h"
- #include "qemu/module.h"
- #include "qapi/error.h"
--#include "hw/hw.h"
- #include "monitor/monitor.h"
- #include "hw/sysbus.h"
- #include "sysemu/sysemu.h"
-@@ -85,18 +84,14 @@ void isa_bus_irqs(ISABus *bus, qemu_irq *irqs)
- qemu_irq isa_get_irq(ISADevice *dev, unsigned isairq)
- {
-     assert(!dev || ISA_BUS(qdev_get_parent_bus(DEVICE(dev))) == isabus);
--    if (isairq >= ISA_NUM_IRQS) {
--        hw_error("isa irq %d invalid", isairq);
--    }
-+    assert(isairq < ISA_NUM_IRQS);
-     return isabus->irqs[isairq];
- }
- 
- void isa_init_irq(ISADevice *dev, qemu_irq *p, unsigned isairq)
- {
-     assert(dev->nirqs < ARRAY_SIZE(dev->isairq));
--    if (isairq >= ISA_NUM_IRQS) {
--        hw_error("isa irq %d invalid", isairq);
--    }
-+    assert(isairq < ISA_NUM_IRQS);
-     dev->isairq[dev->nirqs] = isairq;
-     *p = isa_get_irq(dev, isairq);
-     dev->nirqs++;
+ hw/gpio/max7310.c   | 11 +++++------
+ hw/gpio/omap_gpio.c |  6 ++++--
+ 2 files changed, 9 insertions(+), 8 deletions(-)
+
 -- 
 2.26.2
 
