@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD493259226
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:04:03 +0200 (CEST)
-Received: from localhost ([::1]:37988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93C17259252
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:09:02 +0200 (CEST)
+Received: from localhost ([::1]:37268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD7pK-0007Hg-S0
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:04:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35858)
+	id 1kD7u9-00029p-Jt
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:09:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kD7R6-0007u5-IC
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:39:00 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:31047
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kD7R1-0007pQ-Ul
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:38:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598971135;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=EUDlEFBuGFpo8nRPiwdZIhLNzCS/4LcYulZlZbSIA80=;
- b=CcghvYN2rdFbKC10mk3wP8H7J2+P6NujPo1hZVd4wAreagjI2TnqGX1J7TCaVUAEmtqyLx
- rSXQE2zT4Ok0Z/KmFp3WVxtu4eTaPhSgxmduZCOs4yF7Y1cHXCLvBqBjR6AF5Ki9oK57S4
- yuBMwDr08dxTYTQS3DtUIkPGcY6xTKk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-569-G55pzaXPPIGs7SRJAeeUNg-1; Tue, 01 Sep 2020 10:38:51 -0400
-X-MC-Unique: G55pzaXPPIGs7SRJAeeUNg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9671B8015A8;
- Tue,  1 Sep 2020 14:38:50 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-68.ams2.redhat.com
- [10.36.113.68])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 93B2060BE2;
- Tue,  1 Sep 2020 14:38:47 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 157F0113C418; Tue,  1 Sep 2020 16:38:46 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Lukas Straub <lukasstraub2@web.de>
-Subject: Re: [PATCH v8 1/8] Introduce yank feature
-References: <cover.1598951375.git.lukasstraub2@web.de>
- <ab5c04766f270d53e90f17f76c0af7e5b66f8623.1598951375.git.lukasstraub2@web.de>
-Date: Tue, 01 Sep 2020 16:38:46 +0200
-In-Reply-To: <ab5c04766f270d53e90f17f76c0af7e5b66f8623.1598951375.git.lukasstraub2@web.de>
- (Lukas Straub's message of "Tue, 1 Sep 2020 11:15:07 +0200")
-Message-ID: <874kohsgsp.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kD7T8-0004Bm-Dl; Tue, 01 Sep 2020 10:41:06 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:40384)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kD7T6-0008RS-U0; Tue, 01 Sep 2020 10:41:06 -0400
+Received: by mail-wm1-x336.google.com with SMTP id v4so1406175wmj.5;
+ Tue, 01 Sep 2020 07:41:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UEPkPNTZPjY3iFtK/yQQSSFXpy6Vn5YNcxLoyxOWu68=;
+ b=JjGP/N37eCqCPdnn6O7iwffbQ/OkrURsRnXwZM1o3xhqTaqq2ZBPHwku0FA4PssZEK
+ c9+6jch+ESEqK5jOc+KqJo2GUZ3jAfr/J7l2Nj+WihuiaDBVZmI7XC5wksSX4Hb9yCpu
+ yZGdCF22MgcTXZB5SYuggxYr6aJODzkijDkR7iB0f5jOha7zeM+hNoO2jg+gSdbbliKz
+ vMuYaJcbYeHUv6ALWCqeGGYwxe8Ib0zgR5gkhDA4MCJPz77NbQ1ecITu2C3CrYhV2BgM
+ 2I3aGk+XciHDmw8OuGt/KWYkhFsX4r+VBmn3xNCUFa7Xek+fS6qtCk80eGGvPnXl2zjg
+ WGWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=UEPkPNTZPjY3iFtK/yQQSSFXpy6Vn5YNcxLoyxOWu68=;
+ b=OdMm+SeR+lflYmfs+g6QSimlVNV6mbeTffTfHKDZvVKlyqccU4jiSkLU2CmzH/sBKr
+ oI9LryJfdw/bGjhRGuXnit9CShfLrSH3E6+ybPuDWQcrfHwwe8SF0utGy9LQL7iyq/MM
+ 6Pml7Jzew22cDNZ+rRHMyiPp2ZZ721U7U73wLV2KrtNQnHZtFzNATIp2m+4QomhYJ3kM
+ cLB99s48SfCVmrcKsjrhc4KEbin7DZOMW/DUMxFXKucrfUn6+caVevk5AaizyXghxgnZ
+ IaBfOSP4IZfAn/2HB77Fbqbh2bjXLqse2IXeB6SykURG4jyePV+tRovqaHTlCmi8DXm5
+ Kf6g==
+X-Gm-Message-State: AOAM532XQyT2Dh+GHkr6e8V+hueGIDB1PBaHqVNXfVUX0BUTJdoFOnzL
+ ZM3BLPEnCZZbPVxfW+x5nWgrto39liE=
+X-Google-Smtp-Source: ABdhPJwMGlojI0NYyigI9+6SJH3B5wpIHCUVKCci2LOJ0pONdnlI1MGyieuV3zWlKUSs6j/7mdT0Dw==
+X-Received: by 2002:a1c:7918:: with SMTP id l24mr2208633wme.46.1598971262564; 
+ Tue, 01 Sep 2020 07:41:02 -0700 (PDT)
+Received: from localhost.localdomain (50.red-83-52-54.dynamicip.rima-tde.net.
+ [83.52.54.50])
+ by smtp.gmail.com with ESMTPSA id a82sm2213204wmc.45.2020.09.01.07.41.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Sep 2020 07:41:01 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/4] hw/misc/a9scu: Verify CPU count is valid and simplify a
+ bit
+Date: Tue,  1 Sep 2020 16:40:56 +0200
+Message-Id: <20200901144100.116742-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 02:08:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,102 +84,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-One more question...
+Trivial patches:
+- verify the A9 CPU count is in range,
+- simplify using MemoryRegionOps valid/impl,
+- log unimplemented registers.
 
-Lukas Straub <lukasstraub2@web.de> writes:
+Philippe Mathieu-Daudé (4):
+  hw/misc/a9scu: Do not allow invalid CPU count
+  hw/misc/a9scu: Simplify setting MemoryRegionOps::valid fields
+  hw/misc/a9scu: Simplify setting MemoryRegionOps::impl fields
+  hw/misc/a9scu: Report unimplemented accesses with qemu_log_mask(UNIMP)
 
-> The yank feature allows to recover from hanging qemu by "yanking"
-> at various parts. Other qemu systems can register themselves and
-> multiple yank functions. Then all yank functions for selected
-> instances can be called by the 'yank' out-of-band qmp command.
-> Available instances can be queried by a 'query-yank' oob command.
->
-> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-> Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
-[...]
-> diff --git a/qapi/misc.json b/qapi/misc.json
-> index 9d32820dc1..7de330416a 100644
-> --- a/qapi/misc.json
-> +++ b/qapi/misc.json
-> @@ -1615,3 +1615,65 @@
->  ##
->  { 'command': 'query-vm-generation-id', 'returns': 'GuidInfo' }
->
-> +##
-> +# @YankInstances:
-> +#
-> +# @instances: List of yank instances.
-> +#
-> +# A yank instance can be yanked with the "yank" qmp command to recover from a
-> +# hanging qemu.
-> +#
-> +# Yank instances are named after the following schema:
-> +# "blockdev:<node-name>" refers to a block device. Currently only nbd block
-> +# devices are implemented.
-> +# "chardev:<chardev-name>" refers to a chardev. Currently only socket chardevs
-> +# are implemented.
-> +# "migration" refers to the migration currently in progress.
-> +#
-> +# Currently implemented yank instances:
-> +#  -nbd block device:
-> +#   Yanking it will shutdown the connection to the nbd server without
-> +#   attempting to reconnect.
-> +#  -socket chardev:
-> +#   Yanking it will shutdown the connected socket.
-> +#  -migration:
-> +#   Yanking it will shutdown all migration connections.
+ hw/misc/a9scu.c | 59 +++++++++++++++++++++++--------------------------
+ 1 file changed, 28 insertions(+), 31 deletions(-)
 
-How is yanking migration related to command migrate_cancel?
-
-> +#
-> +# Since: 5.2
-> +##
-> +{ 'struct': 'YankInstances', 'data': {'instances': ['str'] } }
-> +
-> +##
-> +# @yank:
-> +#
-> +# Recover from hanging qemu by yanking the specified instances. See
-> +# "YankInstances" for more information.
-> +#
-> +# Takes @YankInstances as argument.
-> +#
-> +# Returns: nothing.
-> +#
-> +# Example:
-> +#
-> +# -> { "execute": "yank", "arguments": { "instances": ["blockdev:nbd0"] } }
-> +# <- { "return": {} }
-> +#
-> +# Since: 5.2
-> +##
-> +{ 'command': 'yank', 'data': 'YankInstances', 'allow-oob': true }
-> +
-> +##
-> +# @query-yank:
-> +#
-> +# Query yank instances. See "YankInstances" for more information.
-> +#
-> +# Returns: @YankInstances
-> +#
-> +# Example:
-> +#
-> +# -> { "execute": "query-yank" }
-> +# <- { "return": { "instances": ["blockdev:nbd0"] } }
-> +#
-> +# Since: 5.2
-> +##
-> +{ 'command': 'query-yank', 'returns': 'YankInstances', 'allow-oob': true }
-[...]
+-- 
+2.26.2
 
 
