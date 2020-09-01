@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20F602591B6
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:54:49 +0200 (CEST)
-Received: from localhost ([::1]:49944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40E4F25916E
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:51:16 +0200 (CEST)
+Received: from localhost ([::1]:59860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD7gO-0004km-1m
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:54:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34030)
+	id 1kD7cx-0005Tk-60
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:51:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kD7NJ-0008Ek-G3
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:35:05 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:32557
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kD7NM-0008MJ-5E
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:35:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42661)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kD7NH-00078V-Mh
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:35:05 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kD7NK-00078w-5M
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:35:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598970902;
+ s=mimecast20190719; t=1598970905;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gZ0uuXyfMg4AHTi6QDcHMi1QLw/IZlf+8AcYRwxXTfE=;
- b=i9R5WYV5/48U2xn+7YM6hwz19K7CdJSowXwyndX//0WgvFJgnWcAoSaDoY9t5uhLAuIw0L
- 4wXDMMWjuy7wCT9WKcbtaSUge7LAURsUTUxEA7xJGzLB29sYeglaKusJCKAVglWWUxQpX7
- oDTmq+wp2Otp2bcztr5Z5N8gqMXCngw=
+ bh=I6UZu6oy2R1ryVrhn3VfOXR3Jy05hV5fWO7qGTQSxwU=;
+ b=UXUBcegzUKkTgFgutj+KxHHbcpbJ2j2TyFRJYUhZxjKiR84vyDs7IZaPaqAAnsvW9d1jsz
+ dPsk+Lqy5BTV/ybqqna5L8kTcTIaGoXizc3dNxsibFfwA/SrLwAdx+NAiS8rEQv+pTBeZq
+ boq7/WUSDDW++YfUaMeSR+9eNa3vWeY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-11-s50ZE2bVNyupAvzG6DbbyQ-1; Tue, 01 Sep 2020 10:35:01 -0400
-X-MC-Unique: s50ZE2bVNyupAvzG6DbbyQ-1
+ us-mta-148-Ro9jbR3mNpOf9FLMJSvI4A-1; Tue, 01 Sep 2020 10:35:03 -0400
+X-MC-Unique: Ro9jbR3mNpOf9FLMJSvI4A-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED1578015A8;
- Tue,  1 Sep 2020 14:34:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 381E710051D3;
+ Tue,  1 Sep 2020 14:35:02 +0000 (UTC)
 Received: from localhost (ovpn-113-83.ams2.redhat.com [10.36.113.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F36B78B5D;
- Tue,  1 Sep 2020 14:34:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CE13578B5D;
+ Tue,  1 Sep 2020 14:35:01 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v8 14/43] block: Use bdrv_cow_child() in bdrv_co_truncate()
-Date: Tue,  1 Sep 2020 16:33:55 +0200
-Message-Id: <20200901143424.884735-15-mreitz@redhat.com>
+Subject: [PATCH v8 15/43] block: Re-evaluate backing file handling in reopen
+Date: Tue,  1 Sep 2020 16:33:56 +0200
+Message-Id: <20200901143424.884735-16-mreitz@redhat.com>
 In-Reply-To: <20200901143424.884735-1-mreitz@redhat.com>
 References: <20200901143424.884735-1-mreitz@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 02:08:15
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 23:17:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,50 +85,113 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The condition modified here is not about potentially filtered children,
-but only about COW sources (i.e. traditional backing files).
+Reopening a node's backing child needs a bit of special handling because
+the "backing" child has different defaults than all other children
+(among other things).  Adding filter support here is a bit more
+difficult than just using the child access functions.  In fact, we often
+have to directly use bs->backing because these functions are about the
+"backing" child (which may or may not be the COW backing file).
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/io.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ block.c | 49 ++++++++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 40 insertions(+), 9 deletions(-)
 
-diff --git a/block/io.c b/block/io.c
-index 4ee8fe5465..6f9402117e 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -3310,7 +3310,7 @@ int coroutine_fn bdrv_co_truncate(BdrvChild *child, int64_t offset, bool exact,
-                                   Error **errp)
+diff --git a/block.c b/block.c
+index 96bf8672f1..660386795a 100644
+--- a/block.c
++++ b/block.c
+@@ -4004,7 +4004,7 @@ static int bdrv_reopen_parse_backing(BDRVReopenState *reopen_state,
+                                      Error **errp)
  {
-     BlockDriverState *bs = child->bs;
--    BdrvChild *filtered;
-+    BdrvChild *filtered, *backing;
-     BlockDriver *drv = bs->drv;
-     BdrvTrackedRequest req;
-     int64_t old_size, new_bytes;
-@@ -3363,6 +3363,7 @@ int coroutine_fn bdrv_co_truncate(BdrvChild *child, int64_t offset, bool exact,
+     BlockDriverState *bs = reopen_state->bs;
+-    BlockDriverState *overlay_bs, *new_backing_bs;
++    BlockDriverState *overlay_bs, *below_bs, *new_backing_bs;
+     QObject *value;
+     const char *str;
+ 
+@@ -4043,26 +4043,57 @@ static int bdrv_reopen_parse_backing(BDRVReopenState *reopen_state,
+         }
      }
  
-     filtered = bdrv_filter_child(bs);
-+    backing = bdrv_cow_child(bs);
- 
++    /*
++     * Ensure that @bs can really handle backing files, because we are
++     * about to give it one (or swap the existing one)
++     */
++    if (bs->drv->is_filter) {
++        /* Filters always have a file or a backing child */
++        if (!bs->backing) {
++            error_setg(errp, "'%s' is a %s filter node that does not support a "
++                       "backing child", bs->node_name, bs->drv->format_name);
++            return -EINVAL;
++        }
++    } else if (!bs->drv->supports_backing) {
++        error_setg(errp, "Driver '%s' of node '%s' does not support backing "
++                   "files", bs->drv->format_name, bs->node_name);
++        return -EINVAL;
++    }
++
      /*
-      * If the image has a backing file that is large enough that it would
-@@ -3374,10 +3375,10 @@ int coroutine_fn bdrv_co_truncate(BdrvChild *child, int64_t offset, bool exact,
-      * backing file, taking care of keeping things consistent with that backing
-      * file is the user's responsibility.
+      * Find the "actual" backing file by skipping all links that point
+      * to an implicit node, if any (e.g. a commit filter node).
++     * We cannot use any of the bdrv_skip_*() functions here because
++     * those return the first explicit node, while we are looking for
++     * its overlay here.
       */
--    if (new_bytes && bs->backing) {
-+    if (new_bytes && backing) {
-         int64_t backing_len;
+     overlay_bs = bs;
+-    while (backing_bs(overlay_bs) && backing_bs(overlay_bs)->implicit) {
+-        overlay_bs = backing_bs(overlay_bs);
++    for (below_bs = bdrv_filter_or_cow_bs(overlay_bs);
++         below_bs && below_bs->implicit;
++         below_bs = bdrv_filter_or_cow_bs(overlay_bs))
++    {
++        overlay_bs = below_bs;
+     }
  
--        backing_len = bdrv_getlength(backing_bs(bs));
-+        backing_len = bdrv_getlength(backing->bs);
-         if (backing_len < 0) {
-             ret = backing_len;
-             error_setg_errno(errp, -ret, "Could not get backing file size");
+     /* If we want to replace the backing file we need some extra checks */
+-    if (new_backing_bs != backing_bs(overlay_bs)) {
++    if (new_backing_bs != bdrv_filter_or_cow_bs(overlay_bs)) {
+         /* Check for implicit nodes between bs and its backing file */
+         if (bs != overlay_bs) {
+             error_setg(errp, "Cannot change backing link if '%s' has "
+                        "an implicit backing file", bs->node_name);
+             return -EPERM;
+         }
+-        /* Check if the backing link that we want to replace is frozen */
+-        if (bdrv_is_backing_chain_frozen(overlay_bs, backing_bs(overlay_bs),
+-                                         errp)) {
++        /*
++         * Check if the backing link that we want to replace is frozen.
++         * Note that
++         * bdrv_filter_or_cow_child(overlay_bs) == overlay_bs->backing,
++         * because we know that overlay_bs == bs, and that @bs
++         * either is a filter that uses ->backing or a COW format BDS
++         * with bs->drv->supports_backing == true.
++         */
++        if (bdrv_is_backing_chain_frozen(overlay_bs,
++                                         child_bs(overlay_bs->backing), errp))
++        {
+             return -EPERM;
+         }
+         reopen_state->replace_backing_bs = true;
+@@ -4211,7 +4242,7 @@ int bdrv_reopen_prepare(BDRVReopenState *reopen_state, BlockReopenQueue *queue,
+      * its metadata. Otherwise the 'backing' option can be omitted.
+      */
+     if (drv->supports_backing && reopen_state->backing_missing &&
+-        (backing_bs(reopen_state->bs) || reopen_state->bs->backing_file[0])) {
++        (reopen_state->bs->backing || reopen_state->bs->backing_file[0])) {
+         error_setg(errp, "backing is missing for '%s'",
+                    reopen_state->bs->node_name);
+         ret = -EINVAL;
+@@ -4352,7 +4383,7 @@ void bdrv_reopen_commit(BDRVReopenState *reopen_state)
+      * from bdrv_set_backing_hd()) has the new values.
+      */
+     if (reopen_state->replace_backing_bs) {
+-        BlockDriverState *old_backing_bs = backing_bs(bs);
++        BlockDriverState *old_backing_bs = child_bs(bs->backing);
+         assert(!old_backing_bs || !old_backing_bs->implicit);
+         /* Abort the permission update on the backing bs we're detaching */
+         if (old_backing_bs) {
 -- 
 2.26.2
 
