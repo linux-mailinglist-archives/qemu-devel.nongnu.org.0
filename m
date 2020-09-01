@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57CBD25905E
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:27:59 +0200 (CEST)
-Received: from localhost ([::1]:33058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10970259055
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:26:46 +0200 (CEST)
+Received: from localhost ([::1]:55526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD7GQ-0000Lb-97
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:27:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55590)
+	id 1kD7FF-0006IC-3o
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:26:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zY-00065l-HK; Tue, 01 Sep 2020 10:10:32 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:60195)
+ id 1kD6zY-000666-Id; Tue, 01 Sep 2020 10:10:32 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:59677)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zW-0003zh-Fd; Tue, 01 Sep 2020 10:10:32 -0400
+ id 1kD6zW-0003zt-NN; Tue, 01 Sep 2020 10:10:32 -0400
 Received: from localhost.localdomain ([82.252.135.186]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1M3UhO-1kCYl63QFG-000bfz; Tue, 01 Sep 2020 16:10:27 +0200
+ id 1N6bsM-1ke9Gf1l1C-0183pD; Tue, 01 Sep 2020 16:10:27 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 43/44] main-loop: Fix comment
-Date: Tue,  1 Sep 2020 16:09:53 +0200
-Message-Id: <20200901140954.889743-44-laurent@vivier.eu>
+Subject: [PULL 44/44] docs/system: Fix grammar in documentation
+Date: Tue,  1 Sep 2020 16:09:54 +0200
+Message-Id: <20200901140954.889743-45-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200901140954.889743-1-laurent@vivier.eu>
 References: <20200901140954.889743-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:4o6sYvUCQ0ApSDMYsDaRZRjFjlLFBTF4rHH7ZGvjZc662nk7M2a
- b+xdzOQSlA7jZQiQ3VIa+yCMvGUaOdUbjLfTggHDvafoxgbSZDHCvY8eJLDemdYmvcCaDXC
- dOfJ5wwr/1RylQo+NclfulfGIUG/WOftxvTgOvKzTBGQPkvzHaP6En0km2rwiIjburVJWHV
- WvWHk3gznKqx3ll3x6WSg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:H9mzzYJ0XsI=:QeAI3orvbdrQ0iw8nzXxEF
- JHq40zQEB/oC+x5FT92VAkchIsxqCpIxN7tCPVupCvSsMrhmgCCJGAL8Wwvfuar4MzK5kYsY9
- 0ckiKIpQqyYVpzUdUyz2KAR/hov7xmv+32Q4Sp1EDZeYkSZ6HpzZ2XKVTkz8NjKbuqXyovbq6
- oxDODCNjvvjnzzyW7WcZxBoslv2EK5tr6M52eRoNLdPeoaOhoJmE1WSgHgE+w5P1eRmaUF/lk
- 3c0klglQxSGlSb5K33Bp7UAWX0gbZEGBUvBfiWpzBXZlmH5ChN5hoVQZAmSkJeY3dQpW1LG78
- d6xxsLhfpNY5xMQ7xYnTCD/PGj3TVvFfMe7EDclBPs2TfC2btMr26kGo0YjwlouVslDPf/xH3
- fjCVayRkFlDLp0PByC5P6gYJUUOx9oILEFwoRUfZhlsuPGwEoRZSEduWi8oRnV5bM/7h754j/
- njshmXl1O7Q4U6U0/WhCDbLty4+ZLS1KWzidix76sDRnhpjcJjzMG6IcpO4a3AUd1rzutL9J/
- L+VoefHGXcoepJH7XUfj2cPMgjIHkn/EGc5b+aCopX5pmdiTpEL7LZPxZjxWAQjD7wu8GMOcI
- 6Ms/keBAdW7ZrHVe1XEJJqy0NHusff0i0QOQGdjXWX6TTm7huzoa3jWvGPVI1WE62UcfUiKSP
- RwFGThlCmuWG4ptg5sK8LBU120dbSbTYpES3AdcoaVRulGrtTTnvjrvPukuZmo8GjwopCF7qj
- KRck312NPaFzBMO7pjPILwergGlTm2oo8q6GkU1UJ7va3rChLjuNIrRimMRzZzMblVnCmJu8H
- S+IGxkZh9mT9ZbxzVpxE3mUWew8ZCER4KI3vKJ6TXlDnJdOmduETZgUKitsyWLoLbzBLEzJ
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:7L1YI38AnTxw8KGs1szZB3nJpEddnBvc3/Yy/tk98nSmivRkKzW
+ NRoBAe7hIrdpBwO+0keWhvVKogCZ+DZgks69Z3HwLyfRsnb24YFwgXtjmnaugxw55T+ehI5
+ n/g/zyXHbXBMxZdsq02QMeL48tqzottUReKPFoWzikYJP+d/VRoVaXdh8i/D5VVomxykPCM
+ eZfKSgOrJCChuoicfHcpg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:TzroLXl3Brg=:lKGWd3nt6vvRvdwA8n39sO
+ NKrZbk0uwYSGDwWnlXnQQkMatoDj0eY7Ulvrfk/3RkqkxaG/qCW8oL9RSl7KuGvJ368FKaBv1
+ qbW56xSi5dn/z1BZOkHyGpU5KgD9yaR7NH3tnuK1uh1TpnYDIlVCUvcEt0epUWp9cWzTRnp7C
+ MVmg5GpgZF/WTXXiXxV3Hv5kBpTmRRiKPWoudE7vvkXmTf7gjH5QRoh//hLlaxyvySVd6Ynim
+ RhaW2NtUPoQ60FKbvMlQiCIRUMmYomsgZT4KTvrNXfHM2+6QlC3RFky9ICwoWNWvcVH9xMaT3
+ oNVl6D2R+q8jw9SYSrAfxC6k9TAT5SruQfXmSJ5uwfbqs3YxbHTIQlt0w5kCb+BTKt5CLph4C
+ nonabsvy8PLJN8xHnlF+wJ7COr4t3Mk/lcXn8RG3hvyCrRtpP/LQmzYFVw7h3XGWy+x5LkmsR
+ X2wlsSDMRLpe0FAa/SgsFZp5yC6UGDnGknlykeItkmehHtJW+CoWwYl3AFXjJ4W5O3EUdXxZm
+ po0qD8aCkbMM+VRXxLSuAqtM1UzPouIxxWO96RMxghIUwTXLJYeAleuE+fQvFPfSa5r7PT9J5
+ rlundj79jXJFLxDEcZwClO4B4qvxLMy9OkJ/olZql9BFiuvmyOjDiZEkSD7J6n3YU8apQnPm3
+ fXUc1vojz5OTA6IO9tssfNeFTo7ZAYVAgYh7bJq9jQ34CQ6KmoD3/53uuyohqsM376LBIymab
+ Ze2iOl6Azp7mJ7/oxI3iKCUQf9WXOsiw8CwFwq8iH0d5sHFAzUT7o4zq+fUMUijmow1RSBeZh
+ s6paYKCkLi6asfuGxvAO4+4qElJekS/DphaUECOji9PPmj+unI93cITnb/zn/eWT/l1oqi6
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:09:57
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:10:08
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -71,34 +71,48 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: qemu-trivial@nongnu.org, Stefan Weil <sw@weilnetz.de>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>, Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Weil <sw@weilnetz.de>
 
 Signed-off-by: Stefan Weil <sw@weilnetz.de>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200827175520.32355-1-sw@weilnetz.de>
+Message-Id: <20200827173051.31050-1-sw@weilnetz.de>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- include/qemu/main-loop.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ docs/system/build-platforms.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
-index 8e98613656ff..d6892fd2081a 100644
---- a/include/qemu/main-loop.h
-+++ b/include/qemu/main-loop.h
-@@ -52,7 +52,7 @@ int qemu_init_main_loop(Error **errp);
-  * repeatedly calls main_loop_wait(false).
-  *
-  * Main loop services include file descriptor callbacks, bottom halves
-- * and timers (defined in qemu-timer.h).  Bottom halves are similar to timers
-+ * and timers (defined in qemu/timer.h).  Bottom halves are similar to timers
-  * that execute immediately, but have a lower overhead and scheduling them
-  * is wait-free, thread-safe and signal-safe.
-  *
+diff --git a/docs/system/build-platforms.rst b/docs/system/build-platforms.rst
+index c2b92a96987c..9734eba2f180 100644
+--- a/docs/system/build-platforms.rst
++++ b/docs/system/build-platforms.rst
+@@ -57,12 +57,12 @@ macOS
+ -----
+ 
+ The project supports building with the two most recent versions of
+-macOS, with the current homebrew package set available.
++macOS, with the current Homebrew package set available.
+ 
+ FreeBSD
+ -------
+ 
+-The project aims to support the all the versions which are not end of
++The project aims to support all versions which are not end of
+ life.
+ 
+ NetBSD
+@@ -75,5 +75,5 @@ new major version is released.
+ OpenBSD
+ -------
+ 
+-The project aims to support the all the versions which are not end of
++The project aims to support all versions which are not end of
+ life.
 -- 
 2.26.2
 
