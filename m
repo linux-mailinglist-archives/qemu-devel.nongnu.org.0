@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0AB4258ECC
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 15:01:20 +0200 (CEST)
-Received: from localhost ([::1]:40518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6240258ED1
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 15:02:08 +0200 (CEST)
+Received: from localhost ([::1]:43844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD5uZ-00075p-JK
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 09:01:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34466)
+	id 1kD5vL-00007X-Rb
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 09:02:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kD5i7-0001a8-Rn
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:48:27 -0400
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:35046)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1kD5qP-0001EP-8V; Tue, 01 Sep 2020 08:57:01 -0400
+Received: from mail-qv1-xf2e.google.com ([2607:f8b0:4864:20::f2e]:43494)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kD5i5-0001ir-Tj
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:48:27 -0400
-Received: by mail-ej1-x643.google.com with SMTP id a26so1469174ejc.2
- for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 05:48:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3IDprVzykahK+tCmIeyfF2J+Gnyg29LO9RV2SD1EOXs=;
- b=oCbGZSz/JiAdN0Dp+x7MG7Kmhbig7an+nCuIjSCHtLEsDsoCph5jR2JFDnAtyt7Zsm
- AzAs6x+9kfLb5JDIG50ezLmEO+jHAPL95Uj/OkS2XW+VzBu5wEfBz1Jvt9/X09rU+ld+
- tUrY+6Fr677wjyDuUgmnllCX7y5bDbb8WOlD29XtGzzemDOTaeIaPkwUtL0CqdwvQA2f
- OHqNGHrYhO7c2OJ/Ouu+SCK9lKOyGQQlBEiQQhcgsOn3FO2iKfTjQGL04lqDg1Ki9vEp
- XOhYsR6qSVJDzk/zYG6QExiUELuYeUgZ1DG/bk6sBC/y4BA8RMuJTBh4oFyhujLYeUL7
- s8ZQ==
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1kD5qK-0002lv-5p; Tue, 01 Sep 2020 08:57:00 -0400
+Received: by mail-qv1-xf2e.google.com with SMTP id cr8so422301qvb.10;
+ Tue, 01 Sep 2020 05:56:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DqcoixjKsi7uljImn8N4orIuR659II94z7wOXwtHnZo=;
+ b=PhvL7gt+NOy2p9ILbJI6CKqzGbEIq+7SgPOlNlqJci68/W+Ki8h8htjEQ8b2oEshjF
+ VT/yTFxQHexR2eu0zRQ/WCT38k41qQTl94i/QTA+8xpifOlvyDjLmze6gAuYP69csN/T
+ QsFiXPnImkj7lJ8DH+Ut02IDbayTK/lxigGHwQQBRHMcttQimU5rb97WZ4UN8YLjTkpY
+ N3yCLzLcL3Gt/K/yZWlQLrmPAuG4NajqlM8utT8HeJvlI3p7AmTH12WzozW+QoG06W5H
+ 7xqOpEkJcRLUF+E9cjSam+0XrObP/tkqPzFcQNQo+fBBOFrMdsBE7VHUqS51WdSdH3aL
+ SuJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3IDprVzykahK+tCmIeyfF2J+Gnyg29LO9RV2SD1EOXs=;
- b=aylvAYlVcRQCEqWZceESU7mSWs8LjgfPudKe2YaqvFmPnnIYRWWMwfrsnnpmWCBWtE
- Z6JyPGx7ZYIYovUYxCq55DqCkycuBCNi7dWfDOeimvqS3nvzL4hM2hg65mt4KNZ16rP2
- tyB7oB4m1Lk0yhHUmkOJqyYawMCZiH7yiD/PEXfFSYestzhkDu+/QBLs20CWXHz6xn9Y
- yrCBob450JE5/2I/5c3eEZ45ddfp+v29/1+aotksMbuCkpsgcOnFQ+Q7rmOYi7FxBJbY
- fbSrNKwO3XQiIq8LdxKG887yUQJLS/nSuKSM78lU//a8hu/jPe6s1SDSwSwSQC0gjjgw
- Uljg==
-X-Gm-Message-State: AOAM532FFzN8S2aZixTGUa1zpAT9UCKJjNsus76/cQCgoYxCaLZ5iTAN
- Yd7F7FukHM2zpKyPlBmq+CX0MSCenCyxRpwF0IHFHw==
-X-Google-Smtp-Source: ABdhPJz0bvXVdTL9Zyd7+OuuAVs7TDyvHFTRC9fuynYbAT4QDVUf3c+Vw3sUdJsnUbHPrQPOps4DsOjI6Mm4uIDozDE=
-X-Received: by 2002:a17:907:728e:: with SMTP id
- dt14mr1330828ejc.4.1598964504082; 
- Tue, 01 Sep 2020 05:48:24 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DqcoixjKsi7uljImn8N4orIuR659II94z7wOXwtHnZo=;
+ b=sLr5BNLkUka0MUaKxWENcFt6om8OlCVQSxWAouscYHPIkM37Od0X+IJkEI0YLeEQea
+ oS8VVuDQABsYVuiuc34BT5FVFbW5rQamvYvajp8uujcgYQEjemvxj4m1mVyJYxTr91+O
+ pZfIdsjY5YJgdXAlRVMWQtZIVXHtq6g4ZzqsnST/nYeQIodybwuiX7EWSvqY8tKs5DKH
+ U4m+cRLj8MJDEOtJ3C7APLdcMzvrStvSenSwgofqj9cFyikcqvnelFz94jeeNyjo4HV1
+ Ip2AtdfPH0eJUWW/5x/y8s2yRRqoZgLRR1rdoa55Ygc/g+YjAToTMzOB/1NLWTRvcZ3Z
+ 4lKQ==
+X-Gm-Message-State: AOAM531321oLw5XgaL23L3dYXPcGWnH50ZVdkdZN01lM34Wbqks4Sxdv
+ D5+Chzcv8zgla9iCXJw87lGQUQ3tBadn6w==
+X-Google-Smtp-Source: ABdhPJy9kUUWsjW3SQ4YiajGH6jzCDAZkWdcpxo8F8Uh5QzlBEZEaq61er9ysGPkxQTxKBR/e2cPNg==
+X-Received: by 2002:a0c:f5c5:: with SMTP id q5mr1833382qvm.29.1598965014201;
+ Tue, 01 Sep 2020 05:56:54 -0700 (PDT)
+Received: from rekt.ibmuc.com ([2804:431:c7c7:6be:f6e3:c671:cefe:b943])
+ by smtp.gmail.com with ESMTPSA id q7sm1430164qkf.35.2020.09.01.05.56.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Sep 2020 05:56:53 -0700 (PDT)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/7] pseries NUMA distance rework
+Date: Tue,  1 Sep 2020 09:56:38 -0300
+Message-Id: <20200901125645.118026-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <1598874522-5186-1-git-send-email-sai.pavan.boddu@xilinx.com>
-In-Reply-To: <1598874522-5186-1-git-send-email-sai.pavan.boddu@xilinx.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 1 Sep 2020 13:48:13 +0100
-Message-ID: <CAFEAcA_GvSnK0LSxyT0jsFz2yRufrg+Zjs=h7XJtJSp4dGzquw@mail.gmail.com>
-Subject: Re: [PATCH] target/arm: Configure number of pmu counters
-To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x643.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2e;
+ envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf2e.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -79,74 +81,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
- Andrew Jones <drjones@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Eric Auger <eric.auger@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 31 Aug 2020 at 12:44, Sai Pavan Boddu
-<sai.pavan.boddu@xilinx.com> wrote:
->
-> Default the pmu counters to 4 and configure it a 6 for a53 cores.
->
-> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-> ---
->  target/arm/cpu.c    | 3 +++
->  target/arm/cpu.h    | 3 +++
->  target/arm/cpu64.c  | 1 +
->  target/arm/helper.c | 2 +-
->  4 files changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-> index 6b382fc..805a692 100644
-> --- a/target/arm/cpu.c
-> +++ b/target/arm/cpu.c
-> @@ -1051,6 +1051,9 @@ static void arm_cpu_initfn(Object *obj)
->      cpu->psci_version = 1; /* By default assume PSCI v0.1 */
->      cpu->kvm_target = QEMU_KVM_ARM_TARGET_NONE;
->
-> +    /* set number of pmu counters to 4 */
-> +    cpu->pmcrn = 4;
-> +
->      if (tcg_enabled()) {
->          cpu->psci_version = 2; /* TCG implements PSCI 0.2 */
->      }
-> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> index ac857bd..3b47ba8 100644
-> --- a/target/arm/cpu.h
-> +++ b/target/arm/cpu.h
-> @@ -879,6 +879,9 @@ struct ARMCPU {
->       */
->      int32_t core_count;
->
-> +    /* Number of pmu counters */
-> +    uint8_t pmcrn;
-> +
->      /* The instance init functions for implementation-specific subclasses
->       * set these fields to specify the implementation-dependent values of
->       * various constant registers and reset values of non-constant
+Hi,
 
-Rather than doing this, I think the better approach would be to
-switch to treating PMCR_EL0 as an ID register in the same way
-we do for other varies-per-CPU ID registers:
+Following the reviews of the first version [1], specially this
+reply from David [2], I decided to take a step back and refactor
+all the code in hw/ppc/spapr* that operates with ibm,associativity,
+ibm,associativity-reference-points and ibm,max-associativity-domains.
 
- * new field uint64_t pmcr_el0 in the ARMISARegisters sub-struct of ARMCPU
- * each CPU's initfn needs to set this (sorry, this is going to mean
-   a fair amount of digging through TRMs to find the right values)
- * define_pmu_regs() just uses the isar.pmcr_el0 field as the resetvalue
-   for PMCR_EL0
- * define_pmu_regs() needs to use pmu_num_counters() to get the number
-   of counters for its loops
+A new file named 'spapr_numa.c' was created to gather all the
+associativity related code into helpers that write NUMA/associativity
+related info to the FDT. These helpers are then used in other
+spapr_* files. This allows us to change NUMA related code in a
+single location, instead of searching every file to see where is
+associativity being written and how, and all the soon to get
+more complex logic can be contained in spapr_numa.c. I consider
+the end result to be better than what I ended up doing in v1.
 
-Side note: looking at the code I see we don't implement the effect
-that MDCR_EL2.HPMN has on this register... (and probably we don't
-in general get the EL2 handling of the PMU right in other places too).
+Unlike v1, there is no NUMA distance change being done in this series.
+Later on, the hub of the new NUMA distance calculation will be
+spapr_numa_associativity_init(), where we'll take into consideration
+user input from numa_states, handle sizes to what the PAPR kernel
+understands and establish assoaciativity domains between the NUMA nodes.
 
-thanks
--- PMM
+
+Changes from v1:
+- all the patches that did guest visible changes were removed. They
+will be re-submitted in a follow-up series after this one.
+- patch 02 from v1 will be reworked and reposted in the follow-up
+series as well.
+- version 1 link:
+https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg03169.html
+
+
+
+These patches were rebased using David's ppc-for-5.2 tree. Github
+repo with the patches applied:
+
+https://github.com/danielhb/qemu/tree/spapr_numa_v2
+
+
+[1] https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg03169.html
+[2] https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg04661.html
+ 
+Daniel Henrique Barboza (7):
+  ppc: introducing spapr_numa.c NUMA code helper
+  ppc/spapr_nvdimm: turn spapr_dt_nvdimm() static
+  spapr: introduce SpaprMachineClass::numa_assoc_array
+  spapr, spapr_numa: handle vcpu ibm,associativity
+  spapr, spapr_numa: move lookup-arrays handling to spapr_numa.c
+  spapr_numa: move NVLink2 associativity handling to spapr_numa.c
+  spapr_hcall: h_home_node_associativity now reads numa_assoc_array
+
+ hw/ppc/meson.build            |   3 +-
+ hw/ppc/spapr.c                |  91 +++---------------
+ hw/ppc/spapr_hcall.c          |  16 +++-
+ hw/ppc/spapr_numa.c           | 172 ++++++++++++++++++++++++++++++++++
+ hw/ppc/spapr_nvdimm.c         |  37 ++++----
+ hw/ppc/spapr_pci.c            |   9 +-
+ hw/ppc/spapr_pci_nvlink2.c    |  19 +---
+ include/hw/ppc/spapr.h        |  13 ++-
+ include/hw/ppc/spapr_numa.h   |  32 +++++++
+ include/hw/ppc/spapr_nvdimm.h |   3 +-
+ 10 files changed, 268 insertions(+), 127 deletions(-)
+ create mode 100644 hw/ppc/spapr_numa.c
+ create mode 100644 include/hw/ppc/spapr_numa.h
+
+-- 
+2.26.2
+
 
