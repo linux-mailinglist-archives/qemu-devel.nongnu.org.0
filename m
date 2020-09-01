@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E219F258D48
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 13:16:32 +0200 (CEST)
-Received: from localhost ([::1]:57298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62D86258D4A
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 13:17:02 +0200 (CEST)
+Received: from localhost ([::1]:58680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD4H9-0004XV-PC
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 07:16:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37342)
+	id 1kD4Hd-00057L-FF
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 07:17:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kD4G8-0003nd-Nm
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 07:15:28 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:40734)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
+ id 1kD4Gb-0004Bo-5X; Tue, 01 Sep 2020 07:15:57 -0400
+Received: from mail-oo1-xc43.google.com ([2607:f8b0:4864:20::c43]:33731)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kD4G7-0006IH-4r
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 07:15:28 -0400
-Received: by mail-oi1-x242.google.com with SMTP id u24so788449oic.7
- for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 04:15:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
+ id 1kD4GZ-0006On-40; Tue, 01 Sep 2020 07:15:56 -0400
+Received: by mail-oo1-xc43.google.com with SMTP id m25so198104oou.0;
+ Tue, 01 Sep 2020 04:15:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=o+WdRsrzaXJgVBjiSFWnEjD5HPcR1A+9btYWGAcRI5s=;
- b=QKPXdUhAPzwp01UmSmrjiFh1ZbnSLBzjfYlZ+X0ak7kTP7YlI7ZojL/ErHLALzgWOL
- oiePzZEzGmjjS7+fiaO0LQWEchc+4soSd+vB7DZ2xL6oBguWJ57pvF5absnj5m2R3IKd
- vX0dDi9SHTGniZv5WEjeJr63Bctf4XFDFaI0zwAwZ+1hFXMZffXt+VTlD7+S0efPXwsS
- CVkY005IK5ggrWndVMIXQROw3MsyL2k3Rjo8+HJwtETpz82/FRWEiZfO6xuzNHoCJEe+
- 355tG0bbGr9HFJq1TNhMULTQXgGQ1pkebS5kpAoWqry2rmAbMY88pndcl8IyOq/n5LfR
- /LPA==
+ bh=GdgaIWJTdxDEGcgYK0aIsqUwGAVcNEhafo2FIe8vbzI=;
+ b=c9mMinZqSKBXGKHtWXV6SMsbDpD9S63XX4uDGbKuPBLIHpo5a5iVNOtItdXReOhXez
+ 5tvSI4hdbpou961a8FhhVqAy517wprjCN02ny+JOvWIueFm2A6geEqgiHfMQyfBMk0R4
+ GjYdAIFh8kFnDT8UQVabwI8dKRdDiNXvjduxJ+ye31LuTP3/5F5EADZiF9OVdDe1u3tX
+ 7/NBM2YwCxB3wZGuj+CfKRnpI0u6sEapj+G17GqdCqDXE2USpnLQ6i+PEIJK4iE2GRzl
+ 5jG7AndotLkoBPphkgVTsNoFvdJ88DvV8atfRM+lMn1t/kmqp3Nz/urJ8wCqvScVHOUr
+ cDWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=o+WdRsrzaXJgVBjiSFWnEjD5HPcR1A+9btYWGAcRI5s=;
- b=NIg0bnSm2Ss5a84XjreebwWc4ZGZVwa7RxGTUSX01uE6y3fRLCIrBbElzQVVGeVaT0
- MnpG4uOXdVAxBKJ8N9xevPirABPE0TlEd7IvlCq4uXOT1Fi7lOQQ44MBHpx01FnHs3R/
- hJ2AYQajlW0nl2BN/xWibc3IM4sec9I/Oz9UmZx/8DPrtDBSnsY6+ayx7+fAEeBKBOYA
- er8WkEN/nv2c10pQuzB7aT3O/96ayL+/idV7hb8byuRIfRVVRQV5D0DYk1A01FClRVVd
- TmM1viOAV0tb8jyS1r0ymPYvUHMCMLGajqp7eRGqvypeo1F4aiDfdu4rMDy5GtYt169M
- pY+Q==
-X-Gm-Message-State: AOAM532WkZneaej4t6A8HRwfYeXTqfhOy4EMtOUrtkftksgOXdiE4Gmm
- cwl7E6l0zl18nAIYb8Bd0ttSSGsq7LMjMoVAGZQ=
-X-Google-Smtp-Source: ABdhPJwv1TZ9Oz++kSrmORbJGJtKMGSWV5u1aFqtno9tOLOibCTgAPZRRXB3JkQ0hMXMkKbn7RGkuWiVGa2J4f+KmIE=
-X-Received: by 2002:a54:400a:: with SMTP id x10mr739626oie.150.1598958926082; 
- Tue, 01 Sep 2020 04:15:26 -0700 (PDT)
+ bh=GdgaIWJTdxDEGcgYK0aIsqUwGAVcNEhafo2FIe8vbzI=;
+ b=TMK3hM/63ChaVaiyicM6g9sd9l1GOjvnNs7YOODxkqQ5TDay54lgwfeNuKc5LCmoxX
+ QjW0zqwkzA5m/p9DMa+bFP+vaQP+RHFp9vu51Fg43AHwzK4EtxaGwMtJZ5farPNqkKHN
+ VrhGeNXcCvhxRMOIQXwamPNpBiM0UptWcXadn70ajTaThaQwLkvrelOJQUQdprD5JbJz
+ 8uuwIY5AKXbwi55uwFiJpnaHmXPcfIwagOvDXkyoh7d/8OxQSfhaWjwSw9czUbD5i0ou
+ 3HMjAcwTeNux6y7zW5LXJ3xkgI73RyUOaFFuaziGMD0AxhWgbxu3b3ZVMuan0DlXY+gK
+ 14uA==
+X-Gm-Message-State: AOAM533idh9vxlodX0VuAYnDbkwJ/lz/CbX7IA8N5/bPdd3wWHhatNAc
+ ip5ZWABY76pngvU8axJM0v37bVvgLNmsNmWDYhI=
+X-Google-Smtp-Source: ABdhPJzNMsKRF3dKW/mbN/4vMCK7o8OwfC1GBTrOfaOHDi6g9O3CrMAAC6qb5WBM2joESShZJr21TEbnSnZLt5UxOT4=
+X-Received: by 2002:a4a:c587:: with SMTP id x7mr878027oop.60.1598958952683;
+ Tue, 01 Sep 2020 04:15:52 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200831134315.1221-1-pannengyuan@huawei.com>
- <20200831134315.1221-8-pannengyuan@huawei.com>
-In-Reply-To: <20200831134315.1221-8-pannengyuan@huawei.com>
+ <20200831134315.1221-10-pannengyuan@huawei.com>
+In-Reply-To: <20200831134315.1221-10-pannengyuan@huawei.com>
 From: Li Qiang <liq3ea@gmail.com>
-Date: Tue, 1 Sep 2020 19:14:50 +0800
-Message-ID: <CAKXe6SKdUe-0N8cjmhD05a_SiFriAin7-Q0roQSFCAE0wmRtBQ@mail.gmail.com>
-Subject: Re: [PATCH v2 07/10] migration/colo: Plug memleaks in
- colo_process_incoming_thread
+Date: Tue, 1 Sep 2020 19:15:16 +0800
+Message-ID: <CAKXe6S+H4vHwJnLD0Gw7R7ioE4qN6xnncf4ffaGjz=3DrEk0ag@mail.gmail.com>
+Subject: Re: [PATCH v2 09/10] block/file-posix: fix a possible undefined
+ behavior
 To: Pan Nengyuan <pannengyuan@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
- envelope-from=liq3ea@gmail.com; helo=mail-oi1-x242.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c43;
+ envelope-from=liq3ea@gmail.com; helo=mail-oo1-xc43.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -80,58 +80,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhanghailiang <zhang.zhanghailiang@huawei.com>,
- Juan Quintela <quintela@redhat.com>, Qemu Developers <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Euler Robot <euler.robot@huawei.com>, Chen Qun <kuhn.chenqun@huawei.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ zhanghailiang <zhang.zhanghailiang@huawei.com>, qemu-block@nongnu.org,
+ Qemu Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Euler Robot <euler.robot@huawei.com>, Chen Qun <kuhn.chenqun@huawei.com>,
+ Aarushi Mehta <mehta.aaru20@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Pan Nengyuan <pannengyuan@huawei.com> =E4=BA=8E2020=E5=B9=B48=E6=9C=8831=E6=
-=97=A5=E5=91=A8=E4=B8=80 =E4=B8=8B=E5=8D=883:17=E5=86=99=E9=81=93=EF=BC=9A
+=97=A5=E5=91=A8=E4=B8=80 =E4=B8=8B=E5=8D=883:21=E5=86=99=E9=81=93=EF=BC=9A
 >
-> 'local_err' forgot to free in colo_process_incoming_thread error path.
-> Fix that.
+> local_err is not initialized to NULL, it will cause a assert error as bel=
+ow:
+> qemu/util/error.c:59: error_setv: Assertion `*errp =3D=3D NULL' failed.
 >
+> Fixes: c6447510690
 > Reported-by: Euler Robot <euler.robot@huawei.com>
 > Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+> Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
 Reviewed-by: Li Qiang <liq3ea@gmail.com>
 
 > ---
-> Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>
-> Cc: Juan Quintela <quintela@redhat.com>
-> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> Cc: Kevin Wolf <kwolf@redhat.com>
+> Cc: Max Reitz <mreitz@redhat.com>
+> Cc: Aarushi Mehta <mehta.aaru20@gmail.com>
+> Cc: qemu-block@nongnu.org
 > ---
-> - V2: Arrange all 'error_report_err' in 'out' label(suggested by Li Qiang=
-).
+> - V2: no changes in v2.
 > ---
->  migration/colo.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+>  block/file-posix.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/migration/colo.c b/migration/colo.c
-> index ea7d1e9d4e..2288188fe2 100644
-> --- a/migration/colo.c
-> +++ b/migration/colo.c
-> @@ -888,7 +888,6 @@ void *colo_process_incoming_thread(void *opaque)
->      while (mis->state =3D=3D MIGRATION_STATUS_COLO) {
->          colo_wait_handle_message(mis, fb, bioc, &local_err);
->          if (local_err) {
-> -            error_report_err(local_err);
->              break;
->          }
->
-> @@ -924,6 +923,10 @@ out:
->          qemu_fclose(fb);
->      }
->
-> +    if (local_err) {
-> +        error_report_err(local_err);
-> +    }
-> +
->      /* Hope this not to be too long to loop here */
->      qemu_sem_wait(&mis->colo_incoming_sem);
->      qemu_sem_destroy(&mis->colo_incoming_sem);
+> diff --git a/block/file-posix.c b/block/file-posix.c
+> index 9a00d4190a..697a7d9eea 100644
+> --- a/block/file-posix.c
+> +++ b/block/file-posix.c
+> @@ -2113,7 +2113,7 @@ static void raw_aio_attach_aio_context(BlockDriverS=
+tate *bs,
+>  #endif
+>  #ifdef CONFIG_LINUX_IO_URING
+>      if (s->use_linux_io_uring) {
+> -        Error *local_err;
+> +        Error *local_err =3D NULL;
+>          if (!aio_setup_linux_io_uring(new_context, &local_err)) {
+>              error_reportf_err(local_err, "Unable to use linux io_uring, =
+"
+>                                           "falling back to thread pool: "=
+);
 > --
 > 2.18.2
 >
