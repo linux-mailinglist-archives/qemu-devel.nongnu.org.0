@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F0D42587FC
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 08:21:53 +0200 (CEST)
-Received: from localhost ([::1]:55420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29EFE25880A
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 08:23:16 +0200 (CEST)
+Received: from localhost ([::1]:35960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCzg0-0007bj-FL
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 02:21:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44286)
+	id 1kCzhL-0002ez-74
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 02:23:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kCzed-0005ym-6L
+ id 1kCzed-0005zA-MR
  for qemu-devel@nongnu.org; Tue, 01 Sep 2020 02:20:27 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29530
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:20613
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kCzeb-0000kd-Fk
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 02:20:26 -0400
+ id 1kCzeb-0000kY-FP
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 02:20:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1598941224;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uwcgrc5N8R8AKSdo6mXj+LpU39C+cRrrIVhDcdfRpDw=;
- b=ZMlYezErQ2jYslKCz8ffx/JCeSxir3PzekwqOzB/R1TujKnXt2asWzHFE4cgy4Z4qBH2EG
- Nc02mM6g3erUGZ8BaXnB/NW8FZ+QDgMxSV+BadSSRgQxevuIB0G8P7HTbzhEXm7n+lr7CH
- 846OV0oytZgVTv+4Lxo+AV14prP/Tvg=
+ bh=tSSh8Fj8KagTnesaHCQXywrAQbGBYsigzg8baFolzVs=;
+ b=XJtlfep2RSMchKAu0YfXHOL5UDe6BRMkCn8uVBb1E9ikRORU+2t8As0XXDQfjnrnsYvEST
+ ENeAn0YMPg1W+OBSZw0c0aDdd+KbbK7GptWzxEyZhlEg+lmWAuIoZj/1P6L7bDAh7WiiH4
+ 7JU3fIn3mYwuJ3+lvcEStEUCpya6oFE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-77-DZHpTDkCPxiHgpMiZwm_wA-1; Tue, 01 Sep 2020 02:20:22 -0400
-X-MC-Unique: DZHpTDkCPxiHgpMiZwm_wA-1
+ us-mta-83-k3r2n5a5Ne-NNOkD9yrwZA-1; Tue, 01 Sep 2020 02:20:22 -0400
+X-MC-Unique: k3r2n5a5Ne-NNOkD9yrwZA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8CFC310066FE;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F09701DDF0;
  Tue,  1 Sep 2020 06:20:21 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4A5FC1002D57;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A8B5C10027A6;
  Tue,  1 Sep 2020 06:20:21 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/13] fuzz: use qemu_get_exec_dir
-Date: Tue,  1 Sep 2020 02:20:08 -0400
-Message-Id: <20200901062020.26660-2-pbonzini@redhat.com>
+Subject: [PATCH 02/13] oslib: do not call g_strdup from qemu_get_exec_dir
+Date: Tue,  1 Sep 2020 02:20:09 -0400
+Message-Id: <20200901062020.26660-3-pbonzini@redhat.com>
 In-Reply-To: <20200901062020.26660-1-pbonzini@redhat.com>
 References: <20200901062020.26660-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -59,9 +59,9 @@ X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 00:57:59
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 02:08:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -86,36 +86,199 @@ Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make things consistent with how softmmu/vl.c uses os_find_datadir.
-Initializing the path to the executables will also be needed for
-get_relocatable_path to work.
+Just return the directory without requiring the caller to free it.
+This also removes a bogus check for NULL in os_find_datadir and
+module_load_one; g_strdup of a static variable cannot return NULL.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/qtest/fuzz/fuzz.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ include/qemu/osdep.h    |  8 ++------
+ os-posix.c              |  6 +-----
+ os-win32.c              |  2 +-
+ tests/qtest/fuzz/fuzz.c |  4 ++--
+ util/module.c           |  7 +------
+ util/oslib-posix.c      |  8 +++++---
+ util/oslib-win32.c      | 12 ++++++++----
+ 7 files changed, 20 insertions(+), 27 deletions(-)
 
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index 412962d91a..db2cfffaff 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -590,12 +590,8 @@ char *qemu_get_local_state_pathname(const char *relative_pathname);
+  * Try OS specific API first, if not working, parse from argv0. */
+ void qemu_init_exec_dir(const char *argv0);
+ 
+-/* Get the saved exec dir.
+- *
+- * The caller is responsible for releasing the value returned with g_free()
+- * after use.
+- */
+-char *qemu_get_exec_dir(void);
++/* Get the saved exec dir.  */
++const char *qemu_get_exec_dir(void);
+ 
+ /**
+  * qemu_getauxval:
+diff --git a/os-posix.c b/os-posix.c
+index bf98508b6d..8d8e7fc15c 100644
+--- a/os-posix.c
++++ b/os-posix.c
+@@ -90,13 +90,9 @@ void os_setup_signal_handling(void)
+  */
+ char *os_find_datadir(void)
+ {
+-    g_autofree char *exec_dir = NULL;
+     g_autofree char *dir = NULL;
+ 
+-    exec_dir = qemu_get_exec_dir();
+-    g_return_val_if_fail(exec_dir != NULL, NULL);
+-
+-    dir = g_build_filename(exec_dir, "pc-bios", NULL);
++    dir = g_build_filename(qemu_get_exec_dir(), "pc-bios", NULL);
+     if (g_file_test(dir, G_FILE_TEST_IS_DIR)) {
+         return g_steal_pointer(&dir);
+     }
+diff --git a/os-win32.c b/os-win32.c
+index c9c3afe648..eb8501b9e5 100644
+--- a/os-win32.c
++++ b/os-win32.c
+@@ -65,7 +65,7 @@ void os_setup_early_signal_handling(void)
+  */
+ char *os_find_datadir(void)
+ {
+-    return qemu_get_exec_dir();
++    return g_strdup(qemu_get_exec_dir());
+ }
+ 
+ void os_set_line_buffering(void)
 diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
-index 1ceea84702..391223219d 100644
+index 391223219d..1811cb1d88 100644
 --- a/tests/qtest/fuzz/fuzz.c
 +++ b/tests/qtest/fuzz/fuzz.c
-@@ -152,6 +152,7 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
-     module_call_init(MODULE_INIT_QOM);
-     module_call_init(MODULE_INIT_LIBQOS);
+@@ -143,7 +143,8 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
+ {
  
-+    qemu_init_exec_dir(**argv);
-     target_name = strstr(**argv, "-target-");
-     if (target_name) {        /* The binary name specifies the target */
-         target_name += strlen("-target-");
-@@ -164,7 +165,7 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
-          * location of the executable. Using this we add exec_dir/pc-bios to
-          * the datadirs.
+     char *target_name;
+-    char *bindir, *datadir;
++    const char *bindir;
++    char *datadir;
+     bool serialize = false;
+ 
+     /* Initialize qgraph and modules */
+@@ -167,7 +168,6 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
           */
--        bindir = g_path_get_dirname(**argv);
-+        bindir = qemu_get_exec_dir();
+         bindir = qemu_get_exec_dir();
          datadir = g_build_filename(bindir, "pc-bios", NULL);
-         g_free(bindir);
+-        g_free(bindir);
          if (g_file_test(datadir, G_FILE_TEST_IS_DIR)) {
+             qemu_add_data_dir(datadir);
+         }
+diff --git a/util/module.c b/util/module.c
+index 6e63006a8f..aed04b578a 100644
+--- a/util/module.c
++++ b/util/module.c
+@@ -172,7 +172,6 @@ bool module_load_one(const char *prefix, const char *lib_name)
+ 
+ #ifdef CONFIG_MODULES
+     char *fname = NULL;
+-    char *exec_dir;
+ #ifdef CONFIG_MODULE_UPGRADES
+     char *version_dir;
+ #endif
+@@ -199,13 +198,12 @@ bool module_load_one(const char *prefix, const char *lib_name)
+         return true;
+     }
+ 
+-    exec_dir = qemu_get_exec_dir();
+     search_dir = getenv("QEMU_MODULE_DIR");
+     if (search_dir != NULL) {
+         dirs[n_dirs++] = g_strdup_printf("%s", search_dir);
+     }
+     dirs[n_dirs++] = g_strdup_printf("%s", CONFIG_QEMU_MODDIR);
+-    dirs[n_dirs++] = g_strdup_printf("%s", exec_dir ? : "");
++    dirs[n_dirs++] = g_strdup(qemu_get_exec_dir());
+ 
+ #ifdef CONFIG_MODULE_UPGRADES
+     version_dir = g_strcanon(g_strdup(QEMU_PKGVERSION),
+@@ -216,9 +214,6 @@ bool module_load_one(const char *prefix, const char *lib_name)
+ 
+     assert(n_dirs <= ARRAY_SIZE(dirs));
+ 
+-    g_free(exec_dir);
+-    exec_dir = NULL;
+-
+     for (i = 0; i < n_dirs; i++) {
+         fname = g_strdup_printf("%s/%s%s",
+                 dirs[i], module_name, CONFIG_HOST_DSOSUF);
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index ad8001a4ad..0dd8d24076 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -366,7 +366,9 @@ void qemu_init_exec_dir(const char *argv0)
+     char *p = NULL;
+     char buf[PATH_MAX];
+ 
+-    assert(!exec_dir[0]);
++    if (exec_dir[0]) {
++        return;
++    }
+ 
+ #if defined(__linux__)
+     {
+@@ -439,9 +441,9 @@ void qemu_init_exec_dir(const char *argv0)
+     g_free(dir);
+ }
+ 
+-char *qemu_get_exec_dir(void)
++const char *qemu_get_exec_dir(void)
+ {
+-    return g_strdup(exec_dir);
++    return exec_dir;
+ }
+ 
+ static void sigbus_handler(int signal)
+diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+index c654dafd93..1a33912944 100644
+--- a/util/oslib-win32.c
++++ b/util/oslib-win32.c
+@@ -315,7 +315,7 @@ void qemu_set_tty_echo(int fd, bool echo)
+     }
+ }
+ 
+-static char exec_dir[PATH_MAX];
++static char *exec_dir;
+ 
+ void qemu_init_exec_dir(const char *argv0)
+ {
+@@ -324,6 +324,10 @@ void qemu_init_exec_dir(const char *argv0)
+     char buf[MAX_PATH];
+     DWORD len;
+ 
++    if (exec_dir) {
++        return;
++    }
++
+     len = GetModuleFileName(NULL, buf, sizeof(buf) - 1);
+     if (len == 0) {
+         return;
+@@ -336,13 +340,13 @@ void qemu_init_exec_dir(const char *argv0)
+     }
+     *p = 0;
+     if (access(buf, R_OK) == 0) {
+-        pstrcpy(exec_dir, sizeof(exec_dir), buf);
++        exec_dir = g_strdup(buf);
+     }
+ }
+ 
+-char *qemu_get_exec_dir(void)
++const char *qemu_get_exec_dir(void)
+ {
+-    return g_strdup(exec_dir);
++    return exec_dir;
+ }
+ 
+ #if !GLIB_CHECK_VERSION(2, 50, 0)
 -- 
 2.26.2
 
