@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07B8425901A
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:16:40 +0200 (CEST)
-Received: from localhost ([::1]:60118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51BD2259037
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:21:27 +0200 (CEST)
+Received: from localhost ([::1]:55044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD75S-0001R5-UP
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:16:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55290)
+	id 1kD7A6-0002eR-C6
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:21:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zM-0005W2-FI; Tue, 01 Sep 2020 10:10:20 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:58905)
+ id 1kD6zQ-0005fU-2R; Tue, 01 Sep 2020 10:10:24 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:46097)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zH-0003ob-PW; Tue, 01 Sep 2020 10:10:20 -0400
+ id 1kD6zN-0003uU-Qy; Tue, 01 Sep 2020 10:10:23 -0400
 Received: from localhost.localdomain ([82.252.135.186]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N6bsM-1ke9Gu2gpC-0183pD; Tue, 01 Sep 2020 16:10:10 +0200
+ id 1MGQaz-1kNJD416sP-00GmgK; Tue, 01 Sep 2020 16:10:11 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/44] hw/i2c: Fix typo in description
-Date: Tue,  1 Sep 2020 16:09:30 +0200
-Message-Id: <20200901140954.889743-21-laurent@vivier.eu>
+Subject: [PULL 21/44] util/qemu-timer: Fix typo in description
+Date: Tue,  1 Sep 2020 16:09:31 +0200
+Message-Id: <20200901140954.889743-22-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200901140954.889743-1-laurent@vivier.eu>
 References: <20200901140954.889743-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:hYVfATmajBOJ5pMHRvVK/fipsf1zG1zZ/XtU8JI2X9WJq7CHULQ
- mYpzqLoNZg1PKspU1/YvMNHLNUepZjpGzSJiD0hrP146o8ZxLfgpehL7byyIXDpMty138zb
- 4T8zQCmMiuVkwUL52kM4W/Orl02L8SgxEB3cRCXYjIR13Mf3lPdfJ00oPD6XrwbS/RtkhfJ
- CMnUXt6aYIMx9wCNhy12A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:kN98XEpLlwo=:O68hlzn1Ic//0t/WUETcAS
- MahSO1PzRNOppKyucS8r4QyONTGGbFqxwk6VVUIU/NreYfaTa/P2H0eH96Chsb/NMwAxQn18Y
- fD1PevIfY8Kd43/ZNWjhl6QjbQwJijM5YBZTzFdypNpiatGoa3rVcOzFMugb7us+QoFp6ymLz
- tnl7miZFmTs+JdJtdNtn8P4tZuFO2rlrt2xSdmbG6AqOPIiIj/zFmG/K412ZhLGWQ/Vsz+SYn
- CR6SiH3q/y40YLJ4jvp8OceyQ3lCLFlzTe0+j1TvjTl/3b+MKUYXWOlT2lqrjmUI4kmvGIoZZ
- 5TWeccS7G3ixE/VE/X/vZsY7eiq10zDO61JM0aPoKyE0nG+ifPgTFZjBIUwWIStAVvySOEudr
- Ypja26DcqQs8zbMurFI8U0KOXz0SAA6yLUTpHiea5N58gIYuSsRFvoQkhjHZhcjTtWT3u+QyV
- HbNzmRAth8G8pJstV0ZaY8BUzHVcowP2FWNRO4EpUIfv9Vwn4+r7MBMB9lachyHQ5HKutiRZC
- ShxNeRccIGKbuLNKB6dW5uFjl4/Bqc6h4NtBD9gnkqpD5P0aseMvWaw0c4DOPXBxYG4DQowjF
- in1HyyjEUMYKWmDpt0ECfliPHdfzll8Azmy8syP7pfv9J1lWNsK60UWuze1GZ6F5+g211zcc7
- bZUt+nukyzm6U75b/YvBYfhiKJ8iMyPGxWOZtJyAE+I+MqTCj1krZJchpWmidU9LOvEqpocy0
- Pb/B8TvH+pWmh112rYZuzEteD5HzgUFYb96QWe97lH8gl6r85bfcvITN0+Gfv3u7XBUxjCBAd
- JHoyxQN0+l/7zgJCwQRiAxwgkZ27zzFKOivHVMspJlXX9nYeU6/AclT1v8vBxDpY9EJvO7E
+X-Provags-ID: V03:K1:fBZk9ez3vhEgDKEwBIi+DZi3OhQueHvRjUMJcSzEeEqICWTwBLL
+ VaRxBQkmEKu5bJ6M31IZM8JvJGlUQME5tsjp7C22vrYi7AWu/X6YnPFxN7S8bnv5BtgTlmB
+ hiEljrKb9YAEeA91ura+6HZON2aC3XcYDgh6c6gFXTxs9PLHpkTft+/EIcJTN8GsViSJfrH
+ B76QvdpFkltiXKzNs0I2A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:i43uraF2Yhk=:zvcwRIBjL3uFBNQTqxTsfG
+ Mm8ifcRhrfOKRXjWTUWxlyiqxyuLNsC0STxyY+RUM7+cNC1KaNHy64mvVVwGV8TLtMTHPrAuX
+ M4Zg2SZzU3wfeKvQnQaqnm8/gF/93wDODu9R1EFvRDWWYKl4RcpKWdlhgpH4KIeY5eAt7++8e
+ eGJr4JbHWhVc/J6qA5MkGCJd6VTAfJQdUzPAATv8L7EXgO6d00PrCg8yjru4/Ofz7vmMItPNQ
+ uBhAcYxXXVW8fenUW9kaXsjW/mkTXEgNVH5hgt432nJmZIFAc07DwCz9N9US64eRToWiVZcwW
+ rfIpB64q/DReR7yHiaj/V1guH/jCbyJnliOHUcoxOC2OJwrC7RO6u/oMZYkIpD6FLE4bFkrbj
+ gTlwFGbQo+jkRhj6BU+IEm2EbKOOf40/aknqmBQmFCemcEPNrn0+HnwcSnQlZ487ZGoIiVbuS
+ 2BgGvZB5lXrF5yr2fy9H2GRkzGQ1sK7isfoLYaihJhC/jI3YBIonEFw5rNwpNtoJvPFeihLKP
+ OAjj/Dathm81qmhXTuGJN1RNcA1hhXKiZplp6zerQxLZTW3IDyprIE/jlcpw4NLfPLX9xiLI+
+ 3obtBNZP+gAL2A5mZbQ36Jwu//RC/sGd+MiS7OtA4EhXM7aVek2Ga7zHoIH9ngbbZAwPC1tPp
+ ftqAkslWKeHbfb/ZYRApdQwMTouMqpfKQo8BMzXBK5RHh9OqOaO4mifyhJmnq9s7Bl8Zftb6+
+ 9B4ZhtJZTm42xGb2+f5L0ea4vs4VkLQCxL8KOidNkvTw8YcuRkPy7ftNW0Lj1+04BVyEeRTpZ
+ 1ezb0EkkFf6VOhnnOfmjkmY1EHbet+Ct1lYuvGBn9n93jBkUzlwKKzREC5aInr4Nk0P+6rg
 Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:10:08
@@ -70,41 +70,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
- Li Qiang <liq3ea@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-trivial@nongnu.org, Li Qiang <liq3ea@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Remove the second 'and' introduced in commit 73d5f22ecb
-("hw/i2c: Document the I2C qdev helpers").
+Remove the second 'and' introduced in commit e81f86790f ("qemu-timer:
+avoid checkpoints for virtual clock timers in external subsystems").
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Corey Minyard <cminyard@mvista.com>
 Reviewed-by: Li Qiang <liq3ea@gmail.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20200811151643.21293-2-philmd@redhat.com>
+Message-Id: <20200811151643.21293-3-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- include/hw/i2c/i2c.h | 2 +-
+ util/qemu-timer.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
-index a9c030a51233..f57808851e22 100644
---- a/include/hw/i2c/i2c.h
-+++ b/include/hw/i2c/i2c.h
-@@ -102,7 +102,7 @@ I2CSlave *i2c_slave_new(const char *name, uint8_t addr);
- I2CSlave *i2c_slave_create_simple(I2CBus *bus, const char *name, uint8_t addr);
+diff --git a/util/qemu-timer.c b/util/qemu-timer.c
+index f62b4feecdb0..878d80fd5e5e 100644
+--- a/util/qemu-timer.c
++++ b/util/qemu-timer.c
+@@ -530,7 +530,7 @@ bool timerlist_run_timers(QEMUTimerList *timer_list)
+     }
  
- /**
-- * Realize and and drop a reference an I2C slave device
-+ * Realize and drop a reference an I2C slave device
-  * @dev: I2C slave device to realize
-  * @bus: I2C bus to put it on
-  * @addr: I2C address of the slave on the bus
+     /*
+-     * Extract expired timers from active timers list and and process them.
++     * Extract expired timers from active timers list and process them.
+      *
+      * In rr mode we need "filtered" checkpointing for virtual clock.  The
+      * checkpoint must be recorded/replayed before processing any non-EXTERNAL timer,
 -- 
 2.26.2
 
