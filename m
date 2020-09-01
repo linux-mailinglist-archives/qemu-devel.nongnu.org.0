@@ -2,37 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CF26258E7A
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 14:47:15 +0200 (CEST)
-Received: from localhost ([::1]:33512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F3EC258EB6
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 14:55:27 +0200 (CEST)
+Received: from localhost ([::1]:46172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD5gw-0006Lq-3e
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 08:47:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33608)
+	id 1kD5os-0006FD-En
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 08:55:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kD5fP-0004bs-CB
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:45:39 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:49769)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kD5fV-0004qF-KY
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:45:45 -0400
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:43007)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kD5fM-0001Rp-5j
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:45:39 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.95])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id F3336563B96C;
- Tue,  1 Sep 2020 14:45:34 +0200 (CEST)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kD5fR-0001Us-5A
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:45:45 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.44])
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 7C2345CC537A;
+ Tue,  1 Sep 2020 14:45:35 +0200 (CEST)
 Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Tue, 1 Sep 2020
  14:45:34 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-99G0032f5ad522-1b41-4091-82da-76474610f969,
+ (GARM-99G003c1fea4e1-1739-410e-b00c-59f00a43bbb0,
  38EE1E9FF4E34D4C85F4190D418CEE501B878519) smtp.auth=clg@kaod.org
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: <qemu-devel@nongnu.org>
-Subject: [PULL 12/20] ftgmac100: Check for invalid len and address before
- doing a DMA transfer
-Date: Tue, 1 Sep 2020 14:45:17 +0200
-Message-ID: <20200901124525.220252-13-clg@kaod.org>
+Subject: [PULL 13/20] ftgmac100: Fix integer overflow in ftgmac100_do_tx()
+Date: Tue, 1 Sep 2020 14:45:18 +0200
+Message-ID: <20200901124525.220252-14-clg@kaod.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20200901124525.220252-1-clg@kaod.org>
 References: <20200901124525.220252-1-clg@kaod.org>
@@ -42,14 +41,14 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.99]
 X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: e12fbb83-8bbb-4674-9739-82e3230ffca7
-X-Ovh-Tracer-Id: 4786763455483186083
+X-Ovh-Tracer-GUID: 04b970e8-b546-473d-9fc6-572e04b4a514
+X-Ovh-Tracer-Id: 4787044930205748006
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrudefjedgheejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfhisehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheehfeegjeeitdfffeetjeduveejueefuefgtdefueelueetveeliefhhffgtdelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 08:45:33
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo804.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 08:45:31
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -69,44 +68,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Joel Stanley <joel@jms.id.au>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Mauro Matteo Cascella <mcascell@redhat.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Frederic Konrad <konrad.frederic@yahoo.fr>
+ Ziming Zhang <ezrakiez@gmail.com>, Frederic Konrad <konrad.frederic@yahoo.fr>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to the Aspeed specs, no interrupts are raised in that case
-but a "Tx-packets lost" status seems like a good modeling choice for
-all implementations. It is covered by the Linux kernel.
+When inserting the VLAN tag in packets, memmove() can generate an
+integer overflow for packets whose length is less than 12 bytes.
+
+Move the VLAN insertion when the last segment of the frame is reached
+and check length against the size of the ethernet header (14 bytes) to
+avoid the crash. Return FTGMAC100_INT_XPKT_LOST status if the frame is
+too small. This seems like a good modeling choice even if Aspeed does
+not specify anything in that case.
 
 Cc: Frederic Konrad <konrad.frederic@yahoo.fr>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-Message-Id: <20200819100956.2216690-14-clg@kaod.org>
+Cc: Mauro Matteo Cascella <mcascell@redhat.com>
+Reported-by: Ziming Zhang <ezrakiez@gmail.com>
+Message-Id: <20200819100956.2216690-15-clg@kaod.org>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/net/ftgmac100.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ hw/net/ftgmac100.c | 55 ++++++++++++++++++++++++++++++++--------------
+ 1 file changed, 39 insertions(+), 16 deletions(-)
 
 diff --git a/hw/net/ftgmac100.c b/hw/net/ftgmac100.c
-index 014980d30aca..280aa3d3a1e2 100644
+index 280aa3d3a1e2..7c9fa720df03 100644
 --- a/hw/net/ftgmac100.c
 +++ b/hw/net/ftgmac100.c
-@@ -507,6 +507,15 @@ static void ftgmac100_do_tx(FTGMAC100State *s, uint32_t tx_ring,
+@@ -481,6 +481,37 @@ static int ftgmac100_write_bd(FTGMAC100Desc *bd, dma_addr_t addr)
+     return 0;
+ }
+ 
++static int ftgmac100_insert_vlan(FTGMAC100State *s, int frame_size,
++                                  uint8_t vlan_tci)
++{
++    uint8_t *vlan_hdr = s->frame + (ETH_ALEN * 2);
++    uint8_t *payload = vlan_hdr + sizeof(struct vlan_header);
++
++    if (frame_size < sizeof(struct eth_header)) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: frame too small for VLAN insertion : %d bytes\n",
++                      __func__, frame_size);
++        s->isr |= FTGMAC100_INT_XPKT_LOST;
++        goto out;
++    }
++
++    if (frame_size + sizeof(struct vlan_header) > sizeof(s->frame)) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: frame too big : %d bytes\n",
++                      __func__, frame_size);
++        s->isr |= FTGMAC100_INT_XPKT_LOST;
++        frame_size -= sizeof(struct vlan_header);
++    }
++
++    memmove(payload, vlan_hdr, frame_size - (ETH_ALEN * 2));
++    stw_be_p(vlan_hdr, ETH_P_VLAN);
++    stw_be_p(vlan_hdr + 2, vlan_tci);
++    frame_size += sizeof(struct vlan_header);
++
++out:
++    return frame_size;
++}
++
+ static void ftgmac100_do_tx(FTGMAC100State *s, uint32_t tx_ring,
+                             uint32_t tx_descriptor)
+ {
+@@ -530,25 +561,17 @@ static void ftgmac100_do_tx(FTGMAC100State *s, uint32_t tx_ring,
+             break;
          }
  
-         len = FTGMAC100_TXDES0_TXBUF_SIZE(bd.des0);
-+        if (!len) {
-+            /*
-+             * 0 is an invalid size, however the HW does not raise any
-+             * interrupt. Flag an error because the guest is buggy.
-+             */
-+            qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid segment size\n",
-+                          __func__);
-+        }
+-        /* Check for VLAN */
+-        if (bd.des0 & FTGMAC100_TXDES0_FTS &&
+-            bd.des1 & FTGMAC100_TXDES1_INS_VLANTAG &&
+-            be16_to_cpu(PKT_GET_ETH_HDR(ptr)->h_proto) != ETH_P_VLAN) {
+-            if (frame_size + len + 4 > sizeof(s->frame)) {
+-                qemu_log_mask(LOG_GUEST_ERROR, "%s: frame too big : %d bytes\n",
+-                              __func__, len);
+-                s->isr |= FTGMAC100_INT_XPKT_LOST;
+-                len =  sizeof(s->frame) - frame_size - 4;
+-            }
+-            memmove(ptr + 16, ptr + 12, len - 12);
+-            stw_be_p(ptr + 12, ETH_P_VLAN);
+-            stw_be_p(ptr + 14, bd.des1);
+-            len += 4;
+-        }
+-
+         ptr += len;
+         frame_size += len;
+         if (bd.des0 & FTGMAC100_TXDES0_LTS) {
 +
-         if (frame_size + len > sizeof(s->frame)) {
-             qemu_log_mask(LOG_GUEST_ERROR, "%s: frame too big : %d bytes\n",
-                           __func__, len);
++            /* Check for VLAN */
++            if (flags & FTGMAC100_TXDES1_INS_VLANTAG &&
++                be16_to_cpu(PKT_GET_ETH_HDR(s->frame)->h_proto) != ETH_P_VLAN) {
++                frame_size = ftgmac100_insert_vlan(s, frame_size,
++                                            FTGMAC100_TXDES1_VLANTAG_CI(flags));
++            }
++
+             if (flags & FTGMAC100_TXDES1_IP_CHKSUM) {
+                 net_checksum_calculate(s->frame, frame_size);
+             }
 -- 
 2.25.4
 
