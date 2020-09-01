@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0539F259432
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:36:55 +0200 (CEST)
-Received: from localhost ([::1]:42024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB7CC2594B5
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 17:42:37 +0200 (CEST)
+Received: from localhost ([::1]:38450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD8L8-0000qF-1u
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:36:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48400)
+	id 1kD8Qe-0002bn-RM
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 11:42:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kD84A-00014K-R1
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:19:22 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38309)
+ id 1kD84C-000184-1U
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:19:24 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:51438)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kD849-0006L8-3p
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:19:22 -0400
-Received: by mail-wr1-x443.google.com with SMTP id g4so1497150wrs.5
- for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 08:19:20 -0700 (PDT)
+ id 1kD84A-0006LL-8q
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 11:19:23 -0400
+Received: by mail-wm1-x344.google.com with SMTP id w2so1550014wmi.1
+ for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 08:19:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=uzjObAYNgbbOg5233R77daXvzkwZjkTSAH8Bwsy7iRw=;
- b=hveNNSlMTrfzgd9uk0Fisi/DoDqlHnT3DtvP8qGdle3Sq2vPZPlHMncDAxZeCmPJx8
- 8TW6VixlLl5XoRJ3y6Ca3JxouwFIFL4I1jsJ7HGDlSAnm8KzknD3j7EYY+WFUeMiSu5V
- vWcRcebalRpa+Q+5fwJ6hBFyoyj1A6UQVHfS14f9ImD0VMALoYdJsAoUuT1VjlCSJ16/
- dhLmyrlyejRDwgY3xAQ+k5yERhDcx8DvEQH9nY7oifBln9I82DtW5IafylJoxAmWukD8
- n+wRL2e5tiIi9PgDuSjpKUo3SQuqfgy7ReJEWaG5c9+0Se6h5rwaS1z/sInSzfwoNmk/
- 21dA==
+ bh=KXRF7dKCMKNyNPHCpFwJuF+ejPlwLK3/fbYiZ44r5oU=;
+ b=zrzoEfzsDLRhwM4Uy1TpUCviXcY8Q+EaCLs3x14CRyxCoF3nHsuzUsjoCH5APa+Z3H
+ dhMI8R+aYOHBeDbHTNdl5N8g3sqatEhrgGblGv7+oVnTkiMHprc30HYOJRTBpXB95OIy
+ TUOYzEtR4ZByJ0cAPgpxpNHFqiuntJ+7X9bjU5Llz9JgcF661EWj/SBVH/Z+1OmItKms
+ ji7opVvoXnzMA+Hp36W4lE5ABQUXYNig5THBDAa8WI67tJOz2Map93jpFe7uQ+nwtn4Z
+ 2A0gLEUt2cVbAyEgw22GvqUQZmBRi9kBoaWlJP9bYpQnzcmJb5ah35O+esALxK5rrx8s
+ w1lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uzjObAYNgbbOg5233R77daXvzkwZjkTSAH8Bwsy7iRw=;
- b=nFn2AQvRK0UT3lPLKBMXl0HJpp4IlTigSJjMZhOTehpeUV3yiR0Sq6+/KrzTlO6Oc1
- R48qAGJztCpxd1kUA4aC/2Z8MIEBH+P8hEGTSNqgO7Ul+kUEVuPWq9mF8fFLwn0X9TEO
- InAtot3DB+PO9cAGViot4bBFowaCsprHllVOXjLSHtao7puph3CmIOf+olEKvgSu3NBe
- IgyZMTod990wDu4o0Ybo2OD4lK/u5ufNX/SvFP1rTJ+IvNkTEd2aWICr4Hykt+EDa6uU
- HQgML2Gwog04WWrFL/JwfBZo2wazMoGFBjIqegoD29MZLIJ6n/6WXCPgOpkgavlWOaKy
- fhOg==
-X-Gm-Message-State: AOAM532uyN5h+u6QhzRZcVStslAeCgl3j0FXPHPJMyx+YOcefZT3na1M
- motG5w2l8u/DFDDg/X3Sktzo6IcgkxHvI27v
-X-Google-Smtp-Source: ABdhPJwN9fpeNQlnfxjJcnRQ9TsTjk1j4Tso5oikQLpVGhMZS8yzTv0aNX4gFvIVPHUeVd67EAYUfA==
-X-Received: by 2002:adf:ab5a:: with SMTP id r26mr2407043wrc.194.1598973559547; 
- Tue, 01 Sep 2020 08:19:19 -0700 (PDT)
+ bh=KXRF7dKCMKNyNPHCpFwJuF+ejPlwLK3/fbYiZ44r5oU=;
+ b=ThLxrGeYN+8dGVR7t/Fh1lYvxY1T+7/WmvkYYsomFBi87U+qJx4Nl/uiJaEVUXyXc0
+ xiMpLFJ36er+wdMbabOn8YHav/DprAHQQY6j0Z574qBxVo+SJbHVAgB9qCCAmCcxuYa9
+ kFH2fC9EAqf79qrc2alxnru/jn1e2Gb8yNkad0hxq031vlplF+B9VWVlrj1G8vc6gAHc
+ TI0HXwlU+LH9uPCzI2G19EsOdqlC4s8wPROTGUHnLiBPHZPWyqhV5+ihpAB5Y4mvfLg/
+ +KWdZrvHrU+xUHd6BM0qpRVGS3rvAW0sFQwj9Frt49hSWyQLv5o7Utwb8HDVvt2UyD9g
+ L4uA==
+X-Gm-Message-State: AOAM531k+J0FKkPwjIPKY8mM5aJdLWBMKsnLIcPs+FNePh6RB7L2hSHH
+ ZOvVxvHf5kTJuSNRbG3Vr9cEjBtOwl2V9XkJ
+X-Google-Smtp-Source: ABdhPJwhfOCDgACcinqpKrkJ8y6WMQPaQXQYmf4HsL+UvKWekKfiX9h7EnbRYY1hOUb8ZfkZtrfbzQ==
+X-Received: by 2002:a1c:24c4:: with SMTP id k187mr2266224wmk.148.1598973560529; 
+ Tue, 01 Sep 2020 08:19:20 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id z9sm2242317wma.4.2020.09.01.08.19.18
+ by smtp.gmail.com with ESMTPSA id z9sm2242317wma.4.2020.09.01.08.19.19
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Sep 2020 08:19:18 -0700 (PDT)
+ Tue, 01 Sep 2020 08:19:19 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 44/47] target/arm: Enable FP16 in '-cpu max'
-Date: Tue,  1 Sep 2020 16:18:20 +0100
-Message-Id: <20200901151823.29785-45-peter.maydell@linaro.org>
+Subject: [PULL 45/47] hw/arm/sbsa-ref: add "reg" property to DT cpu nodes
+Date: Tue,  1 Sep 2020 16:18:21 +0100
+Message-Id: <20200901151823.29785-46-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200901151823.29785-1-peter.maydell@linaro.org>
 References: <20200901151823.29785-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,52 +89,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Set the MVFR1 ID register FPHP and SIMDHP fields to indicate
-that our "-cpu max" has v8.2-FP16.
+From: Leif Lindholm <leif@nuviainc.com>
 
+The sbsa-ref platform uses a minimal device tree to pass amount of memory
+as well as number of cpus to the firmware. However, when dumping that
+minimal dtb (with -M sbsa-virt,dumpdtb=<file>), the resulting blob
+generates a warning when decompiled by dtc due to lack of reg property.
+
+Add a simple reg property per cpu, representing a 64-bit MPIDR_EL1.
+
+This also ends up being cleaner than having the firmware calculating its
+own IDs for generating APCI.
+
+Signed-off-by: Leif Lindholm <leif@nuviainc.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20200827124335.30586-1-leif@nuviainc.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200828183354.27913-46-peter.maydell@linaro.org
 ---
- target/arm/cpu.c   |  3 ++-
- target/arm/cpu64.c | 10 ++++------
- 2 files changed, 6 insertions(+), 7 deletions(-)
+ hw/arm/sbsa-ref.c | 29 +++++++++++++++++++++++------
+ 1 file changed, 23 insertions(+), 6 deletions(-)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 6b382fcd60e..c179e0752da 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -2143,7 +2143,8 @@ static void arm_max_initfn(Object *obj)
-             cpu->isar.id_isar6 = t;
+diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+index 2a7d9a61fc7..7475aac0dfa 100644
+--- a/hw/arm/sbsa-ref.c
++++ b/hw/arm/sbsa-ref.c
+@@ -138,6 +138,12 @@ static const int sbsa_ref_irqmap[] = {
+     [SBSA_EHCI] = 11,
+ };
  
-             t = cpu->isar.mvfr1;
--            t = FIELD_DP32(t, MVFR1, FPHP, 2);     /* v8.0 FP support */
-+            t = FIELD_DP32(t, MVFR1, FPHP, 3);     /* v8.2-FP16 */
-+            t = FIELD_DP32(t, MVFR1, SIMDHP, 2);   /* v8.2-FP16 */
-             cpu->isar.mvfr1 = t;
++static uint64_t sbsa_ref_cpu_mp_affinity(SBSAMachineState *sms, int idx)
++{
++    uint8_t clustersz = ARM_DEFAULT_CPUS_PER_CLUSTER;
++    return arm_cpu_mp_affinity(idx, clustersz);
++}
++
+ /*
+  * Firmware on this machine only uses ACPI table to load OS, these limited
+  * device tree nodes are just to let firmware know the info which varies from
+@@ -183,14 +189,31 @@ static void create_fdt(SBSAMachineState *sms)
+         g_free(matrix);
+     }
  
-             t = cpu->isar.mvfr2;
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index dd696183dfb..3c2b3d95993 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -704,12 +704,10 @@ static void aarch64_max_initfn(Object *obj)
-         u = FIELD_DP32(u, ID_DFR0, PERFMON, 5); /* v8.4-PMU */
-         cpu->isar.id_dfr0 = u;
++    /*
++     * From Documentation/devicetree/bindings/arm/cpus.yaml
++     *  On ARM v8 64-bit systems this property is required
++     *    and matches the MPIDR_EL1 register affinity bits.
++     *
++     *    * If cpus node's #address-cells property is set to 2
++     *
++     *      The first reg cell bits [7:0] must be set to
++     *      bits [39:32] of MPIDR_EL1.
++     *
++     *      The second reg cell bits [23:0] must be set to
++     *      bits [23:0] of MPIDR_EL1.
++     */
+     qemu_fdt_add_subnode(sms->fdt, "/cpus");
++    qemu_fdt_setprop_cell(sms->fdt, "/cpus", "#address-cells", 2);
++    qemu_fdt_setprop_cell(sms->fdt, "/cpus", "#size-cells", 0x0);
  
--        /*
--         * FIXME: We do not yet support ARMv8.2-fp16 for AArch32 yet,
--         * so do not set MVFR1.FPHP.  Strictly speaking this is not legal,
--         * but it is also not legal to enable SVE without support for FP16,
--         * and enabling SVE in system mode is more useful in the short term.
--         */
-+        u = cpu->isar.mvfr1;
-+        u = FIELD_DP32(u, MVFR1, FPHP, 3);      /* v8.2-FP16 */
-+        u = FIELD_DP32(u, MVFR1, SIMDHP, 2);    /* v8.2-FP16 */
-+        cpu->isar.mvfr1 = u;
+     for (cpu = sms->smp_cpus - 1; cpu >= 0; cpu--) {
+         char *nodename = g_strdup_printf("/cpus/cpu@%d", cpu);
+         ARMCPU *armcpu = ARM_CPU(qemu_get_cpu(cpu));
+         CPUState *cs = CPU(armcpu);
++        uint64_t mpidr = sbsa_ref_cpu_mp_affinity(sms, cpu);
  
- #ifdef CONFIG_USER_ONLY
-         /* For usermode -cpu max we can use a larger and more efficient DCZ
+         qemu_fdt_add_subnode(sms->fdt, nodename);
++        qemu_fdt_setprop_u64(sms->fdt, nodename, "reg", mpidr);
+ 
+         if (ms->possible_cpus->cpus[cs->cpu_index].props.has_node_id) {
+             qemu_fdt_setprop_cell(sms->fdt, nodename, "numa-node-id",
+@@ -717,12 +740,6 @@ static void sbsa_ref_init(MachineState *machine)
+     arm_load_kernel(ARM_CPU(first_cpu), machine, &sms->bootinfo);
+ }
+ 
+-static uint64_t sbsa_ref_cpu_mp_affinity(SBSAMachineState *sms, int idx)
+-{
+-    uint8_t clustersz = ARM_DEFAULT_CPUS_PER_CLUSTER;
+-    return arm_cpu_mp_affinity(idx, clustersz);
+-}
+-
+ static const CPUArchIdList *sbsa_ref_possible_cpu_arch_ids(MachineState *ms)
+ {
+     unsigned int max_cpus = ms->smp.max_cpus;
 -- 
 2.20.1
 
