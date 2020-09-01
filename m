@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEDF4259007
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:14:59 +0200 (CEST)
-Received: from localhost ([::1]:52334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7880C259027
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:19:07 +0200 (CEST)
+Received: from localhost ([::1]:44336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD73q-0006bC-VK
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:14:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55090)
+	id 1kD77q-0006a4-Bd
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:19:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zG-0005FU-FA; Tue, 01 Sep 2020 10:10:14 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:49511)
+ id 1kD6zN-0005Xv-6u; Tue, 01 Sep 2020 10:10:21 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:48255)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zD-0003kv-Ck; Tue, 01 Sep 2020 10:10:14 -0400
+ id 1kD6zH-0003ov-Vw; Tue, 01 Sep 2020 10:10:20 -0400
 Received: from localhost.localdomain ([82.252.135.186]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MyseA-1kYbuO0Vko-00vzY7; Tue, 01 Sep 2020 16:10:06 +0200
+ id 1MJm8H-1jtWrf3TKL-00KD1Y; Tue, 01 Sep 2020 16:10:07 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/44] stubs/cmos: Use correct include
-Date: Tue,  1 Sep 2020 16:09:23 +0200
-Message-Id: <20200901140954.889743-14-laurent@vivier.eu>
+Subject: [PULL 14/44] qemu-options.hx: Fix typo for netdev documentation
+Date: Tue,  1 Sep 2020 16:09:24 +0200
+Message-Id: <20200901140954.889743-15-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200901140954.889743-1-laurent@vivier.eu>
 References: <20200901140954.889743-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:dS20v3gw2u2mvJ4hZkS/ZTB7063+qvvt1jXg6HhuBk2JPnF3+RB
- 8sjbueW+jPeuKyTAVWgpNloTrtJ1ocBy7hKQjczZt44JafwLl/l8pLoXu/cseaa8N0SGZAF
- K6naJDOMnj3Pb/4CmOZsslC+UYKt/Tc2224O/bOa3kK7khbd7jlZF4IEIyfwYW2I7AVr0MY
- Y1zoE/w5/j/9iFUWv1zyA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:wYgD4GoZcuU=:9zM3pFHSZ7J6EkcLFwQnQj
- NlL1BiPLP8tBj3m2QYeh8tnr+tmiBoJvt456nmBnojNOcJsA8PSZ7voTk7ohvC/hRWcAyg2sK
- OnKwzVHmkXQHqUOChdbRHU8D4IOdEYZInhyRj4bFqoM/MtSE91gICtfUHIrqA9wIsVho1RcpT
- WitmRXET3IVDQAXptC+LXi9jXH/tcqGTHM24QzJmKrRyBFB8JhGYKhpz+jhM2rgOipkSwaI5m
- iCAq+4ZwCKe3eA7qbFVLsFUJq9dSEZeVFk3r+VugwnLM3pxyyt3Y5kvTyJ7eW/xZ2fR8k43R7
- vAbT7h2ESHWn5hRZ8Zop1wOEmWuK0oihOP+Eon/4tSpKkukkzh7y39pgltN0XJSwaqkDfVJAs
- Irt78zkeu+zNW7Y14950Zp3ErzyfUeahy2SqFhKQgNBg2/78IgXsFneEgxmBS5lWKYNKtsI0I
- /5yynxqxq4aEF8lQMd8zuVWtW+JCIvWwk0yTcG9m/2eGrdNzCMcts13DQYY3JSUhghtMd0xVz
- iWbw/+8h+b/V5nh5pflFLHrS3yhxEPQX57RgbCBDM3wWamaa8T2F7/vZ4bOrF4Xf4D17kIN/X
- 08VdC7T069L8NJY9p6n0pLHsLsjc1FPnATEHL5B+slS7E7WSuK24ijNYogoy5Hxo7ssFcGhR9
- PvrX4KPpv7AEqj5pNGHEBITAzcv2dZJWag3xzfrxhqSj31tfHuOYSLoTHXoFfWFFnUq3YyJ5i
- TLrOULmHxtTjb51goLrSOzdvo+e+MHy7c+z9LKmZ0e8+t1T5cnhXAsNDaCz2yFRQ/CnvGBsml
- JvtbiwqU2S3wjVFFYrcJ3+JOmn5mxSU0R43dCpq85zeksCy40HNhoXirUmXhK75WIGGMtbl
+X-Provags-ID: V03:K1:LZ4UW4gukykKXwMApcvpEihZ/4Hd1xk4TMb5v2qEjF9n2FKeik3
+ psiWqZ3UvV1dO5spmBGc8mai8x7oEmHNHsvlhpGLa6YHegtE2p87FCZYQf578FxjlReHjEO
+ sVwjuZyTIjBbI8rpqkeZjqIizpq4/iha8vzQvBKcHeqB+oecQL9z+r/fKt2NJREfOmqn4+6
+ 0jGh/BRU0rW6uymL7TnXQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ESYrRRrAvTk=:kiZilTFRpgu8PApf+h+9vh
+ 1hHQoesjxIxD6whd8hIGBO06jk13bfMbSofcaXbyOULbXaWPkFGb/y/6aQhQ3XQxR/Nw8yMyy
+ JCKkqiRs7OmELy7KgPrlljH9+xB++G1Cb22zdnyPm0mifYPPIgCw8ZsWY7Xfz8vKgIHxly1Th
+ i3/hOsYDJBJbWzjDUI1PgyvTHp9GGR8HJn9TZmBbkyGRvyCALVZ+RF2RK/1c+G2b+Wq+ffgfh
+ cdqX3ykPVjcHbhwvgV8f94X4XPsCMh32GWHMdx3Nd1HA5djHYvZ3oEGqRQ2oh8ybG7LHlwTWm
+ Dj9aTpponveMvoUJ6JD+vCwPnDmuRGbPviOwPH+Wx49GfmKkM5kiQfW7F620vOBmTrf0ZK9O4
+ Z+tDMKrgyvh2izn2BzQdntcCotrjzZ+Wdp7JWG5w4qEcYyYDrWMip1mPEcbXEsN9HoumUcYw/
+ BpomhLo+fT9Zrxny/g3wpFD1hu9eq4LIUH0E3GKBlqq1UCw0zYxES/4EmSNSYNeV7fwAxUq5w
+ 8T8i7mZeoXLgle+l2PhQsggrmT+3WPedoiPzIzLHOA3baTkuq3Kw0CYGN5rPM4egcxLZdNdZV
+ x3Ez+4NnVhPv8urOLDc8sdaoeqhiy+sM1ku9bHD75WrxQvViuYJGtTdW850kcHe0XLfypczwZ
+ cO0DdT7h33JYNUSLT0eSU2YSnRGpja35jw0r4Vh03sDdkgIeQxSwMrkO99ZSp9jp+lfrl8AHi
+ Vo9Ki4ReImQlXEkeRSgkBQYFaOMTrXiyLP1dkhFmMIuj4duNs8PG+A3JC1WG8o/u6rVl+0kOY
+ 7T224tzp/1bH0T++RFv6tK1NXWbLC5X2cn366pLoQZ3QyMBotdN3WsmcRqf1Eb4HSXbwNlQ
 Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:10:07
@@ -70,38 +69,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, John Snow <jsnow@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Thomas Huth <thuth@redhat.com>,
+ Tianjia Zhang <tianjia.zhang@linux.alibaba.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
+ Li Qiang <liq3ea@gmail.com>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
 
-cmos_get_fd_drive_type() is declared in "hw/block/fdc.h".
-This currently works because "hw/i386/pc.h" happens to
-include it. Simplify including the correct header.
+This patch fixes the netdev document description typo in qemu-option.hx.
 
-Fixes: 2055dbc1c9 ("acpi: move aml builder code for floppy device")
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: John Snow <jsnow@redhat.com>
-Message-Id: <20200724084315.1606-1-f4bug@amsat.org>
+Signed-off-by: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Message-Id: <20200727045925.29375-1-tianjia.zhang@linux.alibaba.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- stubs/cmos.c | 2 +-
+ qemu-options.hx | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/stubs/cmos.c b/stubs/cmos.c
-index 416cbe4055ff..3fdbae2c69e8 100644
---- a/stubs/cmos.c
-+++ b/stubs/cmos.c
-@@ -1,5 +1,5 @@
- #include "qemu/osdep.h"
--#include "hw/i386/pc.h"
-+#include "hw/block/fdc.h"
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 30019c4eca2f..b0f020594eab 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -2684,7 +2684,7 @@ SRST
+     disable script execution.
  
- int cmos_get_fd_drive_type(FloppyDriveType fd0)
- {
+     If running QEMU as an unprivileged user, use the network helper
+-    helper to configure the TAP interface and attach it to the bridge.
++    to configure the TAP interface and attach it to the bridge.
+     The default network helper executable is
+     ``/path/to/qemu-bridge-helper`` and the default bridge device is
+     ``br0``.
 -- 
 2.26.2
 
