@@ -2,94 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B450A259EE8
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 21:02:15 +0200 (CEST)
-Received: from localhost ([::1]:39358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 967B3259F58
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 21:43:09 +0200 (CEST)
+Received: from localhost ([::1]:47160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDBXq-0007Jz-QD
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 15:02:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53376)
+	id 1kDCBQ-00075N-Bt
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 15:43:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kDBWe-0006cR-6V
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 15:01:00 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24163
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kDCAS-0006f4-FI
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 15:42:08 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58582
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kDBWb-0002sF-E8
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 15:00:59 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kDCAP-00081j-Fm
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 15:42:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598986855;
+ s=mimecast20190719; t=1598989323;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZWxqEHY2lVLQSq0EOLoGApvgBuQ9a9z6qX4Yx1uoJSg=;
- b=Gnsw2a5L9oMpjegnLfU7r5WWyRD30FwhsYvWMs0PwRTbPeDKB6AdFlQH46uEagVASmcs+O
- ZnT4M+69wWrnS922HcMoeLtFKKOFv3zmS1iiq8ykVe/+s2LOcDsjOnsp0NjzbVP5UKAFS1
- h+DExUYx3dNR3Hlnu+O2BPMWe0RvW/I=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-316-aL7sJhpaPFSsFoI_NhcsaA-1; Tue, 01 Sep 2020 15:00:51 -0400
-X-MC-Unique: aL7sJhpaPFSsFoI_NhcsaA-1
-Received: by mail-wr1-f70.google.com with SMTP id a12so931662wrg.13
- for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 12:00:50 -0700 (PDT)
+ bh=7wvuoNF3RQTyE5wvEUAKlhL45NwYwjucFNRxr5XvZSI=;
+ b=O8hGnRzpYY6PZ7iVkWH2ofI7xDqDSRkJ5Dql1/0+/DKkj/S/oic7Da92yCDwFRHEW7NVb+
+ TKYVjSqaUm2zjvXp4zoUr0QXPdZTRWQg/npduv+nQdq40A0aNVnZJvrnOv1wIKjLpGZH+G
+ JXN4ME77jWDlDz9umZyAFif83KEUIzo=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-174-fcFrb1GJOZuZO5vNAVyeqA-1; Tue, 01 Sep 2020 15:35:11 -0400
+X-MC-Unique: fcFrb1GJOZuZO5vNAVyeqA-1
+Received: by mail-qk1-f197.google.com with SMTP id q131so1681895qke.22
+ for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 12:35:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ZWxqEHY2lVLQSq0EOLoGApvgBuQ9a9z6qX4Yx1uoJSg=;
- b=uOlSOk4BfFwZ5u8F3f+WLze/V65xewGYUAF1uMR8roIUEZUattxcMbrsfWMs5lD1MO
- WM3OxgLC0lR6vOx6+5sra41BNC4FJ7KbIZzx9Jek5Kbk88H3Ek6sbXaS/S3rebNZKrjz
- vJpIhvvl4TIhwJXJtO1Ku/S9EFqDs9vXzxxj2IL8LRkn+RSd53N/Rh5aIHja1RdosYgW
- 3YRhJOdTNWtpNXrSIAn4TFoGSbfwyIolOZQAvX+l8fkBg+vyx+iJ0DENuK4hVaQ8StzN
- s7c9od2esc2nKnvKgXSTNdnFC2RmZ5Y6qoJjLe5v8UxuntNgBxTq/MKUf3gWkITj52si
- fXfw==
-X-Gm-Message-State: AOAM533HKQZd0lLgwTUDH+4e/2I98ZOA8xVRSmNhhbnZSgdvcIpkQwev
- ixF43SfaJejWpa5LtoHW+rSA/Wasg70IgaaJrEgisRmMhJD8ae4P8/G19TC7rWt5/ghaeTnhQgk
- qCVdmhaWpq1crFzU=
-X-Received: by 2002:a5d:4e0b:: with SMTP id p11mr3184877wrt.13.1598986849754; 
- Tue, 01 Sep 2020 12:00:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy8Yd52UsggVtfIh+U+GUntKm1QLIvBQFYzVbWIsiClyB2Bg02xmWauGfV7dyyYJjPk2dSEmw==
-X-Received: by 2002:a5d:4e0b:: with SMTP id p11mr3184847wrt.13.1598986849478; 
- Tue, 01 Sep 2020 12:00:49 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:7fbd:8007:1fa7:ed17?
- ([2001:b07:6468:f312:7fbd:8007:1fa7:ed17])
- by smtp.gmail.com with ESMTPSA id b14sm3549413wrj.93.2020.09.01.12.00.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Sep 2020 12:00:49 -0700 (PDT)
-Subject: Re: [PATCH] fuzz: Add support for custom fuzzing library
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-References: <9dfe703d-5c78-36d0-bc15-17ff6f9179d7@redhat.com>
- <20200901181800.326382-1-alxndr@bu.edu>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <7e47f86a-e35c-12f5-d421-da1b64478b39@redhat.com>
-Date: Tue, 1 Sep 2020 21:00:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=7wvuoNF3RQTyE5wvEUAKlhL45NwYwjucFNRxr5XvZSI=;
+ b=YI+cxlglbtpVVB0ZMsf46/hNSPM0TPnQci5YxBJIlI64kFrkioeyElHKVO56Uk51n7
+ fSkcdqDRFDYDkWFjFSFU8+qKzle7+48XPxPUKlC77V+c93CYrbuXp5ef2CVm90WisbBr
+ blAoJAku3tIxU42/3m9WauhJTeApp/yxrgJnhNULtiVKVgXBzhsAnT0QZOVHB5eUZD2j
+ A2OMBpu8ynlRJOTJTPpYgqLFIdezff0NycHsHvVBfletJvzNcBSxq05FXUnulZoErule
+ hw7Qtyy8IGFpGSxav2lqnsKJP8QmiOh8uMsOQ6G5Ehr3ThBX/AZnPp3qUhiklo8zrMBI
+ O5vg==
+X-Gm-Message-State: AOAM531cWEU5hQ/MkB5d4LcraRrRPLw2lPNJEmUY/o4iK7bO3A6BKbgr
+ SymcrUWC4rkSEadg1Al+mIrTcG4vqBFRJ/ejV1FkDKQ7JCqf4f3LK+ozfI1QgyZqzPrhLrRH+Wg
+ QN4OySUHjl5mOUJw=
+X-Received: by 2002:a37:a5ca:: with SMTP id o193mr3500872qke.126.1598988907830; 
+ Tue, 01 Sep 2020 12:35:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx5vpDPHuEoeRjA+7G76S4eAH4lBpjIIG/bwy6TAuu1zj//t4DLPGHco7+LkaFww59+A1cHUw==
+X-Received: by 2002:a37:a5ca:: with SMTP id o193mr3500847qke.126.1598988907547; 
+ Tue, 01 Sep 2020 12:35:07 -0700 (PDT)
+Received: from xz-x1 (bras-vprn-toroon474qw-lp130-11-70-53-122-15.dsl.bell.ca.
+ [70.53.122.15])
+ by smtp.gmail.com with ESMTPSA id b9sm2540163qtt.39.2020.09.01.12.35.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Sep 2020 12:35:06 -0700 (PDT)
+Date: Tue, 1 Sep 2020 15:35:04 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [RFC v3 1/1] memory: Skip bad range assertion if notifier
+ supports arbitrary masks
+Message-ID: <20200901193504.GA3053@xz-x1>
+References: <20200811175533.7359-1-eperezma@redhat.com>
+ <20200811175533.7359-2-eperezma@redhat.com>
+ <2443886f-2109-e048-b47f-886c896613ab@redhat.com>
+ <CAJaqyWe0_wcXHgbAVAVNCTpG7O4YKF6FMkgKsf6SfW4dEZ4A5g@mail.gmail.com>
+ <CAJaqyWe+KgnVegtprpRmVvXo7kFVFDL_erK_5Nyp4K=gTUcN=Q@mail.gmail.com>
+ <eb26c5d7-465a-34ed-3f8f-bad11eda5bee@redhat.com>
+ <20200819155051.GA275003@xz-x1>
+ <f010e8c0-6713-a2bc-ce6b-98af5e4638be@redhat.com>
+ <20200821141250.GC358043@xz-x1>
+ <5e06e59d-7810-6863-20c7-d1660099cc51@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200901181800.326382-1-alxndr@bu.edu>
+In-Reply-To: <5e06e59d-7810-6863-20c7-d1660099cc51@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=peterx@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 05:11:36
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.13, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,56 +107,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Bandan Das <bsd@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Yan Zhao <yan.y.zhao@intel.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, Eugenio Perez Martin <eperezma@redhat.com>,
+ Avi Kivity <avi@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/09/20 20:18, Alexander Bulekov wrote:
-> ---
->  configure                    | 12 ++++++++++--
->  meson.build                  |  6 +++++-
->  tests/qtest/fuzz/meson.build |  5 ++---
->  3 files changed, 17 insertions(+), 6 deletions(-)
+On Tue, Sep 01, 2020 at 11:05:18AM +0800, Jason Wang wrote:
+> 
+> On 2020/8/21 下午10:12, Peter Xu wrote:
+> > On Thu, Aug 20, 2020 at 10:28:00AM +0800, Jason Wang wrote:
+> > > On 2020/8/19 下午11:50, Peter Xu wrote:
+> > > > On Wed, Aug 19, 2020 at 03:15:26PM +0800, Jason Wang wrote:
+> > > > > Yes, actually, I feel confused after reading the codes. Is notifier->start
+> > > > > IOVA or GPA?
+> > > > > 
+> > > > > In vfio.c, we did:
+> > > > > 
+> > > > >           iommu_notifier_init(&giommu->n, vfio_iommu_map_notify,
+> > > > >                               IOMMU_NOTIFIER_ALL,
+> > > > >                               section->offset_within_region,
+> > > > >                               int128_get64(llend),
+> > > > >                               iommu_idx);
+> > > > > 
+> > > > > So it looks to me the start and end are GPA, but the assertion above check
+> > > > > it against IOVA which seems to be wrong ....
+> > > > It should be iova; both section->offset_within_region and llend are for the
+> > > > device's iova address space.  Thanks,
+> > > > 
+> > > Interesting, how can memory region know which IOVA is used by guest?
+> > Does it need to know? :)
+> > 
+> > AFAICT what we do here is only register with the whole possible IOVA address
+> > space (e.g., across the whole 64bit address space).  Then vfio will get
+> > notifications when there're new iova ranges mapped into it.
 > 
 > 
-> Hi Paolo,
-> Here I'm trying to specify the linker-script with
-> add_project_link_arguments. How I'm testing this:
+> Right, but the whole IOVA address space should be something vIOMMU specific,
+> e.g for Intel it should be calculated by GAW, but I found:
 > 
-> $ CC=clang-10 CXX=clang++-10 ../configure --enable-fuzzing
-> $ make V=1 "-j$(nproc)" qemu-fuzz-i386
+>         memory_region_init_iommu(&vtd_dev_as->iommu,
+> sizeof(vtd_dev_as->iommu),
+>                                  TYPE_INTEL_IOMMU_MEMORY_REGION, OBJECT(s),
+>                                  name, UINT64_MAX);
 > 
-> clang++-10  -o qemu-fuzz-i386 qemu-fuzz-i386.p/tests_qtest_fuzz_qtest_wrappers.c.o \
-> ... libblock.fa chardev/libchardev.fa \
-> -Wl,--start-group tests/qtest/libqos/libqos.a -Wl,--no-whole-archive \
-> -Wl,-T,/home/alxndr/Development/qemu/tests/qtest/fuzz/fork_fuzz.ld \
-> ... \
-> -Wl,-rpath-link,/home/alxndr/Development/qemu/build/ -lstdc++ -Wl,--end-group
-> 
-> Maybe if I can get the oss-fuzz LIB_FUZZING_ENGINE
-> (/usr/lib/libFuzzingEngine.a) into the --start-group, that could also
-> solve the issue... I'll take another look at exactly what the oss-fuzz
-> build container does.
+> which assumes UINT64_MAX.
 
-Actually your patch is pretty close, just by hacking
+Right.  AFAICT it can be reduced to gaw width, but I don't see a problem either
+even with UINT64_MAX (as long as it covers the range specified by gaw).  Or did
+I miss something?  Thanks,
 
-diff --git a/tests/qtest/libqos/meson.build b/tests/qtest/libqos/meson.build
-index 19931b9248..2bc46c5a84 100644
---- a/tests/qtest/libqos/meson.build
-+++ b/tests/qtest/libqos/meson.build
-@@ -52,6 +52,6 @@ libqos = static_library('qos',
-         'arm-xilinx-zynq-a9-machine.c',
-         'ppc64_pseries-machine.c',
-         'x86_64_pc-machine.c',
--), build_by_default: false)
-+), name_suffix: 'fa', build_by_default: false)
-
- qos = declare_dependency(link_whole: libqos)
-
-I can get it to work.  Better find a way to fix it in Meson though,
-because relying on the ".a" suffix is very brittle.
-
-Paolo
+-- 
+Peter Xu
 
 
