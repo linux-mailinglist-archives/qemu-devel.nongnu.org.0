@@ -2,46 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D47B258EA5
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 14:54:04 +0200 (CEST)
-Received: from localhost ([::1]:38144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7FA3258EC6
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 14:59:02 +0200 (CEST)
+Received: from localhost ([::1]:32932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD5nX-00032p-K9
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 08:54:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35212)
+	id 1kD5sL-000434-V2
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 08:59:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1kD5lK-0008Mo-Ov
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:51:46 -0400
-Received: from kerio.kamp.de ([195.62.97.192]:60820)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1kD5lI-00026E-Hy
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:51:46 -0400
-X-Footer: a2FtcC5kZQ==
-Received: from submission.kamp.de ([195.62.97.28]) by kerio.kamp.de with ESMTPS
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
- for qemu-devel@nongnu.org; Tue, 1 Sep 2020 14:51:27 +0200
-Received: (qmail 58193 invoked from network); 1 Sep 2020 12:51:34 -0000
-Received: from lieven-pc.kamp-intra.net (HELO lieven-pc)
- (relay@kamp.de@::ffff:172.21.12.60)
- by submission.kamp.de with ESMTPS (DHE-RSA-AES256-GCM-SHA384 encrypted) ESMTPA;
- 1 Sep 2020 12:51:34 -0000
-Received: by lieven-pc (Postfix, from userid 1060)
- id 3D33413D866; Tue,  1 Sep 2020 14:51:34 +0200 (CEST)
-From: Peter Lieven <pl@kamp.de>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] qemu-img: avoid unaligned read requests during convert
-Date: Tue,  1 Sep 2020 14:51:29 +0200
-Message-Id: <20200901125129.6398-1-pl@kamp.de>
-X-Mailer: git-send-email 2.17.1
-Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
- helo=kerio.kamp.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 08:51:35
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kD5mA-00024G-EN
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:52:39 -0400
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:36201)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kD5m8-0002B5-At
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:52:38 -0400
+Received: by mail-ej1-x643.google.com with SMTP id e23so1480856eja.3
+ for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 05:52:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=UZKcb+HZdFLYaQRova8iFL3RXzbeN/HyhhSZqXEiHg8=;
+ b=NSAqaMX0OLK72R1tZkytkcOaNo7XRmXiYVW0OgN3tF7B4tt77LCYYoLrOCEAcBrmE4
+ R1408x3VzhSQjgvMUg/LSSAJdjA0d9m7jkC59a3YryvEfduPQaTHCIoWGjfB7V2lOau/
+ OBFgoceHImOtJ1t5gu6CuKIPJkMF4+JpQnCFoHCw/6dYcrc9byYoNTMIRuwia2T1RsxT
+ r1hRy80YVeZ2FA40tGsNBPoQfYTYdngKlYJe+GYqRycOVkyy4W/gpnZ65wBk/JZxZncd
+ fgdk0m/7sw3PBkkvUcT2aIMCmrZYhQz0UBJu/eTNQ99ZKf4GsG0WMh+bHEfhyAX3V2qr
+ hh+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=UZKcb+HZdFLYaQRova8iFL3RXzbeN/HyhhSZqXEiHg8=;
+ b=P6tzeQTd03HnRBcLuq76OziyRa0fePoptzQOJ9p0kDbWj0d0Ly9YuV7IgEUXkWRvvz
+ WMONOyJmn3ncGwM0KFGtoI1iJk60Ap2FS69Qh9Tr7L/OSNkdgVfBlvMJypVTNg4IhXUt
+ fdcg64/92vy1QtQ1t+oKxDoJkNbpXfWcEO0HOOVszRSlc2Ka8hWwA3GXdgwEsBIYG0k+
+ UIkcuFxfPP9T+xyNdWvg9vjxp1YRWC+6rp1bRaJ0xfd7j18wUej5fU1hD4Ykz+YXGucx
+ FSZL6yQPER0IIr4QvGT/ZfIUsKKyLChRNPsl4/kqDAF2jLungKaK9zSltLi0hmiJqHT4
+ 09Vg==
+X-Gm-Message-State: AOAM531mdV6s3aXuBCt9cPhkcrSiKOmGz6jbw/i591bVb7nDVhxJEpLO
+ BHiiDX8ENtuvY5DKLQ/l0nzjqZc4RakSALZxtb6MpQ==
+X-Google-Smtp-Source: ABdhPJygZqFX/8oP0aO88XNLjrh73SUKGzCIlgF+kldSeXOM3EUhJUHmxmMQjx0ZR4M7K8aYNDRs33+s0GTwaq3CQIU=
+X-Received: by 2002:a17:906:71c9:: with SMTP id
+ i9mr1292852ejk.250.1598964755078; 
+ Tue, 01 Sep 2020 05:52:35 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200827142915.108730-1-stefanha@redhat.com>
+ <20200827142915.108730-5-stefanha@redhat.com>
+In-Reply-To: <20200827142915.108730-5-stefanha@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 1 Sep 2020 13:52:24 +0100
+Message-ID: <CAFEAcA9VcT3jLosYZLfapM1hEuj_MLYd2iXWV95vAN+255Efeg@mail.gmail.com>
+Subject: Re: [PATCH 4/4] tracetool: show trace-events filename/lineno in fmt
+ string errors
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x643.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -55,93 +83,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Peter Lieven <pl@kamp.de>, qemu-block@nongnu.org,
- mreitz@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-in case of large continous areas that share the same allocation status
-it happens that the value of s->sector_next_status is unaligned to the
-cluster size or even request alignment of the source. Avoid this by
-stripping down the s->sector_next_status position to cluster boundaries.
+On Thu, 27 Aug 2020 at 15:29, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>
+> The compiler encounters trace event format strings in generated code.
+> Format strings are error-prone and therefore clear compiler errors are
+> important.
+>
+> Use the #line directive to show the trace-events filename and line
+> number in format string errors:
+> https://gcc.gnu.org/onlinedocs/gcc-10.2.0/cpp/Line-Control.html
+>
+> For example, if the cpu_in trace event's %u is changed to %p the
+> following error is reported:
+>
+>   trace-events:29:18: error: format =E2=80=98%p=E2=80=99 expects argument=
+ of type =E2=80=98void *=E2=80=99, but argument 7 has type =E2=80=98unsigne=
+d int=E2=80=99 [-Werror=3Dformat=3D]
+>
+> Line 29 in trace-events is where cpu_in is defined. This works for any
+> trace-events file in the QEMU source tree and the correct path is
+> displayed.
+>
+> Unfortunately there does not seem to be a way to set the column, so "18"
+> is not the right character on that line.
+>
+> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
 
-Signed-off-by: Peter Lieven <pl@kamp.de>
----
- qemu-img.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-diff --git a/qemu-img.c b/qemu-img.c
-index 5308773811..ed17238c36 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -1665,6 +1665,7 @@ enum ImgConvertBlockStatus {
- typedef struct ImgConvertState {
-     BlockBackend **src;
-     int64_t *src_sectors;
-+    int *src_alignment;
-     int src_num;
-     int64_t total_sectors;
-     int64_t allocated_sectors;
-@@ -1731,6 +1732,7 @@ static int convert_iteration_sectors(ImgConvertState *s, int64_t sector_num)
-     if (s->sector_next_status <= sector_num) {
-         uint64_t offset = (sector_num - src_cur_offset) * BDRV_SECTOR_SIZE;
-         int64_t count;
-+        int tail;
- 
-         do {
-             count = n * BDRV_SECTOR_SIZE;
-@@ -1769,6 +1771,16 @@ static int convert_iteration_sectors(ImgConvertState *s, int64_t sector_num)
- 
-         n = DIV_ROUND_UP(count, BDRV_SECTOR_SIZE);
- 
-+        /*
-+         * Avoid that s->sector_next_status becomes unaligned to the source
-+         * request alignment and/or cluster size to avoid unnecessary read
-+         * cycles.
-+         */
-+        tail = (sector_num - src_cur_offset + n) % s->src_alignment[src_cur];
-+        if (n > tail) {
-+            n -= tail;
-+        }
-+
-         if (ret & BDRV_BLOCK_ZERO) {
-             s->status = post_backing_zero ? BLK_BACKING_FILE : BLK_ZERO;
-         } else if (ret & BDRV_BLOCK_DATA) {
-@@ -2407,8 +2419,10 @@ static int img_convert(int argc, char **argv)
- 
-     s.src = g_new0(BlockBackend *, s.src_num);
-     s.src_sectors = g_new(int64_t, s.src_num);
-+    s.src_alignment = g_new(int, s.src_num);
- 
-     for (bs_i = 0; bs_i < s.src_num; bs_i++) {
-+        BlockDriverState *src_bs;
-         s.src[bs_i] = img_open(image_opts, argv[optind + bs_i],
-                                fmt, src_flags, src_writethrough, s.quiet,
-                                force_share);
-@@ -2423,6 +2437,13 @@ static int img_convert(int argc, char **argv)
-             ret = -1;
-             goto out;
-         }
-+        src_bs = blk_bs(s.src[bs_i]);
-+        s.src_alignment[bs_i] = DIV_ROUND_UP(src_bs->bl.request_alignment,
-+                                             BDRV_SECTOR_SIZE);
-+        if (!bdrv_get_info(src_bs, &bdi)) {
-+            s.src_alignment[bs_i] = MAX(s.src_alignment[bs_i],
-+                                        bdi.cluster_size / BDRV_SECTOR_SIZE);
-+        }
-         s.total_sectors += s.src_sectors[bs_i];
-     }
- 
-@@ -2704,6 +2725,7 @@ out:
-         g_free(s.src);
-     }
-     g_free(s.src_sectors);
-+    g_free(s.src_alignment);
- fail_getopt:
-     g_free(options);
- 
--- 
-2.17.1
-
-
+thanks
+-- PMM
 
