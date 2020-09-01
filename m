@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F90C258E8D
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 14:50:29 +0200 (CEST)
-Received: from localhost ([::1]:49748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BB09258E86
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 14:48:59 +0200 (CEST)
+Received: from localhost ([::1]:41862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD5k4-0004a9-1W
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 08:50:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33680)
+	id 1kD5ic-0001I9-Ce
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 08:48:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kD5fR-0004f9-GZ
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:45:41 -0400
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:51409)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kD5fP-0004bo-5i
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:45:39 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:56631)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kD5fM-0001Pm-C6
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:45:41 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.188])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 240815CC535F;
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kD5fL-0001Qz-Sl
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:45:38 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.108])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 8813C563B954;
  Tue,  1 Sep 2020 14:45:32 +0200 (CEST)
 Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Tue, 1 Sep 2020
  14:45:31 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-99G003825684e9-8088-4571-a0ff-8ffaa53cbc2c,
+ (GARM-99G00384827f71-701d-4661-840d-b1912642d67b,
  38EE1E9FF4E34D4C85F4190D418CEE501B878519) smtp.auth=clg@kaod.org
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: <qemu-devel@nongnu.org>
-Subject: [PULL 04/20] hw/arm/aspeed: Add board model for Supermicro X11 BMC
-Date: Tue, 1 Sep 2020 14:45:09 +0200
-Message-ID: <20200901124525.220252-5-clg@kaod.org>
+Subject: [PULL 05/20] aspeed/smc: Fix MemoryRegionOps definition
+Date: Tue, 1 Sep 2020 14:45:10 +0200
+Message-ID: <20200901124525.220252-6-clg@kaod.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20200901124525.220252-1-clg@kaod.org>
 References: <20200901124525.220252-1-clg@kaod.org>
@@ -41,14 +41,14 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.99]
 X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 36e6a0c2-287a-401d-b69c-b3f7d58aca4b
-X-Ovh-Tracer-Id: 4785919031238101923
+X-Ovh-Tracer-GUID: 1e64f420-cd02-406a-868c-f6335defd7c7
+X-Ovh-Tracer-Id: 4786200504106716067
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrudefjedgheejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfhisehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheejteehuddtieetgffhueevvdelleekffejudefieegjeegheehueelgfeglefgnecuffhomhgrihhnpehsuhhpvghrmhhitghrohdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout1.mo804.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 08:45:31
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrudefjedgheejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfhisehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheehfeegjeeitdfffeetjeduveejueefuefgtdefueelueetveeliefhhffgtdelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 08:45:33
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -68,90 +68,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Erik Smit <erik.lucas.smit@gmail.com>, Joel Stanley <joel@jms.id.au>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Erik Smit <erik.lucas.smit@gmail.com>
+Unaligned access support is a leftover from the initial commit. There
+is no such need on this device register mapping. Remove it.
 
-The BMC Firmware can be downloaded from :
-
-  https://www.supermicro.com/en/products/motherboard/X11SSL-F
-
-Signed-off-by: Erik Smit <erik.lucas.smit@gmail.com>
+Cc: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Joel Stanley <joel@jms.id.au>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-[ clg: Prettified Erik's name in email
-       Modified commit log ]
-Message-Id: <20200715173418.186-1-erik.lucas.smit@gmail.com>
-Message-Id: <20200819100956.2216690-6-clg@kaod.org>
+Message-Id: <20200819100956.2216690-7-clg@kaod.org>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/arm/aspeed.c | 35 +++++++++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+ hw/ssi/aspeed_smc.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 8109cc6d2d24..8bfb1c79ddc5 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -57,6 +57,20 @@ struct AspeedMachineState {
-         SCU_HW_STRAP_VGA_SIZE_SET(VGA_16M_DRAM) |                       \
-         SCU_AST2400_HW_STRAP_BOOT_MODE(AST2400_SPI_BOOT))
- 
-+/* TODO: Find the actual hardware value */
-+#define SUPERMICROX11_BMC_HW_STRAP1 (                                   \
-+        SCU_AST2400_HW_STRAP_DRAM_SIZE(DRAM_SIZE_128MB) |               \
-+        SCU_AST2400_HW_STRAP_DRAM_CONFIG(2) |                           \
-+        SCU_AST2400_HW_STRAP_ACPI_DIS |                                 \
-+        SCU_AST2400_HW_STRAP_SET_CLK_SOURCE(AST2400_CLK_48M_IN) |       \
-+        SCU_HW_STRAP_VGA_CLASS_CODE |                                   \
-+        SCU_HW_STRAP_LPC_RESET_PIN |                                    \
-+        SCU_HW_STRAP_SPI_MODE(SCU_HW_STRAP_SPI_M_S_EN) |                \
-+        SCU_AST2400_HW_STRAP_SET_CPU_AHB_RATIO(AST2400_CPU_AHB_RATIO_2_1) | \
-+        SCU_HW_STRAP_SPI_WIDTH |                                        \
-+        SCU_HW_STRAP_VGA_SIZE_SET(VGA_16M_DRAM) |                       \
-+        SCU_AST2400_HW_STRAP_BOOT_MODE(AST2400_SPI_BOOT))
-+
- /* AST2500 evb hardware value: 0xF100C2E6 */
- #define AST2500_EVB_HW_STRAP1 ((                                        \
-         AST2500_HW_STRAP1_DEFAULTS |                                    \
-@@ -603,6 +617,23 @@ static void aspeed_machine_palmetto_class_init(ObjectClass *oc, void *data)
-         aspeed_soc_num_cpus(amc->soc_name);
+diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
+index 4fab1f5f855e..0646e0dca72e 100644
+--- a/hw/ssi/aspeed_smc.c
++++ b/hw/ssi/aspeed_smc.c
+@@ -1299,10 +1299,8 @@ static const MemoryRegionOps aspeed_smc_ops = {
+     .read = aspeed_smc_read,
+     .write = aspeed_smc_write,
+     .endianness = DEVICE_LITTLE_ENDIAN,
+-    .valid.unaligned = true,
  };
  
-+static void aspeed_machine_supermicrox11_bmc_class_init(ObjectClass *oc,
-+                                                        void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
-+
-+    mc->desc       = "Supermicro X11 BMC (ARM926EJ-S)";
-+    amc->soc_name  = "ast2400-a1";
-+    amc->hw_strap1 = SUPERMICROX11_BMC_HW_STRAP1;
-+    amc->fmc_model = "mx25l25635e";
-+    amc->spi_model = "mx25l25635e";
-+    amc->num_cs    = 1;
-+    amc->macs_mask = ASPEED_MAC0_ON | ASPEED_MAC1_ON;
-+    amc->i2c_init  = palmetto_bmc_i2c_init;
-+    mc->default_ram_size = 256 * MiB;
-+}
-+
- static void aspeed_machine_ast2500_evb_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-@@ -731,6 +762,10 @@ static const TypeInfo aspeed_machine_types[] = {
-         .name          = MACHINE_TYPE_NAME("palmetto-bmc"),
-         .parent        = TYPE_ASPEED_MACHINE,
-         .class_init    = aspeed_machine_palmetto_class_init,
-+    }, {
-+        .name          = MACHINE_TYPE_NAME("supermicrox11-bmc"),
-+        .parent        = TYPE_ASPEED_MACHINE,
-+        .class_init    = aspeed_machine_supermicrox11_bmc_class_init,
-     }, {
-         .name          = MACHINE_TYPE_NAME("ast2500-evb"),
-         .parent        = TYPE_ASPEED_MACHINE,
+-
+ /*
+  * Initialize the custom address spaces for DMAs
+  */
 -- 
 2.25.4
 
