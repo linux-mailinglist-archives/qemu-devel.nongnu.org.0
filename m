@@ -2,81 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63BC7258FA2
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 15:57:27 +0200 (CEST)
-Received: from localhost ([::1]:43768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF473258FB0
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 15:59:15 +0200 (CEST)
+Received: from localhost ([::1]:51728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD6ms-0003xW-Dl
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 09:57:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50514)
+	id 1kD6od-0007Gy-0f
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 09:59:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kD6lB-0001hu-Ty; Tue, 01 Sep 2020 09:55:41 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:40704)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kD6lA-0001iY-7m; Tue, 01 Sep 2020 09:55:41 -0400
-Received: by mail-wm1-x343.google.com with SMTP id v4so1243414wmj.5;
- Tue, 01 Sep 2020 06:55:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=yYj87MKllDEVc9OuExPdXbUKOlq8/L2fn2QYZMR3YcM=;
- b=mjFSQNT17rmCxkZb8+rNH+MnVqQLcrgPvCl3jsha8w3SCSZpY1dwUqqB6pP25n/8f/
- 4k/HDhOUBFD3xDEMS1V5tpSwPCLj7+bZY/yNxRsqpcwTt71I05qK5q96BCChPm6fvyod
- L57pQnbYtxojbDwcpiy3XAUyRrEzVoZgwaCCf7aeYB5YU80wWcUZuc4ue2glCxsOBAjV
- oGp3qpP7tJd7p8i+iMQBYIQgJR30ITxaAFVW7+vkdMA1+teXpyRKgBGYCXc58GaDKeRV
- ri9fz5CI+Ngk/xz5JI2RvbqnTtQTB7uDoTdshniH5jYPJj7frpH3z1XaYJkNTs964CnM
- Obww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=yYj87MKllDEVc9OuExPdXbUKOlq8/L2fn2QYZMR3YcM=;
- b=GmjLSDPUjosTDQmpej5htRXn5cLOycffw/4Nr3rVJiWx8SajWKzQDHvKbTzPVYnmPm
- BAHdN3AO1J56t7SBga/PemVi8qNZlewBeG6D3bQyv60VCsZlv2kd6emy05TKcBdebKa9
- Sd2SgSIVXFLmQ2NM5lYwKN06zTNU4ktCsBH2xLHSH29LUZ8a43vsbFedaoBhr9JlCdft
- AAvVDhEQ/fbQfzjZaI2ZJjjM9mYAywFQROKxhqqsX+Ggs0cC47I3O6NJOR8Jf5OFtT1G
- C6YcEfcgYZtSHNDdLxNVA8r3PLzht2BK92qipGEiXi86/oxhg7s6AHgy2RCvwIDjCBTF
- 1M5Q==
-X-Gm-Message-State: AOAM531TsN9aZw6ECbo6o/nax4U8Db/XONgPX/07H8CfGZNGsvcR8Hxj
- jk3Sl3fg0DKZLRTADap4BdQ=
-X-Google-Smtp-Source: ABdhPJyxkYSdPuGkUeLF4BiMRf2NIC5TaeTCrIXR4OnV/GZmFHy2KEQp7NVe6pQ90WNGk0tGQ9vigw==
-X-Received: by 2002:a1c:2646:: with SMTP id m67mr1890817wmm.177.1598968537867; 
- Tue, 01 Sep 2020 06:55:37 -0700 (PDT)
-Received: from [192.168.1.36] (50.red-83-52-54.dynamicip.rima-tde.net.
- [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id q12sm2325018wrn.94.2020.09.01.06.55.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Sep 2020 06:55:37 -0700 (PDT)
-Subject: Re: [PATCH 0/7] block: Use definitions instead of magic values
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20200814082841.27000-1-f4bug@amsat.org>
- <e232bf0a-1362-a90d-31ff-95d90ad7ebc8@vivier.eu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <6bb8b9a1-10fb-bb62-f895-f3d7164339de@amsat.org>
-Date: Tue, 1 Sep 2020 15:55:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kD6nr-0006mA-Vn
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 09:58:27 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:29425
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kD6nn-0001xg-B6
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 09:58:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1598968702;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Y/Pf+644+9GonY+Buh0yiHAZpb3UWg9fd+j1ooVbonQ=;
+ b=WXmcwdNsoOMHdrTkjkZQvqGWPEZNkvusWj7a3JGKJOkQ8F1214CSVhqEPD5QQt94g9OjdY
+ dUzIrPxsCn9CwXKPE86KO9xKqxtK6jnqHv2ziekGp3WNWoKIeJPUoupOgdOnGgLQC3AmFy
+ kvEeD11yA/IU3tOyOntROT2Lvu+Is4Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-489-V3zY99p9OCi119ytgcviYA-1; Tue, 01 Sep 2020 09:58:20 -0400
+X-MC-Unique: V3zY99p9OCi119ytgcviYA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8EF8A10ABDA8;
+ Tue,  1 Sep 2020 13:58:19 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-114-10.ams2.redhat.com [10.36.114.10])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5ED5D7EB94;
+ Tue,  1 Sep 2020 13:58:17 +0000 (UTC)
+Date: Tue, 1 Sep 2020 15:58:15 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v2 (BROKEN) 0/6] migration: bring improved
+ savevm/loadvm/delvm to QMP
+Message-ID: <20200901135815.GA4251@linux.fritz.box>
+References: <20200727150843.3419256-1-berrange@redhat.com>
+ <877dtls8ux.fsf@dusky.pond.sub.org>
+ <20200826182824.GA190807@redhat.com>
+ <874koonyd0.fsf@dusky.pond.sub.org>
+ <20200827113411.GP192458@redhat.com>
+ <87d035ws1b.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <e232bf0a-1362-a90d-31ff-95d90ad7ebc8@vivier.eu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+In-Reply-To: <87d035ws1b.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.001, NICE_REPLY_A=-2.13,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 02:08:15
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,46 +86,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, qemu-trivial@nongnu.org,
- Michael Tokarev <mjt@tls.msk.ru>, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Peter Krempa <pkrempa@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ "Denis V. Lunev" <den@virtuozzo.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/1/20 11:27 AM, Laurent Vivier wrote:
-> Le 14/08/2020 à 10:28, Philippe Mathieu-Daudé a écrit :
->> Trivial block patches:
->> - Fix a typo
->> - Replace '1 << 30' by '1 * GiB' in null-co
->> - Replace 512 by BDRV_SECTOR_SIZE when appropriate.
->>
->> Philippe Mathieu-Daudé (7):
->>   block/null: Make more explicit the driver default size is 1GiB
->>   hw/ide/core: Trivial typo fix
->>   hw/ide/core: Replace magic '512' value by BDRV_SECTOR_SIZE
->>   hw/ide/ahci: Replace magic '512' value by BDRV_SECTOR_SIZE
->>   hw/ide/atapi: Replace magic '512' value by BDRV_SECTOR_SIZE
->>   hw/ide/pci: Replace magic '512' value by BDRV_SECTOR_SIZE
->>   hw/scsi/scsi-disk: Replace magic '512' value by BDRV_SECTOR_SIZE
->>
->>  block/null.c        |  4 +++-
->>  hw/ide/ahci.c       |  5 +++--
->>  hw/ide/atapi.c      |  8 ++++----
->>  hw/ide/core.c       | 25 +++++++++++++------------
->>  hw/ide/pci.c        |  2 +-
->>  hw/scsi/scsi-disk.c | 44 +++++++++++++++++++++++---------------------
->>  6 files changed, 47 insertions(+), 41 deletions(-)
->>
+Am 01.09.2020 um 15:22 hat Markus Armbruster geschrieben:
+> Daniel P. Berrangé <berrange@redhat.com> writes:
 > 
-> Applied to my trivial-patches branch.
+> > On Thu, Aug 27, 2020 at 01:04:43PM +0200, Markus Armbruster wrote:
+> >> Daniel P. Berrangé <berrange@redhat.com> writes:
+> >> 
+> >> > On Wed, Aug 26, 2020 at 05:52:06PM +0200, Markus Armbruster wrote:
+> >> > From the POV of practicality, making a design that unifies internal
+> >> > and external snapshots is something I'm considering out of scope.
+> >> > It increases the design time burden, as well as implementation burden.
+> >> > On my side, improving internal snapshots is a "spare time" project,
+> >> > not something I can justify spending weeks or months on.
+> >> 
+> >> I'm not demanding a solution that unifies internal and external
+> >> snapshots.  I'm asking for a bit of serious thought on an interface that
+> >> could compatibly evolve there.  Hours, not weeks or months.
+> >> 
+> >> > My goal is to implement something that is achievable in a short
+> >> > amount of time that gets us out of the hole we've been in for 10
+> >> > years. Minimal refactoring of the internal snapshot code aside
+> >> > from fixing the critical limitations we have today around choice
+> >> > of disks to snapshot.
+> >> >
+> >> > If someone later wants to come up with a grand unified design
+> >> > for everything that's fine, we can deprecate the new QMP commands
+> >> > I'm proposing now.
+> >> 
+> >> Failing at coming up with an interface that has a reasonable chance to
+> >> be future-proof is okay.
+> >> 
+> >> Not even trying is not okay.
+> >
+> > This was raised in my v1 posting:
+> >
+> >   https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg01346.html
+> >
+> > but the conclusion was that it was a non-trivial amount of extra
+> > implementation work
 > 
-> Except the following ones that have comment from Kevin:
+> Thanks for the pointer.  I've now read that review thread.
 > 
-> [PATCH 1/7] block/null: Make more explicit the driver default size is 1GiB
-> [PATCH 3/7] hw/ide/core: Replace magic '512' value by BDRV_SECTOR_SIZE
+> >> Specifically, I'd like you to think about monolothic snapshot command
+> >> (internal snapshots only by design) vs. transaction of individual
+> >> snapshot commands (design is not restricted to internal snapshots, but
+> >> we may want to accept implementation restrictions).
+> >> 
+> >> We already have transactionable individual storage snapshot commands.
+> >> What's missing is a transactionable machine state snapshot command.
+> >
+> > At a high level I consider what I've proposed as being higher level
+> > syntax sugar vs a more generic future impl based on multiple commands
+> > for snapshotting disk & state. I don't think I'd claim that it will
+> > evolve to become the design you're suggesting here, as they are designs
+> > from different levels in the stack. IOW, I think the would ultimately
+> > just exist in parallel. I don't think that's a real problem from a
+> > maint POV, as the large burden from the monolithic snapshot code is
+> > not the HMP/QMP interface, but rather the guts of the internal
+> > impl in the migration/savevm.c and block/snapshot.c files. That code
+> > will exist for as long as the HMP commands exist, and adding a QMP
+> > interface doesn't make that situation worse unless we were intending
+> > to drop the existing HMP commands. If we did change our minds though,
+> > we can just deprecate the QMP command at any time we like.
+> >
+> >
+> >> One restriction I'd readily accept at this time is "the machine state
+> >> snapshot must write to a QCOW2 that is also internally snapshot in the
+> >> same transaction".
+> >> 
+> >> Now explain to me why this is impractical.
+> >
+> > The issues were described by Kevin here:
+> >
+> >   https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg02057.html
+> >
+> > Assuming the migration impl is actually possible to solve, there is
+> > still the question of actually writing it. That's a non-trivial
+> > amount of work someone has to find time for.
+> 
+> Kevin explained how the transactionable machine state snapshot command
+> should be made non-blocking: post-copy.
+> 
+> I don't dispute that creating such a post-copy snapshot is a non-trivial
+> task.  It is out of reach for you and me.  I didn't actually ask for it,
+> though.
+> 
+> You argue that providing a blocking snapshot in QMP is better than
+> nothing, and good enough for quite a few applications.  I agree!  I
+> blocked prior attempts at porting HMP's savevm/loadvm to QMP not because
+> they were blocking, but because they stuck to the HMP interface, and the
+> HMP interface is bonkers.  I would accept the restriction "snapshotting
+> machine state is blocking, i.e. it stops the machine."  As I wrote in
+> 2016, "Limitations: No live internal machine snapshot, yet."
+> 
+> Aside: unless I'm mistaken, taking an internal block device snapshot is
+> also blocking, but unlike taking a machine state snapshot, it's fast
+> enough for the blocking not to matter.  That's the "sync" in
+> blockdev-snapshot-internal-sync.
+> 
+> I asked you to consider the interface design I proposed back in 2016.
+> You point out above that your interface is more high-level, and could be
+> turned into sugar for a low level interface.
+> 
+> If true, this means your proposal doesn't box us into a corner, which is
+> good.
+> 
+> Let me elaborate a bit on the desugaring, just to make sure we're on the
+> same page.  Please correct me where I'm talking nonsense.
+> 
+> snapshot-save creates job that snapshots a set of block devices and the
+> machine state.  The snapshots are consistent, i.e. they are all taken at
+> the same point in time.  The block device snapshots are all internal.
+> The machine state snapshot is saved together with one of the (internal)
+> block device snapshots.
+> 
+> This is basically a transaction of blockdev-snapshot-internal-sync
+> (which exists) plus machine-snapshot-internal-sync (which doesn't exist)
+> wrapped in a job.
+> 
+> Likweise for snapshot-load, except there not even the command for block
+> snapshots exists.
+> 
+> I doubt creating the (transactionable, but blocking) low-level commands
+> is actually out of reach.  It's a matter of adding interfaces to parts
+> of the code you already got working.
+> 
+> I'm not demanding you do that, though.  As I said, my chief concerns are
+> keeping "bonkers" out of QMP, and not boxing us in needlessly.
 
-Thanks!
+I doubt this is as easy as it may seem at the first sight. To remind
+everyone, the way internal snapshots with VM state work today is:
 
-Phil.
+1. Write VM state to VM state area inside the image (in qcow2, this is
+   essentially the same as disk content, except at offsets higher than
+   the image size).
+
+2. Create the qcow2 snapshot, which means that the current disk content
+   (including the VM state at higher offsets) becomes COW and the
+   snapshotted copy becomes read-ony.
+
+3. Discard the VM state in the active layer again, we don't need it
+   there.
+
+The implication is that either 1. has to be completed before 2. can
+happen, or that 2. must be able to write into an already taken snapshot
+rather than to the active layer (which in turn implies that the snapshot
+must have completed).
+
+So a naive implementation with a transaction might not give the right
+result. It's not just independent operations, but some ordering between
+them is required.
+
+I feel having a single block job that covers both parts gives us more
+flexibility in how we want to synchronise writing the VM state and
+taking the disk snapshot - or in your words, avoids boxing us into a
+corner.
+
+Kevin
+
 
