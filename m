@@ -2,84 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A887F258C0B
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 11:50:37 +0200 (CEST)
-Received: from localhost ([::1]:58540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B15C258C1B
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 11:52:44 +0200 (CEST)
+Received: from localhost ([::1]:41284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD2w0-00046r-Nb
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 05:50:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42578)
+	id 1kD2y3-0000DJ-8r
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 05:52:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kD2us-0002Tl-QB; Tue, 01 Sep 2020 05:49:26 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:38400)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kD2vV-00042t-8i
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:50:05 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:33688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kD2ur-0002tv-0L; Tue, 01 Sep 2020 05:49:26 -0400
-Received: by mail-wm1-x342.google.com with SMTP id l9so516784wme.3;
- Tue, 01 Sep 2020 02:49:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=CyyMESLdqm+L4Z3bYhzecc7rV/eRyNkyF63EHZKY3dU=;
- b=Ep7ZXTe/UJoXUGAx2uGUKhDJrA5vbrxPDNJWrDGU+OlgULA4suSb7gIpRMKbY9N+Bc
- jbGwdWIx/9hiYtCC44BlBaJ5ykobDlk/es+Y/CU42Tfek+dzDdNBu+MWb0JZuYOUdKLV
- X6MAEecBt14rrUTzuhzv3o9RCxqT9RnOTHH33PmFOnt7kjYB/w8HGJFc39X+6G0vx9j/
- +WV7cGmHXzd8Ohwgj8Sf22AQe7mNUTNGpzdMRDgvqZtG/dcgbhYNJhErQPui+ZyAl6oc
- 1MpiM1Oqg4kx/LwawMKl5C1YeqVA5/FWjq8mYTpWWNVQRbsK5R9nMOCMbGJ7aOSHcymv
- DHRA==
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kD2vT-0002wU-AQ
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:50:04 -0400
+Received: by mail-pg1-x542.google.com with SMTP id e33so415784pgm.0
+ for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 02:50:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=kWHo9X9OBZwhoM/Kz051GeLSEd1ecmj0d9rMesNU2TQ=;
+ b=EL0IEckssDIUYNXznI64SCUfFOCCH0ox+LdLnG4P/HgAaDCgYaPNgpWJBKUgJNezKd
+ 2gnQBN+0sZX255g+Qt6XxhBzz04N1U/xwCDeaoJAk41TmHXF50fLbLOI+ltjgatPgQ9w
+ 2cPbyDWgRhxQuw5tW5aHjPAd7mnvkhxQFkJDTwODGBmQWM8Eia62Ibd8aMXZrERrN4YB
+ howfkTurpnhWFx8oT2o21iWO5c19XyTqBBqeRx+JR/+d4KCzNGLjGmqG0jiJ8npVCCaW
+ 9aI/wQc67AXGL6mW29QleUCd1G+w5uUCj9xrdxhr0vzHS1oC2U/FR89KaKhIffCh95qn
+ AzmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=CyyMESLdqm+L4Z3bYhzecc7rV/eRyNkyF63EHZKY3dU=;
- b=G9et1dpqTbX2nAwgBdv/TFmdkXqc9+JbAMyXs1kLJbwBuztflF6APx/oD4ZA32Avof
- I4DYCNmMYwrYEUtNgA2MO6a7Hp9lYoAUUxoG5U3tjcrgRxEgUhHuWWqaSwugHhRx+6gn
- i+gCakJ5pJRBUQjCME6YSFziwjgumSHs71DOZdfsN/qFx+TD8gw5pk8AAMrdM22EqmTh
- ZO73qMP9SnfHxbm2ihOdTa3OOGsU9nafDtT6DQeJ0dnpgX7t8kma6ZmKe7pmYv2p8TGf
- UGK7QnkZ7Cfq5/YEWEX9mnz/ffcDEIK8xMqWvwwVxYlafU1ReDls6a4GpOYD6SkbbNV7
- 0HYA==
-X-Gm-Message-State: AOAM530fmOvJgcPINymO23HBqDyvXUMtQ0WF85iN1Yyi8PZ1qSifDUyo
- oNPp96oDttII9CW+bwif4Ao=
-X-Google-Smtp-Source: ABdhPJzmAbh/tHRCwU8ETW+3K5asY7pzdnvy/ZF4Y91Tszyn5f0sykDiTq+QC2TLXdHGhCtJPXeraA==
-X-Received: by 2002:a1c:541b:: with SMTP id i27mr921321wmb.179.1598953762373; 
- Tue, 01 Sep 2020 02:49:22 -0700 (PDT)
-Received: from [192.168.1.36] (50.red-83-52-54.dynamicip.rima-tde.net.
- [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id v24sm1665974wrd.6.2020.09.01.02.49.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Sep 2020 02:49:21 -0700 (PDT)
-Subject: Re: [PATCH v3 15/16] hw/riscv: clint: Avoid using hard-coded timebase
- frequency
-To: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis
- <Alistair.Francis@wdc.com>, Palmer Dabbelt <palmerdabbelt@google.com>,
- qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-References: <1598924352-89526-1-git-send-email-bmeng.cn@gmail.com>
- <1598924352-89526-16-git-send-email-bmeng.cn@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <35e929ff-95e6-9c35-fb91-c931573e04f9@amsat.org>
-Date: Tue, 1 Sep 2020 11:49:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-MIME-Version: 1.0
-In-Reply-To: <1598924352-89526-16-git-send-email-bmeng.cn@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=kWHo9X9OBZwhoM/Kz051GeLSEd1ecmj0d9rMesNU2TQ=;
+ b=rYzH+3VxgxLSQGhCmmerPY+fcmTlr2UBhzUi4aYTPVYm/SM8w05FzUd3QiGsfxtqGl
+ j+TtwCpt09joF+lqv8ZbD8Bz4guMIY5iwh1YapDOJg4ztlsCRoHOxC7CGayfWeaP/XFR
+ 6rX7/KrE33291DLXVpUPPmabiixWc5ZWkt5VkLz3pbgaQm5dTT/2rDxjEIdyghyf5kWJ
+ Zsf3af03dvyvb3tJ4ZjgISLunW0scUdmMh1GVvXb3NOK01qy/jYaX+GZeefYpX/of4AX
+ o96kiqIr+k0fzOW841Lpq2yt5urrZA+4UN0GXmK4q7IjV3/Hl04RQFvIiOaM21O4kP7S
+ 8yrw==
+X-Gm-Message-State: AOAM5314BRAwVlijzceooQr/lHI9kY4LBotxYzgKS93th9mu3b5ziZ5M
+ 6+B1DR62zdg+D+1jULFdhZeDhfasM8Mya3Zh
+X-Google-Smtp-Source: ABdhPJxjLe9iLm4d58pLQQZm3E/SEfOIU2W+PPsMF7VTFZ8GXsC/6DsZk1qFfHQ2kwz4dOM0CZtfAg==
+X-Received: by 2002:a62:1683:: with SMTP id 125mr426481pfw.189.1598953801414; 
+ Tue, 01 Sep 2020 02:50:01 -0700 (PDT)
+Received: from localhost.localdomain ([203.163.237.89])
+ by smtp.googlemail.com with ESMTPSA id o63sm1081872pfb.190.2020.09.01.02.49.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Sep 2020 02:50:00 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] piix4: don't reserve hw resources when hotplug is off globally
+Date: Tue,  1 Sep 2020 15:19:22 +0530
+Message-Id: <20200901094922.25514-2-ani@anisinha.ca>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200901094922.25514-1-ani@anisinha.ca>
+References: <20200901094922.25514-1-ani@anisinha.ca>
+Received-SPF: none client-ip=2607:f8b0:4864:20::542;
+ envelope-from=ani@anisinha.ca; helo=mail-pg1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.001, NICE_REPLY_A=-2.13,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,61 +79,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, jusual@redhat.com,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/1/20 3:39 AM, Bin Meng wrote:
-> From: Bin Meng <bin.meng@windriver.com>
-> 
-> At present the CLINT timestamp is using a hard-coded timebase
-> frequency value SIFIVE_CLINT_TIMEBASE_FREQ. This might not be
-> true for all boards.
-> 
-> Add a new 'timebase-freq' property to the CLINT device, and
-> update various functions to accept this as a parameter.
-> 
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> 
-> ---
-> 
-> (no changes since v1)
-> 
->  include/hw/riscv/sifive_clint.h |  4 +++-
->  target/riscv/cpu.h              |  6 ++++--
->  hw/riscv/microchip_pfsoc.c      |  6 +++++-
->  hw/riscv/sifive_clint.c         | 26 +++++++++++++++-----------
->  hw/riscv/sifive_e.c             |  3 ++-
->  hw/riscv/sifive_u.c             |  3 ++-
->  hw/riscv/spike.c                |  3 ++-
->  hw/riscv/virt.c                 |  3 ++-
->  target/riscv/cpu_helper.c       |  4 +++-
->  target/riscv/csr.c              |  4 ++--
->  10 files changed, 40 insertions(+), 22 deletions(-)
-> 
-> diff --git a/include/hw/riscv/sifive_clint.h b/include/hw/riscv/sifive_clint.h
-> index 9f5fb3d..a30be0f 100644
-> --- a/include/hw/riscv/sifive_clint.h
-> +++ b/include/hw/riscv/sifive_clint.h
-> @@ -39,11 +39,13 @@ typedef struct SiFiveCLINTState {
->      uint32_t timecmp_base;
->      uint32_t time_base;
->      uint32_t aperture_size;
-> +    uint32_t timebase_freq;
->  } SiFiveCLINTState;
->  
->  DeviceState *sifive_clint_create(hwaddr addr, hwaddr size,
->      uint32_t hartid_base, uint32_t num_harts, uint32_t sip_base,
-> -    uint32_t timecmp_base, uint32_t time_base, bool provide_rdtime);
-> +    uint32_t timecmp_base, uint32_t time_base, uint32_t timebase_freq,
-> +    bool provide_rdtime);
+When acpi hotplug is turned off for both root pci bus as well as for pci
+bridges, we should not generate the related amls for DSDT table or initialize
+related hw ports or reserve hw resources. This change makes sure all those
+operations are turned off in the case acpi pci hotplug is off globally.
 
-As an future improvement, consider using the recently introduced Clock API.
+Signed-off-by: Ani Sinha <ani@anisinha.ca>
+---
+ hw/acpi/piix4.c      |  6 ++++--
+ hw/i386/acpi-build.c | 10 ++++++++--
+ 2 files changed, 12 insertions(+), 4 deletions(-)
 
-Regards,
+diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+index e6163bb6ce..b70b1f98af 100644
+--- a/hw/acpi/piix4.c
++++ b/hw/acpi/piix4.c
+@@ -596,8 +596,10 @@ static void piix4_acpi_system_hot_add_init(MemoryRegion *parent,
+                           "acpi-gpe0", GPE_LEN);
+     memory_region_add_subregion(parent, GPE_BASE, &s->io_gpe);
+ 
+-    acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, parent,
+-                    s->use_acpi_hotplug_bridge);
++    if (s->use_acpi_hotplug_bridge || s->use_acpi_root_pci_hotplug) {
++        acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, parent,
++                        s->use_acpi_hotplug_bridge);
++    }
+ 
+     s->cpu_hotplug_legacy = true;
+     object_property_add_bool(OBJECT(s), "cpu-hotplug-legacy",
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index b7bcbbbb2a..5365b3d290 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -95,6 +95,7 @@ typedef struct AcpiPmInfo {
+     bool s3_disabled;
+     bool s4_disabled;
+     bool pcihp_bridge_en;
++    bool pcihp_root_en;
+     uint8_t s4_val;
+     AcpiFadtData fadt;
+     uint16_t cpu_hp_io_base;
+@@ -245,6 +246,9 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
+     pm->pcihp_bridge_en =
+         object_property_get_bool(obj, "acpi-pci-hotplug-with-bridge-support",
+                                  NULL);
++    pm->pcihp_root_en =
++        object_property_get_bool(obj, "acpi-root-pci-hotplug",
++                                 NULL);
+ }
+ 
+ static void acpi_get_misc_info(AcpiMiscInfo *info)
+@@ -1504,7 +1508,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+         build_hpet_aml(dsdt);
+         build_piix4_isa_bridge(dsdt);
+         build_isa_devices_aml(dsdt);
+-        build_piix4_pci_hotplug(dsdt);
++        if (pm->pcihp_bridge_en || pm->pcihp_root_en) {
++            build_piix4_pci_hotplug(dsdt);
++        }
+         build_piix4_pci0_int(dsdt);
+     } else {
+         sb_scope = aml_scope("_SB");
+@@ -1698,7 +1704,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+     crs_range_set_free(&crs_range_set);
+ 
+     /* reserve PCIHP resources */
+-    if (pm->pcihp_io_len) {
++    if (pm->pcihp_io_len && (pm->pcihp_bridge_en || pm->pcihp_root_en)) {
+         dev = aml_device("PHPR");
+         aml_append(dev, aml_name_decl("_HID", aml_string("PNP0A06")));
+         aml_append(dev,
+-- 
+2.17.1
 
-Phil.
 
