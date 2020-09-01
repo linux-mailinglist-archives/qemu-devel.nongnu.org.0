@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D83D825904E
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:25:35 +0200 (CEST)
-Received: from localhost ([::1]:51718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2F9B25906B
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:29:56 +0200 (CEST)
+Received: from localhost ([::1]:44482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD7E6-0004fC-T1
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:25:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55532)
+	id 1kD7IK-00056M-1T
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:29:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zW-0005zg-KR; Tue, 01 Sep 2020 10:10:30 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:34829)
+ id 1kD6zX-000645-Vs; Tue, 01 Sep 2020 10:10:32 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:53745)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zU-0003z9-MP; Tue, 01 Sep 2020 10:10:30 -0400
+ id 1kD6zV-0003zS-QH; Tue, 01 Sep 2020 10:10:31 -0400
 Received: from localhost.localdomain ([82.252.135.186]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MXY2Z-1k55ZD1aOd-00Z03W; Tue, 01 Sep 2020 16:10:20 +0200
+ id 1MDQqk-1kKI030IWU-00AT1v; Tue, 01 Sep 2020 16:10:21 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 34/44] hw/arm/omap1:Remove redundant statement in
- omap_clkdsp_read()
-Date: Tue,  1 Sep 2020 16:09:44 +0200
-Message-Id: <20200901140954.889743-35-laurent@vivier.eu>
+Subject: [PULL 35/44] target/arm/translate-a64:Remove dead assignment in
+ handle_scalar_simd_shli()
+Date: Tue,  1 Sep 2020 16:09:45 +0200
+Message-Id: <20200901140954.889743-36-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200901140954.889743-1-laurent@vivier.eu>
 References: <20200901140954.889743-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:MRDOMqanYQOUngXE/hWOxXm+U7mswvnyvT8rtz9CyUxC1N2ozry
- KfjHahMaJgHAyX5J6SrY5ItcL0K9bDEBJRN4fwbwGav5t0/TJxkb0k25YxFX7rtOSWI6m/9
- PkgiZ9Up9AKkJWG/xd0yR31MHsEMR3pXZ+L4rTaN0ElPJHhYI2IRIP6IlrZRr/mEK8A9XFj
- ibTiV8CUvO+CzegyGQdHA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:fLx71k1tseU=:p6PnZOAwUO/dqWc5UmRyxV
- TBo7N6Oq5VAOUDLFslM4001DNVLaATdWZmcdizFTWhBQdaUfN4H2ZWWEzDJ3GhjD0ku2y41Gk
- 9JjEnXUJ3hzGdz5Jkw+1SpNKSRFQ9uDD4A+wMmCtdZ4XjmEXvlQFHWH52w7Mqk35DyCrcWXlD
- dDBJYjd1HLLTcgqRZa7spswoXkaYHZGeEkbwkweKTwtMX/7fLUi4ZPCn2sOXnDP1IUpRXN7sg
- E67z8J0liIeKAiy+8H7f/a1wzl26hxBkypNqP6pXm1nCx5n3yU1GHmy7nkOcZzi7YJ5Nl/B6l
- LgpR1tSE+/pgmarhTrUVI+KJ/UX3sgduNjBJHmIot2Rq7JwaR20cl3kRlFz1y0/M1GhoGm/fE
- DIKEvUrLKDZpszFchyaRXCWmY2VfQ6Jr0c5b5FRlb7tSVOFzTAzqloYZe5pvzvIh26+WxFfDW
- 9EmWOF+D6fgwsvqAJIHnroIyUK4roCcb4gZxIZb4vNZfWPH7TJYUaZ9wHBdNjs5y5eQv1CTAa
- /tEEhlaj0auWxXSevkgblIhdswwJps92QxEFg2zmmcV/sz1X253e1ZIZ3tm5jzdnhBre5vivF
- 7d1yt0UHH2QVNivbD55CpOtnP2cuYqQd60mlkwA6F7Ibh8q2VwrUjixdJdQjIHKFQMS1F0LcX
- blJlnl79uDEFSpf8+SczWrx6+cH9bgTvO62QvZRz7xL2glE5U1DYqoTYhS5UhaNMbLJKdubzI
- oA44A+aN3Dxgh0/pUiGlXmhcQdBs6PPx7fh+K80y35dWa4/GjuQ6qZkN7G1Fx+f7kZ+lRr/v4
- 4C6hcOPqMJBoJo8POaU9C+YR3jnZCRYkKkkHRPyhhbYSp2PNWTh9jNoAUNd8qWD9T38eIqY
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:7MytmcQlZbd0x7aW2n0tHP/lWDilC+4WyjdtE03XZV3dMl9gCsZ
+ tid0ho/0Rf9qrqda7CX6DNS501cq7GAz5hr1Zgx2+2CXIj9XvqJoSNA+3ypl/lKgG7rTwG1
+ g7Id7vtrHF/6fSodLQ1CsEsZ+8N2+FlZ4AvmEGOTib5ml55ebxl6wUr12gyirZjEeaKmjPH
+ 76j2kBTAynlNNOs0IgX/Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:D4SzP2V09+Y=:fnfFRWUCmK17meChl6FvaY
+ T1KcPuDeEGrPeQEFpIBHHQo07agKz84T87KDYRFTbFap4N8dtl90B3+KjiXqFSelhvSE2qhXs
+ lIyipI2swjin96Wq/Xdow+mgic95mPzarA6QX1FYES0aAfN+C6pTWrR+6W0pdUyRcE+etJ87K
+ +hgT0qH6Wbsec/gdI0ul8ydJLqG4FpJRFTP/zqExuO9nsd0c8QuEO/puvOm3jMMiNSGavXqIG
+ 8/Z+1pMKD+Azv9iOp/0GV8rDzd2TcauUSN+hCQ8n4TZ/zhdD1rDiaHXvhdYc9ImZNADN8iIi/
+ pOXMY61j4rJNgLzLr1YnjWeb1Smc5bhoB/axBbg+/hiq5eem1hRrU4vEfTPdgHc+chx0AjXfM
+ 9EAR5ODihDQUwNINZYdDJcPj04l/RRMnrq07MRGeh4pgQyp9hHK0M12St72+usb/5+ousNY9b
+ /AeL5rBGtpyeXO0wVLBOu9VxnhekIRXQ53Thj8WUSwedo6CqODZ48p6YrfJT7RO5xjRAymbot
+ X6hTaCayI7OrdUCHk83hp72vGLaAdLXAWpJSe4Rhx6jo+8xxecLOgg6yjaHMEsALIhwMMKz9u
+ lzGUs93nxEYQao+gWH+ObIlD2I5u1r7ZLQ15m+QMdZJ4x2qANVJb2KtKssrFe1YLZ+rAtmAvm
+ pCNYsv+q+HhPMUgbz/e1D+ZJG6exB7fEALaazSls8mU0rHsnno8qhgCXivtKkAdM1iXmV7mRZ
+ 4iIELbGKNsQz/aNeNz1UP7OfvawPvN669Br7Icy9Lf+UDVRF4VuuYPif5xiJ4SLYVhYlCbbVc
+ AUvguDxHYgiTNdzg9hM7FQyokLDrinq6AatWKG+43y3a0m0FGumNFdXId+pDszfml1n+GfP
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:10:10
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:09:57
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -70,42 +70,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
- Li Qiang <liq3ea@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
- Euler Robot <euler.robot@huawei.com>, Chen Qun <kuhn.chenqun@huawei.com>
+Cc: qemu-trivial@nongnu.org, Chen Qun <kuhn.chenqun@huawei.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Laurent Vivier <laurent@vivier.eu>,
+ Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Chen Qun <kuhn.chenqun@huawei.com>
 
 Clang static code analyzer show warning:
-hw/arm/omap1.c:1760:15: warning: Value stored to 'cpu' during its
-initialization is never read
-    CPUState *cpu = CPU(s->cpu);
-              ^~~   ~~~~~~~~~~~
+target/arm/translate-a64.c:8635:14: warning: Value stored to 'tcg_rn' during its
+ initialization is never read
+    TCGv_i64 tcg_rn = new_tmp_a64(s);
+             ^~~~~~   ~~~~~~~~~~~~~~
+target/arm/translate-a64.c:8636:14: warning: Value stored to 'tcg_rd' during its
+ initialization is never read
+    TCGv_i64 tcg_rd = new_tmp_a64(s);
+             ^~~~~~   ~~~~~~~~~~~~~~
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
-Message-Id: <20200827110311.164316-3-kuhn.chenqun@huawei.com>
+Message-Id: <20200827110311.164316-4-kuhn.chenqun@huawei.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/arm/omap1.c | 1 -
- 1 file changed, 1 deletion(-)
+ target/arm/translate-a64.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/arm/omap1.c b/hw/arm/omap1.c
-index 6ba0df6b6d09..02c0f66431b9 100644
---- a/hw/arm/omap1.c
-+++ b/hw/arm/omap1.c
-@@ -1774,7 +1774,6 @@ static uint64_t omap_clkdsp_read(void *opaque, hwaddr addr,
-         return s->clkm.dsp_rstct2;
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 4ba6918b6063..1fc3b2273207 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -8631,8 +8631,8 @@ static void handle_scalar_simd_shli(DisasContext *s, bool insert,
+     int size = 32 - clz32(immh) - 1;
+     int immhb = immh << 3 | immb;
+     int shift = immhb - (8 << size);
+-    TCGv_i64 tcg_rn = new_tmp_a64(s);
+-    TCGv_i64 tcg_rd = new_tmp_a64(s);
++    TCGv_i64 tcg_rn;
++    TCGv_i64 tcg_rd;
  
-     case 0x18:	/* DSP_SYSST */
--        cpu = CPU(s->cpu);
-         return (s->clkm.clocking_scheme << 11) | s->clkm.cold_start |
-                 (cpu->halted << 6);      /* Quite useless... */
-     }
+     if (!extract32(immh, 3, 1)) {
+         unallocated_encoding(s);
 -- 
 2.26.2
 
