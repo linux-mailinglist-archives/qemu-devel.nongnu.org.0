@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 977F225916D
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:51:15 +0200 (CEST)
-Received: from localhost ([::1]:59872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51090259149
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:49:35 +0200 (CEST)
+Received: from localhost ([::1]:50762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD7cw-0005U0-Ki
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:51:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33876)
+	id 1kD7bK-0001i5-A0
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:49:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kD7N8-0007ih-Du
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:34:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46956)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kD7NB-0007sb-P0
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:34:57 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48525
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kD7N5-00076f-NX
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:34:54 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kD7NA-00077E-2D
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:34:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598970890;
+ s=mimecast20190719; t=1598970895;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mVsyh2h9cHdLinZvrbVBxh/M4B3MPBV82C5H0FBy5to=;
- b=Zh12t6KSN9uYxMbiDOEbkPtRJH0GYmgZ++fqjLJcOWFnXFdGGgjOORsRnEhZ8jsyp917/P
- YyFs11rfEUhzD1wXlJkbvhUJ0S8pkRNXvnRyz9DhIlRrJQQihiRgIkAnA190U9PCXkzYZA
- snseSLsSlo6kAQD/HUdByHUPHSTf3/M=
+ bh=Pjj0uA512fbFHl0Wo1WPSqzpfgcIAEyienzfhOB+I1E=;
+ b=fn9jPuBWECrbtPVKrt4K18qKbQc5tiQv0EUk9GOvihbsyW3AcguHlh5uegxAG2/tXTDcXx
+ u3Gi4akKkBnMGMz3eOEbEQno3abKxXnntsxVMSuW5/ZiIymjCLoNeidDB4xxLikeO6oZny
+ /nIAupJ4o/SyqS4G/WDXqG5nE+xn97A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-548-1WF8JOVdNR6i2swZIXgQ3A-1; Tue, 01 Sep 2020 10:34:48 -0400
-X-MC-Unique: 1WF8JOVdNR6i2swZIXgQ3A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-98-V3QOS1c5Oq2PBYexAqbbig-1; Tue, 01 Sep 2020 10:34:50 -0400
+X-MC-Unique: V3QOS1c5Oq2PBYexAqbbig-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B4EF873113;
- Tue,  1 Sep 2020 14:34:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6D01801F9A;
+ Tue,  1 Sep 2020 14:34:49 +0000 (UTC)
 Received: from localhost (ovpn-113-83.ams2.redhat.com [10.36.113.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E92219C4F;
- Tue,  1 Sep 2020 14:34:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 445FE7EB7D;
+ Tue,  1 Sep 2020 14:34:49 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v8 09/43] copy-on-read: Support compressed writes
-Date: Tue,  1 Sep 2020 16:33:50 +0200
-Message-Id: <20200901143424.884735-10-mreitz@redhat.com>
+Subject: [PATCH v8 10/43] block: Use bdrv_filter_(bs|child) where obvious
+Date: Tue,  1 Sep 2020 16:33:51 +0200
+Message-Id: <20200901143424.884735-11-mreitz@redhat.com>
 In-Reply-To: <20200901143424.884735-1-mreitz@redhat.com>
 References: <20200901143424.884735-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 23:17:53
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 05:11:36
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,42 +86,171 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Places that use patterns like
+
+    if (bs->drv->is_filter && bs->file) {
+        ... something about bs->file->bs ...
+    }
+
+should be
+
+    BlockDriverState *filtered = bdrv_filter_bs(bs);
+    if (filtered) {
+        ... something about @filtered ...
+    }
+
+instead.
+
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/copy-on-read.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ block.c                        | 31 ++++++++++++++++++++-----------
+ block/io.c                     |  7 +++++--
+ migration/block-dirty-bitmap.c |  8 +-------
+ 3 files changed, 26 insertions(+), 20 deletions(-)
 
-diff --git a/block/copy-on-read.c b/block/copy-on-read.c
-index a6e3c74a68..a6a864f147 100644
---- a/block/copy-on-read.c
-+++ b/block/copy-on-read.c
-@@ -107,6 +107,16 @@ static int coroutine_fn cor_co_pdiscard(BlockDriverState *bs,
- }
- 
- 
-+static int coroutine_fn cor_co_pwritev_compressed(BlockDriverState *bs,
-+                                                  uint64_t offset,
-+                                                  uint64_t bytes,
-+                                                  QEMUIOVector *qiov)
-+{
-+    return bdrv_co_pwritev(bs->file, offset, bytes, qiov,
-+                           BDRV_REQ_WRITE_COMPRESSED);
-+}
-+
-+
- static void cor_eject(BlockDriverState *bs, bool eject_flag)
+diff --git a/block.c b/block.c
+index c09a766f54..887c125400 100644
+--- a/block.c
++++ b/block.c
+@@ -712,11 +712,12 @@ int coroutine_fn bdrv_co_delete_file(BlockDriverState *bs, Error **errp)
+ int bdrv_probe_blocksizes(BlockDriverState *bs, BlockSizes *bsz)
  {
-     bdrv_eject(bs->file->bs, eject_flag);
-@@ -131,6 +141,7 @@ static BlockDriver bdrv_copy_on_read = {
-     .bdrv_co_pwritev                    = cor_co_pwritev,
-     .bdrv_co_pwrite_zeroes              = cor_co_pwrite_zeroes,
-     .bdrv_co_pdiscard                   = cor_co_pdiscard,
-+    .bdrv_co_pwritev_compressed         = cor_co_pwritev_compressed,
+     BlockDriver *drv = bs->drv;
++    BlockDriverState *filtered = bdrv_filter_bs(bs);
  
-     .bdrv_eject                         = cor_eject,
-     .bdrv_lock_medium                   = cor_lock_medium,
+     if (drv && drv->bdrv_probe_blocksizes) {
+         return drv->bdrv_probe_blocksizes(bs, bsz);
+-    } else if (drv && drv->is_filter && bs->file) {
+-        return bdrv_probe_blocksizes(bs->file->bs, bsz);
++    } else if (filtered) {
++        return bdrv_probe_blocksizes(filtered, bsz);
+     }
+ 
+     return -ENOTSUP;
+@@ -731,11 +732,12 @@ int bdrv_probe_blocksizes(BlockDriverState *bs, BlockSizes *bsz)
+ int bdrv_probe_geometry(BlockDriverState *bs, HDGeometry *geo)
+ {
+     BlockDriver *drv = bs->drv;
++    BlockDriverState *filtered = bdrv_filter_bs(bs);
+ 
+     if (drv && drv->bdrv_probe_geometry) {
+         return drv->bdrv_probe_geometry(bs, geo);
+-    } else if (drv && drv->is_filter && bs->file) {
+-        return bdrv_probe_geometry(bs->file->bs, geo);
++    } else if (filtered) {
++        return bdrv_probe_geometry(filtered, geo);
+     }
+ 
+     return -ENOTSUP;
+@@ -5442,6 +5444,8 @@ int bdrv_has_zero_init_1(BlockDriverState *bs)
+ 
+ int bdrv_has_zero_init(BlockDriverState *bs)
+ {
++    BlockDriverState *filtered;
++
+     if (!bs->drv) {
+         return 0;
+     }
+@@ -5454,8 +5458,10 @@ int bdrv_has_zero_init(BlockDriverState *bs)
+     if (bs->drv->bdrv_has_zero_init) {
+         return bs->drv->bdrv_has_zero_init(bs);
+     }
+-    if (bs->file && bs->drv->is_filter) {
+-        return bdrv_has_zero_init(bs->file->bs);
++
++    filtered = bdrv_filter_bs(bs);
++    if (filtered) {
++        return bdrv_has_zero_init(filtered);
+     }
+ 
+     /* safe default */
+@@ -5485,8 +5491,9 @@ int bdrv_get_info(BlockDriverState *bs, BlockDriverInfo *bdi)
+         return -ENOMEDIUM;
+     }
+     if (!drv->bdrv_get_info) {
+-        if (bs->file && drv->is_filter) {
+-            return bdrv_get_info(bs->file->bs, bdi);
++        BlockDriverState *filtered = bdrv_filter_bs(bs);
++        if (filtered) {
++            return bdrv_get_info(filtered, bdi);
+         }
+         return -ENOTSUP;
+     }
+@@ -6571,6 +6578,8 @@ int bdrv_amend_options(BlockDriverState *bs, QemuOpts *opts,
+ bool bdrv_recurse_can_replace(BlockDriverState *bs,
+                               BlockDriverState *to_replace)
+ {
++    BlockDriverState *filtered;
++
+     if (!bs || !bs->drv) {
+         return false;
+     }
+@@ -6585,9 +6594,9 @@ bool bdrv_recurse_can_replace(BlockDriverState *bs,
+     }
+ 
+     /* For filters without an own implementation, we can recurse on our own */
+-    if (bs->drv->is_filter) {
+-        BdrvChild *child = bs->file ?: bs->backing;
+-        return bdrv_recurse_can_replace(child->bs, to_replace);
++    filtered = bdrv_filter_bs(bs);
++    if (filtered) {
++        return bdrv_recurse_can_replace(filtered, to_replace);
+     }
+ 
+     /* Safe default */
+diff --git a/block/io.c b/block/io.c
+index ad3a51ed53..01e3477a77 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -3309,6 +3309,7 @@ int coroutine_fn bdrv_co_truncate(BdrvChild *child, int64_t offset, bool exact,
+                                   Error **errp)
+ {
+     BlockDriverState *bs = child->bs;
++    BdrvChild *filtered;
+     BlockDriver *drv = bs->drv;
+     BdrvTrackedRequest req;
+     int64_t old_size, new_bytes;
+@@ -3360,6 +3361,8 @@ int coroutine_fn bdrv_co_truncate(BdrvChild *child, int64_t offset, bool exact,
+         goto out;
+     }
+ 
++    filtered = bdrv_filter_child(bs);
++
+     /*
+      * If the image has a backing file that is large enough that it would
+      * provide data for the new area, we cannot leave it unallocated because
+@@ -3392,8 +3395,8 @@ int coroutine_fn bdrv_co_truncate(BdrvChild *child, int64_t offset, bool exact,
+             goto out;
+         }
+         ret = drv->bdrv_co_truncate(bs, offset, exact, prealloc, flags, errp);
+-    } else if (bs->file && drv->is_filter) {
+-        ret = bdrv_co_truncate(bs->file, offset, exact, prealloc, flags, errp);
++    } else if (filtered) {
++        ret = bdrv_co_truncate(filtered, offset, exact, prealloc, flags, errp);
+     } else {
+         error_setg(errp, "Image format driver does not support resize");
+         ret = -ENOTSUP;
+diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
+index 549e14daba..5bef793ac0 100644
+--- a/migration/block-dirty-bitmap.c
++++ b/migration/block-dirty-bitmap.c
+@@ -615,13 +615,7 @@ static int init_dirty_bitmap_migration(DBMSaveState *s)
+             while (bs && bs->drv && bs->drv->is_filter &&
+                    !bdrv_has_named_bitmaps(bs))
+             {
+-                if (bs->backing) {
+-                    bs = bs->backing->bs;
+-                } else if (bs->file) {
+-                    bs = bs->file->bs;
+-                } else {
+-                    bs = NULL;
+-                }
++                bs = bdrv_filter_bs(bs);
+             }
+ 
+             if (bs && bs->drv && !bs->drv->is_filter) {
 -- 
 2.26.2
 
