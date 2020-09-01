@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA9CE2590BA
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:38:03 +0200 (CEST)
-Received: from localhost ([::1]:53024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FFA325912F
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:47:36 +0200 (CEST)
+Received: from localhost ([::1]:40718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD7QA-0004Ux-Rp
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:38:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59676)
+	id 1kD7ZP-00061P-59
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:47:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1kD7Fz-0000Qt-OH
+ id 1kD7Fz-0000Qw-R0
  for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:27:32 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:43650
- helo=us-smtp-delivery-1.mimecast.com)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27635)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1kD7Fb-0005xd-09
+ id 1kD7Fl-0005yP-S0
  for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:27:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598970426;
+ s=mimecast20190719; t=1598970437;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hL4UU6UW/U1i0rBrax0K1b6/ws7EZEF6wAgUhedS6w0=;
- b=FS1Aza8++lSRRse2zSUtinrMWYz8JKeDJbc7lPSqHiETdzSuySGxeX9sz5FOuBXiz+UaOk
- nrUCDGxZMnPvOA3rERli1A2+ObVTCO4z3OR60SGgeUIYud65/aq0T78FFfTHq9OR3EjuqY
- Fe49zAPG04ewgbHXIBSiu5ozSG9Tyes=
+ bh=G8SjgyO6NF4SRPaQEFysirCpasoZJlLDbkIU4JNiAJ0=;
+ b=G3ZaidbhqzA02L+xCYX61URLNsEuoKYckx7uuy0734m9h9eHNw3xYgIIqDWy1jvuUGiuF1
+ Mp7Y7RhcENq39lYVd1yy1+oKbVTb4BQV6ni0c8DWyZbQIXfZRfLV/95lBtlWZMdWkZCZRR
+ M03p1pZbic1Ce/W+FP3Bz3wl65MHn4I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-259-T1Jxi_cSNsC9zGgE9feIZQ-1; Tue, 01 Sep 2020 10:27:04 -0400
-X-MC-Unique: T1Jxi_cSNsC9zGgE9feIZQ-1
+ us-mta-510-SKZ4JIM-MyySoJe3jcBjag-1; Tue, 01 Sep 2020 10:27:14 -0400
+X-MC-Unique: SKZ4JIM-MyySoJe3jcBjag-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7E151DDF3;
- Tue,  1 Sep 2020 14:27:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B2532FD05;
+ Tue,  1 Sep 2020 14:27:12 +0000 (UTC)
 Received: from eperezma.remote.csb (ovpn-114-76.ams2.redhat.com [10.36.114.76])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EBA1B672C6;
- Tue,  1 Sep 2020 14:26:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 129066715F;
+ Tue,  1 Sep 2020 14:27:02 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: Peter Xu <peterx@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [RFC v8 3/5] memory: Add IOMMU_DEVIOTLB_UNMAP IOMMUTLBNotificationType
-Date: Tue,  1 Sep 2020 16:26:06 +0200
-Message-Id: <20200901142608.24481-4-eperezma@redhat.com>
+Subject: [RFC v8 4/5] intel_iommu: Do not notify regular iotlb to device-iotlb
+ notifiers
+Date: Tue,  1 Sep 2020 16:26:07 +0200
+Message-Id: <20200901142608.24481-5-eperezma@redhat.com>
 In-Reply-To: <20200901142608.24481-1-eperezma@redhat.com>
 References: <20200901142608.24481-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -59,17 +59,17 @@ X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 02:08:15
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 23:17:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,54 +95,34 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adapt intel and vhost to use this new notification type
+This improves performance in case of netperf with vhost-net:
+* TCP_STREAM: From 1923.6Mbit/s to 2175.13Mbit/s (13%)
+* TCP_RR: From 8464.73 trans/s to 8932.703333 trans/s (5.5%)
+* UDP_RR: From 8562.08 trans/s to 9005.62/s (5.1%)
+* UDP_STREAM: No change observed (insignificant 0.1% improvement)
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/i386/intel_iommu.c | 2 +-
- hw/virtio/vhost.c     | 2 +-
- include/exec/memory.h | 2 ++
- 3 files changed, 4 insertions(+), 2 deletions(-)
+ hw/i386/intel_iommu.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index 0c4aef5cb5..cdddb089e7 100644
+index cdddb089e7..fe82391b73 100644
 --- a/hw/i386/intel_iommu.c
 +++ b/hw/i386/intel_iommu.c
-@@ -2468,7 +2468,7 @@ static bool vtd_process_device_iotlb_desc(IntelIOMMUState *s,
-         sz = VTD_PAGE_SIZE;
-     }
+@@ -1964,6 +1964,12 @@ static void vtd_iotlb_domain_invalidate(IntelIOMMUState *s, uint16_t domain_id)
+     vtd_iommu_unlock(s);
  
--    event.type = IOMMU_NOTIFIER_UNMAP;
-+    event.type = IOMMU_NOTIFIER_DEVIOTLB;
-     event.entry.target_as = &vtd_dev_as->as;
-     event.entry.addr_mask = sz - 1;
-     event.entry.iova = addr;
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 1a1384e7a6..6ca168b47e 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -729,7 +729,7 @@ static void vhost_iommu_region_add(MemoryListener *listener,
-     iommu_idx = memory_region_iommu_attrs_to_index(iommu_mr,
-                                                    MEMTXATTRS_UNSPECIFIED);
-     iommu_notifier_init(&iommu->n, vhost_iommu_unmap_notify,
--                        IOMMU_NOTIFIER_UNMAP,
-+                        IOMMU_NOTIFIER_DEVIOTLB,
-                         section->offset_within_region,
-                         int128_get64(end),
-                         iommu_idx);
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 8a56707169..215e23973d 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -87,6 +87,8 @@ typedef enum {
-     IOMMU_NOTIFIER_UNMAP = 0x1,
-     /* Notify entry changes (newly created entries) */
-     IOMMU_NOTIFIER_MAP = 0x2,
-+    /* Notify changes on device IOTLB entries */
-+    IOMMU_NOTIFIER_DEVIOTLB = 0x04,
- } IOMMUNotifierFlag;
- 
- #define IOMMU_NOTIFIER_ALL (IOMMU_NOTIFIER_MAP | IOMMU_NOTIFIER_UNMAP)
+     QLIST_FOREACH(vtd_as, &s->vtd_as_with_notifiers, next) {
++        if (vtd_as->iommu.iommu_notify_flags & IOMMU_NOTIFIER_DEVIOTLB) {
++            /* If IOMMU memory region is DEVICE IOTLB type, it does not make
++             * sense to send regular IOMMU notifications. */
++            continue;
++        }
++
+         if (!vtd_dev_to_context_entry(s, pci_bus_num(vtd_as->bus),
+                                       vtd_as->devfn, &ce) &&
+             domain_id == vtd_get_domain_id(s, &ce)) {
 -- 
 2.18.1
 
