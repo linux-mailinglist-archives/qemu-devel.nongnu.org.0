@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2676258ED8
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 15:03:54 +0200 (CEST)
-Received: from localhost ([::1]:52954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AA1C258EDF
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 15:07:57 +0200 (CEST)
+Received: from localhost ([::1]:38778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD5x3-0003nE-Sk
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 09:03:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38008)
+	id 1kD60y-0001Lo-Jf
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 09:07:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kD5vz-0002Ya-7u
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 09:02:50 -0400
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:38270)
+ id 1kD60G-0000dY-UW
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 09:07:12 -0400
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:33253)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kD5vw-0003Y1-D9
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 09:02:46 -0400
-Received: by mail-ed1-x541.google.com with SMTP id c8so1354390edv.5
- for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 06:02:43 -0700 (PDT)
+ id 1kD60F-00045H-8Z
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 09:07:12 -0400
+Received: by mail-ej1-x644.google.com with SMTP id h4so1571959ejj.0
+ for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 06:07:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iMZrEZKXjCIFEtYK2ltrm7qy4+QL6LNzUVQ2d/yVhyw=;
- b=N3zAOCnplMf9fAZhZAu6gGjFp+gdpQ4gA2fWvwW0vabF8ldXAw+R0h5hc8AkuPA+Fg
- Nn5QRU2zq0qz1W0QtqO4xQzYwDsq+HsVWNffqtNTOGRYpf4DsUPSi1XSik8jrXNRGpHu
- grdUVTPrCMAyjFHQ0uPFFnwzEGNF/XycO7CTQ4DhhENhDnJj2WfT8GvJ0fBzGjKAQLth
- 2k90A5OuQgfd4hazm76WnzRv1CDfyTJ84+lfx9X5ECAtvl11fLkx7+VLUneyPAX0TTUa
- 26xzgjbxd9ZiBdpxCrKnsscao7TwCXhf8epSjoaeRldMzfODOcSmLAEyZsApDXqZa/qs
- QtbA==
+ :cc; bh=337KvErcJJVNkQKOM4GfPx6Z3ZDWBJ1Cy0HJ9YJmzK0=;
+ b=kotjan6yt+8JqLnt6AZhtcxhH2p7pscIVbes8SGopayObV5fSWXu5vxbGlZx+4ZYrK
+ HTSSLTYp2zqem1WBS3CwvgJUQIzl/kY6YEV7oTrraEPWEXC7I8TawoUkV901nRIjJtxu
+ F6LNocLiSmlZcFU8zlbs+LkWeXSrEGY8xtzbwnE2VH1Cpu2gzeQwmw17ZpzHXN60v43U
+ xIVfiGHIZrOan8+sqh8G6D/YVThV5GhT3nOCwqQYj9jP+SUGFV0VOjLcY0h33cljDNFd
+ 2p6YUSiWs5dqztS8jtqEGkMqQ38fMTnT6hNv54tqrlA0U7Q/iQFSlv5C3YEsfYrr15Uu
+ TQFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=iMZrEZKXjCIFEtYK2ltrm7qy4+QL6LNzUVQ2d/yVhyw=;
- b=T212evd980/m+UBlFAuESYyFQOpW0j7TN7Yd2YGPqrJKGSw6FfTRJJOh8FG7Z2ZsAK
- YGbQ3So7CzcH9F4wmTJ9qmWrDb/fh3zIzCiLWAAwQd+tkQ+t9GVshQmoJbQuaG8HrEnf
- MpIvm0Wp8U+/oTTXpaY25cD4UDN/rUxf6UgNy9VMPOLA8jNDHhHtTAuLDjyT2TJCjmoH
- hLLLerz3JZ1+ok5Gh9NbVYHdyxgE2T5Ke2NVtcG7VBE1tSFRuptS9wRTpavX3qKmOW+c
- q7DnAEmBuExoTKM5JA5qQKmGVttoQE8GUXnA6WJqiM8sVeHLEcG3INVPjtjgEVQUuN+v
- ZPlA==
-X-Gm-Message-State: AOAM533bCThTF+QEPTB2L4fRRaOzdbI3c54A5R/vvpXWWih+hmeJTKou
- jyEZ9qZerUT8bbaxqqFtLvXaEznBbITSwNApiGYI6Q==
-X-Google-Smtp-Source: ABdhPJzrnbxS9isRX3Z+TgMgj3Ft6NUFpGHRfj6G0hXZ0IaS70Id3yvSFqDzKRDZHPPCRZ75pC39NfysFu1FA7hMht0=
-X-Received: by 2002:aa7:d596:: with SMTP id r22mr1669768edq.204.1598965362824; 
- Tue, 01 Sep 2020 06:02:42 -0700 (PDT)
+ bh=337KvErcJJVNkQKOM4GfPx6Z3ZDWBJ1Cy0HJ9YJmzK0=;
+ b=RvxzFlSl8GM13Teb1aGlrB6O9T8rJqPe3tR/FQZxzGpNL1e/0X7IaTSlsLK8ZVG9xL
+ kdn5rulLGdkCR9Y0vawBHVk+BG/xIXTatbx1RpG0b4M9HRjf4XIzGubnpSXGRh+yLTWi
+ RKT9cCARO2t9g7xkXKSPr1wrvDj5bKC1cUGEW3W4iBW1YZOP89aN2el+KSzTQSmDxeOM
+ eYZkmwwXKkscBPq+1llvvJVItRndtydIZPFtQvcRS7f8MqipEwTHCrgjbkNWZb++S8uc
+ ZKzBYD2EuskU5z1GyDK3rRbLxl31Bu6MlFGsRnVHTkGRvNwd8VaVd1TOaUj9r380kvCI
+ kD3g==
+X-Gm-Message-State: AOAM532DFLxupR6fyR8r6nfIb1shONEHFfwGhyCrVjHZShncHzYiEtG7
+ PdbidiwmS2O/4zXfdTjSCcjIFRiz1+E1MrN8oDphqg==
+X-Google-Smtp-Source: ABdhPJyWvSE2lcUhdhozPnRVTsM7BllOKSAdKFVskG/RXnXERBjcaq+Jca+g1tv9OcwbTW+QpQgHh7vZKI0k/FsJJNE=
+X-Received: by 2002:a17:906:d8ca:: with SMTP id
+ re10mr1331365ejb.382.1598965629602; 
+ Tue, 01 Sep 2020 06:07:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200826141952.136164-1-graeme@nuviainc.com>
-In-Reply-To: <20200826141952.136164-1-graeme@nuviainc.com>
+References: <20200831110716.536808-1-laurent@vivier.eu>
+In-Reply-To: <20200831110716.536808-1-laurent@vivier.eu>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 1 Sep 2020 14:02:28 +0100
-Message-ID: <CAFEAcA8Kuk4XZ6W9D77nVphH=-vaFF4ciDOJmUTGSuckjT8=TA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] Add an embedded controller to sbsa-ref machine
-To: Graeme Gregory <graeme@nuviainc.com>
+Date: Tue, 1 Sep 2020 14:06:49 +0100
+Message-ID: <CAFEAcA88ZzORi0FYKevoGkoRAoUHuT=-GXKuYjvx-uBCNJBeyg@mail.gmail.com>
+Subject: Re: [PULL 0/8] Linux user for 5.2 patches
+To: Laurent Vivier <laurent@vivier.eu>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::541;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x644.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -78,27 +79,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leif Lindholm <leif@nuviainc.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Radoslaw Biernacki <rad@semihalf.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 26 Aug 2020 at 15:19, Graeme Gregory <graeme@nuviainc.com> wrote:
+On Mon, 31 Aug 2020 at 12:08, Laurent Vivier <laurent@vivier.eu> wrote:
 >
-> This series is to an add embedded controller to the sbsa-ref machine
-> so that PSCI can communicate platform power states to the platform
-> which in this case is QEMU.
+> The following changes since commit 39335fab59e11cfda9b7cf63929825db2dd3a3e0:
 >
-> v1->v2
->  - broke out the EC itself as hw/misc/sbsa_ec.c as seperate patch
->  - applied review comments to date
+>   Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-5.2-pull-=
+> request' into staging (2020-08-28 22:30:11 +0100)
 >
+> are available in the Git repository at:
+>
+>   git://github.com/vivier/qemu.git tags/linux-user-for-5.2-pull-request
+>
+> for you to fetch changes up to d6676fc62a52e020df32abf927c2e7183781a2e3:
+>
+>   linux-user: Add support for btrfs ioctls used to scrub a filesystem (2020-0=
+> 8-29 10:14:52 +0200)
+>
+> ----------------------------------------------------------------
+> Add btrfs support
 
+Fails to build with clang, I'm afraid:
 
+In file included from ../../linux-user/syscall.c:4561:
+../../linux-user/syscall_types.h:485:33: error: implicit conversion
+from enumeration type 'enum btrfs_dev_stat_values' to different
+enumeration type 'argtype' (aka 'enum argtype')
+[-Werror,-Wenum-conversion]
+       MK_ARRAY(TYPE_ULONGLONG, BTRFS_DEV_STAT_VALUES_MAX), /* values */
+       ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/petmay01/linaro/qemu-for-merges/include/exec/user/thunk.h:45:42:
+note: expanded from macro 'MK_ARRAY'
+#define MK_ARRAY(type, size) TYPE_ARRAY, size, type
+                                         ^~~~
+../../linux-user/syscall.c:4559:79: note: expanded from macro 'STRUCT'
+#define STRUCT(name, ...) static const argtype struct_ ## name ##
+_def[] = {  __VA_ARGS__, TYPE_NULL };
 
-Applied to target-arm.next, thanks.
+    ~  ^~~~~~~~~~~
+1 error generated.
 
+thanks
 -- PMM
 
