@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D31B258FF8
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:13:24 +0200 (CEST)
-Received: from localhost ([::1]:43370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65F3D259016
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:16:26 +0200 (CEST)
+Received: from localhost ([::1]:58876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD72J-0002qy-Jj
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:13:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55172)
+	id 1kD75F-0000sp-FP
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:16:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zI-0005Lm-QO; Tue, 01 Sep 2020 10:10:16 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:53173)
+ id 1kD6zI-0005LE-Ih; Tue, 01 Sep 2020 10:10:16 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:45563)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6zD-0003lF-Tx; Tue, 01 Sep 2020 10:10:16 -0400
+ id 1kD6zD-0003l8-Nd; Tue, 01 Sep 2020 10:10:16 -0400
 Received: from localhost.localdomain ([82.252.135.186]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1M9Wqa-1kGOEd1kgu-005XLt; Tue, 01 Sep 2020 16:10:07 +0200
+ id 1Mbj3e-1kibFR45Es-00dFHH; Tue, 01 Sep 2020 16:10:08 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/44] hw/core/sysbus: Fix a typo
-Date: Tue,  1 Sep 2020 16:09:25 +0200
-Message-Id: <20200901140954.889743-16-laurent@vivier.eu>
+Subject: [PULL 16/44] hw/core/sysbus: Assert memory region index is in range
+Date: Tue,  1 Sep 2020 16:09:26 +0200
+Message-Id: <20200901140954.889743-17-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200901140954.889743-1-laurent@vivier.eu>
 References: <20200901140954.889743-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:uhyHOkyzsjzby5kCiitKF4XT9zu/Cc96r8PYtPu9NQ2Vh4xWozs
- s9lRP4Pc7s3Z97xI47D/Np/4qFafcZesz+Bu6W8+VPWUuQ8ocQjN8DtdvW6NjMFSm30pyHl
- Lg/luf94xS3Bltht6sd4Qp+0B4w/D/eblVmyGmSNoYALXvSHN4mA6DCPK5wC8nvOZYP+0OI
- sItrwJputbOMNTej5yiPA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:mPBbFZdFeMg=:dB8Rw/qhuw9Gqo+IfKeGHj
- dWr/lccKEjHfeJd3aiyJT0hSBNBcNh2Y2G9SAsN5yeSWYewfuf1EzEKqe3+ELl9hDnS8NxWq5
- DY7evRozaVwIc+ZlWVf29IWJfdLYKf4s8LmaZKd+LBvkvvswidXEsQC4nc0wCurYF0N+lUpmz
- QqtLhB7WQIu20GtoE9nbLnKPnJHqXEkB/vM9qUmwHv/MRsi7p0bhCfwMnba07OYa5EFJehUr1
- MPTuYCNbDWemRmklnV/QNXekdur/d0kq1hQuS94B46OeZXxC/9ezwqzltSQRywugw/3d/w73L
- Dt6K21bHeaX/lQ4VGdrpmQfHyR5pnXEie2SVIzvFsn3eCbTPNumDwzv9OX4UWMyYf4gRR7c8T
- VxqDQDuNa80em39gWKkjBCTDGCCxEipBo1duL5hWnqQJDb3y6Fumun9nCZFyozZw6fhA8pe8o
- XFmG9f39sF1CCic0hosSiTIQQlIv883VlaM+CN/nrv+PxnTYmZ3ZVcQ3lHAqDlDDwWSHI0v6q
- R9DHEwMudIzUmscEZPkdI+IgKxg+56I55Opnofe7j1onGwohIzxRn2TNw0n30Ef6QLJkV/CWp
- jleKgMIyDoBV3sch7Y6KRw7QFoFpK1eFYHSof46n7AZPMmbLrkX0+XRMO4V/8EE9YcMmzDjAT
- PHFuDzeoQ8lQneHHr7lS9uJElY8N7RdY5WP4+ictWkTLx2lvIesEmiLM/BdW7HiMTlTtavTpD
- M0Je4sd7BVpmkH52OwJbpOGVnZPu8OztwSI1+DoWAq6Wo7aYPTE5cfGg3TiQr4SC2sjvI3HcU
- DvILhXnR5ZPNv03FsN/KGR0tossJUKynVFsw8cNcvHbNsL2QQi8UEhmQm77kyDu5veE+942
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:149LN1V/RMSGZ8p3pJ/g9b9ZhYU537JP7fHyZGEDMZOFqj9ZGZ/
+ NctFfN+D2CtKOCvqfsb6x+/jGSsSsf15zaFQMH8Z0NY+clSRG0h2Q6+c/3hwpeTBMf6LjB3
+ +6VWnccFR5Han2e3XSF7Id6ODDD51ax+YPSa/pdHysfXLKqq+dKOX7D9LVv9RPMPuf3p9vz
+ afSR0JEFsYxlENbZwx9UA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:duVrdT9jwb4=:rbpIf78QnKAO72HMFuhKyw
+ ELHTYNbCZRDaj+GOgZXTvf2WM68/E8Ji6ZfOb9CkeiTIXTacOROXFnCbS1lM8J7W20m+T2X9e
+ FLIrBqy5o7Sb7duxutPZ5eeL6NCQQG4HII+zifxLwK6iJSHyneMF+1CfKtcBTMyNNik9rDnGo
+ sabj52V0Eg4QXf7c5RFVw1u8g5q77bThUWn93lRtX8wxDq6o+iAutV1lw/9l9o6F5foVD0ZDn
+ 45N30B3mV3p8f219MbHXww4o+T9n7xtiDq0s/qi55ssMweCJSe2ebgVN6bAEb7SxKLEssZF0J
+ 6f5PG6x9oTJZcPxmGuE4Lz6eS8VcSsMqFFfgGKdScV42RkqLA7tUqPeCoYbfYyfYUQtRWEA68
+ hfNmaLOse7bpmWE9jXt/puQZXf1PPxJIS4PdLb52lFS5uuTLFV9L8Nw7KEyxDAGArPPPxqbEQ
+ ak4bPLlLITQoWpHTZykM5yQN6zrTyiLHpDwCGEOqNLH2AQjw8bQWSp1fc29xWPUcIyZeqoygv
+ gHWNsgBaeXh/Wr3QQp0diR8Snc56fhLv9iS6u95XgjXTTH9z7QgusyA2FB3NUQmoofPJxrdXJ
+ j2EKPcrJT5u1l+p5G8ZUsdo39IGvXgXtwQblonuXpvuIZUaDFBB3Ia/IvKlYLbcOLrId0nc9V
+ kgU8gCoKP3YHifc0yMuDrtJMdMvcl5u47R3UdlyTlr44SphMA9jEiCx8w/X3vO8dXJMnEYkxE
+ xZeoKPKCi3KNw1xGxxujUwW5eb2lATxHLH87dRxye3YuzEGH/KdY49qMQ9aO4J5Q6EOxGC4dW
+ jktD3AfNHtRx9CTX2Pj2vclUYDHElx/i3Z91rhVt4uAeqBdWs9YncUoNjUygXOJSfPtEPHO
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:09:57
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:10:08
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -78,27 +78,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
+Devices incorrectly modelled might use invalid index while
+calling sysbus_mmio_get_region(), leading to OOB access.
+Help developers by asserting the index is in range.
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200806130945.21629-2-f4bug@amsat.org>
+Message-Id: <20200806130945.21629-3-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/core/sysbus.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/core/sysbus.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/hw/core/sysbus.c b/hw/core/sysbus.c
-index 70239b7e7d09..77ab351ce1a8 100644
+index 77ab351ce1a8..294f90b7deef 100644
 --- a/hw/core/sysbus.c
 +++ b/hw/core/sysbus.c
-@@ -64,7 +64,7 @@ void foreach_dynamic_sysbus_device(FindSysbusDeviceFunc *func, void *opaque)
-         .opaque = opaque,
-     };
+@@ -199,6 +199,7 @@ void sysbus_init_mmio(SysBusDevice *dev, MemoryRegion *memory)
  
--    /* Loop through all sysbus devices that were spawened outside the machine */
-+    /* Loop through all sysbus devices that were spawned outside the machine */
-     container = container_get(qdev_get_machine(), "/peripheral");
-     find_sysbus_device(container, &find);
-     container = container_get(qdev_get_machine(), "/peripheral-anon");
+ MemoryRegion *sysbus_mmio_get_region(SysBusDevice *dev, int n)
+ {
++    assert(n >= 0 && n < QDEV_MAX_MMIO);
+     return dev->mmio[n].memory;
+ }
+ 
 -- 
 2.26.2
 
