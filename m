@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5402258FE9
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:11:34 +0200 (CEST)
-Received: from localhost ([::1]:35008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0A14259024
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:18:27 +0200 (CEST)
+Received: from localhost ([::1]:40180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD70X-0007qu-L8
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:11:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54942)
+	id 1kD77D-0004o2-0Y
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:18:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6z8-0004wJ-Uh; Tue, 01 Sep 2020 10:10:06 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:47137)
+ id 1kD6zM-0005Wo-Od; Tue, 01 Sep 2020 10:10:20 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:57591)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD6z7-0003iU-2X; Tue, 01 Sep 2020 10:10:06 -0400
+ id 1kD6zH-0003oG-DA; Tue, 01 Sep 2020 10:10:20 -0400
 Received: from localhost.localdomain ([82.252.135.186]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MxDgm-1kWyHV1E6q-00xeVR; Tue, 01 Sep 2020 16:09:57 +0200
+ id 1MCKO2-1kLORI2ayQ-009N6N; Tue, 01 Sep 2020 16:09:58 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/44] hw/register: Document register_init_block @memory_size
-Date: Tue,  1 Sep 2020 16:09:11 +0200
-Message-Id: <20200901140954.889743-2-laurent@vivier.eu>
+Subject: [PULL 02/44] target/arm/kvm: Remove superfluous break
+Date: Tue,  1 Sep 2020 16:09:12 +0200
+Message-Id: <20200901140954.889743-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200901140954.889743-1-laurent@vivier.eu>
 References: <20200901140954.889743-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:AtQWgzq0ULfuYw8lMJO5JadrGF34UW+j2cK9bu/8HqhC3eM58Gk
- 5pcnO+cF7UjlhF9ze424xMSNZP+QogMBEPfTCYDtvwIFe6GuehGTcAAwZMQPh65bDqI8WBm
- U51OQnJMnR/+M+VHXMTbCvZCrK2pYpq+gGp0dE3F4gP0WC/TuNhgWL1UWoAZ5HAJe7yPyQG
- ObRSj9A257fVGfN5kLTJA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:nudx0/aGK1M=:Krqh1IHc0oKBDF0jryp0dH
- BJ3tJGqwpzZXapQbf4uzPKN62LkZzHecrVFqBh46hg/x71M+5tbDF8CtauLZ3wrny1cU3G0kB
- RCUdKRnz0Kc45KNf8kcyXxrqUp7rH5u22zTXxt6nNW/3iG9xCM8KWEzVldw/8MzY8gxm0zVh6
- Cbc8T09pm2coNffUnBQQotQiuI3IyPMjw6+6x75JytMmww4uP01ZKwh/EolrDTs2hn3hMAN7t
- T1IhAKqQbJFZkRdGOQ+YJKxAH4tpeN86QW+g0/6l/Jg8A9uWLBPlSpCVSbIl8R7t5xbrTbceh
- GcDHpsZQVPMTqIyOTFUlVDW3+YGolB4BCYEiy77BMkt+8y50UY9LEUqUgkXbqcdPBBnTkP4QB
- CAYHpTQt9EIepEbGr0vhS1gYzVvN83YtLrYSqrv7twLalDo48BjQd/oxoxyBaRkzfYvImI+Wb
- HIVwldW3JjWeAXMeo8LNC4+FiNr18vpyDDsQVmyn2+EOmagIHeDRiOgMMSUtaPwF6tPRN8zIl
- R0G55pIa6XFU7PWTlk16ynbqGZkHSU2menokAfbHkWN+sv7cIOjbH6Ptij9aJlZx0pvs/oSqG
- UGX4iMOC3IXjP9af6yzHyqHwVT+30kTyBEFPB9EcWmtmeSSnyL3RqTEVpMx+plY+ZrGWoSknz
- QlvXvFpzWG19EbQdbfK79DrAZh9wsbzzBKpSfhiLaRHFgA7a9PaHNVU02PUup0ZmhpNcBvXb3
- qXcoetKJDplZBgO6c1cPRl+PSRH3mkyvU5kB8XsRpuRQKEsdI5TwYwSsyiNNBBXRi0QyA/gn2
- 5Bea1WQY6X+Mux2IO1t25Afhsciu9QC0a1aEra3ZmNroazOWTpS7qycsX8k0laPtbF/XrLU
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:F0TpCvtnRA9SHKBw7Olb3gWaYAHJBjSIK780eap44uZXKk+wDi3
+ TdPVdfQdMD6Sh2IUdNtTAV6990MRO8msMTwK/MZOew6q+PX/L80+lHK4RYzC+AvMQavhD3O
+ 99wJsMEnA+aoouiW+0ruI01HzUV47leT1QVDxPLdFKsb813MJjPae5lrhpYF1pJLqETamUL
+ p2rDrqu2z5wdnp67ShhnQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:WSNz6tpE9yg=:wFk62DoJrKqasw67S4CXm3
+ wZDfYZA4UlBtYP2aLE+gy14F4Yp5CpsgCzkWmR3jFSwsZnjFp5YTvNE5lgHIGNnnLCoaUxOtj
+ M9CGa93cvs2SF/biIerdrweIkQa/WNwNM5fVWjfO62gweH7fbAc5vXnHE5+Zl4Bfy13Pk8ZrB
+ lhFJrYMLJ6UjmL38RYq8zczDIKYpXNaivsGwFgBTYAF+zBrjiEHE7ZiS8jIB8BPz13kiIXhKg
+ 1dNrTbmKojeXL4Q92ygPxHw1s0D4P1x2MlOnATWvW73Mv2dSTjc0GWPHTAz/phK23T82SR+En
+ v6xbqLirch/RIrIkIoiKZspoI2bWSghrAcZizrhKH4BHr7PxfAsr6Ezui3HbZYGUl1I7myP84
+ E5DL+45hTgMf+pLLAg3OzgTcrEyy3P29OmG25b5isn1a/3duyyALb5/vxOqZO97XhWRyR9CVX
+ /yZknDlsIvNjUPNXIzVDAWLgyg2/2vNJnX21d8CQW+C4lYIt4HL9TuJCZcCp5ujW4BvE1vJg+
+ rwavfATUpyor5ihQ0iLNQ/1dms6Aiqpy7k8ckt2nhfEWysbdBy2RbhmcbL26EVvNZAcddmUXt
+ XNGIyrTvLkzutWD0XMjIr56vU/IHYzC/8WE4F/gUij2GoqXuvHDmNZJv8F4m8n8bAJ7qfVX6b
+ tPurIw1g2GVSJi/xzy5agJum6oQrV5MIbg0dGrD9++lSDMZ4cLDyK2PlaNMgj30JAciWfwNTP
+ 6J+Ig0DMt9yiDEwzILrU4uxcnC7OSFrV6vayxhEMs69eU1fHPDLTVXCDnMOpth5SF579tsXPU
+ t/rWrDr2A9PH39+uuN2BnYzdc9KErRhC3IbGMBaUc5yMIKYMUe09EhWr4kuc68MSnI2Torp
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:10:03
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:10:08
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -70,38 +70,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Yi Wang <wang.yi59@zte.com.cn>, Thomas Huth <thuth@redhat.com>,
+ qemu-trivial@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Liao Pingfang <liao.pingfang@zte.com.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Liao Pingfang <liao.pingfang@zte.com.cn>
 
-Document the 'memory_size' argument of register_init_block().
+Remove superfluous break.
 
-Fixes: a74229597e ("register: Add block initialise helper")
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200707062308.4531-1-f4bug@amsat.org>
+Signed-off-by: Liao Pingfang <liao.pingfang@zte.com.cn>
+Signed-off-by: Yi Wang <wang.yi59@zte.com.cn>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <1594630986-36148-1-git-send-email-wang.yi59@zte.com.cn>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- include/hw/register.h | 1 +
- 1 file changed, 1 insertion(+)
+ target/arm/kvm64.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/include/hw/register.h b/include/hw/register.h
-index 5d2c565ae02e..fdac5e69b545 100644
---- a/include/hw/register.h
-+++ b/include/hw/register.h
-@@ -181,6 +181,7 @@ uint64_t register_read_memory(void *opaque, hwaddr addr, unsigned size);
-  * @data: Array to use for register data, must already be allocated
-  * @ops: Memory region ops to access registers.
-  * @debug enabled: turn on/off verbose debug information
-+ * @memory_size: Size of the memory region
-  * returns: A structure containing all of the registers and an initialized
-  *          memory region (r_array->mem) the caller should add to a container.
-  */
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index 116923790550..ef1e96028500 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -330,7 +330,6 @@ int kvm_arch_remove_hw_breakpoint(target_ulong addr,
+     switch (type) {
+     case GDB_BREAKPOINT_HW:
+         return delete_hw_breakpoint(addr);
+-        break;
+     case GDB_WATCHPOINT_READ:
+     case GDB_WATCHPOINT_WRITE:
+     case GDB_WATCHPOINT_ACCESS:
 -- 
 2.26.2
 
