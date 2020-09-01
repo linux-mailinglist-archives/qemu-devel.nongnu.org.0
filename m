@@ -2,80 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 762A5258FD0
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:07:39 +0200 (CEST)
-Received: from localhost ([::1]:48174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B2D1258FDF
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:09:02 +0200 (CEST)
+Received: from localhost ([::1]:53002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD6wk-0000xZ-IN
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:07:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53696)
+	id 1kD6y5-000326-9V
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:09:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kD6v9-0007jN-CD
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:05:59 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51695)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kD6v7-00038C-6h
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:05:58 -0400
-Received: by mail-wm1-x343.google.com with SMTP id w2so1293825wmi.1
- for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 07:05:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=plfGsLJdFfIUeO3Eskw8eBlBEL40oNkSssS+EPWlzu0=;
- b=WQVSfMO3QuaJrZ1kKzSwJUEZ2JW7LVqNkQ6Vzw8DEAf70vDJfpALYqhKHxpd5buaaI
- TxInbsqXE1EikXf03bxaqXA9MZ+Xt7lcgtOLRc9cv7Y48hMKUvgLLaKV7KDFkaw+18kL
- RYYB1L+2f3RI3DTEemXNMX9GIyinuIIVgKSPF9USgRj9oCMrYmyymMqMjEo82pBwrtaD
- TIS2nd4kDVdqKsj50eVWZEfRvmU690no+SHWJsLwXARB0AT1OjOEZBbTt2PMaeVbogAv
- tT9eHTBQQjoR3+yvV9iEDqEVbmBfiJ8BZgP4hj1Jvtrd3vJJo1I5N+FREzYWn92pDexE
- HnKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=plfGsLJdFfIUeO3Eskw8eBlBEL40oNkSssS+EPWlzu0=;
- b=HiVC2ybt/+7U1jQbNatl+nx6kPATnQ+LWqmwf/VhrbXv0ejVV45E68xVbDo8PMGdUC
- I1WdjOrK7AATJ2F80jeH0gGLwOItH75HFwl3zAw2HzOSCl3TjlBqylgVaM9qXfaXn5lL
- rpNUwumlR+1zV8eJOG27HRLAi8CTDg+JDNIWSwpLjNF66RZ/x80dMhy95Z0j5kkJ129G
- 0P0bPuSrF9lIj2VM9uLkHVGByuiwICwBh6V+FwHXlmNjSWU6nfB55Nlq0u4goTDKV6da
- WgG+bSLNzy7XlMoFwwube7IpiegXin/IZ9prx8bUIfr8eXbQT+M9QtIc94o0OKS1g/5T
- hNPw==
-X-Gm-Message-State: AOAM5329+TUjVSZCYbY0xx02uSwq5TY4CK/qSTTHvQwv6R/3xxAFLwSV
- LQX6Q8yXkOiNUX+qMAvyfUTeP7cQuAzX5A==
-X-Google-Smtp-Source: ABdhPJz+g8K1kcMWRQmXBOXWgpYnV6ZXHuRVS74ijNSkJqApJ2+LGbz5ErPHXPUST8CaeZMCfg6ayw==
-X-Received: by 2002:a1c:9d4b:: with SMTP id g72mr1990416wme.68.1598969154859; 
- Tue, 01 Sep 2020 07:05:54 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u6sm2415822wrn.95.2020.09.01.07.05.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Sep 2020 07:05:52 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5D3B31FF7E;
- Tue,  1 Sep 2020 15:05:52 +0100 (BST)
-References: <20200824110057.32089-1-kraxel@redhat.com>
-User-agent: mu4e 1.5.5; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH] usb-host: workaround libusb bug
-In-reply-to: <20200824110057.32089-1-kraxel@redhat.com>
-Date: Tue, 01 Sep 2020 15:05:52 +0100
-Message-ID: <878sdt618f.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1kD6xG-0002LS-8T; Tue, 01 Sep 2020 10:08:10 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:39311)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1kD6xE-0003JX-5l; Tue, 01 Sep 2020 10:08:09 -0400
+Received: from localhost.localdomain ([82.252.135.186]) by
+ mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MVNEv-1k2tnu1dFn-00SNhy; Tue, 01 Sep 2020 16:08:05 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/44] Trivial branch for 5.2 patches
+Date: Tue,  1 Sep 2020 16:07:19 +0200
+Message-Id: <20200901140803.888852-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:RGIc3sa/JWZM2qYzwVzNYZXg3mVeOjNlwqq7dImU4JceEnhREzE
+ Ei73g6gun4QIjXajw5HyucZxbzHqJRly+VudDHo4+aEMlLznlNjHHT1aDH5S0KWFLGPzipZ
+ +CG4NZUD4rtBdxHR0z96Aa2rniycbawr9xfJBwrAeevmV4WYpNi8eCk4IskwDyjBEdWiYTh
+ CF778yPbgrVhSi67amLww==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:9G35pnsnk74=:09QCe16KISBF2cOQTidD0m
+ pYk9cEdkiSX7GQ/8wgsFJX31BEELGUZRb8OfIJ2nL0DWf1LrDxuQYKKcZTcMcohfrPJX5p0E4
+ tYICaE4qm3Isu0olphbPB8/xi38dffCPv/I58Lcj1SwOAgHUx8x4WzuboOXVUDF7XhOEL8/s/
+ 4TSeitbRgdb5QSpgObCMcOZ7kpI2HCsJS6vco631XdEsnXCk1FsYYSemRj5C20j6RuG83xsI6
+ q9++Pa2NJuSiVp0jK2nbB1g71DlRJTSfW+YKkwGZZgLqjijQ72coHbM+loEHrKRs4E4c3pvEY
+ uYm6sRiFs3n07Iz4KnqFIqXzmshDsYLAdCN7lBm2HegDTOY/68BuDyw5crf5/5l641oRQ6X7G
+ h8iCykmU0o/gOMmGrKOMGUYgdEGCZY8e+/dKtuCcSzD7wqHW/1XziRGDojhwuMMmDa0uS8d17
+ 6yFzgIQOR1PAJToo7q4zPS7XrrvJ433Uw9QYqTOdVAGp9VcldnS3yTzj8bzUWxue93w9YiSPj
+ hTPpphdprhySM0Et1Rh1054Acte7Q+fAC1DJZ/j5109JmeR4MTpykuZyazHLb3riKOAujZhGX
+ ERzRKqhg7oeBiA02QN2OhfOhUeIUJOJBMUcegGhjWKQ/ZxTaFa+RuTD+/wYJ+4ONNkA8wei9y
+ KhSuYmMY6QmEmFv78j3pcz9GeHS0oRIpYfGUWTvzXiG/t3K0h4IFKmLvbTbr4v6ZduwFScq6y
+ bCA+gQa3/iDGt/17rhYfRr9Vd8lpolRD2SwW1C3kWZE6Q205oIDAcBmeDHTHzb+mIH7fiLNT2
+ F7RvMTw1KipZjZaocSdjnuAHdlFi7NHiVB5TRQ9dr2RRboQov6BUHbblkjmjbxcGpoN5rZY
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:08:06
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,90 +68,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Gerd Hoffmann <kraxel@redhat.com> writes:
-
-> libusb_get_device_speed() does not work for
-> libusb_wrap_sys_device() devices in v1.0.23.
->
-> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1871090
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  hw/usb/host-libusb.c | 37 ++++++++++++++++++++++++++++++++++++-
->  1 file changed, 36 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/usb/host-libusb.c b/hw/usb/host-libusb.c
-> index c474551d8456..77f1eaa5fe9e 100644
-> --- a/hw/usb/host-libusb.c
-> +++ b/hw/usb/host-libusb.c
-> @@ -39,6 +39,11 @@
->  #endif
->  #include <libusb.h>
->=20=20
-> +#ifdef CONFIG_LINUX
-> +#include <sys/ioctl.h>
-> +#include <linux/usbdevice_fs.h>
-> +#endif
-> +
->  #include "qapi/error.h"
->  #include "migration/vmstate.h"
->  #include "monitor/monitor.h"
-> @@ -885,6 +890,7 @@ static void usb_host_ep_update(USBHostDevice *s)
->  static int usb_host_open(USBHostDevice *s, libusb_device *dev, int hostf=
-d)
->  {
->      USBDevice *udev =3D USB_DEVICE(s);
-> +    int libusb_speed;
->      int bus_num =3D 0;
->      int addr =3D 0;
->      int rc;
-> @@ -935,7 +941,36 @@ static int usb_host_open(USBHostDevice *s, libusb_de=
-vice *dev, int hostfd)
->      usb_ep_init(udev);
->      usb_host_ep_update(s);
->=20=20
-> -    udev->speed     =3D speed_map[libusb_get_device_speed(dev)];
-> +    libusb_speed =3D libusb_get_device_speed(dev);
-> +#ifdef CONFIG_LINUX
-> +    if (hostfd && libusb_speed =3D=3D 0) {
-> +        /*
-> +         * Workaround libusb bug: libusb_get_device_speed() does not
-> +         * work for libusb_wrap_sys_device() devices in v1.0.23.
-> +         *
-> +         * Speeds are defined in linux/usb/ch9.h, file not included
-> +         * due to name conflicts.
-> +         */
-> +        int rc =3D ioctl(hostfd, USBDEVFS_GET_SPEED, NULL);
-
-This (further) breaks a bunch of the Travis jobs - I assume because libusb =
-doesn't
-always have this symbol:
-
-  Compiling C object libcommon.fa.p/hw_input_vhost-user-input.c.o
-
-  ../hw/usb/host-libusb.c: In function =E2=80=98usb_host_open=E2=80=99:
-
-  ../hw/usb/host-libusb.c:954:32: error: =E2=80=98USBDEVFS_GET_SPEED=E2=80=
-=99 undeclared (first use in this function)
-
-  int rc =3D ioctl(hostfd, USBDEVFS_GET_SPEED, NULL);
-
-  ^
-
-  ../hw/usb/host-libusb.c:954:32: note: each undeclared identifier is repor=
-ted only once for each function it appears in
-
-  Makefile.ninja:961: recipe for target 'libcommon.fa.p/hw_usb_host-libusb.=
-c.o' failed
-
-  make: *** [libcommon.fa.p/hw_usb_host-libusb.c.o] Error 1
-
-  make: *** Waiting for unfinished jobs....
-
---=20
-Alex Benn=C3=A9e
+The following changes since commit 39335fab59e11cfda9b7cf63929825db2dd3a3e0=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-5.2-pul=
+l-=3D=0D
+request' into staging (2020-08-28 22:30:11 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://github.com/vivier/qemu.git tags/trivial-branch-for-5.2-pull-request=
+=0D
+=0D
+for you to fetch changes up to 1eef4ba6be30f8b95c8cda1bcb50a176d680a34d:=0D
+=0D
+  docs/system: Fix grammar in documentation (2020-09-01 12:09:30 +0200)=0D
+=0D
+----------------------------------------------------------------=0D
+Pull request trivial patches 20200901=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Chen Qun (10):=0D
+  hw/arm/virt-acpi-build:Remove dead assignment in build_madt()=0D
+  hw/arm/omap1:Remove redundant statement in omap_clkdsp_read()=0D
+  target/arm/translate-a64:Remove dead assignment in=0D
+    handle_scalar_simd_shli()=0D
+  target/arm/translate-a64:Remove redundant statement in=0D
+    disas_simd_two_reg_misc_fp16()=0D
+  hw/virtio/vhost-user:Remove dead assignment in scrub_shadow_regions()=0D
+  hw/net/virtio-net:Remove redundant statement in=0D
+    virtio_net_rsc_tcp_ctrl_check()=0D
+  vfio/platform: Remove dead assignment in vfio_intp_interrupt()=0D
+  usb/bus: Remove dead assignment in usb_get_fw_dev_path()=0D
+  hw/intc: fix default registers value in exynos4210_combiner_read()=0D
+  hw/display/vga:Remove redundant statement in vga_draw_graphic()=0D
+=0D
+Greg Kurz (1):=0D
+  mailmap: Add entry for Greg Kurz=0D
+=0D
+Han Han (1):=0D
+  docs: Fix broken links=0D
+=0D
+Kenta Ishiguro (1):=0D
+  hw/i386/kvm/ioapic.c: fix typo in error message=0D
+=0D
+Liao Pingfang (8):=0D
+  target/arm/kvm: Remove superfluous break=0D
+  target/ppc: Remove superfluous breaks=0D
+  scsi: Remove superfluous breaks=0D
+  vnc: Remove the superfluous break=0D
+  block/vmdk: Remove superfluous breaks=0D
+  hw: Remove superfluous breaks=0D
+  target/sh4: Remove superfluous breaks=0D
+  target/cris: Remove superfluous breaks=0D
+=0D
+Mike Gelfand (1):=0D
+  linux-user: Add strace support for printing OFD fcntl operations=0D
+=0D
+Philippe Mathieu-Daud=3DC3=3DA9 (17):=0D
+  hw/register: Document register_init_block @memory_size=0D
+  hw/isa/isa-superio: Fix IDE controller realization=0D
+  stubs/cmos: Use correct include=0D
+  hw/core/sysbus: Fix a typo=0D
+  hw/core/sysbus: Assert memory region index is in range=0D
+  Revert "mailmap: Update philmd email address"=0D
+  .mailmap: Update Paul Burton email address=0D
+  hw/i2c: Fix typo in description=0D
+  util/qemu-timer: Fix typo in description=0D
+  util/vfio-helpers: Fix typo in description=0D
+  hw/ide/core: Trivial typo fix=0D
+  hw/ide/ahci: Replace magic '512' value by BDRV_SECTOR_SIZE=0D
+  hw/ide/atapi: Replace magic '512' value by BDRV_SECTOR_SIZE=0D
+  hw/ide/pci: Replace magic '512' value by BDRV_SECTOR_SIZE=0D
+  hw/scsi/scsi-disk: Replace magic '512' value by BDRV_SECTOR_SIZE=0D
+  hw/net/xilinx_axienet: Remove unused code=0D
+  util/vfio-helpers: Unify trace-events size format=0D
+=0D
+Stefan Weil (2):=0D
+  main-loop: Fix comment=0D
+  docs/system: Fix grammar in documentation=0D
+=0D
+Thomas Huth (2):=0D
+  hw/net/can: Add missing fallthrough statements=0D
+  docs/system/target-avr: Improve the AVR docs and add to MAINTAINERS=0D
+=0D
+Tianjia Zhang (1):=0D
+  qemu-options.hx: Fix typo for netdev documentation=0D
+=0D
+ .mailmap                        |  9 ++++---=0D
+ MAINTAINERS                     |  1 +=0D
+ block/vmdk.c                    |  3 ---=0D
+ docs/amd-memory-encryption.txt  |  4 +--=0D
+ docs/pvrdma.txt                 |  2 +-=0D
+ docs/system/build-platforms.rst |  6 ++---=0D
+ docs/system/target-avr.rst      | 47 ++++++++++++++++++++-------------=0D
+ hw/arm/omap1.c                  |  1 -=0D
+ hw/arm/virt-acpi-build.c        |  3 +--=0D
+ hw/block/pflash_cfi01.c         |  1 -=0D
+ hw/core/sysbus.c                |  3 ++-=0D
+ hw/display/cirrus_vga.c         |  1 -=0D
+ hw/display/qxl-logger.c         |  2 --=0D
+ hw/display/vga.c                |  1 -=0D
+ hw/gpio/max7310.c               |  3 ---=0D
+ hw/i386/intel_iommu.c           |  1 -=0D
+ hw/i386/kvm/ioapic.c            |  2 +-=0D
+ hw/ide/ahci.c                   |  5 ++--=0D
+ hw/ide/atapi.c                  |  8 +++---=0D
+ hw/ide/core.c                   |  2 +-=0D
+ hw/ide/pci.c                    |  2 +-=0D
+ hw/input/pxa2xx_keypad.c        | 10 -------=0D
+ hw/intc/armv7m_nvic.c           |  1 -=0D
+ hw/intc/exynos4210_combiner.c   |  1 -=0D
+ hw/isa/isa-superio.c            |  2 +-=0D
+ hw/net/can/can_sja1000.c        |  2 ++=0D
+ hw/net/lan9118.c                |  2 --=0D
+ hw/net/virtio-net.c             |  1 -=0D
+ hw/net/xilinx_axienet.c         | 23 ----------------=0D
+ hw/scsi/scsi-disk.c             | 44 +++++++++++++++---------------=0D
+ hw/usb/bus.c                    |  4 +--=0D
+ hw/usb/ccid-card-emulated.c     |  1 -=0D
+ hw/vfio/platform.c              |  2 +-=0D
+ hw/virtio/vhost-user.c          |  2 +-=0D
+ include/hw/i2c/i2c.h            |  2 +-=0D
+ include/hw/register.h           |  1 +=0D
+ include/qemu/main-loop.h        |  2 +-=0D
+ linux-user/strace.c             | 12 +++++++++=0D
+ qemu-options.hx                 |  2 +-=0D
+ scsi/utils.c                    |  4 ---=0D
+ stubs/cmos.c                    |  2 +-=0D
+ target/arm/kvm64.c              |  1 -=0D
+ target/arm/translate-a64.c      |  7 ++---=0D
+ target/cris/translate.c         |  7 +++--=0D
+ target/cris/translate_v10.c.inc |  2 --=0D
+ target/ppc/misc_helper.c        |  5 ----=0D
+ target/sh4/translate.c          |  3 ---=0D
+ ui/vnc-enc-tight.c              |  1 -=0D
+ util/qemu-timer.c               |  2 +-=0D
+ util/trace-events               |  6 ++---=0D
+ util/vfio-helpers.c             |  4 +--=0D
+ 51 files changed, 112 insertions(+), 153 deletions(-)=0D
+=0D
+--=3D20=0D
+2.26.2=0D
+=0D
 
