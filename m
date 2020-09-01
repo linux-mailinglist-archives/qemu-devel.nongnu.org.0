@@ -2,29 +2,28 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D1C325890E
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 09:31:50 +0200 (CEST)
-Received: from localhost ([::1]:43944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E49D7258941
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 09:33:57 +0200 (CEST)
+Received: from localhost ([::1]:51710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD0lh-0005bR-Fh
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 03:31:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59148)
+	id 1kD0nl-0000P3-1S
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 03:33:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD0hp-0007Wd-UR; Tue, 01 Sep 2020 03:27:49 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:47185)
+ id 1kD0kg-0004i3-Ar; Tue, 01 Sep 2020 03:30:46 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:32789)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kD0ho-0000cx-3Y; Tue, 01 Sep 2020 03:27:49 -0400
+ id 1kD0ke-0001B9-8H; Tue, 01 Sep 2020 03:30:46 -0400
 Received: from [192.168.100.1] ([82.252.135.186]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MyK9S-1kVUOX1ubE-00ye6l; Tue, 01 Sep 2020 09:27:41 +0200
-Subject: Re: [PATCH-for-5.2 1/2] hw/core/sysbus: Fix a typo
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MkIEJ-1ksLyT0HUX-00kiTW; Tue, 01 Sep 2020 09:30:40 +0200
+Subject: Re: [PATCH-for-5.2] Revert "mailmap: Update philmd email address"
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
-References: <20200806130945.21629-1-f4bug@amsat.org>
- <20200806130945.21629-2-f4bug@amsat.org>
+References: <20200806135832.2319-1-philmd@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -68,35 +67,35 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <a3666ec5-5d76-e962-babb-3033c03edbf4@vivier.eu>
-Date: Tue, 1 Sep 2020 09:27:39 +0200
+Message-ID: <697a8fe1-bdb6-740e-e070-2046c5ccf61e@vivier.eu>
+Date: Tue, 1 Sep 2020 09:30:39 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200806130945.21629-2-f4bug@amsat.org>
+In-Reply-To: <20200806135832.2319-1-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:3itDNp7VP5DR1o2gzy38ZhS8P+BxK/noqYy5ZYCthguRlKRm6Gh
- TwDqW6Lgi688zfh/0xIbqaCvf9cwTMD4M2ZD1w0PaqTBZ75jsrdsCMOgkeRBiV1QZjLEnjY
- zLkAB3kLlLXI7P3+guKgQ+nQAcSUBcbOIE51GxGApIq4Ifm9yRYx5CRpJttn/PUt4AJx9zr
- sEnl+vR46Oacvv0HRLSgg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:LBBvpgrtBEY=:AO6YiWLPQHiZSlNdzr1MHc
- ahicELVJuLk9txi+94Z/jAaRYLCWNTM0hnmV8A/jv84WWVXh5TExqkyN80k60YzE3sqBL8VMO
- SCUASDCErjDMR6LwUgr6h8QT2I7FA9GGhm7vK7w5q4THCggr9x1WiGzaDMZZi2DsHdrqtCjHQ
- f4LMX1nwx2uhk4/yNTh+IIscc9FPSWxbyICo6rUk8P+pku2JiQwqFjcvI1hgW3D6EVF7KBIPq
- M2/TVe0dmivGdIzbbraT/M/CxIxDtt/li3u8lsb/i69XF6gNIalmnXIQ1hAoG2ZbFlNw937yW
- hwReAlnhKsfY1/12r/TqYEydE5rw6NmKMxdqaO0bgl8CS6u+X0BMLv20eIfaXlgyaBML8ap1g
- yS7dr3FZxkz/SniH5JERlYs38oxA+KfA5tpm8M8GDl8ZWhVDTL7HvoGsVzzRWWOO0TS6I0naB
- PFfnwfBLrWDDS8skgR/ox/c8D6KyEAHwY3zkEGfWvLvUmf9mBUtUd23QmY1IWXrZfK/TiyD4I
- iUmm2kzt1QzTi1xlvnyqlLq7rEJP49vfDK+pRN4HAwgOb8S8w0Wd23CK7LYWsM4Rn7JX+/5Ap
- /z008USXZmrLs+T61rNjdxR0LeH6l7Od+Vf6efMv63cW07NJ9HsVAvBRNdOWN/YLRDMUmdh61
- QYfiRzruimobMAUklDSzro17T9d+p+H2qN4IBQqYZqlltgbXjFUf0aHwIb0HRKdv9g03XdmA3
- k435+rlIeMldgMqjzenOL7GbsIvXliK6fN/M67XZcfvOYcpsgaK3LAh60kqKRgN1laL87s8TU
- gg3qp9asWoyjbK1bkO2syXXtgRXaXPL8vNNIZaMA0+AdVEYWV16oueUmNN8gtLXbtcSCfF9
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:L/RPMdz+S0P7sk7TyaQTSTDQGHZ1J5MoFq/wY60DbaaAoH4/LdT
+ a6z3ZLTpodhF/mpCt29SXy2+gXCM/YL/NaKSVNaCE6pYYzsPX51sjTptvKAUtkyDGZgXhS8
+ H18BvygqJS0rgT6+JEucu7AjOdH2qbTFLbTGrHubYJZV/ju0ck+Qi8EVKQQztK3qaNWQcuu
+ 6AamTQmqvFQvpQNPnyzAQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:A35gAoQxUr4=:qvtCR+g5XjVRxV9+DIZckC
+ ppZWlx3bx8km8yZB22nAwF0+cXK1mYdS57DbJuLk8OJy+rrSmdJQ4pBoi6VE529UPME+VeBg/
+ TC4VKJuft3t1SY6HhuRzaQyimZ1NBnjcoWzFizM96Z0OLuqLSN0R23bBSN/cKKgeFqMqKR6Pj
+ jt1FaHnkamt+aBBxrymxjm7p9zYWQFHYbYJnIF9H8Ot8tnwLoueO0LXQArW6KKwTw0exPejt4
+ +och3xaQbn3lw08oCGOdS6wJrIDda5if5jtJj4S1qANhgR5hmDQx2560pcFXBN98rN21jj+BP
+ hzJmL0Uz7+wRb2JthGdIm+A5L31FmULgEAJdOqv9JYa5czrXh3LhnIGM5f22A1Vy2xeL9zaeH
+ M2DrgdpFHpPNTfegS0ePihD5lz+FkzAi7xv/eURTG5aQZHImgPnqL7nn5rxC1dZpAqTBU6rpH
+ qyo3VCS7twOmFykm7ApjzMGA9Oe2wF+ysknahzE45hLXkKVfYevZ5BWeSHJN5tlcW1ZAilXiA
+ y3lZKm98mTtOxHsy2uclBB86e1rvMJsD3BGu5MNwMBbU980LU4Iicj3CB2gFcJ6ryfcKsvSHu
+ 6xN5moBNPD9Tc17MARBJjV0CA+y698SUp42ZKgMiMRBXSOdam6cMrG5QP9n/bTZeZ4ksSPyo6
+ wDp7TpU6F9/vlGXXRiCl3QZDlLVjReo9xSCYYRfJ1RFMP+R4mDW6Fm1uXw9JXMzgNt2idVXzs
+ kFuJp8+59giFArt3oZ/NRk+1MzsiFsqW+MSj+AUZl/T0T2l53OhkKMEIQ2RKNiWXaBr+NJiYG
+ 9WoKGtkwCzYMKlF3JcroCzKpDD8UxO0Ykvd4fNLXe16/+kDHiUO8qxJyYNBSpY0vY2k4qP4
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 02:33:59
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 02:34:36
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -39
 X-Spam_score: -4.0
@@ -116,31 +115,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-trivial@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 06/08/2020 à 15:09, Philippe Mathieu-Daudé a écrit :
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  hw/core/sysbus.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Le 06/08/2020 à 15:58, Philippe Mathieu-Daudé a écrit :
+> This mailmap entry does not work as I expected. I am receiving
+> emails related to my hobbyist contributions in my work mailbox
+> and I get distracted :) Remove the entry to keep things separated.
 > 
-> diff --git a/hw/core/sysbus.c b/hw/core/sysbus.c
-> index 70239b7e7d..77ab351ce1 100644
-> --- a/hw/core/sysbus.c
-> +++ b/hw/core/sysbus.c
-> @@ -64,7 +64,7 @@ void foreach_dynamic_sysbus_device(FindSysbusDeviceFunc *func, void *opaque)
->          .opaque = opaque,
->      };
+> This reverts commit 289371239153b24cb7bd96b6948c6b40b4627a9b.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  .mailmap | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/.mailmap b/.mailmap
+> index 81c2ce0937..2d97a14af3 100644
+> --- a/.mailmap
+> +++ b/.mailmap
+> @@ -54,7 +54,6 @@ Radoslaw Biernacki <rad@semihalf.com> <radoslaw.biernacki@linaro.org>
+>  Paul Burton <pburton@wavecomp.com> <paul.burton@mips.com>
+>  Paul Burton <pburton@wavecomp.com> <paul.burton@imgtec.com>
+>  Paul Burton <pburton@wavecomp.com> <paul@archlinuxmips.org>
+> -Philippe Mathieu-Daudé <philmd@redhat.com> <f4bug@amsat.org>
+>  Stefan Brankovic <stefan.brankovic@syrmia.com> <stefan.brankovic@rt-rk.com.com>
+>  Yongbok Kim <yongbok.kim@mips.com> <yongbok.kim@imgtec.com>
 >  
-> -    /* Loop through all sysbus devices that were spawened outside the machine */
-> +    /* Loop through all sysbus devices that were spawned outside the machine */
->      container = container_get(qdev_get_machine(), "/peripheral");
->      find_sysbus_device(container, &find);
->      container = container_get(qdev_get_machine(), "/peripheral-anon");
 > 
 
 Applied to my trivial-patches branch.
