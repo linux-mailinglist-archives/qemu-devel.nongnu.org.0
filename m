@@ -2,75 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B15E258EDD
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 15:06:09 +0200 (CEST)
-Received: from localhost ([::1]:60588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A79C258EDC
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 15:05:39 +0200 (CEST)
+Received: from localhost ([::1]:59112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD5zE-0006xZ-EQ
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 09:06:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36444)
+	id 1kD5yk-0006Li-Nm
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 09:05:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kD5qX-0001b0-Ix; Tue, 01 Sep 2020 08:57:09 -0400
-Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:41835)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kD5qV-0002o4-Os; Tue, 01 Sep 2020 08:57:09 -0400
-Received: by mail-qt1-x843.google.com with SMTP id t20so738474qtr.8;
- Tue, 01 Sep 2020 05:57:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=0Dg2hr+Km79kta4Vbo921CtoCw0M28LSvQZWr2OX06o=;
- b=nLJ0b1JJpiYHL1Kmgp8cgZm05Jy9SjjnxYGhrYEEEG+M0IhcOgtgpHLUN/adTN4F3T
- XrjA3Kp3Pl0FRBWMuBgsCdli3UhvMy9E/HIRUhp22FKu9h8SstnBf9XKCJ1v5LxtDgPt
- Gv/5DkAPP6WpzRsYfgUrGT8I26p6OJ54c2aidYb+RPyQDvqaxpU6t2LI1/X/dlHZd40i
- pB9lWVl34DZADLkIh5ruylqNVCkz0mVvBRY+moEGpZcxkRpgFlIbcyzxNPALyknGk1X2
- IlXATIU6vU80apcQIDBM/6rJ4CQE37PdQKVse1IrCiwK2tNRS2GmhjCgQwMIof8GPduZ
- NKhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=0Dg2hr+Km79kta4Vbo921CtoCw0M28LSvQZWr2OX06o=;
- b=VZnnamAkdj7aLRzt54eT58MhWVTNFgy5Mr01uE7u29Y/aMd3u77eKVq9obtXKpuI8p
- 7c+V5OFOfeO5LTU5Zl8cMFjVt3+eDSf/g8oP6kX/UjzAnNN2qArZIpRpxY6US73Yf+qn
- ZfvOyOeEvPo9hovJFZUqh7hAXyZ+dlaG6EnA4a0mwjrulcz4G0TvvMHSr++3Xft4X9Vx
- iCapkhkkB1eumpfsJYBMb6ysIzGszuOL/aWttVc2OJvC2f4EtqC5WX+8021XxkcvUR6N
- yTG8z9bNzK3E3U2G9ee2nWAuLUxVR+hu55VZgXTlL6YVezIfWg2PfJmTci7FvE0zsdHn
- Ut8Q==
-X-Gm-Message-State: AOAM532Eo8tZDyyum84Yve0aw/2hRPts1XaiWqp0Ds/bUOA/BOY4foYz
- vwC3k4OyS4vuqKULBqMTryivrrzoiI501A==
-X-Google-Smtp-Source: ABdhPJyjHI22maHuZj4Nu78N30tCOAZbtGlbn/gbZUzB6gVQTfCMadpCg7lxIFQ0BD5kOTFMwEUK3g==
-X-Received: by 2002:ac8:614b:: with SMTP id d11mr1579767qtm.271.1598965026369; 
- Tue, 01 Sep 2020 05:57:06 -0700 (PDT)
-Received: from rekt.ibmuc.com ([2804:431:c7c7:6be:f6e3:c671:cefe:b943])
- by smtp.gmail.com with ESMTPSA id q7sm1430164qkf.35.2020.09.01.05.57.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Sep 2020 05:57:05 -0700 (PDT)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 7/7] spapr_hcall: h_home_node_associativity now reads
- numa_assoc_array
-Date: Tue,  1 Sep 2020 09:56:45 -0300
-Message-Id: <20200901125645.118026-8-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200901125645.118026-1-danielhb413@gmail.com>
-References: <20200901125645.118026-1-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1kD5qt-0001qM-7I; Tue, 01 Sep 2020 08:57:32 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:60096)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1kD5qn-0002qb-Hj; Tue, 01 Sep 2020 08:57:30 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 081CWJ4M056208; Tue, 1 Sep 2020 08:57:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=3sIT4I7xpM1QOjgLyJA0Hdw/0/6z28dFQyKQrefeWTg=;
+ b=sy3Gd1QpckekCfPrnYsmmmFXsq36B6zMV2pMey6YCsX5E/CHepqb/It8MLzwhRtX8Tj/
+ vljBtwDfiJmMtEenuuy5+qv/ZQ5YPqhgvjpyy5M2IDrmewJGdNheorrzpAULM3ZrRsf/
+ NRjN0uZFUIbyJCXvemnp3FcEZC1ckdEsANCyzW7qvPFwKqnQh+Ti6yVvralc123w0kpc
+ ia+VQEB99BvEouABiHrAVWMgghHunQkzZmB6fwKtbDbijKBZVtGs3XeTpXkDIVeFrytl
+ YLS0HSWUHnCq4NOJ+B89EqQlnZAc5iFHizWwITuX758EA8p0GHeMzasGeJpd6uxKVh/R vA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 339msjkaee-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 01 Sep 2020 08:57:21 -0400
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 081CWfR2056994;
+ Tue, 1 Sep 2020 08:57:20 -0400
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 339msjkadk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 01 Sep 2020 08:57:20 -0400
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 081Cq6Qx009181;
+ Tue, 1 Sep 2020 12:57:18 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma04ams.nl.ibm.com with ESMTP id 337en83dx8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 01 Sep 2020 12:57:18 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 081CvGlo28246430
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 1 Sep 2020 12:57:16 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2026EA4055;
+ Tue,  1 Sep 2020 12:57:16 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C6A95A4040;
+ Tue,  1 Sep 2020 12:57:15 +0000 (GMT)
+Received: from oc2783563651 (unknown [9.145.34.193])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue,  1 Sep 2020 12:57:15 +0000 (GMT)
+Date: Tue, 1 Sep 2020 14:57:06 +0200
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Subject: Re: [PATCH] virtio: add Virtio*BusClass sizes
+Message-ID: <20200901145706.34def7db.pasic@linux.ibm.com>
+In-Reply-To: <20200824122051.99432-1-cohuck@redhat.com>
+References: <20200824122051.99432-1-cohuck@redhat.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.11.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::843;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x843.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-09-01_08:2020-09-01,
+ 2020-09-01 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 mlxscore=0
+ lowpriorityscore=0 malwarescore=0 suspectscore=0 phishscore=0
+ clxscore=1015 impostorscore=0 priorityscore=1501 bulkscore=0 spamscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009010106
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 08:57:21
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,68 +110,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- david@gibson.dropbear.id.au
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-home_node_associativity reply now uses the associativity
-values for tcpu->node_id provided by numa_assoc_array.
+On Mon, 24 Aug 2020 14:20:51 +0200
+Cornelia Huck <cohuck@redhat.com> wrote:
 
-This will avoid further changes in this code when numa_assoc_array
-changes values, but it won't be enough to prevent further changes
-if (falar aqui q se mudar o tamanho do array tem q mexer nessa
-funcao tambem, falar q a macro associativity() deixa a automacao
-de tudo mto unreadable)
+> Both VirtioPCIBusClass and VirtioCcwBusClass are typedefs of
+> VirtioBusClass, but set .class_size in the TypeInfo anyway
+> to be safe if that changes in the future.
+> 
+> Reported-by: Eduardo Habkost <ehabkost@redhat.com>
+> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- hw/ppc/spapr_hcall.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+Reviewed-by: Halil Pasic <pasic@linux.ibm.com>
 
-diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index c1d01228c6..2ec30efdcb 100644
---- a/hw/ppc/spapr_hcall.c
-+++ b/hw/ppc/spapr_hcall.c
-@@ -1878,9 +1878,13 @@ static target_ulong h_home_node_associativity(PowerPCCPU *cpu,
-                                               target_ulong opcode,
-                                               target_ulong *args)
- {
-+    SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
-     target_ulong flags = args[0];
-     target_ulong procno = args[1];
-     PowerPCCPU *tcpu;
-+    uint32_t assoc_domain1;
-+    uint32_t assoc_domain2;
-+    uint32_t assoc_domain3;
-     int idx;
- 
-     /* only support procno from H_REGISTER_VPA */
-@@ -1893,13 +1897,21 @@ static target_ulong h_home_node_associativity(PowerPCCPU *cpu,
-         return H_P2;
-     }
- 
-+    /*
-+     * Index 0 is the ibm,associativity size of the node,
-+     * which isn't relevant here.
-+     */
-+    assoc_domain1 = smc->numa_assoc_array[tcpu->node_id][1];
-+    assoc_domain2 = smc->numa_assoc_array[tcpu->node_id][2];
-+    assoc_domain3 = smc->numa_assoc_array[tcpu->node_id][3];
-+
-     /* sequence is the same as in the "ibm,associativity" property */
- 
-     idx = 0;
- #define ASSOCIATIVITY(a, b) (((uint64_t)(a) << 32) | \
-                              ((uint64_t)(b) & 0xffffffff))
--    args[idx++] = ASSOCIATIVITY(0, 0);
--    args[idx++] = ASSOCIATIVITY(0, tcpu->node_id);
-+    args[idx++] = ASSOCIATIVITY(assoc_domain1, assoc_domain2);
-+    args[idx++] = ASSOCIATIVITY(assoc_domain3, tcpu->node_id);
-     args[idx++] = ASSOCIATIVITY(procno, -1);
-     for ( ; idx < 6; idx++) {
-         args[idx] = -1;
--- 
-2.26.2
+> ---
+>  hw/s390x/virtio-ccw.c  | 1 +
+>  hw/virtio/virtio-pci.c | 1 +
+>  2 files changed, 2 insertions(+)
+> 
+> diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
+> index 0e602702971b..8feb3451a098 100644
+> --- a/hw/s390x/virtio-ccw.c
+> +++ b/hw/s390x/virtio-ccw.c
+> @@ -1237,6 +1237,7 @@ static const TypeInfo virtio_ccw_bus_info = {
+>      .name = TYPE_VIRTIO_CCW_BUS,
+>      .parent = TYPE_VIRTIO_BUS,
+>      .instance_size = sizeof(VirtioCcwBusState),
+> +    .class_size = sizeof(VirtioCcwBusClass),
+>      .class_init = virtio_ccw_bus_class_init,
+>  };
+>  
+> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+> index ccdf54e81c78..45e7b65a8d24 100644
+> --- a/hw/virtio/virtio-pci.c
+> +++ b/hw/virtio/virtio-pci.c
+> @@ -2101,6 +2101,7 @@ static const TypeInfo virtio_pci_bus_info = {
+>      .name          = TYPE_VIRTIO_PCI_BUS,
+>      .parent        = TYPE_VIRTIO_BUS,
+>      .instance_size = sizeof(VirtioPCIBusState),
+> +    .class_size    = sizeof(VirtioPCIBusClass),
+>      .class_init    = virtio_pci_bus_class_init,
+>  };
+>  
 
 
