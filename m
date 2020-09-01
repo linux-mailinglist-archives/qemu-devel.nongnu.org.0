@@ -2,78 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF473258FB0
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 15:59:15 +0200 (CEST)
-Received: from localhost ([::1]:51728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 435E5258FE6
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 16:11:12 +0200 (CEST)
+Received: from localhost ([::1]:60592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD6od-0007Gy-0f
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 09:59:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51312)
+	id 1kD70B-0006aH-5y
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 10:11:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kD6nr-0006mA-Vn
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 09:58:27 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:29425
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kD6nn-0001xg-B6
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 09:58:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598968702;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Y/Pf+644+9GonY+Buh0yiHAZpb3UWg9fd+j1ooVbonQ=;
- b=WXmcwdNsoOMHdrTkjkZQvqGWPEZNkvusWj7a3JGKJOkQ8F1214CSVhqEPD5QQt94g9OjdY
- dUzIrPxsCn9CwXKPE86KO9xKqxtK6jnqHv2ziekGp3WNWoKIeJPUoupOgdOnGgLQC3AmFy
- kvEeD11yA/IU3tOyOntROT2Lvu+Is4Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-489-V3zY99p9OCi119ytgcviYA-1; Tue, 01 Sep 2020 09:58:20 -0400
-X-MC-Unique: V3zY99p9OCi119ytgcviYA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8EF8A10ABDA8;
- Tue,  1 Sep 2020 13:58:19 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-114-10.ams2.redhat.com [10.36.114.10])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5ED5D7EB94;
- Tue,  1 Sep 2020 13:58:17 +0000 (UTC)
-Date: Tue, 1 Sep 2020 15:58:15 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v2 (BROKEN) 0/6] migration: bring improved
- savevm/loadvm/delvm to QMP
-Message-ID: <20200901135815.GA4251@linux.fritz.box>
-References: <20200727150843.3419256-1-berrange@redhat.com>
- <877dtls8ux.fsf@dusky.pond.sub.org>
- <20200826182824.GA190807@redhat.com>
- <874koonyd0.fsf@dusky.pond.sub.org>
- <20200827113411.GP192458@redhat.com>
- <87d035ws1b.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
+ id 1kD6yw-0004Th-Dd
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:09:54 -0400
+Received: from mail-db8eur05on2104.outbound.protection.outlook.com
+ ([40.107.20.104]:25344 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
+ id 1kD6yt-0003fQ-16
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 10:09:54 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FbvynnQxPaY7fg84x9YyU3Owako/NjNQIZppuHMHT8uOidEuljR4f/A1uOaKwzshpJ52MHPeK0Q8YVyeJrnpRfE/4DIjxMWdSZi+FACYq6DQH3ah6Q0EqAIAwsHwUUUbLZOEUo63tyCrI1On4YsShMu3rKiAe0yte0qqpJPv8JcMXOniOz9TnxS3TCXPzsgVavktJj8umN1612g/XTS6qmQMS6btf9asY1kL3BtDtsXTkLaS7jiiRp/emmFGu17WNsNapxz3Yiqd+Lbw8apmGu79ClTJZ8RvoyUw9mQMf8J0LrBS6czGTvrWdwjD+S1eEbKOPu3mWgfm22TD3s9XKA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sWqQwJE+qz+y4F6oTp1pNhvpb7mWIhqld/lH789rufg=;
+ b=RxjpZBiTMUY+6ZtG/wwMlKFBxqogDIt5DbLus9rwqsbzrIB3zC8iEnqSey+lQ+f5SPLeRDLEK/UuUmqX23dFNzET4HeeZ3agkToBcSOx+I79k5MFN1SquZ2WAmZTrmZ2Dkg3O0OaNCMeh9mWcpjv8Q4snk6qR5kTclhLLgrOoqpDtirPRNMir8aVg/xG5a1CcuC65HP9osaw476nQFJYOx1Sj0MVc71Ed63iZz5CGqACb4stm7VTKJ/WB4CIPoDg5FRfRGiZHd8dHZiSvE48PaFrs/YG9sCAGeHc3VoMuCLcpUdMy58Q8etIAd6tL/Zgq4ivLU8mMXyL5vz+x54d0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
+ dkim=pass header.d=syrmia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sWqQwJE+qz+y4F6oTp1pNhvpb7mWIhqld/lH789rufg=;
+ b=c2iPCb6Ra4pq/atB1uQS6B0eioOdKgShI1oWF2HovWgsFeXXOnJKLEEEc1cTjLvZEVAaUCTXXE7YYAK7XJTNVv9JrWXrP0c6KpWXcvEGV8ttbIXumy+nbQK3LmbgsEfdVy+aOetdOc4yDUqrCBCK4U1AZ9ZTnJOeL68hGSRHDGI=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=syrmia.com;
+Received: from VE1PR03MB5246.eurprd03.prod.outlook.com (2603:10a6:802:a1::22)
+ by VI1PR03MB6414.eurprd03.prod.outlook.com (2603:10a6:800:19e::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.19; Tue, 1 Sep
+ 2020 13:54:43 +0000
+Received: from VE1PR03MB5246.eurprd03.prod.outlook.com
+ ([fe80::3568:5b4f:ab6b:e362]) by VE1PR03MB5246.eurprd03.prod.outlook.com
+ ([fe80::3568:5b4f:ab6b:e362%6]) with mapi id 15.20.3261.026; Tue, 1 Sep 2020
+ 13:54:43 +0000
+Subject: Re: [PULL 0/8] Linux user for 5.2 patches
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
+References: <20200831110716.536808-1-laurent@vivier.eu>
+ <CAFEAcA88ZzORi0FYKevoGkoRAoUHuT=-GXKuYjvx-uBCNJBeyg@mail.gmail.com>
+From: Filip Bozuta <Filip.Bozuta@syrmia.com>
+Message-ID: <a0b66223-659e-6870-1402-2ed4de451b5e@syrmia.com>
+Date: Tue, 1 Sep 2020 15:54:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <CAFEAcA88ZzORi0FYKevoGkoRAoUHuT=-GXKuYjvx-uBCNJBeyg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-ClientProxiedBy: AM0P190CA0023.EURP190.PROD.OUTLOOK.COM
+ (2603:10a6:208:190::33) To VE1PR03MB5246.eurprd03.prod.outlook.com
+ (2603:10a6:802:a1::22)
 MIME-Version: 1.0
-In-Reply-To: <87d035ws1b.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 02:08:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.10.101] (147.91.217.237) by
+ AM0P190CA0023.EURP190.PROD.OUTLOOK.COM (2603:10a6:208:190::33) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3326.20 via Frontend Transport; Tue, 1 Sep 2020 13:54:42 +0000
+X-Originating-IP: [147.91.217.237]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1c6bd888-355f-4665-933e-08d84e7e9444
+X-MS-TrafficTypeDiagnostic: VI1PR03MB6414:
+X-Microsoft-Antispam-PRVS: <VI1PR03MB641449A1DB03FE7CD34A40FAEB2E0@VI1PR03MB6414.eurprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1728;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: KBEJBLcaLHa0pfAt2s3uHzDFSQUDzJowIj0qhQ7T2HTnaD4uGknnPBs6k9vvCfFfmCSbYe5yzKAjFDc3Ow+s7yB+k3MFkBOn5Fvr99RhlPdde0XsIO3Q7SJg/XfNrilU4AuWuL6HZDU08tTfvIK6V52cv9Bqih00ypW+x3Zzogk6Csj2Yt9xo9+nJP9fiPbRgU2+8ncs57YJ5KDYfckFnbURuoZAH94psPIm/vbB1RN/kIVUJ9V2vcgL08DsIDz08KrhmwTvx+FYSVZgvW/JnQ/Hq5g6s6h3UF+Zvbow/UR1PTACJCL8eNO+0+uFNHEfr71/l3Yw/oAW01dO78hRSGgkX8qW8IN65LuswXIXibywUJrlG/8lrG8oqQVa/YkPX/TT4H9UsB/VX1ZROQ7RvXmN5gG12bu9ZFjBg+YP65VWD1jncZqzaFiAxnJ5pb6J5/NGaXiDUdDYx7OYAPtthw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VE1PR03MB5246.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(136003)(366004)(376002)(346002)(39830400003)(396003)(8936002)(2906002)(4326008)(5660300002)(6486002)(966005)(956004)(478600001)(31696002)(36756003)(110136005)(2616005)(26005)(186003)(66556008)(66476007)(52116002)(66946007)(316002)(16576012)(8676002)(16526019)(86362001)(83380400001)(31686004)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: fIWs7aoth+2Kldt9MlIfUGkivm0fnhOSALDfeKtKOLzkPGrXP1FiuqKD555NEU4B3fj7dj/1cjRXdDuMepuyesp/TuxdLSosZQJy3paCft+ok4SWSh0k8uieLxKbOH4DzZo9KKcp4yn8MqxNll0bhbd/QzJAjUj6uhiOkulsgNKl4se7FuekeyInSCLvqr4DLvNJe8j1ajQod6THPtZ99jQu07COXfogkEka4yvvoYv9LFaHhWPIWpTPmg4I1DkE4hGO0CYnQxD9k1OR4UxxwFpNVGUYZzTV3fHsJHtsvlapv+xZHfKfhcv32LdA9nlJ8KY/swPTLc80KK6UyM6eUgfP1f3jUD8mSLjkAbWrkJQvi9+zjPzW5Aou9ncfy9WYvyYaXWfFP+gS1j3MfEIG8ZI+B8cRFd/zS2JakfsyQnDm6hkcrrkkLM2Lkzm9FCC0tS/DnsW6w8kb0qOpl1tActUEJm1d/aE99lQbfFVuSdSxQfoNFB6CqmUuEMcnj6ZwkZ/GMnl04JpWNzhFLxT6Tk02yhcBQDQTA3cNpwNKAK/v/lOQYzCM7YdMjadooko7OEIRND0g//0Haa4EzYLKHYPm9y7NwyBOcbsAM5NVqXvulpkebDbFexwmJ9j+OR0tyizk72L/Fph8dH2tGE81EQ==
+X-OriginatorOrg: syrmia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1c6bd888-355f-4665-933e-08d84e7e9444
+X-MS-Exchange-CrossTenant-AuthSource: VE1PR03MB5246.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2020 13:54:43.5991 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TmHh0aGVO5RekSoBMRDgjuZDr6JVSIIcqrIS+z1XkQrA+cwG+AIjG00/FxrSxO775ImFKqXGbeVRE59wfQHn+w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR03MB6414
+Received-SPF: pass client-ip=40.107.20.104;
+ envelope-from=Filip.Bozuta@syrmia.com;
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 10:09:48
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-2.13, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,173 +118,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Krempa <pkrempa@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- "Denis V. Lunev" <den@virtuozzo.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 01.09.2020 um 15:22 hat Markus Armbruster geschrieben:
-> Daniel P. Berrangé <berrange@redhat.com> writes:
-> 
-> > On Thu, Aug 27, 2020 at 01:04:43PM +0200, Markus Armbruster wrote:
-> >> Daniel P. Berrangé <berrange@redhat.com> writes:
-> >> 
-> >> > On Wed, Aug 26, 2020 at 05:52:06PM +0200, Markus Armbruster wrote:
-> >> > From the POV of practicality, making a design that unifies internal
-> >> > and external snapshots is something I'm considering out of scope.
-> >> > It increases the design time burden, as well as implementation burden.
-> >> > On my side, improving internal snapshots is a "spare time" project,
-> >> > not something I can justify spending weeks or months on.
-> >> 
-> >> I'm not demanding a solution that unifies internal and external
-> >> snapshots.  I'm asking for a bit of serious thought on an interface that
-> >> could compatibly evolve there.  Hours, not weeks or months.
-> >> 
-> >> > My goal is to implement something that is achievable in a short
-> >> > amount of time that gets us out of the hole we've been in for 10
-> >> > years. Minimal refactoring of the internal snapshot code aside
-> >> > from fixing the critical limitations we have today around choice
-> >> > of disks to snapshot.
-> >> >
-> >> > If someone later wants to come up with a grand unified design
-> >> > for everything that's fine, we can deprecate the new QMP commands
-> >> > I'm proposing now.
-> >> 
-> >> Failing at coming up with an interface that has a reasonable chance to
-> >> be future-proof is okay.
-> >> 
-> >> Not even trying is not okay.
-> >
-> > This was raised in my v1 posting:
-> >
-> >   https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg01346.html
-> >
-> > but the conclusion was that it was a non-trivial amount of extra
-> > implementation work
-> 
-> Thanks for the pointer.  I've now read that review thread.
-> 
-> >> Specifically, I'd like you to think about monolothic snapshot command
-> >> (internal snapshots only by design) vs. transaction of individual
-> >> snapshot commands (design is not restricted to internal snapshots, but
-> >> we may want to accept implementation restrictions).
-> >> 
-> >> We already have transactionable individual storage snapshot commands.
-> >> What's missing is a transactionable machine state snapshot command.
-> >
-> > At a high level I consider what I've proposed as being higher level
-> > syntax sugar vs a more generic future impl based on multiple commands
-> > for snapshotting disk & state. I don't think I'd claim that it will
-> > evolve to become the design you're suggesting here, as they are designs
-> > from different levels in the stack. IOW, I think the would ultimately
-> > just exist in parallel. I don't think that's a real problem from a
-> > maint POV, as the large burden from the monolithic snapshot code is
-> > not the HMP/QMP interface, but rather the guts of the internal
-> > impl in the migration/savevm.c and block/snapshot.c files. That code
-> > will exist for as long as the HMP commands exist, and adding a QMP
-> > interface doesn't make that situation worse unless we were intending
-> > to drop the existing HMP commands. If we did change our minds though,
-> > we can just deprecate the QMP command at any time we like.
-> >
-> >
-> >> One restriction I'd readily accept at this time is "the machine state
-> >> snapshot must write to a QCOW2 that is also internally snapshot in the
-> >> same transaction".
-> >> 
-> >> Now explain to me why this is impractical.
-> >
-> > The issues were described by Kevin here:
-> >
-> >   https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg02057.html
-> >
-> > Assuming the migration impl is actually possible to solve, there is
-> > still the question of actually writing it. That's a non-trivial
-> > amount of work someone has to find time for.
-> 
-> Kevin explained how the transactionable machine state snapshot command
-> should be made non-blocking: post-copy.
-> 
-> I don't dispute that creating such a post-copy snapshot is a non-trivial
-> task.  It is out of reach for you and me.  I didn't actually ask for it,
-> though.
-> 
-> You argue that providing a blocking snapshot in QMP is better than
-> nothing, and good enough for quite a few applications.  I agree!  I
-> blocked prior attempts at porting HMP's savevm/loadvm to QMP not because
-> they were blocking, but because they stuck to the HMP interface, and the
-> HMP interface is bonkers.  I would accept the restriction "snapshotting
-> machine state is blocking, i.e. it stops the machine."  As I wrote in
-> 2016, "Limitations: No live internal machine snapshot, yet."
-> 
-> Aside: unless I'm mistaken, taking an internal block device snapshot is
-> also blocking, but unlike taking a machine state snapshot, it's fast
-> enough for the blocking not to matter.  That's the "sync" in
-> blockdev-snapshot-internal-sync.
-> 
-> I asked you to consider the interface design I proposed back in 2016.
-> You point out above that your interface is more high-level, and could be
-> turned into sugar for a low level interface.
-> 
-> If true, this means your proposal doesn't box us into a corner, which is
-> good.
-> 
-> Let me elaborate a bit on the desugaring, just to make sure we're on the
-> same page.  Please correct me where I'm talking nonsense.
-> 
-> snapshot-save creates job that snapshots a set of block devices and the
-> machine state.  The snapshots are consistent, i.e. they are all taken at
-> the same point in time.  The block device snapshots are all internal.
-> The machine state snapshot is saved together with one of the (internal)
-> block device snapshots.
-> 
-> This is basically a transaction of blockdev-snapshot-internal-sync
-> (which exists) plus machine-snapshot-internal-sync (which doesn't exist)
-> wrapped in a job.
-> 
-> Likweise for snapshot-load, except there not even the command for block
-> snapshots exists.
-> 
-> I doubt creating the (transactionable, but blocking) low-level commands
-> is actually out of reach.  It's a matter of adding interfaces to parts
-> of the code you already got working.
-> 
-> I'm not demanding you do that, though.  As I said, my chief concerns are
-> keeping "bonkers" out of QMP, and not boxing us in needlessly.
 
-I doubt this is as easy as it may seem at the first sight. To remind
-everyone, the way internal snapshots with VM state work today is:
+On 1.9.20. 15:06, Peter Maydell wrote:
+> On Mon, 31 Aug 2020 at 12:08, Laurent Vivier <laurent@vivier.eu> wrote:
+>> The following changes since commit 39335fab59e11cfda9b7cf63929825db2dd3a3e0:
+>>
+>>    Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-5.2-pull-=
+>> request' into staging (2020-08-28 22:30:11 +0100)
+>>
+>> are available in the Git repository at:
+>>
+>>    git://github.com/vivier/qemu.git tags/linux-user-for-5.2-pull-request
+>>
+>> for you to fetch changes up to d6676fc62a52e020df32abf927c2e7183781a2e3:
+>>
+>>    linux-user: Add support for btrfs ioctls used to scrub a filesystem (2020-0=
+>> 8-29 10:14:52 +0200)
+>>
+>> ----------------------------------------------------------------
+>> Add btrfs support
+> Fails to build with clang, I'm afraid:
+>
+> In file included from ../../linux-user/syscall.c:4561:
+> ../../linux-user/syscall_types.h:485:33: error: implicit conversion
+> from enumeration type 'enum btrfs_dev_stat_values' to different
+> enumeration type 'argtype' (aka 'enum argtype')
+> [-Werror,-Wenum-conversion]
+>         MK_ARRAY(TYPE_ULONGLONG, BTRFS_DEV_STAT_VALUES_MAX), /* values */
+>         ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> /home/petmay01/linaro/qemu-for-merges/include/exec/user/thunk.h:45:42:
+> note: expanded from macro 'MK_ARRAY'
+> #define MK_ARRAY(type, size) TYPE_ARRAY, size, type
+>                                           ^~~~
+> ../../linux-user/syscall.c:4559:79: note: expanded from macro 'STRUCT'
+> #define STRUCT(name, ...) static const argtype struct_ ## name ##
+> _def[] = {  __VA_ARGS__, TYPE_NULL };
+>
+>      ~  ^~~~~~~~~~~
+> 1 error generated.
 
-1. Write VM state to VM state area inside the image (in qcow2, this is
-   essentially the same as disk content, except at offsets higher than
-   the image size).
+There seems to be a problem because 'BTRFS_DEV_STAT_VALUES_MAX' is not a 
+predefined value but an enum value from from 'enum btrfs_dev_stat_values':
 
-2. Create the qcow2 snapshot, which means that the current disk content
-   (including the VM state at higher offsets) becomes COW and the
-   snapshotted copy becomes read-ony.
+https://elixir.bootlin.com/linux/latest/source/include/uapi/linux/btrfs.h#L668
 
-3. Discard the VM state in the active layer again, we don't need it
-   there.
+The build problem arises probably when 'thunk_convert()' tries to 
+convert this enum value to the thunk enum values 'argtype'. I will see 
+about finding a work around for this or maybe use a STRUCT_SPECIAL() for 
+'struct btrfs_ioctl_get_dev_stats' to define an explicit converting 
+function.
 
-The implication is that either 1. has to be completed before 2. can
-happen, or that 2. must be able to write into an already taken snapshot
-rather than to the active layer (which in turn implies that the snapshot
-must have completed).
+Just curious, on what linux distro are you building on? I didn't come 
+accross this build issue on my system.
 
-So a naive implementation with a transaction might not give the right
-result. It's not just independent operations, but some ordering between
-them is required.
-
-I feel having a single block job that covers both parts gives us more
-flexibility in how we want to synchronise writing the VM state and
-taking the disk snapshot - or in your words, avoids boxing us into a
-corner.
-
-Kevin
-
+>
+> thanks
+> -- PMM
+>
 
