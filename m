@@ -2,78 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 311E6258DC5
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 13:59:21 +0200 (CEST)
-Received: from localhost ([::1]:34314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71024258DF9
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 14:11:53 +0200 (CEST)
+Received: from localhost ([::1]:43950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD4wa-0006Ro-A8
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 07:59:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49202)
+	id 1kD58h-0002ke-Vu
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 08:11:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kD4vh-00062Y-RD
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 07:58:25 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53596
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kD4vf-0003fO-N6
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 07:58:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598961502;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=O4Rkf/wORAWLHmY/j3frMgj0ZQS1aLb7lrkWNGRvc6Y=;
- b=KKxI+ubMXSJiyiAO+WLBWGMGrBObzXB+wP3dWD7t3d75CMw5NGiyn2jF7nP7JuiJAf8R2O
- X8xqoyFXYydfLPwfig2eAHKww6Zag8grw0aGdAe/GOP0ok46Y8wYpQdXGQhwpgRRWmEVqf
- VOzu6Sdf1AzDwdU4W5zU9XhhKFP6fn8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-551-8-8EK24HO1GAkYza0vx_9w-1; Tue, 01 Sep 2020 07:58:19 -0400
-X-MC-Unique: 8-8EK24HO1GAkYza0vx_9w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 251EB189E604;
- Tue,  1 Sep 2020 11:58:18 +0000 (UTC)
-Received: from imammedo-mac (unknown [10.40.193.201])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E757760BE2;
- Tue,  1 Sep 2020 11:58:13 +0000 (UTC)
-Date: Tue, 1 Sep 2020 13:58:11 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Babu Moger <babu.moger@amd.com>
-Subject: Re: [PATCH v6 10/10] i386: Simplify CPUID_8000_001E for AMD
-Message-ID: <20200901135811.0f71979e@imammedo-mac>
-In-Reply-To: <159889938728.21294.12746724309255308236.stgit@naples-babu.amd.com>
-References: <159889924378.21294.16494070903874534542.stgit@naples-babu.amd.com>
- <159889938728.21294.12746724309255308236.stgit@naples-babu.amd.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kD57p-0002K9-N8
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:10:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38062)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kD57m-0005dN-3A
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 08:10:57 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kD57k-0000c4-9n
+ for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 12:10:52 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 4749E2E8052
+ for <qemu-devel@nongnu.org>; Tue,  1 Sep 2020 12:10:52 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=imammedo@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 00:57:59
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Tue, 01 Sep 2020 12:01:24 -0000
+From: P J P <1892960@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr pjps
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: P J P (pjps)
+References: <159840512781.15369.16521722289936881073.malonedeb@soybean.canonical.com>
+Message-Id: <159896168432.21231.7284859121491524476.malone@chaenomeles.canonical.com>
+Subject: [Bug 1892960] Re: Heap-overflow in flatview_read through
+ sdhci_data_transfer
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="195cbfa84cb75815472f69dd83d46f006869050b"; Instance="production"
+X-Launchpad-Hash: 460b4d42937023b7c061c5efd56b9caf183166a8
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 03:58:46
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.001, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,294 +72,313 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, mst@redhat.com,
- ehabkost@redhat.com, rth@twiddle.net
+Reply-To: Bug 1892960 <1892960@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 31 Aug 2020 13:43:07 -0500
-Babu Moger <babu.moger@amd.com> wrote:
+Proposed patch
+  -> https://lists.nongnu.org/archive/html/qemu-devel/2020-08/msg07968.html
 
-> apic_id contains all the information required to build
-> CPUID_8000_001E. core_id and node_id is already part of
-> apic_id generated by x86_topo_ids_from_apicid.
->=20
-> Also remove the restriction on number bits on core_id and
-> node_id.
->=20
-> Remove all the hardcoded values and replace with generalized
-> fields.
->=20
-> Refer the Processor Programming Reference (PPR) documentation
-> available from the bugzilla Link below.
->=20
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D206537
-> Signed-off-by: Babu Moger <babu.moger@amd.com>
+-- =
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1892960
 
-> ---
->  target/i386/cpu.c |  195 ++++++++++++-----------------------------------=
-------
->  1 file changed, 45 insertions(+), 150 deletions(-)
->=20
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index d434c8545a..ada9ec8f3a 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -338,62 +338,6 @@ static void encode_cache_cpuid80000006(CPUCacheInfo =
-*l2,
->      }
->  }
-> =20
-> -/*
-> - * Definitions used for building CPUID Leaf 0x8000001D and 0x8000001E
-> - * Please refer to the AMD64 Architecture Programmer=E2=80=99s Manual Vo=
-lume 3.
-> - * Define the constants to build the cpu topology. Right now, TOPOEXT
-> - * feature is enabled only on EPYC. So, these constants are based on
-> - * EPYC supported configurations. We may need to handle the cases if
-> - * these values change in future.
-> - */
-> -/* Maximum core complexes in a node */
-> -#define MAX_CCX 2
-> -/* Maximum cores in a core complex */
-> -#define MAX_CORES_IN_CCX 4
-> -/* Maximum cores in a node */
-> -#define MAX_CORES_IN_NODE 8
-> -/* Maximum nodes in a socket */
-> -#define MAX_NODES_PER_SOCKET 4
-> -
-> -/*
-> - * Figure out the number of nodes required to build this config.
-> - * Max cores in a node is 8
-> - */
-> -static int nodes_in_socket(int nr_cores)
-> -{
-> -    int nodes;
-> -
-> -    nodes =3D DIV_ROUND_UP(nr_cores, MAX_CORES_IN_NODE);
-> -
-> -   /* Hardware does not support config with 3 nodes, return 4 in that ca=
-se */
-> -    return (nodes =3D=3D 3) ? 4 : nodes;
-> -}
-> -
-> -/*
-> - * Decide the number of cores in a core complex with the given nr_cores =
-using
-> - * following set constants MAX_CCX, MAX_CORES_IN_CCX, MAX_CORES_IN_NODE =
-and
-> - * MAX_NODES_PER_SOCKET. Maintain symmetry as much as possible
-> - * L3 cache is shared across all cores in a core complex. So, this will =
-also
-> - * tell us how many cores are sharing the L3 cache.
-> - */
-> -static int cores_in_core_complex(int nr_cores)
-> -{
-> -    int nodes;
-> -
-> -    /* Check if we can fit all the cores in one core complex */
-> -    if (nr_cores <=3D MAX_CORES_IN_CCX) {
-> -        return nr_cores;
-> -    }
-> -    /* Get the number of nodes required to build this config */
-> -    nodes =3D nodes_in_socket(nr_cores);
-> -
-> -    /*
-> -     * Divide the cores accros all the core complexes
-> -     * Return rounded up value
-> -     */
-> -    return DIV_ROUND_UP(nr_cores, nodes * MAX_CCX);
-> -}
-> -
->  /* Encode cache info for CPUID[8000001D] */
->  static void encode_cache_cpuid8000001d(CPUCacheInfo *cache,
->                                         X86CPUTopoInfo *topo_info,
-> @@ -434,107 +378,58 @@ static void encode_cache_cpuid8000001d(CPUCacheInf=
-o *cache,
->             (cache->complex_indexing ? CACHE_COMPLEX_IDX : 0);
->  }
-> =20
-> -/* Data structure to hold the configuration info for a given core index =
-*/
-> -struct core_topology {
-> -    /* core complex id of the current core index */
-> -    int ccx_id;
-> -    /*
-> -     * Adjusted core index for this core in the topology
-> -     * This can be 0,1,2,3 with max 4 cores in a core complex
-> -     */
-> -    int core_id;
-> -    /* Node id for this core index */
-> -    int node_id;
-> -    /* Number of nodes in this config */
-> -    int num_nodes;
-> -};
-> -
-> -/*
-> - * Build the configuration closely match the EPYC hardware. Using the EP=
-YC
-> - * hardware configuration values (MAX_CCX, MAX_CORES_IN_CCX, MAX_CORES_I=
-N_NODE)
-> - * right now. This could change in future.
-> - * nr_cores : Total number of cores in the config
-> - * core_id  : Core index of the current CPU
-> - * topo     : Data structure to hold all the config info for this core i=
-ndex
-> - */
-> -static void build_core_topology(int nr_cores, int core_id,
-> -                                struct core_topology *topo)
-> -{
-> -    int nodes, cores_in_ccx;
-> -
-> -    /* First get the number of nodes required */
-> -    nodes =3D nodes_in_socket(nr_cores);
-> -
-> -    cores_in_ccx =3D cores_in_core_complex(nr_cores);
-> -
-> -    topo->node_id =3D core_id / (cores_in_ccx * MAX_CCX);
-> -    topo->ccx_id =3D (core_id % (cores_in_ccx * MAX_CCX)) / cores_in_ccx=
-;
-> -    topo->core_id =3D core_id % cores_in_ccx;
-> -    topo->num_nodes =3D nodes;
-> -}
-> -
->  /* Encode cache info for CPUID[8000001E] */
-> -static void encode_topo_cpuid8000001e(CPUState *cs, X86CPU *cpu,
-> -                                       uint32_t *eax, uint32_t *ebx,
-> -                                       uint32_t *ecx, uint32_t *edx)
-> +static void encode_topo_cpuid8000001e(X86CPU *cpu, X86CPUTopoInfo *topo_=
-info,
-> +                                      uint32_t *eax, uint32_t *ebx,
-> +                                      uint32_t *ecx, uint32_t *edx)
->  {
-> -    struct core_topology topo =3D {0};
-> -    unsigned long nodes;
-> -    int shift;
-> +    X86CPUTopoIDs topo_ids;
-> +
-> +    x86_topo_ids_from_apicid(cpu->apic_id, topo_info, &topo_ids);
-> =20
-> -    build_core_topology(cs->nr_cores, cpu->core_id, &topo);
->      *eax =3D cpu->apic_id;
-> +
->      /*
-> -     * CPUID_Fn8000001E_EBX
-> -     * 31:16 Reserved
-> -     * 15:8  Threads per core (The number of threads per core is
-> -     *       Threads per core + 1)
-> -     *  7:0  Core id (see bit decoding below)
-> -     *       SMT:
-> -     *           4:3 node id
-> -     *             2 Core complex id
-> -     *           1:0 Core id
-> -     *       Non SMT:
-> -     *           5:4 node id
-> -     *             3 Core complex id
-> -     *           1:0 Core id
-> +     * CPUID_Fn8000001E_EBX [Core Identifiers] (CoreId)
-> +     * Read-only. Reset: 0000_XXXXh.
-> +     * See Core::X86::Cpuid::ExtApicId.
-> +     * Core::X86::Cpuid::CoreId_lthree[1:0]_core[3:0]_thread[1:0];
-> +     * Bits Description
-> +     * 31:16 Reserved.
-> +     * 15:8 ThreadsPerCore: threads per core. Read-only. Reset: XXh.
-> +     *      The number of threads per core is ThreadsPerCore+1.
-> +     *  7:0 CoreId: core ID. Read-only. Reset: XXh.
-> +     *
-> +     *  NOTE: CoreId is already part of apic_id. Just use it. We can
-> +     *  use all the 8 bits to represent the core_id here.
->       */
-> -    if (cs->nr_threads - 1) {
-> -        *ebx =3D ((cs->nr_threads - 1) << 8) | (topo.node_id << 3) |
-> -                (topo.ccx_id << 2) | topo.core_id;
-> -    } else {
-> -        *ebx =3D (topo.node_id << 4) | (topo.ccx_id << 3) | topo.core_id=
-;
-> -    }
-> +    *ebx =3D ((topo_info->threads_per_core - 1) << 8) | (topo_ids.core_i=
-d & 0xFF);
-> +
->      /*
-> -     * CPUID_Fn8000001E_ECX
-> -     * 31:11 Reserved
-> -     * 10:8  Nodes per processor (Nodes per processor is number of nodes=
- + 1)
-> -     *  7:0  Node id (see bit decoding below)
-> -     *         2  Socket id
-> -     *       1:0  Node id
-> +     * CPUID_Fn8000001E_ECX [Node Identifiers] (NodeId)
-> +     * Read-only. Reset: 0000_0XXXh.
-> +     * Core::X86::Cpuid::NodeId_lthree[1:0]_core[3:0]_thread[1:0];
-> +     * Bits Description
-> +     * 31:11 Reserved.
-> +     * 10:8 NodesPerProcessor: Node per processor. Read-only. Reset: XXX=
-b.
-> +     *      ValidValues:
-> +     *      Value Description
-> +     *      000b  1 node per processor.
-> +     *      001b  2 nodes per processor.
-> +     *      010b Reserved.
-> +     *      011b 4 nodes per processor.
-> +     *      111b-100b Reserved.
-> +     *  7:0 NodeId: Node ID. Read-only. Reset: XXh.
-> +     *
-> +     * NOTE: Hardware reserves 3 bits for number of nodes per processor.
-> +     * But users can create more nodes than the actual hardware can
-> +     * support. To genaralize we can use all the upper 8 bits for nodes.
-> +     * NodeId is combination of node and socket_id which is already deco=
-ded
-> +     * in apic_id. Just use it by shifting.
->       */
-> -    if (topo.num_nodes <=3D 4) {
-> -        *ecx =3D ((topo.num_nodes - 1) << 8) | (cpu->socket_id << 2) |
-> -                topo.node_id;
-> -    } else {
-> -        /*
-> -         * Node id fix up. Actual hardware supports up to 4 nodes. But w=
-ith
-> -         * more than 32 cores, we may end up with more than 4 nodes.
-> -         * Node id is a combination of socket id and node id. Only requi=
-rement
-> -         * here is that this number should be unique accross the system.
-> -         * Shift the socket id to accommodate more nodes. We dont expect=
- both
-> -         * socket id and node id to be big number at the same time. This=
- is not
-> -         * an ideal config but we need to to support it. Max nodes we ca=
-n have
-> -         * is 32 (255/8) with 8 cores per node and 255 max cores. We onl=
-y need
-> -         * 5 bits for nodes. Find the left most set bit to represent the=
- total
-> -         * number of nodes. find_last_bit returns last set bit(0 based).=
- Left
-> -         * shift(+1) the socket id to represent all the nodes.
-> -         */
-> -        nodes =3D topo.num_nodes - 1;
-> -        shift =3D find_last_bit(&nodes, 8);
-> -        *ecx =3D ((topo.num_nodes - 1) << 8) | (cpu->socket_id << (shift=
- + 1)) |
-> -                topo.node_id;
-> -    }
-> +    *ecx =3D ((topo_info->dies_per_pkg - 1) << 8) |
-> +           ((cpu->apic_id >> apicid_die_offset(topo_info)) & 0xFF);
-> +
->      *edx =3D 0;
->  }
-> =20
-> @@ -6019,7 +5914,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index=
-, uint32_t count,
->          break;
->      case 0x8000001E:
->          assert(cpu->core_id <=3D 255);
-> -        encode_topo_cpuid8000001e(cs, cpu,
-> +        encode_topo_cpuid8000001e(cpu, &topo_info,
->                                    eax, ebx, ecx, edx);
->          break;
->      case 0xC0000000:
->=20
->=20
+Title:
+  Heap-overflow in flatview_read through sdhci_data_transfer
 
+Status in QEMU:
+  New
+
+Bug description:
+  Hello,
+  Reproducer:
+  cat << EOF | ./qemu-system-i386 -nodefaults \
+  -device sdhci-pci,sd-spec-version=3D3 \
+  -device sd-card,drive=3Dmydrive \
+  -drive if=3Dsd,index=3D0,file=3Dnull-co://,format=3Draw,id=3Dmydrive \
+  -nographic -qtest stdio -accel qtest =
+
+  outl 0xcf8 0x80001010
+  outl 0xcfc 0xd7055dba
+  outl 0xcf8 0x80001003
+  outl 0xcfc 0x86b1d733
+  writeq 0xd7055d2b 0x84126e0ed7d7355e
+  writeq 0xd7055d23 0x13bd7d7346e0129
+  writeq 0xd7055d05 0x615bfb845e05c42c
+  write 0x0 0x1 0x39
+  write 0x5 0x1 0x06
+  write 0x6 0x1 0x35
+  write 0x7 0x1 0x01
+  write 0x1350600 0x1 0x39
+  writew 0xd7055d0e 0x846e
+  write 0x1350600 0x1 0x29
+  write 0x1350602 0x1 0x1a
+  write 0x1350608 0x1 0x39
+  clock_step
+  writeq 0xd7055d03 0x6d00000026000000
+  clock_step
+  EOF
+
+  The trace:
+
+  [R +0.077745] outl 0xcf8 0x80001010
+  OK
+  [S +0.077773] OK
+  [R +0.077792] outl 0xcfc 0xd7055dba
+  OK
+  [S +0.077813] OK
+  [R +0.077826] outl 0xcf8 0x80001003
+  OK
+  [S +0.077835] OK
+  [R +0.077846] outl 0xcfc 0x86b1d733
+  OK
+  [S +0.080186] OK
+  [R +0.080204] writeq 0xd7055d2b 0x84126e0ed7d7355e
+  752161@1598405049.572123:sdhci_access wr8: addr[0x002b] <- 0x0000005e (94)
+  752161@1598405049.572133:sdhci_access wr32: addr[0x002c] <- 0x0ed7d735 (2=
+49026357)
+  752161@1598405049.572142:sdhci_access wr16: addr[0x0030] <- 0x0000126e (4=
+718)
+  752161@1598405049.572150:sdhci_access wr8: addr[0x0032] <- 0x00000084 (13=
+2)
+  OK
+  [S +0.080255] OK
+  [R +0.080267] writeq 0xd7055d23 0x13bd7d7346e0129
+  752161@1598405049.572176:sdhci_error Non-sequential access to Buffer Data=
+ Port registeris prohibited
+
+  752161@1598405049.572181:sdhci_access wr8: addr[0x0023] <- 0x00000029 (41)
+  752161@1598405049.572187:sdhci_access wr32: addr[0x0024] <- 0xd7346e01 (3=
+610537473)
+  752161@1598405049.572193:sdhci_access wr16: addr[0x0028] <- 0x00003bd7 (1=
+5319)
+  752161@1598405049.572200:sdhci_access wr8: addr[0x002a] <- 0x00000001 (1)
+  OK
+  [S +0.080303] OK
+  [R +0.080316] writeq 0xd7055d05 0x615bfb845e05c42c
+  752161@1598405049.572226:sdhci_access wr8: addr[0x0005] <- 0x0000002c (44)
+  752161@1598405049.572233:sdhci_access wr16: addr[0x0006] <- 0x000005c4 (1=
+476)
+  752161@1598405049.572240:sdhci_access wr32: addr[0x0008] <- 0x5bfb845e (1=
+543210078)
+  752161@1598405049.572247:sdhci_access wr8: addr[0x000c] <- 0x00000061 (97)
+  OK
+  [S +0.080350] OK
+  [R +0.080362] write 0x0 0x1 0x39
+  OK
+  [S +0.080606] OK
+  [R +0.080617] write 0x5 0x1 0x06
+  OK
+  [S +0.080629] OK
+  [R +0.080639] write 0x6 0x1 0x35
+  OK
+  [S +0.080648] OK
+  [R +0.080657] write 0x7 0x1 0x01
+  OK
+  [S +0.080665] OK
+  [R +0.080675] write 0x1350600 0x1 0x39
+  OK
+  [S +0.080863] OK
+  [R +0.080875] writew 0xd7055d0e 0x846e
+  752161@1598405049.572786:sdhci_send_command CMD132 ARG[0x5bfb845e]
+  752161@1598405049.572810:sdhci_error timeout waiting for command response
+  752161@1598405049.572822:sdhci_adma_loop addr=3D0x01350600, len=3D0, attr=
+=3D0x39
+  752161@1598405049.572827:sdhci_adma link: admasysaddr=3D0x1350600
+  752161@1598405049.572833:sdhci_adma_loop addr=3D0x00000000, len=3D0, attr=
+=3D0x39
+  752161@1598405049.572837:sdhci_adma link: admasysaddr=3D0x0
+  752161@1598405049.572842:sdhci_adma_loop addr=3D0x01350600, len=3D0, attr=
+=3D0x39
+  752161@1598405049.572845:sdhci_adma link: admasysaddr=3D0x1350600
+  752161@1598405049.572851:sdhci_adma_loop addr=3D0x00000000, len=3D0, attr=
+=3D0x39
+  752161@1598405049.572854:sdhci_adma link: admasysaddr=3D0x0
+  752161@1598405049.572859:sdhci_adma_loop addr=3D0x01350600, len=3D0, attr=
+=3D0x39
+  752161@1598405049.572862:sdhci_adma link: admasysaddr=3D0x1350600
+  752161@1598405049.572875:sdhci_access wr16: addr[0x000e] <- 0x0000846e (3=
+3902)
+  OK
+  [S +0.080979] OK
+  [R +0.080991] write 0x1350600 0x1 0x29
+  OK
+  [S +0.081001] OK
+  [R +0.081011] write 0x1350602 0x1 0x1a
+  OK
+  [S +0.081019] OK
+  [R +0.081029] write 0x1350608 0x1 0x39
+  OK
+  [S +0.081037] OK
+  [R +0.081045] clock_step
+  752161@1598405049.572962:sdhci_adma_loop addr=3D0x00000000, len=3D26, att=
+r=3D0x29
+  752161@1598405049.572972:sdhci_adma_loop addr=3D0x00000000, len=3D0, attr=
+=3D0x39
+  752161@1598405049.572977:sdhci_adma link: admasysaddr=3D0x0
+  752161@1598405049.572981:sdhci_adma_loop addr=3D0x01350600, len=3D0, attr=
+=3D0x39
+  752161@1598405049.572985:sdhci_adma link: admasysaddr=3D0x1350600
+  752161@1598405049.572989:sdhci_adma_loop addr=3D0x00000000, len=3D26, att=
+r=3D0x29
+  752161@1598405049.572997:sdhci_adma_loop addr=3D0x00000000, len=3D0, attr=
+=3D0x39
+  752161@1598405049.573001:sdhci_adma link: admasysaddr=3D0x0
+  OK 100
+  [S +0.081112] OK 100
+  [R +0.081126] writeq 0xd7055d03 0x6d00000026000000
+  752161@1598405049.573038:sdhci_access wr8: addr[0x0003] <- 0x00000000 (0)
+  752161@1598405049.573045:sdhci_access wr32: addr[0x0004] <- 0x00260000 (2=
+490368)
+  752161@1598405049.573051:sdhci_access wr16: addr[0x0008] <- 0x00000000 (0)
+  752161@1598405049.573057:sdhci_access wr8: addr[0x000a] <- 0x0000006d (10=
+9)
+  OK
+  [S +0.081162] OK
+  [R +0.081171] clock_step
+  752161@1598405049.573085:sdhci_adma_loop addr=3D0x01350600, len=3D0, attr=
+=3D0x39
+  752161@1598405049.573090:sdhci_adma link: admasysaddr=3D0x1350600
+  752161@1598405049.573096:sdhci_adma_loop addr=3D0x00000000, len=3D26, att=
+r=3D0x29
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  =3D=3D752161=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on addres=
+s 0x61500001e500 at pc 0x5651bce1a940 bp 0x7fff16a81f50 sp 0x7fff16a81718
+  WRITE of size 786432 at 0x61500001e500 thread T0
+      #0 0x5651bce1a93f in __asan_memcpy (/home/alxndr/Development/qemu/gen=
+eral-fuzz/build/qemu-system-i386+0x2d2893f)
+      #1 0x5651bf4197ce in flatview_read_continue /home/alxndr/Development/=
+qemu/general-fuzz/build/../exec.c:3246:13
+      #2 0x5651bf41bff3 in flatview_read /home/alxndr/Development/qemu/gene=
+ral-fuzz/build/../exec.c:3279:12
+      #3 0x5651bf41bb48 in address_space_read_full /home/alxndr/Development=
+/qemu/general-fuzz/build/../exec.c:3292:18
+      #4 0x5651bf41cce8 in address_space_rw /home/alxndr/Development/qemu/g=
+eneral-fuzz/build/../exec.c:3320:16
+      #5 0x5651bd623b67 in dma_memory_rw_relaxed /home/alxndr/Development/q=
+emu/general-fuzz/include/sysemu/dma.h:87:18
+      #6 0x5651bd623585 in dma_memory_rw /home/alxndr/Development/qemu/gene=
+ral-fuzz/include/sysemu/dma.h:110:12
+      #7 0x5651bd6227b7 in dma_memory_read /home/alxndr/Development/qemu/ge=
+neral-fuzz/include/sysemu/dma.h:116:12
+      #8 0x5651bd61b052 in sdhci_do_adma /home/alxndr/Development/qemu/gene=
+ral-fuzz/build/../hw/sd/sdhci.c:792:21
+      #9 0x5651bd60d3c4 in sdhci_data_transfer /home/alxndr/Development/qem=
+u/general-fuzz/build/../hw/sd/sdhci.c:887:13
+      #10 0x5651c0c4d917 in timerlist_run_timers /home/alxndr/Development/q=
+emu/general-fuzz/build/../util/qemu-timer.c:572:9
+      #11 0x5651c0c4de51 in qemu_clock_run_timers /home/alxndr/Development/=
+qemu/general-fuzz/build/../util/qemu-timer.c:586:12
+      #12 0x5651bf562a13 in qtest_clock_warp /home/alxndr/Development/qemu/=
+general-fuzz/build/../softmmu/cpus.c:507:9
+      #13 0x5651bf74f5d8 in qtest_process_command /home/alxndr/Development/=
+qemu/general-fuzz/build/../softmmu/qtest.c:665:9
+      #14 0x5651bf73d63e in qtest_process_inbuf /home/alxndr/Development/qe=
+mu/general-fuzz/build/../softmmu/qtest.c:710:9
+      #15 0x5651bf73c3e3 in qtest_read /home/alxndr/Development/qemu/genera=
+l-fuzz/build/../softmmu/qtest.c:722:5
+      #16 0x5651c0842762 in qemu_chr_be_write_impl /home/alxndr/Development=
+/qemu/general-fuzz/build/../chardev/char.c:188:9
+      #17 0x5651c08428aa in qemu_chr_be_write /home/alxndr/Development/qemu=
+/general-fuzz/build/../chardev/char.c:200:9
+      #18 0x5651c0868514 in fd_chr_read /home/alxndr/Development/qemu/gener=
+al-fuzz/build/../chardev/char-fd.c:68:9
+      #19 0x5651c0754736 in qio_channel_fd_source_dispatch /home/alxndr/Dev=
+elopment/qemu/general-fuzz/build/../io/channel-watch.c:84:12
+      #20 0x7fac88fad4cd in g_main_context_dispatch (/usr/lib/x86_64-linux-=
+gnu/libglib-2.0.so.0+0x504cd)
+      #21 0x5651c0cdfc67 in glib_pollfds_poll /home/alxndr/Development/qemu=
+/general-fuzz/build/../util/main-loop.c:217:9
+      #22 0x5651c0cdd567 in os_host_main_loop_wait /home/alxndr/Development=
+/qemu/general-fuzz/build/../util/main-loop.c:240:5
+      #23 0x5651c0cdcf47 in main_loop_wait /home/alxndr/Development/qemu/ge=
+neral-fuzz/build/../util/main-loop.c:516:11
+      #24 0x5651bf4bb08d in qemu_main_loop /home/alxndr/Development/qemu/ge=
+neral-fuzz/build/../softmmu/vl.c:1676:9
+      #25 0x5651bce4d51c in main /home/alxndr/Development/qemu/general-fuzz=
+/build/../softmmu/main.c:50:5
+      #26 0x7fac887b6cc9 in __libc_start_main csu/../csu/libc-start.c:308:16
+      #27 0x5651bcda2cf9 in _start (/home/alxndr/Development/qemu/general-f=
+uzz/build/qemu-system-i386+0x2cb0cf9)
+
+  0x61500001e500 is located 0 bytes to the right of 512-byte region [0x6150=
+0001e300,0x61500001e500)
+  allocated by thread T0 here:
+      #0 0x5651bce1b5b2 in calloc (/home/alxndr/Development/qemu/general-fu=
+zz/build/qemu-system-i386+0x2d295b2)
+      #1 0x7fac88fb3210 in g_malloc0 (/usr/lib/x86_64-linux-gnu/libglib-2.0=
+.so.0+0x56210)
+      #2 0x5651bd8cd222 in sdhci_pci_realize /home/alxndr/Development/qemu/=
+general-fuzz/build/../hw/sd/sdhci-pci.c:36:5
+      #3 0x5651bd88c228 in pci_qdev_realize /home/alxndr/Development/qemu/g=
+eneral-fuzz/build/../hw/pci/pci.c:2114:9
+      #4 0x5651c07a4ec9 in device_set_realized /home/alxndr/Development/qem=
+u/general-fuzz/build/../hw/core/qdev.c:864:13
+      #5 0x5651bfe384b8 in property_set_bool /home/alxndr/Development/qemu/=
+general-fuzz/build/../qom/object.c:2202:5
+      #6 0x5651bfe2c1cf in object_property_set /home/alxndr/Development/qem=
+u/general-fuzz/build/../qom/object.c:1349:5
+      #7 0x5651bfe49471 in object_property_set_qobject /home/alxndr/Develop=
+ment/qemu/general-fuzz/build/../qom/qom-qobject.c:28:10
+      #8 0x5651bfe2d890 in object_property_set_bool /home/alxndr/Developmen=
+t/qemu/general-fuzz/build/../qom/object.c:1416:15
+      #9 0x5651c078cc64 in qdev_realize /home/alxndr/Development/qemu/gener=
+al-fuzz/build/../hw/core/qdev.c:379:12
+      #10 0x5651bd8bd8cc in qdev_device_add /home/alxndr/Development/qemu/g=
+eneral-fuzz/build/../qdev-monitor.c:676:10
+      #11 0x5651bf4e3e43 in device_init_func /home/alxndr/Development/qemu/=
+general-fuzz/build/../softmmu/vl.c:2101:11
+      #12 0x5651c0af71e4 in qemu_opts_foreach /home/alxndr/Development/qemu=
+/general-fuzz/build/../util/qemu-option.c:1172:14
+      #13 0x5651bf4cd04b in qemu_init /home/alxndr/Development/qemu/general=
+-fuzz/build/../softmmu/vl.c:4384:5
+      #14 0x5651bce4d517 in main /home/alxndr/Development/qemu/general-fuzz=
+/build/../softmmu/main.c:49:5
+      #15 0x7fac887b6cc9 in __libc_start_main csu/../csu/libc-start.c:308:16
+
+  SUMMARY: AddressSanitizer: heap-buffer-overflow (/home/alxndr/Development=
+/qemu/general-fuzz/build/qemu-system-i386+0x2d2893f) in __asan_memcpy
+  Shadow bytes around the buggy address:
+    0x0c2a7fffbc50: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+    0x0c2a7fffbc60: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x0c2a7fffbc70: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x0c2a7fffbc80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x0c2a7fffbc90: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  =3D>0x0c2a7fffbca0:[fa]fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+    0x0c2a7fffbcb0: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+    0x0c2a7fffbcc0: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+    0x0c2a7fffbcd0: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+    0x0c2a7fffbce0: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+    0x0c2a7fffbcf0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  Shadow byte legend (one shadow byte represents 8 application bytes):
+    Addressable:           00
+    Partially addressable: 01 02 03 04 05 06 07 =
+
+    Heap left redzone:       fa
+    Freed heap region:       fd
+    Stack left redzone:      f1
+    Stack mid redzone:       f2
+    Stack right redzone:     f3
+    Stack after return:      f5
+    Stack use after scope:   f8
+    Global redzone:          f9
+    Global init order:       f6
+    Poisoned by user:        f7
+    Container overflow:      fc
+    Array cookie:            ac
+    Intra object redzone:    bb
+    ASan internal:           fe
+    Left alloca redzone:     ca
+    Right alloca redzone:    cb
+    Shadow gap:              cc
+  =3D=3D752161=3D=3DABORTING
+
+  -Alex
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1892960/+subscriptions
 
