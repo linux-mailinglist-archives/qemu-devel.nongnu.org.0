@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87E76259E3C
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 20:40:05 +0200 (CEST)
-Received: from localhost ([::1]:42176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7010259ED8
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 20:57:26 +0200 (CEST)
+Received: from localhost ([::1]:54892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDBCO-0003c4-B7
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 14:40:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48014)
+	id 1kDBTB-0001Y1-LH
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 14:57:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kDB7i-0001e4-9E
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 14:35:14 -0400
-Received: from mout.gmx.net ([212.227.15.19]:36103)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kDB7o-0001mm-QT
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 14:35:20 -0400
+Received: from mout.gmx.net ([212.227.15.19]:35719)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kDB7b-0008CP-Ey
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 14:35:13 -0400
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kDB7m-0008ER-B5
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 14:35:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
  s=badeba3b8450; t=1598985297;
- bh=dAT+xmixHlyCM5vhxOQn/199sB671mBOmKjg6wYsGFc=;
+ bh=1RjbbzPbP2N3QF83H9SFCrSjVVJRqbftyMByeZf/fTw=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=BNIrVNMJ6wnxIulQTX+LLBmClOBBZwo1u9egz4X6rGDq8kHhU4xBdVlcdlDV2wsUb
- 046ISOVQXT9RDsoJHtwDSTiunz2uJFa+5KsesEo6UnSiq7wCmiFMLQI0fVZz6RCSys
- fpDa3yWVoOL/wM6KiJ5Or8oF9XMtVh5HxLRxjAfk=
+ b=bPPWluCHqMCw/8NGp3bO3977TGDjRCKEZ6m1/6l8dBN0xG+Ub9x58PAZBQyEHuUvb
+ Brk4INs+BK9npQEk4Ot3Jhs2Xu1as014bH747Q1swk7Xfpe8HR3ALqkmWok7mOgyDQ
+ q52EtDN9G/DRAvCzmdsz6a0h8WF+WAZCNUiIdd1A=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from ls3530.fritz.box ([92.116.187.2]) by mail.gmx.com (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N1wq3-1kbcy13y8X-012J6w; Tue, 01
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MuDc7-1kRgnk0WU9-00udbC; Tue, 01
  Sep 2020 20:34:57 +0200
 From: Helge Deller <deller@gmx.de>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 6/7] hw/display/artist: Fix artist screen resolution
-Date: Tue,  1 Sep 2020 20:34:51 +0200
-Message-Id: <20200901183452.24967-7-deller@gmx.de>
+Subject: [PATCH 7/7] target/hppa: Fix boot with old Linux installation CDs
+Date: Tue,  1 Sep 2020 20:34:52 +0200
+Message-Id: <20200901183452.24967-8-deller@gmx.de>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200901183452.24967-1-deller@gmx.de>
 References: <20200901183452.24967-1-deller@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:QA/XWFrhY3a0zklzJCehqmzYYzDQgaP6wYVCkOKyc8D1qYm22CP
- 2Ubw/3KSwth07+KkeFeSOfR75Cm0axkF8NwRHzAaHZVTM7KhWHxF/eBZgEQ72z8/GKxYHqh
- axs+BRJK85Br33pC4nzW0YnlLcqFDl5/vFvLmunNKtVY040/Fu7A7n/B1D1vV3gLttuJjcu
- fiR0Kx7DVdkNQVIb4Bsug==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:jcd+H3OP0II=:rhqhRHTlDTIMfWAdiyznAy
- i+59PZ36kl5F53nmF2Bp2STp+UwkliZgN8fifIUdlr0M4iaX2iLY9HY+GlUFAOik2XwYRnvqI
- dfgZ5htaPNUA3TlPCbxCQYVV8x090EMvxK5RGwYifjGn+KuJDd1bPBRVAO5y9LNXnl5gG0p8Y
- dQzl+8h5//ZvQeZt5Aoh0GYWxzB2sYZrt0BNQzaDrYcMeFjbnTjuKOtAzga9P2072h1rh/ElC
- VKgeehR+TvED+pE9uOZ0zq4j7pbe0HXgp0MZ4eKF48WWwCTeEVujYA5MmRIgS72Ge4UF3ep/g
- ufXdjkNBkE1hzMWU10Nl8+qf85Wf/1KxMmUHCtTW5gnblJHZ+KJLSdvEwNpFr+g+l+mceSBvP
- L+P63/aks0RndBuRzYfgGkv+i7JiRa8Hk9AMDJk/YSLCDa8H50Pstp4iH3PyOBaCP6vpZhaqq
- SDcLEdZ0GpapLKHNIq6Tesdi3to+NGHEfMRwtZqQ26BfaXOGsxFJhvn4RilcT37KHum/SlTyt
- 2GzFyFjUPcMHQgYhJJ/j42gIpNkFYoqAf1R2NzH/m4Yfv3ayJ7pFyc5QW8iYGn+ZhNpv7mRIw
- g+hu3kk20UvKqZflDRhl3pmC7++YgIvsuruGmSjlLdLBFQi+4BvHO/hhSig5OHhhknk+aY5rn
- z6MnbSeXsZTwHzMQ2gLBBJNOjJnje9uckNWDLMtxHJSdcoT3C3BD0SvgHvmMOOg0rlCJ6oZZl
- 9TX5UHgk/memOyQnYDfqIOeyfPFVoxDBFC2ZrG8/wsFVwlbEnWcOWAGYtFCKJhStr0kPnZkxS
- KfZYgvW8IQ9ZrbGQTFoQ6B+fynZriM6Ee/wNQ7NY3hEpmrGAyDqVYZPY5W5cNhNsJcmeeFxDR
- 8okk+qolAfBlZQ9nXimx/EdpIBcYXLbN/I1yDTauBYrlQ7//KrWw/DzIkm2Lo7eg3wPolnpm5
- eLv5liidIcNFMcv/O22OwKe3B2ElKRNGzbrAhuDiG0tIvg2FvVWnX+fI+B0MS/jtXIVSrRAnn
- VFJPkQ6gHUz3GA9vPSYFY+bDD6B0xg7GGuF8Z9Z7ATOWOB/uL2qIU5pbf4NpVXIix1+GQw3Gp
- kWOAJfJ5OYKVL/jlwkIbR8XMYm4VGGffO8iOfQ4V3VY9uanh+aSmkXc1UHAV5XDw102BnSlWP
- VyWtZa4EqgHqqC2I0xV3X9H17wOctleBImzTC7937nCmTrToWUth3BmQArzk6F5dgqflPyMg9
- nJKhGTh4rITaOX7Vk
+X-Provags-ID: V03:K1:AWdl05lo+LnlJo1vHT4JZBxorzJoejQ2rjJXeIsOcpM8aBZax6Q
+ j1tMva4Wu+ehT90+02AW/X3SyPUdG3BAEjzmznihNNDHbVN8GTtxTH+RkyPRu50I/1AiDLe
+ Xyu27qOgBEHSFsZy/PS//cNsxyY9+iPxgH8rp+ElAApue/glSOGH1smPzBS7b4m1P0yRNZI
+ ToCTPSxHdenk46oxnjnLA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:lfGuFExOsP4=:UCwhL40Du6WmtBVIdQtmry
+ 9bqHrKZeQgP6a7Xo7QNipA8tl9vVEHBHbrhD9zR7gZBu0bK4Mi0V05UZ28Lw75xAFcVqeOIVN
+ WXJYwMljhd8bG1Qt5qsPPTuJ98RIGuSdmmdNjHAAoWlUSvDyT3zEfCHdMySjMY19jUrwk6VEJ
+ Q9QzlB8zcXACYKAph8K4tu5w07OhgPsV3cD0fkoZxLbzr0kt6k4pm+Vwqllw/4+mRW7iOoXUZ
+ lEYy6XrOj2th/1VK2UPhJk8gIlCjzBwZ0DBG/7QGo8KqWJRowrUIwUJSL43uDhwCtsQ4SHarS
+ EF7Pp0AVucK1iFpvSE/8dwv7aGV0wAicQtR8rStyQ+SL/2eKo8xdtKoiqyTkZRl9lf2Et3u4b
+ +ra1iRxCAc6d4UYPWhClmEZlypdAjIH1M5z7gw7mws4YukCf6iJmjNzA1rYhR/sNmjrDRXeGC
+ OPgzRmf1G6kXYxn9IQauQEjxPl8KftkhnwzGf9kUUgNFVkqWiMYrjv2hWxPsIlRHAP6ynjO68
+ 4ffPDI5yeQeF2oQ50zzDrmSUf/75VqM53vTbtFwvbyo59qneDx5eGxAg2d1AjFciL3z07abM9
+ YS19uiSstfdOpEjGjA+1Nx9Ak2cgCGTwFk1CUPES+omQRR8Po6/wZI5qMBG5YK/exW1NceBah
+ AaySIGDBD9GG09fIRU4PhI9oDOsaEmH7LBaq+aExV7eq8JpfN3cl9gyEApoexAu+6WhWITOm1
+ k2FVagOy+kF59+SXmqw0zEQHFziSTTJxu6Xq6PiiX/+qocZSj3XtiRSe2K6PjW8/KteeDpgP1
+ eVhMlApj5QRBNvgMO/Jno/O9vi6z5MsHI/5KJW0U+qotAjYNo1apuPNetxDwcdgM5s6JZn1jk
+ HSpZgvedjocjyeogqHkK/RoFFSAPr1UCaCU6tz+oKNApJoYs1i6jX0o2p+2UdDTXt8OsqDNG9
+ 6AfW26+/m+inFcKVDZGM4S53QhZ4AMDzxoqFwzEPLflAghye2Dhs9AtO6ybLR8K7g5IhGvB0y
+ GMGJxM6eoiZXGJNZzmNLbCU6zKyrxoy/AQkomZG1eCMUUWoxWwMi22LCQVkKGsX1j22mt2hWy
+ lvHoAeTk/bMzLeMQs5eqvgTAGMaAMVc0/WplyqKmOgF+3eANglkY75ET8DMiVU0GhxJCJQnPB
+ iBzp788xUsIs8hByW83E6S6Edj17LyZ0zM30k3AJlFpVfJv8CKS7mCYgK/BcpGom6a9hdjxxa
+ VWpsFjEbmTKza0pei
 Received-SPF: pass client-ip=212.227.15.19; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 13:37:41
@@ -84,157 +84,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>, Sven Schnelle <svens@stackframe.org>,
+Cc: Helge Deller <deller@gmx.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Artist screen size is limited to 2048 x 2048 pixels and x/y coordination
-addressing needs to be done by OS via an uint32 value which is based on
-a 2048 byte line length, independend of the real screen size.
+The current qemu hppa emulation emulates a PA1.1 CPU, which can only execu=
+te
+the 32-bit instruction set. For unknown 64-bit instructions, a instruction=
+ trap
+is sent to the virtual CPU.
+This behaviour is correct in the sense that we emulate what the PA1.1
+specification says.
 
-Since HP-UX seems to ideally need at least 640 pixels in width, this
-patch ensures that the screen size stays between 640x480 and 2048x2048
-pixels and fixes some pixel glitches were visible before on STI text
-consoles due to the 2048 line length limitation.
+But when trying to boot older Linux installation images, e.g.
+ftp://parisc.parisc-linux.org/debian-cd/debian-5.0/lenny-5.0.10-hppa-iso-c=
+d/cdimage.debian.org/debian-5010-hppa-netinst.iso
+one finds that qemu fails to boot those images.
+The problem is, that in the Linux kernel (e.g. 2.6.26) of those old images
+64-bit instructions were used by mistake in the fault handlers. The releva=
+nt
+instructions (the ",*" indicates that it's a 64-bit instruction) I see are=
+:
+   0:   09 3e 04 29     sub,* sp,r9,r9
+   0:   08 3d 06 3d     add,* ret1,r1,ret1
+   0:   0a 09 02 61     or,* r9,r16,r1
+   0:   0a ba 00 3a     andcm,* r26,r21,r26
+   0:   08 33 02 33     and,* r19,r1,r19
 
-Cc: Sven Schnelle <svens@stackframe.org>
+The interesting part is, that real physical 32-bit machines (like the 700/=
+64
+and B160L - which is the one we emulate) do boot those images and thus see=
+m to
+simply ignore the 64-bit flag on those instructions.
+
+The patch below modifies the qemu instruction decoder to ignore the 64-bit=
+ flag
+too - which is what real 32-bit hardware seems to do.  With this modificat=
+ion
+qemu now successfully boots those older images too.
+
+I suggest to apply the patch below - even if it does not reflect what the =
+SPEC
+says.  Instead it increases the compatibility to really existing hardware =
+and
+seem to not create problems if we add real PA2.0 support anytime later.
+
 Signed-off-by: Helge Deller <deller@gmx.de>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 =2D--
- hw/display/artist.c | 37 +++++++++++++++++++++++--------------
- 1 file changed, 23 insertions(+), 14 deletions(-)
+ target/hppa/insns.decode | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/hw/display/artist.c b/hw/display/artist.c
-index 71982559c6..98bee6d61c 100644
-=2D-- a/hw/display/artist.c
-+++ b/hw/display/artist.c
-@@ -192,6 +192,10 @@ static const char *artist_reg_name(uint64_t addr)
- }
- #undef REG_NAME
+diff --git a/target/hppa/insns.decode b/target/hppa/insns.decode
+index f0dd71dd08..dceaad65e9 100644
+=2D-- a/target/hppa/insns.decode
++++ b/target/hppa/insns.decode
+@@ -149,9 +149,9 @@ lci             000001 ----- ----- -- 01001100 0 t:5
+ # Arith/Log
+ ####
 
-+/* artist has a fixed line length of 2048 bytes. */
-+#define ADDR_TO_Y(addr) (((addr) >> 11) & 0x7ff)
-+#define ADDR_TO_X(addr) ((addr) & 0x7ff)
-+
- static int16_t artist_get_x(uint32_t reg)
- {
-     return reg >> 16;
-@@ -348,13 +352,13 @@ static void artist_invalidate_cursor(ARTISTState *s)
-                             y, s->cursor_height);
- }
+-andcm           000010 ..... ..... .... 000000 0 .....  @rrr_cf
+-and             000010 ..... ..... .... 001000 0 .....  @rrr_cf
+-or              000010 ..... ..... .... 001001 0 .....  @rrr_cf
++andcm           000010 ..... ..... .... 000000 - .....  @rrr_cf
++and             000010 ..... ..... .... 001000 - .....  @rrr_cf
++or              000010 ..... ..... .... 001001 - .....  @rrr_cf
+ xor             000010 ..... ..... .... 001010 0 .....  @rrr_cf
+ uxor            000010 ..... ..... .... 001110 0 .....  @rrr_cf
+ ds              000010 ..... ..... .... 010001 0 .....  @rrr_cf
+@@ -161,13 +161,13 @@ uaddcm_tc       000010 ..... ..... .... 100111 0 ...=
+..  @rrr_cf
+ dcor            000010 ..... 00000 .... 101110 0 .....  @rr_cf
+ dcor_i          000010 ..... 00000 .... 101111 0 .....  @rr_cf
 
--static void vram_bit_write(ARTISTState *s, int posx, int posy, bool incr_=
-x,
-+static void vram_bit_write(ARTISTState *s, int posy, bool incr_x,
-                            int size, uint32_t data)
- {
-     struct vram_buffer *buf;
-     uint32_t vram_bitmask =3D s->vram_bitmask;
-     int mask, i, pix_count, pix_length;
--    unsigned int offset, width;
-+    unsigned int posx, offset, width;
-     uint8_t *data8, *p;
+-add             000010 ..... ..... .... 0110.. 0 .....  @rrr_cf_sh
++add             000010 ..... ..... .... 0110.. - .....  @rrr_cf_sh
+ add_l           000010 ..... ..... .... 1010.. 0 .....  @rrr_cf_sh
+ add_tsv         000010 ..... ..... .... 1110.. 0 .....  @rrr_cf_sh
+ add_c           000010 ..... ..... .... 011100 0 .....  @rrr_cf_sh0
+ add_c_tsv       000010 ..... ..... .... 111100 0 .....  @rrr_cf_sh0
 
-     pix_count =3D vram_write_pix_per_transfer(s);
-@@ -366,6 +370,8 @@ static void vram_bit_write(ARTISTState *s, int posx, i=
-nt posy, bool incr_x,
-     if (s->cmap_bm_access) {
-         offset =3D s->vram_pos;
-     } else {
-+        posx =3D ADDR_TO_X(s->vram_pos >> 2);
-+        posy +=3D ADDR_TO_Y(s->vram_pos >> 2);
-         offset =3D posy * width + posx;
-     }
-
-@@ -858,7 +864,6 @@ static void artist_reg_write(void *opaque, hwaddr addr=
-, uint64_t val,
-                              unsigned size)
- {
-     ARTISTState *s =3D opaque;
--    int posx, posy;
-     int width, height;
-
-     trace_artist_reg_write(size, addr, artist_reg_name(addr & ~3ULL), val=
-);
-@@ -881,16 +886,12 @@ static void artist_reg_write(void *opaque, hwaddr ad=
-dr, uint64_t val,
-         break;
-
-     case VRAM_WRITE_INCR_Y:
--        posx =3D (s->vram_pos >> 2) & 0x7ff;
--        posy =3D (s->vram_pos >> 13) & 0x3ff;
--        vram_bit_write(s, posx, posy + s->vram_char_y++, false, size, val=
-);
-+        vram_bit_write(s, s->vram_char_y++, false, size, val);
-         break;
-
-     case VRAM_WRITE_INCR_X:
-     case VRAM_WRITE_INCR_X2:
--        posx =3D (s->vram_pos >> 2) & 0x7ff;
--        posy =3D (s->vram_pos >> 13) & 0x3ff;
--        vram_bit_write(s, posx, posy + s->vram_char_y, true, size, val);
-+        vram_bit_write(s, s->vram_char_y, true, size, val);
-         break;
-
-     case VRAM_IDX:
-@@ -1156,8 +1157,7 @@ static void artist_vram_write(void *opaque, hwaddr a=
-ddr, uint64_t val,
- {
-     ARTISTState *s =3D opaque;
-     struct vram_buffer *buf;
--    int posy =3D (addr >> 11) & 0x3ff;
--    int posx =3D addr & 0x7ff;
-+    unsigned int posy, posx;
-     unsigned int offset;
-     trace_artist_vram_write(size, addr, val);
-
-@@ -1170,6 +1170,9 @@ static void artist_vram_write(void *opaque, hwaddr a=
-ddr, uint64_t val,
-     }
-
-     buf =3D vram_write_buffer(s);
-+    posy =3D ADDR_TO_Y(addr);
-+    posx =3D ADDR_TO_X(addr);
-+
-     if (!buf->size) {
-         return;
-     }
-@@ -1212,7 +1215,7 @@ static uint64_t artist_vram_read(void *opaque, hwadd=
-r addr, unsigned size)
-     ARTISTState *s =3D opaque;
-     struct vram_buffer *buf;
-     uint64_t val;
--    int posy, posx;
-+    unsigned int posy, posx;
-
-     if (s->cmap_bm_access) {
-         buf =3D &s->vram_buffer[ARTIST_BUFFER_CMAP];
-@@ -1229,8 +1232,8 @@ static uint64_t artist_vram_read(void *opaque, hwadd=
-r addr, unsigned size)
-         return 0;
-     }
-
--    posy =3D (addr >> 13) & 0x3ff;
--    posx =3D (addr >> 2) & 0x7ff;
-+    posy =3D ADDR_TO_Y(addr);
-+    posx =3D ADDR_TO_X(addr);
-
-     if (posy > buf->height || posx > buf->width) {
-         return 0;
-@@ -1374,6 +1377,12 @@ static void artist_realizefn(DeviceState *dev, Erro=
-r **errp)
-     struct vram_buffer *buf;
-     hwaddr offset =3D 0;
-
-+    /* Screen on artist can not be greater than 2048x2048 pixels. */
-+    s->width =3D MAX(s->width, 640);
-+    s->width =3D MIN(s->width, 2048);
-+    s->height =3D MAX(s->height, 480);
-+    s->height =3D MIN(s->height, 2048);
-+
-     memory_region_init(&s->mem_as_root, OBJECT(dev), "artist", ~0ull);
-     address_space_init(&s->as, &s->mem_as_root, "artist");
-
+-sub             000010 ..... ..... .... 010000 0 .....  @rrr_cf
++sub             000010 ..... ..... .... 010000 - .....  @rrr_cf
+ sub_tsv         000010 ..... ..... .... 110000 0 .....  @rrr_cf
+ sub_tc          000010 ..... ..... .... 010011 0 .....  @rrr_cf
+ sub_tsv_tc      000010 ..... ..... .... 110011 0 .....  @rrr_cf
 =2D-
 2.21.3
 
