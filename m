@@ -2,114 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2E12258BFC
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 11:48:14 +0200 (CEST)
-Received: from localhost ([::1]:46638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40FE1258BB4
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 11:35:23 +0200 (CEST)
+Received: from localhost ([::1]:44454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD2ti-0007l4-0z
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 05:48:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39498)
+	id 1kD2hG-00034V-BC
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 05:35:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kD2fK-00023h-I5
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:33:22 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52071
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kD2fI-00015V-8x
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:33:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598952798;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=gdB7Mjs89u9mYomjkCKGspyFBidvgOuv4GI7WW+HVE0=;
- b=cPh+uwI2B5kIZ1Sb7kEsyTCKN3H6HUGMufbZDukE6HULUZ3V8zAoDruTZmbAPpdDIX2+Eo
- LSbuFSOBRj4mjIolUqMUlcElVuOxqMa/qYlfr7g0SlI/yaBajhFcotBstAAPs142fWnuCO
- d7ZybwfxuIjEojsAM7uCkH6XftSSrug=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-251-6wMf2geFNr6C6Hb-Lo1b_w-1; Tue, 01 Sep 2020 05:33:17 -0400
-X-MC-Unique: 6wMf2geFNr6C6Hb-Lo1b_w-1
-Received: by mail-wr1-f71.google.com with SMTP id f18so335942wrv.19
- for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 02:33:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=gdB7Mjs89u9mYomjkCKGspyFBidvgOuv4GI7WW+HVE0=;
- b=Y/yrh+C7eisTOy7rzJTOolTYJ0fZwIaEeRDaQs7nHAggmfm+JYQZUdkGsSvtX33ikl
- 5nZWtlUk+6xj5LqNEZWzfaCgcL9uW2w9733uLUN/ilREftPp/sNhTOxhek+I1y7Uqce7
- tX/8lPPeff8NGnpEYdhQnAi7yxu4klgcnRjWV97GKXhZCANrn0B9f5PHfMvIc6I/ZAWH
- MieKi8n+l6L2OCqy3n/mxv5eJW0BhtrDTUILU27oPSE7vaHj/yg9eAUIDF06p1c2Eh3p
- tdAXrl1QlvlkJ8D1A6wAvfyXSd32Vxb3u2U1MyOGgvqMzPZSPPUdGQH3ukxE49tf9oW3
- lbkw==
-X-Gm-Message-State: AOAM530xZN68JTfnlnuwDo8beuitO8/bglo4YCorBXh1rgYRWk0cfy2G
- jGJVvhv9tMn6dn6K6/QvEf3E7Yk7A8MYrhBaj802TqefmiKLlzbqXp1/l9QFc9hNxPAikqAyaQc
- XvWc1S4RHcAEtgdo=
-X-Received: by 2002:adf:f382:: with SMTP id m2mr829381wro.327.1598952796121;
- Tue, 01 Sep 2020 02:33:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx+VGqIoOAREZflvHY7T8a4MCDvEIzLRwqTCVanXZ7rsV5MER6dMfFS+ejXRdTU9YHn8NGCTQ==
-X-Received: by 2002:adf:f382:: with SMTP id m2mr829361wro.327.1598952795891;
- Tue, 01 Sep 2020 02:33:15 -0700 (PDT)
-Received: from [192.168.1.36] (50.red-83-52-54.dynamicip.rima-tde.net.
- [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id j7sm1527012wrs.11.2020.09.01.02.33.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Sep 2020 02:33:15 -0700 (PDT)
-Subject: Re: [PATCH] usb: call usb_packet_cleanup on usb_packet_map failure
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <20200901052723.15492-1-kraxel@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <e1eed3b4-89d0-c5ba-8ae1-de9076ffbd01@redhat.com>
-Date: Tue, 1 Sep 2020 11:33:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kD2gK-0002PF-Ec
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:34:24 -0400
+Received: from mta-02.yadro.com ([89.207.88.252]:47010 helo=mta-01.yadro.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kD2gI-0001AI-H1
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 05:34:24 -0400
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id CC8B253F9D;
+ Tue,  1 Sep 2020 09:34:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-disposition:content-type:content-type
+ :mime-version:references:message-id:subject:subject:from:from
+ :date:date:received:received:received; s=mta-01; t=1598952859;
+ x=1600767260; bh=RzHpEk1F10DnnAZ0g88sHAftn+WYCKrbgMThcHzIqMs=; b=
+ MnYGLeuGNSyq7upsAKcGGh2cWYns2+2pJkix8W1c8Us1GpHal/g76MdivEUrioYV
+ eGpWQJlE9wxXFdmcWRn/cwhFFYquzk9GMOUOROkqdF+FZdaA5IZOzz3OAm9qLHwE
+ A6Z6SHSlKWww0ihd5CX58m6/66sL0Zrsg2TveZBHnIY=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id RjxkTBE-zxH3; Tue,  1 Sep 2020 12:34:19 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
+ [172.17.10.102])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id A1C7F4D905;
+ Tue,  1 Sep 2020 12:34:18 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
+ (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Tue, 1 Sep
+ 2020 12:34:18 +0300
+Date: Tue, 1 Sep 2020 12:34:18 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [PATCH v6 11/16] cpus: remove checks for non-NULL cpus_accel
+Message-ID: <20200901093418.GC22344@SPB-NB-133.local>
+References: <20200901072201.7133-1-cfontana@suse.de>
+ <20200901072201.7133-12-cfontana@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <20200901052723.15492-1-kraxel@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 00:57:59
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.13, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20200901072201.7133-12-cfontana@suse.de>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-02.corp.yadro.com (172.17.10.102)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 05:30:08
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -122,55 +80,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ppandit@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Alberto Garcia <berto@igalia.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Pavel Dovgalyuk <dovgaluk@ispras.ru>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, haxm-team@intel.com,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Colin Xu <colin.xu@intel.com>,
+ Wenchao Wang <wenchao.wang@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/1/20 7:27 AM, Gerd Hoffmann wrote:
-
-Reported-by: Prasad J Pandit <pjp@fedoraproject.org>
-
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
+On Tue, Sep 01, 2020 at 09:21:56AM +0200, Claudio Fontana wrote:
+> now that all accelerators support the CpusAccel interface,
+> we can remove most checks for non-NULL cpus_accel,
+> we just add a sanity check/assert at vcpu creation.
+> 
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
 > ---
->  hw/usb/hcd-ehci.c | 2 ++
->  hw/usb/hcd-xhci.c | 1 +
->  2 files changed, 3 insertions(+)
+>  softmmu/cpus.c | 33 +++++++++++++++++++++------------
+>  1 file changed, 21 insertions(+), 12 deletions(-)
 > 
-> diff --git a/hw/usb/hcd-ehci.c b/hw/usb/hcd-ehci.c
-> index 2b995443fbfd..67847a9cf5f1 100644
-> --- a/hw/usb/hcd-ehci.c
-> +++ b/hw/usb/hcd-ehci.c
-> @@ -1373,6 +1373,7 @@ static int ehci_execute(EHCIPacket *p, const char *action)
->          usb_packet_setup(&p->packet, p->pid, ep, 0, p->qtdaddr, spd,
->                           (p->qtd.token & QTD_TOKEN_IOC) != 0);
->          if (usb_packet_map(&p->packet, &p->sgl)) {
-> +            usb_packet_cleanup(&p->packet);
->              qemu_sglist_destroy(&p->sgl);
->              return -1;
->          }
-> @@ -1456,6 +1457,7 @@ static int ehci_process_itd(EHCIState *ehci,
->                  usb_packet_setup(&ehci->ipacket, pid, ep, 0, addr, false,
->                                   (itd->transact[i] & ITD_XACT_IOC) != 0);
->                  if (usb_packet_map(&ehci->ipacket, &ehci->isgl)) {
-> +                    usb_packet_cleanup(&ehci->ipacket);
->                      qemu_sglist_destroy(&ehci->isgl);
->                      return -1;
->                  }
-> diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
-> index 46a2186d912a..9b156048920d 100644
-> --- a/hw/usb/hcd-xhci.c
-> +++ b/hw/usb/hcd-xhci.c
-> @@ -1616,6 +1616,7 @@ static int xhci_setup_packet(XHCITransfer *xfer)
->      usb_packet_setup(&xfer->packet, dir, ep, xfer->streamid,
->                       xfer->trbs[0].addr, false, xfer->int_req);
->      if (usb_packet_map(&xfer->packet, &xfer->sgl)) {
-> +        usb_packet_cleanup(&xfer->packet);
->          qemu_sglist_destroy(&xfer->sgl);
->          return -1;
+> diff --git a/softmmu/cpus.c b/softmmu/cpus.c
+> index 3d8350fba9..f32ecb4bb9 100644
+> --- a/softmmu/cpus.c
+> +++ b/softmmu/cpus.c
+> @@ -166,34 +166,46 @@ void cpu_synchronize_all_pre_loadvm(void)
+>  
+>  void cpu_synchronize_state(CPUState *cpu)
+>  {
+> -    if (cpus_accel && cpus_accel->synchronize_state) {
+> +    if (cpus_accel->synchronize_state) {
+>          cpus_accel->synchronize_state(cpu);
 >      }
+>  }
+>  
+>  void cpu_synchronize_post_reset(CPUState *cpu)
+>  {
+> -    if (cpus_accel && cpus_accel->synchronize_post_reset) {
+> +    if (cpus_accel->synchronize_post_reset) {
+>          cpus_accel->synchronize_post_reset(cpu);
+>      }
+>  }
+>  
+>  void cpu_synchronize_post_init(CPUState *cpu)
+>  {
+> -    if (cpus_accel && cpus_accel->synchronize_post_init) {
+> +    if (cpus_accel->synchronize_post_init) {
+>          cpus_accel->synchronize_post_init(cpu);
+>      }
+>  }
+>  
+>  void cpu_synchronize_pre_loadvm(CPUState *cpu)
+>  {
+> -    if (cpus_accel && cpus_accel->synchronize_pre_loadvm) {
+> +    if (cpus_accel->synchronize_pre_loadvm) {
+>          cpus_accel->synchronize_pre_loadvm(cpu);
+>      }
+>  }
+>  
+>  int64_t cpus_get_virtual_clock(void)
+>  {
+> +    /*
+> +     * XXX
+> +     *
+> +     * need to check that cpus_accel is not NULL, because qcow2 calls
+> +     * qemu_get_clock_ns(CLOCK_VIRTUAL) without any accel initialized and
+> +     * with ticks disabled in some io-tests:
+> +     * 030 040 041 060 099 120 127 140 156 161 172 181 191 192 195 203 229 249 256 267
+> +     *
+> +     * is this expected?
+> +     *
+> +     * XXX
+> +     */
+>      if (cpus_accel && cpus_accel->get_virtual_clock) {
+>          return cpus_accel->get_virtual_clock();
+>      }
+> @@ -207,7 +219,7 @@ int64_t cpus_get_virtual_clock(void)
+>   */
+>  int64_t cpus_get_elapsed_ticks(void)
+>  {
+> -    if (cpus_accel && cpus_accel->get_elapsed_ticks) {
+> +    if (cpus_accel->get_elapsed_ticks) {
+>          return cpus_accel->get_elapsed_ticks();
+>      }
+>      return cpu_get_ticks();
+> @@ -399,7 +411,7 @@ void cpus_kick_thread(CPUState *cpu)
+>  void qemu_cpu_kick(CPUState *cpu)
+>  {
+>      qemu_cond_broadcast(cpu->halt_cond);
+> -    if (cpus_accel && cpus_accel->kick_vcpu_thread) {
+> +    if (cpus_accel->kick_vcpu_thread) {
+>          cpus_accel->kick_vcpu_thread(cpu);
+>      } else { /* default */
+>          cpus_kick_thread(cpu);
+> @@ -573,12 +585,9 @@ void qemu_init_vcpu(CPUState *cpu)
+>          cpu_address_space_init(cpu, 0, "cpu-memory", cpu->memory);
+>      }
+>  
+> -    if (cpus_accel) {
+> -        /* accelerator already implements the CpusAccel interface */
+> -        cpus_accel->create_vcpu_thread(cpu);
+> -    } else {
+> -        g_assert_not_reached();
+> -    }
+> +    /* accelerators all implement the CpusAccel interface */
+> +    g_assert(cpus_accel != NULL && cpus_accel->create_vcpu_thread != NULL);
+> +    cpus_accel->create_vcpu_thread(cpu);
+>  
+>      while (!cpu->created) {
+>          qemu_cond_wait(&qemu_cpu_cond, &qemu_global_mutex);
+> -- 
+> 2.26.2
 > 
 
+Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
+
+but I still find the condition (if cpus_accel->func) redundant, is it
+feasible to drop it?
+
+Regards,
+Roman
 
