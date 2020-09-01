@@ -2,77 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FDFE2587F9
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 08:20:29 +0200 (CEST)
-Received: from localhost ([::1]:50764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 237F0258819
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 08:24:31 +0200 (CEST)
+Received: from localhost ([::1]:43356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kCzee-0005aN-G0
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 02:20:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44100)
+	id 1kCziX-0005cE-Fj
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 02:24:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kCzdt-00059Q-4n
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 02:19:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57647)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kCzeg-00064A-R3
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 02:20:30 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:33658
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kCzdq-0000fX-S6
- for qemu-devel@nongnu.org; Tue, 01 Sep 2020 02:19:40 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kCzee-0000nG-8R
+ for qemu-devel@nongnu.org; Tue, 01 Sep 2020 02:20:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1598941177;
+ s=mimecast20190719; t=1598941227;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+4bPc+qXEZ0yDQsw9sBe6jUQb6HNB6kGqhnWdEFjB0w=;
- b=WaIYbYHUc5vSreU/FPwDn20hh7tLW99Deccp9xtE7XeebyQsjGEcc4J+r456OYPyKznaLF
- GJdlWGxVDWHRmFCHGc/I8c5uhl8G7KUdbhdkEl8tXVPvqP2Q9DVRemfA7Nl1MR3ywlsZPI
- CKN9bu3EWcMAp0yz9FduzuWZ8XmTvPY=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=gvaoFN39D5fdcn7Vhz80mBwdQvKtXadSQT2O8g1yk60=;
+ b=Sed55K14+QOdO8D/jmH/7EvtOOQ8t/5Q6GdaWZXyqs3k5BaookEPIevDutG/3Y0LpxX5gG
+ YTFEWUwl8CKkMNKU39Gx3yEuA2vO2OYdk/ApBmCoj/AewSX4xlU4gycflI/L2qmGCx087D
+ HkgMuInRswX5msItoewzRHG/dcAyqbs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-238-mk_zBDMTPMKtYBmRYhJOEQ-1; Tue, 01 Sep 2020 02:19:35 -0400
-X-MC-Unique: mk_zBDMTPMKtYBmRYhJOEQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-321-6WEkXainNFqdjdcFLpAK7Q-1; Tue, 01 Sep 2020 02:20:22 -0400
+X-MC-Unique: 6WEkXainNFqdjdcFLpAK7Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70CE0801AC5;
- Tue,  1 Sep 2020 06:19:34 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-188.ams2.redhat.com [10.36.112.188])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6BAE778B26;
- Tue,  1 Sep 2020 06:19:23 +0000 (UTC)
-Subject: Re: [PATCH] gitlab-ci.yml: Run check-qtest and check-unit at the end
- of the fuzzer job
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20200831153228.229185-1-thuth@redhat.com>
- <CAAdtpL5vu9uO7tGiHLNTVCeZa3bw2zRE_PLn1tD=L-acMH_0Qw@mail.gmail.com>
- <7bea1d04-653f-f697-be6c-07e136fd6cd5@redhat.com>
- <CAAdtpL6NHQ0EjXck9Hm11HCiyJ4=Z9hwZYve=wiAvpLnF7Moyw@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <6bf41829-0115-dfe9-e837-b0e98305a638@redhat.com>
-Date: Tue, 1 Sep 2020 08:19:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28D1310066FC;
+ Tue,  1 Sep 2020 06:20:21 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A26171002D4E;
+ Tue,  1 Sep 2020 06:20:20 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/13] Make QEMU installation relocatable
+Date: Tue,  1 Sep 2020 02:20:07 -0400
+Message-Id: <20200901062020.26660-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAAdtpL6NHQ0EjXck9Hm11HCiyJ4=Z9hwZYve=wiAvpLnF7Moyw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0.002
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/08/31 23:17:53
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 02:08:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.13, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,70 +79,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/09/2020 08.12, Philippe Mathieu-Daudé wrote:
-> On Tue, Sep 1, 2020 at 8:05 AM Thomas Huth <thuth@redhat.com> wrote:
->>
->> On 31/08/2020 23.31, Philippe Mathieu-Daudé wrote:
->>> Hi Thomas,
->>>
->>> Le lun. 31 août 2020 17:33, Thomas Huth <thuth@redhat.com
->>> <mailto:thuth@redhat.com>> a écrit :
->>>
->>>     The fuzzer job finishes quite early, so we can run the unit tests and
->>>     qtests with -fsanitize=address here without extending the total test
->>>     time.
->>>
->>>     Signed-off-by: Thomas Huth <thuth@redhat.com <mailto:thuth@redhat.com>>
->>>     ---
->>>      .gitlab-ci.yml | 5 +++--
->>>      1 file changed, 3 insertions(+), 2 deletions(-)
->>>
->>>     diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
->>>     index 17f1f8fad9..417fda6909 100644
->>>     --- a/.gitlab-ci.yml
->>>     +++ b/.gitlab-ci.yml
->>>     @@ -256,13 +256,14 @@ build-oss-fuzz:
->>>          - mkdir build-oss-fuzz
->>>          - CC="clang" CXX="clang++" CFLAGS="-fsanitize=address"
->>>            ./scripts/oss-fuzz/build.sh
->>>     +    - export ASAN_OPTIONS="fast_unwind_on_malloc=0"
->>>          - for fuzzer in $(find ./build-oss-fuzz/DEST_DIR/ -executable
->>>     -type f
->>>                            | grep -v slirp); do
->>>              grep "LLVMFuzzerTestOneInput" ${fuzzer} > /dev/null 2>&1 ||
->>>     continue ;
->>>              echo Testing ${fuzzer} ... ;
->>>     -        ASAN_OPTIONS="fast_unwind_on_malloc=0"
->>>     -         "${fuzzer}" -runs=1000 -seed=1 || exit 1 ;
->>>     +        "${fuzzer}" -runs=1000 -seed=1 || exit 1 ;
->>>            done
->>>     +    - cd build-oss-fuzz && make check-qtest-i386 check-unit
->>>
->>>
->>> As this does not use the fuzzer main entry point, what is the point of
->>> running that?
->>
->> Read the friendly patch description ;-) - the idea here is that we run
->> the qtests and unit tests with -fsanitize=address in one of the
->> pipelines.
-> 
-> Sorry, the description was not that obvious to me.
-> Can you add a comment before the 'make check*' line?
-> 
->   # Unrelated to fuzzer: run tests with -fsanitize=address
+Right now, the installation of QEMU is not relocatable; there is
+a local hack in os_find_datadir() so that Windows binaries look
+for ROMs in the executable directory, but that has several limitations:
 
-Sure, will do.
+- it does not extend to configuration files, icons, etc.
 
- Thomas
+- it does not allow changing the data directory in any way
 
+- it does not apply to POSIX platforms
+
+This series fixes that by making all paths within the installation
+prefix relative to the executable.  This in practice means all paths
+will be relocatable, except for /etc and /var if they're moved
+outside the prefix.
+
+Here is an example of relocatability; before:
+
+  $ make DESTDIR=$PWD/test install
+  $ cd test/usr/local/bin
+  $ ./qemu-system-ppc -L help
+  /usr/local/share/qemu-firmware
+  /usr/local/share/qemu
+
+After:
+
+  $ make DESTDIR=$PWD/test install
+  $ cd test/usr/local/bin
+  $ ./qemu-system-ppc -L help
+  /home/pbonzini/work/upstream/qemu/+build/test/usr/local/bin/../share/qemu-firmware
+  /home/pbonzini/work/upstream/qemu/+build/test/usr/local/bin/../share/qemu
+
+The main benefit of this is on Windows, as mentioned above; but it also
+makes behavior more consistent across platforms and allows the removal
+of the hack that hides the "c:/Program Files/QEMU" prefix from Meson
+during cross compilation.
+
+Paolo
+
+Paolo Bonzini (13):
+  fuzz: use qemu_get_exec_dir
+  oslib: do not call g_strdup from qemu_get_exec_dir
+  oslib-posix: default exec_dir to bindir
+  cutils: introduce get_relocated_path
+  oslib-posix: relocate path to /var
+  module: relocate path to modules
+  net: relocate paths to helpers and scripts
+  vl: relocate paths to data directories
+  vl: relocate path to configuration file
+  qemu-bridge-helper: relocate path to default ACL
+  qga: relocate path to default configuration and hook
+  ui: relocate paths to icons and translations
+  configure: use a platform-neutral prefix
+
+ configure               | 30 ++++++++------------
+ include/net/net.h       |  4 +--
+ include/qemu-common.h   |  1 -
+ include/qemu/cutils.h   | 12 ++++++++
+ include/qemu/osdep.h    |  8 ++----
+ include/sysemu/sysemu.h |  2 +-
+ meson.build             |  4 +--
+ net/tap.c               | 28 ++++++++++++++-----
+ os-posix.c              | 24 ----------------
+ os-win32.c              | 11 --------
+ qemu-bridge-helper.c    |  9 ++++--
+ qga/main.c              |  8 ++++--
+ softmmu/vl.c            | 43 ++++++++++++++++++++---------
+ tests/qtest/fuzz/fuzz.c | 12 ++++----
+ ui/gtk.c                | 10 +++++--
+ ui/sdl2.c               |  9 ++++--
+ util/cutils.c           | 61 +++++++++++++++++++++++++++++++++++++++++
+ util/module.c           | 10 ++-----
+ util/oslib-posix.c      | 35 +++++++++++------------
+ util/oslib-win32.c      | 14 +++++++---
+ 20 files changed, 205 insertions(+), 130 deletions(-)
+
+-- 
+2.26.2
 
 
