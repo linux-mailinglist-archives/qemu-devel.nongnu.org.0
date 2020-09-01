@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90E8F258CB8
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 12:26:42 +0200 (CEST)
-Received: from localhost ([::1]:42794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53FC3258CBC
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Sep 2020 12:27:39 +0200 (CEST)
+Received: from localhost ([::1]:45146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kD3Uv-0005lw-MR
-	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 06:26:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52636)
+	id 1kD3Vq-0006kg-An
+	for lists+qemu-devel@lfdr.de; Tue, 01 Sep 2020 06:27:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kD3TQ-00052O-76; Tue, 01 Sep 2020 06:25:08 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:49220)
+ id 1kD3Um-00061l-8j; Tue, 01 Sep 2020 06:26:32 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:51424)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kD3TN-0007tZ-Ec; Tue, 01 Sep 2020 06:25:07 -0400
+ id 1kD3Uk-0008TI-Me; Tue, 01 Sep 2020 06:26:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
  h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=BaTKyeL9rxClpciauvyhKsmrggrel0olBPgRGUAPl4Y=; 
- b=mt2ajNJlu7azfmuRDf6MOHjZdPVxldxrsrOdpqZqQoxL8SdJSU0YdsCTJc2V8sPUdPQ9vlLq87pDTM4GC0CInZeEf43PfrzZM0LngTvpQrIPzVkwqlUogFQP71GhPagy3STmtaqsZCku4QjA90mp8iRcX6lBE7EcmN7IsAFKiN9GweoFwxC+PDXTlLapKwXPubbrUQY2qO++pXNZhqrgXLN11EBZ5+cnZtFXhNPqfoi3X+hQWXCo2uZLf6Cio+s9UwF+Jb34n07hx9gd6qNvlLQe8B0lctkjtjm3QdQTDyLZyzljbF3tbixh02srRm+t1wAEyU6uuIVMqZfIjNu5uA==;
+ bh=fBghcpvzyF11jfsNrFbBaUpa8VuN5ZochEIirj45fx8=; 
+ b=WIBryjsg1qZQ2FvGDIuCHE7MjmfVsIqBoVvfP3cfk4vA1RDVlHv/FRKUGyZ2/jWbOs2AmxC4tWvbo9F5BYRWUlnI7iv6IgBlwS9G98sCXaxHzVZUibl06BnmshC/SaTyNEyIh+S6jLj0qlyP1/MhL36QtJSvIuuPSXc7KAhEFZIkqrKtNe91hmEFU/3INiZzrDfcIOI6YOU5+nmCiaXOaZw3D+ml82FNf1OK0c10LOdrfNELj1TcvVTrkPvhCdMsZ85qR2oM4jPF3VafvODyztMjh7k9PfXjSw9jzJhs2AZU+wn+1bt7ifHdVGmR9byJsO6P3jcGUshxB8axTfg2xQ==;
 Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
  by fanzine.igalia.com with esmtps 
  (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1kD3Sw-00006E-BA; Tue, 01 Sep 2020 12:24:38 +0200
+ id 1kD3Ui-0000GW-GN; Tue, 01 Sep 2020 12:26:28 +0200
 Received: from berto by mail.igalia.com with local (Exim)
- id 1kD3Sw-0002Ra-1K; Tue, 01 Sep 2020 12:24:38 +0200
+ id 1kD3Ui-0002XM-5y; Tue, 01 Sep 2020 12:26:28 +0200
 From: Alberto Garcia <berto@igalia.com>
 To: Nir Soffer <nirsof@gmail.com>, qemu-devel@nongnu.org
 Subject: Re: [PATCH 1/2] block: file-posix: Extract preallocate helpers
@@ -36,8 +36,8 @@ References: <20200831140127.657134-1-nsoffer@redhat.com>
  <20200831140127.657134-2-nsoffer@redhat.com>
 User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
  (i586-pc-linux-gnu)
-Date: Tue, 01 Sep 2020 12:24:38 +0200
-Message-ID: <w51d035okux.fsf@maestria.local.igalia.com>
+Date: Tue, 01 Sep 2020 12:26:28 +0200
+Message-ID: <w51a6y9okrv.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
@@ -68,18 +68,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Mon 31 Aug 2020 04:01:26 PM CEST, Nir Soffer wrote:
-> handle_aiocb_truncate() was too big and complex, implementing 3
-> different preallocation modes. In a future patch I want to introduce a
-> fallback from "falloc" to "full"; it will be too messy and error prone
-> with the current code.
->
-> Extract a helper for each of the preallocation modes (falloc, full, off)
-> and leave only the common preparation and cleanup code in
-> handle_aiocb_truncate().
->
-> Signed-off-by: Nir Soffer <nsoffer@redhat.com>
+> +static int preallocate_falloc(int fd, int64_t current_length, int64_t offset,
+> +                              Error **errp)
+> +{
+> +#ifdef CONFIG_POSIX_FALLOCATE
+> +    int result;
+> +
+> +    if (offset == current_length)
+> +        return 0;
 
-Reviewed-by: Alberto Garcia <berto@igalia.com>
+You can also take the chance to add the missing braces here (there's a
+similar warning for the other patch).
 
 Berto
 
