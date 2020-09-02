@@ -2,75 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C33A925AAA8
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 13:58:54 +0200 (CEST)
-Received: from localhost ([::1]:56750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BB2725AADF
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 14:11:47 +0200 (CEST)
+Received: from localhost ([::1]:59288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDRPh-0003jl-Pf
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 07:58:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47060)
+	id 1kDRc9-0001GA-KH
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 08:11:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDRKr-0002ZF-A0
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 07:53:53 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37955
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDRKp-0006x5-0a
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 07:53:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599047630;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fm97JsftiCaFYSxPLJTeVMrVEud70XBqnUaWgNYjrvg=;
- b=Jeu3jhstQogeEQ1PiEyrCR++RWKCy91JYETxxTeuu6yn1fQJFR2cBAZm7KadZZYOdiKrcT
- wcbuk09wqcJTpaIZEfN4j15FCWlZyKmOvcJwH/w4Ebb+Q5yLxJLDYklVO22OWpQ1jSfKIo
- x49F8JwdJbn4i3Rs8NrpU4LSXYxhod0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-540-ccYpq73SN-qjB1lS5q2THA-1; Wed, 02 Sep 2020 07:53:48 -0400
-X-MC-Unique: ccYpq73SN-qjB1lS5q2THA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56BEC1DDFE;
- Wed,  2 Sep 2020 11:53:47 +0000 (UTC)
-Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 208395D9CC;
- Wed,  2 Sep 2020 11:53:47 +0000 (UTC)
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 16/20] Revert "hw/386: Add EPYC mode topology decoding
- functions"
-Date: Wed,  2 Sep 2020 07:53:19 -0400
-Message-Id: <20200902115323.850385-17-ehabkost@redhat.com>
-In-Reply-To: <20200902115323.850385-1-ehabkost@redhat.com>
-References: <20200902115323.850385-1-ehabkost@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 02:26:30
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+ (Exim 4.90_1)
+ (envelope-from <08de36b1ffff4a102834adedb15ff316d93418f2@lizzy.crudebyte.com>)
+ id 1kDRbP-0000Yn-GL
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:10:59 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:35703)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <08de36b1ffff4a102834adedb15ff316d93418f2@lizzy.crudebyte.com>)
+ id 1kDRbN-0000oM-Jo
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:10:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Message-Id:Cc:To:Subject:Date:From:Content-Type:
+ Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
+ Content-Description; bh=fSSwOLmtYTd5TDhGKDCGMV9HN1BEsGEhQ5bypOdALM0=; b=ZQfGF
+ oSCdSubJjaYUEFoBtWM460geAMwLOpRb5n7d8ChX+Rd2enWMrzX9ltdMk8Qg2eqL9Dp7i+EimIjox
+ yr8OOYCRWYzY77j+St35ZcoiqE5AFQgUnx1FEr2SyuIaeBdA83c9/BaysPVLl2H2JFJZ7HoiAYsha
+ Ro/dbU3Ttc6hAA1X2k0jfhnKbGx2ORuHw0oT7sfs/4kXmRYRwLjnUFapcC3Evak8cHVPzDlu+AWfi
+ MFMHgqFoyUDpWXGtdXyFbuBl7KOHQZB411R5IDpBIEfmkbXppUPy2XIJlD0XCYEiHob7bclizAqY9
+ NcmDN602aYTtMMGfCA2JXGrj9q1Tw==;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Wed, 2 Sep 2020 13:22:49 +0200
+Subject: [PATCH] 9pfs: log warning if msize <= 8192
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>
+Message-Id: <E1kDR8W-0001s4-Sr@lizzy.crudebyte.com>
+Received-SPF: none client-ip=91.194.90.13;
+ envelope-from=08de36b1ffff4a102834adedb15ff316d93418f2@lizzy.crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 07:41:09
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,153 +59,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Babu Moger <babu.moger@amd.com>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Babu Moger <babu.moger@amd.com>
+It is essential to choose a reasonable high value for 'msize' to avoid
+severe degraded file I/O performance. This parameter has to be chosen
+on client/guest side, and a Linux client defaults to an 'msize' of only
+8192 if the user did not explicitly specify a value for 'msize'.
 
-This reverts commit 7568b205555a6405042f62c64af3268f4330aed5.
+Unfortunately many users are not aware that they should specify an
+appropriate value for 'msize' to avoid severe performance issues, so
+log a performance warning on host side in that case to make it more
+clear.
 
-Remove the EPYC specific apicid decoding and use the generic
-default decoding.
-
-Signed-off-by: Babu Moger <babu.moger@amd.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <159889936871.21294.1454526726636639780.stgit@naples-babu.amd.com>
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- include/hw/i386/topology.h | 100 -------------------------------------
- 1 file changed, 100 deletions(-)
+ hw/9pfs/9p.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/include/hw/i386/topology.h b/include/hw/i386/topology.h
-index 07239f95f4..b9593b9905 100644
---- a/include/hw/i386/topology.h
-+++ b/include/hw/i386/topology.h
-@@ -47,7 +47,6 @@ typedef uint32_t apic_id_t;
+diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+index 7bb994bbf2..33e948d636 100644
+--- a/hw/9pfs/9p.c
++++ b/hw/9pfs/9p.c
+@@ -1353,6 +1353,14 @@ static void coroutine_fn v9fs_version(void *opaque)
+         goto out;
+     }
  
- typedef struct X86CPUTopoIDs {
-     unsigned pkg_id;
--    unsigned node_id;
-     unsigned die_id;
-     unsigned core_id;
-     unsigned smt_id;
-@@ -89,11 +88,6 @@ static inline unsigned apicid_die_width(X86CPUTopoInfo *topo_info)
-     return apicid_bitwidth_for_count(topo_info->dies_per_pkg);
- }
- 
--/* Bit width of the node_id field per socket */
--static inline unsigned apicid_node_width_epyc(X86CPUTopoInfo *topo_info)
--{
--    return apicid_bitwidth_for_count(MAX(topo_info->nodes_per_pkg, 1));
--}
- /* Bit offset of the Core_ID field
-  */
- static inline unsigned apicid_core_offset(X86CPUTopoInfo *topo_info)
-@@ -114,100 +108,6 @@ static inline unsigned apicid_pkg_offset(X86CPUTopoInfo *topo_info)
-     return apicid_die_offset(topo_info) + apicid_die_width(topo_info);
- }
- 
--#define NODE_ID_OFFSET 3 /* Minimum node_id offset if numa configured */
--
--/*
-- * Bit offset of the node_id field
-- *
-- * Make sure nodes_per_pkg >  0 if numa configured else zero.
-- */
--static inline unsigned apicid_node_offset_epyc(X86CPUTopoInfo *topo_info)
--{
--    unsigned offset = apicid_die_offset(topo_info) +
--                      apicid_die_width(topo_info);
--
--    if (topo_info->nodes_per_pkg) {
--        return MAX(NODE_ID_OFFSET, offset);
--    } else {
--        return offset;
--    }
--}
--
--/* Bit offset of the Pkg_ID (socket ID) field */
--static inline unsigned apicid_pkg_offset_epyc(X86CPUTopoInfo *topo_info)
--{
--    return apicid_node_offset_epyc(topo_info) +
--           apicid_node_width_epyc(topo_info);
--}
--
--/*
-- * Make APIC ID for the CPU based on Pkg_ID, Core_ID, SMT_ID
-- *
-- * The caller must make sure core_id < nr_cores and smt_id < nr_threads.
-- */
--static inline apic_id_t
--x86_apicid_from_topo_ids_epyc(X86CPUTopoInfo *topo_info,
--                              const X86CPUTopoIDs *topo_ids)
--{
--    return (topo_ids->pkg_id  << apicid_pkg_offset_epyc(topo_info)) |
--           (topo_ids->node_id << apicid_node_offset_epyc(topo_info)) |
--           (topo_ids->die_id  << apicid_die_offset(topo_info)) |
--           (topo_ids->core_id << apicid_core_offset(topo_info)) |
--           topo_ids->smt_id;
--}
--
--static inline void x86_topo_ids_from_idx_epyc(X86CPUTopoInfo *topo_info,
--                                              unsigned cpu_index,
--                                              X86CPUTopoIDs *topo_ids)
--{
--    unsigned nr_nodes = MAX(topo_info->nodes_per_pkg, 1);
--    unsigned nr_dies = topo_info->dies_per_pkg;
--    unsigned nr_cores = topo_info->cores_per_die;
--    unsigned nr_threads = topo_info->threads_per_core;
--    unsigned cores_per_node = DIV_ROUND_UP((nr_dies * nr_cores * nr_threads),
--                                            nr_nodes);
--
--    topo_ids->pkg_id = cpu_index / (nr_dies * nr_cores * nr_threads);
--    topo_ids->node_id = (cpu_index / cores_per_node) % nr_nodes;
--    topo_ids->die_id = cpu_index / (nr_cores * nr_threads) % nr_dies;
--    topo_ids->core_id = cpu_index / nr_threads % nr_cores;
--    topo_ids->smt_id = cpu_index % nr_threads;
--}
--
--/*
-- * Calculate thread/core/package IDs for a specific topology,
-- * based on APIC ID
-- */
--static inline void x86_topo_ids_from_apicid_epyc(apic_id_t apicid,
--                                            X86CPUTopoInfo *topo_info,
--                                            X86CPUTopoIDs *topo_ids)
--{
--    topo_ids->smt_id = apicid &
--            ~(0xFFFFFFFFUL << apicid_smt_width(topo_info));
--    topo_ids->core_id =
--            (apicid >> apicid_core_offset(topo_info)) &
--            ~(0xFFFFFFFFUL << apicid_core_width(topo_info));
--    topo_ids->die_id =
--            (apicid >> apicid_die_offset(topo_info)) &
--            ~(0xFFFFFFFFUL << apicid_die_width(topo_info));
--    topo_ids->node_id =
--            (apicid >> apicid_node_offset_epyc(topo_info)) &
--            ~(0xFFFFFFFFUL << apicid_node_width_epyc(topo_info));
--    topo_ids->pkg_id = apicid >> apicid_pkg_offset_epyc(topo_info);
--}
--
--/*
-- * Make APIC ID for the CPU 'cpu_index'
-- *
-- * 'cpu_index' is a sequential, contiguous ID for the CPU.
-- */
--static inline apic_id_t x86_apicid_from_cpu_idx_epyc(X86CPUTopoInfo *topo_info,
--                                                     unsigned cpu_index)
--{
--    X86CPUTopoIDs topo_ids;
--    x86_topo_ids_from_idx_epyc(topo_info, cpu_index, &topo_ids);
--    return x86_apicid_from_topo_ids_epyc(topo_info, &topo_ids);
--}
- /* Make APIC ID for the CPU based on Pkg_ID, Core_ID, SMT_ID
-  *
-  * The caller must make sure core_id < nr_cores and smt_id < nr_threads.
++    /* 8192 is the default msize of Linux clients */
++    if (s->msize <= 8192) {
++        warn_report_once(
++            "9p: degraded performance: a reasonable high msize should be "
++            "chosen on client/guest side (chosen msize is <= 8192)."
++        );
++    }
++
+ marshal:
+     err = pdu_marshal(pdu, offset, "ds", s->msize, &version);
+     if (err < 0) {
 -- 
-2.26.2
+2.20.1
 
 
