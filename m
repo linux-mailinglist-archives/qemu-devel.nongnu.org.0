@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ED0B25B082
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 17:59:45 +0200 (CEST)
-Received: from localhost ([::1]:54590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F8A125B060
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 17:58:00 +0200 (CEST)
+Received: from localhost ([::1]:46254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDVAm-0006Ev-CA
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 11:59:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54496)
+	id 1kDV95-0002ju-DK
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 11:57:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kDV1K-00011K-Lk
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 11:49:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56754)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kDV1L-00012p-Cq
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 11:49:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20748)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kDV1I-0005T7-Kl
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 11:49:58 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kDV1J-0005TM-KS
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 11:49:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599061795;
+ s=mimecast20190719; t=1599061796;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QBKdWnxnKVN0Ngtu49hX7Cummax17bw+GdxDY+jlWt0=;
- b=SAXjf2mQXV4GE4eJeQ4hxvygeQUVd/PnINgG83TaHNY4FGAW6J7t8jG+OiuRJqTCEmJVah
- 8pEY9tME3xHtN8Q2UGk6IlSxXmW/bdRA8zFBmEXrWQhNWALGzR55qLQoElb1CUTdwHIcp0
- YBblqZLVr/9yZ/DJKB76IYGUzr/AMi8=
+ bh=wLbELblpV5S2N7qQ1QcNRijkVAuwaCSCO3+z9cGFr0M=;
+ b=igLvzRtT1XawxFKECFQUZ+w54o9w47giYBwl0csodnRyUXbqMCFFnRN1FeGjxitKL7Z5Do
+ 6rub5D3iHZW5GEIl2aosz3XGd1RyEKHiUNHRCgUk0pvSdruqFS400QvrD0folhlwaDnrRF
+ 9F6+JK58Pj7zlhZeWU0LolKMJJWOC90=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-570-Md9yEFFaM8egI32oGjIfBQ-1; Wed, 02 Sep 2020 11:49:53 -0400
-X-MC-Unique: Md9yEFFaM8egI32oGjIfBQ-1
+ us-mta-269-WAX7e0yBOMCc2sTdMb3sXQ-1; Wed, 02 Sep 2020 11:49:54 -0400
+X-MC-Unique: WAX7e0yBOMCc2sTdMb3sXQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BCDB6425D8;
- Wed,  2 Sep 2020 15:49:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F41218015FA;
+ Wed,  2 Sep 2020 15:49:53 +0000 (UTC)
 Received: from thuth.com (ovpn-112-129.ams2.redhat.com [10.36.112.129])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E2B3E5D9D3;
- Wed,  2 Sep 2020 15:49:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 294225D9CC;
+ Wed,  2 Sep 2020 15:49:52 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL v2 10/15] tests/qtest/tpm: Declare input buffers const and
- static
-Date: Wed,  2 Sep 2020 17:49:27 +0200
-Message-Id: <20200902154932.390595-11-thuth@redhat.com>
+Subject: [PULL v2 11/15] tests/qtest/ipmi-kcs: Fix assert side-effect
+Date: Wed,  2 Sep 2020 17:49:28 +0200
+Message-Id: <20200902154932.390595-12-thuth@redhat.com>
 In-Reply-To: <20200902154932.390595-1-thuth@redhat.com>
 References: <20200902154932.390595-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -57,9 +56,9 @@ X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 02:42:29
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 01:13:52
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -85,82 +84,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-The functions using these arrays expect a "const unsigned char *"
-argument, it is safe to declare these as 'static const'.
+Fix assert side-effect reported by Coverity:
 
+  /qemu/tests/qtest/ipmi-kcs-test.c: 84 in kcs_wait_obf()
+  83         while (IPMI_KCS_CMDREG_GET_OBF() == 0) {
+  >>>     CID 1432368:  Incorrect expression  (ASSERT_SIDE_EFFECT)
+  >>>     Argument "--count" of g_assert() has a side effect.  The containing function might work differently in a non-debug build.
+  84             g_assert(--count != 0);
+
+Reported-by: Coverity (CID 1432368)
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200902080909.161034-1-philmd@redhat.com>
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+Message-Id: <20200902080801.160652-2-philmd@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/tpm-tests.c |  4 ++--
- tests/qtest/tpm-util.c  | 10 +++++-----
- 2 files changed, 7 insertions(+), 7 deletions(-)
+ tests/qtest/ipmi-kcs-test.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qtest/tpm-tests.c b/tests/qtest/tpm-tests.c
-index a2f2838e15..70c80f8379 100644
---- a/tests/qtest/tpm-tests.c
-+++ b/tests/qtest/tpm-tests.c
-@@ -59,7 +59,7 @@ void tpm_test_swtpm_test(const char *src_tpm_path, tx_func *tx,
-     tpm_util_startup(s, tx);
-     tpm_util_pcrextend(s, tx);
- 
--    unsigned char tpm_pcrread_resp[] =
-+    static const unsigned char tpm_pcrread_resp[] =
-         "\x80\x01\x00\x00\x00\x3e\x00\x00\x00\x00\x00\x00\x00\x16\x00\x00"
-         "\x00\x01\x00\x0b\x03\x00\x04\x00\x00\x00\x00\x01\x00\x20\xf6\x85"
-         "\x98\xe5\x86\x8d\xe6\x8b\x97\x29\x99\x60\xf2\x71\x7d\x17\x67\x89"
-@@ -107,7 +107,7 @@ void tpm_test_swtpm_migration_test(const char *src_tpm_path,
-     tpm_util_startup(src_qemu, tx);
-     tpm_util_pcrextend(src_qemu, tx);
- 
--    unsigned char tpm_pcrread_resp[] =
-+    static const unsigned char tpm_pcrread_resp[] =
-         "\x80\x01\x00\x00\x00\x3e\x00\x00\x00\x00\x00\x00\x00\x16\x00\x00"
-         "\x00\x01\x00\x0b\x03\x00\x04\x00\x00\x00\x00\x01\x00\x20\xf6\x85"
-         "\x98\xe5\x86\x8d\xe6\x8b\x97\x29\x99\x60\xf2\x71\x7d\x17\x67\x89"
-diff --git a/tests/qtest/tpm-util.c b/tests/qtest/tpm-util.c
-index e2b29ef0f8..3ed6c8548a 100644
---- a/tests/qtest/tpm-util.c
-+++ b/tests/qtest/tpm-util.c
-@@ -98,9 +98,9 @@ void tpm_util_tis_transfer(QTestState *s,
- void tpm_util_startup(QTestState *s, tx_func *tx)
+diff --git a/tests/qtest/ipmi-kcs-test.c b/tests/qtest/ipmi-kcs-test.c
+index 693a6aacb5..fc0a918c8d 100644
+--- a/tests/qtest/ipmi-kcs-test.c
++++ b/tests/qtest/ipmi-kcs-test.c
+@@ -81,7 +81,8 @@ static void kcs_wait_obf(void)
  {
-     unsigned char buffer[1024];
--    unsigned char tpm_startup[] =
-+    static const unsigned char tpm_startup[] =
-         "\x80\x01\x00\x00\x00\x0c\x00\x00\x01\x44\x00\x00";
--    unsigned char tpm_startup_resp[] =
-+    static const unsigned char tpm_startup_resp[] =
-         "\x80\x01\x00\x00\x00\x0a\x00\x00\x00\x00";
- 
-     tx(s, tpm_startup, sizeof(tpm_startup), buffer, sizeof(buffer));
-@@ -112,14 +112,14 @@ void tpm_util_startup(QTestState *s, tx_func *tx)
- void tpm_util_pcrextend(QTestState *s, tx_func *tx)
- {
-     unsigned char buffer[1024];
--    unsigned char tpm_pcrextend[] =
-+    static const unsigned char tpm_pcrextend[] =
-         "\x80\x02\x00\x00\x00\x41\x00\x00\x01\x82\x00\x00\x00\x0a\x00\x00"
-         "\x00\x09\x40\x00\x00\x09\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00"
-         "\x0b\x74\x65\x73\x74\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-         "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-         "\x00";
- 
--    unsigned char tpm_pcrextend_resp[] =
-+    static const unsigned char tpm_pcrextend_resp[] =
-         "\x80\x02\x00\x00\x00\x13\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-         "\x01\x00\x00";
- 
-@@ -133,7 +133,7 @@ void tpm_util_pcrread(QTestState *s, tx_func *tx,
-                       const unsigned char *exp_resp, size_t exp_resp_size)
- {
-     unsigned char buffer[1024];
--    unsigned char tpm_pcrread[] =
-+    static const unsigned char tpm_pcrread[] =
-         "\x80\x01\x00\x00\x00\x14\x00\x00\x01\x7e\x00\x00\x00\x01\x00\x0b"
-         "\x03\x00\x04\x00";
+     unsigned int count = 1000;
+     while (IPMI_KCS_CMDREG_GET_OBF() == 0) {
+-        g_assert(--count != 0);
++        --count;
++        g_assert(count != 0);
+     }
+ }
  
 -- 
 2.18.2
