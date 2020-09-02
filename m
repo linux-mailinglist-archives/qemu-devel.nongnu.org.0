@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24EFA25B714
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 01:07:02 +0200 (CEST)
-Received: from localhost ([::1]:37750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B022C25B710
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 01:05:28 +0200 (CEST)
+Received: from localhost ([::1]:58320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDbqH-0005OP-7F
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 19:07:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35732)
+	id 1kDbol-0002DE-Mn
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 19:05:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDbVR-0005Cp-7F
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:45:29 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35212
- helo=us-smtp-1.mimecast.com)
+ id 1kDbVQ-0005Ac-7e
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:45:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48961)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDbVO-0000D7-EM
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:45:28 -0400
+ id 1kDbVO-0000D0-5d
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:45:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1599086725;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MBobJ7wbc5BT+RjpuF/DJunoPaAC6xsL1WWsMG5REsU=;
- b=Axz4Zp88bnUg05B98ce2dqHNbp/JixLLJbJwKWUMr+PXjowxosu1MUmezM97osM8y5wSoS
- 2lDnU3t0n79xiI1E+AK75oFAbzioPtl4rEFThmyvLneVcvf9qqnwTiJ2Q8dQTyjHdxMMYW
- WJ1I5QUKgff4cOrSJqwnl//6GeKlQ+g=
+ bh=KlgzwG9LMNP5KR5cuY0HArWP1u2TlaKf9DQrTHmB+ew=;
+ b=Efd8h0tFm5hCe5hrg9Po6Tt/mPaCG3GbqrOCzLEMA2J49N4RUScSyMUe3LThHS7LXhCiT5
+ LHimpIVtWYqhFVQOH6Uu6A3MTODMoBMuUSfeBmvto+d20omHrRGF9hggj/mWKu9j1yvC/r
+ KEE1bYLAsJ18I37myPtLbk+zwRzyHRQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-235-hYVMiU-OMR2feh4p5s5J2w-1; Wed, 02 Sep 2020 18:45:22 -0400
-X-MC-Unique: hYVMiU-OMR2feh4p5s5J2w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-240--gKsb3FoM36zxIjT0kj9fw-1; Wed, 02 Sep 2020 18:45:22 -0400
+X-MC-Unique: -gKsb3FoM36zxIjT0kj9fw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A0A11DE00;
- Wed,  2 Sep 2020 22:45:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9198E18A2256;
+ Wed,  2 Sep 2020 22:45:21 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5C83619C59;
- Wed,  2 Sep 2020 22:45:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 53B467E313;
+ Wed,  2 Sep 2020 22:45:21 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 48/63] sabre: Rename SABRE_DEVICE to SABRE
-Date: Wed,  2 Sep 2020 18:42:56 -0400
-Message-Id: <20200902224311.1321159-49-ehabkost@redhat.com>
+Subject: [PATCH 49/63] stm32f205: Rename STM32F2XXTIMER to STM32F2XX_TIMER
+Date: Wed,  2 Sep 2020 18:42:57 -0400
+Message-Id: <20200902224311.1321159-50-ehabkost@redhat.com>
 In-Reply-To: <20200902224311.1321159-1-ehabkost@redhat.com>
 References: <20200902224311.1321159-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 16:25:58
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 02:42:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,8 +80,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, berrange@redhat.com,
- Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <alistair@alistair23.me>, berrange@redhat.com,
+ qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -91,81 +91,59 @@ constant.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Cc: Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: Alistair Francis <alistair@alistair23.me>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-arm@nongnu.org
 Cc: qemu-devel@nongnu.org
 ---
- include/hw/pci-host/sabre.h | 2 +-
- hw/pci-host/sabre.c         | 8 ++++----
- hw/sparc64/sun4u.c          | 2 +-
- 3 files changed, 6 insertions(+), 6 deletions(-)
+ include/hw/timer/stm32f2xx_timer.h | 2 +-
+ hw/timer/stm32f2xx_timer.c         | 6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/pci-host/sabre.h b/include/hw/pci-host/sabre.h
-index 597bf70d69..7a76de4b9e 100644
---- a/include/hw/pci-host/sabre.h
-+++ b/include/hw/pci-host/sabre.h
-@@ -51,7 +51,7 @@ struct SabreState {
- typedef struct SabreState SabreState;
+diff --git a/include/hw/timer/stm32f2xx_timer.h b/include/hw/timer/stm32f2xx_timer.h
+index 90f40f1746..70ef426afc 100644
+--- a/include/hw/timer/stm32f2xx_timer.h
++++ b/include/hw/timer/stm32f2xx_timer.h
+@@ -63,7 +63,7 @@
  
- #define TYPE_SABRE "sabre"
--DECLARE_INSTANCE_CHECKER(SabreState, SABRE_DEVICE,
-+DECLARE_INSTANCE_CHECKER(SabreState, SABRE,
-                          TYPE_SABRE)
+ #define TYPE_STM32F2XX_TIMER "stm32f2xx-timer"
+ typedef struct STM32F2XXTimerState STM32F2XXTimerState;
+-DECLARE_INSTANCE_CHECKER(STM32F2XXTimerState, STM32F2XXTIMER,
++DECLARE_INSTANCE_CHECKER(STM32F2XXTimerState, STM32F2XX_TIMER,
+                          TYPE_STM32F2XX_TIMER)
  
- #endif
-diff --git a/hw/pci-host/sabre.c b/hw/pci-host/sabre.c
-index 0cc68585f8..5ac6283623 100644
---- a/hw/pci-host/sabre.c
-+++ b/hw/pci-host/sabre.c
-@@ -338,7 +338,7 @@ static void pci_sabre_set_irq(void *opaque, int irq_num, int level)
+ struct STM32F2XXTimerState {
+diff --git a/hw/timer/stm32f2xx_timer.c b/hw/timer/stm32f2xx_timer.c
+index ba8694dcd3..d880c0b4d5 100644
+--- a/hw/timer/stm32f2xx_timer.c
++++ b/hw/timer/stm32f2xx_timer.c
+@@ -96,7 +96,7 @@ static void stm32f2xx_timer_set_alarm(STM32F2XXTimerState *s, int64_t now)
  
- static void sabre_reset(DeviceState *d)
+ static void stm32f2xx_timer_reset(DeviceState *dev)
  {
--    SabreState *s = SABRE_DEVICE(d);
-+    SabreState *s = SABRE(d);
-     PCIDevice *pci_dev;
-     unsigned int i;
-     uint16_t cmd;
-@@ -376,7 +376,7 @@ static const MemoryRegionOps pci_config_ops = {
+-    STM32F2XXTimerState *s = STM32F2XXTIMER(dev);
++    STM32F2XXTimerState *s = STM32F2XX_TIMER(dev);
+     int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
  
- static void sabre_realize(DeviceState *dev, Error **errp)
+     s->tim_cr1 = 0;
+@@ -306,7 +306,7 @@ static Property stm32f2xx_timer_properties[] = {
+ 
+ static void stm32f2xx_timer_init(Object *obj)
  {
--    SabreState *s = SABRE_DEVICE(dev);
-+    SabreState *s = SABRE(dev);
-     PCIHostState *phb = PCI_HOST_BRIDGE(dev);
-     SysBusDevice *sbd = SYS_BUS_DEVICE(s);
-     PCIDevice *pci_dev;
-@@ -421,7 +421,7 @@ static void sabre_realize(DeviceState *dev, Error **errp)
+-    STM32F2XXTimerState *s = STM32F2XXTIMER(obj);
++    STM32F2XXTimerState *s = STM32F2XX_TIMER(obj);
  
- static void sabre_init(Object *obj)
+     sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->irq);
+ 
+@@ -317,7 +317,7 @@ static void stm32f2xx_timer_init(Object *obj)
+ 
+ static void stm32f2xx_timer_realize(DeviceState *dev, Error **errp)
  {
--    SabreState *s = SABRE_DEVICE(obj);
-+    SabreState *s = SABRE(obj);
-     SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
-     unsigned int i;
+-    STM32F2XXTimerState *s = STM32F2XXTIMER(dev);
++    STM32F2XXTimerState *s = STM32F2XX_TIMER(dev);
+     s->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, stm32f2xx_timer_interrupt, s);
+ }
  
-@@ -502,7 +502,7 @@ static const TypeInfo sabre_pci_info = {
- 
- static char *sabre_ofw_unit_address(const SysBusDevice *dev)
- {
--    SabreState *s = SABRE_DEVICE(dev);
-+    SabreState *s = SABRE(dev);
- 
-     return g_strdup_printf("%x,%x",
-                (uint32_t)((s->special_base >> 32) & 0xffffffff),
-diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
-index fe0d84bf6c..b746c3bf38 100644
---- a/hw/sparc64/sun4u.c
-+++ b/hw/sparc64/sun4u.c
-@@ -585,7 +585,7 @@ static void sun4uv_init(MemoryRegion *address_space_mem,
-     prom_init(hwdef->prom_addr, bios_name);
- 
-     /* Init sabre (PCI host bridge) */
--    sabre = SABRE_DEVICE(qdev_new(TYPE_SABRE));
-+    sabre = SABRE(qdev_new(TYPE_SABRE));
-     qdev_prop_set_uint64(DEVICE(sabre), "special-base", PBM_SPECIAL_BASE);
-     qdev_prop_set_uint64(DEVICE(sabre), "mem-base", PBM_MEM_BASE);
-     object_property_set_link(OBJECT(sabre), "iommu", OBJECT(iommu),
 -- 
 2.26.2
 
