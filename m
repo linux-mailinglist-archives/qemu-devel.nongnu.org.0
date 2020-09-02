@@ -2,78 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E489725B757
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 01:31:00 +0200 (CEST)
-Received: from localhost ([::1]:60282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8B8825B761
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 01:37:48 +0200 (CEST)
+Received: from localhost ([::1]:41520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDcDT-0001w5-VR
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 19:31:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43544)
+	id 1kDcK3-00068U-U9
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 19:37:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kDcBr-0008Oo-Da
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 19:29:19 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51265
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kDcBo-0004yx-HB
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 19:29:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599089354;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eKBjtufo+Py/5PKR+EIdvGL5nBDyYHKVHUGRciUcxGA=;
- b=Sv4tNHqGEHdjXjWXrIlrmLd0weclJNrMp+yrhmrEvC09mVjFRCHnR3FDG8H/ZyIvICq3l9
- 8pUVWPbl6S+QhjnSRKfFCtIyHBSGpY64tZ72WJPWWDqgB6yBKjuGRQHN/YqTdl0xvuTJAn
- 9tGzL0VmdfvMUry8Y9Xd3Do/cFKFBXI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-221-DdgvsyTjPyGO_LnKR7PfHg-1; Wed, 02 Sep 2020 19:29:09 -0400
-X-MC-Unique: DdgvsyTjPyGO_LnKR7PfHg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F10A1074644;
- Wed,  2 Sep 2020 23:29:07 +0000 (UTC)
-Received: from [10.3.113.128] (ovpn-113-128.phx2.redhat.com [10.3.113.128])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E25165C1C4;
- Wed,  2 Sep 2020 23:29:06 +0000 (UTC)
-Subject: Re: [PATCH v2 3/3] nbd: disable signals and forking on Windows builds
-To: luoyonggang@gmail.com, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
-References: <20200825103850.119911-1-berrange@redhat.com>
- <20200825103850.119911-4-berrange@redhat.com>
- <CAE2XoE_8E0gYBnPn9GtB94zQ4Rr+ihOi1gvw4mvnNj5CRxv6DA@mail.gmail.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <7d2408f0-a0c3-ab1a-b836-90938cbe6f7b@redhat.com>
-Date: Wed, 2 Sep 2020 18:29:06 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-MIME-Version: 1.0
-In-Reply-To: <CAE2XoE_8E0gYBnPn9GtB94zQ4Rr+ihOi1gvw4mvnNj5CRxv6DA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1kDcJN-0005hs-OC
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 19:37:05 -0400
+Received: from mga09.intel.com ([134.134.136.24]:22216)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1kDcJK-0005vL-SZ
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 19:37:05 -0400
+IronPort-SDR: 6z+7OqwLpoa+byUHA9g3myHmU0UpCDW1PJnpSBf8ipTnWmU0xGtbvMB+rI3Kasa4ya/fVNU8Tc
+ bHWHB3KqFbLQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9732"; a="158481773"
+X-IronPort-AV: E=Sophos;i="5.76,384,1592895600"; d="scan'208";a="158481773"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Sep 2020 16:36:58 -0700
+IronPort-SDR: whTXQrqsTbKkh8K4O4U1nWB0Q2iwCxzMxQzsG7vEV2qKgmUUFCYXWVBJJJZyUncgEAw6fJMTgF
+ lDc3j7smqUaQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,384,1592895600"; d="scan'208";a="502310740"
+Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
+ by fmsmga006.fm.intel.com with ESMTP; 02 Sep 2020 16:36:58 -0700
+Received: from shsmsx603.ccr.corp.intel.com (10.109.6.143) by
+ fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Wed, 2 Sep 2020 16:36:57 -0700
+Received: from shsmsx605.ccr.corp.intel.com (10.109.6.215) by
+ SHSMSX603.ccr.corp.intel.com (10.109.6.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Thu, 3 Sep 2020 07:36:55 +0800
+Received: from shsmsx605.ccr.corp.intel.com ([10.109.6.215]) by
+ SHSMSX605.ccr.corp.intel.com ([10.109.6.215]) with mapi id 15.01.1713.004;
+ Thu, 3 Sep 2020 07:36:55 +0800
+From: "Zhang, Chen" <chen.zhang@intel.com>
+To: Eduardo Habkost <ehabkost@redhat.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Subject: RE: [PATCH 40/63] filter-rewriter: Rename FILTER_COLO_REWRITER to
+ FILTER_REWRITER
+Thread-Topic: [PATCH 40/63] filter-rewriter: Rename FILTER_COLO_REWRITER to
+ FILTER_REWRITER
+Thread-Index: AQHWgXq6WSTWUoPwpUauYCbXij1H/KlV+TCQ
+Date: Wed, 2 Sep 2020 23:36:55 +0000
+Message-ID: <e33d7a390b1e4782bcf11392e9598a87@intel.com>
+References: <20200902224311.1321159-1-ehabkost@redhat.com>
+ <20200902224311.1321159-41-ehabkost@redhat.com>
+In-Reply-To: <20200902224311.1321159-41-ehabkost@redhat.com>
+Accept-Language: en-US
 Content-Language: en-US
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 17:54:07
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.324, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.5.1.3
+dlp-reaction: no-action
+x-originating-ip: [10.239.127.36]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Received-SPF: pass client-ip=134.134.136.24; envelope-from=chen.zhang@intel.com;
+ helo=mga09.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 19:36:58
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,55 +91,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-level <qemu-devel@nongnu.org>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>,
+ "berrange@redhat.com" <berrange@redhat.com>,
+ Li Zhijian <lizhijian@cn.fujitsu.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/2/20 5:07 PM, 罗勇刚(Yonggang Luo) wrote:
-> On Tue, Aug 25, 2020 at 6:40 PM Daniel P. Berrangé <berrange@redhat.com>
-> wrote:
-> 
->> Disabling these parts are sufficient to get the qemu-nbd program
->> compiling in a Windows build.
->>
->> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
->> ---
->>   meson.build | 7 ++-----
->>   qemu-nbd.c  | 5 +++++
->>   2 files changed, 7 insertions(+), 5 deletions(-)
 
->> +++ b/qemu-nbd.c
->> @@ -899,6 +899,7 @@ int main(int argc, char **argv)
->>   #endif
->>
->>       if ((device && !verbose) || fork_process) {
->> +#ifndef WIN32
->>           int stderr_fd[2];
->>           pid_t pid;
->>           int ret;
->> @@ -962,6 +963,10 @@ int main(int argc, char **argv)
->>                */
->>               exit(errors);
->>           }
->> +#else /* WIN32 */
->> +        error_report("Unable to fork into background on Windows hosts");
->> +        exit(EXIT_FAILURE);
->> +#endif /* WIN32 */
->>       }
->>
-> May us replace fork with alternative such as spawn?
 
-You're certainly welcome to propose a patch along those lines, if 
-spawning a task is a common Windows counterpart to the Unix notion of 
-forking off a daemon.  But even requiring qemu-nbd to run in the 
-foreground is already an improvement over what we had previously, so any 
-change to use spawn will be a separate series, and will not hold up this 
-one.
+> -----Original Message-----
+> From: Eduardo Habkost <ehabkost@redhat.com>
+> Sent: Thursday, September 3, 2020 6:43 AM
+> To: qemu-devel@nongnu.org
+> Cc: berrange@redhat.com; Zhang, Chen <chen.zhang@intel.com>; Li Zhijian
+> <lizhijian@cn.fujitsu.com>; Jason Wang <jasowang@redhat.com>
+> Subject: [PATCH 40/63] filter-rewriter: Rename FILTER_COLO_REWRITER to
+> FILTER_REWRITER
+>=20
+> Make the type checking macro name consistent with the TYPE_* constant.
+>=20
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Reviewed-by: Zhang Chen <chen.zhang@intel.com>
+
+Thanks
+Zhang Chen
+
+> ---
+> Cc: Zhang Chen <chen.zhang@intel.com>
+> Cc: Li Zhijian <lizhijian@cn.fujitsu.com>
+> Cc: Jason Wang <jasowang@redhat.com>
+> Cc: qemu-devel@nongnu.org
+> ---
+>  net/filter-rewriter.c | 18 +++++++++---------
+>  1 file changed, 9 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/net/filter-rewriter.c b/net/filter-rewriter.c index
+> 113e293207..44f6021dd8 100644
+> --- a/net/filter-rewriter.c
+> +++ b/net/filter-rewriter.c
+> @@ -25,7 +25,7 @@
+>=20
+>  #define TYPE_FILTER_REWRITER "filter-rewriter"
+>  typedef struct RewriterState RewriterState; -
+> DECLARE_INSTANCE_CHECKER(RewriterState, FILTER_COLO_REWRITER,
+> +DECLARE_INSTANCE_CHECKER(RewriterState, FILTER_REWRITER,
+>                           TYPE_FILTER_REWRITER)
+>=20
+>  #define FAILOVER_MODE_ON  true
+> @@ -47,7 +47,7 @@ static void filter_rewriter_failover_mode(RewriterState
+> *s)
+>=20
+>  static void filter_rewriter_flush(NetFilterState *nf)  {
+> -    RewriterState *s =3D FILTER_COLO_REWRITER(nf);
+> +    RewriterState *s =3D FILTER_REWRITER(nf);
+>=20
+>      if (!qemu_net_queue_flush(s->incoming_queue)) {
+>          /* Unable to empty the queue, purge remaining packets */ @@ -252=
+,7
+> +252,7 @@ static ssize_t colo_rewriter_receive_iov(NetFilterState *nf,
+>                                           int iovcnt,
+>                                           NetPacketSent *sent_cb)  {
+> -    RewriterState *s =3D FILTER_COLO_REWRITER(nf);
+> +    RewriterState *s =3D FILTER_REWRITER(nf);
+>      Connection *conn;
+>      ConnectionKey key;
+>      Packet *pkt;
+> @@ -350,7 +350,7 @@ static gboolean offset_is_nonzero(gpointer key,
+> static void colo_rewriter_handle_event(NetFilterState *nf, int event,
+>                                         Error **errp)  {
+> -    RewriterState *rs =3D FILTER_COLO_REWRITER(nf);
+> +    RewriterState *rs =3D FILTER_REWRITER(nf);
+>=20
+>      switch (event) {
+>      case COLO_EVENT_CHECKPOINT:
+> @@ -370,7 +370,7 @@ static void
+> colo_rewriter_handle_event(NetFilterState *nf, int event,
+>=20
+>  static void colo_rewriter_cleanup(NetFilterState *nf)  {
+> -    RewriterState *s =3D FILTER_COLO_REWRITER(nf);
+> +    RewriterState *s =3D FILTER_REWRITER(nf);
+>=20
+>      /* flush packets */
+>      if (s->incoming_queue) {
+> @@ -381,7 +381,7 @@ static void colo_rewriter_cleanup(NetFilterState *nf)
+>=20
+>  static void colo_rewriter_setup(NetFilterState *nf, Error **errp)  {
+> -    RewriterState *s =3D FILTER_COLO_REWRITER(nf);
+> +    RewriterState *s =3D FILTER_REWRITER(nf);
+>=20
+>      s->connection_track_table =3D
+> g_hash_table_new_full(connection_key_hash,
+>                                                        connection_key_equ=
+al, @@ -392,7 +392,7 @@
+> static void colo_rewriter_setup(NetFilterState *nf, Error **errp)
+>=20
+>  static bool filter_rewriter_get_vnet_hdr(Object *obj, Error **errp)  {
+> -    RewriterState *s =3D FILTER_COLO_REWRITER(obj);
+> +    RewriterState *s =3D FILTER_REWRITER(obj);
+>=20
+>      return s->vnet_hdr;
+>  }
+> @@ -401,14 +401,14 @@ static void filter_rewriter_set_vnet_hdr(Object
+> *obj,
+>                                           bool value,
+>                                           Error **errp)  {
+> -    RewriterState *s =3D FILTER_COLO_REWRITER(obj);
+> +    RewriterState *s =3D FILTER_REWRITER(obj);
+>=20
+>      s->vnet_hdr =3D value;
+>  }
+>=20
+>  static void filter_rewriter_init(Object *obj)  {
+> -    RewriterState *s =3D FILTER_COLO_REWRITER(obj);
+> +    RewriterState *s =3D FILTER_REWRITER(obj);
+>=20
+>      s->vnet_hdr =3D false;
+>      s->failover_mode =3D FAILOVER_MODE_OFF;
+> --
+> 2.26.2
 
 
