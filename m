@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ED1725B6C2
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 00:56:04 +0200 (CEST)
-Received: from localhost ([::1]:43270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8355D25B6C0
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 00:55:06 +0200 (CEST)
+Received: from localhost ([::1]:37322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDbff-0001Zr-E1
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 18:56:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35222)
+	id 1kDbej-0007Q4-H9
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 18:55:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDbUd-0003Lu-8E
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:44:39 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42486
- helo=us-smtp-1.mimecast.com)
+ id 1kDbUe-0003Pj-Jr
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:44:40 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:32915
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDbUb-0008Pj-8r
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:44:38 -0400
+ id 1kDbUc-0008Q7-Tr
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:44:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599086676;
+ s=mimecast20190719; t=1599086678;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MRcfGB0acI9G303nkv7uPp/ZBKOG4rjAKmd7ecTUl1A=;
- b=KJ9LpmAa6Xy0YporekSvhZyUWLikDPeEYINwDEgNBx2AWp4ej/tbni9FGH63EimF5L40yf
- UfKueDNUddKACVHJe4OKGhu3ddwSJFdGoBC6CcyCxMlUbbdRCWp+Xey5rvqrUCPVohZCRw
- zeUBVIyzyO9j6ZrYyHYbjU/EeF8yFgE=
+ bh=JU9/znqWg2TUYNPH2icBhlpG7DUAJjHZQMnhpf3zXFo=;
+ b=ZP3GkgS2ln/1AW+nVdBpgnbwCctzmt3+jqHdKkR/I1gzEaHliyBJ7/9HDPBBvFONRmHjg5
+ 8Mf2Xwx8OI8JdsQMz5RuiOw+i3wskhbol82k9LedU/5BjPeAvkwJSvRRS9QJ7Gn4qpM+dc
+ sm/s9k2M1XO9uinLCyXP3dKXWvJcHlc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-434-EmQJ64MuPe-U14nKJyy_oA-1; Wed, 02 Sep 2020 18:44:35 -0400
-X-MC-Unique: EmQJ64MuPe-U14nKJyy_oA-1
+ us-mta-365-VYNSAfAzPayqH8SBh91ByQ-1; Wed, 02 Sep 2020 18:44:36 -0400
+X-MC-Unique: VYNSAfAzPayqH8SBh91ByQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6731801AB1;
- Wed,  2 Sep 2020 22:44:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28BF48030C7;
+ Wed,  2 Sep 2020 22:44:35 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8CE8619C59;
- Wed,  2 Sep 2020 22:44:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E17DA19C59;
+ Wed,  2 Sep 2020 22:44:34 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 26/63] sun4m: Rename TYPE_SUN4M_MEMORY to TYPE_SUN4M_RAM
-Date: Wed,  2 Sep 2020 18:42:34 -0400
-Message-Id: <20200902224311.1321159-27-ehabkost@redhat.com>
+Subject: [PATCH 27/63] sun4u: Rename TYPE_SUN4U_MEMORY to TYPE_SUN4U_RAM
+Date: Wed,  2 Sep 2020 18:42:35 -0400
+Message-Id: <20200902224311.1321159-28-ehabkost@redhat.com>
 In-Reply-To: <20200902224311.1321159-1-ehabkost@redhat.com>
 References: <20200902224311.1321159-1-ehabkost@redhat.com>
 MIME-Version: 1.0
@@ -58,9 +58,9 @@ X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 16:20:39
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 17:54:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -95,35 +95,44 @@ Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Cc: Artyom Tarasenko <atar4qemu@gmail.com>
 Cc: qemu-devel@nongnu.org
 ---
- hw/sparc/sun4m.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/sparc64/sun4u.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
-index 5ed922d436..3410d8db6c 100644
---- a/hw/sparc/sun4m.c
-+++ b/hw/sparc/sun4m.c
-@@ -779,10 +779,10 @@ static const TypeInfo prom_info = {
-     .class_init    = prom_class_init,
+diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
+index 67985414e2..fe0d84bf6c 100644
+--- a/hw/sparc64/sun4u.c
++++ b/hw/sparc64/sun4u.c
+@@ -493,10 +493,10 @@ static const TypeInfo prom_info = {
  };
  
--#define TYPE_SUN4M_MEMORY "memory"
-+#define TYPE_SUN4M_RAM "memory"
+ 
+-#define TYPE_SUN4U_MEMORY "memory"
++#define TYPE_SUN4U_RAM "memory"
  typedef struct RamDevice RamDevice;
- DECLARE_INSTANCE_CHECKER(RamDevice, SUN4M_RAM,
--                         TYPE_SUN4M_MEMORY)
-+                         TYPE_SUN4M_RAM)
+ DECLARE_INSTANCE_CHECKER(RamDevice, SUN4U_RAM,
+-                         TYPE_SUN4U_MEMORY)
++                         TYPE_SUN4U_RAM)
  
  struct RamDevice {
      SysBusDevice parent_obj;
-@@ -817,7 +817,7 @@ static void ram_class_init(ObjectClass *klass, void *data)
+@@ -524,7 +524,7 @@ static void ram_init(hwaddr addr, ram_addr_t RAM_size)
+     RamDevice *d;
+ 
+     /* allocate RAM */
+-    dev = qdev_new(TYPE_SUN4U_MEMORY);
++    dev = qdev_new(TYPE_SUN4U_RAM);
+     s = SYS_BUS_DEVICE(dev);
+ 
+     d = SUN4U_RAM(dev);
+@@ -548,7 +548,7 @@ static void ram_class_init(ObjectClass *klass, void *data)
  }
  
  static const TypeInfo ram_info = {
--    .name          = TYPE_SUN4M_MEMORY,
-+    .name          = TYPE_SUN4M_RAM,
+-    .name          = TYPE_SUN4U_MEMORY,
++    .name          = TYPE_SUN4U_RAM,
      .parent        = TYPE_SYS_BUS_DEVICE,
      .instance_size = sizeof(RamDevice),
-     .instance_init = ram_initfn,
+     .class_init    = ram_class_init,
 -- 
 2.26.2
 
