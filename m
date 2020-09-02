@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87A7425A8AF
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 11:34:45 +0200 (CEST)
-Received: from localhost ([::1]:34826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEA6F25A8B8
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 11:37:29 +0200 (CEST)
+Received: from localhost ([::1]:46112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDPAC-0006UR-Hc
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 05:34:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35970)
+	id 1kDPCr-0002ml-01
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 05:37:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1kDP6u-0001KI-4I; Wed, 02 Sep 2020 05:31:20 -0400
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:49907)
+ id 1kDP6v-0001Ng-I9; Wed, 02 Sep 2020 05:31:21 -0400
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:35929)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1kDP6r-0004Ye-2S; Wed, 02 Sep 2020 05:31:19 -0400
+ id 1kDP6r-0004Yp-TK; Wed, 02 Sep 2020 05:31:21 -0400
 Received: from mxplan5.mail.ovh.net (unknown [10.109.138.217])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 06E9E5D19018;
- Wed,  2 Sep 2020 11:31:11 +0200 (CEST)
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 5CA915D19035;
+ Wed,  2 Sep 2020 11:31:14 +0200 (CEST)
 Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Wed, 2 Sep 2020
  11:31:11 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-96R0010b943dfa-9ba7-410a-b2e7-36c59b9fc918,
+ (GARM-96R0011915b3ca-ed59-4ef2-a541-5a9acf01743c,
  725C0B02AD5EA5A9EE23B5614217EC25792C566F) smtp.auth=clg@kaod.org
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v2 7/9] m25p80: Add the w25q512jv SFPD table
-Date: Wed, 2 Sep 2020 11:31:05 +0200
-Message-ID: <20200902093107.608000-8-clg@kaod.org>
+Subject: [PATCH v2 8/9] arm/aspeed: Replace mx25l25635e chip model
+Date: Wed, 2 Sep 2020 11:31:06 +0200
+Message-ID: <20200902093107.608000-9-clg@kaod.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20200902093107.608000-1-clg@kaod.org>
 References: <20200902093107.608000-1-clg@kaod.org>
@@ -41,8 +41,8 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.96]
 X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 5d5ad99b-9a3f-4770-bf2d-f970a65ec5f0
-X-Ovh-Tracer-Id: 7376614716122893164
+X-Ovh-Tracer-GUID: c8d3fd2a-4311-4917-9ece-e732aa06d7d1
+X-Ovh-Tracer-Id: 7376896192379652972
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrudefledgudejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfhisehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheehfeegjeeitdfffeetjeduveejueefuefgtdefueelueetveeliefhhffgtdelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
@@ -76,86 +76,46 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The SFDP table size is 0x100 bytes long. The mandatory table for basic
-features is available at byte 0x80 and two extra Winbond specifics
-table are available at 0xC0 and 0xF0.
+A mx25l25635f chip model is generally found on these machines. It's
+newer and uses 4B opcodes which is better to exercise the support in
+the Linux kernel.
 
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/block/m25p80_sfdp.h |  1 +
- hw/block/m25p80.c      |  3 ++-
- hw/block/m25p80_sfdp.c | 36 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 39 insertions(+), 1 deletion(-)
+ hw/arm/aspeed.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/block/m25p80_sfdp.h b/hw/block/m25p80_sfdp.h
-index f60429ab8542..62f140a2fcef 100644
---- a/hw/block/m25p80_sfdp.h
-+++ b/hw/block/m25p80_sfdp.h
-@@ -22,5 +22,6 @@ extern uint8_t m25p80_sfdp_mx25l25635f(uint32_t addr);
- extern uint8_t m25p80_sfdp_mx66l1g45g(uint32_t addr);
- 
- extern uint8_t m25p80_sfdp_w25q256(uint32_t addr);
-+extern uint8_t m25p80_sfdp_w25q512jv(uint32_t addr);
- 
- #endif
-diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-index b5626a62082a..4f41a68f741c 100644
---- a/hw/block/m25p80.c
-+++ b/hw/block/m25p80.c
-@@ -329,7 +329,8 @@ static const FlashPartInfo known_devices[] = {
-     { INFO("w25q80bl",    0xef4014,      0,  64 << 10,  16, ER_4K) },
-     { INFO("w25q256",     0xef4019,      0,  64 << 10, 512, ER_4K),
-       .sfdp_read = m25p80_sfdp_w25q256 },
--    { INFO("w25q512jv",   0xef4020,      0,  64 << 10, 1024, ER_4K) },
-+    { INFO("w25q512jv",   0xef4020,      0,  64 << 10, 1024, ER_4K),
-+      .sfdp_read = m25p80_sfdp_w25q512jv },
- };
- 
- typedef enum {
-diff --git a/hw/block/m25p80_sfdp.c b/hw/block/m25p80_sfdp.c
-index 5b011559d43d..dad3d7e64f9f 100644
---- a/hw/block/m25p80_sfdp.c
-+++ b/hw/block/m25p80_sfdp.c
-@@ -258,3 +258,39 @@ static const uint8_t sfdp_w25q256[] = {
-     0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
- };
- define_sfdp_read(w25q256);
-+
-+static const uint8_t sfdp_w25q512jv[] = {
-+    0x53, 0x46, 0x44, 0x50, 0x06, 0x01, 0x01, 0xff,
-+    0x00, 0x06, 0x01, 0x10, 0x80, 0x00, 0x00, 0xff,
-+    0x84, 0x00, 0x01, 0x02, 0xd0, 0x00, 0x00, 0xff,
-+    0x03, 0x00, 0x01, 0x02, 0xf0, 0x00, 0x00, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xe5, 0x20, 0xfb, 0xff, 0xff, 0xff, 0xff, 0x1f,
-+    0x44, 0xeb, 0x08, 0x6b, 0x08, 0x3b, 0x42, 0xbb,
-+    0xfe, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00,
-+    0xff, 0xff, 0x40, 0xeb, 0x0c, 0x20, 0x0f, 0x52,
-+    0x10, 0xd8, 0x00, 0x00, 0x36, 0x02, 0xa6, 0x00,
-+    0x82, 0xea, 0x14, 0xe2, 0xe9, 0x63, 0x76, 0x33,
-+    0x7a, 0x75, 0x7a, 0x75, 0xf7, 0xa2, 0xd5, 0x5c,
-+    0x19, 0xf7, 0x4d, 0xff, 0xe9, 0x70, 0xf9, 0xa5,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0x0a, 0xf0, 0xff, 0x21, 0xff, 0xdc, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+};
-+define_sfdp_read(w25q512jv);
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index 8bfb1c79ddc5..df65d949b7e6 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -609,7 +609,7 @@ static void aspeed_machine_palmetto_class_init(ObjectClass *oc, void *data)
+     amc->soc_name  = "ast2400-a1";
+     amc->hw_strap1 = PALMETTO_BMC_HW_STRAP1;
+     amc->fmc_model = "n25q256a";
+-    amc->spi_model = "mx25l25635e";
++    amc->spi_model = "mx25l25635f";
+     amc->num_cs    = 1;
+     amc->i2c_init  = palmetto_bmc_i2c_init;
+     mc->default_ram_size       = 256 * MiB;
+@@ -643,7 +643,7 @@ static void aspeed_machine_ast2500_evb_class_init(ObjectClass *oc, void *data)
+     amc->soc_name  = "ast2500-a1";
+     amc->hw_strap1 = AST2500_EVB_HW_STRAP1;
+     amc->fmc_model = "w25q256";
+-    amc->spi_model = "mx25l25635e";
++    amc->spi_model = "mx25l25635f";
+     amc->num_cs    = 1;
+     amc->i2c_init  = ast2500_evb_i2c_init;
+     mc->default_ram_size       = 512 * MiB;
+@@ -710,7 +710,7 @@ static void aspeed_machine_witherspoon_class_init(ObjectClass *oc, void *data)
+     mc->desc       = "OpenPOWER Witherspoon BMC (ARM1176)";
+     amc->soc_name  = "ast2500-a1";
+     amc->hw_strap1 = WITHERSPOON_BMC_HW_STRAP1;
+-    amc->fmc_model = "mx25l25635e";
++    amc->fmc_model = "mx25l25635f";
+     amc->spi_model = "mx66l1g45g";
+     amc->num_cs    = 2;
+     amc->i2c_init  = witherspoon_bmc_i2c_init;
 -- 
 2.25.4
 
