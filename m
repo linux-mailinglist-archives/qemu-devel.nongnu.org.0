@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6726325B6D1
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 00:58:53 +0200 (CEST)
-Received: from localhost ([::1]:59056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5935025B6EF
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 01:02:23 +0200 (CEST)
+Received: from localhost ([::1]:44854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDbiO-0007r5-DQ
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 18:58:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35540)
+	id 1kDblm-0005AW-7p
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 19:02:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDbVD-0004bM-Bq
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:45:15 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20772
- helo=us-smtp-1.mimecast.com)
+ id 1kDbUz-00044M-DJ
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:45:01 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:45320
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDbVB-00005o-AP
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:45:14 -0400
+ id 1kDbUx-0008UM-He
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:45:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599086712;
+ s=mimecast20190719; t=1599086698;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZOGdFaTOCSQgkm1cUvnKEEVM+LkWfbdeSgjtcCPvnNE=;
- b=Ra4nDJGB/kJV+f+I5m1Vpj9XayVjeA0G/oVwUs/STS9fOM7q6yLm0QYkG4xnP4We7r4IUr
- Fd6ADZXBpRCYsr0HoKFwHWY7gVQkHb4JOoc5H2hp+taN+MXK8VnEUUw8FOEr3YMCVhRSc3
- dyB7ZzLwZH4slpJsVxIznMpjKWDuv/c=
+ bh=Zq9LSe6jW4K7WL54MmIxfbLjOQyXbELHR988rh4CKe0=;
+ b=RTfVb4oPUMfVxCmC7u2t2RGWnryjugdME70V9plM5LBmkys2nq/O198rEqgWpGv/9/99Nj
+ 0FOIVsbppLe+GaEJW+6Ect8N08mX5cXov6qVpL+kM9D7Ab4aS9HhmZevFFckzt9dX1fyHk
+ GUvikcxcg2b9+o4rAFady4ylZxRJ/AM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-422-ZBCrlIXkPd2omv7hczqngw-1; Wed, 02 Sep 2020 18:45:10 -0400
-X-MC-Unique: ZBCrlIXkPd2omv7hczqngw-1
+ us-mta-403-5tyNOB5eM-WJzmkxFfx9gg-1; Wed, 02 Sep 2020 18:44:57 -0400
+X-MC-Unique: 5tyNOB5eM-WJzmkxFfx9gg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C64AD1074642;
- Wed,  2 Sep 2020 22:45:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28082801AAE
+ for <qemu-devel@nongnu.org>; Wed,  2 Sep 2020 22:44:56 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 921E36198B;
- Wed,  2 Sep 2020 22:45:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 94B2760C0F;
+ Wed,  2 Sep 2020 22:44:52 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 41/63] lance: Rename SYSBUS_PCNET to LANCE
-Date: Wed,  2 Sep 2020 18:42:49 -0400
-Message-Id: <20200902224311.1321159-42-ehabkost@redhat.com>
+Subject: [PATCH 37/63] ccid-card-emulated: Rename EMULATED_CCID_CARD to
+ EMULATED_CCID
+Date: Wed,  2 Sep 2020 18:42:45 -0400
+Message-Id: <20200902224311.1321159-38-ehabkost@redhat.com>
 In-Reply-To: <20200902224311.1321159-1-ehabkost@redhat.com>
 References: <20200902224311.1321159-1-ehabkost@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 16:20:39
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 17:54:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -81,9 +82,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Jason Wang <jasowang@redhat.com>, berrange@redhat.com,
- Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: berrange@redhat.com, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -92,72 +91,61 @@ constant.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-Cc: Jason Wang <jasowang@redhat.com>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Cc: Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- include/hw/net/lance.h | 2 +-
- hw/net/lance.c         | 6 +++---
- hw/sparc/sun4m.c       | 2 +-
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ hw/usb/ccid-card-emulated.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/include/hw/net/lance.h b/include/hw/net/lance.h
-index f645d6af67..a0434f1254 100644
---- a/include/hw/net/lance.h
-+++ b/include/hw/net/lance.h
-@@ -36,7 +36,7 @@
+diff --git a/hw/usb/ccid-card-emulated.c b/hw/usb/ccid-card-emulated.c
+index 5e4649d367..9803dac5b7 100644
+--- a/hw/usb/ccid-card-emulated.c
++++ b/hw/usb/ccid-card-emulated.c
+@@ -47,7 +47,7 @@ do {\
  
- #define TYPE_LANCE "lance"
- typedef struct SysBusPCNetState SysBusPCNetState;
--DECLARE_INSTANCE_CHECKER(SysBusPCNetState, SYSBUS_PCNET,
-+DECLARE_INSTANCE_CHECKER(SysBusPCNetState, LANCE,
-                          TYPE_LANCE)
+ #define TYPE_EMULATED_CCID "ccid-card-emulated"
+ typedef struct EmulatedState EmulatedState;
+-DECLARE_INSTANCE_CHECKER(EmulatedState, EMULATED_CCID_CARD,
++DECLARE_INSTANCE_CHECKER(EmulatedState, EMULATED_CCID,
+                          TYPE_EMULATED_CCID)
  
- struct SysBusPCNetState {
-diff --git a/hw/net/lance.c b/hw/net/lance.c
-index 4c5f01baad..47ab7e1847 100644
---- a/hw/net/lance.c
-+++ b/hw/net/lance.c
-@@ -103,7 +103,7 @@ static const VMStateDescription vmstate_lance = {
- static void lance_realize(DeviceState *dev, Error **errp)
+ #define BACKEND_NSS_EMULATED_NAME "nss-emulated"
+@@ -138,7 +138,7 @@ struct EmulatedState {
+ static void emulated_apdu_from_guest(CCIDCardState *base,
+     const uint8_t *apdu, uint32_t len)
  {
-     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
--    SysBusPCNetState *d = SYSBUS_PCNET(dev);
-+    SysBusPCNetState *d = LANCE(dev);
-     PCNetState *s = &d->state;
+-    EmulatedState *card = EMULATED_CCID_CARD(base);
++    EmulatedState *card = EMULATED_CCID(base);
+     EmulEvent *event = (EmulEvent *)g_malloc(sizeof(EmulEvent) + len);
  
-     memory_region_init_io(&s->mmio, OBJECT(d), &lance_mem_ops, d,
-@@ -122,14 +122,14 @@ static void lance_realize(DeviceState *dev, Error **errp)
+     assert(event);
+@@ -155,7 +155,7 @@ static void emulated_apdu_from_guest(CCIDCardState *base,
  
- static void lance_reset(DeviceState *dev)
+ static const uint8_t *emulated_get_atr(CCIDCardState *base, uint32_t *len)
  {
--    SysBusPCNetState *d = SYSBUS_PCNET(dev);
-+    SysBusPCNetState *d = LANCE(dev);
+-    EmulatedState *card = EMULATED_CCID_CARD(base);
++    EmulatedState *card = EMULATED_CCID(base);
  
-     pcnet_h_reset(&d->state);
- }
+     *len = card->atr_length;
+     return card->atr;
+@@ -488,7 +488,7 @@ static uint32_t parse_enumeration(char *str,
  
- static void lance_instance_init(Object *obj)
+ static void emulated_realize(CCIDCardState *base, Error **errp)
  {
--    SysBusPCNetState *d = SYSBUS_PCNET(obj);
-+    SysBusPCNetState *d = LANCE(obj);
-     PCNetState *s = &d->state;
+-    EmulatedState *card = EMULATED_CCID_CARD(base);
++    EmulatedState *card = EMULATED_CCID(base);
+     VCardEmulError ret;
+     const EnumTable *ptable;
  
-     device_add_bootindex_property(obj, &s->conf.bootindex,
-diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
-index 3ee7ef4590..192cb87658 100644
---- a/hw/sparc/sun4m.c
-+++ b/hw/sparc/sun4m.c
-@@ -353,7 +353,7 @@ static void *sparc32_dma_init(hwaddr dma_base,
-                                  OBJECT(dma), "ledma"));
-     sysbus_connect_irq(SYS_BUS_DEVICE(ledma), 0, ledma_irq);
+@@ -564,7 +564,7 @@ out1:
  
--    lance = SYSBUS_PCNET(object_resolve_path_component(
-+    lance = LANCE(object_resolve_path_component(
-                          OBJECT(ledma), "lance"));
-     sysbus_mmio_map(SYS_BUS_DEVICE(lance), 0, le_base);
+ static void emulated_unrealize(CCIDCardState *base)
+ {
+-    EmulatedState *card = EMULATED_CCID_CARD(base);
++    EmulatedState *card = EMULATED_CCID(base);
+     VEvent *vevent = vevent_new(VEVENT_LAST, NULL, NULL);
  
+     vevent_queue_vevent(vevent); /* stop vevent thread */
 -- 
 2.26.2
 
