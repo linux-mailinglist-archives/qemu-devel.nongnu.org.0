@@ -2,73 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80C6D25B2BD
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 19:13:00 +0200 (CEST)
-Received: from localhost ([::1]:41888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E490E25B2CC
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 19:16:40 +0200 (CEST)
+Received: from localhost ([::1]:55512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDWJf-0002Qd-Hp
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 13:12:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47842)
+	id 1kDWND-00086K-Vi
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 13:16:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kDWGU-00062U-IB
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 13:09:42 -0400
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:44824)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kDWGm-0006fL-BI; Wed, 02 Sep 2020 13:10:00 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:42860)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kDWGQ-0001KS-V7
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 13:09:42 -0400
-Received: by mail-lf1-x141.google.com with SMTP id 12so181416lfb.11
- for <qemu-devel@nongnu.org>; Wed, 02 Sep 2020 10:09:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kDWGj-0001Rr-OI; Wed, 02 Sep 2020 13:10:00 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id c18so173557wrm.9;
+ Wed, 02 Sep 2020 10:09:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=WyOhhrd84zh65NADyZCQqurVELridGgt/zS7SKwtFKE=;
- b=VVA5dDLob0XwL7mwVQl2FWeK2fV9rFohdMzQkC6OSav6NdDKlMW/gpkoNhFzLn7rFR
- Za9h9CCxHrykTblYLZwGI35748T05qyn+EBmxton/KMueH66PE5/P4DxHiuAwoDYpj1S
- oEAaTMZsjKQHmh0GwDsA1tJYyGgziG3Fo4I2BC1l9gwQGN++MG77ZU7Fhwny4UOM8kOA
- qMLHCtgHED8ArkfAUx5Xg792653aPK1uKHFmQXv44xqastFkmWhA4QIx3UACwxyzN7Vk
- 43z2oH7uHshIQareB6yPaJKy4T1osUbM3pxsg/8IBoPAlCH3O4Zd3cwhmda8N/3ikkzC
- 5W8w==
+ h=sender:subject:from:to:cc:references:autocrypt:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=hM9MrG0kYxaTF66jNodBpX4uVHpZDqpNCGguDnceNj0=;
+ b=nxovngRD6XKCd1M614effn4LaeZYKV6qupMC6Rw2If4AZcf3EdXnnVV5WO0pAJCtNn
+ Ze4dEiqYYJ31to6ebrextu3akLAFg3Yv7rLLRK0aLPAhmJhfJ4/f94aP0QNMhSysXBAs
+ agVI0vF/9KPpIUMoo06uaOAFsa+B+Z2josVYpADoPYplKnl8AkF1p9GsBAVkVXGJ0GHt
+ 6wBUZ07Jvff8zbv6yN8y1rdBb4PjhffGU9zovDfhXESNNyYHhwVNh5Zs0rTij7dYIff6
+ gzr+jnaklkNZ//qk4TdZ4Df9s34/rJsdSBN94KzekVAITpUNhGiXC4Ju5qXKWp2VwEM/
+ xO4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=WyOhhrd84zh65NADyZCQqurVELridGgt/zS7SKwtFKE=;
- b=Iv66pdGvTreStWY1nrP6+FGdk7hbCO8UjCFBpaFEghlDu1uCI7QgDtLqkQIe1cc+v1
- sLSPMFdYL8aqXJRlvTOjSDtzLDYFobKaL5AcZpaPzblIIfuo7g2jQe4yC7gN+cKVvh+S
- k5rwWdR0arS7VBh9IzjOpnRiFBZxW1iOS1AKJaznjbu7MrLIsmMKgaVQcfddkxO4DCD+
- Tjnp500jnRhGZga7hwo838VAluyHJplDKuMBis7UyYuZtqx/8GHy4W8O2Gb1cgdaMgNC
- RzP69n+sVYO54JIwwop56prZmZ3ajq4iDGlkbKM/XMwatlHMBe643PtdnWtrTIiuJ5Pg
- h5OA==
-X-Gm-Message-State: AOAM530Nobz+bKedXObIl0685VFVEFCEDw73vzicR0tLzfoWSEKw9lbw
- 2A668xo89BprPiZCMxE61VAMiKXv8LyS7FlSKDQ=
-X-Google-Smtp-Source: ABdhPJxuaa0U3tcSgNUMuqYCB6TcvB2vJFewAorp40UPsNPA6EcJBhTqRKHypXFIJBEvjyDkF2IQUzcwI+Xg3rtQ+/M=
-X-Received: by 2002:a05:6512:690:: with SMTP id
- t16mr3730217lfe.213.1599066577126; 
- Wed, 02 Sep 2020 10:09:37 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:from:to:cc:references:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=hM9MrG0kYxaTF66jNodBpX4uVHpZDqpNCGguDnceNj0=;
+ b=dSwfIB5Rt+zk9cpIK1Y6VGNF5rTb/uWBgGFtJxJdGt6/O+dZU3l3+Jn1ebnFy5kaJw
+ X8Zl5ftIOBskktTnYgQ3Z5TWt6D6NzkjhLYKSinKAuANgrbKWPX2AX0EKkAREdIMX9Pe
+ a2ZSP7na7nzDUcuR4DsT5mR4L5FvQBttBHot74Rx1EgtgNiG84WV0SsbKoBEe93YVrGE
+ 8g6U+wDvzNAvS0QrgbZDzfMFstxbB78X0a6IpCvleGX9XueesErgBBapuNEVwrZauN4Z
+ IpuvtdjNk0WU0Kxu87kPa2wl5Iu/NQ8kGXtgYQ/rc0nqMNnxHRSpoPo9TL/cSIYhNvYy
+ CzEg==
+X-Gm-Message-State: AOAM532LNtafXtgVn3u+spk8nCjpqgqnSX5E9Uazdm1CTZCIVn3zuDVF
+ FkAmU3V1NTq3+v9e4BSv0qkfGaSdWhc=
+X-Google-Smtp-Source: ABdhPJyt0D2SPSy4TRCwArev+vDP6/xOnwZHh0gL29yeX3W8s04LKQemhuaV6ohMalhG4zvppN89EQ==
+X-Received: by 2002:adf:eb0a:: with SMTP id s10mr8163057wrn.83.1599066595610; 
+ Wed, 02 Sep 2020 10:09:55 -0700 (PDT)
+Received: from [192.168.1.36] (50.red-83-52-54.dynamicip.rima-tde.net.
+ [83.52.54.50])
+ by smtp.gmail.com with ESMTPSA id f3sm389733wmb.35.2020.09.02.10.09.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Sep 2020 10:09:54 -0700 (PDT)
+Subject: Re: hw/clock: What clock rate for virt machines?
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <bbdacc80-a321-5f06-e430-973a38e7e037@amsat.org>
+ <CAFEAcA8mwjWP-KhJ5bp_Qo_h81Mt_yn8k_5oepgMas9COBQgWQ@mail.gmail.com>
+ <f7b28480-c841-f0d7-a848-b5f1775ec12d@amsat.org>
+Autocrypt: addr=f4bug@amsat.org; keydata=
+ mQINBDU8rLoBEADb5b5dyglKgWF9uDbIjFXU4gDtcwiga9wJ/wX6xdhBqU8tlQ4BroH7AeRl
+ u4zXP0QnBDAG7EetxlQzcfYbPmxFISWjckDBFvDbFsojrZmwF2/LkFSzlvKiN5KLghzzJhLO
+ HhjGlF8deEZz/d/G8qzO9mIw8GIBS8uuWh6SIcG/qq7+y+2+aifaj92EdwU79apZepT/U3vN
+ YrfcAuo1Ycy7/u0hJ7rlaFUn2Fu5KIgV2O++hHYtCCQfdPBg/+ujTL+U+sCDawCyq+9M5+LJ
+ ojCzP9rViLZDd/gS6jX8T48hhidtbtsFRj/e9QpdZgDZfowRMVsRx+TB9yzjFdMO0YaYybXp
+ dg/wCUepX5xmDBrle6cZ8VEe00+UQCAU1TY5Hs7QFfBbjgR3k9pgJzVXNUKcJ9DYQP0OBH9P
+ ZbZvM0Ut2Bk6bLBO5iCVDOco0alrPkX7iJul2QWBy3Iy9j02GnA5jZ1Xtjr9kpCqQT+sRXso
+ Vpm5TPGWaWljIeLWy/qL8drX1eyJzwTB3A36Ck4r3YmjMjfmvltSZB1uAdo1elHTlFEULpU/
+ HiwvvqXQ9koB15U154VCuguvx/Qnboz8GFb9Uw8VyawzVxYVNME7xw7CQF8FYxzj6eI7rBf2
+ Dj/II6wxWPgDEy3oUzuNOxTB7sT3b/Ym76yOJzWX5BylXQIJ5wARAQABtDFQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoRjRCVUcpIDxmNGJ1Z0BhbXNhdC5vcmc+iQJVBBMBCAA/AhsPBgsJ
+ CAcDAgYVCAIJCgsEFgIDAQIeAQIXgBYhBPqr514SkXIh3P1rsuPjLCzercDeBQJd660aBQks
+ klzgAAoJEOPjLCzercDe2iMP+gMG2dUf+qHz2uG8nTBGMjgK0aEJrKVPodFA+iedQ5Kp3BMo
+ jrTg3/DG1HMYdcvQu/NFLYwamUfUasyor1k+3dB23hY09O4xOsYJBWdilkBGsJTKErUmkUO2
+ 3J/kawosvYtJJSHUpw3N6mwz/iWnjkT8BPp7fFXSujV63aZWZINueTbK7Y8skFHI0zpype9s
+ loU8xc4JBrieGccy3n4E/kogGrTG5jcMTNHZ106DsQkhFnjhWETp6g9xOKrzZQbETeRBOe4P
+ sRsY9YSG2Sj+ZqmZePvO8LyzGRjYU7T6Z80S1xV0lH6KTMvq7vvz5rd92f3pL4YrXq+e//HZ
+ JsiLen8LH/FRhTsWRgBtNYkOsd5F9NvfJtSM0qbX32cSXMAStDVnS4U+H2vCVCWnfNug2TdY
+ 7v4NtdpaCi4CBBa3ZtqYVOU05IoLnlx0miKTBMqmI05kpgX98pi2QUPJBYi/+yNu3fjjcuS9
+ K5WmpNFTNi6yiBbNjJA5E2qUKbIT/RwQFQvhrxBUcRCuK4x/5uOZrysjFvhtR8YGm08h+8vS
+ n0JCnJD5aBhiVdkohEFAz7e5YNrAg6kOA5IVRHB44lTBOatLqz7ntwdGD0rteKuHaUuXpTYy
+ CRqCVAKqFJtxhvJvaX0vLS1Z2dwtDwhjfIdgPiKEGOgCNGH7R8l+aaM4OPOd
+Message-ID: <51b5d8aa-4676-b8e4-1b42-710694e58188@amsat.org>
+Date: Wed, 2 Sep 2020 19:09:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-References: <20200902170054.810-1-luoyonggang@gmail.com>
- <20200902170054.810-6-luoyonggang@gmail.com>
- <26c3fe4a-009e-dfa2-f824-515f470924b1@redhat.com>
-In-Reply-To: <26c3fe4a-009e-dfa2-f824-515f470924b1@redhat.com>
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Thu, 3 Sep 2020 01:09:25 +0800
-Message-ID: <CAE2XoE9-T3U0Kn4quX5P6k6V8jKs+HSTYbrjoTK=cdY3AFf11w@mail.gmail.com>
-Subject: Re: [PATCH 5/6] tests: handling signal on win32 properly
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000004d499105ae57b330"
-Received-SPF: pass client-ip=2a00:1450:4864:20::141;
- envelope-from=luoyonggang@gmail.com; helo=mail-lf1-x141.google.com
+In-Reply-To: <f7b28480-c841-f0d7-a848-b5f1775ec12d@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.001, NICE_REPLY_A=-0.324,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,133 +114,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
-Cc: qemu-level <qemu-devel@nongnu.org>
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ qemu-ppc <qemu-ppc@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000004d499105ae57b330
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
++PPC folks
 
-OK, waiting for it upstream.
+On 9/2/20 7:03 PM, Philippe Mathieu-Daudé wrote:
+> On 9/2/20 6:49 PM, Peter Maydell wrote:
+[...]
+>> Incidentally the serial.c API seems to be slightly confused
+>> about the difference between setting the baudbase as a value
+>> in bps (ie the traditional 9600, 115200, etc values) or a
+>> frequency (where 115200 bps corresponds to a 1.8432MHz clock,
+>> apparently). Luckily nobody uses the serial_set_frequency()
+>> function :-)
+> 
+> Yes, it is a mess, I'm trying to not give up cleaning it.
+> 
+> Note, some boards correctly set the frequency:
+> 
+> musicpal, omap1 based, kzm, pxa2xx, boston.
+> 
+> lasi / jazz use an unlikely 8MHz clock.
+> 
+> For ppc405 I'm not sure this is an odd case:
+>   99MHz / 248 = 399193.54838709677419354838
 
-On Thu, Sep 3, 2020 at 1:04 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+Or 12.375MHz / 31
 
-> On 02/09/20 19:00, Yonggang Luo wrote:
-> > SIGABRT should use signal(SIGABRT, sigabrt_handler) to handle on win32
-> >
-> > The error:
-> > E:/CI-Cor-Ready/xemu/qemu.org/tests/test-replication.c:559:33: error:
-> invalid use of undefined type 'struct sigaction'
-> >   559 |     sigact =3D (struct sigaction) {
-> >       |                                 ^
-> >
-> > Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-> > ---
-> >  tests/test-replication.c | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > diff --git a/tests/test-replication.c b/tests/test-replication.c
-> > index e0b03dafc2..9ab3666a90 100644
-> > --- a/tests/test-replication.c
-> > +++ b/tests/test-replication.c
-> > @@ -554,6 +554,9 @@ static void sigabrt_handler(int signo)
-> >
-> >  static void setup_sigabrt_handler(void)
-> >  {
-> > +#ifdef _WIN32
-> > +    signal(SIGABRT, sigabrt_handler);
-> > +#else
-> >      struct sigaction sigact;
-> >
-> >      sigact =3D (struct sigaction) {
-> > @@ -562,6 +565,7 @@ static void setup_sigabrt_handler(void)
-> >      };
-> >      sigemptyset(&sigact.sa_mask);
-> >      sigaction(SIGABRT, &sigact, NULL);
-> > +#endif
-> >  }
-> >
-> >  int main(int argc, char **argv)
-> >
->
-> This is already fixed by a patch from Thomas.
->
-> Paolo
->
->
+But it is not a common xtal freq:
 
---=20
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
+https://en.wikipedia.org/wiki/Crystal_oscillator_frequencies
 
---0000000000004d499105ae57b330
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">OK, waiting for it upstream.</div><br><div class=3D"gmail_=
-quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 3, 2020 at 1:04 AM=
- Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.c=
-om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-">On 02/09/20 19:00, Yonggang Luo wrote:<br>
-&gt; SIGABRT should use signal(SIGABRT, sigabrt_handler) to handle on win32=
-<br>
-&gt; <br>
-&gt; The error:<br>
-&gt; E:/CI-Cor-Ready/xemu/<a href=3D"http://qemu.org/tests/test-replication=
-.c:559:33" rel=3D"noreferrer" target=3D"_blank">qemu.org/tests/test-replica=
-tion.c:559:33</a>: error: invalid use of undefined type &#39;struct sigacti=
-on&#39;<br>
-&gt;=C2=A0 =C2=A0559 |=C2=A0 =C2=A0 =C2=A0sigact =3D (struct sigaction) {<b=
-r>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0^<br>
-&gt; <br>
-&gt; Signed-off-by: Yonggang Luo &lt;<a href=3D"mailto:luoyonggang@gmail.co=
-m" target=3D"_blank">luoyonggang@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 tests/test-replication.c | 4 ++++<br>
-&gt;=C2=A0 1 file changed, 4 insertions(+)<br>
-&gt; <br>
-&gt; diff --git a/tests/test-replication.c b/tests/test-replication.c<br>
-&gt; index e0b03dafc2..9ab3666a90 100644<br>
-&gt; --- a/tests/test-replication.c<br>
-&gt; +++ b/tests/test-replication.c<br>
-&gt; @@ -554,6 +554,9 @@ static void sigabrt_handler(int signo)<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 static void setup_sigabrt_handler(void)<br>
-&gt;=C2=A0 {<br>
-&gt; +#ifdef _WIN32<br>
-&gt; +=C2=A0 =C2=A0 signal(SIGABRT, sigabrt_handler);<br>
-&gt; +#else<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 struct sigaction sigact;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 sigact =3D (struct sigaction) {<br>
-&gt; @@ -562,6 +565,7 @@ static void setup_sigabrt_handler(void)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 };<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 sigemptyset(&amp;sigact.sa_mask);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 sigaction(SIGABRT, &amp;sigact, NULL);<br>
-&gt; +#endif<br>
-&gt;=C2=A0 }<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 int main(int argc, char **argv)<br>
-&gt; <br>
-<br>
-This is already fixed by a patch from Thomas.<br>
-<br>
-Paolo<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 =E6=AD=A4=E8=
-=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=
-=A0 sincerely,<br>Yonggang Luo<br></div>
-
---0000000000004d499105ae57b330--
+> 
+> Thanks!
+> 
+>>
+>> thanks
+>> -- PMM
+>>
+> 
 
