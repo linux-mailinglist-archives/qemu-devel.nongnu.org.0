@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB94F25B6CB
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 00:57:38 +0200 (CEST)
-Received: from localhost ([::1]:51696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8CED25B6BF
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 00:54:56 +0200 (CEST)
+Received: from localhost ([::1]:36278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDbhB-0004vN-PH
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 18:57:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35286)
+	id 1kDbeZ-0006zM-Ud
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 18:54:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDbUj-0003Yg-Jo
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:44:45 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:21343
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1kDbUl-0003cB-Gg
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:44:49 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27596
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDbUh-0008Rn-Ta
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:44:45 -0400
+ id 1kDbUi-0008Rw-PT
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:44:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599086682;
+ s=mimecast20190719; t=1599086683;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VveOuf1NqcZqKq/VckNh6Ry5KVWolwLEYxHftHR/p48=;
- b=K8rvH6rojohOaZkDzXPbIJAu43yTBdNUGuUdzoK7CEpn+IkKeLK02n7wdZvcu7SMblmQ79
- xFzFojdPszrGq9veOkzRrth7VV8jJPQ81Gadm/2D+EMKOX1z24xJtrq63lJ15YljtPkxOU
- mI9cwDvrHIoAYcaTlPzT0nsS5ucw0eI=
+ bh=sh1NgrXWCIPk0YI77uyMjw203trmSbHEQ20lE/XBs/M=;
+ b=hN1ahn8iBl5hyj0YuB5LjggR2wOahXAWhHt2zwewvs/uWVgmub825FK1KVBUZxBgf6Vn3d
+ g5hq0WlimUU2/pYYzQAxA6x6U5oF1VQwL5nYGvDdoNpik+LwR65AMVwN17aGhsD5nNZduH
+ ZxIYL34zMY1PnbZqdQModnRTnU7XOwU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-30-mT8hOFRsNoOWDa1VAE63jQ-1; Wed, 02 Sep 2020 18:44:40 -0400
-X-MC-Unique: mT8hOFRsNoOWDa1VAE63jQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-332-a4e7gjj3MauKy7Ww5cAKjg-1; Wed, 02 Sep 2020 18:44:41 -0400
+X-MC-Unique: a4e7gjj3MauKy7Ww5cAKjg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E54238064BF;
- Wed,  2 Sep 2020 22:44:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF58410059A9;
+ Wed,  2 Sep 2020 22:44:40 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AC5F95D9CC;
- Wed,  2 Sep 2020 22:44:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A00917EEA7;
+ Wed,  2 Sep 2020 22:44:40 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 29/63] versatile: Rename TYPE_VERSATILE_PCI_HOST to
- TYPE_PCI_VPB_HOST
-Date: Wed,  2 Sep 2020 18:42:37 -0400
-Message-Id: <20200902224311.1321159-30-ehabkost@redhat.com>
+Subject: [PATCH 30/63] versatile: Rename TYPE_VERSATILE_PCI to TYPE_PCI_VPB
+Date: Wed,  2 Sep 2020 18:42:38 -0400
+Message-Id: <20200902224311.1321159-31-ehabkost@redhat.com>
 In-Reply-To: <20200902224311.1321159-1-ehabkost@redhat.com>
 References: <20200902224311.1321159-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 17:27:52
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 16:20:39
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,39 +99,39 @@ Cc: qemu-devel@nongnu.org
  1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/hw/pci-host/versatile.c b/hw/pci-host/versatile.c
-index 3553277f94..7b6a754b8b 100644
+index 7b6a754b8b..9da352c070 100644
 --- a/hw/pci-host/versatile.c
 +++ b/hw/pci-host/versatile.c
-@@ -161,9 +161,9 @@ static const VMStateDescription pci_vpb_vmstate = {
+@@ -157,9 +157,9 @@ static const VMStateDescription pci_vpb_vmstate = {
+     }
+ };
+ 
+-#define TYPE_VERSATILE_PCI "versatile_pci"
++#define TYPE_PCI_VPB "versatile_pci"
  DECLARE_INSTANCE_CHECKER(PCIVPBState, PCI_VPB,
-                          TYPE_VERSATILE_PCI)
+-                         TYPE_VERSATILE_PCI)
++                         TYPE_PCI_VPB)
  
--#define TYPE_VERSATILE_PCI_HOST "versatile_pci_host"
-+#define TYPE_PCI_VPB_HOST "versatile_pci_host"
+ #define TYPE_PCI_VPB_HOST "versatile_pci_host"
  DECLARE_INSTANCE_CHECKER(PCIDevice, PCI_VPB_HOST,
--                         TYPE_VERSATILE_PCI_HOST)
-+                         TYPE_PCI_VPB_HOST)
- 
- typedef enum {
-     PCI_IMAP0 = 0x0,
-@@ -410,7 +410,7 @@ static void pci_vpb_realize(DeviceState *dev, Error **errp)
-                              PCI_DEVFN(11, 0), TYPE_PCI_BUS);
-     h->bus = &s->pci_bus;
- 
--    object_initialize(&s->pci_dev, sizeof(s->pci_dev), TYPE_VERSATILE_PCI_HOST);
-+    object_initialize(&s->pci_dev, sizeof(s->pci_dev), TYPE_PCI_VPB_HOST);
- 
-     for (i = 0; i < 4; i++) {
-         sysbus_init_irq(sbd, &s->irq[i]);
-@@ -487,7 +487,7 @@ static void versatile_pci_host_class_init(ObjectClass *klass, void *data)
+@@ -514,7 +514,7 @@ static void pci_vpb_class_init(ObjectClass *klass, void *data)
  }
  
- static const TypeInfo versatile_pci_host_info = {
--    .name          = TYPE_VERSATILE_PCI_HOST,
-+    .name          = TYPE_PCI_VPB_HOST,
-     .parent        = TYPE_PCI_DEVICE,
-     .instance_size = sizeof(PCIDevice),
-     .class_init    = versatile_pci_host_class_init,
+ static const TypeInfo pci_vpb_info = {
+-    .name          = TYPE_VERSATILE_PCI,
++    .name          = TYPE_PCI_VPB,
+     .parent        = TYPE_PCI_HOST_BRIDGE,
+     .instance_size = sizeof(PCIVPBState),
+     .instance_init = pci_vpb_init,
+@@ -534,7 +534,7 @@ static void pci_realview_init(Object *obj)
+ 
+ static const TypeInfo pci_realview_info = {
+     .name          = "realview_pci",
+-    .parent        = TYPE_VERSATILE_PCI,
++    .parent        = TYPE_PCI_VPB,
+     .instance_init = pci_realview_init,
+ };
+ 
 -- 
 2.26.2
 
