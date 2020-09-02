@@ -2,75 +2,121 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DC5F25AAD3
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 14:05:52 +0200 (CEST)
-Received: from localhost ([::1]:53208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1ABE25AAF7
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 14:16:40 +0200 (CEST)
+Received: from localhost ([::1]:33262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDRWR-0006Nj-Mq
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 08:05:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48890)
+	id 1kDRgt-0002Qn-M9
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 08:16:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kDRRX-00086c-6c
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:00:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31681)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDRg3-00021f-TC
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:15:49 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60486
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kDRRV-0007wr-2v
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:00:46 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDRfy-0001Zy-9P
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:15:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599048044;
+ s=mimecast20190719; t=1599048940;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LVC5gPQxkGYzJwcPja+nFFxFV4rvgoJXwqcdScMjFhA=;
- b=Ys56fqhKfVBbepp8GiRDQhXroest9FlgzY8RyICWt7oKiSDim6AMmReu5onCzfMpfZ/zD6
- yPLKFWbuB118US//zXqPV/AGt4n9uuDh3RQpn/a7r8bHn+k8f/lz/f+IsP0rBA46z/1/BG
- 594XiMDqpdW9lRXcd8oKfk0Kisbacjk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-29-FBmDy1sxOy21LZlXxeBGCA-1; Wed, 02 Sep 2020 08:00:42 -0400
-X-MC-Unique: FBmDy1sxOy21LZlXxeBGCA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37B23873183
- for <qemu-devel@nongnu.org>; Wed,  2 Sep 2020 12:00:40 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-129.ams2.redhat.com [10.36.112.129])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 59594799BA;
- Wed,  2 Sep 2020 12:00:35 +0000 (UTC)
-Subject: Re: [PATCH] libqtest: Rename qmp_assert_error_class() to
- qmp_expect_error_and_unref()
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20200902115733.1229537-1-armbru@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <b7cdce86-ad58-d8fc-d081-ce5410dbcc57@redhat.com>
-Date: Wed, 2 Sep 2020 14:00:33 +0200
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=zv5uHutaGCvL3ujSg8juNP4gjoOp39CbtxN6EFM+9T8=;
+ b=PQ2NSscEVFnJMB5KIcTbxnIHvbU64Dd/Z8CTX7J9lhRUKj0O1kSfa4H5hsMWoSrKLjm2o8
+ Zk0hFJjs+S6Ydo1vcfzbUN4VP/oVAHF+X+c19iQR2+VPr0sTCGRlFtGIz5tUIgrf6azoHR
+ KrpJYM1C0/yeBOhlUuujMIKPY6kycYk=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-497-vrM6IC4CNcqEguTeFOBimw-1; Wed, 02 Sep 2020 08:15:38 -0400
+X-MC-Unique: vrM6IC4CNcqEguTeFOBimw-1
+Received: by mail-wr1-f70.google.com with SMTP id m7so1934429wrb.20
+ for <qemu-devel@nongnu.org>; Wed, 02 Sep 2020 05:15:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=zv5uHutaGCvL3ujSg8juNP4gjoOp39CbtxN6EFM+9T8=;
+ b=aPd/KD08me7gmtkJyHqoO8lRE/nwQ3cKKWAAwQMuNPHfILYt7G2MdWRaglJ32sby6H
+ w2anrnyw7OgkhF3iN8uBgx1+gsVo8ZeTqFteveRGS8oPEgGjjgjbTrn13HCYj4qiz1xS
+ E2pZUkMtt476JAzgTIOH8nHOolu8MK5OWpGNfD9i9SVHEICd/6u3FZ+Z6NBafBIXjKSl
+ IiwspKsrC5hhcDfKOrHnUNQ4OtHwdQyBoi7AJN0OF9QlLhTzzfAbROYFvHTp980YSocR
+ AXuly9PHAoU9aXHU93dsQd0LL23qmqm1Ki4XPSw5F9BvOWo/Bp6X0TfnckakE2yB6CfD
+ NeJQ==
+X-Gm-Message-State: AOAM533ZOCzgsbYgG//T4J44f3c83gKuYl9vAuP4JOxJy+rzqyIJCpkp
+ XoWxhPRCInETOVwXchVW0p9vVpElt93tN/d0mRnFocdxsuDNDJg7hVVgwKVJfY8QRKTeUcZNO+r
+ 9/5A58FptvrzLA14=
+X-Received: by 2002:a1c:5a87:: with SMTP id o129mr368125wmb.145.1599048937021; 
+ Wed, 02 Sep 2020 05:15:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyJYxBDH8szWNfzF1IgkKnk1itaL1QRhTWWyD9ZWDqijbEx3dAQ2uBwm13BpdRKcamHipOG/g==
+X-Received: by 2002:a1c:5a87:: with SMTP id o129mr368100wmb.145.1599048936760; 
+ Wed, 02 Sep 2020 05:15:36 -0700 (PDT)
+Received: from [192.168.1.36] (50.red-83-52-54.dynamicip.rima-tde.net.
+ [83.52.54.50])
+ by smtp.gmail.com with ESMTPSA id f19sm6215340wmh.44.2020.09.02.05.15.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Sep 2020 05:15:36 -0700 (PDT)
+Subject: Re: [PATCH] usb/host-libusb: Check for USBDEVFS_GET_SPEED ioctl
+ support
+To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?=27Marc-Andr=c3=a9_Lureau=27?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
+ Francisco Iglesias <francisco.iglesias@xilinx.com>
+References: <1599049003-2937-1-git-send-email-sai.pavan.boddu@xilinx.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <8f9acb59-315d-938c-4db2-af9449e3f4ad@redhat.com>
+Date: Wed, 2 Sep 2020 14:15:34 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200902115733.1229537-1-armbru@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <1599049003-2937-1-git-send-email-sai.pavan.boddu@xilinx.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 01:13:52
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 02:07:24
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
 X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.324, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.324, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,19 +129,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, pbonzini@redhat.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Vikram Garhwal <fnuv@xilinx.com>,
+ qemu-devel@nongnu.org, Paul Zimmerman <pauldzim@gmail.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Ying Fang <fangying1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/09/2020 13.57, Markus Armbruster wrote:
-> qmp_assert_error_class() does more than just assert: it also unrefs
-> the @rsp argument.  Rename to qmp_assert_error_class() to reduce
-> confusion.
+On 9/2/20 2:16 PM, Sai Pavan Boddu wrote:
+> Fixes compilation issue with older kernels, below is the error which is
+> fixed.
+> 
+> hw/usb/host-libusb.c:954:32: error: ‘USBDEVFS_GET_SPEED’ undeclared
+> (first use in this function)
+>          int rc = ioctl(hostfd, USBDEVFS_GET_SPEED, NULL);
+> 
+> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+> ---
+>  hw/usb/host-libusb.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/usb/host-libusb.c b/hw/usb/host-libusb.c
+> index 08604f7..c30d450 100644
+> --- a/hw/usb/host-libusb.c
+> +++ b/hw/usb/host-libusb.c
+> @@ -942,7 +942,7 @@ static int usb_host_open(USBHostDevice *s, libusb_device *dev, int hostfd)
+>      usb_host_ep_update(s);
+>  
+>      libusb_speed = libusb_get_device_speed(dev);
+> -#ifdef CONFIG_LINUX
+> +#if defined(CONFIG_LINUX) && defined(USBDEVFS_GET_SPEED)
 
-s/to qmp_assert_error_class()/to qmp_expect_error_and_unref()/
+Gerd recently sent a slightly different patch:
+https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg00649.html
 
-With that nit fixed (I can do it when picking up the patch):
-
-Acked-by: Thomas Huth <thuth@redhat.com>
+>      if (hostfd && libusb_speed == 0) {
+>          /*
+>           * Workaround libusb bug: libusb_get_device_speed() does not
+> 
 
 
