@@ -2,64 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDA9225B210
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 18:51:23 +0200 (CEST)
-Received: from localhost ([::1]:37906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B823925B213
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 18:52:41 +0200 (CEST)
+Received: from localhost ([::1]:41712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDVyk-0000fG-Tv
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 12:51:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41576)
+	id 1kDW00-0002Ew-Pk
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 12:52:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kDVwp-0006YH-T2
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 12:49:23 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:40723)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kDVzG-0001kP-5v
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 12:51:54 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:35347)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kDVwo-0006sq-4S
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 12:49:23 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id z22so7616419ejl.7
- for <qemu-devel@nongnu.org>; Wed, 02 Sep 2020 09:49:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kDVzE-0007GP-DC
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 12:51:53 -0400
+Received: by mail-wr1-x442.google.com with SMTP id e16so165637wrm.2
+ for <qemu-devel@nongnu.org>; Wed, 02 Sep 2020 09:51:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=J2FgTQ8L+1g40MXpk+StmtJjTdTW6lwBdo4gNa9fdMU=;
- b=rarDHms4UhX0lXQY/0IASgg7PUQ2mh8Cq2aTJvHfO/jZZvhYAIMDetFxjp3r53rUie
- PrlEXjWJp368d3hOwZqGqQzoOIOox7CT9TKG0JHPoBtR8vbHQWaollDqPfozeRr+YwR2
- vutx33JdGDHyiqmF39pk7Jn/9bVwd12kRT6zmdTmfYV9cvxvxQilccVoWizoJJWByIrh
- ndWUhlPIieIGnEr8th/ax1KiqQR6Ny1oN73mg1O3U94AMEbOilgkNB1elN0k3e8bCE2n
- 0nWrJ17MN9U2baXk9QaNKpKNldktHK7Q0CgS5tDvS0IAqBNCDKnWCcv7csKOeVIxGMzb
- 77Xg==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=yMHFOH2hPdxfECAFN7SykhfbJWzNWfIXkjLK+LyQheM=;
+ b=zclbJEkqMso57Hq016/chBrkJaZjwjozee2ge+/+xQMDINat36d8d0xDwXUV2nM3ZW
+ xMGXzt2ws4gYVnKffA3Suwol8uiZ6OdNlCAx18Z6eB7rrXW/OLDE1Mt4+PEv3bRQaGd3
+ Hr5MViM/JN1kJ6xdxi2XZnSEwSpEn7SV5IT5DZNLRXRIWtVFF1LsH+gzxmMIfH+94lVe
+ oFOLUY0IBe9xjnQrky6pD/g8R6hbQxSZGoD01I5MhWyVan5YpUOf+mi3SoQO+pisnUsE
+ 5OWQVElKyCvj8MPWddTRZEJDVR8B3PxouzqPJqwGPbspPWryP4OovXJxS+Qal2GedE0G
+ E2kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=J2FgTQ8L+1g40MXpk+StmtJjTdTW6lwBdo4gNa9fdMU=;
- b=NPoc0C2y1lYPmmyf49EiukVZda3lqcePem7VDrHhIJdaAHKSbzLeK5Ctxaf7eM8cvg
- 4KHbeKjfwD8xgIQBY1C/keqOedSjN7PtCiqG9nCVKEXq2gdemAKrLkmDUnhJ05AHxAqL
- znCPqIciAhH5G+DmEs4rOYzuVvzOgAgsYLMxcNUZ1twhf4wK4SqId8CCuH9wsMyi8amu
- +SkmUvcL8N/abSf1A5zmyUtUBM/DMvle++5HZzvOLx82nkZTZ5r5qFATK6LXJSHCgdid
- vyB2I4YTrJfjJOtgeahJ7nMdjOBHSYky0F2fXuJcbz8N5vqR/TM4Mr9+1yvdfLuxMod0
- s3gw==
-X-Gm-Message-State: AOAM533IWQ/dbdQv07FPWYuNBgw4ap6aePEo3mlu8v8fdv0guZN1D1U8
- CpBlxqmUzwiC8SGvPnGiZHcP3VKZVmvG6HBO51AXKQ==
-X-Google-Smtp-Source: ABdhPJxvKDggIxFoOtr83gNkdE6hczn6pDI+P4a+nTN9w6Z5BDrk8FJet7Meu0VxLTrRCaQzk8GHfa//tH1ujqNzOg4=
-X-Received: by 2002:a17:906:f28b:: with SMTP id
- gu11mr853898ejb.407.1599065360346; 
- Wed, 02 Sep 2020 09:49:20 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=yMHFOH2hPdxfECAFN7SykhfbJWzNWfIXkjLK+LyQheM=;
+ b=r0GTnkDQSb5G1uFQSSuFO4NHcAnrlAqQYndKBIk8cYjfMUHz0Axk4G1A5S92kDnkXS
+ 6s8KmatYptWvOd434+vPK/p7W/mKBO3G+fAHgbsihQb5ESn6nEMWqfXel11BhdRsZltX
+ Y7iowW1O1NuAQxDMo4ZCBNKiUSu4Di9FgwwEaf9Cd/rm9YIPiHszJffaexO/gDo7Jj6o
+ 4tymt/FOHYN1TkpPtvzreokr/KXYikmqedtO9YUFvxpJ6mZJiwsJU9er685SMhToqQR6
+ meodoXzYPQvo3ON+pgekVVgNr28NWZVm/7hKtOmyFfsQGSZySDhFRUuvYuzpY4w8z+Vs
+ 6Vrw==
+X-Gm-Message-State: AOAM533a34I5YBRF9E8V4cQ+me0Cz+sFMzDai6SUT3zdT+Cof5PKKZKT
+ Sc1SX4xGnr1VYEv10XIzwu7v3A==
+X-Google-Smtp-Source: ABdhPJxlNiaaWCmfFTLR2egLpohFc+s++qyq8wV5WPmBwu4Z81EGGE3ubzaJmZPwSN7F21MX2rznVQ==
+X-Received: by 2002:adf:fe42:: with SMTP id m2mr7828275wrs.367.1599065510686; 
+ Wed, 02 Sep 2020 09:51:50 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id 8sm421301wrl.7.2020.09.02.09.51.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Sep 2020 09:51:49 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E6E111FF7E;
+ Wed,  2 Sep 2020 17:51:48 +0100 (BST)
+References: <20200902080046.10412-1-pbonzini@redhat.com>
+User-agent: mu4e 1.5.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] qemu-iotests: move check-block back to Makefiles
+In-reply-to: <20200902080046.10412-1-pbonzini@redhat.com>
+Date: Wed, 02 Sep 2020 17:51:48 +0100
+Message-ID: <87r1rk3yvv.fsf@linaro.org>
 MIME-Version: 1.0
-References: <bbdacc80-a321-5f06-e430-973a38e7e037@amsat.org>
-In-Reply-To: <bbdacc80-a321-5f06-e430-973a38e7e037@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 2 Sep 2020 17:49:09 +0100
-Message-ID: <CAFEAcA8mwjWP-KhJ5bp_Qo_h81Mt_yn8k_5oepgMas9COBQgWQ@mail.gmail.com>
-Subject: Re: hw/clock: What clock rate for virt machines?
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -81,57 +88,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- qemu-devel <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2 Sep 2020 at 17:35, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
-wrote:
-> Peter said "'clock' is basically meaningless for virt machines",
+
+Paolo Bonzini <pbonzini@redhat.com> writes:
+
+> check-block has its own test harness, unlike every other test.  If
+> we capture its output, as is in general nicer to do without V=3D1,
+> there will be no sign of progress.  So for lack of a better option
+> just move the invocation of the test back to Makefile rules.
 >
-> I understand and agree. But how to make that explicit/obvious in
-> the code, when a device expects a clock frequency/period?
-
-When a particular *device* needs a clock, then presumably
-it has a defined purpose for it, and we can pick a
-frequency for it then.
-
-> See for example hw/riscv/virt.c, it uses the following (confusing
-> to me) in virt_machine_init():
+> As a side effect, this will also fix "make check" in --disable-tools
+> builds, as they were trying to run qemu-iotests without having
+> made qemu-img before.
 >
->    serial_mm_init(system_memory, memmap[VIRT_UART0].base,
->        0, qdev_get_gpio_in(DEVICE(mmio_plic), UART0_IRQ), 399193,
->        serial_hd(0), DEVICE_LITTLE_ENDIAN);
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-In this case, the board has a model of a 16550A UART on it,
-which uses its input clock to determine what the actual baud
-rate is for particular guest settings of the divisor registers.
-So we need to look at:
- * what does guest software expect the frequency to be?
- * what is a "good" frequency which gives the guest the best
-   possible choices of baud rate?
-and also at whether we need to tell the guest the frequency
-via a device tree or other mechanism.
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-In some devices the input clock genuinely doesn't affect the
-guest-visible behaviour, in which case we can pick an arbitrary
-or conventional value, or just implement the device to work OK
-without a clock connected.
+I've pulled it into my testing/next tree but feel free to include in
+your next PR if you beat me to it.
 
-Note also that we don't have to make a single decision for the
-whole board -- we can run different devices with different clocks
-if that makes sense.
+> ---
+>  meson.build                    |  2 --
+>  tests/Makefile.include         | 15 ++++++++++++---
+>  tests/qemu-iotests/meson.build |  4 ----
+>  3 files changed, 12 insertions(+), 9 deletions(-)
+>
+> diff --git a/meson.build b/meson.build
+> index 55c7d2318c..356af9142c 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -1095,11 +1095,9 @@ if have_tools
+>               dependencies: [authz, block, crypto, io, qom, qemuutil], in=
+stall: true)
+>    qemu_io =3D executable('qemu-io', files('qemu-io.c'),
+>               dependencies: [block, qemuutil], install: true)
+> -  qemu_block_tools +=3D [qemu_img, qemu_io]
+>    if targetos !=3D 'windows'
+>      qemu_nbd =3D executable('qemu-nbd', files('qemu-nbd.c'),
+>                 dependencies: [block, qemuutil], install: true)
+> -    qemu_block_tools +=3D [qemu_nbd]
+>    endif
+>=20=20
+>    subdir('storage-daemon')
+> diff --git a/tests/Makefile.include b/tests/Makefile.include
+> index 9ac8f5b86a..08301f5bc9 100644
+> --- a/tests/Makefile.include
+> +++ b/tests/Makefile.include
+> @@ -468,7 +468,6 @@ check-tcg: $(RUN_TCG_TARGET_RULES)
+>  .PHONY: clean-tcg
+>  clean-tcg: $(CLEAN_TCG_TARGET_RULES)
+>=20=20
+> -
+>  # Python venv for running tests
+>=20=20
+>  .PHONY: check-venv check-acceptance
+> @@ -523,8 +522,18 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR) ge=
+t-vm-images
+>  # Consolidated targets
+>=20=20
+>  .PHONY: check-block check-unit check check-clean get-vm-images
+> -check-block:
+> -check-build: build-unit
+> +check:
+> +
+> +ifeq ($(CONFIG_TOOLS)$(CONFIG_POSIX),yy)
+> +QEMU_IOTESTS_HELPERS-$(CONFIG_LINUX) =3D tests/qemu-iotests/socket_scm_h=
+elper$(EXESUF)
+> +check: check-block
+> +check-block: $(SRC_PATH)/tests/check-block.sh qemu-img$(EXESUF) \
+> +		qemu-io$(EXESUF) qemu-nbd$(EXESUF) $(QEMU_IOTESTS_HELPERS-y) \
+> +		$(patsubst %-softmmu,qemu-system-%,$(filter %-softmmu,$(TARGET_DIRS)))
+> +	@$<
+> +endif
+> +
+> +check-build: build-unit $(QEMU_IOTESTS_HELPERS-y)
+>=20=20
+>  check-clean:
+>  	rm -rf $(check-unit-y) tests/*.o tests/*/*.o $(QEMU_IOTESTS_HELPERS-y)
+> diff --git a/tests/qemu-iotests/meson.build b/tests/qemu-iotests/meson.bu=
+ild
+> index 3de09fb8fa..60470936b4 100644
+> --- a/tests/qemu-iotests/meson.build
+> +++ b/tests/qemu-iotests/meson.build
+> @@ -4,7 +4,3 @@ if 'CONFIG_LINUX' in config_host
+>  else
+>      socket_scm_helper =3D []
+>  endif
+> -test('qemu-iotests', sh, args: [files('../check-block.sh')],
+> -     depends: [qemu_block_tools, emulators, socket_scm_helper],
+> -     suite: 'block', timeout: 10000)
+> -
 
-Incidentally the serial.c API seems to be slightly confused
-about the difference between setting the baudbase as a value
-in bps (ie the traditional 9600, 115200, etc values) or a
-frequency (where 115200 bps corresponds to a 1.8432MHz clock,
-apparently). Luckily nobody uses the serial_set_frequency()
-function :-)
 
-thanks
--- PMM
+--=20
+Alex Benn=C3=A9e
 
