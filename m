@@ -2,66 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D55025B2A5
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 19:05:32 +0200 (CEST)
-Received: from localhost ([::1]:42172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D24125B2A9
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 19:06:57 +0200 (CEST)
+Received: from localhost ([::1]:48232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDWCR-00079M-F8
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 13:05:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45870)
+	id 1kDWDo-0001in-KG
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 13:06:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1kDW9j-0003J8-1I
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 13:02:43 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:30613
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1kDWB0-0005fx-G9
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 13:04:02 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46418
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1kDW9h-0000QH-B6
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 13:02:42 -0400
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1kDWAy-0000Y4-AB
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 13:04:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599066160;
+ s=mimecast20190719; t=1599066238;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=NBZkgyPn2tMrU3wpqI8ygh7fYXrL1AZhv/zr9+cbOz0=;
- b=hr8OKmIWIstPVR55LTQwh+ZGq7oHiIlOBp3ir0qmZhMMoquta0CtpFeJiKN8uzM0xc81Gm
- MitQ4T1AN93lmQYZ5RKC7p7Rs6LsI8ReNF5owyOP+erVEkIuAjxAGvpVB+nOq/IVSDBrqg
- P5WxezU93fXKnJzvI0Nr3yVXtjkjzbc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-577-2uHJPzbcMOaCqbfWCRRRRQ-1; Wed, 02 Sep 2020 13:02:37 -0400
-X-MC-Unique: 2uHJPzbcMOaCqbfWCRRRRQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EFB74800FFF;
- Wed,  2 Sep 2020 17:02:35 +0000 (UTC)
-Received: from kaapi (unknown [10.74.8.118])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9334C5D9D3;
- Wed,  2 Sep 2020 17:02:33 +0000 (UTC)
-Date: Wed, 2 Sep 2020 22:32:30 +0530 (IST)
-From: P J P <ppandit@redhat.com>
-X-X-Sender: pjp@kaapi
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH] sd: sdhci: check data_count is within fifo_buffer
-In-Reply-To: <816b3dbe-527f-1bec-a0cf-555e44068a56@amsat.org>
-Message-ID: <nycvar.YSQ.7.78.906.2009022216510.2047119@xnncv>
-References: <20200827115336.1851276-1-ppandit@redhat.com>
- <816b3dbe-527f-1bec-a0cf-555e44068a56@amsat.org>
+ bh=y7+OkQxZ9zZMzEvjWG4Zf3Tz59qT8JJg3f5jc7jmrzU=;
+ b=i+OOxo4FIrIwvB5uvPbudZJ4BLGXkdNSwjVCcfb0Ko6k8pAQBIE8DBGE/kKL4aa1yN6NSs
+ R00kMNx0vA/grTo58sslghPAsg/xQ9ROrntgCpMAvayNqKvY5O2ZTPQP0zxw1rmerIOxsg
+ bhRKq0EVpNGz+h0bjuaIoVYW95yt0eU=
+Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
+ [209.85.217.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-550-2U5iuCJEMuC7q0Dfdx9l6A-1; Wed, 02 Sep 2020 13:02:48 -0400
+X-MC-Unique: 2U5iuCJEMuC7q0Dfdx9l6A-1
+Received: by mail-vs1-f72.google.com with SMTP id n128so1066262vsd.5
+ for <qemu-devel@nongnu.org>; Wed, 02 Sep 2020 10:02:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=y7+OkQxZ9zZMzEvjWG4Zf3Tz59qT8JJg3f5jc7jmrzU=;
+ b=sEmTGJi8jZ3sru4x+WxXVqJW6XvK1ubCQxxtciVpMfqPgWiUjA+UtT5eMmxdYEXsun
+ RauHljZVGlBJUNEM+dbVPrAhjwqgaDugO5oCA6vvD/jIq/rRXGV/y477UyGGjB1wF8e7
+ aAXonbwP1/COviLN4QqbNl4ni8XEi6HQIgt1n+D59pBjyoEYsbRmJGI201KCUvi1+uDS
+ rjFq74krRZJX+thF0WQ0p8MNd4U/e7slfsO8WicRSUh02AvO02DlQdqDs4eIreYy1Yjd
+ of8J5y/7k1/+/jBxg4wIXE18NQ1zexh/8/lJg4FKRsTZiRtongt2DH1Sx+kKz7JKsi7Y
+ svzA==
+X-Gm-Message-State: AOAM531LXOpsETQnSP3odIHYJeL9Yepu4SGPtGLXIprRapSMrJ2JXnJP
+ 3Kbu+KKnvJ02x+bOxWRoqUc3ws2pANtUc1w23clQk6rv+k2RAq3+1yXI4lop7AJJUwZbRXs0u1Q
+ oLy6hFNQMdr/QfU7WoO+JJUSDAh/jeHQ=
+X-Received: by 2002:a67:ea56:: with SMTP id r22mr6269052vso.29.1599066168202; 
+ Wed, 02 Sep 2020 10:02:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzTDgA4uFn7x6WQf9a5mQydh7p9W3+XDVmmoltu1AM1uwl0P3Q7V/weJWYiI1WTHpb40/sl5UcZfoDzIfLpyjI=
+X-Received: by 2002:a67:ea56:: with SMTP id r22mr6269014vso.29.1599066167936; 
+ Wed, 02 Sep 2020 10:02:47 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+References: <159903454714.28509.7439453309116734374.stgit@pasha-ThinkPad-X280>
+ <159903462803.28509.16851113546106095750.stgit@pasha-ThinkPad-X280>
+In-Reply-To: <159903462803.28509.16851113546106095750.stgit@pasha-ThinkPad-X280>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Wed, 2 Sep 2020 14:02:37 -0300
+Message-ID: <CAKJDGDZiT9VxMj_8HYSq6iSZ7TEvEHCDD4nm4ZPFFjT1XBAnpA@mail.gmail.com>
+Subject: Re: [PATCH v3 14/15] tests: bump avocado version
+To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
-X-Mimecast-Spam-Score: 0.0
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/mixed;
- boundary="-1463810047-2029472028-1599066155=:2047119"
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=ppandit@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 02:33:32
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=wrampazz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 02:07:24
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -82,30 +91,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ruhr-University <bugs-syssec@rub.de>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-block@nongnu.org
+Cc: kwolf@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ armbru@redhat.com, Stefan Hajnoczi <stefanha@redhat.com>,
+ Cleber Rosa Junior <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ mreitz@redhat.com, Philippe Mathieu Daude <philmd@redhat.com>,
+ zhiwei_liu@c-sky.com, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
----1463810047-2029472028-1599066155=:2047119
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+On Wed, Sep 2, 2020 at 5:17 AM Pavel Dovgalyuk
+<pavel.dovgalyuk@ispras.ru> wrote:
+>
+> From: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
+>
+> Reverse debugging test uses gdb remote client of avocado framework.
+> This client was fixed since the currently used version 76.
+> Therefore this patch bumps the version to 81 and fixes command
+> line version compatibility issue.
+>
+> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+> ---
+>  tests/Makefile.include |    2 +-
+>  tests/requirements.txt |    2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/tests/Makefile.include b/tests/Makefile.include
+> index 9ac8f5b86a..0687c8bcda 100644
+> --- a/tests/Makefile.include
+> +++ b/tests/Makefile.include
+> @@ -517,7 +517,7 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
+>              --show=$(AVOCADO_SHOW) run --job-results-dir=$(TESTS_RESULTS_DIR) \
+>              --filter-by-tags-include-empty --filter-by-tags-include-empty-key \
+>              $(AVOCADO_TAGS) \
+> -            $(if $(GITLAB_CI),,--failfast=on) tests/acceptance, \
+> +            $(if $(GITLAB_CI),,--failfast) tests/acceptance, \
+>              "AVOCADO", "tests/acceptance")
+>
+>  # Consolidated targets
+> diff --git a/tests/requirements.txt b/tests/requirements.txt
+> index f9c84b4ba1..036691c922 100644
+> --- a/tests/requirements.txt
+> +++ b/tests/requirements.txt
+> @@ -1,5 +1,5 @@
+>  # Add Python module requirements, one per line, to be installed
+>  # in the tests/venv Python virtual environment. For more info,
+>  # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
+> -avocado-framework==76.0
+> +avocado-framework==81.0
+>  pycdlib==1.9.0
+>
 
-+-- On Tue, 1 Sep 2020, Philippe Mathieu-Daudé wrote --+
-| >  -> https://ruhr-uni-bochum.sciebo.de/s/NNWP2GfwzYKeKwE?path=%2Fsdhci_oob_write1
-| 
-| This directory is 3 months old, I can't find it on the list...
-| Did I missed that or did the list eat the report?
-
-  No, it was reported to [qemu-security] contacts. These are few last 
-remaining old issues. We shall have better response time now.
-
-Thank you.
---
-Prasad J Pandit / Red Hat Product Security Team
-8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
----1463810047-2029472028-1599066155=:2047119--
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
 
