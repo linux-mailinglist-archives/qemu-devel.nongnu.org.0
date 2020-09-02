@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4873F25B474
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 21:34:32 +0200 (CEST)
-Received: from localhost ([::1]:35536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CC7B25B499
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 21:39:49 +0200 (CEST)
+Received: from localhost ([::1]:41722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDYWd-0005Vr-Co
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 15:34:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51556)
+	id 1kDYbk-0008E0-BT
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 15:39:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kDYVR-0004YW-RM
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 15:33:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20072)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kDYVP-0002by-Hy
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 15:33:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599075194;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FjmKzt3jKpt0WlmVW5sAaFbZ+p20xb8nRLvHsIcEIok=;
- b=TPGvy/jatJN4i4Vpy3GYXzLViOgGO+Z9x2WzyipiGWb+HQoHMtfY+ZeCF/BlY+BmTjB3Vz
- +dDT4zvABrTrrVevdF46KD9Ty5/WOkagMC9MVuhNYsa7gJMLq0xE0hWW1ZiwiVFa4m2Sxx
- +vXrbJieH3xYLFUpd2y5MXaIhQKpwgE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-270-BDBVcu2XMp2UxurCNrPJPw-1; Wed, 02 Sep 2020 15:33:11 -0400
-X-MC-Unique: BDBVcu2XMp2UxurCNrPJPw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 630C080EF8B;
- Wed,  2 Sep 2020 19:33:10 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-76.ams2.redhat.com [10.36.112.76])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CD0725D6C4;
- Wed,  2 Sep 2020 19:33:09 +0000 (UTC)
-Subject: Re: new msys2 testing failure, does this fixe? undefined reference to
- `qemu_lock_fd_test'
-To: luoyonggang@gmail.com, qemu-level <qemu-devel@nongnu.org>
-References: <CAE2XoE8VqiSFAuRL--VZtj-wOsGcGPn0FO3SOLeVfXwrP12_ig@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <20727adf-8d8c-ada2-c95b-a4f8d7653c91@redhat.com>
-Date: Wed, 2 Sep 2020 21:33:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kDYXM-00060E-Ol
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 15:35:16 -0400
+Received: from mout.gmx.net ([212.227.15.19]:52429)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kDYXG-0002mv-OS
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 15:35:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1599075299;
+ bh=AT/VFGFerYkGtMsVFEm0mYFBBfJA9/85DRiOtKqXMK0=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+ b=I9qRaalWm2TyPL9rMqjPtuz4wUraigZI6vFCjDPNVR7eA6K9TLFNe59gTcCv8eDGE
+ mYHsCPjE39UWAbLzU7UEpBJC3kmsQOc/b49bjJfAzrjd52BvPOiT2m2iWFZQvpf4f2
+ LisRnKnPwmcL8xxLw8+GKQL5CMbUtYUBkWD8R7RM=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from ls3530.fritz.box ([92.116.155.63]) by mail.gmx.com (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Ma24s-1k7wLH0UKa-00VurO; Wed, 02
+ Sep 2020 21:34:59 +0200
+From: Helge Deller <deller@gmx.de>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/8] hppa: power button support, artist graphics fixes,
+ firmware fixes, ...
+Date: Wed,  2 Sep 2020 21:34:48 +0200
+Message-Id: <20200902193456.29844-1-deller@gmx.de>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-In-Reply-To: <CAE2XoE8VqiSFAuRL--VZtj-wOsGcGPn0FO3SOLeVfXwrP12_ig@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 02:42:29
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:0gpzV0XMIPD+elR5UZDI87SWS6Dl1HpFSpMDShfAhJTl8kUomul
+ mkLW7MmSdDnwpvolYjbj0vZzqogK2Q9Vf1uVK/LeNHm8kkS31p2Yv+Y1UEUVG5/f9ZAEXME
+ sPIUL0U5Z0Wa6mnuPLCHmDmPcwLamEb2rqhP8pD8EHL8Xw0YybuSKHkoBpBTPhWi5HzCTx/
+ E+t02D94D9SwpKPBbIZng==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:FptaSqa9y+Q=:9b1CoSWFxsZRZEWmGyMXWj
+ gBNS32/vUdQY51g2cWqbLrpNpJ42ryl6ytnY1UT3lTfdWxp5x5p34VwWFQ9AYSdTeB4/h17ny
+ p81ri/Xew9avgQhcrn/pIhbRBc7GFPC3dWfeOh/k+k+u58pkZ1k8k/4J0iS1AcfXhKsVtsaoD
+ 1QGqVq9T+5VJNwZEDfcmRWXQcjlWjFCqsFrNvTyfzZvB/rqoAd0PT/DEzYqM5OHhZZ6dGDRJB
+ XjIySpjSS+9rDA7cv+myvPVDzohF6gdrC+mquFHk8gpDeG9awYxUv+Jzz8t4t73CB7vdR8i9e
+ /e5+N0qaCMf0aHz8YJbkbUVZqyF2YTcr3ZnqJa9nzHM5uyvIh1QwabmjOZ20z1h99ed9NFdmb
+ mMpFt9zX4+kG8PQM+KP+9qh7Kq9Z8uDYoQXTaB9ArFHf1sUBFcUk7WAzF86Hbc7nrF9jJPn4h
+ kEqnUF9+hCqFr7djAc5FFcIqSjz17ggcjDmd4kEB/tdZNBaiY5ap3YdWTb9sLrzvntbHrUKPc
+ yUnf77tuY0HMBgmXh4PMr8HY4/onnNGv57Jds2g8kAr8kfmTUn6ujlkVXzwLFVHbg3F0CxZb2
+ E7AIwdrjO+iCKiWHbfYCDmIrleGpTStpqDzdMtm0c0fogo1SE+sun6J5Ayq3HGal0wawW1vfc
+ oysv6xSQrgwapZKyJkqqJuIs54A7EXbwGiwrIzKYp4GzhYGAHYBaxBBeH/3EnkZKtC9+5Uj27
+ +ZHv5sW1rMln/SaDX11LfemH2iOT2ebvSpfJ5v9hnUWbDH5ajGeo/l+gpxJ+arch+vMAQo5TK
+ 8I3z1A3Ekg1FCzRvDGkds3D9BDaz5ed8JBwlcFYEM3N0ruyDnXR+mV9tm6SC5kc3B4Rvp4PMT
+ T26mKPrTeCuFAM1likv1PuB7yp6mxtGfA6lFKFDFD+kGZdGHQQMCFUezpeK1bI1GKbip+jYP/
+ EDF2rf+Czavy6OfFPcB7xaCp5hE/icd9nryv9v0KvgbEKLrxJn3kYtG+H0/yRxH2hqzBZcysR
+ /ymcsh29V3TE2tSZYxdpMuQw2q01060SskC22Jji+elPSkvmuXePiKqtp3CCwV2kEKHquYYda
+ Mev6roDsdkmDPnyWa1l+JVjyS7DDvOXx1j1xpB5LJ6oY7njDOgbbvPTDm8dRKwawmF+xe/ew9
+ TPI6VhMA7wWSAwN51fpgNWlHQ1kbCK8Ft3q83w7JyHCarwcn+QszcjKIrkvMxHoV2nCebNxcu
+ GSxqXU5P6dLFQd3R2
+Received-SPF: pass client-ip=212.227.15.19; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 15:35:08
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.324, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,41 +83,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Helge Deller <deller@gmx.de>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/09/2020 21.13, 罗勇刚(Yonggang Luo) wrote:
-> 
-> C:/tools/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe:
-> tests/test-image-locking.o: in function `check_locked_bytes':
-> 5564D:/a/qemu/qemu/tests/test-image-locking.c:69: undefined reference to
-> `qemu_lock_fd_test'
-> 5565C:/tools/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe:
-> D:/a/qemu/qemu/tests/test-image-locking.c:71: undefined reference to
-> `qemu_lock_fd_test'
-> 5566C:/tools/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe:
-> D:/a/qemu/qemu/tests/test-image-locking.c:62: undefined reference to
-> `qemu_lock_fd_test'
-> 5567C:/tools/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe:
-> tests/test-image-locking.o: in function `main':
-> 5568D:/a/qemu/qemu/tests/test-image-locking.c:152: undefined reference
-> to `qemu_has_ofd_lock'
-> 5569collect2.exe: error: ld returned 1 exit status
-> 5570make: *** [D:/a/qemu/qemu/rules.mak:88:
-> tests/test-image-locking.exe] Error 1
-> 5571make: *** Waiting for unfinished jobs....
+Add emulation for a power button on hppa,
+fix quite some bugs in seabios-hppa firmware for artist graphics card,
+fix boot with old Linux installation CDs,
+TLB preparation patches and fw_cfg port addresss handover to SeaBIOS.
 
-You need this patch here:
+The git tree can be pulled from here:
+git://github.com/hdeller/qemu-hppa.git  target-hppa
 
-https://lore.kernel.org/qemu-devel/20200823111757.72002-4-thuth@redhat.com/
+Helge Deller (8):
+  seabios-hppa: Update SeaBIOS to hppa-qemu-5.2-2 tag
+  hw/hppa: Make number of TLB and BTLB entries configurable
+  hw/hppa: Store boot device in fw_cfg section
+  hw/hppa: Change fw_cfg port address
+  hw/hppa: Tell SeaBIOS port address of fw_cfg
+  hw/hppa: Add power button emulation
+  hw/display/artist: Fix artist screen resolution
+  target/hppa: Fix boot with old Linux installation CDs
 
-and also:
+ hw/display/artist.c       |  37 +++++++++++++++----------
+ hw/hppa/hppa_hardware.h   |   3 +-
+ hw/hppa/machine.c         |  56 +++++++++++++++++++++++++++++++++++++-
+ pc-bios/hppa-firmware.img | Bin 783192 -> 785696 bytes
+ roms/seabios-hppa         |   2 +-
+ target/hppa/cpu.h         |   5 +++-
+ target/hppa/insns.decode  |  10 +++----
+ 7 files changed, 89 insertions(+), 24 deletions(-)
 
-https://lore.kernel.org/qemu-devel/20200823111757.72002-5-thuth@redhat.com/
-
-... or wait for Paolo's next meson pull request which will convert
-tests/Makefile to meson.
-
- Thomas
+=2D-
+2.21.3
 
 
