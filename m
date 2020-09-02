@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C97125A7B0
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 10:21:50 +0200 (CEST)
-Received: from localhost ([::1]:35264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AD4D25A7B4
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 10:23:20 +0200 (CEST)
+Received: from localhost ([::1]:43368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDO1d-0003gu-KV
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 04:21:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44478)
+	id 1kDO35-0006wf-KC
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 04:23:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1kDNx4-0002wH-B9
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 04:17:06 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:38742)
+ id 1kDNxA-00039Z-A5
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 04:17:12 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:38764)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1kDNx2-00035i-Ey
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 04:17:05 -0400
+ id 1kDNx8-00036K-8s
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 04:17:11 -0400
 Received: from [127.0.1.1] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id 8CE6F40A2055;
- Wed,  2 Sep 2020 08:17:02 +0000 (UTC)
-Subject: [PATCH v3 13/15] replay: describe reverse debugging in docs/replay.txt
+ by mail.ispras.ru (Postfix) with ESMTPSA id 5246C40A2055;
+ Wed,  2 Sep 2020 08:17:08 +0000 (UTC)
+Subject: [PATCH v3 14/15] tests: bump avocado version
 From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 To: qemu-devel@nongnu.org
-Date: Wed, 02 Sep 2020 11:17:02 +0300
-Message-ID: <159903462227.28509.8201860642659050083.stgit@pasha-ThinkPad-X280>
+Date: Wed, 02 Sep 2020 11:17:08 +0300
+Message-ID: <159903462803.28509.16851113546106095750.stgit@pasha-ThinkPad-X280>
 In-Reply-To: <159903454714.28509.7439453309116734374.stgit@pasha-ThinkPad-X280>
 References: <159903454714.28509.7439453309116734374.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.17.1-dirty
@@ -61,59 +61,42 @@ Cc: kwolf@redhat.com, wrampazz@redhat.com, pavel.dovgalyuk@ispras.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+From: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
 
-This patch updates the documentation and describes usage of the reverse
-debugging in QEMU+GDB.
+Reverse debugging test uses gdb remote client of avocado framework.
+This client was fixed since the currently used version 76.
+Therefore this patch bumps the version to 81 and fixes command
+line version compatibility issue.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
 ---
- docs/replay.txt |   33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ tests/Makefile.include |    2 +-
+ tests/requirements.txt |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/docs/replay.txt b/docs/replay.txt
-index 70c27edb36..18d6169f3b 100644
---- a/docs/replay.txt
-+++ b/docs/replay.txt
-@@ -294,6 +294,39 @@ for recording and replaying must contain identical number of ports in record
- and replay modes, but their backends may differ.
- E.g., '-serial stdio' in record mode, and '-serial null' in replay mode.
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 9ac8f5b86a..0687c8bcda 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -517,7 +517,7 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
+             --show=$(AVOCADO_SHOW) run --job-results-dir=$(TESTS_RESULTS_DIR) \
+             --filter-by-tags-include-empty --filter-by-tags-include-empty-key \
+             $(AVOCADO_TAGS) \
+-            $(if $(GITLAB_CI),,--failfast=on) tests/acceptance, \
++            $(if $(GITLAB_CI),,--failfast) tests/acceptance, \
+             "AVOCADO", "tests/acceptance")
  
-+Reverse debugging
-+-----------------
-+
-+Reverse debugging allows "executing" the program in reverse direction.
-+GDB remote protocol supports "reverse step" and "reverse continue"
-+commands. The first one steps single instruction backwards in time,
-+and the second one finds the last breakpoint in the past.
-+
-+Recorded executions may be used to enable reverse debugging. QEMU can't
-+execute the code in backwards direction, but can load a snapshot and
-+replay forward to find the desired position or breakpoint.
-+
-+The following GDB commands are supported:
-+ - reverse-stepi (or rsi) - step one instruction backwards
-+ - reverse-continue (or rc) - find last breakpoint in the past
-+
-+Reverse step loads the nearest snapshot and replays the execution until
-+the required instruction is met.
-+
-+Reverse continue may include several passes of examining the execution
-+between the snapshots. Each of the passes include the following steps:
-+ 1. loading the snapshot
-+ 2. replaying to examine the breakpoints
-+ 3. if breakpoint or watchpoint was met
-+    - loading the snaphot again
-+    - replaying to the required breakpoint
-+ 4. else
-+    - proceeding to the p.1 with the earlier snapshot
-+
-+Therefore usage of the reverse debugging requires at least one snapshot
-+created in advance. See the "Snapshotting" section to learn about running
-+record/replay and creating the snapshot in these modes.
-+
- Replay log format
- -----------------
- 
+ # Consolidated targets
+diff --git a/tests/requirements.txt b/tests/requirements.txt
+index f9c84b4ba1..036691c922 100644
+--- a/tests/requirements.txt
++++ b/tests/requirements.txt
+@@ -1,5 +1,5 @@
+ # Add Python module requirements, one per line, to be installed
+ # in the tests/venv Python virtual environment. For more info,
+ # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
+-avocado-framework==76.0
++avocado-framework==81.0
+ pycdlib==1.9.0
 
 
