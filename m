@@ -2,45 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 657D325B17D
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 18:23:56 +0200 (CEST)
-Received: from localhost ([::1]:47254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E087925B18A
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 18:24:58 +0200 (CEST)
+Received: from localhost ([::1]:51698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDVYB-00049V-9O
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 12:23:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35244)
+	id 1kDVZB-0005zM-VL
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 12:24:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@163.com>) id 1kDVWw-0002wU-K7
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 12:22:38 -0400
-Received: from mail-m971.mail.163.com ([123.126.97.1]:43348)
+ (Exim 4.90_1) (envelope-from <liq3ea@163.com>) id 1kDVWx-0002wP-1x
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 12:22:39 -0400
+Received: from mail-m971.mail.163.com ([123.126.97.1]:43392)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liq3ea@163.com>) id 1kDVWr-0002tk-Mr
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 12:22:38 -0400
+ (envelope-from <liq3ea@163.com>) id 1kDVWr-0002uq-TE
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 12:22:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id; bh=8UIiwRgsKl8WlxdmkY
- LeQLB+g8f0Xe5OXlpajz/OoiE=; b=K4br/FT4nUH1f/lHlLxGzYz/2pGJEph2zC
- ABIlXFP3O17u1KnZKwVTvbxdzEg1gL0OL/ebVxi3OnZpWjELc2Hhz1a/fSXso3yX
- LKSXkn06AAUNgutBfNh1DtZCXB9jqKnt6Amn/lnvMQkMaPhL1Ttl+NTlmiZNp35N
- Ri8V8+wmA=
+ s=s110527; h=From:Subject:Date:Message-Id; bh=WDZisVGn33WdOeureI
+ +tCYgWp8IxXY0GWRUNVGO8h1s=; b=IZAt6nDwGHPV2ZFJxxs2TviyuoKQd/7CD1
+ sDVUHAbpf8aIY+bEsZnoAlejTuwEbN5cf+IzwGtqB3p0Ny9F33J6v1jdwIVofqHL
+ 1dyiCsgLJTzUgaT2nqycAKRYbIyhr2ZiwYv/HB+cMD7Str3UCjTegsQj7qbEr/aB
+ CeanYV+lI=
 Received: from localhost.localdomain (unknown [183.134.168.235])
- by smtp1 (Coremail) with SMTP id GdxpCgAXbyO1xk9fAIYUAQ--.82S4;
- Thu, 03 Sep 2020 00:22:14 +0800 (CST)
+ by smtp1 (Coremail) with SMTP id GdxpCgAXbyO1xk9fAIYUAQ--.82S5;
+ Thu, 03 Sep 2020 00:22:18 +0800 (CST)
 From: Li Qiang <liq3ea@163.com>
 To: mst@redhat.com, kraxel@redhat.com, dmitry.fleytman@gmail.com,
  jasowang@redhat.com, alxndr@bu.edu, peter.maydell@linaro.org,
  pbonzini@redhat.com
-Subject: [RFC 0/3] try to solve the DMA to MMIO issue
-Date: Wed,  2 Sep 2020 09:22:03 -0700
-Message-Id: <20200902162206.101872-1-liq3ea@163.com>
+Subject: [RFC 1/3] e1000e: make the IO handler reentrant
+Date: Wed,  2 Sep 2020 09:22:04 -0700
+Message-Id: <20200902162206.101872-2-liq3ea@163.com>
 X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: GdxpCgAXbyO1xk9fAIYUAQ--.82S4
-X-Coremail-Antispam: 1Uf129KBjvJXoWxAF1DZryrZrW3CF48Zw4xWFg_yoW5GF4rpF
- WFga4rCr1DKFnIkw1fZr48Wr1Yyr1kCr4rWFyxW3yUKws8Jry5Zry7tw4UW3y7Ar18KFyU
- WFWjgr1UGr4vv3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UGQ6XUUUUU=
+In-Reply-To: <20200902162206.101872-1-liq3ea@163.com>
+References: <20200902162206.101872-1-liq3ea@163.com>
+X-CM-TRANSID: GdxpCgAXbyO1xk9fAIYUAQ--.82S5
+X-Coremail-Antispam: 1Uf129KBjvJXoWxWw1rZw4fur15CF13Ar48Crg_yoW5ZF17pF
+ W8KFZ8X3WFkr17GrnrXr45JF15Xws7AasrJ39xZ3ZY9r45u3s5tF9IqrWUGrsru347CFy7
+ XF4DAFW3tr4DZ3JanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UQ_-QUUUUU=
 X-Originating-IP: [183.134.168.235]
-X-CM-SenderInfo: 5oltjvrd6rljoofrz/xtbBLxeTbVUMN7h+dAAAsa
+X-CM-SenderInfo: 5oltjvrd6rljoofrz/xtbBoRuTbVQHLbTxYQAAse
 Received-SPF: pass client-ip=123.126.97.1; envelope-from=liq3ea@163.com;
  helo=mail-m971.mail.163.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 12:22:24
@@ -68,73 +70,146 @@ Cc: Li Qiang <liq3ea@163.com>, liq3ea@gmail.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The qemu device fuzzer has found several DMA to MMIO issue.
-These issues is caused by the guest driver programs the DMA
-address, then in the device MMIO handler it trigger the DMA
-and as the DMA address is MMIO it will trigger another dispatch
-and reenter the MMIO handler again. However most of the device
-is not reentrant.
+The guest can program the e1000e DMA address to its MMIO.
+This will cause an UAF issue.
 
-DMA to MMIO will cause issues depend by the device emulator,
-mostly it will crash the qemu. Following is three classic 
-DMA to MMIO issue.
+Following is the reproducer:
 
-e1000e: https://bugs.launchpad.net/qemu/+bug/1886362
-xhci: https://bugs.launchpad.net/qemu/+bug/1891354
-virtio-gpu: https://bugs.launchpad.net/qemu/+bug/1888606
+cat << EOF | ./i386-softmmu/qemu-system-i386 -M q35,accel=qtest \
+-qtest stdio -nographic -monitor none -serial none
+outl 0xcf8 0x80001010
+outl 0xcfc 0xe1020000
+outl 0xcf8 0x80001014
+outl 0xcf8 0x80001004
+outw 0xcfc 0x7
+outl 0xcf8 0x800010a2
+write 0xe102003b 0x1 0xff
+write 0xe1020103 0x1e 0xffffff055c5e5c30be4511d084ffffffffffffffffffffffffffffffffff
+write 0xe1020420 0x4 0xffffffff
+write 0xe1020424 0x4 0xffffffff
+write 0xe102042b 0x1 0xff
+write 0xe1020430 0x4 0x055c5e5c
+write 0x5c041 0x1 0x04
+write 0x5c042 0x1 0x02
+write 0x5c043 0x1 0xe1
+write 0x5c048 0x1 0x8a
+write 0x5c04a 0x1 0x31
+write 0x5c04b 0x1 0xff
+write 0xe1020403 0x1 0xff
+EOF
 
-The DMA to MMIO issue I think can be classified as following:
-1. DMA to the device itself
-2. device A DMA to device B and to device C
-3. device A DMA to device B and to device A
+This patch avoid this by adding a 'in_io' in E1000EState to indicate it is in IO
+processing.
 
-The first case of course should not be allowed.
-The second case I think it ok as the device IO handler has no
-assumption about the IO data came from no matter it come from
-device or other device. This is for P2P DMA.
-The third case I think it also should not be allowed.
+Buglink: https://bugs.launchpad.net/qemu/+bug/1886362
 
-So our issue has been reduced by one case: not allowed the
-device's IO handler reenter.
+Reported-by: Alexander Bulekov <alxndr@bu.edu>
+Signed-off-by: Li Qiang <liq3ea@163.com>
+---
+ hw/net/e1000e.c | 35 ++++++++++++++++++++++++++++++++++-
+ 1 file changed, 34 insertions(+), 1 deletion(-)
 
-Paolo suggested that we can refactor the device emulation with
-BH. However it is a lot of work.
-I have thought several propose to address this, also discuss
-this with Jason Wang in private email.
-
-I have can solve this issue in core framework or in specific device.
-After try several methods I choose address it in per-device for
-following reason:
-1. If we address it in core framwork we have to recored and check the 
-device or MR info in MR dispatch write function. Unfortunally we have
-no these info in core framework.
-2. The performance will also be decrease largely
-3. Only the device itself know its IO
-
-The (most of the) device emulation is protected by BQL one time only
-a device emulation code can be run. We can add a flag to indicate the
-IO is running. The first two patches does this. For simplicity at the
-RFC stage I just set it while enter the IO callback and clear it exit
-the IO callback. It should be check/set/clean according the per-device's
-IO emulation.
-The second issue which itself suffers a race condition so I uses a
-atomic.
-
-
-
-
-Li Qiang (3):
-  e1000e: make the IO handler reentrant
-  xhci: make the IO handler reentrant
-  virtio-gpu: make the IO handler reentrant
-
- hw/display/virtio-gpu.c        | 10 ++++++
- hw/net/e1000e.c                | 35 +++++++++++++++++++-
- hw/usb/hcd-xhci.c              | 60 ++++++++++++++++++++++++++++++++++
- hw/usb/hcd-xhci.h              |  1 +
- include/hw/virtio/virtio-gpu.h |  1 +
- 5 files changed, 106 insertions(+), 1 deletion(-)
-
+diff --git a/hw/net/e1000e.c b/hw/net/e1000e.c
+index fda34518c9..eb6b34b7f3 100644
+--- a/hw/net/e1000e.c
++++ b/hw/net/e1000e.c
+@@ -77,6 +77,8 @@ typedef struct E1000EState {
+ 
+     bool disable_vnet;
+ 
++    bool in_io;
++
+     E1000ECore core;
+ 
+ } E1000EState;
+@@ -98,7 +100,15 @@ static uint64_t
+ e1000e_mmio_read(void *opaque, hwaddr addr, unsigned size)
+ {
+     E1000EState *s = opaque;
+-    return e1000e_core_read(&s->core, addr, size);
++    uint64_t ret;
++
++    if (s->in_io) {
++        return 0;
++    }
++    s->in_io = true;
++    ret = e1000e_core_read(&s->core, addr, size);
++    s->in_io = false;
++    return ret;
+ }
+ 
+ static void
+@@ -106,7 +116,13 @@ e1000e_mmio_write(void *opaque, hwaddr addr,
+                    uint64_t val, unsigned size)
+ {
+     E1000EState *s = opaque;
++
++    if (s->in_io) {
++        return;
++    }
++    s->in_io = true;
+     e1000e_core_write(&s->core, addr, val, size);
++    s->in_io = false;
+ }
+ 
+ static bool
+@@ -138,19 +154,28 @@ e1000e_io_read(void *opaque, hwaddr addr, unsigned size)
+     uint32_t idx = 0;
+     uint64_t val;
+ 
++    if (s->in_io) {
++            return 0;
++    }
++    s->in_io = true;
++
+     switch (addr) {
+     case E1000_IOADDR:
+         trace_e1000e_io_read_addr(s->ioaddr);
++        s->in_io = false;
+         return s->ioaddr;
+     case E1000_IODATA:
+         if (e1000e_io_get_reg_index(s, &idx)) {
+             val = e1000e_core_read(&s->core, idx, sizeof(val));
+             trace_e1000e_io_read_data(idx, val);
++            s->in_io = false;
+             return val;
+         }
++        s->in_io = false;
+         return 0;
+     default:
+         trace_e1000e_wrn_io_read_unknown(addr);
++        s->in_io = false;
+         return 0;
+     }
+ }
+@@ -162,19 +187,27 @@ e1000e_io_write(void *opaque, hwaddr addr,
+     E1000EState *s = opaque;
+     uint32_t idx = 0;
+ 
++    if (s->in_io) {
++        return;
++    }
++    s->in_io = true;
++
+     switch (addr) {
+     case E1000_IOADDR:
+         trace_e1000e_io_write_addr(val);
+         s->ioaddr = (uint32_t) val;
++        s->in_io = false;
+         return;
+     case E1000_IODATA:
+         if (e1000e_io_get_reg_index(s, &idx)) {
+             trace_e1000e_io_write_data(idx, val);
+             e1000e_core_write(&s->core, idx, val, sizeof(val));
+         }
++        s->in_io = false;
+         return;
+     default:
+         trace_e1000e_wrn_io_write_unknown(addr);
++        s->in_io = false;
+         return;
+     }
+ }
 -- 
 2.17.1
 
