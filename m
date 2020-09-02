@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 821D925B638
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 23:58:06 +0200 (CEST)
-Received: from localhost ([::1]:42954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F65625B62E
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 23:55:26 +0200 (CEST)
+Received: from localhost ([::1]:60702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDalZ-000562-J4
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 17:58:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54216)
+	id 1kDaiz-0000l8-4q
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 17:55:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kDahq-0007tN-0e
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 17:54:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40301)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kDaho-0007qc-BF
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 17:54:12 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:47234
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kDahn-0002a2-U6
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 17:54:13 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kDahj-0002Zp-8c
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 17:54:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1599083646;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=kWWDH7OdgAYf9se9YGWChk0FkwyvlqfueUIFnEfWhK4=;
- b=QmMnnrkd60BFtYE4LMhz2TwsWtyeuZiLLf/KENpprvujtxZB2GVBUnBgXd02MMnx82uPM5
- GLSWEwL90BWsbTopIHxy0Bi/zzr4OQixGk+c+xQ5GdKHFtmRmecpEr219+GwJBN0UuSWsd
- eBeKHkxq0KfY+gJsyjxmCupKRNa8IwQ=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aTR/SwqKv1rzRHi5F4XVHdVeyzTXW49KuLMZt4Hgr6Y=;
+ b=XPIPdJYy1Jv1ZshTON4oqvKPWiSAOWVgah1jaQ+nDvlVPDNOJtfKhh97uWQzpr7BiCc5uk
+ I8jzOBppmf8/PG5mqZnyGKE82u3+hKN/qUT0Kgu2gpUI8QxJ+ZtpSBM+FEpFX1voTA0e/q
+ HSQvMO/F8Wz1DVpZwzJAYwFah7abepI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-577-6YUD4EMZP_qv2W9F0Xi2UA-1; Wed, 02 Sep 2020 17:54:03 -0400
-X-MC-Unique: 6YUD4EMZP_qv2W9F0Xi2UA-1
+ us-mta-450-K9k-J0WmNRqzoL03NGLV7Q-1; Wed, 02 Sep 2020 17:54:03 -0400
+X-MC-Unique: K9k-J0WmNRqzoL03NGLV7Q-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39B7E1009444
- for <qemu-devel@nongnu.org>; Wed,  2 Sep 2020 21:54:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CDC2B10ABDB1;
+ Wed,  2 Sep 2020 21:54:02 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-113-128.phx2.redhat.com [10.3.113.128])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0633E76E01
- for <qemu-devel@nongnu.org>; Wed,  2 Sep 2020 21:54:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5FE3276E01;
+ Wed,  2 Sep 2020 21:54:02 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/6] NBD patches for 2020-09-02
-Date: Wed,  2 Sep 2020 16:53:54 -0500
-Message-Id: <20200902215400.2673028-1-eblake@redhat.com>
+Subject: [PULL 1/6] iotests/059: Fix reference output
+Date: Wed,  2 Sep 2020 16:53:55 -0500
+Message-Id: <20200902215400.2673028-2-eblake@redhat.com>
+In-Reply-To: <20200902215400.2673028-1-eblake@redhat.com>
+References: <20200902215400.2673028-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 17:54:06
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 17:27:52
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,50 +79,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit ed215cec0fcaeaece064b0fdf37fe3bceb06d76c:
+From: Max Reitz <mreitz@redhat.com>
 
-  Merge remote-tracking branch 'remotes/ehabkost/tags/machine-next-pull-request' into staging (2020-09-02 15:26:38 +0100)
+As of the patch to flush qemu-img's "Formatting" message before the
+error message, 059 has been broken for vmdk.  Fix it.
 
-are available in the Git repository at:
+Fixes: 4e2f4418784da09cb106264340241856cd2846df
+       ("qemu-img: Flush stdout before before potential stderr messages")
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Message-Id: <20200811084150.326377-1-mreitz@redhat.com>
+Reviewed-by: Eric blake <eblake@redhat.com>
+Signed-off-by: Eric Blake <eblake@redhat.com>
+---
+ tests/qemu-iotests/059.out | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2020-09-02
+diff --git a/tests/qemu-iotests/059.out b/tests/qemu-iotests/059.out
+index 6d127e28d8a6..2b83c0c8b66b 100644
+--- a/tests/qemu-iotests/059.out
++++ b/tests/qemu-iotests/059.out
+@@ -19,8 +19,8 @@ file format: IMGFMT
+ virtual size: 2 GiB (2147483648 bytes)
 
-for you to fetch changes up to eb705985f43d631438a318f1146eac61ae10d273:
+ === Testing monolithicFlat with zeroed_grain ===
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=2147483648
+ qemu-img: TEST_DIR/t.IMGFMT: Flat image can't enable zeroed grain
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=2147483648
 
-  nbd: disable signals and forking on Windows builds (2020-09-02 16:48:21 -0500)
-
-----------------------------------------------------------------
-nbd patches for 2020-09-02
-
-- fix a few iotests affected by earlier nbd changes
-- avoid blocking qemu by nbd client in connect()
-- build qemu-nbd for mingw
-
-----------------------------------------------------------------
-Daniel P. Berrangé (3):
-      block: add missing socket_init() calls to tools
-      nbd: skip SIGTERM handler if NBD device support is not built
-      nbd: disable signals and forking on Windows builds
-
-Max Reitz (2):
-      iotests/059: Fix reference output
-      iotests/259: Fix reference output
-
-Vladimir Sementsov-Ogievskiy (1):
-      block/nbd: use non-blocking connect: fix vm hang on connect()
-
- block/nbd.c                | 266 ++++++++++++++++++++++++++++++++++++++++++++-
- qemu-img.c                 |   2 +
- qemu-io.c                  |   2 +
- qemu-nbd.c                 |  11 +-
- meson.build                |   7 +-
- tests/qemu-iotests/059.out |   2 +-
- tests/qemu-iotests/259.out |   2 +-
- 7 files changed, 283 insertions(+), 9 deletions(-)
-
+ === Testing big twoGbMaxExtentFlat ===
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1073741824000
 -- 
 2.28.0
 
