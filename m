@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF77125ABA3
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 15:03:15 +0200 (CEST)
-Received: from localhost ([::1]:58002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A688F25ABD0
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 15:11:47 +0200 (CEST)
+Received: from localhost ([::1]:43834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDSPy-00030t-UK
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 09:03:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36802)
+	id 1kDSYE-0003cC-Kw
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 09:11:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kDSMR-00061x-Fc
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:59:35 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:33940
+ id 1kDSMV-0006C2-Aq
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:59:39 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:57361
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kDSMO-00076Z-NC
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:59:35 -0400
+ id 1kDSMS-00078k-AS
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:59:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599051571;
+ s=mimecast20190719; t=1599051575;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=i/TUpq63LluI2zEmKjxo5BeZjz9hoA7RJp+L4iy1i5I=;
- b=Elav+PCdKh2PBP/BU1q+g+oSmr7BrysiQplaXRtX97v7y556sJ4dR4iabcP5wsYKlKXVKh
- NkFwDKuHmwOIaC+SiSMNeltQW0l379LbSdrc2D3SOS8Yg6/rAwiFnJ3z+JaPNi3oE1BFg/
- DZ2eo8/mTRSbkJx32X7Hra0KL5WFIAI=
+ bh=Cn9Y0k8ZBU+n39Ura5BFh068S8/Q9sQTbvMa1fTi4rY=;
+ b=F5rpgIRqXdwFnFiZXCleocvdxVY+XveIjyGG6xRy5pzCDunABEE0pOFF96nsN6Fq4WMlI0
+ UK1/NgBFlZD/uP9BiudB8ZoYk5cfJ/rZ6qOkPa/tyUd1tFJBBl+k0+bpCfHUX7SRQlyy9Y
+ +VT1FleGf2CxUs4PhW4frOAP0v0ZBfM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-559-ElJLsRohNpCh7znjH4thqw-1; Wed, 02 Sep 2020 08:59:29 -0400
-X-MC-Unique: ElJLsRohNpCh7znjH4thqw-1
+ us-mta-548-AasspEF-MRiGEj_1RZv-eQ-1; Wed, 02 Sep 2020 08:59:28 -0400
+X-MC-Unique: AasspEF-MRiGEj_1RZv-eQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1888410ABDB1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D759E81F00A
  for <qemu-devel@nongnu.org>; Wed,  2 Sep 2020 12:59:24 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BB08A76E01;
- Wed,  2 Sep 2020 12:59:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 39B5576E01;
+ Wed,  2 Sep 2020 12:59:24 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 12/39] meson: declare tasn1 dependency
-Date: Wed,  2 Sep 2020 08:58:50 -0400
-Message-Id: <20200902125917.26021-13-pbonzini@redhat.com>
+Subject: [PATCH 13/39] meson: declare keyutils dependency
+Date: Wed,  2 Sep 2020 08:58:51 -0400
+Message-Id: <20200902125917.26021-14-pbonzini@redhat.com>
 In-Reply-To: <20200902125917.26021-1-pbonzini@redhat.com>
 References: <20200902125917.26021-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 02:33:32
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 03:24:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,29 +88,109 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+Rename the variable to be more explicit. A further clean-up patch will
+move the actual to dependency check to meson entirely.
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20200828110734.1638685-3-marcandre.lureau@redhat.com>
+Message-Id: <20200828110734.1638685-4-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 5 +++++
- 1 file changed, 5 insertions(+)
+ configure                  |  2 +-
+ meson.build                |  4 ++++
+ tests/Makefile.include     |  2 +-
+ tests/test-crypto-secret.c | 10 +++++-----
+ 4 files changed, 11 insertions(+), 7 deletions(-)
 
+diff --git a/configure b/configure
+index 2790cf15d7..6a43ef6c2d 100755
+--- a/configure
++++ b/configure
+@@ -7511,7 +7511,7 @@ fi
+ if test "$secret_keyring" = "yes" ; then
+   echo "CONFIG_SECRET_KEYRING=y" >> $config_host_mak
+   if test "$have_keyutils" = "yes" ; then
+-    echo "CONFIG_TEST_SECRET_KEYRING=y" >> $config_host_mak
++    echo "CONFIG_KEYUTILS=y" >> $config_host_mak
+   fi
+ fi
+ 
 diff --git a/meson.build b/meson.build
-index f7b57315ef..b2d1a909b6 100644
+index b2d1a909b6..fc46273491 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -405,6 +405,11 @@ libdaxctl = not_found
- if 'CONFIG_LIBDAXCTL' in config_host
-   libdaxctl = declare_dependency(link_args: config_host['LIBDAXCTL_LIBS'].split())
+@@ -410,6 +410,10 @@ if 'CONFIG_TASN1' in config_host
+   tasn1 = declare_dependency(compile_args: config_host['TASN1_CFLAGS'].split(),
+                              link_args: config_host['TASN1_LIBS'].split())
  endif
-+tasn1 = not_found
-+if 'CONFIG_TASN1' in config_host
-+  tasn1 = declare_dependency(compile_args: config_host['TASN1_CFLAGS'].split(),
-+                             link_args: config_host['TASN1_LIBS'].split())
++keyutils = not_found
++if 'CONFIG_KEYUTILS' in config_host
++  keyutils = declare_dependency(link_args: '-lkeyutils')
 +endif
  
  # Create config-host.h
  
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 1451f64df7..addeafafd4 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -248,7 +248,7 @@ tests/benchmark-crypto-cipher$(EXESUF): tests/benchmark-crypto-cipher.o $(test-c
+ tests/test-crypto-secret$(EXESUF): tests/test-crypto-secret.o $(test-crypto-obj-y)
+ tests/test-crypto-xts$(EXESUF): tests/test-crypto-xts.o $(test-crypto-obj-y)
+ 
+-ifeq ($(CONFIG_TEST_SECRET_KEYRING),y)
++ifeq ($(CONFIG_KEYUTILS),y)
+ tests/test-crypto-secret.o-libs := -lkeyutils
+ endif
+ 
+diff --git a/tests/test-crypto-secret.c b/tests/test-crypto-secret.c
+index 603a093f10..9d06176663 100644
+--- a/tests/test-crypto-secret.c
++++ b/tests/test-crypto-secret.c
+@@ -24,7 +24,7 @@
+ #include "crypto/secret.h"
+ #include "qapi/error.h"
+ #include "qemu/module.h"
+-#ifdef CONFIG_TEST_SECRET_KEYRING
++#ifdef CONFIG_KEYUTILS
+ #include "crypto/secret_keyring.h"
+ #include <keyutils.h>
+ #endif
+@@ -128,7 +128,7 @@ static void test_secret_indirect_emptyfile(void)
+     g_free(fname);
+ }
+ 
+-#ifdef CONFIG_TEST_SECRET_KEYRING
++#ifdef CONFIG_KEYUTILS
+ 
+ #define DESCRIPTION "qemu_test_secret"
+ #define PAYLOAD "Test Payload"
+@@ -268,7 +268,7 @@ static void test_secret_keyring_bad_key_access_right(void)
+     keyctl_unlink(key, KEY_SPEC_PROCESS_KEYRING);
+ }
+ 
+-#endif /* CONFIG_TEST_SECRET_KEYRING */
++#endif /* CONFIG_KEYUTILS */
+ 
+ static void test_secret_noconv_base64_good(void)
+ {
+@@ -571,7 +571,7 @@ int main(int argc, char **argv)
+     g_test_add_func("/crypto/secret/indirect/emptyfile",
+                     test_secret_indirect_emptyfile);
+ 
+-#ifdef CONFIG_TEST_SECRET_KEYRING
++#ifdef CONFIG_KEYUTILS
+     g_test_add_func("/crypto/secret/keyring/good",
+                     test_secret_keyring_good);
+     g_test_add_func("/crypto/secret/keyring/revoked_key",
+@@ -582,7 +582,7 @@ int main(int argc, char **argv)
+                     test_secret_keyring_bad_serial_key);
+     g_test_add_func("/crypto/secret/keyring/bad_key_access_right",
+                     test_secret_keyring_bad_key_access_right);
+-#endif /* CONFIG_TEST_SECRET_KEYRING */
++#endif /* CONFIG_KEYUTILS */
+ 
+     g_test_add_func("/crypto/secret/noconv/base64/good",
+                     test_secret_noconv_base64_good);
 -- 
 2.26.2
 
