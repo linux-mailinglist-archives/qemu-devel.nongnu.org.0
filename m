@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2772125B699
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 00:48:26 +0200 (CEST)
-Received: from localhost ([::1]:56598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E6A725B68C
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 00:45:23 +0200 (CEST)
+Received: from localhost ([::1]:43242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDbYH-0000or-6O
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 18:48:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34832)
+	id 1kDbVK-0003Xh-JA
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 18:45:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDbTx-0001cS-QG
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:43:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50227)
+ id 1kDbU1-0001lp-Qd
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:44:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48298)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDbTv-0008JD-Rg
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:43:57 -0400
+ id 1kDbU0-0008Jx-22
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:44:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599086635;
+ s=mimecast20190719; t=1599086639;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=I5oINIvJ6g0gJtBhiodyhTj34EeSSzAlhxZdmmgOA5c=;
- b=SjRNOa5rqIg3J60zq2nt3nnWwwZY4VgCd2CE7OXXioqwJX5jZCCDqOO3HqKUqsWMkJvPrw
- 8ktJMqUpPShR/muGQRDc/qKjacjG50h1daMoWIm5pwXsZ9vn7VTNbWf+LoSj5ThfgxPR9x
- b+2A35Sfus45mlBnnffDgOqs/romhY8=
+ bh=Goj47Bu/6SLoRwjOZxfev0ioNtbqUlxNYirlYfcEFVE=;
+ b=USNDIzCPHSbE3Vn+/rl7g6B/1O5Pv1jqN+hvkCliRTyxlgg1wo9m5JvkgF97NlFS116N/T
+ PqeuoQEsxINAf8qatN9us1cP1uXDxnKmyLyFUov9z/EmRPbuh08h1oTN74GxVgJ71gxrf9
+ m1TdUQAxEblztEjKeSmbjbMnzvzM0qA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-243-ZOXGs3vEN9WrMvlSIIWtyw-1; Wed, 02 Sep 2020 18:43:53 -0400
-X-MC-Unique: ZOXGs3vEN9WrMvlSIIWtyw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-37-VHRcOWL0MDy_8T0fX2Ph1g-1; Wed, 02 Sep 2020 18:43:57 -0400
+X-MC-Unique: VHRcOWL0MDy_8T0fX2Ph1g-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2FF331DE00
- for <qemu-devel@nongnu.org>; Wed,  2 Sep 2020 22:43:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 61D1C1DE02;
+ Wed,  2 Sep 2020 22:43:56 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 168571C4;
- Wed,  2 Sep 2020 22:43:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 042815D9CC;
+ Wed,  2 Sep 2020 22:43:52 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/63] vmcoreinfo: Rename VMCOREINFO_DEVICE to TYPE_VMCOREINFO
-Date: Wed,  2 Sep 2020 18:42:17 -0400
-Message-Id: <20200902224311.1321159-10-ehabkost@redhat.com>
+Subject: [PATCH 10/63] vmgenid: Rename VMGENID_DEVICE to TYPE_VMGENID
+Date: Wed,  2 Sep 2020 18:42:18 -0400
+Message-Id: <20200902224311.1321159-11-ehabkost@redhat.com>
 In-Reply-To: <20200902224311.1321159-1-ehabkost@redhat.com>
 References: <20200902224311.1321159-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -80,8 +80,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- berrange@redhat.com
+Cc: Igor Mammedov <imammedo@redhat.com>, berrange@redhat.com,
+ Ben Warren <ben@skyportsystems.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -90,68 +90,77 @@ the type checking macro.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-Cc: "Marc-André Lureau" <marcandre.lureau@redhat.com>
+Cc: Ben Warren <ben@skyportsystems.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- include/hw/misc/vmcoreinfo.h | 6 +++---
- hw/misc/vmcoreinfo.c         | 6 +++---
+ include/hw/acpi/vmgenid.h | 6 +++---
+ hw/acpi/vmgenid.c         | 6 +++---
  2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/include/hw/misc/vmcoreinfo.h b/include/hw/misc/vmcoreinfo.h
-index ebada6617a..6e523c3892 100644
---- a/include/hw/misc/vmcoreinfo.h
-+++ b/include/hw/misc/vmcoreinfo.h
-@@ -16,10 +16,10 @@
- #include "standard-headers/linux/qemu_fw_cfg.h"
+diff --git a/include/hw/acpi/vmgenid.h b/include/hw/acpi/vmgenid.h
+index 86cd1da605..aff574df5f 100644
+--- a/include/hw/acpi/vmgenid.h
++++ b/include/hw/acpi/vmgenid.h
+@@ -6,7 +6,7 @@
+ #include "qemu/uuid.h"
  #include "qom/object.h"
  
--#define VMCOREINFO_DEVICE "vmcoreinfo"
-+#define TYPE_VMCOREINFO "vmcoreinfo"
- typedef struct VMCoreInfoState VMCoreInfoState;
- DECLARE_INSTANCE_CHECKER(VMCoreInfoState, VMCOREINFO,
--                         VMCOREINFO_DEVICE)
-+                         TYPE_VMCOREINFO)
+-#define VMGENID_DEVICE           "vmgenid"
++#define TYPE_VMGENID           "vmgenid"
+ #define VMGENID_GUID             "guid"
+ #define VMGENID_GUID_FW_CFG_FILE      "etc/vmgenid_guid"
+ #define VMGENID_ADDR_FW_CFG_FILE      "etc/vmgenid_addr"
+@@ -18,7 +18,7 @@
  
- typedef struct fw_cfg_vmcoreinfo FWCfgVMCoreInfo;
+ typedef struct VmGenIdState VmGenIdState;
+ DECLARE_INSTANCE_CHECKER(VmGenIdState, VMGENID,
+-                         VMGENID_DEVICE)
++                         TYPE_VMGENID)
  
-@@ -33,7 +33,7 @@ struct VMCoreInfoState {
+ struct VmGenIdState {
+     DeviceClass parent_obj;
+@@ -29,7 +29,7 @@ struct VmGenIdState {
  /* returns NULL unless there is exactly one device */
- static inline VMCoreInfoState *vmcoreinfo_find(void)
+ static inline Object *find_vmgenid_dev(void)
  {
--    Object *o = object_resolve_path_type("", VMCOREINFO_DEVICE, NULL);
-+    Object *o = object_resolve_path_type("", TYPE_VMCOREINFO, NULL);
- 
-     return o ? VMCOREINFO(o) : NULL;
+-    return object_resolve_path_type("", VMGENID_DEVICE, NULL);
++    return object_resolve_path_type("", TYPE_VMGENID, NULL);
  }
-diff --git a/hw/misc/vmcoreinfo.c b/hw/misc/vmcoreinfo.c
-index a9d718fc23..a68e3ad68c 100644
---- a/hw/misc/vmcoreinfo.c
-+++ b/hw/misc/vmcoreinfo.c
-@@ -47,13 +47,13 @@ static void vmcoreinfo_realize(DeviceState *dev, Error **errp)
+ 
+ void vmgenid_build_acpi(VmGenIdState *vms, GArray *table_data, GArray *guid,
+diff --git a/hw/acpi/vmgenid.c b/hw/acpi/vmgenid.c
+index 2df7623d74..53db6af75d 100644
+--- a/hw/acpi/vmgenid.c
++++ b/hw/acpi/vmgenid.c
+@@ -198,7 +198,7 @@ static void vmgenid_realize(DeviceState *dev, Error **errp)
+ 
+     if (!bios_linker_loader_can_write_pointer()) {
+         error_setg(errp, "%s requires DMA write support in fw_cfg, "
+-                   "which this machine type does not provide", VMGENID_DEVICE);
++                   "which this machine type does not provide", TYPE_VMGENID);
+         return;
+     }
+ 
+@@ -206,7 +206,7 @@ static void vmgenid_realize(DeviceState *dev, Error **errp)
+      * device. Check if there are several.
       */
-     if (!vmcoreinfo_find()) {
-         error_setg(errp, "at most one %s device is permitted",
--                   VMCOREINFO_DEVICE);
-+                   TYPE_VMCOREINFO);
+     if (!find_vmgenid_dev()) {
+-        error_setg(errp, "at most one %s device is permitted", VMGENID_DEVICE);
++        error_setg(errp, "at most one %s device is permitted", TYPE_VMGENID);
          return;
      }
  
-     if (!fw_cfg || !fw_cfg->dma_enabled) {
-         error_setg(errp, "%s device requires fw_cfg with DMA",
--                   VMCOREINFO_DEVICE);
-+                   TYPE_VMCOREINFO);
-         return;
-     }
- 
-@@ -94,7 +94,7 @@ static void vmcoreinfo_device_class_init(ObjectClass *klass, void *data)
+@@ -232,7 +232,7 @@ static void vmgenid_device_class_init(ObjectClass *klass, void *data)
  }
  
- static const TypeInfo vmcoreinfo_device_info = {
--    .name          = VMCOREINFO_DEVICE,
-+    .name          = TYPE_VMCOREINFO,
+ static const TypeInfo vmgenid_device_info = {
+-    .name          = VMGENID_DEVICE,
++    .name          = TYPE_VMGENID,
      .parent        = TYPE_DEVICE,
-     .instance_size = sizeof(VMCoreInfoState),
-     .class_init    = vmcoreinfo_device_class_init,
+     .instance_size = sizeof(VmGenIdState),
+     .class_init    = vmgenid_device_class_init,
 -- 
 2.26.2
 
