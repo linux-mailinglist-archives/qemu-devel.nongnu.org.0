@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31E5225ABE4
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 15:15:18 +0200 (CEST)
-Received: from localhost ([::1]:37348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64F9425ABEC
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 15:17:28 +0200 (CEST)
+Received: from localhost ([::1]:45916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDSbd-0003ro-5s
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 09:15:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40764)
+	id 1kDSdj-0007Rq-C5
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 09:17:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1kDSYm-0006JI-Gt
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 09:12:20 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:57772
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1kDSYk-0000Un-St
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 09:12:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599052338;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=McuR6hF9rscUzxXVSDlJ+XAXKdrWRxl+/yizj7E7Uw8=;
- b=JZ2sfeTzLp1sMciuAusWt4R6yz5PtSIoG2bcq1KtRwPmimqiCsQSjdG8pvij1ytqdz5t9q
- jvEJlYYFnYVyRBVydpulMz9GLnt0lM0HdQfjc8V6fZV364vPqYMC8WAcwQtxUrvgw+7BXQ
- W+tEPCz7iUA2yFg8bRnCBOv74Rfd1RI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-529-KGSO4MgHNYilbSRjyaeBtw-1; Wed, 02 Sep 2020 09:12:14 -0400
-X-MC-Unique: KGSO4MgHNYilbSRjyaeBtw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85C3B10ABDB1;
- Wed,  2 Sep 2020 13:12:13 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-112-51.ams2.redhat.com [10.36.112.51])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3EF325D9CC;
- Wed,  2 Sep 2020 13:12:09 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
- cohuck@redhat.com, mst@redhat.com, qemu-stable@nongnu.org
-Subject: [PATCH 2/2] virtio-iommu-pci: force virtio version 1
-Date: Wed,  2 Sep 2020 15:11:52 +0200
-Message-Id: <20200902131152.1219-3-eric.auger@redhat.com>
-In-Reply-To: <20200902131152.1219-1-eric.auger@redhat.com>
-References: <20200902131152.1219-1-eric.auger@redhat.com>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kDSba-0004xA-9O
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 09:15:14 -0400
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:44729)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kDSbX-0000nA-Ve
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 09:15:13 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id a15so3921469ejf.11
+ for <qemu-devel@nongnu.org>; Wed, 02 Sep 2020 06:15:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1zA3pnoQ0P7klP53llBV38v8HGqYWpkLL0JFolIipjU=;
+ b=KXVthN8bRiUuPf48hiKp6vmhNJgtfyNFFJhJcFcFPX9JGKTBrrP7Tegt+t44xht1rd
+ 6Ac+jAYXVX3ZMRqPqqGD+MLIMrGh9OST8cIlgSL4f+ks6stLaXTcVuaxuxu4W2OOvj67
+ 9UCUc/vaAK6054yb1IilPPuFZFiauxWX7Hr76uFUPtDmeAWLl1kkYrcNjdkqywZdUD2b
+ frtONVIoCTV0io5+ENj6sv+HXiS9tA0alLHu5n5aYH2xuvxVQMkG7NKxNUvS3JIjWink
+ 19s4c6lHPmLftUPMrl1ni+iNeot0LVxHadTwa/LNPqZBpr6ILC8ngR4arQphFWVbihIh
+ DZaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1zA3pnoQ0P7klP53llBV38v8HGqYWpkLL0JFolIipjU=;
+ b=lrebNRButMBkVZxEai/PxN4pBw5rFWDqhseh1f0Gt5KeqvLh+9gYjMXu7/JC5w6RrB
+ Q+tFQQsHRnPPyi29Q0gguR/xdnr75J2cnduTf8kHA8DBIx9GmPlOcnTQTldX474CwPbQ
+ 532WT4clMkBNg8pFolaIjWSTCALy+eLWs8vECGh05X2FkVG+u44Ze3Ohi8M+/8cWqOV/
+ sJwyzZpaC5skkBttIzv8X/DNBl9Tn1peMrCMimDFC+vDdaUtsrnYi4ZIi0KpGp7MLL0Q
+ ndRvK9OK0xvlCjwjAPO/md6WNmrE3Abh0Eb9ZusdYVyORYTNCY730TlfZIX4ZoMzyUaF
+ e72w==
+X-Gm-Message-State: AOAM5310sEf/6EzeunA2tmg7Axhp/YPE2kCzBY6tkRbVv6k+RyNtZKDZ
+ AoO0Ir/mFaMYVO+ACWcDHrvH2VTu5Ui/Q0OcvOA=
+X-Google-Smtp-Source: ABdhPJzDRKVgYrdd/g+pe47tFULS7ILDxFHaYCWcVga5knrun1WcnclsaopPGC5pVfXHLesG/JINhQADFnS3qJhdF+c=
+X-Received: by 2002:a17:906:a88a:: with SMTP id
+ ha10mr6643705ejb.532.1599052510506; 
+ Wed, 02 Sep 2020 06:15:10 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eric.auger@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 02:33:32
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20200902125917.26021-1-pbonzini@redhat.com>
+In-Reply-To: <20200902125917.26021-1-pbonzini@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 2 Sep 2020 17:14:58 +0400
+Message-ID: <CAJ+F1C+x0EQj3KJoEV+4ksb8r473Z_Vk7wN=gx0ua8JHXjh1EQ@mail.gmail.com>
+Subject: Re: [PATCH 00/39] Next round of Meson fixes and cleanups
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000ddb29805ae546c2c"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x62a.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,51 +79,286 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jean-philippe@linaro.org, thuth@redhat.com
+Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 9b3a35ec82 ("virtio: verify that legacy support is not
-accidentally on") added a safety check that requires to set
-'disable-legacy=on' on virtio-iommu-pci:
+--000000000000ddb29805ae546c2c
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-qemu-system-aarch64: -device virtio-iommu-pci: device is modern-only,
-use disable-legacy=on
+Hi Paolo
 
-virtio-iommu was introduced after the release of VIRTIO 1.0
-specifications, so it should be 'modern-only'.
+On Wed, Sep 2, 2020 at 5:08 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-This patch forces virtio version 1 and removes the 'transitional_name'
-property removing the need to specify 'disable-legacy=on' on
-virtio-iommu-pci device.
+> This is the final set of patches that I would like to have in 5.2
+> as far as the Meson conversion is concerned.
+>
+> Patch 1 is a cross-compilation bugfix from Thomas.
+>
+> Patches 2..5 rework the "make check" generator so that outputs
+> of successful tests are hidden, and so that if a test appears
+> in multiple suites it is not run multiple times by "make check".
+>
+> Patch 6..10 are miscellaneous bugfixes.
+>
+> Patches 11..25 convert the check-unit testsuite.
+>
+> Patches 26..39 remove some of the now-dead code from the configure
+> script and the Makefile, introducing some simplification whenever symbols
+> are not needed anymore in the Makefile.
+>
+> Marc-Andr=C3=A9 Lureau (14):
+>   meson: build qapi tests library
+>   meson: declare tasn1 dependency
+>   meson: declare keyutils dependency
+>   meson: convert qht-bench
+>   tests: qga has virtio-serial by default when host has it
+>
 
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
----
- hw/virtio/virtio-iommu-pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+When you respin, please drop this patch. While the intention is good
+hopefully, it's not actually correct :)
 
-diff --git a/hw/virtio/virtio-iommu-pci.c b/hw/virtio/virtio-iommu-pci.c
-index ba62d60a0a..3b6f7a11c6 100644
---- a/hw/virtio/virtio-iommu-pci.c
-+++ b/hw/virtio/virtio-iommu-pci.c
-@@ -68,6 +68,7 @@ static void virtio_iommu_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-     object_property_set_link(OBJECT(dev), "primary-bus",
-                              OBJECT(pci_get_bus(&vpci_dev->pci_dev)),
-                              &error_abort);
-+    virtio_pci_force_virtio_1(vpci_dev);
-     qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
- }
- 
-@@ -97,7 +98,6 @@ static void virtio_iommu_pci_instance_init(Object *obj)
- static const VirtioPCIDeviceTypeInfo virtio_iommu_pci_info = {
-     .base_name             = TYPE_VIRTIO_IOMMU_PCI,
-     .generic_name          = "virtio-iommu-pci",
--    .transitional_name     = "virtio-iommu-pci-transitional",
-     .non_transitional_name = "virtio-iommu-pci-non-transitional",
-     .instance_size = sizeof(VirtIOIOMMUPCI),
-     .instance_init = virtio_iommu_pci_instance_init,
--- 
-2.21.3
+thanks
 
+  meson: convert the unit tests
+>   meson: move keyutils dependency check
+>   meson: remove old socket_scm_helper rule
+>   meson: convert vhost-user-bridge
+>   meson: convert atomic*-bench
+>   tests: do not print benchmark output to stdout
+>   tests/migration/stress: remove unused exit_success
+>   meson: fix migration/stress compilation with glibc>=3D2.30
+>   meson: convert migration/initrd-stress
+>
+> Paolo Bonzini (24):
+>   mtest2make: split environment from test command
+>   mtest2make: split working directory from test command
+>   mtest2make: hide output of successful tests
+>   mtest2make: unify tests that appear in multiple suites
+>   meson: remove b_lundef option
+>   configure: do not include absolute paths in -I and -L paths
+>   configure: include cross sdl2-config in meson cross file
+>   ninjatool: use constant names for stamp files
+>   meson: fix libqos linking
+>   meson: convert the speed tests
+>   configure: remove dead code for in-tree builds
+>   meson: compute config_all_devices directly
+>   Makefile: remove dead variables and includes
+>   Makefile: inline the relevant parts of rules.mak
+>   configure: move disassembler configuration to meson
+>   configure: move C++ compiler handling to meson
+>   meson: keep all compiler flags detection together
+>   configure: move -ldl test to meson
+>   configure: remove unnecessary libm test
+>   configure: do not look for install(1)
+>   meson: get glib compilation flags from GLIB_CFLAGS
+>   configure: do not include dependency flags in QEMU_CFLAGS and LIBS
+>   configure: drop dead variables
+>   docs: suggest Meson replacements for various configure functions
+>
+> Thomas Huth (1):
+>   configure: Add system =3D 'linux' for meson when cross-compiling
+>
+>  .gitignore                       |   2 -
+>  Makefile                         |  63 ++---
+>  Makefile.objs                    |  34 ---
+>  accel/tcg/meson.build            |   2 +-
+>  configure                        | 331 ++-----------------------
+>  disas/meson.build                |   4 +-
+>  docs/devel/build-system.rst      |  18 +-
+>  hw/arm/meson.build               |   2 +-
+>  hw/riscv/meson.build             |   2 +-
+>  meson.build                      | 135 ++++++++---
+>  monitor/meson.build              |   2 +-
+>  rules.mak                        | 158 ------------
+>  scripts/empty.c                  |   6 +
+>  scripts/grepy.sh                 |   3 -
+>  scripts/mtest2make.py            |  95 ++++----
+>  scripts/ninjatool.py             |   8 +-
+>  scripts/test-driver.py           |  35 +++
+>  tests/Makefile.include           | 405 +------------------------------
+>  tests/benchmark-crypto-cipher.c  |   8 +-
+>  tests/benchmark-crypto-hash.c    |   2 +-
+>  tests/benchmark-crypto-hmac.c    |   8 +-
+>  tests/include/meson.build        |  16 ++
+>  tests/meson.build                | 259 ++++++++++++++++++++
+>  tests/migration/initrd-stress.sh |  10 +
+>  tests/migration/meson.build      |  14 ++
+>  tests/migration/stress.c         |  15 +-
+>  tests/qtest/libqos/meson.build   |   9 +-
+>  tests/tcg/Makefile.qemu          |   2 -
+>  tests/test-crypto-secret.c       |  10 +-
+>  tests/test-qga.c                 |   4 +-
+>  30 files changed, 588 insertions(+), 1074 deletions(-)
+>  delete mode 100644 Makefile.objs
+>  delete mode 100644 rules.mak
+>  create mode 100644 scripts/empty.c
+>  delete mode 100755 scripts/grepy.sh
+>  create mode 100644 scripts/test-driver.py
+>  create mode 100644 tests/include/meson.build
+>  create mode 100755 tests/migration/initrd-stress.sh
+>  create mode 100644 tests/migration/meson.build
+>
+> --
+> 2.26.2
+>
+>
+>
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000ddb29805ae546c2c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi Paolo<br></div><br><div class=3D"gmail=
+_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Sep 2, 2020 at 5:08 P=
+M Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.=
+com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x">This is the final set of patches that I would like to have in 5.2<br>
+as far as the Meson conversion is concerned.<br>
+<br>
+Patch 1 is a cross-compilation bugfix from Thomas.<br>
+<br>
+Patches 2..5 rework the &quot;make check&quot; generator so that outputs<br=
+>
+of successful tests are hidden, and so that if a test appears<br>
+in multiple suites it is not run multiple times by &quot;make check&quot;.<=
+br>
+<br>
+Patch 6..10 are miscellaneous bugfixes.<br>
+<br>
+Patches 11..25 convert the check-unit testsuite.<br>
+<br>
+Patches 26..39 remove some of the now-dead code from the configure<br>
+script and the Makefile, introducing some simplification whenever symbols<b=
+r>
+are not needed anymore in the Makefile.<br>
+<br>
+Marc-Andr=C3=A9 Lureau (14):<br>
+=C2=A0 meson: build qapi tests library<br>
+=C2=A0 meson: declare tasn1 dependency<br>
+=C2=A0 meson: declare keyutils dependency<br>
+=C2=A0 meson: convert qht-bench<br>
+=C2=A0 tests: qga has virtio-serial by default when host has it<br></blockq=
+uote><div><br></div><div>When you respin, please drop this patch. While the=
+ intention is good hopefully, it&#39;s not actually correct :)</div><div><b=
+r></div><div>thanks<br></div><div> <br></div><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
+);padding-left:1ex">
+=C2=A0 meson: convert the unit tests<br>
+=C2=A0 meson: move keyutils dependency check<br>
+=C2=A0 meson: remove old socket_scm_helper rule<br>
+=C2=A0 meson: convert vhost-user-bridge<br>
+=C2=A0 meson: convert atomic*-bench<br>
+=C2=A0 tests: do not print benchmark output to stdout<br>
+=C2=A0 tests/migration/stress: remove unused exit_success<br>
+=C2=A0 meson: fix migration/stress compilation with glibc&gt;=3D2.30<br>
+=C2=A0 meson: convert migration/initrd-stress<br>
+<br>
+Paolo Bonzini (24):<br>
+=C2=A0 mtest2make: split environment from test command<br>
+=C2=A0 mtest2make: split working directory from test command<br>
+=C2=A0 mtest2make: hide output of successful tests<br>
+=C2=A0 mtest2make: unify tests that appear in multiple suites<br>
+=C2=A0 meson: remove b_lundef option<br>
+=C2=A0 configure: do not include absolute paths in -I and -L paths<br>
+=C2=A0 configure: include cross sdl2-config in meson cross file<br>
+=C2=A0 ninjatool: use constant names for stamp files<br>
+=C2=A0 meson: fix libqos linking<br>
+=C2=A0 meson: convert the speed tests<br>
+=C2=A0 configure: remove dead code for in-tree builds<br>
+=C2=A0 meson: compute config_all_devices directly<br>
+=C2=A0 Makefile: remove dead variables and includes<br>
+=C2=A0 Makefile: inline the relevant parts of rules.mak<br>
+=C2=A0 configure: move disassembler configuration to meson<br>
+=C2=A0 configure: move C++ compiler handling to meson<br>
+=C2=A0 meson: keep all compiler flags detection together<br>
+=C2=A0 configure: move -ldl test to meson<br>
+=C2=A0 configure: remove unnecessary libm test<br>
+=C2=A0 configure: do not look for install(1)<br>
+=C2=A0 meson: get glib compilation flags from GLIB_CFLAGS<br>
+=C2=A0 configure: do not include dependency flags in QEMU_CFLAGS and LIBS<b=
+r>
+=C2=A0 configure: drop dead variables<br>
+=C2=A0 docs: suggest Meson replacements for various configure functions<br>
+<br>
+Thomas Huth (1):<br>
+=C2=A0 configure: Add system =3D &#39;linux&#39; for meson when cross-compi=
+ling<br>
+<br>
+=C2=A0.gitignore=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 -<br>
+=C2=A0Makefile=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 63 ++---<br>
+=C2=A0Makefile.objs=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 |=C2=A0 34 ---<br>
+=C2=A0accel/tcg/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
+=A0 =C2=A02 +-<br>
+=C2=A0configure=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 | 331 ++-----------------------<br>
+=C2=A0disas/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 |=C2=A0 =C2=A04 +-<br>
+=C2=A0docs/devel/build-system.rst=C2=A0 =C2=A0 =C2=A0 |=C2=A0 18 +-<br>
+=C2=A0hw/arm/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0|=C2=A0 =C2=A02 +-<br>
+=C2=A0hw/riscv/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 =C2=A02 +-<br>
+=C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 | 135 ++++++++---<br>
+=C2=A0monitor/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 =C2=A02 +-<br>
+=C2=A0rules.mak=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 | 158 ------------<br>
+=C2=A0scripts/empty.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 |=C2=A0 =C2=A06 +<br>
+=C2=A0scripts/grepy.sh=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0|=C2=A0 =C2=A03 -<br>
+=C2=A0scripts/mtest2make.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
+=A0 95 ++++----<br>
+=C2=A0scripts/ninjatool.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 =C2=A08 +-<br>
+=C2=A0scripts/test-driver.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
+=A0 35 +++<br>
+=C2=A0tests/Makefile.include=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 405 =
++------------------------------<br>
+=C2=A0tests/benchmark-crypto-cipher.c=C2=A0 |=C2=A0 =C2=A08 +-<br>
+=C2=A0tests/benchmark-crypto-hash.c=C2=A0 =C2=A0 |=C2=A0 =C2=A02 +-<br>
+=C2=A0tests/benchmark-crypto-hmac.c=C2=A0 =C2=A0 |=C2=A0 =C2=A08 +-<br>
+=C2=A0tests/include/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 16 ++<br=
+>
+=C2=A0tests/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 | 259 ++++++++++++++++++++<br>
+=C2=A0tests/migration/initrd-stress.sh |=C2=A0 10 +<br>
+=C2=A0tests/migration/meson.build=C2=A0 =C2=A0 =C2=A0 |=C2=A0 14 ++<br>
+=C2=A0tests/migration/stress.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 15 =
++-<br>
+=C2=A0tests/qtest/libqos/meson.build=C2=A0 =C2=A0|=C2=A0 =C2=A09 +-<br>
+=C2=A0tests/tcg/Makefile.qemu=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=
+=A02 -<br>
+=C2=A0tests/test-crypto-secret.c=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 10 +-<br=
+>
+=C2=A0tests/test-qga.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0|=C2=A0 =C2=A04 +-<br>
+=C2=A030 files changed, 588 insertions(+), 1074 deletions(-)<br>
+=C2=A0delete mode 100644 Makefile.objs<br>
+=C2=A0delete mode 100644 rules.mak<br>
+=C2=A0create mode 100644 scripts/empty.c<br>
+=C2=A0delete mode 100755 scripts/grepy.sh<br>
+=C2=A0create mode 100644 scripts/test-driver.py<br>
+=C2=A0create mode 100644 tests/include/meson.build<br>
+=C2=A0create mode 100755 tests/migration/initrd-stress.sh<br>
+=C2=A0create mode 100644 tests/migration/meson.build<br>
+<br>
+-- <br>
+2.26.2<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--000000000000ddb29805ae546c2c--
 
