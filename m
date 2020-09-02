@@ -2,77 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E1BB25AA61
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 13:32:35 +0200 (CEST)
-Received: from localhost ([::1]:48906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E6CD25AA74
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 13:44:24 +0200 (CEST)
+Received: from localhost ([::1]:57114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDR0E-0003XN-Ew
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 07:32:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41444)
+	id 1kDRBf-00088t-Bj
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 07:44:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kDQzH-0002WA-Re
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 07:31:36 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:28173
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kDR9A-0006Og-EV
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 07:41:48 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54419
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kDQzF-0004Dt-PB
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 07:31:35 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kDR98-0005PX-5i
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 07:41:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599046292;
+ s=mimecast20190719; t=1599046905;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DDEiepCj/UIQqIKd8aQSFSpdo72N3X/++9jpaSMMNd0=;
- b=K/fTu8fcqu+uKwX5591cLkXavaPchg6yzXJXmb+AzBHCN6Zna3UVXw0+us6O08uTEwF7g7
- 7UGwGg9pnUGtWgP/Mv5lVZ58Xm5FSx/CStcPh1AJX8jh7wllakjsGzs6q5o5fiYqzgdzUc
- 23TkysG98EglcuGxR1gRtxxzrl1sy88=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-219-rV-tSs0iO068DeOp2qZ6hA-1; Wed, 02 Sep 2020 07:31:29 -0400
-X-MC-Unique: rV-tSs0iO068DeOp2qZ6hA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B9E3801AE2;
- Wed,  2 Sep 2020 11:31:28 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-68.ams2.redhat.com
- [10.36.113.68])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 04D3A19C66;
- Wed,  2 Sep 2020 11:31:24 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1A7D4113C418; Wed,  2 Sep 2020 13:31:23 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
-Subject: Re: usb-wacom-tablet failing to register
-References: <CAOf5uwkxAVNs_=TtVwUiEKyp+UZO_bT26sdCneR679Q5hZ_J2A@mail.gmail.com>
- <CAOf5uw=_tT1h612vnsHjCSRWhQg3_rFWeh9cic86sgKX8ZGubg@mail.gmail.com>
- <CAOf5uw=uiL2vVJQYaGcKU_SvVFDd-_h6QuaSZ9abZZQuZKEaUw@mail.gmail.com>
-Date: Wed, 02 Sep 2020 13:31:23 +0200
-In-Reply-To: <CAOf5uw=uiL2vVJQYaGcKU_SvVFDd-_h6QuaSZ9abZZQuZKEaUw@mail.gmail.com>
- (Michael Nazzareno Trimarchi's message of "Sat, 8 Aug 2020 18:06:16
- +0200")
-Message-ID: <87h7sgjtys.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ bh=SoCVG9BorLFUkdn+NRpKWQC2uGdyka8Wt05BItvtj1I=;
+ b=N+dYNQE7UoZkXpvEm+klxSC+jJ54L6In+otRsWpMcAQzgajIkNnpWXeJxJAnnhAArKtL4G
+ c8QZNL4PyIrg/5h/znn3O30ZnHmWgl9zMt+z2LQJsj2lrYBW3FKWvXUSXltc3j7mBSFqXQ
+ n/qRU4RLvQtoeSbBmwIKWlnpAyMf+Bo=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-359-LISV5Ap2NseuAteXvoP-Yg-1; Wed, 02 Sep 2020 07:41:43 -0400
+X-MC-Unique: LISV5Ap2NseuAteXvoP-Yg-1
+Received: by mail-wm1-f70.google.com with SMTP id c72so1550339wme.4
+ for <qemu-devel@nongnu.org>; Wed, 02 Sep 2020 04:41:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=SoCVG9BorLFUkdn+NRpKWQC2uGdyka8Wt05BItvtj1I=;
+ b=Xu+dlTa8xiTNiN2exrGEM5jpJFrHre6pxEOXTeow6IcQYeXPA7NQnSqOnH1BF8LdzJ
+ /W1hksaYFppf1u2wNdi4DmdkFrhPErT7zbR3xbt0Ryp+oyDWj6OdBC4hqf+9u3op0JAb
+ o6W99q2s/JifksnSSsssH2G1Ze5HkJtt2iO3C1UulsxJ47d1hVsGVDaiczJzS16ubzBh
+ Nk8Abu300n9i4WXJSyfx9PFXndbnibwJiodOj8buagPU1zlWKVyFldEfLnxh0OsBqlH+
+ zRPIh/mt4MKQOw+2CssQCNqrawjzPFv+ewg8x2h1TqoiLkeF7UwKPK3bsQOH/9IN/rLM
+ x7qg==
+X-Gm-Message-State: AOAM5338l2ZI6x9STxGQvD/D3LCSgVLhYINMahcmt30ka7B1cL4rztgj
+ Z9J/zNLiTtrmyiZVvedwArTqz1mfMyISdApJPJOzRI2cnt6lmG6SE5G39k4KqQ1Wu7bGYqel1eC
+ o7ODvriNlDPz/Exg=
+X-Received: by 2002:a1c:80cd:: with SMTP id b196mr268015wmd.104.1599046902189; 
+ Wed, 02 Sep 2020 04:41:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw0KpzgfcEgEG0F3lSLuJUpCjvtWEkEJfIjMwLUS+35sijIgrsNBWaIvT1L4wlyensKZA/P9g==
+X-Received: by 2002:a1c:80cd:: with SMTP id b196mr268001wmd.104.1599046901985; 
+ Wed, 02 Sep 2020 04:41:41 -0700 (PDT)
+Received: from [192.168.178.58] ([151.21.173.193])
+ by smtp.gmail.com with ESMTPSA id f126sm6140513wmf.13.2020.09.02.04.41.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Sep 2020 04:41:41 -0700 (PDT)
+Subject: Re: Cirrus CI for msys2 are working now, but still buiding failed
+To: Thomas Huth <thuth@redhat.com>, luoyonggang@gmail.com,
+ qemu-level <qemu-devel@nongnu.org>
+References: <CAE2XoE_SkH-2dNULFAZNiRNRNP=OncwCy=xrDk0J3bzS1Th=tg@mail.gmail.com>
+ <c61f6420-ffdb-b2b1-44ec-60b8a55f9c8a@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <ac9ee76a-bc7f-0715-4324-d33c2fb2bb66@redhat.com>
+Date: Wed, 2 Sep 2020 13:41:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <c61f6420-ffdb-b2b1-44ec-60b8a55f9c8a@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0.002
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 02:33:32
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 02:07:24
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.324, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,104 +102,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>, "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Michael Nazzareno Trimarchi <michael@amarulasolutions.com> writes:
+On 02/09/20 12:38, Thomas Huth wrote:
+> Wow, that looks quite promising already! But I wonder why the build
+> system is trying to link libfdt to targets like qemu-system-avr that do
+> not need it?
+> And for the targets that need fdt, it should use the dtc submodule... I
+> can see in the log that the dtc submodule is checked out, but it does
+> not seem to be compiled ? As a test, could you please try to run
+> "configure" with "--disable-fdt" there?
 
-> Hi Markus
->
-> I have seen that you are a committer there so what I have seen that
+Mark and Yonggang have reported an issue where the linker gets
+an msys path like -L/e/qemu/dtc but it wants -LE:/qemu/dtc instead.
+But fortunately we can just use -Ldtc instead, which would be a patch like
 
-I know precious little about USB, and nothing about this particular
-device.  I'm cc'ing our USB maintainer Gerd.
+diff --git a/configure b/configure
+index 56ceca2f68..34e81a7b60 100755
+--- a/configure
++++ b/configure
+@@ -943,7 +943,7 @@ Linux)
+   linux="yes"
+   linux_user="yes"
+   kvm="yes"
+-  QEMU_INCLUDES="-isystem ${source_path}/linux-headers -I$PWD/linux-headers $QEMU_INCLUDES"
++  QEMU_INCLUDES="-isystem ${source_path}/linux-headers -Ilinux-headers $QEMU_INCLUDES"
+   libudev="yes"
+ ;;
+ esac
+@@ -4259,7 +4259,7 @@ EOF
+               symlink "$source_path/dtc/Makefile" "dtc/Makefile"
+           fi
+           fdt_cflags="-I${source_path}/dtc/libfdt"
+-          fdt_ldflags="-L$PWD/dtc/libfdt"
++          fdt_ldflags="-Ldtc/libfdt"
+           fdt_libs="$fdt_libs"
+       elif test "$fdt" = "yes" ; then
+           # Not a git build & no libfdt found, prompt for system install
+@@ -5244,7 +5244,7 @@ case "$capstone" in
+     else
+       LIBCAPSTONE=libcapstone.a
+     fi
+-    capstone_libs="-L$PWD/capstone -lcapstone"
++    capstone_libs="-Lcapstone -lcapstone"
+     capstone_cflags="-I${source_path}/capstone/include"
+     ;;
+ 
+@@ -6244,8 +6244,8 @@ case "$slirp" in
+       git_submodules="${git_submodules} slirp"
+     fi
+     mkdir -p slirp
+-    slirp_cflags="-I${source_path}/slirp/src -I$PWD/slirp/src"
+-    slirp_libs="-L$PWD/slirp -lslirp"
++    slirp_cflags="-I${source_path}/slirp/src -Islirp/src"
++    slirp_libs="-Lslirp -lslirp"
+     if test "$mingw32" = "yes" ; then
+       slirp_libs="$slirp_libs -lws2_32 -liphlpapi"
+     fi
 
-> This request is not implement
->  switch (request) {
->     case InterfaceRequest | USB_REQ_GET_DESCRIPTOR:
->
-> When linux probe it fail here
->
-> ret = hid_get_class_descriptor(dev, interface->desc.bInterfaceNumber,
->>                         HID_DT_REPORT, rdesc, rsize);
->
-> I think that I miss something in documentation
->
-> Running 5.8.0-rc3 and qemu 4.2.0
->
-> Michael
->
-> On Sat, Aug 8, 2020 at 4:59 PM Michael Nazzareno Trimarchi
-> <michael@amarulasolutions.com> wrote:
->>
->> Hi
->>
->> What I have seen is that the parse fail to execute
->> hid ll_driver parse fai for
->>
->>  ret = hid_get_class_descriptor(dev, interface->desc.bInterfaceNumber,
->>                         HID_DT_REPORT, rdesc, rsize);
->>
->> Now this is not implemented in hw/dev-wacom.c . What am I missing?
->>
->> #!/bin/sh
->> IMAGE_DIR="${0%/*}/"
->>
->> if [ "${1}" = "serial-only" ]; then
->>     EXTRA_ARGS='-nographic'
->> else
->>     EXTRA_ARGS='-serial stdio'
->> fi
->>
->> export PATH="/home/michael/work/amarula/buildroot/output/host/bin:${PATH}"
->> exec   qemu-system-i386 -M pc -kernel ${IMAGE_DIR}/bzImage -usb
->> -device usb-wacom-tablet -drive
->> file=${IMAGE_DIR}/rootfs.ext2,if=virtio,format=raw -append "rootwait
->> root=/dev/vda console=tty1 console=ttyS0"  -net nic,model=virtio -net
->> use
->> r  ${EXTRA_ARGS}
->>
->> This is how I run it
->>
->> Michael
->>
->> On Sat, Jul 11, 2020 at 4:38 PM Michael Nazzareno Trimarchi
->> <michael@amarulasolutions.com> wrote:
->> >
->> > Hi all
->> >
->> > On my 4.17.0-rc1 linux kernel i386 running on qemu, I can't register
->> > the wacom driver emulation
->> > QEMU emulator version 4.2.0 (Debian 1:4.2-3ubuntu6.3)
->> > Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
->> >
->> > [    0.395368] ata2.00: configured for MWDMA2
->> > [    0.397049] scsi 1:0:0:0: CD-ROM            QEMU     QEMU DVD-ROM
->> >   2.5+ PQ: 0 ANSI: 5
->> > [    0.584135] usb 2-1: new full-speed USB device number 2 using xhci_hcd
->> > [    0.734449] usb 2-1: New USB device found, idVendor=056a,
->> > idProduct=0000, bcdDevice=42.10
->> > [    0.734461] usb 2-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
->> > [    0.734466] usb 2-1: Product: Wacom PenPartner
->> > [    0.734470] usb 2-1: Manufacturer: QEMU
->> > [    0.734474] usb 2-1: SerialNumber: 1-0000:00:04.0-1
->> > [    0.737347] usbhid 2-1:1.0: can't add hid device: -32
->> > [    0.737366] usbhid: probe of 2-1:1.0 failed with error -32
->> >
->> > I get back an error. Any suggestions?
->> >
->> > Michael
->>
->>
->>
->> --
->> Michael Nazzareno Trimarchi
->> Amarula Solutions BV
->> COO Co-Founder
->> Cruquiuskade 47 Amsterdam 1018 AM NL
->> T. +31(0)851119172
->> M. +39(0)3479132170
->> [`as] https://www.amarulasolutions.com
+Paolo
 
 
