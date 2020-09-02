@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 410AB25AA70
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 13:43:47 +0200 (CEST)
-Received: from localhost ([::1]:54916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3176D25AA7A
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 13:46:33 +0200 (CEST)
+Received: from localhost ([::1]:59302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDRB3-0007FI-Sq
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 07:43:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43952)
+	id 1kDRDk-0000oO-7h
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 07:46:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kDRA3-0006it-44
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 07:42:43 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49588
+ id 1kDRCw-0000Gk-VC
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 07:45:42 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49604
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kDR9y-0005Wd-J4
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 07:42:42 -0400
+ id 1kDRCv-0005z5-Ee
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 07:45:42 -0400
 Received: from host86-179-247-31.range86-179.btcentralplus.com
  ([86.179.247.31] helo=[192.168.1.65])
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kDRAN-0007h4-Bm; Wed, 02 Sep 2020 12:43:08 +0100
+ id 1kDRDQ-0007hx-Te; Wed, 02 Sep 2020 12:46:13 +0100
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: Paolo Bonzini <pbonzini@redhat.com>
 References: <20200901062020.26660-1-pbonzini@redhat.com>
  <156da43a-4744-ac6c-fc4b-54788a40b3e9@ilande.co.uk>
  <CABgObfYcaCsZNYof9nd7gzCOY_6qN5MV+xD6dw7W4D4ircsdaQ@mail.gmail.com>
  <7516c253-0448-b5cd-18a0-45caaebc1d05@ilande.co.uk>
  <0db09727-a909-71db-3628-4edb3ce87f2b@redhat.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+ <76488c26-a3a7-be05-01ec-b29985ab29e7@ilande.co.uk>
 Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
  mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
  3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
@@ -57,15 +58,15 @@ Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
  Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
  KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
  imgcU9TTGC5qd9g=
-Message-ID: <76488c26-a3a7-be05-01ec-b29985ab29e7@ilande.co.uk>
-Date: Wed, 2 Sep 2020 12:42:29 +0100
+Message-ID: <72e600db-fcfd-9092-4b56-b1c4eb0ab744@ilande.co.uk>
+Date: Wed, 2 Sep 2020 12:45:38 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <0db09727-a909-71db-3628-4edb3ce87f2b@redhat.com>
+In-Reply-To: <76488c26-a3a7-be05-01ec-b29985ab29e7@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 86.179.247.31
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
 Subject: Re: [PATCH 00/13] Make QEMU installation relocatable
@@ -97,374 +98,15 @@ Cc: Yonggang Luo <luoyonggang@gmail.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/09/2020 07:42, Paolo Bonzini wrote:
-> On 02/09/20 08:09, Mark Cave-Ayland wrote:
->> diff --git a/configure b/configure
->> index f6638abadf..cb56d31a5d 100755
->> --- a/configure
->> +++ b/configure
->> @@ -1015,6 +1015,9 @@ if test "$mingw32" = "yes" ; then
->>    prefix="/qemu"
->>    confsuffix=""
->>    libs_qga="-lws2_32 -lwinmm -lpowrprof -lwtsapi32 -lwininet -liphlpapi -lnetapi32
->> $libs_qga"
->> +  ld_pwd=$(pwd -W)
->> +else
->> +  ld_pwd=$(pwd)
->>  fi
+On 02/09/2020 12:42, Mark Cave-Ayland wrote:
+
+> The main issues I can see are that the .exe files end up under /msys64/qemu and the
+> ROMs end up directly under /qemu rather than in $DESTDIR/share.
 > 
-> That wouldn't work for cross-compilation, but I got the idea. :)
-> 
->>  werror=""
->> @@ -4290,7 +4293,7 @@ EOF
->>                symlink "$source_path/dtc/Makefile" "dtc/Makefile"
->>            fi
->>            fdt_cflags="-I${source_path}/dtc/libfdt"
->> -          fdt_ldflags="-L$PWD/dtc/libfdt"
->> +          fdt_ldflags="-L${ld_pwd}/dtc/libfdt"
->>            fdt_libs="$fdt_libs"
->>        elif test "$fdt" = "yes" ; then
->>            # Not a git build & no libfdt found, prompt for system install
->> @@ -5275,7 +5278,7 @@ case "$capstone" in
->>      else
->>        LIBCAPSTONE=libcapstone.a
->>      fi
->> -    capstone_libs="-L$PWD/capstone -lcapstone"
->> +    capstone_libs="-L${ld_pwd}/capstone -lcapstone"
->>      capstone_cflags="-I${source_path}/capstone/include"
->>      ;;
->>
->> @@ -6276,7 +6279,7 @@ case "$slirp" in
->>      fi
->>      mkdir -p slirp
->>      slirp_cflags="-I${source_path}/slirp/src -I$PWD/slirp/src"
->> -    slirp_libs="-L$PWD/slirp -lslirp"
->> +    slirp_libs="-L${ld_pwd}/slirp -lslirp"
->>      if test "$mingw32" = "yes" ; then
->>        slirp_libs="$slirp_libs -lws2_32 -liphlpapi"
->>      fi
-> 
-> Since there is no recursive make anymore, these can be just
-> -Ldtc/libfdt, -Lcapstone and -Lslirp.  Nice. :)
+> Do we know why there is also a qemu-system-ppcw.exe that appears?
 
-Yes indeed, a quick test with this diff on top of your patchset gives me a working
-build and link (minus the manual patch still required to capstone):
-
-diff --git a/configure b/configure
-index f6638abadf..ac3ba88d8a 100755
---- a/configure
-+++ b/configure
-@@ -4290,7 +4290,7 @@ EOF
-               symlink "$source_path/dtc/Makefile" "dtc/Makefile"
-           fi
-           fdt_cflags="-I${source_path}/dtc/libfdt"
--          fdt_ldflags="-L$PWD/dtc/libfdt"
-+          fdt_ldflags="-Ldtc/libfdt"
-           fdt_libs="$fdt_libs"
-       elif test "$fdt" = "yes" ; then
-           # Not a git build & no libfdt found, prompt for system install
-@@ -5275,7 +5275,7 @@ case "$capstone" in
-     else
-       LIBCAPSTONE=libcapstone.a
-     fi
--    capstone_libs="-L$PWD/capstone -lcapstone"
-+    capstone_libs="-Lcapstone -lcapstone"
-     capstone_cflags="-I${source_path}/capstone/include"
-     ;;
-
-@@ -6276,7 +6276,7 @@ case "$slirp" in
-     fi
-     mkdir -p slirp
-     slirp_cflags="-I${source_path}/slirp/src -I$PWD/slirp/src"
--    slirp_libs="-L$PWD/slirp -lslirp"
-+    slirp_libs="-Lslirp -lslirp"
-     if test "$mingw32" = "yes" ; then
-       slirp_libs="$slirp_libs -lws2_32 -liphlpapi"
-     fi
-
->> I'll try again with the relocatable install later - do I still need to pass --prefix
->> into configure or should I leave that for now and just use DESTDIR?
-> 
-> You can just use DESTDIR.
-
-This doesn't quite look right: I went with "make V=1 DESTDIR=/home/Mark/rel-qemu-git
-install" and the resulting tree came out like this:
-
-/home/Mark/rel-qemu-git:
-total 20
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 msys64
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 qemu
-
-/home/Mark/rel-qemu-git/msys64:
-total 4
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 qemu
-
-/home/Mark/rel-qemu-git/msys64/qemu:
-total 29072
--rwxr-xr-x 1 Mark None   311296 Sep  2 11:26 qemu-edid.exe
--rwxr-xr-x 1 Mark None   496640 Sep  2 11:26 qemu-ga.exe
--rwxr-xr-x 1 Mark None  1650688 Sep  2 11:26 qemu-img.exe
--rwxr-xr-x 1 Mark None  1597440 Sep  2 11:26 qemu-io.exe
--rwxr-xr-x 1 Mark None  2001920 Sep  2 11:26 qemu-storage-daemon.exe
--rwxr-xr-x 1 Mark None 11850752 Sep  2 11:26 qemu-system-ppc.exe
--rwxr-xr-x 1 Mark None 11850752 Sep  2 11:26 qemu-system-ppcw.exe
-drwxr-xr-x 1 Mark None        0 Sep  2 11:26 share
-
-/home/Mark/rel-qemu-git/msys64/qemu/share:
-total 4
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 locale
-
-/home/Mark/rel-qemu-git/msys64/qemu/share/locale:
-total 0
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 bg
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 de_DE
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 fr_FR
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 hu
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 it
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 sv
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 tr
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 zh_CN
-
-/home/Mark/rel-qemu-git/msys64/qemu/share/locale/bg:
-total 0
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 LC_MESSAGES
-
-/home/Mark/rel-qemu-git/msys64/qemu/share/locale/bg/LC_MESSAGES:
-total 4
--rw-r--r-- 1 Mark None 1633 Sep  2 11:26 qemu.mo
-
-/home/Mark/rel-qemu-git/msys64/qemu/share/locale/de_DE:
-total 0
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 LC_MESSAGES
-
-/home/Mark/rel-qemu-git/msys64/qemu/share/locale/de_DE/LC_MESSAGES:
-total 4
--rw-r--r-- 1 Mark None 1342 Sep  2 11:26 qemu.mo
-
-/home/Mark/rel-qemu-git/msys64/qemu/share/locale/fr_FR:
-total 0
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 LC_MESSAGES
-
-/home/Mark/rel-qemu-git/msys64/qemu/share/locale/fr_FR/LC_MESSAGES:
-total 4
--rw-r--r-- 1 Mark None 1363 Sep  2 11:26 qemu.mo
-
-/home/Mark/rel-qemu-git/msys64/qemu/share/locale/hu:
-total 0
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 LC_MESSAGES
-
-/home/Mark/rel-qemu-git/msys64/qemu/share/locale/hu/LC_MESSAGES:
-total 4
--rw-r--r-- 1 Mark None 1019 Sep  2 11:26 qemu.mo
-
-/home/Mark/rel-qemu-git/msys64/qemu/share/locale/it:
-total 0
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 LC_MESSAGES
-
-/home/Mark/rel-qemu-git/msys64/qemu/share/locale/it/LC_MESSAGES:
-total 4
--rw-r--r-- 1 Mark None 1324 Sep  2 11:26 qemu.mo
-
-/home/Mark/rel-qemu-git/msys64/qemu/share/locale/sv:
-total 0
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 LC_MESSAGES
-
-/home/Mark/rel-qemu-git/msys64/qemu/share/locale/sv/LC_MESSAGES:
-total 4
--rw-r--r-- 1 Mark None 1381 Sep  2 11:26 qemu.mo
-
-/home/Mark/rel-qemu-git/msys64/qemu/share/locale/tr:
-total 0
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 LC_MESSAGES
-
-/home/Mark/rel-qemu-git/msys64/qemu/share/locale/tr/LC_MESSAGES:
-total 4
--rw-r--r-- 1 Mark None 1047 Sep  2 11:26 qemu.mo
-
-/home/Mark/rel-qemu-git/msys64/qemu/share/locale/zh_CN:
-total 0
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 LC_MESSAGES
-
-/home/Mark/rel-qemu-git/msys64/qemu/share/locale/zh_CN/LC_MESSAGES:
-total 4
--rw-r--r-- 1 Mark None 1393 Sep  2 11:26 qemu.mo
-
-/home/Mark/rel-qemu-git/qemu:
-total 12068
-drwxr-xr-x 1 Mark None       0 Sep  2 11:26 applications
--rw-r--r-- 1 Mark None    3211 Sep  2 11:26 bamboo.dtb
--rw-r--r-- 1 Mark None  131072 Sep  2 11:26 bios.bin
--rw-r--r-- 1 Mark None  262144 Sep  2 11:26 bios-256k.bin
--rw-r--r-- 1 Mark None   65536 Sep  2 11:26 bios-microvm.bin
--rw-r--r-- 1 Mark None    9779 Sep  2 11:26 canyonlands.dtb
--rw-r--r-- 1 Mark None   42903 Sep  2 11:26 edk2-licenses.txt
--rw-r--r-- 1 Mark None  240128 Sep  2 11:26 efi-e1000.rom
--rw-r--r-- 1 Mark None  240128 Sep  2 11:26 efi-e1000e.rom
--rw-r--r-- 1 Mark None  240128 Sep  2 11:26 efi-eepro100.rom
--rw-r--r-- 1 Mark None  238592 Sep  2 11:26 efi-ne2k_pci.rom
--rw-r--r-- 1 Mark None  238592 Sep  2 11:26 efi-pcnet.rom
--rw-r--r-- 1 Mark None  242688 Sep  2 11:26 efi-rtl8139.rom
--rw-r--r-- 1 Mark None  242688 Sep  2 11:26 efi-virtio.rom
--rw-r--r-- 1 Mark None  236032 Sep  2 11:26 efi-vmxnet3.rom
-drwxr-xr-x 1 Mark None       0 Sep  2 11:26 firmware
--rw-r--r-- 1 Mark None  783192 Sep  2 11:26 hppa-firmware.img
-drwxr-xr-x 1 Mark None       0 Sep  2 11:26 icons
-drwxr-xr-x 1 Mark None       0 Sep  2 11:26 keymaps
--rw-r--r-- 1 Mark None    9216 Sep  2 11:26 kvmvapic.bin
--rw-r--r-- 1 Mark None    1024 Sep  2 11:26 linuxboot.bin
--rw-r--r-- 1 Mark None    1536 Sep  2 11:26 linuxboot_dma.bin
--rw-r--r-- 1 Mark None    1024 Sep  2 11:26 multiboot.bin
--rw-r--r-- 1 Mark None  696912 Sep  2 11:26 openbios-ppc
--rw-r--r-- 1 Mark None  382048 Sep  2 11:26 openbios-sparc32
--rw-r--r-- 1 Mark None 1593408 Sep  2 11:26 openbios-sparc64
--rw-r--r-- 1 Mark None   62144 Sep  2 11:26 opensbi-riscv32-generic-fw_dynamic.bin
--rw-r--r-- 1 Mark None  558668 Sep  2 11:26 opensbi-riscv32-generic-fw_dynamic.elf
--rw-r--r-- 1 Mark None   70792 Sep  2 11:26 opensbi-riscv64-generic-fw_dynamic.bin
--rw-r--r-- 1 Mark None  620424 Sep  2 11:26 opensbi-riscv64-generic-fw_dynamic.elf
--rw-r--r-- 1 Mark None  156328 Sep  2 11:26 palcode-clipper
--rw-r--r-- 1 Mark None    9882 Sep  2 11:26 petalogix-ml605.dtb
--rw-r--r-- 1 Mark None    8161 Sep  2 11:26 petalogix-s3adsp1800.dtb
--rw-r--r-- 1 Mark None    1536 Sep  2 11:26 pvh.bin
--rw-r--r-- 1 Mark None   67072 Sep  2 11:26 pxe-e1000.rom
--rw-r--r-- 1 Mark None   61440 Sep  2 11:26 pxe-eepro100.rom
--rw-r--r-- 1 Mark None   61440 Sep  2 11:26 pxe-ne2k_pci.rom
--rw-r--r-- 1 Mark None   61440 Sep  2 11:26 pxe-pcnet.rom
--rw-r--r-- 1 Mark None   61440 Sep  2 11:26 pxe-rtl8139.rom
--rw-r--r-- 1 Mark None   60416 Sep  2 11:26 pxe-virtio.rom
--rw-r--r-- 1 Mark None     850 Sep  2 11:26 QEMU,cgthree.bin
--rw-r--r-- 1 Mark None    1402 Sep  2 11:26 QEMU,tcx.bin
--rw-r--r-- 1 Mark None   18752 Sep  2 11:26 qemu_vga.ndrv
--rw-r--r-- 1 Mark None  154542 Sep  2 11:26 qemu-nsis.bmp
--rw-r--r-- 1 Mark None   42608 Sep  2 11:26 s390-ccw.img
--rw-r--r-- 1 Mark None   67232 Sep  2 11:26 s390-netboot.img
--rw-r--r-- 1 Mark None    4096 Sep  2 11:26 sgabios.bin
--rw-r--r-- 1 Mark None 1667280 Sep  2 11:26 skiboot.lid
--rw-r--r-- 1 Mark None  968368 Sep  2 11:26 slof.bin
--rw-r--r-- 1 Mark None  348512 Sep  2 11:20 trace-events-all
--rw-r--r-- 1 Mark None  349148 Sep  2 11:26 u-boot.e500
--rw-r--r-- 1 Mark None  524288 Sep  2 11:26 u-boot-sam460-20100605.bin
--rw-r--r-- 1 Mark None   38912 Sep  2 11:26 vgabios.bin
--rw-r--r-- 1 Mark None   39424 Sep  2 11:26 vgabios-ati.bin
--rw-r--r-- 1 Mark None   28672 Sep  2 11:26 vgabios-bochs-display.bin
--rw-r--r-- 1 Mark None   38912 Sep  2 11:26 vgabios-cirrus.bin
--rw-r--r-- 1 Mark None   39424 Sep  2 11:26 vgabios-qxl.bin
--rw-r--r-- 1 Mark None   28672 Sep  2 11:26 vgabios-ramfb.bin
--rw-r--r-- 1 Mark None   39424 Sep  2 11:26 vgabios-stdvga.bin
--rw-r--r-- 1 Mark None   39424 Sep  2 11:26 vgabios-virtio.bin
--rw-r--r-- 1 Mark None   39424 Sep  2 11:26 vgabios-vmware.bin
-
-/home/Mark/rel-qemu-git/qemu/applications:
-total 1
--rw-r--r-- 1 Mark None 134 Sep  2 11:26 qemu.desktop
-
-/home/Mark/rel-qemu-git/qemu/firmware:
-total 21
--rw-r--r-- 1 Mark None 696 Sep  2 11:19 50-edk2-i386-secure.json
--rw-r--r-- 1 Mark None 721 Sep  2 11:19 50-edk2-x86_64-secure.json
--rw-r--r-- 1 Mark None 602 Sep  2 11:19 60-edk2-aarch64.json
--rw-r--r-- 1 Mark None 590 Sep  2 11:19 60-edk2-arm.json
--rw-r--r-- 1 Mark None 647 Sep  2 11:19 60-edk2-i386.json
--rw-r--r-- 1 Mark None 672 Sep  2 11:19 60-edk2-x86_64.json
-
-/home/Mark/rel-qemu-git/qemu/icons:
-total 4
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 hicolor
-
-/home/Mark/rel-qemu-git/qemu/icons/hicolor:
-total 0
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 128x128
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 16x16
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 24x24
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 256x256
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 32x32
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 48x48
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 512x512
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 64x64
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 scalable
-
-/home/Mark/rel-qemu-git/qemu/icons/hicolor/128x128:
-total 0
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 apps
-
-/home/Mark/rel-qemu-git/qemu/icons/hicolor/128x128/apps:
-total 12
--rw-r--r-- 1 Mark None 8286 Sep  2 11:26 qemu.png
-
-/home/Mark/rel-qemu-git/qemu/icons/hicolor/16x16:
-total 0
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 apps
-
-/home/Mark/rel-qemu-git/qemu/icons/hicolor/16x16/apps:
-total 4
--rw-r--r-- 1 Mark None 765 Sep  2 11:26 qemu.png
-
-/home/Mark/rel-qemu-git/qemu/icons/hicolor/24x24:
-total 0
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 apps
-
-/home/Mark/rel-qemu-git/qemu/icons/hicolor/24x24/apps:
-total 4
--rw-r--r-- 1 Mark None 1201 Sep  2 11:26 qemu.png
-
-/home/Mark/rel-qemu-git/qemu/icons/hicolor/256x256:
-total 0
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 apps
-
-/home/Mark/rel-qemu-git/qemu/icons/hicolor/256x256/apps:
-total 20
--rw-r--r-- 1 Mark None 17572 Sep  2 11:26 qemu.png
-
-/home/Mark/rel-qemu-git/qemu/icons/hicolor/32x32:
-total 0
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 apps
-
-/home/Mark/rel-qemu-git/qemu/icons/hicolor/32x32/apps:
-total 12
--rw-r--r-- 1 Mark None 4234 Sep  2 11:26 qemu.bmp
--rw-r--r-- 1 Mark None 1696 Sep  2 11:26 qemu.png
-
-/home/Mark/rel-qemu-git/qemu/icons/hicolor/48x48:
-total 0
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 apps
-
-/home/Mark/rel-qemu-git/qemu/icons/hicolor/48x48/apps:
-total 4
--rw-r--r-- 1 Mark None 2694 Sep  2 11:26 qemu.png
-
-/home/Mark/rel-qemu-git/qemu/icons/hicolor/512x512:
-total 0
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 apps
-
-/home/Mark/rel-qemu-git/qemu/icons/hicolor/512x512/apps:
-total 40
--rw-r--r-- 1 Mark None 38007 Sep  2 11:26 qemu.png
-
-/home/Mark/rel-qemu-git/qemu/icons/hicolor/64x64:
-total 0
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 apps
-
-/home/Mark/rel-qemu-git/qemu/icons/hicolor/64x64/apps:
-total 4
--rw-r--r-- 1 Mark None 3807 Sep  2 11:26 qemu.png
-
-/home/Mark/rel-qemu-git/qemu/icons/hicolor/scalable:
-total 0
-drwxr-xr-x 1 Mark None 0 Sep  2 11:26 apps
-
-/home/Mark/rel-qemu-git/qemu/icons/hicolor/scalable/apps:
-total 32
--rw-r--r-- 1 Mark None 30955 Sep  2 11:26 qemu.svg
-
-/home/Mark/rel-qemu-git/qemu/keymaps:
-total 12
--rw-r--r-- 1 Mark None 4632 Aug 23 21:31 sl
--rw-r--r-- 1 Mark None 3346 Aug 23 21:31 sv
-
-
-The main issues I can see are that the .exe files end up under /msys64/qemu and the
-ROMs end up directly under /qemu rather than in $DESTDIR/share.
-
-Do we know why there is also a qemu-system-ppcw.exe that appears?
+The other thing to bear in mind is I may have made a mistake patching up patch 13 by
+hand - could you push a rebased version to a branch somewhere for me to test?
 
 
 ATB,
