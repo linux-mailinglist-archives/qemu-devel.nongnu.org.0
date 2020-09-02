@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22BBC25ABAF
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 15:04:54 +0200 (CEST)
-Received: from localhost ([::1]:37956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1965625ABA2
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 15:03:14 +0200 (CEST)
+Received: from localhost ([::1]:57754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDSRZ-0006V1-4l
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 09:04:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36708)
+	id 1kDSPx-0002uu-4w
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 09:03:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kDSMP-0005w8-3H
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:59:33 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48420
+ id 1kDSMN-0005tM-B1
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:59:31 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48560
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kDSMM-00075Q-Sb
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:59:32 -0400
+ id 1kDSML-00074W-07
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:59:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599051570;
+ s=mimecast20190719; t=1599051568;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rn8x2b+cH/3wuinFOjLrmOQ6nTygcEc4MOrlfPs/lwo=;
- b=XBsxsAImga5V0xl3DWNY1gJGm2NT4jJ17FkYAQ/GHPwpbCjGqKwk/ClEtc/ZIe6KhDiYwN
- 1HYTbcC7rUAGOp0xZnO65rrYtDKOexWptbvz7R9U//0S4mOm0eTKlpYyKET7QQ5t/WQ13r
- 7BvuxSuLBpDN9sCas8wAL2hB1hEgcY4=
+ bh=zt1rvWNfvYUTrIRS6rmWcmMR6imDHaK2I051ZPscHHc=;
+ b=Tr47aTGF8X4NCudZgGgLVFgi5sYVfePuFGDusAEjPy7JadgynhZw+tfknx0ci7sa6LQxtf
+ FYwOwOycL7M7/CNt/TILExRlwpuXvPuVgClybHYayL7867bYGvuB+pPAfUrJXjTj9967Et
+ GdgkUDXwrj2cAT0Vc3rf3/uQ+TTMsr4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-457-2-JTgJH_OKO_Ig4KfFndrw-1; Wed, 02 Sep 2020 08:59:26 -0400
-X-MC-Unique: 2-JTgJH_OKO_Ig4KfFndrw-1
+ us-mta-338-XnpwqAxwOkqwBFtYpIRgBQ-1; Wed, 02 Sep 2020 08:59:26 -0400
+X-MC-Unique: XnpwqAxwOkqwBFtYpIRgBQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C4C51084CA7
- for <qemu-devel@nongnu.org>; Wed,  2 Sep 2020 12:59:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7AB071084CA9;
+ Wed,  2 Sep 2020 12:59:21 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C55455D9CC
- for <qemu-devel@nongnu.org>; Wed,  2 Sep 2020 12:59:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2D39A5D9CC;
+ Wed,  2 Sep 2020 12:59:21 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/39] meson: remove b_lundef option
-Date: Wed,  2 Sep 2020 08:58:44 -0400
-Message-Id: <20200902125917.26021-7-pbonzini@redhat.com>
+Subject: [PATCH 07/39] configure: do not include absolute paths in -I and -L
+ paths
+Date: Wed,  2 Sep 2020 08:58:45 -0400
+Message-Id: <20200902125917.26021-8-pbonzini@redhat.com>
 In-Reply-To: <20200902125917.26021-1-pbonzini@redhat.com>
 References: <20200902125917.26021-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -59,9 +60,9 @@ X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 02:07:24
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 02:26:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -82,30 +83,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Meson automatically adds "-undefined dynamic_lookup" to
-shared_module build targets; b_lundef is only needed for
-executables.  Therefore, we can remove this option.
+On msys2, paths such as -L/e/path/to/qemu are not recognized by
+the linker.  Fortunately we do not need absolute paths at all in a
+non-recursive build system.
 
+Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ configure | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index 356af9142c..f7b57315ef 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1,6 +1,6 @@
- project('qemu', ['c'], meson_version: '>=0.55.0',
-         default_options: ['warning_level=1', 'c_std=gnu99', 'cpp_std=gnu++11',
--                          'b_lundef=false','b_colorout=auto'],
-+                          'b_colorout=auto'],
-         version: run_command('head', meson.source_root() / 'VERSION').stdout().strip())
+diff --git a/configure b/configure
+index b58627f4aa..131a9e518b 100755
+--- a/configure
++++ b/configure
+@@ -943,7 +943,7 @@ Linux)
+   linux="yes"
+   linux_user="yes"
+   kvm="yes"
+-  QEMU_INCLUDES="-isystem ${source_path}/linux-headers -I$PWD/linux-headers $QEMU_INCLUDES"
++  QEMU_INCLUDES="-isystem ${source_path}/linux-headers -Ilinux-headers $QEMU_INCLUDES"
+   libudev="yes"
+ ;;
+ esac
+@@ -4265,7 +4265,7 @@ EOF
+               symlink "$source_path/dtc/Makefile" "dtc/Makefile"
+           fi
+           fdt_cflags="-I${source_path}/dtc/libfdt"
+-          fdt_ldflags="-L$PWD/dtc/libfdt"
++          fdt_ldflags="-Ldtc/libfdt"
+           fdt_libs="$fdt_libs"
+       elif test "$fdt" = "yes" ; then
+           # Not a git build & no libfdt found, prompt for system install
+@@ -5250,7 +5250,7 @@ case "$capstone" in
+     else
+       LIBCAPSTONE=libcapstone.a
+     fi
+-    capstone_libs="-L$PWD/capstone -lcapstone"
++    capstone_libs="-Lcapstone -lcapstone"
+     capstone_cflags="-I${source_path}/capstone/include"
+     ;;
  
- not_found = dependency('', required: false)
+@@ -6250,8 +6250,8 @@ case "$slirp" in
+       git_submodules="${git_submodules} slirp"
+     fi
+     mkdir -p slirp
+-    slirp_cflags="-I${source_path}/slirp/src -I$PWD/slirp/src"
+-    slirp_libs="-L$PWD/slirp -lslirp"
++    slirp_cflags="-I${source_path}/slirp/src -Islirp/src"
++    slirp_libs="-Lslirp -lslirp"
+     if test "$mingw32" = "yes" ; then
+       slirp_libs="$slirp_libs -lws2_32 -liphlpapi"
+     fi
 -- 
 2.26.2
 
