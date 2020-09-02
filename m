@@ -2,49 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CE5925B1EA
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 18:44:06 +0200 (CEST)
-Received: from localhost ([::1]:49864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 908F725B1F5
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 18:47:47 +0200 (CEST)
+Received: from localhost ([::1]:54536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDVrh-0001sA-EE
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 12:44:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39708)
+	id 1kDVvG-000479-Le
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 12:47:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kDVoK-0007Sq-5o
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 12:40:37 -0400
-Received: from mx2.suse.de ([195.135.220.15]:57452)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kDVoH-0005vc-Hj
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 12:40:35 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id E7F4BAC79;
- Wed,  2 Sep 2020 16:40:30 +0000 (UTC)
-Subject: Re: [RFC v2] checkpatch: detect missing changes to trace-events
-To: Markus Armbruster <armbru@redhat.com>
-References: <20200807111447.15599-1-cfontana@suse.de>
- <87sgc06wj1.fsf@dusky.pond.sub.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <2f13b0e6-72f9-df8b-f3cb-e520140b6b22@suse.de>
-Date: Wed, 2 Sep 2020 18:40:29 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kDVu2-00030a-D6
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 12:46:30 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:38664)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kDVu0-0006fB-Kj
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 12:46:30 -0400
+Received: by mail-pf1-x441.google.com with SMTP id d22so3150775pfn.5
+ for <qemu-devel@nongnu.org>; Wed, 02 Sep 2020 09:46:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=fDsBYm8xqvgH9QuPlr+UYKFUquY9Em5y4Nb9tpZXsE4=;
+ b=qHLDjH8rID6dkx6XZ75KMSjkoGPKnA3Ij5ASH+qnvC9JRieuQoT/tGQR+3eMvZd79R
+ auiYNfm8fkiFvo8cpOWa9d0Pg/MpTWfFEaKDWkM8pUN6Pf3QkUf5amWXvsEk5wandmxS
+ 01Ek2+zyJcX/2LyvFB4jLOCAQPyFWZyoAleUMrsN2OEy4hdzktQ9PIWCaaX16C4HuOPi
+ mR2m9sVuqi8uu5QFpzN5j2grRVeXiY9E2fabPgZpRIzdl4HOstC5hyZzHyEU4IwKV1w6
+ Kqr0gwMzsTvtkdG9ULJuWgKr2asdREhgzke40Yk18zFJDQTNcIDBkbGlssG7KPrgJRIp
+ 5hqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=fDsBYm8xqvgH9QuPlr+UYKFUquY9Em5y4Nb9tpZXsE4=;
+ b=V9MFC5WpeTRKOJrl9smyks6u0Ul3BDGyMDvB+k+28Tc8fcWA1kCTNRYseN+nHZOTZ+
+ L2pJ/Ukv3JEN0EvE2r9Ou/TpcqShNFGFekT5757rYynuz+hIGu33kdZfdMndKVQPoKC9
+ ktYuACbNEuu1AjsUN3YFYs7I/Tp2SwqU/GiVZXrMbn+vH3+0X7yyhoZ0EK81xjCRruZC
+ M12TYWjxMsNJeVkHRbIo30GIpfdpjrXfNkXTiItF/jTzoLWzVJLoPVQJ19bGFiqHzVBD
+ aPRKbJB30vpFVeQPmRjepExV6S3pvSS6PJszN29BvWRs1UfvB0e+jBrCPOxuP2IObPaz
+ 7VXA==
+X-Gm-Message-State: AOAM532SY3D7/wP5La5rLeyYbiJU8/wlUhr9q1RyGnVnnC9Rbsj1Mcvi
+ aGWGSXHJTq0O2Fe89S5yxRvBzA==
+X-Google-Smtp-Source: ABdhPJyrhN6hId/2RX+lV0kQ+wN/pbHiGF7+dMjdKtdXlgbxYulCRWxEm1sFFYAmNBBwd1acy8BS3A==
+X-Received: by 2002:a63:e747:: with SMTP id j7mr2554925pgk.107.1599065186912; 
+ Wed, 02 Sep 2020 09:46:26 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id 194sm17295pfy.44.2020.09.02.09.46.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Sep 2020 09:46:26 -0700 (PDT)
+Subject: Re: [PATCH 4/7] hw/hppa: Inform SeaBIOS about fw_cfg port address
+To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org
+References: <20200901183452.24967-1-deller@gmx.de>
+ <20200901183452.24967-5-deller@gmx.de>
+ <6385bd44-9cf8-95c3-1e59-0e1fb209863f@linaro.org>
+ <a56b96b3-9afc-0708-27bf-97d8095bde07@gmx.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <853e1911-81c3-709b-6a9c-b1f7ffd8f826@linaro.org>
+Date: Wed, 2 Sep 2020 09:46:24 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <87sgc06wj1.fsf@dusky.pond.sub.org>
+In-Reply-To: <a56b96b3-9afc-0708-27bf-97d8095bde07@gmx.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 00:13:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.324,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x441.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.324,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,163 +91,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/2/20 5:14 PM, Markus Armbruster wrote:
-> Claudio Fontana <cfontana@suse.de> writes:
-> 
->> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->> ---
->>  scripts/checkpatch.pl | 37 ++++++++++++++++++++++++++++++-------
->>  1 file changed, 30 insertions(+), 7 deletions(-)
+On 9/2/20 4:24 AM, Helge Deller wrote:
+> On 01.09.20 23:39, Richard Henderson wrote:
+>> On 9/1/20 11:34 AM, Helge Deller wrote:
+>>> -/* QEMU fw_cfg interface port */
+>>> -#define QEMU_FW_CFG_IO_BASE     (MEMORY_HPA + 0x80)
+>>> +#define FW_CFG_IO_BASE  0xfffa0000
 >>
->> v1 -> v2 :
->>
->> * track the "from" file in addition to the "to" file,
->>   and grep into both (if they exist), looking for trace.h, trace-root.h
->>
->>   If files are reachable and readable, emit a warning if there is no
->>   update to trace-events.
->>
->> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
->> index bd3faa154c..37db212fc6 100755
->> --- a/scripts/checkpatch.pl
->> +++ b/scripts/checkpatch.pl
->> @@ -1300,6 +1300,7 @@ sub process {
->>  	my $in_header_lines = $file ? 0 : 1;
->>  	my $in_commit_log = 0;		#Scanning lines before patch
->>  	my $reported_maintainer_file = 0;
->> +	my $reported_trace_events_file = 0;
->>  	my $non_utf8_charset = 0;
->>  
->>  	our @report = ();
->> @@ -1309,6 +1310,7 @@ sub process {
->>  	our $cnt_chk = 0;
->>  
->>  	# Trace the real file/line as we go.
->> +	my $fromfile = '';
->>  	my $realfile = '';
->>  	my $realline = 0;
->>  	my $realcnt = 0;
->> @@ -1454,10 +1456,15 @@ sub process {
->>  		$here = "#$realline: " if ($file);
->>  
->>  		# extract the filename as it passes
->> -		if ($line =~ /^diff --git.*?(\S+)$/) {
->> -			$realfile = $1;
->> -			$realfile =~ s@^([^/]*)/@@ if (!$file);
->> +		if ($line =~ /^diff --git.*?(\S+).*?(\S+)$/) {
->> +			$fromfile = $1;
->> +			$realfile = $2;
->> +			if (!$file) {
->> +				$fromfile =~ s@^([^/]*)/@@ ;
->> +				$realfile =~ s@^([^/]*)/@@ ;
->> +			}
->>  	                checkfilename($realfile, \$acpi_testexpected, \$acpi_nontestexpected);
->> +
+>> Why is this value changing?
 > 
-> Drop this blank line.
-> 
->>  		} elsif ($line =~ /^\+\+\+\s+(\S+)/) {
->>  			$realfile = $1;
->>  			$realfile =~ s@^([^/]*)/@@ if (!$file);
->> @@ -1470,6 +1477,11 @@ sub process {
->>  			}
->>  
->>  			next;
->> +
-> 
-> And this one.
-> 
->> +		} elsif ($line =~ /^---\s+(\S+)/) {
->> +			$fromfile = $1;
->> +			$fromfile =~ s@^([^/]*)/@@ if (!$file);
->> +			next;
->>  		}
->>  
->>  		$here .= "FILE: $realfile:$realline:" if ($realcnt != 0);
-> 
-> Aside: I don't understand why we need to match both the diff line and
-> the --- line (and now the +++ line, too).
-> 
->> @@ -1524,15 +1536,26 @@ sub process {
->>  		if ($line =~ /^\s*MAINTAINERS\s*\|/) {
->>  			$reported_maintainer_file = 1;
->>  		}
->> -
->> +# similar check for trace-events
->> +		if ($line =~ /^\s*trace-events\s*\|/) {
->> +			$reported_trace_events_file = 1;
->> +		}
-> 
-> These are meant to match in the diffstat (took me a stare to figure that
-> out).
-> 
-> The existing one matches MAINTAINERS in the source root.  Good; that's
-> where it is.
-> 
-> The new one matches trace-events in the source root.  Not so good; We
-> use one trace-events per directory.
-> 
-> If I update trace-events in the source root, I won't be warned about
-> other trace-events in need of updating (false negative), will I?
-> 
-> If I don't update trace-events in the source root, I will be warned
-> regardless of what other trace-events I update (false positive), won't
-> I?
-> 
->>  # Check for added, moved or deleted files
->> -		if (!$reported_maintainer_file && !$in_commit_log &&
->> +		if (!$in_commit_log &&
->>  		    ($line =~ /^(?:new|deleted) file mode\s*\d+\s*$/ ||
->>  		     $line =~ /^rename (?:from|to) [\w\/\.\-]+\s*$/ ||
->>  		     ($line =~ /\{\s*([\w\/\.\-]*)\s*\=\>\s*([\w\/\.\-]*)\s*\}/ &&
->>  		      (defined($1) || defined($2))))) {
->> -			$reported_maintainer_file = 1;
->> -			WARN("added, moved or deleted file(s), does MAINTAINERS need updating?\n" . $herecurr);
->> +			if (!$reported_maintainer_file) {
->> +				$reported_maintainer_file = 1;
->> +				WARN("added, moved or deleted file(s), does MAINTAINERS need updating?\n" . $herecurr);
->> +			}
->> +			if (!$reported_trace_events_file) {
->> +				if (`grep -F -s -e trace.h -e trace-root.h ${fromfile} ${realfile}` ne '') {
->> +					$reported_trace_events_file = 1;
->> +					WARN("added, moved or deleted file(s), does trace-events need updating?\n" . $herecurr);
->> +				}
->> +			}
->>  		}
->>  
->>  # Check for wrappage within a valid hunk of the file
-> 
-> Regarding Stefan's observations:
-> 
-> * Yes, the grep patterns need tightening.
-> 
-> * Yes, forking grep could be replaced by a simple function that slurps
->   in the file and searches it.  Could doesn't imply should, let alome
->   must.
-> 
-> As discussed in review of v1, I'm not sure checkpatch.pl is the best
-> home for this kind of check.  I'm not going to reject a working patch
-> because of that.
-> 
+> Devices on hppa occupy at least 4k starting at the HPA,
+> so MEMORY_HPA+4k is blocked (by Linux) for the memory module.
+> I noticed this when testing the new Linux kernel patch to
+> let the fw_cfg entries show up in Linux under /proc:
+> https://patchwork.kernel.org/patch/11715133/
+> The Linux kernel driver could not allocate the region for fw_cfg.
+> This new base address seems to not conflict.
 
-Hi Marcus,
-
-I will rethink this in the future, thanks for the useful feedback,
-but I think this needs to be rethought, reworked and tested more.
-
-Thanks!
-
-Claudio
+Then that information should be in a patch description, and the change should
+be a completely separate patch.
 
 
-
-
+r~
 
