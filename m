@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88A2925A760
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 10:09:43 +0200 (CEST)
-Received: from localhost ([::1]:40518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87E5325A76D
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 10:11:34 +0200 (CEST)
+Received: from localhost ([::1]:49308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDNpu-0007Xs-CA
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 04:09:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41676)
+	id 1kDNrh-0002w6-ID
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 04:11:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDNoc-0005XV-6v
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 04:08:22 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37265
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDNpJ-0007KW-3J
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 04:09:05 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27103
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDNoa-0001ix-Gw
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 04:08:21 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDNpH-0001pr-9p
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 04:09:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599034099;
+ s=mimecast20190719; t=1599034142;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MkSNcsho6DvA/UdVRqB8QxEaCIKTx2/65WBDZF1cLy4=;
- b=SM/0PUwLFrrc6Xpzr+h6d6+hARpHEuYdp6+CUqhOLWvWEws5Wl6hCUKkgzrKg+hpWdWYAH
- IZDED/iMzK5/eUWWmm+h8P/hhFQa7ljF/z24T8ZW+EiaiESbPfXBwImwdl7aw975WY9x/k
- bVp0/8yuW/M7Q0OtjXz3WbYrs7wFTxA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-258-_FknG71kOmS8uwVFusLCjA-1; Wed, 02 Sep 2020 04:08:15 -0400
-X-MC-Unique: _FknG71kOmS8uwVFusLCjA-1
-Received: by mail-wm1-f69.google.com with SMTP id a5so1300402wmj.5
- for <qemu-devel@nongnu.org>; Wed, 02 Sep 2020 01:08:15 -0700 (PDT)
+ bh=a7jMiaMP3JTj9ArNnNz3t5AwgDboPnJ3Xc9W3czcTi0=;
+ b=gSYrSyQqFeKPNRUVg5xs9FTlYxgBJGnxpo+/lU6K8i5m0VwgPIon8qF0XBHbcmFO+d4W60
+ tC18G0y9BC9u3r1m3yQ0Ots9POuhay6jUHgDaJjuhLbf8YbivOMY/FYLsSVAbj8j7wCwsC
+ 8Tr0xS/5htNwMqUPE920djacyz0NdH8=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-171-tA9ROLyJNHesKY1F7FsvFA-1; Wed, 02 Sep 2020 04:08:21 -0400
+X-MC-Unique: tA9ROLyJNHesKY1F7FsvFA-1
+Received: by mail-wm1-f71.google.com with SMTP id x81so1528918wmg.8
+ for <qemu-devel@nongnu.org>; Wed, 02 Sep 2020 01:08:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=MkSNcsho6DvA/UdVRqB8QxEaCIKTx2/65WBDZF1cLy4=;
- b=DmRL7hmykXNnD2PHWrK6ySoz8FR5G3SbBLwZv43JpqiM7i7MtHWE4ng0YQKCxhtxKi
- sK6A4Q2iujZAEseyLfab7x6tG8Rbqks/Gr4KSh2UmgP5Lb7ODiZ+lof+EDM+FEyjqHe+
- l++T4Y/bW20m7Uz4KUBDE2BH37F0gnLv5fnyztQwOJ3hLphd31GvfwA15x2DS0ZDBbLH
- tssk1BrTnZLvgw4ic0Goejpmv1GWScZ7Te6a6GMdistRDTsRqUuwZsBM6v2CJP+d1FXQ
- XDgVrYKasK1+bG8O3ysLBK4Ilmr+ajjrInTjCmSmSPUOEuhSe3c5qON2K9aF6j23Qvrc
- gTRg==
-X-Gm-Message-State: AOAM531MG3D7D53By7T/8QMnTHtwg/6RjA2kXGv+Vhp7x6rOwMVI//HU
- xELx49M+keV42qSExw4gYPfIFlaX05Dxf266fwSRUzo2dLr3UFtldr0iFvBNCmCErShFSFqIt23
- rxsLzsclJY3RtqOk=
-X-Received: by 2002:adf:ec45:: with SMTP id w5mr6180031wrn.357.1599034094565; 
- Wed, 02 Sep 2020 01:08:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwpW0HtuwgcfIsS0tmj4gTF5kz37mBKmxNbyWVAJiejxYlEqVGG4KgJToxdFjgwM6KLilLpuQ==
-X-Received: by 2002:adf:ec45:: with SMTP id w5mr6180002wrn.357.1599034094363; 
- Wed, 02 Sep 2020 01:08:14 -0700 (PDT)
+ bh=a7jMiaMP3JTj9ArNnNz3t5AwgDboPnJ3Xc9W3czcTi0=;
+ b=iEFqq/1MhNld3WvZBIClqLJX1PwV5pNZYys6KCKoSOHxVEet03badQTbECsUDMvHvd
+ hDxO51dhauVT61dsoftn54A5jy1PS8EK1Aj+2I4bhsCNqMaoFPjAibjIJ3K4rNIQzYDL
+ f+VtubO0hvU1KJ7OLUdIQtMcWMgJaVXyZH4ua9hd37sjAcqQS25SjvRbpNCgaVAdvphh
+ LkMRnTUPQbzDnt2r5Kz4ulR9JP4qA2JY3kSAtavCgryIP+WCZesdZ955FpmK+OBUw/h5
+ T4BMkAyA0XEuqZrWitAkD5wlzP0DEUfsm2ry+8OErIo/ONMfICzzAtaMbRbWEFcY0z6F
+ 8Qog==
+X-Gm-Message-State: AOAM533+8OVCWEQlT7QXwSHeZ1e0qqFXej2PLftIxPtxPx0tC8zkd3QY
+ dpsIZWT5Z9v5CsfyVSpw1yqnZqLFz7B/OsibWhpomMPOEaYXwpoYH7Z4B4PiSWDXAOuNCOUSMjl
+ ln2RcVYR7DO3n/j8=
+X-Received: by 2002:a5d:4f12:: with SMTP id c18mr5474572wru.33.1599034099693; 
+ Wed, 02 Sep 2020 01:08:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzFGqDIQtOUHFPGW0jIgS+ZVOQ2QN9WUI/lkiDw5q/wumx2PXzT/kP7sMdPSLVt6uHcfzlU6Q==
+X-Received: by 2002:a5d:4f12:: with SMTP id c18mr5474545wru.33.1599034099473; 
+ Wed, 02 Sep 2020 01:08:19 -0700 (PDT)
 Received: from localhost.localdomain (50.red-83-52-54.dynamicip.rima-tde.net.
  [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id q12sm5217629wrp.17.2020.09.02.01.08.13
+ by smtp.gmail.com with ESMTPSA id 70sm5642929wme.15.2020.09.02.01.08.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Sep 2020 01:08:13 -0700 (PDT)
+ Wed, 02 Sep 2020 01:08:18 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/5] hw/pci-bridge: Do not declare local variable only used
- for assertion
-Date: Wed,  2 Sep 2020 10:07:58 +0200
-Message-Id: <20200902080801.160652-3-philmd@redhat.com>
+Subject: [PATCH 3/5] hw/ppc/spapr: Do not declare local variable only used for
+ assertion
+Date: Wed,  2 Sep 2020 10:07:59 +0200
+Message-Id: <20200902080801.160652-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200902080801.160652-1-philmd@redhat.com>
 References: <20200902080801.160652-1-philmd@redhat.com>
@@ -85,7 +85,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -120,24 +120,30 @@ See in "qemu/osdep.h":
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/pci-bridge/pci_bridge_dev.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ hw/ppc/spapr.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/hw/pci-bridge/pci_bridge_dev.c b/hw/pci-bridge/pci_bridge_dev.c
-index 4a080b7c7bf..10c521085d7 100644
---- a/hw/pci-bridge/pci_bridge_dev.c
-+++ b/hw/pci-bridge/pci_bridge_dev.c
-@@ -224,9 +224,7 @@ void pci_bridge_dev_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
- void pci_bridge_dev_unplug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
-                               Error **errp)
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index dd2fa4826b3..6447a5b3808 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -628,7 +628,6 @@ static int spapr_dt_dynamic_reconfiguration_memory(SpaprMachineState *spapr,
+ static int spapr_dt_memory(SpaprMachineState *spapr, void *fdt)
  {
--    PCIDevice *pci_hotplug_dev = PCI_DEVICE(hotplug_dev);
--
--    g_assert(shpc_present(pci_hotplug_dev));
-+    g_assert(shpc_present(PCI_DEVICE(hotplug_dev)));
-     shpc_device_unplug_cb(hotplug_dev, dev, errp);
- }
+     MachineState *machine = MACHINE(spapr);
+-    SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
+     hwaddr mem_start, node_size;
+     int i, nb_nodes = machine->numa_state->num_nodes;
+     NodeInfo *nodes = machine->numa_state->nodes;
+@@ -670,7 +669,7 @@ static int spapr_dt_memory(SpaprMachineState *spapr, void *fdt)
+     if (spapr_ovec_test(spapr->ov5_cas, OV5_DRCONF_MEMORY)) {
+         int ret;
  
+-        g_assert(smc->dr_lmb_enabled);
++        g_assert(SPAPR_MACHINE_GET_CLASS(spapr)->dr_lmb_enabled);
+         ret = spapr_dt_dynamic_reconfiguration_memory(spapr, fdt);
+         if (ret) {
+             return ret;
 -- 
 2.26.2
 
