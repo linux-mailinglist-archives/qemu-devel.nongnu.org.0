@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B61325A7A5
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 10:19:04 +0200 (CEST)
-Received: from localhost ([::1]:48712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C29FF25A7A9
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 10:20:48 +0200 (CEST)
+Received: from localhost ([::1]:57032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDNyx-00063f-B9
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 04:19:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44206)
+	id 1kDO0d-00011F-Ql
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 04:20:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1kDNwO-0001gq-Fk
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 04:16:24 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:38580)
+ id 1kDNwQ-0001kx-8f
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 04:16:26 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:38598)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1kDNwI-00030x-GT
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 04:16:24 -0400
+ id 1kDNwO-000327-5c
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 04:16:25 -0400
 Received: from [127.0.1.1] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id 762D640A2055;
- Wed,  2 Sep 2020 08:16:16 +0000 (UTC)
-Subject: [PATCH v3 05/15] iotests: update snapshot test for new output format
+ by mail.ispras.ru (Postfix) with ESMTPSA id 41E3340A928D;
+ Wed,  2 Sep 2020 08:16:22 +0000 (UTC)
+Subject: [PATCH v3 06/15] qapi: introduce replay.json for
+ record/replay-related stuff
 From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 To: qemu-devel@nongnu.org
-Date: Wed, 02 Sep 2020 11:16:16 +0300
-Message-ID: <159903457617.28509.2649326029575134141.stgit@pasha-ThinkPad-X280>
+Date: Wed, 02 Sep 2020 11:16:22 +0300
+Message-ID: <159903458194.28509.16680959321062004675.stgit@pasha-ThinkPad-X280>
 In-Reply-To: <159903454714.28509.7439453309116734374.stgit@pasha-ThinkPad-X280>
 References: <159903454714.28509.7439453309116734374.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.17.1-dirty
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=83.149.199.84;
  envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 04:15:48
@@ -61,140 +62,132 @@ Cc: kwolf@redhat.com, wrampazz@redhat.com, pavel.dovgalyuk@ispras.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pavel Dovgalyuk <pavel.dovgaluk@gmail.com>
+From: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 
-This patch updates iotests that verify qemu monitor output.
-New output format for snapshot listing include ICOUNT column.
+This patch adds replay.json file. It will be
+used for adding record/replay-related data structures and commands.
 
-Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+Signed-off-by: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/qemu-iotests/267.out |   48 ++++++++++++++++++++++----------------------
- 1 file changed, 24 insertions(+), 24 deletions(-)
+ MAINTAINERS             |    1 +
+ include/sysemu/replay.h |    1 +
+ qapi/meson.build        |    1 +
+ qapi/misc.json          |   18 ------------------
+ qapi/qapi-schema.json   |    1 +
+ qapi/replay.json        |   26 ++++++++++++++++++++++++++
+ 6 files changed, 30 insertions(+), 18 deletions(-)
+ create mode 100644 qapi/replay.json
 
-diff --git a/tests/qemu-iotests/267.out b/tests/qemu-iotests/267.out
-index 215902b3ad..27471ffae8 100644
---- a/tests/qemu-iotests/267.out
-+++ b/tests/qemu-iotests/267.out
-@@ -33,8 +33,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) savevm snap0
- (qemu) info snapshots
- List of snapshots present on all disks:
--ID        TAG                 VM SIZE                DATE       VM CLOCK
----        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
-+ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
-+--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000           
- (qemu) loadvm snap0
- (qemu) quit
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5a22c8be42..e49af700c9 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2644,6 +2644,7 @@ F: include/sysemu/replay.h
+ F: docs/replay.txt
+ F: stubs/replay.c
+ F: tests/acceptance/replay_kernel.py
++F: qapi/replay.json
  
-@@ -44,8 +44,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) savevm snap0
- (qemu) info snapshots
- List of snapshots present on all disks:
--ID        TAG                 VM SIZE                DATE       VM CLOCK
----        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
-+ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
-+--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000           
- (qemu) loadvm snap0
- (qemu) quit
+ IOVA Tree
+ M: Peter Xu <peterx@redhat.com>
+diff --git a/include/sysemu/replay.h b/include/sysemu/replay.h
+index c9c896ae8d..e00ed2f4a5 100644
+--- a/include/sysemu/replay.h
++++ b/include/sysemu/replay.h
+@@ -14,6 +14,7 @@
  
-@@ -69,8 +69,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) savevm snap0
- (qemu) info snapshots
- List of snapshots present on all disks:
--ID        TAG                 VM SIZE                DATE       VM CLOCK
----        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
-+ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
-+--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000           
- (qemu) loadvm snap0
- (qemu) quit
+ #include "qapi/qapi-types-misc.h"
+ #include "qapi/qapi-types-run-state.h"
++#include "qapi/qapi-types-replay.h"
+ #include "qapi/qapi-types-ui.h"
+ #include "block/aio.h"
  
-@@ -94,8 +94,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) savevm snap0
- (qemu) info snapshots
- List of snapshots present on all disks:
--ID        TAG                 VM SIZE                DATE       VM CLOCK
----        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
-+ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
-+--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000           
- (qemu) loadvm snap0
- (qemu) quit
+diff --git a/qapi/meson.build b/qapi/meson.build
+index 2b2872a41d..f4fd514379 100644
+--- a/qapi/meson.build
++++ b/qapi/meson.build
+@@ -36,6 +36,7 @@ qapi_all_modules = [
+   'qdev',
+   'qom',
+   'rdma',
++  'replay',
+   'rocker',
+   'run-state',
+   'sockets',
+diff --git a/qapi/misc.json b/qapi/misc.json
+index 9d32820dc1..87fcb90135 100644
+--- a/qapi/misc.json
++++ b/qapi/misc.json
+@@ -1556,24 +1556,6 @@
+ { 'event': 'ACPI_DEVICE_OST',
+      'data': { 'info': 'ACPIOSTInfo' } }
  
-@@ -105,8 +105,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) savevm snap0
- (qemu) info snapshots
- List of snapshots present on all disks:
--ID        TAG                 VM SIZE                DATE       VM CLOCK
----        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
-+ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
-+--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000           
- (qemu) loadvm snap0
- (qemu) quit
- 
-@@ -119,8 +119,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) savevm snap0
- (qemu) info snapshots
- List of snapshots present on all disks:
--ID        TAG                 VM SIZE                DATE       VM CLOCK
----        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
-+ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
-+--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000           
- (qemu) loadvm snap0
- (qemu) quit
- 
-@@ -134,8 +134,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) savevm snap0
- (qemu) info snapshots
- List of snapshots present on all disks:
--ID        TAG                 VM SIZE                DATE       VM CLOCK
----        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
-+ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
-+--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000           
- (qemu) loadvm snap0
- (qemu) quit
- 
-@@ -145,15 +145,15 @@ QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) savevm snap0
- (qemu) info snapshots
- List of snapshots present on all disks:
--ID        TAG                 VM SIZE                DATE       VM CLOCK
----        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
-+ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
-+--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000           
- (qemu) loadvm snap0
- (qemu) quit
- 
- Internal snapshots on overlay:
- Snapshot list:
--ID        TAG                 VM SIZE                DATE       VM CLOCK
--1         snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
-+ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
-+1         snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000           
- Internal snapshots on backing file:
- 
- === -blockdev with NBD server on the backing file ===
-@@ -166,17 +166,17 @@ QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) savevm snap0
- (qemu) info snapshots
- List of snapshots present on all disks:
--ID        TAG                 VM SIZE                DATE       VM CLOCK
----        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
-+ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
-+--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000           
- (qemu) loadvm snap0
- (qemu) quit
- 
- Internal snapshots on overlay:
- Snapshot list:
--ID        TAG                 VM SIZE                DATE       VM CLOCK
--1         snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
-+ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
-+1         snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000           
- Internal snapshots on backing file:
- Snapshot list:
--ID        TAG                 VM SIZE                DATE       VM CLOCK
--1         snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
-+ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
-+1         snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000           
- *** done
+-##
+-# @ReplayMode:
+-#
+-# Mode of the replay subsystem.
+-#
+-# @none: normal execution mode. Replay or record are not enabled.
+-#
+-# @record: record mode. All non-deterministic data is written into the
+-#          replay log.
+-#
+-# @play: replay mode. Non-deterministic data required for system execution
+-#        is read from the log.
+-#
+-# Since: 2.5
+-##
+-{ 'enum': 'ReplayMode',
+-  'data': [ 'none', 'record', 'play' ] }
+-
+ ##
+ # @xen-load-devices-state:
+ #
+diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
+index f03ff91ceb..2604fcf6ec 100644
+--- a/qapi/qapi-schema.json
++++ b/qapi/qapi-schema.json
+@@ -82,6 +82,7 @@
+ { 'include': 'qdev.json' }
+ { 'include': 'machine.json' }
+ { 'include': 'machine-target.json' }
++{ 'include': 'replay.json' }
+ { 'include': 'misc.json' }
+ { 'include': 'misc-target.json' }
+ { 'include': 'audio.json' }
+diff --git a/qapi/replay.json b/qapi/replay.json
+new file mode 100644
+index 0000000000..9e13551d20
+--- /dev/null
++++ b/qapi/replay.json
+@@ -0,0 +1,26 @@
++# -*- Mode: Python -*-
++#
++
++##
++# = Record/replay
++##
++
++{ 'include': 'common.json' }
++
++##
++# @ReplayMode:
++#
++# Mode of the replay subsystem.
++#
++# @none: normal execution mode. Replay or record are not enabled.
++#
++# @record: record mode. All non-deterministic data is written into the
++#          replay log.
++#
++# @play: replay mode. Non-deterministic data required for system execution
++#        is read from the log.
++#
++# Since: 2.5
++##
++{ 'enum': 'ReplayMode',
++  'data': [ 'none', 'record', 'play' ] }
 
 
