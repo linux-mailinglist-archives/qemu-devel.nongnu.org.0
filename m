@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97EEC25B1CE
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 18:37:48 +0200 (CEST)
-Received: from localhost ([::1]:58818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E64E25B1E6
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 18:42:46 +0200 (CEST)
+Received: from localhost ([::1]:46098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDVlb-00026C-IX
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 12:37:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38712)
+	id 1kDVqP-0000Is-Hr
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 12:42:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kDVk5-0000HG-T0
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 12:36:13 -0400
-Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:37727)
+ (Exim 4.90_1) (envelope-from <rohit.shinde12194@gmail.com>)
+ id 1kDVmr-0005OS-TU
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 12:39:05 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:53690)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kDVk3-00057T-Qj
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 12:36:13 -0400
-Received: by mail-pj1-x1041.google.com with SMTP id mw10so65052pjb.2
- for <qemu-devel@nongnu.org>; Wed, 02 Sep 2020 09:36:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=AznOkEhgwnpFD0CoJMa5eW4WC9cEkYpl0tgCHuHjypk=;
- b=waxq6lfR5yrHx7mfggibCz3XlTcVGBHmEzh9SkXbcE4QG6kNpQTHLW+/IFPIy5jUmG
- LsMhPkW/UzJA/U7H/zZao/ZtL9G7jFOsmpkDlt9FLbEu9luLb9LMmAglFD4UpH7OZM7n
- STXZpGMo9/QxppIofckJmdxm7DHoNN3X1LgSepL9xmUh60iTSaDLGKozHnXXwyBXeUcs
- p6o4FYpCPwTcNSkkBC4jvDtcbWgpppd5XLCe0XPIwO7E4vnRRNIi0jzrz/qoRHboL/YL
- gMVPLvKTI5j/9fssIfQk5ukHHbKwORVsviIaozExJCU7WA1hCcPfAetDp6PcEwgpv6sB
- 9x2w==
+ (Exim 4.90_1) (envelope-from <rohit.shinde12194@gmail.com>)
+ id 1kDVmp-0005TV-Qe
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 12:39:05 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id k15so69116pji.3
+ for <qemu-devel@nongnu.org>; Wed, 02 Sep 2020 09:39:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7QMiudE9lGXjVuhbRg0MEkhEN93KtJOdxJrgal7ZTTs=;
+ b=ZoDMgPaOQi3Bl6sY55DkBYqQt8KahgBTTOELb25RMdo0oqaAGmGD3Hv9LyXFlgmjfl
+ o5a5KzZvHMXC+l/EJiu+xHgGUbfv2OREklYathgID+Bt9TFwmgqAMFuZh68EI4BmtjrN
+ gUexArCqa2El/woW8qk0Wx0lrF5pOP7Hi/EsImlxk+poeh4XDVjYMTSODYe3xqIEvCgm
+ uBFwwMg6nvFxYs6ZBvfGN7d512G9PFNwZ/ccYWfFqeVNlWJF+gvxoeMFePr5LNUSE7AB
+ qBiLv3aUoTNQkAjw/e8q700Dlcs/gfHdnY2WyM5jjlISVny9fmEz7iuUZxPebLKfIW3c
+ RdIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=AznOkEhgwnpFD0CoJMa5eW4WC9cEkYpl0tgCHuHjypk=;
- b=qksJiAAsMmekeAfxI/k9e9fg3+Z+WkYmWdokpyqBUesdqKbR/FtCEvQAVetuHuERTe
- 0eJk26xMeXdlcLdUqhVpxkCPMoxojzr7xImha5bqb1cLQvw9q17/8txdWsvnv3hc25VP
- VeQ3XqqVX3ryhTNMrpWtM8+DxgcyXn3Kv1rbcGacgeeP/ghV4G4qAR59vGn/BS3DQqFQ
- +jsZXsGluQ8Aww1n5YjAaGPenKe6z42hk1z3c2QauOLuEHZ4owZHcElcsFP9fQuD+s0m
- UhjquMF65Cr3za4r8twW0lnV/rv01y7wXbpClmot41RtI1SIZdIyRF5Ei6+e4DJpnI4m
- KtcA==
-X-Gm-Message-State: AOAM533gUNlgZWAgUSa5Zh9UA2dZL37LQZUq8bPPI1Q7AKvwRtZ0dTsQ
- 0DFuRfivStCuLymmS45ojqgdWJh1VL9c8A==
-X-Google-Smtp-Source: ABdhPJxjrGRECr6AzstGdZOTEGTPSrnvjcmF7pWUXL6fy9ORlJkFPzMueyDXMcSb9NELfIVS5azPmQ==
-X-Received: by 2002:a17:902:7790:: with SMTP id
- o16mr2584815pll.299.1599064570142; 
- Wed, 02 Sep 2020 09:36:10 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id b6sm4955441pjz.33.2020.09.02.09.36.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Sep 2020 09:36:09 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 7/7] target/microblaze: Diagnose invalid insns in delay slots
-Date: Wed,  2 Sep 2020 09:35:59 -0700
-Message-Id: <20200902163559.1077728-8-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200902163559.1077728-1-richard.henderson@linaro.org>
-References: <20200902163559.1077728-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7QMiudE9lGXjVuhbRg0MEkhEN93KtJOdxJrgal7ZTTs=;
+ b=hwMCJPWX/DriTCB/09BkR7jVeJrj428+ENeN49/vWR9Jcv8Z7iCbvTLeJe5LmX/UgI
+ DgPyZZRSobsUJNixx81x2E7T+x4aFA+c6LQpXWQrtXSF16uTeg0quqXAE1L6WlYGE1+r
+ JWzVVJnondb/UM3AeHjSt+MqiMxHg1j2G4CK1LLzJoxKC1zMnbzEvKBlIEq2qSOsDaTq
+ I67EHikPF0MYxX3uRmsXmfwaEAAoQ7Jf3QUo+WlU4YRHziFjl4n6xyNoL8riOUElh/eX
+ ZQrmIzM1bKXNJfRmByJ/NzAYO00oYUUG/KBS+QuSCl77A6EUSI3pBvRT/zqLZ/a/jB4R
+ iYzA==
+X-Gm-Message-State: AOAM532MZm64c59uM+ozzufvIYql+jhRS4k9o+Lqd0TLbY+lUH1X5deO
+ fo4JZI/Mgmz3YxeegiDNvqLW8n0OBQ+kOkmsuqh7B9ATZh4=
+X-Google-Smtp-Source: ABdhPJytCrz1npPQ4wSqIo2LJ67lA93InMiEWF2GkmyIqFKFMU2vMfs08igk23t1lC/tLPC9YKv/0Nu2/CzUMLEwzh8=
+X-Received: by 2002:a17:90a:191a:: with SMTP id
+ 26mr3043623pjg.197.1599064741633; 
+ Wed, 02 Sep 2020 09:39:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1041.google.com
+References: <CA+Ai=tAypbso9yMy0jtyzbeHCweQ1FPgDaJ8=bXxFvBA6pZyLA@mail.gmail.com>
+ <CA+Ai=tBJqLB7yDbd-kqzDhr+d+65K9r3DQsZrB2kGi9wF8BaiA@mail.gmail.com>
+ <2d69f1ac-df97-9d70-d2e2-e9cf27cf9b0c@redhat.com>
+ <CA+Ai=tCk-XX7yogRu=zoKxDv7okRHXibbnT9OoMs8XpHs9yDkA@mail.gmail.com>
+ <a50f47d2-f5c6-49c0-779f-dfcaf05df5f9@redhat.com>
+ <CA+Ai=tCDHWBLNToQ2HqMVmJtXxKzP40AuDqfWc=YQV3mggcc4Q@mail.gmail.com>
+ <CA+Ai=tAVxNRNN1EP8LorOsYBm01f0ekmKCnMfcNH_eSqk5pFzg@mail.gmail.com>
+In-Reply-To: <CA+Ai=tAVxNRNN1EP8LorOsYBm01f0ekmKCnMfcNH_eSqk5pFzg@mail.gmail.com>
+From: Rohit Shinde <rohit.shinde12194@gmail.com>
+Date: Wed, 2 Sep 2020 12:38:50 -0400
+Message-ID: <CA+Ai=tBtSqigWwB4HNeZ8CT4JMEMBU2eEd47BCs2-QCEeBEARw@mail.gmail.com>
+Subject: Re: Contributor wanting to get started with simple contributions
+To: John Snow <jsnow@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000e5e54805ae57457a"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=rohit.shinde12194@gmail.com; helo=mail-pj1-x1032.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,144 +86,216 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: edgar.iglesias@xilinx.com
+Cc: crosa@redhat.com, QEMU Developers <qemu-devel@nongnu.org>,
+ ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These cases result in undefined and undocumented behaviour but the
-behaviour is deterministic, i.e cores will not lock-up or expose
-security issues.  However, RTL will not raise exceptions either.
+--000000000000e5e54805ae57457a
+Content-Type: text/plain; charset="UTF-8"
 
-Therefore, log a GUEST_ERROR and treat these cases as nops, to
-avoid corner cases which could put qemu into an invalid state.
+Hey John,
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/microblaze/translate.c | 47 +++++++++++++++++++++++++++++------
- 1 file changed, 40 insertions(+), 7 deletions(-)
+I wanted to follow up on this, in case you missed my previous email :)
 
-diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index 4416361d08..caa4831aed 100644
---- a/target/microblaze/translate.c
-+++ b/target/microblaze/translate.c
-@@ -179,6 +179,20 @@ static bool trap_userspace(DisasContext *dc, bool cond)
-     return cond_user;
- }
- 
-+/*
-+ * Return true, and log an error, if the current insn is
-+ * within a delay slot.
-+ */
-+static bool invalid_delay_slot(DisasContext *dc, const char *insn_type)
-+{
-+    if (dc->tb_flags & D_FLAG) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "Invalid insn in delay slot: %s\n", insn_type);
-+        return true;
-+    }
-+    return false;
-+}
-+
- static TCGv_i32 reg_for_read(DisasContext *dc, int reg)
- {
-     if (likely(reg != 0)) {
-@@ -500,6 +514,9 @@ DO_TYPEA_CFG(idivu, use_div, true, gen_idivu)
- 
- static bool trans_imm(DisasContext *dc, arg_imm *arg)
- {
-+    if (invalid_delay_slot(dc, "imm")) {
-+        return true;
-+    }
-     dc->ext_imm = arg->imm << 16;
-     tcg_gen_movi_i32(cpu_imm, dc->ext_imm);
-     dc->tb_flags_to_set = IMM_FLAG;
-@@ -1067,6 +1084,9 @@ static bool do_branch(DisasContext *dc, int dest_rb, int dest_imm,
- {
-     uint32_t add_pc;
- 
-+    if (invalid_delay_slot(dc, "branch")) {
-+        return true;
-+    }
-     if (delay) {
-         setup_dslot(dc, dest_rb < 0);
-     }
-@@ -1106,6 +1126,9 @@ static bool do_bcc(DisasContext *dc, int dest_rb, int dest_imm,
- {
-     TCGv_i32 zero, next;
- 
-+    if (invalid_delay_slot(dc, "bcc")) {
-+        return true;
-+    }
-     if (delay) {
-         setup_dslot(dc, dest_rb < 0);
-     }
-@@ -1158,6 +1181,10 @@ static bool trans_brk(DisasContext *dc, arg_typea_br *arg)
-     if (trap_userspace(dc, true)) {
-         return true;
-     }
-+    if (invalid_delay_slot(dc, "brk")) {
-+        return true;
-+    }
-+
-     tcg_gen_mov_i32(cpu_pc, reg_for_read(dc, arg->rb));
-     if (arg->rd) {
-         tcg_gen_movi_i32(cpu_R[arg->rd], dc->base.pc_next);
-@@ -1176,6 +1203,10 @@ static bool trans_brki(DisasContext *dc, arg_typeb_br *arg)
-     if (trap_userspace(dc, imm != 0x8 && imm != 0x18)) {
-         return true;
-     }
-+    if (invalid_delay_slot(dc, "brki")) {
-+        return true;
-+    }
-+
-     tcg_gen_movi_i32(cpu_pc, imm);
-     if (arg->rd) {
-         tcg_gen_movi_i32(cpu_R[arg->rd], dc->base.pc_next);
-@@ -1216,6 +1247,11 @@ static bool trans_mbar(DisasContext *dc, arg_mbar *arg)
- {
-     int mbar_imm = arg->imm;
- 
-+    /* Note that mbar is a specialized branch instruction. */
-+    if (invalid_delay_slot(dc, "mbar")) {
-+        return true;
-+    }
-+
-     /* Data access memory barrier.  */
-     if ((mbar_imm & 2) == 0) {
-         tcg_gen_mb(TCG_BAR_SC | TCG_MO_ALL);
-@@ -1263,6 +1299,10 @@ static bool do_rts(DisasContext *dc, arg_typeb_bc *arg, int to_set)
-     if (trap_userspace(dc, to_set)) {
-         return true;
-     }
-+    if (invalid_delay_slot(dc, "rts")) {
-+        return true;
-+    }
-+
-     dc->tb_flags_to_set |= to_set;
-     setup_dslot(dc, true);
- 
-@@ -1695,7 +1735,6 @@ static void mb_tr_translate_insn(DisasContextBase *dcb, CPUState *cs)
-     if (dc->jmp_cond != TCG_COND_NEVER && !(dc->tb_flags & D_FLAG)) {
-         /*
-          * Finish any return-from branch.
--         * TODO: Diagnose rtXd in delay slot of rtYd earlier.
-          */
-         uint32_t rt_ibe = dc->tb_flags & (DRTI_FLAG | DRTB_FLAG | DRTE_FLAG);
-         if (unlikely(rt_ibe != 0)) {
-@@ -1717,12 +1756,6 @@ static void mb_tr_translate_insn(DisasContextBase *dcb, CPUState *cs)
-              * and will handle D_FLAG in mb_cpu_do_interrupt.
-              */
-             break;
--        case DISAS_EXIT:
--            /*
--             * TODO: diagnose brk/brki in delay slot earlier.
--             * This would then fold into the illegal insn case above.
--             */
--            break;
-         case DISAS_NEXT:
-             /*
-              * Normal insn a delay slot.
--- 
-2.25.1
+Thanks,
+Rohit.
 
+On Sat, Aug 29, 2020 at 1:14 AM Rohit Shinde <rohit.shinde12194@gmail.com>
+wrote:
+
+> Hey John,
+>
+> Sorry to bother you! I just wanted to know if you had any thoughts on the
+> mail I sent.
+>
+> Is there anything I can pick up right now with regards to the Python
+> package? You mentioned that linting is something that needs to be
+> completed before we go ahead, so maybe I can start with that?
+>
+> Thanks,
+> Rohit.
+>
+> On Wed, Aug 26, 2020 at 1:55 PM Rohit Shinde <rohit.shinde12194@gmail.com>
+> wrote:
+>
+>> Hey John,
+>>
+>> I came across QEMU in 2015 when I was looking to participate in GSOC. I
+>> did GSoC through another org. I kept following qemu because I was
+>> interested in virtualization, systems level coding and device emulation.
+>>
+>> Currently, most of my professional dev work is done in Java and Python
+>> (with some C++). I am interested in C/C++ development simply because of the
+>> things you can accomplish with the tools that these languages give you. My
+>> interests in programming as a hobby are very general. I would like to take
+>> part in all kinds of development at least once (example: OS development,
+>> virtualization, compilers, networking, etc). Professionally, I am a backend
+>> developer who does SDK/API development along with writing general purpose
+>> software that serves business needs. This is all at the application level.
+>> So I have quite some experience in areas like CI/CD, deployment, build
+>> systems and API dev. However, I don't know how much of that will translate
+>> to QEMU development since the environment I work in is quite different.
+>>
+>> Out of the topic areas you mention, I am very interested in the following
+>> (mentioned in order of interest):
+>>
+>>    1. Emulation
+>>    2. KVM
+>>    3. Storage optimization.
+>>
+>> I have been reading about KVM quite a bit because I wanted to know how
+>> virtualization theory is actually implemented.
+>>
+>> And once again, thanks for the response! I really appreciate it!
+>>
+>> Thanks,
+>> Rohit.
+>>
+>> On Wed, Aug 26, 2020 at 11:51 AM John Snow <jsnow@redhat.com> wrote:
+>>
+>>> On 8/26/20 11:00 AM, Rohit Shinde wrote:
+>>> > Hey Thomas,
+>>> >
+>>> > I didn't really have any specific questions. I wanted to know if there
+>>> > was any part of qemu that I could contribute to. Qemu is
+>>> overwhelmingly
+>>> > vast and without some pointers, I felt very lost.
+>>>
+>>> Yeah, it can be hard to get started.
+>>>
+>>> What are your interests in programming/development, any specific types
+>>> of coding you like doing more than others? What draws you to the QEMU in
+>>> particular? Is there something you'd like to see QEMU do that it doesn't
+>>> today, or something you feel like you are particularly suited to doing?
+>>>
+>>> If I can figure out what brought you here, maybe I can direct you to
+>>> some projects that might benefit from your attention. [Apart from the
+>>> Python stuff, which we are discussing elsewhere in another thread.]
+>>>
+>>> Some topic areas:
+>>>
+>>> - Emulation (TCG)
+>>> - Virtualization (KVM)
+>>> - Esoteric/Legacy architecture/device emulation
+>>> - Optimization (Network, Storage, CPU)
+>>> - Regression/Acceptance Testing
+>>> - Fuzzing
+>>> - Configuration
+>>> - Deployment
+>>> - Continuous Integration
+>>> - Accessibility, Ease-of-use
+>>> - Build systems & tooling
+>>> - Development process
+>>> - SDK/API development
+>>>
+>>>
+>>> If you have any specific knowledge in areas that aren't Linux on x86,
+>>> there are likely areas of QEMU that could benefit from your knowledge.
+>>> We are always looking for people to help maintain and develop code
+>>> intended for other architectures on other platforms.
+>>>
+>>> --js
+>>>
+>>>
+
+--000000000000e5e54805ae57457a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hey John,<div><br></div><div>I wanted to follow up on this=
+, in case you missed my previous email :)</div><div><br></div><div>Thanks,<=
+/div><div>Rohit.</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr"=
+ class=3D"gmail_attr">On Sat, Aug 29, 2020 at 1:14 AM Rohit Shinde &lt;<a h=
+ref=3D"mailto:rohit.shinde12194@gmail.com">rohit.shinde12194@gmail.com</a>&=
+gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div =
+dir=3D"ltr">Hey John,<div><br></div><div>Sorry to bother you! I just wanted=
+ to know if you had any thoughts on the mail I sent.</div><div><br></div><d=
+iv>Is there anything I can pick up right now with regards to the Python pac=
+kage? You mentioned that linting is something that needs to be completed=C2=
+=A0before we go ahead, so maybe I can start with that?</div><div><br></div>=
+<div>Thanks,</div><div>Rohit.</div></div><br><div class=3D"gmail_quote"><di=
+v dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 26, 2020 at 1:55 PM Rohit Sh=
+inde &lt;<a href=3D"mailto:rohit.shinde12194@gmail.com" target=3D"_blank">r=
+ohit.shinde12194@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
+04,204);padding-left:1ex"><div dir=3D"ltr">Hey John,<div><br></div><div>I c=
+ame across QEMU in 2015 when I was looking to participate in GSOC. I did GS=
+oC through another org. I kept following qemu because I was interested in v=
+irtualization, systems level coding and device emulation.=C2=A0</div><div><=
+br></div><div>Currently, most of my professional dev work is done in Java a=
+nd Python (with some C++). I am interested in C/C++ development simply beca=
+use of the things you can accomplish with the tools that these languages gi=
+ve you. My interests in programming as a hobby are very=C2=A0general. I wou=
+ld like to take part in all kinds of development at least once (example: OS=
+ development, virtualization, compilers, networking, etc). Professionally, =
+I am a backend developer who does SDK/API development along with writing ge=
+neral purpose software that serves business needs. This is all at the appli=
+cation level. So I have quite some experience in areas like CI/CD, deployme=
+nt, build systems and API dev. However, I don&#39;t know how much of that w=
+ill translate to QEMU development since the environment I work in is quite =
+different.</div><div><br></div><div>Out of the topic areas you mention, I a=
+m very interested in the following (mentioned in order of interest):</div><=
+div><ol><li>Emulation</li><li>KVM</li><li>Storage optimization.</li></ol><d=
+iv>I have been reading about KVM quite a bit because I wanted to know how v=
+irtualization theory is actually implemented.</div></div><div><br></div><di=
+v>And once again, thanks for the response! I really appreciate it!</div><di=
+v><br></div><div>Thanks,</div><div>Rohit.</div></div><br><div class=3D"gmai=
+l_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 26, 2020 at 11:5=
+1 AM John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" target=3D"_blank">js=
+now@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
+ing-left:1ex">On 8/26/20 11:00 AM, Rohit Shinde wrote:<br>
+&gt; Hey Thomas,<br>
+&gt; <br>
+&gt; I didn&#39;t really have any specific questions. I wanted to know if t=
+here <br>
+&gt; was any part of qemu that I could contribute to. Qemu is overwhelmingl=
+y <br>
+&gt; vast and without some pointers, I felt very lost.<br>
+<br>
+Yeah, it can be hard to get started.<br>
+<br>
+What are your interests in programming/development, any specific types <br>
+of coding you like doing more than others? What draws you to the QEMU in <b=
+r>
+particular? Is there something you&#39;d like to see QEMU do that it doesn&=
+#39;t <br>
+today, or something you feel like you are particularly suited to doing?<br>
+<br>
+If I can figure out what brought you here, maybe I can direct you to <br>
+some projects that might benefit from your attention. [Apart from the <br>
+Python stuff, which we are discussing elsewhere in another thread.]<br>
+<br>
+Some topic areas:<br>
+<br>
+- Emulation (TCG)<br>
+- Virtualization (KVM)<br>
+- Esoteric/Legacy architecture/device emulation<br>
+- Optimization (Network, Storage, CPU)<br>
+- Regression/Acceptance Testing<br>
+- Fuzzing<br>
+- Configuration<br>
+- Deployment<br>
+- Continuous Integration<br>
+- Accessibility, Ease-of-use<br>
+- Build systems &amp; tooling<br>
+- Development process<br>
+- SDK/API development<br>
+<br>
+<br>
+If you have any specific knowledge in areas that aren&#39;t Linux on x86, <=
+br>
+there are likely areas of QEMU that could benefit from your knowledge. <br>
+We are always looking for people to help maintain and develop code <br>
+intended for other architectures on other platforms.<br>
+<br>
+--js<br>
+<br>
+</blockquote></div>
+</blockquote></div>
+</blockquote></div>
+
+--000000000000e5e54805ae57457a--
 
