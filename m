@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96CFF25B2A8
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 19:06:51 +0200 (CEST)
-Received: from localhost ([::1]:47658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D55025B2A5
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 19:05:32 +0200 (CEST)
+Received: from localhost ([::1]:42172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDWDi-0001T5-LT
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 13:06:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45424)
+	id 1kDWCR-00079M-F8
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 13:05:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kDW8X-0000Th-3W
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 13:01:29 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:45402)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kDW8U-0000Ip-Vj
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 13:01:28 -0400
-Received: by mail-pg1-x541.google.com with SMTP id 67so2830529pgd.12
- for <qemu-devel@nongnu.org>; Wed, 02 Sep 2020 10:01:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=iVIr1leFc3liAehHnInLxU7v1tQQv57KF6dosXo9DWU=;
- b=e0wloF29eJMTj3wTueKCAESHD4nyDOm/YMY6FtpSl1xIwHFNTzqJ0X/hZysx9OKSEz
- 19YkfMWoJMO2Hesn4Jp+mYpZxYO09nqM+FoOjh5hFWWBIujZwx0JvkseQceEBOoHZepk
- AWPOFGqgVHnY9g8NHm9R+IXUpcvk5jhB5DDzeboQHYH0MDWdCP8XGEnzsE0PSROMj7e+
- 0pU4uoGtGBHMaDOHTFOhFg/xGUWYvE2odwLKCAaRgaJCyS2+MHUZ+AWnmNkA4L01LeJC
- 7Ktk4pBbmIb9l3d/ICkUP3PE4aOWGqVio71QuuMPpGc8oir7It2voWsek1W1VfVYvWc4
- +xNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=iVIr1leFc3liAehHnInLxU7v1tQQv57KF6dosXo9DWU=;
- b=UwnqWeYFafoWR+h3J/um32q/rxGmBF1XU6121P6GwExQOIX066DStbDJFiLzTC+n2/
- 3B2vybYybXxwEmOXxEbgWWJ8LcGxPIwQVVlzuT+7QbiK+bFoII8gse0xSSQxLo1VfT8K
- JBQVzPEazxApm4Lrcgeyqb5Q76WqtNfTZfMkyB7gb8ictDeKC69fZrY7xo2bmSgVD3DB
- Pqk/rwQu4YhVEw2mVYp6Q8Ae0j5tJSg/uOBAYMV9OSTe8UgLZg76WTRWddBESFVS2gR4
- oSb0HD++a05+R2eg0/qmVw/iujA1wrlGpk6EWstA7ccB6anvS03gcVqpQy6HnBd24nI+
- wweg==
-X-Gm-Message-State: AOAM533JR3sEPtdXN96f6uOQlWuZlgBJgIRFo2aHSO056FVpW6BjGwTW
- cZLag2esZZpBmZB9Y+7xEyWUJiQ0ft8=
-X-Google-Smtp-Source: ABdhPJwN5f03lmx6uJjRtRqfTuaSqQI02+hKhCoz1pUPpnIXzm6IQG20poKABb3CfPZk49GDOAuSMw==
-X-Received: by 2002:a63:fa45:: with SMTP id g5mr2546012pgk.448.1599066085048; 
- Wed, 02 Sep 2020 10:01:25 -0700 (PDT)
-Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id x4sm40527pfm.86.2020.09.02.10.01.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Sep 2020 10:01:24 -0700 (PDT)
-From: Yonggang Luo <luoyonggang@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 6/6] configure: Fix include and linkage issue on msys2
-Date: Thu,  3 Sep 2020 01:00:54 +0800
-Message-Id: <20200902170054.810-7-luoyonggang@gmail.com>
-X-Mailer: git-send-email 2.27.0.windows.1
-In-Reply-To: <20200902170054.810-1-luoyonggang@gmail.com>
-References: <20200902170054.810-1-luoyonggang@gmail.com>
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1kDW9j-0003J8-1I
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 13:02:43 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:30613
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1kDW9h-0000QH-B6
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 13:02:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599066160;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=NBZkgyPn2tMrU3wpqI8ygh7fYXrL1AZhv/zr9+cbOz0=;
+ b=hr8OKmIWIstPVR55LTQwh+ZGq7oHiIlOBp3ir0qmZhMMoquta0CtpFeJiKN8uzM0xc81Gm
+ MitQ4T1AN93lmQYZ5RKC7p7Rs6LsI8ReNF5owyOP+erVEkIuAjxAGvpVB+nOq/IVSDBrqg
+ P5WxezU93fXKnJzvI0Nr3yVXtjkjzbc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-577-2uHJPzbcMOaCqbfWCRRRRQ-1; Wed, 02 Sep 2020 13:02:37 -0400
+X-MC-Unique: 2uHJPzbcMOaCqbfWCRRRRQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EFB74800FFF;
+ Wed,  2 Sep 2020 17:02:35 +0000 (UTC)
+Received: from kaapi (unknown [10.74.8.118])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9334C5D9D3;
+ Wed,  2 Sep 2020 17:02:33 +0000 (UTC)
+Date: Wed, 2 Sep 2020 22:32:30 +0530 (IST)
+From: P J P <ppandit@redhat.com>
+X-X-Sender: pjp@kaapi
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH] sd: sdhci: check data_count is within fifo_buffer
+In-Reply-To: <816b3dbe-527f-1bec-a0cf-555e44068a56@amsat.org>
+Message-ID: <nycvar.YSQ.7.78.906.2009022216510.2047119@xnncv>
+References: <20200827115336.1851276-1-ppandit@redhat.com>
+ <816b3dbe-527f-1bec-a0cf-555e44068a56@amsat.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
- envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x541.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
+X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/mixed;
+ boundary="-1463810047-2029472028-1599066155=:2047119"
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ppandit@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 02:33:32
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,111 +82,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>
+Cc: Ruhr-University <bugs-syssec@rub.de>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On msys2, the -I/e/path/to/qemu -L/e/path/to/qemu are not recognized by the compiler
-Cause $PWD are result posix style path such as /e/path/to/qemu that can not be recognized
-by mingw gcc, and `pwd -W` are result Windows style path such as E:/path/to/qemu that can
-be recognized by the mingw gcc. So we replace all $PWD with $build_path that can
-building qemu under msys2/mingw environment.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+---1463810047-2029472028-1599066155=:2047119
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
 
-Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
----
- configure | 28 +++++++++++++++++++---------
- 1 file changed, 19 insertions(+), 9 deletions(-)
++-- On Tue, 1 Sep 2020, Philippe Mathieu-Daudé wrote --+
+| >  -> https://ruhr-uni-bochum.sciebo.de/s/NNWP2GfwzYKeKwE?path=%2Fsdhci_oob_write1
+| 
+| This directory is 3 months old, I can't find it on the list...
+| Did I missed that or did the list eat the report?
 
-diff --git a/configure b/configure
-index 30f8c4db29..5f2bcc4b57 100755
---- a/configure
-+++ b/configure
-@@ -13,8 +13,13 @@ export CCACHE_RECACHE=yes
- 
- # make source path absolute
- source_path=$(cd "$(dirname -- "$0")"; pwd)
-+build_path=$PWD
-+if [ "$MSYSTEM" = "MINGW64" -o  "$MSYSTEM" = "MINGW32" ]; then
-+source_path=$(cd "$(dirname -- "$0")"; pwd -W)
-+build_path=`pwd -W`
-+fi
- 
--if test "$PWD" = "$source_path"
-+if test "$build_path" = "$source_path"
- then
-     echo "Using './build' as the directory for build output"
- 
-@@ -346,7 +351,12 @@ ld_has() {
-     $ld --help 2>/dev/null | grep ".$1" >/dev/null 2>&1
- }
- 
--if printf %s\\n "$source_path" "$PWD" | grep -q "[[:space:]:]";
-+check_valid_build_path="[[:space:]:]"
-+if [ "$MSYSTEM" = "MINGW64" -o  "$MSYSTEM" = "MINGW32" ]; then
-+check_valid_build_path="[[:space:]]"
-+fi
-+
-+if printf %s\\n "$source_path" "$build_path" | grep -q "$check_valid_build_path";
- then
-   error_exit "main directory cannot contain spaces nor colons"
- fi
-@@ -943,7 +953,7 @@ Linux)
-   linux="yes"
-   linux_user="yes"
-   kvm="yes"
--  QEMU_INCLUDES="-isystem ${source_path}/linux-headers -I$PWD/linux-headers $QEMU_INCLUDES"
-+  QEMU_INCLUDES="-isystem ${source_path}/linux-headers -I${build_path}/linux-headers $QEMU_INCLUDES"
-   libudev="yes"
- ;;
- esac
-@@ -4259,7 +4269,7 @@ EOF
-           fdt=git
-           mkdir -p dtc
-           fdt_cflags="-I${source_path}/dtc/libfdt"
--          fdt_ldflags="-L$PWD/dtc/libfdt"
-+          fdt_ldflags="-L${build_path}/dtc/libfdt"
-           fdt_libs="$fdt_libs"
-       elif test "$fdt" = "yes" ; then
-           # Not a git build & no libfdt found, prompt for system install
-@@ -5244,7 +5254,7 @@ case "$capstone" in
-     else
-       LIBCAPSTONE=libcapstone.a
-     fi
--    capstone_libs="-L$PWD/capstone -lcapstone"
-+    capstone_libs="-L${build_path}/capstone -lcapstone"
-     capstone_cflags="-I${source_path}/capstone/include"
-     ;;
- 
-@@ -6244,8 +6254,8 @@ case "$slirp" in
-       git_submodules="${git_submodules} slirp"
-     fi
-     mkdir -p slirp
--    slirp_cflags="-I${source_path}/slirp/src -I$PWD/slirp/src"
--    slirp_libs="-L$PWD/slirp -lslirp"
-+    slirp_cflags="-I${source_path}/slirp/src -I${build_path}/slirp/src"
-+    slirp_libs="-L${build_path}/slirp -lslirp"
-     if test "$mingw32" = "yes" ; then
-       slirp_libs="$slirp_libs -lws2_32 -liphlpapi"
-     fi
-@@ -8190,7 +8200,7 @@ fi
- mv $cross config-meson.cross
- 
- rm -rf meson-private meson-info meson-logs
--NINJA=${ninja:-$PWD/ninjatool} $meson setup \
-+NINJA=${ninja:-${build_path}/ninjatool} $meson setup \
-         --prefix "${pre_prefix}$prefix" \
-         --libdir "${pre_prefix}$libdir" \
-         --libexecdir "${pre_prefix}$libexecdir" \
-@@ -8212,7 +8222,7 @@ NINJA=${ninja:-$PWD/ninjatool} $meson setup \
- 	-Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
- 	-Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f\
-         $cross_arg \
--        "$PWD" "$source_path"
-+        "$build_path" "$source_path"
- 
- if test "$?" -ne 0 ; then
-     error_exit "meson setup failed"
--- 
-2.27.0.windows.1
+  No, it was reported to [qemu-security] contacts. These are few last 
+remaining old issues. We shall have better response time now.
+
+Thank you.
+--
+Prasad J Pandit / Red Hat Product Security Team
+8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
+---1463810047-2029472028-1599066155=:2047119--
 
 
