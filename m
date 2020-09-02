@@ -2,90 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C54D125A76A
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 10:11:26 +0200 (CEST)
-Received: from localhost ([::1]:48870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E206D25A77A
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 10:12:54 +0200 (CEST)
+Received: from localhost ([::1]:53898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDNrZ-0002fG-S4
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 04:11:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41826)
+	id 1kDNsz-0004pi-Tg
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 04:12:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDNor-00069Z-Bp
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 04:08:37 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31012
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDNpX-0007wG-Ef
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 04:09:19 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:59743
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDNop-0001lf-OB
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 04:08:37 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDNpV-0001sm-M9
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 04:09:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599034115;
+ s=mimecast20190719; t=1599034157;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IPGPiB1QKs5CSZ+0D2TKHKMlGexrsgYUk0usBoV2JpU=;
- b=V7eLTBbMPQK7wLs4HZi5AZSM7Ss3Zf5v5CC1dLXVxa2zsQww62n3WFthG5UYx9AajvnatZ
- 1RD851mDW00Azj1f3zV9Fk8ZLgexflNjhFZwEqx/4E89l8ezgmxkTcWVPW1dTBSHcaAcbP
- oUIyQK5HeDaJ4Z1RWUBjcGFCSsidNOg=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=8S1is3V+uNMDSCkr5ooDmUvJBA2c6esYl0AjU7GwsP8=;
+ b=Sf0RZVf+PJTUjrd+N6MJj/pORzabfb2JLsDbRfIFEZhHCyD8AXcoyz77jCnNXCVlxrsy8F
+ VRUe6Zndt8Nf8Zm8S8uGbuJZHRocIi3nDUEjhv42wC/2mxst+b9z45u6a6ozWB86zgFH86
+ 3MfD082HbAYbU3NSYWeHRLhFJmotW8A=
 Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
  [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-406-xmHkW446PuaQcKFzGlLS1g-1; Wed, 02 Sep 2020 04:08:31 -0400
-X-MC-Unique: xmHkW446PuaQcKFzGlLS1g-1
-Received: by mail-wr1-f72.google.com with SMTP id k11so1639229wrw.16
- for <qemu-devel@nongnu.org>; Wed, 02 Sep 2020 01:08:31 -0700 (PDT)
+ us-mta-188-P9kje0oePUiO7Fjw4IoUHg-1; Wed, 02 Sep 2020 04:09:15 -0400
+X-MC-Unique: P9kje0oePUiO7Fjw4IoUHg-1
+Received: by mail-wr1-f72.google.com with SMTP id g3so1646185wrx.1
+ for <qemu-devel@nongnu.org>; Wed, 02 Sep 2020 01:09:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=IPGPiB1QKs5CSZ+0D2TKHKMlGexrsgYUk0usBoV2JpU=;
- b=KNPzT4sYWPL0ojJpgnZPZwWpAAsXaPvhYFSyxaDqFAQH7b4kq0zksrEkJmemClYhAx
- I3ZC9n4u3StrEiITEAGmBibLVlM7fXCQQT+gBkSaz4YNieVi9nZ8CJ0LqNWUPvoIUCx3
- rDzIRkEJ79fxHSiviOBz5FSdyCgJ5FHSm9kzAuFlfwsxbUr6f6PWcLfMA9Mvf8vQeGem
- wB7kFnTlFA68tqj85sYBL7f7J9CO6jA+MeSy2iC98ngSfL10h68nbeRRQtHb+FC5AjzL
- 4sVngOIJBJKIqaDJ4yiPHmT/TqoMVQAt4tPB5r1MiiB51dshL7RBXmxdRqD/egiRYIkO
- 1GJQ==
-X-Gm-Message-State: AOAM532T3fy8LivN/aOGfFrSXmrDTjyMVkSb54HbTx2cX3Z3MXbqjCxr
- fluOD7eD//u2ZikGmwT1oFW63Tz6ih1xvwuXhOR9o3RoAzfqxdkpQsY1USR2maRc+LXmKRyZQ4b
- vaQlpogysfkEvSvA=
-X-Received: by 2002:a5d:4949:: with SMTP id r9mr1493761wrs.27.1599034110191;
- Wed, 02 Sep 2020 01:08:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxWlP3zIU6c2cv0vrpsCyddH9464yfvzmcKWfRGRoxhqImfNkE+p33PY74ZHfGcY0Zao6U0kw==
-X-Received: by 2002:a5d:4949:: with SMTP id r9mr1493740wrs.27.1599034109985;
- Wed, 02 Sep 2020 01:08:29 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8S1is3V+uNMDSCkr5ooDmUvJBA2c6esYl0AjU7GwsP8=;
+ b=jeWwWdXclJkYiohFtUH2jb2LLfCQPEX2EZ9uCtiekTI5d1KPQYv0xoF3UA6zgMj/cc
+ 1eT8S/AKjUO6UWLEFeowmEo3Z2rhCrK7eFcx37GB7VcieQzl3Gq1LOL9k2v4QcbVcpVH
+ mWUtfyIDb8Ivft/hi67zjPQJEcB8nkohtFgGHscY3vvWkkojtpdPyuV2MclYYT9kjk9o
+ 6/hH+UoYq8YF3qjQO7ffDo8lDPVd8KM0fqnwGGpz85+W3x3UmgjWdQcL1TXkQdM97KqS
+ egQfdwmcxhynNluUavEyVeOhjPud91l21BoaT7QdGCW9EbbYcZ35EszAyWa9brmIIRhf
+ Kw3w==
+X-Gm-Message-State: AOAM5315GV0ONsfyiIiozQUK4Tv38vitcfQMACrxYj34id9ebOoO7hQT
+ 1BZE4hl4DjgK4BHQO26geAUIimCuRU1ebv2ajZ2rAJNTgLLl0TzMa+ebus5Sz0XF8D21paYqGvO
+ JtQBtuA0purdkRG8=
+X-Received: by 2002:a1c:9a8c:: with SMTP id c134mr5311970wme.136.1599034151469; 
+ Wed, 02 Sep 2020 01:09:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxdELmA+vA0BeUn53E71O8OpMVJpZEBfRMTyxXaR+ksUAWaLzsPPsi+Zkr1u6d+sRm3xCV+Lw==
+X-Received: by 2002:a1c:9a8c:: with SMTP id c134mr5311952wme.136.1599034151313; 
+ Wed, 02 Sep 2020 01:09:11 -0700 (PDT)
 Received: from localhost.localdomain (50.red-83-52-54.dynamicip.rima-tde.net.
  [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id a15sm2887216wrn.3.2020.09.02.01.08.28
+ by smtp.gmail.com with ESMTPSA id d18sm5618291wrm.10.2020.09.02.01.09.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Sep 2020 01:08:29 -0700 (PDT)
+ Wed, 02 Sep 2020 01:09:10 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/5] util/qsp: Do not declare local variable only used for
- assertion
-Date: Wed,  2 Sep 2020 10:08:01 +0200
-Message-Id: <20200902080801.160652-6-philmd@redhat.com>
+Subject: [PATCH] tests/qtest/tpm: Declare input buffers const and static
+Date: Wed,  2 Sep 2020 10:09:09 +0200
+Message-Id: <20200902080909.161034-1-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200902080801.160652-1-philmd@redhat.com>
-References: <20200902080801.160652-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 02:26:30
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 03:24:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,46 +94,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Corey Minyard <minyard@acm.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-trivial@nongnu.org, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This variable is used once in an assertion. Remove single
-declaration and access directly in the assert().
-
-See in "qemu/osdep.h":
-
- *                                  [...] disable assertion is not
- * supported upstream so the risk is all yours.  Meanwhile, please
- * submit patches to remove any side-effects inside an assertion, or
- * fixing error handling that should use Error instead of assert.
+The functions using these arrays expect a "const unsigned char *"
+argument, it is safe to declare these as 'static const'.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- util/qsp.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ tests/qtest/tpm-tests.c |  4 ++--
+ tests/qtest/tpm-util.c  | 10 +++++-----
+ 2 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/util/qsp.c b/util/qsp.c
-index 7d5147f1b20..1db044ecedd 100644
---- a/util/qsp.c
-+++ b/util/qsp.c
-@@ -560,9 +560,7 @@ static void qsp_iter_diff(void *p, uint32_t hash, void *htp)
+diff --git a/tests/qtest/tpm-tests.c b/tests/qtest/tpm-tests.c
+index a2f2838e15b..70c80f8379a 100644
+--- a/tests/qtest/tpm-tests.c
++++ b/tests/qtest/tpm-tests.c
+@@ -59,7 +59,7 @@ void tpm_test_swtpm_test(const char *src_tpm_path, tx_func *tx,
+     tpm_util_startup(s, tx);
+     tpm_util_pcrextend(s, tx);
  
-     /* No point in reporting an empty entry */
-     if (new->n_acqs == 0 && new->ns == 0) {
--        bool removed = qht_remove(ht, new, hash);
--
--        g_assert(removed);
-+        g_assert(qht_remove(ht, new, hash));
-         g_free(new);
-     }
- }
+-    unsigned char tpm_pcrread_resp[] =
++    static const unsigned char tpm_pcrread_resp[] =
+         "\x80\x01\x00\x00\x00\x3e\x00\x00\x00\x00\x00\x00\x00\x16\x00\x00"
+         "\x00\x01\x00\x0b\x03\x00\x04\x00\x00\x00\x00\x01\x00\x20\xf6\x85"
+         "\x98\xe5\x86\x8d\xe6\x8b\x97\x29\x99\x60\xf2\x71\x7d\x17\x67\x89"
+@@ -107,7 +107,7 @@ void tpm_test_swtpm_migration_test(const char *src_tpm_path,
+     tpm_util_startup(src_qemu, tx);
+     tpm_util_pcrextend(src_qemu, tx);
+ 
+-    unsigned char tpm_pcrread_resp[] =
++    static const unsigned char tpm_pcrread_resp[] =
+         "\x80\x01\x00\x00\x00\x3e\x00\x00\x00\x00\x00\x00\x00\x16\x00\x00"
+         "\x00\x01\x00\x0b\x03\x00\x04\x00\x00\x00\x00\x01\x00\x20\xf6\x85"
+         "\x98\xe5\x86\x8d\xe6\x8b\x97\x29\x99\x60\xf2\x71\x7d\x17\x67\x89"
+diff --git a/tests/qtest/tpm-util.c b/tests/qtest/tpm-util.c
+index e2b29ef0f8c..3ed6c8548a6 100644
+--- a/tests/qtest/tpm-util.c
++++ b/tests/qtest/tpm-util.c
+@@ -98,9 +98,9 @@ void tpm_util_tis_transfer(QTestState *s,
+ void tpm_util_startup(QTestState *s, tx_func *tx)
+ {
+     unsigned char buffer[1024];
+-    unsigned char tpm_startup[] =
++    static const unsigned char tpm_startup[] =
+         "\x80\x01\x00\x00\x00\x0c\x00\x00\x01\x44\x00\x00";
+-    unsigned char tpm_startup_resp[] =
++    static const unsigned char tpm_startup_resp[] =
+         "\x80\x01\x00\x00\x00\x0a\x00\x00\x00\x00";
+ 
+     tx(s, tpm_startup, sizeof(tpm_startup), buffer, sizeof(buffer));
+@@ -112,14 +112,14 @@ void tpm_util_startup(QTestState *s, tx_func *tx)
+ void tpm_util_pcrextend(QTestState *s, tx_func *tx)
+ {
+     unsigned char buffer[1024];
+-    unsigned char tpm_pcrextend[] =
++    static const unsigned char tpm_pcrextend[] =
+         "\x80\x02\x00\x00\x00\x41\x00\x00\x01\x82\x00\x00\x00\x0a\x00\x00"
+         "\x00\x09\x40\x00\x00\x09\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00"
+         "\x0b\x74\x65\x73\x74\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+         "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+         "\x00";
+ 
+-    unsigned char tpm_pcrextend_resp[] =
++    static const unsigned char tpm_pcrextend_resp[] =
+         "\x80\x02\x00\x00\x00\x13\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+         "\x01\x00\x00";
+ 
+@@ -133,7 +133,7 @@ void tpm_util_pcrread(QTestState *s, tx_func *tx,
+                       const unsigned char *exp_resp, size_t exp_resp_size)
+ {
+     unsigned char buffer[1024];
+-    unsigned char tpm_pcrread[] =
++    static const unsigned char tpm_pcrread[] =
+         "\x80\x01\x00\x00\x00\x14\x00\x00\x01\x7e\x00\x00\x00\x01\x00\x0b"
+         "\x03\x00\x04\x00";
+ 
 -- 
 2.26.2
 
