@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE2B125AD37
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 16:35:05 +0200 (CEST)
-Received: from localhost ([::1]:44688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9D1B25AD4E
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 16:37:09 +0200 (CEST)
+Received: from localhost ([::1]:46816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDTqr-0007nL-1w
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 10:35:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33552)
+	id 1kDTsq-0000NX-UV
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 10:37:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kDTqC-0007Mv-PK
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 10:34:24 -0400
-Received: from relay68.bu.edu ([128.197.228.73]:50210)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kDTsB-0008Nx-Vq
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 10:36:28 -0400
+Received: from relay68.bu.edu ([128.197.228.73]:50269)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kDTqA-0002Kj-RD
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 10:34:24 -0400
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kDTs9-0002dy-HI
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 10:36:27 -0400
 X-Envelope-From: alxndr@bu.edu
 X-BU-AUTH: mozz.bu.edu [128.197.127.33]
 Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
  bits=0)
- by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 082EXP6F005633
+ by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 082EZpg6007613
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Wed, 2 Sep 2020 10:33:28 -0400
-Date: Wed, 2 Sep 2020 10:33:25 -0400
+ Wed, 2 Sep 2020 10:35:54 -0400
+Date: Wed, 2 Sep 2020 10:35:51 -0400
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
 Subject: Re: [PATCH 0/2] Fix oss-fuzz builds post-meson integration
-Message-ID: <20200902143325.x4jasicsnxdonr67@mozz.bu.edu>
+Message-ID: <20200902143551.kiudougufezbhtlp@mozz.bu.edu>
 References: <20200902142657.112879-1-alxndr@bu.edu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -56,13 +56,12 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, bsd@redhat.com, stefanha@redhat.com,
- darren.kenny@oracle.com
+Cc: bonzini@redhat.com, darren.kenny@oracle.com, bsd@redhat.com,
+ stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Arg.. I made a mistake in Paolo's email address. Please remove
-"bonzini@redhat.com" from replies so you don't get bounce spam.
+This series is missing a patch. Re-sending..
 
 On 200902 1026, Alexander Bulekov wrote:
 > QEMU stopped building on oss-fuzz, after the meson integration, due to
