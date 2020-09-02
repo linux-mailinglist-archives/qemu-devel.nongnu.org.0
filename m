@@ -2,75 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DE4225ABE7
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 15:16:13 +0200 (CEST)
-Received: from localhost ([::1]:40880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32D1B25ABE2
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 15:14:41 +0200 (CEST)
+Received: from localhost ([::1]:35108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDScW-0005Io-9Z
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 09:16:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37074)
+	id 1kDSb2-0002yt-75
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 09:14:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kDSMa-0006R6-H6
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:59:44 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57624
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kDSMV-0007A8-C6
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:59:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599051578;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DJINUlrbOh9CRinU9oksUQxkJN23nsr9dJ80VojDCLA=;
- b=gRrR9e1rddUOV0XT8up2bSu9u8qogr6GLmbi8RrCNspywX/uD34q3JTMyYZVp70JCqgYZz
- q+nZeUDNRo9IGWDyS9RGQYfozrrYjhkS+5C5LhAXgWMuCvra6/BL1vcqdRBHJwgrwdd3m8
- 2ENFdBTm+Fj4iORQYFK22Ewuauv3Iqs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-441-DARaZT6gMDO_oli4irB6_w-1; Wed, 02 Sep 2020 08:59:37 -0400
-X-MC-Unique: DARaZT6gMDO_oli4irB6_w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 333CA801AEF
- for <qemu-devel@nongnu.org>; Wed,  2 Sep 2020 12:59:36 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 01CB85D9CC
- for <qemu-devel@nongnu.org>; Wed,  2 Sep 2020 12:59:35 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 39/39] docs: suggest Meson replacements for various configure
- functions
-Date: Wed,  2 Sep 2020 08:59:17 -0400
-Message-Id: <20200902125917.26021-40-pbonzini@redhat.com>
-In-Reply-To: <20200902125917.26021-1-pbonzini@redhat.com>
-References: <20200902125917.26021-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kDSPY-0003IJ-Fm
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 09:02:48 -0400
+Received: from mx2.suse.de ([195.135.220.15]:48666)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kDSPW-0007dJ-SQ
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 09:02:48 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 3226CACCC;
+ Wed,  2 Sep 2020 13:02:46 +0000 (UTC)
+Subject: Re: meson build failure, configure without tcg, fixed by running make
+ again
+To: Paolo Bonzini <pbonzini@redhat.com>
+References: <c9971e27-fded-3e5d-d489-b1fb539b8ec1@suse.de>
+ <41c09bb2-1704-47c0-9638-9f1eff010e8c@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <462d6cfa-f4ba-d001-200b-9fc017f7e2fc@suse.de>
+Date: Wed, 2 Sep 2020 15:02:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 02:07:24
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <41c09bb2-1704-47c0-9638-9f1eff010e8c@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/01 00:13:10
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.324,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,50 +58,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- docs/devel/build-system.rst | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+On 9/2/20 12:27 PM, Paolo Bonzini wrote:
+> On 02/09/20 12:03, Claudio Fontana wrote:
+>> Hi Paolo,
+>>
+>> there seems to be some parallelism or race condition somewhere?
+>>
+>> with master, commit 8d90bfc5c31ad60f6049dd39be636b06bc00b652
+>> I am doing:
+>>
+>> mkdir build-nontcg
+>> cd build-nontcg
+>> ../configure --disable-tcg --enable-kvm --enable-hax
+>> make -j120
+>> make -j120 check
+>>
+>> I am getting:
+> 
+> Yes:
+> 
+> diff --git a/tests/qtest/libqos/meson.build b/tests/qtest/libqos/meson.build
+> index 19931b9248..268ea23803 100644
+> --- a/tests/qtest/libqos/meson.build
+> +++ b/tests/qtest/libqos/meson.build
+> @@ -52,6 +52,6 @@ libqos = static_library('qos',
+>          'arm-xilinx-zynq-a9-machine.c',
+>          'ppc64_pseries-machine.c',
+>          'x86_64_pc-machine.c',
+> -), build_by_default: false)
+> +) + genh, build_by_default: false)
+>  
+>  qos = declare_dependency(link_whole: libqos)
+> 
+> Paolo
+> 
 
-diff --git a/docs/devel/build-system.rst b/docs/devel/build-system.rst
-index 28492cfcae..591e93f4b4 100644
---- a/docs/devel/build-system.rst
-+++ b/docs/devel/build-system.rst
-@@ -125,23 +125,27 @@ developers in checking for system features:
- `compile_object $CFLAGS`
-    Attempt to compile a test program with the system C compiler using
-    $CFLAGS. The test program must have been previously written to a file
--   called $TMPC.
-+   called $TMPC.  The replacement in Meson is the compiler object `cc`,
-+   which has methods such as `cc.compiles()`,
-+   `cc.check_header()`, `cc.has_function()`.
- 
- `compile_prog $CFLAGS $LDFLAGS`
-    Attempt to compile a test program with the system C compiler using
-    $CFLAGS and link it with the system linker using $LDFLAGS. The test
-    program must have been previously written to a file called $TMPC.
-+   The replacement in Meson is `cc.find_library()` and `cc.links()`.
- 
- `has $COMMAND`
-    Determine if $COMMAND exists in the current environment, either as a
--   shell builtin, or executable binary, returning 0 on success.
-+   shell builtin, or executable binary, returning 0 on success.  The
-+   replacement in Meson is `find_program()`.
- 
- `check_define $NAME`
-    Determine if the macro $NAME is defined by the system C compiler
- 
- `check_include $NAME`
-    Determine if the include $NAME file is available to the system C
--   compiler
-+   compiler.  The replacement in Meson is `cc.has_header()`.
- 
- `write_c_skeleton`
-    Write a minimal C program main() function to the temporary file
--- 
-2.26.2
+Hi Paolo,
 
+this one worked for me just fine, I did not try your latest patch which is a bit different.
+
+Ciao,
+
+Claudio
 
