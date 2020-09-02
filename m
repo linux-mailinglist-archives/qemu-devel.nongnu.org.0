@@ -2,58 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E543325B17F
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 18:23:58 +0200 (CEST)
-Received: from localhost ([::1]:47470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE25925B1CB
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 18:37:20 +0200 (CEST)
+Received: from localhost ([::1]:56722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDVYE-0004F9-0A
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 12:23:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35268)
+	id 1kDVl9-0001Dz-AV
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 12:37:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@163.com>) id 1kDVWz-0002xs-Ot
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 12:22:41 -0400
-Received: from mail-m971.mail.163.com ([123.126.97.1]:43634)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liq3ea@163.com>) id 1kDVWw-0002vR-I4
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 12:22:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id; bh=wfcpJ4DDOpMy4YNA9R
- leV70ACEl8JRMmMnrNcmMTWi8=; b=ItnPucwJHNL92oKa4QjDtdjp24POVsEJwX
- tp1hFvxdm8THNoWwlVNfD5TfU1pwHncRPUnMJCTVhnGNLMdXh4RE6YVhvmG2ZFpr
- fymLLjnniQbIKe4v0rIYNJpsQmyvHhI1idXpjtkMt1ismHBGA0hBUy4fYnP1vWx3
- Kt1qBg/xo=
-Received: from localhost.localdomain (unknown [183.134.168.235])
- by smtp1 (Coremail) with SMTP id GdxpCgAXbyO1xk9fAIYUAQ--.82S7;
- Thu, 03 Sep 2020 00:22:31 +0800 (CST)
-From: Li Qiang <liq3ea@163.com>
-To: mst@redhat.com, kraxel@redhat.com, dmitry.fleytman@gmail.com,
- jasowang@redhat.com, alxndr@bu.edu, peter.maydell@linaro.org,
- pbonzini@redhat.com
-Subject: [RFC 3/3] virtio-gpu: make the IO handler reentrant
-Date: Wed,  2 Sep 2020 09:22:06 -0700
-Message-Id: <20200902162206.101872-4-liq3ea@163.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200902162206.101872-1-liq3ea@163.com>
-References: <20200902162206.101872-1-liq3ea@163.com>
-X-CM-TRANSID: GdxpCgAXbyO1xk9fAIYUAQ--.82S7
-X-Coremail-Antispam: 1Uf129KBjvJXoWxGF4fKryfCF4UCw17Jw1fJFb_yoW5WF17pF
- 1UAFy5WF48XF17Jas5XF4xWrn8CFZ5A3ZrCrnYvFyF9wsxtF97A3WrKFy2yrW3Ar48AF45
- GFn2934jyr4qvw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jeVbgUUUUU=
-X-Originating-IP: [183.134.168.235]
-X-CM-SenderInfo: 5oltjvrd6rljoofrz/1tbiFB2TbVaD7LNrjQABsa
-Received-SPF: pass client-ip=123.126.97.1; envelope-from=liq3ea@163.com;
- helo=mail-m971.mail.163.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 12:22:24
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kDVjj-0008Pu-Dk
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 12:35:51 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:38069)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kDVjd-0004x7-Ox
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 12:35:51 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id g4so90638wrs.5
+ for <qemu-devel@nongnu.org>; Wed, 02 Sep 2020 09:35:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:to:from:subject:autocrypt:cc:message-id:date:user-agent
+ :mime-version:content-language:content-transfer-encoding;
+ bh=qm1I50KANTLSnSZ0H9q1yOrDKIpPRPGAGKPgFwvSwG4=;
+ b=poLvpDIPwrIQZjEwec5uX6bXIRvrayhxuTw7Heaw4FA+H0CAavTc2gAD509vBqTMiP
+ jkTyYRFtS1R7ByhElggLuH20jk0S6/lBgNrhf+MjiCeYzR/8jDdF5dG5K8e3D1V9Jjeq
+ fZg8Ps2trfqNGBFKO/kCGe0kV1Q7n7aWOQI8N9yYqInqF59owpbUwpoRab/4kDvfPfoV
+ AG97EWzC2CovrkLM0fV+vHMplT/P9xgG3lzHTxgQn8JtRCvEIbcLVnfv/ON/i903rMpP
+ ehXINB9rYXTeBT2QCY8XGo9scWn1KHJD9abAwSDB1XQiRWxPPp+jE7bHWFfr4Z17EJEW
+ qo+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:to:from:subject:autocrypt:cc:message-id
+ :date:user-agent:mime-version:content-language
+ :content-transfer-encoding;
+ bh=qm1I50KANTLSnSZ0H9q1yOrDKIpPRPGAGKPgFwvSwG4=;
+ b=U7su97zOa8Y2XxRyLYTlBf3GMD1Xo7t4+um1gm4Nx/Wdq5v2bVUBrhFTwJF/wKNtw+
+ Go/Q/G1MJWh+7rJaZiWozQdWBvWTXQHPtxsACExt240DkudtNiHoeVlie5gfYgr4a7wI
+ oGIzfxKgtrUYwVPQqDyt3uIh0Tf/h5vrqBoPEZx7vhUL3dKrTF2G31XoD8ixlRR5ezdY
+ 2MPDwIs7mXT2I6MlMR9QgApq+oJFZZPDUlv5+6yaOVTRGxXZi8SxlC0MAZnoQeD/swiO
+ FPIvlDVP34pSfmq47lrMUgKKKGTE55o53TGP44koczT4ndiiVWM8Es/ZOXGYErGG56QF
+ gntQ==
+X-Gm-Message-State: AOAM532h+rFdQHaIWqPuRqeuxx0CdveNLsWvh/bCtP8YqN+tOGX40eAt
+ /gtKqcmMAmp/Xzia0NDNwjs=
+X-Google-Smtp-Source: ABdhPJwh5i9DtBNxns3RxVE71ZJkQfS+uWM7+d5RrwKh370YH9S/t/oydi9MjWZDqg3MKhRDUk80nA==
+X-Received: by 2002:a5d:610d:: with SMTP id v13mr7605546wrt.23.1599064544067; 
+ Wed, 02 Sep 2020 09:35:44 -0700 (PDT)
+Received: from [192.168.1.36] (50.red-83-52-54.dynamicip.rima-tde.net.
+ [83.52.54.50])
+ by smtp.gmail.com with ESMTPSA id r13sm250546wrj.83.2020.09.02.09.35.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Sep 2020 09:35:42 -0700 (PDT)
+To: Damien Hedde <damien.hedde@greensocs.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Subject: hw/clock: What clock rate for virt machines?
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <bbdacc80-a321-5f06-e430-973a38e7e037@amsat.org>
+Date: Wed, 2 Sep 2020 18:35:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,102 +113,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Li Qiang <liq3ea@163.com>, liq3ea@gmail.com, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The guest can program the virtio desc table. When the used ring
-is programmed by virtio-gpu's MMIO it may cause an reentrant issue.
+Hi,
 
-Following is the reproducer:
+Peter said "'clock' is basically meaningless for virt machines",
 
-cat << EOF | ./i386-softmmu/qemu-system-i386 -nographic -M pc -nodefaults -m 512M -device virtio-vga -qtest stdio
-outl 0xcf8 0x80001018
-outl 0xcfc 0xe0800000
-outl 0xcf8 0x80001020
-outl 0xcf8 0x80001004
-outw 0xcfc 0x7
-writeq 0xe0801024 0x10646c00776c6cff
-writeq 0xe080102d 0xe0801000320000
-writeq 0xe0801015 0x12b2901ba000000
-write 0x10646c02 0x1 0x2c
-write 0x999 0x1 0x25
-write 0x8 0x1 0x78
-write 0x2c7 0x1 0x32
-write 0x2cb 0x1 0xff
-write 0x2cc 0x1 0x7e
-writeq 0xe0803000 0xf2b8f0540ff83
-EOF
+I understand and agree. But how to make that explicit/obvious in
+the code, when a device expects a clock frequency/period?
 
-This patch avoid this by adding a 'in_io' in VirtIOGPU to indicate it is in IO processing.
-Notice this also address the race condition between 'virtio_gpu_process_cmdq' and
-'virtio_gpu_reset' as the 'virtio_gpu_process_cmdq' is run in a BH which in the main thread
-and 'virtio_gpu_reset' is run in the vcpu thread and both of them access the 'g->cmdq'.
+Should we use 0/UINT_MAX for this case? Use an explicit definition?
 
-Buglink: https://bugs.launchpad.net/qemu/+bug/1888606
+  #define CLOCK_MEANINGLESS_FREQUENCY_HZ UINT_MAX
 
-Reported-by: Alexander Bulekov <alxndr@bu.edu>
-Signed-off-by: Li Qiang <liq3ea@163.com>
----
- hw/display/virtio-gpu.c        | 10 ++++++++++
- include/hw/virtio/virtio-gpu.h |  1 +
- 2 files changed, 11 insertions(+)
+Or maybe simpler:
 
-diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-index 5f0dd7c150..404b7dc174 100644
---- a/hw/display/virtio-gpu.c
-+++ b/hw/display/virtio-gpu.c
-@@ -809,6 +809,10 @@ void virtio_gpu_process_cmdq(VirtIOGPU *g)
- {
-     struct virtio_gpu_ctrl_command *cmd;
- 
-+    if (atomic_read(&g->in_io)) {
-+        return;
-+    }
-+    atomic_set(&g->in_io, 1);
-     while (!QTAILQ_EMPTY(&g->cmdq)) {
-         cmd = QTAILQ_FIRST(&g->cmdq);
- 
-@@ -838,6 +842,7 @@ void virtio_gpu_process_cmdq(VirtIOGPU *g)
-             g_free(cmd);
-         }
-     }
-+    atomic_set(&g->in_io, 0);
- }
- 
- static void virtio_gpu_gl_unblock(VirtIOGPUBase *b)
-@@ -1144,6 +1149,10 @@ static void virtio_gpu_reset(VirtIODevice *vdev)
-     struct virtio_gpu_simple_resource *res, *tmp;
-     struct virtio_gpu_ctrl_command *cmd;
- 
-+    if (atomic_read(&g->in_io)) {
-+        return;
-+    }
-+    atomic_set(&g->in_io, 1);
- #ifdef CONFIG_VIRGL
-     if (g->parent_obj.use_virgl_renderer) {
-         virtio_gpu_virgl_reset(g);
-@@ -1179,6 +1188,7 @@ static void virtio_gpu_reset(VirtIODevice *vdev)
- #endif
- 
-     virtio_gpu_base_reset(VIRTIO_GPU_BASE(vdev));
-+    atomic_set(&g->in_io, 0);
- }
- 
- static void
-diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
-index 7517438e10..aadcf0e332 100644
---- a/include/hw/virtio/virtio-gpu.h
-+++ b/include/hw/virtio/virtio-gpu.h
-@@ -150,6 +150,7 @@ typedef struct VirtIOGPU {
- 
-     bool renderer_inited;
-     bool renderer_reset;
-+    bool in_io;
-     QEMUTimer *fence_poll;
-     QEMUTimer *print_stats;
- 
--- 
-2.17.1
+  #define CLOCK_MEANINGLESS_VALUE 0
 
+But the special 0 value could be used to describe a stopped clock.
+
+See for example hw/riscv/virt.c, it uses the following (confusing
+to me) in virt_machine_init():
+
+   serial_mm_init(system_memory, memmap[VIRT_UART0].base,
+       0, qdev_get_gpio_in(DEVICE(mmio_plic), UART0_IRQ), 399193,
+       serial_hd(0), DEVICE_LITTLE_ENDIAN);
+
+Thanks,
+
+Phil.
 
