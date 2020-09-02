@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F65625B62E
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 23:55:26 +0200 (CEST)
-Received: from localhost ([::1]:60702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E71125B636
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 23:57:01 +0200 (CEST)
+Received: from localhost ([::1]:39412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDaiz-0000l8-4q
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 17:55:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54156)
+	id 1kDakW-0003f2-OC
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 17:57:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kDaho-0007qc-BF
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 17:54:12 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:47234
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kDahq-0007vR-WF
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 17:54:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49282)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kDahj-0002Zp-8c
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 17:54:11 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kDaho-0002as-0I
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 17:54:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599083646;
+ s=mimecast20190719; t=1599083648;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aTR/SwqKv1rzRHi5F4XVHdVeyzTXW49KuLMZt4Hgr6Y=;
- b=XPIPdJYy1Jv1ZshTON4oqvKPWiSAOWVgah1jaQ+nDvlVPDNOJtfKhh97uWQzpr7BiCc5uk
- I8jzOBppmf8/PG5mqZnyGKE82u3+hKN/qUT0Kgu2gpUI8QxJ+ZtpSBM+FEpFX1voTA0e/q
- HSQvMO/F8Wz1DVpZwzJAYwFah7abepI=
+ bh=IOvHRzBDlGh16AJzQZ7ZZ3jriOEZlCNFhKTqMi1Gfbc=;
+ b=Bf6FJOkdj/4SDXzpDdqXfzMk1CdoxqJAAaqEkeh34lg5rqWI8yZWRd9/Usloj29zaF0mFu
+ 9NUNqpbTN6dSqsv9KsGMcF1CEHVvTn5E2J6R/ZJO0saqojezbm6roZnjJQmuMgpY03eNre
+ vpVYSJ28lyBl+K/ucANs3WaBJIe1/Sg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-450-K9k-J0WmNRqzoL03NGLV7Q-1; Wed, 02 Sep 2020 17:54:03 -0400
-X-MC-Unique: K9k-J0WmNRqzoL03NGLV7Q-1
+ us-mta-412-NEoNEDqYNTCE8QqKPHO-yw-1; Wed, 02 Sep 2020 17:54:04 -0400
+X-MC-Unique: NEoNEDqYNTCE8QqKPHO-yw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CDC2B10ABDB1;
- Wed,  2 Sep 2020 21:54:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 59C52802B63;
+ Wed,  2 Sep 2020 21:54:03 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-113-128.phx2.redhat.com [10.3.113.128])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5FE3276E01;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F3E5B76E01;
  Wed,  2 Sep 2020 21:54:02 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/6] iotests/059: Fix reference output
-Date: Wed,  2 Sep 2020 16:53:55 -0500
-Message-Id: <20200902215400.2673028-2-eblake@redhat.com>
+Subject: [PULL 2/6] iotests/259: Fix reference output
+Date: Wed,  2 Sep 2020 16:53:56 -0500
+Message-Id: <20200902215400.2673028-3-eblake@redhat.com>
 In-Reply-To: <20200902215400.2673028-1-eblake@redhat.com>
 References: <20200902215400.2673028-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -56,17 +55,17 @@ X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 17:27:52
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 02:42:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,33 +86,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Max Reitz <mreitz@redhat.com>
 
-As of the patch to flush qemu-img's "Formatting" message before the
-error message, 059 has been broken for vmdk.  Fix it.
+The error message has changed recently, breaking the test.  Fix it.
 
-Fixes: 4e2f4418784da09cb106264340241856cd2846df
-       ("qemu-img: Flush stdout before before potential stderr messages")
+Fixes: a2b333c01880f56056d50c238834d62e32001e54
+       ("block: nbd: Fix convert qcow2 compressed to nbd")
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200811084150.326377-1-mreitz@redhat.com>
-Reviewed-by: Eric blake <eblake@redhat.com>
+Message-Id: <20200811080830.289136-1-mreitz@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- tests/qemu-iotests/059.out | 2 +-
+ tests/qemu-iotests/259.out | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qemu-iotests/059.out b/tests/qemu-iotests/059.out
-index 6d127e28d8a6..2b83c0c8b66b 100644
---- a/tests/qemu-iotests/059.out
-+++ b/tests/qemu-iotests/059.out
-@@ -19,8 +19,8 @@ file format: IMGFMT
- virtual size: 2 GiB (2147483648 bytes)
+diff --git a/tests/qemu-iotests/259.out b/tests/qemu-iotests/259.out
+index e27b9ff38d75..1aaadfda4ead 100644
+--- a/tests/qemu-iotests/259.out
++++ b/tests/qemu-iotests/259.out
+@@ -10,5 +10,5 @@ disk size: unavailable
 
- === Testing monolithicFlat with zeroed_grain ===
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=2147483648
- qemu-img: TEST_DIR/t.IMGFMT: Flat image can't enable zeroed grain
--Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=2147483648
-
- === Testing big twoGbMaxExtentFlat ===
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1073741824000
+ --- Testing creation for which the node would need to grow ---
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=qcow2 size=67108864 preallocation=metadata
+-qemu-img: TEST_DIR/t.IMGFMT: Could not resize image: Image format driver does not support resize
++qemu-img: TEST_DIR/t.IMGFMT: Could not resize image: Cannot grow NBD nodes
+ *** done
 -- 
 2.28.0
 
