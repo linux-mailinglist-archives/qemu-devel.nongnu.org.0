@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E4325B1DD
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 18:40:05 +0200 (CEST)
-Received: from localhost ([::1]:40552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4643F25B1E5
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 18:42:41 +0200 (CEST)
+Received: from localhost ([::1]:45762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDVno-0006Hw-7S
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 12:40:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38694)
+	id 1kDVqK-00009Z-CP
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 12:42:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kDVk3-0000Cn-6p
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 12:36:11 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:45076)
+ id 1kDVk4-0000Ex-2r
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 12:36:12 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:35091)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kDVk1-000570-BO
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 12:36:10 -0400
-Received: by mail-pf1-x443.google.com with SMTP id k15so3126865pfc.12
- for <qemu-devel@nongnu.org>; Wed, 02 Sep 2020 09:36:08 -0700 (PDT)
+ id 1kDVk2-00057D-Gm
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 12:36:11 -0400
+Received: by mail-pf1-x444.google.com with SMTP id o68so3142808pfg.2
+ for <qemu-devel@nongnu.org>; Wed, 02 Sep 2020 09:36:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bvhdtXrSIM3NEnJbmmhCUh2leRjNnWI0Ll13IhtWA9I=;
- b=iCqGg2dXDJbM8pBaJgyTdelAIQes6j40WzrD7VOqHPF5b533DQzuCa66AkyTraUzk2
- J6+NZc7LSTXMwYxejOErvdlTuDDtyoifZdPyhnqSu1tZvwNGOffYMhF9n9QGW2d5JOLy
- HGhAe8AkESqLA7gCZ4WxNxX8NgG/9K1qRUzkDnYELHDoYDTAThze0fn1C5kUkmGtQ92O
- 0PZyJrE9F23RmrQWPxEnJgKEmXZZKgzqSXUq9EZpeCm5RDOT5pH142+X9hxAFUwOUXjw
- kNRPzo8MZTvesdcFZjm55RggedgkTTnUOYA5wJsGjsvj6nDJng4Y+3Yj3Sq/Wfbj5TDt
- OYJw==
+ bh=T5+4Hm8QKZkxl4HUg0KhrOXM6aaOJZgbxYaiAZNZh2c=;
+ b=MS3ejoo2FhbzvTtYqQF5pCCKIozEPJzgzI77f4N8WC6N7+Dh37RIczP0m0G0FNHAkJ
+ mpAKgwQxSCK2LchQFvoQ4C+a+ZldF/Rv3qD/gFyToLdmnMMR8UvlcAHlIn8SKMTUZ4LG
+ BMLzAroYrz41jAfDkbuLxULHmDrRuu2kzDAr9Hs7aO1EchUbGk7VUuDODC1zyE23AuGV
+ mQh3l1x1AJoB3lyuObJy0a0I8h8SKjcishTXJVd2FSgsI/FGxq8/bpPdBFn3mm8uSP9Q
+ nbNnZ+xdgDvNNoqpOdMl7bBRL7NrXlgH9ZZI/sisx0c8JtVu9Bw/j/zPBIAxMUdUHzC8
+ I25A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bvhdtXrSIM3NEnJbmmhCUh2leRjNnWI0Ll13IhtWA9I=;
- b=uaAL+h2378/CrS52Dmsgmmoyfjehphko1bcWj2cKeyexeutEA+m9gGk+zvhXnNYNdd
- uUz4vPwiEPUIhzJR+u1z1vHpTSoTqard74f+Uvee2oXjcMmrmrDxUscBiWXR8uPnF8ce
- tZeUl+v5W7YwryZNS+I4rJ07Co0kSTOjErIN3yoww1QNXEdTDfD9kTRiyPklkERIeITA
- PyPFXM6zZSOlO5puqTls+fu/Op+4GcOaUW6G1vwtva7kR5wRootzCsr6He0P4o79uoIN
- pCO5k1v36k6cd+TCPrAJPflUyVCCEQiuRRvKoo1wfZyvQH/t5p2He540dwaSb0qzCuXy
- S+Bg==
-X-Gm-Message-State: AOAM533LsNG0O5LtxjvPUvvm801OSleje9JlKRjuzSnow72S0PHG6hkH
- fpKsbwqy2RYLCp5F2QSTtWFv0iKn9ue6hg==
-X-Google-Smtp-Source: ABdhPJxREbUjKki+iAqJyvUP2TFtnq/GWMzVHo2LwX9NWelEyu0/itEV2yrnFP2y1tKapGNBcwADBg==
-X-Received: by 2002:a63:4503:: with SMTP id s3mr2558493pga.119.1599064567197; 
- Wed, 02 Sep 2020 09:36:07 -0700 (PDT)
+ bh=T5+4Hm8QKZkxl4HUg0KhrOXM6aaOJZgbxYaiAZNZh2c=;
+ b=uFcFN1I45hFwRiliH1ELQKi4+2vSvh9d7fHw75lV//nTeRUdJDOJgYofu++q/wdJR2
+ 1A2IpWQ5ziDo8Rgm3BRDzd8CLqrorJcbiujYCn0qaT33gHxtgqBdUSYUDjA1BFvAz6iq
+ M0hF/1sXHKqWEDXRyO1OguBEfU6YtCDziFXE/LKfxP9qYbpACgFCsippIGIPKNmXgFWT
+ Q/Hj25TDRe0CCUQ6hGlobygfWMOVP2WP6KK7ouRShKkdfNgKSR/rVxFp73kFTl98clka
+ HWuoyssdgE5Z/zDXULxozMxpruNjbCDC/NUkG6vXapd4wdAdynw9L21tSz9DM3YIee/f
+ SYOQ==
+X-Gm-Message-State: AOAM533pFeBIzeiyLu3AQP9vzbrHhoiE7vU9TEyS6lCCOB3yLOvySL5E
+ 5mqmI/xvAVDevRJEdpHx2GRWBxJz0SgYOg==
+X-Google-Smtp-Source: ABdhPJzkzXLiF4Zos9TLQyp/UgvsjCHO3M5Qr8FJoiFqxdPeGlmtHzKhaVsAgssQqCUgIk5AexzWbw==
+X-Received: by 2002:a63:3742:: with SMTP id g2mr2460165pgn.71.1599064568788;
+ Wed, 02 Sep 2020 09:36:08 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id b6sm4955441pjz.33.2020.09.02.09.36.06
+ by smtp.gmail.com with ESMTPSA id b6sm4955441pjz.33.2020.09.02.09.36.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Sep 2020 09:36:06 -0700 (PDT)
+ Wed, 02 Sep 2020 09:36:07 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/7] target/microblaze: Force rtid, rted, rtbd to exit
-Date: Wed,  2 Sep 2020 09:35:57 -0700
-Message-Id: <20200902163559.1077728-6-richard.henderson@linaro.org>
+Subject: [PATCH 6/7] target/microblaze: Use tcg_gen_lookup_and_goto_ptr
+Date: Wed,  2 Sep 2020 09:35:58 -0700
+Message-Id: <20200902163559.1077728-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200902163559.1077728-1-richard.henderson@linaro.org>
 References: <20200902163559.1077728-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x443.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,85 +88,39 @@ Cc: edgar.iglesias@xilinx.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These return-from-exception type instructions have modified
-MSR to re-enable various forms of interrupt.  Force a return
-to the main loop.
-
-Consolidate the cleanup of tb_flags into mb_tr_translate_insn.
+Normal indirect jumps, or page-crossing direct jumps, can use
+tcg_gen_lookup_and_goto_ptr to avoid returning to the main loop
+simply to find an existing TB for the next pc.
 
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/translate.c | 27 ++++++++++++++++-----------
- 1 file changed, 16 insertions(+), 11 deletions(-)
+ target/microblaze/translate.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index 459b25f8b9..a94f3e340e 100644
+index a94f3e340e..4416361d08 100644
 --- a/target/microblaze/translate.c
 +++ b/target/microblaze/translate.c
-@@ -1518,7 +1518,6 @@ static void do_rti(DisasContext *dc)
-     tcg_gen_or_i32(cpu_msr, cpu_msr, tmp);
- 
-     tcg_temp_free_i32(tmp);
--    dc->tb_flags &= ~DRTI_FLAG;
+@@ -147,7 +147,7 @@ static void gen_goto_tb(DisasContext *dc, int n, target_ulong dest)
+         tcg_gen_exit_tb(dc->base.tb, n);
+     } else {
+         tcg_gen_movi_i32(cpu_pc, dest);
+-        tcg_gen_exit_tb(NULL, 0);
++        tcg_gen_lookup_and_goto_ptr();
+     }
+     dc->base.is_jmp = DISAS_NORETURN;
  }
- 
- static void do_rtb(DisasContext *dc)
-@@ -1531,7 +1530,6 @@ static void do_rtb(DisasContext *dc)
-     tcg_gen_or_i32(cpu_msr, cpu_msr, tmp);
- 
-     tcg_temp_free_i32(tmp);
--    dc->tb_flags &= ~DRTB_FLAG;
- }
- 
- static void do_rte(DisasContext *dc)
-@@ -1545,7 +1543,6 @@ static void do_rte(DisasContext *dc)
-     tcg_gen_or_i32(cpu_msr, cpu_msr, tmp);
- 
-     tcg_temp_free_i32(tmp);
--    dc->tb_flags &= ~DRTE_FLAG;
- }
- 
- /* Insns connected to FSL or AXI stream attached devices.  */
-@@ -1700,12 +1697,16 @@ static void mb_tr_translate_insn(DisasContextBase *dcb, CPUState *cs)
-          * Finish any return-from branch.
-          * TODO: Diagnose rtXd in delay slot of rtYd earlier.
-          */
--        if (dc->tb_flags & DRTI_FLAG) {
--            do_rti(dc);
--        } else if (dc->tb_flags & DRTB_FLAG) {
--            do_rtb(dc);
--        } else if (dc->tb_flags & DRTE_FLAG) {
--            do_rte(dc);
-+        uint32_t rt_ibe = dc->tb_flags & (DRTI_FLAG | DRTB_FLAG | DRTE_FLAG);
-+        if (unlikely(rt_ibe != 0)) {
-+            dc->tb_flags &= ~(DRTI_FLAG | DRTB_FLAG | DRTE_FLAG);
-+            if (rt_ibe & DRTI_FLAG) {
-+                do_rti(dc);
-+            } else if (rt_ibe & DRTB_FLAG) {
-+                do_rtb(dc);
-+            } else {
-+                do_rte(dc);
-+            }
+@@ -1803,7 +1803,7 @@ static void mb_tr_tb_stop(DisasContextBase *dcb, CPUState *cs)
+         if (unlikely(cs->singlestep_enabled)) {
+             gen_raise_exception(dc, EXCP_DEBUG);
+         } else {
+-            tcg_gen_exit_tb(NULL, 0);
++            tcg_gen_lookup_and_goto_ptr();
          }
+         return;
  
-         /* Complete the branch, ending the TB. */
-@@ -1723,8 +1724,12 @@ static void mb_tr_translate_insn(DisasContextBase *dcb, CPUState *cs)
-              */
-             break;
-         case DISAS_NEXT:
--            /* Normal insn a delay slot.  */
--            dc->base.is_jmp = DISAS_JUMP;
-+            /*
-+             * Normal insn a delay slot.
-+             * However, the return-from-exception type insns should
-+             * return to the main loop, as they have adjusted MSR.
-+             */
-+            dc->base.is_jmp = (rt_ibe ? DISAS_EXIT_JUMP : DISAS_JUMP);
-             break;
-         case DISAS_EXIT_NEXT:
-             /*
 -- 
 2.25.1
 
