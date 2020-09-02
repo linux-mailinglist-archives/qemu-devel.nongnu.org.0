@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF88325B6B0
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 00:50:24 +0200 (CEST)
-Received: from localhost ([::1]:38440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C05225B697
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 00:47:56 +0200 (CEST)
+Received: from localhost ([::1]:54938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDbaB-0004qN-TV
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 18:50:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34854)
+	id 1kDbXn-00008b-1D
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 18:47:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDbTz-0001hJ-PN
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:43:59 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:54446
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1kDbTp-0001Ic-A1
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:43:49 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60030
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDbTx-0008Je-VX
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:43:59 -0400
+ id 1kDbTn-0008I2-K7
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:43:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599086637;
+ s=mimecast20190719; t=1599086626;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eHPViNanObRmLRaMcxKOuW5QoC3ysriW80rMxyY6O0I=;
- b=ITNO6lvBrGSROM8p3YLHub5v4GjmYlC61cu7CvuUoYJxXyPlAkx5rJ9lpLOpTSoNT7ylDn
- SqSmV4tutOcKfVEzIA5S9SnG/kivJ+7U9dh9n3VVnT/2dswex+c4Fh3Ni0SO1yZr2WNp7j
- IEabYeWwpvV89JL96v9MUCbseSQo4fs=
+ bh=aTYWuyvh9AHBbcAYeWfzKAnFXRJ3BS3A1s16bJuf0+c=;
+ b=e3FXfDwJFcvokLtQGoJLY2eKM9XHwcokKfKSby6/Gz/kE4mQwsBkEdW7Mr/5r98LZSqYgF
+ 5Vk3UXNQfGAf60K3jNOsSTk6XU1Im7fUwYxStPogN61EOLXwT/KgSdc8/n3sdequTK0tXb
+ 8Hi82nLjVJGw1xujU+Qj+++RFiR02co=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-227-buWvsCdtM6-PDsCe6Q9bKQ-1; Wed, 02 Sep 2020 18:43:44 -0400
-X-MC-Unique: buWvsCdtM6-PDsCe6Q9bKQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-266-H5bqcHtLOTKbZgkatGBtZg-1; Wed, 02 Sep 2020 18:43:45 -0400
+X-MC-Unique: H5bqcHtLOTKbZgkatGBtZg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 529F418A2251
- for <qemu-devel@nongnu.org>; Wed,  2 Sep 2020 22:43:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FBA58030C7;
+ Wed,  2 Sep 2020 22:43:44 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AC28D19C59;
- Wed,  2 Sep 2020 22:43:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0FCFD5C1C4;
+ Wed,  2 Sep 2020 22:43:43 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/63] dev-smartcard-reader: Rename CCID_DEV_NAME to
- TYPE_USB_CCID_DEV
-Date: Wed,  2 Sep 2020 18:42:14 -0400
-Message-Id: <20200902224311.1321159-7-ehabkost@redhat.com>
+Subject: [PATCH 07/63] rdma: Rename PVRDMA_HW_NAME to TYPE_PVRDMA_DEV
+Date: Wed,  2 Sep 2020 18:42:15 -0400
+Message-Id: <20200902224311.1321159-8-ehabkost@redhat.com>
 In-Reply-To: <20200902224311.1321159-1-ehabkost@redhat.com>
 References: <20200902224311.1321159-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 17:54:07
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 16:20:39
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -82,7 +81,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, Gerd Hoffmann <kraxel@redhat.com>
+Cc: berrange@redhat.com, Yuval Shaia <yuval.shaia.ml@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -91,47 +90,49 @@ the type checking macro.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Yuval Shaia <yuval.shaia.ml@gmail.com>
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 Cc: qemu-devel@nongnu.org
 ---
- hw/usb/dev-smartcard-reader.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ hw/rdma/vmw/pvrdma.h      | 4 ++--
+ hw/rdma/vmw/pvrdma_main.c | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/usb/dev-smartcard-reader.c b/hw/usb/dev-smartcard-reader.c
-index 432508c478..59b2248f34 100644
---- a/hw/usb/dev-smartcard-reader.c
-+++ b/hw/usb/dev-smartcard-reader.c
-@@ -60,10 +60,10 @@ do { \
- #define D_MORE_INFO 3
- #define D_VERBOSE 4
+diff --git a/hw/rdma/vmw/pvrdma.h b/hw/rdma/vmw/pvrdma.h
+index 1d36a76f1e..e7e610b223 100644
+--- a/hw/rdma/vmw/pvrdma.h
++++ b/hw/rdma/vmw/pvrdma.h
+@@ -50,7 +50,7 @@
+ #define INTR_VEC_CMD_COMPLETION_Q    2
  
--#define CCID_DEV_NAME "usb-ccid"
-+#define TYPE_USB_CCID_DEV "usb-ccid"
- typedef struct USBCCIDState USBCCIDState;
- DECLARE_INSTANCE_CHECKER(USBCCIDState, USB_CCID_DEV,
--                         CCID_DEV_NAME)
-+                         TYPE_USB_CCID_DEV)
- /*
-  * The two options for variable sized buffers:
-  * make them constant size, for large enough constant,
-@@ -1462,7 +1462,7 @@ static void ccid_class_initfn(ObjectClass *klass, void *data)
+ /* HW attributes */
+-#define PVRDMA_HW_NAME       "pvrdma"
++#define TYPE_PVRDMA_DEV       "pvrdma"
+ #define PVRDMA_HW_VERSION    17
+ #define PVRDMA_FW_VERSION    14
+ 
+@@ -102,7 +102,7 @@ struct PVRDMADev {
+ };
+ typedef struct PVRDMADev PVRDMADev;
+ DECLARE_INSTANCE_CHECKER(PVRDMADev, PVRDMA_DEV,
+-                         PVRDMA_HW_NAME)
++                         TYPE_PVRDMA_DEV)
+ 
+ static inline int get_reg_val(PVRDMADev *dev, hwaddr addr, uint32_t *val)
+ {
+diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
+index 77b1235a3f..a08f720bfd 100644
+--- a/hw/rdma/vmw/pvrdma_main.c
++++ b/hw/rdma/vmw/pvrdma_main.c
+@@ -697,7 +697,7 @@ static void pvrdma_class_init(ObjectClass *klass, void *data)
  }
  
- static const TypeInfo ccid_info = {
--    .name          = CCID_DEV_NAME,
-+    .name          = TYPE_USB_CCID_DEV,
-     .parent        = TYPE_USB_DEVICE,
-     .instance_size = sizeof(USBCCIDState),
-     .class_init    = ccid_class_initfn,
-@@ -1495,7 +1495,7 @@ static void ccid_register_types(void)
-     type_register_static(&ccid_bus_info);
-     type_register_static(&ccid_card_type_info);
-     type_register_static(&ccid_info);
--    usb_legacy_register(CCID_DEV_NAME, "ccid", NULL);
-+    usb_legacy_register(TYPE_USB_CCID_DEV, "ccid", NULL);
- }
- 
- type_init(ccid_register_types)
+ static const TypeInfo pvrdma_info = {
+-    .name = PVRDMA_HW_NAME,
++    .name = TYPE_PVRDMA_DEV,
+     .parent = TYPE_PCI_DEVICE,
+     .instance_size = sizeof(PVRDMADev),
+     .class_init = pvrdma_class_init,
 -- 
 2.26.2
 
