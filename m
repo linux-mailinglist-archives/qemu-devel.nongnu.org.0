@@ -2,131 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1AD425AB24
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 14:29:59 +0200 (CEST)
-Received: from localhost ([::1]:52628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9275225AB02
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 14:18:56 +0200 (CEST)
+Received: from localhost ([::1]:37402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDRtm-0002kN-Oc
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 08:29:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56848)
+	id 1kDRj5-00049x-Lq
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 08:18:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1kDRrS-0000ou-34
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:27:34 -0400
-Received: from mail-bn8nam11on2067.outbound.protection.outlook.com
- ([40.107.236.67]:60129 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+ id 1kDRiF-0003ku-6c
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:18:03 -0400
+Received: from mail-bn8nam11on2069.outbound.protection.outlook.com
+ ([40.107.236.69]:9025 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1kDRrP-0003EM-VD
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:27:33 -0400
+ id 1kDRiB-0001sn-Nk
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:18:02 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MAQRZwpLJISoMgeVIg61hTOEVc1AfPbUVmscccEQE8bHIiI1+uSG1xH4K9paA6qjH3RQmPl1S3HJ2Un2QXZDU5vdVo6seumII5DoQp0oz3hEUYc9kTOquLPa7qaUj+cfe9BXpDWAowHOv5DMW/oaJGbkB1Kft3zdTF3kOU+eBeOCX87rcE1awl0FzssKaGNF3HDTgwfVjAogZYB6wfpq/M0VswK4cG1em6rV25D9JaHLazzZxyH/bOX717ySP15pMlN9Hc3V6vrEPb0TEuudbZwEQ0wwThFwWftsBCAqFkGcPjJ0JYhVoFHuI2b8QnMUEVevAfHqxXHqwFuNR05xbA==
+ b=iuce4r9mw7SDEFQHJ6xMFJQVN/FwXMfvoCQwbu2pVI8w2LlQ+tIvwBRALx7RWvJ1XFlT5hW1XlKriP5Ca11E0iuKf8hCmlZW2U+WNkdwEMCgam6OnZKJs+fqo4dZHEus5IaRujVPeNC/Q67yjep10yE1jfJie2rSRq2xPWKcEICTz/jrOpvxwA4zjfduLjSFaCU2sMBF1w2UVNwi8Nt1FL24SPT6oGE7vCeVh5FcrUd58mEOBjQbKnzcVS/5arpwcGjy1MtoplaI2lsvvtzs6j8Xhw5EeImw5IDMz0yWFLP8i0mKPHrAUsvmRL5cFih+TYlbwFdh1HFp2/rN3lg3Qg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ikV7o2TwSnZ3f0HMW2HGVquDgLbjrCFDhPcw45dp7to=;
- b=M/eB4bh5+J68iYgXKtbr+B4v1v/qPJWUCB3b6L+vGsDwv+xb/7DDnzeEnLFlvKnnDh9LzCgzxTu7qXNL1KK+MqD3O14XdrhjDiInCaKik69snehK/kOZ2CxdqLwyJnBN3DZHgdoznHzluKvnbMDWQIv58pT1HAMszP1K2+Be2FFzxTNFWq9kIaZi7THsgmS1f05tqFL6TJz9am0nzQWoG3AjVIWI8mHKbQwXc5vos1eHFBLJlTS5RJzx+949IJ+2+bs2u/xq/q9KQSvcEiHm7AvubdJfjpL2gmVmR5Ps2sNquKx/Y5CqOjVjL60WoLxJ1P2UShU9E17seEZhKIrIEg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.83) smtp.rcpttodomain=wdc.com smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
+ bh=D467MqOnaVZ2TmBw6L32sFWkjuOoXwOUPuK0iN3Uc+c=;
+ b=UVtbY42aT2TsfMGeHB48m40Cnq66Vp8xB2MNl/aZJJ+irMS0A9MNCy8/9tLilAb9i6gShzuoBvuzwZSYr5kwI9biSdDXvExTyuy6PvY30gQd/jdQk+P0BW+3SxybXCoz9p5VaKX3ujCV6j1ZfTjktLPF2meiAaPmLqt/Gus2S54s8Ic/StXQv/F6tLnuxAS2Sd0fQM9nQbuT5Y9ugmPKkCVLdxGpZL8B8Ey7yocb01/RVShq1qy7X9N/j5kloF8PXqfkH+DO/5G3qPgErlXyNg/VZvunqMp4aZwELMg0Y1OBdLzzKZJsZWJiWY9iAvAheYE6+QeTRFkwRNGiRlWGqg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
+ dkim=pass header.d=xilinx.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ikV7o2TwSnZ3f0HMW2HGVquDgLbjrCFDhPcw45dp7to=;
- b=Z6aYomV9s1sNX4o93YTvYgh3SqRBrbxBAcco61MjqbuH3zZDHA1ZZFoG7HT95p+bGW6mqrSniU1RGf5S/OunpL+3E0euwOtAygDKN2niA5CYhWgeF5N2cO8d6/VBRFYBJojDuqSCypj8ct54rOV0MQJJDy2ykGSbl183Jct/iEQ=
-Received: from BL1PR13CA0019.namprd13.prod.outlook.com (2603:10b6:208:256::24)
- by BYAPR02MB5480.namprd02.prod.outlook.com (2603:10b6:a03:9a::22)
+ bh=D467MqOnaVZ2TmBw6L32sFWkjuOoXwOUPuK0iN3Uc+c=;
+ b=sJ7fqffw0hcQM6vP44lUmd0HJSMMw0EW7W16J+KwxjGMn3aep/cuTqNBqJKGQFuskfp7A7n9h7kNNx43TeWr+76cKoVSu9HW8ZczkrOv3k6vPo3L5x1Xu8OE7f6qcz7xr0RXZm7H71RGQm4Gnudbz6EOAA5X3WhuLWDOEkM1kOM=
+Received: from BY5PR02MB6772.namprd02.prod.outlook.com (2603:10b6:a03:206::11)
+ by BYAPR02MB5269.namprd02.prod.outlook.com (2603:10b6:a03:6e::21)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.15; Wed, 2 Sep
- 2020 12:12:27 +0000
-Received: from BL2NAM02FT030.eop-nam02.prod.protection.outlook.com
- (2603:10b6:208:256:cafe::47) by BL1PR13CA0019.outlook.office365.com
- (2603:10b6:208:256::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.7 via Frontend
- Transport; Wed, 2 Sep 2020 12:12:27 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; wdc.com; dkim=none (message not signed)
- header.d=none;wdc.com; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- BL2NAM02FT030.mail.protection.outlook.com (10.152.77.172) with Microsoft SMTP
- Server id 15.20.3326.19 via Frontend Transport; Wed, 2 Sep 2020 12:12:26
- +0000
-Received: from [149.199.38.66] (port=52595 helo=smtp.xilinx.com)
- by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
- (envelope-from <sai.pavan.boddu@xilinx.com>)
- id 1kDRck-0008A9-9J; Wed, 02 Sep 2020 05:12:22 -0700
-Received: from [127.0.0.1] (helo=xsj-smtp-dlp2.xlnx.xilinx.com)
- by smtp.xilinx.com with esmtp (Exim 4.63)
- (envelope-from <sai.pavan.boddu@xilinx.com>)
- id 1kDRco-0004lp-Di; Wed, 02 Sep 2020 05:12:26 -0700
-Received: from xsj-pvapsmtp01 (mail.xilinx.com [149.199.38.66])
- by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 082CCPtt032162; 
- Wed, 2 Sep 2020 05:12:25 -0700
-Received: from [10.140.6.35] (helo=xhdsaipava40.xilinx.com)
- by xsj-pvapsmtp01 with esmtp (Exim 4.63)
- (envelope-from <saipava@xhdsaipava40.xilinx.com>)
- id 1kDRcm-0004lM-Q3; Wed, 02 Sep 2020 05:12:25 -0700
-Received: by xhdsaipava40.xilinx.com (Postfix, from userid 14131)
- id 742BF13C050F; Wed,  2 Sep 2020 17:46:46 +0530 (IST)
-From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?=27Marc-Andr=C3=A9=20Lureau=27?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
- Francisco Iglesias <francisco.iglesias@xilinx.com>
-Subject: [PATCH] usb/host-libusb: Check for USBDEVFS_GET_SPEED ioctl support
-Date: Wed,  2 Sep 2020 17:46:43 +0530
-Message-Id: <1599049003-2937-1-git-send-email-sai.pavan.boddu@xilinx.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 11771f7d-f65a-413d-703a-08d84f397524
-X-MS-TrafficTypeDiagnostic: BYAPR02MB5480:
-X-Microsoft-Antispam-PRVS: <BYAPR02MB5480FB9D75967900B8E4A4FDCA2F0@BYAPR02MB5480.namprd02.prod.outlook.com>
+ 2020 12:17:55 +0000
+Received: from BY5PR02MB6772.namprd02.prod.outlook.com
+ ([fe80::1007:f094:45c9:bb47]) by BY5PR02MB6772.namprd02.prod.outlook.com
+ ([fe80::1007:f094:45c9:bb47%8]) with mapi id 15.20.3326.025; Wed, 2 Sep 2020
+ 12:17:55 +0000
+From: Sai Pavan Boddu <saipava@xilinx.com>
+To: =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>, Peter
+ Maydell <peter.maydell@linaro.org>, Markus Armbruster <armbru@redhat.com>,
+ =?utf-8?B?J01hcmMtQW5kcsOpIEx1cmVhdSc=?= <marcandre.lureau@redhat.com>, Paolo
+ Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, Edgar
+ Iglesias <edgari@xilinx.com>, Francisco Eduardo Iglesias
+ <figlesia@xilinx.com>
+Subject: RE: [PATCH] usb/host-libusb: Check for USBDEVFS_GET_SPEED ioctl
+ support
+Thread-Topic: [PATCH] usb/host-libusb: Check for USBDEVFS_GET_SPEED ioctl
+ support
+Thread-Index: AQHWgSJW03tSBdg1b0egylafmxHO7KlVQz8AgAAAWhA=
+Date: Wed, 2 Sep 2020 12:17:55 +0000
+Message-ID: <BY5PR02MB6772CEF19896968D6CE47051CA2F0@BY5PR02MB6772.namprd02.prod.outlook.com>
+References: <1599049003-2937-1-git-send-email-sai.pavan.boddu@xilinx.com>
+ <8f9acb59-315d-938c-4db2-af9449e3f4ad@redhat.com>
+In-Reply-To: <8f9acb59-315d-938c-4db2-af9449e3f4ad@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
 X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:216;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: tcjhbwDOvdy/LYdtp3qZI80S8gs7NuA8rcvryiz5wKEAwQeup7WU6aR2XaXnRc4XoZfcY+XFTguOhCAUywZt19nIqGIXMn+kQ3syI+6NtNRQrp6jW5UV8zbN4H8nO7NbayFI4Mvq47ue+gtihF0Sg1jvOt8TPmGg4CxofSAAr7TechejpQwMWoPVMPAVvn3w+YBxctLAZw7jwenT3n1Q0x4+1L+JWsX6ZBXz+zi7aFJQeWHgp2KSVS74A3HQVJw3owlY7ipcQvKqfJZ29aENtp/9MGJIESz+zUCVhRRF8cST76GzlGu10apyQ51n48Jk8U/mFj0sWykZNz11m58WqG+kIwSZkt1y3DlTOnVWXfTQi0egAn40M2yI9YUE/g1W96WhVIjg2ckxStP6amaP7w==
-X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
- SFS:(136003)(39860400002)(346002)(376002)(396003)(46966005)(316002)(2616005)(6266002)(336012)(5660300002)(4326008)(70206006)(426003)(7416002)(70586007)(82310400003)(4744005)(26005)(83380400001)(36756003)(8676002)(42186006)(81166007)(6636002)(47076004)(6666004)(8936002)(2906002)(478600001)(356005)(186003)(82740400003)(54906003)(110136005);
+X-MS-TNEF-Correlator: 
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=xilinx.com;
+x-originating-ip: [149.199.50.129]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: cd971092-4799-4c4a-afa1-08d84f3a3900
+x-ms-traffictypediagnostic: BYAPR02MB5269:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR02MB5269CF7E3F3BAE59078F73A1CA2F0@BYAPR02MB5269.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:411;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: CVVL/zRjAtKGNDYjWW2GJM0Fuo3Yb+5deILY+i8UWXbuPjlbQk2wPXUjZixlqgEy75rw6QpXelvGekCGA94NiL7sZrYYb7XA37kXWDIyhTufoxxotzokGNbFO89QadpI1y1UUGYxnf3ZFeawOxo9rRkj91uz9yrFxCIoX0+guoFErg/mKB2Lz6RJpjagxL9jZeBGt43kpHnSxNLJFqWpHfBpjqS8qxlXPBr0S7H1EeqvlriRSm5nXfi6se8Ab55+/X54z0InsWspdHEt4lr8OjGl92EdtfJJIXPn+68qp3XIg4lz0IuiF4cONQXDY8nDrVZVMcbj8d71c1n0/K5ZqZ1kjCtV9Kg02NG4uyXwzV88ECJilFKpy/2kagSEVdIe+wE/2uf5Zeya1lCH0reEMQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR02MB6772.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(136003)(396003)(346002)(376002)(366004)(39860400002)(110136005)(71200400001)(83380400001)(7416002)(33656002)(316002)(54906003)(9686003)(52536014)(478600001)(7696005)(66556008)(66446008)(66476007)(186003)(64756008)(8676002)(55016002)(4326008)(8936002)(26005)(6636002)(6506007)(53546011)(2906002)(76116006)(66946007)(5660300002)(966005)(86362001);
  DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: IqX27Y1mJyZlmMkVAln2rgvROdHoA7JHnH0lBhaoF6xQjLtvUHfiYrw6SdLf0lUMt+DzSl3kMtyEQnb2bzBQDEddE5pwrFZ8MqV2KtSCEl7FqjNuUTjNfJiBDW/qMIM8dvzo1pl9kkDRmyalroEeayMCFnFJs5ycx7p3svufyKKXktdgLJ3A/MEAnEwo+c+bqEAgbz9UryG2loKUcxNM03bEkT5n/YV4CXQX5FESdR06eb4b2nCgMfPo6Uydzl4JpPw9GhHSLi87UsQ/zRjjg5ZD9EzQrYk3PDnyjnZuaSLmgTbKompwRC+y0oA16K6F3BhZoLDTEI8upPW2WdL2NjOskPDuzF4Hs6iCXwzS9P1mmn6zNcgBbZGGpU3NjWeqX8EmxalmoFTDs80A3htlT/CmnUG9VuSUHsP3QdryLYDmMWLB5LJcPEdxtrxCq3FTWRKDEsHTuZMnusb0gRxFF/8ZFpVZrYvhwC4CUktXZc+hsH/OH6rx967XmafBpLK6Vd7CLeILKVaEeGpH43V1rcUPFcGrcge1Uce8+LhiQTe5s5qRz8IdtA0NE8tetWscYuGV6J0ughNCKl/OIxc6o0sR9zgB+kYpc6sp+ghxklSEzXOsZOzNmRISr3rqDbSa05/2HPrxF5dR+feSiY6mqA==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2020 12:12:26.9837 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 11771f7d-f65a-413d-703a-08d84f397524
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
- Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-AuthSource: BL2NAM02FT030.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB5480
-Received-SPF: pass client-ip=40.107.236.67; envelope-from=saipava@xilinx.com;
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR02MB6772.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd971092-4799-4c4a-afa1-08d84f3a3900
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Sep 2020 12:17:55.4166 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Az6SLcUzYWEQ42ik5Gn3uI7txToXprdiX0tGLxCeIjWeq1oDRWiytGNBvsOJxv5rGv3nVOK2OTj6OEBxENtbnA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB5269
+Received-SPF: pass client-ip=40.107.236.69; envelope-from=saipava@xilinx.com;
  helo=NAM11-BN8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 08:27:30
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 08:17:58
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: 7
-X-Spam_score: 0.7
-X-Spam_bar: /
-X-Spam_report: (0.7 / 5.0 requ) AC_FROM_MANY_DOTS=2.595, BAYES_00=-1.9,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -140,41 +120,47 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Eduardo Habkost <ehabkost@redhat.com>, Vikram Garhwal <fnuv@xilinx.com>,
- sai.pavan.boddu@xilinx.com, qemu-devel@nongnu.org,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
  Paul Zimmerman <pauldzim@gmail.com>,
- Alistair Francis <alistair.francis@wdc.com>, Ying Fang <fangying1@huawei.com>,
- =?UTF-8?q?=27Philippe=20Mathieu-Daud=C3=A9=27?= <philmd@redhat.com>
+ Alistair Francis <alistair.francis@wdc.com>, Ying Fang <fangying1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixes compilation issue with older kernels, below is the error which is
-fixed.
-
-hw/usb/host-libusb.c:954:32: error: =E2=80=98USBDEVFS_GET_SPEED=E2=80=99 =
-undeclared
-(first use in this function)
-         int rc =3D ioctl(hostfd, USBDEVFS_GET_SPEED, NULL);
-
-Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
----
- hw/usb/host-libusb.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/hw/usb/host-libusb.c b/hw/usb/host-libusb.c
-index 08604f7..c30d450 100644
---- a/hw/usb/host-libusb.c
-+++ b/hw/usb/host-libusb.c
-@@ -942,7 +942,7 @@ static int usb_host_open(USBHostDevice *s, libusb_dev=
-ice *dev, int hostfd)
-     usb_host_ep_update(s);
-=20
-     libusb_speed =3D libusb_get_device_speed(dev);
--#ifdef CONFIG_LINUX
-+#if defined(CONFIG_LINUX) && defined(USBDEVFS_GET_SPEED)
-     if (hostfd && libusb_speed =3D=3D 0) {
-         /*
-          * Workaround libusb bug: libusb_get_device_speed() does not
---=20
-2.7.4
-
+SEkgUGhpbGlwcGUvR2VyZCwNCg0KVGhhbmtzLCANClRoaXMgcGF0Y2ggY2FuIGJlIGlnbm9yZWQg
+dGhlbi4NCg0KUmVnYXJkcywNClNhaSBQYXZhbg0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0t
+LS0tDQo+IEZyb206IFBoaWxpcHBlIE1hdGhpZXUtRGF1ZMOpIDxwaGlsbWRAcmVkaGF0LmNvbT4N
+Cj4gU2VudDogV2VkbmVzZGF5LCBTZXB0ZW1iZXIgMiwgMjAyMCA1OjQ2IFBNDQo+IFRvOiBTYWkg
+UGF2YW4gQm9kZHUgPHNhaXBhdmFAeGlsaW54LmNvbT47IFBldGVyIE1heWRlbGwNCj4gPHBldGVy
+Lm1heWRlbGxAbGluYXJvLm9yZz47IE1hcmt1cyBBcm1icnVzdGVyIDxhcm1icnVAcmVkaGF0LmNv
+bT47DQo+ICdNYXJjLUFuZHLDqSBMdXJlYXUnIDxtYXJjYW5kcmUubHVyZWF1QHJlZGhhdC5jb20+
+OyBQYW9sbyBCb256aW5pDQo+IDxwYm9uemluaUByZWRoYXQuY29tPjsgR2VyZCBIb2ZmbWFubiA8
+a3JheGVsQHJlZGhhdC5jb20+OyBFZGdhcg0KPiBJZ2xlc2lhcyA8ZWRnYXJpQHhpbGlueC5jb20+
+OyBGcmFuY2lzY28gRWR1YXJkbyBJZ2xlc2lhcw0KPiA8ZmlnbGVzaWFAeGlsaW54LmNvbT4NCj4g
+Q2M6IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZzsgQWxpc3RhaXIgRnJhbmNpcyA8YWxpc3RhaXIuZnJh
+bmNpc0B3ZGMuY29tPjsNCj4gRWR1YXJkbyBIYWJrb3N0IDxlaGFia29zdEByZWRoYXQuY29tPjsg
+WWluZyBGYW5nDQo+IDxmYW5neWluZzFAaHVhd2VpLmNvbT47IFZpa3JhbSBHYXJod2FsIDxmbnV2
+QHhpbGlueC5jb20+OyBQYXVsDQo+IFppbW1lcm1hbiA8cGF1bGR6aW1AZ21haWwuY29tPg0KPiBT
+dWJqZWN0OiBSZTogW1BBVENIXSB1c2IvaG9zdC1saWJ1c2I6IENoZWNrIGZvciBVU0JERVZGU19H
+RVRfU1BFRUQgaW9jdGwNCj4gc3VwcG9ydA0KPiANCj4gT24gOS8yLzIwIDI6MTYgUE0sIFNhaSBQ
+YXZhbiBCb2RkdSB3cm90ZToNCj4gPiBGaXhlcyBjb21waWxhdGlvbiBpc3N1ZSB3aXRoIG9sZGVy
+IGtlcm5lbHMsIGJlbG93IGlzIHRoZSBlcnJvciB3aGljaA0KPiA+IGlzIGZpeGVkLg0KPiA+DQo+
+ID4gaHcvdXNiL2hvc3QtbGlidXNiLmM6OTU0OjMyOiBlcnJvcjog4oCYVVNCREVWRlNfR0VUX1NQ
+RUVE4oCZIHVuZGVjbGFyZWQNCj4gPiAoZmlyc3QgdXNlIGluIHRoaXMgZnVuY3Rpb24pDQo+ID4g
+ICAgICAgICAgaW50IHJjID0gaW9jdGwoaG9zdGZkLCBVU0JERVZGU19HRVRfU1BFRUQsIE5VTEwp
+Ow0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogU2FpIFBhdmFuIEJvZGR1IDxzYWkucGF2YW4uYm9k
+ZHVAeGlsaW54LmNvbT4NCj4gPiAtLS0NCj4gPiAgaHcvdXNiL2hvc3QtbGlidXNiLmMgfCAyICst
+DQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0KPiA+
+DQo+ID4gZGlmZiAtLWdpdCBhL2h3L3VzYi9ob3N0LWxpYnVzYi5jIGIvaHcvdXNiL2hvc3QtbGli
+dXNiLmMgaW5kZXgNCj4gPiAwODYwNGY3Li5jMzBkNDUwIDEwMDY0NA0KPiA+IC0tLSBhL2h3L3Vz
+Yi9ob3N0LWxpYnVzYi5jDQo+ID4gKysrIGIvaHcvdXNiL2hvc3QtbGlidXNiLmMNCj4gPiBAQCAt
+OTQyLDcgKzk0Miw3IEBAIHN0YXRpYyBpbnQgdXNiX2hvc3Rfb3BlbihVU0JIb3N0RGV2aWNlICpz
+LA0KPiBsaWJ1c2JfZGV2aWNlICpkZXYsIGludCBob3N0ZmQpDQo+ID4gICAgICB1c2JfaG9zdF9l
+cF91cGRhdGUocyk7DQo+ID4NCj4gPiAgICAgIGxpYnVzYl9zcGVlZCA9IGxpYnVzYl9nZXRfZGV2
+aWNlX3NwZWVkKGRldik7IC0jaWZkZWYgQ09ORklHX0xJTlVYDQo+ID4gKyNpZiBkZWZpbmVkKENP
+TkZJR19MSU5VWCkgJiYgZGVmaW5lZChVU0JERVZGU19HRVRfU1BFRUQpDQo+IA0KPiBHZXJkIHJl
+Y2VudGx5IHNlbnQgYSBzbGlnaHRseSBkaWZmZXJlbnQgcGF0Y2g6DQo+IGh0dHBzOi8vbGlzdHMu
+Z251Lm9yZy9hcmNoaXZlL2h0bWwvcWVtdS1kZXZlbC8yMDIwLTA5L21zZzAwNjQ5Lmh0bWwNCj4g
+DQo+ID4gICAgICBpZiAoaG9zdGZkICYmIGxpYnVzYl9zcGVlZCA9PSAwKSB7DQo+ID4gICAgICAg
+ICAgLyoNCj4gPiAgICAgICAgICAgKiBXb3JrYXJvdW5kIGxpYnVzYiBidWc6IGxpYnVzYl9nZXRf
+ZGV2aWNlX3NwZWVkKCkgZG9lcyBub3QNCj4gPg0KDQo=
 
