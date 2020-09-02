@@ -2,104 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F97F25AD13
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 16:29:25 +0200 (CEST)
-Received: from localhost ([::1]:34422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BCFB25AD36
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 16:34:07 +0200 (CEST)
+Received: from localhost ([::1]:42566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDTlM-00039g-HF
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 10:29:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60212)
+	id 1kDTpu-0006v3-Et
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 10:34:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kDTjy-0001CO-Ni
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 10:27:58 -0400
-Received: from mail-dm6nam12on2106.outbound.protection.outlook.com
- ([40.107.243.106]:47968 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kDTjx-0001T7-8R
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 10:27:58 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JxsdYTR9aLVZcTAIXFmgfwp+YS9t3pZU2aZ2b+X7BgraLeInyg7dCOWNpBP+1V0a2KtHsfpZ/nFpdDfzz4Gmcxja7d2ZlF2nyahDsKjCHsBK15Zoxi6/Io5tc0QEQBBqHkVaeQz3sH3oEC9mTldmy9pHAI48uZ5AaHgWnw24jb3t4QtQCrtkGodEQhAbXnq5x/hobp6h96vyXP4/vjQQ6eNKNYyt22Ga8FLP9B1BbeicTmIxWqJ+dQ47ZG8CxMdKIOH5rnH39xO5G0viiXHbF6n0TY/CWP9y3qNh5p97KRNR+mUCsnDHqNG92iUqslYUg5nMTZXyD1bHTl1uTKOIzA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/kjjDevcrngpcqFVeuJ2EUYRDchmPlweqwRueRD/XUA=;
- b=ZHkRAnZxS/ZLZFnkOqnmaufdDGRkOP3DFE40mz19R2NlVKQN3QxAPaDbum5+fCUhN0EZIjglU8xtTHljqWIxiIrxzcMNUgOibmRUvlWXokHCEX6mWt8I0cYvzlwrUR1CBP+6hWWRROeWdTSZ+roxmiS9M9GI5HMijVgRU2eF07se/VLU5M4AM3l+gnCbMWTztzazyUSoykaLpNewv5XQZUvSj55ZO0G7+eZzKh+AQvc+GFSSdigMdg3GN5B/LJqGHXRN2tqgoBd9PSIaC0fBHbWlC54CztFhXIUIDU/8vvujXrmXLAldAtacimTpPkKYvz2IZcS3k2rYTEiJsz5E6g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
- header.d=bu.edu; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/kjjDevcrngpcqFVeuJ2EUYRDchmPlweqwRueRD/XUA=;
- b=AylvLP1v2v11axsfT2jHaqCx/uyEaPu3rPLuNa33YRA7RfXGeI0U9KF9cfdrUNboBePuKUI+167NjcfsHHlK99e5x+e//2ydX1D82uJORw+yjiKXcUKQY2F1NPGI8LXRB8al6dM/ttIrJlfE+uqVFYau2hBWSVc6iIhrwZebVTg=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
- by SA0PR03MB5465.namprd03.prod.outlook.com (2603:10b6:806:b5::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.15; Wed, 2 Sep
- 2020 14:27:20 +0000
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::61ae:93a8:b26c:77b8]) by SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::61ae:93a8:b26c:77b8%4]) with mapi id 15.20.3326.025; Wed, 2 Sep 2020
- 14:27:20 +0000
-From: Alexander Bulekov <alxndr@bu.edu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] scripts/oss-fuzz/build.sh: fix rpath
-Date: Wed,  2 Sep 2020 10:26:57 -0400
-Message-Id: <20200902142657.112879-3-alxndr@bu.edu>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200902142657.112879-1-alxndr@bu.edu>
-References: <20200902142657.112879-1-alxndr@bu.edu>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MN2PR20CA0029.namprd20.prod.outlook.com
- (2603:10b6:208:e8::42) To SN6PR03MB3871.namprd03.prod.outlook.com
- (2603:10b6:805:6d::32)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kDTnl-0005Zq-VG
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 10:31:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57008)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kDTnj-0002At-RR
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 10:31:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599057110;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0yORoHf+y2VBuN+BVg4KUjcNP9e47M8P2beAG2B1io0=;
+ b=K2ann2z25EGn9c+I0CdbJzC0AXCyY9bEQfriF7KctLwfAxoMzF6F2hFz6Z0ysRZ8XZhPoS
+ IX2ctHhQz1XwUcXiUMYuC26zzJIpHHvGvkd6QwVtJBdO0cPWC/2fANyuf8cdWY70x+k9Nm
+ 4lXmGFj5l/uaoiMZYigvOIaYmkvONaI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-478-evXiPp4DOe2UI0mQ1aqh3Q-1; Wed, 02 Sep 2020 10:31:48 -0400
+X-MC-Unique: evXiPp4DOe2UI0mQ1aqh3Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 958C4640E1
+ for <qemu-devel@nongnu.org>; Wed,  2 Sep 2020 14:31:34 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-68.ams2.redhat.com
+ [10.36.113.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 64D5B19C59;
+ Wed,  2 Sep 2020 14:31:34 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id D87E3113865F; Wed,  2 Sep 2020 16:31:32 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] libqtest: Rename qmp_assert_error_class() to
+ qmp_expect_error_and_unref()
+References: <20200902115733.1229537-1-armbru@redhat.com>
+ <b7cdce86-ad58-d8fc-d081-ce5410dbcc57@redhat.com>
+Date: Wed, 02 Sep 2020 16:31:32 +0200
+In-Reply-To: <b7cdce86-ad58-d8fc-d081-ce5410dbcc57@redhat.com> (Thomas Huth's
+ message of "Wed, 2 Sep 2020 14:00:33 +0200")
+Message-ID: <87eenk8d2z.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from 255.255.255.255 (255.255.255.255) by
- MN2PR20CA0029.namprd20.prod.outlook.com (2603:10b6:208:e8::42) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3348.15 via Frontend Transport; Wed, 2 Sep 2020 14:27:19 +0000
-X-Mailer: git-send-email 2.28.0
-X-Originating-IP: [72.93.72.163]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 66c3659a-2ab5-406e-9baf-08d84f4c4d19
-X-MS-TrafficTypeDiagnostic: SA0PR03MB5465:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA0PR03MB546599B3B0F0870BD6F76A86BA2F0@SA0PR03MB5465.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WvKIvuZRy2otfOcY3gz5xUOxWIPgGxnE7b0HEU44yOIjwpjqdG8DdTDjU+ZgyOnDh8Y0ocFv3EWKlWv6ue3M4MoIODnPlOzXJF8fe8d9x0Twmfr2/HNEBEGOypUh7RBupsNdsuXNMrZ7zHswt/lYHQIJqM4zyJOfakjYEdCziRiUFMGgSkDe3QPyS4gIpie72pbiPjCVY98rzijEOfJ6LPRlp3Y8/GQNU4HPK/2cmKb22CJKKXou1OQmVu9z5BjC4Topwq+GH91KCC/O/e1rrBFyD4JrnGLCQvEMRBQFNH6IXkSVJD7k3j3mrusg2lQTuyBgHoEjvPGF4jq7xursrQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(366004)(376002)(39860400002)(346002)(136003)(1076003)(8676002)(66946007)(6916009)(66476007)(66556008)(54906003)(52116002)(6666004)(86362001)(4326008)(75432002)(5660300002)(6486002)(478600001)(83380400001)(8936002)(316002)(956004)(2616005)(786003)(36756003)(186003)(2906002)(16576012)(26005);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: ITn23cR176dg60NwoFWPqet7EAwsW3ZfemqMa0VfSLXw6sUJcNCagGkoPTHHGbZ0lxoySsPbfGlgfoh9TnXv6LC24sB2lbOPKsX+RiDapAiaGlAKnWX0hirNYm9yuGOfV4GlrdMzFhhyYSBdVsLOmp+BPPHPsWmRZDF0Ro4HG+DLQ/CUH/0rL/ZJuagwQWW6CjoWgzr0lfPz46gmlCtW1+c7PrIVtfJZHXJ9AOHYf6kTcCJuWgoxBdcx3MRNYptU7BduvBYJ8h+TeToB6XhGG5SQ+IEucQuKbIsoVxQzKP0jd3awQSizIeUZYHWj6GlEvIUSWyGJx/WIMO2Oo1hdO6CgzaqTYcby7Mv7w8j1nTF+XXnuF3bHT9v0SANofnADkEHO+K3Mo4xIti4MWlC4ZlwCnK7IqM4Cxj+SATeKfsSrrVtQoH0odRHp85WCPb0hpYX5nM5JZ4s4qqP3yYfBdrMsr8EUK5TovjeOsAUmatLYYgshE1FD6wqR0CRex34x6a971DqOtgmUBFPn2wivrvMvXAoJDgloySEhJeElnObsw/JEQ8iJ5OuSa75Wgmc/vIO0ks26xYRrQPe72+HR0U415H008pTZ7+KraXWyh8wj6nxVXNR9d6fvWTSqtB0sb7gXJFFlCh/i1Q3VhFvjWQ==
-X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 66c3659a-2ab5-406e-9baf-08d84f4c4d19
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2020 14:27:20.6385 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: e2e64LYgXwTkFyq9Kw95xFRmLHZwqVkXDXrRm0WjSHV3ra8HgGErGaKIvPtta7Cp
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR03MB5465
-Received-SPF: pass client-ip=40.107.243.106; envelope-from=alxndr@bu.edu;
- helo=NAM12-DM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 10:27:16
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: 4
-X-Spam_score: 0.4
-X-Spam_bar: /
-X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999, MSGID_FROM_MTA_HEADER=0.001,
- RCVD_ILLEGAL_IP=1.3, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 02:42:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -112,43 +83,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- bonzini@redhat.com, darren.kenny@oracle.com, bsd@redhat.com,
- stefanha@redhat.com, Paolo Bonzini <pbonzini@redhat.com>
+Cc: lvivier@redhat.com, pbonzini@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Prior to this change,
-readelf -d build/out/qemu/qemu-fuzz-i386-target-virtio-net-slirp
-...
-0x000000000000000f (RPATH)  Library rpath: ['$$ORIGIN/lib':$ORIGIN/migration:$ORIGIN/]
+Thomas Huth <thuth@redhat.com> writes:
 
-As of 1a4db552d8 ("ninjatool: quote dollars in variables"), we don't
-need to manually double the dollars. Also, remove the single-quotes as
-they are copied into the rpath.
+> On 02/09/2020 13.57, Markus Armbruster wrote:
+>> qmp_assert_error_class() does more than just assert: it also unrefs
+>> the @rsp argument.  Rename to qmp_assert_error_class() to reduce
+>> confusion.
+>
+> s/to qmp_assert_error_class()/to qmp_expect_error_and_unref()/
 
-After this change:
-0x000000000000000f (RPATH)  Library rpath: [$ORIGIN/lib:$ORIGIN/migration:$ORIGIN/]
+I once again demonstrate that I'm unable to read what I wrote myself.
 
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
----
- scripts/oss-fuzz/build.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> With that nit fixed (I can do it when picking up the patch):
+>
+> Acked-by: Thomas Huth <thuth@redhat.com>
 
-diff --git a/scripts/oss-fuzz/build.sh b/scripts/oss-fuzz/build.sh
-index f0b7442c96..d16207eb67 100755
---- a/scripts/oss-fuzz/build.sh
-+++ b/scripts/oss-fuzz/build.sh
-@@ -81,7 +81,7 @@ rm qemu-fuzz-i386
- # Build a second time to build the final binary with correct rpath
- ../configure --disable-werror --cc="$CC" --cxx="$CXX" --enable-fuzzing \
-     --prefix="$DEST_DIR" --bindir="$DEST_DIR" --datadir="$DEST_DIR/data/" \
--    --extra-cflags="$EXTRA_CFLAGS" --extra-ldflags="-Wl,-rpath,'\$\$ORIGIN/lib'" \
-+    --extra-cflags="$EXTRA_CFLAGS" --extra-ldflags="-Wl,-rpath,\$ORIGIN/lib" \
-     --target-list="i386-softmmu"
- make "-j$(nproc)" qemu-fuzz-i386 V=1
- 
--- 
-2.28.0
+Thanks!
 
 
