@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B16325AAAF
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 14:00:23 +0200 (CEST)
-Received: from localhost ([::1]:34652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C33A925AAA8
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 13:58:54 +0200 (CEST)
+Received: from localhost ([::1]:56750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDRR8-0006ii-C4
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 08:00:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47062)
+	id 1kDRPh-0003jl-Pf
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 07:58:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDRKr-0002Zv-GT
+ id 1kDRKr-0002ZF-A0
  for qemu-devel@nongnu.org; Wed, 02 Sep 2020 07:53:53 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54046
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37955
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDRKo-0006wv-PS
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 07:53:53 -0400
+ id 1kDRKp-0006x5-0a
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 07:53:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599047629;
+ s=mimecast20190719; t=1599047630;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vZT4vT1KTfiJzyEdqzjUQKjy3WpckfF7lscstkt1d2M=;
- b=I9RHFAK/cZk+Dqy1PQqASCfHuSb3UCZZD6hgblejTHJXQZnP4md0++Db3+t0PAGt62fScF
- krdNJkCUbCUbYU3CxSLzEYrnjoNJMmgaYLSj5DdjY+JfUJZcooovYgDicQ317ktp9NSWFv
- UuP1DqThj7W/cZwxL6vVjQMNhvQbvYY=
+ bh=fm97JsftiCaFYSxPLJTeVMrVEud70XBqnUaWgNYjrvg=;
+ b=Jeu3jhstQogeEQ1PiEyrCR++RWKCy91JYETxxTeuu6yn1fQJFR2cBAZm7KadZZYOdiKrcT
+ wcbuk09wqcJTpaIZEfN4j15FCWlZyKmOvcJwH/w4Ebb+Q5yLxJLDYklVO22OWpQ1jSfKIo
+ x49F8JwdJbn4i3Rs8NrpU4LSXYxhod0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-251-lQ6pl8hINZ2osAMGEPxx-g-1; Wed, 02 Sep 2020 07:53:47 -0400
-X-MC-Unique: lQ6pl8hINZ2osAMGEPxx-g-1
+ us-mta-540-ccYpq73SN-qjB1lS5q2THA-1; Wed, 02 Sep 2020 07:53:48 -0400
+X-MC-Unique: ccYpq73SN-qjB1lS5q2THA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4AF9C10ABDC2;
- Wed,  2 Sep 2020 11:53:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56BEC1DDFE;
+ Wed,  2 Sep 2020 11:53:47 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 186765D9CC;
- Wed,  2 Sep 2020 11:53:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 208395D9CC;
+ Wed,  2 Sep 2020 11:53:47 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 15/20] Revert "target/i386: Cleanup and use the EPYC mode
- topology functions"
-Date: Wed,  2 Sep 2020 07:53:18 -0400
-Message-Id: <20200902115323.850385-16-ehabkost@redhat.com>
+Subject: [PULL 16/20] Revert "hw/386: Add EPYC mode topology decoding
+ functions"
+Date: Wed,  2 Sep 2020 07:53:19 -0400
+Message-Id: <20200902115323.850385-17-ehabkost@redhat.com>
 In-Reply-To: <20200902115323.850385-1-ehabkost@redhat.com>
 References: <20200902115323.850385-1-ehabkost@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 02:07:24
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 02:26:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -91,264 +91,144 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Babu Moger <babu.moger@amd.com>
 
-This reverts commit dd08ef0318e2b61d14bc069590d174913f7f437a.
+This reverts commit 7568b205555a6405042f62c64af3268f4330aed5.
 
 Remove the EPYC specific apicid decoding and use the generic
 default decoding.
 
 Signed-off-by: Babu Moger <babu.moger@amd.com>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <159889936257.21294.1786224705357428082.stgit@naples-babu.amd.com>
+Message-Id: <159889936871.21294.1454526726636639780.stgit@naples-babu.amd.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- target/i386/cpu.c | 161 ++++++++++++++++++++++++++++++++++++----------
- 1 file changed, 127 insertions(+), 34 deletions(-)
+ include/hw/i386/topology.h | 100 -------------------------------------
+ 1 file changed, 100 deletions(-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index b72b4b08ac..256bfa669f 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -338,15 +338,68 @@ static void encode_cache_cpuid80000006(CPUCacheInfo *l2,
-     }
+diff --git a/include/hw/i386/topology.h b/include/hw/i386/topology.h
+index 07239f95f4..b9593b9905 100644
+--- a/include/hw/i386/topology.h
++++ b/include/hw/i386/topology.h
+@@ -47,7 +47,6 @@ typedef uint32_t apic_id_t;
+ 
+ typedef struct X86CPUTopoIDs {
+     unsigned pkg_id;
+-    unsigned node_id;
+     unsigned die_id;
+     unsigned core_id;
+     unsigned smt_id;
+@@ -89,11 +88,6 @@ static inline unsigned apicid_die_width(X86CPUTopoInfo *topo_info)
+     return apicid_bitwidth_for_count(topo_info->dies_per_pkg);
  }
  
-+/*
-+ * Definitions used for building CPUID Leaf 0x8000001D and 0x8000001E
-+ * Please refer to the AMD64 Architecture Programmer’s Manual Volume 3.
-+ * Define the constants to build the cpu topology. Right now, TOPOEXT
-+ * feature is enabled only on EPYC. So, these constants are based on
-+ * EPYC supported configurations. We may need to handle the cases if
-+ * these values change in future.
-+ */
-+/* Maximum core complexes in a node */
-+#define MAX_CCX 2
-+/* Maximum cores in a core complex */
-+#define MAX_CORES_IN_CCX 4
-+/* Maximum cores in a node */
-+#define MAX_CORES_IN_NODE 8
-+/* Maximum nodes in a socket */
-+#define MAX_NODES_PER_SOCKET 4
-+
-+/*
-+ * Figure out the number of nodes required to build this config.
-+ * Max cores in a node is 8
-+ */
-+static int nodes_in_socket(int nr_cores)
-+{
-+    int nodes;
-+
-+    nodes = DIV_ROUND_UP(nr_cores, MAX_CORES_IN_NODE);
-+
-+   /* Hardware does not support config with 3 nodes, return 4 in that case */
-+    return (nodes == 3) ? 4 : nodes;
-+}
-+
-+/*
-+ * Decide the number of cores in a core complex with the given nr_cores using
-+ * following set constants MAX_CCX, MAX_CORES_IN_CCX, MAX_CORES_IN_NODE and
-+ * MAX_NODES_PER_SOCKET. Maintain symmetry as much as possible
-+ * L3 cache is shared across all cores in a core complex. So, this will also
-+ * tell us how many cores are sharing the L3 cache.
-+ */
-+static int cores_in_core_complex(int nr_cores)
-+{
-+    int nodes;
-+
-+    /* Check if we can fit all the cores in one core complex */
-+    if (nr_cores <= MAX_CORES_IN_CCX) {
-+        return nr_cores;
-+    }
-+    /* Get the number of nodes required to build this config */
-+    nodes = nodes_in_socket(nr_cores);
-+
-+    /*
-+     * Divide the cores accros all the core complexes
-+     * Return rounded up value
-+     */
-+    return DIV_ROUND_UP(nr_cores, nodes * MAX_CCX);
-+}
-+
- /* Encode cache info for CPUID[8000001D] */
--static void encode_cache_cpuid8000001d(CPUCacheInfo *cache,
--                                       X86CPUTopoInfo *topo_info,
--                                       uint32_t *eax, uint32_t *ebx,
--                                       uint32_t *ecx, uint32_t *edx)
-+static void encode_cache_cpuid8000001d(CPUCacheInfo *cache, CPUState *cs,
-+                                uint32_t *eax, uint32_t *ebx,
-+                                uint32_t *ecx, uint32_t *edx)
- {
-     uint32_t l3_cores;
--    unsigned nodes = MAX(topo_info->nodes_per_pkg, 1);
+-/* Bit width of the node_id field per socket */
+-static inline unsigned apicid_node_width_epyc(X86CPUTopoInfo *topo_info)
+-{
+-    return apicid_bitwidth_for_count(MAX(topo_info->nodes_per_pkg, 1));
+-}
+ /* Bit offset of the Core_ID field
+  */
+ static inline unsigned apicid_core_offset(X86CPUTopoInfo *topo_info)
+@@ -114,100 +108,6 @@ static inline unsigned apicid_pkg_offset(X86CPUTopoInfo *topo_info)
+     return apicid_die_offset(topo_info) + apicid_die_width(topo_info);
+ }
+ 
+-#define NODE_ID_OFFSET 3 /* Minimum node_id offset if numa configured */
 -
-     assert(cache->size == cache->line_size * cache->associativity *
-                           cache->partitions * cache->sets);
- 
-@@ -355,13 +408,10 @@ static void encode_cache_cpuid8000001d(CPUCacheInfo *cache,
- 
-     /* L3 is shared among multiple cores */
-     if (cache->level == 3) {
--        l3_cores = DIV_ROUND_UP((topo_info->dies_per_pkg *
--                                 topo_info->cores_per_die *
--                                 topo_info->threads_per_core),
--                                 nodes);
--        *eax |= (l3_cores - 1) << 14;
-+        l3_cores = cores_in_core_complex(cs->nr_cores);
-+        *eax |= ((l3_cores * cs->nr_threads) - 1) << 14;
-     } else {
--        *eax |= ((topo_info->threads_per_core - 1) << 14);
-+        *eax |= ((cs->nr_threads - 1) << 14);
-     }
- 
-     assert(cache->line_size > 0);
-@@ -381,17 +431,55 @@ static void encode_cache_cpuid8000001d(CPUCacheInfo *cache,
-            (cache->complex_indexing ? CACHE_COMPLEX_IDX : 0);
- }
- 
-+/* Data structure to hold the configuration info for a given core index */
-+struct core_topology {
-+    /* core complex id of the current core index */
-+    int ccx_id;
-+    /*
-+     * Adjusted core index for this core in the topology
-+     * This can be 0,1,2,3 with max 4 cores in a core complex
-+     */
-+    int core_id;
-+    /* Node id for this core index */
-+    int node_id;
-+    /* Number of nodes in this config */
-+    int num_nodes;
-+};
-+
-+/*
-+ * Build the configuration closely match the EPYC hardware. Using the EPYC
-+ * hardware configuration values (MAX_CCX, MAX_CORES_IN_CCX, MAX_CORES_IN_NODE)
-+ * right now. This could change in future.
-+ * nr_cores : Total number of cores in the config
-+ * core_id  : Core index of the current CPU
-+ * topo     : Data structure to hold all the config info for this core index
-+ */
-+static void build_core_topology(int nr_cores, int core_id,
-+                                struct core_topology *topo)
-+{
-+    int nodes, cores_in_ccx;
-+
-+    /* First get the number of nodes required */
-+    nodes = nodes_in_socket(nr_cores);
-+
-+    cores_in_ccx = cores_in_core_complex(nr_cores);
-+
-+    topo->node_id = core_id / (cores_in_ccx * MAX_CCX);
-+    topo->ccx_id = (core_id % (cores_in_ccx * MAX_CCX)) / cores_in_ccx;
-+    topo->core_id = core_id % cores_in_ccx;
-+    topo->num_nodes = nodes;
-+}
-+
- /* Encode cache info for CPUID[8000001E] */
--static void encode_topo_cpuid8000001e(X86CPUTopoInfo *topo_info, X86CPU *cpu,
-+static void encode_topo_cpuid8000001e(CPUState *cs, X86CPU *cpu,
-                                        uint32_t *eax, uint32_t *ebx,
-                                        uint32_t *ecx, uint32_t *edx)
- {
--    X86CPUTopoIDs topo_ids = {0};
--    unsigned long nodes = MAX(topo_info->nodes_per_pkg, 1);
-+    struct core_topology topo = {0};
-+    unsigned long nodes;
-     int shift;
- 
--    x86_topo_ids_from_apicid_epyc(cpu->apic_id, topo_info, &topo_ids);
+-/*
+- * Bit offset of the node_id field
+- *
+- * Make sure nodes_per_pkg >  0 if numa configured else zero.
+- */
+-static inline unsigned apicid_node_offset_epyc(X86CPUTopoInfo *topo_info)
+-{
+-    unsigned offset = apicid_die_offset(topo_info) +
+-                      apicid_die_width(topo_info);
 -
-+    build_core_topology(cs->nr_cores, cpu->core_id, &topo);
-     *eax = cpu->apic_id;
-     /*
-      * CPUID_Fn8000001E_EBX
-@@ -408,8 +496,12 @@ static void encode_topo_cpuid8000001e(X86CPUTopoInfo *topo_info, X86CPU *cpu,
-      *             3 Core complex id
-      *           1:0 Core id
-      */
--    *ebx = ((topo_info->threads_per_core - 1) << 8) | (topo_ids.node_id << 3) |
--            (topo_ids.core_id);
-+    if (cs->nr_threads - 1) {
-+        *ebx = ((cs->nr_threads - 1) << 8) | (topo.node_id << 3) |
-+                (topo.ccx_id << 2) | topo.core_id;
-+    } else {
-+        *ebx = (topo.node_id << 4) | (topo.ccx_id << 3) | topo.core_id;
-+    }
-     /*
-      * CPUID_Fn8000001E_ECX
-      * 31:11 Reserved
-@@ -418,8 +510,9 @@ static void encode_topo_cpuid8000001e(X86CPUTopoInfo *topo_info, X86CPU *cpu,
-      *         2  Socket id
-      *       1:0  Node id
-      */
--    if (nodes <= 4) {
--        *ecx = ((nodes - 1) << 8) | (topo_ids.pkg_id << 2) | topo_ids.node_id;
-+    if (topo.num_nodes <= 4) {
-+        *ecx = ((topo.num_nodes - 1) << 8) | (cpu->socket_id << 2) |
-+                topo.node_id;
-     } else {
-         /*
-          * Node id fix up. Actual hardware supports up to 4 nodes. But with
-@@ -434,10 +527,10 @@ static void encode_topo_cpuid8000001e(X86CPUTopoInfo *topo_info, X86CPU *cpu,
-          * number of nodes. find_last_bit returns last set bit(0 based). Left
-          * shift(+1) the socket id to represent all the nodes.
-          */
--        nodes -= 1;
-+        nodes = topo.num_nodes - 1;
-         shift = find_last_bit(&nodes, 8);
--        *ecx = (nodes << 8) | (topo_ids.pkg_id << (shift + 1)) |
--               topo_ids.node_id;
-+        *ecx = ((topo.num_nodes - 1) << 8) | (cpu->socket_id << (shift + 1)) |
-+                topo.node_id;
-     }
-     *edx = 0;
- }
-@@ -5471,7 +5564,6 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-     uint32_t signature[3];
-     X86CPUTopoInfo topo_info;
- 
--    topo_info.nodes_per_pkg = env->nr_nodes;
-     topo_info.dies_per_pkg = env->nr_dies;
-     topo_info.cores_per_die = cs->nr_cores;
-     topo_info.threads_per_core = cs->nr_threads;
-@@ -5902,20 +5994,20 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-         }
-         switch (count) {
-         case 0: /* L1 dcache info */
--            encode_cache_cpuid8000001d(env->cache_info_amd.l1d_cache,
--                                       &topo_info, eax, ebx, ecx, edx);
-+            encode_cache_cpuid8000001d(env->cache_info_amd.l1d_cache, cs,
-+                                       eax, ebx, ecx, edx);
-             break;
-         case 1: /* L1 icache info */
--            encode_cache_cpuid8000001d(env->cache_info_amd.l1i_cache,
--                                       &topo_info, eax, ebx, ecx, edx);
-+            encode_cache_cpuid8000001d(env->cache_info_amd.l1i_cache, cs,
-+                                       eax, ebx, ecx, edx);
-             break;
-         case 2: /* L2 cache info */
--            encode_cache_cpuid8000001d(env->cache_info_amd.l2_cache,
--                                       &topo_info, eax, ebx, ecx, edx);
-+            encode_cache_cpuid8000001d(env->cache_info_amd.l2_cache, cs,
-+                                       eax, ebx, ecx, edx);
-             break;
-         case 3: /* L3 cache info */
--            encode_cache_cpuid8000001d(env->cache_info_amd.l3_cache,
--                                       &topo_info, eax, ebx, ecx, edx);
-+            encode_cache_cpuid8000001d(env->cache_info_amd.l3_cache, cs,
-+                                       eax, ebx, ecx, edx);
-             break;
-         default: /* end of info */
-             *eax = *ebx = *ecx = *edx = 0;
-@@ -5924,7 +6016,8 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-         break;
-     case 0x8000001E:
-         assert(cpu->core_id <= 255);
--        encode_topo_cpuid8000001e(&topo_info, cpu, eax, ebx, ecx, edx);
-+        encode_topo_cpuid8000001e(cs, cpu,
-+                                  eax, ebx, ecx, edx);
-         break;
-     case 0xC0000000:
-         *eax = env->cpuid_xlevel2;
+-    if (topo_info->nodes_per_pkg) {
+-        return MAX(NODE_ID_OFFSET, offset);
+-    } else {
+-        return offset;
+-    }
+-}
+-
+-/* Bit offset of the Pkg_ID (socket ID) field */
+-static inline unsigned apicid_pkg_offset_epyc(X86CPUTopoInfo *topo_info)
+-{
+-    return apicid_node_offset_epyc(topo_info) +
+-           apicid_node_width_epyc(topo_info);
+-}
+-
+-/*
+- * Make APIC ID for the CPU based on Pkg_ID, Core_ID, SMT_ID
+- *
+- * The caller must make sure core_id < nr_cores and smt_id < nr_threads.
+- */
+-static inline apic_id_t
+-x86_apicid_from_topo_ids_epyc(X86CPUTopoInfo *topo_info,
+-                              const X86CPUTopoIDs *topo_ids)
+-{
+-    return (topo_ids->pkg_id  << apicid_pkg_offset_epyc(topo_info)) |
+-           (topo_ids->node_id << apicid_node_offset_epyc(topo_info)) |
+-           (topo_ids->die_id  << apicid_die_offset(topo_info)) |
+-           (topo_ids->core_id << apicid_core_offset(topo_info)) |
+-           topo_ids->smt_id;
+-}
+-
+-static inline void x86_topo_ids_from_idx_epyc(X86CPUTopoInfo *topo_info,
+-                                              unsigned cpu_index,
+-                                              X86CPUTopoIDs *topo_ids)
+-{
+-    unsigned nr_nodes = MAX(topo_info->nodes_per_pkg, 1);
+-    unsigned nr_dies = topo_info->dies_per_pkg;
+-    unsigned nr_cores = topo_info->cores_per_die;
+-    unsigned nr_threads = topo_info->threads_per_core;
+-    unsigned cores_per_node = DIV_ROUND_UP((nr_dies * nr_cores * nr_threads),
+-                                            nr_nodes);
+-
+-    topo_ids->pkg_id = cpu_index / (nr_dies * nr_cores * nr_threads);
+-    topo_ids->node_id = (cpu_index / cores_per_node) % nr_nodes;
+-    topo_ids->die_id = cpu_index / (nr_cores * nr_threads) % nr_dies;
+-    topo_ids->core_id = cpu_index / nr_threads % nr_cores;
+-    topo_ids->smt_id = cpu_index % nr_threads;
+-}
+-
+-/*
+- * Calculate thread/core/package IDs for a specific topology,
+- * based on APIC ID
+- */
+-static inline void x86_topo_ids_from_apicid_epyc(apic_id_t apicid,
+-                                            X86CPUTopoInfo *topo_info,
+-                                            X86CPUTopoIDs *topo_ids)
+-{
+-    topo_ids->smt_id = apicid &
+-            ~(0xFFFFFFFFUL << apicid_smt_width(topo_info));
+-    topo_ids->core_id =
+-            (apicid >> apicid_core_offset(topo_info)) &
+-            ~(0xFFFFFFFFUL << apicid_core_width(topo_info));
+-    topo_ids->die_id =
+-            (apicid >> apicid_die_offset(topo_info)) &
+-            ~(0xFFFFFFFFUL << apicid_die_width(topo_info));
+-    topo_ids->node_id =
+-            (apicid >> apicid_node_offset_epyc(topo_info)) &
+-            ~(0xFFFFFFFFUL << apicid_node_width_epyc(topo_info));
+-    topo_ids->pkg_id = apicid >> apicid_pkg_offset_epyc(topo_info);
+-}
+-
+-/*
+- * Make APIC ID for the CPU 'cpu_index'
+- *
+- * 'cpu_index' is a sequential, contiguous ID for the CPU.
+- */
+-static inline apic_id_t x86_apicid_from_cpu_idx_epyc(X86CPUTopoInfo *topo_info,
+-                                                     unsigned cpu_index)
+-{
+-    X86CPUTopoIDs topo_ids;
+-    x86_topo_ids_from_idx_epyc(topo_info, cpu_index, &topo_ids);
+-    return x86_apicid_from_topo_ids_epyc(topo_info, &topo_ids);
+-}
+ /* Make APIC ID for the CPU based on Pkg_ID, Core_ID, SMT_ID
+  *
+  * The caller must make sure core_id < nr_cores and smt_id < nr_threads.
 -- 
 2.26.2
 
