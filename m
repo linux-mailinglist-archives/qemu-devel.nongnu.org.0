@@ -2,60 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5196425AB8E
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 14:58:51 +0200 (CEST)
-Received: from localhost ([::1]:43732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE71625ABBE
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 15:08:29 +0200 (CEST)
+Received: from localhost ([::1]:54746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDSLi-0005Cu-EL
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 08:58:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36058)
+	id 1kDSV2-000521-TZ
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 09:08:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kDSKu-0003qb-IT
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:58:00 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:60299)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kDSKs-0006sV-R3
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:58:00 -0400
-Received: from localhost.localdomain ([82.252.135.186]) by
- mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MhUDj-1kq4XJ1rNr-00ebXT; Wed, 02 Sep 2020 14:57:54 +0200
-From: Laurent Vivier <laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kDSMU-0006AB-Kh
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:59:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41327)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kDSMS-00078b-0x
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:59:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599051575;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=DUshaNDmq7H1Av4588PgSRGXK5hC8dXArAHSxrQ/ftE=;
+ b=XTHCLwnB57ZlOkhrikSu+y72995K1fLzL5xC92L5MRR7yzPKxhd+2dqTIb3lQhgjKg+7ho
+ vZ8BxBIUpq6jz5ZVU0Fwgwod9qQGum8hYo/eTehB7X+D/iZ2w2rzrK7eOb32xeV1UrQ+2P
+ wfA4uWozfH6IuB/h8H8bTsRqiS4xPiI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-432-EZwRIX0hMO6GXjMGmBa9gA-1; Wed, 02 Sep 2020 08:59:24 -0400
+X-MC-Unique: EZwRIX0hMO6GXjMGmBa9gA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 988A556C34
+ for <qemu-devel@nongnu.org>; Wed,  2 Sep 2020 12:59:18 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5C8455D9D3
+ for <qemu-devel@nongnu.org>; Wed,  2 Sep 2020 12:59:18 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2] linux-user: fix implicit conversion from enumeration type
- error
-Date: Wed,  2 Sep 2020 14:57:52 +0200
-Message-Id: <20200902125752.1033524-1-laurent@vivier.eu>
-X-Mailer: git-send-email 2.26.2
+Subject: [PATCH 00/39] Next round of Meson fixes and cleanups
+Date: Wed,  2 Sep 2020 08:58:38 -0400
+Message-Id: <20200902125917.26021-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:gvEqwXmBaIrlhBX1mj0oaC0WTvEwYq2UWm+cp7LK1cRhHidNSjJ
- +Wo/oRaokKTRVJc1kFyg3pVwpex7PJ7IUpflILgG0yD2gL6mxWATSZAt/MJyLWDBd0wtoLW
- uYQDy8Jjn8+uyD3HeIM0KwTtqEOUd/5xFXBP3z1fn8AhGXu+hAJQJUe+9MgjXbve5MkFFlC
- 4TX4XVDsS7RJAZddJnHoQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:kcuyfCzr53U=:X/8nppnkxh/fBO3moCa2GM
- zUx2eYcq7bmUfzg76wUDqk+rX21GNi1VBZ8qzJgdrhQ+34J3AyHiSbdIzpYkPuWdsTgkHbkfa
- DnOZuIovqt4qo1W0HYrFh4hnJ6p+wMwfVZ5pKC+C8jeUF21QbwBlaNblu0uR0M/UnIwYn1jFM
- SHQGOgsNxV8NBiaiBWJ3ceifNjGBHsclLw4TuYcTK/hkhWp5nFaz/yhBEQ+fORFXgJ+2ui8dw
- R5GWNp3uYs5T66d3QNJH5p2OI0DGwV8ThoAVt/3rhP4VaWw0huUlIJua9+v33TCQ4/pOS+GVc
- QuX9l/L/MFiO8F21zEg9Z48rXAFPxXe9mzzUo67LGouyfqWd37e1OQhXlEOIkkujX52wUVmZ4
- OMws4u2sB1f7IT6cLmJUV7N48mYdseM4Bw28XpD56IEDSTU8jhQONDRaiVwDEKS9M4e8/xEjs
- /hEW4q5iNgpi0wMXKi+BymBWcSJmCwLmsW3eHjr6WwiymXUXQ1AbGu07POP37J60Wv5PosN7E
- ytl6R/RMxPYqir+HjnlTXSPeC2wiuCiuMRyWVeL9I6oXpPEN/hsNwLVTOZEbEDlaZWEGnruZa
- X85MJxyHoVZON/7GInlWB8vsozcb721+GBlTQHkp9j7mjv9VY1k9jTPm2gh4SIA2h3435dBVj
- kom+gliAsbdmyuyHFu22yw8ufuylGZb8+WQNLSGmcqL/53tqsvGtj2fwaO7PgAfEH/+mxz7Kj
- LPhElHKavf2AT+JU9roDyJFO6ljlnPb0oCVCGqmo/p4HnPIVFGhmuw+BROj4x/t6av/2uyTlh
- dNBxFkTxFQTsMmuojLqan9L6JL0cCjHexZyXmuH5uFZ3RGctdWFLyMatZG509q5MbWp+rcC
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 08:57:56
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 02:42:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,40 +78,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Filip Bozuta <Filip.Bozuta@syrmia.com>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MK_ARRAY(type,size) is used to fill the field_types buffer, and if the
-"size" parameter is an enum type, clang [-Werror,-Wenum-conversion] reports
-an error when it is assigned to field_types which is also an enum, argtypes.
+This is the final set of patches that I would like to have in 5.2
+as far as the Meson conversion is concerned.
 
-To avoid that, convert "size" to "int" in MK_ARRAY(). "int" is the type
-used for the size evaluation in thunk_type_size().
+Patch 1 is a cross-compilation bugfix from Thomas.
 
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
+Patches 2..5 rework the "make check" generator so that outputs
+of successful tests are hidden, and so that if a test appears
+in multiple suites it is not run multiple times by "make check".
 
-Notes:
-    v2: put "size" in parentheses as it can be an expression
+Patch 6..10 are miscellaneous bugfixes.
 
- include/exec/user/thunk.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Patches 11..25 convert the check-unit testsuite.
 
-diff --git a/include/exec/user/thunk.h b/include/exec/user/thunk.h
-index a5bbb2c73331..b281dfa30f8c 100644
---- a/include/exec/user/thunk.h
-+++ b/include/exec/user/thunk.h
-@@ -42,7 +42,7 @@ typedef enum argtype {
- } argtype;
- 
- #define MK_PTR(type) TYPE_PTR, type
--#define MK_ARRAY(type, size) TYPE_ARRAY, size, type
-+#define MK_ARRAY(type, size) TYPE_ARRAY, (int)(size), type
- #define MK_STRUCT(id) TYPE_STRUCT, id
- 
- #define THUNK_TARGET 0
+Patches 26..39 remove some of the now-dead code from the configure
+script and the Makefile, introducing some simplification whenever symbols
+are not needed anymore in the Makefile.
+
+Marc-André Lureau (14):
+  meson: build qapi tests library
+  meson: declare tasn1 dependency
+  meson: declare keyutils dependency
+  meson: convert qht-bench
+  tests: qga has virtio-serial by default when host has it
+  meson: convert the unit tests
+  meson: move keyutils dependency check
+  meson: remove old socket_scm_helper rule
+  meson: convert vhost-user-bridge
+  meson: convert atomic*-bench
+  tests: do not print benchmark output to stdout
+  tests/migration/stress: remove unused exit_success
+  meson: fix migration/stress compilation with glibc>=2.30
+  meson: convert migration/initrd-stress
+
+Paolo Bonzini (24):
+  mtest2make: split environment from test command
+  mtest2make: split working directory from test command
+  mtest2make: hide output of successful tests
+  mtest2make: unify tests that appear in multiple suites
+  meson: remove b_lundef option
+  configure: do not include absolute paths in -I and -L paths
+  configure: include cross sdl2-config in meson cross file
+  ninjatool: use constant names for stamp files
+  meson: fix libqos linking
+  meson: convert the speed tests
+  configure: remove dead code for in-tree builds
+  meson: compute config_all_devices directly
+  Makefile: remove dead variables and includes
+  Makefile: inline the relevant parts of rules.mak
+  configure: move disassembler configuration to meson
+  configure: move C++ compiler handling to meson
+  meson: keep all compiler flags detection together
+  configure: move -ldl test to meson
+  configure: remove unnecessary libm test
+  configure: do not look for install(1)
+  meson: get glib compilation flags from GLIB_CFLAGS
+  configure: do not include dependency flags in QEMU_CFLAGS and LIBS
+  configure: drop dead variables
+  docs: suggest Meson replacements for various configure functions
+
+Thomas Huth (1):
+  configure: Add system = 'linux' for meson when cross-compiling
+
+ .gitignore                       |   2 -
+ Makefile                         |  63 ++---
+ Makefile.objs                    |  34 ---
+ accel/tcg/meson.build            |   2 +-
+ configure                        | 331 ++-----------------------
+ disas/meson.build                |   4 +-
+ docs/devel/build-system.rst      |  18 +-
+ hw/arm/meson.build               |   2 +-
+ hw/riscv/meson.build             |   2 +-
+ meson.build                      | 135 ++++++++---
+ monitor/meson.build              |   2 +-
+ rules.mak                        | 158 ------------
+ scripts/empty.c                  |   6 +
+ scripts/grepy.sh                 |   3 -
+ scripts/mtest2make.py            |  95 ++++----
+ scripts/ninjatool.py             |   8 +-
+ scripts/test-driver.py           |  35 +++
+ tests/Makefile.include           | 405 +------------------------------
+ tests/benchmark-crypto-cipher.c  |   8 +-
+ tests/benchmark-crypto-hash.c    |   2 +-
+ tests/benchmark-crypto-hmac.c    |   8 +-
+ tests/include/meson.build        |  16 ++
+ tests/meson.build                | 259 ++++++++++++++++++++
+ tests/migration/initrd-stress.sh |  10 +
+ tests/migration/meson.build      |  14 ++
+ tests/migration/stress.c         |  15 +-
+ tests/qtest/libqos/meson.build   |   9 +-
+ tests/tcg/Makefile.qemu          |   2 -
+ tests/test-crypto-secret.c       |  10 +-
+ tests/test-qga.c                 |   4 +-
+ 30 files changed, 588 insertions(+), 1074 deletions(-)
+ delete mode 100644 Makefile.objs
+ delete mode 100644 rules.mak
+ create mode 100644 scripts/empty.c
+ delete mode 100755 scripts/grepy.sh
+ create mode 100644 scripts/test-driver.py
+ create mode 100644 tests/include/meson.build
+ create mode 100755 tests/migration/initrd-stress.sh
+ create mode 100644 tests/migration/meson.build
+
 -- 
 2.26.2
 
