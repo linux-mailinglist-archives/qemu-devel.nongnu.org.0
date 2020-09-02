@@ -2,23 +2,23 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB7F225B70B
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 01:03:50 +0200 (CEST)
-Received: from localhost ([::1]:51042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E9B725B717
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 01:08:20 +0200 (CEST)
+Received: from localhost ([::1]:43968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDbnB-0007eg-Ib
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 19:03:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35750)
+	id 1kDbrX-0007w9-0l
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 19:08:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDbVS-0005FP-82
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:45:30 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:50149
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1kDbVR-0005Dy-Ly
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:45:29 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43597
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDbVQ-0000Dg-BH
+ id 1kDbVP-0000DT-PF
  for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:45:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1599086727;
@@ -26,41 +26,41 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=may9SiP3x3SiApTDSN5j7jfBgduk5as5YrYWWy6Bt4U=;
- b=jBkgoC4rmo7Fi46N+eHlr5/BoVbSaVFUgweKzRs9ytG93EXptuK5/Qy8zEkdZ3kZaE9gJv
- MJQqp/GgiS1LLftpRuDFHA0FID3r076qsiU7p+s5YsaiAzNaYHrBIXmZYFRr8dBqwgSRq7
- L/+iEu8Q1DEI1LDAick6UloymTapgMk=
+ bh=+HqocEVt3IjTtTEYyuQs0S10647C8sqQ/V5hlLQKIcI=;
+ b=KkE0Y1r/+Zycyns9qnsEfNRQVlwz6hy/HXvEBQI+JFjX0Ujj1IxsPtPm0Y3E6CSmntRgVd
+ KudZZ1az5qc0llMq/8nTtH4pJCdVbNxHKYzVqf87aOYOwgBivZ4N75Wxt/5owdhAoZRbfY
+ N3Fr5HhXfUF1YPzTeZRykUyuzEkNp3E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-407-zBIk5K9pPiydGBPxf9Oc8w-1; Wed, 02 Sep 2020 18:45:23 -0400
-X-MC-Unique: zBIk5K9pPiydGBPxf9Oc8w-1
+ us-mta-229-XJtxKrB2OcKm-n0QdgEKOQ-1; Wed, 02 Sep 2020 18:45:24 -0400
+X-MC-Unique: XJtxKrB2OcKm-n0QdgEKOQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 933E1107464A;
- Wed,  2 Sep 2020 22:45:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 792681005E65;
+ Wed,  2 Sep 2020 22:45:23 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 592141002D40;
- Wed,  2 Sep 2020 22:45:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4898C100EBBE;
+ Wed,  2 Sep 2020 22:45:23 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 50/63] tpm_crb: Rename CRB to TPM_CRB
-Date: Wed,  2 Sep 2020 18:42:58 -0400
-Message-Id: <20200902224311.1321159-51-ehabkost@redhat.com>
+Subject: [PATCH 51/63] tpm_spapr: Rename VIO_SPAPR_VTPM to TPM_SPAPR
+Date: Wed,  2 Sep 2020 18:42:59 -0400
+Message-Id: <20200902224311.1321159-52-ehabkost@redhat.com>
 In-Reply-To: <20200902224311.1321159-1-ehabkost@redhat.com>
 References: <20200902224311.1321159-1-ehabkost@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 17:54:07
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 16:25:58
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -93,73 +93,73 @@ Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 Cc: Stefan Berger <stefanb@linux.ibm.com>
 Cc: qemu-devel@nongnu.org
 ---
- hw/tpm/tpm_crb.c | 14 +++++++-------
+ hw/tpm/tpm_spapr.c | 14 +++++++-------
  1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/hw/tpm/tpm_crb.c b/hw/tpm/tpm_crb.c
-index aa9c00aad3..f4e3f0abbc 100644
---- a/hw/tpm/tpm_crb.c
-+++ b/hw/tpm/tpm_crb.c
-@@ -47,7 +47,7 @@ struct CRBState {
- };
- typedef struct CRBState CRBState;
+diff --git a/hw/tpm/tpm_spapr.c b/hw/tpm/tpm_spapr.c
+index e3775adc57..aa86d5f943 100644
+--- a/hw/tpm/tpm_spapr.c
++++ b/hw/tpm/tpm_spapr.c
+@@ -31,7 +31,7 @@
+ #define DEBUG_SPAPR 0
  
--DECLARE_INSTANCE_CHECKER(CRBState, CRB,
-+DECLARE_INSTANCE_CHECKER(CRBState, TPM_CRB,
-                          TYPE_TPM_CRB)
+ typedef struct SpaprTpmState SpaprTpmState;
+-DECLARE_INSTANCE_CHECKER(SpaprTpmState, VIO_SPAPR_VTPM,
++DECLARE_INSTANCE_CHECKER(SpaprTpmState, TPM_SPAPR,
+                          TYPE_TPM_SPAPR)
  
- #define CRB_INTF_TYPE_CRB_ACTIVE 0b1
-@@ -86,7 +86,7 @@ enum crb_cancel {
- static uint64_t tpm_crb_mmio_read(void *opaque, hwaddr addr,
-                                   unsigned size)
+ typedef struct TpmCrq {
+@@ -132,7 +132,7 @@ static inline int spapr_tpm_send_crq(struct SpaprVioDevice *dev, TpmCrq *crq)
+ 
+ static int tpm_spapr_do_crq(struct SpaprVioDevice *dev, uint8_t *crq_data)
  {
--    CRBState *s = CRB(opaque);
-+    CRBState *s = TPM_CRB(opaque);
-     void *regs = (void *)&s->regs + (addr & ~3);
-     unsigned offset = addr & 3;
-     uint32_t val = *(uint32_t *)regs >> (8 * offset);
-@@ -113,7 +113,7 @@ static uint8_t tpm_crb_get_active_locty(CRBState *s)
- static void tpm_crb_mmio_write(void *opaque, hwaddr addr,
-                                uint64_t val, unsigned size)
+-    SpaprTpmState *s = VIO_SPAPR_VTPM(dev);
++    SpaprTpmState *s = TPM_SPAPR(dev);
+     TpmCrq local_crq;
+     TpmCrq *crq = &s->crq; /* requests only */
+     int rc;
+@@ -235,7 +235,7 @@ static int tpm_spapr_do_crq(struct SpaprVioDevice *dev, uint8_t *crq_data)
+ 
+ static void tpm_spapr_request_completed(TPMIf *ti, int ret)
  {
--    CRBState *s = CRB(opaque);
-+    CRBState *s = TPM_CRB(opaque);
-     uint8_t locty =  addr >> 12;
+-    SpaprTpmState *s = VIO_SPAPR_VTPM(ti);
++    SpaprTpmState *s = TPM_SPAPR(ti);
+     TpmCrq *crq = &s->crq;
+     uint32_t len;
+     int rc;
+@@ -283,7 +283,7 @@ static int tpm_spapr_do_startup_tpm(SpaprTpmState *s, size_t buffersize)
  
-     trace_tpm_crb_mmio_write(addr, size, val);
-@@ -190,7 +190,7 @@ static const MemoryRegionOps tpm_crb_memory_ops = {
- 
- static void tpm_crb_request_completed(TPMIf *ti, int ret)
+ static const char *tpm_spapr_get_dt_compatible(SpaprVioDevice *dev)
  {
--    CRBState *s = CRB(ti);
-+    CRBState *s = TPM_CRB(ti);
+-    SpaprTpmState *s = VIO_SPAPR_VTPM(dev);
++    SpaprTpmState *s = TPM_SPAPR(dev);
  
-     s->regs[R_CRB_CTRL_START] &= ~CRB_START_INVOKE;
-     if (ret != 0) {
-@@ -201,7 +201,7 @@ static void tpm_crb_request_completed(TPMIf *ti, int ret)
+     switch (s->be_tpm_version) {
+     case TPM_VERSION_1_2:
+@@ -297,7 +297,7 @@ static const char *tpm_spapr_get_dt_compatible(SpaprVioDevice *dev)
  
- static enum TPMVersion tpm_crb_get_version(TPMIf *ti)
+ static void tpm_spapr_reset(SpaprVioDevice *dev)
  {
--    CRBState *s = CRB(ti);
-+    CRBState *s = TPM_CRB(ti);
+-    SpaprTpmState *s = VIO_SPAPR_VTPM(dev);
++    SpaprTpmState *s = TPM_SPAPR(dev);
  
-     return tpm_backend_get_tpm_version(s->tpmbe);
- }
-@@ -232,7 +232,7 @@ static Property tpm_crb_properties[] = {
+     s->state = SPAPR_VTPM_STATE_NONE;
+     s->numbytes = 0;
+@@ -316,7 +316,7 @@ static void tpm_spapr_reset(SpaprVioDevice *dev)
  
- static void tpm_crb_reset(void *dev)
+ static enum TPMVersion tpm_spapr_get_version(TPMIf *ti)
  {
--    CRBState *s = CRB(dev);
-+    CRBState *s = TPM_CRB(dev);
+-    SpaprTpmState *s = VIO_SPAPR_VTPM(ti);
++    SpaprTpmState *s = TPM_SPAPR(ti);
  
-     if (s->ppi_enabled) {
-         tpm_ppi_reset(&s->ppi);
-@@ -281,7 +281,7 @@ static void tpm_crb_reset(void *dev)
+     if (tpm_backend_had_startup_error(s->be_driver)) {
+         return TPM_VERSION_UNSPEC;
+@@ -377,7 +377,7 @@ static Property tpm_spapr_properties[] = {
  
- static void tpm_crb_realize(DeviceState *dev, Error **errp)
+ static void tpm_spapr_realizefn(SpaprVioDevice *dev, Error **errp)
  {
--    CRBState *s = CRB(dev);
-+    CRBState *s = TPM_CRB(dev);
+-    SpaprTpmState *s = VIO_SPAPR_VTPM(dev);
++    SpaprTpmState *s = TPM_SPAPR(dev);
  
      if (!tpm_find()) {
          error_setg(errp, "at most one TPM device is permitted");
