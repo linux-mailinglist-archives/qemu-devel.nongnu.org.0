@@ -2,92 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A02F25B014
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 17:50:07 +0200 (CEST)
-Received: from localhost ([::1]:51240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1197B25B030
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 17:52:43 +0200 (CEST)
+Received: from localhost ([::1]:57514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDV1S-0000cQ-HV
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 11:50:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54110)
+	id 1kDV3y-0003Nz-1L
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 11:52:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kDV05-0008AB-WC
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 11:48:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21687)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kDV1A-0000m8-Dx
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 11:49:48 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58027
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kDV04-0005Li-72
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 11:48:41 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kDV17-0005Re-Md
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 11:49:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599061719;
+ s=mimecast20190719; t=1599061784;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yR6onRbUCu2efTHpxN5z/iOCCOTM/yNvUqSC0Z61Ky4=;
- b=A7Q76IY0Pd3nU4mZmydfOCS2T7ew+Na/1zDD8XQISUKvV1Z3Zjpt/Br2jQWB7p+M5T9mWF
- 1dB+w0IDwFm4IcQZCyFRi1LkYusMVgHLZ2dOd+Bo/lS8jNlZjx4717KImmYt8OOpajkctG
- N14Y+hKvbjxija5dpcmu1DJwapGXTnA=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-498-641n-SASMy-9FKpIZaoXQg-1; Wed, 02 Sep 2020 11:48:34 -0400
-X-MC-Unique: 641n-SASMy-9FKpIZaoXQg-1
-Received: by mail-wm1-f72.google.com with SMTP id g79so1598219wmg.0
- for <qemu-devel@nongnu.org>; Wed, 02 Sep 2020 08:48:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=yR6onRbUCu2efTHpxN5z/iOCCOTM/yNvUqSC0Z61Ky4=;
- b=T+55Dm/i1tsveI/2+dAjFbm9W8sqFT7mDhORHR2lxG/LoDP638NCVfm7tQ1JtgEM+E
- sUcejbmaOvmR9cpTbkiakuEu9cQct+SVYiI/PWdqiaNrqMi7cjXITzzHVPdzVCDSjb5z
- cTtv3SSnURbfLSDl58Fh2zh8jgJFqKTtDSu/wkWkkZHDJ86lw0NI0l+wHnwnKaorzGQd
- 93JSAngBUnRCuxl2L7nIiJd5X3xsr1nKboa0K2hOy04/6gFNsomWCyFyni74I53gi9te
- 7vUPFk+GNKI+69AmwIv8Qc/6sXIK34XPZxSjPTZyxR4zHYq9E3D7X4KR0/aXmG4kRFQ1
- NqCw==
-X-Gm-Message-State: AOAM531B44FyhURe9k7uNPuwaua/wYfGrhCCUN4dv9SAII511koQzFGd
- T4gylZ94qXorqzKSbPVKP5fbpDFlH0eX69ek/Q9D2gAfbs7c4mZasO7+xtvKk/59fe0BdlxRHSE
- 7kPATk1VwqixF/LM=
-X-Received: by 2002:a5d:5150:: with SMTP id u16mr7734090wrt.197.1599061713178; 
- Wed, 02 Sep 2020 08:48:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyY/sVzQd8df8cSR1F5Sv4WNLonGee3v5FtyOYM2BcmrKGuwqjq1CSAv0Fn5iSpvBKaKfRBHQ==
-X-Received: by 2002:a5d:5150:: with SMTP id u16mr7734075wrt.197.1599061712965; 
- Wed, 02 Sep 2020 08:48:32 -0700 (PDT)
-Received: from [192.168.178.58] ([151.21.173.193])
- by smtp.gmail.com with ESMTPSA id i26sm122744wmb.17.2020.09.02.08.48.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Sep 2020 08:48:32 -0700 (PDT)
-Subject: Re: [PATCH 2/3] fuzz: Add support for custom fuzzing library
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-References: <20200902143800.124073-1-alxndr@bu.edu>
- <20200902143800.124073-3-alxndr@bu.edu>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <41c43170-d680-960a-b9ce-afd01516d6c8@redhat.com>
-Date: Wed, 2 Sep 2020 17:48:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=wtQvsQeETkhm8dciX7Rjc0mD5GheQgtIsJD0E25OkM4=;
+ b=SS85GgcW+91RbEyvXJ0fkbTBqpJjZzvsbiRBvt/acpSprb3MRVwGm4+eScG29Pio3DjToO
+ V51BUoYj/BX+7mjOq5PeJXvHJQd68w8ejN2sc6x8i8O2IO9oq0HE+4FFsTafAcqyItvJbD
+ DzqfxqBfi+YRkAl9OMUxZOsn0Uuo4p4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-431-EsnhuzngMh2hOK8-FGOD7A-1; Wed, 02 Sep 2020 11:49:42 -0400
+X-MC-Unique: EsnhuzngMh2hOK8-FGOD7A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 30C9181F009;
+ Wed,  2 Sep 2020 15:49:41 +0000 (UTC)
+Received: from thuth.com (ovpn-112-129.ams2.redhat.com [10.36.112.129])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4EB0E5D9D3;
+ Wed,  2 Sep 2020 15:49:40 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL v2 00/15] Cirrus-CI improvements, and other CI-related fixes,
+ m68k
+Date: Wed,  2 Sep 2020 17:49:17 +0200
+Message-Id: <20200902154932.390595-1-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200902143800.124073-3-alxndr@bu.edu>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 02:42:29
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 02:07:24
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.324, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,83 +78,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, darren.kenny@oracle.com,
- bsd@redhat.com, Thomas Huth <thuth@redhat.com>, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/09/20 16:37, Alexander Bulekov wrote:
-> On oss-fuzz, we must use the LIB_FUZZING_ENGINE and CFLAGS environment
-> variables, rather than -fsanitize=fuzzer. With this change, when
-> LIB_FUZZING_ENGINE is set, the --enable-fuzzing configure option will
-> use that environment variable during the linking stage, rather than
-> -fsanitize=fuzzer
-> 
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> ---
->  configure                    | 12 ++++++++++--
->  tests/qtest/fuzz/meson.build |  4 ++--
->  2 files changed, 12 insertions(+), 4 deletions(-)
-> 
-> diff --git a/configure b/configure
-> index 6ecaff429b..4182a88e75 100755
-> --- a/configure
-> +++ b/configure
-> @@ -6165,7 +6165,7 @@ fi
->  
->  ##########################################
->  # checks for fuzzer
-> -if test "$fuzzing" = "yes" ; then
-> +if test "$fuzzing" = "yes" && test -z "${LIB_FUZZING_ENGINE+xxx}"; then
->    write_c_fuzzer_skeleton
->    if compile_prog "$CPU_CFLAGS -Werror -fsanitize=fuzzer" ""; then
->      have_fuzzer=yes
-> @@ -7505,7 +7505,14 @@ if test "$have_mlockall" = "yes" ; then
->    echo "HAVE_MLOCKALL=y" >> $config_host_mak
->  fi
->  if test "$fuzzing" = "yes" ; then
-> -  QEMU_CFLAGS="$QEMU_CFLAGS -fsanitize=fuzzer-no-link"
-> +  # If LIB_FUZZING_ENGINE is set, assume we are running on OSS-Fuzz, and the
-> +  # needed CFLAGS have already been provided
-> +  if test -z "${LIB_FUZZING_ENGINE+xxx}" ; then
-> +    QEMU_CFLAGS="$QEMU_CFLAGS -fsanitize=fuzzer-no-link"
-> +    FUZZ_LINK_COMMAND="-fsanitize=fuzzer"
-> +  else
-> +    FUZZ_LINK_COMMAND="$LIB_FUZZING_ENGINE"
-> +  fi
->  fi
+ Hi Peter,
 
-Can you name this FUZZ_EXE_LDFLAGS?
+the following changes since commit 887adde81d1f1f3897f1688d37ec6851b4fdad86:
 
->  if test "$plugins" = "yes" ; then
-> @@ -7620,6 +7627,7 @@ fi
->  if test "$fuzzing" != "no"; then
->      echo "CONFIG_FUZZ=y" >> $config_host_mak
->  fi
-> +echo "FUZZ_LINK_COMMAND=$FUZZ_LINK_COMMAND" >> $config_host_mak
->  
->  if test "$edk2_blobs" = "yes" ; then
->    echo "DECOMPRESS_EDK2_BLOBS=y" >> $config_host_mak
-> diff --git a/tests/qtest/fuzz/meson.build b/tests/qtest/fuzz/meson.build
-> index 3432c3e7c3..59a630802a 100644
-> --- a/tests/qtest/fuzz/meson.build
-> +++ b/tests/qtest/fuzz/meson.build
-> @@ -9,8 +9,8 @@ specific_fuzz_ss.add(when: 'CONFIG_VIRTIO_SCSI', if_true: files('virtio_scsi_fuz
->  # unfortunately declare_dependency does not support link_depends, so
->  # this will be duplicated in meson.build
+  Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2020-09-01 22:50:23 +0100)
 
-Also for patch 1: the comment is now obsolete.
+are available in the Git repository at:
 
-Paolo
+  https://gitlab.com/huth/qemu.git tags/pull-request-2020-09-02
 
->  fork_fuzz = declare_dependency(
-> -  link_args: ['-fsanitize=fuzzer',
-> -              '-Wl,-wrap,qtest_inb',
-> +  link_args: config_host['FUZZ_LINK_COMMAND'].split() +
-> +             ['-Wl,-wrap,qtest_inb',
->                '-Wl,-wrap,qtest_inw',
->                '-Wl,-wrap,qtest_inl',
->                '-Wl,-wrap,qtest_outb',
-> 
+for you to fetch changes up to 5e560e07ca396e16150740ae3c46b35a85f59ba7:
+
+  gitlab-ci.yml: Set artifacts expiration time (2020-09-02 16:23:55 +0200)
+
+----------------------------------------------------------------
+* Cirrus-CI improvements and fixes (compile with -Werror & fix for 1h problem)
+* Two build system fixes to fix some failures the CI
+* One m68k QOMification patch
+* Some trivial qtest patches
+* Some small improvements for the Gitlab CI
+----------------------------------------------------------------
+
+Gerd Hoffmann (1):
+      meson: fix keymaps without qemu-keymap
+
+Markus Armbruster (1):
+      libqtest: Rename qmp_assert_error_class() to qmp_expect_error_and_unref()
+
+Philippe Mathieu-Daudé (3):
+      tests/qtest/ahci: Improve error handling (NEGATIVE_RETURNS)
+      tests/qtest/tpm: Declare input buffers const and static
+      tests/qtest/ipmi-kcs: Fix assert side-effect
+
+Thomas Huth (10):
+      configure: Fix atomic64 test for --enable-werror on macOS
+      cirrus.yml: Compile FreeBSD with -Werror
+      cirrus.yml: Compile macOS with -Werror
+      cirrus.yml: Update the macOS jobs to Catalina
+      cirrus.yml: Split FreeBSD job into two parts
+      configure: Add system = 'linux' for meson when cross-compiling
+      hw/m68k: QOMify the mcf5206 system integration module
+      gitlab/travis: Rework the disabled features tests
+      gitlab-ci.yml: Run check-qtest and check-unit at the end of the fuzzer job
+      gitlab-ci.yml: Set artifacts expiration time
+
+ .cirrus.yml                   | 43 ++++++++++++++++++++++++++++++++----------
+ .gitlab-ci.yml                | 36 ++++++++++++++++++++++++++---------
+ .travis.yml                   |  6 ------
+ configure                     | 13 ++++++++-----
+ hw/m68k/an5206.c              | 14 ++++++++++++--
+ hw/m68k/mcf5206.c             | 44 ++++++++++++++++++++++++++++++++++---------
+ include/hw/m68k/mcf.h         |  3 +--
+ pc-bios/keymaps/meson.build   | 28 ++++++++++++++++++---------
+ tests/qtest/ahci-test.c       |  1 +
+ tests/qtest/drive_del-test.c  |  2 +-
+ tests/qtest/ipmi-kcs-test.c   |  3 ++-
+ tests/qtest/libqos/libqtest.h |  4 ++--
+ tests/qtest/libqtest.c        |  2 +-
+ tests/qtest/qmp-cmd-test.c    | 16 ++++++++--------
+ tests/qtest/qmp-test.c        | 32 +++++++++++++++----------------
+ tests/qtest/tpm-tests.c       |  4 ++--
+ tests/qtest/tpm-util.c        | 10 +++++-----
+ tests/test-qga.c              |  2 +-
+ 18 files changed, 174 insertions(+), 89 deletions(-)
 
 
