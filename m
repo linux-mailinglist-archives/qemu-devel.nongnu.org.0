@@ -2,59 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09FC525B70E
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 01:05:05 +0200 (CEST)
-Received: from localhost ([::1]:56450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E10325B715
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 01:07:30 +0200 (CEST)
+Received: from localhost ([::1]:40196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDboO-0001SC-30
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 19:05:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35944)
+	id 1kDbqj-0006Pm-A4
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 19:07:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDbVp-0006AR-Uc
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:45:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55918)
+ id 1kDbVn-00063W-6a
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:45:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49156)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDbVm-0000I0-KC
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:45:53 -0400
+ id 1kDbVk-0000H0-NS
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:45:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599086750;
+ s=mimecast20190719; t=1599086747;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/ktoQfh7Azf87EbiJtqzsLJ4A8BhkUu1bCw5VGpaiJo=;
- b=TEkJsJ2f9VoMnq3c8sZRKST8vKOvxCljiwvy4gws9Aa53CXHVOdXEy4EGGQdwflmLLxODw
- 0BeQxASKQWZMDRDNVlvcjE8gyhv9DvplhiSu6OKWse9Axo2uAJKW6aX+HPvIi+XvxbSUBb
- eFj3RYhMRFPox3f8u5PnAIDb8YGTo0Q=
+ bh=s3S/AszU2npuLFVGLRWKun644Qipz/7LELQUErE38aE=;
+ b=PgYtUdoinguoYjcMj7rDhz3zFp9iy27Ej5A8VwX3JmWfFcJhcGuwI9d+8kUSr++Cuxs5zQ
+ nKsvtcXMnsWfHo5JZAsUlCxybfaMqPAIZlwtoj+pSc09ZwlBsxILPaWzfuBr3v9bVQClk6
+ bEQwmzwGQdNeu68icnktcPXwavd/OmI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-55-6bGZtU9WP1elzVL8WdI9kw-1; Wed, 02 Sep 2020 18:45:46 -0400
-X-MC-Unique: 6bGZtU9WP1elzVL8WdI9kw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-464-WfnT9OXwPEq_0bYcoJZenA-1; Wed, 02 Sep 2020 18:45:46 -0400
+X-MC-Unique: WfnT9OXwPEq_0bYcoJZenA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B59118A2251;
- Wed,  2 Sep 2020 22:45:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 902CA1074642;
+ Wed,  2 Sep 2020 22:45:45 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E8AC65D9CC;
- Wed,  2 Sep 2020 22:45:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5AC6918B59;
+ Wed,  2 Sep 2020 22:45:45 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 59/63] kvm: Rename KVM_STATE to KVM_ACCEL
-Date: Wed,  2 Sep 2020 18:43:07 -0400
-Message-Id: <20200902224311.1321159-60-ehabkost@redhat.com>
+Subject: [PATCH 60/63] tcg: Rename TCG_STATE to TCG_ACCEL
+Date: Wed,  2 Sep 2020 18:43:08 -0400
+Message-Id: <20200902224311.1321159-61-ehabkost@redhat.com>
 In-Reply-To: <20200902224311.1321159-1-ehabkost@redhat.com>
 References: <20200902224311.1321159-1-ehabkost@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 17:54:06
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 02:42:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -62,7 +67,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,13 +80,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, berrange@redhat.com,
- kvm@vger.kernel.org, Marcelo Tosatti <mtosatti@redhat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>, qemu-arm@nongnu.org,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Huacai Chen <chenhc@lemote.com>, David Gibson <david@gibson.dropbear.id.au>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, berrange@redhat.com,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -90,189 +90,78 @@ constant.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: Marcelo Tosatti <mtosatti@redhat.com>
 Cc: Richard Henderson <rth@twiddle.net>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Cc: Huacai Chen <chenhc@lemote.com>
-Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Cc: Aurelien Jarno <aurelien@aurel32.net>
-Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-Cc: David Gibson <david@gibson.dropbear.id.au>
-Cc: kvm@vger.kernel.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org
-Cc: qemu-ppc@nongnu.org
 ---
- include/sysemu/kvm.h |  2 +-
- accel/kvm/kvm-all.c  | 18 +++++++++---------
- target/arm/kvm.c     |  2 +-
- target/i386/kvm.c    |  2 +-
- target/mips/kvm.c    |  2 +-
- target/ppc/kvm.c     |  4 ++--
- 6 files changed, 15 insertions(+), 15 deletions(-)
+ accel/tcg/tcg-all.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-index 5bbea53883..89c422e1e7 100644
---- a/include/sysemu/kvm.h
-+++ b/include/sysemu/kvm.h
-@@ -204,7 +204,7 @@ struct KVMState;
+diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
+index 7098ad96c3..08d82e5c03 100644
+--- a/accel/tcg/tcg-all.c
++++ b/accel/tcg/tcg-all.c
+@@ -46,7 +46,7 @@ typedef struct TCGState TCGState;
  
- #define TYPE_KVM_ACCEL ACCEL_CLASS_NAME("kvm")
- typedef struct KVMState KVMState;
--DECLARE_INSTANCE_CHECKER(KVMState, KVM_STATE,
-+DECLARE_INSTANCE_CHECKER(KVMState, KVM_ACCEL,
-                          TYPE_KVM_ACCEL)
+ #define TYPE_TCG_ACCEL ACCEL_CLASS_NAME("tcg")
  
- extern KVMState *kvm_state;
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 63ef6af9a1..bdf63ca3a3 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -214,7 +214,7 @@ void kvm_resample_fd_notify(int gsi)
+-DECLARE_INSTANCE_CHECKER(TCGState, TCG_STATE,
++DECLARE_INSTANCE_CHECKER(TCGState, TCG_ACCEL,
+                          TYPE_TCG_ACCEL)
  
- int kvm_get_max_memslots(void)
+ /* mask must never be zero, except for A20 change call */
+@@ -118,14 +118,14 @@ static bool default_mttcg_enabled(void)
+ 
+ static void tcg_accel_instance_init(Object *obj)
  {
--    KVMState *s = KVM_STATE(current_accel());
-+    KVMState *s = KVM_ACCEL(current_accel());
+-    TCGState *s = TCG_STATE(obj);
++    TCGState *s = TCG_ACCEL(obj);
  
-     return s->nr_slots;
- }
-@@ -256,7 +256,7 @@ static KVMSlot *kvm_get_free_slot(KVMMemoryListener *kml)
- 
- bool kvm_has_free_slot(MachineState *ms)
- {
--    KVMState *s = KVM_STATE(ms->accelerator);
-+    KVMState *s = KVM_ACCEL(ms->accelerator);
-     bool result;
-     KVMMemoryListener *kml = &s->memory_listener;
- 
-@@ -1970,7 +1970,7 @@ static int kvm_max_vcpu_id(KVMState *s)
- 
- bool kvm_vcpu_id_is_valid(int vcpu_id)
- {
--    KVMState *s = KVM_STATE(current_accel());
-+    KVMState *s = KVM_ACCEL(current_accel());
-     return vcpu_id >= 0 && vcpu_id < kvm_max_vcpu_id(s);
+     s->mttcg_enabled = default_mttcg_enabled();
  }
  
-@@ -1996,7 +1996,7 @@ static int kvm_init(MachineState *ms)
-     const char *kvm_type;
-     uint64_t dirty_log_manual_caps;
- 
--    s = KVM_STATE(ms->accelerator);
-+    s = KVM_ACCEL(ms->accelerator);
- 
-     /*
-      * On systems where the kernel can support different base page
-@@ -3084,7 +3084,7 @@ int kvm_get_one_reg(CPUState *cs, uint64_t id, void *target)
- static bool kvm_accel_has_memory(MachineState *ms, AddressSpace *as,
-                                  hwaddr start_addr, hwaddr size)
+ static int tcg_init(MachineState *ms)
  {
--    KVMState *kvm = KVM_STATE(ms->accelerator);
-+    KVMState *kvm = KVM_ACCEL(ms->accelerator);
-     int i;
+-    TCGState *s = TCG_STATE(current_accel());
++    TCGState *s = TCG_ACCEL(current_accel());
  
-     for (i = 0; i < kvm->nr_as; ++i) {
-@@ -3102,7 +3102,7 @@ static void kvm_get_kvm_shadow_mem(Object *obj, Visitor *v,
-                                    const char *name, void *opaque,
-                                    Error **errp)
+     tcg_exec_init(s->tb_size * 1024 * 1024);
+     cpu_interrupt_handler = tcg_handle_interrupt;
+@@ -135,14 +135,14 @@ static int tcg_init(MachineState *ms)
+ 
+ static char *tcg_get_thread(Object *obj, Error **errp)
  {
--    KVMState *s = KVM_STATE(obj);
-+    KVMState *s = KVM_ACCEL(obj);
-     int64_t value = s->kvm_shadow_mem;
+-    TCGState *s = TCG_STATE(obj);
++    TCGState *s = TCG_ACCEL(obj);
  
-     visit_type_int(v, name, &value, errp);
-@@ -3112,7 +3112,7 @@ static void kvm_set_kvm_shadow_mem(Object *obj, Visitor *v,
-                                    const char *name, void *opaque,
-                                    Error **errp)
- {
--    KVMState *s = KVM_STATE(obj);
-+    KVMState *s = KVM_ACCEL(obj);
-     int64_t value;
- 
-     if (!visit_type_int(v, name, &value, errp)) {
-@@ -3126,7 +3126,7 @@ static void kvm_set_kernel_irqchip(Object *obj, Visitor *v,
-                                    const char *name, void *opaque,
-                                    Error **errp)
- {
--    KVMState *s = KVM_STATE(obj);
-+    KVMState *s = KVM_ACCEL(obj);
-     OnOffSplit mode;
- 
-     if (!visit_type_OnOffSplit(v, name, &mode, errp)) {
-@@ -3173,7 +3173,7 @@ bool kvm_kernel_irqchip_split(void)
- 
- static void kvm_accel_instance_init(Object *obj)
- {
--    KVMState *s = KVM_STATE(obj);
-+    KVMState *s = KVM_ACCEL(obj);
- 
-     s->kvm_shadow_mem = -1;
-     s->kernel_irqchip_allowed = true;
-diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-index 8bb7318378..55583075f3 100644
---- a/target/arm/kvm.c
-+++ b/target/arm/kvm.c
-@@ -216,7 +216,7 @@ bool kvm_arm_pmu_supported(void)
- 
- int kvm_arm_get_max_vm_ipa_size(MachineState *ms)
- {
--    KVMState *s = KVM_STATE(ms->accelerator);
-+    KVMState *s = KVM_ACCEL(ms->accelerator);
-     int ret;
- 
-     ret = kvm_check_extension(s, KVM_CAP_ARM_VM_IPA_SIZE);
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 205b68bc0c..2949c5f048 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -155,7 +155,7 @@ bool kvm_allows_irq0_override(void)
- 
- static bool kvm_x2apic_api_set_flags(uint64_t flags)
- {
--    KVMState *s = KVM_STATE(current_accel());
-+    KVMState *s = KVM_ACCEL(current_accel());
- 
-     return !kvm_vm_enable_cap(s, KVM_CAP_X2APIC_API, 0, flags);
+     return g_strdup(s->mttcg_enabled ? "multi" : "single");
  }
-diff --git a/target/mips/kvm.c b/target/mips/kvm.c
-index 72637a1e02..30f9c0349a 100644
---- a/target/mips/kvm.c
-+++ b/target/mips/kvm.c
-@@ -1277,7 +1277,7 @@ int mips_kvm_type(MachineState *machine, const char *vm_type)
+ 
+ static void tcg_set_thread(Object *obj, const char *value, Error **errp)
  {
- #if defined(KVM_CAP_MIPS_VZ) || defined(KVM_CAP_MIPS_TE)
-     int r;
--    KVMState *s = KVM_STATE(machine->accelerator);
-+    KVMState *s = KVM_ACCEL(machine->accelerator);
- #endif
+-    TCGState *s = TCG_STATE(obj);
++    TCGState *s = TCG_ACCEL(obj);
  
- #if defined(KVM_CAP_MIPS_VZ)
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index d85ba8ffe0..e446637137 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -263,7 +263,7 @@ static void kvm_get_smmu_info(struct kvm_ppc_smmu_info *info, Error **errp)
- 
- struct ppc_radix_page_info *kvm_get_radix_page_info(void)
+     if (strcmp(value, "multi") == 0) {
+         if (TCG_OVERSIZED_GUEST) {
+@@ -172,7 +172,7 @@ static void tcg_get_tb_size(Object *obj, Visitor *v,
+                             const char *name, void *opaque,
+                             Error **errp)
  {
--    KVMState *s = KVM_STATE(current_accel());
-+    KVMState *s = KVM_ACCEL(current_accel());
-     struct ppc_radix_page_info *radix_page_info;
-     struct kvm_ppc_rmmu_info rmmu_info;
-     int i;
-@@ -2943,7 +2943,7 @@ void kvmppc_svm_off(Error **errp)
-         return;
-     }
+-    TCGState *s = TCG_STATE(obj);
++    TCGState *s = TCG_ACCEL(obj);
+     uint32_t value = s->tb_size;
  
--    rc = kvm_vm_ioctl(KVM_STATE(current_accel()), KVM_PPC_SVM_OFF);
-+    rc = kvm_vm_ioctl(KVM_ACCEL(current_accel()), KVM_PPC_SVM_OFF);
-     if (rc && rc != -ENOTTY) {
-         error_setg_errno(errp, -rc, "KVM_PPC_SVM_OFF ioctl failed");
-     }
+     visit_type_uint32(v, name, &value, errp);
+@@ -182,7 +182,7 @@ static void tcg_set_tb_size(Object *obj, Visitor *v,
+                             const char *name, void *opaque,
+                             Error **errp)
+ {
+-    TCGState *s = TCG_STATE(obj);
++    TCGState *s = TCG_ACCEL(obj);
+     uint32_t value;
+ 
+     if (!visit_type_uint32(v, name, &value, errp)) {
 -- 
 2.26.2
 
