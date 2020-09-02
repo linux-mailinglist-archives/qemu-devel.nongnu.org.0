@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B022C25B710
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 01:05:28 +0200 (CEST)
-Received: from localhost ([::1]:58320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB7F225B70B
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 01:03:50 +0200 (CEST)
+Received: from localhost ([::1]:51042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDbol-0002DE-Mn
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 19:05:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35710)
+	id 1kDbnB-0007eg-Ib
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 19:03:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDbVQ-0005Ac-7e
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:45:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48961)
+ id 1kDbVS-0005FP-82
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:45:30 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:50149
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDbVO-0000D0-5d
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:45:27 -0400
+ id 1kDbVQ-0000Dg-BH
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:45:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599086725;
+ s=mimecast20190719; t=1599086727;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KlgzwG9LMNP5KR5cuY0HArWP1u2TlaKf9DQrTHmB+ew=;
- b=Efd8h0tFm5hCe5hrg9Po6Tt/mPaCG3GbqrOCzLEMA2J49N4RUScSyMUe3LThHS7LXhCiT5
- LHimpIVtWYqhFVQOH6Uu6A3MTODMoBMuUSfeBmvto+d20omHrRGF9hggj/mWKu9j1yvC/r
- KEE1bYLAsJ18I37myPtLbk+zwRzyHRQ=
+ bh=may9SiP3x3SiApTDSN5j7jfBgduk5as5YrYWWy6Bt4U=;
+ b=jBkgoC4rmo7Fi46N+eHlr5/BoVbSaVFUgweKzRs9ytG93EXptuK5/Qy8zEkdZ3kZaE9gJv
+ MJQqp/GgiS1LLftpRuDFHA0FID3r076qsiU7p+s5YsaiAzNaYHrBIXmZYFRr8dBqwgSRq7
+ L/+iEu8Q1DEI1LDAick6UloymTapgMk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-240--gKsb3FoM36zxIjT0kj9fw-1; Wed, 02 Sep 2020 18:45:22 -0400
-X-MC-Unique: -gKsb3FoM36zxIjT0kj9fw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-407-zBIk5K9pPiydGBPxf9Oc8w-1; Wed, 02 Sep 2020 18:45:23 -0400
+X-MC-Unique: zBIk5K9pPiydGBPxf9Oc8w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9198E18A2256;
- Wed,  2 Sep 2020 22:45:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 933E1107464A;
+ Wed,  2 Sep 2020 22:45:22 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 53B467E313;
- Wed,  2 Sep 2020 22:45:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 592141002D40;
+ Wed,  2 Sep 2020 22:45:22 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 49/63] stm32f205: Rename STM32F2XXTIMER to STM32F2XX_TIMER
-Date: Wed,  2 Sep 2020 18:42:57 -0400
-Message-Id: <20200902224311.1321159-50-ehabkost@redhat.com>
+Subject: [PATCH 50/63] tpm_crb: Rename CRB to TPM_CRB
+Date: Wed,  2 Sep 2020 18:42:58 -0400
+Message-Id: <20200902224311.1321159-51-ehabkost@redhat.com>
 In-Reply-To: <20200902224311.1321159-1-ehabkost@redhat.com>
 References: <20200902224311.1321159-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 02:42:29
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 17:54:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,9 +81,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair@alistair23.me>, berrange@redhat.com,
- qemu-arm@nongnu.org
+Cc: berrange@redhat.com, Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -91,59 +90,79 @@ constant.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-Cc: Alistair Francis <alistair@alistair23.me>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-arm@nongnu.org
+Cc: Stefan Berger <stefanb@linux.ibm.com>
 Cc: qemu-devel@nongnu.org
 ---
- include/hw/timer/stm32f2xx_timer.h | 2 +-
- hw/timer/stm32f2xx_timer.c         | 6 +++---
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ hw/tpm/tpm_crb.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/include/hw/timer/stm32f2xx_timer.h b/include/hw/timer/stm32f2xx_timer.h
-index 90f40f1746..70ef426afc 100644
---- a/include/hw/timer/stm32f2xx_timer.h
-+++ b/include/hw/timer/stm32f2xx_timer.h
-@@ -63,7 +63,7 @@
+diff --git a/hw/tpm/tpm_crb.c b/hw/tpm/tpm_crb.c
+index aa9c00aad3..f4e3f0abbc 100644
+--- a/hw/tpm/tpm_crb.c
++++ b/hw/tpm/tpm_crb.c
+@@ -47,7 +47,7 @@ struct CRBState {
+ };
+ typedef struct CRBState CRBState;
  
- #define TYPE_STM32F2XX_TIMER "stm32f2xx-timer"
- typedef struct STM32F2XXTimerState STM32F2XXTimerState;
--DECLARE_INSTANCE_CHECKER(STM32F2XXTimerState, STM32F2XXTIMER,
-+DECLARE_INSTANCE_CHECKER(STM32F2XXTimerState, STM32F2XX_TIMER,
-                          TYPE_STM32F2XX_TIMER)
+-DECLARE_INSTANCE_CHECKER(CRBState, CRB,
++DECLARE_INSTANCE_CHECKER(CRBState, TPM_CRB,
+                          TYPE_TPM_CRB)
  
- struct STM32F2XXTimerState {
-diff --git a/hw/timer/stm32f2xx_timer.c b/hw/timer/stm32f2xx_timer.c
-index ba8694dcd3..d880c0b4d5 100644
---- a/hw/timer/stm32f2xx_timer.c
-+++ b/hw/timer/stm32f2xx_timer.c
-@@ -96,7 +96,7 @@ static void stm32f2xx_timer_set_alarm(STM32F2XXTimerState *s, int64_t now)
- 
- static void stm32f2xx_timer_reset(DeviceState *dev)
+ #define CRB_INTF_TYPE_CRB_ACTIVE 0b1
+@@ -86,7 +86,7 @@ enum crb_cancel {
+ static uint64_t tpm_crb_mmio_read(void *opaque, hwaddr addr,
+                                   unsigned size)
  {
--    STM32F2XXTimerState *s = STM32F2XXTIMER(dev);
-+    STM32F2XXTimerState *s = STM32F2XX_TIMER(dev);
-     int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
- 
-     s->tim_cr1 = 0;
-@@ -306,7 +306,7 @@ static Property stm32f2xx_timer_properties[] = {
- 
- static void stm32f2xx_timer_init(Object *obj)
+-    CRBState *s = CRB(opaque);
++    CRBState *s = TPM_CRB(opaque);
+     void *regs = (void *)&s->regs + (addr & ~3);
+     unsigned offset = addr & 3;
+     uint32_t val = *(uint32_t *)regs >> (8 * offset);
+@@ -113,7 +113,7 @@ static uint8_t tpm_crb_get_active_locty(CRBState *s)
+ static void tpm_crb_mmio_write(void *opaque, hwaddr addr,
+                                uint64_t val, unsigned size)
  {
--    STM32F2XXTimerState *s = STM32F2XXTIMER(obj);
-+    STM32F2XXTimerState *s = STM32F2XX_TIMER(obj);
+-    CRBState *s = CRB(opaque);
++    CRBState *s = TPM_CRB(opaque);
+     uint8_t locty =  addr >> 12;
  
-     sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->irq);
+     trace_tpm_crb_mmio_write(addr, size, val);
+@@ -190,7 +190,7 @@ static const MemoryRegionOps tpm_crb_memory_ops = {
  
-@@ -317,7 +317,7 @@ static void stm32f2xx_timer_init(Object *obj)
- 
- static void stm32f2xx_timer_realize(DeviceState *dev, Error **errp)
+ static void tpm_crb_request_completed(TPMIf *ti, int ret)
  {
--    STM32F2XXTimerState *s = STM32F2XXTIMER(dev);
-+    STM32F2XXTimerState *s = STM32F2XX_TIMER(dev);
-     s->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, stm32f2xx_timer_interrupt, s);
+-    CRBState *s = CRB(ti);
++    CRBState *s = TPM_CRB(ti);
+ 
+     s->regs[R_CRB_CTRL_START] &= ~CRB_START_INVOKE;
+     if (ret != 0) {
+@@ -201,7 +201,7 @@ static void tpm_crb_request_completed(TPMIf *ti, int ret)
+ 
+ static enum TPMVersion tpm_crb_get_version(TPMIf *ti)
+ {
+-    CRBState *s = CRB(ti);
++    CRBState *s = TPM_CRB(ti);
+ 
+     return tpm_backend_get_tpm_version(s->tpmbe);
  }
+@@ -232,7 +232,7 @@ static Property tpm_crb_properties[] = {
  
+ static void tpm_crb_reset(void *dev)
+ {
+-    CRBState *s = CRB(dev);
++    CRBState *s = TPM_CRB(dev);
+ 
+     if (s->ppi_enabled) {
+         tpm_ppi_reset(&s->ppi);
+@@ -281,7 +281,7 @@ static void tpm_crb_reset(void *dev)
+ 
+ static void tpm_crb_realize(DeviceState *dev, Error **errp)
+ {
+-    CRBState *s = CRB(dev);
++    CRBState *s = TPM_CRB(dev);
+ 
+     if (!tpm_find()) {
+         error_setg(errp, "at most one TPM device is permitted");
 -- 
 2.26.2
 
