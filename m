@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B23225B27B
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 19:02:42 +0200 (CEST)
-Received: from localhost ([::1]:58290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A336825B29D
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 19:03:56 +0200 (CEST)
+Received: from localhost ([::1]:36170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDW9h-0001yB-5U
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 13:02:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45354)
+	id 1kDWAt-0004ZS-Lp
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 13:03:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kDW8Q-0000Ew-Db
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 13:01:22 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:42994)
+ id 1kDW8W-0000Si-LI
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 13:01:28 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:41295)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kDW8O-0000I3-BS
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 13:01:22 -0400
-Received: by mail-pl1-x643.google.com with SMTP id j11so31339plk.9
- for <qemu-devel@nongnu.org>; Wed, 02 Sep 2020 10:01:19 -0700 (PDT)
+ id 1kDW8U-0000Il-M9
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 13:01:28 -0400
+Received: by mail-pg1-x541.google.com with SMTP id w186so2837221pgb.8
+ for <qemu-devel@nongnu.org>; Wed, 02 Sep 2020 10:01:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gZugdAc0YYQQQMUJH814Yqj9KG0APjmY2BrDJE6YAjA=;
- b=rvkRQQvnFKYlB9Fk9yNrnqjpzSTP7BNzoPCS7ACQ1zsJigcJytrv4b9rBkKsPRUD2+
- 1tsZR9dfiKMnC1FVyJyTAzJVHH6oQsl3epmNZIxSkvL1aIMT4AZWPBniRVIhy1CgP/s6
- 6N9QO0U84pHwkBSASHBXtk/TWM9LVrrIfZ0zzy9aIjhMGj6r7+zqNzOKPD0hXHN+21f6
- vjQmCS3LCBPmYKxlYUtgGomE0cuhI6q5+9SluMxlIhwppPDoofFBojyhz+ED1D/ge2Io
- oJMHjWJknPaAwOkkaUNhrI9LQrhVFZC7NHCPBNFVug3f2UJGoi7EC8pFY+u+/a2CO96+
- XlnA==
+ bh=E3tqAQ40jh0sPTD1d9xIkZ9WYrXugWo7nhLWb57uF6Q=;
+ b=MYpzGK9KlMiUrXXFF850wn8h65J7d8mGHdjaCNe9s6Z3umbJDiz5FKpa9albrVTQZJ
+ TjLYEbUcziIIRoY9B9KMAXMN5BzxD4BHa8S4d17NcR+S34esqStWL+gDdcLbgSCOhor3
+ fce9twXlIILn18nyByZ+0wzaS/2p8+oU1O3xekBlkDOYkPhOn5ZrclK+e/EOThk0RB5A
+ LXU8fScQa7kjwuSYxISbUoJxvYAzuMigiSLSMuXhPrHqu99vCiyvn7xnIfMijHRzCqBH
+ tjp57A+03oc8q4V+JzpsNtSd/PMBeSOqHX1DcX+Qwr2zajRykN8OOBzh3rX4WJ9+tkPD
+ B9DQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gZugdAc0YYQQQMUJH814Yqj9KG0APjmY2BrDJE6YAjA=;
- b=pI7nFviyhvwNbptTWTbiFPplu2heBU0PRCuY335vHhQuDpVZ0xtOJ4RvBoM32BHLMo
- 1Nk5QehcPiHNeEnZXhwPm4lMgDO0/ceeJ7VEGmR6UV2IQl+JNOCktXysVSvE/yYctz/a
- 8QA3Uo5ntZSxAge70gEkHMsosQkKTFFv0zmVcspdwC6oRw4eJKM9gwL0933+rXM8M5M1
- 7F6CB/2Hf4cSQZ2iVAPavE0QNGfW+PiayDLlXRq18fnq8Q3OsgVC7m4VIIfyMrdhy3Nc
- +11aLy1/pKf3eng/sDjrxDxftl87ncW69aals0Pd+C14jqpn7v6KkNuelwhIgql2dCjq
- Urnw==
-X-Gm-Message-State: AOAM530ldhCI54zIm+48XdzmBDSP2d4Z//lSvcR+hLZeFcjN1Zj7RseK
- CxO2tOUYlxPCtVCFybOGfJOFby3Ny94=
-X-Google-Smtp-Source: ABdhPJyQaWqgXwZIJUlgmFK8GZFOYxD6y4pov31ZKOfQ5JGByy8/1rKhOZP0s13INLg5aef+VHvpMA==
-X-Received: by 2002:a17:90b:88d:: with SMTP id
- bj13mr2981044pjb.80.1599066078441; 
- Wed, 02 Sep 2020 10:01:18 -0700 (PDT)
+ bh=E3tqAQ40jh0sPTD1d9xIkZ9WYrXugWo7nhLWb57uF6Q=;
+ b=Qiqos/0pC4SeoQnCT1c8G3HZxsKQ9Q8VitSoy9FXJ6VkPYD1M+U44pI+o5V+XjhnSg
+ Ja6uR19fmr3bmIu2zoIf6gWCjnQ6ESOLl6SrVAKXwOXPsXcTuE/1DDu8ziKL30NWOeiK
+ Mi6qha52K1ydajJUJUgFPYmhho7oHiTblY3mnxzMP7/q0z7cI9S9lipFhaa7OivjjSRA
+ aDQw9cWLLuCzg250ohmLDuI2VgASDYWPR4nwkr1MQ5RmlVBiob0dLIcCinskRQsr6wVO
+ p60ecS3SROKrxZw6i0vyWG51y0l8TUxQuJx5UI07RUubgvh7Ln37IHfaoF2ZTQM+3v6r
+ mYuQ==
+X-Gm-Message-State: AOAM530mh56lzxKfW+qAAxog/xg1MFojQyuz0UkobRNPKsqviVH3Cx5N
+ wH4yQyhuAW2frIdS7gIgcjrtNqqSHRI=
+X-Google-Smtp-Source: ABdhPJw/nrFFE2q++6Z+N+Bkp6OL8Li2KvrhrfpqIcZQNu6pFURuIWQTh7jdlku6MPOnmv20zWe1LQ==
+X-Received: by 2002:a62:2e81:: with SMTP id u123mr3968934pfu.304.1599066080665; 
+ Wed, 02 Sep 2020 10:01:20 -0700 (PDT)
 Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id x4sm40527pfm.86.2020.09.02.10.01.16
+ by smtp.googlemail.com with ESMTPSA id x4sm40527pfm.86.2020.09.02.10.01.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Sep 2020 10:01:17 -0700 (PDT)
+ Wed, 02 Sep 2020 10:01:19 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/6] ci: Install msys2 in a proper way refer to
- https://github.com/cirruslabs/cirrus-ci-docs/issues/699 Enable msys2 ci in
- cirrus
-Date: Thu,  3 Sep 2020 01:00:51 +0800
-Message-Id: <20200902170054.810-4-luoyonggang@gmail.com>
+Subject: [PATCH 4/6] tcg: Fixes dup_const link error
+Date: Thu,  3 Sep 2020 01:00:52 +0800
+Message-Id: <20200902170054.810-5-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.27.0.windows.1
 In-Reply-To: <20200902170054.810-1-luoyonggang@gmail.com>
 References: <20200902170054.810-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
- envelope-from=luoyonggang@gmail.com; helo=mail-pl1-x643.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x541.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,133 +88,59 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
----
- .cirrus.yml                         | 23 ++++++++++++++++
- scripts/ci/windows/msys2_build.sh   | 35 ++++++++++++++++++++++++
- scripts/ci/windows/msys2_install.sh | 41 +++++++++++++++++++++++++++++
- 3 files changed, 99 insertions(+)
- create mode 100644 scripts/ci/windows/msys2_build.sh
- create mode 100644 scripts/ci/windows/msys2_install.sh
+Rename function dup_const to dup_const_eval for avoid confliction with macro dup_const
 
-diff --git a/.cirrus.yml b/.cirrus.yml
-index f287d23c5b..d377c28412 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -40,3 +40,26 @@ macos_xcode_task:
-     - ../configure --cc=clang || { cat config.log; exit 1; }
-     - gmake -j$(sysctl -n hw.ncpu)
-     - gmake check
-+
-+windows_msys2_task:
-+  windows_container:
-+    image: cirrusci/windowsservercore:cmake
-+    os_version: 2019
-+    cpu: 8
-+    memory: 8G
-+  env:
-+    MSYS: winsymlinks:nativestrict
-+    MSYSTEM: MINGW64
-+    CHERE_INVOKING: 1
-+  printenv_script: C:\tools\msys64\usr\bin\bash.exe -lc 'printenv'
-+  install_script:
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "cd /c/tools && curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "cd /c/tools && curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig"
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "cd /c/tools && pacman -U --noconfirm msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "pacman -Sy --noconfirm"
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "pacman --needed --noconfirm -S bash pacman pacman-mirrors msys2-runtime"
-+    - taskkill /F /IM gpg-agent.exe
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -Su"
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "sh scripts/ci/windows/msys2_install.sh"
-+  script:
-+    C:\tools\msys64\usr\bin\bash.exe -lc "sh scripts/ci/windows/msys2_build.sh"
-diff --git a/scripts/ci/windows/msys2_build.sh b/scripts/ci/windows/msys2_build.sh
-new file mode 100644
-index 0000000000..0363ef402a
---- /dev/null
-+++ b/scripts/ci/windows/msys2_build.sh
-@@ -0,0 +1,35 @@
-+export QEMU_DIR=$PWD
-+mkdir ../qemu-build
-+cd ../qemu-build
-+$QEMU_DIR/configure \
-+  --python=python3 \
-+  --cross-prefix=x86_64-w64-mingw32- \
-+  --enable-gtk --enable-sdl \
-+  --enable-capstone=git \
-+  --enable-stack-protector \
-+  --ninja=ninja \
-+  --enable-gnutls \
-+  --enable-nettle \
-+  --enable-vnc \
-+  --enable-vnc-sasl \
-+  --enable-vnc-jpeg \
-+  --enable-vnc-png \
-+  --enable-membarrier \
-+  --enable-slirp=git \
-+  --disable-kvm \
-+  --enable-hax \
-+  --enable-whpx \
-+  --disable-spice \
-+  --enable-lzo \
-+  --enable-snappy \
-+  --enable-bzip2 \
-+  --enable-vdi \
-+  --enable-qcow1 \
-+  --enable-tools \
-+  --enable-libusb \
-+  --enable-usb-redir \
-+  --disable-libnfs \
-+  --enable-libssh \
-+  --disable-pie
-+make -j$NUMBER_OF_PROCESSORS
-+# make -j$NUMBER_OF_PROCESSORS check
-diff --git a/scripts/ci/windows/msys2_install.sh b/scripts/ci/windows/msys2_install.sh
-new file mode 100644
-index 0000000000..3a5392cd99
---- /dev/null
-+++ b/scripts/ci/windows/msys2_install.sh
-@@ -0,0 +1,41 @@
-+pacman --noconfirm -S --needed \
-+base-devel \
-+git \
-+mingw-w64-x86_64-python \
-+mingw-w64-x86_64-python-setuptools \
-+mingw-w64-x86_64-toolchain \
-+mingw-w64-x86_64-SDL2 \
-+mingw-w64-x86_64-SDL2_image \
-+mingw-w64-x86_64-gtk3 \
-+mingw-w64-x86_64-ninja \
-+mingw-w64-x86_64-make \
-+mingw-w64-x86_64-lzo2 \
-+mingw-w64-x86_64-libjpeg-turbo \
-+mingw-w64-x86_64-pixman \
-+mingw-w64-x86_64-libgcrypt \
-+mingw-w64-x86_64-capstone \
-+mingw-w64-x86_64-libpng \
-+mingw-w64-x86_64-libssh \
-+mingw-w64-x86_64-libxml2 \
-+mingw-w64-x86_64-snappy \
-+mingw-w64-x86_64-libusb \
-+mingw-w64-x86_64-usbredir \
-+mingw-w64-x86_64-libtasn1 \
-+mingw-w64-x86_64-libnfs \
-+mingw-w64-x86_64-nettle \
-+mingw-w64-x86_64-cyrus-sasl \
-+mingw-w64-x86_64-curl \
-+mingw-w64-x86_64-gnutls \
-+mingw-w64-x86_64-zstd \
-+mingw-w64-x86_64-glib2
-+
-+cd /mingw64/bin
-+cp x86_64-w64-mingw32-gcc-ar.exe x86_64-w64-mingw32-ar.exe
-+cp x86_64-w64-mingw32-gcc-ranlib.exe x86_64-w64-mingw32-ranlib.exe
-+cp x86_64-w64-mingw32-gcc-nm.exe x86_64-w64-mingw32-nm.exe
-+cp windres.exe x86_64-w64-mingw32-windres.exe
-+cp strip.exe x86_64-w64-mingw32-strip.exe
-+cp objcopy.exe x86_64-w64-mingw32-objcopy.exe
-+cp ld x86_64-w64-mingw32-ld.exe
-+cp as x86_64-w64-mingw32-as.exe
-+cp sdl2-config x86_64-w64-mingw32-sdl2-config
+The link error on msys2
+
+Linking target qemu-system-alpha.exe
+C:/CI-Tools/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: libqemu-alpha-softmmu.fa.p/tcg_optimize.c.obj: in function `tcg_optimize':
+E:\CI-Cor-Ready\xemu\qemu-build/../qemu.org/tcg/optimize.c:1106: undefined reference to `dup_const'
+C:/CI-Tools/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: libqemu-alpha-softmmu.fa.p/tcg_tcg-op-vec.c.obj: in function `tcg_gen_dupi_vec':
+E:\CI-Cor-Ready\xemu\qemu-build/../qemu.org/tcg/tcg-op-vec.c:283: undefined reference to `dup_const'
+collect2.exe: error: ld returned 1 exit status
+
+Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+---
+ include/tcg/tcg.h | 6 +++---
+ tcg/tcg-op-gvec.c | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index 53ce94c2c5..7f6fe8454b 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -1251,15 +1251,15 @@ static inline int tcg_can_emit_vec_op(TCGOpcode o, TCGType t, unsigned ve)
+ void tcg_expand_vec_op(TCGOpcode, TCGType, unsigned, TCGArg, ...);
+ 
+ /* Replicate a constant C accoring to the log2 of the element size.  */
+-uint64_t dup_const(unsigned vece, uint64_t c);
++uint64_t dup_const_eval(unsigned vece, uint64_t c);
+ 
+ #define dup_const(VECE, C)                                         \
+     (__builtin_constant_p(VECE)                                    \
+      ? (  (VECE) == MO_8  ? 0x0101010101010101ull * (uint8_t)(C)   \
+         : (VECE) == MO_16 ? 0x0001000100010001ull * (uint16_t)(C)  \
+         : (VECE) == MO_32 ? 0x0000000100000001ull * (uint32_t)(C)  \
+-        : dup_const(VECE, C))                                      \
+-     : dup_const(VECE, C))
++        : dup_const_eval(VECE, C))                                      \
++     : dup_const_eval(VECE, C))
+ 
+ 
+ /*
+diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
+index 3707c0effb..cbb6cd04bc 100644
+--- a/tcg/tcg-op-gvec.c
++++ b/tcg/tcg-op-gvec.c
+@@ -359,7 +359,7 @@ static inline bool check_size_impl(uint32_t oprsz, uint32_t lnsz)
+ static void expand_clr(uint32_t dofs, uint32_t maxsz);
+ 
+ /* Duplicate C as per VECE.  */
+-uint64_t (dup_const)(unsigned vece, uint64_t c)
++uint64_t dup_const_eval(unsigned vece, uint64_t c)
+ {
+     switch (vece) {
+     case MO_8:
 -- 
 2.27.0.windows.1
 
