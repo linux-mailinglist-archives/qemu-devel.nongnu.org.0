@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ADD325A7B9
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 10:24:48 +0200 (CEST)
-Received: from localhost ([::1]:49766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E54F25A7BD
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 10:27:02 +0200 (CEST)
+Received: from localhost ([::1]:58386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDO4V-00019p-55
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 04:24:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45438)
+	id 1kDO6f-00052E-Hz
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 04:27:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDO0n-0002gZ-K7
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 04:20:57 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:20287
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDO3z-0001D1-Ld
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 04:24:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47315)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDO0l-0003Wd-RT
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 04:20:57 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDO3x-0003pn-Qi
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 04:24:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599034854;
+ s=mimecast20190719; t=1599035050;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=VubfB4Wo9wd9ILlGtC2QPGbvmdd4QVFY6mWphsEc//I=;
- b=aHmWeR1RFFtH9C8ZnCA16ElxXnPOm7dF431N3Qus0WL/4NKyph4yugKit5GqPAj2EmWXbD
- GFcwq+jbM3SXNm3+4maBlT1JXOC26JwsTUKpCabLazSB8Wxb4XSoFxRTB6/sS35FXs6XDt
- yowIKd+qXhAeAxwEmZ3FTchFtLH/DFw=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-206-eFanYQO9M2av0nbf-_N0QQ-1; Wed, 02 Sep 2020 04:20:52 -0400
-X-MC-Unique: eFanYQO9M2av0nbf-_N0QQ-1
-Received: by mail-wm1-f69.google.com with SMTP id c72so1313036wme.4
- for <qemu-devel@nongnu.org>; Wed, 02 Sep 2020 01:20:52 -0700 (PDT)
+ bh=cPEhcxonnUyZZCnr3X2KgYS3M1BEWUr62ls4Byv++Ag=;
+ b=gCKslDAZJyD06qnT3gFWwW3TQ4mNgvHoQG+N/e5408/7xaoedGMdcna/uFsKvfqPTqhR9+
+ HbSTIsQIpEIJHzn9xyYRy+m+udxiX7T0IXvUJeld9Uzg4xMj6r+zvjq6+3S5nqFU+s84nZ
+ AgrQvVPITLsAqGB8F/eqKZXi7VVk49g=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-497-TyARtsb3PlWC1Ocokj5LdA-1; Wed, 02 Sep 2020 04:24:09 -0400
+X-MC-Unique: TyARtsb3PlWC1Ocokj5LdA-1
+Received: by mail-wr1-f72.google.com with SMTP id g6so1668709wrv.3
+ for <qemu-devel@nongnu.org>; Wed, 02 Sep 2020 01:24:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=VubfB4Wo9wd9ILlGtC2QPGbvmdd4QVFY6mWphsEc//I=;
- b=g2sf6LMBm4xHv/uUWlP1phrTASQ+njdCsbKXtNtbqMDTRKbpi0VVfYX1f4c79dnUTX
- iac/h0BGvaWcDW3Pb4WYJ6r92tksc0tLuf1R2k8Zh1bkGR/yANrMxJ3ytenUZrCR0i8q
- cfyiYta1OrHODvFETaVkRgLzq5vdCYGYZgqJ4+bLe39bpedlpNh+1NKkWHv/LBBSm6U5
- 3dPaQXASK+vJxr3ligp5rkWjBJ59WCXB2bI7jk4wscpjObN41gHJ/ABSZfBf/Py3IKq9
- rqUEDOMJMBG6muYKAiebNtFvCX7Mlt/8fiFqC8lbEPMryoM8/jBLV4/88CXUAGtjNXtC
- Loag==
-X-Gm-Message-State: AOAM530KfwhJ6T/x5GoWJ0APV9Ko0Vjzx+m1YYygNl1FUf57a1dD/t06
- iAieN4vEBQrY6dIVUsaFeZyiMa9CiUyQ3S15feWjYm6GFC03Aq2OBkuVs1DiiyhvBL8QvSmarzI
- iNxYinCGDgBa+zgg=
-X-Received: by 2002:adf:f6c2:: with SMTP id y2mr5801207wrp.79.1599034851741;
- Wed, 02 Sep 2020 01:20:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJylES3AuD+M4+DFQHtDrCcR0kzsmx6ZDtITB7lFhf2rM3hKpOfD1SrECdJE9lM0SrL5zaJe6w==
-X-Received: by 2002:adf:f6c2:: with SMTP id y2mr5801181wrp.79.1599034851521;
- Wed, 02 Sep 2020 01:20:51 -0700 (PDT)
+ bh=cPEhcxonnUyZZCnr3X2KgYS3M1BEWUr62ls4Byv++Ag=;
+ b=Vqr9klW6cuS6nQDVOy01kWZtyJ5lk1r19UnJcuJcdTF+jqWH5OpSvX+03mwUTafpTe
+ Q6DNUL3K9CPrvNBFaAaCIvQXzFV/i+i3PhCG78YcmTMoUkuuHGMJGsi3dx5sfTG3xU1A
+ j1zY5llaIjMpfbz40/kv5AYm6P3QHah1Z2HkinFMe8NodNhRgzzl32P4flubblnG/Tlz
+ FFk57opkBiL5mbMF/BqbZsN69Z5OSrQAvzcyQeF6lhUSvJGhPYzaY5EdtPBirgexKxwN
+ W+8Mit/xo5XmrdYVOc4uR1T79Hb/Iqmyluut0RcLHC0/ijcqxYNtvguFsaC0f+89C6Yk
+ HRDQ==
+X-Gm-Message-State: AOAM533wvYYeX/aVCPetBjJwjkUkWakdileBx+uAx+G3JKNN5eaoRtHk
+ FUq21yGMtgpeAmPRyVtg2QWrMsWESg/a1hNRdzdURqm0pLhLEMgq4kTooZDi56NVoy5qcBo3iK8
+ xL0j47tJsJjpg28A=
+X-Received: by 2002:a1c:1d52:: with SMTP id d79mr5366008wmd.82.1599035048131; 
+ Wed, 02 Sep 2020 01:24:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyBHp2ESAutULrBz4PgI9sDA6pNMDCj92aa0obrfcYA/p9AtJ0nwGNYDGkU8vgLmKyFayNrlQ==
+X-Received: by 2002:a1c:1d52:: with SMTP id d79mr5365991wmd.82.1599035047895; 
+ Wed, 02 Sep 2020 01:24:07 -0700 (PDT)
 Received: from [192.168.1.36] (50.red-83-52-54.dynamicip.rima-tde.net.
  [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id p11sm1392014wma.11.2020.09.02.01.20.50
+ by smtp.gmail.com with ESMTPSA id r3sm6128347wro.1.2020.09.02.01.24.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Sep 2020 01:20:50 -0700 (PDT)
-Subject: Re: [PATCH 05/13] oslib-posix: relocate path to /var
+ Wed, 02 Sep 2020 01:24:07 -0700 (PDT)
+Subject: Re: [PATCH 07/13] net: relocate paths to helpers and scripts
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 References: <20200901062020.26660-1-pbonzini@redhat.com>
- <20200901062020.26660-6-pbonzini@redhat.com>
+ <20200901062020.26660-8-pbonzini@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -87,12 +86,12 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <e82a0a4a-f202-11ab-d440-873ffadf82f7@redhat.com>
-Date: Wed, 2 Sep 2020 10:20:50 +0200
+Message-ID: <5f5f038a-9c65-baa3-1f9e-0c04a08b0f71@redhat.com>
+Date: Wed, 2 Sep 2020 10:24:06 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200901062020.26660-6-pbonzini@redhat.com>
+In-Reply-To: <20200901062020.26660-8-pbonzini@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0.002
@@ -100,16 +99,16 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 03:24:55
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 01:13:52
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.13, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ NICE_REPLY_A=-2.13, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -131,28 +130,104 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 9/1/20 8:20 AM, Paolo Bonzini wrote:
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  util/oslib-posix.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+>  include/net/net.h |  4 ++--
+>  net/tap.c         | 28 +++++++++++++++++++++-------
+>  2 files changed, 23 insertions(+), 9 deletions(-)
 > 
-> diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-> index a68fccb52d..8e23b8fac0 100644
-> --- a/util/oslib-posix.c
-> +++ b/util/oslib-posix.c
-> @@ -339,8 +339,10 @@ int qemu_pipe(int pipefd[2])
->  char *
->  qemu_get_local_state_pathname(const char *relative_pathname)
->  {
-> -    return g_strdup_printf("%s/%s", CONFIG_QEMU_LOCALSTATEDIR,
-> -                           relative_pathname);
-> +    g_autofree char *dir = g_strdup_printf("%s/%s",
-> +                                           CONFIG_QEMU_LOCALSTATEDIR,
-> +                                           relative_pathname);
-> +    return get_relocated_path(dir);
->  }
+> diff --git a/include/net/net.h b/include/net/net.h
+> index e7ef42d62b..897b2d7595 100644
+> --- a/include/net/net.h
+> +++ b/include/net/net.h
+> @@ -209,8 +209,8 @@ void netdev_add(QemuOpts *opts, Error **errp);
+>  int net_hub_id_for_client(NetClientState *nc, int *id);
+>  NetClientState *net_hub_port_find(int hub_id);
 >  
->  void qemu_set_tty_echo(int fd, bool echo)
-> 
+> -#define DEFAULT_NETWORK_SCRIPT "/etc/qemu-ifup"
+> -#define DEFAULT_NETWORK_DOWN_SCRIPT "/etc/qemu-ifdown"
+> +#define DEFAULT_NETWORK_SCRIPT CONFIG_SYSCONFDIR "/qemu-ifup"
+> +#define DEFAULT_NETWORK_DOWN_SCRIPT CONFIG_SYSCONFDIR "/qemu-ifdown"
+>  #define DEFAULT_BRIDGE_HELPER CONFIG_QEMU_HELPERDIR "/qemu-bridge-helper"
+>  #define DEFAULT_BRIDGE_INTERFACE "br0"
+>  
+> diff --git a/net/tap.c b/net/tap.c
+> index 14dc904fca..a271046461 100644
+> --- a/net/tap.c
+> +++ b/net/tap.c
+> @@ -582,14 +582,20 @@ int net_init_bridge(const Netdev *netdev, const char *name,
+>                      NetClientState *peer, Error **errp)
+>  {
+>      const NetdevBridgeOptions *bridge;
+> -    const char *helper, *br;
+> +    g_autofree char *default_helper = NULL;
+> +    const char *helper;
+> +    const char *br;
+>      TAPState *s;
+>      int fd, vnet_hdr;
+>  
+>      assert(netdev->type == NET_CLIENT_DRIVER_BRIDGE);
+>      bridge = &netdev->u.bridge;
+>  
+> -    helper = bridge->has_helper ? bridge->helper : DEFAULT_BRIDGE_HELPER;
+> +    if (!bridge->has_helper) {
+> +        helper = default_helper = get_relocated_path(DEFAULT_BRIDGE_HELPER);
+> +    } else {
+> +        helper = bridge->helper;
+> +    }
+
+Nitpicking, I find easier to review adding simply once after out of the
+if() statement:
+
+  helper = bridge->helper;
+
+>      br     = bridge->has_br     ? bridge->br     : DEFAULT_BRIDGE_INTERFACE;
+>  
+>      fd = net_bridge_run_helper(helper, br, errp);
+> @@ -773,8 +779,8 @@ int net_init_tap(const Netdev *netdev, const char *name,
+>      const NetdevTapOptions *tap;
+>      int fd, vnet_hdr = 0, i = 0, queues;
+>      /* for the no-fd, no-helper case */
+> -    const char *script = NULL; /* suppress wrong "uninit'd use" gcc warning */
+> -    const char *downscript = NULL;
+> +    const char *script;
+> +    const char *downscript;
+>      Error *err = NULL;
+>      const char *vhostfdname;
+>      char ifname[128];
+> @@ -784,6 +790,8 @@ int net_init_tap(const Netdev *netdev, const char *name,
+>      tap = &netdev->u.tap;
+>      queues = tap->has_queues ? tap->queues : 1;
+>      vhostfdname = tap->has_vhostfd ? tap->vhostfd : NULL;
+> +    script = tap->has_script ? tap->script : NULL;
+> +    downscript = tap->has_downscript ? tap->downscript : NULL;
+>  
+>      /* QEMU hubs do not support multiqueue tap, in this case peer is set.
+>       * For -netdev, peer is always NULL. */
+> @@ -934,13 +942,19 @@ free_fail:
+>              return -1;
+>          }
+>      } else {
+> +        g_autofree char *default_script = NULL;
+> +        g_autofree char *default_downscript = NULL;
+>          if (tap->has_vhostfds) {
+>              error_setg(errp, "vhostfds= is invalid if fds= wasn't specified");
+>              return -1;
+>          }
+> -        script = tap->has_script ? tap->script : DEFAULT_NETWORK_SCRIPT;
+> -        downscript = tap->has_downscript ? tap->downscript :
+> -            DEFAULT_NETWORK_DOWN_SCRIPT;
+> +
+> +        if (!tap->has_script) {
+> +            script = default_script = get_relocated_path(DEFAULT_NETWORK_SCRIPT);
+> +        }
+> +        if (!tap->has_downscript) {
+> +            downscript = default_downscript = get_relocated_path(DEFAULT_NETWORK_SCRIPT);
+> +        }
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+>  
+>          if (tap->has_ifname) {
+>              pstrcpy(ifname, sizeof ifname, tap->ifname);
+> 
 
 
