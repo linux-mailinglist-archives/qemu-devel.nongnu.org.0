@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D34F25ABD3
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 15:12:11 +0200 (CEST)
-Received: from localhost ([::1]:46564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6422225ABB8
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 15:06:53 +0200 (CEST)
+Received: from localhost ([::1]:46356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDSYc-0004gD-3J
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 09:12:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37140)
+	id 1kDSTU-0001aG-Ee
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 09:06:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kDSMe-0006dW-BY
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:59:48 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:35953
+ id 1kDSMZ-0006NY-9w
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:59:43 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:41163
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kDSMY-0007BJ-MA
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:59:48 -0400
+ id 1kDSMV-00079y-1Q
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:59:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599051581;
+ s=mimecast20190719; t=1599051578;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2b6suSUQoUCdu/svLeROGq1EoTJ292BuA8aeHzcUKCw=;
- b=JG5YaizVFU03GB9psQNaSAdlK0nC41OP9qxrsardeFcKUPF4p0oJB8i2XHU51qjVkODT8m
- A+nRxVaHxDOg44DNd2NR7KVS82XxA99GTv/sEp51AXWZzDWXf1JkEgk0Sw0Vyw1mJbY6k/
- pubHckwfMuSY15Z/LWEjzyS8hWhHhdY=
+ bh=Xf/OVxQRv8VsGByPISeVDmk2FH5DWnw1EZekclDjUgc=;
+ b=V73GThyU5E+K0LLSSpFMKSgdUPz/yn+2NZo+5kSWoPXwT3+v5DgTKpwwdDdzq8f7D/s2eO
+ ZhztD4Gtcu64ES//AbMtnDYRXXDV/ZUGRc+i7B6X9of4MtOOX/KKL8uPyMDVlMwLz5pI4i
+ J5adB7fkKDVgdfgFCvEvExxGcW/d9Hk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-314-IP6AGhKyNu6HXS2b6R26dA-1; Wed, 02 Sep 2020 08:59:33 -0400
-X-MC-Unique: IP6AGhKyNu6HXS2b6R26dA-1
+ us-mta-191-Wh0Bbg4DPYCmcjtifufe4w-1; Wed, 02 Sep 2020 08:59:35 -0400
+X-MC-Unique: Wh0Bbg4DPYCmcjtifufe4w-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F21D801AEF
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A89610199B7
  for <qemu-devel@nongnu.org>; Wed,  2 Sep 2020 12:59:32 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0DC4776E01
- for <qemu-devel@nongnu.org>; Wed,  2 Sep 2020 12:59:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5A1D976E01
+ for <qemu-devel@nongnu.org>; Wed,  2 Sep 2020 12:59:32 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 28/39] Makefile: remove dead variables and includes
-Date: Wed,  2 Sep 2020 08:59:06 -0400
-Message-Id: <20200902125917.26021-29-pbonzini@redhat.com>
+Subject: [PATCH 29/39] Makefile: inline the relevant parts of rules.mak
+Date: Wed,  2 Sep 2020 08:59:07 -0400
+Message-Id: <20200902125917.26021-30-pbonzini@redhat.com>
 In-Reply-To: <20200902125917.26021-1-pbonzini@redhat.com>
 References: <20200902125917.26021-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 03:24:55
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 02:33:32
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,175 +85,297 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Makefile.objs, the .d files and various CONFIG_* symbols are not
-used anymore by the Make side of the build; they are only processed
-by Meson.  We can delete them.
+Most of rules.mak is not used anymore, just inline what's needed.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile               | 20 --------------------
- Makefile.objs          | 34 ----------------------------------
- tests/Makefile.include | 40 ----------------------------------------
- 3 files changed, 94 deletions(-)
- delete mode 100644 Makefile.objs
+ Makefile                    |  38 +++++----
+ docs/devel/build-system.rst |   4 -
+ rules.mak                   | 158 ------------------------------------
+ tests/tcg/Makefile.qemu     |   2 -
+ 4 files changed, 22 insertions(+), 180 deletions(-)
+ delete mode 100644 rules.mak
 
 diff --git a/Makefile b/Makefile
-index d4d6a67d96..9bdf5fc072 100644
+index 9bdf5fc072..678e76d6f2 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -80,13 +80,6 @@ seems to have been used for an in-tree build. You can fix this by running \
+@@ -10,6 +10,20 @@ BUILD_DIR=$(CURDIR)
+ # Before including a proper config-host.mak, assume we are in the source tree
+ SRC_PATH=.
+ 
++# Don't use implicit rules or variables
++# we have explicit rules for everything
++MAKEFLAGS += -rR
++
++# Usage: $(call quiet-command,command and args,"NAME","args to print")
++# This will run "command and args", and either:
++#  if V=1 just print the whole command and args
++#  otherwise print the 'quiet' output in the format "  NAME     args to print"
++# NAME should be a short name of the command, 7 letters or fewer.
++# If called with only a single argument, will print nothing in quiet mode.
++quiet-command-run = $(if $(V),,$(if $2,printf "  %-7s %s\n" $2 $3 && ))$1
++quiet-@ = $(if $(V),,@)
++quiet-command = $(quiet-@)$(call quiet-command-run,$1,$2,$3)
++
+ UNCHECKED_GOALS := %clean TAGS cscope ctags dist \
+     help check-help print-% \
+     docker docker-% vm-help vm-test vm-build-%
+@@ -68,6 +82,7 @@ Makefile.mtest: build.ninja scripts/mtest2make.py
+ -include Makefile.mtest
  endif
- endif
  
--CONFIG_SOFTMMU := $(if $(filter %-softmmu,$(TARGET_DIRS)),y)
--CONFIG_USER_ONLY := $(if $(filter %-user,$(TARGET_DIRS)),y)
--CONFIG_XEN := $(CONFIG_XEN_BACKEND)
--CONFIG_ALL=y
---include config-all-devices.mak
---include config-all-disas.mak
++Makefile: .git-submodule-status
+ .git-submodule-status: git-submodule-update config-host.mak
+ 
+ # Check that we're not trying to do an out-of-tree build from
+@@ -108,10 +123,6 @@ ninja-clean::
+ ninja-distclean::
+ build.ninja: config-host.mak
+ 
+-include $(SRC_PATH)/rules.mak
 -
- config-host.mak: $(SRC_PATH)/configure $(SRC_PATH)/pc-bios $(SRC_PATH)/VERSION
- 	@echo $@ is out-of-date, running configure
- 	@if test -f meson-private/coredata.dat; then \
-@@ -117,9 +110,6 @@ build.ninja: config-host.mak
- 
- include $(SRC_PATH)/rules.mak
- 
--# lor is defined in rules.mak
--CONFIG_BLOCK := $(call lor,$(CONFIG_SOFTMMU),$(CONFIG_TOOLS))
+-generated-files-y += .git-submodule-status
 -
- generated-files-y += .git-submodule-status
- 
  # Don't try to regenerate Makefile or configure
-@@ -132,14 +122,8 @@ configure: ;
+ # We don't generate any of them
+ Makefile: ;
+@@ -120,9 +131,7 @@ configure: ;
+ .PHONY: all clean cscope distclean install \
+ 	recurse-all dist msi FORCE
  
- $(call set-vpath, $(SRC_PATH))
- 
--LIBS+=-lz $(LIBS_TOOLS)
+-$(call set-vpath, $(SRC_PATH))
 -
- SUBDIR_MAKEFLAGS=$(if $(V),,--no-print-directory --quiet) BUILD_DIR=$(BUILD_DIR)
+-SUBDIR_MAKEFLAGS=$(if $(V),,--no-print-directory --quiet) BUILD_DIR=$(BUILD_DIR)
++SUBDIR_MAKEFLAGS=$(if $(V),,--no-print-directory --quiet)
  
--ifneq ($(wildcard config-host.mak),)
--include $(SRC_PATH)/Makefile.objs
--endif
--
  include $(SRC_PATH)/tests/Makefile.include
  
- all: recurse-all
-@@ -256,10 +240,6 @@ Makefile: $(generated-files-y)
- endif
- endif
+@@ -189,7 +198,6 @@ clean: recurse-clean ninja-clean clean-ctlist
+ 		-exec rm {} +
+ 	rm -f TAGS cscope.* *.pod *~ */*~
+ 	rm -f fsdev/*.pod scsi/*.pod
+-	rm -f $(foreach f,$(generated-files-y),$(f) $(f)-timestamp)
  
--# Include automatically generated dependency files
--# Dependencies in Makefile.objs files come from our recursive subdir rules
---include $(wildcard *.d tests/*.d)
+ VERSION = $(shell cat $(SRC_PATH)/VERSION)
+ 
+@@ -232,14 +240,6 @@ cscope:
+ # Needed by "meson install"
+ export DESTDIR
+ 
+-# Add a dependency on the generated files, so that they are always
+-# rebuilt before other object files
+-ifneq ($(wildcard config-host.mak),)
+-ifneq ($(filter-out $(UNCHECKED_GOALS),$(MAKECMDGOALS)),$(if $(MAKECMDGOALS),,fail))
+-Makefile: $(generated-files-y)
+-endif
+-endif
 -
  include $(SRC_PATH)/tests/docker/Makefile.include
  include $(SRC_PATH)/tests/vm/Makefile.include
  
-diff --git a/Makefile.objs b/Makefile.objs
-deleted file mode 100644
-index c351b59641..0000000000
---- a/Makefile.objs
-+++ /dev/null
-@@ -1,34 +0,0 @@
--#######################################################################
--# Common libraries for tools and emulators
--qom-obj-y = qom/libqom.fa
--
--#######################################################################
--# code used by both qemu system emulation and qemu-img
--
--ifeq ($(call lor,$(CONFIG_SOFTMMU),$(CONFIG_TOOLS)),y)
--
--authz-obj-y = authz/libauthz.fa
--authz/libauthz.fa-libs = $(if $(CONFIG_AUTH_PAM),-lpam)
--
--block-obj-y += libblock.fa
--
--libblock.fa-libs = $(ZSTD_LIBS)
--libblock.fa-libs += $(LIBNFS_LIBS)
--libblock.fa-libs += $(LIBISCSI_LIBS)
--libblock.fa-libs += $(CURL_LIBS)
--libblock.fa-libs += $(RBD_LIBS)
--libblock.fa-libs += $(GLUSTERFS_LIBS)
--libblock.fa-libs += $(VXHS_LIBS)
--libblock.fa-libs += $(LIBSSH_LIBS)
--libblock.fa-libs += $(BZIP2_LIBS)
--libblock.fa-libs += $(LZFSE_LIBS)
--libblock.fa-libs += $(if $(CONFIG_LINUX_AIO),-laio)
--libblock.fa-libs += $(LIBXML2_LIBS)
--
--chardev-obj-y = chardev/libchardev.fa
--
--crypto-obj-y = crypto/libcrypto.fa
--
--io-obj-y = io/libio.fa
--
--endif # CONFIG_SOFTMMU or CONFIG_TOOLS
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 1592a647f4..f93e611220 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -40,41 +40,6 @@ SYSEMU_TARGET_LIST := $(subst -softmmu.mak,,$(notdir \
- 
- SPEED = quick
- 
--# gtester tests, possibly with verbose output
--# do_test_tap runs all tests, even if some of them fail, while do_test_human
--# stops at the first failure unless -k is given on the command line
--
--define do_test_human_k
--        $(quiet-@)rc=0; $(foreach COMMAND, $1, \
--          $(call quiet-command-run, \
--            export MALLOC_PERTURB_=$${MALLOC_PERTURB_:-$$(( $${RANDOM:-0} % 255 + 1))} $2; \
--              $(COMMAND) -m=$(SPEED) -k --tap < /dev/null \
--              | ./scripts/tap-driver.pl --test-name="$(notdir $(COMMAND))" $(if $(V),, --show-failures-only) \
--              || rc=$$?;, "TEST", "$@: $(COMMAND)")) exit $$rc
--endef
--define do_test_human_no_k
--        $(foreach COMMAND, $1, \
--          $(call quiet-command, \
--            MALLOC_PERTURB_=$${MALLOC_PERTURB_:-$$(( $${RANDOM:-0} % 255 + 1))} $2 \
--              $(COMMAND) -m=$(SPEED) -k --tap < /dev/null \
--              | ./scripts/tap-driver.pl --test-name="$(notdir $(COMMAND))" $(if $(V),, --show-failures-only), \
--              "TEST", "$@: $(COMMAND)")
--)
--endef
--do_test_human = \
--        $(if $(findstring k, $(MAKEFLAGS)), $(do_test_human_k), $(do_test_human_no_k))
--
--define do_test_tap
--	$(call quiet-command, \
--          { export MALLOC_PERTURB_=$${MALLOC_PERTURB_:-$$(( $${RANDOM:-0} % 255 + 1))} $2; \
--            $(foreach COMMAND, $1, \
--	      $(COMMAND) -m=$(SPEED) -k --tap < /dev/null \
--	      | sed "s/^\(not \)\?ok [0-9]* /&$(notdir $(COMMAND)) /" || true; ) } \
--	      | ./scripts/tap-merge.pl | tee "$@" \
--	      | ./scripts/tap-driver.pl $(if $(V),, --show-failures-only), \
--	  "TAP","$@")
--endef
--
- # Per guest TCG tests
- 
- BUILD_TCG_TARGET_RULES=$(patsubst %,build-tcg-tests-%, $(TARGET_DIRS))
-@@ -182,7 +147,6 @@ endif
- check-build: $(QEMU_IOTESTS_HELPERS-y)
- 
- check-clean:
--	rm -rf tests/*.o tests/*/*.o $(QEMU_IOTESTS_HELPERS-y)
- 	rm -rf $(TESTS_VENV_DIR) $(TESTS_RESULTS_DIR)
- 
- clean: check-clean
-@@ -191,8 +155,4 @@ clean: check-clean
- 
- check-speed: bench-speed
- 
--# Build the help program automatically
--
---include $(wildcard tests/*.d)
--
+@@ -280,3 +280,9 @@ endif
  endif
+ 	$(call print-help,$(MAKE) [targets],(quiet build, default))
+ 	$(call print-help,$(MAKE) V=1 [targets],(verbose build))
++
++# will delete the target of a rule if commands exit with a nonzero exit status
++.DELETE_ON_ERROR:
++
++print-%:
++	@echo '$*=$($*)'
+diff --git a/docs/devel/build-system.rst b/docs/devel/build-system.rst
+index 0c09fb9a54..55f0576c07 100644
+--- a/docs/devel/build-system.rst
++++ b/docs/devel/build-system.rst
+@@ -401,10 +401,6 @@ number of dynamically created files listed later.
+   executables.  Build rules for various subdirectories are included in
+   other meson.build files spread throughout the QEMU source tree.
+ 
+-`rules.mak`
+-  This file provides the generic helper rules for invoking build tools, in
+-  particular the compiler and linker.
+-
+ `tests/Makefile.include`
+   Rules for building the unit tests. This file is included directly by the
+   top level Makefile, so anything defined in this file will influence the
+diff --git a/rules.mak b/rules.mak
+deleted file mode 100644
+index c66c8218f0..0000000000
+--- a/rules.mak
++++ /dev/null
+@@ -1,158 +0,0 @@
+-
+-# These are used when we want to do substitutions without confusing Make
+-NULL  :=
+-SPACE := $(NULL) #
+-COMMA := ,
+-
+-# Don't use implicit rules or variables
+-# we have explicit rules for everything
+-MAKEFLAGS += -rR
+-
+-# Files with this suffixes are final, don't try to generate them
+-# using implicit rules
+-%/trace-events:
+-%.hx:
+-%.py:
+-%.objs:
+-%.d:
+-%.h:
+-%.c:
+-%.cc:
+-%.cpp:
+-%.m:
+-%.mak:
+-
+-# Flags for dependency generation
+-QEMU_DGFLAGS += -MMD -MP -MT $@ -MF $(@D)/$(*F).d
+-
+-# Compiler searches the source file dir first, but in vpath builds
+-# we need to make it search the build dir too, before any other
+-# explicit search paths. There are two search locations in the build
+-# dir, one absolute and the other relative to the compiler working
+-# directory. These are the same for target-independent files, but
+-# different for target-dependent ones.
+-QEMU_LOCAL_INCLUDES = -iquote $(BUILD_DIR) -iquote $(BUILD_DIR)/$(@D) -iquote $(@D)
+-
+-WL := -Wl,
+-ifdef CONFIG_DARWIN
+-whole-archive = $(WL)-force_load,$1
+-else
+-whole-archive = $(WL)--whole-archive $1 $(WL)--no-whole-archive
+-endif
+-
+-extract-libs = $(strip $(foreach o,$1,$($o-libs)))
+-
+-%.o: %.c
+-	@mkdir -p $(dir $@)
+-	$(call quiet-command,$(CC) $(QEMU_LOCAL_INCLUDES) $(QEMU_INCLUDES) \
+-	       $(QEMU_CFLAGS) $(QEMU_DGFLAGS) $(CFLAGS) $($@-cflags) \
+-	       -c -o $@ $<,"CC","$(TARGET_DIR)$@")
+-
+-# If we have a CXX we might have some C++ objects, in which case we
+-# must link with the C++ compiler, not the plain C compiler.
+-LINKPROG = $(or $(CXX),$(CC))
+-
+-LINK = $(call quiet-command, $(LINKPROG) $(CFLAGS) $(QEMU_LDFLAGS) -o $@ \
+-       $(filter-out %.a %.fa,$1) \
+-       $(foreach l,$(filter %.fa,$1),$(call whole-archive,$l)) \
+-       $(filter %.a,$1) \
+-       $(call extract-libs,$1) $(LIBS),"LINK","$(TARGET_DIR)$@")
+-
+-%.o: %.S
+-	$(call quiet-command,$(CCAS) $(QEMU_LOCAL_INCLUDES) $(QEMU_INCLUDES) \
+-	       $(QEMU_CFLAGS) $(QEMU_DGFLAGS) $(CFLAGS) \
+-	       -c -o $@ $<,"CCAS","$(TARGET_DIR)$@")
+-
+-%.o: %.cc
+-	$(call quiet-command,$(CXX) $(QEMU_LOCAL_INCLUDES) $(QEMU_INCLUDES) \
+-	       $(QEMU_CXXFLAGS) $(QEMU_DGFLAGS) $(CXXFLAGS) $($@-cflags) \
+-	       -c -o $@ $<,"CXX","$(TARGET_DIR)$@")
+-
+-%.o: %.cpp
+-	$(call quiet-command,$(CXX) $(QEMU_LOCAL_INCLUDES) $(QEMU_INCLUDES) \
+-	       $(QEMU_CXXFLAGS) $(QEMU_DGFLAGS) $(CXXFLAGS) $($@-cflags) \
+-	       -c -o $@ $<,"CXX","$(TARGET_DIR)$@")
+-
+-%.o: %.m
+-	$(call quiet-command,$(OBJCC) $(QEMU_LOCAL_INCLUDES) $(QEMU_INCLUDES) \
+-	       $(QEMU_CFLAGS) $(QEMU_DGFLAGS) $(CFLAGS) $($@-cflags) \
+-	       -c -o $@ $<,"OBJC","$(TARGET_DIR)$@")
+-
+-%.o: %.dtrace
+-	$(call quiet-command,dtrace -o $@ -G -s $<,"GEN","$(TARGET_DIR)$@")
+-
+-.PHONY: modules
+-modules:
+-
+-%$(EXESUF): %.o
+-	$(call LINK,$(filter %.o %.a %.fa, $^))
+-
+-%.a:
+-	$(call quiet-command,rm -f $@ && $(AR) rcs $@ $^,"AR","$(TARGET_DIR)$@")
+-
+-# Usage: $(call quiet-command,command and args,"NAME","args to print")
+-# This will run "command and args", and either:
+-#  if V=1 just print the whole command and args
+-#  otherwise print the 'quiet' output in the format "  NAME     args to print"
+-# NAME should be a short name of the command, 7 letters or fewer.
+-# If called with only a single argument, will print nothing in quiet mode.
+-quiet-command-run = $(if $(V),,$(if $2,printf "  %-7s %s\n" $2 $3 && ))$1
+-quiet-@ = $(if $(V),,@)
+-quiet-command = $(quiet-@)$(call quiet-command-run,$1,$2,$3)
+-
+-# cc-option
+-# Usage: CFLAGS+=$(call cc-option, -falign-functions=0, -malign-functions=0)
+-
+-cc-option = $(if $(shell $(CC) $1 $2 -S -o /dev/null -xc /dev/null \
+-              >/dev/null 2>&1 && echo OK), $2, $3)
+-cc-c-option = $(if $(shell $(CC) $1 $2 -c -o /dev/null -xc /dev/null \
+-                >/dev/null 2>&1 && echo OK), $2, $3)
+-
+-VPATH_SUFFIXES = %.c %.h %.S %.cc %.cpp %.m %.mak %.texi %.sh %.rc Kconfig% %.json.in
+-set-vpath = $(if $1,$(foreach PATTERN,$(VPATH_SUFFIXES),$(eval vpath $(PATTERN) $1)))
+-
+-# install-prog list, dir
+-define install-prog
+-	$(INSTALL_DIR) "$2"
+-	$(INSTALL_PROG) $1 "$2"
+-	$(if $(STRIP),$(STRIP) $(foreach T,$1,"$2/$(notdir $T)"),)
+-endef
+-
+-# Logical functions (for operating on y/n values like CONFIG_FOO vars)
+-# Inputs to these must be either "y" (true) or "n" or "" (both false)
+-# Output is always either "y" or "n".
+-# Usage: $(call land,$(CONFIG_FOO),$(CONFIG_BAR))
+-# Logical NOT
+-lnot = $(if $(subst n,,$1),n,y)
+-# Logical AND
+-land = $(if $(findstring yy,$1$2),y,n)
+-# Logical OR
+-lor = $(if $(findstring y,$1$2),y,n)
+-# Logical XOR (note that this is the inverse of leqv)
+-lxor = $(if $(filter $(call lnot,$1),$(call lnot,$2)),n,y)
+-# Logical equivalence (note that leqv "","n" is true)
+-leqv = $(if $(filter $(call lnot,$1),$(call lnot,$2)),y,n)
+-# Logical if: like make's $(if) but with an leqv-like test
+-lif = $(if $(subst n,,$1),$2,$3)
+-
+-# String testing functions: inputs to these can be any string;
+-# the output is always either "y" or "n". Leading and trailing whitespace
+-# is ignored when comparing strings.
+-# String equality
+-eq = $(if $(subst $2,,$1)$(subst $1,,$2),n,y)
+-# String inequality
+-ne = $(if $(subst $2,,$1)$(subst $1,,$2),y,n)
+-# Emptiness/non-emptiness tests:
+-isempty = $(if $1,n,y)
+-notempty = $(if $1,y,n)
+-
+-.PHONY: clean-timestamp
+-clean-timestamp:
+-	rm -f *.timestamp
+-clean: clean-timestamp
+-
+-# will delete the target of a rule if commands exit with a nonzero exit status
+-.DELETE_ON_ERROR:
+-
+-print-%:
+-	@echo '$*=$($*)'
+diff --git a/tests/tcg/Makefile.qemu b/tests/tcg/Makefile.qemu
+index f8ad4c47be..0332bad10f 100644
+--- a/tests/tcg/Makefile.qemu
++++ b/tests/tcg/Makefile.qemu
+@@ -8,8 +8,6 @@
+ # to do it for us.
+ #
+ 
+-include $(SRC_PATH)/rules.mak
+-
+ # The configure script fills in extra information about
+ # useful docker images or alternative compiler flags.
+ 
 -- 
 2.26.2
 
