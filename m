@@ -2,81 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FDC725B72A
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 01:13:07 +0200 (CEST)
-Received: from localhost ([::1]:37072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0B4A25B74A
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 01:28:11 +0200 (CEST)
+Received: from localhost ([::1]:46850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDbwA-0008UE-AM
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 19:13:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40344)
+	id 1kDcAk-00050r-J0
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 19:28:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kDbuQ-0005vd-IQ
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 19:11:18 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:38969)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kDbuO-00036a-Ec
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 19:11:18 -0400
-Received: by mail-pg1-x529.google.com with SMTP id v15so517400pgh.6
- for <qemu-devel@nongnu.org>; Wed, 02 Sep 2020 16:11:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=UB01ljHxHRV0ISpYabpX5ipY2fmsi9a+s4qhg+yDypY=;
- b=JlVfI1N3uiRmd2/qCTLBjqZxp/jm70rd5SsOASJwJ4SQNH8mUL2w1STjGQ9Fvx6ggS
- yFpM2CPUZ7iP6TMynf5JFq1u9s9KWy1y8yWGAFrmCZF32MgOMgCnv/uTXXGrpxILqAS+
- KjcPlcE6JP3tFnY8Ratl/2LEBeVpSU0qVCC5I7pJJay17yvd/f2IkyE6XvX7a5Q+oc4q
- oCyBD1cKWmUtQL+w4TS2COkstZQS51gTNSbEFpPL9yttwW8kHy3+CwBM3Y3N9khI2i9G
- 3+Tf8BOyp39VHAyDHWMqEQhxNyt/PWuaopkxh+Ru2Po24lQA6Drl+0eeJyPYY3JmTgBB
- P8rA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=UB01ljHxHRV0ISpYabpX5ipY2fmsi9a+s4qhg+yDypY=;
- b=kIhYyS6lz1z5ilXHhapydkIhh+6b/Q75b3d6Vbrmxph7j6Gghkw5rSV1pRnOYfgC7L
- 6ntRGNMJ/qclQRQXMnEkSjiWGraQyWxnArmVMBVLOr1zIveMNyPRwZ9XRLskzbMXW49T
- oAEKou4CVvWeFGZKN/VoHo6CMyEDECNMLbhL3URAq4j3s0yctvruSxcgFeyBNrVRkG+9
- rLK9EV7tmO39I3JTJWcreaHeBchULSupMHfeAUelPcdQMF0Qm3BK0pTGR8bDx/ursfeU
- eEkhTgPOM2o7OB916UlRFxaaM3gPZEJ6UuCvOFIdrbpaoc7el0EIjPG8bFvXH2zQasjj
- UkNQ==
-X-Gm-Message-State: AOAM532JCToEfkBivslAywDdrAd4LP05Sjf/7vciF4oJfBVi+dr8Mbb5
- U0eBe1PJqp6py1hbchhK80Sb3w==
-X-Google-Smtp-Source: ABdhPJz57fHM1mj6bC8P6pJzCWrj3o+KAK7IfSSTSlpFegW0HifjnTVwqTteBr6eydFv4qAKNC8Nyw==
-X-Received: by 2002:a62:79c7:: with SMTP id u190mr665199pfc.301.1599088274777; 
- Wed, 02 Sep 2020 16:11:14 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id bx22sm435346pjb.23.2020.09.02.16.11.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Sep 2020 16:11:14 -0700 (PDT)
-Subject: Re: [PULL v2 00/76] target/microblaze improvements
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20200901152054.922595-1-richard.henderson@linaro.org>
- <3eb9a404-b856-6337-680c-462a765e2b42@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ca9d4e58-3545-ca8e-6862-26efe81a0cc7@linaro.org>
-Date: Wed, 2 Sep 2020 16:11:11 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kDc9k-0003pM-Ra
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 19:27:08 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:54179)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kDc9i-0004qR-Gm
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 19:27:08 -0400
+Received: from localhost.localdomain ([82.252.135.186]) by
+ mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MF39S-1kKBkF2I00-00FWdU; Thu, 03 Sep 2020 01:27:03 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/9] Linux user for 5.2 patches
+Date: Thu,  3 Sep 2020 01:26:52 +0200
+Message-Id: <20200902232701.13299-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <3eb9a404-b856-6337-680c-462a765e2b42@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.324,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:2pjEquMmmsWlBNvpoJOCrFYc43yWRmaHcIirFyDXXG+04LfXj0I
+ E/xx8Jugui+jkoKgGP76P+YNUUZiZyQMiCYhVfsSfR3mrAr40SMpmdNaEkFgd81VtFcalqj
+ 6HXCYjIeg9f2/+EGSoGbq8g/0Wah6NfUcEnUCGDuAgV9wGfdbCii5gfaKpVHVsQkaqWlKDy
+ PVSRztP39TfgUgFiM2bmw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ihP82OEoS/M=:p0fpX+B35WwQsvFLKE+eJD
+ fCVw4Lp+8pQozehG4fsk8UDismZNrpopaA5P2TZMAh1LvzlSgrOs2+YGcc2OdRpEgMqwqsxLK
+ Px3WYx3an2ZFf4uMTAka23HcPWXNC0U7tMmm5DJaxSqGuzby6nMgTIxb9ZrrmwjB197/MIeV8
+ IHh4ewVnDjfQyZAEmZdFqdpTGJ5Lp+Ts+TehHKBYKuLKLZXxjhPeMUyfLwUFUXwNwogtCJ9oX
+ tsjyp7Y5cD3gQHz1GlqTZYEayP4ETEt3YqwCyaj5vq7g56bGoF3c7AVYjvdSvOpL3exqGes1K
+ MtgW2jfSNwA+M99uCxgKDvnnRmFX3ISPEdAIq4CHVZ+JWZMlkGqnlkHN9LyXj9qDT7iZIKl+l
+ g6uCDVxZxjLQtjX2qtp995hFlVGslReIIN3wyI5wPsmzrezQFzgri0EJfhw1A/s71h/APrT0G
+ aPkWBDJ3osxYWfd/Eqiuj+752ALWbmad1y3YasTW+8wms9h75DKQj1yvB7id45H/rUfE1s4/l
+ ev5PeCL5zJ6d5mrZb7v22AtOGnlqLuT4KsTIap3jB6d5DhbOLtb/w0BUGUPqVGCYsJT7+fMA8
+ NysEeP9pkbPwQAvlYAumEC88h1zsQf9e4eQO9Jk7ahp1H9bZxtoHicZyIEJ+gTxuiu/f3LHID
+ KW9pVqxREJqKwUk4JEsv+mbkffqft/GJYUKdHAEywMFNHdMX/1xmk4TDtEmoBYXlPPUDf1T8W
+ QXpODq4IZPUDZXgnMMKGR50hCHqQgelHza8a7WYfPjE/hSd8re1mRiks93wA0efgwL9EoNxzf
+ UjAR9Gp7VxzvFmlQJcKg32KZB61iThLom4rTsyai+in9vPcO7xppJb0spVihM6oTiMlBfry
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 19:27:04
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,37 +68,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- peter.maydell@linaro.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/2/20 12:09 PM, Thomas Huth wrote:
-> On 01/09/2020 17.20, Richard Henderson wrote:
->> Version 2.  Serves me right for not testing 32-bit host
->> when I knew there was a patch that mattered.
-> 
->  Hi Richard,
-> 
-> I'm afraid, but I think this PR broke the
-> tests/acceptance/replay_kernel.py:ReplayKernel.test_microblaze_s3adsp1800 acceptance
-> test:
-> 
-> https://gitlab.com/qemu-project/qemu/-/jobs/716158589#L176
-> 
-> Could you please have a look?
-
-That's odd.
-
-Doesn't replay rely on migration (or at least VMStateDescription) to do its
-job?  Microblaze doesn't implement that, so how could this have worked before?
-
-I admit that I don't often run check-acceptance, because I rarely see a clean
-bill of health, even for stuff I'm not working on.
-
-Looking into it...
-
-
-r~
+The following changes since commit 887adde81d1f1f3897f1688d37ec6851b4fdad86=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' i=
+nt=3D=0D
+o staging (2020-09-01 22:50:23 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://github.com/vivier/qemu.git tags/linux-user-for-5.2-pull-request=0D
+=0D
+for you to fetch changes up to 9a5a5a05523651d4c887388a6e0d0e446ffb279d:=0D
+=0D
+  linux-user: Add support for btrfs ioctls used to scrub a filesystem (2020=
+-0=3D=0D
+9-03 01:09:35 +0200)=0D
+=0D
+----------------------------------------------------------------=0D
+Add btrfs support=0D
+Fix MK_ARRAY()=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Filip Bozuta (8):=0D
+  linux-user: Add support for a group of btrfs ioctls used for=0D
+    subvolumes=0D
+  linux-user: Add support for a group of btrfs ioctls used for snapshots=0D
+  linux-user: Add support for btrfs ioctls used to manipulate with=0D
+    devices=0D
+  linux-user: Add support for btrfs ioctls used to get/set features=0D
+  linux-user: Add support for a group of btrfs inode ioctls=0D
+  linux-user: Add support for two btrfs ioctls used for subvolume=0D
+  linux-user: Add support for btrfs ioctls used to manage quota=0D
+  linux-user: Add support for btrfs ioctls used to scrub a filesystem=0D
+=0D
+Laurent Vivier (1):=0D
+  linux-user: fix implicit conversion from enumeration type error=0D
+=0D
+ configure                  |   9 ++=0D
+ include/exec/user/thunk.h  |   2 +-=0D
+ linux-user/ioctls.h        | 124 ++++++++++++++++++++++++++++=0D
+ linux-user/syscall.c       |   3 +=0D
+ linux-user/syscall_defs.h  |  37 +++++++++=0D
+ linux-user/syscall_types.h | 163 +++++++++++++++++++++++++++++++++++++=0D
+ 6 files changed, 337 insertions(+), 1 deletion(-)=0D
+=0D
+--=3D20=0D
+2.26.2=0D
+=0D
 
