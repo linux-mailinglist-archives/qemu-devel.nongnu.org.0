@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 081CF25B6D2
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 00:59:17 +0200 (CEST)
-Received: from localhost ([::1]:32938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 187CE25B6D0
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 00:58:24 +0200 (CEST)
+Received: from localhost ([::1]:56216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDbim-0000Ga-2e
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 18:59:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35346)
+	id 1kDbhu-0006jR-Pr
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 18:58:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDbUq-0003hL-FE
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:44:52 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21478
- helo=us-smtp-1.mimecast.com)
+ id 1kDbUu-0003r0-Ie
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:44:56 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:45972)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDbUo-0008Sd-De
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:44:52 -0400
+ id 1kDbUs-0008TM-RN
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:44:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599086689;
+ s=mimecast20190719; t=1599086694;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=U6ofSfJYUOIijxDXEI+ln7bb/vVelslorwkvaNNaAT8=;
- b=LiR3StZgmoHQzRPVjmQ7VNP9KgvAezBdvXPKpmYc/Yh7c965cnrsITEZFOj2x6UGXjriNp
- 9iURdhK3jnd7IQtiqQJ+5V6uotVZ4njz02M6GT0JR5Xq/IXTj53bi8upl4w4D+6gYBPMvv
- cZEqAJEcsciZx/3Sx5D7UuvaT1piiNI=
+ bh=nFt+MWb7tMkjfmMJ8Ae9oYce7rQDt8KQpC8LG1oB9d8=;
+ b=DJNkG3xaSK405DAkthBC8QjO2hBEPxa/i3JWLFyrvcmG3HD/HG2Y6TK0Gn7+s5Q6aZs3z1
+ 8VM5dlftVv8RyooIO386ZzcY1FW3x46RtJAxB3/7qjie0OO8tUfDuD5Y3XnVc1jx7EP+ad
+ Q7zJ0tcxGtx3QyZP1MMEXcQU+F+DIPU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-379-w1iS8sOaO5CJBWjCPVQJ1w-1; Wed, 02 Sep 2020 18:44:48 -0400
-X-MC-Unique: w1iS8sOaO5CJBWjCPVQJ1w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-12-TuyVu6xpMuC5gHdC9a9L6g-1; Wed, 02 Sep 2020 18:44:49 -0400
+X-MC-Unique: TuyVu6xpMuC5gHdC9a9L6g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 169718030C7;
- Wed,  2 Sep 2020 22:44:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C53818A2251;
+ Wed,  2 Sep 2020 22:44:48 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8DB215D9CC;
- Wed,  2 Sep 2020 22:44:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B4F361C4;
+ Wed,  2 Sep 2020 22:44:47 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 31/63] virtio-console: Rename TYPE_VIRTIO_CONSOLE_SERIAL_PORT
- to TYPE_VIRTIO_CONSOLE
-Date: Wed,  2 Sep 2020 18:42:39 -0400
-Message-Id: <20200902224311.1321159-32-ehabkost@redhat.com>
+Subject: [PATCH 32/63] ahci: Rename ICH_AHCI to ICH9_AHCI
+Date: Wed,  2 Sep 2020 18:42:40 -0400
+Message-Id: <20200902224311.1321159-33-ehabkost@redhat.com>
 In-Reply-To: <20200902224311.1321159-1-ehabkost@redhat.com>
 References: <20200902224311.1321159-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 16:25:58
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 17:27:52
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,63 +80,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, berrange@redhat.com,
- "Michael S. Tsirkin" <mst@redhat.com>, Amit Shah <amit@kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: John Snow <jsnow@redhat.com>, berrange@redhat.com, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will make the type name constant consistent with the name of
-the type checking macro.
+Make the type checking macro name consistent with the TYPE_*
+constant.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-Cc: Laurent Vivier <lvivier@redhat.com>
-Cc: Amit Shah <amit@kernel.org>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: "Marc-André Lureau" <marcandre.lureau@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: John Snow <jsnow@redhat.com>
+Cc: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org
 ---
- hw/char/virtio-console.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ include/hw/ide/ahci.h | 2 +-
+ hw/ide/ahci.c         | 4 ++--
+ hw/ide/ich.c          | 8 ++++----
+ 3 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/hw/char/virtio-console.c b/hw/char/virtio-console.c
-index bc752cf90f..cf4c0a0a95 100644
---- a/hw/char/virtio-console.c
-+++ b/hw/char/virtio-console.c
-@@ -21,10 +21,10 @@
- #include "qapi/qapi-events-char.h"
- #include "qom/object.h"
+diff --git a/include/hw/ide/ahci.h b/include/hw/ide/ahci.h
+index 4cf6813d80..da3cddcc65 100644
+--- a/include/hw/ide/ahci.h
++++ b/include/hw/ide/ahci.h
+@@ -54,7 +54,7 @@ typedef struct AHCIState {
+ typedef struct AHCIPCIState AHCIPCIState;
  
--#define TYPE_VIRTIO_CONSOLE_SERIAL_PORT "virtserialport"
-+#define TYPE_VIRTIO_CONSOLE "virtserialport"
- typedef struct VirtConsole VirtConsole;
- DECLARE_INSTANCE_CHECKER(VirtConsole, VIRTIO_CONSOLE,
--                         TYPE_VIRTIO_CONSOLE_SERIAL_PORT)
-+                         TYPE_VIRTIO_CONSOLE)
+ #define TYPE_ICH9_AHCI "ich9-ahci"
+-DECLARE_INSTANCE_CHECKER(AHCIPCIState, ICH_AHCI,
++DECLARE_INSTANCE_CHECKER(AHCIPCIState, ICH9_AHCI,
+                          TYPE_ICH9_AHCI)
  
- struct VirtConsole {
-     VirtIOSerialPort parent_obj;
-@@ -269,7 +269,7 @@ static void virtconsole_class_init(ObjectClass *klass, void *data)
+ int32_t ahci_get_num_ports(PCIDevice *dev);
+diff --git a/hw/ide/ahci.c b/hw/ide/ahci.c
+index b696c6291a..ee1d47ff75 100644
+--- a/hw/ide/ahci.c
++++ b/hw/ide/ahci.c
+@@ -1819,7 +1819,7 @@ type_init(sysbus_ahci_register_types)
  
- static const TypeInfo virtconsole_info = {
-     .name          = "virtconsole",
--    .parent        = TYPE_VIRTIO_CONSOLE_SERIAL_PORT,
-+    .parent        = TYPE_VIRTIO_CONSOLE,
-     .class_init    = virtconsole_class_init,
- };
+ int32_t ahci_get_num_ports(PCIDevice *dev)
+ {
+-    AHCIPCIState *d = ICH_AHCI(dev);
++    AHCIPCIState *d = ICH9_AHCI(dev);
+     AHCIState *ahci = &d->ahci;
  
-@@ -293,7 +293,7 @@ static void virtserialport_class_init(ObjectClass *klass, void *data)
+     return ahci->ports;
+@@ -1827,7 +1827,7 @@ int32_t ahci_get_num_ports(PCIDevice *dev)
+ 
+ void ahci_ide_create_devs(PCIDevice *dev, DriveInfo **hd)
+ {
+-    AHCIPCIState *d = ICH_AHCI(dev);
++    AHCIPCIState *d = ICH9_AHCI(dev);
+     AHCIState *ahci = &d->ahci;
+     int i;
+ 
+diff --git a/hw/ide/ich.c b/hw/ide/ich.c
+index eff3188fff..51cd2f38b7 100644
+--- a/hw/ide/ich.c
++++ b/hw/ide/ich.c
+@@ -91,14 +91,14 @@ static const VMStateDescription vmstate_ich9_ahci = {
+ 
+ static void pci_ich9_reset(DeviceState *dev)
+ {
+-    AHCIPCIState *d = ICH_AHCI(dev);
++    AHCIPCIState *d = ICH9_AHCI(dev);
+ 
+     ahci_reset(&d->ahci);
  }
  
- static const TypeInfo virtserialport_info = {
--    .name          = TYPE_VIRTIO_CONSOLE_SERIAL_PORT,
-+    .name          = TYPE_VIRTIO_CONSOLE,
-     .parent        = TYPE_VIRTIO_SERIAL_PORT,
-     .instance_size = sizeof(VirtConsole),
-     .class_init    = virtserialport_class_init,
+ static void pci_ich9_ahci_init(Object *obj)
+ {
+-    struct AHCIPCIState *d = ICH_AHCI(obj);
++    struct AHCIPCIState *d = ICH9_AHCI(obj);
+ 
+     ahci_init(&d->ahci, DEVICE(obj));
+ }
+@@ -108,7 +108,7 @@ static void pci_ich9_ahci_realize(PCIDevice *dev, Error **errp)
+     struct AHCIPCIState *d;
+     int sata_cap_offset;
+     uint8_t *sata_cap;
+-    d = ICH_AHCI(dev);
++    d = ICH9_AHCI(dev);
+     int ret;
+ 
+     ahci_realize(&d->ahci, DEVICE(dev), pci_get_address_space(dev), 6);
+@@ -154,7 +154,7 @@ static void pci_ich9_ahci_realize(PCIDevice *dev, Error **errp)
+ static void pci_ich9_uninit(PCIDevice *dev)
+ {
+     struct AHCIPCIState *d;
+-    d = ICH_AHCI(dev);
++    d = ICH9_AHCI(dev);
+ 
+     msi_uninit(dev);
+     ahci_uninit(&d->ahci);
 -- 
 2.26.2
 
