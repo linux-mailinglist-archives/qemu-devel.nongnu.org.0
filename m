@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1336825B49D
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 21:41:45 +0200 (CEST)
-Received: from localhost ([::1]:44542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6DBD25B4B0
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 21:47:34 +0200 (CEST)
+Received: from localhost ([::1]:51924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDYdb-000110-KJ
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 15:41:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52232)
+	id 1kDYjF-0004QN-Jt
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 15:47:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kDYYJ-0006Vy-JH
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 15:36:15 -0400
-Received: from mout.gmx.net ([212.227.15.15]:41889)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kDYZI-0007jY-Q0
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 15:37:16 -0400
+Received: from mout.gmx.net ([212.227.15.18]:36731)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kDYYG-00033S-T5
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 15:36:15 -0400
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kDYZC-00036G-UQ
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 15:37:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1599075368;
- bh=LQkW+r9YqgbDytYptSZTLhiBoQBmH6+EiFSjjByiT3g=;
+ s=badeba3b8450; t=1599075426;
+ bh=gCtf7zzJnx8jRh4o/2+HZoGhjIDAANmAOc4gPEjtUpE=;
  h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
- b=bEfxMa3DgoKv35BUZqRNLJ6ue4r4y82mIjAeBJH5rEkPHyDI1YAxhORcrzdcZeP5C
- xftESOq0oUDzf/fz6lC8y2jOP701tXrhz0YGW6Np3DhASsug/kkG3EfvCuK6khpF3q
- blue9/n9Q99uF0wPzIDdefuKNbVrW5Del0I26NBw=
+ b=W3GYQi4ApBY5trFtyX13JU7oprzMG79IFFIG65dJXNimO3RJX8uAZGv8ab8gZLIY6
+ 3FIXYDsFNidxDWIgf94BFyi1Jk2FzeL3+JLUAGC3OSTwvnMOEmy9MISD9JR1AkD3wJ
+ Lf3UKhRFGsEWKvB1xBi6sWEIISJWtTBhIt9rBp4A=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from [192.168.20.60] ([92.116.155.63]) by mail.gmx.com (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MTRR0-1k1MHM1ZSW-00Thdg; Wed, 02
- Sep 2020 21:36:08 +0200
-Subject: Re: [PATCH 2/7] hw/hppa: Make number of TLB and BTLB entries
- configurable
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MDQiS-1kKfZ61YyU-00AWuC; Wed, 02
+ Sep 2020 21:37:06 +0200
+Subject: Re: [PATCH 4/7] hw/hppa: Inform SeaBIOS about fw_cfg port address
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20200901183452.24967-1-deller@gmx.de>
- <20200901183452.24967-3-deller@gmx.de>
- <e4627473-3272-59e7-a8b6-0f223e69b198@linaro.org>
- <162b573e-75d1-048b-4413-124e463c0942@gmx.de>
- <9c5f04c8-7312-4af2-c3c1-de8edc877bbb@linaro.org>
+ <20200901183452.24967-5-deller@gmx.de>
+ <6385bd44-9cf8-95c3-1e59-0e1fb209863f@linaro.org>
+ <a56b96b3-9afc-0708-27bf-97d8095bde07@gmx.de>
+ <853e1911-81c3-709b-6a9c-b1f7ffd8f826@linaro.org>
 From: Helge Deller <deller@gmx.de>
 Autocrypt: addr=deller@gmx.de; keydata=
  mQINBF3Ia3MBEAD3nmWzMgQByYAWnb9cNqspnkb2GLVKzhoH2QD4eRpyDLA/3smlClbeKkWT
@@ -94,41 +93,41 @@ Autocrypt: addr=deller@gmx.de; keydata=
  XzCscCr+pggvqX7kI33AQsxo1DT19sNYLU5dJ5Qxz1+zdNkB9kK9CcTVFXMYehKueBkk5MaU
  ou0ZH9LCDjtnOKxPuUWstxTXWzsinSpLDIpkP//4fN6asmPo2cSXMXE0iA5WsWAXcK8uZ4jD
  c2TFWAS8k6RLkk41ZUU8ENX8+qZx/Q==
-Message-ID: <44852d0b-d2cd-749b-5b1e-c3f785144661@gmx.de>
-Date: Wed, 2 Sep 2020 21:36:08 +0200
+Message-ID: <5adfd795-3d82-29e7-c4f8-e4c785233c89@gmx.de>
+Date: Wed, 2 Sep 2020 21:37:06 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <9c5f04c8-7312-4af2-c3c1-de8edc877bbb@linaro.org>
+In-Reply-To: <853e1911-81c3-709b-6a9c-b1f7ffd8f826@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:/v4BKU7IEYe0XY9QW5uRyuDnzuUM3wYPVpmVo1AiWBIyec72w+i
- SLTEtSQdl6TlcaONxKLv4wAIfyThzorkaMynXkZdWGRvO82zKMy4jJC3zqsj8zmvfuC+fZB
- /YFBK0YfK5rF69wXxcYRSkuqyGTd0dysYac7LFi7GgSLp/Z2hOVlFXp9ArterQm7iZoA8yY
- aFggHU/x817Mpqr+3BjAQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:kGGdnN6J+8c=:X1Fq4wp7NASplSzmXEWfew
- OEBq69HfxaLyPmqF9lQHEnDrU2G55kFfrH0ZZ7mtspaANTVg+sffw2fbOMv+3W1mUEhQSyGwD
- GdyTS25tvaHpkR0O9TbZj+VYrd9CVqbC7dQ6C7T95lZV8vxHyootl3RTZgQ+Nyom0DLnxzxg+
- AE5CXSJ/6j8EAPTRRk2fVFiUmK/L9eNqlFfOvP02+nmy+mJYtgrL1KSc5z4ekcsZhcoJ7lYvu
- RUUDVDJv6oUop30/08UgXw4v+BE5l3y1zvnZu/4MCOnBs9ND3LeYCXZrOYEiDnl8wPBgFVGXa
- bRLaGnFIx7UmWGV1LZ3puAnMz7CqL42eBzqPvXRN/Lc1kCjzCF2P1/MCAxZ7sPuHFLmQKRLgG
- S62Y/sY5o+tbSvqWREgAFwulqtJjBzDKI1+XtQwcE7h7IFDGfhtm/f2dnhAhOFOjvQnopokko
- 3Fvm8vgdRRssOXavwWBsIbQ799GruEkDvIh85PhnzTEq6qkV7iz4XLZY8mCnn5VRfXMUnlUr4
- UtyCKmjpDTFb3mHfYrnybbKtPVF93Md4na3RhKHwpoBouLspNrM0SRv5gH/fURq9CRPG5ddNA
- j+YMg1MTkbWmN4v6vbaCUd1ic9JFOa7x6wNTcra1sCo2wPqeUvGzFOtKr4GBnuKU3a8Ybsp9B
- KAvgP2KZ2PGlytgqXbylkFGsWqzqghA4BAvFobihSJ8Lk1P/09rGGenSmznO7jasVNk8FJ+Ui
- 9w6ASHMJSTJSbnJbMUbdXX/WRCGkNCTVyQ25oMXv0r8cgYMludNzdL6BkgSP2FlcSbCVnLbCG
- gnsezXq2I2Eac8jrMvkgmyGoygiCR4pcKQPL/DsVbzqzUhqUNLnjUsqFroCIn/h3F2Gv3KWYZ
- IzsnZ7OMK5ceabvvowVueOE9N4CPWHX6n4QImdthaIELe7/sE8V42RdY2iEwYCCI4ZAFNRgAE
- 9Ua5zjeAzEXzy8SL29Bru9ujDsxfGfNePHg8YlHmyncM+iyNo+a/6oJCIBbZKrJNJDXx03IhC
- QETAyftGbFI/Q8FMXLH/mrcZYnQwyHdQUut4Dkey+y6lsLUx+K1e4uZJGUcTC6PVi28x5z6F3
- B4y/IxGW6lY6JlCsgfZP6GdcMYOCApdnqhkw4EIbLAQn8hv1Q1qfFJB5UZr5X8ZEdWaqOhZ2G
- HGK8+PlTPi8KNVSufzAKPnqVznGWaSrSHhhHvTfMzCa09i19AW+25AyP4l2gVqtelMTAtyOtz
- c+VEC/DMpU5cDgE5t
-Received-SPF: pass client-ip=212.227.15.15; envelope-from=deller@gmx.de;
+X-Provags-ID: V03:K1:ad5PJapcoFRqHqbXcw3XZJRIICYP484zFAK4qkzI0+LAr1g0jym
+ HFbO4IVjoeiMdzwotIIo+E9JVG4M3o7lLXs7PsMCRyULCzXlJBj4+oPzkD95GQMUoGPSMGv
+ O+JRyNpIlVQ+/grBH4S6YfUVdtO6W2y00i5dYszVOM5lrkcnOBQwEw8lIY2xKQWOnoJ/L9U
+ SfYpYCAjCBHMES9ii4UHw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:UhdeB29tV7Q=:fP6kkS4aUc+w9jU4/gqFCn
+ aNUeK6KNHWTWDSuRSMjSxeV1rOMyeEMLfoBEXrJEWyVClMp9+5K/dlQ2G4SFLEznuPYgVhKLG
+ IaVWc2B6j3+NrAfUVxVoekjFJDK8XTMIaNSwUOA0beUTSBvb6ag0B4pySfgtVkH7Qs/rVFGIB
+ nXaWplW7b7vatVSTz9LAFutM59+jC2RdQJGXsJsZ7bYbej4E1En+f8u3lGejB5Ss0bBuL0Q4e
+ PAcui6IJq7/W+Tc3zdJKv4+88QNtQa8LcsM2xhjRLW2L5LqP2eMd2qNTS9Jpt1lBPI++bzKZK
+ hibgOcX0ArGo590u81qRu7VPeHzM/F0obtOggH2eiyGwlk5PKZQPXkbqjAK8XXTE+nuHBUp/o
+ NjRXCB5OPAA1ogGry5cALgsQmTll+VjPhOnAX9SL7peljZVRJjp9Jei/Zm4q6w2C2pwTCU5/i
+ CuB0BI2da1TRdCdCQj8GYT1ItLI42OV1utjO9fOCP/j43okRgJ5hdtjlUa1w0ea9/tKk1Gzvw
+ suPPuDg785hWiXqPoV9CWsCTyI1buWe9IGBU6/evHJsQGUg2xsChqdogDZsUJSbwbKZPJEDek
+ bOiISaOXH4mgyAZOahSwovnPwUFTP0K2xGud5UpbxhAtyVqXjF0u0GyyDKXufGPIX3O4dSSYB
+ HE74acYB8YojXvnpZmPyYAy5hv3mU3bgrJhRJQpgyCpw/9CPaYlVclqUaHrF9MURd9BalYoiT
+ Lwv4XgHI2bArX9XCPBU8lzDxrUseOJnq9o5Q4HfFyRTVcxYGrCixYDGq01RepbZGlscgcb78s
+ NC5NLQSY3PKKpdT5ru3TDwoQyyN4VtBqQjo8pa+pjZt0O6a03vM6BlS+aLhLb2SqxuNrpPROw
+ ZwEityj+ftpWffqjF2VkXu0SDi0xUI8TXwb3jrEGrjnV72nt9E8MWJC7zmaCJhos5s3sLoLyH
+ 04hWE1P/aQIJTYe1RF1LjwYEIMt62GdS6nyND5HG6VG9ui/Wz0mcWPUCHeMLVhtIy1uc97BOQ
+ Q2GACyh77Id96OtIeFDXFB74LymZ/hH9epOAFrIOH9l2Ki6SPHWEXIURSX83MqGw8R4M4h24s
+ sJApycu5/VXMIgSh9VsffMS/AT1KYe+LsYTTe6D7w0lXkSYxexvG3hpVaaUMqI5Rm8srRm8ht
+ CvgYjUkJPMgcepKE2d6sxcayB/l5icYwIK2YxN4ljk56UFbO7V9C2MaBZIcDVY4P/uEqEe0Cc
+ FJk9ox+uv8YQar7BC
+Received-SPF: pass client-ip=212.227.15.18; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 15:35:12
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 15:35:05
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -153,30 +152,30 @@ Cc: Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02.09.20 18:52, Richard Henderson wrote:
-> On 9/2/20 4:16 AM, Helge Deller wrote:
->>>> +    val =3D cpu_to_le64(HPPA_TLB_ENTRIES);
+On 02.09.20 18:46, Richard Henderson wrote:
+> On 9/2/20 4:24 AM, Helge Deller wrote:
+>> On 01.09.20 23:39, Richard Henderson wrote:
+>>> On 9/1/20 11:34 AM, Helge Deller wrote:
+>>>> -/* QEMU fw_cfg interface port */
+>>>> -#define QEMU_FW_CFG_IO_BASE     (MEMORY_HPA + 0x80)
+>>>> +#define FW_CFG_IO_BASE  0xfffa0000
 >>>
->>> I guess you don't have a cpu structure here against which you could ap=
-ply
->>> ARRAY_SIZE?
+>>> Why is this value changing?
 >>
->> You mean to calculate the number of TLB entries based on the static siz=
-e
->> of an array, e.g. ARRAY_SIZE(struct CPUHPPAState.tlb[256]) ?
->> I've replaced it intentionally by a constant, because in a follow-up
->> patch to improve the TLB-lookup speed, the array gets replaced by a GTr=
-ee.
+>> Devices on hppa occupy at least 4k starting at the HPA,
+>> so MEMORY_HPA+4k is blocked (by Linux) for the memory module.
+>> I noticed this when testing the new Linux kernel patch to
+>> let the fw_cfg entries show up in Linux under /proc:
+>> https://patchwork.kernel.org/patch/11715133/
+>> The Linux kernel driver could not allocate the region for fw_cfg.
+>> This new base address seems to not conflict.
 >
-> Ok.
->
->>> The indented defines are weird.
->>
->> How/Why?
->
-> Because usually the # is at column 1.
+> Then that information should be in a patch description, and the change s=
+hould
+> be a completely separate patch.
 
-I fixed that up in the last v3 version I just sent.
+Ok, I've splitted that patch up and added the description in
+the last v3 version I just sent.
 
 Helge
 
