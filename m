@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EE4925B725
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 01:11:08 +0200 (CEST)
-Received: from localhost ([::1]:56716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8550625B722
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 01:09:31 +0200 (CEST)
+Received: from localhost ([::1]:49950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDbuF-0004q1-NP
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 19:11:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35824)
+	id 1kDbsg-0001yh-Jc
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 19:09:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDbVi-0005sj-Je
+ id 1kDbVi-0005rS-4C
  for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:45:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29087)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22508)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDbVg-0000GP-L7
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:45:46 -0400
+ id 1kDbVg-0000GN-Ct
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:45:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1599086743;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=X6p9hUMEUii+QrtRAZHxiv7M9kayxspGCtythkhQRiA=;
- b=YsH2GvZLuaj+ZKmQ8/e20LIbYtTfZbVTeTWkH/o2peWCgu+Z9FS+s/KJuOfcgFR66vLbLM
- hAY9yiApdSJjAcz6KR13WRep9LuuPXbcpIb4Ex9NOJUplxRb9CNQgInzfpv25+U6xGZHPB
- n3+NXGzbGPCvK47KqHWsKjlNT++DYO8=
+ bh=tm92v24hpnvPKDqolCmoDPV9cN1OkGMzPZ/U9VNwVrc=;
+ b=CZj4zwwnlbSkxgVB5SUMFT21EXUHfGK6ehtuc++bBRHre4Sgqze/lYa1ur6bSpeC5s14pW
+ zx13D/T7FOcX48okDuV/M4x2PMLlLZhCimtJWUqB5OYivXPl0tNf70Xl/yRH3eLsyVrQg8
+ KWh+kCoYPfDoyQlnbFGEat1nPkk4PvU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-232-rOtJufE2MD2dj8rG8sNKWQ-1; Wed, 02 Sep 2020 18:45:41 -0400
-X-MC-Unique: rOtJufE2MD2dj8rG8sNKWQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-397-epqwS638P1G8ug_I0MX_cQ-1; Wed, 02 Sep 2020 18:45:41 -0400
+X-MC-Unique: epqwS638P1G8ug_I0MX_cQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37731801AEA
- for <qemu-devel@nongnu.org>; Wed,  2 Sep 2020 22:45:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14E1B8030C7;
+ Wed,  2 Sep 2020 22:45:41 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2579D7E313;
- Wed,  2 Sep 2020 22:45:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D91DA5D9CC;
+ Wed,  2 Sep 2020 22:45:40 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 55/63] vfio: Rename PCI_VFIO to VFIO_PCI
-Date: Wed,  2 Sep 2020 18:43:03 -0400
-Message-Id: <20200902224311.1321159-56-ehabkost@redhat.com>
+Subject: [PATCH 56/63] vmxnet3: Rename VMXNET3_DEVICE* to VMXNET3*
+Date: Wed,  2 Sep 2020 18:43:04 -0400
+Message-Id: <20200902224311.1321159-57-ehabkost@redhat.com>
 In-Reply-To: <20200902224311.1321159-1-ehabkost@redhat.com>
 References: <20200902224311.1321159-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 02:42:29
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 17:54:06
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,7 +80,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex Williamson <alex.williamson@redhat.com>, berrange@redhat.com
+Cc: Jason Wang <jasowang@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>, berrange@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -89,129 +90,44 @@ constant.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-Cc: Alex Williamson <alex.williamson@redhat.com>
+Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>
+Cc: Jason Wang <jasowang@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- hw/vfio/pci.h |  2 +-
- hw/vfio/pci.c | 22 +++++++++++-----------
- 2 files changed, 12 insertions(+), 12 deletions(-)
+ hw/net/vmxnet3.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
-index 846d60e56c..5e53d5b863 100644
---- a/hw/vfio/pci.h
-+++ b/hw/vfio/pci.h
-@@ -116,7 +116,7 @@ typedef struct VFIOMSIXInfo {
+diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
+index eff299f629..100e5982d0 100644
+--- a/hw/net/vmxnet3.c
++++ b/hw/net/vmxnet3.c
+@@ -135,7 +135,7 @@ struct VMXNET3Class {
+ };
+ typedef struct VMXNET3Class VMXNET3Class;
  
- #define TYPE_VFIO_PCI "vfio-pci"
- typedef struct VFIOPCIDevice VFIOPCIDevice;
--DECLARE_INSTANCE_CHECKER(VFIOPCIDevice, PCI_VFIO,
-+DECLARE_INSTANCE_CHECKER(VFIOPCIDevice, VFIO_PCI,
-                          TYPE_VFIO_PCI)
+-DECLARE_CLASS_CHECKERS(VMXNET3Class, VMXNET3_DEVICE,
++DECLARE_CLASS_CHECKERS(VMXNET3Class, VMXNET3,
+                        TYPE_VMXNET3)
  
- struct VFIOPCIDevice {
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 3611dcd38b..0d83eb0e47 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -230,7 +230,7 @@ static void vfio_intx_update(VFIOPCIDevice *vdev, PCIINTxRoute *route)
+ static inline void vmxnet3_ring_init(PCIDevice *d,
+@@ -2475,7 +2475,7 @@ static Property vmxnet3_properties[] = {
  
- static void vfio_intx_routing_notifier(PCIDevice *pdev)
+ static void vmxnet3_realize(DeviceState *qdev, Error **errp)
  {
--    VFIOPCIDevice *vdev = PCI_VFIO(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-     PCIINTxRoute route;
+-    VMXNET3Class *vc = VMXNET3_DEVICE_GET_CLASS(qdev);
++    VMXNET3Class *vc = VMXNET3_GET_CLASS(qdev);
+     PCIDevice *pci_dev = PCI_DEVICE(qdev);
+     VMXNET3State *s = VMXNET3(qdev);
  
-     if (vdev->interrupt != VFIO_INT_INTx) {
-@@ -456,7 +456,7 @@ static void vfio_update_kvm_msi_virq(VFIOMSIVector *vector, MSIMessage msg,
- static int vfio_msix_vector_do_use(PCIDevice *pdev, unsigned int nr,
-                                    MSIMessage *msg, IOHandler *handler)
+@@ -2490,7 +2490,7 @@ static void vmxnet3_class_init(ObjectClass *class, void *data)
  {
--    VFIOPCIDevice *vdev = PCI_VFIO(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-     VFIOMSIVector *vector;
-     int ret;
+     DeviceClass *dc = DEVICE_CLASS(class);
+     PCIDeviceClass *c = PCI_DEVICE_CLASS(class);
+-    VMXNET3Class *vc = VMXNET3_DEVICE_CLASS(class);
++    VMXNET3Class *vc = VMXNET3_CLASS(class);
  
-@@ -541,7 +541,7 @@ static int vfio_msix_vector_use(PCIDevice *pdev,
- 
- static void vfio_msix_vector_release(PCIDevice *pdev, unsigned int nr)
- {
--    VFIOPCIDevice *vdev = PCI_VFIO(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-     VFIOMSIVector *vector = &vdev->msi_vectors[nr];
- 
-     trace_vfio_msix_vector_release(vdev->vbasedev.name, nr);
-@@ -1048,7 +1048,7 @@ static const MemoryRegionOps vfio_vga_ops = {
-  */
- static void vfio_sub_page_bar_update_mapping(PCIDevice *pdev, int bar)
- {
--    VFIOPCIDevice *vdev = PCI_VFIO(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-     VFIORegion *region = &vdev->bars[bar].region;
-     MemoryRegion *mmap_mr, *region_mr, *base_mr;
-     PCIIORegion *r;
-@@ -1094,7 +1094,7 @@ static void vfio_sub_page_bar_update_mapping(PCIDevice *pdev, int bar)
-  */
- uint32_t vfio_pci_read_config(PCIDevice *pdev, uint32_t addr, int len)
- {
--    VFIOPCIDevice *vdev = PCI_VFIO(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-     uint32_t emu_bits = 0, emu_val = 0, phys_val = 0, val;
- 
-     memcpy(&emu_bits, vdev->emulated_config_bits + addr, len);
-@@ -1127,7 +1127,7 @@ uint32_t vfio_pci_read_config(PCIDevice *pdev, uint32_t addr, int len)
- void vfio_pci_write_config(PCIDevice *pdev,
-                            uint32_t addr, uint32_t val, int len)
- {
--    VFIOPCIDevice *vdev = PCI_VFIO(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-     uint32_t val_le = cpu_to_le32(val);
- 
-     trace_vfio_pci_write_config(vdev->vbasedev.name, addr, val, len);
-@@ -2701,7 +2701,7 @@ static void vfio_unregister_req_notifier(VFIOPCIDevice *vdev)
- 
- static void vfio_realize(PCIDevice *pdev, Error **errp)
- {
--    VFIOPCIDevice *vdev = PCI_VFIO(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-     VFIODevice *vbasedev_iter;
-     VFIOGroup *group;
-     char *tmp, *subsys, group_path[PATH_MAX], *group_name;
-@@ -3033,7 +3033,7 @@ error:
- 
- static void vfio_instance_finalize(Object *obj)
- {
--    VFIOPCIDevice *vdev = PCI_VFIO(obj);
-+    VFIOPCIDevice *vdev = VFIO_PCI(obj);
-     VFIOGroup *group = vdev->vbasedev.group;
- 
-     vfio_display_finalize(vdev);
-@@ -3057,7 +3057,7 @@ static void vfio_instance_finalize(Object *obj)
- 
- static void vfio_exitfn(PCIDevice *pdev)
- {
--    VFIOPCIDevice *vdev = PCI_VFIO(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
- 
-     vfio_unregister_req_notifier(vdev);
-     vfio_unregister_err_notifier(vdev);
-@@ -3075,7 +3075,7 @@ static void vfio_exitfn(PCIDevice *pdev)
- 
- static void vfio_pci_reset(DeviceState *dev)
- {
--    VFIOPCIDevice *vdev = PCI_VFIO(dev);
-+    VFIOPCIDevice *vdev = VFIO_PCI(dev);
- 
-     trace_vfio_pci_reset(vdev->vbasedev.name);
- 
-@@ -3115,7 +3115,7 @@ post_reset:
- static void vfio_instance_init(Object *obj)
- {
-     PCIDevice *pci_dev = PCI_DEVICE(obj);
--    VFIOPCIDevice *vdev = PCI_VFIO(obj);
-+    VFIOPCIDevice *vdev = VFIO_PCI(obj);
- 
-     device_add_bootindex_property(obj, &vdev->bootindex,
-                                   "bootindex", NULL,
+     c->realize = vmxnet3_pci_realize;
+     c->exit = vmxnet3_pci_uninit;
 -- 
 2.26.2
 
