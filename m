@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE5F525ABB1
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 15:04:59 +0200 (CEST)
-Received: from localhost ([::1]:38480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22BBC25ABAF
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 15:04:54 +0200 (CEST)
+Received: from localhost ([::1]:37956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDSRe-0006hx-M0
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 09:04:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36766)
+	id 1kDSRZ-0006V1-4l
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 09:04:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kDSMQ-0005zn-NU
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:59:34 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:56810
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1kDSMP-0005w8-3H
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:59:33 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48420
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kDSMM-000759-Oj
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:59:34 -0400
+ id 1kDSMM-00075Q-Sb
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:59:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599051569;
+ s=mimecast20190719; t=1599051570;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=R/KpsoOA/jYXuLHzmNIdRXqyeSpxnSoo7Xv2fhUCAzM=;
- b=GHrEZouFTbDxRDpEdRwr8pO5QCAprQ14A4d+b6WYtG+SRKmyoMPT1nuSTaeLCzpmcmocvi
- ehLbP1ft+dj/nocKpARmhjT+o7TBlSPmZX9JPqtAnnjPXJ9vMitZU5VaJeNCW98EAsBwHq
- VG4NrUhyeuR+ACmUV4Gwh+5SIlNnfbA=
+ bh=rn8x2b+cH/3wuinFOjLrmOQ6nTygcEc4MOrlfPs/lwo=;
+ b=XBsxsAImga5V0xl3DWNY1gJGm2NT4jJ17FkYAQ/GHPwpbCjGqKwk/ClEtc/ZIe6KhDiYwN
+ 1HYTbcC7rUAGOp0xZnO65rrYtDKOexWptbvz7R9U//0S4mOm0eTKlpYyKET7QQ5t/WQ13r
+ 7BvuxSuLBpDN9sCas8wAL2hB1hEgcY4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-457-lEwFHslZNxG6lM9i6Ex73A-1; Wed, 02 Sep 2020 08:59:26 -0400
-X-MC-Unique: lEwFHslZNxG6lM9i6Ex73A-1
+ us-mta-457-2-JTgJH_OKO_Ig4KfFndrw-1; Wed, 02 Sep 2020 08:59:26 -0400
+X-MC-Unique: 2-JTgJH_OKO_Ig4KfFndrw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A49ED1084CA6
- for <qemu-devel@nongnu.org>; Wed,  2 Sep 2020 12:59:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C4C51084CA7
+ for <qemu-devel@nongnu.org>; Wed,  2 Sep 2020 12:59:21 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 692A55D9CC
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C55455D9CC
  for <qemu-devel@nongnu.org>; Wed,  2 Sep 2020 12:59:20 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/39] mtest2make: unify tests that appear in multiple suites
-Date: Wed,  2 Sep 2020 08:58:43 -0400
-Message-Id: <20200902125917.26021-6-pbonzini@redhat.com>
+Subject: [PATCH 06/39] meson: remove b_lundef option
+Date: Wed,  2 Sep 2020 08:58:44 -0400
+Message-Id: <20200902125917.26021-7-pbonzini@redhat.com>
 In-Reply-To: <20200902125917.26021-1-pbonzini@redhat.com>
 References: <20200902125917.26021-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -59,9 +59,9 @@ X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 02:33:32
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 02:07:24
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -85,117 +85,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Whenever a test appears in multiple suites, the rules generated
-by mtest2make are currently running it twice.  Instead, after
-this patch we generate a phony target for each test and we have
-a generic "run-tests" target depend on all the tests that were
-chosen on the command line.  Tests that appear in multiple suites
-will be added to the prerequisites just once.
-
-This has other advantages: it removes the handling of -k and
-it increases parallelism.
+Meson automatically adds "-undefined dynamic_lookup" to
+shared_module build targets; b_lundef is only needed for
+executables.  Therefore, we can remove this option.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/mtest2make.py | 69 ++++++++++++++++++++++---------------------
- 1 file changed, 35 insertions(+), 34 deletions(-)
+ meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/mtest2make.py b/scripts/mtest2make.py
-index 27425080cf..e5dcb66bf7 100644
---- a/scripts/mtest2make.py
-+++ b/scripts/mtest2make.py
-@@ -24,33 +24,20 @@ SPEED = quick
- .test-human-exitcode = $1 $(PYTHON) scripts/test-driver.py $(if $4,-C$4) $(if $(V),--verbose) -- $2 < /dev/null
- .test-tap-tap = $1 $(if $4,(cd $4 && $2),$2) < /dev/null | sed "s/^[a-z][a-z]* [0-9]*/& $3/" || true
- .test-tap-exitcode = printf "%s\\n" 1..1 "`$1 $(if $4,(cd $4 && $2),$2) < /dev/null > /dev/null || echo "not "`ok 1 $3"
--.test.print = echo $(if $(V),'$1 $2','Running test $3') >&3
-+.test.human-print = echo $(if $(V),'$1 $2','Running test $3') &&
- .test.env = MALLOC_PERTURB_=$${MALLOC_PERTURB_:-$$(( $${RANDOM:-0} % 255 + 1))}
+diff --git a/meson.build b/meson.build
+index 356af9142c..f7b57315ef 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1,6 +1,6 @@
+ project('qemu', ['c'], meson_version: '>=0.55.0',
+         default_options: ['warning_level=1', 'c_std=gnu99', 'cpp_std=gnu++11',
+-                          'b_lundef=false','b_colorout=auto'],
++                          'b_colorout=auto'],
+         version: run_command('head', meson.source_root() / 'VERSION').stdout().strip())
  
- # $1 = test name, $2 = test target (human or tap)
--.test.run = $(call .test.print,$(.test.env.$1),$(.test.cmd.$1),$(.test.name.$1)) && $(call .test-$2-$(.test.driver.$1),$(.test.env.$1),$(.test.cmd.$1),$(.test.name.$1),$(.test.dir.$1))
-+.test.run = $(call .test.$2-print,$(.test.env.$1),$(.test.cmd.$1),$(.test.name.$1)) $(call .test-$2-$(.test.driver.$1),$(.test.env.$1),$(.test.cmd.$1),$(.test.name.$1),$(.test.dir.$1))
- 
--define .test.human_k
--        @exec 3>&1; rc=0; $(foreach TEST, $1, $(call .test.run,$(TEST),human) || rc=$$?;) \\
--              exit $$rc
--endef
--define .test.human_no_k
--        $(foreach TEST, $1, @exec 3>&1; $(call .test.run,$(TEST),human)
--)
--endef
--.test.human = \\
--        $(if $(findstring k, $(MAKEFLAGS)), $(.test.human_k), $(.test.human_no_k))
--
--define .test.tap
--        @exec 3>&1; { $(foreach TEST, $1, $(call .test.run,$(TEST),tap); ) } \\
--              | ./scripts/tap-merge.pl | tee "$@" \\
--              | ./scripts/tap-driver.pl $(if $(V),, --show-failures-only)
--endef
-+.test.output-format = human
- ''')
- 
--suites = defaultdict(Suite)
-+introspect = json.load(sys.stdin)
- i = 0
--for test in json.load(sys.stdin):
-+
-+def process_tests(test, suites):
-+    global i
-     env = ' '.join(('%s=%s' % (shlex.quote(k), shlex.quote(v))
-                     for k, v in test['env'].items()))
-     executable = test['cmd'][0]
-@@ -89,22 +76,36 @@ for test in json.load(sys.stdin):
-             suites[s].tests.append(i)
-         suites[s].executables.add(executable)
- 
--print('.PHONY: check check-report.tap')
--print('check:')
--print('check-report.tap:')
--print('\t@cat $^ | scripts/tap-merge.pl >$@')
--for name, suite in suites.items():
-+def emit_prolog(suites, prefix):
-+    all_tap = ' '.join(('%s-report-%s.tap' % (prefix, k) for k in suites.keys()))
-+    print('.PHONY: %s %s-report.tap %s' % (prefix, prefix, all_tap))
-+    print('%s: run-tests' % (prefix,))
-+    print('%s-report.tap %s: %s-report%%.tap:' % (prefix, all_tap, prefix))
-+    print('''\t$(MAKE) .test.output-format=tap -Otarget check$* | ./scripts/tap-merge.pl | tee "$@" \\
-+              | ./scripts/tap-driver.pl $(if $(V),, --show-failures-only)''')
-+
-+def emit_suite(name, suite, prefix):
-     executables = ' '.join(suite.executables)
-     slow_test_numbers = ' '.join((str(x) for x in suite.slow_tests))
-     test_numbers = ' '.join((str(x) for x in suite.tests))
-     print('.test.suite-quick.%s := %s' % (name, test_numbers))
-     print('.test.suite-slow.%s := $(.test.suite-quick.%s) %s' % (name, name, slow_test_numbers))
--    print('check-build: %s' % executables)
--    print('.PHONY: check-%s' % name)
--    print('.PHONY: check-report-%s.tap' % name)
--    print('check: check-%s' % name)
--    print('check-%s: all %s' % (name, executables))
--    print('\t$(call .test.human, $(.test.suite-$(SPEED).%s))' % (name, ))
--    print('check-report.tap: check-report-%s.tap' % name)
--    print('check-report-%s.tap: %s' % (name, executables))
--    print('\t$(call .test.tap, $(.test.suite-$(SPEED).%s))' % (name, ))
-+    print('%s-build: %s' % (prefix, executables))
-+    print('.PHONY: %s-%s' % (prefix, name))
-+    print('.PHONY: %s-report-%s.tap' % (prefix, name))
-+    print('%s-%s: run-tests' % (prefix, name))
-+    print('ifneq ($(filter check check-%s, $(MAKECMDGOALS)),)' % name)
-+    print('.tests += $(.test.suite-$(SPEED).%s)' % name)
-+    print('endif')
-+
-+testsuites = defaultdict(Suite)
-+for test in introspect:
-+    process_tests(test, testsuites)
-+emit_prolog(testsuites, 'check')
-+for name, suite in testsuites.items():
-+    emit_suite(name, suite, 'check')
-+
-+print('.PHONY: $(patsubst %, run-test-%, $(.tests))')
-+print('$(patsubst %, run-test-%, $(sort $(.tests))): run-test-%: all')
-+print('\t@$(call .test.run,$*,$(.test.output-format))')
-+print('run-tests: $(patsubst %, run-test-%, $(.tests))')
+ not_found = dependency('', required: false)
 -- 
 2.26.2
 
