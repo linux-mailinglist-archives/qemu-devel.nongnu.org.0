@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51B4B25ABBB
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 15:07:41 +0200 (CEST)
-Received: from localhost ([::1]:49168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6762625ABDD
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 15:14:17 +0200 (CEST)
+Received: from localhost ([::1]:60296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDSUG-0002me-Bl
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 09:07:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36852)
+	id 1kDSae-0001n2-Bq
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 09:14:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kDSMS-00065j-P6
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:59:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46399)
+ id 1kDSMY-0006Jm-5v
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:59:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38035)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kDSMP-00076y-TU
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:59:36 -0400
+ id 1kDSMT-00079V-Km
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:59:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599051573;
+ s=mimecast20190719; t=1599051576;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Vq0F63TwAmF545aJt6SfKmcoeuvR1cdZmiT6FTtj8qs=;
- b=CSoouZun0tlRTzvCZgXdQH8mFzEGkJTFzIVpj1BCrLTLeI/y/iDrX6ys97q6rwM/1ACBmd
- cLjtiPin/C32YDUZdT7jo9vHuRNsurYgQ94FAV9zeBDBIeC8tbh/UcgltEqEFspVSFxTF5
- 6XFILsAwr//0s+8q2MKmgRz0BBVQkDc=
+ bh=AGp13knl2AwbwIUfbsui0EZTYEE2bUjwSJ476S/wUZQ=;
+ b=gUWawvWk8P2oe0/4zggszv3U/HRYAjkkOT0dOdX8E9CbxsZC4cMF0kjTScxPxb7o5kJgr9
+ 3f/9oTws1OUWlbqjrxNWTYmM07RlhNaJNTxKVpGgQANqhdBcs1aevAtYna9XphBLF7Gf2E
+ AlVV35clQxx5Pwm0+lNzMzSNe8ayPk4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-197-rtHCh_saNyyBcV30U766Rw-1; Wed, 02 Sep 2020 08:59:31 -0400
-X-MC-Unique: rtHCh_saNyyBcV30U766Rw-1
+ us-mta-440-xY9ykD2aMJOi9sJFLJM-DQ-1; Wed, 02 Sep 2020 08:59:33 -0400
+X-MC-Unique: xY9ykD2aMJOi9sJFLJM-DQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA4B05703A;
- Wed,  2 Sep 2020 12:59:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1405010ABDB8
+ for <qemu-devel@nongnu.org>; Wed,  2 Sep 2020 12:59:30 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 56B8A76E01;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C4CCB7B90B;
  Wed,  2 Sep 2020 12:59:29 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 21/39] tests: do not print benchmark output to stdout
-Date: Wed,  2 Sep 2020 08:58:59 -0400
-Message-Id: <20200902125917.26021-22-pbonzini@redhat.com>
+Subject: [PATCH 22/39] meson: convert the speed tests
+Date: Wed,  2 Sep 2020 08:59:00 -0400
+Message-Id: <20200902125917.26021-23-pbonzini@redhat.com>
 In-Reply-To: <20200902125917.26021-1-pbonzini@redhat.com>
 References: <20200902125917.26021-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,9 +58,9 @@ X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 01:13:52
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 02:42:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -81,83 +81,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
-
-As this makes the TAP output invalid. Use g_test_message().
+Use meson benchmark() for them, adjust mtest2make.py for that.
+A new target "make bench" can be used to run all benchmarks.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200828110734.1638685-13-marcandre.lureau@redhat.com>
+Message-Id: <20200828110734.1638685-14-marcandre.lureau@redhat.com>
+[Rewrite mtest2make part. - Paolo]
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/benchmark-crypto-cipher.c | 8 ++++----
- tests/benchmark-crypto-hash.c   | 2 +-
- tests/benchmark-crypto-hmac.c   | 8 ++++----
- 3 files changed, 9 insertions(+), 9 deletions(-)
+ Makefile               |  3 ++-
+ scripts/mtest2make.py  |  9 ++++++++-
+ tests/Makefile.include | 15 ++++-----------
+ tests/meson.build      | 16 ++++++++++++++++
+ 4 files changed, 30 insertions(+), 13 deletions(-)
 
-diff --git a/tests/benchmark-crypto-cipher.c b/tests/benchmark-crypto-cipher.c
-index 53032334ec..1936aa4ae0 100644
---- a/tests/benchmark-crypto-cipher.c
-+++ b/tests/benchmark-crypto-cipher.c
-@@ -70,8 +70,8 @@ static void test_cipher_speed(size_t chunk_size,
-     }
-     g_test_timer_elapsed();
+diff --git a/Makefile b/Makefile
+index ed354c43b0..d4d6a67d96 100644
+--- a/Makefile
++++ b/Makefile
+@@ -64,7 +64,7 @@ ${ninja-targets-c_COMPILER} ${ninja-targets-cpp_COMPILER}: .var.command += -MP
+ # reread (and MESON won't be empty anymore).
+ ifneq ($(MESON),)
+ Makefile.mtest: build.ninja scripts/mtest2make.py
+-	$(MESON) introspect --tests | $(PYTHON) scripts/mtest2make.py > $@
++	$(MESON) introspect --tests --benchmarks | $(PYTHON) scripts/mtest2make.py > $@
+ -include Makefile.mtest
+ endif
  
--    g_print("Enc chunk %zu bytes ", chunk_size);
--    g_print("%.2f MB/sec ", (double)total / MiB / g_test_timer_last());
-+    g_test_message("Enc chunk %zu bytes ", chunk_size);
-+    g_test_message("%.2f MB/sec ", (double)total / MiB / g_test_timer_last());
+@@ -283,6 +283,7 @@ help:
+ 	@echo  ''
+ 	@echo  'Test targets:'
+ 	$(call print-help,check,Run all tests (check-help for details))
++	$(call print-help,bench,Run all benchmarks)
+ 	$(call print-help,docker,Help about targets running tests inside containers)
+ 	$(call print-help,vm-help,Help about targets running tests inside VM)
+ 	@echo  ''
+diff --git a/scripts/mtest2make.py b/scripts/mtest2make.py
+index e5dcb66bf7..afb8835191 100644
+--- a/scripts/mtest2make.py
++++ b/scripts/mtest2make.py
+@@ -99,12 +99,19 @@ def emit_suite(name, suite, prefix):
+     print('endif')
  
-     g_test_timer_start();
-     remain = total;
-@@ -85,8 +85,8 @@ static void test_cipher_speed(size_t chunk_size,
-     }
-     g_test_timer_elapsed();
+ testsuites = defaultdict(Suite)
+-for test in introspect:
++for test in introspect['tests']:
+     process_tests(test, testsuites)
+ emit_prolog(testsuites, 'check')
+ for name, suite in testsuites.items():
+     emit_suite(name, suite, 'check')
  
--    g_print("Dec chunk %zu bytes ", chunk_size);
--    g_print("%.2f MB/sec ", (double)total / MiB / g_test_timer_last());
-+    g_test_message("Dec chunk %zu bytes ", chunk_size);
-+    g_test_message("%.2f MB/sec ", (double)total / MiB / g_test_timer_last());
++benchsuites = defaultdict(Suite)
++for test in introspect['benchmarks']:
++    process_tests(test, benchsuites)
++emit_prolog(benchsuites, 'bench')
++for name, suite in benchsuites.items():
++    emit_suite(name, suite, 'bench')
++
+ print('.PHONY: $(patsubst %, run-test-%, $(.tests))')
+ print('$(patsubst %, run-test-%, $(sort $(.tests))): run-test-%: all')
+ print('\t@$(call .test.run,$*,$(.test.output-format))')
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 0388a0e4fd..fe22ccfcc6 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -38,16 +38,8 @@ export SRC_PATH
+ SYSEMU_TARGET_LIST := $(subst -softmmu.mak,,$(notdir \
+    $(wildcard $(SRC_PATH)/default-configs/*-softmmu.mak)))
  
-     qcrypto_cipher_free(cipher);
-     g_free(plaintext);
-diff --git a/tests/benchmark-crypto-hash.c b/tests/benchmark-crypto-hash.c
-index d16837d00a..598111e75a 100644
---- a/tests/benchmark-crypto-hash.c
-+++ b/tests/benchmark-crypto-hash.c
-@@ -48,7 +48,7 @@ static void test_hash_speed(const void *opaque)
-     }
-     g_test_timer_elapsed();
+-check-speed-$(CONFIG_BLOCK) += tests/benchmark-crypto-hash$(EXESUF)
+-check-speed-$(CONFIG_BLOCK) += tests/benchmark-crypto-hmac$(EXESUF)
+-check-speed-$(CONFIG_BLOCK) += tests/benchmark-crypto-cipher$(EXESUF)
+-
+ QEMU_CFLAGS += -I$(SRC_PATH)/tests -I$(SRC_PATH)/tests/qtest
  
--    g_print("%.2f MB/sec ", (double)total / MiB / g_test_timer_last());
-+    g_test_message("%.2f MB/sec ", (double)total / MiB / g_test_timer_last());
+-tests/benchmark-crypto-hash$(EXESUF): tests/benchmark-crypto-hash.o $(test-crypto-obj-y)
+-tests/benchmark-crypto-hmac$(EXESUF): tests/benchmark-crypto-hmac.o $(test-crypto-obj-y)
+-tests/benchmark-crypto-cipher$(EXESUF): tests/benchmark-crypto-cipher.o $(test-crypto-obj-y)
+-
+ tests/migration/stress$(EXESUF): tests/migration/stress.o
+ 	$(call quiet-command, $(LINKPROG) -static -O3 $(PTHREAD_LIB) -o $@ $< ,"LINK","$(TARGET_DIR)$@")
  
-     g_free(out);
-     g_free(in);
-diff --git a/tests/benchmark-crypto-hmac.c b/tests/benchmark-crypto-hmac.c
-index f1dfa240cb..f9fa22df95 100644
---- a/tests/benchmark-crypto-hmac.c
-+++ b/tests/benchmark-crypto-hmac.c
-@@ -55,10 +55,10 @@ static void test_hmac_speed(const void *opaque)
-     } while (g_test_timer_elapsed() < 5.0);
+@@ -97,9 +89,6 @@ define do_test_tap
+ 	  "TAP","$@")
+ endef
  
-     total /= MiB;
--    g_print("hmac(sha256): ");
--    g_print("Testing chunk_size %zu bytes ", chunk_size);
--    g_print("done: %.2f MB in %.2f secs: ", total, g_test_timer_last());
--    g_print("%.2f MB/sec\n", total / g_test_timer_last());
-+    g_test_message("hmac(sha256): ");
-+    g_test_message("Testing chunk_size %zu bytes ", chunk_size);
-+    g_test_message("done: %.2f MB in %.2f secs: ", total, g_test_timer_last());
-+    g_test_message("%.2f MB/sec\n", total / g_test_timer_last());
+-check-speed: $(check-speed-y)
+-	$(call do_test_human, $^)
+-
+ # Per guest TCG tests
  
-     g_free(out);
-     g_free(in);
+ BUILD_TCG_TARGET_RULES=$(patsubst %,build-tcg-tests-%, $(TARGET_DIRS))
+@@ -212,6 +201,10 @@ check-clean:
+ 
+ clean: check-clean
+ 
++# For backwards compatibility
++
++check-speed: bench-speed
++
+ # Build the help program automatically
+ 
+ -include $(wildcard tests/*.d)
+diff --git a/tests/meson.build b/tests/meson.build
+index 2c87e16fad..71d0776a79 100644
+--- a/tests/meson.build
++++ b/tests/meson.build
+@@ -107,6 +107,8 @@ tests = {
+   'test-qapi-util': [],
+ }
+ 
++benchs = {}
++
+ if have_block
+   tests += {
+     'test-coroutine': [testblock],
+@@ -164,6 +166,11 @@ if have_block
+   if 'CONFIG_NETTLE' in config_host or 'CONFIG_GCRYPT' in config_host
+     tests += {'test-crypto-pbkdf': [io]}
+   endif
++  benchs += {
++     'benchmark-crypto-hash': {'deps': [crypto]},
++     'benchmark-crypto-hmac': {'deps': [crypto]},
++     'benchmark-crypto-cipher': {'deps': [crypto]},
++  }
+ endif
+ 
+ if have_system
+@@ -231,6 +238,15 @@ foreach test_name, extra: tests
+        suite: ['unit'])
+ endforeach
+ 
++foreach bench_name, extra_args: benchs
++  src = extra_args.get('src', [bench_name + '.c'])
++  exe = executable(bench_name, src,
++                   dependencies: [qemuutil] + extra_args.get('deps', []))
++  benchmark(bench_name, exe,
++            args: ['--tap', '-k'],
++            protocol: 'tap',
++            suite: ['speed'])
++endforeach
+ 
+ if have_tools and 'CONFIG_VHOST_USER' in config_host
+   executable('vhost-user-bridge',
 -- 
 2.26.2
 
