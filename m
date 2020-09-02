@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45D4D25B4F6
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 22:00:08 +0200 (CEST)
-Received: from localhost ([::1]:34116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F0A125B4A3
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 21:45:12 +0200 (CEST)
+Received: from localhost ([::1]:49428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDYvO-0001Du-S7
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 16:00:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52134)
+	id 1kDYgx-0003HJ-8P
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 15:45:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kDYXd-00065W-9Y
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 15:35:33 -0400
-Received: from mout.gmx.net ([212.227.15.15]:44839)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kDYXW-00063P-KP
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 15:35:26 -0400
+Received: from mout.gmx.net ([212.227.15.19]:35401)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kDYXU-0002v3-2F
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 15:35:33 -0400
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kDYXG-0002mi-BO
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 15:35:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
  s=badeba3b8450; t=1599075301;
- bh=COQc6HaTkxyk6PCDL8szWSyaqNKoLmkbh/JrrAXBxtI=;
+ bh=3jEXDEPVrlMf+yryMh7E9PXSMoaXapVGrOE9AK5e98c=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=bzZthR50l6yZP5V11in29lrvOmF6hhZ0RqWSPhHXbZx26xRauf671SnwoDjOTXFQk
- s+r8/w9xsAcQ6I0W7myvXGu//LgT9W+jI6edJ8FUDyseUofp4j3PEk0c/e8Q7+3sA7
- xH3Dj41MDUDd9jjRsV1UrPpAQbW2liKSlCsPpxP8=
+ b=AdSgpqQN2O2mlGP0SD+V+5KnLp5u8tFHqoKLldzq56MvoQZ7Ru8WB2ZK37MJUD3Nn
+ khCm5BkYcm6znF1AO3Jk7rQqApZTefcPrcuYJckZTV8VlXFRCpd0q1vwnBD1/q66Mv
+ 59MyCU6AxLqcX+x9/AxdPRfIIQKeiiDkx9x67LII=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from ls3530.fritz.box ([92.116.155.63]) by mail.gmx.com (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1ML9yS-1jvKtT0OSQ-00IBsm; Wed, 02
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mzhj9-1kZ3Qq0wC1-00vfEp; Wed, 02
  Sep 2020 21:35:01 +0200
 From: Helge Deller <deller@gmx.de>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 5/8] hw/hppa: Tell SeaBIOS port address of fw_cfg
-Date: Wed,  2 Sep 2020 21:34:53 +0200
-Message-Id: <20200902193456.29844-6-deller@gmx.de>
+Subject: [PATCH v3 6/8] hw/hppa: Add power button emulation
+Date: Wed,  2 Sep 2020 21:34:54 +0200
+Message-Id: <20200902193456.29844-7-deller@gmx.de>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200902193456.29844-1-deller@gmx.de>
 References: <20200902193456.29844-1-deller@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:4JpRpTc1kqank28efAEjVyLQUDwY6O5PfqbyekNTYm/6l3Xm+TS
- v6s8qB6hn192xMXyMRZNCWZnMvukIYes9FutUrdb+RuALRlGxuDR/1oEVI8fnPT4RAUTMKL
- 0QivzwnOAyXYIntqWuLwjDjpXHnlmDBDTLkgfOdRCvIPy83XSAhs2YebdLsAjE5R5YWUvG2
- Mb8DFLAvfCSLJNkUcTYRw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:0FAWXjcoVoo=:jJ6YZv3Kzkd9fty6ttjTmW
- i0eg0z8W0TaN7D3/82ay/JNny9Yc6I1cZ+flqBL3FQkVBi2xlBJCKEN6JKQyrHTzLWraIe43S
- 9cOB9rbBsgz6ykZn8bhpKRZEc9dk7er6HU7DmHjoSiqzudOEgRdXLHvRAeyjNX9nV59V9snhY
- MG9rcGcD6tF5Rxu2FHmWgnHcYQ/f9w/OdGL5KjHdhFNIFV+eJEVfip1PcotYYDlNSlWhTABux
- pq9I4dp+x7Aof8B5hLulJ9r/37ArPo1c6vsKmyedtidv5/ngJGkNuRGk0ZEREztjkuQXnrRsH
- TWqO4+AaisyuiDQYnktSKdeauwd2l4r8b7PDEU61e03czFkmhJ25j+R38aSvc4DluU6qrzBik
- JKxQPISXxyQ5IXs8bskjv00qbtExpo1NKUw90gQNFrQSvKs33MJcMjgOiDFp5C0JVLeGbJce8
- GL1KzsxeNwnxEa4mum4YYLu5J+6b+hoajv/L2tnUGFlzbmGWlWot9i5P3a3G1U4pDNwxxIYe3
- b6UTA7XuyLZxZL9jphcQtPa1sn15YfB94z9k9zst08PngyXwpeXWYCY7NT5A2kC2gaCgCZAKk
- BOXW4hFbaZVfkLTu/I/49pDhX5RRraA/C1fyjtBsDje402Zvt/kLF2lS6+ZX50RkNEvziTpo6
- aXM1OYY0p6qwrGCLXj8BId4PgnV9HAVrtGixx/x8xYbIs5Z5Aj9JuvADphtAPPuafNmk4g0IF
- dovUODhsomSQYIYY+psvXlO8uSmd9WE8QrS0NBi4n60P4gOByPmRJ7jz6s1m0tckGaAE1up/I
- NGt2fMDBgmQM2SrSI3SYUnzrspkJIsfWVIXR+DFGVE2zwaEy3+3EMet8yEDNVcjheQajhY9m+
- l4TplUySlAGqOKqLnIVVlvvxMwp5q0vmEnyBUbGtv33SWy2qU95vgAHG/VkB/bu4gTd5jn3yK
- l+RPp1ahzQYtCl+jqHIP6eQ8B8DqK2JPpsoRpUQ+qH3DVVYMUcJpsbGvgDMHRWEu5FbEaLXgC
- +dMzEyOlpiU5KFVWYIu4rNj0jQeskxwthZeUhD+8KUGDH9kAzqluUyQ4JdwTz+yC9mD9J/Hzk
- cFJCScUhGRYzHWsoREDn+v27E2GgUI2bE7vmF/3N6PxHSls+cqARZb5SLc1557ljMjxHc5VXd
- 7Wqsf/outMSsSUX9ssYDa5/ki/WlqWL2yMCl/rfLH/JK6QwY7J+PyDnXUDrCwfRuDN0/N98f0
- f2sD7mYRae0slVsnM
-Received-SPF: pass client-ip=212.227.15.15; envelope-from=deller@gmx.de;
+X-Provags-ID: V03:K1:eSBC7BE1uOPycPNte5Go1YEXxj9kylGHPVy60O8IYgfyYjjAZdN
+ xwl/jx4B28Qv4+u1azESx1OsvtkjXLKvpNXqDNRJk7t4CSdeczHbcH3V3vQsYGCNf0K72/K
+ jtAf8XcNSzrlszzQDR+E+lEKv7Y1++dvx62etAygeKInIBPkzjNf8fJ97Y6CaRWiGiPiI1k
+ Ycz7UHc/Xfuor4ybxqoFg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:iiJSehEN6vI=:JYXyATntJVzTXhXQ2M/AOh
+ 9udaotF2buggRT6kO744DF+Ivx+Ak+f7nFXDATCZxTJXumd3d5Wt6eSDGN+KF77WHpFAKXMHl
+ V02YQaCyhj6LH5S96nPAlaa+vIIWq47e+2qUE2tCtdHO3Jf5BMwtMuOkoSz2RGF+G5UfBlgXx
+ hoharEixCXdFpPXVr2fZUYoAhn/4Q0vS9VlHrdWfN4rh9/xWSXdOG0o2LQdJ4W+ul4mqu+cKz
+ kSAczIK3qn7zDXtD4VvdsN5e4op6hFG55pCDC4JOmn2qXY5F8e6W2AyPqB8BldjQhC/f4zoqr
+ NaMNDfibdzuHfo4MU/vspC2yO/F+YIu3tBk7AnHxOXD/+QXp33SeUnRvP9y4W3GA5rpBncT68
+ bn0PT6zdRA3SaI0+HRlgdIyT6Fun6g6OM4qEVhdeJ4hapNxnGC7F4SliTZ8CeVLPbwdW7OH1w
+ 1VUrwfOkYFkDaousLKDWwwE29KB52F7+B9WjmH51H/Hsowys3iWAPowbvGWGSomi1DG+tzLuf
+ kp9tKP7Fbi5XQShpTIg6qbGVpvLTorzwyeA8npKNT/3x/FKwtSqenSrEzeSN6OAC/GfqPmtbi
+ gb/5ETG3q+B4rSoQEbRdbPI0wtrI9YIwnkZHm8uFzc02QaCKso83YBKelCmAj4Svw5fJLsdLn
+ BbjQADQGbB9RG8+QgpDvr/vQWcLcxL9n7snimtIhLTJqF/UfVQg9Pna/iaYAaxONpCBw98GM4
+ nmHkHA22K130XHV7rday9jKfo6chXTpfw540NSTvvUnkrV5UxWhPzUSohfrp8RmOHXrFB4DXO
+ IZdXAiURQBy/jgk+WGk3bIovrn+brmyUxjzfBqCyFlQoxl4JaYobX9e3d7sBRHQEd1Jx92d6b
+ chdKE7X/iQ0oB9QiZo9l8GPHpdYO5cV1CVxT5o8wfdLo+K1Gn8T3G+KmoDFqoxA+W6YoJU/p2
+ pwm0YtuTR9azhVj+LuJgKrZparQuY/sMbtfAHtMfOif5ESGrGYJZhXYAm7RWEAEuoCwXT2rlI
+ eUs1yA2oVISgvy/F+On0svP5s2knRp1e93a7r/CsIF7WCYwGHSyyMqfY/vR8XmZS4OP8d7cRI
+ PRWRDL09DD4FN4ccxdB2L6iF2rTbJtPQYE9GT67tYfhklue2r0/DSFAqFHmWO5GFUhNYuCoOl
+ KAQoMk5k+2TXdQKOpm8xrgAggkWSndZ3jGecERwFGeiXIVAI1bcXexvVr60aop4YtGIyv0HRh
+ NWS3qMWyHLypaTlP/
+Received-SPF: pass client-ip=212.227.15.19; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 15:35:12
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 15:35:08
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -88,61 +88,78 @@ Cc: Helge Deller <deller@gmx.de>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Change QEMU_FW_CFG_IO_BASE to shorter variant FW_CFG_IO_BASE and hand
-over the actual port address in %r19 to SeaBIOS.
+Emulate a power button switch, tell SeaBIOS the address via fw_cfg and
+bind the power button to the qemu UI.
 
 Signed-off-by: Helge Deller <deller@gmx.de>
 =2D--
- hw/hppa/hppa_hardware.h | 2 +-
- hw/hppa/machine.c       | 7 ++++++-
- 2 files changed, 7 insertions(+), 2 deletions(-)
+ hw/hppa/machine.c | 32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
-diff --git a/hw/hppa/hppa_hardware.h b/hw/hppa/hppa_hardware.h
-index b2fbbc2eec..bc258895c9 100644
-=2D-- a/hw/hppa/hppa_hardware.h
-+++ b/hw/hppa/hppa_hardware.h
-@@ -38,7 +38,7 @@
- #define PORT_PCI_CMD    (PCI_HPA + DINO_PCI_ADDR)
- #define PORT_PCI_DATA   (PCI_HPA + DINO_CONFIG_DATA)
-
--#define QEMU_FW_CFG_IO_BASE     0xfffa0000
-+#define FW_CFG_IO_BASE  0xfffa0000
-
- #define PORT_SERIAL1    (DINO_UART_HPA + 0x800)
- #define PORT_SERIAL2    (LASI_UART_HPA + 0x800)
 diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-index 4b35afc9d5..2bed49807b 100644
+index 2bed49807b..d5164457ee 100644
 =2D-- a/hw/hppa/machine.c
 +++ b/hw/hppa/machine.c
-@@ -69,7 +69,7 @@ static FWCfgState *create_fw_cfg(MachineState *ms)
-     FWCfgState *fw_cfg;
-     uint64_t val;
+@@ -12,6 +12,7 @@
+ #include "qemu/error-report.h"
+ #include "sysemu/reset.h"
+ #include "sysemu/sysemu.h"
++#include "sysemu/runstate.h"
+ #include "hw/rtc/mc146818rtc.h"
+ #include "hw/timer/i8254.h"
+ #include "hw/char/serial.h"
+@@ -27,6 +28,30 @@
 
--    fw_cfg =3D fw_cfg_init_mem(QEMU_FW_CFG_IO_BASE, QEMU_FW_CFG_IO_BASE +=
- 4);
-+    fw_cfg =3D fw_cfg_init_mem(FW_CFG_IO_BASE, FW_CFG_IO_BASE + 4);
-     fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, ms->smp.cpus);
-     fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, HPPA_MAX_CPUS);
-     fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, ram_size);
-@@ -290,6 +290,9 @@ static void machine_hppa_init(MachineState *machine)
+ #define MIN_SEABIOS_HPPA_VERSION 1 /* require at least this fw version */
 
-     /* tell firmware how many SMP CPUs to present in inventory table */
-     cpu[0]->env.gr[21] =3D smp_cpus;
++#define HPA_POWER_BUTTON (FIRMWARE_END - 0x10)
 +
-+    /* tell firmware fw_cfg port */
-+    cpu[0]->env.gr[19] =3D FW_CFG_IO_BASE;
- }
++static void hppa_powerdown_req(Notifier *n, void *opaque)
++{
++    hwaddr soft_power_reg =3D HPA_POWER_BUTTON;
++    uint32_t val;
++
++    val =3D ldl_be_phys(&address_space_memory, soft_power_reg);
++    if ((val >> 8) =3D=3D 0) {
++        /* immediately shut down when under hardware control */
++        qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
++        return;
++    }
++
++    /* clear bit 31 to indicate that the power switch was pressed. */
++    val &=3D ~1;
++    stl_be_phys(&address_space_memory, soft_power_reg, val);
++}
++
++static Notifier hppa_system_powerdown_notifier =3D {
++    .notify =3D hppa_powerdown_req
++};
++
++
+ static ISABus *hppa_isa_bus(void)
+ {
+     ISABus *isa_bus;
+@@ -86,6 +111,10 @@ static FWCfgState *create_fw_cfg(MachineState *ms)
+     fw_cfg_add_file(fw_cfg, "/etc/cpu/btlb_entries",
+                     g_memdup(&val, sizeof(val)), sizeof(val));
 
- static void hppa_machine_reset(MachineState *ms)
-@@ -317,6 +320,8 @@ static void hppa_machine_reset(MachineState *ms)
-     cpu[0]->env.gr[24] =3D 'c';
-     /* gr22/gr23 unused, no initrd while reboot. */
-     cpu[0]->env.gr[21] =3D smp_cpus;
-+    /* tell firmware fw_cfg port */
-+    cpu[0]->env.gr[19] =3D FW_CFG_IO_BASE;
- }
++    val =3D cpu_to_le64(HPA_POWER_BUTTON);
++    fw_cfg_add_file(fw_cfg, "/etc/power-button-addr",
++                    g_memdup(&val, sizeof(val)), sizeof(val));
++
+     fw_cfg_add_i16(fw_cfg, FW_CFG_BOOT_DEVICE, ms->boot_order[0]);
+     qemu_register_boot_set(fw_cfg_boot_set, fw_cfg);
 
+@@ -177,6 +206,9 @@ static void machine_hppa_init(MachineState *machine)
+         }
+     }
 
++    /* register power switch emulation */
++    qemu_register_powerdown_notifier(&hppa_system_powerdown_notifier);
++
+     /* Load firmware.  Given that this is not "real" firmware,
+        but one explicitly written for the emulation, we might as
+        well load it directly from an ELF image.  */
 =2D-
 2.21.3
 
