@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DCFC25AAC1
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 14:02:32 +0200 (CEST)
-Received: from localhost ([::1]:40562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7E0A25AACD
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 14:04:34 +0200 (CEST)
+Received: from localhost ([::1]:46826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDRTD-0000vI-Jy
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 08:02:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47074)
+	id 1kDRVB-0003c8-Ou
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 08:04:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDRKs-0002eD-UV
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 07:53:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39887)
+ id 1kDRKw-0002nW-5y
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 07:53:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37217)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDRKq-0006xR-Sy
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 07:53:54 -0400
+ id 1kDRKu-0006yB-C9
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 07:53:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599047632;
+ s=mimecast20190719; t=1599047635;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=C55cTYsrn1fq9mm9OYP52A2mSI3AaM87Wy0ZOgz16Xk=;
- b=KdYmw++G+oeE73LjLFjFnCPP/0RqPgjNawF1flAPG/RZbbPqxeaVMeqgvfL191UOPEprxM
- BWVugvs6cd/nHbSupnJj9ZdYs6SL3d7DU8vP+eQKWUGl9pbPg9uI78V7VA/LlWNmV9P7AB
- m6SimOzhCz+B3GGw+BtV/ShGEO8qtUs=
+ bh=vBJrFJAQN5wUId0sSbmknJbzvKpG0RK8cVjXsKo5I8o=;
+ b=XjZQU7vCo0cG9Ylqru1ZnMiSQnRHO428iWRpx9Wc+1dd/Fu9SKLp0CVrIBxI2RUbmuJRRZ
+ J27cqRZfQh1n41YnzM6fcGnbQ/aUjiXNv6OsDFpzi2cLLt0DaP3GV8ELbKZKikbE83DQXy
+ SgNT4svMDd6zNwzqq1mZn5KmgPiUBU0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-119-b6vJUOIDPCuD0j2uSWR6VA-1; Wed, 02 Sep 2020 07:53:49 -0400
-X-MC-Unique: b6vJUOIDPCuD0j2uSWR6VA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-131-ZtagvEBIOpSk6mzXyNE1Qg-1; Wed, 02 Sep 2020 07:53:53 -0400
+X-MC-Unique: ZtagvEBIOpSk6mzXyNE1Qg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4634C81F009;
- Wed,  2 Sep 2020 11:53:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A81CE1DDFE;
+ Wed,  2 Sep 2020 11:53:52 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 104357EEB4;
- Wed,  2 Sep 2020 11:53:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AF0DB5C1C7;
+ Wed,  2 Sep 2020 11:53:49 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 17/20] Revert "hw/i386: Update structures to save the number of
- nodes per package"
-Date: Wed,  2 Sep 2020 07:53:20 -0400
-Message-Id: <20200902115323.850385-18-ehabkost@redhat.com>
+Subject: [PULL 18/20] virtio: add Virtio*BusClass sizes
+Date: Wed,  2 Sep 2020 07:53:21 -0400
+Message-Id: <20200902115323.850385-19-ehabkost@redhat.com>
 In-Reply-To: <20200902115323.850385-1-ehabkost@redhat.com>
 References: <20200902115323.850385-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.001
@@ -83,187 +82,50 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Babu Moger <babu.moger@amd.com>, Igor Mammedov <imammedo@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Babu Moger <babu.moger@amd.com>
+From: Cornelia Huck <cohuck@redhat.com>
 
-This reverts commit c24a41bb53c0854d22c96b30d57cfcaa543c409d.
+Both VirtioPCIBusClass and VirtioCcwBusClass are typedefs of
+VirtioBusClass, but set .class_size in the TypeInfo anyway
+to be safe if that changes in the future.
 
-Remove the EPYC specific apicid decoding and use the generic
-default decoding.
-
-Signed-off-by: Babu Moger <babu.moger@amd.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <159889937478.21294.4192291354416942986.stgit@naples-babu.amd.com>
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+Reported-by: Eduardo Habkost <ehabkost@redhat.com>
+Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+Reviewed-by: Halil Pasic <pasic@linux.ibm.com>
+Message-Id: <20200824122051.99432-1-cohuck@redhat.com>
 ---
- include/hw/i386/topology.h |  1 -
- target/i386/cpu.h          |  1 -
- hw/i386/pc.c               |  1 -
- hw/i386/x86.c              |  1 -
- target/i386/cpu.c          |  1 -
- tests/test-x86-cpuid.c     | 40 +++++++++++++++++++-------------------
- 6 files changed, 20 insertions(+), 25 deletions(-)
+ hw/s390x/virtio-ccw.c  | 1 +
+ hw/virtio/virtio-pci.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/include/hw/i386/topology.h b/include/hw/i386/topology.h
-index b9593b9905..81573f6cfd 100644
---- a/include/hw/i386/topology.h
-+++ b/include/hw/i386/topology.h
-@@ -53,7 +53,6 @@ typedef struct X86CPUTopoIDs {
- } X86CPUTopoIDs;
+diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
+index 0e60270297..8feb3451a0 100644
+--- a/hw/s390x/virtio-ccw.c
++++ b/hw/s390x/virtio-ccw.c
+@@ -1237,6 +1237,7 @@ static const TypeInfo virtio_ccw_bus_info = {
+     .name = TYPE_VIRTIO_CCW_BUS,
+     .parent = TYPE_VIRTIO_BUS,
+     .instance_size = sizeof(VirtioCcwBusState),
++    .class_size = sizeof(VirtioCcwBusClass),
+     .class_init = virtio_ccw_bus_class_init,
+ };
  
- typedef struct X86CPUTopoInfo {
--    unsigned nodes_per_pkg;
-     unsigned dies_per_pkg;
-     unsigned cores_per_die;
-     unsigned threads_per_core;
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 5ff8ad8427..d3097be6a5 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1629,7 +1629,6 @@ typedef struct CPUX86State {
-     TPRAccess tpr_access_type;
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index fc69570dcc..5bc769f685 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -2133,6 +2133,7 @@ static const TypeInfo virtio_pci_bus_info = {
+     .name          = TYPE_VIRTIO_PCI_BUS,
+     .parent        = TYPE_VIRTIO_BUS,
+     .instance_size = sizeof(VirtioPCIBusState),
++    .class_size    = sizeof(VirtioPCIBusClass),
+     .class_init    = virtio_pci_bus_class_init,
+ };
  
-     unsigned nr_dies;
--    unsigned nr_nodes;
- } CPUX86State;
- 
- struct kvm_msrs;
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 0677d6a272..d11daacc23 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1501,7 +1501,6 @@ static void pc_cpu_pre_plug(HotplugHandler *hotplug_dev,
-     init_topo_info(&topo_info, x86ms);
- 
-     env->nr_dies = x86ms->smp_dies;
--    env->nr_nodes = topo_info.nodes_per_pkg;
- 
-     /*
-      * If APIC ID is not set,
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 727c4a0f1d..c1954db152 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -62,7 +62,6 @@ inline void init_topo_info(X86CPUTopoInfo *topo_info,
- {
-     MachineState *ms = MACHINE(x86ms);
- 
--    topo_info->nodes_per_pkg = ms->numa_state->num_nodes / ms->smp.sockets;
-     topo_info->dies_per_pkg = x86ms->smp_dies;
-     topo_info->cores_per_die = ms->smp.cores;
-     topo_info->threads_per_core = ms->smp.threads;
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 256bfa669f..ba4667b33c 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -7023,7 +7023,6 @@ static void x86_cpu_initfn(Object *obj)
-     FeatureWord w;
- 
-     env->nr_dies = 1;
--    env->nr_nodes = 1;
-     cpu_set_cpustate_pointers(cpu);
- 
-     object_property_add(obj, "family", "int",
-diff --git a/tests/test-x86-cpuid.c b/tests/test-x86-cpuid.c
-index 049030a50e..bfabc0403a 100644
---- a/tests/test-x86-cpuid.c
-+++ b/tests/test-x86-cpuid.c
-@@ -31,12 +31,12 @@ static void test_topo_bits(void)
-     X86CPUTopoInfo topo_info = {0};
- 
-     /* simple tests for 1 thread per core, 1 core per die, 1 die per package */
--    topo_info = (X86CPUTopoInfo) {0, 1, 1, 1};
-+    topo_info = (X86CPUTopoInfo) {1, 1, 1};
-     g_assert_cmpuint(apicid_smt_width(&topo_info), ==, 0);
-     g_assert_cmpuint(apicid_core_width(&topo_info), ==, 0);
-     g_assert_cmpuint(apicid_die_width(&topo_info), ==, 0);
- 
--    topo_info = (X86CPUTopoInfo) {0, 1, 1, 1};
-+    topo_info = (X86CPUTopoInfo) {1, 1, 1};
-     g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 0), ==, 0);
-     g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 1), ==, 1);
-     g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 2), ==, 2);
-@@ -45,39 +45,39 @@ static void test_topo_bits(void)
- 
-     /* Test field width calculation for multiple values
-      */
--    topo_info = (X86CPUTopoInfo) {0, 1, 1, 2};
-+    topo_info = (X86CPUTopoInfo) {1, 1, 2};
-     g_assert_cmpuint(apicid_smt_width(&topo_info), ==, 1);
--    topo_info = (X86CPUTopoInfo) {0, 1, 1, 3};
-+    topo_info = (X86CPUTopoInfo) {1, 1, 3};
-     g_assert_cmpuint(apicid_smt_width(&topo_info), ==, 2);
--    topo_info = (X86CPUTopoInfo) {0, 1, 1, 4};
-+    topo_info = (X86CPUTopoInfo) {1, 1, 4};
-     g_assert_cmpuint(apicid_smt_width(&topo_info), ==, 2);
- 
--    topo_info = (X86CPUTopoInfo) {0, 1, 1, 14};
-+    topo_info = (X86CPUTopoInfo) {1, 1, 14};
-     g_assert_cmpuint(apicid_smt_width(&topo_info), ==, 4);
--    topo_info = (X86CPUTopoInfo) {0, 1, 1, 15};
-+    topo_info = (X86CPUTopoInfo) {1, 1, 15};
-     g_assert_cmpuint(apicid_smt_width(&topo_info), ==, 4);
--    topo_info = (X86CPUTopoInfo) {0, 1, 1, 16};
-+    topo_info = (X86CPUTopoInfo) {1, 1, 16};
-     g_assert_cmpuint(apicid_smt_width(&topo_info), ==, 4);
--    topo_info = (X86CPUTopoInfo) {0, 1, 1, 17};
-+    topo_info = (X86CPUTopoInfo) {1, 1, 17};
-     g_assert_cmpuint(apicid_smt_width(&topo_info), ==, 5);
- 
- 
--    topo_info = (X86CPUTopoInfo) {0, 1, 30, 2};
-+    topo_info = (X86CPUTopoInfo) {1, 30, 2};
-     g_assert_cmpuint(apicid_core_width(&topo_info), ==, 5);
--    topo_info = (X86CPUTopoInfo) {0, 1, 31, 2};
-+    topo_info = (X86CPUTopoInfo) {1, 31, 2};
-     g_assert_cmpuint(apicid_core_width(&topo_info), ==, 5);
--    topo_info = (X86CPUTopoInfo) {0, 1, 32, 2};
-+    topo_info = (X86CPUTopoInfo) {1, 32, 2};
-     g_assert_cmpuint(apicid_core_width(&topo_info), ==, 5);
--    topo_info = (X86CPUTopoInfo) {0, 1, 33, 2};
-+    topo_info = (X86CPUTopoInfo) {1, 33, 2};
-     g_assert_cmpuint(apicid_core_width(&topo_info), ==, 6);
- 
--    topo_info = (X86CPUTopoInfo) {0, 1, 30, 2};
-+    topo_info = (X86CPUTopoInfo) {1, 30, 2};
-     g_assert_cmpuint(apicid_die_width(&topo_info), ==, 0);
--    topo_info = (X86CPUTopoInfo) {0, 2, 30, 2};
-+    topo_info = (X86CPUTopoInfo) {2, 30, 2};
-     g_assert_cmpuint(apicid_die_width(&topo_info), ==, 1);
--    topo_info = (X86CPUTopoInfo) {0, 3, 30, 2};
-+    topo_info = (X86CPUTopoInfo) {3, 30, 2};
-     g_assert_cmpuint(apicid_die_width(&topo_info), ==, 2);
--    topo_info = (X86CPUTopoInfo) {0, 4, 30, 2};
-+    topo_info = (X86CPUTopoInfo) {4, 30, 2};
-     g_assert_cmpuint(apicid_die_width(&topo_info), ==, 2);
- 
-     /* build a weird topology and see if IDs are calculated correctly
-@@ -85,18 +85,18 @@ static void test_topo_bits(void)
- 
-     /* This will use 2 bits for thread ID and 3 bits for core ID
-      */
--    topo_info = (X86CPUTopoInfo) {0, 1, 6, 3};
-+    topo_info = (X86CPUTopoInfo) {1, 6, 3};
-     g_assert_cmpuint(apicid_smt_width(&topo_info), ==, 2);
-     g_assert_cmpuint(apicid_core_offset(&topo_info), ==, 2);
-     g_assert_cmpuint(apicid_die_offset(&topo_info), ==, 5);
-     g_assert_cmpuint(apicid_pkg_offset(&topo_info), ==, 5);
- 
--    topo_info = (X86CPUTopoInfo) {0, 1, 6, 3};
-+    topo_info = (X86CPUTopoInfo) {1, 6, 3};
-     g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 0), ==, 0);
-     g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 1), ==, 1);
-     g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 2), ==, 2);
- 
--    topo_info = (X86CPUTopoInfo) {0, 1, 6, 3};
-+    topo_info = (X86CPUTopoInfo) {1, 6, 3};
-     g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 1 * 3 + 0), ==,
-                      (1 << 2) | 0);
-     g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 1 * 3 + 1), ==,
 -- 
 2.26.2
 
