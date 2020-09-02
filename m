@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA60E25B612
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 23:44:10 +0200 (CEST)
-Received: from localhost ([::1]:37172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E226425B615
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 23:45:12 +0200 (CEST)
+Received: from localhost ([::1]:43724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDaY5-0007dN-M5
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 17:44:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52218)
+	id 1kDaZ5-0001nd-WF
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 17:45:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kDaWb-000672-Ce
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 17:42:37 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:39761)
+ id 1kDaWe-0006BS-20
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 17:42:40 -0400
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:43182)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kDaWZ-0001QE-SE
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 17:42:37 -0400
-Received: by mail-pf1-x441.google.com with SMTP id u128so450630pfb.6
- for <qemu-devel@nongnu.org>; Wed, 02 Sep 2020 14:42:35 -0700 (PDT)
+ id 1kDaWc-0001QT-8J
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 17:42:39 -0400
+Received: by mail-pf1-x42e.google.com with SMTP id f18so437309pfa.10
+ for <qemu-devel@nongnu.org>; Wed, 02 Sep 2020 14:42:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=38x0lAOA2AfvsIyHP+ReuB52i8b3LJOhHNpZq8BiwHk=;
- b=JaKsd5EeuMSJds4q5R4HR/TtJPk8oi5ylSr2sONOvWmjTdovICnzIIhRKVPqqqk7oa
- 3o/qsjVsGb1if9zAV5+Y2+L/Wj1YjzhIFRQdNsNNKTD0f7LE5cV2FTDnl7A2eviAS4Nx
- 5YNJkWKm04Y41NpDKFOj025XMK1a0sB7DxZE6Tcw/CPbNo8h5gaCiPBZxmqXve+7kIrR
- qNt4gtMYCOSJkl2iif8/qXb668I2woQbPdr63Ow6PQ1cOCZl5lOrooEijL4NkmuznoBG
- /KwsIxtss/SHElp1lM21bVtt9f6Q9l1llz/izu7f5dvb+pI1kk/pCklav4rVQ5WC5Iqc
- lOxw==
+ bh=gXdMGjV38SOiNDEgk4FsmaPwx8AV6p28A6aPTTIcZkk=;
+ b=UhzYLV5vWPiSvSsh9YGdpVHOF5mjM19qoZL0dwmXISwV0dJnNiFd/ot3bqmtW8QIUO
+ cmAfIfPZC9vxR3rht5lZo0tFHkMTsvjFhbPYI0P26PFZKqhude0XpqOwYW0KHAkr+3OC
+ 3my8YMKsAkasmyIq79zu930gHNMkfaMP0k9McZ6gZBpzgqLPcFWzNmn+hQk0QPDh/8rM
+ uczjIPg6fgiUPAqcKNVRzkpqYI/16BZP+YHXE3yIzyVQanfOnah5S01ZB99ku2b9GW9J
+ NguLKkz940mPHJ6P3Arhw24W5N5cJuKerNnbd1YF2ZCkOi0i0iDM0uHdjjjWNd4svm7T
+ 28Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=38x0lAOA2AfvsIyHP+ReuB52i8b3LJOhHNpZq8BiwHk=;
- b=L/Lnzk7CJQXU1Cev+y2kR6HEHguYyTIkEEN1P3zEekJTwL2abCYEQ1iseiO7FyVK5c
- vQ61rRp6tmm2hEm7cVe5OYzrg5WtE9UiJ+pelUZpta+8BQAQAA3+oO9TLwUSplB56/k2
- yMe+CgavvrhXLKT9GiCMNFhUw75JyZGyH/0233y4FPD7TyeMxzAlesDLTp5XxYOhsby2
- e89mnxVW/1y7Q6HP15SsybO3kW1cgjl36+qtKePC4V+pVzTFbdqZ73KgLnvQCUXdgq7w
- 9jeAcvg06UHqoOM8d8tZYEAyYl36IE1Xutjv/ZdVj3J+peR7tPr10PrRCLZDpTKs5XUY
- /1Mw==
-X-Gm-Message-State: AOAM530Tv5KUT13X5PpekIP/yy367b9JnwDRJGNVukRMHMMqLhsGETtP
- V/VM9HYQBlbIGyGRNNXfX87EPlarjp1wdQ==
-X-Google-Smtp-Source: ABdhPJz+vXxWGtQ08j/JrRtpzTSM1BHMGsytuH3wuYTE+uDUNKryz9Mc84t40TV75joqzsgmWGhAkA==
-X-Received: by 2002:a17:902:6bca:: with SMTP id
- m10mr399039plt.210.1599082953805; 
- Wed, 02 Sep 2020 14:42:33 -0700 (PDT)
+ bh=gXdMGjV38SOiNDEgk4FsmaPwx8AV6p28A6aPTTIcZkk=;
+ b=WC+TOAQmtQArj8PnSYKGySazankiuBLNLglNjez2Z8Pc1sk+mU4aAiozHeWC5MYLr2
+ MHvOIERCgbmEU6GD1bkEaJZtDPtBBsBAklNNRYCCNFAHec7lDTMdtx8G4iahTUNlpd5O
+ 5kcsZgEpr65k/Oe1IN+fFdVI5PNjvga81pjwzk8NiG8qxJvTcu0l/XTZE0/MvqQzzPmq
+ i+OHzMqZ6wlR2cYprb5/ZUG8YNfdFFOWwmBquOBmkfqHAwyYleA+BYU3G4JYAF1dQIyh
+ 3MXXPSGwPHYHAdJxFGZ1QbfbgkLpvltIjDXzIKbCdFTwa/6e3xDhZUOlxtc0YOabyUUI
+ Pmkg==
+X-Gm-Message-State: AOAM532TNwVBRHaJNgT9Kaa9aqqW0eDeRDHLmlTSMCeX55A76MzhTtCJ
+ qD4gUDro8N/YIvFsTrMPKpQSp1nZPpJoNA==
+X-Google-Smtp-Source: ABdhPJznp2r7Twd6gr2KvHb0Q0Yoc+VuN3M6q2QLlF0sqS1iQEBFRVZDJHkBFnHmFhcNvEE+2HvlQw==
+X-Received: by 2002:a17:902:a607:: with SMTP id u7mr383155plq.45.1599082956285; 
+ Wed, 02 Sep 2020 14:42:36 -0700 (PDT)
 Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id x12sm328863pjq.43.2020.09.02.14.42.31
+ by smtp.googlemail.com with ESMTPSA id x12sm328863pjq.43.2020.09.02.14.42.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Sep 2020 14:42:32 -0700 (PDT)
+ Wed, 02 Sep 2020 14:42:35 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/9] configure: fixes dtc not cloned when running msys2 CI
-Date: Thu,  3 Sep 2020 05:42:03 +0800
-Message-Id: <20200902214211.337-2-luoyonggang@gmail.com>
+Subject: [PATCH v2 2/9] meson: Convert undefsym.sh to undefsym.py
+Date: Thu,  3 Sep 2020 05:42:04 +0800
+Message-Id: <20200902214211.337-3-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.27.0.windows.1
 In-Reply-To: <20200902214211.337-1-luoyonggang@gmail.com>
 References: <20200902214211.337-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
- envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x441.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x42e.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,54 +88,119 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Symlink dtc after git submodule update, because on win32 symlink to non-exist folder are forbidden.
+undefsym.sh are not msys2 compatible, convert it to python script
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- configure | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+ meson.build         |  2 +-
+ scripts/undefsym.py | 57 +++++++++++++++++++++++++++++++++++++++++++++
+ scripts/undefsym.sh | 20 ----------------
+ 3 files changed, 58 insertions(+), 21 deletions(-)
+ create mode 100644 scripts/undefsym.py
+ delete mode 100755 scripts/undefsym.sh
 
-diff --git a/configure b/configure
-index 8a3acef89d..30f8c4db29 100755
---- a/configure
-+++ b/configure
-@@ -2053,9 +2053,6 @@ fi
- if test "$meson" = git; then
-     git_submodules="${git_submodules} meson"
- fi
--if test "$git_update" = yes; then
--    (cd "${source_path}" && GIT="$git" "./scripts/git-submodule.sh" update "$git_submodules")
+diff --git a/meson.build b/meson.build
+index 55c7d2318c..c9f5d05664 100644
+--- a/meson.build
++++ b/meson.build
+@@ -863,7 +863,7 @@ foreach d, list : modules
+ endforeach
+ 
+ nm = find_program('nm')
+-undefsym = find_program('scripts/undefsym.sh')
++undefsym = find_program('scripts/undefsym.py')
+ block_syms = custom_target('block.syms', output: 'block.syms',
+                              input: [libqemuutil, block_mods],
+                              capture: true,
+diff --git a/scripts/undefsym.py b/scripts/undefsym.py
+new file mode 100644
+index 0000000000..c690f88c7a
+--- /dev/null
++++ b/scripts/undefsym.py
+@@ -0,0 +1,57 @@
++#!/usr/bin/env python3
++# -*- coding: utf-8 -*-
++
++# Before a shared module's DSO is produced, a static library is built for it
++# and passed to this script.  The script generates -Wl,-u options to force
++# the inclusion of symbol from libqemuutil.a if the shared modules need them,
++# This is necessary because the modules may use functions not needed by the
++# executable itself, which would cause the function to not be linked in.
++# Then the DSO loading would fail because of the missing symbol.
++
++
++"""
++Compare the static library with the shared module for compute the symbol duplication
++"""
++
++import sys
++import subprocess
++
++def filter_lines_set(stdout, is_static = True):
++    linesSet = set()
++    for line in stdout.splitlines():
++        tokens = line.split(b' ')
++        if len(tokens) >= 1:
++            if len(tokens) > 1:
++                if is_static and tokens[1] == b'U':
++                    continue
++                if not is_static and tokens[1] != b'U':
++                    continue
++            new_line = b'-Wl,-u,' + tokens[0]
++            if not new_line in linesSet:
++                linesSet.add(new_line)
++    return linesSet
++
++def main(args):
++    if len(args) <= 3:
++        sys.exit(0)
++
++    nm = args[1]
++    staticlib = args[2]
++    pc = subprocess.run([nm, "-P", "-g", staticlib], stdout=subprocess.PIPE)
++    if pc.returncode != 0:
++        sys.exit(-1)
++    lines_set_left = filter_lines_set(pc.stdout)
++
++    shared_modules = args[3:]
++    pc = subprocess.run([nm, "-P", "-g"] + shared_modules, stdout=subprocess.PIPE)
++    if pc.returncode != 0:
++        sys.exit(-1)
++    lines_set_right = filter_lines_set(pc.stdout, False)
++    lines = []
++    for line in sorted(list(lines_set_right)):
++        if line in lines_set_left:
++            lines.append(line)
++    sys.stdout.write(b'\n'.join(lines).decode())
++
++if __name__ == "__main__":
++    main(sys.argv)
+diff --git a/scripts/undefsym.sh b/scripts/undefsym.sh
+deleted file mode 100755
+index b9ec332e95..0000000000
+--- a/scripts/undefsym.sh
++++ /dev/null
+@@ -1,20 +0,0 @@
+-#! /usr/bin/env bash
+-
+-# Before a shared module's DSO is produced, a static library is built for it
+-# and passed to this script.  The script generates -Wl,-u options to force
+-# the inclusion of symbol from libqemuutil.a if the shared modules need them,
+-# This is necessary because the modules may use functions not needed by the
+-# executable itself, which would cause the function to not be linked in.
+-# Then the DSO loading would fail because of the missing symbol.
+-
+-if test $# -le 2; then
+-  exit 0
 -fi
- 
- case "$meson" in
-     git | internal)
-@@ -4261,9 +4258,6 @@ EOF
-       if test -d "${source_path}/dtc/libfdt" || test -e "${source_path}/.git" ; then
-           fdt=git
-           mkdir -p dtc
--          if [ "$pwd_is_source_path" != "y" ] ; then
--              symlink "$source_path/dtc/Makefile" "dtc/Makefile"
--          fi
-           fdt_cflags="-I${source_path}/dtc/libfdt"
-           fdt_ldflags="-L$PWD/dtc/libfdt"
-           fdt_libs="$fdt_libs"
-@@ -6593,6 +6587,16 @@ if test "$cpu" = "s390x" ; then
-   fi
- fi
- 
-+if test $git_update = 'yes' ; then
-+    (cd "${source_path}" && GIT="$git" "./scripts/git-submodule.sh" update "$git_submodules")
-+
-+    if test "$fdt" = "git" ; then
-+        if [ "$pwd_is_source_path" != "y" ] ; then
-+            symlink "$source_path/dtc/Makefile" "dtc/Makefile"
-+        fi
-+    fi
-+fi
-+
- # Check that the C++ compiler exists and works with the C compiler.
- # All the QEMU_CXXFLAGS are based on QEMU_CFLAGS. Keep this at the end to don't miss any other that could be added.
- if has $cxx; then
+-
+-NM=$1
+-staticlib=$2
+-shift 2
+-# Find symbols defined in static libraries and undefined in shared modules
+-comm -12 \
+-  <( $NM -P -g $staticlib | awk '$2!="U"{print "-Wl,-u," $1}' | sort -u) \
+-  <( $NM -P -g "$@" | awk '$2=="U"{print "-Wl,-u," $1}' | sort -u)
 -- 
 2.27.0.windows.1
 
