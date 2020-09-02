@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5840725ABB4
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 15:05:24 +0200 (CEST)
-Received: from localhost ([::1]:40700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F38C825ABC0
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 15:08:41 +0200 (CEST)
+Received: from localhost ([::1]:55322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDSS3-0007bE-Ax
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 09:05:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36778)
+	id 1kDSVE-0005Fy-JH
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 09:08:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kDSMQ-00060P-U7
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:59:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24905)
+ id 1kDSMR-00063S-Tf
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:59:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40484)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kDSMN-00076G-Rz
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:59:34 -0400
+ id 1kDSMO-00076a-NF
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:59:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1599051571;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=j3b2k/ACQofE8pTVL55ApXrAJngPSilZmR+GnhBL4Bw=;
- b=afutbfJgwD039Er8whfZv4LUxBi/pDghdvIe2nyp5OCZu50nD4dxB9S8Rs4JreNI6PMwzF
- juczlHLYghInkRW1OGVcJ1SHticJht89TPKfHfPozVl8NylQAIw1p5xJ97A24VEESCWFTN
- FRx+c/OyGNIl/tt7GGGsRyhwT+wPmK8=
+ bh=Ote373+rr37GfoSVxXxgWrx4xpHJ21H9c/MjWrwzfNA=;
+ b=JM3sEwJHQkco7ZTN3ccDO65RE3bc3FaXfr+9GN3lcpylMqO0TrHp28J9kvTg/W8kc+DYzx
+ dRKs/Oy4kb65eYuBH38gaBcF8Z3AziiFj7GlcJfwS+sVzGeC9PPLvL9ax+OgqQXsm68A9l
+ HIN8gkbh5bnUOf1HPDcpPa6h1ezOU5U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-97-THNNEqj3ME6Owtyg_vWOsw-1; Wed, 02 Sep 2020 08:59:28 -0400
-X-MC-Unique: THNNEqj3ME6Owtyg_vWOsw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-506-xfjfRgM2NKGNbpVommp92g-1; Wed, 02 Sep 2020 08:59:28 -0400
+X-MC-Unique: xfjfRgM2NKGNbpVommp92g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 408868A6F0E
- for <qemu-devel@nongnu.org>; Wed,  2 Sep 2020 12:59:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26EA1107B7C4;
+ Wed,  2 Sep 2020 12:59:23 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 040315D9CC
- for <qemu-devel@nongnu.org>; Wed,  2 Sep 2020 12:59:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A9D1D76E01;
+ Wed,  2 Sep 2020 12:59:22 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/39] ninjatool: use constant names for stamp files
-Date: Wed,  2 Sep 2020 08:58:47 -0400
-Message-Id: <20200902125917.26021-10-pbonzini@redhat.com>
+Subject: [PATCH 10/39] meson: fix libqos linking
+Date: Wed,  2 Sep 2020 08:58:48 -0400
+Message-Id: <20200902125917.26021-11-pbonzini@redhat.com>
 In-Reply-To: <20200902125917.26021-1-pbonzini@redhat.com>
 References: <20200902125917.26021-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 01:13:52
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 02:42:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -81,63 +81,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Alexander Bulekov <alxndr@bu.edu>, Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Numbering files according to rules causes confusion, because
-CUSTOM_COMMAND3.stamp from a previous build might represent
-completely different targets after Makefile.ninja is regenerated.
-As a result, the new targets are not rebuilt and compilation
-fails.
+Add genh to the sources to avoid race conditions between QAPI
+file generation and libqos compilation.
 
-Use the targets to build a SHA1 hash; the chances for collision
-are one in 2^24 even with a 12-character prefix of the hash.
+Make the name_suffix .fa for consistency with other link_whole
+static libraries and to work around a Meson issue where
+lots of linker flags are placed between -Wl,--start-group and
+-Wl,--end-group and this breaks the fork-fuzz.ld linker script.
 
+Reported-by: Claudio Fontana <cfontana@suse.de>
+Reported-by: Alexander Bulekov <alxndr@bu.edu>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/ninjatool.py | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ tests/qtest/libqos/meson.build | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/ninjatool.py b/scripts/ninjatool.py
-index ba6bd9a2a6..627a1cab45 100755
---- a/scripts/ninjatool.py
-+++ b/scripts/ninjatool.py
-@@ -34,6 +34,7 @@ import os
- import re
- import json
- import argparse
-+import hashlib
- import shutil
- 
- 
-@@ -51,6 +52,9 @@ else:
-     normpath = os.path.normpath
- 
- 
-+def sha1_text(text):
-+    return hashlib.sha1(text.encode()).hexdigest()
+diff --git a/tests/qtest/libqos/meson.build b/tests/qtest/libqos/meson.build
+index 19931b9248..1cddf5bdaa 100644
+--- a/tests/qtest/libqos/meson.build
++++ b/tests/qtest/libqos/meson.build
+@@ -1,5 +1,4 @@
+-libqos = static_library('qos',
+-  files('../libqtest.c',
++libqos_srcs = files('../libqtest.c',
+         'qgraph.c',
+         'qos_external.c',
+         'pci.c',
+@@ -52,6 +51,10 @@ libqos = static_library('qos',
+         'arm-xilinx-zynq-a9-machine.c',
+         'ppc64_pseries-machine.c',
+         'x86_64_pc-machine.c',
+-), build_by_default: false)
++)
 +
- # ---- lexer and parser ----
++libqos = static_library('qos', libqos_srcs + genh,
++                        name_suffix: 'fa',
++                        build_by_default: false)
  
- PATH_RE = r"[^$\s:|]+|\$[$ :]|\$[a-zA-Z0-9_-]+|\$\{[a-zA-Z0-9_.-]+\}"
-@@ -767,7 +771,6 @@ class Ninja2Make(NinjaParserEventsWithVars):
-         self.build_vars = defaultdict(lambda: dict())
-         self.rule_targets = defaultdict(lambda: list())
-         self.stamp_targets = defaultdict(lambda: list())
--        self.num_stamp = defaultdict(lambda: 0)
-         self.all_outs = set()
-         self.all_ins = set()
-         self.all_phony = set()
-@@ -903,8 +906,7 @@ class Ninja2Make(NinjaParserEventsWithVars):
-             if len(out) == 1:
-                 stamp = out[0] + '.stamp'
-             else:
--                stamp = '%s%d.stamp' %(rule, self.num_stamp[rule])
--                self.num_stamp[rule] += 1
-+                stamp = '%s@%s.stamp' % (rule, sha1_text(targets)[0:11])
-             self.print('%s: %s; @:' % (targets, stamp))
-             self.print('%s: %s | %s; ${ninja-command-restat}' % (stamp, inputs, orderonly))
-             self.rule_targets[rule].append(stamp)
+ qos = declare_dependency(link_whole: libqos)
 -- 
 2.26.2
 
