@@ -2,81 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F01DF25AD2D
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 16:32:47 +0200 (CEST)
-Received: from localhost ([::1]:40464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE2B125AD37
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 16:35:05 +0200 (CEST)
+Received: from localhost ([::1]:44688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDTod-00060D-3R
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 10:32:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33096)
+	id 1kDTqr-0007nL-1w
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 10:35:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kDTnl-0005Zh-0z
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 10:31:53 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37362)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kDTnj-0002Aj-5f
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 10:31:52 -0400
-Received: by mail-wr1-x441.google.com with SMTP id z4so5485899wrr.4
- for <qemu-devel@nongnu.org>; Wed, 02 Sep 2020 07:31:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=0HfNgAhkbvKLf/drJILiXX1PdhxAvkLkIHCVhCfllfc=;
- b=ZSPxRNc4qqiK6z2gIb9pUXqKCyWcjSflovjWIjCTz6W5l9UHDuHV6QHGIx0Mf1FrpY
- ZzjCvqXqH6C5PAxcqcwUGc1W8LBmDZ5GBX1U+AB5/jEWP9a0ZVvOa4LEBTC0mX41wJjD
- YrwOlCzFwpT6tKi+Gy9G1c5lowZUnpDLnfP5LSdsb0fuHWbrSVAJc2WxW5K0Vbntbvgz
- xLEjFRFq4GIWO5mOFWSYoWlCcPo6AdPdNVwj6pZLIWaVsCL42sC5Jzf+SmzBHRl7qxFH
- Grr79YfJPr32MSDABhrnNXtmv2+cBDJKTcZJePXhlTdr+XFEL5VaW9MCrztvIi/0Lydy
- Wuag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=0HfNgAhkbvKLf/drJILiXX1PdhxAvkLkIHCVhCfllfc=;
- b=VXe7WrapsIsthZcSNyBuMdBHn/IJSYsZHTsM5mEU4/teci9Rc8VqFq1cWUCH6Js1II
- wBPz88cxvluOirJZRprtWKSHiHP25tsGWAd4ZpYA0mzrmX8C/xi7I+FUr7hXWRtHy0qX
- rzppd09bTNpTbX5eue2lLihXLTmNMg2B5U0RWcyP2qba2JyjBHqBxx7xIWW1UlFRRvLL
- WvuuUsPxOVKDjFttPVIH2g8NbG/M+1IGDV8eC3ud02hA2TvS9QFHFqVqaBb1DM+yuF46
- 9VlNdnJ5JqkBuqp8BrVlXtAAiuEkYgSTH6c4sWW5L/QDcV52Ueh7+kQNmUbvfkV/0nkW
- E85A==
-X-Gm-Message-State: AOAM530IeZAAg+D79+2jB0f6zniXI+vCG/ywhsc4m/6Bkj+9fDlgDqqS
- DxtxQmVYRG1eYMDlJcvX95keoSGNfBstbA==
-X-Google-Smtp-Source: ABdhPJzM8Ehvg+B/S5KdulAwMVflyBG1sVKQRGyH9uHgtSj/plQjBxGc5qExfEHH4OM5fH65IN82Ng==
-X-Received: by 2002:a5d:518b:: with SMTP id k11mr4144804wrv.369.1599057107797; 
- Wed, 02 Sep 2020 07:31:47 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o125sm7395287wma.27.2020.09.02.07.31.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Sep 2020 07:31:46 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2411C1FF7E;
- Wed,  2 Sep 2020 15:31:46 +0100 (BST)
-References: <20200824110057.32089-1-kraxel@redhat.com>
- <878sdt618f.fsf@linaro.org>
- <20200902080937.p6fweexn7cxzru5p@sirius.home.kraxel.org>
-User-agent: mu4e 1.5.5; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH] usb-host: workaround libusb bug
-In-reply-to: <20200902080937.p6fweexn7cxzru5p@sirius.home.kraxel.org>
-Date: Wed, 02 Sep 2020 15:31:46 +0100
-Message-ID: <87wo1c45d9.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kDTqC-0007Mv-PK
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 10:34:24 -0400
+Received: from relay68.bu.edu ([128.197.228.73]:50210)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kDTqA-0002Kj-RD
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 10:34:24 -0400
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 082EXP6F005633
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Wed, 2 Sep 2020 10:33:28 -0400
+Date: Wed, 2 Sep 2020 10:33:25 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH 0/2] Fix oss-fuzz builds post-meson integration
+Message-ID: <20200902143325.x4jasicsnxdonr67@mozz.bu.edu>
+References: <20200902142657.112879-1-alxndr@bu.edu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200902142657.112879-1-alxndr@bu.edu>
+Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
+ helo=relay68.bu.edu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 10:34:22
+X-ACL-Warn: Detected OS   = Linux 2.6.x
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,57 +56,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, bsd@redhat.com, stefanha@redhat.com,
+ darren.kenny@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Arg.. I made a mistake in Paolo's email address. Please remove
+"bonzini@redhat.com" from replies so you don't get bounce spam.
 
-Gerd Hoffmann <kraxel@redhat.com> writes:
-
->> > +#include <linux/usbdevice_fs.h>
->
->> > +        int rc =3D ioctl(hostfd, USBDEVFS_GET_SPEED, NULL);
->>=20
->> This (further) breaks a bunch of the Travis jobs - I assume because libu=
-sb doesn't
->> always have this symbol:
->>=20
->>   ../hw/usb/host-libusb.c:954:32: error: =E2=80=98USBDEVFS_GET_SPEED=E2=
-=80=99 undeclared (first use in this function)
->
-> It isn't libusb, it is the kernel (linux/usbdevice_fs.h).
->
-> /me checks git ...
-> Added in 4.13, so available for quite a while.
-> I guess that is the prehistoric ubuntu version travis has?
->
-> Given that we only need that workaround with rather new libusb versions
-> (which have libusb_wrap_sys_device() support) which most likely isn't
-> present in that old ubuntu version we can probably just do this:
->
-> diff --git a/hw/usb/host-libusb.c b/hw/usb/host-libusb.c
-> index 08604f787fdf..c25102f3aca1 100644
-> --- a/hw/usb/host-libusb.c
-> +++ b/hw/usb/host-libusb.c
-> @@ -942,7 +942,7 @@ static int usb_host_open(USBHostDevice *s, libusb_dev=
-ice *dev, int hostfd)
->      usb_host_ep_update(s);
->=20=20
->      libusb_speed =3D libusb_get_device_speed(dev);
-> -#ifdef CONFIG_LINUX
-> +#if LIBUSB_API_VERSION >=3D 0x01000107 && defined(CONFIG_LINUX)
->      if (hostfd && libusb_speed =3D=3D 0) {
->          /*
->           * Workaround libusb bug: libusb_get_device_speed() does not
-
-That works. Do you want to include that in your next PR or send a patch
-for me to include in my testing/next PR?
-
-In the meantime:
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
+On 200902 1026, Alexander Bulekov wrote:
+> QEMU stopped building on oss-fuzz, after the meson integration, due to
+> some linking issues:
+> 
+> https://oss-fuzz-build-logs.storage.googleapis.com/log-3eaddfbd-7e05-4ddd-9d86-ee4b16c0fac6.txt
+> 
+> Those problems should be partially fixed by:
+> 
+> Depends-on: meson: fix libqos linking
+> (https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg00802.html)
+> 
+> These patches:
+> 1. Build on the above patch to fix the way we specify the linker script,
+>    to ensure that it is not specified within start-group/end-group linker
+>    pairs
+> 2. Add support for running --enable-fuzzing with a custom LIB_FUZZING_ENGINE
+> 3. Fix a problem with how we specify custom rpath in the oss-fuzz
+>    build-script
+> 
+> Alexander Bulekov (2):
+>   fuzz: Add support for custom fuzzing library
+>   scripts/oss-fuzz/build.sh: fix rpath
+> 
+>  configure                    | 12 ++++++++++--
+>  scripts/oss-fuzz/build.sh    |  2 +-
+>  tests/qtest/fuzz/meson.build |  4 ++--
+>  3 files changed, 13 insertions(+), 5 deletions(-)
+> 
+> -- 
+> 2.28.0
+> 
 
