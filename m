@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEA6F25A8B8
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 11:37:29 +0200 (CEST)
-Received: from localhost ([::1]:46112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D48DB25A8B2
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 11:36:14 +0200 (CEST)
+Received: from localhost ([::1]:40918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDPCr-0002ml-01
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 05:37:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36012)
+	id 1kDPBd-0000cp-Uo
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 05:36:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1kDP6v-0001Ng-I9; Wed, 02 Sep 2020 05:31:21 -0400
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:35929)
+ id 1kDP6v-0001NB-95; Wed, 02 Sep 2020 05:31:21 -0400
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:47811)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1kDP6r-0004Yp-TK; Wed, 02 Sep 2020 05:31:21 -0400
+ id 1kDP6r-0004Yx-CS; Wed, 02 Sep 2020 05:31:20 -0400
 Received: from mxplan5.mail.ovh.net (unknown [10.109.138.217])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 5CA915D19035;
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 8EC1E5D1903C;
  Wed,  2 Sep 2020 11:31:14 +0200 (CEST)
 Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Wed, 2 Sep 2020
- 11:31:11 +0200
+ 11:31:12 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-96R0011915b3ca-ed59-4ef2-a541-5a9acf01743c,
+ (GARM-96R001ce88ab86-4e22-48a0-9d8a-6ba7b98f6063,
  725C0B02AD5EA5A9EE23B5614217EC25792C566F) smtp.auth=clg@kaod.org
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v2 8/9] arm/aspeed: Replace mx25l25635e chip model
-Date: Wed, 2 Sep 2020 11:31:06 +0200
-Message-ID: <20200902093107.608000-9-clg@kaod.org>
+Subject: [PATCH v2 9/9] aspeed/smc: Add support for RDSFDP command
+Date: Wed, 2 Sep 2020 11:31:07 +0200
+Message-ID: <20200902093107.608000-10-clg@kaod.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20200902093107.608000-1-clg@kaod.org>
 References: <20200902093107.608000-1-clg@kaod.org>
@@ -41,8 +41,8 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.96]
 X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: c8d3fd2a-4311-4917-9ece-e732aa06d7d1
-X-Ovh-Tracer-Id: 7376896192379652972
+X-Ovh-Tracer-GUID: c2758f96-87f8-4361-8a7c-1be6f7f0f2b0
+X-Ovh-Tracer-Id: 7376896193109461868
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrudefledgudejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfhisehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheehfeegjeeitdfffeetjeduveejueefuefgtdefueelueetveeliefhhffgtdelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
@@ -76,46 +76,99 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A mx25l25635f chip model is generally found on these machines. It's
-newer and uses 4B opcodes which is better to exercise the support in
-the Linux kernel.
+Modify the snooping routine to handle RDSFDP, 1 dummy and 3 bytes
+address space.
 
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/arm/aspeed.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ include/hw/ssi/aspeed_smc.h |  1 +
+ hw/ssi/aspeed_smc.c         | 21 ++++++++++++++-------
+ 2 files changed, 15 insertions(+), 7 deletions(-)
 
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 8bfb1c79ddc5..df65d949b7e6 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -609,7 +609,7 @@ static void aspeed_machine_palmetto_class_init(ObjectClass *oc, void *data)
-     amc->soc_name  = "ast2400-a1";
-     amc->hw_strap1 = PALMETTO_BMC_HW_STRAP1;
-     amc->fmc_model = "n25q256a";
--    amc->spi_model = "mx25l25635e";
-+    amc->spi_model = "mx25l25635f";
-     amc->num_cs    = 1;
-     amc->i2c_init  = palmetto_bmc_i2c_init;
-     mc->default_ram_size       = 256 * MiB;
-@@ -643,7 +643,7 @@ static void aspeed_machine_ast2500_evb_class_init(ObjectClass *oc, void *data)
-     amc->soc_name  = "ast2500-a1";
-     amc->hw_strap1 = AST2500_EVB_HW_STRAP1;
-     amc->fmc_model = "w25q256";
--    amc->spi_model = "mx25l25635e";
-+    amc->spi_model = "mx25l25635f";
-     amc->num_cs    = 1;
-     amc->i2c_init  = ast2500_evb_i2c_init;
-     mc->default_ram_size       = 512 * MiB;
-@@ -710,7 +710,7 @@ static void aspeed_machine_witherspoon_class_init(ObjectClass *oc, void *data)
-     mc->desc       = "OpenPOWER Witherspoon BMC (ARM1176)";
-     amc->soc_name  = "ast2500-a1";
-     amc->hw_strap1 = WITHERSPOON_BMC_HW_STRAP1;
--    amc->fmc_model = "mx25l25635e";
-+    amc->fmc_model = "mx25l25635f";
-     amc->spi_model = "mx66l1g45g";
-     amc->num_cs    = 2;
-     amc->i2c_init  = witherspoon_bmc_i2c_init;
+diff --git a/include/hw/ssi/aspeed_smc.h b/include/hw/ssi/aspeed_smc.h
+index 6fbbb238f158..5f477eb9cf97 100644
+--- a/include/hw/ssi/aspeed_smc.h
++++ b/include/hw/ssi/aspeed_smc.h
+@@ -115,6 +115,7 @@ typedef struct AspeedSMCState {
+ 
+     AspeedSMCFlash *flashes;
+ 
++    uint8_t snoop_addr_width;
+     uint8_t snoop_index;
+     uint8_t snoop_dummies;
+ } AspeedSMCState;
+diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
+index 795784e5f364..594f34668e7a 100644
+--- a/hw/ssi/aspeed_smc.c
++++ b/hw/ssi/aspeed_smc.c
+@@ -778,10 +778,15 @@ typedef enum {
+     PP = 0x2,           PP_4 = 0x12,
+     DPP = 0xa2,
+     QPP = 0x32,         QPP_4 = 0x34,
++    RDSFDP = 0x5a,
+ } FlashCMD;
+ 
+-static int aspeed_smc_num_dummies(uint8_t command)
++static int aspeed_smc_num_dummies(AspeedSMCFlash *fl, uint8_t command)
+ {
++    AspeedSMCState *s = fl->controller;
++
++    s->snoop_addr_width = aspeed_smc_flash_is_4byte(fl) ? 4 : 3;
++
+     switch (command) { /* check for dummies */
+     case READ: /* no dummy bytes/cycles */
+     case PP:
+@@ -798,6 +803,9 @@ static int aspeed_smc_num_dummies(uint8_t command)
+     case DOR_4:
+     case QOR_4:
+         return 1;
++    case RDSFDP:
++        s->snoop_addr_width = 3;
++        return 1;
+     case DIOR:
+     case DIOR_4:
+         return 2;
+@@ -813,8 +821,6 @@ static bool aspeed_smc_do_snoop(AspeedSMCFlash *fl,  uint64_t data,
+                                 unsigned size)
+ {
+     AspeedSMCState *s = fl->controller;
+-    uint8_t addr_width = aspeed_smc_flash_is_4byte(fl) ? 4 : 3;
+-
+     trace_aspeed_smc_do_snoop(fl->id, s->snoop_index, s->snoop_dummies,
+                               (uint8_t) data & 0xff);
+ 
+@@ -823,7 +829,7 @@ static bool aspeed_smc_do_snoop(AspeedSMCFlash *fl,  uint64_t data,
+ 
+     } else if (s->snoop_index == SNOOP_START) {
+         uint8_t cmd = data & 0xff;
+-        int ndummies = aspeed_smc_num_dummies(cmd);
++        int ndummies = aspeed_smc_num_dummies(fl, cmd);
+ 
+         /*
+          * No dummy cycles are expected with the current command. Turn
+@@ -836,7 +842,7 @@ static bool aspeed_smc_do_snoop(AspeedSMCFlash *fl,  uint64_t data,
+ 
+         s->snoop_dummies = ndummies * 8;
+ 
+-    } else if (s->snoop_index >= addr_width + 1) {
++    } else if (s->snoop_index >= s->snoop_addr_width + 1) {
+ 
+         /* The SPI transfer has reached the dummy cycles sequence */
+         for (; s->snoop_dummies; s->snoop_dummies--) {
+@@ -1407,10 +1413,11 @@ static void aspeed_smc_realize(DeviceState *dev, Error **errp)
+ 
+ static const VMStateDescription vmstate_aspeed_smc = {
+     .name = "aspeed.smc",
+-    .version_id = 2,
+-    .minimum_version_id = 2,
++    .version_id = 3,
++    .minimum_version_id = 3,
+     .fields = (VMStateField[]) {
+         VMSTATE_UINT32_ARRAY(regs, AspeedSMCState, ASPEED_SMC_R_MAX),
++        VMSTATE_UINT8(snoop_addr_width, AspeedSMCState),
+         VMSTATE_UINT8(snoop_index, AspeedSMCState),
+         VMSTATE_UINT8(snoop_dummies, AspeedSMCState),
+         VMSTATE_END_OF_LIST()
 -- 
 2.25.4
 
