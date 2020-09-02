@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6786A25B1CD
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 18:37:40 +0200 (CEST)
-Received: from localhost ([::1]:58412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8515825B1D6
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 18:38:57 +0200 (CEST)
+Received: from localhost ([::1]:36220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDVlT-0001vT-Ei
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 12:37:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38654)
+	id 1kDVmi-0004Rd-JN
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 12:38:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kDVk0-0000AC-H0
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 12:36:09 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:33741)
+ id 1kDVk2-0000AY-3U
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 12:36:10 -0400
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:53236)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kDVjw-00056A-IX
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 12:36:07 -0400
-Received: by mail-pf1-x441.google.com with SMTP id u20so3155290pfn.0
- for <qemu-devel@nongnu.org>; Wed, 02 Sep 2020 09:36:03 -0700 (PDT)
+ id 1kDVjy-00056G-EM
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 12:36:09 -0400
+Received: by mail-pj1-x1041.google.com with SMTP id o16so67628pjr.2
+ for <qemu-devel@nongnu.org>; Wed, 02 Sep 2020 09:36:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=G2J6CIcPbcU0ITFMtY+NemRyzDVdwC9h+WBRXX8kbT8=;
- b=RBhhD0GzDRJDO89gSnkIchxmAUhjsfUSxuO3kZ0762cHfBNJwsQXnUqOgt1bzU1Ukl
- g3vS3JOVf/qEHfDXLZbRnp6Y2FVS7ZrQE8cni+AavyxnxbT87HbAoMxQ3x/zhliDvaTr
- 0SHgGd1fzJAmy2Jwy2dOuYn2PDyJymOwQF3hyKPYng2cTjPUn8QrNHJ6zpa4eDi2cgT6
- ijCcniyAQpQG4k7NNQH04wqBVjKOwgr/KBrY658YAb3Nm8yrTc979X6+J18nJJElRKuL
- O1OR77wd2F2beanKJ9E/GbMAZfD9+mqbQDDFw+eEUXfpDwdmj1QZ1eV2r6cIHoD9iV4d
- NH4w==
+ bh=EnR4zcNTy4dNI32aFY/vKIxejJwT5sHjfw2kYtr9Qvc=;
+ b=M7VV1PxJojvS6r2zhMgMRHrrUn2M6T7S2+5FW0wfa8sRqeC7FatuR8nHloGAljMyTg
+ WiTqNRABzJXj2BdKAk/OmjUDepSQgLdTrzpfXxnfRiECdRoPtI465Aovp/8U4RmHlsWc
+ iQnfuZEp6n3g/K9yyQRcgajs42HY1HmTaYcoJbWmMe3mZjx7R7Xm+4nZ4B2fvpNGkqpO
+ 2txFjUcDOeGuGyYey604D6M7RQy9GxsjPruoCatJWDAlBhomKhU2mMjLUYHW0ohP0pab
+ UAJkNlL15krwWNWvQjSP7gV8mZ+K1jy/XtxgAqp/hI5qhEhxMzjw9810cbLRJ1CFJKi0
+ zEOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=G2J6CIcPbcU0ITFMtY+NemRyzDVdwC9h+WBRXX8kbT8=;
- b=lVHR0uekZq1C2lVFbxi0RkuRPOl2wOiV363RNZTaVh+8PNs3Mp3sur9G79n7eY2EjO
- bKaAIk7IRIk4i3yq8w3UlbQwn93ph3nB9Z31xKANwW2cielBmRhzAmvG5lode4Aq1fBW
- 41I1VMeGX9aGPoBG1ggOPSSACnqMr31PBJ+FB4T1VAmTMptA6SiaPULEnxLR21p4cXCz
- ZFs1nXG3EborEAroqyRmmeXfoTJ0iYjC+N6fCBiR5F49YzI17hrwL22OdBbN1V9u9t/P
- oST+qlgiXwv/uB1ymKGcqPiFh9deX8Ol77TErGj1GBXi2idc3BbaRZwMUMebjnfcACN0
- 6Jcw==
-X-Gm-Message-State: AOAM5309gR0npNo6OzzcsehZVo+BInEKxa6Yrk/1LxPnGfvNHRA85SRO
- 4hdiggJGRhw/yoqP+9PBUsIOeNF9ZgW7Kg==
-X-Google-Smtp-Source: ABdhPJy72QgCeR5uR3QcOaKEB6NoPsjOSeAc2TpybGZNVnFEJy4d7rgCyMGr3dvPEsoxoL2ZKPIecQ==
-X-Received: by 2002:a63:1c4e:: with SMTP id c14mr2467964pgm.98.1599064562544; 
- Wed, 02 Sep 2020 09:36:02 -0700 (PDT)
+ bh=EnR4zcNTy4dNI32aFY/vKIxejJwT5sHjfw2kYtr9Qvc=;
+ b=Cu5/4wT5JerwJLxmKt8ffHAkl/UWgGj6VqnfMf+EUqqiveUgibcfyeHzwgpmX+c91D
+ BQyk66ICs4WN9gFZRD/rEjIfBSiBL71jrGYwlXLI/6JEZ7hxwi3ZhlnvWxk8A15lgzSK
+ 099qw52LQBhwWViJzga7bC9XVYoN+CIXgj05bYmdWLrTLeHuBiBBqQ+KYYkVupeGt38n
+ 6ZHTF0lJvVy/o7qh8UJuTJmxPV8uhpRQEGvx9N+i9QLpAcpXZ2vLx8Rm2+PS7n2Q71fd
+ XpM1pi8BZtstPIKFAVEnVI8TPN3iySRZNy7F+hGyPTI9viWIsziIA65XFGnnLuS8lNt9
+ z3Hw==
+X-Gm-Message-State: AOAM5319KkCaY1+mVX3JYDPSZo5DZwf+GCIgPrWucABbNnPYvU9+OWxO
+ erI8jdQPE6tF1Du+dk5ndEhtJ7XhQAAeVQ==
+X-Google-Smtp-Source: ABdhPJw3fCUe7nJxid2Iz7esm2HiYS49ofm+eAiS5n405XWJdCLW5GODe1j+fCcHzj5j2YLb9Dl42w==
+X-Received: by 2002:a17:90a:1910:: with SMTP id
+ 16mr2953852pjg.76.1599064563674; 
+ Wed, 02 Sep 2020 09:36:03 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id b6sm4955441pjz.33.2020.09.02.09.36.01
+ by smtp.gmail.com with ESMTPSA id b6sm4955441pjz.33.2020.09.02.09.36.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Sep 2020 09:36:01 -0700 (PDT)
+ Wed, 02 Sep 2020 09:36:03 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/7] target/microblaze: Rename DISAS_UPDATE to DISAS_EXIT
-Date: Wed,  2 Sep 2020 09:35:53 -0700
-Message-Id: <20200902163559.1077728-2-richard.henderson@linaro.org>
+Subject: [PATCH 2/7] target/microblaze: Introduce DISAS_EXIT_NEXT,
+ DISAS_EXIT_JUMP
+Date: Wed,  2 Sep 2020 09:35:54 -0700
+Message-Id: <20200902163559.1077728-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200902163559.1077728-1-richard.henderson@linaro.org>
 References: <20200902163559.1077728-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x441.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1041.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,66 +90,77 @@ Cc: edgar.iglesias@xilinx.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The name "update" suggests that something needs updating, but
-this is not the case.  Use "exit" to emphasize that nothing
-needs doing except to exit.
+Like DISAS_EXIT, except we need to update cpu_pc,
+either to pc_next or to btarget respectively.
 
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/translate.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ target/microblaze/translate.c | 29 +++++++++++++++++++++--------
+ 1 file changed, 21 insertions(+), 8 deletions(-)
 
 diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index a377818b5e..03fc653ce2 100644
+index 03fc653ce2..0733728794 100644
 --- a/target/microblaze/translate.c
 +++ b/target/microblaze/translate.c
-@@ -37,7 +37,7 @@
- 
- /* is_jmp field values */
+@@ -39,6 +39,11 @@
  #define DISAS_JUMP    DISAS_TARGET_0 /* only pc was modified dynamically */
--#define DISAS_UPDATE  DISAS_TARGET_1 /* cpu state was modified dynamically */
-+#define DISAS_EXIT    DISAS_TARGET_1 /* all cpu state modified dynamically */
+ #define DISAS_EXIT    DISAS_TARGET_1 /* all cpu state modified dynamically */
  
++/* cpu state besides pc was modified dynamically; update pc to next */
++#define DISAS_EXIT_NEXT DISAS_TARGET_2
++/* cpu state besides pc was modified dynamically; update pc to btarget */
++#define DISAS_EXIT_JUMP DISAS_TARGET_3
++
  static TCGv_i32 cpu_R[32];
  static TCGv_i32 cpu_pc;
-@@ -1161,7 +1161,7 @@ static bool trans_brk(DisasContext *dc, arg_typea_br *arg)
-     tcg_gen_ori_i32(cpu_msr, cpu_msr, MSR_BIP);
-     tcg_gen_movi_tl(cpu_res_addr, -1);
- 
--    dc->base.is_jmp = DISAS_UPDATE;
-+    dc->base.is_jmp = DISAS_EXIT;
-     return true;
- }
- 
-@@ -1202,7 +1202,7 @@ static bool trans_brki(DisasContext *dc, arg_typeb_br *arg)
-                          ~(MSR_VMS | MSR_UMS | MSR_VM | MSR_UM));
-     }
-     tcg_gen_ori_i32(cpu_msr, cpu_msr, msr_to_set);
--    dc->base.is_jmp = DISAS_UPDATE;
-+    dc->base.is_jmp = DISAS_EXIT;
- #endif
- 
-     return true;
-@@ -1712,7 +1712,7 @@ static void mb_tr_translate_insn(DisasContextBase *dcb, CPUState *cs)
+ static TCGv_i32 cpu_msr;
+@@ -1712,8 +1717,7 @@ static void mb_tr_translate_insn(DisasContextBase *dcb, CPUState *cs)
  
      /* Force an exit if the per-tb cpu state has changed.  */
      if (dc->base.is_jmp == DISAS_NEXT && dc->cpustate_changed) {
--        dc->base.is_jmp = DISAS_UPDATE;
-+        dc->base.is_jmp = DISAS_EXIT;
-         tcg_gen_movi_i32(cpu_pc, dc->base.pc_next);
+-        dc->base.is_jmp = DISAS_EXIT;
+-        tcg_gen_movi_i32(cpu_pc, dc->base.pc_next);
++        dc->base.is_jmp = DISAS_EXIT_NEXT;
      }
  }
-@@ -1733,7 +1733,7 @@ static void mb_tr_tb_stop(DisasContextBase *dcb, CPUState *cs)
-         gen_goto_tb(dc, 0, dc->base.pc_next);
+ 
+@@ -1734,12 +1738,14 @@ static void mb_tr_tb_stop(DisasContextBase *dcb, CPUState *cs)
          return;
  
--    case DISAS_UPDATE:
-+    case DISAS_EXIT:
-         if (unlikely(cs->singlestep_enabled)) {
-             gen_raise_exception(dc, EXCP_DEBUG);
-         } else {
+     case DISAS_EXIT:
+-        if (unlikely(cs->singlestep_enabled)) {
+-            gen_raise_exception(dc, EXCP_DEBUG);
+-        } else {
+-            tcg_gen_exit_tb(NULL, 0);
+-        }
+-        return;
++        break;
++    case DISAS_EXIT_NEXT:
++        tcg_gen_movi_i32(cpu_pc, dc->base.pc_next);
++        break;
++    case DISAS_EXIT_JUMP:
++        tcg_gen_mov_i32(cpu_pc, cpu_btarget);
++        tcg_gen_discard_i32(cpu_btarget);
++        break;
+ 
+     case DISAS_JUMP:
+         if (dc->jmp_dest != -1 && !cs->singlestep_enabled) {
+@@ -1781,6 +1787,13 @@ static void mb_tr_tb_stop(DisasContextBase *dcb, CPUState *cs)
+     default:
+         g_assert_not_reached();
+     }
++
++    /* Finish DISAS_EXIT_* */
++    if (unlikely(cs->singlestep_enabled)) {
++        gen_raise_exception(dc, EXCP_DEBUG);
++    } else {
++        tcg_gen_exit_tb(NULL, 0);
++    }
+ }
+ 
+ static void mb_tr_disas_log(const DisasContextBase *dcb, CPUState *cs)
 -- 
 2.25.1
 
