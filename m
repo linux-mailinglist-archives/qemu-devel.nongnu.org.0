@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B7D725AAC4
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 14:03:24 +0200 (CEST)
-Received: from localhost ([::1]:42892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DCFC25AAC1
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 14:02:32 +0200 (CEST)
+Received: from localhost ([::1]:40562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDRU3-0001t0-Lc
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 08:03:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47036)
+	id 1kDRTD-0000vI-Jy
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 08:02:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDRKp-0002UH-J1
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 07:53:51 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27983
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1kDRKs-0002eD-UV
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 07:53:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39887)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDRKn-0006wn-Tz
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 07:53:51 -0400
+ id 1kDRKq-0006xR-Sy
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 07:53:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599047629;
+ s=mimecast20190719; t=1599047632;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=R4ucpgSsbloViuaz3qwZxuvfwHfzz+ptEuSfhEPoAuw=;
- b=PK4jnPKyMFaplcStT+UqSARTZr0RkMA9mv0DfM2VuSku4rt2bZYmLQ786F6cwH6O6Y7Ead
- wkqJflg2vXlzmEcC7QPsVTIOInb9mIB022SxBBLnj6dyHvaNlj0Dpty8cCETQrCofxI+2o
- ko5hK49KqNUiEH1T4EIJGLlJIoplkZo=
+ bh=C55cTYsrn1fq9mm9OYP52A2mSI3AaM87Wy0ZOgz16Xk=;
+ b=KdYmw++G+oeE73LjLFjFnCPP/0RqPgjNawF1flAPG/RZbbPqxeaVMeqgvfL191UOPEprxM
+ BWVugvs6cd/nHbSupnJj9ZdYs6SL3d7DU8vP+eQKWUGl9pbPg9uI78V7VA/LlWNmV9P7AB
+ m6SimOzhCz+B3GGw+BtV/ShGEO8qtUs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-202-yBGZo2cKO92lhjcd0DxowA-1; Wed, 02 Sep 2020 07:53:46 -0400
-X-MC-Unique: yBGZo2cKO92lhjcd0DxowA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-119-b6vJUOIDPCuD0j2uSWR6VA-1; Wed, 02 Sep 2020 07:53:49 -0400
+X-MC-Unique: b6vJUOIDPCuD0j2uSWR6VA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6DDC41DE0F;
- Wed,  2 Sep 2020 11:53:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4634C81F009;
+ Wed,  2 Sep 2020 11:53:48 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 31EBE1055A43;
- Wed,  2 Sep 2020 11:53:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 104357EEB4;
+ Wed,  2 Sep 2020 11:53:47 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 14/20] Revert "hw/i386: Introduce apicid functions inside
- X86MachineState"
-Date: Wed,  2 Sep 2020 07:53:17 -0400
-Message-Id: <20200902115323.850385-15-ehabkost@redhat.com>
+Subject: [PULL 17/20] Revert "hw/i386: Update structures to save the number of
+ nodes per package"
+Date: Wed,  2 Sep 2020 07:53:20 -0400
+Message-Id: <20200902115323.850385-18-ehabkost@redhat.com>
 In-Reply-To: <20200902115323.850385-1-ehabkost@redhat.com>
 References: <20200902115323.850385-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 03:24:55
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 01:13:52
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,56 +90,180 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Babu Moger <babu.moger@amd.com>
 
-This reverts commit 6121c7fbfd98dbc3af1b00b56ff2eef66df87828.
+This reverts commit c24a41bb53c0854d22c96b30d57cfcaa543c409d.
 
 Remove the EPYC specific apicid decoding and use the generic
 default decoding.
 
 Signed-off-by: Babu Moger <babu.moger@amd.com>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <159889935648.21294.8095493980805969544.stgit@naples-babu.amd.com>
+Message-Id: <159889937478.21294.4192291354416942986.stgit@naples-babu.amd.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/hw/i386/x86.h | 9 ---------
- hw/i386/x86.c         | 5 -----
- 2 files changed, 14 deletions(-)
+ include/hw/i386/topology.h |  1 -
+ target/i386/cpu.h          |  1 -
+ hw/i386/pc.c               |  1 -
+ hw/i386/x86.c              |  1 -
+ target/i386/cpu.c          |  1 -
+ tests/test-x86-cpuid.c     | 40 +++++++++++++++++++-------------------
+ 6 files changed, 20 insertions(+), 25 deletions(-)
 
-diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
-index b79f24e285..4d9a26326d 100644
---- a/include/hw/i386/x86.h
-+++ b/include/hw/i386/x86.h
-@@ -63,15 +63,6 @@ typedef struct {
-     OnOffAuto smm;
-     OnOffAuto acpi;
+diff --git a/include/hw/i386/topology.h b/include/hw/i386/topology.h
+index b9593b9905..81573f6cfd 100644
+--- a/include/hw/i386/topology.h
++++ b/include/hw/i386/topology.h
+@@ -53,7 +53,6 @@ typedef struct X86CPUTopoIDs {
+ } X86CPUTopoIDs;
  
--    /* Apic id specific handlers */
--    uint32_t (*apicid_from_cpu_idx)(X86CPUTopoInfo *topo_info,
--                                    unsigned cpu_index);
--    void (*topo_ids_from_apicid)(apic_id_t apicid, X86CPUTopoInfo *topo_info,
--                                 X86CPUTopoIDs *topo_ids);
--    apic_id_t (*apicid_from_topo_ids)(X86CPUTopoInfo *topo_info,
--                                      const X86CPUTopoIDs *topo_ids);
--    uint32_t (*apicid_pkg_offset)(X86CPUTopoInfo *topo_info);
--
+ typedef struct X86CPUTopoInfo {
+-    unsigned nodes_per_pkg;
+     unsigned dies_per_pkg;
+     unsigned cores_per_die;
+     unsigned threads_per_core;
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 5ff8ad8427..d3097be6a5 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1629,7 +1629,6 @@ typedef struct CPUX86State {
+     TPRAccess tpr_access_type;
+ 
+     unsigned nr_dies;
+-    unsigned nr_nodes;
+ } CPUX86State;
+ 
+ struct kvm_msrs;
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 0677d6a272..d11daacc23 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1501,7 +1501,6 @@ static void pc_cpu_pre_plug(HotplugHandler *hotplug_dev,
+     init_topo_info(&topo_info, x86ms);
+ 
+     env->nr_dies = x86ms->smp_dies;
+-    env->nr_nodes = topo_info.nodes_per_pkg;
+ 
      /*
-      * Address space used by IOAPIC device. All IOAPIC interrupts
-      * will be translated to MSI messages in the address space.
+      * If APIC ID is not set,
 diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 3cc2318212..727c4a0f1d 100644
+index 727c4a0f1d..c1954db152 100644
 --- a/hw/i386/x86.c
 +++ b/hw/i386/x86.c
-@@ -896,11 +896,6 @@ static void x86_machine_initfn(Object *obj)
-     x86ms->smm = ON_OFF_AUTO_AUTO;
-     x86ms->acpi = ON_OFF_AUTO_AUTO;
-     x86ms->smp_dies = 1;
--
--    x86ms->apicid_from_cpu_idx = x86_apicid_from_cpu_idx;
--    x86ms->topo_ids_from_apicid = x86_topo_ids_from_apicid;
--    x86ms->apicid_from_topo_ids = x86_apicid_from_topo_ids;
--    x86ms->apicid_pkg_offset = apicid_pkg_offset;
- }
+@@ -62,7 +62,6 @@ inline void init_topo_info(X86CPUTopoInfo *topo_info,
+ {
+     MachineState *ms = MACHINE(x86ms);
  
- static void x86_machine_class_init(ObjectClass *oc, void *data)
+-    topo_info->nodes_per_pkg = ms->numa_state->num_nodes / ms->smp.sockets;
+     topo_info->dies_per_pkg = x86ms->smp_dies;
+     topo_info->cores_per_die = ms->smp.cores;
+     topo_info->threads_per_core = ms->smp.threads;
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 256bfa669f..ba4667b33c 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -7023,7 +7023,6 @@ static void x86_cpu_initfn(Object *obj)
+     FeatureWord w;
+ 
+     env->nr_dies = 1;
+-    env->nr_nodes = 1;
+     cpu_set_cpustate_pointers(cpu);
+ 
+     object_property_add(obj, "family", "int",
+diff --git a/tests/test-x86-cpuid.c b/tests/test-x86-cpuid.c
+index 049030a50e..bfabc0403a 100644
+--- a/tests/test-x86-cpuid.c
++++ b/tests/test-x86-cpuid.c
+@@ -31,12 +31,12 @@ static void test_topo_bits(void)
+     X86CPUTopoInfo topo_info = {0};
+ 
+     /* simple tests for 1 thread per core, 1 core per die, 1 die per package */
+-    topo_info = (X86CPUTopoInfo) {0, 1, 1, 1};
++    topo_info = (X86CPUTopoInfo) {1, 1, 1};
+     g_assert_cmpuint(apicid_smt_width(&topo_info), ==, 0);
+     g_assert_cmpuint(apicid_core_width(&topo_info), ==, 0);
+     g_assert_cmpuint(apicid_die_width(&topo_info), ==, 0);
+ 
+-    topo_info = (X86CPUTopoInfo) {0, 1, 1, 1};
++    topo_info = (X86CPUTopoInfo) {1, 1, 1};
+     g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 0), ==, 0);
+     g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 1), ==, 1);
+     g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 2), ==, 2);
+@@ -45,39 +45,39 @@ static void test_topo_bits(void)
+ 
+     /* Test field width calculation for multiple values
+      */
+-    topo_info = (X86CPUTopoInfo) {0, 1, 1, 2};
++    topo_info = (X86CPUTopoInfo) {1, 1, 2};
+     g_assert_cmpuint(apicid_smt_width(&topo_info), ==, 1);
+-    topo_info = (X86CPUTopoInfo) {0, 1, 1, 3};
++    topo_info = (X86CPUTopoInfo) {1, 1, 3};
+     g_assert_cmpuint(apicid_smt_width(&topo_info), ==, 2);
+-    topo_info = (X86CPUTopoInfo) {0, 1, 1, 4};
++    topo_info = (X86CPUTopoInfo) {1, 1, 4};
+     g_assert_cmpuint(apicid_smt_width(&topo_info), ==, 2);
+ 
+-    topo_info = (X86CPUTopoInfo) {0, 1, 1, 14};
++    topo_info = (X86CPUTopoInfo) {1, 1, 14};
+     g_assert_cmpuint(apicid_smt_width(&topo_info), ==, 4);
+-    topo_info = (X86CPUTopoInfo) {0, 1, 1, 15};
++    topo_info = (X86CPUTopoInfo) {1, 1, 15};
+     g_assert_cmpuint(apicid_smt_width(&topo_info), ==, 4);
+-    topo_info = (X86CPUTopoInfo) {0, 1, 1, 16};
++    topo_info = (X86CPUTopoInfo) {1, 1, 16};
+     g_assert_cmpuint(apicid_smt_width(&topo_info), ==, 4);
+-    topo_info = (X86CPUTopoInfo) {0, 1, 1, 17};
++    topo_info = (X86CPUTopoInfo) {1, 1, 17};
+     g_assert_cmpuint(apicid_smt_width(&topo_info), ==, 5);
+ 
+ 
+-    topo_info = (X86CPUTopoInfo) {0, 1, 30, 2};
++    topo_info = (X86CPUTopoInfo) {1, 30, 2};
+     g_assert_cmpuint(apicid_core_width(&topo_info), ==, 5);
+-    topo_info = (X86CPUTopoInfo) {0, 1, 31, 2};
++    topo_info = (X86CPUTopoInfo) {1, 31, 2};
+     g_assert_cmpuint(apicid_core_width(&topo_info), ==, 5);
+-    topo_info = (X86CPUTopoInfo) {0, 1, 32, 2};
++    topo_info = (X86CPUTopoInfo) {1, 32, 2};
+     g_assert_cmpuint(apicid_core_width(&topo_info), ==, 5);
+-    topo_info = (X86CPUTopoInfo) {0, 1, 33, 2};
++    topo_info = (X86CPUTopoInfo) {1, 33, 2};
+     g_assert_cmpuint(apicid_core_width(&topo_info), ==, 6);
+ 
+-    topo_info = (X86CPUTopoInfo) {0, 1, 30, 2};
++    topo_info = (X86CPUTopoInfo) {1, 30, 2};
+     g_assert_cmpuint(apicid_die_width(&topo_info), ==, 0);
+-    topo_info = (X86CPUTopoInfo) {0, 2, 30, 2};
++    topo_info = (X86CPUTopoInfo) {2, 30, 2};
+     g_assert_cmpuint(apicid_die_width(&topo_info), ==, 1);
+-    topo_info = (X86CPUTopoInfo) {0, 3, 30, 2};
++    topo_info = (X86CPUTopoInfo) {3, 30, 2};
+     g_assert_cmpuint(apicid_die_width(&topo_info), ==, 2);
+-    topo_info = (X86CPUTopoInfo) {0, 4, 30, 2};
++    topo_info = (X86CPUTopoInfo) {4, 30, 2};
+     g_assert_cmpuint(apicid_die_width(&topo_info), ==, 2);
+ 
+     /* build a weird topology and see if IDs are calculated correctly
+@@ -85,18 +85,18 @@ static void test_topo_bits(void)
+ 
+     /* This will use 2 bits for thread ID and 3 bits for core ID
+      */
+-    topo_info = (X86CPUTopoInfo) {0, 1, 6, 3};
++    topo_info = (X86CPUTopoInfo) {1, 6, 3};
+     g_assert_cmpuint(apicid_smt_width(&topo_info), ==, 2);
+     g_assert_cmpuint(apicid_core_offset(&topo_info), ==, 2);
+     g_assert_cmpuint(apicid_die_offset(&topo_info), ==, 5);
+     g_assert_cmpuint(apicid_pkg_offset(&topo_info), ==, 5);
+ 
+-    topo_info = (X86CPUTopoInfo) {0, 1, 6, 3};
++    topo_info = (X86CPUTopoInfo) {1, 6, 3};
+     g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 0), ==, 0);
+     g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 1), ==, 1);
+     g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 2), ==, 2);
+ 
+-    topo_info = (X86CPUTopoInfo) {0, 1, 6, 3};
++    topo_info = (X86CPUTopoInfo) {1, 6, 3};
+     g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 1 * 3 + 0), ==,
+                      (1 << 2) | 0);
+     g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 1 * 3 + 1), ==,
 -- 
 2.26.2
 
