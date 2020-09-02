@@ -2,69 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C6AD25A4C6
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 07:03:23 +0200 (CEST)
-Received: from localhost ([::1]:51640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3FEC25A4E5
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 07:14:59 +0200 (CEST)
+Received: from localhost ([::1]:56234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDKva-0005i8-1X
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 01:03:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53176)
+	id 1kDL6o-00007c-Cd
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 01:14:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raphael.s.norwitz@gmail.com>)
- id 1kDKul-0004xR-Np
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 01:02:31 -0400
-Received: from mail-oo1-xc44.google.com ([2607:f8b0:4864:20::c44]:36314)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <raphael.s.norwitz@gmail.com>)
- id 1kDKuk-0003kk-1I
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 01:02:31 -0400
-Received: by mail-oo1-xc44.google.com with SMTP id y30so863541ooj.3
- for <qemu-devel@nongnu.org>; Tue, 01 Sep 2020 22:02:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HJKcaT8Ol0RRjGOHBAsmEu+ZB4g8RBw6+l8aHUOUMaY=;
- b=ftKrnU+CE3QOxiQsUKlsf1fD8853zmENaj3BtpEVcy62n0YPuFbldXqN5A4QVQVaEm
- VmpNwvUnxvlcD4DShzsx3ZtPustnxeco/V0jGAhtPowpiIM8txw3UAN48Q5R9tAGvnhM
- 2pF4lgkCamTent+tL1vTrso3KzZIkX7GTgx0VPT7gZIE6cIsJkJX6seQy4yoCmttweml
- 8W208kJY7uJREtHmK3ep4ys7Xf2Ck/t7pkoJbO3NUS7uWjT2tsJxooPeCmlVkG3briOJ
- JTnKUA5ob8GnB3w1M2BdoHTELVwjBSBkyKxKQmIbYj3kjYeoYrT3QgVQ8go4dZdQ8kzi
- uOuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HJKcaT8Ol0RRjGOHBAsmEu+ZB4g8RBw6+l8aHUOUMaY=;
- b=nOjQ05tNsFQrVUvZ1OsIoK6aalzTgqCsdrV1/krjNLVANL+kweT4th77pLjR3OpoGW
- fqdt9wr1ZcX2m7ZtiHd2OtfJob/AK315BNQ8XngIDAg7GLR8vStBYE5HqF0MYs4EFacp
- t3iKYfajB4jWdS9vEN8TB97ivbACvhknX034Km7bxWzr+RmIHiCCmzziQpMZqRqAibQT
- sBYGK5zWnnjrFkFwRMKT1XtxfrfiPDeK24hMfJaQA5TgjTH1kCyHkTQ7eSjsdKkSCQ4h
- Gf6lv9rvnTR/pZ1o7cDxzuFjeXsCsmONmPhthP8C6YiTOyH9QLGHN3g+liV0n7rz1UiW
- xoCQ==
-X-Gm-Message-State: AOAM531+Vlt3BaUseHxR0NzrxSDa0B+sUe5O6JqDbzQsN3/HsZEyMF7J
- LZd8oeXirULFITmaRLlQinzU3j/Ff/aJeZOICjI=
-X-Google-Smtp-Source: ABdhPJxB1w+bKDXeyG2va2T7jxRonBVy1J/n0GEeEZwMdeIs7d2GMZk64X3kFt04k2TDRZNx5B+9wfKreRvJP/QaPaI=
-X-Received: by 2002:a4a:d8ce:: with SMTP id c14mr4048249oov.90.1599022948064; 
- Tue, 01 Sep 2020 22:02:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1kDL5p-000894-ET
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 01:13:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43568)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1kDL5m-00051R-OP
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 01:13:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599023632;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5deED0lEksvphdvwLgoqrTJy8UkOe2qhLAGcI6m10PI=;
+ b=iGstgyC2ATc6yr4wmhWWrogPNQhaUPyVUym8cNkJjne+FgC0vwTAwApWCE8nOJ7Au2zEpS
+ +dflZDwzvV4NA56iYezamJ82OzElB8E31KRQg7MZIzM0QVYwvrnmp86uKWA4jCDsTFnz3w
+ cOOcutROrdJWya3csJlQVAQWdutF6Uk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-185-AL2gsA_-NRaQzGujD2NbKQ-1; Wed, 02 Sep 2020 01:13:51 -0400
+X-MC-Unique: AL2gsA_-NRaQzGujD2NbKQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A093189E606;
+ Wed,  2 Sep 2020 05:13:50 +0000 (UTC)
+Received: from [10.72.13.160] (ovpn-13-160.pek2.redhat.com [10.72.13.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5602F61983;
+ Wed,  2 Sep 2020 05:13:34 +0000 (UTC)
+Subject: Re: [RFC v3 1/1] memory: Skip bad range assertion if notifier
+ supports arbitrary masks
+To: Peter Xu <peterx@redhat.com>
+References: <20200811175533.7359-1-eperezma@redhat.com>
+ <20200811175533.7359-2-eperezma@redhat.com>
+ <2443886f-2109-e048-b47f-886c896613ab@redhat.com>
+ <CAJaqyWe0_wcXHgbAVAVNCTpG7O4YKF6FMkgKsf6SfW4dEZ4A5g@mail.gmail.com>
+ <CAJaqyWe+KgnVegtprpRmVvXo7kFVFDL_erK_5Nyp4K=gTUcN=Q@mail.gmail.com>
+ <eb26c5d7-465a-34ed-3f8f-bad11eda5bee@redhat.com>
+ <20200819155051.GA275003@xz-x1>
+ <f010e8c0-6713-a2bc-ce6b-98af5e4638be@redhat.com>
+ <20200821141250.GC358043@xz-x1>
+ <5e06e59d-7810-6863-20c7-d1660099cc51@redhat.com>
+ <20200901193504.GA3053@xz-x1>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <63caf29f-4d19-1fcd-8053-e5d63890f317@redhat.com>
+Date: Wed, 2 Sep 2020 13:13:32 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200811014343.17140-1-chenjiajun8@huawei.com>
-In-Reply-To: <20200811014343.17140-1-chenjiajun8@huawei.com>
-From: Raphael Norwitz <raphael.s.norwitz@gmail.com>
-Date: Wed, 2 Sep 2020 01:02:17 -0400
-Message-ID: <CAFubqFtdB5xL_+xz9O74FdDLU8ZMo=RTDmbskofEbxbFbk3TGg@mail.gmail.com>
-Subject: Re: [PATCH] vhost-user: add separate memslot counter for vhost-user
-To: Jiajun Chen <chenjiajun8@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c44;
- envelope-from=raphael.s.norwitz@gmail.com; helo=mail-oo1-xc44.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20200901193504.GA3053@xz-x1>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 01:13:52
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.13, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,136 +95,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, jasowang@redhat.com,
- QEMU <qemu-devel@nongnu.org>, xiexiangyou@huawei.com,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Yan Zhao <yan.y.zhao@intel.com>,
+ Juan Quintela <quintela@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Eugenio Perez Martin <eperezma@redhat.com>,
+ Avi Kivity <avi@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I see how this fixes vhost_has_free_slot() to correctly determine
-whether or not regions can be added, but why are the
-used_memslots_exceeded variable and the used_memslots_is_exceeded()
-API needed?
 
-On Mon, Aug 10, 2020 at 9:44 PM Jiajun Chen <chenjiajun8@huawei.com> wrote:
->
-> Used_memslots is equal to dev->mem->nregions now, it is true for
-> vhost kernel, but not for vhost user, which uses the memory regions
-> that have file descriptor. In fact, not all of the memory regions
-> have file descriptor.
-> It is usefully in some scenarios, e.g. used_memslots is 8, and only
-> 5 memory slots can be used by vhost user, it is failed to hot plug
-> a new memory RAM because vhost_has_free_slot just returned false,
-> but we can hot plug it safely in fact.
->
-> Signed-off-by: Jiajun Chen <chenjiajun8@huawei.com>
-> Signed-off-by: Jianjay Zhou <jianjay.zhou@huawei.com>
-> ---
->  hw/virtio/vhost-backend.c         | 14 ++++++++
->  hw/virtio/vhost-user.c            | 28 ++++++++++++++++
->  hw/virtio/vhost.c                 | 54 +++++++++++++++++++++++++------
->  include/hw/virtio/vhost-backend.h |  5 +++
->  include/hw/virtio/vhost.h         |  1 +
->  net/vhost-user.c                  |  7 ++++
->  6 files changed, 100 insertions(+), 9 deletions(-)
->
-> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-> index 31231218dc..04d20fc3ee 100644
-> --- a/hw/virtio/vhost-user.c
-> +++ b/hw/virtio/vhost-user.c
-> @@ -2354,6 +2355,31 @@ void vhost_user_cleanup(VhostUserState *user)
->      user->chr = NULL;
->  }
->
-> +static void vhost_user_set_used_memslots(struct vhost_dev *dev)
-> +{
-> +    unsigned int counter = 0;
-> +    int i;
-> +
-> +    for (i = 0; i < dev->mem->nregions; ++i) {
-> +        struct vhost_memory_region *reg = dev->mem->regions + i;
-> +        ram_addr_t offset;
-> +        MemoryRegion *mr;
-> +
-> +        assert((uintptr_t)reg->userspace_addr == reg->userspace_addr);
-> +        mr = memory_region_from_host((void *)(uintptr_t)reg->userspace_addr,
-> +                                    &offset);
+On 2020/9/2 上午3:35, Peter Xu wrote:
+> On Tue, Sep 01, 2020 at 11:05:18AM +0800, Jason Wang wrote:
+>> On 2020/8/21 下午10:12, Peter Xu wrote:
+>>> On Thu, Aug 20, 2020 at 10:28:00AM +0800, Jason Wang wrote:
+>>>> On 2020/8/19 下午11:50, Peter Xu wrote:
+>>>>> On Wed, Aug 19, 2020 at 03:15:26PM +0800, Jason Wang wrote:
+>>>>>> Yes, actually, I feel confused after reading the codes. Is notifier->start
+>>>>>> IOVA or GPA?
+>>>>>>
+>>>>>> In vfio.c, we did:
+>>>>>>
+>>>>>>            iommu_notifier_init(&giommu->n, vfio_iommu_map_notify,
+>>>>>>                                IOMMU_NOTIFIER_ALL,
+>>>>>>                                section->offset_within_region,
+>>>>>>                                int128_get64(llend),
+>>>>>>                                iommu_idx);
+>>>>>>
+>>>>>> So it looks to me the start and end are GPA, but the assertion above check
+>>>>>> it against IOVA which seems to be wrong ....
+>>>>> It should be iova; both section->offset_within_region and llend are for the
+>>>>> device's iova address space.  Thanks,
+>>>>>
+>>>> Interesting, how can memory region know which IOVA is used by guest?
+>>> Does it need to know? :)
+>>>
+>>> AFAICT what we do here is only register with the whole possible IOVA address
+>>> space (e.g., across the whole 64bit address space).  Then vfio will get
+>>> notifications when there're new iova ranges mapped into it.
+>>
+>> Right, but the whole IOVA address space should be something vIOMMU specific,
+>> e.g for Intel it should be calculated by GAW, but I found:
+>>
+>>          memory_region_init_iommu(&vtd_dev_as->iommu,
+>> sizeof(vtd_dev_as->iommu),
+>>                                   TYPE_INTEL_IOMMU_MEMORY_REGION, OBJECT(s),
+>>                                   name, UINT64_MAX);
+>>
+>> which assumes UINT64_MAX.
+> Right.  AFAICT it can be reduced to gaw width, but I don't see a problem either
+> even with UINT64_MAX (as long as it covers the range specified by gaw).  Or did
+> I miss something?
 
-Why not use the  vhost_user_get_mr_data helper? It would simplify the
-code a bit.
 
-> +        if (mr && memory_region_get_fd(mr) > 0) {
-> +            counter++;
-> +        }
-> +    }
-> +    vhost_user_used_memslots = counter;
-> +}
-> +
-> +static unsigned int vhost_user_get_used_memslots(void)
-> +{
-> +    return vhost_user_used_memslots;
-> +}
-> +
->  const VhostOps user_ops = {
->          .backend_type = VHOST_BACKEND_TYPE_USER,
->          .vhost_backend_init = vhost_user_backend_init,
-> @@ -2387,4 +2413,6 @@ const VhostOps user_ops = {
-> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-> index 1a1384e7a6..7f36d7af25 100644
-> --- a/hw/virtio/vhost.c
-> +++ b/hw/virtio/vhost.c
-> @@ -1346,9 +1373,13 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
->      memory_listener_register(&hdev->memory_listener, &address_space_memory);
->      QLIST_INSERT_HEAD(&vhost_devices, hdev, entry);
->
-> -    if (used_memslots > hdev->vhost_ops->vhost_backend_memslots_limit(hdev)) {
-> -        error_report("vhost backend memory slots limit is less"
-> -                " than current number of present memory slots");
-> +    /*
-> +     * If we started a VM without any vhost device,
-> +     * vhost_dev_used_memslots_is_exceeded will always return false for the
-> +     * first time vhost device hot-plug(vhost_get_used_memslots is always 0),
-> +     * so it needs to double check here
-> +     */
-> +    if (vhost_dev_used_memslots_is_exceeded(hdev)) {
+Dunno :)
 
-Why can't we just check if hdev->vhost_ops->vhost_get_used_memslots()
-> hdev->vhost_ops->vhost_backend_memslots_limit(hdev)?
+Just notice this difference, for safety, maybe its better to cap it with 
+GAW.
 
->          r = -1;
->          if (busyloop_timeout) {
->              goto fail_busyloop;
-> @@ -1773,3 +1804,8 @@ int vhost_net_set_backend(struct vhost_dev *hdev,
->
->      return -1;
->  }
-> +
-> +bool used_memslots_is_exceeded(void)
-> +{
-> +    return used_memslots_exceeded;
-> +}
-> diff --git a/net/vhost-user.c b/net/vhost-user.c
-> index 17532daaf3..2f0216b518 100644
-> --- a/net/vhost-user.c
-> +++ b/net/vhost-user.c
-> @@ -347,6 +348,12 @@ static int net_vhost_user_init(NetClientState *peer, const char *device,
->          qemu_chr_fe_set_handlers(&s->chr, NULL, NULL,
->                                   net_vhost_user_event, NULL, nc0->name, NULL,
->                                   true);
-> +
-> +        if (used_memslots_is_exceeded()) {
+Btw, the naming of "vtd-ir" is kind of confusing, it should work without ir.
 
-Why can't you use vhost_has_free_slot() instead here?
+Thanks
 
-> +            error_report("used memslots exceeded the backend limit, quit "
-> +                            "loop");
-> +            goto err;
-> +        }
->      } while (!s->started);
+
+> Thanks,
 >
->      assert(s->vhost_net);
-> --
-> 2.27.0.dirty
->
->
+
 
