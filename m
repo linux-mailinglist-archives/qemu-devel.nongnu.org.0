@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68BA025ABD8
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 15:13:24 +0200 (CEST)
-Received: from localhost ([::1]:54420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D27B25ABEF
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Sep 2020 15:18:38 +0200 (CEST)
+Received: from localhost ([::1]:51472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDSZn-0007rY-FM
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 09:13:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37134)
+	id 1kDSer-0001Fi-44
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 09:18:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kDSMd-0006a8-8J
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:59:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50351)
+ id 1kDSMb-0006Th-5Y
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:59:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38349)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kDSMX-0007B3-R2
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:59:46 -0400
+ id 1kDSMX-0007Am-Ev
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 08:59:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599051581;
+ s=mimecast20190719; t=1599051580;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wC+LJ013NooJS75QwtW7/Uh57XNYYWrwZIx7N2n8bjM=;
- b=CwhBSgj7XPf3kHSp4pYxnvjJNRbe0jaZGbEFlOBWKysH1zXPgAfsSWlThsgZUTbMJ5i9EY
- PQI2uaDVRerbmRQpbSXANy/Tqzb0sv7K2WW1iPtTFardT6vN4wBMKDGu13UcLZRsPdUHSq
- UD4+dKi414nLjIyCD3L5UaYdU89hdlY=
+ bh=Uj8Or6jqCWjgsWo+tDf5DueNDzUwY/MwozhU6V0+JXk=;
+ b=KFC/daYZDxfoTQH28tuS7XtRhLQ3vatKo2LB7vJtJT0KM8mrLxorA/X76i/9ir16ojHMkj
+ SeQJ6Q12mVpUmiDuNTfAwODZZgGR0B0BkrMbLsL4rs9YhXpSrai7Ze782BQeJcaXFXjWXm
+ pMDvlSH2ZhoV3g2lMWxgg9cLZ7NzVYs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-259-M4r2HHc5My-oDveQLqFRRw-1; Wed, 02 Sep 2020 08:59:38 -0400
-X-MC-Unique: M4r2HHc5My-oDveQLqFRRw-1
+ us-mta-373-317Vn0TCNlCS1UiO5d_aZQ-1; Wed, 02 Sep 2020 08:59:38 -0400
+X-MC-Unique: 317Vn0TCNlCS1UiO5d_aZQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 520CE88EF0D
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E73910ABDC3
  for <qemu-devel@nongnu.org>; Wed,  2 Sep 2020 12:59:34 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 202265D9CC
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6C72E5D9CC
  for <qemu-devel@nongnu.org>; Wed,  2 Sep 2020 12:59:34 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 33/39] configure: move -ldl test to meson
-Date: Wed,  2 Sep 2020 08:59:11 -0400
-Message-Id: <20200902125917.26021-34-pbonzini@redhat.com>
+Subject: [PATCH 34/39] configure: remove unnecessary libm test
+Date: Wed,  2 Sep 2020 08:59:12 -0400
+Message-Id: <20200902125917.26021-35-pbonzini@redhat.com>
 In-Reply-To: <20200902125917.26021-1-pbonzini@redhat.com>
 References: <20200902125917.26021-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
@@ -84,53 +84,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The same test is already performed by meson.build.
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- accel/tcg/meson.build | 2 +-
- configure             | 1 -
- meson.build           | 4 ++++
- 3 files changed, 5 insertions(+), 2 deletions(-)
+ configure | 14 --------------
+ 1 file changed, 14 deletions(-)
 
-diff --git a/accel/tcg/meson.build b/accel/tcg/meson.build
-index 2a335b50f2..96a76ed23d 100644
---- a/accel/tcg/meson.build
-+++ b/accel/tcg/meson.build
-@@ -9,7 +9,7 @@ tcg_ss.add(files(
- ))
- tcg_ss.add(when: 'CONFIG_USER_ONLY', if_true: files('user-exec.c'))
- tcg_ss.add(when: 'CONFIG_SOFTMMU', if_false: files('user-exec-stub.c'))
--tcg_ss.add(when: 'CONFIG_PLUGIN', if_true: files('plugin-gen.c'))
-+tcg_ss.add(when: 'CONFIG_PLUGIN', if_true: [files('plugin-gen.c'), libdl])
- specific_ss.add_all(when: 'CONFIG_TCG', if_true: tcg_ss)
- 
- specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TCG'], if_true: files('tcg-all.c', 'cputlb.c'))
 diff --git a/configure b/configure
-index 95a259d420..033eb43428 100755
+index 033eb43428..adb5abe0c0 100755
 --- a/configure
 +++ b/configure
-@@ -7403,7 +7403,6 @@ fi
+@@ -4968,20 +4968,6 @@ if test "$libiscsi" != "no" ; then
+   fi
+ fi
  
- if test "$plugins" = "yes" ; then
-     echo "CONFIG_PLUGIN=y" >> $config_host_mak
--    LIBS="-ldl $LIBS"
-     # Copy the export object list to the build dir
-     if test "$ld_dynamic_list" = "yes" ; then
- 	echo "CONFIG_HAS_LD_DYNAMIC_LIST=yes" >> $config_host_mak
-diff --git a/meson.build b/meson.build
-index 4c32f5286f..0452de8d0e 100644
---- a/meson.build
-+++ b/meson.build
-@@ -217,6 +217,10 @@ libmpathpersist = not_found
- if config_host.has_key('CONFIG_MPATH')
-   libmpathpersist = cc.find_library('mpathpersist')
- endif
-+libdl = not_found
-+if 'CONFIG_PLUGIN' in config_host
-+  libdl = cc.find_library('dl', required: true)
-+endif
- libiscsi = not_found
- if 'CONFIG_LIBISCSI' in config_host
-   libiscsi = declare_dependency(compile_args: config_host['LIBISCSI_CFLAGS'].split(),
+-##########################################
+-# Do we need libm
+-cat > $TMPC << EOF
+-#include <math.h>
+-int main(int argc, char **argv) { return isnan(sin((double)argc)); }
+-EOF
+-if compile_prog "" "" ; then
+-  :
+-elif compile_prog "" "-lm" ; then
+-  LIBS="-lm $LIBS"
+-else
+-  error_exit "libm check failed"
+-fi
+-
+ ##########################################
+ # Do we need librt
+ # uClibc provides 2 versions of clock_gettime(), one with realtime
 -- 
 2.26.2
 
