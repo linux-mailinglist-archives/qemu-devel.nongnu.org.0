@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8367A25B6AC
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 00:49:16 +0200 (CEST)
-Received: from localhost ([::1]:59990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A6D225B6B5
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 00:51:48 +0200 (CEST)
+Received: from localhost ([::1]:46796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDbZ5-0002An-J2
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 18:49:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34990)
+	id 1kDbbX-0008FB-9v
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 18:51:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDbUC-0002F1-JW
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:44:12 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:37079
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1kDbUE-0002JW-9P
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:44:14 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36251
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDbUA-0008LW-RJ
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:44:12 -0400
+ id 1kDbUC-0008Lp-H2
+ for qemu-devel@nongnu.org; Wed, 02 Sep 2020 18:44:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599086650;
+ s=mimecast20190719; t=1599086651;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QwtDvCHQzjINymb31Ge9PCZIU0/FWVcz5SJd4ITY3yk=;
- b=RL1h9WMNgVUn5qFO+G21wn6tcG5Wd2gKo3ukkIi1z58p97FH8VhkZjBQKgq+1+faUrdIWu
- afg1zCmwct9ZLg//fGPcyDziFSeTEcwONG7e0tfQQWgny9Vz6iCGDioQAgj63xTWOK6l0y
- SLV9eNhWIKcuseuI+g+q38rYmnsLdrw=
+ bh=ryWhSKZ2kM92ryVugO2eQWgjXmlubJLHGEAJiTuiJII=;
+ b=cvnjFbtIyash4nfbCWWn49yf6HtCHRuB5FKY4Ku38kj2KO+zVjh1xi6RkxcsvfAM5MKday
+ +9vevH5xOSEsc5PpsFeU9Pkn4I9ccG8VUOSi+glOxM6n9aIWjx/g+2QSD+lBtpEYQ/UF/P
+ W6K1Px0bnNchFEO7nWhQ8LDOioTaEDY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-385-um_Uo9j-MziSkLKhsX_KCQ-1; Wed, 02 Sep 2020 18:44:08 -0400
-X-MC-Unique: um_Uo9j-MziSkLKhsX_KCQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-554-dYje3GBnOsOpLPhojzpGHQ-1; Wed, 02 Sep 2020 18:44:09 -0400
+X-MC-Unique: dYje3GBnOsOpLPhojzpGHQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E680801AB3
- for <qemu-devel@nongnu.org>; Wed,  2 Sep 2020 22:44:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BFA431DE00;
+ Wed,  2 Sep 2020 22:44:08 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6DAAE5C1C4;
- Wed,  2 Sep 2020 22:44:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 821275D9CC;
+ Wed,  2 Sep 2020 22:44:08 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 15/63] i8259: Rename TYPE_I8259 to TYPE_PIC
-Date: Wed,  2 Sep 2020 18:42:23 -0400
-Message-Id: <20200902224311.1321159-16-ehabkost@redhat.com>
+Subject: [PATCH 16/63] i8259: Rename TYPE_KVM_I8259 to TYPE_KVM_PIC
+Date: Wed,  2 Sep 2020 18:42:24 -0400
+Message-Id: <20200902224311.1321159-17-ehabkost@redhat.com>
 In-Reply-To: <20200902224311.1321159-1-ehabkost@redhat.com>
 References: <20200902224311.1321159-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 17:54:07
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 16:20:39
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -81,8 +81,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, berrange@redhat.com,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ berrange@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -92,56 +92,52 @@ the type checking macro.
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Richard Henderson <rth@twiddle.net>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- hw/intc/i8259.c | 10 +++++-----
+ hw/i386/kvm/i8259.c | 10 +++++-----
  1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/hw/intc/i8259.c b/hw/intc/i8259.c
-index 344fd04db1..e536cc90be 100644
---- a/hw/intc/i8259.c
-+++ b/hw/intc/i8259.c
-@@ -37,10 +37,10 @@
+diff --git a/hw/i386/kvm/i8259.c b/hw/i386/kvm/i8259.c
+index 3f8bf69e9c..687c0cd536 100644
+--- a/hw/i386/kvm/i8259.c
++++ b/hw/i386/kvm/i8259.c
+@@ -19,10 +19,10 @@
+ #include "sysemu/kvm.h"
+ #include "qom/object.h"
  
- //#define DEBUG_IRQ_LATENCY
- 
--#define TYPE_I8259 "isa-i8259"
-+#define TYPE_PIC "isa-i8259"
- typedef struct PICClass PICClass;
- DECLARE_CLASS_CHECKERS(PICClass, PIC,
--                       TYPE_I8259)
-+                       TYPE_PIC)
+-#define TYPE_KVM_I8259 "kvm-i8259"
++#define TYPE_KVM_PIC "kvm-i8259"
+ typedef struct KVMPICClass KVMPICClass;
+ DECLARE_CLASS_CHECKERS(KVMPICClass, KVM_PIC,
+-                       TYPE_KVM_I8259)
++                       TYPE_KVM_PIC)
  
  /**
-  * PICClass:
-@@ -418,7 +418,7 @@ qemu_irq *i8259_init(ISABus *bus, qemu_irq parent_irq)
+  * KVMPICClass:
+@@ -133,8 +133,8 @@ static void kvm_pic_realize(DeviceState *dev, Error **errp)
  
-     irq_set = g_new0(qemu_irq, ISA_NUM_IRQS);
+ qemu_irq *kvm_i8259_init(ISABus *bus)
+ {
+-    i8259_init_chip(TYPE_KVM_I8259, bus, true);
+-    i8259_init_chip(TYPE_KVM_I8259, bus, false);
++    i8259_init_chip(TYPE_KVM_PIC, bus, true);
++    i8259_init_chip(TYPE_KVM_PIC, bus, false);
  
--    isadev = i8259_init_chip(TYPE_I8259, bus, true);
-+    isadev = i8259_init_chip(TYPE_PIC, bus, true);
-     dev = DEVICE(isadev);
- 
-     qdev_connect_gpio_out(dev, 0, parent_irq);
-@@ -428,7 +428,7 @@ qemu_irq *i8259_init(ISABus *bus, qemu_irq parent_irq)
- 
-     isa_pic = dev;
- 
--    isadev = i8259_init_chip(TYPE_I8259, bus, false);
-+    isadev = i8259_init_chip(TYPE_PIC, bus, false);
-     dev = DEVICE(isadev);
- 
-     qdev_connect_gpio_out(dev, 0, irq_set[2]);
-@@ -451,7 +451,7 @@ static void i8259_class_init(ObjectClass *klass, void *data)
+     return qemu_allocate_irqs(kvm_pic_set_irq, NULL, ISA_NUM_IRQS);
+ }
+@@ -152,7 +152,7 @@ static void kvm_i8259_class_init(ObjectClass *klass, void *data)
  }
  
- static const TypeInfo i8259_info = {
--    .name       = TYPE_I8259,
-+    .name       = TYPE_PIC,
+ static const TypeInfo kvm_i8259_info = {
+-    .name = TYPE_KVM_I8259,
++    .name = TYPE_KVM_PIC,
+     .parent = TYPE_PIC_COMMON,
      .instance_size = sizeof(PICCommonState),
-     .parent     = TYPE_PIC_COMMON,
-     .class_init = i8259_class_init,
+     .class_init = kvm_i8259_class_init,
 -- 
 2.26.2
 
