@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F7E925BD5A
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 10:33:51 +0200 (CEST)
-Received: from localhost ([::1]:60244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6B5C25BD63
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 10:36:22 +0200 (CEST)
+Received: from localhost ([::1]:42242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDkgo-0000ql-4m
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 04:33:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54006)
+	id 1kDkjG-00055Z-0Y
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 04:36:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kDkfA-0007i5-Sr
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 04:32:08 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:46232)
+ id 1kDkfC-0007lN-Mr
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 04:32:10 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:35876)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kDkf8-0001Vy-Tu
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 04:32:08 -0400
-Received: by mail-pf1-x432.google.com with SMTP id b124so1698366pfg.13
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 01:32:06 -0700 (PDT)
+ id 1kDkfA-0001W7-R4
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 04:32:10 -0400
+Received: by mail-pf1-x442.google.com with SMTP id m8so1734543pfh.3
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 01:32:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=khVmfuvTdyvS7QBmYXBUkXeRmJb4FrO0KFERex1f1TA=;
- b=U+/m3NZNlc1pfFZqoLNgskTiXKs1ZMecZI8gDN4POkgRjXmlTndGM+9P+DVVagEME7
- t4shwbNJqU8Tt7W2hoEBztuYQrfFrcj2WhRoYz8qDeP9qTaMm0DQqTFjeGUy7lb+KTDT
- 6rlDbA6BhIlJquJzJo3kUI4ANH1q7Xkvp7JTcBNOafsu+RUtRTtlDuUuJ/PadS7F+RQb
- I8WOHxh2VZJN+PkiSBD92w7aIm0WG2vd6agC2lrc/a9voUTKFRR479NlwJaAgWmBGDwA
- WBeL05pLEEfKhcfECdD2roHkKguUhWbL1av6W73w/mEKqcl+3h3V7tLVkH6OtT2Vtsb+
- 4atw==
+ bh=fCP0cNZ4D2nuzBkSSr3MTW3OAB9zlS/A3EmERAQOTPw=;
+ b=RsHWqg2RXKdG7w1y6mIg4rgQUXKqu+OyjzxIdA+OyTN8bouQU+EdPpHIn4zF3Rd1D/
+ kfQtJuLwcL7uqpyP4jupzKHGEORhQjpbXb6ysDXaLyLV0yCr2KdmjHYr/RGEyBOr50nA
+ gUvliVq+PPyj0xrKPoZocHEaaOm36J1RP5QZFyjH3DRyBoyWj0AeO5dJXpwMh7kb/oUS
+ J3VY/SPwwM+ILCRRsVHQ14VyoiJhvHK2HjIonA9tG8+8TOiBdXzelniBxWfJ9kdP3tkC
+ XHXX5EZR1Mzs9EF9qPmrx+gL8JZf41sHplhRvsxUEb0SATMjOGeXJS6dYW1tVMohCmEe
+ f81Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=khVmfuvTdyvS7QBmYXBUkXeRmJb4FrO0KFERex1f1TA=;
- b=Kc2EXtLIuVKNIEp8KM6Ef5KRKVFiFvMl0TnVHzYKVm9/dl3xAFt6YBWHxfblHmEjo/
- GOPn0lF1NmplAx88G+k+STI9uYis1sqJGto9xEqmJ4dMRDITU98LeVxowEpev63u/XSB
- G6ksSlf+UP6XKimqHzj61g0JXsci5JWtXx2Kx2segJ6yrHQYzm1nIOukq094Yi7Gh77Y
- 0XSHs4fDUnhEBingDThE+rMwNOsEc4bXBHAgPplW+gquge+98/rMQNF25RQmyHOtrFo5
- cMyBmXauTitcx+anMB5Z+ZvLnNfLhld4vJa0KuH/OT1IaXvHFa2Ve79nTF7b8M2mIi/0
- 67Dw==
-X-Gm-Message-State: AOAM533Vjy6tC4OpnrDaCZcoGmcLXunXCQWkbdTtZ6D4i0hk/BxWAcGd
- eSSSn1b3wo22ITJPQtDfSyDlwLcJAKGetvO/
-X-Google-Smtp-Source: ABdhPJwY/tnEQnLIL6ZjcD6ACzS5uXb0RnWsMY51Lc8iOjPswnrWRhF7vOrCsBSpjh3b0RVd9Ug0uQ==
-X-Received: by 2002:a17:902:bc44:: with SMTP id
- t4mr1984703plz.77.1599121924811; 
- Thu, 03 Sep 2020 01:32:04 -0700 (PDT)
+ bh=fCP0cNZ4D2nuzBkSSr3MTW3OAB9zlS/A3EmERAQOTPw=;
+ b=ugfaWYYe71Fcf6Viq8GnOuxQcEyBXIQd/L57G1LBUfV10PMzSJk/+t8DNQ3LKnz5OW
+ pV1uqz6ZhgBfptDmyLu4oJBqVYO06J6x6v3ZoUDF1lZnssZgkQ9vQbeKXrPsVNdsFXiJ
+ Ws8toZydFFfeGCrjfIHAPfIpAJyBCxEgI92jVOobWTAWAfAXNQ3pGoImuUth57uI/IyT
+ 9R3iXoOeImfLCd0EzFG45mBvF3kRSWTvVfNWRTBfrwy86wWixcGIDwfR+8vYuOhPIJxr
+ 789vBo7I9u7JCyxym9iS7LC3qiPBNOuBo0+ecRCqK6hJOiAm0bVmxjMTeGUxNHcDQ+w3
+ GHgw==
+X-Gm-Message-State: AOAM531SxgeO37wzzrUf7kp4QdmCVIf18UkExkfcwZ/F+PGvq7TcqdzJ
+ CiCY4zl+k6vwSSkKaPF+ioaWOuNKr3/KXLRG
+X-Google-Smtp-Source: ABdhPJwB3L4tLXw8mkrTnDYTokXYotLrDFHhiVJdP8Swf25X2QOqerGeHWuB08gT2yU4nK6oF1j/EQ==
+X-Received: by 2002:a17:902:6ac9:: with SMTP id
+ i9mr2846337plt.128.1599121927044; 
+ Thu, 03 Sep 2020 01:32:07 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id e7sm1759201pgn.64.2020.09.03.01.32.02
+ by smtp.googlemail.com with ESMTPSA id e7sm1759201pgn.64.2020.09.03.01.32.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Sep 2020 01:32:04 -0700 (PDT)
+ Thu, 03 Sep 2020 01:32:06 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 02/12] meson: Convert undefsym.sh to undefsym.py
-Date: Thu,  3 Sep 2020 16:31:37 +0800
-Message-Id: <20200903083147.707-3-luoyonggang@gmail.com>
+Subject: [PATCH v4 03/12] tcg: Fixes dup_const link error
+Date: Thu,  3 Sep 2020 16:31:38 +0800
+Message-Id: <20200903083147.707-4-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200903083147.707-1-luoyonggang@gmail.com>
 References: <20200903083147.707-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x432.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,119 +89,59 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-undefsym.sh are not msys2 compatible, convert it to python script
+Rename function dup_const to dup_const_eval for avoid confliction with macro dup_const
+
+The link error on msys2
+
+Linking target qemu-system-alpha.exe
+C:/CI-Tools/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: libqemu-alpha-softmmu.fa.p/tcg_optimize.c.obj: in function `tcg_optimize':
+E:\CI-Cor-Ready\xemu\qemu-build/../qemu.org/tcg/optimize.c:1106: undefined reference to `dup_const'
+C:/CI-Tools/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: libqemu-alpha-softmmu.fa.p/tcg_tcg-op-vec.c.obj: in function `tcg_gen_dupi_vec':
+E:\CI-Cor-Ready\xemu\qemu-build/../qemu.org/tcg/tcg-op-vec.c:283: undefined reference to `dup_const'
+collect2.exe: error: ld returned 1 exit status
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- meson.build         |  2 +-
- scripts/undefsym.py | 57 +++++++++++++++++++++++++++++++++++++++++++++
- scripts/undefsym.sh | 20 ----------------
- 3 files changed, 58 insertions(+), 21 deletions(-)
- create mode 100644 scripts/undefsym.py
- delete mode 100755 scripts/undefsym.sh
+ include/tcg/tcg.h | 6 +++---
+ tcg/tcg-op-gvec.c | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index 55c7d2318c..c9f5d05664 100644
---- a/meson.build
-+++ b/meson.build
-@@ -863,7 +863,7 @@ foreach d, list : modules
- endforeach
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index 53ce94c2c5..7f6fe8454b 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -1251,15 +1251,15 @@ static inline int tcg_can_emit_vec_op(TCGOpcode o, TCGType t, unsigned ve)
+ void tcg_expand_vec_op(TCGOpcode, TCGType, unsigned, TCGArg, ...);
  
- nm = find_program('nm')
--undefsym = find_program('scripts/undefsym.sh')
-+undefsym = find_program('scripts/undefsym.py')
- block_syms = custom_target('block.syms', output: 'block.syms',
-                              input: [libqemuutil, block_mods],
-                              capture: true,
-diff --git a/scripts/undefsym.py b/scripts/undefsym.py
-new file mode 100644
-index 0000000000..c690f88c7a
---- /dev/null
-+++ b/scripts/undefsym.py
-@@ -0,0 +1,57 @@
-+#!/usr/bin/env python3
-+# -*- coding: utf-8 -*-
-+
-+# Before a shared module's DSO is produced, a static library is built for it
-+# and passed to this script.  The script generates -Wl,-u options to force
-+# the inclusion of symbol from libqemuutil.a if the shared modules need them,
-+# This is necessary because the modules may use functions not needed by the
-+# executable itself, which would cause the function to not be linked in.
-+# Then the DSO loading would fail because of the missing symbol.
-+
-+
-+"""
-+Compare the static library with the shared module for compute the symbol duplication
-+"""
-+
-+import sys
-+import subprocess
-+
-+def filter_lines_set(stdout, is_static = True):
-+    linesSet = set()
-+    for line in stdout.splitlines():
-+        tokens = line.split(b' ')
-+        if len(tokens) >= 1:
-+            if len(tokens) > 1:
-+                if is_static and tokens[1] == b'U':
-+                    continue
-+                if not is_static and tokens[1] != b'U':
-+                    continue
-+            new_line = b'-Wl,-u,' + tokens[0]
-+            if not new_line in linesSet:
-+                linesSet.add(new_line)
-+    return linesSet
-+
-+def main(args):
-+    if len(args) <= 3:
-+        sys.exit(0)
-+
-+    nm = args[1]
-+    staticlib = args[2]
-+    pc = subprocess.run([nm, "-P", "-g", staticlib], stdout=subprocess.PIPE)
-+    if pc.returncode != 0:
-+        sys.exit(-1)
-+    lines_set_left = filter_lines_set(pc.stdout)
-+
-+    shared_modules = args[3:]
-+    pc = subprocess.run([nm, "-P", "-g"] + shared_modules, stdout=subprocess.PIPE)
-+    if pc.returncode != 0:
-+        sys.exit(-1)
-+    lines_set_right = filter_lines_set(pc.stdout, False)
-+    lines = []
-+    for line in sorted(list(lines_set_right)):
-+        if line in lines_set_left:
-+            lines.append(line)
-+    sys.stdout.write(b'\n'.join(lines).decode())
-+
-+if __name__ == "__main__":
-+    main(sys.argv)
-diff --git a/scripts/undefsym.sh b/scripts/undefsym.sh
-deleted file mode 100755
-index b9ec332e95..0000000000
---- a/scripts/undefsym.sh
-+++ /dev/null
-@@ -1,20 +0,0 @@
--#! /usr/bin/env bash
--
--# Before a shared module's DSO is produced, a static library is built for it
--# and passed to this script.  The script generates -Wl,-u options to force
--# the inclusion of symbol from libqemuutil.a if the shared modules need them,
--# This is necessary because the modules may use functions not needed by the
--# executable itself, which would cause the function to not be linked in.
--# Then the DSO loading would fail because of the missing symbol.
--
--if test $# -le 2; then
--  exit 0
--fi
--
--NM=$1
--staticlib=$2
--shift 2
--# Find symbols defined in static libraries and undefined in shared modules
--comm -12 \
--  <( $NM -P -g $staticlib | awk '$2!="U"{print "-Wl,-u," $1}' | sort -u) \
--  <( $NM -P -g "$@" | awk '$2=="U"{print "-Wl,-u," $1}' | sort -u)
+ /* Replicate a constant C accoring to the log2 of the element size.  */
+-uint64_t dup_const(unsigned vece, uint64_t c);
++uint64_t dup_const_eval(unsigned vece, uint64_t c);
+ 
+ #define dup_const(VECE, C)                                         \
+     (__builtin_constant_p(VECE)                                    \
+      ? (  (VECE) == MO_8  ? 0x0101010101010101ull * (uint8_t)(C)   \
+         : (VECE) == MO_16 ? 0x0001000100010001ull * (uint16_t)(C)  \
+         : (VECE) == MO_32 ? 0x0000000100000001ull * (uint32_t)(C)  \
+-        : dup_const(VECE, C))                                      \
+-     : dup_const(VECE, C))
++        : dup_const_eval(VECE, C))                                      \
++     : dup_const_eval(VECE, C))
+ 
+ 
+ /*
+diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
+index 3707c0effb..cbb6cd04bc 100644
+--- a/tcg/tcg-op-gvec.c
++++ b/tcg/tcg-op-gvec.c
+@@ -359,7 +359,7 @@ static inline bool check_size_impl(uint32_t oprsz, uint32_t lnsz)
+ static void expand_clr(uint32_t dofs, uint32_t maxsz);
+ 
+ /* Duplicate C as per VECE.  */
+-uint64_t (dup_const)(unsigned vece, uint64_t c)
++uint64_t dup_const_eval(unsigned vece, uint64_t c)
+ {
+     switch (vece) {
+     case MO_8:
 -- 
 2.28.0.windows.1
 
