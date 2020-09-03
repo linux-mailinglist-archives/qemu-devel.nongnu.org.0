@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0455925C71C
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 18:41:05 +0200 (CEST)
-Received: from localhost ([::1]:58544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4315525C715
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 18:40:45 +0200 (CEST)
+Received: from localhost ([::1]:56566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDsIK-0006uY-0T
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 12:41:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42654)
+	id 1kDsI0-00062p-9k
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 12:40:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kDsFb-0002Gu-9T; Thu, 03 Sep 2020 12:38:15 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:40621)
+ id 1kDsFc-0002Kw-OE; Thu, 03 Sep 2020 12:38:16 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:40627)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kDsFZ-0003v1-3e; Thu, 03 Sep 2020 12:38:14 -0400
+ id 1kDsFZ-0003v8-4O; Thu, 03 Sep 2020 12:38:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=Dhx9hX0levtP/jPZ7VqO61MeCwOwD1gQmuwN0FfN37U=; 
- b=A8G6QCwUQ8YbT61yUHCGmYEOYfnCx3zQD6QUenQUm4r/uo1/ev1LgVa19lqYe1T2oJQJim+5/cxF+Y0h5s+PlhFI5s9hzghB9WIz2r/q+KGo4BU622D9uRDYdSe6CovkEJjp6zDlnowJebZS+0VAsU5Ph0ywZV6yEPV8KFq8p/hBvpUmjnHiQPQy0TRgZkYYgRAVQn8CYNJabAgtpxeM9zQ0+E54S5Cm6Bpa5xzTmyL7wYwtk4l2ucfyt5paF0YEg+Q/cDXLbggxdIdxtHAtArt+1BqA0c6zFHUIEiHfR33eEflC3EyPqsgTJfVKOSkiZrJN9cobriJg8nSYVtGwVw==;
+ bh=Chtlc5CuptQATyKkRPvXZLK+rkXSeQl8f2zRB9Ijl1E=; 
+ b=VAE7/2IivqlWvSmDkU7gVZDMkdrTbWdMMTKZD13iJm9tMYBhtv0BdEQTF7sLEFs+Yj6uZ3xDNVJw71q8yaJW3Uxsv47/Eq0RuoRX8SnKpRNDIJtPbAWpYMpHimP4Y88YrPwhSjZBONBgrDETZDbaUZhe/paZ3OwdmhKHq9H5eOq4bQL7Pkmghb8b+iFqSVc/vIJfxlEq5eKpQ5nHt6DNwF03AH6k1hBSdFvvqQnlT9fgsAzKnaFR2SUKyaV95tKz0X4wDeyeJGph7sHYUyY9Qjm8Gb0Qr31gZdOHdJleDrHo4CKfw0vvOfsZjWwKMp/WIW0I1Uf0tJLxpXSe+5QteA==;
 Received: from [81.0.33.67] (helo=perseus.local)
  by fanzine.igalia.com with esmtpsa 
  (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1kDsFW-0002F9-7T; Thu, 03 Sep 2020 18:38:10 +0200
+ id 1kDsFW-0002FF-Ob; Thu, 03 Sep 2020 18:38:10 +0200
 Received: from berto by perseus.local with local (Exim 4.92)
  (envelope-from <berto@igalia.com>)
- id 1kDsFJ-00082k-3l; Thu, 03 Sep 2020 18:37:57 +0200
+ id 1kDsFJ-00082o-TM; Thu, 03 Sep 2020 18:37:57 +0200
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/3] qcow2: Don't check nb_clusters when removing l2meta
- from the list
-Date: Thu,  3 Sep 2020 18:37:48 +0200
-Message-Id: <ab0b67c29c7ba26e598db35f12aa5ab5982539c1.1599150873.git.berto@igalia.com>
+Subject: [PATCH v2 3/3] qcow2: Rewrite the documentation of
+ qcow2_alloc_cluster_offset()
+Date: Thu,  3 Sep 2020 18:37:49 +0200
+Message-Id: <bb5bd06f07c5a05b0818611de0d06ec5b66c8df3.1599150873.git.berto@igalia.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1599150873.git.berto@igalia.com>
 References: <cover.1599150873.git.berto@igalia.com>
@@ -67,34 +67,51 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the past, when a new cluster was allocated the l2meta structure was
-a variable in the stack so it was necessary to have a way to tell
-whether it had been initialized and contained valid data or not. The
-nb_clusters field was used for this purpose. Since commit f50f88b9fe
-this is no longer the case, l2meta (nowadays a pointer to a list) is
-only allocated when needed and nb_clusters is guaranteed to be > 0 so
-this check is unnecessary.
+The current text corresponds to an earlier, simpler version of this
+function and it does not explain how it works now.
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
 ---
- block/qcow2.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ block/qcow2-cluster.c | 24 ++++++++++++++----------
+ 1 file changed, 14 insertions(+), 10 deletions(-)
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index da56b1a4df..54a7d2f475 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -2112,9 +2112,7 @@ static coroutine_fn int qcow2_handle_l2meta(BlockDriverState *bs,
-         }
+diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+index 25e38daa78..f1ce6afcf5 100644
+--- a/block/qcow2-cluster.c
++++ b/block/qcow2-cluster.c
+@@ -1713,18 +1713,22 @@ out:
+ }
  
-         /* Take the request off the list of running requests */
--        if (l2meta->nb_clusters != 0) {
--            QLIST_REMOVE(l2meta, next_in_flight);
--        }
-+        QLIST_REMOVE(l2meta, next_in_flight);
- 
-         qemu_co_queue_restart_all(&l2meta->dependent_requests);
- 
+ /*
+- * alloc_cluster_offset
++ * For a given area on the virtual disk defined by @offset and @bytes,
++ * find the corresponding area on the qcow2 image, allocating new
++ * clusters (or subclusters) if necessary. The result can span a
++ * combination of allocated and previously unallocated clusters.
+  *
+- * For a given offset on the virtual disk, find the cluster offset in qcow2
+- * file. If the offset is not found, allocate a new cluster.
++ * On return, @host_offset is set to the beginning of the requested
++ * area. This area is guaranteed to be contiguous on the qcow2 file
++ * but it can be smaller than initially requested. In this case @bytes
++ * is updated with the actual size.
+  *
+- * If the cluster was already allocated, m->nb_clusters is set to 0 and
+- * other fields in m are meaningless.
+- *
+- * If the cluster is newly allocated, m->nb_clusters is set to the number of
+- * contiguous clusters that have been allocated. In this case, the other
+- * fields of m are valid and contain information about the first allocated
+- * cluster.
++ * If any clusters or subclusters were allocated then @m contains a
++ * list with the information of all the affected regions. Note that
++ * this can happen regardless of whether this function succeeds or
++ * not. The caller is responsible for updating the L2 metadata of the
++ * allocated clusters (on success) or freeing them (on failure), and
++ * for clearing the contents of @m afterwards in both cases.
+  *
+  * If the request conflicts with another write request in flight, the coroutine
+  * is queued and will be reentered when the dependency has completed.
 -- 
 2.20.1
 
