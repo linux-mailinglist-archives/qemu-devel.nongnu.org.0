@@ -2,40 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A7DA25C572
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 17:32:46 +0200 (CEST)
-Received: from localhost ([::1]:49130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BF6425C571
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 17:32:33 +0200 (CEST)
+Received: from localhost ([::1]:47840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDrED-0007d4-Nh
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 11:32:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52024)
+	id 1kDrE0-00076Z-9t
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 11:32:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <e6fc84845c95816ad5baecb0abd6bfefdcf7ec9f@lizzy.crudebyte.com>)
- id 1kDrB6-0004XI-Ey
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 11:29:33 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:56575)
+ id 1kDrA4-0002qG-4U
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 11:28:28 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:35115)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <e6fc84845c95816ad5baecb0abd6bfefdcf7ec9f@lizzy.crudebyte.com>)
- id 1kDrB3-0000YA-8K
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 11:29:32 -0400
+ id 1kDrA0-0000IS-5F
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 11:28:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=wz18YHl+V8t7V7RQfz0zNrUfrvwXmGoli925uhjHY50=; b=csU80
- tHK4KnU58TMxcJBs0lZqYCCCj3a27nQ0V7Rex7a17VUtFVP8n7sxl8wRDD9kJV/nA3yDftknWEBpJ
- cG6lnDzVNC86T4tgwzn0HuO2d8o1ack84lknGcaBULvz/VseC5vXmoE0L6+gOlhPIyC89RHsfB4Ot
- E/m0ou0LTZsiEUIlfFtkYjmz3pIpAXfYc0KySUwfFa8A2zm1msvzvm2MdPIve1aF9hxUOdoBYvCPB
- RUDUI4U+XVCH0O169fs/TJp3pDxI59xbdVsgT/3A8JOmL7w2HMfwIDmt7aE+n3ddFOzZ/gkxqq5bJ
- 2gI1zEeTdHjdoyh52J4jUwOzbZRdw==;
-Message-Id: <e6fc84845c95816ad5baecb0abd6bfefdcf7ec9f.1599144062.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1599144062.git.qemu_oss@crudebyte.com>
-References: <cover.1599144062.git.qemu_oss@crudebyte.com>
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:Message-Id:Content-Type:
+ Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
+ Content-Description; bh=vx57K1wc1xGgy2DPCY1ae4OjWB0mT7ARSVHxC8srhNw=; b=O0bAt
+ apVgueAPF15GraKOimjiujYBJkVw/m3iDf925Kf1m5NPrrEgICibLeryKbkqvjKKfm+aTmlvTtXji
+ 7wo5j/tAPDefNNKBOOXq0l9Wo51c3pNqhJ+czUEkopiXhPWh0b4Nk+FAV9fnYzMpRHkpd+vnGUOmE
+ 5rBPo+liQs9gFxTOxstASTZg5yA/SWdyS7r78qRIi3bqNwtm5sMGHWi+aNRw0mBm5T16Sx29Gv3Co
+ 21yqSQ7RLVIVFUbUrqM4Pxjp6Xbvj6dI2WkgIo7eaoqnnw6vvYNGjKIzuQgTYBfdmtSiTBKGYDWUq
+ Ml8mV+Wb78FMKvipchQB8OB7I592Q==;
+Message-Id: <cover.1599144062.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Thu, 3 Sep 2020 16:20:21 +0200
-Subject: [PATCH v2 1/1] 9pfs: log warning if msize <= 8192
+Date: Thu, 3 Sep 2020 16:41:02 +0200
+Subject: [PATCH v2 0/1] 9pfs: log warning if msize <= 8192
 To: qemu-devel@nongnu.org
 Cc: Greg Kurz <groug@kaod.org>
 Cc: berrange@redhat.com
@@ -65,50 +63,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is essential to choose a reasonable high value for 'msize' to avoid
-severely degraded file I/O performance. This parameter can only be
-chosen on client/guest side, and a Linux client defaults to an 'msize'
-of only 8192 if the user did not explicitly specify a value for 'msize',
-which results in very poor file I/O performance.
+I have updated the QEMU 9P setup wiki page about this 'msize' issue. For
+some reason the dedicated anchor 'msize' does not work though:
 
-Unfortunately many users are not aware that they should specify an
-appropriate value for 'msize' to avoid severe performance issues, so
-log a performance warning (with a QEMU wiki link explaining this issue
-in detail) on host side in that case to make it more clear.
+https://wiki.qemu.org/Documentation/9psetup#msize
 
-Currently a client cannot automatically pick a reasonable value for
-'msize', because a good value for 'msize' depends on the file I/O
-potential of the underlying storage on host side, i.e. a feature
-invisible to the client, and even then a user would still need to trade
-off between performance profit and additional RAM costs, i.e. with
-growing 'msize' (RAM occupation), performance still increases, but
-performance delta will shrink continuously.
+Not sure whether that's a wiki installation problem? When I view the wiki
+source, it looks like it is showing some errors there.
 
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
----
+v1->v2:
+
+  * Updated commit log message to make it more clear why the client cannot
+    auto pick a good value for 'msize'.
+
+  * Added a web link to the log message, pointing to the appropriate QEMU
+    wiki page which explains the 'msize' issue in detail.
+
+Message-ID of previous version (v1):
+  E1kDR8W-0001s4-Sr@lizzy.crudebyte.com
+
+Christian Schoenebeck (1):
+  9pfs: log warning if msize <= 8192
+
  hw/9pfs/9p.c | 9 +++++++++
  1 file changed, 9 insertions(+)
 
-diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 7bb994bbf2..99b6f24fd6 100644
---- a/hw/9pfs/9p.c
-+++ b/hw/9pfs/9p.c
-@@ -1353,6 +1353,15 @@ static void coroutine_fn v9fs_version(void *opaque)
-         goto out;
-     }
- 
-+    /* 8192 is the default msize of Linux clients */
-+    if (s->msize <= 8192) {
-+        warn_report_once(
-+            "9p: degraded performance: a reasonable high msize should be "
-+            "chosen on client/guest side (chosen msize is <= 8192). See "
-+            "https://wiki.qemu.org/Documentation/9psetup#msize for details."
-+        );
-+    }
-+
- marshal:
-     err = pdu_marshal(pdu, offset, "ds", s->msize, &version);
-     if (err < 0) {
 -- 
 2.20.1
 
