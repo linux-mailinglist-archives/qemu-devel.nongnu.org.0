@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2ED925BD62
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 10:35:41 +0200 (CEST)
-Received: from localhost ([::1]:40132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B66525BD75
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 10:39:06 +0200 (CEST)
+Received: from localhost ([::1]:53332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDkia-0004Co-La
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 04:35:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54150)
+	id 1kDklt-0001NE-AP
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 04:39:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kDkfQ-0008Gh-Bx
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 04:32:24 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:35738)
+ id 1kDkfS-0008Lf-Iy
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 04:32:26 -0400
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:38137)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kDkfO-0001Y2-Kc
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 04:32:24 -0400
-Received: by mail-pf1-x442.google.com with SMTP id o68so1737445pfg.2
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 01:32:22 -0700 (PDT)
+ id 1kDkfQ-0001YM-NR
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 04:32:26 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id d22so1725634pfn.5
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 01:32:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6lmnRR0tZitC7JnT2Axu3G4iTyGoQuwXgZI7oqF9oeM=;
- b=crfxegqzLtzvHjQPbKaRnD7Mp7dr+VcWUlqSpgwL7RZ2P0Vwn/TrD+tfBl8qxj4HBw
- yetOpMB+UKcEkvPDi7Iu+xKW1cnqYd+rKVxLUvngqhB/2IY5+kIcXvsa/8mM1KxgMl9t
- We7gem8zwTvL68OR90zYZStmrJ1VWPayNll5KMsF+G46KQS9oNUUr1U4HtekcV+TvMxG
- 5nkZwDN2tCqrZdwUWN8vd4bH1RuhDq3/bSESwKg46LncGUletuydcHQolEudATYJv5+7
- 5zpI16PpNMvMx+T0gGyvhG1PErkQJVxynhME/dRmstEEJ9TAqcfy78mKOwip9nSmDPsg
- h7bg==
+ bh=Bq1eYS85B3lVfUWOPYt+//P+vJhXogDV3XY3bX1W5SI=;
+ b=Qjua9vm4Xb2s+TOoRz8gpA20TD505Ci12y11ViB0+MiyYsBaKii5dfLwmQtVdGjPkI
+ EGNZQMgUivNRybmo8F0IMnESP714Ig8xxOfRmHDy5tDjjv+AJhfcg3uWH9Om1VCAIfFW
+ v/UOMkB1e3E9Gv2b7Ll51H2grJ/frYg6pkpNwwUc3C9vrkUZIa3LwOHZURtjz6ByJles
+ v+E6n6XkRpQhMLz4ya11EF3f+KMuaMA58Eqbh9/ydQSCJp3jGrmSL3SEPQH3JcwYeQq5
+ VsHCuFPxUaFy0mDrEiDgRKraMTsISd4oNYsf8VIN22+8phEDSclp6cuHVqWBIaagjXjd
+ 26Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6lmnRR0tZitC7JnT2Axu3G4iTyGoQuwXgZI7oqF9oeM=;
- b=miD6Cp3X6Wc/qG+spVHTNvLCgAPL0y5E/ITkGEFnyzl77BdEiarHxETsb3GaupbZdc
- 7hRRbnCGYaPqVxhLdt95Ab3ygzJeAZeKXzEF2A5ZcvYd982/AYULnO+owYXfQFvqag0r
- 0by2+ntaUoHhJGSeUl72HRIXPnCeUyXUE9uYcbjP8fBDCGaQZF8zrbgEfh7zSSmHJxVc
- CVzmdncEmKs2NHXcOWvGdrRjVxL4lb932pCgX04/qIqNUD/nNPYzY7Jn6B+6vKT+akYS
- wljeVxHD+8ysTQlkZfpwktmebbcybshRCOuo5Hz+r4OEudsitQoZe61WbaMQvZvlFx/s
- p+aw==
-X-Gm-Message-State: AOAM530XHkuFxNVqwJvpJa6A37cULHYxRF9sIYLKhMqOLUVpfmYykcBV
- 1QJPpYumPR3Bzy090+nk4hXrdMALJ1mpe3wh
-X-Google-Smtp-Source: ABdhPJyhXcLybArxKbSoHg3/1IhdFcZhVLprmbIm1fCabTYO6htP4qYDSTJy20fLnIT40FzaSiO4mA==
-X-Received: by 2002:a62:5fc4:: with SMTP id t187mr2819613pfb.34.1599121940947; 
- Thu, 03 Sep 2020 01:32:20 -0700 (PDT)
+ bh=Bq1eYS85B3lVfUWOPYt+//P+vJhXogDV3XY3bX1W5SI=;
+ b=D7JccgknVYU3DV/K1XnjPLfEuhV1icgxDa8P4M2bFlJBzMaLeFUurPQb5RYGpRA+9N
+ +qlFZocHFq+88a/lab6MfATCXD5xWKvl/3XxqoMZTQYlgG03N6fQktlsOgxkS+ApYZDJ
+ DX8RWu2Y7PftZvB3t8cxN5ItdCCBYtjRaSuPoMZ04ZD/qVJRH0z3WV2i8ET9WCeslLqf
+ XeDeovQeCG3K5Sn+OJ1B7WEXJAwnqYitmyYAB42EEXwzWi49N7W6gmEMJu2d8iMF1z1o
+ QVdV+CipiiSkN7cH1HBwrTcUcoyYmZ3M9kBmMQA/V+1dLFPZ1A3+0J1TNEmjy1gJdmqa
+ u2+A==
+X-Gm-Message-State: AOAM531fYx2rQobe7cPXNu60nXRiFl7WZWq1FObHhmxzRWNkdaUJrXDC
+ ODdCM9/tZip59IKC6/XQW4b15Q/DQxJwa/+6
+X-Google-Smtp-Source: ABdhPJyVQK+5CBAl6B2nr7dRouGpaxenn3rjtGw7mjxuUUKrMn0ABbAg/N7u0GU3bGST9HgeG3N7+Q==
+X-Received: by 2002:a62:7bc3:: with SMTP id w186mr2714255pfc.221.1599121943019; 
+ Thu, 03 Sep 2020 01:32:23 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id e7sm1759201pgn.64.2020.09.03.01.32.19
+ by smtp.googlemail.com with ESMTPSA id e7sm1759201pgn.64.2020.09.03.01.32.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Sep 2020 01:32:20 -0700 (PDT)
+ Thu, 03 Sep 2020 01:32:22 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 09/12] stubs: qemu_notify_event have no need to stub
-Date: Thu,  3 Sep 2020 16:31:44 +0800
-Message-Id: <20200903083147.707-10-luoyonggang@gmail.com>
+Subject: [PATCH v4 10/12] meson: Fixes qapi tests.
+Date: Thu,  3 Sep 2020 16:31:45 +0800
+Message-Id: <20200903083147.707-11-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200903083147.707-1-luoyonggang@gmail.com>
 References: <20200903083147.707-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
- envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x442.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x42b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,29 +88,31 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  LINK    tests/test-qdev-global-props.exe
-  LINK    tests/test-timed-average.exe
-C:/CI-Tools/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: libqemuutil.a(util_main-loop.c.obj): in function `qemu_notify_event':
-C:\work\xemu\qemu-build/../qemu/util/main-loop.c:139: multiple definition of `qemu_notify_event'; libqemuutil.a(stubs_notify-event.c.obj):C:\work\xemu\qemu-build/../qemu/stubs/notify-event.c:6: first defined here
-collect2.exe: error: ld returned 1 exit status
-make: *** [C:/work/xemu/qemu/rules.mak:88：tests/test-timed-average.exe] 错误 1
+The error are:
++@end table
++
++@end deftypefn
++
+make: *** [Makefile.mtest:63: check-qapi-schema] Error 1
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- stubs/notify-event.c | 4 ----
- 1 file changed, 4 deletions(-)
+ tests/qapi-schema/meson.build | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/stubs/notify-event.c b/stubs/notify-event.c
-index 827bb52d1a..59935db11e 100644
---- a/stubs/notify-event.c
-+++ b/stubs/notify-event.c
-@@ -1,6 +1,2 @@
- #include "qemu/osdep.h"
- #include "qemu/main-loop.h"
--
--void qemu_notify_event(void)
--{
--}
+diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
+index c87d141417..67ba0a5ebd 100644
+--- a/tests/qapi-schema/meson.build
++++ b/tests/qapi-schema/meson.build
+@@ -220,6 +220,7 @@ qapi_doc = custom_target('QAPI doc',
+ 
+ # "full_path()" needed here to work around
+ # https://github.com/mesonbuild/meson/issues/7585
+-test('QAPI doc', diff, args: ['-u', files('doc-good.texi'), qapi_doc[0].full_path()],
++test('QAPI doc', diff, args: ['--strip-trailing-cr',
++                              '-u', files('doc-good.texi'), qapi_doc[0].full_path()],
+      depends: qapi_doc,
+      suite: ['qapi-schema', 'qapi-doc'])
 -- 
 2.28.0.windows.1
 
