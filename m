@@ -2,83 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FD4B25BE30
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 11:17:26 +0200 (CEST)
-Received: from localhost ([::1]:49532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4478625BE55
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 11:19:26 +0200 (CEST)
+Received: from localhost ([::1]:55190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDlMy-0007kN-UV
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 05:17:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35674)
+	id 1kDlOv-0001jm-Bv
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 05:19:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1kDlLA-0006LB-3Q
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 05:15:32 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:44204)
+ id 1kDlNp-0000jn-74
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 05:18:17 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:59100)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1kDlL8-0007J7-4b
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 05:15:31 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0839FR7j044623;
- Thu, 3 Sep 2020 09:15:27 GMT
+ id 1kDlNn-0007eg-9Q
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 05:18:16 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0839Dd4U156417;
+ Thu, 3 Sep 2020 09:18:12 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : in-reply-to : references : date : message-id : mime-version :
  content-type; s=corp-2020-01-29;
- bh=l9/8fo04VJA/spdZ9VQ3U1mLC2OhSqa9kRUO7RBuCrk=;
- b=yU/ND2rnHSe4P80RUALLvAePoX4uk/q14+8ByPNw+BmKlvnVLZGgFR7ThAh6/du1+nZz
- odkSUhSvnNHRszKZCr39Q2QNfvRQa0Jhkoh6PoxHxvoWEr92b9iQ8otKEGuWVbQxmBvt
- 4fIYGBawpGyW1C/z+nTN/kNK/UWuy3ovuqXRGx2SoovGLaI7qgRhdPkb+A5lQGy0vr6U
- 4tlzE9EjlVmdO6uYKHH9eZNdVAAzVXltDTGEXxWAL9+/rzPWCixTcotbV2TV9ARoPfkV
- CHBDByR5FNVJBWJpNoAcSMSDLt/7DoDiS5fxqQZW87qAGimT3RswJ6ukfgsVWa77XDrB dA== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2130.oracle.com with ESMTP id 337eer7n6k-1
+ bh=wyt7JO+Klgk+PqMXcjrZNraGiFdhixuRrsKuxYyHQWU=;
+ b=x1Hg/DjaJvSutekLZQ0wVsU/rpPaH3t8bXnszjgrDORXL/E6Qm5vzHF1HdtMpMTInym6
+ QyAy8LULdCMhxc2CYFC35CuCG4jB7obNRXpZwYenwW29hnXEE6EQfqMFrK9C9p4l243H
+ +l2WakWpvRAb7syo2WVi+RzbKBHKRG3Rb1L01FsUja/Ca5KvQ6p8kwcz3gC2Bt8+VDB4
+ dBCOzxP26Mi+bgwzSnDAqbzUxdcq5BoYlmXLo9RSX5w0hpj+g5P1CgZjGwu62lVZHydD
+ OrLIkPDGaDAyqOYGS2Tzpj3WDEFWOjLCb6I0pXbqRqm/0krNmTKrrFKKzSVRW4R368DD Ig== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2120.oracle.com with ESMTP id 339dmn62f7-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 03 Sep 2020 09:15:27 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0839B6sW110490;
- Thu, 3 Sep 2020 09:15:26 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3020.oracle.com with ESMTP id 3380svr8k4-1
+ Thu, 03 Sep 2020 09:18:11 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0839AhiG153476;
+ Thu, 3 Sep 2020 09:16:11 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3020.oracle.com with ESMTP id 3380x9chny-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 03 Sep 2020 09:15:26 +0000
-Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0839FPoP030937;
- Thu, 3 Sep 2020 09:15:25 GMT
+ Thu, 03 Sep 2020 09:16:11 +0000
+Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0839G9EB030680;
+ Thu, 3 Sep 2020 09:16:09 GMT
 Received: from starbug-mbp.localdomain (/79.97.215.145)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 03 Sep 2020 02:15:25 -0700
+ with ESMTP ; Thu, 03 Sep 2020 02:16:09 -0700
 Received: by starbug-mbp.localdomain (Postfix, from userid 501)
- id EADC2134FD7F; Thu,  3 Sep 2020 10:15:21 +0100 (IST)
+ id 6D77B134FD9A; Thu,  3 Sep 2020 10:16:06 +0100 (IST)
 From: Darren Kenny <darren.kenny@oracle.com>
 To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 11/15] scripts/oss-fuzz: Add general-fuzzer build script
-In-Reply-To: <20200819061110.1320568-12-alxndr@bu.edu>
+Subject: Re: [PATCH v2 12/15] scripts/oss-fuzz: Add general-fuzzer configs
+ for oss-fuzz
+In-Reply-To: <20200819061110.1320568-13-alxndr@bu.edu>
 References: <20200819061110.1320568-1-alxndr@bu.edu>
- <20200819061110.1320568-12-alxndr@bu.edu>
-Date: Thu, 03 Sep 2020 10:15:21 +0100
-Message-ID: <m2blinrzkm.fsf@oracle.com>
+ <20200819061110.1320568-13-alxndr@bu.edu>
+Date: Thu, 03 Sep 2020 10:16:06 +0100
+Message-ID: <m28sdrrzjd.fsf@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9732
  signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- adultscore=0
- phishscore=0 malwarescore=0 mlxscore=0 spamscore=0 bulkscore=0
- suspectscore=2 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009030085
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9732
- signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015
- priorityscore=1501
- lowpriorityscore=0 malwarescore=0 adultscore=0 spamscore=0 mlxscore=0
- phishscore=0 impostorscore=0 mlxlogscore=999 bulkscore=0 suspectscore=2
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ spamscore=0 phishscore=0
+ mlxlogscore=993 adultscore=0 suspectscore=1 bulkscore=0 malwarescore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
  definitions=main-2009030085
-Received-SPF: pass client-ip=156.151.31.86;
- envelope-from=darren.kenny@oracle.com; helo=userp2130.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 04:48:18
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9732
+ signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ phishscore=0
+ mlxlogscore=998 adultscore=0 impostorscore=0 mlxscore=0 suspectscore=1
+ spamscore=0 clxscore=1015 malwarescore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009030085
+Received-SPF: pass client-ip=156.151.31.85;
+ envelope-from=darren.kenny@oracle.com; helo=userp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 04:43:20
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -105,103 +106,130 @@ Cc: Thomas Huth <thuth@redhat.com>, f4bug@amsat.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wednesday, 2020-08-19 at 02:11:06 -04, Alexander Bulekov wrote:
-> This parses a yaml file containing general-fuzzer configs and builds a
-> separate oss-fuzz wrapper binary for each one, changing some
-> preprocessor macros for each configuration. To avoid dealing with
-> escaping and stringifying, convert each string into a byte-array
-> representation
+On Wednesday, 2020-08-19 at 02:11:07 -04, Alexander Bulekov wrote:
+> Each of these entries is built into a wrapper binary that sets the
+> needed environment variables and executes the general virtual-device
+> fuzzer. In the future, we will need additional fields, such as arch=arm,
+> timeout_per_testcase=0, reset=reboot, etc...
 >
 > Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+
 > ---
->  scripts/oss-fuzz/build_general_fuzzers.py | 62 +++++++++++++++++++++++
->  1 file changed, 62 insertions(+)
->  create mode 100755 scripts/oss-fuzz/build_general_fuzzers.py
+>  scripts/oss-fuzz/general_fuzzer_configs.yml | 103 ++++++++++++++++++++
+>  1 file changed, 103 insertions(+)
+>  create mode 100644 scripts/oss-fuzz/general_fuzzer_configs.yml
 >
-> diff --git a/scripts/oss-fuzz/build_general_fuzzers.py b/scripts/oss-fuzz/build_general_fuzzers.py
-> new file mode 100755
-> index 0000000000..79f4664117
+> diff --git a/scripts/oss-fuzz/general_fuzzer_configs.yml b/scripts/oss-fuzz/general_fuzzer_configs.yml
+> new file mode 100644
+> index 0000000000..010e92a2a5
 > --- /dev/null
-> +++ b/scripts/oss-fuzz/build_general_fuzzers.py
-> @@ -0,0 +1,62 @@
-> +#!/usr/bin/env python3
-> +# -*- coding: utf-8 -*-
+> +++ b/scripts/oss-fuzz/general_fuzzer_configs.yml
+> @@ -0,0 +1,103 @@
+> +configs:
+> +    - name: virtio-net-pci-slirp
+> +      args: >
+> +        -M q35 -nodefaults
+> +        -device virtio-net,netdev=net0 -netdev user,id=net0
+> +      objects: virtio*
 > +
-> +"""
-> +This script creates wrapper binaries that invoke the general-device-fuzzer with
-> +configurations specified in a yaml config file.
-> +"""
-> +import sys
-> +import os
-> +import yaml
-> +import tempfile
+> +    - name: virtio-blk
+> +      args: >
+> +        -machine q35 -device virtio-blk,drive=disk0
+> +        -drive file=null-co://,id=disk0,if=none,format=raw
+> +      objects: virtio*
 > +
-> +CC = ""
-> +TEMPLATE = ""
+> +    - name: virtio-scsi
+> +      args: >
+> +        -machine q35 -device virtio-scsi,num_queues=8
+> +        -device scsi-hd,drive=disk0
+> +        -drive file=null-co://,id=disk0,if=none,format=raw
+> +      objects: scsi* virtio*
 > +
+> +    - name: virtio-gpu
+> +      args: -machine q35 -nodefaults -device virtio-gpu
+> +      objects: virtio*
 > +
-> +def usage():
-> +    print("Usage: CC=COMPILER {} CONFIG_PATH \
-> +OUTPUT_PATH_PREFIX".format(sys.argv[0]))
-> +    sys.exit(0)
+> +    - name: virtio-vga
+> +      args: -machine q35 -nodefaults -device virtio-vga
+> +      objects: virtio*
 > +
+> +    - name: virtio-rng
+> +      args: -machine q35 -nodefaults -device virtio-rng
+> +      objects: virtio*
 > +
-> +def str_to_c_byte_array(s):
-> +    """
-> +    Convert strings to byte-arrays so we don't worry about formatting
-> +    strings to play nicely with cc -DQEMU_FUZZARGS etc
-> +    """
-> +    return ','.join('0x{:02x}'.format(ord(x)) for x in s)
+> +    - name: virtio-balloon
+> +      args: -machine q35 -nodefaults -device virtio-balloon
+> +      objects: virtio*
 > +
+> +    - name: virtio-serial
+> +      args: -machine q35 -nodefaults -device virtio-serial
+> +      objects: virtio*
 > +
-> +def compile_wrapper(cfg, path):
-> +    os.system('$CC -DQEMU_FUZZ_ARGS="{}" -DQEMU_FUZZ_OBJECTS="{}" \
-> +                {} -o {}'.format(
-> +                    str_to_c_byte_array(cfg["args"].replace("\n", " ")),
-> +                    str_to_c_byte_array(cfg["objects"].replace("\n", " ")),
-> +                    TEMPLATE, path))
-
-NIT: When using multiple placeholders, it is nicer to use names for
-them, so that reordering, or adding new ones is easier too.
-
+> +    - name: virtio-mouse
+> +      args: -machine q35 -nodefaults -device virtio-mouse
+> +      objects: virtio*
 > +
+> +    - name: e1000
+> +      args: >
+> +        -M q35 -nodefaults
+> +        -device e1000,netdev=net0 -netdev user,id=net0
+> +      objects: e1000
 > +
-> +def main():
-> +    global CC
-> +    global TEMPLATE
+> +    - name: e1000e
+> +      args: >
+> +        -M q35 -nodefaults
+> +        -device e1000e,netdev=net0 -netdev user,id=net0
+> +      objects: e1000e
 > +
-> +    if len(sys.argv) != 3:
-> +        usage()
+> +    - name: cirrus-vga
+> +      args: -machine q35 -nodefaults -device cirrus-vga
+> +      objects: cirrus*
 > +
-> +    cfg_path = sys.argv[1]
-> +    out_path = sys.argv[2]
+> +    - name: bochs-display
+> +      args: -machine q35 -nodefaults -device bochs-display
+> +      objects: bochs*
 > +
-> +    CC = os.getenv("CC")
-
-Maybe provide a fall-back/default value if someone is calling it directly?
-
-> +    TEMPLATE = os.path.join(os.path.dirname(__file__), "target.c")
-
-No harm to double-check this exists, but also I would suggest that the
-string "target.c" should be defined as a global value.
-
+> +    - name: intel-hda
+> +      args: >
+> +        -machine q35 -nodefaults -device intel-hda,id=hda0
+> +        -device hda-output,bus=hda0.0 -device hda-micro,bus=hda0.0
+> +        -device hda-duplex,bus=hda0.0
+> +      objects: intel-hda
 > +
-> +    with open(cfg_path, "r") as f:
-> +        configs = yaml.load(f)["configs"]
-> +    for cfg in configs:
-> +        assert "name" in cfg
-> +        assert "args" in cfg
-> +        assert "objects" in cfg
-> +        compile_wrapper(cfg, out_path + cfg["name"])
+> +    - name: ide-hd
+> +      args: >
+> +        -machine q35 -nodefaults
+> +        -drive file=null-co://,if=none,format=raw,id=disk0
+> +        -device ide-hd,drive=disk0
+> +      objects: ahci*
 > +
+> +    - name: floppy
+> +      args: >
+> +        -machine pc -nodefaults -device floppy,id=floppy0
+> +        -drive id=disk0,file=null-co://,file.read-zeroes=on,if=none
+> +        -device floppy,drive=disk0,drive-type=288
+> +      objects: fd* floppy*
 > +
-> +if __name__ == '__main__':
-> +    main()
+> +    - name: xhci
+> +      args: >
+> +        -machine q35 -nodefaults
+> +        -drive file=null-co://,if=none,format=raw,id=disk0
+> +        -device qemu-xhci,id=xhci -device usb-tablet,bus=xhci.0 -device usb-bot
+> +        -device usb-storage,drive=disk0 -chardev null,id=cd0 -chardev null,id=cd1
+> +        -device usb-braille,chardev=cd0 -device usb-ccid -device usb-ccid
+> +        -device usb-kbd -device usb-mouse -device usb-serial,chardev=cd1
+> +        -device usb-tablet -device usb-wacom-tablet -device usb-audio
+> +      objects: "*usb* *uhci* *xhci*"
+> +
+> +    - name: pc-i440fx
+> +      args: -machine pc
+> +      objects: "*"
+> +
+> +    - name: pc-q35
+> +      args: -machine q35
+> +      objects: "*"
 > -- 
 > 2.27.0
-
-Thanks,
-
-Darren.
-
 
