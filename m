@@ -2,67 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D60F25CC3A
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:28:35 +0200 (CEST)
-Received: from localhost ([::1]:59716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9388525CBF6
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:15:00 +0200 (CEST)
+Received: from localhost ([::1]:57672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwmY-00074S-1b
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:28:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58340)
+	id 1kDwZP-0007s8-LC
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:14:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwL4-0003Zx-6Z; Thu, 03 Sep 2020 17:00:10 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:34040)
+ id 1kDwLU-0004Au-Tk; Thu, 03 Sep 2020 17:00:36 -0400
+Received: from mail-oo1-xc41.google.com ([2607:f8b0:4864:20::c41]:46892)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwL2-0007Q5-8u; Thu, 03 Sep 2020 17:00:09 -0400
-Received: by mail-ot1-x343.google.com with SMTP id h17so3207585otr.1;
- Thu, 03 Sep 2020 14:00:07 -0700 (PDT)
+ id 1kDwLS-0007i5-UT; Thu, 03 Sep 2020 17:00:36 -0400
+Received: by mail-oo1-xc41.google.com with SMTP id r6so1115659oon.13;
+ Thu, 03 Sep 2020 14:00:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=jbZUzUuJIhTs9gFdFE43wolgbeVB484D+UVnVZjxmoY=;
- b=hBD+bl9ZoakJP/g1P3Lzv1o6HuvcT6OA0hbTBJwBg3+wGcfZ6Qq/dr8rxT6ZhLOdbx
- rX616KSvkR7Vag0Oji7ynTCHSaqWKXLaMO/I2l94ZLPpTlVOp7Shz3Tmn+2dnjks+9BA
- 8O8SWUBr5nxuwBUKlgIaP2kJS808JeOSIafTugP6S75/8qv6IuzkVIEduk6H8ccFaAhZ
- 8fOTwTOol7Vg3NH1QzU+5hX9S4R+yEPWs4+vva8glghAqKNy2NukdwR4aPte4BGk5RqP
- Ej4TdIfFAte4558f8FvCXcclaISqdWY2iWzoE3ac8Cxczpr8mrwoxrnefhnDfaegiXv0
- A6hw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=0LMgxbFODWFpBaUC7jVrX4CuO2pJP6IZde8nJ19Zvuo=;
+ b=o2WB0332e2+ouLNHFWs8qrQ3/t2f+lmDJT2MAdiGBD7ag2Gx8HcDGTtGsyTp1GytlL
+ Yupc2EKN+YmlCXgU43eUvh17WmeTU4vyyubcou1Opt9ORzB4N02hFfIytmBq43OXaLQf
+ HWV4oTJIaL4HE8G22zxSwjd14vbZCkbyMwcyKLDxREXu+28BuUJrfM85CT+qBM4ZxbFV
+ hXlqwcsw8qv6jgslPPlc0t3RM0zufewMaajGecy7psXqswcvZP4u5ivCCYrqls+Daem0
+ B/IcS2fxE1eqYQoDVGT6iiiVXoJ6Kqt8olgFGQpByFnTELWhs9WM7tmiXyJqNEfzyJ4T
+ idBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=jbZUzUuJIhTs9gFdFE43wolgbeVB484D+UVnVZjxmoY=;
- b=OAKc6WVS2AludjdNGqXKm8v3hhpjWiX2Udv+q4qnH/1dn+kpZt/lDJZ7JhXLW6u7DS
- Izo0dk0oENjcQBoJQY0khdHtSlzcX6O8pp2XBkYTK3oyPuJSpYDrSZInX59me6flYSJV
- 5iqGKmpQpogqVYeR1XXKvfL/9NcnGidXlcGEiYONb9mW/Dx4gZ8F6Tetg/Jip04fBmAx
- 0VNXbc5TzFmtzuifHb7Hbx40OJHlJkKfky69bzK0gfhHHwi3TX0hPJoItkoZH9hgvbUN
- BeUA9JABlVCkDe+tNKpdJb6gx7PMNsM0PAHIiEMO1d60WQUiEPgTJ5QOzEhbhbpIlYEl
- D6nA==
-X-Gm-Message-State: AOAM531EVrP3egDd0xBAGfFKLSIQKUc2H0PjgtYE6av1UMJBuGqRRWNC
- xMhfBnI3X8vCLhl6M7brmPA2+KWJ7ZI=
-X-Google-Smtp-Source: ABdhPJxOEa4HeMaORqyd/A/vpdsSgLJ/3XWzo3WDhX8/x+4TwWvZI+j9avwQEjG5BSLj9dNxInpENg==
-X-Received: by 2002:a9d:6b8b:: with SMTP id b11mr2777318otq.357.1599166806349; 
- Thu, 03 Sep 2020 14:00:06 -0700 (PDT)
+ :in-reply-to:references;
+ bh=0LMgxbFODWFpBaUC7jVrX4CuO2pJP6IZde8nJ19Zvuo=;
+ b=KKLVGUueAtByWDGzAte+7xJwmjtOgjsxrfUcIHzSoe+orIae7SotGpuOUoZlByULVh
+ b1w0jCnpbmKfo1OpeFgIlv7URWiCGSwKqlyUr7q3sntbGLJb00Zc8x/GJU99KrNok3KR
+ /s2ZVxXBhA0tafAWeEeoaF0cmxp+NnkfKxdQW17lBDEu3JjUTRAWNWHcEMr1klyVhP+R
+ KdfnstnjuusfPwxPiTn2LQ/jOrpYywjgqmCwsA5rbioazxEKOxZEm262zOoD4Gbffa7I
+ LBngmK3/j89tZaaTCZqwwQyu9JYA3r4YhW3EJmwI1JQV6j0iK42EuGQdV+y220U/I4v4
+ MmUg==
+X-Gm-Message-State: AOAM533WJTQ30mkVD/+WODib3ReQWeYuTYukwz7mnoSxs6bbo298cMdS
+ hgH2eBXti6dP7QGid2ZiNnqqBtRqWLc=
+X-Google-Smtp-Source: ABdhPJyDdn4kiKWjUdAKxHyH9FK8TbJETKGPOTOnGSk/WbWecviuBQvvJ3iQLQkqaLZOcX4rgS/DCw==
+X-Received: by 2002:a4a:7241:: with SMTP id r1mr3344079ooe.48.1599166832885;
+ Thu, 03 Sep 2020 14:00:32 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id t84sm294132oif.32.2020.09.03.14.00.05
+ by smtp.gmail.com with ESMTPSA id 40sm757020otj.76.2020.09.03.14.00.32
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:00:05 -0700 (PDT)
+ Thu, 03 Sep 2020 14:00:32 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/77] hostmem: don't use mbind() if host-nodes is empty
-Date: Thu,  3 Sep 2020 15:58:19 -0500
-Message-Id: <20200903205935.27832-2-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 03/77] qemu-nbd: Close inherited stderr
+Date: Thu,  3 Sep 2020 15:58:21 -0500
+Message-Id: <20200903205935.27832-4-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x343.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c41;
+ envelope-from=flukshun@gmail.com; helo=mail-oo1-xc41.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -85,58 +81,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, qemu-stable@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-stable@nongnu.org, Raphael Pour <raphael.pour@hetzner.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Igor Mammedov <imammedo@redhat.com>
+From: Raphael Pour <raphael.pour@hetzner.com>
 
-Since 5.0 QEMU uses hostmem backend for allocating main guest RAM.
-The backend however calls mbind() which is typically NOP
-in case of default policy/absent host-nodes bitmap.
-However when runing in container with black-listed mbind()
-syscall, QEMU fails to start with error
- "cannot bind memory to host NUMA nodes: Operation not permitted"
-even when user hasn't provided host-nodes to pin to explictly
-(which is the case with -m option)
+Close inherited stderr of the parent if fork_process is false.
+Otherwise no one will close it. (introduced by e6df58a5)
 
-To fix issue, call mbind() only in case when user has provided
-host-nodes explicitly (i.e. host_nodes bitmap is not empty).
-That should allow to run QEMU in containers with black-listed
-mbind() without memory pinning. If QEMU provided memory-pinning
-is required user still has to white-list mbind() in container
-configuration.
+This only affected 'qemu-nbd -c /dev/nbd0'.
 
-Reported-by: Manuel Hohmann <mhohmann@physnet.uni-hamburg.de>
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20200430154606.6421-1-imammedo@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-(cherry picked from commit 70b6d525dfb51d5e523d568d1139fc051bc223c5)
+Signed-off-by: Raphael Pour <raphael.pour@hetzner.com>
+Message-Id: <d8ddc993-9816-836e-a3de-c6edab9d9c49@hetzner.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+[eblake: Enhance commit message]
+Signed-off-by: Eric Blake <eblake@redhat.com>
+(cherry picked from commit 0eaf453ebf6788885fbb5d40426b154ef8805407)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- backends/hostmem.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ qemu-nbd.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/backends/hostmem.c b/backends/hostmem.c
-index 327f9eebc3..0efd7b7bd6 100644
---- a/backends/hostmem.c
-+++ b/backends/hostmem.c
-@@ -383,8 +383,10 @@ host_memory_backend_memory_complete(UserCreatable *uc, Error **errp)
-         assert(sizeof(backend->host_nodes) >=
-                BITS_TO_LONGS(MAX_NODES + 1) * sizeof(unsigned long));
-         assert(maxnode <= MAX_NODES);
--        if (mbind(ptr, sz, backend->policy,
--                  maxnode ? backend->host_nodes : NULL, maxnode + 1, flags)) {
+diff --git a/qemu-nbd.c b/qemu-nbd.c
+index 4aa005004e..306e44fb0a 100644
+--- a/qemu-nbd.c
++++ b/qemu-nbd.c
+@@ -916,7 +916,11 @@ int main(int argc, char **argv)
+         } else if (pid == 0) {
+             close(stderr_fd[0]);
+ 
+-            old_stderr = dup(STDERR_FILENO);
++            /* Remember parent's stderr if we will be restoring it. */
++            if (fork_process) {
++                old_stderr = dup(STDERR_FILENO);
++            }
 +
-+        if (maxnode &&
-+            mbind(ptr, sz, backend->policy, backend->host_nodes, maxnode + 1,
-+                  flags)) {
-             if (backend->policy != MPOL_DEFAULT || errno != ENOSYS) {
-                 error_setg_errno(errp, errno,
-                                  "cannot bind memory to host NUMA nodes");
+             ret = qemu_daemon(1, 0);
+ 
+             /* Temporarily redirect stderr to the parent's pipe...  */
 -- 
 2.17.1
 
