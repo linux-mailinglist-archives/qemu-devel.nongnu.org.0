@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4508925CC76
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:41:02 +0200 (CEST)
-Received: from localhost ([::1]:33320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DB5025CC7E
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:42:38 +0200 (CEST)
+Received: from localhost ([::1]:40824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwyb-000689-BO
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:41:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58838)
+	id 1kDx09-0000rf-7V
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:42:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLW-0004Dl-Cq; Thu, 03 Sep 2020 17:00:38 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:43221)
+ id 1kDwLX-0004H8-LS; Thu, 03 Sep 2020 17:00:39 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:34043)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLU-0007ib-Ky; Thu, 03 Sep 2020 17:00:37 -0400
-Received: by mail-ot1-x344.google.com with SMTP id v16so3994049otp.10;
- Thu, 03 Sep 2020 14:00:35 -0700 (PDT)
+ id 1kDwLV-0007j6-Q4; Thu, 03 Sep 2020 17:00:39 -0400
+Received: by mail-ot1-x341.google.com with SMTP id h17so3208928otr.1;
+ Thu, 03 Sep 2020 14:00:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=8v8cuelUN4GNnzF59rwkxhYKTzREPiqFMDPQs9yKMw0=;
- b=pqg7KMIGJN9NCyskp9TxALEebbe2hnxOeBp3wDMrF0amNBxJCYXxUtMbYtJH2bH+Jk
- /cFzgUNPC2ebnNUSg3RCbwKH1RhcpeAIWCTfhz0OFNqRKaNLX9/gI2K/uysvDqNtD4Xk
- zvt0UNYOjngrUoTgXz254s4ClzdQTp8mifyJXbqypMR1gLv6JOcTWU/GUyw8SuYKUqFb
- DkvKWPtVyZyRUbqRlg/CWfJbjQypLvDYgRdo99oiU8PFpQBASzowhyyLBCKAila3RS0o
- GB0AtkJ273Pfzxn8YTUfCjUwFVzrsKNWB5MMN6FM/27bxVlY5dKEwEdabSTgB2hmD20J
- 4K9Q==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=oq3rmsSk19eLVuEsf+6dlcXRckj5zxSI8+Z4QSek0vY=;
+ b=NytrLzEvZr5suz5KCF8Sr8zpgeUvW9nKWqe1oDnIcXMiempLk16DQdgW5Ox3FRHUWa
+ 6ZFxjbaDqBKZ8aCg2pU3floklNA7GfoSjXYCDjSKmLj5PTD/AfrTs8Bc7KtjvFhUncB9
+ yeLXsWmlJRx02utc0MUbZRWqwIm1dZ707kXw2mt6QhzVR3DmW2mEBOTF9oumgYdsDT1V
+ 9OU61FYTK+LB0ijyeC2X5CUisf6y2p+/MvWw3EG6yEve6TKkqdTSSf/lPP8xBgZTk2Kl
+ 2hHd1Jz4OL6h5PpbkZKK5V+P/wL4S7u3xuMVtnl6QEIcjx6X1J5NfQasQrIko3wY+L5F
+ lGeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=8v8cuelUN4GNnzF59rwkxhYKTzREPiqFMDPQs9yKMw0=;
- b=QUJ7kH+R2cBPfKf7bof3XFyynMK4gM6G90JxpC/nZCJOpfNicSnd5OL3SPVWgxd8lg
- Y7qExqi4j3VPgmzQLBZeelurhrEECAmZnfWfmpOM8rIJTiwnF2ZTvXywuv5oEiHsZ7lY
- FTZg4/+Z8NCw0mHaYvYr1vWhN/N6tTGrcnKviwBkCW12KcFue6tcAo+M8XWYLGWcMuoB
- d3KXpSjDn3aoSuCZqc+yc+OeTmdYwlNUG1JXCobbu5DlD959ELpJg220HKcCa0X9W97c
- Qw3+SGptOiegUgp9st22d1sqxRcSDlPneymc5m67qN+45/N1qoFaCT3a6rrwAHnxCgOs
- IPTQ==
-X-Gm-Message-State: AOAM530n4M2xk7AfLu8Y3KMQftCBN75FB06rRO1Ng5RNJdTVGOdelJAj
- EAJDuN3LvTs1vOIZET9Dk94aW79d3oQ=
-X-Google-Smtp-Source: ABdhPJyPCW6QRlx6jtQmUeoHq2d4RKVAnO8JJyumEjJidIygoWugUOcTaffMWyByF+VeoyjuaECHhw==
-X-Received: by 2002:a9d:2667:: with SMTP id a94mr2869390otb.45.1599166834423; 
- Thu, 03 Sep 2020 14:00:34 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=oq3rmsSk19eLVuEsf+6dlcXRckj5zxSI8+Z4QSek0vY=;
+ b=WnLj0Gm/eX2DBqNv1dJFgcBT7+u13la3xwEiooBGlqrP9Y/qlOW/SbBlk5uvKVUIVT
+ FU4FvZ34zeqwcAwXEWCHSzOaVh8nt1O73GfEsgKRg7PYRbfkuXPwM4OkilheEhZZUOOw
+ yYAQOKEgyrbA6MpORlW7V8Fi7MhJrXFjQDEOk+j9mrc5rJSmsSE4jebssgAP0f/fHrqe
+ XcVITCqYnDBvpR5r7EtBe+E6bkOOwopNfb1gT5vxoeJSwmx8Ox4M6En8Mm8YZv3K9whj
+ fLCtWn3h9By9TKgBDPOto6kkF87ri17kQlWuS8G3jxBcerMC0cvTDO+hZNKsm0O8d42g
+ fK7Q==
+X-Gm-Message-State: AOAM532zfnaMj+JULz3O4ORfxxtJiSj1gXFnfMrLKlc4Ml1kGuUfkMF1
+ ahbKXBaghGxbBICEFzciVLrY4ltgRTY=
+X-Google-Smtp-Source: ABdhPJxMbaKF221BCEUMmGDIG9PgxnO3mN2NQLXNWT8unBeRfmIT/cOMKHxDkxsIB65AAdwI0qXgmg==
+X-Received: by 2002:a9d:6e19:: with SMTP id e25mr2935901otr.219.1599166836076; 
+ Thu, 03 Sep 2020 14:00:36 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id i6sm718571oib.17.2020.09.03.14.00.33
+ by smtp.gmail.com with ESMTPSA id c26sm767254otr.50.2020.09.03.14.00.34
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:00:33 -0700 (PDT)
+ Thu, 03 Sep 2020 14:00:35 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 41/77] chardev/tcp: Fix error message double free error
-Date: Thu,  3 Sep 2020 15:58:59 -0500
-Message-Id: <20200903205935.27832-42-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 42/77] qga: fix assert regression on guest-shutdown
+Date: Thu,  3 Sep 2020 15:59:00 -0500
+Message-Id: <20200903205935.27832-43-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x344.google.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -81,49 +85,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lichun <lichun@ruijie.com.cn>, qemu-stable@nongnu.org,
- Markus Armbruster <armbru@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: lichun <lichun@ruijie.com.cn>
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Errors are already freed by error_report_err, so we only need to call
-error_free when that function is not called.
+Since commit 781f2b3d1e ("qga: process_event() simplification"),
+send_response() is called unconditionally, but will assert when "rsp" is
+NULL. This may happen with QCO_NO_SUCCESS_RESP commands, such as
+"guest-shutdown".
 
+Fixes: 781f2b3d1e5ef389b44016a897fd55e7a780bf35
+Cc: Michael Roth <mdroth@linux.vnet.ibm.com>
+Reported-by: Christian Ehrhardt <christian.ehrhardt@canonical.com>
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Christian Ehrhardt <christian.ehrhardt@canonical.com>
+Tested-by: Christian Ehrhardt <christian.ehrhardt@canonical.com>
 Cc: qemu-stable@nongnu.org
-Signed-off-by: lichun <lichun@ruijie.com.cn>
-Message-Id: <20200621213017.17978-1-lichun@ruijie.com.cn>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-[Commit message improved, cc: qemu-stable]
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-(cherry picked from commit ed4e0d2ef140aef255d67eec30767e5fcd949f58)
+Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
+(cherry picked from commit 844bd70b5652f30bbace89499f513e3fbbb6457a)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- chardev/char-socket.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ qga/main.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-index e5ee685f8c..58917870cd 100644
---- a/chardev/char-socket.c
-+++ b/chardev/char-socket.c
-@@ -142,6 +142,8 @@ static void check_report_connect_error(Chardev *chr,
-                           "Unable to connect character device %s: ",
-                           chr->label);
-         s->connect_err_reported = true;
-+    } else {
-+        error_free(err);
-     }
-     qemu_chr_socket_restart_timer(chr);
- }
-@@ -1083,7 +1085,6 @@ static void qemu_chr_socket_connected(QIOTask *task, void *opaque)
-     if (qio_task_propagate_error(task, &err)) {
-         tcp_chr_change_state(s, TCP_CHARDEV_STATE_DISCONNECTED);
-         check_report_connect_error(chr, err);
--        error_free(err);
-         goto cleanup;
-     }
+diff --git a/qga/main.c b/qga/main.c
+index f0e454f28d..3febf3b0fd 100644
+--- a/qga/main.c
++++ b/qga/main.c
+@@ -531,7 +531,11 @@ static int send_response(GAState *s, const QDict *rsp)
+     QString *payload_qstr, *response_qstr;
+     GIOStatus status;
  
+-    g_assert(rsp && s->channel);
++    g_assert(s->channel);
++
++    if (!rsp) {
++        return 0;
++    }
+ 
+     payload_qstr = qobject_to_json(QOBJECT(rsp));
+     if (!payload_qstr) {
 -- 
 2.17.1
 
