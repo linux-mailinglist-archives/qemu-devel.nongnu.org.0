@@ -2,63 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8922F25CC05
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:20:48 +0200 (CEST)
-Received: from localhost ([::1]:53708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBE4825CBF8
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:16:02 +0200 (CEST)
+Received: from localhost ([::1]:60760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwf1-0000yz-JY
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:20:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58196)
+	id 1kDwaP-0000ia-NC
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:16:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwKx-0003Kj-5O; Thu, 03 Sep 2020 17:00:03 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:35788)
+ id 1kDwKy-0003Nn-IL; Thu, 03 Sep 2020 17:00:04 -0400
+Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:39211)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwKu-0007ML-UO; Thu, 03 Sep 2020 17:00:02 -0400
-Received: by mail-oi1-x241.google.com with SMTP id w16so4535214oia.2;
- Thu, 03 Sep 2020 14:00:00 -0700 (PDT)
+ id 1kDwKw-0007MX-BY; Thu, 03 Sep 2020 17:00:04 -0400
+Received: by mail-ot1-x32c.google.com with SMTP id u25so4008283otq.6;
+ Thu, 03 Sep 2020 14:00:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=WbB6VAhtrBT4SG9Vr6ej0HJWL2xXc11PC/dJaX/FHdI=;
- b=IvmswsPYXOQ5wSszAzBpxdaKmcOafWtZkUB74WnlL4Fa0nuwnoFdyZaPq8NW5lQ7ik
- Z9ib/HyJN2+dB0GsWkEFOW/G6EDyPi85j3pqG+/aYJn8SMCY157Q+X7k/5mrh0FTfoN2
- G02ecmiRMCLnEbLKbsBdVoTzSDJj6/Mmd0t/ietrmXi+SMccieyFiqOl35rghu2Lrb3m
- D6ExOd7aQdfXI04MJ6fLvIVB1pqRRQddDe+N78MMOOdGLRXy3u50SVvk1sTuL1pf4QkY
- mIbnxCnFbtGHQvF4RYxU0bo/GkoX3X762w+QdTECEsfhKN0vOzjuF6WYT8ka7Q1RHwPh
- qCTA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=rlfytk/HxGcRvQ43QKeVZDlvKaRhllUNtWQbE6mYVCc=;
+ b=U1A+Ihoqs14Ap+tzZ9MDJuzdSwiT12iqB4x2y0I/xN1lTnml1p4BCBFQd0pPbb9isl
+ Rk0yhQKklzGWQkJSUCNiVbAv4tPs6Yr47szSYmeCX5azHT7g4iaRdFcfPSKa6PwASEZ0
+ Oj5aIuJ9NNWef0vc9MLu1lioL8WLNdr5w0fdiI0ZVDGILDovtByHD1f2arJmd47Dabgt
+ Wb8uX9rXtLfIWSsHXT/35BwIVlt37NkMQS36HENFUpAoyg2ZlzbKXM8SJeWxs2UbG68W
+ NhDW4WzDTTd53Vyax1PzGP2tZlyBryMUeCJrqPq1uAF7eZCITv3UqPYt1DyWgaWIPnlA
+ tFnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=WbB6VAhtrBT4SG9Vr6ej0HJWL2xXc11PC/dJaX/FHdI=;
- b=BlK9Jt68MqTccY1e54l8ABmOUs/CTJmv+TpGO4zWOHaGflwuRZkpupspyLthEEsDQO
- 0UcOFvsNCF/B1ACJW3wb5BzcJjaSghXkgBy71R5sCIZsertHAKT/AMrenGvXPWdXIDEw
- +tnOuqd493lf02I290XHAKpO32jmLduQJSLkODS1WXkNYpDJ9CFSRBRxbJ8sJY2gYXy+
- F1P9PIfySGfV5cOHzzQeaa7tT4alodclRDybUmU5uZ0i5GNk8hJetxXgF4V2aWR7KhwH
- WfwNMNRTKYJktBD1qgYRPHAhWsE+/4ewSChxdAHe22Og5/JjcYVDNb5TVSboczPcIQrV
- 2ByA==
-X-Gm-Message-State: AOAM530nwNmm/XDDjkKfH1k6SDMUJ1y7/q39Xc3EOF118cyCYKV5YQ6Y
- oY0bDUaEMZNOe8u3FRrW2tCZEs/+0dA=
-X-Google-Smtp-Source: ABdhPJxor51/r4+wQK9BhGxTVJ/eSzH8MFU+af+VMR1muKggmi7rEH80t5SiRO8rdssLEYicpL2X5w==
-X-Received: by 2002:aca:bc57:: with SMTP id m84mr3224034oif.14.1599166799088; 
- Thu, 03 Sep 2020 13:59:59 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=rlfytk/HxGcRvQ43QKeVZDlvKaRhllUNtWQbE6mYVCc=;
+ b=X8HaUSj6IJHCThV0YZoK8R0P6O6wuZZaOcD2ncsAtvULiPgzB0RISLRjgWXoyQh3Ng
+ kvmAKylSIxclR3iFRsC8xdUYC2AqQa1wuGo9EIOiNWmWGJe13k9HUmrAu+ZiCPqk1B5k
+ cun6vNW20SDOz+lYLqmBraJs4X7sfHPyvpWIHMBD3CjoxEvMyNSXm7xFXDuqPFc7DKGP
+ VBQ9nHu2JoR+8YxRfOZ8b2/WM7GPEzO1H7CyAYS6wCotSHDuqvVwiicXYKmzByM7nnmH
+ YktI6CO91stxGTeCN3hgnJT8fJCYxtrLMWuRJIRdQMW4o5kne4TntAKbl9wEs8GklIPi
+ 00Mw==
+X-Gm-Message-State: AOAM530sAm8yLsA84mTbaXhHifLRFcUsFS2uM5TBh/imOajAXDQ9Mgu/
+ kBvCjjDyhU2IICBxnECTBwSdwlCWZUc=
+X-Google-Smtp-Source: ABdhPJzICnhV8rm0nVYYCpfU/wU6GQn/BMzRcIWxPt8YB0OMN0wG6kI5jsAd5BMBN+0kfd+d5W27eA==
+X-Received: by 2002:a9d:7f84:: with SMTP id t4mr3163361otp.192.1599166800161; 
+ Thu, 03 Sep 2020 14:00:00 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id x38sm776992ota.72.2020.09.03.13.59.58
+ by smtp.gmail.com with ESMTPSA id a75sm709467oii.55.2020.09.03.13.59.59
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 13:59:58 -0700 (PDT)
+ Thu, 03 Sep 2020 13:59:59 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 15/77] xen/9pfs: yield when there isn't enough room on the ring
-Date: Thu,  3 Sep 2020 15:58:33 -0500
-Message-Id: <20200903205935.27832-16-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 16/77] ati-vga: check mm_index before recursive call
+ (CVE-2020-13800)
+Date: Thu,  3 Sep 2020 15:58:34 -0500
+Message-Id: <20200903205935.27832-17-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x241.google.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x32c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -81,96 +86,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefano Stabellini <stefano.stabellini@xilinx.com>, qemu-stable@nongnu.org,
- Greg Kurz <groug@kaod.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-stable@nongnu.org,
+ Prasad J Pandit <pjp@fedoraproject.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefano Stabellini <stefano.stabellini@xilinx.com>
+From: Prasad J Pandit <pjp@fedoraproject.org>
 
-Instead of truncating replies, which is problematic, wait until the
-client reads more data and frees bytes on the reply ring.
+While accessing VGA registers via ati_mm_read/write routines,
+a guest may set 's->regs.mm_index' such that it leads to infinite
+recursion. Check mm_index value to avoid such recursion. Log an
+error message for wrong values.
 
-Do that by calling qemu_coroutine_yield(). The corresponding
-qemu_coroutine_enter_if_inactive() is called from xen_9pfs_bh upon
-receiving the next notification from the client.
-
-We need to be careful to avoid races in case xen_9pfs_bh and the
-coroutine are both active at the same time. In xen_9pfs_bh, wait until
-either the critical section is over (ring->co == NULL) or until the
-coroutine becomes inactive (qemu_coroutine_yield() was called) before
-continuing. Then, simply wake up the coroutine if it is inactive.
-
-Signed-off-by: Stefano Stabellini <stefano.stabellini@xilinx.com>
-Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Message-Id: <20200521192627.15259-2-sstabellini@kernel.org>
-Signed-off-by: Greg Kurz <groug@kaod.org>
-(cherry picked from commit a4c4d462729466c4756bac8a0a8d77eb63b21ef7)
+Reported-by: Ren Ding <rding@gatech.edu>
+Reported-by: Hanqing Zhao <hanqing@gatech.edu>
+Reported-by: Yi Ren <c4tren@gmail.com>
+Message-id: 20200604090830.33885-1-ppandit@redhat.com
+Suggested-by: BALATON Zoltan <balaton@eik.bme.hu>
+Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+(cherry picked from commit a98610c429d52db0937c1e48659428929835c455)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/9pfs/xen-9p-backend.c | 31 +++++++++++++++++++++++++------
- 1 file changed, 25 insertions(+), 6 deletions(-)
+ hw/display/ati.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/hw/9pfs/xen-9p-backend.c b/hw/9pfs/xen-9p-backend.c
-index fc197f6c8a..3c84c86ab8 100644
---- a/hw/9pfs/xen-9p-backend.c
-+++ b/hw/9pfs/xen-9p-backend.c
-@@ -37,6 +37,7 @@ typedef struct Xen9pfsRing {
- 
-     struct iovec *sg;
-     QEMUBH *bh;
-+    Coroutine *co;
- 
-     /* local copies, so that we can read/write PDU data directly from
-      * the ring */
-@@ -198,16 +199,20 @@ static void xen_9pfs_init_in_iov_from_pdu(V9fsPDU *pdu,
-     g_free(ring->sg);
- 
-     ring->sg = g_new0(struct iovec, 2);
--    xen_9pfs_in_sg(ring, ring->sg, &num, pdu->idx, size);
-+    ring->co = qemu_coroutine_self();
-+    /* make sure other threads see ring->co changes before continuing */
-+    smp_wmb();
- 
-+again:
-+    xen_9pfs_in_sg(ring, ring->sg, &num, pdu->idx, size);
-     buf_size = iov_size(ring->sg, num);
-     if (buf_size  < size) {
--        xen_pv_printf(&xen_9pfs->xendev, 0, "Xen 9pfs request type %d"
--                "needs %zu bytes, buffer has %zu\n", pdu->id, size,
--                buf_size);
--        xen_be_set_state(&xen_9pfs->xendev, XenbusStateClosing);
--        xen_9pfs_disconnect(&xen_9pfs->xendev);
-+        qemu_coroutine_yield();
-+        goto again;
-     }
-+    ring->co = NULL;
-+    /* make sure other threads see ring->co changes before continuing */
-+    smp_wmb();
- 
-     *piov = ring->sg;
-     *pniov = num;
-@@ -292,6 +297,20 @@ static int xen_9pfs_receive(Xen9pfsRing *ring)
- static void xen_9pfs_bh(void *opaque)
- {
-     Xen9pfsRing *ring = opaque;
-+    bool wait;
-+
-+again:
-+    wait = ring->co != NULL && qemu_coroutine_entered(ring->co);
-+    /* paired with the smb_wmb barriers in xen_9pfs_init_in_iov_from_pdu */
-+    smp_rmb();
-+    if (wait) {
-+        cpu_relax();
-+        goto again;
-+    }
-+
-+    if (ring->co != NULL) {
-+        qemu_coroutine_enter_if_inactive(ring->co);
-+    }
-     xen_9pfs_receive(ring);
- }
- 
+diff --git a/hw/display/ati.c b/hw/display/ati.c
+index 58ec8291d4..9228f1b242 100644
+--- a/hw/display/ati.c
++++ b/hw/display/ati.c
+@@ -285,8 +285,11 @@ static uint64_t ati_mm_read(void *opaque, hwaddr addr, unsigned int size)
+             if (idx <= s->vga.vram_size - size) {
+                 val = ldn_le_p(s->vga.vram_ptr + idx, size);
+             }
+-        } else {
++        } else if (s->regs.mm_index > MM_DATA + 3) {
+             val = ati_mm_read(s, s->regs.mm_index + addr - MM_DATA, size);
++        } else {
++            qemu_log_mask(LOG_GUEST_ERROR,
++                "ati_mm_read: mm_index too small: %u\n", s->regs.mm_index);
+         }
+         break;
+     case BIOS_0_SCRATCH ... BUS_CNTL - 1:
+@@ -520,8 +523,11 @@ static void ati_mm_write(void *opaque, hwaddr addr,
+             if (idx <= s->vga.vram_size - size) {
+                 stn_le_p(s->vga.vram_ptr + idx, size, data);
+             }
+-        } else {
++        } else if (s->regs.mm_index > MM_DATA + 3) {
+             ati_mm_write(s, s->regs.mm_index + addr - MM_DATA, data, size);
++        } else {
++            qemu_log_mask(LOG_GUEST_ERROR,
++                "ati_mm_write: mm_index too small: %u\n", s->regs.mm_index);
+         }
+         break;
+     case BIOS_0_SCRATCH ... BUS_CNTL - 1:
 -- 
 2.17.1
 
