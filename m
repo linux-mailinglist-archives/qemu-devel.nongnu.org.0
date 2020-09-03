@@ -2,72 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DF6025C5FB
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 17:59:09 +0200 (CEST)
-Received: from localhost ([::1]:49290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEFD925C621
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 18:05:57 +0200 (CEST)
+Received: from localhost ([::1]:36520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDrdk-0007pq-3A
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 11:59:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60572)
+	id 1kDrkK-00071l-SW
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 12:05:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kDrd3-0007Im-5v
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 11:58:25 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:36342)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kDrd1-0005lJ-ER
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 11:58:24 -0400
-Received: by mail-ej1-x631.google.com with SMTP id e23so4607031eja.3
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 08:58:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=JGS3LGM60Jy/U0tWyUV3dbPurF4sL3i6GE1P1AEgI1A=;
- b=QSFQNHkyVF8+RN/kgL9PaGs5XlaLSHiCJKEs/heAL/3fxBffdHrjQ4YVgBdCvAox8G
- 9+4OjpFRJ9pykDtL0tGwSnG1U6R0/kGZk/ft3ETQ0y/D1ofBkOk8IUhAzoYnsLdysF8+
- zxIhq1zfUBakwdQZB7gbmMHA26bICj3HBn8Y+LcGKZSNIgEovMT2HCl/P/SyM45Q5HOL
- y65MUQ75v8TN1ucl+mXjmN86ooPvoYA1CVT+AX15kf9XQDl/wsKu+suoBFAf6m3u6+uz
- E5y9KHTiR5E397HpAm7rYXm4ndFqAAhv6gtcwYbst9bcCKVZS+YmguUCtPb/tjtagXM1
- GYew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=JGS3LGM60Jy/U0tWyUV3dbPurF4sL3i6GE1P1AEgI1A=;
- b=RQEu55RwpKd5gtfxmg1AZ0XULjSj8l9iF8zqE7HnuZrYNKqaHf2Pz/B1hwQyIh5vo0
- Wl/D/jyZTPHDlunjQsLSUgRP5PEBzodddE2LZKILSFVMBHs8recOb7kZTiu7rrqGzH4B
- ZWRI7CYYu/dFvh1n5m6l7iar8qXxV0ociYW5P/kOqD8QJ8PxOAFgPRINZbzrFPvEE83r
- ZQLF8VdKOjh6W69nmopXRC9OxxXRFlg1OHX62Xhg6tVvw7YIPTtMRg0PCuT4YIdMaJK4
- g2iVf43LVNTygP5GSHXI8Zl5R+EKlWXpGXiz4a+tDMGNAUyui+WZDN3E42QQZECZp5ix
- Rd1A==
-X-Gm-Message-State: AOAM530eQsvgTgfR2YyeVrjXWT7kq4ovoyyhHXtPLmREmDYPzPD/zFCl
- przX58oCdI78fk1bG0Z5IOzx1ZQw9bYW5wYeVJW9Vg==
-X-Google-Smtp-Source: ABdhPJy6nI7dC6daP4FEhyhMdG5sb2+xNK7xRQ2Rc1jR5x03cy8F6YCMr/aPfVkBTyTM+a75ZbG63rLae10wLXBBp9E=
-X-Received: by 2002:a17:906:71c9:: with SMTP id
- i9mr2767940ejk.250.1599148701630; 
- Thu, 03 Sep 2020 08:58:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kDrhQ-0003KW-41
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:02:56 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:52197)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kDrhN-0006ea-U4
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:02:55 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.8])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 4A092572881A;
+ Thu,  3 Sep 2020 18:02:50 +0200 (CEST)
+Received: from kaod.org (37.59.142.103) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 3 Sep 2020
+ 18:02:49 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-103G0058ebef85b-6f19-405a-a748-ee95702c255e,
+ FF22E3E2F99647A0705B7EB067E934078DCBDF97) smtp.auth=groug@kaod.org
+Date: Thu, 3 Sep 2020 18:02:48 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH v2 1/1] 9pfs: log warning if msize <= 8192
+Message-ID: <20200903180248.6199bb7b@bahia.lan>
+In-Reply-To: <e6fc84845c95816ad5baecb0abd6bfefdcf7ec9f.1599144062.git.qemu_oss@crudebyte.com>
+References: <cover.1599144062.git.qemu_oss@crudebyte.com>
+ <e6fc84845c95816ad5baecb0abd6bfefdcf7ec9f.1599144062.git.qemu_oss@crudebyte.com>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20200901124525.220252-1-clg@kaod.org>
-In-Reply-To: <20200901124525.220252-1-clg@kaod.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 3 Sep 2020 16:58:10 +0100
-Message-ID: <CAFEAcA8Rz=0knh63e70tDSNAhXEERYhq-JMBM-pvHAr=k3O46g@mail.gmail.com>
-Subject: Re: [PULL 00/20] aspeed queue
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: ae6eb1ef-4199-4211-a3e5-6b69bd03cd76
+X-Ovh-Tracer-Id: 1416945036509092317
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrudeguddgleekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheeggedvvdethfdttddvhfeiudetvdfgjedtudetgfevheeijeeileevffegkeehnecuffhomhgrihhnpehqvghmuhdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepsggvrhhrrghnghgvsehrvgguhhgrthdrtghomh
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 11:20:01
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,43 +69,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: berrange@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 1 Sep 2020 at 13:45, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
->
-> The following changes since commit 2f4c51c0f384d7888a04b4815861e6d5fd244d=
-75:
->
->   Merge remote-tracking branch 'remotes/kraxel/tags/usb-20200831-pull-req=
-uest' into staging (2020-08-31 19:39:13 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/legoater/qemu/ tags/pull-aspeed-20200901
->
-> for you to fetch changes up to ddd8ab19749b8639fc08bfe4d0df0204eec049f0:
->
->   hw: add a number of SPI-flash's of m25p80 family (2020-09-01 14:21:51 +=
-0200)
->
-> ----------------------------------------------------------------
-> Various fixes of Aspeed machines :
->
-> * New Supermicro X11 BMC machine (Erik)
-> * Fixed valid access size on AST2400 SCU
-> * Improved robustness of the ftgmac100 model.
-> * New flash models in m25p80 (Igor)
-> * Fixed reset sequence of SDHCI/eMMC controllers
-> * Improved support of the AST2600 SDMC  (Joel)
-> * Couple of SMC cleanups
+On Thu, 3 Sep 2020 16:20:21 +0200
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
+> It is essential to choose a reasonable high value for 'msize' to avoid
+> severely degraded file I/O performance. This parameter can only be
+> chosen on client/guest side, and a Linux client defaults to an 'msize'
+> of only 8192 if the user did not explicitly specify a value for 'msize',
+> which results in very poor file I/O performance.
+> 
+> Unfortunately many users are not aware that they should specify an
+> appropriate value for 'msize' to avoid severe performance issues, so
+> log a performance warning (with a QEMU wiki link explaining this issue
+> in detail) on host side in that case to make it more clear.
+> 
+> Currently a client cannot automatically pick a reasonable value for
+> 'msize', because a good value for 'msize' depends on the file I/O
+> potential of the underlying storage on host side, i.e. a feature
+> invisible to the client, and even then a user would still need to trade
+> off between performance profit and additional RAM costs, i.e. with
+> growing 'msize' (RAM occupation), performance still increases, but
+> performance delta will shrink continuously.
+> 
+> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> ---
+>  hw/9pfs/9p.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> index 7bb994bbf2..99b6f24fd6 100644
+> --- a/hw/9pfs/9p.c
+> +++ b/hw/9pfs/9p.c
+> @@ -1353,6 +1353,15 @@ static void coroutine_fn v9fs_version(void *opaque)
+>          goto out;
+>      }
+>  
+> +    /* 8192 is the default msize of Linux clients */
+> +    if (s->msize <= 8192) {
 
-Applied, thanks.
+I agree that an msize of 8192 suck from a performance standpoint but
+I guess many users are msize agnostic, and they use the default value
+without even knowing it. They might not even care for performance at
+all, otherwise they'd likely ask google and they will eventually land
+on:
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
+https://wiki.qemu.org/Documentation/9psetup#Performance_Considerations
 
--- PMM
+But with this patch, they will now get a warning each time they start
+QEMU, maybe freak out and file reports in launchpad. So I suggest you
+turn <= into < to avoid bothering these placid users with a warning.
+
+Anyway, it's your choice :) so if you manage to get the #msize anchor to
+work as expected:
+
+Reviewed-by: Greg Kurz <groug@kaod.org>
+
+> +        warn_report_once(
+> +            "9p: degraded performance: a reasonable high msize should be "
+> +            "chosen on client/guest side (chosen msize is <= 8192). See "
+> +            "https://wiki.qemu.org/Documentation/9psetup#msize for details."
+> +        );
+> +    }
+> +
+>  marshal:
+>      err = pdu_marshal(pdu, offset, "ds", s->msize, &version);
+>      if (err < 0) {
+
 
