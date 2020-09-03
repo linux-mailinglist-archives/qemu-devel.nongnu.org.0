@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90C8025BFE6
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 13:10:53 +0200 (CEST)
-Received: from localhost ([::1]:38088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2079A25BFEC
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 13:12:18 +0200 (CEST)
+Received: from localhost ([::1]:46726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDn8m-0002dA-Hx
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 07:10:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33902)
+	id 1kDnA9-0006B1-6v
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 07:12:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDn73-0008O4-VT
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 07:09:06 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33858
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDn7A-0000E2-Qh
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 07:09:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43834)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDn71-0005pe-FI
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 07:09:05 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDn77-0005rd-Hg
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 07:09:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599131342;
+ s=mimecast20190719; t=1599131348;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=j+CTPuGUnIINTsaPCLli+OHIjRAwlTE0OOiFGbSRLLI=;
- b=YGI4DY762GNDVysu1xauKV8EmU09E4Meoo/UFXaxmE71ah00uJTdUnT8XnPE2pxVn3IKeT
- KWv+cwjkg3Tp9u6re5BSVL/7NzZ3LYLwlxFM201WCbwEQp6vqHObLiWJTAbPY2OUuOimyF
- 77C/laYMwqOnbXdR7fbKfI9VWSZJOM4=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-43-oKTlDOANM_-xqn2af-4jPQ-1; Thu, 03 Sep 2020 07:09:01 -0400
-X-MC-Unique: oKTlDOANM_-xqn2af-4jPQ-1
-Received: by mail-wr1-f70.google.com with SMTP id b8so960229wrr.2
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 04:09:01 -0700 (PDT)
+ bh=m9Kq6ilZXw1SgPGwv65dwwD+++f09k8wejmCLHdwFqM=;
+ b=IHCi00xWbUuMvCqwbFp4z9Vdntzjr6XL+jIHcaY1F1EHCQKwwoFaOZaZWYNY++nqzdvFsU
+ Xtwy+yVXm7qkfNOUDJPsj2vYKyVb01GWhgxC0S6TW6b3t16QiHGDfnx2QDb1fZTnRNdH+Z
+ yvUJZ08Kg0y5mxgG6XnIf0UyXYlhx18=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-210-rLtZKzKENgS995o0HE1xHg-1; Thu, 03 Sep 2020 07:09:07 -0400
+X-MC-Unique: rLtZKzKENgS995o0HE1xHg-1
+Received: by mail-wm1-f71.google.com with SMTP id k12so2294472wmj.1
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 04:09:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=j+CTPuGUnIINTsaPCLli+OHIjRAwlTE0OOiFGbSRLLI=;
- b=egxlEMdYWjhURtRgF678Ca3/YaHLqD6vOGd0zsOqmc8NIaKMpSqzHIL5m68GHwYTt6
- COI0eol+8jVpmuEA2dsROUUIlL4fUVaBbBhtTXAk14gDS7u2nMGxKdTQxf8v19fbC+xh
- YGs/dIFkKXKvXz0DFXEzZp7H+1xj/vT56ADvKyPryiUnu6svgG8IBXfIb7Se7dcxGn7R
- sgoIu+Q8B9CJCgk4DTIJ20aXZV4TdpaCA8ihExJII50L/VYTrK4qt60dgKzr483mwS1P
- Z/wUvZv1xPULZ8ezhYGTalHGYG4DAffo+he6E4/eP8UUuUh7mnhD+WzZIiOoJ6HYCiZk
- txSg==
-X-Gm-Message-State: AOAM533cxhZ2U1hR5fLkk1pCFSvHA3meTPK1TsuCPAxUd7y49FGk+1WV
- 56zXI9zEwIk5X3EGicvl5yAoCUBE2tDVHb34lPyMjeKa/l6KB/lHR9jI2R/qGoz9nNVnB2FRnLW
- pGQUYM853avQCags=
-X-Received: by 2002:adf:e9c1:: with SMTP id l1mr1912999wrn.68.1599131339764;
- Thu, 03 Sep 2020 04:08:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzNjVckWeZj1Fks7WkDAmCdI4aYyZe18yH1B95ng9F9Ur0Iayl4PU3nMhc55IyTVorvdu0rOQ==
-X-Received: by 2002:adf:e9c1:: with SMTP id l1mr1912961wrn.68.1599131339616;
- Thu, 03 Sep 2020 04:08:59 -0700 (PDT)
+ bh=m9Kq6ilZXw1SgPGwv65dwwD+++f09k8wejmCLHdwFqM=;
+ b=Nr1IpWc1vjmjE77wQBBWcGfDSrALcF/SUTnWal/xdT3h9gX7brAlFWc24xAntmlVxp
+ FKM8f58FGKIuY7vmQ5lq8bK6Bomn8pAtXbeHBNglsW1gYn6/x5QQw3k0iz0tQZJPIODc
+ xsneSv8nstvYOdjLxWFYg0gcu49zsdFtPHvnuxdR9ULUTia/POZVnuJSzoMMs9D1DEtG
+ XQRBuM8Zf4oj527PdlzyqtezW3H3GxAnuwVDKafOiexC9CVN4EJixXkvMBiC1KlqUKtB
+ EGla1+G5JG1NPM7xShoKQfhRFvHRGh6YAWOX7L2Gq54v9EfwbuQEVy1/t0cNDsYX8NTt
+ 3CgA==
+X-Gm-Message-State: AOAM532jY8kthdI+kBfPGg6jLhKQEV3Utryx9hCVO94yACdM2k5nWSMX
+ ptqvYG7Uvhu4w/HN5bgy/Rx6hOM0EFeR5WWi5Jxr5R/PpKrUU22QQ79+W/GcrkUiq51fiCImcPf
+ a+OXlfsbVa6GB12s=
+X-Received: by 2002:a1c:9d83:: with SMTP id g125mr1863599wme.41.1599131346008; 
+ Thu, 03 Sep 2020 04:09:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxRiHbWxFDviE7nR+1lhmyRzMAOuU0bX6QwqWVwsRP0tHrsP4Qu+Qmf+kIz2nRAdDXj/BgKgA==
+X-Received: by 2002:a1c:9d83:: with SMTP id g125mr1863549wme.41.1599131345807; 
+ Thu, 03 Sep 2020 04:09:05 -0700 (PDT)
 Received: from localhost.localdomain (50.red-83-52-54.dynamicip.rima-tde.net.
  [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id q18sm3863193wre.78.2020.09.03.04.08.57
+ by smtp.gmail.com with ESMTPSA id 197sm3869799wme.10.2020.09.03.04.09.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Sep 2020 04:08:58 -0700 (PDT)
+ Thu, 03 Sep 2020 04:09:05 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/12] dma: Let dma_memory_rw_relaxed() take MemTxAttrs
- argument
-Date: Thu,  3 Sep 2020 13:08:23 +0200
-Message-Id: <20200903110831.353476-5-philmd@redhat.com>
+Subject: [PATCH 05/12] dma: Let dma_memory_rw() take MemTxAttrs argument
+Date: Thu,  3 Sep 2020 13:08:24 +0200
+Message-Id: <20200903110831.353476-6-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200903110831.353476-1-philmd@redhat.com>
 References: <20200903110831.353476-1-philmd@redhat.com>
@@ -75,17 +73,17 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 04:23:49
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 04:23:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -128,54 +126,132 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/sysemu/dma.h | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ include/hw/pci/pci.h |  3 ++-
+ include/sysemu/dma.h | 10 +++++-----
+ dma-helpers.c        |  3 ++-
+ hw/intc/spapr_xive.c |  3 ++-
+ hw/usb/hcd-ohci.c    | 10 ++++++----
+ 5 files changed, 17 insertions(+), 12 deletions(-)
 
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index 896cef9ad47..0c3217e019c 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -788,7 +788,8 @@ static inline AddressSpace *pci_get_address_space(PCIDevice *dev)
+ static inline int pci_dma_rw(PCIDevice *dev, dma_addr_t addr,
+                              void *buf, dma_addr_t len, DMADirection dir)
+ {
+-    return dma_memory_rw(pci_get_address_space(dev), addr, buf, len, dir);
++    return dma_memory_rw(pci_get_address_space(dev), addr, buf, len,
++                         dir, MEMTXATTRS_UNSPECIFIED);
+ }
+ 
+ static inline int pci_dma_read(PCIDevice *dev, dma_addr_t addr,
 diff --git a/include/sysemu/dma.h b/include/sysemu/dma.h
-index 34f957cc278..6068323e48f 100644
+index 6068323e48f..f03edeab173 100644
 --- a/include/sysemu/dma.h
 +++ b/include/sysemu/dma.h
-@@ -82,23 +82,26 @@ static inline bool dma_memory_valid(AddressSpace *as,
- 
- static inline int dma_memory_rw_relaxed(AddressSpace *as, dma_addr_t addr,
-                                         void *buf, dma_addr_t len,
--                                        DMADirection dir)
-+                                        DMADirection dir, MemTxAttrs attrs)
- {
--    return (bool)address_space_rw(as, addr, MEMTXATTRS_UNSPECIFIED,
-+    return (bool)address_space_rw(as, addr, attrs,
-                                   buf, len, dir == DMA_DIRECTION_FROM_DEVICE);
- }
- 
- static inline int dma_memory_read_relaxed(AddressSpace *as, dma_addr_t addr,
-                                           void *buf, dma_addr_t len)
- {
--    return dma_memory_rw_relaxed(as, addr, buf, len, DMA_DIRECTION_TO_DEVICE);
-+    return dma_memory_rw_relaxed(as, addr, buf, len,
-+                                 DMA_DIRECTION_TO_DEVICE,
-+                                 MEMTXATTRS_UNSPECIFIED);
- }
- 
- static inline int dma_memory_write_relaxed(AddressSpace *as, dma_addr_t addr,
-                                            const void *buf, dma_addr_t len)
- {
-     return dma_memory_rw_relaxed(as, addr, (void *)buf, len,
--                                 DMA_DIRECTION_FROM_DEVICE);
-+                                 DMA_DIRECTION_FROM_DEVICE,
-+                                 MEMTXATTRS_UNSPECIFIED);
- }
+@@ -106,25 +106,25 @@ static inline int dma_memory_write_relaxed(AddressSpace *as, dma_addr_t addr,
  
  static inline int dma_memory_rw(AddressSpace *as, dma_addr_t addr,
-@@ -107,7 +110,8 @@ static inline int dma_memory_rw(AddressSpace *as, dma_addr_t addr,
+                                 void *buf, dma_addr_t len,
+-                                DMADirection dir)
++                                DMADirection dir, MemTxAttrs attrs)
  {
      dma_barrier(as, dir);
  
--    return dma_memory_rw_relaxed(as, addr, buf, len, dir);
-+    return dma_memory_rw_relaxed(as, addr, buf, len, dir,
-+                                 MEMTXATTRS_UNSPECIFIED);
+-    return dma_memory_rw_relaxed(as, addr, buf, len, dir,
+-                                 MEMTXATTRS_UNSPECIFIED);
++    return dma_memory_rw_relaxed(as, addr, buf, len, dir, attrs);
  }
  
  static inline int dma_memory_read(AddressSpace *as, dma_addr_t addr,
+                                   void *buf, dma_addr_t len)
+ {
+-    return dma_memory_rw(as, addr, buf, len, DMA_DIRECTION_TO_DEVICE);
++    return dma_memory_rw(as, addr, buf, len,
++                         DMA_DIRECTION_TO_DEVICE, MEMTXATTRS_UNSPECIFIED);
+ }
+ 
+ static inline int dma_memory_write(AddressSpace *as, dma_addr_t addr,
+                                    const void *buf, dma_addr_t len)
+ {
+     return dma_memory_rw(as, addr, (void *)buf, len,
+-                         DMA_DIRECTION_FROM_DEVICE);
++                         DMA_DIRECTION_FROM_DEVICE, MEMTXATTRS_UNSPECIFIED);
+ }
+ 
+ int dma_memory_set(AddressSpace *as, dma_addr_t addr,
+diff --git a/dma-helpers.c b/dma-helpers.c
+index 49d66716469..50473bb1996 100644
+--- a/dma-helpers.c
++++ b/dma-helpers.c
+@@ -305,7 +305,8 @@ static uint64_t dma_buf_rw(uint8_t *ptr, int32_t len, QEMUSGList *sg,
+     while (len > 0) {
+         ScatterGatherEntry entry = sg->sg[sg_cur_index++];
+         int32_t xfer = MIN(len, entry.len);
+-        dma_memory_rw(sg->as, entry.base, ptr, xfer, dir);
++        dma_memory_rw(sg->as, entry.base, ptr, xfer, dir,
++                      MEMTXATTRS_UNSPECIFIED);
+         ptr += xfer;
+         len -= xfer;
+         resid -= xfer;
+diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+index 4bd0d606ba1..dbf73a8bf47 100644
+--- a/hw/intc/spapr_xive.c
++++ b/hw/intc/spapr_xive.c
+@@ -1666,7 +1666,8 @@ static target_ulong h_int_esb(PowerPCCPU *cpu,
+         mmio_addr = xive->vc_base + xive_source_esb_mgmt(xsrc, lisn) + offset;
+ 
+         if (dma_memory_rw(&address_space_memory, mmio_addr, &data, 8,
+-                          (flags & SPAPR_XIVE_ESB_STORE))) {
++                          (flags & SPAPR_XIVE_ESB_STORE),
++                          MEMTXATTRS_UNSPECIFIED)) {
+             qemu_log_mask(LOG_GUEST_ERROR, "XIVE: failed to access ESB @0x%"
+                           HWADDR_PRIx "\n", mmio_addr);
+             return H_HARDWARE;
+diff --git a/hw/usb/hcd-ohci.c b/hw/usb/hcd-ohci.c
+index 1e6e85e86a8..bac1adf439c 100644
+--- a/hw/usb/hcd-ohci.c
++++ b/hw/usb/hcd-ohci.c
+@@ -586,7 +586,8 @@ static int ohci_copy_td(OHCIState *ohci, struct ohci_td *td,
+     if (n > len)
+         n = len;
+ 
+-    if (dma_memory_rw(ohci->as, ptr + ohci->localmem_base, buf, n, dir)) {
++    if (dma_memory_rw(ohci->as, ptr + ohci->localmem_base, buf,
++                      n, dir, MEMTXATTRS_UNSPECIFIED)) {
+         return -1;
+     }
+     if (n == len) {
+@@ -595,7 +596,7 @@ static int ohci_copy_td(OHCIState *ohci, struct ohci_td *td,
+     ptr = td->be & ~0xfffu;
+     buf += n;
+     if (dma_memory_rw(ohci->as, ptr + ohci->localmem_base, buf,
+-                      len - n, dir)) {
++                      len - n, dir, MEMTXATTRS_UNSPECIFIED)) {
+         return -1;
+     }
+     return 0;
+@@ -613,7 +614,8 @@ static int ohci_copy_iso_td(OHCIState *ohci,
+     if (n > len)
+         n = len;
+ 
+-    if (dma_memory_rw(ohci->as, ptr + ohci->localmem_base, buf, n, dir)) {
++    if (dma_memory_rw(ohci->as, ptr + ohci->localmem_base, buf,
++                      n, dir, MEMTXATTRS_UNSPECIFIED)) {
+         return -1;
+     }
+     if (n == len) {
+@@ -622,7 +624,7 @@ static int ohci_copy_iso_td(OHCIState *ohci,
+     ptr = end_addr & ~0xfffu;
+     buf += n;
+     if (dma_memory_rw(ohci->as, ptr + ohci->localmem_base, buf,
+-                      len - n, dir)) {
++                      len - n, dir, MEMTXATTRS_UNSPECIFIED)) {
+         return -1;
+     }
+     return 0;
 -- 
 2.26.2
 
