@@ -2,76 +2,115 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0143B25C6DA
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 18:32:20 +0200 (CEST)
-Received: from localhost ([::1]:52808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E00325C6ED
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 18:34:19 +0200 (CEST)
+Received: from localhost ([::1]:60284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDs9q-0001E8-SU
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 12:32:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35840)
+	id 1kDsBm-0004Tf-Cw
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 12:34:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kDrmi-000837-Je
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:08:24 -0400
-Received: from mout.gmx.net ([212.227.17.21]:57871)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kDrmg-0007ni-JS
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:08:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1599149271;
- bh=1RjbbzPbP2N3QF83H9SFCrSjVVJRqbftyMByeZf/fTw=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=bSidBniLmBAbz4xC0eG2lG2nhujdmXwqc1J1+nH0aOzw4Nd7wnPKT9cJ1VnmVUYLx
- wYSGJ8LFOx1TQGGElaPHPZWrbxcaCAT9+9oHWquXp3s+RJqlbojSS1a9+7E14c3jkR
- 3RxAAndjpkBLzChVK12I8As92sJud7bZHk5WUsL8=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from ls3530.fritz.box ([92.116.138.28]) by mail.gmx.com (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N2E1G-1kiMQr29io-013fKq; Thu, 03
- Sep 2020 18:07:51 +0200
-From: Helge Deller <deller@gmx.de>
-To: qemu-devel@nongnu.org,
-	peter.maydell@linaro.org
-Subject: [PULL 07/10] target/hppa: Fix boot with old Linux installation CDs
-Date: Thu,  3 Sep 2020 18:07:43 +0200
-Message-Id: <20200903160746.27491-8-deller@gmx.de>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200903160746.27491-1-deller@gmx.de>
-References: <20200903160746.27491-1-deller@gmx.de>
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <brogers@suse.com>) id 1kDrop-00013u-8B
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:10:36 -0400
+Received: from de-smtp-delivery-102.mimecast.com ([62.140.7.102]:25614)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <brogers@suse.com>) id 1kDrol-000816-Jb
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:10:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com;
+ s=mimecast20200619; t=1599149428;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/tjJjtORtCoA8Ohq8VNcGpGkXccyoEXuv0VXae/j/xg=;
+ b=aDpJM8qUYjVei6kpXMIpUQhbn76TJpCT6MhQLoSA1w6E5xC2NklvNPsgLoRNVPTRLKgEbp
+ l7qRHGyQqY9c2JBiEa/W+KbMzWh7RsGXIX2bltdVVsRRNkNvxDS+bRDxie36/feWvTJrqI
+ pZbAq2BIBZO71WmUXWEPakuErBC5Bd8=
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur05lp2173.outbound.protection.outlook.com [104.47.17.173])
+ (Using TLS) by relay.mimecast.com with ESMTP id
+ de-mta-26-Pm5d72PmOQyRy7uf_wq_dw-1; Thu, 03 Sep 2020 18:10:27 +0200
+X-MC-Unique: Pm5d72PmOQyRy7uf_wq_dw-1
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=d8VRVItfAr7eAOTYVUFP8efblXD29IPvAw0DU7Orb1rEjpLnj9DL4VPDmnaf3TtfEMBQw3trcigKKqTjX7fqSTaYUC+mMN2kM5qB5sM1S8zvIgNQKtg7H9FilXIGPOthiiAw2ptlm36TAvKTnpQDg1UIrg+38FpfR0ppmJHo92yoHRhgH3lG5jaKPLKrF/Gjv3GiZC1MApNqxLAMd8JmSuEiGwM0ZwU8MkZMbaCkz3D5Ck+yPGEr/thR4d26sGBJr9y7HF6ep8mql8yMaE/Ggapyfc3z1RdLuVcCD8okslGNh1kkpLC0CotjxcLLuu4NfAdRaY0CJySQlcysn7m2sw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4ga0Db2XxpF9a1VFJG9JuOCJR7QoeVGV2nWGkHIA/UA=;
+ b=JqXF4oXkoCnwfa1nCcasmG/0TDte4dK+99+4ptRInwPBiBYmqPAaKcxXcenFFIxb+s1dG62b3cHbwrGCvuclsRVO9oQh6uW0oVMYYbVQLTOG0/gbDhKeLcNc30FzAlmbRuL4hj3O/FffeAQM3rMte3tR39QoGw3mYT6GBxoBYRtz2mpP15mqXcXurGUlr0ZwqBxqVT3MN7PdhIS0/rePiigTxseE0JR4jFrpKqJnpJY5eWMj3uKMJX+jFe6GnAWzK5563lYCTG02W5PEAZz4NqeYw8EHZOrtOn2BBeBPxuZ6uBfcozEYQBjFAbLmwlakr91dvPrvLFsICex6SHLMHA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
+ dkim=pass header.d=suse.com; arc=none
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=suse.com;
+Received: from AM4PR0401MB2354.eurprd04.prod.outlook.com
+ (2603:10a6:200:54::21) by AM0PR0402MB3906.eurprd04.prod.outlook.com
+ (2603:10a6:208:e::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.23; Thu, 3 Sep
+ 2020 16:10:26 +0000
+Received: from AM4PR0401MB2354.eurprd04.prod.outlook.com
+ ([fe80::9c57:5888:a06b:ec05]) by AM4PR0401MB2354.eurprd04.prod.outlook.com
+ ([fe80::9c57:5888:a06b:ec05%10]) with mapi id 15.20.3326.025; Thu, 3 Sep 2020
+ 16:10:25 +0000
+Message-ID: <965ae4eb1545abded177518f36b0f5dcf68a9169.camel@suse.com>
+Subject: Re: [PATCH] meson: install ivshmem-client and ivshmem-server
+From: Bruce Rogers <brogers@suse.com>
+To: "Daniel P." =?ISO-8859-1?Q?Berrang=E9?= <berrange@redhat.com>, Paolo
+ Bonzini <pbonzini@redhat.com>
+Date: Thu, 03 Sep 2020 10:10:17 -0600
+In-Reply-To: <20200903154906.GA441291@redhat.com>
+References: <20200903153524.98168-1-brogers@suse.com>
+ <4eba2feb-a9b3-8bb7-6ed7-6b02c79519b1@redhat.com>
+ <20200903154906.GA441291@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5 
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:IyZw5rE5Eb9PmvzGd2UsYwpORXov3NYsgJCrsf1BYpUqAV2lP23
- 0kSvaqxFpxehgMQ7Uv0PrSLdCpgbo46/FP3L3gwguMouFUYQT0yVuoPTFCG7qCJjIyAfJGN
- AAMdlzZ0blfWYNPr3GO0j3js5CZ3ORmJOqPCP78lssUAUjjQ25PYJRIaq5dhaXZ3FqcSV4a
- vVhA+Smsp+mY+JmvYgGsg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:N9OylkwgT7w=:LLxMufjBoOj7Kp5lizsmHw
- tJ5ad4DGq4khw4ERY+CWLoIXjWlmVBeePgXbcg/U/j9aHFeEJPqNtUbpjExijitQxjmdu47Oy
- uUfzTZSOLEScewiKvDLKPasY6hZfnD5z+IR7rhak5BGrQ7DzZV80BoTrDBsGazf+0AcCYZeH0
- JncXbzL+1YNOl/c40/2kkLC8gCbZjfNtVEhuEV8MGhEQ9QiZZFWu9CrKfT4HhdXxt6DPpxl5D
- Pi2NXPtpHmfm3ot/g6JK73hwpcTqin4xyEMhilvtcW/SSYiTK863Pb2eNZUHjWV6QulSH+ihF
- v2UB6hy7dqH61zRg0KzgiQyw242D88XX2QjLsXriS80zMoDRVaLz69wx/OE/+iNsWfX1WTUtM
- xFxHC7AryzVrWqs468RXNqH8ibenHlYjrDSNCNat6Oh8vOk69NT4Tld4XPrjhBW9FBvrntEwJ
- AbejcNDfIL+jdFngjAuB2ZjD+0QAqKdhZwW6P5NEq9M/b2oVPZpgvfWVnhR5oMWnHmWoC6e8D
- zxS7gq+HKISnie/j/JaXl+qX+hV1wzQnrrP3twVW6gyCWyGvE2py2PGEA5pqNWQ9DQ+/j8DRv
- yjjHerV114V/aOANUxjTN4W2lpIBuL7Z6V5IhsnD8Xe+FFuo5U8D8vNfuXlZg9n9/RLnnBuM7
- rChSPuEJ96HbQV4iIA9iX1H8lq9kyS81RXJ7fS4XTm8U2YLjnnIS6XTdHUZo86JwoOC9jIeix
- dyhUsAe7mXpEPxHA+hYyort3/kmQHL35wul2maAGdTh9Ycb83kst1RyTtOhYxsbopjLHqmMXF
- mRu4rZPjhIGUXhVJLUCZWfu2Iji3AYOzgfy1ltYwz5Z/sbB+lwo1kBx9322sH5xgkQHGJy9Ew
- LXr4k7naMhIM/e5fepFY8km0t/20kuNJwusxl3uqkRxGd5u5GWn9XJaWN9rW8cZOCV9ZclMH1
- z93IVfr9YoSEdfWSi7Wt+//MX7yJ3l/ENy7cItmexCe6Cm0HcdbMLpBsFqM/ShPT/ZGQEI3jC
- 692gv3BwfX/6BVm8X0P2ZUfqt+6OUstZOvNFljq28JtmbOc1AfcMzC3BGuaIcqFjIpMa2QsaF
- 5GHq74JwtXjKkS2uqFBZIR288NeDBRcp85kcQfVyCC8fNZftNesm1WmH0MKDfaosx7SU9ZA1Z
- QFxlWg35diXFR+CLdxzDuKJuf30KhYVuGQ4ksMhjlXoUevC7IUduapf31qK62QaBl3WeE1XsD
- P74i+F/EGhLFNNH0O
-Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 12:08:05
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+X-ClientProxiedBy: AM4PR0302CA0023.eurprd03.prod.outlook.com
+ (2603:10a6:205:2::36) To AM4PR0401MB2354.eurprd04.prod.outlook.com
+ (2603:10a6:200:54::21)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.5] (63.248.145.198) by
+ AM4PR0302CA0023.eurprd03.prod.outlook.com (2603:10a6:205:2::36) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.15 via Frontend
+ Transport; Thu, 3 Sep 2020 16:10:24 +0000
+X-Originating-IP: [63.248.145.198]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f70dfd57-8ee4-446b-31bc-08d85023de26
+X-MS-TrafficTypeDiagnostic: AM0PR0402MB3906:
+X-Microsoft-Antispam-PRVS: <AM0PR0402MB390678C19F89EC77123256E1D92C0@AM0PR0402MB3906.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: p7gVIwZrmKM8+2qmJOQ6pQHxKV7UdJvS43ee5BDqcE1Yzvi2vc4rIZ1xRftdhI7VOCOgTbhqdLfzjWuMYaGfFY/JUUPgrNclY87FHrIyvseWAtwEunkt8UhRfIZp/lXmROm+OveRpi4Ks3kIbfV9iCc878ezrjYIme/jErUwTuHbKQnhPMcAqibafoT5WghjlD7zLl2ljitwpkARIeMAJ3QGtoKHp+PNbqmleaDTQxRKl4FuS+/n2WCdFKKA7khJDBpqGhPpo25fH+/3qxHxXYQC/+LDaLpaLI87rFwF1mrvZBuBc85cHF25lrM35yDKgvII67AAMslwprVr2f0lTg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM4PR0401MB2354.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(396003)(346002)(136003)(376002)(366004)(39860400002)(6486002)(66946007)(66556008)(478600001)(86362001)(8936002)(186003)(6666004)(16526019)(2906002)(66476007)(316002)(16576012)(26005)(8676002)(5660300002)(2616005)(956004)(83380400001)(53546011)(36756003)(4326008)(110136005)(52116002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: QdxBYOe/T3P7fgJQ2oaoFDFF8H+OqKR6FhbiB0ziWApOf/pSsRe2/xBcD2Z1xhqDqTrJa0lahejQ4rrDce+uE50Tt4uVIu6wYZrZWVRXJwEDRHwqx/X8DeuImPe+jV9Vd3h9KJntTBErvHIi0ohqpy0RMUyJjfB32OrbKK8sbmvOgXijSM0R9/16ycramS+oDWw/L72P+cpkv7FU8Dc2xMY/vY2qjZzWC/GAQ0XEXh73vXEWJO9umMJk2vvG3mVI75nCrQ8Zr+M8f6825iz5d3P/HCywgQsw+SXrwIT9UJkSlNGs02NWMLlGvGXXTa2b9rgO/PPKUuuqXErtyz78BG8Ii3w6ZdfFA08kcfmPavO8izlvfVteKyluCFArjjxE6XLluVPBUZ9qL0ILFLmG5rJZU3aFVUbV0eOiv74lu5kvVaiQBd1RVd9mqcWs0xo3DlTmyqm+1HNcVdPhTm6TWhUVj2dtD2KTHNGqaFIU6MJ7HN0iW6SUTGTLtE7rclM945B1puQ6gOHObT/BvGOmdXXgyU52KJ0SVaUjzJxiRNnfXA8aClAnR4nfF8U02We2Y3YgoI/qdSHJmqmADDlBUAaBj25DhFHFo6IzI+xNu/RpFOpUXauHYKJKVb4NuK6Uu1GuBtBy792amZZz5F5mVQ==
+X-OriginatorOrg: suse.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f70dfd57-8ee4-446b-31bc-08d85023de26
+X-MS-Exchange-CrossTenant-AuthSource: AM4PR0401MB2354.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2020 16:10:25.8050 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: X13D79ce/W6TGTvS30J+NOIzFZxC+NysUpDL6Kk+LyRlxUgUw+7/h0vWW6gvy+SkE/QYr9PVL/8NTWZmyF9F6A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR0402MB3906
+Received-SPF: pass client-ip=62.140.7.102; envelope-from=brogers@suse.com;
+ helo=de-smtp-delivery-102.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 12:10:28
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,94 +124,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>,
- Richard Henderson <richard.henderson@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current qemu hppa emulation emulates a PA1.1 CPU, which can only execu=
-te
-the 32-bit instruction set. For unknown 64-bit instructions, a instruction=
- trap
-is sent to the virtual CPU.
-This behaviour is correct in the sense that we emulate what the PA1.1
-specification says.
+On Thu, 2020-09-03 at 16:49 +0100, Daniel P. Berrang=C3=A9 wrote:
+> On Thu, Sep 03, 2020 at 05:44:25PM +0200, Paolo Bonzini wrote:
+> > On 03/09/20 17:35, Bruce Rogers wrote:
+> > > Turn on the meson install flag for these executables
+> > >=20
+> > > Signed-off-by: Bruce Rogers <brogers@suse.com>
+> > > ---
+> > >  contrib/ivshmem-client/meson.build | 2 +-
+> > >  contrib/ivshmem-server/meson.build | 2 +-
+> > >  2 files changed, 2 insertions(+), 2 deletions(-)
+> > >=20
+> > > diff --git a/contrib/ivshmem-client/meson.build
+> > > b/contrib/ivshmem-client/meson.build
+> > > index 1b171efb4f..83a559117f 100644
+> > > --- a/contrib/ivshmem-client/meson.build
+> > > +++ b/contrib/ivshmem-client/meson.build
+> > > @@ -1,4 +1,4 @@
+> > >  executable('ivshmem-client', files('ivshmem-client.c',
+> > > 'main.c'),
+> > >             dependencies: glib,
+> > >             build_by_default: targetos =3D=3D 'linux',
+> > > -           install: false)
+> > > +           install: true)
+> > > diff --git a/contrib/ivshmem-server/meson.build
+> > > b/contrib/ivshmem-server/meson.build
+> > > index 3a53942201..a1c39aa3b3 100644
+> > > --- a/contrib/ivshmem-server/meson.build
+> > > +++ b/contrib/ivshmem-server/meson.build
+> > > @@ -1,4 +1,4 @@
+> > >  executable('ivshmem-server', files('ivshmem-server.c',
+> > > 'main.c'),
+> > >             dependencies: [qemuutil, rt],
+> > >             build_by_default: targetos =3D=3D 'linux',
+> > > -           install: false)
+> > > +           install: true)
+> > >=20
+> >=20
+> > They weren't installed before the conversion, were they?
+>=20
+> Unfortunately they were historically installed with --enable-tools.
+>=20
+Yeah, that's how I was getting them installed in what we are packaging
+up.
 
-But when trying to boot older Linux installation images, e.g.
-ftp://parisc.parisc-linux.org/debian-cd/debian-5.0/lenny-5.0.10-hppa-iso-c=
-d/cdimage.debian.org/debian-5010-hppa-netinst.iso
-one finds that qemu fails to boot those images.
-The problem is, that in the Linux kernel (e.g. 2.6.26) of those old images
-64-bit instructions were used by mistake in the fault handlers. The releva=
-nt
-instructions (the ",*" indicates that it's a 64-bit instruction) I see are=
-:
-   0:   09 3e 04 29     sub,* sp,r9,r9
-   0:   08 3d 06 3d     add,* ret1,r1,ret1
-   0:   0a 09 02 61     or,* r9,r16,r1
-   0:   0a ba 00 3a     andcm,* r26,r21,r26
-   0:   08 33 02 33     and,* r19,r1,r19
-
-The interesting part is, that real physical 32-bit machines (like the 700/=
-64
-and B160L - which is the one we emulate) do boot those images and thus see=
-m to
-simply ignore the 64-bit flag on those instructions.
-
-The patch below modifies the qemu instruction decoder to ignore the 64-bit=
- flag
-too - which is what real 32-bit hardware seems to do.  With this modificat=
-ion
-qemu now successfully boots those older images too.
-
-I suggest to apply the patch below - even if it does not reflect what the =
-SPEC
-says.  Instead it increases the compatibility to really existing hardware =
-and
-seem to not create problems if we add real PA2.0 support anytime later.
-
-Signed-off-by: Helge Deller <deller@gmx.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-=2D--
- target/hppa/insns.decode | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/target/hppa/insns.decode b/target/hppa/insns.decode
-index f0dd71dd08..dceaad65e9 100644
-=2D-- a/target/hppa/insns.decode
-+++ b/target/hppa/insns.decode
-@@ -149,9 +149,9 @@ lci             000001 ----- ----- -- 01001100 0 t:5
- # Arith/Log
- ####
-
--andcm           000010 ..... ..... .... 000000 0 .....  @rrr_cf
--and             000010 ..... ..... .... 001000 0 .....  @rrr_cf
--or              000010 ..... ..... .... 001001 0 .....  @rrr_cf
-+andcm           000010 ..... ..... .... 000000 - .....  @rrr_cf
-+and             000010 ..... ..... .... 001000 - .....  @rrr_cf
-+or              000010 ..... ..... .... 001001 - .....  @rrr_cf
- xor             000010 ..... ..... .... 001010 0 .....  @rrr_cf
- uxor            000010 ..... ..... .... 001110 0 .....  @rrr_cf
- ds              000010 ..... ..... .... 010001 0 .....  @rrr_cf
-@@ -161,13 +161,13 @@ uaddcm_tc       000010 ..... ..... .... 100111 0 ...=
-..  @rrr_cf
- dcor            000010 ..... 00000 .... 101110 0 .....  @rr_cf
- dcor_i          000010 ..... 00000 .... 101111 0 .....  @rr_cf
-
--add             000010 ..... ..... .... 0110.. 0 .....  @rrr_cf_sh
-+add             000010 ..... ..... .... 0110.. - .....  @rrr_cf_sh
- add_l           000010 ..... ..... .... 1010.. 0 .....  @rrr_cf_sh
- add_tsv         000010 ..... ..... .... 1110.. 0 .....  @rrr_cf_sh
- add_c           000010 ..... ..... .... 011100 0 .....  @rrr_cf_sh0
- add_c_tsv       000010 ..... ..... .... 111100 0 .....  @rrr_cf_sh0
-
--sub             000010 ..... ..... .... 010000 0 .....  @rrr_cf
-+sub             000010 ..... ..... .... 010000 - .....  @rrr_cf
- sub_tsv         000010 ..... ..... .... 110000 0 .....  @rrr_cf
- sub_tc          000010 ..... ..... .... 010011 0 .....  @rrr_cf
- sub_tsv_tc      000010 ..... ..... .... 110011 0 .....  @rrr_cf
-=2D-
-2.21.3
+- Bruce
 
 
