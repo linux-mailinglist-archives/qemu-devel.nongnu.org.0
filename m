@@ -2,59 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A453625C4F7
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 17:21:16 +0200 (CEST)
-Received: from localhost ([::1]:35864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BC0B25C532
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 17:24:07 +0200 (CEST)
+Received: from localhost ([::1]:42040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDr35-0007EP-89
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 11:21:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48424)
+	id 1kDr5q-0001WU-38
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 11:24:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kDr27-0006gz-GO
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 11:20:17 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:60147)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kDr24-0007Xw-IL
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 11:20:15 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.252])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 89BB55724584;
- Thu,  3 Sep 2020 17:19:33 +0200 (CEST)
-Received: from kaod.org (37.59.142.101) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 3 Sep 2020
- 17:19:33 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-101G0044bba4b4b-9b4e-491f-a895-5c117f28b309,
- FF22E3E2F99647A0705B7EB067E934078DCBDF97) smtp.auth=groug@kaod.org
-Date: Thu, 3 Sep 2020 17:19:31 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH v2 0/1] 9pfs: log warning if msize <= 8192
-Message-ID: <20200903171931.3bfe611a@bahia.lan>
-In-Reply-To: <cover.1599144062.git.qemu_oss@crudebyte.com>
-References: <cover.1599144062.git.qemu_oss@crudebyte.com>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kDr4B-00089S-8H
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 11:22:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59646)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kDr47-0007yR-Up
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 11:22:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599146538;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rgFR/slVNRf9dJyj5eonJUZShFgNWkxmMR7P1e/wpcA=;
+ b=QQ31iz4PnEqg7rrzbhmpmKrNPtmOEM7qHEpK3BxLXfSOcxIQ8+ojktOcJO81cHGvq3C8AF
+ aISfIEYYEll4fqOPauigtV6x95zzzp6WjjvcVkxdCxA/gRW4gDS7TuCVYsxIgMG+U2WYiF
+ CWwq7hymagO55xy989Yzyh2PzstU3YI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-561-2sYt2AO-O6uMwT3yYQGiZg-1; Thu, 03 Sep 2020 11:22:14 -0400
+X-MC-Unique: 2sYt2AO-O6uMwT3yYQGiZg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A73A3805EF2;
+ Thu,  3 Sep 2020 15:22:13 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.36.110.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7AA782D07D;
+ Thu,  3 Sep 2020 15:22:11 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v6 0/8] block: improve error reporting for unsupported O_DIRECT
+Date: Thu,  3 Sep 2020 16:22:02 +0100
+Message-Id: <20200903152210.1917355-1-berrange@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.101]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: f8443b98-e691-4da4-bab8-e18eabd6f2e0
-X-Ovh-Tracer-Id: 685954519315093981
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrudeguddgkeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheeggedvvdethfdttddvhfeiudetvdfgjedtudetgfevheeijeeileevffegkeehnecuffhomhgrihhnpehqvghmuhdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepsggvrhhrrghnghgvsehrvgguhhgrthdrtghomh
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 11:20:01
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 01:47:17
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,45 +77,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 3 Sep 2020 16:41:02 +0200
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-
-> I have updated the QEMU 9P setup wiki page about this 'msize' issue. For
-> some reason the dedicated anchor 'msize' does not work though:
-> 
-> https://wiki.qemu.org/Documentation/9psetup#msize
-> 
-
-AFAICT the wiki derives the anchor from the section name, ie.
-
-https://wiki.qemu.org/Documentation/9psetup#Performance_Considerations
-
-It's a bit longer than #msize but it works. I don't know if you can
-add anchors manually in the wiki.
-
-> Not sure whether that's a wiki installation problem? When I view the wiki
-> source, it looks like it is showing some errors there.
-> 
-> v1->v2:
-> 
->   * Updated commit log message to make it more clear why the client cannot
->     auto pick a good value for 'msize'.
-> 
->   * Added a web link to the log message, pointing to the appropriate QEMU
->     wiki page which explains the 'msize' issue in detail.
-> 
-> Message-ID of previous version (v1):
->   E1kDR8W-0001s4-Sr@lizzy.crudebyte.com
-> 
-> Christian Schoenebeck (1):
->   9pfs: log warning if msize <= 8192
-> 
->  hw/9pfs/9p.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
+v1: https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg00269.html=0D
+v2: https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg00589.html=0D
+v3: https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg07098.html=0D
+v4: https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg05334.html=0D
+v5: https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg00947.html=0D
+=0D
+See patch commit messages for rationale=0D
+=0D
+Ideally we would convert other callers of qemu_open_old to use=0D
+qemu_open, and eventually remove qemu_open_old entirely, so every=0D
+caller gets use of Error **errp.=0D
+=0D
+Improved in v6:=0D
+=0D
+ - Fix errno regression dup'ing FD=0D
+ - Move qapi header to correct patch=0D
+ - Fix whitespace and commit messages=0D
+ - Converted more use of qemu_open to qemu_open_old after rebase=0D
+=0D
+Improved in v5:=0D
+=0D
+ - Drop reporting of flags in failed open call=0D
+ - Split O_CLOEXEC handling off into separate helper=0D
+ - Refactor monitor FD set APIs to simplify their use=0D
+=0D
+Improved in v4:=0D
+=0D
+ - Use assert() for programmer mistakes=0D
+ - Split second patch into three distinct parts=0D
+ - Misc typos=0D
+ - Improve commit message=0D
+=0D
+Improved in v3:=0D
+=0D
+ - Re-arrange the patches series, so that the conversion to Error=0D
+   takes place first, then the improve O_DIRECT reporting=0D
+ - Rename existing method to qemu_open_old=0D
+ - Use a pair of new methods qemu_open + qemu_create to improve=0D
+   arg checking=0D
+=0D
+Improved in v2:=0D
+=0D
+ - Mention that qemu_open_err is preferred over qemu_open=0D
+ - Get rid of obsolete error_report call=0D
+ - Simplify O_DIRECT handling=0D
+ - Fixup iotests for changed error message text=0D
+=0D
+Daniel P. Berrang=C3=A9 (8):=0D
+  monitor: simplify functions for getting a dup'd fdset entry=0D
+  util: split off a helper for dealing with O_CLOEXEC flag=0D
+  util: rename qemu_open() to qemu_open_old()=0D
+  util: refactor qemu_open_old to split off variadic args handling=0D
+  util: add Error object for qemu_open_internal error reporting=0D
+  util: introduce qemu_open and qemu_create with error reporting=0D
+  util: give a specific error message when O_DIRECT doesn't work=0D
+  block/file: switch to use qemu_open/qemu_create for improved errors=0D
+=0D
+ accel/kvm/kvm-all.c            |   2 +-=0D
+ backends/rng-random.c          |   2 +-=0D
+ backends/tpm/tpm_passthrough.c |   8 +--=0D
+ block/file-posix.c             |  16 ++---=0D
+ block/file-win32.c             |   5 +-=0D
+ block/vvfat.c                  |   5 +-=0D
+ chardev/char-fd.c              |   2 +-=0D
+ chardev/char-pipe.c            |   6 +-=0D
+ chardev/char.c                 |   2 +-=0D
+ dump/dump.c                    |   2 +-=0D
+ hw/s390x/s390-skeys.c          |   2 +-=0D
+ hw/usb/host-libusb.c           |   2 +-=0D
+ hw/usb/u2f-passthru.c          |   4 +-=0D
+ hw/vfio/common.c               |   4 +-=0D
+ include/monitor/monitor.h      |   3 +-=0D
+ include/qemu/osdep.h           |   9 ++-=0D
+ io/channel-file.c              |   2 +-=0D
+ monitor/misc.c                 |  58 ++++++++----------=0D
+ net/vhost-vdpa.c               |   2 +-=0D
+ os-posix.c                     |   2 +-=0D
+ qga/channel-posix.c            |   4 +-=0D
+ qga/commands-posix.c           |   6 +-=0D
+ stubs/fdset.c                  |   8 +--=0D
+ target/arm/kvm.c               |   2 +-=0D
+ ui/console.c                   |   2 +-=0D
+ util/osdep.c                   | 104 +++++++++++++++++++++++----------=0D
+ util/oslib-posix.c             |   2 +-=0D
+ 27 files changed, 150 insertions(+), 116 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
 
