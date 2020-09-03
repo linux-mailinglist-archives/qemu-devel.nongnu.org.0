@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B1E825C64A
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 18:12:21 +0200 (CEST)
-Received: from localhost ([::1]:41922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DC5225C69B
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 18:21:56 +0200 (CEST)
+Received: from localhost ([::1]:57488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDrqV-0001Al-FL
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 12:12:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35654)
+	id 1kDrzm-0007pW-W9
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 12:21:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kDrmS-0007t0-LZ
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:08:08 -0400
-Received: from mout.gmx.net ([212.227.17.21]:49707)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kDrmb-0007xK-BH
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:08:17 -0400
+Received: from mout.gmx.net ([212.227.17.20]:45641)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kDrmQ-0007jo-MP
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:08:08 -0400
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kDrmZ-0007ll-B8
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:08:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
  s=badeba3b8450; t=1599149271;
- bh=BFlROhqLNa/5mWtTViwWl2vX0zdk1DqFz9BeeEdDis8=;
+ bh=nf0r8cvtLe/7MCSBITjraeCAspAdIM54EcNA2Dpw6j8=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=WpunyQDgri3RYc/4qSKpdQY4bRS3uw68N8xX1tzL+btGUxOk5MmM0Xysm/f5N93dR
- FoYfSgi6SFa2yIHBgrLRcpuhuDSMGg+oiV79BIuTBC0iE+qAmPq4fZ+dUEtt6acei8
- mK13MEQQtSp61KB8Okth5A/s4a+BAOIp8t3U8KQo=
+ b=asvRhaC4dfb8IP+NpBjzf+zXghpD+vfivG7C9QyOS2N5oE7JVyQssUgftOwr0MXU0
+ dhlQLiwq+RXS6KBG4gqD2woIfwIyqBO7xVk8hWmXhDiWeXUFnnMC/h3xjrC1a25rVr
+ X8r3Msw/9WGYlHRX2I4FMDa4uedF37hJAftNXYOY=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from ls3530.fritz.box ([92.116.138.28]) by mail.gmx.com (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MHoRK-1kJvmr00c2-00Es4G; Thu, 03
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1M5QFB-1kEgio0dl7-001Pn9; Thu, 03
  Sep 2020 18:07:51 +0200
 From: Helge Deller <deller@gmx.de>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 04/10] hw/hppa: Change fw_cfg port address
-Date: Thu,  3 Sep 2020 18:07:40 +0200
-Message-Id: <20200903160746.27491-5-deller@gmx.de>
+Subject: [PULL 05/10] hw/hppa: Tell SeaBIOS port address of fw_cfg
+Date: Thu,  3 Sep 2020 18:07:41 +0200
+Message-Id: <20200903160746.27491-6-deller@gmx.de>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200903160746.27491-1-deller@gmx.de>
 References: <20200903160746.27491-1-deller@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:k8RO8z8QxZm8GkBRCPgKP7gXE+t3jKLMPBQgksB11Q4eC3e9dbZ
- Dysz5NBxrupCqBsMgr5NsXR6P2JxmiHjgm2n+CX/tbJWUggErbcmMbugD3JqcF7ymSyGh+n
- 25TR9U9ON/DEdzVcCVkSRrd+TOGxtzjJIzjYVE9/UK1CLxQjQ1ZKK15m32KWTCgjaIRdRDy
- OdN6TeK6zs7kmNNtB3byw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:CU4jH9Gonw4=:C+JFhUx36N2wod0Gbd+7Mh
- llkv7sB2LfU3SyrTlx+aYOz6RlU9Vi8ZM/kUkNzG8011skyzLy9nmp42EkjwBkTP7x4waDJFq
- HPVeCZ03ERkv5GGd5o7MfPaxSf9Jv91kXWvS5DN/1QuLjHP8LJYbU3N3uuTucmZCUh7vBqg8v
- 9thXkzBqwDBCr83SkU95+tgqwqllswoa0tSpGCCc1F7AfU8SsQgjSvuq6VDFhMXSnkYBnrIMw
- GXzdXLJyzBfpegLF9lkBuYSuah2qCT3Dw56WAx04jjMgOCoLsAdJPK/OULMye0i2C3T2qQnVO
- oQIZbAHManecCk4MDXy2MxdINJIGtx0xp/Jz5EIHithzQ//yQzMh7NRvOzIQid487N6G5SXGR
- hmkxoniPO6cZ8dkpUy4kqpp/u7Nmw2nbcZ/sH2UiDtJMH6DLwgYol4LK/AlspwTRMltdsxRNh
- t5XORr85BScQkKVNuJkm9chLzJP0rpFN9VmcQCW1U+tIEcs+uzHqULoGlrrjUSETdp09yzuSl
- Cs7/JMDOEaKcZnfMkfwGG6aSEvi6hnOkaqL2hHX5aDBuzvTeWyrF3B4Bwq+W3XXNbYsyUp2Aj
- 53sp4Run3rD+jyvmfaCxJcyozVnY89sg9KX0fZIHLiSGOheWPNhUzu1E6gXlOgAxpB4aJrzrB
- RdTjL8a7E3qvZI4RNbaTrc0PBjwBIvKD2go/WJft8qUxKgLbIYfKlP5MMK8QtDp+Lpso3hIGL
- n6gLkiUWFpzaAUd+SDvkXRQI6gHfmMVmiDKyUYhU3PJ4Qltp0l3x67Y+TWCJln90NgnOZpYOt
- getAQ8Fth/4ysqLkTEtTCrFirdv93dUxxHmgZMRWc0G9j48q5rapwvc49mKw3FhF2jQwXS9g4
- TgrTV+kdOLjEaaEK6a/JQM0puSWeDiz1dAKlfsidCoFaZxMO17SE2FfSuyG4M07q02CBQGRHb
- yiE2lEKVQKAQ0uAcnrzBo5Ey272tv6xR1TPgh74vYey3FGPL3nSLZJ16Wi99nGLi1r9VT6cbo
- Y+tibV8RNT9yU4Yym+qtRaWvGyZVJyZ0EDzSGot2ysP6/X7s74c6zqANuIbwPrUtwmAKUuLz5
- riKdlTcdZpwVPA7/NF+WPsTC2kHH8n/lxW9IK65sIYw29lzSHCzlhWVKyBo586VPXpwN3oQdV
- bnOzCOie5ZrgUvIW7Pwd2xzi7w4XWL40CwcJZTfAtNy48UPipJCQoJIU4rs/E7RYlyHOJc+sS
- dwFelpiN68xLcm8ao
-Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
+X-Provags-ID: V03:K1:O08fKGpw0anhC6Y26cFP6I5rc67mPqFyu2uqc1RRt36I6EuT8lM
+ Uvi5xfVlMcDuF8aDMsfw/t18P6ZKugecDik9tEctPT4cdJ3NeFQPRJTn4uqpe69IGbT+big
+ yA+VdFNgUblGPiTZDz50IXyRhnTHTRjxMEBhW2ktcZaKhx14NkgdDZgLaieyszxzhELKDNN
+ AlEDje4epcwJBethnDJPQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:CJrCbTkKGUs=:PxPI2eV1aBbLqhkdYGnlDw
+ zM1NfLdYQKSmmNLDeE6YVkekT+pClKrG8nLB0g6O7O4YoNUJ9uEqHF8QVLelXgta0iajaZgAw
+ DLJOOBFO3B7dHui6Ky3+MV+/015BKbeoyyd54gzGe1rvRAbKLZpX4jpBvDTlfnyqmzvq2P2NT
+ SbsjvwKtBd1VczFdbi0E1kzuTLNjBro5SDctpDfJA2buWxlzDGAv/I+2tqMz2DPcC1wPKX9lw
+ S/RVJ8BYvrt2qK8Jgmn/FBJ1IdBA9m4bwdP4KcPdIzPnvyG/4P8PV4HYt3VEhkk3DPXEI1Xyq
+ OboV+qUJsPDVuBsNtc2ZjOv7Kx3vPkJRsvYiKVId/QPwb5clnMbOMyPCfdcdmty7FKfvBkgBQ
+ A8z//CaHsQ8zcXzItxLYlH+ajpIzYZ7UYkptnzV8eKUFFgJ2EcRNgbeyA5n8MZs5uK1F/Q+Tw
+ OsFK7nHa0U7XORj28Bk/STj1eHkYk5IQly3ZTvStTwtbmbPkOb0OL0N0W+pFK0Bg+eWqlz0yD
+ TncPPVD3+TT7+VbWDmTZ0x4iFue4QtCjly+jxwLw9TuwY4R6xoIibVseQZyXeRLAYFWJBt+or
+ SeSVIrwv53dJc7BY6kuZ5w9sB7ELKiHaJqrv+NJ6w6ib590trTkSbKCglL7X4W8VmwCs2KCKj
+ iGkHhePiJk+kG8a5e4yv/4HiBXmSukYtS+/vnt3Cy33UNVc0ePfHPBXxNyjFSDGJwPhnTpwBL
+ NsLCICugqtygLpiR79n7kAK0+Q+xu/2/D7ljuWl4PMRELNVMuP45HFPu0RX+OlV63LMjsY9fz
+ iv0XGnzV+DeK494aFfFTP63kmqNZY7Y/54lOGLbipKKIHhJV0jros0m3bbCT3G616nUG+cXyZ
+ uPXJn85Y8HLNGFdo6FuYjOJF2nVGArEsHZIhLPx9n/XWJhzmq42CIPlhJ/stgFxMcYi41hhBa
+ PDESKvCRE1ilc+le7V4+tp4261Sqooe1EuOxhW7VB43j/OJ7WgMOfsR2KYnNwbXGN3QmcwefR
+ 8SY1I+UpVPRoxIgNyd55QuaTw+sEfFaZA6wZO6nhxa+j9mJ5uO2waiXb3AVrYz/eP5zSOXug7
+ lpmqMSiBoOXxtahNdyEOaTFSN5QbGe+TcqyL3JT8yN1czdzkyJlV2Azo9uotBPUq+8XwJabmG
+ SRa4agf7r9EGAxxgBSu0HrKelgrBaDlIlAike/PUrV8sRuoEv0rkN+MjXKj2YahNAHLoTyQNY
+ +Venl+Idn5vpLC3cz
+Received-SPF: pass client-ip=212.227.17.20; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 12:08:05
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 12:08:01
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
@@ -91,34 +91,62 @@ Cc: Helge Deller <deller@gmx.de>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Devices on hppa occupy at least 4k starting at the HPA, so MEMORY_HPA+4k i=
-s
-blocked (by Linux) for the memory module.  I noticed this when testing the=
- new
-Linux kernel patch to let the fw_cfg entries show up in Linux under /proc.
-The Linux kernel driver could not allocate the region for fw_cfg.
-This new base address seems to not conflict.
+Change QEMU_FW_CFG_IO_BASE to shorter variant FW_CFG_IO_BASE and hand
+over the actual port address in %r19 to SeaBIOS.
 
 Signed-off-by: Helge Deller <deller@gmx.de>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 =2D--
- hw/hppa/hppa_hardware.h | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ hw/hppa/hppa_hardware.h | 2 +-
+ hw/hppa/machine.c       | 7 ++++++-
+ 2 files changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/hw/hppa/hppa_hardware.h b/hw/hppa/hppa_hardware.h
-index cdb7fa6240..b2fbbc2eec 100644
+index b2fbbc2eec..bc258895c9 100644
 =2D-- a/hw/hppa/hppa_hardware.h
 +++ b/hw/hppa/hppa_hardware.h
-@@ -38,8 +38,7 @@
+@@ -38,7 +38,7 @@
  #define PORT_PCI_CMD    (PCI_HPA + DINO_PCI_ADDR)
  #define PORT_PCI_DATA   (PCI_HPA + DINO_CONFIG_DATA)
 
--/* QEMU fw_cfg interface port */
--#define QEMU_FW_CFG_IO_BASE     (MEMORY_HPA + 0x80)
-+#define QEMU_FW_CFG_IO_BASE     0xfffa0000
+-#define QEMU_FW_CFG_IO_BASE     0xfffa0000
++#define FW_CFG_IO_BASE  0xfffa0000
 
  #define PORT_SERIAL1    (DINO_UART_HPA + 0x800)
  #define PORT_SERIAL2    (LASI_UART_HPA + 0x800)
+diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
+index 4b35afc9d5..2bed49807b 100644
+=2D-- a/hw/hppa/machine.c
++++ b/hw/hppa/machine.c
+@@ -69,7 +69,7 @@ static FWCfgState *create_fw_cfg(MachineState *ms)
+     FWCfgState *fw_cfg;
+     uint64_t val;
+
+-    fw_cfg =3D fw_cfg_init_mem(QEMU_FW_CFG_IO_BASE, QEMU_FW_CFG_IO_BASE +=
+ 4);
++    fw_cfg =3D fw_cfg_init_mem(FW_CFG_IO_BASE, FW_CFG_IO_BASE + 4);
+     fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, ms->smp.cpus);
+     fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, HPPA_MAX_CPUS);
+     fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, ram_size);
+@@ -290,6 +290,9 @@ static void machine_hppa_init(MachineState *machine)
+
+     /* tell firmware how many SMP CPUs to present in inventory table */
+     cpu[0]->env.gr[21] =3D smp_cpus;
++
++    /* tell firmware fw_cfg port */
++    cpu[0]->env.gr[19] =3D FW_CFG_IO_BASE;
+ }
+
+ static void hppa_machine_reset(MachineState *ms)
+@@ -317,6 +320,8 @@ static void hppa_machine_reset(MachineState *ms)
+     cpu[0]->env.gr[24] =3D 'c';
+     /* gr22/gr23 unused, no initrd while reboot. */
+     cpu[0]->env.gr[21] =3D smp_cpus;
++    /* tell firmware fw_cfg port */
++    cpu[0]->env.gr[19] =3D FW_CFG_IO_BASE;
+ }
+
+
 =2D-
 2.21.3
 
