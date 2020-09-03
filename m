@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4B1625CC0B
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:22:51 +0200 (CEST)
-Received: from localhost ([::1]:35670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9F2F25CC36
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:27:18 +0200 (CEST)
+Received: from localhost ([::1]:54318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwh0-00055Z-NZ
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:22:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59076)
+	id 1kDwlJ-0004qh-P8
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:27:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLh-0004Zm-Iu; Thu, 03 Sep 2020 17:00:52 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:41877)
+ id 1kDwLl-0004cC-SU; Thu, 03 Sep 2020 17:00:54 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:44057)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLg-0007le-3J; Thu, 03 Sep 2020 17:00:49 -0400
-Received: by mail-ot1-x343.google.com with SMTP id a65so4001887otc.8;
- Thu, 03 Sep 2020 14:00:47 -0700 (PDT)
+ id 1kDwLj-0007mx-Qo; Thu, 03 Sep 2020 17:00:53 -0400
+Received: by mail-ot1-x344.google.com with SMTP id a2so3982573otr.11;
+ Thu, 03 Sep 2020 14:00:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nd9Ud5qwe+YYQ0q+uyzFJ7HGCJCNwB347EpetEguZ38=;
- b=Q7YXVtjV08PkuXoPal29fKq1rGAjHbOQyUSXkOWgVKqLdY339NfDytdc4dfto1Szvc
- NwUAqvtWdTlfMwsc1Ku6QdDi4ws6gFHqgmECzkYtRxy37/98kEiVOJkJPierJeKJtBrk
- gxMsNjDauY9xM6Gpfwr+AMN/rkQKplDi40Z+Fl7tzyeweeFVciGrss9x7yh7gUWZUBTg
- I9UUDvABxoWGdWziGAbP32Y0EzMnQIIQaxcsR33clCdN4F96VLO3sCod9O3Td6MaHaNQ
- hB12O6UtrH1vlTJL+YKkNkKxsTQBQw7JG4AQlERdto7ZHxnvc2A5P8pW0NG26J9t16iH
- zgjQ==
+ bh=jToX5f8+EsTioWIIknUwq5OunQEZrWHXCk2GLVSldj8=;
+ b=lXC9ZYGUoZ4KJA2vN/7SvDU0yg5UUTgbCJd1R7y3Cp7ezrlzbg8V9M/PIXkdZPNKM4
+ yiCRIKI4cHACzyLPcdD8sXAWlEYhrBjPmZyHovdaIrSbbFyoKr59+tE5c43YK613g0Ax
+ GpLdGCkFOlTj+SMvUY3OpBlEcbYRBW3O42uHzsp3EYtcg+CwG6osmhFewlySjnp1YAFk
+ sFDbYQ6h16h6aRckxk7LvR4c9IV6F2RUXns9yqEAM5Qz82U3AwCQRPN/eSfvw6JZ26x0
+ VmTYrruMSBzvIID/mD9HcTXknwrMbWa23YM2FTQWMu3cMGzzLJV5Hmj0xqQEcEIrT0YV
+ C8RA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=nd9Ud5qwe+YYQ0q+uyzFJ7HGCJCNwB347EpetEguZ38=;
- b=jQ5ElctZ2EY3fOoImmuV0nMyYUb+VKGnSsz0JW9J9B8UWUtu1BVp5sQxUV6frz6HC8
- XnAcpuh5Q0dtekodW780SjUwevVk1ZbgBNBYw5k0ZPzqCoidy5s/KetREV1it6W5btb1
- sfNrGKGgMRrFZ58s8dMXVr1t5XByBCMVTX/47Kxblbyoaj4kOO4eUXzrgdZnjNE2ziVo
- UtLmhDNxb0uIJ3m2mSifQAcY1Ndas33GWysVQ7soBRubp4XJeSDRlC1J3wLN3YhbTmHC
- Mm3RhsHFD3dUneHMg3U3i/DNvc1312a7+9E07KffWwkyz8Prm7bRgQ2KXtumTGutbVjd
- jI/A==
-X-Gm-Message-State: AOAM530Y8ZaSOdTjfA5VEMkS0v1xCpjCy4J2Y4CbonIFyii5Lrc6YJLR
- qMfjoQWEriZUiTeutfnfn67toWXcvQofyw==
-X-Google-Smtp-Source: ABdhPJwNe3F7a0p4wQIZ06EGu2v/ssbcYaWdWIL8AR2YCYHvh5EwBprN0RW0b3XBUzRvYXF+LS5tfg==
-X-Received: by 2002:a9d:eed:: with SMTP id 100mr3004606otj.20.1599166846385;
- Thu, 03 Sep 2020 14:00:46 -0700 (PDT)
+ bh=jToX5f8+EsTioWIIknUwq5OunQEZrWHXCk2GLVSldj8=;
+ b=JtBEmGMTK+HQ06WazCt4h5VLPjc9xpbnZZFhWOX5rEhdy9mvjirtE5gKZfw1kHaibo
+ 7qCkqEM3gOqVUEylHI40oOQZ/swsV2Kzkg+YlTJE926fVVfwkjC/c1e8Wns/SRvdkQeZ
+ m+SLW4jOgpLIOL/ILaSJARMHBn25xI7GvW57OIrRFQSc/VyRAiRjb0a6aGuefo+Zi7rS
+ kHSNhYJ2zQeUIkMQEg8n37b/99OUKg3EWldRMuvDdOKDDCHYa5XsgjhY/DUHbRP/B3Hq
+ esyMdcHupOgWV7URQ8FrMpOgRXRf2SEd9ztewqU0V6U2kzzxe3onD7g1ypgkheTK3YIh
+ gZKA==
+X-Gm-Message-State: AOAM530PLymmY8W2zntctqRiySDewRuiamBAlbEZ6fMaG4VbdI9mvxlr
+ DaQpRgLuT6wtXslujofRY1Nn0Vlniqs=
+X-Google-Smtp-Source: ABdhPJxyDxvVBQ8RnzNkokerKNl28JlrqJh77pW/7JQNFNrfBP0/iNHT4+PyEthWYnnEVPxmWZ/pFg==
+X-Received: by 2002:a05:6830:48:: with SMTP id
+ d8mr2968196otp.272.1599166850192; 
+ Thu, 03 Sep 2020 14:00:50 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id q15sm761296otl.65.2020.09.03.14.00.45
+ by smtp.gmail.com with ESMTPSA id m8sm767319otn.66.2020.09.03.14.00.49
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:00:45 -0700 (PDT)
+ Thu, 03 Sep 2020 14:00:49 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 49/77] tests/acceptance: refactor boot_linux_console test to
- allow code reuse
-Date: Thu,  3 Sep 2020 15:59:07 -0500
-Message-Id: <20200903205935.27832-50-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 51/77] hw/sd/sdcard: Restrict Class 6 commands to SCSD cards
+Date: Thu,  3 Sep 2020 15:59:09 -0500
+Message-Id: <20200903205935.27832-52-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x343.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -86,70 +86,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-stable@nongnu.org, Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+Cc: qemu-stable@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-This patch splits code in BootLinuxConsole class into two different
-classes to allow reusing it by record/replay tests.
+Only SCSD cards support Class 6 (Block Oriented Write Protection)
+commands.
 
-Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <159073588490.20809.13942096070255577558.stgit@pasha-ThinkPad-X280>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-(cherry picked from commit 12121c496fcc609e23033c4a36399b54f98bcd56)
+  "SD Specifications Part 1 Physical Layer Simplified Spec. v3.01"
+
+  4.3.14 Command Functional Difference in Card Capacity Types
+
+  * Write Protected Group
+
+  SDHC and SDXC do not support write-protected groups. Issuing
+  CMD28, CMD29 and CMD30 generates the ILLEGAL_COMMAND error.
+
+Cc: qemu-stable@nongnu.org
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-Id: <20200630133912.9428-7-f4bug@amsat.org>
+(cherry picked from commit 9157dd597d293ab7f599f4d96c3fe8a6e07c633d)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- tests/acceptance/boot_linux_console.py | 21 +++++++++++----------
- 1 file changed, 11 insertions(+), 10 deletions(-)
+ hw/sd/sd.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index d864d22ca8..e4204d8f09 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -28,19 +28,13 @@ try:
- except CmdNotFoundError:
-     P7ZIP_AVAILABLE = False
+diff --git a/hw/sd/sd.c b/hw/sd/sd.c
+index 3c06a0ac6d..da39590f58 100644
+--- a/hw/sd/sd.c
++++ b/hw/sd/sd.c
+@@ -905,6 +905,11 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+         sd->multi_blk_cnt = 0;
+     }
  
--class BootLinuxConsole(Test):
--    """
--    Boots a Linux kernel and checks that the console is operational and the
--    kernel command line is properly passed from QEMU to the kernel
--    """
--
--    timeout = 90
--
-+class LinuxKernelTest(Test):
-     KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
- 
--    def wait_for_console_pattern(self, success_message):
-+    def wait_for_console_pattern(self, success_message, vm=None):
-         wait_for_console_pattern(self, success_message,
--                                 failure_message='Kernel panic - not syncing')
-+                                 failure_message='Kernel panic - not syncing',
-+                                 vm=vm)
- 
-     def extract_from_deb(self, deb, path):
-         """
-@@ -79,6 +73,13 @@ class BootLinuxConsole(Test):
-         os.chdir(cwd)
-         return os.path.normpath(os.path.join(self.workdir, path))
- 
-+class BootLinuxConsole(LinuxKernelTest):
-+    """
-+    Boots a Linux kernel and checks that the console is operational and the
-+    kernel command line is properly passed from QEMU to the kernel
-+    """
-+    timeout = 90
++    if (sd_cmd_class[req.cmd] == 6 && FIELD_EX32(sd->ocr, OCR, CARD_CAPACITY)) {
++        /* Only Standard Capacity cards support class 6 commands */
++        return sd_illegal;
++    }
 +
-     def test_x86_64_pc(self):
-         """
-         :avocado: tags=arch:x86_64
+     switch (req.cmd) {
+     /* Basic commands (Class 0 and Class 1) */
+     case 0:	/* CMD0:   GO_IDLE_STATE */
 -- 
 2.17.1
 
