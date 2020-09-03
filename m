@@ -2,68 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A4F725CBE8
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:12:54 +0200 (CEST)
-Received: from localhost ([::1]:50050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B191325CC25
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:25:43 +0200 (CEST)
+Received: from localhost ([::1]:47194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwXN-0004kD-6z
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:12:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58718)
+	id 1kDwjm-0001pr-OH
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:25:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLR-00042h-8V; Thu, 03 Sep 2020 17:00:33 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:36666)
+ id 1kDwLU-000496-4G; Thu, 03 Sep 2020 17:00:36 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:45196)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLK-0007eq-CQ; Thu, 03 Sep 2020 17:00:29 -0400
-Received: by mail-oi1-x242.google.com with SMTP id x19so4533844oix.3;
- Thu, 03 Sep 2020 14:00:24 -0700 (PDT)
+ id 1kDwLR-0007hM-I3; Thu, 03 Sep 2020 17:00:35 -0400
+Received: by mail-oi1-x244.google.com with SMTP id d189so4479274oig.12;
+ Thu, 03 Sep 2020 14:00:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=OV98AiSKpkunegu+hWzJKS6snwZunhiA7NZUV3WFBUk=;
- b=MKRgVDgj2FZNdNzR+l+hsU/YG+JXwYGnJxNinGOdCu438kHwACj9iqt+VGSUhPPmRn
- tgyOz5scd5zlNxDCVH7ACf/zz+KxwCMdmtjE6YSK5k6SSWbUu3A/JwhmqUBBdzMII+xC
- mKbReXFYWz06tvx1ak3nvs3PVS53QtiTT+e8vOGKAU9GJjJwb+0dleXE52X2fvlmAB/Y
- U6hLfbLQgXIPV++5+xcPHhFhgWkPrVxEQ2EeVYuCVnSQDaRWmvURzI5mGOrWY/rmEkap
- JcCX330WkrRg54ydFStTc1HwuyOeKUdzcU6WiMHBSqF/pyQpkpPex6biakuTVAbloCdF
- y4Lw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=qqO0q4PuTgIHgmO4BpcbGdGSE0v/V3QX2HSz7/NQHAc=;
+ b=QBgHxt0SENiRPU4IfFatZ/taoMjuFG2MVBKHGhSgZqndtCiIP33d5lETEbz2H9UZ3h
+ 9lk1B9uc3Zg/6bls7qeNidcFOw/hRA5ydEM+j+SMKYrWKCveMqc4M5OqCXOpj996rDe2
+ 2U/dEIJaLblSG0M9ybqmvz332W8f99SXMKeGQLNFejzBcS3PmbqTpHU+f39oAi3oXm8E
+ FDdk9GV5H5YzndLxrbN61dyIEOuRCHpvoqUrgBFdUJjKS1RfVYLyFqnIXIFzy27tiXGU
+ 1/Iszd9+6L/WR2cr4pkkaV3fHmCuSGM+Ge8Ru8G4q0sizzVTlTD7veUuJNKOkVZ5j5HB
+ mPZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=OV98AiSKpkunegu+hWzJKS6snwZunhiA7NZUV3WFBUk=;
- b=NVKHOIYhU+GPDe+YO77Mo+aQUuC/UjPQR57uTZ6jtdbgUWayQfjGxIUZNQ9HqfCyF5
- 1kfT7X7n+Fmsn3Z4jlFEz89t+0gTL5UojKhQsJ/1lDGQoG5/ybG+b0HZ9p6fOm7mJM/6
- Df0I9lM/e1SkNsWVv3SDkSaYZU5JREA80vz1eRrLJYOcypxnotNtKsfmfiaO0nmo7+Ci
- fcapP//Hf/aTjVOUjMKoVqRazfSv9Y7haEM0E/PhH/wKZbpERfDwHlz/gg3vZxlM2Htn
- RgPlWGPQPVnaht38OFaFKSA8GGePs+tw8MmJg6UnAbBNk9yCz/GwE/0Ds/gImvkzF2cS
- hx7w==
-X-Gm-Message-State: AOAM530mqYQXp1MMvmNUceE/5Yo97rT/ucifIQxpeHiBsMmjMidxMLhG
- wKoSdPCxYwPSBqm46VtZv9VjjHd7yEQ=
-X-Google-Smtp-Source: ABdhPJzuSw7aM2YMePGtWdBFOfx8GyNKtieQT+gVhgdxaUptLiMmE3z5ELUFaRcSRDkMciZ/JDGfOw==
-X-Received: by 2002:aca:4b12:: with SMTP id y18mr3253674oia.28.1599166823736; 
- Thu, 03 Sep 2020 14:00:23 -0700 (PDT)
+ :in-reply-to:references;
+ bh=qqO0q4PuTgIHgmO4BpcbGdGSE0v/V3QX2HSz7/NQHAc=;
+ b=jgVphdahdGhA69pH7xpwsn0ood1ab8Ca2jOaFB1ue9XuHKducJd/ACu8rP7kh6f1gy
+ bFbkDGouhdkgkrnm8AR5Ujh8hrSO3sQ7a/O5BtZuFngNRhPsdRDPoX44FOzJQjwccxx4
+ W0MDC7EmurYAtLet8zkRl7D8ExzPhGWmORlVafPbIfCIiKvl6zOj3noCxWeNGWTeJa+c
+ IHDkCo7wZCuC8q/iZyRDZlu8xFpYt+6V8pe0zoMULMhnoDVtkg4bB4AX/dCh/GcFvDx6
+ LWaO0JeHOvo8glKTNAhCcZETof/rncUgKVsk0Pex8KagwZi8YPOReklzHcLmchRrTnQv
+ wa+Q==
+X-Gm-Message-State: AOAM531uXlRaUYzOLCRWWF8qpv/9Vvo7Gq3m1nE29ub0veYaNIlIQwrK
+ t4Immt7B05D/bCBYU4CGwrwTDx7Jwtg=
+X-Google-Smtp-Source: ABdhPJwysubC3KWwQhGbppCyE3FDbdcV/xaohyynjtrIcBJB2TP6F94NIpqguL9tObaqtNXRh5XVIQ==
+X-Received: by 2002:aca:ed0a:: with SMTP id l10mr3405235oih.9.1599166831704;
+ Thu, 03 Sep 2020 14:00:31 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id y83sm714235oiy.35.2020.09.03.14.00.23
+ by smtp.gmail.com with ESMTPSA id z17sm836821oop.15.2020.09.03.14.00.31
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:00:23 -0700 (PDT)
+ Thu, 03 Sep 2020 14:00:31 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 34/77] hw/net/e1000e: Do not abort() on invalid PSRCTL
- register value
-Date: Thu,  3 Sep 2020 15:58:52 -0500
-Message-Id: <20200903205935.27832-35-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 40/77] nbd: Avoid off-by-one in long export name truncation
+Date: Thu,  3 Sep 2020 15:58:58 -0500
+Message-Id: <20200903205935.27832-41-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x242.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
+ envelope-from=flukshun@gmail.com; helo=mail-oi1-x244.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -86,115 +81,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-stable@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Eric Blake <eblake@redhat.com>
 
-libFuzzer found using 'qemu-system-i386 -M q35':
+When snprintf returns the same value as the buffer size, the final
+byte was truncated to ensure a NUL terminator.  Fortunately, such long
+export names are unusual enough, with no real impact other than what
+is displayed to the user.
 
-qemu: hardware error: e1000e: PSRCTL.BSIZE0 cannot be zero
-CPU #0:
-EAX=00000000 EBX=00000000 ECX=00000000 EDX=00000663
-ESI=00000000 EDI=00000000 EBP=00000000 ESP=00000000
-EIP=0000fff0 EFL=00000002 [-------] CPL=0 II=0 A20=1 SMM=0 HLT=0
-ES =0000 00000000 0000ffff 00009300
-CS =f000 ffff0000 0000ffff 00009b00
-SS =0000 00000000 0000ffff 00009300
-DS =0000 00000000 0000ffff 00009300
-FS =0000 00000000 0000ffff 00009300
-GS =0000 00000000 0000ffff 00009300
-LDT=0000 00000000 0000ffff 00008200
-TR =0000 00000000 0000ffff 00008b00
-GDT=     00000000 0000ffff
-IDT=     00000000 0000ffff
-CR0=60000010 CR2=00000000 CR3=00000000 CR4=00000000
-DR0=00000000 DR1=00000000 DR2=00000000 DR3=00000000
-DR6=ffff0ff0 DR7=00000400
-EFER=0000000000000000
-FCW=037f FSW=0000 [ST=0] FTW=00 MXCSR=00001f80
-FPR0=0000000000000000 0000 FPR1=0000000000000000 0000
-FPR2=0000000000000000 0000 FPR3=0000000000000000 0000
-FPR4=0000000000000000 0000 FPR5=0000000000000000 0000
-FPR6=0000000000000000 0000 FPR7=0000000000000000 0000
-XMM00=00000000000000000000000000000000 XMM01=00000000000000000000000000000000
-XMM02=00000000000000000000000000000000 XMM03=00000000000000000000000000000000
-XMM04=00000000000000000000000000000000 XMM05=00000000000000000000000000000000
-XMM06=00000000000000000000000000000000 XMM07=00000000000000000000000000000000
-==1988== ERROR: libFuzzer: deadly signal
-    #6 0x7fae4d3ea894 in __GI_abort (/lib64/libc.so.6+0x22894)
-    #7 0x563f4cc59a1d in hw_error (qemu-fuzz-i386+0xe8ca1d)
-    #8 0x563f4d7c93f2 in e1000e_set_psrctl (qemu-fuzz-i386+0x19fc3f2)
-    #9 0x563f4d7b798f in e1000e_core_write (qemu-fuzz-i386+0x19ea98f)
-    #10 0x563f4d7afc46 in e1000e_mmio_write (qemu-fuzz-i386+0x19e2c46)
-    #11 0x563f4cc9a0a7 in memory_region_write_accessor (qemu-fuzz-i386+0xecd0a7)
-    #12 0x563f4cc99c13 in access_with_adjusted_size (qemu-fuzz-i386+0xeccc13)
-    #13 0x563f4cc987b4 in memory_region_dispatch_write (qemu-fuzz-i386+0xecb7b4)
-
-It simply sent the following 2 I/O command to the e1000e
-PCI BAR #2 I/O region:
-
-  writew 0x0100 0x0c00 # RCTL =   E1000_RCTL_DTYP_MASK
-  writeb 0x2170 0x00   # PSRCTL = 0
-
-2813 static void
-2814 e1000e_set_psrctl(E1000ECore *core, int index, uint32_t val)
-2815 {
-2816     if (core->mac[RCTL] & E1000_RCTL_DTYP_MASK) {
-2817
-2818         if ((val & E1000_PSRCTL_BSIZE0_MASK) == 0) {
-2819             hw_error("e1000e: PSRCTL.BSIZE0 cannot be zero");
-2820         }
-
-Instead of calling hw_error() which abort the process (it is
-meant for CPU fatal error condition, not for device logging),
-log the invalid request with qemu_log_mask(LOG_GUEST_ERROR)
-and return, ignoring the request.
-
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Jason Wang <jasowang@redhat.com>
-(cherry picked from commit fda43b1204aecd1db158b3255c591d227fbdd629)
+Fixes: 5c86bdf12089
+Reported-by: Max Reitz <mreitz@redhat.com>
+Signed-off-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20200622210355.414941-1-eblake@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+(cherry picked from commit 00d69986da83a74f6f5731c80f8dd09fde95d19a)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/net/e1000e_core.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ block/nbd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
-index d5676871fa..bcd186cac5 100644
---- a/hw/net/e1000e_core.c
-+++ b/hw/net/e1000e_core.c
-@@ -34,9 +34,9 @@
- */
- 
- #include "qemu/osdep.h"
-+#include "qemu/log.h"
- #include "net/net.h"
- #include "net/tap.h"
--#include "hw/hw.h"
- #include "hw/pci/msi.h"
- #include "hw/pci/msix.h"
- #include "sysemu/runstate.h"
-@@ -2816,11 +2816,15 @@ e1000e_set_psrctl(E1000ECore *core, int index, uint32_t val)
-     if (core->mac[RCTL] & E1000_RCTL_DTYP_MASK) {
- 
-         if ((val & E1000_PSRCTL_BSIZE0_MASK) == 0) {
--            hw_error("e1000e: PSRCTL.BSIZE0 cannot be zero");
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                          "e1000e: PSRCTL.BSIZE0 cannot be zero");
-+            return;
-         }
- 
-         if ((val & E1000_PSRCTL_BSIZE1_MASK) == 0) {
--            hw_error("e1000e: PSRCTL.BSIZE1 cannot be zero");
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                          "e1000e: PSRCTL.BSIZE1 cannot be zero");
-+            return;
-         }
+diff --git a/block/nbd.c b/block/nbd.c
+index bfc0be6af6..bf3fbebfa0 100644
+--- a/block/nbd.c
++++ b/block/nbd.c
+@@ -2011,7 +2011,7 @@ static void nbd_refresh_filename(BlockDriverState *bs)
+         len = snprintf(bs->exact_filename, sizeof(bs->exact_filename),
+                        "nbd://%s:%s", host, port);
      }
- 
+-    if (len > sizeof(bs->exact_filename)) {
++    if (len >= sizeof(bs->exact_filename)) {
+         /* Name is too long to represent exactly, so leave it empty. */
+         bs->exact_filename[0] = '\0';
+     }
 -- 
 2.17.1
 
