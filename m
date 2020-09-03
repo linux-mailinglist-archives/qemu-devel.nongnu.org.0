@@ -2,68 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A404F25CCF9
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:59:02 +0200 (CEST)
-Received: from localhost ([::1]:50032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4192F25CCB7
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:50:21 +0200 (CEST)
+Received: from localhost ([::1]:44538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDxG1-0003MV-NO
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:59:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59790)
+	id 1kDx7c-0005Yz-9z
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:50:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwML-0005Ov-2E; Thu, 03 Sep 2020 17:01:29 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:46539)
+ id 1kDwMM-0005RQ-4e; Thu, 03 Sep 2020 17:01:30 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:45218)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwMJ-0007vm-CE; Thu, 03 Sep 2020 17:01:28 -0400
-Received: by mail-ot1-x344.google.com with SMTP id c10so3976986otm.13;
- Thu, 03 Sep 2020 14:01:26 -0700 (PDT)
+ id 1kDwMK-0007wA-D1; Thu, 03 Sep 2020 17:01:29 -0400
+Received: by mail-oi1-x244.google.com with SMTP id d189so4481960oig.12;
+ Thu, 03 Sep 2020 14:01:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ukiMnU2Ka9CilWgAW2sSo5sQypISiGu+XOTOgn0j23Q=;
- b=EUCGFniQXNizA5SYD5PkHcdWgwJn+49NwLtLVyQFwft/kWN11w3Ls7K8tUaFkMw42A
- 9/wws5PNQVxB3V/4hD8vS+ojTNZq8N++M6EPbR0ETxQ645u16fHRojhD+yrcR4qWzH4z
- /jUQT+/uSVCRPEzrEuMRxeFNI6C4DpWlofEG5RZKXI5FeXMlqYDr627JSsnrf0xvEb9P
- 5EyKsI3viZotUyqt+poFpfl9MMCpPEJQJeYAPZnloUNGxW55uzNQYUy+pilj6mNTOJVU
- IZURk+eRV9ngU3UxWZxPbij5pwxpDmdePVgxQUGfsHvgzUH8Bb+hx1INeYUyhx5ev7Of
- VM1w==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=yJG4bmyAfe4onsh//+ldhVr9OuPhOmvC3Rda7LK2uCg=;
+ b=k6xOby3thIRRJDddVQLvw+z8lV4QE2aD9x/EsyTbu+ghwGLGlJVyrhLxRrPiaNbKZ1
+ Dcso8v6iTgu2aFSxPr8nzYftgA0ZCbCF97uNLI3p29opJKHsH3X7fgtpdyc4Lx7ULNMv
+ ruZ4ildZnd6XUZcoFQJUN7ZnSIClBaze5P3ncBdYMXqmefVLYvwwtL4mI9ziVFlNH3cu
+ Vzl7GDbX4nTznbgXl7A5SJCFLOulHkM8/v2BPoSbS2LtxE8+fcuxXaescTYcjg4FjFM3
+ +ZHx/mJc052FVLg0KWkPmc44rZ4HxNxpXzKHeyHJO5NPEFbKkgUL4/3Mb/QQFCiXKt7n
+ nXJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ukiMnU2Ka9CilWgAW2sSo5sQypISiGu+XOTOgn0j23Q=;
- b=h/qz+sM5284+m9mEY0EYuOVJ1T7n4zNmQdECGvkE4r36cB/CIRxlvqMi+1fsnnHuwo
- kRrnXvEu+RAOv+q0RyZ2UQQzCAZjLsgFFTtfG5PfngLRBtwhGlUxDMCxqFW4N+kVYPYp
- 0soJ6r1E3cgR4BTF9VA3Qcwcp7oMI+2MoCBSa3AC4I00Fz2XDRaVw5GhtjfknIe2IbTO
- LBVKoz4PcADaENvnTjrUR/XQBr0gTnwrlnor0WaGzuqMfQtjaSV1e4Qe591JmGbX5pVw
- 0j2ljnA4TFVAkJcz4nslyA1tTvjAjvW1jpD69OrhM/fUn769YMaMOGZG/8Of7oWL/F7z
- Ybgw==
-X-Gm-Message-State: AOAM533RKODU/K4G3AU5td0T5mFy6zeB7A3zCRN/ABMJESlB6MKYI0aj
- uaciZCwCD7ffGNcBf6L6Nt0Y6xnrJP7tYA==
-X-Google-Smtp-Source: ABdhPJz8pRPBwG8xRM1knu8gsqApuT1ZW9/ewO5C+peXCXPcSQb2bt5OVOvxr6bERYp7cFyv/I7JQg==
-X-Received: by 2002:a05:6830:1c61:: with SMTP id
- s1mr2941421otg.149.1599166885564; 
- Thu, 03 Sep 2020 14:01:25 -0700 (PDT)
+ :in-reply-to:references;
+ bh=yJG4bmyAfe4onsh//+ldhVr9OuPhOmvC3Rda7LK2uCg=;
+ b=F474/gaPJ3kSU9GI0GZQt5KZ9+wrqM9FJTotEq/+rYiDnMB1bKBQ1h6bUQ/b0ONffY
+ 42KjkVxgPc3IiluOvxwYK6AHTRj8ZCYIeygTEt9MsvUJZjBxfK5l+yYqFkE2VO0xJO3X
+ oqSGuKRTi2+mk53MbmiACuQ9x9aqt2ocjTY7sa0cv2J78ld/C2+4R1rcyaCHtK/qklw8
+ XfFpEj4sUSd6drDa3m1TvwUUeUsQOvPFt0oBzYK/92LKXqRUUwrdz+0zozl6S2inCKIH
+ lMrnatOOkmsuiTx3n+dU+43VVWVLPctpBlZaU4AvcYu3s/4YDVpPg3Zdm5vj4+9rR2KD
+ T2Lg==
+X-Gm-Message-State: AOAM53077Kpi5oA2lZIm/HJ8taO++5mllnbTPiivQkDxhU3K2EXmCOuo
+ t9WQakRH8poF8dpZOOkr5gzW16KW6UMPKQ==
+X-Google-Smtp-Source: ABdhPJwI5FZOom6VdQLObxT/oi/6gDRd470470UysICywiKz7qDdueAXK9CfupJDhmn6+N4znDpRQA==
+X-Received: by 2002:aca:b705:: with SMTP id h5mr3203765oif.31.1599166886612;
+ Thu, 03 Sep 2020 14:01:26 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id w13sm740900oiw.50.2020.09.03.14.01.24
+ by smtp.gmail.com with ESMTPSA id d28sm121339ooa.7.2020.09.03.14.01.25
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:01:25 -0700 (PDT)
+ Thu, 03 Sep 2020 14:01:26 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 76/77] hw/arm/sbsa-ref: fix typo breaking PCIe IRQs
-Date: Thu,  3 Sep 2020 15:59:34 -0500
-Message-Id: <20200903205935.27832-77-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 77/77] usb: fix setup_len init (CVE-2020-14364)
+Date: Thu,  3 Sep 2020 15:59:35 -0500
+Message-Id: <20200903205935.27832-78-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x344.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
+ envelope-from=flukshun@gmail.com; helo=mail-oi1-x244.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -86,42 +81,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Graeme Gregory <graeme@nuviainc.com>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-stable@nongnu.org
+Cc: qemu-stable@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Graeme Gregory <graeme@nuviainc.com>
+From: Gerd Hoffmann <kraxel@redhat.com>
 
-Fixing a typo in a previous patch that translated an "i" to a 1
-and therefore breaking the allocation of PCIe interrupts. This was
-discovered when virtio-net-pci devices ceased to function correctly.
+Store calculated setup_len in a local variable, verify it, and only
+write it to the struct (USBDevice->setup_len) in case it passed the
+sanity checks.
 
-Cc: qemu-stable@nongnu.org
-Fixes: 48ba18e6d3f3 ("hw/arm/sbsa-ref: Simplify by moving the gic in the machine state")
-Signed-off-by: Graeme Gregory <graeme@nuviainc.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20200821083853.356490-1-graeme@nuviainc.com
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-(cherry picked from commit 870f0051b4ada9a361f7454f833432ae8c06c095)
+This prevents other code (do_token_{in,out} functions specifically)
+from working with invalid USBDevice->setup_len values and overrunning
+the USBDevice->setup_buf[] buffer.
+
+Fixes: CVE-2020-14364
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Tested-by: Gonglei <arei.gonglei@huawei.com>
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Message-id: 20200825053636.29648-1-kraxel@redhat.com
+(cherry picked from commit b946434f2659a182afc17e155be6791ebfb302eb)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/arm/sbsa-ref.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/usb/core.c | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-index 8409ba853d..0b32084dc0 100644
---- a/hw/arm/sbsa-ref.c
-+++ b/hw/arm/sbsa-ref.c
-@@ -555,7 +555,7 @@ static void create_pcie(SBSAMachineState *sms)
+diff --git a/hw/usb/core.c b/hw/usb/core.c
+index 5abd128b6b..5234dcc73f 100644
+--- a/hw/usb/core.c
++++ b/hw/usb/core.c
+@@ -129,6 +129,7 @@ void usb_wakeup(USBEndpoint *ep, unsigned int stream)
+ static void do_token_setup(USBDevice *s, USBPacket *p)
+ {
+     int request, value, index;
++    unsigned int setup_len;
  
-     for (i = 0; i < GPEX_NUM_IRQS; i++) {
-         sysbus_connect_irq(SYS_BUS_DEVICE(dev), i,
--                           qdev_get_gpio_in(sms->gic, irq + 1));
-+                           qdev_get_gpio_in(sms->gic, irq + i));
-         gpex_set_irq_num(GPEX_HOST(dev), i, irq + i);
+     if (p->iov.size != 8) {
+         p->status = USB_RET_STALL;
+@@ -138,14 +139,15 @@ static void do_token_setup(USBDevice *s, USBPacket *p)
+     usb_packet_copy(p, s->setup_buf, p->iov.size);
+     s->setup_index = 0;
+     p->actual_length = 0;
+-    s->setup_len   = (s->setup_buf[7] << 8) | s->setup_buf[6];
+-    if (s->setup_len > sizeof(s->data_buf)) {
++    setup_len = (s->setup_buf[7] << 8) | s->setup_buf[6];
++    if (setup_len > sizeof(s->data_buf)) {
+         fprintf(stderr,
+                 "usb_generic_handle_packet: ctrl buffer too small (%d > %zu)\n",
+-                s->setup_len, sizeof(s->data_buf));
++                setup_len, sizeof(s->data_buf));
+         p->status = USB_RET_STALL;
+         return;
+     }
++    s->setup_len = setup_len;
+ 
+     request = (s->setup_buf[0] << 8) | s->setup_buf[1];
+     value   = (s->setup_buf[3] << 8) | s->setup_buf[2];
+@@ -259,26 +261,28 @@ static void do_token_out(USBDevice *s, USBPacket *p)
+ static void do_parameter(USBDevice *s, USBPacket *p)
+ {
+     int i, request, value, index;
++    unsigned int setup_len;
+ 
+     for (i = 0; i < 8; i++) {
+         s->setup_buf[i] = p->parameter >> (i*8);
      }
  
+     s->setup_state = SETUP_STATE_PARAM;
+-    s->setup_len   = (s->setup_buf[7] << 8) | s->setup_buf[6];
+     s->setup_index = 0;
+ 
+     request = (s->setup_buf[0] << 8) | s->setup_buf[1];
+     value   = (s->setup_buf[3] << 8) | s->setup_buf[2];
+     index   = (s->setup_buf[5] << 8) | s->setup_buf[4];
+ 
+-    if (s->setup_len > sizeof(s->data_buf)) {
++    setup_len = (s->setup_buf[7] << 8) | s->setup_buf[6];
++    if (setup_len > sizeof(s->data_buf)) {
+         fprintf(stderr,
+                 "usb_generic_handle_packet: ctrl buffer too small (%d > %zu)\n",
+-                s->setup_len, sizeof(s->data_buf));
++                setup_len, sizeof(s->data_buf));
+         p->status = USB_RET_STALL;
+         return;
+     }
++    s->setup_len = setup_len;
+ 
+     if (p->pid == USB_TOKEN_OUT) {
+         usb_packet_copy(p, s->data_buf, s->setup_len);
 -- 
 2.17.1
 
