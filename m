@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B40025CC04
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:20:14 +0200 (CEST)
-Received: from localhost ([::1]:50298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBB0F25CBD5
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:07:48 +0200 (CEST)
+Received: from localhost ([::1]:33718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDweT-0007xB-5i
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:20:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58380)
+	id 1kDwSR-0006Ef-Rx
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:07:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwL6-0003fV-Hi; Thu, 03 Sep 2020 17:00:12 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:33048)
+ id 1kDwL8-0003jY-EQ; Thu, 03 Sep 2020 17:00:14 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:46522)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwL4-0007Qq-PH; Thu, 03 Sep 2020 17:00:12 -0400
-Received: by mail-oi1-x242.google.com with SMTP id 3so4556972oih.0;
- Thu, 03 Sep 2020 14:00:09 -0700 (PDT)
+ id 1kDwL6-0007RB-IP; Thu, 03 Sep 2020 17:00:13 -0400
+Received: by mail-ot1-x343.google.com with SMTP id c10so3973471otm.13;
+ Thu, 03 Sep 2020 14:00:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Ao54A2l3sEDR87eadYmmagGboLEhBAQddrGqeoropng=;
- b=YVmjv4JTEGL/h+upO6IEHC9LgSD2LGBd3A+olh3cyamWjlDE/gYCRbuyeH9dIJE22y
- BwmX18z/mn886P3Zlmx+69kQmLy7DQHSassAx59XW1DJkAnkYRzj/23w2QpOqO9emK0K
- 7DdAX7ZPV/q/OmXDH+on4+fVTqZx0nWsVucEc4RFa4HyAAQQV0XaIzNXAVpFfK11vb3v
- Je/aQkTK1gossZzcNAs34dLnxBrAagjO6wtkSQlfgYbR1sTxXy98OZcdTzOsj1xNeKGL
- IVL+rpxn8vjsoYLG+DO5JiyxUCM4u4f9dBqdtAQQYnANhnb6MI5A2zAwCMajmeRd6JAw
- Nv6g==
+ bh=Zl94h+JEwFYHtOa8NK8LtKSrwdxSjFyOtdM3NqVIwV8=;
+ b=Xh5MWP8MW/HvNcD9TwlDOk51UAS4Jt/YKgfbXABNKvIGkaXmcRqJs5LmOPKDWMW+Mb
+ gwdk8EAtEvcjC9xNqwOUp8h7Xz0e206cbmd7gH3gKOMfTfphwaWjqk68U5tjuNL4Sr3x
+ QgqlubfkZ7KT1CgsJdVIa41A+6UvZDU9EmQ0Imm8/p8APBXLdukRxG+SOba3su/MlY3a
+ qYqokwsKeXZgIUKsIiAOki3rsz6rGZeDPrEyNw+trATuDYyWSnr2Zt1zT5/gwaO1aNul
+ B3cX7D+xVHs8mHt9NUeTUkqoXXCCaf/GGnGczE72xqejEGOrnuJAZfnMTfShmEullInq
+ /z8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=Ao54A2l3sEDR87eadYmmagGboLEhBAQddrGqeoropng=;
- b=rnIYxOrUo/HqHbCM/0lArYQzNsDOVfEUnXxKrW53G3bfx5QQfiSGE17RJuVc5HXf5T
- Id3JNpXWOSgg0UFBe2L2S18c7LDS4DfC0xSDu8tj7jUUcQJGQmDCjUN6+3lUwURo2Tzd
- QX92xamv2mH33HvuBTENCbbpUXS3HkP06dxUIaNQ3tUN63x66d6toKMRgEEHff6SFUV+
- fUdQoKWIf7j4d33wH+QX4WRIgTOU1AYcnMo6HKKrrvKThfzm/Xj7sQ1PL1rTXqAsAV3s
- gmOwusmPLyluX3t4tFejQSUx4Hr6ei7hZYp7pX+TqUQVbkP580xnQCK0HMj1ZTjCJ36h
- aFxA==
-X-Gm-Message-State: AOAM530fN2YzK0pviU+fTIfPlCg6a3lKksjsgH4LWJkaM24UnXkGule8
- FkmIw3HFs6tyk9YW0qW1jyztHme/pHY=
-X-Google-Smtp-Source: ABdhPJxERucEeDRW5rSOp26hNeioQKx56W85NQY1JaYp/plQk11AdrrsPd+5n2lpZwdrrdxchp0tEQ==
-X-Received: by 2002:aca:5e82:: with SMTP id s124mr3171775oib.168.1599166809004; 
- Thu, 03 Sep 2020 14:00:09 -0700 (PDT)
+ bh=Zl94h+JEwFYHtOa8NK8LtKSrwdxSjFyOtdM3NqVIwV8=;
+ b=ELW+xjt8P8Utycc0T3m+Jok9PI/2BVOXrd3b8heeOyiaC8XFHs2qsF0Z06BrUb16So
+ R6VRmgbbvRscqbi3YqLdGY2qg9Lx5pu45Z3NePGun8fEtPgkhRSgnPZp1vRdX7Q3B/ea
+ 6gqCr7bTT8nu7ggrDIbRTQFyC3grMn3oXtJlXNWIR7ejSoKPbrWJZuy7AkhSrqy1rOWQ
+ JZx51t4up2eVBLoV58LKiXlC9CQHkXU7rlMc4boPz2JHfbEOYElvTpqY3rUHtjl45yu9
+ uK1KcJiTb3wP1aGkRmlGsQkgLOkOTp3G9NMkV7RilduLaxfo1TpLTcCImZnwdxLoxhj8
+ K61w==
+X-Gm-Message-State: AOAM531atdUa4tElEgVqjudVw485xeO8Qit2aB9/iUpghpLqDi9ezCWn
+ m9P6VzfEsJeZF09PTrz/7l//JFzUNro=
+X-Google-Smtp-Source: ABdhPJxDTnOLfoq67xc1VrZXc9OEErwBbHmUTOeU0jbI5ygkWlfbHXRnq0EVOBHcdTJsHHzIIdi23g==
+X-Received: by 2002:a05:6830:19ee:: with SMTP id
+ t14mr3082333ott.171.1599166810293; 
+ Thu, 03 Sep 2020 14:00:10 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id d26sm601073otl.10.2020.09.03.14.00.08
+ by smtp.gmail.com with ESMTPSA id w125sm710943oia.57.2020.09.03.14.00.09
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:00:08 -0700 (PDT)
+ Thu, 03 Sep 2020 14:00:09 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 22/77] net: use peer when purging queue in
- qemu_flush_or_purge_queue_packets()
-Date: Thu,  3 Sep 2020 15:58:40 -0500
-Message-Id: <20200903205935.27832-23-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 23/77] KVM: x86: believe what KVM says about WAITPKG
+Date: Thu,  3 Sep 2020 15:58:41 -0500
+Message-Id: <20200903205935.27832-24-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x242.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -82,56 +82,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-stable@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jason Wang <jasowang@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-The sender of packet will be checked in the qemu_net_queue_purge() but
-we use NetClientState not its peer when trying to purge the incoming
-queue in qemu_flush_or_purge_packets(). This will trigger the assert
-in virtio_net_reset since we can't pass the sender check:
+Currently, QEMU is overriding KVM_GET_SUPPORTED_CPUID's answer for
+the WAITPKG bit depending on the "-overcommit cpu-pm" setting.  This is a
+bad idea because it does not even check if the host supports it, but it
+can be done in x86_cpu_realizefn just like we do for the MONITOR bit.
 
-hw/net/virtio-net.c:533: void virtio_net_reset(VirtIODevice *): Assertion
-`!virtio_net_get_subqueue(nc)->async_tx.elem' failed.
-#9 0x55a33fa31b78 in virtio_net_reset hw/net/virtio-net.c:533:13
-#10 0x55a33fc88412 in virtio_reset hw/virtio/virtio.c:1919:9
-#11 0x55a341d82764 in virtio_bus_reset hw/virtio/virtio-bus.c:95:9
-#12 0x55a341dba2de in virtio_pci_reset hw/virtio/virtio-pci.c:1824:5
-#13 0x55a341db3e02 in virtio_pci_common_write hw/virtio/virtio-pci.c:1252:13
-#14 0x55a33f62117b in memory_region_write_accessor memory.c:496:5
-#15 0x55a33f6205e4 in access_with_adjusted_size memory.c:557:18
-#16 0x55a33f61e177 in memory_region_dispatch_write memory.c:1488:16
+This patch moves it there, while making it conditional on host
+support for the related UMWAIT MSR.
 
-Reproducer:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg701914.html
-
-Fix by using the peer.
-
-Reported-by: "Alexander Bulekov" <alxndr@bu.edu>
-Acked-by: Alexander Bulekov <alxndr@bu.edu>
-Fixes: ca77d85e1dbf9 ("net: complete all queued packets on VM stop")
 Cc: qemu-stable@nongnu.org
-Signed-off-by: Jason Wang <jasowang@redhat.com>
-(cherry picked from commit 5fe19fb81839ea42b592b409f725349cf3c73551)
+Reported-by: Maxim Levitsky <mlevitsk@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+(cherry picked from commit e1e43813e7908b063938a3d01f172f88f6190c80)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- net/net.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/i386/cpu.c      |  3 +++
+ target/i386/kvm.c      | 11 +++++------
+ target/i386/kvm_i386.h |  1 +
+ 3 files changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/net/net.c b/net/net.c
-index cbeeeadff8..4c62b10acd 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -610,7 +610,7 @@ void qemu_flush_or_purge_queued_packets(NetClientState *nc, bool purge)
-         qemu_notify_event();
-     } else if (purge) {
-         /* Unable to empty the queue, purge remaining packets */
--        qemu_net_queue_purge(nc->incoming_queue, nc);
-+        qemu_net_queue_purge(nc->incoming_queue, nc->peer);
-     }
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 90ffc5f3b1..471db0724f 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -6491,6 +6491,9 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+             host_cpuid(5, 0, &cpu->mwait.eax, &cpu->mwait.ebx,
+                        &cpu->mwait.ecx, &cpu->mwait.edx);
+             env->features[FEAT_1_ECX] |= CPUID_EXT_MONITOR;
++            if (kvm_enabled() && kvm_has_waitpkg()) {
++                env->features[FEAT_7_0_ECX] |= CPUID_7_0_ECX_WAITPKG;
++            }
+         }
+         if (kvm_enabled() && cpu->ucode_rev == 0) {
+             cpu->ucode_rev = kvm_arch_get_supported_msr_feature(kvm_state,
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index 4901c6dd74..f9c873bcad 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -407,12 +407,6 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
+         if (host_tsx_blacklisted()) {
+             ret &= ~(CPUID_7_0_EBX_RTM | CPUID_7_0_EBX_HLE);
+         }
+-    } else if (function == 7 && index == 0 && reg == R_ECX) {
+-        if (enable_cpu_pm) {
+-            ret |= CPUID_7_0_ECX_WAITPKG;
+-        } else {
+-            ret &= ~CPUID_7_0_ECX_WAITPKG;
+-        }
+     } else if (function == 7 && index == 0 && reg == R_EDX) {
+         /*
+          * Linux v4.17-v4.20 incorrectly return ARCH_CAPABILITIES on SVM hosts.
+@@ -4678,3 +4672,8 @@ int kvm_arch_msi_data_to_gsi(uint32_t data)
+ {
+     abort();
  }
++
++bool kvm_has_waitpkg(void)
++{
++    return has_msr_umwait;
++}
+diff --git a/target/i386/kvm_i386.h b/target/i386/kvm_i386.h
+index 00bde7acaf..064b8798a2 100644
+--- a/target/i386/kvm_i386.h
++++ b/target/i386/kvm_i386.h
+@@ -44,6 +44,7 @@ void kvm_put_apicbase(X86CPU *cpu, uint64_t value);
+ 
+ bool kvm_enable_x2apic(void);
+ bool kvm_has_x2apic_api(void);
++bool kvm_has_waitpkg(void);
+ 
+ bool kvm_hv_vpindex_settable(void);
  
 -- 
 2.17.1
