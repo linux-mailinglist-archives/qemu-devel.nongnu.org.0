@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D214025BF0A
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 12:27:45 +0200 (CEST)
-Received: from localhost ([::1]:47936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EAD025BF15
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 12:28:32 +0200 (CEST)
+Received: from localhost ([::1]:49724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDmT2-0004qu-V0
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 06:27:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52210)
+	id 1kDmTn-0005cl-M2
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 06:28:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kDmRs-0003u1-F4
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 06:26:32 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:36861)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kDmRp-0008Df-QE
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 06:26:32 -0400
-Received: by mail-wm1-x341.google.com with SMTP id z9so2347865wmk.1
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 03:26:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=bOTfnPyoFHsrOjVkIJC/x4Ybq8TIQNkA+LjG95QroQ4=;
- b=FR6j6G71lZFCfVcvFdavjjWL15Qxx7UBiDwMJ7N9CTakeIQ/ADJ3Prwhxi05sQKNSm
- ieO98cLIjBJCt+QJ71lO8qn/PdLDSPo1b9CDnE4lVB1We2ojFFtSX59Kf0LxTGWkuCel
- hVQQXBWP1AsQq/OPGtBF8wiy9N5HcPhp5AYuVXqFu1o25ZFJbce8c0HtQPqqb5x4Z9TH
- AUtrJmOeHnWLas0d5GonjyatLPQqwVlw1c7x2ofz4tWlVN8R+qzgQF04ORsovO7lB1hT
- +dluHHGM+6m0xfWb+enWI+Kwa7L01yHvMfskd7ecQjF25ILKkfxaC+ENhSD1h83wNyw0
- q2GA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=bOTfnPyoFHsrOjVkIJC/x4Ybq8TIQNkA+LjG95QroQ4=;
- b=cPz3uFSX7NJEN7NfzJsOntJsWqkAG82k33Jfh1Z/kcruV+c0aHWFEZX931nRvF+9pa
- 012J4gqpOsqGAdaVyxnzjYD6PrQoWseIdYSSZhXhyd+8PdEYfj8qroIewTRd3yVaz8VK
- uIvntvx4P0zsonL/0YQsWQb2xsigqgFCiHMXX7r9ABrItXzFx0e5E9HD2kt1W6/htxBe
- avQcnw2W8c4YbPUJFx6LrvZHsv1frxIW+dA1eN9DQF0E35CNuZymOiFGeLf0U+vYNu5H
- LvjsDVpYzTEleYs3tpV327ArOyFIuWn6M77ucM0Z2df3PUMTvIBUtqBGM9CnfeyV0HUF
- BNOA==
-X-Gm-Message-State: AOAM531qFgD1GYz4RZXIRQJNT0EHP5wxKpBH2Hvbdiba9i1QOrYDTDnT
- 5YuiH/wstIG+u/t0BRGYh3oE5wOaWU9AU65Q6XK2MQ==
-X-Google-Smtp-Source: ABdhPJxM0qNzo7YoAHzwOc7n4ZDpOaeHX3JMesRtj2gEZJFhZ+/FHRrKi0TPZGi9ieWdcOBS1Jzhh6jo3t7Qz6wpTo0=
-X-Received: by 2002:a1c:e256:: with SMTP id z83mr1857869wmg.137.1599128788039; 
- Thu, 03 Sep 2020 03:26:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kDmSL-0004el-Vj
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 06:27:01 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23466
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kDmSK-0008M5-A2
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 06:27:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599128819;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VwOuVD+urA2C4M2s0U54fmAH6KZ9ln/lRI462xBA4DU=;
+ b=JZ5r8Ucaf9Va6pefbxGKCM4VD2TE/AooOezLbD0CxCW0uv4L9xY8SbYHqKMcbg2CFmvPwb
+ VOx9ECguFNf2YujoTZkX0hXhX84oTUlRNgSXjK22jA1OB7NZhJqMuWvj5u42aL/miuurEu
+ vO7LCuw8PXfbWNcZPtgC7U8CY3/aaYI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-319-ef6AOMXKNDKolJ_rP82WCw-1; Thu, 03 Sep 2020 06:26:56 -0400
+X-MC-Unique: ef6AOMXKNDKolJ_rP82WCw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58D3781CAFA;
+ Thu,  3 Sep 2020 10:26:55 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-90.ams2.redhat.com [10.36.112.90])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4E13888D5C;
+ Thu,  3 Sep 2020 10:26:54 +0000 (UTC)
+Subject: Re: [PATCH] stubs: Move qemu_fd_register stub to util/main-loop.c
+To: luoyonggang@gmail.com
+References: <20200903054503.425435-1-thuth@redhat.com>
+ <CAE2XoE85T-BcpDqKSO7Buc8MxSZ-jsQEV+8BsTXoShHz=eOwDw@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <c702d97e-d8da-29b8-a79f-f43e931ee2a5@redhat.com>
+Date: Thu, 3 Sep 2020 12:26:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <20200829081233.10120-1-ani@anisinha.ca>
- <20200903060332-mutt-send-email-mst@kernel.org>
- <CAARzgwwFRUOoq7GOttzJVT8+67+7uNugC529SB8DX242p8A_QQ@mail.gmail.com>
- <20200903061515-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20200903061515-mutt-send-email-mst@kernel.org>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Thu, 3 Sep 2020 15:56:15 +0530
-Message-ID: <CAARzgwzz+FQhXGzPMYbCtc1H4ff8726KgNVFR-xOzTRvdSH5Zw@mail.gmail.com>
-Subject: Re: [PATCH] Fix a gap where acpi_pcihp_find_hotplug_bus() returns a
- non-hotpluggable bus
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2a00:1450:4864:20::341;
- envelope-from=ani@anisinha.ca; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAE2XoE85T-BcpDqKSO7Buc8MxSZ-jsQEV+8BsTXoShHz=eOwDw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 00:24:51
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.324, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,77 +83,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, Julia Suvorova <jusual@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-level <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 3, 2020 at 3:46 PM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Thu, Sep 03, 2020 at 03:41:13PM +0530, Ani Sinha wrote:
-> > On Sep 3, 2020, 15:35 +0530, Michael S. Tsirkin <mst@redhat.com>, wrote=
-:
-> >
-> >     On Sat, Aug 29, 2020 at 01:42:33PM +0530, Ani Sinha wrote:
-> >
-> >         When ACPI hotplug for the root bus is disabled, the bsel proper=
-ty for
-> >         that
-> >
-> >         bus is not set. Please see the following commit:
-> >
-> >
-> >
-> >         3d7e78aa7777f ("Introduce a new flag for i440fx to disable PCI =
-hotplug
-> >         on the root bus").
-> >
-> >
-> >
-> >         As a result, when acpi_pcihp_find_hotplug_bus() is called
-> >
-> >         with bsel set to 0, it may return the root bus. This would be w=
-rong
-> >         since the
-> >
-> >         root bus is not hotpluggable. In general, this can potentially =
-happen
-> >         to other
-> >
-> >         buses as well.
-> >
-> >         In this patch, we fix the issue in this function by checking if=
- the bus
-> >         returned
-> >
-> >         by the function is actually hotpluggable. If not, we simply ret=
-urn
-> >         NULL. This
-> >
-> >         avoids the scenario where we are actually returning a non-hotpl=
-uggable
-> >         bus.
-> >
-> >
-> >
-> >         Signed-off-by: Ani Sinha <ani@anisinha.ca>
-> >
-> >
-> >
-> >     What exactly are the consequences though?
-> >
-> >
-> > The root bus might get ejected by the user when it should not if the us=
-er does
-> > the following:
-> >
-> > outl 0xae10 0
-> > outl 0xae08 your_slot
-> >
-> > Please see Julia=E2=80=99s comment:
-> > https://www.mail-archive.com/qemu-devel@nongnu.org/msg734548.html
->
-> OK so patch looks good, but please add all this in the commit log.
+On 03/09/2020 09.08, 罗勇刚(Yonggang Luo) wrote:
+> I am also facing some problem alike:
+> 
+>   LINK    tests/test-qdev-global-props.exe
+>   LINK    tests/test-timed-average.exe
+> C:/CI-Tools/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe:
+> libqemuutil.a(util_main-loop.c.obj): in function `qemu_notify_event':
+> C:\work\xemu\qemu-build/../qemu/util/main-loop.c:139: multiple
+> definition of `qemu_notify_event';
+> libqemuutil.a(stubs_notify-event.c.obj):C:\work\xemu\qemu-build/../qemu/stubs/notify-event.c:6:
+> first defined here
 
-Done. V2 sent.
+For the qemu_notify_event, I also got a patch here:
+
+ https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg00724.html
+
+I just saw that you also posted a patch ... but I think the whole file
+can be removed, not only the function, so maybe you could replace your
+patch with mine in your series?
+
+Thanks,
+  Thomas
+
+
 
