@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60BE825CBC4
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:02:25 +0200 (CEST)
-Received: from localhost ([::1]:42054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 650FC25CBEE
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:13:28 +0200 (CEST)
+Received: from localhost ([::1]:51796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwNE-0005v8-B2
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:02:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58118)
+	id 1kDwXu-0005Tk-1V
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:13:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwKr-00038x-Sz; Thu, 03 Sep 2020 16:59:57 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:38595)
+ id 1kDwKt-0003BI-17; Thu, 03 Sep 2020 16:59:59 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:42780)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwKp-0007L4-R3; Thu, 03 Sep 2020 16:59:57 -0400
-Received: by mail-oi1-x244.google.com with SMTP id y6so4511523oie.5;
- Thu, 03 Sep 2020 13:59:55 -0700 (PDT)
+ id 1kDwKr-0007LJ-Gy; Thu, 03 Sep 2020 16:59:58 -0400
+Received: by mail-oi1-x242.google.com with SMTP id x14so4501047oic.9;
+ Thu, 03 Sep 2020 13:59:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=l6xlQJHOv7dE9T6NcBrhJXAaTtTntr3y7qC5ZPuIlyE=;
- b=Ju8X7eDJBDWIZ/ftmBP6PQKMZUrjC4yQDoSKIYEveB8PMZZBFgshceJXS7WdpQ3+og
- qTd6sKLqU22g630PezRVi+N/DZ60DXHULrTJvaf8iRpJNQH3IuVl1PJuaaWZ1wagydY9
- RQ9PKwJPK5aHOS2xWXEEgwsccdjoU2w8li6//d2pesARyk6NYfl13Yex0zvevTJ1YwL7
- 8d34qTLt3FNnmcGmX1JMP0PhGqr1xSUKNuZ3tI+RtX+HXYoOS36Di+5eJ4lzgzkwrC6H
- BZ7MSkbPSltzkZyJhyheVwFF9hDAEYD46uLtIt0z7KBLGzKp1xp5rX3E08fLL/8sK5FL
- dh7w==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ScYD/f+N22CSsPzzfqJN1h5r0Ae2wuAguC3FgHuYGU4=;
+ b=H81LRNwxF5ZdzSyNHD0JMolmorhhNMY/zX25y3OJmC0N+hjvvMYg66QD6qEZMBDiI4
+ GYoRd53qNsx8jpsAbksd3XBS1RRC9LDVMdia4h20vFbjMjIVOIwxTbxWGDChO/i4ihmk
+ tAXz54E0kAI2dzJ1xxDEG2uYZERivDA56O37C2pO6T2ydemeVossktqPPvuREFANRTnN
+ 2SBBAJKonHwjOfQqvrqqfcI0bfU9NqkTM5yNFVIhDZ/aWgyHouBTXYa35GA2u7+xZLlY
+ Xl956Zk5fWcXl5iD3IfjrDRR8cNPMee5nxv1jiaMwXaGq6BrmvP3EHspIbyyIishEU3j
+ H6/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=l6xlQJHOv7dE9T6NcBrhJXAaTtTntr3y7qC5ZPuIlyE=;
- b=GctU440dxVDxwcPQUHlGCutCxaWlMap2UAeXJFTSDcNrsPbFoQQmURzX6eM3RZqqVt
- wrUYEapu/5qjwxnm9qH/0PryltYaDdxu9gg8cJhbYis7P3hqxLBNyBHeWbfdddyb6FnD
- aP5PfygT8nlE8jPPNRuRgqeuOs///6IEvkfyyoTisAwp85VATZVQUeWHHecpeap3LHhr
- OFkxFj4bTsZ8cL1UojxOp8IpVksACvu54np3ovDkThbvc/kT0vKuiSRzlMh/zvSXoxAR
- BjDhVD8oFKUxDk3IJhI6sOzG/9mZUQvDu7CsRCwVdtFpKiB7ei0A9UGTUIde22YXLYDS
- daAg==
-X-Gm-Message-State: AOAM531Typ1Yz57YnUl5cFShW5yBjiJUetuccgFZG80C2xu8/F++5shB
- 8p7+xCitSy73MNJFN46teG8YrD6+I0c=
-X-Google-Smtp-Source: ABdhPJyNvG8jRaAfFGH7RKA9jD7Gsv0p3mUYK68UHEjMR/K23SQsIynjcyrsLbM3aXTNw8Bd0hQLOw==
-X-Received: by 2002:aca:2b0c:: with SMTP id i12mr3392493oik.77.1599166794177; 
- Thu, 03 Sep 2020 13:59:54 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=ScYD/f+N22CSsPzzfqJN1h5r0Ae2wuAguC3FgHuYGU4=;
+ b=cnvY9Vmw7w9MJWugGnn6i5KM0m/qH4FpmvoJoYdbCRQuaFP0IqIcsyYqTH1LO8EE4m
+ krMtPSr8T/8Nz4eZf8lG+EA0kNrxiz/JWVGSPfiP7bs4Kw8hOYFLXFmjbVVds/E18wyq
+ YhOmz5hF/uPqNBkZTXdUQTIP6OKNzjgIb6WwDMoK7RZHV8oDad0oIboY9FiZSE1YCYjL
+ JbQfPC/CMLxHx4l8idjOuBGdPqkI0rQrZr2RUvI5pEyWE/atYuRE02rqDWkYMIkvxLQK
+ DlFzrkd5AKNmxXimSqfDob1A8xhIIhiwv/zF2WulLHnupimTAKkCehSwIwvEeDsg11to
+ K3+A==
+X-Gm-Message-State: AOAM530XnCPBvz6nBlU6QIXZ4nekvJ8c6/ZvGRmn9QEfy7YU/0W8PARA
+ B/4UginHZ/KgFErVfN34Mv7W1RJFt4o=
+X-Google-Smtp-Source: ABdhPJzFOdVXcJHSy7wdAicgs4Y8QMW3EJELJIgXDervdAgWySE37ms9/4LeSCNFVc2SDLC4woIM0w==
+X-Received: by 2002:aca:fd95:: with SMTP id b143mr3224282oii.68.1599166795702; 
+ Thu, 03 Sep 2020 13:59:55 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id b79sm713535oii.33.2020.09.03.13.59.53
+ by smtp.gmail.com with ESMTPSA id n186sm831477oob.11.2020.09.03.13.59.54
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 13:59:53 -0700 (PDT)
+ Thu, 03 Sep 2020 13:59:55 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 11/77] 9pfs: local: ignore O_NOATIME if we don't have
- permissions
-Date: Thu,  3 Sep 2020 15:58:29 -0500
-Message-Id: <20200903205935.27832-12-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 12/77] 9pfs: include linux/limits.h for XATTR_SIZE_MAX
+Date: Thu,  3 Sep 2020 15:58:30 -0500
+Message-Id: <20200903205935.27832-13-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x244.google.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
+ envelope-from=flukshun@gmail.com; helo=mail-oi1-x242.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -82,67 +85,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Greg Kurz <groug@kaod.org>, qemu-stable@nongnu.org,
- Omar Sandoval <osandov@fb.com>
+Cc: Dan Robertson <dan@dlrobertson.com>, qemu-stable@nongnu.org,
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Omar Sandoval <osandov@fb.com>
+From: Dan Robertson <dan@dlrobertson.com>
 
-QEMU's local 9pfs server passes through O_NOATIME from the client. If
-the QEMU process doesn't have permissions to use O_NOATIME (namely, it
-does not own the file nor have the CAP_FOWNER capability), the open will
-fail. This causes issues when from the client's point of view, it
-believes it has permissions to use O_NOATIME (e.g., a process running as
-root in the virtual machine). Additionally, overlayfs on Linux opens
-files on the lower layer using O_NOATIME, so in this case a 9pfs mount
-can't be used as a lower layer for overlayfs (cf.
-https://github.com/osandov/drgn/blob/dabfe1971951701da13863dbe6d8a1d172ad9650/vmtest/onoatimehack.c
-and https://github.com/NixOS/nixpkgs/issues/54509).
+linux/limits.h should be included for the XATTR_SIZE_MAX definition used
+by v9fs_xattrcreate.
 
-Luckily, O_NOATIME is effectively a hint, and is often ignored by, e.g.,
-network filesystems. open(2) notes that O_NOATIME "may not be effective
-on all filesystems. One example is NFS, where the server maintains the
-access time." This means that we can honor it when possible but fall
-back to ignoring it.
-
-Acked-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Signed-off-by: Omar Sandoval <osandov@fb.com>
-Message-Id: <e9bee604e8df528584693a4ec474ded6295ce8ad.1587149256.git.osandov@fb.com>
+Fixes: 3b79ef2cf488 ("9pfs: limit xattr size in xattrcreate")
+Signed-off-by: Dan Robertson <dan@dlrobertson.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Message-Id: <20200515203015.7090-2-dan@dlrobertson.com>
 Signed-off-by: Greg Kurz <groug@kaod.org>
-(cherry picked from commit a5804fcf7b22fc7d1f9ec794dd284c7d504bd16b)
+(cherry picked from commit 03556ea920b23c466ce7c1283199033de33ee671)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/9pfs/9p-util.h | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ hw/9pfs/9p.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-index 79ed6b233e..546f46dc7d 100644
---- a/hw/9pfs/9p-util.h
-+++ b/hw/9pfs/9p-util.h
-@@ -37,9 +37,22 @@ static inline int openat_file(int dirfd, const char *name, int flags,
- {
-     int fd, serrno, ret;
+diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+index 9e046f7acb..3301e82eb6 100644
+--- a/hw/9pfs/9p.c
++++ b/hw/9pfs/9p.c
+@@ -28,6 +28,7 @@
+ #include "sysemu/qtest.h"
+ #include "qemu/xxhash.h"
+ #include <math.h>
++#include <linux/limits.h>
  
-+again:
-     fd = openat(dirfd, name, flags | O_NOFOLLOW | O_NOCTTY | O_NONBLOCK,
-                 mode);
-     if (fd == -1) {
-+        if (errno == EPERM && (flags & O_NOATIME)) {
-+            /*
-+             * The client passed O_NOATIME but we lack permissions to honor it.
-+             * Rather than failing the open, fall back without O_NOATIME. This
-+             * doesn't break the semantics on the client side, as the Linux
-+             * open(2) man page notes that O_NOATIME "may not be effective on
-+             * all filesystems". In particular, NFS and other network
-+             * filesystems ignore it entirely.
-+             */
-+            flags &= ~O_NOATIME;
-+            goto again;
-+        }
-         return -1;
-     }
- 
+ int open_fd_hw;
+ int total_open_fd;
 -- 
 2.17.1
 
