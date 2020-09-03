@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 005B625CD30
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 00:09:34 +0200 (CEST)
-Received: from localhost ([::1]:58908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30DCF25CD66
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 00:22:03 +0200 (CEST)
+Received: from localhost ([::1]:33312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDxQD-00026J-UI
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 18:09:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45028)
+	id 1kDxcH-0006Za-O8
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 18:22:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kDxNg-0006IX-4B; Thu, 03 Sep 2020 18:06:57 -0400
-Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842]:39747)
+ id 1kDxNj-0006Kn-MM; Thu, 03 Sep 2020 18:07:00 -0400
+Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842]:42514)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kDxNe-0007RO-AK; Thu, 03 Sep 2020 18:06:55 -0400
-Received: by mail-qt1-x842.google.com with SMTP id 92so3194987qtb.6;
- Thu, 03 Sep 2020 15:06:53 -0700 (PDT)
+ id 1kDxNf-0007Ri-Tm; Thu, 03 Sep 2020 18:06:59 -0400
+Received: by mail-qt1-x842.google.com with SMTP id 60so3175829qtc.9;
+ Thu, 03 Sep 2020 15:06:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mwvH00LlvAqHSvHjVx15zL8Ar9OIaFAfTOZGCWwV8uo=;
- b=OvgCv+mfFhWXhaIF9ZyTWN8GqzrDVNUXZqrq/amP0jAZY+UDqXIw0I72MsiEuJmtvR
- uazHfwSLdkmNoqzMJa11M0vy5fX+w6lkBxMzliwkw95idgurxWCc08cSqJIuvugk4xLX
- OecoJlENXWNRYeJ3bi7Zm5QSGTytuYe/q+gBZoO93DOc1ryw6I9MpNt4PdwkVK85khU3
- hgyMn4/Lq0LZKSInpKUerIMMQ1QoZIxDTmNobOeGhktmAJRcCB5LrBJMlkY8YhHmENOZ
- KBji2/D4TrwUqeUhngfve42DyPNqau/0pGN5h70KqO82SFvC+ampr6arkY6W7EHt6cy5
- vUlg==
+ bh=nAIWifC+pb4N38iKkEPwaKDP1cXqlraF9U9iDbNdAqM=;
+ b=G0OVBXWgMZFjFHo0IyBrZjMbmwWWuXJlo/layXbmsBS+andsr4Txv9O9+rrbNKijT8
+ T43vUhqC4qNYr2TXdMIUez77KMEHTwVrEFRTWjmLy0KRQbXa2uvJC5xrtHTjuAHucfkq
+ 9ZmfCM4ZI3qnr03LnjiEiPia6UbggAdcdrwXWb5gH7lnki31xEtFbWU5+mJ4/IX9l/O5
+ VykwwaSXtWf1UDYEd136WZ/OCc9OQwCgjSnBjJEiN3WXyulGFE992jmhTtOmK+4hJld8
+ dKFn8TWpPwu5jcqdwnFOE9LxzjxKzZ4+xWkbV+7BUVD9yS9Gz17u//Yhw3ZOQW4+93OA
+ U0+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mwvH00LlvAqHSvHjVx15zL8Ar9OIaFAfTOZGCWwV8uo=;
- b=EJwb5d3fN9EEe75FJTAO/iQT9tsbJQ2A3TBV+2WPsC7DuEI8+0Vq66mYlVXY7ik2qQ
- 0A5a5t5FEI8dI1L1kQDXQYp+QPICeFEmMgfVdbpdP6lHbk0K7yCGLK2urSX8Kp8Mo1OT
- xhcGeZv3psp2sUeRUcGIYQJXIFMqgATBtXKc91s12a43RML+1JzwX8may8sTBtnFKLBV
- v6w8Nd3LsGVS4FKtMGGXbW0sKNxL8cm1jXm/jSn11SDSg9xzQmPV03ZPblhNXqbKXKJ4
- 7WmkC8GsGyio1/IJOq0ajV0+7geBcCnXI5p3ZzIKpZaVsoPZN3DtakCufPFcjiZtGq2Q
- uniQ==
-X-Gm-Message-State: AOAM5314BrbUoxRXEWQPLRTjikOx/lyY7fqpsuK7O2ij04SuEdcX0eEt
- tjiyJYZVrclNDMdi+DpfAoEYdH9Wn4OJmg==
-X-Google-Smtp-Source: ABdhPJy6kng+9K4VILrM0jDC/ESJ7uwdaZd23Uvt7Qbx+GfiZ16L50jPEbsbDg1NIFz//0jzXCGBcA==
-X-Received: by 2002:ac8:2612:: with SMTP id u18mr5952963qtu.363.1599170812740; 
- Thu, 03 Sep 2020 15:06:52 -0700 (PDT)
+ bh=nAIWifC+pb4N38iKkEPwaKDP1cXqlraF9U9iDbNdAqM=;
+ b=UUJbQneniZ+1Xs3If2lQR5rJVBuwLTmLnUBewPJOAHSb3s0oQk/l+BEI0pkn50XIQD
+ OYQ9kRzdOAMMEBl0tFauy8f19DplTCDf/XbcHpx0E/8yaOW10Ud9fOgZ0p75ijpcQFHK
+ CpGZ/OIbeuIRR9ShB8uKv6xqbD6KqKflwD5B0dJbNmxzAaH7owiqrGSJckpVbCKj6Y6S
+ hpIc8QAGMX6kFYZ5zSruKj7R5O+Ljx2nGekCmLqj4PRr40ORm6Tptl3lrLpsOsjVB2Ip
+ zoeqh7YAtWJdbCKWJXaVcZPdx0ZF90TYkgiA7XJgbPquslfrPfHrSTzv48N8b39wKaXd
+ 6hEQ==
+X-Gm-Message-State: AOAM530WV2zp9KKvBwjkEafVVVdWbsmGDufTww/TSZoBgBMYQIYisqHL
+ DIL5bInp0QxQY9/6CIKUEgz3uHzQGoP/Jw==
+X-Google-Smtp-Source: ABdhPJyeEovHg6+5ZkFJHkYgb1Yx6QE0fA2gHOcegYn6zFHwfHJ+6GZGCdvlLXjwnfgS+7gWopXxwQ==
+X-Received: by 2002:ac8:72d3:: with SMTP id o19mr5741226qtp.190.1599170814327; 
+ Thu, 03 Sep 2020 15:06:54 -0700 (PDT)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:1dc:ffbd:d3fb:97ff:aaca])
- by smtp.gmail.com with ESMTPSA id j1sm1798757qtk.91.2020.09.03.15.06.51
+ by smtp.gmail.com with ESMTPSA id j1sm1798757qtk.91.2020.09.03.15.06.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Sep 2020 15:06:52 -0700 (PDT)
+ Thu, 03 Sep 2020 15:06:53 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/7] spapr, spapr_numa: handle vcpu ibm,associativity
-Date: Thu,  3 Sep 2020 19:06:34 -0300
-Message-Id: <20200903220639.563090-3-danielhb413@gmail.com>
+Subject: [PATCH v3 3/7] spapr,
+ spapr_numa: move lookup-arrays handling to spapr_numa.c
+Date: Thu,  3 Sep 2020 19:06:35 -0300
+Message-Id: <20200903220639.563090-4-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200903220639.563090-1-danielhb413@gmail.com>
 References: <20200903220639.563090-1-danielhb413@gmail.com>
@@ -88,107 +89,120 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vcpus have an additional paramenter to be appended, vcpu_id. This
-also changes the size of the of property itself, which is being
-represented in index 0 of numa_assoc_array[cpu->node_id],
-and defaults to MAX_DISTANCE_REF_POINTS for all cases but
-vcpus.
-
-All this logic makes more sense in spapr_numa.c, where we handle
-everything NUMA and associativity. A new helper spapr_numa_fixup_cpu_dt()
-was added, and spapr.c uses it the same way as it was using the former
-spapr_fixup_cpu_numa_dt().
+In a similar fashion as the previous patch, let's move the
+handling of ibm,associativity-lookup-arrays from spapr.c to
+spapr_numa.c. A spapr_numa_write_assoc_lookup_arrays() helper was
+created, and spapr_dt_dynamic_reconfiguration_memory() can now
+use it to advertise the lookup-arrays.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/spapr.c              | 17 +----------------
- hw/ppc/spapr_numa.c         | 27 +++++++++++++++++++++++++++
+ hw/ppc/spapr.c              | 25 ++-----------------------
+ hw/ppc/spapr_numa.c         | 34 ++++++++++++++++++++++++++++++++++
  include/hw/ppc/spapr_numa.h |  2 ++
- 3 files changed, 30 insertions(+), 16 deletions(-)
+ 3 files changed, 38 insertions(+), 23 deletions(-)
 
 diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 1ad6f59863..badfa86319 100644
+index badfa86319..9bce1892b5 100644
 --- a/hw/ppc/spapr.c
 +++ b/hw/ppc/spapr.c
-@@ -202,21 +202,6 @@ static int spapr_fixup_cpu_smt_dt(void *fdt, int offset, PowerPCCPU *cpu,
-     return ret;
- }
+@@ -535,13 +535,10 @@ static int spapr_dt_dynamic_reconfiguration_memory(SpaprMachineState *spapr,
+                                                    void *fdt)
+ {
+     MachineState *machine = MACHINE(spapr);
+-    int nb_numa_nodes = machine->numa_state->num_nodes;
+-    int ret, i, offset;
++    int ret, offset;
+     uint64_t lmb_size = SPAPR_MEMORY_BLOCK_SIZE;
+     uint32_t prop_lmb_size[] = {cpu_to_be32(lmb_size >> 32),
+                                 cpu_to_be32(lmb_size & 0xffffffff)};
+-    uint32_t *int_buf, *cur_index, buf_len;
+-    int nr_nodes = nb_numa_nodes ? nb_numa_nodes : 1;
+     MemoryDeviceInfoList *dimms = NULL;
  
--static int spapr_fixup_cpu_numa_dt(void *fdt, int offset, PowerPCCPU *cpu)
--{
--    int index = spapr_get_vcpu_id(cpu);
--    uint32_t associativity[] = {cpu_to_be32(0x5),
--                                cpu_to_be32(0x0),
--                                cpu_to_be32(0x0),
--                                cpu_to_be32(0x0),
--                                cpu_to_be32(cpu->node_id),
--                                cpu_to_be32(index)};
--
--    /* Advertise NUMA via ibm,associativity */
--    return fdt_setprop(fdt, offset, "ibm,associativity", associativity,
--                          sizeof(associativity));
--}
--
- static void spapr_dt_pa_features(SpaprMachineState *spapr,
-                                  PowerPCCPU *cpu,
-                                  void *fdt, int offset)
-@@ -785,7 +770,7 @@ static void spapr_dt_cpu(CPUState *cs, void *fdt, int offset,
-                       pft_size_prop, sizeof(pft_size_prop))));
- 
-     if (ms->numa_state->num_nodes > 1) {
--        _FDT(spapr_fixup_cpu_numa_dt(fdt, offset, cpu));
-+        _FDT(spapr_numa_fixup_cpu_dt(spapr, fdt, offset, cpu));
+     /*
+@@ -582,25 +579,7 @@ static int spapr_dt_dynamic_reconfiguration_memory(SpaprMachineState *spapr,
+         return ret;
      }
  
-     _FDT(spapr_fixup_cpu_smt_dt(fdt, offset, cpu, compat_smt));
+-    /* ibm,associativity-lookup-arrays */
+-    buf_len = (nr_nodes * 4 + 2) * sizeof(uint32_t);
+-    cur_index = int_buf = g_malloc0(buf_len);
+-    int_buf[0] = cpu_to_be32(nr_nodes);
+-    int_buf[1] = cpu_to_be32(4); /* Number of entries per associativity list */
+-    cur_index += 2;
+-    for (i = 0; i < nr_nodes; i++) {
+-        uint32_t associativity[] = {
+-            cpu_to_be32(0x0),
+-            cpu_to_be32(0x0),
+-            cpu_to_be32(0x0),
+-            cpu_to_be32(i)
+-        };
+-        memcpy(cur_index, associativity, sizeof(associativity));
+-        cur_index += 4;
+-    }
+-    ret = fdt_setprop(fdt, offset, "ibm,associativity-lookup-arrays", int_buf,
+-            (cur_index - int_buf) * sizeof(uint32_t));
+-    g_free(int_buf);
++    ret = spapr_numa_write_assoc_lookup_arrays(spapr, fdt, offset);
+ 
+     return ret;
+ }
 diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-index f6b6fe648f..1a1ec8bcff 100644
+index 1a1ec8bcff..5a82a84438 100644
 --- a/hw/ppc/spapr_numa.c
 +++ b/hw/ppc/spapr_numa.c
-@@ -45,6 +45,33 @@ void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *fdt,
-                       sizeof(spapr->numa_assoc_array[nodeid]))));
+@@ -72,6 +72,40 @@ int spapr_numa_fixup_cpu_dt(SpaprMachineState *spapr, void *fdt,
+                        vcpu_assoc, sizeof(vcpu_assoc));
  }
  
-+int spapr_numa_fixup_cpu_dt(SpaprMachineState *spapr, void *fdt,
-+                            int offset, PowerPCCPU *cpu)
++
++int spapr_numa_write_assoc_lookup_arrays(SpaprMachineState *spapr, void *fdt,
++                                         int offset)
 +{
-+    uint vcpu_assoc_size = NUMA_ASSOC_SIZE + 1;
-+    uint32_t vcpu_assoc[vcpu_assoc_size];
-+    int index = spapr_get_vcpu_id(cpu);
-+    int i;
++    MachineState *machine = MACHINE(spapr);
++    int nb_numa_nodes = machine->numa_state->num_nodes;
++    int nr_nodes = nb_numa_nodes ? nb_numa_nodes : 1;
++    uint32_t *int_buf, *cur_index, buf_len;
++    int ret, i;
 +
-+    /*
-+     * VCPUs have an extra 'cpu_id' value in ibm,associativity
-+     * compared to other resources. Increment the size at index
-+     * 0, copy all associativity domains already set, then put
-+     * cpu_id last.
-+     */
-+    vcpu_assoc[0] = cpu_to_be32(MAX_DISTANCE_REF_POINTS + 1);
-+
-+    for (i = 1; i <= MAX_DISTANCE_REF_POINTS; i++) {
-+        vcpu_assoc[i] = spapr->numa_assoc_array[cpu->node_id][i];
++    /* ibm,associativity-lookup-arrays */
++    buf_len = (nr_nodes * MAX_DISTANCE_REF_POINTS + 2) * sizeof(uint32_t);
++    cur_index = int_buf = g_malloc0(buf_len);
++    int_buf[0] = cpu_to_be32(nr_nodes);
++     /* Number of entries per associativity list */
++    int_buf[1] = cpu_to_be32(MAX_DISTANCE_REF_POINTS);
++    cur_index += 2;
++    for (i = 0; i < nr_nodes; i++) {
++        /*
++         * For the lookup-array we use the ibm,associativity array,
++         * from numa_assoc_array. without the first element (size).
++         */
++        uint32_t *associativity = spapr->numa_assoc_array[i];
++        memcpy(cur_index, ++associativity,
++               sizeof(uint32_t) * MAX_DISTANCE_REF_POINTS);
++        cur_index += MAX_DISTANCE_REF_POINTS;
 +    }
++    ret = fdt_setprop(fdt, offset, "ibm,associativity-lookup-arrays", int_buf,
++                      (cur_index - int_buf) * sizeof(uint32_t));
++    g_free(int_buf);
 +
-+    vcpu_assoc[vcpu_assoc_size - 1] = cpu_to_be32(index);
-+
-+    /* Advertise NUMA via ibm,associativity */
-+    return fdt_setprop(fdt, offset, "ibm,associativity",
-+                       vcpu_assoc, sizeof(vcpu_assoc));
++    return ret;
 +}
 +
  /*
   * Helper that writes ibm,associativity-reference-points and
   * max-associativity-domains in the RTAS pointed by @rtas
 diff --git a/include/hw/ppc/spapr_numa.h b/include/hw/ppc/spapr_numa.h
-index a2a4df55f7..43c6a16fe3 100644
+index 43c6a16fe3..b3fd950634 100644
 --- a/include/hw/ppc/spapr_numa.h
 +++ b/include/hw/ppc/spapr_numa.h
-@@ -27,5 +27,7 @@ void spapr_numa_associativity_init(SpaprMachineState *spapr,
- void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas);
- void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *fdt,
+@@ -29,5 +29,7 @@ void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *fdt,
                                         int offset, int nodeid);
-+int spapr_numa_fixup_cpu_dt(SpaprMachineState *spapr, void *fdt,
-+                            int offset, PowerPCCPU *cpu);
+ int spapr_numa_fixup_cpu_dt(SpaprMachineState *spapr, void *fdt,
+                             int offset, PowerPCCPU *cpu);
++int spapr_numa_write_assoc_lookup_arrays(SpaprMachineState *spapr, void *fdt,
++                                         int offset);
  
  #endif /* HW_SPAPR_NUMA_H */
 -- 
