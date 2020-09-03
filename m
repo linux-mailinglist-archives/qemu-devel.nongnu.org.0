@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B191325CC25
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:25:43 +0200 (CEST)
-Received: from localhost ([::1]:47194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E566B25CBFC
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:17:45 +0200 (CEST)
+Received: from localhost ([::1]:38994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwjm-0001pr-OH
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:25:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58806)
+	id 1kDwc4-0003NE-Vj
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:17:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLU-000496-4G; Thu, 03 Sep 2020 17:00:36 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:45196)
+ id 1kDwLa-0004Mz-41; Thu, 03 Sep 2020 17:00:42 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:46659)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLR-0007hM-I3; Thu, 03 Sep 2020 17:00:35 -0400
-Received: by mail-oi1-x244.google.com with SMTP id d189so4479274oig.12;
- Thu, 03 Sep 2020 14:00:32 -0700 (PDT)
+ id 1kDwLY-0007jb-6c; Thu, 03 Sep 2020 17:00:41 -0400
+Received: by mail-oi1-x242.google.com with SMTP id u126so4474601oif.13;
+ Thu, 03 Sep 2020 14:00:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=qqO0q4PuTgIHgmO4BpcbGdGSE0v/V3QX2HSz7/NQHAc=;
- b=QBgHxt0SENiRPU4IfFatZ/taoMjuFG2MVBKHGhSgZqndtCiIP33d5lETEbz2H9UZ3h
- 9lk1B9uc3Zg/6bls7qeNidcFOw/hRA5ydEM+j+SMKYrWKCveMqc4M5OqCXOpj996rDe2
- 2U/dEIJaLblSG0M9ybqmvz332W8f99SXMKeGQLNFejzBcS3PmbqTpHU+f39oAi3oXm8E
- FDdk9GV5H5YzndLxrbN61dyIEOuRCHpvoqUrgBFdUJjKS1RfVYLyFqnIXIFzy27tiXGU
- 1/Iszd9+6L/WR2cr4pkkaV3fHmCuSGM+Ge8Ru8G4q0sizzVTlTD7veUuJNKOkVZ5j5HB
- mPZg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=OpNReXfR7oEtNGXMqeGl3rFAqgl3SKXekjVzKbcaap8=;
+ b=X8KhjgAbb4mcyWsWM15dzaDEfKZHO8Exg1yGbftCeOLnjppv6RkKEHg3Fq0Ng8GuXw
+ HkfVdc0WcYo2DBcJ81JEfqA9Hy5zopID/K1WIoQiT+YcybKTT6UWtI4H8vuS8Pu4utSh
+ mwUtd68qWL7dO8U8+lZOED0Nk21KgniqcSbb1PTqOTV3ansddAwortYzzyeiJBhVDtEP
+ Grl7/r0fLgf++bY8ZZDSp1kLesJtKdBiawBAzFM+Spb//1qNYxxDX4XkjbLY46Y+VAZB
+ 7hnI7rxkhfe55/eX6sI07EMk/IN2zLuLcPYC8PgCSdi2ZAcxi5a/4mK3+o4P0UNYHsX3
+ s/wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=qqO0q4PuTgIHgmO4BpcbGdGSE0v/V3QX2HSz7/NQHAc=;
- b=jgVphdahdGhA69pH7xpwsn0ood1ab8Ca2jOaFB1ue9XuHKducJd/ACu8rP7kh6f1gy
- bFbkDGouhdkgkrnm8AR5Ujh8hrSO3sQ7a/O5BtZuFngNRhPsdRDPoX44FOzJQjwccxx4
- W0MDC7EmurYAtLet8zkRl7D8ExzPhGWmORlVafPbIfCIiKvl6zOj3noCxWeNGWTeJa+c
- IHDkCo7wZCuC8q/iZyRDZlu8xFpYt+6V8pe0zoMULMhnoDVtkg4bB4AX/dCh/GcFvDx6
- LWaO0JeHOvo8glKTNAhCcZETof/rncUgKVsk0Pex8KagwZi8YPOReklzHcLmchRrTnQv
- wa+Q==
-X-Gm-Message-State: AOAM531uXlRaUYzOLCRWWF8qpv/9Vvo7Gq3m1nE29ub0veYaNIlIQwrK
- t4Immt7B05D/bCBYU4CGwrwTDx7Jwtg=
-X-Google-Smtp-Source: ABdhPJwysubC3KWwQhGbppCyE3FDbdcV/xaohyynjtrIcBJB2TP6F94NIpqguL9tObaqtNXRh5XVIQ==
-X-Received: by 2002:aca:ed0a:: with SMTP id l10mr3405235oih.9.1599166831704;
- Thu, 03 Sep 2020 14:00:31 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=OpNReXfR7oEtNGXMqeGl3rFAqgl3SKXekjVzKbcaap8=;
+ b=FkM3uN+dIGYXrZ4Ie1AO8f1vuszOvmFoKtxIpMfm5XKsiuQpRolq6ZsS6hCs6AqIZN
+ iIpXY9j4km1sB3cDZ9O8kQgZGHxW+vfc5Uvr1UG6O/vgo7e3WGPgS+EHXLp4a/zwlicY
+ XScgxfMbj31QOC1xU4uVGYYkaLwqt+PFY1Kh2koZmGt4k84uOTQsgoBWpZadaIdpiB4+
+ FU139nenaqWYaNqjtEmyYX/N38AkKUDNJPMsd+tB3cilarKODq6PuH6kVlq6lIwcM667
+ f6U6Bi+F7tYPxq5Jqcc8JpR7vsaJF5yDmvdBkbbZ2Gd3J/vixA2qPWjeHOztcd7Mm7w2
+ sTGw==
+X-Gm-Message-State: AOAM53181gkhxwUcu8wazE9DLlvQG5gQsL9S7gsjOhse1MAHsOUGkNQ+
+ JcenrhwY95NTCEGiWmnoTVdVFXYMmBs=
+X-Google-Smtp-Source: ABdhPJzk9sJOMiX65whUn5idLaP3rbh3WnjTOymLIAZO6JUDSHEHKQ8xYXyrBz1vN4DDokgF7FEJaA==
+X-Received: by 2002:aca:c4cb:: with SMTP id u194mr3216387oif.106.1599166838308; 
+ Thu, 03 Sep 2020 14:00:38 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id z17sm836821oop.15.2020.09.03.14.00.31
+ by smtp.gmail.com with ESMTPSA id g22sm777201ots.35.2020.09.03.14.00.37
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:00:31 -0700 (PDT)
+ Thu, 03 Sep 2020 14:00:37 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 40/77] nbd: Avoid off-by-one in long export name truncation
-Date: Thu,  3 Sep 2020 15:58:58 -0500
-Message-Id: <20200903205935.27832-41-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 43/77] util: Introduce qemu_get_host_name()
+Date: Thu,  3 Sep 2020 15:59:01 -0500
+Message-Id: <20200903205935.27832-44-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x244.google.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
+ envelope-from=flukshun@gmail.com; helo=mail-oi1-x242.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -81,41 +85,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org
+Cc: Michal Privoznik <mprivozn@redhat.com>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eric Blake <eblake@redhat.com>
+From: Michal Privoznik <mprivozn@redhat.com>
 
-When snprintf returns the same value as the buffer size, the final
-byte was truncated to ensure a NUL terminator.  Fortunately, such long
-export names are unusual enough, with no real impact other than what
-is displayed to the user.
+This function offers operating system agnostic way to fetch host
+name. It is implemented for both POSIX-like and Windows systems.
 
-Fixes: 5c86bdf12089
-Reported-by: Max Reitz <mreitz@redhat.com>
-Signed-off-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20200622210355.414941-1-eblake@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-(cherry picked from commit 00d69986da83a74f6f5731c80f8dd09fde95d19a)
+Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
+(cherry picked from commit e47f4765afcab2b78dfa5b0115abf64d1d49a5d3)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- block/nbd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/qemu/osdep.h | 10 ++++++++++
+ util/oslib-posix.c   | 35 +++++++++++++++++++++++++++++++++++
+ util/oslib-win32.c   | 13 +++++++++++++
+ 3 files changed, 58 insertions(+)
 
-diff --git a/block/nbd.c b/block/nbd.c
-index bfc0be6af6..bf3fbebfa0 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -2011,7 +2011,7 @@ static void nbd_refresh_filename(BlockDriverState *bs)
-         len = snprintf(bs->exact_filename, sizeof(bs->exact_filename),
-                        "nbd://%s:%s", host, port);
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index 20f5c5f197..1866cab3c5 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -607,4 +607,14 @@ static inline void qemu_reset_optind(void)
+ #endif
+ }
+ 
++/**
++ * qemu_get_host_name:
++ * @errp: Error object
++ *
++ * Operating system agnostic way of querying host name.
++ *
++ * Returns allocated hostname (caller should free), NULL on failure.
++ */
++char *qemu_get_host_name(Error **errp);
++
+ #endif
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index 062236a1ab..e58fbc8e00 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -752,3 +752,38 @@ void sigaction_invoke(struct sigaction *action,
      }
--    if (len > sizeof(bs->exact_filename)) {
-+    if (len >= sizeof(bs->exact_filename)) {
-         /* Name is too long to represent exactly, so leave it empty. */
-         bs->exact_filename[0] = '\0';
+     action->sa_sigaction(info->ssi_signo, &si, NULL);
+ }
++
++#ifndef HOST_NAME_MAX
++# ifdef _POSIX_HOST_NAME_MAX
++#  define HOST_NAME_MAX _POSIX_HOST_NAME_MAX
++# else
++#  define HOST_NAME_MAX 255
++# endif
++#endif
++
++char *qemu_get_host_name(Error **errp)
++{
++    long len = -1;
++    g_autofree char *hostname = NULL;
++
++#ifdef _SC_HOST_NAME_MAX
++    len = sysconf(_SC_HOST_NAME_MAX);
++#endif /* _SC_HOST_NAME_MAX */
++
++    if (len < 0) {
++        len = HOST_NAME_MAX;
++    }
++
++    /* Unfortunately, gethostname() below does not guarantee a
++     * NULL terminated string. Therefore, allocate one byte more
++     * to be sure. */
++    hostname = g_new0(char, len + 1);
++
++    if (gethostname(hostname, len) < 0) {
++        error_setg_errno(errp, errno,
++                         "cannot get hostname");
++        return NULL;
++    }
++
++    return g_steal_pointer(&hostname);
++}
+diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+index e9b14ab178..3b49d27297 100644
+--- a/util/oslib-win32.c
++++ b/util/oslib-win32.c
+@@ -808,3 +808,16 @@ bool qemu_write_pidfile(const char *filename, Error **errp)
      }
+     return true;
+ }
++
++char *qemu_get_host_name(Error **errp)
++{
++    wchar_t tmp[MAX_COMPUTERNAME_LENGTH + 1];
++    DWORD size = G_N_ELEMENTS(tmp);
++
++    if (GetComputerNameW(tmp, &size) == 0) {
++        error_setg_win32(errp, GetLastError(), "failed close handle");
++        return NULL;
++    }
++
++    return g_utf16_to_utf8(tmp, size, NULL, NULL, NULL);
++}
 -- 
 2.17.1
 
