@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD4AD25CC82
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:43:35 +0200 (CEST)
-Received: from localhost ([::1]:46070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8E8B25CCD4
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:52:59 +0200 (CEST)
+Received: from localhost ([::1]:54660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDx14-0002yc-No
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:43:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59562)
+	id 1kDxAA-0001P5-QI
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:52:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwM6-00051r-Hn; Thu, 03 Sep 2020 17:01:15 -0400
-Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:34068)
+ id 1kDwM8-00052Y-9l; Thu, 03 Sep 2020 17:01:17 -0400
+Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:33364)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwM4-0007st-V3; Thu, 03 Sep 2020 17:01:14 -0400
-Received: by mail-ot1-x332.google.com with SMTP id h17so3210601otr.1;
- Thu, 03 Sep 2020 14:01:11 -0700 (PDT)
+ id 1kDwM6-0007tE-Dh; Thu, 03 Sep 2020 17:01:15 -0400
+Received: by mail-ot1-x332.google.com with SMTP id m12so1037932otr.0;
+ Thu, 03 Sep 2020 14:01:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=MEvZmvR0w7xE2ynIxcSs7eM6zvrUrLkOXOPrCdnExrc=;
- b=EHVARZzruu/KPlIDrWXmbEK8SzjPDoBPrP213Sw4vVEv/ETNSwQ3+J09utdOCOdXLy
- v8hQl1dqYprtIYFzi2DDV1ELfl+KRdt181DF8t6VoFK+eACIxgfXlRDFFXw02MCqesWH
- 1axD5HMUfUjK6Sw/1m02UG2WoQay81nK/+mjDhbMKjT0fkB9yHOCYmkj1ALpfpTZRjFG
- ZNFai0xXGHza5azi9zy/n56NmM13u8RUPCugiroW3ZOK0Xb/h5ykXVHuflWNAqsIYdbr
- MBQftpqJXW6BrMMurehpUkEHRStJxGYE0uFbEfH7ULbjA9iA44MNYt35kfXNyCQZGLm3
- nhwQ==
+ bh=Y3yC2SOnzE11vtRpT71Fc4IxJOCN3PFXC+OmZRbaviY=;
+ b=ZPl9B5Fzq1R/hqw20AxD3H4qqtKxTa/lXYm+Tmk3eExvwymvFoyTzut0dC1WfLjIqD
+ K5wDHLxDx81YFqSPJcGveId3LcCEop0Q2w8BjfDLsctbgcF1z6y/dS5klMyPi8zodpsP
+ JlQWhGUDnbnkHZev6g0PHiZMcpOU/qAZoqCIbZ7O7LL7fSEzmdXsgK6KLa7/6g67jSBl
+ 6hAps7dnF1RdSW6wrTNjDiO/L2YnOKC9hW3Srm5xSg9j8w9nSalo+zJe/+iqbZGHeHqQ
+ xWdUbQwNJzp+tfLsX4X0GgshRo8GS0rAIUIFmLVmUtVQ9R7Yebv3S/VrPjqmOZg/S38z
+ QUGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=MEvZmvR0w7xE2ynIxcSs7eM6zvrUrLkOXOPrCdnExrc=;
- b=fx/o2ktpeCQqcH3JVsSDkim63q3en/X5Z48LUM9A13TdPRiJ/nC+iW6yhMYsepEl3X
- /9U9gdTOFSaK1lJYLx3g/Y+c9oeHcl0aHDh7J8kDaKhPjIq8eY5fLGCuMkhXOR3Jrp/x
- jAtMEx7zSZ8kDPPhQj+miSb8ntAkxrRlR20ywh+RHTEU6IQueyO/2B50pdvlqXyC7DDf
- Pc62neJOwx9a8OE10Vfuevwf3C+Ld0zVVADcDkG573WNzgp5xVQvo/sJVXALJf9XVhPN
- 20ri9bxFQD8qQSmGWV5wiJ5tuOwlm4YNogYH+2vDuEXtB2xCxXneGtx37ILNrHDwyjpB
- 9aYQ==
-X-Gm-Message-State: AOAM530eYwd/E1o4KFu6fAxChtozO4XWI7hxKMxjJw1bruduudnhYPKI
- g5VbmnEn1Zd8112x6SFX4BIhim3mw2H7zQ==
-X-Google-Smtp-Source: ABdhPJyJyLCTANyduaYarkhhRlhGRzO9m/cVeMwLioY1o2bStwQnmnE/dWD7V12NTVv+J6PlTctxgw==
-X-Received: by 2002:a9d:621a:: with SMTP id g26mr3233188otj.209.1599166870579; 
- Thu, 03 Sep 2020 14:01:10 -0700 (PDT)
+ bh=Y3yC2SOnzE11vtRpT71Fc4IxJOCN3PFXC+OmZRbaviY=;
+ b=GvXGnC4ZzGS6WGWzI3wIuuJ0/U6/xJYJTPJpLIA6vNGghqLTKQuBzZM2VEReyXttsc
+ vyEPj8ZYeWfM+i1aYNHmvOtU3rfyaYUoBN6stowTWXN6zaOy3Z8tE6XmkeWu6DpryccM
+ /0Xfc2vagBCr049dBVTAnLnrAkPzU6dnAVR5cXpO2l4axfN7xXGJhkYfyfkhBG8mPhNc
+ rnTlE7xp3RZQjZZJkfemog/jpPcOlR5LBxRin9OajJ6vaft0KymFbkdA9lLHJJ3EcgFe
+ 4nPPUuPUDUv1dLsnBgw1NpY54hjgJvBfDZcupvIQf+wlPyB0gZ6d05SKsNfFBKrQnMU8
+ gEfQ==
+X-Gm-Message-State: AOAM531mna+6QwhMRIih45ty0fkZYtWBFnuefs0LA1+5Akrj9CtQ19+p
+ IYGZIb61nS0rZ6SQMsVq0oC4IscqSQVRSQ==
+X-Google-Smtp-Source: ABdhPJxG8u0OcMNMEtQmHDl6WeqW/hTeDfHWLIldHXVV70RparNQ/X3+VWRVJ+ggemRtRuUZ6/IvGA==
+X-Received: by 2002:a05:6830:13d7:: with SMTP id
+ e23mr3098746otq.98.1599166872334; 
+ Thu, 03 Sep 2020 14:01:12 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id 3sm767533otu.46.2020.09.03.14.01.09
+ by smtp.gmail.com with ESMTPSA id t1sm855106ooi.27.2020.09.03.14.01.11
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:01:10 -0700 (PDT)
+ Thu, 03 Sep 2020 14:01:11 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 66/77] virtio: verify that legacy support is not accidentally
- on
-Date: Thu,  3 Sep 2020 15:59:24 -0500
-Message-Id: <20200903205935.27832-67-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 67/77] intel_iommu: Use correct shift for 256 bits qi
+ descriptor
+Date: Thu,  3 Sep 2020 15:59:25 -0500
+Message-Id: <20200903205935.27832-68-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
@@ -82,71 +83,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>, qemu-stable@nongnu.org,
+Cc: Liu Yi L <yi.l.liu@intel.com>, qemu-stable@nongnu.org,
  "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cornelia Huck <cohuck@redhat.com>
+From: Liu Yi L <yi.l.liu@intel.com>
 
-If a virtio device does not have legacy support, make sure that
-it is actually off, and bail out if not.
+In chapter 10.4.23 of VT-d spec 3.0, Descriptor Width bit was introduced
+in VTD_IQA_REG. Software could set this bit to tell VT-d the QI descriptor
+from software would be 256 bits. Accordingly, the VTD_IQH_QH_SHIFT should
+be 5 when descriptor size is 256 bits.
 
-For virtio-pci, this means that any device without legacy support
-that has been specified to modern-only (or that has been forced
-to it) will work.
+This patch adds the DW bit check when deciding the shift used to update
+VTD_IQH_REG.
 
-For virtio-ccw, this duplicates the check that is currently done
-prior to realization for any device that explicitly specified no
-support for legacy.
-
-This catches devices that have not been fenced properly.
-
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-Message-Id: <20200707105446.677966-3-cohuck@redhat.com>
+Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+Message-Id: <1593850035-35483-1-git-send-email-yi.l.liu@intel.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
 Cc: qemu-stable@nongnu.org
-Acked-by: Halil Pasic <pasic@linux.ibm.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-(cherry picked from commit 9b3a35ec8236933ab958a4c3ad883163f1ca66e7)
+(cherry picked from commit a4544c45e109ceee87ee8c19baff28be3890d788)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/s390x/virtio-ccw.c  | 6 ++++++
- hw/virtio/virtio-pci.c | 4 ++++
- 2 files changed, 10 insertions(+)
+ hw/i386/intel_iommu.c          | 7 ++++++-
+ hw/i386/intel_iommu_internal.h | 3 ++-
+ 2 files changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
-index 64f928fc7d..c069719429 100644
---- a/hw/s390x/virtio-ccw.c
-+++ b/hw/s390x/virtio-ccw.c
-@@ -1119,6 +1119,12 @@ static void virtio_ccw_device_plugged(DeviceState *d, Error **errp)
-         dev->max_rev = 0;
-     }
- 
-+    if (!virtio_ccw_rev_max(dev) && !virtio_legacy_allowed(vdev)) {
-+        error_setg(errp, "Invalid value of property max_rev "
-+                   "(is %d expected >= 1)", virtio_ccw_rev_max(dev));
-+        return;
-+    }
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index df7ad254ac..8703a2da42 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -2549,6 +2549,11 @@ static bool vtd_process_inv_desc(IntelIOMMUState *s)
+ /* Try to fetch and process more Invalidation Descriptors */
+ static void vtd_fetch_inv_desc(IntelIOMMUState *s)
+ {
++    int qi_shift;
 +
-     if (virtio_get_num_queues(vdev) > VIRTIO_QUEUE_MAX) {
-         error_setg(errp, "The number of virtqueues %d "
-                    "exceeds virtio limit %d", n,
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 4cb784389c..2ca266e1cb 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1565,6 +1565,10 @@ static void virtio_pci_device_plugged(DeviceState *d, Error **errp)
-     }
++    /* Refer to 10.4.23 of VT-d spec 3.0 */
++    qi_shift = s->iq_dw ? VTD_IQH_QH_SHIFT_5 : VTD_IQH_QH_SHIFT_4;
++
+     trace_vtd_inv_qi_fetch();
  
-     if (legacy) {
-+        if (!virtio_legacy_allowed(vdev)) {
-+            error_setg(errp, "device is modern-only, use disable-legacy=on");
-+            return;
-+        }
-         if (virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)) {
-             error_setg(errp, "VIRTIO_F_IOMMU_PLATFORM was supported by"
-                        " neither legacy nor transitional device");
+     if (s->iq_tail >= s->iq_size) {
+@@ -2567,7 +2572,7 @@ static void vtd_fetch_inv_desc(IntelIOMMUState *s)
+         }
+         /* Must update the IQH_REG in time */
+         vtd_set_quad_raw(s, DMAR_IQH_REG,
+-                         (((uint64_t)(s->iq_head)) << VTD_IQH_QH_SHIFT) &
++                         (((uint64_t)(s->iq_head)) << qi_shift) &
+                          VTD_IQH_QH_MASK);
+     }
+ }
+diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.h
+index 862033ebe6..3d5487fe2c 100644
+--- a/hw/i386/intel_iommu_internal.h
++++ b/hw/i386/intel_iommu_internal.h
+@@ -230,7 +230,8 @@
+ #define VTD_IQA_DW_MASK             0x800
+ 
+ /* IQH_REG */
+-#define VTD_IQH_QH_SHIFT            4
++#define VTD_IQH_QH_SHIFT_4          4
++#define VTD_IQH_QH_SHIFT_5          5
+ #define VTD_IQH_QH_MASK             0x7fff0ULL
+ 
+ /* ICS_REG */
 -- 
 2.17.1
 
