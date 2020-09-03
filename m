@@ -2,69 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C61625CC66
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:36:49 +0200 (CEST)
-Received: from localhost ([::1]:40022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 951BD25CC58
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:34:50 +0200 (CEST)
+Received: from localhost ([::1]:60760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwuW-0005md-AA
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:36:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58696)
+	id 1kDwsb-0002UQ-Kc
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:34:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLQ-00041t-9M; Thu, 03 Sep 2020 17:00:32 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:35796)
+ id 1kDwLM-00040K-Cu; Thu, 03 Sep 2020 17:00:30 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:37566)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLI-0007e4-IK; Thu, 03 Sep 2020 17:00:28 -0400
-Received: by mail-oi1-x242.google.com with SMTP id w16so4536242oia.2;
- Thu, 03 Sep 2020 14:00:21 -0700 (PDT)
+ id 1kDwLI-0007eh-Qc; Thu, 03 Sep 2020 17:00:27 -0400
+Received: by mail-oi1-x244.google.com with SMTP id e6so4528173oii.4;
+ Thu, 03 Sep 2020 14:00:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=RzeduguMkjJ25jQpgkKJueFeI/WMC3SutpUz7EZNeBA=;
- b=aeQO4TV8bN1PkAZJSM9mKjt8QIm1131tI00Up90H0yNKutKUFPYyhR5pZt64+QKVnO
- UqpEdTOJ7oiBPkkDsFitCSeSRMeBKnGst/GFOhQnc9puZo+lxVyaCpKAdGVknhDMQUtU
- nyZdDoFb1Oz4bLk+9pWUw790CKSt3OCFiyZNYFL0hdjWs/SUmIsRgGql0Qype+BNH7KA
- R/r6EhvMSDW+bozssylUuzOiSoSSI/p1xlY1zSUERpTlxuHleYPqRIKo6ot/YDNAAWZU
- s94/jNj7E3e8yveQEmJN1jGGzmulrTWPZDAuqBcxxg5VEamUBPg9WLYOM+Qc+f/8f1V8
- JeCQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=6r9u0nklxBNegI6NxrGJn+A8hZD/QGA53VvgRXsDcyg=;
+ b=KWXFWA8hj94/SWqn/xbLuHS1H9UAOa+m7lre17CIgN8saTbSwxAw3Yas7iMEWF26s/
+ 0CZxC5QDw4DZvc1MmeH/o8p6eDm28iJR5Zooz2/G2VBzZy+uCgWtMbKHv1WhLs1ZJs/4
+ uhQIzyrlBStx+jMvZirgwgfxeGQW8wfsrL1J8+z9yvoRyAsnjkYKmeeDOKqzGu7k8EHI
+ KGGwgConXzb9hbaaZJEMX+gjEJlgE9Vz4VrF+1A5BA7w5iuAEYts1vLCyqYKLN19vajX
+ edkQre34dloPQcQBqy4fVnmAZgWY2bg9ZHqPwVv/6cnolONvlqs6tIHPa5OQ5YXwvoJL
+ jFfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=RzeduguMkjJ25jQpgkKJueFeI/WMC3SutpUz7EZNeBA=;
- b=VRhX2HyWB4Kf1jgI3ID+ckw14AyBMPgR3CTUvWt7rKwAbdfb51d9QZ1diF8cMVk2Km
- DymYFZcFmRrgbMTUhLXE3TM/8jhSF09XHhiJjIyFYSMs4RTYC0nS8NcETztpUssEjjMG
- u046Obd0bZKfLjypxEfk3N8T0ElUPK5X0ebpHKo2JDHQ7XUMhWOAVUhEUbMFL3rHXuUl
- wqgwA94NDzzgo+JcFiUZCjPlhIP5WR7W808Nutp5Wpi8NDMErW/yxAPtAhQ047NrEVhp
- m1pPc0Bi+L3oMxWsMVNJZdUVXcn/CD26v3rJoaKjIBCAX2lae6U3eIG4CZ8JnDytDUbA
- TVjA==
-X-Gm-Message-State: AOAM532S5/X9ovZ8EXTHdA17U6MIkWJZCsXf8BGmk6OR29AULoHqeB3g
- EoDgFGs4NqWpAcLWd36AdnPlK/q/B9Q=
-X-Google-Smtp-Source: ABdhPJxE2iGtbT04/YrSqCZV4NB951udik43UfKfeFEIoNqXmz2FAPwMV5hH/A2BkwkQISbIcG0ayA==
-X-Received: by 2002:a05:6808:8e4:: with SMTP id
- d4mr3193629oic.132.1599166820386; 
- Thu, 03 Sep 2020 14:00:20 -0700 (PDT)
+ :in-reply-to:references;
+ bh=6r9u0nklxBNegI6NxrGJn+A8hZD/QGA53VvgRXsDcyg=;
+ b=majznx8yco2ZDnDkL0TiIoHef9OCp0Zt19ESRMY5HNXY0FmA8h28Sk2BsrkUlb5L2Z
+ 9OokvRyOKZAC5wUNMzmjB2d3lwg6Mz94KMMJSrxYUY+xe/qH9HKeIKzfW5obI5XWTZXC
+ R38IPicZO6NMaKOZZaNp6Weaer+Ydc9YdSnxFVmJ+d6kJ2XozVqQj8YtoSsnOI9GqpY4
+ poRfH4mpRDtQN/e27gcxJclcNsXx0xkt/93ShLjLUGcLQkUDZdD0BzIb+HpQDYGzsd4R
+ WLHwxVgSmbYvQhDqHwxu4foT1m66EJ1u3dQsaX+rdEdfuxELa1htNzaYAZqQ8IEFRNEq
+ cVkg==
+X-Gm-Message-State: AOAM533+nEXmu+8bFewjqEQ8HabNKaxp/JYs6sdIS9YSENVpCuDb2qgC
+ ptytdM+QYkJbxbIgqqQGSiZ3v/kaLyY=
+X-Google-Smtp-Source: ABdhPJykNqvtwFfgk7fq7JGgjho3xrw+T0BCycsxkMlAa5tFID4os47Q4XalaeEpGLqWbi1AQluqSQ==
+X-Received: by 2002:a54:4704:: with SMTP id k4mr2708157oik.78.1599166822706;
+ Thu, 03 Sep 2020 14:00:22 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id t84sm294254oif.32.2020.09.03.14.00.19
+ by smtp.gmail.com with ESMTPSA id p9sm759437oti.22.2020.09.03.14.00.21
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:00:19 -0700 (PDT)
+ Thu, 03 Sep 2020 14:00:22 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 31/77] xhci: fix valid.max_access_size to access address
- registers
-Date: Thu,  3 Sep 2020 15:58:49 -0500
-Message-Id: <20200903205935.27832-32-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 33/77] hw/display/artist: Unbreak size mismatch memory accesses
+Date: Thu,  3 Sep 2020 15:58:51 -0500
+Message-Id: <20200903205935.27832-34-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x242.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
+ envelope-from=flukshun@gmail.com; helo=mail-oi1-x244.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -87,64 +81,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, qemu-stable@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Helge Deller <deller@gmx.de>, Sven Schnelle <svens@stackframe.org>,
+ qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Laurent Vivier <lvivier@redhat.com>
+From: Helge Deller <deller@gmx.de>
 
-QEMU XHCI advertises AC64 (64-bit addressing) but doesn't allow
-64-bit mode access in "runtime" and "operational" MemoryRegionOps.
+Commit 5d971f9e6725 ("memory: Revert "memory: accept mismatching sizes
+in memory_region_access_valid") broke the artist driver in a way that
+the dtwm window manager on HP-UX rendered wrong.
 
-Set the max_access_size based on sizeof(dma_addr_t) as AC64 is set.
-
-XHCI specs:
-"If the xHC supports 64-bit addressing (AC64 = ‘1’), then software
-should write 64-bit registers using only Qword accesses.  If a
-system is incapable of issuing Qword accesses, then writes to the
-64-bit address fields shall be performed using 2 Dword accesses;
-low Dword-first, high-Dword second.  If the xHC supports 32-bit
-addressing (AC64 = ‘0’), then the high Dword of registers containing
-64-bit address fields are unused and software should write addresses
-using only Dword accesses"
-
-The problem has been detected with SLOF, as linux kernel always accesses
-registers using 32-bit access even if AC64 is set and revealed by
-5d971f9e6725 ("memory: Revert "memory: accept mismatching sizes in memory_region_access_valid"")
-
-Suggested-by: Alexey Kardashevskiy <aik@au1.ibm.com>
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Message-id: 20200721083322.90651-1-lvivier@redhat.com
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-(cherry picked from commit 8e67fda2dd6202ccec093fda561107ba14830a17)
+Fixes: 5d971f9e6725 ("memory: Revert "memory: accept mismatching sizes in memory_region_access_valid")
+Signed-off-by: Sven Schnelle <svens@stackframe.org>
+Signed-off-by: Helge Deller <deller@gmx.de>
+(cherry picked from commit e0cf02ce680f11893aca9642e76d6ae68b9375af)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/usb/hcd-xhci.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/display/artist.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
-index b330e36fe6..67a18fe2b6 100644
---- a/hw/usb/hcd-xhci.c
-+++ b/hw/usb/hcd-xhci.c
-@@ -3184,7 +3184,7 @@ static const MemoryRegionOps xhci_oper_ops = {
-     .read = xhci_oper_read,
-     .write = xhci_oper_write,
-     .valid.min_access_size = 4,
--    .valid.max_access_size = 4,
-+    .valid.max_access_size = sizeof(dma_addr_t),
-     .endianness = DEVICE_LITTLE_ENDIAN,
+diff --git a/hw/display/artist.c b/hw/display/artist.c
+index 753dbb9a77..d7bce918b8 100644
+--- a/hw/display/artist.c
++++ b/hw/display/artist.c
+@@ -1199,20 +1199,16 @@ static const MemoryRegionOps artist_reg_ops = {
+     .read = artist_reg_read,
+     .write = artist_reg_write,
+     .endianness = DEVICE_NATIVE_ENDIAN,
+-    .valid = {
+-        .min_access_size = 1,
+-        .max_access_size = 4,
+-    },
++    .impl.min_access_size = 1,
++    .impl.max_access_size = 4,
  };
  
-@@ -3200,7 +3200,7 @@ static const MemoryRegionOps xhci_runtime_ops = {
-     .read = xhci_runtime_read,
-     .write = xhci_runtime_write,
-     .valid.min_access_size = 4,
--    .valid.max_access_size = 4,
-+    .valid.max_access_size = sizeof(dma_addr_t),
-     .endianness = DEVICE_LITTLE_ENDIAN,
+ static const MemoryRegionOps artist_vram_ops = {
+     .read = artist_vram_read,
+     .write = artist_vram_write,
+     .endianness = DEVICE_NATIVE_ENDIAN,
+-    .valid = {
+-        .min_access_size = 1,
+-        .max_access_size = 4,
+-    },
++    .impl.min_access_size = 1,
++    .impl.max_access_size = 4,
  };
  
+ static void artist_draw_cursor(ARTISTState *s)
 -- 
 2.17.1
 
