@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1318A25CC64
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:36:23 +0200 (CEST)
-Received: from localhost ([::1]:37224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2596B25CC98
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:47:19 +0200 (CEST)
+Received: from localhost ([::1]:60378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwu6-0004SY-1U
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:36:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59300)
+	id 1kDx4g-0000V0-6G
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:47:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLt-0004qx-LY; Thu, 03 Sep 2020 17:01:01 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:39459)
+ id 1kDwLv-0004u3-05; Thu, 03 Sep 2020 17:01:03 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:40119)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLr-0007p4-AV; Thu, 03 Sep 2020 17:01:01 -0400
-Received: by mail-ot1-x341.google.com with SMTP id u25so4010867otq.6;
- Thu, 03 Sep 2020 14:00:58 -0700 (PDT)
+ id 1kDwLs-0007pU-Bw; Thu, 03 Sep 2020 17:01:02 -0400
+Received: by mail-oi1-x244.google.com with SMTP id t76so4500619oif.7;
+ Thu, 03 Sep 2020 14:00:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZGuqioQ81AJZZTMFCUZaggIBmQ2hKOBauKIF8BVgJKE=;
- b=t3Z9QAOiFV38Bvy88UMabvWB9aka5Pwguc3uO0J5C8WmqW80gF67t7YPJU2BG/LrH9
- lUzjKYN/vh8bqGQjoK+mTkmOEqbqXm2EbRCCwpw6iei5dH6vEVxYsB7UpT2i2gXYhJrC
- 4ZYMCMXd3Z9eWG/90IbLbrp20bgEOFpObOJbhVyPzfzJTkcxyBljCII27wY+7tL51L7D
- NPQkNuf3drqJ2n20YHA1gigfbKN2447i7zI4gi4B5bRz67rXV6A98c/aPttVK3H7IZp2
- JCiDZKFo18bRt2Bzzw+dLo639fUho/YYZWS4cTFd1h5GbBPwM13pecNBSPqQdTg/4W0D
- jXug==
+ bh=mcURfk5W32wdNJCNi/KCDUV8DNNwwxKl3IilrVi/wvI=;
+ b=CzikMDXVLKlKz+t6WqY0ApV+J4z9aQkNKVvl2qWLWG/dsu4TN3E5z6gzWCugT4G8GE
+ y2a9PQN6PrAB1CTLD0ksddMJ1xofxWOW4gFNEBTONfCXdz/Al1cLEMZREnSJdHb/a0Ss
+ DNqpNOE/+IhpiJWmIEEpRf+uPweWlLbBPe2HGRe8iplq6W8bfkjX4JWThEabF4LHC+F/
+ craUQKzKXV4zIL3/UeM9ikFR+hXmqT6XomjxX6KgdP+vqZ+WuKfyN/HpoK811LBXsA3A
+ SynCplR3iRFe1265c/IElQoqgvS0kC83NJUgloTS5P/fRdtDQryhR2PlTvFQdL6q1IPV
+ D8Aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ZGuqioQ81AJZZTMFCUZaggIBmQ2hKOBauKIF8BVgJKE=;
- b=FPfHB3HFoABVxP6Va9/PQU6Ip6XzcKwSW/xqkL4g5Tq7AFaJbwnS+ZMMdnWSd32n5L
- Py9729vGGUXstPo4RnrANumgQKtV7gjwrm6WxHVGuD1arXa2tt91zsXt1NDDNSmNAFc9
- oUKRey0c6xgWGtUmufylw1D7JxKZxpG8jmlCQPKZFVCPEEZkQcTU1N6jqn1h6RYizzxt
- 3op9PDKYT1tHjjviZWJ/KxgqbUI7fjGCvyYcSjhAjfJQQ5UkzgjtuIf7kitSlfjwci46
- tt1Jxc2Uedu7Bpddsjz60JlrVYwUfSxAWSHsGP6EMHqqNTFyecnIVEDn+wK6xvGs1biC
- TtiQ==
-X-Gm-Message-State: AOAM531OJ9nWXEO3oHu7i/y4JaBmryCsk6/a651vri8zI1T/qetlcg+2
- ASNJxPBnnrEDuWx67uATPs82kjIPgo7qrw==
-X-Google-Smtp-Source: ABdhPJy/v8mjZfWytj+5MDYTP3PhgJaV7wQ7wilhaIq21KHwQ+47BAM3XHGdzoDCkoPhWz7w6zwxpw==
-X-Received: by 2002:a05:6830:19ee:: with SMTP id
- t14mr3084951ott.171.1599166857524; 
- Thu, 03 Sep 2020 14:00:57 -0700 (PDT)
+ bh=mcURfk5W32wdNJCNi/KCDUV8DNNwwxKl3IilrVi/wvI=;
+ b=uMTXCxIvSEgQdv0H9d8m1pGpqlU3Q3KiVTk1tJtgOozBJIv6RpAUMNjo1pXSYggVGy
+ 1RNZ2TYg50uUSC+KFGVOr6MSKJIUfeia+Hk3QLbkyG/jrxicspWY4ey12zdBiWPThSYl
+ YQAN+DPmhMDJGJjrooT9z8GyOzYbdgcK1iyzk1VJtH79fOsjCOpm8qrblVSa4qvLBKaH
+ GktX8bgqbcOtXWEWK4dJzKqEo1jUPGH+xKAbpdyXRoNVCjFKqL3Wa79ZBW0IxxgGcPcq
+ byzE188ER8XJF6isBj9MRys4kdg5/PNuRAgk1R+ijF3gOYrjg1vF7hf8qFGL1D5fS720
+ R6rg==
+X-Gm-Message-State: AOAM532nCarS1jntynEQbnuR6LyBY/nsIkiMDEYT+Naggcrl+rgf0KjP
+ bF5g3QsCTi2pL/3AIFrBDWRXo3Q+VCgIxA==
+X-Google-Smtp-Source: ABdhPJxkAI4+DhwXOvR1NOhvLXk3KuK5QvhSEJhe0qtC7QaI9W88quAYK3iU0t9wz4cPa/X/oBAtjg==
+X-Received: by 2002:aca:c3c7:: with SMTP id t190mr3419222oif.167.1599166858651; 
+ Thu, 03 Sep 2020 14:00:58 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id g18sm760177otj.41.2020.09.03.14.00.56
+ by smtp.gmail.com with ESMTPSA id 187sm707041oie.42.2020.09.03.14.00.58
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:00:57 -0700 (PDT)
+ Thu, 03 Sep 2020 14:00:58 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 57/77] tpm: tpm_spapr: Exit on TPM backend failures
-Date: Thu,  3 Sep 2020 15:59:15 -0500
-Message-Id: <20200903205935.27832-58-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 58/77] tests: tpm: Skip over pcrUpdateCounter byte in result
+ comparison
+Date: Thu,  3 Sep 2020 15:59:16 -0500
+Message-Id: <20200903205935.27832-59-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x341.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
+ envelope-from=flukshun@gmail.com; helo=mail-oi1-x244.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -93,39 +93,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Berger <stefanb@linux.vnet.ibm.com>
 
-Exit on TPM backend failures in the same way as the TPM CRB and TIS device
-models do. With this change we now get an error report when the backend
-did not start up properly:
-
-error: internal error: qemu unexpectedly closed the monitor:
-2020-07-07T12:49:28.333928Z qemu-system-ppc64: tpm-emulator: \
-  TPM result for CMD_INIT: 0x101 operation failed
+The TPM 2 code in libtpms was fixed to handle the PCR 'TCB group' according
+to the PCClient profile. The change of the PCRs belonging to the 'TCB group'
+now affects the pcrUpdateCounter in the TPM2_PCRRead() responses where its
+value is now different (typically lower by '1') than what it was before. To
+not fail the tests, we skip the comparison of the 14th byte, which
+represents the pcrUpdateCounter.
 
 Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-id: 20200707201625.4177419-2-stefanb@linux.vnet.ibm.com
-(cherry picked from commit f8b332a1ff107dc014a52eaf9bf547995205f18a)
+Message-id: 20200707201625.4177419-3-stefanb@linux.vnet.ibm.com
+(cherry picked from commit df8a7568932e4c3c930fdfeb228dd72b4bb71a1f)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/tpm/tpm_spapr.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ tests/qtest/tpm-util.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/hw/tpm/tpm_spapr.c b/hw/tpm/tpm_spapr.c
-index ce65eb2e45..b67aafb24e 100644
---- a/hw/tpm/tpm_spapr.c
-+++ b/hw/tpm/tpm_spapr.c
-@@ -306,7 +306,10 @@ static void tpm_spapr_reset(SpaprVioDevice *dev)
-                             TPM_SPAPR_BUFFER_MAX);
+diff --git a/tests/qtest/tpm-util.c b/tests/qtest/tpm-util.c
+index 34efae8f18..58a9593745 100644
+--- a/tests/qtest/tpm-util.c
++++ b/tests/qtest/tpm-util.c
+@@ -139,7 +139,11 @@ void tpm_util_pcrread(QTestState *s, tx_func *tx,
  
-     tpm_backend_reset(s->be_driver);
--    tpm_spapr_do_startup_tpm(s, s->be_buffer_size);
-+
-+    if (tpm_spapr_do_startup_tpm(s, s->be_buffer_size) < 0) {
-+        exit(1);
-+    }
+     tx(s, tpm_pcrread, sizeof(tpm_pcrread), buffer, sizeof(buffer));
+ 
+-    g_assert_cmpmem(buffer, exp_resp_size, exp_resp, exp_resp_size);
++    /* skip pcrUpdateCounter (14th byte) in comparison */
++    g_assert(exp_resp_size >= 15);
++    g_assert_cmpmem(buffer, 13, exp_resp, 13);
++    g_assert_cmpmem(&buffer[14], exp_resp_size - 14,
++                    &exp_resp[14], exp_resp_size - 14);
  }
  
- static enum TPMVersion tpm_spapr_get_version(TPMIf *ti)
+ bool tpm_util_swtpm_has_tpm2(void)
 -- 
 2.17.1
 
