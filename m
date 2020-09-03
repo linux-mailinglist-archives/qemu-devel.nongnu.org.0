@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDA5525CC48
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:31:24 +0200 (CEST)
-Received: from localhost ([::1]:44164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24A0625CC85
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:44:16 +0200 (CEST)
+Received: from localhost ([::1]:49864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwpH-0003xH-M1
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:31:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58566)
+	id 1kDx1j-0004X5-7O
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:44:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLG-0003yT-RB; Thu, 03 Sep 2020 17:00:24 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:40762)
+ id 1kDwLk-0004a2-K0; Thu, 03 Sep 2020 17:00:52 -0400
+Received: from mail-oo1-xc43.google.com ([2607:f8b0:4864:20::c43]:41887)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLE-0007cz-SJ; Thu, 03 Sep 2020 17:00:22 -0400
-Received: by mail-ot1-x341.google.com with SMTP id e23so4013768otk.7;
- Thu, 03 Sep 2020 14:00:20 -0700 (PDT)
+ id 1kDwLi-0007md-GZ; Thu, 03 Sep 2020 17:00:52 -0400
+Received: by mail-oo1-xc43.google.com with SMTP id t3so1129153ook.8;
+ Thu, 03 Sep 2020 14:00:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=qTh31Rf/r01rqa9kv/3Kv1y/l40RMHvXG4921rSK/Vs=;
- b=F5lLuU86NBNOJXSwTxkeLFpMXiJkG0hav4FZB3TnChTvRFMaQMraUSDoOu0x3F65Xj
- Lg++2yXEAnJ6KZI3mJq04c5eBdhVep9/iGGS3Ce5q9JfEd9UKtdM2Tx+twK8+p9lDQ3T
- 3pLdTUSduK26/IapUFMjYJRkQIzJ+d8TLHe+15byIkg7Fhx4Ff0MSHZ9YBuf4T1v5z3q
- jirXrV7PjOrNi3CT3fMTXF0JadcSqIos4s0WskEW9Gh85GilP1qRXp+hf0pUBQ68jAvm
- TZCekJIVWL/dkZe2y6l5goNG272KgGTQU+OdsppdTNL5axDHnFKJVksPhL7wEGs9jfTG
- FdMA==
+ bh=bxWeFhlr2Nkz7Asmr51rIj2c32EFg7f8nnap9EUbZGc=;
+ b=kT45kTezXOFjY1kIdOLpucs61FR/RPAJfX7isq+8hAJk4plBdlqs2kl5Bv7UNdC7EV
+ StaJpRbM1QTTajuONhlFGKyVccrF1P8xqPMKXbT7ORd3M7xkrnIe0O0yC2lce6dFYM1U
+ gZTZWDMrCMUhOAOd6cvc3lL6OMNyBtORtIaftYUshbjEL0V/yKIOKzBR62siGA0sRtow
+ 2n55NGxJAVYD30evZ+kH8xSP/q4ix1ofe8N6io1wi/z+X6zJYmB0DqwSbOh4FbHsegCA
+ UT4801Puv0YYXIITx4eiIq9Mp88776gDBw1L3gJx9wJH4mETofYsN76PdOcVA8CGwqA9
+ tEXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=qTh31Rf/r01rqa9kv/3Kv1y/l40RMHvXG4921rSK/Vs=;
- b=lpwTHOd7S07XHyuZSXvO1evhcLA3aGsxCR2h/3l9FoRU8ibYCNrKx2oaWYcOdDlWEi
- octFBek+0AmcOG5v9HzWhUD0273bpvXWKW210O9HrNtzaSd4YI9vPNEzD/+yx1GCoW4S
- XjQiUg60ZTTZ/ht7zju36FrVQnj9MTEBFKQYS+/Oqw/c30aBPVt6Iph+zm+43qJCtAm7
- U5tS4wakajz3rXKbYk+LDDYtI7Udpl0W7KxmiEkeXctiOvLPUve2shkNMdNR1DKSq/l2
- 0fBKXjuDexCFMFUPUyTUHIVpOlRye9am15FizbmGPEZ/9Hcr6AFdQpUZO/UfVSVyzV3N
- ORGQ==
-X-Gm-Message-State: AOAM532yTMXA2xEnBwfrdoc5L8EKZ5gf6a3gYeEgnzrenFK1UDBst99f
- ca9ka3BfjN8ec9yoPOEPK0O93KsJh3s=
-X-Google-Smtp-Source: ABdhPJwnXs/a36zSYU2IRuxKnj2zUGliKwnIAFe8ex8OxCKS+g75naWsnkm1hC5IJ17De+bmeNP/Gw==
-X-Received: by 2002:a9d:6e1:: with SMTP id 88mr3073463otx.178.1599166819269;
- Thu, 03 Sep 2020 14:00:19 -0700 (PDT)
+ bh=bxWeFhlr2Nkz7Asmr51rIj2c32EFg7f8nnap9EUbZGc=;
+ b=MRoBNumSG6Xi7y7rwGyKq6DF2apcaviyCkaQWC043ZX3JTlN7P9nyzsjs/FdCOS3Al
+ l/lu7dyTtyOpvREfz/qJJMVdPCvEI7omMq9KXi2K2ovw/Q7M6Nlp+DvXK/LHNWJNvrF3
+ PFa6sv0X+o7eCKDZtPSpi/ssmCQDhz1JtiCDqOdCnaR6LS6CyM8hMHbSmEMt2RxFdw4Z
+ HIbfvDjExKSYOiAQyYtQ+2M7SfHI26q2Sb63yU4z7MZS3oq8Yg94d2zN+6BYT5aC+hw8
+ OiL/3K3i1KduXXHWjsxreqrOBn8hIKGDntgqUIXMUio1w+2VPIRnUpXA6o3ubXaJUu/g
+ Q8CQ==
+X-Gm-Message-State: AOAM533/phTPD8oeG2u1Pi9Ad7kcrHf0DnrCBpS7OipY4rpWDDrUzlEB
+ 1fICnF3N5lW1iCLYU+3sDI5qTNnEVjI=
+X-Google-Smtp-Source: ABdhPJyU/u8kUV0VF/KzCStoEHPeLSNKtOUe7Wrhekedl7Ea23lzleq/F+U2QatcX/qaLi6P+FEMiQ==
+X-Received: by 2002:a4a:d549:: with SMTP id q9mr3346616oos.74.1599166848839;
+ Thu, 03 Sep 2020 14:00:48 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id n186sm831721oob.11.2020.09.03.14.00.18
+ by smtp.gmail.com with ESMTPSA id 22sm722522oin.26.2020.09.03.14.00.48
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:00:18 -0700 (PDT)
+ Thu, 03 Sep 2020 14:00:48 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/77] target/arm: Clear tail in gvec_fmul_idx_*,
- gvec_fmla_idx_*
-Date: Thu,  3 Sep 2020 15:58:20 -0500
-Message-Id: <20200903205935.27832-3-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 04/77] 9p: Lock directory streams with a CoMutex
+Date: Thu,  3 Sep 2020 15:58:22 -0500
+Message-Id: <20200903205935.27832-5-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x341.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c43;
+ envelope-from=flukshun@gmail.com; helo=mail-oo1-xc43.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -82,47 +81,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-stable@nongnu.org
+Cc: qemu-stable@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Greg Kurz <groug@kaod.org>
 
-Must clear the tail for AdvSIMD when SVE is enabled.
+Locking was introduced in QEMU 2.7 to address the deprecation of
+readdir_r(3) in glibc 2.24. It turns out that the frontend code is
+the worst place to handle a critical section with a pthread mutex:
+the code runs in a coroutine on behalf of the QEMU mainloop and then
+yields control, waiting for the fsdev backend to process the request
+in a worker thread. If the client resends another readdir request for
+the same fid before the previous one finally unlocked the mutex, we're
+deadlocked.
 
-Fixes: ca40a6e6e39
-Cc: qemu-stable@nongnu.org
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200513163245.17915-15-richard.henderson@linaro.org
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-(cherry picked from commit 525d9b6d42844e187211d25b69be8b378785bc24)
+This never bit us because the linux client serializes readdir requests
+for the same fid, but it is quite easy to demonstrate with a custom
+client.
+
+A good solution could be to narrow the critical section in the worker
+thread code and to return a copy of the dirent to the frontend, but
+this causes quite some changes in both 9p.c and codir.c. So, instead
+of that, in order for people to easily backport the fix to older QEMU
+versions, let's simply use a CoMutex since all the users for this
+sit in coroutines.
+
+Fixes: 7cde47d4a89d ("9p: add locking to V9fsDir")
+Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Message-Id: <158981894794.109297.3530035833368944254.stgit@bahia.lan>
+Signed-off-by: Greg Kurz <groug@kaod.org>
+(cherry picked from commit ed463454efd0ac3042ff772bfe1b1d846dc281a5)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- target/arm/vec_helper.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/9pfs/9p.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
-index 8017bd88c4..5ce111b286 100644
---- a/target/arm/vec_helper.c
-+++ b/target/arm/vec_helper.c
-@@ -737,6 +737,7 @@ void HELPER(NAME)(void *vd, void *vn, void *vm, void *stat, uint32_t desc) \
-             d[i + j] = TYPE##_mul(n[i + j], mm, stat);                     \
-         }                                                                  \
-     }                                                                      \
-+    clear_tail(d, oprsz, simd_maxsz(desc));                                \
+diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
+index b8f72a3bd9..c381fe091a 100644
+--- a/hw/9pfs/9p.h
++++ b/hw/9pfs/9p.h
+@@ -197,22 +197,22 @@ typedef struct V9fsXattr
+ 
+ typedef struct V9fsDir {
+     DIR *stream;
+-    QemuMutex readdir_mutex;
++    CoMutex readdir_mutex;
+ } V9fsDir;
+ 
+ static inline void v9fs_readdir_lock(V9fsDir *dir)
+ {
+-    qemu_mutex_lock(&dir->readdir_mutex);
++    qemu_co_mutex_lock(&dir->readdir_mutex);
  }
  
- DO_MUL_IDX(gvec_fmul_idx_h, float16, H2)
-@@ -761,6 +762,7 @@ void HELPER(NAME)(void *vd, void *vn, void *vm, void *va,                  \
-                                      mm, a[i + j], 0, stat);               \
-         }                                                                  \
-     }                                                                      \
-+    clear_tail(d, oprsz, simd_maxsz(desc));                                \
+ static inline void v9fs_readdir_unlock(V9fsDir *dir)
+ {
+-    qemu_mutex_unlock(&dir->readdir_mutex);
++    qemu_co_mutex_unlock(&dir->readdir_mutex);
  }
  
- DO_FMLA_IDX(gvec_fmla_idx_h, float16, H2)
+ static inline void v9fs_readdir_init(V9fsDir *dir)
+ {
+-    qemu_mutex_init(&dir->readdir_mutex);
++    qemu_co_mutex_init(&dir->readdir_mutex);
+ }
+ 
+ /*
 -- 
 2.17.1
 
