@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12B7425CCAC
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:49:07 +0200 (CEST)
-Received: from localhost ([::1]:39374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1318A25CC64
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:36:23 +0200 (CEST)
+Received: from localhost ([::1]:37224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDx6Q-0003QT-4n
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:49:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59258)
+	id 1kDwu6-0004SY-1U
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:36:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLr-0004nW-Vc; Thu, 03 Sep 2020 17:01:00 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:39860)
+ id 1kDwLt-0004qx-LY; Thu, 03 Sep 2020 17:01:01 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:39459)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLq-0007ol-2p; Thu, 03 Sep 2020 17:00:59 -0400
-Received: by mail-oi1-x244.google.com with SMTP id r64so4523757oib.6;
- Thu, 03 Sep 2020 14:00:57 -0700 (PDT)
+ id 1kDwLr-0007p4-AV; Thu, 03 Sep 2020 17:01:01 -0400
+Received: by mail-ot1-x341.google.com with SMTP id u25so4010867otq.6;
+ Thu, 03 Sep 2020 14:00:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hBv/652Zc3vxedUaDXUBkYliuRqc7HcQ84NCJAihy/4=;
- b=KTm9I81M8cWYvo2JUKgDM5VV/LzuZirf1yRjQgxyMQNbNO+1D3w4WRZdp7f3Ud8bOB
- qXF0jcg+dpuHkix0MkTQDcBRgf5oE9Low9Vk5jZSROQ8qav8pLZzCRPxjhQuuFxyRC5F
- uQb7Ej2AMfgQ2OV1SsXMVMQvZjH40i+1bf7vKMzNhkQltemPAqClQl35wrmTErUh0pf1
- ckVNPgh/omhhwyOb0T4oE2JkmAxs7LZNTuma93y4sUtUHNYY3a7fLKsY+vkMPh8eT/VD
- ZcuwBxZnlLB2iGYsyaCAUCG6yfEcY97EVIafu5j0H3gU8LIiPO69O38WYvfIoFIsZPoQ
- tpRw==
+ bh=ZGuqioQ81AJZZTMFCUZaggIBmQ2hKOBauKIF8BVgJKE=;
+ b=t3Z9QAOiFV38Bvy88UMabvWB9aka5Pwguc3uO0J5C8WmqW80gF67t7YPJU2BG/LrH9
+ lUzjKYN/vh8bqGQjoK+mTkmOEqbqXm2EbRCCwpw6iei5dH6vEVxYsB7UpT2i2gXYhJrC
+ 4ZYMCMXd3Z9eWG/90IbLbrp20bgEOFpObOJbhVyPzfzJTkcxyBljCII27wY+7tL51L7D
+ NPQkNuf3drqJ2n20YHA1gigfbKN2447i7zI4gi4B5bRz67rXV6A98c/aPttVK3H7IZp2
+ JCiDZKFo18bRt2Bzzw+dLo639fUho/YYZWS4cTFd1h5GbBPwM13pecNBSPqQdTg/4W0D
+ jXug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=hBv/652Zc3vxedUaDXUBkYliuRqc7HcQ84NCJAihy/4=;
- b=G6FA79Et4BQy61frLxEZ+HqNVALJJB4iYeBMFKh3zpwmVKw/uJKxQP1DAvmhBMmvxZ
- IS1EZ1AMvc3qzcKkneIV6fAX8XoXGshBAdqNf4Gg9d8kQJVk+7hWdDGQMaAKjJQLPNVm
- 8nJCWvO73FWgC3MYHDmx7M/+4nG3uNStwac+FcKNXGT+ZrWyC5xTN6TYWqtdwrcZSvTP
- htiEi2EVCMp5IrYPM76S3/dLs7qBqSisDW2x7PhU5Edv3WCR9P95OUg4DW8XwWy3VJFd
- DNNhjcCLt+lFb+Jh50VztjPZhG5gEAk9mR4hDWxDAJsorlWKjXDvFeoGxm/DVGkCK7uC
- dPzg==
-X-Gm-Message-State: AOAM530G+cEKWN68HoraZEU9yGBY3oZRzzXxOWNzYf3CGWYPnSM6bdOL
- krsV6A1+JNcRoyvSn/I6Gz3UBBdJoO8=
-X-Google-Smtp-Source: ABdhPJy//E3qeJYtO8uurp2A08lQP2AGt+yAbHxqmkKqdVWvA1At/ppHFIq0FUDEc9Q5a6NbKkA0Eg==
-X-Received: by 2002:aca:44c3:: with SMTP id r186mr3256905oia.53.1599166856381; 
- Thu, 03 Sep 2020 14:00:56 -0700 (PDT)
+ bh=ZGuqioQ81AJZZTMFCUZaggIBmQ2hKOBauKIF8BVgJKE=;
+ b=FPfHB3HFoABVxP6Va9/PQU6Ip6XzcKwSW/xqkL4g5Tq7AFaJbwnS+ZMMdnWSd32n5L
+ Py9729vGGUXstPo4RnrANumgQKtV7gjwrm6WxHVGuD1arXa2tt91zsXt1NDDNSmNAFc9
+ oUKRey0c6xgWGtUmufylw1D7JxKZxpG8jmlCQPKZFVCPEEZkQcTU1N6jqn1h6RYizzxt
+ 3op9PDKYT1tHjjviZWJ/KxgqbUI7fjGCvyYcSjhAjfJQQ5UkzgjtuIf7kitSlfjwci46
+ tt1Jxc2Uedu7Bpddsjz60JlrVYwUfSxAWSHsGP6EMHqqNTFyecnIVEDn+wK6xvGs1biC
+ TtiQ==
+X-Gm-Message-State: AOAM531OJ9nWXEO3oHu7i/y4JaBmryCsk6/a651vri8zI1T/qetlcg+2
+ ASNJxPBnnrEDuWx67uATPs82kjIPgo7qrw==
+X-Google-Smtp-Source: ABdhPJy/v8mjZfWytj+5MDYTP3PhgJaV7wQ7wilhaIq21KHwQ+47BAM3XHGdzoDCkoPhWz7w6zwxpw==
+X-Received: by 2002:a05:6830:19ee:: with SMTP id
+ t14mr3084951ott.171.1599166857524; 
+ Thu, 03 Sep 2020 14:00:57 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id t22sm765241otq.44.2020.09.03.14.00.55
+ by smtp.gmail.com with ESMTPSA id g18sm760177otj.41.2020.09.03.14.00.56
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:00:55 -0700 (PDT)
+ Thu, 03 Sep 2020 14:00:57 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 56/77] target/hppa: Free some temps in do_sub
-Date: Thu,  3 Sep 2020 15:59:14 -0500
-Message-Id: <20200903205935.27832-57-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 57/77] tpm: tpm_spapr: Exit on TPM backend failures
+Date: Thu,  3 Sep 2020 15:59:15 -0500
+Message-Id: <20200903205935.27832-58-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x244.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -85,40 +86,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-stable@nongnu.org
+Cc: Stefan Berger <stefanb@linux.ibm.com>, qemu-stable@nongnu.org,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Stefan Berger <stefanb@linux.vnet.ibm.com>
 
-Two temps allocated but not freed.  Do enough subtractions
-within a single TB and one can run out of temps entirely.
+Exit on TPM backend failures in the same way as the TPM CRB and TIS device
+models do. With this change we now get an error report when the backend
+did not start up properly:
 
-Fixes: b2167459ae ("target-hppa: Implement basic arithmetic")
-Buglink: https://bugs.launchpad.net/qemu/+bug/1880287
-Tested-by: Sven Schnelle <svens@stackframe.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200720174039.517902-1-richard.henderson@linaro.org>
-(cherry picked from commit 79826f99feb7222b7804058f0b4ace9ee0546361)
+error: internal error: qemu unexpectedly closed the monitor:
+2020-07-07T12:49:28.333928Z qemu-system-ppc64: tpm-emulator: \
+  TPM result for CMD_INIT: 0x101 operation failed
+
+Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-id: 20200707201625.4177419-2-stefanb@linux.vnet.ibm.com
+(cherry picked from commit f8b332a1ff107dc014a52eaf9bf547995205f18a)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- target/hppa/translate.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/tpm/tpm_spapr.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/target/hppa/translate.c b/target/hppa/translate.c
-index 52d7bea1ea..4bd22d4820 100644
---- a/target/hppa/translate.c
-+++ b/target/hppa/translate.c
-@@ -1294,6 +1294,8 @@ static void do_sub(DisasContext *ctx, unsigned rt, TCGv_reg in1,
-     save_or_nullify(ctx, cpu_psw_cb_msb, cb_msb);
-     save_gpr(ctx, rt, dest);
-     tcg_temp_free(dest);
-+    tcg_temp_free(cb);
-+    tcg_temp_free(cb_msb);
+diff --git a/hw/tpm/tpm_spapr.c b/hw/tpm/tpm_spapr.c
+index ce65eb2e45..b67aafb24e 100644
+--- a/hw/tpm/tpm_spapr.c
++++ b/hw/tpm/tpm_spapr.c
+@@ -306,7 +306,10 @@ static void tpm_spapr_reset(SpaprVioDevice *dev)
+                             TPM_SPAPR_BUFFER_MAX);
  
-     /* Install the new nullification.  */
-     cond_free(&ctx->null_cond);
+     tpm_backend_reset(s->be_driver);
+-    tpm_spapr_do_startup_tpm(s, s->be_buffer_size);
++
++    if (tpm_spapr_do_startup_tpm(s, s->be_buffer_size) < 0) {
++        exit(1);
++    }
+ }
+ 
+ static enum TPMVersion tpm_spapr_get_version(TPMIf *ti)
 -- 
 2.17.1
 
