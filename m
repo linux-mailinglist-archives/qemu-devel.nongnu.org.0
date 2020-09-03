@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63A5025C77E
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 18:54:09 +0200 (CEST)
-Received: from localhost ([::1]:37348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82D7D25C786
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 18:55:32 +0200 (CEST)
+Received: from localhost ([::1]:41018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDsUy-0005Hk-Do
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 12:54:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46584)
+	id 1kDsWJ-0006tg-Ig
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 12:55:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kDsTU-0003gr-Cp
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:52:36 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:38995)
+ id 1kDsUU-0004uA-SS
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:53:38 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:33796)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kDsTS-00065R-FK
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:52:36 -0400
-Received: by mail-pf1-x444.google.com with SMTP id u128so2790120pfb.6
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 09:52:34 -0700 (PDT)
+ id 1kDsUT-0006Am-6f
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:53:38 -0400
+Received: by mail-pf1-x444.google.com with SMTP id v196so2809845pfc.1
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 09:53:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=YGaZi7VgeTfvUZOm436eKpOQgjUIU1eNsEdcRl6xGS8=;
- b=TulSmbWFDr66EjIkaxFhZYSDpHGtziPSDsbkbYfz0+1Qt7qdZXrtq1cqecB/hid4oN
- bsdof4I52wTl1ZgGk3sVo3iGL7G6m5VJysD0fMYBB5e/CTjr2cKvHFZC4x+LhPVYEtfo
- g9qegheaRfIPYr1VSnViXJwxRIGHOLqMRGb/PRuD260V6zZ4Yahr00JxNNskOfGbBzbH
- GunekvMQ3zjUkD7hf6BEPTmnk4oYHfPtElVuXsA6Id86YvhZAyHzWcwwhaOwM3RssXcb
- xYi7vskqFWZgjkZyIXRyS2/rXw4FcEzzqoL7Z0ecfkgA//YIbiMImd0GSXzK9t05Fyfx
- JXew==
+ bh=fbwpneG5o59vmNAjanEnGADhFy93GeEDDek/Um9ewSk=;
+ b=kIP7kjfVQ5n1WF/nWYQ/zgqhiOhPLeXpD7jLk2jiEIPtNju0TxFiECqhx1WfIX4mBb
+ aPZai7BrxanCHKlFAWI9J+IwGEDNiYCFwUAU5I85J5ZweShQ6Ow2YxbHY4D9YatLbKFB
+ 9fFAQy9IHGOubdnXG35xr3PG3py6rjftabjA6Dh6aFyTz2WBkZ2ahCM1WvEXvosHFO4J
+ NqSZ8W8GHUvn2KBpOyIc1zcgypkN5JtiIY7Z3HJTQdjpGQZBaH7OXfavuM7NbY5aL3Q7
+ BBKz02PR0/5bVqNpP/iUeGHMMVPVte0IMN/up6QS6Zpx4BtF0UvcP/welaML+Y5WHWe7
+ ixFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=YGaZi7VgeTfvUZOm436eKpOQgjUIU1eNsEdcRl6xGS8=;
- b=ZEzTRCv5LAXrvtcSLyghyKWu5d5wTruy8daAUMY8r9s2eVpxwz5x/oGmpn2sXZ0Tsz
- 8jBqTy/anhIxZaAMEdG0tuPBPH7EMCbsMyemAssyOZSc4EOEqwwffq6UxfEoSmMDvYil
- SEtxMe2EXeQgi6YebTIDrXfZo/d9kmFCc8oxLTf7ZoGi2xxKnfBwU6NR5KLHSqHgrzAv
- bz2M5doQe/7R/ZPeIDhHd9ubfxPGr0z5K8P5PkeXwvvCAHsDbVkgSH00Wa5EF8GQSAeg
- +ssHu/VtQKaSEJlD29Jo48l9rXq1NXMRMbIJQweUc9vA8WILFqTSVFWGIqrhnl4+FU54
- uYxA==
-X-Gm-Message-State: AOAM532j7iO09Da+EyaVx/FW60al876Ff7WKrcyG1g24Mga2lWpVhWKW
- k53/yJn0n4awXZCZK7auLVMDTA==
-X-Google-Smtp-Source: ABdhPJwAh+iLU2CQS3CeEy3rY8XBQWg1kddH1qN5hYASOnc30LuoqfKM9Z0a9x4IMKPzGn8LjXkfUg==
-X-Received: by 2002:a63:110c:: with SMTP id g12mr3543941pgl.91.1599151953049; 
- Thu, 03 Sep 2020 09:52:33 -0700 (PDT)
+ bh=fbwpneG5o59vmNAjanEnGADhFy93GeEDDek/Um9ewSk=;
+ b=IqnbjIhZqkhkW5Hn6rm8Cbal2Fl6q18LTpv1SL86MkKvVjecR1OLLPVLq8dnzrBFjq
+ Xd8LNtQ/YrOm5nUUwDEz8yWwhAnUVid8+CcJ6jl6H82nPM8+u4EFfk1sRFrkTFSSl/0b
+ UUpFEseM9+U4ZeX3f0Xcwt9DnxNrMwkvJ0rxmruKnKAGUz2YW/PyYAs4v+OchpgnZTTe
+ +Oa//cfUwjlcYbPJJGbDL3ytJjP18IgeX6er76bKKFDXZiMSAi7bhEo7aSPvxIHni3hM
+ 2/Rb2FTkyYdEyjqC0uRqnY2q+cyvXGWmS+RiluI/KIuoxu/RYLkXyCzviNF1xemRKOJa
+ OO0g==
+X-Gm-Message-State: AOAM531SO3uicakrA0HJWVc4LROkyIAf/MA/wHnX0TQ98JOTpgJHZvKn
+ KFLSSOyCd8U/539Zdgrx/9y8IQ==
+X-Google-Smtp-Source: ABdhPJyG3sCYg8MLm6rp3FRBOeQiZ7PgPhgeFkwGl4u8L9t2z3QvSPucQFJwiLoJKRGD1VaE/3I4oQ==
+X-Received: by 2002:a63:31d2:: with SMTP id x201mr3854059pgx.263.1599152015960; 
+ Thu, 03 Sep 2020 09:53:35 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id k5sm3097600pjq.5.2020.09.03.09.52.31
+ by smtp.gmail.com with ESMTPSA id u14sm3227556pfc.203.2020.09.03.09.53.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Sep 2020 09:52:32 -0700 (PDT)
-Subject: Re: [PATCH v6 4/8] util: refactor qemu_open_old to split off variadic
- args handling
+ Thu, 03 Sep 2020 09:53:34 -0700 (PDT)
+Subject: Re: [PATCH v6 5/8] util: add Error object for qemu_open_internal
+ error reporting
 To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  qemu-devel@nongnu.org
 References: <20200903152210.1917355-1-berrange@redhat.com>
- <20200903152210.1917355-5-berrange@redhat.com>
+ <20200903152210.1917355-6-berrange@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <0fd4036b-d3c3-5bac-4ae4-64ce598880c5@linaro.org>
-Date: Thu, 3 Sep 2020 09:52:29 -0700
+Message-ID: <6d15333a-ad28-6e61-6432-e3b4bc427a17@linaro.org>
+Date: Thu, 3 Sep 2020 09:53:33 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200903152210.1917355-5-berrange@redhat.com>
+In-Reply-To: <20200903152210.1917355-6-berrange@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -78,7 +78,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.403,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,14 +99,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/3/20 8:22 AM, Daniel P. Berrangé wrote:
-> This simple refactoring prepares for future patches. The variadic args
-> handling is split from the main bulk of the open logic.
+> Instead of relying on the limited information from errno, we can now
+> also provide detailed error messages to callers that ask for it.
 > 
 > Reviewed-by: Markus Armbruster <armbru@redhat.com>
 > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->  util/osdep.c | 24 +++++++++++++++++-------
->  1 file changed, 17 insertions(+), 7 deletions(-)
+>  util/osdep.c | 15 +++++++++++++--
+>  1 file changed, 13 insertions(+), 2 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
