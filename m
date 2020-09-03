@@ -2,68 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBE4825CBF8
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:16:02 +0200 (CEST)
-Received: from localhost ([::1]:60760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1500E25CC29
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:26:28 +0200 (CEST)
+Received: from localhost ([::1]:50316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwaP-0000ia-NC
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:16:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58210)
+	id 1kDwkV-0003Ck-54
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:26:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwKy-0003Nn-IL; Thu, 03 Sep 2020 17:00:04 -0400
-Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:39211)
+ id 1kDwKz-0003QG-Qz; Thu, 03 Sep 2020 17:00:05 -0400
+Received: from mail-oo1-xc42.google.com ([2607:f8b0:4864:20::c42]:39605)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwKw-0007MX-BY; Thu, 03 Sep 2020 17:00:04 -0400
-Received: by mail-ot1-x32c.google.com with SMTP id u25so4008283otq.6;
- Thu, 03 Sep 2020 14:00:01 -0700 (PDT)
+ id 1kDwKx-0007Nh-Lu; Thu, 03 Sep 2020 17:00:05 -0400
+Received: by mail-oo1-xc42.google.com with SMTP id m4so1126893oos.6;
+ Thu, 03 Sep 2020 14:00:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=rlfytk/HxGcRvQ43QKeVZDlvKaRhllUNtWQbE6mYVCc=;
- b=U1A+Ihoqs14Ap+tzZ9MDJuzdSwiT12iqB4x2y0I/xN1lTnml1p4BCBFQd0pPbb9isl
- Rk0yhQKklzGWQkJSUCNiVbAv4tPs6Yr47szSYmeCX5azHT7g4iaRdFcfPSKa6PwASEZ0
- Oj5aIuJ9NNWef0vc9MLu1lioL8WLNdr5w0fdiI0ZVDGILDovtByHD1f2arJmd47Dabgt
- Wb8uX9rXtLfIWSsHXT/35BwIVlt37NkMQS36HENFUpAoyg2ZlzbKXM8SJeWxs2UbG68W
- NhDW4WzDTTd53Vyax1PzGP2tZlyBryMUeCJrqPq1uAF7eZCITv3UqPYt1DyWgaWIPnlA
- tFnA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=lEZNnKO9GNhaKz9yEgVcPyYgxdyKZQb+4Kbbi2ont1w=;
+ b=ORoJUkCP18n5CA8qn/xcmNJ4nPw8c7zyG2zl3XQzYyhQWgSTcAZ36spSzTfoiCFi3U
+ fkhzIKYRVPVdVnTG2OfqkOiMa3rNwyIwI9ykCet+BRFiiZp+FcDctdmMa14FfZ6VJJXg
+ WvRfTA9W7JloRmRpH/Ro0YDyfTr5AU47UdQfOvGR7cSDftXFfhq611O8v53tcqGg2YOI
+ XeuGf1oLBDxg+fp9oljuB+Yjaig/AzTs1o8hni6wSII57KyOPvUhs0TKmEQ0ic8SuDhg
+ bh8obQGi6V8ZXzyAb8uKvlqwiEYF+0Cl/LfFntxFInjlGG3HE4QTIsFUTiDniD0IZhTv
+ 17vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=rlfytk/HxGcRvQ43QKeVZDlvKaRhllUNtWQbE6mYVCc=;
- b=X8HaUSj6IJHCThV0YZoK8R0P6O6wuZZaOcD2ncsAtvULiPgzB0RISLRjgWXoyQh3Ng
- kvmAKylSIxclR3iFRsC8xdUYC2AqQa1wuGo9EIOiNWmWGJe13k9HUmrAu+ZiCPqk1B5k
- cun6vNW20SDOz+lYLqmBraJs4X7sfHPyvpWIHMBD3CjoxEvMyNSXm7xFXDuqPFc7DKGP
- VBQ9nHu2JoR+8YxRfOZ8b2/WM7GPEzO1H7CyAYS6wCotSHDuqvVwiicXYKmzByM7nnmH
- YktI6CO91stxGTeCN3hgnJT8fJCYxtrLMWuRJIRdQMW4o5kne4TntAKbl9wEs8GklIPi
- 00Mw==
-X-Gm-Message-State: AOAM530sAm8yLsA84mTbaXhHifLRFcUsFS2uM5TBh/imOajAXDQ9Mgu/
- kBvCjjDyhU2IICBxnECTBwSdwlCWZUc=
-X-Google-Smtp-Source: ABdhPJzICnhV8rm0nVYYCpfU/wU6GQn/BMzRcIWxPt8YB0OMN0wG6kI5jsAd5BMBN+0kfd+d5W27eA==
-X-Received: by 2002:a9d:7f84:: with SMTP id t4mr3163361otp.192.1599166800161; 
- Thu, 03 Sep 2020 14:00:00 -0700 (PDT)
+ :in-reply-to:references;
+ bh=lEZNnKO9GNhaKz9yEgVcPyYgxdyKZQb+4Kbbi2ont1w=;
+ b=bocVLuA8PBl80QHMOwjFfutI1kB/Ch6JaeRyaVasOoG0SQrPgy72ndRHHBwtZ7lex1
+ L+aPwdi8oTGCo1c1HAsF95hvSEyCFAQq0woAE3uYmVBogLy8jIfZ1pcVxveMiCnJiCKd
+ KpUARHkJKw4ElkpxQjL2oSzyOcyKlDQLlupiVPBCcwirQ8hLB7FfpqheToI3vb/YqChI
+ 8I3zPGMsSvt0lhNdAnObn6KJ2BO3asiu7Nu3nkM7/gI3nMupZTIL5emVAbhVtopOb5fs
+ Mw+YCNtSobFUdzPLWa9C6YOedssqEpQlFif7npb3FvQsVjrSAMOs7II/CRoRU25C2hKF
+ Cd1A==
+X-Gm-Message-State: AOAM532zaN7vyZduFUGLRFStjSjCCdXCxGIRh9C+xTXjCoUN2CwPy7OT
+ EAiIBO477Es3p8vpJMjpTlsgC1qkMeg=
+X-Google-Smtp-Source: ABdhPJzuuAdkGdnNqY/27WYME5ji4tDb2hojvGZMo5k1rgYqPxMR2ZhtHSY+GoqKNMfj4+meLm5Wdw==
+X-Received: by 2002:a4a:bb05:: with SMTP id f5mr3353415oop.5.1599166801381;
+ Thu, 03 Sep 2020 14:00:01 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id a75sm709467oii.55.2020.09.03.13.59.59
+ by smtp.gmail.com with ESMTPSA id g21sm829342oos.36.2020.09.03.14.00.00
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 13:59:59 -0700 (PDT)
+ Thu, 03 Sep 2020 14:00:00 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 16/77] ati-vga: check mm_index before recursive call
- (CVE-2020-13800)
-Date: Thu,  3 Sep 2020 15:58:34 -0500
-Message-Id: <20200903205935.27832-17-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 17/77] es1370: check total frame count against current frame
+Date: Thu,  3 Sep 2020 15:58:35 -0500
+Message-Id: <20200903205935.27832-18-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x32c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c42;
+ envelope-from=flukshun@gmail.com; helo=mail-oo1-xc42.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -93,55 +88,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Prasad J Pandit <pjp@fedoraproject.org>
 
-While accessing VGA registers via ati_mm_read/write routines,
-a guest may set 's->regs.mm_index' such that it leads to infinite
-recursion. Check mm_index value to avoid such recursion. Log an
-error message for wrong values.
+A guest user may set channel frame count via es1370_write()
+such that, in es1370_transfer_audio(), total frame count
+'size' is lesser than the number of frames that are processed
+'cnt'.
+
+    int cnt = d->frame_cnt >> 16;
+    int size = d->frame_cnt & 0xffff;
+
+if (size < cnt), it results in incorrect calculations leading
+to OOB access issue(s). Add check to avoid it.
 
 Reported-by: Ren Ding <rding@gatech.edu>
 Reported-by: Hanqing Zhao <hanqing@gatech.edu>
-Reported-by: Yi Ren <c4tren@gmail.com>
-Message-id: 20200604090830.33885-1-ppandit@redhat.com
-Suggested-by: BALATON Zoltan <balaton@eik.bme.hu>
-Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+Message-id: 20200514200608.1744203-1-ppandit@redhat.com
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-(cherry picked from commit a98610c429d52db0937c1e48659428929835c455)
+(cherry picked from commit 369ff955a8497988d079c4e3fa1e93c2570c1c69)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/display/ati.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ hw/audio/es1370.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/hw/display/ati.c b/hw/display/ati.c
-index 58ec8291d4..9228f1b242 100644
---- a/hw/display/ati.c
-+++ b/hw/display/ati.c
-@@ -285,8 +285,11 @@ static uint64_t ati_mm_read(void *opaque, hwaddr addr, unsigned int size)
-             if (idx <= s->vga.vram_size - size) {
-                 val = ldn_le_p(s->vga.vram_ptr + idx, size);
-             }
--        } else {
-+        } else if (s->regs.mm_index > MM_DATA + 3) {
-             val = ati_mm_read(s, s->regs.mm_index + addr - MM_DATA, size);
-+        } else {
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                "ati_mm_read: mm_index too small: %u\n", s->regs.mm_index);
-         }
-         break;
-     case BIOS_0_SCRATCH ... BUS_CNTL - 1:
-@@ -520,8 +523,11 @@ static void ati_mm_write(void *opaque, hwaddr addr,
-             if (idx <= s->vga.vram_size - size) {
-                 stn_le_p(s->vga.vram_ptr + idx, size, data);
-             }
--        } else {
-+        } else if (s->regs.mm_index > MM_DATA + 3) {
-             ati_mm_write(s, s->regs.mm_index + addr - MM_DATA, data, size);
-+        } else {
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                "ati_mm_write: mm_index too small: %u\n", s->regs.mm_index);
-         }
-         break;
-     case BIOS_0_SCRATCH ... BUS_CNTL - 1:
+diff --git a/hw/audio/es1370.c b/hw/audio/es1370.c
+index 89c4dabcd4..5f8a83ff56 100644
+--- a/hw/audio/es1370.c
++++ b/hw/audio/es1370.c
+@@ -643,6 +643,9 @@ static void es1370_transfer_audio (ES1370State *s, struct chan *d, int loop_sel,
+     int csc_bytes = (csc + 1) << d->shift;
+     int cnt = d->frame_cnt >> 16;
+     int size = d->frame_cnt & 0xffff;
++    if (size < cnt) {
++        return;
++    }
+     int left = ((size - cnt + 1) << 2) + d->leftover;
+     int transferred = 0;
+     int temp = MIN (max, MIN (left, csc_bytes));
+@@ -651,7 +654,7 @@ static void es1370_transfer_audio (ES1370State *s, struct chan *d, int loop_sel,
+     addr += (cnt << 2) + d->leftover;
+ 
+     if (index == ADC_CHANNEL) {
+-        while (temp) {
++        while (temp > 0) {
+             int acquired, to_copy;
+ 
+             to_copy = MIN ((size_t) temp, sizeof (tmpbuf));
+@@ -669,7 +672,7 @@ static void es1370_transfer_audio (ES1370State *s, struct chan *d, int loop_sel,
+     else {
+         SWVoiceOut *voice = s->dac_voice[index];
+ 
+-        while (temp) {
++        while (temp > 0) {
+             int copied, to_copy;
+ 
+             to_copy = MIN ((size_t) temp, sizeof (tmpbuf));
 -- 
 2.17.1
 
