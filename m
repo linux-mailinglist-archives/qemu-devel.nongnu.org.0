@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B4CC25BFEB
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 13:11:51 +0200 (CEST)
-Received: from localhost ([::1]:43850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D50525BFEF
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 13:13:26 +0200 (CEST)
+Received: from localhost ([::1]:50272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDn9i-000517-Km
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 07:11:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33708)
+	id 1kDnBF-0007cX-N9
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 07:13:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDn6q-0007oJ-79
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 07:08:52 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60761
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDn6x-00086u-4w
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 07:08:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43869)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDn6o-0005mN-O3
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 07:08:51 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDn6v-0005oK-4a
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 07:08:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599131330;
+ s=mimecast20190719; t=1599131336;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nruMQlHxT2HZJRXPESpouaZWFiIsjV8XHOgEIt8o5lI=;
- b=VWbYzox3QjKA9jJ+O6GjdFzIELQ2SoyDG26lHSs/qg4AGo+RnTBGkQ7fgBetAFVU9y8X7b
- kUvZJ1NT/wJI56i3otaHxrGE4Q2dwPZnNTfEF7+8kxP8bvydbCEeby0JnuSXhpd7FNhWtG
- l0Iqb4RT6+p2HHlkCdeTnTHQm0B4mME=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-277-3v5moL5JONiKpnISUgZACg-1; Thu, 03 Sep 2020 07:08:48 -0400
-X-MC-Unique: 3v5moL5JONiKpnISUgZACg-1
-Received: by mail-wm1-f69.google.com with SMTP id b73so854590wmb.0
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 04:08:48 -0700 (PDT)
+ bh=lI0QOKOjsBIQPb4JR9+p08dzOczCwGubAvEgxznc7/Q=;
+ b=Wpe1eQoIHEu7dTKs1rcgYcJt2GJojIuGGZII551eRHkzVtoizo8FN0QusQ5ZjQsu0KhGZO
+ PoSTYs3jmUM2+Ux0zHzNFq1CxE5HRr8YSBXMPy0FbzOynVwl4AVBHP2cHBe7+GoLgYhEtZ
+ YjzaQb5V3H7c2io05i54N23gAiq+oAE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-91-EnqphyunOeWvorZhqSidlQ-1; Thu, 03 Sep 2020 07:08:54 -0400
+X-MC-Unique: EnqphyunOeWvorZhqSidlQ-1
+Received: by mail-wm1-f70.google.com with SMTP id b14so848214wmj.3
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 04:08:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nruMQlHxT2HZJRXPESpouaZWFiIsjV8XHOgEIt8o5lI=;
- b=RhpLWwDPeIhOtM1SBIx6Trn0eHZiR1dFwR2GlPjehQ4NilWp/RwpTGzqDaldnqixlm
- nHkuE8A4gC7ERMtuAxl9lVS8+GAQDVGiMzbd+AHt9vMSB5+gr1JeeR6KTFw+HnPGEMxq
- UleDGS/dhCY0pcaIxrBX54kofMuR3a1OFze4pUnC+EuF1OTufZuzRNujN1eF1U9Z0M4X
- 9ztSGTvHc+NdacF5N92/bOGjr5M1QyCcR2SiEYXJdiLpfffKMWuJ5evTYscGCRcPxccy
- OV4PHL4iM2a3XZDTEMmE6NTGmyYG2CMEzPq5TxpeONnx8uEPphw2qw4ASufxUprC/INp
- 6DIA==
-X-Gm-Message-State: AOAM530iks84CzcEmiZZNoBaaMdlcxM10Utu49NdYLeLbApqeWgjOfgB
- zvTDX7Vm9XngpwA05rckifL01LSsp+ZO4FGSC38BPlE42rw1fQuBGFarcWRZmQH//7+jK1ueBuu
- yvAD94xVZiJVLtqo=
-X-Received: by 2002:a05:600c:210c:: with SMTP id
- u12mr2040147wml.185.1599131327268; 
- Thu, 03 Sep 2020 04:08:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzGrtr7MQ758xmiWfsJmkkStZSQEHC0Q3qRpEOKJcrFtHv0snS8g3uYtQy/OAXbkKyFEnYdGw==
-X-Received: by 2002:a05:600c:210c:: with SMTP id
- u12mr2040078wml.185.1599131326964; 
- Thu, 03 Sep 2020 04:08:46 -0700 (PDT)
+ bh=lI0QOKOjsBIQPb4JR9+p08dzOczCwGubAvEgxznc7/Q=;
+ b=Dp5QmAXqL/mc1Y9utVEoaXHCS8aPE+/qaJhyEV7s1xDBliYbJ+BdrzbcHGAifGXPpY
+ 13kNhevTHn2eaD4SJh89JzDOLAd5q+/kBJldH4SCqbKArYvrTc6kKNFJrlx66lImxOj2
+ qwkIwVdlJ4Hvgwnp7IOzWEClwKjjnN65R+9AiFt+MjzbidvPEXRZBWmcdw5fML9LHp0Q
+ xqgMFZRB+690bxzi1zTvhQXgCsYJQ6CFQxs/NXZ0WchsN6LMuW0vGBCQI1ddr1D4F6ni
+ 8QITvPMmSWZZRJRbc8I/WOGftW1OTIXvnDhGfvsQk7Q+ly+bFcLMLyT7sMkahKRDHYNG
+ CpaQ==
+X-Gm-Message-State: AOAM530ralr1NMDHE2Ncn9csKbvQmfr1bWSfcTsaIoL0PPcO+dXB5a6D
+ 36TwqEYr6wnL+7k8FX8Cio+DyP5MTNWrLrAtU4O7qB9aIM7U038aogibdkRsDp7vMzq5SUla+mi
+ cUFQaFaAfHykVga8=
+X-Received: by 2002:adf:ec45:: with SMTP id w5mr1930582wrn.357.1599131333635; 
+ Thu, 03 Sep 2020 04:08:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwaXFm4w5Ohr2LN1cJuuhu1+mwP3obhIRDWIm7OWCaGpOEFgAjMzMv//oNv4qxMSNAwt007WA==
+X-Received: by 2002:adf:ec45:: with SMTP id w5mr1930521wrn.357.1599131333398; 
+ Thu, 03 Sep 2020 04:08:53 -0700 (PDT)
 Received: from localhost.localdomain (50.red-83-52-54.dynamicip.rima-tde.net.
  [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id a85sm4028592wmd.26.2020.09.03.04.08.44
+ by smtp.gmail.com with ESMTPSA id t4sm3818792wre.30.2020.09.03.04.08.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Sep 2020 04:08:46 -0700 (PDT)
+ Thu, 03 Sep 2020 04:08:52 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/12] dma: Let dma_memory_valid() take MemTxAttrs argument
-Date: Thu,  3 Sep 2020 13:08:21 +0200
-Message-Id: <20200903110831.353476-3-philmd@redhat.com>
+Subject: [PATCH 03/12] dma: Let dma_memory_set() take MemTxAttrs argument
+Date: Thu,  3 Sep 2020 13:08:22 +0200
+Message-Id: <20200903110831.353476-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200903110831.353476-1-philmd@redhat.com>
 References: <20200903110831.353476-1-philmd@redhat.com>
@@ -76,17 +73,17 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 00:24:51
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 01:47:17
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -129,41 +126,78 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/hw/ppc/spapr_vio.h | 2 +-
- include/sysemu/dma.h       | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ include/hw/ppc/spapr_vio.h | 3 ++-
+ include/sysemu/dma.h       | 3 ++-
+ dma-helpers.c              | 6 +++---
+ hw/nvram/fw_cfg.c          | 3 ++-
+ 4 files changed, 9 insertions(+), 6 deletions(-)
 
 diff --git a/include/hw/ppc/spapr_vio.h b/include/hw/ppc/spapr_vio.h
-index bed7df60e35..f134f6cf574 100644
+index f134f6cf574..6e5c0840248 100644
 --- a/include/hw/ppc/spapr_vio.h
 +++ b/include/hw/ppc/spapr_vio.h
-@@ -96,7 +96,7 @@ static inline void spapr_vio_irq_pulse(SpaprVioDevice *dev)
- static inline bool spapr_vio_dma_valid(SpaprVioDevice *dev, uint64_t taddr,
-                                        uint32_t size, DMADirection dir)
+@@ -116,7 +116,8 @@ static inline int spapr_vio_dma_write(SpaprVioDevice *dev, uint64_t taddr,
+ static inline int spapr_vio_dma_set(SpaprVioDevice *dev, uint64_t taddr,
+                                     uint8_t c, uint32_t size)
  {
--    return dma_memory_valid(&dev->as, taddr, size, dir);
-+    return dma_memory_valid(&dev->as, taddr, size, dir, MEMTXATTRS_UNSPECIFIED);
+-    return (dma_memory_set(&dev->as, taddr, c, size) != 0) ?
++    return (dma_memory_set(&dev->as, taddr,
++                           c, size, MEMTXATTRS_UNSPECIFIED) != 0) ?
+         H_DEST_PARM : H_SUCCESS;
  }
  
- static inline int spapr_vio_dma_read(SpaprVioDevice *dev, uint64_t taddr,
 diff --git a/include/sysemu/dma.h b/include/sysemu/dma.h
-index 80c5bc3e02d..fe3999dba59 100644
+index fe3999dba59..34f957cc278 100644
 --- a/include/sysemu/dma.h
 +++ b/include/sysemu/dma.h
-@@ -73,11 +73,11 @@ static inline void dma_barrier(AddressSpace *as, DMADirection dir)
-  * dma_memory_{read,write}() and check for errors */
- static inline bool dma_memory_valid(AddressSpace *as,
-                                     dma_addr_t addr, dma_addr_t len,
--                                    DMADirection dir)
-+                                    DMADirection dir, MemTxAttrs attrs)
- {
-     return address_space_access_valid(as, addr, len,
-                                       dir == DMA_DIRECTION_FROM_DEVICE,
--                                      MEMTXATTRS_UNSPECIFIED);
-+                                      attrs);
+@@ -123,7 +123,8 @@ static inline int dma_memory_write(AddressSpace *as, dma_addr_t addr,
+                          DMA_DIRECTION_FROM_DEVICE);
  }
  
- static inline int dma_memory_rw_relaxed(AddressSpace *as, dma_addr_t addr,
+-int dma_memory_set(AddressSpace *as, dma_addr_t addr, uint8_t c, dma_addr_t len);
++int dma_memory_set(AddressSpace *as, dma_addr_t addr,
++                   uint8_t c, dma_addr_t len, MemTxAttrs attrs);
+ 
+ static inline void *dma_memory_map(AddressSpace *as,
+                                    dma_addr_t addr, dma_addr_t *len,
+diff --git a/dma-helpers.c b/dma-helpers.c
+index 41ef24a63b6..49d66716469 100644
+--- a/dma-helpers.c
++++ b/dma-helpers.c
+@@ -18,7 +18,8 @@
+ 
+ /* #define DEBUG_IOMMU */
+ 
+-int dma_memory_set(AddressSpace *as, dma_addr_t addr, uint8_t c, dma_addr_t len)
++int dma_memory_set(AddressSpace *as, dma_addr_t addr,
++                   uint8_t c, dma_addr_t len, MemTxAttrs attrs)
+ {
+     dma_barrier(as, DMA_DIRECTION_FROM_DEVICE);
+ 
+@@ -30,8 +31,7 @@ int dma_memory_set(AddressSpace *as, dma_addr_t addr, uint8_t c, dma_addr_t len)
+     memset(fillbuf, c, FILLBUF_SIZE);
+     while (len > 0) {
+         l = len < FILLBUF_SIZE ? len : FILLBUF_SIZE;
+-        error |= address_space_write(as, addr, MEMTXATTRS_UNSPECIFIED,
+-                                     fillbuf, l);
++        error |= address_space_write(as, addr, attrs, fillbuf, l);
+         len -= l;
+         addr += l;
+     }
+diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
+index f3a4728288e..a15de06a10c 100644
+--- a/hw/nvram/fw_cfg.c
++++ b/hw/nvram/fw_cfg.c
+@@ -397,7 +397,8 @@ static void fw_cfg_dma_transfer(FWCfgState *s)
+              * tested before.
+              */
+             if (read) {
+-                if (dma_memory_set(s->dma_as, dma.address, 0, len)) {
++                if (dma_memory_set(s->dma_as, dma.address, 0, len,
++                                   MEMTXATTRS_UNSPECIFIED)) {
+                     dma.control |= FW_CFG_DMA_CTL_ERROR;
+                 }
+             }
 -- 
 2.26.2
 
