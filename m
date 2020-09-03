@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83AC225CCDD
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:55:27 +0200 (CEST)
-Received: from localhost ([::1]:35298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE7D425CC7D
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:42:36 +0200 (CEST)
+Received: from localhost ([::1]:40738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDxCY-0005P3-Kp
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:55:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35530)
+	id 1kDx07-0000pZ-Sd
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:42:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kDweQ-0000Za-Qp
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:20:10 -0400
-Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:35497)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kDwyo-0007S1-DX
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:41:15 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:36159)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kDweO-0001gC-Pv
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:20:10 -0400
-Received: by mail-lj1-x241.google.com with SMTP id a15so5532676ljk.2
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 14:20:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=8mY81QGa2T4jYxigyi2JYuEs3lpmLNHGtUPnudy1ur8=;
- b=n+/8WWSwMD0SPqrAmyv5I64RXHnD86gRrjrs/71F8kIit9PnkYoMLLaQlUx9M1q3NU
- ydHj+7zthyWXFly9FZmm94ZQZWZwLXHI/7kW74RJ43T3Su9GYO1FaxA4pPoCX8qr36MW
- UXxmK/bCbZzGeg+5u/cqyJk/ZRKmNOlh4VXEN42uyXgTN10NVZVhW/3zG0ywSAzxETp+
- CZnsBp2xKsSVXig6F1ECkvXmgA+HNCi80XMdL89Uw+3bRKvqNfl+7xJ0v+IuFjKei9Y/
- Ae9jraYh+22d8RA+6k741QE00O2i0mh2RKseCxmkIw62Ce/Z3R+MEEPsSQDI+ioUIcEk
- fNWQ==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kDwyi-0004aI-7U
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:41:14 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id q1so2095762pjd.1
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 14:41:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ujJytkO077otcKV33Z+6URYnEerHnMmPUii31K7Opk8=;
+ b=nNVsemZumGQHzPZsmDIwWSVy9lKcieRa11sGrPfas3bq5Q8s07H314usupPsyAbNzy
+ IbXlAMI5XpJVxz1Hxzv3dLzOu9gf11NMCLi6pvg8upRUJYsnTYIxGS2G+zB0fRtmKRSJ
+ QlQTdbyBBjfIdv/ayuqFIFhhJkJ9GS/B34uKWO1m9NM6ehCDFkjXT6KNQzW1yx8TJWCM
+ z3avuA1xWtBQthHOpp0h46Z2yug1MQfbLtBmz0mRE3D4+1VDIPxlYMP6YZUhqUaW5DBQ
+ PM7EI/hR1OZmFZJ4u6gr1bp9jZtmgX7Cb1UHO+S7e+gVYiKrwUJjmwIGtg3h1dRpa2F5
+ zM2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=8mY81QGa2T4jYxigyi2JYuEs3lpmLNHGtUPnudy1ur8=;
- b=t58Z512saJRoE7ik7PaT2fHRRgQUpPNJWxAIsoI59G6BCgBG48eLOxgLXIe3Cr5nC4
- gE6dJBrYL1d2dyr9UGrFPBmWJIFqySlL1MqBONDeq1AjtrQZzMU0UcGURkB95RENYadq
- AaeiHrNQxqfPDnqZfGHCfVyl7r6SBv0346Ps8iY98Z5foxadgfyjAUVJV89uqYxddA4P
- TSfKKcdTRrwQDWUR6BUzd1JKBpMp+UfV6XThuDK2bgGlo1EFOxS4UX2Vr04kPR8iBziP
- Dg6btdP5qQTDOjOYmSDeCJn84XZQnBviu7nQUCZEe4YngQr2zT3nbBuA53mhwnUoo1Bk
- GViw==
-X-Gm-Message-State: AOAM5313VfIBu44J1A3BPXe7wu4DUu9ZQ7HfgujQM5Osm6JW7BMUEUpX
- VMtd9XeE0Vi6l2c9/vFKiyOG8Ln1icxJkGnUYpo=
-X-Google-Smtp-Source: ABdhPJzy6rTYBio4eKpn+BFIkh8hQBXyfwANP48zIHtXgYOyDqzK8N8VV71nnHGJABNszEjNlwD7DQVfTQOBqn8Tl4o=
-X-Received: by 2002:a2e:854c:: with SMTP id u12mr2231867ljj.120.1599168005992; 
- Thu, 03 Sep 2020 14:20:05 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ujJytkO077otcKV33Z+6URYnEerHnMmPUii31K7Opk8=;
+ b=K4euij79VzXINqrZKbCUtU7t94gY1Z+oGn14YFtaGympsg0+jMGtxBoAwXjsnF3LMB
+ tOGedSb8cFSHTkgcxMAUwX8mLDDgthQ6lNrOsCp9sFbGbnzOwmcGIu1yn/n4n4OOJWGz
+ Fgq/YDTWI70kvtjHku735Tl/9gzii8ZCTibwS9NSk+XY7VEdmhNF1+dMZN4yw0k9qTn2
+ LXkLBPIBgv23deNkLpcURpBN9525M5b5zSRIZkX2pLS66zJEEHP8s25Fl5Q7MXQCKAed
+ A3wjdPAuw3mOzGdMhgPHhHEv0fYh02kS/XSauteHey80pBTwA341koJJaPRVDCVngp9F
+ 8UYA==
+X-Gm-Message-State: AOAM533vQSYBj8GkHlThHydZU3GTIrFqTCEmgfrVcsN26/DhY6wo4Jmd
+ +JTdttLrk1lJfTzrYpM4UvddyxWUgRfOCA==
+X-Google-Smtp-Source: ABdhPJyh/9ucyiqnpcm/plApsTotHR5qxKMI5JvApPoJoBqpbJdmMLXXJ7T+jlVHQzHfvSD+l1ir5A==
+X-Received: by 2002:a17:90a:5a01:: with SMTP id
+ b1mr4828268pjd.27.1599169266244; 
+ Thu, 03 Sep 2020 14:41:06 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id v17sm4113290pfn.24.2020.09.03.14.41.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Sep 2020 14:41:05 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 2/5] tcg: Fix tcg gen for vectorized absolute value
+Date: Thu,  3 Sep 2020 14:40:58 -0700
+Message-Id: <20200903214101.1746878-3-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200903214101.1746878-1-richard.henderson@linaro.org>
+References: <20200903214101.1746878-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-References: <20200903083147.707-1-luoyonggang@gmail.com>
- <20200903083147.707-4-luoyonggang@gmail.com>
- <8c5dd495-abaf-7abc-2ba0-82f13bbd3d02@linaro.org>
-In-Reply-To: <8c5dd495-abaf-7abc-2ba0-82f13bbd3d02@linaro.org>
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Fri, 4 Sep 2020 05:19:56 +0800
-Message-ID: <CAE2XoE8w_H+_N9AMgssSheWsTWwvoiOTgYdgCZG9g5cyHLbdpw@mail.gmail.com>
-Subject: Re: [PATCH v4 03/12] tcg: Fixes dup_const link error
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000eefa4205ae6f5059"
-Received-SPF: pass client-ip=2a00:1450:4864:20::241;
- envelope-from=luoyonggang@gmail.com; helo=mail-lj1-x241.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,128 +85,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-level <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, Stephen Long <steplong@quicinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000eefa4205ae6f5059
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Stephen Long <steplong@quicinc.com>
 
-On Fri, Sep 4, 2020 at 1:20 AM Richard Henderson <
-richard.henderson@linaro.org> wrote:
+The fallback inline expansion for vectorized absolute value,
+when the host doesn't support such an insn was flawed.
 
-> On 9/3/20 1:31 AM, Yonggang Luo wrote:
-> > Rename function dup_const to dup_const_eval for avoid confliction with
-> macro dup_const
-> >
-> > The link error on msys2
-> >
-> > Linking target qemu-system-alpha.exe
-> >
-> C:/CI-Tools/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.2.0/../..=
-/../../x86_64-w64-mingw32/bin/ld.exe:
-> libqemu-alpha-softmmu.fa.p/tcg_optimize.c.obj: in function `tcg_optimize'=
-:
-> > E:\CI-Cor-Ready\xemu\qemu-build/../qemu.org/tcg/optimize.c:1106:
-> undefined reference to `dup_const'
-> >
-> C:/CI-Tools/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.2.0/../..=
-/../../x86_64-w64-mingw32/bin/ld.exe:
-> libqemu-alpha-softmmu.fa.p/tcg_tcg-op-vec.c.obj: in function
-> `tcg_gen_dupi_vec':
-> > E:\CI-Cor-Ready\xemu\qemu-build/../qemu.org/tcg/tcg-op-vec.c:283:
-> undefined reference to `dup_const'
-> > collect2.exe: error: ld returned 1 exit status
-> >
-> > Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-> > ---
-> >  include/tcg/tcg.h | 6 +++---
-> >  tcg/tcg-op-gvec.c | 2 +-
-> >  2 files changed, 4 insertions(+), 4 deletions(-)
->
-> No, really, as I asked before: what symbol is present in tcg-op-gvec.c.ob=
-j
-> without this patch?
->
-The   tcg-op-gvec.c.obj are missing now, maybe skip this patch first?
-Anyway have same name with function and macro is not that good
+E.g. when a vector of bytes has all elements negative, mask
+will be 0xffff_ffff_ffff_ffff.  Subtracting mask only adds 1
+to the low element instead of all elements becase -mask is 1
+and not 0x0101_0101_0101_0101.
 
->
-> That you need this, to me says that you've got a broken compiler.  This i=
-s
-> bog-standard C.  There is nothing windows-specific about it.
->
->
-> r~
->
+Signed-off-by: Stephen Long <steplong@quicinc.com>
+Message-Id: <20200813161818.190-1-steplong@quicinc.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ tcg/tcg-op-gvec.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
+diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
+index 3707c0effb..793d4ba64c 100644
+--- a/tcg/tcg-op-gvec.c
++++ b/tcg/tcg-op-gvec.c
+@@ -2264,12 +2264,13 @@ static void gen_absv_mask(TCGv_i64 d, TCGv_i64 b, unsigned vece)
+     tcg_gen_muli_i64(t, t, (1 << nbit) - 1);
+ 
+     /*
+-     * Invert (via xor -1) and add one (via sub -1).
++     * Invert (via xor -1) and add one.
+      * Because of the ordering the msb is cleared,
+      * so we never have carry into the next element.
+      */
+     tcg_gen_xor_i64(d, b, t);
+-    tcg_gen_sub_i64(d, d, t);
++    tcg_gen_andi_i64(t, t, dup_const(vece, 1));
++    tcg_gen_add_i64(d, d, t);
+ 
+     tcg_temp_free_i64(t);
+ }
+-- 
+2.25.1
 
---=20
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
-
---000000000000eefa4205ae6f5059
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Sep 4, 2020 at 1:20 AM Richar=
-d Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.hen=
-derson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">On 9/3/20 1:31 AM, Yonggang Luo wrote:<br>
-&gt; Rename function dup_const to dup_const_eval for avoid confliction with=
- macro dup_const<br>
-&gt; <br>
-&gt; The link error on msys2<br>
-&gt; <br>
-&gt; Linking target qemu-system-alpha.exe<br>
-&gt; C:/CI-Tools/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.2.0/..=
-/../../../x86_64-w64-mingw32/bin/ld.exe: libqemu-alpha-softmmu.fa.p/tcg_opt=
-imize.c.obj: in function `tcg_optimize&#39;:<br>
-&gt; E:\CI-Cor-Ready\xemu\qemu-build/../<a href=3D"http://qemu.org/tcg/opti=
-mize.c:1106" rel=3D"noreferrer" target=3D"_blank">qemu.org/tcg/optimize.c:1=
-106</a>: undefined reference to `dup_const&#39;<br>
-&gt; C:/CI-Tools/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.2.0/..=
-/../../../x86_64-w64-mingw32/bin/ld.exe: libqemu-alpha-softmmu.fa.p/tcg_tcg=
--op-vec.c.obj: in function `tcg_gen_dupi_vec&#39;:<br>
-&gt; E:\CI-Cor-Ready\xemu\qemu-build/../<a href=3D"http://qemu.org/tcg/tcg-=
-op-vec.c:283" rel=3D"noreferrer" target=3D"_blank">qemu.org/tcg/tcg-op-vec.=
-c:283</a>: undefined reference to `dup_const&#39;<br>
-&gt; collect2.exe: error: ld returned 1 exit status<br>
-&gt; <br>
-&gt; Signed-off-by: Yonggang Luo &lt;<a href=3D"mailto:luoyonggang@gmail.co=
-m" target=3D"_blank">luoyonggang@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 include/tcg/tcg.h | 6 +++---<br>
-&gt;=C2=A0 tcg/tcg-op-gvec.c | 2 +-<br>
-&gt;=C2=A0 2 files changed, 4 insertions(+), 4 deletions(-)<br>
-<br>
-No, really, as I asked before: what symbol is present in tcg-op-gvec.c.obj<=
-br>
-without this patch?<br></blockquote><div>The=C2=A0=C2=A0
-
-tcg-op-gvec.c.obj are missing now, maybe skip this patch first?</div><div>A=
-nyway have same name with function and macro is not that good</div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
- solid rgb(204,204,204);padding-left:1ex">
-<br>
-That you need this, to me says that you&#39;ve got a broken compiler.=C2=A0=
- This is<br>
-bog-standard C.=C2=A0 There is nothing windows-specific about it.<br>
-<br>
-<br>
-r~<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 =E6=AD=A4=E8=
-=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=
-=A0 sincerely,<br>Yonggang Luo<br></div></div>
-
---000000000000eefa4205ae6f5059--
 
