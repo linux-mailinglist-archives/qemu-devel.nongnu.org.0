@@ -2,73 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D51C25C0F7
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 14:27:57 +0200 (CEST)
-Received: from localhost ([::1]:44214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEDB425C0EC
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 14:26:06 +0200 (CEST)
+Received: from localhost ([::1]:38200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDoLM-0006z3-Gy
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 08:27:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52834)
+	id 1kDoJZ-0004Hs-Pe
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 08:26:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kDoKN-00064y-Mm
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 08:26:55 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21216
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kDoKL-0007hD-Rs
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 08:26:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599136013;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+PPIaibeTNhmka8H87c/7qqADZUX0zC9Vt7fh86sH2s=;
- b=Cp4RyPS7VLpkw7+07EZl/Uap/Nkve4n0NPU6b6biSbvpqHvNB4zZmbqiN4dEU3NEWslPot
- llj1BwsDS1R40FXiO8ZTjyrucMyLX6DK6h7L5evPP+wEYXV4GLMzQt8Dnd0vX+CFQ+kQ5I
- g1K+kRBjy/ZL0MvLo4l233yQqMrH1P4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-124-K5qQKlCAP22iTvyIb70TRg-1; Thu, 03 Sep 2020 08:24:34 -0400
-X-MC-Unique: K5qQKlCAP22iTvyIb70TRg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 086C41015DC6;
- Thu,  3 Sep 2020 12:24:33 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-114-10.ams2.redhat.com [10.36.114.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D8D907EB72;
- Thu,  3 Sep 2020 12:24:31 +0000 (UTC)
-Subject: Re: [PATCH v2 00/12] target/microblaze improvements
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20200903072650.1360454-1-richard.henderson@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <ac534848-6d8c-d54a-6597-047bb8e3cdc7@redhat.com>
-Date: Thu, 3 Sep 2020 14:24:30 +0200
+ (Exim 4.90_1) (envelope-from <hpoussin@reactos.org>)
+ id 1kDoI8-0002kb-MW; Thu, 03 Sep 2020 08:24:36 -0400
+Received: from iserv.reactos.org ([2a01:4f8:1c17:5ae1::1]:47094)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hpoussin@reactos.org>)
+ id 1kDoI7-0007Bj-5h; Thu, 03 Sep 2020 08:24:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=reactos.org
+ ; s=25047;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:
+ Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=a4E04r5P7czh0efldHRzUjNahSUKd7UloILlqfbsWB4=; b=jsQE1kAcy0EetuOTlkOFlD4Xcb
+ LlTmf1S0hzefmz1qzzcTjHQFQACJc8OXST78sWShF7QIT3nUNNKxeZIQ1BEkD5dgyDuFgSI/BFIOT
+ LK9Y0EBM4BQgGF0pkdD9lTv7erKjFl7d7adcgtLtZ3TiQUbYI87aMZYPZOiKBMU3gwlU=;
+Received: from [2a01:e35:2e3e:3c40:11ba:4ea9:f771:23c2]
+ by iserv.reactos.org with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <hpoussin@reactos.org>)
+ id 1kDoI4-0003o0-Q8; Thu, 03 Sep 2020 12:24:33 +0000
+Subject: Re: [PATCH 47/63] rs6000_mc: Rename RS6000MC_DEVICE to RS6000MC
+To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+References: <20200902224311.1321159-1-ehabkost@redhat.com>
+ <20200902224311.1321159-48-ehabkost@redhat.com>
+From: =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>
+Message-ID: <38dc3ebe-1ba3-3fba-a242-e3ebee3f182b@reactos.org>
+Date: Thu, 3 Sep 2020 14:24:31 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200903072650.1360454-1-richard.henderson@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20200902224311.1321159-48-ehabkost@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 01:58:20
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a01:4f8:1c17:5ae1::1;
+ envelope-from=hpoussin@reactos.org; helo=iserv.reactos.org
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -44
 X-Spam_score: -4.5
 X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.403, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.403,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,25 +67,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: edgar.iglesias@xilinx.com, f4bug@amsat.org
+Cc: qemu-ppc@nongnu.org, berrange@redhat.com,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/09/2020 09.26, Richard Henderson wrote:
-> Version 2 includes fixes for iflags that could cause lockups.
+Le 03/09/2020 à 00:42, Eduardo Habkost a écrit :
+> Make the type checking macro name consistent with the TYPE_*
+> constant.
 > 
-> It seems it was easier to do so with icount=7, which is what we do during
-> the replay acceptance tests.  This causes TBs to contain no more than 7
-> insns, and often less to make up for an incomplete count elsewhere.
-> Which stressed the iflags bits around delay slots and imm in ways that
-> pure single-step doesn't.
-> 
-> In addition, cpu vmstate is filled in and interrupt logging is tidied.
-
-Thanks, this fixes the failing acceptance test in the Gitlab-CI for me:
-
- https://gitlab.com/huth/qemu/-/pipelines/185245009
-
-Tested-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> ---
+> Cc: "Hervé Poussineau" <hpoussin@reactos.org>
+> Cc: David Gibson <david@gibson.dropbear.id.au>
+> Cc: qemu-ppc@nongnu.org
+> Cc: qemu-devel@nongnu.org
+> ---
+>   hw/ppc/rs6000_mc.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+Reviewed-by: Hervé Poussineau <hpoussin@reactos.org>
 
 
