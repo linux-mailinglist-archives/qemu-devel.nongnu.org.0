@@ -2,77 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 048AA25CCFB
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:59:18 +0200 (CEST)
-Received: from localhost ([::1]:51632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BA3D25CCD6
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:53:14 +0200 (CEST)
+Received: from localhost ([::1]:52332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDxGH-00041G-1N
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:59:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39750)
+	id 1kDxAP-0000RY-8k
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:53:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kDwyq-0007SS-0S
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:41:16 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:37687)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kDwyk-0004aR-Mi
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:41:15 -0400
-Received: by mail-pg1-x535.google.com with SMTP id 5so3168704pgl.4
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 14:41:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=i/w3vLxBt1qJ2wyxNzwes/y8JNN7aVfo7El89r/8IyU=;
- b=UdB+hwvBO6ZXYI+WyJfXs3Phu0UmliMM2CgveUz+rDwCB0XIR9eqUcZUEsGOxnpUvQ
- uO4YlKCu4hsgKYi9VU5JrMGC27Sn8Pf7z9VFk0qIdtPjt0eV2d5RUg7u/28kNyleiTvC
- oei1M1aItA9efdHYzTEH+1elqvCFJZ+NPaRo2zHo34O4qdf5CdHL709qZPXPOTIIcWL7
- m740O/IYHRt6twaiDdFDSId0DkV6neMGonZ4wopAND3z54gdRGksRVPvwFEf0tnG+d1P
- 97PHBGnSN2hLDXmq1BlXfFglx7lqzhjDtBkWKNUgOCSJ99Rt/TIMpHRnflENzNIxWer+
- 0j+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=i/w3vLxBt1qJ2wyxNzwes/y8JNN7aVfo7El89r/8IyU=;
- b=ehS81iHw19jP2tTfvFRRTsusvK4BrzDC0vaW7eTIRb/8kSGdoGtOUGp37gqqArg0da
- jVgiIwY2rByG3JCBHJVlFDLtZI96yb7KU4yCqEmaASo7rcq55hVDkwucpmNygDQw/Ge3
- Cn4sfbrxORbVyUE7/40NvE6vw1Cf5d41NdI1t3+QrSn2zxdrv/3z3EOtW3f0zTGdl54W
- MJC339WTMeGZ3qHT7kOYvxg594BXxdGX+2apl3wwM1YAtYBh81ovPBGU329ro0bNEyQR
- QGwLAQ8Hmx5esB2dN2MPwH5xAfQvXABBAsDwuFZ9OoTP6MDlyZ3FslM0T4LgCUfAPZnu
- eY3w==
-X-Gm-Message-State: AOAM532/GMNkI6qVWbqIq8kdDDJuWcN0ovPanBm10NFn3KLC7pH54o+Q
- 6d5tHiZFT4MQHUYXy14xgwpIxcdGUgidGw==
-X-Google-Smtp-Source: ABdhPJzpDs85C8C5dbARtJC9d6cItil7QPyxDZKuknDePotcH9b5TBDsu2tByHOrRPW7zb8/MYJnlw==
-X-Received: by 2002:a62:1743:: with SMTP id 64mr5648427pfx.133.1599169269075; 
- Thu, 03 Sep 2020 14:41:09 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id v17sm4113290pfn.24.2020.09.03.14.41.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Sep 2020 14:41:08 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 4/5] tcg: Eliminate one store for in-place 128-bit dup_mem
-Date: Thu,  3 Sep 2020 14:41:00 -0700
-Message-Id: <20200903214101.1746878-5-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200903214101.1746878-1-richard.henderson@linaro.org>
-References: <20200903214101.1746878-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <pisa@cmp.felk.cvut.cz>)
+ id 1kDx7B-0005Xa-4b
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:49:53 -0400
+Received: from relay.felk.cvut.cz ([2001:718:2:1611:0:1:0:70]:15107)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <pisa@cmp.felk.cvut.cz>) id 1kDx79-0005M4-36
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:49:52 -0400
+Received: from cmp.felk.cvut.cz (haar.felk.cvut.cz [147.32.84.19])
+ by relay.felk.cvut.cz (8.15.2/8.15.2) with ESMTP id 083Lmkt9031922;
+ Thu, 3 Sep 2020 23:48:46 +0200 (CEST)
+ (envelope-from pisa@cmp.felk.cvut.cz)
+Received: from haar.felk.cvut.cz (localhost [127.0.0.1])
+ by cmp.felk.cvut.cz (8.14.0/8.12.3/SuSE Linux 0.6) with ESMTP id
+ 083LmjDG026130; Thu, 3 Sep 2020 23:48:45 +0200
+Received: (from pisa@localhost)
+ by haar.felk.cvut.cz (8.14.0/8.13.7/Submit) id 083Lmj6B026129;
+ Thu, 3 Sep 2020 23:48:45 +0200
+From: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH v2 2/7] hw/net/can: sja1000 ignore CAN FD frames
+Date: Thu,  3 Sep 2020 23:48:18 +0200
+Message-Id: <17e5e09da81539405f9ad3665eabbff0a897a855.1599168753.git.pisa@cmp.felk.cvut.cz>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.1599168753.git.pisa@cmp.felk.cvut.cz>
+References: <cover.1599168753.git.pisa@cmp.felk.cvut.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-FELK-MailScanner-Information: 
+X-MailScanner-ID: 083Lmkt9031922
+X-FELK-MailScanner: Found to be clean
+X-FELK-MailScanner-SpamCheck: not spam, SpamAssassin (not cached,
+ score=-0.098, required 6, BAYES_00 -0.50, KHOP_HELO_FCRDNS 0.40,
+ SPF_HELO_NONE 0.00, SPF_NONE 0.00)
+X-FELK-MailScanner-From: pisa@cmp.felk.cvut.cz
+X-FELK-MailScanner-Watermark: 1599774529.85662@Z2aOrjN3Ac3jIRkSVeQgXg
+Received-SPF: none client-ip=2001:718:2:1611:0:1:0:70;
+ envelope-from=pisa@cmp.felk.cvut.cz; helo=relay.felk.cvut.cz
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 17:39:24
+X-ACL-Warn: Detected OS   = ???
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,42 +67,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Marek Vasut <marex@denx.de>, Vikram Garhwal <fnu.vikram@xilinx.com>,
+ Jiri Novak <jnovak@fel.cvut.cz>, Stefan Hajnoczi <stefanha@gmail.com>,
+ Deniz Eren <deniz.eren@icloud.com>, Markus Armbruster <armbru@redhat.com>,
+ Oleksij Rempel <o.rempel@pengutronix.de>,
+ Konrad Frederic <frederic.konrad@adacore.com>,
+ Jan Kiszka <jan.kiszka@siemens.com>, Jan Charvat <charvj10@fel.cvut.cz>,
+ Oliver Hartkopp <socketcan@hartkopp.net>, Ondrej Ille <ondrej.ille@gmail.com>,
+ Pavel Pisa <pisa@cmp.felk.cvut.cz>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do not store back to the exact memory from which we just loaded.
+From: Jan Charvat <charvj10@fel.cvut.cz>
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Jan Charvat <charvj10@fel.cvut.cz>
+Signed-off-by: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+Reviewed-by: Vikram Garhwal <fnu.vikram@xilinx.com>
 ---
- tcg/tcg-op-gvec.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/net/can/can_sja1000.c | 29 +++++++++++++++++++++++------
+ 1 file changed, 23 insertions(+), 6 deletions(-)
 
-diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
-index 793d4ba64c..fcc25b04e6 100644
---- a/tcg/tcg-op-gvec.c
-+++ b/tcg/tcg-op-gvec.c
-@@ -1581,7 +1581,7 @@ void tcg_gen_gvec_dup_mem(unsigned vece, uint32_t dofs, uint32_t aofs,
-             TCGv_vec in = tcg_temp_new_vec(TCG_TYPE_V128);
+diff --git a/hw/net/can/can_sja1000.c b/hw/net/can/can_sja1000.c
+index ec66d4232d..0898f54dea 100644
+--- a/hw/net/can/can_sja1000.c
++++ b/hw/net/can/can_sja1000.c
+@@ -323,11 +323,16 @@ static void buff2frame_bas(const uint8_t *buff, qemu_can_frame *frame)
+ static int frame2buff_pel(const qemu_can_frame *frame, uint8_t *buff)
+ {
+     int i;
++    int dlen = frame->can_dlc;
  
-             tcg_gen_ld_vec(in, cpu_env, aofs);
--            for (i = 0; i < oprsz; i += 16) {
-+            for (i = (aofs == dofs) * 16; i < oprsz; i += 16) {
-                 tcg_gen_st_vec(in, cpu_env, dofs + i);
-             }
-             tcg_temp_free_vec(in);
-@@ -1591,7 +1591,7 @@ void tcg_gen_gvec_dup_mem(unsigned vece, uint32_t dofs, uint32_t aofs,
+     if (frame->can_id & QEMU_CAN_ERR_FLAG) { /* error frame, NOT support now. */
+         return -1;
+     }
  
-             tcg_gen_ld_i64(in0, cpu_env, aofs);
-             tcg_gen_ld_i64(in1, cpu_env, aofs + 8);
--            for (i = 0; i < oprsz; i += 16) {
-+            for (i = (aofs == dofs) * 16; i < oprsz; i += 16) {
-                 tcg_gen_st_i64(in0, cpu_env, dofs + i);
-                 tcg_gen_st_i64(in1, cpu_env, dofs + i + 8);
-             }
++    if (dlen > 8) {
++        return -1;
++    }
++
+     buff[0] = 0x0f & frame->can_dlc; /* DLC */
+     if (frame->can_id & QEMU_CAN_RTR_FLAG) { /* RTR */
+         buff[0] |= (1 << 6);
+@@ -338,18 +343,18 @@ static int frame2buff_pel(const qemu_can_frame *frame, uint8_t *buff)
+         buff[2] = extract32(frame->can_id, 13, 8); /* ID.20~ID.13 */
+         buff[3] = extract32(frame->can_id, 5, 8);  /* ID.12~ID.05 */
+         buff[4] = extract32(frame->can_id, 0, 5) << 3; /* ID.04~ID.00,xxx */
+-        for (i = 0; i < frame->can_dlc; i++) {
++        for (i = 0; i < dlen; i++) {
+             buff[5 + i] = frame->data[i];
+         }
+-        return frame->can_dlc + 5;
++        return dlen + 5;
+     } else { /* SFF */
+         buff[1] = extract32(frame->can_id, 3, 8); /* ID.10~ID.03 */
+         buff[2] = extract32(frame->can_id, 0, 3) << 5; /* ID.02~ID.00,xxxxx */
+-        for (i = 0; i < frame->can_dlc; i++) {
++        for (i = 0; i < dlen; i++) {
+             buff[3 + i] = frame->data[i];
+         }
+ 
+-        return frame->can_dlc + 3;
++        return dlen + 3;
+     }
+ 
+     return -1;
+@@ -358,6 +363,7 @@ static int frame2buff_pel(const qemu_can_frame *frame, uint8_t *buff)
+ static int frame2buff_bas(const qemu_can_frame *frame, uint8_t *buff)
+ {
+     int i;
++    int dlen = frame->can_dlc;
+ 
+      /*
+       * EFF, no support for BasicMode
+@@ -369,17 +375,21 @@ static int frame2buff_bas(const qemu_can_frame *frame, uint8_t *buff)
+         return -1;
+     }
+ 
++    if (dlen > 8) {
++        return -1;
++    }
++
+     buff[0] = extract32(frame->can_id, 3, 8); /* ID.10~ID.03 */
+     buff[1] = extract32(frame->can_id, 0, 3) << 5; /* ID.02~ID.00,xxxxx */
+     if (frame->can_id & QEMU_CAN_RTR_FLAG) { /* RTR */
+         buff[1] |= (1 << 4);
+     }
+     buff[1] |= frame->can_dlc & 0x0f;
+-    for (i = 0; i < frame->can_dlc; i++) {
++    for (i = 0; i < dlen; i++) {
+         buff[2 + i] = frame->data[i];
+     }
+ 
+-    return frame->can_dlc + 2;
++    return dlen + 2;
+ }
+ 
+ static void can_sja_update_pel_irq(CanSJA1000State *s)
+@@ -766,6 +776,13 @@ ssize_t can_sja_receive(CanBusClientState *client, const qemu_can_frame *frames,
+     if (frames_cnt <= 0) {
+         return 0;
+     }
++    if (frame->flags && QEMU_CAN_FRMF_TYPE_FD) {
++        if (DEBUG_FILTER) {
++            can_display_msg("[cansja]: ignor fd frame ", frame);
++        }
++        return 1;
++    }
++
+     if (DEBUG_FILTER) {
+         can_display_msg("[cansja]: receive ", frame);
+     }
 -- 
-2.25.1
+2.20.1
 
 
