@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9F2F25CC36
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:27:18 +0200 (CEST)
-Received: from localhost ([::1]:54318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49B3025CC3E
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:29:17 +0200 (CEST)
+Received: from localhost ([::1]:34358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwlJ-0004qh-P8
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:27:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59154)
+	id 1kDwnE-0008F7-83
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:29:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLl-0004cC-SU; Thu, 03 Sep 2020 17:00:54 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:44057)
+ id 1kDwLm-0004cG-J9; Thu, 03 Sep 2020 17:00:54 -0400
+Received: from mail-oo1-xc44.google.com ([2607:f8b0:4864:20::c44]:45660)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLj-0007mx-Qo; Thu, 03 Sep 2020 17:00:53 -0400
-Received: by mail-ot1-x344.google.com with SMTP id a2so3982573otr.11;
- Thu, 03 Sep 2020 14:00:51 -0700 (PDT)
+ id 1kDwLl-0007nN-1y; Thu, 03 Sep 2020 17:00:54 -0400
+Received: by mail-oo1-xc44.google.com with SMTP id u28so1122121ooe.12;
+ Thu, 03 Sep 2020 14:00:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jToX5f8+EsTioWIIknUwq5OunQEZrWHXCk2GLVSldj8=;
- b=lXC9ZYGUoZ4KJA2vN/7SvDU0yg5UUTgbCJd1R7y3Cp7ezrlzbg8V9M/PIXkdZPNKM4
- yiCRIKI4cHACzyLPcdD8sXAWlEYhrBjPmZyHovdaIrSbbFyoKr59+tE5c43YK613g0Ax
- GpLdGCkFOlTj+SMvUY3OpBlEcbYRBW3O42uHzsp3EYtcg+CwG6osmhFewlySjnp1YAFk
- sFDbYQ6h16h6aRckxk7LvR4c9IV6F2RUXns9yqEAM5Qz82U3AwCQRPN/eSfvw6JZ26x0
- VmTYrruMSBzvIID/mD9HcTXknwrMbWa23YM2FTQWMu3cMGzzLJV5Hmj0xqQEcEIrT0YV
- C8RA==
+ bh=+vCCI2xx9GVvmEfubwpcsIW6FrRaSKZ9xWlva5k5xWQ=;
+ b=II1RWNGE5KaeU8hFLd78cQ2fOlhwfXb0Rf5ycQath3mMC8TSEY1ZFo6VEFQpVkSEog
+ qzqjUeLQK4gR0ju65GIOWY5zZviYLFWmojydKRD1x1DwA8jzqcWyfGdNEkl/n70vF6wg
+ ZK4MkAfTDQVuxoh8DURknqtaQQ3l/b0K1efeIYYdke6y/+V1WRNVcgQePb+pfqBXlV1D
+ 5un/DOB4gn55Fap9F9t9HazrNhIea8uSyctZ/VIKfLXj9F+RZioJyCawuFzdrsIh/rzR
+ Y/p/YgbJ8Oh2XQulNiy5muxPwE4RjHiew2CpZT7L+IagNhSG5O0gvC2LqLKHWBDBDNZu
+ AnsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=jToX5f8+EsTioWIIknUwq5OunQEZrWHXCk2GLVSldj8=;
- b=JtBEmGMTK+HQ06WazCt4h5VLPjc9xpbnZZFhWOX5rEhdy9mvjirtE5gKZfw1kHaibo
- 7qCkqEM3gOqVUEylHI40oOQZ/swsV2Kzkg+YlTJE926fVVfwkjC/c1e8Wns/SRvdkQeZ
- m+SLW4jOgpLIOL/ILaSJARMHBn25xI7GvW57OIrRFQSc/VyRAiRjb0a6aGuefo+Zi7rS
- kHSNhYJ2zQeUIkMQEg8n37b/99OUKg3EWldRMuvDdOKDDCHYa5XsgjhY/DUHbRP/B3Hq
- esyMdcHupOgWV7URQ8FrMpOgRXRf2SEd9ztewqU0V6U2kzzxe3onD7g1ypgkheTK3YIh
- gZKA==
-X-Gm-Message-State: AOAM530PLymmY8W2zntctqRiySDewRuiamBAlbEZ6fMaG4VbdI9mvxlr
- DaQpRgLuT6wtXslujofRY1Nn0Vlniqs=
-X-Google-Smtp-Source: ABdhPJxyDxvVBQ8RnzNkokerKNl28JlrqJh77pW/7JQNFNrfBP0/iNHT4+PyEthWYnnEVPxmWZ/pFg==
-X-Received: by 2002:a05:6830:48:: with SMTP id
- d8mr2968196otp.272.1599166850192; 
- Thu, 03 Sep 2020 14:00:50 -0700 (PDT)
+ bh=+vCCI2xx9GVvmEfubwpcsIW6FrRaSKZ9xWlva5k5xWQ=;
+ b=snvOXD4zqoOEc4HZVUIdhjBqplNF8mEHK1TJK3KDSkdxAbZGP3pO5GbJdo+TzzOKjA
+ DzoLg+B2WKOP+GJan2NEi4r/sMifDYYBOncLuuglqj2wTXglEjg38W2GFvSmqZxitFVg
+ Zrn0guqq7UevL11ogSDsAaFm0L9hXYFpAnl/QypJ0HgyOqckTDvRC2WMiF1G0d3XCjDC
+ GeHpc/s2SE20vuq3wPeUHsLz3Glw/2e7hcMWCxYVZWIQ813CVSiI2qsTabtN8brg4EA4
+ g6sEQIzrChsKtOcONQw8v64scStriddY4ad+aRlqfn9v/FdVMrB2x595aI/ddDFvveS4
+ ePRQ==
+X-Gm-Message-State: AOAM531ZBMT0r+RymPhlrx2LuSVnQ9Cda5yGY6oxoj6MfuSP/yceAVYo
+ vm/srQp+Lul7AkBS6ye9K1b9bf0T86w=
+X-Google-Smtp-Source: ABdhPJwOU7dDRvZsAVANagrnVEa2H0Eksz5BhR8KsWAeU298YxcApWj9dCzBd1WMADGMMJjpx1GFjQ==
+X-Received: by 2002:a4a:4910:: with SMTP id z16mr3327291ooa.41.1599166851303; 
+ Thu, 03 Sep 2020 14:00:51 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id m8sm767319otn.66.2020.09.03.14.00.49
+ by smtp.gmail.com with ESMTPSA id l3sm842779oom.18.2020.09.03.14.00.50
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:00:49 -0700 (PDT)
+ Thu, 03 Sep 2020 14:00:50 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 51/77] hw/sd/sdcard: Restrict Class 6 commands to SCSD cards
-Date: Thu,  3 Sep 2020 15:59:09 -0500
-Message-Id: <20200903205935.27832-52-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 52/77] hw/sd/sdcard: Simplify realize() a bit
+Date: Thu,  3 Sep 2020 15:59:10 -0500
+Message-Id: <20200903205935.27832-53-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x344.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c44;
+ envelope-from=flukshun@gmail.com; helo=mail-oo1-xc44.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -93,45 +92,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Only SCSD cards support Class 6 (Block Oriented Write Protection)
-commands.
+We don't need to check if sd->blk is set twice.
 
-  "SD Specifications Part 1 Physical Layer Simplified Spec. v3.01"
-
-  4.3.14 Command Functional Difference in Card Capacity Types
-
-  * Write Protected Group
-
-  SDHC and SDXC do not support write-protected groups. Issuing
-  CMD28, CMD29 and CMD30 generates the ILLEGAL_COMMAND error.
-
-Cc: qemu-stable@nongnu.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20200630133912.9428-7-f4bug@amsat.org>
-(cherry picked from commit 9157dd597d293ab7f599f4d96c3fe8a6e07c633d)
+Message-Id: <20200630133912.9428-18-f4bug@amsat.org>
+(cherry picked from commit 6dd3a164f5b31c703c7d8372841ad3bd6a57de6d)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/sd/sd.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ hw/sd/sd.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 3c06a0ac6d..da39590f58 100644
+index da39590f58..04258f1816 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -905,6 +905,11 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
-         sd->multi_blk_cnt = 0;
+@@ -2090,12 +2090,12 @@ static void sd_realize(DeviceState *dev, Error **errp)
+         return;
      }
  
-+    if (sd_cmd_class[req.cmd] == 6 && FIELD_EX32(sd->ocr, OCR, CARD_CAPACITY)) {
-+        /* Only Standard Capacity cards support class 6 commands */
-+        return sd_illegal;
-+    }
+-    if (sd->blk && blk_is_read_only(sd->blk)) {
+-        error_setg(errp, "Cannot use read-only drive as SD card");
+-        return;
+-    }
+-
+     if (sd->blk) {
++        if (blk_is_read_only(sd->blk)) {
++            error_setg(errp, "Cannot use read-only drive as SD card");
++            return;
++        }
 +
-     switch (req.cmd) {
-     /* Basic commands (Class 0 and Class 1) */
-     case 0:	/* CMD0:   GO_IDLE_STATE */
+         ret = blk_set_perm(sd->blk, BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE,
+                            BLK_PERM_ALL, errp);
+         if (ret < 0) {
 -- 
 2.17.1
 
