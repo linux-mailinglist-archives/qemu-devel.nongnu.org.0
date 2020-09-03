@@ -2,77 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD58225BBF3
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 09:50:11 +0200 (CEST)
-Received: from localhost ([::1]:35572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AF7125BC00
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 09:59:32 +0200 (CEST)
+Received: from localhost ([::1]:44990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDk0Y-0001J4-Rw
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 03:50:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43482)
+	id 1kDk9b-0005qa-Ab
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 03:59:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kDjuj-0000oN-4k
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 03:44:09 -0400
-Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:34870)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kDjug-0003v6-VB
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 03:44:08 -0400
-Received: by mail-pj1-x1044.google.com with SMTP id g6so1068250pjl.0
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 00:44:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=RPs3RoSh234lXncrsywCpA+V5get783NAhmcnU+hzlo=;
- b=iUfHbyJFHXe9LOF3xQaeLRQn4G6OacWh0s0spzv8StMBdYin+zMqcZELjT54/WJvMq
- Ik+H8tbvrDcXzdr6XSvYQcMm/Sq2/zEHVnA28JTjWFWWjiz+H5cCTMqkqPmm/5PLnbTH
- hDnBIHN4UJhOC5u+jQOEn7al370Oc7RsSdf/R+Tum0mY8cR9iuC33g8Uej9gSf48kZbv
- OXz47zU6JzsTnW7bEDGrWGUmJPhl8AKBWhiKCHCSGcSqCs6TJBrGhSFBPLF6TbhkL/D1
- 7pimML4XQXtD4nVzoTNVKlpGK97M7Acy2vLYy+wykYTxrQOpUyuqpqISfClCiZq7E2QZ
- AE3w==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kDk8r-0005Rl-Do
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 03:58:45 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39555
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kDk8o-0005OL-0B
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 03:58:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599119920;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uMQQqJzY3MMoJDOH02wnz0FOc0BBDd/jrPa1nRkAiPg=;
+ b=Q8Dvt8RVKTedjKW9RQnsZml7iC1y+3IMKKm1FpTz2nbt8YWvwkKohiYkI3E8rPTr2aakKN
+ 13M0eY+yM0/LLE92GCM3EYYpMupYxsss3fqykergzZPHghYwqmSdp1zrHZnohAkkDAT8Bs
+ NM6b6edpDWnXH2XNCzbdqu7jiSnrONA=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-550-9Hh5qOtnP-m4YVc-Taid4g-1; Thu, 03 Sep 2020 03:58:24 -0400
+X-MC-Unique: 9Hh5qOtnP-m4YVc-Taid4g-1
+Received: by mail-ed1-f72.google.com with SMTP id y1so924684edw.16
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 00:58:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=RPs3RoSh234lXncrsywCpA+V5get783NAhmcnU+hzlo=;
- b=bnRovbYHtPDLsI4PU7Y0430qeIALnUh3ZzKP/OTu3l8YmVGUhpkCQMrPAtnK9jBF2K
- PModdWfvkEzlGmmW0uVvDVf3qwQ6nW90+1lnavXBrkudg9amkvr/gz0QTy2/Gyomwa8a
- aNfvJi58YBU0xlJ/YVEp8HPmyb/xs8kpbbBckyTxYPXDrgjBsoFgt+tmIkdRujN7XCbq
- GaASVn5PfmBRvWBrasnpq/kRBcOaXD9UvpwdGeY83A1m6OLfMaB2CblQrR4K1bDrttAp
- g8jXoOUwKE5PvJG0BinBZp6Mor3ii1vwYvl37iCa0WqBGhGF5J8FwcIxg8rS+86FZ1W5
- a0PA==
-X-Gm-Message-State: AOAM53373l2hu5yqWe+B2je9TQYcByGQWFZfm4iJ/LXXC6/5Z+l9/8Au
- ZZlOcgfgmLWhoOUD0flAShVzy0c3IxE+oc7g
-X-Google-Smtp-Source: ABdhPJwaJblHbAYFES+QR4WRfz3ya+TkSfDAneXGmFAaT9gtylJ1ZjpInma0B83+NxkJiMweIwV3tQ==
-X-Received: by 2002:a17:90a:8589:: with SMTP id
- m9mr2074589pjn.109.1599119045126; 
- Thu, 03 Sep 2020 00:44:05 -0700 (PDT)
-Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id o6sm1512472pju.25.2020.09.03.00.44.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Sep 2020 00:44:03 -0700 (PDT)
-From: Yonggang Luo <luoyonggang@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 12/12] ci: Enable msys2 ci in cirrus
-Date: Thu,  3 Sep 2020 15:43:13 +0800
-Message-Id: <20200903074313.1498-13-luoyonggang@gmail.com>
-X-Mailer: git-send-email 2.28.0.windows.1
-In-Reply-To: <20200903074313.1498-1-luoyonggang@gmail.com>
-References: <20200903074313.1498-1-luoyonggang@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=uMQQqJzY3MMoJDOH02wnz0FOc0BBDd/jrPa1nRkAiPg=;
+ b=ZDBcChvSBes92jnjjS5dvd6z96EJi4/ooe8UET/1XW98sBa5nyV+Aho2yOMJazikkj
+ 1Zxf81D/3tHCQLbxcWYnHjy9Ab4V37afSokoxz4elZgki2MbPW4bT5ZIzt+Vj7jOpvjq
+ z8Z7gRwL3TfKwImzQXkWZw627RS9/eE6wTznZRXKYQG6GeYEB+61irkTRwSJHa0OPoG3
+ ju9GelaQs47k5Uli+hysVDqoB6Jbgg5uqmL3hfavurN499p/hVtv+E3MRSfPMbpxsrwx
+ 6PDFqGUzgkJHA7ha2Mqn1IQTcpMeRFXv9nhpGJjJ5XyHOOvCBNpELe61GSX3562sN3cU
+ DU0g==
+X-Gm-Message-State: AOAM530iHh2MS57AfygPK2j51AwaZBs5QbhqJnl0O7qlijYjUY4ewtzR
+ sEt9hdFsnEIVBB+9DEjlGrztCwfg6HMkAyXhAcK/eBNGfjA8nrNAnHU5tFBiTIVW/eNJ5kED/sD
+ 6+yG8mV7VKPmT8iAaErdzoBPZbZy18cg=
+X-Received: by 2002:a17:906:5046:: with SMTP id
+ e6mr877921ejk.449.1599119903511; 
+ Thu, 03 Sep 2020 00:58:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyhl2zGZ0dxBYSgHaM4BeG+RpNCKzEzDUgHwbuFZN77WT1bp+wIvTP8X9r14vh3h/sDX5wVXVwo/jBDzupzv/k=
+X-Received: by 2002:a17:906:5046:: with SMTP id
+ e6mr877911ejk.449.1599119903324; 
+ Thu, 03 Sep 2020 00:58:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
- envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x1044.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+References: <20200903074313.1498-1-luoyonggang@gmail.com>
+In-Reply-To: <20200903074313.1498-1-luoyonggang@gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Thu, 3 Sep 2020 09:58:11 +0200
+Message-ID: <CABgObfaR7nO2b2ndhDoc9rEFRbVU5mT0ozzgFzKA3fx7Xrw2_g@mail.gmail.com>
+Subject: Re: [PATCH v3 00/12] Green the msys2 CI make
+To: Yonggang Luo <luoyonggang@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000ca8cc005ae641de9"
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 01:58:20
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,233 +92,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Install msys2 in a proper way refer to https://github.com/cirruslabs/cirrus=
--ci-docs/issues/699
-The https://wiki.qemu.org/Hosts/W32#Native_builds_with_MSYS2 need to be upd=
-ated.
-There is no need of --cross-prefix, open mingw64.exe instead of msys2.exe t=
-hen we don't
-need the --cross-prefix, besides using ENV
-    MSYS: winsymlinks:nativestrict
-    MSYSTEM: MINGW64
-    CHERE_INVOKING: 1
-to opening mingw64 native shell.
+--000000000000ca8cc005ae641de9
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
----
- .cirrus.yml                         | 108 +++++++++++++++++-----------
- scripts/ci/windows/msys2_build.sh   |  33 +++++++++
- scripts/ci/windows/msys2_install.sh |  31 ++++++++
- 3 files changed, 130 insertions(+), 42 deletions(-)
- create mode 100644 scripts/ci/windows/msys2_build.sh
- create mode 100644 scripts/ci/windows/msys2_install.sh
+Please send patches more slowly. You already have several queued, and
+resending them only adds confusion.
 
-diff --git a/.cirrus.yml b/.cirrus.yml
-index f287d23c5b..0bfb465193 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -1,42 +1,66 @@
--env:
--  CIRRUS_CLONE_DEPTH: 1
--
--freebsd_12_task:
--  freebsd_instance:
--    image_family: freebsd-12-1
--    cpu: 8
--    memory: 8G
--  install_script: ASSUME_ALWAYS_YES=3Dyes pkg bootstrap -f ; pkg install -y
--    bash curl cyrus-sasl git glib gmake gnutls gsed
--    nettle perl5 pixman pkgconf png usbredir
--  script:
--    - mkdir build
--    - cd build
--    - ../configure || { cat config.log; exit 1; }
--    - gmake -j8
--    - gmake V=3D1 check
--
--macos_task:
--  osx_instance:
--    image: mojave-base
--  install_script:
--    - brew install pkg-config python gnu-sed glib pixman make sdl2 bash
--  script:
--    - mkdir build
--    - cd build
--    - ../configure --python=3D/usr/local/bin/python3 || { cat config.log; =
-exit 1; }
--    - gmake -j$(sysctl -n hw.ncpu)
--    - gmake check
--
--macos_xcode_task:
--  osx_instance:
--    # this is an alias for the latest Xcode
--    image: mojave-xcode
--  install_script:
--    - brew install pkg-config gnu-sed glib pixman make sdl2 bash
--  script:
--    - mkdir build
--    - cd build
--    - ../configure --cc=3Dclang || { cat config.log; exit 1; }
--    - gmake -j$(sysctl -n hw.ncpu)
--    - gmake check
-+env:=0D
-+  CIRRUS_CLONE_DEPTH: 1=0D
-+=0D
-+freebsd_12_task:=0D
-+  freebsd_instance:=0D
-+    image_family: freebsd-12-1=0D
-+    cpu: 8=0D
-+    memory: 8G=0D
-+  install_script: ASSUME_ALWAYS_YES=3Dyes pkg bootstrap -f ; pkg install -=
-y=0D
-+    bash curl cyrus-sasl git glib gmake gnutls gsed=0D
-+    nettle perl5 pixman pkgconf png usbredir=0D
-+  script:=0D
-+    - mkdir build=0D
-+    - cd build=0D
-+    - ../configure || { cat config.log; exit 1; }=0D
-+    - gmake -j8=0D
-+    - gmake V=3D1 check=0D
-+=0D
-+macos_task:=0D
-+  osx_instance:=0D
-+    image: mojave-base=0D
-+  install_script:=0D
-+    - brew install pkg-config python gnu-sed glib pixman make sdl2 bash=0D
-+  script:=0D
-+    - mkdir build=0D
-+    - cd build=0D
-+    - ../configure --python=3D/usr/local/bin/python3 || { cat config.log; =
-exit 1; }=0D
-+    - gmake -j$(sysctl -n hw.ncpu)=0D
-+    - gmake check=0D
-+=0D
-+macos_xcode_task:=0D
-+  osx_instance:=0D
-+    # this is an alias for the latest Xcode=0D
-+    image: mojave-xcode=0D
-+  install_script:=0D
-+    - brew install pkg-config gnu-sed glib pixman make sdl2 bash=0D
-+  script:=0D
-+    - mkdir build=0D
-+    - cd build=0D
-+    - ../configure --cc=3Dclang || { cat config.log; exit 1; }=0D
-+    - gmake -j$(sysctl -n hw.ncpu)=0D
-+    - gmake check=0D
-+=0D
-+windows_msys2_task:=0D
-+  windows_container:=0D
-+    image: cirrusci/windowsservercore:cmake=0D
-+    os_version: 2019=0D
-+    cpu: 8=0D
-+    memory: 8G=0D
-+  env:=0D
-+    MSYS: winsymlinks:nativestrict=0D
-+    MSYSTEM: MINGW64=0D
-+    CHERE_INVOKING: 1=0D
-+  printenv_script:=0D
-+    - C:\tools\msys64\usr\bin\bash.exe -lc 'printenv'=0D
-+  install_script:=0D
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "cd /c/tools && curl -O http://=
-repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"=0D
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "cd /c/tools && curl -O http://=
-repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig"=
-=0D
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "cd /c/tools && pacman -U --noc=
-onfirm msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"=0D
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "pacman -Sy --noconfirm"=0D
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "pacman --needed --noconfirm -S=
- bash pacman pacman-mirrors msys2-runtime"=0D
-+    - taskkill /F /IM gpg-agent.exe=0D
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -Su"=0D
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "sh scripts/ci/windows/msys2_in=
-stall.sh"=0D
-+  script:=0D
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "sh scripts/ci/windows/msys2_bu=
-ild.sh"=0D
-diff --git a/scripts/ci/windows/msys2_build.sh b/scripts/ci/windows/msys2_b=
-uild.sh
-new file mode 100644
-index 0000000000..3ba89a4206
---- /dev/null
-+++ b/scripts/ci/windows/msys2_build.sh
-@@ -0,0 +1,33 @@
-+mkdir build
-+cd build
-+../configure \
-+  --python=3Dpython3 \
-+  --enable-gtk --enable-sdl \
-+  --enable-capstone=3Dgit \
-+  --enable-stack-protector \
-+  --ninja=3Dninja \
-+  --enable-gnutls \
-+  --enable-nettle \
-+  --enable-vnc \
-+  --enable-vnc-sasl \
-+  --enable-vnc-jpeg \
-+  --enable-vnc-png \
-+  --enable-membarrier \
-+  --enable-slirp=3Dgit \
-+  --disable-kvm \
-+  --enable-hax \
-+  --enable-whpx \
-+  --disable-spice \
-+  --enable-lzo \
-+  --enable-snappy \
-+  --enable-bzip2 \
-+  --enable-vdi \
-+  --enable-qcow1 \
-+  --enable-tools \
-+  --enable-libusb \
-+  --enable-usb-redir \
-+  --enable-libnfs \
-+  --enable-libssh \
-+  --disable-pie
-+make -j$NUMBER_OF_PROCESSORS
-+# make check
-diff --git a/scripts/ci/windows/msys2_install.sh b/scripts/ci/windows/msys2=
-_install.sh
-new file mode 100644
-index 0000000000..ff35b73ef2
---- /dev/null
-+++ b/scripts/ci/windows/msys2_install.sh
-@@ -0,0 +1,31 @@
-+pacman --noconfirm -S --needed \=0D
-+base-devel \=0D
-+git \=0D
-+mingw-w64-x86_64-python \=0D
-+mingw-w64-x86_64-python-setuptools \=0D
-+mingw-w64-x86_64-toolchain \=0D
-+mingw-w64-x86_64-SDL2 \=0D
-+mingw-w64-x86_64-SDL2_image \=0D
-+mingw-w64-x86_64-gtk3 \=0D
-+mingw-w64-x86_64-ninja \=0D
-+mingw-w64-x86_64-make \=0D
-+mingw-w64-x86_64-lzo2 \=0D
-+mingw-w64-x86_64-libjpeg-turbo \=0D
-+mingw-w64-x86_64-pixman \=0D
-+mingw-w64-x86_64-libgcrypt \=0D
-+mingw-w64-x86_64-capstone \=0D
-+mingw-w64-x86_64-libpng \=0D
-+mingw-w64-x86_64-libssh \=0D
-+mingw-w64-x86_64-libxml2 \=0D
-+mingw-w64-x86_64-snappy \=0D
-+mingw-w64-x86_64-libusb \=0D
-+mingw-w64-x86_64-usbredir \=0D
-+mingw-w64-x86_64-libtasn1 \=0D
-+mingw-w64-x86_64-libnfs \=0D
-+mingw-w64-x86_64-nettle \=0D
-+mingw-w64-x86_64-cyrus-sasl \=0D
-+mingw-w64-x86_64-curl \=0D
-+mingw-w64-x86_64-gnutls \=0D
-+mingw-w64-x86_64-zstd \=0D
-+mingw-w64-x86_64-glib2=0D
-+=0D
---=20
-2.28.0.windows.1
+Paolo
+
+Il gio 3 set 2020, 09:43 Yonggang Luo <luoyonggang@gmail.com> ha scritto:
+
+> Also it's fixes issues about make check
+>
+> Yonggang Luo (12):
+>   configure: fixes dtc not cloned when running msys2 CI
+>   meson: Convert undefsym.sh to undefsym.py
+>   tcg: Fixes dup_const link error
+>   tests: handling signal on win32 properly
+>   configure: Fix include and linkage issue on msys2
+>   block: Fixes nfs on msys2/mingw
+>   osdep: These function are only available on Non-Win32 system.
+>   ci: fixes msys2 build by upgrading capstone to 4.0.2
+>   stubs: qemu_notify_event have no need to stub
+>   meson: Fixes qapi tests.
+>   tests: Disable test-image-locking that not works under Win32
+>   ci: Enable msys2 ci in cirrus
+>
+>  .cirrus.yml                         |   108 +-
+>  block/nfs.c                         |  1812 +--
+>  capstone                            |     2 +-
+>  configure                           | 16560 +++++++++++++-------------
+>  include/qemu/osdep.h                |  1372 +--
+>  include/tcg/tcg.h                   |  2898 ++---
+>  meson.build                         |  2994 ++---
+>  scripts/ci/windows/msys2_build.sh   |    33 +
+>  scripts/ci/windows/msys2_install.sh |    31 +
+>  scripts/undefsym.py                 |    57 +
+>  scripts/undefsym.sh                 |    20 -
+>  stubs/notify-event.c                |     8 +-
+>  tcg/tcg-op-gvec.c                   |  7012 +++++------
+>  tests/Makefile.include              |  1086 +-
+>  tests/qapi-schema/meson.build       |   451 +-
+>  tests/test-replication.c            |  1214 +-
+>  16 files changed, 17904 insertions(+), 17754 deletions(-)
+>  create mode 100644 scripts/ci/windows/msys2_build.sh
+>  create mode 100644 scripts/ci/windows/msys2_install.sh
+>  create mode 100644 scripts/undefsym.py
+>  delete mode 100755 scripts/undefsym.sh
+>
+> --
+> 2.28.0.windows.1
+>
+>
+>
+
+--000000000000ca8cc005ae641de9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Please send patches more slowly. You already have several=
+ queued, and resending them only adds confusion.<div dir=3D"auto"><br></div=
+><div dir=3D"auto">Paolo</div></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">Il gio 3 set 2020, 09:43 Yonggang Luo &lt;<a =
+href=3D"mailto:luoyonggang@gmail.com">luoyonggang@gmail.com</a>&gt; ha scri=
+tto:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex">Also it&#39;s fixes issues abo=
+ut make check<br>
+<br>
+Yonggang Luo (12):<br>
+=C2=A0 configure: fixes dtc not cloned when running msys2 CI<br>
+=C2=A0 meson: Convert undefsym.sh to undefsym.py<br>
+=C2=A0 tcg: Fixes dup_const link error<br>
+=C2=A0 tests: handling signal on win32 properly<br>
+=C2=A0 configure: Fix include and linkage issue on msys2<br>
+=C2=A0 block: Fixes nfs on msys2/mingw<br>
+=C2=A0 osdep: These function are only available on Non-Win32 system.<br>
+=C2=A0 ci: fixes msys2 build by upgrading capstone to 4.0.2<br>
+=C2=A0 stubs: qemu_notify_event have no need to stub<br>
+=C2=A0 meson: Fixes qapi tests.<br>
+=C2=A0 tests: Disable test-image-locking that not works under Win32<br>
+=C2=A0 ci: Enable msys2 ci in cirrus<br>
+<br>
+=C2=A0.cirrus.yml=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0108 +-<br>
+=C2=A0block/nfs.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1812 +--<br>
+=C2=A0capstone=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 =C2=A02 +-<br>
+=C2=A0configure=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 16560 +++++++++++++-------------<br=
+>
+=C2=A0include/qemu/osdep.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 |=C2=A0 1372 +--<br>
+=C2=A0include/tcg/tcg.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0|=C2=A0 2898 ++---<br>
+=C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 2994 ++---<br>
+=C2=A0scripts/ci/windows/msys2_build.sh=C2=A0 =C2=A0|=C2=A0 =C2=A0 33 +<br>
+=C2=A0scripts/ci/windows/msys2_install.sh |=C2=A0 =C2=A0 31 +<br>
+=C2=A0scripts/undefsym.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0|=C2=A0 =C2=A0 57 +<br>
+=C2=A0scripts/undefsym.sh=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0|=C2=A0 =C2=A0 20 -<br>
+=C2=A0stubs/notify-event.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 |=C2=A0 =C2=A0 =C2=A08 +-<br>
+=C2=A0tcg/tcg-op-gvec.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0|=C2=A0 7012 +++++------<br>
+=C2=A0tests/Makefile.include=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 |=C2=A0 1086 +-<br>
+=C2=A0tests/qapi-schema/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=
+=A0451 +-<br>
+=C2=A0tests/test-replication.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 1214 +-<br>
+=C2=A016 files changed, 17904 insertions(+), 17754 deletions(-)<br>
+=C2=A0create mode 100644 scripts/ci/windows/msys2_build.sh<br>
+=C2=A0create mode 100644 scripts/ci/windows/msys2_install.sh<br>
+=C2=A0create mode 100644 scripts/undefsym.py<br>
+=C2=A0delete mode 100755 scripts/undefsym.sh<br>
+<br>
+-- <br>
+2.28.0.windows.1<br>
+<br>
+<br>
+</blockquote></div>
+
+--000000000000ca8cc005ae641de9--
 
 
