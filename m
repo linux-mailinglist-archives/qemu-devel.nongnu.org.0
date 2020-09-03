@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CBDE25CBC5
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:03:05 +0200 (CEST)
-Received: from localhost ([::1]:43264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C928B25CBD6
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:08:46 +0200 (CEST)
+Received: from localhost ([::1]:37932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwNs-0006P9-Ac
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:03:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56266)
+	id 1kDwTN-00082X-RY
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:08:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDwET-0000uN-PN
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 16:53:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45709)
+ id 1kDwEU-0000w5-Fs
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 16:53:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51143)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDwEN-0006aO-6k
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 16:53:21 -0400
+ id 1kDwEQ-0006ag-Aj
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 16:53:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599166394;
+ s=mimecast20190719; t=1599166397;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=N9UDqCIS8QBp3Ik3g8pO9cSWhctSfRW/zV6gUj+qvx0=;
- b=CMZ/US0PIP94s8X3wn0hAvsndaYtJ2RbCXC7gNSy7q2A4DHRr0PKN++obFGvUU7APaWHS2
- wDoVY6H8rjRBKnGZBHK8r6jc4muNEcfZCysJIdhdYzEtJtkSdSmkj/n961uvmcOZ4eMn25
- yrMYA1cTPex06uH41WMGsgyq+5O4IFk=
+ bh=CpxU6WwTB6BniTPYnZWiXJQQGyMweXHDA3E7PcnBOHg=;
+ b=cK818xQqVxEzwCKDismKrnfCjSojvdt9um/5aw1SbMO0XZIh89t29tfMLfj/gMnzIdU60D
+ hNu22x2HQuJQcy/m5l8TkaxnupGhf4j0ft1pBX3pLubFwXVcZHhQD533ZcocSVuiGc6Eki
+ eyNimn3Rx4/Anf6+PdIaksaDZZRXsA8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-16-laOufLEWPrG_vohKGqivRw-1; Thu, 03 Sep 2020 16:53:09 -0400
-X-MC-Unique: laOufLEWPrG_vohKGqivRw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-27-N8dnJBmPMyyYHdSd3vu8bA-1; Thu, 03 Sep 2020 16:53:14 -0400
+X-MC-Unique: N8dnJBmPMyyYHdSd3vu8bA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E4B6010BBEC3;
- Thu,  3 Sep 2020 20:53:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4348C18BA290;
+ Thu,  3 Sep 2020 20:53:13 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7745581190;
- Thu,  3 Sep 2020 20:53:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DA1CF6CE4F;
+ Thu,  3 Sep 2020 20:53:12 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 11/27] Use OBJECT_DECLARE_TYPE where possible
-Date: Thu,  3 Sep 2020 16:52:31 -0400
-Message-Id: <20200903205247.1667472-12-ehabkost@redhat.com>
+Subject: [PULL 14/27] chardev: Rename TYPE_CHARDEV_* to TYPE_*_CHARDEV
+Date: Thu,  3 Sep 2020 16:52:34 -0400
+Message-Id: <20200903205247.1667472-15-ehabkost@redhat.com>
 In-Reply-To: <20200903205247.1667472-1-ehabkost@redhat.com>
 References: <20200903205247.1667472-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 04:23:54
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 01:47:17
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -82,1410 +82,770 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace DECLARE_OBJ_CHECKERS with OBJECT_DECLARE_TYPE where the
-typedefs can be safely removed.
+This will make the TYPE_* constants consistent with the name of
+most type checking macros we have today.
 
-Generated running:
-
-$ ./scripts/codeconverter/converter.py -i \
-  --pattern=DeclareObjCheckers $(git grep -l '' -- '*.[ch]')
-
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20200831210740.126168-16-ehabkost@redhat.com>
-Message-Id: <20200831210740.126168-17-ehabkost@redhat.com>
-Message-Id: <20200831210740.126168-18-ehabkost@redhat.com>
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200902224311.1321159-3-ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/audio/intel-hda.h                | 6 ++----
- hw/display/virtio-vga.h             | 6 ++----
- include/authz/base.h                | 6 ++----
- include/authz/list.h                | 6 ++----
- include/authz/listfile.h            | 6 ++----
- include/authz/pamacct.h             | 6 ++----
- include/authz/simple.h              | 6 ++----
- include/crypto/secret_common.h      | 6 ++----
- include/crypto/secret_keyring.h     | 6 ++----
- include/hw/arm/armsse.h             | 6 ++----
- include/hw/hyperv/vmbus.h           | 6 ++----
- include/hw/i2c/i2c.h                | 6 ++----
- include/hw/i2c/smbus_slave.h        | 6 ++----
- include/hw/ipack/ipack.h            | 6 ++----
- include/hw/ipmi/ipmi.h              | 6 ++----
- include/hw/mem/pc-dimm.h            | 6 ++----
- include/hw/ppc/pnv.h                | 6 ++----
- include/hw/ppc/pnv_core.h           | 6 ++----
- include/hw/ppc/pnv_homer.h          | 6 ++----
- include/hw/ppc/pnv_occ.h            | 6 ++----
- include/hw/ppc/pnv_psi.h            | 6 ++----
- include/hw/ppc/pnv_xive.h           | 6 ++----
- include/hw/ppc/spapr_cpu_core.h     | 6 ++----
- include/hw/ppc/spapr_drc.h          | 6 ++----
- include/hw/ppc/spapr_vio.h          | 6 ++----
- include/hw/ppc/spapr_xive.h         | 6 ++----
- include/hw/ppc/xics.h               | 6 ++----
- include/hw/ppc/xive.h               | 6 ++----
- include/hw/s390x/event-facility.h   | 6 ++----
- include/hw/s390x/s390_flic.h        | 6 ++----
- include/hw/s390x/sclp.h             | 6 ++----
- include/hw/sd/sd.h                  | 6 ++----
- include/hw/ssi/ssi.h                | 6 ++----
- include/hw/sysbus.h                 | 6 ++----
- include/hw/virtio/virtio-gpu.h      | 6 ++----
- include/hw/virtio/virtio-input.h    | 6 ++----
- include/hw/virtio/virtio-mem.h      | 6 ++----
- include/hw/virtio/virtio-pmem.h     | 6 ++----
- include/hw/virtio/virtio-serial.h   | 6 ++----
- include/hw/xen/xen-bus.h            | 6 ++----
- include/io/channel.h                | 6 ++----
- include/io/dns-resolver.h           | 6 ++----
- include/io/net-listener.h           | 6 ++----
- include/scsi/pr-manager.h           | 6 ++----
- include/sysemu/cryptodev.h          | 6 ++----
- include/sysemu/hostmem.h            | 6 ++----
- include/sysemu/rng.h                | 6 ++----
- include/sysemu/tpm_backend.h        | 6 ++----
- include/sysemu/vhost-user-backend.h | 6 ++----
- target/alpha/cpu-qom.h              | 6 ++----
- target/arm/cpu-qom.h                | 6 ++----
- target/avr/cpu-qom.h                | 6 ++----
- target/cris/cpu-qom.h               | 6 ++----
- target/hppa/cpu-qom.h               | 6 ++----
- target/i386/cpu-qom.h               | 6 ++----
- target/lm32/cpu-qom.h               | 6 ++----
- target/m68k/cpu-qom.h               | 6 ++----
- target/microblaze/cpu-qom.h         | 6 ++----
- target/mips/cpu-qom.h               | 6 ++----
- target/moxie/cpu.h                  | 6 ++----
- target/nios2/cpu.h                  | 6 ++----
- target/openrisc/cpu.h               | 6 ++----
- target/ppc/cpu-qom.h                | 6 ++----
- target/riscv/cpu.h                  | 6 ++----
- target/rx/cpu-qom.h                 | 6 ++----
- target/s390x/cpu-qom.h              | 6 ++----
- target/sh4/cpu-qom.h                | 6 ++----
- target/sparc/cpu-qom.h              | 6 ++----
- target/tilegx/cpu.h                 | 6 ++----
- target/tricore/cpu-qom.h            | 6 ++----
- target/unicore32/cpu-qom.h          | 6 ++----
- target/xtensa/cpu-qom.h             | 6 ++----
- backends/dbus-vmstate.c             | 6 ++----
- ui/input-barrier.c                  | 6 ++----
- ui/input-linux.c                    | 6 ++----
- 75 files changed, 150 insertions(+), 300 deletions(-)
+ chardev/chardev-internal.h       |  4 ++--
+ include/chardev/char-fd.h        |  4 ++--
+ include/chardev/char-win-stdio.h |  2 +-
+ include/chardev/char-win.h       |  4 ++--
+ include/chardev/char.h           | 30 +++++++++++++++---------------
+ include/chardev/spice.h          |  8 ++++----
+ chardev/baum.c                   |  6 +++---
+ chardev/char-console.c           |  4 ++--
+ chardev/char-fd.c                |  2 +-
+ chardev/char-file.c              |  6 +++---
+ chardev/char-mux.c               |  2 +-
+ chardev/char-null.c              |  2 +-
+ chardev/char-parallel.c          |  4 ++--
+ chardev/char-pipe.c              |  6 +++---
+ chardev/char-pty.c               |  4 ++--
+ chardev/char-ringbuf.c           |  8 ++++----
+ chardev/char-serial.c            |  6 +++---
+ chardev/char-socket.c            |  4 ++--
+ chardev/char-stdio.c             |  6 +++---
+ chardev/char-udp.c               |  4 ++--
+ chardev/char-win-stdio.c         |  4 ++--
+ chardev/char-win.c               |  2 +-
+ chardev/char.c                   |  2 +-
+ chardev/msmouse.c                |  6 +++---
+ chardev/spice.c                  | 10 +++++-----
+ chardev/testdev.c                |  6 +++---
+ chardev/wctablet.c               |  6 +++---
+ gdbstub.c                        |  6 +++---
+ hw/display/vhost-user-gpu.c      |  2 +-
+ tests/test-char.c                |  4 ++--
+ ui/console.c                     |  8 ++++----
+ ui/gtk.c                         |  6 +++---
+ ui/spice-app.c                   | 10 +++++-----
+ 33 files changed, 94 insertions(+), 94 deletions(-)
 
-diff --git a/hw/audio/intel-hda.h b/hw/audio/intel-hda.h
-index 813a7a357d..f5cce18fa3 100644
---- a/hw/audio/intel-hda.h
-+++ b/hw/audio/intel-hda.h
-@@ -8,10 +8,8 @@
- /* hda bus                                                               */
+diff --git a/chardev/chardev-internal.h b/chardev/chardev-internal.h
+index aba0240759..832dc10a95 100644
+--- a/chardev/chardev-internal.h
++++ b/chardev/chardev-internal.h
+@@ -55,9 +55,9 @@ struct MuxChardev {
+ typedef struct MuxChardev MuxChardev;
  
- #define TYPE_HDA_CODEC_DEVICE "hda-codec"
--typedef struct HDACodecDevice HDACodecDevice;
--typedef struct HDACodecDeviceClass HDACodecDeviceClass;
--DECLARE_OBJ_CHECKERS(HDACodecDevice, HDACodecDeviceClass,
--                     HDA_CODEC_DEVICE, TYPE_HDA_CODEC_DEVICE)
-+OBJECT_DECLARE_TYPE(HDACodecDevice, HDACodecDeviceClass,
-+                    hda_codec_device, HDA_CODEC_DEVICE)
+ DECLARE_INSTANCE_CHECKER(MuxChardev, MUX_CHARDEV,
+-                         TYPE_CHARDEV_MUX)
++                         TYPE_MUX_CHARDEV)
+ #define CHARDEV_IS_MUX(chr)                             \
+-    object_dynamic_cast(OBJECT(chr), TYPE_CHARDEV_MUX)
++    object_dynamic_cast(OBJECT(chr), TYPE_MUX_CHARDEV)
  
- #define TYPE_HDA_BUS "HDA"
- typedef struct HDACodecBus HDACodecBus;
-diff --git a/hw/display/virtio-vga.h b/hw/display/virtio-vga.h
-index 19f8af7356..5c5671c9c1 100644
---- a/hw/display/virtio-vga.h
-+++ b/hw/display/virtio-vga.h
-@@ -9,10 +9,8 @@
-  * virtio-vga-base: This extends VirtioPCIProxy.
-  */
- #define TYPE_VIRTIO_VGA_BASE "virtio-vga-base"
--typedef struct VirtIOVGABase VirtIOVGABase;
--typedef struct VirtIOVGABaseClass VirtIOVGABaseClass;
--DECLARE_OBJ_CHECKERS(VirtIOVGABase, VirtIOVGABaseClass,
--                     VIRTIO_VGA_BASE, TYPE_VIRTIO_VGA_BASE)
-+OBJECT_DECLARE_TYPE(VirtIOVGABase, VirtIOVGABaseClass,
-+                    virtio_vga_base, VIRTIO_VGA_BASE)
- 
- struct VirtIOVGABase {
-     VirtIOPCIProxy parent_obj;
-diff --git a/include/authz/base.h b/include/authz/base.h
-index 8d8cf9fa5a..06b5e29f6f 100644
---- a/include/authz/base.h
-+++ b/include/authz/base.h
-@@ -27,10 +27,8 @@
- 
- #define TYPE_QAUTHZ "authz"
- 
--typedef struct QAuthZ QAuthZ;
--typedef struct QAuthZClass QAuthZClass;
--DECLARE_OBJ_CHECKERS(QAuthZ, QAuthZClass,
--                     QAUTHZ, TYPE_QAUTHZ)
-+OBJECT_DECLARE_TYPE(QAuthZ, QAuthZClass,
-+                    qauthz, QAUTHZ)
- 
- 
- /**
-diff --git a/include/authz/list.h b/include/authz/list.h
-index 93d16876bc..e4e1040472 100644
---- a/include/authz/list.h
-+++ b/include/authz/list.h
-@@ -27,10 +27,8 @@
- 
- #define TYPE_QAUTHZ_LIST "authz-list"
- 
--typedef struct QAuthZList QAuthZList;
--typedef struct QAuthZListClass QAuthZListClass;
--DECLARE_OBJ_CHECKERS(QAuthZList, QAuthZListClass,
--                     QAUTHZ_LIST, TYPE_QAUTHZ_LIST)
-+OBJECT_DECLARE_TYPE(QAuthZList, QAuthZListClass,
-+                    qauthz_list, QAUTHZ_LIST)
- 
- 
- 
-diff --git a/include/authz/listfile.h b/include/authz/listfile.h
-index 2e4a629b6d..89c5eafbfa 100644
---- a/include/authz/listfile.h
-+++ b/include/authz/listfile.h
-@@ -27,10 +27,8 @@
- 
- #define TYPE_QAUTHZ_LIST_FILE "authz-list-file"
- 
--typedef struct QAuthZListFile QAuthZListFile;
--typedef struct QAuthZListFileClass QAuthZListFileClass;
--DECLARE_OBJ_CHECKERS(QAuthZListFile, QAuthZListFileClass,
--                     QAUTHZ_LIST_FILE, TYPE_QAUTHZ_LIST_FILE)
-+OBJECT_DECLARE_TYPE(QAuthZListFile, QAuthZListFileClass,
-+                    qauthz_list_file, QAUTHZ_LIST_FILE)
- 
- 
- 
-diff --git a/include/authz/pamacct.h b/include/authz/pamacct.h
-index 98454ddc25..44bb5ff28d 100644
---- a/include/authz/pamacct.h
-+++ b/include/authz/pamacct.h
-@@ -27,10 +27,8 @@
- 
- #define TYPE_QAUTHZ_PAM "authz-pam"
- 
--typedef struct QAuthZPAM QAuthZPAM;
--typedef struct QAuthZPAMClass QAuthZPAMClass;
--DECLARE_OBJ_CHECKERS(QAuthZPAM, QAuthZPAMClass,
--                     QAUTHZ_PAM, TYPE_QAUTHZ_PAM)
-+OBJECT_DECLARE_TYPE(QAuthZPAM, QAuthZPAMClass,
-+                    qauthz_pam, QAUTHZ_PAM)
- 
- 
- 
-diff --git a/include/authz/simple.h b/include/authz/simple.h
-index 7a896fb94b..ba4a5ec5ea 100644
---- a/include/authz/simple.h
-+++ b/include/authz/simple.h
-@@ -26,10 +26,8 @@
- 
- #define TYPE_QAUTHZ_SIMPLE "authz-simple"
- 
--typedef struct QAuthZSimple QAuthZSimple;
--typedef struct QAuthZSimpleClass QAuthZSimpleClass;
--DECLARE_OBJ_CHECKERS(QAuthZSimple, QAuthZSimpleClass,
--                     QAUTHZ_SIMPLE, TYPE_QAUTHZ_SIMPLE)
-+OBJECT_DECLARE_TYPE(QAuthZSimple, QAuthZSimpleClass,
-+                    qauthz_simple, QAUTHZ_SIMPLE)
- 
- 
- 
-diff --git a/include/crypto/secret_common.h b/include/crypto/secret_common.h
-index dd3310ea5f..daf00c3b2a 100644
---- a/include/crypto/secret_common.h
-+++ b/include/crypto/secret_common.h
-@@ -25,10 +25,8 @@
- #include "qom/object.h"
- 
- #define TYPE_QCRYPTO_SECRET_COMMON "secret_common"
--typedef struct QCryptoSecretCommon QCryptoSecretCommon;
--typedef struct QCryptoSecretCommonClass QCryptoSecretCommonClass;
--DECLARE_OBJ_CHECKERS(QCryptoSecretCommon, QCryptoSecretCommonClass,
--                     QCRYPTO_SECRET_COMMON, TYPE_QCRYPTO_SECRET_COMMON)
-+OBJECT_DECLARE_TYPE(QCryptoSecretCommon, QCryptoSecretCommonClass,
-+                    qcrypto_secret_common, QCRYPTO_SECRET_COMMON)
- 
- 
- struct QCryptoSecretCommon {
-diff --git a/include/crypto/secret_keyring.h b/include/crypto/secret_keyring.h
-index 9875f4cbf3..cc2c7397db 100644
---- a/include/crypto/secret_keyring.h
-+++ b/include/crypto/secret_keyring.h
-@@ -26,10 +26,8 @@
- #include "crypto/secret_common.h"
- 
- #define TYPE_QCRYPTO_SECRET_KEYRING "secret_keyring"
--typedef struct QCryptoSecretKeyring QCryptoSecretKeyring;
--typedef struct QCryptoSecretKeyringClass QCryptoSecretKeyringClass;
--DECLARE_OBJ_CHECKERS(QCryptoSecretKeyring, QCryptoSecretKeyringClass,
--                     QCRYPTO_SECRET_KEYRING, TYPE_QCRYPTO_SECRET_KEYRING)
-+OBJECT_DECLARE_TYPE(QCryptoSecretKeyring, QCryptoSecretKeyringClass,
-+                    qcrypto_secret_keyring, QCRYPTO_SECRET_KEYRING)
- 
- 
- struct QCryptoSecretKeyring {
-diff --git a/include/hw/arm/armsse.h b/include/hw/arm/armsse.h
-index 452cbb5793..b844ef6bc0 100644
---- a/include/hw/arm/armsse.h
-+++ b/include/hw/arm/armsse.h
-@@ -108,10 +108,8 @@
- #include "qom/object.h"
- 
- #define TYPE_ARM_SSE "arm-sse"
--typedef struct ARMSSE ARMSSE;
--typedef struct ARMSSEClass ARMSSEClass;
--DECLARE_OBJ_CHECKERS(ARMSSE, ARMSSEClass,
--                     ARM_SSE, TYPE_ARM_SSE)
-+OBJECT_DECLARE_TYPE(ARMSSE, ARMSSEClass,
-+                    arm_sse, ARM_SSE)
- 
- /*
-  * These type names are for specific IoTKit subsystems; other than
-diff --git a/include/hw/hyperv/vmbus.h b/include/hw/hyperv/vmbus.h
-index 0fe3d3b47c..00ad8798c1 100644
---- a/include/hw/hyperv/vmbus.h
-+++ b/include/hw/hyperv/vmbus.h
-@@ -20,10 +20,8 @@
- 
- #define TYPE_VMBUS_DEVICE "vmbus-dev"
- 
--typedef struct VMBusDevice VMBusDevice;
--typedef struct VMBusDeviceClass VMBusDeviceClass;
--DECLARE_OBJ_CHECKERS(VMBusDevice, VMBusDeviceClass,
--                     VMBUS_DEVICE, TYPE_VMBUS_DEVICE)
-+OBJECT_DECLARE_TYPE(VMBusDevice, VMBusDeviceClass,
-+                    vmbus_device, VMBUS_DEVICE)
- 
- #define TYPE_VMBUS "vmbus"
- typedef struct VMBus VMBus;
-diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
-index 2074f7c971..5b8eef62c6 100644
---- a/include/hw/i2c/i2c.h
-+++ b/include/hw/i2c/i2c.h
-@@ -16,12 +16,10 @@ enum i2c_event {
-     I2C_NACK /* Masker NACKed a receive byte.  */
+ void mux_set_focus(Chardev *chr, int focus);
+ void mux_chr_send_all_event(Chardev *chr, QEMUChrEvent event);
+diff --git a/include/chardev/char-fd.h b/include/chardev/char-fd.h
+index 9de0e440de..14c664fc83 100644
+--- a/include/chardev/char-fd.h
++++ b/include/chardev/char-fd.h
+@@ -36,10 +36,10 @@ struct FDChardev {
  };
- 
--typedef struct I2CSlave I2CSlave;
- 
- #define TYPE_I2C_SLAVE "i2c-slave"
--typedef struct I2CSlaveClass I2CSlaveClass;
--DECLARE_OBJ_CHECKERS(I2CSlave, I2CSlaveClass,
--                     I2C_SLAVE, TYPE_I2C_SLAVE)
-+OBJECT_DECLARE_TYPE(I2CSlave, I2CSlaveClass,
-+                    i2c_slave, I2C_SLAVE)
- 
- struct I2CSlaveClass {
-     DeviceClass parent_class;
-diff --git a/include/hw/i2c/smbus_slave.h b/include/hw/i2c/smbus_slave.h
-index 8d16e4bcd9..cb9cb372f9 100644
---- a/include/hw/i2c/smbus_slave.h
-+++ b/include/hw/i2c/smbus_slave.h
-@@ -29,10 +29,8 @@
- #include "qom/object.h"
- 
- #define TYPE_SMBUS_DEVICE "smbus-device"
--typedef struct SMBusDevice SMBusDevice;
--typedef struct SMBusDeviceClass SMBusDeviceClass;
--DECLARE_OBJ_CHECKERS(SMBusDevice, SMBusDeviceClass,
--                     SMBUS_DEVICE, TYPE_SMBUS_DEVICE)
-+OBJECT_DECLARE_TYPE(SMBusDevice, SMBusDeviceClass,
-+                    smbus_device, SMBUS_DEVICE)
- 
- 
- struct SMBusDeviceClass {
-diff --git a/include/hw/ipack/ipack.h b/include/hw/ipack/ipack.h
-index a2304c1b3e..a59a487853 100644
---- a/include/hw/ipack/ipack.h
-+++ b/include/hw/ipack/ipack.h
-@@ -30,12 +30,10 @@ struct IPackBus {
-     qemu_irq_handler set_irq;
- };
- 
--typedef struct IPackDevice IPackDevice;
--typedef struct IPackDeviceClass IPackDeviceClass;
- 
- #define TYPE_IPACK_DEVICE "ipack-device"
--DECLARE_OBJ_CHECKERS(IPackDevice, IPackDeviceClass,
--                     IPACK_DEVICE, TYPE_IPACK_DEVICE)
-+OBJECT_DECLARE_TYPE(IPackDevice, IPackDeviceClass,
-+                    ipack_device, IPACK_DEVICE)
- 
- struct IPackDeviceClass {
-     /*< private >*/
-diff --git a/include/hw/ipmi/ipmi.h b/include/hw/ipmi/ipmi.h
-index d2ed0a9fc4..9915b146f7 100644
---- a/include/hw/ipmi/ipmi.h
-+++ b/include/hw/ipmi/ipmi.h
-@@ -175,10 +175,8 @@ struct IPMIInterfaceClass {
-  * Define a BMC simulator (or perhaps a connection to a real BMC)
-  */
- #define TYPE_IPMI_BMC "ipmi-bmc"
--typedef struct IPMIBmc IPMIBmc;
--typedef struct IPMIBmcClass IPMIBmcClass;
--DECLARE_OBJ_CHECKERS(IPMIBmc, IPMIBmcClass,
--                     IPMI_BMC, TYPE_IPMI_BMC)
-+OBJECT_DECLARE_TYPE(IPMIBmc, IPMIBmcClass,
-+                    ipmi_bmc, IPMI_BMC)
- 
- struct IPMIBmc {
-     DeviceState parent;
-diff --git a/include/hw/mem/pc-dimm.h b/include/hw/mem/pc-dimm.h
-index 86e3010243..1d570defc9 100644
---- a/include/hw/mem/pc-dimm.h
-+++ b/include/hw/mem/pc-dimm.h
-@@ -21,10 +21,8 @@
- #include "qom/object.h"
- 
- #define TYPE_PC_DIMM "pc-dimm"
--typedef struct PCDIMMDevice PCDIMMDevice;
--typedef struct PCDIMMDeviceClass PCDIMMDeviceClass;
--DECLARE_OBJ_CHECKERS(PCDIMMDevice, PCDIMMDeviceClass,
--                     PC_DIMM, TYPE_PC_DIMM)
-+OBJECT_DECLARE_TYPE(PCDIMMDevice, PCDIMMDeviceClass,
-+                    pc_dimm, PC_DIMM)
- 
- #define PC_DIMM_ADDR_PROP "addr"
- #define PC_DIMM_SLOT_PROP "slot"
-diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-index f3bacb6a5c..b4b2b24d80 100644
---- a/include/hw/ppc/pnv.h
-+++ b/include/hw/ppc/pnv.h
-@@ -35,10 +35,8 @@
- #include "qom/object.h"
- 
- #define TYPE_PNV_CHIP "pnv-chip"
--typedef struct PnvChip PnvChip;
--typedef struct PnvChipClass PnvChipClass;
--DECLARE_OBJ_CHECKERS(PnvChip, PnvChipClass,
--                     PNV_CHIP, TYPE_PNV_CHIP)
-+OBJECT_DECLARE_TYPE(PnvChip, PnvChipClass,
-+                    pnv_chip, PNV_CHIP)
- 
- struct PnvChip {
-     /*< private >*/
-diff --git a/include/hw/ppc/pnv_core.h b/include/hw/ppc/pnv_core.h
-index fd17a236e3..5cb22c2fa9 100644
---- a/include/hw/ppc/pnv_core.h
-+++ b/include/hw/ppc/pnv_core.h
-@@ -25,10 +25,8 @@
- #include "qom/object.h"
- 
- #define TYPE_PNV_CORE "powernv-cpu-core"
--typedef struct PnvCore PnvCore;
--typedef struct PnvCoreClass PnvCoreClass;
--DECLARE_OBJ_CHECKERS(PnvCore, PnvCoreClass,
--                     PNV_CORE, TYPE_PNV_CORE)
-+OBJECT_DECLARE_TYPE(PnvCore, PnvCoreClass,
-+                    pnv_core, PNV_CORE)
- 
- typedef struct PnvChip PnvChip;
- 
-diff --git a/include/hw/ppc/pnv_homer.h b/include/hw/ppc/pnv_homer.h
-index 7aadcab03c..0978812713 100644
---- a/include/hw/ppc/pnv_homer.h
-+++ b/include/hw/ppc/pnv_homer.h
-@@ -24,10 +24,8 @@
- #include "qom/object.h"
- 
- #define TYPE_PNV_HOMER "pnv-homer"
--typedef struct PnvHomer PnvHomer;
--typedef struct PnvHomerClass PnvHomerClass;
--DECLARE_OBJ_CHECKERS(PnvHomer, PnvHomerClass,
--                     PNV_HOMER, TYPE_PNV_HOMER)
-+OBJECT_DECLARE_TYPE(PnvHomer, PnvHomerClass,
-+                    pnv_homer, PNV_HOMER)
- #define TYPE_PNV8_HOMER TYPE_PNV_HOMER "-POWER8"
- DECLARE_INSTANCE_CHECKER(PnvHomer, PNV8_HOMER,
-                          TYPE_PNV8_HOMER)
-diff --git a/include/hw/ppc/pnv_occ.h b/include/hw/ppc/pnv_occ.h
-index 4fcfb32417..b79e3440be 100644
---- a/include/hw/ppc/pnv_occ.h
-+++ b/include/hw/ppc/pnv_occ.h
-@@ -24,10 +24,8 @@
- #include "qom/object.h"
- 
- #define TYPE_PNV_OCC "pnv-occ"
--typedef struct PnvOCC PnvOCC;
--typedef struct PnvOCCClass PnvOCCClass;
--DECLARE_OBJ_CHECKERS(PnvOCC, PnvOCCClass,
--                     PNV_OCC, TYPE_PNV_OCC)
-+OBJECT_DECLARE_TYPE(PnvOCC, PnvOCCClass,
-+                    pnv_occ, PNV_OCC)
- #define TYPE_PNV8_OCC TYPE_PNV_OCC "-POWER8"
- DECLARE_INSTANCE_CHECKER(PnvOCC, PNV8_OCC,
-                          TYPE_PNV8_OCC)
-diff --git a/include/hw/ppc/pnv_psi.h b/include/hw/ppc/pnv_psi.h
-index a33195df17..0034db44c3 100644
---- a/include/hw/ppc/pnv_psi.h
-+++ b/include/hw/ppc/pnv_psi.h
-@@ -26,10 +26,8 @@
- #include "qom/object.h"
- 
- #define TYPE_PNV_PSI "pnv-psi"
--typedef struct PnvPsi PnvPsi;
--typedef struct PnvPsiClass PnvPsiClass;
--DECLARE_OBJ_CHECKERS(PnvPsi, PnvPsiClass,
--                     PNV_PSI, TYPE_PNV_PSI)
-+OBJECT_DECLARE_TYPE(PnvPsi, PnvPsiClass,
-+                    pnv_psi, PNV_PSI)
- 
- #define PSIHB_XSCOM_MAX         0x20
- 
-diff --git a/include/hw/ppc/pnv_xive.h b/include/hw/ppc/pnv_xive.h
-index a014e2a726..29d5debd1c 100644
---- a/include/hw/ppc/pnv_xive.h
-+++ b/include/hw/ppc/pnv_xive.h
-@@ -16,10 +16,8 @@
- struct PnvChip;
- 
- #define TYPE_PNV_XIVE "pnv-xive"
--typedef struct PnvXive PnvXive;
--typedef struct PnvXiveClass PnvXiveClass;
--DECLARE_OBJ_CHECKERS(PnvXive, PnvXiveClass,
--                     PNV_XIVE, TYPE_PNV_XIVE)
-+OBJECT_DECLARE_TYPE(PnvXive, PnvXiveClass,
-+                    pnv_xive, PNV_XIVE)
- 
- #define XIVE_BLOCK_MAX      16
- 
-diff --git a/include/hw/ppc/spapr_cpu_core.h b/include/hw/ppc/spapr_cpu_core.h
-index fba6a01050..4022917168 100644
---- a/include/hw/ppc/spapr_cpu_core.h
-+++ b/include/hw/ppc/spapr_cpu_core.h
-@@ -16,10 +16,8 @@
- #include "qom/object.h"
- 
- #define TYPE_SPAPR_CPU_CORE "spapr-cpu-core"
--typedef struct SpaprCpuCore SpaprCpuCore;
--typedef struct SpaprCpuCoreClass SpaprCpuCoreClass;
--DECLARE_OBJ_CHECKERS(SpaprCpuCore, SpaprCpuCoreClass,
--                     SPAPR_CPU_CORE, TYPE_SPAPR_CPU_CORE)
-+OBJECT_DECLARE_TYPE(SpaprCpuCore, SpaprCpuCoreClass,
-+                    spapr_cpu_core, SPAPR_CPU_CORE)
- 
- #define SPAPR_CPU_CORE_TYPE_NAME(model) model "-" TYPE_SPAPR_CPU_CORE
- 
-diff --git a/include/hw/ppc/spapr_drc.h b/include/hw/ppc/spapr_drc.h
-index 2236aea66a..6daafa8106 100644
---- a/include/hw/ppc/spapr_drc.h
-+++ b/include/hw/ppc/spapr_drc.h
-@@ -20,10 +20,8 @@
- #include "qapi/error.h"
- 
- #define TYPE_SPAPR_DR_CONNECTOR "spapr-dr-connector"
--typedef struct SpaprDrc SpaprDrc;
--typedef struct SpaprDrcClass SpaprDrcClass;
--DECLARE_OBJ_CHECKERS(SpaprDrc, SpaprDrcClass,
--                     SPAPR_DR_CONNECTOR, TYPE_SPAPR_DR_CONNECTOR)
-+OBJECT_DECLARE_TYPE(SpaprDrc, SpaprDrcClass,
-+                    spapr_dr_connector, SPAPR_DR_CONNECTOR)
- 
- #define TYPE_SPAPR_DRC_PHYSICAL "spapr-drc-physical"
- typedef struct SpaprDrcPhysical SpaprDrcPhysical;
-diff --git a/include/hw/ppc/spapr_vio.h b/include/hw/ppc/spapr_vio.h
-index e289028634..6c40da72ff 100644
---- a/include/hw/ppc/spapr_vio.h
-+++ b/include/hw/ppc/spapr_vio.h
-@@ -28,10 +28,8 @@
- #include "qom/object.h"
- 
- #define TYPE_VIO_SPAPR_DEVICE "vio-spapr-device"
--typedef struct SpaprVioDevice SpaprVioDevice;
--typedef struct SpaprVioDeviceClass SpaprVioDeviceClass;
--DECLARE_OBJ_CHECKERS(SpaprVioDevice, SpaprVioDeviceClass,
--                     VIO_SPAPR_DEVICE, TYPE_VIO_SPAPR_DEVICE)
-+OBJECT_DECLARE_TYPE(SpaprVioDevice, SpaprVioDeviceClass,
-+                    vio_spapr_device, VIO_SPAPR_DEVICE)
- 
- #define TYPE_SPAPR_VIO_BUS "spapr-vio-bus"
- typedef struct SpaprVioBus SpaprVioBus;
-diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
-index feb6630783..afe8ec7197 100644
---- a/include/hw/ppc/spapr_xive.h
-+++ b/include/hw/ppc/spapr_xive.h
-@@ -15,10 +15,8 @@
- #include "qom/object.h"
- 
- #define TYPE_SPAPR_XIVE "spapr-xive"
--typedef struct SpaprXive SpaprXive;
--typedef struct SpaprXiveClass SpaprXiveClass;
--DECLARE_OBJ_CHECKERS(SpaprXive, SpaprXiveClass,
--                     SPAPR_XIVE, TYPE_SPAPR_XIVE)
-+OBJECT_DECLARE_TYPE(SpaprXive, SpaprXiveClass,
-+                    spapr_xive, SPAPR_XIVE)
- 
- struct SpaprXive {
-     XiveRouter    parent;
-diff --git a/include/hw/ppc/xics.h b/include/hw/ppc/xics.h
-index bcb584b90d..c5a3cdcadc 100644
---- a/include/hw/ppc/xics.h
-+++ b/include/hw/ppc/xics.h
-@@ -41,8 +41,6 @@
-  * (the kernel implementation supports more but we don't exploit
-  *  that yet)
-  */
--typedef struct ICPStateClass ICPStateClass;
--typedef struct ICPState ICPState;
- typedef struct PnvICPState PnvICPState;
- typedef struct ICSStateClass ICSStateClass;
- typedef struct ICSState ICSState;
-@@ -50,8 +48,8 @@ typedef struct ICSIRQState ICSIRQState;
- typedef struct XICSFabric XICSFabric;
- 
- #define TYPE_ICP "icp"
--DECLARE_OBJ_CHECKERS(ICPState, ICPStateClass,
--                     ICP, TYPE_ICP)
-+OBJECT_DECLARE_TYPE(ICPState, ICPStateClass,
-+                    icp, ICP)
- 
- #define TYPE_PNV_ICP "pnv-icp"
- DECLARE_INSTANCE_CHECKER(PnvICPState, PNV_ICP,
-diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-index 48595ab641..482fafccfd 100644
---- a/include/hw/ppc/xive.h
-+++ b/include/hw/ppc/xive.h
-@@ -345,12 +345,10 @@ struct XiveRouter {
- 
-     XiveFabric *xfb;
- };
--typedef struct XiveRouter XiveRouter;
- 
- #define TYPE_XIVE_ROUTER "xive-router"
--typedef struct XiveRouterClass XiveRouterClass;
--DECLARE_OBJ_CHECKERS(XiveRouter, XiveRouterClass,
--                     XIVE_ROUTER, TYPE_XIVE_ROUTER)
-+OBJECT_DECLARE_TYPE(XiveRouter, XiveRouterClass,
-+                    xive_router, XIVE_ROUTER)
- 
- struct XiveRouterClass {
-     SysBusDeviceClass parent;
-diff --git a/include/hw/s390x/event-facility.h b/include/hw/s390x/event-facility.h
-index eccf6e924b..051c1c6576 100644
---- a/include/hw/s390x/event-facility.h
-+++ b/include/hw/s390x/event-facility.h
-@@ -42,10 +42,8 @@
- #define SCLP_SELECTIVE_READ                     0x01
- 
- #define TYPE_SCLP_EVENT "s390-sclp-event-type"
--typedef struct SCLPEvent SCLPEvent;
--typedef struct SCLPEventClass SCLPEventClass;
--DECLARE_OBJ_CHECKERS(SCLPEvent, SCLPEventClass,
--                     SCLP_EVENT, TYPE_SCLP_EVENT)
-+OBJECT_DECLARE_TYPE(SCLPEvent, SCLPEventClass,
-+                    sclp_event, SCLP_EVENT)
- 
- #define TYPE_SCLP_CPU_HOTPLUG "sclp-cpu-hotplug"
- #define TYPE_SCLP_QUIESCE "sclpquiesce"
-diff --git a/include/hw/s390x/s390_flic.h b/include/hw/s390x/s390_flic.h
-index a6a123598d..4b718c8ebf 100644
---- a/include/hw/s390x/s390_flic.h
-+++ b/include/hw/s390x/s390_flic.h
-@@ -39,10 +39,8 @@ extern const VMStateDescription vmstate_adapter_routes;
-     VMSTATE_STRUCT(_f, _s, 1, vmstate_adapter_routes, AdapterRoutes)
- 
- #define TYPE_S390_FLIC_COMMON "s390-flic"
--typedef struct S390FLICState S390FLICState;
--typedef struct S390FLICStateClass S390FLICStateClass;
--DECLARE_OBJ_CHECKERS(S390FLICState, S390FLICStateClass,
--                     S390_FLIC_COMMON, TYPE_S390_FLIC_COMMON)
-+OBJECT_DECLARE_TYPE(S390FLICState, S390FLICStateClass,
-+                    s390_flic_common, S390_FLIC_COMMON)
- 
- struct S390FLICState {
-     SysBusDevice parent_obj;
-diff --git a/include/hw/s390x/sclp.h b/include/hw/s390x/sclp.h
-index 5038a45612..e9f0f7e67c 100644
---- a/include/hw/s390x/sclp.h
-+++ b/include/hw/s390x/sclp.h
-@@ -182,10 +182,8 @@ typedef struct SCCB {
-  } QEMU_PACKED SCCB;
- 
- #define TYPE_SCLP "sclp"
--typedef struct SCLPDevice SCLPDevice;
--typedef struct SCLPDeviceClass SCLPDeviceClass;
--DECLARE_OBJ_CHECKERS(SCLPDevice, SCLPDeviceClass,
--                     SCLP, TYPE_SCLP)
-+OBJECT_DECLARE_TYPE(SCLPDevice, SCLPDeviceClass,
-+                    sclp, SCLP)
- 
- struct SCLPEventFacility;
- 
-diff --git a/include/hw/sd/sd.h b/include/hw/sd/sd.h
-index 31ccbeab0e..54f97a07cd 100644
---- a/include/hw/sd/sd.h
-+++ b/include/hw/sd/sd.h
-@@ -90,7 +90,6 @@ typedef struct {
- } SDRequest;
- 
- typedef struct SDState SDState;
--typedef struct SDBus SDBus;
- 
- #define TYPE_SD_CARD "sd-card"
- typedef struct SDCardClass SDCardClass;
-@@ -130,9 +129,8 @@ struct SDCardClass {
- };
- 
- #define TYPE_SD_BUS "sd-bus"
--typedef struct SDBusClass SDBusClass;
--DECLARE_OBJ_CHECKERS(SDBus, SDBusClass,
--                     SD_BUS, TYPE_SD_BUS)
-+OBJECT_DECLARE_TYPE(SDBus, SDBusClass,
-+                    sd_bus, SD_BUS)
- 
- struct SDBus {
-     BusState qbus;
-diff --git a/include/hw/ssi/ssi.h b/include/hw/ssi/ssi.h
-index b9286989fc..4fe1d85136 100644
---- a/include/hw/ssi/ssi.h
-+++ b/include/hw/ssi/ssi.h
-@@ -14,13 +14,11 @@
- #include "hw/qdev-core.h"
- #include "qom/object.h"
- 
--typedef struct SSISlave SSISlave;
--typedef struct SSISlaveClass SSISlaveClass;
- typedef enum SSICSMode SSICSMode;
- 
- #define TYPE_SSI_SLAVE "ssi-slave"
--DECLARE_OBJ_CHECKERS(SSISlave, SSISlaveClass,
--                     SSI_SLAVE, TYPE_SSI_SLAVE)
-+OBJECT_DECLARE_TYPE(SSISlave, SSISlaveClass,
-+                    ssi_slave, SSI_SLAVE)
- 
- #define SSI_GPIO_CS "ssi-gpio-cs"
- 
-diff --git a/include/hw/sysbus.h b/include/hw/sysbus.h
-index 77e21bba18..28a9b0f634 100644
---- a/include/hw/sysbus.h
-+++ b/include/hw/sysbus.h
-@@ -14,12 +14,10 @@
- DECLARE_INSTANCE_CHECKER(BusState, SYSTEM_BUS,
-                          TYPE_SYSTEM_BUS)
- 
--typedef struct SysBusDevice SysBusDevice;
- 
- #define TYPE_SYS_BUS_DEVICE "sys-bus-device"
--typedef struct SysBusDeviceClass SysBusDeviceClass;
--DECLARE_OBJ_CHECKERS(SysBusDevice, SysBusDeviceClass,
--                     SYS_BUS_DEVICE, TYPE_SYS_BUS_DEVICE)
-+OBJECT_DECLARE_TYPE(SysBusDevice, SysBusDeviceClass,
-+                    sys_bus_device, SYS_BUS_DEVICE)
- 
- /**
-  * SysBusDeviceClass:
-diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
-index 72f8689e2e..f334b78085 100644
---- a/include/hw/virtio/virtio-gpu.h
-+++ b/include/hw/virtio/virtio-gpu.h
-@@ -25,10 +25,8 @@
- #include "qom/object.h"
- 
- #define TYPE_VIRTIO_GPU_BASE "virtio-gpu-base"
--typedef struct VirtIOGPUBase VirtIOGPUBase;
--typedef struct VirtIOGPUBaseClass VirtIOGPUBaseClass;
--DECLARE_OBJ_CHECKERS(VirtIOGPUBase, VirtIOGPUBaseClass,
--                     VIRTIO_GPU_BASE, TYPE_VIRTIO_GPU_BASE)
-+OBJECT_DECLARE_TYPE(VirtIOGPUBase, VirtIOGPUBaseClass,
-+                    virtio_gpu_base, VIRTIO_GPU_BASE)
- 
- #define TYPE_VIRTIO_GPU "virtio-gpu-device"
- typedef struct VirtIOGPU VirtIOGPU;
-diff --git a/include/hw/virtio/virtio-input.h b/include/hw/virtio/virtio-input.h
-index c54aa6aa72..5eb9e7745e 100644
---- a/include/hw/virtio/virtio-input.h
-+++ b/include/hw/virtio/virtio-input.h
-@@ -19,10 +19,8 @@ typedef struct virtio_input_event virtio_input_event;
- /* qemu internals                                                    */
- 
- #define TYPE_VIRTIO_INPUT "virtio-input-device"
--typedef struct VirtIOInput VirtIOInput;
--typedef struct VirtIOInputClass VirtIOInputClass;
--DECLARE_OBJ_CHECKERS(VirtIOInput, VirtIOInputClass,
--                     VIRTIO_INPUT, TYPE_VIRTIO_INPUT)
-+OBJECT_DECLARE_TYPE(VirtIOInput, VirtIOInputClass,
-+                    virtio_input, VIRTIO_INPUT)
- #define VIRTIO_INPUT_GET_PARENT_CLASS(obj) \
-         OBJECT_GET_PARENT_CLASS(obj, TYPE_VIRTIO_INPUT)
- 
-diff --git a/include/hw/virtio/virtio-mem.h b/include/hw/virtio/virtio-mem.h
-index 5f0b81a967..dfc72e14b1 100644
---- a/include/hw/virtio/virtio-mem.h
-+++ b/include/hw/virtio/virtio-mem.h
-@@ -21,10 +21,8 @@
- 
- #define TYPE_VIRTIO_MEM "virtio-mem"
- 
--typedef struct VirtIOMEM VirtIOMEM;
--typedef struct VirtIOMEMClass VirtIOMEMClass;
--DECLARE_OBJ_CHECKERS(VirtIOMEM, VirtIOMEMClass,
--                     VIRTIO_MEM, TYPE_VIRTIO_MEM)
-+OBJECT_DECLARE_TYPE(VirtIOMEM, VirtIOMEMClass,
-+                    virtio_mem, VIRTIO_MEM)
- 
- #define VIRTIO_MEM_MEMDEV_PROP "memdev"
- #define VIRTIO_MEM_NODE_PROP "node"
-diff --git a/include/hw/virtio/virtio-pmem.h b/include/hw/virtio/virtio-pmem.h
-index 6c15abad70..56df9a03ce 100644
---- a/include/hw/virtio/virtio-pmem.h
-+++ b/include/hw/virtio/virtio-pmem.h
-@@ -20,10 +20,8 @@
- 
- #define TYPE_VIRTIO_PMEM "virtio-pmem"
- 
--typedef struct VirtIOPMEM VirtIOPMEM;
--typedef struct VirtIOPMEMClass VirtIOPMEMClass;
--DECLARE_OBJ_CHECKERS(VirtIOPMEM, VirtIOPMEMClass,
--                     VIRTIO_PMEM, TYPE_VIRTIO_PMEM)
-+OBJECT_DECLARE_TYPE(VirtIOPMEM, VirtIOPMEMClass,
-+                    virtio_pmem, VIRTIO_PMEM)
- 
- #define VIRTIO_PMEM_ADDR_PROP "memaddr"
- #define VIRTIO_PMEM_MEMDEV_PROP "memdev"
-diff --git a/include/hw/virtio/virtio-serial.h b/include/hw/virtio/virtio-serial.h
-index bbc76d5032..0b7f963611 100644
---- a/include/hw/virtio/virtio-serial.h
-+++ b/include/hw/virtio/virtio-serial.h
-@@ -26,10 +26,8 @@ struct virtio_serial_conf {
- };
- 
- #define TYPE_VIRTIO_SERIAL_PORT "virtio-serial-port"
--typedef struct VirtIOSerialPort VirtIOSerialPort;
--typedef struct VirtIOSerialPortClass VirtIOSerialPortClass;
--DECLARE_OBJ_CHECKERS(VirtIOSerialPort, VirtIOSerialPortClass,
--                     VIRTIO_SERIAL_PORT, TYPE_VIRTIO_SERIAL_PORT)
-+OBJECT_DECLARE_TYPE(VirtIOSerialPort, VirtIOSerialPortClass,
-+                    virtio_serial_port, VIRTIO_SERIAL_PORT)
- 
- typedef struct VirtIOSerial VirtIOSerial;
- 
-diff --git a/include/hw/xen/xen-bus.h b/include/hw/xen/xen-bus.h
-index 35fec7c905..e0e67505b8 100644
---- a/include/hw/xen/xen-bus.h
-+++ b/include/hw/xen/xen-bus.h
-@@ -71,17 +71,15 @@ struct XenBus {
-     XenWatch *backend_watch;
-     QLIST_HEAD(, XenDevice) inactive_devices;
- };
--typedef struct XenBus XenBus;
- 
- struct XenBusClass {
-     /*< private >*/
-     BusClass parent_class;
- };
--typedef struct XenBusClass XenBusClass;
- 
- #define TYPE_XEN_BUS "xen-bus"
--DECLARE_OBJ_CHECKERS(XenBus, XenBusClass,
--                     XEN_BUS, TYPE_XEN_BUS)
-+OBJECT_DECLARE_TYPE(XenBus, XenBusClass,
-+                    xen_bus, XEN_BUS)
- 
- void xen_bus_init(void);
- 
-diff --git a/include/io/channel.h b/include/io/channel.h
-index 3ebdc7954f..245479548a 100644
---- a/include/io/channel.h
-+++ b/include/io/channel.h
-@@ -26,10 +26,8 @@
- #include "block/aio.h"
- 
- #define TYPE_QIO_CHANNEL "qio-channel"
--typedef struct QIOChannel QIOChannel;
--typedef struct QIOChannelClass QIOChannelClass;
--DECLARE_OBJ_CHECKERS(QIOChannel, QIOChannelClass,
--                     QIO_CHANNEL, TYPE_QIO_CHANNEL)
-+OBJECT_DECLARE_TYPE(QIOChannel, QIOChannelClass,
-+                    qio_channel, QIO_CHANNEL)
- 
- 
- #define QIO_CHANNEL_ERR_BLOCK -2
-diff --git a/include/io/dns-resolver.h b/include/io/dns-resolver.h
-index 96a3186b6b..8ae4857e05 100644
---- a/include/io/dns-resolver.h
-+++ b/include/io/dns-resolver.h
-@@ -26,10 +26,8 @@
- #include "io/task.h"
- 
- #define TYPE_QIO_DNS_RESOLVER "qio-dns-resolver"
--typedef struct QIODNSResolver QIODNSResolver;
--typedef struct QIODNSResolverClass QIODNSResolverClass;
--DECLARE_OBJ_CHECKERS(QIODNSResolver, QIODNSResolverClass,
--                     QIO_DNS_RESOLVER, TYPE_QIO_DNS_RESOLVER)
-+OBJECT_DECLARE_TYPE(QIODNSResolver, QIODNSResolverClass,
-+                    qio_dns_resolver, QIO_DNS_RESOLVER)
- 
- 
- /**
-diff --git a/include/io/net-listener.h b/include/io/net-listener.h
-index 93367db291..4f0847ff19 100644
---- a/include/io/net-listener.h
-+++ b/include/io/net-listener.h
-@@ -25,10 +25,8 @@
- #include "qom/object.h"
- 
- #define TYPE_QIO_NET_LISTENER "qio-net-listener"
--typedef struct QIONetListener QIONetListener;
--typedef struct QIONetListenerClass QIONetListenerClass;
--DECLARE_OBJ_CHECKERS(QIONetListener, QIONetListenerClass,
--                     QIO_NET_LISTENER, TYPE_QIO_NET_LISTENER)
-+OBJECT_DECLARE_TYPE(QIONetListener, QIONetListenerClass,
-+                    qio_net_listener, QIO_NET_LISTENER)
- 
- 
- typedef void (*QIONetListenerClientFunc)(QIONetListener *listener,
-diff --git a/include/scsi/pr-manager.h b/include/scsi/pr-manager.h
-index f801fe9533..26bd134531 100644
---- a/include/scsi/pr-manager.h
-+++ b/include/scsi/pr-manager.h
-@@ -9,10 +9,8 @@
- 
- #define TYPE_PR_MANAGER "pr-manager"
- 
--typedef struct PRManager PRManager;
--typedef struct PRManagerClass PRManagerClass;
--DECLARE_OBJ_CHECKERS(PRManager, PRManagerClass,
--                     PR_MANAGER, TYPE_PR_MANAGER)
-+OBJECT_DECLARE_TYPE(PRManager, PRManagerClass,
-+                    pr_manager, PR_MANAGER)
- 
- struct sg_io_hdr;
- 
-diff --git a/include/sysemu/cryptodev.h b/include/sysemu/cryptodev.h
-index 65c017cf81..06726f7014 100644
---- a/include/sysemu/cryptodev.h
-+++ b/include/sysemu/cryptodev.h
-@@ -37,10 +37,8 @@
- 
- #define TYPE_CRYPTODEV_BACKEND "cryptodev-backend"
- 
--typedef struct CryptoDevBackend CryptoDevBackend;
--typedef struct CryptoDevBackendClass CryptoDevBackendClass;
--DECLARE_OBJ_CHECKERS(CryptoDevBackend, CryptoDevBackendClass,
--                     CRYPTODEV_BACKEND, TYPE_CRYPTODEV_BACKEND)
-+OBJECT_DECLARE_TYPE(CryptoDevBackend, CryptoDevBackendClass,
-+                    cryptodev_backend, CRYPTODEV_BACKEND)
- 
- 
- #define MAX_CRYPTO_QUEUE_NUM  64
-diff --git a/include/sysemu/hostmem.h b/include/sysemu/hostmem.h
-index 1e6078f872..e5b7a152d3 100644
---- a/include/sysemu/hostmem.h
-+++ b/include/sysemu/hostmem.h
-@@ -20,10 +20,8 @@
- #include "qemu/bitmap.h"
- 
- #define TYPE_MEMORY_BACKEND "memory-backend"
--typedef struct HostMemoryBackend HostMemoryBackend;
--typedef struct HostMemoryBackendClass HostMemoryBackendClass;
--DECLARE_OBJ_CHECKERS(HostMemoryBackend, HostMemoryBackendClass,
--                     MEMORY_BACKEND, TYPE_MEMORY_BACKEND)
-+OBJECT_DECLARE_TYPE(HostMemoryBackend, HostMemoryBackendClass,
-+                    memory_backend, MEMORY_BACKEND)
- 
- /* hostmem-ram.c */
- /**
-diff --git a/include/sysemu/rng.h b/include/sysemu/rng.h
-index f8fc948109..cee45a4787 100644
---- a/include/sysemu/rng.h
-+++ b/include/sysemu/rng.h
-@@ -17,10 +17,8 @@
- #include "qom/object.h"
- 
- #define TYPE_RNG_BACKEND "rng-backend"
--typedef struct RngBackend RngBackend;
--typedef struct RngBackendClass RngBackendClass;
--DECLARE_OBJ_CHECKERS(RngBackend, RngBackendClass,
--                     RNG_BACKEND, TYPE_RNG_BACKEND)
-+OBJECT_DECLARE_TYPE(RngBackend, RngBackendClass,
-+                    rng_backend, RNG_BACKEND)
- 
- #define TYPE_RNG_BUILTIN "rng-builtin"
- 
-diff --git a/include/sysemu/tpm_backend.h b/include/sysemu/tpm_backend.h
-index e038b79d34..7e8a014031 100644
---- a/include/sysemu/tpm_backend.h
-+++ b/include/sysemu/tpm_backend.h
-@@ -19,10 +19,8 @@
- #include "qapi/error.h"
- 
- #define TYPE_TPM_BACKEND "tpm-backend"
--typedef struct TPMBackend TPMBackend;
--typedef struct TPMBackendClass TPMBackendClass;
--DECLARE_OBJ_CHECKERS(TPMBackend, TPMBackendClass,
--                     TPM_BACKEND, TYPE_TPM_BACKEND)
-+OBJECT_DECLARE_TYPE(TPMBackend, TPMBackendClass,
-+                    tpm_backend, TPM_BACKEND)
- 
- 
- typedef struct TPMBackendCmd {
-diff --git a/include/sysemu/vhost-user-backend.h b/include/sysemu/vhost-user-backend.h
-index e4c85e33c0..76ca06cf40 100644
---- a/include/sysemu/vhost-user-backend.h
-+++ b/include/sysemu/vhost-user-backend.h
-@@ -22,10 +22,8 @@
- #include "io/channel.h"
- 
- #define TYPE_VHOST_USER_BACKEND "vhost-user-backend"
--typedef struct VhostUserBackend VhostUserBackend;
--typedef struct VhostUserBackendClass VhostUserBackendClass;
--DECLARE_OBJ_CHECKERS(VhostUserBackend, VhostUserBackendClass,
--                     VHOST_USER_BACKEND, TYPE_VHOST_USER_BACKEND)
-+OBJECT_DECLARE_TYPE(VhostUserBackend, VhostUserBackendClass,
-+                    vhost_user_backend, VHOST_USER_BACKEND)
- 
- 
- struct VhostUserBackendClass {
-diff --git a/target/alpha/cpu-qom.h b/target/alpha/cpu-qom.h
-index 45350318c9..568fe3fb77 100644
---- a/target/alpha/cpu-qom.h
-+++ b/target/alpha/cpu-qom.h
-@@ -25,10 +25,8 @@
- 
- #define TYPE_ALPHA_CPU "alpha-cpu"
- 
--typedef struct AlphaCPU AlphaCPU;
--typedef struct AlphaCPUClass AlphaCPUClass;
--DECLARE_OBJ_CHECKERS(AlphaCPU, AlphaCPUClass,
--                     ALPHA_CPU, TYPE_ALPHA_CPU)
-+OBJECT_DECLARE_TYPE(AlphaCPU, AlphaCPUClass,
-+                    alpha_cpu, ALPHA_CPU)
- 
- /**
-  * AlphaCPUClass:
-diff --git a/target/arm/cpu-qom.h b/target/arm/cpu-qom.h
-index 92d58f84fe..94bbbd4473 100644
---- a/target/arm/cpu-qom.h
-+++ b/target/arm/cpu-qom.h
-@@ -27,10 +27,8 @@ struct arm_boot_info;
- 
- #define TYPE_ARM_CPU "arm-cpu"
- 
--typedef struct ARMCPU ARMCPU;
--typedef struct ARMCPUClass ARMCPUClass;
--DECLARE_OBJ_CHECKERS(ARMCPU, ARMCPUClass,
--                     ARM_CPU, TYPE_ARM_CPU)
-+OBJECT_DECLARE_TYPE(ARMCPU, ARMCPUClass,
-+                    arm_cpu, ARM_CPU)
- 
- #define TYPE_ARM_MAX_CPU "max-" TYPE_ARM_CPU
- 
-diff --git a/target/avr/cpu-qom.h b/target/avr/cpu-qom.h
-index 1bbfbb2087..49d63faad2 100644
---- a/target/avr/cpu-qom.h
-+++ b/target/avr/cpu-qom.h
-@@ -26,10 +26,8 @@
- 
- #define TYPE_AVR_CPU "avr-cpu"
- 
--typedef struct AVRCPU AVRCPU;
--typedef struct AVRCPUClass AVRCPUClass;
--DECLARE_OBJ_CHECKERS(AVRCPU, AVRCPUClass,
--                     AVR_CPU, TYPE_AVR_CPU)
-+OBJECT_DECLARE_TYPE(AVRCPU, AVRCPUClass,
-+                    avr_cpu, AVR_CPU)
- 
- /**
-  *  AVRCPUClass:
-diff --git a/target/cris/cpu-qom.h b/target/cris/cpu-qom.h
-index eced6ef7c9..2b0328113c 100644
---- a/target/cris/cpu-qom.h
-+++ b/target/cris/cpu-qom.h
-@@ -25,10 +25,8 @@
- 
- #define TYPE_CRIS_CPU "cris-cpu"
- 
--typedef struct CRISCPU CRISCPU;
--typedef struct CRISCPUClass CRISCPUClass;
--DECLARE_OBJ_CHECKERS(CRISCPU, CRISCPUClass,
--                     CRIS_CPU, TYPE_CRIS_CPU)
-+OBJECT_DECLARE_TYPE(CRISCPU, CRISCPUClass,
-+                    cris_cpu, CRIS_CPU)
- 
- /**
-  * CRISCPUClass:
-diff --git a/target/hppa/cpu-qom.h b/target/hppa/cpu-qom.h
-index 5c5aa0c053..58158f374b 100644
---- a/target/hppa/cpu-qom.h
-+++ b/target/hppa/cpu-qom.h
-@@ -25,10 +25,8 @@
- 
- #define TYPE_HPPA_CPU "hppa-cpu"
- 
--typedef struct HPPACPU HPPACPU;
--typedef struct HPPACPUClass HPPACPUClass;
--DECLARE_OBJ_CHECKERS(HPPACPU, HPPACPUClass,
--                     HPPA_CPU, TYPE_HPPA_CPU)
-+OBJECT_DECLARE_TYPE(HPPACPU, HPPACPUClass,
-+                    hppa_cpu, HPPA_CPU)
- 
- /**
-  * HPPACPUClass:
-diff --git a/target/i386/cpu-qom.h b/target/i386/cpu-qom.h
-index 05b52ba74c..0505472e86 100644
---- a/target/i386/cpu-qom.h
-+++ b/target/i386/cpu-qom.h
-@@ -30,10 +30,8 @@
- #define TYPE_X86_CPU "i386-cpu"
- #endif
- 
--typedef struct X86CPU X86CPU;
--typedef struct X86CPUClass X86CPUClass;
--DECLARE_OBJ_CHECKERS(X86CPU, X86CPUClass,
--                     X86_CPU, TYPE_X86_CPU)
-+OBJECT_DECLARE_TYPE(X86CPU, X86CPUClass,
-+                    x86_cpu, X86_CPU)
- 
- typedef struct X86CPUModel X86CPUModel;
- 
-diff --git a/target/lm32/cpu-qom.h b/target/lm32/cpu-qom.h
-index 9bf2f82ffe..e9eb495bf0 100644
---- a/target/lm32/cpu-qom.h
-+++ b/target/lm32/cpu-qom.h
-@@ -25,10 +25,8 @@
- 
- #define TYPE_LM32_CPU "lm32-cpu"
- 
--typedef struct LM32CPU LM32CPU;
--typedef struct LM32CPUClass LM32CPUClass;
--DECLARE_OBJ_CHECKERS(LM32CPU, LM32CPUClass,
--                     LM32_CPU, TYPE_LM32_CPU)
-+OBJECT_DECLARE_TYPE(LM32CPU, LM32CPUClass,
-+                    lm32_cpu, LM32_CPU)
- 
- /**
-  * LM32CPUClass:
-diff --git a/target/m68k/cpu-qom.h b/target/m68k/cpu-qom.h
-index 241a3b19af..a10429cf67 100644
---- a/target/m68k/cpu-qom.h
-+++ b/target/m68k/cpu-qom.h
-@@ -25,10 +25,8 @@
- 
- #define TYPE_M68K_CPU "m68k-cpu"
- 
--typedef struct M68kCPU M68kCPU;
--typedef struct M68kCPUClass M68kCPUClass;
--DECLARE_OBJ_CHECKERS(M68kCPU, M68kCPUClass,
--                     M68K_CPU, TYPE_M68K_CPU)
-+OBJECT_DECLARE_TYPE(M68kCPU, M68kCPUClass,
-+                    m68k_cpu, M68K_CPU)
- 
- /*
-  * M68kCPUClass:
-diff --git a/target/microblaze/cpu-qom.h b/target/microblaze/cpu-qom.h
-index 73c2237f98..82734b9b2b 100644
---- a/target/microblaze/cpu-qom.h
-+++ b/target/microblaze/cpu-qom.h
-@@ -25,10 +25,8 @@
- 
- #define TYPE_MICROBLAZE_CPU "microblaze-cpu"
- 
--typedef struct MicroBlazeCPU MicroBlazeCPU;
--typedef struct MicroBlazeCPUClass MicroBlazeCPUClass;
--DECLARE_OBJ_CHECKERS(MicroBlazeCPU, MicroBlazeCPUClass,
--                     MICROBLAZE_CPU, TYPE_MICROBLAZE_CPU)
-+OBJECT_DECLARE_TYPE(MicroBlazeCPU, MicroBlazeCPUClass,
-+                    microblaze_cpu, MICROBLAZE_CPU)
- 
- /**
-  * MicroBlazeCPUClass:
-diff --git a/target/mips/cpu-qom.h b/target/mips/cpu-qom.h
-index 82f45a828c..93fbbdca1b 100644
---- a/target/mips/cpu-qom.h
-+++ b/target/mips/cpu-qom.h
-@@ -29,10 +29,8 @@
- #define TYPE_MIPS_CPU "mips-cpu"
- #endif
- 
--typedef struct MIPSCPU MIPSCPU;
--typedef struct MIPSCPUClass MIPSCPUClass;
--DECLARE_OBJ_CHECKERS(MIPSCPU, MIPSCPUClass,
--                     MIPS_CPU, TYPE_MIPS_CPU)
-+OBJECT_DECLARE_TYPE(MIPSCPU, MIPSCPUClass,
-+                    mips_cpu, MIPS_CPU)
- 
- /**
-  * MIPSCPUClass:
-diff --git a/target/moxie/cpu.h b/target/moxie/cpu.h
-index a9832a2d85..d58761ccb1 100644
---- a/target/moxie/cpu.h
-+++ b/target/moxie/cpu.h
-@@ -51,10 +51,8 @@ typedef struct CPUMoxieState {
- 
- #define TYPE_MOXIE_CPU "moxie-cpu"
- 
--typedef struct MoxieCPU MoxieCPU;
--typedef struct MoxieCPUClass MoxieCPUClass;
--DECLARE_OBJ_CHECKERS(MoxieCPU, MoxieCPUClass,
--                     MOXIE_CPU, TYPE_MOXIE_CPU)
-+OBJECT_DECLARE_TYPE(MoxieCPU, MoxieCPUClass,
-+                    moxie_cpu, MOXIE_CPU)
- 
- /**
-  * MoxieCPUClass:
-diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
-index 0b91a3634b..1fa0fdaa35 100644
---- a/target/nios2/cpu.h
-+++ b/target/nios2/cpu.h
-@@ -32,10 +32,8 @@ typedef struct CPUNios2State CPUNios2State;
- 
- #define TYPE_NIOS2_CPU "nios2-cpu"
- 
--typedef struct Nios2CPU Nios2CPU;
--typedef struct Nios2CPUClass Nios2CPUClass;
--DECLARE_OBJ_CHECKERS(Nios2CPU, Nios2CPUClass,
--                     NIOS2_CPU, TYPE_NIOS2_CPU)
-+OBJECT_DECLARE_TYPE(Nios2CPU, Nios2CPUClass,
-+                    nios2_cpu, NIOS2_CPU)
- 
- /**
-  * Nios2CPUClass:
-diff --git a/target/openrisc/cpu.h b/target/openrisc/cpu.h
-index 5e6d8a40d6..d0a8ee657a 100644
---- a/target/openrisc/cpu.h
-+++ b/target/openrisc/cpu.h
-@@ -29,10 +29,8 @@ struct OpenRISCCPU;
- 
- #define TYPE_OPENRISC_CPU "or1k-cpu"
- 
--typedef struct OpenRISCCPU OpenRISCCPU;
--typedef struct OpenRISCCPUClass OpenRISCCPUClass;
--DECLARE_OBJ_CHECKERS(OpenRISCCPU, OpenRISCCPUClass,
--                     OPENRISC_CPU, TYPE_OPENRISC_CPU)
-+OBJECT_DECLARE_TYPE(OpenRISCCPU, OpenRISCCPUClass,
-+                    openrisc_cpu, OPENRISC_CPU)
- 
- /**
-  * OpenRISCCPUClass:
-diff --git a/target/ppc/cpu-qom.h b/target/ppc/cpu-qom.h
-index f7e600c7b3..5cf806a3a6 100644
---- a/target/ppc/cpu-qom.h
-+++ b/target/ppc/cpu-qom.h
-@@ -29,10 +29,8 @@
- #define TYPE_POWERPC_CPU "powerpc-cpu"
- #endif
- 
--typedef struct PowerPCCPU PowerPCCPU;
--typedef struct PowerPCCPUClass PowerPCCPUClass;
--DECLARE_OBJ_CHECKERS(PowerPCCPU, PowerPCCPUClass,
--                     POWERPC_CPU, TYPE_POWERPC_CPU)
-+OBJECT_DECLARE_TYPE(PowerPCCPU, PowerPCCPUClass,
-+                    powerpc_cpu, POWERPC_CPU)
- 
- typedef struct CPUPPCState CPUPPCState;
- typedef struct ppc_tb_t ppc_tb_t;
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 04ccb78738..ca75fc761e 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -232,10 +232,8 @@ struct CPURISCVState {
-     QEMUTimer *timer; /* Internal timer */
- };
- 
--typedef struct RISCVCPU RISCVCPU;
--typedef struct RISCVCPUClass RISCVCPUClass;
--DECLARE_OBJ_CHECKERS(RISCVCPU, RISCVCPUClass,
--                     RISCV_CPU, TYPE_RISCV_CPU)
-+OBJECT_DECLARE_TYPE(RISCVCPU, RISCVCPUClass,
-+                    riscv_cpu, RISCV_CPU)
- 
- /**
-  * RISCVCPUClass:
-diff --git a/target/rx/cpu-qom.h b/target/rx/cpu-qom.h
-index 05f5773ab1..6c5321078d 100644
---- a/target/rx/cpu-qom.h
-+++ b/target/rx/cpu-qom.h
-@@ -26,10 +26,8 @@
- 
- #define TYPE_RX62N_CPU RX_CPU_TYPE_NAME("rx62n")
- 
--typedef struct RXCPU RXCPU;
--typedef struct RXCPUClass RXCPUClass;
--DECLARE_OBJ_CHECKERS(RXCPU, RXCPUClass,
--                     RX_CPU, TYPE_RX_CPU)
-+OBJECT_DECLARE_TYPE(RXCPU, RXCPUClass,
-+                    rx_cpu, RX_CPU)
- 
- /*
-  * RXCPUClass:
-diff --git a/target/s390x/cpu-qom.h b/target/s390x/cpu-qom.h
-index 5f0dccdac1..e2b2513711 100644
---- a/target/s390x/cpu-qom.h
-+++ b/target/s390x/cpu-qom.h
-@@ -25,10 +25,8 @@
- 
- #define TYPE_S390_CPU "s390x-cpu"
- 
--typedef struct S390CPU S390CPU;
--typedef struct S390CPUClass S390CPUClass;
--DECLARE_OBJ_CHECKERS(S390CPU, S390CPUClass,
--                     S390_CPU, TYPE_S390_CPU)
-+OBJECT_DECLARE_TYPE(S390CPU, S390CPUClass,
-+                    s390_cpu, S390_CPU)
- 
- typedef struct S390CPUModel S390CPUModel;
- typedef struct S390CPUDef S390CPUDef;
-diff --git a/target/sh4/cpu-qom.h b/target/sh4/cpu-qom.h
-index b04b2bb4bf..595814b8cb 100644
---- a/target/sh4/cpu-qom.h
-+++ b/target/sh4/cpu-qom.h
-@@ -29,10 +29,8 @@
- #define TYPE_SH7751R_CPU SUPERH_CPU_TYPE_NAME("sh7751r")
- #define TYPE_SH7785_CPU  SUPERH_CPU_TYPE_NAME("sh7785")
- 
--typedef struct SuperHCPU SuperHCPU;
--typedef struct SuperHCPUClass SuperHCPUClass;
--DECLARE_OBJ_CHECKERS(SuperHCPU, SuperHCPUClass,
--                     SUPERH_CPU, TYPE_SUPERH_CPU)
-+OBJECT_DECLARE_TYPE(SuperHCPU, SuperHCPUClass,
-+                    superh_cpu, SUPERH_CPU)
- 
- /**
-  * SuperHCPUClass:
-diff --git a/target/sparc/cpu-qom.h b/target/sparc/cpu-qom.h
-index 42cb631d45..5d7fb727bc 100644
---- a/target/sparc/cpu-qom.h
-+++ b/target/sparc/cpu-qom.h
-@@ -29,10 +29,8 @@
- #define TYPE_SPARC_CPU "sparc-cpu"
- #endif
- 
--typedef struct SPARCCPU SPARCCPU;
--typedef struct SPARCCPUClass SPARCCPUClass;
--DECLARE_OBJ_CHECKERS(SPARCCPU, SPARCCPUClass,
--                     SPARC_CPU, TYPE_SPARC_CPU)
-+OBJECT_DECLARE_TYPE(SPARCCPU, SPARCCPUClass,
-+                    sparc_cpu, SPARC_CPU)
- 
- typedef struct sparc_def_t sparc_def_t;
- /**
-diff --git a/target/tilegx/cpu.h b/target/tilegx/cpu.h
-index d4cf70dc15..d251ff80b8 100644
---- a/target/tilegx/cpu.h
-+++ b/target/tilegx/cpu.h
-@@ -99,10 +99,8 @@ typedef struct CPUTLGState {
- 
- #define TYPE_TILEGX_CPU "tilegx-cpu"
- 
--typedef struct TileGXCPU TileGXCPU;
--typedef struct TileGXCPUClass TileGXCPUClass;
--DECLARE_OBJ_CHECKERS(TileGXCPU, TileGXCPUClass,
--                     TILEGX_CPU, TYPE_TILEGX_CPU)
-+OBJECT_DECLARE_TYPE(TileGXCPU, TileGXCPUClass,
-+                    tilegx_cpu, TILEGX_CPU)
- 
- /**
-  * TileGXCPUClass:
-diff --git a/target/tricore/cpu-qom.h b/target/tricore/cpu-qom.h
-index 1988c26093..9e588c4c34 100644
---- a/target/tricore/cpu-qom.h
-+++ b/target/tricore/cpu-qom.h
-@@ -24,10 +24,8 @@
- 
- #define TYPE_TRICORE_CPU "tricore-cpu"
- 
--typedef struct TriCoreCPU TriCoreCPU;
--typedef struct TriCoreCPUClass TriCoreCPUClass;
--DECLARE_OBJ_CHECKERS(TriCoreCPU, TriCoreCPUClass,
--                     TRICORE_CPU, TYPE_TRICORE_CPU)
-+OBJECT_DECLARE_TYPE(TriCoreCPU, TriCoreCPUClass,
-+                    tricore_cpu, TRICORE_CPU)
- 
- struct TriCoreCPUClass {
-     /*< private >*/
-diff --git a/target/unicore32/cpu-qom.h b/target/unicore32/cpu-qom.h
-index 5b67ac532d..c914273058 100644
---- a/target/unicore32/cpu-qom.h
-+++ b/target/unicore32/cpu-qom.h
-@@ -16,10 +16,8 @@
- 
- #define TYPE_UNICORE32_CPU "unicore32-cpu"
- 
--typedef struct UniCore32CPU UniCore32CPU;
--typedef struct UniCore32CPUClass UniCore32CPUClass;
--DECLARE_OBJ_CHECKERS(UniCore32CPU, UniCore32CPUClass,
--                     UNICORE32_CPU, TYPE_UNICORE32_CPU)
-+OBJECT_DECLARE_TYPE(UniCore32CPU, UniCore32CPUClass,
-+                    unicore32_cpu, UNICORE32_CPU)
- 
- /**
-  * UniCore32CPUClass:
-diff --git a/target/xtensa/cpu-qom.h b/target/xtensa/cpu-qom.h
-index ef13262b42..299ce3e63c 100644
---- a/target/xtensa/cpu-qom.h
-+++ b/target/xtensa/cpu-qom.h
-@@ -34,10 +34,8 @@
- 
- #define TYPE_XTENSA_CPU "xtensa-cpu"
- 
--typedef struct XtensaCPU XtensaCPU;
--typedef struct XtensaCPUClass XtensaCPUClass;
--DECLARE_OBJ_CHECKERS(XtensaCPU, XtensaCPUClass,
--                     XTENSA_CPU, TYPE_XTENSA_CPU)
-+OBJECT_DECLARE_TYPE(XtensaCPU, XtensaCPUClass,
-+                    xtensa_cpu, XTENSA_CPU)
- 
- typedef struct XtensaConfig XtensaConfig;
- 
-diff --git a/backends/dbus-vmstate.c b/backends/dbus-vmstate.c
-index bfbd4f09f1..0ca9d52ae5 100644
---- a/backends/dbus-vmstate.c
-+++ b/backends/dbus-vmstate.c
-@@ -21,12 +21,10 @@
- #include "trace.h"
- #include "qom/object.h"
- 
--typedef struct DBusVMState DBusVMState;
--typedef struct DBusVMStateClass DBusVMStateClass;
- 
- #define TYPE_DBUS_VMSTATE "dbus-vmstate"
--DECLARE_OBJ_CHECKERS(DBusVMState, DBusVMStateClass,
--                     DBUS_VMSTATE, TYPE_DBUS_VMSTATE)
-+OBJECT_DECLARE_TYPE(DBusVMState, DBusVMStateClass,
-+                    dbus_vmstate, DBUS_VMSTATE)
- 
- struct DBusVMStateClass {
+ typedef struct FDChardev FDChardev;
+ 
+-#define TYPE_CHARDEV_FD "chardev-fd"
++#define TYPE_FD_CHARDEV "chardev-fd"
+ 
+ DECLARE_INSTANCE_CHECKER(FDChardev, FD_CHARDEV,
+-                         TYPE_CHARDEV_FD)
++                         TYPE_FD_CHARDEV)
+ 
+ void qemu_chr_open_fd(Chardev *chr, int fd_in, int fd_out);
+ int qmp_chardev_open_file_source(char *src, int flags, Error **errp);
+diff --git a/include/chardev/char-win-stdio.h b/include/chardev/char-win-stdio.h
+index d7314f734d..139dfbe92f 100644
+--- a/include/chardev/char-win-stdio.h
++++ b/include/chardev/char-win-stdio.h
+@@ -24,6 +24,6 @@
+ #ifndef CHAR_WIN_STDIO_H
+ #define CHAR_WIN_STDIO_H
+ 
+-#define TYPE_CHARDEV_WIN_STDIO "chardev-win-stdio"
++#define TYPE_WIN_STDIO_CHARDEV "chardev-win-stdio"
+ 
+ #endif /* CHAR_WIN_STDIO_H */
+diff --git a/include/chardev/char-win.h b/include/chardev/char-win.h
+index 485521469c..a1745ba267 100644
+--- a/include/chardev/char-win.h
++++ b/include/chardev/char-win.h
+@@ -43,9 +43,9 @@ typedef struct WinChardev WinChardev;
+ #define NSENDBUF 2048
+ #define NRECVBUF 2048
+ 
+-#define TYPE_CHARDEV_WIN "chardev-win"
++#define TYPE_WIN_CHARDEV "chardev-win"
+ DECLARE_INSTANCE_CHECKER(WinChardev, WIN_CHARDEV,
+-                         TYPE_CHARDEV_WIN)
++                         TYPE_WIN_CHARDEV)
+ 
+ void win_chr_set_file(Chardev *chr, HANDLE file, bool keep_open);
+ int win_chr_serial_init(Chardev *chr, const char *filename, Error **errp);
+diff --git a/include/chardev/char.h b/include/chardev/char.h
+index 5874de57ea..0f358a4eee 100644
+--- a/include/chardev/char.h
++++ b/include/chardev/char.h
+@@ -230,24 +230,24 @@ typedef struct ChardevClass ChardevClass;
+ DECLARE_OBJ_CHECKERS(Chardev, ChardevClass,
+                      CHARDEV, TYPE_CHARDEV)
+ 
+-#define TYPE_CHARDEV_NULL "chardev-null"
+-#define TYPE_CHARDEV_MUX "chardev-mux"
+-#define TYPE_CHARDEV_RINGBUF "chardev-ringbuf"
+-#define TYPE_CHARDEV_PTY "chardev-pty"
+-#define TYPE_CHARDEV_CONSOLE "chardev-console"
+-#define TYPE_CHARDEV_STDIO "chardev-stdio"
+-#define TYPE_CHARDEV_PIPE "chardev-pipe"
+-#define TYPE_CHARDEV_MEMORY "chardev-memory"
+-#define TYPE_CHARDEV_PARALLEL "chardev-parallel"
+-#define TYPE_CHARDEV_FILE "chardev-file"
+-#define TYPE_CHARDEV_SERIAL "chardev-serial"
+-#define TYPE_CHARDEV_SOCKET "chardev-socket"
+-#define TYPE_CHARDEV_UDP "chardev-udp"
++#define TYPE_NULL_CHARDEV "chardev-null"
++#define TYPE_MUX_CHARDEV "chardev-mux"
++#define TYPE_RINGBUF_CHARDEV "chardev-ringbuf"
++#define TYPE_PTY_CHARDEV "chardev-pty"
++#define TYPE_CONSOLE_CHARDEV "chardev-console"
++#define TYPE_STDIO_CHARDEV "chardev-stdio"
++#define TYPE_PIPE_CHARDEV "chardev-pipe"
++#define TYPE_MEMORY_CHARDEV "chardev-memory"
++#define TYPE_PARALLEL_CHARDEV "chardev-parallel"
++#define TYPE_FILE_CHARDEV "chardev-file"
++#define TYPE_SERIAL_CHARDEV "chardev-serial"
++#define TYPE_SOCKET_CHARDEV "chardev-socket"
++#define TYPE_UDP_CHARDEV "chardev-udp"
+ 
+ #define CHARDEV_IS_RINGBUF(chr) \
+-    object_dynamic_cast(OBJECT(chr), TYPE_CHARDEV_RINGBUF)
++    object_dynamic_cast(OBJECT(chr), TYPE_RINGBUF_CHARDEV)
+ #define CHARDEV_IS_PTY(chr) \
+-    object_dynamic_cast(OBJECT(chr), TYPE_CHARDEV_PTY)
++    object_dynamic_cast(OBJECT(chr), TYPE_PTY_CHARDEV)
+ 
+ struct ChardevClass {
      ObjectClass parent_class;
-diff --git a/ui/input-barrier.c b/ui/input-barrier.c
-index 67d52afbea..c7a8dc19a7 100644
---- a/ui/input-barrier.c
-+++ b/ui/input-barrier.c
-@@ -20,10 +20,8 @@
- #include "input-barrier.h"
+diff --git a/include/chardev/spice.h b/include/chardev/spice.h
+index 99f26aedde..302573b582 100644
+--- a/include/chardev/spice.h
++++ b/include/chardev/spice.h
+@@ -17,12 +17,12 @@ struct SpiceChardev {
+ };
+ typedef struct SpiceChardev SpiceChardev;
  
- #define TYPE_INPUT_BARRIER "input-barrier"
--typedef struct InputBarrier InputBarrier;
--typedef struct InputBarrierClass InputBarrierClass;
--DECLARE_OBJ_CHECKERS(InputBarrier, InputBarrierClass,
--                     INPUT_BARRIER, TYPE_INPUT_BARRIER)
-+OBJECT_DECLARE_TYPE(InputBarrier, InputBarrierClass,
-+                    input_barrier, INPUT_BARRIER)
+-#define TYPE_CHARDEV_SPICE "chardev-spice"
+-#define TYPE_CHARDEV_SPICEVMC "chardev-spicevmc"
+-#define TYPE_CHARDEV_SPICEPORT "chardev-spiceport"
++#define TYPE_SPICE_CHARDEV "chardev-spice"
++#define TYPE_SPICEVMC_CHARDEV "chardev-spicevmc"
++#define TYPE_SPICEPORT_CHARDEV "chardev-spiceport"
  
+ DECLARE_INSTANCE_CHECKER(SpiceChardev, SPICE_CHARDEV,
+-                         TYPE_CHARDEV_SPICE)
++                         TYPE_SPICE_CHARDEV)
  
- #define MAX_HELLO_LENGTH 1024
-diff --git a/ui/input-linux.c b/ui/input-linux.c
-index bfdbd38c86..a95269cc25 100644
---- a/ui/input-linux.c
-+++ b/ui/input-linux.c
-@@ -31,10 +31,8 @@ static bool linux_is_button(unsigned int lnx)
+ void qemu_chr_open_spice_port(Chardev *chr, ChardevBackend *backend,
+                               bool *be_opened, Error **errp);
+diff --git a/chardev/baum.c b/chardev/baum.c
+index 5deca778bc..d6c9f698c1 100644
+--- a/chardev/baum.c
++++ b/chardev/baum.c
+@@ -104,9 +104,9 @@ struct BaumChardev {
+ };
+ typedef struct BaumChardev BaumChardev;
+ 
+-#define TYPE_CHARDEV_BRAILLE "chardev-braille"
++#define TYPE_BRAILLE_CHARDEV "chardev-braille"
+ DECLARE_INSTANCE_CHECKER(BaumChardev, BAUM_CHARDEV,
+-                         TYPE_CHARDEV_BRAILLE)
++                         TYPE_BRAILLE_CHARDEV)
+ 
+ /* Let's assume NABCC by default */
+ enum way {
+@@ -674,7 +674,7 @@ static void char_braille_class_init(ObjectClass *oc, void *data)
  }
  
- #define TYPE_INPUT_LINUX "input-linux"
--typedef struct InputLinux InputLinux;
--typedef struct InputLinuxClass InputLinuxClass;
--DECLARE_OBJ_CHECKERS(InputLinux, InputLinuxClass,
--                     INPUT_LINUX, TYPE_INPUT_LINUX)
-+OBJECT_DECLARE_TYPE(InputLinux, InputLinuxClass,
-+                    input_linux, INPUT_LINUX)
+ static const TypeInfo char_braille_type_info = {
+-    .name = TYPE_CHARDEV_BRAILLE,
++    .name = TYPE_BRAILLE_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .instance_size = sizeof(BaumChardev),
+     .instance_finalize = char_braille_finalize,
+diff --git a/chardev/char-console.c b/chardev/char-console.c
+index 6c4ce5dbce..5d175389fd 100644
+--- a/chardev/char-console.c
++++ b/chardev/char-console.c
+@@ -42,8 +42,8 @@ static void char_console_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_console_type_info = {
+-    .name = TYPE_CHARDEV_CONSOLE,
+-    .parent = TYPE_CHARDEV_WIN,
++    .name = TYPE_CONSOLE_CHARDEV,
++    .parent = TYPE_WIN_CHARDEV,
+     .class_init = char_console_class_init,
+ };
+ 
+diff --git a/chardev/char-fd.c b/chardev/char-fd.c
+index c2d8101106..031fe2a2d6 100644
+--- a/chardev/char-fd.c
++++ b/chardev/char-fd.c
+@@ -154,7 +154,7 @@ static void char_fd_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_fd_type_info = {
+-    .name = TYPE_CHARDEV_FD,
++    .name = TYPE_FD_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .instance_size = sizeof(FDChardev),
+     .instance_finalize = char_fd_finalize,
+diff --git a/chardev/char-file.c b/chardev/char-file.c
+index 2fd80707e5..fc53bdb4aa 100644
+--- a/chardev/char-file.c
++++ b/chardev/char-file.c
+@@ -124,11 +124,11 @@ static void char_file_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_file_type_info = {
+-    .name = TYPE_CHARDEV_FILE,
++    .name = TYPE_FILE_CHARDEV,
+ #ifdef _WIN32
+-    .parent = TYPE_CHARDEV_WIN,
++    .parent = TYPE_WIN_CHARDEV,
+ #else
+-    .parent = TYPE_CHARDEV_FD,
++    .parent = TYPE_FD_CHARDEV,
+ #endif
+     .class_init = char_file_class_init,
+ };
+diff --git a/chardev/char-mux.c b/chardev/char-mux.c
+index 6f980bb836..8930b4d5e8 100644
+--- a/chardev/char-mux.c
++++ b/chardev/char-mux.c
+@@ -388,7 +388,7 @@ static void char_mux_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_mux_type_info = {
+-    .name = TYPE_CHARDEV_MUX,
++    .name = TYPE_MUX_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .class_init = char_mux_class_init,
+     .instance_size = sizeof(MuxChardev),
+diff --git a/chardev/char-null.c b/chardev/char-null.c
+index 1c6a2900f9..fcddd33452 100644
+--- a/chardev/char-null.c
++++ b/chardev/char-null.c
+@@ -42,7 +42,7 @@ static void char_null_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_null_type_info = {
+-    .name = TYPE_CHARDEV_NULL,
++    .name = TYPE_NULL_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .instance_size = sizeof(Chardev),
+     .class_init = char_null_class_init,
+diff --git a/chardev/char-parallel.c b/chardev/char-parallel.c
+index 66e4589b2b..289c1b002c 100644
+--- a/chardev/char-parallel.c
++++ b/chardev/char-parallel.c
+@@ -58,7 +58,7 @@ struct ParallelChardev {
+ typedef struct ParallelChardev ParallelChardev;
+ 
+ DECLARE_INSTANCE_CHECKER(ParallelChardev, PARALLEL_CHARDEV,
+-                         TYPE_CHARDEV_PARALLEL)
++                         TYPE_PARALLEL_CHARDEV)
+ 
+ static int pp_hw_mode(ParallelChardev *s, uint16_t mode)
+ {
+@@ -303,7 +303,7 @@ static void char_parallel_finalize(Object *obj)
+ }
+ 
+ static const TypeInfo char_parallel_type_info = {
+-    .name = TYPE_CHARDEV_PARALLEL,
++    .name = TYPE_PARALLEL_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .instance_size = sizeof(ParallelChardev),
+     .instance_finalize = char_parallel_finalize,
+diff --git a/chardev/char-pipe.c b/chardev/char-pipe.c
+index fd12c9e63b..7458433256 100644
+--- a/chardev/char-pipe.c
++++ b/chardev/char-pipe.c
+@@ -179,11 +179,11 @@ static void char_pipe_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_pipe_type_info = {
+-    .name = TYPE_CHARDEV_PIPE,
++    .name = TYPE_PIPE_CHARDEV,
+ #ifdef _WIN32
+-    .parent = TYPE_CHARDEV_WIN,
++    .parent = TYPE_WIN_CHARDEV,
+ #else
+-    .parent = TYPE_CHARDEV_FD,
++    .parent = TYPE_FD_CHARDEV,
+ #endif
+     .class_init = char_pipe_class_init,
+ };
+diff --git a/chardev/char-pty.c b/chardev/char-pty.c
+index a2d1e7c985..9cf77596d2 100644
+--- a/chardev/char-pty.c
++++ b/chardev/char-pty.c
+@@ -46,7 +46,7 @@ struct PtyChardev {
+ typedef struct PtyChardev PtyChardev;
+ 
+ DECLARE_INSTANCE_CHECKER(PtyChardev, PTY_CHARDEV,
+-                         TYPE_CHARDEV_PTY)
++                         TYPE_PTY_CHARDEV)
+ 
+ static void pty_chr_state(Chardev *chr, int connected);
+ 
+@@ -240,7 +240,7 @@ static void char_pty_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_pty_type_info = {
+-    .name = TYPE_CHARDEV_PTY,
++    .name = TYPE_PTY_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .instance_size = sizeof(PtyChardev),
+     .instance_finalize = char_pty_finalize,
+diff --git a/chardev/char-ringbuf.c b/chardev/char-ringbuf.c
+index d40d21d3cf..edeb7daeae 100644
+--- a/chardev/char-ringbuf.c
++++ b/chardev/char-ringbuf.c
+@@ -43,7 +43,7 @@ struct RingBufChardev {
+ typedef struct RingBufChardev RingBufChardev;
+ 
+ DECLARE_INSTANCE_CHECKER(RingBufChardev, RINGBUF_CHARDEV,
+-                         TYPE_CHARDEV_RINGBUF)
++                         TYPE_RINGBUF_CHARDEV)
+ 
+ static size_t ringbuf_count(const Chardev *chr)
+ {
+@@ -233,7 +233,7 @@ static void char_ringbuf_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_ringbuf_type_info = {
+-    .name = TYPE_CHARDEV_RINGBUF,
++    .name = TYPE_RINGBUF_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .class_init = char_ringbuf_class_init,
+     .instance_size = sizeof(RingBufChardev),
+@@ -242,8 +242,8 @@ static const TypeInfo char_ringbuf_type_info = {
+ 
+ /* Bug-compatibility: */
+ static const TypeInfo char_memory_type_info = {
+-    .name = TYPE_CHARDEV_MEMORY,
+-    .parent = TYPE_CHARDEV_RINGBUF,
++    .name = TYPE_MEMORY_CHARDEV,
++    .parent = TYPE_RINGBUF_CHARDEV,
+ };
+ 
+ static void register_types(void)
+diff --git a/chardev/char-serial.c b/chardev/char-serial.c
+index 7c3d84ae24..381107bd89 100644
+--- a/chardev/char-serial.c
++++ b/chardev/char-serial.c
+@@ -308,11 +308,11 @@ static void char_serial_class_init(ObjectClass *oc, void *data)
  
  
- struct InputLinux {
+ static const TypeInfo char_serial_type_info = {
+-    .name = TYPE_CHARDEV_SERIAL,
++    .name = TYPE_SERIAL_CHARDEV,
+ #ifdef _WIN32
+-    .parent = TYPE_CHARDEV_WIN,
++    .parent = TYPE_WIN_CHARDEV,
+ #else
+-    .parent = TYPE_CHARDEV_FD,
++    .parent = TYPE_FD_CHARDEV,
+ #endif
+     .class_init = char_serial_class_init,
+ };
+diff --git a/chardev/char-socket.c b/chardev/char-socket.c
+index 95e45812d5..bb5ddc586c 100644
+--- a/chardev/char-socket.c
++++ b/chardev/char-socket.c
+@@ -89,7 +89,7 @@ struct SocketChardev {
+ typedef struct SocketChardev SocketChardev;
+ 
+ DECLARE_INSTANCE_CHECKER(SocketChardev, SOCKET_CHARDEV,
+-                         TYPE_CHARDEV_SOCKET)
++                         TYPE_SOCKET_CHARDEV)
+ 
+ static gboolean socket_reconnect_timeout(gpointer opaque);
+ static void tcp_chr_telnet_init(Chardev *chr);
+@@ -1506,7 +1506,7 @@ static void char_socket_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_socket_type_info = {
+-    .name = TYPE_CHARDEV_SOCKET,
++    .name = TYPE_SOCKET_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .instance_size = sizeof(SocketChardev),
+     .instance_finalize = char_socket_finalize,
+diff --git a/chardev/char-stdio.c b/chardev/char-stdio.c
+index 82eaebc1db..fb28eaeb87 100644
+--- a/chardev/char-stdio.c
++++ b/chardev/char-stdio.c
+@@ -150,11 +150,11 @@ static void char_stdio_finalize(Object *obj)
+ }
+ 
+ static const TypeInfo char_stdio_type_info = {
+-    .name = TYPE_CHARDEV_STDIO,
++    .name = TYPE_STDIO_CHARDEV,
+ #ifdef _WIN32
+-    .parent = TYPE_CHARDEV_WIN_STDIO,
++    .parent = TYPE_WIN_STDIO_CHARDEV,
+ #else
+-    .parent = TYPE_CHARDEV_FD,
++    .parent = TYPE_FD_CHARDEV,
+ #endif
+     .instance_finalize = char_stdio_finalize,
+     .class_init = char_stdio_class_init,
+diff --git a/chardev/char-udp.c b/chardev/char-udp.c
+index 16b5dbce58..6d7b9d2805 100644
+--- a/chardev/char-udp.c
++++ b/chardev/char-udp.c
+@@ -46,7 +46,7 @@ struct UdpChardev {
+ typedef struct UdpChardev UdpChardev;
+ 
+ DECLARE_INSTANCE_CHECKER(UdpChardev, UDP_CHARDEV,
+-                         TYPE_CHARDEV_UDP)
++                         TYPE_UDP_CHARDEV)
+ 
+ /* Called with chr_write_lock held.  */
+ static int udp_chr_write(Chardev *chr, const uint8_t *buf, int len)
+@@ -231,7 +231,7 @@ static void char_udp_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_udp_type_info = {
+-    .name = TYPE_CHARDEV_UDP,
++    .name = TYPE_UDP_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .instance_size = sizeof(UdpChardev),
+     .instance_finalize = char_udp_finalize,
+diff --git a/chardev/char-win-stdio.c b/chardev/char-win-stdio.c
+index a4771ab82e..f333b8cedc 100644
+--- a/chardev/char-win-stdio.c
++++ b/chardev/char-win-stdio.c
+@@ -41,7 +41,7 @@ struct WinStdioChardev {
+ typedef struct WinStdioChardev WinStdioChardev;
+ 
+ DECLARE_INSTANCE_CHECKER(WinStdioChardev, WIN_STDIO_CHARDEV,
+-                         TYPE_CHARDEV_WIN_STDIO)
++                         TYPE_WIN_STDIO_CHARDEV)
+ 
+ static void win_stdio_wait_func(void *opaque)
+ {
+@@ -255,7 +255,7 @@ static void char_win_stdio_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_win_stdio_type_info = {
+-    .name = TYPE_CHARDEV_WIN_STDIO,
++    .name = TYPE_WIN_STDIO_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .instance_size = sizeof(WinStdioChardev),
+     .instance_finalize = char_win_stdio_finalize,
+diff --git a/chardev/char-win.c b/chardev/char-win.c
+index d4fb44c4dc..69dcf48873 100644
+--- a/chardev/char-win.c
++++ b/chardev/char-win.c
+@@ -228,7 +228,7 @@ static void char_win_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_win_type_info = {
+-    .name = TYPE_CHARDEV_WIN,
++    .name = TYPE_WIN_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .instance_size = sizeof(WinChardev),
+     .instance_finalize = char_win_finalize,
+diff --git a/chardev/char.c b/chardev/char.c
+index 77e7ec814f..afebdc345e 100644
+--- a/chardev/char.c
++++ b/chardev/char.c
+@@ -674,7 +674,7 @@ Chardev *qemu_chr_new_from_opts(QemuOpts *opts, GMainContext *context,
+         backend->type = CHARDEV_BACKEND_KIND_MUX;
+         backend->u.mux.data = g_new0(ChardevMux, 1);
+         backend->u.mux.data->chardev = g_strdup(bid);
+-        mux = qemu_chardev_new(id, TYPE_CHARDEV_MUX, backend, context, errp);
++        mux = qemu_chardev_new(id, TYPE_MUX_CHARDEV, backend, context, errp);
+         if (mux == NULL) {
+             object_unparent(OBJECT(chr));
+             chr = NULL;
+diff --git a/chardev/msmouse.c b/chardev/msmouse.c
+index eb9231dcdb..4033ca714d 100644
+--- a/chardev/msmouse.c
++++ b/chardev/msmouse.c
+@@ -44,9 +44,9 @@ struct MouseChardev {
+ };
+ typedef struct MouseChardev MouseChardev;
+ 
+-#define TYPE_CHARDEV_MSMOUSE "chardev-msmouse"
++#define TYPE_MSMOUSE_CHARDEV "chardev-msmouse"
+ DECLARE_INSTANCE_CHECKER(MouseChardev, MOUSE_CHARDEV,
+-                         TYPE_CHARDEV_MSMOUSE)
++                         TYPE_MSMOUSE_CHARDEV)
+ 
+ static void msmouse_chr_accept_input(Chardev *chr)
+ {
+@@ -178,7 +178,7 @@ static void char_msmouse_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_msmouse_type_info = {
+-    .name = TYPE_CHARDEV_MSMOUSE,
++    .name = TYPE_MSMOUSE_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .instance_size = sizeof(MouseChardev),
+     .instance_finalize = char_msmouse_finalize,
+diff --git a/chardev/spice.c b/chardev/spice.c
+index bf7ea1e294..7423001b71 100644
+--- a/chardev/spice.c
++++ b/chardev/spice.c
+@@ -376,7 +376,7 @@ static void char_spice_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_spice_type_info = {
+-    .name = TYPE_CHARDEV_SPICE,
++    .name = TYPE_SPICE_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .instance_size = sizeof(SpiceChardev),
+     .instance_finalize = char_spice_finalize,
+@@ -394,8 +394,8 @@ static void char_spicevmc_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_spicevmc_type_info = {
+-    .name = TYPE_CHARDEV_SPICEVMC,
+-    .parent = TYPE_CHARDEV_SPICE,
++    .name = TYPE_SPICEVMC_CHARDEV,
++    .parent = TYPE_SPICE_CHARDEV,
+     .class_init = char_spicevmc_class_init,
+ };
+ 
+@@ -409,8 +409,8 @@ static void char_spiceport_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_spiceport_type_info = {
+-    .name = TYPE_CHARDEV_SPICEPORT,
+-    .parent = TYPE_CHARDEV_SPICE,
++    .name = TYPE_SPICEPORT_CHARDEV,
++    .parent = TYPE_SPICE_CHARDEV,
+     .class_init = char_spiceport_class_init,
+ };
+ 
+diff --git a/chardev/testdev.c b/chardev/testdev.c
+index a92caca3c3..5ef9a59817 100644
+--- a/chardev/testdev.c
++++ b/chardev/testdev.c
+@@ -39,9 +39,9 @@ struct TestdevChardev {
+ };
+ typedef struct TestdevChardev TestdevChardev;
+ 
+-#define TYPE_CHARDEV_TESTDEV "chardev-testdev"
++#define TYPE_TESTDEV_CHARDEV "chardev-testdev"
+ DECLARE_INSTANCE_CHECKER(TestdevChardev, TESTDEV_CHARDEV,
+-                         TYPE_CHARDEV_TESTDEV)
++                         TYPE_TESTDEV_CHARDEV)
+ 
+ /* Try to interpret a whole incoming packet */
+ static int testdev_eat_packet(TestdevChardev *testdev)
+@@ -118,7 +118,7 @@ static void char_testdev_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_testdev_type_info = {
+-    .name = TYPE_CHARDEV_TESTDEV,
++    .name = TYPE_TESTDEV_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .instance_size = sizeof(TestdevChardev),
+     .class_init = char_testdev_class_init,
+diff --git a/chardev/wctablet.c b/chardev/wctablet.c
+index 95e005f5a5..2cc018efb3 100644
+--- a/chardev/wctablet.c
++++ b/chardev/wctablet.c
+@@ -85,9 +85,9 @@ struct TabletChardev {
+ };
+ typedef struct TabletChardev TabletChardev;
+ 
+-#define TYPE_CHARDEV_WCTABLET "chardev-wctablet"
++#define TYPE_WCTABLET_CHARDEV "chardev-wctablet"
+ DECLARE_INSTANCE_CHECKER(TabletChardev, WCTABLET_CHARDEV,
+-                         TYPE_CHARDEV_WCTABLET)
++                         TYPE_WCTABLET_CHARDEV)
+ 
+ 
+ static void wctablet_chr_accept_input(Chardev *chr);
+@@ -352,7 +352,7 @@ static void wctablet_chr_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo wctablet_type_info = {
+-    .name = TYPE_CHARDEV_WCTABLET,
++    .name = TYPE_WCTABLET_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .instance_size = sizeof(TabletChardev),
+     .instance_finalize = wctablet_chr_finalize,
+diff --git a/gdbstub.c b/gdbstub.c
+index 9dfb6e4142..7afdcf0f37 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -3301,10 +3301,10 @@ static void char_gdb_class_init(ObjectClass *oc, void *data)
+     cc->chr_write = gdb_monitor_write;
+ }
+ 
+-#define TYPE_CHARDEV_GDB "chardev-gdb"
++#define TYPE_GDB_CHARDEV "chardev-gdb"
+ 
+ static const TypeInfo char_gdb_type_info = {
+-    .name = TYPE_CHARDEV_GDB,
++    .name = TYPE_GDB_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .class_init = char_gdb_class_init,
+ };
+@@ -3409,7 +3409,7 @@ int gdbserver_start(const char *device)
+         qemu_add_vm_change_state_handler(gdb_vm_state_change, NULL);
+ 
+         /* Initialize a monitor terminal for gdb */
+-        mon_chr = qemu_chardev_new(NULL, TYPE_CHARDEV_GDB,
++        mon_chr = qemu_chardev_new(NULL, TYPE_GDB_CHARDEV,
+                                    NULL, NULL, &error_abort);
+         monitor_init_hmp(mon_chr, false, &error_abort);
+     } else {
+diff --git a/hw/display/vhost-user-gpu.c b/hw/display/vhost-user-gpu.c
+index 51f1747c4a..f656fb38a7 100644
+--- a/hw/display/vhost-user-gpu.c
++++ b/hw/display/vhost-user-gpu.c
+@@ -388,7 +388,7 @@ vhost_user_gpu_do_set_socket(VhostUserGPU *g, Error **errp)
+         return false;
+     }
+ 
+-    chr = CHARDEV(object_new(TYPE_CHARDEV_SOCKET));
++    chr = CHARDEV(object_new(TYPE_SOCKET_CHARDEV));
+     if (!chr || qemu_chr_add_client(chr, sv[0]) == -1) {
+         error_setg(errp, "Failed to make socket chardev");
+         goto err;
+diff --git a/tests/test-char.c b/tests/test-char.c
+index d35cc839bc..2b2135ec77 100644
+--- a/tests/test-char.c
++++ b/tests/test-char.c
+@@ -1232,7 +1232,7 @@ static void char_file_fifo_test(void)
+     ret = write(fd, "fifo-in", 8);
+     g_assert_cmpint(ret, ==, 8);
+ 
+-    chr = qemu_chardev_new("label-file", TYPE_CHARDEV_FILE, &backend,
++    chr = qemu_chardev_new("label-file", TYPE_FILE_CHARDEV, &backend,
+                            NULL, &error_abort);
+ 
+     qemu_chr_fe_init(&be, chr, &error_abort);
+@@ -1286,7 +1286,7 @@ static void char_file_test_internal(Chardev *ext_chr, const char *filepath)
+     } else {
+         out = g_build_filename(tmp_path, "out", NULL);
+         file.out = out;
+-        chr = qemu_chardev_new(NULL, TYPE_CHARDEV_FILE, &backend,
++        chr = qemu_chardev_new(NULL, TYPE_FILE_CHARDEV, &backend,
+                                NULL, &error_abort);
+     }
+     ret = qemu_chr_write_all(chr, (uint8_t *)"hello!", 6);
+diff --git a/ui/console.c b/ui/console.c
+index f8d7643fe4..965f01e804 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -1089,9 +1089,9 @@ struct VCChardev {
+ };
+ typedef struct VCChardev VCChardev;
+ 
+-#define TYPE_CHARDEV_VC "chardev-vc"
++#define TYPE_VC_CHARDEV "chardev-vc"
+ DECLARE_INSTANCE_CHECKER(VCChardev, VC_CHARDEV,
+-                         TYPE_CHARDEV_VC)
++                         TYPE_VC_CHARDEV)
+ 
+ static int vc_chr_write(Chardev *chr, const uint8_t *buf, int len)
+ {
+@@ -2403,7 +2403,7 @@ static void char_vc_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_vc_type_info = {
+-    .name = TYPE_CHARDEV_VC,
++    .name = TYPE_VC_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .instance_size = sizeof(VCChardev),
+     .class_init = char_vc_class_init,
+@@ -2412,7 +2412,7 @@ static const TypeInfo char_vc_type_info = {
+ void qemu_console_early_init(void)
+ {
+     /* set the default vc driver */
+-    if (!object_class_by_name(TYPE_CHARDEV_VC)) {
++    if (!object_class_by_name(TYPE_VC_CHARDEV)) {
+         type_register(&char_vc_type_info);
+     }
+ }
+diff --git a/ui/gtk.c b/ui/gtk.c
+index d28d7545d3..ecaa9527fc 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -178,9 +178,9 @@ struct VCChardev {
+ };
+ typedef struct VCChardev VCChardev;
+ 
+-#define TYPE_CHARDEV_VC "chardev-vc"
++#define TYPE_VC_CHARDEV "chardev-vc"
+ DECLARE_INSTANCE_CHECKER(VCChardev, VC_CHARDEV,
+-                         TYPE_CHARDEV_VC)
++                         TYPE_VC_CHARDEV)
+ 
+ bool gtk_use_gl_area;
+ 
+@@ -1717,7 +1717,7 @@ static void char_gd_vc_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_gd_vc_type_info = {
+-    .name = TYPE_CHARDEV_VC,
++    .name = TYPE_VC_CHARDEV,
+     .parent = TYPE_CHARDEV,
+     .instance_size = sizeof(VCChardev),
+     .class_init = char_gd_vc_class_init,
+diff --git a/ui/spice-app.c b/ui/spice-app.c
+index 93e105c6ee..e69dc21c78 100644
+--- a/ui/spice-app.c
++++ b/ui/spice-app.c
+@@ -46,9 +46,9 @@ struct VCChardev {
+ };
+ typedef struct VCChardev VCChardev;
+ 
+-#define TYPE_CHARDEV_VC "chardev-vc"
++#define TYPE_VC_CHARDEV "chardev-vc"
+ DECLARE_INSTANCE_CHECKER(VCChardev, VC_CHARDEV,
+-                         TYPE_CHARDEV_VC)
++                         TYPE_VC_CHARDEV)
+ 
+ static ChardevBackend *
+ chr_spice_backend_new(void)
+@@ -99,8 +99,8 @@ static void char_vc_class_init(ObjectClass *oc, void *data)
+ }
+ 
+ static const TypeInfo char_vc_type_info = {
+-    .name = TYPE_CHARDEV_VC,
+-    .parent = TYPE_CHARDEV_SPICEPORT,
++    .name = TYPE_VC_CHARDEV,
++    .parent = TYPE_SPICEPORT_CHARDEV,
+     .instance_size = sizeof(VCChardev),
+     .class_init = char_vc_class_init,
+ };
+@@ -166,7 +166,7 @@ static void spice_app_display_early_init(DisplayOptions *opts)
+     display_opengl = opts->has_gl;
+ #endif
+     be->u.spiceport.data->fqdn = g_strdup("org.qemu.monitor.qmp.0");
+-    qemu_chardev_new("org.qemu.monitor.qmp", TYPE_CHARDEV_SPICEPORT,
++    qemu_chardev_new("org.qemu.monitor.qmp", TYPE_SPICEPORT_CHARDEV,
+                      be, NULL, &error_abort);
+     qopts = qemu_opts_create(qemu_find_opts("mon"),
+                              NULL, 0, &error_fatal);
 -- 
 2.26.2
 
