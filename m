@@ -2,88 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D6CA25BF22
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 12:35:07 +0200 (CEST)
-Received: from localhost ([::1]:60060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB92125BF30
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 12:39:32 +0200 (CEST)
+Received: from localhost ([::1]:37482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDmaA-000299-CV
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 06:35:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54040)
+	id 1kDmeR-0004ve-RQ
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 06:39:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kDmZF-0000py-Rf
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 06:34:09 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24379
- helo=us-smtp-1.mimecast.com)
+ id 1kDmct-0003x7-Vn
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 06:37:55 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:59387
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kDmZE-0001Fm-09
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 06:34:09 -0400
+ id 1kDmcs-0001fh-1g
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 06:37:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599129247;
+ s=mimecast20190719; t=1599129473;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uIL4e5wx7rbJ4qVaP+iBN5/huVBAPp41cLHsJcRh+Es=;
- b=RfPI377eBW9EMqEXiUM3eEiNGCx3Ci8qIIwvylW965s9ktWwqcwp8O+AUl6QegWYAzyvcT
- 3nPrtpjryMI03whhoe0cgh/ETdnYqZUdVIpdHsyBSyhM2bT97DDe8PZaZRLGHzRCTwQyxr
- NI/mAZefVyegp59DC+Q/Mr0GlPAqDFM=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-301-nYD7GwPDM56y2k7nqGfh1w-1; Thu, 03 Sep 2020 06:34:05 -0400
-X-MC-Unique: nYD7GwPDM56y2k7nqGfh1w-1
-Received: by mail-wr1-f71.google.com with SMTP id 33so912254wrk.12
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 03:34:05 -0700 (PDT)
+ bh=PJ/VRi9Gy4NRzkx8HSdrdNRBpsIvoFNQlOoPJC2TGXQ=;
+ b=LQfKtTVNifex1E7t+htroHOrDqM4/M1ebnrY1gSvWrPidI1eSmcm5bI5zUezRGR702C/Qn
+ edQK6Y+BZMB2fTWkNCBJWbVgTUAxnHjDQSOIUh5VhTpqPAbt3YXL0vfZGWRniP/nDSXwe2
+ nIjpYPQPsUowERE51oe2evL5KPTbd2A=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-63-F4jnm32sNMW1v878m9Qltg-1; Thu, 03 Sep 2020 06:37:50 -0400
+X-MC-Unique: F4jnm32sNMW1v878m9Qltg-1
+Received: by mail-wm1-f70.google.com with SMTP id k12so2277962wmj.1
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 03:37:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=uIL4e5wx7rbJ4qVaP+iBN5/huVBAPp41cLHsJcRh+Es=;
- b=I4/vW7gptPL1NQKPlzZtb0Fp10Xr5DiaFWgYev7g1fnOqrILyTYyYUk5NRiqzBzHpI
- 5OOxRDJAlRy9QZllzyaJjW/hzi9Yv79/2vhaV6krk+buO7SCfo59CCpq+EgWDHnG5hCo
- rJpEygQGlrfEV1cMma+t9zntRWrthJZrpn/WIlHYk51CBjcck+dks4SGp6eFpaiKDizc
- QzFA09yOUl3jmCtEKmlL4Xx6cmsAcwbLUPWZPBlY5TLDwoN/Ahi5mqgmTqcnjvWDv2Fn
- yO/8xR+JZx1M4YVrH+wdc0bl0lF35Lys7XTZN1VIkF4yin9DxPDy+QW9jnjZii7Ks434
- O7jA==
-X-Gm-Message-State: AOAM533LuwjqUMK/bceln09OA9EWy4qPUYrvCEzObIUw8I3OKr7qG2lW
- 2G/JcAJ9/5u/VFmaQm4xTqsWOcdlb4hlFCzpZsjTF+hx4iPibonDaniTMM+z/sQXhugrq34kwoE
- Gu3PSZ2cmIh0GEJ8=
-X-Received: by 2002:a1c:bb88:: with SMTP id l130mr1780310wmf.143.1599129244330; 
- Thu, 03 Sep 2020 03:34:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwDESJv4Nfdl10vM8uZgwnKWmtbQ1LlKkmALvP6QV8d9LgskQl+S5efXMRnSeLZ/Fic3uDcjA==
-X-Received: by 2002:a1c:bb88:: with SMTP id l130mr1780303wmf.143.1599129244096; 
- Thu, 03 Sep 2020 03:34:04 -0700 (PDT)
+ bh=PJ/VRi9Gy4NRzkx8HSdrdNRBpsIvoFNQlOoPJC2TGXQ=;
+ b=ix88o+7rlSNnDmszm0NQ4DJ2Pd7RRvkzaofmZhUN5Cf7J7xVuspvth9qQr2heEsbeW
+ bvGAh9D83/sR/09VCJDNQXfGEu9RJ33ozllCjjw8NtsGS5EduG8ZkAyQ8xRBkdyZwvbs
+ EI+e2nIOE0ShVo0ERM3bt2eZdZ56/0He1CxR3rRJT2vhq0ZkHBoriPi4M7c0vhSKcyoJ
+ 6E69o+wLFPuUEUdKJR6WH2lSgZoR6IZPJIFh0Wco9M62W66GLFaayIEaixkLXR9QAngJ
+ W4Dw8ryy0apHxvlJC0jDQzXKA17EA4x1alfNV9gLbZJfEteH4Vla0dDkjjcOR26os9Rs
+ AQDQ==
+X-Gm-Message-State: AOAM530L18NP1HuGMPyGEkxwWziPz/r0IVuVCKlRbLGHSeD2p7SUA8t1
+ XDspDKblM4gxFbJwjOEpX4wZ91xUmc3esEUzWfZu9eGzOKMy2iAJDnHEoS7Z1ccSeQZMuKVB6hs
+ anUv8IbZn6eZ+BF0=
+X-Received: by 2002:adf:f846:: with SMTP id d6mr1895319wrq.56.1599129469389;
+ Thu, 03 Sep 2020 03:37:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxUlijd5KYaGY67SCA8fSUB124ucGUh1UW92f92Myp9jqRdZCJFwrqcQtv5h+99R7kPtBMEog==
+X-Received: by 2002:adf:f846:: with SMTP id d6mr1895288wrq.56.1599129469096;
+ Thu, 03 Sep 2020 03:37:49 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:8ca5:2b7e:a83f:507b?
  ([2001:b07:6468:f312:8ca5:2b7e:a83f:507b])
- by smtp.gmail.com with ESMTPSA id c9sm3745466wmf.3.2020.09.03.03.34.03
+ by smtp.gmail.com with ESMTPSA id o124sm3569432wmb.2.2020.09.03.03.37.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Sep 2020 03:34:03 -0700 (PDT)
-Subject: Re: [PATCH] stubs: Move qemu_fd_register stub to util/main-loop.c
-To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
-References: <20200903054503.425435-1-thuth@redhat.com>
- <20200903082425.GC441291@redhat.com>
- <862e304a-fd86-6da4-4e19-fa907c8956dc@redhat.com>
+ Thu, 03 Sep 2020 03:37:48 -0700 (PDT)
+Subject: Re: [PATCH 1/1] Skip flatview_simplify() for specific cpu vendor
+To: FelixCuioc <FelixCui-oc@zhaoxin.com>, Richard Henderson
+ <rth@twiddle.net>, Eduardo Habkost <ehabkost@redhat.com>
+References: <20200903094935.2361-1-FelixCui-oc@zhaoxin.com>
+ <20200903094935.2361-2-FelixCui-oc@zhaoxin.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <4f8b48b6-6127-4a49-98fd-0ca614745113@redhat.com>
-Date: Thu, 3 Sep 2020 12:34:02 +0200
+Message-ID: <612db96b-2f7b-1f98-4da8-46bccff9adca@redhat.com>
+Date: Thu, 3 Sep 2020 12:37:47 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <862e304a-fd86-6da4-4e19-fa907c8956dc@redhat.com>
+In-Reply-To: <20200903094935.2361-2-FelixCui-oc@zhaoxin.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.003
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 00:24:51
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 04:23:49
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -23
 X-Spam_score: -2.4
@@ -104,34 +103,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: TonyWWang-oc@zhaoxin.com, RockCui-oc@zhaoxin.com, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, CobeChen-oc@zhaoxin.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/09/20 12:22, Thomas Huth wrote:
->> Since you didn't remove that conditional, I assume that nothing
->> built in a "if not have_block" scenario was relying on the existing
->> stub ?
+On 03/09/20 11:49, FelixCuioc wrote:
+> Flatview_simplify() will merge many address ranges
+> into one range.When a part of the big range needs
+> to be changed,this will cause some innocent mappings
+> to be unmapped.So we want to skip flatview_simplify().
+> 
+> Signed-off-by: FelixCuioc <FelixCui-oc@zhaoxin.com>
 
-Technically there would be a user:
+This has several issues.  In no particular order:
 
-scripts/tracetool/backend/log.py
-  -> (qemu_get_thread_id) util/oslib-win32.c
+1) you're adding host_get_vendor to target/i386/cpu.c so this does not
+even build for the default "../configure && make".
 
-which brings in qemu_try_set_nonblock and that calls qemu_fd_register.
+2) you're adding a check for the host, but the bug applies to all hosts.
+ If there is a bug on x86 hardware emulation, it should be fixed even
+when emulating x86 from ARM.
 
-Likewise,
+3) you're not explaining what is the big range and how the bug is
+manifesting.
 
-util/qht.c
-  -> (qemu_vfree) util/oslib-win32.c
-
-Windows builds actually don't build anything on a --disable-system
---disable-tools build so it happens to work.
-
-However, as a follow-up qemu_set_block/qemu_try_set_nonblock and
-qemu_set_nonblock probably should be moved from util/oslib-* to
-util/main-loop.c.
+I think you're seeing issues when a guest accesses an adjacent mapping
+between the delete and add phases of the KVM MemoryListener.  We're
+considering fixing that in the kernel, by adding a new ioctl that
+changes the whole memory map in a single step.  I am CCing Peter Xu.
 
 Paolo
+
+
+> ---
+>  softmmu/memory.c  | 16 +++++++++++++++-
+>  target/i386/cpu.c |  8 ++++++++
+>  target/i386/cpu.h |  3 +++
+>  3 files changed, 26 insertions(+), 1 deletion(-)
+> 
+> diff --git a/softmmu/memory.c b/softmmu/memory.c
+> index 70b93104e8..348e9db622 100644
+> --- a/softmmu/memory.c
+> +++ b/softmmu/memory.c
+> @@ -699,6 +699,18 @@ static MemoryRegion *memory_region_get_flatview_root(MemoryRegion *mr)
+>      return NULL;
+>  }
+>  
+> +static bool skip_simplify(void)
+> +{
+> +    char vendor[CPUID_VENDOR_SZ + 1] = { 0 };
+> +    host_get_vendor(vendor);
+> +    if (!strncmp(vendor, CPUID_VENDOR_VIA, strlen(CPUID_VENDOR_VIA))
+> +        || !strncmp(vendor, CPUID_VENDOR_ZHAOXIN,
+> +                    strlen(CPUID_VENDOR_ZHAOXIN))) {
+> +        return true;
+> +    }
+> +    return false;
+> +}
+> +
+>  /* Render a memory topology into a list of disjoint absolute ranges. */
+>  static FlatView *generate_memory_topology(MemoryRegion *mr)
+>  {
+> @@ -712,7 +724,9 @@ static FlatView *generate_memory_topology(MemoryRegion *mr)
+>                               addrrange_make(int128_zero(), int128_2_64()),
+>                               false, false);
+>      }
+> -    flatview_simplify(view);
+> +    if (!skip_simplify()) {
+> +        flatview_simplify(view);
+> +    }
+>  
+>      view->dispatch = address_space_dispatch_new(view);
+>      for (i = 0; i < view->nr; i++) {
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index 49d8958528..08508c8580 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -1664,6 +1664,14 @@ void host_cpuid(uint32_t function, uint32_t count,
+>          *edx = vec[3];
+>  }
+>  
+> +void host_get_vendor(char *vendor)
+> +{
+> +    uint32_t eax, ebx, ecx, edx;
+> +
+> +    host_cpuid(0x0, 0, &eax, &ebx, &ecx, &edx);
+> +    x86_cpu_vendor_words2str(vendor, ebx, edx, ecx);
+> +}
+> +
+>  void host_vendor_fms(char *vendor, int *family, int *model, int *stepping)
+>  {
+>      uint32_t eax, ebx, ecx, edx;
+> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+> index d3097be6a5..14c8b4c09f 100644
+> --- a/target/i386/cpu.h
+> +++ b/target/i386/cpu.h
+> @@ -832,6 +832,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
+>  
+>  #define CPUID_VENDOR_VIA   "CentaurHauls"
+>  
+> +#define CPUID_VENDOR_ZHAOXIN   "  Shanghai  "
+> +
+>  #define CPUID_VENDOR_HYGON    "HygonGenuine"
+>  
+>  #define IS_INTEL_CPU(env) ((env)->cpuid_vendor1 == CPUID_VENDOR_INTEL_1 && \
+> @@ -1917,6 +1919,7 @@ void cpu_clear_apic_feature(CPUX86State *env);
+>  void host_cpuid(uint32_t function, uint32_t count,
+>                  uint32_t *eax, uint32_t *ebx, uint32_t *ecx, uint32_t *edx);
+>  void host_vendor_fms(char *vendor, int *family, int *model, int *stepping);
+> +void host_get_vendor(char *vendor);
+>  
+>  /* helper.c */
+>  bool x86_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+> 
 
 
