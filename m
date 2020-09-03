@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D53B25CC56
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:34:28 +0200 (CEST)
-Received: from localhost ([::1]:58976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F92825CC4D
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:33:13 +0200 (CEST)
+Received: from localhost ([::1]:52462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwsF-0001lh-7F
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:34:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58508)
+	id 1kDwr2-0007P1-CL
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:33:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLE-0003x1-1U; Thu, 03 Sep 2020 17:00:20 -0400
-Received: from mail-oo1-xc41.google.com ([2607:f8b0:4864:20::c41]:45655)
+ id 1kDwLG-0003yS-QU; Thu, 03 Sep 2020 17:00:24 -0400
+Received: from mail-oo1-xc43.google.com ([2607:f8b0:4864:20::c43]:42322)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLB-0007Yp-QV; Thu, 03 Sep 2020 17:00:18 -0400
-Received: by mail-oo1-xc41.google.com with SMTP id u28so1121631ooe.12;
- Thu, 03 Sep 2020 14:00:16 -0700 (PDT)
+ id 1kDwLE-0007bB-48; Thu, 03 Sep 2020 17:00:21 -0400
+Received: by mail-oo1-xc43.google.com with SMTP id a6so1118408oog.9;
+ Thu, 03 Sep 2020 14:00:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=D8aV+SuTlrxPWeHJfsFhm4DwE+6NojdwAEJTWEzO0A0=;
- b=SiVmbdyJCkYwEnqKlOkKlofmyUmNpBwRV+8sI/tp1iCMcE1QLrGoUlBSonJMW5kmge
- FUMlWCazFVqHDdnemiN3nzAU4xDI9p/ffSxDEtlq42E+ttUOZ0dWZAV13XjjERkkCF3j
- U8KDeb4AdSYGC93HrpF0UiSsUtEmlt4k2m+Kh/H+SvvgVP4wlhZqQeNPzQQxmCCgsP2h
- LtrbIji8IPUHaymkRxLiajJEXSzjuzCOrRgZl+I1vtyUV9dLuxwy/K1ursyUc0QdlER3
- R2NX4wuac27bLNRm5tNv2okc1824Ebn9pWldVCR/4wBCKCPi1nRH0dtOBmZBlAyvwXIZ
- l75w==
+ bh=b3KQN/Kte9yOknsbzt0CDZ4AvatyRKhckS3n3Zf19Fo=;
+ b=IMg9yE2nza1NjXHuqgj8vpy0D5pb/EbUf38oh7UHpghM3PT/FWDzjNoekuQ7w9ky4G
+ vnITpKkUzzzHziDyo3VPs0pu4BMtzKbeUiKFDb9/wdakeaYsrdcyMlYIynEuFMRCE+S1
+ qNsx3a60qks/ilXWS0gTnnrPmhBXO9taWp/3vp7eoQd2kVWp29O8CZhf6ryoKBRtkgCP
+ TW3/vr5MYcbL3QmP4/H7zPIDrRelyoS381HLAlnfJ6iU2QV1cdcQgMXwEgGfTjrLByAu
+ WqftyLlTDTIXyMUXJS3/9Pdd8CfU1S5/b1lAeevwNgyUjLS6r5Hlr7gMFKhg5qT7Z9hl
+ 8BzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=D8aV+SuTlrxPWeHJfsFhm4DwE+6NojdwAEJTWEzO0A0=;
- b=H/pPPhs+6d6mYhhu3Pc1y18BS4lvBkDtG8scBeV4IwKiSyQ2Yx4G3dkGcDLODTJYs4
- x+bd94Ud1/CaaAy5lPda2j63uAwzQ631YqJOTCB41SHB/lbO46hOENAcKzae7ASHgj24
- ARpLSSTZdnvDQsHDIBfOnk2IFPBIaXII84m1xKq1Y9RMiPpM7so+Op8Y37lDZFCiF9/t
- bnyCN5TYYVzcLd5zN6PlDraK/prCHvva84aasLMWSujb0/Nd2RkGkpAcuQe/dynNtU0p
- 0l+qf1tgZvEiWRunDWwBJVLAlVeV1CjrANpWLpMWDfNprFOa1aJ4Hqtqc1yE5qlXjG6x
- ogIQ==
-X-Gm-Message-State: AOAM530vLcbqfRyuyfncQ9oQXXtToc7I6IrTrCkTwLAVmxFeSjAmt64w
- 3TAxIDg5CHgjM+xlREJuYunUihByFGw=
-X-Google-Smtp-Source: ABdhPJwqM43KFDWLqHXcy+anFG9U/WavwYDpAHIJ/emuYFoKHpw0km50yaM2V0T5zOWmvci/y8jFsw==
-X-Received: by 2002:a4a:aa0e:: with SMTP id x14mr3282896oom.27.1599166815905; 
- Thu, 03 Sep 2020 14:00:15 -0700 (PDT)
+ bh=b3KQN/Kte9yOknsbzt0CDZ4AvatyRKhckS3n3Zf19Fo=;
+ b=fMWXMGqCPOXs7MaPwtT434NAHjucAK0tenVT+niZluPKnfXDYUBnW1vZDb3jRsYNlT
+ VMhfU/IDrodGsRhvTF6MfU3SyXlgpjI7zG+VZFzqs2rbgMUkPDbtMwHDdPP1aKoOwiGz
+ cKeI41XtNlIxtwtrms+5U7j7yTb4FjeWeCyiUbQDRsxe1uXLd9/4B2xNLpYN3azJzFj/
+ q+o44Kle+4f12c1DPd57isK0yPawKuwoi7EF645lvEOCQJlHW+TYR+Syg15e+qfLPBjf
+ MPsbjuL60YmVy9+wfVKEvXd/ato+ypqHkHoZdSC/0oPrZwLYnZOCZU2MnsFNK53ijg3j
+ 7NzA==
+X-Gm-Message-State: AOAM530Jp248s9m6xRFJ11Y9fQ8iVXNT7R5CHSOjzxhPGhkkE/w2CW42
+ /k40QSG4cSmGO/gK3Y8SgGn0z9Iizh8=
+X-Google-Smtp-Source: ABdhPJxMIaneA/FtV97r7S/vzL2QCYXzkK5Gu0x6tPm+WGdLfqAqXBBcogQAMJo2J5EUXsF52XS3zw==
+X-Received: by 2002:a4a:a648:: with SMTP id j8mr3362294oom.44.1599166818155;
+ Thu, 03 Sep 2020 14:00:18 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id l63sm711626oia.56.2020.09.03.14.00.15
+ by smtp.gmail.com with ESMTPSA id t84sm294237oif.32.2020.09.03.14.00.17
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:00:15 -0700 (PDT)
+ Thu, 03 Sep 2020 14:00:17 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 28/77] libqos: pci-pc: use 32-bit write for EJ register
-Date: Thu,  3 Sep 2020 15:58:46 -0500
-Message-Id: <20200903205935.27832-29-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 30/77] hw/riscv: Allow 64 bit access to SiFive CLINT
+Date: Thu,  3 Sep 2020 15:58:48 -0500
+Message-Id: <20200903205935.27832-31-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c41;
- envelope-from=flukshun@gmail.com; helo=mail-oo1-xc41.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c43;
+ envelope-from=flukshun@gmail.com; helo=mail-oo1-xc43.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -81,35 +81,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-stable@nongnu.org
+Cc: Alistair Francis <alistair.francis@wdc.com>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+From: Alistair Francis <alistair.francis@wdc.com>
 
-The memory region ops have min_access_size == 4 so obey it.
+Commit 5d971f9e672507210e77d020d89e0e89165c8fc9
+"memory: Revert "memory: accept mismatching sizes in
+memory_region_access_valid"" broke most RISC-V boards as they do 64 bit
+accesses to the CLINT and QEMU would trigger a fault. Fix this failure
+by allowing 8 byte accesses.
 
-Tested-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-(cherry picked from commit 4b7c06837ae0b1ff56473202a42e7e386f53d6db)
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: LIU Zhiwei<zhiwei_liu@c-sky.com>
+Message-Id: <122b78825b077e4dfd39b444d3a46fe894a7804c.1593547870.git.alistair.francis@wdc.com>
+(cherry picked from commit 70b78d4e71494c90d2ccb40381336bc9b9a22f79)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- tests/qtest/libqos/pci-pc.c | 2 +-
+ hw/riscv/sifive_clint.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qtest/libqos/pci-pc.c b/tests/qtest/libqos/pci-pc.c
-index 0bc591d1da..3bb2eb3ba8 100644
---- a/tests/qtest/libqos/pci-pc.c
-+++ b/tests/qtest/libqos/pci-pc.c
-@@ -186,7 +186,7 @@ void qpci_unplug_acpi_device_test(QTestState *qts, const char *id, uint8_t slot)
-     g_assert(!qdict_haskey(response, "error"));
-     qobject_unref(response);
+diff --git a/hw/riscv/sifive_clint.c b/hw/riscv/sifive_clint.c
+index e933d35092..a2a4b7d752 100644
+--- a/hw/riscv/sifive_clint.c
++++ b/hw/riscv/sifive_clint.c
+@@ -180,7 +180,7 @@ static const MemoryRegionOps sifive_clint_ops = {
+     .endianness = DEVICE_LITTLE_ENDIAN,
+     .valid = {
+         .min_access_size = 4,
+-        .max_access_size = 4
++        .max_access_size = 8
+     }
+ };
  
--    qtest_outb(qts, ACPI_PCIHP_ADDR + PCI_EJ_BASE, 1 << slot);
-+    qtest_outl(qts, ACPI_PCIHP_ADDR + PCI_EJ_BASE, 1 << slot);
- 
-     qtest_qmp_eventwait(qts, "DEVICE_DELETED");
- }
 -- 
 2.17.1
 
