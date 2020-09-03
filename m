@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA5EE25CC07
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:21:47 +0200 (CEST)
-Received: from localhost ([::1]:58216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60BE825CBC4
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:02:25 +0200 (CEST)
+Received: from localhost ([::1]:42054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwfy-0002oQ-Tf
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:21:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58096)
+	id 1kDwNE-0005v8-B2
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:02:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwKq-00036x-VV; Thu, 03 Sep 2020 16:59:56 -0400
-Received: from mail-ot1-x32b.google.com ([2607:f8b0:4864:20::32b]:34055)
+ id 1kDwKr-00038x-Sz; Thu, 03 Sep 2020 16:59:57 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:38595)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwKo-0007Kc-Is; Thu, 03 Sep 2020 16:59:56 -0400
-Received: by mail-ot1-x32b.google.com with SMTP id h17so3206982otr.1;
- Thu, 03 Sep 2020 13:59:53 -0700 (PDT)
+ id 1kDwKp-0007L4-R3; Thu, 03 Sep 2020 16:59:57 -0400
+Received: by mail-oi1-x244.google.com with SMTP id y6so4511523oie.5;
+ Thu, 03 Sep 2020 13:59:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=ATS4oJGp1SnQFEtm6D13xyOuW3gjvEjZ49ChbnGmBj8=;
- b=JQxVVthBAM6VrGy8C3f9nic65DczEc46Cp9V5Mxu9hHcIaAzgf3RF8UyJWXRsOylti
- w52+X25sFLaBe1s5DDbW3LOQO/irfcvkIE5dfsIZsZDwyjqmXloET4xRdlRHORGOFGTA
- EsFZheMmslq1k5gtJZsgsQLWQUxuf9hoi0gwJBCwkEKjRyQQ+4GeLlCh1ZOV1lMnxILk
- fLQX2Gass9MS1jvGyp4JJcF7ZCwDaQv63/iuzJ9HDwP7b/+nzCQpcgbtKMRh3QLnJXST
- 9b1WS2smuJn++llMPS8eo0cue3R0UG9AZFrZlSUvi6bsBO3aunokKYZzVy7lkrH2ICeQ
- thRg==
+ bh=l6xlQJHOv7dE9T6NcBrhJXAaTtTntr3y7qC5ZPuIlyE=;
+ b=Ju8X7eDJBDWIZ/ftmBP6PQKMZUrjC4yQDoSKIYEveB8PMZZBFgshceJXS7WdpQ3+og
+ qTd6sKLqU22g630PezRVi+N/DZ60DXHULrTJvaf8iRpJNQH3IuVl1PJuaaWZ1wagydY9
+ RQ9PKwJPK5aHOS2xWXEEgwsccdjoU2w8li6//d2pesARyk6NYfl13Yex0zvevTJ1YwL7
+ 8d34qTLt3FNnmcGmX1JMP0PhGqr1xSUKNuZ3tI+RtX+HXYoOS36Di+5eJ4lzgzkwrC6H
+ BZ7MSkbPSltzkZyJhyheVwFF9hDAEYD46uLtIt0z7KBLGzKp1xp5rX3E08fLL/8sK5FL
+ dh7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=ATS4oJGp1SnQFEtm6D13xyOuW3gjvEjZ49ChbnGmBj8=;
- b=jIc9G/4JgEhQudfXmf/8KiAmQyPiVjf4502W0q5kXbU+Lo0cZMUw3OXM8kOPohpfdv
- Sv+JmUlmNm3J++ASMygOfuSg2fLJ+bzhpjtTvovMOxeiWE15rtEIBDihqVq8X0ZOFplB
- 634b0vj8TrXtQyraaZcQpRXjQId23n3RHr43NelNLwLeb5ZkqB+nYNfb7/xnTGtwbkHB
- isSBbUDCE5hhMc/MfeaQDPJ7Zun6l32+06g7fiQOjoPBdOVC+ZnM8uyIqurlpzSiIK0e
- xGb6B524J9BGJzRVTB+TvPL9gTcnFHIkG8RCgiin0J3bk4mCDYRtg1Yf+zygBO/NiN8F
- fE8g==
-X-Gm-Message-State: AOAM533iOjQ0dt9PZKFxHumJ93dLY9rIGKFU/W6YnPPHvI0+fof9UVhY
- Wq9zFUgeAfdwHsA+1KBoOkAnZeEqE24=
-X-Google-Smtp-Source: ABdhPJz6clO8z8h2N8WRpMaGoGVhsHkrTNj3w8kjPgBbKmmcFKwMVlZrHox9qCdNgaGeF2EhAkUhZw==
-X-Received: by 2002:a05:6830:20d1:: with SMTP id
- z17mr3131709otq.179.1599166791772; 
- Thu, 03 Sep 2020 13:59:51 -0700 (PDT)
+ bh=l6xlQJHOv7dE9T6NcBrhJXAaTtTntr3y7qC5ZPuIlyE=;
+ b=GctU440dxVDxwcPQUHlGCutCxaWlMap2UAeXJFTSDcNrsPbFoQQmURzX6eM3RZqqVt
+ wrUYEapu/5qjwxnm9qH/0PryltYaDdxu9gg8cJhbYis7P3hqxLBNyBHeWbfdddyb6FnD
+ aP5PfygT8nlE8jPPNRuRgqeuOs///6IEvkfyyoTisAwp85VATZVQUeWHHecpeap3LHhr
+ OFkxFj4bTsZ8cL1UojxOp8IpVksACvu54np3ovDkThbvc/kT0vKuiSRzlMh/zvSXoxAR
+ BjDhVD8oFKUxDk3IJhI6sOzG/9mZUQvDu7CsRCwVdtFpKiB7ei0A9UGTUIde22YXLYDS
+ daAg==
+X-Gm-Message-State: AOAM531Typ1Yz57YnUl5cFShW5yBjiJUetuccgFZG80C2xu8/F++5shB
+ 8p7+xCitSy73MNJFN46teG8YrD6+I0c=
+X-Google-Smtp-Source: ABdhPJyNvG8jRaAfFGH7RKA9jD7Gsv0p3mUYK68UHEjMR/K23SQsIynjcyrsLbM3aXTNw8Bd0hQLOw==
+X-Received: by 2002:aca:2b0c:: with SMTP id i12mr3392493oik.77.1599166794177; 
+ Thu, 03 Sep 2020 13:59:54 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id r33sm828082ooi.48.2020.09.03.13.59.50
+ by smtp.gmail.com with ESMTPSA id b79sm713535oii.33.2020.09.03.13.59.53
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 13:59:51 -0700 (PDT)
+ Thu, 03 Sep 2020 13:59:53 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 10/77] block: Call attention to truncation of long NBD exports
-Date: Thu,  3 Sep 2020 15:58:28 -0500
-Message-Id: <20200903205935.27832-11-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 11/77] 9pfs: local: ignore O_NOATIME if we don't have
+ permissions
+Date: Thu,  3 Sep 2020 15:58:29 -0500
+Message-Id: <20200903205935.27832-12-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32b;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x32b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
+ envelope-from=flukshun@gmail.com; helo=mail-oi1-x244.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -82,98 +82,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>, qemu-stable@nongnu.org,
+ Omar Sandoval <osandov@fb.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eric Blake <eblake@redhat.com>
+From: Omar Sandoval <osandov@fb.com>
 
-Commit 93676c88 relaxed our NBD client code to request export names up
-to the NBD protocol maximum of 4096 bytes without NUL terminator, even
-though the block layer can't store anything longer than 4096 bytes
-including NUL terminator for display to the user.  Since this means
-there are some export names where we have to truncate things, we can
-at least try to make the truncation a bit more obvious for the user.
-Note that in spite of the truncated display name, we can still
-communicate with an NBD server using such a long export name; this was
-deemed nicer than refusing to even connect to such a server (since the
-server may not be under our control, and since determining our actual
-length limits gets tricky when nbd://host:port/export and
-nbd+unix:///export?socket=/path are themselves variable-length
-expansions beyond the export name but count towards the block layer
-name length).
+QEMU's local 9pfs server passes through O_NOATIME from the client. If
+the QEMU process doesn't have permissions to use O_NOATIME (namely, it
+does not own the file nor have the CAP_FOWNER capability), the open will
+fail. This causes issues when from the client's point of view, it
+believes it has permissions to use O_NOATIME (e.g., a process running as
+root in the virtual machine). Additionally, overlayfs on Linux opens
+files on the lower layer using O_NOATIME, so in this case a 9pfs mount
+can't be used as a lower layer for overlayfs (cf.
+https://github.com/osandov/drgn/blob/dabfe1971951701da13863dbe6d8a1d172ad9650/vmtest/onoatimehack.c
+and https://github.com/NixOS/nixpkgs/issues/54509).
 
-Reported-by: Xueqiang Wei <xuwei@redhat.com>
-Fixes: https://bugzilla.redhat.com/1843684
-Signed-off-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20200610163741.3745251-3-eblake@redhat.com>
-(cherry picked from commit 5c86bdf1208916ece0b87e1151c9b48ee54faa3e)
+Luckily, O_NOATIME is effectively a hint, and is often ignored by, e.g.,
+network filesystems. open(2) notes that O_NOATIME "may not be effective
+on all filesystems. One example is NFS, where the server maintains the
+access time." This means that we can honor it when possible but fall
+back to ignoring it.
+
+Acked-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Signed-off-by: Omar Sandoval <osandov@fb.com>
+Message-Id: <e9bee604e8df528584693a4ec474ded6295ce8ad.1587149256.git.osandov@fb.com>
+Signed-off-by: Greg Kurz <groug@kaod.org>
+(cherry picked from commit a5804fcf7b22fc7d1f9ec794dd284c7d504bd16b)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- block.c     |  7 +++++--
- block/nbd.c | 21 +++++++++++++--------
- 2 files changed, 18 insertions(+), 10 deletions(-)
+ hw/9pfs/9p-util.h | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/block.c b/block.c
-index 2e3905c99e..e7e0a92536 100644
---- a/block.c
-+++ b/block.c
-@@ -6710,8 +6710,11 @@ void bdrv_refresh_filename(BlockDriverState *bs)
-         pstrcpy(bs->filename, sizeof(bs->filename), bs->exact_filename);
-     } else {
-         QString *json = qobject_to_json(QOBJECT(bs->full_open_options));
--        snprintf(bs->filename, sizeof(bs->filename), "json:%s",
--                 qstring_get_str(json));
-+        if (snprintf(bs->filename, sizeof(bs->filename), "json:%s",
-+                     qstring_get_str(json)) >= sizeof(bs->filename)) {
-+            /* Give user a hint if we truncated things. */
-+            strcpy(bs->filename + sizeof(bs->filename) - 4, "...");
-+        }
-         qobject_unref(json);
-     }
- }
-diff --git a/block/nbd.c b/block/nbd.c
-index 2160859f64..bfc0be6af6 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -1986,6 +1986,7 @@ static void nbd_refresh_filename(BlockDriverState *bs)
+diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
+index 79ed6b233e..546f46dc7d 100644
+--- a/hw/9pfs/9p-util.h
++++ b/hw/9pfs/9p-util.h
+@@ -37,9 +37,22 @@ static inline int openat_file(int dirfd, const char *name, int flags,
  {
-     BDRVNBDState *s = bs->opaque;
-     const char *host = NULL, *port = NULL, *path = NULL;
-+    size_t len = 0;
+     int fd, serrno, ret;
  
-     if (s->saddr->type == SOCKET_ADDRESS_TYPE_INET) {
-         const InetSocketAddress *inet = &s->saddr->u.inet;
-@@ -1998,17 +1999,21 @@ static void nbd_refresh_filename(BlockDriverState *bs)
-     } /* else can't represent as pseudo-filename */
- 
-     if (path && s->export) {
--        snprintf(bs->exact_filename, sizeof(bs->exact_filename),
--                 "nbd+unix:///%s?socket=%s", s->export, path);
-+        len = snprintf(bs->exact_filename, sizeof(bs->exact_filename),
-+                       "nbd+unix:///%s?socket=%s", s->export, path);
-     } else if (path && !s->export) {
--        snprintf(bs->exact_filename, sizeof(bs->exact_filename),
--                 "nbd+unix://?socket=%s", path);
-+        len = snprintf(bs->exact_filename, sizeof(bs->exact_filename),
-+                       "nbd+unix://?socket=%s", path);
-     } else if (host && s->export) {
--        snprintf(bs->exact_filename, sizeof(bs->exact_filename),
--                 "nbd://%s:%s/%s", host, port, s->export);
-+        len = snprintf(bs->exact_filename, sizeof(bs->exact_filename),
-+                       "nbd://%s:%s/%s", host, port, s->export);
-     } else if (host && !s->export) {
--        snprintf(bs->exact_filename, sizeof(bs->exact_filename),
--                 "nbd://%s:%s", host, port);
-+        len = snprintf(bs->exact_filename, sizeof(bs->exact_filename),
-+                       "nbd://%s:%s", host, port);
-+    }
-+    if (len > sizeof(bs->exact_filename)) {
-+        /* Name is too long to represent exactly, so leave it empty. */
-+        bs->exact_filename[0] = '\0';
++again:
+     fd = openat(dirfd, name, flags | O_NOFOLLOW | O_NOCTTY | O_NONBLOCK,
+                 mode);
+     if (fd == -1) {
++        if (errno == EPERM && (flags & O_NOATIME)) {
++            /*
++             * The client passed O_NOATIME but we lack permissions to honor it.
++             * Rather than failing the open, fall back without O_NOATIME. This
++             * doesn't break the semantics on the client side, as the Linux
++             * open(2) man page notes that O_NOATIME "may not be effective on
++             * all filesystems". In particular, NFS and other network
++             * filesystems ignore it entirely.
++             */
++            flags &= ~O_NOATIME;
++            goto again;
++        }
+         return -1;
      }
- }
  
 -- 
 2.17.1
