@@ -2,60 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9A6C25C6C2
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 18:27:43 +0200 (CEST)
-Received: from localhost ([::1]:47016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54C1125C6BC
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 18:27:09 +0200 (CEST)
+Received: from localhost ([::1]:42084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDs5O-0006r2-RR
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 12:27:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35780)
+	id 1kDs4q-0004gl-6t
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 12:27:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kDrmb-0007x6-61
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:08:17 -0400
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:60227)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kDrmc-0007yg-UL
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:08:18 -0400
+Received: from mout.gmx.net ([212.227.17.20]:47263)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kDrmY-0007kv-Rr
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:08:16 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.187])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id E1C0B5DA6AC3;
- Thu,  3 Sep 2020 18:07:43 +0200 (CEST)
-Received: from kaod.org (37.59.142.99) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 3 Sep 2020
- 18:07:42 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G0033b24ed8b-eb75-44c7-947d-3b7ea475217a,
- FF22E3E2F99647A0705B7EB067E934078DCBDF97) smtp.auth=groug@kaod.org
-Date: Thu, 3 Sep 2020 18:07:41 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH v2 0/1] 9pfs: log warning if msize <= 8192
-Message-ID: <20200903180741.74a8e0c4@bahia.lan>
-In-Reply-To: <2806958.T35s8Q7qhx@silver>
-References: <cover.1599144062.git.qemu_oss@crudebyte.com>
- <20200903171931.3bfe611a@bahia.lan>
- <20200903174123.6b754055@bahia.lan> <2806958.T35s8Q7qhx@silver>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kDrmb-0007m4-5r
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:08:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1599149271;
+ bh=jNYZ3H6m2XWVrcJ9B8h4Agdnq/9+ccN+LxZ5qPDMllg=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=Qxs7suyw09h6ss9YUGIuRqXiFmY99g+M+88s6nUJQxnKnjm86KYOm0wykhnbh2RU8
+ NnJwbhQcrnKVZvaU/w8hT18LOi2KtO2LAvTBUA1tndMX1lNRPtu3XoZ7ydX9eB0gOr
+ AghgBtKa1pl06u+qs+MxTGs+b1j7ujo5sNnSTvMY=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from ls3530.fritz.box ([92.116.138.28]) by mail.gmx.com (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MnJlc-1kx89z2u7Y-00jF4M; Thu, 03
+ Sep 2020 18:07:51 +0200
+From: Helge Deller <deller@gmx.de>
+To: qemu-devel@nongnu.org,
+	peter.maydell@linaro.org
+Subject: [PULL 08/10] hw/display/artist: Verify artist screen resolution
+Date: Thu,  3 Sep 2020 18:07:44 +0200
+Message-Id: <20200903160746.27491-9-deller@gmx.de>
+X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200903160746.27491-1-deller@gmx.de>
+References: <20200903160746.27491-1-deller@gmx.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 97e8ee39-54cf-4bcb-8da5-438089b5437a
-X-Ovh-Tracer-Id: 1499417205179914717
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrudeguddgleelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepleduudehgfehvefhieekheeghfeguedvtdejheefteehueekvefhieelhfffieetnecuffhomhgrihhnpehqvghmuhdrohhrghdpfihikhhiphgvughirgdrohhrghdpfihikhhimhgvughirgdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegsvghrrhgrnhhgvgesrhgvughhrghtrdgtohhm
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
- helo=smtpout1.mo804.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 11:41:43
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:3P5bc689WyTFuaPWEFdjLSuL3vrHMqrEfh9hNRNY1S9foehOA9e
+ qusKmtgdVBPMRGj13ZeyV6ZTOabTzXLk208vvBJxktrKfJkX5yID/NuStl7FOvQ2kTh5U3o
+ nwy0yyckE/PJ4XUuSn+hKr/ee1LgZf1D7xJcqn7s+UHtJyf5f0cy7a9d+LAK9kI55VhUEsA
+ duXLIRmxISxK8LY6bMF2g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:uPdEJB2AaAo=:iO0TWr/sZ3I43/MlNH9hGm
+ czhqcs1bTBM4X+XIigr3V2y+8iuQwXKKpemAvL74ZOrApGRlBP6SvZ5xNPH1ZftXo5zcXvv0b
+ glyOCcDeACrXBTfq+pB/OY6h1LhYB3L6KRf/Ees9OYHeJQQ0lRUvkNs/cMPldJE3ATIJGKOUd
+ xGm2O1EthrBbqaYKKrVLCBBaJF8eVaVJCWlmsHSBHxB8cC1wzauoc4Nt3JYZg/ptnonPOVj1r
+ IrBgNFJqjr2rv7PfEg9SmDfcUxsBa5S/oK0rFRbZrOPtNayASDp7z4f5HprDSVweExJgLKTmB
+ 0KEFkBqfYhTGZOJHPN5tEgjgVFyAwPxgq4pUe6JOZlRTkCHmIuvktl3G56pf5CGIHXtwbF31R
+ jsjXvfEjg66YlgmGNckY35vNUgxqvlBMcEyjNfr2a+8TFyuohpcV1Ao5U0HSfrbQVb7R17jtI
+ MKc/638mIsKfZwIjjQrDtrsxF/8d/5m8U12ksl3SWLF5Cr0F/cCRzgs6n1kUH4NO42zM07v83
+ vdtYCEMX+OMo4yLtChVwZhBIhyN5q/Q9HniLR0tgrxgQ/opCRz7yybWf4NIevnqrNRWNfQEFc
+ tecLDcYQ/ufgmcniS/OR1gddXMfVuHYknQLsb36PhOoQORHZYztNzuysD5ZopJ/AcKkZg9ctD
+ fJePOPhOMZRwIXf8Hu5A3mbedoihcyq8G2lbGGpVEU+0sOWXkAxTeV20O3MNsRO02DKJdtuy7
+ sF6fO+kIIat12EcUMkd09XYVGX0+u15pl9iU5MqfbJWKQ5qtBHUDmXAXAeny0KWLiCEIcIE+Y
+ vvfI9rKI+2A+kawVR5xWAHRnDLKbejnRdGAZn0GuMSi0p1DCFInmn/emRN9qihyxq/bzUmGc1
+ CnIqHZ1RI3s880q/t2tLoh+ojiutyLtOBKVk8cbl/xz9XKnnix6KcexJ37wVf1RVwwOprGuqO
+ 5af9+ADv8fTJOu9tx0kGHoh/etf6AvlT/teupWYRTYHKPQgkhQhMS7s1TYjer2nTrPfGqMREB
+ TZcxVqrEaTd0BQ10tB1ardM/+v+nyD7B8Lb9L73qU0GiOT6hFDstbbtn5EWbIr85V+rF1qLJt
+ T6d2U4VA1OezJ0Iyfn9yRUyk1xtNWgNTZg44NgXKtZ9CCPrxJ6em9yRyrTIKDeo5eEPmtpaoc
+ By4VSINInE0IywApzT+voaBeC70rsKOX5gVLXPZsYOJ5asYsVQNHGJMF/imobjQVUBPo7a+eG
+ Zl3Qpocd3YrtfhNTJ
+Received-SPF: pass client-ip=212.227.17.20; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 12:08:01
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
  RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -70,61 +85,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, qemu-devel@nongnu.org
+Cc: Helge Deller <deller@gmx.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 03 Sep 2020 17:48:33 +0200
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+Artist hardware is limited to 2048 x 2048 pixels.
+STI ROMs allow at minimum 640 x 480 pixels.
 
-> On Donnerstag, 3. September 2020 17:41:23 CEST Greg Kurz wrote:
-> > On Thu, 3 Sep 2020 17:19:31 +0200
-> > 
-> > Greg Kurz <groug@kaod.org> wrote:
-> > > On Thu, 3 Sep 2020 16:41:02 +0200
-> > > 
-> > > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > > > I have updated the QEMU 9P setup wiki page about this 'msize' issue. For
-> > > > some reason the dedicated anchor 'msize' does not work though:
-> > > > 
-> > > > https://wiki.qemu.org/Documentation/9psetup#msize
-> > > 
-> > > AFAICT the wiki derives the anchor from the section name, ie.
-> > > 
-> > > https://wiki.qemu.org/Documentation/9psetup#Performance_Considerations
-> > > 
-> > > It's a bit longer than #msize but it works. I don't know if you can
-> > > add anchors manually in the wiki.
-> > 
-> > It seems you could achieve this without the template:
-> > 
-> > == <span id="msize">Performance Considerations</span> ==
-> 
-> What I tried was this (as wiki source):
-> 
-> <!-- NOTE: anchor 'msize' is linked by a QEMU 9pfs log message in 9p.c  -->
-> {{anchor|msize}}
-> == Performance Considerations ==
-> 
-> Which "should" work according to:
-> https://en.wikipedia.org/wiki/Template:Anchor
-> 
-> However after I did those changes I saw some template errors as comment in the 
-> generated HTML sources, which now are gone at least.
-> 
-> I wait a bit to see if it is maybe just a caching problem. If it still doesn't 
-> work in a while, I will update it with your solution a bit later.
-> 
-> Thanks for the hint!
-> 
+Qemu users can adjust the screen size on the command line with:
+ -global artist.width=3D800 -global artist.height=3D600
+but we need to ensure that the screen size stays inside the given
+boundaries, otherwise print an error message and adjust.
 
-Found here:
+Signed-off-by: Helge Deller <deller@gmx.de>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+=2D--
+ hw/display/artist.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-https://meta.wikimedia.org/wiki/Help:Link#Manual_anchors
+diff --git a/hw/display/artist.c b/hw/display/artist.c
+index 71982559c6..ff1532fdc1 100644
+=2D-- a/hw/display/artist.c
++++ b/hw/display/artist.c
+@@ -1374,6 +1374,18 @@ static void artist_realizefn(DeviceState *dev, Erro=
+r **errp)
+     struct vram_buffer *buf;
+     hwaddr offset =3D 0;
 
-> Best regards,
-> Christian Schoenebeck
-> 
-> 
++    if (s->width > 2048 || s->height > 2048) {
++        error_report("artist: screen size can not exceed 2048 x 2048 pixe=
+l.");
++        s->width =3D MIN(s->width, 2048);
++        s->height =3D MIN(s->height, 2048);
++    }
++
++    if (s->width < 640 || s->height < 480) {
++        error_report("artist: minimum screen size is 640 x 480 pixel.");
++        s->width =3D MAX(s->width, 640);
++        s->height =3D MAX(s->height, 480);
++    }
++
+     memory_region_init(&s->mem_as_root, OBJECT(dev), "artist", ~0ull);
+     address_space_init(&s->as, &s->mem_as_root, "artist");
+
+=2D-
+2.21.3
 
 
