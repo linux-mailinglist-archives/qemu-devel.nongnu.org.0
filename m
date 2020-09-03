@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1500E25CC29
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:26:28 +0200 (CEST)
-Received: from localhost ([::1]:50316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51D6825CC09
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:22:43 +0200 (CEST)
+Received: from localhost ([::1]:34624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwkV-0003Ck-54
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:26:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58240)
+	id 1kDwgs-0004gU-De
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:22:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwKz-0003QG-Qz; Thu, 03 Sep 2020 17:00:05 -0400
-Received: from mail-oo1-xc42.google.com ([2607:f8b0:4864:20::c42]:39605)
+ id 1kDwL0-0003Rn-O1; Thu, 03 Sep 2020 17:00:06 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:41867)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwKx-0007Nh-Lu; Thu, 03 Sep 2020 17:00:05 -0400
-Received: by mail-oo1-xc42.google.com with SMTP id m4so1126893oos.6;
- Thu, 03 Sep 2020 14:00:02 -0700 (PDT)
+ id 1kDwKy-0007OM-MC; Thu, 03 Sep 2020 17:00:06 -0400
+Received: by mail-ot1-x344.google.com with SMTP id a65so3999855otc.8;
+ Thu, 03 Sep 2020 14:00:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=lEZNnKO9GNhaKz9yEgVcPyYgxdyKZQb+4Kbbi2ont1w=;
- b=ORoJUkCP18n5CA8qn/xcmNJ4nPw8c7zyG2zl3XQzYyhQWgSTcAZ36spSzTfoiCFi3U
- fkhzIKYRVPVdVnTG2OfqkOiMa3rNwyIwI9ykCet+BRFiiZp+FcDctdmMa14FfZ6VJJXg
- WvRfTA9W7JloRmRpH/Ro0YDyfTr5AU47UdQfOvGR7cSDftXFfhq611O8v53tcqGg2YOI
- XeuGf1oLBDxg+fp9oljuB+Yjaig/AzTs1o8hni6wSII57KyOPvUhs0TKmEQ0ic8SuDhg
- bh8obQGi6V8ZXzyAb8uKvlqwiEYF+0Cl/LfFntxFInjlGG3HE4QTIsFUTiDniD0IZhTv
- 17vg==
+ bh=DnoLtc59NarnPTasZCly4q1/2ffMi+9W8GNcCg5WkuI=;
+ b=UPQNpOEuzla8r0L7AyY5MczaFSat1A446PzeEO/TRqNE4LF8/4oQ+2srzALnhy+BHR
+ qvO+5OPglTWvpkh85Nvfd4xwtvMkWy1/YHiO4CXoTGBidDFmCJuzH9DMDslBWCXk7ZvZ
+ Xxv75cLW033W8FAZAWr5MLO9pqChKsNkunNDbojK9mn2v9xY7VYvR/zk/QmHKxE5hmLP
+ I8DK6YzZQo5kplnucdF9vslEXrsQwS5OWJw/gBtaiKi4Rt0L6TVeokoV3J5NHbw4g4G4
+ nv/MaaBIVW4B4UwurqvJEt0cipBaNmwGd0oAccS+eJja9jtr/yMheEas4lXyrl7hdT4t
+ RJYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=lEZNnKO9GNhaKz9yEgVcPyYgxdyKZQb+4Kbbi2ont1w=;
- b=bocVLuA8PBl80QHMOwjFfutI1kB/Ch6JaeRyaVasOoG0SQrPgy72ndRHHBwtZ7lex1
- L+aPwdi8oTGCo1c1HAsF95hvSEyCFAQq0woAE3uYmVBogLy8jIfZ1pcVxveMiCnJiCKd
- KpUARHkJKw4ElkpxQjL2oSzyOcyKlDQLlupiVPBCcwirQ8hLB7FfpqheToI3vb/YqChI
- 8I3zPGMsSvt0lhNdAnObn6KJ2BO3asiu7Nu3nkM7/gI3nMupZTIL5emVAbhVtopOb5fs
- Mw+YCNtSobFUdzPLWa9C6YOedssqEpQlFif7npb3FvQsVjrSAMOs7II/CRoRU25C2hKF
- Cd1A==
-X-Gm-Message-State: AOAM532zaN7vyZduFUGLRFStjSjCCdXCxGIRh9C+xTXjCoUN2CwPy7OT
- EAiIBO477Es3p8vpJMjpTlsgC1qkMeg=
-X-Google-Smtp-Source: ABdhPJzuuAdkGdnNqY/27WYME5ji4tDb2hojvGZMo5k1rgYqPxMR2ZhtHSY+GoqKNMfj4+meLm5Wdw==
-X-Received: by 2002:a4a:bb05:: with SMTP id f5mr3353415oop.5.1599166801381;
- Thu, 03 Sep 2020 14:00:01 -0700 (PDT)
+ bh=DnoLtc59NarnPTasZCly4q1/2ffMi+9W8GNcCg5WkuI=;
+ b=Dx6o2cfy4MgQk3vueKEAbvscQyjB7jGtzdeqnxNu1gN3KlECErT3Iogn24YM+rihP2
+ YEZP3tGvw5zeWgJk4eO9JcmHRHMrk1UKV4xJ2T2mcR73hASMQn8sd5OaVTmHH9kPA3Zo
+ nmtyXNO1ROhKrbG6hE78xluLAe27cIGqy/DBXxhTUS9O9l5YcMBhWVlcRb+/Zm+FF75g
+ bsme+4TkvqCYvcnSvALTgvo4pc8Jg8y/9qSvVkrhFQ6kaUVhLJ/Fq8r1YBzBaAPsP+4S
+ 2owz6yjyw8fKlVgxBp5Q+ak1VSAqess6lep1aWHVfHQM6CKT4jOQdE8Tu7s8arvoB1xb
+ G8eA==
+X-Gm-Message-State: AOAM530id3KpFXKpXLdMW53fZKNMgcEjM834PoprkJ0t8Y8UnzOi2Ae3
+ QsoWIgVtQ0TRKOOZP92uVaA90i2CMZY=
+X-Google-Smtp-Source: ABdhPJyde/+tNfRJ3SeIhbX+MNu9dZC6NZHTJ7EcMqaFtXs1RkFocV91elsja5/9USme1ZEI52lPcg==
+X-Received: by 2002:a05:6830:2141:: with SMTP id
+ r1mr2963428otd.314.1599166802781; 
+ Thu, 03 Sep 2020 14:00:02 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id g21sm829342oos.36.2020.09.03.14.00.00
+ by smtp.gmail.com with ESMTPSA id a2sm820168ooo.26.2020.09.03.14.00.02
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:00:00 -0700 (PDT)
+ Thu, 03 Sep 2020 14:00:02 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 17/77] es1370: check total frame count against current frame
-Date: Thu,  3 Sep 2020 15:58:35 -0500
-Message-Id: <20200903205935.27832-18-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 18/77] Fix tulip breakage
+Date: Thu,  3 Sep 2020 15:58:36 -0500
+Message-Id: <20200903205935.27832-19-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c42;
- envelope-from=flukshun@gmail.com; helo=mail-oo1-xc42.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -81,67 +82,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-stable@nongnu.org,
- Prasad J Pandit <pjp@fedoraproject.org>
+Cc: Jason Wang <jasowang@redhat.com>, Helge Deller <deller@gmx.de>,
+ qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Prasad J Pandit <pjp@fedoraproject.org>
+From: Helge Deller <deller@gmx.de>
 
-A guest user may set channel frame count via es1370_write()
-such that, in es1370_transfer_audio(), total frame count
-'size' is lesser than the number of frames that are processed
-'cnt'.
+The tulip network driver in a qemu-system-hppa emulation is broken in
+the sense that bigger network packages aren't received any longer and
+thus even running e.g. "apt update" inside the VM fails.
 
-    int cnt = d->frame_cnt >> 16;
-    int size = d->frame_cnt & 0xffff;
+The breakage was introduced by commit 8ffb7265af ("check frame size and
+r/w data length") which added checks to prevent accesses outside of the
+rx/tx buffers.
 
-if (size < cnt), it results in incorrect calculations leading
-to OOB access issue(s). Add check to avoid it.
+But the new checks were implemented wrong. The variable rx_frame_len
+counts backwards, from rx_frame_size down to zero, and the variable len
+is never bigger than rx_frame_len, so accesses just can't happen and the
+checks are unnecessary.
+On the contrary the checks now prevented bigger packages to be moved
+into the rx buffers.
 
-Reported-by: Ren Ding <rding@gatech.edu>
-Reported-by: Hanqing Zhao <hanqing@gatech.edu>
-Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-Message-id: 20200514200608.1744203-1-ppandit@redhat.com
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-(cherry picked from commit 369ff955a8497988d079c4e3fa1e93c2570c1c69)
+This patch reverts the wrong checks and were sucessfully tested with a
+qemu-system-hppa emulation.
+
+Fixes: 8ffb7265af ("check frame size and r/w data length")
+Buglink: https://bugs.launchpad.net/bugs/1874539
+Signed-off-by: Helge Deller <deller@gmx.de>
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+(cherry picked from commit d9b69640391618045949f7c500b87fc129f862ed)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/audio/es1370.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ hw/net/tulip.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/hw/audio/es1370.c b/hw/audio/es1370.c
-index 89c4dabcd4..5f8a83ff56 100644
---- a/hw/audio/es1370.c
-+++ b/hw/audio/es1370.c
-@@ -643,6 +643,9 @@ static void es1370_transfer_audio (ES1370State *s, struct chan *d, int loop_sel,
-     int csc_bytes = (csc + 1) << d->shift;
-     int cnt = d->frame_cnt >> 16;
-     int size = d->frame_cnt & 0xffff;
-+    if (size < cnt) {
-+        return;
-+    }
-     int left = ((size - cnt + 1) << 2) + d->leftover;
-     int transferred = 0;
-     int temp = MIN (max, MIN (left, csc_bytes));
-@@ -651,7 +654,7 @@ static void es1370_transfer_audio (ES1370State *s, struct chan *d, int loop_sel,
-     addr += (cnt << 2) + d->leftover;
+diff --git a/hw/net/tulip.c b/hw/net/tulip.c
+index 1295f51d07..44db56447c 100644
+--- a/hw/net/tulip.c
++++ b/hw/net/tulip.c
+@@ -171,9 +171,6 @@ static void tulip_copy_rx_bytes(TULIPState *s, struct tulip_descriptor *desc)
+             len = s->rx_frame_len;
+         }
  
-     if (index == ADC_CHANNEL) {
--        while (temp) {
-+        while (temp > 0) {
-             int acquired, to_copy;
+-        if (s->rx_frame_len + len > sizeof(s->rx_frame)) {
+-            return;
+-        }
+         pci_dma_write(&s->dev, desc->buf_addr1, s->rx_frame +
+             (s->rx_frame_size - s->rx_frame_len), len);
+         s->rx_frame_len -= len;
+@@ -186,9 +183,6 @@ static void tulip_copy_rx_bytes(TULIPState *s, struct tulip_descriptor *desc)
+             len = s->rx_frame_len;
+         }
  
-             to_copy = MIN ((size_t) temp, sizeof (tmpbuf));
-@@ -669,7 +672,7 @@ static void es1370_transfer_audio (ES1370State *s, struct chan *d, int loop_sel,
-     else {
-         SWVoiceOut *voice = s->dac_voice[index];
- 
--        while (temp) {
-+        while (temp > 0) {
-             int copied, to_copy;
- 
-             to_copy = MIN ((size_t) temp, sizeof (tmpbuf));
+-        if (s->rx_frame_len + len > sizeof(s->rx_frame)) {
+-            return;
+-        }
+         pci_dma_write(&s->dev, desc->buf_addr2, s->rx_frame +
+             (s->rx_frame_size - s->rx_frame_len), len);
+         s->rx_frame_len -= len;
 -- 
 2.17.1
 
