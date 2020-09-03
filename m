@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 951BD25CC58
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:34:50 +0200 (CEST)
-Received: from localhost ([::1]:60760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1CD825CC6D
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:38:30 +0200 (CEST)
+Received: from localhost ([::1]:49526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwsb-0002UQ-Kc
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:34:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58638)
+	id 1kDww9-0001H0-Nc
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:38:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLM-00040K-Cu; Thu, 03 Sep 2020 17:00:30 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:37566)
+ id 1kDwLR-00042w-D6; Thu, 03 Sep 2020 17:00:33 -0400
+Received: from mail-ot1-x32a.google.com ([2607:f8b0:4864:20::32a]:44661)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLI-0007eh-Qc; Thu, 03 Sep 2020 17:00:27 -0400
-Received: by mail-oi1-x244.google.com with SMTP id e6so4528173oii.4;
- Thu, 03 Sep 2020 14:00:23 -0700 (PDT)
+ id 1kDwLK-0007f2-JX; Thu, 03 Sep 2020 17:00:30 -0400
+Received: by mail-ot1-x32a.google.com with SMTP id a2so3981328otr.11;
+ Thu, 03 Sep 2020 14:00:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=6r9u0nklxBNegI6NxrGJn+A8hZD/QGA53VvgRXsDcyg=;
- b=KWXFWA8hj94/SWqn/xbLuHS1H9UAOa+m7lre17CIgN8saTbSwxAw3Yas7iMEWF26s/
- 0CZxC5QDw4DZvc1MmeH/o8p6eDm28iJR5Zooz2/G2VBzZy+uCgWtMbKHv1WhLs1ZJs/4
- uhQIzyrlBStx+jMvZirgwgfxeGQW8wfsrL1J8+z9yvoRyAsnjkYKmeeDOKqzGu7k8EHI
- KGGwgConXzb9hbaaZJEMX+gjEJlgE9Vz4VrF+1A5BA7w5iuAEYts1vLCyqYKLN19vajX
- edkQre34dloPQcQBqy4fVnmAZgWY2bg9ZHqPwVv/6cnolONvlqs6tIHPa5OQ5YXwvoJL
- jFfw==
+ bh=bZwBA4peLRyGs8ohtkAt1JRxKXRjQb8BlHQpeJ+7qBM=;
+ b=gl+8yXAY9Qy03h4KXWVLSI715zYwZY0Y6cZA0UPXXUtkLR3g2WvW1/MMdvl+1c72a/
+ C7R0MeSVJ12nC2t0ra0abC4LcKnIzBmJlQgQXDuCGgK015s/uXDSauguW+edMLLU5/YI
+ VS9TZk+vwOtrJKO/cOzwmjXGtzSuQGCqVUZFXNz5laW85CTcQbswMhPam4zAsTeQfdYR
+ 5HexfJ/mLMOg/CWqxqyR0Z8V6NH00zNUmwBQB2eWKtEGQl5yWZ3NwItV+oNMag3C7f5E
+ 1xtN+z/viOcqPKnM1bbuwTPFa0FzGih7KOfVIZYIsiSqd9aJQKrb7J0+fGtSG/cLshit
+ LNgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=6r9u0nklxBNegI6NxrGJn+A8hZD/QGA53VvgRXsDcyg=;
- b=majznx8yco2ZDnDkL0TiIoHef9OCp0Zt19ESRMY5HNXY0FmA8h28Sk2BsrkUlb5L2Z
- 9OokvRyOKZAC5wUNMzmjB2d3lwg6Mz94KMMJSrxYUY+xe/qH9HKeIKzfW5obI5XWTZXC
- R38IPicZO6NMaKOZZaNp6Weaer+Ydc9YdSnxFVmJ+d6kJ2XozVqQj8YtoSsnOI9GqpY4
- poRfH4mpRDtQN/e27gcxJclcNsXx0xkt/93ShLjLUGcLQkUDZdD0BzIb+HpQDYGzsd4R
- WLHwxVgSmbYvQhDqHwxu4foT1m66EJ1u3dQsaX+rdEdfuxELa1htNzaYAZqQ8IEFRNEq
- cVkg==
-X-Gm-Message-State: AOAM533+nEXmu+8bFewjqEQ8HabNKaxp/JYs6sdIS9YSENVpCuDb2qgC
- ptytdM+QYkJbxbIgqqQGSiZ3v/kaLyY=
-X-Google-Smtp-Source: ABdhPJykNqvtwFfgk7fq7JGgjho3xrw+T0BCycsxkMlAa5tFID4os47Q4XalaeEpGLqWbi1AQluqSQ==
-X-Received: by 2002:a54:4704:: with SMTP id k4mr2708157oik.78.1599166822706;
- Thu, 03 Sep 2020 14:00:22 -0700 (PDT)
+ bh=bZwBA4peLRyGs8ohtkAt1JRxKXRjQb8BlHQpeJ+7qBM=;
+ b=uFvgiFcGaXL0ovqdl6TsoMbes9JbpwK/zctjYpCIbGOOq90EjqjUf61nvAoPR0+Rz1
+ g55+7IvQfdgu4qaRMmicZzi5FSTaz9V/DSuEHFC6TMCsba3JIPtL5hMPBND7fbS47kvD
+ ouKZBaoGx4a/ouP/hxBKP5EzII54+Dm2g9qGwSzYxfVSVIjVqC0GOA5wSXFC/uJ8Z7R1
+ O79jmFsL7i2SQ/jC8NGYAPnNTJ2R9GVEcSZvScf6gaMi5B7gaJknQvfwzDJznzmyacuZ
+ WVKJ2t86IuLxEQ2juYnAlBWspJYYI4s4jtiC5/75/YO9TbRmD4cYGIUIC6612QY5A1W2
+ wQRQ==
+X-Gm-Message-State: AOAM532W8M/4JQ7hrZ8rpWN2bxyBcidPfDOIPMLhQ/jv88RpVHPbLiCk
+ obzBYNjWaOW/4nEwOKAQzbxjGxArV4U=
+X-Google-Smtp-Source: ABdhPJy99SGG5AIzkQH1kFBC0VKy93XlH+nU5+TdBGgzjffCfQ/LCf4OWtpQQaulynD/0A0muud7Vg==
+X-Received: by 2002:a9d:170e:: with SMTP id i14mr3217027ota.170.1599166824814; 
+ Thu, 03 Sep 2020 14:00:24 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id p9sm759437oti.22.2020.09.03.14.00.21
+ by smtp.gmail.com with ESMTPSA id 92sm764752ota.38.2020.09.03.14.00.24
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:00:22 -0700 (PDT)
+ Thu, 03 Sep 2020 14:00:24 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 33/77] hw/display/artist: Unbreak size mismatch memory accesses
-Date: Thu,  3 Sep 2020 15:58:51 -0500
-Message-Id: <20200903205935.27832-34-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 35/77] virtiofsd: Whitelist fchmod
+Date: Thu,  3 Sep 2020 15:58:53 -0500
+Message-Id: <20200903205935.27832-36-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x244.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32a;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x32a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -81,55 +81,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>, Sven Schnelle <svens@stackframe.org>,
- qemu-stable@nongnu.org
+Cc: qemu-stable@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Helge Deller <deller@gmx.de>
+From: Max Reitz <mreitz@redhat.com>
 
-Commit 5d971f9e6725 ("memory: Revert "memory: accept mismatching sizes
-in memory_region_access_valid") broke the artist driver in a way that
-the dtwm window manager on HP-UX rendered wrong.
+lo_setattr() invokes fchmod() in a rarely used code path, so it should
+be whitelisted or virtiofsd will crash with EBADSYS.
 
-Fixes: 5d971f9e6725 ("memory: Revert "memory: accept mismatching sizes in memory_region_access_valid")
-Signed-off-by: Sven Schnelle <svens@stackframe.org>
-Signed-off-by: Helge Deller <deller@gmx.de>
-(cherry picked from commit e0cf02ce680f11893aca9642e76d6ae68b9375af)
+Said code path can be triggered for example as follows:
+
+On the host, in the shared directory, create a file with the sticky bit
+set and a security.capability xattr:
+(1) # touch foo
+(2) # chmod u+s foo
+(3) # setcap '' foo
+
+Then in the guest let some process truncate that file after it has
+dropped all of its capabilities (at least CAP_FSETID):
+
+int main(int argc, char *argv[])
+{
+    capng_setpid(getpid());
+    capng_clear(CAPNG_SELECT_BOTH);
+    capng_updatev(CAPNG_ADD, CAPNG_PERMITTED | CAPNG_EFFECTIVE, 0);
+    capng_apply(CAPNG_SELECT_BOTH);
+
+    ftruncate(open(argv[1], O_RDWR), 0);
+}
+
+This will cause the guest kernel to drop the sticky bit (i.e. perform a
+mode change) as part of the truncate (where FATTR_FH is set), and that
+will cause virtiofsd to invoke fchmod() instead of fchmodat().
+
+(A similar configuration exists further below with futimens() vs.
+utimensat(), but the former is not a syscall but just a wrapper for the
+latter, so no further whitelisting is required.)
+
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1842667
+Reported-by: Qian Cai <caiqian@redhat.com>
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Message-Id: <20200608093111.14942-1-mreitz@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Vivek Goyal <vgoyal@redhat.com>
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+(cherry picked from commit 63659fe74e76f5c5285466f0c5cfbdca65b3688e)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/display/artist.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ tools/virtiofsd/seccomp.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/display/artist.c b/hw/display/artist.c
-index 753dbb9a77..d7bce918b8 100644
---- a/hw/display/artist.c
-+++ b/hw/display/artist.c
-@@ -1199,20 +1199,16 @@ static const MemoryRegionOps artist_reg_ops = {
-     .read = artist_reg_read,
-     .write = artist_reg_write,
-     .endianness = DEVICE_NATIVE_ENDIAN,
--    .valid = {
--        .min_access_size = 1,
--        .max_access_size = 4,
--    },
-+    .impl.min_access_size = 1,
-+    .impl.max_access_size = 4,
- };
- 
- static const MemoryRegionOps artist_vram_ops = {
-     .read = artist_vram_read,
-     .write = artist_vram_write,
-     .endianness = DEVICE_NATIVE_ENDIAN,
--    .valid = {
--        .min_access_size = 1,
--        .max_access_size = 4,
--    },
-+    .impl.min_access_size = 1,
-+    .impl.max_access_size = 4,
- };
- 
- static void artist_draw_cursor(ARTISTState *s)
+diff --git a/tools/virtiofsd/seccomp.c b/tools/virtiofsd/seccomp.c
+index bd9e7b083c..3b1522acdd 100644
+--- a/tools/virtiofsd/seccomp.c
++++ b/tools/virtiofsd/seccomp.c
+@@ -42,6 +42,7 @@ static const int syscall_whitelist[] = {
+     SCMP_SYS(exit_group),
+     SCMP_SYS(fallocate),
+     SCMP_SYS(fchdir),
++    SCMP_SYS(fchmod),
+     SCMP_SYS(fchmodat),
+     SCMP_SYS(fchownat),
+     SCMP_SYS(fcntl),
 -- 
 2.17.1
 
