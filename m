@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0C7225BEAB
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 11:53:30 +0200 (CEST)
-Received: from localhost ([::1]:54846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 378D825BEA2
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 11:51:52 +0200 (CEST)
+Received: from localhost ([::1]:48898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDlvt-0007QT-WD
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 05:53:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43314)
+	id 1kDluJ-000534-9b
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 05:51:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kDltR-0003pQ-EJ
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 05:50:57 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60394)
+ id 1kDltQ-0003pB-Ln
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 05:50:56 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60388)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kDltO-0003S3-OQ
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 05:50:57 -0400
+ id 1kDltO-0003S2-7f
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 05:50:56 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kDltL-0001EJ-9b
+ id 1kDltL-0001I5-JQ
  for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 09:50:51 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 839A62E80EA
- for <qemu-devel@nongnu.org>; Thu,  3 Sep 2020 09:50:50 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 299AE2E810B
+ for <qemu-devel@nongnu.org>; Thu,  3 Sep 2020 09:50:51 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 03 Sep 2020 09:38:02 -0000
+Date: Thu, 03 Sep 2020 09:38:24 -0000
 From: "Tony.LI" <1894071@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -41,14 +41,14 @@ X-Launchpad-Bug-Commenters: bigboy0822
 X-Launchpad-Bug-Reporter: Tony.LI (bigboy0822)
 X-Launchpad-Bug-Modifier: Tony.LI (bigboy0822)
 References: <159912571834.28358.2492164063235416189.malonedeb@soybean.canonical.com>
-Message-Id: <159912588237.27717.12873970230588653909.malone@soybean.canonical.com>
+Message-Id: <159912590410.14393.4657115079069460122.malone@gac.canonical.com>
 Subject: [Bug 1894071] Re: qemu-i386-static ioctl return -14 (Bad Address)
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="195cbfa84cb75815472f69dd83d46f006869050b"; Instance="production"
-X-Launchpad-Hash: fe0c267e24850e7a4993a20aa76c4f8a524eb1fc
+X-Launchpad-Hash: 15b234cc0aa31c8d9c4229bf6189605f15bb04aa
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 04:31:20
@@ -75,9 +75,9 @@ Reply-To: Bug 1894071 <1894071@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Attachment added: "ioctls.h"
-   https://bugs.launchpad.net/qemu/+bug/1894071/+attachment/5407368/+files/=
-ioctls.h
+** Attachment added: "syscall_defs.h"
+   https://bugs.launchpad.net/qemu/+bug/1894071/+attachment/5407369/+files/=
+syscall_defs.h
 
 -- =
 
