@@ -2,48 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03DDA25BFBF
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 12:58:24 +0200 (CEST)
-Received: from localhost ([::1]:42662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AAAB25BFBB
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 12:57:41 +0200 (CEST)
+Received: from localhost ([::1]:39168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDmwh-0005oc-21
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 06:58:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59254)
+	id 1kDmw0-0004MB-2M
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 06:57:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kDmun-0002s1-L0
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 06:56:25 -0400
-Received: from mx2.suse.de ([195.135.220.15]:48890)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kDmul-0004Xj-AD
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 06:56:25 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 4BB52B69F;
- Thu,  3 Sep 2020 10:56:21 +0000 (UTC)
-From: Claudio Fontana <cfontana@suse.de>
-To: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>
-Subject: [PATCH v7 05/16] cpus: extract out qtest-specific code to accel/qtest
-Date: Thu,  3 Sep 2020 12:56:03 +0200
-Message-Id: <20200903105614.17772-6-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200903105614.17772-1-cfontana@suse.de>
-References: <20200903105614.17772-1-cfontana@suse.de>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kDmuh-0002gD-Ur
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 06:56:19 -0400
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:43240)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kDmug-0004Vb-0w
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 06:56:19 -0400
+Received: by mail-ed1-x542.google.com with SMTP id n13so2176018edo.10
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 03:56:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6pRNVMvnme2tZ0uXf+v/uXfW4AuapxJLUhEv6h7XN6I=;
+ b=VDPqOQ5LWvGpqa00knJSzMiVF6NtoAWc9bslwfAcOHourNalQd2vQcmno3G5Tq15MG
+ ak0DLGeKVMjseih9oo6l0Lwdn323aAq9KdBmgK0Sc2MUPi5zA0FoHLiQACbH4ZFATz47
+ LE6GJbNEcFaBQ1Jlgvk1p7+w/3frXnquWnt/xGPhgY+Io/pYHuEm49OJkWzcMDZf5GdP
+ PWh20axzgCJGuSN1pw//bHKxPOqVu/DNFFgChGoxMo4sg1hgpjqTk02Pgt8IZxxu3T+G
+ Z2JOT2AhJFmk4CijYeaHHanelXEnYQqOBzKu8H43O5hAkdkKtA/Lq4HPP0kPdNAqLQWB
+ oBow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6pRNVMvnme2tZ0uXf+v/uXfW4AuapxJLUhEv6h7XN6I=;
+ b=aG2YnXmoetPlyTvWTfPE0yT9OXPa3BwCy3BgFjmvX9jmzQTiE3yOEOf5eL8Nz3VWKU
+ j7hlisF90l3/ErH6qETsdipPZluI6OHsma/1aZZw/1y0/eP9bu93LVmDKQF0Gzo/BBWV
+ 969rhmAHRIb96xkoqa7s/N3p7zGMyWyAGLNhL+pTMo5GhhcCtVVT2Tr6pbP41rp5QMxN
+ pZLN/Z35v2ApQvKbaeMOcTiPXngjXnT+MlC/lc3OTtFYiis3uabJ0ykt22MMoPdFNxaV
+ ClkMBI2zdvCyTdHGgiOlSL2Gb1Qehn+CyqR4CwcLGRGQJhzbkwFzwZNCF55RCbw2YA4N
+ 6sZA==
+X-Gm-Message-State: AOAM532fIK3i5P37DXMhzq1SOPQfg0IeTQ55t2st20xHPaQeGurD6E07
+ 31VX+W6RbqBaVFXgDJoWUlXVYWJRxT/IRIvfmIrbyg==
+X-Google-Smtp-Source: ABdhPJwWFklU8rm1hk/OG2XT4dtGpOv6oI5F29n/c1BcZzJiefh0r2j7AQVs1tT6swNdCSZqLDLXa96fj/AWmH202W8=
+X-Received: by 2002:a50:e68a:: with SMTP id z10mr2513948edm.100.1599130576052; 
+ Thu, 03 Sep 2020 03:56:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 00:06:01
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <1599129623-68957-1-git-send-email-bmeng.cn@gmail.com>
+In-Reply-To: <1599129623-68957-1-git-send-email-bmeng.cn@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 3 Sep 2020 11:56:04 +0100
+Message-ID: <CAFEAcA9GjQ8Wr3QtPpobsFokQcgW-A2Qh1LrC-PErUgeafGN8g@mail.gmail.com>
+Subject: Re: [PATCH 00/12] hw/riscv: Clean up the directory
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x542.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,327 +78,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alberto Garcia <berto@igalia.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Pavel Dovgalyuk <dovgaluk@ispras.ru>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Colin Xu <colin.xu@intel.com>,
- Wenchao Wang <wenchao.wang@intel.com>, haxm-team@intel.com,
- Sunil Muthuswamy <sunilmut@microsoft.com>, Claudio Fontana <cfontana@suse.de>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-register a "CpusAccel" interface for qtest as well.
+On Thu, 3 Sep 2020 at 11:42, Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> From: Bin Meng <bin.meng@windriver.com>
+>
+> This is an effort to clean up the hw/riscv directory. Ideally it
+> should only contain the RISC-V SoC / machine codes plus generic
+> codes. Peripheral models for a specific SoC are moved to its
+> corresponding hw/* subdirectories.
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- MAINTAINERS               |  2 +-
- accel/meson.build         |  2 +-
- accel/qtest/meson.build   |  7 +++
- accel/qtest/qtest-cpus.c  | 91 +++++++++++++++++++++++++++++++++++++++
- accel/qtest/qtest-cpus.h  | 17 ++++++++
- accel/{ => qtest}/qtest.c |  7 +++
- softmmu/cpus.c            | 64 +--------------------------
- 7 files changed, 125 insertions(+), 65 deletions(-)
- create mode 100644 accel/qtest/meson.build
- create mode 100644 accel/qtest/qtest-cpus.c
- create mode 100644 accel/qtest/qtest-cpus.h
- rename accel/{ => qtest}/qtest.c (86%)
+Ah, thanks for taking on this cleanup -- it's been something
+that was unfortunately missed in code review for the initial
+riscv work that we never got round to fixing later, so it's
+nice to see things being moved into their proper places.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b3447056ed..5cd2960b46 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2444,7 +2444,7 @@ M: Laurent Vivier <lvivier@redhat.com>
- R: Paolo Bonzini <pbonzini@redhat.com>
- S: Maintained
- F: softmmu/qtest.c
--F: accel/qtest.c
-+F: accel/qtest/
- F: tests/qtest/
- X: tests/qtest/bios-tables-test-allowed-diff.h
- 
-diff --git a/accel/meson.build b/accel/meson.build
-index 26c503e480..bb00d0fd13 100644
---- a/accel/meson.build
-+++ b/accel/meson.build
-@@ -1,6 +1,6 @@
- softmmu_ss.add(files('accel.c'))
--specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_POSIX'], if_true: files('qtest.c'))
- 
-+subdir('qtest')
- subdir('kvm')
- subdir('tcg')
- subdir('xen')
-diff --git a/accel/qtest/meson.build b/accel/qtest/meson.build
-new file mode 100644
-index 0000000000..e477cb2ae2
---- /dev/null
-+++ b/accel/qtest/meson.build
-@@ -0,0 +1,7 @@
-+qtest_ss = ss.source_set()
-+qtest_ss.add(files(
-+  'qtest.c',
-+  'qtest-cpus.c',
-+))
-+
-+specific_ss.add_all(when: ['CONFIG_SOFTMMU', 'CONFIG_POSIX'], if_true: qtest_ss)
-diff --git a/accel/qtest/qtest-cpus.c b/accel/qtest/qtest-cpus.c
-new file mode 100644
-index 0000000000..7c5399ed9d
---- /dev/null
-+++ b/accel/qtest/qtest-cpus.c
-@@ -0,0 +1,91 @@
-+/*
-+ * QTest accelerator code
-+ *
-+ * Copyright IBM, Corp. 2011
-+ *
-+ * Authors:
-+ *  Anthony Liguori   <aliguori@us.ibm.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/rcu.h"
-+#include "qapi/error.h"
-+#include "qemu/module.h"
-+#include "qemu/option.h"
-+#include "qemu/config-file.h"
-+#include "sysemu/accel.h"
-+#include "sysemu/qtest.h"
-+#include "sysemu/cpus.h"
-+#include "sysemu/cpu-timers.h"
-+#include "qemu/guest-random.h"
-+#include "qemu/main-loop.h"
-+#include "hw/core/cpu.h"
-+
-+#include "qtest-cpus.h"
-+
-+static void *qtest_cpu_thread_fn(void *arg)
-+{
-+#ifdef _WIN32
-+    error_report("qtest is not supported under Windows");
-+    exit(1);
-+#else
-+    CPUState *cpu = arg;
-+    sigset_t waitset;
-+    int r;
-+
-+    rcu_register_thread();
-+
-+    qemu_mutex_lock_iothread();
-+    qemu_thread_get_self(cpu->thread);
-+    cpu->thread_id = qemu_get_thread_id();
-+    cpu->can_do_io = 1;
-+    current_cpu = cpu;
-+
-+    sigemptyset(&waitset);
-+    sigaddset(&waitset, SIG_IPI);
-+
-+    /* signal CPU creation */
-+    cpu_thread_signal_created(cpu);
-+    qemu_guest_random_seed_thread_part2(cpu->random_seed);
-+
-+    do {
-+        qemu_mutex_unlock_iothread();
-+        do {
-+            int sig;
-+            r = sigwait(&waitset, &sig);
-+        } while (r == -1 && (errno == EAGAIN || errno == EINTR));
-+        if (r == -1) {
-+            perror("sigwait");
-+            exit(1);
-+        }
-+        qemu_mutex_lock_iothread();
-+        qemu_wait_io_event(cpu);
-+    } while (!cpu->unplug);
-+
-+    qemu_mutex_unlock_iothread();
-+    rcu_unregister_thread();
-+    return NULL;
-+#endif
-+}
-+
-+static void qtest_start_vcpu_thread(CPUState *cpu)
-+{
-+    char thread_name[VCPU_THREAD_NAME_SIZE];
-+
-+    cpu->thread = g_malloc0(sizeof(QemuThread));
-+    cpu->halt_cond = g_malloc0(sizeof(QemuCond));
-+    qemu_cond_init(cpu->halt_cond);
-+    snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/DUMMY",
-+             cpu->cpu_index);
-+    qemu_thread_create(cpu->thread, thread_name, qtest_cpu_thread_fn, cpu,
-+                       QEMU_THREAD_JOINABLE);
-+}
-+
-+const CpusAccel qtest_cpus = {
-+    .create_vcpu_thread = qtest_start_vcpu_thread,
-+    .get_virtual_clock = qtest_get_virtual_clock,
-+};
-diff --git a/accel/qtest/qtest-cpus.h b/accel/qtest/qtest-cpus.h
-new file mode 100644
-index 0000000000..739519a472
---- /dev/null
-+++ b/accel/qtest/qtest-cpus.h
-@@ -0,0 +1,17 @@
-+/*
-+ * Accelerator CPUS Interface
-+ *
-+ * Copyright 2020 SUSE LLC
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef QTEST_CPUS_H
-+#define QTEST_CPUS_H
-+
-+#include "sysemu/cpus.h"
-+
-+extern const CpusAccel qtest_cpus;
-+
-+#endif /* QTEST_CPUS_H */
-diff --git a/accel/qtest.c b/accel/qtest/qtest.c
-similarity index 86%
-rename from accel/qtest.c
-rename to accel/qtest/qtest.c
-index 119d0f16a4..537e8b449c 100644
---- a/accel/qtest.c
-+++ b/accel/qtest/qtest.c
-@@ -12,6 +12,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/rcu.h"
- #include "qapi/error.h"
- #include "qemu/module.h"
- #include "qemu/option.h"
-@@ -20,9 +21,15 @@
- #include "sysemu/qtest.h"
- #include "sysemu/cpus.h"
- #include "sysemu/cpu-timers.h"
-+#include "qemu/guest-random.h"
-+#include "qemu/main-loop.h"
-+#include "hw/core/cpu.h"
-+
-+#include "qtest-cpus.h"
- 
- static int qtest_init_accel(MachineState *ms)
- {
-+    cpus_register_accel(&qtest_cpus);
-     return 0;
- }
- 
-diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index 7fd6e7c3b7..d1eddc65d0 100644
---- a/softmmu/cpus.c
-+++ b/softmmu/cpus.c
-@@ -40,7 +40,6 @@
- #include "qemu/thread.h"
- #include "qemu/plugin.h"
- #include "sysemu/cpus.h"
--#include "sysemu/qtest.h"
- #include "qemu/main-loop.h"
- #include "qemu/option.h"
- #include "qemu/bitmap.h"
-@@ -247,9 +246,6 @@ int64_t cpus_get_virtual_clock(void)
-     if (cpus_accel && cpus_accel->get_virtual_clock) {
-         return cpus_accel->get_virtual_clock();
-     }
--    if (qtest_enabled()) { /* for qtest_clock_warp */
--        return qtest_get_virtual_clock();
--    }
-     return cpu_get_clock();
- }
- 
-@@ -482,51 +478,6 @@ static void *qemu_kvm_cpu_thread_fn(void *arg)
-     return NULL;
- }
- 
--static void *qemu_dummy_cpu_thread_fn(void *arg)
--{
--#ifdef _WIN32
--    error_report("qtest is not supported under Windows");
--    exit(1);
--#else
--    CPUState *cpu = arg;
--    sigset_t waitset;
--    int r;
--
--    rcu_register_thread();
--
--    qemu_mutex_lock_iothread();
--    qemu_thread_get_self(cpu->thread);
--    cpu->thread_id = qemu_get_thread_id();
--    cpu->can_do_io = 1;
--    current_cpu = cpu;
--
--    sigemptyset(&waitset);
--    sigaddset(&waitset, SIG_IPI);
--
--    /* signal CPU creation */
--    cpu_thread_signal_created(cpu);
--    qemu_guest_random_seed_thread_part2(cpu->random_seed);
--
--    do {
--        qemu_mutex_unlock_iothread();
--        do {
--            int sig;
--            r = sigwait(&waitset, &sig);
--        } while (r == -1 && (errno == EAGAIN || errno == EINTR));
--        if (r == -1) {
--            perror("sigwait");
--            exit(1);
--        }
--        qemu_mutex_lock_iothread();
--        qemu_wait_io_event(cpu);
--    } while (!cpu->unplug);
--
--    qemu_mutex_unlock_iothread();
--    rcu_unregister_thread();
--    return NULL;
--#endif
--}
--
- static void *qemu_hax_cpu_thread_fn(void *arg)
- {
-     CPUState *cpu = arg;
-@@ -904,19 +855,6 @@ void cpus_register_accel(const CpusAccel *ca)
-     cpus_accel = ca;
- }
- 
--static void qemu_dummy_start_vcpu(CPUState *cpu)
--{
--    char thread_name[VCPU_THREAD_NAME_SIZE];
--
--    cpu->thread = g_malloc0(sizeof(QemuThread));
--    cpu->halt_cond = g_malloc0(sizeof(QemuCond));
--    qemu_cond_init(cpu->halt_cond);
--    snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/DUMMY",
--             cpu->cpu_index);
--    qemu_thread_create(cpu->thread, thread_name, qemu_dummy_cpu_thread_fn, cpu,
--                       QEMU_THREAD_JOINABLE);
--}
--
- void qemu_init_vcpu(CPUState *cpu)
- {
-     MachineState *ms = MACHINE(qdev_get_machine());
-@@ -946,7 +884,7 @@ void qemu_init_vcpu(CPUState *cpu)
-     } else if (whpx_enabled()) {
-         qemu_whpx_start_vcpu(cpu);
-     } else {
--        qemu_dummy_start_vcpu(cpu);
-+        g_assert_not_reached();
-     }
- 
-     while (!cpu->created) {
--- 
-2.26.2
-
+thanks
+-- PMM
 
