@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1CD825CC6D
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:38:30 +0200 (CEST)
-Received: from localhost ([::1]:49526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1438125CC68
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:37:07 +0200 (CEST)
+Received: from localhost ([::1]:41866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDww9-0001H0-Nc
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:38:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58722)
+	id 1kDwuo-0006dI-3y
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:37:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLR-00042w-D6; Thu, 03 Sep 2020 17:00:33 -0400
-Received: from mail-ot1-x32a.google.com ([2607:f8b0:4864:20::32a]:44661)
+ id 1kDwLS-00043y-0L; Thu, 03 Sep 2020 17:00:34 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:45643)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLK-0007f2-JX; Thu, 03 Sep 2020 17:00:30 -0400
-Received: by mail-ot1-x32a.google.com with SMTP id a2so3981328otr.11;
- Thu, 03 Sep 2020 14:00:25 -0700 (PDT)
+ id 1kDwLM-0007fN-FL; Thu, 03 Sep 2020 17:00:33 -0400
+Received: by mail-ot1-x341.google.com with SMTP id g96so3975221otb.12;
+ Thu, 03 Sep 2020 14:00:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=bZwBA4peLRyGs8ohtkAt1JRxKXRjQb8BlHQpeJ+7qBM=;
- b=gl+8yXAY9Qy03h4KXWVLSI715zYwZY0Y6cZA0UPXXUtkLR3g2WvW1/MMdvl+1c72a/
- C7R0MeSVJ12nC2t0ra0abC4LcKnIzBmJlQgQXDuCGgK015s/uXDSauguW+edMLLU5/YI
- VS9TZk+vwOtrJKO/cOzwmjXGtzSuQGCqVUZFXNz5laW85CTcQbswMhPam4zAsTeQfdYR
- 5HexfJ/mLMOg/CWqxqyR0Z8V6NH00zNUmwBQB2eWKtEGQl5yWZ3NwItV+oNMag3C7f5E
- 1xtN+z/viOcqPKnM1bbuwTPFa0FzGih7KOfVIZYIsiSqd9aJQKrb7J0+fGtSG/cLshit
- LNgQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=uQPncV/jLImjoch26Nuy7gV8hNnslJV64x5ayj1AopA=;
+ b=ogiOM/vcOw+4h5KxOuXCl3M24eZzMDtvLTnvk240oGhaurTjvHHY0jXrg6Gq1Pj+x9
+ xZhKIpHO4Fq6at1l6n/LUcFijBx+DSFdbzvsv/WRrv4Kt2LO8C6lb4SRXhTpH6qukVoY
+ HZxVOnpSTANhsBZ3My0lqAafSR8GF1IydyhRbBaKbuM4JcCpwA+SUcPBIQFkZIoTdAiM
+ 2xgZCvY+QNSYs3lVxJHGpQsKT5XtKgBsNLXyABVeD4ql2TWnbGsZp0YrdO8Sg1ZaP34b
+ 08tsMDBz/caYx3zed9sKSzi8wIlhHQHNQR9+U5NmfKrjQklA1OsGQW53cLYQej06myfE
+ uIWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=bZwBA4peLRyGs8ohtkAt1JRxKXRjQb8BlHQpeJ+7qBM=;
- b=uFvgiFcGaXL0ovqdl6TsoMbes9JbpwK/zctjYpCIbGOOq90EjqjUf61nvAoPR0+Rz1
- g55+7IvQfdgu4qaRMmicZzi5FSTaz9V/DSuEHFC6TMCsba3JIPtL5hMPBND7fbS47kvD
- ouKZBaoGx4a/ouP/hxBKP5EzII54+Dm2g9qGwSzYxfVSVIjVqC0GOA5wSXFC/uJ8Z7R1
- O79jmFsL7i2SQ/jC8NGYAPnNTJ2R9GVEcSZvScf6gaMi5B7gaJknQvfwzDJznzmyacuZ
- WVKJ2t86IuLxEQ2juYnAlBWspJYYI4s4jtiC5/75/YO9TbRmD4cYGIUIC6612QY5A1W2
- wQRQ==
-X-Gm-Message-State: AOAM532W8M/4JQ7hrZ8rpWN2bxyBcidPfDOIPMLhQ/jv88RpVHPbLiCk
- obzBYNjWaOW/4nEwOKAQzbxjGxArV4U=
-X-Google-Smtp-Source: ABdhPJy99SGG5AIzkQH1kFBC0VKy93XlH+nU5+TdBGgzjffCfQ/LCf4OWtpQQaulynD/0A0muud7Vg==
-X-Received: by 2002:a9d:170e:: with SMTP id i14mr3217027ota.170.1599166824814; 
- Thu, 03 Sep 2020 14:00:24 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=uQPncV/jLImjoch26Nuy7gV8hNnslJV64x5ayj1AopA=;
+ b=k2X1+JB2ZuIIhjM9AvtwlZpJJVp1o1zW708eN5ZoHMW+ZzxbZEUyz69joLVtTxxkC5
+ UMXVsjbVfXoz1G09IBA8uArchdr9zx1aGvqweKNpCCEz1RrN26WVU0R2I+WJeHpESYO2
+ ixF7KTzDLKY5rMCNCdsOamCeKHEWOCgbuxfXDHW1YYNM8QDNP6StMYjEp0JXGoDjSm2V
+ KK/4netHMzjIaheNsIdQpyhNdTF9er7VbcSJKTBHoghhzuSMqp4UCTw8kqJsLWJMd6gm
+ ODdIU7HLtVOGPf7dBAIQ2iGHRTqIjKPpbEnkkci8+LmAc2xKMQkvcE7WBoZR+R4UDebo
+ L0hQ==
+X-Gm-Message-State: AOAM530utpCO196olzRXfhYRM+URsoSUPtIfEVsEIH/yrDDcwEARUpIp
+ gD7Gp1yqU5aLykHdQ3n/412yM2puwmc=
+X-Google-Smtp-Source: ABdhPJzJlnG9NKW9NqggbCOnxGkTeY2euLyTy91CRCKuT6nVtP1neWk+P/hPjGtSFob1HzF1P+ZtTQ==
+X-Received: by 2002:a9d:6f86:: with SMTP id h6mr3113277otq.285.1599166826509; 
+ Thu, 03 Sep 2020 14:00:26 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id 92sm764752ota.38.2020.09.03.14.00.24
+ by smtp.gmail.com with ESMTPSA id r33sm828425ooi.48.2020.09.03.14.00.25
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:00:24 -0700 (PDT)
+ Thu, 03 Sep 2020 14:00:26 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 35/77] virtiofsd: Whitelist fchmod
-Date: Thu,  3 Sep 2020 15:58:53 -0500
-Message-Id: <20200903205935.27832-36-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 36/77] hw/audio/gus: Fix registers 32-bit access
+Date: Thu,  3 Sep 2020 15:58:54 -0500
+Message-Id: <20200903205935.27832-37-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32a;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x32a.google.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -81,71 +85,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Max Reitz <mreitz@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Allan Peramaki <aperamak@pp1.inet.fi>, qemu-stable@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Max Reitz <mreitz@redhat.com>
+From: Allan Peramaki <aperamak@pp1.inet.fi>
 
-lo_setattr() invokes fchmod() in a rarely used code path, so it should
-be whitelisted or virtiofsd will crash with EBADSYS.
+Fix audio on software that accesses DRAM above 64k via register
+peek/poke and some cases when more than 16 voices are used.
 
-Said code path can be triggered for example as follows:
-
-On the host, in the shared directory, create a file with the sticky bit
-set and a security.capability xattr:
-(1) # touch foo
-(2) # chmod u+s foo
-(3) # setcap '' foo
-
-Then in the guest let some process truncate that file after it has
-dropped all of its capabilities (at least CAP_FSETID):
-
-int main(int argc, char *argv[])
-{
-    capng_setpid(getpid());
-    capng_clear(CAPNG_SELECT_BOTH);
-    capng_updatev(CAPNG_ADD, CAPNG_PERMITTED | CAPNG_EFFECTIVE, 0);
-    capng_apply(CAPNG_SELECT_BOTH);
-
-    ftruncate(open(argv[1], O_RDWR), 0);
-}
-
-This will cause the guest kernel to drop the sticky bit (i.e. perform a
-mode change) as part of the truncate (where FATTR_FH is set), and that
-will cause virtiofsd to invoke fchmod() instead of fchmodat().
-
-(A similar configuration exists further below with futimens() vs.
-utimensat(), but the former is not a syscall but just a wrapper for the
-latter, so no further whitelisting is required.)
-
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1842667
-Reported-by: Qian Cai <caiqian@redhat.com>
 Cc: qemu-stable@nongnu.org
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200608093111.14942-1-mreitz@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Vivek Goyal <vgoyal@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-(cherry picked from commit 63659fe74e76f5c5285466f0c5cfbdca65b3688e)
+Fixes: 135f5ae1974c ("audio: GUSsample is int16_t")
+Signed-off-by: Allan Peramaki <aperamak@pp1.inet.fi>
+Tested-by: Volker Rümelin <vr_qemu@t-online.de>
+Reviewed-by: Volker Rümelin <vr_qemu@t-online.de>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 20200618103623.6031-1-philmd@redhat.com
+Message-Id: <20200615201757.16868-1-aperamak@pp1.inet.fi>
+[PMD: Removed unrelated style changes]
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+(cherry picked from commit 586803455b3fa44d949ecd42cd9c87e5a6287aef)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- tools/virtiofsd/seccomp.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/audio/gusemu_hal.c   | 2 +-
+ hw/audio/gusemu_mixer.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tools/virtiofsd/seccomp.c b/tools/virtiofsd/seccomp.c
-index bd9e7b083c..3b1522acdd 100644
---- a/tools/virtiofsd/seccomp.c
-+++ b/tools/virtiofsd/seccomp.c
-@@ -42,6 +42,7 @@ static const int syscall_whitelist[] = {
-     SCMP_SYS(exit_group),
-     SCMP_SYS(fallocate),
-     SCMP_SYS(fchdir),
-+    SCMP_SYS(fchmod),
-     SCMP_SYS(fchmodat),
-     SCMP_SYS(fchownat),
-     SCMP_SYS(fcntl),
+diff --git a/hw/audio/gusemu_hal.c b/hw/audio/gusemu_hal.c
+index ae40ca341c..5b9a14ee21 100644
+--- a/hw/audio/gusemu_hal.c
++++ b/hw/audio/gusemu_hal.c
+@@ -32,7 +32,7 @@
+ 
+ #define GUSregb(position) (*            (gusptr+(position)))
+ #define GUSregw(position) (*(uint16_t *) (gusptr+(position)))
+-#define GUSregd(position) (*(uint16_t *)(gusptr+(position)))
++#define GUSregd(position) (*(uint32_t *)(gusptr + (position)))
+ 
+ /* size given in bytes */
+ unsigned int gus_read(GUSEmuState * state, int port, int size)
+diff --git a/hw/audio/gusemu_mixer.c b/hw/audio/gusemu_mixer.c
+index 00b9861b92..56300de77e 100644
+--- a/hw/audio/gusemu_mixer.c
++++ b/hw/audio/gusemu_mixer.c
+@@ -28,7 +28,7 @@
+ 
+ #define GUSregb(position)  (*            (gusptr+(position)))
+ #define GUSregw(position)  (*(uint16_t *) (gusptr+(position)))
+-#define GUSregd(position)  (*(uint16_t *)(gusptr+(position)))
++#define GUSregd(position)  (*(uint32_t *)(gusptr + (position)))
+ 
+ #define GUSvoice(position) (*(uint16_t *)(voiceptr+(position)))
+ 
 -- 
 2.17.1
 
