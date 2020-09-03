@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8265125CC6C
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:38:08 +0200 (CEST)
-Received: from localhost ([::1]:47150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A62125CC46
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:30:48 +0200 (CEST)
+Received: from localhost ([::1]:41016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwvn-0000KE-Fs
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:38:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59838)
+	id 1kDwoh-0002Y4-D4
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:30:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwMO-0005Z8-R0; Thu, 03 Sep 2020 17:01:32 -0400
-Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:35611)
+ id 1kDwL9-0003nF-RX; Thu, 03 Sep 2020 17:00:15 -0400
+Received: from mail-oo1-xc43.google.com ([2607:f8b0:4864:20::c43]:34286)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwMN-0007xh-0E; Thu, 03 Sep 2020 17:01:32 -0400
-Received: by mail-ot1-x332.google.com with SMTP id i4so4040025ota.2;
- Thu, 03 Sep 2020 14:01:30 -0700 (PDT)
+ id 1kDwL7-0007RQ-9M; Thu, 03 Sep 2020 17:00:15 -0400
+Received: by mail-oo1-xc43.google.com with SMTP id k63so1134591oob.1;
+ Thu, 03 Sep 2020 14:00:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=QR57nNbf5eNvk41+1C7VvpA6VmcUymk4wbFzEUFu1zg=;
- b=p3pXJs7FrDAE1Oz2N+61RF9BmW0fa8GnxsGi/m4hR9VNNURiQbAvfFBxRAeX5SyM+U
- YiU0v4Nu5WKxPuAQPAzArVL92qj6Z1v+m5CE8kiXc/d+hqXRCWd0TPYR4Luugo2+byQO
- v6ybHO8VE505RyffdTr9268YfA+8HRHAoR8JuJdrvzWemMqAOb8ifGO6BAyfKlo+B94E
- 4I3UlJswYjq/4C9uDFQOatgcoEezCF1Jv3ipltNt9qdQ2mKGb+BKdykC/VfjJ6k+qKsD
- 9qJs26uOMj35aTi8NVoqhSKa6e5RRm9/GlK9O7DzwUFnMiR6uvTAt2ZqfoTIJNQufMFw
- YGkQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=G4FtznJiI3bIZt9XXorrUG/m7EUVyV0wnG1XwMDDxC8=;
+ b=tDCvC9jpTzxhbzzF3UA4RaxA2NnpMC9rhgAdfeUV9aIeNNUWhhXBm8DiMY+OGsZwQl
+ KQHfh+IwV+5DJ7o92Al0B5n5x8z5I4uFqlu+6AbmthVS486gV1jBcv6PtXsCKS/Qr6rp
+ U1olNh6pBi5xH/6zfT8MpI2Sb/yv11NkAwrzCASrzE00oKplfFDe0zvC0hwwKCIepmc6
+ SmjdbbhMl2YEEG1CDrrOOewKR652KoF2d8n4t7ije+Hg++X9AR3eij+7lGpR4jWeupeV
+ bSj+C9Vq6JYREN8eBTaXTYjP7/udt/XX7DS59eKPNqqsHSpYl8md7t3077+gQNYlFCxw
+ EL8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=QR57nNbf5eNvk41+1C7VvpA6VmcUymk4wbFzEUFu1zg=;
- b=DA3unmZvO5X/s+bFE6Y+vn7A9HVGZWV4cuSxLk1vwGMVkfJwTy7h486raDU5iHBI6/
- TC/uQifi4QVPOjAwoQZio7Zw1szFSlvLA1XLB1NR0DJ2mbKSKdzlSvJYbz6Ctr+3aHdZ
- WQx1oQvf9qVTwXWqS3iX9Dia8yGhkxFpJfU6CIgVcx1H6KAziCa/ggbD+rVfgLx1H9bS
- 8CfuuFGTb7/5a3Iq9hzCNQxHqe5eJrUClJfnVGG4aJhP57ydQo/oU9jA/cZmW2vuuJ2U
- rBiiylYvrxRCa0Rkg3yEFj/KvYIrpG6aFF09txM47eWPIQgwbsR2d98xkXDu2KfOkkWK
- cggg==
-X-Gm-Message-State: AOAM531AG1r0ica1EEV+Llu2T2cPMKZM+uHp+D0RljxUQ2NutGX/Wh2d
- 4lDhRljz01pXcLO2tmhEG9RJBhZP6nX5gg==
-X-Google-Smtp-Source: ABdhPJw74MLZYytGzCizOaNATDZund5++b/KtEEAfk/3BmsrG88QG63TxHMFFKs47dKreIeZ+cFEQw==
-X-Received: by 2002:a9d:4d0:: with SMTP id 74mr3171113otm.119.1599166889287;
- Thu, 03 Sep 2020 14:01:29 -0700 (PDT)
+ :in-reply-to:references;
+ bh=G4FtznJiI3bIZt9XXorrUG/m7EUVyV0wnG1XwMDDxC8=;
+ b=ZczYajC1InT7At7m3Xw6r28fyVYSQ3T5YFSzyvS5MWas0TruwdHIEYnC+7NhXJPAza
+ y0oKaodOUknQj3Plbd2G858modWmMkD/DTE2vEt2i8q6TTXFIAd6CQl4ehQnFQ9XYDbO
+ Ggu0C85IcR8+yxMTwwln6C+WSLzDwZbURP59/dUQgk2yIFyCMC3nltpCzbabPaqLkANg
+ qxY1PwNYVdKFsvs5z5D8ePAN519d13P2HOHtsvt0RRU9oxxJQN5M51dP0S+/rdtP7IVB
+ kNdJFTeHhNyTIMSunzdcKeu6iQrD6KFNba8apBLxNJ87w9MlsJDre5xS0SOD9SyflGJ0
+ kirA==
+X-Gm-Message-State: AOAM530GMHPYIUu1GHAfJQuHyOWR6XPidx7mIs77i3RYt/HUNXbwRbwG
+ Nf+eK9cwKYk0UsiSdatziHCaMuj8kio=
+X-Google-Smtp-Source: ABdhPJz3XtAG4yS2UyPAD2NPlOM3Exkq9aY9AfN0Rsrnfwa3uFU3uEicz0IPBkPaaPHqvxqqprHEZQ==
+X-Received: by 2002:a4a:bb05:: with SMTP id f5mr3354000oop.5.1599166811194;
+ Thu, 03 Sep 2020 14:00:11 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id t4sm766376otc.24.2020.09.03.14.01.28
+ by smtp.gmail.com with ESMTPSA id k18sm766595otj.55.2020.09.03.14.00.10
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:01:28 -0700 (PDT)
+ Thu, 03 Sep 2020 14:00:10 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/77] virtio-balloon: fix free page hinting check on unrealize
-Date: Thu,  3 Sep 2020 15:58:26 -0500
-Message-Id: <20200903205935.27832-9-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 24/77] aio-posix: don't duplicate fd handler deletion in
+ fdmon_io_uring_destroy()
+Date: Thu,  3 Sep 2020 15:58:42 -0500
+Message-Id: <20200903205935.27832-25-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x332.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c43;
+ envelope-from=flukshun@gmail.com; helo=mail-oo1-xc43.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -85,50 +82,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>,
- David Hildenbrand <david@redhat.com>, qemu-stable@nongnu.org,
- Alexander Duyck <alexander.duyck@gmail.com>, Wei Wang <wei.w.wang@intel.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-stable@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Hildenbrand <david@redhat.com>
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Checking against guest features is wrong. We allocated data structures
-based on host features. We can rely on "free_page_bh" as an indicator
-whether to un-do stuff instead.
+The io_uring file descriptor monitoring implementation has an internal
+list of fd handlers that are pending submission to io_uring.
+fdmon_io_uring_destroy() deletes all fd handlers on the list.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
-Fixes: c13c4153f76d ("virtio-balloon: VIRTIO_BALLOON_F_FREE_PAGE_HINT")
-Cc: qemu-stable@nongnu.org
-Cc: Wei Wang <wei.w.wang@intel.com>
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-Cc: Alexander Duyck <alexander.duyck@gmail.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20200520100439.19872-3-david@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-(cherry picked from commit 49b01711b8eb3796c6904c7f85d2431572cfe54f)
+Don't delete fd handlers directly in fdmon_io_uring_destroy() for two
+reasons:
+1. This duplicates the aio-posix.c AioHandler deletion code and could
+   become outdated if the struct changes.
+2. Only handlers with the FDMON_IO_URING_REMOVE flag set are safe to
+   remove. If the flag is not set then something still has a pointer to
+   the fd handler. Let aio-posix.c and its user worry about that. In
+   practice this isn't an issue because fdmon_io_uring_destroy() is only
+   called when shutting down so all users have removed their fd
+   handlers, but the next patch will need this!
+
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Tested-by: Oleksandr Natalenko <oleksandr@redhat.com>
+Message-id: 20200511183630.279750-2-stefanha@redhat.com
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+(cherry picked from commit de137e44f75d9868f5b548638081850f6ac771f2)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/virtio/virtio-balloon.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ util/aio-posix.c      |  1 +
+ util/fdmon-io_uring.c | 13 ++++++++++---
+ 2 files changed, 11 insertions(+), 3 deletions(-)
 
-diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-index ef499e1b3b..3e3b5ff0f8 100644
---- a/hw/virtio/virtio-balloon.c
-+++ b/hw/virtio/virtio-balloon.c
-@@ -818,7 +818,7 @@ static void virtio_balloon_device_unrealize(DeviceState *dev, Error **errp)
-     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-     VirtIOBalloon *s = VIRTIO_BALLOON(dev);
+diff --git a/util/aio-posix.c b/util/aio-posix.c
+index c3613d299e..8af334ab19 100644
+--- a/util/aio-posix.c
++++ b/util/aio-posix.c
+@@ -679,6 +679,7 @@ void aio_context_destroy(AioContext *ctx)
+ {
+     fdmon_io_uring_destroy(ctx);
+     fdmon_epoll_disable(ctx);
++    aio_free_deleted_handlers(ctx);
+ }
  
--    if (virtio_balloon_free_page_support(s)) {
-+    if (s->free_page_bh) {
-         qemu_bh_delete(s->free_page_bh);
-         virtio_balloon_free_page_stop(s);
-         precopy_remove_notifier(&s->free_page_report_notify);
+ void aio_context_set_poll_params(AioContext *ctx, int64_t max_ns,
+diff --git a/util/fdmon-io_uring.c b/util/fdmon-io_uring.c
+index d5a80ed6fb..1d14177df0 100644
+--- a/util/fdmon-io_uring.c
++++ b/util/fdmon-io_uring.c
+@@ -342,11 +342,18 @@ void fdmon_io_uring_destroy(AioContext *ctx)
+ 
+         io_uring_queue_exit(&ctx->fdmon_io_uring);
+ 
+-        /* No need to submit these anymore, just free them. */
++        /* Move handlers due to be removed onto the deleted list */
+         while ((node = QSLIST_FIRST_RCU(&ctx->submit_list))) {
++            unsigned flags = atomic_fetch_and(&node->flags,
++                    ~(FDMON_IO_URING_PENDING |
++                      FDMON_IO_URING_ADD |
++                      FDMON_IO_URING_REMOVE));
++
++            if (flags & FDMON_IO_URING_REMOVE) {
++                QLIST_INSERT_HEAD_RCU(&ctx->deleted_aio_handlers, node, node_deleted);
++            }
++
+             QSLIST_REMOVE_HEAD_RCU(&ctx->submit_list, node_submitted);
+-            QLIST_REMOVE(node, node);
+-            g_free(node);
+         }
+ 
+         ctx->fdmon_ops = &fdmon_poll_ops;
 -- 
 2.17.1
 
