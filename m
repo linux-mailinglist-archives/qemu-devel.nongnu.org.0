@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8624C25BD58
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 10:33:42 +0200 (CEST)
-Received: from localhost ([::1]:59784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F74925BD5C
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 10:34:14 +0200 (CEST)
+Received: from localhost ([::1]:33982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDkgf-0000f9-GE
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 04:33:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53972)
+	id 1kDkhB-0001fw-50
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 04:34:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kDkf6-0007ah-GQ
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 04:32:04 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:38285)
+ id 1kDkf8-0007d1-CT
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 04:32:06 -0400
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:54911)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kDkf4-0001VZ-NB
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 04:32:04 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id ls14so1117538pjb.3
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 01:32:02 -0700 (PDT)
+ id 1kDkf6-0001Vj-Oe
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 04:32:06 -0400
+Received: by mail-pj1-x1042.google.com with SMTP id mm21so1161640pjb.4
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 01:32:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vw4UA1w8luzE/0cIBASrTyETv70ytELCPdmgHKlAMIE=;
- b=bpgAxD8kuOYkB7cxLDy3P2KnWqZA/CEaMJZiWMq+RjPMYX8k7K4pdzacUGRY5Wi54l
- WkuxBWx9tesjPadxKxKiu/cvcQiTwDwGHNbypMrDhhbAg8bqB8MWrwnDo78dQlWRN+6J
- oEXjUfsNLKFkLBYY4nUhPAPJp1iJlSY5FFI3YbABljG59fn3kMWBRbLyNLvAG6yW6At3
- JfFpY1iDnAAU80A/oqS9sa9c0ukVIoCJS3b/tK3ki/HiVC+yqIR5CsYXUUovTe0uxiT2
- V6aj9Vg0iDV9uO9kTFCG0/UnmQgTdBhME3O5LjyJY9rGXNoBt+e4/H9wliuJLXJwyXuV
- 4SYA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=W6KPp+bY7QhvrPjQuzc5G0s+mWhPDfMNCdKRNThSh6I=;
+ b=u2tlUM6KWeJMwrsPAvNqvjEZWiWZShEhzgvWsgfnqkFfI0YEhQsrnNhH/LA0fn1wAV
+ Cfr4mGZJisBtV38LCA1Bq7ZK3VZ+uCcLBkhTaniPgNbOdxdaKkGFFuddAkKtyyanxli9
+ 720Vod65rvHylQNGiPtsn5aW2WUTtpEejtSb4vRNVjPw1O6e32OCfWZKpB0nl7zyEnY9
+ H2YyztR3bAZMSRM83i0DzVHkdpocgYmmqcjnbqgfg2x3yKhbLB0L1lBpbCs4SagvOuH/
+ YXWxsMu18DiI/UzpleJuff7lSUGEB35iYt4vdN1/L69Ye2SkKWgGa9JMa3FGroNNYt36
+ 4bhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vw4UA1w8luzE/0cIBASrTyETv70ytELCPdmgHKlAMIE=;
- b=XGpwbGB1GpYV4i6GsutPSh2kkkQwkwc8gcsrplqyYwb5zom6EUGevlYGYGl6ROe0Y5
- 65XnzYS+DA7tIBCH91MdDHvwqTCpCf9rOjPu4ZOrE/QAe6otuT9Ns55oSGZzLlWXI5yB
- gjVWDaXNLjlZB5HmqmPbF/Gc59EMQgfInxsT0sKaaWuuHE18JYhdKg1nV8KiT1ZqCa0h
- MGtOMTkaCXjx5VyPwtSWqguX3U10spJFiv6YU2mHIhg7PX5b4hpjJQBQLHARL85iestg
- l1VK/ChD/ekF3v1ls+xQlV8gMjCeq0H7Tb5C6cE5O13UrzeWbQot8sDExbNlPvkofLrF
- iACw==
-X-Gm-Message-State: AOAM531quGnlARGfyhOisomVKkXgiS67HqEDz6nuv/INaZ9nKm0s10+L
- f5BZfO7UmOW0ykwzpARHo1hDDFdPWg0zJwdZ
-X-Google-Smtp-Source: ABdhPJwB2VSQxlAMCKIL1nTwMjzOt5XVM2I20D+1yvmsQNaMGuAI/TuQOK9L4Egs1MDVYQ3JW8R8yQ==
-X-Received: by 2002:a17:90b:4a04:: with SMTP id
- kk4mr2248203pjb.153.1599121920690; 
- Thu, 03 Sep 2020 01:32:00 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=W6KPp+bY7QhvrPjQuzc5G0s+mWhPDfMNCdKRNThSh6I=;
+ b=o3Nk1eXVGCOGeKvQcQSCxv9LiUOQN3cwNeaZAZCLJYppz0Mx3+6qDx+WK8komNbp+k
+ ZUlKlDz2W+8HQY7ZvWkt20uDw5pRapx/6UUGc036G5j8L8pH96fbpuuD6Lvxh8WaJCby
+ 0U0h42ZCSZ1ocDbsKRZtHcnfbA0vvsVoOuJKrxwmjeyTtmtkA8tvmo36zi+KpirpX5tv
+ akYniN+SQRUj6T0ZBeKkEo/B4pAz9zy5BEyX7pt5QyJ9gu6QE9Fw13+zCok07JdThS9S
+ 6DK/4n1BEY1vG3z2B0eCGshuwzAwqSTM/yPNi2+Je98OXWzeN/A8H3JmhuQg8tVMMtrn
+ orvg==
+X-Gm-Message-State: AOAM532vPPdcxjlO0gDLDqBweVmM6osMo0RLqT9a6jTDhX0vP7A2L/JE
+ pIbbmpTPs6tCIea474cOZXIHaMP+LXM0Stvz
+X-Google-Smtp-Source: ABdhPJzpwc/AgVeQVea2//zxbar2sYfkfhycQpG2yYXv17W5dR1tTc+yti73t4f/bjiyMK+8qzLirg==
+X-Received: by 2002:a17:90a:880e:: with SMTP id
+ s14mr2235609pjn.140.1599121922742; 
+ Thu, 03 Sep 2020 01:32:02 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id e7sm1759201pgn.64.2020.09.03.01.31.58
+ by smtp.googlemail.com with ESMTPSA id e7sm1759201pgn.64.2020.09.03.01.32.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Sep 2020 01:31:59 -0700 (PDT)
+ Thu, 03 Sep 2020 01:32:02 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 00/12] Green the msys2 CI make
-Date: Thu,  3 Sep 2020 16:31:35 +0800
-Message-Id: <20200903083147.707-1-luoyonggang@gmail.com>
+Subject: [PATCH v4 01/12] configure: fixes dtc not cloned when running msys2 CI
+Date: Thu,  3 Sep 2020 16:31:36 +0800
+Message-Id: <20200903083147.707-2-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
+In-Reply-To: <20200903083147.707-1-luoyonggang@gmail.com>
+References: <20200903083147.707-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x1032.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x1042.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,45 +89,55 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Also it's fixes issues about make check=0D
-=0D
-Yonggang Luo (12):=0D
-  configure: fixes dtc not cloned when running msys2 CI=0D
-  meson: Convert undefsym.sh to undefsym.py=0D
-  tcg: Fixes dup_const link error=0D
-  tests: handling signal on win32 properly=0D
-  configure: Fix include and linkage issue on msys2=0D
-  block: Fixes nfs on msys2/mingw=0D
-  osdep: These function are only available on Non-Win32 system.=0D
-  ci: fixes msys2 build by upgrading capstone to 4.0.2=0D
-  stubs: qemu_notify_event have no need to stub=0D
-  meson: Fixes qapi tests.=0D
-  tests: Disable test-image-locking that not works under Win32=0D
-  ci: Enable msys2 ci in cirrus=0D
-=0D
- .cirrus.yml                         | 24 ++++++++++++=0D
- block/nfs.c                         | 26 ++++++++-----=0D
- capstone                            |  2 +-=0D
- configure                           | 48 +++++++++++++++---------=0D
- include/qemu/osdep.h                |  2 +-=0D
- include/tcg/tcg.h                   |  6 +--=0D
- meson.build                         |  2 +-=0D
- scripts/ci/windows/msys2_build.sh   | 33 +++++++++++++++++=0D
- scripts/ci/windows/msys2_install.sh | 31 ++++++++++++++++=0D
- scripts/undefsym.py                 | 57 +++++++++++++++++++++++++++++=0D
- scripts/undefsym.sh                 | 20 ----------=0D
- stubs/notify-event.c                |  4 --=0D
- tcg/tcg-op-gvec.c                   |  2 +-=0D
- tests/Makefile.include              |  2 +=0D
- tests/qapi-schema/meson.build       |  3 +-=0D
- tests/test-replication.c            |  4 ++=0D
- 16 files changed, 208 insertions(+), 58 deletions(-)=0D
- create mode 100644 scripts/ci/windows/msys2_build.sh=0D
- create mode 100644 scripts/ci/windows/msys2_install.sh=0D
- create mode 100644 scripts/undefsym.py=0D
- delete mode 100755 scripts/undefsym.sh=0D
-=0D
--- =0D
-2.28.0.windows.1=0D
-=0D
+Symlink dtc after git submodule update, because on win32 symlink to non-exist folder are forbidden.
+
+Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+---
+ configure | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
+
+diff --git a/configure b/configure
+index 8a3acef89d..30f8c4db29 100755
+--- a/configure
++++ b/configure
+@@ -2053,9 +2053,6 @@ fi
+ if test "$meson" = git; then
+     git_submodules="${git_submodules} meson"
+ fi
+-if test "$git_update" = yes; then
+-    (cd "${source_path}" && GIT="$git" "./scripts/git-submodule.sh" update "$git_submodules")
+-fi
+ 
+ case "$meson" in
+     git | internal)
+@@ -4261,9 +4258,6 @@ EOF
+       if test -d "${source_path}/dtc/libfdt" || test -e "${source_path}/.git" ; then
+           fdt=git
+           mkdir -p dtc
+-          if [ "$pwd_is_source_path" != "y" ] ; then
+-              symlink "$source_path/dtc/Makefile" "dtc/Makefile"
+-          fi
+           fdt_cflags="-I${source_path}/dtc/libfdt"
+           fdt_ldflags="-L$PWD/dtc/libfdt"
+           fdt_libs="$fdt_libs"
+@@ -6593,6 +6587,16 @@ if test "$cpu" = "s390x" ; then
+   fi
+ fi
+ 
++if test $git_update = 'yes' ; then
++    (cd "${source_path}" && GIT="$git" "./scripts/git-submodule.sh" update "$git_submodules")
++
++    if test "$fdt" = "git" ; then
++        if [ "$pwd_is_source_path" != "y" ] ; then
++            symlink "$source_path/dtc/Makefile" "dtc/Makefile"
++        fi
++    fi
++fi
++
+ # Check that the C++ compiler exists and works with the C compiler.
+ # All the QEMU_CXXFLAGS are based on QEMU_CFLAGS. Keep this at the end to don't miss any other that could be added.
+ if has $cxx; then
+-- 
+2.28.0.windows.1
+
 
