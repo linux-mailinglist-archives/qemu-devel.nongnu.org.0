@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88D5925C570
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 17:32:31 +0200 (CEST)
-Received: from localhost ([::1]:47664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20E7925C576
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 17:33:50 +0200 (CEST)
+Received: from localhost ([::1]:53104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDrDy-00072E-K9
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 11:32:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50798)
+	id 1kDrFF-00011o-6o
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 11:33:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kDr8b-00009Q-5E
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 11:26:57 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41179
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kDr8g-0000NP-6E
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 11:27:02 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35182
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kDr8Z-0000DO-99
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 11:26:56 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kDr8d-0000EC-1C
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 11:27:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599146814;
+ s=mimecast20190719; t=1599146817;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DAmUmQ2oPw8sOeJlLTMAYNZr3L9wUUBWGxTofVgM/fc=;
- b=RCGmH7Je/RbngJnccyEaDC63BTnc5ePItgydqsUeM5scbjtORysYu+Tb/VoZNrWLlUSa8y
- 5J3SwSfkt9j6ce+YYv6tdBqfgL9dcIWfmHbku6hPzNRvlA3Pi5BhAsPrtfEsrOM5xZHyOq
- nxr5oStFYVnN/fgB8e8xqBN2db9IVoo=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-478-MWWE9awJNxWsXs4qZJcB-g-1; Thu, 03 Sep 2020 11:26:52 -0400
-X-MC-Unique: MWWE9awJNxWsXs4qZJcB-g-1
-Received: by mail-qt1-f198.google.com with SMTP id o14so331948qtq.0
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 08:26:52 -0700 (PDT)
+ bh=7qNwKw3bP7jnzU4s7QDMSOC0XIYxDM97KbjcVzP6q/Q=;
+ b=SN2MujVRtJN3cNRkGDkwHWkisHVriywgRPhcQFS4S1A9q6B5hb09bmqRAfphJycqwVNEm3
+ I07/yE0HcU5+oITTN+xX+nnd7Cz8NXbaz6k6b+B9y9mNHmi3k1nTobDPLFIlz1cFu+m88C
+ JRdBTU9/7kpIPWkQeebW1lJ0e3NVsa0=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-554-Uiy9quutPPGFeVfTglBkqA-1; Thu, 03 Sep 2020 11:26:56 -0400
+X-MC-Unique: Uiy9quutPPGFeVfTglBkqA-1
+Received: by mail-qk1-f197.google.com with SMTP id s141so1770471qka.13
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 08:26:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DAmUmQ2oPw8sOeJlLTMAYNZr3L9wUUBWGxTofVgM/fc=;
- b=MKaNksgtxHwyY8OH2ho9rMDH9fLHqoWLkm/mMyMsoWOqgCqXZCweVBl2BQjynrfxke
- tGDjzxsAMzXVrBOYzmuLckpRCK6hvIRIemdjDDzxmm6NXGLoKQp4uMZlYMWiJsHFI+d8
- 2HJNA/pTgkyBXVuye5HVpPFHHQAPOI8rfKNWqiYitseJtoLJjVI+hiRd3OUU83yaHexn
- dalSlwA3oDdP0zo4d5MjCOaE9qjet8HZTEsH1wjQNi4M5Yl8q+LVbyfP+Jz1+frHjlYk
- doSSAF9bNH0R10V6h7bmd9X/Y+HjXGjhQMWmaBb/5v9540npAr0frWAKmKizovrwxDK/
- uuag==
-X-Gm-Message-State: AOAM53277tc0GnKEXeoUd12uwpNWK33AYahFh9ZzxV9/EQ2r7Y6CjIZR
- 6LKJu0pUZ0eSPPKKgRxy1E9H8x8AvxK4CPKTQlzdHS4cQfEh+WTg5B1LymiBMqNoQwUoJ4GXsFD
- afK2jvtVdQGYoEn4=
-X-Received: by 2002:a37:654b:: with SMTP id z72mr3485892qkb.365.1599146812087; 
- Thu, 03 Sep 2020 08:26:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxhxnmxNHEzcd+Y0bZIUNW0PwSMhPvUejDGjAMadilAkSkNQXTPL/pBO3elKGG8hCC7YBwtKw==
-X-Received: by 2002:a37:654b:: with SMTP id z72mr3485872qkb.365.1599146811895; 
- Thu, 03 Sep 2020 08:26:51 -0700 (PDT)
+ bh=7qNwKw3bP7jnzU4s7QDMSOC0XIYxDM97KbjcVzP6q/Q=;
+ b=hTJ2XpT10WUATPQ0oKfF09jQCILA8imacj1e+xHwP6QsZHOgz+xM+lvbbZVRlU9yiw
+ ARlv9lIPuz+Y+R081GAGBm9cZvLzZBO2pQ6TezdX9sq5gZ0uxpxrDXixszcG3vfBtsPL
+ bj60R8ai4WBJ85CXR1DiVs226Iz3ZlR1y9iNTaellRjkl3VLMu5bZawYGW78T62PXdmd
+ aFEu1SdKmokiSRlvnyAngD165MbNMfoQFHP2LbIfP8nJpYtdnQMA/Ob79bAR2a/EbRh/
+ cDc+hFu5ECWnTuukmu69NCF47WLmuVXgvwg99XRigmJvFNyl0hG32l6VcH0Qpu3/fhFO
+ DHVg==
+X-Gm-Message-State: AOAM531uOzXgbFLz0HnbqvD7YBiti2r556lnq+8e7+Q22/hbQPH00zn+
+ oU5f+gyA41c4S0WZj9HuvpeElHUoS4KcYoejXS3R0QGPtxjxLvhGDEMDlQDIomwDR/8yGtS3Y7i
+ sG5JaoANvyokqTaQ=
+X-Received: by 2002:a0c:e8c9:: with SMTP id m9mr3544002qvo.51.1599146815462;
+ Thu, 03 Sep 2020 08:26:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwWbXH6HXo7H+gxm2bIni2HTO1WNh0nnxCO+55B6eeyoEQx3e4CsvMaXYz4hM329OdRchSDjQ==
+X-Received: by 2002:a0c:e8c9:: with SMTP id m9mr3543969qvo.51.1599146815114;
+ Thu, 03 Sep 2020 08:26:55 -0700 (PDT)
 Received: from xz-x1.redhat.com
  (bras-vprn-toroon474qw-lp130-11-70-53-122-15.dsl.bell.ca. [70.53.122.15])
- by smtp.gmail.com with ESMTPSA id l38sm2319889qtl.58.2020.09.03.08.26.50
+ by smtp.gmail.com with ESMTPSA id l38sm2319889qtl.58.2020.09.03.08.26.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Sep 2020 08:26:51 -0700 (PDT)
+ Thu, 03 Sep 2020 08:26:53 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/5] migration: Introduce migrate_send_rp_message_req_pages()
-Date: Thu,  3 Sep 2020 11:26:43 -0400
-Message-Id: <20200903152646.93336-3-peterx@redhat.com>
+Subject: [PATCH 4/5] migration: Maintain postcopy faulted addresses
+Date: Thu,  3 Sep 2020 11:26:45 -0400
+Message-Id: <20200903152646.93336-5-peterx@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200903152646.93336-1-peterx@redhat.com>
 References: <20200903152646.93336-1-peterx@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
@@ -102,55 +102,219 @@ Cc: Xiaohui Li <xiaohli@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is another layer wrapper for sending a page request to the source VM,
+Maintain a list of faulted addresses on the destination host for which we're
+waiting on.  This is implemented using a GTree rather than a real list to make
+sure even there're plenty of vCPUs/threads that are faulting, the lookup will
+still be fast with O(log(N)) (because we'll do that after placing each page).
+It should bring a slight overhead, but ideally that shouldn't be a big problem
+simply because in most cases the requested page list will be short.
+
+Actually we did similar things for postcopy blocktime measurements.  This patch
+didn't use that simply because:
+
+  (1) blocktime measurement is towards vcpu threads only, but here we need to
+      record all faulted addresses, including main thread and external
+      thread (like, DPDK via vhost-user).
+
+  (2) blocktime measurement will require UFFD_FEATURE_THREAD_ID, but here we
+      don't want to add that extra dependency on the kernel version since not
+      necessary.  E.g., we don't need to know which thread faulted on which
+      page, we also don't care about multiple threads faulting on the same
+      page.  But we only care about what addresses are faulted so waiting for a
+      page copying from src.
+
+  (3) blocktime measurement is not enabled by default.  However we need this by
+      default especially for postcopy recover.
+
+Another thing to mention is that this patch introduced a new mutex to serialize
+the receivedmap and the page_requested tree, however that serialization does
+not cover other procedures like UFFDIO_COPY.
 
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- migration/migration.c | 10 ++++++++--
- migration/migration.h |  2 ++
- 2 files changed, 10 insertions(+), 2 deletions(-)
+ migration/migration.c    | 41 +++++++++++++++++++++++++++++++++++++++-
+ migration/migration.h    | 19 ++++++++++++++++++-
+ migration/postcopy-ram.c | 18 +++++++++++++++---
+ migration/trace-events   |  2 ++
+ 4 files changed, 75 insertions(+), 5 deletions(-)
 
 diff --git a/migration/migration.c b/migration/migration.c
-index 6761e3f233..6b43ffddbd 100644
+index 6b43ffddbd..e943d96c1b 100644
 --- a/migration/migration.c
 +++ b/migration/migration.c
-@@ -316,8 +316,8 @@ error:
-  *   Start: Address offset within the RB
-  *   Len: Length in bytes required - must be a multiple of pagesize
-  */
--int migrate_send_rp_req_pages(MigrationIncomingState *mis, RAMBlock *rb,
--                              ram_addr_t start)
-+int migrate_send_rp_message_req_pages(MigrationIncomingState *mis,
-+                                      RAMBlock *rb, ram_addr_t start)
- {
-     uint8_t bufc[12 + 1 + 255]; /* start (8), len (4), rbname up to 256 */
-     size_t msglen = 12; /* start + len */
-@@ -353,6 +353,12 @@ int migrate_send_rp_req_pages(MigrationIncomingState *mis, RAMBlock *rb,
-     return migrate_send_rp_message(mis, msg_type, msglen, bufc);
- }
+@@ -143,6 +143,13 @@ static int migration_maybe_pause(MigrationState *s,
+                                  int new_state);
+ static void migrate_fd_cancel(MigrationState *s);
  
-+int migrate_send_rp_req_pages(MigrationIncomingState *mis,
-+                              RAMBlock *rb, ram_addr_t start)
++static gint page_request_addr_cmp(gconstpointer ap, gconstpointer bp)
 +{
-+    return migrate_send_rp_message_req_pages(mis, rb, start);
++    uint64_t a = (uint64_t) ap, b = (uint64_t) bp;
++
++    return (a > b) - (a < b);
 +}
 +
- static bool migration_colo_enabled;
- bool migration_incoming_colo_enabled(void)
+ void migration_object_init(void)
  {
+     MachineState *ms = MACHINE(qdev_get_machine());
+@@ -165,6 +172,8 @@ void migration_object_init(void)
+     qemu_event_init(&current_incoming->main_thread_load_event, false);
+     qemu_sem_init(&current_incoming->postcopy_pause_sem_dst, 0);
+     qemu_sem_init(&current_incoming->postcopy_pause_sem_fault, 0);
++    qemu_mutex_init(&current_incoming->page_request_mutex);
++    current_incoming->page_requested = g_tree_new(page_request_addr_cmp);
+ 
+     if (!migration_object_check(current_migration, &err)) {
+         error_report_err(err);
+@@ -238,6 +247,11 @@ void migration_incoming_state_destroy(void)
+         mis->postcopy_remote_fds = NULL;
+     }
+ 
++    if (mis->page_requested) {
++        g_tree_destroy(mis->page_requested);
++        mis->page_requested = NULL;
++    }
++
+     qemu_event_reset(&mis->main_thread_load_event);
+ 
+     if (mis->socket_address_list) {
+@@ -354,8 +368,33 @@ int migrate_send_rp_message_req_pages(MigrationIncomingState *mis,
+ }
+ 
+ int migrate_send_rp_req_pages(MigrationIncomingState *mis,
+-                              RAMBlock *rb, ram_addr_t start)
++                              RAMBlock *rb, ram_addr_t start, uint64_t haddr)
+ {
++    uint64_t aligned = haddr & (-qemu_target_page_size());
++    bool received;
++
++    qemu_mutex_lock(&mis->page_request_mutex);
++    received = ramblock_recv_bitmap_test_byte_offset(rb, start);
++    if (!received && !g_tree_lookup(mis->page_requested, (gpointer) aligned)) {
++        /*
++         * The page has not been received, and it's not yet in the page request
++         * list.  Queue it.  Set the value of element to 1, so that things like
++         * g_tree_lookup() will return TRUE (1) when found.
++         */
++        g_tree_insert(mis->page_requested, (gpointer) aligned, (gpointer) 1);
++        mis->page_requested_count++;
++        trace_postcopy_page_req_add(aligned, mis->page_requested_count);
++    }
++    qemu_mutex_unlock(&mis->page_request_mutex);
++
++    /*
++     * If the page is there, skip sending the message.  We don't even need the
++     * lock because as long as the page arrived, it'll be there forever.
++     */
++    if (received) {
++        return 0;
++    }
++
+     return migrate_send_rp_message_req_pages(mis, rb, start);
+ }
+ 
 diff --git a/migration/migration.h b/migration/migration.h
-index ca8dc4c773..f552725305 100644
+index f552725305..81311dc154 100644
 --- a/migration/migration.h
 +++ b/migration/migration.h
-@@ -330,6 +330,8 @@ void migrate_send_rp_pong(MigrationIncomingState *mis,
+@@ -103,6 +103,23 @@ struct MigrationIncomingState {
+ 
+     /* List of listening socket addresses  */
+     SocketAddressList *socket_address_list;
++
++    /* A tree of pages that we requested to the source VM */
++    GTree *page_requested;
++    /* For debugging purpose only, but would be nice to keep */
++    int page_requested_count;
++    /*
++     * The mutex helps to maintain the requested pages that we sent to the
++     * source, IOW, to guarantee coherent between the page_requests tree and
++     * the per-ramblock receivedmap.  Note! This does not guarantee consistency
++     * of the real page copy procedures (using UFFDIO_[ZERO]COPY).  E.g., even
++     * if one bit in receivedmap is cleared, UFFDIO_COPY could have happened
++     * for that page already.  This is intended so that the mutex won't
++     * serialize and blocked by slow operations like UFFDIO_* ioctls.  However
++     * this should be enough to make sure the page_requested tree always
++     * contains valid information.
++     */
++    QemuMutex page_request_mutex;
+ };
+ 
+ MigrationIncomingState *migration_incoming_get_current(void);
+@@ -329,7 +346,7 @@ void migrate_send_rp_shut(MigrationIncomingState *mis,
+ void migrate_send_rp_pong(MigrationIncomingState *mis,
                            uint32_t value);
  int migrate_send_rp_req_pages(MigrationIncomingState *mis, RAMBlock *rb,
-                               ram_addr_t start);
-+int migrate_send_rp_message_req_pages(MigrationIncomingState *mis,
-+                                      RAMBlock *rb, ram_addr_t start);
+-                              ram_addr_t start);
++                              ram_addr_t start, uint64_t haddr);
+ int migrate_send_rp_message_req_pages(MigrationIncomingState *mis,
+                                       RAMBlock *rb, ram_addr_t start);
  void migrate_send_rp_recv_bitmap(MigrationIncomingState *mis,
-                                  char *block_name);
- void migrate_send_rp_resume_ack(MigrationIncomingState *mis, uint32_t value);
+diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
+index d333c3fd0e..a30627e838 100644
+--- a/migration/postcopy-ram.c
++++ b/migration/postcopy-ram.c
+@@ -684,7 +684,7 @@ int postcopy_request_shared_page(struct PostCopyFD *pcfd, RAMBlock *rb,
+                                         qemu_ram_get_idstr(rb), rb_offset);
+         return postcopy_wake_shared(pcfd, client_addr, rb);
+     }
+-    migrate_send_rp_req_pages(mis, rb, aligned_rbo);
++    migrate_send_rp_req_pages(mis, rb, aligned_rbo, client_addr);
+     return 0;
+ }
+ 
+@@ -979,7 +979,8 @@ retry:
+              * Send the request to the source - we want to request one
+              * of our host page sizes (which is >= TPS)
+              */
+-            ret = migrate_send_rp_req_pages(mis, rb, rb_offset);
++            ret = migrate_send_rp_req_pages(mis, rb, rb_offset,
++                                            msg.arg.pagefault.address);
+             if (ret) {
+                 /* May be network failure, try to wait for recovery */
+                 if (ret == -EIO && postcopy_pause_fault_thread(mis)) {
+@@ -1149,10 +1150,21 @@ static int qemu_ufd_copy_ioctl(MigrationIncomingState *mis, void *host_addr,
+         ret = ioctl(userfault_fd, UFFDIO_ZEROPAGE, &zero_struct);
+     }
+     if (!ret) {
++        qemu_mutex_lock(&mis->page_request_mutex);
+         ramblock_recv_bitmap_set_range(rb, host_addr,
+                                        pagesize / qemu_target_page_size());
++        /*
++         * If this page resolves a page fault for a previous recorded faulted
++         * address, take a special note to maintain the requested page list.
++         */
++        if (g_tree_lookup(mis->page_requested, (gconstpointer)host_addr)) {
++            g_tree_remove(mis->page_requested, (gconstpointer)host_addr);
++            mis->page_requested_count--;
++            trace_postcopy_page_req_del((uint64_t)host_addr,
++                                        mis->page_requested_count);
++        }
++        qemu_mutex_unlock(&mis->page_request_mutex);
+         mark_postcopy_blocktime_end((uintptr_t)host_addr);
+-
+     }
+     return ret;
+ }
+diff --git a/migration/trace-events b/migration/trace-events
+index 4ab0a503d2..b89ce02cb0 100644
+--- a/migration/trace-events
++++ b/migration/trace-events
+@@ -157,6 +157,7 @@ postcopy_pause_return_path(void) ""
+ postcopy_pause_return_path_continued(void) ""
+ postcopy_pause_continued(void) ""
+ postcopy_start_set_run(void) ""
++postcopy_page_req_add(uint64_t addr, int count) "new page req 0x%lx total %d"
+ source_return_path_thread_bad_end(void) ""
+ source_return_path_thread_end(void) ""
+ source_return_path_thread_entry(void) ""
+@@ -267,6 +268,7 @@ postcopy_ram_incoming_cleanup_blocktime(uint64_t total) "total blocktime %" PRIu
+ postcopy_request_shared_page(const char *sharer, const char *rb, uint64_t rb_offset) "for %s in %s offset 0x%"PRIx64
+ postcopy_request_shared_page_present(const char *sharer, const char *rb, uint64_t rb_offset) "%s already %s offset 0x%"PRIx64
+ postcopy_wake_shared(uint64_t client_addr, const char *rb) "at 0x%"PRIx64" in %s"
++postcopy_page_req_del(uint64_t addr, int count) "resolved page req 0x%lx total %d"
+ 
+ get_mem_fault_cpu_index(int cpu, uint32_t pid) "cpu: %d, pid: %u"
+ 
 -- 
 2.26.2
 
