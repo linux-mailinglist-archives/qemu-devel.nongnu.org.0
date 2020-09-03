@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E14725CC06
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:21:12 +0200 (CEST)
-Received: from localhost ([::1]:55594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FEF525CC37
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:28:08 +0200 (CEST)
+Received: from localhost ([::1]:57370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwfO-0001lU-0v
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:21:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58954)
+	id 1kDwm7-000657-Fx
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:28:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLc-0004TB-OL; Thu, 03 Sep 2020 17:00:44 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:43289)
+ id 1kDwLe-0004Vz-2h; Thu, 03 Sep 2020 17:00:46 -0400
+Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:41601)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLa-0007kB-O3; Thu, 03 Sep 2020 17:00:44 -0400
-Received: by mail-oi1-x241.google.com with SMTP id i17so4497639oig.10;
- Thu, 03 Sep 2020 14:00:41 -0700 (PDT)
+ id 1kDwLc-0007kY-39; Thu, 03 Sep 2020 17:00:45 -0400
+Received: by mail-oi1-x22e.google.com with SMTP id x69so1542249oia.8;
+ Thu, 03 Sep 2020 14:00:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=aFXlKroXX9PZfDrZJYi+g7t/+H6Gi17j+AWN8w9Ef+w=;
- b=Nm7RClVBy0aE0za/FeXkR32oswAuJoDh6+tPXlgPu48N13ZGdeixiNLNApnnZZ81VW
- xZt/RhLysbsjE49kKDNGKrID7thKLFlp5K/qSFQ9tDZXnVWB2/s4X2bdBvPi0jHBURs+
- 0F1Ci93ZLiyYTPU1KWBlIIKU279d5kmWDjp0JU4v2aeg7LIY0QSm0C38zcikEVrDEsfJ
- e6BzOtNGH8oUimgvFU+1VHEV9KQUw6I6dMRAA2SmrlT6LqCsT/RtnQ8tMCVvCkWfM2Ct
- uFq+NRz4qOHipRoOKnkSwuxhAqymrQehIezkH/qJT01/8gDxoX39RBheCN9pqDjVcGrz
- O7vQ==
+ bh=YlRR9CLu8pLCxrGm4VFmO7pbcuXORptj+5WioQ7RYAg=;
+ b=lMu5vpeOPhsnDJFIOWNy5i66L9lUm78uyEphlubxdhVerVljO+MyKdeqfLbKI+68Q8
+ 5UUiNjGcYgCDaKpVCLo2DcgErFwFyXrClqZz42O1mfmgbsmbfe2P46xn5XFZAVuQdB/Z
+ +t2YcLuFfrdA1UH86TsLhCoflAkADZum7mUCvgF/Va6gNMU6nm3xilUpEs2Q9+TQ/y9T
+ qPLHGg9mXWUJEBND4wbAa/+Cr0+LnoTlOgVVIyK4BMNFcgbhxXleRjmNdEg84qPJFaBj
+ GF6aeAEIBlB3z3RgTzn+nqOhHruDwl2rKHwtP2q8nlh8tHHl++hPxFQFcL2xyULhSIzZ
+ 40dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=aFXlKroXX9PZfDrZJYi+g7t/+H6Gi17j+AWN8w9Ef+w=;
- b=TIpzGlO+A/iR3TnkMbRkF1drjX/D9RwHMSwJ0o+I9rlhsXqNn9LR2ygxODE5vppbjf
- m5oVM9YPVHmAnP5+Te4ppjopNBpK6kQ9gBWwwmfGHSL6TVby25BOzBXKOhiUmW2VZNZ/
- wTB2QqAgkd2Oqbt+mR1KXMALlh8KcItZ8h2M2aSMRYmV85KhgWQ2XxSj6l4ylHPkrd8/
- dQQcsTHpvMVmjce3O7cVadS1N8QCJkZmXH/2vf1STXCVQHdxWKnyzXR7QEFH634z7Mzz
- 9T3Us/Xnp000wSqkL4d2W5Y9dwUkCxl3LJzhxKcmVuOa5T/wvQZVjZ0/8KRFtJtpx5V+
- 0z/g==
-X-Gm-Message-State: AOAM5325ZXCzeMbgZXgeUhrql3QYIj2dPJgV16ZDtwQ7UJbARmPeoqwf
- BHqw9apYp+BpC5vZFqKqzPeaR/z9Xic=
-X-Google-Smtp-Source: ABdhPJwbNxC9B5yMu5eeSA4PVYpgTPmk2aSAdUOx9z0QLgP9MDB80u/73FtACuwPmrbv6rmzQW8bDw==
-X-Received: by 2002:aca:413:: with SMTP id 19mr3405785oie.149.1599166840933;
- Thu, 03 Sep 2020 14:00:40 -0700 (PDT)
+ bh=YlRR9CLu8pLCxrGm4VFmO7pbcuXORptj+5WioQ7RYAg=;
+ b=rg9D2WyMmFrHRzzXecc1vk6vqtoK4XhjDCXLSohwAe3P1Nt7Rng3FudGeh9A6Ny/8+
+ 1C4s2SBG7J/DJ+Ri9de5nnlRlFpDatwVmKGFWl4mupfUSTGmH83lGpdpRacqj460fyTk
+ neH3UQhVLwze3J93GkGRQievd0ynM1qs6NF/EkoMKH+5FWAteJzl07NQJzGHaNYCJTgA
+ Cr5Qixi3r3bMAk1qhFsneELYWoD/9H0/RYFkPIVAq0zgL0ZOYf30prsMKmXk36HhL3dG
+ fRAX2YV6VVDOBvAwrjFO0VDdjfGQxbmveqV+e2YEic7yVCLYMDC+svM+oAcvoPzbYs3b
+ Q06Q==
+X-Gm-Message-State: AOAM533PXYz4bmVluuBbuGZJlrbiTFW0nNBCfQyVf1dz2iUmEUtUVJoi
+ 6yk0fkzCdgMMoZNYaZi6M2h0BpIDQIQ=
+X-Google-Smtp-Source: ABdhPJxPJYagNytP/LA0l4fON6ARdmNJNQPAiYzdc10gqSKN4LkJKr49j0JjAqnfpc/W7Fsv9vcMCw==
+X-Received: by 2002:aca:f109:: with SMTP id p9mr3162838oih.84.1599166842222;
+ Thu, 03 Sep 2020 14:00:42 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id r6sm798219otc.0.2020.09.03.14.00.40
+ by smtp.gmail.com with ESMTPSA id e9sm814722oog.10.2020.09.03.14.00.41
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:00:40 -0700 (PDT)
+ Thu, 03 Sep 2020 14:00:41 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 45/77] docs/orangepi: Add instructions for resizing SD image
- to power of two
-Date: Thu,  3 Sep 2020 15:59:03 -0500
-Message-Id: <20200903205935.27832-46-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 46/77] tests/acceptance/boot_linux: Tag tests using a SD card
+ with 'device:sd'
+Date: Thu,  3 Sep 2020 15:59:04 -0500
+Message-Id: <20200903205935.27832-47-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x241.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
+ envelope-from=flukshun@gmail.com; helo=mail-oi1-x22e.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -86,66 +86,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-stable@nongnu.org,
+Cc: qemu-stable@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Niek Linnenbank <nieklinnenbank@gmail.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-SD cards need to have a size of a power of two.
-Update the Orange Pi machine documentation to include
-instructions for resizing downloaded images using the
-qemu-img command.
+Avocado tags are handy to automatically select tests matching
+the tags. Since these tests use a SD card, tag them.
 
-Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200712183708.15450-1-nieklinnenbank@gmail.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+We can run all the tests using a SD card at once with:
+
+  $ avocado --show=app run -t u-boot tests/acceptance/
+  $ AVOCADO_ALLOW_LARGE_STORAGE=ok \
+    avocado --show=app \
+      run -t device:sd tests/acceptance/
+  Fetching asset from tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_sd
+  Fetching asset from tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_bionic
+  Fetching asset from tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_uboot_netbsd9
+   (1/3) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_sd: PASS (19.56 s)
+   (2/3) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_bionic: PASS (49.97 s)
+   (3/3) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_uboot_netbsd9: PASS (20.06 s)
+  RESULTS    : PASS 3 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
+  JOB TIME   : 90.02 s
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-(cherry picked from commit 1c2329b5d644bad16e888d095e2021ad682201d9)
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
+Tested-by: Cleber Rosa <crosa@redhat.com>
+Message-Id: <20200713183209.26308-4-f4bug@amsat.org>
+(cherry picked from commit b7dcbf1395da960ec3c313300dc0030674de8cd1)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- docs/system/arm/orangepi.rst | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
+ tests/acceptance/boot_linux_console.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/docs/system/arm/orangepi.rst b/docs/system/arm/orangepi.rst
-index c41adad488..6f23907fb6 100644
---- a/docs/system/arm/orangepi.rst
-+++ b/docs/system/arm/orangepi.rst
-@@ -127,6 +127,16 @@ can be downloaded from:
- Alternatively, you can also choose to build you own image with buildroot
- using the orangepi_pc_defconfig. Also see https://buildroot.org for more information.
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+index f825cd9ef5..d864d22ca8 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -583,6 +583,7 @@ class BootLinuxConsole(Test):
+         """
+         :avocado: tags=arch:arm
+         :avocado: tags=machine:orangepi-pc
++        :avocado: tags=device:sd
+         """
+         deb_url = ('https://apt.armbian.com/pool/main/l/'
+                    'linux-4.20.7-sunxi/linux-image-dev-sunxi_5.75_armhf.deb')
+@@ -632,6 +633,7 @@ class BootLinuxConsole(Test):
+         """
+         :avocado: tags=arch:arm
+         :avocado: tags=machine:orangepi-pc
++        :avocado: tags=device:sd
+         """
  
-+When using an image as an SD card, it must be resized to a power of two. This can be
-+done with the qemu-img command. It is recommended to only increase the image size
-+instead of shrinking it to a power of two, to avoid loss of data. For example,
-+to prepare a downloaded Armbian image, first extract it and then increase
-+its size to one gigabyte as follows:
-+
-+.. code-block:: bash
-+
-+  $ qemu-img resize Armbian_19.11.3_Orangepipc_bionic_current_5.3.9.img 1G
-+
- You can choose to attach the selected image either as an SD card or as USB mass storage.
- For example, to boot using the Orange Pi PC Debian image on SD card, simply add the -sd
- argument and provide the proper root= kernel parameter:
-@@ -213,12 +223,12 @@ Next, unzip the NetBSD image and write the U-Boot binary including SPL using:
-   $ dd if=/path/to/u-boot-sunxi-with-spl.bin of=armv7.img bs=1024 seek=8 conv=notrunc
- 
- Finally, before starting the machine the SD image must be extended such
--that the NetBSD kernel will not conclude the NetBSD partition is larger than
--the emulated SD card:
-+that the size of the SD image is a power of two and that the NetBSD kernel
-+will not conclude the NetBSD partition is larger than the emulated SD card:
- 
- .. code-block:: bash
- 
--  $ dd if=/dev/zero bs=1M count=64 >> armv7.img
-+  $ qemu-img resize armv7.img 2G
- 
- Start the machine using the following command:
- 
+         # This test download a 196MB compressed image and expand it to 932MB...
+@@ -673,6 +675,7 @@ class BootLinuxConsole(Test):
+         """
+         :avocado: tags=arch:arm
+         :avocado: tags=machine:orangepi-pc
++        :avocado: tags=device:sd
+         """
+         # This test download a 304MB compressed image and expand it to 1.3GB...
+         deb_url = ('http://snapshot.debian.org/archive/debian/'
 -- 
 2.17.1
 
