@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A34725CBF5
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:14:54 +0200 (CEST)
-Received: from localhost ([::1]:57024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA5EE25CC07
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:21:47 +0200 (CEST)
+Received: from localhost ([::1]:58216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwZJ-0007cB-4s
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:14:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58088)
+	id 1kDwfy-0002oQ-Tf
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:21:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwKq-00036s-LR; Thu, 03 Sep 2020 16:59:56 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:46518)
+ id 1kDwKq-00036x-VV; Thu, 03 Sep 2020 16:59:56 -0400
+Received: from mail-ot1-x32b.google.com ([2607:f8b0:4864:20::32b]:34055)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwKo-0007KO-In; Thu, 03 Sep 2020 16:59:56 -0400
-Received: by mail-ot1-x342.google.com with SMTP id c10so3972639otm.13;
- Thu, 03 Sep 2020 13:59:51 -0700 (PDT)
+ id 1kDwKo-0007Kc-Is; Thu, 03 Sep 2020 16:59:56 -0400
+Received: by mail-ot1-x32b.google.com with SMTP id h17so3206982otr.1;
+ Thu, 03 Sep 2020 13:59:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=BVrfXN+PksS1+3mj7WHwrA4ngS6G5v4nICiHt9L9Kw0=;
- b=iddFmDJ7CDJcp+Rogo00I29oCuWilvK0P6QrQDBwBudPYwTF+439RQhUg96w2iT+4r
- 8Iygb6wE6XCluWQUGt37xA4XJoPTmAueXoDqxXMd6W5OeuZW7LXiW6056hgFvG/ctqmR
- CkqjJ7ju+zWqAO17iCRv6qHww9hR07GQgajGuC6OkxsjVl0Pxc2xu0j8TS365NaqIXxB
- EjxxovPIvGltgPwPtDfryDEssHES9ujnzleu6hl9srrX7oXgY1miypyA1p7MQ7iqufRz
- yy1EbBzWp8MplWGTwCbWGcAvjtAUvCDah3HG1m9cKiZhR8KEbKUCBBQ2T7R9lknKK/2O
- w7Aw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=ATS4oJGp1SnQFEtm6D13xyOuW3gjvEjZ49ChbnGmBj8=;
+ b=JQxVVthBAM6VrGy8C3f9nic65DczEc46Cp9V5Mxu9hHcIaAzgf3RF8UyJWXRsOylti
+ w52+X25sFLaBe1s5DDbW3LOQO/irfcvkIE5dfsIZsZDwyjqmXloET4xRdlRHORGOFGTA
+ EsFZheMmslq1k5gtJZsgsQLWQUxuf9hoi0gwJBCwkEKjRyQQ+4GeLlCh1ZOV1lMnxILk
+ fLQX2Gass9MS1jvGyp4JJcF7ZCwDaQv63/iuzJ9HDwP7b/+nzCQpcgbtKMRh3QLnJXST
+ 9b1WS2smuJn++llMPS8eo0cue3R0UG9AZFrZlSUvi6bsBO3aunokKYZzVy7lkrH2ICeQ
+ thRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=BVrfXN+PksS1+3mj7WHwrA4ngS6G5v4nICiHt9L9Kw0=;
- b=Eg4/O77+7wE+CW4NgchLzGTHD6Rs5qh7OWXrm47PmiAUqGzI8tYiHGfDtMKLqN5o57
- qcs3x5kGsx5Buqp1i1ptT8L3k0qKKaESco6mkJU+VOk+gW4Djd7brp8sCXWrkoLYQsB1
- SRWRode10/Phl9103gl5pUxZWoKfqvVci/6XSNzLnTzUMmRKsTJMqczWQkKQQCS7rGpf
- 0XZVbqfoTbGsNYuVET/MP8ugCGZD2+FalC9xcPV/Fx5qOKAWzL3qtT5luPgx3MKjTUY7
- +gDAehEpA/t2eWfiVJyoYIjO9T0ovVZobNBl4wfSbLBTKvjeZ1vyDC+Obr5UnXn0hCFv
- CrGw==
-X-Gm-Message-State: AOAM532kB6kh3IjTzJc6GyN8NZHfWiT6jMKIxq6B9bx39oyp+by8R8tJ
- CGqQykQZF8/eEh06Ga9v6QVJFOLw6dg=
-X-Google-Smtp-Source: ABdhPJzzCAQrLgn1gBYGKy6Y/ZxgeEvC+GrMTtHJMrnpBCaDRcoQLJTdDeZ+djXZF9CYrSGEf/BoxQ==
-X-Received: by 2002:a9d:23c7:: with SMTP id t65mr2988703otb.275.1599166790542; 
- Thu, 03 Sep 2020 13:59:50 -0700 (PDT)
+ :in-reply-to:references;
+ bh=ATS4oJGp1SnQFEtm6D13xyOuW3gjvEjZ49ChbnGmBj8=;
+ b=jIc9G/4JgEhQudfXmf/8KiAmQyPiVjf4502W0q5kXbU+Lo0cZMUw3OXM8kOPohpfdv
+ Sv+JmUlmNm3J++ASMygOfuSg2fLJ+bzhpjtTvovMOxeiWE15rtEIBDihqVq8X0ZOFplB
+ 634b0vj8TrXtQyraaZcQpRXjQId23n3RHr43NelNLwLeb5ZkqB+nYNfb7/xnTGtwbkHB
+ isSBbUDCE5hhMc/MfeaQDPJ7Zun6l32+06g7fiQOjoPBdOVC+ZnM8uyIqurlpzSiIK0e
+ xGb6B524J9BGJzRVTB+TvPL9gTcnFHIkG8RCgiin0J3bk4mCDYRtg1Yf+zygBO/NiN8F
+ fE8g==
+X-Gm-Message-State: AOAM533iOjQ0dt9PZKFxHumJ93dLY9rIGKFU/W6YnPPHvI0+fof9UVhY
+ Wq9zFUgeAfdwHsA+1KBoOkAnZeEqE24=
+X-Google-Smtp-Source: ABdhPJz6clO8z8h2N8WRpMaGoGVhsHkrTNj3w8kjPgBbKmmcFKwMVlZrHox9qCdNgaGeF2EhAkUhZw==
+X-Received: by 2002:a05:6830:20d1:: with SMTP id
+ z17mr3131709otq.179.1599166791772; 
+ Thu, 03 Sep 2020 13:59:51 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id l63sm711386oia.56.2020.09.03.13.59.49
+ by smtp.gmail.com with ESMTPSA id r33sm828082ooi.48.2020.09.03.13.59.50
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 13:59:49 -0700 (PDT)
+ Thu, 03 Sep 2020 13:59:51 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/77] virtio-balloon: unref the iothread when unrealizing
-Date: Thu,  3 Sep 2020 15:58:27 -0500
-Message-Id: <20200903205935.27832-10-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 10/77] block: Call attention to truncation of long NBD exports
+Date: Thu,  3 Sep 2020 15:58:28 -0500
+Message-Id: <20200903205935.27832-11-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x342.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32b;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x32b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -85,48 +82,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>,
- David Hildenbrand <david@redhat.com>, qemu-stable@nongnu.org,
- Alexander Duyck <alexander.duyck@gmail.com>, Wei Wang <wei.w.wang@intel.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Hildenbrand <david@redhat.com>
+From: Eric Blake <eblake@redhat.com>
 
-We took a reference when realizing, so let's drop that reference when
-unrealizing.
+Commit 93676c88 relaxed our NBD client code to request export names up
+to the NBD protocol maximum of 4096 bytes without NUL terminator, even
+though the block layer can't store anything longer than 4096 bytes
+including NUL terminator for display to the user.  Since this means
+there are some export names where we have to truncate things, we can
+at least try to make the truncation a bit more obvious for the user.
+Note that in spite of the truncated display name, we can still
+communicate with an NBD server using such a long export name; this was
+deemed nicer than refusing to even connect to such a server (since the
+server may not be under our control, and since determining our actual
+length limits gets tricky when nbd://host:port/export and
+nbd+unix:///export?socket=/path are themselves variable-length
+expansions beyond the export name but count towards the block layer
+name length).
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
-Fixes: c13c4153f76d ("virtio-balloon: VIRTIO_BALLOON_F_FREE_PAGE_HINT")
-Cc: qemu-stable@nongnu.org
-Cc: Wei Wang <wei.w.wang@intel.com>
-Cc: Alexander Duyck <alexander.duyck@gmail.com>
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20200520100439.19872-4-david@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-(cherry picked from commit 105aef9c9479786d27c1c45c9b0b1fa03dc46be3)
+Reported-by: Xueqiang Wei <xuwei@redhat.com>
+Fixes: https://bugzilla.redhat.com/1843684
+Signed-off-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <20200610163741.3745251-3-eblake@redhat.com>
+(cherry picked from commit 5c86bdf1208916ece0b87e1151c9b48ee54faa3e)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/virtio/virtio-balloon.c | 1 +
- 1 file changed, 1 insertion(+)
+ block.c     |  7 +++++--
+ block/nbd.c | 21 +++++++++++++--------
+ 2 files changed, 18 insertions(+), 10 deletions(-)
 
-diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-index 3e3b5ff0f8..e20f90dad4 100644
---- a/hw/virtio/virtio-balloon.c
-+++ b/hw/virtio/virtio-balloon.c
-@@ -820,6 +820,7 @@ static void virtio_balloon_device_unrealize(DeviceState *dev, Error **errp)
- 
-     if (s->free_page_bh) {
-         qemu_bh_delete(s->free_page_bh);
-+        object_unref(OBJECT(s->iothread));
-         virtio_balloon_free_page_stop(s);
-         precopy_remove_notifier(&s->free_page_report_notify);
+diff --git a/block.c b/block.c
+index 2e3905c99e..e7e0a92536 100644
+--- a/block.c
++++ b/block.c
+@@ -6710,8 +6710,11 @@ void bdrv_refresh_filename(BlockDriverState *bs)
+         pstrcpy(bs->filename, sizeof(bs->filename), bs->exact_filename);
+     } else {
+         QString *json = qobject_to_json(QOBJECT(bs->full_open_options));
+-        snprintf(bs->filename, sizeof(bs->filename), "json:%s",
+-                 qstring_get_str(json));
++        if (snprintf(bs->filename, sizeof(bs->filename), "json:%s",
++                     qstring_get_str(json)) >= sizeof(bs->filename)) {
++            /* Give user a hint if we truncated things. */
++            strcpy(bs->filename + sizeof(bs->filename) - 4, "...");
++        }
+         qobject_unref(json);
      }
+ }
+diff --git a/block/nbd.c b/block/nbd.c
+index 2160859f64..bfc0be6af6 100644
+--- a/block/nbd.c
++++ b/block/nbd.c
+@@ -1986,6 +1986,7 @@ static void nbd_refresh_filename(BlockDriverState *bs)
+ {
+     BDRVNBDState *s = bs->opaque;
+     const char *host = NULL, *port = NULL, *path = NULL;
++    size_t len = 0;
+ 
+     if (s->saddr->type == SOCKET_ADDRESS_TYPE_INET) {
+         const InetSocketAddress *inet = &s->saddr->u.inet;
+@@ -1998,17 +1999,21 @@ static void nbd_refresh_filename(BlockDriverState *bs)
+     } /* else can't represent as pseudo-filename */
+ 
+     if (path && s->export) {
+-        snprintf(bs->exact_filename, sizeof(bs->exact_filename),
+-                 "nbd+unix:///%s?socket=%s", s->export, path);
++        len = snprintf(bs->exact_filename, sizeof(bs->exact_filename),
++                       "nbd+unix:///%s?socket=%s", s->export, path);
+     } else if (path && !s->export) {
+-        snprintf(bs->exact_filename, sizeof(bs->exact_filename),
+-                 "nbd+unix://?socket=%s", path);
++        len = snprintf(bs->exact_filename, sizeof(bs->exact_filename),
++                       "nbd+unix://?socket=%s", path);
+     } else if (host && s->export) {
+-        snprintf(bs->exact_filename, sizeof(bs->exact_filename),
+-                 "nbd://%s:%s/%s", host, port, s->export);
++        len = snprintf(bs->exact_filename, sizeof(bs->exact_filename),
++                       "nbd://%s:%s/%s", host, port, s->export);
+     } else if (host && !s->export) {
+-        snprintf(bs->exact_filename, sizeof(bs->exact_filename),
+-                 "nbd://%s:%s", host, port);
++        len = snprintf(bs->exact_filename, sizeof(bs->exact_filename),
++                       "nbd://%s:%s", host, port);
++    }
++    if (len > sizeof(bs->exact_filename)) {
++        /* Name is too long to represent exactly, so leave it empty. */
++        bs->exact_filename[0] = '\0';
+     }
+ }
+ 
 -- 
 2.17.1
 
