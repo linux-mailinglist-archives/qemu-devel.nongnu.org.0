@@ -2,76 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE85425C04F
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 13:29:27 +0200 (CEST)
-Received: from localhost ([::1]:50444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D09E125C05A
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 13:31:57 +0200 (CEST)
+Received: from localhost ([::1]:56688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDnQk-0005yc-UV
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 07:29:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38862)
+	id 1kDnTA-0000Jf-Ul
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 07:31:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kDnPu-00055T-IU
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 07:28:34 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:37972)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1kDnPT-0004cy-96; Thu, 03 Sep 2020 07:28:07 -0400
+Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842]:36236)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kDnPs-0008Op-SO
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 07:28:34 -0400
-Received: by mail-ej1-x631.google.com with SMTP id i22so3348039eja.5
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 04:28:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=f2Y/32ubcLIXu+Fx8yG/mdzu/9JOvOGnww1HfRFRsSA=;
- b=K31QKriKcy/TAktk/Vbh17w+h4AXT/tCR8MUcg60+M0r/ZD4VEu3BdZ5fzjewjAr8Q
- icXaagNnA6Q1sauog4wbFM9oz76X43H5pbh3asTUPcbPmbj6oxPq5uLiCxSINnwPHb9a
- H83tiNshVXvCV69VRJZlrE+c4U229YLNBzCNiXyFyhXUv4/dziqPR7mssmMSofivpn82
- DXg/zhUJIFz07Rls3aXhsjxywhZ0XzLoUs8hPtMvAkwSvScBup2PKZdq07TCnJYY+2ou
- s13eCO+xUPDCXsBQkK6NNNyB4N0Ys8C8DXOc2bG6R90kim1mOd0MnwGA5NBGiLjXkzey
- rVvQ==
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1kDnPR-0008NR-BW; Thu, 03 Sep 2020 07:28:06 -0400
+Received: by mail-qt1-x842.google.com with SMTP id n10so1589761qtv.3;
+ Thu, 03 Sep 2020 04:28:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=9ekIUoYeHzoslT4Dhtfeg/PWay7LeWwFREJahHpoRvE=;
+ b=L/+L6CGk7mxm9J7cczGfx1hLhReGWTBLjrt286V4vXiOQE7yZn/PM/wZEsKH3qJJDJ
+ JEoWO1ed776bfKZf0w3P0S3RvQn8JZmfQTOEmiFHPz0YgjA0Z9s0dUMpXqihkLMCY6m0
+ leA0bUiI4jQUtgTSCwdnWkNUGIBFfrSYsOxJPvxFCV88dDkZiXWoEUfEEo3127YCf+pp
+ eELGNNrekX5NIZ8qxyqrVwGLlX5YLR9XFKKPVTsSfnuUeEfhvz6zMAZxZwMJAOZMSqTE
+ AGPvC/2j8IV/dCiQG9QT22FZymWEJio8+ywfwoVZSM7lVA2Ak7d+lKowA11wSam8mf1O
+ 7i0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=f2Y/32ubcLIXu+Fx8yG/mdzu/9JOvOGnww1HfRFRsSA=;
- b=JMJGfDiT5lbpfCug2p0L4QG3TC1wc1Rm5zp/jsVF1byw8a4rS3B5cnHsdOlua55bo5
- BxlPXpShkhztZaCScOLWtf7/4vEc/3xNux/4A+4410utSQpBynKZD9aGZTlEDku2X9O5
- BwqjGULojB3VzK4b+pIX3xROzyD1YuJAdMkTbYD2FdEOHfbz34XTXvObw+/2zRtEE9da
- LLjY/CS4eC0VuShFtV3h/lOlnxoux0eMEZPHV2mnfX3F1eGayHr8OI8LBYlvspR2/jCQ
- DJ7HHITE6R8asHig3syEM5MHbUhp6NNNdxSwWH1HfcsYZx4tJKpVAeqBmuPk7msEqMu6
- 88PA==
-X-Gm-Message-State: AOAM5304+VjtAVYuki/PJA6o1Hd0MdGmCVZHjjcAQ6cHqyliz959NCSV
- 3NGfHd5gCOXlpNxyTxAr1LaZF2gursU8K0WdHEkRQg==
-X-Google-Smtp-Source: ABdhPJz9tMoARJhmCl2kHHLm31mzSpOEJ8lUS85RWIkQQYP2yB4GVDoclIVe2ZzYiYU/nehhLZVi1zWRTFy1c8M28Xk=
-X-Received: by 2002:a17:906:d8ca:: with SMTP id
- re10mr1578723ejb.382.1599132511255; 
- Thu, 03 Sep 2020 04:28:31 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=9ekIUoYeHzoslT4Dhtfeg/PWay7LeWwFREJahHpoRvE=;
+ b=JlVHBHmwaim2b8tfA7xzW7sQKjRghVVpR21O6gtRPLc/OdcGaDV1XmfjLkHTVVxGyz
+ MovDRNLS8DLU/SHU5HmLzp0EwrHzek6OP6y1ua97K3S9Ix0h4FsvaxQ3zuznpIFth0gW
+ ILnJ7Nxq86mSP5zVG75W3z0AWVCk/ThvsrTXG9tqLPvl+c62+K8i/eEK1B1qz59nDw5Y
+ 5ggAjsWRG/nljOc5YShLTllEezJMVb/tmY66bgFxnYMtJda+J81PqfGQxk5tGQCqBqEq
+ 5b2/3SndFh+Try8x+ovf0LtqCvncExc6qSHUAQOPrEa1frH+9n/wSOIVUzn68aPjzkMF
+ xaWg==
+X-Gm-Message-State: AOAM530dUc0uT+9qiTB0QHP+ZYY5YWDpuMjzPhv8CqeF79oTDUvd8ND4
+ bm7C8PkPRYy6wSlYN1ZWkbmr270Engs=
+X-Google-Smtp-Source: ABdhPJyu/wHnpYUVoyfx2welbhG+6EQaz7he5zVnHZBjwGweFIYZ2+79XNi8R8BLm4lU50zGvUzBEQ==
+X-Received: by 2002:aed:2c63:: with SMTP id f90mr2919675qtd.262.1599132483277; 
+ Thu, 03 Sep 2020 04:28:03 -0700 (PDT)
+Received: from ?IPv6:2804:431:c7c6:1dc:ffbd:d3fb:97ff:aaca?
+ ([2804:431:c7c6:1dc:ffbd:d3fb:97ff:aaca])
+ by smtp.gmail.com with ESMTPSA id s192sm387864qke.50.2020.09.03.04.28.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Sep 2020 04:28:02 -0700 (PDT)
+Subject: Re: [PATCH v2 3/7] spapr: introduce
+ SpaprMachineClass::numa_assoc_array
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20200901125645.118026-1-danielhb413@gmail.com>
+ <20200901125645.118026-4-danielhb413@gmail.com>
+ <20200903015148.GK1897@yekko.fritz.box>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-ID: <d493d0d8-7104-40a4-a957-156b6cd1d5b6@gmail.com>
+Date: Thu, 3 Sep 2020 08:28:00 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-References: <20200902162206.101872-1-liq3ea@163.com>
- <b840aab8-542d-af43-43e5-0a07f442b5d5@redhat.com>
- <CAFEAcA9mvMaR5MJJ74Vv63TG6frWnMeSZA19Zxv8TUceudPUTQ@mail.gmail.com>
- <CAKXe6SLYgkiTAYa81nppHUMEzoeGy3988OmrzZyw8-VY8ajE3w@mail.gmail.com>
- <CAFEAcA9TEpfBmfOOtpfR9JCAFkMF0fy20L=DBVDTFaLp6J3Lfg@mail.gmail.com>
- <CAKXe6SKgVo5HBL2Uf8AscEn5ohZOJZGLMmT3NZL5cEbcQzgivg@mail.gmail.com>
-In-Reply-To: <CAKXe6SKgVo5HBL2Uf8AscEn5ohZOJZGLMmT3NZL5cEbcQzgivg@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 3 Sep 2020 12:28:20 +0100
-Message-ID: <CAFEAcA_yTWf2toD_R3ye_cYRZjGOeyrKTV6At2U6vtHn5iiYPg@mail.gmail.com>
-Subject: Re: [RFC 0/3] try to solve the DMA to MMIO issue
-To: Li Qiang <liq3ea@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
+In-Reply-To: <20200903015148.GK1897@yekko.fritz.box>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::842;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x842.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-2.403,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -86,30 +91,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Li Qiang <liq3ea@163.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Alexander Bulekov <alxndr@bu.edu>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 3 Sep 2020 at 12:24, Li Qiang <liq3ea@gmail.com> wrote:
-> Peter Maydell <peter.maydell@linaro.org> =E4=BA=8E2020=E5=B9=B49=E6=9C=88=
-3=E6=97=A5=E5=91=A8=E5=9B=9B =E4=B8=8B=E5=8D=887:19=E5=86=99=E9=81=93=EF=BC=
-=9A
-> > No. Any device can have an inbound or outbound qemu_irq line.
-> > We use them not just for actual IRQ lines but for any
-> > situation where we need to pass an on-or-off signal from
-> > one device to another.
->
-> Could you please provide some example, I haven't noticed this before.
 
-Look at any device that calls qdev_init_gpio_in() or
-qdev_init_gpio_in_named() for an example of inbound signals.
-Outbound signals might be created via qdev_init_gpio_out(),
-qdev_init_gpio_out_named() or sysbus_init_irq().
 
-thanks
--- PMM
+On 9/2/20 10:51 PM, David Gibson wrote:
+> On Tue, Sep 01, 2020 at 09:56:41AM -0300, Daniel Henrique Barboza wrote:
+>> The next step to centralize all NUMA/associativity handling in
+>> the spapr machine is to create a 'one stop place' for all
+>> things ibm,associativity.
+>>
+>> This patch introduces numa_assoc_array, a 2 dimensional array
+>> that will store all ibm,associativity arrays of all NUMA nodes.
+>> This array is initialized in a new spapr_numa_associativity_init()
+>> function, called in spapr_machine_init(). It is being initialized
+>> with the same values used in other ibm,associativity properties
+>> around spapr files (i.e. all zeros, last value is node_id).
+>> The idea is to remove all hardcoded definitions and FDT writes
+>> of ibm,associativity arrays, doing instead a call to the new
+>> helper spapr_numa_write_associativity_dt() helper, that will
+>> be able to write the DT with the correct values.
+>>
+>> We'll start small, handling the trivial cases first. The
+>> remaining instances of ibm,associativity will be handled
+>> next.
+>>
+>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> 
+> The idea is great, but there's one small but significant problem here:
+> 
+>> +void spapr_numa_associativity_init(MachineState *machine)
+>> +{
+>> +    SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(machine);
+>> +    int nb_numa_nodes = machine->numa_state->num_nodes;
+>> +    int i;
+>> +
+>> +    /*
+>> +     * For all associativity arrays: first position is the size,
+>> +     * position MAX_DISTANCE_REF_POINTS is always the numa_id,
+>> +     * represented by the index 'i'.
+>> +     *
+>> +     * This will break on sparse NUMA setups, when/if QEMU starts
+>> +     * to support it, because there will be no more guarantee that
+>> +     * 'i' will be a valid node_id set by the user.
+>> +     */
+>> +    for (i = 0; i < nb_numa_nodes; i++) {
+>> +        smc->numa_assoc_array[i][0] = cpu_to_be32(MAX_DISTANCE_REF_POINTS);
+>> +        smc->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] = cpu_to_be32(i);
+> 
+> This initialization is called on a machine *instance*, which means it
+> should treat the machine class as read-only.  i.e. the
+> numa_assoc_array should be in the SpaprMachineState, rather than the
+> class.
+> 
+> I mean, we'd get away with it in practice, since there's only ever
+> likely to be a single machine instance, but still we should correct
+> this.
+
+Got it. I'll move it to SpaprMachineState. This will also spare a handful of lines
+everywhere else since I was instantiating the class just to manipulate the matrix
+(and now, in hindsight, I figured that this was a warning about the weirdness
+of what I was doing).
+
+
+Thanks,
+
+
+DHB
+
+> 
 
