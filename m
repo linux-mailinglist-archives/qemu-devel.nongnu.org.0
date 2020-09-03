@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DB5025CC7E
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:42:38 +0200 (CEST)
-Received: from localhost ([::1]:40824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4847F25CC8F
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:45:10 +0200 (CEST)
+Received: from localhost ([::1]:53704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDx09-0000rf-7V
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:42:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58860)
+	id 1kDx2b-000663-AQ
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:45:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLX-0004H8-LS; Thu, 03 Sep 2020 17:00:39 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:34043)
+ id 1kDwLj-0004Zt-GL; Thu, 03 Sep 2020 17:00:52 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:39855)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLV-0007j6-Q4; Thu, 03 Sep 2020 17:00:39 -0400
-Received: by mail-ot1-x341.google.com with SMTP id h17so3208928otr.1;
- Thu, 03 Sep 2020 14:00:36 -0700 (PDT)
+ id 1kDwLh-0007mL-LT; Thu, 03 Sep 2020 17:00:51 -0400
+Received: by mail-oi1-x241.google.com with SMTP id r64so4523234oib.6;
+ Thu, 03 Sep 2020 14:00:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oq3rmsSk19eLVuEsf+6dlcXRckj5zxSI8+Z4QSek0vY=;
- b=NytrLzEvZr5suz5KCF8Sr8zpgeUvW9nKWqe1oDnIcXMiempLk16DQdgW5Ox3FRHUWa
- 6ZFxjbaDqBKZ8aCg2pU3floklNA7GfoSjXYCDjSKmLj5PTD/AfrTs8Bc7KtjvFhUncB9
- yeLXsWmlJRx02utc0MUbZRWqwIm1dZ707kXw2mt6QhzVR3DmW2mEBOTF9oumgYdsDT1V
- 9OU61FYTK+LB0ijyeC2X5CUisf6y2p+/MvWw3EG6yEve6TKkqdTSSf/lPP8xBgZTk2Kl
- 2hHd1Jz4OL6h5PpbkZKK5V+P/wL4S7u3xuMVtnl6QEIcjx6X1J5NfQasQrIko3wY+L5F
- lGeQ==
+ bh=4/widhycmlff/G5xPs8XzJrOIKkwzYT0jr445QWuLTo=;
+ b=egGKumQMv/pwMM8PYIs9wKNjFEWrcsQ22M2UjU6ql1giFI0ifC3FasfBnzkaiGuh7J
+ yj57uT21Zyg/HMXDkcgE0TJqjMgTh4F4eDwuvVYlFlq82RXtLv+b0OXXDO1vMeRo+98O
+ lJnjuDoWahtvrK7R79Yawq6fyPgcvmhQ4e6Uou6fy2iqsVBuVhQBYiQDoSNG/RL+VSob
+ gCBoMQKfJWSQ2uC+dHtPOAwS12MUTViNAjX7ILl0eB49jmfB9D93te7lfT51asnuNbHu
+ SNNzAln1y4JuDQq+QtUIjqS9d/BLTBLHAH6eWlAxo93dtdqDKVgnH0YSCiBxRpYopgFs
+ 84og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=oq3rmsSk19eLVuEsf+6dlcXRckj5zxSI8+Z4QSek0vY=;
- b=WnLj0Gm/eX2DBqNv1dJFgcBT7+u13la3xwEiooBGlqrP9Y/qlOW/SbBlk5uvKVUIVT
- FU4FvZ34zeqwcAwXEWCHSzOaVh8nt1O73GfEsgKRg7PYRbfkuXPwM4OkilheEhZZUOOw
- yYAQOKEgyrbA6MpORlW7V8Fi7MhJrXFjQDEOk+j9mrc5rJSmsSE4jebssgAP0f/fHrqe
- XcVITCqYnDBvpR5r7EtBe+E6bkOOwopNfb1gT5vxoeJSwmx8Ox4M6En8Mm8YZv3K9whj
- fLCtWn3h9By9TKgBDPOto6kkF87ri17kQlWuS8G3jxBcerMC0cvTDO+hZNKsm0O8d42g
- fK7Q==
-X-Gm-Message-State: AOAM532zfnaMj+JULz3O4ORfxxtJiSj1gXFnfMrLKlc4Ml1kGuUfkMF1
- ahbKXBaghGxbBICEFzciVLrY4ltgRTY=
-X-Google-Smtp-Source: ABdhPJxMbaKF221BCEUMmGDIG9PgxnO3mN2NQLXNWT8unBeRfmIT/cOMKHxDkxsIB65AAdwI0qXgmg==
-X-Received: by 2002:a9d:6e19:: with SMTP id e25mr2935901otr.219.1599166836076; 
- Thu, 03 Sep 2020 14:00:36 -0700 (PDT)
+ bh=4/widhycmlff/G5xPs8XzJrOIKkwzYT0jr445QWuLTo=;
+ b=JgYzj2fS5nzPlIbRhi2liazGYrYljiyTY2P+9UxmYCuSxLjzvZoslXqVy0pm3i06gt
+ 6GQ/4zvCcNKUtApPKPrYc55o6mUNJLNSlqGiwIT61LN8Ct7X/d8GdXSJcLShaQbNBP4x
+ ajd+297YMgmaKS5M+RHcTZQcn2uKFiE6raHQm4nXuJNzPqRdQ0fhuOQg7qw5xtGQRFLE
+ Vm/0NPdU+rjZ8hqE964OJQVZXPw+JlM2LEtdJv2jxBm8uPNtq9ZbNRZHA0IQCkzunvyn
+ j5iZQhDw+tQjMC5Jj2sU5R38pjqGKp2uigF51s2Q47smRmD1ttmzu86yA41uDuR8lSLV
+ O5EA==
+X-Gm-Message-State: AOAM531gwcwcWBj7Ik0BktTL8BSXPGmqVy5eTf6tGc8hNyztof9yEgrv
+ 47T5VgHWTntwAUtSObUSwdF3O7flmbTtSg==
+X-Google-Smtp-Source: ABdhPJzSOzyd3+UKrbITiyHPC4b0UoL3XNgzbNmUvfZJltpixxPNepSVJgsz/dj5l848S7pOarLXTg==
+X-Received: by 2002:aca:bb07:: with SMTP id l7mr3406165oif.98.1599166847684;
+ Thu, 03 Sep 2020 14:00:47 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id c26sm767254otr.50.2020.09.03.14.00.34
+ by smtp.gmail.com with ESMTPSA id f12sm822017ooi.42.2020.09.03.14.00.47
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:00:35 -0700 (PDT)
+ Thu, 03 Sep 2020 14:00:47 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 42/77] qga: fix assert regression on guest-shutdown
-Date: Thu,  3 Sep 2020 15:59:00 -0500
-Message-Id: <20200903205935.27832-43-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 50/77] tests/acceptance/boot_linux: Expand SD card image to
+ power of 2
+Date: Thu,  3 Sep 2020 15:59:08 -0500
+Message-Id: <20200903205935.27832-51-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x341.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
+ envelope-from=flukshun@gmail.com; helo=mail-oi1-x241.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -85,50 +86,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- qemu-stable@nongnu.org
+Cc: qemu-stable@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Since commit 781f2b3d1e ("qga: process_event() simplification"),
-send_response() is called unconditionally, but will assert when "rsp" is
-NULL. This may happen with QCO_NO_SUCCESS_RESP commands, such as
-"guest-shutdown".
+In few commits we won't allow SD card images with invalid size
+(not aligned to a power of 2). Prepare the tests: add the
+pow2ceil() and image_pow2ceil_expand() methods and resize the
+images (expanding) of the tests using SD cards.
 
-Fixes: 781f2b3d1e5ef389b44016a897fd55e7a780bf35
-Cc: Michael Roth <mdroth@linux.vnet.ibm.com>
-Reported-by: Christian Ehrhardt <christian.ehrhardt@canonical.com>
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Christian Ehrhardt <christian.ehrhardt@canonical.com>
-Tested-by: Christian Ehrhardt <christian.ehrhardt@canonical.com>
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
-(cherry picked from commit 844bd70b5652f30bbace89499f513e3fbbb6457a)
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
+Message-Id: <20200713183209.26308-5-f4bug@amsat.org>
+(cherry picked from commit 6a289a5ba3383e17fb47029720425bef42e424d7)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- qga/main.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ tests/acceptance/boot_linux_console.py | 31 ++++++++++++++++++--------
+ 1 file changed, 22 insertions(+), 9 deletions(-)
 
-diff --git a/qga/main.c b/qga/main.c
-index f0e454f28d..3febf3b0fd 100644
---- a/qga/main.c
-+++ b/qga/main.c
-@@ -531,7 +531,11 @@ static int send_response(GAState *s, const QDict *rsp)
-     QString *payload_qstr, *response_qstr;
-     GIOStatus status;
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+index e4204d8f09..db901c1348 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -28,6 +28,22 @@ try:
+ except CmdNotFoundError:
+     P7ZIP_AVAILABLE = False
  
--    g_assert(rsp && s->channel);
-+    g_assert(s->channel);
++"""
++Round up to next power of 2
++"""
++def pow2ceil(x):
++    return 1 if x == 0 else 2**(x - 1).bit_length()
 +
-+    if (!rsp) {
-+        return 0;
-+    }
++"""
++Expand file size to next power of 2
++"""
++def image_pow2ceil_expand(path):
++        size = os.path.getsize(path)
++        size_aligned = pow2ceil(size)
++        if size != size_aligned:
++            with open(path, 'ab+') as fd:
++                fd.truncate(size_aligned)
++
+ class LinuxKernelTest(Test):
+     KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
  
-     payload_qstr = qobject_to_json(QOBJECT(rsp));
-     if (!payload_qstr) {
+@@ -600,6 +616,7 @@ class BootLinuxConsole(LinuxKernelTest):
+         rootfs_path_xz = self.fetch_asset(rootfs_url, asset_hash=rootfs_hash)
+         rootfs_path = os.path.join(self.workdir, 'rootfs.cpio')
+         archive.lzma_uncompress(rootfs_path_xz, rootfs_path)
++        image_pow2ceil_expand(rootfs_path)
+ 
+         self.vm.set_console()
+         kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
+@@ -637,7 +654,7 @@ class BootLinuxConsole(LinuxKernelTest):
+         :avocado: tags=device:sd
+         """
+ 
+-        # This test download a 196MB compressed image and expand it to 932MB...
++        # This test download a 196MB compressed image and expand it to 1GB
+         image_url = ('https://dl.armbian.com/orangepipc/archive/'
+                      'Armbian_19.11.3_Orangepipc_bionic_current_5.3.9.7z')
+         image_hash = '196a8ffb72b0123d92cea4a070894813d305c71e'
+@@ -645,6 +662,7 @@ class BootLinuxConsole(LinuxKernelTest):
+         image_name = 'Armbian_19.11.3_Orangepipc_bionic_current_5.3.9.img'
+         image_path = os.path.join(self.workdir, image_name)
+         process.run("7z e -o%s %s" % (self.workdir, image_path_7z))
++        image_pow2ceil_expand(image_path)
+ 
+         self.vm.set_console()
+         self.vm.add_args('-drive', 'file=' + image_path + ',if=sd,format=raw',
+@@ -678,7 +696,7 @@ class BootLinuxConsole(LinuxKernelTest):
+         :avocado: tags=machine:orangepi-pc
+         :avocado: tags=device:sd
+         """
+-        # This test download a 304MB compressed image and expand it to 1.3GB...
++        # This test download a 304MB compressed image and expand it to 2GB
+         deb_url = ('http://snapshot.debian.org/archive/debian/'
+                    '20200108T145233Z/pool/main/u/u-boot/'
+                    'u-boot-sunxi_2020.01%2Bdfsg-1_armhf.deb')
+@@ -695,8 +713,9 @@ class BootLinuxConsole(LinuxKernelTest):
+         image_hash = '2babb29d36d8360adcb39c09e31060945259917a'
+         image_path_gz = self.fetch_asset(image_url, asset_hash=image_hash)
+         image_path = os.path.join(self.workdir, 'armv7.img')
+-        image_drive_args = 'if=sd,format=raw,snapshot=on,file=' + image_path
+         archive.gzip_uncompress(image_path_gz, image_path)
++        image_pow2ceil_expand(image_path)
++        image_drive_args = 'if=sd,format=raw,snapshot=on,file=' + image_path
+ 
+         # dd if=u-boot-sunxi-with-spl.bin of=armv7.img bs=1K seek=8 conv=notrunc
+         with open(uboot_path, 'rb') as f_in:
+@@ -704,12 +723,6 @@ class BootLinuxConsole(LinuxKernelTest):
+                 f_out.seek(8 * 1024)
+                 shutil.copyfileobj(f_in, f_out)
+ 
+-                # Extend image, to avoid that NetBSD thinks the partition
+-                # inside the image is larger than device size itself
+-                f_out.seek(0, 2)
+-                f_out.seek(64 * 1024 * 1024, 1)
+-                f_out.write(bytearray([0x00]))
+-
+         self.vm.set_console()
+         self.vm.add_args('-nic', 'user',
+                          '-drive', image_drive_args,
 -- 
 2.17.1
 
