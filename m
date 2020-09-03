@@ -2,115 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2EB525BA2A
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 07:36:11 +0200 (CEST)
-Received: from localhost ([::1]:48622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61DD725BA16
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 07:30:42 +0200 (CEST)
+Received: from localhost ([::1]:43514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDhus-0006am-NK
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 01:36:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49092)
+	id 1kDhpZ-0003y2-GS
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 01:30:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1kDhu0-0005xE-OZ
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 01:35:18 -0400
-Received: from mail-mw2nam10on2049.outbound.protection.outlook.com
- ([40.107.94.49]:29984 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1kDho6-0003DZ-Be
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 01:29:10 -0400
+Received: from mail-dm6nam10on2058.outbound.protection.outlook.com
+ ([40.107.93.58]:58592 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1kDhty-0005UI-0C
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 01:35:16 -0400
+ (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1kDho3-0004ky-OX
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 01:29:09 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VFWgSkgNLPih6hCosWt5UGv8LySZ2Szh0ivMV5zGXwJAQ5ftQVKK+MyyrnbPP31rPSPeIAfxqVvhHnSB4SZi9pQmRmXjukqKPK8hEqi4+hbfvrifS5p7ZPF03m/3k1JH1TCf1jrCjvmF0OMYe7NqSO0l1QNR0dv4G2vAgpyYuqheqlNk1u6jgzGYKMSPVac8QWfGY8jpYk3fJkY8n/oNISsNuLli/fXAmnCgIH0CjsWtCEiU0P2lx/ifilKUJWfF+HlsyGPuLmyOJJOQyxDgx46cPMwVtQNMyyT1Ct6ZzU6ojTKKazcISTaTvwupw/XddbNRF9qZzNH1S5/KTOrQfQ==
+ b=iPE+BCV+0M+xk8k15ex1M+Yxu9oCHc//m0Xt9QtISc9aiwsIjlAgqP6FvINHU1n76KblRk931imqQhW9HltFAtbu4LOXZj/pJmYyz0Uasii6LqdJF3vZkijwf3abZ0I0WIbXkm53G84VnBy8epOzlVCd1ffq77rzlqV12kkWhneWf5GLEPEGs+PWcr04BaSfXSjqH93tz9SiRGCgEbrCrz+vWbGPMoa2dLobELVOX95RHrt2rF9OylKSK1qyh0ZCJDhNAPFlAaGIcpr+0KDXdUaAPVYgk6TZRhMRSNR9lPrkpVxO1z2YOJfbk+3RKhDMuKw445op+JGCIJ6kd4nXwQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=R9cIB+7JVV6b0aEGVBHeKpU2x4yRXJjldSPnlc0qt94=;
- b=HZ5bTNBj1FphM35Jzrscgm8F+bhyXQTonmkrDyjeip1Q+Gn4GNhdymL/anR0VK+p3t6L8VOl7tm4HG/5ebnPrchJaRSXV5ePzw2wJq4gRYh/hRAOk5KsQUhSF9E5F44QxynkJ+79A72JZbEgV6g2qjjST5nJ3GlPo++p6eI3CBL1vFXxKaKi/1XTMIsXnrqHWyqWcBciE5oKjFRYyhzjEjmbHtCvfK7LSpTKFt2SJd+CgDr940V7guQUPxaEIBS5f+bAUvAVfcIf70syB+7kknACqGhwy1lDy27m+bSUIE50T4BdA5m+9OxNs+fg1ydjL8pZfxrD/oU+221A3W5Pnw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.83) smtp.rcpttodomain=cmp.felk.cvut.cz smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
+ bh=u9ykJBUXOk/lFkt1dODh7X/nYpFxBJEsLYqaT3g2szg=;
+ b=F5yvgMPOud67CVwl2PwG1w+1bAqQWoStDuAgEyDfqBYr1Qi08qPPCJ/jU+pk6tL0Svm2kJimvHsgtEB7l0aD5sP/BM6VgPd0d9XXHLGtKVT4df7T45BkZ3q8tSEpHYkdFr9npUlkOa+UooLfdbjtuBgG1FCbUUz6NFICcDVI0zLMQpGnyJz1YyuAXZh3hRZm2zGaMXPFfdAWv7A/Y83Yl29dQmx3Y+hfKsjJpIkvQOFFPEk5cC5vj9ClqYWbEahfet97UpPkaahKZJ5QdzA09Rzxqv/xrREFY9lcxRA2PuY3M92uF+3NcAQ+Qco2ObQCNLyPon/z8nkQTZGkHpkUyw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
+ dkim=pass header.d=xilinx.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=R9cIB+7JVV6b0aEGVBHeKpU2x4yRXJjldSPnlc0qt94=;
- b=jeG3iUm4U/sp5kRu3w+A0GrQnHYlsuSCo3tRB2s2Okn0+HjM6LRDL9cj4UyxbA9omxKyn4eHUQy2qJkoo+p8VJ81lRCOPVFkuoqnvX3LHYcPraM4q6zibAe0oaWwVAKxupd7y8BO/9CE0OQB4ATLFbHgnpUMkPXOea8JwQSGA3E=
-Received: from MN2PR16CA0013.namprd16.prod.outlook.com (2603:10b6:208:134::26)
- by CY4PR0201MB3489.namprd02.prod.outlook.com (2603:10b6:910:93::10)
+ bh=u9ykJBUXOk/lFkt1dODh7X/nYpFxBJEsLYqaT3g2szg=;
+ b=erHpKuadIKFKmRKJL9UgN6EZeaZVAgRDNNMd6AnND0IH+2UzsvSICbfPvEiNxKrrzlOuqX0NQiZX8ExnrHM6db0aPxiBY7ue++eonK918B7lg9oSIjlXtG3xkGuSvSLbFwsV1m/4noVmEAhML36sM6HqFZNes9cel1/rsBaUw/o=
+Received: from BYAPR02MB4823.namprd02.prod.outlook.com (2603:10b6:a03:4e::18)
+ by BYAPR02MB4791.namprd02.prod.outlook.com (2603:10b6:a03:4f::15)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.15; Thu, 3 Sep
- 2020 05:20:05 +0000
-Received: from BL2NAM02FT040.eop-nam02.prod.protection.outlook.com
- (2603:10b6:208:134:cafe::e3) by MN2PR16CA0013.outlook.office365.com
- (2603:10b6:208:134::26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.19 via Frontend
- Transport; Thu, 3 Sep 2020 05:20:05 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; cmp.felk.cvut.cz; dkim=none (message not signed)
- header.d=none;cmp.felk.cvut.cz; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- BL2NAM02FT040.mail.protection.outlook.com (10.152.77.193) with Microsoft SMTP
- Server id 15.20.3326.19 via Frontend Transport; Thu, 3 Sep 2020 05:20:03
- +0000
-Received: from [149.199.38.66] (port=50113 helo=smtp.xilinx.com)
- by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
- (envelope-from <fnu.vikram@xilinx.com>)
- id 1kDhfB-0005OD-Nx; Wed, 02 Sep 2020 22:19:57 -0700
-Received: from [127.0.0.1] (helo=xsj-pvapsmtp01)
- by smtp.xilinx.com with esmtp (Exim 4.63)
- (envelope-from <fnu.vikram@xilinx.com>)
- id 1kDhfG-0004Dr-JU; Wed, 02 Sep 2020 22:20:02 -0700
-Received: from [172.19.2.115] (helo=xilinx.com)
- by xsj-pvapsmtp01 with esmtp (Exim 4.63)
- (envelope-from <fnu.vikram@xilinx.com>)
- id 1kDhfF-0004BN-0O; Wed, 02 Sep 2020 22:20:01 -0700
-Date: Wed, 2 Sep 2020 22:20:01 -0700
-From: Vikram Garhwal <fnu.vikram@xilinx.com>
-To: Pavel Pisa <pisa@cmp.felk.cvut.cz>
-Subject: Re: [PATCH v1 1/6] net/can: Initial host SocketCan support for CAN FD.
-Message-ID: <20200903051958.GA249987@xilinx.com>
+ 2020 05:29:04 +0000
+Received: from BYAPR02MB4823.namprd02.prod.outlook.com
+ ([fe80::55f8:f25:475a:4bf4]) by BYAPR02MB4823.namprd02.prod.outlook.com
+ ([fe80::55f8:f25:475a:4bf4%7]) with mapi id 15.20.3326.025; Thu, 3 Sep 2020
+ 05:29:04 +0000
+From: Vikram Garhwal <fnuv@xilinx.com>
+To: Vikram Garhwal <fnuv@xilinx.com>, Pavel Pisa <pisa@cmp.felk.cvut.cz>
+Subject: RE: [PATCH v1 1/6] net/can: Initial host SocketCan support for CAN FD.
+Thread-Topic: [PATCH v1 1/6] net/can: Initial host SocketCan support for CAN
+ FD.
+Thread-Index: AQHWgJqsmkMXyuBY6EiTPtdaq+31IalU+pgAgADymICAAHbZoA==
+Date: Thu, 3 Sep 2020 05:29:04 +0000
+Message-ID: <BYAPR02MB48236C007E3FB6BC674FB552BC2C0@BYAPR02MB4823.namprd02.prod.outlook.com>
 References: <cover.1594725647.git.pisa@cmp.felk.cvut.cz>
  <b401e976ac9c73cf1582bca95442a255676ce940.1594725647.git.pisa@cmp.felk.cvut.cz>
  <20200901200119.GA152258@xilinx.com>
  <202009020951.44751.pisa@cmp.felk.cvut.cz>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <202009020951.44751.pisa@cmp.felk.cvut.cz>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ca5ce21a-d375-4232-040a-08d84fc90347
-X-MS-TrafficTypeDiagnostic: CY4PR0201MB3489:
-X-Microsoft-Antispam-PRVS: <CY4PR0201MB3489993C74851EB49D96B5B3BC2C0@CY4PR0201MB3489.namprd02.prod.outlook.com>
+ <20200903051958.GA249987@xilinx.com>
+In-Reply-To: <20200903051958.GA249987@xilinx.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
 X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:352;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RwJhirSsV6b+G0UY6ht/8sgkfcJgcmfR+ZzffitIJMnyBTAeLURYkEjY/A4S0fp0+wlbjniQWoGXw9du6cuunSNzjeoUsKb13gBHlwTkqoo+kn3Ew4M0C/24fMB4qZi5Jk0H1mSskpAd9WULeB9fia/TTho4qG32ILqExcMKPO/Kx7sfd5KZCWna+YJyMGnMWMzncZRTfeQPuKNscEaDrfU2WU61Z+Bfw++RdPh8xfiDJp3gnj19XRlf8U5GrKUbdZwr9JgOBKCDLMUaqgaWNaH40fmX2HBSWhBRqdxPRcLnPskFELCy9pbxU5TPuR6/v1xQGlK5WMr3vM09DWM7qrV/+IVKyqHozIeCegt6Fq7xJKbIxGXyhIQtICnI1feG3jw276Al6QNMlaFoXTTyXbvEmPSk4fdeairXbCUUUUA31NDFqR2R4xD8RzUbY69R5etZ7BwsrGqKFtbTWpL59RzOmFnvaER4+XKhoSVqMpMVgApd/KLop5QGeVOiX+9f
-X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
- SFS:(376002)(136003)(39850400004)(346002)(396003)(46966005)(36756003)(966005)(7416002)(8676002)(478600001)(2906002)(9786002)(8936002)(47076004)(82310400003)(81166007)(82740400003)(70206006)(356005)(70586007)(26005)(1076003)(186003)(6916009)(7696005)(4326008)(426003)(2616005)(336012)(33656002)(5660300002)(316002)(54906003)(27376004);
+X-MS-TNEF-Correlator: 
+authentication-results: xilinx.com; dkim=none (message not signed)
+ header.d=none;xilinx.com; dmarc=none action=none header.from=xilinx.com;
+x-originating-ip: [73.158.204.219]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 4832a738-8f97-4d40-6d96-08d84fca459f
+x-ms-traffictypediagnostic: BYAPR02MB4791:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR02MB47915D90E4A8FB426781FE80BC2C0@BYAPR02MB4791.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:352;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: jWZeZqO1ubtZDazSMut4Y/6a1eb27NWOOK3dhaqhZy07/dQAEW1XA8yXgY1yVaRWvuYBzMCxcFmQcFCaSxCnZrmf8JQhp4Xl3cKkImZtewLMc62ZQKjLzYdP6z6VMVeZYnSmqO53UqvDm3Y3bfyN1HUREqEF1h4Avx7H3V77WPpb2BUICuflGp7hYW1G57e18DyxWq4uKngzxVgEUOsxdsr6gug+PQ2K8jjE7YMYU9+ccD/8ib804C2NesmgnuEsm/oxWQ+tk3+UdSXDoyi/GHP5fOr8eQalIjSS22QF5qIgltBY67TdJmRP5hmYWVnH/wgjHPu6mmGA6C0sFUknNsSjuvoMVjRQwZwpoxiHPGJNAcAaz5vv5t3ZeMxi6YeKsQFcFSgtIgIosS7W/unAsQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR02MB4823.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(136003)(346002)(366004)(39850400004)(396003)(376002)(8936002)(110136005)(71200400001)(478600001)(55016002)(5660300002)(7416002)(9686003)(33656002)(54906003)(6506007)(107886003)(64756008)(53546011)(66446008)(7696005)(966005)(66556008)(83380400001)(316002)(66476007)(66946007)(76116006)(86362001)(8676002)(2906002)(52536014)(4326008)(186003)(26005);
  DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: SxtBCnzGdUxwrslxEdoZF+MgtU4G4oNyF1NI5c0HFApgI83yuAsx0IASGk9vHuujslLex03ozqHKfjQd3Xjam8SBjbWdOf98ft1XIo2HgAwWWzYfKkViF8VZ+8sX7WU0e5jDn/HWKFaaQjQGGUVOUiMgGONI9z7mvnqGL4kvu1CEq8JUGKcghg7Bny2kcS0x4w2So4rtV8/ZutWmktMmf3jmz3kxK+T2g2D4m+wg/1yf7EJpLPWM0NntHzPaPI5cIT8GG1EtzoxxZW2K3njb5i6CNQ9SzkjDdX7a2+Eeb1JJBZCY/hUUmDOKDOc0kDrEK40waY4uSK0ehyHXvDmj5acc4keKYm/dJvkMXQd4FoJ6zEF01B9IwuXxLAyLrWbqym862HYoeDj8AcuyHDnhj0TiFC2UVDhieJ2zT3Uzrm0WDTySkIwAuJvM1SK3512v17SjRRjTSnQT7Z7TS9sWZz6dedpNmn5Eiq3TKgjgHOEavmk4pGSfQmJTbqMhuZfVhxPbMKZnC1Zd8DfjquHzSt7rK0VdJLiuAFxpV+zA+5/Kol4SqHyQOj5p9lleWoIrOTY3ZU4kPdO5Mf83cazmh1MJysYUplQlY0GqTaKnxtWlEq+vEZFs+dupHDhTOuuFqkZrno422ORRoLMQyUSPOQ==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2020 05:20:03.4631 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ca5ce21a-d375-4232-040a-08d84fc90347
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
- Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-AuthSource: BL2NAM02FT040.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR0201MB3489
-Received-SPF: pass client-ip=40.107.94.49; envelope-from=fnuv@xilinx.com;
- helo=NAM10-MW2-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 01:35:11
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR02MB4823.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4832a738-8f97-4d40-6d96-08d84fca459f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Sep 2020 05:29:04.2020 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: pnpIjateayLmdAdM1cOoh+q7F4H82W75hSPVOy9HbCboPciEt9AH2yBmwjh6yKRY
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4791
+Received-SPF: pass client-ip=40.107.93.58; envelope-from=fnuv@xilinx.com;
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 01:29:05
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -130,9 +114,12 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Jiri Novak <jnovak@fel.cvut.cz>,
- Oliver Hartkopp <socketcan@hartkopp.net>, Deniz Eren <deniz.eren@icloud.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+Cc: Marek Vasut <marex@denx.de>,
+ Francisco Eduardo Iglesias <figlesia@xilinx.com>,
+ Jiri Novak <jnovak@fel.cvut.cz>, Oliver Hartkopp <socketcan@hartkopp.net>,
+ Deniz Eren <deniz.eren@icloud.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>,
  Oleksij Rempel <o.rempel@pengutronix.de>,
  Konrad Frederic <frederic.konrad@adacore.com>,
  Jan Kiszka <jan.kiszka@siemens.com>, Jan Charvat <charvj10@fel.cvut.cz>,
@@ -141,62 +128,69 @@ Cc: Marek Vasut <marex@denx.de>, Jiri Novak <jnovak@fel.cvut.cz>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 02, 2020 at 09:51:44AM +0200, Pavel Pisa wrote:
-Hi Pavel,
-> Hello Vikram,
->
-> thanks much for the patches review.
->
-> On Tuesday 01 of September 2020 22:01:26 Vikram Garhwal wrote:
-> > Hi Jan,
-> > A couple of comments on this patch.
-> >
-> > On Tue, Jul 14, 2020 at 02:20:14PM +0200, pisa@cmp.felk.cvut.cz wrote:
-> > > From: Jan Charvat <charvj10@fel.cvut.cz>
-> > > @@ -185,13 +204,34 @@ static void can_host_socketcan_connect(CanHostState
-> > > *ch, Error **errp) addr.can_family = AF_CAN;
-> > >      memset(&ifr.ifr_name, 0, sizeof(ifr.ifr_name));
-> > >      strcpy(ifr.ifr_name, c->ifname);
-> > > +    /* check if the frame fits into the CAN netdevice */
-> > >      if (ioctl(s, SIOCGIFINDEX, &ifr) < 0) {
-> > >          error_setg_errno(errp, errno,
-> > > -                         "SocketCAN host interface %s not available",
-> > > c->ifname); +                         "SocketCAN host interface %s not
-> > > available", +                         c->ifname);
-> >
-> > May be this formatting change in a different patch? As this is not related
-> > to CANFD.
-> > > @@ -232,7 +272,8 @@ static char *can_host_socketcan_get_if(Object *obj,
-> > > Error **errp) return g_strdup(c->ifname);
-> > >  }
-> > >
-> > > -static void can_host_socketcan_set_if(Object *obj, const char *value,
-> > > Error **errp) +static void can_host_socketcan_set_if(Object *obj, const
-> > > char *value,
-> > > +                                      Error **errp)
-> >
-> > This one also not relevant change for CANFD. Rest of the patch looks good.
->
->
-> I am responsible for mentioned lines change in net/can/can_socketcan.c.
-> When I have reviewed patches after Jan Charvat theses submittion,
-> I have done another bunch of rounds to check that the patches as well
-> as the whole net/can and hw/net/can are checkpatch clean. I am not sure
-> if the incorrect formatting sneaked in in my 2018 submission or patcheck
-> became more strict last years.
->
-> I can separate these changes changes into separate patch if required.
-May be we can keep them in same patch. I was just referring to "Don't include irrelevant changes" section on this page about patches: https://wiki.qemu.org/Contribute/SubmitAPatch.
->
-> By the way, if you or other of your colleagues is willing to participate
-> in net/can and or  hw/net/can patches reviews, I would be happy if you
-> join my attempt and we can record that we are available to take care
-> abut these in MAINTAINERS file.
-Given that I spent good amount of time working with net/can, I am willing to review the patches. Thanks!
->
-> Best wishes,
->
-> Pavel
->
->
+SGkgUGF2ZWwsDQpGb3Jnb3QgdG8gYWRkIHRoaXMgaW4gbGFzdCByZXBseTogRnJhbmNpc2NvIEln
+bGVzaWFzKGluIGNjKSB3YXMgYWxzbyBpbnZvbHZlZCBhIGxvdCBpbiBuZXQvY2FuIFFFTVUgZGV2
+aWNlcyBhbmQgd2lsbGluZyB0byBoZWxwIGluIHRoZSByZXZpZXcgaWYgbmVlZGVkLiANCg0KUmVn
+YXJkcw0KVmlrcmFtDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogVmlr
+cmFtIEdhcmh3YWwgPGZudS52aWtyYW1AeGlsaW54LmNvbT4NCj4gU2VudDogV2VkbmVzZGF5LCBT
+ZXB0ZW1iZXIgMiwgMjAyMCAxMDoyMCBQTQ0KPiBUbzogUGF2ZWwgUGlzYSA8cGlzYUBjbXAuZmVs
+ay5jdnV0LmN6Pg0KPiBDYzogcWVtdS1kZXZlbEBub25nbnUub3JnOyBQYW9sbyBCb256aW5pIDxw
+Ym9uemluaUByZWRoYXQuY29tPjsNCj4gU3RlZmFuIEhham5vY3ppIDxzdGVmYW5oYUBnbWFpbC5j
+b20+OyBLb25yYWQgRnJlZGVyaWMNCj4gPGZyZWRlcmljLmtvbnJhZEBhZGFjb3JlLmNvbT47IERl
+bml6IEVyZW4gPGRlbml6LmVyZW5AaWNsb3VkLmNvbT47DQo+IE9saXZlciBIYXJ0a29wcCA8c29j
+a2V0Y2FuQGhhcnRrb3BwLm5ldD47IE1hcmVrIFZhc3V0DQo+IDxtYXJleEBkZW54LmRlPjsgSmFu
+IEtpc3prYSA8amFuLmtpc3prYUBzaWVtZW5zLmNvbT47IE9sZWtzaWogUmVtcGVsDQo+IDxvLnJl
+bXBlbEBwZW5ndXRyb25peC5kZT47IE1hcmt1cyBBcm1icnVzdGVyIDxhcm1icnVAcmVkaGF0LmNv
+bT47DQo+IE9uZHJlaiBJbGxlIDxvbmRyZWouaWxsZUBnbWFpbC5jb20+OyBKYW4gQ2hhcnZhdCA8
+Y2hhcnZqMTBAZmVsLmN2dXQuY3o+Ow0KPiBKaXJpIE5vdmFrIDxqbm92YWtAZmVsLmN2dXQuY3o+
+DQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjEgMS82XSBuZXQvY2FuOiBJbml0aWFsIGhvc3QgU29j
+a2V0Q2FuIHN1cHBvcnQgZm9yIENBTg0KPiBGRC4NCj4gDQo+IE9uIFdlZCwgU2VwIDAyLCAyMDIw
+IGF0IDA5OjUxOjQ0QU0gKzAyMDAsIFBhdmVsIFBpc2Egd3JvdGU6DQo+IEhpIFBhdmVsLA0KPiA+
+IEhlbGxvIFZpa3JhbSwNCj4gPg0KPiA+IHRoYW5rcyBtdWNoIGZvciB0aGUgcGF0Y2hlcyByZXZp
+ZXcuDQo+ID4NCj4gPiBPbiBUdWVzZGF5IDAxIG9mIFNlcHRlbWJlciAyMDIwIDIyOjAxOjI2IFZp
+a3JhbSBHYXJod2FsIHdyb3RlOg0KPiA+ID4gSGkgSmFuLA0KPiA+ID4gQSBjb3VwbGUgb2YgY29t
+bWVudHMgb24gdGhpcyBwYXRjaC4NCj4gPiA+DQo+ID4gPiBPbiBUdWUsIEp1bCAxNCwgMjAyMCBh
+dCAwMjoyMDoxNFBNICswMjAwLCBwaXNhQGNtcC5mZWxrLmN2dXQuY3oNCj4gd3JvdGU6DQo+ID4g
+PiA+IEZyb206IEphbiBDaGFydmF0IDxjaGFydmoxMEBmZWwuY3Z1dC5jej4gQEAgLTE4NSwxMyAr
+MjA0LDM0IEBADQo+ID4gPiA+IHN0YXRpYyB2b2lkIGNhbl9ob3N0X3NvY2tldGNhbl9jb25uZWN0
+KENhbkhvc3RTdGF0ZQ0KPiA+ID4gPiAqY2gsIEVycm9yICoqZXJycCkgYWRkci5jYW5fZmFtaWx5
+ID0gQUZfQ0FOOw0KPiA+ID4gPiAgICAgIG1lbXNldCgmaWZyLmlmcl9uYW1lLCAwLCBzaXplb2Yo
+aWZyLmlmcl9uYW1lKSk7DQo+ID4gPiA+ICAgICAgc3RyY3B5KGlmci5pZnJfbmFtZSwgYy0+aWZu
+YW1lKTsNCj4gPiA+ID4gKyAgICAvKiBjaGVjayBpZiB0aGUgZnJhbWUgZml0cyBpbnRvIHRoZSBD
+QU4gbmV0ZGV2aWNlICovDQo+ID4gPiA+ICAgICAgaWYgKGlvY3RsKHMsIFNJT0NHSUZJTkRFWCwg
+JmlmcikgPCAwKSB7DQo+ID4gPiA+ICAgICAgICAgIGVycm9yX3NldGdfZXJybm8oZXJycCwgZXJy
+bm8sDQo+ID4gPiA+IC0gICAgICAgICAgICAgICAgICAgICAgICAgIlNvY2tldENBTiBob3N0IGlu
+dGVyZmFjZSAlcyBub3QgYXZhaWxhYmxlIiwNCj4gPiA+ID4gYy0+aWZuYW1lKTsgKyAgICAgICAg
+ICAgICAgICAgICAgICAgICAiU29ja2V0Q0FOIGhvc3QgaW50ZXJmYWNlICVzIG5vdA0KPiA+ID4g
+PiBhdmFpbGFibGUiLCArICAgICAgICAgICAgICAgICAgICAgICAgIGMtPmlmbmFtZSk7DQo+ID4g
+Pg0KPiA+ID4gTWF5IGJlIHRoaXMgZm9ybWF0dGluZyBjaGFuZ2UgaW4gYSBkaWZmZXJlbnQgcGF0
+Y2g/IEFzIHRoaXMgaXMgbm90DQo+ID4gPiByZWxhdGVkIHRvIENBTkZELg0KPiA+ID4gPiBAQCAt
+MjMyLDcgKzI3Miw4IEBAIHN0YXRpYyBjaGFyDQo+ICpjYW5faG9zdF9zb2NrZXRjYW5fZ2V0X2lm
+KE9iamVjdA0KPiA+ID4gPiAqb2JqLCBFcnJvciAqKmVycnApIHJldHVybiBnX3N0cmR1cChjLT5p
+Zm5hbWUpOyAgfQ0KPiA+ID4gPg0KPiA+ID4gPiAtc3RhdGljIHZvaWQgY2FuX2hvc3Rfc29ja2V0
+Y2FuX3NldF9pZihPYmplY3QgKm9iaiwgY29uc3QgY2hhcg0KPiA+ID4gPiAqdmFsdWUsIEVycm9y
+ICoqZXJycCkgK3N0YXRpYyB2b2lkDQo+ID4gPiA+IGNhbl9ob3N0X3NvY2tldGNhbl9zZXRfaWYo
+T2JqZWN0ICpvYmosIGNvbnN0IGNoYXIgKnZhbHVlLA0KPiA+ID4gPiArICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICBFcnJvciAqKmVycnApDQo+ID4gPg0KPiA+ID4gVGhpcyBv
+bmUgYWxzbyBub3QgcmVsZXZhbnQgY2hhbmdlIGZvciBDQU5GRC4gUmVzdCBvZiB0aGUgcGF0Y2gg
+bG9va3MNCj4gZ29vZC4NCj4gPg0KPiA+DQo+ID4gSSBhbSByZXNwb25zaWJsZSBmb3IgbWVudGlv
+bmVkIGxpbmVzIGNoYW5nZSBpbiBuZXQvY2FuL2Nhbl9zb2NrZXRjYW4uYy4NCj4gPiBXaGVuIEkg
+aGF2ZSByZXZpZXdlZCBwYXRjaGVzIGFmdGVyIEphbiBDaGFydmF0IHRoZXNlcyBzdWJtaXR0aW9u
+LCBJDQo+ID4gaGF2ZSBkb25lIGFub3RoZXIgYnVuY2ggb2Ygcm91bmRzIHRvIGNoZWNrIHRoYXQg
+dGhlIHBhdGNoZXMgYXMgd2VsbCBhcw0KPiA+IHRoZSB3aG9sZSBuZXQvY2FuIGFuZCBody9uZXQv
+Y2FuIGFyZSBjaGVja3BhdGNoIGNsZWFuLiBJIGFtIG5vdCBzdXJlDQo+ID4gaWYgdGhlIGluY29y
+cmVjdCBmb3JtYXR0aW5nIHNuZWFrZWQgaW4gaW4gbXkgMjAxOCBzdWJtaXNzaW9uIG9yDQo+ID4g
+cGF0Y2hlY2sgYmVjYW1lIG1vcmUgc3RyaWN0IGxhc3QgeWVhcnMuDQo+ID4NCj4gPiBJIGNhbiBz
+ZXBhcmF0ZSB0aGVzZSBjaGFuZ2VzIGNoYW5nZXMgaW50byBzZXBhcmF0ZSBwYXRjaCBpZiByZXF1
+aXJlZC4NCj4gTWF5IGJlIHdlIGNhbiBrZWVwIHRoZW0gaW4gc2FtZSBwYXRjaC4gSSB3YXMganVz
+dCByZWZlcnJpbmcgdG8gIkRvbid0DQo+IGluY2x1ZGUgaXJyZWxldmFudCBjaGFuZ2VzIiBzZWN0
+aW9uIG9uIHRoaXMgcGFnZSBhYm91dCBwYXRjaGVzOg0KPiBodHRwczovL3dpa2kucWVtdS5vcmcv
+Q29udHJpYnV0ZS9TdWJtaXRBUGF0Y2guDQo+ID4NCj4gPiBCeSB0aGUgd2F5LCBpZiB5b3Ugb3Ig
+b3RoZXIgb2YgeW91ciBjb2xsZWFndWVzIGlzIHdpbGxpbmcgdG8NCj4gPiBwYXJ0aWNpcGF0ZSBp
+biBuZXQvY2FuIGFuZCBvciAgaHcvbmV0L2NhbiBwYXRjaGVzIHJldmlld3MsIEkgd291bGQgYmUN
+Cj4gPiBoYXBweSBpZiB5b3Ugam9pbiBteSBhdHRlbXB0IGFuZCB3ZSBjYW4gcmVjb3JkIHRoYXQg
+d2UgYXJlIGF2YWlsYWJsZQ0KPiA+IHRvIHRha2UgY2FyZSBhYnV0IHRoZXNlIGluIE1BSU5UQUlO
+RVJTIGZpbGUuDQo+IEdpdmVuIHRoYXQgSSBzcGVudCBnb29kIGFtb3VudCBvZiB0aW1lIHdvcmtp
+bmcgd2l0aCBuZXQvY2FuLCBJIGFtIHdpbGxpbmcNCj4gdG8gcmV2aWV3IHRoZSBwYXRjaGVzLiBU
+aGFua3MhDQo+ID4NCj4gPiBCZXN0IHdpc2hlcywNCj4gPg0KPiA+IFBhdmVsDQo+ID4NCj4gPg0K
 
