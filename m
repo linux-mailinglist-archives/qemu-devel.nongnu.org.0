@@ -2,82 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C070425BA1E
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 07:33:59 +0200 (CEST)
-Received: from localhost ([::1]:46296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1C2A25BAA2
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 07:51:36 +0200 (CEST)
+Received: from localhost ([::1]:58708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDhsk-0005Nd-RX
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 01:33:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48670)
+	id 1kDi9n-00033I-Qq
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 01:51:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kDhrz-0004uN-6K
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 01:33:11 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25399
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kDhrx-0005Kh-Dm
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 01:33:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599111188;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8YnI2EVTu9QY3lllKoF3XAE+WjNhqXgXVYxPXfrwta4=;
- b=Ls4p+oxU5nn80LCFRuhbxv6ovWi57eXwoyRqNxU8zpcsZdbLdPt3wpfPeRrlYRi54i4WLd
- f6CMWhua+X9ZX+FLykYlwtJucrWrmWDl2ELDeoAQNOWAe1Fdl+Yc57wuFyTAtCsaRYOcAf
- Vp9T0u0YGZf3l+TkGq+8zzGYOeSMNlg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-507-JEpNZK_iNQ62iZxDTJ_zxA-1; Thu, 03 Sep 2020 01:33:03 -0400
-X-MC-Unique: JEpNZK_iNQ62iZxDTJ_zxA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FDD01074644;
- Thu,  3 Sep 2020 05:33:02 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-62.ams2.redhat.com
- [10.36.112.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DE54A5C1C2;
- Thu,  3 Sep 2020 05:33:01 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id F342516E31; Thu,  3 Sep 2020 07:33:00 +0200 (CEST)
-Date: Thu, 3 Sep 2020 07:33:00 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH] usb-host: workaround libusb bug
-Message-ID: <20200903053300.4fokdkv34bjsx3ze@sirius.home.kraxel.org>
-References: <20200824110057.32089-1-kraxel@redhat.com>
- <878sdt618f.fsf@linaro.org>
- <20200902080937.p6fweexn7cxzru5p@sirius.home.kraxel.org>
- <87wo1c45d9.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kDi8u-0002dv-K7
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 01:50:40 -0400
+Received: from indium.canonical.com ([91.189.90.7]:32962)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kDi8s-0007fs-3i
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 01:50:40 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kDi8q-0001Pk-Jm
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 05:50:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 7FE772E80EA
+ for <qemu-devel@nongnu.org>; Thu,  3 Sep 2020 05:50:36 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <87wo1c45d9.fsf@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 00:24:51
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 03 Sep 2020 05:42:05 -0000
+From: Paolo Bonzini <1893758@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Won't Fix; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: bonzini philmd
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: Paolo Bonzini (bonzini)
+References: <159895503437.23051.7002685011475326158.malonedeb@wampee.canonical.com>
+Message-Id: <159911172557.20713.515724951157935446.malone@chaenomeles.canonical.com>
+Subject: [Bug 1893758] Re: meson: scary KeyboardInterrupt backtrace displayed
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="195cbfa84cb75815472f69dd83d46f006869050b"; Instance="production"
+X-Launchpad-Hash: 19d9224e3eda0fb26fb55338a92b2bc5a98b03b4
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 00:20:39
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.001, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -86,56 +73,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Bug 1893758 <1893758@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 02, 2020 at 03:31:46PM +0100, Alex Bennée wrote:
-> 
-> Gerd Hoffmann <kraxel@redhat.com> writes:
-> 
-> >> > +#include <linux/usbdevice_fs.h>
-> >
-> >> > +        int rc = ioctl(hostfd, USBDEVFS_GET_SPEED, NULL);
-> >> 
-> >> This (further) breaks a bunch of the Travis jobs - I assume because libusb doesn't
-> >> always have this symbol:
-> >> 
-> >>   ../hw/usb/host-libusb.c:954:32: error: ‘USBDEVFS_GET_SPEED’ undeclared (first use in this function)
-> >
-> > It isn't libusb, it is the kernel (linux/usbdevice_fs.h).
-> >
-> > /me checks git ...
-> > Added in 4.13, so available for quite a while.
-> > I guess that is the prehistoric ubuntu version travis has?
-> >
-> > Given that we only need that workaround with rather new libusb versions
-> > (which have libusb_wrap_sys_device() support) which most likely isn't
-> > present in that old ubuntu version we can probably just do this:
-> >
-> > diff --git a/hw/usb/host-libusb.c b/hw/usb/host-libusb.c
-> > index 08604f787fdf..c25102f3aca1 100644
-> > --- a/hw/usb/host-libusb.c
-> > +++ b/hw/usb/host-libusb.c
-> > @@ -942,7 +942,7 @@ static int usb_host_open(USBHostDevice *s, libusb_device *dev, int hostfd)
-> >      usb_host_ep_update(s);
-> >  
-> >      libusb_speed = libusb_get_device_speed(dev);
-> > -#ifdef CONFIG_LINUX
-> > +#if LIBUSB_API_VERSION >= 0x01000107 && defined(CONFIG_LINUX)
-> >      if (hostfd && libusb_speed == 0) {
-> >          /*
-> >           * Workaround libusb bug: libusb_get_device_speed() does not
-> 
-> That works. Do you want to include that in your next PR or send a patch
-> for me to include in my testing/next PR?
+That's just how Python works. :-(
 
-Patch is on the list already:
-https://patchwork.ozlabs.org/project/qemu-devel/patch/20200902081445.3291-1-kraxel@redhat.com/
+https://bugs.python.org/issue14229
 
-Feel free to include it in testing pull.
+** Bug watch added: Python Roundup #14229
+   http://bugs.python.org/issue14229
 
-take care,
-  Gerd
+** Changed in: qemu
+       Status: New =3D> Won't Fix
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1893758
+
+Title:
+  meson: scary KeyboardInterrupt backtrace displayed
+
+Status in QEMU:
+  Won't Fix
+
+Bug description:
+  Pressing ^C while building (calling 'make') sometime displays
+  KeyboardInterrupt exception backtrace (host Fedora 32):
+
+  $ make qemu-system-arm
+  Generating qemu-version.h with a meson_exe.py custom command
+  ^CTraceback (most recent call last):
+    File "/usr/bin/meson", line 6, in <module>
+      from pkg_resources import load_entry_point
+    File "/usr/lib/python3.8/site-packages/pkg_resources/__init__.py", line=
+ 3252, in <module>
+      def _initialize_master_working_set():
+    File "/usr/lib/python3.8/site-packages/pkg_resources/__init__.py", line=
+ 3235, in _call_aside
+      f(*args, **kwargs)
+    File "/usr/lib/python3.8/site-packages/pkg_resources/__init__.py", line=
+ 3277, in _initialize_master_working_set
+      tuple(
+    File "/usr/lib/python3.8/site-packages/pkg_resources/__init__.py", line=
+ 3278, in <genexpr>
+      dist.activate(replace=3DFalse)
+    File "/usr/lib/python3.8/site-packages/pkg_resources/__init__.py", line=
+ 2782, in activate
+      fixup_namespace_packages(self.location)
+    File "/usr/lib/python3.8/site-packages/pkg_resources/__init__.py", line=
+ 2295, in fixup_namespace_packages
+      subpath =3D _handle_ns(package, path_item)
+    File "/usr/lib/python3.8/site-packages/pkg_resources/__init__.py", line=
+ 2194, in _handle_ns
+      importer =3D get_importer(path_item)
+    File "/usr/lib64/python3.8/pkgutil.py", line 415, in get_importer
+      importer =3D sys.path_importer_cache[path_item]
+  KeyboardInterrupt
+
+  =
+
+  $ make
+  [...]
+  Compiling C object libcommon.fa.p/disas_alpha.c.o
+  Compiling C object libcommon.fa.p/hw_isa_smc37c669-superio.c.o
+  Compiling C object libcommon.fa.p/hw_isa_isa-superio.c.o
+  Compiling C object libcommon.fa.p/hw_char_serial-isa.c.o
+  Compiling C object libcommon.fa.p/hw_acpi_aml-build-stub.c.o
+  ^CTraceback (most recent call last):
+    File "/usr/bin/meson", line 6, in <module>
+      from pkg_resources import load_entry_point
+    File "/usr/lib/python3.8/site-packages/pkg_resources/__init__.py", line=
+ 3252, in <module>
+  make: *** [Makefile.ninja:994: libcommon.fa.p/disas_alpha.c.o] Interrupt
+  make: *** [Makefile.ninja:998: libcommon.fa.p/hw_isa_smc37c669-superio.c.=
+o] Interrupt
+  make: *** [Makefile.ninja:1025: libcommon.fa.p/hw_isa_isa-superio.c.o] In=
+terrupt
+  make: *** [Makefile.ninja:1069: libcommon.fa.p/hw_char_serial-isa.c.o] In=
+terrupt
+  make: *** [Makefile.ninja:1102: libcommon.fa.p/hw_acpi_aml-build-stub.c.o=
+] Interrupt
+  make: *** [Makefile.ninja:2138: qemu-system-alpha.p/softmmu_main.c.o] Int=
+errupt
+  make: *** [Makefile.ninja:949: libblock.fa.p/block_qcow2.c.o] Interrupt
+      def _initialize_master_working_set():
+    File "/usr/lib/python3.8/site-packages/pkg_resources/__init__.py", line=
+ 3235, in _call_aside
+      f(*args, **kwargs)
+    File "/usr/lib/python3.8/site-packages/pkg_resources/__init__.py", line=
+ 3287, in _initialize_master_working_set
+      list(map(working_set.add_entry, sys.path))
+    File "/usr/lib/python3.8/site-packages/pkg_resources/__init__.py", line=
+ 623, in add_entry
+      for dist in find_distributions(entry, True):
+    File "/usr/lib/python3.8/site-packages/pkg_resources/__init__.py", line=
+ 2065, in find_on_path
+      for dist in factory(fullpath):
+    File "/usr/lib/python3.8/site-packages/pkg_resources/__init__.py", line=
+ 2134, in distributions_from_metadata
+      yield Distribution.from_location(
+    File "/usr/lib/python3.8/site-packages/pkg_resources/__init__.py", line=
+ 2590, in from_location
+      return cls(
+    File "/usr/lib/python3.8/site-packages/pkg_resources/__init__.py", line=
+ 2571, in __init__
+      self._version =3D safe_version(version)
+    File "/usr/lib/python3.8/site-packages/pkg_resources/__init__.py", line=
+ 1331, in safe_version
+      return str(packaging.version.Version(version))
+    File "/usr/lib/python3.8/site-packages/pkg_resources/_vendor/packaging/=
+version.py", line 205, in __init__
+      self._version =3D _Version(
+    File "<string>", line 1, in __new__
+  KeyboardInterrupt
+  make: *** [Makefile.ninja:875: qemu.syms.stamp] Interrupt
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1893758/+subscriptions
 
