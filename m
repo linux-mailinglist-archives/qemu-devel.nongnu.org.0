@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90D4025C1D4
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 15:46:26 +0200 (CEST)
-Received: from localhost ([::1]:51496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B23A25C1D5
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 15:46:32 +0200 (CEST)
+Received: from localhost ([::1]:51848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDpZJ-00013X-IW
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 09:46:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47562)
+	id 1kDpZP-0001C4-4s
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 09:46:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDpYA-0008GN-Qx
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 09:45:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59122)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDpYE-0008K7-Ps
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 09:45:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59861)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDpY9-00019V-E6
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 09:45:14 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDpYD-0001BD-8p
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 09:45:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599140712;
+ s=mimecast20190719; t=1599140716;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=P4jh2niYh7bJWP7dxPOPtR//yRKxWrNKnOiJly1cel4=;
- b=fABJy+fO6XrrKe2zgoYYBgMHYIbasmJQqs3RVEwVPQiaNUnYyLcPlBz5PWIR4MYiBpZad/
- AJvl5MjJdez/iay3wgSHmCuEfZhxB2qS8iPTzisFe+bNEFOVAGUmnvyMiLGTioMKIsyAsL
- FdCUr3ZGwYntHizXlIFHyz78zC15pck=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-149-LqL-9eFOMbutYAUUeXMGFg-1; Thu, 03 Sep 2020 09:45:10 -0400
-X-MC-Unique: LqL-9eFOMbutYAUUeXMGFg-1
-Received: by mail-wr1-f71.google.com with SMTP id m7so1084966wrb.20
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 06:45:09 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xnJGsFmE0lHc/vacaNXhWmico4HRbt/COcagt38PJC8=;
+ b=ZvjaqcJbQ90ZEHy82JiSez2r3a83b1/ay+oq0QvlgYK/FbTbrHg0A3/jTWa2gPNdVT7w/v
+ wkcfZsNufPrQxr+e9+cfymxWSQwcAMur1i7n4wPEJu7JjxbxbTopsxMJ7xxuPnquJGDOVA
+ 3lFy9p7uCuUDc5j0NvR1e0LiCtohQcw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-223-qmwgOZ2jM9Gk9znvFWbkQg-1; Thu, 03 Sep 2020 09:45:14 -0400
+X-MC-Unique: qmwgOZ2jM9Gk9znvFWbkQg-1
+Received: by mail-wr1-f70.google.com with SMTP id b8so1110643wrr.2
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 06:45:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=P4jh2niYh7bJWP7dxPOPtR//yRKxWrNKnOiJly1cel4=;
- b=dNeuQrQkAnBR3R32GFEpK9JcPKEEbcAbvHpN9R0jhG5XzRGazeiWLIMPIgq1t+uw3l
- 8jZptxLCKcikaqauxC9kH/gqVJoMp+QpJJ4yCQvgqIcVnjRQME+VnZrCGN23UEqp5SJs
- j6LxAzja2eGoWMEvS5uiZjGE3zWxJUdqFL+IDxwC3lq/yL7OcOL7G1HmyNpOKNiFR6Wx
- 2/zuYw6YoynzG3EOQ+MdBMaR0zbZiwC1eXMVbBHMiiIT1xOHDnYz2qIy3I4RLoA9e//i
- YH0AZqLCYh+xTTMr/Qy+V/WEg27OdGtccIJ1Yy1EIlof3THPZ/q4SlbTt/wr+vk4n+qA
- 5M2A==
-X-Gm-Message-State: AOAM5311Ma+3ZpvSWopqfvnTy6ykoGDtEIiQjRDtXF8sTYKZaeDF0m1X
- GqTUsuMMx7z2erkJbeWhLn7RVBHIviXnaiSg1hOqRwjNVPyiC12LkMfuFn9O1YppLmia9EczNZ5
- BISZz09PwNocvSCI=
-X-Received: by 2002:adf:ed05:: with SMTP id a5mr2563807wro.364.1599140708660; 
- Thu, 03 Sep 2020 06:45:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwCLFyihtNCmruEdp3nkX1omfPo9T8qqtH1353h2gVmdW7hsEwMPvmbajd3JlqWuuaiPkwpPg==
-X-Received: by 2002:adf:ed05:: with SMTP id a5mr2563793wro.364.1599140708547; 
- Thu, 03 Sep 2020 06:45:08 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=xnJGsFmE0lHc/vacaNXhWmico4HRbt/COcagt38PJC8=;
+ b=QXMvktCenDGx5WJt1ooXnmcM39T7hXqt1D0HyimpD/Jji9gq0CUNPlDnpDVu2LP55n
+ a8ER4TOQYRRuFCUoRKyemzpHyyR3+37ZeCf72urfJggn/97vwYUwftQ53hJQN3A7RWbk
+ ZQy6qQl//XWxMSZ13TJT8EdhrRa1RwDZEruX088NP5BIATD75ilq6rxlbYNf7LM4Ofc6
+ Y79Ts0Zl4I3OaeHCIDzzkYPcMZSYiVjvOkfRAClJKm0XEamCjPl4Kl1sulVx8jH94TeD
+ 0uLc63RcOQYFlANycX4FLCB+KwhLQhvwc6pkfRAMIgCd/x6PzVu4IvHjOFAeAwDFNgaj
+ PtwA==
+X-Gm-Message-State: AOAM5309nbVKiRqXcD2XKcxvsIb7oHsA/MMPgJg/eCnRgspG+DA2MhO1
+ wZ73ABIaxTnDcjpVSfJIm6sjtgwfn8474rrCrG2jeZOrj48ONPwejv/tdtZ529WNgKZRIldz48U
+ 2SjKb1sdJRXlJaEE=
+X-Received: by 2002:a5d:68d1:: with SMTP id p17mr2498267wrw.378.1599140713414; 
+ Thu, 03 Sep 2020 06:45:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxkd59juEn6Zi7SDnJ4jjLVol29LXybzqo3sRN18mbzyAzNizyapEc+rY3LZwa19TcFn2OUmA==
+X-Received: by 2002:a5d:68d1:: with SMTP id p17mr2498250wrw.378.1599140713266; 
+ Thu, 03 Sep 2020 06:45:13 -0700 (PDT)
 Received: from localhost.localdomain (50.red-83-52-54.dynamicip.rima-tde.net.
  [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id y1sm4345972wma.36.2020.09.03.06.45.07
+ by smtp.gmail.com with ESMTPSA id l10sm4408149wru.59.2020.09.03.06.45.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Sep 2020 06:45:07 -0700 (PDT)
+ Thu, 03 Sep 2020 06:45:12 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] hw/timer/hpet: Trivial format string fix
-Date: Thu,  3 Sep 2020 15:45:04 +0200
-Message-Id: <20200903134506.440082-1-philmd@redhat.com>
+Subject: [PATCH 1/2] hw/timer/hpet: Remove dead code
+Date: Thu,  3 Sep 2020 15:45:05 +0200
+Message-Id: <20200903134506.440082-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200903134506.440082-1-philmd@redhat.com>
+References: <20200903134506.440082-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -99,15 +103,38 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix a format string and remove dead code.
+This code was never compiled/used, remove it.
 
-Philippe Mathieu-Daudé (2):
-  hw/timer/hpet: Remove dead code
-  hw/timer/hpet: Fix DPRINTF format string
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ hw/timer/hpet.c | 14 --------------
+ 1 file changed, 14 deletions(-)
 
- hw/timer/hpet.c | 20 +++-----------------
- 1 file changed, 3 insertions(+), 17 deletions(-)
-
+diff --git a/hw/timer/hpet.c b/hw/timer/hpet.c
+index 380acfa7c8a..b683f64f1d3 100644
+--- a/hw/timer/hpet.c
++++ b/hw/timer/hpet.c
+@@ -416,20 +416,6 @@ static void hpet_del_timer(HPETTimer *t)
+     update_irq(t, 0);
+ }
+ 
+-#ifdef HPET_DEBUG
+-static uint32_t hpet_ram_readb(void *opaque, hwaddr addr)
+-{
+-    printf("qemu: hpet_read b at %" PRIx64 "\n", addr);
+-    return 0;
+-}
+-
+-static uint32_t hpet_ram_readw(void *opaque, hwaddr addr)
+-{
+-    printf("qemu: hpet_read w at %" PRIx64 "\n", addr);
+-    return 0;
+-}
+-#endif
+-
+ static uint64_t hpet_ram_read(void *opaque, hwaddr addr,
+                               unsigned size)
+ {
 -- 
 2.26.2
 
