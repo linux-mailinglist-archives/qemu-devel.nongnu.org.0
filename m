@@ -2,99 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8BC125CD48
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 00:13:32 +0200 (CEST)
-Received: from localhost ([::1]:45606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9FF725CD22
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 00:07:55 +0200 (CEST)
+Received: from localhost ([::1]:47932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDxU3-0008Ae-Sq
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 18:13:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40210)
+	id 1kDxOc-00065Z-Q7
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 18:07:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kDx1C-0004Oy-HE
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:43:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37968)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kDx19-0004kz-Eo
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:43:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599169418;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=K1Eu5FAmo3br8/kZmQpMztZdSEQefBmXBNkP0m2C1VU=;
- b=bzAu/Ctuw/hx8F9l7rkSFNrZe5r4HhnGopk5F1/kH5n1gKMh5C0Y0uIRYdd1pbZa+T/HX9
- rZg9aScff01JYWfa28ZtpSM2Uq/VW9uQYfULUPRhngXqfn+Khl2eVIbHK34FH/0QpqYjEs
- oRMR9DZ6bGn2qVcJzyUP/62fHsheUc8=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-233-N1TRk4wUMG-r4BppfdwW0g-1; Thu, 03 Sep 2020 17:43:36 -0400
-X-MC-Unique: N1TRk4wUMG-r4BppfdwW0g-1
-Received: by mail-ej1-f71.google.com with SMTP id ml20so1719150ejb.23
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 14:43:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=K1Eu5FAmo3br8/kZmQpMztZdSEQefBmXBNkP0m2C1VU=;
- b=ali6fw/RyF9QdmbaJySb+3JZGCGk5uudmjVUSxDSLT0VU3V7UqqIZv3s5mgsJCGSEe
- GBuZzP6r/vRFLyZXyqS4gHiHSxpP4ePRTZNBuF2t4lgltngiVvhseHCxtZ4caH0ir8nU
- r4ZATVpWib+sT3CaKnv6b4VtCYlxpGHp3FKndSatnfp8tAoqWikaqyJlDSG8zGwL4bEh
- jOi9IXDmYyc7sbh1LSwnaLMddH7j6IP6e8abd7QhO+foB98/eck2lHzAfna0reTv3U26
- s/W12VlhtcavfmhzoXNIC7bN1JLWCz71FeV+m/ejJTfbjZEd89gBpBwLv4akSt7IhX+T
- FA8Q==
-X-Gm-Message-State: AOAM5312D3bFGPP1mvwDfMYNDabgX+LcALXR1QSJePkaAWJCeNe5W8BW
- lUVekOTQ5TAiZAgs26BVPJ81g6TMODq1V120L6CZZ6HQQbmx6j3X0BnYr3KPCEzxMrvt3MW6B8w
- mlyGmfC1IkAPMOwo=
-X-Received: by 2002:a17:906:2f02:: with SMTP id
- v2mr4042632eji.465.1599169415518; 
- Thu, 03 Sep 2020 14:43:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzem05YsMlJDWEOVqCxuEW9+ld4nwCdNwI6ao+5XPy6rtMXVXY/bpNQA5W2KghJJ7JrxrxGjQ==
-X-Received: by 2002:a17:906:2f02:: with SMTP id
- v2mr4042589eji.465.1599169415293; 
- Thu, 03 Sep 2020 14:43:35 -0700 (PDT)
-Received: from [192.168.10.150] ([93.56.170.5])
- by smtp.gmail.com with ESMTPSA id z23sm4166518eja.29.2020.09.03.14.43.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Sep 2020 14:43:34 -0700 (PDT)
-Subject: Re: [RFC PATCH 11/12] hw/pci: Only allow PCI slave devices to write
- to direct memory
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200903110831.353476-1-philmd@redhat.com>
- <20200903110831.353476-12-philmd@redhat.com>
- <7e4fd726-07e9-dc09-d66b-5692dd51820f@redhat.com>
- <245445c1-970f-124a-9ebc-489d3ae42d5d@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <dc67c282-1ea8-9750-70d6-aeb8fd99f846@redhat.com>
-Date: Thu, 3 Sep 2020 23:43:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <pisa@cmp.felk.cvut.cz>)
+ id 1kDx79-0005To-Kk
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:49:51 -0400
+Received: from relay.felk.cvut.cz ([2001:718:2:1611:0:1:0:70]:51333)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <pisa@cmp.felk.cvut.cz>) id 1kDx76-0005Lo-Nm
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:49:51 -0400
+Received: from cmp.felk.cvut.cz (haar.felk.cvut.cz [147.32.84.19])
+ by relay.felk.cvut.cz (8.15.2/8.15.2) with ESMTP id 083LmfsG031912;
+ Thu, 3 Sep 2020 23:48:41 +0200 (CEST)
+ (envelope-from pisa@cmp.felk.cvut.cz)
+Received: from haar.felk.cvut.cz (localhost [127.0.0.1])
+ by cmp.felk.cvut.cz (8.14.0/8.12.3/SuSE Linux 0.6) with ESMTP id
+ 083Lme3m026108; Thu, 3 Sep 2020 23:48:40 +0200
+Received: (from pisa@localhost)
+ by haar.felk.cvut.cz (8.14.0/8.13.7/Submit) id 083LmeOO026106;
+ Thu, 3 Sep 2020 23:48:40 +0200
+From: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH v2 1/7] net/can: Initial host SocketCan support for CAN FD.
+Date: Thu,  3 Sep 2020 23:48:17 +0200
+Message-Id: <5fc63b2076944a4c4cad5960f2554d18b2c910a7.1599168753.git.pisa@cmp.felk.cvut.cz>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.1599168753.git.pisa@cmp.felk.cvut.cz>
+References: <cover.1599168753.git.pisa@cmp.felk.cvut.cz>
 MIME-Version: 1.0
-In-Reply-To: <245445c1-970f-124a-9ebc-489d3ae42d5d@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 01:47:17
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.403, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-FELK-MailScanner-Information: 
+X-MailScanner-ID: 083LmfsG031912
+X-FELK-MailScanner: Found to be clean
+X-FELK-MailScanner-SpamCheck: not spam, SpamAssassin (not cached,
+ score=-0.098, required 6, BAYES_00 -0.50, KHOP_HELO_FCRDNS 0.40,
+ SPF_HELO_NONE 0.00, SPF_NONE 0.00)
+X-FELK-MailScanner-From: pisa@cmp.felk.cvut.cz
+X-FELK-MailScanner-Watermark: 1599774524.20706@Zu5SyPMmS7mJ1ZHp+wlR3Q
+Received-SPF: none client-ip=2001:718:2:1611:0:1:0:70;
+ envelope-from=pisa@cmp.felk.cvut.cz; helo=relay.felk.cvut.cz
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 17:39:24
+X-ACL-Warn: Detected OS   = ???
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -107,54 +67,179 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Peter Xu <peterx@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>, qemu-block@nongnu.org,
- Li Qiang <liq3ea@163.com>, "Emilio G . Cota" <cota@braap.org>,
- Joel Stanley <joel@jms.id.au>, Richard Henderson <rth@twiddle.net>,
- Laszlo Ersek <lersek@redhat.com>, Robert Foley <robert.foley@linaro.org>,
- Alistair Francis <alistair@alistair23.me>,
- Richard Henderson <richard.henderson@linaro.org>,
- Beniamino Galvani <b.galvani@gmail.com>, Eric Auger <eric.auger@redhat.com>,
- qemu-arm@nongnu.org, Jan Kiszka <jan.kiszka@web.de>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, Tony Nguyen <tony.nguyen@bt.com>,
- Prasad J Pandit <pjp@fedoraproject.org>, Alexander Bulekov <alxndr@bu.edu>,
- Andrew Jeffery <andrew@aj.id.au>, Klaus Jensen <k.jensen@samsung.com>,
- Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-ppc@nongnu.org,
- Peter Chubb <peter.chubb@nicta.com.au>
+Cc: Marek Vasut <marex@denx.de>, Vikram Garhwal <fnu.vikram@xilinx.com>,
+ Jiri Novak <jnovak@fel.cvut.cz>, Stefan Hajnoczi <stefanha@gmail.com>,
+ Deniz Eren <deniz.eren@icloud.com>, Markus Armbruster <armbru@redhat.com>,
+ Oleksij Rempel <o.rempel@pengutronix.de>,
+ Konrad Frederic <frederic.konrad@adacore.com>,
+ Jan Kiszka <jan.kiszka@siemens.com>, Jan Charvat <charvj10@fel.cvut.cz>,
+ Oliver Hartkopp <socketcan@hartkopp.net>, Ondrej Ille <ondrej.ille@gmail.com>,
+ Pavel Pisa <pisa@cmp.felk.cvut.cz>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/09/20 15:18, Philippe Mathieu-Daudé wrote:
-> As of this patch, all the non-PCI, but I plan to add a similar
-> check for USB on top of this series.
+From: Jan Charvat <charvj10@fel.cvut.cz>
 
-Do you mean for memory-mapped USB host controllers?
+Signed-off-by: Jan Charvat <charvj10@fel.cvut.cz>
+Signed-off-by: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+Reviewed-by: Vikram Garhwal <fnu.vikram@xilinx.com>
+---
+ hw/net/can/can_sja1000.c |  2 ++
+ include/net/can_emu.h    |  8 ++++++-
+ net/can/can_socketcan.c  | 47 +++++++++++++++++++++++++++++++++++++---
+ 3 files changed, 53 insertions(+), 4 deletions(-)
 
->> I'm worried that there are cases of MMIO reads that would be broken.
->> They are certainly niche these days, but they should still work; the
->> most "famous" one is perhaps the old BASIC
->>
->>    DEF SEG=&HB800
->>    BLOAD "picture.pic", 0
-> 
-> This looks like ISA stuff. I don't think ISA does such checks
-> (and didn't plan to add them there) but I'd need to verify.
-
-It works on bare metal even with a modern video card.
-
-> Do you have an acceptance test?
-
-Nope. :(
-
-Paolo
+diff --git a/hw/net/can/can_sja1000.c b/hw/net/can/can_sja1000.c
+index 299932998a..ec66d4232d 100644
+--- a/hw/net/can/can_sja1000.c
++++ b/hw/net/can/can_sja1000.c
+@@ -268,6 +268,7 @@ static void buff2frame_pel(const uint8_t *buff, qemu_can_frame *frame)
+ {
+     uint8_t i;
+ 
++    frame->flags = 0;
+     frame->can_id = 0;
+     if (buff[0] & 0x40) { /* RTR */
+         frame->can_id = QEMU_CAN_RTR_FLAG;
+@@ -303,6 +304,7 @@ static void buff2frame_bas(const uint8_t *buff, qemu_can_frame *frame)
+ {
+     uint8_t i;
+ 
++    frame->flags = 0;
+     frame->can_id = ((buff[0] << 3) & (0xff << 3)) + ((buff[1] >> 5) & 0x07);
+     if (buff[1] & 0x10) { /* RTR */
+         frame->can_id = QEMU_CAN_RTR_FLAG;
+diff --git a/include/net/can_emu.h b/include/net/can_emu.h
+index 7e90fd8a45..1547091ff4 100644
+--- a/include/net/can_emu.h
++++ b/include/net/can_emu.h
+@@ -46,7 +46,8 @@ typedef uint32_t qemu_canid_t;
+ typedef struct qemu_can_frame {
+     qemu_canid_t    can_id;  /* 32 bit CAN_ID + EFF/RTR/ERR flags */
+     uint8_t         can_dlc; /* data length code: 0 .. 8 */
+-    uint8_t         data[8] QEMU_ALIGNED(8);
++    uint8_t         flags;
++    uint8_t         data[64] QEMU_ALIGNED(8);
+ } qemu_can_frame;
+ 
+ /* Keep defines for QEMU separate from Linux ones for now */
+@@ -58,6 +59,10 @@ typedef struct qemu_can_frame {
+ #define QEMU_CAN_SFF_MASK 0x000007FFU /* standard frame format (SFF) */
+ #define QEMU_CAN_EFF_MASK 0x1FFFFFFFU /* extended frame format (EFF) */
+ 
++#define QEMU_CAN_FRMF_BRS     0x01 /* bit rate switch (2nd bitrate for data) */
++#define QEMU_CAN_FRMF_ESI     0x02 /* error state ind. of transmitting node */
++#define QEMU_CAN_FRMF_TYPE_FD 0x10 /* internal bit ind. of CAN FD frame */
++
+ /**
+  * struct qemu_can_filter - CAN ID based filter in can_register().
+  * @can_id:   relevant bits of CAN ID which are not masked out.
+@@ -97,6 +102,7 @@ struct CanBusClientState {
+     char *model;
+     char *name;
+     void (*destructor)(CanBusClientState *);
++    bool fd_mode;
+ };
+ 
+ #define TYPE_CAN_BUS "can-bus"
+diff --git a/net/can/can_socketcan.c b/net/can/can_socketcan.c
+index b7ef63ec0e..fbc0b62ea4 100644
+--- a/net/can/can_socketcan.c
++++ b/net/can/can_socketcan.c
+@@ -103,6 +103,14 @@ static void can_host_socketcan_read(void *opaque)
+         return;
+     }
+ 
++    if (!ch->bus_client.fd_mode) {
++        c->buf[0].flags = 0;
++    } else {
++        if (c->bufcnt > CAN_MTU) {
++            c->buf[0].flags |= QEMU_CAN_FRMF_TYPE_FD;
++        }
++    }
++
+     can_bus_client_send(&ch->bus_client, c->buf, 1);
+ 
+     if (DEBUG_CAN) {
+@@ -121,12 +129,21 @@ static ssize_t can_host_socketcan_receive(CanBusClientState *client,
+     CanHostState *ch = container_of(client, CanHostState, bus_client);
+     CanHostSocketCAN *c = CAN_HOST_SOCKETCAN(ch);
+ 
+-    size_t len = sizeof(qemu_can_frame);
++    size_t len;
+     int res;
+ 
+     if (c->fd < 0) {
+         return -1;
+     }
++    if (frames->flags & QEMU_CAN_FRMF_TYPE_FD) {
++        if (!ch->bus_client.fd_mode) {
++            return 0;
++        }
++        len = CANFD_MTU;
++    } else {
++        len = CAN_MTU;
++
++    }
+ 
+     res = write(c->fd, frames, len);
+ 
+@@ -172,6 +189,8 @@ static void can_host_socketcan_connect(CanHostState *ch, Error **errp)
+ {
+     CanHostSocketCAN *c = CAN_HOST_SOCKETCAN(ch);
+     int s; /* can raw socket */
++    int mtu;
++    int enable_canfd = 1;
+     struct sockaddr_can addr;
+     struct ifreq ifr;
+ 
+@@ -185,13 +204,34 @@ static void can_host_socketcan_connect(CanHostState *ch, Error **errp)
+     addr.can_family = AF_CAN;
+     memset(&ifr.ifr_name, 0, sizeof(ifr.ifr_name));
+     strcpy(ifr.ifr_name, c->ifname);
++    /* check if the frame fits into the CAN netdevice */
+     if (ioctl(s, SIOCGIFINDEX, &ifr) < 0) {
+         error_setg_errno(errp, errno,
+-                         "SocketCAN host interface %s not available", c->ifname);
++                         "SocketCAN host interface %s not available",
++                         c->ifname);
+         goto fail;
+     }
+     addr.can_ifindex = ifr.ifr_ifindex;
+ 
++    if (ioctl(s, SIOCGIFMTU, &ifr) < 0) {
++        error_setg_errno(errp, errno,
++                         "SocketCAN host interface %s SIOCGIFMTU failed",
++                         c->ifname);
++        goto fail;
++    }
++    mtu = ifr.ifr_mtu;
++
++    if (mtu >= CANFD_MTU) {
++        /* interface is ok - try to switch the socket into CAN FD mode */
++        if (setsockopt(s, SOL_CAN_RAW, CAN_RAW_FD_FRAMES,
++                        &enable_canfd, sizeof(enable_canfd))) {
++            warn_report("SocketCAN host interface %s enabling CAN FD failed",
++                        c->ifname);
++        } else {
++            c->parent.bus_client.fd_mode = true;
++        }
++    }
++
+     c->err_mask = 0xffffffff; /* Receive error frame. */
+     setsockopt(s, SOL_CAN_RAW, CAN_RAW_ERR_FILTER,
+                    &c->err_mask, sizeof(c->err_mask));
+@@ -232,7 +272,8 @@ static char *can_host_socketcan_get_if(Object *obj, Error **errp)
+     return g_strdup(c->ifname);
+ }
+ 
+-static void can_host_socketcan_set_if(Object *obj, const char *value, Error **errp)
++static void can_host_socketcan_set_if(Object *obj, const char *value,
++                                      Error **errp)
+ {
+     CanHostSocketCAN *c = CAN_HOST_SOCKETCAN(obj);
+     struct ifreq ifr;
+-- 
+2.20.1
 
 
