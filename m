@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13EE725CCEC
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:57:56 +0200 (CEST)
-Received: from localhost ([::1]:44710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 048AA25CCFB
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:59:18 +0200 (CEST)
+Received: from localhost ([::1]:51632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDxEx-000152-2F
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:57:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39720)
+	id 1kDxGH-00041G-1N
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:59:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kDwyl-0007RL-PD
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:41:12 -0400
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:35856)
+ id 1kDwyq-0007SS-0S
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:41:16 -0400
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:37687)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kDwyj-0004aN-Ij
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:41:11 -0400
-Received: by mail-pg1-x532.google.com with SMTP id p37so3170417pgl.3
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 14:41:09 -0700 (PDT)
+ id 1kDwyk-0004aR-Mi
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:41:15 -0400
+Received: by mail-pg1-x535.google.com with SMTP id 5so3168704pgl.4
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 14:41:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+IpDS3pKsg+orX5M7DofjfKOj/+sV/QvHnOyEKwjMnE=;
- b=UZh++ogd+TpI1ahfhOsvV8lmQ10uIbCS2TlFQAk55jKxEx7gb8+SRVEtfPMkHqFk7L
- i7IFDGrDbBzCM/sukMj6VDhzC7rsPRRfrgYh/OQSWw11Zi08ingehHkI2tDJpHxqPO66
- 74KaRXbC/RgMqOVf3poGEXq5DwWijn6yMuyGn/f2KcVC4DGkHmXZ7QHx8UUTatfcnPLj
- PXognyJCXXE4m9qjKAjw9rsGSf84c40PDkwU9dZa+YiG6q6tRUInMKozqqrMEj3OIS5+
- N8oM2vQfdSd6VY9muJHnZ+dlYiCKUuK8ja/3YqtkUEqqEXdfUltcGyQbv/Rlxsp80EBL
- mcVQ==
+ bh=i/w3vLxBt1qJ2wyxNzwes/y8JNN7aVfo7El89r/8IyU=;
+ b=UdB+hwvBO6ZXYI+WyJfXs3Phu0UmliMM2CgveUz+rDwCB0XIR9eqUcZUEsGOxnpUvQ
+ uO4YlKCu4hsgKYi9VU5JrMGC27Sn8Pf7z9VFk0qIdtPjt0eV2d5RUg7u/28kNyleiTvC
+ oei1M1aItA9efdHYzTEH+1elqvCFJZ+NPaRo2zHo34O4qdf5CdHL709qZPXPOTIIcWL7
+ m740O/IYHRt6twaiDdFDSId0DkV6neMGonZ4wopAND3z54gdRGksRVPvwFEf0tnG+d1P
+ 97PHBGnSN2hLDXmq1BlXfFglx7lqzhjDtBkWKNUgOCSJ99Rt/TIMpHRnflENzNIxWer+
+ 0j+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+IpDS3pKsg+orX5M7DofjfKOj/+sV/QvHnOyEKwjMnE=;
- b=jbprJrt+u5vSSU59X9wjJJ5zo4LLhZ4pl+JCJ/dxUe9wwgJ6VSzawGC2dMAidWFotZ
- zxgUB8KU/LB5zXPK90VqF5f+abknWHnT/E0ir0Gqcp0LJlWk/5dJUgszVcjcFOco9F6M
- sqf95YreAX20TMCdjVaKNynRbuW6lR6xvIK8SIgx8yguCf4KQhet+KDIemo0qb94VZoK
- umNd0bvi5B3sMRitGGMWmHWtw4ZIl8zCwwuHt95dbq17PMIVAGYqwPgrPzM0uVK/uFCc
- fwvVEhmUFBi/6ErVLIq+2oRni+nIet2FTXFxvfdtkjmCYRR3yqiY+rdyRozXnLEyAP4E
- Jgtg==
-X-Gm-Message-State: AOAM533jGwKv/djWbprafTlRRISwnl+zej50ddz1H+YtknnX9141JalW
- jEnP3sMZrfGT0j3crDnH9jSs8M2yAmDsUg==
-X-Google-Smtp-Source: ABdhPJx0zu/UJAqI8jxJ8vR6QB+eotQx2U3XX492DvUytR0UT8lm+8PD9YkkAFyLwL1zs8SkqQ57YQ==
-X-Received: by 2002:a63:fa45:: with SMTP id g5mr4510243pgk.448.1599169267417; 
- Thu, 03 Sep 2020 14:41:07 -0700 (PDT)
+ bh=i/w3vLxBt1qJ2wyxNzwes/y8JNN7aVfo7El89r/8IyU=;
+ b=ehS81iHw19jP2tTfvFRRTsusvK4BrzDC0vaW7eTIRb/8kSGdoGtOUGp37gqqArg0da
+ jVgiIwY2rByG3JCBHJVlFDLtZI96yb7KU4yCqEmaASo7rcq55hVDkwucpmNygDQw/Ge3
+ Cn4sfbrxORbVyUE7/40NvE6vw1Cf5d41NdI1t3+QrSn2zxdrv/3z3EOtW3f0zTGdl54W
+ MJC339WTMeGZ3qHT7kOYvxg594BXxdGX+2apl3wwM1YAtYBh81ovPBGU329ro0bNEyQR
+ QGwLAQ8Hmx5esB2dN2MPwH5xAfQvXABBAsDwuFZ9OoTP6MDlyZ3FslM0T4LgCUfAPZnu
+ eY3w==
+X-Gm-Message-State: AOAM532/GMNkI6qVWbqIq8kdDDJuWcN0ovPanBm10NFn3KLC7pH54o+Q
+ 6d5tHiZFT4MQHUYXy14xgwpIxcdGUgidGw==
+X-Google-Smtp-Source: ABdhPJzpDs85C8C5dbARtJC9d6cItil7QPyxDZKuknDePotcH9b5TBDsu2tByHOrRPW7zb8/MYJnlw==
+X-Received: by 2002:a62:1743:: with SMTP id 64mr5648427pfx.133.1599169269075; 
+ Thu, 03 Sep 2020 14:41:09 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id v17sm4113290pfn.24.2020.09.03.14.41.06
+ by smtp.gmail.com with ESMTPSA id v17sm4113290pfn.24.2020.09.03.14.41.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Sep 2020 14:41:06 -0700 (PDT)
+ Thu, 03 Sep 2020 14:41:08 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/5] softmmu/cpus: Only set parallel_cpus for SMP
-Date: Thu,  3 Sep 2020 14:40:59 -0700
-Message-Id: <20200903214101.1746878-4-richard.henderson@linaro.org>
+Subject: [PULL 4/5] tcg: Eliminate one store for in-place 128-bit dup_mem
+Date: Thu,  3 Sep 2020 14:41:00 -0700
+Message-Id: <20200903214101.1746878-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200903214101.1746878-1-richard.henderson@linaro.org>
 References: <20200903214101.1746878-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,44 +90,36 @@ Cc: peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do not set parallel_cpus if there is only one cpu instantiated.
-This will allow tcg to use serial code to implement atomics.
+Do not store back to the exact memory from which we just loaded.
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- softmmu/cpus.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ tcg/tcg-op-gvec.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index a802e899ab..e3b98065c9 100644
---- a/softmmu/cpus.c
-+++ b/softmmu/cpus.c
-@@ -1895,6 +1895,16 @@ static void qemu_tcg_init_vcpu(CPUState *cpu)
-     if (!tcg_region_inited) {
-         tcg_region_inited = 1;
-         tcg_region_init();
-+        /*
-+         * If MTTCG, and we will create multiple cpus,
-+         * then we will have cpus running in parallel.
-+         */
-+        if (qemu_tcg_mttcg_enabled()) {
-+            MachineState *ms = MACHINE(qdev_get_machine());
-+            if (ms->smp.max_cpus > 1) {
-+                parallel_cpus = true;
-+            }
-+        }
-     }
+diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
+index 793d4ba64c..fcc25b04e6 100644
+--- a/tcg/tcg-op-gvec.c
++++ b/tcg/tcg-op-gvec.c
+@@ -1581,7 +1581,7 @@ void tcg_gen_gvec_dup_mem(unsigned vece, uint32_t dofs, uint32_t aofs,
+             TCGv_vec in = tcg_temp_new_vec(TCG_TYPE_V128);
  
-     if (qemu_tcg_mttcg_enabled() || !single_tcg_cpu_thread) {
-@@ -1904,7 +1914,6 @@ static void qemu_tcg_init_vcpu(CPUState *cpu)
+             tcg_gen_ld_vec(in, cpu_env, aofs);
+-            for (i = 0; i < oprsz; i += 16) {
++            for (i = (aofs == dofs) * 16; i < oprsz; i += 16) {
+                 tcg_gen_st_vec(in, cpu_env, dofs + i);
+             }
+             tcg_temp_free_vec(in);
+@@ -1591,7 +1591,7 @@ void tcg_gen_gvec_dup_mem(unsigned vece, uint32_t dofs, uint32_t aofs,
  
-         if (qemu_tcg_mttcg_enabled()) {
-             /* create a thread per vCPU with TCG (MTTCG) */
--            parallel_cpus = true;
-             snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/TCG",
-                  cpu->cpu_index);
- 
+             tcg_gen_ld_i64(in0, cpu_env, aofs);
+             tcg_gen_ld_i64(in1, cpu_env, aofs + 8);
+-            for (i = 0; i < oprsz; i += 16) {
++            for (i = (aofs == dofs) * 16; i < oprsz; i += 16) {
+                 tcg_gen_st_i64(in0, cpu_env, dofs + i);
+                 tcg_gen_st_i64(in1, cpu_env, dofs + i + 8);
+             }
 -- 
 2.25.1
 
