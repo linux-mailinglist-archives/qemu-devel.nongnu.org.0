@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE7D425CC7D
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:42:36 +0200 (CEST)
-Received: from localhost ([::1]:40738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13EE725CCEC
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:57:56 +0200 (CEST)
+Received: from localhost ([::1]:44710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDx07-0000pZ-Sd
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:42:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39738)
+	id 1kDxEx-000152-2F
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:57:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kDwyo-0007S1-DX
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:41:15 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:36159)
+ id 1kDwyl-0007RL-PD
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:41:12 -0400
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:35856)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kDwyi-0004aI-7U
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:41:14 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id q1so2095762pjd.1
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 14:41:07 -0700 (PDT)
+ id 1kDwyj-0004aN-Ij
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:41:11 -0400
+Received: by mail-pg1-x532.google.com with SMTP id p37so3170417pgl.3
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 14:41:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ujJytkO077otcKV33Z+6URYnEerHnMmPUii31K7Opk8=;
- b=nNVsemZumGQHzPZsmDIwWSVy9lKcieRa11sGrPfas3bq5Q8s07H314usupPsyAbNzy
- IbXlAMI5XpJVxz1Hxzv3dLzOu9gf11NMCLi6pvg8upRUJYsnTYIxGS2G+zB0fRtmKRSJ
- QlQTdbyBBjfIdv/ayuqFIFhhJkJ9GS/B34uKWO1m9NM6ehCDFkjXT6KNQzW1yx8TJWCM
- z3avuA1xWtBQthHOpp0h46Z2yug1MQfbLtBmz0mRE3D4+1VDIPxlYMP6YZUhqUaW5DBQ
- PM7EI/hR1OZmFZJ4u6gr1bp9jZtmgX7Cb1UHO+S7e+gVYiKrwUJjmwIGtg3h1dRpa2F5
- zM2g==
+ bh=+IpDS3pKsg+orX5M7DofjfKOj/+sV/QvHnOyEKwjMnE=;
+ b=UZh++ogd+TpI1ahfhOsvV8lmQ10uIbCS2TlFQAk55jKxEx7gb8+SRVEtfPMkHqFk7L
+ i7IFDGrDbBzCM/sukMj6VDhzC7rsPRRfrgYh/OQSWw11Zi08ingehHkI2tDJpHxqPO66
+ 74KaRXbC/RgMqOVf3poGEXq5DwWijn6yMuyGn/f2KcVC4DGkHmXZ7QHx8UUTatfcnPLj
+ PXognyJCXXE4m9qjKAjw9rsGSf84c40PDkwU9dZa+YiG6q6tRUInMKozqqrMEj3OIS5+
+ N8oM2vQfdSd6VY9muJHnZ+dlYiCKUuK8ja/3YqtkUEqqEXdfUltcGyQbv/Rlxsp80EBL
+ mcVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ujJytkO077otcKV33Z+6URYnEerHnMmPUii31K7Opk8=;
- b=K4euij79VzXINqrZKbCUtU7t94gY1Z+oGn14YFtaGympsg0+jMGtxBoAwXjsnF3LMB
- tOGedSb8cFSHTkgcxMAUwX8mLDDgthQ6lNrOsCp9sFbGbnzOwmcGIu1yn/n4n4OOJWGz
- Fgq/YDTWI70kvtjHku735Tl/9gzii8ZCTibwS9NSk+XY7VEdmhNF1+dMZN4yw0k9qTn2
- LXkLBPIBgv23deNkLpcURpBN9525M5b5zSRIZkX2pLS66zJEEHP8s25Fl5Q7MXQCKAed
- A3wjdPAuw3mOzGdMhgPHhHEv0fYh02kS/XSauteHey80pBTwA341koJJaPRVDCVngp9F
- 8UYA==
-X-Gm-Message-State: AOAM533vQSYBj8GkHlThHydZU3GTIrFqTCEmgfrVcsN26/DhY6wo4Jmd
- +JTdttLrk1lJfTzrYpM4UvddyxWUgRfOCA==
-X-Google-Smtp-Source: ABdhPJyh/9ucyiqnpcm/plApsTotHR5qxKMI5JvApPoJoBqpbJdmMLXXJ7T+jlVHQzHfvSD+l1ir5A==
-X-Received: by 2002:a17:90a:5a01:: with SMTP id
- b1mr4828268pjd.27.1599169266244; 
- Thu, 03 Sep 2020 14:41:06 -0700 (PDT)
+ bh=+IpDS3pKsg+orX5M7DofjfKOj/+sV/QvHnOyEKwjMnE=;
+ b=jbprJrt+u5vSSU59X9wjJJ5zo4LLhZ4pl+JCJ/dxUe9wwgJ6VSzawGC2dMAidWFotZ
+ zxgUB8KU/LB5zXPK90VqF5f+abknWHnT/E0ir0Gqcp0LJlWk/5dJUgszVcjcFOco9F6M
+ sqf95YreAX20TMCdjVaKNynRbuW6lR6xvIK8SIgx8yguCf4KQhet+KDIemo0qb94VZoK
+ umNd0bvi5B3sMRitGGMWmHWtw4ZIl8zCwwuHt95dbq17PMIVAGYqwPgrPzM0uVK/uFCc
+ fwvVEhmUFBi/6ErVLIq+2oRni+nIet2FTXFxvfdtkjmCYRR3yqiY+rdyRozXnLEyAP4E
+ Jgtg==
+X-Gm-Message-State: AOAM533jGwKv/djWbprafTlRRISwnl+zej50ddz1H+YtknnX9141JalW
+ jEnP3sMZrfGT0j3crDnH9jSs8M2yAmDsUg==
+X-Google-Smtp-Source: ABdhPJx0zu/UJAqI8jxJ8vR6QB+eotQx2U3XX492DvUytR0UT8lm+8PD9YkkAFyLwL1zs8SkqQ57YQ==
+X-Received: by 2002:a63:fa45:: with SMTP id g5mr4510243pgk.448.1599169267417; 
+ Thu, 03 Sep 2020 14:41:07 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id v17sm4113290pfn.24.2020.09.03.14.41.05
+ by smtp.gmail.com with ESMTPSA id v17sm4113290pfn.24.2020.09.03.14.41.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Sep 2020 14:41:05 -0700 (PDT)
+ Thu, 03 Sep 2020 14:41:06 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/5] tcg: Fix tcg gen for vectorized absolute value
-Date: Thu,  3 Sep 2020 14:40:58 -0700
-Message-Id: <20200903214101.1746878-3-richard.henderson@linaro.org>
+Subject: [PULL 3/5] softmmu/cpus: Only set parallel_cpus for SMP
+Date: Thu,  3 Sep 2020 14:40:59 -0700
+Message-Id: <20200903214101.1746878-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200903214101.1746878-1-richard.henderson@linaro.org>
 References: <20200903214101.1746878-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -85,47 +85,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Stephen Long <steplong@quicinc.com>
+Cc: peter.maydell@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stephen Long <steplong@quicinc.com>
+Do not set parallel_cpus if there is only one cpu instantiated.
+This will allow tcg to use serial code to implement atomics.
 
-The fallback inline expansion for vectorized absolute value,
-when the host doesn't support such an insn was flawed.
-
-E.g. when a vector of bytes has all elements negative, mask
-will be 0xffff_ffff_ffff_ffff.  Subtracting mask only adds 1
-to the low element instead of all elements becase -mask is 1
-and not 0x0101_0101_0101_0101.
-
-Signed-off-by: Stephen Long <steplong@quicinc.com>
-Message-Id: <20200813161818.190-1-steplong@quicinc.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tcg-op-gvec.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ softmmu/cpus.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
-index 3707c0effb..793d4ba64c 100644
---- a/tcg/tcg-op-gvec.c
-+++ b/tcg/tcg-op-gvec.c
-@@ -2264,12 +2264,13 @@ static void gen_absv_mask(TCGv_i64 d, TCGv_i64 b, unsigned vece)
-     tcg_gen_muli_i64(t, t, (1 << nbit) - 1);
+diff --git a/softmmu/cpus.c b/softmmu/cpus.c
+index a802e899ab..e3b98065c9 100644
+--- a/softmmu/cpus.c
++++ b/softmmu/cpus.c
+@@ -1895,6 +1895,16 @@ static void qemu_tcg_init_vcpu(CPUState *cpu)
+     if (!tcg_region_inited) {
+         tcg_region_inited = 1;
+         tcg_region_init();
++        /*
++         * If MTTCG, and we will create multiple cpus,
++         * then we will have cpus running in parallel.
++         */
++        if (qemu_tcg_mttcg_enabled()) {
++            MachineState *ms = MACHINE(qdev_get_machine());
++            if (ms->smp.max_cpus > 1) {
++                parallel_cpus = true;
++            }
++        }
+     }
  
-     /*
--     * Invert (via xor -1) and add one (via sub -1).
-+     * Invert (via xor -1) and add one.
-      * Because of the ordering the msb is cleared,
-      * so we never have carry into the next element.
-      */
-     tcg_gen_xor_i64(d, b, t);
--    tcg_gen_sub_i64(d, d, t);
-+    tcg_gen_andi_i64(t, t, dup_const(vece, 1));
-+    tcg_gen_add_i64(d, d, t);
+     if (qemu_tcg_mttcg_enabled() || !single_tcg_cpu_thread) {
+@@ -1904,7 +1914,6 @@ static void qemu_tcg_init_vcpu(CPUState *cpu)
  
-     tcg_temp_free_i64(t);
- }
+         if (qemu_tcg_mttcg_enabled()) {
+             /* create a thread per vCPU with TCG (MTTCG) */
+-            parallel_cpus = true;
+             snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/TCG",
+                  cpu->cpu_index);
+ 
 -- 
 2.25.1
 
