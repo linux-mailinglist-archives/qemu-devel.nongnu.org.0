@@ -2,87 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BCB525BEC8
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 12:05:52 +0200 (CEST)
-Received: from localhost ([::1]:36722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A49525BEE4
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 12:12:55 +0200 (CEST)
+Received: from localhost ([::1]:48132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDm7r-0004VU-Fj
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 06:05:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46642)
+	id 1kDmEg-00012w-8n
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 06:12:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kDm79-0003zg-Op
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 06:05:07 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:36476
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kDm77-0005Dr-6g
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 06:05:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599127503;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Q6s9v7z4xanodk0T6B2R5YoPnA+04R7W00qVhjRi4cs=;
- b=QsVIk/serH9nL2oMtJHMCZIsou/f5srIMbXWF4RD47kRe7dAKZe9/j9fJ0iZYqaa2xDbLq
- ILrpMBlK+m4aJHBTNQDmVARIjlaHX+ec0qiXM0rPfSmrFeQmeB5puQDnl+FOwxmVP6A97a
- vjUZ4SjvUNQuQLgt825wCFLH2TsmEMQ=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-385-LYQ1ZZDmM0CUm0La29KKKw-1; Thu, 03 Sep 2020 06:05:01 -0400
-X-MC-Unique: LYQ1ZZDmM0CUm0La29KKKw-1
-Received: by mail-wr1-f69.google.com with SMTP id m7so873640wrb.20
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 03:05:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kDmDJ-0008Al-DM
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 06:11:29 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37217)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kDmDH-0006Dt-7t
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 06:11:29 -0400
+Received: by mail-wm1-x342.google.com with SMTP id a9so2286342wmm.2
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 03:11:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=YWjeXhoskgbczv5H81Kg1ggEeL1doL5d1wqOuLctZVs=;
+ b=t+T16BlzdD43b4jRiKwlSGjsLEqpce/Z78w3GjN/hXXKD+vxs8L4x9oxGAUJfIQIM6
+ HWHF3wlA8RtH3dhe4v2m0APdztHYNRW9nw9lWFVF+2B73tg4XTem+lcNVkUbteu1mfHF
+ ScF7CZ4LkFxQ5nL5p0Sf/iXHQOVVdvov/BNkaOqnHsbgKeBPayqbiI/CF9p36Red7JHr
+ zw1AlZZ7aa++++VxCpaM1bA63FdeEnkxrxmX80Ve0M4aOWFi9kaWQFRtzS2CLi+SIO+D
+ I9J9L63bsQkSHsJ5F/9p5mGDLXu29F3/KNYJ5SDb/XwwUKGMevbYofpfybFwzzD9yS0r
+ eZQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Q6s9v7z4xanodk0T6B2R5YoPnA+04R7W00qVhjRi4cs=;
- b=iyxS7vBjxqeCTOBtJopU5pbima9k6kVziDtsR+zSOT213OHSpJ7EZphXRpCiRUrKfe
- n4iQOtljh2TV50Sec9tuDAY0qBrIV0TAuudEBnTmv3x9fzaYa4zeJWhiGzI7VF4YGQ9Y
- jys5tgkcfVN7TI5K4prwckeJKs5vCiTzOK6kcH9MR3OqYoqt73nxdAfebMuApI0JepqG
- ix2ARzRkklbn5xdRpBcXJ4cqdppuzDQRcp0jjb6SvluYAEEH8ya2sOtLDD6LPFQ6tbCE
- IK0is3AMb5JYJTbw6YFrlW+XS12Njx5KpWCpAUwYZFB1t/ocaT+W5DFnRFsIsa91TvLD
- A+AA==
-X-Gm-Message-State: AOAM531XRnbwgMccagWoD7vwOwOSolrGiHwFLTkzOEoQvc+TZZ20SHqT
- +ty0sz4/Jeipgem6P72uovH6OjNslPkkYzoEu+lWa0CxVY9a33O9NMOK/27mazZKm8i1V5pelPI
- 0tNCO0AxySWZUJ2w=
-X-Received: by 2002:adf:db8b:: with SMTP id u11mr1660838wri.143.1599127497508; 
- Thu, 03 Sep 2020 03:04:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzHbQk5bm9cWHh0A2AkhBcy6+Q3rUj4SNd7XIeRbo4uuhpZ6qd1kvfKpJNmnl0KwhWGliap3Q==
-X-Received: by 2002:adf:db8b:: with SMTP id u11mr1660824wri.143.1599127497283; 
- Thu, 03 Sep 2020 03:04:57 -0700 (PDT)
-Received: from redhat.com (bzq-79-177-107-202.red.bezeqint.net.
- [79.177.107.202])
- by smtp.gmail.com with ESMTPSA id i1sm3843397wrc.49.2020.09.03.03.04.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Sep 2020 03:04:56 -0700 (PDT)
-Date: Thu, 3 Sep 2020 06:04:54 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=YWjeXhoskgbczv5H81Kg1ggEeL1doL5d1wqOuLctZVs=;
+ b=S720dSwz0+KCAlaWNJHVblSyHrsoateYKWTbp8syW8FmOM65/gom2orW6G9Z6H4sQd
+ oZt4TDPGQco1uyUQ47m9otsNVbseYTeQwRggVgYVnPCtLsV//vBaPZBXPR2C5PitJo2J
+ QmzBUPIf8458nwHukqBiKsBtgTjAIQdawHDaFdXu3O+YYckPRyZggrYauWkrc0gN0+1O
+ vycnMdWkd+CDatyH3DyJhfVOfGsFwcy+W0W6lQSB+oCHQ9I/MLtsS+vDSn1iukWrgAIZ
+ L3oHAW2Jb43fdMsnSq50f67E1GFA3wDIlp4A1eieddZKyQDNRm31uSRzpi+SpWCT1Up8
+ gM5Q==
+X-Gm-Message-State: AOAM530P1oa68pUGR+4WQjv6DNEzcAA0TegiOFJOjV5ZKkenD61Z8BvS
+ Ue7aEcPna4VTsF7zeVyfaMQStKrnh9ZDGKRRfPd+xg==
+X-Google-Smtp-Source: ABdhPJxa51s9VClibWZJYwmB0Vva7KcHsr2dSjEN3a0Ir25oN0NHtm6B9Oh305CN/vRV6900uWSvP1ntNy/NoP8d2L8=
+X-Received: by 2002:a05:600c:2182:: with SMTP id
+ e2mr1735193wme.102.1599127885240; 
+ Thu, 03 Sep 2020 03:11:25 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200829081233.10120-1-ani@anisinha.ca>
+ <20200903060332-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20200903060332-mutt-send-email-mst@kernel.org>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Thu, 3 Sep 2020 15:41:13 +0530
+Message-ID: <CAARzgwwFRUOoq7GOttzJVT8+67+7uNugC529SB8DX242p8A_QQ@mail.gmail.com>
 Subject: Re: [PATCH] Fix a gap where acpi_pcihp_find_hotplug_bus() returns a
  non-hotpluggable bus
-Message-ID: <20200903060332-mutt-send-email-mst@kernel.org>
-References: <20200829081233.10120-1-ani@anisinha.ca>
-MIME-Version: 1.0
-In-Reply-To: <20200829081233.10120-1-ani@anisinha.ca>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0.003
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 04:23:49
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000008cf8f005ae65f9f1"
+Received-SPF: none client-ip=2a00:1450:4864:20::342;
+ envelope-from=ani@anisinha.ca; helo=mail-wm1-x342.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,61 +79,189 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, jusual@redhat.com,
- qemu-devel@nongnu.org
+Cc: Igor Mammedov <imammedo@redhat.com>, Julia Suvorova <jusual@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--0000000000008cf8f005ae65f9f1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+ On Sep 3, 2020, 15:35 +0530, Michael S. Tsirkin <mst@redhat.com>, wrote:
+
 On Sat, Aug 29, 2020 at 01:42:33PM +0530, Ani Sinha wrote:
-> When ACPI hotplug for the root bus is disabled, the bsel property for that
-> bus is not set. Please see the following commit:
-> 
-> 3d7e78aa7777f ("Introduce a new flag for i440fx to disable PCI hotplug on the root bus").
-> 
-> As a result, when acpi_pcihp_find_hotplug_bus() is called
-> with bsel set to 0, it may return the root bus. This would be wrong since the
-> root bus is not hotpluggable. In general, this can potentially happen to other
-> buses as well.
-> In this patch, we fix the issue in this function by checking if the bus returned
-> by the function is actually hotpluggable. If not, we simply return NULL. This
-> avoids the scenario where we are actually returning a non-hotpluggable bus.
-> 
-> Signed-off-by: Ani Sinha <ani@anisinha.ca>
+
+When ACPI hotplug for the root bus is disabled, the bsel property for that
+
+bus is not set. Please see the following commit:
+
+
+3d7e78aa7777f ("Introduce a new flag for i440fx to disable PCI hotplug on
+the root bus").
+
+
+As a result, when acpi_pcihp_find_hotplug_bus() is called
+
+with bsel set to 0, it may return the root bus. This would be wrong since
+the
+
+root bus is not hotpluggable. In general, this can potentially happen to
+other
+
+buses as well.
+
+In this patch, we fix the issue in this function by checking if the bus
+returned
+
+by the function is actually hotpluggable. If not, we simply return NULL.
+This
+
+avoids the scenario where we are actually returning a non-hotpluggable bus.
+
+
+Signed-off-by: Ani Sinha <ani@anisinha.ca>
+
 
 What exactly are the consequences though?
 
 
-> ---
->  hw/acpi/pcihp.c | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
-> 
-> diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-> index 39b1f74442..f148e73c89 100644
-> --- a/hw/acpi/pcihp.c
-> +++ b/hw/acpi/pcihp.c
-> @@ -147,6 +147,21 @@ static PCIBus *acpi_pcihp_find_hotplug_bus(AcpiPciHpState *s, int bsel)
->      if (!bsel && !find.bus) {
->          find.bus = s->root;
->      }
-> +
-> +    /*
-> +     * Check if find.bus is actually hotpluggable. If bsel is set to
-> +     * NULL for example on the root bus in order to make it
-> +     * non-hotpluggable, find.bus will match the root bus when bsel
-> +     * is 0. See acpi_pcihp_test_hotplug_bus() above. Since the
-> +     * bus is not hotpluggable however, we should not select the bus.
-> +     * Instead, we should set find.bus to NULL in that case. In the check
-> +     * below, we generalize this case for all buses, not just the root bus.
-> +     * The callers of this function check for a null return value and
-> +     * handle them appropriately.
-> +     */
-> +    if (!qbus_is_hotpluggable(BUS(find.bus))) {
-> +        find.bus = NULL;
-> +    }
->      return find.bus;
->  }
->  
-> -- 
-> 2.17.1
+The root bus might get ejected by the user when it should not if the user
+does the following:
 
+outl 0xae10 0
+outl 0xae08 your_slot
+
+Please see Julia=E2=80=99s comment:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg734548.html
+
+--0000000000008cf8f005ae65f9f1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">
+
+
+
+<div>
+<div name=3D"messageReplySection">
+<div dir=3D"auto">On Sep 3, 2020, 15:35 +0530, Michael S. Tsirkin &lt;<a hr=
+ef=3D"mailto:mst@redhat.com" target=3D"_blank">mst@redhat.com</a>&gt;, wrot=
+e:</div>
+<blockquote style=3D"border-left-color:rgb(26,188,156);margin:0px;padding-l=
+eft:10px;border-left-width:thin;border-left-style:solid;padding-bottom:5px;=
+padding-top:5px">On Sat, Aug 29, 2020 at 01:42:33PM +0530, Ani Sinha wrote:=
+</blockquote>
+<blockquote style=3D"border-left-color:rgb(26,188,156);margin:0px;padding-l=
+eft:10px;border-left-width:thin;border-left-style:solid">
+<blockquote style=3D"border-left-color:rgb(230,126,34);margin:0px;padding-l=
+eft:10px;border-left-width:thin;border-left-style:solid;padding-bottom:5px;=
+padding-top:5px">When ACPI hotplug for the root bus is disabled, the bsel p=
+roperty for that</blockquote>
+</blockquote>
+<blockquote style=3D"border-left-color:rgb(26,188,156);margin:0px;padding-l=
+eft:10px;border-left-width:thin;border-left-style:solid">
+<blockquote style=3D"border-left-color:rgb(230,126,34);margin:0px;padding-l=
+eft:10px;border-left-width:thin;border-left-style:solid;padding-bottom:5px;=
+padding-top:5px">bus is not set. Please see the following commit:</blockquo=
+te>
+</blockquote>
+<blockquote style=3D"border-left-color:rgb(26,188,156);margin:0px;padding-l=
+eft:10px;border-left-width:thin;border-left-style:solid">
+<blockquote style=3D"border-left-color:rgb(230,126,34);margin:0px;padding-l=
+eft:10px;border-left-width:thin;border-left-style:solid;padding-bottom:5px;=
+padding-top:5px"><br></blockquote>
+</blockquote>
+<blockquote style=3D"border-left-color:rgb(26,188,156);margin:0px;padding-l=
+eft:10px;border-left-width:thin;border-left-style:solid">
+<blockquote style=3D"border-left-color:rgb(230,126,34);margin:0px;padding-l=
+eft:10px;border-left-width:thin;border-left-style:solid;padding-bottom:5px;=
+padding-top:5px">3d7e78aa7777f (&quot;Introduce a new flag for i440fx to di=
+sable PCI hotplug on the root bus&quot;).</blockquote>
+</blockquote>
+<blockquote style=3D"border-left-color:rgb(26,188,156);margin:0px;padding-l=
+eft:10px;border-left-width:thin;border-left-style:solid">
+<blockquote style=3D"border-left-color:rgb(230,126,34);margin:0px;padding-l=
+eft:10px;border-left-width:thin;border-left-style:solid;padding-bottom:5px;=
+padding-top:5px"><br></blockquote>
+</blockquote>
+<blockquote style=3D"border-left-color:rgb(26,188,156);margin:0px;padding-l=
+eft:10px;border-left-width:thin;border-left-style:solid">
+<blockquote style=3D"border-left-color:rgb(230,126,34);margin:0px;padding-l=
+eft:10px;border-left-width:thin;border-left-style:solid;padding-bottom:5px;=
+padding-top:5px">As a result, when acpi_pcihp_find_hotplug_bus() is called<=
+/blockquote>
+</blockquote>
+<blockquote style=3D"border-left-color:rgb(26,188,156);margin:0px;padding-l=
+eft:10px;border-left-width:thin;border-left-style:solid">
+<blockquote style=3D"border-left-color:rgb(230,126,34);margin:0px;padding-l=
+eft:10px;border-left-width:thin;border-left-style:solid;padding-bottom:5px;=
+padding-top:5px">with bsel set to 0, it may return the root bus. This would=
+ be wrong since the</blockquote>
+</blockquote>
+<blockquote style=3D"border-left-color:rgb(26,188,156);margin:0px;padding-l=
+eft:10px;border-left-width:thin;border-left-style:solid">
+<blockquote style=3D"border-left-color:rgb(230,126,34);margin:0px;padding-l=
+eft:10px;border-left-width:thin;border-left-style:solid;padding-bottom:5px;=
+padding-top:5px">root bus is not hotpluggable. In general, this can potenti=
+ally happen to other</blockquote>
+</blockquote>
+<blockquote style=3D"border-left-color:rgb(26,188,156);margin:0px;padding-l=
+eft:10px;border-left-width:thin;border-left-style:solid">
+<blockquote style=3D"border-left-color:rgb(230,126,34);margin:0px;padding-l=
+eft:10px;border-left-width:thin;border-left-style:solid;padding-bottom:5px;=
+padding-top:5px">buses as well.</blockquote>
+</blockquote>
+<blockquote style=3D"border-left-color:rgb(26,188,156);margin:0px;padding-l=
+eft:10px;border-left-width:thin;border-left-style:solid">
+<blockquote style=3D"border-left-color:rgb(230,126,34);margin:0px;padding-l=
+eft:10px;border-left-width:thin;border-left-style:solid;padding-bottom:5px;=
+padding-top:5px">In this patch, we fix the issue in this function by checki=
+ng if the bus returned</blockquote>
+</blockquote>
+<blockquote style=3D"border-left-color:rgb(26,188,156);margin:0px;padding-l=
+eft:10px;border-left-width:thin;border-left-style:solid">
+<blockquote style=3D"border-left-color:rgb(230,126,34);margin:0px;padding-l=
+eft:10px;border-left-width:thin;border-left-style:solid;padding-bottom:5px;=
+padding-top:5px">by the function is actually hotpluggable. If not, we simpl=
+y return NULL. This</blockquote>
+</blockquote>
+<blockquote style=3D"border-left-color:rgb(26,188,156);margin:0px;padding-l=
+eft:10px;border-left-width:thin;border-left-style:solid">
+<blockquote style=3D"border-left-color:rgb(230,126,34);margin:0px;padding-l=
+eft:10px;border-left-width:thin;border-left-style:solid;padding-bottom:5px;=
+padding-top:5px">avoids the scenario where we are actually returning a non-=
+hotpluggable bus.</blockquote>
+</blockquote>
+<blockquote style=3D"border-left-color:rgb(26,188,156);margin:0px;padding-l=
+eft:10px;border-left-width:thin;border-left-style:solid">
+<blockquote style=3D"border-left-color:rgb(230,126,34);margin:0px;padding-l=
+eft:10px;border-left-width:thin;border-left-style:solid;padding-bottom:5px;=
+padding-top:5px"><br></blockquote>
+</blockquote>
+<blockquote style=3D"border-left-color:rgb(26,188,156);margin:0px;padding-l=
+eft:10px;border-left-width:thin;border-left-style:solid">
+<blockquote style=3D"border-left-color:rgb(230,126,34);margin:0px;padding-l=
+eft:10px;border-left-width:thin;border-left-style:solid;padding-bottom:5px;=
+padding-top:5px">Signed-off-by: Ani Sinha &lt;<a href=3D"mailto:ani@anisinh=
+a.ca" target=3D"_blank">ani@anisinha.ca</a>&gt;</blockquote>
+</blockquote>
+<blockquote style=3D"border-left-color:rgb(26,188,156);margin:0px;padding-l=
+eft:10px;border-left-width:thin;border-left-style:solid;padding-bottom:5px;=
+padding-top:5px"><br></blockquote>
+<blockquote style=3D"border-left-color:rgb(26,188,156);margin:0px;padding-l=
+eft:10px;border-left-width:thin;border-left-style:solid;padding-bottom:5px;=
+padding-top:5px">What exactly are the consequences though?</blockquote>
+<div dir=3D"auto"><br>
+The root bus might get ejected by the user when it should not if the user d=
+oes the following:</div><div dir=3D"auto"><pre>outl 0xae10 0
+outl 0xae08 your_slot</pre></div><div dir=3D"auto">Please see Julia=E2=80=
+=99s comment:</div><div dir=3D"auto"><a href=3D"https://www.mail-archive.co=
+m/qemu-devel@nongnu.org/msg734548.html">https://www.mail-archive.com/qemu-d=
+evel@nongnu.org/msg734548.html</a></div><div dir=3D"auto"><br></div></div>
+</div>
+
+</div>
+
+--0000000000008cf8f005ae65f9f1--
 
