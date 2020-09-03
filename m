@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EAD025BF15
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 12:28:32 +0200 (CEST)
-Received: from localhost ([::1]:49724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9286825BF1C
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 12:33:59 +0200 (CEST)
+Received: from localhost ([::1]:54818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDmTn-0005cl-M2
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 06:28:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52388)
+	id 1kDmZ4-0008Ex-D4
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 06:33:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kDmSL-0004el-Vj
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 06:27:01 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23466
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kDmSK-0008M5-A2
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 06:27:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599128819;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VwOuVD+urA2C4M2s0U54fmAH6KZ9ln/lRI462xBA4DU=;
- b=JZ5r8Ucaf9Va6pefbxGKCM4VD2TE/AooOezLbD0CxCW0uv4L9xY8SbYHqKMcbg2CFmvPwb
- VOx9ECguFNf2YujoTZkX0hXhX84oTUlRNgSXjK22jA1OB7NZhJqMuWvj5u42aL/miuurEu
- vO7LCuw8PXfbWNcZPtgC7U8CY3/aaYI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-319-ef6AOMXKNDKolJ_rP82WCw-1; Thu, 03 Sep 2020 06:26:56 -0400
-X-MC-Unique: ef6AOMXKNDKolJ_rP82WCw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58D3781CAFA;
- Thu,  3 Sep 2020 10:26:55 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-90.ams2.redhat.com [10.36.112.90])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4E13888D5C;
- Thu,  3 Sep 2020 10:26:54 +0000 (UTC)
-Subject: Re: [PATCH] stubs: Move qemu_fd_register stub to util/main-loop.c
-To: luoyonggang@gmail.com
-References: <20200903054503.425435-1-thuth@redhat.com>
- <CAE2XoE85T-BcpDqKSO7Buc8MxSZ-jsQEV+8BsTXoShHz=eOwDw@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <c702d97e-d8da-29b8-a79f-f43e931ee2a5@redhat.com>
-Date: Thu, 3 Sep 2020 12:26:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kDmYN-0007md-2t
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 06:33:15 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:40131)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kDmYL-0000rd-8h
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 06:33:14 -0400
+Received: by mail-ot1-x341.google.com with SMTP id e23so2228728otk.7
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 03:33:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=V80vNAg/HOUUazKvW0DcPk5b7fBEIMqHUpgsEIVwMZA=;
+ b=YacqIgbNe9WUOZhWa3ERcdZ1u51vTjW0YeX8pUWm367joc4rT+bxcJvZeKclFEHBy7
+ mPWmb8pC3StqxcPehVEmkhY5Njj+vKdAgrt88TX6UhIZpQJGrrtOPbrgjxKIsaeyu14t
+ kZXxmuyfGtggEmxF8mu0BG0JP6zWUrKL/UlKRAM7g1uqF1y7L339OUr7y51fVlnyiN9Q
+ +vOraBheh7AzeHfIDISh88RPVjbxdYL7BgZLt1cQAUsNvcfOr6ZyM2xJhogLLC7Gkf1y
+ YfC40kKDlUkLe5Iz8+Xs2aLZkV9z7AUlZLirHrB//SVYhrp6lzuR4KX82bBePFsURn+C
+ 1vwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=V80vNAg/HOUUazKvW0DcPk5b7fBEIMqHUpgsEIVwMZA=;
+ b=aIFxM95NG/b+mrROqneIze0bk+mHgOdHUmNetevCC0BiXtSOchbNL3apykxRJp2mV7
+ ptXvLKNGY8HQnIrIJ538z7sdtygCEDff+DhnW+vU8hj3GvUg/djPyYFHKEGunTUZVVGz
+ vxfcYzMJ4voK2/uJG0C1TXitLMoUFvX4EYgw9aiAt2Hhkr2qxxVBwbHtlVLUPYqL7JqZ
+ YBhXRlBVtEw5RIrexE9jGNxzRJaz9ddXXMvWHFoA+8TsZ/iKmla6F8i22JgohGjWDHO0
+ NB6pvV5yEE7WIis5lTWXe0wi7tuYTEqSh84Q4AwAssgh3imY7LB7wFvxIoTACOTWX5eX
+ c+WA==
+X-Gm-Message-State: AOAM532awyJn0N3lo/dYpQttDrHnQhrFitWgRJxEnsrotvUURSyHbE22
+ ZrXgd8iDGT3ZtfIJvtqkV3T0Vds8DfdTB5F5T08=
+X-Google-Smtp-Source: ABdhPJyAabJ/2hY2hmi8t9LrpdsPdV0wlKbvDJr5/KJ8ofss1vQgjXp5EqxaAvIFEYG6+JPKDsAs/ycpjP/JqXj2EOg=
+X-Received: by 2002:a05:6830:610:: with SMTP id
+ w16mr989235oti.353.1599129192067; 
+ Thu, 03 Sep 2020 03:33:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAE2XoE85T-BcpDqKSO7Buc8MxSZ-jsQEV+8BsTXoShHz=eOwDw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 00:24:51
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+References: <20200902162206.101872-1-liq3ea@163.com>
+ <20200902162206.101872-4-liq3ea@163.com>
+ <01e9f449-00c8-5a9d-b212-4df0147b6e5c@msgid.tls.msk.ru>
+In-Reply-To: <01e9f449-00c8-5a9d-b212-4df0147b6e5c@msgid.tls.msk.ru>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Thu, 3 Sep 2020 18:32:36 +0800
+Message-ID: <CAKXe6SKcoqAGP0TwbSwqe4=QC6b-841Nj4YY6c4WhPX2ZXVM9Q@mail.gmail.com>
+Subject: Re: [RFC 3/3] virtio-gpu: make the IO handler reentrant
+To: Michael Tokarev <mjt@tls.msk.ru>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=liq3ea@gmail.com; helo=mail-ot1-x341.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.324, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,34 +81,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Li Qiang <liq3ea@163.com>, Qemu Developers <qemu-devel@nongnu.org>,
+ Alexander Bulekov <alxndr@bu.edu>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/09/2020 09.08, 罗勇刚(Yonggang Luo) wrote:
-> I am also facing some problem alike:
-> 
->   LINK    tests/test-qdev-global-props.exe
->   LINK    tests/test-timed-average.exe
-> C:/CI-Tools/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe:
-> libqemuutil.a(util_main-loop.c.obj): in function `qemu_notify_event':
-> C:\work\xemu\qemu-build/../qemu/util/main-loop.c:139: multiple
-> definition of `qemu_notify_event';
-> libqemuutil.a(stubs_notify-event.c.obj):C:\work\xemu\qemu-build/../qemu/stubs/notify-event.c:6:
-> first defined here
+Michael Tokarev <mjt@tls.msk.ru> =E4=BA=8E2020=E5=B9=B49=E6=9C=883=E6=97=A5=
+=E5=91=A8=E5=9B=9B =E4=B8=8B=E5=8D=881:12=E5=86=99=E9=81=93=EF=BC=9A
+>
+> 02.09.2020 19:22, Li Qiang wrote:
+> ..
+> > @@ -809,6 +809,10 @@ void virtio_gpu_process_cmdq(VirtIOGPU *g)
+> >  {
+> >      struct virtio_gpu_ctrl_command *cmd;
+> >
+> > +    if (atomic_read(&g->in_io)) {
+> > +        return;
+> > +    }
+> > +    atomic_set(&g->in_io, 1);
+>
+> Can't we race in these two instructions? Both
+> threads atomic_reads at the same time, both see zero,
+> and both are trying to set it to 1, no?
+>
+> Just asking really, b/c despite of the atomic_ prefix,
+> to me this look a bit unsafe..
 
-For the qemu_notify_event, I also got a patch here:
+Yes you're right. My patch is wrong. Here I try to address race
+condition and DMA to MMIO issue at the same time.
 
- https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg00724.html
-
-I just saw that you also posted a patch ... but I think the whole file
-can be removed, not only the function, so maybe you could replace your
-patch with mine in your series?
+I will first focus the DMA to MMIO issue in the revision patch.
 
 Thanks,
-  Thomas
+Li Qiang
 
-
+>
+> Thanks,
+>
+> /mjt
 
