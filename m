@@ -2,80 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE77725CD0C
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 00:02:55 +0200 (CEST)
-Received: from localhost ([::1]:35414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BA1325CD1D
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 00:06:24 +0200 (CEST)
+Received: from localhost ([::1]:44546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDxJm-0000tN-RO
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 18:02:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60776)
+	id 1kDxN9-0004ep-8X
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 18:06:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwQN-0003iu-Q5; Thu, 03 Sep 2020 17:05:39 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:43392)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwQL-0008NQ-Is; Thu, 03 Sep 2020 17:05:39 -0400
-Received: by mail-oi1-x241.google.com with SMTP id i17so4511016oig.10;
- Thu, 03 Sep 2020 14:05:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:mime-version:content-transfer-encoding:to:from:in-reply-to
- :cc:references:message-id:user-agent:subject:date;
- bh=bMJNqiDHdknljJquNb2m0jVP2VmgDAr1mvv+CHjwIEw=;
- b=mG7ImM2DW7zXAIVgUmhfG8qyF4GCL4ktcVafMZ8kY6bzTGaG7dhVdcaEFNBts/C1PU
- 7xI/dcQhMO2UoMRbFKueyk8pkEANIgS/U6EaCG5NNzkGGO9RrCiw2hXIzhb896lwnbq/
- rLIA5i1DPLJZrSyh4C97Ne2XB0agbO9no50Pq32e1ZQoZfRqAg+ASP3t79FiQEVHTFTQ
- iVggugL1GtFIk4IhVop8IDL82kTuCKdtnAsgLsMgKxKMbfyESG4auH7xlniluNKQPst6
- u3SSJZD6z71URisDKEPw9cSa+A0n90hUcX8B3XzoMBcyN81q3KM9HxX7ipJ6ABetDktt
- aKTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:mime-version:content-transfer-encoding:to
- :from:in-reply-to:cc:references:message-id:user-agent:subject:date;
- bh=bMJNqiDHdknljJquNb2m0jVP2VmgDAr1mvv+CHjwIEw=;
- b=WqYzd/iqfNVZD9JbtZvWVuok9FB4YJDbHRlBNTtyFrEAwhCD7ABzGXiXfjpvF2Dtpx
- 3QO/n3Bu2t3fhlFrNIIBU9G2e34LijdimL76GK77gQOeXGpL2nlWb/2zNj940bBAb/de
- bZ+z6cyGmboMjz3EKaym5qjqAg+q4ToXv/BA4IW5orsT02JbEa755QbG9dzSVTGp3XFj
- 9Ofo1CPN7LeK4WnWs7uJhqYJXZi4dbOAAn2EBVHO3frkxBxurF8x8Yu+cApRR0KoytEO
- Bv4tu41Q4+2W3coSV4WdfArQjrvDinjU37G1nhvZ+ngt+yFiPHPSYMF/kajTjO3KcTdZ
- lFwA==
-X-Gm-Message-State: AOAM532avqrQnrErQfQ/AcWPcGF05e1BuBMnCtYwsGrpql81HwOmRvPh
- KXkLdtdty2zOJEHfYs5kWtI=
-X-Google-Smtp-Source: ABdhPJy/jC45YHnEbU3Hlpx+459cA93LqgJnvpGNbJoHNQM0i+CE3PDZ5PkRlirWHRfdSGRUkGKLqw==
-X-Received: by 2002:a05:6808:60f:: with SMTP id
- y15mr3371060oih.137.1599167135372; 
- Thu, 03 Sep 2020 14:05:35 -0700 (PDT)
-Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
- [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id r21sm722901oie.15.2020.09.03.14.05.34
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:05:34 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+ (Exim 4.90_1) (envelope-from <pisa@cmp.felk.cvut.cz>)
+ id 1kDwx9-0004PK-P5
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:39:31 -0400
+Received: from relay.felk.cvut.cz ([2001:718:2:1611:0:1:0:70]:35516)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <pisa@cmp.felk.cvut.cz>) id 1kDwx6-00042U-Rn
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:39:31 -0400
+Received: from cmp.felk.cvut.cz (haar.felk.cvut.cz [147.32.84.19])
+ by relay.felk.cvut.cz (8.15.2/8.15.2) with ESMTP id 083LcNoI031667;
+ Thu, 3 Sep 2020 23:38:23 +0200 (CEST)
+ (envelope-from pisa@cmp.felk.cvut.cz)
+Received: from haar.felk.cvut.cz (localhost [127.0.0.1])
+ by cmp.felk.cvut.cz (8.14.0/8.12.3/SuSE Linux 0.6) with ESMTP id
+ 083LcMWB025218; Thu, 3 Sep 2020 23:38:22 +0200
+Received: (from pisa@localhost)
+ by haar.felk.cvut.cz (8.14.0/8.13.7/Submit) id 083LcMjb025217;
+ Thu, 3 Sep 2020 23:38:22 +0200
+From: pisa@cmp.felk.cvut.cz
+To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH v2 0/7] CTU CAN FD core support
+Date: Thu,  3 Sep 2020 23:37:17 +0200
+Message-Id: <cover.1599168753.git.pisa@cmp.felk.cvut.cz>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-To: Alistair Francis <alistair23@gmail.com>,
- Nathan Chancellor <natechancellor@gmail.com>
-From: Michael Roth <mdroth@linux.vnet.ibm.com>
-In-Reply-To: <CAKmqyKNRMmJgmZSPK6wqqNQW41QLHwChPi+1cjqao_x1Q_iryQ@mail.gmail.com>
-References: <20200901055822.2721209-1-natechancellor@gmail.com>
- <CAKmqyKNRMmJgmZSPK6wqqNQW41QLHwChPi+1cjqao_x1Q_iryQ@mail.gmail.com>
-Message-ID: <159916712670.15432.11504227918284494914@sif>
-User-Agent: alot/0.7
-Subject: Re: [PATCH] riscv: sifive_test: Allow 16-bit writes to memory region
-Date: Thu, 03 Sep 2020 16:05:26 -0500
-Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x241.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
+Content-Transfer-Encoding: 8bit
+X-FELK-MailScanner-Information: 
+X-MailScanner-ID: 083LcNoI031667
+X-FELK-MailScanner: Found to be clean
+X-FELK-MailScanner-SpamCheck: not spam, SpamAssassin (not cached,
+ score=-0.098, required 6, BAYES_00 -0.50, KHOP_HELO_FCRDNS 0.40,
+ SPF_HELO_NONE 0.00, SPF_NONE 0.00)
+X-FELK-MailScanner-From: pisa@cmp.felk.cvut.cz
+X-FELK-MailScanner-Watermark: 1599773906.10116@Bdef7FVpcZDu1YlvxW/4lw
+Received-SPF: none client-ip=2001:718:2:1611:0:1:0:70;
+ envelope-from=pisa@cmp.felk.cvut.cz; helo=relay.felk.cvut.cz
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 17:39:24
+X-ACL-Warn: Detected OS   = ???
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,104 +65,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- qemu-stable@nongnu.org, Alistair Francis <Alistair.Francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Marek Vasut <marex@denx.de>, Vikram Garhwal <fnu.vikram@xilinx.com>,
+ Jiri Novak <jnovak@fel.cvut.cz>, Stefan Hajnoczi <stefanha@gmail.com>,
+ Deniz Eren <deniz.eren@icloud.com>, Markus Armbruster <armbru@redhat.com>,
+ Oleksij Rempel <o.rempel@pengutronix.de>,
+ Konrad Frederic <frederic.konrad@adacore.com>,
+ Jan Kiszka <jan.kiszka@siemens.com>, Jan Charvat <charvj10@fel.cvut.cz>,
+ Oliver Hartkopp <socketcan@hartkopp.net>, Ondrej Ille <ondrej.ille@gmail.com>,
+ Pavel Pisa <pisa@cmp.felk.cvut.cz>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Quoting Alistair Francis (2020-09-01 18:59:29)
-> On Mon, Aug 31, 2020 at 10:59 PM Nathan Chancellor
-> <natechancellor@gmail.com> wrote:
-> >
-> > When shutting down the machine running a mainline Linux kernel, the
-> > following error happens:
-> >
-> > $ build/riscv64-softmmu/qemu-system-riscv64 -bios default -M virt \
-> >     -display none -initrd rootfs.cpio -kernel Image -m 512m \
-> >     -nodefaults -serial mon:stdio
-> > ...
-> > Requesting system poweroff
-> > [    4.999630] reboot: Power down
-> > sbi_trap_error: hart0: trap handler failed (error -2)
-> > sbi_trap_error: hart0: mcause=3D0x0000000000000007 mtval=3D0x0000000000=
-100000
-> > sbi_trap_error: hart0: mepc=3D0x000000008000d4cc mstatus=3D0x0000000000=
-001822
-> > sbi_trap_error: hart0: ra=3D0x000000008000999e sp=3D0x0000000080015c78
-> > sbi_trap_error: hart0: gp=3D0xffffffe000e76610 tp=3D0xffffffe0081b89c0
-> > sbi_trap_error: hart0: s0=3D0x0000000080015c88 s1=3D0x0000000000000040
-> > sbi_trap_error: hart0: a0=3D0x0000000000000000 a1=3D0x0000000080004024
-> > sbi_trap_error: hart0: a2=3D0x0000000080004024 a3=3D0x0000000080004024
-> > sbi_trap_error: hart0: a4=3D0x0000000000100000 a5=3D0x0000000000005555
-> > sbi_trap_error: hart0: a6=3D0x0000000000004024 a7=3D0x0000000080011158
-> > sbi_trap_error: hart0: s2=3D0x0000000000000000 s3=3D0x0000000080016000
-> > sbi_trap_error: hart0: s4=3D0x0000000000000000 s5=3D0x0000000000000000
-> > sbi_trap_error: hart0: s6=3D0x0000000000000001 s7=3D0x0000000000000000
-> > sbi_trap_error: hart0: s8=3D0x0000000000000000 s9=3D0x0000000000000000
-> > sbi_trap_error: hart0: s10=3D0x0000000000000000 s11=3D0x0000000000000008
-> > sbi_trap_error: hart0: t0=3D0x0000000000000000 t1=3D0x0000000000000000
-> > sbi_trap_error: hart0: t2=3D0x0000000000000000 t3=3D0x0000000000000000
-> > sbi_trap_error: hart0: t4=3D0x0000000000000000 t5=3D0x0000000000000000
-> > sbi_trap_error: hart0: t6=3D0x0000000000000000
-> >
-> > The kernel does a 16-bit write when powering off the machine, which
-> > was allowed before commit 5d971f9e67 ("memory: Revert "memory: accept
-> > mismatching sizes in memory_region_access_valid""). Make min_access_size
-> > match reality so that the machine can shut down properly now.
-> >
-> > Cc: qemu-stable@nongnu.org
-> > Fixes: 88a07990fa ("SiFive RISC-V Test Finisher")
-> > Fixes: 5d971f9e67 ("memory: Revert "memory: accept mismatching sizes in=
- memory_region_access_valid"")
-> > Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
-> =
+From: Pavel Pisa <pisa@cmp.felk.cvut.cz>
 
-> Thanks!
-> =
+CTU CAN FD is an open source soft core written in VHDL.
+It originated in 2015 as Ondrej Ille's project at the
+Department of Measurement of FEE at CTU.
 
-> Applied to riscv-to-apply.next
+Integration for Xilinx Zynq and Intel based SoCs is available
+as well as support for PCIe integration of the core.
 
-FYI, I'm hoping to pull this patch into the upcoming 5.0.1 stable
-release. The freeze is scheduled for 2020-09-20, I will apply this if it
-hits master before then.
+The core sources
 
-> =
+  https://gitlab.fel.cvut.cz/canbus/ctucanfd_ip_core
 
-> Alistair
-> =
+The controller model and QEMU CAN subsystem extension to CAN FD
+has been implemented in frame of bachelor theses of Jan Charvat.
+The development branch ctu-canfd in CTU local project repository
 
-> > ---
-> >
-> > Please let me know if the tags are wrong or inappropriate, this is my
-> > first QEMU patch.
-> >
-> >  hw/riscv/sifive_test.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/hw/riscv/sifive_test.c b/hw/riscv/sifive_test.c
-> > index 0c78fb2c93..8c70dd69df 100644
-> > --- a/hw/riscv/sifive_test.c
-> > +++ b/hw/riscv/sifive_test.c
-> > @@ -59,7 +59,7 @@ static const MemoryRegionOps sifive_test_ops =3D {
-> >      .write =3D sifive_test_write,
-> >      .endianness =3D DEVICE_NATIVE_ENDIAN,
-> >      .valid =3D {
-> > -        .min_access_size =3D 4,
-> > +        .min_access_size =3D 2,
-> >          .max_access_size =3D 4
-> >      }
-> >  };
-> >
-> > base-commit: 2f4c51c0f384d7888a04b4815861e6d5fd244d75
-> > --
-> > 2.28.0
-> >
-> >
->=20
+  https://gitlab.fel.cvut.cz/canbus/qemu-canbus
+
+More CAN bus related project from Czech Technical University
+in Prague, Faculty of Electrical Engineering at
+
+  http://canbus.pages.fel.cvut.cz/
+
+Patches v2 updates:
+
+ - CTU CAN FD IP core emulation tested on x86 host
+   with big-endian MIPS MALTA target as well.
+   This helped t correct Linux driver to support
+   big-endian systems.
+
+ - CTU CAN FD IP core emulation updated to pass CAN frame
+   data correctly on big-endian host systems. Big-endian
+   host not tested, would required whole QEMU build
+   for MIPS MALTA or big-endian POWER and run it nested
+   emulation, because I have no access to Linux based big-endian
+   system capable for QEMU build.
+
+ - Makefile.objs changes applied to meson.build and Kconfig.
+
+ - The common CAN support update for CAN FD tested and reviewed
+   by Vikram Garhwal from Xilinx. They base their CAN FD
+   controllers emulation on our work.
+
+ - Vikram Garhwal agrees to help with common QEMU CAN bus
+   infrastructure reviews. I add him and myself into maintainers.
+
+ - Corrected SJA1000 dependencies in Kconfig after (probably)
+   automated switch to meson build from make build.
+
+Please, let me know if somebody from recipients list does
+no longer have interrest in QEMU CAN bus emulation
+and I would remove you from recipients list to not load
+you by uniteresting content in future.
+
+Jan Charvat (5):
+  net/can: Initial host SocketCan support for CAN FD.
+  hw/net/can: sja1000 ignore CAN FD frames
+  net/can: Add can_dlc2len and can_len2dlc for CAN FD.
+  hw/net/can/ctucafd: Add CTU CAN FD core register definitions.
+  hw/net/can: CTU CAN FD IP open hardware core emulation.
+
+Pavel Pisa (2):
+  hw/net/can: Documentation for CTU CAN FD IP open hardware core
+    emulation.
+  hw/net/can: Correct Kconfig dependencies after switch to meson build.
+
+ MAINTAINERS                   |   9 +
+ docs/can.txt                  | 113 +++-
+ hw/net/Kconfig                |  16 +-
+ hw/net/can/can_sja1000.c      |  31 +-
+ hw/net/can/ctu_can_fd_frame.h | 189 +++++++
+ hw/net/can/ctu_can_fd_regs.h  | 971 ++++++++++++++++++++++++++++++++++
+ hw/net/can/ctucan_core.c      | 696 ++++++++++++++++++++++++
+ hw/net/can/ctucan_core.h      | 127 +++++
+ hw/net/can/ctucan_pci.c       | 280 ++++++++++
+ hw/net/can/meson.build        |   2 +
+ include/net/can_emu.h         |  12 +-
+ net/can/can_core.c            |  36 ++
+ net/can/can_socketcan.c       |  47 +-
+ 13 files changed, 2505 insertions(+), 24 deletions(-)
+ create mode 100644 hw/net/can/ctu_can_fd_frame.h
+ create mode 100644 hw/net/can/ctu_can_fd_regs.h
+ create mode 100644 hw/net/can/ctucan_core.c
+ create mode 100644 hw/net/can/ctucan_core.h
+ create mode 100644 hw/net/can/ctucan_pci.c
+
+-- 
+2.20.1
+
 
