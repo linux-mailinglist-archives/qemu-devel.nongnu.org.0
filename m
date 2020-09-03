@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5978125BEC1
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 12:02:12 +0200 (CEST)
-Received: from localhost ([::1]:33780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A66A125BEE3
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 12:12:52 +0200 (CEST)
+Received: from localhost ([::1]:48012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDm4J-0002wa-6h
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 06:02:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45884)
+	id 1kDmEd-0000zm-7d
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 06:12:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kDm3c-0002XM-DR
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 06:01:28 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35876)
+ id 1kDmDM-0008Bj-LJ
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 06:11:32 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37926)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kDm3Z-0004w5-DG
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 06:01:28 -0400
+ id 1kDmDK-0006Dy-BI
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 06:11:32 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kDm3V-0003Cp-S2
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 10:01:22 +0000
+ id 1kDmDH-0004bM-8v
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 10:11:27 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B94682E8138
- for <qemu-devel@nongnu.org>; Thu,  3 Sep 2020 10:01:20 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id F0B802E8105
+ for <qemu-devel@nongnu.org>; Thu,  3 Sep 2020 10:11:26 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 03 Sep 2020 09:47:40 -0000
-From: "Tony.LI" <1894071@bugs.launchpad.net>
+Date: Thu, 03 Sep 2020 10:00:06 -0000
+From: Laurent Vivier <1894071@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -39,16 +39,16 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: bigboy0822 laurent-vivier
 X-Launchpad-Bug-Reporter: Tony.LI (bigboy0822)
-X-Launchpad-Bug-Modifier: Tony.LI (bigboy0822)
+X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
 References: <159912571834.28358.2492164063235416189.malonedeb@soybean.canonical.com>
-Message-Id: <159912646103.27069.16496098988566839856.malone@soybean.canonical.com>
+Message-Id: <159912720633.20902.17369765008210830739.malone@chaenomeles.canonical.com>
 Subject: [Bug 1894071] Re: qemu-i386-static ioctl return -14 (Bad Address)
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="195cbfa84cb75815472f69dd83d46f006869050b"; Instance="production"
-X-Launchpad-Hash: 858aca03f7a19d3278638f8cc7be8965e5889382
+X-Launchpad-Hash: ec7c75ab3b426a2236d02fe20f77044f5971c24c
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 04:31:20
@@ -75,9 +75,10 @@ Reply-To: Bug 1894071 <1894071@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-My environment is that:
-schroot + debian(bullseye-i386)
-qemu: 5.1.0-rc3
+Please, send your patches to the QEMU devel mailing list, so we can
+review them and comment.
+
+https://wiki.qemu.org/Contribute/SubmitAPatch
 
 -- =
 
