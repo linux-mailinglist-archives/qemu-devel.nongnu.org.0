@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAC2625CBFE
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:18:08 +0200 (CEST)
-Received: from localhost ([::1]:41028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FBAE25CC21
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:25:02 +0200 (CEST)
+Received: from localhost ([::1]:44452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwcR-00049s-TW
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:18:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58316)
+	id 1kDwj7-0000ZT-2Z
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:25:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwL3-0003X5-2s; Thu, 03 Sep 2020 17:00:09 -0400
-Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:45784)
+ id 1kDwL5-0003cs-CE; Thu, 03 Sep 2020 17:00:11 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:42526)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwL1-0007Pl-1Y; Thu, 03 Sep 2020 17:00:08 -0400
-Received: by mail-oi1-x235.google.com with SMTP id d189so4477963oig.12;
- Thu, 03 Sep 2020 14:00:06 -0700 (PDT)
+ id 1kDwL3-0007QS-N4; Thu, 03 Sep 2020 17:00:11 -0400
+Received: by mail-ot1-x342.google.com with SMTP id g10so3992228otq.9;
+ Thu, 03 Sep 2020 14:00:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=OIsdyV2PRysNfY7ypO8eiajhFecOTZcFODPU4qiwxp8=;
- b=H6HgUhoHtv7MNe8tt7gWCEWnsJ1mX23d3zM819/uHRaWj0MguMhnTp+FzcwsiZAb6I
- 3i4F0yjUdkPcsLgb+ahksZd1o2U2OOWVCnpFvOdzsfjhGbhnFv8oe+cs/D3RVD7oM79B
- NLuAzBVU7nXj9yZQ0QPtCUjaAW7PtQM03+CJd1zoFXd/hTRaZ4a7UDyqA+GiI3t3b7C6
- JCHXf6AqKsNR9QWIIc4R6xYtJovbHFFC0hhxysFDgGLOP65YGtYes4tE/WcQByN9sOxA
- auvI4gBkqvxGyActzKeIYh0itCvz3yJDiJn2EQWs5w+odLHyweRL7W2G4UHWOhxm3XYi
- uTUQ==
+ bh=7UAh7dZ1laqTWozprEx5nPTnEIvgRC8w7jofjPe6YO0=;
+ b=JEFRu2sZFq3ja9z7tLWV1F/iRzHEOhN+mJp2K/M4VyNy9Ya/o2b8xs+zUTC1dKTNq+
+ QbNrqJ4N81lzx2T2JIgnyFvZ+nCu+e+R9Jpof3jm7w7P6+VeOOyGoYnBv2s1+IzbFL2F
+ 9ACTJz5UcR70gr8jQRxwN/P60TfI5QArFF4nAoAo//PO4Mg+fVoedRG1jLSPkOMItJYK
+ tH26av25n5DRo0xa45YWR0PzUO/bYfMAjmjJm4GgM956ZjhgnvnjBGyJacvFrs1400Yg
+ RxscifyoN586y12TImKH1K9PX0QFsVbd+DUm9UeqZGc+dDanlekEAMPBb1kr21F67zhE
+ 6N5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=OIsdyV2PRysNfY7ypO8eiajhFecOTZcFODPU4qiwxp8=;
- b=qFdt8Fmrl2tYpB4m2oCA0VHbu4KKEwJ3WSBP0AFR6M6T3mr6/jIeJTHYbWmZ4f6Vzv
- PxiqFPBy0qPrQLk6704uc3I+71fNLPLUQyQzSrjc6NF9npwyQtEHJGn1pWetG6eQwbgk
- etPJziTqELeTvj9vJtVTpGpt1TZqZdfPyCyoNpPzHyS3IllFKlKZNbzVUm1TtlKWlM3a
- cTig2d50qF4gPYym4Q2qcxVdA3nmYm/3yPLoJxZ48unN+Z4JhIKunGWYXCv7O/lrAcGC
- tIKqBBv2RSDiGMMdggHdxmsGgqtbgFfSI3vf0tOr4MeoEZrYzF03azNlxrToVlyahhx+
- hL6w==
-X-Gm-Message-State: AOAM531xGgJIANXfzeHvkCgteR52JbFWvPvwyh3n4kFXLIpsGO428hQU
- EkV6O6e1d5EkML0UdIacsk7yTLY30CI=
-X-Google-Smtp-Source: ABdhPJzs7wuKr4APG+r+H6rf/qU3oa+gQO+n5Pc1FoKe7AieBIacr4qorEJZx0imRNUMkvHMjqZ9zA==
-X-Received: by 2002:aca:bc57:: with SMTP id m84mr3224265oif.14.1599166805140; 
- Thu, 03 Sep 2020 14:00:05 -0700 (PDT)
+ bh=7UAh7dZ1laqTWozprEx5nPTnEIvgRC8w7jofjPe6YO0=;
+ b=c+nXz972wB0M9XHsU8roJo74SsSq5hbfL8LRGqyweoVwmm8vJN99OjLUdNx/Yvl+9r
+ krsS8N6AULO53yjlyxZslvbjLhgQ7Lu8n3sPEn9wvF9kpprvbL3qcbx+Luz0zQ1cJssR
+ Vkwrow0WUzoJY5sEfU4UqihgIJ2G0wAP7JKxr2kxHgAx+xElc/u+w1LBmpxDjdVxlgHW
+ W9TlsD8cWY6o8lCwV0h3lszM8au5IfLShqzLQkU9w5dg1cSGLeT/15YJtNkozDhY10ZG
+ xeq/XJ379485b5+N391f4JkUF2hW1vNFe9K5J+lgC4pVumPa/O3Hk4T2T+t3vWFtYzZN
+ idaQ==
+X-Gm-Message-State: AOAM5306zbHjaDfKc2mbT6iXP9Q81JnNXkSRU3IDxUNcrUvj5YJNXK/0
+ y6ElLMEyKrJEgXJy+UoYcuD39aIAqZo=
+X-Google-Smtp-Source: ABdhPJyBsoRhRW17F6C3WGXhJPxBz3NBPS6Kun7Evf0ssvarkOsFHbeWdNIzgtD/aXzc//7rI8eQWQ==
+X-Received: by 2002:a9d:1c8a:: with SMTP id l10mr3220047ota.230.1599166807842; 
+ Thu, 03 Sep 2020 14:00:07 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id l136sm733495oig.7.2020.09.03.14.00.04
+ by smtp.gmail.com with ESMTPSA id q184sm828224ooq.40.2020.09.03.14.00.06
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:00:04 -0700 (PDT)
+ Thu, 03 Sep 2020 14:00:07 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 20/77] virtiofsd: add --rlimit-nofile=NUM option
-Date: Thu,  3 Sep 2020 15:58:38 -0500
-Message-Id: <20200903205935.27832-21-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 21/77] virtiofsd: stay below fs.file-max sysctl value
+ (CVE-2020-10717)
+Date: Thu,  3 Sep 2020 15:58:39 -0500
+Message-Id: <20200903205935.27832-22-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::235;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x235.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -88,147 +89,74 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Make it possible to specify the RLIMIT_NOFILE on the command-line.
-Users running multiple virtiofsd processes should allocate a certain
-number to each process so that the system-wide limit can never be
-exhausted.
+The system-wide fs.file-max sysctl value determines how many files can
+be open.  It defaults to a value calculated based on the machine's RAM
+size.  Previously virtiofsd would try to set RLIMIT_NOFILE to 1,000,000
+and this allowed the FUSE client to exhaust the number of open files
+system-wide on Linux hosts with less than 10 GB of RAM!
 
-When this option is set to 0 the rlimit is left at its current value.
-This is useful when a management tool wants to configure the rlimit
-itself.
+Take fs.file-max into account when choosing the default RLIMIT_NOFILE
+value.
 
-The default behavior remains unchanged: try to set the limit to
-1,000,000 file descriptors if the current rlimit is lower.
-
+Fixes: CVE-2020-10717
+Reported-by: Yuval Avrahami <yavrahami@paloaltonetworks.com>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20200501140644.220940-2-stefanha@redhat.com>
+Message-Id: <20200501140644.220940-3-stefanha@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-(cherry picked from commit 6dbb716877728ce4eb51619885ef6ef4ada9565f)
+(cherry picked from commit 8c1d353d107b4fc344e27f2f08ea7fa25de2eea2)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- tools/virtiofsd/fuse_lowlevel.h  |  1 +
- tools/virtiofsd/helper.c         | 23 +++++++++++++++++++++++
- tools/virtiofsd/passthrough_ll.c | 22 ++++++++--------------
- 3 files changed, 32 insertions(+), 14 deletions(-)
+ tools/virtiofsd/helper.c | 26 +++++++++++++++++++++++++-
+ 1 file changed, 25 insertions(+), 1 deletion(-)
 
-diff --git a/tools/virtiofsd/fuse_lowlevel.h b/tools/virtiofsd/fuse_lowlevel.h
-index 8f6d705b5c..562fd5241e 100644
---- a/tools/virtiofsd/fuse_lowlevel.h
-+++ b/tools/virtiofsd/fuse_lowlevel.h
-@@ -1777,6 +1777,7 @@ struct fuse_cmdline_opts {
-     int syslog;
-     int log_level;
-     unsigned int max_idle_threads;
-+    unsigned long rlimit_nofile;
- };
- 
- /**
 diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
-index 819c2bc13c..dc59f38af0 100644
+index dc59f38af0..00a1ef666a 100644
 --- a/tools/virtiofsd/helper.c
 +++ b/tools/virtiofsd/helper.c
-@@ -23,6 +23,8 @@
- #include <stdlib.h>
- #include <string.h>
- #include <sys/param.h>
-+#include <sys/time.h>
-+#include <sys/resource.h>
- #include <unistd.h>
- 
- #define FUSE_HELPER_OPT(t, p)                       \
-@@ -53,6 +55,7 @@ static const struct fuse_opt fuse_helper_opts[] = {
-     FUSE_HELPER_OPT("subtype=", nodefault_subtype),
-     FUSE_OPT_KEY("subtype=", FUSE_OPT_KEY_KEEP),
-     FUSE_HELPER_OPT("max_idle_threads=%u", max_idle_threads),
-+    FUSE_HELPER_OPT("--rlimit-nofile=%lu", rlimit_nofile),
-     FUSE_HELPER_OPT("--syslog", syslog),
-     FUSE_HELPER_OPT_VALUE("log_level=debug", log_level, FUSE_LOG_DEBUG),
-     FUSE_HELPER_OPT_VALUE("log_level=info", log_level, FUSE_LOG_INFO),
-@@ -171,6 +174,9 @@ void fuse_cmdline_help(void)
-            "                               default: no_writeback\n"
-            "    -o xattr|no_xattr          enable/disable xattr\n"
+@@ -176,7 +176,8 @@ void fuse_cmdline_help(void)
             "                               default: no_xattr\n"
-+           "    --rlimit-nofile=<num>      set maximum number of file descriptors\n"
-+           "                               (0 leaves rlimit unchanged)\n"
-+           "                               default: 1,000,000 if the current rlimit is lower\n"
+            "    --rlimit-nofile=<num>      set maximum number of file descriptors\n"
+            "                               (0 leaves rlimit unchanged)\n"
+-           "                               default: 1,000,000 if the current rlimit is lower\n"
++           "                               default: min(1000000, fs.file-max - 16384)\n"
++           "                                        if the current rlimit is lower\n"
             );
  }
  
-@@ -191,11 +197,28 @@ static int fuse_helper_opt_proc(void *data, const char *arg, int key,
-     }
- }
+@@ -199,9 +200,32 @@ static int fuse_helper_opt_proc(void *data, const char *arg, int key,
  
-+static unsigned long get_default_rlimit_nofile(void)
-+{
-+    rlim_t max_fds = 1000000; /* our default RLIMIT_NOFILE target */
-+    struct rlimit rlim;
-+
-+    if (getrlimit(RLIMIT_NOFILE, &rlim) < 0) {
-+        fuse_log(FUSE_LOG_ERR, "getrlimit(RLIMIT_NOFILE): %m\n");
+ static unsigned long get_default_rlimit_nofile(void)
+ {
++    g_autofree gchar *file_max_str = NULL;
++    const rlim_t reserved_fds = 16384; /* leave at least this many fds free */
+     rlim_t max_fds = 1000000; /* our default RLIMIT_NOFILE target */
++    rlim_t file_max;
+     struct rlimit rlim;
+ 
++    /*
++     * Reduce max_fds below the system-wide maximum, if necessary.  This
++     * ensures there are fds available for other processes so we don't
++     * cause resource exhaustion.
++     */
++    if (!g_file_get_contents("/proc/sys/fs/file-max", &file_max_str,
++                             NULL, NULL)) {
++        fuse_log(FUSE_LOG_ERR, "can't read /proc/sys/fs/file-max\n");
 +        exit(1);
 +    }
-+
-+    if (rlim.rlim_cur >= max_fds) {
-+        return 0; /* we have more fds available than required! */
++    file_max = g_ascii_strtoull(file_max_str, NULL, 10);
++    if (file_max < 2 * reserved_fds) {
++        fuse_log(FUSE_LOG_ERR,
++                 "The fs.file-max sysctl is too low (%lu) to allow a "
++                 "reasonable number of open files.\n",
++                 (unsigned long)file_max);
++        exit(1);
 +    }
-+    return max_fds;
-+}
++    max_fds = MIN(file_max - reserved_fds, max_fds);
 +
- int fuse_parse_cmdline(struct fuse_args *args, struct fuse_cmdline_opts *opts)
- {
-     memset(opts, 0, sizeof(struct fuse_cmdline_opts));
- 
-     opts->max_idle_threads = 10;
-+    opts->rlimit_nofile = get_default_rlimit_nofile();
-     opts->foreground = 1;
- 
-     if (fuse_opt_parse(args, opts, fuse_helper_opts, fuse_helper_opt_proc) ==
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index 4c35c95b25..f7b9c1d20c 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -2707,24 +2707,18 @@ static void setup_sandbox(struct lo_data *lo, struct fuse_session *se,
-     setup_seccomp(enable_syslog);
- }
- 
--/* Raise the maximum number of open file descriptors */
--static void setup_nofile_rlimit(void)
-+/* Set the maximum number of open file descriptors */
-+static void setup_nofile_rlimit(unsigned long rlimit_nofile)
- {
--    const rlim_t max_fds = 1000000;
--    struct rlimit rlim;
--
--    if (getrlimit(RLIMIT_NOFILE, &rlim) < 0) {
--        fuse_log(FUSE_LOG_ERR, "getrlimit(RLIMIT_NOFILE): %m\n");
--        exit(1);
--    }
-+    struct rlimit rlim = {
-+        .rlim_cur = rlimit_nofile,
-+        .rlim_max = rlimit_nofile,
-+    };
- 
--    if (rlim.rlim_cur >= max_fds) {
-+    if (rlimit_nofile == 0) {
-         return; /* nothing to do */
-     }
- 
--    rlim.rlim_cur = max_fds;
--    rlim.rlim_max = max_fds;
--
-     if (setrlimit(RLIMIT_NOFILE, &rlim) < 0) {
-         /* Ignore SELinux denials */
-         if (errno == EPERM) {
-@@ -2977,7 +2971,7 @@ int main(int argc, char *argv[])
- 
-     fuse_daemonize(opts.foreground);
- 
--    setup_nofile_rlimit();
-+    setup_nofile_rlimit(opts.rlimit_nofile);
- 
-     /* Must be before sandbox since it wants /proc */
-     setup_capng();
+     if (getrlimit(RLIMIT_NOFILE, &rlim) < 0) {
+         fuse_log(FUSE_LOG_ERR, "getrlimit(RLIMIT_NOFILE): %m\n");
+         exit(1);
 -- 
 2.17.1
 
