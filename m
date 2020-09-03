@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E058825C70F
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 18:39:13 +0200 (CEST)
-Received: from localhost ([::1]:49648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 042E425C730
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 18:42:25 +0200 (CEST)
+Received: from localhost ([::1]:35814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDsGW-0003Ji-Vw
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 12:39:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42544)
+	id 1kDsJc-0000nc-2h
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 12:42:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDsFO-0001pq-I1
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:38:03 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:36183
+ id 1kDsGP-0003sf-62
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:39:05 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:34016
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDsFM-0003tP-7Q
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:38:02 -0400
+ id 1kDsGN-00043V-EL
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:39:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599151079;
+ s=mimecast20190719; t=1599151142;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AtKyjmdMS0JfvKYhLeH3xy5JrTp6y7X0rJ2R2kA5zJk=;
- b=dYW6Mh4y1TiZ7rZtTeGFadSv4BzviSIC7y2t/mrG+RC1ae/5WheP6+qjmMnrVcwHezRxpf
- j+m5qlUvPAwE/15d4xjdqsi7UPeXhIQ0LpHtFgG7KfEFcvNNYabb41II06sHVVOCe9e4ef
- n6mutHUZpWctPruBcKCCVHx1lUu4UL0=
+ bh=IEGpoufcUZBbnJCZjV18HKmV7y/xyR1QgLd/SAYfPEE=;
+ b=a06LZsouJUCxf8qbp/j8aMg4TRiyGpEGylBrBlu01sKCBSkMQL7UsHNrbo0qKaq4A+8RJ8
+ uTtBN6wpbAAuPV793DOUSA2axSC/58cPDkbKLS4g9mx0/QnIyOd4ImaeGYh6U9ajVpJ8S7
+ d9eJwQ30yNsth9M9pOwsJtA4d8iQXPs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-266-rkBeJHjVNaCLR-Y6rOlk6Q-1; Thu, 03 Sep 2020 12:37:57 -0400
-X-MC-Unique: rkBeJHjVNaCLR-Y6rOlk6Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-538-jImJib3pP5KT0PNE1ug2-Q-1; Thu, 03 Sep 2020 12:39:00 -0400
+X-MC-Unique: jImJib3pP5KT0PNE1ug2-Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08DE9801AEC
- for <qemu-devel@nongnu.org>; Thu,  3 Sep 2020 16:37:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E394E10074AF;
+ Thu,  3 Sep 2020 16:38:59 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C1D1C59;
- Thu,  3 Sep 2020 16:37:53 +0000 (UTC)
-Date: Thu, 3 Sep 2020 12:37:53 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A96C21C4;
+ Thu,  3 Sep 2020 16:38:59 +0000 (UTC)
+Date: Thu, 3 Sep 2020 12:38:58 -0400
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 28/63] tusb6010: Rename TYPE_TUSB6010 to TYPE_TUSB
-Message-ID: <20200903163753.GM4940@habkost.net>
+Subject: Re: [PATCH 24/63] scsi: Rename TYPE_AM53C974_DEVICE to TYPE_PCI_ESP
+Message-ID: <20200903163858.GN4940@habkost.net>
 References: <20200902224311.1321159-1-ehabkost@redhat.com>
- <20200902224311.1321159-29-ehabkost@redhat.com>
- <fa919593-5c84-a42a-e443-2a957b0426a0@redhat.com>
+ <20200902224311.1321159-25-ehabkost@redhat.com>
+ <cb06c88c-d6e4-c951-5bcd-e0b029bdce81@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <fa919593-5c84-a42a-e443-2a957b0426a0@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <cb06c88c-d6e4-c951-5bcd-e0b029bdce81@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: 8bit
@@ -84,39 +84,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ berrange@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 03, 2020 at 02:56:20PM +0200, Philippe Mathieu-Daudé wrote:
+On Thu, Sep 03, 2020 at 02:55:06PM +0200, Philippe Mathieu-Daudé wrote:
 > On 9/3/20 12:42 AM, Eduardo Habkost wrote:
 > > This will make the type name constant consistent with the name of
 > > the type checking macro.
 > > 
 > > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 > > ---
-> > Cc: Gerd Hoffmann <kraxel@redhat.com>
+> > Cc: Paolo Bonzini <pbonzini@redhat.com>
+> > Cc: Fam Zheng <fam@euphon.net>
 > > Cc: qemu-devel@nongnu.org
 > > ---
-> >  hw/usb/tusb6010.c | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> >  hw/scsi/esp-pci.c | 8 ++++----
+> >  1 file changed, 4 insertions(+), 4 deletions(-)
 > > 
-> > diff --git a/hw/usb/tusb6010.c b/hw/usb/tusb6010.c
-> > index 2bee3ae59f..9b35c1d4b8 100644
-> > --- a/hw/usb/tusb6010.c
-> > +++ b/hw/usb/tusb6010.c
-> > @@ -30,10 +30,10 @@
-> >  #include "hw/sysbus.h"
+> > diff --git a/hw/scsi/esp-pci.c b/hw/scsi/esp-pci.c
+> > index 2ce96dc56e..2b1198380b 100644
+> > --- a/hw/scsi/esp-pci.c
+> > +++ b/hw/scsi/esp-pci.c
+> > @@ -35,11 +35,11 @@
+> >  #include "qemu/module.h"
 > >  #include "qom/object.h"
 > >  
-> > -#define TYPE_TUSB6010 "tusb6010"
-> > +#define TYPE_TUSB "tusb6010"
+> > -#define TYPE_AM53C974_DEVICE "am53c974"
+> > +#define TYPE_PCI_ESP "am53c974"
 > 
-> We are loosing information helpful to reviewers.
-> Can we rename the type macro TUSB6010() instead?
+> We are loosing information helpful to reviewers :(
 
-We can.  I will do it instead.
+Considering that the PCI_ESP macro is used in very few places, we
+can use TYPE_AM53C974 and amAM53C974().  I will do it instead.
 
 -- 
 Eduardo
