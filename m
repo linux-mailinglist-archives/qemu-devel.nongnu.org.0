@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3FED25BD65
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 10:37:20 +0200 (CEST)
-Received: from localhost ([::1]:47118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0E9125BD77
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 10:39:26 +0200 (CEST)
+Received: from localhost ([::1]:55100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDkkB-0007Ce-UO
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 04:37:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54086)
+	id 1kDkmD-000260-Pg
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 04:39:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kDkfL-00085h-Ic
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 04:32:19 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:45080)
+ id 1kDkfP-0008EM-DH
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 04:32:23 -0400
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:45734)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kDkfJ-0001XU-Od
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 04:32:19 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id k15so1703050pfc.12
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 01:32:17 -0700 (PDT)
+ id 1kDkfM-0001Xt-OE
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 04:32:23 -0400
+Received: by mail-pg1-x52a.google.com with SMTP id 67so1527071pgd.12
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 01:32:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XFEZh3+xvAfqz2f0h/nVnmxCipA8eA9k8U4UHOk894U=;
- b=qj8wxckDNeqol6K7T2TpMCS62R0DQcAOjzFZT4MD9AMY7fmSwKyngvBfI0GLsoPQvp
- oXpfMDVeqxCuL5Mo0Gc/nzMPwdUHBY3+VMNBYW2QtJ+7ADJbWRKRvfr89sTUc5SXIWkT
- 2e0oIx2T9x1KgRb39urWYgthTrfz0eTv3JgMxHjXqvr+7JQM8GNaP6Ya4LrGc5fqnN5Q
- UZK7SDR7OihqXmU0wExqPRlzauoj5ue4mFS1lMFp/xPiW7/r3apixCsEXZlDJEP62GU6
- ldsF/VtGcBM/lWXs0p3P4yeIc0YdGMBc2kEPWAFqJbzgGqwD6c42jVu3dta+K7IoMaGk
- Oepw==
+ bh=OM5+pO1x05sX0Z4q9m5s0uFvz3+CGbA97ITxzJid3EY=;
+ b=dQIZDeJQJ1LD8h7KeVW13IWtEQsMmz/U1H80+YCsgBu+F+T4hdo72uMvX6cIQ7XZAi
+ Df6TyeXvxuEqseicQKew13FKN/UNTSGko0GWw6hZ2OQr6umHR+S97b44YKZRyLW/SQvE
+ bGHCzN8ZRAnfk0hCkInu7Vkm8NXLdTGAHpGkgAltq11d0/pJpUK1X0wTetjxEWe/dWiZ
+ v/7mF1ZOOahXS3ORcf8s3EZyJFIDt6zR2sZH5j58W4rbbgxcy5j0Hp8cMPvM1412JOox
+ tSVRkIXjavls9EgqZEI/ZzcYgcerIaTexLicJ6z+oGT0KmurRlQ80JYsjb3JPzTth/rI
+ a5GQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XFEZh3+xvAfqz2f0h/nVnmxCipA8eA9k8U4UHOk894U=;
- b=esrTPwLVoQr1IIzTq0VMMUNjanc6AB9UstCywVOt/gj5mv3Or/9qTvWsuD2S4hzeZB
- tZBKyBSTG6Za3LzXNFtvtg0fv9Bo3EZd3hE7BlBrkhX78sqGRoBeGwV/mFvfSRdpVV1C
- 5bOmWGmwJjM7z3a9cucv9em2NkYeHmVAu84iaRH5mqXw1uKAvGVA+biyL2Yg0JusWpz8
- R96KCLp59jaivBNd0th1pC50aLlsp2QB6DPs/ppRwMj+yJX0w8VhrqMki9KB9qcH24Zg
- Nx3qCmiY1XOs3JVFaCQH4HJ9Xd8LOSjC4OWhAxPEVbChOEx221H/pyBYrNzx/r7zGJit
- zgBw==
-X-Gm-Message-State: AOAM530n5Vf6Ak3J6iarFc6u8P7LxcDXdTJa7vZQlJ4u5webJUb7y2Sj
- QIFQE4awlOMiWHZnTophbUrfHFeuikJighJN
-X-Google-Smtp-Source: ABdhPJyw221FvmuBu454lAVNwIpygwtdO5d4sfQmLlxCA7OjhYKcxYTOkX7xaj2EzYEA1QTwIQhA4Q==
-X-Received: by 2002:a17:902:7c8b:: with SMTP id
- y11mr395682pll.10.1599121936009; 
- Thu, 03 Sep 2020 01:32:16 -0700 (PDT)
+ bh=OM5+pO1x05sX0Z4q9m5s0uFvz3+CGbA97ITxzJid3EY=;
+ b=s6JUOjQA3IXF0u/xcAd7YcSB+wYSm+baO4kX13pNkF/hlm1Xu4DeS9bzS364KAdqoH
+ ZErYJNagzxf3hKBV//9suTbmsF/EVlDnB5PX2jpzD1SBQdDwVeov4r6c5JEFBl4BqPHc
+ zTC3FVBOndUjF9ZNEHm8MMYHsm2ebU4EarIE1OSZ8NyO4cP9enR4IUj8FrWFx8scZNaO
+ 3/88bkfEVjpa6mFo5aSNRpSD+V0FibMc0ya4Dfwv4jM27qIkC/YdyPU7fzz2UKeWv1Ij
+ 9Y5sY8H1q0MW509roBl7PlcbISnjgjbMuLfpn9N9aiBspxgqrnMY2+dQkTzdYLRWIbSZ
+ Ys0w==
+X-Gm-Message-State: AOAM532yiNZ6wfq3lqsx3qVk8KM4mV94JYodGmnjC4mOL1GhBvrMdzjs
+ /8/OD1oJaNAyU9n0O/IRUbe6jvxpH8309caj
+X-Google-Smtp-Source: ABdhPJyiKZtdNKpylNX9KTZn+MXK1RFDs/otG+scQwhM1AJenynlG3OWJEyNpdJnf6R8uvKYrIJ4CA==
+X-Received: by 2002:a63:c64c:: with SMTP id x12mr2083996pgg.433.1599121938828; 
+ Thu, 03 Sep 2020 01:32:18 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id e7sm1759201pgn.64.2020.09.03.01.32.13
+ by smtp.googlemail.com with ESMTPSA id e7sm1759201pgn.64.2020.09.03.01.32.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Sep 2020 01:32:14 -0700 (PDT)
+ Thu, 03 Sep 2020 01:32:17 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 07/12] osdep: These function are only available on
- Non-Win32 system.
-Date: Thu,  3 Sep 2020 16:31:42 +0800
-Message-Id: <20200903083147.707-8-luoyonggang@gmail.com>
+Subject: [PATCH v4 08/12] ci: fixes msys2 build by upgrading capstone to 4.0.2
+Date: Thu,  3 Sep 2020 16:31:43 +0800
+Message-Id: <20200903083147.707-9-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200903083147.707-1-luoyonggang@gmail.com>
 References: <20200903083147.707-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x52a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,33 +88,40 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-int qemu_lock_fd(int fd, int64_t start, int64_t len, bool exclusive);
-int qemu_unlock_fd(int fd, int64_t start, int64_t len);
-int qemu_lock_fd_test(int fd, int64_t start, int64_t len, bool exclusive);
-bool qemu_has_ofd_lock(void);
-
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- include/qemu/osdep.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ capstone  | 2 +-
+ configure | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index 412962d91a..e80fddd1e8 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -502,11 +502,11 @@ int qemu_close(int fd);
- int qemu_unlink(const char *name);
- #ifndef _WIN32
- int qemu_dup(int fd);
--#endif
- int qemu_lock_fd(int fd, int64_t start, int64_t len, bool exclusive);
- int qemu_unlock_fd(int fd, int64_t start, int64_t len);
- int qemu_lock_fd_test(int fd, int64_t start, int64_t len, bool exclusive);
- bool qemu_has_ofd_lock(void);
-+#endif
+diff --git a/capstone b/capstone
+index 22ead3e0bf..1d23053284 160000
+--- a/capstone
++++ b/capstone
+@@ -1 +1 @@
+-Subproject commit 22ead3e0bfdb87516656453336160e0a37b066bf
++Subproject commit 1d230532840a37ac032c6ab80128238fc930c6c1
+diff --git a/configure b/configure
+index 5f2bcc4b57..e42d210e5f 100755
+--- a/configure
++++ b/configure
+@@ -5248,14 +5248,14 @@ case "$capstone" in
+       git_submodules="${git_submodules} capstone"
+     fi
+     mkdir -p capstone
+-    QEMU_CFLAGS="$QEMU_CFLAGS -I${source_path}/capstone/include"
++    QEMU_CFLAGS="$QEMU_CFLAGS -I${source_path}/capstone/include -I${source_path}/capstone/include/capstone"
+     if test "$mingw32" = "yes"; then
+       LIBCAPSTONE=capstone.lib
+     else
+       LIBCAPSTONE=libcapstone.a
+     fi
+     capstone_libs="-L${build_path}/capstone -lcapstone"
+-    capstone_cflags="-I${source_path}/capstone/include"
++    capstone_cflags="-I${source_path}/capstone/include -I${source_path}/capstone/include/capstone"
+     ;;
  
- #if defined(__HAIKU__) && defined(__i386__)
- #define FMT_pid "%ld"
+   system)
 -- 
 2.28.0.windows.1
 
