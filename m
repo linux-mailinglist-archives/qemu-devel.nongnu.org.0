@@ -2,53 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0FC025CE61
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 01:33:45 +0200 (CEST)
-Received: from localhost ([::1]:37006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C69FD25CE71
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 01:40:02 +0200 (CEST)
+Received: from localhost ([::1]:44640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDyjf-0001wG-AI
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 19:33:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37552)
+	id 1kDypl-0005PQ-AC
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 19:40:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kDyhx-0007zy-MN; Thu, 03 Sep 2020 19:31:57 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:36213 helo=ozlabs.org)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1kDyoh-0004xB-Nt
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 19:38:55 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:54114)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kDyhs-0000hA-L6; Thu, 03 Sep 2020 19:31:57 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BjHBr2wksz9sVM; Fri,  4 Sep 2020 09:31:48 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1599175908;
- bh=dkdZqc/w85TOIe7UH4zy9N2KmymUa8F82ZipdqMDZHk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=B1V+GO6AQaoRNa0PqEVJdgTORw+iwkjKizA9ftwpLjI5qgv9gfV7ayeY3qJAutUUt
- RZbsyAiS3/rs8ZazFgfi3oq/VvrKJHIPdQU/KzKgMiXRSVyfZstznOrH8GTPFncHKm
- UalYu/V21I5lfTkfFDw2KhEycbUMosaAoqY5d2Ho=
-Date: Fri, 4 Sep 2020 09:31:33 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v3 7/7] spapr_numa: use spapr_numa_get_vcpu_assoc() in
- home_node hcall
-Message-ID: <20200903233133.GE341806@yekko.fritz.box>
-References: <20200903220639.563090-1-danielhb413@gmail.com>
- <20200903220639.563090-8-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1kDyof-0001KZ-KP
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 19:38:55 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 083NWGoe131378
+ for <qemu-devel@nongnu.org>; Thu, 3 Sep 2020 19:38:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=UVgLu1CCoIn4FpQADHF9EPkxhhmDe0ulmIqoK2n8zvU=;
+ b=IyuSS3xQOM1oe9/Xx55lRQUTYdJhsxD3D87Ked2uKt11I3d5U+b0s4YlV+1g8xsPl6sU
+ xI4cqjwjpBF29QEUSA8wOisvVO9OdCki6R6U41AywJsDzmsIfqkDxuiH0ldunE6L5diX
+ 8VU2q7lre3T2obDyl8SAcgqgtfBfZxolp2cxzD4bO3EUz+giPOCuEx2sRu5NrlSaj2Aq
+ JC40veGkWNDd+TACyWWtJUEx6ySFvCOeTd/MkmqOOGngpWbI7XMjCgjS87FUI6K/Dcy3
+ kGtLTPnHz4ovwv3spCyMjQgdLACIGL7isK1S8j/z/7GJ0Ww0QzJ/hWRULJDnYoOsIEvL Pg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 33b9931f69-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 19:38:50 -0400
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 083Na5L1145411
+ for <qemu-devel@nongnu.org>; Thu, 3 Sep 2020 19:38:50 -0400
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 33b9931f60-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 03 Sep 2020 19:38:50 -0400
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 083Nc31R000556;
+ Thu, 3 Sep 2020 23:38:49 GMT
+Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
+ [9.57.198.23]) by ppma03dal.us.ibm.com with ESMTP id 337en9xba9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 03 Sep 2020 23:38:49 +0000
+Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
+ [9.57.199.109])
+ by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 083NcncG43909474
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 3 Sep 2020 23:38:49 GMT
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2833E112062;
+ Thu,  3 Sep 2020 23:38:49 +0000 (GMT)
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 140E1112061;
+ Thu,  3 Sep 2020 23:38:49 +0000 (GMT)
+Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
+ by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
+ Thu,  3 Sep 2020 23:38:49 +0000 (GMT)
+Subject: Re: [PATCH 50/63] tpm_crb: Rename CRB to TPM_CRB
+To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+References: <20200902224311.1321159-1-ehabkost@redhat.com>
+ <20200902224311.1321159-51-ehabkost@redhat.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+Message-ID: <82df1626-f976-b726-8168-52a05bbeb7ef@linux.ibm.com>
+Date: Thu, 3 Sep 2020 19:38:48 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="2hMgfIw2X+zgXrFs"
-Content-Disposition: inline
-In-Reply-To: <20200903220639.563090-8-danielhb413@gmail.com>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200902224311.1321159-51-ehabkost@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-09-03_14:2020-09-03,
+ 2020-09-03 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 mlxscore=0
+ malwarescore=0 priorityscore=1501 mlxlogscore=999 spamscore=0
+ clxscore=1015 lowpriorityscore=0 adultscore=0 phishscore=0 suspectscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009030205
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 19:38:51
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.403,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,129 +114,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: berrange@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 9/2/20 6:42 PM, Eduardo Habkost wrote:
+> Make the type checking macro name consistent with the TYPE_*
+> constant.
+>
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 
---2hMgfIw2X+zgXrFs
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
 
-On Thu, Sep 03, 2020 at 07:06:39PM -0300, Daniel Henrique Barboza wrote:
-> The current implementation of h_home_node_associativity hard codes
-> the values of associativity domains of the vcpus. Let's make
-> it consider the values already initialized in spapr->numa_assoc_array,
-> via the spapr_numa_get_vcpu_assoc() helper.
->=20
-> We want to set it and forget it, and for that we also need to
-> assert that we don't overflow the registers of the hypercall.
-> >From R4 to R9 we can squeeze in 12 associativity domains, so
-> let's assert that MAX_DISTANCE_REF_POINTS isn't greater
-> than that.
->=20
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+
+
 > ---
->  hw/ppc/spapr_numa.c | 33 +++++++++++++++++++++++++--------
->  1 file changed, 25 insertions(+), 8 deletions(-)
->=20
-> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-> index abc7361921..850e61bf98 100644
-> --- a/hw/ppc/spapr_numa.c
-> +++ b/hw/ppc/spapr_numa.c
-> @@ -185,10 +185,12 @@ target_ulong h_home_node_associativity(PowerPCCPU *=
-cpu,
->                                         target_ulong opcode,
->                                         target_ulong *args)
->  {
-> +    g_autofree uint32_t *vcpu_assoc =3D NULL;
->      target_ulong flags =3D args[0];
->      target_ulong procno =3D args[1];
->      PowerPCCPU *tcpu;
-> -    int idx;
-> +    uint vcpu_assoc_size;
-> +    int idx, assoc_idx;
-> =20
->      /* only support procno from H_REGISTER_VPA */
->      if (flags !=3D 0x1) {
-> @@ -200,16 +202,31 @@ target_ulong h_home_node_associativity(PowerPCCPU *=
-cpu,
->          return H_P2;
->      }
-> =20
-> -    /* sequence is the same as in the "ibm,associativity" property */
-> +    /*
-> +     * Given that we want to be flexible with the sizes and indexes,
-> +     * we must consider that there is a hard limit of how many
-> +     * associativities domain we can fit in R4 up to o R9, which
-typo  ...............................................   ^
+> Cc: Stefan Berger <stefanb@linux.ibm.com>
+> Cc: qemu-devel@nongnu.org
+> ---
+>   hw/tpm/tpm_crb.c | 14 +++++++-------
+>   1 file changed, 7 insertions(+), 7 deletions(-)
+>
+> diff --git a/hw/tpm/tpm_crb.c b/hw/tpm/tpm_crb.c
+> index aa9c00aad3..f4e3f0abbc 100644
+> --- a/hw/tpm/tpm_crb.c
+> +++ b/hw/tpm/tpm_crb.c
+> @@ -47,7 +47,7 @@ struct CRBState {
+>   };
+>   typedef struct CRBState CRBState;
+>   
+> -DECLARE_INSTANCE_CHECKER(CRBState, CRB,
+> +DECLARE_INSTANCE_CHECKER(CRBState, TPM_CRB,
+>                            TYPE_TPM_CRB)
+>   
+>   #define CRB_INTF_TYPE_CRB_ACTIVE 0b1
+> @@ -86,7 +86,7 @@ enum crb_cancel {
+>   static uint64_t tpm_crb_mmio_read(void *opaque, hwaddr addr,
+>                                     unsigned size)
+>   {
+> -    CRBState *s = CRB(opaque);
+> +    CRBState *s = TPM_CRB(opaque);
+>       void *regs = (void *)&s->regs + (addr & ~3);
+>       unsigned offset = addr & 3;
+>       uint32_t val = *(uint32_t *)regs >> (8 * offset);
+> @@ -113,7 +113,7 @@ static uint8_t tpm_crb_get_active_locty(CRBState *s)
+>   static void tpm_crb_mmio_write(void *opaque, hwaddr addr,
+>                                  uint64_t val, unsigned size)
+>   {
+> -    CRBState *s = CRB(opaque);
+> +    CRBState *s = TPM_CRB(opaque);
+>       uint8_t locty =  addr >> 12;
+>   
+>       trace_tpm_crb_mmio_write(addr, size, val);
+> @@ -190,7 +190,7 @@ static const MemoryRegionOps tpm_crb_memory_ops = {
+>   
+>   static void tpm_crb_request_completed(TPMIf *ti, int ret)
+>   {
+> -    CRBState *s = CRB(ti);
+> +    CRBState *s = TPM_CRB(ti);
+>   
+>       s->regs[R_CRB_CTRL_START] &= ~CRB_START_INVOKE;
+>       if (ret != 0) {
+> @@ -201,7 +201,7 @@ static void tpm_crb_request_completed(TPMIf *ti, int ret)
+>   
+>   static enum TPMVersion tpm_crb_get_version(TPMIf *ti)
+>   {
+> -    CRBState *s = CRB(ti);
+> +    CRBState *s = TPM_CRB(ti);
+>   
+>       return tpm_backend_get_tpm_version(s->tpmbe);
+>   }
+> @@ -232,7 +232,7 @@ static Property tpm_crb_properties[] = {
+>   
+>   static void tpm_crb_reset(void *dev)
+>   {
+> -    CRBState *s = CRB(dev);
+> +    CRBState *s = TPM_CRB(dev);
+>   
+>       if (s->ppi_enabled) {
+>           tpm_ppi_reset(&s->ppi);
+> @@ -281,7 +281,7 @@ static void tpm_crb_reset(void *dev)
+>   
+>   static void tpm_crb_realize(DeviceState *dev, Error **errp)
+>   {
+> -    CRBState *s = CRB(dev);
+> +    CRBState *s = TPM_CRB(dev);
+>   
+>       if (!tpm_find()) {
+>           error_setg(errp, "at most one TPM device is permitted");
 
-> +     * would be 12. Assert and bail if that's not the case.
-> +     */
-> +    g_assert(MAX_DISTANCE_REF_POINTS <=3D 12);
 
-Since MAX_DISTANCE_REF_POINTS is a compile time constant, you could
-use G_STATIC_ASSERT() to make this a compile rather than runtime
-error.
-
-> +
-> +    vcpu_assoc =3D spapr_numa_get_vcpu_assoc(spapr, tcpu, &vcpu_assoc_si=
-ze);
-> +    vcpu_assoc_size /=3D sizeof(uint32_t);
-> +    /* assoc_idx starts at 1 to skip associativity size */
-> +    assoc_idx =3D 1;
-> =20
-> -    idx =3D 0;
->  #define ASSOCIATIVITY(a, b) (((uint64_t)(a) << 32) | \
->                               ((uint64_t)(b) & 0xffffffff))
-> -    args[idx++] =3D ASSOCIATIVITY(0, 0);
-> -    args[idx++] =3D ASSOCIATIVITY(0, tcpu->node_id);
-> -    args[idx++] =3D ASSOCIATIVITY(procno, -1);
-> -    for ( ; idx < 6; idx++) {
-> -        args[idx] =3D -1;
-> +
-> +    for (idx =3D 0; idx < 6; idx++) {
-> +        int8_t a, b;
-
-Do you really want int8_t, rather than say int32_t?
-
-> +
-> +        a =3D assoc_idx < vcpu_assoc_size ?
-> +            be32_to_cpu(vcpu_assoc[assoc_idx++]) : -1;
-> +        b =3D assoc_idx < vcpu_assoc_size ?
-> +            be32_to_cpu(vcpu_assoc[assoc_idx++]) : -1;
-> +
-> +        args[idx] =3D ASSOCIATIVITY(a, b);
->      }
->  #undef ASSOCIATIVITY
-> =20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---2hMgfIw2X+zgXrFs
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl9RfNUACgkQbDjKyiDZ
-s5IOaRAAt3G1u9Nc9TMVzm4twhxNixwhXPEQrjBsSVQDGRkIoI5AGQpntlmgOYlm
-e8v88BNkrsR95Rm5fNeQdetl5JE/ZfXzy50k3Im6MOsYLIBbDBsNPzjaF1EO9JkI
-taCzCHyCRFWqNEbwfcu/MxibPeJtHmJqzQbx64RPEF2Nae6ks75rROWIFIs92PJv
-7L31PBt0UyRefGBbhh9VEjZhSIVEzu9cYpfou9cXZqwqoDsemYGIEY2OObZJqnkU
-y84GM+b91ILntb/lNtK2MVuVmiwQ2bEG1us6JDT4TsFNsDyvMOrIU0pwLGDlX3Rw
-VDEziwYlldKMi2N3fBkVto7sqm8UfTk1+xAd6k+YAuTljyy5cLeIHuYFr0zLIATI
-jmrJdRY7wt/lttf8GplVA+hN8xpn6GsxpKLAEVr/0ep0kEL+WO4ryEZeGuxgXbzW
-5ymoTO0WHrSrrmpbelh1cd5JoChG71cb1ENwA4jhokV9iOUz7z7YMl0awKmZNnC1
-oVtpmYAhr99NudyurRVxT2btWGZHVxJZbTOltZ3ePkV1c7rMpReSIEJZAg53hFoX
-THShz+ORWlopqRcaEjm1SzTWm8wofCJC/LkvvE866npor80IjhaIEmHPLbJewecZ
-Vm/5xhzqIvop3wARH6FjOFmqlX4dHbxck+l4LIXLQLRi+XaDzOw=
-=FVSi
------END PGP SIGNATURE-----
-
---2hMgfIw2X+zgXrFs--
 
