@@ -2,65 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7900925CC79
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:42:17 +0200 (CEST)
-Received: from localhost ([::1]:38628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4508925CC76
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:41:02 +0200 (CEST)
+Received: from localhost ([::1]:33320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwzo-0008PC-BV
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:42:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58802)
+	id 1kDwyb-000689-BO
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:41:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLU-00048i-3a; Thu, 03 Sep 2020 17:00:36 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:41872)
+ id 1kDwLW-0004Dl-Cq; Thu, 03 Sep 2020 17:00:38 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:43221)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLR-0007h8-HR; Thu, 03 Sep 2020 17:00:35 -0400
-Received: by mail-ot1-x344.google.com with SMTP id a65so4001163otc.8;
- Thu, 03 Sep 2020 14:00:30 -0700 (PDT)
+ id 1kDwLU-0007ib-Ky; Thu, 03 Sep 2020 17:00:37 -0400
+Received: by mail-ot1-x344.google.com with SMTP id v16so3994049otp.10;
+ Thu, 03 Sep 2020 14:00:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=8VEH4Dp3c4FP61LHXzVX3wMEuap/BOtd0QFnCK48Al0=;
- b=q9V7cdok4+jvmBw6p74YUFba00TvHAIPCkKrjI93a7obPFS+oypdU42wf8bH0ihvta
- jUrehUO7Y9mLttKP2JAa/eNRAy62AkwFipNRbCTRst6/aSqRw0pNt5v6h5Mijr0olDnG
- C7zwt3YZ9+1P9BcU8sPGCG6J6Up6qdu3OmI+/DMqQsOMGw0R3vs0vBqaEY+PzHW2Zn9Q
- CJBs09HVRoYDSqHVJkQmwVLdx8jQOwHjoqQlc0vHq16q5cnGxrbRuR6eBY/Fcwb3Dw5+
- b6LuvfD39zkpsrjgA3JZrcNMna7NlAL7KsrlhbjBHfHJlvRVEd3xjguAD60+rLaTcdxD
- O8QA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=8v8cuelUN4GNnzF59rwkxhYKTzREPiqFMDPQs9yKMw0=;
+ b=pqg7KMIGJN9NCyskp9TxALEebbe2hnxOeBp3wDMrF0amNBxJCYXxUtMbYtJH2bH+Jk
+ /cFzgUNPC2ebnNUSg3RCbwKH1RhcpeAIWCTfhz0OFNqRKaNLX9/gI2K/uysvDqNtD4Xk
+ zvt0UNYOjngrUoTgXz254s4ClzdQTp8mifyJXbqypMR1gLv6JOcTWU/GUyw8SuYKUqFb
+ DkvKWPtVyZyRUbqRlg/CWfJbjQypLvDYgRdo99oiU8PFpQBASzowhyyLBCKAila3RS0o
+ GB0AtkJ273Pfzxn8YTUfCjUwFVzrsKNWB5MMN6FM/27bxVlY5dKEwEdabSTgB2hmD20J
+ 4K9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=8VEH4Dp3c4FP61LHXzVX3wMEuap/BOtd0QFnCK48Al0=;
- b=Weplk1e+GKFE0IiDUlSzzRq908wTjEFtQmAssSPf3I7i/agC+htT/PMKhKvotcE50k
- HS6Ewz6eE+/zaevUUlehVaQlMi39iDJ4BSW93wK5/1kZJdIXyI+xCaBN5RlASrec5nuC
- 8JrChxzvVhiBX3P54U2fj7L5vKKYlPumT8SIxUp5B/+bhQ/JzG0Yulp5pEyO629iTjjy
- 6F2eCcUP+WQynVolFb4ZV9k1T8oAKWB0zgNwRaj+zW7MQoyIVmqa+8cK6Tb8bu0nx/qq
- 5PPU4i75S0P6Tf+Wx4yaVzFurQnlN40OUx64VUjkDQ9dzLAmACnVayWKRnFHxFOMTrs5
- 6jlg==
-X-Gm-Message-State: AOAM530Jf4SCpRUk7hJlZ62mGwdDp0IN1JjDfaDX5B2ipFndZidQtfaY
- wPdWsULJqHR2Sg47kksiKba0yQipyps=
-X-Google-Smtp-Source: ABdhPJyhKwYIlVPhJa6OKmpPFj8E2qEVFynhQoagjVfkQIELeK3COGKLbkooDuZG9MGQfuIKG1tq6g==
-X-Received: by 2002:a9d:7854:: with SMTP id c20mr3028823otm.123.1599166830005; 
- Thu, 03 Sep 2020 14:00:30 -0700 (PDT)
+ :in-reply-to:references;
+ bh=8v8cuelUN4GNnzF59rwkxhYKTzREPiqFMDPQs9yKMw0=;
+ b=QUJ7kH+R2cBPfKf7bof3XFyynMK4gM6G90JxpC/nZCJOpfNicSnd5OL3SPVWgxd8lg
+ Y7qExqi4j3VPgmzQLBZeelurhrEECAmZnfWfmpOM8rIJTiwnF2ZTvXywuv5oEiHsZ7lY
+ FTZg4/+Z8NCw0mHaYvYr1vWhN/N6tTGrcnKviwBkCW12KcFue6tcAo+M8XWYLGWcMuoB
+ d3KXpSjDn3aoSuCZqc+yc+OeTmdYwlNUG1JXCobbu5DlD959ELpJg220HKcCa0X9W97c
+ Qw3+SGptOiegUgp9st22d1sqxRcSDlPneymc5m67qN+45/N1qoFaCT3a6rrwAHnxCgOs
+ IPTQ==
+X-Gm-Message-State: AOAM530n4M2xk7AfLu8Y3KMQftCBN75FB06rRO1Ng5RNJdTVGOdelJAj
+ EAJDuN3LvTs1vOIZET9Dk94aW79d3oQ=
+X-Google-Smtp-Source: ABdhPJyPCW6QRlx6jtQmUeoHq2d4RKVAnO8JJyumEjJidIygoWugUOcTaffMWyByF+VeoyjuaECHhw==
+X-Received: by 2002:a9d:2667:: with SMTP id a94mr2869390otb.45.1599166834423; 
+ Thu, 03 Sep 2020 14:00:34 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id q15sm761135otl.65.2020.09.03.14.00.29
+ by smtp.gmail.com with ESMTPSA id i6sm718571oib.17.2020.09.03.14.00.33
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:00:29 -0700 (PDT)
+ Thu, 03 Sep 2020 14:00:33 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 39/77] usb/dev-mtp: Fix Error double free after inotify failure
-Date: Thu,  3 Sep 2020 15:58:57 -0500
-Message-Id: <20200903205935.27832-40-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 41/77] chardev/tcp: Fix error message double free error
+Date: Thu,  3 Sep 2020 15:58:59 -0500
+Message-Id: <20200903205935.27832-42-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
  envelope-from=flukshun@gmail.com; helo=mail-ot1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
@@ -85,50 +81,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, qemu-stable@nongnu.org,
+Cc: lichun <lichun@ruijie.com.cn>, qemu-stable@nongnu.org,
  Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Markus Armbruster <armbru@redhat.com>
+From: lichun <lichun@ruijie.com.cn>
 
-error_report_err() frees its first argument.  Freeing it again is
-wrong.  Don't.
+Errors are already freed by error_report_err, so we only need to call
+error_free when that function is not called.
 
-Fixes: 47287c27d0c367a89f7b2851e23a7f8b2d499dd6
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Daniel P. Berrangé <berrange@redhat.com>
 Cc: qemu-stable@nongnu.org
+Signed-off-by: lichun <lichun@ruijie.com.cn>
+Message-Id: <20200621213017.17978-1-lichun@ruijie.com.cn>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+[Commit message improved, cc: qemu-stable]
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20200630090351.1247703-7-armbru@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-(cherry picked from commit 562a558647be6fe43e60f8bf3601e5b6122c0599)
+(cherry picked from commit ed4e0d2ef140aef255d67eec30767e5fcd949f58)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/usb/dev-mtp.c | 2 --
- 1 file changed, 2 deletions(-)
+ chardev/char-socket.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/usb/dev-mtp.c b/hw/usb/dev-mtp.c
-index 168428156b..15a2243101 100644
---- a/hw/usb/dev-mtp.c
-+++ b/hw/usb/dev-mtp.c
-@@ -634,7 +634,6 @@ static void usb_mtp_object_readdir(MTPState *s, MTPObject *o)
-             error_reportf_err(err,
-                               "usb-mtp: failed to add watch for %s: ",
-                               o->path);
--            error_free(err);
-         } else {
-             trace_usb_mtp_file_monitor_event(s->dev.addr, o->path,
-                                              "Watch Added");
-@@ -1279,7 +1278,6 @@ static void usb_mtp_command(MTPState *s, MTPControl *c)
-         if (err) {
-             error_reportf_err(err,
-                               "usb-mtp: file monitoring init failed: ");
--            error_free(err);
-         } else {
-             QTAILQ_INIT(&s->events);
-         }
+diff --git a/chardev/char-socket.c b/chardev/char-socket.c
+index e5ee685f8c..58917870cd 100644
+--- a/chardev/char-socket.c
++++ b/chardev/char-socket.c
+@@ -142,6 +142,8 @@ static void check_report_connect_error(Chardev *chr,
+                           "Unable to connect character device %s: ",
+                           chr->label);
+         s->connect_err_reported = true;
++    } else {
++        error_free(err);
+     }
+     qemu_chr_socket_restart_timer(chr);
+ }
+@@ -1083,7 +1085,6 @@ static void qemu_chr_socket_connected(QIOTask *task, void *opaque)
+     if (qio_task_propagate_error(task, &err)) {
+         tcp_chr_change_state(s, TCP_CHARDEV_STATE_DISCONNECTED);
+         check_report_connect_error(chr, err);
+-        error_free(err);
+         goto cleanup;
+     }
+ 
 -- 
 2.17.1
 
