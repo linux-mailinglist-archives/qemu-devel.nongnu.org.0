@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34ACD25BE86
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 11:36:15 +0200 (CEST)
-Received: from localhost ([::1]:39276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94AD425BEA1
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 11:51:51 +0200 (CEST)
+Received: from localhost ([::1]:48854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDlfC-0008B6-0S
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 05:36:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39276)
+	id 1kDluI-000527-KU
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 05:51:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kDleL-0007jv-2Q
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 05:35:21 -0400
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:53043)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kDleI-0001BC-Pi
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 05:35:20 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.221])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 953385D7C84E;
- Thu,  3 Sep 2020 11:35:15 +0200 (CEST)
-Received: from kaod.org (37.59.142.98) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 3 Sep 2020
- 11:35:15 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R002e49744b8-a294-4ba5-a0c6-c2caeed1f9e2,
- FF22E3E2F99647A0705B7EB067E934078DCBDF97) smtp.auth=groug@kaod.org
-Date: Thu, 3 Sep 2020 11:35:14 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH] 9pfs: log warning if msize <= 8192
-Message-ID: <20200903113514.7a0a6ac8@bahia.lan>
-In-Reply-To: <25793713.39nqsFcaVY@silver>
-References: <E1kDR8W-0001s4-Sr@lizzy.crudebyte.com> <2877776.MzA8b4DPAS@silver>
- <20200902185422.16b4ee28@bahia.lan> <25793713.39nqsFcaVY@silver>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kDltP-0003p4-Sx
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 05:50:55 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60288)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kDltN-0003Rp-Hv
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 05:50:55 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kDltJ-0001ER-UT
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 09:50:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 78ACB2E810B
+ for <qemu-devel@nongnu.org>; Thu,  3 Sep 2020 09:50:49 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 8e769b1e-d79d-4248-b681-90404f8c78ea
-X-Ovh-Tracer-Id: 13317988525710023133
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrudeguddgudelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeegleevgeeiveevhedvveevveefhfeiffdvhefhffevteeuleduffdtveevteegffenucffohhmrghinhepqhgvmhhurdhorhhgpdhorghsihhsqdhophgvnhdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegsvghrrhgrnhhgvgesrhgvughhrghtrdgtohhm
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
- helo=smtpout1.mo804.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 05:35:16
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 03 Sep 2020 09:35:18 -0000
+From: "Tony.LI" <1894071@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: bigboy0822
+X-Launchpad-Bug-Reporter: Tony.LI (bigboy0822)
+X-Launchpad-Bug-Modifier: Tony.LI (bigboy0822)
+Message-Id: <159912571834.28358.2492164063235416189.malonedeb@soybean.canonical.com>
+Subject: [Bug 1894071] [NEW] qemu-i386-static ioctl return -14 (Bad Address)
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="195cbfa84cb75815472f69dd83d46f006869050b"; Instance="production"
+X-Launchpad-Hash: ea2d5d83a2b6ce6086f368089a89ccc7564de48a
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 04:31:20
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.001, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,64 +70,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- qemu-devel@nongnu.org
+Reply-To: Bug 1894071 <1894071@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 03 Sep 2020 10:20:40 +0200
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+Public bug reported:
 
-> On Mittwoch, 2. September 2020 18:54:22 CEST Greg Kurz wrote:
-> > > Well, I can do that of course. But somehow I fear users get lost by just
-> > > pointing them to "man 1 qemu" in the log message. It already starts that
-> > > e.g. on Debian there is no "man qemu", it is "man qemu-system" there
-> > > instead. Next issue is that qemu man page is currently not structured in
-> > > a way that would> 
-> > > allow me to directly point them to the relevant man heading like:
-> > > 	man --pager='less -p ^9P-msize' qemu
-> > > 
-> > > So they would need to scroll their way through the entire man page by
-> > > themselfes and find confusing sections like "-fsdev -device virtio-9p-pci"
-> > > vs. "-virtfs", etc. I can imagine some people will struggle with that.
-> > > 
-> > > With a link like "https://wiki.qemu.org/Documentation/9psetup#msize" the
-> > > thing would be crystal clear within seconds.
-> > > 
-> > > Just my opinion. Greg?
-> > 
-> > Fine by me for this patch.
-> > 
-> > For a longer term, maybe we should find a way to advertise some hint
-> > for msize to the guest... Not sure how to do that though.
-> 
-> On the long term that would be possible, however only with a protocol change 
-> allowing server to send minimum, maximum and recommended msize to client.
-> 
+I use qemu-i386-static on 64 bit ARM.But I don't know how to solve some pro=
+blems.
+First I added some ioctl operations.
+Then I tried to do some DRM operations like test.c.
+This is successful when I use qemu-x86_64-static,but it failed when I use q=
+emu-i386-static.
+I can get some strace info like this:
 
-Hmm... not sure adding a new 9P protocol version for this is the
-way to go. Not speaking of all the hustle this would cause, these
-msizes rather look like properties of the device that the guest
-can use to configure the 9P session.
+403 openat(AT_FDCWD,"/dev/dri/card0",O_RDWR|O_LARGEFILE|O_CLOEXEC) =3D 4
+403 ioctl(4,DRM_IOCTL_GET_CAP,{1,0}) =3D 0 ({1,1})
+403 ioctl(4,DRM_IOCTL_MODE_GETRESOURCES,{0,0,0,0,0,0,0,0,0,0,0,0}) =3D 0 ({=
+0,0,0,0,0,2,2,2,0,16384,0,16384})
+403 brk(NULL) =3D 0x40006000
+403 brk(0x40027000) =3D 0x40027000
+403 brk(0x40028000) =3D 0x40028000
+403 ioctl(4,DRM_IOCTL_MODE_GETRESOURCES,{0,1073766816,1073766832,1073766848=
+,0,2,2,2,0,16384,0,16384}) =3D -1 errno=3D14 (Bad address)
 
-What about adding them to the virtio-9p device config along with
-the mount 'tag' and teach trans_virtio.c in linux to expose them
-as well in the sysfs entry of the device ?
+And there are similar errors in other self driven operations.
+I want to know if it is QEMU's problem, so I hope to get some help. =
 
-This could also be the occasion to describe virtio-9p in the virtio
-spec [1]. Something that has been sitting on my TODO list for years
-but I could never find time to consider...
+Thank you!
 
-[1] https://docs.oasis-open.org/virtio/virtio/v1.1/virtio-v1.1.html
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
-> As you know, right now server only has a say in maximum msize.
-> 
+** Attachment added: "strace.txt"
+   https://bugs.launchpad.net/bugs/1894071/+attachment/5407366/+files/strac=
+e.txt
 
-I guess you mean minimum size ?
+-- =
 
-> Best regards,
-> Christian Schoenebeck
-> 
-> 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1894071
 
+Title:
+  qemu-i386-static ioctl return -14 (Bad Address)
+
+Status in QEMU:
+  New
+
+Bug description:
+  I use qemu-i386-static on 64 bit ARM.But I don't know how to solve some p=
+roblems.
+  First I added some ioctl operations.
+  Then I tried to do some DRM operations like test.c.
+  This is successful when I use qemu-x86_64-static,but it failed when I use=
+ qemu-i386-static.
+  I can get some strace info like this:
+
+  403 openat(AT_FDCWD,"/dev/dri/card0",O_RDWR|O_LARGEFILE|O_CLOEXEC) =3D 4
+  403 ioctl(4,DRM_IOCTL_GET_CAP,{1,0}) =3D 0 ({1,1})
+  403 ioctl(4,DRM_IOCTL_MODE_GETRESOURCES,{0,0,0,0,0,0,0,0,0,0,0,0}) =3D 0 =
+({0,0,0,0,0,2,2,2,0,16384,0,16384})
+  403 brk(NULL) =3D 0x40006000
+  403 brk(0x40027000) =3D 0x40027000
+  403 brk(0x40028000) =3D 0x40028000
+  403 ioctl(4,DRM_IOCTL_MODE_GETRESOURCES,{0,1073766816,1073766832,10737668=
+48,0,2,2,2,0,16384,0,16384}) =3D -1 errno=3D14 (Bad address)
+
+  And there are similar errors in other self driven operations.
+  I want to know if it is QEMU's problem, so I hope to get some help. =
+
+  Thank you!
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1894071/+subscriptions
 
