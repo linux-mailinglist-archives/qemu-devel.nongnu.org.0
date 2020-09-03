@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8E8B25CCD4
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:52:59 +0200 (CEST)
-Received: from localhost ([::1]:54660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A7F825CCDB
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:54:59 +0200 (CEST)
+Received: from localhost ([::1]:33528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDxAA-0001P5-QI
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:52:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59612)
+	id 1kDxC6-0004bE-3L
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:54:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwM8-00052Y-9l; Thu, 03 Sep 2020 17:01:17 -0400
-Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:33364)
+ id 1kDwMB-00053X-82; Thu, 03 Sep 2020 17:01:19 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:34056)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwM6-0007tE-Dh; Thu, 03 Sep 2020 17:01:15 -0400
-Received: by mail-ot1-x332.google.com with SMTP id m12so1037932otr.0;
- Thu, 03 Sep 2020 14:01:13 -0700 (PDT)
+ id 1kDwM8-0007tQ-D1; Thu, 03 Sep 2020 17:01:17 -0400
+Received: by mail-ot1-x343.google.com with SMTP id h17so3210739otr.1;
+ Thu, 03 Sep 2020 14:01:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Y3yC2SOnzE11vtRpT71Fc4IxJOCN3PFXC+OmZRbaviY=;
- b=ZPl9B5Fzq1R/hqw20AxD3H4qqtKxTa/lXYm+Tmk3eExvwymvFoyTzut0dC1WfLjIqD
- K5wDHLxDx81YFqSPJcGveId3LcCEop0Q2w8BjfDLsctbgcF1z6y/dS5klMyPi8zodpsP
- JlQWhGUDnbnkHZev6g0PHiZMcpOU/qAZoqCIbZ7O7LL7fSEzmdXsgK6KLa7/6g67jSBl
- 6hAps7dnF1RdSW6wrTNjDiO/L2YnOKC9hW3Srm5xSg9j8w9nSalo+zJe/+iqbZGHeHqQ
- xWdUbQwNJzp+tfLsX4X0GgshRo8GS0rAIUIFmLVmUtVQ9R7Yebv3S/VrPjqmOZg/S38z
- QUGg==
+ bh=n/Y0ED6jz0ryYpBgvkE7oSql+mNnQ/ED8BzlFc5aOpo=;
+ b=oQjL4VHbFjthDqTqh+7CgzXWbqRKSplmPXjIF7QiAVYkc1+JO8HkOwviNGDDkl1fSD
+ HMJHBNgAqo1JOvnEKB48CkNP6MmOnwjSWJ1707topycQJd7uGz76hHND1pHsWfAVhLbb
+ /q76evI+dJLSxwOv2jdinpYnhkdYcWct8TkU/n9kX8vIUmRgN3UtU8LGgyrq1pPo/yyf
+ IoKZcMVCApVoCWTItRIBQ81qOJ0O1XRwRpURK3t/EN9+X0xyLJOYbdVSH3w6xUSjR5nF
+ TUO+SpaPPQHBLO1Dv9QQ2aGz35TAiefiOW6lommVhWOgn36KwH3EpfTzSwyaePdWWhA2
+ jdUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=Y3yC2SOnzE11vtRpT71Fc4IxJOCN3PFXC+OmZRbaviY=;
- b=GvXGnC4ZzGS6WGWzI3wIuuJ0/U6/xJYJTPJpLIA6vNGghqLTKQuBzZM2VEReyXttsc
- vyEPj8ZYeWfM+i1aYNHmvOtU3rfyaYUoBN6stowTWXN6zaOy3Z8tE6XmkeWu6DpryccM
- /0Xfc2vagBCr049dBVTAnLnrAkPzU6dnAVR5cXpO2l4axfN7xXGJhkYfyfkhBG8mPhNc
- rnTlE7xp3RZQjZZJkfemog/jpPcOlR5LBxRin9OajJ6vaft0KymFbkdA9lLHJJ3EcgFe
- 4nPPUuPUDUv1dLsnBgw1NpY54hjgJvBfDZcupvIQf+wlPyB0gZ6d05SKsNfFBKrQnMU8
- gEfQ==
-X-Gm-Message-State: AOAM531mna+6QwhMRIih45ty0fkZYtWBFnuefs0LA1+5Akrj9CtQ19+p
- IYGZIb61nS0rZ6SQMsVq0oC4IscqSQVRSQ==
-X-Google-Smtp-Source: ABdhPJxG8u0OcMNMEtQmHDl6WeqW/hTeDfHWLIldHXVV70RparNQ/X3+VWRVJ+ggemRtRuUZ6/IvGA==
-X-Received: by 2002:a05:6830:13d7:: with SMTP id
- e23mr3098746otq.98.1599166872334; 
- Thu, 03 Sep 2020 14:01:12 -0700 (PDT)
+ bh=n/Y0ED6jz0ryYpBgvkE7oSql+mNnQ/ED8BzlFc5aOpo=;
+ b=sSBPwKW5iEkpGmPQIII7LzpD9syE7M12hrX3OCxgjUtw9hDnjQQ783Hd47CP+JRc9e
+ mg27lDT75PcEagfG8FWzQN5C4lpuMc5HO8D7f8DUm97cMUMIxT7ZHp/026wIVcdkf6KH
+ 7vbvgLmCRSCPqWuQtTRQi5YUkkhG+7r0rF0FVEZnlHam+mqlT1riy9HqJ+qISKe8+HRQ
+ 7aEVgXlSm5E9KZlWvBFmsKwEp25Aa6NDvU0DkHLplEaCRO8qQLTSv6VVAd+V3VD7AXfA
+ /9SjnxE99gl7PueUGCpOBgJDIvAMNC4fSDGNlOi+U4TgIHWybsp1g2yKY0VXgcmD1ZqH
+ J/Qw==
+X-Gm-Message-State: AOAM5326qHaxzeOCqa9d+Dvl8oCYe2rnMHWzeQvKBAl0BBxEZg+Yctfe
+ fD60CqCQQH7haW3xknET6jEZ8ZSdyL9gBQ==
+X-Google-Smtp-Source: ABdhPJxjAw8KfmHTVuIJa9amBqio0ZRxQE+p2I2iruF+ViEeTxXfCrszfmyWrpwi1NSdRwzjHQrYRg==
+X-Received: by 2002:a9d:a6e:: with SMTP id 101mr2994077otg.80.1599166873456;
+ Thu, 03 Sep 2020 14:01:13 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id t1sm855106ooi.27.2020.09.03.14.01.11
+ by smtp.gmail.com with ESMTPSA id 91sm793490otn.18.2020.09.03.14.01.12
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:01:11 -0700 (PDT)
+ Thu, 03 Sep 2020 14:01:12 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 67/77] intel_iommu: Use correct shift for 256 bits qi
- descriptor
-Date: Thu,  3 Sep 2020 15:59:25 -0500
-Message-Id: <20200903205935.27832-68-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 68/77] virtio-pci: Changed vdev to proxy for VirtIO PCI BAR
+ callbacks.
+Date: Thu,  3 Sep 2020 15:59:26 -0500
+Message-Id: <20200903205935.27832-69-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x332.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -83,74 +82,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Liu Yi L <yi.l.liu@intel.com>, qemu-stable@nongnu.org,
+Cc: Andrew Melnychenko <andrew@daynix.com>, qemu-stable@nongnu.org,
  "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Liu Yi L <yi.l.liu@intel.com>
+From: Andrew Melnychenko <andrew@daynix.com>
 
-In chapter 10.4.23 of VT-d spec 3.0, Descriptor Width bit was introduced
-in VTD_IQA_REG. Software could set this bit to tell VT-d the QI descriptor
-from software would be 256 bits. Accordingly, the VTD_IQH_QH_SHIFT should
-be 5 when descriptor size is 256 bits.
+There is an issue when callback may be called with invalid vdev.
+It happens on unplug when vdev already deleted and VirtIOPciProxy is not.
+So now, callbacks accept proxy device, and vdev retrieved from it.
+Technically memio callbacks should be removed during the flatview update,
+but memoryregions remain til PCI device(and it's address space) completely deleted.
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1716352
 
-This patch adds the DW bit check when deciding the shift used to update
-VTD_IQH_REG.
-
-Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
-Message-Id: <1593850035-35483-1-git-send-email-yi.l.liu@intel.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Acked-by: Jason Wang <jasowang@redhat.com>
+Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
+Message-Id: <20200706112123.971087-1-andrew@daynix.com>
 Cc: qemu-stable@nongnu.org
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-(cherry picked from commit a4544c45e109ceee87ee8c19baff28be3890d788)
+(cherry picked from commit ccec7e9603f446fe75c6c563ba335c00cfda6a06)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/i386/intel_iommu.c          | 7 ++++++-
- hw/i386/intel_iommu_internal.h | 3 ++-
- 2 files changed, 8 insertions(+), 2 deletions(-)
+ hw/virtio/virtio-pci.c | 34 ++++++++++++++++++++++++----------
+ 1 file changed, 24 insertions(+), 10 deletions(-)
 
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index df7ad254ac..8703a2da42 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -2549,6 +2549,11 @@ static bool vtd_process_inv_desc(IntelIOMMUState *s)
- /* Try to fetch and process more Invalidation Descriptors */
- static void vtd_fetch_inv_desc(IntelIOMMUState *s)
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index 2ca266e1cb..ef11c66a21 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -1317,11 +1317,12 @@ static uint64_t virtio_pci_notify_read(void *opaque, hwaddr addr,
+ static void virtio_pci_notify_write(void *opaque, hwaddr addr,
+                                     uint64_t val, unsigned size)
  {
-+    int qi_shift;
+-    VirtIODevice *vdev = opaque;
+-    VirtIOPCIProxy *proxy = VIRTIO_PCI(DEVICE(vdev)->parent_bus->parent);
++    VirtIOPCIProxy *proxy = opaque;
++    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
 +
-+    /* Refer to 10.4.23 of VT-d spec 3.0 */
-+    qi_shift = s->iq_dw ? VTD_IQH_QH_SHIFT_5 : VTD_IQH_QH_SHIFT_4;
-+
-     trace_vtd_inv_qi_fetch();
+     unsigned queue = addr / virtio_pci_queue_mem_mult(proxy);
  
-     if (s->iq_tail >= s->iq_size) {
-@@ -2567,7 +2572,7 @@ static void vtd_fetch_inv_desc(IntelIOMMUState *s)
-         }
-         /* Must update the IQH_REG in time */
-         vtd_set_quad_raw(s, DMAR_IQH_REG,
--                         (((uint64_t)(s->iq_head)) << VTD_IQH_QH_SHIFT) &
-+                         (((uint64_t)(s->iq_head)) << qi_shift) &
-                          VTD_IQH_QH_MASK);
+-    if (queue < VIRTIO_QUEUE_MAX) {
++    if (vdev != NULL && queue < VIRTIO_QUEUE_MAX) {
+         virtio_queue_notify(vdev, queue);
      }
  }
-diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.h
-index 862033ebe6..3d5487fe2c 100644
---- a/hw/i386/intel_iommu_internal.h
-+++ b/hw/i386/intel_iommu_internal.h
-@@ -230,7 +230,8 @@
- #define VTD_IQA_DW_MASK             0x800
+@@ -1329,10 +1330,12 @@ static void virtio_pci_notify_write(void *opaque, hwaddr addr,
+ static void virtio_pci_notify_write_pio(void *opaque, hwaddr addr,
+                                         uint64_t val, unsigned size)
+ {
+-    VirtIODevice *vdev = opaque;
++    VirtIOPCIProxy *proxy = opaque;
++    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
++
+     unsigned queue = val;
  
- /* IQH_REG */
--#define VTD_IQH_QH_SHIFT            4
-+#define VTD_IQH_QH_SHIFT_4          4
-+#define VTD_IQH_QH_SHIFT_5          5
- #define VTD_IQH_QH_MASK             0x7fff0ULL
+-    if (queue < VIRTIO_QUEUE_MAX) {
++    if (vdev != NULL && queue < VIRTIO_QUEUE_MAX) {
+         virtio_queue_notify(vdev, queue);
+     }
+ }
+@@ -1356,9 +1359,14 @@ static void virtio_pci_isr_write(void *opaque, hwaddr addr,
+ static uint64_t virtio_pci_device_read(void *opaque, hwaddr addr,
+                                        unsigned size)
+ {
+-    VirtIODevice *vdev = opaque;
++    VirtIOPCIProxy *proxy = opaque;
++    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
+     uint64_t val = 0;
  
- /* ICS_REG */
++    if (vdev == NULL) {
++        return val;
++    }
++
+     switch (size) {
+     case 1:
+         val = virtio_config_modern_readb(vdev, addr);
+@@ -1376,7 +1384,13 @@ static uint64_t virtio_pci_device_read(void *opaque, hwaddr addr,
+ static void virtio_pci_device_write(void *opaque, hwaddr addr,
+                                     uint64_t val, unsigned size)
+ {
+-    VirtIODevice *vdev = opaque;
++    VirtIOPCIProxy *proxy = opaque;
++    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
++
++    if (vdev == NULL) {
++        return;
++    }
++
+     switch (size) {
+     case 1:
+         virtio_config_modern_writeb(vdev, addr, val);
+@@ -1453,19 +1467,19 @@ static void virtio_pci_modern_regions_init(VirtIOPCIProxy *proxy)
+ 
+     memory_region_init_io(&proxy->device.mr, OBJECT(proxy),
+                           &device_ops,
+-                          virtio_bus_get_device(&proxy->bus),
++                          proxy,
+                           "virtio-pci-device",
+                           proxy->device.size);
+ 
+     memory_region_init_io(&proxy->notify.mr, OBJECT(proxy),
+                           &notify_ops,
+-                          virtio_bus_get_device(&proxy->bus),
++                          proxy,
+                           "virtio-pci-notify",
+                           proxy->notify.size);
+ 
+     memory_region_init_io(&proxy->notify_pio.mr, OBJECT(proxy),
+                           &notify_pio_ops,
+-                          virtio_bus_get_device(&proxy->bus),
++                          proxy,
+                           "virtio-pci-notify-pio",
+                           proxy->notify_pio.size);
+ }
 -- 
 2.17.1
 
