@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 357EF25CC03
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:19:44 +0200 (CEST)
-Received: from localhost ([::1]:47370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E14725CC06
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:21:12 +0200 (CEST)
+Received: from localhost ([::1]:55594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwdz-0006kf-8D
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:19:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58932)
+	id 1kDwfO-0001lU-0v
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:21:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLb-0004Q8-FZ; Thu, 03 Sep 2020 17:00:43 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:35982)
+ id 1kDwLc-0004TB-OL; Thu, 03 Sep 2020 17:00:44 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:43289)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLZ-0007jt-Fb; Thu, 03 Sep 2020 17:00:42 -0400
-Received: by mail-ot1-x343.google.com with SMTP id 109so4028038otv.3;
- Thu, 03 Sep 2020 14:00:40 -0700 (PDT)
+ id 1kDwLa-0007kB-O3; Thu, 03 Sep 2020 17:00:44 -0400
+Received: by mail-oi1-x241.google.com with SMTP id i17so4497639oig.10;
+ Thu, 03 Sep 2020 14:00:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=w38XkoSgsQCl7EMizVOYfGqy/RlUpRR6kLGOQ4mK540=;
- b=WctLj0Tzmm7OSN6rFyOOc08/0rtC0gkGyYOYq/7Lkjowvog6BRvqwxHO/wrzr43UD0
- 0BUtlihlHOrbJyURvAsDkTsFcVv+FIlkKnhi46AsWHd7I3LDwiDtz8bheBDA5r3gVpuV
- 4QXyRWei/TGZhyKlYnmK26B+Hpe/i1MoDdZXVAA9SCTAkeP03dapcUq8iTMVxQt0oLEH
- 5j3POIKhIZsmBklCTU827VRyxQ+6oGTE4DziPVVJJ+RFXyG/eH4Snh9sHEDdAtHs2/3w
- t+EFCKRL1nuCf75zfhMJZyrA3QLJxzd7j6bkzSMCC+VrrHCBIFn8UxM5q2GkD5r3sYlc
- IR6Q==
+ bh=aFXlKroXX9PZfDrZJYi+g7t/+H6Gi17j+AWN8w9Ef+w=;
+ b=Nm7RClVBy0aE0za/FeXkR32oswAuJoDh6+tPXlgPu48N13ZGdeixiNLNApnnZZ81VW
+ xZt/RhLysbsjE49kKDNGKrID7thKLFlp5K/qSFQ9tDZXnVWB2/s4X2bdBvPi0jHBURs+
+ 0F1Ci93ZLiyYTPU1KWBlIIKU279d5kmWDjp0JU4v2aeg7LIY0QSm0C38zcikEVrDEsfJ
+ e6BzOtNGH8oUimgvFU+1VHEV9KQUw6I6dMRAA2SmrlT6LqCsT/RtnQ8tMCVvCkWfM2Ct
+ uFq+NRz4qOHipRoOKnkSwuxhAqymrQehIezkH/qJT01/8gDxoX39RBheCN9pqDjVcGrz
+ O7vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=w38XkoSgsQCl7EMizVOYfGqy/RlUpRR6kLGOQ4mK540=;
- b=aMK9HUlNoJ/nX4qHbJl7bSCz2zleEGsu007oJ/t/ViG9HUQm1entZGQfl9Jsc7UcON
- TPAM3dTH2JRNElZDvB3JSxHagMB8m+NpE1XzVHAJtzjYSyy4fWYRdNHiS7ot0CRr0nLu
- l4cxe7hOhEdS2PWq6xPQttwQIPOs3lzEPuEURwQ27GFLegbUDkzKPrcyQor/1zZ3d9M3
- x7ATUH+jJBEuPBfrVxr2OcA0cR/aAzWXkXVCp57XP55lrHXwHdi/4WM94RUtn1R+FRDW
- jz9roqI1DkHm6j5p3mrrH0ZbUTtOng76HYUbdI40oWUQQbyK9HGCpwS3pvPEwLtYLF3P
- SsXA==
-X-Gm-Message-State: AOAM532nwhGIJ8T6YjbIzLsTnnsQuNgOKqyp4AEjSoR0zt9mHGky8wIZ
- YYRQKcsusoy+Ikb3luZwCwc7MRWabQ4=
-X-Google-Smtp-Source: ABdhPJzROkcKW7j6E4/CwBa/8Vw6+TmqoRbTrkljvPDFaaPKFXJLBF9dxYHVi+tpDrFY2eepmyCDGA==
-X-Received: by 2002:a05:6830:1242:: with SMTP id
- s2mr2940375otp.167.1599166839691; 
- Thu, 03 Sep 2020 14:00:39 -0700 (PDT)
+ bh=aFXlKroXX9PZfDrZJYi+g7t/+H6Gi17j+AWN8w9Ef+w=;
+ b=TIpzGlO+A/iR3TnkMbRkF1drjX/D9RwHMSwJ0o+I9rlhsXqNn9LR2ygxODE5vppbjf
+ m5oVM9YPVHmAnP5+Te4ppjopNBpK6kQ9gBWwwmfGHSL6TVby25BOzBXKOhiUmW2VZNZ/
+ wTB2QqAgkd2Oqbt+mR1KXMALlh8KcItZ8h2M2aSMRYmV85KhgWQ2XxSj6l4ylHPkrd8/
+ dQQcsTHpvMVmjce3O7cVadS1N8QCJkZmXH/2vf1STXCVQHdxWKnyzXR7QEFH634z7Mzz
+ 9T3Us/Xnp000wSqkL4d2W5Y9dwUkCxl3LJzhxKcmVuOa5T/wvQZVjZ0/8KRFtJtpx5V+
+ 0z/g==
+X-Gm-Message-State: AOAM5325ZXCzeMbgZXgeUhrql3QYIj2dPJgV16ZDtwQ7UJbARmPeoqwf
+ BHqw9apYp+BpC5vZFqKqzPeaR/z9Xic=
+X-Google-Smtp-Source: ABdhPJwbNxC9B5yMu5eeSA4PVYpgTPmk2aSAdUOx9z0QLgP9MDB80u/73FtACuwPmrbv6rmzQW8bDw==
+X-Received: by 2002:aca:413:: with SMTP id 19mr3405785oie.149.1599166840933;
+ Thu, 03 Sep 2020 14:00:40 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id g26sm775467otn.77.2020.09.03.14.00.38
+ by smtp.gmail.com with ESMTPSA id r6sm798219otc.0.2020.09.03.14.00.40
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:00:39 -0700 (PDT)
+ Thu, 03 Sep 2020 14:00:40 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 44/77] qga: Use qemu_get_host_name() instead of
- g_get_host_name()
-Date: Thu,  3 Sep 2020 15:59:02 -0500
-Message-Id: <20200903205935.27832-45-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 45/77] docs/orangepi: Add instructions for resizing SD image
+ to power of two
+Date: Thu,  3 Sep 2020 15:59:03 -0500
+Message-Id: <20200903205935.27832-46-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x343.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
+ envelope-from=flukshun@gmail.com; helo=mail-oi1-x241.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -87,59 +86,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michal Privoznik <mprivozn@redhat.com>, qemu-stable@nongnu.org
+Cc: Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-stable@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Michal Privoznik <mprivozn@redhat.com>
+From: Niek Linnenbank <nieklinnenbank@gmail.com>
 
-Problem with g_get_host_name() is that on the first call it saves
-the hostname into a global variable and from then on, every
-subsequent call returns the saved hostname. Even if the hostname
-changes. This doesn't play nicely with guest agent, because if
-the hostname is acquired before the guest is set up (e.g. on the
-first boot, or before DHCP) we will report old, invalid hostname.
+SD cards need to have a size of a power of two.
+Update the Orange Pi machine documentation to include
+instructions for resizing downloaded images using the
+qemu-img command.
 
-Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1845127
-
-Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
-(cherry picked from commit 0d3a8f32b1e0eca279da1b0cc793efc7250c3daf)
+Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20200712183708.15450-1-nieklinnenbank@gmail.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+(cherry picked from commit 1c2329b5d644bad16e888d095e2021ad682201d9)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- qga/commands.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ docs/system/arm/orangepi.rst | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-diff --git a/qga/commands.c b/qga/commands.c
-index efc8b90281..d3fec807c1 100644
---- a/qga/commands.c
-+++ b/qga/commands.c
-@@ -515,11 +515,20 @@ int ga_parse_whence(GuestFileWhence *whence, Error **errp)
- GuestHostName *qmp_guest_get_host_name(Error **errp)
- {
-     GuestHostName *result = NULL;
--    gchar const *hostname = g_get_host_name();
--    if (hostname != NULL) {
--        result = g_new0(GuestHostName, 1);
--        result->host_name = g_strdup(hostname);
-+    g_autofree char *hostname = qemu_get_host_name(errp);
+diff --git a/docs/system/arm/orangepi.rst b/docs/system/arm/orangepi.rst
+index c41adad488..6f23907fb6 100644
+--- a/docs/system/arm/orangepi.rst
++++ b/docs/system/arm/orangepi.rst
+@@ -127,6 +127,16 @@ can be downloaded from:
+ Alternatively, you can also choose to build you own image with buildroot
+ using the orangepi_pc_defconfig. Also see https://buildroot.org for more information.
+ 
++When using an image as an SD card, it must be resized to a power of two. This can be
++done with the qemu-img command. It is recommended to only increase the image size
++instead of shrinking it to a power of two, to avoid loss of data. For example,
++to prepare a downloaded Armbian image, first extract it and then increase
++its size to one gigabyte as follows:
 +
-+    /*
-+     * We want to avoid using g_get_host_name() because that
-+     * caches the result and we wouldn't reflect changes in the
-+     * host name.
-+     */
++.. code-block:: bash
 +
-+    if (!hostname) {
-+        hostname = g_strdup("localhost");
-     }
++  $ qemu-img resize Armbian_19.11.3_Orangepipc_bionic_current_5.3.9.img 1G
 +
-+    result = g_new0(GuestHostName, 1);
-+    result->host_name = g_steal_pointer(&hostname);
-     return result;
- }
+ You can choose to attach the selected image either as an SD card or as USB mass storage.
+ For example, to boot using the Orange Pi PC Debian image on SD card, simply add the -sd
+ argument and provide the proper root= kernel parameter:
+@@ -213,12 +223,12 @@ Next, unzip the NetBSD image and write the U-Boot binary including SPL using:
+   $ dd if=/path/to/u-boot-sunxi-with-spl.bin of=armv7.img bs=1024 seek=8 conv=notrunc
+ 
+ Finally, before starting the machine the SD image must be extended such
+-that the NetBSD kernel will not conclude the NetBSD partition is larger than
+-the emulated SD card:
++that the size of the SD image is a power of two and that the NetBSD kernel
++will not conclude the NetBSD partition is larger than the emulated SD card:
+ 
+ .. code-block:: bash
+ 
+-  $ dd if=/dev/zero bs=1M count=64 >> armv7.img
++  $ qemu-img resize armv7.img 2G
+ 
+ Start the machine using the following command:
  
 -- 
 2.17.1
