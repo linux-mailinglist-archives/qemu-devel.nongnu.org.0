@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 856D325C71A
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 18:40:58 +0200 (CEST)
-Received: from localhost ([::1]:57894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7660C25C6E5
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 18:33:01 +0200 (CEST)
+Received: from localhost ([::1]:55952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDsID-0006df-JY
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 12:40:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40366)
+	id 1kDsAW-0002bI-HO
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 12:33:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kDs5F-00073Y-Ht
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:27:33 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:33003)
+ id 1kDs9h-0001ry-RG
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:32:09 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:38128)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kDs5D-0002FU-15
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:27:33 -0400
-Received: by mail-pg1-x541.google.com with SMTP id e33so2568145pgm.0
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 09:27:30 -0700 (PDT)
+ id 1kDs9g-0002uc-DJ
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:32:09 -0400
+Received: by mail-pg1-x544.google.com with SMTP id l191so2562200pgd.5
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 09:32:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=lGt5WOoKaqmjrp/JJYW9gqO+hdcusqmlblBLiycqA9w=;
- b=BY09/5/EfOH2wqOzTo6adnbimslBEQ41P8mGuPllBYl8QO/HcwQkqNyaLLmF/GiYDr
- HY7syDuNbZsnLdBH8SudqsHxsiyFxOTogb+Crpi4IEtxZ5oCzevHsOrRa7ZIUWmcl68g
- gFUsp1RNifxYE9KtxzqBiirBIBZOaEfT+NRbBxfGCEthwG2xAhG14KxMxGTjRPIRPQ8V
- 6CxiF1P6srxWJ/jEK025EtlIpYnywQwVShhsv1YsNT1FgsmSF/utROvQcC9nSHtzs/DK
- ltmcxjmwqlWZtZIhsibUYDVzRXtjH+aPX9ws21BPK1KCd+Ju0t8mxRJNQcpI8+VDfnwG
- iJeg==
+ bh=L831aU5ZmFVbPOJ34eXzeRbro0XWUt8QHQegjM49WvA=;
+ b=YlOWKZ1viAlrSkec0I819gea3M5D+fD67zFaOJbLw4YJe8RbmYnZca0muBfW4AyoY7
+ 2wmHeVH2b0f4McsBPHKsSq3osPjsb91Z9ll48OTsOrDSkCCDW0RqxO+A3lrrOV5N6mbP
+ Ke3uk8mvaL2puZLLS9TIAfUG6qBEoqPXjuwEBLl0hBqMuo0ZrRjAW2LSvK3Y8FK5Jy1W
+ whN3kSasQEQCsIor7SgGPqDn4VeOwtO2dF4qy/f4nsrviLzfL8soYYElMc9wQpnD+ggJ
+ cJZgdR/8ouAdkkDiSKVE6zgKpAM402EzeaUKbE419TwD0L7iQa0TR6UtR0LFO5zKS1aj
+ fenw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=lGt5WOoKaqmjrp/JJYW9gqO+hdcusqmlblBLiycqA9w=;
- b=DeQDUKn0tyvF3I0ml1y98p6fv17z5Fs+tBEW7Z8ewsLqucjcFnh3uPmGZPrbq71aHr
- KDdcdn3b0OkjXu5K3ua8W1OtF/DRjCUuXt6QSFBoe6h4F9g5lolvD71BNBLKWmTtW658
- sEmrzEzkvsQlrA4lNW89RkUoHr2WP/QHIT9w0RnM8qFPONqbnDDdCWHmcTzXudjvokWs
- MhTM4lwKL5ID/2ZdnoZiEIDt2pnOD/eW5gDKwbWT+2SuecJMaUKQxOvU6xw6/0b9o+Fl
- kUEQVehseFOq/awoxFVHvv4PN/we16KX5MGBE9nQsetjlv37kk64hhNj+oGz6G1tXriv
- wKdQ==
-X-Gm-Message-State: AOAM531ZDF6trd8vVEQlwrbJOSXYD+lUHfeiX9ji799jRvzHjafmj8Zd
- HpP9yL6XKPKDu1UiKz8ZV6MAcO452nv9Dg==
-X-Google-Smtp-Source: ABdhPJxJgnxgO4jHXpw7DUxSWWnPNDxH3MOl8d8YaMGfB05lyK0R7XXI/Vnf8i0hPlK7qwthdmpMCA==
-X-Received: by 2002:a62:e404:: with SMTP id r4mr4431189pfh.213.1599150449467; 
- Thu, 03 Sep 2020 09:27:29 -0700 (PDT)
+ bh=L831aU5ZmFVbPOJ34eXzeRbro0XWUt8QHQegjM49WvA=;
+ b=E2LMiN3VThaj2RJ2UTN0mY5Ey5StFiO2hztfgorkJstrW8BWDDS34o5Laks//Za5w/
+ BqS/BwrCNiRMsrlXx74qtjExA32zECAEdHItoaOAv+e/i7whpFSJT1bx8MPL80Ix1zsi
+ 1u6dy4EIvKLMOTv518QLU4SlD+qRlkCGWBDMlOBLKGye/DKUpWD6puZnOtkh04Blov/G
+ qPnMyUR87LyTS5Y9Y49S4O7Yd2B+H0NClo7raChRoNzJ0DHLfWdC40RcRe8f5FuwZnnt
+ blmSSuPY7Qteb7ZSUhqoeEUxv9iQ1wvPExCbppJpP+HnrfdNks1Bpn4OYXyRZ3kWE+bz
+ sq3w==
+X-Gm-Message-State: AOAM532WEKBzJ08pFUUP37EUS0PKdVdFO+FEVrjYvUbjy0GxetrqDoKi
+ gNInwcP9j8HLxuNRd0thaBxjAUxx/nS8mg==
+X-Google-Smtp-Source: ABdhPJzycKWPkRIJfYn9ylYRhuFxE4sV3NWV1BjRMOhlWA24pvx7/2/ZGmPCQdD9sVMHNut/cxTLOQ==
+X-Received: by 2002:a17:902:7c8b:: with SMTP id
+ y11mr2287353pll.10.1599150726529; 
+ Thu, 03 Sep 2020 09:32:06 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id e18sm3233290pgr.53.2020.09.03.09.27.28
+ by smtp.gmail.com with ESMTPSA id i6sm3332916pgl.25.2020.09.03.09.32.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Sep 2020 09:27:28 -0700 (PDT)
-Subject: Re: [PATCH 2/3] target/arm: Convert Neon VCVT fp size field to MO_*
+ Thu, 03 Sep 2020 09:32:05 -0700 (PDT)
+Subject: Re: [PATCH 3/3] target/arm: Convert VCMLA, VCADD size field to MO_*
  in decode
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20200903133209.5141-1-peter.maydell@linaro.org>
- <20200903133209.5141-3-peter.maydell@linaro.org>
+ <20200903133209.5141-4-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <4302c192-fe8d-679a-aa7b-08c604bbbc13@linaro.org>
-Date: Thu, 3 Sep 2020 09:27:26 -0700
+Message-ID: <b544b983-8836-2741-7380-6a98ce4f4715@linaro.org>
+Date: Thu, 3 Sep 2020 09:32:03 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200903133209.5141-3-peter.maydell@linaro.org>
+In-Reply-To: <20200903133209.5141-4-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x541.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x544.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -44
@@ -95,17 +96,18 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/3/20 6:32 AM, Peter Maydell wrote:
-> Convert the insns using the 2reg_vcvt and 2reg_vcvt_f16 formats
-> to pass the size through to the trans function as a MO_* value
-> rather than the '0==f32, 1==f16' used in the fp 3-same encodings.
+> The VCMLA and VCADD insns have a size field which is 0 for fp16
+> and 1 for fp32 (note that this is the reverse of the Neon 3-same
+> encoding!). Convert it to MO_* values in decode for consistency.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  target/arm/neon-dp.decode       | 3 +--
->  target/arm/translate-neon.c.inc | 4 ++--
->  2 files changed, 3 insertions(+), 4 deletions(-)
+>  target/arm/neon-shared.decode   | 18 ++++++++++++------
+>  target/arm/translate-neon.c.inc | 22 ++++++++++++----------
+>  2 files changed, 24 insertions(+), 16 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
 
 r~
 
