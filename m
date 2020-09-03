@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FBAE25CC21
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:25:02 +0200 (CEST)
-Received: from localhost ([::1]:44452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B40025CC04
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:20:14 +0200 (CEST)
+Received: from localhost ([::1]:50298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwj7-0000ZT-2Z
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:25:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58360)
+	id 1kDweT-0007xB-5i
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:20:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwL5-0003cs-CE; Thu, 03 Sep 2020 17:00:11 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:42526)
+ id 1kDwL6-0003fV-Hi; Thu, 03 Sep 2020 17:00:12 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:33048)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwL3-0007QS-N4; Thu, 03 Sep 2020 17:00:11 -0400
-Received: by mail-ot1-x342.google.com with SMTP id g10so3992228otq.9;
- Thu, 03 Sep 2020 14:00:08 -0700 (PDT)
+ id 1kDwL4-0007Qq-PH; Thu, 03 Sep 2020 17:00:12 -0400
+Received: by mail-oi1-x242.google.com with SMTP id 3so4556972oih.0;
+ Thu, 03 Sep 2020 14:00:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=7UAh7dZ1laqTWozprEx5nPTnEIvgRC8w7jofjPe6YO0=;
- b=JEFRu2sZFq3ja9z7tLWV1F/iRzHEOhN+mJp2K/M4VyNy9Ya/o2b8xs+zUTC1dKTNq+
- QbNrqJ4N81lzx2T2JIgnyFvZ+nCu+e+R9Jpof3jm7w7P6+VeOOyGoYnBv2s1+IzbFL2F
- 9ACTJz5UcR70gr8jQRxwN/P60TfI5QArFF4nAoAo//PO4Mg+fVoedRG1jLSPkOMItJYK
- tH26av25n5DRo0xa45YWR0PzUO/bYfMAjmjJm4GgM956ZjhgnvnjBGyJacvFrs1400Yg
- RxscifyoN586y12TImKH1K9PX0QFsVbd+DUm9UeqZGc+dDanlekEAMPBb1kr21F67zhE
- 6N5w==
+ bh=Ao54A2l3sEDR87eadYmmagGboLEhBAQddrGqeoropng=;
+ b=YVmjv4JTEGL/h+upO6IEHC9LgSD2LGBd3A+olh3cyamWjlDE/gYCRbuyeH9dIJE22y
+ BwmX18z/mn886P3Zlmx+69kQmLy7DQHSassAx59XW1DJkAnkYRzj/23w2QpOqO9emK0K
+ 7DdAX7ZPV/q/OmXDH+on4+fVTqZx0nWsVucEc4RFa4HyAAQQV0XaIzNXAVpFfK11vb3v
+ Je/aQkTK1gossZzcNAs34dLnxBrAagjO6wtkSQlfgYbR1sTxXy98OZcdTzOsj1xNeKGL
+ IVL+rpxn8vjsoYLG+DO5JiyxUCM4u4f9dBqdtAQQYnANhnb6MI5A2zAwCMajmeRd6JAw
+ Nv6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=7UAh7dZ1laqTWozprEx5nPTnEIvgRC8w7jofjPe6YO0=;
- b=c+nXz972wB0M9XHsU8roJo74SsSq5hbfL8LRGqyweoVwmm8vJN99OjLUdNx/Yvl+9r
- krsS8N6AULO53yjlyxZslvbjLhgQ7Lu8n3sPEn9wvF9kpprvbL3qcbx+Luz0zQ1cJssR
- Vkwrow0WUzoJY5sEfU4UqihgIJ2G0wAP7JKxr2kxHgAx+xElc/u+w1LBmpxDjdVxlgHW
- W9TlsD8cWY6o8lCwV0h3lszM8au5IfLShqzLQkU9w5dg1cSGLeT/15YJtNkozDhY10ZG
- xeq/XJ379485b5+N391f4JkUF2hW1vNFe9K5J+lgC4pVumPa/O3Hk4T2T+t3vWFtYzZN
- idaQ==
-X-Gm-Message-State: AOAM5306zbHjaDfKc2mbT6iXP9Q81JnNXkSRU3IDxUNcrUvj5YJNXK/0
- y6ElLMEyKrJEgXJy+UoYcuD39aIAqZo=
-X-Google-Smtp-Source: ABdhPJyBsoRhRW17F6C3WGXhJPxBz3NBPS6Kun7Evf0ssvarkOsFHbeWdNIzgtD/aXzc//7rI8eQWQ==
-X-Received: by 2002:a9d:1c8a:: with SMTP id l10mr3220047ota.230.1599166807842; 
- Thu, 03 Sep 2020 14:00:07 -0700 (PDT)
+ bh=Ao54A2l3sEDR87eadYmmagGboLEhBAQddrGqeoropng=;
+ b=rnIYxOrUo/HqHbCM/0lArYQzNsDOVfEUnXxKrW53G3bfx5QQfiSGE17RJuVc5HXf5T
+ Id3JNpXWOSgg0UFBe2L2S18c7LDS4DfC0xSDu8tj7jUUcQJGQmDCjUN6+3lUwURo2Tzd
+ QX92xamv2mH33HvuBTENCbbpUXS3HkP06dxUIaNQ3tUN63x66d6toKMRgEEHff6SFUV+
+ fUdQoKWIf7j4d33wH+QX4WRIgTOU1AYcnMo6HKKrrvKThfzm/Xj7sQ1PL1rTXqAsAV3s
+ gmOwusmPLyluX3t4tFejQSUx4Hr6ei7hZYp7pX+TqUQVbkP580xnQCK0HMj1ZTjCJ36h
+ aFxA==
+X-Gm-Message-State: AOAM530fN2YzK0pviU+fTIfPlCg6a3lKksjsgH4LWJkaM24UnXkGule8
+ FkmIw3HFs6tyk9YW0qW1jyztHme/pHY=
+X-Google-Smtp-Source: ABdhPJxERucEeDRW5rSOp26hNeioQKx56W85NQY1JaYp/plQk11AdrrsPd+5n2lpZwdrrdxchp0tEQ==
+X-Received: by 2002:aca:5e82:: with SMTP id s124mr3171775oib.168.1599166809004; 
+ Thu, 03 Sep 2020 14:00:09 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id q184sm828224ooq.40.2020.09.03.14.00.06
+ by smtp.gmail.com with ESMTPSA id d26sm601073otl.10.2020.09.03.14.00.08
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:00:07 -0700 (PDT)
+ Thu, 03 Sep 2020 14:00:08 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 21/77] virtiofsd: stay below fs.file-max sysctl value
- (CVE-2020-10717)
-Date: Thu,  3 Sep 2020 15:58:39 -0500
-Message-Id: <20200903205935.27832-22-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 22/77] net: use peer when purging queue in
+ qemu_flush_or_purge_queue_packets()
+Date: Thu,  3 Sep 2020 15:58:40 -0500
+Message-Id: <20200903205935.27832-23-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x342.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
+ envelope-from=flukshun@gmail.com; helo=mail-oi1-x242.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -82,81 +82,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
 
-The system-wide fs.file-max sysctl value determines how many files can
-be open.  It defaults to a value calculated based on the machine's RAM
-size.  Previously virtiofsd would try to set RLIMIT_NOFILE to 1,000,000
-and this allowed the FUSE client to exhaust the number of open files
-system-wide on Linux hosts with less than 10 GB of RAM!
+The sender of packet will be checked in the qemu_net_queue_purge() but
+we use NetClientState not its peer when trying to purge the incoming
+queue in qemu_flush_or_purge_packets(). This will trigger the assert
+in virtio_net_reset since we can't pass the sender check:
 
-Take fs.file-max into account when choosing the default RLIMIT_NOFILE
-value.
+hw/net/virtio-net.c:533: void virtio_net_reset(VirtIODevice *): Assertion
+`!virtio_net_get_subqueue(nc)->async_tx.elem' failed.
+#9 0x55a33fa31b78 in virtio_net_reset hw/net/virtio-net.c:533:13
+#10 0x55a33fc88412 in virtio_reset hw/virtio/virtio.c:1919:9
+#11 0x55a341d82764 in virtio_bus_reset hw/virtio/virtio-bus.c:95:9
+#12 0x55a341dba2de in virtio_pci_reset hw/virtio/virtio-pci.c:1824:5
+#13 0x55a341db3e02 in virtio_pci_common_write hw/virtio/virtio-pci.c:1252:13
+#14 0x55a33f62117b in memory_region_write_accessor memory.c:496:5
+#15 0x55a33f6205e4 in access_with_adjusted_size memory.c:557:18
+#16 0x55a33f61e177 in memory_region_dispatch_write memory.c:1488:16
 
-Fixes: CVE-2020-10717
-Reported-by: Yuval Avrahami <yavrahami@paloaltonetworks.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20200501140644.220940-3-stefanha@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-(cherry picked from commit 8c1d353d107b4fc344e27f2f08ea7fa25de2eea2)
+Reproducer:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg701914.html
+
+Fix by using the peer.
+
+Reported-by: "Alexander Bulekov" <alxndr@bu.edu>
+Acked-by: Alexander Bulekov <alxndr@bu.edu>
+Fixes: ca77d85e1dbf9 ("net: complete all queued packets on VM stop")
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+(cherry picked from commit 5fe19fb81839ea42b592b409f725349cf3c73551)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- tools/virtiofsd/helper.c | 26 +++++++++++++++++++++++++-
- 1 file changed, 25 insertions(+), 1 deletion(-)
+ net/net.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
-index dc59f38af0..00a1ef666a 100644
---- a/tools/virtiofsd/helper.c
-+++ b/tools/virtiofsd/helper.c
-@@ -176,7 +176,8 @@ void fuse_cmdline_help(void)
-            "                               default: no_xattr\n"
-            "    --rlimit-nofile=<num>      set maximum number of file descriptors\n"
-            "                               (0 leaves rlimit unchanged)\n"
--           "                               default: 1,000,000 if the current rlimit is lower\n"
-+           "                               default: min(1000000, fs.file-max - 16384)\n"
-+           "                                        if the current rlimit is lower\n"
-            );
+diff --git a/net/net.c b/net/net.c
+index cbeeeadff8..4c62b10acd 100644
+--- a/net/net.c
++++ b/net/net.c
+@@ -610,7 +610,7 @@ void qemu_flush_or_purge_queued_packets(NetClientState *nc, bool purge)
+         qemu_notify_event();
+     } else if (purge) {
+         /* Unable to empty the queue, purge remaining packets */
+-        qemu_net_queue_purge(nc->incoming_queue, nc);
++        qemu_net_queue_purge(nc->incoming_queue, nc->peer);
+     }
  }
  
-@@ -199,9 +200,32 @@ static int fuse_helper_opt_proc(void *data, const char *arg, int key,
- 
- static unsigned long get_default_rlimit_nofile(void)
- {
-+    g_autofree gchar *file_max_str = NULL;
-+    const rlim_t reserved_fds = 16384; /* leave at least this many fds free */
-     rlim_t max_fds = 1000000; /* our default RLIMIT_NOFILE target */
-+    rlim_t file_max;
-     struct rlimit rlim;
- 
-+    /*
-+     * Reduce max_fds below the system-wide maximum, if necessary.  This
-+     * ensures there are fds available for other processes so we don't
-+     * cause resource exhaustion.
-+     */
-+    if (!g_file_get_contents("/proc/sys/fs/file-max", &file_max_str,
-+                             NULL, NULL)) {
-+        fuse_log(FUSE_LOG_ERR, "can't read /proc/sys/fs/file-max\n");
-+        exit(1);
-+    }
-+    file_max = g_ascii_strtoull(file_max_str, NULL, 10);
-+    if (file_max < 2 * reserved_fds) {
-+        fuse_log(FUSE_LOG_ERR,
-+                 "The fs.file-max sysctl is too low (%lu) to allow a "
-+                 "reasonable number of open files.\n",
-+                 (unsigned long)file_max);
-+        exit(1);
-+    }
-+    max_fds = MIN(file_max - reserved_fds, max_fds);
-+
-     if (getrlimit(RLIMIT_NOFILE, &rlim) < 0) {
-         fuse_log(FUSE_LOG_ERR, "getrlimit(RLIMIT_NOFILE): %m\n");
-         exit(1);
 -- 
 2.17.1
 
