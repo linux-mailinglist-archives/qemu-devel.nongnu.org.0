@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC28625CE69
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 01:34:49 +0200 (CEST)
-Received: from localhost ([::1]:42106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 867A725CE5E
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 01:33:11 +0200 (CEST)
+Received: from localhost ([::1]:35186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDyki-0003yl-Pb
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 19:34:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37554)
+	id 1kDyj8-0001D7-H2
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 19:33:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kDyhy-00082J-G4; Thu, 03 Sep 2020 19:31:58 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:50091 helo=ozlabs.org)
+ id 1kDyhv-0007yL-6A; Thu, 03 Sep 2020 19:31:55 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:37665 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kDyhs-0000h8-Lg; Thu, 03 Sep 2020 19:31:58 -0400
+ id 1kDyhs-0000h9-LM; Thu, 03 Sep 2020 19:31:54 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BjHBr1VRZz9sVK; Fri,  4 Sep 2020 09:31:48 +1000 (AEST)
+ id 4BjHBr2Qvtz9sVR; Fri,  4 Sep 2020 09:31:48 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1599175908;
- bh=DoR4GnYr7hMJuiZWMw/ftM7UBHzzwBSnSIX0FFZUz2U=;
+ bh=ZspMruNggOmm5o9UKba321uzji43kUW+aHYg/Dy2vws=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MlCqfMpjhV4Oa3VBYc7U0J/+p/5dNjWRl4wg1tFXte45bt24TWmTYzVlz7+fkRG2d
- tt4FXszGc5gWkIbGyFNQWjyk5noKfezCACTqcZxNevXoaeNeWznZaPGUlxkKPVpRt7
- t6UMxeB8PIOeyN9lKkZPWDk8LXc4flkPyntu8NXE=
-Date: Fri, 4 Sep 2020 09:25:43 +1000
+ b=HMZdZsuAnbMSOgbASeSGUT4b5clt7HEGWT4BV/MsuJ3Z6JVcOboZBG5LLHoueCo93
+ BSLKmGHr+FN1bVwIDTr7er3GLOg/oBrbdsWOBbU1YSZyH71oVU/t4a/Vc0pM3V+FiH
+ MMXBTGb6xrVhWvSsj0JvBN/nCwcvi50qd26vZPrU=
+Date: Fri, 4 Sep 2020 09:27:08 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v3 5/7] spapr: move h_home_node_associativity to
- spapr_numa.c
-Message-ID: <20200903232543.GC341806@yekko.fritz.box>
+Subject: Re: [PATCH v3 6/7] spapr_numa: create a vcpu associativity helper
+Message-ID: <20200903232708.GD341806@yekko.fritz.box>
 References: <20200903220639.563090-1-danielhb413@gmail.com>
- <20200903220639.563090-6-danielhb413@gmail.com>
+ <20200903220639.563090-7-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="oTHb8nViIGeoXxdp"
+ protocol="application/pgp-signature"; boundary="n2Pv11Ogg/Ox8ay5"
 Content-Disposition: inline
-In-Reply-To: <20200903220639.563090-6-danielhb413@gmail.com>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20200903220639.563090-7-danielhb413@gmail.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 19:31:48
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -66,145 +65,80 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---oTHb8nViIGeoXxdp
+--n2Pv11Ogg/Ox8ay5
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 03, 2020 at 07:06:37PM -0300, Daniel Henrique Barboza wrote:
-> The implementation of this hypercall will be modified to use
-> spapr->numa_assoc_arrays input. Moving it to spapr_numa.c makes
-> make more sense.
+On Thu, Sep 03, 2020 at 07:06:38PM -0300, Daniel Henrique Barboza wrote:
+> The work to be done in h_home_node_associativity() intersects
+> with what is already done in spapr_numa_fixup_cpu_dt(). This
+> patch creates a new helper, spapr_numa_get_vcpu_assoc(), to
+> be used for both spapr_numa_fixup_cpu_dt() and
+> h_home_node_associativity().
 >=20
 > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+
 > ---
->  hw/ppc/spapr_hcall.c        | 37 +------------------------------------
->  hw/ppc/spapr_numa.c         | 36 ++++++++++++++++++++++++++++++++++++
->  include/hw/ppc/spapr_numa.h |  4 ++++
->  3 files changed, 41 insertions(+), 36 deletions(-)
+>  hw/ppc/spapr_numa.c | 26 ++++++++++++++++++++------
+>  1 file changed, 20 insertions(+), 6 deletions(-)
 >=20
-> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-> index c1d01228c6..9e9b959bbd 100644
-> --- a/hw/ppc/spapr_hcall.c
-> +++ b/hw/ppc/spapr_hcall.c
-> @@ -18,6 +18,7 @@
->  #include "kvm_ppc.h"
->  #include "hw/ppc/fdt.h"
->  #include "hw/ppc/spapr_ovec.h"
-> +#include "hw/ppc/spapr_numa.h"
->  #include "mmu-book3s-v3.h"
->  #include "hw/mem/memory-device.h"
-> =20
-> @@ -1873,42 +1874,6 @@ static target_ulong h_client_architecture_support(=
-PowerPCCPU *cpu,
->      return ret;
->  }
-> =20
-> -static target_ulong h_home_node_associativity(PowerPCCPU *cpu,
-> -                                              SpaprMachineState *spapr,
-> -                                              target_ulong opcode,
-> -                                              target_ulong *args)
-> -{
-> -    target_ulong flags =3D args[0];
-> -    target_ulong procno =3D args[1];
-> -    PowerPCCPU *tcpu;
-> -    int idx;
-> -
-> -    /* only support procno from H_REGISTER_VPA */
-> -    if (flags !=3D 0x1) {
-> -        return H_FUNCTION;
-> -    }
-> -
-> -    tcpu =3D spapr_find_cpu(procno);
-> -    if (tcpu =3D=3D NULL) {
-> -        return H_P2;
-> -    }
-> -
-> -    /* sequence is the same as in the "ibm,associativity" property */
-> -
-> -    idx =3D 0;
-> -#define ASSOCIATIVITY(a, b) (((uint64_t)(a) << 32) | \
-> -                             ((uint64_t)(b) & 0xffffffff))
-> -    args[idx++] =3D ASSOCIATIVITY(0, 0);
-> -    args[idx++] =3D ASSOCIATIVITY(0, tcpu->node_id);
-> -    args[idx++] =3D ASSOCIATIVITY(procno, -1);
-> -    for ( ; idx < 6; idx++) {
-> -        args[idx] =3D -1;
-> -    }
-> -#undef ASSOCIATIVITY
-> -
-> -    return H_SUCCESS;
-> -}
-> -
->  static target_ulong h_get_cpu_characteristics(PowerPCCPU *cpu,
->                                                SpaprMachineState *spapr,
->                                                target_ulong opcode,
 > diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-> index 93a000b729..d4dca57321 100644
+> index d4dca57321..abc7361921 100644
 > --- a/hw/ppc/spapr_numa.c
 > +++ b/hw/ppc/spapr_numa.c
-> @@ -165,3 +165,39 @@ void spapr_numa_write_rtas_dt(SpaprMachineState *spa=
-pr, void *fdt, int rtas)
->      _FDT(fdt_setprop(fdt, rtas, "ibm,max-associativity-domains",
->                       maxdomains, sizeof(maxdomains)));
+> @@ -71,14 +71,17 @@ void spapr_numa_write_associativity_dt(SpaprMachineSt=
+ate *spapr, void *fdt,
+>                        sizeof(spapr->numa_assoc_array[nodeid]))));
 >  }
-> +
-> +target_ulong h_home_node_associativity(PowerPCCPU *cpu,
-> +                                       SpaprMachineState *spapr,
-> +                                       target_ulong opcode,
-> +                                       target_ulong *args)
-
-So, if you're moving this function to this file, you should also move
-the corresponding spapr_register_hypercall() to this file.  That will
-let you keep this function static.
-
-> +{
-> +    target_ulong flags =3D args[0];
-> +    target_ulong procno =3D args[1];
-> +    PowerPCCPU *tcpu;
-> +    int idx;
-> +
-> +    /* only support procno from H_REGISTER_VPA */
-> +    if (flags !=3D 0x1) {
-> +        return H_FUNCTION;
-> +    }
-> +
-> +    tcpu =3D spapr_find_cpu(procno);
-> +    if (tcpu =3D=3D NULL) {
-> +        return H_P2;
-> +    }
-> +
-> +    /* sequence is the same as in the "ibm,associativity" property */
-> +
-> +    idx =3D 0;
-> +#define ASSOCIATIVITY(a, b) (((uint64_t)(a) << 32) | \
-> +                             ((uint64_t)(b) & 0xffffffff))
-> +    args[idx++] =3D ASSOCIATIVITY(0, 0);
-> +    args[idx++] =3D ASSOCIATIVITY(0, tcpu->node_id);
-> +    args[idx++] =3D ASSOCIATIVITY(procno, -1);
-> +    for ( ; idx < 6; idx++) {
-> +        args[idx] =3D -1;
-> +    }
-> +#undef ASSOCIATIVITY
-> +
-> +    return H_SUCCESS;
-> +}
-> diff --git a/include/hw/ppc/spapr_numa.h b/include/hw/ppc/spapr_numa.h
-> index b3fd950634..5b4d165c06 100644
-> --- a/include/hw/ppc/spapr_numa.h
-> +++ b/include/hw/ppc/spapr_numa.h
-> @@ -31,5 +31,9 @@ int spapr_numa_fixup_cpu_dt(SpaprMachineState *spapr, v=
-oid *fdt,
->                              int offset, PowerPCCPU *cpu);
->  int spapr_numa_write_assoc_lookup_arrays(SpaprMachineState *spapr, void =
-*fdt,
->                                           int offset);
-> +target_ulong h_home_node_associativity(PowerPCCPU *cpu,
-> +                                       SpaprMachineState *spapr,
-> +                                       target_ulong opcode,
-> +                                       target_ulong *args);
 > =20
->  #endif /* HW_SPAPR_NUMA_H */
+> -int spapr_numa_fixup_cpu_dt(SpaprMachineState *spapr, void *fdt,
+> -                            int offset, PowerPCCPU *cpu)
+> +static uint32_t *spapr_numa_get_vcpu_assoc(SpaprMachineState *spapr,
+> +                                          PowerPCCPU *cpu,
+> +                                          uint *vcpu_assoc_size)
+>  {
+> -    uint vcpu_assoc_size =3D NUMA_ASSOC_SIZE + 1;
+> -    uint32_t vcpu_assoc[vcpu_assoc_size];
+> +    uint32_t *vcpu_assoc =3D NULL;
+>      int index =3D spapr_get_vcpu_id(cpu);
+>      int i;
+> =20
+> +    *vcpu_assoc_size =3D (NUMA_ASSOC_SIZE + 1) * sizeof(uint32_t);
+> +    vcpu_assoc =3D g_malloc(*vcpu_assoc_size);
+> +
+>      /*
+>       * VCPUs have an extra 'cpu_id' value in ibm,associativity
+>       * compared to other resources. Increment the size at index
+> @@ -91,11 +94,22 @@ int spapr_numa_fixup_cpu_dt(SpaprMachineState *spapr,=
+ void *fdt,
+>          vcpu_assoc[i] =3D spapr->numa_assoc_array[cpu->node_id][i];
+>      }
+> =20
+> -    vcpu_assoc[vcpu_assoc_size - 1] =3D cpu_to_be32(index);
+> +    vcpu_assoc[MAX_DISTANCE_REF_POINTS + 1] =3D cpu_to_be32(index);
+> +
+> +    return vcpu_assoc;
+> +}
+> +
+> +int spapr_numa_fixup_cpu_dt(SpaprMachineState *spapr, void *fdt,
+> +                            int offset, PowerPCCPU *cpu)
+> +{
+> +    g_autofree uint32_t *vcpu_assoc =3D NULL;
+> +    uint vcpu_assoc_size;
+> +
+> +    vcpu_assoc =3D spapr_numa_get_vcpu_assoc(spapr, cpu, &vcpu_assoc_siz=
+e);
+> =20
+>      /* Advertise NUMA via ibm,associativity */
+>      return fdt_setprop(fdt, offset, "ibm,associativity",
+> -                       vcpu_assoc, sizeof(vcpu_assoc));
+> +                       vcpu_assoc, vcpu_assoc_size);
+>  }
+> =20
+> =20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -212,25 +146,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---oTHb8nViIGeoXxdp
+--n2Pv11Ogg/Ox8ay5
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl9Re3cACgkQbDjKyiDZ
-s5Lz8Q//V08sKen3DVOwhbYecKeIIvmHtLZw9nuq/H2fmfdqa0nzCuploX8/T9zk
-8d31+o3bsow8/wUXu64lKHynSJdKFIwm+KQ/dbKZKZ4UnoR48qAlx8lUDZ3q1jSH
-rjDdatEUcxt+NBsgOQvlbn6GwDMQpYPkVSCYjNKLbylSy2VRoFeUBtV+tsHWuwlb
-tNVghJ56VGbgegSRGk6wjaXITkHeStBfcBqvMdiFIGEwinvigqDO5+gLtJ4aUlAR
-kSaLobXbAObJ+QK57LmMHFf8wkwsYUkjgT8gE4PhWwJJL+PUYV81xsJBxt8N9GHT
-ly4/V7upS39/0WiOeo9e99M5VUWoaw/HwoL5BH3mVcPulw+0cJztl2XIgWNdDAgS
-NVVrPeliGLZOql8I6a/yhM+Gei6Nir5nU4Xe7dhi2bF3qW59ghmErN6xY3wtrCE0
-x4Jod88unFMf27JN7mHL1NAK9WvuyLPZKR3sIX4u8jX6pvejhMH2WOLt9TFC/dK7
-SnetrbB1i7sLupzGodOZxTMpKKdA1gQA7HzPHnEymMj0OMH04IJjDivpOcz4zl2V
-eMKh2+GU8l2S0jylT2zVWdND/vdBbgzhF1gwvCcCqxLpUUgtKSyY07qp7XB06xar
-E/wa3lu2iqFDOAfzdmAyVRcAjPB8SpwUbAAvXqADpZ4/SQIuMuM=
-=GSJp
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl9Re8wACgkQbDjKyiDZ
+s5LQSA/+KNYuGKDDb3FTeFMWuPe1cEVzQ/5dVHx2ztHGSN9+jVCxiw8TCw4olGtl
+/Mqk4MrXAJ1zJv59g/PRa3uPLB3cplP1TA0jZsj4W0ATtE5Q7Wh4Vz2VgRRlzppF
+glmJDXKhVmwGQvLZHlKSHeqeSCDUMgbP7GozFo+Iu0KMedZPUDBdDLIrwjTticG6
+4n7X5U5o1a+KHG+uQ/wPj+ZImIR6NloRs0gIqr/U+57xfNkLaPyaau2kfqXKtMD9
+5jCthIXvlBMntIdA8lgKONU4Hvm1eQf1hLPWYi8TlcEb1fy8s2oQuQA06ZsU3PsI
+pJ1Hq7D+aKfxUmXDRvU8N+xjh6CugCEDKXYuiljrVLGFBj9TSXEG+L9l2dyOO87a
+MlQXJ85lO1+fKumA4nXg0wWKWVJYhdL59jOiT724F/bdjispVpHCyIBrMpHz7NTk
+HT4Jdw6vXjEqv8hxjHmXwkZXbjk6qG9/ZawImXyOW/LvNj2B44QbIsWAzllrH6T+
+c8tqsqKg3wsWzUvEjy2Tyjmn9CmtcSlJf+G1DDVI2DZMHrMAV0wGEt5C9XU2iYOa
+Idb8LSY0x/Xrv5fQN29fcLxrOv28DZjzHTwuFitpdLFfFTfMeE/Dpyiu1aP2314x
+R4IbfbzJ5q6ErOLmfKmkUsAxhZRjInL2bDi+6gswdwbViH+ixA8=
+=510u
 -----END PGP SIGNATURE-----
 
---oTHb8nViIGeoXxdp--
+--n2Pv11Ogg/Ox8ay5--
 
