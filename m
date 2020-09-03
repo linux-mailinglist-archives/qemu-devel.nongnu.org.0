@@ -2,68 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64FF725BAE9
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 08:15:43 +0200 (CEST)
-Received: from localhost ([::1]:46946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C46725BAB4
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 08:00:47 +0200 (CEST)
+Received: from localhost ([::1]:33160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDiX8-0002oG-Fa
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 02:15:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54982)
+	id 1kDiIg-0004mq-0E
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 02:00:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kDiSR-0000ZC-Ls
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 02:10:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35214)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kDiSP-0001Zq-AP
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 02:10:51 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kDiSL-0003Eg-El
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 06:10:45 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 494982E806E
- for <qemu-devel@nongnu.org>; Thu,  3 Sep 2020 06:10:45 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kDiGO-000498-K9
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 01:58:24 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45460
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kDiGM-0008Vu-Fo
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 01:58:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599112700;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=e5VwSrIVIz9D8spM0xDGSHbdw7OI8e2TK9wogAJ/Dsw=;
+ b=W+H/YyRR5SEQq92RmMBLDwpjByRGpb35rfAHIhx5LsRL/OT/DlFqoAmnWpuMXQNwTeZjsz
+ TGIkDHhAcMAUtF2Hw+8IFvxjNMyp7OgaKhy8/656rwESwmRzrsG+p8iigHORn7rz9Ww0py
+ ZnizOFUWOOhTFtQe5aTkygbqCz4PRTU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-278-QmR3uIoJOhSSAUV2fKMxPg-1; Thu, 03 Sep 2020 01:58:19 -0400
+X-MC-Unique: QmR3uIoJOhSSAUV2fKMxPg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 472A9801AE6;
+ Thu,  3 Sep 2020 05:58:18 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-90.ams2.redhat.com [10.36.112.90])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 68F4587B33;
+ Thu,  3 Sep 2020 05:58:17 +0000 (UTC)
+Subject: Re: [PATCH 5/6] tests: handling signal on win32 properly
+To: Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo
+ <luoyonggang@gmail.com>, qemu-devel@nongnu.org
+References: <20200902170054.810-1-luoyonggang@gmail.com>
+ <20200902170054.810-6-luoyonggang@gmail.com>
+ <26c3fe4a-009e-dfa2-f824-515f470924b1@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <c9e56ee7-1938-7fdc-f2fe-b905a7ede189@redhat.com>
+Date: Thu, 3 Sep 2020 07:58:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 03 Sep 2020 05:57:51 -0000
-From: "Tony.LI" <1894029@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bigboy0822 mjt+launchpad-tls
-X-Launchpad-Bug-Reporter: Tony.LI (bigboy0822)
-X-Launchpad-Bug-Modifier: Tony.LI (bigboy0822)
-References: <159910633026.21998.12641804380669884506.malonedeb@chaenomeles.canonical.com>
-Message-Id: <159911267193.21091.13069323481456927478.launchpad@chaenomeles.canonical.com>
-Subject: [Bug 1894029] Re: qemu-i386 malloc error
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="195cbfa84cb75815472f69dd83d46f006869050b"; Instance="production"
-X-Launchpad-Hash: 5c3aeb6fd30703d23969b7807e21c67a14b0eb85
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 00:20:39
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.001, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <26c3fe4a-009e-dfa2-f824-515f470924b1@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 01:58:20
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.324, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,143 +85,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1894029 <1894029@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Description changed:
+On 02/09/2020 19.04, Paolo Bonzini wrote:
+> On 02/09/20 19:00, Yonggang Luo wrote:
+>> SIGABRT should use signal(SIGABRT, sigabrt_handler) to handle on win32
+>>
+>> The error:
+>> E:/CI-Cor-Ready/xemu/qemu.org/tests/test-replication.c:559:33: error: invalid use of undefined type 'struct sigaction'
+>>   559 |     sigact = (struct sigaction) {
+>>       |                                 ^
+>>
+>> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+>> ---
+>>  tests/test-replication.c | 4 ++++
+>>  1 file changed, 4 insertions(+)
+>>
+>> diff --git a/tests/test-replication.c b/tests/test-replication.c
+>> index e0b03dafc2..9ab3666a90 100644
+>> --- a/tests/test-replication.c
+>> +++ b/tests/test-replication.c
+>> @@ -554,6 +554,9 @@ static void sigabrt_handler(int signo)
+>>  
+>>  static void setup_sigabrt_handler(void)
+>>  {
+>> +#ifdef _WIN32
+>> +    signal(SIGABRT, sigabrt_handler);
+>> +#else
+>>      struct sigaction sigact;
+>>  
+>>      sigact = (struct sigaction) {
+>> @@ -562,6 +565,7 @@ static void setup_sigabrt_handler(void)
+>>      };
+>>      sigemptyset(&sigact.sa_mask);
+>>      sigaction(SIGABRT, &sigact, NULL);
+>> +#endif
+>>  }
+>>  
+>>  int main(int argc, char **argv)
+>>
+> 
+> This is already fixed by a patch from Thomas.
 
-  Hi!I use qemu-i386-static on 64 bit machines.And memory request succeeded=
-, but the pointer is wrong.
-  This is my test program:
-  =
+Well, my patch was to simply disable test-replication on Windows ... if
+it is working with this modification here, that's certainly better than
+disabling it.
 
-  #include <stdint.h>
-  #include <stdio.h>
-  #include <stdlib.h>
-  #include <unistd.h>
-  =
+ Thomas
 
-  int main(int argc, char **argv)
-  {
--         void *pa=3D0,*pb=3D0,*pc=3D0,*pd=3D0;
--         pa =3D malloc(sizeof(uint32_t));
--         pb =3D malloc(sizeof(uint32_t));
--         pc =3D malloc(4);
--         pd =3D malloc(4);
--         printf("pa: 0x%x\n",pa);
--         printf("pb: 0x%x\n",pb);
--         printf("pc: 0x%x\n",pc);
--         printf("pd: 0x%x\n",pd);
--         printf("uint32_t:%d\n",sizeof(uint32_t));
--         free(pa);
--         free(pb);
--         free(pc);
--         free(pd);
--         return 0;
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0void *pa=3D0,*pb=3D0,*pc=
-=3D0,*pd=3D0;
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pa =3D malloc(sizeof(uint=
-32_t));
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pb =3D malloc(sizeof(uint=
-32_t));
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pc =3D malloc(4);
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pd =3D malloc(4);
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0printf("pa: 0x%x\n",pa);
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0printf("pb: 0x%x\n",pb);
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0printf("pc: 0x%x\n",pc);
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0printf("pd: 0x%x\n",pd);
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0printf("uint32_t:%d\n",si=
-zeof(uint32_t));
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0free(pa);
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0free(pb);
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0free(pc);
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0free(pd);
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return 0;
-  }
-  =
-
-  And it is wrong:
-  =
-
-  pa: 0x400051a0
-  pb: 0x400051b0
-  pc: 0x400051c0
-  pd: 0x400051d0
-  uint32_t:4
-  =
-
-  Why did I apply for 4 bytes of space, but the pointer only increased by 2=
- bytes??
-  Is it a BUG??
-
-** Description changed:
-
-- Hi!I use qemu-i386-static on 64 bit machines.And memory request succeeded=
-, but the pointer is wrong.
-- This is my test program:
-- =
-
-- #include <stdint.h>
-- #include <stdio.h>
-- #include <stdlib.h>
-- #include <unistd.h>
-- =
-
-- int main(int argc, char **argv)
-- {
-- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0void *pa=3D0,*pb=3D0,*pc=
-=3D0,*pd=3D0;
-- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pa =3D malloc(sizeof(uint=
-32_t));
-- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pb =3D malloc(sizeof(uint=
-32_t));
-- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pc =3D malloc(4);
-- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pd =3D malloc(4);
-- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0printf("pa: 0x%x\n",pa);
-- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0printf("pb: 0x%x\n",pb);
-- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0printf("pc: 0x%x\n",pc);
-- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0printf("pd: 0x%x\n",pd);
-- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0printf("uint32_t:%d\n",si=
-zeof(uint32_t));
-- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0free(pa);
-- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0free(pb);
-- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0free(pc);
-- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0free(pd);
-- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return 0;
-- }
-- =
-
-- And it is wrong:
-- =
-
-- pa: 0x400051a0
-- pb: 0x400051b0
-- pc: 0x400051c0
-- pd: 0x400051d0
-- uint32_t:4
-- =
-
-- Why did I apply for 4 bytes of space, but the pointer only increased by 2=
- bytes??
-- Is it a BUG??
-+ Invalid
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1894029
-
-Title:
-  qemu-i386 malloc error
-
-Status in QEMU:
-  Invalid
-
-Bug description:
-  Invalid
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1894029/+subscriptions
 
