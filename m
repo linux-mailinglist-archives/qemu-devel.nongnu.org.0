@@ -2,82 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11C8425C90E
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 21:03:42 +0200 (CEST)
-Received: from localhost ([::1]:38670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A6FF25C915
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 21:05:18 +0200 (CEST)
+Received: from localhost ([::1]:44574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDuWL-0007a8-2L
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 15:03:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51276)
+	id 1kDuXt-0001Zh-JJ
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 15:05:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kDuVI-00072w-0s
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 15:02:36 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:46643)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kDuVG-0006vo-8r
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 15:02:35 -0400
-Received: by mail-pf1-x441.google.com with SMTP id b124so3057731pfg.13
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 12:02:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=IC3vYma4eWF3jzMK863ZK6QzfbnlMC2GNJ0eCbQQry4=;
- b=ccWI29rE5VhZZQMOgbkFGdcMtcerFc9oZCDcnwzuaNXLiyNO2C+fWI3vo9nR1cmVpI
- eGoWqxAKVjI/HT+pD3CjnmYNgaM9TKqjFGliRUFCgmSipNtiFWefkNY59ZFdtnfIe4HL
- +tsyWguGqI/6UY4qpcCb+kkIP8urzBa1UHxBlEK2iYVGhcFB2YwhC1jcyyAqxziqN4m5
- pvgn+XoGVJzHDddOb56wg6ueHMYDgTIamgFAFnPphOKeuWsAZW1Sm7Th8NrPBklX5SWr
- ItJydxFgcZkmkcHZud6glUTDf2adqyYjHh5tS+L91jOt7FmbFxRySWSFEL/9oXCiEY5f
- 2xjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=IC3vYma4eWF3jzMK863ZK6QzfbnlMC2GNJ0eCbQQry4=;
- b=frLapNKAhUUIMeL+1Kr3Z0FY45sAzXJOk5LZ2ZwKlQXK2FKzvLA6uYdq1ht8kPWYNw
- RJTj90oSLuKCueX5adKrWvCn8XZHMRkkp9thw0JRirzHHAFspFtUKTMfkEio6VZq9etw
- sN6SycbSxRvSnjPsl3xbdxFVMTeQMovluQVZzNdKTXurQrdKN46ap1zB5DnWhnlxtyZ4
- fAtufSreqCJywg+ZeulkY8fL/UdZSnVG600upWymt19kH8eUOuzaN3g4Hmmh8GF2y++b
- p/9bE3oM8D6A8YGhwWZvBAa/XbP4lAvlyujjaRoyAjk+34VzsXuvadubfiiRlLLM0i+A
- W6eg==
-X-Gm-Message-State: AOAM532oCct/HzBasrs7K356UxcQwZyUAPdudieaax6be4NB9Y5+hTqQ
- LoQw5s9rAFI/i7csG30QXpztGQ==
-X-Google-Smtp-Source: ABdhPJxcPQmv+2NKZ6Cop3ln38XAsQ6Sb330F5HQY4ScnpMZqsIRgcu7soQBvaEvJRMfUkYxxgPDdQ==
-X-Received: by 2002:a63:4cc:: with SMTP id 195mr4135308pge.376.1599159751851; 
- Thu, 03 Sep 2020 12:02:31 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id h65sm3935647pfb.210.2020.09.03.12.02.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Sep 2020 12:02:30 -0700 (PDT)
-Subject: Re: [PATCH v1 2/8] crypto: fix build with gcrypt enabled
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20200903112107.27367-1-alex.bennee@linaro.org>
- <20200903112107.27367-3-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <48499efb-ecbf-a388-4b19-bf6f1ade3a4b@linaro.org>
-Date: Thu, 3 Sep 2020 12:02:28 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kDuW7-0007ha-7l; Thu, 03 Sep 2020 15:03:27 -0400
+Received: from mail-eopbgr80109.outbound.protection.outlook.com
+ ([40.107.8.109]:33862 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kDuW3-0006yc-PA; Thu, 03 Sep 2020 15:03:26 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ko/kUHPmm52KO0T7r50mjO1OsFROuAKwhTMeKCRVyesD/N2q+F8iSDMUCQJ/dQzeKtWjBUK/bJWt7Ut4OxoOMsdyhk//RJYuzL2Lhr8Tpbxr6k54b98INqgVFj2tKdLq0ORssqMQs6m4bQ7ydhSlUTTM0iRlVEWT+xT3nW9JNfAsOh1yFvWJzRn4a9xizjxrtm/W/QYTWZV36si2e4uWt4XqXc7NVllnn27Gnr6UMpkrqK/C5tfM95Ipl4kCKYulErhU6FuL5xoKGo+jcq3JYCRdvWDflJiOQeHGpvElg8VSBg5no3FyefGseJg0soX6Fi95TfdT+WPi/ZJF3kSLjQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hdDDpw91rnA5YzULmVUfZNReC0Rokb/Vq8ognO3CxZQ=;
+ b=OvLyMJJwF7oVRSwNC3c9SWJjPzv65xF9AtXgsvdOlOv2SBnfIo8OofCqzN4q5bmxHo4HFT0zLCTUX6YP0TOlsBYIAX8aXPXZyU5LtLAQszw9U/XHKq1tg/+3XKNCdT9F0NHV7IntSniejI0prusIVjZqiSAogIHBOO9Z5Q/aFHw+PLnDy4W6DRVscKVdf2LEq3iBXmhBNN+PhyVt2DOs4/yLZViakcsQBd298Aiu2r+VV02B6oQ6Zs0pekn1DzsRuA/9pBndLjKWf0y60C17vijAQcfmNl8JSNiAy/JfR3Zp007U3rwP2JatrJiropVllG2PZISEs02LvJbKKNQndg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hdDDpw91rnA5YzULmVUfZNReC0Rokb/Vq8ognO3CxZQ=;
+ b=aSc9D5wRA1kxyVdLl7SRmA2JkH4YNTU7ImOESV3R1lMLcPXq8AB232bt+QbOGGMADdnIiBoG/j8nirw6HZ1Vac8xj0pMEMGB7DT01TuBnOzs5NaHjwIi09TdmytqAkmgytlToruD0dM2t2L17J94t5dSXVjU6Ra6CJ1fHyD8xnM=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB4214.eurprd08.prod.outlook.com (2603:10a6:20b:8d::30)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.15; Thu, 3 Sep
+ 2020 19:03:15 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b179:9641:7589:d692]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b179:9641:7589:d692%7]) with mapi id 15.20.3348.015; Thu, 3 Sep 2020
+ 19:03:15 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com,
+ eblake@redhat.com, vsementsov@virtuozzo.com, den@openvz.org
+Subject: [PATCH 0/4] nbd reconnect new fixes
+Date: Thu,  3 Sep 2020 22:02:57 +0300
+Message-Id: <20200903190301.367620-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.18.0
+Content-Type: text/plain
+X-ClientProxiedBy: AM3PR04CA0136.eurprd04.prod.outlook.com (2603:10a6:207::20)
+ To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-In-Reply-To: <20200903112107.27367-3-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x441.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.403,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from 255.255.255.255 (255.255.255.255) by
+ AM3PR04CA0136.eurprd04.prod.outlook.com (2603:10a6:207::20) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3348.15 via Frontend Transport; Thu, 3 Sep 2020 19:03:15 +0000
+X-Mailer: git-send-email 2.18.0
+X-Originating-IP: [185.215.60.171]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 189bb739-a8ff-4e10-09c9-08d8503c032d
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4214:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4214617662C868E4A24A72B6C12C0@AM6PR08MB4214.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2803;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: DLCyU6sy5DZawbuTFV5JoU68XNPSRbJQ0HP2ekhQItAGymZRBC6yp8bWaQachiw2dpalem6MGTXw0+LAIt8kkbhiCD+SGt511bcHhzPEF9tJUgd9EDoW5h96C/Nwnuar+vd179soLJ6okqSr/5B39ooRoZN/ZIZtDiT64SXir6IhC0C688VI5uz934Vn/aW9N0A9+EsGHcPzKPW8LYci718O+2dygSxEujKEBfXgZ6wC8f7Bohl17UMThm0eZyVjNfLjXrV5eeln+Lm6Sgb1NPhKk9mDnsQRxi48iwd4Ql1vvgbVN4grVIdraJvulgGdEO6jk4PDmYa3Hd+gNO5Dcw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(346002)(396003)(39850400004)(376002)(136003)(16576012)(316002)(4326008)(6486002)(86362001)(36756003)(2616005)(186003)(6916009)(107886003)(66946007)(66556008)(6666004)(956004)(8936002)(52116002)(4744005)(478600001)(83380400001)(2906002)(66476007)(5660300002)(8676002)(1076003)(26005);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: feAB7nQZ+o9ZbFzVPWScwn1E5sJFTctBOZrtBazFj0/BL9GhrzBI9xJoJHyF0oUoZb/R8XUXUVbrCzqITT4vQXMsCZdijg3Gic/ql2zCpV7p4o0f4boycgdpZIELXHhbzB7tQS7r0Nz2kmV0PSAkjTTnYT3QGMr7TEynnvs6DMQcGqO+dS+ox6j1brvGZD/iGiVZ3Ydlx6plvfLiexeMMcafGXzRt2cbgHAJ9yn6S6js3FYvGqugpSh70KSBfYpD7AGPh3h9WwigI2bsb5PkVvQ4DfedFgtXLY6hmzUMjhpjMnCpu3ReSXtG9uJXHF+5rQA5i/WBPr2b2G22bFcj2tCexlTDyIRlvihXG3OgnBTONgdelwXQmf8MgBu2PNVvAkaNvMgfF2U14yBLuuQNQI2HnF3TFs17B6rQDYyTEe01q+3kvUcNzibh+aYAzMzR6xUZ0REpltG/ssEIbMxmvQJ2uYg5QIfpONRZ9ne/P1EsR6JGvsXsRevwVCxNhq0MNpUaRsf5GuymoHosknSvVaXSM6LdbRTUyw6N0e+kbxqd81feif6nL/K9kQOSuR76HpwDCrq/EBi6/Xwez89fnhv0g2XXWOsesBccUtiv8giDJAmmj//b4/4K0vkp/CQErVNQVafWVGYln//9ext7eA==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 189bb739-a8ff-4e10-09c9-08d8503c032d
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2020 19:03:15.6738 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ym/RbLHOIFlCs5f/tc0bTvxBILoiucPskYdenwZ4s5WtVJETEP9Tav4Lb5m3aY+BX3BzoOqXMnzYEq2Jk1THuDCOAcTBemPd9FLlieW4/Kc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4214
+Received-SPF: pass client-ip=40.107.8.109;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 15:03:16
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_ILLEGAL_IP=1.3, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,37 +113,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
- f4bug@amsat.org, cota@braap.org, stefanha@redhat.com,
- marcandre.lureau@redhat.com, pbonzini@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/3/20 4:21 AM, Alex Bennée wrote:
-> From: Daniel P. Berrangé <berrange@redhat.com>
-> 
-> If nettle is disabled and gcrypt enabled, the compiler and linker flags
-> needed for gcrypt are not passed.
-> 
-> Gnutls was also not added as a dependancy when gcrypt is enabled.
-> 
-> Attempting to add the library dependencies at the same time as the
-> source dependencies is error prone, as there are alot of different
-> rules for picking which sources to use, and some of the source files
-> use code level conditionals intead. It is thus clearer to add the
-> library dependencies separately.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Message-Id: <20200901133050.381844-2-berrange@redhat.com>
-> ---
->  configure          |  2 ++
->  crypto/meson.build | 42 +++++++++++++++++++++++++++++++-----------
->  meson.build        |  5 +++++
->  3 files changed, 38 insertions(+), 11 deletions(-)
+Hi! Let's continue fixing nbd reconnect feature.
 
-Tested-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+These series is based on "[PULL 0/6] NBD patches for 2020-09-02"
+Based-on: <20200902215400.2673028-1-eblake@redhat.com>
 
-r~
+Vladimir Sementsov-Ogievskiy (4):
+  block/nbd: fix drain dead-lock because of nbd reconnect-delay
+  block/nbd: correctly use qio_channel_detach_aio_context when needed
+  block/nbd: fix reconnect-delay
+  block/nbd: nbd_co_reconnect_loop(): don't connect if drained
+
+ block/nbd.c | 71 ++++++++++++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 60 insertions(+), 11 deletions(-)
+
+-- 
+2.18.0
+
 
