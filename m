@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2177A25CC6F
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:38:54 +0200 (CEST)
-Received: from localhost ([::1]:51350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7900925CC79
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:42:17 +0200 (CEST)
+Received: from localhost ([::1]:38628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwwX-0001zJ-42
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:38:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58792)
+	id 1kDwzo-0008PC-BV
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:42:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLT-00047Y-IH; Thu, 03 Sep 2020 17:00:35 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:37569)
+ id 1kDwLU-00048i-3a; Thu, 03 Sep 2020 17:00:36 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:41872)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLR-0007fx-Ax; Thu, 03 Sep 2020 17:00:35 -0400
-Received: by mail-oi1-x244.google.com with SMTP id e6so4528435oii.4;
- Thu, 03 Sep 2020 14:00:29 -0700 (PDT)
+ id 1kDwLR-0007h8-HR; Thu, 03 Sep 2020 17:00:35 -0400
+Received: by mail-ot1-x344.google.com with SMTP id a65so4001163otc.8;
+ Thu, 03 Sep 2020 14:00:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HbS47WUaBPPEuio8+cvg8pxNjw1ZKqWkDcR3X6WFFTw=;
- b=r+Bw11oB7WI5MhRV+Z5dEdiKCXNlWcc+dC/9HH/7jaDsOVwLTuGQU2KLHgqdgqzwxN
- kpVHwkGzeZql599jVO1ughlAX3IPQ/5IaKEqmbIN/oQ1MXFESGwfVZww+6SL+XdSJlez
- /jKqOZa/V6K2wjWDWyoT9HY2wky4j6YK9zoMiL2amwpSAenSfMsDKQ2QMdrsoMSHw7ct
- udSGeCQMTy0EZXbpc3LYjl7HtKg3KJBwgFyfan6SMvmoEAoyz27NTMkrhrDzpz1rP9qh
- Lqs3hugFEv2s9bobvIepIuGuUI9f/9CligwyBDfqeJmADaXRt03NPj0A6xp4k/EBUBBS
- b51Q==
+ bh=8VEH4Dp3c4FP61LHXzVX3wMEuap/BOtd0QFnCK48Al0=;
+ b=q9V7cdok4+jvmBw6p74YUFba00TvHAIPCkKrjI93a7obPFS+oypdU42wf8bH0ihvta
+ jUrehUO7Y9mLttKP2JAa/eNRAy62AkwFipNRbCTRst6/aSqRw0pNt5v6h5Mijr0olDnG
+ C7zwt3YZ9+1P9BcU8sPGCG6J6Up6qdu3OmI+/DMqQsOMGw0R3vs0vBqaEY+PzHW2Zn9Q
+ CJBs09HVRoYDSqHVJkQmwVLdx8jQOwHjoqQlc0vHq16q5cnGxrbRuR6eBY/Fcwb3Dw5+
+ b6LuvfD39zkpsrjgA3JZrcNMna7NlAL7KsrlhbjBHfHJlvRVEd3xjguAD60+rLaTcdxD
+ O8QA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=HbS47WUaBPPEuio8+cvg8pxNjw1ZKqWkDcR3X6WFFTw=;
- b=IQKleItYMAh4tJ1AUzl2emP3lhJRppBUceOk+j1inc2/fmHlAohC2qMWGSDxIjPaao
- rIKqXZynOyoOEz5AeSHpJ8FN9uMEMocFqbyY7FYb+dJywaKg/rONKK5Znr+4UpZFeGpA
- oIXgJiTY0K72CnfDHfVl54kbCXk0Rq8HCdTLBrmNCGRAaFayBXE6v9MbUcdrcIWfvsWP
- etetSbczZ34LCNUiS3l+4MAFzJS7V2O4XoFIGrhcbLlDFo/LYOgW4x7Hjxzo6m2CUNPY
- venRCmzSwlN8JZUcys+jniKk48vjNYAe0oXOS9+110mxf+Nt6Yi0wxXUejXJtBvSJLp0
- mxrw==
-X-Gm-Message-State: AOAM531TVguPIXGNvn/YgAvRVcY+gTJK19MkA4WCZ6d0D6+ebi13Z4TK
- UvaoldQSpCyGcdeZGlwMTbIWkhQOFLw=
-X-Google-Smtp-Source: ABdhPJwmI0ezm+PloNz/xyzsTTmPzD2K527tKEou5niUMlTIg83L6wmUXk3eYAyo0jWY9CoCMt3dIw==
-X-Received: by 2002:aca:1716:: with SMTP id j22mr3442432oii.44.1599166828689; 
- Thu, 03 Sep 2020 14:00:28 -0700 (PDT)
+ bh=8VEH4Dp3c4FP61LHXzVX3wMEuap/BOtd0QFnCK48Al0=;
+ b=Weplk1e+GKFE0IiDUlSzzRq908wTjEFtQmAssSPf3I7i/agC+htT/PMKhKvotcE50k
+ HS6Ewz6eE+/zaevUUlehVaQlMi39iDJ4BSW93wK5/1kZJdIXyI+xCaBN5RlASrec5nuC
+ 8JrChxzvVhiBX3P54U2fj7L5vKKYlPumT8SIxUp5B/+bhQ/JzG0Yulp5pEyO629iTjjy
+ 6F2eCcUP+WQynVolFb4ZV9k1T8oAKWB0zgNwRaj+zW7MQoyIVmqa+8cK6Tb8bu0nx/qq
+ 5PPU4i75S0P6Tf+Wx4yaVzFurQnlN40OUx64VUjkDQ9dzLAmACnVayWKRnFHxFOMTrs5
+ 6jlg==
+X-Gm-Message-State: AOAM530Jf4SCpRUk7hJlZ62mGwdDp0IN1JjDfaDX5B2ipFndZidQtfaY
+ wPdWsULJqHR2Sg47kksiKba0yQipyps=
+X-Google-Smtp-Source: ABdhPJyhKwYIlVPhJa6OKmpPFj8E2qEVFynhQoagjVfkQIELeK3COGKLbkooDuZG9MGQfuIKG1tq6g==
+X-Received: by 2002:a9d:7854:: with SMTP id c20mr3028823otm.123.1599166830005; 
+ Thu, 03 Sep 2020 14:00:30 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id v35sm763455otb.32.2020.09.03.14.00.28
+ by smtp.gmail.com with ESMTPSA id q15sm761135otl.65.2020.09.03.14.00.29
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:00:28 -0700 (PDT)
+ Thu, 03 Sep 2020 14:00:29 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 38/77] error: Use error_reportf_err() where appropriate
-Date: Thu,  3 Sep 2020 15:58:56 -0500
-Message-Id: <20200903205935.27832-39-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 39/77] usb/dev-mtp: Fix Error double free after inotify failure
+Date: Thu,  3 Sep 2020 15:58:57 -0500
+Message-Id: <20200903205935.27832-40-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x244.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -85,159 +85,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, Markus Armbruster <armbru@redhat.com>
+Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-stable@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Markus Armbruster <armbru@redhat.com>
 
-Replace
+error_report_err() frees its first argument.  Freeing it again is
+wrong.  Don't.
 
-    error_report("...: %s", ..., error_get_pretty(err));
-
-by
-
-    error_reportf_err(err, "...: ", ...);
-
-One of the replaced messages lacked a colon.  Add it.
-
+Fixes: 47287c27d0c367a89f7b2851e23a7f8b2d499dd6
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Daniel P. Berrangé <berrange@redhat.com>
+Cc: qemu-stable@nongnu.org
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200505101908.6207-6-armbru@redhat.com>
-(cherry picked from commit 5217f1887a8041c51495fbd5d3f767d96a242000)
+Message-Id: <20200630090351.1247703-7-armbru@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+(cherry picked from commit 562a558647be6fe43e60f8bf3601e5b6122c0599)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- chardev/char-socket.c | 5 +++--
- hw/sd/pxa2xx_mmci.c   | 4 ++--
- hw/sd/sd.c            | 4 ++--
- hw/usb/dev-mtp.c      | 9 +++++----
- qemu-nbd.c            | 7 +++----
- scsi/qemu-pr-helper.c | 4 ++--
- 6 files changed, 17 insertions(+), 16 deletions(-)
+ hw/usb/dev-mtp.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-index 185fe38dda..e5ee685f8c 100644
---- a/chardev/char-socket.c
-+++ b/chardev/char-socket.c
-@@ -138,8 +138,9 @@ static void check_report_connect_error(Chardev *chr,
-     SocketChardev *s = SOCKET_CHARDEV(chr);
- 
-     if (!s->connect_err_reported) {
--        error_report("Unable to connect character device %s: %s",
--                     chr->label, error_get_pretty(err));
-+        error_reportf_err(err,
-+                          "Unable to connect character device %s: ",
-+                          chr->label);
-         s->connect_err_reported = true;
-     }
-     qemu_chr_socket_restart_timer(chr);
-diff --git a/hw/sd/pxa2xx_mmci.c b/hw/sd/pxa2xx_mmci.c
-index 8f9ab0ec16..f9c50ddda5 100644
---- a/hw/sd/pxa2xx_mmci.c
-+++ b/hw/sd/pxa2xx_mmci.c
-@@ -497,12 +497,12 @@ PXA2xxMMCIState *pxa2xx_mmci_init(MemoryRegion *sysmem,
-     carddev = qdev_create(qdev_get_child_bus(dev, "sd-bus"), TYPE_SD_CARD);
-     qdev_prop_set_drive(carddev, "drive", blk, &err);
-     if (err) {
--        error_report("failed to init SD card: %s", error_get_pretty(err));
-+        error_reportf_err(err, "failed to init SD card: ");
-         return NULL;
-     }
-     object_property_set_bool(OBJECT(carddev), true, "realized", &err);
-     if (err) {
--        error_report("failed to init SD card: %s", error_get_pretty(err));
-+        error_reportf_err(err, "failed to init SD card: ");
-         return NULL;
-     }
- 
-diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 71a9af09ab..3c06a0ac6d 100644
---- a/hw/sd/sd.c
-+++ b/hw/sd/sd.c
-@@ -703,13 +703,13 @@ SDState *sd_init(BlockBackend *blk, bool is_spi)
-     dev = DEVICE(obj);
-     qdev_prop_set_drive(dev, "drive", blk, &err);
-     if (err) {
--        error_report("sd_init failed: %s", error_get_pretty(err));
-+        error_reportf_err(err, "sd_init failed: ");
-         return NULL;
-     }
-     qdev_prop_set_bit(dev, "spi", is_spi);
-     object_property_set_bool(obj, true, "realized", &err);
-     if (err) {
--        error_report("sd_init failed: %s", error_get_pretty(err));
-+        error_reportf_err(err, "sd_init failed: ");
-         return NULL;
-     }
- 
 diff --git a/hw/usb/dev-mtp.c b/hw/usb/dev-mtp.c
-index 20717f026b..168428156b 100644
+index 168428156b..15a2243101 100644
 --- a/hw/usb/dev-mtp.c
 +++ b/hw/usb/dev-mtp.c
-@@ -631,8 +631,9 @@ static void usb_mtp_object_readdir(MTPState *s, MTPObject *o)
-         int64_t id = qemu_file_monitor_add_watch(s->file_monitor, o->path, NULL,
-                                                  file_monitor_event, s, &err);
-         if (id == -1) {
--            error_report("usb-mtp: failed to add watch for %s: %s", o->path,
--                         error_get_pretty(err));
-+            error_reportf_err(err,
-+                              "usb-mtp: failed to add watch for %s: ",
-+                              o->path);
-             error_free(err);
+@@ -634,7 +634,6 @@ static void usb_mtp_object_readdir(MTPState *s, MTPObject *o)
+             error_reportf_err(err,
+                               "usb-mtp: failed to add watch for %s: ",
+                               o->path);
+-            error_free(err);
          } else {
              trace_usb_mtp_file_monitor_event(s->dev.addr, o->path,
-@@ -1276,8 +1277,8 @@ static void usb_mtp_command(MTPState *s, MTPControl *c)
- 
-         s->file_monitor = qemu_file_monitor_new(&err);
+                                              "Watch Added");
+@@ -1279,7 +1278,6 @@ static void usb_mtp_command(MTPState *s, MTPControl *c)
          if (err) {
--            error_report("usb-mtp: file monitoring init failed: %s",
--                         error_get_pretty(err));
-+            error_reportf_err(err,
-+                              "usb-mtp: file monitoring init failed: ");
-             error_free(err);
+             error_reportf_err(err,
+                               "usb-mtp: file monitoring init failed: ");
+-            error_free(err);
          } else {
              QTAILQ_INIT(&s->events);
-diff --git a/qemu-nbd.c b/qemu-nbd.c
-index 306e44fb0a..d2657b8db5 100644
---- a/qemu-nbd.c
-+++ b/qemu-nbd.c
-@@ -856,8 +856,7 @@ int main(int argc, char **argv)
          }
-         tlscreds = nbd_get_tls_creds(tlscredsid, list, &local_err);
-         if (local_err) {
--            error_report("Failed to get TLS creds %s",
--                         error_get_pretty(local_err));
-+            error_reportf_err(local_err, "Failed to get TLS creds: ");
-             exit(EXIT_FAILURE);
-         }
-     } else {
-@@ -983,8 +982,8 @@ int main(int argc, char **argv)
-                                              &local_err);
-             if (sioc == NULL) {
-                 object_unref(OBJECT(server));
--                error_report("Failed to use socket activation: %s",
--                             error_get_pretty(local_err));
-+                error_reportf_err(local_err,
-+                                  "Failed to use socket activation: ");
-                 exit(EXIT_FAILURE);
-             }
-             qio_net_listener_add(server, sioc);
-diff --git a/scsi/qemu-pr-helper.c b/scsi/qemu-pr-helper.c
-index 181ed4a186..57ad830d54 100644
---- a/scsi/qemu-pr-helper.c
-+++ b/scsi/qemu-pr-helper.c
-@@ -1030,8 +1030,8 @@ int main(int argc, char **argv)
-         server_ioc = qio_channel_socket_new_fd(FIRST_SOCKET_ACTIVATION_FD,
-                                                &local_err);
-         if (server_ioc == NULL) {
--            error_report("Failed to use socket activation: %s",
--                         error_get_pretty(local_err));
-+            error_reportf_err(local_err,
-+                              "Failed to use socket activation: ");
-             exit(EXIT_FAILURE);
-         }
-     }
 -- 
 2.17.1
 
