@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B23A25C1D5
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 15:46:32 +0200 (CEST)
-Received: from localhost ([::1]:51848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FB8325C1DA
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 15:48:05 +0200 (CEST)
+Received: from localhost ([::1]:58570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDpZP-0001C4-4s
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 09:46:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47588)
+	id 1kDpau-0003vv-MB
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 09:48:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDpYE-0008K7-Ps
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 09:45:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59861)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDpYJ-0008Rf-6f
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 09:45:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDpYD-0001BD-8p
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 09:45:18 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDpYH-0001F6-Gk
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 09:45:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599140716;
+ s=mimecast20190719; t=1599140720;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xnJGsFmE0lHc/vacaNXhWmico4HRbt/COcagt38PJC8=;
- b=ZvjaqcJbQ90ZEHy82JiSez2r3a83b1/ay+oq0QvlgYK/FbTbrHg0A3/jTWa2gPNdVT7w/v
- wkcfZsNufPrQxr+e9+cfymxWSQwcAMur1i7n4wPEJu7JjxbxbTopsxMJ7xxuPnquJGDOVA
- 3lFy9p7uCuUDc5j0NvR1e0LiCtohQcw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-223-qmwgOZ2jM9Gk9znvFWbkQg-1; Thu, 03 Sep 2020 09:45:14 -0400
-X-MC-Unique: qmwgOZ2jM9Gk9znvFWbkQg-1
-Received: by mail-wr1-f70.google.com with SMTP id b8so1110643wrr.2
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 06:45:14 -0700 (PDT)
+ bh=+YUUeHxvSt9jEklOFUg4RIRBjPJnNhhCKhpJOO59Oy0=;
+ b=RepqCBh8KPUr+pamnhm14VBS26oRosG9Naqah9ospB0idL7iklsoRn171Wv6iGZ4Eb9rjn
+ Nz6dxvH/8MKqiboSzJQXke6lXWfnaWeSt9dzIVTI6/nWFaSpdBupD6FMTcCpeHZduu7ZnY
+ 1r50sag0VCCP8Xfjcvoco49uFWUg6lM=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-567-mfvMDoM5O3aN1dtqqBEqjQ-1; Thu, 03 Sep 2020 09:45:19 -0400
+X-MC-Unique: mfvMDoM5O3aN1dtqqBEqjQ-1
+Received: by mail-wm1-f72.google.com with SMTP id b14so989257wmj.3
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 06:45:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xnJGsFmE0lHc/vacaNXhWmico4HRbt/COcagt38PJC8=;
- b=QXMvktCenDGx5WJt1ooXnmcM39T7hXqt1D0HyimpD/Jji9gq0CUNPlDnpDVu2LP55n
- a8ER4TOQYRRuFCUoRKyemzpHyyR3+37ZeCf72urfJggn/97vwYUwftQ53hJQN3A7RWbk
- ZQy6qQl//XWxMSZ13TJT8EdhrRa1RwDZEruX088NP5BIATD75ilq6rxlbYNf7LM4Ofc6
- Y79Ts0Zl4I3OaeHCIDzzkYPcMZSYiVjvOkfRAClJKm0XEamCjPl4Kl1sulVx8jH94TeD
- 0uLc63RcOQYFlANycX4FLCB+KwhLQhvwc6pkfRAMIgCd/x6PzVu4IvHjOFAeAwDFNgaj
- PtwA==
-X-Gm-Message-State: AOAM5309nbVKiRqXcD2XKcxvsIb7oHsA/MMPgJg/eCnRgspG+DA2MhO1
- wZ73ABIaxTnDcjpVSfJIm6sjtgwfn8474rrCrG2jeZOrj48ONPwejv/tdtZ529WNgKZRIldz48U
- 2SjKb1sdJRXlJaEE=
-X-Received: by 2002:a5d:68d1:: with SMTP id p17mr2498267wrw.378.1599140713414; 
- Thu, 03 Sep 2020 06:45:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxkd59juEn6Zi7SDnJ4jjLVol29LXybzqo3sRN18mbzyAzNizyapEc+rY3LZwa19TcFn2OUmA==
-X-Received: by 2002:a5d:68d1:: with SMTP id p17mr2498250wrw.378.1599140713266; 
- Thu, 03 Sep 2020 06:45:13 -0700 (PDT)
+ bh=+YUUeHxvSt9jEklOFUg4RIRBjPJnNhhCKhpJOO59Oy0=;
+ b=jKjxUrlJkMv6uUwqiRwLr0OyeJHer4+nFWY9FhGQIQaHrTiZ8KXBpFHohPU/eArzTY
+ wb//39sah/8WKXMgqw0x50y5H/pl+SHLN6CaMAsxOQUrhlBqXTf+5aFEqUV0hh9wR15A
+ gzjIWBgALi/al6MCKFfQNRhgoYrpsJZnQNLE9Lh520o3f6uzKGK1xk40iQubw8wPdHzb
+ KmpDauwZDgmsdrrbo94nriFum9vvt1XfhhYnfBmQVHrC2/T0V0BISQtinBj9/MvsOZyi
+ wbsxxA69PEywaag18R9Jh4ArNDw/oINzol8SEnfHJf2sQuNhSuDEmXBYmmul3eaX8O0d
+ 5jYw==
+X-Gm-Message-State: AOAM531PY64TwPxZOR00zwExvjHq+inMB18W0AGPQhbBYoaFM2/Qw1iM
+ ELQ7yXXso17LIvPWHfv4ZC/Nq6UerOnhg9hIYKh6V4vb9JlZTL08IO/rbA3xyQcIgt6sWuC1+iF
+ mSUgWctaqEDLDzLU=
+X-Received: by 2002:adf:dd82:: with SMTP id x2mr2688402wrl.419.1599140718160; 
+ Thu, 03 Sep 2020 06:45:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz96avQHw1qZ0wMhowdR4rn+BD2EEJsYAj6f04bkCr/VLxYQWgXqOoKV6BpEHsLzXKeBnnSRA==
+X-Received: by 2002:adf:dd82:: with SMTP id x2mr2688384wrl.419.1599140717997; 
+ Thu, 03 Sep 2020 06:45:17 -0700 (PDT)
 Received: from localhost.localdomain (50.red-83-52-54.dynamicip.rima-tde.net.
  [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id l10sm4408149wru.59.2020.09.03.06.45.12
+ by smtp.gmail.com with ESMTPSA id v9sm4335201wru.37.2020.09.03.06.45.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Sep 2020 06:45:12 -0700 (PDT)
+ Thu, 03 Sep 2020 06:45:17 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] hw/timer/hpet: Remove dead code
-Date: Thu,  3 Sep 2020 15:45:05 +0200
-Message-Id: <20200903134506.440082-2-philmd@redhat.com>
+Subject: [PATCH 2/2] hw/timer/hpet: Fix DPRINTF format string
+Date: Thu,  3 Sep 2020 15:45:06 +0200
+Message-Id: <20200903134506.440082-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200903134506.440082-1-philmd@redhat.com>
 References: <20200903134506.440082-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
@@ -83,7 +83,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,38 +103,54 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This code was never compiled/used, remove it.
+Fix building with HPET_DEBUG enabled:
+
+  hw/timer/hpet.c:512:73: error: format specifies type 'unsigned int' but the argument has type 'uint64_t' (aka 'unsigned long') [-Werror,-Wformat]
+      DPRINTF("qemu: Enter hpet_ram_writel at %" PRIx64 " = %#x\n", addr, value);
+                                                            ~~~           ^~~~~
+                                                            %#lx
+  hw/timer/hpet.c:655:21: error: format specifies type 'unsigned int' but the argument has type 'uint64_t' (aka 'unsigned long') [-Werror,-Wformat]
+                      value, s->hpet_counter);
+                      ^~~~~
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/timer/hpet.c | 14 --------------
- 1 file changed, 14 deletions(-)
+Keep trace-events conversion as ByteSizeTask.
+---
+ hw/timer/hpet.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/hw/timer/hpet.c b/hw/timer/hpet.c
-index 380acfa7c8a..b683f64f1d3 100644
+index b683f64f1d3..8115e42cff3 100644
 --- a/hw/timer/hpet.c
 +++ b/hw/timer/hpet.c
-@@ -416,20 +416,6 @@ static void hpet_del_timer(HPETTimer *t)
-     update_irq(t, 0);
- }
+@@ -495,7 +495,7 @@ static void hpet_ram_write(void *opaque, hwaddr addr,
+     HPETState *s = opaque;
+     uint64_t old_val, new_val, val, index;
  
--#ifdef HPET_DEBUG
--static uint32_t hpet_ram_readb(void *opaque, hwaddr addr)
--{
--    printf("qemu: hpet_read b at %" PRIx64 "\n", addr);
--    return 0;
--}
--
--static uint32_t hpet_ram_readw(void *opaque, hwaddr addr)
--{
--    printf("qemu: hpet_read w at %" PRIx64 "\n", addr);
--    return 0;
--}
--#endif
--
- static uint64_t hpet_ram_read(void *opaque, hwaddr addr,
-                               unsigned size)
- {
+-    DPRINTF("qemu: Enter hpet_ram_writel at %" PRIx64 " = %#x\n", addr, value);
++    DPRINTF("qemu: Enter hpet_ram_writel at 0x%" HWADDR_PRIx " = 0x%#"PRIx64"\n", addr, value);
+     index = addr;
+     old_val = hpet_ram_read(opaque, addr, 4);
+     new_val = value;
+@@ -637,7 +637,7 @@ static void hpet_ram_write(void *opaque, hwaddr addr,
+             }
+             s->hpet_counter =
+                 (s->hpet_counter & 0xffffffff00000000ULL) | value;
+-            DPRINTF("qemu: HPET counter written. ctr = %#x -> %" PRIx64 "\n",
++            DPRINTF("qemu: HPET counter written. ctr = %#" PRIx64 " -> %" PRIx64 "\n",
+                     value, s->hpet_counter);
+             break;
+         case HPET_COUNTER + 4:
+@@ -646,7 +646,7 @@ static void hpet_ram_write(void *opaque, hwaddr addr,
+             }
+             s->hpet_counter =
+                 (s->hpet_counter & 0xffffffffULL) | (((uint64_t)value) << 32);
+-            DPRINTF("qemu: HPET counter + 4 written. ctr = %#x -> %" PRIx64 "\n",
++            DPRINTF("qemu: HPET counter + 4 written. ctr = %#" PRIx64 " -> %" PRIx64 "\n",
+                     value, s->hpet_counter);
+             break;
+         default:
 -- 
 2.26.2
 
