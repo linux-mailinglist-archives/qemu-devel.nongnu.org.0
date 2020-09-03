@@ -2,52 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 867A725CE5E
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 01:33:11 +0200 (CEST)
-Received: from localhost ([::1]:35186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 003E425CE5D
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 01:30:56 +0200 (CEST)
+Received: from localhost ([::1]:58228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDyj8-0001D7-H2
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 19:33:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37516)
+	id 1kDygx-0007Dm-J5
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 19:30:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kDyhv-0007yL-6A; Thu, 03 Sep 2020 19:31:55 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:37665 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kDyhs-0000h9-LM; Thu, 03 Sep 2020 19:31:54 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BjHBr2Qvtz9sVR; Fri,  4 Sep 2020 09:31:48 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1599175908;
- bh=ZspMruNggOmm5o9UKba321uzji43kUW+aHYg/Dy2vws=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=HMZdZsuAnbMSOgbASeSGUT4b5clt7HEGWT4BV/MsuJ3Z6JVcOboZBG5LLHoueCo93
- BSLKmGHr+FN1bVwIDTr7er3GLOg/oBrbdsWOBbU1YSZyH71oVU/t4a/Vc0pM3V+FiH
- MMXBTGb6xrVhWvSsj0JvBN/nCwcvi50qd26vZPrU=
-Date: Fri, 4 Sep 2020 09:27:08 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v3 6/7] spapr_numa: create a vcpu associativity helper
-Message-ID: <20200903232708.GD341806@yekko.fritz.box>
-References: <20200903220639.563090-1-danielhb413@gmail.com>
- <20200903220639.563090-7-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kDyfn-0006UG-0i
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 19:29:43 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:46073)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kDyfl-0000Li-93
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 19:29:42 -0400
+Received: by mail-pg1-x541.google.com with SMTP id 67so3326488pgd.12
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 16:29:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=sWZrdOr+hyJlFaEX0DsuADiJp0wzUs+ahhr3CwYA0FM=;
+ b=ZnN4IZVgpej1zkciRYDqGNiblWDjwj6YNqKga4c0KAL+NaPjlC4nW9gmlrju18GD0m
+ 9tPLD4iPG+aU18teNcLqkllZCipTy/d5ZoCyWCmWvY2DaE9kwC/21alym3DmVgqlykeD
+ hHQHHcwfEBopXVJ5r1pkeYDxbkPcZadlIaGcHqSoBIRgcetEDo15pVJdVQbaiRmrSUYE
+ Ot+VQOzVLPDKsw3VAz4uR6hYA/6kjY3IeqXp15fRzk/HIdTULNhEz4N+wvBoJYkl2rzf
+ eDLwfuo3Jg5IETguPBPV0aKVGICrOA3QS7Aq2KQms+JEzW+8/wp+rIHWAsQPaCcjjDmS
+ eAVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=sWZrdOr+hyJlFaEX0DsuADiJp0wzUs+ahhr3CwYA0FM=;
+ b=E1xaRaHa1+FLPipcbCU8MJh2iz+YuZ9/kn39XQ3JiRmRGcRLpTBed6r3km8LHWBb+G
+ V+C3aYf3eU6XLXcCA5KYxttNlbFe/bBS18QNybKKnAqvH7mcY4G7zPMai2o0mit6jQMf
+ WH2kIn2RgO0GZvIihhLMbfKTZ3YNviPPA9X74JSL1NwOBFEMnIugRj0DDVXlNkLfaikJ
+ zIEzW0sYryE2GPAOl3og8P5chmW4S5XEYI+3+aAb8T5H2lbI7PUle5u3Jw4QEwUxIOaj
+ p2yZg0LW/9iDFywrhOdazRZXpEjKhoukgIa8zlBtRxQpKq21eN/zXa5LAV9hvqKFs+90
+ gljw==
+X-Gm-Message-State: AOAM532B3NNtCVSjQbG+ELEp5ky41Q9hSkgIOwNkwEVhIVIKAxCOOxRZ
+ KYSrvXzynG0U962itZDJI9IVlQ==
+X-Google-Smtp-Source: ABdhPJwDcyaXE0aZSv92888hbFV7yKKoco3TOQm0fdMmHEUaCfl/iUpy2cRq+Bj9PQF/31DrdpBePA==
+X-Received: by 2002:a17:902:6b45:: with SMTP id
+ g5mr6434988plt.163.1599175779513; 
+ Thu, 03 Sep 2020 16:29:39 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id gx5sm3430410pjb.57.2020.09.03.16.29.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Sep 2020 16:29:38 -0700 (PDT)
+Subject: Re: [PATCH v4 03/12] tcg: Fixes dup_const link error
+To: luoyonggang@gmail.com
+References: <20200903083147.707-1-luoyonggang@gmail.com>
+ <20200903083147.707-4-luoyonggang@gmail.com>
+ <8c5dd495-abaf-7abc-2ba0-82f13bbd3d02@linaro.org>
+ <CAE2XoE8w_H+_N9AMgssSheWsTWwvoiOTgYdgCZG9g5cyHLbdpw@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <bad12717-dbda-ee88-2fa7-e6eec4e3d6a4@linaro.org>
+Date: Thu, 3 Sep 2020 16:29:36 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="n2Pv11Ogg/Ox8ay5"
-Content-Disposition: inline
-In-Reply-To: <20200903220639.563090-7-danielhb413@gmail.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 19:31:48
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAE2XoE8w_H+_N9AMgssSheWsTWwvoiOTgYdgCZG9g5cyHLbdpw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x541.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.403,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,111 +92,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-level <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 9/3/20 2:19 PM, 罗勇刚(Yonggang Luo) wrote:
+>     No, really, as I asked before: what symbol is present in tcg-op-gvec.c.obj
+>     without this patch?
+> 
+> The   tcg-op-gvec.c.obj are missing now, maybe skip this patch first?
 
---n2Pv11Ogg/Ox8ay5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Yes, please.
 
-On Thu, Sep 03, 2020 at 07:06:38PM -0300, Daniel Henrique Barboza wrote:
-> The work to be done in h_home_node_associativity() intersects
-> with what is already done in spapr_numa_fixup_cpu_dt(). This
-> patch creates a new helper, spapr_numa_get_vcpu_assoc(), to
-> be used for both spapr_numa_fixup_cpu_dt() and
-> h_home_node_associativity().
->=20
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+> Anyway have same name with function and macro is not that good
 
-> ---
->  hw/ppc/spapr_numa.c | 26 ++++++++++++++++++++------
->  1 file changed, 20 insertions(+), 6 deletions(-)
->=20
-> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-> index d4dca57321..abc7361921 100644
-> --- a/hw/ppc/spapr_numa.c
-> +++ b/hw/ppc/spapr_numa.c
-> @@ -71,14 +71,17 @@ void spapr_numa_write_associativity_dt(SpaprMachineSt=
-ate *spapr, void *fdt,
->                        sizeof(spapr->numa_assoc_array[nodeid]))));
->  }
-> =20
-> -int spapr_numa_fixup_cpu_dt(SpaprMachineState *spapr, void *fdt,
-> -                            int offset, PowerPCCPU *cpu)
-> +static uint32_t *spapr_numa_get_vcpu_assoc(SpaprMachineState *spapr,
-> +                                          PowerPCCPU *cpu,
-> +                                          uint *vcpu_assoc_size)
->  {
-> -    uint vcpu_assoc_size =3D NUMA_ASSOC_SIZE + 1;
-> -    uint32_t vcpu_assoc[vcpu_assoc_size];
-> +    uint32_t *vcpu_assoc =3D NULL;
->      int index =3D spapr_get_vcpu_id(cpu);
->      int i;
-> =20
-> +    *vcpu_assoc_size =3D (NUMA_ASSOC_SIZE + 1) * sizeof(uint32_t);
-> +    vcpu_assoc =3D g_malloc(*vcpu_assoc_size);
-> +
->      /*
->       * VCPUs have an extra 'cpu_id' value in ibm,associativity
->       * compared to other resources. Increment the size at index
-> @@ -91,11 +94,22 @@ int spapr_numa_fixup_cpu_dt(SpaprMachineState *spapr,=
- void *fdt,
->          vcpu_assoc[i] =3D spapr->numa_assoc_array[cpu->node_id][i];
->      }
-> =20
-> -    vcpu_assoc[vcpu_assoc_size - 1] =3D cpu_to_be32(index);
-> +    vcpu_assoc[MAX_DISTANCE_REF_POINTS + 1] =3D cpu_to_be32(index);
-> +
-> +    return vcpu_assoc;
-> +}
-> +
-> +int spapr_numa_fixup_cpu_dt(SpaprMachineState *spapr, void *fdt,
-> +                            int offset, PowerPCCPU *cpu)
-> +{
-> +    g_autofree uint32_t *vcpu_assoc =3D NULL;
-> +    uint vcpu_assoc_size;
-> +
-> +    vcpu_assoc =3D spapr_numa_get_vcpu_assoc(spapr, cpu, &vcpu_assoc_siz=
-e);
-> =20
->      /* Advertise NUMA via ibm,associativity */
->      return fdt_setprop(fdt, offset, "ibm,associativity",
-> -                       vcpu_assoc, sizeof(vcpu_assoc));
-> +                       vcpu_assoc, vcpu_assoc_size);
->  }
-> =20
-> =20
+That is a valid point of view, but it is not a bug.  The standard C library is
+full of symbols that are both macros and functions.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
 
---n2Pv11Ogg/Ox8ay5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl9Re8wACgkQbDjKyiDZ
-s5LQSA/+KNYuGKDDb3FTeFMWuPe1cEVzQ/5dVHx2ztHGSN9+jVCxiw8TCw4olGtl
-/Mqk4MrXAJ1zJv59g/PRa3uPLB3cplP1TA0jZsj4W0ATtE5Q7Wh4Vz2VgRRlzppF
-glmJDXKhVmwGQvLZHlKSHeqeSCDUMgbP7GozFo+Iu0KMedZPUDBdDLIrwjTticG6
-4n7X5U5o1a+KHG+uQ/wPj+ZImIR6NloRs0gIqr/U+57xfNkLaPyaau2kfqXKtMD9
-5jCthIXvlBMntIdA8lgKONU4Hvm1eQf1hLPWYi8TlcEb1fy8s2oQuQA06ZsU3PsI
-pJ1Hq7D+aKfxUmXDRvU8N+xjh6CugCEDKXYuiljrVLGFBj9TSXEG+L9l2dyOO87a
-MlQXJ85lO1+fKumA4nXg0wWKWVJYhdL59jOiT724F/bdjispVpHCyIBrMpHz7NTk
-HT4Jdw6vXjEqv8hxjHmXwkZXbjk6qG9/ZawImXyOW/LvNj2B44QbIsWAzllrH6T+
-c8tqsqKg3wsWzUvEjy2Tyjmn9CmtcSlJf+G1DDVI2DZMHrMAV0wGEt5C9XU2iYOa
-Idb8LSY0x/Xrv5fQN29fcLxrOv28DZjzHTwuFitpdLFfFTfMeE/Dpyiu1aP2314x
-R4IbfbzJ5q6ErOLmfKmkUsAxhZRjInL2bDi+6gswdwbViH+ixA8=
-=510u
------END PGP SIGNATURE-----
-
---n2Pv11Ogg/Ox8ay5--
+r~
 
