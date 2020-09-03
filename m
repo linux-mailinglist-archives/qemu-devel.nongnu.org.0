@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 829BB25CC4C
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:32:57 +0200 (CEST)
-Received: from localhost ([::1]:50752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D53B25CC56
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:34:28 +0200 (CEST)
+Received: from localhost ([::1]:58976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwqm-0006go-HI
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:32:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58494)
+	id 1kDwsF-0001lh-7F
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:34:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLC-0003tt-7f; Thu, 03 Sep 2020 17:00:18 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:35795)
+ id 1kDwLE-0003x1-1U; Thu, 03 Sep 2020 17:00:20 -0400
+Received: from mail-oo1-xc41.google.com ([2607:f8b0:4864:20::c41]:45655)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLA-0007X5-JY; Thu, 03 Sep 2020 17:00:17 -0400
-Received: by mail-oi1-x242.google.com with SMTP id w16so4535978oia.2;
- Thu, 03 Sep 2020 14:00:15 -0700 (PDT)
+ id 1kDwLB-0007Yp-QV; Thu, 03 Sep 2020 17:00:18 -0400
+Received: by mail-oo1-xc41.google.com with SMTP id u28so1121631ooe.12;
+ Thu, 03 Sep 2020 14:00:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=LtPU/nN6c9RiqgRTDpf9K4Svqu3AQC8vbJJ7asRl6KM=;
- b=eUBuaUQ4ES92C0W8OsgW0STGVdEb5kXK6SXRNGJywTCk6hM2RcJh6ei1VO52wh49ou
- YmKKnL+AWFhzFy2AeY5VOZxSsM/GF6l/YeBRm8DL4tYcYg/YwdNgZhgTOcsxTDYLh5QG
- 7R0/WJu7xGNUH3a6e6GiszTPL6uFE/66EzGjqeA/as4FDtUCxGFCvlrnTs5pusXOV24V
- 1YUnl0NXNP7FNH+18WLcBtBphK7gNw13y84PH7N4YdVOdcB0VVwGKPX9thewZaxLPgoz
- 5CaN2W7LVgHk/IL4EbTsGb5kc4z9fxVWj/2GaMytL7BakqHxl0Ra9NnD/s7C5Se3169I
- 7t2Q==
+ bh=D8aV+SuTlrxPWeHJfsFhm4DwE+6NojdwAEJTWEzO0A0=;
+ b=SiVmbdyJCkYwEnqKlOkKlofmyUmNpBwRV+8sI/tp1iCMcE1QLrGoUlBSonJMW5kmge
+ FUMlWCazFVqHDdnemiN3nzAU4xDI9p/ffSxDEtlq42E+ttUOZ0dWZAV13XjjERkkCF3j
+ U8KDeb4AdSYGC93HrpF0UiSsUtEmlt4k2m+Kh/H+SvvgVP4wlhZqQeNPzQQxmCCgsP2h
+ LtrbIji8IPUHaymkRxLiajJEXSzjuzCOrRgZl+I1vtyUV9dLuxwy/K1ursyUc0QdlER3
+ R2NX4wuac27bLNRm5tNv2okc1824Ebn9pWldVCR/4wBCKCPi1nRH0dtOBmZBlAyvwXIZ
+ l75w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=LtPU/nN6c9RiqgRTDpf9K4Svqu3AQC8vbJJ7asRl6KM=;
- b=rGgBHSHE0GWBNwZCXwnW2HkzmOO0YuDKRElN/uMTilsQMkz7Xq2P0J4o3Br3yINLnL
- JPaEpjU/rG/pJHXgcypisgOW2MvNRnloCacY4HG5JmDkz+6nw6wpNK1cNMyE8hdEVOjn
- yvWqPFtRgXIborVnA9MuOAYdovxVW/JAuRWQsgeSv/KwMvJdGlHz1UjvUVDWf1pvizCp
- KPbeRC+a6ISSruG8/rZFbUCEWAMrizOTZu+d+vdg6xJUY6AgXAimi0QpWZ1OUVSJE1uu
- C4yHmJVqqYHmadYvYE2r8KYNgxk+x193yL88jyu9V9tCU6F9f1eTjAb2pn5/bp+w5HWe
- Nwxg==
-X-Gm-Message-State: AOAM530ARn9aGgw3XusZj/49L1PBSFtrtVv58qJ3a30kAYAwqXULs4XZ
- lXNEDykVZRgk/clee59OD70R740kAtw=
-X-Google-Smtp-Source: ABdhPJwtlCZWf9x5sxWZHDVmVDI0++NbnrC3/5hquFSzgWe/SKJ+n3PQLM3wd/5pg06xeqAW466f6g==
-X-Received: by 2002:aca:f103:: with SMTP id p3mr3367677oih.45.1599166814856;
- Thu, 03 Sep 2020 14:00:14 -0700 (PDT)
+ bh=D8aV+SuTlrxPWeHJfsFhm4DwE+6NojdwAEJTWEzO0A0=;
+ b=H/pPPhs+6d6mYhhu3Pc1y18BS4lvBkDtG8scBeV4IwKiSyQ2Yx4G3dkGcDLODTJYs4
+ x+bd94Ud1/CaaAy5lPda2j63uAwzQ631YqJOTCB41SHB/lbO46hOENAcKzae7ASHgj24
+ ARpLSSTZdnvDQsHDIBfOnk2IFPBIaXII84m1xKq1Y9RMiPpM7so+Op8Y37lDZFCiF9/t
+ bnyCN5TYYVzcLd5zN6PlDraK/prCHvva84aasLMWSujb0/Nd2RkGkpAcuQe/dynNtU0p
+ 0l+qf1tgZvEiWRunDWwBJVLAlVeV1CjrANpWLpMWDfNprFOa1aJ4Hqtqc1yE5qlXjG6x
+ ogIQ==
+X-Gm-Message-State: AOAM530vLcbqfRyuyfncQ9oQXXtToc7I6IrTrCkTwLAVmxFeSjAmt64w
+ 3TAxIDg5CHgjM+xlREJuYunUihByFGw=
+X-Google-Smtp-Source: ABdhPJwqM43KFDWLqHXcy+anFG9U/WavwYDpAHIJ/emuYFoKHpw0km50yaM2V0T5zOWmvci/y8jFsw==
+X-Received: by 2002:a4a:aa0e:: with SMTP id x14mr3282896oom.27.1599166815905; 
+ Thu, 03 Sep 2020 14:00:15 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id o204sm719770oib.34.2020.09.03.14.00.14
+ by smtp.gmail.com with ESMTPSA id l63sm711626oia.56.2020.09.03.14.00.15
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:00:14 -0700 (PDT)
+ Thu, 03 Sep 2020 14:00:15 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 27/77] libqos: usb-hcd-ehci: use 32-bit write for config
- register
-Date: Thu,  3 Sep 2020 15:58:45 -0500
-Message-Id: <20200903205935.27832-28-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 28/77] libqos: pci-pc: use 32-bit write for EJ register
+Date: Thu,  3 Sep 2020 15:58:46 -0500
+Message-Id: <20200903205935.27832-29-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x242.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c41;
+ envelope-from=flukshun@gmail.com; helo=mail-oo1-xc41.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -92,25 +91,25 @@ The memory region ops have min_access_size == 4 so obey it.
 
 Tested-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-(cherry picked from commit 89ed83d8b23c11d250c290593cad3ca839d5b053)
+(cherry picked from commit 4b7c06837ae0b1ff56473202a42e7e386f53d6db)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- tests/qtest/usb-hcd-ehci-test.c | 2 +-
+ tests/qtest/libqos/pci-pc.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qtest/usb-hcd-ehci-test.c b/tests/qtest/usb-hcd-ehci-test.c
-index 5251d539e9..c51e8bb223 100644
---- a/tests/qtest/usb-hcd-ehci-test.c
-+++ b/tests/qtest/usb-hcd-ehci-test.c
-@@ -96,7 +96,7 @@ static void pci_ehci_port_1(void)
- static void pci_ehci_config(void)
- {
-     /* hands over all ports from companion uhci to ehci */
--    qpci_io_writew(ehci1.dev, ehci1.bar, 0x60, 1);
-+    qpci_io_writel(ehci1.dev, ehci1.bar, 0x60, 1);
- }
+diff --git a/tests/qtest/libqos/pci-pc.c b/tests/qtest/libqos/pci-pc.c
+index 0bc591d1da..3bb2eb3ba8 100644
+--- a/tests/qtest/libqos/pci-pc.c
++++ b/tests/qtest/libqos/pci-pc.c
+@@ -186,7 +186,7 @@ void qpci_unplug_acpi_device_test(QTestState *qts, const char *id, uint8_t slot)
+     g_assert(!qdict_haskey(response, "error"));
+     qobject_unref(response);
  
- static void pci_uhci_port_2(void)
+-    qtest_outb(qts, ACPI_PCIHP_ADDR + PCI_EJ_BASE, 1 << slot);
++    qtest_outl(qts, ACPI_PCIHP_ADDR + PCI_EJ_BASE, 1 << slot);
+ 
+     qtest_qmp_eventwait(qts, "DEVICE_DELETED");
+ }
 -- 
 2.17.1
 
