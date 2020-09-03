@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A62125CC46
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:30:48 +0200 (CEST)
-Received: from localhost ([::1]:41016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 829BB25CC4C
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:32:57 +0200 (CEST)
+Received: from localhost ([::1]:50752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwoh-0002Y4-D4
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:30:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58456)
+	id 1kDwqm-0006go-HI
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:32:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwL9-0003nF-RX; Thu, 03 Sep 2020 17:00:15 -0400
-Received: from mail-oo1-xc43.google.com ([2607:f8b0:4864:20::c43]:34286)
+ id 1kDwLC-0003tt-7f; Thu, 03 Sep 2020 17:00:18 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:35795)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwL7-0007RQ-9M; Thu, 03 Sep 2020 17:00:15 -0400
-Received: by mail-oo1-xc43.google.com with SMTP id k63so1134591oob.1;
- Thu, 03 Sep 2020 14:00:12 -0700 (PDT)
+ id 1kDwLA-0007X5-JY; Thu, 03 Sep 2020 17:00:17 -0400
+Received: by mail-oi1-x242.google.com with SMTP id w16so4535978oia.2;
+ Thu, 03 Sep 2020 14:00:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=G4FtznJiI3bIZt9XXorrUG/m7EUVyV0wnG1XwMDDxC8=;
- b=tDCvC9jpTzxhbzzF3UA4RaxA2NnpMC9rhgAdfeUV9aIeNNUWhhXBm8DiMY+OGsZwQl
- KQHfh+IwV+5DJ7o92Al0B5n5x8z5I4uFqlu+6AbmthVS486gV1jBcv6PtXsCKS/Qr6rp
- U1olNh6pBi5xH/6zfT8MpI2Sb/yv11NkAwrzCASrzE00oKplfFDe0zvC0hwwKCIepmc6
- SmjdbbhMl2YEEG1CDrrOOewKR652KoF2d8n4t7ije+Hg++X9AR3eij+7lGpR4jWeupeV
- bSj+C9Vq6JYREN8eBTaXTYjP7/udt/XX7DS59eKPNqqsHSpYl8md7t3077+gQNYlFCxw
- EL8A==
+ bh=LtPU/nN6c9RiqgRTDpf9K4Svqu3AQC8vbJJ7asRl6KM=;
+ b=eUBuaUQ4ES92C0W8OsgW0STGVdEb5kXK6SXRNGJywTCk6hM2RcJh6ei1VO52wh49ou
+ YmKKnL+AWFhzFy2AeY5VOZxSsM/GF6l/YeBRm8DL4tYcYg/YwdNgZhgTOcsxTDYLh5QG
+ 7R0/WJu7xGNUH3a6e6GiszTPL6uFE/66EzGjqeA/as4FDtUCxGFCvlrnTs5pusXOV24V
+ 1YUnl0NXNP7FNH+18WLcBtBphK7gNw13y84PH7N4YdVOdcB0VVwGKPX9thewZaxLPgoz
+ 5CaN2W7LVgHk/IL4EbTsGb5kc4z9fxVWj/2GaMytL7BakqHxl0Ra9NnD/s7C5Se3169I
+ 7t2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=G4FtznJiI3bIZt9XXorrUG/m7EUVyV0wnG1XwMDDxC8=;
- b=ZczYajC1InT7At7m3Xw6r28fyVYSQ3T5YFSzyvS5MWas0TruwdHIEYnC+7NhXJPAza
- y0oKaodOUknQj3Plbd2G858modWmMkD/DTE2vEt2i8q6TTXFIAd6CQl4ehQnFQ9XYDbO
- Ggu0C85IcR8+yxMTwwln6C+WSLzDwZbURP59/dUQgk2yIFyCMC3nltpCzbabPaqLkANg
- qxY1PwNYVdKFsvs5z5D8ePAN519d13P2HOHtsvt0RRU9oxxJQN5M51dP0S+/rdtP7IVB
- kNdJFTeHhNyTIMSunzdcKeu6iQrD6KFNba8apBLxNJ87w9MlsJDre5xS0SOD9SyflGJ0
- kirA==
-X-Gm-Message-State: AOAM530GMHPYIUu1GHAfJQuHyOWR6XPidx7mIs77i3RYt/HUNXbwRbwG
- Nf+eK9cwKYk0UsiSdatziHCaMuj8kio=
-X-Google-Smtp-Source: ABdhPJz3XtAG4yS2UyPAD2NPlOM3Exkq9aY9AfN0Rsrnfwa3uFU3uEicz0IPBkPaaPHqvxqqprHEZQ==
-X-Received: by 2002:a4a:bb05:: with SMTP id f5mr3354000oop.5.1599166811194;
- Thu, 03 Sep 2020 14:00:11 -0700 (PDT)
+ bh=LtPU/nN6c9RiqgRTDpf9K4Svqu3AQC8vbJJ7asRl6KM=;
+ b=rGgBHSHE0GWBNwZCXwnW2HkzmOO0YuDKRElN/uMTilsQMkz7Xq2P0J4o3Br3yINLnL
+ JPaEpjU/rG/pJHXgcypisgOW2MvNRnloCacY4HG5JmDkz+6nw6wpNK1cNMyE8hdEVOjn
+ yvWqPFtRgXIborVnA9MuOAYdovxVW/JAuRWQsgeSv/KwMvJdGlHz1UjvUVDWf1pvizCp
+ KPbeRC+a6ISSruG8/rZFbUCEWAMrizOTZu+d+vdg6xJUY6AgXAimi0QpWZ1OUVSJE1uu
+ C4yHmJVqqYHmadYvYE2r8KYNgxk+x193yL88jyu9V9tCU6F9f1eTjAb2pn5/bp+w5HWe
+ Nwxg==
+X-Gm-Message-State: AOAM530ARn9aGgw3XusZj/49L1PBSFtrtVv58qJ3a30kAYAwqXULs4XZ
+ lXNEDykVZRgk/clee59OD70R740kAtw=
+X-Google-Smtp-Source: ABdhPJwtlCZWf9x5sxWZHDVmVDI0++NbnrC3/5hquFSzgWe/SKJ+n3PQLM3wd/5pg06xeqAW466f6g==
+X-Received: by 2002:aca:f103:: with SMTP id p3mr3367677oih.45.1599166814856;
+ Thu, 03 Sep 2020 14:00:14 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id k18sm766595otj.55.2020.09.03.14.00.10
+ by smtp.gmail.com with ESMTPSA id o204sm719770oib.34.2020.09.03.14.00.14
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:00:10 -0700 (PDT)
+ Thu, 03 Sep 2020 14:00:14 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 24/77] aio-posix: don't duplicate fd handler deletion in
- fdmon_io_uring_destroy()
-Date: Thu,  3 Sep 2020 15:58:42 -0500
-Message-Id: <20200903205935.27832-25-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 27/77] libqos: usb-hcd-ehci: use 32-bit write for config
+ register
+Date: Thu,  3 Sep 2020 15:58:45 -0500
+Message-Id: <20200903205935.27832-28-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c43;
- envelope-from=flukshun@gmail.com; helo=mail-oo1-xc43.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
+ envelope-from=flukshun@gmail.com; helo=mail-oi1-x242.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -82,76 +82,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-The io_uring file descriptor monitoring implementation has an internal
-list of fd handlers that are pending submission to io_uring.
-fdmon_io_uring_destroy() deletes all fd handlers on the list.
+The memory region ops have min_access_size == 4 so obey it.
 
-Don't delete fd handlers directly in fdmon_io_uring_destroy() for two
-reasons:
-1. This duplicates the aio-posix.c AioHandler deletion code and could
-   become outdated if the struct changes.
-2. Only handlers with the FDMON_IO_URING_REMOVE flag set are safe to
-   remove. If the flag is not set then something still has a pointer to
-   the fd handler. Let aio-posix.c and its user worry about that. In
-   practice this isn't an issue because fdmon_io_uring_destroy() is only
-   called when shutting down so all users have removed their fd
-   handlers, but the next patch will need this!
-
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Tested-by: Oleksandr Natalenko <oleksandr@redhat.com>
-Message-id: 20200511183630.279750-2-stefanha@redhat.com
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-(cherry picked from commit de137e44f75d9868f5b548638081850f6ac771f2)
+Tested-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+(cherry picked from commit 89ed83d8b23c11d250c290593cad3ca839d5b053)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- util/aio-posix.c      |  1 +
- util/fdmon-io_uring.c | 13 ++++++++++---
- 2 files changed, 11 insertions(+), 3 deletions(-)
+ tests/qtest/usb-hcd-ehci-test.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/util/aio-posix.c b/util/aio-posix.c
-index c3613d299e..8af334ab19 100644
---- a/util/aio-posix.c
-+++ b/util/aio-posix.c
-@@ -679,6 +679,7 @@ void aio_context_destroy(AioContext *ctx)
+diff --git a/tests/qtest/usb-hcd-ehci-test.c b/tests/qtest/usb-hcd-ehci-test.c
+index 5251d539e9..c51e8bb223 100644
+--- a/tests/qtest/usb-hcd-ehci-test.c
++++ b/tests/qtest/usb-hcd-ehci-test.c
+@@ -96,7 +96,7 @@ static void pci_ehci_port_1(void)
+ static void pci_ehci_config(void)
  {
-     fdmon_io_uring_destroy(ctx);
-     fdmon_epoll_disable(ctx);
-+    aio_free_deleted_handlers(ctx);
+     /* hands over all ports from companion uhci to ehci */
+-    qpci_io_writew(ehci1.dev, ehci1.bar, 0x60, 1);
++    qpci_io_writel(ehci1.dev, ehci1.bar, 0x60, 1);
  }
  
- void aio_context_set_poll_params(AioContext *ctx, int64_t max_ns,
-diff --git a/util/fdmon-io_uring.c b/util/fdmon-io_uring.c
-index d5a80ed6fb..1d14177df0 100644
---- a/util/fdmon-io_uring.c
-+++ b/util/fdmon-io_uring.c
-@@ -342,11 +342,18 @@ void fdmon_io_uring_destroy(AioContext *ctx)
- 
-         io_uring_queue_exit(&ctx->fdmon_io_uring);
- 
--        /* No need to submit these anymore, just free them. */
-+        /* Move handlers due to be removed onto the deleted list */
-         while ((node = QSLIST_FIRST_RCU(&ctx->submit_list))) {
-+            unsigned flags = atomic_fetch_and(&node->flags,
-+                    ~(FDMON_IO_URING_PENDING |
-+                      FDMON_IO_URING_ADD |
-+                      FDMON_IO_URING_REMOVE));
-+
-+            if (flags & FDMON_IO_URING_REMOVE) {
-+                QLIST_INSERT_HEAD_RCU(&ctx->deleted_aio_handlers, node, node_deleted);
-+            }
-+
-             QSLIST_REMOVE_HEAD_RCU(&ctx->submit_list, node_submitted);
--            QLIST_REMOVE(node, node);
--            g_free(node);
-         }
- 
-         ctx->fdmon_ops = &fdmon_poll_ops;
+ static void pci_uhci_port_2(void)
 -- 
 2.17.1
 
