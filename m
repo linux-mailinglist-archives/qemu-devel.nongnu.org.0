@@ -2,72 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7464D25C878
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 20:07:42 +0200 (CEST)
-Received: from localhost ([::1]:57974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AD4025C874
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 20:05:25 +0200 (CEST)
+Received: from localhost ([::1]:47678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDte9-0003io-Ib
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 14:07:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36478)
+	id 1kDtbw-0007yH-8w
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 14:05:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDtZK-0004Y6-5z
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 14:02:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23160)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kDtak-0006Zs-Hi
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 14:04:10 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30728
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDtZI-0007Ts-KR
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 14:02:41 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kDtai-0007Zt-RA
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 14:04:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599156159;
+ s=mimecast20190719; t=1599156247;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8bDwQ1+0PtvkQJU9rqHi5MHZzRgMG86kPPTDKFCaVVU=;
- b=RHxzhyi73p730ZsCf6d099Yyn8mV8fld7EfOafp09S5ff+YSitXnvrbQm6fCyIKjrYcAGS
- Hx2Y4dw7DCuSM+ClCrgYc5P/eLUV77QDX5E3lU7attHpdGUzMZoZMzG9O3hiIHMme93CGT
- HmVCS2rlDUdZLJ8C9m23RGey1FM2uwA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-57-LwNYACRcMO2ttizD8Lc0ag-1; Thu, 03 Sep 2020 14:02:33 -0400
-X-MC-Unique: LwNYACRcMO2ttizD8Lc0ag-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD2FD1DE0A;
- Thu,  3 Sep 2020 18:02:32 +0000 (UTC)
-Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8E26B19D61;
- Thu,  3 Sep 2020 18:02:26 +0000 (UTC)
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: qemu-devel@nongnu.org,
-	"Daniel P. Berrange" <berrange@redhat.com>
-Subject: [PATCH 8/8] tusb6010: Rename TUSB to TUSB6010
-Date: Thu,  3 Sep 2020 14:01:28 -0400
-Message-Id: <20200903180128.1523959-9-ehabkost@redhat.com>
-In-Reply-To: <20200903180128.1523959-1-ehabkost@redhat.com>
-References: <20200903180128.1523959-1-ehabkost@redhat.com>
+ bh=VCfdvTsMsxUBW40XfN+KZgwSYFG/fONRe2B9oGaPC2k=;
+ b=PZC+eRRjqReQT5KIK1yz8hutfimEMuDWlEd9JFnL9ixEkgSyx2cF9pb21OlpVIhptrMBVl
+ +VNGzSJO2wiKMoirhb8nwmdoYa7oMxOgypft0P77onYELxTLbtoFgWKlEiHcsvkSn2FNWF
+ odXBshyE+7v2OE0EIgYYWervoptcd6A=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-289-BxD8t-L1ONqLLsMPlP6VYg-1; Thu, 03 Sep 2020 14:04:03 -0400
+X-MC-Unique: BxD8t-L1ONqLLsMPlP6VYg-1
+Received: by mail-wr1-f71.google.com with SMTP id i10so1355859wrq.5
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 11:04:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=VCfdvTsMsxUBW40XfN+KZgwSYFG/fONRe2B9oGaPC2k=;
+ b=ZtcmuwapS0kYX84Q0R4iT5E9z2GSG181Wp8cVSYZEfgqq/J2YOdjFTj05r49pqK0xF
+ /hbXs7dV3MEI3oH1/geWC7i5i8UX4Pf4kNpHqtOEpInFyDZMTptctD4urmEtZM0fWDoz
+ 47s0I16gS2IRSx0/p0awUnROFpDRlT6+fCYjTX41xiKdizvcXNQBcG7XNwzV5o5P498f
+ WMKQN+ZcOWhSGNTho2oShHYxYlMcNtEfuIJUqi+m60aSMHIgpJIHoyZNVj83QDdFe3/3
+ uMUANe4gAeq5GGhxZt/EOd5ToMqVftBcxt+uiwDay0pViYbU//4fVd6MhtolbAmJ88xW
+ nOPw==
+X-Gm-Message-State: AOAM532xnN5BlHiXeDseD1QlLMA5xCI5pRebo2Fs9lBe3ESdNkYBOyIo
+ 3jkNZO85y/k4ECWZ/8Qj7Ig5rNuLWAc/BZKrmxhxyzSEfCBhzI7/s8zM5+FGERBpfBUj3ratm+x
+ czcvcrvv6u91L6ew=
+X-Received: by 2002:adf:e6c8:: with SMTP id y8mr3957625wrm.229.1599156242511; 
+ Thu, 03 Sep 2020 11:04:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy/RImMpAu+7rKRCrdc22jljj8cnZyEeOROk96kEizmCuI3PNAsmTWnYKmOOdYVOx8xiKeRKA==
+X-Received: by 2002:adf:e6c8:: with SMTP id y8mr3957596wrm.229.1599156242290; 
+ Thu, 03 Sep 2020 11:04:02 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:197c:daa0:48d1:20b2?
+ ([2001:b07:6468:f312:197c:daa0:48d1:20b2])
+ by smtp.gmail.com with ESMTPSA id b1sm5887488wru.54.2020.09.03.11.04.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Sep 2020 11:04:01 -0700 (PDT)
+Subject: Re: [PATCH] meson: remove linkage of sdl to baum
+To: Bruce Rogers <brogers@suse.com>, qemu-devel@nongnu.org
+References: <20200903152933.97838-1-brogers@suse.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <c5a33e9f-1831-627d-6294-12c1ca9a4389@redhat.com>
+Date: Thu, 3 Sep 2020 20:04:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20200903152933.97838-1-brogers@suse.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 01:47:17
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 00:24:51
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ NICE_REPLY_A=-2.403, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,64 +101,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: samuel.thibault@ens-lyon.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make type checking function name consistent with the TYPE_TUSB6010
-constant and QOM type name ("tusb6010").
+On 03/09/20 17:29, Bruce Rogers wrote:
+> Ever since commit 537fe2d63f744e7c96ff45b60d09486a81958e06 there
+> has been a 'linkage' to sdl for compiling baum.c. Originally it
+> had to do with including sdl cflags for any file including sdl
+> headers. There is no longer any such need for baum.c, but the
+> association has persisted in the make system, and with the switch
+> to meson it has now become a hard requirement, which now causes
+> chardev-baum.so to not be produced if sdl is not configured.
+> Remove this bogus linkage.
+> 
+> Signed-off-by: Bruce Rogers <brogers@suse.com>
+> ---
+>  chardev/meson.build | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/chardev/meson.build b/chardev/meson.build
+> index 27a9a28f4c..54e88d0310 100644
+> --- a/chardev/meson.build
+> +++ b/chardev/meson.build
+> @@ -36,9 +36,9 @@ softmmu_ss.add(when: ['CONFIG_SPICE', spice], if_true: files('spice.c'))
+>  
+>  chardev_modules = {}
+>  
+> -if config_host.has_key('CONFIG_BRLAPI') and sdl.found()
+> +if config_host.has_key('CONFIG_BRLAPI')
+>    module_ss = ss.source_set()
+> -  module_ss.add(when: [sdl, brlapi], if_true: [files('baum.c'), pixman])
+> +  module_ss.add(when: [brlapi], if_true: [files('baum.c'), pixman])
+>    chardev_modules += { 'baum': module_ss }
+>  endif
+>  
+> 
 
-Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Suggested-by: "Daniel P. Berrangé" <berrange@redhat.com>
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
-Changes v1 -> v2:
-* v1 subject was "tusb6010: Rename TYPE_TUSB6010 to TYPE_TUSB"
-* Rename TUSB macro to TUSB6010 instead, to keep it consistent
-  with the QOM type name ("tusb6010")
----
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: qemu-devel@nongnu.org
----
- hw/usb/tusb6010.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Queued, thanks.
 
-diff --git a/hw/usb/tusb6010.c b/hw/usb/tusb6010.c
-index 2bee3ae59f..dd20996d13 100644
---- a/hw/usb/tusb6010.c
-+++ b/hw/usb/tusb6010.c
-@@ -32,7 +32,7 @@
- 
- #define TYPE_TUSB6010 "tusb6010"
- typedef struct TUSBState TUSBState;
--DECLARE_INSTANCE_CHECKER(TUSBState, TUSB,
-+DECLARE_INSTANCE_CHECKER(TUSBState, TUSB6010,
-                          TYPE_TUSB6010)
- 
- struct TUSBState {
-@@ -779,7 +779,7 @@ static void tusb6010_irq(void *opaque, int source, int level)
- 
- static void tusb6010_reset(DeviceState *dev)
- {
--    TUSBState *s = TUSB(dev);
-+    TUSBState *s = TUSB6010(dev);
-     int i;
- 
-     s->test_reset = TUSB_PROD_TEST_RESET_VAL;
-@@ -815,7 +815,7 @@ static void tusb6010_reset(DeviceState *dev)
- 
- static void tusb6010_realize(DeviceState *dev, Error **errp)
- {
--    TUSBState *s = TUSB(dev);
-+    TUSBState *s = TUSB6010(dev);
-     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
- 
-     s->otg_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, tusb_otg_tick, s);
--- 
-2.26.2
+Paolo
 
 
