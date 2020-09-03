@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B66525BD75
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 10:39:06 +0200 (CEST)
-Received: from localhost ([::1]:53332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B74425BD73
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 10:38:41 +0200 (CEST)
+Received: from localhost ([::1]:51498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDklt-0001NE-AP
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 04:39:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54178)
+	id 1kDklU-0000aW-HJ
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 04:38:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kDkfS-0008Lf-Iy
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 04:32:26 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:38137)
+ id 1kDkfU-0008RP-L0
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 04:32:28 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:41772)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kDkfQ-0001YM-NR
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 04:32:26 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id d22so1725634pfn.5
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 01:32:24 -0700 (PDT)
+ id 1kDkfT-0001Yc-0i
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 04:32:28 -0400
+Received: by mail-pf1-x444.google.com with SMTP id t9so1714797pfq.8
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 01:32:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Bq1eYS85B3lVfUWOPYt+//P+vJhXogDV3XY3bX1W5SI=;
- b=Qjua9vm4Xb2s+TOoRz8gpA20TD505Ci12y11ViB0+MiyYsBaKii5dfLwmQtVdGjPkI
- EGNZQMgUivNRybmo8F0IMnESP714Ig8xxOfRmHDy5tDjjv+AJhfcg3uWH9Om1VCAIfFW
- v/UOMkB1e3E9Gv2b7Ll51H2grJ/frYg6pkpNwwUc3C9vrkUZIa3LwOHZURtjz6ByJles
- v+E6n6XkRpQhMLz4ya11EF3f+KMuaMA58Eqbh9/ydQSCJp3jGrmSL3SEPQH3JcwYeQq5
- VsHCuFPxUaFy0mDrEiDgRKraMTsISd4oNYsf8VIN22+8phEDSclp6cuHVqWBIaagjXjd
- 26Pg==
+ bh=kZMPJvEMdwYjQlePlaJK6nWLcDjpDXuUWt/8zY2tP2A=;
+ b=BADQaGkTcxVwXilGxDbX4m+keTi1jHwnslluuVw5g2EYD9A5v7ombJlwFfhBed+7/W
+ lKmNZjipVrvbZZLylahXp6/k0cd/FN0Ezwb+LndyiW/MpXx4iAjACcqOhME6O8YCMVUj
+ 0qTkOEoph82hx6cmK9Sw5yJfBrmLlJqbuezdhajeckL/3+KkwTBUG/jrk2w2y83ECRQZ
+ ELbWLoD8lYDZw0L/SzKUUd2tolNUByipRA4Hw/TmNoRX5FGmQ5YDaB03fUPzbDbd9RJJ
+ 9G26lBZaiRKtd9Sdg9ZLzPOQOKvBJr9+R0zwoBPk+12fEk5pNy6PqgD4h4qRAUZF4PnY
+ jgVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Bq1eYS85B3lVfUWOPYt+//P+vJhXogDV3XY3bX1W5SI=;
- b=D7JccgknVYU3DV/K1XnjPLfEuhV1icgxDa8P4M2bFlJBzMaLeFUurPQb5RYGpRA+9N
- +qlFZocHFq+88a/lab6MfATCXD5xWKvl/3XxqoMZTQYlgG03N6fQktlsOgxkS+ApYZDJ
- DX8RWu2Y7PftZvB3t8cxN5ItdCCBYtjRaSuPoMZ04ZD/qVJRH0z3WV2i8ET9WCeslLqf
- XeDeovQeCG3K5Sn+OJ1B7WEXJAwnqYitmyYAB42EEXwzWi49N7W6gmEMJu2d8iMF1z1o
- QVdV+CipiiSkN7cH1HBwrTcUcoyYmZ3M9kBmMQA/V+1dLFPZ1A3+0J1TNEmjy1gJdmqa
- u2+A==
-X-Gm-Message-State: AOAM531fYx2rQobe7cPXNu60nXRiFl7WZWq1FObHhmxzRWNkdaUJrXDC
- ODdCM9/tZip59IKC6/XQW4b15Q/DQxJwa/+6
-X-Google-Smtp-Source: ABdhPJyVQK+5CBAl6B2nr7dRouGpaxenn3rjtGw7mjxuUUKrMn0ABbAg/N7u0GU3bGST9HgeG3N7+Q==
-X-Received: by 2002:a62:7bc3:: with SMTP id w186mr2714255pfc.221.1599121943019; 
- Thu, 03 Sep 2020 01:32:23 -0700 (PDT)
+ bh=kZMPJvEMdwYjQlePlaJK6nWLcDjpDXuUWt/8zY2tP2A=;
+ b=l4r5Pm+vBdFve0CT2ff16aO7UCCmiS5wiP5UoAgpOCLrPTVRSne598uGZ9/C+VlSqP
+ diWLbYUbHohPOJ23a+bmAWF8A6NUBzA3aZyVHzD7KFA87/RNZzHsMApRiS3X2jIYAKUZ
+ Aa9cY139qGeZwB1JfF6KpsjRblHcaGNy2fBE02iSBPOT6PIjkgSf5piqQYmm2i0hRQMt
+ kuKN1X71fOqQ8ocu0/vP29F16S/+doDSju4jphYE6ufX3qEs8hFTY0KiGZZfHbZ9enIX
+ NWW9ETXc+kuzE+8V4EgF299gJoNRc7fvGi34lRkha/gWdP3rhRSDHNMZf3CJO6S8H/9S
+ XefA==
+X-Gm-Message-State: AOAM533cmy6m7m+9OKjrjC+0N+x6HqbTIAujrAkS93oVekPl34B9sBMs
+ wlwfRyh2C8nOLQv6oDM5hbbobtPR2Sj3qu0D
+X-Google-Smtp-Source: ABdhPJyk2hBg3FwMAALD570n1B3wYBIZ4u1ppXvf3qep9nkjClfkBo6yb5Srmsf6stmxAP63WhA2eg==
+X-Received: by 2002:a63:6d4c:: with SMTP id i73mr2132904pgc.63.1599121945286; 
+ Thu, 03 Sep 2020 01:32:25 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id e7sm1759201pgn.64.2020.09.03.01.32.21
+ by smtp.googlemail.com with ESMTPSA id e7sm1759201pgn.64.2020.09.03.01.32.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Sep 2020 01:32:22 -0700 (PDT)
+ Thu, 03 Sep 2020 01:32:24 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 10/12] meson: Fixes qapi tests.
-Date: Thu,  3 Sep 2020 16:31:45 +0800
-Message-Id: <20200903083147.707-11-luoyonggang@gmail.com>
+Subject: [PATCH v4 11/12] tests: Disable test-image-locking that not works
+ under Win32
+Date: Thu,  3 Sep 2020 16:31:46 +0800
+Message-Id: <20200903083147.707-12-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200903083147.707-1-luoyonggang@gmail.com>
 References: <20200903083147.707-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,31 +89,25 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The error are:
-+@end table
-+
-+@end deftypefn
-+
-make: *** [Makefile.mtest:63: check-qapi-schema] Error 1
-
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- tests/qapi-schema/meson.build | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ tests/Makefile.include | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
-index c87d141417..67ba0a5ebd 100644
---- a/tests/qapi-schema/meson.build
-+++ b/tests/qapi-schema/meson.build
-@@ -220,6 +220,7 @@ qapi_doc = custom_target('QAPI doc',
- 
- # "full_path()" needed here to work around
- # https://github.com/mesonbuild/meson/issues/7585
--test('QAPI doc', diff, args: ['-u', files('doc-good.texi'), qapi_doc[0].full_path()],
-+test('QAPI doc', diff, args: ['--strip-trailing-cr',
-+                              '-u', files('doc-good.texi'), qapi_doc[0].full_path()],
-      depends: qapi_doc,
-      suite: ['qapi-schema', 'qapi-doc'])
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 9ac8f5b86a..497f1f21ff 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -87,7 +87,9 @@ check-unit-$(CONFIG_BLOCK) += tests/test-blockjob$(EXESUF)
+ check-unit-$(CONFIG_BLOCK) += tests/test-blockjob-txn$(EXESUF)
+ check-unit-$(CONFIG_BLOCK) += tests/test-block-backend$(EXESUF)
+ check-unit-$(CONFIG_BLOCK) += tests/test-block-iothread$(EXESUF)
++ifeq ($(CONFIG_POSIX),y)
+ check-unit-$(CONFIG_BLOCK) += tests/test-image-locking$(EXESUF)
++endif
+ check-unit-y += tests/test-x86-cpuid$(EXESUF)
+ # all code tested by test-x86-cpuid is inside topology.h
+ ifeq ($(CONFIG_SOFTMMU),y)
 -- 
 2.28.0.windows.1
 
