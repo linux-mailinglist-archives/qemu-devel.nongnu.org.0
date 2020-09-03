@@ -2,73 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCB2725BEE5
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 12:14:07 +0200 (CEST)
-Received: from localhost ([::1]:52748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8962E25BEFE
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 12:23:01 +0200 (CEST)
+Received: from localhost ([::1]:40722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDmFq-0002w0-Ss
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 06:14:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48346)
+	id 1kDmOS-0001Xb-L2
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 06:23:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kDmEd-0001vg-S2
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 06:12:51 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40902)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kDmEc-0006JF-5h
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 06:12:51 -0400
-Received: by mail-wm1-x341.google.com with SMTP id v4so2278790wmj.5
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 03:12:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=nF0WZAxDl8wF0iMxS3Ok+GeArNthtrZG8PP+7UcEQtc=;
- b=fPbXJndtoxBIVkbJowBVqacbpuncc+fr61cRYq2WerQKTb9mFrJ6qEkkKgtJsuFHRT
- fAGPi3N09ekTdz7qv8nWSDb26o9B7VRb7J7RtIvn9ljAKtDvPJ16OtVPAcnLEc73G4d9
- RndpNZjKOAnFHV7odc0Mlavl8uchSpmXHSi2p3PiefwQPjm4BOEghPmXv8zo7lBKOID6
- bEDtev1l2OXfgqYCEEykm9nll5CRYVcCfTWR0hBQcoL6jqDFQpx6r8iEaW+2qvHVDZi6
- PsyQ46hJm8ikd9X/cwlBw14I4jIrkgeWCDd/DnzNBka+fklp4gkgcdl04zNH5iSWojgK
- zrig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=nF0WZAxDl8wF0iMxS3Ok+GeArNthtrZG8PP+7UcEQtc=;
- b=DXJj4y6YhWac8CgNbWy0FeG+2Z2RsAeDWcGPTtmwhWom09vk7soL4tztYHxP6NAHuH
- zLrfCGBy01WKzctTqHxxhU0ZW2XSVjPG5GK2C1Q0nui6DDs1YT0eI6fV3vjFjvHFV7zy
- vep+uRt5myvBWPGjuWbOVrFodwXbbvSjp9FuviKMdtzEuNXtidxUvYI+W7LdCi8OQKmz
- rjmaAfhN+EkMTCM9rxiiIIt8+VWAqHZLLJFtZZr35oH69lXNit0OSthCZwOG0JqD9kQV
- Ui7uFwybUn1rbUpbCcvxqfwitPGK1nJCy6r0wV7laMlhLR3chPrqAEplt7RIPjttvEyC
- 1oJQ==
-X-Gm-Message-State: AOAM530sObqzlZI7T6Vtuh7u65t5IuprN6pHrXuveHUlReQ0Ik9lL7+E
- TauJb9vCWLwm4c4qdz9cJwCo2pdk4v2z0cQMaf84ByK/Xbs=
-X-Google-Smtp-Source: ABdhPJzmCwwKDlOnwRqlYBrr5QINgRE/zwEKvNagtQEVOMlBQdwe5upluqQledAAcAFim3UiPKfrfqacZcXT+vbbZig=
-X-Received: by 2002:a1c:ba0b:: with SMTP id k11mr1305674wmf.20.1599127968604; 
- Thu, 03 Sep 2020 03:12:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <f.gruenbichler@proxmox.com>)
+ id 1kDmNX-0000VV-Di; Thu, 03 Sep 2020 06:22:03 -0400
+Received: from proxmox-new.maurer-it.com ([212.186.127.180]:63999)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <f.gruenbichler@proxmox.com>)
+ id 1kDmNU-0007SP-CO; Thu, 03 Sep 2020 06:22:03 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 1342D449F3;
+ Thu,  3 Sep 2020 12:13:29 +0200 (CEST)
+Date: Thu, 03 Sep 2020 12:13:21 +0200
+From: Fabian =?iso-8859-1?q?Gr=FCnbichler?= <f.gruenbichler@proxmox.com>
+Subject: Re: [RFC qemu 0/6] mirror: implement incremental and bitmap modes
+To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
+References: <20200218100740.2228521-1-f.gruenbichler@proxmox.com>
+ <d35a76de-78d5-af56-0b34-f7bd2bbd3733@redhat.com>
+In-Reply-To: <d35a76de-78d5-af56-0b34-f7bd2bbd3733@redhat.com>
 MIME-Version: 1.0
-References: <20200829081233.10120-1-ani@anisinha.ca>
- <20200903060332-mutt-send-email-mst@kernel.org>
- <CAARzgwwFRUOoq7GOttzJVT8+67+7uNugC529SB8DX242p8A_QQ@mail.gmail.com>
-In-Reply-To: <CAARzgwwFRUOoq7GOttzJVT8+67+7uNugC529SB8DX242p8A_QQ@mail.gmail.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Thu, 3 Sep 2020 15:42:36 +0530
-Message-ID: <CAARzgww8S4qd3Z3McEiwV=YFPRvj63pZ1oJe4Wx1njR0iE8KZw@mail.gmail.com>
-Subject: Re: [PATCH] Fix a gap where acpi_pcihp_find_hotplug_bus() returns a
- non-hotpluggable bus
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: astroid/0.15.0 (https://github.com/astroidmail/astroid)
+Message-Id: <1599127031.9uxdp5h9o2.astroid@nora.none>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2a00:1450:4864:20::341;
- envelope-from=ani@anisinha.ca; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=212.186.127.180;
+ envelope-from=f.gruenbichler@proxmox.com; helo=proxmox-new.maurer-it.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 06:13:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,65 +53,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, Julia Suvorova <jusual@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 3, 2020 at 3:41 PM Ani Sinha <ani@anisinha.ca> wrote:
->
-> On Sep 3, 2020, 15:35 +0530, Michael S. Tsirkin <mst@redhat.com>, wrote:
->
-> On Sat, Aug 29, 2020 at 01:42:33PM +0530, Ani Sinha wrote:
->
-> When ACPI hotplug for the root bus is disabled, the bsel property for tha=
-t
->
-> bus is not set. Please see the following commit:
->
->
-> 3d7e78aa7777f ("Introduce a new flag for i440fx to disable PCI hotplug on=
- the root bus").
->
->
-> As a result, when acpi_pcihp_find_hotplug_bus() is called
->
-> with bsel set to 0, it may return the root bus. This would be wrong since=
- the
->
-> root bus is not hotpluggable. In general, this can potentially happen to =
-other
->
-> buses as well.
->
-> In this patch, we fix the issue in this function by checking if the bus r=
-eturned
->
-> by the function is actually hotpluggable. If not, we simply return NULL. =
-This
->
-> avoids the scenario where we are actually returning a non-hotpluggable bu=
-s.
->
->
-> Signed-off-by: Ani Sinha <ani@anisinha.ca>
->
->
-> What exactly are the consequences though?
->
->
-> The root bus
+On August 21, 2020 3:03 pm, Max Reitz wrote:
+> On 18.02.20 11:07, Fabian Gr=C3=BCnbichler wrote:
+>=20
+> [Sorry :/]
 
-s/root bus/any device on the root bus
-sorry.
+same, I've been meaning to ping/pick this back up but other stuff got in=20
+the way. so thanks for the reminder to get this upstream ;)
 
-might get ejected by the user when it should not if the user does the follo=
-wing:
->
-> outl 0xae10 0
-> outl 0xae08 your_slot
->
-> Please see Julia=E2=80=99s comment:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg734548.html
->
+>=20
+>> picking up on John's in-progress patch series from last summer, this is
+>> a stab at rebasing and adding test cases for the low-hanging fruits:
+>>=20
+>> - bitmap mirror mode with always/on-success/never bitmap sync mode
+>> - incremental mirror mode as sugar for bitmap + on-success
+>>=20
+>> Fabian Gr=C3=BCnbichler (4):
+>>   mirror: add check for bitmap-mode without bitmap
+>>   mirror: switch to bdrv_dirty_bitmap_merge_internal
+>>   iotests: add test for bitmap mirror
+>>   mirror: move some checks to QMP
+>>=20
+>> John Snow (2):
+>>   drive-mirror: add support for sync=3Dbitmap mode=3Dnever
+>>   drive-mirror: add support for conditional and always bitmap sync modes
+>=20
+> Looks reasonable to me.  I would indeed merge patches 2 through 4 into a
+> single one, and perhaps switch patches 5 and 6.
+>=20
+> Also, we still need an S-o-b from John on patch 2.
+>=20
+> I have one question: When the mirror job completes successfully (or is
+> cancelled =E2=80=9Csuccessfully=E2=80=9D), the bitmap is always fully cle=
+ared when the
+> job completes, right?  (Unless in =E2=80=9Cnever=E2=80=9D mode.)
+
+I have to take a closer look as well, it's been a while ;) IIRC the idea=20
+was that failed mirrors would allow re-using the bitmap for a next=20
+attempt, unless the mode is always. we are not using that feature (yet)=20
+though (see below).
+
+> Not that I think we should change the current implementation of =E2=80=9C=
+clear
+> sync_bitmap; merge dirty_bitmap into sync_bitmap;=E2=80=9D.  Just a quest=
+ion for
+> understanding.
+>=20
+>=20
+> Soo...  What=E2=80=99s the plan?
+
+I'll rebase, squash as suggested and resend next week! I am not sure how=20
+the S-O-B by John is supposed to enter the mix - should I just include=20
+it in the squashed patch (which would be partly authored, but=20
+not-yet-signed-off by him otherwise?)? do you pick it up once he's=20
+replied with one?
+
+FWIW, with been running with this for quite a while downstream with no=20
+issues, but we are only using the following part:
+
+- create bitmap(s)
+- (incrementally) replicate storage volume(s) out of band (using ZFS)
+- incrementally drive mirror as part of a live migration of VM
+- drop bitmap(s)
+
+so no fancy semi-permanent bitmap that gets re-used here. I've been=20
+toying with implementing some sort of generic replication feature akin=20
+to zfs send/recv though, but given that we only have built-in persistent=20
+bitmaps with qcow2 and the chance of some other tool or the user messing=20
+up other image formats is high, the safe usage scenarios are a bit=20
+limited.
+
+we do use such long-running bitmaps for our new backup driver though,=20
+and it works quite well there!
+=
+
 
