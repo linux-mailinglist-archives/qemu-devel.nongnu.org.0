@@ -2,74 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBC5F25BF4D
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 12:45:32 +0200 (CEST)
-Received: from localhost ([::1]:59364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1470325BF53
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 12:47:33 +0200 (CEST)
+Received: from localhost ([::1]:37478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDmkF-0005jR-Of
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 06:45:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55668)
+	id 1kDmmC-0008RD-3J
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 06:47:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kDmhc-0000zi-Rx
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 06:42:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41384)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kDmjh-0005Te-Is
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 06:44:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37932)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kDmhZ-0002Oz-FF
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 06:42:47 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kDmjf-0002aW-RY
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 06:44:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599129763;
+ s=mimecast20190719; t=1599129895;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=f5afLfhxtpbUp0rZ4N0Tmncogyav7o2EychCYLUfoiw=;
- b=hjtoqq0lZOzJSuwP0CzA5oYUtY2Avmv//C5xzah0EDA7qLHnfM0/i0qJRQx19N+z4jlQxJ
- pOv7lokwQmg3BX1fjNv9M8RKmWdyR8aWeS656PwoNjeq6eetYehbFQ/SyK7SE8tuEe1XA3
- LlOpYrAMHID52EiThAsd153JlQTSkd4=
+ bh=DYw+1ferLTOVFpYWPLMIQjVFhqxDONsQJcGh0iBZjuk=;
+ b=VzvVg24RAp/BGbG8vDTwvLWUUVFzEMc75VMH7TFtJYmZN+QwO6j1/v9db4VhYAMS1gvk4W
+ rEFYPpcDucFuANLCLlta1T+9MyDeJqFtGYZGVrJSeBkTh01O/nV5tN031dfadT5imrAS8S
+ JHqGlgYy5+zYV3oNMZzzKKF7EwFjH0A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-28-wlp6JB-hP26ShHAgz4ypSg-1; Thu, 03 Sep 2020 06:42:41 -0400
-X-MC-Unique: wlp6JB-hP26ShHAgz4ypSg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-452-Kzn86hTRPN-CFg3GS0nLnQ-1; Thu, 03 Sep 2020 06:44:53 -0400
+X-MC-Unique: Kzn86hTRPN-CFg3GS0nLnQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36344802B63;
- Thu,  3 Sep 2020 10:42:40 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-90.ams2.redhat.com [10.36.112.90])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ECAE71002393;
- Thu,  3 Sep 2020 10:42:38 +0000 (UTC)
-Subject: Re: Thouhgs about cross-platform signals and process
-To: luoyonggang@gmail.com, qemu-level <qemu-devel@nongnu.org>
-References: <CAE2XoE-Rwe8-k8p5zC6YzxFX-=bj+JY+RCJN4A1ZQudSZ8DQKQ@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <7e34696d-6c4f-7b5a-96a7-14d21adcd4b1@redhat.com>
-Date: Thu, 3 Sep 2020 12:42:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9294580EDA3;
+ Thu,  3 Sep 2020 10:44:52 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-68.ams2.redhat.com
+ [10.36.113.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2F30C60C0F;
+ Thu,  3 Sep 2020 10:44:52 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id A8D11113865F; Thu,  3 Sep 2020 12:44:50 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [PATCH v3 7/7] migration: introduce snapshot-{save, load,
+ delete} QMP commands
+References: <20200827111606.1408275-1-berrange@redhat.com>
+ <20200827111606.1408275-8-berrange@redhat.com>
+ <87d035tw74.fsf@dusky.pond.sub.org>
+ <20200901164732.GZ345480@redhat.com>
+ <873640msui.fsf@dusky.pond.sub.org>
+ <20200902110554.GF403297@redhat.com>
+ <87blinp4xa.fsf@dusky.pond.sub.org>
+ <20200903101729.GA8835@linux.fritz.box>
+ <20200903102112.GI441291@redhat.com>
+Date: Thu, 03 Sep 2020 12:44:50 +0200
+In-Reply-To: <20200903102112.GI441291@redhat.com> ("Daniel P. =?utf-8?Q?Be?=
+ =?utf-8?Q?rrang=C3=A9=22's?=
+ message of "Thu, 3 Sep 2020 11:21:12 +0100")
+Message-ID: <87k0xbm95p.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <CAE2XoE-Rwe8-k8p5zC6YzxFX-=bj+JY+RCJN4A1ZQudSZ8DQKQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0.001
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 04:23:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.324, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,22 +93,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Weil <sw@weilnetz.de>, "Daniel P. Berrange" <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
+ "Denis V. Lunev" <den@virtuozzo.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/09/2020 00.15, 罗勇刚(Yonggang Luo) wrote:
-> Seems signal handling are common and process fork are common in qemu,
-> I suggest wrapping those in utils library for easily and consistence
-> access across different platforms(Win32/POSIX)
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-For fork()-related things, I guess we could use the functions from glib
-most of the time.
-Concerning signal handling, I have to say that I was surprised to see in
-your patches that signal() is available with msys at all... is that
-always working as expected? There must be a reason why we did not use it
-in the QEMU code for things like the in the past...?
+> On Thu, Sep 03, 2020 at 12:17:29PM +0200, Kevin Wolf wrote:
+>> Am 03.09.2020 um 11:48 hat Markus Armbruster geschrieben:
+>> > If having to map from drive ID to node-name really is too much of a
+>> > burden, we can look for ways to make it easier, or we can make savem
+>> > optionally accept drive IDs instead of node-names, like we do in sever=
+al
+>> > other places for backward compatibility.
+>>=20
+>> Yes, letting commands accept both node-names and drive IDs is trivial
+>> and we do it pretty much everywhere. Much better than randomly selecting
+>> an image to save the VM state to.
+>
+> Is there anything which guarantees that node-names and drive IDs will
+> never clash ?  I didn't look for drive IDs as I was trying to ensure
+> a non-ambiguous lookup in case a string was both a valid node name
+> and a valid drive ID
 
- Thomas
+If I remember correctly, we always use a pair of members, technically
+both optional, must specify exactly one, because a single string would
+not work.
 
 
