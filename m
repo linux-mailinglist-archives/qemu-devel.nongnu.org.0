@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1573F25BD2F
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 10:26:47 +0200 (CEST)
-Received: from localhost ([::1]:39386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF98D25BD41
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 10:28:06 +0200 (CEST)
+Received: from localhost ([::1]:46366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDkZy-0000CU-4A
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 04:26:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50350)
+	id 1kDkbF-00035d-OI
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 04:28:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kDkXE-0003Az-0U
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 04:23:56 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43394
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kDkXK-0003SF-2x
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 04:24:02 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28790
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kDkXC-0008Sz-6M
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 04:23:55 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kDkXI-0008VM-Cu
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 04:24:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599121433;
+ s=mimecast20190719; t=1599121439;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=N0JziJwIPg15gd9mgKvmfLdw/a954O02VSniHury53g=;
- b=H1k9jDWQk51ipTH5m9R6TDpQ5cu+TH/eXu3xkn/FdLvKw8KlRxb9TWiU2s/QadIO8y5Q61
- YMuKDy7qN4YZ8+f3l2a7RoegbgjL76X7Hq830cqra/X9D2eYQ3aCSF+T0n0cND2CZoDSDc
- +KVC5OE/S/6ACZMdFAGespOLqTMCANQ=
+ bh=z8ubN+tdCrhRxUlksdxzuiplGfIIQAvNh+Rl+aXl8u4=;
+ b=E9q1QnIUzjPZEqR0CvlZ0AFy0nlwfRgEoDh701kcFuOUTLvokzfJRDqm1DJiC38UEHCLnY
+ TYgEBf+ZiRfpmaBHu4SNEHWpVqOQVpgqa4UchNi+EJyEyg6J6gYds2Q0aqhU0z9CSUyAsM
+ 3E/bd2EQLNqoROUUHPO8OHBt2NLnCy4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-314-9JYimAZwM02iDNXKwXzsUQ-1; Thu, 03 Sep 2020 04:23:48 -0400
-X-MC-Unique: 9JYimAZwM02iDNXKwXzsUQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-516-iHzBjFC9OlSlD6ZkWhbMbg-1; Thu, 03 Sep 2020 04:23:47 -0400
+X-MC-Unique: iHzBjFC9OlSlD6ZkWhbMbg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0E8F427C4;
- Thu,  3 Sep 2020 08:23:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73EDB1091064;
+ Thu,  3 Sep 2020 08:23:46 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-68.ams2.redhat.com
  [10.36.113.68])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3B7265D9DC;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 42D3C60250;
  Thu,  3 Sep 2020 08:23:46 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B7D9E113846B; Thu,  3 Sep 2020 10:23:44 +0200 (CEST)
+ id BB3D01144226; Thu,  3 Sep 2020 10:23:44 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/8] qapi/block-core.json: Remove stale description of
- 'blockdev-add'
-Date: Thu,  3 Sep 2020 10:23:38 +0200
-Message-Id: <20200903082344.1877175-3-armbru@redhat.com>
+Subject: [PULL 3/8] scripts/qmp/qom-fuse: Unbreak import of QEMUMonitorProtocol
+Date: Thu,  3 Sep 2020 10:23:39 +0200
+Message-Id: <20200903082344.1877175-4-armbru@redhat.com>
 In-Reply-To: <20200903082344.1877175-1-armbru@redhat.com>
 References: <20200903082344.1877175-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0.0
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
  helo=us-smtp-1.mimecast.com
@@ -83,63 +82,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, peter.maydell@linaro.org,
- Kashyap Chamarthy <kchamart@redhat.com>
+Cc: John Snow <jsnow@redhat.com>, peter.maydell@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Kashyap Chamarthy <kchamart@redhat.com>
+Commit c7b942d7f8 "scripts/qmp: Fix shebang and imports" messed with
+it for reasons I don't quite understand.  I do understand how it fails
+now: it neglects to import sys.  Fix that.
 
-On a 'qemu-discuss' thread[1], Kevin identifies that the current doc
-blurb for @blockdev-add is stale:
+It now fails because it expects an old version of module fuse.  That's
+next.
 
-    This is actually a documentation bug. @id doesn't exist,
-    blockdev-add never creates a BlockBackend. This was different in the
-    very first versions of the patches to add blockdev-add and we
-    probably just forgot to update the documentation after removing it.
-
-So remove the stale bits.
-
-And the requirement for 'node-name' is already mentioned in the
-documentation of @BlockdevOptions:
-
-    [...]
-    # @node-name: the node name of the new node (Since 2.0).
-    #             This option is required on the top level of blockdev-add.
-    #             Valid node names start with an alphabetic character and may
-    #             contain only alphanumeric characters, '-', '.' and '_'. Their
-    #             maximum length is 31 characters.
-    [...]
-
-[1] https://lists.nongnu.org/archive/html/qemu-discuss/2020-07/msg00071.html
-    -- equivalent to "-drive if=ide,id=disk0....."
-
-Fixes: be4b67bc7d ("blockdev: Allow creation of BDS trees without BB")
-
-Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
-Suggested-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20200805100158.1239390-1-kchamart@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Fixes: c7b942d7f84ef54f266921bf7668d43f1f2c7c79
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20200723142738.1868568-2-armbru@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
 ---
- qapi/block-core.json | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ scripts/qmp/qom-fuse | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index db08c58d78..55b58ba892 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -4036,9 +4036,7 @@
- ##
- # @blockdev-add:
- #
--# Creates a new block device. If the @id option is given at the top level, a
--# BlockBackend will be created; otherwise, @node-name is mandatory at the top
--# level and no BlockBackend will be created.
-+# Creates a new block device.
- #
- # Since: 2.9
- #
+diff --git a/scripts/qmp/qom-fuse b/scripts/qmp/qom-fuse
+index 5fa6b3bf64..b7dabe8d65 100755
+--- a/scripts/qmp/qom-fuse
++++ b/scripts/qmp/qom-fuse
+@@ -13,7 +13,7 @@
+ 
+ import fuse, stat
+ from fuse import Fuse
+-import os, posix
++import os, posix, sys
+ from errno import *
+ 
+ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
+@@ -134,7 +134,7 @@ class QOMFS(Fuse):
+             yield fuse.Direntry(str(item['name']))
+ 
+ if __name__ == '__main__':
+-    import sys, os
++    import os
+ 
+     fs = QOMFS(QEMUMonitorProtocol(os.environ['QMP_SOCKET']))
+     fs.main(sys.argv)
 -- 
 2.26.2
 
