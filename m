@@ -2,73 +2,117 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9B4925C147
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 14:47:32 +0200 (CEST)
-Received: from localhost ([::1]:49652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02A4225C14E
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 14:49:29 +0200 (CEST)
+Received: from localhost ([::1]:55098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDoeJ-00081s-Vc
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 08:47:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57494)
+	id 1kDogC-0001ql-2L
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 08:49:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kDocW-0006TP-1V
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 08:45:40 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:39096
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDody-0008EU-Jf
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 08:47:10 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25213
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kDocT-0001f9-Hp
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 08:45:39 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDodw-0001r0-Oe
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 08:47:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599137136;
+ s=mimecast20190719; t=1599137227;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jthmIaUgEtIapQCaA4bR4lRIdoGcsA31SsEo0vpAn8E=;
- b=bWbn8HDcygaVdHztAmQa1ibP2+7Wxg24wyLNsiXf26audpyvleyy2EHUJI8MCd/M9E/NZS
- OSktkC+4WU1ZxWjE8E3fp/Ud28MbW4j/oKVqdnBy4exwmKPi2/ToAMeD2GRZ6Jk2xiC90v
- LUuFf5p6Iuzeb20ttzef7NFTag3u+c4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-203-pKLM1PhfPVSEXF0dqkRQtg-1; Thu, 03 Sep 2020 08:45:33 -0400
-X-MC-Unique: pKLM1PhfPVSEXF0dqkRQtg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08D8D801FD5;
- Thu,  3 Sep 2020 12:45:32 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-114-183.ams2.redhat.com [10.36.114.183])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 14C91385;
- Thu,  3 Sep 2020 12:45:30 +0000 (UTC)
-Date: Thu, 3 Sep 2020 14:45:29 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v6 00/12] monitor: Optionally run handlers in coroutines
-Message-ID: <20200903124529.GC8835@linux.fritz.box>
-References: <20200528153742.274164-1-kwolf@redhat.com>
- <87d046d5k1.fsf@dusky.pond.sub.org>
- <87y2mtpbrf.fsf@dusky.pond.sub.org>
- <87ft7zm8yr.fsf@dusky.pond.sub.org>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=HKOYbSpXqpEFR+xjzMLfCAkn7MGr2ti0r84yWq8CQZA=;
+ b=ebqdEjdYHOYHgqTrCBoh+z7+sHeAZE/4c0V6N3F7vTE47Bq2PRFjyfM9j8b9RkoH2t1DTe
+ JqYU3BLrEqrKgldJPImN2egb6wWRugyMWhTwTMQLf4hxx4I3i/bHvPaMAKh9kiNqX6VRcu
+ TGTYcrsVBiY76LxbLmwa7PRGMvwYCkw=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-440-RJB0VDZwO6qkf6SsL1cvyw-1; Thu, 03 Sep 2020 08:47:06 -0400
+X-MC-Unique: RJB0VDZwO6qkf6SsL1cvyw-1
+Received: by mail-wm1-f69.google.com with SMTP id c72so927089wme.4
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 05:47:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=HKOYbSpXqpEFR+xjzMLfCAkn7MGr2ti0r84yWq8CQZA=;
+ b=d/vAgvBH/cNbaRYLZ2F0wXhhI06O4+tb+6prXBXlXWdRXQiL3R7uwSXFD1csMn0+Se
+ cAvz2zqeYXdLPVrk/OTlXKKD7nX+UrhkfJpn8Hcyle2LVS1ciTIY4f6fIN9rKkJL0pcm
+ ivfr13hT72AK1J7kUgmQ0JfTRIapPKfhxXHzQVZY6D6x7pVNsYTfXReod/YO1Gqkh71X
+ B/+zjqBdKv9EvqLLmBjRATfhfQZzoUmAwK/Myh1dDm7/xPkQKbBoWHmQEdFuBugMC8t6
+ QLSSQO3/FiXpZUnTc0dvfQnHzm1mTKVA3q1m7shsbf1IqwCgGl9ZoqGErGLDysHbc8LH
+ Tg8A==
+X-Gm-Message-State: AOAM530sbwfJlml546TSjekL9br1iI8gSGe0bHgVY4F+3LNIiRPfvLWw
+ RftxFOKcUa3MyCFG8raMTc7bW1zOJ9mIh7err6UvooQiXFb/OaInYZdiOQMry953O71KPP9IRrY
+ WzF4Szujk8DCvnxQ=
+X-Received: by 2002:a05:6000:1631:: with SMTP id
+ v17mr2245188wrb.411.1599137225071; 
+ Thu, 03 Sep 2020 05:47:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJynCr2Vo2ZVLhcQt5GFIMTyZLDoqMGpbV5wNDmWkO1rOWNpKJ10MVPxzjeMq64KyJhRp+E3zQ==
+X-Received: by 2002:a05:6000:1631:: with SMTP id
+ v17mr2245166wrb.411.1599137224864; 
+ Thu, 03 Sep 2020 05:47:04 -0700 (PDT)
+Received: from [192.168.1.36] (50.red-83-52-54.dynamicip.rima-tde.net.
+ [83.52.54.50])
+ by smtp.gmail.com with ESMTPSA id p9sm4050678wma.42.2020.09.03.05.47.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Sep 2020 05:47:04 -0700 (PDT)
+Subject: Re: [PATCH 14/63] i8254: Rename TYPE_I8254 to TYPE_PIT
+To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+References: <20200902224311.1321159-1-ehabkost@redhat.com>
+ <20200902224311.1321159-15-ehabkost@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <9a2be0a5-1d7f-1813-5bdb-2c741f07c593@redhat.com>
+Date: Thu, 3 Sep 2020 14:47:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <87ft7zm8yr.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20200902224311.1321159-15-ehabkost@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0.001
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 04:23:49
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 01:58:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-2.403, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,58 +125,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@gmail.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, berrange@redhat.com,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 03.09.2020 um 12:49 hat Markus Armbruster geschrieben:
-> Markus Armbruster <armbru@redhat.com> writes:
+On 9/3/20 12:42 AM, Eduardo Habkost wrote:
+> This will make the type name constant consistent with the name of
+> the type checking macro.
 > 
-> > Markus Armbruster <armbru@redhat.com> writes:
-> >
-> >> I let this series slide to get my Error API rework done, along with much
-> >> else.  My sincere apologies!
-> >>
-> >> Unsurprisingly, it needs a rebase now.  I suggest to let me review it as
-> >> is first.
-> >
-> > I'm done with v6.  Summary:
-> >
-> > * A few trivial things to correct here and there.
-> >
-> > * A few ideas to improve things in relatively minor ways.
-> >
-> > * PATCH 03 looks "why bother" to me until PATCH 09 makes me suspect you
-> >   did the former to enable the latter.  If you had captured that in your
-> >   commit message back then, like you did for the similar PATCH 05, I
-> >   wouldn't be scratching my head now :)
-> >
-> > * I dislike PATCH 06, and would like to explore an alternative idea.
-> >
-> > * PATCH 08 makes hairy monitor code even hairier, but I don't have
-> >   better ideas.
-> >
-> > * I don't feel comfortable as a sole reviewer of the AIO magic in PATCH
-> >   10-12.  Let's ask Stefan for an eye-over.
-> >
-> > I'd like to proceed as follows.  You rebase, and address "easy" review
-> > comments (you decide what's easy).  Post as v7, cc'ing Stefan for the
-> > AIO magic and David Gilbert for HMP.  While they review (hopefully), I
-> > explore a replacement for PATCH 06.  And then we touch bases and decide
-> > how to get this thing wrapped.
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> ---
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: qemu-devel@nongnu.org
+> ---
+>  include/hw/timer/i8254.h | 4 ++--
+>  hw/timer/i8254.c         | 4 ++--
+>  2 files changed, 4 insertions(+), 4 deletions(-)
 > 
-> I explored:
-> 
->     Subject: Ways to do per-coroutine properties (was: [PATCH v6 06/12] monitor: Make current monitor a per-coroutine property)
->     Date: Fri, 07 Aug 2020 15:09:19 +0200 (3 weeks, 5 days, 21 hours ago)
->     Message-ID: <87a6z6wqkg.fsf_-_@dusky.pond.sub.org>
-> 
-> May I have v7?  Feel free to keep your PATCH 06.  If I decide to replace
-> it, I can do it myself, possibly on top.
+> diff --git a/include/hw/timer/i8254.h b/include/hw/timer/i8254.h
+> index 1a522a2457..ddd925074f 100644
+> --- a/include/hw/timer/i8254.h
+> +++ b/include/hw/timer/i8254.h
+> @@ -45,7 +45,7 @@ typedef struct PITCommonClass PITCommonClass;
+>  DECLARE_OBJ_CHECKERS(PITCommonState, PITCommonClass,
+>                       PIT_COMMON, TYPE_PIT_COMMON)
+>  
+> -#define TYPE_I8254 "isa-pit"
+> +#define TYPE_PIT "isa-pit"
 
-It's one of the next things on my list. I can't promise anything more
-specific, though.
+I disagree with this patch, as we have various PIT and only one I8254.
 
-Kevin
+>  #define TYPE_KVM_I8254 "kvm-pit"
+>  
+>  static inline ISADevice *i8254_pit_init(ISABus *bus, int base, int isa_irq,
+> @@ -54,7 +54,7 @@ static inline ISADevice *i8254_pit_init(ISABus *bus, int base, int isa_irq,
+>      DeviceState *dev;
+>      ISADevice *d;
+>  
+> -    d = isa_new(TYPE_I8254);
+> +    d = isa_new(TYPE_PIT);
+>      dev = DEVICE(d);
+>      qdev_prop_set_uint32(dev, "iobase", base);
+>      isa_realize_and_unref(d, bus, &error_fatal);
+> diff --git a/hw/timer/i8254.c b/hw/timer/i8254.c
+> index c01ee2c72a..86f455f67e 100644
+> --- a/hw/timer/i8254.c
+> +++ b/hw/timer/i8254.c
+> @@ -39,7 +39,7 @@
+>  
+>  typedef struct PITClass PITClass;
+>  DECLARE_CLASS_CHECKERS(PITClass, PIT,
+> -                       TYPE_I8254)
+> +                       TYPE_PIT)
+>  
+>  struct PITClass {
+>      PITCommonClass parent_class;
+> @@ -370,7 +370,7 @@ static void pit_class_initfn(ObjectClass *klass, void *data)
+>  }
+>  
+>  static const TypeInfo pit_info = {
+> -    .name          = TYPE_I8254,
+> +    .name          = TYPE_PIT,
+>      .parent        = TYPE_PIT_COMMON,
+>      .instance_size = sizeof(PITCommonState),
+>      .class_init    = pit_class_initfn,
+> 
 
 
