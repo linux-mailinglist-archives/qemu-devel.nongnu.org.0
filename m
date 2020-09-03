@@ -2,63 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B09625CC33
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:27:14 +0200 (CEST)
-Received: from localhost ([::1]:53832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6378425CC3D
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:29:12 +0200 (CEST)
+Received: from localhost ([::1]:33848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwlF-0004eK-2k
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:27:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58462)
+	id 1kDwn9-00081A-Cn
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:29:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLA-0003pR-EB; Thu, 03 Sep 2020 17:00:16 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:34043)
+ id 1kDwLB-0003ry-Dg; Thu, 03 Sep 2020 17:00:17 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:44047)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwL8-0007Sj-CI; Thu, 03 Sep 2020 17:00:15 -0400
-Received: by mail-ot1-x344.google.com with SMTP id h17so3207875otr.1;
- Thu, 03 Sep 2020 14:00:13 -0700 (PDT)
+ id 1kDwL9-0007Ui-KI; Thu, 03 Sep 2020 17:00:17 -0400
+Received: by mail-ot1-x343.google.com with SMTP id a2so3980736otr.11;
+ Thu, 03 Sep 2020 14:00:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=3SuwZW28eAjJ3YWBTzrGv938b6MDi9p5c1iamVmgVTs=;
- b=jeC5bky8i6iuk9jTkRdmcsM7MPX4//PdxWYf0UrMhtLcNDBFofCqLrGeeYfb4nlRd/
- VHWa+QAiJdFXz6V5HnQdM/XHSGbM60QV4Y0f4cp/aLdmGJNovsrgFChTHQ94cpxu+lAS
- qVQJkq/a/LdkKx1JCeoTIME6ovIph3nxrokvtwxnAJhk14wChuuy9PWAur1MHQgHXIWS
- lE6B0o405c9R2j4bVwKKl1WpbSdEchokLpZrbTqyxtW1CK+ecTNu/uZ/EPjVp8DEDE5U
- ixwwwVJLx76lohrOhoKQprWSm0szhlD0Cbiiaii3k43KoIob3oPLU62OZE5oHmx0gpql
- 5PXg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=RtiowuAQkv312A5ys7+EMqL5vJk41pvA+ri5Ve8MLsg=;
+ b=CeOl9TTuwTND8XKf4EXTnn841voh1MBgCRSGyn0h4uom/ihjf+XoLYcAyE3kV8uejO
+ swgrw8Y7eJyHc+3+hh8N5AVWI7DXvPYApjSYrmHMiJRuFqyoxzj8IUMl8xKx8fGDMCBi
+ sg7UvA11lE9hh+W2jiiWSYgF7scl0cbaDrpNeKqThOnap4knvhqF/Q5gpIyzxfrkAPxt
+ BiizcxGi9UBmdqN02jWW67MLjhZdYY/nsAcrL4aGyBRtmjJosHwM2Oriz9on0eM8XtSu
+ xRzzXKnr/EOHaOGEItgT2dF15QPnZyEmdopI7DYu+lfmNc0jKQDRPALkcdX4tFPZ2jnT
+ E0CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=3SuwZW28eAjJ3YWBTzrGv938b6MDi9p5c1iamVmgVTs=;
- b=i3fMOhjMEHRxjjQ3UQ3RACN7wYpxW7htsmAh9TpeAUUOOsfbojv1E2QKi9G5c4lJa4
- CCSHJpBG+V3ZeDf/xzGAGWzdVuJgLNBVoc4xq0WizMUMIOQ6sl610L5sFI3Dt9WpdC5L
- wIfwXaQp99wyExd00sNU4+lcvlKSdAXaS7EH/hw3BQ0nHx1dDYLhwsFqmJfJ1KhGLptW
- JSygj1pBErPgHsrMIe9UangT7EieQsqx4TGsKsx2eEDTcbVmX9XF8o8IJn7J03/BSB/5
- sd0S0nBai2px98d9VcstrcROvE56Xqjsf90u7R+c32D/E3zruDXFJRWTqrQxn897jEAd
- mc1g==
-X-Gm-Message-State: AOAM533ie7ivFLw48qdy8TLoZGz0z/zRX7qeTzHCplUgyvTPFY3ksZIk
- /wjT13c4mVcxmU83yIe3m19RI8zhtnE=
-X-Google-Smtp-Source: ABdhPJxlBge35zxuhUGxEOkO3ktrro7su289ePXOBdgPTNUFvl6IpxX3+XvnnjyYTb+P3tex3KfC4g==
-X-Received: by 2002:a9d:6c98:: with SMTP id c24mr3097488otr.208.1599166812398; 
- Thu, 03 Sep 2020 14:00:12 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=RtiowuAQkv312A5ys7+EMqL5vJk41pvA+ri5Ve8MLsg=;
+ b=SoedIv8Nx5bQ6bh5n1Hsf1n9hEo9DUQjVFCrszG1vKcm0YsM+tZp54J8Vp1xaOE6+v
+ 0mHEBRX+1OJGOGPJNka9kwZHMs841JLcoR5gt+VkKs1hep1PXtPPz7U8FixRG6VqJxpy
+ GpTUYCjuaAnG6v/bLo/kXJWBh1cTud+nC2Xv3a8qLrMXHiMdPxT8heb+3MsiuFvp/U+L
+ Fqn1oJxDTbwwsbsQxLaVYSe0mTi759dEIeZ0mwnC+tu49sC+OI31XUo7UAFG/ezFZEqU
+ wFLuz2Uckse7ehrRQR2DibFZA6COdDvGm+Hb2lUZBMPE+qgOorPc1lmmfv18eVv+d1mS
+ 1SXA==
+X-Gm-Message-State: AOAM533tXXisIv/NTBXZp13ztf3bsGOqWPQk7z9zzI6b/6WfQax//i+C
+ Qt5+zo8CeCybQM+z06DM+6WocN33hME=
+X-Google-Smtp-Source: ABdhPJwzgt4QElx5SjNbrbNMMksX+d1txIE1M3j60cpnbNpIrvEOjs/sRCUGVM5LwAYhfw+oQU/lyg==
+X-Received: by 2002:a9d:6d95:: with SMTP id x21mr3138157otp.339.1599166813759; 
+ Thu, 03 Sep 2020 14:00:13 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id z17sm836651oop.15.2020.09.03.14.00.11
+ by smtp.gmail.com with ESMTPSA id e7sm205748otk.59.2020.09.03.14.00.12
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:00:11 -0700 (PDT)
+ Thu, 03 Sep 2020 14:00:13 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 25/77] aio-posix: disable fdmon-io_uring when GSource is used
-Date: Thu,  3 Sep 2020 15:58:43 -0500
-Message-Id: <20200903205935.27832-26-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 26/77] linux-user/strace.list: fix epoll_create{,
+ 1} -strace output
+Date: Thu,  3 Sep 2020 15:58:44 -0500
+Message-Id: <20200903205935.27832-27-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x344.google.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -81,101 +86,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Riku Voipio <riku.voipio@iki.fi>, qemu-stable@nongnu.org,
+ Sergei Trofimovich <slyfox@gentoo.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: Sergei Trofimovich <slyfox@gentoo.org>
 
-The glib event loop does not call fdmon_io_uring_wait() so fd handlers
-waiting to be submitted build up in the list. There is no benefit is
-using io_uring when the glib GSource is being used, so disable it
-instead of implementing a more complex fix.
+Fix syscall name and parameters priinter.
 
-This fixes a memory leak where AioHandlers would build up and increasing
-amounts of CPU time were spent iterating them in aio_pending(). The
-symptom is that guests become slow when QEMU is built with io_uring
-support.
+Before the change:
 
-Buglink: https://bugs.launchpad.net/qemu/+bug/1877716
-Fixes: 73fd282e7b6dd4e4ea1c3bbb3d302c8db51e4ccf ("aio-posix: add io_uring fd monitoring implementation")
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Tested-by: Oleksandr Natalenko <oleksandr@redhat.com>
-Message-id: 20200511183630.279750-3-stefanha@redhat.com
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-(cherry picked from commit ba607ca8bff4d2c2062902f8355657c865ac7c29)
+```
+$ alpha-linux-user/qemu-alpha -strace -L /usr/alpha-unknown-linux-gnu/ /tmp/a
+...
+1274697 %s(%d)(2097152,274903156744,274903156760,274905840712,274877908880,274903235616) = 3
+1274697 exit_group(0)
+```
+
+After the change:
+
+```
+$ alpha-linux-user/qemu-alpha -strace -L /usr/alpha-unknown-linux-gnu/ /tmp/a
+...
+1273719 epoll_create1(2097152) = 3
+1273719 exit_group(0)
+```
+
+Fixes: 9cbc0578cb6 ("Improve output of various syscalls")
+Signed-off-by: Sergei Trofimovich <slyfox@gentoo.org>
+CC: Riku Voipio <riku.voipio@iki.fi>
+CC: Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-stable@nongnu.org
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20200416175957.1274882-1-slyfox@gentoo.org>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+(cherry picked from commit fd568660b7ae9b9e45cbb616acc91ae4c065c32d)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- include/block/aio.h |  3 +++
- util/aio-posix.c    | 12 ++++++++++++
- util/aio-win32.c    |  4 ++++
- util/async.c        |  1 +
- 4 files changed, 20 insertions(+)
+ linux-user/strace.list | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/block/aio.h b/include/block/aio.h
-index 62ed954344..b2f703fa3f 100644
---- a/include/block/aio.h
-+++ b/include/block/aio.h
-@@ -701,6 +701,9 @@ void aio_context_setup(AioContext *ctx);
-  */
- void aio_context_destroy(AioContext *ctx);
- 
-+/* Used internally, do not call outside AioContext code */
-+void aio_context_use_g_source(AioContext *ctx);
-+
- /**
-  * aio_context_set_poll_params:
-  * @ctx: the aio context
-diff --git a/util/aio-posix.c b/util/aio-posix.c
-index 8af334ab19..1b2a3af65b 100644
---- a/util/aio-posix.c
-+++ b/util/aio-posix.c
-@@ -682,6 +682,18 @@ void aio_context_destroy(AioContext *ctx)
-     aio_free_deleted_handlers(ctx);
- }
- 
-+void aio_context_use_g_source(AioContext *ctx)
-+{
-+    /*
-+     * Disable io_uring when the glib main loop is used because it doesn't
-+     * support mixed glib/aio_poll() usage. It relies on aio_poll() being
-+     * called regularly so that changes to the monitored file descriptors are
-+     * submitted, otherwise a list of pending fd handlers builds up.
-+     */
-+    fdmon_io_uring_destroy(ctx);
-+    aio_free_deleted_handlers(ctx);
-+}
-+
- void aio_context_set_poll_params(AioContext *ctx, int64_t max_ns,
-                                  int64_t grow, int64_t shrink, Error **errp)
- {
-diff --git a/util/aio-win32.c b/util/aio-win32.c
-index 729d533faf..953c56ab48 100644
---- a/util/aio-win32.c
-+++ b/util/aio-win32.c
-@@ -414,6 +414,10 @@ void aio_context_destroy(AioContext *ctx)
- {
- }
- 
-+void aio_context_use_g_source(AioContext *ctx)
-+{
-+}
-+
- void aio_context_set_poll_params(AioContext *ctx, int64_t max_ns,
-                                  int64_t grow, int64_t shrink, Error **errp)
- {
-diff --git a/util/async.c b/util/async.c
-index 3165a28f2f..1319eee3bc 100644
---- a/util/async.c
-+++ b/util/async.c
-@@ -362,6 +362,7 @@ static GSourceFuncs aio_source_funcs = {
- 
- GSource *aio_get_g_source(AioContext *ctx)
- {
-+    aio_context_use_g_source(ctx);
-     g_source_ref(&ctx->source);
-     return &ctx->source;
- }
+diff --git a/linux-user/strace.list b/linux-user/strace.list
+index d49a1e92a8..9281c0a758 100644
+--- a/linux-user/strace.list
++++ b/linux-user/strace.list
+@@ -125,10 +125,10 @@
+ { TARGET_NR_dup3, "dup3" , "%s(%d,%d,%d)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_epoll_create
+-{ TARGET_NR_epoll_create, "%s(%d)", NULL, NULL, NULL },
++{ TARGET_NR_epoll_create, "epoll_create", "%s(%d)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_epoll_create1
+-{ TARGET_NR_epoll_create1, "%s(%d)", NULL, NULL, NULL },
++{ TARGET_NR_epoll_create1, "epoll_create1", "%s(%d)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_epoll_ctl
+ { TARGET_NR_epoll_ctl, "epoll_ctl" , NULL, NULL, NULL },
 -- 
 2.17.1
 
