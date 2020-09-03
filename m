@@ -2,75 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B52325B81A
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 02:59:38 +0200 (CEST)
-Received: from localhost ([::1]:54874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE00D25B87D
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 03:58:18 +0200 (CEST)
+Received: from localhost ([::1]:35336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDdbF-0001Ny-1h
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 20:59:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59194)
+	id 1kDeW1-0001ov-VS
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 21:58:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenhuacai@gmail.com>)
- id 1kDdaX-0000sO-7F
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 20:58:53 -0400
-Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:40412)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chenhuacai@gmail.com>)
- id 1kDdaV-00079S-DH
- for qemu-devel@nongnu.org; Wed, 02 Sep 2020 20:58:52 -0400
-Received: by mail-il1-x142.google.com with SMTP id y2so941522ilp.7
- for <qemu-devel@nongnu.org>; Wed, 02 Sep 2020 17:58:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=hN7aGBq86ycig/3UxHah0Gg2hr9eKDbP0NvSWMHHig8=;
- b=EGbTI2ngA/aC2rozMvsppCNoObESUbzCo2lvui1XjEFzMulLmhPzQBz7W/jCGz17BY
- +44AO4j8cqeOXiH2VJgjWWFm+txkQj6ELt6U+KtZkTMPD774u8qmVmK1TUzRd+HgxeWi
- XOuDFDPw+GjlkL04b96yGU4jL0rT4Gce9h0k212Cc4qungCbO43lRe6PHECT3jh0fZXz
- FAAcXaXcy8+ODFYtN8GsGWL5B/YHA0mTdiPo09cZyqyEBnWKYN0RhpnCCTddhXSwH+8r
- l5HKdOlFY+9kVdN9o7Hfkn3cOywcBC2PJv8sDkwPqkJ8uOR1Efk6Ul8sUu4jWg/RxPUu
- dUOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=hN7aGBq86ycig/3UxHah0Gg2hr9eKDbP0NvSWMHHig8=;
- b=gAksOxy2jef4geDa1F+44FhKVlXCX4dWQ5LORdW6qb62up9NONACEtQa0IUc/r+jLo
- 7qNBlrFKKr4jR2FOpUIrz2ujzY6DGV7ZZoekLuJREOE7tdYcwxsqJEUYNk2VnpdOYg0n
- f8jiGFsR3Y/svcrbYhkwmXqvprZa6B8HfjEBAydH4EyBc+Z+FndACkiVOFJ6HL+5hN0o
- /fRqvcCAYbwUu3O9nx9oGw59LVxNiT0cLpaQQ3ekYWWTyvVjQDunQG8ZgRy03/IjZB5h
- u3msNoVaS9WKuoeaXNKxDLrw3KTaSGK4B9paN5fBR5DarNnz8X1ehzPlZeXKeSZ5U5gs
- EuOg==
-X-Gm-Message-State: AOAM5315UhqCIf1ScyKYtJ+KprTd0dYP8SJh16W952T+sGfUJYJtfhoA
- gPwemnjP3PSFgRis4uMysmqfiV/zQDR4arQLxDs=
-X-Google-Smtp-Source: ABdhPJyxPKswadvrad1LfcZk/0CqcN+AAVIXVYmf6rsVLZtEegWomF1GZd2gNZJp2gJDfik6wdSWV4x0Rg0ee6Mr5HQ=
-X-Received: by 2002:a05:6e02:d8f:: with SMTP id
- i15mr815241ilj.147.1599094729745; 
- Wed, 02 Sep 2020 17:58:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kDeUm-000067-Lf; Wed, 02 Sep 2020 21:57:00 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:53413 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kDeUj-0005bp-0G; Wed, 02 Sep 2020 21:57:00 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4BhkSc75Ddz9sTS; Thu,  3 Sep 2020 11:56:48 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1599098209;
+ bh=edv6LMM9HLzKFcIP+RvflRSsamdIAWI6/S3XGluvPHE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=YvQZaDSbSD/OIc1JzVEeb51KkkKOY2jUfQzDywvrgdrq4rTnw0tT1VH6Cpvjx1NG9
+ kVkDICMarNJemDNqZ1Gh8C8Qove6p+fmXRzDVBAR3b3LFWt8/HvFpgmOXEBKuqtsQw
+ ScFzLKdaeb6v6sw+na82k2aoC+Mqfli9JYM4bc60=
+Date: Thu, 3 Sep 2020 11:34:30 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH v2 5/7] spapr, spapr_numa: move lookup-arrays handling to
+ spapr_numa.c
+Message-ID: <20200903013430.GG1897@yekko.fritz.box>
+References: <20200901125645.118026-1-danielhb413@gmail.com>
+ <20200901125645.118026-6-danielhb413@gmail.com>
 MIME-Version: 1.0
-References: <1598256668-12131-1-git-send-email-chenhc@lemote.com>
- <d594ed8e-1cb5-f9ac-09d3-7da28f5a95d3@amsat.org>
-In-Reply-To: <d594ed8e-1cb5-f9ac-09d3-7da28f5a95d3@amsat.org>
-From: Huacai Chen <chenhuacai@gmail.com>
-Date: Thu, 3 Sep 2020 08:58:38 +0800
-Message-ID: <CAAhV-H4hRT+7KNCDX7bWwxK_mgYRSkWh+9rh1o6LLfD8zmGdqg@mail.gmail.com>
-Subject: Re: [PATCH V2 for-5.2] hw/null-machine: Add the kvm_type() hook for
- MIPS
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::142;
- envelope-from=chenhuacai@gmail.com; helo=mail-il1-x142.google.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="TdkiTnkLhLQllcMS"
+Content-Disposition: inline
+In-Reply-To: <20200901125645.118026-6-danielhb413@gmail.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,92 +61,183 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <zltjiangshi@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Eduardo Habkost <ehabkost@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Thomas Huth <thuth@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Philippe,
 
-On Wed, Sep 2, 2020 at 9:55 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
-> wrote:
->
-> Hi Huacai,
->
-> On 8/24/20 10:11 AM, Huacai Chen wrote:
-> > MIPS has two types of KVM: TE & VZ, and TE is the default type. Now,
-> > libvirt uses a null-machine to detect the kvm capability. In the MIPS
-> > case, it will return "KVM not supported" on a VZ platform by default.
-> > So, add the kvm_type() hook to the null-machine.
-> >
-> > This seems not a very good solution, but I cannot do it better now.
-> >
-> > Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-> > Signed-off-by: Huacai Chen <chenhc@lemote.com>
-> > Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> > ---
-> >  hw/core/meson.build    | 2 +-
-> >  hw/core/null-machine.c | 6 ++++++
-> >  2 files changed, 7 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/hw/core/meson.build b/hw/core/meson.build
-> > index fc91f98..b6591b9 100644
-> > --- a/hw/core/meson.build
-> > +++ b/hw/core/meson.build
-> > @@ -35,7 +35,6 @@ softmmu_ss.add(files(
-> >    'machine-hmp-cmds.c',
-> >    'machine.c',
-> >    'nmi.c',
-> > -  'null-machine.c',
-> >    'qdev-fw.c',
-> >    'qdev-properties-system.c',
-> >    'sysbus.c',
-> > @@ -45,5 +44,6 @@ softmmu_ss.add(files(
-> >
-> >  specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: files(
-> >    'machine-qmp-cmds.c',
-> > +  'null-machine.c',
-> >    'numa.c',
-> >  ))
-> > diff --git a/hw/core/null-machine.c b/hw/core/null-machine.c
-> > index 7e69352..4b4ab76 100644
-> > --- a/hw/core/null-machine.c
-> > +++ b/hw/core/null-machine.c
-> > @@ -17,6 +17,9 @@
-> >  #include "sysemu/sysemu.h"
-> >  #include "exec/address-spaces.h"
-> >  #include "hw/core/cpu.h"
-> > +#ifdef TARGET_MIPS
-> > +#include "kvm_mips.h"
-> > +#endif
-> >
-> >  static void machine_none_init(MachineState *mch)
-> >  {
-> > @@ -55,6 +58,9 @@ static void machine_none_machine_init(MachineClass *m=
-c)
-> >      mc->no_floppy =3D 1;
-> >      mc->no_cdrom =3D 1;
-> >      mc->no_sdcard =3D 1;
-> > +#ifdef TARGET_MIPS
-> > +    mc->kvm_type =3D mips_kvm_type;
-> > +#endif
->
-> I'm a bit confused here, you are taking the same path from your v4...
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg712550.html
->
-> Did you rebase the correct version?
-The old patch has split to two parts, the first part is used by MIPS
-machine and already merged. This is the second part used by the
-null-machine (and libvirt use null-machine to detect kvm
-capabilities).
+--TdkiTnkLhLQllcMS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Huacai
->
-> >  }
-> >
-> >  DEFINE_MACHINE("none", machine_none_machine_init)
-> >
+On Tue, Sep 01, 2020 at 09:56:43AM -0300, Daniel Henrique Barboza wrote:
+> In a similar fashion as the previous patch, let's move the
+> handling of ibm,associativity-lookup-arrays from spapr.c to
+> spapr_numa.c. A spapr_numa_write_assoc_lookup_arrays() helper was
+> created, and spapr_dt_dynamic_reconfiguration_memory() can now
+> use it to advertise the lookup-arrays.
+>=20
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
+>  hw/ppc/spapr.c              | 25 ++----------------------
+>  hw/ppc/spapr_numa.c         | 39 +++++++++++++++++++++++++++++++++++++
+>  include/hw/ppc/spapr_numa.h |  2 ++
+>  3 files changed, 43 insertions(+), 23 deletions(-)
+>=20
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 172f965fe0..65d2ccd578 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -535,13 +535,10 @@ static int spapr_dt_dynamic_reconfiguration_memory(=
+SpaprMachineState *spapr,
+>                                                     void *fdt)
+>  {
+>      MachineState *machine =3D MACHINE(spapr);
+> -    int nb_numa_nodes =3D machine->numa_state->num_nodes;
+> -    int ret, i, offset;
+> +    int ret, offset;
+>      uint64_t lmb_size =3D SPAPR_MEMORY_BLOCK_SIZE;
+>      uint32_t prop_lmb_size[] =3D {cpu_to_be32(lmb_size >> 32),
+>                                  cpu_to_be32(lmb_size & 0xffffffff)};
+> -    uint32_t *int_buf, *cur_index, buf_len;
+> -    int nr_nodes =3D nb_numa_nodes ? nb_numa_nodes : 1;
+>      MemoryDeviceInfoList *dimms =3D NULL;
+> =20
+>      /*
+> @@ -582,25 +579,7 @@ static int spapr_dt_dynamic_reconfiguration_memory(S=
+paprMachineState *spapr,
+>          return ret;
+>      }
+> =20
+> -    /* ibm,associativity-lookup-arrays */
+> -    buf_len =3D (nr_nodes * 4 + 2) * sizeof(uint32_t);
+> -    cur_index =3D int_buf =3D g_malloc0(buf_len);
+> -    int_buf[0] =3D cpu_to_be32(nr_nodes);
+> -    int_buf[1] =3D cpu_to_be32(4); /* Number of entries per associativit=
+y list */
+> -    cur_index +=3D 2;
+> -    for (i =3D 0; i < nr_nodes; i++) {
+> -        uint32_t associativity[] =3D {
+> -            cpu_to_be32(0x0),
+> -            cpu_to_be32(0x0),
+> -            cpu_to_be32(0x0),
+> -            cpu_to_be32(i)
+> -        };
+> -        memcpy(cur_index, associativity, sizeof(associativity));
+> -        cur_index +=3D 4;
+> -    }
+> -    ret =3D fdt_setprop(fdt, offset, "ibm,associativity-lookup-arrays", =
+int_buf,
+> -            (cur_index - int_buf) * sizeof(uint32_t));
+> -    g_free(int_buf);
+> +    ret =3D spapr_numa_write_assoc_lookup_arrays(spapr, fdt, offset);
+> =20
+>      return ret;
+>  }
+> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
+> index b8882d209e..9eb4bdbe80 100644
+> --- a/hw/ppc/spapr_numa.c
+> +++ b/hw/ppc/spapr_numa.c
+> @@ -75,6 +75,45 @@ int spapr_numa_fixup_cpu_dt(SpaprMachineState *spapr, =
+void *fdt,
+>                         vcpu_assoc, sizeof(vcpu_assoc));
+>  }
+> =20
+> +
+> +int spapr_numa_write_assoc_lookup_arrays(SpaprMachineState *spapr, void =
+*fdt,
+> +                                         int offset)
+> +{
+> +    MachineState *machine =3D MACHINE(spapr);
+> +    SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
+> +    int nb_numa_nodes =3D machine->numa_state->num_nodes;
+> +    int nr_nodes =3D nb_numa_nodes ? nb_numa_nodes : 1;
+> +    uint32_t *int_buf, *cur_index, buf_len;
+> +    int ret, i, j;
+> +
+> +    /* ibm,associativity-lookup-arrays */
+> +    buf_len =3D (nr_nodes * MAX_DISTANCE_REF_POINTS + 2) * sizeof(uint32=
+_t);
+> +    cur_index =3D int_buf =3D g_malloc0(buf_len);
+> +    int_buf[0] =3D cpu_to_be32(nr_nodes);
+> +     /* Number of entries per associativity list */
+> +    int_buf[1] =3D cpu_to_be32(MAX_DISTANCE_REF_POINTS);
+> +    cur_index +=3D 2;
+> +    for (i =3D 0; i < nr_nodes; i++) {
+> +        /*
+> +         * For the lookup-array we use the ibm,associativity array,
+> +         * from numa_assoc_array. without the first element (size).
+> +         */
+> +        uint32_t associativity[MAX_DISTANCE_REF_POINTS];
+> +
+> +        for (j =3D 0; j < MAX_DISTANCE_REF_POINTS; j++) {
+> +            associativity[j] =3D smc->numa_assoc_array[i][j + 1];
+> +        }
+> +
+> +        memcpy(cur_index, associativity, sizeof(associativity));
+
+AFAICT, you could just use a single memcpy() to copy from the
+numa_assoc_array() into the property here, rather than using a loop
+and temporary array.
+
+> +        cur_index +=3D 4;
+
+Shouldn't this be  +=3D MAX_DISTANCE_REF_POINTS?
+
+> +    }
+> +    ret =3D fdt_setprop(fdt, offset, "ibm,associativity-lookup-arrays", =
+int_buf,
+> +                      (cur_index - int_buf) * sizeof(uint32_t));
+> +    g_free(int_buf);
+> +
+> +    return ret;
+> +}
+> +
+>  /*
+>   * Helper that writes ibm,associativity-reference-points and
+>   * max-associativity-domains in the RTAS pointed by @rtas
+> diff --git a/include/hw/ppc/spapr_numa.h b/include/hw/ppc/spapr_numa.h
+> index f92fb4f28a..f6127501a6 100644
+> --- a/include/hw/ppc/spapr_numa.h
+> +++ b/include/hw/ppc/spapr_numa.h
+> @@ -22,6 +22,8 @@ void spapr_numa_write_associativity_dt(SpaprMachineStat=
+e *spapr, void *fdt,
+>                                         int offset, int nodeid);
+>  int spapr_numa_fixup_cpu_dt(SpaprMachineState *spapr, void *fdt,
+>                              int offset, PowerPCCPU *cpu);
+> +int spapr_numa_write_assoc_lookup_arrays(SpaprMachineState *spapr, void =
+*fdt,
+> +                                         int offset);
+> =20
+> =20
+>  #endif /* HW_SPAPR_NUMA_H */
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--TdkiTnkLhLQllcMS
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl9QSCQACgkQbDjKyiDZ
+s5JYlg/+N5M7zI3v19h2hL0EDaPOS91s2ypAltpPwR6ADkYrrPb5vEcSDUdnoA2t
+OQaI5ugRNCyUruRxUfPeRTXNTj7+83s+MWX61zoMQliyBjaH526k91AhBQHJzzLa
+PdMu6U1pUJMooIlMmmx8geU0XYGkqJ9YFRCJY9b96+pGK2ckWSNC2r17vcAH3AXQ
+PQGDGXv1nIOjEbcr0CfZziMLp0EluzQa2clh9izh7EtjQF+6eMQDTm8DzZIMiljc
+RwkkPp4jAJXF3mMGlURi3ZmmHb2oYwIDXxuqfr4A06htB71OcTitNRX8lTs5kAJG
+Z9F36Co41cPwQ58BeQYAs26jBwhRBCqSbvS6P5GMmz3uPq/kGVoaueDi6j6JNstC
+d2xQBURrjJrNRqFeLXRljjkxhdwx0Kr3UaWYl5P9QEWmk/0kyd3H8vztwB9AprbO
+ACUOpsw1EIHJjyj+yjDZ5sMHwrGmhTkQBttQdn6CKONzR3ze1yJ1IGA7PDayQNdq
+u26dgYD2b5uxIf2Sav1rzrU+jpFB8FtJSYBDOaJSIxxZis90sEmlsn3AyO/m3Rp+
+v5XON61kS0UhEGjCDhYSqbeI7j17BtxgKU1nn2ZRPN8lNo+bQ7XmEZRoo9R0UYYY
+aBH3Zc6ey2HcFw2gVmbZyaaMADouXYIYDOFf+DqrudCIq5cUMV4=
+=pLjN
+-----END PGP SIGNATURE-----
+
+--TdkiTnkLhLQllcMS--
 
