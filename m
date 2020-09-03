@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51D6825CC09
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:22:43 +0200 (CEST)
-Received: from localhost ([::1]:34624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDFB225CBD0
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:05:39 +0200 (CEST)
+Received: from localhost ([::1]:53754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwgs-0004gU-De
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:22:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58254)
+	id 1kDwQM-0002QO-QD
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:05:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwL0-0003Rn-O1; Thu, 03 Sep 2020 17:00:06 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:41867)
+ id 1kDwL1-0003U2-J5; Thu, 03 Sep 2020 17:00:07 -0400
+Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:42690)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwKy-0007OM-MC; Thu, 03 Sep 2020 17:00:06 -0400
-Received: by mail-ot1-x344.google.com with SMTP id a65so3999855otc.8;
- Thu, 03 Sep 2020 14:00:03 -0700 (PDT)
+ id 1kDwKz-0007PS-Qf; Thu, 03 Sep 2020 17:00:07 -0400
+Received: by mail-oi1-x235.google.com with SMTP id x14so4501482oic.9;
+ Thu, 03 Sep 2020 14:00:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=DnoLtc59NarnPTasZCly4q1/2ffMi+9W8GNcCg5WkuI=;
- b=UPQNpOEuzla8r0L7AyY5MczaFSat1A446PzeEO/TRqNE4LF8/4oQ+2srzALnhy+BHR
- qvO+5OPglTWvpkh85Nvfd4xwtvMkWy1/YHiO4CXoTGBidDFmCJuzH9DMDslBWCXk7ZvZ
- Xxv75cLW033W8FAZAWr5MLO9pqChKsNkunNDbojK9mn2v9xY7VYvR/zk/QmHKxE5hmLP
- I8DK6YzZQo5kplnucdF9vslEXrsQwS5OWJw/gBtaiKi4Rt0L6TVeokoV3J5NHbw4g4G4
- nv/MaaBIVW4B4UwurqvJEt0cipBaNmwGd0oAccS+eJja9jtr/yMheEas4lXyrl7hdT4t
- RJYw==
+ bh=D++uhEYw+d3KQcavq6f/g9akX1hQgOj/ppCWcFXbXE0=;
+ b=tEioXK8PcEKWmWlZq6SMEoBFp32xOy7HNKitz9kQZhX9Hl4bHE232eErZc0H9TTyf2
+ k0dDfEF9R6jS6dNraWcZaMoPdMgrSEt57xl8xkzxcYPDd4XEuqcUgAq86cfQCIe2Fsmr
+ KMuvgYvCai3kKkzHvY4tCsB6rqCSOErgj9+Xb6S60fFIMzDLaCLQTGLQNLcZ9M4zBdtR
+ xk7d3k86F+8DvWTydwMmzVQKvT/E6A9au2bME1TTy1D4jotNNVXPBa2ndXKT6BqzSsEE
+ HRuVtwuPcod52+ld+fFIbqQ4euIGa9Xx7WYQFow6CIRmpBxD0orq14/zoVtr9hH0f5JZ
+ 2yYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=DnoLtc59NarnPTasZCly4q1/2ffMi+9W8GNcCg5WkuI=;
- b=Dx6o2cfy4MgQk3vueKEAbvscQyjB7jGtzdeqnxNu1gN3KlECErT3Iogn24YM+rihP2
- YEZP3tGvw5zeWgJk4eO9JcmHRHMrk1UKV4xJ2T2mcR73hASMQn8sd5OaVTmHH9kPA3Zo
- nmtyXNO1ROhKrbG6hE78xluLAe27cIGqy/DBXxhTUS9O9l5YcMBhWVlcRb+/Zm+FF75g
- bsme+4TkvqCYvcnSvALTgvo4pc8Jg8y/9qSvVkrhFQ6kaUVhLJ/Fq8r1YBzBaAPsP+4S
- 2owz6yjyw8fKlVgxBp5Q+ak1VSAqess6lep1aWHVfHQM6CKT4jOQdE8Tu7s8arvoB1xb
- G8eA==
-X-Gm-Message-State: AOAM530id3KpFXKpXLdMW53fZKNMgcEjM834PoprkJ0t8Y8UnzOi2Ae3
- QsoWIgVtQ0TRKOOZP92uVaA90i2CMZY=
-X-Google-Smtp-Source: ABdhPJyde/+tNfRJ3SeIhbX+MNu9dZC6NZHTJ7EcMqaFtXs1RkFocV91elsja5/9USme1ZEI52lPcg==
-X-Received: by 2002:a05:6830:2141:: with SMTP id
- r1mr2963428otd.314.1599166802781; 
- Thu, 03 Sep 2020 14:00:02 -0700 (PDT)
+ bh=D++uhEYw+d3KQcavq6f/g9akX1hQgOj/ppCWcFXbXE0=;
+ b=jAZGBzjiua1+A057HMStpEtTOUpi/SlC5kaCo3JgHRZiRPtUKy1TLwuvy6tWZog9k7
+ qT3P1Wq2N9t7zUro4CQJpZkDzY8UhxF5CB3q6oVikjbSsADUMTS0iATA+1AwG3TyZnQp
+ +dLOQRSiJW5vKqRZ/QInyfak3K8q2jwleB1i4iSMj2jd/RWMeY1j7uQYnfgSi5S6YJLj
+ BlUcj4+kYQdujEjKmQrXHLYzt0UZcFu18+2cwoPDKTQIE5024JI1CCh12Lt9dYEnDChC
+ 6dteRSNXnQMEk2h2s+yfjKNctHxY8WYsyiXsAOlfEMmaKZM6mX+XBY4r3jx+FOux+Dn4
+ Y95w==
+X-Gm-Message-State: AOAM530vXvtjG/XwdB/uPYqRLzUYa2AeQDQzz/7amiTPAN1zs6kP7FPs
+ zHdLngApypmaxHfLYRjxgG5+N9f7TSY=
+X-Google-Smtp-Source: ABdhPJzHHlvnzQofJnh1MA2OabWvcu6UShqEGNSjCQmpzuMSaPQyKTrxPXbcQv66nXRFjABwRz0nxw==
+X-Received: by 2002:aca:ed0a:: with SMTP id l10mr3403819oih.9.1599166803887;
+ Thu, 03 Sep 2020 14:00:03 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id a2sm820168ooo.26.2020.09.03.14.00.02
+ by smtp.gmail.com with ESMTPSA id d83sm703620oib.43.2020.09.03.14.00.03
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:00:02 -0700 (PDT)
+ Thu, 03 Sep 2020 14:00:03 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 18/77] Fix tulip breakage
-Date: Thu,  3 Sep 2020 15:58:36 -0500
-Message-Id: <20200903205935.27832-19-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 19/77] iotests/283: Use consistent size for source and target
+Date: Thu,  3 Sep 2020 15:58:37 -0500
+Message-Id: <20200903205935.27832-20-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x344.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::235;
+ envelope-from=flukshun@gmail.com; helo=mail-oi1-x235.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -82,65 +81,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Helge Deller <deller@gmx.de>,
- qemu-stable@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Helge Deller <deller@gmx.de>
+From: Kevin Wolf <kwolf@redhat.com>
 
-The tulip network driver in a qemu-system-hppa emulation is broken in
-the sense that bigger network packages aren't received any longer and
-thus even running e.g. "apt update" inside the VM fails.
+The test case forgot to specify the null-co size for the target node.
+When adding a check to backup that both sizes match, this would fail
+because of the size mismatch and not the behaviour that the test really
+wanted to test.
 
-The breakage was introduced by commit 8ffb7265af ("check frame size and
-r/w data length") which added checks to prevent accesses outside of the
-rx/tx buffers.
-
-But the new checks were implemented wrong. The variable rx_frame_len
-counts backwards, from rx_frame_size down to zero, and the variable len
-is never bigger than rx_frame_len, so accesses just can't happen and the
-checks are unnecessary.
-On the contrary the checks now prevented bigger packages to be moved
-into the rx buffers.
-
-This patch reverts the wrong checks and were sucessfully tested with a
-qemu-system-hppa emulation.
-
-Fixes: 8ffb7265af ("check frame size and r/w data length")
-Buglink: https://bugs.launchpad.net/bugs/1874539
-Signed-off-by: Helge Deller <deller@gmx.de>
-Signed-off-by: Jason Wang <jasowang@redhat.com>
-(cherry picked from commit d9b69640391618045949f7c500b87fc129f862ed)
+Fixes: a541fcc27c98b96da187c7d4573f3270f3ddd283
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Message-Id: <20200430142755.315494-2-kwolf@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+(cherry picked from commit 813cc2545b82409fd504509f0ba2e96fab6edb9e)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/net/tulip.c | 6 ------
- 1 file changed, 6 deletions(-)
+ tests/qemu-iotests/283     | 6 +++++-
+ tests/qemu-iotests/283.out | 2 +-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/hw/net/tulip.c b/hw/net/tulip.c
-index 1295f51d07..44db56447c 100644
---- a/hw/net/tulip.c
-+++ b/hw/net/tulip.c
-@@ -171,9 +171,6 @@ static void tulip_copy_rx_bytes(TULIPState *s, struct tulip_descriptor *desc)
-             len = s->rx_frame_len;
-         }
+diff --git a/tests/qemu-iotests/283 b/tests/qemu-iotests/283
+index 55b7cff953..44de76effe 100644
+--- a/tests/qemu-iotests/283
++++ b/tests/qemu-iotests/283
+@@ -72,7 +72,11 @@ to check that crash is fixed :)
+ vm = iotests.VM()
+ vm.launch()
  
--        if (s->rx_frame_len + len > sizeof(s->rx_frame)) {
--            return;
--        }
-         pci_dma_write(&s->dev, desc->buf_addr1, s->rx_frame +
-             (s->rx_frame_size - s->rx_frame_len), len);
-         s->rx_frame_len -= len;
-@@ -186,9 +183,6 @@ static void tulip_copy_rx_bytes(TULIPState *s, struct tulip_descriptor *desc)
-             len = s->rx_frame_len;
-         }
+-vm.qmp_log('blockdev-add', **{'node-name': 'target', 'driver': 'null-co'})
++vm.qmp_log('blockdev-add', **{
++    'node-name': 'target',
++    'driver': 'null-co',
++    'size': size,
++})
  
--        if (s->rx_frame_len + len > sizeof(s->rx_frame)) {
--            return;
--        }
-         pci_dma_write(&s->dev, desc->buf_addr2, s->rx_frame +
-             (s->rx_frame_size - s->rx_frame_len), len);
-         s->rx_frame_len -= len;
+ vm.qmp_log('blockdev-add', **{
+     'node-name': 'source',
+diff --git a/tests/qemu-iotests/283.out b/tests/qemu-iotests/283.out
+index daaf5828c1..d8cff22cc1 100644
+--- a/tests/qemu-iotests/283.out
++++ b/tests/qemu-iotests/283.out
+@@ -1,4 +1,4 @@
+-{"execute": "blockdev-add", "arguments": {"driver": "null-co", "node-name": "target"}}
++{"execute": "blockdev-add", "arguments": {"driver": "null-co", "node-name": "target", "size": 1048576}}
+ {"return": {}}
+ {"execute": "blockdev-add", "arguments": {"driver": "blkdebug", "image": {"driver": "null-co", "node-name": "base", "size": 1048576}, "node-name": "source"}}
+ {"return": {}}
 -- 
 2.17.1
 
