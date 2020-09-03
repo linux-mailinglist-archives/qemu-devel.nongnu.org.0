@@ -2,56 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 714AE25C6EC
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 18:34:18 +0200 (CEST)
-Received: from localhost ([::1]:60304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9EE325C700
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 18:36:19 +0200 (CEST)
+Received: from localhost ([::1]:40760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDsBl-0004U7-I9
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 12:34:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41476)
+	id 1kDsDi-00088r-Od
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 12:36:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kDsAW-00037j-QJ
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:33:00 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:44301)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kDsAU-000356-9z
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:33:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=pILq5udIKjxltpvsYkqscsfykS6P7zuC40+ssEQ1sWY=; b=OZ+7VCXJqa7woaoMW5fY+H2e4u
- wa17w+EQrsKruOq+gXtDupwyj1iCUKpQvqc60DVCfJzH0U+GETI2BL9OTqoNKU5NpOodwifIAUqxx
- lNe6jzWrlQYXoLvRQoVBzKugbV6pCWu1Pi7JNi067sxD3dPIgtitslWM3UtJrAWdd/VGmV0SyoKxZ
- lhf/guC82QRbQzPv4tzEZy0tyC5UWQWz8Cl7PrRQm11s/oHaDYMv83Lc1C97ZbykbQYTAewbljdwC
- jcNHkQPDtykFhar3OiUvx0D/Pe0+smGPULXPJs/DRSdvsiCgYlvFlN9FcLLFyYNAZPMgXddU/7jvo
- BqHT+kzQ==;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>, berrange@redhat.com
-Subject: Re: [PATCH v2 1/1] 9pfs: log warning if msize <= 8192
-Date: Thu, 03 Sep 2020 18:32:54 +0200
-Message-ID: <2515823.gX3yQePTrF@silver>
-In-Reply-To: <20200903180248.6199bb7b@bahia.lan>
-References: <cover.1599144062.git.qemu_oss@crudebyte.com>
- <e6fc84845c95816ad5baecb0abd6bfefdcf7ec9f.1599144062.git.qemu_oss@crudebyte.com>
- <20200903180248.6199bb7b@bahia.lan>
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kDsCn-0007BK-IE
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:35:21 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:30128
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kDsCl-0003S5-EY
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:35:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599150917;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6FLwYpLv3CbLQZkkYBT4DwW58MU6UxODqwwT6kP6qOA=;
+ b=U5SxbjdweyEQrWR5CkDJeAkofNZqYQTBKsL2CDlwtnr4hlrEUOIHSoBiSeh7UnbYUwPtFO
+ kYIB3Ose1izRjZmtQO9cvr3etrOoC5vsMVR42YQF4kXs7ZZU+CNFl5pSQ8OITdZs86kTzw
+ y+oPmTFonHjMZPWfiIB+ULEQOGrSI7I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-240-NMXKLDiQOda-c0RnzRletA-1; Thu, 03 Sep 2020 12:35:15 -0400
+X-MC-Unique: NMXKLDiQOda-c0RnzRletA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3BFC1005E67
+ for <qemu-devel@nongnu.org>; Thu,  3 Sep 2020 16:35:14 +0000 (UTC)
+Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6861E59;
+ Thu,  3 Sep 2020 16:35:14 +0000 (UTC)
+Date: Thu, 3 Sep 2020 12:35:13 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH 33/63] net/can: Rename TYPE_CAN_CPI constants
+Message-ID: <20200903163513.GK4940@habkost.net>
+References: <20200902224311.1321159-1-ehabkost@redhat.com>
+ <20200902224311.1321159-34-ehabkost@redhat.com>
+ <701fdf7d-be1b-a419-cedc-782d9f48b96e@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 10:59:11
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+In-Reply-To: <701fdf7d-be1b-a419-cedc-782d9f48b96e@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 01:28:33
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,66 +84,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Jason Wang <jasowang@redhat.com>, berrange@redhat.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Donnerstag, 3. September 2020 18:02:48 CEST Greg Kurz wrote:
-> > diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> > index 7bb994bbf2..99b6f24fd6 100644
-> > --- a/hw/9pfs/9p.c
-> > +++ b/hw/9pfs/9p.c
-> > @@ -1353,6 +1353,15 @@ static void coroutine_fn v9fs_version(void *opaque)
+On Thu, Sep 03, 2020 at 02:59:00PM +0200, Philippe Mathieu-Daudé wrote:
+> On 9/3/20 12:42 AM, Eduardo Habkost wrote:
+> > Rename macros to names that are unique in the source tree, to
+> > reduce confusion and make automated conversion of the code
+> > easier.
 > > 
-> >          goto out;
-> >      
-> >      }
+> > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> > ---
+> > Cc: Jason Wang <jasowang@redhat.com>
+> > Cc: qemu-devel@nongnu.org
+> > ---
+> >  hw/net/can/can_kvaser_pci.c   | 6 +++---
+> >  hw/net/can/can_mioe3680_pci.c | 6 +++---
+> >  hw/net/can/can_pcm3680_pci.c  | 6 +++---
+> >  3 files changed, 9 insertions(+), 9 deletions(-)
 > > 
-> > +    /* 8192 is the default msize of Linux clients */
-> > +    if (s->msize <= 8192) {
+> > diff --git a/hw/net/can/can_kvaser_pci.c b/hw/net/can/can_kvaser_pci.c
+> > index 168b3a620d..12d4f8df33 100644
+> > --- a/hw/net/can/can_kvaser_pci.c
+> > +++ b/hw/net/can/can_kvaser_pci.c
+> > @@ -45,11 +45,11 @@
+> >  #include "can_sja1000.h"
+> >  #include "qom/object.h"
+> >  
+> > -#define TYPE_CAN_PCI_DEV "kvaser_pci"
+> > +#define TYPE_KVASER_PCI "kvaser_pci"
 > 
-> I agree that an msize of 8192 suck from a performance standpoint but
-> I guess many users are msize agnostic, and they use the default value
-> without even knowing it. They might not even care for performance at
-> all, otherwise they'd likely ask google and they will eventually land
-> on:
-> 
-> https://wiki.qemu.org/Documentation/9psetup#Performance_Considerations
-> 
-> But with this patch, they will now get a warning each time they start
-> QEMU, maybe freak out and file reports in launchpad. So I suggest you
-> turn <= into < to avoid bothering these placid users with a warning.
+> Why keep "PCI" and not keep the "CAN" part?
+> To be consistent we should use both busses or none.
 
-Mmm, that's actually precisely my intended target group: people who have never 
-been aware about the existence of 'msize' before.
+Because the type name is "kvaser_pci", the device state struct is
+called KVaserPCIState, the type checking macro is called
+KVASER_PCI_DEV, and most functions inside that file are called
+kvaser_pci_*().
 
-I keep '<=' for now, I think the log message is already clear that you simply 
-have to make it any 'msize' > 8192 and the warning is gone.
-
-> Anyway, it's your choice :) so if you manage to get the #msize anchor to
-> work as expected:
-
-Works now (using raw html anchor instead):
-https://wiki.qemu.org/Documentation/9psetup#msize
-
-> Reviewed-by: Greg Kurz <groug@kaod.org>
-
-Thanks Greg!
-
-> > +        warn_report_once(
-> > +            "9p: degraded performance: a reasonable high msize should be
-> > "
-> > +            "chosen on client/guest side (chosen msize is <= 8192). See "
-> > +            "https://wiki.qemu.org/Documentation/9psetup#msize for
-> > details." +        );
-> > +    }
-> > +
-> > 
-> >  marshal:
-> >      err = pdu_marshal(pdu, offset, "ds", s->msize, &version);
-> >      if (err < 0) {
-
-Best regards,
-Christian Schoenebeck
-
+-- 
+Eduardo
 
 
