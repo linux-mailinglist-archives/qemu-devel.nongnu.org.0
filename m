@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D50F25CCD5
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:53:10 +0200 (CEST)
-Received: from localhost ([::1]:55200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83AC225CCDD
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:55:27 +0200 (CEST)
+Received: from localhost ([::1]:35298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDxAL-0001du-Ab
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:53:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33994)
+	id 1kDxCY-0005P3-Kp
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:55:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kDwX8-0005Dr-1q
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:12:38 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:43265
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kDwX5-0000pM-As
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:12:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599167553;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/yqg3EGjPSxhZ66yF+Xt2cnRLlNWNBZ9VXNiLPX8+2c=;
- b=QSIxG2Bxvvd3ulDI0al58l2GjlwIcIUe12ZDm5/8n69hyh3cvV3WAAkJl9HHwZLw4fjaXb
- 3mLFQ1HhtrwD3gRsdk5dVJaOj8qfsUatcfLodYpxNWRBZM/9VeOFl+ekPWxRfcCg7Uwv9e
- zN+W0NsogkPtw78jVi0KwpRdbZ9k4fY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-558-P6UazNAHMyiKuh4ECaiZ9w-1; Thu, 03 Sep 2020 17:12:17 -0400
-X-MC-Unique: P6UazNAHMyiKuh4ECaiZ9w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD520100746C;
- Thu,  3 Sep 2020 21:12:16 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-120-166.rdu2.redhat.com
- [10.10.120.166])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D55B12D07D;
- Thu,  3 Sep 2020 21:12:12 +0000 (UTC)
-Date: Thu, 3 Sep 2020 17:12:11 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: Erik Skultety <eskultet@redhat.com>
-Subject: Re: [PATCH v2 2/2] GitLab Gating CI: initial set of jobs,
- documentation and scripts
-Message-ID: <20200903211211.GC55646@localhost.localdomain>
-References: <20200709024657.2500558-1-crosa@redhat.com>
- <20200709024657.2500558-3-crosa@redhat.com>
- <20200709085507.GA536480@nautilus.usersys.redhat.com>
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kDweQ-0000Za-Qp
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:20:10 -0400
+Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:35497)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kDweO-0001gC-Pv
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:20:10 -0400
+Received: by mail-lj1-x241.google.com with SMTP id a15so5532676ljk.2
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 14:20:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+ :subject:to:cc;
+ bh=8mY81QGa2T4jYxigyi2JYuEs3lpmLNHGtUPnudy1ur8=;
+ b=n+/8WWSwMD0SPqrAmyv5I64RXHnD86gRrjrs/71F8kIit9PnkYoMLLaQlUx9M1q3NU
+ ydHj+7zthyWXFly9FZmm94ZQZWZwLXHI/7kW74RJ43T3Su9GYO1FaxA4pPoCX8qr36MW
+ UXxmK/bCbZzGeg+5u/cqyJk/ZRKmNOlh4VXEN42uyXgTN10NVZVhW/3zG0ywSAzxETp+
+ CZnsBp2xKsSVXig6F1ECkvXmgA+HNCi80XMdL89Uw+3bRKvqNfl+7xJ0v+IuFjKei9Y/
+ Ae9jraYh+22d8RA+6k741QE00O2i0mh2RKseCxmkIw62Ce/Z3R+MEEPsSQDI+ioUIcEk
+ fNWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc;
+ bh=8mY81QGa2T4jYxigyi2JYuEs3lpmLNHGtUPnudy1ur8=;
+ b=t58Z512saJRoE7ik7PaT2fHRRgQUpPNJWxAIsoI59G6BCgBG48eLOxgLXIe3Cr5nC4
+ gE6dJBrYL1d2dyr9UGrFPBmWJIFqySlL1MqBONDeq1AjtrQZzMU0UcGURkB95RENYadq
+ AaeiHrNQxqfPDnqZfGHCfVyl7r6SBv0346Ps8iY98Z5foxadgfyjAUVJV89uqYxddA4P
+ TSfKKcdTRrwQDWUR6BUzd1JKBpMp+UfV6XThuDK2bgGlo1EFOxS4UX2Vr04kPR8iBziP
+ Dg6btdP5qQTDOjOYmSDeCJn84XZQnBviu7nQUCZEe4YngQr2zT3nbBuA53mhwnUoo1Bk
+ GViw==
+X-Gm-Message-State: AOAM5313VfIBu44J1A3BPXe7wu4DUu9ZQ7HfgujQM5Osm6JW7BMUEUpX
+ VMtd9XeE0Vi6l2c9/vFKiyOG8Ln1icxJkGnUYpo=
+X-Google-Smtp-Source: ABdhPJzy6rTYBio4eKpn+BFIkh8hQBXyfwANP48zIHtXgYOyDqzK8N8VV71nnHGJABNszEjNlwD7DQVfTQOBqn8Tl4o=
+X-Received: by 2002:a2e:854c:: with SMTP id u12mr2231867ljj.120.1599168005992; 
+ Thu, 03 Sep 2020 14:20:05 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200709085507.GA536480@nautilus.usersys.redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="L6iaP+gRLNZHKoI4"
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 01:28:33
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20200903083147.707-1-luoyonggang@gmail.com>
+ <20200903083147.707-4-luoyonggang@gmail.com>
+ <8c5dd495-abaf-7abc-2ba0-82f13bbd3d02@linaro.org>
+In-Reply-To: <8c5dd495-abaf-7abc-2ba0-82f13bbd3d02@linaro.org>
+From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
+Date: Fri, 4 Sep 2020 05:19:56 +0800
+Message-ID: <CAE2XoE8w_H+_N9AMgssSheWsTWwvoiOTgYdgCZG9g5cyHLbdpw@mail.gmail.com>
+Subject: Re: [PATCH v4 03/12] tcg: Fixes dup_const link error
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000eefa4205ae6f5059"
+Received-SPF: pass client-ip=2a00:1450:4864:20::241;
+ envelope-from=luoyonggang@gmail.com; helo=mail-lj1-x241.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,218 +81,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Beraldo Leal <bleal@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Reply-To: luoyonggang@gmail.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-level <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---L6iaP+gRLNZHKoI4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--000000000000eefa4205ae6f5059
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 09, 2020 at 10:55:07AM +0200, Erik Skultety wrote:
-> On Wed, Jul 08, 2020 at 10:46:57PM -0400, Cleber Rosa wrote:
-> > This is a mapping of Peter's "remake-merge-builds" and
-> > "pull-buildtest" scripts, gone through some updates, adding some build
-> > option and removing others.
+On Fri, Sep 4, 2020 at 1:20 AM Richard Henderson <
+richard.henderson@linaro.org> wrote:
+
+> On 9/3/20 1:31 AM, Yonggang Luo wrote:
+> > Rename function dup_const to dup_const_eval for avoid confliction with
+> macro dup_const
 > >
-> > The jobs currently cover the machines that the QEMU project owns, and t=
-hat
-> > are setup and ready to run jobs:
+> > The link error on msys2
 > >
-> >  - Ubuntu 18.04 on S390x
-> >  - Ubuntu 20.04 on aarch64
+> > Linking target qemu-system-alpha.exe
 > >
-> > During the development of this set of jobs, the GitLab CI was tested
-> > with many other architectures, including ppc64, s390x and aarch64,
-> > along with the other OSs (not included here):
+> C:/CI-Tools/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.2.0/../..=
+/../../x86_64-w64-mingw32/bin/ld.exe:
+> libqemu-alpha-softmmu.fa.p/tcg_optimize.c.obj: in function `tcg_optimize'=
+:
+> > E:\CI-Cor-Ready\xemu\qemu-build/../qemu.org/tcg/optimize.c:1106:
+> undefined reference to `dup_const'
 > >
-> >  - Fedora 30
-> >  - FreeBSD 12.1
+> C:/CI-Tools/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.2.0/../..=
+/../../x86_64-w64-mingw32/bin/ld.exe:
+> libqemu-alpha-softmmu.fa.p/tcg_tcg-op-vec.c.obj: in function
+> `tcg_gen_dupi_vec':
+> > E:\CI-Cor-Ready\xemu\qemu-build/../qemu.org/tcg/tcg-op-vec.c:283:
+> undefined reference to `dup_const'
+> > collect2.exe: error: ld returned 1 exit status
 > >
-> > More information can be found in the documentation itself.
-> >
-> > Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> > Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 > > ---
-> >  .gitlab-ci.d/gating.yml                | 146 +++++++++++++++++
-> >  .gitlab-ci.yml                         |   1 +
-> >  docs/devel/testing.rst                 | 147 +++++++++++++++++
-> >  scripts/ci/setup/build-environment.yml | 217 +++++++++++++++++++++++++
-> >  scripts/ci/setup/gitlab-runner.yml     |  72 ++++++++
-> >  scripts/ci/setup/inventory             |   2 +
-> >  scripts/ci/setup/vars.yml              |  13 ++
-> >  7 files changed, 598 insertions(+)
-> >  create mode 100644 .gitlab-ci.d/gating.yml
-> >  create mode 100644 scripts/ci/setup/build-environment.yml
-> >  create mode 100644 scripts/ci/setup/gitlab-runner.yml
-> >  create mode 100644 scripts/ci/setup/inventory
-> >  create mode 100644 scripts/ci/setup/vars.yml
-> >
-> > diff --git a/.gitlab-ci.d/gating.yml b/.gitlab-ci.d/gating.yml
-> > new file mode 100644
-> > index 0000000000..5562df5708
-> > --- /dev/null
-> > +++ b/.gitlab-ci.d/gating.yml
-> > @@ -0,0 +1,146 @@
-> > +variables:
-> > +  GIT_SUBMODULE_STRATEGY: recursive
-> > +
-> > +# All ubuntu-18.04 jobs should run successfully in an environment
-> > +# setup by the scripts/ci/setup/build-environment.yml task
-> > +# "Install basic packages to build QEMU on Ubuntu 18.04/20.04"
-> > +ubuntu-18.04-s390x-all-linux-static:
-> > + tags:
-> > + - ubuntu_18.04
-> > + - s390x
-> > + rules:
-> > + - if: '$CI_COMMIT_REF_NAME =3D=3D "staging"'
-> > + script:
-> > + # --disable-libssh is needed because of https://bugs.launchpad.net/qe=
-mu/+bug/1838763
-> > + # --disable-glusterfs is needed because there's no static version of =
-those libs in distro supplied packages
-> > + - ./configure --enable-debug --static --disable-system --disable-glus=
-terfs --disable-libssh
-> > + - make --output-sync -j`nproc`
-> > + - make --output-sync -j`nproc` check V=3D1
-> > + - make --output-sync -j`nproc` check-tcg V=3D1
->=20
-> I know this patch doesn't introduce a FreeBSD job, but later in the patch=
- it's
-> clear you'd want to introduce them at some point, so:
-> 'nproc' doesn't exist on FreeBSD, but `getconf _NPROCESSORS_ONLN` does, s=
-o you
-> may want to use it right from the start.
->=20
-> ...
+> >  include/tcg/tcg.h | 6 +++---
+> >  tcg/tcg-op-gvec.c | 2 +-
+> >  2 files changed, 4 insertions(+), 4 deletions(-)
 >
-
-Sure, thanks for the info.
-
-> > +
-> > +CI
-> > +=3D=3D
-> > +
-> > +QEMU has configurations enabled for a number of different CI services.
-> > +The most update information about them and their status can be found
->=20
-> s/update/up to date/
+> No, really, as I asked before: what symbol is present in tcg-op-gvec.c.ob=
+j
+> without this patch?
 >
+The   tcg-op-gvec.c.obj are missing now, maybe skip this patch first?
+Anyway have same name with function and macro is not that good
 
-Good catch!
-
-> > +at::
-> > +
-> > +   https://wiki.qemu.org/Testing/CI
-> > +
-> > +Gating CI
-> > +----------
-> > +
-> > +A Pull Requests will only to be merged if they successfully go through
->=20
-> s/A /
-> s/to be/be/
->=20
-> > +a different set of CI jobs.  GitLab's CI is the service/framework used
->=20
-> s/a different set/different sets/       (I may be wrong with this one)
->=20
-> ...
-
-I think you're right.  But, to keep it simpler, I'm using:
-
-"Pull Requests will only be merged if they successfully go through
-different CI jobs."
-
->=20
-> > +
-> > +gitlab-runner setup and registration
-> > +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > +
-> > +The gitlab-runner agent needs to be installed on each machine that
-> > +will run jobs.  The association between a machine and a GitLab project
-> > +happens with a registration token.  To find the registration token for
-> > +your repository/project, navigate on GitLab's web UI to:
-> > +
-> > + * Settings (the gears like icon), then
-> > + * CI/CD, then
-> > + * Runners, and click on the "Expand" button, then
-> > + * Under "Set up a specific Runner manually", look for the value under
-> > +   "Use the following registration token during setup"
-> > +
-> > +Edit the ``scripts/ci/setup/vars.yml`` file, setting the
-> > +``gitlab_runner_registration_token`` variable to the value obtained
-> > +earlier.
-> > +
-> > +.. note:: gitlab-runner is not available from the standard location
-> > +          for all OS and architectures combinations.  For some systems=
-,
-> > +          a custom build may be necessary.  Some builds are avaiable
-> > +          at https://cleber.fedorapeople.org/gitlab-runner/ and this
-> > +          URI may be used as a value on ``vars.yml``
-> > +
-> > +To run the playbook, execute::
-> > +
-> > +  cd scripts/ci/setup
-> > +  ansible-playbook -i inventory gitlab-runner.yml
-> > +
-> > +.. note:: there are currently limitations to gitlab-runner itself when
-> > +          setting up a service under FreeBSD systems.  You will need t=
-o
-> > +          perform steps 4 to 10 manually, as described at
-> > +          https://docs.gitlab.com/runner/install/freebsd.html
->=20
-> What kinds of limitations? Is it architecture constrained maybe? I'm aski=
-ng
-> because we have all of the steps covered by an Ansible playbook, so I kin=
-da got
-> triggered by the word "manually". Also, the document only mentions 9 step=
+>
+> That you need this, to me says that you've got a broken compiler.  This i=
 s
-> overall.
+> bog-standard C.  There is nothing windows-specific about it.
+>
+>
+> r~
 >
 
-FreeBSD's "service management" (systemd/sys-v like) is not covered by
-the GO library[1] used on gitlab-runner.  It's not ideal, and the
-second best solution would be to script the equivalent handling within
-the playbook, but I remember trying and finding some inconsistencies.
-Then, I had to give it up and defer to whenever a FreeBSD job is
-actually added.
 
-> Regards,
-> Erik
+--=20
+         =E6=AD=A4=E8=87=B4
+=E7=A4=BC
+=E7=BD=97=E5=8B=87=E5=88=9A
+Yours
+    sincerely,
+Yonggang Luo
 
-[1] - https://github.com/ayufan/golang-kardianos-service
+--000000000000eefa4205ae6f5059
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for the review, I'll be sending a v3 shortly.
-- Cleber.
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Sep 4, 2020 at 1:20 AM Richar=
+d Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.hen=
+derson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">On 9/3/20 1:31 AM, Yonggang Luo wrote:<br>
+&gt; Rename function dup_const to dup_const_eval for avoid confliction with=
+ macro dup_const<br>
+&gt; <br>
+&gt; The link error on msys2<br>
+&gt; <br>
+&gt; Linking target qemu-system-alpha.exe<br>
+&gt; C:/CI-Tools/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.2.0/..=
+/../../../x86_64-w64-mingw32/bin/ld.exe: libqemu-alpha-softmmu.fa.p/tcg_opt=
+imize.c.obj: in function `tcg_optimize&#39;:<br>
+&gt; E:\CI-Cor-Ready\xemu\qemu-build/../<a href=3D"http://qemu.org/tcg/opti=
+mize.c:1106" rel=3D"noreferrer" target=3D"_blank">qemu.org/tcg/optimize.c:1=
+106</a>: undefined reference to `dup_const&#39;<br>
+&gt; C:/CI-Tools/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.2.0/..=
+/../../../x86_64-w64-mingw32/bin/ld.exe: libqemu-alpha-softmmu.fa.p/tcg_tcg=
+-op-vec.c.obj: in function `tcg_gen_dupi_vec&#39;:<br>
+&gt; E:\CI-Cor-Ready\xemu\qemu-build/../<a href=3D"http://qemu.org/tcg/tcg-=
+op-vec.c:283" rel=3D"noreferrer" target=3D"_blank">qemu.org/tcg/tcg-op-vec.=
+c:283</a>: undefined reference to `dup_const&#39;<br>
+&gt; collect2.exe: error: ld returned 1 exit status<br>
+&gt; <br>
+&gt; Signed-off-by: Yonggang Luo &lt;<a href=3D"mailto:luoyonggang@gmail.co=
+m" target=3D"_blank">luoyonggang@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 include/tcg/tcg.h | 6 +++---<br>
+&gt;=C2=A0 tcg/tcg-op-gvec.c | 2 +-<br>
+&gt;=C2=A0 2 files changed, 4 insertions(+), 4 deletions(-)<br>
+<br>
+No, really, as I asked before: what symbol is present in tcg-op-gvec.c.obj<=
+br>
+without this patch?<br></blockquote><div>The=C2=A0=C2=A0
 
---L6iaP+gRLNZHKoI4
-Content-Type: application/pgp-signature; name="signature.asc"
+tcg-op-gvec.c.obj are missing now, maybe skip this patch first?</div><div>A=
+nyway have same name with function and macro is not that good</div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
+ solid rgb(204,204,204);padding-left:1ex">
+<br>
+That you need this, to me says that you&#39;ve got a broken compiler.=C2=A0=
+ This is<br>
+bog-standard C.=C2=A0 There is nothing windows-specific about it.<br>
+<br>
+<br>
+r~<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature">=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 =E6=AD=A4=E8=
+=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=
+=A0 sincerely,<br>Yonggang Luo<br></div></div>
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl9RXCgACgkQZX6NM6Xy
-CfNlIxAAovcpwJFZchHGJ4ZQLaUq1a49SE2nW/y1iUYQAsrLEyV9pN9E9ApX7ARE
-+SyuqsFHvLczbBD6vj6aa0XpYJ4j9pbxqYeNOtqOUdQW1Gt73BH+Ort1YoePlP3T
-/V27b1vEctNu7Yg5UaDXVjqXV4B982FbDaj6ZAkGsUgW4nZw+GSb4i92aK+dBzpG
-+mdF6rKkj7+8+Vc938GGa9aXdT1fxX0Tr/3mSjonVwm7t/y0WdOEjbh98dzQ9vxI
-42VAszj7sedhyCMWH5QYi/FGV/T2rZt1RJejKfYiXyQNJsCZUrtdu838wMZBvxqe
-T90WuuuKYEmKJmcTEcJLVnxRMcCpzqJ7PIMnf11YEh0ZUvrOvOA7H0vfVIiuoQfh
-P7jGAiimHy7frHIgaY/jIfdOpdgw0B4+RTNlihAJ8DslErfhDolXdd0yui2IHLWJ
-5tvB8xfrPl3jtFDh0L00/CepT2f7RGFrsM6BId5hwDWES6TwQKnU2JGhqz7dOOkn
-nLFbTsw19wQjw6+7a6MllIxj0rdWtktLg5GDQ2mxjV3FVFv1pj7R7A+7ZazXGBz1
-mj58LfnRnXYtq6FZ+390rxNr487725ygNfBGAL1EhAQAaq0+HOf+AQ4/Gp+e2eIa
-5Kgz6wh17Sc4BdIWWSu7f1W+TLKUKzoQzAsSiwgKtVJRy2Uhgtc=
-=xW2X
------END PGP SIGNATURE-----
-
---L6iaP+gRLNZHKoI4--
-
+--000000000000eefa4205ae6f5059--
 
