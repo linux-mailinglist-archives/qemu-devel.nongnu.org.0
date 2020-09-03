@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDFB225CBD0
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:05:39 +0200 (CEST)
-Received: from localhost ([::1]:53754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAC2625CBFE
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:18:08 +0200 (CEST)
+Received: from localhost ([::1]:41028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwQM-0002QO-QD
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:05:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58276)
+	id 1kDwcR-00049s-TW
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:18:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwL1-0003U2-J5; Thu, 03 Sep 2020 17:00:07 -0400
-Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:42690)
+ id 1kDwL3-0003X5-2s; Thu, 03 Sep 2020 17:00:09 -0400
+Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:45784)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwKz-0007PS-Qf; Thu, 03 Sep 2020 17:00:07 -0400
-Received: by mail-oi1-x235.google.com with SMTP id x14so4501482oic.9;
- Thu, 03 Sep 2020 14:00:04 -0700 (PDT)
+ id 1kDwL1-0007Pl-1Y; Thu, 03 Sep 2020 17:00:08 -0400
+Received: by mail-oi1-x235.google.com with SMTP id d189so4477963oig.12;
+ Thu, 03 Sep 2020 14:00:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=D++uhEYw+d3KQcavq6f/g9akX1hQgOj/ppCWcFXbXE0=;
- b=tEioXK8PcEKWmWlZq6SMEoBFp32xOy7HNKitz9kQZhX9Hl4bHE232eErZc0H9TTyf2
- k0dDfEF9R6jS6dNraWcZaMoPdMgrSEt57xl8xkzxcYPDd4XEuqcUgAq86cfQCIe2Fsmr
- KMuvgYvCai3kKkzHvY4tCsB6rqCSOErgj9+Xb6S60fFIMzDLaCLQTGLQNLcZ9M4zBdtR
- xk7d3k86F+8DvWTydwMmzVQKvT/E6A9au2bME1TTy1D4jotNNVXPBa2ndXKT6BqzSsEE
- HRuVtwuPcod52+ld+fFIbqQ4euIGa9Xx7WYQFow6CIRmpBxD0orq14/zoVtr9hH0f5JZ
- 2yYA==
+ bh=OIsdyV2PRysNfY7ypO8eiajhFecOTZcFODPU4qiwxp8=;
+ b=H6HgUhoHtv7MNe8tt7gWCEWnsJ1mX23d3zM819/uHRaWj0MguMhnTp+FzcwsiZAb6I
+ 3i4F0yjUdkPcsLgb+ahksZd1o2U2OOWVCnpFvOdzsfjhGbhnFv8oe+cs/D3RVD7oM79B
+ NLuAzBVU7nXj9yZQ0QPtCUjaAW7PtQM03+CJd1zoFXd/hTRaZ4a7UDyqA+GiI3t3b7C6
+ JCHXf6AqKsNR9QWIIc4R6xYtJovbHFFC0hhxysFDgGLOP65YGtYes4tE/WcQByN9sOxA
+ auvI4gBkqvxGyActzKeIYh0itCvz3yJDiJn2EQWs5w+odLHyweRL7W2G4UHWOhxm3XYi
+ uTUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=D++uhEYw+d3KQcavq6f/g9akX1hQgOj/ppCWcFXbXE0=;
- b=jAZGBzjiua1+A057HMStpEtTOUpi/SlC5kaCo3JgHRZiRPtUKy1TLwuvy6tWZog9k7
- qT3P1Wq2N9t7zUro4CQJpZkDzY8UhxF5CB3q6oVikjbSsADUMTS0iATA+1AwG3TyZnQp
- +dLOQRSiJW5vKqRZ/QInyfak3K8q2jwleB1i4iSMj2jd/RWMeY1j7uQYnfgSi5S6YJLj
- BlUcj4+kYQdujEjKmQrXHLYzt0UZcFu18+2cwoPDKTQIE5024JI1CCh12Lt9dYEnDChC
- 6dteRSNXnQMEk2h2s+yfjKNctHxY8WYsyiXsAOlfEMmaKZM6mX+XBY4r3jx+FOux+Dn4
- Y95w==
-X-Gm-Message-State: AOAM530vXvtjG/XwdB/uPYqRLzUYa2AeQDQzz/7amiTPAN1zs6kP7FPs
- zHdLngApypmaxHfLYRjxgG5+N9f7TSY=
-X-Google-Smtp-Source: ABdhPJzHHlvnzQofJnh1MA2OabWvcu6UShqEGNSjCQmpzuMSaPQyKTrxPXbcQv66nXRFjABwRz0nxw==
-X-Received: by 2002:aca:ed0a:: with SMTP id l10mr3403819oih.9.1599166803887;
- Thu, 03 Sep 2020 14:00:03 -0700 (PDT)
+ bh=OIsdyV2PRysNfY7ypO8eiajhFecOTZcFODPU4qiwxp8=;
+ b=qFdt8Fmrl2tYpB4m2oCA0VHbu4KKEwJ3WSBP0AFR6M6T3mr6/jIeJTHYbWmZ4f6Vzv
+ PxiqFPBy0qPrQLk6704uc3I+71fNLPLUQyQzSrjc6NF9npwyQtEHJGn1pWetG6eQwbgk
+ etPJziTqELeTvj9vJtVTpGpt1TZqZdfPyCyoNpPzHyS3IllFKlKZNbzVUm1TtlKWlM3a
+ cTig2d50qF4gPYym4Q2qcxVdA3nmYm/3yPLoJxZ48unN+Z4JhIKunGWYXCv7O/lrAcGC
+ tIKqBBv2RSDiGMMdggHdxmsGgqtbgFfSI3vf0tOr4MeoEZrYzF03azNlxrToVlyahhx+
+ hL6w==
+X-Gm-Message-State: AOAM531xGgJIANXfzeHvkCgteR52JbFWvPvwyh3n4kFXLIpsGO428hQU
+ EkV6O6e1d5EkML0UdIacsk7yTLY30CI=
+X-Google-Smtp-Source: ABdhPJzs7wuKr4APG+r+H6rf/qU3oa+gQO+n5Pc1FoKe7AieBIacr4qorEJZx0imRNUMkvHMjqZ9zA==
+X-Received: by 2002:aca:bc57:: with SMTP id m84mr3224265oif.14.1599166805140; 
+ Thu, 03 Sep 2020 14:00:05 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id d83sm703620oib.43.2020.09.03.14.00.03
+ by smtp.gmail.com with ESMTPSA id l136sm733495oig.7.2020.09.03.14.00.04
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:00:03 -0700 (PDT)
+ Thu, 03 Sep 2020 14:00:04 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 19/77] iotests/283: Use consistent size for source and target
-Date: Thu,  3 Sep 2020 15:58:37 -0500
-Message-Id: <20200903205935.27832-20-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 20/77] virtiofsd: add --rlimit-nofile=NUM option
+Date: Thu,  3 Sep 2020 15:58:38 -0500
+Message-Id: <20200903205935.27832-21-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
@@ -81,56 +81,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-stable@nongnu.org
+Cc: qemu-stable@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Kevin Wolf <kwolf@redhat.com>
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-The test case forgot to specify the null-co size for the target node.
-When adding a check to backup that both sizes match, this would fail
-because of the size mismatch and not the behaviour that the test really
-wanted to test.
+Make it possible to specify the RLIMIT_NOFILE on the command-line.
+Users running multiple virtiofsd processes should allocate a certain
+number to each process so that the system-wide limit can never be
+exhausted.
 
-Fixes: a541fcc27c98b96da187c7d4573f3270f3ddd283
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20200430142755.315494-2-kwolf@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-(cherry picked from commit 813cc2545b82409fd504509f0ba2e96fab6edb9e)
+When this option is set to 0 the rlimit is left at its current value.
+This is useful when a management tool wants to configure the rlimit
+itself.
+
+The default behavior remains unchanged: try to set the limit to
+1,000,000 file descriptors if the current rlimit is lower.
+
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Message-Id: <20200501140644.220940-2-stefanha@redhat.com>
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+(cherry picked from commit 6dbb716877728ce4eb51619885ef6ef4ada9565f)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- tests/qemu-iotests/283     | 6 +++++-
- tests/qemu-iotests/283.out | 2 +-
- 2 files changed, 6 insertions(+), 2 deletions(-)
+ tools/virtiofsd/fuse_lowlevel.h  |  1 +
+ tools/virtiofsd/helper.c         | 23 +++++++++++++++++++++++
+ tools/virtiofsd/passthrough_ll.c | 22 ++++++++--------------
+ 3 files changed, 32 insertions(+), 14 deletions(-)
 
-diff --git a/tests/qemu-iotests/283 b/tests/qemu-iotests/283
-index 55b7cff953..44de76effe 100644
---- a/tests/qemu-iotests/283
-+++ b/tests/qemu-iotests/283
-@@ -72,7 +72,11 @@ to check that crash is fixed :)
- vm = iotests.VM()
- vm.launch()
+diff --git a/tools/virtiofsd/fuse_lowlevel.h b/tools/virtiofsd/fuse_lowlevel.h
+index 8f6d705b5c..562fd5241e 100644
+--- a/tools/virtiofsd/fuse_lowlevel.h
++++ b/tools/virtiofsd/fuse_lowlevel.h
+@@ -1777,6 +1777,7 @@ struct fuse_cmdline_opts {
+     int syslog;
+     int log_level;
+     unsigned int max_idle_threads;
++    unsigned long rlimit_nofile;
+ };
  
--vm.qmp_log('blockdev-add', **{'node-name': 'target', 'driver': 'null-co'})
-+vm.qmp_log('blockdev-add', **{
-+    'node-name': 'target',
-+    'driver': 'null-co',
-+    'size': size,
-+})
+ /**
+diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
+index 819c2bc13c..dc59f38af0 100644
+--- a/tools/virtiofsd/helper.c
++++ b/tools/virtiofsd/helper.c
+@@ -23,6 +23,8 @@
+ #include <stdlib.h>
+ #include <string.h>
+ #include <sys/param.h>
++#include <sys/time.h>
++#include <sys/resource.h>
+ #include <unistd.h>
  
- vm.qmp_log('blockdev-add', **{
-     'node-name': 'source',
-diff --git a/tests/qemu-iotests/283.out b/tests/qemu-iotests/283.out
-index daaf5828c1..d8cff22cc1 100644
---- a/tests/qemu-iotests/283.out
-+++ b/tests/qemu-iotests/283.out
-@@ -1,4 +1,4 @@
--{"execute": "blockdev-add", "arguments": {"driver": "null-co", "node-name": "target"}}
-+{"execute": "blockdev-add", "arguments": {"driver": "null-co", "node-name": "target", "size": 1048576}}
- {"return": {}}
- {"execute": "blockdev-add", "arguments": {"driver": "blkdebug", "image": {"driver": "null-co", "node-name": "base", "size": 1048576}, "node-name": "source"}}
- {"return": {}}
+ #define FUSE_HELPER_OPT(t, p)                       \
+@@ -53,6 +55,7 @@ static const struct fuse_opt fuse_helper_opts[] = {
+     FUSE_HELPER_OPT("subtype=", nodefault_subtype),
+     FUSE_OPT_KEY("subtype=", FUSE_OPT_KEY_KEEP),
+     FUSE_HELPER_OPT("max_idle_threads=%u", max_idle_threads),
++    FUSE_HELPER_OPT("--rlimit-nofile=%lu", rlimit_nofile),
+     FUSE_HELPER_OPT("--syslog", syslog),
+     FUSE_HELPER_OPT_VALUE("log_level=debug", log_level, FUSE_LOG_DEBUG),
+     FUSE_HELPER_OPT_VALUE("log_level=info", log_level, FUSE_LOG_INFO),
+@@ -171,6 +174,9 @@ void fuse_cmdline_help(void)
+            "                               default: no_writeback\n"
+            "    -o xattr|no_xattr          enable/disable xattr\n"
+            "                               default: no_xattr\n"
++           "    --rlimit-nofile=<num>      set maximum number of file descriptors\n"
++           "                               (0 leaves rlimit unchanged)\n"
++           "                               default: 1,000,000 if the current rlimit is lower\n"
+            );
+ }
+ 
+@@ -191,11 +197,28 @@ static int fuse_helper_opt_proc(void *data, const char *arg, int key,
+     }
+ }
+ 
++static unsigned long get_default_rlimit_nofile(void)
++{
++    rlim_t max_fds = 1000000; /* our default RLIMIT_NOFILE target */
++    struct rlimit rlim;
++
++    if (getrlimit(RLIMIT_NOFILE, &rlim) < 0) {
++        fuse_log(FUSE_LOG_ERR, "getrlimit(RLIMIT_NOFILE): %m\n");
++        exit(1);
++    }
++
++    if (rlim.rlim_cur >= max_fds) {
++        return 0; /* we have more fds available than required! */
++    }
++    return max_fds;
++}
++
+ int fuse_parse_cmdline(struct fuse_args *args, struct fuse_cmdline_opts *opts)
+ {
+     memset(opts, 0, sizeof(struct fuse_cmdline_opts));
+ 
+     opts->max_idle_threads = 10;
++    opts->rlimit_nofile = get_default_rlimit_nofile();
+     opts->foreground = 1;
+ 
+     if (fuse_opt_parse(args, opts, fuse_helper_opts, fuse_helper_opt_proc) ==
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+index 4c35c95b25..f7b9c1d20c 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -2707,24 +2707,18 @@ static void setup_sandbox(struct lo_data *lo, struct fuse_session *se,
+     setup_seccomp(enable_syslog);
+ }
+ 
+-/* Raise the maximum number of open file descriptors */
+-static void setup_nofile_rlimit(void)
++/* Set the maximum number of open file descriptors */
++static void setup_nofile_rlimit(unsigned long rlimit_nofile)
+ {
+-    const rlim_t max_fds = 1000000;
+-    struct rlimit rlim;
+-
+-    if (getrlimit(RLIMIT_NOFILE, &rlim) < 0) {
+-        fuse_log(FUSE_LOG_ERR, "getrlimit(RLIMIT_NOFILE): %m\n");
+-        exit(1);
+-    }
++    struct rlimit rlim = {
++        .rlim_cur = rlimit_nofile,
++        .rlim_max = rlimit_nofile,
++    };
+ 
+-    if (rlim.rlim_cur >= max_fds) {
++    if (rlimit_nofile == 0) {
+         return; /* nothing to do */
+     }
+ 
+-    rlim.rlim_cur = max_fds;
+-    rlim.rlim_max = max_fds;
+-
+     if (setrlimit(RLIMIT_NOFILE, &rlim) < 0) {
+         /* Ignore SELinux denials */
+         if (errno == EPERM) {
+@@ -2977,7 +2971,7 @@ int main(int argc, char *argv[])
+ 
+     fuse_daemonize(opts.foreground);
+ 
+-    setup_nofile_rlimit();
++    setup_nofile_rlimit(opts.rlimit_nofile);
+ 
+     /* Must be before sandbox since it wants /proc */
+     setup_capng();
 -- 
 2.17.1
 
