@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9EE325C700
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 18:36:19 +0200 (CEST)
-Received: from localhost ([::1]:40760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61F9525C70A
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 18:38:23 +0200 (CEST)
+Received: from localhost ([::1]:45554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDsDi-00088r-Od
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 12:36:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41962)
+	id 1kDsFi-0001fG-CA
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 12:38:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDsCn-0007BK-IE
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:35:21 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:30128
+ id 1kDsEJ-0000ng-66
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:36:55 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:24914
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDsCl-0003S5-EY
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:35:20 -0400
+ id 1kDsEH-0003lW-I4
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:36:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599150917;
+ s=mimecast20190719; t=1599151012;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6FLwYpLv3CbLQZkkYBT4DwW58MU6UxODqwwT6kP6qOA=;
- b=U5SxbjdweyEQrWR5CkDJeAkofNZqYQTBKsL2CDlwtnr4hlrEUOIHSoBiSeh7UnbYUwPtFO
- kYIB3Ose1izRjZmtQO9cvr3etrOoC5vsMVR42YQF4kXs7ZZU+CNFl5pSQ8OITdZs86kTzw
- y+oPmTFonHjMZPWfiIB+ULEQOGrSI7I=
+ bh=KId+HjDSTVAe20JCdebZBb2h1nHCVGs9Mr5J92SJoYQ=;
+ b=eK3dm4jabhS09xJzX1JeLdLT01UFae6H3SWfAYNPoshGu9XOnSibXQ73ph7uXzEwzPkY47
+ jAQxVDWDke2cBlL3o/pUo503SZvarcgmvCMxQNNnVQGZ5KQ+hBboeiAS2srmP3+xxmXfF+
+ Qn6rvjuPTiQf72n6kdlZlAZUkva9RG8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-240-NMXKLDiQOda-c0RnzRletA-1; Thu, 03 Sep 2020 12:35:15 -0400
-X-MC-Unique: NMXKLDiQOda-c0RnzRletA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-468-FWllZ_pAPruQzXhbl475qg-1; Thu, 03 Sep 2020 12:36:51 -0400
+X-MC-Unique: FWllZ_pAPruQzXhbl475qg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3BFC1005E67
- for <qemu-devel@nongnu.org>; Thu,  3 Sep 2020 16:35:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AEC05800688;
+ Thu,  3 Sep 2020 16:36:49 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6861E59;
- Thu,  3 Sep 2020 16:35:14 +0000 (UTC)
-Date: Thu, 3 Sep 2020 12:35:13 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4015910013C4;
+ Thu,  3 Sep 2020 16:36:49 +0000 (UTC)
+Date: Thu, 3 Sep 2020 12:36:48 -0400
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 33/63] net/can: Rename TYPE_CAN_CPI constants
-Message-ID: <20200903163513.GK4940@habkost.net>
+Subject: Re: [PATCH 39/63] esp: Rename ESP_STATE to ESP
+Message-ID: <20200903163648.GL4940@habkost.net>
 References: <20200902224311.1321159-1-ehabkost@redhat.com>
- <20200902224311.1321159-34-ehabkost@redhat.com>
- <701fdf7d-be1b-a419-cedc-782d9f48b96e@redhat.com>
+ <20200902224311.1321159-40-ehabkost@redhat.com>
+ <469af456-1ad7-0355-1470-798679fa7268@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <701fdf7d-be1b-a419-cedc-782d9f48b96e@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <469af456-1ad7-0355-1470-798679fa7268@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.002
@@ -84,45 +84,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, berrange@redhat.com,
- qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, berrange@redhat.com,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 03, 2020 at 02:59:00PM +0200, Philippe Mathieu-Daudé wrote:
+On Thu, Sep 03, 2020 at 03:01:33PM +0200, Philippe Mathieu-Daudé wrote:
 > On 9/3/20 12:42 AM, Eduardo Habkost wrote:
-> > Rename macros to names that are unique in the source tree, to
-> > reduce confusion and make automated conversion of the code
-> > easier.
+> > Make the type checking macro name consistent with the TYPE_*
+> > constant.
 > > 
 > > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 > > ---
-> > Cc: Jason Wang <jasowang@redhat.com>
+> > Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> > Cc: Laurent Vivier <laurent@vivier.eu>
+> > Cc: "Hervé Poussineau" <hpoussin@reactos.org>
+> > Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+> > Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+> > Cc: Aurelien Jarno <aurelien@aurel32.net>
+> > Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> > Cc: Paolo Bonzini <pbonzini@redhat.com>
+> > Cc: Fam Zheng <fam@euphon.net>
+> > Cc: Artyom Tarasenko <atar4qemu@gmail.com>
 > > Cc: qemu-devel@nongnu.org
 > > ---
-> >  hw/net/can/can_kvaser_pci.c   | 6 +++---
-> >  hw/net/can/can_mioe3680_pci.c | 6 +++---
-> >  hw/net/can/can_pcm3680_pci.c  | 6 +++---
-> >  3 files changed, 9 insertions(+), 9 deletions(-)
+> >  include/hw/scsi/esp.h | 2 +-
+> >  hw/dma/sparc32_dma.c  | 2 +-
+> >  hw/m68k/q800.c        | 2 +-
+> >  hw/mips/jazz.c        | 2 +-
+> >  hw/scsi/esp.c         | 6 +++---
+> >  hw/sparc/sun4m.c      | 2 +-
+> >  6 files changed, 8 insertions(+), 8 deletions(-)
 > > 
-> > diff --git a/hw/net/can/can_kvaser_pci.c b/hw/net/can/can_kvaser_pci.c
-> > index 168b3a620d..12d4f8df33 100644
-> > --- a/hw/net/can/can_kvaser_pci.c
-> > +++ b/hw/net/can/can_kvaser_pci.c
-> > @@ -45,11 +45,11 @@
-> >  #include "can_sja1000.h"
-> >  #include "qom/object.h"
+> > diff --git a/include/hw/scsi/esp.h b/include/hw/scsi/esp.h
+> > index f281625dd5..20800dbf5b 100644
+> > --- a/include/hw/scsi/esp.h
+> > +++ b/include/hw/scsi/esp.h
+> > @@ -67,7 +67,7 @@ struct ESPState {
 > >  
-> > -#define TYPE_CAN_PCI_DEV "kvaser_pci"
-> > +#define TYPE_KVASER_PCI "kvaser_pci"
+> >  #define TYPE_ESP "esp"
+> >  typedef struct SysBusESPState SysBusESPState;
+> > -DECLARE_INSTANCE_CHECKER(SysBusESPState, ESP_STATE,
+> > +DECLARE_INSTANCE_CHECKER(SysBusESPState, ESP,
+> >                           TYPE_ESP)
 > 
-> Why keep "PCI" and not keep the "CAN" part?
-> To be consistent we should use both busses or none.
+> "ESPDMA" would less likely clash with eventual 'ESP' definition.
 
-Because the type name is "kvaser_pci", the device state struct is
-called KVaserPCIState, the type checking macro is called
-KVASER_PCI_DEV, and most functions inside that file are called
-kvaser_pci_*().
+I want to make the changes less intrusive as possible.  If the
+macro is already called ESP and the type name string is already
+"esp", I will just keep the existing naming.
 
 -- 
 Eduardo
