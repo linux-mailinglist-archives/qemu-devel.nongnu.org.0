@@ -2,76 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEDB225C694
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 18:21:05 +0200 (CEST)
-Received: from localhost ([::1]:59660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D57625C6B8
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 18:26:34 +0200 (CEST)
+Received: from localhost ([::1]:44110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDryy-0000JL-R9
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 12:21:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38662)
+	id 1kDs4H-0005eP-9i
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 12:26:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDrxs-0007q9-0N
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:19:56 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59216
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDrxq-00013J-IM
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:19:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599149993;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=m8enFmEO7qliwVdr2nq551eepepJrkvxFa4Aty2d3vU=;
- b=NPnYXJpbyOBPEI3jCPvsbWp37e55k9IknoeD0wClcv0XL3ZKspPWkxkQAeIDY7vxeWgKTb
- T2Uabg7XYwNbB9tGl40XgH+mvUZq6x7phy1+09wkEx3SvaJvYnt9roh1aF+CtIIpGm1AbR
- JLAmnamsPuWIKGh7f5zoRxJ2SUhxG6E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-356-cdNe9nNQPZuto4wwk2aiPQ-1; Thu, 03 Sep 2020 12:19:52 -0400
-X-MC-Unique: cdNe9nNQPZuto4wwk2aiPQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34ACD425DA
- for <qemu-devel@nongnu.org>; Thu,  3 Sep 2020 16:19:51 +0000 (UTC)
-Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C9BDC10013D9;
- Thu,  3 Sep 2020 16:19:47 +0000 (UTC)
-Date: Thu, 3 Sep 2020 12:19:46 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 15/63] i8259: Rename TYPE_I8259 to TYPE_PIC
-Message-ID: <20200903161946.GI4940@habkost.net>
-References: <20200902224311.1321159-1-ehabkost@redhat.com>
- <20200902224311.1321159-16-ehabkost@redhat.com>
- <bb2d291d-158f-0e79-e384-f6d011b4922e@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kDs3B-0004mc-SU
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:25:25 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:45489)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kDs39-0001sZ-5r
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:25:25 -0400
+Received: by mail-pg1-x543.google.com with SMTP id 67so2526474pgd.12
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 09:25:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=d55bjfYXbIsQpM11ZH3ArJgmncniHoUsc9n8g/hvS9w=;
+ b=GrsvskKegSWpkZmawPLF6i9hwKpDysPHBPo50N/Mb6qU5go/tEB6im10njk8YzvFBd
+ BYZYmAXxZydDY1ohw64zNd31eekMxEdim/XbDSUJ0gRYhTx9shdiLspVZuzO+ult3aUa
+ CGq3Lr61hcO85/1WVKj34InXQImqMrSAbmGSiPPcaMC2cY+DjktfR0P4cn7DTBsVylJb
+ QcaHhNJyz69MvVUNvIP7SMJy3znK5trMR3KSN/pkKd/JEwGaaGnJIzv6RbCM3PyLOSCj
+ EpUMyVgkMLUlBxLP+El3iANjmIIVhHbB841VIbcmwRBsOquez7Rs+g1J02MK5tV5PGbz
+ V2oA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=d55bjfYXbIsQpM11ZH3ArJgmncniHoUsc9n8g/hvS9w=;
+ b=RvwGDZIGacuTm13SVxQBMjPU//9ovJK2CzHoxKgZquhf1smQJd3Y8eBDrNoQQuAWk0
+ 6SA2kRSuk8CpL1j52cIfxU+PtklkzU391hVFjZmEDopiPMTwg1sfLKINzQppE2h6MRdl
+ FKNhvfBYulKSy6keVRk8CPWq/3uFG9V3nQtsSnSoeHoJgqYqsj/DqJ4QqoE1nkFpyreN
+ xgZPOPIYx1LgceFBNSFiBwz7n/arM7/6QFIpGlxM6yoeF5u6vc1CBX1QjLqK661drymY
+ zfYsX79cF+tv5ky1AOE9KciS0lGu4BKkFNRMZtJrDMuW+ZCg/UXThXsGlKLNp+ASwmD3
+ PCsw==
+X-Gm-Message-State: AOAM532hDF6OPNvwf6g9BAx/gFOVCWmChWwt2ik4uxchVSD1Qa7oU6sB
+ Vswf1bVi8LuEz7A//MdJdsLXnWCxp5X14A==
+X-Google-Smtp-Source: ABdhPJzg7xlKAX6lcW2i4SCZrN4xzbT9NJBOKpVYiWHLf7FkjWlwIsr3Tqwnumap78U62/FPtJta4Q==
+X-Received: by 2002:a63:3d41:: with SMTP id k62mr3438216pga.87.1599150320475; 
+ Thu, 03 Sep 2020 09:25:20 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id q71sm3132304pja.9.2020.09.03.09.25.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Sep 2020 09:25:19 -0700 (PDT)
+Subject: Re: [PATCH 1/3] target/arm: Convert Neon 3-same-fp size field to MO_*
+ in decode
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20200903133209.5141-1-peter.maydell@linaro.org>
+ <20200903133209.5141-2-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <d4329a97-d20b-f47a-ddca-cc42cb190ee7@linaro.org>
+Date: Thu, 3 Sep 2020 09:25:17 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <bb2d291d-158f-0e79-e384-f6d011b4922e@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0.001
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 01:58:20
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200903133209.5141-2-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.403,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,42 +91,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, berrange@redhat.com,
- qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 03, 2020 at 02:47:33PM +0200, Philippe Mathieu-Daudé wrote:
-> On 9/3/20 12:42 AM, Eduardo Habkost wrote:
-> > This will make the type name constant consistent with the name of
-> > the type checking macro.
-> > 
-> > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> > ---
-> > Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> > Cc: Paolo Bonzini <pbonzini@redhat.com>
-> > Cc: qemu-devel@nongnu.org
-> > ---
-> >  hw/intc/i8259.c | 10 +++++-----
-> >  1 file changed, 5 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/hw/intc/i8259.c b/hw/intc/i8259.c
-> > index 344fd04db1..e536cc90be 100644
-> > --- a/hw/intc/i8259.c
-> > +++ b/hw/intc/i8259.c
-> > @@ -37,10 +37,10 @@
-> >  
-> >  //#define DEBUG_IRQ_LATENCY
-> >  
-> > -#define TYPE_I8259 "isa-i8259"
-> > +#define TYPE_PIC "isa-i8259"
+On 9/3/20 6:32 AM, Peter Maydell wrote:
+> In the Neon instructions, some instruction formats have a 2-bit size
+> field which corresponds exactly to QEMU's MO_8/16/32/64.  However the
+> floating-point insns in the 3-same group have a 1-bit size field
+> which is "0 for 32-bit float and 1 for 16-bit float".  Currently we
+> pass these values directly through to trans_ functions, which means
+> that when reading a particular trans_ function you need to know if
+> that insn uses a 2-bit size or a 1-bit size.
 > 
-> I disagree with this patch, as we have various PIC and only one I8259.
+> Move the handling of the 1-bit size to the decodetree file, so that
+> all these insns consistently pass a size to the trans_ function which
+> is an MO_8/16/32/64 value.
+> 
+> In this commit we switch over the insns using the 3same_fp and
+> 3same_fp_q0 formats.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-Like in the I8254 case, I agree with your point.  I will suggest
-renaming the PIC macro to I8259 instead.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
--- 
-Eduardo
 
+> ---
+> I wanted to call the field %3same_fp_size, but decodetree
+> doesn't seem to allow a field starting with a digit, even
+> though it does allow a format that starts with a digit.
+> So it's %fp_3same_size...
+
+Odd.  All of the names get prefixed, so we don't have a problem of a digit
+beginning a C identifier...  I can look at fixing this if you want.
+
+
+r~
 
