@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92E4225BF5F
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 12:50:12 +0200 (CEST)
-Received: from localhost ([::1]:47766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37FF025BF5E
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 12:50:08 +0200 (CEST)
+Received: from localhost ([::1]:47374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDmol-0004EJ-LY
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 06:50:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57228)
+	id 1kDmoh-00044l-9M
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 06:50:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kDmnk-0002pW-Uh
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kDmnk-0002o1-6p
  for qemu-devel@nongnu.org; Thu, 03 Sep 2020 06:49:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20113)
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36186
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kDmni-0003HP-8o
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 06:49:08 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kDmnh-0003HD-HY
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 06:49:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599130145;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1599130144;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=JyeBm2HxP3qGxd+Y3yG3FK2yIce4QKdI+1An1dinHiA=;
- b=i1WpXBcMfvUwTSaRAKjzA/6osNhew4oLanqgWRRib75K2NEN+5j19VdXe8hiTqkoBI1nLx
- 9XgYNCRwQQCq2BNQMZpD+73A8ZTkYibhM/jfR0RQxeEn+NKZMeedzLClaUdhI/dKB5MM95
- xn4Nw/fqHc/Zju4TVqBCiQZ6ZdAMkSU=
+ bh=SfVX2lYDKrQ2VDcxYgB7NyKeqsO8A+m5P/6J6RHwgf0=;
+ b=Gv1rnV+5Lg0c18sHKaFYfLccqC1baBb9lfhkPRG6rLtXzhVHkWUsB28a99UwMysOUVinwF
+ P9RyBiGgMIKJTZpudvgNGKWN8SLoZNctXL1RG9AmQi1utMiH8OSbE/YfUfmqafO6/bRFoh
+ W5fpX7abfYB1p2tgd9DE5Y0m3rc92Lo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-337-D63tQvlaNe6hRer8g_SHMg-1; Thu, 03 Sep 2020 06:49:01 -0400
-X-MC-Unique: D63tQvlaNe6hRer8g_SHMg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-380-Hr5I_xJ5MA2RP8zAf6tmJA-1; Thu, 03 Sep 2020 06:49:02 -0400
+X-MC-Unique: Hr5I_xJ5MA2RP8zAf6tmJA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8DD0F1091065;
- Thu,  3 Sep 2020 10:49:00 +0000 (UTC)
-Received: from redhat.com (ovpn-114-170.ams2.redhat.com [10.36.114.170])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0BF947D50E;
- Thu,  3 Sep 2020 10:48:58 +0000 (UTC)
-Date: Thu, 3 Sep 2020 11:48:56 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v5 1/8] monitor: simplify functions for getting a dup'd
- fdset entry
-Message-ID: <20200903104856.GM441291@redhat.com>
-References: <20200902170913.1785194-1-berrange@redhat.com>
- <20200902170913.1785194-2-berrange@redhat.com>
- <87mu27s0mf.fsf@dusky.pond.sub.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AEF6718BE16E;
+ Thu,  3 Sep 2020 10:49:01 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-68.ams2.redhat.com
+ [10.36.113.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7FE0760C0F;
+ Thu,  3 Sep 2020 10:49:01 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 07B11113865F; Thu,  3 Sep 2020 12:49:00 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v6 00/12] monitor: Optionally run handlers in coroutines
+References: <20200528153742.274164-1-kwolf@redhat.com>
+ <87d046d5k1.fsf@dusky.pond.sub.org>
+ <87y2mtpbrf.fsf@dusky.pond.sub.org>
+Date: Thu, 03 Sep 2020 12:49:00 +0200
+In-Reply-To: <87y2mtpbrf.fsf@dusky.pond.sub.org> (Markus Armbruster's message
+ of "Wed, 05 Aug 2020 13:34:12 +0200")
+Message-ID: <87ft7zm8yr.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <87mu27s0mf.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0.002
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 01:47:17
+Content-Type: text/plain
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 01:58:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,64 +84,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: marcandre.lureau@gmail.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 03, 2020 at 10:52:40AM +0200, Markus Armbruster wrote:
-> Daniel P. Berrangé <berrange@redhat.com> writes:
-> 
-> > Currently code has to call monitor_fdset_get_fd, then dup
-> > the return fd, and then add the duplicate FD back into the
-> > fdset. This dance is overly verbose for the caller and
-> > introduces extra failure modes which can be avoided by
-> > folding all the logic into monitor_fdset_dup_fd_add and
-> > removing monitor_fdset_get_fd entirely.
-> >
-> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> > ---
-> >  include/monitor/monitor.h |  3 +-
-> >  include/qemu/osdep.h      |  1 +
-> >  monitor/misc.c            | 58 +++++++++++++++++----------------------
-> >  stubs/fdset.c             |  8 ++----
-> >  util/osdep.c              | 19 ++-----------
-> >  5 files changed, 32 insertions(+), 57 deletions(-)
-> >
+Markus Armbruster <armbru@redhat.com> writes:
 
-> > -int monitor_fdset_dup_fd_add(int64_t fdset_id, int dup_fd)
-> > -{
-> > -    MonFdset *mon_fdset;
-> > -    MonFdsetFd *mon_fdset_fd_dup;
-> > -
-> > -    qemu_mutex_lock(&mon_fdsets_lock);
-> > -    QLIST_FOREACH(mon_fdset, &mon_fdsets, next) {
-> > -        if (mon_fdset->id != fdset_id) {
-> > -            continue;
-> > +        if (fd == -1) {
-> > +            errno = EINVAL;
-> > +            return -1;
-> 
-> Missing qemu_mutex_unlock().
-> 
-> >          }
-> 
-> Old monitor_fdset_get_fd() returns -ENOENT when @fdset_id does not
-> exist, and -EACCES when it doesn't contain a file descriptor matching
-> @flags.
-> 
-> The new code seems to use EINVAL for the latter case.  Intentional?
+> Markus Armbruster <armbru@redhat.com> writes:
+>
+>> I let this series slide to get my Error API rework done, along with much
+>> else.  My sincere apologies!
+>>
+>> Unsurprisingly, it needs a rebase now.  I suggest to let me review it as
+>> is first.
+>
+> I'm done with v6.  Summary:
+>
+> * A few trivial things to correct here and there.
+>
+> * A few ideas to improve things in relatively minor ways.
+>
+> * PATCH 03 looks "why bother" to me until PATCH 09 makes me suspect you
+>   did the former to enable the latter.  If you had captured that in your
+>   commit message back then, like you did for the similar PATCH 05, I
+>   wouldn't be scratching my head now :)
+>
+> * I dislike PATCH 06, and would like to explore an alternative idea.
+>
+> * PATCH 08 makes hairy monitor code even hairier, but I don't have
+>   better ideas.
+>
+> * I don't feel comfortable as a sole reviewer of the AIO magic in PATCH
+>   10-12.  Let's ask Stefan for an eye-over.
+>
+> I'd like to proceed as follows.  You rebase, and address "easy" review
+> comments (you decide what's easy).  Post as v7, cc'ing Stefan for the
+> AIO magic and David Gilbert for HMP.  While they review (hopefully), I
+> explore a replacement for PATCH 06.  And then we touch bases and decide
+> how to get this thing wrapped.
 
-No, its a mistake.
+I explored:
 
+    Subject: Ways to do per-coroutine properties (was: [PATCH v6 06/12] monitor: Make current monitor a per-coroutine property)
+    Date: Fri, 07 Aug 2020 15:09:19 +0200 (3 weeks, 5 days, 21 hours ago)
+    Message-ID: <87a6z6wqkg.fsf_-_@dusky.pond.sub.org>
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+May I have v7?  Feel free to keep your PATCH 06.  If I decide to replace
+it, I can do it myself, possibly on top.
 
 
