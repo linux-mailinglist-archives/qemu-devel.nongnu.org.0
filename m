@@ -2,86 +2,122 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B96E925BA14
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 07:29:22 +0200 (CEST)
-Received: from localhost ([::1]:41346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2EB525BA2A
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 07:36:11 +0200 (CEST)
+Received: from localhost ([::1]:48622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDhoH-00035n-RG
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 01:29:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48128)
+	id 1kDhus-0006am-NK
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 01:36:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kDhnZ-0002gw-QY
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 01:28:37 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:20916
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kDhnX-0004iG-94
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 01:28:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599110913;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MXPkfIbdi0U0VKJUAQ8X3T/fb8mZKyQITUgypEibqGQ=;
- b=PLWxHJBolvKH6oiNKCDkX96dJWT2VmozfmAM9I3nVvwY2i6gAnV8HQ38KN5hTcDTQBEj6v
- fsp1tNHCZ9KuYxI07han/O9zhXPtptr/Fdup82R6tNvCVuCZm+rhkJ7aVJN2weldyAWuei
- pi744O0TxFfv0tGbThWfEF5uA4p+dfY=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-354-jTFUIYtkMbi-7UOixabYuA-1; Thu, 03 Sep 2020 01:28:30 -0400
-X-MC-Unique: jTFUIYtkMbi-7UOixabYuA-1
-Received: by mail-ed1-f69.google.com with SMTP id g8so786648edm.6
- for <qemu-devel@nongnu.org>; Wed, 02 Sep 2020 22:28:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MXPkfIbdi0U0VKJUAQ8X3T/fb8mZKyQITUgypEibqGQ=;
- b=VLj91JJeeysx2Pim91Du2WYD0GRh0LgBBGyfVrg1bx+5KwxWbcIy/xdeAE4ix3JJW5
- 0wTpBwVGQ+J8R9+55i4sKDUcKcVD7dKFv5zcBxsKpZY0yNKNbD9oyCTU5mBV04I40GKd
- gnMz01idU7gML0cHPJRG3SLDb5KChlxlQ1v1x9RcdNJBuwJQ1x4m05V6byZC0cm7wq8i
- 6yPnMbhO0NCcoWz9mq0plxuAvtXp93EbAGZ2bdDTadp164IjUcYRL6PqPktQHRDGIJBk
- Mf4Jt/iImmhl9ZqOCGvQhRpmCOraz1HLRVMdTQ1fKxA7VlqbJ8tJ8BuKXaMNuGnNM458
- 0D/g==
-X-Gm-Message-State: AOAM532srcqaZzHHx9j/LSYhc3FNW+H0Ao7NBZLGtyEXGAqUlTUrX/k7
- v1nL55ChhhiylZ2c66BxGyB3DKOfnwRgOkj7CWOsrqR1GIo7sQtY3N56Q9wxo5Ia19T6i2fQUi/
- UF4DyNzme+b9qMQg+RmMg/vkmSXvspPo=
-X-Received: by 2002:a17:906:5046:: with SMTP id
- e6mr399231ejk.449.1599110909648; 
- Wed, 02 Sep 2020 22:28:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwBMhcTuOf9THsqrQD1dQF28YPLyz9COLRryOm2T/mk9RO9ThFK0vC1ueUNHwG63OeTCHiyO0DzWwaa/ya4K5o=
-X-Received: by 2002:a17:906:5046:: with SMTP id
- e6mr399221ejk.449.1599110909472; 
- Wed, 02 Sep 2020 22:28:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1kDhu0-0005xE-OZ
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 01:35:18 -0400
+Received: from mail-mw2nam10on2049.outbound.protection.outlook.com
+ ([40.107.94.49]:29984 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1kDhty-0005UI-0C
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 01:35:16 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VFWgSkgNLPih6hCosWt5UGv8LySZ2Szh0ivMV5zGXwJAQ5ftQVKK+MyyrnbPP31rPSPeIAfxqVvhHnSB4SZi9pQmRmXjukqKPK8hEqi4+hbfvrifS5p7ZPF03m/3k1JH1TCf1jrCjvmF0OMYe7NqSO0l1QNR0dv4G2vAgpyYuqheqlNk1u6jgzGYKMSPVac8QWfGY8jpYk3fJkY8n/oNISsNuLli/fXAmnCgIH0CjsWtCEiU0P2lx/ifilKUJWfF+HlsyGPuLmyOJJOQyxDgx46cPMwVtQNMyyT1Ct6ZzU6ojTKKazcISTaTvwupw/XddbNRF9qZzNH1S5/KTOrQfQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=R9cIB+7JVV6b0aEGVBHeKpU2x4yRXJjldSPnlc0qt94=;
+ b=HZ5bTNBj1FphM35Jzrscgm8F+bhyXQTonmkrDyjeip1Q+Gn4GNhdymL/anR0VK+p3t6L8VOl7tm4HG/5ebnPrchJaRSXV5ePzw2wJq4gRYh/hRAOk5KsQUhSF9E5F44QxynkJ+79A72JZbEgV6g2qjjST5nJ3GlPo++p6eI3CBL1vFXxKaKi/1XTMIsXnrqHWyqWcBciE5oKjFRYyhzjEjmbHtCvfK7LSpTKFt2SJd+CgDr940V7guQUPxaEIBS5f+bAUvAVfcIf70syB+7kknACqGhwy1lDy27m+bSUIE50T4BdA5m+9OxNs+fg1ydjL8pZfxrD/oU+221A3W5Pnw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=cmp.felk.cvut.cz smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=R9cIB+7JVV6b0aEGVBHeKpU2x4yRXJjldSPnlc0qt94=;
+ b=jeG3iUm4U/sp5kRu3w+A0GrQnHYlsuSCo3tRB2s2Okn0+HjM6LRDL9cj4UyxbA9omxKyn4eHUQy2qJkoo+p8VJ81lRCOPVFkuoqnvX3LHYcPraM4q6zibAe0oaWwVAKxupd7y8BO/9CE0OQB4ATLFbHgnpUMkPXOea8JwQSGA3E=
+Received: from MN2PR16CA0013.namprd16.prod.outlook.com (2603:10b6:208:134::26)
+ by CY4PR0201MB3489.namprd02.prod.outlook.com (2603:10b6:910:93::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.15; Thu, 3 Sep
+ 2020 05:20:05 +0000
+Received: from BL2NAM02FT040.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:208:134:cafe::e3) by MN2PR16CA0013.outlook.office365.com
+ (2603:10b6:208:134::26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.19 via Frontend
+ Transport; Thu, 3 Sep 2020 05:20:05 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; cmp.felk.cvut.cz; dkim=none (message not signed)
+ header.d=none;cmp.felk.cvut.cz; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ BL2NAM02FT040.mail.protection.outlook.com (10.152.77.193) with Microsoft SMTP
+ Server id 15.20.3326.19 via Frontend Transport; Thu, 3 Sep 2020 05:20:03
+ +0000
+Received: from [149.199.38.66] (port=50113 helo=smtp.xilinx.com)
+ by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
+ (envelope-from <fnu.vikram@xilinx.com>)
+ id 1kDhfB-0005OD-Nx; Wed, 02 Sep 2020 22:19:57 -0700
+Received: from [127.0.0.1] (helo=xsj-pvapsmtp01)
+ by smtp.xilinx.com with esmtp (Exim 4.63)
+ (envelope-from <fnu.vikram@xilinx.com>)
+ id 1kDhfG-0004Dr-JU; Wed, 02 Sep 2020 22:20:02 -0700
+Received: from [172.19.2.115] (helo=xilinx.com)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <fnu.vikram@xilinx.com>)
+ id 1kDhfF-0004BN-0O; Wed, 02 Sep 2020 22:20:01 -0700
+Date: Wed, 2 Sep 2020 22:20:01 -0700
+From: Vikram Garhwal <fnu.vikram@xilinx.com>
+To: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+Subject: Re: [PATCH v1 1/6] net/can: Initial host SocketCan support for CAN FD.
+Message-ID: <20200903051958.GA249987@xilinx.com>
+References: <cover.1594725647.git.pisa@cmp.felk.cvut.cz>
+ <b401e976ac9c73cf1582bca95442a255676ce940.1594725647.git.pisa@cmp.felk.cvut.cz>
+ <20200901200119.GA152258@xilinx.com>
+ <202009020951.44751.pisa@cmp.felk.cvut.cz>
 MIME-Version: 1.0
-References: <CAEUhbmUOtjEsQzUQZsARBcr9jjpEAu6Br8zozV8f8fQBxznFdg@mail.gmail.com>
-In-Reply-To: <CAEUhbmUOtjEsQzUQZsARBcr9jjpEAu6Br8zozV8f8fQBxznFdg@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Thu, 3 Sep 2020 07:28:17 +0200
-Message-ID: <CABgObfaVC5ts953qaJ5-0wLaF9o4BgXzQbenrY7F_SLFBR+K=A@mail.gmail.com>
-Subject: Re: meson: how to determine which directory applies to the c_args
- during build?
-To: Bin Meng <bmeng.cn@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000b743ad05ae6205b6"
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 01:28:33
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <202009020951.44751.pisa@cmp.felk.cvut.cz>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ca5ce21a-d375-4232-040a-08d84fc90347
+X-MS-TrafficTypeDiagnostic: CY4PR0201MB3489:
+X-Microsoft-Antispam-PRVS: <CY4PR0201MB3489993C74851EB49D96B5B3BC2C0@CY4PR0201MB3489.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:352;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: RwJhirSsV6b+G0UY6ht/8sgkfcJgcmfR+ZzffitIJMnyBTAeLURYkEjY/A4S0fp0+wlbjniQWoGXw9du6cuunSNzjeoUsKb13gBHlwTkqoo+kn3Ew4M0C/24fMB4qZi5Jk0H1mSskpAd9WULeB9fia/TTho4qG32ILqExcMKPO/Kx7sfd5KZCWna+YJyMGnMWMzncZRTfeQPuKNscEaDrfU2WU61Z+Bfw++RdPh8xfiDJp3gnj19XRlf8U5GrKUbdZwr9JgOBKCDLMUaqgaWNaH40fmX2HBSWhBRqdxPRcLnPskFELCy9pbxU5TPuR6/v1xQGlK5WMr3vM09DWM7qrV/+IVKyqHozIeCegt6Fq7xJKbIxGXyhIQtICnI1feG3jw276Al6QNMlaFoXTTyXbvEmPSk4fdeairXbCUUUUA31NDFqR2R4xD8RzUbY69R5etZ7BwsrGqKFtbTWpL59RzOmFnvaER4+XKhoSVqMpMVgApd/KLop5QGeVOiX+9f
+X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
+ SFS:(376002)(136003)(39850400004)(346002)(396003)(46966005)(36756003)(966005)(7416002)(8676002)(478600001)(2906002)(9786002)(8936002)(47076004)(82310400003)(81166007)(82740400003)(70206006)(356005)(70586007)(26005)(1076003)(186003)(6916009)(7696005)(4326008)(426003)(2616005)(336012)(33656002)(5660300002)(316002)(54906003)(27376004);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2020 05:20:03.4631 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ca5ce21a-d375-4232-040a-08d84fc90347
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
+ Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-AuthSource: BL2NAM02FT040.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR0201MB3489
+Received-SPF: pass client-ip=40.107.94.49; envelope-from=fnuv@xilinx.com;
+ helo=NAM10-MW2-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 01:35:11
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,58 +130,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Marek Vasut <marex@denx.de>, Jiri Novak <jnovak@fel.cvut.cz>,
+ Oliver Hartkopp <socketcan@hartkopp.net>, Deniz Eren <deniz.eren@icloud.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Oleksij Rempel <o.rempel@pengutronix.de>,
+ Konrad Frederic <frederic.konrad@adacore.com>,
+ Jan Kiszka <jan.kiszka@siemens.com>, Jan Charvat <charvj10@fel.cvut.cz>,
+ Stefan Hajnoczi <stefanha@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Ondrej Ille <ondrej.ille@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b743ad05ae6205b6
-Content-Type: text/plain; charset="UTF-8"
-
-Il gio 3 set 2020, 06:43 Bin Meng <bmeng.cn@gmail.com> ha scritto:
-
-> It seems to me that when building hw/char directory NEED_CPU_H is not
-> defined. However when building hw/riscv and hw/intc NEED_CPU_H is
-> defined. I have no clue where to control c_args to build sub-directories.
-> Any suggestions?
-
-
-Hi!
-
-The common_ss sourceset (and most others: block_ss, softmmu_ss, etc.) will
-not have NEED_CPU_H; only specific_ss will, in addition to the entire
-directories hw/riscv and target/riscv.
-
-In other words, specific_ss is equivalent to the old obj-y Makefile
-variable.
-
-Thanks,
-
-
-Paolo
-
---000000000000b743ad05ae6205b6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Il gio 3 set 2020, 06:43 Bin Meng &lt;<a href=3D"mailt=
-o:bmeng.cn@gmail.com">bmeng.cn@gmail.com</a>&gt; ha scritto:<br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
-c solid;padding-left:1ex">It seems to me that when building hw/char directo=
-ry NEED_CPU_H is not<br>
-defined. However when building hw/riscv and hw/intc NEED_CPU_H is<br>
-defined. I have no clue where to control c_args to build sub-directories. A=
-ny suggestions?</blockquote></div></div><div dir=3D"auto"><br></div><div di=
-r=3D"auto">Hi!</div><div dir=3D"auto"><br></div><div dir=3D"auto">The commo=
-n_ss sourceset (and most others: block_ss, softmmu_ss, etc.) will not have =
-NEED_CPU_H; only specific_ss will, in addition to the entire directories hw=
-/riscv and target/riscv.</div><div dir=3D"auto"><br></div><div dir=3D"auto"=
->In other words, specific_ss is equivalent to the old obj-y Makefile variab=
-le.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Thanks,</div><div di=
-r=3D"auto"><br></div><div dir=3D"auto"><br></div><div dir=3D"auto">Paolo</d=
-iv></div>
-
---000000000000b743ad05ae6205b6--
-
+On Wed, Sep 02, 2020 at 09:51:44AM +0200, Pavel Pisa wrote:
+Hi Pavel,
+> Hello Vikram,
+>
+> thanks much for the patches review.
+>
+> On Tuesday 01 of September 2020 22:01:26 Vikram Garhwal wrote:
+> > Hi Jan,
+> > A couple of comments on this patch.
+> >
+> > On Tue, Jul 14, 2020 at 02:20:14PM +0200, pisa@cmp.felk.cvut.cz wrote:
+> > > From: Jan Charvat <charvj10@fel.cvut.cz>
+> > > @@ -185,13 +204,34 @@ static void can_host_socketcan_connect(CanHostState
+> > > *ch, Error **errp) addr.can_family = AF_CAN;
+> > >      memset(&ifr.ifr_name, 0, sizeof(ifr.ifr_name));
+> > >      strcpy(ifr.ifr_name, c->ifname);
+> > > +    /* check if the frame fits into the CAN netdevice */
+> > >      if (ioctl(s, SIOCGIFINDEX, &ifr) < 0) {
+> > >          error_setg_errno(errp, errno,
+> > > -                         "SocketCAN host interface %s not available",
+> > > c->ifname); +                         "SocketCAN host interface %s not
+> > > available", +                         c->ifname);
+> >
+> > May be this formatting change in a different patch? As this is not related
+> > to CANFD.
+> > > @@ -232,7 +272,8 @@ static char *can_host_socketcan_get_if(Object *obj,
+> > > Error **errp) return g_strdup(c->ifname);
+> > >  }
+> > >
+> > > -static void can_host_socketcan_set_if(Object *obj, const char *value,
+> > > Error **errp) +static void can_host_socketcan_set_if(Object *obj, const
+> > > char *value,
+> > > +                                      Error **errp)
+> >
+> > This one also not relevant change for CANFD. Rest of the patch looks good.
+>
+>
+> I am responsible for mentioned lines change in net/can/can_socketcan.c.
+> When I have reviewed patches after Jan Charvat theses submittion,
+> I have done another bunch of rounds to check that the patches as well
+> as the whole net/can and hw/net/can are checkpatch clean. I am not sure
+> if the incorrect formatting sneaked in in my 2018 submission or patcheck
+> became more strict last years.
+>
+> I can separate these changes changes into separate patch if required.
+May be we can keep them in same patch. I was just referring to "Don't include irrelevant changes" section on this page about patches: https://wiki.qemu.org/Contribute/SubmitAPatch.
+>
+> By the way, if you or other of your colleagues is willing to participate
+> in net/can and or  hw/net/can patches reviews, I would be happy if you
+> join my attempt and we can record that we are available to take care
+> abut these in MAINTAINERS file.
+Given that I spent good amount of time working with net/can, I am willing to review the patches. Thanks!
+>
+> Best wishes,
+>
+> Pavel
+>
+>
 
