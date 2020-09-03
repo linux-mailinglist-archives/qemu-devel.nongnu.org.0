@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4861D25C156
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 14:51:09 +0200 (CEST)
-Received: from localhost ([::1]:33060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E8C725C159
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 14:52:40 +0200 (CEST)
+Received: from localhost ([::1]:38912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDoho-0004Sh-CX
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 08:51:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58374)
+	id 1kDojH-0006zU-Jn
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 08:52:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDogD-0002z2-QH
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 08:49:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34807)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDohI-0004k7-Fz
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 08:50:36 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31546
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDogB-00023T-Pz
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 08:49:29 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDohG-0002OJ-N4
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 08:50:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599137366;
+ s=mimecast20190719; t=1599137433;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=S3KCApHiBdB+T3Ty3d0wjIuJXJM2uIW9LtuWaNrykHk=;
- b=BA9WOgEphzNAlQ63KOulKI0egzKCy/oN1gQQgSn6asJtvEBNn0CGAi/hVyJupOoaQjHHjH
- cb1OQ02ZRIeVIi+i29Aiw+H+GpNhWCd6IB7JJ49DwXFzQQnlpCIo7cu4SvBIvXeZOGBtuc
- s1z3tdpdw06yrkGDOWnmdKgjWrBoMtY=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-156-glOLTwdLOhyNv9fLjRTnoQ-1; Thu, 03 Sep 2020 08:49:24 -0400
-X-MC-Unique: glOLTwdLOhyNv9fLjRTnoQ-1
-Received: by mail-wr1-f70.google.com with SMTP id f18so1030349wrv.19
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 05:49:24 -0700 (PDT)
+ bh=VDjmmiZ46X8xdN04wFJ9qwDoL83bdCg7z/QsL3Nqvy4=;
+ b=OStODvbYDgGFSp+Wq1bDM9KuskffO/nbb598v1Kjnkb0vwIk0Dhb1Z1cuceAy9x7ijplWx
+ Ofb/Lg7nZ6+z18N2a8ZAccCmQzAoQWRhC9z72DsbqRaDuWUAl7S1Ys7qUlMp4J8z7o8X+H
+ nXbhtnbXxK3JfbZJ3GEk4K2QuvwwWa8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-159-aj3J9PefNoievfJPV6kcDA-1; Thu, 03 Sep 2020 08:50:32 -0400
+X-MC-Unique: aj3J9PefNoievfJPV6kcDA-1
+Received: by mail-wm1-f72.google.com with SMTP id a7so949021wmc.2
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 05:50:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=S3KCApHiBdB+T3Ty3d0wjIuJXJM2uIW9LtuWaNrykHk=;
- b=q/neeYPxdV4GgTfjau28jze6MPb0//0lFqjOzGrKbHXGD+RFmTWIQwJaatCmP23m1f
- KILztTyaRp9ruCo/Z9n7B+q/HOtYtu3ARF0PRcu0qhsn3DLJ2t0Vwc/OfOh6tDYZUGkM
- HrwGw2GOUndj3fw5QvcpTYo5PQPnkeWpt5DSiTE1257RDcBl+bhb28CjbZ4VrP1QOp11
- C4Q67dv6Ulfj++rf5RGNtKfx1hPsTvcsXiEDevutAAN/dQEaXCTeza+ao/xvPvs0w6gf
- /0rCM4X4XMmTMwys4f5+NnH7dt/mgPhNjdndSx/xyK3FLtZF9C6gAcygGyAUIfy9TKkh
- UjaA==
-X-Gm-Message-State: AOAM531TxUm0vWyNEuAqG4rnFfce/q7PiWBOYSgWCbb8ifAxOpE28VuT
- JdSt4hAktJMECBMRd/O5tg6JbIeW6BW2tQMoYpziLgfPedli8bXWhWBoFkqK4rpkkWv8OHveQv1
- 9ZZRrihYLrvMB3zg=
-X-Received: by 2002:adf:8187:: with SMTP id 7mr2342805wra.266.1599137363450;
- Thu, 03 Sep 2020 05:49:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzmupgbQuv81e2xEHRaZFWWqmYk3kJzGASA22O68dDb9cRtuY3uaMNQvdnfFnhZjvLVrFvKiQ==
-X-Received: by 2002:adf:8187:: with SMTP id 7mr2342787wra.266.1599137363278;
- Thu, 03 Sep 2020 05:49:23 -0700 (PDT)
+ bh=VDjmmiZ46X8xdN04wFJ9qwDoL83bdCg7z/QsL3Nqvy4=;
+ b=ddSISNstUYDDL7V2TfVWvorAYrXtknXQQP7FKQgvn7F8AHS+sJy1yvcNlRMCxnmAIz
+ oSGN8u/psV2cE/FXbD4VB6lxCa/+mhrKt03g4Cmt/NQ+LkpKXbC3/iiHKSve4NHX/TLm
+ cXAqdlKFOy8vvS1DaZP2GhkPKR6Z//OAwhWvrc6QJYDkXzRXFwu3wUDmZkGQ5oCwz9B5
+ eNyjkJo8M8S0RFUQqBcGscpp6fp6yWvMPAgBDxdD+T3IC/Df9mz4nb3bb99f5sgy33YF
+ cjxlFi0+lpzmMoItwXvysurm310h6J2ysE+KIJJyXr+nQbg9fjaAU/+QunaC9g4esTvv
+ brhg==
+X-Gm-Message-State: AOAM5308g61yZv40awnDGL0nkBXzX9z1Myy6ouVR0pcExqmdy1i368rP
+ abCQvXQtBHkL/r/v7BzMBBxQfHISGIt6FVEFHRyEl077V2YtAaAIguPyeEhpEvvoFjBhvrmkIAo
+ xGNii3s9yYIFQWNg=
+X-Received: by 2002:a1c:6385:: with SMTP id x127mr2453533wmb.95.1599137430981; 
+ Thu, 03 Sep 2020 05:50:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzxRRAlPteoZOY4H88uDWauPYSZzYne+connTzK+INeV9WUJjMMEIjTafllAKoUoT0x43HteQ==
+X-Received: by 2002:a1c:6385:: with SMTP id x127mr2453514wmb.95.1599137430758; 
+ Thu, 03 Sep 2020 05:50:30 -0700 (PDT)
 Received: from [192.168.1.36] (50.red-83-52-54.dynamicip.rima-tde.net.
  [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id u17sm4114031wmm.4.2020.09.03.05.49.22
+ by smtp.gmail.com with ESMTPSA id 188sm16683924wmz.2.2020.09.03.05.50.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Sep 2020 05:49:22 -0700 (PDT)
-Subject: Re: [PATCH 02/63] chardev: Rename TYPE_CHARDEV_* to TYPE_*_CHARDEV
+ Thu, 03 Sep 2020 05:50:30 -0700 (PDT)
+Subject: Re: [PATCH 06/63] dev-smartcard-reader: Rename CCID_DEV_NAME to
+ TYPE_USB_CCID_DEV
 To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
 References: <20200902224311.1321159-1-ehabkost@redhat.com>
- <20200902224311.1321159-3-ehabkost@redhat.com>
+ <20200902224311.1321159-7-ehabkost@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -86,31 +88,30 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <b40ae788-c711-06fe-eae3-951d64ba92c8@redhat.com>
-Date: Thu, 3 Sep 2020 14:49:21 +0200
+Message-ID: <004afb90-1ff1-469f-db3e-de0f4e1c64ed@redhat.com>
+Date: Thu, 3 Sep 2020 14:50:29 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200902224311.1321159-3-ehabkost@redhat.com>
+In-Reply-To: <20200902224311.1321159-7-ehabkost@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 04:23:54
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 00:24:51
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -44
 X-Spam_score: -4.5
 X-Spam_bar: ----
 X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.403, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.403, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -123,64 +124,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: berrange@redhat.com, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/3/20 12:42 AM, Eduardo Habkost wrote:
-> This will make the TYPE_* constants consistent with the name of
-> most type checking macros we have today.
+> This will make the type name constant consistent with the name of
+> the type checking macro.
 > 
 > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
 > ---
-> Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>
-> Cc: "Marc-André Lureau" <marcandre.lureau@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: "Alex Bennée" <alex.bennee@linaro.org>
-> Cc: "Philippe Mathieu-Daudé" <philmd@redhat.com>
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
 > Cc: Gerd Hoffmann <kraxel@redhat.com>
 > Cc: qemu-devel@nongnu.org
 > ---
->  chardev/chardev-internal.h       |  4 ++--
->  include/chardev/char-fd.h        |  4 ++--
->  include/chardev/char-win-stdio.h |  2 +-
->  include/chardev/char-win.h       |  4 ++--
->  include/chardev/char.h           | 30 +++++++++++++++---------------
->  include/chardev/spice.h          |  8 ++++----
->  chardev/baum.c                   |  6 +++---
->  chardev/char-console.c           |  4 ++--
->  chardev/char-fd.c                |  2 +-
->  chardev/char-file.c              |  6 +++---
->  chardev/char-mux.c               |  2 +-
->  chardev/char-null.c              |  2 +-
->  chardev/char-parallel.c          |  4 ++--
->  chardev/char-pipe.c              |  6 +++---
->  chardev/char-pty.c               |  4 ++--
->  chardev/char-ringbuf.c           |  8 ++++----
->  chardev/char-serial.c            |  6 +++---
->  chardev/char-socket.c            |  4 ++--
->  chardev/char-stdio.c             |  6 +++---
->  chardev/char-udp.c               |  4 ++--
->  chardev/char-win-stdio.c         |  4 ++--
->  chardev/char-win.c               |  2 +-
->  chardev/char.c                   |  2 +-
->  chardev/msmouse.c                |  6 +++---
->  chardev/spice.c                  | 10 +++++-----
->  chardev/testdev.c                |  6 +++---
->  chardev/wctablet.c               |  6 +++---
->  gdbstub.c                        |  6 +++---
->  hw/display/vhost-user-gpu.c      |  2 +-
->  tests/test-char.c                |  4 ++--
->  ui/console.c                     |  8 ++++----
->  ui/gtk.c                         |  6 +++---
->  ui/spice-app.c                   | 10 +++++-----
->  33 files changed, 94 insertions(+), 94 deletions(-)
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>  hw/usb/dev-smartcard-reader.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/hw/usb/dev-smartcard-reader.c b/hw/usb/dev-smartcard-reader.c
+> index 432508c478..59b2248f34 100644
+> --- a/hw/usb/dev-smartcard-reader.c
+> +++ b/hw/usb/dev-smartcard-reader.c
+> @@ -60,10 +60,10 @@ do { \
+>  #define D_MORE_INFO 3
+>  #define D_VERBOSE 4
+>  
+> -#define CCID_DEV_NAME "usb-ccid"
+> +#define TYPE_USB_CCID_DEV "usb-ccid"
+>  typedef struct USBCCIDState USBCCIDState;
+>  DECLARE_INSTANCE_CHECKER(USBCCIDState, USB_CCID_DEV,
+> -                         CCID_DEV_NAME)
+> +                         TYPE_USB_CCID_DEV)
+>  /*
+>   * The two options for variable sized buffers:
+>   * make them constant size, for large enough constant,
+> @@ -1462,7 +1462,7 @@ static void ccid_class_initfn(ObjectClass *klass, void *data)
+>  }
+>  
+>  static const TypeInfo ccid_info = {
+> -    .name          = CCID_DEV_NAME,
+> +    .name          = TYPE_USB_CCID_DEV,
+>      .parent        = TYPE_USB_DEVICE,
+>      .instance_size = sizeof(USBCCIDState),
+>      .class_init    = ccid_class_initfn,
+> @@ -1495,7 +1495,7 @@ static void ccid_register_types(void)
+>      type_register_static(&ccid_bus_info);
+>      type_register_static(&ccid_card_type_info);
+>      type_register_static(&ccid_info);
+> -    usb_legacy_register(CCID_DEV_NAME, "ccid", NULL);
+> +    usb_legacy_register(TYPE_USB_CCID_DEV, "ccid", NULL);
+>  }
+>  
+>  type_init(ccid_register_types)
+> 
 
 
