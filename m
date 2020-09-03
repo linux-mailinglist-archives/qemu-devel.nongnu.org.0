@@ -2,91 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C77DC25BDBE
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 10:49:10 +0200 (CEST)
-Received: from localhost ([::1]:40310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D981625BDB5
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 10:47:53 +0200 (CEST)
+Received: from localhost ([::1]:35772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDkvd-00085n-Sw
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 04:49:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57834)
+	id 1kDkuO-0006ID-OH
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 04:47:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1kDkur-0007Nm-OC
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 04:48:21 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:50118)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1kDkup-0003lF-TN
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 04:48:21 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0838iv4Z187751;
- Thu, 3 Sep 2020 08:48:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : in-reply-to : references : date : message-id : mime-version :
- content-type; s=corp-2020-01-29;
- bh=+VWBbLOEc973LVW6lsoZ/SjndtAZrk5BkAQY3HQLdzQ=;
- b=NxnwUAFNbV9mySxEA5PS6XuFkMBC4d4/vJAx781DfD0t67MTs+1Coyx0dwpjyAlDiINb
- rj5pUsFFcTUAHahsL/tOPW2pmut4UcwsiH1iY0c8zm7SM6Sl2hk8Ahka8n86xJHnO8OH
- B23z8q0ePdn8Been+1J4/9GiJy/sUHqqUAeSOHQvzviXmlm9ZXmivnqrlUSWSx+DCslB
- fItQzGIH0E47RgEPoiuve8yZFGU0UksSyBTQDUZXM64on4Nl2t3u0+s5hP6H87lWDxvX
- Jc6WV7q0upTHp128sL00OzCDq6tpYSoJ7Th0NnYP5ECNsMlF8RSA4zjJ4pJ6sFumXw2Z sA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2130.oracle.com with ESMTP id 337eer7g4v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 03 Sep 2020 08:48:16 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0838ifP5070008;
- Thu, 3 Sep 2020 08:46:15 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3020.oracle.com with ESMTP id 3380x9aadb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 03 Sep 2020 08:46:15 +0000
-Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0838kD5K017259;
- Thu, 3 Sep 2020 08:46:13 GMT
-Received: from starbug-mbp.localdomain (/79.97.215.145)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 03 Sep 2020 01:46:13 -0700
-Received: by starbug-mbp.localdomain (Postfix, from userid 501)
- id A2EAD134F108; Thu,  3 Sep 2020 09:46:10 +0100 (IST)
-From: Darren Kenny <darren.kenny@oracle.com>
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 06/15] fuzz: Add fuzzer callbacks to DMA-read functions
-In-Reply-To: <20200819061110.1320568-7-alxndr@bu.edu>
-References: <20200819061110.1320568-1-alxndr@bu.edu>
- <20200819061110.1320568-7-alxndr@bu.edu>
-Date: Thu, 03 Sep 2020 09:46:10 +0100
-Message-ID: <m2v9gvs0x9.fsf@oracle.com>
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1kDkta-0005gM-Dn
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 04:47:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47006)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1kDktX-0003df-F9
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 04:47:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599122817;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gTdZnnrCdm+PWjXuubvvrI4NjVZkhkXv/8GttBIMfrI=;
+ b=IdEelA3/woLUUSjEPUoJlVr8sfbye9ZVLfnEXEBbfjoBj0WsbAaaAHqdQyILkv7VAuzj+R
+ Nwf2g4psyljZwfIztkwq920uECW+iACNXFhG7Ig4kfj/3R99lj/YHFiz/UA5ih3irxTUgb
+ OyiPu8gsWtflXSqYe2YCZhgA7a/FrCk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-374-aZUco--ENbGxQO4GYb2lnw-1; Thu, 03 Sep 2020 04:46:54 -0400
+X-MC-Unique: aZUco--ENbGxQO4GYb2lnw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3C22802B72
+ for <qemu-devel@nongnu.org>; Thu,  3 Sep 2020 08:46:53 +0000 (UTC)
+Received: from [10.36.112.51] (ovpn-112-51.ams2.redhat.com [10.36.112.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 80CF760C0F;
+ Thu,  3 Sep 2020 08:46:49 +0000 (UTC)
+Subject: Re: [PATCH 55/63] vfio: Rename PCI_VFIO to VFIO_PCI
+To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+References: <20200902224311.1321159-1-ehabkost@redhat.com>
+ <20200902224311.1321159-56-ehabkost@redhat.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <101f1b13-71ee-cd1c-2e4c-8dbad00282c0@redhat.com>
+Date: Thu, 3 Sep 2020 10:46:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9732
- signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- spamscore=0 phishscore=0
- mlxlogscore=999 adultscore=0 suspectscore=2 bulkscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2009030080
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9732
- signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1011
- priorityscore=1501
- lowpriorityscore=0 malwarescore=0 adultscore=0 spamscore=0 mlxscore=0
- phishscore=0 impostorscore=0 mlxlogscore=999 bulkscore=0 suspectscore=2
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2009030080
-Received-SPF: pass client-ip=156.151.31.86;
- envelope-from=darren.kenny@oracle.com; helo=userp2130.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 04:48:18
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+In-Reply-To: <20200902224311.1321159-56-ehabkost@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eric.auger@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 04:23:54
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.324, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,136 +85,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: f4bug@amsat.org, Alexander Bulekov <alxndr@bu.edu>, bsd@redhat.com,
- stefanha@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Alex Williamson <alex.williamson@redhat.com>, berrange@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wednesday, 2020-08-19 at 02:11:01 -04, Alexander Bulekov wrote:
-> We should be careful to not call any functions besides fuzz_dma_read_cb.
-> Without --enable-fuzzing, fuzz_dma_read_cb is an empty inlined function.
->
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+Eduardo,
 
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+On 9/3/20 12:43 AM, Eduardo Habkost wrote:
+> Make the type checking macro name consistent with the TYPE_*
+> constant.
+> 
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
 
+Thanks
+
+Eric
 > ---
->  exec.c                                | 2 ++
->  include/exec/memory.h                 | 1 +
->  include/exec/memory_ldst_cached.inc.h | 3 +++
->  memory_ldst.inc.c                     | 4 ++++
->  softmmu/memory.c                      | 1 +
->  5 files changed, 11 insertions(+)
->
-> diff --git a/exec.c b/exec.c
-> index 6f381f98e2..c81f41514d 100644
-> --- a/exec.c
-> +++ b/exec.c
-> @@ -3241,6 +3241,7 @@ MemTxResult flatview_read_continue(FlatView *fv, hwaddr addr,
->              stn_he_p(buf, l, val);
->          } else {
->              /* RAM case */
-> +            fuzz_dma_read_cb(addr, len, mr, false);
->              ram_ptr = qemu_ram_ptr_length(mr->ram_block, addr1, &l, false);
->              memcpy(buf, ram_ptr, l);
->          }
-> @@ -3601,6 +3602,7 @@ void *address_space_map(AddressSpace *as,
->      memory_region_ref(mr);
->      *plen = flatview_extend_translation(fv, addr, len, mr, xlat,
->                                          l, is_write, attrs);
-> +    fuzz_dma_read_cb(addr, *plen, mr, is_write);
->      ptr = qemu_ram_ptr_length(mr->ram_block, xlat, plen, true);
+> Cc: Alex Williamson <alex.williamson@redhat.com>
+> Cc: qemu-devel@nongnu.org
+> ---
+>  hw/vfio/pci.h |  2 +-
+>  hw/vfio/pci.c | 22 +++++++++++-----------
+>  2 files changed, 12 insertions(+), 12 deletions(-)
+> 
+> diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
+> index 846d60e56c..5e53d5b863 100644
+> --- a/hw/vfio/pci.h
+> +++ b/hw/vfio/pci.h
+> @@ -116,7 +116,7 @@ typedef struct VFIOMSIXInfo {
 >  
->      return ptr;
-> diff --git a/include/exec/memory.h b/include/exec/memory.h
-> index 2ec3b597f1..f8b943521a 100644
-> --- a/include/exec/memory.h
-> +++ b/include/exec/memory.h
-> @@ -2444,6 +2444,7 @@ address_space_read_cached(MemoryRegionCache *cache, hwaddr addr,
->                            void *buf, hwaddr len)
->  {
->      assert(addr < cache->len && len <= cache->len - addr);
-> +    fuzz_dma_read_cb(cache->xlat + addr, len, cache->mrs.mr, false);
->      if (likely(cache->ptr)) {
->          memcpy(buf, cache->ptr + addr, len);
->          return MEMTX_OK;
-> diff --git a/include/exec/memory_ldst_cached.inc.h b/include/exec/memory_ldst_cached.inc.h
-> index fd4bbb40e7..aff574039f 100644
-> --- a/include/exec/memory_ldst_cached.inc.h
-> +++ b/include/exec/memory_ldst_cached.inc.h
-> @@ -28,6 +28,7 @@ static inline uint32_t ADDRESS_SPACE_LD_CACHED(l)(MemoryRegionCache *cache,
->      hwaddr addr, MemTxAttrs attrs, MemTxResult *result)
->  {
->      assert(addr < cache->len && 4 <= cache->len - addr);
-> +    fuzz_dma_read_cb(cache->xlat + addr, 4, cache->mrs.mr, false);
->      if (likely(cache->ptr)) {
->          return LD_P(l)(cache->ptr + addr);
->      } else {
-> @@ -39,6 +40,7 @@ static inline uint64_t ADDRESS_SPACE_LD_CACHED(q)(MemoryRegionCache *cache,
->      hwaddr addr, MemTxAttrs attrs, MemTxResult *result)
->  {
->      assert(addr < cache->len && 8 <= cache->len - addr);
-> +    fuzz_dma_read_cb(cache->xlat + addr, 8, cache->mrs.mr, false);
->      if (likely(cache->ptr)) {
->          return LD_P(q)(cache->ptr + addr);
->      } else {
-> @@ -50,6 +52,7 @@ static inline uint32_t ADDRESS_SPACE_LD_CACHED(uw)(MemoryRegionCache *cache,
->      hwaddr addr, MemTxAttrs attrs, MemTxResult *result)
->  {
->      assert(addr < cache->len && 2 <= cache->len - addr);
-> +    fuzz_dma_read_cb(cache->xlat + addr, 2, cache->mrs.mr, false);
->      if (likely(cache->ptr)) {
->          return LD_P(uw)(cache->ptr + addr);
->      } else {
-> diff --git a/memory_ldst.inc.c b/memory_ldst.inc.c
-> index c54aee4a95..8d45d2eeff 100644
-> --- a/memory_ldst.inc.c
-> +++ b/memory_ldst.inc.c
-> @@ -42,6 +42,7 @@ static inline uint32_t glue(address_space_ldl_internal, SUFFIX)(ARG1_DECL,
->                                          MO_32 | devend_memop(endian), attrs);
->      } else {
->          /* RAM case */
-> +        fuzz_dma_read_cb(addr, 4, mr, false);
->          ptr = qemu_map_ram_ptr(mr->ram_block, addr1);
->          switch (endian) {
->          case DEVICE_LITTLE_ENDIAN:
-> @@ -110,6 +111,7 @@ static inline uint64_t glue(address_space_ldq_internal, SUFFIX)(ARG1_DECL,
->                                          MO_64 | devend_memop(endian), attrs);
->      } else {
->          /* RAM case */
-> +        fuzz_dma_read_cb(addr, 8, mr, false);
->          ptr = qemu_map_ram_ptr(mr->ram_block, addr1);
->          switch (endian) {
->          case DEVICE_LITTLE_ENDIAN:
-> @@ -175,6 +177,7 @@ uint32_t glue(address_space_ldub, SUFFIX)(ARG1_DECL,
->          r = memory_region_dispatch_read(mr, addr1, &val, MO_8, attrs);
->      } else {
->          /* RAM case */
-> +        fuzz_dma_read_cb(addr, 1, mr, false);
->          ptr = qemu_map_ram_ptr(mr->ram_block, addr1);
->          val = ldub_p(ptr);
->          r = MEMTX_OK;
-> @@ -212,6 +215,7 @@ static inline uint32_t glue(address_space_lduw_internal, SUFFIX)(ARG1_DECL,
->                                          MO_16 | devend_memop(endian), attrs);
->      } else {
->          /* RAM case */
-> +        fuzz_dma_read_cb(addr, 2, mr, false);
->          ptr = qemu_map_ram_ptr(mr->ram_block, addr1);
->          switch (endian) {
->          case DEVICE_LITTLE_ENDIAN:
-> diff --git a/softmmu/memory.c b/softmmu/memory.c
-> index b0c2cf2535..be87044641 100644
-> --- a/softmmu/memory.c
-> +++ b/softmmu/memory.c
-> @@ -1405,6 +1405,7 @@ MemTxResult memory_region_dispatch_read(MemoryRegion *mr,
->      unsigned size = memop_size(op);
->      MemTxResult r;
+>  #define TYPE_VFIO_PCI "vfio-pci"
+>  typedef struct VFIOPCIDevice VFIOPCIDevice;
+> -DECLARE_INSTANCE_CHECKER(VFIOPCIDevice, PCI_VFIO,
+> +DECLARE_INSTANCE_CHECKER(VFIOPCIDevice, VFIO_PCI,
+>                           TYPE_VFIO_PCI)
 >  
-> +    fuzz_dma_read_cb(addr, size, mr, false);
->      if (!memory_region_access_valid(mr, addr, size, false, attrs)) {
->          *pval = unassigned_mem_read(mr, addr, size);
->          return MEMTX_DECODE_ERROR;
-> -- 
-> 2.27.0
+>  struct VFIOPCIDevice {
+> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+> index 3611dcd38b..0d83eb0e47 100644
+> --- a/hw/vfio/pci.c
+> +++ b/hw/vfio/pci.c
+> @@ -230,7 +230,7 @@ static void vfio_intx_update(VFIOPCIDevice *vdev, PCIINTxRoute *route)
+>  
+>  static void vfio_intx_routing_notifier(PCIDevice *pdev)
+>  {
+> -    VFIOPCIDevice *vdev = PCI_VFIO(pdev);
+> +    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
+>      PCIINTxRoute route;
+>  
+>      if (vdev->interrupt != VFIO_INT_INTx) {
+> @@ -456,7 +456,7 @@ static void vfio_update_kvm_msi_virq(VFIOMSIVector *vector, MSIMessage msg,
+>  static int vfio_msix_vector_do_use(PCIDevice *pdev, unsigned int nr,
+>                                     MSIMessage *msg, IOHandler *handler)
+>  {
+> -    VFIOPCIDevice *vdev = PCI_VFIO(pdev);
+> +    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
+>      VFIOMSIVector *vector;
+>      int ret;
+>  
+> @@ -541,7 +541,7 @@ static int vfio_msix_vector_use(PCIDevice *pdev,
+>  
+>  static void vfio_msix_vector_release(PCIDevice *pdev, unsigned int nr)
+>  {
+> -    VFIOPCIDevice *vdev = PCI_VFIO(pdev);
+> +    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
+>      VFIOMSIVector *vector = &vdev->msi_vectors[nr];
+>  
+>      trace_vfio_msix_vector_release(vdev->vbasedev.name, nr);
+> @@ -1048,7 +1048,7 @@ static const MemoryRegionOps vfio_vga_ops = {
+>   */
+>  static void vfio_sub_page_bar_update_mapping(PCIDevice *pdev, int bar)
+>  {
+> -    VFIOPCIDevice *vdev = PCI_VFIO(pdev);
+> +    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
+>      VFIORegion *region = &vdev->bars[bar].region;
+>      MemoryRegion *mmap_mr, *region_mr, *base_mr;
+>      PCIIORegion *r;
+> @@ -1094,7 +1094,7 @@ static void vfio_sub_page_bar_update_mapping(PCIDevice *pdev, int bar)
+>   */
+>  uint32_t vfio_pci_read_config(PCIDevice *pdev, uint32_t addr, int len)
+>  {
+> -    VFIOPCIDevice *vdev = PCI_VFIO(pdev);
+> +    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
+>      uint32_t emu_bits = 0, emu_val = 0, phys_val = 0, val;
+>  
+>      memcpy(&emu_bits, vdev->emulated_config_bits + addr, len);
+> @@ -1127,7 +1127,7 @@ uint32_t vfio_pci_read_config(PCIDevice *pdev, uint32_t addr, int len)
+>  void vfio_pci_write_config(PCIDevice *pdev,
+>                             uint32_t addr, uint32_t val, int len)
+>  {
+> -    VFIOPCIDevice *vdev = PCI_VFIO(pdev);
+> +    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
+>      uint32_t val_le = cpu_to_le32(val);
+>  
+>      trace_vfio_pci_write_config(vdev->vbasedev.name, addr, val, len);
+> @@ -2701,7 +2701,7 @@ static void vfio_unregister_req_notifier(VFIOPCIDevice *vdev)
+>  
+>  static void vfio_realize(PCIDevice *pdev, Error **errp)
+>  {
+> -    VFIOPCIDevice *vdev = PCI_VFIO(pdev);
+> +    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
+>      VFIODevice *vbasedev_iter;
+>      VFIOGroup *group;
+>      char *tmp, *subsys, group_path[PATH_MAX], *group_name;
+> @@ -3033,7 +3033,7 @@ error:
+>  
+>  static void vfio_instance_finalize(Object *obj)
+>  {
+> -    VFIOPCIDevice *vdev = PCI_VFIO(obj);
+> +    VFIOPCIDevice *vdev = VFIO_PCI(obj);
+>      VFIOGroup *group = vdev->vbasedev.group;
+>  
+>      vfio_display_finalize(vdev);
+> @@ -3057,7 +3057,7 @@ static void vfio_instance_finalize(Object *obj)
+>  
+>  static void vfio_exitfn(PCIDevice *pdev)
+>  {
+> -    VFIOPCIDevice *vdev = PCI_VFIO(pdev);
+> +    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
+>  
+>      vfio_unregister_req_notifier(vdev);
+>      vfio_unregister_err_notifier(vdev);
+> @@ -3075,7 +3075,7 @@ static void vfio_exitfn(PCIDevice *pdev)
+>  
+>  static void vfio_pci_reset(DeviceState *dev)
+>  {
+> -    VFIOPCIDevice *vdev = PCI_VFIO(dev);
+> +    VFIOPCIDevice *vdev = VFIO_PCI(dev);
+>  
+>      trace_vfio_pci_reset(vdev->vbasedev.name);
+>  
+> @@ -3115,7 +3115,7 @@ post_reset:
+>  static void vfio_instance_init(Object *obj)
+>  {
+>      PCIDevice *pci_dev = PCI_DEVICE(obj);
+> -    VFIOPCIDevice *vdev = PCI_VFIO(obj);
+> +    VFIOPCIDevice *vdev = VFIO_PCI(obj);
+>  
+>      device_add_bootindex_property(obj, &vdev->bootindex,
+>                                    "bootindex", NULL,
+> 
+
 
