@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 593CA25CCDC
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:54:59 +0200 (CEST)
-Received: from localhost ([::1]:33670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1917B25CCEA
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:57:14 +0200 (CEST)
+Received: from localhost ([::1]:41674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDxC6-0004fp-Cf
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:54:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59720)
+	id 1kDxEH-00084L-4J
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:57:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwMF-0005C0-Ad; Thu, 03 Sep 2020 17:01:23 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:37586)
+ id 1kDwMG-0005Fl-QS; Thu, 03 Sep 2020 17:01:25 -0400
+Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:39224)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwMD-0007un-ET; Thu, 03 Sep 2020 17:01:22 -0400
-Received: by mail-oi1-x243.google.com with SMTP id e6so4530818oii.4;
- Thu, 03 Sep 2020 14:01:20 -0700 (PDT)
+ id 1kDwMF-0007vC-4a; Thu, 03 Sep 2020 17:01:24 -0400
+Received: by mail-ot1-x332.google.com with SMTP id u25so4011941otq.6;
+ Thu, 03 Sep 2020 14:01:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=F7oBuPw2Gy+qGvdz894BU94j+ShqXQikgbDFVSsKbrY=;
- b=GndvPu3A1hgsuvcXKlLJ9kchrApbt6KknZc4A3O7EaT6KonEgE6giHY4eW0iG4xol3
- /amPAY+I0XN290IUoodCK4ZGR4WRVlsoN5hCzY1WbvsPwDy0kPbtR4sq3kwOasD0zxqn
- SUlrsQkxkRMBXYgaXEerlohzFTPcAtQUn6qyX4jvTE1P13g8UbG36MooqO/cJ1sV7jpL
- x2i+p3TeLH8Lxt3CWjMPmSw4bwD/ZVmAAxIiKWnUDQ9QjT//YTx8ZcellqRj4wz8+bOG
- NjdIlZ8bQd7PM/o8uE1RgrTpSE7XrLe1A+urNtXsq1DEDSXCFm9FEdcZ+73sBKhDTCHF
- nZQQ==
+ bh=E70J8HSNM80vAgu3Ao3Q8OgYv6xE4YCHtBCrJzU2WUA=;
+ b=ajidGXnSWBaH/GwIEMI1Hm9V2A2yedWl6ac4SRt4Lp3/DDRy3or7BijxgKTel4Qz8m
+ F8LYry1WtlSkgOBbzXbc+pV/2iUa3Zgra6xbAEWbdNz2O71IPC1VqZrahbjdnPKtzgzQ
+ u7l8D5mmjWRTdWtv6AvXZHDE5EruJJ04JFWypV8Hle5HaKtevvQG+y3ElJBwKTTBz2CF
+ d6BCrzQRDQIEyMtqGcvfFMmf0K8lKTLMi6/70XEMYyQ0BpS5GeLPsnjSlwJ69PBM8a+G
+ JqWaMLjF8CzwWOCQN/JMWzvGEw+BgE4rtBrAU7RWUwEYfmhaDFOsHRgVDAJedVXrWZiQ
+ RkQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=F7oBuPw2Gy+qGvdz894BU94j+ShqXQikgbDFVSsKbrY=;
- b=BsQjxQ6p+MgNKImFtTH1w4Q7EaL1/EbOIKAB5WvZ7qkTMJdxVuyjCUE8/GsEDSAcyf
- SoRh/1Ls8H2/UJuEcXIcQuWQK4YQGAOoU/DzJA8eXwPstgw5O5UA72y7pkIM1YBEGMj1
- Wr6IbQMFhCCylyxSnj2eVSI5hacNODN49RAxTTajcGyhNoa3QOfqqXqgdGctA8qx7sAd
- fW3qZRenbGnvOmfPTRiUMUo2b0s/dPsTMThaQfnrV0PDlRjPOFI86vcTaITefUL0Rdjh
- K6VjdymTHd1ubF7rlGFjxKgzQ3G7N9W6T5+LolS/6Kf0BSKgS1G+tMFEIbnr4iepvwYp
- vp6A==
-X-Gm-Message-State: AOAM532uZ/v2q3W5jtshQjhTOc37cpEk9X9N9VLsbkiFwLavyT0eY4th
- KaMZeZwFwe3XKZEgEfIv1QnnFKoRF8BAMQ==
-X-Google-Smtp-Source: ABdhPJwVh4BpARhvw4Dd7HCBv8KnMq0nujSwsYeCYf9x83quSLp5V/nN0F5Hamdhyq8rf/niSF4qZA==
-X-Received: by 2002:a05:6808:7c8:: with SMTP id
- f8mr3160952oij.119.1599166879648; 
- Thu, 03 Sep 2020 14:01:19 -0700 (PDT)
+ bh=E70J8HSNM80vAgu3Ao3Q8OgYv6xE4YCHtBCrJzU2WUA=;
+ b=fEAe0V0jbrFR/KL8ogcV3CWdjnomSzmRBYJ7f4Bnrc6rSMq2TD+NWY9Y/Ex7/v98ZK
+ I7uLB6WrZVXkVSGf2rA+bZVDuOwEtGJv+KALU/Vjxi0TLPhdQyRa4igCd3oIXtZVh263
+ DYxswEKLbaigZK5o+X0hE8ZlHmmMX1MeObMDdqrnEoAPTKyKBYZui2UzuTSlw4kBO6Mu
+ ftJVCAgDCMA9bE00b1xNXzHMybypvQFhoAnmzrERg/KOw3iqzWsgMa+CYdtMG7INGta7
+ LYRiuOWaZjBmg+A8E9GTRUka0QKPBR72KJbBcYB0U4yKTGrFdvTqqf7MCLWyiT/cWnfe
+ Cdew==
+X-Gm-Message-State: AOAM532cb0DcJF5HBF6nE2OlfYHGAn7qME8Wk/ZGpWKhjxVaN/RuIVz+
+ akWBPe/pC1xZKbh+drynvwd7WbeeVUArVA==
+X-Google-Smtp-Source: ABdhPJzXySGpZPVLjP7vOorjlMkpNhGQPAJfx5GEt8rwqFzqZ+hUAwqIIr2Oe8jg0FFtKSqjOzjtLw==
+X-Received: by 2002:a9d:7618:: with SMTP id k24mr3225209otl.34.1599166881283; 
+ Thu, 03 Sep 2020 14:01:21 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id x4sm725153oic.11.2020.09.03.14.01.18
+ by smtp.gmail.com with ESMTPSA id 68sm771492otw.3.2020.09.03.14.01.19
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:01:19 -0700 (PDT)
+ Thu, 03 Sep 2020 14:01:20 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 72/77] block: Fix bdrv_aligned_p*v() for qiov_offset != 0
-Date: Thu,  3 Sep 2020 15:59:30 -0500
-Message-Id: <20200903205935.27832-73-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 73/77] iotests/028: Add test for cross-base-EOF reads
+Date: Thu,  3 Sep 2020 15:59:31 -0500
+Message-Id: <20200903205935.27832-74-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x243.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x332.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -88,59 +87,68 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Max Reitz <mreitz@redhat.com>
 
-Since these functions take a @qiov_offset, they must always take it into
-account when working with @qiov.  There are a couple of places where
-they do not, but they should.
-
-Fixes: 65cd4424b9df03bb5195351c33e04cbbecc0705c
-       ("block/io: bdrv_aligned_preadv: use and support qiov_offset")
-Fixes: 28c4da28695bdbe04b336b2c9c463876cc3aaa6d
-       ("block/io: bdrv_aligned_pwritev: use and support qiov_offset")
-Reported-by: Claudio Fontana <cfontana@suse.de>
-Reported-by: Bruce Rogers <brogers@suse.com>
-Cc: qemu-stable@nongnu.org
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200728120806.265916-2-mreitz@redhat.com>
+Message-Id: <20200728120806.265916-3-mreitz@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Tested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Tested-by: Claudio Fontana <cfontana@suse.de>
-Tested-by: Bruce Rogers <brogers@suse.com>
-(cherry picked from commit 134b7dec6ec2d90616d7986afb3b3b7ca7a4c383)
+(cherry picked from commit ae159450e161b3e1e2c5b815d19632abbbbcd1a1)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- block/io.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ tests/qemu-iotests/028     | 19 +++++++++++++++++++
+ tests/qemu-iotests/028.out | 11 +++++++++++
+ 2 files changed, 30 insertions(+)
 
-diff --git a/block/io.c b/block/io.c
-index aba67f66b9..496c813dd8 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -1501,12 +1501,13 @@ static int coroutine_fn bdrv_aligned_preadv(BdrvChild *child,
-             assert(num);
+diff --git a/tests/qemu-iotests/028 b/tests/qemu-iotests/028
+index 797dae5350..1e52986b74 100755
+--- a/tests/qemu-iotests/028
++++ b/tests/qemu-iotests/028
+@@ -142,6 +142,25 @@ TEST_IMG="${TEST_IMG}.copy" io_zero readv $(( offset + 32 * 1024 )) 512 1024 32
  
-             ret = bdrv_driver_preadv(bs, offset + bytes - bytes_remaining,
--                                     num, qiov, bytes - bytes_remaining, 0);
-+                                     num, qiov,
-+                                     qiov_offset + bytes - bytes_remaining, 0);
-             max_bytes -= num;
-         } else {
-             num = bytes_remaining;
--            ret = qemu_iovec_memset(qiov, bytes - bytes_remaining, 0,
--                                    bytes_remaining);
-+            ret = qemu_iovec_memset(qiov, qiov_offset + bytes - bytes_remaining,
-+                                    0, bytes_remaining);
-         }
-         if (ret < 0) {
-             goto out;
-@@ -2009,7 +2010,8 @@ static int coroutine_fn bdrv_aligned_pwritev(BdrvChild *child,
-             }
+ _check_test_img
  
-             ret = bdrv_driver_pwritev(bs, offset + bytes - bytes_remaining,
--                                      num, qiov, bytes - bytes_remaining,
-+                                      num, qiov,
-+                                      qiov_offset + bytes - bytes_remaining,
-                                       local_flags);
-             if (ret < 0) {
-                 break;
++echo
++echo '=== Reading across backing EOF in one operation ==='
++echo
++
++# Use a cluster boundary as the base end here
++base_size=$((3 * 1024 * 1024 * 1024))
++
++TEST_IMG="$TEST_IMG.base" _make_test_img $base_size
++_make_test_img -b "$TEST_IMG.base" -F $IMGFMT $image_size
++
++# Write 16 times 42 at the end of the base image
++$QEMU_IO -c "write -P 42 $((base_size - 16)) 16" "$TEST_IMG.base" \
++    | _filter_qemu_io
++
++# Read 32 bytes across the base EOF from the top;
++# should be 16 times 0x2a, then 16 times 0x00
++$QEMU_IO -c "read -v $((base_size - 16)) 32" "$TEST_IMG" \
++    | _filter_qemu_io
++
+ # success, all done
+ echo "*** done"
+ rm -f $seq.full
+diff --git a/tests/qemu-iotests/028.out b/tests/qemu-iotests/028.out
+index 37aed84436..51ae06d38f 100644
+--- a/tests/qemu-iotests/028.out
++++ b/tests/qemu-iotests/028.out
+@@ -730,4 +730,15 @@ read 512/512 bytes at offset 3221257728
+ read 512/512 bytes at offset 3221258752
+ 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ No errors were found on the image.
++
++=== Reading across backing EOF in one operation ===
++
++Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=3221225472
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=4294968832 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=IMGFMT
++wrote 16/16 bytes at offset 3221225456
++16 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++bffffff0:  2a 2a 2a 2a 2a 2a 2a 2a 2a 2a 2a 2a 2a 2a 2a 2a  ................
++c0000000:  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
++read 32/32 bytes at offset 3221225456
++32 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ *** done
 -- 
 2.17.1
 
