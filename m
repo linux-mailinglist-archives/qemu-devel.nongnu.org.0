@@ -2,73 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4B5025C125
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 14:40:11 +0200 (CEST)
-Received: from localhost ([::1]:59992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5D2425C145
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 14:47:15 +0200 (CEST)
+Received: from localhost ([::1]:48218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDoXC-0000C2-Tq
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 08:40:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55880)
+	id 1kDoe2-0007RV-Qk
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 08:47:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kDoW6-0007KF-HW
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 08:39:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37775)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kDoW4-0000bA-KO
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 08:39:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599136739;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lVyloMQgFPo5BSn/nR9ynC1wyQYLozJPFWT5+UF7Xz0=;
- b=K3azf1G6akBiDP7egd3XzJXXbPjubn+5zT6S51WZiDW5443p7noZe6DlDxPBEWAzypDkSs
- dHhCrM40PVcOvU2ZveExnKlyN2403gND3pVaNhXpaaugMN0jgc3LrpVF182y1HD3HyO/Rh
- wdfAog43z11JjtK6JGeZdbHOLrxPu0A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-38-_S8damOZMtGD2w5kCDsYew-1; Thu, 03 Sep 2020 08:38:54 -0400
-X-MC-Unique: _S8damOZMtGD2w5kCDsYew-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79A5F839A48;
- Thu,  3 Sep 2020 12:38:53 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-114-183.ams2.redhat.com [10.36.114.183])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EC20810013C4;
- Thu,  3 Sep 2020 12:38:51 +0000 (UTC)
-Date: Thu, 3 Sep 2020 14:38:50 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [RFC qemu 0/6] mirror: implement incremental and bitmap modes
-Message-ID: <20200903123850.GB8835@linux.fritz.box>
-References: <20200218100740.2228521-1-f.gruenbichler@proxmox.com>
- <d35a76de-78d5-af56-0b34-f7bd2bbd3733@redhat.com>
- <1599127031.9uxdp5h9o2.astroid@nora.none>
- <ef545f46-7cbb-43f0-2ab8-f3d49643d1e6@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kDoc9-0005xL-N5; Thu, 03 Sep 2020 08:45:17 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37783)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kDoc7-0001aI-V8; Thu, 03 Sep 2020 08:45:17 -0400
+Received: by mail-wm1-x343.google.com with SMTP id a9so2754017wmm.2;
+ Thu, 03 Sep 2020 05:45:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=sPLoQJtAT4WBik7hhQYuT1/Cfi/FzdvLnONFwteKS3s=;
+ b=aZ00OMtrqESRinocvNrK067GvDqSoDJO71dDpkZLcu/JUIjw13X6ca0FX/fzvETGm4
+ koLX688vfdHcPoqHIgZX9rfRKwMfrXp+w8UvRaiV1FHaaFR+Nb04Tq+lwSohK5cZkHZh
+ 95X+dbs/06JP5w5HFywMzduuKqkSwfjChuNecSdJhGL5K/nIqYJLW1lU9QojNoER2Hgw
+ FLdTKTcQcDKHAAesZlMV2tqpgOrfyR6e2PKKdq960Sd7M+98qMYpf5+gVMJkumwGWz38
+ VKuITd28nvT5Uvk96WRYTBETbovNNbGyWAaNXBpKC0iOKSNZ8ugVVBaME41C4AE8da89
+ ojgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=sPLoQJtAT4WBik7hhQYuT1/Cfi/FzdvLnONFwteKS3s=;
+ b=tZT2ZLWDaKfOkLbQAymLIGxLuYR/Nu0e0GEbS8YQExszKo7wfiARG9iWNPeo1P1ycQ
+ CZqTyAWOKDVYT7MA//TiWJ6IRc92i1SEKFyUgPMuT90UTZ5NyQWURVWje/W6I0xJ4f+G
+ aFY9D+bZ63yiU2Of8vegthvA4RhQxnh3Jy6SEzSsMQpl5EdXNKWvsI+JZJ92jFHx29cP
+ H63oYDrlBtuY95S43JfOaa19Zt3c08cuhJCz3pufeMv5ag9ZZvdnRHMbvryTe1P1OeyM
+ Zox7Og7LSItEbUggEsjVPGxSvveL0d1ANKzmNKZqVy8vOhTWkJvz/b6NwuHZ9jAuM1sI
+ 3N2Q==
+X-Gm-Message-State: AOAM530Xgrtqa5g9aaz8vatIsFBPjz+2MYeNRoxGsxL8iQ628NW7evsk
+ mECbPWWT+pIGAgavVsyCwxQ=
+X-Google-Smtp-Source: ABdhPJzf1xX/iKQCTf2and0//HxwaoYDzs5CRhEGdeMro8MeVT0EM5BdQYv9+L6sVAY5oy/oOZ7gPg==
+X-Received: by 2002:a7b:cf1a:: with SMTP id l26mr2290315wmg.164.1599137114150; 
+ Thu, 03 Sep 2020 05:45:14 -0700 (PDT)
+Received: from [192.168.1.36] (50.red-83-52-54.dynamicip.rima-tde.net.
+ [83.52.54.50])
+ by smtp.gmail.com with ESMTPSA id w21sm4294799wmk.34.2020.09.03.05.45.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Sep 2020 05:45:13 -0700 (PDT)
+Subject: Re: [PATCH 20/63] pc87312: Rename TYPE_PC87312_SUPERIO to TYPE_PC87312
+To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+References: <20200902224311.1321159-1-ehabkost@redhat.com>
+ <20200902224311.1321159-21-ehabkost@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <2863f7ea-6fde-5a2e-b55f-e805f5db35be@amsat.org>
+Date: Thu, 3 Sep 2020 14:45:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <ef545f46-7cbb-43f0-2ab8-f3d49643d1e6@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0.0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="nFreZHaLTZJo0R7j"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 04:23:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20200902224311.1321159-21-ehabkost@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.001, NICE_REPLY_A=-2.403,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,68 +89,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>,
- Fabian =?iso-8859-1?Q?Gr=FCnbichler?= <f.gruenbichler@proxmox.com>,
- John Snow <jsnow@redhat.com>
+Cc: =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ qemu-ppc@nongnu.org, berrange@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---nFreZHaLTZJo0R7j
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 9/3/20 12:42 AM, Eduardo Habkost wrote:
+> This will make the type name constant consistent with the name of
+> the type checking macro.
+> 
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> ---
+> Cc: "Hervé Poussineau" <hpoussin@reactos.org>
+> Cc: qemu-ppc@nongnu.org
+> Cc: qemu-devel@nongnu.org
+> ---
+>  include/hw/isa/pc87312.h | 4 ++--
+>  hw/isa/pc87312.c         | 2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/include/hw/isa/pc87312.h b/include/hw/isa/pc87312.h
+> index a65168a157..da8dc5ddf5 100644
+> --- a/include/hw/isa/pc87312.h
+> +++ b/include/hw/isa/pc87312.h
+> @@ -29,10 +29,10 @@
+>  #include "qom/object.h"
+>  
+>  
+> -#define TYPE_PC87312_SUPERIO "pc87312"
+> +#define TYPE_PC87312 "pc87312"
 
-Am 03.09.2020 um 13:04 hat Max Reitz geschrieben:
-> On 03.09.20 12:13, Fabian Gr=C3=BCnbichler wrote:
-> > On August 21, 2020 3:03 pm, Max Reitz wrote:
-> >> On 18.02.20 11:07, Fabian Gr=C3=BCnbichler wrote:
-> > I am not sure how=20
-> > the S-O-B by John is supposed to enter the mix - should I just include=
-=20
-> > it in the squashed patch (which would be partly authored, but=20
-> > not-yet-signed-off by him otherwise?)?
->=20
-> I=E2=80=99m not too sure on the proceedings, actually.  I think it should=
- be
-> fine if you put his S-o-b there, as long as your patch is somehow based
-> on a patch that he sent earlier with his S-o-b underneath.  But I=E2=80=
-=99m not
-> sure.
+We loose self-documentation. What is a TYPE_PC87312
+when reviewing a board setup code? Should we add a
+comment /* Create the Super I/O */? The current name
+is self-describing...
 
-Signed-off-by means that John certifies the DCO for the patch (at least
-the original version that you possibly modified), so you cannot just add
-it without asking him.
+Is it easier to rename the type as 'pc87312-superio'?
 
-John should reply with a Signed-off-by line to the patch in question.
-Then you (Fabian) can add it in the next version of the series (if I
-understand correctly, you're going to respin anyway).
+   #define TYPE_PC87312_SUPERIO "pc87312-superio"
 
-I see that patch 2 doesn't have any S-o-b at all. It should have both
-John's and Fabian's.
-
-Kevin
-
---nFreZHaLTZJo0R7j
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEE3D3rFZqa+V09dFb+fwmycsiPL9YFAl9Q49oACgkQfwmycsiP
-L9bcBg/7Bn9rcnmIfwyi/rL25qPe5ZB1dQSwVvy1AMX66+ZSyqY2Oss1+bEPeC41
-oeoPZAxaUie6IUf1BNKncJ1D8cgX4wT/GRMc5k6AW88IojZzNJfn4wXpctYH8p6r
-cC/ZewtmL3KNvxwsIk1D/FHrAclPLI/lIjaMFeLL1VsHHpufy3CepiTL8F0cndYr
-7jHvcKzYSfXsj1dYz9R4Uye1ytZ9Xv4pYzQHE2VHldIGGjScSIeUs9Z39XpP8uVT
-CIiqQ4roQC+XkUyFEob12o0goHJuS3166BTmk2OtcpLju8hk3X8NHFOPPPf1BHLy
-px6zsK/PXzGDsLFKSRHaTFLRac0oXze6PNb/O7o4RygNnBt4rqfIk8Yr9SC2xTPA
-fMTd4SR6vcqV0GsePjSIRGBvRXgGemL/SMfZuY6/Vq3ctTs3wWBM+o18TIY6QBYW
-KenGyepACF8kQDmuN0S7g0XPNBOdj72ErcmKqbC41WPF+ygKtY6tkKdfWWOjGP/U
-pWM5+JoipNWm6XI2UKbGHd3+mresCImQZg813NY5a+k/OLUXdUkKJdHhKPHpcHd8
-AQdvwbXf+qen634c8dARRDSr4Z5bylwX4J6uvWdaBa7ft9jKuvWz/bPd6z5x4hb5
-aN7GlW7qpi9czrZL9XEs0Cx9om79HgAnfvQaYEq129HPrMnit9c=
-=GQzo
------END PGP SIGNATURE-----
-
---nFreZHaLTZJo0R7j--
+>  typedef struct PC87312State PC87312State;
+>  DECLARE_INSTANCE_CHECKER(PC87312State, PC87312,
+> -                         TYPE_PC87312_SUPERIO)
+> +                         TYPE_PC87312)
+>  
+>  struct PC87312State {
+>      /*< private >*/
+> diff --git a/hw/isa/pc87312.c b/hw/isa/pc87312.c
+> index 0cacbbc91b..8d7b8d3db2 100644
+> --- a/hw/isa/pc87312.c
+> +++ b/hw/isa/pc87312.c
+> @@ -371,7 +371,7 @@ static void pc87312_class_init(ObjectClass *klass, void *data)
+>  }
+>  
+>  static const TypeInfo pc87312_type_info = {
+> -    .name          = TYPE_PC87312_SUPERIO,
+> +    .name          = TYPE_PC87312,
+>      .parent        = TYPE_ISA_SUPERIO,
+>      .instance_size = sizeof(PC87312State),
+>      .instance_init = pc87312_initfn,
+> 
 
 
