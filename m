@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15F2025CCAB
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:48:50 +0200 (CEST)
-Received: from localhost ([::1]:38064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74D1825CC4A
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:32:21 +0200 (CEST)
+Received: from localhost ([::1]:47860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDx69-0002tH-33
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:48:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59436)
+	id 1kDwqC-0005VR-GO
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:32:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLz-0004zS-5E; Thu, 03 Sep 2020 17:01:08 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:39462)
+ id 1kDwM0-0004zl-Js; Thu, 03 Sep 2020 17:01:10 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:36685)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLx-0007rD-I7; Thu, 03 Sep 2020 17:01:06 -0400
-Received: by mail-ot1-x343.google.com with SMTP id u25so4011160otq.6;
- Thu, 03 Sep 2020 14:01:04 -0700 (PDT)
+ id 1kDwLy-0007rj-QL; Thu, 03 Sep 2020 17:01:08 -0400
+Received: by mail-oi1-x243.google.com with SMTP id x19so4535893oix.3;
+ Thu, 03 Sep 2020 14:01:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=+zLfmnBFP/TeeGYdGSH1pa11E0h2MWm5y03tUduxidk=;
- b=PUB4EqqTypNgzUzN5URL9J7mB3WKH4hJB4uWdqshHaGw64dfMHaQLBgtXek2SyIYqj
- yqKFNbrft9aKaQMfGP6AkqsI/LQO0sKW9fLE46J4B1pnURzSE05QOwJPDKmhe0zkBU0k
- v3TQmqq1kPA9aXjtj55bZI3ASj+OSD2ELUMZPimO2G/sqTBobztQEB+B0H/70jaRRW6N
- UNEBtD5tHqmeHCu88cvxo8B4LA3igdbemY03mGwbw7TBEcj9diG7Z0/piqofa/qNefvT
- Z/J2exSQRhlbBKWdBk2XTU8oFJ/fdTDyWjrrf0oo/x8wrPd3CM3VS4PyFoa/96n+8vq/
- VjGg==
+ bh=OBNgeqRx4bpj7whZl9Nqe1uUGZCI5XWKl7ZvXD57/RM=;
+ b=EM1Jf/jOulJZ8qFNufvClh5XlmBbYtMw65yMz85r7W3UbzXG9ba8m6NiQXEBd2W746
+ N7PLgo1L9QJKYTsjTPerD5uSn+tNXpeZ5TIBKsijToaJROvnVK+6UQ65lSjVOhQS8+77
+ mT/jauay0mnzRsW/tdMPzpG8sZRVGa0cfnI8FLOgO96XwlUPj/Jrv0IqxYj5ixy0mkee
+ 3srFEYSGVRcf+kzqP6jyQ+BDcFiXY2z3jSn3s/ELfl+dgxi9ztembWmsvxolBEigR3oJ
+ g9gosWkrCcHwL9F7RcrpFl9BtULFZGERhece6psxXxH1WEwJ1DLSICg1lqZYDgkm0cuU
+ Yuiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=+zLfmnBFP/TeeGYdGSH1pa11E0h2MWm5y03tUduxidk=;
- b=e/k77FUX+WdxMMZoNxDDC/+vME8clmvIdV2IA6Fya0j7vcOZnh0nFG/NWZysUWXAX1
- KwA6QGce90hTOgPOojVykKZux3Qt+OKLs/HJ9cWrjaN1nkJQP1cWakbWsFLvnVVorFkt
- 3mssm1VcLulnFqkjlQsgucNkYnfSoroDd3X/mzY9mZFZq+UX86QsHJxsOpmt6sOyi7MG
- M7MgBvEy597Nmg4Zt3ki3D+LtWw+S6m7xQ6W9Sae+N1CvgLQUeUbMp5Bwk6Sd0jHFf2R
- Ch3qh8FXMPy6zFCaPLhjuYMxqaHG4Blh5MGQrw/pfSUq2dwRQOGuiMpUvtg88ZbLbhXm
- WT4A==
-X-Gm-Message-State: AOAM530RPmNlmZ0cxTD4uspbQ/FAnd6p2+l92c8l/4Z1knzNUmqajJC4
- uyEAD2zfg3wlSe8YdsK50Q1SK0RM2xcFRA==
-X-Google-Smtp-Source: ABdhPJxXZT59Cwq7J9KCk365RRx4jaW/UHgqMF12aBI000tGNpMuIQL44oqULfMHyRfPEkLJqcMmew==
-X-Received: by 2002:a05:6830:4bb:: with SMTP id
- l27mr2956902otd.372.1599166863841; 
- Thu, 03 Sep 2020 14:01:03 -0700 (PDT)
-Received: from localhost ([2600:1700:70:e488:ed8a:a712:8057:9526])
- by smtp.gmail.com with ESMTPSA id g26sm775698otn.77.2020.09.03.14.01.03
+ bh=OBNgeqRx4bpj7whZl9Nqe1uUGZCI5XWKl7ZvXD57/RM=;
+ b=M7+M3r25wjaX7Cy7tOOcwlxuvgcydCgD2IcqVhdV1YjmlkLEPJdQxrUk8osMQ2PUxV
+ D1P5TttqmOI+7xW1D1h2s3ZwaJDHpXFDZA62p/1z9fo1YO4uz6VBmr9sJw/thjMTTAZp
+ FruXLD/gyYiRRkvtureBHQDF5WgA4KkeBfyTjn97Iqq76mj/4wkhr3YbdFJVyR8Z/87D
+ 8JS0+QfagdGCIvr+HqhbSULwuZFekMoguD/UQOqtyZ9q8Jm+BmzvESa+13x1HFpbaLLE
+ fCuDsoqmfbt18A9SxxlXm3EUFt5secq7920wks0gYUfHWMDAFjfKhAgeEkaqzs3RkTZP
+ U0FA==
+X-Gm-Message-State: AOAM531WglEwZK2aOnf1cDUSBD5Q3Uy8uOvIO69XmLZyflU0G/2jQeuq
+ Q8OfWciD2YcBb/YckD4+3ClO+nFh/5UKSQ==
+X-Google-Smtp-Source: ABdhPJz75tcfMw+vHfTPyDv3z7hv/nXY8YkMUZJga3pGDzEmq2rdRMrGuop0U3ge1l3P9ahldkImfg==
+X-Received: by 2002:aca:fc85:: with SMTP id a127mr3290379oii.148.1599166864926; 
+ Thu, 03 Sep 2020 14:01:04 -0700 (PDT)
+Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
+ [76.251.165.188])
+ by smtp.gmail.com with ESMTPSA id l63sm712081oia.56.2020.09.03.14.01.04
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:01:03 -0700 (PDT)
+ Thu, 03 Sep 2020 14:01:04 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 61/77] virtio-balloon: Add locking to prevent possible race
- when starting hinting
-Date: Thu,  3 Sep 2020 15:59:19 -0500
-Message-Id: <20200903205935.27832-62-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 62/77] virtio-balloon: always indicate S_DONE when migration
+ fails
+Date: Thu,  3 Sep 2020 15:59:20 -0500
+Message-Id: <20200903205935.27832-63-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x343.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=flukshun@gmail.com; helo=mail-oi1-x243.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -82,58 +82,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Duyck <alexander.h.duyck@linux.intel.com>, qemu-stable@nongnu.org,
- "Michael S . Tsirkin" <mst@redhat.com>
+Cc: Wei Wang <wei.w.wang@intel.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ qemu-stable@nongnu.org, Alexander Duyck <alexander.duyck@gmail.com>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alexander Duyck <alexander.h.duyck@linux.intel.com>
+From: David Hildenbrand <david@redhat.com>
 
-There is already locking in place when we are stopping free page hinting
-but there is not similar protections in place when we start. I can only
-assume this was overlooked as in most cases the page hinting should not be
-occurring when we are starting the hinting, however there is still a chance
-we could be processing hints by the time we get back around to restarting
-the hinting so we are better off making sure to protect the state with the
-mutex lock rather than just updating the value with no protections.
+If something goes wrong during precopy, before stopping the VM, we will
+never send a S_DONE indication to the VM, resulting in the hinted pages
+not getting released to be used by the guest OS (e.g., Linux).
 
-Based on feedback from Peter Maydell this issue had also been spotted by
-Coverity: CID 1430269
+Easy to reproduce:
+1. Start migration (e.g., HMP "migrate -d 'exec:gzip -c > STATEFILE.gz'")
+2. Cancel migration (e.g., HMP "migrate_cancel")
+3. Oberve in the guest (e.g., cat /proc/meminfo) that there is basically
+   no free memory left.
 
-Acked-by: David Hildenbrand <david@redhat.com>
-Signed-off-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
-Message-Id: <20200720175122.21935.78013.stgit@localhost.localdomain>
-Cc: qemu-stable@nongnu.org
+While at it, add similar locking to virtio_balloon_free_page_done() as
+done in virtio_balloon_free_page_stop. Locking is still weird, but that
+has to be sorted out separately.
+
+There is nothing to do in the PRECOPY_NOTIFY_COMPLETE case. Add some
+comments regarding S_DONE handling.
+
+Fixes: c13c4153f76d ("virtio-balloon: VIRTIO_BALLOON_F_FREE_PAGE_HINT")
+Reviewed-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
+Cc: Wei Wang <wei.w.wang@intel.com>
+Cc: Alexander Duyck <alexander.duyck@gmail.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+Message-Id: <20200629080615.26022-1-david@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-(cherry picked from commit 1a83e0b9c492a0eaeacd6fbb858fc81d04ab9c3e)
+(cherry picked from commit dd8eeb9671fc881e613008bd20035b85fe45383d)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/virtio/virtio-balloon.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ hw/virtio/virtio-balloon.c | 26 ++++++++++++++++++++------
+ 1 file changed, 20 insertions(+), 6 deletions(-)
 
 diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-index a30a0c7bfa..d6e31de1d9 100644
+index d6e31de1d9..6c75db123e 100644
 --- a/hw/virtio/virtio-balloon.c
 +++ b/hw/virtio/virtio-balloon.c
-@@ -532,6 +532,8 @@ static void virtio_balloon_free_page_start(VirtIOBalloon *s)
-         return;
-     }
+@@ -572,8 +572,13 @@ static void virtio_balloon_free_page_done(VirtIOBalloon *s)
+ {
+     VirtIODevice *vdev = VIRTIO_DEVICE(s);
  
-+    qemu_mutex_lock(&s->free_page_lock);
-+
-     if (s->free_page_report_cmd_id == UINT_MAX) {
-         s->free_page_report_cmd_id =
-                        VIRTIO_BALLOON_FREE_PAGE_REPORT_CMD_ID_MIN;
-@@ -540,6 +542,8 @@ static void virtio_balloon_free_page_start(VirtIOBalloon *s)
-     }
- 
-     s->free_page_report_status = FREE_PAGE_REPORT_S_REQUESTED;
-+    qemu_mutex_unlock(&s->free_page_lock);
-+
-     virtio_notify_config(vdev);
+-    s->free_page_report_status = FREE_PAGE_REPORT_S_DONE;
+-    virtio_notify_config(vdev);
++    if (s->free_page_report_status != FREE_PAGE_REPORT_S_DONE) {
++        /* See virtio_balloon_free_page_stop() */
++        qemu_mutex_lock(&s->free_page_lock);
++        s->free_page_report_status = FREE_PAGE_REPORT_S_DONE;
++        qemu_mutex_unlock(&s->free_page_lock);
++        virtio_notify_config(vdev);
++    }
  }
  
+ static int
+@@ -597,17 +602,26 @@ virtio_balloon_free_page_report_notify(NotifierWithReturn *n, void *data)
+     case PRECOPY_NOTIFY_SETUP:
+         precopy_enable_free_page_optimization();
+         break;
+-    case PRECOPY_NOTIFY_COMPLETE:
+-    case PRECOPY_NOTIFY_CLEANUP:
+     case PRECOPY_NOTIFY_BEFORE_BITMAP_SYNC:
+         virtio_balloon_free_page_stop(dev);
+         break;
+     case PRECOPY_NOTIFY_AFTER_BITMAP_SYNC:
+         if (vdev->vm_running) {
+             virtio_balloon_free_page_start(dev);
+-        } else {
+-            virtio_balloon_free_page_done(dev);
++            break;
+         }
++        /*
++         * Set S_DONE before migrating the vmstate, so the guest will reuse
++         * all hinted pages once running on the destination. Fall through.
++         */
++    case PRECOPY_NOTIFY_CLEANUP:
++        /*
++         * Especially, if something goes wrong during precopy or if migration
++         * is canceled, we have to properly communicate S_DONE to the VM.
++         */
++        virtio_balloon_free_page_done(dev);
++        break;
++    case PRECOPY_NOTIFY_COMPLETE:
+         break;
+     default:
+         virtio_error(vdev, "%s: %d reason unknown", __func__, pnd->reason);
 -- 
 2.17.1
 
