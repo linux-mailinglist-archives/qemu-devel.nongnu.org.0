@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B43DA25C875
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 20:06:22 +0200 (CEST)
-Received: from localhost ([::1]:51330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26A3E25C877
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 20:07:38 +0200 (CEST)
+Received: from localhost ([::1]:57600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDtcr-00016B-Oe
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 14:06:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36322)
+	id 1kDte5-0003Zl-88
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 14:07:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDtYw-0003sj-9O
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 14:02:18 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:50282
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1kDtZ3-0003yM-Ig
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 14:02:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21542)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDtYu-0007Ql-3X
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 14:02:17 -0400
+ id 1kDtZ0-0007Rc-L2
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 14:02:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599156135;
+ s=mimecast20190719; t=1599156141;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7GpKCQ6vGIW6yKn0SoHlgJ/5a9ELq7zpG+KYZLlRk98=;
- b=BwRUJpGqJ4sWSizvIbj2K9teWY3PS16+0oR8O+BLPeN+g5EZCAzo7aOaYxQhSVVKcoGvFj
- V3PEDw/c+ueK597U/gossLSHqo/nLg4GQuQYXO8d5Qc105St5YJloQaBygKG2RD1rEMVaf
- Vb7bfr7P1pApHkXb/64s06Qh4Ppm/CQ=
+ bh=qzh45HlgbQShaUHQkdID/1mpSxLcqgTNt/3XaxKn/B4=;
+ b=AFlg02lRDEhvCyubuvnBkhxq0NyDTmEEdCzSfxdWuM3gJ5WeTLao5bLG2BbV/r7kB/Fdqm
+ wphEHIK9GM2l1Qbz6v+0zaazMbJfCkYHx2hMbEVm+jWbIPZlBDPXqSl/aGkUXLdMK126Vh
+ T1E/E+CeFDTODmMBqBZ9pdAWW8ieW/E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-48-A9TArCoJPzm5BroeJASgCA-1; Thu, 03 Sep 2020 14:02:11 -0400
-X-MC-Unique: A9TArCoJPzm5BroeJASgCA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-420-vftowrdJNMGwtx23Q7tWLg-1; Thu, 03 Sep 2020 14:02:20 -0400
+X-MC-Unique: vftowrdJNMGwtx23Q7tWLg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7516A1006716;
- Thu,  3 Sep 2020 18:02:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37462185A0C2;
+ Thu,  3 Sep 2020 18:02:18 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 824476198B;
- Thu,  3 Sep 2020 18:02:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 310975D9CC;
+ Thu,  3 Sep 2020 18:02:11 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	"Daniel P. Berrange" <berrange@redhat.com>
-Subject: [PATCH 5/8] i8259: Rename KVM_PIC to KVM_I8259
-Date: Thu,  3 Sep 2020 14:01:25 -0400
-Message-Id: <20200903180128.1523959-6-ehabkost@redhat.com>
+Subject: [PATCH 6/8] esp-pci: Rename TYPE_AM53C974_DEVICE to TYPE_AM53C974
+Date: Thu,  3 Sep 2020 14:01:26 -0400
+Message-Id: <20200903180128.1523959-7-ehabkost@redhat.com>
 In-Reply-To: <20200903180128.1523959-1-ehabkost@redhat.com>
 References: <20200903180128.1523959-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 01:28:33
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 04:23:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,55 +89,61 @@ Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename the type checking function to be consistent with the type
-name constant (TYPE_KVM_I8259) and type name string
-("kvm-i8259").
+This will make the type name constant consistent with the QOM
+type name string ("am53c974").
 
 Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Suggested-by: "Daniel P. Berrangé" <berrange@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Changes v1 -> v2:
+* v1 subject was "scsi: Rename TYPE_AM53C974_DEVICE to TYPE_PCI_ESP"
+* Rename it to TYPE_AM53C974 instead, to be consistent with QOM
+  type name ("am53c974")
+---
 Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>
 Cc: qemu-devel@nongnu.org
 ---
- hw/i386/kvm/i8259.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/scsi/esp-pci.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/i386/kvm/i8259.c b/hw/i386/kvm/i8259.c
-index 3f8bf69e9c..46a1d31b1b 100644
---- a/hw/i386/kvm/i8259.c
-+++ b/hw/i386/kvm/i8259.c
-@@ -21,7 +21,7 @@
+diff --git a/hw/scsi/esp-pci.c b/hw/scsi/esp-pci.c
+index 2ce96dc56e..e30a911b21 100644
+--- a/hw/scsi/esp-pci.c
++++ b/hw/scsi/esp-pci.c
+@@ -35,11 +35,11 @@
+ #include "qemu/module.h"
+ #include "qom/object.h"
  
- #define TYPE_KVM_I8259 "kvm-i8259"
- typedef struct KVMPICClass KVMPICClass;
--DECLARE_CLASS_CHECKERS(KVMPICClass, KVM_PIC,
-+DECLARE_CLASS_CHECKERS(KVMPICClass, KVM_I8259,
-                        TYPE_KVM_I8259)
+-#define TYPE_AM53C974_DEVICE "am53c974"
++#define TYPE_AM53C974 "am53c974"
  
- /**
-@@ -123,7 +123,7 @@ static void kvm_pic_set_irq(void *opaque, int irq, int level)
- static void kvm_pic_realize(DeviceState *dev, Error **errp)
- {
-     PICCommonState *s = PIC_COMMON(dev);
--    KVMPICClass *kpc = KVM_PIC_GET_CLASS(dev);
-+    KVMPICClass *kpc = KVM_I8259_GET_CLASS(dev);
+ typedef struct PCIESPState PCIESPState;
+ DECLARE_INSTANCE_CHECKER(PCIESPState, PCI_ESP,
+-                         TYPE_AM53C974_DEVICE)
++                         TYPE_AM53C974)
  
-     memory_region_init_io(&s->base_io, OBJECT(dev), NULL, NULL, "kvm-pic", 2);
-     memory_region_init_io(&s->elcr_io, OBJECT(dev), NULL, NULL, "kvm-elcr", 1);
-@@ -141,7 +141,7 @@ qemu_irq *kvm_i8259_init(ISABus *bus)
+ #define DMA_CMD   0x0
+ #define DMA_STC   0x1
+@@ -400,7 +400,7 @@ static void esp_pci_class_init(ObjectClass *klass, void *data)
+ }
  
- static void kvm_i8259_class_init(ObjectClass *klass, void *data)
- {
--    KVMPICClass *kpc = KVM_PIC_CLASS(klass);
-+    KVMPICClass *kpc = KVM_I8259_CLASS(klass);
-     PICCommonClass *k = PIC_COMMON_CLASS(klass);
-     DeviceClass *dc = DEVICE_CLASS(klass);
+ static const TypeInfo esp_pci_info = {
+-    .name = TYPE_AM53C974_DEVICE,
++    .name = TYPE_AM53C974,
+     .parent = TYPE_PCI_DEVICE,
+     .instance_size = sizeof(PCIESPState),
+     .class_init = esp_pci_class_init,
+@@ -525,7 +525,7 @@ static void dc390_class_init(ObjectClass *klass, void *data)
  
+ static const TypeInfo dc390_info = {
+     .name = TYPE_DC390_DEVICE,
+-    .parent = TYPE_AM53C974_DEVICE,
++    .parent = TYPE_AM53C974,
+     .instance_size = sizeof(DC390State),
+     .class_init = dc390_class_init,
+ };
 -- 
 2.26.2
 
