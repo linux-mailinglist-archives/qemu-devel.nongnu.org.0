@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C95C25BAE8
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 08:14:12 +0200 (CEST)
-Received: from localhost ([::1]:43292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81D4925BAEF
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 08:17:42 +0200 (CEST)
+Received: from localhost ([::1]:49050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDiVf-0001JO-A2
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 02:14:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54616)
+	id 1kDiZ3-0003mx-H4
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 02:17:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kDiRK-0008KJ-57
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 02:09:42 -0400
-Received: from mout.gmx.net ([212.227.15.15]:47345)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kDiRI-0001MB-Ce
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 02:09:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1599113378;
- bh=ZxN2CjZ8yqbtZ4X6rd5Rct9kPLP/FvAVNOK4psdJS5E=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
- b=Cm7dTlKXKFowAqU5odvVb534FIsKrNe18melq4H62ZrTRnF9TrWuke4x/LNdI9Rm4
- 3aYGNj82M6VIUnnWnA/9UhIXV3WyQ+8RdFlQbfkOcboAR3R815pIaEs1gxTbMEKaBG
- E6laABBVO3fSYzuD4BY3bPaGhW2/jGgyBF9C1Bo0=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from ls3530.fritz.box ([92.116.138.28]) by mail.gmx.com (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mwfai-1kTbfU1PdC-00y98w; Thu, 03
- Sep 2020 08:09:38 +0200
-Date: Thu, 3 Sep 2020 08:09:36 +0200
-From: Helge Deller <deller@gmx.de>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 6/7] hw/display/artist: Fix artist screen resolution
-Message-ID: <20200903060936.GC8548@ls3530.fritz.box>
-References: <20200901183452.24967-1-deller@gmx.de>
- <20200901183452.24967-7-deller@gmx.de>
- <65284ae3-f0fe-336e-a205-0494abb20f08@linaro.org>
- <20200902214819.GA2424@ls3530.fritz.box>
- <45bf91fd-4e7f-7379-18a2-cdada67a3f6d@linaro.org>
+ (Exim 4.90_1) (envelope-from <pisa@cmp.felk.cvut.cz>)
+ id 1kDiVP-00020H-Tu
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 02:13:55 -0400
+Received: from relay.felk.cvut.cz ([2001:718:2:1611:0:1:0:70]:53230)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <pisa@cmp.felk.cvut.cz>) id 1kDiVN-0001o3-NB
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 02:13:55 -0400
+Received: from cmp.felk.cvut.cz (haar.felk.cvut.cz [147.32.84.19])
+ by relay.felk.cvut.cz (8.15.2/8.15.2) with ESMTP id 0836ChbW000520;
+ Thu, 3 Sep 2020 08:12:44 +0200 (CEST)
+ (envelope-from pisa@cmp.felk.cvut.cz)
+Received: from haar.felk.cvut.cz (localhost [127.0.0.1])
+ by cmp.felk.cvut.cz (8.14.0/8.12.3/SuSE Linux 0.6) with ESMTP id
+ 0836Chwp015296; Thu, 3 Sep 2020 08:12:43 +0200
+Received: (from pisa@localhost)
+ by haar.felk.cvut.cz (8.14.0/8.13.7/Submit) id 0836Ch1F015294;
+ Thu, 3 Sep 2020 08:12:43 +0200
+X-Authentication-Warning: haar.felk.cvut.cz: pisa set sender to
+ pisa@cmp.felk.cvut.cz using -f
+From: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+To: Vikram Garhwal <fnu.vikram@xilinx.com>
+Subject: Re: [PATCH v1 3/6] net/can: Add can_dlc2len and can_len2dlc for CAN
+ FD.
+Date: Thu, 3 Sep 2020 08:12:42 +0200
+User-Agent: KMail/1.9.10
+References: <cover.1594725647.git.pisa@cmp.felk.cvut.cz>
+ <30758547c49f254b3965fc12500735bea8265c97.1594725647.git.pisa@cmp.felk.cvut.cz>
+ <20200903054329.GA405867@xilinx.com>
+In-Reply-To: <20200903054329.GA405867@xilinx.com>
+X-KMail-QuotePrefix: > 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: Text/Plain;
+  charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Content-Disposition: inline
-In-Reply-To: <45bf91fd-4e7f-7379-18a2-cdada67a3f6d@linaro.org>
-X-Provags-ID: V03:K1:oeb7u7Zz1pdIua5UMZeNONAXw/y6W5L5yCvBsNRuaUVzDMpSbBE
- HFbSMekJNVEei2ONUXrqzFe+KxEedfBM7reoKykhQdXXsvQiz6N+ygcOQD98zwJU9f3520a
- IJbLUWbmyhpbV6VoNROX3MmJ5eksYIbvGNP4KGtWwxz6kCsp9Ufuq4FV7+uqaoREf1NtBF6
- mpWK5MXQ3BJ42QX4qzzew==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Mhu5CwDW/uE=:RDl47VLsi44WjhaErpmxhj
- mLl74MB5PQie9P6Zvtd8iSi9u4Q7wMCu6R9iElwHjp5Ky9hmdVrXhiPcIQcVYXuwiRa3g3MLw
- tFQXet5brHupaLX9wjh7jhTG21Z6Z+lnIyRlb7nt9tltAUqipnLZg8KU4FzO/fsLo0o3c7Cj7
- YKupeFSvFme/0YyeyLlwA0Vj/l8925hhM36BuCIj4Fvz4msDrBiymZh6bpXNCV2uTQAozTV6A
- DgpIrVkkpLBGkEeUDKXHGd0QwET9rUbwjD/rBVmZ7p8RuPzQCSyDTCGJETWx7LeeHp3DlwwX6
- mKfritotzt48i5Lit35/CPyBELXdtkZRWLWPkOJrr9jDGJTfkygyRQt/KuW/Pydf47ENloOkr
- 5TvNt6lWDKZ6Q2Hoy/cE8BV1Sw8jRpzw8KdeSS8clBoUohrsYoT9q5GRm73g/LmZQrAqSzO/l
- /ph4i/r0LmXxCzbJeJBSyWRlEYV3fwDLMpfgPEAy6UilpeYMn0jFWiJje/FXwQaPfs3kWhGYY
- TyQ2nF2ls57py7cllg2tolOa6fTlzI7iPw6U4gE0ee3VpBxqZxNUHvkRBB+u0VU68gKPGvt4F
- m4OkjrGSoYmzmB4udOJ6iOk2/AgGv96aqmRBq7vWI5eYtO1tmLJzve5IP3q0uqMhxy7TR3prV
- b33Ce7yPWFDoKeSx1mpc7+o5toj3luF0KdQwXiaSGeDB/D5cYgqMp6RD4fQiPZS6KsFKd3OxL
- U2ds9MmrLV/Opqy4njiD6NiZfwEy154aRPUe7a/cfXiJq++VBxEKY4B4edZJ2jsmlYwOEkeXg
- GghAjY1ssgTUjcMyt2uWcU7I/zbaT9BAZaWz1WGTffK92aXgzH1gmRa4jh/TqkbGm97RAtVcx
- WyGCrCc5RjMWkUPF0pZR540IA943WuPSA1Cz901cyUPe8nd1HOOCUI8wNvuZmp2rhjK83zmoI
- Ojvf346BiNk8sJUs4NcVlQS7zjF5rZ7RFO9DHp1jca6blqla0pkNjIfD4Xwu6TFvEU8RX2Dng
- I3D9HonpXcgvdgrMG26hZoAfRq3DO0URCpzZvK+d1m9GOCQoHu1v5eWGb5q/ogYSOQJDJwqL0
- t++Wkmb13XevFFiv5rrL7TsjCCwCQaDpnv2+11q71Bxv3F6Y1s10Vj1rWTRYmScvzJhhnsTkN
- 8ZAuZ3P/bpyEbIPTNYmKn/rZccdn+EvRoW2q64/O73GfcR4e3sn8caTB3CmOlomCQea6ApNf/
- a4DgVNsgZf4ctqYrf
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=212.227.15.15; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 02:09:39
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Message-Id: <202009030812.42855.pisa@cmp.felk.cvut.cz>
+X-FELK-MailScanner-Information: 
+X-MailScanner-ID: 0836ChbW000520
+X-FELK-MailScanner: Found to be clean
+X-FELK-MailScanner-SpamCheck: not spam, SpamAssassin (not cached,
+ score=-0.423, required 6, autolearn=not spam, BAYES_00 -0.50,
+ KHOP_HELO_FCRDNS 0.40, NICE_REPLY_A -0.32, SPF_HELO_NONE 0.00,
+ SPF_NONE 0.00)
+X-FELK-MailScanner-From: pisa@cmp.felk.cvut.cz
+X-FELK-MailScanner-Watermark: 1599718371.40146@NCJ2UfHw6kJhIqGN+XqcRw
+Received-SPF: none client-ip=2001:718:2:1611:0:1:0:70;
+ envelope-from=pisa@cmp.felk.cvut.cz; helo=relay.felk.cvut.cz
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 02:13:49
+X-ACL-Warn: Detected OS   = ???
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.324,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,31 +77,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Marek Vasut <marex@denx.de>, Jiri Novak <jnovak@fel.cvut.cz>,
+ Oliver Hartkopp <socketcan@hartkopp.net>, Deniz Eren <deniz.eren@icloud.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Oleksij Rempel <o.rempel@pengutronix.de>,
+ Konrad Frederic <frederic.konrad@adacore.com>,
+ Jan Kiszka <jan.kiszka@siemens.com>, Jan Charvat <charvj10@fel.cvut.cz>,
+ Stefan Hajnoczi <stefanha@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Ondrej Ille <ondrej.ille@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-New patch #3/3:
+Hello Vikram,
 
-=46rom 476aeb9b832ae172a9d6a28aa9e43300dedd419b Mon Sep 17 00:00:00 2001
-Subject: [PATCH] hw/display/artist: Allow screen size up to 2048 lines
+On Thursday 03 of September 2020 07:43:34 Vikram Garhwal wrote:
+> On Tue, Jul 14, 2020 at 02:20:16PM +0200, pisa@cmp.felk.cvut.cz wrote:
+> Hi Pavel,
+>
+> > From: Jan Charvat <charvj10@fel.cvut.cz>
+> >
+> > Signed-off-by: Jan Charvat <charvj10@fel.cvut.cz>
+> > Signed-off-by: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+> > ---
+> >  include/net/can_emu.h |  4 ++++
+> >  net/can/can_core.c    | 36 ++++++++++++++++++++++++++++++++++++
+> >  2 files changed, 40 insertions(+)
+> >
+> > diff --git a/include/net/can_emu.h b/include/net/can_emu.h
+> > index c6164dcfb4..7d395fbb9b 100644
+> > --- a/include/net/can_emu.h
+> > +++ b/include/net/can_emu.h
+> > @@ -127,4 +127,8 @@ int can_bus_client_set_filters(CanBusClientState *,
+> >                                 const struct qemu_can_filter *filters,
+> >                                 size_t filters_cnt);
+> >
+> > +uint8_t can_dlc2len(uint8_t can_dlc);
+> > +
+> > +uint8_t can_len2dlc(uint8_t len);
+> > +
+>
+> These function are aimed for canfd. Perhaps rename these to canfd_dlc2len
+> and canfd_len2dlc for better distinction?
+> Rest of the patch looks good to me.
 
-Adjust the ADDR_TO_Y() macro to extract 11 bits, which allows userspace
-to address screen sizes up to 2048 lines (instead of 1024 before).
+I do not insits on name. But function correspond 1:1 to the Linux
+kernel ones
 
-Signed-off-by: Helge Deller <deller@gmx.de>
+https://elixir.bootlin.com/linux/latest/source/drivers/net/can/dev.c#L34
 
-diff --git a/hw/display/artist.c b/hw/display/artist.c
-index 16d85c65f8..955296d3d8 100644
-=2D-- a/hw/display/artist.c
-+++ b/hw/display/artist.c
-@@ -193,7 +193,7 @@ static const char *artist_reg_name(uint64_t addr)
- #undef REG_NAME
+These functions/tables are very short, but may it be, we should add comment
+about their origin. This part of original file is Oliver Hartkopp
+contribution
 
- /* artist has a fixed line length of 2048 bytes. */
--#define ADDR_TO_Y(addr) extract32(addr, 11, 10)
-+#define ADDR_TO_Y(addr) extract32(addr, 11, 11)
- #define ADDR_TO_X(addr) extract32(addr, 0, 11)
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/net/can/dev.c?h=v5.9-rc3&id=1e0625facab2e871472472b7df87d8fbe6caf75a
 
- static int16_t artist_get_x(uint32_t reg)
+some other helpers are from Wolfgang Grandegger and me.
+
+Best wishes,
+
+Pavel
 
