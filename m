@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CC7425C534
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 17:24:11 +0200 (CEST)
-Received: from localhost ([::1]:42586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C803A25C53F
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 17:26:07 +0200 (CEST)
+Received: from localhost ([::1]:52012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDr5u-0001jx-Lp
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 11:24:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49258)
+	id 1kDr7m-0005cn-SM
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 11:26:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kDr4H-0008OK-QK
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 11:22:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49685)
+ id 1kDr4L-00006Q-KW
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 11:22:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25051)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kDr4G-00080h-49
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 11:22:29 -0400
+ id 1kDr4J-000813-Il
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 11:22:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599146547;
+ s=mimecast20190719; t=1599146550;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OBlwjFxU47XSKApD1+IlD4HJKgm38Z1/BvcNTQ3pVb0=;
- b=Y/fJg/8giuuV3AOPIXOKsYwI8XAbBIa/3K+isKm5bDDSLe5KRjXbGnpsf5vLGKK7jyaj2b
- FbJz8J7w+rZ2xT6a1DuXnMC7y1IoaN9lFMID7RsQEtAdA5XeCaIYYlKRk91ZALDllTXtlB
- SDJVnEX9A9o+mQTGiDSQ3auXs/7PESI=
+ bh=dWG3F29NuQdM++zSGzyguvFvgwq86vzl492BOIPsLuA=;
+ b=UP9i2jiJBdfLO2Aqm34ZO77K9+fle0v0KwfXceWeV/3mH4czWVs0lqBPAwYhkDogcpDDcd
+ vkQ1wk/cqVrg9T0a8uImsc6WMaMvUJoFxOBERAw+ldS7LYaaL2pqi6PYQoy7+HacTBgGxw
+ aeKfMT0qID1Q0giRaVeuu1ru/5Mtkiw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-401-P3uMLkbaP4O5nbSNVv5hfQ-1; Thu, 03 Sep 2020 11:22:25 -0400
-X-MC-Unique: P3uMLkbaP4O5nbSNVv5hfQ-1
+ us-mta-362-lMwDL4UqMhab7hxBX1WEDg-1; Thu, 03 Sep 2020 11:22:28 -0400
+X-MC-Unique: lMwDL4UqMhab7hxBX1WEDg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0226185A0D8;
- Thu,  3 Sep 2020 15:22:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34F3981F000;
+ Thu,  3 Sep 2020 15:22:27 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.36.110.14])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 65F562D07D;
- Thu,  3 Sep 2020 15:22:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F18072D07D;
+ Thu,  3 Sep 2020 15:22:24 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 4/8] util: refactor qemu_open_old to split off variadic
- args handling
-Date: Thu,  3 Sep 2020 16:22:06 +0100
-Message-Id: <20200903152210.1917355-5-berrange@redhat.com>
+Subject: [PATCH v6 5/8] util: add Error object for qemu_open_internal error
+ reporting
+Date: Thu,  3 Sep 2020 16:22:07 +0100
+Message-Id: <20200903152210.1917355-6-berrange@redhat.com>
 In-Reply-To: <20200903152210.1917355-1-berrange@redhat.com>
 References: <20200903152210.1917355-1-berrange@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 01:47:17
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 04:23:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -89,60 +89,72 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This simple refactoring prepares for future patches. The variadic args
-handling is split from the main bulk of the open logic.
+Instead of relying on the limited information from errno, we can now
+also provide detailed error messages to callers that ask for it.
 
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- util/osdep.c | 24 +++++++++++++++++-------
- 1 file changed, 17 insertions(+), 7 deletions(-)
+ util/osdep.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
 diff --git a/util/osdep.c b/util/osdep.c
-index 7504c156e8..11531e8f59 100644
+index 11531e8f59..28aa89adc9 100644
 --- a/util/osdep.c
 +++ b/util/osdep.c
-@@ -296,10 +296,10 @@ static int qemu_open_cloexec(const char *name, int flags, mode_t mode)
- /*
+@@ -22,6 +22,7 @@
+  * THE SOFTWARE.
+  */
+ #include "qemu/osdep.h"
++#include "qapi/error.h"
+ 
+ /* Needed early for CONFIG_BSD etc. */
+ 
+@@ -297,7 +298,7 @@ static int qemu_open_cloexec(const char *name, int flags, mode_t mode)
   * Opens a file with FD_CLOEXEC set
   */
--int qemu_open_old(const char *name, int flags, ...)
-+static int
-+qemu_open_internal(const char *name, int flags, mode_t mode)
+ static int
+-qemu_open_internal(const char *name, int flags, mode_t mode)
++qemu_open_internal(const char *name, int flags, mode_t mode, Error **errp)
  {
      int ret;
--    int mode = 0;
  
- #ifndef _WIN32
-     const char *fdset_id_str;
-@@ -324,15 +324,25 @@ int qemu_open_old(const char *name, int flags, ...)
+@@ -311,12 +312,15 @@ qemu_open_internal(const char *name, int flags, mode_t mode)
+ 
+         fdset_id = qemu_parse_fdset(fdset_id_str);
+         if (fdset_id == -1) {
++            error_setg(errp, "Could not parse fdset %s", name);
+             errno = EINVAL;
+             return -1;
+         }
+ 
+         dupfd = monitor_fdset_dup_fd_add(fdset_id, flags);
+         if (dupfd == -1) {
++            error_setg_errno(errp, errno, "Could not dup FD for %s flags %x",
++                             name, flags);
+             return -1;
+         }
+ 
+@@ -326,6 +330,13 @@ qemu_open_internal(const char *name, int flags, mode_t mode)
+ 
+     ret = qemu_open_cloexec(name, flags, mode);
+ 
++    if (ret == -1) {
++        const char *action = flags & O_CREAT ? "create" : "open";
++        error_setg_errno(errp, errno, "Could not %s '%s'",
++                         action, name);
++    }
++
++
+     return ret;
+ }
+ 
+@@ -342,7 +353,7 @@ int qemu_open_old(const char *name, int flags, ...)
      }
- #endif
+     va_end(ap);
  
--    if (flags & O_CREAT) {
--        va_list ap;
-+    ret = qemu_open_cloexec(name, flags, mode);
-+
-+    return ret;
-+}
-+
- 
--        va_start(ap, flags);
-+int qemu_open_old(const char *name, int flags, ...)
-+{
-+    va_list ap;
-+    mode_t mode = 0;
-+    int ret;
-+
-+    va_start(ap, flags);
-+    if (flags & O_CREAT) {
-         mode = va_arg(ap, int);
--        va_end(ap);
-     }
-+    va_end(ap);
- 
--    ret = qemu_open_cloexec(name, flags, mode);
-+    ret = qemu_open_internal(name, flags, mode);
+-    ret = qemu_open_internal(name, flags, mode);
++    ret = qemu_open_internal(name, flags, mode, NULL);
  
  #ifdef O_DIRECT
      if (ret == -1 && errno == EINVAL && (flags & O_DIRECT)) {
