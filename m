@@ -2,87 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FFCA25C57A
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 17:35:25 +0200 (CEST)
-Received: from localhost ([::1]:56846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12FBD25C577
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 17:34:09 +0200 (CEST)
+Received: from localhost ([::1]:53868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDrGm-0002dJ-Fj
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 11:35:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50892)
+	id 1kDrFY-0001LU-5s
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 11:34:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kDr8h-0000QU-5k
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 11:27:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46181)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kDr8f-0000Fl-2J
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 11:27:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599146820;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SN+zpDe63b9OXABJW135pgj4q08uRgy/TMocpHMnT88=;
- b=DzsB7784ZeG1akKNy10wM27wTNVSB2vHQuiAzU7IfGyPZycl95dK+h3gjjdXfMCagut1Gl
- 0QgvqF8bT/8ztcMPledpDVwykO0+87n53S2n1y/JxHz7xUyygDuhbGwAj4HRpGfv5uCc3z
- T6NQPVFnfRCQFYsL/olg44AR7vU+YmM=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-168-nndpTprDPEWybfrL-1_LBQ-1; Thu, 03 Sep 2020 11:26:58 -0400
-X-MC-Unique: nndpTprDPEWybfrL-1_LBQ-1
-Received: by mail-qk1-f197.google.com with SMTP id g6so1742683qko.21
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 08:26:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=SN+zpDe63b9OXABJW135pgj4q08uRgy/TMocpHMnT88=;
- b=UzM8aa1dQX1ZYrQNqyi25p0qZUVbGmKYPoES+cLWpBg9NvSfg2CKQPJU29LLj/3MMr
- 6zw2facEVAs6PwW4nuoYLq068wCIJsbH5QJ7D4+NdZQUXY6aUho6QrvonEgNOKzhHH2O
- 1p7L7NgSXJzqAooK+1p920Xt7AFM0BvqUAxTzr64XIKXQOFsaixWGa35mUUlpfXySe93
- 9w3U/PTBHM6COyJ43NB/ldbktj/Zq9KguzAWrVBu3ODQbwhpnayasZ5U0RmzmnvRc8D7
- HOZFg3wEJ/ZJLMI4lC66CzwPSTXvxDnTNEH3gjbrFjpYwTPh5hS4FWJEhRGmPrlOGCjp
- 4qsw==
-X-Gm-Message-State: AOAM533WrJ8SUrloNUZmTL0cxKsBxvAMY83yG5QlyFVoGp4xH3nWQjh9
- q8JoXOUhIIyBDOvCm9rzXvjR8jmtVqH/GRmtIGPCi93S/PIW8T3Tgt1LDAqHEWMoTUBXexcrpSA
- 1BYIHd+wlDYQeMI8=
-X-Received: by 2002:a0c:de0f:: with SMTP id t15mr3449302qvk.90.1599146817095; 
- Thu, 03 Sep 2020 08:26:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx5VWYzIE3WiP4K3dcvtkqv9LeAY2SZSUaV46AuCecyFjoS83lup39Dwj7+QPW8Xw1mFlzGaA==
-X-Received: by 2002:a0c:de0f:: with SMTP id t15mr3449277qvk.90.1599146816767; 
- Thu, 03 Sep 2020 08:26:56 -0700 (PDT)
-Received: from xz-x1.redhat.com
- (bras-vprn-toroon474qw-lp130-11-70-53-122-15.dsl.bell.ca. [70.53.122.15])
- by smtp.gmail.com with ESMTPSA id l38sm2319889qtl.58.2020.09.03.08.26.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Sep 2020 08:26:55 -0700 (PDT)
-From: Peter Xu <peterx@redhat.com>
+ (Exim 4.90_1) (envelope-from <brogers@suse.com>) id 1kDrBe-0005Gp-51
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 11:30:06 -0400
+Received: from mx2.suse.de ([195.135.220.15]:57620)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <brogers@suse.com>) id 1kDrBc-0000hz-0J
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 11:30:05 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 7B9C9AD7A;
+ Thu,  3 Sep 2020 15:29:51 +0000 (UTC)
+From: Bruce Rogers <brogers@suse.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/5] migration: Sync requested pages after postcopy recovery
-Date: Thu,  3 Sep 2020 11:26:46 -0400
-Message-Id: <20200903152646.93336-6-peterx@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200903152646.93336-1-peterx@redhat.com>
-References: <20200903152646.93336-1-peterx@redhat.com>
+Subject: [PATCH] meson: remove linkage of sdl to baum
+Date: Thu,  3 Sep 2020 09:29:33 -0600
+Message-Id: <20200903152933.97838-1-brogers@suse.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0.003
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 04:23:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=brogers@suse.com;
+ helo=mx2.suse.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 00:06:01
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,110 +51,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiaohui Li <xiaohli@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com,
- Juan Quintela <quintela@redhat.com>
+Cc: pbonzini@redhat.com, Bruce Rogers <brogers@suse.com>, f4bug@amsat.org,
+ samuel.thibault@ens-lyon.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We synchronize the requested pages right after a postcopy recovery happens.
-This helps to synchronize the prioritized pages on source so that the faulted
-threads can be served faster.
+Ever since commit 537fe2d63f744e7c96ff45b60d09486a81958e06 there
+has been a 'linkage' to sdl for compiling baum.c. Originally it
+had to do with including sdl cflags for any file including sdl
+headers. There is no longer any such need for baum.c, but the
+association has persisted in the make system, and with the switch
+to meson it has now become a hard requirement, which now causes
+chardev-baum.so to not be produced if sdl is not configured.
+Remove this bogus linkage.
 
-Reported-by: Xiaohui Li <xiaohli@redhat.com>
-Signed-off-by: Peter Xu <peterx@redhat.com>
+Signed-off-by: Bruce Rogers <brogers@suse.com>
 ---
- migration/savevm.c     | 56 ++++++++++++++++++++++++++++++++++++++++++
- migration/trace-events |  1 +
- 2 files changed, 57 insertions(+)
+ chardev/meson.build | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 304d98ff78..f998dd230d 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -2011,6 +2011,48 @@ static int loadvm_postcopy_handle_run(MigrationIncomingState *mis)
-     return LOADVM_QUIT;
- }
+diff --git a/chardev/meson.build b/chardev/meson.build
+index 27a9a28f4c..54e88d0310 100644
+--- a/chardev/meson.build
++++ b/chardev/meson.build
+@@ -36,9 +36,9 @@ softmmu_ss.add(when: ['CONFIG_SPICE', spice], if_true: files('spice.c'))
  
-+/* We must be with page_request_mutex held */
-+static gboolean postcopy_sync_page_req(gpointer key, gpointer value,
-+                                       gpointer data)
-+{
-+    MigrationIncomingState *mis = data;
-+    void *host_addr = (void *) key;
-+    ram_addr_t rb_offset;
-+    RAMBlock *rb;
-+    int ret;
-+
-+    rb = qemu_ram_block_from_host(host_addr, true, &rb_offset);
-+    if (!rb) {
-+        /*
-+         * This should _never_ happen.  However be nice for a migrating VM to
-+         * not crash/assert.  Post an error (note: intended to not use *_once
-+         * because we do want to see all the illegal addresses; and this can
-+         * never be triggered by the guest so we're safe) and move on next.
-+         */
-+        error_report("%s: illegal host addr %p", __func__, host_addr);
-+        /* Try the next entry */
-+        return FALSE;
-+    }
-+
-+    ret = migrate_send_rp_message_req_pages(mis, rb, rb_offset);
-+    if (ret) {
-+        /* Refer to above comment - just try our best to continue */
-+        error_report("%s: send rp message failed for addr %p",
-+                     __func__, host_addr);
-+    }
-+
-+    trace_postcopy_page_req_sync((uint64_t)host_addr);
-+
-+    return FALSE;
-+}
-+
-+static void migrate_send_rp_req_pages_pending(MigrationIncomingState *mis)
-+{
-+    qemu_mutex_lock(&mis->page_request_mutex);
-+    g_tree_foreach(mis->page_requested, postcopy_sync_page_req, mis);
-+    qemu_mutex_unlock(&mis->page_request_mutex);
-+}
-+
- static int loadvm_postcopy_handle_resume(MigrationIncomingState *mis)
- {
-     if (mis->state != MIGRATION_STATUS_POSTCOPY_RECOVER) {
-@@ -2033,6 +2075,20 @@ static int loadvm_postcopy_handle_resume(MigrationIncomingState *mis)
-     /* Tell source that "we are ready" */
-     migrate_send_rp_resume_ack(mis, MIGRATION_RESUME_ACK_VALUE);
+ chardev_modules = {}
  
-+    /*
-+     * After a postcopy recovery, the source should have lost the postcopy
-+     * queue, or potentially the requested pages could have been lost during
-+     * the network down phase.  Let's re-sync with the source VM by re-sending
-+     * all the pending pages that we eagerly need, so these threads won't get
-+     * blocked too long due to the recovery.
-+     *
-+     * Without this procedure, the faulted destination VM threads (waiting for
-+     * page requests right before the postcopy is interrupted) can keep hanging
-+     * until the pages are sent by the source during the background copying of
-+     * pages, or another thread faulted on the same address accidentally.
-+     */
-+    migrate_send_rp_req_pages_pending(mis);
-+
-     return 0;
- }
+-if config_host.has_key('CONFIG_BRLAPI') and sdl.found()
++if config_host.has_key('CONFIG_BRLAPI')
+   module_ss = ss.source_set()
+-  module_ss.add(when: [sdl, brlapi], if_true: [files('baum.c'), pixman])
++  module_ss.add(when: [brlapi], if_true: [files('baum.c'), pixman])
+   chardev_modules += { 'baum': module_ss }
+ endif
  
-diff --git a/migration/trace-events b/migration/trace-events
-index b89ce02cb0..54a6dd2761 100644
---- a/migration/trace-events
-+++ b/migration/trace-events
-@@ -49,6 +49,7 @@ vmstate_save(const char *idstr, const char *vmsd_name) "%s, %s"
- vmstate_load(const char *idstr, const char *vmsd_name) "%s, %s"
- postcopy_pause_incoming(void) ""
- postcopy_pause_incoming_continued(void) ""
-+postcopy_page_req_sync(uint64_t host_addr) "sync page req 0x%"PRIx64
- 
- # vmstate.c
- vmstate_load_field_error(const char *field, int ret) "field \"%s\" load failed, ret = %d"
 -- 
-2.26.2
+2.28.0
 
 
