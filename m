@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 606E025C014
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 13:22:20 +0200 (CEST)
-Received: from localhost ([::1]:52898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6B2F25C02C
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 13:24:22 +0200 (CEST)
+Received: from localhost ([::1]:60046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDnJq-0003g6-BP
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 07:22:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37088)
+	id 1kDnLp-0006Zp-R9
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 07:24:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kDnIn-0002PS-He
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 07:21:13 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36345)
+ id 1kDnIp-0002Rq-UD
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 07:21:15 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:55513)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kDnIl-0007Ym-MM
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 07:21:13 -0400
-Received: by mail-wr1-x444.google.com with SMTP id z1so2822581wrt.3
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 04:21:11 -0700 (PDT)
+ id 1kDnIo-0007ZB-0G
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 07:21:15 -0400
+Received: by mail-wm1-x330.google.com with SMTP id a65so2459391wme.5
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 04:21:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3s9Lh9SuoJBT80PUo0orwYBl9/LamoZzVpQf4w/nqoI=;
- b=jaCLO/l9mIRhNmiQJdUnQk9OxdfYDXeIv76Wq5ChLQDA6An5SvICISX/a6k5Q+Ee3x
- QvW+m/uTUUtmGyhX01vO5gITrGOu4HeCQkP9CP6x6vGtM4o/oRyMXQgYRUSBGKtzA/h0
- elB23/zv9rCvouuIjlRpEB/G6ABVr3Y0oXahli7gHKcuB2nTZHKgNnQDLsNvwCodZMjI
- KEZdnvCCqwDPCxUBs6fiUCGRpZGvrsdj0YCU7Z2ZCdC86NcAhNAb+Gulh9sMlA1avNVr
- EZjy1ExDCbukJTk0XHocKQfF3LE0++0t/ByM73idRxjjhOxaVAon8aUXuStPBVUPgNvI
- ecfQ==
+ bh=z5RvT4eB7MnQELSA2qZHA1d+KPyyThIlq3rK75djlgU=;
+ b=X6GtVzYWz+SPJh7EUuaGmaf+o6y55m2OL85XdfGSbHoDWVCmjqRCS+CJGFQ3P0v4RO
+ pzc4mogmTeB/dmYuIghrn/jj50TuOVpnsLCt6Okkbvd9i3cCQRY5ljPJjPhURM+n56TG
+ tkk/g+mdtmAeC6JRtmvUDhHCkc8/S0HYj2kvG41rxVr3dN0ysAiTl+gzwjYqBrZtojST
+ f1CYO8qtQc+q+hGKBIgMubSYbPt1JkoxBPZs4Cjbqitx3k3hO2KQf8eRx0yW/f4rwvVl
+ LXmtNDV7hrZ2+OBZiIoJ+EnD3vf23s/8qOWYWWdbEY9qs+RwgOH5HLQc99Ce2ddlqG2C
+ ARNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3s9Lh9SuoJBT80PUo0orwYBl9/LamoZzVpQf4w/nqoI=;
- b=siWBC/uvRzEgmE6XhoD1zcf0DAZg5MsnTntlKpsbFy84+Nf6rN3uHbfcxi5UEMkiyh
- wKZxPsbAtvmdCNmAsZehxV17qVty63JVGwQ5UAA+F7fRcCdnAFSyihed9uhfqew08BSv
- mfvSIOl6+QH76txKhjrbD3z01gECMjKDTSkRYo8F849BUeUOGvB/D67ICnBfe6aqj8Af
- r8dZrIQJXb7h8WnoBHZL2EeommtWeGlE8CLCTyDziXs9Wled+r4oLs+RmtzAxs2y6dKo
- 7HazTctgq3ZdOhG+n1xRTPav5hXFujCPJvjmYpLzRBMlVpXNrzo5i2J/DyvZ4uv0yQxk
- ILug==
-X-Gm-Message-State: AOAM530bGrfDYm5VWOzVBPmNUdGvy9pGKTMbHr6S3O2wL/lDkH5APC7m
- 9YwJiMSWDD/FsxqAhneD+9TOhw==
-X-Google-Smtp-Source: ABdhPJw0DWiastulfqgHWbtBORI7dnHbvsOgVXPZAF5mZqURBAItdcHWaBLHu3kyybCrPwHn7bixPA==
-X-Received: by 2002:adf:82cb:: with SMTP id 69mr1957623wrc.222.1599132070341; 
- Thu, 03 Sep 2020 04:21:10 -0700 (PDT)
+ bh=z5RvT4eB7MnQELSA2qZHA1d+KPyyThIlq3rK75djlgU=;
+ b=Yp1JUvRz3P/79JVUo9sf4U7zoMcORPnjVU/H/oPOYf3yw8M079p3S5INJihYw3CY1M
+ wSR6uEhquNhVFPPNT1/aX3HbQuHfp3Ap738qksugzZ1Cn2Znf4lXRjqsYYFPJHJytnwP
+ jLfxOjd4LCR1p4X4IzQeGaJ32ddTGFbx+8FAwr5QFTg1dmEdmOEIiEtlZ+aeKIOd/oMN
+ X7OnsPE1pZR7S2qmSjRjtNV5YOawpCblP0ARMHg51IcdmQ2Ro/SFwTdB3kkDMD1tUJ1a
+ 4aOg+o4vcd3HWtJyp+kJSn4TnUtgcPwb/rhggehkUvv7/1jJZPk1BcBCWP7KkAsXutXM
+ gzwA==
+X-Gm-Message-State: AOAM532OcmnW5TY9nSHpuQYBvMV4DPLwOs8veJP23NfCuaCCu9ZMCWN/
+ iffR+qT4jtwh73iYpeR+1ruSHA==
+X-Google-Smtp-Source: ABdhPJzWm7qfKOzIy664GYBOjoFdbO+bHQDkNr+UHuGRaehhEupT3OyKica6/5qp/62buULw6G9rQw==
+X-Received: by 2002:a7b:c38f:: with SMTP id s15mr963802wmj.16.1599132072571;
+ Thu, 03 Sep 2020 04:21:12 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q15sm4393314wrr.8.2020.09.03.04.21.08
+ by smtp.gmail.com with ESMTPSA id e18sm3977022wrx.50.2020.09.03.04.21.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 03 Sep 2020 04:21:08 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C71CD1FF87;
+ by zen.linaroharston (Postfix) with ESMTP id E2F161FF8C;
  Thu,  3 Sep 2020 12:21:07 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 1/8] CODING_STYLE.rst: flesh out our naming conventions.
-Date: Thu,  3 Sep 2020 12:21:00 +0100
-Message-Id: <20200903112107.27367-2-alex.bennee@linaro.org>
+Subject: [PATCH  v1 2/8] crypto: fix build with gcrypt enabled
+Date: Thu,  3 Sep 2020 12:21:01 +0100
+Message-Id: <20200903112107.27367-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200903112107.27367-1-alex.bennee@linaro.org>
 References: <20200903112107.27367-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -96,68 +96,130 @@ Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mention a few of the more common naming conventions we follow in the
-code base including common variable names and function prefix and
-suffix examples.
+From: Daniel P. Berrangé <berrange@redhat.com>
 
+If nettle is disabled and gcrypt enabled, the compiler and linker flags
+needed for gcrypt are not passed.
+
+Gnutls was also not added as a dependancy when gcrypt is enabled.
+
+Attempting to add the library dependencies at the same time as the
+source dependencies is error prone, as there are alot of different
+rules for picking which sources to use, and some of the source files
+use code level conditionals intead. It is thus clearer to add the
+library dependencies separately.
+
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-
+Message-Id: <20200901133050.381844-2-berrange@redhat.com>
 ---
-v2
-  - punctuation fixes suggested by Cornelia
-  - re-worded section on qemu_ prefix
-  - expanded on _locked suffix
-v3
-  - re-order phrasing around qemu_ prefix
-  - drop "while actual..." shortname examples
+ configure          |  2 ++
+ crypto/meson.build | 42 +++++++++++++++++++++++++++++++-----------
+ meson.build        |  5 +++++
+ 3 files changed, 38 insertions(+), 11 deletions(-)
 
-squash! CODING_STYLE.rst: flesh out our naming conventions.
----
- CODING_STYLE.rst | 31 +++++++++++++++++++++++++++++--
- 1 file changed, 29 insertions(+), 2 deletions(-)
-
-diff --git a/CODING_STYLE.rst b/CODING_STYLE.rst
-index 427699e0e42..fd8ce9ceaba 100644
---- a/CODING_STYLE.rst
-+++ b/CODING_STYLE.rst
-@@ -109,8 +109,35 @@ names are lower_case_with_underscores_ending_with_a_t, like the POSIX
- uint64_t and family.  Note that this last convention contradicts POSIX
- and is therefore likely to be changed.
+diff --git a/configure b/configure
+index cc9af723580..1f61e363a18 100755
+--- a/configure
++++ b/configure
+@@ -6953,6 +6953,8 @@ if test "$gcrypt" = "yes" ; then
+   if test "$gcrypt_hmac" = "yes" ; then
+     echo "CONFIG_GCRYPT_HMAC=y" >> $config_host_mak
+   fi
++  echo "GCRYPT_CFLAGS=$gcrypt_cflags" >> $config_host_mak
++  echo "GCRYPT_LIBS=$gcrypt_libs" >> $config_host_mak
+ fi
+ if test "$nettle" = "yes" ; then
+   echo "CONFIG_NETTLE=y" >> $config_host_mak
+diff --git a/crypto/meson.build b/crypto/meson.build
+index 18da7c8541d..f6f5ce1ecd0 100644
+--- a/crypto/meson.build
++++ b/crypto/meson.build
+@@ -23,24 +23,35 @@ crypto_ss.add(files(
+   'tlssession.c',
+ ))
  
--When wrapping standard library functions, use the prefix ``qemu_`` to alert
--readers that they are seeing a wrapped version; otherwise avoid this prefix.
-+Variable Naming Conventions
-+---------------------------
-+
-+A number of short naming conventions exist for variables that use
-+common QEMU types. For example, the architecture independent CPUState
-+is often held as a ``cs`` pointer variable, whereas the concrete
-+CPUArchState is usually held in a pointer called ``env``.
-+
-+Likewise, in device emulation code the common DeviceState is usually
-+called ``dev``.
-+
-+Function Naming Conventions
-+---------------------------
-+
-+The ``qemu_`` prefix is used for utility functions that are widely
-+called from across the code-base. This includes wrapped versions of
-+standard library functions (e.g. ``qemu_strtol``) where the prefix is
-+added to the library function name to alert readers that they are
-+seeing a wrapped version.
-+
-+Public functions from a file or subsystem (declared in headers) tend
-+to have a consistent prefix to show where they came from. For example,
-+``tlb_`` for functions from ``cputlb.c`` or ``cpu_`` for functions
-+from cpus.c.
-+
-+If there are two versions of a function to be called with or without a
-+lock held, the function that expects the lock to be already held
-+usually uses the suffix ``_locked``.
-+
+-if 'CONFIG_GCRYPT' in config_host
+-  wo_nettle = files('hash-gcrypt.c', 'pbkdf-gcrypt.c')
++if 'CONFIG_NETTLE' in config_host
++  crypto_ss.add(files('hash-nettle.c', 'hmac-nettle.c', 'pbkdf-nettle.c'))
++elif 'CONFIG_GCRYPT' in config_host
++  crypto_ss.add(files('hash-gcrypt.c', 'pbkdf-gcrypt.c'))
++  if 'CONFIG_GCRYPT_HMAC' in config_host
++    crypto_ss.add(files('hmac-gcrypt.c'))
++  else
++    crypto_ss.add(files('hmac-glib.c'))
++  endif
+ else
+-  wo_nettle = files('hash-glib.c', 'pbkdf-stub.c')
+-endif
+-if 'CONFIG_GCRYPT_HMAC' not in config_host
+-  wo_nettle += files('hmac-glib.c')
++  crypto_ss.add(files('hash-glib.c', 'hmac-glib.c', 'pbkdf-stub.c'))
+ endif
+-crypto_ss.add(when: [nettle, 'CONFIG_NETTLE'],
+-             if_true: files('hash-nettle.c', 'hmac-nettle.c', 'pbkdf-nettle.c'),
+-             if_false: wo_nettle)
  
- Block structure
- ===============
+ crypto_ss.add(when: 'CONFIG_SECRET_KEYRING', if_true: files('secret_keyring.c'))
+ crypto_ss.add(when: 'CONFIG_QEMU_PRIVATE_XTS', if_true: files('xts.c'))
+-crypto_ss.add(when: 'CONFIG_GCRYPT_HMAC', if_true: files('hmac-gcrypt.c'))
+ crypto_ss.add(when: 'CONFIG_AF_ALG', if_true: files('afalg.c', 'cipher-afalg.c', 'hash-afalg.c'))
+ crypto_ss.add(when: 'CONFIG_GNUTLS', if_true: files('tls-cipher-suites.c'))
+ 
++if 'CONFIG_NETTLE' in config_host
++  crypto_ss.add(nettle)
++elif 'CONFIG_GCRYPT' in config_host
++  crypto_ss.add(gcrypt)
++endif
++
++if 'CONFIG_GNUTLS' in config_host
++  crypto_ss.add(gnutls)
++endif
++
++
+ crypto_ss = crypto_ss.apply(config_host, strict: false)
+ libcrypto = static_library('crypto', crypto_ss.sources() + genh,
+                            dependencies: [crypto_ss.dependencies()],
+@@ -52,12 +63,21 @@ crypto = declare_dependency(link_whole: libcrypto,
+ 
+ util_ss.add(files('aes.c'))
+ util_ss.add(files('init.c'))
++
+ if 'CONFIG_GCRYPT' in config_host
+   util_ss.add(files('random-gcrypt.c'))
+ elif 'CONFIG_GNUTLS' in config_host
+-  util_ss.add(files('random-gnutls.c'), gnutls)
++  util_ss.add(files('random-gnutls.c'))
+ elif 'CONFIG_RNG_NONE' in config_host
+   util_ss.add(files('random-none.c'))
+ else
+   util_ss.add(files('random-platform.c'))
+ endif
++
++if 'CONFIG_GCRYPT' in config_host
++  util_ss.add(gcrypt)
++endif
++
++if 'CONFIG_GNUTLS' in config_host
++  util_ss.add(gnutls)
++endif
+diff --git a/meson.build b/meson.build
+index 55c7d2318cd..9b5076452b2 100644
+--- a/meson.build
++++ b/meson.build
+@@ -116,6 +116,11 @@ urcubp = not_found
+ if 'CONFIG_TRACE_UST' in config_host
+   urcubp = declare_dependency(link_args: config_host['URCU_BP_LIBS'].split())
+ endif
++gcrypt = not_found
++if 'CONFIG_GCRYPT' in config_host
++  gcrypt = declare_dependency(compile_args: config_host['GCRYPT_CFLAGS'].split(),
++                              link_args: config_host['GCRYPT_LIBS'].split())
++endif
+ nettle = not_found
+ if 'CONFIG_NETTLE' in config_host
+   nettle = declare_dependency(compile_args: config_host['NETTLE_CFLAGS'].split(),
 -- 
 2.20.1
 
