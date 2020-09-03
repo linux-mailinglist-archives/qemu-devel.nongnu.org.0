@@ -2,60 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1D9B25CD59
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 00:19:37 +0200 (CEST)
-Received: from localhost ([::1]:56608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AA5125CD21
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 00:07:49 +0200 (CEST)
+Received: from localhost ([::1]:50660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDxZx-0004RB-08
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 18:19:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42788)
+	id 1kDxOW-0007F2-BU
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 18:07:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pisa@cmp.felk.cvut.cz>)
- id 1kDxEB-0000cH-Cg
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:57:07 -0400
-Received: from relay.felk.cvut.cz ([2001:718:2:1611:0:1:0:70]:31268)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pisa@cmp.felk.cvut.cz>) id 1kDxE9-0006GC-NX
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:57:07 -0400
-Received: from cmp.felk.cvut.cz (haar.felk.cvut.cz [147.32.84.19])
- by relay.felk.cvut.cz (8.15.2/8.15.2) with ESMTP id 083Lu0LA032302;
- Thu, 3 Sep 2020 23:56:00 +0200 (CEST)
- (envelope-from pisa@cmp.felk.cvut.cz)
-Received: from haar.felk.cvut.cz (localhost [127.0.0.1])
- by cmp.felk.cvut.cz (8.14.0/8.12.3/SuSE Linux 0.6) with ESMTP id
- 083LtxTS026808; Thu, 3 Sep 2020 23:55:59 +0200
-Received: (from pisa@localhost)
- by haar.felk.cvut.cz (8.14.0/8.13.7/Submit) id 083Ltx8I026807;
- Thu, 3 Sep 2020 23:55:59 +0200
-From: Pavel Pisa <pisa@cmp.felk.cvut.cz>
-To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v2 7/7] hw/net/can: Correct Kconfig dependencies after switch
- to meson build.
-Date: Thu,  3 Sep 2020 23:48:23 +0200
-Message-Id: <dd539770e9c182125a9c3d87b9ca329121b11abc.1599168753.git.pisa@cmp.felk.cvut.cz>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1599168753.git.pisa@cmp.felk.cvut.cz>
-References: <cover.1599168753.git.pisa@cmp.felk.cvut.cz>
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kDxNP-0005yM-Fa
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 18:06:39 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:40460)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kDxNN-0007Pj-OQ
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 18:06:39 -0400
+Received: by mail-pf1-x432.google.com with SMTP id c142so3435915pfb.7
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 15:06:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Kz1djDywG9o2vGqIHANaqTAC7J89aU4D11miamrEf70=;
+ b=OpIVGniEkYlGy5R1CJOJ3tY3u4R6qrUHtPDtTieWqPxexmWUZ/lI3cW5kNx3pRQRAS
+ IFHS1TnAuEBRTUtEuvmZpjbNpycAz9gRMyX3qj3J9ratMTspDFSep7h5J28LOK32x0yj
+ d5gWNcr6Em1S6FHt2JGZ6Ci6IK0X1STIogMV/Bfr0t9B2eJCvt43hz6xb1eZhNKdyk88
+ FQ9d/6g2QmpH/1ec/jZ1LfRFVLXt5i/Ju9PwL7WP+NcnxEr1Jkx9wgaX++LAO6AY/Quz
+ SJS5/crrRPCqpbQwqbwKRzbg3SmmqkvMLtGDZaj+nGSpN/pYeR8C/6IUNMmRIKXrCx0s
+ J3eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Kz1djDywG9o2vGqIHANaqTAC7J89aU4D11miamrEf70=;
+ b=fugVrj6bcK5LvuGNDFjblFSLhXzxD2VW7IvrZE1uhgauXSC9sW4sUHItVmU40BG70f
+ OAogEeJB27HgfIFjxNtlQ1Wx0vNDskxqUjsAOy5L/2WtN9uhtas0O7+Tp+TAdEDG+wkT
+ nVGPL0tSJwskE7cxUqLQ24yuFCfYTn1yc/aNc95uXYkITuNfx5UAk9+V88MTgT9QfLT3
+ c6SbwNosEHYaWk3RKmFui6VXybZ1w7FPFYMkjruLaJ9KskzdDXtOrKOXw0g+bU8KphJ6
+ SitSgKR/4759JJdvUA45gij/qr8ud38BpKx5U9clcgKTYJfJrJS0EG5famQtMBHpvRGQ
+ R63w==
+X-Gm-Message-State: AOAM530M5unWVfrbvIb/SHlutJf4jzxjbMGvukCwNoMAhlAiW6burLp6
+ bpIxrfYdLB8bmdclf3nvhKOOI/QhWWh0Ng==
+X-Google-Smtp-Source: ABdhPJx0CctEGfpnojC81zLEvlP8i6SNU8VQESo5VAlM3pItJBxdAoCdO+a1lHUEIbnlc8+iJO5zSw==
+X-Received: by 2002:a17:902:544:: with SMTP id
+ 62mr6046560plf.162.1599170795759; 
+ Thu, 03 Sep 2020 15:06:35 -0700 (PDT)
+Received: from localhost.localdomain ([222.95.248.6])
+ by smtp.googlemail.com with ESMTPSA id i14sm3341171pjy.24.2020.09.03.15.06.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Sep 2020 15:06:34 -0700 (PDT)
+From: Yonggang Luo <luoyonggang@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] configure: the error info not consistence with option.
+Date: Fri,  4 Sep 2020 06:06:22 +0800
+Message-Id: <20200903220622.504-1-luoyonggang@gmail.com>
+X-Mailer: git-send-email 2.28.0.windows.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-FELK-MailScanner-Information: 
-X-MailScanner-ID: 083Lu0LA032302
-X-FELK-MailScanner: Found to be clean
-X-FELK-MailScanner-SpamCheck: not spam, SpamAssassin (not cached,
- score=-0.098, required 6, BAYES_00 -0.50, KHOP_HELO_FCRDNS 0.40,
- SPF_HELO_NONE 0.00, SPF_NONE 0.00)
-X-FELK-MailScanner-From: pisa@cmp.felk.cvut.cz
-X-FELK-MailScanner-Watermark: 1599774969.11088@MBgqHmKQ9ET5aMGbyQtMcQ
-Received-SPF: none client-ip=2001:718:2:1611:0:1:0:70;
- envelope-from=pisa@cmp.felk.cvut.cz; helo=relay.felk.cvut.cz
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 17:39:24
-X-ACL-Warn: Detected OS   = ???
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x432.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,51 +83,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Vikram Garhwal <fnu.vikram@xilinx.com>,
- Jiri Novak <jnovak@fel.cvut.cz>, Stefan Hajnoczi <stefanha@gmail.com>,
- Deniz Eren <deniz.eren@icloud.com>, Markus Armbruster <armbru@redhat.com>,
- Oleksij Rempel <o.rempel@pengutronix.de>,
- Konrad Frederic <frederic.konrad@adacore.com>,
- Jan Kiszka <jan.kiszka@siemens.com>, Jan Charvat <charvj10@fel.cvut.cz>,
- Oliver Hartkopp <socketcan@hartkopp.net>, Ondrej Ille <ondrej.ille@gmail.com>,
- Pavel Pisa <pisa@cmp.felk.cvut.cz>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The original CAN_PCI config option enables multiple SJA1000 PCI boards
-emulation build. These boards bridge SJA1000 into I/O or memory
-address space of the host CPU and depend on SJA1000 emulation.
-
-Signed-off-by: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- hw/net/Kconfig | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/net/Kconfig b/hw/net/Kconfig
-index 225d948841..6d795ec752 100644
---- a/hw/net/Kconfig
-+++ b/hw/net/Kconfig
-@@ -132,16 +132,15 @@ config ROCKER
- config CAN_BUS
-     bool
- 
--config CAN_PCI
-+config CAN_SJA1000
-     bool
-     default y if PCI_DEVICES
--    depends on PCI
-     select CAN_BUS
- 
--config CAN_SJA1000
-+config CAN_PCI
-     bool
-     default y if PCI_DEVICES
--    depends on PCI
-+    depends on PCI && CAN_SJA1000
-     select CAN_BUS
- 
- config CAN_CTUCANFD
+diff --git a/configure b/configure
+index e42d210e5f..ae63c4fd54 100755
+--- a/configure
++++ b/configure
+@@ -2545,7 +2545,7 @@ fi
+ # vhost-user backends
+ test "$vhost_net_user" = "" && vhost_net_user=$vhost_user
+ if test "$vhost_net_user" = "yes" && test "$vhost_user" = "no"; then
+-  error_exit "--enable-vhost-net-user requires --enable-vhost-user"
++  error_exit "--enable-vhost-net requires --enable-vhost-user"
+ fi
+ test "$vhost_crypto" = "" && vhost_crypto=$vhost_user
+ if test "$vhost_crypto" = "yes" && test "$vhost_user" = "no"; then
 -- 
-2.20.1
+2.28.0.windows.1
 
 
