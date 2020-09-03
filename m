@@ -2,94 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEE1325C116
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 14:36:33 +0200 (CEST)
-Received: from localhost ([::1]:43014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D5EC25C148
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 14:47:40 +0200 (CEST)
+Received: from localhost ([::1]:50272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDoTg-0001bC-Rc
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 08:36:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53756)
+	id 1kDoeQ-0008Hm-Qk
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 08:47:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kDoMx-0001bW-5B
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 08:29:35 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26873
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kDoP0-0004Zr-HN
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 08:31:42 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:44292
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kDoMv-0007vh-FB
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 08:29:34 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kDoOy-0008H6-FM
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 08:31:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599136172;
+ s=mimecast20190719; t=1599136299;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sA8VJPNfETXiQjTbASMRFVSvXM/GPwXWZEC4rxHulmg=;
- b=diU1N5SkxHmI/M7RcJV3vQmvKcqzo21QPOVPMNZEtfa2KRhDJR7EbFemE3TWme5sLxQdgY
- M3BSojLOmcVHLxqMO5vkHDEz2wNdZVDK9VwE8kCGG4hg6p6si9vlnpB3Ek90qvxmpv1gG2
- WuTuj9jwT2G0c0TCalTTNmMJ9hDYJgA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-5Ci63RO-NLay5yOViGBbnA-1; Thu, 03 Sep 2020 08:29:30 -0400
-X-MC-Unique: 5Ci63RO-NLay5yOViGBbnA-1
-Received: by mail-wm1-f69.google.com with SMTP id m25so934237wmi.0
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 05:29:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=sA8VJPNfETXiQjTbASMRFVSvXM/GPwXWZEC4rxHulmg=;
- b=AcWs0lfN1TNDkVXkCgSOah9AVniv1A4XpXg3jMbIeE4XOGICCBClX+LaPqXTdMRh9G
- ZuVIud7aykvtHDu+zSxuUvbFJMIXb7RjbMKJhUIKibJko0EHDhsyGD84yvnS9Zi4cBM1
- owp5khh8TMjtMaJqsbuhINkg82Z27Uf/BcCKON645+ZHwizumYIgX42GX+VBEIK2xuIl
- iBIMUaRnCY/LFh9k5XYGEFS0e1ncUbmcoI/2KumQ5YokFcEEX4palwrwXAeHS5OJ3XYF
- echNxPx/OxYkTDj+Xx53/USo9g6P2frVdSrneX/+TjF4BdH95PU+zSqy/PahbD+gy//l
- iIeQ==
-X-Gm-Message-State: AOAM530eZykXSlZKOsNYZZWfmGwpMi2sf8E+PhR/VxZUKu6MMpmLTJs7
- GK5/VTS1WjQqamKx0BfNyAXXIxQWvKwLj138g7C2ldNULNbHuZeOo2vpEn8w/O5jmNljfaanGZz
- CvpysQ3s7nNa7RfQ=
-X-Received: by 2002:a1c:7405:: with SMTP id p5mr2255203wmc.35.1599136168566;
- Thu, 03 Sep 2020 05:29:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzYjtIq+I1Iic3y+odjmdm7NFQFCl+1XeSG3cHD9o/uZMUf1ODgKJEsf0iutx37FQ47A4ayRg==
-X-Received: by 2002:a1c:7405:: with SMTP id p5mr2255188wmc.35.1599136168372;
- Thu, 03 Sep 2020 05:29:28 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:197c:daa0:48d1:20b2?
- ([2001:b07:6468:f312:197c:daa0:48d1:20b2])
- by smtp.gmail.com with ESMTPSA id z14sm4666531wre.34.2020.09.03.05.29.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Sep 2020 05:29:27 -0700 (PDT)
-Subject: Re: flatview_write_continue global mutex deadlock
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel <qemu-devel@nongnu.org>
-References: <3abe8579-3540-72fd-c452-3cc52d7fcf26@virtuozzo.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <d8bb04e7-6edd-8b3d-8896-31c4d4075006@redhat.com>
-Date: Thu, 3 Sep 2020 14:29:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ content-transfer-encoding:content-transfer-encoding;
+ bh=9PSwcJp2QBAo6B4P53WE3bBPUMy4X2R0mIpnI+CHDvU=;
+ b=LkT4kofWQOqrHm9MRnTHh/0/Rnxky4Q6OgJ9Hxqs3taQwi1RVB9lXZcvJgvHvGXvIttpx6
+ VY0RWPnwEgamsKczGd8ERnoXrzVySKRC0dVuEOE8tQvsKsMUMgK8WQ34nPcUiT11v4LGHC
+ 6Pi+o9b2dCk21FHJE+3CnnYLwfq8Abg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-198-A0_gOC8TMbWyDl7BnC9ecA-1; Thu, 03 Sep 2020 08:31:37 -0400
+X-MC-Unique: A0_gOC8TMbWyDl7BnC9ecA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BEE3A801AB6;
+ Thu,  3 Sep 2020 12:31:36 +0000 (UTC)
+Received: from thuth.com (ovpn-114-10.ams2.redhat.com [10.36.114.10])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CF1C160C0F;
+ Thu,  3 Sep 2020 12:31:32 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL v3 00/15] Cirrus-CI improvements, and other CI-related fixes,
+ m68k
+Date: Thu,  3 Sep 2020 14:31:29 +0200
+Message-Id: <20200903123130.451577-1-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <3abe8579-3540-72fd-c452-3cc52d7fcf26@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 01:58:20
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 01:28:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.403, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,40 +78,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- qemu block <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/09/20 13:16, Vladimir Sementsov-Ogievskiy wrote:
-> (gdb) info thr
->   Id   Target Id                                            Frame
-> * 1    Thread 0x7fb9f0f39e00 (LWP 215115) "qemu-system-x86"
-> 0x00007fb9d784f54d in __lll_lock_wait () from /lib64/libpthread.so.0
-> [...]
-> #1  0x000056069bfbd3f1 in qemu_poll_ns (fds=0x7fb9401dcdf0, nfds=1,
-> timeout=542076652475) at ../util/qemu-timer.c:347
-> #2  0x000056069bfd949f in fdmon_poll_wait (ctx=0x56069e6864c0,
-> ready_list=0x7fb9481fc200, timeout=542076652475) at ../util/fdmon-poll.c:79
-> #3  0x000056069bfcdf4c in aio_poll (ctx=0x56069e6864c0, blocking=true)
-> at ../util/aio-posix.c:601
-> #4  0x000056069be80cf3 in bdrv_do_drained_begin (bs=0x56069e6c0950,
-> recursive=false, parent=0x0, ignore_bds_parents=false, poll=true) at
-> ../block/io.c:427
-> #5  0x000056069be80ddb in bdrv_drained_begin (bs=0x56069e6c0950) at
-> ../block/io.c:433
-> #6  0x000056069bf1e5b4 in blk_drain (blk=0x56069e6adb50) at
-> ../block/block-backend.c:1718
-> #7  0x000056069ba40fb5 in ide_cancel_dma_sync (s=0x56069f0d1548) at
-> ../hw/ide/core.c:723
-> [...]
-> #13 0x000056069bd965e2 in flatview_write_continue (fv=0x7fb9401ce100,
-> addr=49152, attrs=..., ptr=0x7fb9f0f87000, len=1, addr1=0, l=1,
-> mr=0x56069f0d2420) at ../exec.c:3176
+ Hi Peter!
 
-So this is a vCPU thread.  The question is, why is the reconnect timer
-not on the same AioContext?  If it were, aio_poll would execute it.
+The following changes since commit ed215cec0fcaeaece064b0fdf37fe3bceb06d76c:
 
-Paolo
+  Merge remote-tracking branch 'remotes/ehabkost/tags/machine-next-pull-request' into staging (2020-09-02 15:26:38 +0100)
+
+are available in the Git repository at:
+
+  https://gitlab.com/huth/qemu.git tags/pull-request-2020-09-03
+
+for you to fetch changes up to 0a796d63bcd4e840bb94fbe894ae2ad77b9ee2f7:
+
+  gitlab-ci.yml: Set artifacts expiration time (2020-09-03 12:47:33 +0200)
+
+----------------------------------------------------------------
+* Cirrus-CI improvements and fixes (compile with -Werror & fix for 1h problem)
+* Two build system fixes to fix some failures the CI
+* One m68k QOMification patch
+* Some trivial qtest patches
+* Some small improvements for the Gitlab CI
+----------------------------------------------------------------
+
+v3: Added the UNLINK fix to Gerd's patch
+
+Gerd Hoffmann (1):
+      meson: fix keymaps without qemu-keymap
+
+Markus Armbruster (1):
+      libqtest: Rename qmp_assert_error_class() to qmp_expect_error_and_unref()
+
+Philippe Mathieu-Daudé (3):
+      tests/qtest/ahci: Improve error handling (NEGATIVE_RETURNS)
+      tests/qtest/tpm: Declare input buffers const and static
+      tests/qtest/ipmi-kcs: Fix assert side-effect
+
+Thomas Huth (10):
+      configure: Fix atomic64 test for --enable-werror on macOS
+      cirrus.yml: Compile FreeBSD with -Werror
+      cirrus.yml: Compile macOS with -Werror
+      cirrus.yml: Update the macOS jobs to Catalina
+      cirrus.yml: Split FreeBSD job into two parts
+      configure: Add system = 'linux' for meson when cross-compiling
+      hw/m68k: QOMify the mcf5206 system integration module
+      gitlab/travis: Rework the disabled features tests
+      gitlab-ci.yml: Run check-qtest and check-unit at the end of the fuzzer job
+      gitlab-ci.yml: Set artifacts expiration time
+
+ .cirrus.yml                   | 43 ++++++++++++++++++++++++++++++++----------
+ .gitlab-ci.yml                | 36 ++++++++++++++++++++++++++---------
+ .travis.yml                   |  6 ------
+ configure                     | 22 +++++++++++++++++-----
+ hw/m68k/an5206.c              | 14 ++++++++++++--
+ hw/m68k/mcf5206.c             | 44 ++++++++++++++++++++++++++++++++++---------
+ include/hw/m68k/mcf.h         |  3 +--
+ pc-bios/keymaps/meson.build   | 28 ++++++++++++++++++---------
+ tests/qtest/ahci-test.c       |  1 +
+ tests/qtest/drive_del-test.c  |  2 +-
+ tests/qtest/ipmi-kcs-test.c   |  3 ++-
+ tests/qtest/libqos/libqtest.h |  4 ++--
+ tests/qtest/libqtest.c        |  2 +-
+ tests/qtest/qmp-cmd-test.c    | 16 ++++++++--------
+ tests/qtest/qmp-test.c        | 32 +++++++++++++++----------------
+ tests/qtest/tpm-tests.c       |  4 ++--
+ tests/qtest/tpm-util.c        | 10 +++++-----
+ tests/test-qga.c              |  2 +-
+ 18 files changed, 183 insertions(+), 89 deletions(-)
 
 
