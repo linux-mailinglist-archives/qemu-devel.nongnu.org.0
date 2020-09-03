@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBB0F25CBD5
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:07:48 +0200 (CEST)
-Received: from localhost ([::1]:33718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B09625CC33
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:27:14 +0200 (CEST)
+Received: from localhost ([::1]:53832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwSR-0006Ef-Rx
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:07:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58414)
+	id 1kDwlF-0004eK-2k
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:27:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwL8-0003jY-EQ; Thu, 03 Sep 2020 17:00:14 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:46522)
+ id 1kDwLA-0003pR-EB; Thu, 03 Sep 2020 17:00:16 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:34043)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwL6-0007RB-IP; Thu, 03 Sep 2020 17:00:13 -0400
-Received: by mail-ot1-x343.google.com with SMTP id c10so3973471otm.13;
- Thu, 03 Sep 2020 14:00:11 -0700 (PDT)
+ id 1kDwL8-0007Sj-CI; Thu, 03 Sep 2020 17:00:15 -0400
+Received: by mail-ot1-x344.google.com with SMTP id h17so3207875otr.1;
+ Thu, 03 Sep 2020 14:00:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Zl94h+JEwFYHtOa8NK8LtKSrwdxSjFyOtdM3NqVIwV8=;
- b=Xh5MWP8MW/HvNcD9TwlDOk51UAS4Jt/YKgfbXABNKvIGkaXmcRqJs5LmOPKDWMW+Mb
- gwdk8EAtEvcjC9xNqwOUp8h7Xz0e206cbmd7gH3gKOMfTfphwaWjqk68U5tjuNL4Sr3x
- QgqlubfkZ7KT1CgsJdVIa41A+6UvZDU9EmQ0Imm8/p8APBXLdukRxG+SOba3su/MlY3a
- qYqokwsKeXZgIUKsIiAOki3rsz6rGZeDPrEyNw+trATuDYyWSnr2Zt1zT5/gwaO1aNul
- B3cX7D+xVHs8mHt9NUeTUkqoXXCCaf/GGnGczE72xqejEGOrnuJAZfnMTfShmEullInq
- /z8g==
+ bh=3SuwZW28eAjJ3YWBTzrGv938b6MDi9p5c1iamVmgVTs=;
+ b=jeC5bky8i6iuk9jTkRdmcsM7MPX4//PdxWYf0UrMhtLcNDBFofCqLrGeeYfb4nlRd/
+ VHWa+QAiJdFXz6V5HnQdM/XHSGbM60QV4Y0f4cp/aLdmGJNovsrgFChTHQ94cpxu+lAS
+ qVQJkq/a/LdkKx1JCeoTIME6ovIph3nxrokvtwxnAJhk14wChuuy9PWAur1MHQgHXIWS
+ lE6B0o405c9R2j4bVwKKl1WpbSdEchokLpZrbTqyxtW1CK+ecTNu/uZ/EPjVp8DEDE5U
+ ixwwwVJLx76lohrOhoKQprWSm0szhlD0Cbiiaii3k43KoIob3oPLU62OZE5oHmx0gpql
+ 5PXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=Zl94h+JEwFYHtOa8NK8LtKSrwdxSjFyOtdM3NqVIwV8=;
- b=ELW+xjt8P8Utycc0T3m+Jok9PI/2BVOXrd3b8heeOyiaC8XFHs2qsF0Z06BrUb16So
- R6VRmgbbvRscqbi3YqLdGY2qg9Lx5pu45Z3NePGun8fEtPgkhRSgnPZp1vRdX7Q3B/ea
- 6gqCr7bTT8nu7ggrDIbRTQFyC3grMn3oXtJlXNWIR7ejSoKPbrWJZuy7AkhSrqy1rOWQ
- JZx51t4up2eVBLoV58LKiXlC9CQHkXU7rlMc4boPz2JHfbEOYElvTpqY3rUHtjl45yu9
- uK1KcJiTb3wP1aGkRmlGsQkgLOkOTp3G9NMkV7RilduLaxfo1TpLTcCImZnwdxLoxhj8
- K61w==
-X-Gm-Message-State: AOAM531atdUa4tElEgVqjudVw485xeO8Qit2aB9/iUpghpLqDi9ezCWn
- m9P6VzfEsJeZF09PTrz/7l//JFzUNro=
-X-Google-Smtp-Source: ABdhPJxDTnOLfoq67xc1VrZXc9OEErwBbHmUTOeU0jbI5ygkWlfbHXRnq0EVOBHcdTJsHHzIIdi23g==
-X-Received: by 2002:a05:6830:19ee:: with SMTP id
- t14mr3082333ott.171.1599166810293; 
- Thu, 03 Sep 2020 14:00:10 -0700 (PDT)
+ bh=3SuwZW28eAjJ3YWBTzrGv938b6MDi9p5c1iamVmgVTs=;
+ b=i3fMOhjMEHRxjjQ3UQ3RACN7wYpxW7htsmAh9TpeAUUOOsfbojv1E2QKi9G5c4lJa4
+ CCSHJpBG+V3ZeDf/xzGAGWzdVuJgLNBVoc4xq0WizMUMIOQ6sl610L5sFI3Dt9WpdC5L
+ wIfwXaQp99wyExd00sNU4+lcvlKSdAXaS7EH/hw3BQ0nHx1dDYLhwsFqmJfJ1KhGLptW
+ JSygj1pBErPgHsrMIe9UangT7EieQsqx4TGsKsx2eEDTcbVmX9XF8o8IJn7J03/BSB/5
+ sd0S0nBai2px98d9VcstrcROvE56Xqjsf90u7R+c32D/E3zruDXFJRWTqrQxn897jEAd
+ mc1g==
+X-Gm-Message-State: AOAM533ie7ivFLw48qdy8TLoZGz0z/zRX7qeTzHCplUgyvTPFY3ksZIk
+ /wjT13c4mVcxmU83yIe3m19RI8zhtnE=
+X-Google-Smtp-Source: ABdhPJxlBge35zxuhUGxEOkO3ktrro7su289ePXOBdgPTNUFvl6IpxX3+XvnnjyYTb+P3tex3KfC4g==
+X-Received: by 2002:a9d:6c98:: with SMTP id c24mr3097488otr.208.1599166812398; 
+ Thu, 03 Sep 2020 14:00:12 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id w125sm710943oia.57.2020.09.03.14.00.09
+ by smtp.gmail.com with ESMTPSA id z17sm836651oop.15.2020.09.03.14.00.11
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:00:09 -0700 (PDT)
+ Thu, 03 Sep 2020 14:00:11 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 23/77] KVM: x86: believe what KVM says about WAITPKG
-Date: Thu,  3 Sep 2020 15:58:41 -0500
-Message-Id: <20200903205935.27832-24-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 25/77] aio-posix: disable fdmon-io_uring when GSource is used
+Date: Thu,  3 Sep 2020 15:58:43 -0500
+Message-Id: <20200903205935.27832-26-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x343.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -82,83 +81,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-stable@nongnu.org
+Cc: qemu-stable@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Currently, QEMU is overriding KVM_GET_SUPPORTED_CPUID's answer for
-the WAITPKG bit depending on the "-overcommit cpu-pm" setting.  This is a
-bad idea because it does not even check if the host supports it, but it
-can be done in x86_cpu_realizefn just like we do for the MONITOR bit.
+The glib event loop does not call fdmon_io_uring_wait() so fd handlers
+waiting to be submitted build up in the list. There is no benefit is
+using io_uring when the glib GSource is being used, so disable it
+instead of implementing a more complex fix.
 
-This patch moves it there, while making it conditional on host
-support for the related UMWAIT MSR.
+This fixes a memory leak where AioHandlers would build up and increasing
+amounts of CPU time were spent iterating them in aio_pending(). The
+symptom is that guests become slow when QEMU is built with io_uring
+support.
 
-Cc: qemu-stable@nongnu.org
-Reported-by: Maxim Levitsky <mlevitsk@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-(cherry picked from commit e1e43813e7908b063938a3d01f172f88f6190c80)
+Buglink: https://bugs.launchpad.net/qemu/+bug/1877716
+Fixes: 73fd282e7b6dd4e4ea1c3bbb3d302c8db51e4ccf ("aio-posix: add io_uring fd monitoring implementation")
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Tested-by: Oleksandr Natalenko <oleksandr@redhat.com>
+Message-id: 20200511183630.279750-3-stefanha@redhat.com
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+(cherry picked from commit ba607ca8bff4d2c2062902f8355657c865ac7c29)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- target/i386/cpu.c      |  3 +++
- target/i386/kvm.c      | 11 +++++------
- target/i386/kvm_i386.h |  1 +
- 3 files changed, 9 insertions(+), 6 deletions(-)
+ include/block/aio.h |  3 +++
+ util/aio-posix.c    | 12 ++++++++++++
+ util/aio-win32.c    |  4 ++++
+ util/async.c        |  1 +
+ 4 files changed, 20 insertions(+)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 90ffc5f3b1..471db0724f 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -6491,6 +6491,9 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
-             host_cpuid(5, 0, &cpu->mwait.eax, &cpu->mwait.ebx,
-                        &cpu->mwait.ecx, &cpu->mwait.edx);
-             env->features[FEAT_1_ECX] |= CPUID_EXT_MONITOR;
-+            if (kvm_enabled() && kvm_has_waitpkg()) {
-+                env->features[FEAT_7_0_ECX] |= CPUID_7_0_ECX_WAITPKG;
-+            }
-         }
-         if (kvm_enabled() && cpu->ucode_rev == 0) {
-             cpu->ucode_rev = kvm_arch_get_supported_msr_feature(kvm_state,
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 4901c6dd74..f9c873bcad 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -407,12 +407,6 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
-         if (host_tsx_blacklisted()) {
-             ret &= ~(CPUID_7_0_EBX_RTM | CPUID_7_0_EBX_HLE);
-         }
--    } else if (function == 7 && index == 0 && reg == R_ECX) {
--        if (enable_cpu_pm) {
--            ret |= CPUID_7_0_ECX_WAITPKG;
--        } else {
--            ret &= ~CPUID_7_0_ECX_WAITPKG;
--        }
-     } else if (function == 7 && index == 0 && reg == R_EDX) {
-         /*
-          * Linux v4.17-v4.20 incorrectly return ARCH_CAPABILITIES on SVM hosts.
-@@ -4678,3 +4672,8 @@ int kvm_arch_msi_data_to_gsi(uint32_t data)
- {
-     abort();
- }
+diff --git a/include/block/aio.h b/include/block/aio.h
+index 62ed954344..b2f703fa3f 100644
+--- a/include/block/aio.h
++++ b/include/block/aio.h
+@@ -701,6 +701,9 @@ void aio_context_setup(AioContext *ctx);
+  */
+ void aio_context_destroy(AioContext *ctx);
+ 
++/* Used internally, do not call outside AioContext code */
++void aio_context_use_g_source(AioContext *ctx);
 +
-+bool kvm_has_waitpkg(void)
+ /**
+  * aio_context_set_poll_params:
+  * @ctx: the aio context
+diff --git a/util/aio-posix.c b/util/aio-posix.c
+index 8af334ab19..1b2a3af65b 100644
+--- a/util/aio-posix.c
++++ b/util/aio-posix.c
+@@ -682,6 +682,18 @@ void aio_context_destroy(AioContext *ctx)
+     aio_free_deleted_handlers(ctx);
+ }
+ 
++void aio_context_use_g_source(AioContext *ctx)
 +{
-+    return has_msr_umwait;
++    /*
++     * Disable io_uring when the glib main loop is used because it doesn't
++     * support mixed glib/aio_poll() usage. It relies on aio_poll() being
++     * called regularly so that changes to the monitored file descriptors are
++     * submitted, otherwise a list of pending fd handlers builds up.
++     */
++    fdmon_io_uring_destroy(ctx);
++    aio_free_deleted_handlers(ctx);
 +}
-diff --git a/target/i386/kvm_i386.h b/target/i386/kvm_i386.h
-index 00bde7acaf..064b8798a2 100644
---- a/target/i386/kvm_i386.h
-+++ b/target/i386/kvm_i386.h
-@@ -44,6 +44,7 @@ void kvm_put_apicbase(X86CPU *cpu, uint64_t value);
++
+ void aio_context_set_poll_params(AioContext *ctx, int64_t max_ns,
+                                  int64_t grow, int64_t shrink, Error **errp)
+ {
+diff --git a/util/aio-win32.c b/util/aio-win32.c
+index 729d533faf..953c56ab48 100644
+--- a/util/aio-win32.c
++++ b/util/aio-win32.c
+@@ -414,6 +414,10 @@ void aio_context_destroy(AioContext *ctx)
+ {
+ }
  
- bool kvm_enable_x2apic(void);
- bool kvm_has_x2apic_api(void);
-+bool kvm_has_waitpkg(void);
++void aio_context_use_g_source(AioContext *ctx)
++{
++}
++
+ void aio_context_set_poll_params(AioContext *ctx, int64_t max_ns,
+                                  int64_t grow, int64_t shrink, Error **errp)
+ {
+diff --git a/util/async.c b/util/async.c
+index 3165a28f2f..1319eee3bc 100644
+--- a/util/async.c
++++ b/util/async.c
+@@ -362,6 +362,7 @@ static GSourceFuncs aio_source_funcs = {
  
- bool kvm_hv_vpindex_settable(void);
- 
+ GSource *aio_get_g_source(AioContext *ctx)
+ {
++    aio_context_use_g_source(ctx);
+     g_source_ref(&ctx->source);
+     return &ctx->source;
+ }
 -- 
 2.17.1
 
