@@ -2,61 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27DC625CC0A
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:22:49 +0200 (CEST)
-Received: from localhost ([::1]:35386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A4F725CBE8
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:12:54 +0200 (CEST)
+Received: from localhost ([::1]:50050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwgy-0004yn-7W
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:22:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58694)
+	id 1kDwXN-0004kD-6z
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:12:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLQ-00041s-9A; Thu, 03 Sep 2020 17:00:32 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:40102)
+ id 1kDwLR-00042h-8V; Thu, 03 Sep 2020 17:00:33 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:36666)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLI-0007eN-Q8; Thu, 03 Sep 2020 17:00:28 -0400
-Received: by mail-oi1-x242.google.com with SMTP id t76so4498753oif.7;
- Thu, 03 Sep 2020 14:00:22 -0700 (PDT)
+ id 1kDwLK-0007eq-CQ; Thu, 03 Sep 2020 17:00:29 -0400
+Received: by mail-oi1-x242.google.com with SMTP id x19so4533844oix.3;
+ Thu, 03 Sep 2020 14:00:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=8SgwdOy9TwvppyJLuavJtnAY1UT8MfcLqFjl3hAfheE=;
- b=jtR+DsnKOXbw7HYmPgw/LCA9u5flrRRuKZI+D3AGFyf6IMJ5EmaHIY2vrnQ1tafp7U
- h122r/JJ7dM2R1DlYEQcWGYxNT7jB63moP5iqXwnxJQCCTI4tPJL/BeLvFOAU/Se/NfC
- 0xeEGYnI6SUkxhn2z9z0fRdMhpU5uqn7wYQmGqk1T45x4QjWasU/4KIqOm+ae8kE3RSF
- tp5ugjsZ2G8IhiwWymQbfC1VD4ZqsDfGtOURXzJDtRcyMhZd1I+TmEG0Hye3xYBeHPBI
- V/2p0JI1SZfjvrhYdyTnfeL/ay9B0pY8Y80fr5BHV4eMMN70ALE3ARoRy3mZVHJ2I+0H
- 8oUA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=OV98AiSKpkunegu+hWzJKS6snwZunhiA7NZUV3WFBUk=;
+ b=MKRgVDgj2FZNdNzR+l+hsU/YG+JXwYGnJxNinGOdCu438kHwACj9iqt+VGSUhPPmRn
+ tgyOz5scd5zlNxDCVH7ACf/zz+KxwCMdmtjE6YSK5k6SSWbUu3A/JwhmqUBBdzMII+xC
+ mKbReXFYWz06tvx1ak3nvs3PVS53QtiTT+e8vOGKAU9GJjJwb+0dleXE52X2fvlmAB/Y
+ U6hLfbLQgXIPV++5+xcPHhFhgWkPrVxEQ2EeVYuCVnSQDaRWmvURzI5mGOrWY/rmEkap
+ JcCX330WkrRg54ydFStTc1HwuyOeKUdzcU6WiMHBSqF/pyQpkpPex6biakuTVAbloCdF
+ y4Lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=8SgwdOy9TwvppyJLuavJtnAY1UT8MfcLqFjl3hAfheE=;
- b=Sc6hrkRMhdtH1fA8BHOkXbKm9A6P4p2p1fADvDwUk62Ah5kaz4GlMWlKKlDVj5cpBe
- ZxDHXnAFNcUsVBDUDIk4ZfqGcyz8hCOaNEsf6F40W2jKl099mKoHEKWwKkqcHC2gfhFV
- TV0B5/MS9YQFtpZU7ScbZoAdZgcxaq58kbTr6DvtQSDK4Yg6O1u5J+DCW3g1eVdvV6/X
- eunBv62cwVKQ1wHIuPKqNR9Vxe8LzOAvaexoxrdg9JlwykkfdDMFyyVERTwqLY38uYLm
- QsagFUliBdjV537D4AjcqiFoYJ+21XZ/2i8Bmwz3LydErdebSP6lLdbhPzH9BCNyAnDd
- EaOA==
-X-Gm-Message-State: AOAM530ycTQGQEsJj/nLr6GFSgVl8fMIaVnPuzbt1gRf+BbJGCd0lbdk
- +BbiVkSZQFOmTi+zB+KNufc7jwzLA6g=
-X-Google-Smtp-Source: ABdhPJwZ5cIu4iVoHE7fuxkAlz0CmRduev7XP90zHcvdRve34Dv00ENhoeNm7IpRvo5asLwe7YAocQ==
-X-Received: by 2002:aca:db0b:: with SMTP id s11mr3290990oig.161.1599166821506; 
- Thu, 03 Sep 2020 14:00:21 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=OV98AiSKpkunegu+hWzJKS6snwZunhiA7NZUV3WFBUk=;
+ b=NVKHOIYhU+GPDe+YO77Mo+aQUuC/UjPQR57uTZ6jtdbgUWayQfjGxIUZNQ9HqfCyF5
+ 1kfT7X7n+Fmsn3Z4jlFEz89t+0gTL5UojKhQsJ/1lDGQoG5/ybG+b0HZ9p6fOm7mJM/6
+ Df0I9lM/e1SkNsWVv3SDkSaYZU5JREA80vz1eRrLJYOcypxnotNtKsfmfiaO0nmo7+Ci
+ fcapP//Hf/aTjVOUjMKoVqRazfSv9Y7haEM0E/PhH/wKZbpERfDwHlz/gg3vZxlM2Htn
+ RgPlWGPQPVnaht38OFaFKSA8GGePs+tw8MmJg6UnAbBNk9yCz/GwE/0Ds/gImvkzF2cS
+ hx7w==
+X-Gm-Message-State: AOAM530mqYQXp1MMvmNUceE/5Yo97rT/ucifIQxpeHiBsMmjMidxMLhG
+ wKoSdPCxYwPSBqm46VtZv9VjjHd7yEQ=
+X-Google-Smtp-Source: ABdhPJzuSw7aM2YMePGtWdBFOfx8GyNKtieQT+gVhgdxaUptLiMmE3z5ELUFaRcSRDkMciZ/JDGfOw==
+X-Received: by 2002:aca:4b12:: with SMTP id y18mr3253674oia.28.1599166823736; 
+ Thu, 03 Sep 2020 14:00:23 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id 91sm792953otn.18.2020.09.03.14.00.20
+ by smtp.gmail.com with ESMTPSA id y83sm714235oiy.35.2020.09.03.14.00.23
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:00:20 -0700 (PDT)
+ Thu, 03 Sep 2020 14:00:23 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 32/77] acpi: accept byte and word access to core ACPI registers
-Date: Thu,  3 Sep 2020 15:58:50 -0500
-Message-Id: <20200903205935.27832-33-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 34/77] hw/net/e1000e: Do not abort() on invalid PSRCTL
+ register value
+Date: Thu,  3 Sep 2020 15:58:52 -0500
+Message-Id: <20200903205935.27832-35-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
  envelope-from=flukshun@gmail.com; helo=mail-oi1-x242.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
@@ -81,71 +86,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Tokarev <mjt@tls.msk.ru>, qemu-stable@nongnu.org,
- "Michael S . Tsirkin" <mst@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>, qemu-stable@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Michael Tokarev <mjt@tls.msk.ru>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-All ISA registers should be accessible as bytes, words or dwords
-(if wide enough).  Fix the access constraints for acpi-pm-evt,
-acpi-pm-tmr & acpi-cnt registers.
+libFuzzer found using 'qemu-system-i386 -M q35':
 
-Fixes: 5d971f9e67 (memory: Revert "memory: accept mismatching sizes in memory_region_access_valid")
-Fixes: afafe4bbe0 (apci: switch cnt to memory api)
-Fixes: 77d58b1e47 (apci: switch timer to memory api)
-Fixes: b5a7c024d2 (apci: switch evt to memory api)
-Buglink: https://lore.kernel.org/xen-devel/20200630170913.123646-1-anthony.perard@citrix.com/T/
-Buglink: https://bugs.debian.org/964793
-BugLink: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=964247
-BugLink: https://bugs.launchpad.net/bugs/1886318
-Reported-By: Simon John <git@the-jedi.co.uk>
-Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-Message-Id: <20200720160627.15491-1-mjt@msgid.tls.msk.ru>
+qemu: hardware error: e1000e: PSRCTL.BSIZE0 cannot be zero
+CPU #0:
+EAX=00000000 EBX=00000000 ECX=00000000 EDX=00000663
+ESI=00000000 EDI=00000000 EBP=00000000 ESP=00000000
+EIP=0000fff0 EFL=00000002 [-------] CPL=0 II=0 A20=1 SMM=0 HLT=0
+ES =0000 00000000 0000ffff 00009300
+CS =f000 ffff0000 0000ffff 00009b00
+SS =0000 00000000 0000ffff 00009300
+DS =0000 00000000 0000ffff 00009300
+FS =0000 00000000 0000ffff 00009300
+GS =0000 00000000 0000ffff 00009300
+LDT=0000 00000000 0000ffff 00008200
+TR =0000 00000000 0000ffff 00008b00
+GDT=     00000000 0000ffff
+IDT=     00000000 0000ffff
+CR0=60000010 CR2=00000000 CR3=00000000 CR4=00000000
+DR0=00000000 DR1=00000000 DR2=00000000 DR3=00000000
+DR6=ffff0ff0 DR7=00000400
+EFER=0000000000000000
+FCW=037f FSW=0000 [ST=0] FTW=00 MXCSR=00001f80
+FPR0=0000000000000000 0000 FPR1=0000000000000000 0000
+FPR2=0000000000000000 0000 FPR3=0000000000000000 0000
+FPR4=0000000000000000 0000 FPR5=0000000000000000 0000
+FPR6=0000000000000000 0000 FPR7=0000000000000000 0000
+XMM00=00000000000000000000000000000000 XMM01=00000000000000000000000000000000
+XMM02=00000000000000000000000000000000 XMM03=00000000000000000000000000000000
+XMM04=00000000000000000000000000000000 XMM05=00000000000000000000000000000000
+XMM06=00000000000000000000000000000000 XMM07=00000000000000000000000000000000
+==1988== ERROR: libFuzzer: deadly signal
+    #6 0x7fae4d3ea894 in __GI_abort (/lib64/libc.so.6+0x22894)
+    #7 0x563f4cc59a1d in hw_error (qemu-fuzz-i386+0xe8ca1d)
+    #8 0x563f4d7c93f2 in e1000e_set_psrctl (qemu-fuzz-i386+0x19fc3f2)
+    #9 0x563f4d7b798f in e1000e_core_write (qemu-fuzz-i386+0x19ea98f)
+    #10 0x563f4d7afc46 in e1000e_mmio_write (qemu-fuzz-i386+0x19e2c46)
+    #11 0x563f4cc9a0a7 in memory_region_write_accessor (qemu-fuzz-i386+0xecd0a7)
+    #12 0x563f4cc99c13 in access_with_adjusted_size (qemu-fuzz-i386+0xeccc13)
+    #13 0x563f4cc987b4 in memory_region_dispatch_write (qemu-fuzz-i386+0xecb7b4)
+
+It simply sent the following 2 I/O command to the e1000e
+PCI BAR #2 I/O region:
+
+  writew 0x0100 0x0c00 # RCTL =   E1000_RCTL_DTYP_MASK
+  writeb 0x2170 0x00   # PSRCTL = 0
+
+2813 static void
+2814 e1000e_set_psrctl(E1000ECore *core, int index, uint32_t val)
+2815 {
+2816     if (core->mac[RCTL] & E1000_RCTL_DTYP_MASK) {
+2817
+2818         if ((val & E1000_PSRCTL_BSIZE0_MASK) == 0) {
+2819             hw_error("e1000e: PSRCTL.BSIZE0 cannot be zero");
+2820         }
+
+Instead of calling hw_error() which abort the process (it is
+meant for CPU fatal error condition, not for device logging),
+log the invalid request with qemu_log_mask(LOG_GUEST_ERROR)
+and return, ignoring the request.
+
 Cc: qemu-stable@nongnu.org
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-(cherry picked from commit dba04c3488c4699f5afe96f66e448b1d447cf3fb)
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+(cherry picked from commit fda43b1204aecd1db158b3255c591d227fbdd629)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/acpi/core.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ hw/net/e1000e_core.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/hw/acpi/core.c b/hw/acpi/core.c
-index 45cbed49ab..d85052c34a 100644
---- a/hw/acpi/core.c
-+++ b/hw/acpi/core.c
-@@ -461,7 +461,8 @@ static void acpi_pm_evt_write(void *opaque, hwaddr addr, uint64_t val,
- static const MemoryRegionOps acpi_pm_evt_ops = {
-     .read = acpi_pm_evt_read,
-     .write = acpi_pm_evt_write,
--    .valid.min_access_size = 2,
-+    .impl.min_access_size = 2,
-+    .valid.min_access_size = 1,
-     .valid.max_access_size = 2,
-     .endianness = DEVICE_LITTLE_ENDIAN,
- };
-@@ -530,7 +531,8 @@ static void acpi_pm_tmr_write(void *opaque, hwaddr addr, uint64_t val,
- static const MemoryRegionOps acpi_pm_tmr_ops = {
-     .read = acpi_pm_tmr_read,
-     .write = acpi_pm_tmr_write,
--    .valid.min_access_size = 4,
-+    .impl.min_access_size = 4,
-+    .valid.min_access_size = 1,
-     .valid.max_access_size = 4,
-     .endianness = DEVICE_LITTLE_ENDIAN,
- };
-@@ -602,7 +604,8 @@ static void acpi_pm_cnt_write(void *opaque, hwaddr addr, uint64_t val,
- static const MemoryRegionOps acpi_pm_cnt_ops = {
-     .read = acpi_pm_cnt_read,
-     .write = acpi_pm_cnt_write,
--    .valid.min_access_size = 2,
-+    .impl.min_access_size = 2,
-+    .valid.min_access_size = 1,
-     .valid.max_access_size = 2,
-     .endianness = DEVICE_LITTLE_ENDIAN,
- };
+diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+index d5676871fa..bcd186cac5 100644
+--- a/hw/net/e1000e_core.c
++++ b/hw/net/e1000e_core.c
+@@ -34,9 +34,9 @@
+ */
+ 
+ #include "qemu/osdep.h"
++#include "qemu/log.h"
+ #include "net/net.h"
+ #include "net/tap.h"
+-#include "hw/hw.h"
+ #include "hw/pci/msi.h"
+ #include "hw/pci/msix.h"
+ #include "sysemu/runstate.h"
+@@ -2816,11 +2816,15 @@ e1000e_set_psrctl(E1000ECore *core, int index, uint32_t val)
+     if (core->mac[RCTL] & E1000_RCTL_DTYP_MASK) {
+ 
+         if ((val & E1000_PSRCTL_BSIZE0_MASK) == 0) {
+-            hw_error("e1000e: PSRCTL.BSIZE0 cannot be zero");
++            qemu_log_mask(LOG_GUEST_ERROR,
++                          "e1000e: PSRCTL.BSIZE0 cannot be zero");
++            return;
+         }
+ 
+         if ((val & E1000_PSRCTL_BSIZE1_MASK) == 0) {
+-            hw_error("e1000e: PSRCTL.BSIZE1 cannot be zero");
++            qemu_log_mask(LOG_GUEST_ERROR,
++                          "e1000e: PSRCTL.BSIZE1 cannot be zero");
++            return;
+         }
+     }
+ 
 -- 
 2.17.1
 
