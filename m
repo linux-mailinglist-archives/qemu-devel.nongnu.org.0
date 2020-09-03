@@ -2,68 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6378425CC3D
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:29:12 +0200 (CEST)
-Received: from localhost ([::1]:33848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3560325CBD9
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:10:27 +0200 (CEST)
+Received: from localhost ([::1]:42066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwn9-00081A-Cn
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:29:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58484)
+	id 1kDwV0-0001Lp-9H
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:10:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLB-0003ry-Dg; Thu, 03 Sep 2020 17:00:17 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:44047)
+ id 1kDwLG-0003yR-P0; Thu, 03 Sep 2020 17:00:24 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:35038)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwL9-0007Ui-KI; Thu, 03 Sep 2020 17:00:17 -0400
-Received: by mail-ot1-x343.google.com with SMTP id a2so3980736otr.11;
- Thu, 03 Sep 2020 14:00:14 -0700 (PDT)
+ id 1kDwLC-0007Zf-Pl; Thu, 03 Sep 2020 17:00:21 -0400
+Received: by mail-ot1-x341.google.com with SMTP id i4so4036940ota.2;
+ Thu, 03 Sep 2020 14:00:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=RtiowuAQkv312A5ys7+EMqL5vJk41pvA+ri5Ve8MLsg=;
- b=CeOl9TTuwTND8XKf4EXTnn841voh1MBgCRSGyn0h4uom/ihjf+XoLYcAyE3kV8uejO
- swgrw8Y7eJyHc+3+hh8N5AVWI7DXvPYApjSYrmHMiJRuFqyoxzj8IUMl8xKx8fGDMCBi
- sg7UvA11lE9hh+W2jiiWSYgF7scl0cbaDrpNeKqThOnap4knvhqF/Q5gpIyzxfrkAPxt
- BiizcxGi9UBmdqN02jWW67MLjhZdYY/nsAcrL4aGyBRtmjJosHwM2Oriz9on0eM8XtSu
- xRzzXKnr/EOHaOGEItgT2dF15QPnZyEmdopI7DYu+lfmNc0jKQDRPALkcdX4tFPZ2jnT
- E0CQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=I5YcjEc0mYbCjhyXYUDK76xwxAk1fFbjDKhJ0jp6vus=;
+ b=nLPz1M+bXftucc7WA0xXBzmflqfoMKy7Yu4FNYrIFWx20+DTO4Gboyy9yRQvnNA/Lq
+ obrw/vcK+8CbJ7Xzi8gICDeL8zAqXzqnZGJvCaOGK0Se6J9ZNSL2q5R+cefSa3Dacmut
+ 2juUm7JAl2u+N0Xlc+555Ou4MRbISF0yhxYumhyKhdtpJU522dwkBSMczJB/NqhoJYdW
+ N7JNchpCTJToBPn8gGnTFWv7+WqkRwTEz5fDrLAo8XmQaOiXrvyaRDEnj5cmbLcGJNJT
+ T/2yj4Kw0UN+u0FZEVPOr5mz3MZmHQ0mArKM4uUmsv7B36BmJN6q9GgzXbM7Zay2CDKD
+ rlGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=RtiowuAQkv312A5ys7+EMqL5vJk41pvA+ri5Ve8MLsg=;
- b=SoedIv8Nx5bQ6bh5n1Hsf1n9hEo9DUQjVFCrszG1vKcm0YsM+tZp54J8Vp1xaOE6+v
- 0mHEBRX+1OJGOGPJNka9kwZHMs841JLcoR5gt+VkKs1hep1PXtPPz7U8FixRG6VqJxpy
- GpTUYCjuaAnG6v/bLo/kXJWBh1cTud+nC2Xv3a8qLrMXHiMdPxT8heb+3MsiuFvp/U+L
- Fqn1oJxDTbwwsbsQxLaVYSe0mTi759dEIeZ0mwnC+tu49sC+OI31XUo7UAFG/ezFZEqU
- wFLuz2Uckse7ehrRQR2DibFZA6COdDvGm+Hb2lUZBMPE+qgOorPc1lmmfv18eVv+d1mS
- 1SXA==
-X-Gm-Message-State: AOAM533tXXisIv/NTBXZp13ztf3bsGOqWPQk7z9zzI6b/6WfQax//i+C
- Qt5+zo8CeCybQM+z06DM+6WocN33hME=
-X-Google-Smtp-Source: ABdhPJwzgt4QElx5SjNbrbNMMksX+d1txIE1M3j60cpnbNpIrvEOjs/sRCUGVM5LwAYhfw+oQU/lyg==
-X-Received: by 2002:a9d:6d95:: with SMTP id x21mr3138157otp.339.1599166813759; 
- Thu, 03 Sep 2020 14:00:13 -0700 (PDT)
+ :in-reply-to:references;
+ bh=I5YcjEc0mYbCjhyXYUDK76xwxAk1fFbjDKhJ0jp6vus=;
+ b=XhqivyrBB2q5mOhfJoYUAjlEqbaX16RUqDmenTJDD7QawW/66sW5mDJAar+JN03H1H
+ l2Zn/GCvm7O7vGXLf5KFja0UC8sk/PitSOgNjSw48z1ZWINLCf31JDs8FmOVnlu61VmG
+ Her9E2ynnDnO3KO+cfON7cygSgcK682jMEE1ouKFz6E9EBaSrRpiZ3qx76rV7mgZk5wE
+ BckjmyYEmjiLZlrWuc1oXz75bpoIVvqVpn3m9LvYl3D0m66/86eDCiOqx0VsJ/udtTfz
+ gaPv1uWbuHVGhrzbVcnamMOD4dmafYwZr2g/46sy9ylUkzYi8ElxaJwjGUe1kGHo3KNB
+ Ij9Q==
+X-Gm-Message-State: AOAM531hJp+rKG3Uj63IBbZ85kp5jV3xWOPogH0pGFcibe/p/MR+VCY7
+ cBe5WwnkBdauSEGLj1dRE+yXVuL6YPs=
+X-Google-Smtp-Source: ABdhPJwJKMhr3VktPGcVQa/Ad4uBsZ7hDB3ZtYenDazGEDA94jfU0X0y/2lpLYwqycDIvaRg7X/X7g==
+X-Received: by 2002:a9d:4e90:: with SMTP id v16mr3048185otk.363.1599166817059; 
+ Thu, 03 Sep 2020 14:00:17 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id e7sm205748otk.59.2020.09.03.14.00.12
+ by smtp.gmail.com with ESMTPSA id f50sm767889otf.47.2020.09.03.14.00.16
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:00:13 -0700 (PDT)
+ Thu, 03 Sep 2020 14:00:16 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 26/77] linux-user/strace.list: fix epoll_create{,
- 1} -strace output
-Date: Thu,  3 Sep 2020 15:58:44 -0500
-Message-Id: <20200903205935.27832-27-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 29/77] memory: Revert "memory: accept mismatching sizes in
+ memory_region_access_valid"
+Date: Thu,  3 Sep 2020 15:58:47 -0500
+Message-Id: <20200903205935.27832-30-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x343.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -86,64 +82,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, qemu-stable@nongnu.org,
- Sergei Trofimovich <slyfox@gentoo.org>, Laurent Vivier <laurent@vivier.eu>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-stable@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Sergei Trofimovich <slyfox@gentoo.org>
+From: "Michael S. Tsirkin" <mst@redhat.com>
 
-Fix syscall name and parameters priinter.
+Memory API documentation documents valid .min_access_size and .max_access_size
+fields and explains that any access outside these boundaries is blocked.
 
-Before the change:
+This is what devices seem to assume.
 
-```
-$ alpha-linux-user/qemu-alpha -strace -L /usr/alpha-unknown-linux-gnu/ /tmp/a
-...
-1274697 %s(%d)(2097152,274903156744,274903156760,274905840712,274877908880,274903235616) = 3
-1274697 exit_group(0)
-```
+However this is not what the implementation does: it simply
+ignores the boundaries unless there's an "accepts" callback.
 
-After the change:
+Naturally, this breaks a bunch of devices.
 
-```
-$ alpha-linux-user/qemu-alpha -strace -L /usr/alpha-unknown-linux-gnu/ /tmp/a
-...
-1273719 epoll_create1(2097152) = 3
-1273719 exit_group(0)
-```
+Revert to the documented behaviour.
 
-Fixes: 9cbc0578cb6 ("Improve output of various syscalls")
-Signed-off-by: Sergei Trofimovich <slyfox@gentoo.org>
-CC: Riku Voipio <riku.voipio@iki.fi>
-CC: Laurent Vivier <laurent@vivier.eu>
+Devices that want to allow any access can just drop the valid field,
+or add the impl field to have accesses converted to appropriate
+length.
+
 Cc: qemu-stable@nongnu.org
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200416175957.1274882-1-slyfox@gentoo.org>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-(cherry picked from commit fd568660b7ae9b9e45cbb616acc91ae4c065c32d)
+Reviewed-by: Richard Henderson <rth@twiddle.net>
+Fixes: CVE-2020-13754
+Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1842363
+Fixes: a014ed07bd5a ("memory: accept mismatching sizes in memory_region_access_valid")
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Message-Id: <20200610134731.1514409-1-mst@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+(cherry picked from commit 5d971f9e672507210e77d020d89e0e89165c8fc9)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- linux-user/strace.list | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ memory.c | 29 +++++++++--------------------
+ 1 file changed, 9 insertions(+), 20 deletions(-)
 
-diff --git a/linux-user/strace.list b/linux-user/strace.list
-index d49a1e92a8..9281c0a758 100644
---- a/linux-user/strace.list
-+++ b/linux-user/strace.list
-@@ -125,10 +125,10 @@
- { TARGET_NR_dup3, "dup3" , "%s(%d,%d,%d)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_epoll_create
--{ TARGET_NR_epoll_create, "%s(%d)", NULL, NULL, NULL },
-+{ TARGET_NR_epoll_create, "epoll_create", "%s(%d)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_epoll_create1
--{ TARGET_NR_epoll_create1, "%s(%d)", NULL, NULL, NULL },
-+{ TARGET_NR_epoll_create1, "epoll_create1", "%s(%d)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_epoll_ctl
- { TARGET_NR_epoll_ctl, "epoll_ctl" , NULL, NULL, NULL },
+diff --git a/memory.c b/memory.c
+index 601b749906..e31aed6446 100644
+--- a/memory.c
++++ b/memory.c
+@@ -1352,35 +1352,24 @@ bool memory_region_access_valid(MemoryRegion *mr,
+                                 bool is_write,
+                                 MemTxAttrs attrs)
+ {
+-    int access_size_min, access_size_max;
+-    int access_size, i;
+-
+-    if (!mr->ops->valid.unaligned && (addr & (size - 1))) {
++    if (mr->ops->valid.accepts
++        && !mr->ops->valid.accepts(mr->opaque, addr, size, is_write, attrs)) {
+         return false;
+     }
+ 
+-    if (!mr->ops->valid.accepts) {
+-        return true;
+-    }
+-
+-    access_size_min = mr->ops->valid.min_access_size;
+-    if (!mr->ops->valid.min_access_size) {
+-        access_size_min = 1;
++    if (!mr->ops->valid.unaligned && (addr & (size - 1))) {
++        return false;
+     }
+ 
+-    access_size_max = mr->ops->valid.max_access_size;
++    /* Treat zero as compatibility all valid */
+     if (!mr->ops->valid.max_access_size) {
+-        access_size_max = 4;
++        return true;
+     }
+ 
+-    access_size = MAX(MIN(size, access_size_max), access_size_min);
+-    for (i = 0; i < size; i += access_size) {
+-        if (!mr->ops->valid.accepts(mr->opaque, addr + i, access_size,
+-                                    is_write, attrs)) {
+-            return false;
+-        }
++    if (size > mr->ops->valid.max_access_size
++        || size < mr->ops->valid.min_access_size) {
++        return false;
+     }
+-
+     return true;
+ }
+ 
 -- 
 2.17.1
 
