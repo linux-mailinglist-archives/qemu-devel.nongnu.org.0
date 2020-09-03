@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6C1825C6F9
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 18:35:21 +0200 (CEST)
-Received: from localhost ([::1]:37406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2DC325C702
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 18:36:28 +0200 (CEST)
+Received: from localhost ([::1]:41268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDsCm-0006gB-Or
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 12:35:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37758)
+	id 1kDsDs-0008Kp-25
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 12:36:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1kDru7-0004Gq-4q
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:16:03 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:60864
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kDruv-0004m5-EU
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:16:53 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31940
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1kDru4-0000ji-MW
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:16:02 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kDrut-0000rh-3r
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:16:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599149760;
+ s=mimecast20190719; t=1599149810;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eT0EEa82buNGU2M6NCOdQv5kzk8iyJg5XUwD3IgGAms=;
- b=fCky/zmOf5jmq7/7y0oFe8929PzKQL80GFkUKRvH8De1cSOvmjkc5GY+vF10+N5f9hHMds
- Z4RuAv/FEqX/tkiLbbLuW+bZU3RcqAOkPs7ejxxNGMK6hWEbySUK4YzkzsS/Fyl+esecB3
- 4WjrxRiU3Nd5onJ5STo2T70+GRlBKkg=
+ bh=xk/k+a0JrnT/sfqhOU7JVN/uTTbpZzpNspBQJyGENig=;
+ b=V06lR6upFafzulwnaQmyeTcPzzD0se+ugu3XV/2cWE2yR0q3FX9DPU2ePgBvyrSu5sjZnu
+ IjRTjvVWUCVmxr0+v3ArnpyTKQFdoIWexM0q2XXzgdprYCpZxP5IalTGY0aPF/8EO7dySd
+ x5IKTbmN90btHltXWSaHpxYLgZ7fp50=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-241-3nfKtPf6MimaMeVL3OrNTQ-1; Thu, 03 Sep 2020 12:15:57 -0400
-X-MC-Unique: 3nfKtPf6MimaMeVL3OrNTQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-197-qyty5IZIPy27PZokcTMFNQ-1; Thu, 03 Sep 2020 12:16:48 -0400
+X-MC-Unique: qyty5IZIPy27PZokcTMFNQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A879510082E8;
- Thu,  3 Sep 2020 16:15:55 +0000 (UTC)
-Received: from eperezma.remote.csb (ovpn-112-236.ams2.redhat.com
- [10.36.112.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9E59D5C1C2;
- Thu,  3 Sep 2020 16:15:48 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
-To: Peter Xu <peterx@redhat.com>,
-	qemu-devel@nongnu.org
-Subject: [PATCH 4/5] intel_iommu: Skip page walking on device iotlb
- invalidations
-Date: Thu,  3 Sep 2020 18:14:45 +0200
-Message-Id: <20200903161446.29615-5-eperezma@redhat.com>
-In-Reply-To: <20200903161446.29615-1-eperezma@redhat.com>
-References: <20200625191651.5817-1-eperezma@redhat.com>
- <20200903161446.29615-1-eperezma@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82FDF801AEA;
+ Thu,  3 Sep 2020 16:16:47 +0000 (UTC)
+Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4043610013D9;
+ Thu,  3 Sep 2020 16:16:47 +0000 (UTC)
+Date: Thu, 3 Sep 2020 12:16:46 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH 20/63] pc87312: Rename TYPE_PC87312_SUPERIO to TYPE_PC87312
+Message-ID: <20200903161646.GG4940@habkost.net>
+References: <20200902224311.1321159-1-ehabkost@redhat.com>
+ <20200902224311.1321159-21-ehabkost@redhat.com>
+ <2863f7ea-6fde-5a2e-b55f-e805f5db35be@amsat.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <2863f7ea-6fde-5a2e-b55f-e805f5db35be@amsat.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 04:23:49
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 00:24:51
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -85,50 +84,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Yan Zhao <yan.y.zhao@intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Eric Auger <eric.auger@redhat.com>, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- Avi Kivity <avi@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Richard Henderson <rth@twiddle.net>
+Cc: =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
+ berrange@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Although they didn't reach the notifier because of the filtering in
-memory_region_notify_iommu_one, the vt-d was still splitting huge
-memory invalidations in chunks. Skipping it.
+On Thu, Sep 03, 2020 at 02:45:12PM +0200, Philippe Mathieu-Daudé wrote:
+> On 9/3/20 12:42 AM, Eduardo Habkost wrote:
+> > This will make the type name constant consistent with the name of
+> > the type checking macro.
+> > 
+> > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> > ---
+> > Cc: "Hervé Poussineau" <hpoussin@reactos.org>
+> > Cc: qemu-ppc@nongnu.org
+> > Cc: qemu-devel@nongnu.org
+> > ---
+> >  include/hw/isa/pc87312.h | 4 ++--
+> >  hw/isa/pc87312.c         | 2 +-
+> >  2 files changed, 3 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/include/hw/isa/pc87312.h b/include/hw/isa/pc87312.h
+> > index a65168a157..da8dc5ddf5 100644
+> > --- a/include/hw/isa/pc87312.h
+> > +++ b/include/hw/isa/pc87312.h
+> > @@ -29,10 +29,10 @@
+> >  #include "qom/object.h"
+> >  
+> >  
+> > -#define TYPE_PC87312_SUPERIO "pc87312"
+> > +#define TYPE_PC87312 "pc87312"
+> 
+> We loose self-documentation. What is a TYPE_PC87312
+> when reviewing a board setup code? Should we add a
+> comment /* Create the Super I/O */? The current name
+> is self-describing...
+> 
+> Is it easier to rename the type as 'pc87312-superio'?
 
-This improves performance in case of netperf with vhost-net:
-* TCP_STREAM: From 1923.6Mbit/s to 2175.13Mbit/s (13%)
-* TCP_RR: From 8464.73 trans/s to 8932.703333 trans/s (5.5%)
-* UDP_RR: From 8562.08 trans/s to 9005.62/s (5.1%)
-* UDP_STREAM: No change observed (insignificant 0.1% improvement)
+This is an option.  In that case, I would like to rename the
+PC87312 type checking macro to PC87312_SUPERIO, if that's OK.
 
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
----
- hw/i386/intel_iommu.c | 4 ++++
- 1 file changed, 4 insertions(+)
+The actual string name doesn't matter for the QOM macros, by the
+way.  We can still rename it if you want to, but we don't have
+to.
 
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index ab6833d5a0..fbbda0c87e 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -1478,6 +1478,10 @@ static int vtd_sync_shadow_page_table(VTDAddressSpace *vtd_as)
-     VTDContextEntry ce;
-     IOMMUNotifier *n;
- 
-+    if (!(vtd_as->iommu.iommu_notify_flags & IOMMU_NOTIFIER_IOTLB_EVENTS)) {
-+        return 0;
-+    }
-+
-     ret = vtd_dev_to_context_entry(vtd_as->iommu_state,
-                                    pci_bus_num(vtd_as->bus),
-                                    vtd_as->devfn, &ce);
 -- 
-2.18.1
+Eduardo
 
 
