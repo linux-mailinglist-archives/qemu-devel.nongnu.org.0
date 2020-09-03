@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C30425CCBB
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:50:32 +0200 (CEST)
-Received: from localhost ([::1]:45390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0818825CCCC
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:52:34 +0200 (CEST)
+Received: from localhost ([::1]:52502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDx7n-0005uP-1Y
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:50:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59378)
+	id 1kDx9l-0000Vj-0t
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:52:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLw-0004wu-As; Thu, 03 Sep 2020 17:01:04 -0400
-Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:38503)
+ id 1kDwLw-0004xH-Qx; Thu, 03 Sep 2020 17:01:04 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:38621)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLt-0007ph-Gi; Thu, 03 Sep 2020 17:01:03 -0400
-Received: by mail-oi1-x22a.google.com with SMTP id y6so4514799oie.5;
- Thu, 03 Sep 2020 14:01:00 -0700 (PDT)
+ id 1kDwLv-0007qK-2y; Thu, 03 Sep 2020 17:01:04 -0400
+Received: by mail-oi1-x244.google.com with SMTP id y6so4514878oie.5;
+ Thu, 03 Sep 2020 14:01:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=J5mrcebEEpiZtia/WaO3DA7r7OpI7bIX2tDGLHmyEhs=;
- b=nwEX8IKyKQ6TAIjvlR2cfpkbAihlKBEihOhbC/fOnOiMXJ9pUJxOPnSawUZGUABA2p
- bPTHgS5cTadspvYZHFMP4h9I8YM0L0R+co3E30Z7ph4AjeIR7HB1RvRXxEOkwtRTO2dV
- TGmyOwR1WBRElufNieK0Zpk/YPoDaiAogwtvoPDDh3Eq3JyTzlT87evFM0RZPm7QfVvm
- aeJ2SdNEz1ir2uDIhFX7BiZLqa5whvDc5TpzCZyxvZVb21dirxsves9YELD242gRBTG9
- kndy2NuMBc9jNIrYqETHd+z2/MG5lkHiBIJT7IiTJUZCYzcmUbt2d0WYXSZ0QTCDVlxr
- j9tQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=6sopWa3b6iZGsfPhmep7blcBK54TQmJ/CkRAM88fyYE=;
+ b=D6OtWzvOyBZyNVF95/oyLszPwT+KpsjiXUqf5If8bU/Qh9imETvmnlLZ5HBTscqARJ
+ ib1/jSk1dY74B0l6b9KngunO2f0wpDC2qDGgara55qPNifZlF4K2WCbuHZGd7sQeO62b
+ cZyo11JCQKog4m3OtBT++xIs2JJNfh8LmNIeXZT6LR8Q7lbiB0PizCs3yu7pJa1kOvqM
+ sRAQwfDQPBUhFDVYleGZC4RT6HjiDK4RMyg2Av0jyRXT6UYD3OVrb5aTn/IpXbwAzv9C
+ qtdTB9YpoypGG/G7pzhcsS8AduWxtG6pFjipkTeBosMK9oKfqyDpADDkKZvt37VrjBYD
+ ZKzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=J5mrcebEEpiZtia/WaO3DA7r7OpI7bIX2tDGLHmyEhs=;
- b=kF2qCqg5474k4bM/CCht0fIwPCuMh3vmC/HlDXhSdBRtcQ6daj9AXsKhVf2B+3nBrR
- TyKWwW9UryMsfk0LQQviRY3QpgMXryrtyMOhNSfk3Nn0DMjtfG6fVpT3g+CDJqJbTIQS
- Nywm50hYHWh6WOL6LClWiFEGcLQJaAGAQOz3NJYcbMHESu4vJxv4vAkR8UyCryeDUW95
- DFozfJT5uVJ3TL1eiEyr/Img+gWJCgZvsAF4GtbH7fyavghypUcxe7LilFZl0mlVgnOt
- h8QvTzdQmqONgJKg312he84uoLrbsV0Nb6BREHx6uQ/Uxr61IaGG+oFjKsbMmX0TbTBF
- Fpbg==
-X-Gm-Message-State: AOAM532skcsyw6FRJsz8o/fSv6pgoOpa7A8F00jFLY9kxe2LwvEpBwqa
- 5/pl7wxMblVEqSPfkXTVdBHVwLs/6BPr3w==
-X-Google-Smtp-Source: ABdhPJypvYo3b+ibutqMHOkUgaTnTNWJsv5Lh1c4Kuv9x3z0NkReaNS8d62fwIhGRyHCuZ8lQdzvEA==
-X-Received: by 2002:aca:eb82:: with SMTP id j124mr3356100oih.39.1599166859683; 
- Thu, 03 Sep 2020 14:00:59 -0700 (PDT)
+ :in-reply-to:references;
+ bh=6sopWa3b6iZGsfPhmep7blcBK54TQmJ/CkRAM88fyYE=;
+ b=PCGdQW9I2Bs8kc6Is/x0QXF74xEfeem/D+Q76g1xDc0p30RRQqm6ccWRKUPRuBp8Uh
+ 06JcOH6wnIkLTG0uHc1JDkYvbZLZ/o2EEWaC5blFBM75vu/cO1fQdl0eJMNKDVanwFiZ
+ GgouRplkDJnkhOl865PGiCJb8W3FpSS/b0dLpu04UM/w4gS5Inaxnmgbg2vyZAvagYAl
+ TRDqLWUAlp+k3eWr1YkdwoSCNtxkVIKuoob3xG45tYjTH2XCpcMz40bbjUJZTEQfuCdb
+ 7LYpHzRyGRD3j+xEi4k84wnFrf/LTNWrNCyxM4omXT9d0ThIssjqKfsbiIpkERt922Y9
+ iEWw==
+X-Gm-Message-State: AOAM530pzpVsPKQAE/y8azGeLVvxt/4FKEWvfOdtfVqz4mQOoIrqzngU
+ Pg74ebj//4enax3s9h80bweVw1a4KidAKg==
+X-Google-Smtp-Source: ABdhPJwaXRhtMv8BjNSUOl5LHh7UrzWk7yp+3GyL2TEth7DIsNbbgZTJ7QJKGX6/mPSynAQSXDFwzw==
+X-Received: by 2002:aca:4b95:: with SMTP id y143mr3410873oia.121.1599166860982; 
+ Thu, 03 Sep 2020 14:01:00 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id l3sm842867oom.18.2020.09.03.14.00.59
+ by smtp.gmail.com with ESMTPSA id l23sm766436otk.79.2020.09.03.14.01.00
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:00:59 -0700 (PDT)
+ Thu, 03 Sep 2020 14:01:00 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 59/77] qdev: Fix device_add DRIVER,help to print to monitor
-Date: Thu,  3 Sep 2020 15:59:17 -0500
-Message-Id: <20200903205935.27832-60-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 60/77] virtio-balloon: Prevent guest from starting a report
+ when we didn't request one
+Date: Thu,  3 Sep 2020 15:59:18 -0500
+Message-Id: <20200903205935.27832-61-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22a;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x22a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
+ envelope-from=flukshun@gmail.com; helo=mail-oi1-x244.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -85,46 +82,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- qemu-stable@nongnu.org, Markus Armbruster <armbru@redhat.com>
+Cc: Alexander Duyck <alexander.h.duyck@linux.intel.com>, qemu-stable@nongnu.org,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Markus Armbruster <armbru@redhat.com>
+From: Alexander Duyck <alexander.h.duyck@linux.intel.com>
 
-Help on device properties gets printed to stdout instead of the
-monitor.  If you have the monitor anywhere else, no help for you.
-Broken when commit e1043d674d "qdev: use object_property_help()"
-accidentally switched from qemu_printf() to printf().  Switch right
-back.
+Based on code review it appears possible for the driver to force the device
+out of a stopped state when hinting by repeating the last ID it was
+provided.
 
-Fixes: e1043d674d792ff64aebae1a3eafc08b38a8a085
-Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
+Prevent this by only allowing a transition to the start state when we are
+in the requested state. This way the driver is only allowed to send one
+descriptor that will transition the device into the start state. All others
+will leave it in the stop state once it has finished.
+
+Fixes: c13c4153f76d ("virtio-balloon: VIRTIO_BALLOON_F_FREE_PAGE_HINT")
+Acked-by: David Hildenbrand <david@redhat.com>
+Signed-off-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
+Message-Id: <20200720175115.21935.99563.stgit@localhost.localdomain>
 Cc: qemu-stable@nongnu.org
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20200714160202.3121879-2-armbru@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-(cherry picked from commit 029afc4e76041e1a320530d97f99122a1b3d5da2)
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+(cherry picked from commit 20a4da0f23078deeff5ea6d1e12f47d968d7c3c9)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- qdev-monitor.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/virtio/virtio-balloon.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/qdev-monitor.c b/qdev-monitor.c
-index 9833b33549..6bf6339ff5 100644
---- a/qdev-monitor.c
-+++ b/qdev-monitor.c
-@@ -299,7 +299,7 @@ int qdev_device_help(QemuOpts *opts)
-     }
-     g_ptr_array_sort(array, (GCompareFunc)qemu_pstrcmp0);
-     for (i = 0; i < array->len; i++) {
--        printf("%s\n", (char *)array->pdata[i]);
-+        qemu_printf("%s\n", (char *)array->pdata[i]);
-     }
-     g_ptr_array_set_free_func(array, g_free);
-     g_ptr_array_free(array, true);
+diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+index e20f90dad4..a30a0c7bfa 100644
+--- a/hw/virtio/virtio-balloon.c
++++ b/hw/virtio/virtio-balloon.c
+@@ -466,7 +466,8 @@ static bool get_free_page_hints(VirtIOBalloon *dev)
+             ret = false;
+             goto out;
+         }
+-        if (id == dev->free_page_report_cmd_id) {
++        if (dev->free_page_report_status == FREE_PAGE_REPORT_S_REQUESTED &&
++            id == dev->free_page_report_cmd_id) {
+             dev->free_page_report_status = FREE_PAGE_REPORT_S_START;
+         } else {
+             /*
 -- 
 2.17.1
 
