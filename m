@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7281625CD31
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 00:09:41 +0200 (CEST)
-Received: from localhost ([::1]:59378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D20D25CD1A
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 00:05:01 +0200 (CEST)
+Received: from localhost ([::1]:42554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDxQK-0002Hi-Gu
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 18:09:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39722)
+	id 1kDxLo-0003pT-Fk
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 18:05:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kDwym-0007RO-GK
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:41:14 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:46152)
+ id 1kDwyr-0007TK-Hs
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:41:17 -0400
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:38145)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kDwyh-0004aB-2W
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:41:12 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id 31so3141132pgy.13
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 14:41:06 -0700 (PDT)
+ id 1kDwym-0004al-N9
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:41:16 -0400
+Received: by mail-pg1-x52c.google.com with SMTP id l191so3164590pgd.5
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 14:41:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IMG3qseWSaOmr5obAEbYxrSknPJe5yf/j+8Oo8HLII4=;
- b=VOrzOhmlVAWCYlFKporFwHYZxIC51hXuBXnY4gSTM16rv4qVYEl8t4IBIo2fI/SYn9
- Dc3sxXqdOPM7molRjqDUKOT5NX0VOvSsT+H7A2ioRyADljrQyIrA09BZmAaQq3042rHO
- B42IqSWmrgTa2QyLb+/vjRihknaqPgy47CAjBWFpkl0f6n5j43sM9MO3DkMJ8CLNH1+Q
- OFQb9liuAfIfZ659RmqTNCPvN/XPyXHqtQXBFEd1+v6eycpcMOcJhE52Nslj8AvMLDPN
- 03oVs3gL7g3KC6QCmsl6UDsMTJoYTaql5rfblK3p3+3yFCdT3U8f94zwmNFAPRyNZ7sG
- UWrA==
+ bh=XhMSwJ2jkxWxuBTzeCmlaoUshyrdzQ2sWDC5rvAjlMw=;
+ b=fbUCyK71YOSWuyozk4rmhaR+mgQzn6PTYzicPW2WJwUIlYN0XCHpvUl3c5flK5GtzU
+ 3u30FNI5Z5AshCtiqjot4nCgd3tTPAkTX5IdpUWysy2annB0xTtNg+MxCc8J2AfWv/Sn
+ va7rd+ocBjm7q+5zyynog+PE0GwqP4YlBHo0PcmlcfPUOXALZoJMrxA33zeJYudab5HY
+ ggFA74cdKdlWz5Se+Lp9WTDwzuJh2XtCanRg3rtvB+Mph+tx2rOlp4psptYRexemkBo0
+ EtAHIkHqaBZHq9QehCI46fdH60EiDSoWfaHVxKIjrUW+J3n6iqMuh7y3WyV6GopXTMdw
+ 3XHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IMG3qseWSaOmr5obAEbYxrSknPJe5yf/j+8Oo8HLII4=;
- b=lCmqSBG/iEr7jFBYNhBezjMC4hxMnzTSn5RoWiglvg82lBgWGy7YAAyZiVF7gCHxud
- 9jlS34i7VWjMeKBSuZFUY2oVf0Vna4zkaxG5XF+/5bH/osWrb4du0M3k6kNEzZ8WGH+4
- XnyqItU93GIyFYiK1YgQMyPVTv0s8X1Euou99RUnEOZUtk2c1nnfnrQ2XPUcnjJknPVp
- 2cMgBGLfYOuc5Y+/g8AmEUP/HJAsNItIivnJeGI7FMY51w+/lKvzqgLynTDp8SL+fMV9
- yA5TXoQZAAnSRpqs1zmFGTRudnxAC6MUsOqNv5QdnVqudtJSGsEV8Dexgg5l55M/F3/G
- SyzQ==
-X-Gm-Message-State: AOAM5305MlOX5jTNuJDaqeVup8/WQvgAen4EbPaoFME8RMkbq68q/5LX
- XYfOzueYynyNU4Jz9B25lK6BRLwGN2LxCA==
-X-Google-Smtp-Source: ABdhPJyFJy94Zeik0GYh7GFnbIOy96MXCrOdU3ON6w8WAG71YBnpBE5aXx9Azaar98ZEFbEmsm9XtA==
-X-Received: by 2002:a62:6003:: with SMTP id u3mr258146pfb.55.1599169264941;
- Thu, 03 Sep 2020 14:41:04 -0700 (PDT)
+ bh=XhMSwJ2jkxWxuBTzeCmlaoUshyrdzQ2sWDC5rvAjlMw=;
+ b=LiMCzOB04keSnzHnC0A4iIdMd7LVmir/bnFI25nbTkP96+MT3M27Yemh5AFdKLLk/k
+ KEj/Xb4lFFDdbYb1AJ5h0E9RtD/HSfTY5mT80h5jqHljnXXUWZTYmoGAzgT1FvSyFK0m
+ +RVplJT/YGo+PnbaE2WDu3i/Uo0/4jXGXe1YqWU9JTiQgYBXCOV+dLSOCUlYWYOGzfI5
+ 9pU6jJ6NfrdaYWuPupORBk+i4Owa/jFvt2NADCH+iQeSxeyLLa0Om8clK5iF3W4EW9Lz
+ +ZXvp9OA3HnOYlGs54HrahciNxflqMCiajQ/12T5o2/bHmkiRoiNktn9WYfCSy8Xhfrg
+ 0goA==
+X-Gm-Message-State: AOAM5318tQLNxgy9X+dz0I4BW14StmZcIE8uER5bOlcxapvXPrw6DsYg
+ 1WL622NYobDN1cOIHofAfetLQ98QiTIxSw==
+X-Google-Smtp-Source: ABdhPJyUyOCLK1s2Ur/M1ErMpX8tT3GnMLFycu0N1b7WGAJUMprdpvI+xLd8Zf3/bWtlWE+VZq6dfw==
+X-Received: by 2002:a62:1d44:: with SMTP id d65mr5725038pfd.150.1599169270638; 
+ Thu, 03 Sep 2020 14:41:10 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id v17sm4113290pfn.24.2020.09.03.14.41.03
+ by smtp.gmail.com with ESMTPSA id v17sm4113290pfn.24.2020.09.03.14.41.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Sep 2020 14:41:04 -0700 (PDT)
+ Thu, 03 Sep 2020 14:41:10 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/5] cputlb: Make store_helper less fragile to compiler
- optimizations
-Date: Thu,  3 Sep 2020 14:40:57 -0700
-Message-Id: <20200903214101.1746878-2-richard.henderson@linaro.org>
+Subject: [PULL 5/5] tcg: Implement 256-bit dup for tcg_gen_gvec_dup_mem
+Date: Thu,  3 Sep 2020 14:41:01 -0700
+Message-Id: <20200903214101.1746878-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200903214101.1746878-1-richard.henderson@linaro.org>
 References: <20200903214101.1746878-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,229 +86,92 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Shu-Chun Weng <scw@google.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This has no functional change.
+We already support duplication of 128-bit blocks.  This extends
+that support to 256-bit blocks.  This will be needed by SVE2.
 
-The current function structure is:
-
-    inline QEMU_ALWAYSINLINE
-    store_memop() {
-        switch () {
-            ...
-        default:
-            qemu_build_not_reached();
-        }
-    }
-    inline QEMU_ALWAYSINLINE
-    store_helper() {
-        ...
-        if (span_two_pages_or_io) {
-            ...
-            helper_ret_stb_mmu();
-        }
-        store_memop();
-    }
-    helper_ret_stb_mmu() {
-        store_helper();
-    }
-
-Whereas GCC will generate an error at compile-time when an always_inline
-function is not inlined, Clang does not.  Nor does Clang prioritize the
-inlining of always_inline functions.  Both of these are arguably bugs.
-
-Both `store_memop` and `store_helper` need to be inlined and allow
-constant propogations to eliminate the `qemu_build_not_reached` call.
-
-However, if the compiler instead chooses to inline helper_ret_stb_mmu
-into store_helper, then store_helper is now self-recursive and the
-compiler is no longer able to propagate the constant in the same way.
-
-This does not produce at current QEMU head, but was reproducible
-at v4.2.0 with `clang-10 -O2 -fexperimental-new-pass-manager`.
-
-The inline recursion problem can be fixed solely by marking
-helper_ret_stb_mmu as noinline, so the compiler does not make an
-incorrect decision about which functions to inline.
-
-In addition, extract store_helper_unaligned as a noinline subroutine
-that can be shared by all of the helpers.  This saves about 6k code
-size in an optimized x86_64 build.
-
-Reported-by: Shu-Chun Weng <scw@google.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cputlb.c | 138 ++++++++++++++++++++++++++-------------------
- 1 file changed, 79 insertions(+), 59 deletions(-)
+ tcg/tcg-op-gvec.c | 52 ++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 49 insertions(+), 3 deletions(-)
 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 2d48281942..6489abbf8c 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -2009,6 +2009,80 @@ store_memop(void *haddr, uint64_t val, MemOp op)
-     }
- }
+diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
+index fcc25b04e6..7ebd9e8298 100644
+--- a/tcg/tcg-op-gvec.c
++++ b/tcg/tcg-op-gvec.c
+@@ -1570,12 +1570,10 @@ void tcg_gen_gvec_dup_mem(unsigned vece, uint32_t dofs, uint32_t aofs,
+             do_dup(vece, dofs, oprsz, maxsz, NULL, in, 0);
+             tcg_temp_free_i64(in);
+         }
+-    } else {
++    } else if (vece == 4) {
+         /* 128-bit duplicate.  */
+-        /* ??? Dup to 256-bit vector.  */
+         int i;
  
-+static void __attribute__((noinline))
-+store_helper_unaligned(CPUArchState *env, target_ulong addr, uint64_t val,
-+                       uintptr_t retaddr, size_t size, uintptr_t mmu_idx,
-+                       bool big_endian)
-+{
-+    const size_t tlb_off = offsetof(CPUTLBEntry, addr_write);
-+    uintptr_t index, index2;
-+    CPUTLBEntry *entry, *entry2;
-+    target_ulong page2, tlb_addr, tlb_addr2;
-+    TCGMemOpIdx oi;
-+    size_t size2;
-+    int i;
+-        tcg_debug_assert(vece == 4);
+         tcg_debug_assert(oprsz >= 16);
+         if (TCG_TARGET_HAS_v128) {
+             TCGv_vec in = tcg_temp_new_vec(TCG_TYPE_V128);
+@@ -1601,6 +1599,54 @@ void tcg_gen_gvec_dup_mem(unsigned vece, uint32_t dofs, uint32_t aofs,
+         if (oprsz < maxsz) {
+             expand_clr(dofs + oprsz, maxsz - oprsz);
+         }
++    } else if (vece == 5) {
++        /* 256-bit duplicate.  */
++        int i;
 +
-+    /*
-+     * Ensure the second page is in the TLB.  Note that the first page
-+     * is already guaranteed to be filled, and that the second page
-+     * cannot evict the first.
-+     */
-+    page2 = (addr + size) & TARGET_PAGE_MASK;
-+    size2 = (addr + size) & ~TARGET_PAGE_MASK;
-+    index2 = tlb_index(env, mmu_idx, page2);
-+    entry2 = tlb_entry(env, mmu_idx, page2);
++        tcg_debug_assert(oprsz >= 32);
++        tcg_debug_assert(oprsz % 32 == 0);
++        if (TCG_TARGET_HAS_v256) {
++            TCGv_vec in = tcg_temp_new_vec(TCG_TYPE_V256);
 +
-+    tlb_addr2 = tlb_addr_write(entry2);
-+    if (!tlb_hit_page(tlb_addr2, page2)) {
-+        if (!victim_tlb_hit(env, mmu_idx, index2, tlb_off, page2)) {
-+            tlb_fill(env_cpu(env), page2, size2, MMU_DATA_STORE,
-+                     mmu_idx, retaddr);
-+            index2 = tlb_index(env, mmu_idx, page2);
-+            entry2 = tlb_entry(env, mmu_idx, page2);
++            tcg_gen_ld_vec(in, cpu_env, aofs);
++            for (i = (aofs == dofs) * 32; i < oprsz; i += 32) {
++                tcg_gen_st_vec(in, cpu_env, dofs + i);
++            }
++            tcg_temp_free_vec(in);
++        } else if (TCG_TARGET_HAS_v128) {
++            TCGv_vec in0 = tcg_temp_new_vec(TCG_TYPE_V128);
++            TCGv_vec in1 = tcg_temp_new_vec(TCG_TYPE_V128);
++
++            tcg_gen_ld_vec(in0, cpu_env, aofs);
++            tcg_gen_ld_vec(in1, cpu_env, aofs + 16);
++            for (i = (aofs == dofs) * 32; i < oprsz; i += 32) {
++                tcg_gen_st_vec(in0, cpu_env, dofs + i);
++                tcg_gen_st_vec(in1, cpu_env, dofs + i + 16);
++            }
++            tcg_temp_free_vec(in0);
++            tcg_temp_free_vec(in1);
++        } else {
++            TCGv_i64 in[4];
++            int j;
++
++            for (j = 0; j < 4; ++j) {
++                in[j] = tcg_temp_new_i64();
++                tcg_gen_ld_i64(in[j], cpu_env, aofs + j * 8);
++            }
++            for (i = (aofs == dofs) * 32; i < oprsz; i += 32) {
++                for (j = 0; j < 4; ++j) {
++                    tcg_gen_st_i64(in[j], cpu_env, dofs + i + j * 8);
++                }
++            }
++            for (j = 0; j < 4; ++j) {
++                tcg_temp_free_i64(in[j]);
++            }
 +        }
-+        tlb_addr2 = tlb_addr_write(entry2);
-+    }
-+
-+    index = tlb_index(env, mmu_idx, addr);
-+    entry = tlb_entry(env, mmu_idx, addr);
-+    tlb_addr = tlb_addr_write(entry);
-+
-+    /*
-+     * Handle watchpoints.  Since this may trap, all checks
-+     * must happen before any store.
-+     */
-+    if (unlikely(tlb_addr & TLB_WATCHPOINT)) {
-+        cpu_check_watchpoint(env_cpu(env), addr, size - size2,
-+                             env_tlb(env)->d[mmu_idx].iotlb[index].attrs,
-+                             BP_MEM_WRITE, retaddr);
-+    }
-+    if (unlikely(tlb_addr2 & TLB_WATCHPOINT)) {
-+        cpu_check_watchpoint(env_cpu(env), page2, size2,
-+                             env_tlb(env)->d[mmu_idx].iotlb[index2].attrs,
-+                             BP_MEM_WRITE, retaddr);
-+    }
-+
-+    /*
-+     * XXX: not efficient, but simple.
-+     * This loop must go in the forward direction to avoid issues
-+     * with self-modifying code in Windows 64-bit.
-+     */
-+    oi = make_memop_idx(MO_UB, mmu_idx);
-+    if (big_endian) {
-+        for (i = 0; i < size; ++i) {
-+            /* Big-endian extract.  */
-+            uint8_t val8 = val >> (((size - 1) * 8) - (i * 8));
-+            helper_ret_stb_mmu(env, addr + i, val8, oi, retaddr);
++        if (oprsz < maxsz) {
++            expand_clr(dofs + oprsz, maxsz - oprsz);
 +        }
 +    } else {
-+        for (i = 0; i < size; ++i) {
-+            /* Little-endian extract.  */
-+            uint8_t val8 = val >> (i * 8);
-+            helper_ret_stb_mmu(env, addr + i, val8, oi, retaddr);
-+        }
-+    }
-+}
-+
- static inline void QEMU_ALWAYS_INLINE
- store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
-              TCGMemOpIdx oi, uintptr_t retaddr, MemOp op)
-@@ -2097,64 +2171,9 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
-     if (size > 1
-         && unlikely((addr & ~TARGET_PAGE_MASK) + size - 1
-                      >= TARGET_PAGE_SIZE)) {
--        int i;
--        uintptr_t index2;
--        CPUTLBEntry *entry2;
--        target_ulong page2, tlb_addr2;
--        size_t size2;
--
-     do_unaligned_access:
--        /*
--         * Ensure the second page is in the TLB.  Note that the first page
--         * is already guaranteed to be filled, and that the second page
--         * cannot evict the first.
--         */
--        page2 = (addr + size) & TARGET_PAGE_MASK;
--        size2 = (addr + size) & ~TARGET_PAGE_MASK;
--        index2 = tlb_index(env, mmu_idx, page2);
--        entry2 = tlb_entry(env, mmu_idx, page2);
--        tlb_addr2 = tlb_addr_write(entry2);
--        if (!tlb_hit_page(tlb_addr2, page2)) {
--            if (!victim_tlb_hit(env, mmu_idx, index2, tlb_off, page2)) {
--                tlb_fill(env_cpu(env), page2, size2, MMU_DATA_STORE,
--                         mmu_idx, retaddr);
--                index2 = tlb_index(env, mmu_idx, page2);
--                entry2 = tlb_entry(env, mmu_idx, page2);
--            }
--            tlb_addr2 = tlb_addr_write(entry2);
--        }
--
--        /*
--         * Handle watchpoints.  Since this may trap, all checks
--         * must happen before any store.
--         */
--        if (unlikely(tlb_addr & TLB_WATCHPOINT)) {
--            cpu_check_watchpoint(env_cpu(env), addr, size - size2,
--                                 env_tlb(env)->d[mmu_idx].iotlb[index].attrs,
--                                 BP_MEM_WRITE, retaddr);
--        }
--        if (unlikely(tlb_addr2 & TLB_WATCHPOINT)) {
--            cpu_check_watchpoint(env_cpu(env), page2, size2,
--                                 env_tlb(env)->d[mmu_idx].iotlb[index2].attrs,
--                                 BP_MEM_WRITE, retaddr);
--        }
--
--        /*
--         * XXX: not efficient, but simple.
--         * This loop must go in the forward direction to avoid issues
--         * with self-modifying code in Windows 64-bit.
--         */
--        for (i = 0; i < size; ++i) {
--            uint8_t val8;
--            if (memop_big_endian(op)) {
--                /* Big-endian extract.  */
--                val8 = val >> (((size - 1) * 8) - (i * 8));
--            } else {
--                /* Little-endian extract.  */
--                val8 = val >> (i * 8);
--            }
--            helper_ret_stb_mmu(env, addr + i, val8, oi, retaddr);
--        }
-+        store_helper_unaligned(env, addr, val, retaddr, size,
-+                               mmu_idx, memop_big_endian(op));
-         return;
++        g_assert_not_reached();
      }
- 
-@@ -2162,8 +2181,9 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
-     store_memop(haddr, val, op);
  }
  
--void helper_ret_stb_mmu(CPUArchState *env, target_ulong addr, uint8_t val,
--                        TCGMemOpIdx oi, uintptr_t retaddr)
-+void __attribute__((noinline))
-+helper_ret_stb_mmu(CPUArchState *env, target_ulong addr, uint8_t val,
-+                   TCGMemOpIdx oi, uintptr_t retaddr)
- {
-     store_helper(env, addr, val, oi, retaddr, MO_UB);
- }
 -- 
 2.25.1
 
