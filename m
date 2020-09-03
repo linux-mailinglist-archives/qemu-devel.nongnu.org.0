@@ -2,87 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56AD225C569
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 17:30:08 +0200 (CEST)
-Received: from localhost ([::1]:41540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A7DA25C572
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 17:32:46 +0200 (CEST)
+Received: from localhost ([::1]:49130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDrBf-0004OD-C8
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 11:30:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50844)
+	id 1kDrED-0007d4-Nh
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 11:32:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kDr8e-0000IX-87
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 11:27:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58885)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kDr8c-0000E6-FB
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 11:26:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599146817;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yNN9HMxErQBgUM+loGmpJTxuhPYQQVhkbsp50pLpF+c=;
- b=RJSOZMOirC+FFmRFAsu7Z7Alfq/Z2+XKK9+IS7XodMvyWgxZdQMu5VS9FVkEUQUVb5jUA8
- Knz9fla0PwX9J+5fmPsFAn2fmxJd106Mz93X0Yyrpf/HGUnCJncMp+LY+K46PooRlRgdnu
- aSjKv9ZCC7mnjetc42nrcS8ksHGg/YY=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-525-SA9GxHsdNJ2BjR_p84eRYg-1; Thu, 03 Sep 2020 11:26:55 -0400
-X-MC-Unique: SA9GxHsdNJ2BjR_p84eRYg-1
-Received: by mail-qt1-f199.google.com with SMTP id j35so2350750qtk.14
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 08:26:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=yNN9HMxErQBgUM+loGmpJTxuhPYQQVhkbsp50pLpF+c=;
- b=F1UhqyLgotfvZTUvcE9+l6Ee9X4msTS/ts/1VmeK8DUqXVLqQ1+C1ylht5yzjYML72
- ukyY5m3DZ/RNBjad/9w2bRydOygtLbaARVUF+v1HJaNvmiHGmuo9nwiao1Hz2uxxNUNC
- WZ+6+aKssDS6Jz+QyOGnX1QjS19G1aySPR6VoLbncyblv3ytwDapwK7yLZ1PChWeb+yL
- RQzDDxBWPeRRoGwU6ple3xyvChtQrebs5uE/qp0tIHnlEYVmkLpQ4PSxagCaeI3byP8W
- ZIjI+Pyk7U9NsfWAd/utprND16IpU3oP7nbJzvlewYycK7YpSETLkuRIwEwXHOpuQqo2
- 9OTA==
-X-Gm-Message-State: AOAM5300O3nQFDdR9ks6fcNMaSD4zpT0NcH/uzjg13gq1yfb3rJDP1R2
- WDN3Py+g55b6SPGg1ds9vbELGfLeb+/ujPUcmUTAS7CBhLUJnKLLKUWu61S9Nz0wPdQZnV11JwR
- Xi//Yfh8hgJpMI14=
-X-Received: by 2002:a37:68c7:: with SMTP id d190mr3553533qkc.127.1599146813432; 
- Thu, 03 Sep 2020 08:26:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzhbtQYN6UmM0Ksh7FFhjMatqeLXu86Q7riw5gzhopdLkqndQyT0hc81xQA1N+MNil12P3LoA==
-X-Received: by 2002:a37:68c7:: with SMTP id d190mr3553514qkc.127.1599146813196; 
- Thu, 03 Sep 2020 08:26:53 -0700 (PDT)
-Received: from xz-x1.redhat.com
- (bras-vprn-toroon474qw-lp130-11-70-53-122-15.dsl.bell.ca. [70.53.122.15])
- by smtp.gmail.com with ESMTPSA id l38sm2319889qtl.58.2020.09.03.08.26.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Sep 2020 08:26:52 -0700 (PDT)
-From: Peter Xu <peterx@redhat.com>
+ (Exim 4.90_1)
+ (envelope-from <e6fc84845c95816ad5baecb0abd6bfefdcf7ec9f@lizzy.crudebyte.com>)
+ id 1kDrB6-0004XI-Ey
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 11:29:33 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:56575)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <e6fc84845c95816ad5baecb0abd6bfefdcf7ec9f@lizzy.crudebyte.com>)
+ id 1kDrB3-0000YA-8K
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 11:29:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
+ Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
+ Content-Description; bh=wz18YHl+V8t7V7RQfz0zNrUfrvwXmGoli925uhjHY50=; b=csU80
+ tHK4KnU58TMxcJBs0lZqYCCCj3a27nQ0V7Rex7a17VUtFVP8n7sxl8wRDD9kJV/nA3yDftknWEBpJ
+ cG6lnDzVNC86T4tgwzn0HuO2d8o1ack84lknGcaBULvz/VseC5vXmoE0L6+gOlhPIyC89RHsfB4Ot
+ E/m0ou0LTZsiEUIlfFtkYjmz3pIpAXfYc0KySUwfFa8A2zm1msvzvm2MdPIve1aF9hxUOdoBYvCPB
+ RUDUI4U+XVCH0O169fs/TJp3pDxI59xbdVsgT/3A8JOmL7w2HMfwIDmt7aE+n3ddFOzZ/gkxqq5bJ
+ 2gI1zEeTdHjdoyh52J4jUwOzbZRdw==;
+Message-Id: <e6fc84845c95816ad5baecb0abd6bfefdcf7ec9f.1599144062.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1599144062.git.qemu_oss@crudebyte.com>
+References: <cover.1599144062.git.qemu_oss@crudebyte.com>
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Thu, 3 Sep 2020 16:20:21 +0200
+Subject: [PATCH v2 1/1] 9pfs: log warning if msize <= 8192
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/5] migration: Pass incoming state into qemu_ufd_copy_ioctl()
-Date: Thu,  3 Sep 2020 11:26:44 -0400
-Message-Id: <20200903152646.93336-4-peterx@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200903152646.93336-1-peterx@redhat.com>
-References: <20200903152646.93336-1-peterx@redhat.com>
-MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0.003
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 01:47:17
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Cc: Greg Kurz <groug@kaod.org>
+Cc: berrange@redhat.com
+Received-SPF: none client-ip=91.194.90.13;
+ envelope-from=e6fc84845c95816ad5baecb0abd6bfefdcf7ec9f@lizzy.crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 10:59:11
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,57 +62,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiaohui Li <xiaohli@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com,
- Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It'll be used in follow up patches to access more fields out of it.  Meanwhile
-fetch the userfaultfd inside the function.
+It is essential to choose a reasonable high value for 'msize' to avoid
+severely degraded file I/O performance. This parameter can only be
+chosen on client/guest side, and a Linux client defaults to an 'msize'
+of only 8192 if the user did not explicitly specify a value for 'msize',
+which results in very poor file I/O performance.
 
-Signed-off-by: Peter Xu <peterx@redhat.com>
+Unfortunately many users are not aware that they should specify an
+appropriate value for 'msize' to avoid severe performance issues, so
+log a performance warning (with a QEMU wiki link explaining this issue
+in detail) on host side in that case to make it more clear.
+
+Currently a client cannot automatically pick a reasonable value for
+'msize', because a good value for 'msize' depends on the file I/O
+potential of the underlying storage on host side, i.e. a feature
+invisible to the client, and even then a user would still need to trade
+off between performance profit and additional RAM costs, i.e. with
+growing 'msize' (RAM occupation), performance still increases, but
+performance delta will shrink continuously.
+
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- migration/postcopy-ram.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ hw/9pfs/9p.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-index 11a70441a6..d333c3fd0e 100644
---- a/migration/postcopy-ram.c
-+++ b/migration/postcopy-ram.c
-@@ -1128,10 +1128,12 @@ int postcopy_ram_incoming_setup(MigrationIncomingState *mis)
-     return 0;
- }
+diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+index 7bb994bbf2..99b6f24fd6 100644
+--- a/hw/9pfs/9p.c
++++ b/hw/9pfs/9p.c
+@@ -1353,6 +1353,15 @@ static void coroutine_fn v9fs_version(void *opaque)
+         goto out;
+     }
  
--static int qemu_ufd_copy_ioctl(int userfault_fd, void *host_addr,
-+static int qemu_ufd_copy_ioctl(MigrationIncomingState *mis, void *host_addr,
-                                void *from_addr, uint64_t pagesize, RAMBlock *rb)
- {
-+    int userfault_fd = mis->userfault_fd;
-     int ret;
++    /* 8192 is the default msize of Linux clients */
++    if (s->msize <= 8192) {
++        warn_report_once(
++            "9p: degraded performance: a reasonable high msize should be "
++            "chosen on client/guest side (chosen msize is <= 8192). See "
++            "https://wiki.qemu.org/Documentation/9psetup#msize for details."
++        );
++    }
 +
-     if (from_addr) {
-         struct uffdio_copy copy_struct;
-         copy_struct.dst = (uint64_t)(uintptr_t)host_addr;
-@@ -1185,7 +1187,7 @@ int postcopy_place_page(MigrationIncomingState *mis, void *host, void *from,
-      * which would be slightly cheaper, but we'd have to be careful
-      * of the order of updating our page state.
-      */
--    if (qemu_ufd_copy_ioctl(mis->userfault_fd, host, from, pagesize, rb)) {
-+    if (qemu_ufd_copy_ioctl(mis, host, from, pagesize, rb)) {
-         int e = errno;
-         error_report("%s: %s copy host: %p from: %p (size: %zd)",
-                      __func__, strerror(e), host, from, pagesize);
-@@ -1212,7 +1214,7 @@ int postcopy_place_page_zero(MigrationIncomingState *mis, void *host,
-      * but it's not available for everything (e.g. hugetlbpages)
-      */
-     if (qemu_ram_is_uf_zeroable(rb)) {
--        if (qemu_ufd_copy_ioctl(mis->userfault_fd, host, NULL, pagesize, rb)) {
-+        if (qemu_ufd_copy_ioctl(mis, host, NULL, pagesize, rb)) {
-             int e = errno;
-             error_report("%s: %s zero host: %p",
-                          __func__, strerror(e), host);
+ marshal:
+     err = pdu_marshal(pdu, offset, "ds", s->msize, &version);
+     if (err < 0) {
 -- 
-2.26.2
+2.20.1
 
 
