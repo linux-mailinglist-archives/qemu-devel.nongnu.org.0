@@ -2,90 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E43B25C003
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 13:18:01 +0200 (CEST)
-Received: from localhost ([::1]:38116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67E6325C008
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 13:19:32 +0200 (CEST)
+Received: from localhost ([::1]:46206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDnFg-0005wN-9S
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 07:18:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34498)
+	id 1kDnH9-0000lF-GW
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 07:19:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDn7q-0001R0-Uj
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 07:09:54 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51387
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDn7o-00060V-D9
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 07:09:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599131391;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9GnpNx8hKziNiqdzN01AImO2FtSdDZqIBcQzFpkVYA0=;
- b=RsySzsPsh2kvq7nkD+jX+Er/fgawngwtQlGJTComtHoWAKMxZbTtVoCI+AyPk7sfjn7lk3
- TiN5KktQpjL5fo7KUxP+aAUaVkInUFKmrC3hmaH8gmmmqUtByrrVZqnvFOD5+5pugiKfgm
- lE43lwsbzfSuJDCyOfvytjejGSWUQhQ=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-528-PePNy95GPcqEXhlxmqkwoQ-1; Thu, 03 Sep 2020 07:09:50 -0400
-X-MC-Unique: PePNy95GPcqEXhlxmqkwoQ-1
-Received: by mail-wm1-f71.google.com with SMTP id c186so836259wmd.9
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 04:09:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kDn9p-0006Nn-8B
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 07:11:57 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:46228)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kDn9n-0006Mc-ES
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 07:11:56 -0400
+Received: by mail-ot1-x341.google.com with SMTP id c10so2277812otm.13
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 04:11:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=25i2bGBt6UrKwE1TXuh8XZu5mFMYpdkhRSNYLgGSyGo=;
+ b=KE9jOPb9x7zyUS9Uen1vDeld0dzitaw62kSn+8kYZ35b5bo6TPQ3m/xeVKdNuLA1h1
+ Vv3+kU0lOPgLi9WFbpD8TBQBtQcxRNMmhbDBvV6XvvpfXWM2Tfi+4JhNjX2S3UnoN3wv
+ TIXKg22qyB1n9sJogEwfDVUObhCK9AKfCr01m6/N0sBADhy5p19Pn1ZXvsiCRGOcTsvS
+ pd1eF0drCeO2kUtB9TaiHNpMvy9F6at6kzJQ/2Q1hb98DlWC0lzOBidZxBkZHcY3NlJM
+ eobSnqacKj//GR6y37CZW8MAgSc9n4/YsB+ybuAZE3+tuPujNKWSEL20ZsfjBduPZsUM
+ FRTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=9GnpNx8hKziNiqdzN01AImO2FtSdDZqIBcQzFpkVYA0=;
- b=nkPwc6Dsf5DSeM3y6HU/5NtswfGCZ4SIEc4XqWuWeNfQEbT1fFQ7D0k5RlwKRBmxuU
- ueUXpJ2qEetWNULvvatsQhkwfA4sS+HQQd9y4k69kC3Vj6ja8Xf74DNoeDsa/asVHMD7
- V9QUva2tZRMBPwaEPT5vBFXhA8R36lcv+JZr3iuJsdNu1kSniagzL4YuSjS6j8KfdYzc
- OOPm9KlkdXKH/aq52CIs8FOsXlR2Y/3JRXhygnyBsSseuaWoiSDD1JcShTfXywALPwvI
- qEfwFmkYfa1ufuoGHjmUkTPBq1//aGalBnAsF0BZqV+Asx5ppSPT9rPkDNXzQJ25vvO+
- JRBw==
-X-Gm-Message-State: AOAM530Ut2N9V6Ms780kFOrTJyVqArUWvrR9brGfdBdYNdjEL9mqX6Hp
- H8r/1fVfBEOx7wj/okRMoCPUh8S70mw2SVUI+jpF48xBWsbW0DoAdqTjaxnuXkXNZlw8EX0A3uP
- TyDSWqCVh8hVNVaM=
-X-Received: by 2002:a1c:f003:: with SMTP id a3mr1951210wmb.170.1599131388986; 
- Thu, 03 Sep 2020 04:09:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxMrJssg5m9tGdHjZnb9WOYc9LGcKTl/RYUTl+cJMTDL99r9rkDu5mWJzLx75Laz0g6Ll7jVQ==
-X-Received: by 2002:a1c:f003:: with SMTP id a3mr1951153wmb.170.1599131388703; 
- Thu, 03 Sep 2020 04:09:48 -0700 (PDT)
-Received: from localhost.localdomain (50.red-83-52-54.dynamicip.rima-tde.net.
- [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id q3sm3709070wmq.12.2020.09.03.04.09.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Sep 2020 04:09:48 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 12/12] dma: Assert when device writes to indirect memory
- (such MMIO regions)
-Date: Thu,  3 Sep 2020 13:08:31 +0200
-Message-Id: <20200903110831.353476-13-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200903110831.353476-1-philmd@redhat.com>
-References: <20200903110831.353476-1-philmd@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=25i2bGBt6UrKwE1TXuh8XZu5mFMYpdkhRSNYLgGSyGo=;
+ b=RmS7BqLf9IHCFg/FmimCiclmNz3IwJbzUKhSrZgH/OpQLLFV3IL+JLx14yxkpMKxMY
+ ZrFJHmPqlEaye557zRlNjaeYbnhDu8a+QS1jrNwoNlUxuKmHDvtgc+RCJO0Y8gwVi9t0
+ fBWjYjRNH/EuwD2A+5bUQfSK4BcVPEA9xB9hG+6/6L2T9lLHWBRVaMGoLoHynFeKWpCk
+ QXGRC7x4qGiBo7g3EdXvzSpxQjCSjQB1hrd0f9631RklL/Fkx35G5h4mJyfZ0fu6IKrO
+ f1QLTpY2AYlhDCL385eIhsLXu7ILk9VCbclNVolyfIeoI/C3MnAWDTsE+dNM1gNDHVoc
+ pk+A==
+X-Gm-Message-State: AOAM530EMoY8Z5I6ASyNRee2nD3T6moG4WKMwIt62amkJrf+k4Azcuhv
+ 9iekjrTpELblQyPJk5SURxYsHjrS+jALfwoyMsA=
+X-Google-Smtp-Source: ABdhPJzd1JRCtFeoR5WXi/XrGxuHsO+dCkyQGx0JfP2xU9PAiiEHsQYPniP6z1J44wL5EkjsHGuEsZxX+D/aNxs3paU=
+X-Received: by 2002:a05:6830:2302:: with SMTP id
+ u2mr1124916ote.181.1599131513907; 
+ Thu, 03 Sep 2020 04:11:53 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 01:58:20
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20200902162206.101872-1-liq3ea@163.com>
+ <b840aab8-542d-af43-43e5-0a07f442b5d5@redhat.com>
+ <CAFEAcA9mvMaR5MJJ74Vv63TG6frWnMeSZA19Zxv8TUceudPUTQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA9mvMaR5MJJ74Vv63TG6frWnMeSZA19Zxv8TUceudPUTQ@mail.gmail.com>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Thu, 3 Sep 2020 19:11:18 +0800
+Message-ID: <CAKXe6SLYgkiTAYa81nppHUMEzoeGy3988OmrzZyw8-VY8ajE3w@mail.gmail.com>
+Subject: Re: [RFC 0/3] try to solve the DMA to MMIO issue
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=liq3ea@gmail.com; helo=mail-ot1-x341.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,88 +81,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
+Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Peter Xu <peterx@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>, qemu-block@nongnu.org,
- Li Qiang <liq3ea@163.com>, "Emilio G . Cota" <cota@braap.org>,
- Peter Chubb <peter.chubb@nicta.com.au>, Joel Stanley <joel@jms.id.au>,
- Richard Henderson <rth@twiddle.net>, Laszlo Ersek <lersek@redhat.com>,
- Robert Foley <robert.foley@linaro.org>,
- Alistair Francis <alistair@alistair23.me>,
- Richard Henderson <richard.henderson@linaro.org>,
- Beniamino Galvani <b.galvani@gmail.com>, Eric Auger <eric.auger@redhat.com>,
- qemu-arm@nongnu.org, Jan Kiszka <jan.kiszka@web.de>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, Tony Nguyen <tony.nguyen@bt.com>,
- Prasad J Pandit <pjp@fedoraproject.org>, Alexander Bulekov <alxndr@bu.edu>,
- Andrew Jeffery <andrew@aj.id.au>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-ppc@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, Paolo Bonzini <pbonzini@redhat.com>
+ Li Qiang <liq3ea@163.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Alexander Bulekov <alxndr@bu.edu>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Assert DMA accesses are done on direct memory (in particular
-to catch invalid accesses to MMIO regions).
+Peter Maydell <peter.maydell@linaro.org> =E4=BA=8E2020=E5=B9=B49=E6=9C=883=
+=E6=97=A5=E5=91=A8=E5=9B=9B =E4=B8=8B=E5=8D=886:53=E5=86=99=E9=81=93=EF=BC=
+=9A
+>
+> On Thu, 3 Sep 2020 at 04:55, Jason Wang <jasowang@redhat.com> wrote:
+> > I think we still need to seek a way to address this issue completely.
+> >
+> > How about adding a flag in MemoryRegionOps and detect the reentrancy
+> > through that flag?
+>
+> This won't catch everything. Consider this situation:
+>   Device A makes DMA access to device B
+>   Device B's write-handling causes it to raise an
+>    outbound qemu_irq signal
+>   The qemu_irq signal is connected to device A
 
-Example with the reproducer from LP#1886362 (see previous commit):
+Here mean device A is an interrupt controller?
+This is special case I think.
 
-  qemu-system-i386: include/sysemu/dma.h:111: int dma_memory_rw(AddressSpace *, dma_addr_t, void *, dma_addr_t, DMADirection, MemTxAttrs): Assertion `dir == DMA_DIRECTION_TO_DEVICE || attrs.direct_access' failed.
-  (gdb) bt
-  #0  0x00007ffff51d69e5 in raise () at /lib64/libc.so.6
-  #1  0x00007ffff51bf895 in abort () at /lib64/libc.so.6
-  #2  0x00007ffff51bf769 in _nl_load_domain.cold () at /lib64/libc.so.6
-  #3  0x00007ffff51cee76 in annobin_assert.c_end () at /lib64/libc.so.6
-  #4  0x0000555557b48a94 in dma_memory_rw (as=0x7fffddd3ca28, addr=4064, buf=0x7fffffff7780, len=16, dir=DMA_DIRECTION_FROM_DEVICE, attrs=...) at /home/phil/source/qemu/include/sysemu/dma.h:111
-  #5  0x0000555557b487e0 in pci_dma_rw (dev=0x7fffddd3c800, addr=4064, buf=0x7fffffff7780, len=16, dir=DMA_DIRECTION_FROM_DEVICE) at /home/phil/source/qemu/include/hw/pci/pci.h:791
-  #6  0x0000555557b47373 in pci_dma_write (dev=0x7fffddd3c800, addr=4064, buf=0x7fffffff7780, len=16) at /home/phil/source/qemu/include/hw/pci/pci.h:804
-  #7  0x0000555557b340b4 in e1000e_write_packet_to_guest (core=0x7fffddd3f4e0, pkt=0x61100006c740, rxr=0x7fffffff7cf0, rss_info=0x7fffffff7d10) at hw/net/e1000e_core.c:1609
-  #8  0x0000555557b30739 in e1000e_receive_iov (core=0x7fffddd3f4e0, iov=0x619000060e80, iovcnt=4) at hw/net/e1000e_core.c:1709
-  #9  0x00005555576e2069 in e1000e_nc_receive_iov (nc=0x61400000a060, iov=0x619000060e80, iovcnt=4) at hw/net/e1000e.c:213
-  #10 0x00005555572a3c34 in net_tx_pkt_sendv (pkt=0x631000028800, nc=0x61400000a060, iov=0x619000060e80, iov_cnt=4) at hw/net/net_tx_pkt.c:556
-  #11 0x00005555572a23e2 in net_tx_pkt_send (pkt=0x631000028800, nc=0x61400000a060) at hw/net/net_tx_pkt.c:633
-  #12 0x00005555572a4c67 in net_tx_pkt_send_loopback (pkt=0x631000028800, nc=0x61400000a060) at hw/net/net_tx_pkt.c:646
-  #13 0x0000555557b70b05 in e1000e_tx_pkt_send (core=0x7fffddd3f4e0, tx=0x7fffddd5f748, queue_index=0) at hw/net/e1000e_core.c:664
-  #14 0x0000555557b6eab8 in e1000e_process_tx_desc (core=0x7fffddd3f4e0, tx=0x7fffddd5f748, dp=0x7fffffff8680, queue_index=0) at hw/net/e1000e_core.c:743
-  #15 0x0000555557b6d65d in e1000e_start_xmit (core=0x7fffddd3f4e0, txr=0x7fffffff88a0) at hw/net/e1000e_core.c:934
-  #16 0x0000555557b5ea38 in e1000e_set_tctl (core=0x7fffddd3f4e0, index=256, val=255) at hw/net/e1000e_core.c:2431
-  #17 0x0000555557b369ef in e1000e_core_write (core=0x7fffddd3f4e0, addr=1027, val=255, size=4) at hw/net/e1000e_core.c:3265
-  #18 0x00005555576de3be in e1000e_mmio_write (opaque=0x7fffddd3c800, addr=1027, val=255, size=4) at hw/net/e1000e.c:109
-  #19 0x0000555558e6b789 in memory_region_write_accessor (mr=0x7fffddd3f110, addr=1027, value=0x7fffffff8eb0, size=4, shift=0, mask=4294967295, attrs=...) at softmmu/memory.c:483
-  #20 0x0000555558e6b05b in access_with_adjusted_size (addr=1027, value=0x7fffffff8eb0, size=1, access_size_min=4, access_size_max=4, access_fn= 0x555558e6b120 <memory_region_write_accessor>, mr=0x7fffddd3f110, attrs=...) at softmmu/memory.c:544
-  #21 0x0000555558e69776 in memory_region_dispatch_write (mr=0x7fffddd3f110, addr=1027, data=255, op=MO_8, attrs=...) at softmmu/memory.c:1465
-  #22 0x0000555558f60462 in flatview_write_continue (fv=0x60600003f9e0, addr=3775005699, attrs=..., ptr=0x6020000e3710, len=1, addr1=1027, l=1, mr=0x7fffddd3f110) at exec.c:3176
-  #23 0x0000555558f4e38b in flatview_write (fv=0x60600003f9e0, addr=3775005699, attrs=..., buf=0x6020000e3710, len=1) at exec.c:3220
-  #24 0x0000555558f4dd4f in address_space_write (as=0x60800000baa0, addr=3775005699, attrs=..., buf=0x6020000e3710, len=1) at exec.c:3315
-  #25 0x000055555916b3e0 in qtest_process_command (chr=0x55555c03f300 <qtest_chr>, words=0x604000058150) at softmmu/qtest.c:567
-  #26 0x000055555915f7f2 in qtest_process_inbuf (chr=0x55555c03f300 <qtest_chr>, inbuf=0x6190000200e0) at softmmu/qtest.c:710
+>   Now we have reentered into device A's code
+>
+> That is to say, the problem is general to "device A does
+> something that affects device B" links of all kinds, which
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- include/sysemu/dma.h | 2 ++
- 1 file changed, 2 insertions(+)
+As the P2P is a normal behavior, we can't just prevent this.
 
-diff --git a/include/sysemu/dma.h b/include/sysemu/dma.h
-index 8a7dbf0b0f3..a4ba9438a56 100644
---- a/include/sysemu/dma.h
-+++ b/include/sysemu/dma.h
-@@ -108,6 +108,8 @@ static inline int dma_memory_rw(AddressSpace *as, dma_addr_t addr,
-                                 void *buf, dma_addr_t len,
-                                 DMADirection dir, MemTxAttrs attrs)
- {
-+    assert(dir == DMA_DIRECTION_TO_DEVICE || attrs.direct_access);
-+
-     dma_barrier(as, dir);
- 
-     return dma_memory_rw_relaxed(as, addr, buf, len, dir, attrs);
--- 
-2.26.2
-
+Thanks,
+Li Qiang
+> can form loops. Self-DMA is just an easy way to find one
+> category of these with the fuzzer.
+>
+> thanks
+> -- PMM
 
