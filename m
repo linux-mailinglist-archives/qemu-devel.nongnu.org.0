@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BB4625CCBC
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:50:36 +0200 (CEST)
-Received: from localhost ([::1]:45734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD4AD25CC82
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:43:35 +0200 (CEST)
+Received: from localhost ([::1]:46070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDx7r-000630-Lp
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:50:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59526)
+	id 1kDx14-0002yc-No
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:43:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwM4-00051A-SZ; Thu, 03 Sep 2020 17:01:13 -0400
-Received: from mail-oo1-xc29.google.com ([2607:f8b0:4864:20::c29]:34350)
+ id 1kDwM6-00051r-Hn; Thu, 03 Sep 2020 17:01:15 -0400
+Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:34068)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwM3-0007sf-5s; Thu, 03 Sep 2020 17:01:12 -0400
-Received: by mail-oo1-xc29.google.com with SMTP id k63so1135286oob.1;
- Thu, 03 Sep 2020 14:01:10 -0700 (PDT)
+ id 1kDwM4-0007st-V3; Thu, 03 Sep 2020 17:01:14 -0400
+Received: by mail-ot1-x332.google.com with SMTP id h17so3210601otr.1;
+ Thu, 03 Sep 2020 14:01:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=ooJ5JWX44T4rpsVTQbxVK9w+LAQEjZ1790XiAupTrvE=;
- b=cYnhSvU/5APT+omor5i3Awsj9iTcCzyuAF5bA/l9EI4PrN7otvAu3MEhZKF78vkYZ8
- AX2CJ1sAfKGs0/t7UntU0PdCZQaBFTck38wW0a9jNGjSgCxFI8LUkvBRuUv2vkbC+Q1d
- hSD20VxrSIXstJblKSwUpCkNIFqO8HcVnTMrLdlzcflWAVHfeXXV8T/P1OaA6IeUP05P
- HZ2EM15h6jXlEOckjfthQLDIkc9inMcduKqeLcSl3c5uscEutv3Vqxb82Mi0mgh5Yi7v
- Fwgkooh4eZqroxeWnm4rrfVtgAs2Ekn5A28Uonadg8cNJ/Y4oi8GpjbZ0CkQni0xs0FZ
- 2RSA==
+ bh=MEvZmvR0w7xE2ynIxcSs7eM6zvrUrLkOXOPrCdnExrc=;
+ b=EHVARZzruu/KPlIDrWXmbEK8SzjPDoBPrP213Sw4vVEv/ETNSwQ3+J09utdOCOdXLy
+ v8hQl1dqYprtIYFzi2DDV1ELfl+KRdt181DF8t6VoFK+eACIxgfXlRDFFXw02MCqesWH
+ 1axD5HMUfUjK6Sw/1m02UG2WoQay81nK/+mjDhbMKjT0fkB9yHOCYmkj1ALpfpTZRjFG
+ ZNFai0xXGHza5azi9zy/n56NmM13u8RUPCugiroW3ZOK0Xb/h5ykXVHuflWNAqsIYdbr
+ MBQftpqJXW6BrMMurehpUkEHRStJxGYE0uFbEfH7ULbjA9iA44MNYt35kfXNyCQZGLm3
+ nhwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=ooJ5JWX44T4rpsVTQbxVK9w+LAQEjZ1790XiAupTrvE=;
- b=kO2fiqurucrOSPUA7mZ+HDorOkEveEAaPf54vpqWSAPlP4cugLFb/OLYbAr5RgaLfv
- knGsiesypq+8HYwEYUfx/Zo/NFYF5Stjl8IYzYPEoTRglcVY6VnPlSv+5VkXTAQNA3Pp
- brWyRICw75QjGwKhAjGBy+eyqm7DULr1vjI4gpX6zrJ3ZFmtu9pdzr75UflB7FRIDB53
- VQYPfvy5mXC+Xq0diV7wbAYNfdDBtLf6v1+dpTithaWoSsu+5vXtEVHudnLSNrAheBxI
- QiumHnUHHTT1EHbZbr3JAoAi/Z5E/OfJrNgGPnhLH+fIkCug4FY1fUJv4izGqf9luy8b
- F4uA==
-X-Gm-Message-State: AOAM531eaYupr9jrV5/44HgXhW7VUdO0sy5arXzQ2w6GmESP+vwn0wed
- AvJZxCW0KAbT0TW5F2eh/JiTa1k/s0jE8g==
-X-Google-Smtp-Source: ABdhPJyrt/U04xIvJZzUVYMcbP/+B4V5yliYVgNS1ZJeIkJYJvEMJ/WKD6rDWMmPYyXbbkRSqGNAPA==
-X-Received: by 2002:a4a:d549:: with SMTP id q9mr3347752oos.74.1599166869225;
- Thu, 03 Sep 2020 14:01:09 -0700 (PDT)
+ bh=MEvZmvR0w7xE2ynIxcSs7eM6zvrUrLkOXOPrCdnExrc=;
+ b=fx/o2ktpeCQqcH3JVsSDkim63q3en/X5Z48LUM9A13TdPRiJ/nC+iW6yhMYsepEl3X
+ /9U9gdTOFSaK1lJYLx3g/Y+c9oeHcl0aHDh7J8kDaKhPjIq8eY5fLGCuMkhXOR3Jrp/x
+ jAtMEx7zSZ8kDPPhQj+miSb8ntAkxrRlR20ywh+RHTEU6IQueyO/2B50pdvlqXyC7DDf
+ Pc62neJOwx9a8OE10Vfuevwf3C+Ld0zVVADcDkG573WNzgp5xVQvo/sJVXALJf9XVhPN
+ 20ri9bxFQD8qQSmGWV5wiJ5tuOwlm4YNogYH+2vDuEXtB2xCxXneGtx37ILNrHDwyjpB
+ 9aYQ==
+X-Gm-Message-State: AOAM530eYwd/E1o4KFu6fAxChtozO4XWI7hxKMxjJw1bruduudnhYPKI
+ g5VbmnEn1Zd8112x6SFX4BIhim3mw2H7zQ==
+X-Google-Smtp-Source: ABdhPJyJyLCTANyduaYarkhhRlhGRzO9m/cVeMwLioY1o2bStwQnmnE/dWD7V12NTVv+J6PlTctxgw==
+X-Received: by 2002:a9d:621a:: with SMTP id g26mr3233188otj.209.1599166870579; 
+ Thu, 03 Sep 2020 14:01:10 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id e9sm814941oog.10.2020.09.03.14.01.08
+ by smtp.gmail.com with ESMTPSA id 3sm767533otu.46.2020.09.03.14.01.09
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:01:08 -0700 (PDT)
+ Thu, 03 Sep 2020 14:01:10 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 65/77] virtio: list legacy-capable devices
-Date: Thu,  3 Sep 2020 15:59:23 -0500
-Message-Id: <20200903205935.27832-66-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 66/77] virtio: verify that legacy support is not accidentally
+ on
+Date: Thu,  3 Sep 2020 15:59:24 -0500
+Message-Id: <20200903205935.27832-67-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c29;
- envelope-from=flukshun@gmail.com; helo=mail-oo1-xc29.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x332.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -88,83 +89,64 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cornelia Huck <cohuck@redhat.com>
 
-Several types of virtio devices had already been around before the
-virtio standard was specified. These devices support virtio in legacy
-(and transitional) mode.
+If a virtio device does not have legacy support, make sure that
+it is actually off, and bail out if not.
 
-Devices that have been added in the virtio standard are considered
-non-transitional (i.e. with no support for legacy virtio).
+For virtio-pci, this means that any device without legacy support
+that has been specified to modern-only (or that has been forced
+to it) will work.
 
-Provide a helper function so virtio transports can figure that out
-easily.
+For virtio-ccw, this duplicates the check that is currently done
+prior to realization for any device that explicitly specified no
+support for legacy.
+
+This catches devices that have not been fenced properly.
 
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-Message-Id: <20200707105446.677966-2-cohuck@redhat.com>
+Message-Id: <20200707105446.677966-3-cohuck@redhat.com>
 Cc: qemu-stable@nongnu.org
 Acked-by: Halil Pasic <pasic@linux.ibm.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-(cherry picked from commit 7c78bdd7a3d0086179331f10d1f6f8cdac34731a)
+(cherry picked from commit 9b3a35ec8236933ab958a4c3ad883163f1ca66e7)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/virtio/virtio.c         | 25 +++++++++++++++++++++++++
- include/hw/virtio/virtio.h |  2 ++
- 2 files changed, 27 insertions(+)
+ hw/s390x/virtio-ccw.c  | 6 ++++++
+ hw/virtio/virtio-pci.c | 4 ++++
+ 2 files changed, 10 insertions(+)
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index b6c8ef5bc0..398fd4a305 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -27,6 +27,7 @@
- #include "hw/virtio/virtio-access.h"
- #include "sysemu/dma.h"
- #include "sysemu/runstate.h"
-+#include "standard-headers/linux/virtio_ids.h"
+diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
+index 64f928fc7d..c069719429 100644
+--- a/hw/s390x/virtio-ccw.c
++++ b/hw/s390x/virtio-ccw.c
+@@ -1119,6 +1119,12 @@ static void virtio_ccw_device_plugged(DeviceState *d, Error **errp)
+         dev->max_rev = 0;
+     }
  
- /*
-  * The alignment to use between consumer and producer parts of vring.
-@@ -3278,6 +3279,30 @@ void virtio_init(VirtIODevice *vdev, const char *name,
-     vdev->use_guest_notifier_mask = true;
- }
- 
-+/*
-+ * Only devices that have already been around prior to defining the virtio
-+ * standard support legacy mode; this includes devices not specified in the
-+ * standard. All newer devices conform to the virtio standard only.
-+ */
-+bool virtio_legacy_allowed(VirtIODevice *vdev)
-+{
-+    switch (vdev->device_id) {
-+    case VIRTIO_ID_NET:
-+    case VIRTIO_ID_BLOCK:
-+    case VIRTIO_ID_CONSOLE:
-+    case VIRTIO_ID_RNG:
-+    case VIRTIO_ID_BALLOON:
-+    case VIRTIO_ID_RPMSG:
-+    case VIRTIO_ID_SCSI:
-+    case VIRTIO_ID_9P:
-+    case VIRTIO_ID_RPROC_SERIAL:
-+    case VIRTIO_ID_CAIF:
-+        return true;
-+    default:
-+        return false;
++    if (!virtio_ccw_rev_max(dev) && !virtio_legacy_allowed(vdev)) {
++        error_setg(errp, "Invalid value of property max_rev "
++                   "(is %d expected >= 1)", virtio_ccw_rev_max(dev));
++        return;
 +    }
-+}
 +
- hwaddr virtio_queue_get_desc_addr(VirtIODevice *vdev, int n)
- {
-     return vdev->vq[n].vring.desc;
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index b69d517496..198ffc7626 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -396,4 +396,6 @@ static inline bool virtio_device_disabled(VirtIODevice *vdev)
-     return unlikely(vdev->disabled || vdev->broken);
- }
+     if (virtio_get_num_queues(vdev) > VIRTIO_QUEUE_MAX) {
+         error_setg(errp, "The number of virtqueues %d "
+                    "exceeds virtio limit %d", n,
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index 4cb784389c..2ca266e1cb 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -1565,6 +1565,10 @@ static void virtio_pci_device_plugged(DeviceState *d, Error **errp)
+     }
  
-+bool virtio_legacy_allowed(VirtIODevice *vdev);
-+
- #endif
+     if (legacy) {
++        if (!virtio_legacy_allowed(vdev)) {
++            error_setg(errp, "device is modern-only, use disable-legacy=on");
++            return;
++        }
+         if (virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)) {
+             error_setg(errp, "VIRTIO_F_IOMMU_PLATFORM was supported by"
+                        " neither legacy nor transitional device");
 -- 
 2.17.1
 
