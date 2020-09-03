@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B93525C6B3
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 18:26:12 +0200 (CEST)
-Received: from localhost ([::1]:41164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12EC325C68F
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 18:19:27 +0200 (CEST)
+Received: from localhost ([::1]:51230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDs3u-0004FA-SU
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 12:26:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35744)
+	id 1kDrxN-0005Km-Sa
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 12:19:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kDrmZ-0007vt-F9
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:08:15 -0400
-Received: from mout.gmx.net ([212.227.17.21]:50019)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kDrmj-000844-Gj
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:08:25 -0400
+Received: from mout.gmx.net ([212.227.17.20]:37305)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kDrmU-0007kZ-J4
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:08:15 -0400
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kDrmh-0007nk-1l
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:08:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1599149270;
- bh=37Qg0M6Cgn8RIf6R4DNY3eDMd1YwBtJmIys2nkMm5vA=;
+ s=badeba3b8450; t=1599149271;
+ bh=HFMYYgXi0LtEZnRIqLZyX2/D+EQ8XXykoOKUAb4kocc=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=RP6IogFT4+9HnNsSVOnE4kiN0y1BsOpG239QzLBjV6D1Ayq4eZRAIOym5+zLMS8xw
- PXCxC09dKpY68J+LpffFOeR1M4+MUSV7vLut9/pMNF67xwce1gKvlayQ1pQUJvsZB2
- MzqTcXHf2vxXwIaLyWlqg9Nr5wsTUjMIQSVLoO3E=
+ b=LyS+44Kj2Cew70ZmGp2TxG2YZ3xaGt8kKvcmjbIAwIGfJ73Ytm+56DCUa0slHC6NK
+ ECSZIIs0/1deOwuIwgXbyn0FaNsgIPofchGoGEXAb1IPdMJdVnW/dF9yplWB67P6ER
+ pI95R3EWS6WId5PWEiyLURX8+8vBSCT1kxLkFCYU=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from ls3530.fritz.box ([92.116.138.28]) by mail.gmx.com (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1M89Gt-1k9jAj2Zpz-005H9B; Thu, 03
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N4hvb-1kfsWX3Rln-011jOL; Thu, 03
  Sep 2020 18:07:50 +0200
 From: Helge Deller <deller@gmx.de>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 02/10] hw/hppa: Make number of TLB and BTLB entries configurable
-Date: Thu,  3 Sep 2020 18:07:38 +0200
-Message-Id: <20200903160746.27491-3-deller@gmx.de>
+Subject: [PULL 03/10] hw/hppa: Store boot device in fw_cfg section
+Date: Thu,  3 Sep 2020 18:07:39 +0200
+Message-Id: <20200903160746.27491-4-deller@gmx.de>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200903160746.27491-1-deller@gmx.de>
 References: <20200903160746.27491-1-deller@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:iB8h5gi8tl0fVeIS1JY1XRWwQfA1kd7ZOufl1NKc8AgCG67iYzI
- fDPlqMJ3G0qTVr+6Ts0vP1BPQ67bva4aqzqiKp6K2uXusC+IHm/xV5wKcWvfvWWSSdH7qbb
- +ENODaQZ0ednydBfPOXIJFp5v9vLKX57mFkaBeyrWZTQAV26Tn3CX+AOq3I64EfvsWmX/9J
- byNcYAFPForKgWSuRhnWg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:W2E1ejVb5Wc=:Ynb22IXx3pMKbcwAWnLGn2
- lke3/YKV866iCvPyugTrhaavHO8ZzWXI+rEzucKp+8YYz0ji8SCuPIMB7BhBmBSsbV7LQrhTv
- xS2pTf7tio/lZ6JtRWW2gSQ4h3W9Xtwf5ZO4IEeEy/xtJaySb2Ql8KwJ7l6wL+GhttpSyUhL4
- y/YoBTG77v9XHGkVZnqu8x4EVMddX2oqlx2rxSVNW0xfxQt+PjtHwZBUlIE9Lyg84XdGOf+AM
- gxiJrFb/ONy1pGvKyt7W/RpuxyZ9fUmcRv5dnJXhiJWzVxLbXE3DeRnSEjHE+Prpo2qVtbfHT
- cm1OMRjTEgoKWGiXu4kYv6D1KlJpSbGCFpknkn7uQZtYrbGvDfOzNdSjDwz+K1A53+b46EDWx
- NMScTvg3SnW8mlS2pVKC+5yXVjCDaawcwgTzm6Y+wneBX9Pva92rWhr5jsTJPc9iySf2DRH3P
- Bw9I7TThwZlYliK/oLw5CXcqF0wO8vJ8IfIB+/aBCSjjrX6XUK3CjaX8PY7/q8aOBuPNdeg+0
- zpYPCczRIxEhEyw71YPQU+rk0c61RI3ZpOHB2mUVf30VhnV4wjr2cYVRl8nMw6ATHqdKVN7N5
- 0VtNlIg+fprBMToK9j4SRWxGDiE0a3xiw5hl0E1tsC/4AoimrCDOdbrk1YX+unmvZVYrplsyn
- /NQClELKkIi1jYWPBJlpGenG2QFqWxPmmz1nVvpMnMKMR9XYpsWzSKBe+5C4wxIQGXdOZ8IO/
- wzcOhE/Wc9h0uYWOXpTwbeQASIl3Hd86AexqobjlqmUjfnIgbC+AubVCj4lQuMPmTYukb+n0R
- loUMZUgEX6w83hnQDyWf5WJzl8lJDnyBWZ0QvAj+FshiLTN5z52XSEIffhzhIzmUA+FndqwJQ
- ec+hXQeqNvF5f3vrze3e1+eFxQrsO3LEeacXSvpHAoMXqKS1G2A6jEPGWfIje+twqDogOY1jo
- Oexo9BrWJYL2vxy6iIKKL0yqAb8oMI+x/W8mGB3Du+a0deR/qeRtqAFIqufIX/7PG/3W/PqGV
- fhES+vnJi+XNdaCzioyit9YeLMKaG5oOVdGSuscuJ2bE5ZXyI38cD3zhOHdT5L8suYlCrUDfb
- wpFuJhNFGjVzszIyv03goDY2b1zmrGNIu/nNlD7e0zHeG+/IaIn0uhRvUAQOHA1mQHBoX3/BQ
- NkRoEr3+uNaVEdFKeT7j9MSbambMJitJZUVqMfkWqLM4b5lCkG67r4b/+s1j32BxwW0PGQrxb
- 6U9wBzyT5tdYiyDtp
-Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
+X-Provags-ID: V03:K1:bivg9Pxs5zk9pXYAPLswhcJtZ1lRxLKkdS7u3fq+2iCNNuigm5d
+ T+F5ZkVfD/xtaPh7KkupzZtE/kKlRdWKR+V1BIP1UieOX2gKFqkYp6jcepdvwXbT2p+Dhri
+ /fv5CI4N3Nb9G7VJu/SrJhcWWzHI3URtRW8r7q0cjh1Hkk4ImX5ycUmnc6QadCNaX8ja+eB
+ D3Gf6VlVhJ6pHDuZFbleA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:aA9qzjkvhi4=:hWRHk/V+3iJz6mBvaXSSec
+ o8VrVAhFF+UU3EII+bDzeh0D1Rf5m6PTYg/2cfmFPnEacnRr8NthT7D41tiQWVnQtKnd818WE
+ olzgIBoGMnThNJa0GFuEq6AjYD40OyXnw9EYExoYoiDty+oyeh5EecmuHo+hsii4+LLr3xtdf
+ 7eMaY7I7i8S2gKrNnhwvgA5TyxXId7wBP/772DXBS7oVOzkP9jlhtniCSybBTEv1lnjL4eZsQ
+ 8Im3Q/7wk/SZTc/YXuSAsZc1ZZFOQel1gEHTq7MDUkCUULWj6AM6H5LVsV2o1XaPhgzOdvvKE
+ 1fhncdZ7cURAmbqXcrk+bcntnooNu/pK2BcAnJpTAQ2tknCAxZ6/MkZBarhXt5ylkN7b6nveZ
+ /+ahOzngdXrwg/59zRQZdY/2FkJEpKkuFYZeVIVFLApoaYxyA4WXX5HQNBUqlMAvUsr7kQ5u3
+ 4cv5Xi9MCGQKP8s4TJ8mZeX3y0lboHqRNPkyO8Ow2Ag2A8Yu0xR9u7ORNX2+pVWJOH4ThNutl
+ ACQCZCXwiquHX+tF3wjC3M/KSbiHCaSYeow+9NbmfCi2BkIIhFMoVSCc+rb07iTYubBjq8UXM
+ 35pYFNQoaRcfcM36Qusutupf9FevyD4yPWSPn7bL5v49SbAIYZ5UE/M98QcfAnd1Du1cMovCH
+ ktldtw1vT25mYx/0bonQO4WVttlFT4YJuJX728RLzaigFkpJa2dyHSGmgS+b7hgCQqBvo+FwV
+ VK9dztuqlXkWPpmGcWh4U7/I3NKI4cA2mB3c5xyIaDkfN7Px1GX+cgAqxrBtJir23s+n3233i
+ WY78Wc4Mte6NeUET60sgQNkHTabAbqqTTWg+d7zJzgLWXtpCAf2/T0sO+3lDRkgzObltyQbuq
+ dUnFgtC4JF4EDDwA9u+GlMkMKdODj5Yj9DLpKI7rU1QCKT9Q2YQ1KXnY5sNmez7Oin+T2Rp9O
+ 2xL/EM5cB1jkfAb/S1o3C+PqAvLI8yyW0koLsdb9WAEqbhrqKy2ab2Cxtwa7oXVhlpRfWc7uq
+ kSODfMiNvTme9+Db12Ei19C/OEIBp1ij5yUe2oTyDIaqqyb3N3VC/ou1VSOM9AebHBcs/MBy0
+ BBaRvf2PLq816kQfuKcRhzrVB/XRFOMEtB6qY7xfy27gGc/QVD0pAYPBP4Nw9KdqFqpkBt8NA
+ L0XRkk1KVTq33OmBX6fPY/VKi8iB2UJOMfA3XgxVssVxJLMDs4eO6re+fmSdwHhzyH3lZ+7mH
+ O1tzOVNDjs8CbEFYB
+Received-SPF: pass client-ip=212.227.17.20; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 12:08:05
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 12:08:01
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
@@ -85,60 +85,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>, Richard Henderson <rth@twiddle.net>
+Cc: Helge Deller <deller@gmx.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Until now the TLB size was fixed at 256 entries. To allow operating
-systems to utilize more TLB entries in the future, we need to tell
-firmware how many TLB entries we actually support in the emulation.
-Firmware then reports this to the operating system via the
-PDC_CACHE_INFO call.
-
-This patch simply does the preparation to allow more TLB entries.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Helge Deller <deller@gmx.de>
 =2D--
- hw/hppa/machine.c | 8 ++++++++
- target/hppa/cpu.h | 5 ++++-
- 2 files changed, 12 insertions(+), 1 deletion(-)
+ hw/hppa/machine.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-index 90aeefe2a4..e9d84d0f03 100644
+index e9d84d0f03..4b35afc9d5 100644
 =2D-- a/hw/hppa/machine.c
 +++ b/hw/hppa/machine.c
-@@ -72,6 +72,14 @@ static FWCfgState *create_fw_cfg(MachineState *ms)
-     fw_cfg_add_file(fw_cfg, "/etc/firmware-min-version",
+@@ -58,6 +58,12 @@ static uint64_t cpu_hppa_to_phys(void *opaque, uint64_t=
+ addr)
+ static HPPACPU *cpu[HPPA_MAX_CPUS];
+ static uint64_t firmware_entry;
+
++static void fw_cfg_boot_set(void *opaque, const char *boot_device,
++                            Error **errp)
++{
++    fw_cfg_modify_i16(opaque, FW_CFG_BOOT_DEVICE, boot_device[0]);
++}
++
+ static FWCfgState *create_fw_cfg(MachineState *ms)
+ {
+     FWCfgState *fw_cfg;
+@@ -80,6 +86,9 @@ static FWCfgState *create_fw_cfg(MachineState *ms)
+     fw_cfg_add_file(fw_cfg, "/etc/cpu/btlb_entries",
                      g_memdup(&val, sizeof(val)), sizeof(val));
 
-+    val =3D cpu_to_le64(HPPA_TLB_ENTRIES);
-+    fw_cfg_add_file(fw_cfg, "/etc/cpu/tlb_entries",
-+                    g_memdup(&val, sizeof(val)), sizeof(val));
-+
-+    val =3D cpu_to_le64(HPPA_BTLB_ENTRIES);
-+    fw_cfg_add_file(fw_cfg, "/etc/cpu/btlb_entries",
-+                    g_memdup(&val, sizeof(val)), sizeof(val));
++    fw_cfg_add_i16(fw_cfg, FW_CFG_BOOT_DEVICE, ms->boot_order[0]);
++    qemu_register_boot_set(fw_cfg_boot_set, fw_cfg);
 +
      return fw_cfg;
  }
-
-diff --git a/target/hppa/cpu.h b/target/hppa/cpu.h
-index 801a4fb1ba..fb6c59d075 100644
-=2D-- a/target/hppa/cpu.h
-+++ b/target/hppa/cpu.h
-@@ -196,9 +196,12 @@ struct CPUHPPAState {
-     target_ureg shadow[7];   /* shadow registers */
-
-     /* ??? The number of entries isn't specified by the architecture.  */
-+#define HPPA_TLB_ENTRIES        256
-+#define HPPA_BTLB_ENTRIES       0
-+
-     /* ??? Implement a unified itlb/dtlb for the moment.  */
-     /* ??? We should use a more intelligent data structure.  */
--    hppa_tlb_entry tlb[256];
-+    hppa_tlb_entry tlb[HPPA_TLB_ENTRIES];
-     uint32_t tlb_last;
- };
 
 =2D-
 2.21.3
