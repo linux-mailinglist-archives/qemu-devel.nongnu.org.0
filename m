@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB19225BFE9
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 13:11:49 +0200 (CEST)
-Received: from localhost ([::1]:43578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7689325C005
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 13:18:28 +0200 (CEST)
+Received: from localhost ([::1]:40740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDn9g-0004ud-SY
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 07:11:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34372)
+	id 1kDnG7-0006z2-HZ
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 07:18:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDn7f-0001BD-J7
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 07:09:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22503)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDn7p-0001Mp-Ha
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 07:09:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60664)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDn7c-0005yI-Tu
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 07:09:43 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kDn7n-0005z8-AF
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 07:09:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599131379;
+ s=mimecast20190719; t=1599131388;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6vKwxcBB1Jm47jSnzS0OZNKGx56lCbflcLgkBcmGpYU=;
- b=c7CutQ7aLjyLcx3mrx4DS914Wtbj5iihfz3Gj1bBraM2YQPEVjxo7sTICrxCKLv5C1A21u
- gM4SJLpnkJ2WpyfBuX0eLojWX/hHv3MFRAk//mMV23h6dgUFMZKkflie8VUCdE0jFF0dW2
- CWTok/+kdQQ8b+3cEOT12nrKn9lnY4Y=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-329-QeZ5Dz04MTWAAWsqxhSaFQ-1; Thu, 03 Sep 2020 07:09:38 -0400
-X-MC-Unique: QeZ5Dz04MTWAAWsqxhSaFQ-1
-Received: by mail-wm1-f70.google.com with SMTP id z1so856948wmk.1
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 04:09:38 -0700 (PDT)
+ bh=Gfc0vh/hSxUgj/nHXInlGH3QJr0Hadg3+ww1zXZjK0w=;
+ b=UKpe9sK8U3RUHZqdpXNqXB4rCXrncs31Su5LskFZuaklFP58EOqfSz06TUsDj8vnGis3Xt
+ nPvrJ/0V39wrd8LVFi5JFeo09w8z+whs1G3s02p2cAfUH6SltRPjMGwSZr26xdSnJB10aN
+ oqYebD4A7XYgdV5WS4hH/8uRf8fupHQ=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-336-DxewNy5VNjG5XU65okIWkQ-1; Thu, 03 Sep 2020 07:09:44 -0400
+X-MC-Unique: DxewNy5VNjG5XU65okIWkQ-1
+Received: by mail-wr1-f70.google.com with SMTP id b7so954401wrn.6
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 04:09:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6vKwxcBB1Jm47jSnzS0OZNKGx56lCbflcLgkBcmGpYU=;
- b=nGpIhgm6/fJ9UUSMWCq8yppCpKbXSPn/7yNk3NhOYJ9Tnf8q5nZ9OdTmkaoe9mO4mW
- Xhf2CBm/CrQCS6+8H3aQBrx10DtrMMbYNFUryLRfs2+R34KnqFa8MymbllhewqJ+yuh8
- tmlAb5A4k//zdzT64DcVoFEE3Na5fNVxrMdu+kfQjapMMHzkw7N8ncsrr/tKD7HVEeVq
- K53atsPC0kw6Ob6PesGE744gX0XeGvnbvcMqviDvxX3RFmZmA3f2GGYQQ7snPZVbTjxR
- EAVy3oGATn6MlUOteLoHXE8Qxzoh7n16iGIYkUpsX+qER6P5Xy+Wlb7L175wIAuHxAAX
- fgNA==
-X-Gm-Message-State: AOAM532R2qM3IiD41/3gQHcBLRp7RZ4shpZEoifcR9aQsRXfI30mvhRN
- af1fekSau/Lhdm/JEvvUAA3vgkIVzyASLbdXee64oWosAvqOVLjuzNY6OTl19G98t4sRTTQaViP
- /pkUjoOfBxe9a8sM=
-X-Received: by 2002:adf:f7d0:: with SMTP id a16mr1759235wrq.381.1599131377060; 
- Thu, 03 Sep 2020 04:09:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx9ZzABMZHs/OnZtQQCj7u3oB9peViXkexZzHsdyPbqqnttBSyzIq0Xp6JVHBCMLGPo6NUwEw==
-X-Received: by 2002:adf:f7d0:: with SMTP id a16mr1759190wrq.381.1599131376857; 
- Thu, 03 Sep 2020 04:09:36 -0700 (PDT)
+ bh=Gfc0vh/hSxUgj/nHXInlGH3QJr0Hadg3+ww1zXZjK0w=;
+ b=Lvn940b+l7fxOyNS/zecAdn3X0DSm32QaH+yKa/A+eLRCPm8ij8VBlfPVKSD+LHDfP
+ KNzx/0ncJEAl/ZJZgs1INYAm3ZnQd/dj9JhwTuvNVst4FXcjJmhP0d+fG+yx0rrIbsca
+ nv89+chHEYbxGu0klGPn2DgeLT+GdDmn+BAPrlORrue/0u/cybsmBR1/mTsx8YjPAj6q
+ 0oBEpBOgWmsyCPBNMJUX8ivqcJWydKFM68EME+WHA5qM7j6q/TdDjKknazhvP1yKIcZ/
+ w8GY+Hc2iOpkGBh3dCU2mG1ML1DzLCAgcvxxv1oGJTPD0R6M5zudmbdObvTS7KAztvGe
+ Rgog==
+X-Gm-Message-State: AOAM533c0tWn8AK26+MzFO6xdQM3O74hEq0B2PlH43M6wPSP/SL15mX0
+ lmxhLb64jPgNuQtYQENuPfbejmIGvtQY+hHY5Fxni0OgxRCjjCC0XH6A/nPkhwrGsydHD85ZgO1
+ Ce3WYX92j1XMvStw=
+X-Received: by 2002:a1c:4c06:: with SMTP id z6mr1916156wmf.40.1599131383034;
+ Thu, 03 Sep 2020 04:09:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxa1QNXafg0ye14T7uTUb9HQ/dvqWbALHxQzlyRjgumJlibWVrf8ZVOSq1l2j24wGvld+nBug==
+X-Received: by 2002:a1c:4c06:: with SMTP id z6mr1916113wmf.40.1599131382849;
+ Thu, 03 Sep 2020 04:09:42 -0700 (PDT)
 Received: from localhost.localdomain (50.red-83-52-54.dynamicip.rima-tde.net.
  [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id h6sm3675958wmb.22.2020.09.03.04.09.34
+ by smtp.gmail.com with ESMTPSA id z13sm3820908wro.97.2020.09.03.04.09.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Sep 2020 04:09:36 -0700 (PDT)
+ Thu, 03 Sep 2020 04:09:42 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 10/12] exec/memattrs: Introduce MemTxAttrs::direct_access
- field
-Date: Thu,  3 Sep 2020 13:08:29 +0200
-Message-Id: <20200903110831.353476-11-philmd@redhat.com>
+Subject: [RFC PATCH 11/12] hw/pci: Only allow PCI slave devices to write to
+ direct memory
+Date: Thu,  3 Sep 2020 13:08:30 +0200
+Message-Id: <20200903110831.353476-12-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200903110831.353476-1-philmd@redhat.com>
 References: <20200903110831.353476-1-philmd@redhat.com>
@@ -74,9 +74,9 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 01:47:17
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 04:23:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -125,78 +125,90 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the 'direct_access' bit to the memory attributes to restrict
-bus master access to ROM/RAM.
-Have read/write accessors return MEMTX_BUS_ERROR if an access is
-restricted and the region is not ROM/RAM ('direct').
-Add corresponding trace events.
+Do not allow PCI slaves to write to indirect memory
+regions such MMIO.
 
+This fixes LP#1886362 and LP#1888606.
+
+Example with the former reproducer:
+
+  $ cat << EOF | \
+    qemu-system-i386 -M q35,accel=qtest \
+                     -qtest stdio \
+                     -trace memory_access\* \
+  outl 0xcf8 0x80001010
+  outl 0xcfc 0xe1020000
+  outl 0xcf8 0x80001014
+  outl 0xcf8 0x80001004
+  outw 0xcfc 0x7
+  outl 0xcf8 0x800010a2
+  write 0xe102003b 0x1 0xff
+  write 0xe1020103 0x1e 0xffffff055c5e5c30be4511d084ffffffffffffffffffffffffffffffffff
+  write 0xe1020420 0x4 0xffffffff
+  write 0xe1020424 0x4 0xffffffff
+  write 0xe102042b 0x1 0xff
+  write 0xe1020430 0x4 0x055c5e5c
+  write 0x5c041 0x1 0x04
+  write 0x5c042 0x1 0x02
+  write 0x5c043 0x1 0xe1
+  write 0x5c048 0x1 0x8a
+  write 0x5c04a 0x1 0x31
+  write 0x5c04b 0x1 0xff
+  write 0xe1020403 0x1 0xff
+  EOF
+  562564:memory_access_illegal is_write:1 addr:0xe1020400 size:0x000e region:'e1000e-mmio'
+  562592:memory_access_illegal is_write:1 addr:0xe102040e size:0x007c region:'e1000e-mmio'
+  562601:memory_access_illegal is_write:1 addr:0xe102048a size:0x0004 region:'e1000e-mmio'
+
+Reported-by: Alexander Bulekov <alxndr@bu.edu>
+Buglink: https://bugs.launchpad.net/qemu/+bug/1886362
+Buglink: https://bugs.launchpad.net/qemu/+bug/1888606
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/exec/memattrs.h | 3 +++
- exec.c                  | 8 ++++++++
- trace-events            | 1 +
- 3 files changed, 12 insertions(+)
+ include/hw/pci/pci.h | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
 
-diff --git a/include/exec/memattrs.h b/include/exec/memattrs.h
-index 95f2d20d55b..c27cf639a96 100644
---- a/include/exec/memattrs.h
-+++ b/include/exec/memattrs.h
-@@ -35,6 +35,8 @@ typedef struct MemTxAttrs {
-     unsigned int secure:1;
-     /* Memory access is usermode (unprivileged) */
-     unsigned int user:1;
-+    /* Bus master restricted to ROM/RAM slaves */
-+    unsigned int direct_access:1;
-     /* Requester ID (for MSI for example) */
-     unsigned int requester_id:16;
-     /* Invert endianness for this page */
-@@ -66,6 +68,7 @@ typedef struct MemTxAttrs {
- #define MEMTX_OK 0
- #define MEMTX_ERROR             (1U << 0) /* device returned an error */
- #define MEMTX_DECODE_ERROR      (1U << 1) /* nothing at that address */
-+#define MEMTX_BUS_ERROR         (1U << 2) /* bus returned an error */
- typedef uint32_t MemTxResult;
- 
- #endif
-diff --git a/exec.c b/exec.c
-index 7683afb6a8e..e6185eb04de 100644
---- a/exec.c
-+++ b/exec.c
-@@ -3213,6 +3213,10 @@ static MemTxResult flatview_write(FlatView *fv, hwaddr addr, MemTxAttrs attrs,
- 
-     l = len;
-     mr = flatview_translate(fv, addr, &addr1, &l, true, attrs);
-+    if (attrs.direct_access && !memory_access_is_direct(mr, true)) {
-+        trace_memory_access_illegal(true, addr, len, mr->name);
-+        return MEMTX_BUS_ERROR;
-+    }
-     result = flatview_write_continue(fv, addr, attrs, buf, len,
-                                      addr1, l, mr);
- 
-@@ -3275,6 +3279,10 @@ static MemTxResult flatview_read(FlatView *fv, hwaddr addr,
- 
-     l = len;
-     mr = flatview_translate(fv, addr, &addr1, &l, false, attrs);
-+    if (attrs.direct_access && !memory_access_is_direct(mr, false)) {
-+        trace_memory_access_illegal(false, addr, len, mr->name);
-+        return MEMTX_BUS_ERROR;
-+    }
-     return flatview_read_continue(fv, addr, attrs, buf, len,
-                                   addr1, l, mr);
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index 8f901e6c289..cd97268b3a8 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -788,8 +788,12 @@ static inline AddressSpace *pci_get_address_space(PCIDevice *dev)
+ static inline int pci_dma_rw(PCIDevice *dev, dma_addr_t addr,
+                              void *buf, dma_addr_t len, DMADirection dir)
+ {
++    MemTxAttrs attrs = {
++        .direct_access = (dir == DMA_DIRECTION_FROM_DEVICE),
++        .requester_id = pci_requester_id(dev),
++    };
+     return dma_memory_rw(pci_get_address_space(dev), addr, buf, len,
+-                         dir, MEMTXATTRS_UNSPECIFIED);
++                         dir, attrs);
  }
-diff --git a/trace-events b/trace-events
-index 42107ebc697..931896735b1 100644
---- a/trace-events
-+++ b/trace-events
-@@ -54,6 +54,7 @@ find_ram_offset_loop(uint64_t size, uint64_t candidate, uint64_t offset, uint64_
- ram_block_discard_range(const char *rbname, void *hva, size_t length, bool need_madvise, bool need_fallocate, int ret) "%s@%p + 0x%zx: madvise: %d fallocate: %d ret: %d"
- memory_notdirty_write_access(uint64_t vaddr, uint64_t ram_addr, unsigned size) "0x%" PRIx64 " ram_addr 0x%" PRIx64 " size %u"
- memory_notdirty_set_dirty(uint64_t vaddr) "0x%" PRIx64
-+memory_access_illegal(bool is_write, uint64_t addr, uint64_t len, const char *mr_name) "is_write:%u addr:0x%08" PRIx64 " size:0x%04" PRIx64 " region:'%s'"
  
- # memory.c
- memory_region_ops_read(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
+ static inline int pci_dma_read(PCIDevice *dev, dma_addr_t addr,
+@@ -808,14 +812,18 @@ static inline int pci_dma_write(PCIDevice *dev, dma_addr_t addr,
+     static inline uint##_bits##_t ld##_l##_pci_dma(PCIDevice *dev,      \
+                                                    dma_addr_t addr)     \
+     {                                                                   \
+-        return ld##_l##_dma(pci_get_address_space(dev), addr,           \
+-                            MEMTXATTRS_UNSPECIFIED);                    \
++        MemTxAttrs attrs = {                                            \
++            .requester_id = pci_requester_id(dev),                      \
++        };                                                              \
++        return ld##_l##_dma(pci_get_address_space(dev), addr, attrs);   \
+     }                                                                   \
+     static inline void st##_s##_pci_dma(PCIDevice *dev,                 \
+                                         dma_addr_t addr, uint##_bits##_t val) \
+     {                                                                   \
+-        st##_s##_dma(pci_get_address_space(dev), addr, val,             \
+-                     MEMTXATTRS_UNSPECIFIED);                           \
++        MemTxAttrs attrs = {                                            \
++            .requester_id = pci_requester_id(dev),                      \
++        };                                                              \
++        st##_s##_dma(pci_get_address_space(dev), addr, val, attrs);     \
+     }
+ 
+ PCI_DMA_DEFINE_LDST(ub, b, 8);
 -- 
 2.26.2
 
