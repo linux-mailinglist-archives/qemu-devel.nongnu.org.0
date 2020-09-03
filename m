@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99DFD25CBED
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:13:16 +0200 (CEST)
-Received: from localhost ([::1]:51058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 785E025CBBB
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:00:58 +0200 (CEST)
+Received: from localhost ([::1]:37222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwXj-0005Aj-KS
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:13:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56414)
+	id 1kDwLp-00039x-Fs
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:00:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDwEj-00018w-31
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 16:53:38 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45335
- helo=us-smtp-1.mimecast.com)
+ id 1kDwEa-00013k-1g
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 16:53:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25432)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kDwEb-0006bz-JH
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 16:53:35 -0400
+ id 1kDwEW-0006bZ-0e
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 16:53:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599166407;
+ s=mimecast20190719; t=1599166403;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=F3sKMxahOjYTwSinktMwxAbRSsAgIiqhInGAWsm1MF0=;
- b=e//evoK0ry8RImKlquUNZwz6AkRL0MqJr76mNg1ViT7JUj3xjR5JEIDBoHx0KQKj6OelS4
- FnpofOM3A26PPq4Zt99fjD5YpWVkalazA3CjJ6QvJR3CiOTorOKKX28schjJYPunTFkNoS
- GRAATgw5Wye16NW5g0cbPFPBJQNOd0U=
+ bh=Y+oHo64EvoiaTMi66DVtt06upr/08pRVnAZcNgeussI=;
+ b=JgQViCzQTPSx/mej0g+j/HW8qWFNZobBg/Menu7ZVkTk2sY1OJNVXHld+2PcA0w4Ivj70H
+ lH0mTX9DvcvwRO5LskWzng41qB1/FYVzO7Zo7R9iWEdw+j9Kd1Epw9KUg3wv6QQUvG2c1U
+ Kp1IgJ0IgRJ83ickpuV0Z5ta7Rr0bic=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-186-Hj42jdj_OaSM61UhGHXF2g-1; Thu, 03 Sep 2020 16:53:15 -0400
-X-MC-Unique: Hj42jdj_OaSM61UhGHXF2g-1
+ us-mta-359-i9LarM1ANwS-7I3_Dpq8Jw-1; Thu, 03 Sep 2020 16:53:18 -0400
+X-MC-Unique: i9LarM1ANwS-7I3_Dpq8Jw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB35A18BA282;
- Thu,  3 Sep 2020 20:53:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D868D10BBED0;
+ Thu,  3 Sep 2020 20:53:17 +0000 (UTC)
 Received: from localhost (ovpn-66-226.rdu2.redhat.com [10.10.66.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8F6AD81190;
- Thu,  3 Sep 2020 20:53:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A23C52D07D;
+ Thu,  3 Sep 2020 20:53:17 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 15/27] ap-device: Rename AP_DEVICE_TYPE to TYPE_AP_DEVICE
-Date: Thu,  3 Sep 2020 16:52:35 -0400
-Message-Id: <20200903205247.1667472-16-ehabkost@redhat.com>
+Subject: [PULL 17/27] vfio: Rename VFIO_AP_DEVICE_TYPE to TYPE_VFIO_AP_DEVICE
+Date: Thu,  3 Sep 2020 16:52:37 -0400
+Message-Id: <20200903205247.1667472-18-ehabkost@redhat.com>
 In-Reply-To: <20200903205247.1667472-1-ehabkost@redhat.com>
 References: <20200903205247.1667472-1-ehabkost@redhat.com>
 MIME-Version: 1.0
@@ -59,17 +58,17 @@ X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 01:58:20
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 01:47:17
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,61 +91,52 @@ the type checking macro.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20200902224311.1321159-6-ehabkost@redhat.com>
+Message-Id: <20200902224311.1321159-9-ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/hw/s390x/ap-device.h | 4 ++--
- hw/s390x/ap-device.c         | 2 +-
- hw/vfio/ap.c                 | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ hw/vfio/ap.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/s390x/ap-device.h b/include/hw/s390x/ap-device.h
-index fb250a20f3..e502745de5 100644
---- a/include/hw/s390x/ap-device.h
-+++ b/include/hw/s390x/ap-device.h
-@@ -14,7 +14,7 @@
- #include "hw/qdev-core.h"
- #include "qom/object.h"
- 
--#define AP_DEVICE_TYPE       "ap-device"
-+#define TYPE_AP_DEVICE       "ap-device"
- 
- struct APDevice {
-     DeviceState parent_obj;
-@@ -22,6 +22,6 @@ struct APDevice {
- typedef struct APDevice APDevice;
- 
- DECLARE_INSTANCE_CHECKER(APDevice, AP_DEVICE,
--                         AP_DEVICE_TYPE)
-+                         TYPE_AP_DEVICE)
- 
- #endif /* HW_S390X_AP_DEVICE_H */
-diff --git a/hw/s390x/ap-device.c b/hw/s390x/ap-device.c
-index fc0b41e937..237d1f19c5 100644
---- a/hw/s390x/ap-device.c
-+++ b/hw/s390x/ap-device.c
-@@ -21,7 +21,7 @@ static void ap_class_init(ObjectClass *klass, void *data)
- }
- 
- static const TypeInfo ap_device_info = {
--    .name = AP_DEVICE_TYPE,
-+    .name = TYPE_AP_DEVICE,
-     .parent = TYPE_DEVICE,
-     .instance_size = sizeof(APDevice),
-     .class_size = sizeof(DeviceClass),
 diff --git a/hw/vfio/ap.c b/hw/vfio/ap.c
-index f399ec0a31..68ed059b39 100644
+index 68ed059b39..582c091a24 100644
 --- a/hw/vfio/ap.c
 +++ b/hw/vfio/ap.c
-@@ -177,7 +177,7 @@ static void vfio_ap_class_init(ObjectClass *klass, void *data)
+@@ -30,7 +30,7 @@
+ #include "exec/address-spaces.h"
+ #include "qom/object.h"
+ 
+-#define VFIO_AP_DEVICE_TYPE      "vfio-ap"
++#define TYPE_VFIO_AP_DEVICE      "vfio-ap"
+ 
+ struct VFIOAPDevice {
+     APDevice apdev;
+@@ -39,7 +39,7 @@ struct VFIOAPDevice {
+ typedef struct VFIOAPDevice VFIOAPDevice;
+ 
+ DECLARE_INSTANCE_CHECKER(VFIOAPDevice, VFIO_AP_DEVICE,
+-                         VFIO_AP_DEVICE_TYPE)
++                         TYPE_VFIO_AP_DEVICE)
+ 
+ static void vfio_ap_compute_needs_reset(VFIODevice *vdev)
+ {
+@@ -72,7 +72,7 @@ static VFIOGroup *vfio_ap_get_group(VFIOAPDevice *vapdev, Error **errp)
+ 
+     if (!group_path) {
+         error_setg(errp, "%s: no iommu_group found for %s: %s",
+-                   VFIO_AP_DEVICE_TYPE, vapdev->vdev.sysfsdev, gerror->message);
++                   TYPE_VFIO_AP_DEVICE, vapdev->vdev.sysfsdev, gerror->message);
+         g_error_free(gerror);
+         return NULL;
+     }
+@@ -176,7 +176,7 @@ static void vfio_ap_class_init(ObjectClass *klass, void *data)
+ }
  
  static const TypeInfo vfio_ap_info = {
-     .name = VFIO_AP_DEVICE_TYPE,
--    .parent = AP_DEVICE_TYPE,
-+    .parent = TYPE_AP_DEVICE,
+-    .name = VFIO_AP_DEVICE_TYPE,
++    .name = TYPE_VFIO_AP_DEVICE,
+     .parent = TYPE_AP_DEVICE,
      .instance_size = sizeof(VFIOAPDevice),
      .class_init = vfio_ap_class_init,
- };
 -- 
 2.26.2
 
