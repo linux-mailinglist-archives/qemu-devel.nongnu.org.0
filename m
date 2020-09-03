@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74D1825CC4A
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:32:21 +0200 (CEST)
-Received: from localhost ([::1]:47860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40AE925CC72
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:39:44 +0200 (CEST)
+Received: from localhost ([::1]:55286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwqC-0005VR-GO
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:32:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59452)
+	id 1kDwxL-0003Zg-7i
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:39:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwM0-0004zl-Js; Thu, 03 Sep 2020 17:01:10 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:36685)
+ id 1kDwM3-00050h-Dy; Thu, 03 Sep 2020 17:01:12 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:42807)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLy-0007rj-QL; Thu, 03 Sep 2020 17:01:08 -0400
-Received: by mail-oi1-x243.google.com with SMTP id x19so4535893oix.3;
- Thu, 03 Sep 2020 14:01:05 -0700 (PDT)
+ id 1kDwM0-0007sA-NM; Thu, 03 Sep 2020 17:01:11 -0400
+Received: by mail-oi1-x242.google.com with SMTP id x14so4504714oic.9;
+ Thu, 03 Sep 2020 14:01:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=OBNgeqRx4bpj7whZl9Nqe1uUGZCI5XWKl7ZvXD57/RM=;
- b=EM1Jf/jOulJZ8qFNufvClh5XlmBbYtMw65yMz85r7W3UbzXG9ba8m6NiQXEBd2W746
- N7PLgo1L9QJKYTsjTPerD5uSn+tNXpeZ5TIBKsijToaJROvnVK+6UQ65lSjVOhQS8+77
- mT/jauay0mnzRsW/tdMPzpG8sZRVGa0cfnI8FLOgO96XwlUPj/Jrv0IqxYj5ixy0mkee
- 3srFEYSGVRcf+kzqP6jyQ+BDcFiXY2z3jSn3s/ELfl+dgxi9ztembWmsvxolBEigR3oJ
- g9gosWkrCcHwL9F7RcrpFl9BtULFZGERhece6psxXxH1WEwJ1DLSICg1lqZYDgkm0cuU
- Yuiw==
+ bh=bENPocKW9pJTga5jwg+bAbqtRDswiJmyAs33gqjaesk=;
+ b=aJyLKGfrIViSFMTXZtWpsjtbyiQoqxGO7txA/dxWXz8b/kSMpDV8lf36Rdf6vPgKhD
+ SADSoGZbVl/qJvye0Vv6PzNYr/rRzvt79BHYUMFZHysn0rfMpDaNA/UB1xRImDVyCJNr
+ sWOvT7k2qesY4VUVaIczbZa8ihhYfZWtpBHWG4u5k+bmz8GwGmscYS9As+578bYKfUn7
+ gsD6u+Q6RH3JFN8XrV292C0DS4N4qvqIygQNFPXJatp5gYbwHoHNO/cVl2Z64pEx4Mr5
+ 2hJIsFZPOcQUrp6uLtMiOoGcxjlU8t4Htd3iYssskg/UDokSlcU9EgWZEuaUUKOiJT2Y
+ ErKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=OBNgeqRx4bpj7whZl9Nqe1uUGZCI5XWKl7ZvXD57/RM=;
- b=M7+M3r25wjaX7Cy7tOOcwlxuvgcydCgD2IcqVhdV1YjmlkLEPJdQxrUk8osMQ2PUxV
- D1P5TttqmOI+7xW1D1h2s3ZwaJDHpXFDZA62p/1z9fo1YO4uz6VBmr9sJw/thjMTTAZp
- FruXLD/gyYiRRkvtureBHQDF5WgA4KkeBfyTjn97Iqq76mj/4wkhr3YbdFJVyR8Z/87D
- 8JS0+QfagdGCIvr+HqhbSULwuZFekMoguD/UQOqtyZ9q8Jm+BmzvESa+13x1HFpbaLLE
- fCuDsoqmfbt18A9SxxlXm3EUFt5secq7920wks0gYUfHWMDAFjfKhAgeEkaqzs3RkTZP
- U0FA==
-X-Gm-Message-State: AOAM531WglEwZK2aOnf1cDUSBD5Q3Uy8uOvIO69XmLZyflU0G/2jQeuq
- Q8OfWciD2YcBb/YckD4+3ClO+nFh/5UKSQ==
-X-Google-Smtp-Source: ABdhPJz75tcfMw+vHfTPyDv3z7hv/nXY8YkMUZJga3pGDzEmq2rdRMrGuop0U3ge1l3P9ahldkImfg==
-X-Received: by 2002:aca:fc85:: with SMTP id a127mr3290379oii.148.1599166864926; 
- Thu, 03 Sep 2020 14:01:04 -0700 (PDT)
+ bh=bENPocKW9pJTga5jwg+bAbqtRDswiJmyAs33gqjaesk=;
+ b=a2Ixu1RYBaRq1bRdHYbhXRLHSsOPre73exo8YnQU/Bbh0zEsriKgnfYr7FUcbYTyOT
+ 3GhXLLB54xcB1ZxwHHe17x59XUHHM7acB686BYrEutyfy6vVTmihuVQiNmeFJ5lFOiMq
+ 2xmkgg4ZgbOJwTdsL9JukZQO2BPQxDtgIyLIsV+UnwilnjQLdxy6MvfN9FkSKMFa+TOc
+ eOj4gci12AKQJa9GnrqZ7uT178PvsYA0nWeGejqi0LVMl5cRyPH9HaEDVqGdJ8vlbuHl
+ G43oqSfGzLuM4XrPGLoxoA64wdegqd2kuq49b0vPhyz7mP4IYEPWZfB/8gDs4TwjOt5U
+ v3IA==
+X-Gm-Message-State: AOAM5305A3QZEjg0oVmE0C5qdzPgu4uMwgS6VUAUMwCe+FXiHusFT/Dw
+ Dia1jvamjHp8hHwDk8yvFVB60C4J6JMFZQ==
+X-Google-Smtp-Source: ABdhPJyYqNfRESDDfEyeW+fcfu3Aq9JwxQyANp8w2DYPnhsw2VBnM4x5YdasYGNFLfeFz9EOiQ/xAw==
+X-Received: by 2002:aca:ab07:: with SMTP id u7mr3435917oie.115.1599166866184; 
+ Thu, 03 Sep 2020 14:01:06 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id l63sm712081oia.56.2020.09.03.14.01.04
+ by smtp.gmail.com with ESMTPSA id b65sm761913otc.42.2020.09.03.14.01.05
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:01:04 -0700 (PDT)
+ Thu, 03 Sep 2020 14:01:05 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 62/77] virtio-balloon: always indicate S_DONE when migration
- fails
-Date: Thu,  3 Sep 2020 15:59:20 -0500
-Message-Id: <20200903205935.27832-63-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 63/77] linux-headers: update against Linux 5.7-rc3
+Date: Thu,  3 Sep 2020 15:59:21 -0500
+Message-Id: <20200903205935.27832-64-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x243.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
+ envelope-from=flukshun@gmail.com; helo=mail-oi1-x242.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -82,96 +81,667 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wei Wang <wei.w.wang@intel.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- qemu-stable@nongnu.org, Alexander Duyck <alexander.duyck@gmail.com>,
- David Hildenbrand <david@redhat.com>
+Cc: Cornelia Huck <cohuck@redhat.com>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Hildenbrand <david@redhat.com>
+From: Cornelia Huck <cohuck@redhat.com>
 
-If something goes wrong during precopy, before stopping the VM, we will
-never send a S_DONE indication to the VM, resulting in the hinted pages
-not getting released to be used by the guest OS (e.g., Linux).
+commit 6a8b55ed4056ea5559ebe4f6a4b247f627870d4c
 
-Easy to reproduce:
-1. Start migration (e.g., HMP "migrate -d 'exec:gzip -c > STATEFILE.gz'")
-2. Cancel migration (e.g., HMP "migrate_cancel")
-3. Oberve in the guest (e.g., cat /proc/meminfo) that there is basically
-   no free memory left.
-
-While at it, add similar locking to virtio_balloon_free_page_done() as
-done in virtio_balloon_free_page_stop. Locking is still weird, but that
-has to be sorted out separately.
-
-There is nothing to do in the PRECOPY_NOTIFY_COMPLETE case. Add some
-comments regarding S_DONE handling.
-
-Fixes: c13c4153f76d ("virtio-balloon: VIRTIO_BALLOON_F_FREE_PAGE_HINT")
-Reviewed-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
-Cc: Wei Wang <wei.w.wang@intel.com>
-Cc: Alexander Duyck <alexander.duyck@gmail.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20200629080615.26022-1-david@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-(cherry picked from commit dd8eeb9671fc881e613008bd20035b85fe45383d)
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com> # virtio/vhost parts
+Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+Message-Id: <20200427102415.10915-3-cohuck@redhat.com>
+(cherry picked from commit dc6f8d458a4ccc360723993f31d310d06469f55f)
+*dep for 3219b42f02
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/virtio/virtio-balloon.c | 26 ++++++++++++++++++++------
- 1 file changed, 20 insertions(+), 6 deletions(-)
+ include/standard-headers/linux/ethtool.h      |  10 +-
+ .../linux/input-event-codes.h                 |   5 +-
+ include/standard-headers/linux/pci_regs.h     |   2 +
+ include/standard-headers/linux/vhost_types.h  |   8 ++
+ .../standard-headers/linux/virtio_balloon.h   |  12 ++-
+ include/standard-headers/linux/virtio_ids.h   |   1 +
+ include/standard-headers/linux/virtio_net.h   | 102 +++++++++++++++++-
+ linux-headers/COPYING                         |   2 +
+ linux-headers/asm-x86/kvm.h                   |   1 +
+ linux-headers/asm-x86/unistd_32.h             |   1 +
+ linux-headers/asm-x86/unistd_64.h             |   1 +
+ linux-headers/asm-x86/unistd_x32.h            |   1 +
+ linux-headers/linux/kvm.h                     |  47 +++++++-
+ linux-headers/linux/mman.h                    |   5 +-
+ linux-headers/linux/userfaultfd.h             |  40 +++++--
+ linux-headers/linux/vfio.h                    |  37 +++++++
+ linux-headers/linux/vhost.h                   |  24 +++++
+ 17 files changed, 280 insertions(+), 19 deletions(-)
 
-diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-index d6e31de1d9..6c75db123e 100644
---- a/hw/virtio/virtio-balloon.c
-+++ b/hw/virtio/virtio-balloon.c
-@@ -572,8 +572,13 @@ static void virtio_balloon_free_page_done(VirtIOBalloon *s)
- {
-     VirtIODevice *vdev = VIRTIO_DEVICE(s);
+diff --git a/include/standard-headers/linux/ethtool.h b/include/standard-headers/linux/ethtool.h
+index 8adf3b018b..1200890c86 100644
+--- a/include/standard-headers/linux/ethtool.h
++++ b/include/standard-headers/linux/ethtool.h
+@@ -596,6 +596,9 @@ struct ethtool_pauseparam {
+  * @ETH_SS_LINK_MODES: link mode names
+  * @ETH_SS_MSG_CLASSES: debug message class names
+  * @ETH_SS_WOL_MODES: wake-on-lan modes
++ * @ETH_SS_SOF_TIMESTAMPING: SOF_TIMESTAMPING_* flags
++ * @ETH_SS_TS_TX_TYPES: timestamping Tx types
++ * @ETH_SS_TS_RX_FILTERS: timestamping Rx filters
+  */
+ enum ethtool_stringset {
+ 	ETH_SS_TEST		= 0,
+@@ -610,6 +613,9 @@ enum ethtool_stringset {
+ 	ETH_SS_LINK_MODES,
+ 	ETH_SS_MSG_CLASSES,
+ 	ETH_SS_WOL_MODES,
++	ETH_SS_SOF_TIMESTAMPING,
++	ETH_SS_TS_TX_TYPES,
++	ETH_SS_TS_RX_FILTERS,
  
--    s->free_page_report_status = FREE_PAGE_REPORT_S_DONE;
--    virtio_notify_config(vdev);
-+    if (s->free_page_report_status != FREE_PAGE_REPORT_S_DONE) {
-+        /* See virtio_balloon_free_page_stop() */
-+        qemu_mutex_lock(&s->free_page_lock);
-+        s->free_page_report_status = FREE_PAGE_REPORT_S_DONE;
-+        qemu_mutex_unlock(&s->free_page_lock);
-+        virtio_notify_config(vdev);
-+    }
- }
+ 	/* add new constants above here */
+ 	ETH_SS_COUNT
+@@ -1330,6 +1336,7 @@ enum ethtool_fec_config_bits {
+ 	ETHTOOL_FEC_OFF_BIT,
+ 	ETHTOOL_FEC_RS_BIT,
+ 	ETHTOOL_FEC_BASER_BIT,
++	ETHTOOL_FEC_LLRS_BIT,
+ };
  
- static int
-@@ -597,17 +602,26 @@ virtio_balloon_free_page_report_notify(NotifierWithReturn *n, void *data)
-     case PRECOPY_NOTIFY_SETUP:
-         precopy_enable_free_page_optimization();
-         break;
--    case PRECOPY_NOTIFY_COMPLETE:
--    case PRECOPY_NOTIFY_CLEANUP:
-     case PRECOPY_NOTIFY_BEFORE_BITMAP_SYNC:
-         virtio_balloon_free_page_stop(dev);
-         break;
-     case PRECOPY_NOTIFY_AFTER_BITMAP_SYNC:
-         if (vdev->vm_running) {
-             virtio_balloon_free_page_start(dev);
--        } else {
--            virtio_balloon_free_page_done(dev);
-+            break;
-         }
-+        /*
-+         * Set S_DONE before migrating the vmstate, so the guest will reuse
-+         * all hinted pages once running on the destination. Fall through.
-+         */
-+    case PRECOPY_NOTIFY_CLEANUP:
-+        /*
-+         * Especially, if something goes wrong during precopy or if migration
-+         * is canceled, we have to properly communicate S_DONE to the VM.
-+         */
-+        virtio_balloon_free_page_done(dev);
-+        break;
-+    case PRECOPY_NOTIFY_COMPLETE:
-         break;
-     default:
-         virtio_error(vdev, "%s: %d reason unknown", __func__, pnd->reason);
+ #define ETHTOOL_FEC_NONE		(1 << ETHTOOL_FEC_NONE_BIT)
+@@ -1337,6 +1344,7 @@ enum ethtool_fec_config_bits {
+ #define ETHTOOL_FEC_OFF			(1 << ETHTOOL_FEC_OFF_BIT)
+ #define ETHTOOL_FEC_RS			(1 << ETHTOOL_FEC_RS_BIT)
+ #define ETHTOOL_FEC_BASER		(1 << ETHTOOL_FEC_BASER_BIT)
++#define ETHTOOL_FEC_LLRS		(1 << ETHTOOL_FEC_LLRS_BIT)
+ 
+ /* CMDs currently supported */
+ #define ETHTOOL_GSET		0x00000001 /* DEPRECATED, Get settings.
+@@ -1521,7 +1529,7 @@ enum ethtool_link_mode_bit_indices {
+ 	ETHTOOL_LINK_MODE_400000baseLR8_ER8_FR8_Full_BIT = 71,
+ 	ETHTOOL_LINK_MODE_400000baseDR8_Full_BIT	 = 72,
+ 	ETHTOOL_LINK_MODE_400000baseCR8_Full_BIT	 = 73,
+-
++	ETHTOOL_LINK_MODE_FEC_LLRS_BIT			 = 74,
+ 	/* must be last entry */
+ 	__ETHTOOL_LINK_MODE_MASK_NBITS
+ };
+diff --git a/include/standard-headers/linux/input-event-codes.h b/include/standard-headers/linux/input-event-codes.h
+index b484c25289..ebf72c1031 100644
+--- a/include/standard-headers/linux/input-event-codes.h
++++ b/include/standard-headers/linux/input-event-codes.h
+@@ -1,4 +1,4 @@
+-/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
+ /*
+  * Input event codes
+  *
+@@ -652,6 +652,9 @@
+ /* Electronic privacy screen control */
+ #define KEY_PRIVACY_SCREEN_TOGGLE	0x279
+ 
++/* Select an area of screen to be copied */
++#define KEY_SELECTIVE_SCREENSHOT	0x27a
++
+ /*
+  * Some keyboards have keys which do not have a defined meaning, these keys
+  * are intended to be programmed / bound to macros by the user. For most
+diff --git a/include/standard-headers/linux/pci_regs.h b/include/standard-headers/linux/pci_regs.h
+index 5437690483..f9701410d3 100644
+--- a/include/standard-headers/linux/pci_regs.h
++++ b/include/standard-headers/linux/pci_regs.h
+@@ -605,6 +605,7 @@
+ #define  PCI_EXP_SLTCTL_PWR_OFF        0x0400 /* Power Off */
+ #define  PCI_EXP_SLTCTL_EIC	0x0800	/* Electromechanical Interlock Control */
+ #define  PCI_EXP_SLTCTL_DLLSCE	0x1000	/* Data Link Layer State Changed Enable */
++#define  PCI_EXP_SLTCTL_IBPD_DISABLE	0x4000 /* In-band PD disable */
+ #define PCI_EXP_SLTSTA		26	/* Slot Status */
+ #define  PCI_EXP_SLTSTA_ABP	0x0001	/* Attention Button Pressed */
+ #define  PCI_EXP_SLTSTA_PFD	0x0002	/* Power Fault Detected */
+@@ -680,6 +681,7 @@
+ #define PCI_EXP_LNKSTA2		50	/* Link Status 2 */
+ #define PCI_CAP_EXP_ENDPOINT_SIZEOF_V2	52	/* v2 endpoints with link end here */
+ #define PCI_EXP_SLTCAP2		52	/* Slot Capabilities 2 */
++#define  PCI_EXP_SLTCAP2_IBPD	0x00000001 /* In-band PD Disable Supported */
+ #define PCI_EXP_SLTCTL2		56	/* Slot Control 2 */
+ #define PCI_EXP_SLTSTA2		58	/* Slot Status 2 */
+ 
+diff --git a/include/standard-headers/linux/vhost_types.h b/include/standard-headers/linux/vhost_types.h
+index 5351fe172d..a678d8fbaa 100644
+--- a/include/standard-headers/linux/vhost_types.h
++++ b/include/standard-headers/linux/vhost_types.h
+@@ -119,6 +119,14 @@ struct vhost_scsi_target {
+ 	unsigned short reserved;
+ };
+ 
++/* VHOST_VDPA specific definitions */
++
++struct vhost_vdpa_config {
++	uint32_t off;
++	uint32_t len;
++	uint8_t buf[0];
++};
++
+ /* Feature bits */
+ /* Log all write descriptors. Can be changed while device is active. */
+ #define VHOST_F_LOG_ALL 26
+diff --git a/include/standard-headers/linux/virtio_balloon.h b/include/standard-headers/linux/virtio_balloon.h
+index 9375ca2a70..f343bfefd8 100644
+--- a/include/standard-headers/linux/virtio_balloon.h
++++ b/include/standard-headers/linux/virtio_balloon.h
+@@ -36,6 +36,7 @@
+ #define VIRTIO_BALLOON_F_DEFLATE_ON_OOM	2 /* Deflate balloon on OOM */
+ #define VIRTIO_BALLOON_F_FREE_PAGE_HINT	3 /* VQ to report free pages */
+ #define VIRTIO_BALLOON_F_PAGE_POISON	4 /* Guest is using page poisoning */
++#define VIRTIO_BALLOON_F_REPORTING	5 /* Page reporting virtqueue */
+ 
+ /* Size of a PFN in the balloon interface. */
+ #define VIRTIO_BALLOON_PFN_SHIFT 12
+@@ -47,8 +48,15 @@ struct virtio_balloon_config {
+ 	uint32_t num_pages;
+ 	/* Number of pages we've actually got in balloon. */
+ 	uint32_t actual;
+-	/* Free page report command id, readonly by guest */
+-	uint32_t free_page_report_cmd_id;
++	/*
++	 * Free page hint command id, readonly by guest.
++	 * Was previously named free_page_report_cmd_id so we
++	 * need to carry that name for legacy support.
++	 */
++	union {
++		uint32_t free_page_hint_cmd_id;
++		uint32_t free_page_report_cmd_id;	/* deprecated */
++	};
+ 	/* Stores PAGE_POISON if page poisoning is in use */
+ 	uint32_t poison_val;
+ };
+diff --git a/include/standard-headers/linux/virtio_ids.h b/include/standard-headers/linux/virtio_ids.h
+index 585e07b273..ecc27a1740 100644
+--- a/include/standard-headers/linux/virtio_ids.h
++++ b/include/standard-headers/linux/virtio_ids.h
+@@ -46,5 +46,6 @@
+ #define VIRTIO_ID_IOMMU        23 /* virtio IOMMU */
+ #define VIRTIO_ID_FS           26 /* virtio filesystem */
+ #define VIRTIO_ID_PMEM         27 /* virtio pmem */
++#define VIRTIO_ID_MAC80211_HWSIM 29 /* virtio mac80211-hwsim */
+ 
+ #endif /* _LINUX_VIRTIO_IDS_H */
+diff --git a/include/standard-headers/linux/virtio_net.h b/include/standard-headers/linux/virtio_net.h
+index 260c3681d7..a90f79e1b1 100644
+--- a/include/standard-headers/linux/virtio_net.h
++++ b/include/standard-headers/linux/virtio_net.h
+@@ -57,6 +57,9 @@
+ 					 * Steering */
+ #define VIRTIO_NET_F_CTRL_MAC_ADDR 23	/* Set MAC address */
+ 
++#define VIRTIO_NET_F_HASH_REPORT  57	/* Supports hash report */
++#define VIRTIO_NET_F_RSS	  60	/* Supports RSS RX steering */
++#define VIRTIO_NET_F_RSC_EXT	  61	/* extended coalescing info */
+ #define VIRTIO_NET_F_STANDBY	  62	/* Act as standby for another device
+ 					 * with the same MAC.
+ 					 */
+@@ -69,6 +72,17 @@
+ #define VIRTIO_NET_S_LINK_UP	1	/* Link is up */
+ #define VIRTIO_NET_S_ANNOUNCE	2	/* Announcement is needed */
+ 
++/* supported/enabled hash types */
++#define VIRTIO_NET_RSS_HASH_TYPE_IPv4          (1 << 0)
++#define VIRTIO_NET_RSS_HASH_TYPE_TCPv4         (1 << 1)
++#define VIRTIO_NET_RSS_HASH_TYPE_UDPv4         (1 << 2)
++#define VIRTIO_NET_RSS_HASH_TYPE_IPv6          (1 << 3)
++#define VIRTIO_NET_RSS_HASH_TYPE_TCPv6         (1 << 4)
++#define VIRTIO_NET_RSS_HASH_TYPE_UDPv6         (1 << 5)
++#define VIRTIO_NET_RSS_HASH_TYPE_IP_EX         (1 << 6)
++#define VIRTIO_NET_RSS_HASH_TYPE_TCP_EX        (1 << 7)
++#define VIRTIO_NET_RSS_HASH_TYPE_UDP_EX        (1 << 8)
++
+ struct virtio_net_config {
+ 	/* The config defining mac address (if VIRTIO_NET_F_MAC) */
+ 	uint8_t mac[ETH_ALEN];
+@@ -92,6 +106,12 @@ struct virtio_net_config {
+ 	 * Any other value stands for unknown.
+ 	 */
+ 	uint8_t duplex;
++	/* maximum size of RSS key */
++	uint8_t rss_max_key_size;
++	/* maximum number of indirection table entries */
++	uint16_t rss_max_indirection_table_length;
++	/* bitmask of supported VIRTIO_NET_RSS_HASH_ types */
++	uint32_t supported_hash_types;
+ } QEMU_PACKED;
+ 
+ /*
+@@ -104,6 +124,7 @@ struct virtio_net_config {
+ struct virtio_net_hdr_v1 {
+ #define VIRTIO_NET_HDR_F_NEEDS_CSUM	1	/* Use csum_start, csum_offset */
+ #define VIRTIO_NET_HDR_F_DATA_VALID	2	/* Csum is valid */
++#define VIRTIO_NET_HDR_F_RSC_INFO	4	/* rsc info in csum_ fields */
+ 	uint8_t flags;
+ #define VIRTIO_NET_HDR_GSO_NONE		0	/* Not a GSO frame */
+ #define VIRTIO_NET_HDR_GSO_TCPV4	1	/* GSO frame, IPv4 TCP (TSO) */
+@@ -113,11 +134,46 @@ struct virtio_net_hdr_v1 {
+ 	uint8_t gso_type;
+ 	__virtio16 hdr_len;	/* Ethernet + IP + tcp/udp hdrs */
+ 	__virtio16 gso_size;	/* Bytes to append to hdr_len per frame */
+-	__virtio16 csum_start;	/* Position to start checksumming from */
+-	__virtio16 csum_offset;	/* Offset after that to place checksum */
++	union {
++		struct {
++			__virtio16 csum_start;
++			__virtio16 csum_offset;
++		};
++		/* Checksum calculation */
++		struct {
++			/* Position to start checksumming from */
++			__virtio16 start;
++			/* Offset after that to place checksum */
++			__virtio16 offset;
++		} csum;
++		/* Receive Segment Coalescing */
++		struct {
++			/* Number of coalesced segments */
++			uint16_t segments;
++			/* Number of duplicated acks */
++			uint16_t dup_acks;
++		} rsc;
++	};
+ 	__virtio16 num_buffers;	/* Number of merged rx buffers */
+ };
+ 
++struct virtio_net_hdr_v1_hash {
++	struct virtio_net_hdr_v1 hdr;
++	uint32_t hash_value;
++#define VIRTIO_NET_HASH_REPORT_NONE            0
++#define VIRTIO_NET_HASH_REPORT_IPv4            1
++#define VIRTIO_NET_HASH_REPORT_TCPv4           2
++#define VIRTIO_NET_HASH_REPORT_UDPv4           3
++#define VIRTIO_NET_HASH_REPORT_IPv6            4
++#define VIRTIO_NET_HASH_REPORT_TCPv6           5
++#define VIRTIO_NET_HASH_REPORT_UDPv6           6
++#define VIRTIO_NET_HASH_REPORT_IPv6_EX         7
++#define VIRTIO_NET_HASH_REPORT_TCPv6_EX        8
++#define VIRTIO_NET_HASH_REPORT_UDPv6_EX        9
++	uint16_t hash_report;
++	uint16_t padding;
++};
++
+ #ifndef VIRTIO_NET_NO_LEGACY
+ /* This header comes first in the scatter-gather list.
+  * For legacy virtio, if VIRTIO_F_ANY_LAYOUT is not negotiated, it must
+@@ -228,7 +284,9 @@ struct virtio_net_ctrl_mac {
+ 
+ /*
+  * Control Receive Flow Steering
+- *
++ */
++#define VIRTIO_NET_CTRL_MQ   4
++/*
+  * The command VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET
+  * enables Receive Flow Steering, specifying the number of the transmit and
+  * receive queues that will be used. After the command is consumed and acked by
+@@ -241,11 +299,47 @@ struct virtio_net_ctrl_mq {
+ 	__virtio16 virtqueue_pairs;
+ };
+ 
+-#define VIRTIO_NET_CTRL_MQ   4
+  #define VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET        0
+  #define VIRTIO_NET_CTRL_MQ_VQ_PAIRS_MIN        1
+  #define VIRTIO_NET_CTRL_MQ_VQ_PAIRS_MAX        0x8000
+ 
++/*
++ * The command VIRTIO_NET_CTRL_MQ_RSS_CONFIG has the same effect as
++ * VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET does and additionally configures
++ * the receive steering to use a hash calculated for incoming packet
++ * to decide on receive virtqueue to place the packet. The command
++ * also provides parameters to calculate a hash and receive virtqueue.
++ */
++struct virtio_net_rss_config {
++	uint32_t hash_types;
++	uint16_t indirection_table_mask;
++	uint16_t unclassified_queue;
++	uint16_t indirection_table[1/* + indirection_table_mask */];
++	uint16_t max_tx_vq;
++	uint8_t hash_key_length;
++	uint8_t hash_key_data[/* hash_key_length */];
++};
++
++ #define VIRTIO_NET_CTRL_MQ_RSS_CONFIG          1
++
++/*
++ * The command VIRTIO_NET_CTRL_MQ_HASH_CONFIG requests the device
++ * to include in the virtio header of the packet the value of the
++ * calculated hash and the report type of hash. It also provides
++ * parameters for hash calculation. The command requires feature
++ * VIRTIO_NET_F_HASH_REPORT to be negotiated to extend the
++ * layout of virtio header as defined in virtio_net_hdr_v1_hash.
++ */
++struct virtio_net_hash_config {
++	uint32_t hash_types;
++	/* for compatibility with virtio_net_rss_config */
++	uint16_t reserved[4];
++	uint8_t hash_key_length;
++	uint8_t hash_key_data[/* hash_key_length */];
++};
++
++ #define VIRTIO_NET_CTRL_MQ_HASH_CONFIG         2
++
+ /*
+  * Control network offloads
+  *
+diff --git a/linux-headers/COPYING b/linux-headers/COPYING
+index da4cb28feb..a635a38ef9 100644
+--- a/linux-headers/COPYING
++++ b/linux-headers/COPYING
+@@ -16,3 +16,5 @@ In addition, other licenses may also apply. Please see:
+ 	Documentation/process/license-rules.rst
+ 
+ for more details.
++
++All contributions to the Linux Kernel are subject to this COPYING file.
+diff --git a/linux-headers/asm-x86/kvm.h b/linux-headers/asm-x86/kvm.h
+index 503d3f42da..3f3f780c8c 100644
+--- a/linux-headers/asm-x86/kvm.h
++++ b/linux-headers/asm-x86/kvm.h
+@@ -390,6 +390,7 @@ struct kvm_sync_regs {
+ #define KVM_STATE_NESTED_GUEST_MODE	0x00000001
+ #define KVM_STATE_NESTED_RUN_PENDING	0x00000002
+ #define KVM_STATE_NESTED_EVMCS		0x00000004
++#define KVM_STATE_NESTED_MTF_PENDING	0x00000008
+ 
+ #define KVM_STATE_NESTED_SMM_GUEST_MODE	0x00000001
+ #define KVM_STATE_NESTED_SMM_VMXON	0x00000002
+diff --git a/linux-headers/asm-x86/unistd_32.h b/linux-headers/asm-x86/unistd_32.h
+index f6e06fcfbd..1e6c1a5867 100644
+--- a/linux-headers/asm-x86/unistd_32.h
++++ b/linux-headers/asm-x86/unistd_32.h
+@@ -429,4 +429,5 @@
+ #define __NR_openat2 437
+ #define __NR_pidfd_getfd 438
+ 
++
+ #endif /* _ASM_X86_UNISTD_32_H */
+diff --git a/linux-headers/asm-x86/unistd_64.h b/linux-headers/asm-x86/unistd_64.h
+index 924f826d2d..6daf0aecb2 100644
+--- a/linux-headers/asm-x86/unistd_64.h
++++ b/linux-headers/asm-x86/unistd_64.h
+@@ -351,4 +351,5 @@
+ #define __NR_openat2 437
+ #define __NR_pidfd_getfd 438
+ 
++
+ #endif /* _ASM_X86_UNISTD_64_H */
+diff --git a/linux-headers/asm-x86/unistd_x32.h b/linux-headers/asm-x86/unistd_x32.h
+index 010307757b..e3f17ef370 100644
+--- a/linux-headers/asm-x86/unistd_x32.h
++++ b/linux-headers/asm-x86/unistd_x32.h
+@@ -340,4 +340,5 @@
+ #define __NR_preadv2 (__X32_SYSCALL_BIT + 546)
+ #define __NR_pwritev2 (__X32_SYSCALL_BIT + 547)
+ 
++
+ #endif /* _ASM_X86_UNISTD_X32_H */
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index 265099100e..9804495a46 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -474,12 +474,17 @@ struct kvm_s390_mem_op {
+ 	__u32 size;		/* amount of bytes */
+ 	__u32 op;		/* type of operation */
+ 	__u64 buf;		/* buffer in userspace */
+-	__u8 ar;		/* the access register number */
+-	__u8 reserved[31];	/* should be set to 0 */
++	union {
++		__u8 ar;	/* the access register number */
++		__u32 sida_offset; /* offset into the sida */
++		__u8 reserved[32]; /* should be set to 0 */
++	};
+ };
+ /* types for kvm_s390_mem_op->op */
+ #define KVM_S390_MEMOP_LOGICAL_READ	0
+ #define KVM_S390_MEMOP_LOGICAL_WRITE	1
++#define KVM_S390_MEMOP_SIDA_READ	2
++#define KVM_S390_MEMOP_SIDA_WRITE	3
+ /* flags for kvm_s390_mem_op->flags */
+ #define KVM_S390_MEMOP_F_CHECK_ONLY		(1ULL << 0)
+ #define KVM_S390_MEMOP_F_INJECT_EXCEPTION	(1ULL << 1)
+@@ -1010,6 +1015,8 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_ARM_NISV_TO_USER 177
+ #define KVM_CAP_ARM_INJECT_EXT_DABT 178
+ #define KVM_CAP_S390_VCPU_RESETS 179
++#define KVM_CAP_S390_PROTECTED 180
++#define KVM_CAP_PPC_SECURE_GUEST 181
+ 
+ #ifdef KVM_CAP_IRQ_ROUTING
+ 
+@@ -1478,6 +1485,39 @@ struct kvm_enc_region {
+ #define KVM_S390_NORMAL_RESET	_IO(KVMIO,   0xc3)
+ #define KVM_S390_CLEAR_RESET	_IO(KVMIO,   0xc4)
+ 
++struct kvm_s390_pv_sec_parm {
++	__u64 origin;
++	__u64 length;
++};
++
++struct kvm_s390_pv_unp {
++	__u64 addr;
++	__u64 size;
++	__u64 tweak;
++};
++
++enum pv_cmd_id {
++	KVM_PV_ENABLE,
++	KVM_PV_DISABLE,
++	KVM_PV_SET_SEC_PARMS,
++	KVM_PV_UNPACK,
++	KVM_PV_VERIFY,
++	KVM_PV_PREP_RESET,
++	KVM_PV_UNSHARE_ALL,
++};
++
++struct kvm_pv_cmd {
++	__u32 cmd;	/* Command to be executed */
++	__u16 rc;	/* Ultravisor return code */
++	__u16 rrc;	/* Ultravisor return reason code */
++	__u64 data;	/* Data or address */
++	__u32 flags;    /* flags for future extensions. Must be 0 for now */
++	__u32 reserved[3];
++};
++
++/* Available with KVM_CAP_S390_PROTECTED */
++#define KVM_S390_PV_COMMAND		_IOWR(KVMIO, 0xc5, struct kvm_pv_cmd)
++
+ /* Secure Encrypted Virtualization command */
+ enum sev_cmd_id {
+ 	/* Guest initialization commands */
+@@ -1628,4 +1668,7 @@ struct kvm_hyperv_eventfd {
+ #define KVM_HYPERV_CONN_ID_MASK		0x00ffffff
+ #define KVM_HYPERV_EVENTFD_DEASSIGN	(1 << 0)
+ 
++#define KVM_DIRTY_LOG_MANUAL_PROTECT_ENABLE    (1 << 0)
++#define KVM_DIRTY_LOG_INITIALLY_SET            (1 << 1)
++
+ #endif /* __LINUX_KVM_H */
+diff --git a/linux-headers/linux/mman.h b/linux-headers/linux/mman.h
+index 1f6e2cd89c..51ea363759 100644
+--- a/linux-headers/linux/mman.h
++++ b/linux-headers/linux/mman.h
+@@ -5,8 +5,9 @@
+ #include <asm/mman.h>
+ #include <asm-generic/hugetlb_encode.h>
+ 
+-#define MREMAP_MAYMOVE	1
+-#define MREMAP_FIXED	2
++#define MREMAP_MAYMOVE		1
++#define MREMAP_FIXED		2
++#define MREMAP_DONTUNMAP	4
+ 
+ #define OVERCOMMIT_GUESS		0
+ #define OVERCOMMIT_ALWAYS		1
+diff --git a/linux-headers/linux/userfaultfd.h b/linux-headers/linux/userfaultfd.h
+index ce78878d12..8d3996eb82 100644
+--- a/linux-headers/linux/userfaultfd.h
++++ b/linux-headers/linux/userfaultfd.h
+@@ -19,7 +19,8 @@
+  * means the userland is reading).
+  */
+ #define UFFD_API ((__u64)0xAA)
+-#define UFFD_API_FEATURES (UFFD_FEATURE_EVENT_FORK |		\
++#define UFFD_API_FEATURES (UFFD_FEATURE_PAGEFAULT_FLAG_WP |	\
++			   UFFD_FEATURE_EVENT_FORK |		\
+ 			   UFFD_FEATURE_EVENT_REMAP |		\
+ 			   UFFD_FEATURE_EVENT_REMOVE |	\
+ 			   UFFD_FEATURE_EVENT_UNMAP |		\
+@@ -34,7 +35,8 @@
+ #define UFFD_API_RANGE_IOCTLS			\
+ 	((__u64)1 << _UFFDIO_WAKE |		\
+ 	 (__u64)1 << _UFFDIO_COPY |		\
+-	 (__u64)1 << _UFFDIO_ZEROPAGE)
++	 (__u64)1 << _UFFDIO_ZEROPAGE |		\
++	 (__u64)1 << _UFFDIO_WRITEPROTECT)
+ #define UFFD_API_RANGE_IOCTLS_BASIC		\
+ 	((__u64)1 << _UFFDIO_WAKE |		\
+ 	 (__u64)1 << _UFFDIO_COPY)
+@@ -52,6 +54,7 @@
+ #define _UFFDIO_WAKE			(0x02)
+ #define _UFFDIO_COPY			(0x03)
+ #define _UFFDIO_ZEROPAGE		(0x04)
++#define _UFFDIO_WRITEPROTECT		(0x06)
+ #define _UFFDIO_API			(0x3F)
+ 
+ /* userfaultfd ioctl ids */
+@@ -68,6 +71,8 @@
+ 				      struct uffdio_copy)
+ #define UFFDIO_ZEROPAGE		_IOWR(UFFDIO, _UFFDIO_ZEROPAGE,	\
+ 				      struct uffdio_zeropage)
++#define UFFDIO_WRITEPROTECT	_IOWR(UFFDIO, _UFFDIO_WRITEPROTECT, \
++				      struct uffdio_writeprotect)
+ 
+ /* read() structure */
+ struct uffd_msg {
+@@ -203,13 +208,14 @@ struct uffdio_copy {
+ 	__u64 dst;
+ 	__u64 src;
+ 	__u64 len;
++#define UFFDIO_COPY_MODE_DONTWAKE		((__u64)1<<0)
+ 	/*
+-	 * There will be a wrprotection flag later that allows to map
+-	 * pages wrprotected on the fly. And such a flag will be
+-	 * available if the wrprotection ioctl are implemented for the
+-	 * range according to the uffdio_register.ioctls.
++	 * UFFDIO_COPY_MODE_WP will map the page write protected on
++	 * the fly.  UFFDIO_COPY_MODE_WP is available only if the
++	 * write protected ioctl is implemented for the range
++	 * according to the uffdio_register.ioctls.
+ 	 */
+-#define UFFDIO_COPY_MODE_DONTWAKE		((__u64)1<<0)
++#define UFFDIO_COPY_MODE_WP			((__u64)1<<1)
+ 	__u64 mode;
+ 
+ 	/*
+@@ -231,4 +237,24 @@ struct uffdio_zeropage {
+ 	__s64 zeropage;
+ };
+ 
++struct uffdio_writeprotect {
++	struct uffdio_range range;
++/*
++ * UFFDIO_WRITEPROTECT_MODE_WP: set the flag to write protect a range,
++ * unset the flag to undo protection of a range which was previously
++ * write protected.
++ *
++ * UFFDIO_WRITEPROTECT_MODE_DONTWAKE: set the flag to avoid waking up
++ * any wait thread after the operation succeeds.
++ *
++ * NOTE: Write protecting a region (WP=1) is unrelated to page faults,
++ * therefore DONTWAKE flag is meaningless with WP=1.  Removing write
++ * protection (WP=0) in response to a page fault wakes the faulting
++ * task unless DONTWAKE is set.
++ */
++#define UFFDIO_WRITEPROTECT_MODE_WP		((__u64)1<<0)
++#define UFFDIO_WRITEPROTECT_MODE_DONTWAKE	((__u64)1<<1)
++	__u64 mode;
++};
++
+ #endif /* _LINUX_USERFAULTFD_H */
+diff --git a/linux-headers/linux/vfio.h b/linux-headers/linux/vfio.h
+index fb10370d29..a41c452865 100644
+--- a/linux-headers/linux/vfio.h
++++ b/linux-headers/linux/vfio.h
+@@ -707,6 +707,43 @@ struct vfio_device_ioeventfd {
+ 
+ #define VFIO_DEVICE_IOEVENTFD		_IO(VFIO_TYPE, VFIO_BASE + 16)
+ 
++/**
++ * VFIO_DEVICE_FEATURE - _IORW(VFIO_TYPE, VFIO_BASE + 17,
++ *			       struct vfio_device_feature)
++ *
++ * Get, set, or probe feature data of the device.  The feature is selected
++ * using the FEATURE_MASK portion of the flags field.  Support for a feature
++ * can be probed by setting both the FEATURE_MASK and PROBE bits.  A probe
++ * may optionally include the GET and/or SET bits to determine read vs write
++ * access of the feature respectively.  Probing a feature will return success
++ * if the feature is supported and all of the optionally indicated GET/SET
++ * methods are supported.  The format of the data portion of the structure is
++ * specific to the given feature.  The data portion is not required for
++ * probing.  GET and SET are mutually exclusive, except for use with PROBE.
++ *
++ * Return 0 on success, -errno on failure.
++ */
++struct vfio_device_feature {
++	__u32	argsz;
++	__u32	flags;
++#define VFIO_DEVICE_FEATURE_MASK	(0xffff) /* 16-bit feature index */
++#define VFIO_DEVICE_FEATURE_GET		(1 << 16) /* Get feature into data[] */
++#define VFIO_DEVICE_FEATURE_SET		(1 << 17) /* Set feature from data[] */
++#define VFIO_DEVICE_FEATURE_PROBE	(1 << 18) /* Probe feature support */
++	__u8	data[];
++};
++
++#define VFIO_DEVICE_FEATURE		_IO(VFIO_TYPE, VFIO_BASE + 17)
++
++/*
++ * Provide support for setting a PCI VF Token, which is used as a shared
++ * secret between PF and VF drivers.  This feature may only be set on a
++ * PCI SR-IOV PF when SR-IOV is enabled on the PF and there are no existing
++ * open VFs.  Data provided when setting this feature is a 16-byte array
++ * (__u8 b[16]), representing a UUID.
++ */
++#define VFIO_DEVICE_FEATURE_PCI_VF_TOKEN	(0)
++
+ /* -------- API for Type1 VFIO IOMMU -------- */
+ 
+ /**
+diff --git a/linux-headers/linux/vhost.h b/linux-headers/linux/vhost.h
+index 40d028eed6..9fe72e4b13 100644
+--- a/linux-headers/linux/vhost.h
++++ b/linux-headers/linux/vhost.h
+@@ -116,4 +116,28 @@
+ #define VHOST_VSOCK_SET_GUEST_CID	_IOW(VHOST_VIRTIO, 0x60, __u64)
+ #define VHOST_VSOCK_SET_RUNNING		_IOW(VHOST_VIRTIO, 0x61, int)
+ 
++/* VHOST_VDPA specific defines */
++
++/* Get the device id. The device ids follow the same definition of
++ * the device id defined in virtio-spec.
++ */
++#define VHOST_VDPA_GET_DEVICE_ID	_IOR(VHOST_VIRTIO, 0x70, __u32)
++/* Get and set the status. The status bits follow the same definition
++ * of the device status defined in virtio-spec.
++ */
++#define VHOST_VDPA_GET_STATUS		_IOR(VHOST_VIRTIO, 0x71, __u8)
++#define VHOST_VDPA_SET_STATUS		_IOW(VHOST_VIRTIO, 0x72, __u8)
++/* Get and set the device config. The device config follows the same
++ * definition of the device config defined in virtio-spec.
++ */
++#define VHOST_VDPA_GET_CONFIG		_IOR(VHOST_VIRTIO, 0x73, \
++					     struct vhost_vdpa_config)
++#define VHOST_VDPA_SET_CONFIG		_IOW(VHOST_VIRTIO, 0x74, \
++					     struct vhost_vdpa_config)
++/* Enable/disable the ring. */
++#define VHOST_VDPA_SET_VRING_ENABLE	_IOW(VHOST_VIRTIO, 0x75, \
++					     struct vhost_vring_state)
++/* Get the max ring size. */
++#define VHOST_VDPA_GET_VRING_NUM	_IOR(VHOST_VIRTIO, 0x76, __u16)
++
+ #endif
 -- 
 2.17.1
 
