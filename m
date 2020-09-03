@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3560325CBD9
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:10:27 +0200 (CEST)
-Received: from localhost ([::1]:42066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27DC625CC0A
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:22:49 +0200 (CEST)
+Received: from localhost ([::1]:35386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDwV0-0001Lp-9H
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:10:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58562)
+	id 1kDwgy-0004yn-7W
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:22:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLG-0003yR-P0; Thu, 03 Sep 2020 17:00:24 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:35038)
+ id 1kDwLQ-00041s-9A; Thu, 03 Sep 2020 17:00:32 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:40102)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwLC-0007Zf-Pl; Thu, 03 Sep 2020 17:00:21 -0400
-Received: by mail-ot1-x341.google.com with SMTP id i4so4036940ota.2;
- Thu, 03 Sep 2020 14:00:18 -0700 (PDT)
+ id 1kDwLI-0007eN-Q8; Thu, 03 Sep 2020 17:00:28 -0400
+Received: by mail-oi1-x242.google.com with SMTP id t76so4498753oif.7;
+ Thu, 03 Sep 2020 14:00:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=I5YcjEc0mYbCjhyXYUDK76xwxAk1fFbjDKhJ0jp6vus=;
- b=nLPz1M+bXftucc7WA0xXBzmflqfoMKy7Yu4FNYrIFWx20+DTO4Gboyy9yRQvnNA/Lq
- obrw/vcK+8CbJ7Xzi8gICDeL8zAqXzqnZGJvCaOGK0Se6J9ZNSL2q5R+cefSa3Dacmut
- 2juUm7JAl2u+N0Xlc+555Ou4MRbISF0yhxYumhyKhdtpJU522dwkBSMczJB/NqhoJYdW
- N7JNchpCTJToBPn8gGnTFWv7+WqkRwTEz5fDrLAo8XmQaOiXrvyaRDEnj5cmbLcGJNJT
- T/2yj4Kw0UN+u0FZEVPOr5mz3MZmHQ0mArKM4uUmsv7B36BmJN6q9GgzXbM7Zay2CDKD
- rlGg==
+ bh=8SgwdOy9TwvppyJLuavJtnAY1UT8MfcLqFjl3hAfheE=;
+ b=jtR+DsnKOXbw7HYmPgw/LCA9u5flrRRuKZI+D3AGFyf6IMJ5EmaHIY2vrnQ1tafp7U
+ h122r/JJ7dM2R1DlYEQcWGYxNT7jB63moP5iqXwnxJQCCTI4tPJL/BeLvFOAU/Se/NfC
+ 0xeEGYnI6SUkxhn2z9z0fRdMhpU5uqn7wYQmGqk1T45x4QjWasU/4KIqOm+ae8kE3RSF
+ tp5ugjsZ2G8IhiwWymQbfC1VD4ZqsDfGtOURXzJDtRcyMhZd1I+TmEG0Hye3xYBeHPBI
+ V/2p0JI1SZfjvrhYdyTnfeL/ay9B0pY8Y80fr5BHV4eMMN70ALE3ARoRy3mZVHJ2I+0H
+ 8oUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=I5YcjEc0mYbCjhyXYUDK76xwxAk1fFbjDKhJ0jp6vus=;
- b=XhqivyrBB2q5mOhfJoYUAjlEqbaX16RUqDmenTJDD7QawW/66sW5mDJAar+JN03H1H
- l2Zn/GCvm7O7vGXLf5KFja0UC8sk/PitSOgNjSw48z1ZWINLCf31JDs8FmOVnlu61VmG
- Her9E2ynnDnO3KO+cfON7cygSgcK682jMEE1ouKFz6E9EBaSrRpiZ3qx76rV7mgZk5wE
- BckjmyYEmjiLZlrWuc1oXz75bpoIVvqVpn3m9LvYl3D0m66/86eDCiOqx0VsJ/udtTfz
- gaPv1uWbuHVGhrzbVcnamMOD4dmafYwZr2g/46sy9ylUkzYi8ElxaJwjGUe1kGHo3KNB
- Ij9Q==
-X-Gm-Message-State: AOAM531hJp+rKG3Uj63IBbZ85kp5jV3xWOPogH0pGFcibe/p/MR+VCY7
- cBe5WwnkBdauSEGLj1dRE+yXVuL6YPs=
-X-Google-Smtp-Source: ABdhPJwJKMhr3VktPGcVQa/Ad4uBsZ7hDB3ZtYenDazGEDA94jfU0X0y/2lpLYwqycDIvaRg7X/X7g==
-X-Received: by 2002:a9d:4e90:: with SMTP id v16mr3048185otk.363.1599166817059; 
- Thu, 03 Sep 2020 14:00:17 -0700 (PDT)
+ bh=8SgwdOy9TwvppyJLuavJtnAY1UT8MfcLqFjl3hAfheE=;
+ b=Sc6hrkRMhdtH1fA8BHOkXbKm9A6P4p2p1fADvDwUk62Ah5kaz4GlMWlKKlDVj5cpBe
+ ZxDHXnAFNcUsVBDUDIk4ZfqGcyz8hCOaNEsf6F40W2jKl099mKoHEKWwKkqcHC2gfhFV
+ TV0B5/MS9YQFtpZU7ScbZoAdZgcxaq58kbTr6DvtQSDK4Yg6O1u5J+DCW3g1eVdvV6/X
+ eunBv62cwVKQ1wHIuPKqNR9Vxe8LzOAvaexoxrdg9JlwykkfdDMFyyVERTwqLY38uYLm
+ QsagFUliBdjV537D4AjcqiFoYJ+21XZ/2i8Bmwz3LydErdebSP6lLdbhPzH9BCNyAnDd
+ EaOA==
+X-Gm-Message-State: AOAM530ycTQGQEsJj/nLr6GFSgVl8fMIaVnPuzbt1gRf+BbJGCd0lbdk
+ +BbiVkSZQFOmTi+zB+KNufc7jwzLA6g=
+X-Google-Smtp-Source: ABdhPJwZ5cIu4iVoHE7fuxkAlz0CmRduev7XP90zHcvdRve34Dv00ENhoeNm7IpRvo5asLwe7YAocQ==
+X-Received: by 2002:aca:db0b:: with SMTP id s11mr3290990oig.161.1599166821506; 
+ Thu, 03 Sep 2020 14:00:21 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id f50sm767889otf.47.2020.09.03.14.00.16
+ by smtp.gmail.com with ESMTPSA id 91sm792953otn.18.2020.09.03.14.00.20
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:00:16 -0700 (PDT)
+ Thu, 03 Sep 2020 14:00:20 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 29/77] memory: Revert "memory: accept mismatching sizes in
- memory_region_access_valid"
-Date: Thu,  3 Sep 2020 15:58:47 -0500
-Message-Id: <20200903205935.27832-30-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 32/77] acpi: accept byte and word access to core ACPI registers
+Date: Thu,  3 Sep 2020 15:58:50 -0500
+Message-Id: <20200903205935.27832-33-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x341.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
+ envelope-from=flukshun@gmail.com; helo=mail-oi1-x242.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -82,92 +81,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-stable@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Michael Tokarev <mjt@tls.msk.ru>, qemu-stable@nongnu.org,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Michael S. Tsirkin" <mst@redhat.com>
+From: Michael Tokarev <mjt@tls.msk.ru>
 
-Memory API documentation documents valid .min_access_size and .max_access_size
-fields and explains that any access outside these boundaries is blocked.
+All ISA registers should be accessible as bytes, words or dwords
+(if wide enough).  Fix the access constraints for acpi-pm-evt,
+acpi-pm-tmr & acpi-cnt registers.
 
-This is what devices seem to assume.
-
-However this is not what the implementation does: it simply
-ignores the boundaries unless there's an "accepts" callback.
-
-Naturally, this breaks a bunch of devices.
-
-Revert to the documented behaviour.
-
-Devices that want to allow any access can just drop the valid field,
-or add the impl field to have accesses converted to appropriate
-length.
-
+Fixes: 5d971f9e67 (memory: Revert "memory: accept mismatching sizes in memory_region_access_valid")
+Fixes: afafe4bbe0 (apci: switch cnt to memory api)
+Fixes: 77d58b1e47 (apci: switch timer to memory api)
+Fixes: b5a7c024d2 (apci: switch evt to memory api)
+Buglink: https://lore.kernel.org/xen-devel/20200630170913.123646-1-anthony.perard@citrix.com/T/
+Buglink: https://bugs.debian.org/964793
+BugLink: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=964247
+BugLink: https://bugs.launchpad.net/bugs/1886318
+Reported-By: Simon John <git@the-jedi.co.uk>
+Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
+Message-Id: <20200720160627.15491-1-mjt@msgid.tls.msk.ru>
 Cc: qemu-stable@nongnu.org
-Reviewed-by: Richard Henderson <rth@twiddle.net>
-Fixes: CVE-2020-13754
-Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1842363
-Fixes: a014ed07bd5a ("memory: accept mismatching sizes in memory_region_access_valid")
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <20200610134731.1514409-1-mst@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-(cherry picked from commit 5d971f9e672507210e77d020d89e0e89165c8fc9)
+(cherry picked from commit dba04c3488c4699f5afe96f66e448b1d447cf3fb)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- memory.c | 29 +++++++++--------------------
- 1 file changed, 9 insertions(+), 20 deletions(-)
+ hw/acpi/core.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/memory.c b/memory.c
-index 601b749906..e31aed6446 100644
---- a/memory.c
-+++ b/memory.c
-@@ -1352,35 +1352,24 @@ bool memory_region_access_valid(MemoryRegion *mr,
-                                 bool is_write,
-                                 MemTxAttrs attrs)
- {
--    int access_size_min, access_size_max;
--    int access_size, i;
--
--    if (!mr->ops->valid.unaligned && (addr & (size - 1))) {
-+    if (mr->ops->valid.accepts
-+        && !mr->ops->valid.accepts(mr->opaque, addr, size, is_write, attrs)) {
-         return false;
-     }
- 
--    if (!mr->ops->valid.accepts) {
--        return true;
--    }
--
--    access_size_min = mr->ops->valid.min_access_size;
--    if (!mr->ops->valid.min_access_size) {
--        access_size_min = 1;
-+    if (!mr->ops->valid.unaligned && (addr & (size - 1))) {
-+        return false;
-     }
- 
--    access_size_max = mr->ops->valid.max_access_size;
-+    /* Treat zero as compatibility all valid */
-     if (!mr->ops->valid.max_access_size) {
--        access_size_max = 4;
-+        return true;
-     }
- 
--    access_size = MAX(MIN(size, access_size_max), access_size_min);
--    for (i = 0; i < size; i += access_size) {
--        if (!mr->ops->valid.accepts(mr->opaque, addr + i, access_size,
--                                    is_write, attrs)) {
--            return false;
--        }
-+    if (size > mr->ops->valid.max_access_size
-+        || size < mr->ops->valid.min_access_size) {
-+        return false;
-     }
--
-     return true;
- }
- 
+diff --git a/hw/acpi/core.c b/hw/acpi/core.c
+index 45cbed49ab..d85052c34a 100644
+--- a/hw/acpi/core.c
++++ b/hw/acpi/core.c
+@@ -461,7 +461,8 @@ static void acpi_pm_evt_write(void *opaque, hwaddr addr, uint64_t val,
+ static const MemoryRegionOps acpi_pm_evt_ops = {
+     .read = acpi_pm_evt_read,
+     .write = acpi_pm_evt_write,
+-    .valid.min_access_size = 2,
++    .impl.min_access_size = 2,
++    .valid.min_access_size = 1,
+     .valid.max_access_size = 2,
+     .endianness = DEVICE_LITTLE_ENDIAN,
+ };
+@@ -530,7 +531,8 @@ static void acpi_pm_tmr_write(void *opaque, hwaddr addr, uint64_t val,
+ static const MemoryRegionOps acpi_pm_tmr_ops = {
+     .read = acpi_pm_tmr_read,
+     .write = acpi_pm_tmr_write,
+-    .valid.min_access_size = 4,
++    .impl.min_access_size = 4,
++    .valid.min_access_size = 1,
+     .valid.max_access_size = 4,
+     .endianness = DEVICE_LITTLE_ENDIAN,
+ };
+@@ -602,7 +604,8 @@ static void acpi_pm_cnt_write(void *opaque, hwaddr addr, uint64_t val,
+ static const MemoryRegionOps acpi_pm_cnt_ops = {
+     .read = acpi_pm_cnt_read,
+     .write = acpi_pm_cnt_write,
+-    .valid.min_access_size = 2,
++    .impl.min_access_size = 2,
++    .valid.min_access_size = 1,
+     .valid.max_access_size = 2,
+     .endianness = DEVICE_LITTLE_ENDIAN,
+ };
 -- 
 2.17.1
 
