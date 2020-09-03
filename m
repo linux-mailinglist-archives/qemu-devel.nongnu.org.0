@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6ACE25B87F
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 03:58:43 +0200 (CEST)
-Received: from localhost ([::1]:37786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFC3F25B884
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 03:59:51 +0200 (CEST)
+Received: from localhost ([::1]:43380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDeWR-0002mc-10
-	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 21:58:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43078)
+	id 1kDeXX-0005CL-0N
+	for lists+qemu-devel@lfdr.de; Wed, 02 Sep 2020 21:59:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kDeUn-00006T-SF; Wed, 02 Sep 2020 21:57:01 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:58751 helo=ozlabs.org)
+ id 1kDeUq-0000Bj-NV; Wed, 02 Sep 2020 21:57:04 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:36757 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kDeUi-0005bo-VF; Wed, 02 Sep 2020 21:57:01 -0400
+ id 1kDeUo-0005dE-HZ; Wed, 02 Sep 2020 21:57:04 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BhkSd31b0z9sTm; Thu,  3 Sep 2020 11:56:49 +1000 (AEST)
+ id 4BhkSd3gTGz9sTq; Thu,  3 Sep 2020 11:56:49 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1599098209;
- bh=v3aST9MNftOGyuSLWQg5BuJzjT2jU+BBOq8T6BptK/c=;
+ bh=mgU/4xDnjO0LsGIQcsn1ZuhyrwRQxHyvp1EwKAFje+g=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=os6b1VjefpCrzvT44iAJvVXBW/WJAAENvGPrxP7wqd8/Sbf/hNEx/mjchTUL9EI35
- 4dnspT0SHGBrKkFIuL2b0ZFgxy2/Ge2kfa8j8gLpyiFK95TTGlVhtp8saGHKofkAdW
- uYxTh4d4gJ2vquvRFDoe5adUzwhptuvcXYvdnRT4=
-Date: Thu, 3 Sep 2020 11:51:48 +1000
+ b=ZyieXCoM9NGzTaS2EMt+9oZ6iKhhau3WBfeBW+ObHS4POVPgIcc5lfx4p4tmzctar
+ DAA+9g1G/mBsmSDhKEoT1AbmIZzkdk9zgQoTjkcV85pghrAJckoXJadD6O3P0Ti4GP
+ XgDy5Vcxtz8io0/HHTQAXCIQgkqVTYIjNRZA2USE=
+Date: Thu, 3 Sep 2020 11:56:32 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v2 3/7] spapr: introduce
- SpaprMachineClass::numa_assoc_array
-Message-ID: <20200903015148.GK1897@yekko.fritz.box>
+Subject: Re: [PATCH v2 6/7] spapr_numa: move NVLink2 associativity handling
+ to spapr_numa.c
+Message-ID: <20200903015632.GL1897@yekko.fritz.box>
 References: <20200901125645.118026-1-danielhb413@gmail.com>
- <20200901125645.118026-4-danielhb413@gmail.com>
+ <20200901125645.118026-7-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="KjSGHOmKKB2VUiQn"
+ protocol="application/pgp-signature"; boundary="WkHPBKJ2pKcVUM5H"
 Content-Disposition: inline
-In-Reply-To: <20200901125645.118026-4-danielhb413@gmail.com>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20200901125645.118026-7-danielhb413@gmail.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/02 20:05:08
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -66,64 +66,153 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---KjSGHOmKKB2VUiQn
+--WkHPBKJ2pKcVUM5H
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 01, 2020 at 09:56:41AM -0300, Daniel Henrique Barboza wrote:
-> The next step to centralize all NUMA/associativity handling in
-> the spapr machine is to create a 'one stop place' for all
-> things ibm,associativity.
->=20
-> This patch introduces numa_assoc_array, a 2 dimensional array
-> that will store all ibm,associativity arrays of all NUMA nodes.
-> This array is initialized in a new spapr_numa_associativity_init()
-> function, called in spapr_machine_init(). It is being initialized
-> with the same values used in other ibm,associativity properties
-> around spapr files (i.e. all zeros, last value is node_id).
-> The idea is to remove all hardcoded definitions and FDT writes
-> of ibm,associativity arrays, doing instead a call to the new
-> helper spapr_numa_write_associativity_dt() helper, that will
-> be able to write the DT with the correct values.
->=20
-> We'll start small, handling the trivial cases first. The
-> remaining instances of ibm,associativity will be handled
-> next.
+On Tue, Sep 01, 2020 at 09:56:44AM -0300, Daniel Henrique Barboza wrote:
+> This patch adds a new spapr_numa_write_assoc_nvlink2() helper
+> to handle the ibm,associativity for NVLink2 GPUs.
 >=20
 > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-The idea is great, but there's one small but significant problem here:
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
-> +void spapr_numa_associativity_init(MachineState *machine)
+It might be nice to "precompute" the assoc arrays for the gpus as you
+now do for the regular numa nodes.  That can be a later revision, though.
+
+> ---
+>  hw/ppc/spapr_numa.c         | 23 +++++++++++++++++++++++
+>  hw/ppc/spapr_pci_nvlink2.c  | 19 ++-----------------
+>  include/hw/ppc/spapr_numa.h |  3 +++
+>  3 files changed, 28 insertions(+), 17 deletions(-)
+>=20
+> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
+> index 9eb4bdbe80..785cc24624 100644
+> --- a/hw/ppc/spapr_numa.c
+> +++ b/hw/ppc/spapr_numa.c
+> @@ -15,6 +15,8 @@
+>  #include "hw/ppc/spapr_numa.h"
+>  #include "hw/ppc/fdt.h"
+> =20
+> +/* Moved from hw/ppc/spapr_pci_nvlink2.c */
+> +#define SPAPR_GPU_NUMA_ID           (cpu_to_be32(1))
+> =20
+>  void spapr_numa_associativity_init(MachineState *machine)
+>  {
+> @@ -114,6 +116,27 @@ int spapr_numa_write_assoc_lookup_arrays(SpaprMachin=
+eState *spapr, void *fdt,
+>      return ret;
+>  }
+> =20
+> +void spapr_numa_write_assoc_nvlink2(void *fdt, int offset, int numa_id,
+> +                                    SpaprPhbState *sphb)
 > +{
-> +    SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(machine);
-> +    int nb_numa_nodes =3D machine->numa_state->num_nodes;
+> +    uint32_t associativity[NUMA_ASSOC_SIZE];
 > +    int i;
 > +
-> +    /*
-> +     * For all associativity arrays: first position is the size,
-> +     * position MAX_DISTANCE_REF_POINTS is always the numa_id,
-> +     * represented by the index 'i'.
-> +     *
-> +     * This will break on sparse NUMA setups, when/if QEMU starts
-> +     * to support it, because there will be no more guarantee that
-> +     * 'i' will be a valid node_id set by the user.
-> +     */
-> +    for (i =3D 0; i < nb_numa_nodes; i++) {
-> +        smc->numa_assoc_array[i][0] =3D cpu_to_be32(MAX_DISTANCE_REF_POI=
-NTS);
-> +        smc->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] =3D cpu_to_be3=
-2(i);
-
-This initialization is called on a machine *instance*, which means it
-should treat the machine class as read-only.  i.e. the
-numa_assoc_array should be in the SpaprMachineState, rather than the
-class.
-
-I mean, we'd get away with it in practice, since there's only ever
-likely to be a single machine instance, but still we should correct
-this.
+> +    associativity[0] =3D cpu_to_be32(MAX_DISTANCE_REF_POINTS);
+> +    for (i =3D 1; i < NUMA_ASSOC_SIZE; i++) {
+> +        associativity[i] =3D cpu_to_be32(numa_id);
+> +    };
+> +
+> +    if (sphb->pre_5_1_assoc) {
+> +        associativity[1] =3D SPAPR_GPU_NUMA_ID;
+> +        associativity[2] =3D SPAPR_GPU_NUMA_ID;
+> +        associativity[3] =3D SPAPR_GPU_NUMA_ID;
+> +    }
+> +
+> +    _FDT((fdt_setprop(fdt, offset, "ibm,associativity", associativity,
+> +                      sizeof(associativity))));
+> +}
+> +
+>  /*
+>   * Helper that writes ibm,associativity-reference-points and
+>   * max-associativity-domains in the RTAS pointed by @rtas
+> diff --git a/hw/ppc/spapr_pci_nvlink2.c b/hw/ppc/spapr_pci_nvlink2.c
+> index 76ae77ebc8..662a0af990 100644
+> --- a/hw/ppc/spapr_pci_nvlink2.c
+> +++ b/hw/ppc/spapr_pci_nvlink2.c
+> @@ -29,6 +29,7 @@
+>  #include "qemu/error-report.h"
+>  #include "hw/ppc/fdt.h"
+>  #include "hw/pci/pci_bridge.h"
+> +#include "hw/ppc/spapr_numa.h"
+> =20
+>  #define PHANDLE_PCIDEV(phb, pdev)    (0x12000000 | \
+>                                       (((phb)->index) << 16) | ((pdev)->d=
+evfn))
+> @@ -37,8 +38,6 @@
+>  #define PHANDLE_NVLINK(phb, gn, nn)  (0x00130000 | (((phb)->index) << 8)=
+ | \
+>                                       ((gn) << 4) | (nn))
+> =20
+> -#define SPAPR_GPU_NUMA_ID           (cpu_to_be32(1))
+> -
+>  typedef struct SpaprPhbPciNvGpuSlot {
+>          uint64_t tgt;
+>          uint64_t gpa;
+> @@ -360,13 +359,6 @@ void spapr_phb_nvgpu_ram_populate_dt(SpaprPhbState *=
+sphb, void *fdt)
+>          Object *nv_mrobj =3D object_property_get_link(OBJECT(nvslot->gpd=
+ev),
+>                                                      "nvlink2-mr[0]",
+>                                                      &error_abort);
+> -        uint32_t associativity[] =3D {
+> -            cpu_to_be32(0x4),
+> -            cpu_to_be32(nvslot->numa_id),
+> -            cpu_to_be32(nvslot->numa_id),
+> -            cpu_to_be32(nvslot->numa_id),
+> -            cpu_to_be32(nvslot->numa_id)
+> -        };
+>          uint64_t size =3D object_property_get_uint(nv_mrobj, "size", NUL=
+L);
+>          uint64_t mem_reg[2] =3D { cpu_to_be64(nvslot->gpa), cpu_to_be64(=
+size) };
+>          char *mem_name =3D g_strdup_printf("memory@%"PRIx64, nvslot->gpa=
+);
+> @@ -376,14 +368,7 @@ void spapr_phb_nvgpu_ram_populate_dt(SpaprPhbState *=
+sphb, void *fdt)
+>          _FDT((fdt_setprop_string(fdt, off, "device_type", "memory")));
+>          _FDT((fdt_setprop(fdt, off, "reg", mem_reg, sizeof(mem_reg))));
+> =20
+> -        if (sphb->pre_5_1_assoc) {
+> -            associativity[1] =3D SPAPR_GPU_NUMA_ID;
+> -            associativity[2] =3D SPAPR_GPU_NUMA_ID;
+> -            associativity[3] =3D SPAPR_GPU_NUMA_ID;
+> -        }
+> -
+> -        _FDT((fdt_setprop(fdt, off, "ibm,associativity", associativity,
+> -                          sizeof(associativity))));
+> +        spapr_numa_write_assoc_nvlink2(fdt, off, nvslot->numa_id, sphb);
+> =20
+>          _FDT((fdt_setprop_string(fdt, off, "compatible",
+>                                   "ibm,coherent-device-memory")));
+> diff --git a/include/hw/ppc/spapr_numa.h b/include/hw/ppc/spapr_numa.h
+> index f6127501a6..b6e0721b07 100644
+> --- a/include/hw/ppc/spapr_numa.h
+> +++ b/include/hw/ppc/spapr_numa.h
+> @@ -15,6 +15,7 @@
+> =20
+>  #include "hw/boards.h"
+>  #include "hw/ppc/spapr.h"
+> +#include "hw/pci-host/spapr.h"
+> =20
+>  void spapr_numa_associativity_init(MachineState *machine);
+>  void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int r=
+tas);
+> @@ -24,6 +25,8 @@ int spapr_numa_fixup_cpu_dt(SpaprMachineState *spapr, v=
+oid *fdt,
+>                              int offset, PowerPCCPU *cpu);
+>  int spapr_numa_write_assoc_lookup_arrays(SpaprMachineState *spapr, void =
+*fdt,
+>                                           int offset);
+> +void spapr_numa_write_assoc_nvlink2(void *fdt, int offset, int numa_id,
+> +                                    SpaprPhbState *sphb);
+> =20
+> =20
+>  #endif /* HW_SPAPR_NUMA_H */
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -131,25 +220,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---KjSGHOmKKB2VUiQn
+--WkHPBKJ2pKcVUM5H
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl9QTDQACgkQbDjKyiDZ
-s5LwYxAAxnEWnR2TranT4UbYq7fjwFJJkaRJ9Nq5moflYdxfVzrqFvhIKwq1Wm3v
-3MVKWOX4qeE4TLHumPNcVAmEYPsqTDkLyr1WYz5bQmSPFTQg2GClE6TT3n3ifMxU
-ILgEW6+b8z8EcdQgj+ivdIkPLkLSqruPlTBSj/RX/xPxS9LI5hRFWuoWpn16g9uT
-3TyOgWZlYbZaxPc7o2h0Shu4zW5wcomiKngHoz120pP4WTQEL67YLoF/Y9MqGlI4
-1i533vJKbKUMrIsPR48LtHF3/j8dKj75JaRlvqbQO8pikjcixX6cJYxBcPdhdTa+
-7pc43+KRX1xM9ujYE4H+P2yTQjXKHfclukhDN7KDPVi7Fty5h8oY4aepzHviKAMU
-pxo1MROCVGfkNL9khTcXSskyb+rIwrfDkFwAZBkiDaa2Deokf6yzGb3LEntoRnss
-j5bkidbXboW8+6fgTX4BWJx8IsUUsTwmF+R2sX54hM6YWLrZP26MRrb1sY4RZ1Gj
-aCSyc8hXcF/52effIhFrh+EOBRYFrbNxl6UN+/+nOkO3rovzB3Rq+TyIFn3hQdbL
-t+OBFBFBlM22kFgr/vGDd2gmejDFFCZpv8FjA8DkLMVw0UyI5z2tCLwzPLCzLcTT
-3MWO9tMNF5I40TZy6sMU+F2VFt7cg9SpB2UYwL0ei9B4t7C0cTE=
-=ylLd
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl9QTVAACgkQbDjKyiDZ
+s5LngA//V8X1QSrbh/r1qv6RRuG7hrDaUZ9FLSY+2qT11ZlepxS0xevfWgUflYFQ
+raNIhFAPqNNrNYq498v2B7H/2ulr16DL8XvEcszi7KEoKItUxe3hpeHI6rrD+9sT
+v59bGYRJbRPXz5N7lQd71MQCgLMtXYrJ3C4uL3gLtaqhJ79BjaZB923q8neE4oZg
+9nygDllBsGtV/tLbbX5uz/dBi532GYb9EOhMaSYbAz666un9KiaQl/gulGqoxeHM
+SVF/8mI9ZBEOggCUHmRk1PbDQVWtDCeU8/Q494hS36XJk3WHYv51YZZ5gJHmMoPL
+6oKn75XgWy8avnKKgLXHSiuDG9hROThKFkxU+LqMmZ9iK4s9bO8Z8sLPL3BdXeXJ
+V4b2hwecSatYAPFsOR0eTfrAFRJS5IaZ9NjTA46X1ctWLsH9cFfchGnKus5ZGFdg
+IFxm0uUXVGCMc3RneMmkBb9BnvHRdJIEcK1ocJFRszgQ0eGVvNIXpBBhcPmELVxM
+Vrw40eoOxE4KA4UCOMvicBK5ztA257Bicc6drFqK3wMtsg/hVktjwEN1+CA7mJoL
+Mjz9OXzJr1II9WFoIoQF5M/HT1ozqOfgMVyf77ZsZ/4gvHZhAv0ylCOWPC0hcaG5
+QhKr6+OLuA+ui5JI0IC5CdSyfyM0jE4OfkM7BEO2q7R67P/v7i0=
+=16o6
 -----END PGP SIGNATURE-----
 
---KjSGHOmKKB2VUiQn--
+--WkHPBKJ2pKcVUM5H--
 
