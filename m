@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 780BC25C80E
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 19:29:20 +0200 (CEST)
-Received: from localhost ([::1]:57012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5998E25C811
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 19:29:26 +0200 (CEST)
+Received: from localhost ([::1]:57620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDt31-0002Pc-2M
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 13:29:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55490)
+	id 1kDt37-0002gG-FW
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 13:29:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kDt1x-0000p2-Gy; Thu, 03 Sep 2020 13:28:13 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42742)
+ id 1kDt1z-0000s8-Oa; Thu, 03 Sep 2020 13:28:15 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:34248)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kDt1v-0002V5-KF; Thu, 03 Sep 2020 13:28:13 -0400
-Received: by mail-wr1-x444.google.com with SMTP id c18so4068752wrm.9;
- Thu, 03 Sep 2020 10:28:10 -0700 (PDT)
+ id 1kDt1y-0002Vb-29; Thu, 03 Sep 2020 13:28:15 -0400
+Received: by mail-wr1-x442.google.com with SMTP id t10so4135320wrv.1;
+ Thu, 03 Sep 2020 10:28:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=MaYvDpYA/q1gHW4bD3RmC39zVROC6oAwV/mFF935mOk=;
- b=A4R1ADeVqpDDM6cYNxZfbffyJcUga2yXAfFk0JhtGCPzRjJ22uVpFCfE8zDbQ3ETc9
- NMGjg1P0ZrPRfiYybGTYrdYUTXBvIe+0+9biwOgVJg9nV0lyU+LuqZxBg3BD2sNllryU
- kP6rhep2jcEEajTQfvJcqyKoHzqszqdHLTQBDJuWDazruJX6IubE8Q2CURdfpWbScIol
- 22rFQRJ+VhftqKc1HJMN6YLZv9A/cdldlTrmez4w4Jtx9KoAb3P30srdFww2At8+Gbpz
- 6ks5dSrD3cEGOuFmHgljCsCQh9nQe1VXyNqVaE5aFHYjq9xtPgJxchEs5Or1JQOJvQXS
- uhrQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=oW6XvxZuE1zKD54bo18SFHuDRJFc1R7THevACoTqgkM=;
+ b=UclCLAR7ukADVGhNA2HNAojA6SmIcNm9cl64vWhssP/TJgxEjb/Dre40PT6j1zRVJz
+ b1jmNs+ajxvVpK/B3+M3YnDLeo2oN4W3O0NX5uLJSPXLrkd4Dn3JFAassBF2smNIs2N7
+ M+7Ne82EAHw7vtlwNfPC0kpMng65TwEpbMO4OtrcqOr0WBmBcsD9A/KsOW0sJ1t977bF
+ KtWvXBN+hMHkBZBqVx2yCLzV6OFSgAGg5M07rJqBybgVM6ftJ/y2RfR0qML2XJUsapRj
+ y6BUD74UFJJUHcuCeQhaPwMrhU2lOjf8VpWo6bkRwCO+ESTLbBA93f18yIT3Vz19tgW9
+ 7eWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=MaYvDpYA/q1gHW4bD3RmC39zVROC6oAwV/mFF935mOk=;
- b=InIjcoCI9OpwlbrqdusRKWlawAiYn2l5gSkMsEjRfQbVr0T1gX2/yLELsd0JnLkTKf
- ZZqhlFQhPDRy95dzf5mJ3FewfK9SJMXf+AC1ZEzO/K7rjalKlAXsujsJzUemI/fmJDrU
- T7Pwp5JblckPsRQ2X7rxv3j9A5/RjH2MmPyyfzgPZ/iYW8CIZuCicAVjl5D1jBEjQlJ0
- qT1I1j6OWfCEcRSDO4IYYUGddGprxeUXFRdPyVZMuIh+huUZp1Im6cLT3l7BZbzBZgdk
- v/oCCVViPY/UIYbJfJwT615ntIgj55b/K0/ePNAFkHlCP3vVJcVtbUUlBlwJG50Onco6
- rfdw==
-X-Gm-Message-State: AOAM530hoXu2jqvgsu0syBlOUjmuJYuNQcoCgaZ9KniHoWnaLck2JMtP
- PN4no/1Q//7HE/bN5eM7uASxd2KNVsI=
-X-Google-Smtp-Source: ABdhPJzUIO97wpLKF8Q5DSWpRv4UTvYhrePm//2Sgj72sU4ZVAJ5n2MhDqxlbX+P7fioJaOATuWIpw==
-X-Received: by 2002:adf:f011:: with SMTP id j17mr3376770wro.335.1599154088909; 
- Thu, 03 Sep 2020 10:28:08 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=oW6XvxZuE1zKD54bo18SFHuDRJFc1R7THevACoTqgkM=;
+ b=j0ggyhR8PqknYO3k2jZzjO5wkA21n7cW+xLqyTdrwyWbqRaki2grzsL/SYkoz5jiIi
+ Vf4wTKs91zUnYh6Pox8im8hbhtKDs/H7D3LtDcj7nuGiD8epxOLWmxhtSF52G56uhEsL
+ MvlwIJtwb/t9CVrF4JOt2xhwli2qb+kGYGc3n+HoPsQwC1VZJpb1hGYrz9xY5IPftYq1
+ D1IKKmKSioDDS6lLanGI+SNFT1HpvG1vZbx6D+iqA4vcKcTT57zybkcm+nJVHi/mfFWF
+ qEocUnmvQE+DS9bxlZhJ3fEBu7LWoqLeUOjKOAwrbDASImaMoZMMg486sGjClxOGe6vh
+ +b/g==
+X-Gm-Message-State: AOAM532KlCVapeUG+cw6ucRwOBmbnBmFnoTF/J2Bg8GXWF88In24haSs
+ 5SxYNQncVovxBFPMI9xs72RJE5bTFes=
+X-Google-Smtp-Source: ABdhPJxD/eT6l2vFol7VZU2Jyo5/WQJgbylf3v9Kt/NGmTML055BK2l8qA9Um3yZQ8pwfkfEf9Uzlw==
+X-Received: by 2002:adf:8445:: with SMTP id 63mr3451049wrf.375.1599154091708; 
+ Thu, 03 Sep 2020 10:28:11 -0700 (PDT)
 Received: from localhost.localdomain (50.red-83-52-54.dynamicip.rima-tde.net.
  [83.52.54.50])
- by smtp.gmail.com with ESMTPSA id b2sm5325802wmh.47.2020.09.03.10.28.07
+ by smtp.gmail.com with ESMTPSA id b2sm5325802wmh.47.2020.09.03.10.28.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Sep 2020 10:28:07 -0700 (PDT)
+ Thu, 03 Sep 2020 10:28:10 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/4] hw/sd/sdhci: Strengthen multiple DMA transfers
-Date: Thu,  3 Sep 2020 19:28:02 +0200
-Message-Id: <20200903172806.489710-1-f4bug@amsat.org>
+Subject: [PATCH 2/4] hw/sd/sdhci: Resume pending DMA transfers on MMIO accesses
+Date: Thu,  3 Sep 2020 19:28:04 +0200
+Message-Id: <20200903172806.489710-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200903172806.489710-1-f4bug@amsat.org>
+References: <20200903172806.489710-1-f4bug@amsat.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -90,22 +93,51 @@ Cc: Prasad J Pandit <pjp@fedoraproject.org>, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Still trying to fix the bugs reported by Aleksander...
+If we have pending DMA requests scheduled, process them first.
+So far we don't need to implement a bottom half to process them.
 
-- Do not send 0 block count
-- Reduce DMA to MMIO re-entrancy by yielding when pending IRQ
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/sd/sdhci.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-Based-on: <20200901140411.112150-1-f4bug@amsat.org>
-
-Philippe Mathieu-Daudé (4):
-  hw/sd/sdhci: Stop multiple transfers when block count is cleared
-  hw/sd/sdhci: Resume pending DMA transfers on MMIO accesses
-  hw/sd/sdhci: Let sdhci_update_irq() return if IRQ was delivered
-  hw/sd/sdhci: Yield if interrupt delivered during multiple transfer
-
- hw/sd/sdhci.c | 35 +++++++++++++++++++++++++++++++----
- 1 file changed, 31 insertions(+), 4 deletions(-)
-
+diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
+index 703357e94a7..2b197631870 100644
+--- a/hw/sd/sdhci.c
++++ b/hw/sd/sdhci.c
+@@ -945,11 +945,21 @@ sdhci_buff_access_is_sequential(SDHCIState *s, unsigned byte_num)
+     return true;
+ }
+ 
++static void sdhci_resume_pending_transfer(SDHCIState *s)
++{
++    timer_del(s->transfer_timer);
++    sdhci_data_transfer(s);
++}
++
+ static uint64_t sdhci_read(void *opaque, hwaddr offset, unsigned size)
+ {
+     SDHCIState *s = (SDHCIState *)opaque;
+     uint32_t ret = 0;
+ 
++    if (timer_pending(s->transfer_timer)) {
++        sdhci_resume_pending_transfer(s);
++    }
++
+     switch (offset & ~0x3) {
+     case SDHC_SYSAD:
+         ret = s->sdmasysad;
+@@ -1093,6 +1103,10 @@ sdhci_write(void *opaque, hwaddr offset, uint64_t val, unsigned size)
+     uint32_t value = val;
+     value <<= shift;
+ 
++    if (timer_pending(s->transfer_timer)) {
++        sdhci_resume_pending_transfer(s);
++    }
++
+     switch (offset & ~0x3) {
+     case SDHC_SYSAD:
+         s->sdmasysad = (s->sdmasysad & mask) | value;
 -- 
 2.26.2
 
