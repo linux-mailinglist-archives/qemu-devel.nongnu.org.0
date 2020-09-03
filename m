@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DB6125C04E
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 13:28:28 +0200 (CEST)
-Received: from localhost ([::1]:47242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F5FF25C017
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 13:23:23 +0200 (CEST)
+Received: from localhost ([::1]:55912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDnPn-0004aw-Ho
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 07:28:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37194)
+	id 1kDnKs-0004u2-4p
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 07:23:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kDnIx-0002hm-Td
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 07:21:23 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:51276)
+ id 1kDnIz-0002l4-4Z
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 07:21:25 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:36413)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kDnIw-0007aD-2e
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 07:21:23 -0400
-Received: by mail-wm1-x342.google.com with SMTP id w2so2494747wmi.1
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 04:21:21 -0700 (PDT)
+ id 1kDnIx-0007aL-2y
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 07:21:24 -0400
+Received: by mail-wm1-x344.google.com with SMTP id z9so2509178wmk.1
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 04:21:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3ol6/8ZnV+hKUM+GEucApUlAdOvqwrc7UlycrSSBdXg=;
- b=ykEB5jKkuQonv4sTg8MopB9Qu0oWWXi8OyApbAPA2tENo5DiVVBF6ft591aq7oT8hM
- HkaxtpsH2jGVsbG66BKRNfZJIPiNgVSauliyC5hI+Hx2DdEsQPg//k4AFA7wBFpxsitG
- 1M2/1YLvaEdN5/sCIiYvjrhHoUHyKIBgnfhA29twUImbngfHLm4NxFSfFx3SB6cHRqHd
- jyqJ+2cV3qI/KsWUZqQPflM4Izi2rjUCUAUPcBD48qA7WZlhYlzOi2epg99Ssz9XwRhG
- pHu9RxVHOmy/7tnsX0IYFjGj3D1x69gZCe3CQpz0SvBHk4NXIWrcSADvXC/LmdOL+qlu
- UafQ==
+ bh=cMROPLcTcDLsqz8ZyHuI3PmBlKUI5qkazLVoDFSt+zE=;
+ b=d79wSgjguVjpuWwN2r//uARngSrrvXyXdYbHUNYzGcU6XL993iR2xOXCZf2TJ+w2SE
+ F1k1N1xBkEGJ0xoHqyVSMeXVyKKmkmDUarqHJyBYy/UBcazuNnKenkugEMSvdwRSSGwx
+ +sR4wYvyu3bCVvqa4ji2NNUR/9CV8fztKjq0FLRDU40Hq92piIjaoc3ZBM6IShJqOB6N
+ hVJlx36qgB/Yfz8BCDXF5vdRwAb3Xfikz2f7aRBgyWYzVjFuJZaa81sJxPKy7aWFH7WS
+ 0ZEJILBEkYcbnAksQLqTLj1+EbFpl97HbpyKrl7+/1r7XrRFTE+kIQdM1iobmkHUzTwu
+ e9Pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3ol6/8ZnV+hKUM+GEucApUlAdOvqwrc7UlycrSSBdXg=;
- b=s2zZXLpuPkFTQFrUJqCJu7hgu2YL8INaVZrPTUASxswTedLZ2J+R9uKaE8Eut/RKU2
- drYwejVOE2sK12ES4r0WtEnPKAxvsNir4Jq8T7u+gMYzuo85JnNJR+1NeV5+c7cjKLaK
- c2WMaH8lxHS5pFt6BklKJh7YsRjCoODmWD19qf9d7YtSwqN/w3mrlN6G0T1jWk/3yLQR
- zexv68PtPy/48GiNoU+3vsgvC1Sr50CIr3VplGOlIBVlYo3pOqVVjhWTYSiUQxEwhdWt
- JEOo8qFHJJ+mKW0KBg6R6/IoJ2kuOz2cSs9M77TrgzOrjygtcdpAI0EOuZcm9LpB2ogM
- w8Xg==
-X-Gm-Message-State: AOAM532xhUzOni0jiMkt7LcaHfoHtbxoTXn62o+ZNo51Czj99jil+Dhm
- IuwVVv4DjgabF1oVlxB0jGkVcQ==
-X-Google-Smtp-Source: ABdhPJy+vfqskttAxRksrG9mUbClhfOiLwCn0V6rE08FXSJWqrt78XL7wOCuhFXNiiSFayln0B++BQ==
-X-Received: by 2002:a1c:4e08:: with SMTP id g8mr1935906wmh.53.1599132080719;
- Thu, 03 Sep 2020 04:21:20 -0700 (PDT)
+ bh=cMROPLcTcDLsqz8ZyHuI3PmBlKUI5qkazLVoDFSt+zE=;
+ b=a4Mm0rn7UC0fqDANBLcjEEKdxqz1B6iUkHlTXJ2FdFpD9zIsH+TqaWwYKUbmTpqwU7
+ jfDNVx32P8eaguSymW8Wgc7eVK3WB8Tkb6BQwjKXrxUBkQY7SC1DIOpsKGLGsYWvtl/V
+ f/JU3xrBe85cnpkirwlg0naMlGZhzzA8+0vq/HJ0sAos/SF24eDxB1mk/EuEDq8fjJNR
+ i/8uYc7orsep5S0pgMtfvpcVW6lrzIHck5tdSgaWg8hZFiIkoI76TSbRBYcD8MwoyzMa
+ ixUZHcO5OXWnMubZPMaBfNFpN5ZPbh2M5zZVLxc0Ct4TuQgWE73NgpkSOWrLmtiWemE4
+ IpNQ==
+X-Gm-Message-State: AOAM530plcsXxW2QM1gYju/K/tjsc+JK2faWc0nUncJ8jCkcce08/pXL
+ eDQdb80LvJowInAY76bZZcPoJw==
+X-Google-Smtp-Source: ABdhPJzS2rPu1nqWNjT4Fo5FRInA6ZkmhMNohqh400p2NG7sw575nV29a8vKeIPMbX+5YckEn+fKmQ==
+X-Received: by 2002:a1c:105:: with SMTP id 5mr2076404wmb.83.1599132081691;
+ Thu, 03 Sep 2020 04:21:21 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g8sm3912454wmd.12.2020.09.03.04.21.09
+ by smtp.gmail.com with ESMTPSA id c205sm3850668wmd.33.2020.09.03.04.21.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 03 Sep 2020 04:21:12 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 58EC71FF92;
+ by zen.linaroharston (Postfix) with ESMTP id 7253C1FF93;
  Thu,  3 Sep 2020 12:21:08 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 6/8] tests/meson.build: fp tests don't need CONFIG_TCG
-Date: Thu,  3 Sep 2020 12:21:05 +0100
-Message-Id: <20200903112107.27367-7-alex.bennee@linaro.org>
+Subject: [PATCH  v1 7/8] target/mips: simplify gen_compute_imm_branch logic
+Date: Thu,  3 Sep 2020 12:21:06 +0100
+Message-Id: <20200903112107.27367-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200903112107.27367-1-alex.bennee@linaro.org>
 References: <20200903112107.27367-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,53 +88,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
+Cc: fam@euphon.net, Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ berrange@redhat.com, stefanb@linux.vnet.ibm.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  richard.henderson@linaro.org, f4bug@amsat.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>, cota@braap.org,
  stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
  aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As the tests build only softfloat.c no actual TCG machinary is neede
-to test them (as is evidenced by GCC check-softfloat). Might as well
-fix the wording on Travis while at it.
+One of the Travis builds was complaining about:
+
+  qemu/include/tcg/tcg.h:437:12: error: ‘cond’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+       return (TCGCond)(c ^ 1);
+  ../target/mips/translate.c:20031:13: note: ‘cond’ was declared here
+       TCGCond cond;
+
+Rather than figure out exactly which one was causing the complaint I
+just defaulted to TCG_COND_ALWAYS and allowed that state to double up
+for the now defunct bcond_compute variable.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- .travis.yml       | 2 +-
- tests/meson.build | 3 ++-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ target/mips/translate.c | 12 ++----------
+ 1 file changed, 2 insertions(+), 10 deletions(-)
 
-diff --git a/.travis.yml b/.travis.yml
-index 1d0ade0a133..65341634d02 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -138,7 +138,7 @@ jobs:
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index 899b90ae0ff..398edf72898 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -20028,8 +20028,7 @@ static void gen_pool32axf_nanomips_insn(CPUMIPSState *env, DisasContext *ctx)
+ static void gen_compute_imm_branch(DisasContext *ctx, uint32_t opc,
+                                    int rt, int32_t imm, int32_t offset)
+ {
+-    TCGCond cond;
+-    int bcond_compute = 0;
++    TCGCond cond = TCG_COND_ALWAYS;
+     TCGv t0 = tcg_temp_new();
+     TCGv t1 = tcg_temp_new();
  
+@@ -20046,7 +20045,6 @@ static void gen_compute_imm_branch(DisasContext *ctx, uint32_t opc,
+             /* Treat as NOP */
+             goto out;
+         } else {
+-            bcond_compute = 1;
+             cond = TCG_COND_EQ;
+         }
+         break;
+@@ -20065,7 +20063,6 @@ static void gen_compute_imm_branch(DisasContext *ctx, uint32_t opc,
+             tcg_gen_shri_tl(t0, t0, imm);
+             tcg_gen_andi_tl(t0, t0, 1);
+             tcg_gen_movi_tl(t1, 0);
+-            bcond_compute = 1;
+             if (opc == NM_BBEQZC) {
+                 cond = TCG_COND_EQ;
+             } else {
+@@ -20080,7 +20077,6 @@ static void gen_compute_imm_branch(DisasContext *ctx, uint32_t opc,
+         } else if (rt == 0 && imm != 0) {
+             /* Unconditional branch */
+         } else {
+-            bcond_compute = 1;
+             cond = TCG_COND_NE;
+         }
+         break;
+@@ -20088,24 +20084,20 @@ static void gen_compute_imm_branch(DisasContext *ctx, uint32_t opc,
+         if (rt == 0 && imm == 0) {
+             /* Unconditional branch */
+         } else  {
+-            bcond_compute = 1;
+             cond = TCG_COND_GE;
+         }
+         break;
+     case NM_BLTIC:
+-        bcond_compute = 1;
+         cond = TCG_COND_LT;
+         break;
+     case NM_BGEIUC:
+         if (rt == 0 && imm == 0) {
+             /* Unconditional branch */
+         } else  {
+-            bcond_compute = 1;
+             cond = TCG_COND_GEU;
+         }
+         break;
+     case NM_BLTIUC:
+-        bcond_compute = 1;
+         cond = TCG_COND_LTU;
+         break;
+     default:
+@@ -20118,7 +20110,7 @@ static void gen_compute_imm_branch(DisasContext *ctx, uint32_t opc,
+     clear_branch_hflags(ctx);
+     ctx->base.is_jmp = DISAS_NORETURN;
  
-     # Just build tools and run minimal unit and softfloat checks
--    - name: "GCC check-softfloat (user)"
-+    - name: "GCC check-unit and check-softfloat"
-       env:
-         - BASE_CONFIG="--enable-tools"
-         - CONFIG="--disable-user --disable-system"
-diff --git a/tests/meson.build b/tests/meson.build
-index fe2c6d8e6b6..bdcc5d75293 100644
---- a/tests/meson.build
-+++ b/tests/meson.build
-@@ -7,8 +7,9 @@ test('decodetree', sh,
-      workdir: meson.current_source_dir() / 'decode',
-      suite: 'decodetree')
- 
-+subdir('fp')
-+
- if 'CONFIG_TCG' in config_host
--  subdir('fp')
-   if 'CONFIG_PLUGIN' in config_host
-     subdir('plugin')
-   endif
+-    if (bcond_compute == 0) {
++    if (cond == TCG_COND_ALWAYS) {
+         /* Uncoditional compact branch */
+         gen_goto_tb(ctx, 0, ctx->btarget);
+     } else {
 -- 
 2.20.1
 
