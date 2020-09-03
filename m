@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D76D725CCFA
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:59:04 +0200 (CEST)
-Received: from localhost ([::1]:50170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A404F25CCF9
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 23:59:02 +0200 (CEST)
+Received: from localhost ([::1]:50032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDxG3-0003Pt-ST
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:59:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59784)
+	id 1kDxG1-0003MV-NO
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 17:59:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwMK-0005N5-66; Thu, 03 Sep 2020 17:01:28 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:46537)
+ id 1kDwML-0005Ov-2E; Thu, 03 Sep 2020 17:01:29 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:46539)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1kDwMH-0007va-UX; Thu, 03 Sep 2020 17:01:27 -0400
-Received: by mail-ot1-x342.google.com with SMTP id c10so3976922otm.13;
- Thu, 03 Sep 2020 14:01:25 -0700 (PDT)
+ id 1kDwMJ-0007vm-CE; Thu, 03 Sep 2020 17:01:28 -0400
+Received: by mail-ot1-x344.google.com with SMTP id c10so3976986otm.13;
+ Thu, 03 Sep 2020 14:01:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=xAeCy0dkrFXli/MZ20SoEmseBhxRBmTMNlsNI00ND14=;
- b=WEoSrUV/LzAYl33ehfkdIN86+C4rVusYx4wewIllU8ElcV4YrtStVmYiGVvMyC23az
- e9P/8G0Y5Uh2vRXPdvTzjVEzFeR751XcONMtLiOU0NgqWQDU6yaN0wz/7ccBRcouvgs5
- OFLTeq2C1yt8q9bLnNr3yygyi7S3yBRgPdE+HEn1CNe80cC4IviIDqaH3clfP3kpjKEG
- w9X7h63J2wkhcuta2/yLIO2bBf2YAHnGRg3Sqqz8Z2plENrEMLX7Y8bAI4OncGhHaIoB
- Vzqpu0Oks+fB7l9vy8qWB6uyJBUiZyno5Zn/biS0pNo0EC0CNnHEE2vsQBHHEg7s0TXP
- KIvQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ukiMnU2Ka9CilWgAW2sSo5sQypISiGu+XOTOgn0j23Q=;
+ b=EUCGFniQXNizA5SYD5PkHcdWgwJn+49NwLtLVyQFwft/kWN11w3Ls7K8tUaFkMw42A
+ 9/wws5PNQVxB3V/4hD8vS+ojTNZq8N++M6EPbR0ETxQ645u16fHRojhD+yrcR4qWzH4z
+ /jUQT+/uSVCRPEzrEuMRxeFNI6C4DpWlofEG5RZKXI5FeXMlqYDr627JSsnrf0xvEb9P
+ 5EyKsI3viZotUyqt+poFpfl9MMCpPEJQJeYAPZnloUNGxW55uzNQYUy+pilj6mNTOJVU
+ IZURk+eRV9ngU3UxWZxPbij5pwxpDmdePVgxQUGfsHvgzUH8Bb+hx1INeYUyhx5ev7Of
+ VM1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=xAeCy0dkrFXli/MZ20SoEmseBhxRBmTMNlsNI00ND14=;
- b=W4RUlvkJFlsuqYxKIhgjPaUGj5nOVuYAbS+b6h0WiZwxq01N02L1qIXJ+4/OsT1bAZ
- lmww64aBRo2GQAK+4rFMWgWHrz9zzhweJ2SIEenh9xP58ZSjn/E0BT63m/j1hb7n3BN4
- qbOPjTyzzZdWr2gx3/CuMbmGauf7S27xZXHh+ecqXd/ZO5Y3CltnN1XqIC6meyHSJiyp
- zYc0q/hVNsHDdeGe6CDU99aDps5S0WvO+64xHlrGR6X4ygCiqopR44Z2UOKPhb2g/9a1
- c98JcPk8qlEXO0AZVgkVRHBBy2pGNxe7hZThA4uGJU1srKdir2rhM6D/uZ3oN/jFE439
- z4Ag==
-X-Gm-Message-State: AOAM531bL6M1fNBhNxdVLqRWZlFzAmmgpExQUGDqnaIilX7bxWtSv4v6
- ytAT40KbbTFNAs6az2zuwFJutDEsFATsWQ==
-X-Google-Smtp-Source: ABdhPJzwTbCsl+Lytgoj2z8kHwkjguW6nV3JVs+HNrcQ/RMCz466MkpnxiQYgkQnz5rRU09YZbXfNg==
-X-Received: by 2002:a9d:d35:: with SMTP id 50mr3064963oti.166.1599166884190;
- Thu, 03 Sep 2020 14:01:24 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=ukiMnU2Ka9CilWgAW2sSo5sQypISiGu+XOTOgn0j23Q=;
+ b=h/qz+sM5284+m9mEY0EYuOVJ1T7n4zNmQdECGvkE4r36cB/CIRxlvqMi+1fsnnHuwo
+ kRrnXvEu+RAOv+q0RyZ2UQQzCAZjLsgFFTtfG5PfngLRBtwhGlUxDMCxqFW4N+kVYPYp
+ 0soJ6r1E3cgR4BTF9VA3Qcwcp7oMI+2MoCBSa3AC4I00Fz2XDRaVw5GhtjfknIe2IbTO
+ LBVKoz4PcADaENvnTjrUR/XQBr0gTnwrlnor0WaGzuqMfQtjaSV1e4Qe591JmGbX5pVw
+ 0j2ljnA4TFVAkJcz4nslyA1tTvjAjvW1jpD69OrhM/fUn769YMaMOGZG/8Of7oWL/F7z
+ Ybgw==
+X-Gm-Message-State: AOAM533RKODU/K4G3AU5td0T5mFy6zeB7A3zCRN/ABMJESlB6MKYI0aj
+ uaciZCwCD7ffGNcBf6L6Nt0Y6xnrJP7tYA==
+X-Google-Smtp-Source: ABdhPJz8pRPBwG8xRM1knu8gsqApuT1ZW9/ewO5C+peXCXPcSQb2bt5OVOvxr6bERYp7cFyv/I7JQg==
+X-Received: by 2002:a05:6830:1c61:: with SMTP id
+ s1mr2941421otg.149.1599166885564; 
+ Thu, 03 Sep 2020 14:01:25 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id m21sm787351otr.36.2020.09.03.14.01.23
+ by smtp.gmail.com with ESMTPSA id w13sm740900oiw.50.2020.09.03.14.01.24
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 03 Sep 2020 14:01:23 -0700 (PDT)
+ Thu, 03 Sep 2020 14:01:25 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 75/77] virtio-net: align RSC fields with updated virtio-net
- header
-Date: Thu,  3 Sep 2020 15:59:33 -0500
-Message-Id: <20200903205935.27832-76-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 76/77] hw/arm/sbsa-ref: fix typo breaking PCIe IRQs
+Date: Thu,  3 Sep 2020 15:59:34 -0500
+Message-Id: <20200903205935.27832-77-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
 References: <20200903205935.27832-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x342.google.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -82,77 +86,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yuri Benditovich <yuri.benditovich@daynix.com>,
- Jason Wang <jasowang@redhat.com>, qemu-stable@nongnu.org
+Cc: Graeme Gregory <graeme@nuviainc.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yuri Benditovich <yuri.benditovich@daynix.com>
+From: Graeme Gregory <graeme@nuviainc.com>
 
-Removal of duplicated RSC definitions. Changing names of the
-fields to ones defined in the Linux header.
+Fixing a typo in a previous patch that translated an "i" to a 1
+and therefore breaking the allocation of PCIe interrupts. This was
+discovered when virtio-net-pci devices ceased to function correctly.
 
-Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
-Signed-off-by: Jason Wang <jasowang@redhat.com>
-(cherry picked from commit dd3d85e89123c907be7628957457af3d03e3b85b)
- Conflicts:
-	hw/net/virtio-net.c
-*drop context dep. on 590790297c0
+Cc: qemu-stable@nongnu.org
+Fixes: 48ba18e6d3f3 ("hw/arm/sbsa-ref: Simplify by moving the gic in the machine state")
+Signed-off-by: Graeme Gregory <graeme@nuviainc.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20200821083853.356490-1-graeme@nuviainc.com
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+(cherry picked from commit 870f0051b4ada9a361f7454f833432ae8c06c095)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/net/virtio-net.c | 27 ++++-----------------------
- 1 file changed, 4 insertions(+), 23 deletions(-)
+ hw/arm/sbsa-ref.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index e7e2c2acdb..6cb1448310 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -77,25 +77,6 @@
-    tso/gso/gro 'off'. */
- #define VIRTIO_NET_RSC_DEFAULT_INTERVAL 300000
+diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+index 8409ba853d..0b32084dc0 100644
+--- a/hw/arm/sbsa-ref.c
++++ b/hw/arm/sbsa-ref.c
+@@ -555,7 +555,7 @@ static void create_pcie(SBSAMachineState *sms)
  
--/* temporary until standard header include it */
--#if !defined(VIRTIO_NET_HDR_F_RSC_INFO)
--
--#define VIRTIO_NET_HDR_F_RSC_INFO  4 /* rsc_ext data in csum_ fields */
--#define VIRTIO_NET_F_RSC_EXT       61
--
--static inline __virtio16 *virtio_net_rsc_ext_num_packets(
--    struct virtio_net_hdr *hdr)
--{
--    return &hdr->csum_start;
--}
--
--static inline __virtio16 *virtio_net_rsc_ext_num_dupacks(
--    struct virtio_net_hdr *hdr)
--{
--    return &hdr->csum_offset;
--}
--
--#endif
+     for (i = 0; i < GPEX_NUM_IRQS; i++) {
+         sysbus_connect_irq(SYS_BUS_DEVICE(dev), i,
+-                           qdev_get_gpio_in(sms->gic, irq + 1));
++                           qdev_get_gpio_in(sms->gic, irq + i));
+         gpex_set_irq_num(GPEX_HOST(dev), i, irq + i);
+     }
  
- static VirtIOFeature feature_sizes[] = {
-     {.flags = 1ULL << VIRTIO_NET_F_MAC,
-@@ -1539,15 +1520,15 @@ static size_t virtio_net_rsc_drain_seg(VirtioNetRscChain *chain,
-                                        VirtioNetRscSeg *seg)
- {
-     int ret;
--    struct virtio_net_hdr *h;
-+    struct virtio_net_hdr_v1 *h;
- 
--    h = (struct virtio_net_hdr *)seg->buf;
-+    h = (struct virtio_net_hdr_v1 *)seg->buf;
-     h->flags = 0;
-     h->gso_type = VIRTIO_NET_HDR_GSO_NONE;
- 
-     if (seg->is_coalesced) {
--        *virtio_net_rsc_ext_num_packets(h) = seg->packets;
--        *virtio_net_rsc_ext_num_dupacks(h) = seg->dup_ack;
-+        h->rsc.segments = seg->packets;
-+        h->rsc.dup_acks = seg->dup_ack;
-         h->flags = VIRTIO_NET_HDR_F_RSC_INFO;
-         if (chain->proto == ETH_P_IP) {
-             h->gso_type = VIRTIO_NET_HDR_GSO_TCPV4;
 -- 
 2.17.1
 
