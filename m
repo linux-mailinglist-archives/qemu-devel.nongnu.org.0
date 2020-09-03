@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 785FB25C76A
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 18:49:05 +0200 (CEST)
-Received: from localhost ([::1]:47830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA6E025C779
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Sep 2020 18:52:12 +0200 (CEST)
+Received: from localhost ([::1]:58674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDsQ4-0006AW-GK
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 12:49:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45142)
+	id 1kDsT5-0002Hx-8g
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 12:52:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kDsP4-00057h-3W
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:48:02 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:39480)
+ id 1kDsS3-00017W-Ly
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:51:07 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:44134)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kDsP1-0005LR-G7
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:48:01 -0400
-Received: by mail-pg1-x544.google.com with SMTP id v15so2593637pgh.6
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 09:47:58 -0700 (PDT)
+ id 1kDsS1-0005t6-2p
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 12:51:07 -0400
+Received: by mail-pg1-x542.google.com with SMTP id 7so2586167pgm.11
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 09:51:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=MqEzl7bYtjx6L00QzbuzeF7tsc3PgsBkPDFIIf9kTuU=;
- b=OUk3I3q2OP1PwnaLggOkAkANBJodhyNlNKAMruvJT7831ybbqKH2980kp0tksuyqGr
- DQbBvUNflIOcVVx8bLr96X8dSesw4Qj9H8pVjcxuDoGReZRVQYENExhn1McaL+aOAvT6
- BVisjTmofzssN+y9/AkUMPV6UsWfvEt+EVTZy/C+ka9JO7+snTUZ3Bzn/W/cB9B9JoZY
- NF+aUWMa5oIozXGkWFaxuvu6AyjNcKZqTmQzwfc4MI1tN/r1/ZD/dfwomjdm2ye0Scxt
- 2BxM9O/Yv9ZY3ktTeFAuhwLtX6BIcM8I9wxk0GdEQ32N55btx2O2+D2HcFzb4ZvEqwW3
- 0LOg==
+ bh=BC+YGBYZcukSjZ/kDM4YJcsjMLK2h2QJt5f600Xd7Zc=;
+ b=RtPHeEk/UyPMQ6tio920kD863FGuIlHVkiZS5A3xoVYO1FEY5SL7xkAy7lycLmDb2d
+ 0UfNSrJvNcAt2VHsJ1xSnhCnFCplQ1Kybcukxb3kKZqhbiQL6o6+TffisrxDpHi2spU0
+ Cvl/1sFHHk5UrYPa9IYrI3hqoVHJrzER4+ReTURqmlCxrRFU1IrjkpIKlGi1DDCGmVdP
+ 4RN3VoWPXc9k5LkbCIwI6V4L1mLvWW8ZcoO7QzaREJHPj1EdvdkBtAmxR4Mj11Ou7Y3n
+ H4YSCchXW9sSesEa+VdTz2RSpaFy+llbjcBC6vU5LD2nAL9vvPcGZUON2Xd/Jyj7sS1d
+ Z+dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=MqEzl7bYtjx6L00QzbuzeF7tsc3PgsBkPDFIIf9kTuU=;
- b=nYKzT4QB/oKIPLonETQNoeOY44ahOlgUwhnNk8h4IqkuuXUsOEsExl6nLVr7zBvYgn
- PXDLMJK8xVEEJ763O+eXZcvJkei/Oe4bd/isocBOMoaL+9rz/e+HtTg4ydpBQxAke9DJ
- 7KJy/NFUWDu1jtXHMnZQ4Q+E6RssUI9bEJvcyJ+qIxArF3kXlHqHwvBtDpM25s/lvieK
- k4/cCFUdee3Vy3Hn9dUQxnp1V/rhSDrpen5kNTgDb/DRT4pVS5UbHQK2uHOAeFFfZ22i
- uz3/nshF2TI6iQDNVCI/UDX29ZVrLa96Qf8qrE5h+BtvaPm0l56fWxcceMNJsyD6oHjl
- xvMQ==
-X-Gm-Message-State: AOAM532mjlEyiu19ihQseX67DPkbQ/x+naeYP+gKYRxYBP9sf1YnclAL
- DLOCMuxxndNZ1IwpYrTI2P06qg==
-X-Google-Smtp-Source: ABdhPJwhXWEk2Ioempmc73GBpP9b1VnFptBQrJ0jD/47FZFOGL640EbZ58Zlon7l/7b1HS89rb//kw==
-X-Received: by 2002:a63:6f82:: with SMTP id k124mr3647574pgc.357.1599151677391; 
- Thu, 03 Sep 2020 09:47:57 -0700 (PDT)
+ bh=BC+YGBYZcukSjZ/kDM4YJcsjMLK2h2QJt5f600Xd7Zc=;
+ b=UkxvQwbb5kVNu7wBT59YG8aVPK77kr/Oq/muKNPwfXBzI7PEo2E+fRN2Kw5aFAAqZS
+ w/qVDE0aYWuLbSBgS3cP/bh9cYkL4fHZc3Nk2yGqezeYig5Cdg8l8imvHgH8yX2sG0Tf
+ EdAk+I1kAuPLgfjDCBSQTKSK9IAoYKmvm26Xy54OQyiYfvd10JEfNB17zPmIhfTrv/t6
+ MV8hZHXfTFkjRp5cbPkIbzncq8BvFGVpE0bFGCl7aISOoJYW97myxzDEJVAQGx0Q8Wbh
+ e7XoGuZt1+CW4Chdy9tPDLFHtvX6Z0YW8owxq+qz/8hPBy8anKDDKzNF4Xx17RRhAahu
+ xlTQ==
+X-Gm-Message-State: AOAM533QmOcxqi0Jm0UBDA8oNDRwkjfNi7OnWfs+9d38nOHuwlbdNffy
+ kM0lp7ZeES0XLuawYt0PGeKWvw==
+X-Google-Smtp-Source: ABdhPJxQ8smJp6kJgDLC2wUKBGN53tmFDVmW0fcGJxqc7pX5DqsxKki7WQ6MCKPN3JgxrSMilfjRyg==
+X-Received: by 2002:a63:62c7:: with SMTP id w190mr3775779pgb.25.1599151863608; 
+ Thu, 03 Sep 2020 09:51:03 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id s8sm3936837pfm.180.2020.09.03.09.47.56
+ by smtp.gmail.com with ESMTPSA id d8sm3174570pgt.19.2020.09.03.09.51.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Sep 2020 09:47:56 -0700 (PDT)
-Subject: Re: [PATCH] hw/arm/mps2: New board model mps2-386
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Thu, 03 Sep 2020 09:51:02 -0700 (PDT)
+Subject: Re: [PATCH v6 1/8] monitor: simplify functions for getting a dup'd
+ fdset entry
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  qemu-devel@nongnu.org
-References: <20200903144425.11060-1-peter.maydell@linaro.org>
+References: <20200903152210.1917355-1-berrange@redhat.com>
+ <20200903152210.1917355-2-berrange@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <79c86090-02b2-2849-ab6e-c600c02e69c8@linaro.org>
-Date: Thu, 3 Sep 2020 09:47:54 -0700
+Message-ID: <730b8930-3462-291d-08b5-6de058ee38c6@linaro.org>
+Date: Thu, 3 Sep 2020 09:51:00 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200903144425.11060-1-peter.maydell@linaro.org>
+In-Reply-To: <20200903152210.1917355-2-berrange@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x544.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -44
@@ -89,19 +91,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kumar Gala <kumar.gala@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Markus Armbruster <armbru@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/3/20 7:44 AM, Peter Maydell wrote:
-> Implement a model of the MPS2 with the AN386 firmware. This is
-> essentially identical to the AN385 firmware, but it has a
-> Cortex-M4 rather than a Cortex-M3.
+On 9/3/20 8:22 AM, Daniel P. Berrangé wrote:
+> Currently code has to call monitor_fdset_get_fd, then dup
+> the return fd, and then add the duplicate FD back into the
+> fdset. This dance is overly verbose for the caller and
+> introduces extra failure modes which can be avoided by
+> folding all the logic into monitor_fdset_dup_fd_add and
+> removing monitor_fdset_get_fd entirely.
 > 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->  hw/arm/mps2.c | 30 +++++++++++++++++++++++++++---
->  1 file changed, 27 insertions(+), 3 deletions(-)
+>  include/monitor/monitor.h |  3 +-
+>  include/qemu/osdep.h      |  1 +
+>  monitor/misc.c            | 58 +++++++++++++++++----------------------
+>  stubs/fdset.c             |  8 ++----
+>  util/osdep.c              | 19 ++-----------
+>  5 files changed, 32 insertions(+), 57 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
