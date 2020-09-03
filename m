@@ -2,77 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D20D25CD1A
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 00:05:01 +0200 (CEST)
-Received: from localhost ([::1]:42554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8BC125CD48
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 00:13:32 +0200 (CEST)
+Received: from localhost ([::1]:45606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kDxLo-0003pT-Fk
-	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 18:05:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39752)
+	id 1kDxU3-0008Ae-Sq
+	for lists+qemu-devel@lfdr.de; Thu, 03 Sep 2020 18:13:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kDwyr-0007TK-Hs
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:41:17 -0400
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:38145)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kDwym-0004al-N9
- for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:41:16 -0400
-Received: by mail-pg1-x52c.google.com with SMTP id l191so3164590pgd.5
- for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 14:41:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=XhMSwJ2jkxWxuBTzeCmlaoUshyrdzQ2sWDC5rvAjlMw=;
- b=fbUCyK71YOSWuyozk4rmhaR+mgQzn6PTYzicPW2WJwUIlYN0XCHpvUl3c5flK5GtzU
- 3u30FNI5Z5AshCtiqjot4nCgd3tTPAkTX5IdpUWysy2annB0xTtNg+MxCc8J2AfWv/Sn
- va7rd+ocBjm7q+5zyynog+PE0GwqP4YlBHo0PcmlcfPUOXALZoJMrxA33zeJYudab5HY
- ggFA74cdKdlWz5Se+Lp9WTDwzuJh2XtCanRg3rtvB+Mph+tx2rOlp4psptYRexemkBo0
- EtAHIkHqaBZHq9QehCI46fdH60EiDSoWfaHVxKIjrUW+J3n6iqMuh7y3WyV6GopXTMdw
- 3XHQ==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kDx1C-0004Oy-HE
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:43:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37968)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kDx19-0004kz-Eo
+ for qemu-devel@nongnu.org; Thu, 03 Sep 2020 17:43:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1599169418;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=K1Eu5FAmo3br8/kZmQpMztZdSEQefBmXBNkP0m2C1VU=;
+ b=bzAu/Ctuw/hx8F9l7rkSFNrZe5r4HhnGopk5F1/kH5n1gKMh5C0Y0uIRYdd1pbZa+T/HX9
+ rZg9aScff01JYWfa28ZtpSM2Uq/VW9uQYfULUPRhngXqfn+Khl2eVIbHK34FH/0QpqYjEs
+ oRMR9DZ6bGn2qVcJzyUP/62fHsheUc8=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-233-N1TRk4wUMG-r4BppfdwW0g-1; Thu, 03 Sep 2020 17:43:36 -0400
+X-MC-Unique: N1TRk4wUMG-r4BppfdwW0g-1
+Received: by mail-ej1-f71.google.com with SMTP id ml20so1719150ejb.23
+ for <qemu-devel@nongnu.org>; Thu, 03 Sep 2020 14:43:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=XhMSwJ2jkxWxuBTzeCmlaoUshyrdzQ2sWDC5rvAjlMw=;
- b=LiMCzOB04keSnzHnC0A4iIdMd7LVmir/bnFI25nbTkP96+MT3M27Yemh5AFdKLLk/k
- KEj/Xb4lFFDdbYb1AJ5h0E9RtD/HSfTY5mT80h5jqHljnXXUWZTYmoGAzgT1FvSyFK0m
- +RVplJT/YGo+PnbaE2WDu3i/Uo0/4jXGXe1YqWU9JTiQgYBXCOV+dLSOCUlYWYOGzfI5
- 9pU6jJ6NfrdaYWuPupORBk+i4Owa/jFvt2NADCH+iQeSxeyLLa0Om8clK5iF3W4EW9Lz
- +ZXvp9OA3HnOYlGs54HrahciNxflqMCiajQ/12T5o2/bHmkiRoiNktn9WYfCSy8Xhfrg
- 0goA==
-X-Gm-Message-State: AOAM5318tQLNxgy9X+dz0I4BW14StmZcIE8uER5bOlcxapvXPrw6DsYg
- 1WL622NYobDN1cOIHofAfetLQ98QiTIxSw==
-X-Google-Smtp-Source: ABdhPJyUyOCLK1s2Ur/M1ErMpX8tT3GnMLFycu0N1b7WGAJUMprdpvI+xLd8Zf3/bWtlWE+VZq6dfw==
-X-Received: by 2002:a62:1d44:: with SMTP id d65mr5725038pfd.150.1599169270638; 
- Thu, 03 Sep 2020 14:41:10 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id v17sm4113290pfn.24.2020.09.03.14.41.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Sep 2020 14:41:10 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 5/5] tcg: Implement 256-bit dup for tcg_gen_gvec_dup_mem
-Date: Thu,  3 Sep 2020 14:41:01 -0700
-Message-Id: <20200903214101.1746878-6-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200903214101.1746878-1-richard.henderson@linaro.org>
-References: <20200903214101.1746878-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=K1Eu5FAmo3br8/kZmQpMztZdSEQefBmXBNkP0m2C1VU=;
+ b=ali6fw/RyF9QdmbaJySb+3JZGCGk5uudmjVUSxDSLT0VU3V7UqqIZv3s5mgsJCGSEe
+ GBuZzP6r/vRFLyZXyqS4gHiHSxpP4ePRTZNBuF2t4lgltngiVvhseHCxtZ4caH0ir8nU
+ r4ZATVpWib+sT3CaKnv6b4VtCYlxpGHp3FKndSatnfp8tAoqWikaqyJlDSG8zGwL4bEh
+ jOi9IXDmYyc7sbh1LSwnaLMddH7j6IP6e8abd7QhO+foB98/eck2lHzAfna0reTv3U26
+ s/W12VlhtcavfmhzoXNIC7bN1JLWCz71FeV+m/ejJTfbjZEd89gBpBwLv4akSt7IhX+T
+ FA8Q==
+X-Gm-Message-State: AOAM5312D3bFGPP1mvwDfMYNDabgX+LcALXR1QSJePkaAWJCeNe5W8BW
+ lUVekOTQ5TAiZAgs26BVPJ81g6TMODq1V120L6CZZ6HQQbmx6j3X0BnYr3KPCEzxMrvt3MW6B8w
+ mlyGmfC1IkAPMOwo=
+X-Received: by 2002:a17:906:2f02:: with SMTP id
+ v2mr4042632eji.465.1599169415518; 
+ Thu, 03 Sep 2020 14:43:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzem05YsMlJDWEOVqCxuEW9+ld4nwCdNwI6ao+5XPy6rtMXVXY/bpNQA5W2KghJJ7JrxrxGjQ==
+X-Received: by 2002:a17:906:2f02:: with SMTP id
+ v2mr4042589eji.465.1599169415293; 
+ Thu, 03 Sep 2020 14:43:35 -0700 (PDT)
+Received: from [192.168.10.150] ([93.56.170.5])
+ by smtp.gmail.com with ESMTPSA id z23sm4166518eja.29.2020.09.03.14.43.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Sep 2020 14:43:34 -0700 (PDT)
+Subject: Re: [RFC PATCH 11/12] hw/pci: Only allow PCI slave devices to write
+ to direct memory
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200903110831.353476-1-philmd@redhat.com>
+ <20200903110831.353476-12-philmd@redhat.com>
+ <7e4fd726-07e9-dc09-d66b-5692dd51820f@redhat.com>
+ <245445c1-970f-124a-9ebc-489d3ae42d5d@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <dc67c282-1ea8-9750-70d6-aeb8fd99f846@redhat.com>
+Date: Thu, 3 Sep 2020 23:43:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <245445c1-970f-124a-9ebc-489d3ae42d5d@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/03 01:47:17
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.403, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,94 +107,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Peter Xu <peterx@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>, qemu-block@nongnu.org,
+ Li Qiang <liq3ea@163.com>, "Emilio G . Cota" <cota@braap.org>,
+ Joel Stanley <joel@jms.id.au>, Richard Henderson <rth@twiddle.net>,
+ Laszlo Ersek <lersek@redhat.com>, Robert Foley <robert.foley@linaro.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Beniamino Galvani <b.galvani@gmail.com>, Eric Auger <eric.auger@redhat.com>,
+ qemu-arm@nongnu.org, Jan Kiszka <jan.kiszka@web.de>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Tony Nguyen <tony.nguyen@bt.com>,
+ Prasad J Pandit <pjp@fedoraproject.org>, Alexander Bulekov <alxndr@bu.edu>,
+ Andrew Jeffery <andrew@aj.id.au>, Klaus Jensen <k.jensen@samsung.com>,
+ Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-ppc@nongnu.org,
+ Peter Chubb <peter.chubb@nicta.com.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We already support duplication of 128-bit blocks.  This extends
-that support to 256-bit blocks.  This will be needed by SVE2.
+On 03/09/20 15:18, Philippe Mathieu-Daudé wrote:
+> As of this patch, all the non-PCI, but I plan to add a similar
+> check for USB on top of this series.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/tcg-op-gvec.c | 52 ++++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 49 insertions(+), 3 deletions(-)
+Do you mean for memory-mapped USB host controllers?
 
-diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
-index fcc25b04e6..7ebd9e8298 100644
---- a/tcg/tcg-op-gvec.c
-+++ b/tcg/tcg-op-gvec.c
-@@ -1570,12 +1570,10 @@ void tcg_gen_gvec_dup_mem(unsigned vece, uint32_t dofs, uint32_t aofs,
-             do_dup(vece, dofs, oprsz, maxsz, NULL, in, 0);
-             tcg_temp_free_i64(in);
-         }
--    } else {
-+    } else if (vece == 4) {
-         /* 128-bit duplicate.  */
--        /* ??? Dup to 256-bit vector.  */
-         int i;
- 
--        tcg_debug_assert(vece == 4);
-         tcg_debug_assert(oprsz >= 16);
-         if (TCG_TARGET_HAS_v128) {
-             TCGv_vec in = tcg_temp_new_vec(TCG_TYPE_V128);
-@@ -1601,6 +1599,54 @@ void tcg_gen_gvec_dup_mem(unsigned vece, uint32_t dofs, uint32_t aofs,
-         if (oprsz < maxsz) {
-             expand_clr(dofs + oprsz, maxsz - oprsz);
-         }
-+    } else if (vece == 5) {
-+        /* 256-bit duplicate.  */
-+        int i;
-+
-+        tcg_debug_assert(oprsz >= 32);
-+        tcg_debug_assert(oprsz % 32 == 0);
-+        if (TCG_TARGET_HAS_v256) {
-+            TCGv_vec in = tcg_temp_new_vec(TCG_TYPE_V256);
-+
-+            tcg_gen_ld_vec(in, cpu_env, aofs);
-+            for (i = (aofs == dofs) * 32; i < oprsz; i += 32) {
-+                tcg_gen_st_vec(in, cpu_env, dofs + i);
-+            }
-+            tcg_temp_free_vec(in);
-+        } else if (TCG_TARGET_HAS_v128) {
-+            TCGv_vec in0 = tcg_temp_new_vec(TCG_TYPE_V128);
-+            TCGv_vec in1 = tcg_temp_new_vec(TCG_TYPE_V128);
-+
-+            tcg_gen_ld_vec(in0, cpu_env, aofs);
-+            tcg_gen_ld_vec(in1, cpu_env, aofs + 16);
-+            for (i = (aofs == dofs) * 32; i < oprsz; i += 32) {
-+                tcg_gen_st_vec(in0, cpu_env, dofs + i);
-+                tcg_gen_st_vec(in1, cpu_env, dofs + i + 16);
-+            }
-+            tcg_temp_free_vec(in0);
-+            tcg_temp_free_vec(in1);
-+        } else {
-+            TCGv_i64 in[4];
-+            int j;
-+
-+            for (j = 0; j < 4; ++j) {
-+                in[j] = tcg_temp_new_i64();
-+                tcg_gen_ld_i64(in[j], cpu_env, aofs + j * 8);
-+            }
-+            for (i = (aofs == dofs) * 32; i < oprsz; i += 32) {
-+                for (j = 0; j < 4; ++j) {
-+                    tcg_gen_st_i64(in[j], cpu_env, dofs + i + j * 8);
-+                }
-+            }
-+            for (j = 0; j < 4; ++j) {
-+                tcg_temp_free_i64(in[j]);
-+            }
-+        }
-+        if (oprsz < maxsz) {
-+            expand_clr(dofs + oprsz, maxsz - oprsz);
-+        }
-+    } else {
-+        g_assert_not_reached();
-     }
- }
- 
--- 
-2.25.1
+>> I'm worried that there are cases of MMIO reads that would be broken.
+>> They are certainly niche these days, but they should still work; the
+>> most "famous" one is perhaps the old BASIC
+>>
+>>    DEF SEG=&HB800
+>>    BLOAD "picture.pic", 0
+> 
+> This looks like ISA stuff. I don't think ISA does such checks
+> (and didn't plan to add them there) but I'd need to verify.
+
+It works on bare metal even with a modern video card.
+
+> Do you have an acceptance test?
+
+Nope. :(
+
+Paolo
 
 
