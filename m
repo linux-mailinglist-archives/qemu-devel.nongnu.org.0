@@ -2,80 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A5CB25E093
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 19:11:42 +0200 (CEST)
-Received: from localhost ([::1]:51438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AD5625E0A4
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 19:19:02 +0200 (CEST)
+Received: from localhost ([::1]:56672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kEFFU-0007eS-Ol
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 13:11:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47302)
+	id 1kEFMb-0001kH-3f
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 13:19:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kEFEl-0007Du-7e
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 13:10:55 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:36992)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kEFEj-0003kh-3P
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 13:10:54 -0400
-Received: by mail-wr1-x443.google.com with SMTP id z4so7452593wrr.4
- for <qemu-devel@nongnu.org>; Fri, 04 Sep 2020 10:10:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=ZQpJQVvdvL9MZGsVC4//doU5p2FSHvHYpSM+qQymIX8=;
- b=TMLPwmQufAUAMxHZrvqQ5spXVJqggzfg3PjVzctSmnPFKYIXpJ2Icp8EXwLu4TgGhk
- mkvLD46So+1U6CZdfCYBPHpnLj9Q731ahzRFuDfiSV3C0HssdVC0fzwoypXwl7R2KtSE
- Ljqj5IN4jf6dcc+IZDmDi26qpOOn47y5h2n2JSbKTe5RxNy16hBnNppf2x3RvF+Shtb0
- WUIYMZDcaIZpaKyufwCeOiT/tnQnaVyHGMYWm0LpYEqgmKh4P427uCT+cwmRAq5jEz+n
- 03BGKPPKxkaYbcUJgCSMEyFQCm9CuPlUTOjlDcS6jtoY37RB+HfyeOCX0++8BJWd8U3i
- W8IQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=ZQpJQVvdvL9MZGsVC4//doU5p2FSHvHYpSM+qQymIX8=;
- b=eIZErvHDaMr/liHbFa9xlTPuUBSawRUS5wUvMjNtSrZ8rnsHEiATPyRbJRbAbtAJ+O
- LeL6X2pOQNXJ3oisTOYWQLDu1dkxTo5L8wxKonbRz/T+KKO/kxF2TzVg5EXRaDVjBAx1
- SoQDbNR/nEtgpS1eMy1oCV+Z0fOBCoX3srZkoPU9V0UJ40EHF3M54n0uT1SSqKsJp1Zg
- /BGM0lXQJX3PEcIEyDjoZRhifsf6Y7PvIysezJVyJdz8GzI5yloPee3+YUJHI8TaAzxR
- qMsRH02wBi46MsVrht+xPYJDxDN5UWQhTI441bpEqviYps3LLIjWo1NqtGqep0DV7ER/
- 32xQ==
-X-Gm-Message-State: AOAM533u3axXM4nVvpXmmIQIDj7gS5rSF+i75bFQh6KzcvNFVgJ1KLCl
- 4FCAjrktxfIIcfaV4I/JjFrB9g==
-X-Google-Smtp-Source: ABdhPJzK5qr0qSfZO4daIAkL1l+94x08FMIuJ9GQh2rEBU3IZc3/NVQmQI+nNicyUx1VcNX3SRUKig==
-X-Received: by 2002:adf:f8d0:: with SMTP id f16mr9269636wrq.66.1599239450961; 
- Fri, 04 Sep 2020 10:10:50 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q3sm21728774wmq.1.2020.09.04.10.10.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Sep 2020 10:10:49 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 08DBA1FF7E;
- Fri,  4 Sep 2020 18:10:49 +0100 (BST)
-References: <20200904165140.10962-1-alex.bennee@linaro.org>
-User-agent: mu4e 1.5.5; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: Re: [RFC PATCH] docs/system/deprecated: mark ppc64abi32-linux-user
- for deprecation
-In-reply-to: <20200904165140.10962-1-alex.bennee@linaro.org>
-Date: Fri, 04 Sep 2020 18:10:48 +0100
-Message-ID: <87363x4gdj.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kEFLk-0001Ge-6j; Fri, 04 Sep 2020 13:18:08 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:48292)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kEFLh-0004VC-5x; Fri, 04 Sep 2020 13:18:07 -0400
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by charlie.dont.surf (Postfix) with ESMTPSA id 2732FBF7D3;
+ Fri,  4 Sep 2020 17:18:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=irrelevant.dk;
+ s=default; t=1599239882;
+ bh=E579wGZx7XEvccA1emNNVA2p75ag4h0P8tr/8HsnL4U=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=CsJPh9t5FB6JRGuh7q1zhVmrUdEr569h982OUYkum917Sv4DJCxJrSrAZ3IDvdkBa
+ /dxltuRIjX1eF/eYzNmiH87ZCnaaKuhJTbnOWgk2Uy5go9kyDPF1cMeKNRr3K9gmqQ
+ SwiBYF3krEkrrvQeeDW0nvLf9M3H+03Gc1mfB2aTUfr0kn9vdjV1aZqhpxnvOV9cJp
+ 3VsY3pUmdBN6hyC2sHJHMTF4kk0Jz2PgPBYmjjA6Yw3JJ74vqjWVQpterbahhw7Cn3
+ I0Nvg2+DQFnZp64PammdpSLT7g10T5Rs/HbpxsLVgCR80G8YjIIlfCBg86QFfmBY+S
+ dsD4P525Bh/ZQ==
+Date: Fri, 4 Sep 2020 19:17:59 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH 00/17] hw/block/nvme: multiple namespaces support
+Message-ID: <20200904171759.GB584438@apples.localdomain>
+References: <20200904141956.576630-1-its@irrelevant.dk>
+ <b44b738e-db6f-e820-11ef-ad9c7615f9a3@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="z6Eq5LdranGa6ru8"
+Content-Disposition: inline
+In-Reply-To: <b44b738e-db6f-e820-11ef-ad9c7615f9a3@redhat.com>
+Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
+ helo=charlie.dont.surf
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 10:20:31
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,126 +65,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "reviewer:Incompatible changes" <libvir-list@redhat.com>,
- Richard Henderson <rth@twiddle.net>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+--z6Eq5LdranGa6ru8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> It's buggy and we are not sure anyone uses it.
->
-> Cc: David Gibson <david@gibson.dropbear.id.au>
-> Cc: Richard Henderson <rth@twiddle.net>
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+On Sep  4 18:12, Philippe Mathieu-Daud=C3=A9 wrote:
+> Hi Klaus,
+>=20
+> On 9/4/20 4:19 PM, Klaus Jensen wrote:
+> > From: Klaus Jensen <k.jensen@samsung.com>
+> >=20
+> > This is the next round of my patches for the nvme device.
+> >=20
+> > This includes a bit of cleanup and three new features:
+> >=20
+> >   * refactored aio submission
+> >     This also adds support for multiple parallel AIOs per request which=
+ is in
+> >     preparation for DULBE, ZNS and metadata support. If it is found
+> >     controversial, it can easily be dropped from this series.
+> >=20
+> >   * support for scatter/gather lists
+> >=20
+> >   * multiple namespaces support through a new nvme-ns device
+> >=20
+> > Finally, the series ends with changing the PCI vendor and device ID to =
+get rid
+> > of the internal Intel id and as a side-effect get rid of some Linux ker=
+nel
+> > quirks that no longer applies.
+> >=20
+> > "pci: pass along the return value of dma_memory_rw" has already been po=
+sted by
+> > Philippe in another series, but since it is not applied yet, I am inclu=
+ding it
+> > here.
+> >=20
+> > Gollu Appalanaidu (1):
+> >   hw/block/nvme: add support for sgl bit bucket descriptor
+> >=20
+> > Klaus Jensen (16):
+> >   pci: pass along the return value of dma_memory_rw
+> >   hw/block/nvme: handle dma errors
+> >   hw/block/nvme: commonize nvme_rw error handling
+> >   hw/block/nvme: alignment style fixes
+> >   hw/block/nvme: add a lba to bytes helper
+> >   hw/block/nvme: fix endian conversion
+> >   hw/block/nvme: add symbolic command name to trace events
+> >   hw/block/nvme: refactor aio submission
+> >   hw/block/nvme: default request status to success
+> >   hw/block/nvme: support multiple parallel aios per request
+> >   hw/block/nvme: harden cmb access
+> >   hw/block/nvme: add support for scatter gather lists
+> >   hw/block/nvme: refactor identify active namespace id list
+> >   hw/block/nvme: support multiple namespaces
+> >   pci: allocate pci id for nvme
+> >   hw/block/nvme: change controller pci id
+> >=20
+> >  MAINTAINERS            |   1 +
+> >  docs/specs/nvme.txt    |  23 +
+> >  docs/specs/pci-ids.txt |   1 +
+> >  hw/block/meson.build   |   2 +-
+> >  hw/block/nvme-ns.c     | 185 +++++++++
+> >  hw/block/nvme-ns.h     |  74 ++++
+> >  hw/block/nvme.c        | 923 +++++++++++++++++++++++++++++++----------
+> >  hw/block/nvme.h        | 126 +++++-
+> >  hw/block/trace-events  |  21 +-
+> >  hw/core/machine.c      |   1 +
+> >  include/block/nvme.h   |   8 +-
+> >  include/hw/pci/pci.h   |   4 +-
+>=20
+> To ease the review, consider setup'ing scripts/git.orderfile,
+> as it avoid reviewers to scroll patches in their email client.
+>=20
 
-A more aggressive follow-up patch which would also solve the CI failures
-across the board:
+Oh wow. You learn something new everyday. That's really neat!
 
---8<---------------cut here---------------start------------->8---
-configure: don't enable ppc64abi32-linux-user by default
+Thanks!
 
-The user can still enable this explicitly but they will get a warning
-at the end of configure for their troubles. This also drops any builds
-of ppc64abi32 from our CI tests.
+--z6Eq5LdranGa6ru8
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+-----BEGIN PGP SIGNATURE-----
 
-1 file changed, 27 insertions(+), 19 deletions(-)
-configure | 46 +++++++++++++++++++++++++++-------------------
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl9SdsQACgkQTeGvMW1P
+DekkKwf/dQT7zgJ1xQauyXzPxSf+NX4yo+7+ZLhVVyk0tqWS8u3Foy5s9ken27V3
+jbph7qiJ4GvS76j9ogQ9V1yoKdPXIbJbTa7ICukMJV2fSYzYcHEGoWmvMrXybeBl
+KRgByUmXu8wv0jnfZ2pWWiFpJjBZC6NWWieZRlQy9d921FDAZ4HCiU4mHdr9avvQ
+GqzjBFvPYvPXOkqcJybr75t/sw/x2qvpCDbKUF0NzVMUBnhL83CFXoKyDv7PZQl/
+zjLAf5SAEpyuRE4W8LjV3Xic7D7yeJDd2eCkwcM3JdTfkhbyHpfETXxfwXHUEzSV
+RPQguR9O/oCTmt0vsFZIWfqL+FJ4Xw==
+=Qv0Q
+-----END PGP SIGNATURE-----
 
-modified   configure
-@@ -574,6 +574,8 @@ gettext=3D""
- bogus_os=3D"no"
- malloc_trim=3D""
-=20
-+deprecated_features=3D""
-+
- # parse CC options first
- for opt do
-   optarg=3D$(expr "x$opt" : 'x[^=3D]*=3D\(.*\)')
-@@ -1769,26 +1771,25 @@ if [ "$bsd_user" =3D "yes" ]; then
-     mak_wilds=3D"${mak_wilds} $source_path/default-configs/*-bsd-user.mak"
- fi
-=20
--if test -z "$target_list_exclude"; then
--    for config in $mak_wilds; do
--        default_target_list=3D"${default_target_list} $(basename "$config"=
- .mak)"
--    done
--else
--    exclude_list=3D$(echo "$target_list_exclude" | sed -e 's/,/ /g')
--    for config in $mak_wilds; do
--        target=3D"$(basename "$config" .mak)"
--        exclude=3D"no"
--        for excl in $exclude_list; do
--            if test "$excl" =3D "$target"; then
--                exclude=3D"yes"
--                break;
--            fi
--        done
--        if test "$exclude" =3D "no"; then
--            default_target_list=3D"${default_target_list} $target"
-+if test -z "$target_list_exclude" -a -z "$target_list"; then
-+    # if the user doesn't specify anything lets skip deprecating stuff
-+    target_list_exclude=3Dppc64abi32-linux-user
-+fi
-+
-+exclude_list=3D$(echo "$target_list_exclude" | sed -e 's/,/ /g')
-+for config in $mak_wilds; do
-+    target=3D"$(basename "$config" .mak)"
-+    exclude=3D"no"
-+    for excl in $exclude_list; do
-+        if test "$excl" =3D "$target"; then
-+            exclude=3D"yes"
-+            break;
-         fi
-     done
--fi
-+    if test "$exclude" =3D "no"; then
-+        default_target_list=3D"${default_target_list} $target"
-+    fi
-+done
-=20
- # Enumerate public trace backends for --help output
- trace_backend_list=3D$(echo $(grep -le '^PUBLIC =3D True$' "$source_path"/=
-scripts/tracetool/backend/*.py | sed -e 's/^.*\/\(.*\)\.py$/\1/'))
-@@ -7691,7 +7692,7 @@ TARGET_SYSTBL=3D""
- case "$target_name" in
-   i386)
-     mttcg=3D"yes"
--	gdb_xml_files=3D"i386-32bit.xml"
-+    gdb_xml_files=3D"i386-32bit.xml"
-     TARGET_SYSTBL_ABI=3Di386
-     TARGET_SYSTBL=3Dsyscall_32.tbl
-   ;;
-@@ -7802,6 +7803,7 @@ case "$target_name" in
-     TARGET_SYSTBL_ABI=3Dcommon,nospu,32
-     echo "TARGET_ABI32=3Dy" >> $config_target_mak
-     gdb_xml_files=3D"power64-core.xml power-fpu.xml power-altivec.xml powe=
-r-spe.xml power-vsx.xml"
-+    deprecated_features=3D"ppc64abi32 ${deprecated_features}"
-   ;;
-   riscv32)
-     TARGET_BASE_ARCH=3Driscv
-@@ -8232,6 +8234,12 @@ fi
- touch ninjatool.stamp
- fi
-=20
-+if test -n "${deprecated_features}"; then
-+    echo "Warning, deprecated features enabled."
-+    echo "Please see docs/system/deprecated.rst"
-+    echo "  features: ${deprecated_features}"
-+fi
-+
- # Save the configure command line for later reuse.
- cat <<EOD >config.status
- #!/bin/sh
---8<---------------cut here---------------end--------------->8---
-
---=20
-Alex Benn=C3=A9e
+--z6Eq5LdranGa6ru8--
 
