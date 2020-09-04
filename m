@@ -2,50 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5034025D249
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 09:24:13 +0200 (CEST)
-Received: from localhost ([::1]:58872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9BCA25D27E
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Sep 2020 09:34:08 +0200 (CEST)
+Received: from localhost ([::1]:37476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kE64y-0006PC-55
-	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 03:24:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34456)
+	id 1kE6EY-0002S8-Ug
+	for lists+qemu-devel@lfdr.de; Fri, 04 Sep 2020 03:34:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pannengyuan@huawei.com>)
- id 1kE63w-0005wo-Ol
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 03:23:08 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:38016 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pannengyuan@huawei.com>)
- id 1kE63u-0004fh-V1
- for qemu-devel@nongnu.org; Fri, 04 Sep 2020 03:23:08 -0400
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 8F76BE4B9323CB3B7DD6;
- Fri,  4 Sep 2020 15:23:01 +0800 (CST)
-Received: from opensource.huawei.com (10.175.100.152) by
- DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
- 14.3.487.0; Fri, 4 Sep 2020 15:22:53 +0800
-From: Pan Nengyuan <pannengyuan@huawei.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH] net/filter-rewriter: destroy g_hash_table in
- colo_rewriter_cleanup
-Date: Fri, 4 Sep 2020 09:49:08 -0400
-Message-ID: <20200904134908.1396-1-pannengyuan@huawei.com>
-X-Mailer: git-send-email 2.18.2
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kE6Ds-0001xB-Ly
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 03:33:24 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50908
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kE6Dr-00061G-9v
+ for qemu-devel@nongnu.org; Fri, 04 Sep 2020 03:33:24 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-262-St8KWKcRPlCKUAQ5pccKfg-1; Fri, 04 Sep 2020 03:33:19 -0400
+X-MC-Unique: St8KWKcRPlCKUAQ5pccKfg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F31A581F000;
+ Fri,  4 Sep 2020 07:33:17 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-68.ams2.redhat.com
+ [10.36.113.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 896E065C74;
+ Fri,  4 Sep 2020 07:33:17 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E3AD91132B59; Fri,  4 Sep 2020 09:33:15 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [PATCH v6 1/8] monitor: simplify functions for getting a dup'd
+ fdset entry
+References: <20200903152210.1917355-1-berrange@redhat.com>
+ <20200903152210.1917355-2-berrange@redhat.com>
+Date: Fri, 04 Sep 2020 09:33:15 +0200
+In-Reply-To: <20200903152210.1917355-2-berrange@redhat.com> ("Daniel
+ P. =?utf-8?Q?Berrang=C3=A9=22's?= message of "Thu, 3 Sep 2020 16:22:03
+ +0100")
+Message-ID: <875z8udmis.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.100.152]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32;
- envelope-from=pannengyuan@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 03:23:03
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DATE_IN_FUTURE_06_12=1.947,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/04 01:57:12
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,34 +74,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: chen.zhang@intel.com, jasowang@redhat.com,
- Pan Nengyuan <pannengyuan@huawei.com>, zhang.zhanghailiang@huawei.com,
- kuhn.chenqun@huawei.com
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-s->connection_track_table forgot to destroy in colo_rewriter_cleanup. Fix it.
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
----
- net/filter-rewriter.c | 2 ++
- 1 file changed, 2 insertions(+)
+> Currently code has to call monitor_fdset_get_fd, then dup
+> the return fd, and then add the duplicate FD back into the
+> fdset. This dance is overly verbose for the caller and
+> introduces extra failure modes which can be avoided by
+> folding all the logic into monitor_fdset_dup_fd_add and
+> removing monitor_fdset_get_fd entirely.
+>
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
-diff --git a/net/filter-rewriter.c b/net/filter-rewriter.c
-index 1aaad101b6..9ff366d44f 100644
---- a/net/filter-rewriter.c
-+++ b/net/filter-rewriter.c
-@@ -376,6 +376,8 @@ static void colo_rewriter_cleanup(NetFilterState *nf)
-         filter_rewriter_flush(nf);
-         g_free(s->incoming_queue);
-     }
-+
-+    g_hash_table_destroy(s->connection_track_table);
- }
- 
- static void colo_rewriter_setup(NetFilterState *nf, Error **errp)
--- 
-2.18.2
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 
